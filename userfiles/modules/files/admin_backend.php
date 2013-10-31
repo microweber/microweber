@@ -241,6 +241,17 @@ mw.on.hashParam('select-file', function(){
           if(mw.$("#prfile").length > 0){
                mw.$("#prfile").remove()
           }
+		  
+		  mw.tools.modal.init({
+                html:createPopHTML(this, 'media'),
+                template:"mw_modal_simple",
+                width:500,
+                height:460,
+                name:"prfile",
+                title:this.split("/").pop()
+              });
+		  
+		  
       }
   }
   else{

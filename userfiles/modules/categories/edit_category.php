@@ -11,7 +11,11 @@ if($data == false or empty($data )){
 }
 
 
+$just_saved = false;
 
+if(isset($params['just-saved'])){
+    $just_saved = $params['just-saved'];
+  }
 
 ?>
 <script  type="text/javascript">
@@ -55,7 +59,7 @@ if($data == false or empty($data )){
          }
   }
 
-  save_cat = function(){
+  save_cat = function(el){
     if(mwd.querySelector('.mw-ui-category-selector input:checked') !== null){
        $(document.forms['admin_edit_category_form_<?php print $form_rand_id ?>']).submit();
     }
@@ -74,6 +78,7 @@ $(document).ready(function(){
   	     set_category_parent_<?php print $form_rand_id ?>();
       });
 	 mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>').submit(function() {
+	     var form = this;
 		 if(mw.category_is_saving){
 			 return false;
 		 }
@@ -83,8 +88,8 @@ $(document).ready(function(){
          mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(){
         	  mw.notification.success("Category changes are saved");
         	  mw.reload_module('[data-type="categories"]');
-        	   if(window.parent != undefined && !!window.parent.mw){
-                window.parent.mw.reload_module('categories');
+        	   if(self !== parent && !!parent.mw){
+                parent.mw.reload_module('categories');
         	  }
         	  mw.reload_module('[data-type="categories/manage"]');
               mw.$('[data-type="pages"]').removeClass("activated");
@@ -96,6 +101,8 @@ $(document).ready(function(){
         	 	mw.url.windowHashParam("new_content", "true");
         	 	mw.url.windowHashParam("action", "editcategory:" + this);
              <?php endif; ?>
+
+             mw.tools.removeClass(mw.tools.firstParentWithClass(form, 'module'), 'loading');
 	    });
         mw.category_is_saving = false;
         $('.mw-cat-save-submit').removeClass('disabled');
@@ -122,6 +129,28 @@ $(document).ready(function(){
     }
 
   ?>
+
+
+  <?php if($just_saved!=false) : ?>
+
+
+  <div class="quick-post-done">
+    <h2>Well done, you have saved your changes. </h2>
+    <label class="mw-ui-label"><small>Go to see them at this link</small></label>
+    <div class="vSpace"></div>
+    <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
+    <div class="vSpace"></div>
+    <label class="mw-ui-label"><small>Or create new content again</small></label>
+    <div class="vSpace"></div>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.reload_module('content/quick')">Create New</a>
+  </div>
+
+
+
+
+
+<?php endif; ?>
+
 <form class="add-edit-page-post" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="Off">
 	<input name="id" type="hidden" value="<?php print ($data['id'])?>" />
 	<input name="table" type="hidden" value="categories" />
@@ -160,7 +189,7 @@ $(document).ready(function(){
 	<input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
 	<input type="submit" class="semi hidden" name="save" />
 	<div class="post-save-and-go-live">
-		<button type="button" onclick="save_cat();" class="mw-ui-btn mw-ui-btn-green"><?php _e("Save"); ?></button>
+		<button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-green"><?php _e("Save"); ?></button>
     </div>
 	<div class="vSpace"></div>
 	<div class="advanced_settings">

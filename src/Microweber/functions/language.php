@@ -29,7 +29,7 @@ function __store_lang_file()
 
     $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
     $language_content2 = array();
-    if (is_array($language_content)) {
+    if (is_array($language_content) and is_array($mw_new_language_entires) and !empty($mw_new_language_entires)) {
 
             $language_content2 = $mw_new_language_entires;
 
@@ -64,8 +64,10 @@ function __store_lang_file()
 
 
             if ($c1 > $c2) {
-
-                file_put_contents($lang_file, $lang_file_str);
+				if(isset($lang_file) and $lang_file != false and isset($lang_file_str) and $lang_file_str != false){
+					 file_put_contents($lang_file, $lang_file_str);
+				}
+               
             }
         }
     }
