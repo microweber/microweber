@@ -530,7 +530,9 @@ $global_template = $this->app->option->get('current_template', 'template');
 	//d($data['layout_file']);
 	?>
 	<?php endif; ?>
-	
+
+
+
 	<div style="display: none">
 		<select name="layout_file"     id="active_site_layout_<?php print $rand; ?>"
     autocomplete="off">
@@ -572,7 +574,9 @@ $global_template = $this->app->option->get('current_template', 'template');
 
 			<?php  else : ?>
 			<div class="preview_frame_ctrls">
-
+            <h5 class="left"><?php print $data['title']; ?></h5>
+              <a class="mw-ui-btn mw-ui-btn-small" target="_top" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"><?php _e("Edit Page"); ?></a>
+              <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y"><?php _e("Go Live Edit"); ?></a>
 			  <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
 
             </div>
@@ -585,7 +589,7 @@ $global_template = $this->app->option->get('current_template', 'template');
 
 				<div id="preview-edit-links">
 
-				
+
 
 
 				<a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>" onclick="mw.e.cancel(event);"> <span class="ico ieditpage"></span><span>

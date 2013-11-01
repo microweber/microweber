@@ -137,7 +137,7 @@
 }
 
 .comment-of-apost.new-comment{
-  background: #D8FFC3;
+  background: #EBFFE0;
   border-bottom-color: #D1EDB3;
 
 }
@@ -148,6 +148,15 @@
   width: 150px;
   top: 28px;
   right: 10px;
+}
+
+
+.update-comment-button{
+  display: none;
+}
+
+.comment-changed + .update-comment-button{
+  display: inline-block;
 }
 
 

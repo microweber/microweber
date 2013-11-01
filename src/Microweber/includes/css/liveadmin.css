@@ -1890,8 +1890,9 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 
 
 .mw-client-information input[type='text']{
-    width: 86px;
-    padding: 4px;
+   margin: 7px;
+    padding: 2px 4px;
+    width: 70px;
 }
 .mw-client-information.nonactive input[type='text']{
     display: none;
@@ -1946,7 +1947,7 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   background-position: center center;
   overflow:hidden;
   margin-top: 5px;
-  padding: 10px;
+  padding: 0 10px 10px;
 }
 
 
@@ -1970,14 +1971,22 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   top: 10px;
   height:21px;
   text-align: right;
+  padding: 5px 0;
 }
 
 .preview_frame_ctrls{
   position: static;
-   background-color: #F5F5F5;
   height: 22px;
+}
 
-  border: 1px solid #C7C7C7;
+.preview_frame_ctrls .mw-ui-btn{
+  top: -6px;
+}
+
+.preview_frame_ctrls h5{
+  margin:5px;
+  color: #8E8E8E;
+  font-size: 11px;
 }
 
 .zoom .preview_frame_ctrls{

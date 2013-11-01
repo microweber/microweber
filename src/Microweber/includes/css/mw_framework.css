@@ -1542,6 +1542,11 @@ textarea.mw-ui-field{
   display: none;
 }
 
+
+.mw-ui-check-selector{
+  line-height: 14px;
+}
+
 .mw-ui-check-selector  .mw-ui-check span{
   float: left;
   margin: 0 3px 3px;
