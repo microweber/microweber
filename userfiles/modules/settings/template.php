@@ -104,7 +104,7 @@ $arr = array();
           <?php include($tpl_settings_for_theme); ?>
 
           <div class="vSpace"></div>
-          <hr>
+          
 
           <?php /*<button onclick="mw.tpl.save();" class="mw-ui-btn right">Save</button>*/ ?>
 

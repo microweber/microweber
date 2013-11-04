@@ -1,4 +1,4 @@
-<?php 
+<?php
 if(!isset($params['template'])){
 	return;
 }
@@ -90,9 +90,9 @@ if (r==true)
 
    
 });
+
    
-   
-   
+
   }
   
    }  
@@ -102,10 +102,10 @@ if (r==true)
 if(mw('layouts')->template_check_for_custom_css($template) != false): ?>
 
 
-<small><a class="faded layout_selector_custom_css_clear_custom_style" title="This template have custom styles, applied from the 'design' tool in live edit. Click here to clean them and return this template to its defalt design." href="javascript:layout_selector_custom_css_clear_custom_style('<?php print $template ?>')">clear custom style</a></small>
+<small><a class="mw-ui-btn layout_selector_custom_css_clear_custom_style" title="This template have custom styles, applied from the 'design' tool in live edit. Click here to clean them and return this template to its defalt design." href="javascript:layout_selector_custom_css_clear_custom_style('<?php print $template ?>')">Clear custom style</a></small>
 <?php elseif(mw('layouts')->template_check_for_custom_css($template,true) != false): ?>
- 
 
-<small><a class="faded layout_selector_custom_css_clear_custom_style" title="You hae removed the custom styles. Click here to return them." href="javascript:layout_selector_custom_css_return_custom_style('<?php print $template ?>')">return custom style</a></small>
+
+<small><a class="mw-ui-btn layout_selector_custom_css_clear_custom_style" title="You hae removed the custom styles. Click here to return them." href="javascript:layout_selector_custom_css_return_custom_style('<?php print $template ?>')">Return custom style</a></small>
 
 <?php endif; ?>

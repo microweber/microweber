@@ -30,6 +30,8 @@ canvasCTRL_draw = function(context, type, color, x, y, w, h){
          type=='rect' ? context.rect(x,y,w,h) : context.arc(x,y,3,15, Math.PI*2, true);
          context.closePath();
          context.fill();
+         $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
+         mw.askusertostay = true;
 }
 
 canvasCTRL_rendValue = function(canvas, x, y, opt){
@@ -180,12 +182,8 @@ generateJSON4StaticElements = function(){
 		if(selector != undefined && (selector =='body' || selector =='BODY')){
 			if(css != undefined){
 				var css=css.replace("padding-top","mw-pad-top");
-
 			}
-			
 		}
-		
-		
         if(el!==null){
           obj[i] = {
              selector:selector,
@@ -232,29 +230,33 @@ mw.sliders_settings = function(el){
           var type = $(this).dataset('type');
           var to_set = type=='opacity'? val/100 :val;
           if(custom==''){
-            $(".element-current").css(type, to_set);
+            mw.$(".element-current").css(type, to_set);
           }
           else{
             custom._exec(ui.value);
           }
-          $("input[name='"+this.id+"']").val(val);
+          mw.$("input[name='"+this.id+"']").val(val);
        },
        change:function(event,ui){
          if(event.originalEvent!==undefined){
             var val = (ui.value);
             var type = $(this).dataset('type');
             var to_set = type=='opacity'? val/100 :val;
-            $("input[name='"+this.id+"']").val(val);
+           mw.$("input[name='"+this.id+"']").val(val);
             if(custom==''){
-                $(".element-current").css(type, to_set);
+                mw.$(".element-current").css(type, to_set);
             }
             else{
               custom._exec(ui.value);
             }
          }
+
+         $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
+         mw.askusertostay = true;
+
        },
        create: function(event, ui) {
-          $("input[name='"+this.id+"']").val(val);
+          mw.$("input[name='"+this.id+"']").val(val);
        },
        start:function(event, ui){
          if(onstart!==''){
@@ -286,10 +288,10 @@ init_square_maps = function(){
     }
   });
 
-  $(".mw_dropdown_func_slider").change(function(){
+  mw.$(".mw_dropdown_func_slider").change(function(){
     var val = $(this).getDropdownValue();
     var who = $(this).attr("data-for");
-    $("#"+who).attr("data-type", val);
+    mw.$("#"+who).attr("data-type", val);
   });
 }
 
@@ -309,25 +311,25 @@ mw.setCurrentStyles = function(el){
 
   var parser = mw.CSSParser(el);
 
-  $("#width_slider").slider("value", parser.get.width().tonumber());
+  mw.$("#width_slider").slider("value", parser.get.width().tonumber());
 
 
   var bg = parser.get.background();
-  $("#ts_bg_repeat").setDropdownValue(bg.repeat);
-  $("#ts_bg_position").setDropdownValue(bg.position);
+  mw.$("#ts_bg_repeat").setDropdownValue(bg.repeat);
+  mw.$("#ts_bg_position").setDropdownValue(bg.position);
 
   if(bg.color!=='transparent'){
-     $("#ts_element_bgcolor span").css("background", bg.color);
+     mw.$("#ts_element_bgcolor span").css("background", bg.color);
   }
   else{
-     $("#ts_element_bgcolor span").css("background", '');
+     mw.$("#ts_element_bgcolor span").css("background", '');
   }
   if(bg.image!=='none'){
      var url =  bg.image.replace(/url\(|\)|"|'/g, "");
-     $("#ed_bg_image_status").html("<img src='"+url+"' />");
+     mw.$("#ed_bg_image_status").html("<img src='"+url+"' />");
   }
   else{
-     $("#ed_bg_image_status").html("");
+     mw.$("#ed_bg_image_status").html("");
   }
 
 }
@@ -338,13 +340,13 @@ $(document).ready(function(){
 
 if( typeof $.fn.draggable === 'function'){
 
-    $("#design_bnav").draggable({
+    mw.$("#design_bnav").draggable({
       handle:"#design_bnav_handle",
       containment:'window',
       scroll:false,
       start:function(){
-        $(".ts_main_ul .ts_action").invisible();
-        $(".ts_main_ul .ts_action").css({"left":"100%", top:0});
+        mw.$(".ts_main_ul .ts_action").invisible();
+        mw.$(".ts_main_ul .ts_action").css({"left":"100%", top:0});
       },
       stop:function(event, ui){
         mw.cookie.ui("designtool_position", ui.position.top+"|"+ui.position.left)
@@ -358,24 +360,24 @@ $(window).bind("onItemClick onImageClick onElementClick", function(e, el){
 
 if($(".ts_action:isVisible").length==0){
 
-  $(".element-current").removeClass("element-current");
+  mw.$(".element-current").removeClass("element-current");
   $(el).addClass("element-current");
   mw.current_element = el;
   mw.current_element_styles = window.getComputedStyle(el, null);
 
-  $(".es_item").trigger("change");
+  mw.$(".es_item").trigger("change");
 
   if(e.type=='onImageClick'){
-    $(".mw-designtype-element").hide();
-    $(".mw-designtype-image").show();
+    mw.$(".mw-designtype-element").hide();
+    mw.$(".mw-designtype-image").show();
   }
   else if(e.type=='onItemClick'){
-    $(".mw-designtype-element").show();
-    $(".mw-designtype-image").hide();
+    mw.$(".mw-designtype-element").show();
+    mw.$(".mw-designtype-image").hide();
   }
   else if(e.type=='onElementClick'){
-    $(".mw-designtype-element").show();
-    $(".mw-designtype-image").hide();
+    mw.$(".mw-designtype-element").show();
+    mw.$(".mw-designtype-image").hide();
   }
 
 
@@ -408,16 +410,16 @@ $(mwd.body).bind("click", function(e){
   if(!mw.tools.hasClass(e.target.className, 'edit') && !mw.tools.hasParentsWithClass(e.target, 'edit') ){
   if(!mw.tools.hasClass(e.target.className, 'mw-defaults') && !mw.tools.hasParentsWithClass(e.target, 'mw-defaults') ){
 
-    if($(".ts_action:isVisible").length==0){
-      $(".element-current").removeClass("element-current");
-      $(e.target).addClass("element-current");
+    if(mw.$(".ts_action:isVisible").length==0){
+      mw.$(".element-current").removeClass("element-current");
+      mw.$(e.target).addClass("element-current");
       mw.current_element =e.target;
-      $("#items_handle").css({
+      mw.$("#items_handle").css({
         top:"",
         left:""
       });
-      $(".mw-designtype-element").show();
-      $(".mw-designtype-image").hide();
+      mw.$(".mw-designtype-element").show();
+      mw.$(".mw-designtype-image").hide();
       mw.setCurrentStyles(e.target);
 
        $(e.target).attr('staticdesign', 'true');
@@ -431,7 +433,7 @@ $(mwd.body).bind("click", function(e){
 });
 
 
-  $(".ed_slider").each(function(){
+  mw.$(".ed_slider").each(function(){
     $(this).slider(mw.sliders_settings(this));
   });
 
@@ -439,10 +441,10 @@ $(mwd.body).bind("click", function(e){
 
   init_square_maps();
 
-  $("#fx_element").change(function(){
+  mw.$("#fx_element").change(function(){
     var val = $(this).getDropdownValue();
-    $("#element_effx .fx").hide();
-    $("#fx_"+val).show();
+    mw.$("#element_effx .fx").hide();
+    mw.$("#fx_"+val).show();
   });
 
 
@@ -482,11 +484,11 @@ $(mwd.body).bind("click", function(e){
         var s = parseFloat(arr[len-2]);
       }
       else{var s = 6}
-      var color = $(".ed_shadow_color").dataset("color");
-      $(".element-current").css("box-shadow", val.left+"px " + val.top + "px "+ s +"px #"+color);
+      var color = mw.$(".ed_shadow_color").dataset("color");
+      mw.$(".element-current").css("box-shadow", val.left+"px " + val.top + "px "+ s +"px #"+color);
   });
 
-  var shadow_strength = $("#ed_shadow_strength").canvasCTRL({axis:'x', alwayPositive:'yes'});
+  var shadow_strength = mw.$("#ed_shadow_strength").canvasCTRL({axis:'x', alwayPositive:'yes'});
 
   shadow_strength.bind("change", function(event, val){
       if( mw.current_element_styles.boxShadow !="none" ){
@@ -495,7 +497,7 @@ $(mwd.body).bind("click", function(e){
         var x =  parseFloat(arr[len-4]);
         var y =  parseFloat(arr[len-3]);
         var color = $(".ed_shadow_color").dataset("color");
-        $(".element-current").css("box-shadow", x+"px " + y + "px "+ (val.left-5)*2 +"px #" + color);
+        mw.$(".element-current").css("box-shadow", x+"px " + y + "px "+ (val.left-5)*2 +"px #" + color);
       }
 
 
@@ -506,7 +508,7 @@ $(mwd.body).bind("click", function(e){
 
 
 
-    $(".slider_val input").keyup(function(event){
+    mw.$(".slider_val input").keyup(function(event){
         var el = $(this);
         var _el = this;
         var val = _el.value;
@@ -515,14 +517,14 @@ $(mwd.body).bind("click", function(e){
         var val = parseFloat(val);
         el.val(val);
         var name = _el.name;
-        $("#"+name).slider("value", val);
+        mw.$("#"+name).slider("value", val);
 
     });
 
 
-    $(".ts_border_position_selector a.border-style").click(function(){
+    mw.$(".ts_border_position_selector a.border-style").click(function(){
       if(!$(this).hasClass("active")){
-         $(".ts_border_position_selector a.border-style.active").removeClass("active");
+         mw.$(".ts_border_position_selector a.border-style.active").removeClass("active");
          $(this).addClass("active");
          var which = $(this).dataset("val");
          mw.border_which = which;
@@ -532,32 +534,40 @@ $(mwd.body).bind("click", function(e){
       }
     });
 
-    $(".dd_border_selector").bind("change", function(){
+    mw.$(".dd_border_selector").bind("change", function(){
       mw.$('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
+      $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
+         mw.askusertostay = true;
     });
 
-    $(".dd_borderwidth_Selector").bind("change", function(){
+    mw.$(".dd_borderwidth_Selector").bind("change", function(){
       mw.$('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue());
+      $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
+         mw.askusertostay = true;
     });
 
 
-    $("#ts_bg_repeat").bind("change", function(){
+    mw.$("#ts_bg_repeat").bind("change", function(){
        mw.$('.element-current').css('backgroundRepeat', $(this).getDropdownValue());
+       $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
+         mw.askusertostay = true;
     });
-    $("#ts_bg_position").bind("change", function(){
-       mw.$('.element-current').css('backgroundPosition', $(this).getDropdownValue())
+    mw.$("#ts_bg_position").bind("change", function(){
+       mw.$('.element-current').css('backgroundPosition', $(this).getDropdownValue());
+       $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
+         mw.askusertostay = true;
     });
 
 
-    $("#ed_auto_width").commuter(function(){
+    mw.$("#ed_auto_width").commuter(function(){
          $(".element-current").width('auto');
     }, function(){
-         $(".element-current").width($("#width_slider").slider("value"));
+         $(".element-current").width(mw.$("#width_slider").slider("value"));
     });
-     $("#ed_auto_height").commuter(function(){
-         $(".element-current").height('auto');
+     mw.$("#ed_auto_height").commuter(function(){
+         mw.$(".element-current").height('auto');
     }, function(){
-         $(".element-current").height($("#height_slider").slider("value"));
+         mw.$(".element-current").height(mw.$("#height_slider").slider("value"));
     });
 
     mw.$("#design_bnav").hover(function(){

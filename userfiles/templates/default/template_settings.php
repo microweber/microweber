@@ -189,21 +189,27 @@ $(document).ready(function(){
 
 });
 </script>
-
+<?php /*
    <select id="mw_set_template_style">
 	  <option value="css/styles/spacelab.css">spacelab</option>
 	  <option value="css/styles/superhero.css">superhero</option>
 	  	  <option value="css/styles/amelia.css">superhero</option>
 
 	  </select>
-	  
+
 	  <input type="text"
              class="tpl-field"
              data-selector="@import"
              value = "<?php if(isset($arr['import']) and isset($arr['import']['value'])){ print $arr['import']['value']; } ?>"
              name="import"
              id="import_css"
-             />
+             />*/ ?>
+ <div class="mw_clear"></div>
 
+<hr>
 
 <module type="content/layout_selector_custom_css" template=""<?php print template_name(); ?>
+
+
+
+<hr>
