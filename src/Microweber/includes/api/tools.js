@@ -1517,7 +1517,12 @@ mw.tools = {
     o.rend(tagMethod, 'all');
 
     tagholder.click(function(e){
+      if(itemsWrapper.style.display == 'block'){
+        itemsWrapper.style.display = 'none';
+        return false;
+      }
       if(e.target.tagName != 'INPUT'){ field.focus(); }
+
         itemsWrapper.style.top = '100%';
         itemsWrapper.style.display = 'block';
         var off = $(itemsWrapper).offset();

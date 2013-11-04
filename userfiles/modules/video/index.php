@@ -49,7 +49,7 @@ $code = preg_replace('#\<iframe(.*?)\ssrc\=\"(.*?)\"(.*?)\>#i',
 }
 
   else{
-      print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>", "mw-notification-lite");
+      print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>", true);
   }
 }
 
@@ -68,13 +68,13 @@ else if($prior == '2'){
 
       // print lnotif("Upload Video or paste URL or Embed Code.");
 
-       print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>", "mw-notification-lite");
+       print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>", true);
 
     }
 }
 else{
 
-    print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>", "mw-notification-lite");
+    print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" .$config['url_to_module'] . "video.png' /></div>", true);
 
   //print lnotif("Upload Video or paste URL or Embed Code.");
 }

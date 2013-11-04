@@ -124,6 +124,17 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 		 }
 	 }
 	 
+} elseif((intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'post'){
+	 
+	 //if we are adding product in a page that is not a shop
+	 $parent_shop_check =  get_content_by_id($data['parent']);
+	 if(!isset($parent_shop_check['subtype']) or $parent_shop_check['subtype'] != 'dynamic'){
+		 $parent_content_shop = get_content('order_by=updated_on desc&one=true&subtype=dynamic&is_shop=n');
+		  if(isset($parent_content_shop['id'])){
+			 $data['parent'] = $parent_content_shop['id'];
+		 }
+	 }
+	 
 }
 
 /* END OF SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
@@ -483,11 +494,11 @@ mw.edit_content.handle_form_submit = function(go_live){
         });
 
 		/* reloading the editor on parent change */
-		<?php if($data['content_type'] == 'page'): ?>
+		 
        mw.$('#mw-parent-page-value').bind('change', function(e){
            mw.edit_content.load_editor();
        });
-	    <?php endif; ?>
+	     
        var qtabs = mw.tools.tabGroup({
           nav: mw.$("#quick-add-post-options li"),
           tabs: mw.$(".quick-add-post-options-item"),

@@ -453,8 +453,15 @@ class Format
 
     public function notif($text, $class = 'success')
     {
-        $to_print = '<div class="mw-notification mw-' . $class . ' "><div class="mw-notification-text mw-open-module-settings">';
-        $to_print = $to_print . _e($text, true) . '</div></div>';
+
+        if($class ===true){
+            $to_print = '<div><div class="mw-notification-text mw-open-module-settings">';
+            $to_print = $to_print . _e($text, true) . '</div></div>';
+        } else {
+            $to_print = '<div class="mw-notification mw-' . $class . ' "><div class="mw-notification-text mw-open-module-settings">';
+            $to_print = $to_print . _e($text, true) . '</div></div>';
+        }
+
 
         return $to_print;
     }
