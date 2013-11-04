@@ -289,6 +289,8 @@ class Content
                 $get['url'] = $this->app->url->site($get['url']);
             }
             if (isset($get['title'])) {
+                $get['title'] = html_entity_decode($get['title']);
+                $get['title'] = strip_tags($get['title']);
                 $get['title'] = $this->app->format->clean_html($get['title']);
             }
             return $get;
@@ -300,6 +302,8 @@ class Content
                     $item['url'] = $this->app->url->site($item['url']);
                 }
                 if (isset($item['title'])) {
+                    $item['title'] = html_entity_decode($item['title']);
+                    $item['title'] = strip_tags($item['title']);
                     $item['title'] = $this->app->format->clean_html($item['title']);
                 }
 
@@ -817,7 +821,10 @@ class Content
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];
             if (isset($content['title'])) {
+                $content['title'] = html_entity_decode($content['title']);
+                $content['title'] = strip_tags($content['title']);
                 $content['title'] = $this->app->format->clean_html($content['title']);
+
             }
         } else {
             if (!is_array($id)) {
