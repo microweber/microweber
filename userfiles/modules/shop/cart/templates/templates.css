@@ -12,12 +12,12 @@
 	border-bottom-color:#A1A0A0;
 	background-color: #EDEDED;
 	font-size: 12px;
-    width: 215px;
+    white-space: nowrap;
 }
 .mw-cart-small-content {
 	padding: 1px 3px 1px 6px;
-	float: left;
 	white-space: nowrap;
+    display: inline-block;
 }
 .mw-cart-small a {
 	font-size: 13px;
@@ -26,8 +26,7 @@
 	margin: 0 3px;
 }
 .mw-cart-small .cart-icon {
-	float: left;
-	display: block;
+	display: inline-block;
 	width: 30px;
 	text-align: center;
 	padding: 4px 0;

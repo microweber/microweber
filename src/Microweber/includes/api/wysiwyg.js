@@ -408,7 +408,8 @@ mw.wysiwyg = {
         }
         if( event.keyCode == 46  && event.type=='keydown'){
             mw.tools.removeClass(mw.image_resizer, 'active');
-            mw.tools.addClass(mw.tools.firstParentWithClass(event.target, 'edit'), 'changed _origchanged');
+
+            mw.tools.addClass(mw.tools.firstParentWithClass( mwd.querySelector('.element-current'), 'edit'), 'changed orig_changed');
             mw.askusertostay = true;
         }
 

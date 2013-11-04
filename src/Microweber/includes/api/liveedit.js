@@ -1062,10 +1062,10 @@ mw.drag = {
 			if (mw.isDrag) {
 			  mw.isDrag = false;
               if(!mw.tools.hasClass(mw.currentDragMouseOver, 'edit')){
-                mw.tools.addClass(mw.tools.firstParentWithClass(mw.currentDragMouseOver, 'edit'), 'changed _origchanged');
+                mw.tools.addClass(mw.tools.firstParentWithClass(mw.currentDragMouseOver, 'edit'), 'changed orig_changed');
               }
               else{
-                 mw.tools.addClass(mw.currentDragMouseOver, 'changed _origchanged');
+                 mw.tools.addClass(mw.currentDragMouseOver, 'changed orig_changed');
               }
 
               mw.askusertostay = true;
