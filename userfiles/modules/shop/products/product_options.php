@@ -59,27 +59,27 @@ $out_of_stock = false;
 					<div class="mw-ui-field-holder">
 						<label class="mw-ui-label"> Weight </label>
 						<span class="mwsico-weight"></span>
-						<input type="number" min="0" name="data_shipping_weight" class="mw-ui-field"  <?php if (isset($data_fields['shipping_weight'])): ?> value="<?php print $data_fields['shipping_weight']; ?>" <?php endif; ?>  />
+						<input type="number" min="0" step=".001" name="data_shipping_weight" class="mw-ui-field"  <?php if (isset($data_fields['shipping_weight'])): ?> value="<?php print $data_fields['shipping_weight']; ?>" <?php endif; ?>  />
 					</div>
 					<div class="mw-ui-field-holder">
 						<label class="mw-ui-label">Width </label>
 						<span class="mwsico-width"></span>
-						<input type="number" min="0" name="data_shipping_width" class="mw-ui-field"  <?php if (isset($data_fields['shipping_width'])): ?> value="<?php print $data_fields['shipping_width']; ?>" <?php endif; ?>  />
+						<input type="number" min="0" step=".001" name="data_shipping_width" class="mw-ui-field"  <?php if (isset($data_fields['shipping_width'])): ?> value="<?php print $data_fields['shipping_width']; ?>" <?php endif; ?>  />
 					</div>
 					<div class="mw-ui-field-holder">
 						<label class="mw-ui-label">Height </label>
 						<span class="mwsico-height"></span>
-						<input type="number" min="0" name="data_shipping_height" class="mw-ui-field"  <?php if (isset($data_fields['shipping_height'])): ?> value="<?php print $data_fields['shipping_height']; ?>" <?php endif; ?>  />
+						<input type="number" min="0" step=".001" name="data_shipping_height" class="mw-ui-field"  <?php if (isset($data_fields['shipping_height'])): ?> value="<?php print $data_fields['shipping_height']; ?>" <?php endif; ?>  />
 					</div>
 					<div class="mw-ui-field-holder">
 						<label class="mw-ui-label">Depth </label>
 						<span class="mwsico-depth"></span>
-						<input type="number" min="0" name="data_shipping_depth" class="mw-ui-field"  <?php if (isset($data_fields['shipping_depth'])): ?> value="<?php print $data_fields['shipping_depth']; ?>" <?php endif; ?>  />
+						<input type="number" min="0" step=".001" name="data_shipping_depth" class="mw-ui-field"  <?php if (isset($data_fields['shipping_depth'])): ?> value="<?php print $data_fields['shipping_depth']; ?>" <?php endif; ?>  />
 					</div>
 					<div class="mw-ui-field-holder" style="width: 120px;">
 						<label class="mw-ui-label">Fixed Cost <span class="mw-help mw-help-right" data-help="Additional Shipping Cost will be added on purchase">?</span></label>
 						<span class="mwsico-cost"></span>
-						<input type="number" min="0" name="data_additional_shipping_cost" class="mw-ui-field"  <?php if (isset($data_fields['additional_shipping_cost'])): ?> value="<?php print $data_fields['additional_shipping_cost']; ?>" <?php endif; ?>  />
+						<input type="number" min="0" step=".01" name="data_additional_shipping_cost" class="mw-ui-field"  <?php if (isset($data_fields['additional_shipping_cost'])): ?> value="<?php print $data_fields['additional_shipping_cost']; ?>" <?php endif; ?>  />
 					</div>
 				</div>
 				<div class="vSpace"></div>

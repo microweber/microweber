@@ -25,6 +25,13 @@ if(!is_array($data['custom_field_values'])){
 	$default_data = array('country'=>'Country','city'=>'City', 'zip'=>'Zip', 'state'=>'State', 'address'=>'Address');
 	$data['custom_field_values'] = $default_data;
 }
+
+
+if (!isset( $data['input_class']) and isset($params['input-class'])) {
+     $data['input_class'] = $params['input-class'];
+} elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
+     $data['input_class'] = $params['input_class'];
+}
  
 //print $data["custom_field_value"]; ?>
 <?php if(is_array($data['custom_field_values'])) : ?>
@@ -62,7 +69,7 @@ if(!is_array($data['custom_field_values'])){
 	?>
      <label><?php print ($kv); ?></label>
 
-     <input type="text" name="<?php print $data['custom_field_name'] ?>[<?php print ($k); ?>]" <?php if($is_required){ ?> required <?php } ?>  data-custom-field-id="<?php print $data["id"]; ?>"  />
+     <input type="text"  <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   name="<?php print $data['custom_field_name'] ?>[<?php print ($k); ?>]" <?php if($is_required){ ?> required <?php } ?>  data-custom-field-id="<?php print $data["id"]; ?>"  />
      <?php endif; ?>
     <?php endforeach; ?>
 

@@ -2830,9 +2830,14 @@ class Content
         if (!empty($menus)) {
             return $menus;
         } else {
-            if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
-                mw('content')->menu_create('id=0&title=' . $params['title']);
+
+            if (!defined("MW_MENU_IS_ALREADY_MADE_ONCE")) {
+                if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
+                    $this->menu_create('id=0&title=' . $params['title']);
+                }
+                define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
             }
+
 
         }
 

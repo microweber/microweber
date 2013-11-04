@@ -331,7 +331,7 @@ $menu_name = get_option('menu_name', $params['id']);
     <?php _e("Select the Menu you want to edit"); ?>
   </label>
   <div class="mw-ui-select" style="width:100%">
-    <select  name="menu_name" class="mw_option_field"   type="radio" data-refresh="nav" onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
+    <select  name="menu_name" class="mw_option_field"   type="radio"  onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
       <?php foreach($menus  as $item): ?>
       <?php if($active_menu == false){
 		$active_menu =   $item['title'];
@@ -370,8 +370,7 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');"><?php _e("Add to menu"); ?></button>
 </div>
 <div class="vSpace"></div>
-<?php  //d( $active_menu); ?>
-<?php //.. d( $params); ?>
+ 
 <div class="<?php print $config['module_class']; ?> menu_items order-has-link"   id="items_list_<?php  print $rand ?>">
   <?php if($active_menu != false): ?>
   <h2><?php print $menu_name; ?> Links

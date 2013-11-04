@@ -33,10 +33,7 @@
 				?>
 			</select>
 		</div>
-		<div class="mw-ui-label">
-			<strong><?php _e("Show Shipping to Country"); ?></strong>
-		</div>
-		<label class="mw-ui-check"><input value="y" <?php if(get_option('show_shipping', $params['id']) == 'y'):  ?> checked="checked" <?php  endif ?> class="mw_option_field" name="show_shipping" type="checkbox"><span></span><span><?php _e("Show shipping price into the shopping cart"); ?></span></label>
+		 
 	</div>
 	<div class="tab semi_hidden">
 		<module type="admin/modules/templates"  />

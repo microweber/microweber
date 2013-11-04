@@ -221,8 +221,12 @@
 
 
 mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
+
+  mw.$(".mw_option_field").addClass('mw-options-form-binded');
  mw.$(".mw_option_field").bind("change", function (e) {
-              $(this).addClass('mw-options-form-binded');
+             if(mw.notification != undefined){
+                mw.notification.success('Settings saved!');
+              }
 
 
                 if(typeof liveEditSettings === 'boolean'){
@@ -251,18 +255,22 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
 
 			  var also_reload =  $(this).attr('data-also-reload');
 
+if(og== also_reload || also_reload == null){
+						  var also_reload =  $(this).attr('data-reload');
+				}
+
+
 			 
 			  var og =  $(this).attr('option-group');
 				if(og== undefined || og == null){
-					var og = '<?php print $params['id'] ?>';
-					
-					
-					
-					
-
+						var og = '<?php print $params['id'] ?>';
 				}
 				 
  
+			  var og =  $(this).attr('data-option-group');
+				if(og== undefined || og == null){
+						var og = '<?php print $params['id'] ?>';
+				}
 
                  if(this.type==='checkbox'){
                    var val = '';
@@ -301,7 +309,7 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
  
  
 	 
-						  
+						    
 						 
 							 
 							 if (window.parent.mw != undefined) {

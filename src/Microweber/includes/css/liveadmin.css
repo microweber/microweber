@@ -1424,6 +1424,8 @@ body.still-loading:before{
   visibility: hidden;
 }
 
+
+
 tr:hover > td > .mw-ui-admin-table-show-on-hover{
   visibility: visible;
 }
@@ -1748,6 +1750,17 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   border-style: solid;
   border-color:#E5E5E5 #E0DEDE #E5E5E5;
   min-height: 40px;
+}
+
+.mw-modules-admin .module_item .mw-ui-x{
+    position: relative;
+    z-index: 3;
+    top: 12px;
+    right: 12px;
+    visibility: hidden;
+}
+.mw-modules-admin .module_item:hover > .mw-ui-x{
+  visibility: visible;
 }
 
 
@@ -2729,7 +2742,10 @@ a.module-icon-title{
 
 
 #mw_admin_product_settings .mw-ui-field-holder .mw-ui-field{
-  width: 35px;
+  /******width: 35px;*****/
+  width: 60px;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
 

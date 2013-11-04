@@ -972,7 +972,19 @@ class Parser
                             $data_id = PAGE_ID;
                         }
 
-                        $inh = $this->app->content->get_inherited_parent($data_id);
+
+                        $data_inh_check = $this->app->content->get_by_id($data_id);
+
+
+
+                        if(isset($data_inh_check['id']) and isset($data_inh_check['layout_file']) and (trim($data_inh_check['layout_file']) != '') and $data_inh_check['layout_file'] != 'inherit'){
+                            $inh = $data_inh_check['id'];
+                        } else {
+                            $inh = $this->app->content->get_inherited_parent($data_id);
+
+
+                        }
+
 
                         if ($inh != false and intval($inh) != 0) {
 
@@ -986,6 +998,10 @@ class Parser
                             $data = $this->app->content->get_page($data_id);
 
                         }
+
+
+
+
 
                     } else if ($rel == 'global') {
                         $get_global = 1;

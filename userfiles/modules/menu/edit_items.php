@@ -26,7 +26,8 @@
 if( $id != 0){
 	$menu_params = array();
 	$menu_params['menu_id'] =  $id;
-	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span class="ico iMove mw_admin_modules_sortable_handle"></span><a data-item-id="{id}" class="menu_element_link {active_class}" href="javascript:;" onclick="mw.menu_items_set_edit({id}, this);">{title}</a></div>';
+	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><a class="mw-ui-x" href="javascript:;" onclick="mw.menu_item_delete({id});">Delete</a>
+	 <span class="ico iMove mw_admin_modules_sortable_handle"></span><a data-item-id="{id}" class="menu_element_link {active_class}" href="javascript:;" onclick="mw.menu_items_set_edit({id}, this);">{title}</a> </div>';
 
     $data = menu_tree( $menu_params);
 }

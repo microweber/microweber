@@ -1819,16 +1819,20 @@ class Controller
             $res = str_replace('{content}', $res, $layout);
         }
 
+        $aj =  $this->app->url->is_ajax();
+
         if (isset($_REQUEST['live_edit'])) {
 
 
-            $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
-            $p_index = normalize_path($p_index, false);
-            $l = new $this->app->view($p_index);
-            $l->params = $data;
-            $layout = $l->__toString();
-            $res = str_replace('{content}', $res, $layout);
-            $res = $this->app->parser->process($res, $options = false);
+    $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
+    $p_index = normalize_path($p_index, false);
+    $l = new $this->app->view($p_index);
+    $l->params = $data;
+    $layout = $l->__toString();
+    $res = str_replace('{content}', $res, $layout);
+    $res = $this->app->parser->process($res, $options = false);
+
+
 
 
         }

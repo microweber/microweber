@@ -82,8 +82,8 @@ btn_action = function(){
   <label class="mw-ui-label"><?php _e("Action"); ?></label>
   <div class="mw-ui-select"><select class="mw_option_field" id="action"  name="button_action">
       <option <?php if($action==''){ print 'selected'; } ?> value=""><?php _e("None"); ?></option>
-      <option <?php if($action=='url'){ print 'selected'; } ?> value="url"><?php _e("Link"); ?></option>
-      <option <?php if($action=='popup'){ print 'selected'; } ?> value="popup"><?php _e("Popup"); ?></option>
+      <option <?php if($action=='url'){ print 'selected'; } ?> value="url"><?php _e("Go to link"); ?></option>
+      <option <?php if($action=='popup'){ print 'selected'; } ?> value="popup"><?php _e("Open a pop-up window"); ?></option>
   </select></div>
 </div>
 

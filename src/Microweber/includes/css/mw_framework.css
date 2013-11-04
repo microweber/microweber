@@ -1981,12 +1981,17 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 }
 
 .mw-notification{
-    border-radius: 2px;
     display: table;
-    min-width: 215px;
     padding: 5px;
     text-align: center;
     font-size: 12px;
+}
+
+.mw-notification-lite{
+    display: block;
+    padding: 0;
+    text-align: inherit;
+    font-size: inherit;
 }
 
 

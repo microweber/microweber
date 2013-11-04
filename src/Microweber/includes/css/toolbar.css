@@ -80,29 +80,13 @@
 	border: none;
 }
 
-.mw-sorthandle-moveit{   /*
-  position: absolute;
-  left: 0px;
-  top: 3px;
-  line-height: normal;
-  display: inline-block;
-  color: white;
-  cursor: move;
-  text-align: center;
-  font-size: 11px;
-  line-height: 15px;
-  padding: 0px 4px;
-  border:1px solid #2680D3;
-  border-radius: 2px;
-  background: url(../img/grad.php?top=50ADF0&bot=2A83DD);    */
-
-
+.mw-sorthandle-moveit{  
   position: absolute;
   left: 0px;
   top: 0px;
   display: block;
   width: 23px;
-  height: 17px;
+  height: 18px;
   background: white url(../img/move.png) no-repeat center 2px;
   border: 1px solid #D8D8D8;
   text-indent: -9999px;

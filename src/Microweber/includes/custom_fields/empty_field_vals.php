@@ -29,4 +29,8 @@ if (isset($params['for_module_id'])) {
 } else {
  $for_module_id = false ;	
 }
- 
+if (isset($params['input-class'])) {
+     $data['input_class'] = $params['input-class'];
+} elseif (isset($params['input_class'])) {
+     $data['input_class'] = $params['input_class'];
+}

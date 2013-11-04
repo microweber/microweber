@@ -25,6 +25,6 @@ description: Default
     </select>
   </div>
    
-   <module type="custom_fields" data-id="shipping-info-<?php print $params['id'] ?>" data-for="module"  default-fields="address"  data-skip-fields="country"   />
+   <module type="custom_fields" data-id="shipping-info-<?php print $params['id'] ?>" data-for="module"  default-fields="address" input-class="field-full" data-skip-fields="country"   />
 
 </div>

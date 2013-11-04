@@ -40,12 +40,13 @@ description: shop layout
 						</div>
 					</div>
 				</div>
-				
 				<!-------------- Related Products -------------->
 				
-				<h4 class="element sidebar-title">Related Products</h4>
-				<module type="shop/products" template="4columns" related="true" />
-				<p class="element">&nbsp;</p>
+				<div class="edit"  field="related_products" rel="inherit">
+					<h4 class="element sidebar-title">Related Products</h4>
+					<module type="shop/products" template="4columns" related="true" />
+					<p class="element">&nbsp;</p>
+				</div>
 			</div>
 			<!------------ Sidebar -------------->
 			<div class="span3">

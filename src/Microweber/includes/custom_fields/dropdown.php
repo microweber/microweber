@@ -9,6 +9,13 @@ if (!isset($data['id'])) {
 ?>
 <?php
 
+if (!isset( $data['input_class']) and isset($params['input-class'])) {
+     $data['input_class'] = $params['input-class'];
+} elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
+     $data['input_class'] = $params['input_class'];
+}
+
+
    //d($data);
 
 //print $data["custom_field_value"]; ?>

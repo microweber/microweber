@@ -51,6 +51,18 @@ description: Default Search template
     			}
 			});
 
+
+            mw.$("#search_field_<?php  print $params['id'] ?>").bind("keyup", function(e){
+               if(e.keyCode == 13){
+                  mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', this.value);
+               }
+            });
+
+            var s = mw.url.windowHashParam("keyword<?php print $seach_prefix ?>");
+            if(!!s){ mwd.getElementById('search_field_<?php  print $params['id'] ?>').value = decodeURIComponent(s); }
+
  });
+
+
 
 </script>
