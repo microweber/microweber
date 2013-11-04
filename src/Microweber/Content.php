@@ -1204,7 +1204,7 @@ class Content
         }
         if (!isset($data['all'])) {
             $data['one'] = 1;
-            $data['limit'] = 1000;
+            $data['limit'] = 200;
         }
 
         $data['table'] = $table;

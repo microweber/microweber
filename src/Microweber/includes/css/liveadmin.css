@@ -319,6 +319,7 @@ html.mw_pages #mw_tabs li.active a{
 
 #mw_edit_pages_content{
   position: relative;
+  min-width: 1022px;
 
 }
 

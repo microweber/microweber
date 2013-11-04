@@ -260,6 +260,7 @@
     line-height: 13px;
     border-radius:0;
     height: 15px;
+    border: 1px solid #D8D8D8;
 }
 
 .mw_edit_settings:hover{
@@ -287,11 +288,12 @@
   width: 21px;
   padding: 0;
   float: right;
+  border: 1px solid #D8D8D8;
 }
 
 .mw_edit_delete_element .mw_edit_delete{
   background: #3792E3;
-  border-color: #2680D3;
+
 }
 
 .mw_edit_delete_element .mw_edit_delete:hover{
@@ -309,7 +311,6 @@
   background: url(../img/delete_item.png) no-repeat;
   left: 7px;
   top: 5px;
-
 }
 
 
@@ -332,9 +333,7 @@ background: url(../img/grad.php?top=FF7C7C&bot=FF1313);
 
 
 .mw_edit_delete_element .mw_edit_delete{
-  background-color: #3792E3;
   background-color: #fff;
-  border-color: #2680D3;
 }
 
 
