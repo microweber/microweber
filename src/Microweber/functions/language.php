@@ -3,7 +3,7 @@
 
 $language_content_saved = false;
 $mw_new_language_entires = array();
-;
+ 
 
 /**
  * Saves the language file after page load
@@ -161,9 +161,13 @@ function _e($k, $to_return = false)
             $k2 = ($k);
             $mw_new_language_entires[$k1] = $k2;
             $language_content[$k1] = $k2;
-            $scheduler = new \Microweber\Utils\Events();
-            // schedule a global scope function:
-            $scheduler->registerShutdownEvent("__store_lang_file");
+			if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
+				define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
+				 $scheduler = new \Microweber\Utils\Events();
+					// schedule a global scope function:
+					$scheduler->registerShutdownEvent("__store_lang_file");
+			}
+          
 
         }
         if ($to_return == true) {
@@ -176,6 +180,8 @@ function _e($k, $to_return = false)
         }
         print $language_content[$k1];
     }
+	
+	
 }
 
 

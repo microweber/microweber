@@ -37,7 +37,13 @@ class Notifications
             }
 
         }
-        $this->db_init();
+
+
+        if (!defined("MW_DB_TABLE_NOTIFICATIONS_DB_INIT")) {
+            define('MW_DB_TABLE_NOTIFICATIONS_DB_INIT', true);
+            $this->db_init();
+        }
+
     }
 
     public function read($id)
@@ -73,15 +79,17 @@ class Notifications
             mw_var('FORCE_SAVE', $table);
 
             $get_params = array();
-            $get_params['table'] = 'table_notifications';
+            $get_params['table'] = $table;
             $get_params['is_read'] = 'n';
             $get_params['fields'] = 'id';
-
+           // $get_params['debug'] = 'id';
             if ($module != 'all') {
 
                 $get_params['module'] = $this->app->db->escape_string($module);
             }
             $data = $this->get($get_params);
+
+
             if (is_array($data)) {
                 foreach ($data as $value) {
                     $save['is_read'] = 'y';
@@ -92,6 +100,8 @@ class Notifications
             }
 
             $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+            $this->app->cache->delete('notifications');
+
             return $data;
         }
     }

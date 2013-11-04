@@ -1,25 +1,20 @@
-
-<?php if(isset($_GET['reset_password_link'])): ?>
-<module type="users/forgot_password/reset_password" />
-<?php else:  ?>
-
-
-<?php $user = user_id(); ?>
-<?php $have_social_login = false; ?>
-<?php if($user != false): ?>
-<module type="users/profile" />
-<?php else:  ?>
-
-
-
-<?php $form_btn_title =  get_option('form_btn_title', $params['id']);
+<div class="mw-forgot-pass-wrapper">
+	<?php if(isset($_GET['reset_password_link'])): ?>
+	<module type="users/forgot_password/reset_password" />
+	<?php else:  ?>
+	<?php $user = user_id(); ?>
+	<?php $have_social_login = false; ?>
+	<?php if($user != false): ?>
+	<module type="users/profile" />
+	<?php else:  ?>
+	<?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
 		    $form_btn_title = _e("Reset password", true);
 		}
  
  		 ?>
-<?php //$rand = uniqid(); ?>
-<script  type="text/javascript">
+	<?php //$rand = uniqid(); ?>
+	<script  type="text/javascript">
 
 mw.require('forms.js', true);
 
@@ -48,9 +43,7 @@ $(document).ready(function(){
  
 });
 </script>
-
-
-<?php
+	<?php
 
 $module_template = get_option('data-template',$params['id']);
 				if($module_template == false and isset($params['template'])){
@@ -82,6 +75,6 @@ $module_template = get_option('data-template',$params['id']);
 
 
 ?>
-    
-<?php endif; ?>
-<?php endif; ?>
+	<?php endif; ?>
+	<?php endif; ?>
+</div>

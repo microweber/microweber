@@ -221,12 +221,14 @@ function isarr($var)
         return false;
     }
 }
+
 function is_ajax()
 
 {
     return mw('url')->is_ajax();
 
 }
+
 function url_segment($k = -1, $page_url = false)
 {
     return mw('url')->segment($k, $page_url);
@@ -1002,13 +1004,13 @@ function reorder_categories($data)
 
 }
 
-function content_categories($content_id=false, $data_type = 'categories')
+function content_categories($content_id = false, $data_type = 'categories')
 {
 
     return get_categories_for_content($content_id, $data_type);
 }
 
-function get_categories_for_content($content_id=false, $data_type = 'categories')
+function get_categories_for_content($content_id = false, $data_type = 'categories')
 {
     if (intval($content_id) == 0) {
 
@@ -1384,8 +1386,6 @@ function delete_module_as_template($data)
 }
 
 
-
-
 function layouts_list($options = false)
 {
 
@@ -1403,11 +1403,6 @@ function get_modules_from_db($options = false)
 
     return mw('module')->get($options);
 }
-
-
-
-
-
 
 
 function get_modules($options = false)
@@ -2363,4 +2358,13 @@ function mw_error_handler($errno, $errstr, $errfile, $errline)
     return true;
 
 
+}
+
+
+if (!function_exists('params_stripslashes_array')) {
+
+    function params_stripslashes_array($array)
+    {
+        return is_array($array) ? array_map('params_stripslashes_array', $array) : stripslashes($array);
+    }
 }

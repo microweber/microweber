@@ -541,9 +541,12 @@ class Layouts
         }
         $template = false;
         $return_styles = false;
-        if (isset($params['template'])) {
+        if (isset($params['template']) and $params['template'] != '' and $params['template'] != false) {
 
             $template = $params['template'];
+        } else {
+            $template = $this->app->option->get('current_template', 'template');
+
         }
 
 

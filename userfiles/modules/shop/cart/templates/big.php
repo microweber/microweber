@@ -11,7 +11,7 @@ description: Full width cart template
 */
 
 ?>
-
+<script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
 <div class="mw-cart mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>">
   <div class="mw-cart-title mw-cart-<?php print $params['id']?>">
     <h4 style="margin-top: 16px;" class="edit" rel="<?php print $params['id']?>" field="cart_title">

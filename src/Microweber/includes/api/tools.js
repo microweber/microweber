@@ -3050,7 +3050,7 @@ mw.beforeleave = function(url){
               mw.drag.save(mwd.getElementById('main-save-btn'), function(){
                 mw.askusertostay = false;
                 window.location.href = url;
-                mw.notification.success("Redirecting to: " + url);
+                //mw.notification.success("Redirecting to: " + url);
               });
             });
             $(go).click(function(){

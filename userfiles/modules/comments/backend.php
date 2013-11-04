@@ -101,40 +101,7 @@ mw.on.hashParam("comments_for_content", function(){
 
     mw.adminComments = {
 		
-		 actionssss:function(comment_id, val){
-         
-          var conf = true;
-          if(val=='delete'){var conf = confirm(mw.msg.to_delete_comment);}
-          if(conf){
-             
-			  
-			  var data = {};
-			  data.id = comment_id;
-			  data.action = val;
-			  
-			 
-			  $.post( "<?php print site_url('api/post_comment'); ?>",data, function( data ) {
-				  
-				  if(val=='delete'){
-				  $('#comment-'+comment_id).fadeOut();
-				  }
-				  // mw.reload_module('comments/comments_for_post', function(){
-					  
-					  
-					 // $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
-				//  });
-				  
-				  
-				  
-				  
-				});
-							  
-			  
-              
-			
-          }
-      },
-		
+		  
 		
 		
       action:function(form, val){
@@ -224,11 +191,12 @@ mw.on.hashParam("comments_for_content", function(){
 
 </script>
 <?php $mw_notif =  (url_param('mw_notif'));
+ 
 if( $mw_notif != false){
- $mw_notif = mw('Microweber\Notifications')->read( $mw_notif);	
+ $mw_notif = mw('notifications')->read( $mw_notif);	
  
 }
-mw('Microweber\Notifications')->mark_as_read('comments');
+mw('notifications')->mark_as_read('comments');
  ?>
 <?php if(is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">

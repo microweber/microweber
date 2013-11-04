@@ -612,8 +612,7 @@ $language["your-system-log-is-empty"]= 'Ваш системный журнал �
 $language["backups"]= 'Копия' ; 
 $language["the-backup-must-be-sql-or-zip"]= ' 	
 Резервное копирование, должен быть sql или zip' ; 
-$language["menus"]= 'Меню
-Меню' ; 
+$language["menus"]= 'Меню' ; 
 $language["select-the-menu-you-want-to-edit"]= 'Выберите меню, которое требуется изменить' ; 
 $language["select-from"]= 'Выбрать из' ; 
 $language["add-new-link"]= 'Добавить новую ссылку' ; 
@@ -726,11 +725,9 @@ $language["live-edit"]= 'Живое редактирование' ;
 $language["file"]= 'Файл' ; 
 $language["template"]= 'Шаблон' ; 
 $language["e-mail"]= 'И-мейл' ; 
-$language["amount"]= 'Сумма   ???? Количество' ; 
+$language["amount"]= 'Количество' ; 
 $language["send-message"]= 'Отправить сообщение' ; 
-$language["created-on"]= 'Создано на' ; 
-$language["PHPSESSID"]= '5a3e5d63a2f2b217525b08a3fac74f86' ; 
-$language["back_to_admin"]= 'http://temp9.microweber.com/admin/view:settings#option_group=language' ; 
+$language["created-on"]= 'Создано на' ;  
 $language["margin"]= 'Скидка' ; 
 $language["are-you-sure-you-want-to-delete"]= 'Вы уверены, что хотите удалить?' ; 
 $language["add-images"]= 'Добавить изображения' ; 

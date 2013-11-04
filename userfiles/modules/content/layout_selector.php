@@ -542,7 +542,7 @@ $global_template = $this->app->option->get('current_template', 'template');
 			 
 			<?php $i=0; $is_chosen=false; foreach($layouts as $item): ?>
 			<?php $item['layout_file'] = normalize_path($item['layout_file'], false); ?>
-			<option value="<?php print $item['layout_file'] ?>"  onclick="mw.templatePreview.view('<?php print $i ?>');"  
+			<option value="<?php print $item['layout_file'] ?>"  onclick="mw.templatePreview.view('<?php print $i ?>');"
 			data-index="<?php print $i ?>"  data-layout_file="<?php print $item['layout_file'] ?>"   
 			
 			<?php if(crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file'])) ): ?> <?php $is_chosen=1; ?>  selected="selected"  <?php  endif; ?>
@@ -567,16 +567,20 @@ $global_template = $this->app->option->get('current_template', 'template');
 	</div>
 	<div class="left">
 		<div class="preview_frame_wrapper loading left">
+
+
+
 			<?php if( !isset($params['edit_page_id'])): ?>
 			<div class="preview_frame_ctrls">
 				<?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview.zoomIn();"></span> */ ?>
+                <h2 class="left" style="padding-top: 0;"><?php if( $data['title'] != false){ ?><span class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?><?php } ?></h2>
 				<span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview.prev();"></span> <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview.next();"></span> <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span> </div>
 
 			<?php  else : ?>
 			<div class="preview_frame_ctrls">
-            <h5 class="left"><?php print $data['title']; ?></h5>
-              <a class="mw-ui-btn mw-ui-btn-small" target="_top" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"><?php _e("Edit Page"); ?></a>
-              <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y"><?php _e("Go Live Edit"); ?></a>
+            <h2 class="left" style="padding-top: 0;"><span class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?></h2>
+              <a class="mw-ui-btn mw-ui-btn-medium" target="_top" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"><?php _e("Edit Page"); ?></a>
+              <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y"><?php _e("Go Live Edit"); ?></a>
 			  <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
 
             </div>
@@ -588,9 +592,6 @@ $global_template = $this->app->option->get('current_template', 'template');
 			<div class="mw-overlay mw-overlay-quick-link"  onclick="mw.templatePreview.zoom();"  ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
 
 				<div id="preview-edit-links">
-
-
-
 
 				<a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>" onclick="mw.e.cancel(event);"> <span class="ico ieditpage"></span><span>
 					<?php _e("Edit Page"); ?>

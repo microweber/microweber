@@ -518,6 +518,9 @@ form.add-edit-page-post textarea{
   color: #4D4D4D;
 }
 
+.manage-post-item a.mw-small{
+  color: #A1A0A0;
+}
 .manage-post-item a:hover{
   text-decoration: underline;
 }
@@ -1947,10 +1950,12 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   background-position: center center;
   overflow:hidden;
   margin-top: 5px;
-  padding: 0 10px 10px;
+  padding: 10px;
 }
 
-
+.preview_frame_wrapper.zoom {
+  padding-top: 0;
+}
 
 .preview_frame_container{
   width:355px;
@@ -1976,17 +1981,17 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 
 .preview_frame_ctrls{
   position: static;
-  height: 22px;
 }
 
 .preview_frame_ctrls .mw-ui-btn{
-  top: -6px;
+  top: -1px;
+  margin-left: 6px;
 }
 
 .preview_frame_ctrls h5{
-  margin:5px;
-  color: #8E8E8E;
-  font-size: 11px;
+ font-size: 18px;
+    font-weight: 200;
+    margin: 5px;
 }
 
 .zoom .preview_frame_ctrls{
@@ -2051,6 +2056,12 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 
 .zoom .preview_frame_ctrls span.close{
   display: inline-block;
+    position: relative;
+
+
+}
+.zoom .preview_frame_ctrls .mw-ui-btn + span.close{
+   top: 6px;
 }
 
 .preview_frame_wrapper.loading{

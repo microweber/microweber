@@ -107,7 +107,7 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 		<div style="width: 395px;margin-left: 30px;" class="left">
 			<?php if(is_array($page_info) and isset($page_info['title'])): ?>
 			<?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
-			<h2 class="hr" style="padding-top: 19px;"><span class="icotype icotype-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
+			<h2 class="hr"><span class="icotype icotype-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
 			<?php endif; ?>
 			<div style="height:335px;" id="mw_page_layout_preview"></div>
 		</div>
@@ -358,50 +358,33 @@ mw.manage_content_sort = function(){
 	<?php  if(isset($params['page-id'])):  ?>
 	<?php
 
+$pt_opts = array();
 
-
-
-
-
-  $pt_opts = array();
-
-  if(isset($params['is_shop'])){
+if(isset($params['is_shop'])){
    $pt_opts['is_shop'] = $params['is_shop'];
- }
+}
 
- if($params['page-id'] == 'global'){
+if($params['page-id'] == 'global'){
   $params['page-id'] = '0';
-} else {
-
-	 // d( $check_if_excist);
 }
 
 $pt_opts['parent'] = $params['page-id'];
 
-
- //  $pt_opts['id'] = "pgs_tree";
 $pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}" href="{url}">{title}</a>';
 $pt_opts['max_level'] = 2;
 if($params['page-id'] == '0'){
  $pt_opts['include_first'] =  false;
  $pt_opts['max_level'] = 1;
-} else {
+}
+
+else {
   $pt_opts['include_first'] = 'yes';
 
 }
 
 
-
-
-
-
-  //
 $pt_opts['include_categories'] = 'yes';
 
-// $pt_opts['debug'] = 2;
-if(isset($params['keyword'])){
-//$pt_opts['keyword'] =$params['keyword'];
-}
 
 mw('content')->pages_tree($pt_opts);
 ?>
@@ -410,16 +393,10 @@ mw('content')->pages_tree($pt_opts);
 	<?php
 $pt_opts = array();
 $pt_opts['parent'] = $params['category-id'];
- //  $pt_opts['id'] = "pgs_tree";
- //	$pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  href="#">{title}</a>';
 
-//$pt_opts['include_first'] = 'yes';
-//$pt_opts['include_categories'] = 'yes';
 $pt_opts['max_level'] = 2;
 
-if(isset($params['keyword'])){
-//$pt_opts['keyword'] =$params['keyword'];
-}
+
 
 mw('category')->tree($pt_opts);
 ?>
@@ -460,33 +437,22 @@ mw.on.hashParam("pg", function(){
    mw.$('#mw_admin_posts_manage').attr("data-page-number", dis);
  }
 
-
-
-     $p_id = $(this).attr('data-page-number');
-     $p_param = $(this).attr('data-paging-param');
-     mw.$('#mw_admin_posts_manage').attr('data-page-number',$p_id);
-     mw.$('#mw_admin_posts_manage').attr('data-page-param',$p_param);
-     mw.$('#mw_admin_posts_manage').removeAttr('data-content-id');
-
-    mw.reload_module('#mw_admin_posts_manage');
-
-
-
-  });
-
-
-
+      $p_id = $(this).attr('data-page-number');
+      $p_param = $(this).attr('data-paging-param');
+      mw.$('#mw_admin_posts_manage').attr('data-page-number',$p_id);
+      mw.$('#mw_admin_posts_manage').attr('data-page-param',$p_param);
+      mw.$('#mw_admin_posts_manage').removeAttr('data-content-id');
+      mw.reload_module('#mw_admin_posts_manage');
+});
 
 mw.on.hashParam("search", function(){
-
  mw.$('#mw_admin_posts_manage').attr("data-type",'content/admin_posts_list');
-
  var dis = this;
- if(dis!==''){
+ if( dis!=='' ){
    mw.$('#mw_admin_posts_manage').attr("data-keyword", dis);
    mw.url.windowDeleteHashParam('<?php print $posts_mod['paging_param'] ?>')
 	   mw.$('#mw_admin_posts_manage').attr("data-page-number", 1);
-    }
+   }
    else{
     mw.$('#mw_admin_posts_manage').removeAttr("data-keyword");
     mw.url.windowDeleteHashParam('search')
@@ -494,7 +460,7 @@ mw.on.hashParam("search", function(){
   mw.reload_module('#mw_admin_posts_manage');
 });
 
-mw.on.moduleReload('#<?php print $params['id'] ?>', function(){   });
+mw.on.moduleReload('#<?php print $params['id'] ?>');
 
 
 

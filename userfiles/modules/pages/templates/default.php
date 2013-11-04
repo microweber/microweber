@@ -13,17 +13,10 @@ description: List Navigation
 ?>
 
 <?php
-    $params['ul_class'] = 'nav nav-list';
-	$params['ul_class_deep'] = 'nav nav-list';
-	$params['return_data'] = true;
- 
+    $params['ul_class'] = 'nav nav-pills nav-stacked';
+	$params['ul_class_deep'] = 'nav nav-pills nav-stacked';
 ?>
-<?php $pages_tree= mw('content')->pages_tree($params);  ?>
- 
-<?php if($pages_tree != ''): ?>
-<div class="pages-nav">
-	<div class="well">
-		<?php print $pages_tree ?>
-	</div>
+
+<div class="well pages-nav">
+	<?php  mw('content')->pages_tree($params);  ?>
 </div>
-<?php endif; ?>

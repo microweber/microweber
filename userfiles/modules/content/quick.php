@@ -130,7 +130,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
     <div class="vSpace"></div>
     <label class="mw-ui-label"><small>Or create new content again</small></label>
     <div class="vSpace"></div>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.reload_module('content/quick')">Create New</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a>
   </div>
 
 
@@ -209,7 +209,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
         
         	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
         	<button type="button" class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
-      
+
     	<?php else: ?> 
     	        	<button type="button" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></button>
 
@@ -275,6 +275,13 @@ mw.edit_content = {};
 
 mw.edit_content.saving = false;
 
+
+
+mw.edit_content.create_new = function(){
+   mw.$('[data-type="content/quick"]').attr("content-id", "0");
+    mw.reload_module('content/quick');
+};
+
 mw.edit_content.load_editor  = function(element_id){
 	 var element_id =  element_id || 'quick_content_<?php print $rand ?>';
 	 var area = mwd.getElementById(element_id);
@@ -298,9 +305,9 @@ mw.edit_content.load_editor  = function(element_id){
         editor.style.width = "100%";
         editor.style.height = "300px";
 	 }
-	 var layout_selector =  mw.$('#mw-quick-add-choose-layout')
+	 var layout_selector =  mw.$('#mw-quick-add-choose-layout');
      if(layout_selector !== null){
-       layout_selector.attr('inherit_from',parent_page);
+       layout_selector.attr('inherit_from', parent_page);
        mw.reload_module('#mw-quick-add-choose-layout');
      }
 }
@@ -400,7 +407,7 @@ mw.edit_content.handle_form_submit = function(go_live){
         var data = mw.serializeFields(el);
         module.addClass('loading');
         mw.content.save(data, {
-          onSuccess:function(){
+          onSuccess:function(a){
               mw.$('.mw-admin-go-live-now-btn').attr('content-id',this);
               if(mw.notification != undefined){
                 mw.notification.success('Content saved!');
@@ -420,6 +427,11 @@ mw.edit_content.handle_form_submit = function(go_live){
                   mw.$("#<?php print $module_id ?>").attr("content-id",this);
                   <?php if($is_quick !=false) : ?>
                   mw.$("#<?php print $module_id ?>").attr("just-saved",this);
+                  <?php else: ?>
+                  if(self === parent){
+                    //var type =  el['subtype'];
+                    mw.url.windowHashParam("action", "editpage:" + this);
+                  }
                   <?php endif; ?>
                   mw.edit_content.after_save();
               }

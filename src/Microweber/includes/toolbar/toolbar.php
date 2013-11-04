@@ -150,16 +150,13 @@
           </div>
 
 
-        <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
+            <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
 
          </div>
 
 
     <div id="modules-and-layouts" style="">
-
-
-
-         <div class="toolbars-search">
+          <div class="toolbars-search">
              <div class="mw-autocomplete left">
                  <input
                       type="mwautocomplete"

@@ -70,16 +70,27 @@
 }
 
 .image_change{
-  display: block;
-  font-family: Verdana, sans-serif;
+  font-family: inherit;
   position: absolute;
-  cursor: pointer;
-  font-size: 10px;
   right: 12px;
   bottom: 10px;
-  padding: 0px 6px;
-  background: white;
   box-shadow:0 0 2px #454545;
+  /************************/
+    background: #F5F5F5;
+    border-color: #DDDDDD;
+    border-radius: 1px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 0 0 #FFFFFF inset;
+    color: #434343;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    line-height: normal;
+    padding: 8px 10px;
+    text-align: center;
+
+  /************************/
 }
 
 .image_change + .image_change{
@@ -226,37 +237,35 @@
   position: relative;
   padding: 0 6px;
   font-size: 11px;
-  line-height: 16px;
   margin-left: 3px;
   color: #5B5B5B;
   text-decoration: none;
   text-align: center;
   cursor: pointer;
-  border: 1px solid #D2D1D1;
   line-height: normal;
-  border-radius: 2px;
+  border-radius: 0;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
 
 }
 
 
 .mw_edit_settings{
-    background: white url(../img/module_setting.png) no-repeat 7px 2px ;
+    background: white url(../img/module_setting.png) no-repeat 7px 4px ;
     display: inline-block;
     line-break: normal;
     white-space: nowrap;
     font-size: 11px;
     color: #3791E3;
-    padding: 1px 5px 1px 25px;
-    border: 1px solid #D8D8D8;
+    padding: 2px 5px 1px 25px;
     line-height: 13px;
-    border-radius:2px
+    border-radius:0;
+    height: 15px;
 }
 
 .mw_edit_settings:hover{
     background-color: #3792E3;
     color: white;
-    background-position: 7px -21px;
+    background-position: 7px -19px;
     border-color: #2680D3;
 }
 
@@ -274,7 +283,7 @@
   line-height: 11px;
 }
 .mw_edit_delete{
-  height: 14px;
+  height: 18px;
   width: 21px;
   padding: 0;
   float: right;
@@ -301,7 +310,7 @@
   height: 8px;
   background: url(../img/delete_item.png) no-repeat;
   left: 7px;
-  top: 3px;
+  top: 5px;
 
 }
 

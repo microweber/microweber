@@ -1,4 +1,4 @@
-<?php 
+<?php
 only_admin_access();
 
 ?><?php if(isset($params['order-id']) == true): ?>
@@ -80,26 +80,26 @@ save:function(){
               </tr>
             </thead>
             <tbody>
-              <tr class="last">
-                <td><input type="hidden" name="id"   value="<?php print $client['id'] ?>" />
-<?php // d( $client); ?>
-
-                  <input class="left" type="text" name="first_name" value="<?php print $client['first_name'] ?>" />
-                  <input class="right" type="text" name="last_name" value="<?php print $client['last_name'] ?>" />
-                  <span class="val"><?php print $client['first_name'] ?></span> <span class="val"><?php print $client['last_name'] ?></span></td>
-                  <td><input type="text" name="email" value="<?php print $client['email'] ?>" />
+                  <tr class="last">
+                    <td>
+                    <input type="hidden" name="id"   value="<?php print $client['id'] ?>" />
+                    <input class="left mw-ui-field" type="text" name="first_name" value="<?php print $client['first_name'] ?>" />
+                    <input class="right mw-ui-field" type="text" name="last_name" value="<?php print $client['last_name'] ?>" />
+                    <span class="val"><?php print $client['first_name'] ?></span> <span class="val"><?php print $client['last_name'] ?></span></td>
+                    <td>
+                    <input type="text" class="mw-ui-field" name="email" value="<?php print $client['email'] ?>" />
                     <span class="val"><?php print $client['email'] ?></span></td>
-                    <td><input type="text" name="phone" value="<?php print $client['phone'] ?>" />
-                      <span class="val"><?php print $client['phone'] ?></span></td>
-                      <td><input type="text" name="country" value="<?php print $client['country'] ?>" />
-                        <span class="val"><?php print $client['country'] ?></span></td>
-                        <td><input type="text" name="city" value="<?php print $client['city'] ?>" />
-                          <span class="val"><?php print $client['city'] ?></span></td>
-                          <td><input type="text" name="state" value="<?php print $client['state'] ?>" />
-                            <span class="val"><?php print $client['state'] ?></span></td>
-                            <td><input type="text" name="zip" value="<?php print $client['zip'] ?>" />
-                              <span class="val"><?php print $client['zip'] ?></span></td>
-                            </tr>
+                    <td><input type="text" class="mw-ui-field" name="phone" value="<?php print $client['phone'] ?>" />
+                    <span class="val"><?php print $client['phone'] ?></span></td>
+                    <td><input type="text" class="mw-ui-field" name="country" value="<?php print $client['country'] ?>" />
+                    <span class="val"><?php print $client['country'] ?></span></td>
+                    <td><input type="text" class="mw-ui-field" name="city" value="<?php print $client['city'] ?>" />
+                    <span class="val"><?php print $client['city'] ?></span></td>
+                    <td><input type="text" class="mw-ui-field" name="state" value="<?php print $client['state'] ?>" />
+                    <span class="val"><?php print $client['state'] ?></span></td>
+                    <td><input type="text" class="mw-ui-field" name="zip" value="<?php print $client['zip'] ?>" />
+                    <span class="val"><?php print $client['zip'] ?></span></td>
+                  </tr>
                           </tbody>
                         </table>
                         <div class="vSpace"></div>
@@ -113,9 +113,9 @@ save:function(){
                           </thead>
                           <tbody>
                             <tr class="last">
-                              <td width="50%"><input style="width:380px" type="text" name="address" value="<?php print $client['address'] ?>" />
+                              <td width="50%"><input style="width:350px" class="mw-ui-field" type="text" name="address" value="<?php print $client['address'] ?>" />
                                 <span class="val"><?php print $client['address'] ?></span></td>
-                                <td width="50%"><input  style="width:380px"type="text" name="address2" value="<?php print $client['address2'] ?>" />
+                                <td width="50%"><input  style="width:350px" type="text" class="mw-ui-field" name="address2" value="<?php print $client['address2'] ?>" />
                                   <span class="val"><?php print $client['address2'] ?></span></td>
                                 </tr>
                               </tbody>

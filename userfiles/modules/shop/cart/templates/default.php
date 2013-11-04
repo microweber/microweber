@@ -11,7 +11,7 @@ description: Default cart template
 */
 
 ?>
-
+<script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
 <div class="mw-cart mw-sidebar-cart mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>">
 
   <?php if(is_array($data)) :?>

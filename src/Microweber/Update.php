@@ -530,6 +530,11 @@ class Update
         }
 
         $params['site_url'] = $this->app->url->site();
+        $params['function_name'] = 'send_lang_form_to_microweber';
+
+
+
+
         $result = $this->call('send_anonymous_server_data', $params);
         return $result;
     }
@@ -563,13 +568,13 @@ class Update
 
             //$post_params = $this->http_build_query_for_curl($post_params);
 
-            $post_paramsbase64 = base64_encode(serialize($post_params));
-            $post_paramssjon = base64_encode(json_encode($post_params));
+           // $post_paramsbase64 = base64_encode(serialize($post_params));
+           // $post_paramssjon = base64_encode(json_encode($post_params));
 
-            $post_params_to_send = array('base64' => $post_paramsbase64, 'base64js' => $post_paramssjon,'serialized' => serialize($post_params));
+           // $post_params_to_send = array('base64' => $post_paramsbase64, 'base64js' => $post_paramssjon,'serialized' => serialize($post_params));
 
-            $result1 = $curl->post($post_params_to_send);
-
+           // $result1 = $curl->post($post_params_to_send);
+            $result1 = $curl->post($post_params);
         } else {
             $result1 = false;
             // $result1 = $curl->post($post_params_to_send);
@@ -586,7 +591,7 @@ class Update
             $result = json_decode($result1, 1);
         }
         if ($result == false) {
-            print $result1;
+            //print $result1;
         }
         return $result;
     }

@@ -124,7 +124,7 @@ function mw_select_page_for_editing($p_id){
 	 
 	 
 	 
-	 
+
 	 if(active_item_is_category != undefined){
         mw.$('#pages_edit_container').attr('data-parent-category-id',active_item_is_category);
         var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
@@ -485,29 +485,7 @@ function mw_add_product(){
       <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
     </div>
     <div class="mw_edit_page_right">
-      <script>
 
-  /*  $(document).ready(function(){
-
-        var def = '<?php _e("Search for posts"); ?>';
-        var field = mw.$("#mw-search-field");
-        field.bind('keyup focus blur', function(event){
-           mw.form.dstatic(event, def);
-           if(event.type=='keyup'){
-              mw.on.stopWriting(this, function(){
-                 this.value !== def ? mw.url.windowHashParam('search',this.value) : '';
-              });
-           }
-        });
-
-
-
-    });
-*/
-
-
-
-    </script>
       <div style="padding-left: 0;">
         <div class="top_label">
 

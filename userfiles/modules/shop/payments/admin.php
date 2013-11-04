@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if(!is_admin()){
 return;	
@@ -146,7 +146,7 @@ mw.$("#available_providers").sortable({
 	padding: 5px 0;
 }
 .payment-state-status {
-	padding: 12px;
+	padding: 12px 12px 5px;
 	display: inline-block;
 	margin-top: 12px;
 	transition: all 200ms;
@@ -214,7 +214,8 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 	<div class="mw-o-box has-options-bar">
 		<div class="mw-o-box-header" style="margin-bottom: 0;"> <span class="ico ioptions"></span> <span>
 			<?php _e("Options"); ?>
-			</span> </div>
+			</span>
+        </div>
 		<div class="mw-o-box-content" style="padding: 0;">
 			<div class="options-bar" style="margin-right: 0;">
 				<div class="mw-admin-side-nav">
@@ -240,14 +241,11 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 					<div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
 						<?php foreach($payment_modules  as $payment_module): ?>
 							<?php 
-
-			
-			        $module_info = (module_info($payment_module['module']));
- if(!isset($module_info['id']) or $module_info['id'] == false){
-	$module_info['id'] = 0; 
- }
-			 
-			 ?>
+    			                 $module_info = (module_info($payment_module['module']));
+                                 if(!isset($module_info['id']) or $module_info['id'] == false){
+                                	$module_info['id'] = 0;
+                                 }
+			                ?>
 						<div class="mw-o-box mw-o-box-accordion mw-accordion-active" id="module-db-id-<?php print $module_info['id'] ?>">
 						
 							<div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
@@ -259,7 +257,8 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 								<label class="mw-ui-label">
 								<h3><?php print $payment_module['name'] ?>:</h3>
 								<div class="mw-o-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
-									<label class="mw-ui-check">
+                                 <div class="mw-ui-check-selector">
+                                <label class="mw-ui-check">
 										<input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
 										<span></span> <span class="first">
 										<?php _e("Enabled"); ?>
@@ -269,6 +268,8 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 										<span></span> <span class="second">
 										<?php _e("Disabled"); ?>
 										</span> </label>
+                                    </div>
+
 								</div>
 								<div class="mw_clear"></div>
 								<div class="vSpace"></div>
@@ -288,11 +289,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 					<h2>Currency settings</h2>
 					<?php ?>
 					<?php $cur = get_option('currency', 'payments');  ?>
-					<?php $curencies = mw('shop')->currency_get(); 
-		  
-		  
-		  
-		  ?>
+					<?php $curencies = mw('shop')->currency_get();  ?>
 					<?php if(is_array($curencies )): ?>
 					<div class="mw-ui-select">
 						<select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
