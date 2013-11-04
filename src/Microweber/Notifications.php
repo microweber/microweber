@@ -7,6 +7,8 @@ namespace Microweber;
 api_expose('Notifications/delete');
 //api_expose('Notifications/save');
 api_expose('Notifications/reset');
+api_expose('Notifications/read');
+
 api_expose('Notifications/mark_all_as_read');
 
 //event_bind('mw_db_init', mw('notifications')->db_init());
@@ -48,6 +50,19 @@ class Notifications
 
     public function read($id)
     {
+        if (defined('MW_API_CALL')) {
+            $is_admin = $this->app->user->is_admin();
+            if ($is_admin == false) {
+                return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
+            }
+        }
+
+
+
+        if (is_array($id)) {
+            $id = array_pop($id);
+        }
+
         $params = array();
         $params['id'] = trim($id);
         $params['one'] = true;

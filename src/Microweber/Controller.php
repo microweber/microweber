@@ -2063,15 +2063,17 @@ class Controller
 
 
         }
-        if (isset($page['content']) and $page['content'] == '') {
-            if (isset($page['content_type']) and $page['content_type'] != 'page') {
+
+        if (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
+
+            //if (isset($page['content_type']) and $page['content_type'] != 'page') {
                 $render_file = $this->app->content->get_layout($page);
 
                 $page['render_file'] = $render_file;
                 $l = new $this->app->view($page['render_file']);
                 $l = $l->__toString();
                 $page['content'] = $this->app->parser->isolate_content_field($l);
-            }
+         //   }
 
         }
         if (isset($page['content'])) {

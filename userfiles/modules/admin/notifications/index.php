@@ -40,7 +40,12 @@ $is_quick = $notif_params['quick'];
 ?>
 <script  type="text/javascript">
 
-
+mw.notif_item_read = function($item_id){
+     	  $.get("<?php print site_url('api/Notifications/read'); ?>?id="+$item_id, function(){
+  
+    	  });
+ 
+}
 mw.notif_item_delete = function($item_id){
      mw.tools.confirm(mw.msg.del, function(){
     	  $.get("<?php print site_url('api/Notifications/delete'); ?>?id="+$item_id, function(){
@@ -126,7 +131,7 @@ mw.notif_mark_all_as_read = function(){
 
 		<tbody>
 			<?php foreach($data  as $item): ?>
-			<tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?>mw-success<?php endif; ?>">
+			<tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?>mw-success<?php endif; ?>" <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?> onclick="mw.notif_item_read('<?php print $item['id'] ?>');" <?php endif; ?>>
 				<?php
   	    $mod_info = false;
   	    if(isset($item['module']) and $item['module'] != ''){

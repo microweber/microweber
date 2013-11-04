@@ -805,3 +805,5 @@ $language["show-categories-from"]= 'Show Categories From' ;
 $language["you-are-using-paypal-express-in-test-mode"]= 'You are using Paypal Express in test mode!' ; 
 $language["select-category-to-edit"]= 'Select category to edit' ; 
 $language["can-users-create-content"]= 'Can users create content' ; 
+$language["this-item-is-out-of-stock-and-cannot-be-ordered"]= 'This item is out of stock and cannot be ordered' ; 
+$language["out-of-stock"]= 'Out of stock' ; 

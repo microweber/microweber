@@ -299,9 +299,7 @@
   border-color: #2680D3;
 }
 
-.mw_edit_delete_element .mw_edit_delete span{
-  background-position: 0 -8px;
-}
+
 
 .mw_edit_delete span{
   position: absolute;
@@ -312,6 +310,11 @@
   left: 7px;
   top: 5px;
 
+}
+
+
+.mw_edit_delete_element .mw_edit_delete span{
+  background-position: 0 -16px;
 }
 
 
@@ -330,6 +333,7 @@ background: url(../img/grad.php?top=FF7C7C&bot=FF1313);
 
 .mw_edit_delete_element .mw_edit_delete{
   background-color: #3792E3;
+  background-color: #fff;
   border-color: #2680D3;
 }
 
@@ -1999,6 +2003,15 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
 .mw-success, table tbody tr.mw-success:nth-child(n){background-color:#D8FFC4;}
 .mw-warning, table tbody tr.mw-warning:nth-child(n){background-color:#FFFD8C;}
 .mw-error, table tbody tr.mw-error:nth-child(n){background-color:#FE4B59;color: white; }
+
+
+table tbody tr.mw-success > td{
+     background-color:#D8FFC4 !important;
+}
+
+table tbody tr.mw-warning > td{
+     background-color:#FFFD8C !important;
+}
 
 #mw-notifications-holder{
   position: relative;
