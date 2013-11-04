@@ -250,7 +250,7 @@
 
 
 .mw_edit_settings{
-    background: white url(../img/module_setting.png) no-repeat 7px 4px ;
+    background: white url(../img/module_setting.png) no-repeat 7px 4px;
     display: inline-block;
     line-break: normal;
     white-space: nowrap;
@@ -261,6 +261,10 @@
     border-radius:0;
     height: 15px;
     border: 1px solid #D8D8D8;
+
+
+    margin-left: 30px;
+    float: left;
 }
 
 .mw_edit_settings:hover{
@@ -279,8 +283,8 @@
 
 .mw_col_delete{
   position: absolute;
-  right: 3px;
-  top: 3px;
+  right: 0px;
+  top: -1px;
   line-height: 11px;
 }
 .mw_edit_delete{
@@ -438,6 +442,9 @@ body.loaded #live_edit_toolbar{
   text-align: center;
   cursor: pointer;
   margin: 0 5px;
+}
+.mw_action_nav.not-active{
+  opacity: 0.5;
 }
 
 .mw_action_nav label{
@@ -616,7 +623,7 @@ body.view-shop .mw_action_post{
 }     */
 
 
-#mw_edit_page_left .is_home > a{
+#mw_edit_page_left .is_home > a, .mw-tree .is_home > a, .mw-tree .is_home > label{
   background-image: url(../img/is_home.gif);
 }
 

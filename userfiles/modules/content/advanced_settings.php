@@ -47,8 +47,9 @@ $show_page_settings = 1;
 <?php if($show_page_settings != false): ?>
 <div class="mw-ui-check-selector">
 	<div class="mw-ui-label left" style="width: 130px">
+        <span class="ico ihome" style="top: -6px;margin-right: 15px;"></span>
 		<?php _e("Is Home"); ?>
-		?</div>
+		<small class="mw-help" data-help="<?php _e("If yes this page will be your Home"); ?>">(?)</small></div>
 	<label class="mw-ui-check">
 		<input name="is_home" type="radio"  value="n" <?php if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
 		<span></span><span>
@@ -63,6 +64,7 @@ $show_page_settings = 1;
 <div class="mw_clear vSpace"></div>
 <div class="mw-ui-check-selector">
 	<div class="mw-ui-label left" style="width: 130px">
+    <span class="ico inavshop" style="top: -6px;margin-right: 15px;"></span>
 		<?php _e("Is Shop"); ?>
 		<small class="mw-help" data-help="<?php _e("If yes this page will accept products to be added to it"); ?>">(?)</small></div>
 	<label class="mw-ui-check">

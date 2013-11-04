@@ -68,7 +68,7 @@ class Notifications
         $params['one'] = true;
 
         $get = $this->get($params);
-
+    //    d($get);
         if ($get != false and isset($get['is_read']) and $get['is_read'] == 'n') {
             $save = array();
             $save['id'] = $get['id'];
@@ -76,6 +76,7 @@ class Notifications
             $table = MW_DB_TABLE_NOTIFICATIONS;
             mw_var('FORCE_SAVE', $table);
             $data = $this->app->db->save($table, $save);
+            $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . $data);
             $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         }

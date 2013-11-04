@@ -417,15 +417,19 @@ function mw_add_product(){
 
 
 
+        <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
+          <label><?php _e("Post"); ?></label>
+          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipost"></span></span>
+        </a>
 
-
-
-
+        <a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
+          <label><?php _e("Product"); ?></label>
+          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico iproduct"></span></span>
+        </a>
 
         <a href="#action=new:page" class="mw_action_nav mw_action_page" id="action_new_page" onclick="mw.url.windowHashParam('action','new:page');mw.url.windowDeleteHashParam('parent-page');return false;">
           <label><?php _e("Page"); ?></label>
           <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipage"></span></span>
-
         </a>
 
         <a href="#action=new:page" class="mw_action_nav mw_action_sub_page"  id="action_new_sub_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
@@ -433,33 +437,10 @@ function mw_add_product(){
           <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipage"></span></span>
         </a>
 
-
-        <?php if((isset($params['is_shop']) and $params['is_shop'] == 'y') or isset($is_shop)): ?>
-
-  <?php else :  ?>
-   <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
- <label><?php _e("Post"); ?></label>
-        <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipost"></span></span>
+        <a href="#action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
+          <label><?php _e("Category"); ?></label>
+          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico icategory"></span></span>
         </a>
-<?php endif; ?>
-
-
-
-<a href="#action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
-        <label><?php _e("Category"); ?></label>
-        <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico icategory"></span></span>
-        </a> <a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
-        <label><?php _e("Product"); ?></label>
-        <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico iproduct"></span></span>
-        </a>
-        <?php /*  <button onclick="mw_set_edit_categories()">mw_set_edit_categories</button>
-        <button onclick="mw_set_edit_posts()">mw_set_edit_posts</button>
- */ ?>
-
-
-
-
-
 
       </div>
 
