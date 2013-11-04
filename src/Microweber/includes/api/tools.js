@@ -623,7 +623,7 @@ mw.tools = {
         var cls = el.className;
         if(mw.tools.hasClass(cls, 'mw_dropdown_activated')) { continue; }
         mw.tools.addClass(el, 'mw_dropdown_activated');
-        mw.$(el).bind("mouseup", function(event){
+        mw.$(el).bind("click", function(event){
           if(!mw.tools.hasClass(event.target.className, 'mw_dropdown_fields') && !mw.tools.hasClass(event.target.className, 'dd_search')){
             $(this).toggleClass("active");
             $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
@@ -1422,7 +1422,7 @@ mw.tools = {
 
     var tagholder = $(obj.tagholder);
     var field = mw.$('input[type="text"]', tagholder[0]);
-    
+
     if(field == null){
       return false;
     }
@@ -1517,10 +1517,16 @@ mw.tools = {
     o.rend(tagMethod, 'all');
 
     tagholder.click(function(e){
-      if(itemsWrapper.style.display == 'block'){
-        itemsWrapper.style.display = 'none';
-        return false;
+
+      if(e.target.tagName == 'INPUT' || e.target === this){
+          if(itemsWrapper.style.display == 'block'){
+            itemsWrapper.style.display = 'none';
+            return false;
+          }
       }
+
+
+
       if(e.target.tagName != 'INPUT'){ field.focus(); }
 
         itemsWrapper.style.top = '100%';

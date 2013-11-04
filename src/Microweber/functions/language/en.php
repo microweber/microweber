@@ -830,3 +830,4 @@ $language["suggested"]= 'Suggested' ;
 $language["use"]= 'use' ; 
 $language["go-to-link"]= 'Go to link' ; 
 $language["open-a-pop-up-window"]= 'Open a pop-up window' ; 
+$language["posted-on"]= 'Posted on' ; 
