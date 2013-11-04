@@ -176,13 +176,9 @@ $(document).ready(function(){
     });
 
   mw.$("#mw_set_template_style").bind("change", function(){
-	  
 	   var val = $(this).val();
-        mw.$("#import_css").val('url("'+val+'")');
-		
-		
-		
-         mw.tpl.save();
+       mw.$("#import_css").val('url("'+val+'")');
+       mw.tpl.save();
     });
 
     mw.$("#font_family").setDropdownValue(mw.$("#font").val());

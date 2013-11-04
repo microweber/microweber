@@ -408,6 +408,8 @@ mw.wysiwyg = {
         }
         if( event.keyCode == 46  && event.type=='keydown'){
             mw.tools.removeClass(mw.image_resizer, 'active');
+            mw.tools.addClass(mw.tools.firstParentWithClass(event.target, 'edit'), 'changed _origchanged');
+            mw.askusertostay = true;
         }
 
 
