@@ -1417,6 +1417,7 @@ mw.tools = {
     var itemsWrapper = obj.itemsWrapper;
 
     if (itemsWrapper == null) return false;
+    $(itemsWrapper).hide();
     var items = obj.itemsWrapper.querySelectorAll(obj.items);
     var tagMethod = obj.method || 'parse';
 
@@ -1518,15 +1519,6 @@ mw.tools = {
 
     tagholder.click(function(e){
 
-      if(e.target.tagName == 'INPUT' || e.target === this){
-          if(itemsWrapper.style.display == 'block'){
-            itemsWrapper.style.display = 'none';
-            return false;
-          }
-      }
-
-
-
       if(e.target.tagName != 'INPUT'){ field.focus(); }
 
         itemsWrapper.style.top = '100%';
@@ -1561,7 +1553,7 @@ mw.tools = {
 
            tagholder.hover(function(){$(this).addClass('mw-tagger-hover')}, function(){$(this).removeClass('mw-tagger-hover')});
            $(itemsWrapper).hover(function(){$(this).addClass('mw-tagger-hover')}, function(){$(this).removeClass('mw-tagger-hover')});
-           $(mwd.body).bindMultiple('mousedown', function(){
+           $(mwd.body).bind('mousedown', function(e){
                if(mw.$(".mw-tagger-hover").length==0){
                    itemsWrapper.style.display = 'none';
                    if(mw.$('.mw-ui-btn', tagholder).length==0){
@@ -1570,7 +1562,6 @@ mw.tools = {
                    else{
                       field.val('');
                    }
-
                    $(items).show();
                }
            });

@@ -129,6 +129,14 @@ $(window).load(function(){
 
 
 
+
+      $(mwd.body).bind('mousedown', function(e){
+        parent.mw.$(".mw-ui-category-selector").hide();
+      });
+
+
+
+
 })
 
 

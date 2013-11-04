@@ -133,7 +133,7 @@
   position: relative;
   background-color: transparent;
   background-repeat: no-repeat;
-  background-image: url(../img/quick.icons.png);
+  background-image: url(../img/quick.icons.png?v=3);
 }
 .ico[onclick]{
   cursor: pointer;
