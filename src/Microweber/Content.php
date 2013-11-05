@@ -142,8 +142,6 @@ class Content
         }
 
 
-
-
         $surl = $this->app->url->site();
         if (!stristr($link['url'], $surl)) {
             $link = site_url($link['url']);
@@ -257,7 +255,6 @@ class Content
             //   $this->define_constants();
         }
 
-        global $mw_global_content_memory;
         $params2 = array();
 
         if (is_string($params)) {
@@ -300,43 +297,32 @@ class Content
 
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
-            if (isset($get['id'])) {
-                if (!isset($mw_global_content_memory[$get['id']])) {
-                    if (isset($get['url'])) {
-                        $get['url'] = $this->app->url->site($get['url']);
-                    }
-                    if (isset($get['title'])) {
-                        $get['title'] = html_entity_decode($get['title']);
-                        $get['title'] = strip_tags($get['title']);
-                        $get['title'] = $this->app->format->clean_html($get['title']);
-                    }
-                    if (isset($get['id'])) {
-                        $mw_global_content_memory[$get['id']] = $get;
-                    }
-                } else {
-                    $get = $mw_global_content_memory[$get['id']];
-                }
+
+            if (isset($get['url'])) {
+                $get['url'] = $this->app->url->site($get['url']);
             }
+            if (isset($get['title'])) {
+                $get['title'] = html_entity_decode($get['title']);
+                $get['title'] = strip_tags($get['title']);
+                $get['title'] = $this->app->format->clean_html($get['title']);
+            }
+
+
             return $get;
         }
         if (is_array($get)) {
             $data2 = array();
             foreach ($get as $item) {
-                if (!isset($mw_global_content_memory[$item['id']])) {
-                    if (isset($item['url'])) {
-                        $item['url'] = $this->app->url->site($item['url']);
-                    }
-                    if (isset($item['title'])) {
-                        $item['title'] = html_entity_decode($item['title']);
-                        $item['title'] = strip_tags($item['title']);
-                        $item['title'] = $this->app->format->clean_html($item['title']);
-                    }
-                    if (isset($item['id'])) {
-                        $mw_global_content_memory[$item['id']] = $item;
-                    }
-                } else {
-                    $item = $mw_global_content_memory[$item['id']];
+
+                if (isset($item['url'])) {
+                    $item['url'] = $this->app->url->site($item['url']);
                 }
+                if (isset($item['title'])) {
+                    $item['title'] = html_entity_decode($item['title']);
+                    $item['title'] = strip_tags($item['title']);
+                    $item['title'] = $this->app->format->clean_html($item['title']);
+                }
+
 
                 $data2[] = $item;
             }
@@ -435,7 +421,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+           return $cache_content;
         }
 
 
@@ -522,6 +508,7 @@ class Content
                     $render_file = $f3;
                 } else {
                     $check_inner = dirname($render_file);
+
                     if (is_dir($check_inner)) {
                         $in_file = $check_inner . DS . 'inner.php';
                         $in_file = normalize_path($in_file, false);
@@ -611,6 +598,9 @@ class Content
                 $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
             }
 
+
+
+
         }
 
         if ($render_file == false and isset($page['simply_a_file'])) {
@@ -661,6 +651,8 @@ class Content
 
         if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
             if ($look_for_post != false) {
+
+
                 $f1 = $page['layout_file'];
                 $stringA = $f1;
                 $stringB = "_inner";
@@ -674,6 +666,7 @@ class Content
 
                     $template_view = TEMPLATES_DIR . $page['active_site_template'] . DS . $f1;
                 }
+
                 if (is_file($template_view) == true) {
                     $render_file = $template_view;
                 } else {
@@ -817,15 +810,6 @@ class Content
             return false;
         }
 
-        global $mw_global_content_memory;
-        if (!is_array($mw_global_content_memory)) {
-            $mw_global_content_memory = array();
-        }
-        if (!is_array($id)) {
-            if (isset($mw_global_content_memory[$id])) {
-                return $mw_global_content_memory[$id];
-            }
-        }
 
         // ->'content';
         $table = MW_DB_TABLE_CONTENT;
@@ -858,14 +842,10 @@ class Content
 
             }
         } else {
-            if (!is_array($id)) {
-                $mw_global_content_memory[$id] = false;
-            }
+
             return false;
         }
-        if (!is_array($id)) {
-            $mw_global_content_memory[$id] = $content;
-        }
+
         return $content;
     }
 
@@ -2136,167 +2116,177 @@ class Content
             }
             $res_count = 0;
             foreach ($result as $item) {
-                $skip_me_cause_iam_removed = false;
-                if (is_array($remove_ids) == true) {
+                if (is_array($item) != false and isset($item['title'])) {
+                    $skip_me_cause_iam_removed = false;
+                    if (is_array($remove_ids) == true) {
 
-                    if (in_array($item['id'], $remove_ids)) {
+                        if (in_array($item['id'], $remove_ids)) {
 
-                        $skip_me_cause_iam_removed = true;
-                    }
-                }
-
-                if ($skip_me_cause_iam_removed == false) {
-
-                    $output = $output . $item['title'];
-
-                    $content_type_li_class = false;
-
-                    switch ($item ['subtype']) {
-
-                        case 'dynamic' :
-                            $content_type_li_class = 'have_category';
-
-
-                            break;
-
-                        case 'module' :
-                            $content_type_li_class = 'is_module';
-
-                            break;
-
-                        default :
-                            $content_type_li_class = 'is_page';
-
-                            break;
+                            $skip_me_cause_iam_removed = true;
+                        }
                     }
 
+                    if ($skip_me_cause_iam_removed == false) {
 
-                    //$content_type_li_class .=' ' .$item ['layout_file'];
+                        $output = $output . $item['title'];
 
-                    if (isset($item ['layout_file']) and stristr($item ['layout_file'], 'blog')) {
-                        $content_type_li_class = ' is_blog';
+                        $content_type_li_class = false;
 
-                    }
+                        switch ($item ['subtype']) {
 
-
-                    if ($item['is_home'] != 'y') {
-
-                    } else {
-
-                        $content_type_li_class .= ' is_home';
-                    }
-                    $st_str = '';
-                    $st_str2 = '';
-                    $st_str3 = '';
-                    if (isset($item['subtype']) and trim($item['subtype']) != '') {
-                        $st_str = " data-subtype='{$item['subtype']}' ";
-                    }
-
-                    if (isset($item['subtype_value']) and trim($item['subtype_value']) != '') {
-                        $st_str2 = " data-subtype-value='{$item['subtype_value']}' ";
-                    }
-
-                    if (isset($item['is_shop']) and trim($item['is_shop']) == 'y') {
-                        $st_str3 = " data-is-shop=true ";
-                        $content_type_li_class .= ' is_shop';
-                    }
-                    $iid = $item['id'];
+                            case 'dynamic' :
+                                $content_type_li_class = 'have_category';
 
 
-                    $to_pr_2 = "<{$list_item_tag} class='{$li_class} $content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {exteded_classes}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='" . addslashes($item['title']) . "' >";
+                                break;
 
-                    if ($link != false) {
+                            case 'module' :
+                                $content_type_li_class = 'is_module';
+
+                                break;
+
+                            default :
+                                $content_type_li_class = 'is_page';
+
+                                break;
+                        }
 
 
-                        $active_parent_class = '';
-                        //if(isset($item['parent']) and intval($item['parent']) != 0){
-                        if (intval($item['parent']) != 0 and intval($item['parent']) == intval(MAIN_PAGE_ID)) {
-                            $active_parent_class = 'active-parent';
-                        } elseif (intval($item['id']) == intval(MAIN_PAGE_ID)) {
-                            $active_parent_class = 'active-parent';
+                        //$content_type_li_class .=' ' .$item ['layout_file'];
+
+                        if (isset($item ['layout_file']) and stristr($item ['layout_file'], 'blog')) {
+                            $content_type_li_class = ' is_blog';
+
+                        }
+
+
+                        if ($item['is_home'] != 'y') {
+
                         } else {
+
+                            $content_type_li_class .= ' is_home';
+                        }
+                        $st_str = '';
+                        $st_str2 = '';
+                        $st_str3 = '';
+                        if (isset($item['subtype']) and trim($item['subtype']) != '') {
+                            $st_str = " data-subtype='{$item['subtype']}' ";
+                        }
+
+                        if (isset($item['subtype_value']) and trim($item['subtype_value']) != '') {
+                            $st_str2 = " data-subtype-value='{$item['subtype_value']}' ";
+                        }
+
+                        if (isset($item['is_shop']) and trim($item['is_shop']) == 'y') {
+                            $st_str3 = " data-is-shop=true ";
+                            $content_type_li_class .= ' is_shop';
+                        }
+                        $iid = $item['id'];
+
+
+                        $to_pr_2 = "<{$list_item_tag} class='{$li_class} $content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {exteded_classes}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='" . addslashes($item['title']) . "' >";
+
+                        if ($link != false) {
+
+
                             $active_parent_class = '';
-                        }
+                            //if(isset($item['parent']) and intval($item['parent']) != 0){
+                            if (intval($item['parent']) != 0 and intval($item['parent']) == intval(MAIN_PAGE_ID)) {
+                                $active_parent_class = 'active-parent';
+                            } elseif (intval($item['id']) == intval(MAIN_PAGE_ID)) {
+                                $active_parent_class = 'active-parent';
+                            } else {
+                                $active_parent_class = '';
+                            }
 
-                        //}
-                        if ($item['id'] == CONTENT_ID) {
-                            $active_class = 'active';
-                        } elseif (isset($active_ids) and !is_array($active_ids) and $item['id'] == $active_ids) {
-                            $active_class = 'active';
-                        } elseif ($item['id'] == PAGE_ID) {
-                            $active_class = 'active';
-                        } elseif ($item['id'] == POST_ID) {
-                            $active_class = 'active';
-                        } elseif (CATEGORY_ID != false and intval($item['subtype_value']) != 0 and $item['subtype_value'] == CATEGORY_ID) {
-                            $active_class = 'active';
-                        } else {
-                            $active_class = '';
-                        }
-
-
-                        $ext_classes = '';
-                        if ($res_count == 0) {
-                            $ext_classes .= ' first-child ';
-                            $ext_classes .= ' child-' . $res_count . '';
-                        } else if (!isset($result[$res_count + 1])) {
-                            $ext_classes .= ' last-child';
-                            $ext_classes .= ' child-' . $res_count . '';
-                        } else {
-                            $ext_classes .= ' child-' . $res_count . '';
-                        }
-
-                        if (isset($item['parent']) and intval($item['parent']) > 0) {
-                            $ext_classes .= ' have-parent';
-                        }
+                            //}
+                            if ($item['id'] == CONTENT_ID) {
+                                $active_class = 'active';
+                            } elseif (isset($active_ids) and !is_array($active_ids) and $item['id'] == $active_ids) {
+                                $active_class = 'active';
+                            } elseif ($item['id'] == PAGE_ID) {
+                                $active_class = 'active';
+                            } elseif ($item['id'] == POST_ID) {
+                                $active_class = 'active';
+                            } elseif (CATEGORY_ID != false and intval($item['subtype_value']) != 0 and $item['subtype_value'] == CATEGORY_ID) {
+                                $active_class = 'active';
+                            } else {
+                                $active_class = '';
+                            }
 
 
-                        if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
-                            $ext_classes .= ' have-category';
-                        }
+                            $ext_classes = '';
+                            if ($res_count == 0) {
+                                $ext_classes .= ' first-child ';
+                                $ext_classes .= ' child-' . $res_count . '';
+                            } else if (!isset($result[$res_count + 1])) {
+                                $ext_classes .= ' last-child';
+                                $ext_classes .= ' child-' . $res_count . '';
+                            } else {
+                                $ext_classes .= ' child-' . $res_count . '';
+                            }
 
-                        if (isset($item['is_active']) and $item['is_active'] == 'n') {
-
-                            $ext_classes = $ext_classes . ' content-unpublished ';
-                        }
-
-                        $ext_classes = trim($ext_classes);
-                        $the_active_class = $active_class;
-
-
-                        $to_print = str_replace('{id}', $item['id'], $link);
-                        $to_print = str_replace('{active_class}', $active_class, $to_print);
-                        $to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
-                        $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
-                        $to_pr_2 = str_replace('{exteded_classes}', $ext_classes, $to_pr_2);
-                        $to_pr_2 = str_replace('{active_class}', $active_class, $to_pr_2);
-                        $to_pr_2 = str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
+                            if (isset($item['parent']) and intval($item['parent']) > 0) {
+                                $ext_classes .= ' have-parent';
+                            }
 
 
-                        $to_print = str_replace('{title}', $item['title'], $to_print);
+                            if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
+                                $ext_classes .= ' have-category';
+                            }
 
-                        $to_print = str_replace('{nest_level}', 'depth-' . $nest_level, $to_print);
-                        if (strstr($to_print, '{link}')) {
-                            $to_print = str_replace('{link}', page_link($item['id']), $to_print);
-                        }
-                        $empty1 = intval($nest_level);
-                        $empty = '';
-                        for ($i1 = 0; $i1 < $empty1; $i1++) {
-                            $empty = $empty . '&nbsp;&nbsp;';
-                        }
-                        $to_print = str_replace('{empty}', $empty, $to_print);
+                            if (isset($item['is_active']) and $item['is_active'] == 'n') {
+
+                                $ext_classes = $ext_classes . ' content-unpublished ';
+                            }
+
+                            $ext_classes = trim($ext_classes);
+                            $the_active_class = $active_class;
 
 
-                        if (strstr($to_print, '{tn}')) {
-                            $to_print = str_replace('{tn}', thumbnail($item['id'], 'original'), $to_print);
-                        }
-                        foreach ($item as $item_k => $item_v) {
-                            $to_print = str_replace('{' . $item_k . '}', $item_v, $to_print);
-                        }
-                        $res_count++;
-                        if (isset($active_ids) and is_array($active_ids) == true) {
-                            $is_there_active_ids = false;
-                            foreach ($active_ids as $active_id) {
-                                if (intval($item['id']) == intval($active_id)) {
+                            $to_print = str_replace('{id}', $item['id'], $link);
+                            $to_print = str_replace('{active_class}', $active_class, $to_print);
+                            $to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
+                            $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
+                            $to_pr_2 = str_replace('{exteded_classes}', $ext_classes, $to_pr_2);
+                            $to_pr_2 = str_replace('{active_class}', $active_class, $to_pr_2);
+                            $to_pr_2 = str_replace('{active_parent_class}', $active_parent_class, $to_pr_2);
+
+
+                            $to_print = str_replace('{title}', $item['title'], $to_print);
+
+                            $to_print = str_replace('{nest_level}', 'depth-' . $nest_level, $to_print);
+                            if (strstr($to_print, '{link}')) {
+                                $to_print = str_replace('{link}', page_link($item['id']), $to_print);
+                            }
+                            $empty1 = intval($nest_level);
+                            $empty = '';
+                            for ($i1 = 0; $i1 < $empty1; $i1++) {
+                                $empty = $empty . '&nbsp;&nbsp;';
+                            }
+                            $to_print = str_replace('{empty}', $empty, $to_print);
+
+
+                            if (strstr($to_print, '{tn}')) {
+                                $to_print = str_replace('{tn}', thumbnail($item['id'], 'original'), $to_print);
+                            }
+                            foreach ($item as $item_k => $item_v) {
+                                $to_print = str_replace('{' . $item_k . '}', $item_v, $to_print);
+                            }
+                            $res_count++;
+                            if (isset($active_ids) and is_array($active_ids) == true) {
+                                $is_there_active_ids = false;
+                                foreach ($active_ids as $active_id) {
+                                    if (intval($item['id']) == intval($active_id)) {
+                                        $is_there_active_ids = true;
+                                        $to_print = str_ireplace('{active_code}', $active_code, $to_print);
+                                        $to_print = str_ireplace('{active_class}', $the_active_class, $to_print);
+                                        $to_pr_2 = str_ireplace('{active_class}', $the_active_class, $to_pr_2);
+                                        $to_pr_2 = str_ireplace('{active_code_tag}', $active_code_tag, $to_pr_2);
+                                    }
+                                }
+                            } else if (isset($active_ids) and !is_array($active_ids)) {
+                                if (intval($item['id']) == intval($active_ids)) {
                                     $is_there_active_ids = true;
                                     $to_print = str_ireplace('{active_code}', $active_code, $to_print);
                                     $to_print = str_ireplace('{active_class}', $the_active_class, $to_print);
@@ -2304,188 +2294,180 @@ class Content
                                     $to_pr_2 = str_ireplace('{active_code_tag}', $active_code_tag, $to_pr_2);
                                 }
                             }
-                        } else if (isset($active_ids) and !is_array($active_ids)) {
-                            if (intval($item['id']) == intval($active_ids)) {
-                                $is_there_active_ids = true;
-                                $to_print = str_ireplace('{active_code}', $active_code, $to_print);
-                                $to_print = str_ireplace('{active_class}', $the_active_class, $to_print);
-                                $to_pr_2 = str_ireplace('{active_class}', $the_active_class, $to_pr_2);
-                                $to_pr_2 = str_ireplace('{active_code_tag}', $active_code_tag, $to_pr_2);
-                            }
-                        }
 
 
-                        $to_print = str_ireplace('{active_code}', '', $to_print);
-                        $to_print = str_ireplace('{active_class}', '', $to_print);
-                        $to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
-                        $to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);
+                            $to_print = str_ireplace('{active_code}', '', $to_print);
+                            $to_print = str_ireplace('{active_class}', '', $to_print);
+                            $to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
+                            $to_pr_2 = str_ireplace('{active_code_tag}', '', $to_pr_2);
 
 
-                        $to_print = str_replace('{exteded_classes}', '', $to_print);
+                            $to_print = str_replace('{exteded_classes}', '', $to_print);
 
-                        if (is_array($remove_ids) == true) {
+                            if (is_array($remove_ids) == true) {
 
-                            if (in_array($item['id'], $remove_ids)) {
+                                if (in_array($item['id'], $remove_ids)) {
 
-                                if ($removed_ids_code == false) {
+                                    if ($removed_ids_code == false) {
 
-                                    $to_print = false;
+                                        $to_print = false;
+                                    } else {
+                                        $remove_ids[] = $item['id'];
+                                        $to_print = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_print);
+                                        //$to_pr_2 = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_pr_2);
+                                    }
                                 } else {
-                                    $remove_ids[] = $item['id'];
-                                    $to_print = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_print);
+
+                                    $to_print = str_ireplace('{removed_ids_code}', '', $to_print);
                                     //$to_pr_2 = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_pr_2);
                                 }
-                            } else {
-
-                                $to_print = str_ireplace('{removed_ids_code}', '', $to_print);
-                                //$to_pr_2 = str_ireplace('{removed_ids_code}', $removed_ids_code, $to_pr_2);
                             }
-                        }
-                        $to_pr_2 = str_replace('{active_class}', '', $to_pr_2);
-                        $to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
+                            $to_pr_2 = str_replace('{active_class}', '', $to_pr_2);
+                            $to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
 
-                        print $to_pr_2;
-                        $to_pr_2 = false;
-                        print $to_print;
-                    } else {
-                        $to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
-                        $to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
-                        $to_pr_2 = str_replace('{active_parent_class}', '', $to_pr_2);
-
-
-                        print $to_pr_2;
-                        $to_pr_2 = false;
-                        print $item['title'];
-                    }
-
-                    if (is_array($params)) {
-                        $params['parent'] = $item['id'];
-                        if ($max_level != false) {
-                            $params['max_level'] = $max_level;
-                        }
-                        if (isset($params['is_shop'])) {
-                            unset($params['is_shop']);
-                        }
-
-                        //   $nest_level++;
-                        $params['nest_level'] = $nest_level;
-                        $params['ul_class_name'] = false;
-                        $params['ul_class'] = false;
-
-                        if (isset($params['ul_class_deep'])) {
-                            $params['ul_class'] = $params['ul_class_deep'];
-                        }
-
-                        if (isset($maxdepth)) {
-                            $params['maxdepth'] = $maxdepth;
-                        }
-
-
-                        if (isset($params['li_class_deep'])) {
-                            $params['li_class'] = $params['li_class_deep'];
-                        }
-
-                        if (isset($params['return_data'])) {
-                            unset($params['return_data']);
-                        }
-
-                        if ($skip_pages_from_tree == false) {
-
-                            $children = $this->pages_tree($params);
-                        }
-                    } else {
-                        if ($skip_pages_from_tree == false) {
-
-                            $children = $this->pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name = false);
-                        }
-                    }
-
-                    if (isset($include_categories) and $include_categories == true) {
-
-                        $content_cats = array();
-                        if (isset($item['subtype_value']) and intval($item['subtype_value']) == true) {
-
-                        }
-
-
-                        $cat_params = array();
-                        if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
-                            //$cat_params['subtype_value'] = $item['subtype_value'];
-                        }
-                        //$cat_params['try_rel_id'] = $item['id'];
-
-                        if (isset($categores_link)) {
-                            $cat_params['link'] = $categores_link;
-
+                            print $to_pr_2;
+                            $to_pr_2 = false;
+                            print $to_print;
                         } else {
-                            $cat_params['link'] = $link;
+                            $to_pr_2 = str_ireplace('{active_class}', '', $to_pr_2);
+                            $to_pr_2 = str_replace('{exteded_classes}', '', $to_pr_2);
+                            $to_pr_2 = str_replace('{active_parent_class}', '', $to_pr_2);
+
+
+                            print $to_pr_2;
+                            $to_pr_2 = false;
+                            print $item['title'];
                         }
 
-                        if (isset($categories_active_ids)) {
-                            $cat_params['active_ids'] = $categories_active_ids;
+                        if (is_array($params)) {
+                            $params['parent'] = $item['id'];
+                            if ($max_level != false) {
+                                $params['max_level'] = $max_level;
+                            }
+                            if (isset($params['is_shop'])) {
+                                unset($params['is_shop']);
+                            }
 
-                        }
+                            //   $nest_level++;
+                            $params['nest_level'] = $nest_level;
+                            $params['ul_class_name'] = false;
+                            $params['ul_class'] = false;
 
-
-                        if (isset($categories_removed_ids)) {
-                            $cat_params['remove_ids'] = $categories_removed_ids;
-
-                        }
-
-                        if (isset($active_code)) {
-                            $cat_params['active_code'] = $active_code;
-
-                        }
-
-
-                        //$cat_params['for'] = 'content';
-                        $cat_params['list_tag'] = $list_tag;
-                        $cat_params['list_item_tag'] = $list_item_tag;
-                        $cat_params['rel'] = 'content';
-                        $cat_params['rel_id'] = $item['id'];
-
-                        $cat_params['include_first'] = 1;
-                        $cat_params['nest_level'] = $nest_level;
-                        if ($max_level != false) {
-                            $cat_params['max_level'] = $max_level;
-                        }
-
-
-                        if ($nest_level > 1) {
                             if (isset($params['ul_class_deep'])) {
-                                $cat_params['ul_class'] = $params['ul_class_deep'];
+                                $params['ul_class'] = $params['ul_class_deep'];
+                            }
+
+                            if (isset($maxdepth)) {
+                                $params['maxdepth'] = $maxdepth;
                             }
 
 
                             if (isset($params['li_class_deep'])) {
-                                $cat_params['li_class'] = $params['li_class_deep'];
+                                $params['li_class'] = $params['li_class_deep'];
                             }
 
+                            if (isset($params['return_data'])) {
+                                unset($params['return_data']);
+                            }
+
+                            if ($skip_pages_from_tree == false) {
+
+                                $children = $this->pages_tree($params);
+                            }
                         } else {
+                            if ($skip_pages_from_tree == false) {
 
+                                $children = $this->pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name = false);
+                            }
+                        }
 
-                            if (isset($params['ul_class'])) {
-                                $cat_params['ul_class'] = $params['ul_class'];
+                        if (isset($include_categories) and $include_categories == true) {
+
+                            $content_cats = array();
+                            if (isset($item['subtype_value']) and intval($item['subtype_value']) == true) {
+
                             }
 
 
-                            if (isset($params['li_class'])) {
-                                $cat_params['li_class'] = $params['li_class'];
+                            $cat_params = array();
+                            if (isset($item['subtype_value']) and intval($item['subtype_value']) != 0) {
+                                //$cat_params['subtype_value'] = $item['subtype_value'];
+                            }
+                            //$cat_params['try_rel_id'] = $item['id'];
+
+                            if (isset($categores_link)) {
+                                $cat_params['link'] = $categores_link;
+
+                            } else {
+                                $cat_params['link'] = $link;
+                            }
+
+                            if (isset($categories_active_ids)) {
+                                $cat_params['active_ids'] = $categories_active_ids;
+
                             }
 
 
+                            if (isset($categories_removed_ids)) {
+                                $cat_params['remove_ids'] = $categories_removed_ids;
+
+                            }
+
+                            if (isset($active_code)) {
+                                $cat_params['active_code'] = $active_code;
+
+                            }
+
+
+                            //$cat_params['for'] = 'content';
+                            $cat_params['list_tag'] = $list_tag;
+                            $cat_params['list_item_tag'] = $list_item_tag;
+                            $cat_params['rel'] = 'content';
+                            $cat_params['rel_id'] = $item['id'];
+
+                            $cat_params['include_first'] = 1;
+                            $cat_params['nest_level'] = $nest_level;
+                            if ($max_level != false) {
+                                $cat_params['max_level'] = $max_level;
+                            }
+
+
+                            if ($nest_level > 1) {
+                                if (isset($params['ul_class_deep'])) {
+                                    $cat_params['ul_class'] = $params['ul_class_deep'];
+                                }
+
+
+                                if (isset($params['li_class_deep'])) {
+                                    $cat_params['li_class'] = $params['li_class_deep'];
+                                }
+
+                            } else {
+
+
+                                if (isset($params['ul_class'])) {
+                                    $cat_params['ul_class'] = $params['ul_class'];
+                                }
+
+
+                                if (isset($params['li_class'])) {
+                                    $cat_params['li_class'] = $params['li_class'];
+                                }
+
+
+                            }
+
+                            if (isset($debug)) {
+
+                            }
+                            //d($cat_params);
+
+                            $this->app->category->tree($cat_params);
+
                         }
-
-                        if (isset($debug)) {
-
-                        }
-                        //d($cat_params);
-
-                        $this->app->category->tree($cat_params);
-
                     }
+                    print "</{$list_item_tag}>";
                 }
-                print "</{$list_item_tag}>";
             }
 
 
