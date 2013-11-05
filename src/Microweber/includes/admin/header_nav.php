@@ -19,12 +19,14 @@
     } else {
 		 $past_page = mw('content')->link($last_page_front);
 	}
- 
+
   }
   else {
   	$past_page=get_content("order_by=updated_on desc&limit=1");
       $past_page = mw('content')->link($past_page[0]['id']);
+ 
   }
+  
  ?>
 
 <div class="mw-v-table" id="mw_toolbar_nav"> <a class="mw-cube-holder mw-admin-go-live-now-btn" id="mw-admin-toolbar-cube" href="<?php print $past_page; ?>?editmode=y"> <span class="mw-cube"> <span class="mw-cube1"><span id="mw_toolbar_logo" href="<?php print admin_url(); ?>"></span></span> <span class="mw-cube2"><span class="ico ilive"></span><span>Go Live Edit</span></span> </span> </a>

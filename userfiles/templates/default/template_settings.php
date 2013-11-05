@@ -208,7 +208,7 @@ $(document).ready(function(){
 
 <hr>
 
-<module type="content/layout_selector_custom_css" template=""<?php print template_name(); ?>
+<module type="content/layout_selector_custom_css" template="<?php print template_name(); ?>" />
 
 
 

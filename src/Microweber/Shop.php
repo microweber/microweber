@@ -848,10 +848,10 @@ class Shop
             return;
         } else {
             if ($cur_sid != false) {
-               // $c_id = $this->app->db->sanitize($sid);
+                // $c_id = $this->app->db->sanitize($sid);
 
                 //$c_id = $this->app->db->escape_string($c_id);
-$c_id =$sid;
+                $c_id = $sid;
 
                 $table = MODULE_DB_SHOP;
 
@@ -1015,6 +1015,14 @@ $c_id =$sid;
                 }
             }
 
+
+        }
+
+
+        if (isset($data['title']) and is_string($data['title'])) {
+            //  $data['title'] = html_entity_decode($data['title']);
+            $data['title'] = strip_tags($data['title']);
+           // $data['title'] = str_ireplace('&nbsp;', ' ', $data['title']);
 
         }
 
@@ -1619,8 +1627,8 @@ $c_id =$sid;
         $this->app->db->build_table($table_name, $fields_to_add);
 
         // $this->app->db->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-      //  $this->app->db->add_table_index('rel', $table_name, array('rel'));
-      //  $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
+        //  $this->app->db->add_table_index('rel', $table_name, array('rel'));
+        //  $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
 
         $this->app->db->add_table_index('session_id', $table_name, array('session_id'));
 

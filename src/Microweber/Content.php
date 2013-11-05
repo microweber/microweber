@@ -24,10 +24,15 @@ api_expose('content/menu_delete');
 api_expose('content/menu_item_save');
 
 
+$mw_skip_pages_starting_with_url = array('admin', 'api', 'module');
+$mw_precached_links = array();
+$mw_global_content_memory = array();
+
 class Content
 {
     public $app;
-    public $no_cache=false;
+    public $no_cache = false;
+
     function __construct($app = null)
     {
 
@@ -132,10 +137,20 @@ class Content
         $link = $this->get_by_id($id);
 
 
-        if (strval($link['url']) == '') {
+        if (!isset($link['url']) or strval($link['url']) == '') {
             $link = $this->get_by_url($id);
         }
-        $link = site_url($link['url']);
+
+
+
+
+        $surl = $this->app->url->site();
+        if (!stristr($link['url'], $surl)) {
+            $link = site_url($link['url']);
+        } else {
+            $link = ($link['url']);
+        }
+
         return $link;
     }
 
@@ -239,10 +254,10 @@ class Content
     {
 
         if (defined('PAGE_ID') == false) {
-         //   $this->define_constants();
+            //   $this->define_constants();
         }
 
-
+        global $mw_global_content_memory;
         $params2 = array();
 
         if (is_string($params)) {
@@ -267,10 +282,10 @@ class Content
         $params['table'] = $table;
         $params['cache_group'] = $cache_group;
 
-
-        if( $this->no_cache == true){
+        if ($this->no_cache == true) {
             $params['cache_group'] = false;
             $params['no_cache'] = true;
+            $mw_global_content_memory = array();
 
         }
 
@@ -285,26 +300,42 @@ class Content
 
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
-            if (isset($get['url'])) {
-                $get['url'] = $this->app->url->site($get['url']);
-            }
-            if (isset($get['title'])) {
-                $get['title'] = html_entity_decode($get['title']);
-                $get['title'] = strip_tags($get['title']);
-                $get['title'] = $this->app->format->clean_html($get['title']);
+            if (isset($get['id'])) {
+                if (!isset($mw_global_content_memory[$get['id']])) {
+                    if (isset($get['url'])) {
+                        $get['url'] = $this->app->url->site($get['url']);
+                    }
+                    if (isset($get['title'])) {
+                        $get['title'] = html_entity_decode($get['title']);
+                        $get['title'] = strip_tags($get['title']);
+                        $get['title'] = $this->app->format->clean_html($get['title']);
+                    }
+                    if (isset($get['id'])) {
+                        $mw_global_content_memory[$get['id']] = $get;
+                    }
+                } else {
+                    $get = $mw_global_content_memory[$get['id']];
+                }
             }
             return $get;
         }
         if (is_array($get)) {
             $data2 = array();
             foreach ($get as $item) {
-                if (isset($item['url'])) {
-                    $item['url'] = $this->app->url->site($item['url']);
-                }
-                if (isset($item['title'])) {
-                    $item['title'] = html_entity_decode($item['title']);
-                    $item['title'] = strip_tags($item['title']);
-                    $item['title'] = $this->app->format->clean_html($item['title']);
+                if (!isset($mw_global_content_memory[$item['id']])) {
+                    if (isset($item['url'])) {
+                        $item['url'] = $this->app->url->site($item['url']);
+                    }
+                    if (isset($item['title'])) {
+                        $item['title'] = html_entity_decode($item['title']);
+                        $item['title'] = strip_tags($item['title']);
+                        $item['title'] = $this->app->format->clean_html($item['title']);
+                    }
+                    if (isset($item['id'])) {
+                        $mw_global_content_memory[$item['id']] = $item;
+                    }
+                } else {
+                    $item = $mw_global_content_memory[$item['id']];
                 }
 
                 $data2[] = $item;
@@ -804,7 +835,7 @@ class Content
             return false;
         }
 
-         $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
+        $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
 
         $params = array();
         $params['id'] = $id;
@@ -817,7 +848,7 @@ class Content
         //$q = $this->app->db->get($params);
 
         //  $q = $this->app->db->get_long($table, $params, $cache_group = 'content/' . $id);
-           $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+        $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];
             if (isset($content['title'])) {
@@ -1417,8 +1448,6 @@ class Content
     {
 
 
-
-
         if ($content == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
 
@@ -1942,7 +1971,6 @@ class Content
         }
 
 
-
         if ($include_first == true) {
             $sql = "SELECT * from $table where  id={$parent}    and   is_deleted='n' and content_type='page' " . $is_shop . "  order by position desc  limit 0,1";
             //
@@ -2074,8 +2102,8 @@ class Content
         }
 
         if ($include_first_set != false) {
-             $q = $this->get("id=" . $include_first_set);
-         //   $q = $this->get_by_id("id=" . $include_first_set);
+            $q = $this->get("id=" . $include_first_set);
+            //   $q = $this->get_by_id("id=" . $include_first_set);
         } else {
             $q = $this->get($params2);
 
@@ -2093,7 +2121,6 @@ class Content
 //
 //            }
 //        }
-
 
 
         $result = $q;
@@ -2130,8 +2157,6 @@ class Content
                             $content_type_li_class = 'have_category';
 
 
-
-
                             break;
 
                         case 'module' :
@@ -2148,11 +2173,10 @@ class Content
 
                     //$content_type_li_class .=' ' .$item ['layout_file'];
 
-                    if(isset($item ['layout_file']) and stristr($item ['layout_file'],'blog')){
-                        $content_type_li_class  = ' is_blog';
+                    if (isset($item ['layout_file']) and stristr($item ['layout_file'], 'blog')) {
+                        $content_type_li_class = ' is_blog';
 
                     }
-
 
 
                     if ($item['is_home'] != 'y') {
@@ -2883,15 +2907,14 @@ class Content
         }
 
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) ;
-        if(defined('CONTENT_ID')){
-            $function_cache_id=$function_cache_id.CONTENT_ID;
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        if (defined('CONTENT_ID')) {
+            $function_cache_id = $function_cache_id . CONTENT_ID;
         }
-       // $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-       // if (($cache_content) != false) {
-          //  return $cache_content;
+        // $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        // if (($cache_content) != false) {
+        //  return $cache_content;
         //}
-
 
 
         $params_o = $menu_params;
@@ -3187,7 +3210,7 @@ class Content
         }
 
         $to_print .= '</' . $ul_tag . '>';
-      //  $this->app->cache->save($to_print, $function_cache_id, $cache_group);
+        //  $this->app->cache->save($to_print, $function_cache_id, $cache_group);
 
         return $to_print;
     }
@@ -3717,7 +3740,8 @@ class Content
     public function save_content($data, $delete_the_cache = true)
     {
 
-
+        global $mw_global_content_memory;
+        $mw_global_content_memory = array();
         $adm = $this->app->user->is_admin();
         $table = MW_DB_TABLE_CONTENT;
         $table_data = MW_DB_TABLE_CONTENT_DATA;
@@ -5696,7 +5720,3 @@ class Content
     }
 }
 
-$mw_language_content = array();
-$mw_skip_pages_starting_with_url = array('admin', 'api', 'module'); //its set in the funk bellow
-$mw_precached_links = array();
-$mw_global_content_memory = array();
