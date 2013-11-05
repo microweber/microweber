@@ -1,7 +1,7 @@
 <?php
 
 
-$language_content_saved = false;
+$mw_language_content_saved = false;
 $mw_new_language_entires = array();
  
 
@@ -13,32 +13,32 @@ $mw_new_language_entires = array();
 function __store_lang_file()
 {
 
-    global $language_content_saved;
+    global $mw_language_content_saved;
 
 
-    if ($language_content_saved == true) {
+    if ($mw_language_content_saved == true) {
         return;
     }
     if (is_admin() == false) {
         return false;
     }
     global $mw_new_language_entires;
-    $language_content = get_language_file_content();
+    $mw_language_content = get_language_file_content();
 
     $lang = current_lang();
 
     $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
-    $language_content2 = array();
-    if (is_array($language_content) and is_array($mw_new_language_entires) and !empty($mw_new_language_entires)) {
+    $mw_language_content2 = array();
+    if (is_array($mw_language_content) and is_array($mw_new_language_entires) and !empty($mw_new_language_entires)) {
 
-            $language_content2 = $mw_new_language_entires;
+            $mw_language_content2 = $mw_new_language_entires;
 
-            if (!empty($language_content2)) {
-                foreach ($language_content2 as $key => $value) {
+            if (!empty($mw_language_content2)) {
+                foreach ($mw_language_content2 as $key => $value) {
 
-                    if (!isset($language_content[$key])) {
+                    if (!isset($mw_language_content[$key])) {
 
-                        $language_content[$key] = $value;
+                        $mw_language_content[$key] = $value;
                     }
                 }
 
@@ -46,21 +46,21 @@ function __store_lang_file()
         }
 
 
-        $language_content = array_unique($language_content);
+        $mw_language_content = array_unique($mw_language_content);
 
 
         $lang_file_str = '<?php ' . "\n";
         $lang_file_str .= ' $language=array();' . "\n";
-        foreach ($language_content as $key => $value) {
+        foreach ($mw_language_content as $key => $value) {
 
             $value = addslashes($value);
             $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
 
         }
-        $language_content_saved = 1;
+        $mw_language_content_saved = 1;
         if (is_admin() == true) {
-            $c1 = count($language_content);
-            $c2 = count($language_content2);
+            $c1 = count($mw_language_content);
+            $c2 = count($mw_language_content2);
 
 
             if ($c1 > $c2) {
@@ -154,13 +154,13 @@ function _e($k, $to_return = false)
 
     $lang = current_lang();
 
-    $language_content = get_language_file_content();
+    $mw_language_content = get_language_file_content();
 
-    if (isset($language_content[$k1]) == false) {
+    if (isset($mw_language_content[$k1]) == false) {
         if (is_admin() == true) {
             $k2 = ($k);
             $mw_new_language_entires[$k1] = $k2;
-            $language_content[$k1] = $k2;
+            $mw_language_content[$k1] = $k2;
 			if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
 				define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
 				 $scheduler = new \Microweber\Utils\Events();
@@ -176,9 +176,9 @@ function _e($k, $to_return = false)
         print $k;
     } else {
         if ($to_return == true) {
-            return $language_content[$k1];
+            return $mw_language_content[$k1];
         }
-        print $language_content[$k1];
+        print $mw_language_content[$k1];
     }
 	
 	
@@ -232,22 +232,22 @@ function save_language_file_content($data)
             mkdir_recursive($cust_dir);
         }
 
-        $language_content = $data;
+        $mw_language_content = $data;
 
         $lang_file = $cust_dir . $lang . '.php';
 
-        if (is_array($language_content)) {
-            $language_content = array_unique($language_content);
+        if (is_array($mw_language_content)) {
+            $mw_language_content = array_unique($mw_language_content);
 
             $lang_file_str = '<?php ' . "\n";
             $lang_file_str .= ' $language=array();' . "\n";
-            foreach ($language_content as $key => $value) {
+            foreach ($mw_language_content as $key => $value) {
 
                 $value = addslashes($value);
                 $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
 
             }
-            $language_content_saved = 1;
+            $mw_language_content_saved = 1;
             if (is_admin() == true) {
                 file_put_contents($lang_file, $lang_file_str);
             }
@@ -260,7 +260,7 @@ function save_language_file_content($data)
 
 }
 
-$language_content = array();
+$mw_language_content = array();
 /**
  * Gets all the language file contents
  * @internal its used via ajax in the admin panel under Settings->Language
@@ -268,10 +268,10 @@ $language_content = array();
  */
 function get_language_file_content()
 {
-    global $language_content;
+    global $mw_language_content;
 
-    if (!empty($language_content)) {
-        return $language_content;
+    if (!empty($mw_language_content)) {
+        return $mw_language_content;
     }
 
 
@@ -289,8 +289,8 @@ function get_language_file_content()
 
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
-                if (isset($language_content[$k]) == false) {
-                    $language_content[$k] = $v;
+                if (isset($mw_language_content[$k]) == false) {
+                    $mw_language_content[$k] = $v;
                 }
             }
         }
@@ -302,9 +302,9 @@ function get_language_file_content()
 
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
-                if (isset($language_content[$k]) == false) {
+                if (isset($mw_language_content[$k]) == false) {
 
-                    $language_content[$k] = $v;
+                    $mw_language_content[$k] = $v;
                 }
             }
         }
@@ -314,15 +314,15 @@ function get_language_file_content()
 
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
-                if (isset($language_content[$k]) == false) {
+                if (isset($mw_language_content[$k]) == false) {
 
-                    $language_content[$k] = $v;
+                    $mw_language_content[$k] = $v;
                 }
             }
         }
     }
 
-    return $language_content;
+    return $mw_language_content;
 
 
 }
