@@ -421,7 +421,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+           return $cache_content;
         }
 
 
@@ -459,18 +459,25 @@ class Content
             $par = $this->get_by_id($page['parent']);
 
 
+
             if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != ''  and $par['layout_file'] != 'inherit') {
                 $get_layout_from_parent = $par;
+            } elseif (isset($par['is_home']) and isset($par['active_site_template']) and (!isset($par['layout_file']) or $par['layout_file'] == '')  and $par['is_home'] == 'y') {
+               $par['layout_file'] = 'index.php';
+			    $get_layout_from_parent = $par;
             } else {
                 $inh = $this->get_inherited_parent($page['parent']);
+				 
                 if ($inh != false) {
                     $par = $this->get_by_id($inh);
                     if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != '') {
                         $get_layout_from_parent = $par;
+                    } else if (isset($par['active_site_template']) and isset($par['is_home']) and $par['is_home'] == 'y' and  (!isset($par['layout_file']) or $par['layout_file'] == '')) {
+						  $par['layout_file'] = 'index.php';
+                        $get_layout_from_parent = $par;
                     }
                 }
             }
-
             if (isset($get_layout_from_parent['active_site_template']) and isset($get_layout_from_parent['layout_file'])) {
                 $get_layout_from_parent['layout_file'] = str_replace('___', DS, $get_layout_from_parent['layout_file']);
                 $get_layout_from_parent['layout_file'] = str_replace('..', '', $get_layout_from_parent['layout_file']);

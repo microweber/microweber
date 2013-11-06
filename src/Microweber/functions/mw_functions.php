@@ -136,7 +136,7 @@ function get_all_functions_files_for_modules($options = false)
 
     $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-    $cache_group = 'modules';
+    $cache_group = 'modules/global';
 
     $cache_content = mw('cache')->get($cache_id, $cache_group);
 

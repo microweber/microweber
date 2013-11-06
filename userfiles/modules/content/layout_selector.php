@@ -92,7 +92,10 @@ $data['active_site_template']  =  $inherit_from_id['active_site_template'];
     }
 }
 }
-
+if((!isset($data['layout_file']) or $data['layout_file'] == NULL) and isset($data['is_home']) and ($data['is_home'] == 'y')){
+	$data['layout_file']  = 'index.php';
+}
+ 
 if(!isset($params["active-site-template"]) and isset($params["site-template"])){
 	$params["active-site-template"] = $params["site-template"];
 }
