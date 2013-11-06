@@ -80,10 +80,10 @@ if (isset($_POST['save_template_settings'])) {
   
    return;
 } 
-$arr = array();
+$data = $arr = array();
     $json = get_option('template_settings', 'template_'.THIS_TEMPLATE_FOLDER_NAME);
 	if($json != false){
-     $arr = json_decode($json, true);
+     $data = $arr= json_decode($json, true);
 	}
 
 

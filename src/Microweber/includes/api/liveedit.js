@@ -1068,7 +1068,7 @@ mw.drag = {
                  mw.tools.addClass(mw.currentDragMouseOver, 'changed orig_changed');
               }
 
-              mw.askusertostay = true;
+               mw.askusertostay = true;
 
 
               $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");

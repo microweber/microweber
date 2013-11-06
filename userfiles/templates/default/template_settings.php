@@ -9,7 +9,7 @@
       <input type="hidden"
              class="tpl-field"
              data-selector="body, a"
-             value = "<?php if(isset($arr['font']) and isset($arr['font']['value'])){ print $arr['font']['value']; } ?>"
+             value = "<?php if(isset($data['font']) and isset($data['font']['value'])){ print $data['font']['value']; } ?>"
              name="font"
              id="font"
              data-property="font-family" />
@@ -67,7 +67,7 @@
       <input type="hidden"
              class="tpl-field"
              data-selector="body"
-             value = "<?php if(isset($arr['bodybg']) and isset($arr['bodybg']['value'])){ print $arr['bodybg']['value']; } ?>"
+             value = "<?php if(isset($data['bodybg']) and isset($data['bodybg']['value'])){ print $data['bodybg']['value']; } ?>"
              name="bodybg"
              id="bodybg"
              data-property="background-image" />
@@ -93,7 +93,7 @@
       <input type="hidden"
              class="tpl-field"
              data-selector="h1,h2,h3,h4,h5,h6,.btn,h1 a,h2 a,h3 a,h4 a,h5 a,h6 a"
-             value = "<?php if(isset($arr['headerbg']) and isset($arr['headerbg']['value'])){ print $arr['headerbg']['value']; } ?>"
+             value = "<?php if(isset($data['headerbg']) and isset($data['headerbg']['value'])){ print $data['headerbg']['value']; } ?>"
              name="headerbg"
              id="headerbg"
              data-property="color" />
@@ -200,7 +200,7 @@ $(document).ready(function(){
 	  <input type="text"
              class="tpl-field"
              data-selector="@import"
-             value = "<?php if(isset($arr['import']) and isset($arr['import']['value'])){ print $arr['import']['value']; } ?>"
+             value = "<?php if(isset($data['import']) and isset($data['import']['value'])){ print $data['import']['value']; } ?>"
              name="import"
              id="import_css"
              />*/ ?>
