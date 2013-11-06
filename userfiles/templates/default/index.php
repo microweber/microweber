@@ -3,7 +3,7 @@
 /*
 
   type: layout
-  content_type: dynamic
+  content_type: static
   name: Home
   position: 1
   description: Home layout

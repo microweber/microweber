@@ -5,7 +5,7 @@
 type: layout
 content_type: product
 name: Product 
-is_default: true
+
 position: 3
 description: shop layout
 

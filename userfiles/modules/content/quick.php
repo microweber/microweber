@@ -90,7 +90,9 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	$parent_content_params['order_by'] = 'updated_on desc';
 	if(isset($params['subtype']) and $params['subtype'] == 'post'){
 		$parent_content_params['is_shop'] = 'n';
+		$parent_content_params['is_home'] = 'n';
 	    $parent_content = get_content($parent_content_params);
+		 
 		 if(isset($parent_content['id'])){
 			 $data['parent'] = $parent_content['id'];
 		 } else {
@@ -128,6 +130,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	 
 	 //if we are adding product in a page that is not a shop
 	 $parent_shop_check =  get_content_by_id($data['parent']);
+	
 	 if(!isset($parent_shop_check['subtype']) or $parent_shop_check['subtype'] != 'dynamic'){
 		 $parent_content_shop = get_content('order_by=updated_on desc&one=true&subtype=dynamic&is_shop=n');
 		  if(isset($parent_content_shop['id'])){

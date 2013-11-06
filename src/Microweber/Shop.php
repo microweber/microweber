@@ -1022,7 +1022,7 @@ class Shop
         if (isset($data['title']) and is_string($data['title'])) {
             //  $data['title'] = html_entity_decode($data['title']);
             $data['title'] = strip_tags($data['title']);
-           // $data['title'] = str_ireplace('&nbsp;', ' ', $data['title']);
+           // $data['title'] = str_replace('&nbsp;', ' ', $data['title']);
 
         }
 

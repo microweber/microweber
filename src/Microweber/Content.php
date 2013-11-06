@@ -421,7 +421,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-           return $cache_content;
+            return $cache_content;
         }
 
 
@@ -449,9 +449,16 @@ class Content
             $page['content_type'] = str_replace('..', '', $page['content_type']);
 
         }
+        if (isset($page['subtype'])) {
+            $page['subtype'] = str_replace('..', '', $page['subtype']);
+
+        }
+
         if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
             $get_layout_from_parent = false;
             $par = $this->get_by_id($page['parent']);
+
+
             if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != ''  and $par['layout_file'] != 'inherit') {
                 $get_layout_from_parent = $par;
             } else {
@@ -463,6 +470,7 @@ class Content
                     }
                 }
             }
+
             if (isset($get_layout_from_parent['active_site_template']) and isset($get_layout_from_parent['layout_file'])) {
                 $get_layout_from_parent['layout_file'] = str_replace('___', DS, $get_layout_from_parent['layout_file']);
                 $get_layout_from_parent['layout_file'] = str_replace('..', '', $get_layout_from_parent['layout_file']);
@@ -476,9 +484,7 @@ class Content
                         $render_file = $render_file_temp;
                     }
                 }
-
             }
-
         }
 
 
@@ -494,6 +500,7 @@ class Content
             $temp2 = substr($stringA, $length - 4, $length);
             $f1 = $temp1 . $stringB . $temp2;
             $f1 = normalize_path($f1, false);
+
             if (is_file($f1)) {
                 $render_file = $f1;
             } else {
@@ -504,17 +511,55 @@ class Content
                 $temp2 = substr($stringA, $length - 4, $length);
                 $f3 = $temp1 . $stringB . $temp2;
                 $f3 = normalize_path($f3, false);
+
                 if (is_file($f3)) {
                     $render_file = $f3;
                 } else {
-                    $check_inner = dirname($render_file);
-
-                    if (is_dir($check_inner)) {
-                        $in_file = $check_inner . DS . 'inner.php';
-                        $in_file = normalize_path($in_file, false);
-                        if (is_file($in_file)) {
-                            $render_file = $in_file;
+                    $found_subtype_layout = false;
+                    if (isset($page['subtype'])) {
+                        $stringA = $f2;
+                        $stringB = '_' . $page['subtype'];
+                        $length = strlen($stringA);
+                        $temp1 = substr($stringA, 0, $length - 4);
+                        $temp2 = substr($stringA, $length - 4, $length);
+                        $f3 = $temp1 . $stringB . $temp2;
+                        $f3 = normalize_path($f3, false);
+                        if (is_file($f3)) {
+                            $found_subtype_layout = true;
+                            $render_file = $f3;
                         }
+                    }
+
+
+                    $check_inner = dirname($render_file);
+                    if ($found_subtype_layout == false and is_dir($check_inner)) {
+
+
+                        if (isset($page['subtype'])) {
+                            $stringA = $check_inner;
+                            $stringB = $page['subtype'] . '.php';
+                            $length = strlen($stringA);
+                            $f3 = $stringA . DS . $stringB;
+                            $f3 = normalize_path($f3, false);
+
+                            if (is_file($f3)) {
+                                $found_subtype_layout = true;
+                                $render_file = $f3;
+                            }
+                        }
+
+                        if ($found_subtype_layout == false) {
+                            $in_file = $check_inner . DS . 'inner.php';
+                            $in_file = normalize_path($in_file, false);
+                            $in_file2 = $check_inner . DS . $page['content_type'] . '.php';
+                            $in_file2 = normalize_path($in_file2, false);
+                            if (is_file($in_file2)) {
+                                $render_file = $in_file2;
+                            } elseif (is_file($in_file)) {
+                                $render_file = $in_file;
+                            }
+                        }
+
                     }
                 }
             }
@@ -597,8 +642,6 @@ class Content
                 $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
                 $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
             }
-
-
 
 
         }
@@ -2116,7 +2159,7 @@ class Content
             }
             $res_count = 0;
             foreach ($result as $item) {
-                if (is_array($item) != false and isset($item['title'])) {
+                if (is_array($item) != false and isset($item['title']) and $item['title'] != null) {
                     $skip_me_cause_iam_removed = false;
                     if (is_array($remove_ids) == true) {
 
@@ -4036,9 +4079,11 @@ class Content
 
 
             if (is_array($par_page)) {
-
-
-                if ($par_page['subtype'] == 'static') {
+                $change_to_dynamic = true;
+                if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
+                    $change_to_dynamic = false;
+                }
+                if ($change_to_dynamic == true and $par_page['subtype'] == 'static') {
                     $par_page_new = array();
                     $par_page_new['id'] = $par_page['id'];
                     $par_page_new['subtype'] = 'dynamic';

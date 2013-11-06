@@ -221,7 +221,9 @@ class Controller
                     $page['content_type'] = $this->app->db->escape_string($_REQUEST['content_type']);
                 }
 
-
+                if (isset($_REQUEST['subtype'])) {
+                    $page['subtype'] = $this->app->db->escape_string($_REQUEST['subtype']);
+                }
                 template_var('new_content_type', $page['content_type']);
                 $page['parent'] = '0';
 
