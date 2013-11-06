@@ -14,8 +14,42 @@ $set_content_type = 'post';
 include_once($config['path_to_module'].'../posts/index.php');
 
 ?> 
- 
-<div class="manage-posts-holder">
+<script  type="text/javascript">
+ mw.manage_content_quick_sort = function(){
+  if(!mw.$("#mw-quick-sort-posts").hasClass("ui-sortable")){
+   mw.$("#mw-quick-sort-posts").sortable({
+     items: '.manage-post-item',
+     axis:'y',
+     handle:'.mw_admin_posts_sortable_handle',
+     update:function(){
+       var obj = {ids:[]}
+       $(this).find('.select_posts_for_action').each(function(){
+        var id = this.attributes['data-content-id'].nodeValue;
+        obj.ids.push(id);
+      });
+
+       $.post("<?php print site_url('api/content/reorder'); ?>", obj, function(){
+		   
+		   mw.reload_module_parent('posts')
+		   
+		   });
+     },
+     start:function(a,ui){
+      $(this).height($(this).outerHeight());
+      $(ui.placeholder).height($(ui.item).outerHeight())
+      $(ui.placeholder).width($(ui.item).outerWidth())
+    },
+
+       //placeholder: "custom-field-main-table-placeholder",
+       scroll:false
+
+
+     });
+
+ }
+}
+</script>
+<div class="manage-posts-holder" id="mw-quick-sort-posts">
   <?php if(is_array($data)): ?>
   <?php foreach ($data as $item): ?>
 
@@ -28,9 +62,10 @@ include_once($config['path_to_module'].'../posts/index.php');
    ?>
 
 
-  <div class="manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
+  <div data-content-id="<?php print ($item['id']) ?>" class="select_posts_for_action manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
     <div class="manage-post-itemleft">
-      
+            <span class="ico iMove mw_admin_posts_sortable_handle left" onmousedown="mw.manage_content_quick_sort()"></span>
+
       <?php
     	$pic  = get_picture(  $item['id']);
 

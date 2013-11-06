@@ -1,8 +1,7 @@
 <?php
 namespace Microweber;
 
-//event_bind('mw_db_init', mw('Microweber\Content')->db_init());
-
+ 
 /**
  * This file holds useful functions to work with content
  * Here you will find functions to get and save content in the database and much more.
@@ -421,7 +420,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-           return $cache_content;
+            return $cache_content;
         }
 
 
@@ -478,6 +477,7 @@ class Content
                     }
                 }
             }
+			//d( $get_layout_from_parent );
             if (isset($get_layout_from_parent['active_site_template']) and isset($get_layout_from_parent['layout_file'])) {
                 $get_layout_from_parent['layout_file'] = str_replace('___', DS, $get_layout_from_parent['layout_file']);
                 $get_layout_from_parent['layout_file'] = str_replace('..', '', $get_layout_from_parent['layout_file']);
