@@ -4,7 +4,11 @@ $url = $_GET['img'];
 
 
 $type="";
-
+$url = str_replace('..','',$url);
+$url = strip_tags(html_entity_decode($url));
+if(!filter_var($url, FILTER_VALIDATE_URL)){ 
+  return;
+}
 $info = getimagesize($url);
 $mime = image_type_to_mime_type($info[2]);
 
