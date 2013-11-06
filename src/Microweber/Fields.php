@@ -157,6 +157,8 @@ class Fields
             }
 
             if ($id != 'all') {
+				  $id = $this->app->db->escape_string($id);
+
                 /*	 if (intval($id) == 0){
                          if (is_admin() != false) {
                         $sid = session_id();

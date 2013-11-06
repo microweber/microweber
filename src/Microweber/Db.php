@@ -1902,7 +1902,14 @@ class Db
         if (is_string($orderby)) {
             $order_by = " ORDER BY  $orderby  ";
         } elseif (is_array($orderby) and !empty($orderby)) {
-
+            if (isset($orderby[0])) {
+                $orderby[0] = $this->escape_string($orderby[0]);
+            }
+            if (isset($orderby[1])) {
+                $orderby[1] = $this->escape_string($orderby[1]);
+            } else {
+                $orderby[1] = '';
+            }
             $order_by = " ORDER BY  {$orderby[0]}  {$orderby[1]}  ";
         } else {
 
@@ -2013,7 +2020,10 @@ class Db
 
         $where_search = '';
         if ($to_search != false) {
-            $to_search = $this->escape_string(strip_tags($to_search));
+            $to_search = $this->escape_string(strip_tags(html_entity_decode($to_search)));
+            $to_search = str_replace('<', '', $to_search);
+            $to_search = str_replace('>', '', $to_search);
+
             $to_search = str_replace('[', '', $to_search);
             $to_search = str_replace(']', '', $to_search);
             $to_search = str_replace('*', '', $to_search);
@@ -2143,7 +2153,12 @@ class Db
                 if (is_string($k) != false) {
                     $k = $this->escape_string(strip_tags($k));
                     $k = str_replace('{', '', $k);
+                    $k = str_ireplace(' and ', ' ', $k);
+
                     $k = str_replace('}', '', $k);
+                    $k = str_replace("'", '', $k);
+                    $k = str_replace('"', '', $k);
+
                     $k = str_replace('*', '', $k);
                     $k = str_replace(';', '', $k);
                     $k = str_replace('\077', '', $k);
@@ -2158,6 +2173,8 @@ class Db
                     $v = str_replace(';', '', $v);
                     $v = str_replace('\077', '', $v);
                     $v = str_replace('<?', '', $v);
+                    $v = str_replace("'", '', $v);
+                    $v = str_replace('"', '', $v);
                 }
 
 
@@ -2880,18 +2897,34 @@ class Db
     public function escape_string($value)
     {
 
-        if (!is_string($value)) {
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = $this->escape_string($v);
+            }
             return $value;
-        }
-        if (isset($this->mw_escaped_strings[$value])) {
-            return $this->mw_escaped_strings[$value];
-        }
+        } else {
 
-        $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
-        $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
-        $new = str_replace($search, $replace, $value);
-        $this->mw_escaped_strings[$value] = $new;
-        return $new;
+
+            if (!is_string($value)) {
+                return $value;
+            }
+            $str_crc = 'esc' . crc32($value);
+            if (isset($this->mw_escaped_strings[$str_crc])) {
+                return $this->mw_escaped_strings[$str_crc];
+            }
+
+            $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
+            $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
+            $new = str_replace($search, $replace, $value);
+
+            $new = strip_tags(html_entity_decode($new));
+
+            $new = str_replace("'", '', $new);
+            $new = str_replace('"', '', $new);
+
+            $this->mw_escaped_strings[$str_crc] = $new;
+            return $new;
+        }
     }
 
 

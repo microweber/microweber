@@ -1775,6 +1775,10 @@ class Controller
                         $v1 = $this->app->format->array_to_base64($v);
                         $tags .= "{$k}=\"$v1\" ";
                     } else {
+						 
+						
+						$v = $this->app->db->escape_string($v);
+						
                         $tags .= "{$k}=\"$v\" ";
                     }
                 }

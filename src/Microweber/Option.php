@@ -114,6 +114,7 @@ class Option
         if ($option_group != false) {
             $option_group = $this->app->db->escape_string($option_group);
             $ok1 = " AND option_group='{$option_group}' ";
+			 $data['option_group'] = $option_group;
         }
 
         if ($module != false) {
@@ -133,7 +134,7 @@ class Option
 
         $q_cache_id = crc32($q);
         $get_all = $this->app->db->query($q, __FUNCTION__.$q_cache_id, $cache_group);
-
+ // $get_all = $this->app->db->get($data);
 
         // $get_all = $this->app->db->query($q);
 
