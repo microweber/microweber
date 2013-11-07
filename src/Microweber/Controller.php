@@ -328,6 +328,7 @@ class Controller
                     $page['parent'] = '0';
                     $page['url'] = $this->app->url->string();
                     $page['active_site_template'] = $the_active_site_template;
+					 
                     $mod_params = '';
                     if ($preview_module_template != false) {
                         $mod_params = $mod_params . " template='{$preview_module_template}' ";
@@ -337,7 +338,7 @@ class Controller
                     }
 
                     $page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
-                    $page['simply_a_file'] = 'clean.php';
+                  //  $page['simply_a_file'] = 'clean.php';
                     $page['layout_file'] = 'clean.php';
                     template_var('content', $page['content']);
 
@@ -2035,6 +2036,11 @@ class Controller
             $url = $this->app->url->string();
         }
 
+
+
+
+
+
         $this->app->content->define_constants($page);
         $tool = str_replace('..', '', $tool);
 
@@ -2073,8 +2079,9 @@ class Controller
 
 
         }
-
-        if (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
+				if (isset($_REQUEST['empty_content'])) {
+				$page['content'] = '<div class="edit"></div>';
+				} elseif (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
 
             //if (isset($page['content_type']) and $page['content_type'] != 'page') {
                 $render_file = $this->app->content->get_layout($page);
@@ -2085,7 +2092,8 @@ class Controller
                 $page['content'] = $this->app->parser->isolate_content_field($l);
          //   }
 
-        }
+        		}
+		        		
         if (isset($page['content'])) {
 
 

@@ -14,12 +14,12 @@ if(user_id() == 0){
 
   mw.settings.liveEdit = true;
 
-  mw.require("jquery");
+       mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
+  mw.require("tools.js");
+
   mw.require("liveadmin.js");
-  mw.lin.require("jqueryui");
   mw.require("events.js");
   mw.require("url.js");
-  mw.require("tools.js");
   mw.require("wysiwyg.js");
   mw.require("css_parser.js");
   mw.require ("forms.js");

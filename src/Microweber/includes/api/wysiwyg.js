@@ -358,7 +358,7 @@ mw.wysiwyg = {
           var sel = mww.getSelection();
           var f = sel.focusNode;
           var f = mw.tools.hasClass(f, 'edit') ? f : mw.tools.firstParentWithClass(f, 'edit');
-          if(!!f.attributes.field && f.attributes.field.nodeValue == 'title'){
+          if(f.attributes != undefined && !!f.attributes.field && f.attributes.field.nodeValue == 'title'){
             if(!!e){
               mw.e.cancel(e, true);
             }
@@ -736,12 +736,23 @@ mw.wysiwyg = {
           var font = css.get.font();
            var family_array = font.family.split(',');
            var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
-           mw.$(".mw_dropdown_action_font_family").setDropdownValue(fam);
+		   var ddval = mw.$(".mw_dropdown_action_font_family");
+		   if(ddval.length!=0 && ddval.setDropdownValue != undefined){
+			  
+			    mw.$(".mw_dropdown_action_font_family").setDropdownValue(fam);
+		   }
+          
          }
     },
     setActiveFontSize:function(node){
         var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
+		
+		var ddval = mw.$(".mw_dropdown_action_font_size");
+
+		
+		if(ddval.length!=0 && ddval.setDropdownValue != undefined){
         mw.$(".mw_dropdown_action_font_size").setDropdownValue(mw.wysiwyg.editorFontSizes[size]);
+		}
     },
     isFormatElement:function(obj){
         var items = /^(div|h[1-6]|p)$/i;
@@ -802,16 +813,35 @@ mw.wysiwyg = {
                    }
 
                  }
+				 
+				 
+				 
+
 
                  if(mw.wysiwyg.isFormatElement(common)){
                    var format = common.nodeName.toLowerCase();
+				   
+				   var ddval = mw.$(".mw_dropdown_action_format");
+				  if(ddval.length!=0 && ddval.setDropdownValue != undefined){
+
                    mw.$(".mw_dropdown_action_format").setDropdownValue(format);
+				  }
+				   
+				   
                  }
                  else{
                      mw.tools.foreachParents(common, function(loop){
                         if(mw.wysiwyg.isFormatElement(this)){
                             var format = this.nodeName.toLowerCase();
-                            mw.$(".mw_dropdown_action_format").setDropdownValue(format);
+							
+
+							var ddval = mw.$(".mw_dropdown_action_format");
+							if(ddval.length!=0 && ddval.setDropdownValue != undefined){
+								 
+							 mw.$(".mw_dropdown_action_format").setDropdownValue(format);
+
+								
+							}
                             mw.tools.stopLoop(loop);
                         }
                      });

@@ -2917,10 +2917,10 @@ class Db
             $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
             $new = str_replace($search, $replace, $value);
 
-            $new = strip_tags(html_entity_decode($new));
+          //  $new = strip_tags(html_entity_decode($new));
 
-            $new = str_replace("'", '', $new);
-            $new = str_replace('"', '', $new);
+           // $new = str_replace("'", '', $new);
+           // $new = str_replace('"', '', $new);
 
             $this->mw_escaped_strings[$str_crc] = $new;
             return $new;
