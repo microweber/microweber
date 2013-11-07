@@ -4303,7 +4303,7 @@ class Content
         $this->app->cache->delete('content');
         if ($cats_modified != false) {
 
-            // $this->app->cache->delete('categories/global');
+            $this->app->cache->delete('categories/global');
             $this->app->cache->delete('categories_items/global');
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
