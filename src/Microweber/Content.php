@@ -1,7 +1,7 @@
 <?php
 namespace Microweber;
 
- 
+
 /**
  * This file holds useful functions to work with content
  * Here you will find functions to get and save content in the database and much more.
@@ -458,26 +458,25 @@ class Content
             $par = $this->get_by_id($page['parent']);
 
 
-
             if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != ''  and $par['layout_file'] != 'inherit') {
                 $get_layout_from_parent = $par;
             } elseif (isset($par['is_home']) and isset($par['active_site_template']) and (!isset($par['layout_file']) or $par['layout_file'] == '')  and $par['is_home'] == 'y') {
-               $par['layout_file'] = 'index.php';
-			    $get_layout_from_parent = $par;
+                $par['layout_file'] = 'index.php';
+                $get_layout_from_parent = $par;
             } else {
                 $inh = $this->get_inherited_parent($page['parent']);
-				 
+
                 if ($inh != false) {
                     $par = $this->get_by_id($inh);
                     if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != '') {
                         $get_layout_from_parent = $par;
                     } else if (isset($par['active_site_template']) and isset($par['is_home']) and $par['is_home'] == 'y' and  (!isset($par['layout_file']) or $par['layout_file'] == '')) {
-						  $par['layout_file'] = 'index.php';
+                        $par['layout_file'] = 'index.php';
                         $get_layout_from_parent = $par;
                     }
                 }
             }
-			//d( $get_layout_from_parent );
+            //d( $get_layout_from_parent );
             if (isset($get_layout_from_parent['active_site_template']) and isset($get_layout_from_parent['layout_file'])) {
                 $get_layout_from_parent['layout_file'] = str_replace('___', DS, $get_layout_from_parent['layout_file']);
                 $get_layout_from_parent['layout_file'] = str_replace('..', '', $get_layout_from_parent['layout_file']);
@@ -4058,9 +4057,6 @@ class Content
 
                 }
 
-                if ($check_ex == false) {
-
-                }
 
                 unset($data_to_save['subtype_value']);
             }
@@ -4117,7 +4113,6 @@ class Content
                             $item = intval($item);
                             if ($item > 0) {
                                 $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item);
-                                //	d($cont_cat);
                                 if (isset($cont_cat[0]) and is_array($cont_cat[0])) {
                                     $cont_cat = $cont_cat[0];
                                     if (isset($cont_cat["subtype_value"]) and intval($cont_cat["subtype_value"]) > 0) {
@@ -4127,29 +4122,22 @@ class Content
                                         break;
                                     }
                                 }
-                                //
                             }
                         }
                     }
-
-
                 }
             }
         }
 
         if (isset($data_to_save['content'])) {
             if (trim($data_to_save['content']) == '' or $data_to_save['content'] == false) {
-                //unset($data_to_save['content']);
                 $data_to_save['content'] = null;
                 //
             } else {
-                $data_to_save['content'] = $this->app->db->parser->make_tags($data_to_save['content']);
+                $data_to_save['content'] = mw('parser')->make_tags($data_to_save['content']);
             }
         }
-        $delete_global_categories_cache = false;
-        if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'page') {
-        $delete_global_categories_cache = true;
-        }
+
 
         if (isset($data_to_save['id']) and intval($data_to_save['id']) == 0) {
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
@@ -4179,8 +4167,6 @@ class Content
             if (!isset($data_to_save['parent'])) {
                 $data_to_save['parent'] = 0;
             }
-
-
             if ($data_to_save['parent'] == 0) {
                 if (isset($data_to_save['categories'])) {
                     $first = false;
@@ -4190,7 +4176,6 @@ class Content
                     } else {
                         $first = intval($data_to_save['categories']);
                     }
-
                     if ($first != false) {
                         $first_par_for_cat = $this->app->category->get_page($first);
                         if (!empty($first_par_for_cat) and isset($first_par_for_cat['id'])) {
@@ -4204,11 +4189,7 @@ class Content
                             }
 
                         }
-
-
                     }
-
-
                 }
             }
 
@@ -4321,10 +4302,8 @@ class Content
         $this->app->cache->delete('content_fields/global');
         $this->app->cache->delete('content');
         if ($cats_modified != false) {
-            if(isset($delete_global_categories_cache) and $delete_global_categories_cache == true){
-                $this->app->cache->delete('categories/global');
-            }
-           //
+
+            // $this->app->cache->delete('categories/global');
             $this->app->cache->delete('categories_items/global');
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
@@ -4607,7 +4586,7 @@ class Content
 
                         $html_to_save = $the_field_data['html'];
 
-                        $html_to_save = $content = $this->app->db->parser->make_tags($html_to_save);
+                        $html_to_save = $content = mw('parser')->make_tags($html_to_save);
 
 
                         if ($save_global == false and $save_layout == false) {
@@ -4702,7 +4681,7 @@ class Content
                             }
 
 
-                            $cont_field['value'] = $this->app->db->parser->make_tags($html_to_save);
+                            $cont_field['value'] = mw('parser')->make_tags($html_to_save);
 
                             if ((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '')and isset($the_field_data['attributes']['data-field'])) {
                                 $the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
@@ -5179,7 +5158,7 @@ class Content
             if (isset($item['value'])) {
                 $field_content = htmlspecialchars_decode($item['value']);
                 $field_content = $this->_decode_entities($field_content);
-                $item['value'] = $this->app->db->parser->process($field_content, $options = false);
+                $item['value'] = mw('parser')->process($field_content, $options = false);
 
             }
 
