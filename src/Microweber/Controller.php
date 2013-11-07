@@ -1777,8 +1777,10 @@ class Controller
                         $tags .= "{$k}=\"$v1\" ";
                     } else {
 						 
-						
-						$v = $this->app->db->escape_string($v);
+					    $v = $this->app->format->clean_html($v);
+						 
+
+						//$v = $this->app->db->escape_string($v);
 						
                         $tags .= "{$k}=\"$v\" ";
                     }
