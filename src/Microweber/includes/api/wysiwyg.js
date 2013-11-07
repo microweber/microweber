@@ -455,6 +455,11 @@ mw.wysiwyg = {
                 }
 
               if(sel.isCollapsed && typeof window.chrome === 'object'){
+				  
+				  /*
+				  delete bug 
+				  
+				  
                 var a = sel.anchorNode;
                 var _s = mw.tools.cloneObject(sel);
                 if(event.keyCode == 46 || event.keyCode == 8 ){
@@ -545,7 +550,10 @@ mw.wysiwyg = {
                   else{}
                 }
                 return false;
-              }
+              */
+			  
+			  
+			  }
               else{  /* If Not Colapsed */
 
               }

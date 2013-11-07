@@ -75,11 +75,6 @@ input.large-field, textarea.large-field {
 }
 #header .nav-pills > li > a {
 	padding: 16px;
-	color: #242B35;
-}
-#header .nav-pills > li > a.active {
-	 
-	color: white !important;
 }
 /* /Global styles */
 
@@ -1022,7 +1017,7 @@ input.mw-captcha-input {
 	color: white;
 }
 #footer a.active {
-	color: #CCCCCC;
+	text-decoration:underline;
 }
 #footer .muted {
 	color: #999999;
