@@ -4143,10 +4143,13 @@ class Content
                 $data_to_save['content'] = null;
                 //
             } else {
-                $data_to_save['content'] = mw('parser')->make_tags($data_to_save['content']);
+                $data_to_save['content'] = $this->app->db->parser->make_tags($data_to_save['content']);
             }
         }
-
+        $delete_global_categories_cache = false;
+        if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'page') {
+        $delete_global_categories_cache = true;
+        }
 
         if (isset($data_to_save['id']) and intval($data_to_save['id']) == 0) {
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
@@ -4318,8 +4321,10 @@ class Content
         $this->app->cache->delete('content_fields/global');
         $this->app->cache->delete('content');
         if ($cats_modified != false) {
-
-           // $this->app->cache->delete('categories/global');
+            if(isset($delete_global_categories_cache) and $delete_global_categories_cache == true){
+                $this->app->cache->delete('categories/global');
+            }
+           //
             $this->app->cache->delete('categories_items/global');
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
@@ -4602,7 +4607,7 @@ class Content
 
                         $html_to_save = $the_field_data['html'];
 
-                        $html_to_save = $content = mw('parser')->make_tags($html_to_save);
+                        $html_to_save = $content = $this->app->db->parser->make_tags($html_to_save);
 
 
                         if ($save_global == false and $save_layout == false) {
@@ -4697,7 +4702,7 @@ class Content
                             }
 
 
-                            $cont_field['value'] = mw('parser')->make_tags($html_to_save);
+                            $cont_field['value'] = $this->app->db->parser->make_tags($html_to_save);
 
                             if ((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '')and isset($the_field_data['attributes']['data-field'])) {
                                 $the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
@@ -5174,7 +5179,7 @@ class Content
             if (isset($item['value'])) {
                 $field_content = htmlspecialchars_decode($item['value']);
                 $field_content = $this->_decode_entities($field_content);
-                $item['value'] = mw('parser')->process($field_content, $options = false);
+                $item['value'] = $this->app->db->parser->process($field_content, $options = false);
 
             }
 
