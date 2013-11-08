@@ -182,6 +182,10 @@ input.large-field, textarea.large-field {
  color: #0088CC;
 }
 
+#header .well .nav a.active {
+	color: white;
+}
+
 .well .nav a {
  color: #0088CC;
 }
