@@ -178,6 +178,15 @@ input.large-field, textarea.large-field {
 #header .nav a, #header .nav a.active:hover {
 	color: white;
 }
+#header .well .nav a {
+ color: #0088CC;
+}
+
+.well .nav a {
+ color: #0088CC;
+}
+
+
 #header .nav a:hover, #header .navbar .nav a, #header .nav-tabs a.active {
 	color:#242B35;
 }
