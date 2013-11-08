@@ -185,7 +185,9 @@ input.large-field, textarea.large-field {
 #header .well .nav a.active {
 	color: white;
 }
-
+.well .nav a.active {
+ color: white;
+}
 .well .nav a {
  color: #0088CC;
 }
