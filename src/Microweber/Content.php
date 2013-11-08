@@ -3370,7 +3370,7 @@ class Content
             $filename_dir = false;
             $filename = normalize_path($filename);
             $filename = rtrim($filename, '\\');
-            //p ( $filename );
+
 
             $filename = (substr($filename, 0, 1) === '.' ? substr($filename, 1) : $filename);
 
@@ -3382,7 +3382,7 @@ class Content
                 $fn1 = normalize_path($filename, true) . 'config.php';
                 $fn2 = normalize_path($filename);
 
-                //  p ( $fn1 );
+
 
                 if (is_file($fn1)) {
                     $config = false;
