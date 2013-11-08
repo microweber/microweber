@@ -260,8 +260,10 @@ if($in_dir != false){
             if (!isset($attrs['id'])) {
                 global $mw_mod_counter;
                 $mw_mod_counter++;
+				$seg_clean = $this->app->url->segment(0);
+                $seg_clean = str_replace('.', '', $seg_clean);
 
-                $attrs1 = crc32(serialize($attrs) . $this->app->url->segment(0) . $mw_mod_counter);
+                $attrs1 = crc32(serialize($attrs) .$seg_clean . $mw_mod_counter);
 
 
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
