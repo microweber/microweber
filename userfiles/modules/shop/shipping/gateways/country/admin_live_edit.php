@@ -10,15 +10,11 @@
 			</a></li>
 	</ul>
 	<div class="tab">
-	 
-	<module type="<?php print($config['module_name']); ?>/admin_backend" id="mw_shipping_cfg"    />
+		<module type="<?php print($config['module_name']); ?>/admin_backend" id="mw_shipping_cfg"    />
 	</div>
 	<div class="tab">
-	
-	 
-	
-	<module type="admin/modules/templates" id="shipping_list_templ"  for-module="<?php print($params['data-type']); ?>"  />
-</div>
+		<module type="admin/modules/templates" id="shipping_list_templ"  for-module="<?php print($params['data-type']); ?>"  />
+	</div>
 	<div class="mw_clear"></div>
 	<div class="vSpace"></div>
 </div>

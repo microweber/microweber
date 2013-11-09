@@ -14,6 +14,11 @@
 				<option  value="n"  <?php if(('n' == strval($checkout_link_enanbled))): ?>  selected="selected"  <?php endif; ?>><?php _e("No"); ?></option>
 			</select>
 		</div>
+		
+		
+	
+		
+		
 		<div class="mw-ui-label">
 			<strong><?php _e("Use Checkout Page From"); ?></strong>
 		</div>

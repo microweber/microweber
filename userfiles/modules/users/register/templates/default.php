@@ -78,9 +78,7 @@ $(document).ready(function(){
 				</div>
 			</div>
 			<div class="social-login">
-				<label>
-					<?php _e("Login with"); ?>
-				</label>
+			 
 				<?php if(get_option('enable_user_fb_registration','users') =='y'): ?>
 				<a href="<?php print site_url('api/user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook"></a>
 				<?php $have_social_login = true; ?>

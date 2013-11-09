@@ -62,7 +62,10 @@ $rand = uniqid(); ?>
 <label class="mw-ui-label"><?php _e("Display"); ?> <?php print ($set_content_type) ?>  <?php _e("from page"); ?></label>
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field" onchange="mw_reload_content_mod_window()"   >
-    <option     <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("All pages"); ?></option>
+    <option  value="current_page"    <?php if(('current_page' == ($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>--<?php _e("Current page"); ?></option>
+
+    <option  value="0"    <?php if($posts_parent_page != 'current_page' and (0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("All pages"); ?></option>
+	 
     <?php
 $pt_opts = array();
   $pt_opts['link'] = "{empty}{title}";

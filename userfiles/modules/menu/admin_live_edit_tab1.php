@@ -360,7 +360,7 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
 
  ?>
 <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
-  <microweber module="categories/selector"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
+  <microweber module="categories/selector"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  /> 
 </div>
 <div id="custom_link_controller" class="mw-ui-gbox">
   <input type="text" class="mw-ui-field" placeholder="<?php _e("Title"); ?>" name="title" />

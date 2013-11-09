@@ -191,7 +191,12 @@ $is_worldwide = false;
             }
         }
         if (isset($shipping_country['shipping_cost']) and intval($shipping_country['shipping_cost']) > 0) {
-            $defined_cost = $defined_cost + floatval($shipping_country['shipping_cost']);
+			if (isset($shipping_country['shipping_type']) and $shipping_country['shipping_type'] == 'fixed') {
+				
+			} else {
+				            $defined_cost = $defined_cost + floatval($shipping_country['shipping_cost']);
+
+			}
         }
 if($is_worldwide == false){
         $this->app->user->session_set('shipping_country', $shipping_country['shipping_country']);
