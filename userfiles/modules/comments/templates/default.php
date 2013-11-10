@@ -154,7 +154,7 @@ description: Default comments template
       <?php if(isset($cur_user_data['thumbnail']) and trim($cur_user_data['thumbnail'])!=''): ?>
       <span class="mw-user-thumb mw-user-thumb-small"> <img style="vertical-align:middle" src="<?php print $cur_user_data['thumbnail'] ?>"  height="24" width="24" /> </span>
       <?php endif; ?>
-      <span class="comments-user-profile-username"> <?php print user_name($cur_user_data['id']); ?> </span> <small><a href="<?php print mw('url')->api_link('logout') ?>">(<?php _e("Logout"); ?>)</a></small> </span>
+      <span class="comments-user-profile-username"> <?php print user_name($cur_user_data['id']); ?> </span> <small><a href="<?php print api_link('logout') ?>">(<?php _e("Logout"); ?>)</a></small> </span>
       <?php endif; ?>
       <div class="row-fluid">
         <div class="span12 comment-field">

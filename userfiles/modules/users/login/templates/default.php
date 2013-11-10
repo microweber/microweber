@@ -48,23 +48,23 @@ description: Login default
     <div class="social-login">
       
         <?php if(get_option('enable_user_fb_registration','users') =='y'): ?>
-        <a href="<?php print site_url('api/user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook"></a>
+        <a href="<?php print api_link('user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook"></a>
         <?php $have_social_login = true; ?>
         <?php endif; ?>
         <?php if(get_option('enable_user_twitter_registration','users') =='y'): ?>
-        <a href="<?php print site_url('api/user_social_login?provider=twitter') ?>" class="mw-social-ico-twitter"></a>
+        <a href="<?php print api_link('user_social_login?provider=twitter') ?>" class="mw-social-ico-twitter"></a>
         <?php $have_social_login = true; ?>
         <?php endif; ?>
         <?php if(get_option('enable_user_google_registration','users') =='y'): ?>
-        <a href="<?php print site_url('api/user_social_login?provider=google') ?>" class="mw-social-ico-google"></a>
+        <a href="<?php print api_link('user_social_login?provider=google') ?>" class="mw-social-ico-google"></a>
         <?php $have_social_login = true; ?>
         <?php endif; ?>
         <?php if(get_option('enable_user_windows_live_registration','users') =='y'): ?>
-        <a href="<?php print site_url('api/user_social_login?provider=live') ?>" class="mw-social-ico-live"></a>
+        <a href="<?php print api_link('user_social_login?provider=live') ?>" class="mw-social-ico-live"></a>
         <?php $have_social_login = true; ?>
         <?php endif; ?>
         <?php if(get_option('enable_user_github_registration','users') =='y'): ?>
-        <a href="<?php print site_url('api/user_social_login?provider=github') ?>" class="mw-social-ico-github"></a>
+        <a href="<?php print api_link('user_social_login?provider=github') ?>" class="mw-social-ico-github"></a>
         <?php $have_social_login = true; ?>
         <?php endif; ?>
 

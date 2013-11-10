@@ -116,7 +116,7 @@ mw.on.hashParam("comments_for_content", function(){
 			  
 			  var data = form.serialize();
 			   
-			  $.post( "<?php print site_url('api/post_comment'); ?>",data, function( data ) {
+			  $.post( "<?php print api_link('post_comment'); ?>",data, function( data ) {
 				   mw.reload_module('#mw_comments_for_post_'+connected_id, function(){
 					  $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
 				  });
@@ -176,7 +176,7 @@ mw.on.hashParam("comments_for_content", function(){
 					
 					var mark_as_old = {}
 					mark_as_old.content_id = is_cont;
-					$.post('<?php print site_url('api/mark_comments_as_old'); ?>', mark_as_old, function(data) {
+					$.post('<?php print api_link('mark_comments_as_old'); ?>', mark_as_old, function(data) {
 					   
 					});
 					

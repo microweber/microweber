@@ -107,7 +107,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
         $pt_opts['active_code_tag'] = '   selected="selected"  ';
         $pt_opts['rel'] = 'content';
         $pt_opts['rel_id'] = $posts_parent_page;
-        mw('category')->tree($pt_opts);
+        category_tree($pt_opts);
   ?>
   </select>
 </div>

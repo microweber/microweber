@@ -16,6 +16,11 @@ function api($function_name, $params = false)
 
 }
 
+function api_link($str = ''){
+    return mw('url')->api_link($str);
+
+}
+
 
 function event_trigger($api_function, $data = false)
 {

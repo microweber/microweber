@@ -47,7 +47,7 @@ _mw_admin_save_user_form<?php  print $data['id']; ?> = function(){
         mwd.getElementById("reset_password").disabled = true;
     }
 
- mw.form.post(mw.$('#users_edit_{rand}') , '<?php print site_url('api/save_user') ?>', function(){
+ mw.form.post(mw.$('#users_edit_{rand}') , '<?php print api_link('save_user') ?>', function(){
 	 
       UserId = this;
 	  // mw.reload_module('[data-type="categories"]');

@@ -255,7 +255,7 @@ var comm_module_id = "<?php print $params['id'] ?>";
 			}
 			
 			mw.comments_is_saving = true;
-            mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print site_url('api/post_comment'); ?>',
+            mw.form.post('form#comments-form-<?php print $params['id'] ?>', '<?php print api_link('post_comment'); ?>',
 			function(msg) {
 				mw.comments_is_saving = false;
 				var resp = this;

@@ -31,14 +31,14 @@ mw.log_item_delete = function($item_id){
 	
      mw.tools.confirm(mw.msg.del, function(){
 		 log_del_conf++;
-    	  $.get("<?php print site_url('api/delete_log_entry'); ?>/"+$item_id, function(){
+    	  $.get("<?php print api_link('delete_log_entry'); ?>/"+$item_id, function(){
     		 	mw.$('.mw-ui-admin-log-item-'+$item_id).fadeOut();
     	  });
      });
 	 
 	} else {
 		 log_del_conf++;
-    	  $.get("<?php print site_url('api/delete_log_entry'); ?>/"+$item_id, function(){
+    	  $.get("<?php print api_link('delete_log_entry'); ?>/"+$item_id, function(){
     		 	mw.$('.mw-ui-admin-log-item-'+$item_id).fadeOut();
     	  });
 	}
@@ -47,7 +47,7 @@ mw.log_item_delete = function($item_id){
 
 mw.syslog_log_reset_all = function(){
 	 mw.tools.confirm("All the log entries will be deleted!! Are you sure?", function(){
-	 $.get("<?php print site_url('api/system_log_reset'); ?>", function(){
+	 $.get("<?php print api_link('system_log_reset'); ?>", function(){
 		 	mw.reload_module('<?php print $config['module'] ?>');
 	  });
 	 });

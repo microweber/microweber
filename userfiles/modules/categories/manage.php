@@ -9,7 +9,7 @@ $tree['ul_class'] = 'pages_tree cat_tree_live_edit';
 $tree['li_class'] = 'sub-nav';
 $tree['rel'] = 'content';
 $tree['link'] = "<a href='javascript:mw.load_quick_cat_edit({id})'><span class='ico icategory'></span>{title}</a>";
- mw('category')->tree($tree);
+ category_tree($tree);
 ?></div>
 
 
@@ -40,7 +40,7 @@ mw.$("#<?php print $params['id'] ?>").sortable({
           var id = this.attributes['value'].nodeValue;
           obj.ids.push(id);
        });
-       $.post("<?php print site_url('api/category/reorder'); ?>", obj, function(){
+       $.post("<?php print api_link('category/reorder'); ?>", obj, function(){
           if(self !== parent && !!parent.mw){
             parent.mw.reload_module('categories');
           }

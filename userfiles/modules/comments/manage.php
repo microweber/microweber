@@ -37,7 +37,7 @@
           field.val(val);
           var id = form.attr('id');
 		   
-          mw.form.post('#'+id, '<?php print site_url('api/post_comment'); ?>');
+          mw.form.post('#'+id, '<?php print api_link('post_comment'); ?>');
           //mw.reload_module('<?php print $params['type'] ?>');
       },
       edit:function(form){

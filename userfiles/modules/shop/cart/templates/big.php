@@ -56,9 +56,9 @@ description: Full width cart template
           <?php print $item['custom_fields'] ?>
           <?php  endif ?></td>
         <td><input type="number" class="input-mini" value="<?php print $item['qty'] ?>" onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value)" /></td>
-        <?php /*<td><?php print mw('shop')->currency_format($item['price']); ?></td>*/ ?>
-        <td class="mw-cart-table-price"><?php print mw('shop')->currency_format($item['price']); ?></td>
-        <td class="mw-cart-table-price"><?php print mw('shop')->currency_format($item['price']* $item['qty']); ?></td>
+        <?php /*<td><?php print currency_format($item['price']); ?></td>*/ ?>
+        <td class="mw-cart-table-price"><?php print currency_format($item['price']); ?></td>
+        <td class="mw-cart-table-price"><?php print currency_format($item['price']* $item['qty']); ?></td>
         <td><a title="<?php _e("Remove"); ?>" class="icon-trash" href="javascript:mw.cart.remove('<?php print $item['id'] ?>');"></a></td>
       </tr>
       <?php endforeach; ?>
@@ -97,7 +97,7 @@ description: Full width cart template
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print mw('shop')->currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></span></td>
+                <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></span></td>
             </tr>
         </tbody>
     </table>

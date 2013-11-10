@@ -106,7 +106,7 @@
                             obj.ids.push(id);
                         });
 
-                        $.post("<?php print site_url('api/content/reorder'); ?>", obj, function () {
+                        $.post("<?php print api_link('content/reorder'); ?>", obj, function () {
 
                             mw.reload_module_parent('pages');
 

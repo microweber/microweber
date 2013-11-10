@@ -37,7 +37,7 @@ description: Columns
         <?php 
 		$vals2 = array_values($item['prices']);
 		$val1 = array_shift($vals2); ?>
-        <span class="price"><?php print mw('shop')->currency_format($val1); ?></span>
+        <span class="price"><?php print currency_format($val1); ?></span>
         <?php } else{ ?>
   
          

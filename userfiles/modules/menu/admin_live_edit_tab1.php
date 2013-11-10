@@ -119,7 +119,7 @@ body.module-settings-page #custom_link_controller {
 
   mw.menu_save = function($selector){
       var obj = mw.form.serialize($selector);
-      $.post("<?php print site_url('api/content/menu_create') ?>",  obj, function(data){
+      $.post("<?php print api_link('content/menu_create') ?>",  obj, function(data){
 	    window.location.href = window.location.href;
 		
 		 menuSelectorInit();
@@ -163,7 +163,7 @@ if (r==true)
   {
   
   
-   $.post("<?php print site_url('api/content/menu_delete') ?>",  data, function(resp){
+   $.post("<?php print api_link('content/menu_delete') ?>",  data, function(resp){
 	   		  mw.reload_module('#<?php print $params['id'] ?>');
 			   menuSelectorInit();
       });
@@ -269,7 +269,7 @@ $(document).ready(function(){
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
-        	mw.form.post(selector, '<?php print mw('url')->api_link('content/menu_item_save'); ?>', function(){
+        	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
 				
 				mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
 

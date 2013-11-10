@@ -22,7 +22,7 @@ mw.client_edit = {
   mw.$('.mw-client-information').addClass('nonactive');
 },
 save:function(){
- var URL = '<?php print mw('url')->api_link('shop/update_order') ?>';
+ var URL = '<?php print api_link('shop/update_order') ?>';
  if(!mw.$('.mw-client-information').hasClass('nonactive')){
    var obj = mw.form.serialize('.mw-client-information');
    $.post(URL, obj ,function(data) {
@@ -159,7 +159,7 @@ save:function(){
                                   <td class="mw-order-item-id"><?php print $cart_item['title'] ?></td>
                                   <td class="mw-order-item-amount"><?php print $cart_item['price'] ?></td>
                                   <td class="mw-order-item-amount"><?php print $cart_item['qty'] ?></td>
-                                  <td class="mw-order-item-count"><?php print mw('shop')->currency_format($cart_item['price']*$cart_item['qty'],$item['currency']) ?></td>
+                                  <td class="mw-order-item-count"><?php print currency_format($cart_item['price']*$cart_item['qty'],$item['currency']) ?></td>
                                 </tr>
                               <?php endforeach ; ?>
                             </tbody>

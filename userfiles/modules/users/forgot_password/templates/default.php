@@ -27,7 +27,7 @@
 
     <div class="control-group">
       <div class="controls">
-        <div class="input-prepend" style="width: 100%;"> <span style="width: 100px;background: white" class="add-on"> <img class="mw-captcha-img" src="<?php print site_url('api/captcha') ?>" onclick="mw.tools.refresh_image(this);" /> </span>
+        <div class="input-prepend" style="width: 100%;"> <span style="width: 100px;background: white" class="add-on"> <img class="mw-captcha-img" src="<?php print api_link('captcha') ?>" onclick="mw.tools.refresh_image(this);" /> </span>
           <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="mw-captcha-input" name="captcha">
         </div>
       </div>

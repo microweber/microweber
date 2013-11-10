@@ -34,7 +34,7 @@
                 $pt_opts['list_item_tag'] = "option";
 				$pt_opts['parent'] =$cat['id'];
 				$pt_opts['include_first'] = 1;
-				mw('category')->tree($pt_opts);
+				category_tree($pt_opts);
 			}
 		}
  }

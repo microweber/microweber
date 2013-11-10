@@ -334,7 +334,7 @@ mw.manage_content_sort = function(){
         obj.ids.push(id);
       });
 
-       $.post("<?php print site_url('api/content/reorder'); ?>", obj, function(){});
+       $.post("<?php print api_link('content/reorder'); ?>", obj, function(){});
      },
      start:function(a,ui){
       $(this).height($(this).outerHeight());
@@ -398,7 +398,7 @@ $pt_opts['max_level'] = 2;
 
 
 
-mw('category')->tree($pt_opts);
+category_tree($pt_opts);
 ?>
 	<?php endif; ?>
 	<?php endif; ?>

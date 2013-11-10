@@ -26,7 +26,7 @@ function mw_create_new_list_<?php print $rand; ?>(){
   if(!isCreating){
 
       isCreating = true;
-	  mw.form.post('.mw_create_new_forms_list<?php print $rand; ?>', '<?php print mw('url')->api_link('save_form_list'); ?>', function(){
+	  mw.form.post('.mw_create_new_forms_list<?php print $rand; ?>', '<?php print api_link('save_form_list'); ?>', function(){
 
 
 
