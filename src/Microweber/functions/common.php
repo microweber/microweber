@@ -1058,6 +1058,13 @@ function get_category_children($parent_id = 0, $type = false, $visible_on_fronte
     return mw('category')->get_children($parent_id, $type, $visible_on_frontend);
 }
 
+function get_content_children($id = 0, $without_main_parent = false)
+{
+
+    return mw('content')->get_children($id, $without_main_parent);
+}
+
+
 function get_page_for_category($category_id)
 {
     return mw('category')->get_page($category_id);

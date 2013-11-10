@@ -50,7 +50,7 @@ if(((!isset($for_id)) and isset($params['data-id']))){
 	 
 	mw('fields')->make_default($for,$for_id,$params['default-fields']);
 }
- $more = mw('fields')->get($for ,$for_id,1); 
+ $more = get_custom_fields($for ,$for_id,1); 
  
  ?>
 

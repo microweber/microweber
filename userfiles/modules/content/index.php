@@ -6,10 +6,11 @@ $set_content_type = 'post';
    if( $set_content_type_from_opt != false and  $set_content_type_from_opt != ''){
 	 $set_content_type  = $set_content_type_from_opt;
 	 $params['content_type'] = $set_content_type;
+	 //$params['subtype'] = $set_content_type;
    }
  
  
  
-include_once($config['path_to_module'].'../posts/index.php'); 
+include($config['path_to_module'].'../posts/index.php'); 
  
  

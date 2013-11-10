@@ -120,7 +120,7 @@ $('#module_open_<?php print $params['id']; ?>').show();
 			<?php endif; ?>
 		</h2>
 		<?php if(isset($data['description'])):  ?>
-		<small title="<?php print addslashes(mw('format')->limit($data['description'],1200)); ?>"> <?php print mw('format')->limit($data['description'],120); ?> </small>
+		<small title="<?php print addslashes(character_limiter($data['description'],1200)); ?>"> <?php print character_limiter($data['description'],120); ?> </small>
 		<?php endif; ?>
 		<p> </p>
 	</div>
