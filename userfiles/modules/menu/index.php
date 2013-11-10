@@ -59,12 +59,12 @@ if(isset($params['menu-name'])){
 		
 		
 	} else {
-		//mw('content')->pages_tree($params);
+		//pages_tree($params);
 		   print lnotif("Click on settings to edit this menu");
 	}
 
 } else {
-	//mw('content')->pages_tree($params);
+	//pages_tree($params);
 	 print lnotif("Click on settings to edit this menu");
 }
 

@@ -171,7 +171,7 @@ $kw = '';
     							<tr
                 data-index = "<?php print $index; ?>"
                 class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>" >
-    								<td class="mw-order-item-id"><a href="<?php print mw('content')->link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a></td>
+    								<td class="mw-order-item-id"><a href="<?php print content_link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a></td>
     								<td class="mw-order-item-fields"><?php 	if(isset($item['custom_fields'])): ?>
     									<?php print $item['custom_fields'] ?>
     									<?php  endif ?></td>

@@ -151,10 +151,10 @@ $paging_links = false;
 
     <div class="manage-post-main">
       <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"><?php print strip_tags($item['title']) ?></a></h3>
-      <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y"><?php print mw('content')->link($item['id']); ?></a></small>
+      <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a></small>
       <div class="manage-post-item-description"> <?php print mw('format')->limit(strip_tags($item['description']), 60);
       ?> </div>
-      <div class="manage-post-item-links"> <a target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y"><?php _e("Live edit"); ?></a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:delete_single_post_forever('<?php print ($item['id']) ?>');"><?php _e("Delete forever"); ?></a> <a href="javascript:restore_single_post_from_deletion('<?php print ($item['id']) ?>');;"><?php _e("Restore"); ?></a></div>
+      <div class="manage-post-item-links"> <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php _e("Live edit"); ?></a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:delete_single_post_forever('<?php print ($item['id']) ?>');"><?php _e("Delete forever"); ?></a> <a href="javascript:restore_single_post_from_deletion('<?php print ($item['id']) ?>');;"><?php _e("Restore"); ?></a></div>
     </div>
     <div class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'],'username') ?></div>
   </div>

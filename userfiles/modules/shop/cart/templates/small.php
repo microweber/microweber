@@ -37,7 +37,7 @@ description: Small cart template
     <?php $checkout_page =get_option('data-checkout-page', $params['id']); ?>
     <?php if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
 
-	   $checkout_page_link = mw('content')->link($checkout_page).'/view:checkout';
+	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
    } else {
 	   $checkout_page_link = site_url('checkout');
 

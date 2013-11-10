@@ -20,7 +20,7 @@ description: Tabs menu
 			print ($mt);
 		} else {
 			print lnotif("There are no items in the menu <b>".$params['menu-name']. '</b>');
-			//mw('content')->pages_tree($params);
+			//pages_tree($params);
 			//print "There are no items in the menu <b>".$params['menu-name']. '</b>';
 		}
    ?>

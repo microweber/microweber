@@ -144,7 +144,7 @@ if(is_array($data)){
   </tbody>
 </table>
 <?php if(is_array($data)) :?>
-<div class="mw-paging left"> <?php print mw('content')->paging("num=$data_paging"); ?> </div>
+<div class="mw-paging left"> <?php print paging("num=$data_paging"); ?> </div>
 <?php if(isset($params['export_to_excel'])) : ?>
 <?php endif; ?>
 <?php if(isset($params['export_to_excel'])) : ?>

@@ -8,7 +8,7 @@
  * @param string link
  *            Replace the link href with your own. Ex: link="<?php print site_url('page_id:{id}'); ?>"
  * @return string prints the site tree
- * @uses mw('content')->pages_tree($params);
+ * @uses pages_tree($params);
  * @usage  type="pages" append_to_link="/editmode:y"
  */
 

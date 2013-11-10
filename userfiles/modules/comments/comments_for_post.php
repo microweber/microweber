@@ -5,7 +5,7 @@
 
     $comments = get_comments($data);
 
-	$item = mw('content')->get_by_id($params['content_id']);
+	$item = get_content_by_id($params['content_id']);
 
     $content_id =  $params['content_id'];
 
@@ -26,7 +26,7 @@
     </span>
     <div class="comment-post-content-side">
       <h3><a href="javascript:;" class="mw-ui-link"><?php print $item['title'] ?></a></h3>
-      <a class="comment-post-url" href="<?php print mw('content')->link($item['id']) ?>"> <?php print mw('content')->link($item['id']) ?></a> <br>
+      <a class="comment-post-url" href="<?php print content_link($item['id']) ?>"> <?php print content_link($item['id']) ?></a> <br>
     <!--  <a class="mw-ui-link" href="<?php print $item['url'] ?>/editmode:y">Live edit</a>--> </div>
   </div>
   <div class="comments-holder">

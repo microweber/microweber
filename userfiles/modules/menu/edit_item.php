@@ -49,10 +49,10 @@ if( $id != 0){
 <div class="vSpace"></div>
 <div class="<?php print $config['module_class']; ?> menu_item_edit" id="mw_content/menu_item_save_<?php  print $rand ?>">
   <?php if((!isset($data['title']) or $data['title']=='' ) and isset($data["content_id"]) and intval($data["content_id"]) > 0 ): ?>
-  <?php $cont = mw('content')->get_by_id($data["content_id"]);
+  <?php $cont = get_content_by_id($data["content_id"]);
 	if(isset($cont['title'])){
 		$data['title'] = $cont['title'];
-		$item_url = mw('content')->link($cont['id']);
+		$item_url = content_link($cont['id']);
 	}
 	?>
   <?php else: ?>
@@ -67,7 +67,7 @@ if( $id != 0){
   <?php endif; ?>
   <?php
   if (isset($data['content_id']) and intval($data['content_id']) != 0) {
-		 	$item_url = mw('content')->link($data['content_id']);
+		 	$item_url = content_link($data['content_id']);
 
 	}
 

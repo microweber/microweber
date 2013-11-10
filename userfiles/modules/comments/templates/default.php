@@ -29,7 +29,7 @@ description: Default comments template
   <h4><?php _e("Recent comments"); ?></h4>
   <?php else : ?>
   <h4><?php _e("Comments for"); ?> <strong>
-    <?php  $post = mw('content')->get_by_id($data['rel_id']); print $post['title']; ?>
+    <?php  $post = get_content_by_id($data['rel_id']); print $post['title']; ?>
     </strong></h4>
   <?php endif; ?>
   <div class="comments" id="comments-list-<?php print $data['id'] ?>">
@@ -118,7 +118,7 @@ description: Default comments template
     </div>
     <?php } endforeach; ?>
     <?php if($paging != false and intval($paging) > 1 and isset($paging_param)): ?>
-    <?php print mw('content')->paging("num={$paging}&paging_param={$paging_param}") ?>
+    <?php print paging("num={$paging}&paging_param={$paging_param}") ?>
     <?php endif; ?>
   </div>
   <?php else: ?>

@@ -839,3 +839,6 @@ $language["enter-the-text"]= 'Enter the text' ;
 $language["new-registration-or"]= 'New Registration or' ; 
 $language["login-with"]= 'Login with' ; 
 $language["allow-multiple-choices"]= 'Allow Multiple Choices' ; 
+$language["published"]= 'Published' ; 
+$language["edit-current"]= 'Edit current' ; 
+$language["modules-layouts"]= 'Modules & Layouts' ; 

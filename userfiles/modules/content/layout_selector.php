@@ -32,7 +32,7 @@ $data = false;
 if(!isset($params["layout_file"]) and isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0){
 
 
- $data = mw('content')->get_by_id($params["data-page-id"]);
+ $data = get_content_by_id($params["data-page-id"]);
 } else {
 	 
 //	$data = $params;
@@ -67,7 +67,7 @@ if((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data['
 //
 
 
-  $inherit_from_id = mw('content')->get_by_id($params["inherit_from"]);
+  $inherit_from_id = get_content_by_id($params["inherit_from"]);
  // $inherit_from_id = false;
  if($inherit_from_id != false and isset($inherit_from_id['active_site_template']) and trim($inherit_from_id['active_site_template']) != 'inherit'){
 $data['active_site_template']  =  $inherit_from_id['active_site_template'];
@@ -82,7 +82,7 @@ $data['active_site_template']  =  $inherit_from_id['active_site_template'];
          $inh1 = intval($params["inherit_from"]);
        }
        if($inh1 != false){
-         $inherit_from = mw('content')->get_by_id($inh1);
+         $inherit_from = get_content_by_id($inh1);
          if(is_array($inherit_from) and isset($inherit_from['active_site_template'])){
           $data['active_site_template']  =  $inherit_from['active_site_template'];
           $data['layout_file']  = 'inherit';
@@ -583,7 +583,7 @@ $global_template = $this->app->option->get('current_template', 'template');
 			<div class="preview_frame_ctrls">
             <h2 class="left" style="padding-top: 0;"><span class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?></h2>
               <a class="mw-ui-btn mw-ui-btn-medium" target="_top" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"><?php _e("Edit Page"); ?></a>
-              <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y"><?php _e("Go Live Edit"); ?></a>
+              <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue" target="_top" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"><?php _e("Go Live Edit"); ?></a>
 			  <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview.zoom();mw.$('.mw_overlay').remove();"></span>
 
             </div>
@@ -598,7 +598,7 @@ $global_template = $this->app->option->get('current_template', 'template');
 
 				<a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>" onclick="mw.e.cancel(event);"> <span class="ico ieditpage"></span><span>
 					<?php _e("Edit Page"); ?>
-					</span> </a> <a class="mw-ui-btn mw-ui-btn-blue" target="_top" href="<?php print mw('content')->link($params["edit_page_id"]); ?>/editmode:y" onclick="mw.e.cancel(event);"><span class="ico ilive"></span>
+					</span> </a> <a class="mw-ui-btn mw-ui-btn-blue" target="_top" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y" onclick="mw.e.cancel(event);"><span class="ico ilive"></span>
 					<?php _e("Go Live Edit"); ?>
 					</a> </div>
 			</div>

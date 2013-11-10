@@ -40,7 +40,7 @@
 
                 $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
-                mw('content')->pages_tree($pt_opts);
+                pages_tree($pt_opts);
 
 
                 ?>
@@ -138,7 +138,7 @@
         $pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}" href="{url}">{title}</a>';
 
 
-        mw('content')->pages_tree($pt_opts);
+        pages_tree($pt_opts);
 
 
         ?>

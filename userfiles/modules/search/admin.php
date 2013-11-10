@@ -29,7 +29,7 @@ $pt_opts['include_categories'] =true;
 
 
 
-          mw('content')->pages_tree($pt_opts);
+          pages_tree($pt_opts);
 
 
           ?>

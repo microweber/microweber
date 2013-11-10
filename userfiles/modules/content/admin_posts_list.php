@@ -266,10 +266,10 @@ $pages_count = intval($pages);
 
 
 		<?php print strip_tags($item['title']) ?></a></h3>
-        <a  class="manage-post-item-link-small mw-small" target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y"><?php print mw('content')->link($item['id']); ?></a></small>
+        <a  class="manage-post-item-link-small mw-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a></small>
         <div class="manage-post-item-description"> <?php print mw('format')->limit(strip_tags($item['description']), 60);
       ?> </div>
-        <div class="manage-post-item-links"> <a target="_top"  href="<?php print mw('content')->link($item['id']); ?>/editmode:y">Live edit</a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');;"><?php _e("Delete"); ?></a> </div>
+        <div class="manage-post-item-links"> <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php _e("Live edit"); ?></a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');;"><?php _e("Delete"); ?></a> </div>
       </div>
       <div class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'],'username') ?></div>
     </div>

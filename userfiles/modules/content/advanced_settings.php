@@ -2,7 +2,7 @@
 only_admin_access();
 $data = false;
 if(isset($params['content-id'])){
-  $data = mw('content')->get_by_id(intval($params["content-id"]));
+  $data = get_content_by_id(intval($params["content-id"]));
 }
 
 

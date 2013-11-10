@@ -62,12 +62,20 @@ if(isset($params['just-saved'])){
   save_cat = function(el){
     if(mwd.querySelector('.mw-ui-category-selector input:checked') !== null){
        $(document.forms['admin_edit_category_form_<?php print $form_rand_id ?>']).submit();
+	   
+	   
+	   
     }
     else{
       Alert('<?php _e("Please choose Page or Category"); ?>.');
     }
 
   }
+  
+  
+  
+  
+   
  <?php if($just_saved != false) : ?>
 	  $('#<?php print $params['id'] ?>').removeClass('loading');
 	   $('#<?php print $params['id'] ?>').removeAttr('just-saved');
@@ -94,6 +102,7 @@ $(document).ready(function(){
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
          mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print site_url('api/category/save') ?>', function(val){
         	  mw.notification.success("Category changes are saved");
+			  
 			  
 			  var v = val.toString();
 			   $('#mw_admin_edit_cat_id').val(v);
@@ -222,7 +231,9 @@ $(document).ready(function(){
 	<input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
 	<input type="submit" class="semi hidden" name="save" />
 	<div class="post-save-and-go-live">
-		<button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-green"><?php _e("Save"); ?></button>
+		<button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-green" id="mw-admin-cat-save"><?php _e("Save"); ?></button>
+	 
+
     </div>
 	<div class="vSpace"></div>
 	<div class="advanced_settings">

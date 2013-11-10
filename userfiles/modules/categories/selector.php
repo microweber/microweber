@@ -272,7 +272,7 @@ if (isset($params['categories_removed_ids'])) {
 }
   
  
-mw('content')->pages_tree($tree);
+pages_tree($tree);
 ?>
 <?php endif; ?>
 <?php  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){

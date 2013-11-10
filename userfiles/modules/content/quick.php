@@ -182,7 +182,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
           <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
           <div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published">
-             <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>Unpublished</span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>Published</span>
+             <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span><?php _e("Unpublished"); ?></span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span><?php _e("Published"); ?></span>
           </div>
     </div>
 
@@ -232,9 +232,9 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
 <div class="post-save-and-go-live">
     	<?php if($is_live_edit == false) : ?>
-        
-        	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
-        	<button type="button" class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
+        <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
+        	<button type="submit" class="mw-ui-btn "><?php _e("Save"); ?></button>
+        	
 
     	<?php else: ?> 
     	        	<button type="button" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></button>
