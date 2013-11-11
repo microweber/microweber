@@ -50,6 +50,7 @@ description: Columns
 			  if( $add_cart_text == false){
 				     $add_cart_text =  _e("Add to cart", true);
 			  }
+			
 			  ?>
 				 <?php if(is_array( $item['prices'])): ?>
                 <button class="btn" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$i ?>');"><i class="icon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>

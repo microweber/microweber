@@ -420,15 +420,31 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+        return $cache_content;
         }
 
 
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
+		if (isset($page['active_site_template']) and ($page['active_site_template']) == 'default') {
+		  $site_template_settings = $this->app->option->get('current_template', 'template');
+			if($site_template_settings  != false){
+				$site_template_settings = str_replace('..', '', $site_template_settings);
+				$site_template_settings_dir = TEMPLATES_DIR . $site_template_settings . DS ;
+				if(is_dir($site_template_settings_dir) != false){
+					$page['active_site_template'] =$site_template_settings;  
+				}
+			}
+			
+		}
+		
+		
 
         if (isset($page['active_site_template']) and isset($page['layout_file'])) {
+			
+			  
+			
             $page['layout_file'] = str_replace('___', DS, $page['layout_file']);
             $page['layout_file'] = str_replace('..', '', $page['layout_file']);
             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
@@ -877,11 +893,18 @@ class Content
         //$params['debug'] = 1;
         $params['cache_group'] = 'content/' . $id;
 
-
+		 if ($this->no_cache == true) {
+			  
+					 $q = $this->app->db->query($q);
+		
+		 } else {
+					 $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+		
+		 }
+	 
         //$q = $this->app->db->get($params);
 
         //  $q = $this->app->db->get_long($table, $params, $cache_group = 'content/' . $id);
-        $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];
             if (isset($content['title'])) {
@@ -2103,7 +2126,7 @@ class Content
         }
 
 
-        $params['limit'] = 5000;
+        $params['limit'] = 500;
         $params['orderby'] = 'position desc';
 
         $params['curent_page'] = 1;
@@ -2233,7 +2256,7 @@ class Content
                         $iid = $item['id'];
 
 
-                        $to_pr_2 = "<{$list_item_tag} class='{$li_class} $content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {exteded_classes}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='" . addslashes($item['title']) . "' >";
+                        $to_pr_2 = "<{$list_item_tag} class='{$li_class} $content_type_li_class {active_class} {active_parent_class} depth-{$nest_level} item_{$iid} {exteded_classes} menu-item-id-{$item['id']}' data-page-id='{$item['id']}' value='{$item['id']}'  data-item-id='{$item['id']}'  {active_code_tag} data-parent-page-id='{$item['parent']}' {$st_str} {$st_str2} {$st_str3}  title='" . addslashes($item['title']) . "' >";
 
                         if ($link != false) {
 
@@ -3979,7 +4002,7 @@ class Content
         }
         $table_cats = MW_TABLE_PREFIX . 'categories';
 
-        if (isset($data_to_save['title']) and (!isset($data['url']) or trim($data['url']) == '')) {
+        if (isset($data_to_save['title']) and ($data_to_save['title'] !='') and (!isset($data['url']) or trim($data['url']) == '')) {
             $data['url'] = $this->app->url->slug($data_to_save['title']);
         }
 
@@ -4214,9 +4237,10 @@ class Content
         $data_to_save['allow_html'] = true;
         $this->no_cache = true;
         $save = $this->app->db->save($table, $data_to_save);
+		$this->app->cache->delete('content/'.$save);
+
         $this->app->cache->delete('content_fields/global');
         // $this->app->cache->delete('content/global');
-        //$this->app->cache->delete('content/'.$save);
 
 
         $data_fields = array();
@@ -4303,6 +4327,7 @@ class Content
         if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
             $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
         }
+
         $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . '0');
         $this->app->cache->delete('content_fields/global');
@@ -4913,6 +4938,10 @@ class Content
         if (isset($data['rel']) and isset($data['rel_id'])) {
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
             $this->app->cache->delete($cache_group);
+
+
+
+        $this->app->cache->delete('content/'. $data['rel_id']);
 
         }
         if (isset($data['rel'])) {

@@ -174,12 +174,12 @@ class Fields
 
             $qt_is_active = '';
             if (isset($custom_field_is_active)) {
+                $custom_field_is_active = $this->app->db->escape_string($custom_field_is_active);
                 $qt_is_active = " custom_field_is_active='{$custom_field_is_active}'   and ";
             }
 
 
-            $q = " SELECT
-		{$select_what} FROM  $table_custom_field WHERE
+            $q = " SELECT ". $select_what . " FROM  $table_custom_field WHERE
 		{$qt}
 		{$qt_is_active}
 		$idq1ttid
@@ -200,8 +200,9 @@ class Fields
 
             $cache_id = __FUNCTION__ . '_' . $crc;
             if ($debug != false) {
-                d($q);
+
             }
+           // d($q);
             if($this->skip_cache == false){
                 $q = $this->app->db->query($q, $cache_id, 'custom_fields/global');
 
@@ -264,6 +265,7 @@ class Fields
 
                         foreach ($q2 as $cfk => $cfv) {
 
+
                             if ($cfk == 'custom_field_name') {
 
                                 $the_name = $cfv;
@@ -307,8 +309,7 @@ class Fields
                 }
             }
         }
-
-        $result = $the_data_with_custom_field__stuff;
+         $result = $the_data_with_custom_field__stuff;
         //$result = (array_change_key_case($result, CASE_LOWER));
         $result = $this->app->url->replace_site_url_back($result);
         //d($result);
@@ -408,10 +409,12 @@ class Fields
 
 
             $data_to_save['allow_html'] = true;
-
+          //  $data_to_save['debug'] = true;
             $this->skip_cache = true;
+
             $save = $this->app->db->save($table_custom_field, $data_to_save);
             $this->app->cache->delete('custom_fields');
+            $this->app->cache->delete('custom_fields/global');
 
             return $save;
         }
@@ -459,12 +462,17 @@ class Fields
 
 
         //$is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
+
+
         $is_made = $this->get($rel, $rel_id, $return_full = 0, $field_for = false, $debug = 0);
 
         if (isset($_mw_made_default_fields_register[$function_cache_id])) {
             return;
         }
-        if (is_array($is_made)) {
+
+
+
+        if (is_array($is_made) and !empty($is_made)) {
             return;
         }
         $_mw_made_default_fields_register[$function_cache_id] = true;
@@ -472,6 +480,8 @@ class Fields
         $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
 
         if (isset($rel)) {
+            $rel = $this->app->db->escape_string($rel);
+
             $rel = $this->app->db->assoc_table_name($rel);
             $rel_id = $this->app->db->escape_string($rel_id);
 
@@ -488,7 +498,7 @@ class Fields
                 foreach ($fields_csv_str as $field_type) {
                     $ex = $this->get($rel, $rel_id, $return_full = 1, $field_for = false, $debug = 0, $field_type);
 
-                    if (is_array($ex) == false) {
+                    if ($ex == false or is_array($ex) == false) {
                         $make_field = array();
                         $make_field['id'] = 0;
                         $make_field['rel'] = $rel;

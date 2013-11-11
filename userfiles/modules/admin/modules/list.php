@@ -66,7 +66,7 @@ if(!empty($modules)){
 	<?php if(isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
 	<?php foreach($dynamic_layouts as $dynamic_layout): ?>
 	<?php if(isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])): ?>
-	<li  data-module-name="layout" template="<?php print $dynamic_layout['template_dir'] ?>/<?php print $dynamic_layout['layout_file'] ?>" data-filter="<?php print $dynamic_layout['name'] ?>"  class="module-item"> <span class="mw_module_hold">
+	<li  data-module-name="layout" template="<?php print $dynamic_layout['template_dir'] ?>/<?php print $dynamic_layout['layout_file'] ?>" data-filter="<?php print $dynamic_layout['name'] ?>"  class="module-item"  unselectable="on"> <span class="mw_module_hold">
 		<?php if(!isset($dynamic_layout['icon'])): ?>
 		<?php $dynamic_layout['icon'] = $def_icon; ?>
 		<?php endif; ?>
@@ -120,7 +120,7 @@ $module2['categories'] = implode(',',$module2['categories']);
 
   ?>
 	<?php $module_id = $module2['name_clean'].'_'.uniqid(); ?>
-	<li  id="<?php print $module_id; ?>" data-module-name="<?php print $module2['module'] ?>" data-filter="<?php print $module2['name'] ?>" data-category="<?php isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>"    class="module-item <?php if(isset( $module2['as_element']) and intval($module2['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span class="mw_module_hold" title="<?php print addslashes($module2["name"]); ?>. <?php print addslashes($module2["description"]) ?> - Drag and drop in your page"> 
+	<li  id="<?php print $module_id; ?>" data-module-name="<?php print $module2['module'] ?>" data-filter="<?php print $module2['name'] ?>" data-category="<?php isset($module2['categories'])? print addslashes($module2['categories']) : ''; ?>"    class="module-item <?php if(isset( $module2['as_element']) and intval($module2['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span  unselectable="on" class="mw_module_hold" title="<?php print addslashes($module2["name"]); ?>. <?php print addslashes($module2["description"]) ?> - Drag and drop in your page">
 		<script type="text/javascript">
       Modules_List_<?php print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
        id:'<?php print($module_id); ?>',

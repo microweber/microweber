@@ -2865,12 +2865,7 @@ mw.isDragItem = mw.isBlockLevel = function(obj){
 
 
 
-mw.help = function(a){
 
-    return mw.tools.modal.frame({
-        url:"//microweber.com/help/"+a+".php"
-    });
-}
 
 
 
@@ -2926,14 +2921,14 @@ document.isHidden = function(){
 
 mw.storage = {
         init:function(){
-          if(!('localstorage' in window)) return false;
+          if(!('localstorage' in mww)) return false;
           var mw = localStorage.getItem("mw");
           var mw = mw === null ? (localStorage.setItem("mw", "{}")) : mw;
           this.change("INIT");
           return mw;
         },
         set:function(key, val){
-            if(!('localstorage' in window)) return false;
+            if(!('localstorage' in mww)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             curr[key] = val;
             var a = localStorage.setItem("mw", JSON.stringify(curr))
@@ -2941,15 +2936,15 @@ mw.storage = {
             return a;
         },
         get:function(key){
-           if(!('localstorage' in window)) return false;
+           if(!('localstorage' in mww)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             return curr[key];
         },
         _keys : {},
         change:function(key, callback, other){
-          if(!('localstorage' in window)) return false;
+          if(!('localstorage' in mww)) return false;
           if(key ==='INIT' ){
-              window.addEventListener('storage', function(e){
+              mww.addEventListener('storage', function(e){
                   if(e.key==='mw'){
                      var _new = JSON.parse(e.newValue);
                      var _old = JSON.parse(e.oldValue);
@@ -2989,13 +2984,13 @@ mw.storage = {
 
 
 
-    ///  TESTS
-      mw.storage.init();
-      mw.storage.change("reload_module", function(){
-          if( this!= ''){
-              mw.reload_module(this.toString());
-          }
-      });
+///  TESTS
+  mw.storage.init();
+  mw.storage.change("reload_module", function(){
+      if( this!= ''){
+          mw.reload_module(this.toString());
+      }
+  });
 
 
 

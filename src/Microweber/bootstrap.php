@@ -177,7 +177,7 @@ function autoload_add($dirname)
 
 spl_autoload_register('mw_autoload');
 $_mw_registry = array();
-$_mw_global_object = null;
+//$_mw_global_object = null;
 function mw($class = null, $constructor_params = false)
 {
 
@@ -191,6 +191,9 @@ function mw($class = null, $constructor_params = false)
 
     if (!is_object($_mw_global_object)) {
         $_mw_global_object = \Microweber\Application::getInstance($constructor_params);
+        // d($class);
+    } else {
+      //
     }
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $_mw_global_object;

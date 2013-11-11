@@ -193,25 +193,32 @@ $(document).ready(function(){
 hasAbilityToDropElementsInside = function(target){
 
   var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
+  if(typeof target === 'string'){
+    return  !items.test(target);
+  }
   var x =  items.test(target.nodeName);
 
   if(x){
     return false;
   }
-  else{
-    if(mw.tools.hasParentsWithClass(target, 'module') ){
-      if(mw.tools.hasParentsWithClass(target, 'edit') ){
-        return true;
-      }
-      else{
-        return false;
-      }
+
+  if(mw.tools.hasParentsWithClass(target, 'module') ){
+    if(mw.tools.hasParentsWithClass(target, 'edit') ){
+      return true;
     }
-    else if(mw.tools.hasClass(target, 'module')){
-        return false;
+    else{
+      return false;
     }
-    return true;
   }
+  else if(mw.tools.hasClass(target, 'module')){
+      return false;
+  }
+
+
+
+
+  return true;
+
 }
 
 mw.drag = {
@@ -977,7 +984,8 @@ mw.drag = {
 	},
     toolbar_modules:function(selector){
         var items = selector || ".modules-list li";
-        $(items).draggable({
+
+        mw.$(items).draggable({
             revert: true,
             cursorAt:{
                  top:-30
@@ -1004,7 +1012,7 @@ mw.drag = {
               }, 200);
            }
         });
-        $(items).mouseenter(function(){
+        mw.$(items).mouseenter(function(){
             $(this).draggable("option", "helper", function(){
               var clone = $(this).clone(true);
               clone.appendTo(mwd.body)
@@ -1012,6 +1020,20 @@ mw.drag = {
               return clone[0];
             });
         });
+        mw.$(items).bind("click mousedown mouseup", function(e){
+             e.preventDefault();
+             if(e.type=='click'){
+               return false;
+             }
+             if(e.type == 'mouseup' && e.which == 1){
+                 if(!mw.isDrag && mww.getSelection().rangeCount > 0){
+                      var html = this.outerHTML;
+                      mw.wysiwyg.insert_html( html );
+                      mw.drag.load_new_modules();
+                 }
+             }
+        });
+
     },
     the_drop: function () {
         if(!$(mwd.body).hasClass("bup")){
@@ -1049,8 +1071,6 @@ mw.drag = {
                     if(!mw.tools.hasParentsWithClass(target, 'mw-defaults')){
                        $(window).trigger("onImageClick", target);
                     }
-
-
                     mw.wysiwyg.select_element(target)
                   }
                 }
@@ -1094,6 +1114,7 @@ mw.drag = {
                           return false;
                         };
 
+
                         var curr_prev = $(mw.dragCurrent).prev();
                         var curr_next = $(mw.dragCurrent).next();
                         var curr_parent = $(mw.dragCurrent).parent();
@@ -1128,8 +1149,8 @@ mw.drag = {
                            }
 
                         else{
-                             if(position=='top'){
-                                $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                           if(position=='top'){
+                               $(mw.currentDragMouseOver).before(mw.dragCurrent);
                            }
                            else if(position=='bottom'){
                                $(mw.currentDragMouseOver).after(mw.dragCurrent);
@@ -1170,7 +1191,7 @@ mw.drag = {
                         }
                         else{
 
-                            var hovered =  $(mw.currentDragMouseOver);
+                            var hovered = $(mw.currentDragMouseOver);
 
                             if(mw.dragCurrent.tagName.toLowerCase()=='li'){
                                mw.dragCurrent = $(mw.dragCurrent).clone(true);
@@ -1181,6 +1202,13 @@ mw.drag = {
 
                             }
                             else{
+
+                                if(!hasAbilityToDropElementsInside(mw.currentDragMouseOver.parentNode.nodeName)){
+                                   mw.currentDragMouseOver =  mw.currentDragMouseOver.parentNode;
+
+                                   var hovered = $(mw.currentDragMouseOver);
+                                }
+
                                   if(position=='top'){
                                      $(mw.dragCurrent).removeClass("mw_drag_float");
                                      $(mw.dragCurrent).removeClass("mw_drag_float_right");
@@ -1198,8 +1226,10 @@ mw.drag = {
                                      hovered.removeClass("mw_drag_float");
                                      if(hovered.hasClass("edit") || dropInside(mw.currentDragMouseOver)){
                                         hovered.append(mw.dragCurrent);
+                                        d(1)
                                      }
                                      else{
+                                       d(2)
                                         hovered.after(mw.dragCurrent);
                                      }
                                      $(mw.dragCurrent).addClass("clear");

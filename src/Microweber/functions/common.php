@@ -971,9 +971,9 @@ function content_data($content_id, $field_name = false)
 }
 
 
-function get_custom_fields($params)
+function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
 {
-    return mw('fields')->get($params);
+    return mw('fields')->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
 }
 
 

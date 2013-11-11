@@ -6,7 +6,7 @@
 
 
 $rand = uniqid().rand();
-if(!isset($params["data-page-id"]) and !isset($params["content-id"])){
+if(!isset($params["data-page-id"]) and !isset($params["content-id"]) and defined('PAGE_ID')){
 	$params["data-page-id"] = PAGE_ID;
 }
 if(!isset($params["data-page-id"]) and isset($params["content-id"])){
@@ -114,13 +114,25 @@ if(isset($data["active_site_template"]) and ($data["active_site_template"] == fa
 }
  
  
+ if (isset($data['active_site_template']) and ($data['active_site_template']) == 'default') {
+		  $site_template_settings = get_option('current_template', 'template');
+			if($site_template_settings  != false){
+			$data['active_site_template'] =$site_template_settings; 
+			}
+ }
+ 
 
 $templates= mw('content')->site_templates();
 
 $layout_options = array();
  
+ 
+ 
+ 
+ 
 $layout_options  ['site_template'] = $data['active_site_template'];
 $layout_options  ['no_cache'] = true;
+ 
 $layouts = mw('layouts')->get_all($layout_options);
 
 $recomended_layouts = array();
@@ -498,7 +510,7 @@ $global_template = $this->app->option->get('current_template', 'template');
 				
 				
 				
- 				<?php if( trim($item['dir_name']) == $global_template): ?>
+ 				<?php if( trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
 				<option value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
 				<?php else: ?>
 			<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) != $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
@@ -646,7 +658,7 @@ $global_template = $this->app->option->get('current_template', 'template');
 				
 				
  				<?php if( trim($item['dir_name']) == $global_template): ?>
-				<option value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
 				<?php else: ?>
 			<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) != $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
 				<?php endif ?>

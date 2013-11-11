@@ -996,7 +996,7 @@ mw.wysiwyg = {
     },
     insert_image:function(url){
         var id = 'image_' + mw.random();
-        var img = '<img id="'+id+'" contentEditable="false" onmouseenter="this.contentEditable=false;" class="element" src="' + url + '" />';
+        var img = '<img id="'+id+'" contentEditable="true" class="element" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);
         $("#"+id).attr("contenteditable", false);
         $("#"+id).removeAttr("_moz_dirty");
@@ -1368,22 +1368,66 @@ $(window).load(function(){
   }
 });
 
-  $(mwd.body).bind("paste", function(event){
-    if(event.target.isContentEditable){
-        mw.wysiwyg.paste(event);
-    }
-  });
+      $(mwd.body).bind("paste", function(event){
+        if(event.target.isContentEditable){
+            mw.wysiwyg.paste(event);
+        }
+      });
 
-
-
-  mw.$(".mw_editor").each(function(){
-     mw.tools.dropdown(this);
-  });
+      mw.$(".mw_editor").each(function(){
+         mw.tools.dropdown(this);
+      });
 
 
 
 
+        var nodes = mwd.querySelectorAll(".edit"), l = nodes.length, i=0;
 
+        for( ; i<l; i++ ){
+            var node = nodes[i];
+            var rel = mw.tools.mwattr(node, "rel");
+            var field = mw.tools.mwattr(node, "field");
+            if( field == 'content' && rel == 'content' ){
+              if(node.querySelector('p') !== null){
+                var node = node.querySelector('p');
+              }
+              node.contentEditable = true;
+              node.focus();
+              var range = mwd.createRange();
+              range.setStart(node, 0);
+              range.collapse(false);
+              var selection = window.getSelection();
+              selection.removeAllRanges();
+              selection.addRange(range);
+              break;
+            }
+        }
+
+
+
+
+
+      /**************************************  The Dot   ***********************************
+
+
+
+       mw.wysiwyg._C = mwd.createElement('div');
+       mw.wysiwyg._C.className = 'mwwysiwygcursor';
+       mwd.body.appendChild(mw.wysiwyg._C);
+
+       setInterval(function(){
+              //var r = window.getSelection().getRangeAt(0).getBoundingClientRect();
+              var r = window.getSelection().getRangeAt(0).getClientRects()[0];
+              if(!!r){
+                mw.wysiwyg._C.style.top = (r.top - 6) + 'px';
+                mw.wysiwyg._C.style.left = (r.left + r.width - 2) + 'px';
+              }
+
+       }, 77);
+
+
+
+      *************************************************************************************/
 
 
 

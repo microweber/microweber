@@ -138,6 +138,16 @@ if ($posts_parent_category_cfg == false) {
 
 }
 
+if($cfg_page_id == false and isset($post_params['related']) and $post_params['related'] != false and $post_params['parent'] == false){
+	 		
+		if (defined('PAGE_ID') and PAGE_ID > 0) {
+			$cfg_page_id = PAGE_ID;
+		    $post_params['parent'] = $cfg_page_id;
+
+		}
+	 
+}
+
 
 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
     $sub_cats = array();
@@ -172,9 +182,12 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
         } else {
             //	$sub_cats = array($posts_parent_category);
         }
-        if (is_array($sub_cats)) {
-            $post_params['category'] = $sub_cats;
+		
+		
+        if (is_array($sub_cats) and isset($post_params['related']) and $post_params['related'] != false) {
+             $post_params['category'] = $sub_cats;
         }
+	
 
 
     } else {
@@ -340,6 +353,29 @@ if (isset($params['search-parent'])) {
 if (isset($params['data-id'])) {
     unset($post_params['data-id']);
 }
+ 
+
+		
+	if (isset($post_params['category']) and is_string($post_params['category'])) {	
+		$sub_cats = array();
+		$sub_cats[] = $post_params['category'];
+		$more = get_category_children($post_params['category']);
+		if ($more != false and is_array($more)) {
+			foreach ($more as $item_more_subcat) {
+			$sub_cats[] = $item_more_subcat;
+			}
+		}
+		$post_params['category'] = $sub_cats;
+		
+	} else if(isset($post_params['category']) and is_array($post_params['category']) and empty($post_params['category']) and isset($post_params['related']) and $post_params['related'] != false) {	
+	 if (defined('CATEGORY_ID') and CATEGORY_ID > 0) {
+			 
+			$post_params['category'] = CATEGORY_ID;
+
+		}
+
+	}
+
 
 
 $content = get_content($post_params);
@@ -358,7 +394,7 @@ if (!empty($content)) {
             $item['image'] = false;
         }
         $item['content'] = htmlspecialchars_decode($item['content']);
-        ;
+      
 
         if (isset($item['created_on']) and  trim($item['created_on']) != '') {
             $item['created_on'] = date($date_format, strtotime($item['created_on']));
@@ -409,7 +445,7 @@ if (!empty($content)) {
     }
 }
 
- 
+
 $post_params_paging = $post_params;
 $post_params_paging['page_count'] = true;
 //$post_params_paging['page_count'] = true;
