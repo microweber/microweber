@@ -201,7 +201,6 @@ mw.wysiwyg = {
     },
     execCommand:function(a,b,c){
         try{  // 0x80004005
-
             if(document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()){
                 var b = b || false;
                 var c = c || false;
@@ -210,6 +209,17 @@ mw.wysiwyg = {
                    mwd.execCommand(a,b,c);
                    ($.browser.mozilla && !mw.is.ie)?mwd.designMode = 'off':'';
                  }
+
+                var node = window.getSelection().focusNode;
+                if(node!==null){
+                    if(mw.tools.hasClass(node, 'edit')){
+                       mw.tools.addClass(node, 'changed orig_changed');
+                    }
+                    else{
+                       mw.tools.addClass(mw.tools.firstParentWithClass(node, 'edit'), 'changed orig_changed');
+                    }
+                }
+
             }
         }
         catch(e){}
@@ -459,7 +469,7 @@ mw.wysiwyg = {
 				  /*
 				  delete bug 
 				  
-				  
+
                 var a = sel.anchorNode;
                 var _s = mw.tools.cloneObject(sel);
                 if(event.keyCode == 46 || event.keyCode == 8 ){
@@ -1259,6 +1269,7 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
   mw.wysiwyg.nceui();
 
   mw.smallEditor = mw.$("#mw_small_editor");
+  mw.smallEditorCanceled = true;
   mw.bigEditor = mw.$("#mw-text-editor");
 
 
@@ -1366,6 +1377,28 @@ $(window).load(function(){
             e.preventDefault();
         }
   }
+
+  if(mw.settings.liveEdit){
+  if(e.type=='mouseup'){
+    var r =  window.getSelection().getRangeAt(0);
+    if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
+      mw.smallEditorCanceled = false;
+      mw.$("#mw_small_editor").css({
+        visibility:"visible",
+        opacity:0.5,
+        top:e.pageY -  mw.$("#mw_small_editor").height()  - window.getSelection().getRangeAt(0).getClientRects()[0].height,
+        left:e.pageX
+      });
+    }
+    else{
+      mw.smallEditorCanceled = true;
+       mw.$("#mw_small_editor").css({
+        visibility:"hidden",
+
+      });
+    }
+  }
+  }
 });
 
       $(mwd.body).bind("paste", function(event){
@@ -1383,6 +1416,8 @@ $(window).load(function(){
 
         var nodes = mwd.querySelectorAll(".edit"), l = nodes.length, i=0;
 
+
+
         for( ; i<l; i++ ){
             var node = nodes[i];
             var rel = mw.tools.mwattr(node, "rel");
@@ -1397,8 +1432,10 @@ $(window).load(function(){
               range.setStart(node, 0);
               range.collapse(false);
               var selection = window.getSelection();
-              selection.removeAllRanges();
-              selection.addRange(range);
+              if(selection !== null){
+                selection.removeAllRanges();
+                selection.addRange(range);
+              }
               break;
             }
         }
@@ -1428,9 +1465,19 @@ $(window).load(function(){
 
 
       *************************************************************************************/
-
-
-
+   if(mw.settings.liveEdit){
+    $(window).bind("mousemove", function(e){
+       if(!mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")){
+         var off = mw.smallEditor.offset();
+         if(((e.pageX-100) > (off.left + mw.smallEditor.width())) || ((e.pageY-100) > (off.top + mw.smallEditor.height())) || ((e.pageX+100) < (off.left)) || ((e.pageY+100) < (off.top  ))){
+            mw.smallEditor.css("visibility", "hidden");
+         }
+         else{
+             mw.smallEditor.css("visibility", "visible");
+         }
+       }
+    });
+   }
 });
 
 

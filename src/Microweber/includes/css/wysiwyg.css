@@ -216,6 +216,10 @@
   border-radius: 1px;
 }
 
+#mw_small_editor:hover{
+  opacity: 1 !important;
+}
+
 #mw_small_editor .mw_dlm{
   margin-left: 0px;
   margin-right: 0px;
@@ -617,6 +621,43 @@
   }
 
   .wysiwyg-convertible-1366:before{
+      content: "";
+      position: absolute;
+      display: block;
+      width: 16px;
+      height: 9px;
+      background: url(../img/convertible_arr.png) no-repeat;
+      top: -8px;
+      left: 20px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .visible-1000{
+    display: inherit !important;
+  }
+  .wysiwyg-convertible-toggler-1000{
+    display: inline-block;
+    width: 35px;
+  }
+  .wysiwyg-convertible-1000.active{
+    display: block;
+  }
+  .wysiwyg-convertible-1000{
+        display: none;
+        padding: 4px;
+        left: -4px;
+        z-index: 3;
+        width:auto;
+        position: absolute;
+        top: 37px;
+        background: #F2F2F2;
+        position: absolute;
+        border: 1px solid #d1d1d1;
+        box-shadow:inset 2px 2px 0 -1px white;
+  }
+
+  .wysiwyg-convertible-1000:before{
       content: "";
       position: absolute;
       display: block;

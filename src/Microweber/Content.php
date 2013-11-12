@@ -4237,10 +4237,10 @@ class Content
 
         $this->app->cache->delete('content_fields/global');
         // $this->app->cache->delete('content/global');
-if($url_changed != false){
-    $this->app->cache->delete('menus');
-    $this->app->cache->delete('categories');
-}
+        if ($url_changed != false) {
+            $this->app->cache->delete('menus');
+            $this->app->cache->delete('categories');
+        }
 
         $data_fields = array();
         if (!empty($orig_data)) {

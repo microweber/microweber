@@ -295,7 +295,9 @@ class Shop
 
 
                         foreach ($ord_data as $key => $value) {
-                            $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
+                            if (is_string($value) and is_string($key)) {
+                                $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
+                            }
 
                         }
                     }
@@ -316,7 +318,7 @@ class Shop
                         // schedule a global scope function:
                         // $scheduler->registerShutdownEvent("email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
 
-                        $sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        return $sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
                     }
 
                 }
@@ -1022,7 +1024,7 @@ class Shop
         if (isset($data['title']) and is_string($data['title'])) {
             //  $data['title'] = html_entity_decode($data['title']);
             $data['title'] = strip_tags($data['title']);
-           // $data['title'] = str_replace('&nbsp;', ' ', $data['title']);
+            // $data['title'] = str_replace('&nbsp;', ' ', $data['title']);
 
         }
 
@@ -1263,7 +1265,7 @@ class Shop
             shuffle($ord_data);
             $ord_test = $ord_data[0];
 
-            $this->confirm_email_send($ord_test['id'], $to = $email_from, true, true);
+            return $this->confirm_email_send($ord_test['id'], $to = $email_from, true, true);
         }
 
     }

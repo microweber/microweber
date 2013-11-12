@@ -91,6 +91,8 @@ mw.simpletab = {
   set:function(el){
       if(!$(el).hasClass('active')){
         var ul = mw.tools.firstParentWithClass(el, 'mw_simple_tabs_nav');
+
+        if(ul===null || typeof ul === 'undefined' || !ul){ return false; }
         var master = mw.tools.firstParentWithClass(ul, 'mw_simple_tabs');
         $(ul.querySelector('.active')).removeClass('active');
         $(el).addClass('active');
