@@ -496,7 +496,11 @@ mw.askusertostay = false;
           return false;
       }
       $(selector).after(data);
-      var id = to_send.id || $(selector).next()[0].id;
+
+      var id = to_send.id || $(selector).next().length>0?$(selector).next()[0].id:false;
+
+      if(!id){  return false; }
+
       $(selector).remove();
 
       typeof mw.resizable_columns === 'function' ? mw.resizable_columns() : '';
