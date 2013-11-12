@@ -247,7 +247,7 @@ mw.drag = {
 
             if(!mw.settings.resize_started){
 
-           if(mw.mouseDownOnEditor && (mw.tools.hasClass(event.target, 'editor_wrapper') || mw.tools.hasClass(event.target, 'wysiwyg-table') || mw.mouseDownStarted)){
+           /*if(mw.mouseDownOnEditor && (mw.tools.hasClass(event.target, 'editor_wrapper') || mw.tools.hasClass(event.target, 'wysiwyg-table') || mw.mouseDownStarted)){
                   mw.mouseDownStarted = true;
                   $("#mw_small_editor").css({
                      top:event.pageY-$(window).scrollTop(),
@@ -268,7 +268,7 @@ mw.drag = {
                    mw.smallEditor.draggable({ disabled: true });
                    mw.$("#mw-text-editor").slideDown('fast', function(){mw.toolbar.fixPad()})
                 }
-           }
+           }*/
 
            mw.mouse = {
              x:event.pageX,
@@ -2629,14 +2629,7 @@ mw.$("#history_dd").hover(function(){
     });
 
 
-    mw.$("#mw_small_editor").draggable({
-        drag:function(){
-          mw.SmallEditorIsDragging = true;
-        },
-        stop:function(){
-          mw.SmallEditorIsDragging = false;
-        }
-    });
+
 
     mw.$("#liveedit_wysiwyg").mousedown(function(){
       if(mw.$(".mw_editor_btn_hover").length==0){

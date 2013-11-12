@@ -428,9 +428,7 @@
 
 #liveedit_wysiwyg{
   height: 50px;
-    cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
+    cursor: default;
 }
 
 

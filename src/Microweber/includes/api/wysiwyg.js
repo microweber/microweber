@@ -406,7 +406,7 @@ mw.wysiwyg = {
       $(mwd.body).bind('mouseup keyup keydown', function(event){
 
 
-
+          d(event.target)
 
 
 
@@ -414,7 +414,7 @@ mw.wysiwyg = {
           mw.wysiwyg.check_selection(event.target);
         }
         else{
-           mw.wysiwyg.check_selection();
+           //mw.wysiwyg.check_selection();
         }
         if( event.keyCode == 46  && event.type=='keydown'){
             mw.tools.removeClass(mw.image_resizer, 'active');
@@ -455,7 +455,7 @@ mw.wysiwyg = {
 
               if( r.cloneContents().querySelector(".module") !== null ||
                     mw.tools.hasClass(r.commonAncestorContainer, 'module') ||
-                    mw.tools.hasParentsWithClass(r.commonAncestorContaner, 'module')){
+                    mw.tools.hasParentsWithClass(r.commonAncestorContainer, 'module')){
                   return false;
               }
 
@@ -1045,7 +1045,15 @@ mw.wysiwyg = {
     },
     format:function(command){
       if(mw.wysiwyg.selection_length() > 0){
-        mw.wysiwyg.applier(command);
+        var r = mww.getSelection().getRangeAt(0);
+        var common = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
+        var h = /^(h[1-6])$/i;
+        if(!h.test(common.nodeName.toLowerCase()) && !mw.tools.hasHeadingParent(common)){
+           mw.wysiwyg.applier(command);
+        }
+        else{
+           mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
+        }
       }
       else{
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
@@ -1475,6 +1483,8 @@ $(window).load(function(){
 
 
       *************************************************************************************/
+
+
    mw.smallEditorOff = 50;
 
    if(mw.settings.liveEdit){
