@@ -31,7 +31,7 @@ include_once($config['path_to_module'].'../posts/index.php');
        $.post("<?php print api_link('content/reorder'); ?>", obj, function(){
 		   
 		   mw.reload_module_parent('posts')
-		   
+		   mw.reload_module_parent('shop/products')
 		   });
      },
      start:function(a,ui){

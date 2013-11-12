@@ -30,13 +30,10 @@ setActiveProvider = function(el){
 
 	
   mw.options.form('.mw-set-payment-options', function(){
-    mw.notification.success("<?php _e("Settings are saved"); ?>.");
+    mw.notification.success("<?php _e("Shop settings are saved"); ?>.");
 	
-	
-	 if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
+	 mw.reload_module_parent("shop/payments");
 	 
-	window.parent.mw.reload_module("shop/payments");
-	 }
 	
 	
   });
@@ -290,7 +287,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 					<?php ?>
 					<?php $cur = get_option('currency', 'payments');  ?>
 					<?php $curencies = mw('shop')->currency_get();  ?>
-					<?php if(is_array($curencies )): ?>
+					<?php if(is_array($curencies )): ?> 
 					<div class="mw-ui-select">
 						<select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
 							<?php foreach($curencies  as $item): ?>

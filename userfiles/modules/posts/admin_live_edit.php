@@ -72,26 +72,29 @@ if(isset($params['global']) and $params['global'] != false){
 <script type="text/javascript">
 
  mw.add_new_content_live_edit = function($cont_type){
-	   $('#mw_posts_add_live_edit').removeAttr('data-content-id');
-	 	 $('#mw_posts_add_live_edit').attr('from_live_edit',1);
+	 	   mw.simpletab.set(mwd.getElementById('add_new_post'));
+
+	   $('#mw_posts_create_live_edit').removeAttr('data-content-id');
+	 	 $('#mw_posts_create_live_edit').attr('from_live_edit',1);
 		 if($cont_type == undefined){
-			 $('#mw_posts_add_live_edit').removeAttr('content_type');
+			 $('#mw_posts_create_live_edit').removeAttr('content_type');
 
 		 } else {
 			 if($cont_type == 'page'){
-				 $('#mw_posts_add_live_edit').removeAttr('subtype');
+				 $('#mw_posts_create_live_edit').removeAttr('subtype');
 			 } else {
-				 $('#mw_posts_add_live_edit').attr('subtype',$cont_type);
+				 $('#mw_posts_create_live_edit').attr('subtype',$cont_type);
  
 			 }
-			 $('#mw_posts_add_live_edit').attr('content_type',$cont_type);
+			 $('#mw_posts_create_live_edit').attr('content_type',$cont_type);
 		 }
 		 
-		 
-		 $('#mw_posts_edit_live_edit').attr('quick_edit',1);
-		 	 	 $('#mw_posts_edit_live_edit').attr('live_edit',1);
+	     $('#mw_posts_edit_live_edit').attr('data-content-id', 0); 
 
-      mw.load_module('content/edit_page', '#mw_posts_add_live_edit', function(){
+		 $('#mw_posts_create_live_edit').attr('quick_edit',1);
+		 	 	 $('#mw_posts_create_live_edit').removeAttr('live_edit');
+
+      mw.load_module('content/edit_page', '#mw_posts_create_live_edit', function(){
         parent.mw.tools.modal.resize("#"+thismodal.main[0].id, 710, mw.$('#settings-container').height()+25, false);
       })
  	}
@@ -100,6 +103,10 @@ if(isset($params['global']) and $params['global'] != false){
 	   if($id != undefined){
 			 $('#mw_posts_manage_live_edit').attr('module-id',$id);
        }
+	   $('#mw_posts_manage_live_edit').removeAttr('just-saved');
+	   
+	   
+	   
 	   mw.load_module('content/manage_live_edit', '#mw_posts_manage_live_edit', function(){
              parent.mw.tools.modal.resize("#"+thismodal.main[0].id, 710, mw.$('#settings-container').height()+25, false);
 	   })
@@ -107,15 +114,14 @@ if(isset($params['global']) and $params['global'] != false){
   mw.edit_content_live_edit = function($cont_id){
 	   mw.simpletab.set(mwd.getElementById('edit_posts'));
 	     $('#mw_posts_edit_live_edit').attr('data-content-id', $cont_id);
-	 	 $('#mw_posts_edit_live_edit').attr('live_edit',1);
+	 	 $('#mw_posts_edit_live_edit').removeAttr('live_edit');
 		 		 $('#mw_posts_edit_live_edit').attr('quick_edit',1);
 
 	     mw.load_module('content/edit_page', '#mw_posts_edit_live_edit', function(){
             parent.mw.tools.modal.resize("#"+thismodal.main[0].id, 710, mw.$('#settings-container').height()+25, false);
 	     });
   }
-
- </script>
+  </script>
 
 <div class="mw_simple_tabs mw_tabs_layout_simple"> 
   <?php   if(isset($params['global'])){ ?>
@@ -135,6 +141,8 @@ if(isset($params['global']) and $params['global'] != false){
     style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span class="ico ipost"></span><?php _e("New Post"); ?></a>
   <?php } ?>
  <ul class="mw_simple_tabs_nav">
+     <li id="manage_posts"  ><a href="javascript:;"  onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');"><?php _e("Manage"); ?></a></li>
+
     <li><a href="javascript:;" class="actSive"> 
       <!-- <?php if($is_shop): ?>
       Products
@@ -146,19 +154,8 @@ if(isset($params['global']) and $params['global'] != false){
     <li><a href="javascript:;"><?php _e("Skin/Template"); ?></a></li>
  
     <li id="add_new_post" style="display: none;"><a href="javascript:;"></a></li>
-    <li id="manage_posts"  ><a href="javascript:;"  onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');"><?php _e("Manage"); ?></a></li>
     <li id="edit_posts" style="display: none;"><a href="javascript:;"></a></li>
   </ul>
-  <div class="tab">
-    <?php include_once($posts_mod); ?>
-  </div>
-  <div class="tab">
-    <?php if(isset($params['global'])) : ?>
-    <module type="admin/modules/templates" id="posts_list_templ" for-module="posts" />
-    <?php else:  ?>
-    <module type="admin/modules/templates" id="posts_list_templ"  />
-    <?php endif;  ?>
-  </div>
   <div class="tab">
     <?php
    
@@ -167,11 +164,19 @@ if(isset($params['global']) and $params['global'] != false){
    } else {
 	    $add_post_q = 'subtype=post ';
    }
+   if(isset($params['id'])){
+	   $add_post_q  .=' module-id="'. $params['id'].'";';
+	  
+   }
+   
+   
   
    if(isset($params['page-id'])){
 	    $add_post_q  .=' data-parent-page-id='.$params['page-id'];
    }
-   
+    if(isset($params['related'])){
+	    $add_post_q  .=' related='.$params['related'];
+   }
   $posts_parent_page =  get_option('data-page-id', $params['id']); 
    $posts_parent_category =  get_option('data-category-id', $params['id']);
 
@@ -214,9 +219,20 @@ if(isset($params['global']) and $params['global'] != false){
   
    
   
-   ?>
-    <div  <?php print $add_post_q ?> id="mw_posts_add_live_edit"></div>
+   ?>  
+    <module type="content/manage_live_edit"  <?php print $add_post_q ?> id="mw_posts_manage_live_edit" />
   </div>
+  <div class="tab">
+    <?php include_once($posts_mod); ?>
+  </div>
+  <div class="tab">
+    <?php if(isset($params['global'])) : ?>
+    <module type="admin/modules/templates" id="posts_list_templ" for-module="posts" />
+    <?php else:  ?>
+    <module type="admin/modules/templates" id="posts_list_templ"  />
+    <?php endif;  ?>
+  </div>
+  
   <div class="tab">
     <?php
    if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
@@ -226,7 +242,7 @@ if(isset($params['global']) and $params['global'] != false){
    }
   
    ?>
-    <div <?php print $add_post_q ?> id="mw_posts_manage_live_edit"></div>
+    <div <?php print $add_post_q ?> id="mw_posts_create_live_edit"></div>
   </div>
   <div class="tab">
     <div  id="mw_posts_edit_live_edit" class="mw_posts_edit_live_edit"></div>

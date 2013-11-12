@@ -139,8 +139,8 @@ if ($posts_parent_category_cfg == false) {
     }
 
 }
-
-if($cfg_page_id == false and isset($post_params['related']) and $post_params['related'] != false and $post_params['parent'] == false){
+ 
+if($cfg_page_id == false and isset($post_params['related']) and $post_params['related'] != false and (!isset($post_params['parent']) or $post_params['parent'] == false)){
 	 		
 		if (defined('PAGE_ID') and PAGE_ID > 0) {
 			$cfg_page_id = PAGE_ID;

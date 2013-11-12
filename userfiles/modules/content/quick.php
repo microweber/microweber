@@ -232,12 +232,13 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
 <div class="post-save-and-go-live">
     	<?php if($is_live_edit == false) : ?>
-        <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
+        <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save & Go Live Edit"); ?></button>
         	<button type="submit" class="mw-ui-btn "><?php _e("Save"); ?></button>
         	
 
     	<?php else: ?> 
-    	        	<button type="button" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></button>
+    	        	<button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save & Go Live Edit"); ?></button>
+        	<button type="submit" class="mw-ui-btn "><?php _e("Save"); ?></button> 
 
         <?php endif; ?>
 
@@ -351,25 +352,32 @@ mw.edit_content.after_save = function(){
 	       mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
 	    });
  	}
+	 
 	if(parent !== self && !!parent.mw){
-        parent.mw.reload_module(['posts', 'shop/products', 'pages','content'], function(){
-           mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
-        });
+     //   mw.reload_module_parent(['posts', 'shop/products', 'pages','content']);
+		    mw.reload_module_parent('posts');
+			mw.reload_module_parent('shop/products');
+			mw.reload_module_parent('pages');
+			mw.reload_module_parent('content');
+		 mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+		
+		
     	parent.mw.askusertostay=false;
     	<?php if($is_current!=false) :  ?>
     	if(window.parent.mw.history != undefined){
     		window.parent.mw.history.load('latest_content_edit');
     	}
     	<?php endif; ?>
+	} else {
+		mw.reload_module('[data-type="pages"]', function(){
+			if( mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0 ){
+				mw.$("#pages_tree_toolbar").removeClass("activated");
+				mw.treeRenderer.appendUI('#pages_tree_toolbar');
+				mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+			}
+			mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+		 });
 	}
-	mw.reload_module('[data-type="pages"]', function(){
-        if( mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0 ){
-            mw.$("#pages_tree_toolbar").removeClass("activated");
-            mw.treeRenderer.appendUI('#pages_tree_toolbar');
-            mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
-        }
-        mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
-     });
 }
 
 mw.edit_content.set_category = function(id){
@@ -443,16 +451,14 @@ mw.edit_content.handle_form_submit = function(go_live){
               }
               if(go_live_edit != false){
                 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
-                  if(mw.notification != undefined){
-                    mw.notification.success('Going to live edit...', 5000);
-                  }
+                  
                   window.top.location.href = data+'/editmode:y';
                 });
               }
               else {
                   mw.$("#<?php print $module_id ?>").attr("content-id",this);
                   <?php if($is_quick !=false) : ?>
-                  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
+                //  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
                   <?php else: ?>
                   if(self === parent){
                     //var type =  el['subtype'];

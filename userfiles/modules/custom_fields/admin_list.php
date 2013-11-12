@@ -2,7 +2,9 @@
 
 if(typeof __smart_field_opener !== 'function'){
       __smart_field_opener = function(e){
-
+		if(e === undefined){
+		return;	
+		}
         if(mw.tools.hasClass(e.target.className, 'mw-ui-field') || mw.tools.hasClass(e.target.className, 'mw-custom-fields-from-page-title-text')){
             mw.tools.toggle('.custom_fields_selector', '#smart_field_opener');
         }
