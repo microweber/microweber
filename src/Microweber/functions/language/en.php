@@ -855,3 +855,4 @@ $language["security-code"]= 'Security code' ;
 $language["submit"]= 'Submit' ; 
 $language["admin-panel"]= 'Admin panel' ; 
 $language["your-products-module-is-empty"]= 'Your products module is empty' ; 
+$language["reorder-pages"]= 'Reorder pages' ; 

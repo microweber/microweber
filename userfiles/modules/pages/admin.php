@@ -15,6 +15,13 @@
         <li><a href="javascript:;">
                 <?php _e("Skin/Template"); ?>
             </a></li>
+			
+			
+			 <li><a href="javascript:;">
+                <?php _e("Reorder pages"); ?>
+            </a></li>
+			
+			
     </ul>
     <div class="tab">
         <label class="left mw-ui-label">
@@ -101,13 +108,20 @@
                     handle: '.pages_tree_link',
                     update: function () {
                         var obj = {ids: []}
-                        $(this).find('.pages_tree_item').each(function () {
-                            var id = this.attributes['value'].nodeValue;
+                        $(this).find('.pages_tree_link').each(function () {
+                            var id = this.attributes['data-page-id'].nodeValue;
                             obj.ids.push(id);
                         });
+						
+						if(mw.notification != undefined){
+							mw.notification.success('Saving...');
+						  }
 
                         $.post("<?php print api_link('content/reorder'); ?>", obj, function () {
 
+						 if(mw.notification != undefined){
+							mw.notification.success('Reloading module...');
+						  }
                             mw.reload_module_parent('pages');
 
 
@@ -132,15 +146,30 @@
             mw.manage_pages_sort();
         });
     </script>
-    <div id="mw_pages_list_tree_live_edit" style="display:none;">
-        <?php
+    <div   class="tab semi_hidden">
+       
+		
+		<div class="mw-ui-category-selector mw-ui-manage-list" id="mw_pages_list_tree_live_edit" style="visibility: visible;display: block">
+		
+		
+		
+		 <?php
         $pt_opts = array();
-        $pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}" href="{url}">{title}</a>';
-
-
+        $pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}" target="_top" href="{url}">{title}</a>';
+$pt_opts['ul_class'] = 'pages_tree cat_tree_live_edit';
+$pt_opts['li_class'] = 'sub-nav';
+ 
         pages_tree($pt_opts);
 
 
         ?>
+		
+		</div>
+
+
+
+
+
+
     </div>
 </div>

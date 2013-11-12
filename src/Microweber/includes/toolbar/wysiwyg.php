@@ -2,7 +2,7 @@
 
 
         <div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
-            <div class="wysiwyg-table">
+            <div class="wysiwyg-table" style="padding-left: 10px;">
 
 
                    <div class="wysiwyg-cell">
@@ -29,22 +29,8 @@
                 <div class="wysiwyg-cell">
                     <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
                 </div>
-                <div class="wysiwyg-cell">
-                   <div class="relative">
 
-                        <span class="mw_editor_btn mw_editor_bold wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1024">
-                            <span class="dd_rte_arr"></span> <span class="ed-ico"></span>
-                        </span>
-                        <div class="wysiwyg-convertible wysiwyg-convertible-1024">
-                        <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
-                        <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
-                        <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
-                        <span class="mw_editor_btn mw_editor_strike" data-command="strikethrough" title="<?php _e("Strike Through"); ?>"><span class="ed-ico"></span></span>
-                        <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="<?php _e("Font Color"); ?>"><span class="ed-ico"></span></span>
-                        <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span>
-                    </div>
-                </div>
-                </div>
+
                 <div class="wysiwyg-cell">
 
 
@@ -55,6 +41,13 @@
                 </span>
 
                 <div class="wysiwyg-convertible wysiwyg-convertible-1366">
+
+
+                <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span>
+
+
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;">
                         <span class="mw_dropdown_val_holder">
                             <span class="dd_rte_arr"></span>
@@ -118,6 +111,9 @@
                         </ul>
                       </div>
                     </div>
+
+
+
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>">
                     <span class="mw_dropdown_val_holder">
                         <span class="dd_rte_arr"></span>
@@ -134,6 +130,22 @@
                 </div>
                 </div> </div>
                 </div>
+
+
+                <div class="wysiwyg-cell">
+                   <div class="relative">
+
+                        <span class="mw_editor_btn mw_editor_bold wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1024">
+                            <span class="dd_rte_arr"></span> <span class="ed-ico"></span>
+                        </span>
+                        <div class="wysiwyg-convertible wysiwyg-convertible-1024">
+                        <span class="mw_editor_btn mw_editor_strike" data-command="strikethrough" title="<?php _e("Strike Through"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="<?php _e("Font Color"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span>
+                    </div>
+                </div>
+                </div>
+
 
 
 
