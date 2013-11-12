@@ -32,6 +32,7 @@ include_once($config['path_to_module'].'../posts/index.php');
 		   
 		   mw.reload_module_parent('posts')
 		   mw.reload_module_parent('shop/products')
+		   mw.reload_module_parent('content')
 		   });
      },
      start:function(a,ui){
@@ -84,7 +85,15 @@ include_once($config['path_to_module'].'../posts/index.php');
         <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y" onClick="mw.edit_content_live_edit('<?php print ($item['id']) ?>');"><?php print content_link($item['id']); ?></a></small>
         <div class="manage-post-item-description"> <?php print character_limiter(strip_tags($item['description']), 60);
       ?> </div>
-        <div class="manage-post-item-links"> <a href="javascript:mw.edit_content_live_edit('<?php print ($item['id']) ?>');"><?php _e("Quick Edit"); ?></a>  <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php _e("Live edit"); ?></a>   </div>
+        <div class="manage-post-item-links"> <a href="javascript:mw.edit_content_live_edit('<?php print ($item['id']) ?>');"><?php _e("Quick Edit"); ?></a>  <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php _e("Live edit"); ?></a>  
+		
+		
+		
+		 <a href="javascript:mw.delete_content_live_edit('<?php print ($item['id']) ?>');;"><?php _e("Delete"); ?></a>
+		
+		
+		
+		 </div>
       </div>
       <div class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'],'username') ?></div>
     </div>

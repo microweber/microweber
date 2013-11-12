@@ -206,7 +206,7 @@
 }
 
 #mw_small_editor{
-  position: fixed;
+  position: absolute;
   visibility:hidden;
   z-index: 999;
   width:211px;

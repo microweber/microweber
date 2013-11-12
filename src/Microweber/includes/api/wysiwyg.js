@@ -1379,20 +1379,20 @@ $(window).load(function(){
   }
 
   if(mw.settings.liveEdit){
-  if(e.type=='mouseup'){
+  if(e.type=='mouseup' && mw.tools.hasParentsWithClass(e.target, 'edit')){
     var r =  window.getSelection().getRangeAt(0);
     if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
       mw.smallEditorCanceled = false;
-      mw.$("#mw_small_editor").css({
+      mw.smallEditor.css({
         visibility:"visible",
         opacity:0.5,
-        top:e.pageY -  mw.$("#mw_small_editor").height()  - window.getSelection().getRangeAt(0).getClientRects()[0].height,
-        left:e.pageX
+        top:e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height - $(window).scrollTop(),
+        left:e.pageX+mw.smallEditor.width()<$(window).width()?e.pageX:($(window).width()-mw.smallEditor.width()-5)
       });
     }
     else{
       mw.smallEditorCanceled = true;
-       mw.$("#mw_small_editor").css({
+       mw.smallEditor.css({
         visibility:"hidden",
 
       });
@@ -1465,17 +1465,28 @@ $(window).load(function(){
 
 
       *************************************************************************************/
+   mw.smallEditorOff = 50;
+
    if(mw.settings.liveEdit){
     $(window).bind("mousemove", function(e){
        if(!mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")){
          var off = mw.smallEditor.offset();
-         if(((e.pageX-100) > (off.left + mw.smallEditor.width())) || ((e.pageY-100) > (off.top + mw.smallEditor.height())) || ((e.pageX+100) < (off.left)) || ((e.pageY+100) < (off.top  ))){
+         if(((e.pageX-mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY-mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX+mw.smallEditorOff) < (off.left)) || ((e.pageY+mw.smallEditorOff) < (off.top))){
             mw.smallEditor.css("visibility", "hidden");
          }
          else{
              mw.smallEditor.css("visibility", "visible");
          }
        }
+    });
+    $(window).bind("scroll", function(e){
+        mw.smallEditor.css("visibility", "hidden");
+        mw.smallEditorCanceled = true;
+    });
+    mw.$("#live_edit_toolbar").bind("mousedown", function(e){
+        e.preventDefault();
+         mw.smallEditor.css("visibility", "hidden");
+        mw.smallEditorCanceled = true;
     });
    }
 });

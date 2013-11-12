@@ -121,6 +121,35 @@ if(isset($params['global']) and $params['global'] != false){
             parent.mw.tools.modal.resize("#"+thismodal.main[0].id, 710, mw.$('#settings-container').height()+25, false);
 	     });
   }
+  
+   mw.delete_content_live_edit = function(a, callback){
+	   
+	   
+	 mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function(){
+		  var arr = $.isArray(a) ? a : [a];
+		var obj = {ids:arr}
+		$.post(mw.settings.site_url + "api/content/delete", obj, function(data){
+		  typeof callback === 'function' ? callback.call(data) : '';
+		  $('.manage-post-item-'+a).fadeOut();
+		   mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
+		  mw.reload_module_parent('posts')
+		  mw.reload_module_parent('shop/products')
+		  mw.reload_module_parent('content')
+		  
+		  
+		  
+		});
+       
+   });
+   
+   
+   
+   
+    
+  }
+  
+  
+  
   </script>
 
 <div class="mw_simple_tabs mw_tabs_layout_simple"> 
