@@ -497,7 +497,19 @@ mw.askusertostay = false;
       }
       $(selector).after(data);
 
-      var id = to_send.id || $(selector).next().length>0?$(selector).next()[0].id:false;
+      if(typeof to_send.id  !== 'undefined'){
+         var id = to_send.id;
+      }
+      else{
+        if($(selector).next().length>0){
+            var id = $(selector).next()[0].id;
+        }
+        else{
+          var id = false;
+        }
+      }
+
+
 
       if(!id){  return false; }
 

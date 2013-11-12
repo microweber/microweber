@@ -1379,7 +1379,8 @@ $(window).load(function(){
   }
 
   if(mw.settings.liveEdit){
-  if(e.type=='mouseup' && mw.tools.hasParentsWithClass(e.target, 'edit')){
+  if(e.type=='mouseup'){
+  if(mw.tools.hasParentsWithClass(e.target, 'edit')){
     var r =  window.getSelection().getRangeAt(0);
     if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
       mw.smallEditorCanceled = false;
@@ -1398,6 +1399,15 @@ $(window).load(function(){
       });
     }
   }
+  else{
+     mw.smallEditorCanceled = true;
+       mw.smallEditor.css({
+        visibility:"hidden",
+
+      });
+  }
+  }
+
   }
 });
 
@@ -1484,9 +1494,12 @@ $(window).load(function(){
         mw.smallEditorCanceled = true;
     });
     mw.$("#live_edit_toolbar").bind("mousedown", function(e){
-        e.preventDefault();
-         mw.smallEditor.css("visibility", "hidden");
-        mw.smallEditorCanceled = true;
+        if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
+            e.preventDefault();
+            mw.smallEditor.css("visibility", "hidden");
+            mw.smallEditorCanceled = true;
+        }
+
     });
    }
 });
