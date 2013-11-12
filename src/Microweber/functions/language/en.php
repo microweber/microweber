@@ -853,3 +853,5 @@ $language["content-is-restored"]= 'Content is restored!' ;
 $language["restore-this-content"]= 'Restore this content' ; 
 $language["security-code"]= 'Security code' ; 
 $language["submit"]= 'Submit' ; 
+$language["admin-panel"]= 'Admin panel' ; 
+$language["your-products-module-is-empty"]= 'Your products module is empty' ; 

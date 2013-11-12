@@ -5,6 +5,27 @@
             <div class="wysiwyg-table">
 
 
+                   <div class="wysiwyg-cell">
+                  <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
+                  <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
+
+                  <span class="mw_editor_btn"  onclick="mw.$('#mw-history-panel').toggle()"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
+
+
+
+                  <div class="mw-ui-dropdown left" id="history_dd">
+
+
+
+                          <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
+
+
+              </div>
+
+                </div>
+
+
+
                 <div class="wysiwyg-cell">
                     <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
                 </div>
@@ -24,17 +45,6 @@
                     </div>
                 </div>
                 </div>
-
-
-
-
-                <div class="wysiwyg-cell visible-1440">
-                    <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
-                    <span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>
-                </div>
-
-                <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
-
                 <div class="wysiwyg-cell">
 
 
@@ -124,6 +134,10 @@
                 </div>
                 </div> </div>
                 </div>
+
+
+
+
                 <div class="wysiwyg-cell">
                   <div class="relative">
 
@@ -162,24 +176,14 @@
                 </div>
 
 
-                <div class="wysiwyg-cell">
-                  <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
-                  <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
-
-                  <span class="mw_editor_btn"  onclick="mw.$('#mw-history-panel').toggle()"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
-
-
-
-                  <div class="mw-ui-dropdown left" id="history_dd">
-
-
-
-                          <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
-
-
-              </div>
-
+                <div class="wysiwyg-cell visible-1440">
+                    <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span>
+                    <span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>
                 </div>
+
+                <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
+
+
 
                  <?php event_trigger('mw_editor_btn'); ?>
             </div>

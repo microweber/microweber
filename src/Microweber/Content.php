@@ -420,31 +420,29 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-        return $cache_content;
+            return $cache_content;
         }
 
 
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
-		if (isset($page['active_site_template']) and ($page['active_site_template']) == 'default') {
-		  $site_template_settings = $this->app->option->get('current_template', 'template');
-			if($site_template_settings  != false){
-				$site_template_settings = str_replace('..', '', $site_template_settings);
-				$site_template_settings_dir = TEMPLATES_DIR . $site_template_settings . DS ;
-				if(is_dir($site_template_settings_dir) != false){
-					$page['active_site_template'] =$site_template_settings;  
-				}
-			}
-			
-		}
-		
-		
+        if (isset($page['active_site_template']) and ($page['active_site_template']) == 'default') {
+            $site_template_settings = $this->app->option->get('current_template', 'template');
+            if ($site_template_settings != false) {
+                $site_template_settings = str_replace('..', '', $site_template_settings);
+                $site_template_settings_dir = TEMPLATES_DIR . $site_template_settings . DS;
+                if (is_dir($site_template_settings_dir) != false) {
+                    $page['active_site_template'] = $site_template_settings;
+                }
+            }
+
+        }
+
 
         if (isset($page['active_site_template']) and isset($page['layout_file'])) {
-			
-			  
-			
+
+
             $page['layout_file'] = str_replace('___', DS, $page['layout_file']);
             $page['layout_file'] = str_replace('..', '', $page['layout_file']);
             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
@@ -893,15 +891,15 @@ class Content
         //$params['debug'] = 1;
         $params['cache_group'] = 'content/' . $id;
 
-		 if ($this->no_cache == true) {
-			  
-					 $q = $this->app->db->query($q);
-		
-		 } else {
-					 $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
-		
-		 }
-	 
+        if ($this->no_cache == true) {
+
+            $q = $this->app->db->query($q);
+
+        } else {
+            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+
+        }
+
         //$q = $this->app->db->get($params);
 
         //  $q = $this->app->db->get_long($table, $params, $cache_group = 'content/' . $id);
@@ -3401,10 +3399,8 @@ class Content
                 //
 
 
-
                 $fn1 = normalize_path($filename, true) . 'config.php';
                 $fn2 = normalize_path($filename);
-
 
 
                 if (is_file($fn1)) {
@@ -3955,7 +3951,7 @@ class Content
                 $data['url'] = $this->app->url->slug($data['title']);
             }
         }
-
+        $url_changed = false;
 
         if (isset($data['url']) != false) {
 
@@ -3988,7 +3984,7 @@ class Content
             }
             $data['url'] = $newstr;
 
-
+            $url_changed = true;
             // if (intval ( $data ['id'] ) == 0) {
             $data_to_save['url'] = $data['url'];
 
@@ -4002,7 +3998,7 @@ class Content
         }
         $table_cats = MW_TABLE_PREFIX . 'categories';
 
-        if (isset($data_to_save['title']) and ($data_to_save['title'] !='') and (!isset($data['url']) or trim($data['url']) == '')) {
+        if (isset($data_to_save['title']) and ($data_to_save['title'] != '') and (!isset($data['url']) or trim($data['url']) == '')) {
             $data['url'] = $this->app->url->slug($data_to_save['title']);
         }
 
@@ -4237,11 +4233,14 @@ class Content
         $data_to_save['allow_html'] = true;
         $this->no_cache = true;
         $save = $this->app->db->save($table, $data_to_save);
-		$this->app->cache->delete('content/'.$save);
+        $this->app->cache->delete('content/' . $save);
 
         $this->app->cache->delete('content_fields/global');
         // $this->app->cache->delete('content/global');
-
+if($url_changed != false){
+    $this->app->cache->delete('menus');
+    $this->app->cache->delete('categories');
+}
 
         $data_fields = array();
         if (!empty($orig_data)) {
@@ -4940,8 +4939,7 @@ class Content
             $this->app->cache->delete($cache_group);
 
 
-
-        $this->app->cache->delete('content/'. $data['rel_id']);
+            $this->app->cache->delete('content/' . $data['rel_id']);
 
         }
         if (isset($data['rel'])) {

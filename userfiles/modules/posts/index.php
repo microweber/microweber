@@ -9,7 +9,7 @@ if (isset($post_params['id'])) {
 } else {
 
 }
-
+$cat_from_url = url_param('category');
 //$paging_param = 'curent_page';
 
 
@@ -94,7 +94,9 @@ if (!isset($post_params['data-limit'])) {
 }
 
 $posts_parent_category = $posts_parent_category_cfg = get_option('data-category-id', $params['id']);
-
+if($posts_parent_category == ''){
+$posts_parent_category = false;	
+}
 $set_category_for_posts = false;
 
 $lim = get_option('data-limit', $params['id']);
@@ -152,7 +154,7 @@ if($cfg_page_id == false and isset($post_params['related']) and $post_params['re
 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
     $sub_cats = array();
     $page_categories = false;
-    if ($posts_parent_category != false and intval($posts_parent_category) > 0 and intval($cfg_page_id) != 0) {
+    if (intval($cfg_page_id) != 0 and $cat_from_url == false) {
         $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
         $page_categories = get($str0);
         // d($page_categories);
@@ -169,31 +171,49 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
 
             }
         }
+		if(!empty($sub_cats)){
+			//$post_params['category'] = $sub_cats;
+		}
     }
-
-    if ($posts_parent_category != false and intval($posts_parent_category) > 0) {
-        if (is_array($page_categories)) {
-            $sub_cats = array();
+	
+	
+	
+    if ($posts_parent_category != false and intval($posts_parent_category) > 0 and $cat_from_url == false) {
+        if ($page_categories != false and is_array($page_categories) and !empty($page_categories)) {
+           // $sub_cats = array();
             foreach ($page_categories as $item_cat) {
                 if (intval($item_cat['id']) == intval($posts_parent_category)) {
-                    $sub_cats = array($posts_parent_category);
+                    $sub_cats[] = $item_cat['id'];
                 }
             }
-        } else {
-            //	$sub_cats = array($posts_parent_category);
+        } elseif($posts_parent_category_cfg != false) {
+             	  $post_params['category'] = $posts_parent_category_cfg;  
         }
-		
-		
-        if (is_array($sub_cats) and isset($post_params['related']) and $post_params['related'] != false) {
+	
+	
+        if (is_array($sub_cats) and !empty($sub_cats) and isset($post_params['related']) and $post_params['related'] != false) {
              $post_params['category'] = $sub_cats;
-        }
+        } elseif($cfg_page_id != false) {
+			$post_params['parent'] = $cfg_page_id;
+		}
+		
+		
 	
 
 
     } else {
         $post_params['parent'] = $cfg_page_id;
+		
+		if ((!isset($post_params['category']) or $post_params['category'] == false ) and $cat_from_url != false){
+		  $post_params['category'] = $cat_from_url;
+		}
+	
     }
 
+
+} elseif ($cat_from_url != false){
+  $post_params['category'] = $cat_from_url;
+  
 
 } elseif ($posts_parent_category != false and intval($posts_parent_category) > 0 and ($cfg_page_id) == false) {
     $post_params['category'] = $posts_parent_category;
@@ -202,7 +222,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
     $post_params['category'] = $posts_parent_category_cfg;
 
 }
-
+			
 
 $tn_size = array('150');
 
@@ -329,7 +349,7 @@ if (isset($params['title'])) {
 $post_params['is_active'] = 'y';
 $post_params['is_deleted'] = 'n';
 
-$cat_from_url = url_param('category');
+
 
 if (((!isset($post_params['parent']) and !isset($post_params['category']) or isset($post_params['category']) and empty($post_params['category']))and $cat_from_url != false and trim($cat_from_url) != '')) {
     $post_params['category'] = ($cat_from_url);
@@ -375,6 +395,8 @@ if (isset($params['data-id'])) {
 		}
 
 	}
+
+
 
 
 
@@ -452,7 +474,7 @@ $post_params_paging['page_count'] = true;
 //$post_params_paging['data-limit'] = $post_params_paging['limit'] = false;
 $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
 
-if ($cfg_data_hide_paging == false) {
+if ($cfg_data_hide_paging === false) {
     if (isset($post_params['hide-paging'])) {
         $cfg_data_hide_paging = 'y';
         unset($post_params['hide-paging']);
@@ -465,6 +487,11 @@ if ($cfg_data_hide_paging != 'y') {
 } else {
     $pages_count = 0;
 }
+
+
+
+	 
+
 
 $paging_links = false;
 if (intval($pages_count) > 1) {

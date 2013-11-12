@@ -1464,6 +1464,7 @@ mw.tools = {
 
                   setTimeout(function(){
                       label.scrollIntoView(false);
+
                       mw.tools.highlightStop(mw.$(".highlighted").removeClass("highlighted"));
                       mw.tools.highlight(label);
                       $(label).addClass("highlighted");
