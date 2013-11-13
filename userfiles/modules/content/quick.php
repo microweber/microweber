@@ -144,24 +144,12 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
  $module_id = $params['id'];
  
+ 
 ?>
 <?php if($just_saved!=false) : ?>
 
 
-  <div class="quick-post-done">
-    <h2>Well done, you have saved your changes. </h2>
-    <label class="mw-ui-label"><small>Go to see them at this link</small></label>
-    <div class="vSpace"></div>
-    <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
-    <div class="vSpace"></div>
-    <label class="mw-ui-label"><small>Or create new content again</small></label>
-    <div class="vSpace"></div>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a>
-  </div>
-
-
-
-
+  
 
 <?php endif; ?>
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content" id="quickform-<?php print $rand; ?>">
@@ -284,10 +272,38 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
         </div>
 	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
  </form>
-  <div class="quick_done_alert" style="display: none">
-  	<h2><span style="text-transform: capitalize"><?php print $data['subtype'] ?></span> has been created.</h2>
-  	<a href="javascript:;" class="mw-ui-link">Go to <?php print $data['subtype'] ?></a>
-      <span class="mw-ui-btn" onclick="$(mw.tools.firstParentWithClass(this, 'mw-inline-modal')).remove();">Create New</span>
+  <div class="quick_done_alert" style="display: none" id="post-added-alert-<?php print $rand; ?>">
+   
+	  
+	  
+	  
+	  <div class="quick-post-done">
+    <h2>Well done, you have saved your changes. </h2>
+    <label class="mw-ui-label"><small>Go to see them at this link</small></label>
+    <div class="vSpace"></div>
+    <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
+    <div class="vSpace"></div>
+    <label class="mw-ui-label"><small>Or choose an action below</small></label>
+    <div class="vSpace"></div>
+	<a href="javascript:;" class="mw-ui-btn" onclick="mw.edit_content.close_alert();">Continue editing</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a>
+  </div>
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
   </div>
 <script>
     mw.require("content.js");
@@ -305,9 +321,19 @@ mw.edit_content.saving = false;
 
 
 mw.edit_content.create_new = function(){
-   mw.$('[data-type="content/quick"]').attr("content-id", "0");
-    mw.reload_module('content/quick');
+   mw.$('#<?php print $module_id ?>').attr("content-id", "0");
+   mw.$('#<?php print $module_id ?>').removeAttr("just-saved");
+
+   mw.reload_module('#<?php print $module_id ?>');
 };
+
+mw.edit_content.close_alert = function(){
+   	 mw.$('#quickform-<?php print $rand; ?>').show();
+	 mw.$('#post-added-alert-<?php print $rand; ?>').hide();
+
+};
+
+ 
 
 mw.edit_content.load_editor  = function(element_id){
 	 var element_id =  element_id || 'quick_content_<?php print $rand ?>';
@@ -344,14 +370,32 @@ mw.edit_content.before_save = function(){
 		window.parent.mw.askusertostay=false;
 	}
 }
-mw.edit_content.after_save = function(){
+mw.edit_content.after_save = function(saved_id){
 	mw.askusertostay=false;
 	var content_id =  mw.$('#mw-content-id-value').val();
+	
+	var quick_add_holder = mwd.getElementById('mw-quick-content');
+ 	if(quick_add_holder != null){
+ 	mw.tools.removeClass(quick_add_holder, 'loading');
+	}
+
+	
 	if(content_id == 0){
-	    mw.reload_module('#<?php print $module_id ?>', function(){
-	       mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
-	    });
- 	}
+			if(saved_id !== undefined){
+ 		    mw.$('#mw-content-id-value').val(saved_id);
+ 			}
+			<?php if($is_quick!=false) : ?>
+
+			 mw.$('#quickform-<?php print $rand; ?>').hide();
+			 mw.$('#post-added-alert-<?php print $rand; ?>').show();
+
+  
+
+			<?php endif; ?>
+			
+			
+ 	   // mw.reload_module('#<?php print $module_id ?>');
+  	}
 	 
 	if(parent !== self && !!parent.mw){
      //   mw.reload_module_parent(['posts', 'shop/products', 'pages','content']);
@@ -449,6 +493,16 @@ mw.edit_content.handle_form_submit = function(go_live){
               if(parent !== self && !!window.parent.mw){
                  window.parent.mw.askusertostay=false;
               }
+			  
+			  
+			  
+			    
+				  
+				  
+			
+			  
+			  
+			  
               if(go_live_edit != false){
                 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
                   
@@ -456,6 +510,16 @@ mw.edit_content.handle_form_submit = function(go_live){
                 });
               }
               else {
+				  
+				  $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
+                   mw.$("a.quick-post-done-link").attr("href",data+'/editmode:y');
+			 		mw.$("a.quick-post-done-link").html(data);
+                 });
+				  
+				  
+				  
+				  
+				  
                   mw.$("#<?php print $module_id ?>").attr("content-id",this);
                   <?php if($is_quick !=false) : ?>
                 //  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
@@ -465,7 +529,7 @@ mw.edit_content.handle_form_submit = function(go_live){
                     mw.url.windowHashParam("action", "editpage:" + this);
                   }
                   <?php endif; ?>
-                  mw.edit_content.after_save();
+                  mw.edit_content.after_save(this);
               }
               mw.edit_content.saving = false;
           },

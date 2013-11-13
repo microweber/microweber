@@ -733,8 +733,8 @@ mw.drag = {
           });
           $(mw.handle_row).data("curr", element);
           var size =  $(element).children(".mw-col").length;
-          $("a.mw-make-cols").removeClass("active");
-          $("a.mw-make-cols").eq(size-1).addClass("active");
+          mw.$("a.mw-make-cols").removeClass("active");
+          mw.$("a.mw-make-cols").eq(size-1).addClass("active");
           element.id=="" ? element.id="row_"+mw.random() : "";
         });
         $(window).bind("onItemOver", function(a, element){
@@ -917,6 +917,8 @@ mw.drag = {
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
                   $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
+                  mw.smallEditor.css("visibility", "hidden");
+                  mw.smallEditorCanceled = true;
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -936,6 +938,8 @@ mw.drag = {
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
                   $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
+                  mw.smallEditor.css("visibility", "hidden");
+                  mw.smallEditorCanceled = true;
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -955,6 +959,8 @@ mw.drag = {
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
                    $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
+                   mw.smallEditor.css("visibility", "hidden");
+                  mw.smallEditorCanceled = true;
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -1080,6 +1086,7 @@ mw.drag = {
             }
 
 			if (mw.isDrag) {
+
 			  mw.isDrag = false;
               if(!mw.tools.hasClass(mw.currentDragMouseOver, 'edit')){
                 mw.tools.addClass(mw.tools.firstParentWithClass(mw.currentDragMouseOver, 'edit'), 'changed orig_changed');
@@ -1226,10 +1233,10 @@ mw.drag = {
                                      hovered.removeClass("mw_drag_float");
                                      if(hovered.hasClass("edit") || dropInside(mw.currentDragMouseOver)){
                                         hovered.append(mw.dragCurrent);
-                                        d(1)
+
                                      }
                                      else{
-                                       d(2)
+
                                         hovered.after(mw.dragCurrent);
                                      }
                                      $(mw.dragCurrent).addClass("clear");
@@ -1673,7 +1680,7 @@ mw.drag = {
   }
 
 
-if(typeof el === 'object' && el !==null){
+if(typeof el === 'object' && el !== null){
   if($(el).hasClass('disabled')){
     return false;
   }
@@ -1765,7 +1772,7 @@ if(typeof el === 'object' && el !==null){
 			       //mw.askusertostay = true;
             }
 
-
+          d(master)
           $.ajax({
             type: 'POST',
             url: mw.settings.site_url + 'api/save_edit',
@@ -1783,30 +1790,27 @@ if(typeof el === 'object' && el !==null){
                 else{
                   mw.askusertostay = false;
                 }
-            if($('#mw-history-panel').is(":visible") == false){
-               mw.history.init();
-            }
 
-
+                if($('#mw-history-panel').is(":visible") == false){
+                   mw.history.init();
+                }
               if(typeof el === 'object'){
                 var html  = $(el).dataset("html");
                 $(el).removeClass('disabled').html(html);
               }
               if(is_draft){
                mw.$(".edit.changed").addClass('orig_changed').removeClass("changed");
-
-
-              } else {
+              }
+              else {
                  mw.notification.success("All changes are saved.");
-                 mw.$(".edit.changed").removeClass("changed");
-
+                 mw.$(".edit.changed").removeClass("changed orig_changed");
               }
               if(typeof callback === 'function'){
                    callback.call();
               }
             },
             error:function(){
-              mw.$(".edit.changed").removeClass("changed");
+              mw.$(".edit.changed").removeClass("changed orig_changed");
                if(typeof el === 'object'){
 
                 $(el).removeClass('disabled').html(mw.msg.save);
@@ -1872,7 +1876,8 @@ mw.px2pc = function(row){
     });
     //check them after
     mwcsum = 0;
-    for(var x=0; x < len; x ++){
+    var x=0;
+    for( ; x < len; x++){
         mwcsum+=cache[x];
     }
     var final = 100-mwcsum;
@@ -2587,49 +2592,36 @@ mw.setLiveEditor = function(){
 $(window).bind("load", function(){
 
 
+    mw.setLiveEditor();
 
 
 
-mw.setLiveEditor();
+  mw.$("#history_dd").hover(function(){
+    $(this).addClass("hover");
+  }, function(){
+     $(this).removeClass("hover");
+  });
 
-
-
-mw.$("#history_dd").hover(function(){
-  $(this).addClass("hover");
-}, function(){
-   $(this).removeClass("hover");
-});
-
-
-
-    mw.toolbar.center_icons();
+  mw.toolbar.center_icons();
 
   mw.image.resize.init(".element-image");
 
-
     $(mwd.body).mousedown(function(event){
-
       if(mw.$(".editor_hover").length==0){
         $(mw.wysiwyg.external).empty().css("top", "-9999px");
 
         $(mwd.body).removeClass('hide_selection');
       }
-
       if(!mw.$("#history_dd").hasClass("hover")){
         $("#historycontainer").hide()
       }
-
       if(mw.$(".toolbars-search.active").length === 0){
         mw.$(".mw-autocomplete-cats").hide();
       }
       else{
         mw.$(".mw-autocomplete-cats").show();
       }
-
     });
-
-
-
 
     mw.$("#liveedit_wysiwyg").mousedown(function(){
       if(mw.$(".mw_editor_btn_hover").length==0){
@@ -2641,14 +2633,7 @@ mw.$("#history_dd").hover(function(){
         mw.mouseDownOnEditor = false;
         $(this).removeClass("hover");
     });
-    mw.$("#liveedit_wysiwyg").mouseleave(function(){
-        if(mw.mouseDownOnEditor){
-            mw.$("#mw_small_editor").visible().draggable({ disabled: false });
-            mw.$("#mw-text-editor").invisible() ;
-            mw.$("#mw-text-editor").removeClass("hover");
-        }
 
-    });
     $(document.body).mouseup(function(event){
          mw.target.item = event.target;
          mw.target.tag = event.target.tagName.toLowerCase();

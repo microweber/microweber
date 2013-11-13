@@ -301,7 +301,8 @@ class Controller
                 //
 
                 $page = $this->app->content->homepage();
-
+				 
+			 
             } else {
                 $found_mod = false;
                 $page = $this->app->content->get_by_url($page_url);
@@ -647,6 +648,10 @@ class Controller
             event_trigger('on_load', $content);
 
 
+            if ($is_editmode == true and !defined('IN_EDIT')) {
+                define('IN_EDIT', true);
+            }
+
             $l = $this->app->parser->process($l, $options = false);
 
 
@@ -722,11 +727,7 @@ class Controller
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
 
-
-            if ($is_editmode == true and !defined('IN_EDIT')) {
-                define('IN_EDIT', true);
-            }
-
+ 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
 
                 if ($is_admin == true) {

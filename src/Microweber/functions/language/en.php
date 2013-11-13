@@ -861,3 +861,6 @@ $language["shop-settings-are-saved"]= 'Shop settings are saved' ;
 $language["see-all-comments"]= 'See all comments' ; 
 $language["save-go-live-edit"]= 'Save & Go Live Edit' ; 
 $language["there-are-no-items-in-the-menu-b-nowo-b"]= 'There are no items in the menu <b>nowo</b>' ; 
+$language["upload-audio-file-or-paste-url"]= 'Upload Audio File or paste URL.' ; 
+$language["you-are-now-logged-in"]= 'You are now logged in' ; 
+$language["enter-source"]= 'Enter Source' ; 

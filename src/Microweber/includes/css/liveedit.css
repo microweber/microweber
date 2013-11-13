@@ -167,8 +167,7 @@ body.dragStart .empty-element { display: block; }
 
 body .mw-col > .ui-resizable-e {
 	width: 20px;
-	right: 0;
-	right: -15px;
+	right: -10px;
 	top: 0;
 	height: 100%;
     background-image: url(../img/resize_color.gif);

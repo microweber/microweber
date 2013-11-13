@@ -1839,13 +1839,23 @@ class Content
         $table = MW_DB_TABLE_CONTENT;
 
 
-        $sql = "SELECT * FROM $table WHERE is_home='y'  ORDER BY updated_on DESC LIMIT 0,1 ";
+        $sql = "SELECT * FROM $table WHERE is_home='y' and is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
 
         $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-        // var_dump($q);
+        //
         $result = $q;
-
-        $content = $result[0];
+		if( $result == false){
+			 $sql = "SELECT * FROM $table WHERE content_type='page' and is_deleted='n' and url like '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
+        	 $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+			 $result = $q;
+			  
+		}
+		
+		
+		if( $result != false){
+			$content = $result[0];
+		}  
+       
 
         return $content;
     }

@@ -200,6 +200,7 @@ mw.wysiwyg = {
 
     },
     execCommand:function(a,b,c){
+
         try{  // 0x80004005
             if(document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()){
                 var b = b || false;
@@ -275,7 +276,8 @@ mw.wysiwyg = {
        // pro.className = 'semi_hidden';
 
 
-       var rects = mw.wysiwyg.selection.range.getClientRects()[0];
+       var rects = window.getSelection().getRangeAt(0).getClientRects()[0];
+       d(rects)
        var rtop = typeof rects != 'undefined' ? rects.top : 50;
        var rleft = typeof rects != 'undefined' ? rects.left : 50;
        $(pro).css({
@@ -406,7 +408,7 @@ mw.wysiwyg = {
       $(mwd.body).bind('mouseup keyup keydown', function(event){
 
 
-          d(event.target)
+
 
 
 
@@ -464,109 +466,7 @@ mw.wysiwyg = {
                   return false;
                 }
 
-              if(sel.isCollapsed && typeof window.chrome === 'object'){
-				  
-				  /*
-				  delete bug 
-				  
 
-                var a = sel.anchorNode;
-                var _s = mw.tools.cloneObject(sel);
-                if(event.keyCode == 46 || event.keyCode == 8 ){
-                  if(a.innerHTML == '' || (a.childNodes.length === 1 && a.childNodes[0].nodeName === 'BR')){
-                    mw.wysiwyg.select_element(a);
-                    mw.wysiwyg.execCommand('delete');
-                   return false;
-                  }
-                }
-
-                if(event.keyCode == 46 ){
-
-                    if(sel.focusNode.textContent.charAt(sel.focusOffset) === ''){
-
-                      var next = sel.focusNode.nextSibling;
-                      if(next === null ){
-                        if(sel.focusNode.nodeType === 3){
-                            sel.modify('extend', 'forward', 'character');
-                            var r = sel.getRangeAt(0);
-                            if(r.startContainer === r.endContainer){
-                              mw.wysiwyg.execCommand('delete');
-                            }
-
-                        }
-                        return false;
-                      }
-                      if(next.nodeType !== 3){
-
-                         if(next.nodeName === 'BR'){ return false; }
-                         var cnext =  mww.getComputedStyle(next, null);
-                         if(cnext === null){ return false; }
-                         if(cnext.display === 'block'){
-                           return false;
-                         }
-                      }
-                    }
-
-
-                  sel.modify('move', 'forward', 'character');
-                  if( _s.anchorOffset === sel.anchorOffset ) return false;
-                  if( mw.wysiwyg.selection_length() > 0 ) return false;
-                }
-                else if(event.keyCode == 8 ){
-
-
-                    if(sel.focusNode.textContent.charAt(sel.focusOffset) === ''){
-                      var prev = sel.focusNode.previousSibling;
-
-                      if(prev === null ){
-                        if(sel.focusNode.nodeType === 3){
-                            sel.modify('extend', 'backward', 'character');
-
-                            if(sel.toString().length === 1){
-                                mw.wysiwyg.insert_html(' ');
-                                return false;
-                            }
-                            mw.wysiwyg.execCommand('delete');
-
-                        }
-                        return false;
-                      }
-                      if(prev.nodeType !== 3){
-                         if(prev.nodeName === 'BR'){return false;}
-                         var cnext =  mww.getComputedStyle(prev, null);
-                         if(cnext === null){ return false; }
-                         if(cnext.display === 'block'){
-                           return false;
-                         }
-                      }
-                    }
-
-                    sel.modify('extend', 'backward', 'character');
-
-                    if( mw.wysiwyg.selection_length() > 1 ) return false;
-                }
-                var b = sel.anchorNode;
-                if(a === b || b.nodeType === 3){
-                     mw.wysiwyg.execCommand('delete');
-
-                }
-                else{
-                  var cb =  mww.getComputedStyle(b, null);
-                  if(cb === null){ return false; }
-                  if(cb.display !== "block"){
-
-                     mw.wysiwyg.execCommand('delete');
-                  }
-                  else{}
-                }
-                return false;
-              */
-			  
-			  
-			  }
-              else{  /* If Not Colapsed */
-
-              }
            }
 
          }
@@ -1387,35 +1287,36 @@ $(window).load(function(){
   }
 
   if(mw.settings.liveEdit){
-  if(e.type=='mouseup'){
-  if(mw.tools.hasParentsWithClass(e.target, 'edit')){
-    var r =  window.getSelection().getRangeAt(0);
-    if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
-      mw.smallEditorCanceled = false;
-      mw.smallEditor.css({
-        visibility:"visible",
-        opacity:0.5,
-        top:e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height - $(window).scrollTop(),
-        left:e.pageX+mw.smallEditor.width()<$(window).width()?e.pageX:($(window).width()-mw.smallEditor.width()-5)
-      });
+    if(e.type=='mouseup'){
+      if(mw.tools.hasParentsWithClass(e.target, 'edit')){
+        var r =  window.getSelection().getRangeAt(0);
+        if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
+          mw.smallEditorCanceled = false;
+          mw.smallEditor.css({
+            visibility:"visible",
+            opacity:0.5,
+            top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height - $(window).scrollTop(),
+            left:e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width()-5 )
+          });
+        }
+        else{
+
+             mw.smallEditorCanceled = true;
+             mw.smallEditor.css({
+                visibility:"hidden"
+             });
+
+        }
+      }
+      else{
+        if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
+          mw.smallEditorCanceled = true;
+           mw.smallEditor.css({
+            visibility:"hidden"
+          });
+      }
+      }
     }
-    else{
-      mw.smallEditorCanceled = true;
-       mw.smallEditor.css({
-        visibility:"hidden",
-
-      });
-    }
-  }
-  else{
-     mw.smallEditorCanceled = true;
-       mw.smallEditor.css({
-        visibility:"hidden",
-
-      });
-  }
-  }
-
   }
 });
 
@@ -1491,8 +1392,8 @@ $(window).load(function(){
     $(window).bind("mousemove", function(e){
        if(!mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")){
          var off = mw.smallEditor.offset();
-         if(((e.pageX-mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY-mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX+mw.smallEditorOff) < (off.left)) || ((e.pageY+mw.smallEditorOff) < (off.top))){
-            mw.smallEditor.css("visibility", "hidden");
+         if(((e.pageX - mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY-mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX+mw.smallEditorOff) < (off.left)) || ((e.pageY+mw.smallEditorOff) < (off.top))){
+             mw.smallEditor.css("visibility", "hidden");
          }
          else{
              mw.smallEditor.css("visibility", "visible");
@@ -1504,12 +1405,14 @@ $(window).load(function(){
         mw.smallEditorCanceled = true;
     });
     mw.$("#live_edit_toolbar").bind("mousedown", function(e){
+        if(e.target.nodeName != 'INPUT'){
+          e.preventDefault();
+        }
+
         if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
-            e.preventDefault();
             mw.smallEditor.css("visibility", "hidden");
             mw.smallEditorCanceled = true;
         }
-
     });
    }
 });

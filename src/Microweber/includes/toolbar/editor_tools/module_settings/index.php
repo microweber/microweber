@@ -13,18 +13,18 @@
     	  <script type="text/javascript">
               liveEditSettings = true;
               mw.lib.require("jqueryui");
-              mw.require('<?php print MW_INCLUDES_URL; ?>default.css', true);
-              mw.require('<?php print MW_INCLUDES_URL; ?>api/api.css', true);
-              mw.require('<?php print MW_INCLUDES_URL; ?>css/mw_framework.css', true);
-              mw.require('<?php print MW_INCLUDES_URL; ?>css/liveadmin.css', true);
-              mw.require('<?php print MW_INCLUDES_URL; ?>css/admin.css', true);
-              mw.require('<?php print MW_INCLUDES_URL; ?>css/popup.css', true);
-              mw.require("events.js", true);
-              mw.require("url.js", true);
-              mw.require("tools.js", true);
-              mw.require("forms.js", true);
-              mw.require('wysiwyg.js', true);
-			   mw.require('options.js', true);
+              mw.require('<?php print MW_INCLUDES_URL; ?>default.css');
+              mw.require('<?php print MW_INCLUDES_URL; ?>api/api.css');
+              mw.require('<?php print MW_INCLUDES_URL; ?>css/mw_framework.css');
+              mw.require('<?php print MW_INCLUDES_URL; ?>css/liveadmin.css');
+              mw.require('<?php print MW_INCLUDES_URL; ?>css/admin.css');
+              mw.require('<?php print MW_INCLUDES_URL; ?>css/popup.css');
+              mw.require("events.js");
+              mw.require("url.js");
+              mw.require("tools.js");
+              mw.require("forms.js");
+              mw.require('wysiwyg.js');
+			   mw.require('options.js');
           </script>
 
 <style>

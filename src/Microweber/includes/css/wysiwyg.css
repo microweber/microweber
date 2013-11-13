@@ -454,8 +454,7 @@
 }
 
 #mw-history-panel{
-  right: 0;
-  left: auto;
+  left: -22px;
   width: 150px;
   border: 1px solid #D2D2D2;
 
