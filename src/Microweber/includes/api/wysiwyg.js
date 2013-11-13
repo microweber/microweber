@@ -908,9 +908,10 @@ mw.wysiwyg = {
         var id = 'image_' + mw.random();
         var img = '<img id="'+id+'" contentEditable="true" class="element" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);
-        $("#"+id).attr("contenteditable", false);
-        $("#"+id).removeAttr("_moz_dirty");
+        mw.$("#"+id).attr("contenteditable", false);
+        mw.$("#"+id).removeAttr("_moz_dirty");
         mw.wysiwyg.save_selection();
+        mw.tools.addClass(mw.tools.firstParentWithClass(mwd.getElementById(id), 'edit'), 'changed orig_changed');
         return id;
     },
     save_selection:function(){
@@ -1289,7 +1290,9 @@ $(window).load(function(){
   if(mw.settings.liveEdit){
     if(e.type=='mouseup'){
       if(mw.tools.hasParentsWithClass(e.target, 'edit')){
-        var r =  window.getSelection().getRangeAt(0);
+        var sel = window.getSelection();
+        if(sel.rangeCount > 0){
+        var r = sel.getRangeAt(0);
         if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
           mw.smallEditorCanceled = false;
           mw.smallEditor.css({
@@ -1300,13 +1303,12 @@ $(window).load(function(){
           });
         }
         else{
-
              mw.smallEditorCanceled = true;
              mw.smallEditor.css({
                 visibility:"hidden"
              });
-
         }
+      }
       }
       else{
         if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){

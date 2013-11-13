@@ -270,7 +270,6 @@ mw.tools = {
       return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable);
     },
     minimize:function(id){
-
         var doc = mwd;
         var modal = mw.$("#"+id);
         var window_h = $(doc.defaultView).height();
@@ -293,7 +292,6 @@ mw.tools = {
         if(typeof $.fn.draggable === 'function'){
           modal.draggable("option", "disabled", true);
         }
-
     },
     maximize:function(id){
        var modal = $("#"+id);

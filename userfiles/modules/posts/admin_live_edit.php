@@ -89,7 +89,7 @@ if(isset($params['global']) and $params['global'] != false){
 			 $('#mw_posts_create_live_edit').attr('content_type',$cont_type);
 		 }
 		 
-	     $('#mw_posts_edit_live_edit').attr('data-content-id', 0); 
+	     $('#mw_posts_create_live_edit').attr('content-id', 0); 
 
 		 $('#mw_posts_create_live_edit').attr('quick_edit',1);
 		 	 	 $('#mw_posts_create_live_edit').removeAttr('live_edit');
@@ -187,12 +187,8 @@ if(isset($params['global']) and $params['global'] != false){
   </ul>
   <div class="tab">
     <?php
-   
-   if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
-	    $add_post_q = 'subtype="product" is_shop=y ';
-   } else {
-	    $add_post_q = 'subtype=post ';
-   }
+   $add_post_q = '';
+  
    if(isset($params['id'])){
 	   $add_post_q  .=' module-id="'. $params['id'].'";';
 	  
@@ -206,6 +202,28 @@ if(isset($params['global']) and $params['global'] != false){
     if(isset($params['related'])){
 	    $add_post_q  .=' related='.$params['related'];
    }
+  
+	$is_global = false;
+    if(isset($params['global'])){
+	    $add_post_q  .=' global='.$params['global'];
+		$is_global = true;
+   } else {
+	   $set_content_type =  get_option('data-content-type', $params['id']); 
+	   
+	   if($set_content_type == 'page'){
+		     $add_post_q  .=' global="true" ';
+			 $is_global = true;
+
+	   }
+   }
+   if($is_global == false){
+		if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
+			$add_post_q .= ' subtype="product" is_shop=y ';
+	   } else {
+			$add_post_q .= ' subtype=post ';
+	   }
+   }
+   
   $posts_parent_page =  get_option('data-page-id', $params['id']); 
    $posts_parent_category =  get_option('data-category-id', $params['id']);
 
@@ -215,10 +233,10 @@ if(isset($params['global']) and $params['global'] != false){
 	    $add_post_q  .=' data-parent-page-id='.$params['page-id'];
    } 
    
-   
+ 
    
   
-  if($posts_parent_page != false and $posts_parent_category != false and intval($posts_parent_category) > 0){
+  if(!isset($params['global']) and $posts_parent_page != false and $posts_parent_category != false and intval($posts_parent_category) > 0){
 	  
 	  $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $posts_parent_page;
 	  $page_categories = get($str0);

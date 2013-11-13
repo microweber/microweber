@@ -97,7 +97,7 @@ DOMChange:function(element, callback, attr, a){
         }
     }, false);
     element.addEventListener("DOMNodeInserted", function(e){
-        if(mw.tools.hasClass(e.target, 'element') || mw.tools.hasClass(e.target, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
+        if(/*mw.tools.hasClass(e.target, 'element') || */mw.tools.hasClass(e.target, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
           return false;
         }
         if( !mw.on.DOMChangePause ) {

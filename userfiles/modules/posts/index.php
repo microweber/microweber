@@ -149,7 +149,7 @@ if($cfg_page_id == false and isset($post_params['related']) and $post_params['re
 		}
 	 
 }
-
+if (!isset($params['global'])) {
 
 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
     $sub_cats = array();
@@ -222,7 +222,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
     $post_params['category'] = $posts_parent_category_cfg;
 
 }
-			
+}
 
 $tn_size = array('150');
 

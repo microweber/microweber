@@ -1539,6 +1539,9 @@ class Controller
             $url = $this->app->url->string();
         }
 
+        
+
+
         $this->app->content->define_constants($page);
 
         if ($custom_display == true) {
