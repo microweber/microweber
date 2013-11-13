@@ -21,6 +21,10 @@
   if(isset($params['quick_edit'])){
     $is_quick = $params['quick_edit'];
   }
+  if($is_live_edit == true){
+	   $is_quick = false;
+  }
+  
   if(isset($params['just-saved'])){
     $just_saved = $params['just-saved'];
   }
@@ -176,7 +180,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
 	<div class="mw-ui-field-holder" style="padding: 0 0 1px;">
 		<div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
-			<input  style="width: 160px;" name="content_url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
+			<input  style="width: 160px;" name="content_url" id="edit-content-url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
 			<span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span>
         </div>
         <?php if($data['content_type'] == 'page'){ ?>
@@ -385,12 +389,8 @@ mw.edit_content.after_save = function(saved_id){
  		    mw.$('#mw-content-id-value').val(saved_id);
  			}
 			<?php if($is_quick!=false) : ?>
-
 			 mw.$('#quickform-<?php print $rand; ?>').hide();
 			 mw.$('#post-added-alert-<?php print $rand; ?>').show();
-
-  
-
 			<?php endif; ?>
 			
 			
@@ -403,13 +403,17 @@ mw.edit_content.after_save = function(saved_id){
 			mw.reload_module_parent('shop/products');
 			mw.reload_module_parent('pages');
 			mw.reload_module_parent('content');
-		 mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+		    mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
 		
 		
     	parent.mw.askusertostay=false;
     	<?php if($is_current!=false) :  ?>
     	if(window.parent.mw.history != undefined){
-    		window.parent.mw.history.load('latest_content_edit');
+ 			setTimeout(function(){
+ 				window.parent.mw.history.load('latest_content_edit');
+				},200);
+
+    		
     	}
     	<?php endif; ?>
 	} else {
@@ -496,13 +500,6 @@ mw.edit_content.handle_form_submit = function(go_live){
 			  
 			  
 			  
-			    
-				  
-				  
-			
-			  
-			  
-			  
               if(go_live_edit != false){
                 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
                   
@@ -512,14 +509,15 @@ mw.edit_content.handle_form_submit = function(go_live){
               else {
 				  
 				  $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
-                   mw.$("a.quick-post-done-link").attr("href",data+'/editmode:y');
-			 		mw.$("a.quick-post-done-link").html(data);
+					  if(data == null){
+						return false;  
+					  }
+					  var slug = data.replace("<?php print site_url() ?>", "").replace("/", "")
+					  mw.$("#edit-content-url").val(slug);
+					  mw.$(".view-post-slug").html(slug);
+                   	  mw.$("a.quick-post-done-link").attr("href",data+'/editmode:y');
+			 		  mw.$("a.quick-post-done-link").html(data);
                  });
-				  
-				  
-				  
-				  
-				  
                   mw.$("#<?php print $module_id ?>").attr("content-id",this);
                   <?php if($is_quick !=false) : ?>
                 //  mw.$("#<?php print $module_id ?>").attr("just-saved",this);

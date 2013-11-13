@@ -1772,7 +1772,7 @@ if(typeof el === 'object' && el !== null){
 			       //mw.askusertostay = true;
             }
 
-          d(master)
+
           $.ajax({
             type: 'POST',
             url: mw.settings.site_url + 'api/save_edit',

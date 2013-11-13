@@ -82,6 +82,11 @@ class Controller
     public function index()
     {
 
+        if ($this->return_data == false) {
+            if (!defined('MW_FRONTEND')) {
+                define('MW_FRONTEND', true);
+            }
+        }
         if ($this->render_this_url == false and $this->app->url->is_ajax() == FALSE) {
             $page_url = $this->app->url->string();
         } else {
@@ -301,8 +306,8 @@ class Controller
                 //
 
                 $page = $this->app->content->homepage();
-				 
-			 
+
+
             } else {
                 $found_mod = false;
                 $page = $this->app->content->get_by_url($page_url);
@@ -727,7 +732,7 @@ class Controller
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
 
- 
+
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
 
                 if ($is_admin == true) {

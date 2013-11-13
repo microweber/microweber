@@ -675,7 +675,7 @@ class Media
 
 
         if (!isset($height)) {
-            $width = 200;
+            $height = 200;
         }
         $cd = MW_MEDIA_DIR . 'thumbnail'.DS.$width.DS;
 
