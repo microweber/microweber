@@ -1215,7 +1215,7 @@ mw.drag = {
                             }
                             else{
 
-                                if(!hasAbilityToDropElementsInside(mw.currentDragMouseOver.parentNode.nodeName)){
+                                if(mw.currentDragMouseOver.parentNode!==null && !hasAbilityToDropElementsInside(mw.currentDragMouseOver.parentNode.nodeName)){
                                    mw.currentDragMouseOver =  mw.currentDragMouseOver.parentNode;
 
                                    var hovered = $(mw.currentDragMouseOver);
@@ -2435,6 +2435,7 @@ mw.$(".mw_ex_tools").click(function(){
 
 mw.$(".ts_main_li").mouseenter(function(){
   mw.session.checkPause = true;
+  mw.pauseSave = true;
   var selected_el = mwd.querySelector('.element-current');
   var parentedit = mw.tools.firstParentWithClass(selected_el, 'edit');
   $(parentedit).addClass('changed');
@@ -2443,7 +2444,7 @@ mw.$(".ts_main_li").mouseenter(function(){
   $(this).addClass("hovered");
   mw.$(".ts_main_ul .ts_action").invisible();
   mw.$(".ts_main_ul .ts_action").css({left:"100%", top:0});
-  var toshow = $(this).find(".ts_action:first");
+  var toshow = mw.$(this.querySelector('.ts_action'));
   if(toshow.length === 0) return false;
   toshow.visible();
   toshow.css("top", 0);
@@ -2460,8 +2461,10 @@ mw.$(".ts_main_li").mouseenter(function(){
     });
 
  }
+
 });
 mw.$(".ts_main_li").mouseleave(function(){
+   mw.pauseSave = false;
     $(this).removeClass("hovered");
     mw.session.checkPause = false;
 });

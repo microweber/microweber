@@ -82,11 +82,7 @@ class Controller
     public function index()
     {
 
-        if ($this->return_data == false) {
-            if (!defined('MW_FRONTEND')) {
-                define('MW_FRONTEND', true);
-            }
-        }
+
         if ($this->render_this_url == false and $this->app->url->is_ajax() == FALSE) {
             $page_url = $this->app->url->string();
         } else {
@@ -127,7 +123,11 @@ class Controller
         $is_preview_template = $this->app->url->param('preview_template');
         if (!$is_preview_template) {
             $is_preview_template = false;
-
+            if ($this->return_data == false) {
+                if (!defined('MW_FRONTEND')) {
+                    define('MW_FRONTEND', true);
+                }
+            }
             if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 
                 if ($is_editmode == 'n') {

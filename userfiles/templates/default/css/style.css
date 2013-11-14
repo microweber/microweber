@@ -580,6 +580,11 @@ ul.dropdown-menu ul.dropdown-menu {
 	zoom:1;
 	padding: 20px 0;
 }
+
+.comment-image-holder{
+  width: 95px;
+}
+
 .comment .img-polaroid,  .comment .img-rounded {
 	display: block;
 	width: 67px;

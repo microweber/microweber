@@ -481,8 +481,8 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 	}
 }
  
-$global_template = $this->app->option->get('current_template', 'template');
-
+$global_template = get_option('current_template', 'template');
+ 
  ?>
  
  
@@ -502,7 +502,10 @@ $global_template = $this->app->option->get('current_template', 'template');
 			<select name="active_site_template" id="active_site_template_<?php print $rand; ?>">
 		 
 				<?php foreach($templates as $item): ?>
-				<?php $attrs = '';
+				<?php
+				
+				$selected=false;
+				 $attrs = '';
   				foreach($item as $k=>$v): ?>
 				<?php $attrs .= "data-$k='{$v}'"; ?>
 				<?php endforeach ?>
@@ -510,9 +513,9 @@ $global_template = $this->app->option->get('current_template', 'template');
 				
 				
  				<?php if( trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
-				<option value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<option value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected" <?php $selected=true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
 				<?php else: ?>
-			<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) != $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+			<option value="<?php print $item['dir_name'] ?>"    <?php if ($selected==false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
 				<?php endif ?>
  
 				

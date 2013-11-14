@@ -63,7 +63,7 @@
                           <li value="h6"><a href="#"><h6><?php _e("Heading"); ?> 6</h6></a></li>
                           <li value="p"><a href="#"><p><?php _e("Paragraph"); ?></p></a></li>
                           <li value="div"><a href="#"><div><?php _e("Block"); ?></div></a></li>
-                          <li value="pre"><a href="#"><div><?php _e("Pre formatted"); ?></div></a></li>
+
                         </ul>
                       </div>
                     </div>
@@ -121,9 +121,10 @@
                     </span>
                   <div class="mw_dropdown_fields">
                     <ul>
-                      <li value="hr"><a href="#" style="font-size: 10px"><?php _e("Horizontal Rule"); ?></a></li>
-                      <li value="box"><a href="#" style="font-size: 10px"><?php _e("Box"); ?></a></li>
-                      <li value="table"><a href="#" style="font-size: 10px"><?php _e("Table"); ?></a></li>
+                      <li value="hr"><a href="javascript:;" style="font-size: 10px"><?php _e("Horizontal Rule"); ?></a></li>
+                      <li value="box"><a href="javascript:;" style="font-size: 10px"><?php _e("Box"); ?></a></li>
+                      <li value="table"><a href="javascript:;" style="font-size: 10px"><?php _e("Table"); ?></a></li>
+                      <li value="pre"><a href="javascript:;" style="font-size: 10px"><?php _e("Pre formatted"); ?></a></li>
                       <?php /*<li value="quote"><a href="#" style="font-size: 10px"><?php _e("Quote"); ?></a></li>*/ ?>
                     </ul>
                   </div>

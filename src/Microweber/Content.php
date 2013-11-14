@@ -401,6 +401,11 @@ class Content
     {
 
 
+
+
+
+
+
         $function_cache_id = '';
         if (is_array($page)) {
             ksort($page);
@@ -419,6 +424,9 @@ class Content
         }
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
+//        if(isset($_REQUEST['debug'])){
+//            $cache_content = false;
+//        }
         if (($cache_content) != false) {
             return $cache_content;
         }
@@ -619,6 +627,14 @@ class Content
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
             $inherit_from = $this->get_parents($page['id']);
             $found = 0;
+//            if(isset($_REQUEST['debug'])){
+//                if(isset($page['parent']) and $page['parent'] != 0){
+//
+//                }
+//               // $par = $this->get_by_id($page['parent']);
+//
+//                d($inherit_from);
+//            }
             if (!empty($inherit_from)) {
                 foreach ($inherit_from as $value) {
                     if ($found == 0 and $value != $page['id']) {
@@ -642,7 +658,7 @@ class Content
             }
         }
 
-        if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false) {
+        if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false and $page['content_type'] != '') {
             $look_for_post = $page;
             if (isset($page['parent'])) {
                 $par_page = false;
@@ -3116,6 +3132,7 @@ class Content
 
                     if ($cont['is_active'] != 'y') {
                         $is_active = false;
+                        $cont = false;
                     }
 
                 }

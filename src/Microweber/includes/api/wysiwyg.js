@@ -942,7 +942,7 @@ mw.wysiwyg = {
 
     },
     format:function(command){
-      if(mw.wysiwyg.selection_length() > 0){
+      /* if(mw.wysiwyg.selection_length() > 0){
         var r = mww.getSelection().getRangeAt(0);
         var common = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
         var h = /^(h[1-6])$/i;
@@ -955,7 +955,8 @@ mw.wysiwyg = {
       }
       else{
         mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
-      }
+      }  */
+      mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
     },
     _undo:false,
     _redo:false,
@@ -1229,9 +1230,14 @@ $(window).load(function(){
         }
         else if( val == 'box' ){
             var div = mw.wysiwyg.applier('div', 'well element');
-
             if(mw.wysiwyg.selection_length() <= 2){
                $(div).append("<p>&nbsp;</p>");
+            }
+        }
+        else if( val == 'pre' ){
+            var div = mw.wysiwyg.applier('pre', '');
+            if(mw.wysiwyg.selection_length() <= 2){
+               $(div).append("&nbsp;");
             }
         }
         else if( val == 'table' ){
@@ -1241,9 +1247,7 @@ $(window).load(function(){
         }
         else if( val == 'quote' ){
             var div = mw.wysiwyg.applier('blockquote', 'element');
-
-
-              $(div).append("<cite>By Lorem Ipsum</cite>");
+            $(div).append("<cite>By Lorem Ipsum</cite>");
 
         }
    }

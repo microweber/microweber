@@ -164,7 +164,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
     <div class="mw-ui-field-holder"  style="padding-bottom: 5px;">
 	    <span class="mw-title-field-label mw-title-field-label-<?php print $data['subtype']; ?>"></span>
 		<input
-              autofocus
+
               type="text"
               name="title"
               placeholder="<?php print $title_placeholder; ?>"
@@ -214,10 +214,6 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	</div>
 	<?php endif; ?>
 
-
-
-
-
 	<?php if($data['content_type'] == 'page'):  ?>
 	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 	<?php endif; ?>
@@ -229,7 +225,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
         	
 
     	<?php else: ?> 
-    	        	<button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save & Go Live Edit"); ?></button>
+    	    <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save & Go Live Edit"); ?></button>
         	<button type="submit" class="mw-ui-btn "><?php _e("Save"); ?></button> 
 
         <?php endif; ?>

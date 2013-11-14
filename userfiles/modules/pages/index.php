@@ -65,10 +65,10 @@ if (isset($params['parent']) and $params['parent'] != 0) {
 }
 
 if (is_admin() == false) {
-    $params['is_active'] = 'y';
+   
 }
 
-
+ $params['is_active'] = 'y';
 // loading the module template
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
