@@ -1,19 +1,3 @@
-<?php
-
-/*
-
-type: layout
-content_type: product
-name: Product 
-
-position: 3
-description: shop layout
-
-*/
-
-
-
-?>
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <section id="content">

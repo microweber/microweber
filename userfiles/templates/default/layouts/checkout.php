@@ -4,9 +4,9 @@
 
 type: layout
 content_type: static
-name: Shop Checkout
+name: Checkout page
 description: Checkout layout
-
+position: 9
 */
 
 

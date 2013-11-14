@@ -140,7 +140,7 @@
                         </span>
                         <div class="wysiwyg-convertible wysiwyg-convertible-1024">
 
-                        <span class="mw_editor_btn mw_editor_font_color" data-command="custom-fontcolorpicker" title="<?php _e("Font Color"); ?>"><span class="ed-ico"></span></span>
+                        <span class="mw_editor_btn mw_editor_font_color" id="mw_editor_font_color" data-command="custom-fontcolorpicker" title="<?php _e("Font Color"); ?>"><span class="ed-ico"></span></span>
                         <span class="mw_editor_btn mw_editor_font_background_color" data-command="custom-fontbgcolorpicker" title="<?php _e("Font Background Color"); ?>"><span class="ed-ico"></span></span>
                     </div>
                 </div>

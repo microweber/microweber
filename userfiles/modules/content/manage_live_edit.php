@@ -1,6 +1,6 @@
 <?php
  
-$params['global'] = 1;
+//$params['global'] = 1;
 $params['return'] = 1;
 $config['module'] = 'posts';
 $set_content_type = 'post';
@@ -10,7 +10,7 @@ $set_content_type = 'post';
 	 $params['content_type'] = $set_content_type;
    }
  
-  
+   
 include_once($config['path_to_module'].'../posts/index.php');
 
 ?> 

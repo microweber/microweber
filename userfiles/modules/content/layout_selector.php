@@ -350,9 +350,9 @@ generate:function(return_url){
 }
 
 
-if(ctype == 'static' && ctype == 'dynamic'){
+if(ctype == 'static' || ctype == 'dynamic'){
 if(form != undefined && form.querySelector('input[name="subtype"]') != null){
-		//form.querySelector('input[name="subtype"]').value = ctype
+		 form.querySelector('input[name="subtype"]').value = ctype
  }
 }
 

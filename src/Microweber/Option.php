@@ -41,6 +41,39 @@ class Option
 
     }
 
+    public function get_all($params = '')
+    {
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+            extract($params);
+        }
+
+        $data = $params;
+        $table = MW_DB_TABLE_OPTIONS;
+        //  $data['debug'] = 1000;
+        if (!isset($data['limit'])) {
+            $data['limit'] = 1000;
+        }
+
+
+
+        $get = $this->app->db->get_long($table, $data, $cache_group = 'options/global');
+
+        if (!empty($get)) {
+            foreach ($get as $key => $value) {
+                if (isset($get[$key]['field_values']) and $get[$key]['field_values'] != false) {
+                    $get[$key]['field_values'] = unserialize(base64_decode($get[$key]['field_values']));
+                }
+                if (isset($get[$key]['option_value']) and strval($get[$key]['option_value']) != '') {
+                    $get[$key]['option_value'] = $this->app->url->replace_site_url_back($get[$key]['option_value']);
+                }
+            }
+        }
+
+        return $get;
+    }
 
     /**
      *
@@ -56,6 +89,8 @@ class Option
      *
      *
      */
+
+
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
 
@@ -69,13 +104,12 @@ class Option
         } else {
             $cache_group = 'options/global';
         }
-
+       // $cache_group = 'options/global';
 
         global $_mw_global_options_mem;
 
         if ($_mw_global_options_mem == NULL) {
             $_mw_global_options_mem = array();
-
         }
 
 
@@ -89,13 +123,10 @@ class Option
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'option_'.__FUNCTION__ .'_'.$option_group.'_'.crc32($function_cache_id);
+        $function_cache_id = 'option_' . __FUNCTION__ . '_' . $option_group . '_' . crc32($function_cache_id);
         if (isset($_mw_global_options_mem[$function_cache_id])) {
             return $_mw_global_options_mem[$function_cache_id];
         }
-
-
-
 
 
         $table = MW_DB_TABLE_OPTIONS;
@@ -114,7 +145,7 @@ class Option
         if ($option_group != false) {
             $option_group = $this->app->db->escape_string($option_group);
             $ok1 = " AND option_group='{$option_group}' ";
-			 $data['option_group'] = $option_group;
+            $data['option_group'] = $option_group;
         }
 
         if ($module != false) {
@@ -126,20 +157,150 @@ class Option
         // $get = $this->app->db->get_long($table, $data, $cache_group);
         $ok = $this->app->db->escape_string($data['option_key']);
         $ob = " order by id desc ";
-        $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2.$ob;
+        $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2 . $ob;
+        $q = "select * from $table where option_key is not null  " . $ok1 . $ok2 . $ob;
 
         // d($q);
 
         //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
 
         $q_cache_id = crc32($q);
-        $get_all = $this->app->db->query($q, __FUNCTION__.$q_cache_id, $cache_group);
- // $get_all = $this->app->db->get($data);
+        $get_all = $this->app->db->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
+        // $get_all = $this->app->db->get($data);
 
         // $get_all = $this->app->db->query($q);
 
         if (!is_array($get_all)) {
-           // $this->app->cache->save('--false--', $function_cache_id, $cache_group);
+            // $this->app->cache->save('--false--', $function_cache_id, $cache_group);
+
+            return false;
+        }
+        $get = array();
+        foreach ($get_all as $get_opt) {
+            if (isset($get_opt['option_key']) and $key == $get_opt['option_key']) {
+                $get[] = $get_opt;
+            }
+        }
+
+
+        //
+
+        if (!empty($get)) {
+
+            if ($return_full == false) {
+                if (!is_array($get)) {
+                    return false;
+                }
+                $get = $get[0]['option_value'];
+
+                if (isset($get['option_value']) and strval($get['option_value']) != '') {
+                    $get['option_value'] = $this->app->url->replace_site_url_back($get['option_value']);
+                }
+                $_mw_global_options_mem[$function_cache_id] = $get;
+                return $get;
+            } else {
+
+                $get = $get[0];
+
+                if (isset($get['option_value']) and strval($get['option_value']) != '') {
+                    $get['option_value'] = $this->app->url->replace_site_url_back($get['option_value']);
+                }
+
+                if (isset($get['field_values']) and $get['field_values'] != false) {
+                    $get['field_values'] = unserialize(base64_decode($get['field_values']));
+                }
+                $_mw_global_options_mem[$function_cache_id] = $get;
+                return $get;
+            }
+        } else {
+
+            //$this->app->cache->save('--false--', $function_cache_id, $cache_group);
+            $_mw_global_options_mem[$function_cache_id] = false;
+            return FALSE;
+        }
+    }
+
+
+    public function get_OLD($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
+    {
+
+        if (!defined('MW_DB_TABLE_OPTIONS') or MW_DB_TABLE_OPTIONS == false) {
+            return false;
+        }
+        if ($option_group != false) {
+
+            $cache_group = 'options/' . $option_group;
+
+        } else {
+            $cache_group = 'options/global';
+        }
+
+
+        global $_mw_global_options_mem;
+
+        if ($_mw_global_options_mem == NULL) {
+            $_mw_global_options_mem = array();
+        }
+
+
+        //d($key);
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = 'option_' . __FUNCTION__ . '_' . $option_group . '_' . crc32($function_cache_id);
+        if (isset($_mw_global_options_mem[$function_cache_id])) {
+            return $_mw_global_options_mem[$function_cache_id];
+        }
+
+
+        $table = MW_DB_TABLE_OPTIONS;
+
+
+        $data = array();
+
+        if (is_array($key)) {
+            $data = $key;
+        } else {
+            $data['option_key'] = $key;
+        }
+        //   $cache_group = 'options/global/' . $function_cache_id;
+        $ok1 = '';
+        $ok2 = '';
+        if ($option_group != false) {
+            $option_group = $this->app->db->escape_string($option_group);
+            $ok1 = " AND option_group='{$option_group}' ";
+            $data['option_group'] = $option_group;
+        }
+
+        if ($module != false) {
+            $module = $this->app->db->escape_string($module);
+            $data['module'] = $module;
+            //  $ok1 = " AND module='{$module}' ";
+        }
+        $data['limit'] = 1;
+        // $get = $this->app->db->get_long($table, $data, $cache_group);
+        $ok = $this->app->db->escape_string($data['option_key']);
+        $ob = " order by id desc ";
+        $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2 . $ob;
+
+        // d($q);
+
+        //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
+
+        $q_cache_id = crc32($q);
+        $get_all = $this->app->db->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
+        // $get_all = $this->app->db->get($data);
+
+        // $get_all = $this->app->db->query($q);
+
+        if (!is_array($get_all)) {
+            // $this->app->cache->save('--false--', $function_cache_id, $cache_group);
 
             return false;
         }
@@ -245,7 +406,6 @@ class Option
         $res1 = false;
 
 
-
         $res = $this->app->db->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
         if (is_array($res) and !empty($res)) {
             $res1 = array();
@@ -254,34 +414,6 @@ class Option
             }
         }
         return $res1;
-    }
-
-    public function get_all($params = '')
-    {
-
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-            extract($params);
-        }
-
-        $data = $params;
-        $table = MW_DB_TABLE_OPTIONS;
-        //  $data['debug'] = 1000;
-        if (!isset($data['limit'])) {
-            $data['limit'] = 1000;
-        }
-        $get = $this->app->db->get_long($table, $data, $cache_group = 'options/global');
-
-        if (!empty($get)) {
-            foreach ($get as $key => $value) {
-                if (isset($get[$key]['field_values']) and $get[$key]['field_values'] != false) {
-                    $get[$key]['field_values'] = unserialize(base64_decode($get[$key]['field_values']));
-                }
-            }
-        }
-
-        return $get;
     }
 
 
@@ -331,7 +463,7 @@ class Option
                 if (strstr($data['option_key'], '|for_module|')) {
                     $ok1 = explode('|for_module|', $data['option_key']);
                     if (isset($ok1[0])) {
-                     $data['option_key'] = $ok1[0];
+                        $data['option_key'] = $ok1[0];
                     }
                     if (isset($ok1[1])) {
                         $data['module'] = $ok1[1];
@@ -368,7 +500,7 @@ class Option
                     $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
                     // d($existing);
                     if ($existing == false) {
-                       // $this->delete($data['option_key'], $data['option_group']);
+                        // $this->delete($data['option_key'], $data['option_group']);
                     } elseif (isset($existing['id'])) {
                         $data['id'] = $existing['id'];
                     }
@@ -420,7 +552,7 @@ class Option
                     $cache_group = 'options/' . 'global';
                     $this->app->cache->delete($cache_group);
                 }
-                if($save != false){
+                if ($save != false) {
                     $cache_group = 'options/' . $save;
                     $this->app->cache->delete($cache_group);
                 }

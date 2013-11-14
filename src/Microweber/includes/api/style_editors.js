@@ -237,6 +237,10 @@ mw.sliders_settings = function(el){
           }
           mw.$("input[name='"+this.id+"']").val(val);
        },
+       stop:function(){
+          $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
+            mw.askusertostay = true;
+       },
        change:function(event,ui){
          if(event.originalEvent!==undefined){
             var val = (ui.value);
@@ -250,10 +254,6 @@ mw.sliders_settings = function(el){
               custom._exec(ui.value);
             }
          }
-
-         $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
-         // mw.askusertostay = true;
-
        },
        create: function(event, ui) {
           mw.$("input[name='"+this.id+"']").val(val);
@@ -332,7 +332,7 @@ mw.setCurrentStyles = function(el){
      mw.$("#ed_bg_image_status").html("");
   }
   
-  
+
 //   mw.askusertostay = true;
 
 }
@@ -390,6 +390,7 @@ if($(".ts_action:isVisible").length==0){
 
  }
 });
+
 
 
 
@@ -537,13 +538,14 @@ mw.askusertostay = true;
       }
     });
 
-    mw.$(".dd_border_selector").bind("change", function(){
+    mw.$(".dd_border_selector").bind("change", function(e){
+
       mw.$('.element-current').css(mw.border_which+'Style', $(this).getDropdownValue());
       $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
          // mw.askusertostay = true;
     });
 
-    mw.$(".dd_borderwidth_Selector").bind("change", function(){
+    mw.$(".dd_borderwidth_Selector").bind("change", function(e){
       mw.$('.element-current').css(mw.border_which+'Width', $(this).getDropdownValue());
       $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
          // mw.askusertostay = true;
@@ -555,7 +557,7 @@ mw.askusertostay = true;
        $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
          // mw.askusertostay = true;
     });
-    mw.$("#ts_bg_position").bind("change", function(){
+    mw.$("#ts_bg_position").bind("change", function(e){
        mw.$('.element-current').css('backgroundPosition', $(this).getDropdownValue());
        $(mw.tools.firstParentWithClass(mwd.querySelector(".element-current"), 'edit')).addClass("changed orig_changed");
          // mw.askusertostay = true;

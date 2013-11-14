@@ -51,7 +51,7 @@
   }
 
 /* END OF FILLING UP EMPTY CONTENT  */
-
+ 
 
 /* SETTING PARENT AND ACTIVE CATEGORY */
 
@@ -563,7 +563,11 @@ mw.edit_content.handle_form_submit = function(go_live){
           mw.edit_content.handle_form_submit();
           return false;
         });
-
+		
+		
+		<?php if($data['id']!=0) : ?>
+		mw.$(".mw-admin-go-live-now-btn").attr('content-id',<?php print $data['id']; ?>);
+		<?php endif; ?>
 		/* reloading the editor on parent change */
 		 
        mw.$('#mw-parent-page-value').bind('change', function(e){
