@@ -69,18 +69,16 @@ mw.wysiwyg = {
             $(module.querySelectorAll(".edit")).each(function(){
                this.contentEditable = true;
                 mw.on.DOMChange(this, function(){
-                    this.className.indexOf('changed') ==-1 ? $(this).addClass("changed") :'';
+                    this.className.indexOf('changed') === -1 ? $(this).addClass("changed orig_changed") :'';
                     mw.askusertostay = true;
                 });
             });
         }
         else{
-
             var editables = mwd.querySelectorAll('[contenteditable]'), l = editables.length, x = 0;
             for( ; x<l; x++){
                 editables[x].contentEditable = false;
             }
-
             mw.$(".edit").each(function(){
                 mw.on.DOMChange(this, function(){
                     !mw.tools.hasClass(this.className, 'changed') ? $(this).addClass("changed") :'';
@@ -88,9 +86,7 @@ mw.wysiwyg = {
                     if(this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
                        this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'</p>';
                     }
-
                     mw.wysiwyg.normalizeBase64Images(this);
-
                 }, false, true);
                 $(this).mouseenter(function(){
                    if(this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
@@ -379,6 +375,7 @@ mw.wysiwyg = {
       }
     },
     init:function(selector){
+
       var selector = selector || ".mw_editor_btn";
       var mw_editor_btns = mw.$(selector);
       mw_editor_btns.bind("mousedown mouseup click", function(event){
@@ -551,7 +548,7 @@ mw.wysiwyg = {
       }
     },
     external_tool:function(el, url){
-        var el = $(el).eq(0);
+        var el = mw.$(el).eq(0);
         var offset = el.offset();
         $(mw.wysiwyg.external).css({
           top: offset.top - $(window).scrollTop() + el.height(),
@@ -565,7 +562,7 @@ mw.wysiwyg = {
        var el = mw.wysiwyg.applier('div', 'mw_applier element');
     },
     fontcolorpicker:function(){
-        var el = ".mw_editor_font_color";
+        var el = "#mw_editor_font_color";
         mw.wysiwyg.external_tool(el, mw.external_tool('color_picker') + "#fontColor");
         $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
@@ -648,18 +645,18 @@ mw.wysiwyg = {
            var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
 		   var ddval = mw.$(".mw_dropdown_action_font_family");
 		   if(ddval.length!=0 && ddval.setDropdownValue != undefined){
-			  
+
 			    mw.$(".mw_dropdown_action_font_family").setDropdownValue(fam);
 		   }
-          
+
          }
     },
     setActiveFontSize:function(node){
         var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
-		
+
 		var ddval = mw.$(".mw_dropdown_action_font_size");
 
-		
+
 		if(ddval.length!=0 && ddval.setDropdownValue != undefined){
         mw.$(".mw_dropdown_action_font_size").setDropdownValue(mw.wysiwyg.editorFontSizes[size]);
 		}
@@ -723,34 +720,34 @@ mw.wysiwyg = {
                    }
 
                  }
-				 
-				 
-				 
+
+
+
 
 
                  if(mw.wysiwyg.isFormatElement(common)){
                    var format = common.nodeName.toLowerCase();
-				   
+
 				   var ddval = mw.$(".mw_dropdown_action_format");
 				  if(ddval.length!=0 && ddval.setDropdownValue != undefined){
 
                    mw.$(".mw_dropdown_action_format").setDropdownValue(format);
 				  }
-				   
-				   
+
+
                  }
                  else{
                      mw.tools.foreachParents(common, function(loop){
                         if(mw.wysiwyg.isFormatElement(this)){
                             var format = this.nodeName.toLowerCase();
-							
+
 
 							var ddval = mw.$(".mw_dropdown_action_format");
 							if(ddval.length!=0 && ddval.setDropdownValue != undefined){
-								 
+
 							 mw.$(".mw_dropdown_action_format").setDropdownValue(format);
 
-								
+
 							}
                             mw.tools.stopLoop(loop);
                         }
@@ -1254,6 +1251,7 @@ $(window).load(function(){
   });
 
   $(window).bind("keydown paste mousedown mouseup", function(e){
+
     mw.wysiwyg.globalTarget = e.target;
     var selection = window.getSelection();
     if( mw.wysiwyg.globalTarget.isContentEditable
@@ -1333,10 +1331,7 @@ $(window).load(function(){
       });
 
 
-
-
         var nodes = mwd.querySelectorAll(".edit"), l = nodes.length, i=0;
-
 
 
         for( ; i<l; i++ ){

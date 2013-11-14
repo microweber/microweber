@@ -169,6 +169,7 @@ $(document).ready(function(){
    }
 
    $(mwd.body).bind("mousedown mouseup", function(e){
+
      if(e.type == 'mousedown'){
        if(!mw.tools.hasClass(e.target, 'ui-resizable-handle') && !mw.tools.hasParentsWithClass(e.target, 'ui-resizable-handle')){
           mw.tools.addClass(mwd.body, 'state-element')
@@ -578,6 +579,7 @@ mw.drag = {
         mw.resizable_columns();
 
         $(mwd.body).mouseup(function(event){
+
             mw.mouseDownStarted = false;
         	if(mw.isDrag && mw.dropable.is(":hidden")){
         		$(".ui-draggable-dragging").css({top:0,left:0});
@@ -1056,12 +1058,15 @@ mw.drag = {
             if (!mw.isDrag) {
     		    var target = event.target;
 
+
+
                 if($(target).hasClass("element")){
                   $(window).trigger("onElementClick", target);
                 }
                 else if(mw.tools.hasParentsWithClass(target, 'element')){
                   $(window).trigger("onElementClick", $(target).parents(".element")[0]);
                 }
+
 
                 if($(target).hasClass("mw_item")){
                   $(window).trigger("onItemClick", target);
@@ -1084,6 +1089,8 @@ mw.drag = {
                   $(window).trigger("onBodyClick", target);
                 }
             }
+
+
 
 			if (mw.isDrag) {
 
@@ -1145,15 +1152,13 @@ mw.drag = {
                         if($(mw.currentDragMouseOver).hasClass("edit")){
 
                         if(hasAbilityToDropElementsInside(mw.currentDragMouseOver)){
-
                            if(position=='top'){
-                                $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
+                               $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                            }
                            else if(position=='bottom'){
                                $(mw.currentDragMouseOver).append(mw.dragCurrent);
                            }
-
-                           }
+                        }
 
                         else{
                            if(position=='top'){
@@ -1800,10 +1805,12 @@ if(typeof el === 'object' && el !== null){
               }
               if(is_draft){
                mw.$(".edit.changed").addClass('orig_changed').removeClass("changed");
+
               }
               else {
                  mw.notification.success("All changes are saved.");
-                 mw.$(".edit.changed").removeClass("changed orig_changed");
+
+
               }
               if(typeof callback === 'function'){
                    callback.call();

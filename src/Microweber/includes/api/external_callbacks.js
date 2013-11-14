@@ -96,7 +96,7 @@ mw.iframecallbacks = {
 }
 
 
-mw.x('a').tools.insert_image();
+
 
 
 

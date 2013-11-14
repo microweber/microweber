@@ -593,6 +593,14 @@ class Controller
             return $content;
         }
 
+        if(!isset($page['title'])){
+            $page['title'] = 'New page';
+        }
+        if(!isset($content['title'])){
+            $content['title'] = 'New content';
+        }
+
+
         if ($render_file) {
 
 
@@ -600,7 +608,7 @@ class Controller
             $l = new $this->app->view($render_file);
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
-            $l->post_id = PAGE_ID;
+            $l->post_id = POST_ID;
             $l->category_id = CATEGORY_ID;
             $l->content = $content;
             $l->page = $page;
@@ -1539,7 +1547,7 @@ class Controller
             $url = $this->app->url->string();
         }
 
-        
+
 
 
         $this->app->content->define_constants($page);

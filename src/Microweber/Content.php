@@ -1839,23 +1839,23 @@ class Content
         $table = MW_DB_TABLE_CONTENT;
 
 
-        $sql = "SELECT * FROM $table WHERE is_home='y' and is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
+        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
 
         $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
         //
         $result = $q;
-		if( $result == false){
-			 $sql = "SELECT * FROM $table WHERE content_type='page' and is_deleted='n' and url like '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
-        	 $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-			 $result = $q;
-			  
-		}
-		
-		
-		if( $result != false){
-			$content = $result[0];
-		}  
-       
+        if ($result == false) {
+            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted='n' AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
+            $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+            $result = $q;
+
+        }
+
+
+        if ($result != false) {
+            $content = $result[0];
+        }
+
 
         return $content;
     }
@@ -1936,7 +1936,7 @@ class Content
         foreach ($args as $k => $v) {
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) . CONTENT_ID . PAGE_ID . $parent;
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) .  PAGE_ID . $parent;
         if ($parent == 0) {
             $cache_group = 'content/global';
         } else {
@@ -1948,27 +1948,40 @@ class Content
         }
 
 
+        $nest_level = 0;
+
+        if (isset($params['nest_level'])) {
+            $nest_level = $params['nest_level'];
+        }
+
+        $nest_level_orig = $nest_level;
         //
 
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-        //   $cache_content = false;
+        if ($nest_level_orig == 0) {
+
+            $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+            //   $cache_content = false;
 //	if (!isset($_GET['debug'])) {
 
-        if (isset($params['no_cache'])) {
-            $cache_content = false;
-        }
-
-        if (($cache_content) != false) {
-
-            if (isset($params['return_data'])) {
-                return $cache_content;
-            } else {
-                print $cache_content;
+            if (isset($params['no_cache'])) {
+                $cache_content = false;
             }
 
-            return;
-            //  return $cache_content;
+            if (($cache_content) != false) {
+
+                if (isset($params['return_data'])) {
+                    return $cache_content;
+                } else {
+                    print $cache_content;
+                }
+
+                return;
+                //  return $cache_content;
+            }
+
         }
+
+
         //}
         $nest_level = 0;
 
@@ -2560,7 +2573,11 @@ class Content
 
         $content = ob_get_contents();
 //	if (!isset($_GET['debug'])) {
-        $this->app->cache->save($content, $function_cache_id, $cache_group);
+
+
+        if ($nest_level_orig == 0) {
+            $this->app->cache->save($content, $function_cache_id, $cache_group);
+        }
         //}
         ob_end_clean();
 
@@ -2970,18 +2987,30 @@ class Content
 
 
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        if (defined('CONTENT_ID')) {
-            $function_cache_id = $function_cache_id . CONTENT_ID;
+        if (defined('PAGE_ID')) {
+            $function_cache_id = $function_cache_id . PAGE_ID;
         }
-        // $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-        // if (($cache_content) != false) {
-        //  return $cache_content;
-        //}
+        if (defined('CATEGORY_ID')) {
+            $function_cache_id = $function_cache_id . CATEGORY_ID;
+        }
 
 
+        if (!isset($depth) or $depth == false) {
+            $depth = 0;
+        }
+        $orig_depth = $depth;
         $params_o = $menu_params;
 
-        $function_cache_id = false;
+        if ($orig_depth == 0) {
+
+            $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+            if (($cache_content) != false) {
+                return $cache_content;
+            }
+
+        }
+
+        //$function_cache_id = false;
 
 
         $params = array();
@@ -3007,7 +3036,13 @@ class Content
 
         //$q = $this->app->db->get($menu_params);
 
-        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'menus/global');
+        //
+        if ($depth < 2) {
+             $q = $this->app->db->query($sql, 'query_'. __FUNCTION__ . crc32($sql), 'menus/global');
+
+        } else {
+            $q = $this->app->db->query($sql);
+        }
 
         // $data = $q;
         if (empty($q)) {
@@ -3023,9 +3058,7 @@ class Content
             $li_class = 'menu_element';
         }
 
-        if (!isset($depth) or $depth == false) {
-            $depth = 0;
-        }
+
         if (isset($ul_class_deep)) {
             if ($depth > 0) {
                 $ul_class = $ul_class_deep;
@@ -3059,7 +3092,6 @@ class Content
             $link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}" href="{url}">{title}</a>';
         }
 
-        // $to_print = '<ul class="menu" id="menu_item_' .$menu_id . '">';
         $to_print = '<' . $ul_tag . ' role="menu" class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';
 
         $cur_depth = 0;
@@ -3272,8 +3304,9 @@ class Content
         }
 
         $to_print .= '</' . $ul_tag . '>';
-        //  $this->app->cache->save($to_print, $function_cache_id, $cache_group);
-
+        if ($orig_depth == 0) {
+            $this->app->cache->save($to_print, $function_cache_id, $cache_group);
+        }
         return $to_print;
     }
 
@@ -4472,6 +4505,20 @@ class Content
             $save_as_draft = true;
             unset($post_data['save_draft']);
         }
+
+        /*
+
+          $double_save_checksum = md5(serialize($post_data));
+          $last_save_checksum = $this->app->user->session_get('mw_live_ed_checksum');
+
+          if($double_save_checksum != $last_save_checksum){
+              $this->app->user->session_set('mw_live_ed_checksum',$double_save_checksum);
+          } else {
+              return array('success'=>'No text is changed from the last save');
+          }
+
+        */
+
 
         $json_print = array();
         foreach ($the_field_data_all as $the_field_data) {

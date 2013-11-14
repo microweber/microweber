@@ -419,16 +419,28 @@ class Category
 		
 		
         $cache_group = 'categories/global';
-         $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
        // $cache_content = false;
-	
 
 
-
-         if (($cache_content) != false) {
-            print $cache_content;
-            return;
+        if (isset($params['nest_level'])) {
+            $depth_level_counter = $params['nest_level'];
+        } else {
+            $depth_level_counter = 0;
         }
+
+
+        $nest_level_orig = $depth_level_counter;
+
+        if ($nest_level_orig == 0) {
+            $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+            if (($cache_content) != false) {
+                print $cache_content;
+                return;
+            }
+
+        }
+
+
 
         $link = isset($params['link']) ? $params['link'] : false;
 
@@ -558,11 +570,8 @@ class Category
             $remove_ids = array($page['subtype_value']);
         }
 
-        if (isset($params['nest_level'])) {
-            $depth_level_counter = $params['nest_level'];
-        } else {
-            $depth_level_counter = 0;
-        }
+
+
 
         $max_level = false;
         if (isset($params['max_level'])) {
@@ -607,8 +616,9 @@ class Category
 
         $content = ob_get_contents();
         //if (!isset($_GET['debug'])) {
-
+        if ($nest_level_orig == 0) {
           $this->app->cache->save($content, $function_cache_id, $cache_group);
+        }
         //}
         ob_end_clean();
         print $content;

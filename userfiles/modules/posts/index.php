@@ -461,6 +461,9 @@ if (!empty($content)) {
     if (isset($params['is_shop'])) {
         print lnotif('Your products module is empty');
 
+    }  elseif (isset($params['global'])) {
+        print lnotif('Your content module is empty');
+
     } else {
         print lnotif('Your posts module is empty');
 
