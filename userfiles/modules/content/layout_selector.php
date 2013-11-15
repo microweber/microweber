@@ -472,7 +472,6 @@ $(document).ready(function() {
 
 <div class="layout_selector_wrap">
 	<div class="vSpace"></div>
-	 
 	<?php
 if(defined('ACTIVE_SITE_TEMPLATE')){
  
@@ -484,54 +483,36 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 $global_template = get_option('current_template', 'template');
  
  ?>
- 
- 
- 
-
-<?php if($template_selector_position == 'top'): ?>
- 
+	<?php if($template_selector_position == 'top'): ?>
 	<div class="mw-ui-field-holder mw-template-selector" style="padding-top: 0;<?php if( isset($params['small'])): ?>display:none;<?php endif; ?>">
 		<label class="mw-ui-label">
 			<?php _e("Template");   ?>
 		</label>
-		
-		
-		
 		<div class="mw-ui-select" style="width: 200px">
 			<?php if($templates != false and !empty($templates)): ?>
 			<select name="active_site_template" id="active_site_template_<?php print $rand; ?>">
-		 
 				<?php foreach($templates as $item): ?>
 				<?php
-				
+				 if($global_template != 'default' and $item['dir_name'] == 'default'){
+					 $item['dir_name'] = 'mw_default';
+					  
+				 }
 				$selected=false;
 				 $attrs = '';
   				foreach($item as $k=>$v): ?>
 				<?php $attrs .= "data-$k='{$v}'"; ?>
 				<?php endforeach ?>
-				
-				
-				
- 				<?php if( trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
+				<?php if( trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
 				<option value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected" <?php $selected=true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
 				<?php else: ?>
-			<option value="<?php print $item['dir_name'] ?>"    <?php if ($selected==false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<option value="<?php print $item['dir_name'] ?>"    <?php if ($selected==false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
 				<?php endif ?>
- 
-				
-				
-				
 				<?php endforeach; ?>
 			</select>
 			<?php endif; ?>
 		</div>
 	</div>
-<?php endif; ?>	
-	
-	
-	
-	
-	
+	<?php endif; ?>
 	<?php 
 	 $is_layout_file_set = false;
 	if(isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
@@ -547,16 +528,10 @@ $global_template = get_option('current_template', 'template');
 	//d($data['layout_file']);
 	?>
 	<?php endif; ?>
-
-
-
 	<div style="display: none;">
 		<select name="layout_file"     id="active_site_layout_<?php print $rand; ?>"
     autocomplete="off">
 			<?php if(!empty($layouts)): ?>
-			
-			
-			 
 			<?php $i=0; $is_chosen=false; foreach($layouts as $item): ?>
 			<?php $item['layout_file'] = normalize_path($item['layout_file'], false); ?>
 			<option value="<?php print $item['layout_file'] ?>"  onclick="mw.templatePreview<?php print $rand; ?>.view('<?php print $i ?>');"
@@ -577,40 +552,39 @@ $global_template = get_option('current_template', 'template');
 			<?php endif; ?>
 			<?php if(!isset($params['content-type'])): ?>
 			<option title="Inherit" <?php if(isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?> value="inherit"  <?php if($is_chosen==false and (trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit')): ?>   selected="selected"  <?php endif; ?>>
+			
 			Inherit from parent
+			
 			</option>
 			<?php endif; ?>
 		</select>
 	</div>
 	<div class="left">
 		<div class="preview_frame_wrapper loading left">
-
-
-
 			<?php if( !isset($params['edit_page_id'])): ?>
 			<div class="preview_frame_ctrls">
 				<?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview<?php print $rand; ?>.zoomIn();"></span> */ ?>
-                <h2 class="left" style="padding-top: 0;"><?php if( $data['title'] != false){ ?><span class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?><?php } ?></h2>
+				<h2 class="left" style="padding-top: 0;">
+					<?php if( $data['title'] != false){ ?>
+					<span class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?>
+					<?php } ?>
+				</h2>
 				<span class="prev" title="<?php _e('Previous layout'); ?>" onclick="mw.templatePreview<?php print $rand; ?>.prev();"></span> <span class="next" title="<?php _e('Next layout'); ?>" onclick="mw.templatePreview<?php print $rand; ?>.next();"></span> <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview<?php print $rand; ?>.zoom();mw.$('.mw_overlay').remove();"></span> </div>
-
 			<?php  else : ?>
 			<div class="preview_frame_ctrls">
-            <h2 class="left" style="padding-top: 0;"><span class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?></h2>
-              <a class="mw-ui-btn mw-ui-btn-medium" target="_top" href="#action=editpage:<?php print $params["edit_page_id"]; ?>"><?php _e("Edit Page"); ?></a>
-              <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue" target="_top" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"><?php _e("Go Live Edit"); ?></a>
-			  <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview<?php print $rand; ?>.zoom();mw.$('.mw_overlay').remove();"></span>
-
-            </div>
+				<h2 class="left" style="padding-top: 0;"><span class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?></h2>
+				<a class="mw-ui-btn mw-ui-btn-medium" target="_top" href="#action=editpage:<?php print $params["edit_page_id"]; ?>">
+				<?php _e("Edit Page"); ?>
+				</a> <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue" target="_top" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y">
+				<?php _e("Go Live Edit"); ?>
+				</a> <span class="close" title="<?php _e('Close'); ?>" onclick="mw.templatePreview<?php print $rand; ?>.zoom();mw.$('.mw_overlay').remove();"></span> </div>
 			<?php endif; ?>
 			<div class="preview_frame_container"></div>
 			<?php if( !isset($params['edit_page_id'])): ?>
 			<div class="mw-overlay" onclick="mw.templatePreview<?php print $rand; ?>.zoom();">&nbsp;</div>
 			<?php else: ?>
 			<div class="mw-overlay mw-overlay-quick-link"  onclick="mw.templatePreview<?php print $rand; ?>.zoom();"  ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
-
-				<div id="preview-edit-links">
-
-				<a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>" onclick="mw.e.cancel(event);"> <span class="ico ieditpage"></span><span>
+				<div id="preview-edit-links"> <a class="mw-ui-btn" href="#action=editpage:<?php print $params["edit_page_id"]; ?>" onclick="mw.e.cancel(event);"> <span class="ico ieditpage"></span><span>
 					<?php _e("Edit Page"); ?>
 					</span> </a> <a class="mw-ui-btn mw-ui-btn-blue" target="_top" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y" onclick="mw.e.cancel(event);"><span class="ico ilive"></span>
 					<?php _e("Go Live Edit"); ?>
@@ -639,46 +613,34 @@ $global_template = get_option('current_template', 'template');
         ?>
 			</div>
 		</div>
-		
 		<?php if($template_selector_position == 'bottom'): ?>
-
-	<div class="mw-ui-field-holder mw-template-selector" style="padding-top: 10px;<?php if( isset($params['small'])): ?>display:none;<?php endif; ?>">
-		<label class="mw-ui-label">
-			<?php _e("Template");   ?>
-		</label>
-		
-
-
+		<div class="mw-ui-field-holder mw-template-selector" style="padding-top: 10px;<?php if( isset($params['small'])): ?>display:none;<?php endif; ?>">
+			<label class="mw-ui-label">
+				<?php _e("Template");   ?>
+			</label>
 			<?php if($templates != false and !empty($templates)): ?>
 			<select name="active_site_template" class="mw-ui-simple-dropdown" style="width: 205px;font-size: 11px;" id="active_site_template_<?php print $rand; ?>">
 				<?php foreach($templates as $item): ?>
-				<?php $attrs = '';
+				<?php
+				 if($global_template != 'default' and $item['dir_name'] == 'default'){
+					 $item['dir_name'] = 'mw_default';
+				 }
+				$selected=false;
+				 $attrs = '';
   				foreach($item as $k=>$v): ?>
 				<?php $attrs .= "data-$k='{$v}'"; ?>
 				<?php endforeach ?>
-				
-				
-				
- 				<?php if( trim($item['dir_name']) == $global_template): ?>
-				<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<?php if( trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
+				<option value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template ): ?>   selected="selected" <?php $selected=true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
 				<?php else: ?>
-			<option value="<?php print $item['dir_name'] ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) != $global_template ): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+				<option value="<?php print $item['dir_name'] ?>"    <?php if ($selected==false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
 				<?php endif ?>
- 
 				<?php endforeach; ?>
 			</select>
 			<?php endif; ?>
-
+		</div>
+		<?php endif; ?>
 	</div>
-<?php endif; ?>
-	</div>
-	
-	
-	
-	
-	
-	
-	
 	<div class="mw_clear">&nbsp;</div>
 	<?php if($live_edit_styles_check != false): ?>
 	<module type="content/layout_selector_custom_css" id="layout_custom_css_clean<?php print $rand; ?>" template="<?php print $data['active_site_template'] ?>" />

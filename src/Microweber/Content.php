@@ -401,11 +401,6 @@ class Content
     {
 
 
-
-
-
-
-
         $function_cache_id = '';
         if (is_array($page)) {
             ksort($page);
@@ -426,15 +421,24 @@ class Content
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
-            return $cache_content;
+           return $cache_content;
         }
 
 
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
-        if (isset($page['active_site_template']) and ($page['active_site_template']) == 'default') {
+
+
+
+        if (isset($page['active_site_template']) and ($page['active_site_template']) == 'default' or $page['active_site_template'] == 'mw_default' ) {
             $site_template_settings = $this->app->option->get('current_template', 'template');
+            if ($site_template_settings != 'default' and $page['active_site_template'] == 'mw_default') {
+                $page['active_site_template'] = 'default';
+                $site_template_settings = 'default';
+            }
+
+
             if ($site_template_settings != false) {
                 $site_template_settings = str_replace('..', '', $site_template_settings);
                 $site_template_settings_dir = TEMPLATES_DIR . $site_template_settings . DS;
@@ -1672,6 +1676,13 @@ class Content
             //
         }
 
+         if (isset($the_active_site_template) and $the_active_site_template != 'default' and $the_active_site_template == 'mw_default') {
+             $the_active_site_template = 'default';
+         }
+
+
+
+
         if ($the_active_site_template == false) {
             $the_active_site_template = 'default';
         }
@@ -1943,7 +1954,7 @@ class Content
         foreach ($args as $k => $v) {
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) .  PAGE_ID . $parent;
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id) . PAGE_ID . $parent;
         if ($parent == 0) {
             $cache_group = 'content/global';
         } else {
@@ -3045,7 +3056,7 @@ class Content
 
         //
         if ($depth < 2) {
-             $q = $this->app->db->query($sql, 'query_'. __FUNCTION__ . crc32($sql), 'menus/global');
+            $q = $this->app->db->query($sql, 'query_' . __FUNCTION__ . crc32($sql), 'menus/global');
 
         } else {
             $q = $this->app->db->query($sql);
@@ -4406,7 +4417,6 @@ class Content
     public function save_edit($post_data)
     {
 
-         
 
         $is_admin = $this->app->user->is_admin();
 

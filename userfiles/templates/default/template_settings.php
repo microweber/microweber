@@ -54,6 +54,7 @@
           <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern9.png); "></span>
           <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern10.png); "></span>
           <span class="pattern bgi" style="background-image: url(<?php print TEMPLATE_URL; ?>img/patterns/pattern11.png); "></span>
+          <span class="bgi STYLERESET" style="">Reset</span>
       </div>
 
       <div class="vSpace"></div>
@@ -77,6 +78,31 @@
 
       <div class="vSpace"></div><hr>
 
+      <label class="mw-ui-label">Font Color</label>
+
+      <span class="pattern bgctextcolor" style="background-color: #A0CE4E;"></span>
+      <span class="pattern bgctextcolor" style="background-color: #9DB668;"></span>
+      <span class="pattern bgctextcolor" style="background-color: #E9A825;"></span>
+      <span class="pattern bgctextcolor" style="background-color: #67B7E1;"></span>
+      <span class="pattern bgctextcolor" style="background-color: #F05858;"></span>
+      <span class="pattern bgctextcolor" style="background-color: #E67FB9;"></span>
+      <span class="pattern bgctextcolor" style="background-color: #9E9E9E;"></span>
+      <span class="pattern bgctextcolor" style="background-color: #AB8B65;"></span>
+      <span class="pattern bgctextcolor" style="background-color: #111111;"></span>
+      <span class="pattern bgctextcolor" style="background-color: #EFECEC;"></span>
+      <span class="bgctextcolor STYLERESET" style="">Reset</span>
+
+
+      <input type="hidden"
+             class="tpl-field"
+             data-selector="body,p"
+             value = "<?php if(isset($data['textcolor']) and isset($data['textcolor']['value'])){ print $data['textcolor']['value']; } ?>"
+             name="textcolor"
+             id="textcolor"
+             data-property="color" />
+
+             <div class="vSpace"></div><hr>
+
       <label class="mw-ui-label">Color Schemes</label>
 
       <span class="pattern bgc" style="background-color: #A0CE4E;"></span>
@@ -89,6 +115,7 @@
       <span class="pattern bgc" style="background-color: #AB8B65;"></span>
       <span class="pattern bgc" style="background-color: #111111;"></span>
       <span class="pattern bgc" style="background-color: #EFECEC;"></span>
+      <span class="bgc STYLERESET" style="">Reset</span>
 
 
       <input type="hidden"
@@ -140,22 +167,34 @@
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
-    mw.$(".pattern.bgi").click(function(){
+    mw.$(".bgi").click(function(){
         if(!$(this).hasClass("active")){
             mw.$(".pattern.bgi").removeClass("active");
             $(this).addClass("active");
-            mw.$("#bodybg").val(this.style.backgroundImage);
+            mw.$("#bodybg").val(!this.className.contains("STYLERESET") ? this.style.backgroundImage : "reset");
             mw.tpl.save();
         }
     });
-    mw.$(".pattern.bgc").click(function(){
+    mw.$(".bgc").click(function(){
         if(!$(this).hasClass("active")){
             mw.$(".pattern.bgc").removeClass("active");
             $(this).addClass("active");
-            mw.$("#headerbg").val(this.style.backgroundColor);
+            mw.$("#headerbg").val(!this.className.contains("STYLERESET") ? this.style.backgroundColor : "reset");
             mw.tpl.save();
         }
     });
+
+    mw.$(".bgctextcolor").click(function(){
+        if(!$(this).hasClass("active")){
+            mw.$(".pattern.bgctextcolor").removeClass("active");
+            $(this).addClass("active");
+            mw.$("#textcolor").val(!this.className.contains("STYLERESET") ? this.style.backgroundColor : "reset");
+            mw.tpl.save();
+        }
+    });
+
+
+
 
     var uploader = mw.files.uploader({
       filetypes:'images',
@@ -165,7 +204,7 @@ $(document).ready(function(){
 
     $(uploader).bind("FileUploaded", function(a,b){
             mw.$(".pattern.bgi").removeClass("active");
-            mw.$("#bodybg").val(b.src);
+            mw.$("#bodybg").val("url(" + b.src + ");");
             mw.tpl.save();
     });
     mw.tools.dropdown();

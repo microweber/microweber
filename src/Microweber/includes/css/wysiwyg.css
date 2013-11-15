@@ -470,6 +470,7 @@
 }
 .wysiwyg-convertible > *{
   float: none;
+  vertical-align: top;
 }
 
 .wysiwyg-table{
@@ -665,3 +666,10 @@
       left: 20px;
   }
 }
+/*
+body.toolbar-hover .edit ::selection{
+    background:rgba(204, 204, 204, 0.2);
+}
+body.toolbar-hover .edit ::-moz-selection{
+    background:rgba(204, 204, 204, 0.2);
+}  */

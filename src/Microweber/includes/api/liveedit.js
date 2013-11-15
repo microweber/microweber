@@ -2574,7 +2574,11 @@ $(document).ready(function(){
 
 
 
-
+  mw.$("#live_edit_toolbar").hover(function(){
+    $(mwd.body).addClass("toolbar-hover");
+  }, function(){
+     $(mwd.body).removeClass("toolbar-hover");
+  })
 
 
 });

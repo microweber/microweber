@@ -864,3 +864,4 @@ $language["there-are-no-items-in-the-menu-b-nowo-b"]= 'There are no items in the
 $language["upload-audio-file-or-paste-url"]= 'Upload Audio File or paste URL.' ; 
 $language["you-are-now-logged-in"]= 'You are now logged in' ; 
 $language["enter-source"]= 'Enter Source' ; 
+$language["values"]= 'Values' ; 

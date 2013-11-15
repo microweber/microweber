@@ -75,7 +75,7 @@ class Layouts
             } else {
                 $the_active_site_template = $this->app->option->get('current_template', 'template');
             }
-            if ($the_active_site_template == '') {
+            if ($the_active_site_template == '' or $the_active_site_template == 'mw_default') {
                 $the_active_site_template = 'default';
             }
             $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
@@ -713,7 +713,7 @@ class Layouts
 
                 foreach ($params as $item) {
 
-                    if (!isset($item["css"]) and isset($item["property"]) and isset($item['value'])) {
+                    if (!isset($item["css"]) and isset($item["property"]) and isset($item['value']) and trim($item['value']) !='reset') {
                         if (isset($item['selector']) and trim($item['selector']) == '@import' and isset($item["value"])) {
                             $props = explode(',', $item['property']);
                             $curr = "";
@@ -747,7 +747,7 @@ class Layouts
                         $sel = trim($item['selector']);
                         $css = trim($item["css"]);
 
-                        if (trim($sel) != '' and strlen($sel) > 2 and strlen($css) > 2) {
+                        if (trim($sel) != '' and trim($css) != 'reset' and strlen($sel) > 2 and strlen($css) > 2) {
 
                             $delim = "\n /* $sel */ \n";
 

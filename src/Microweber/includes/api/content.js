@@ -2,6 +2,7 @@ mw.content = mw.content || {
       publish : function($id) {
             master = {};
             master.id= $id;
+            $(mwd.body).addClass("loading");
       	  $.ajax({
               type: 'POST',
               url: mw.settings.site_url + 'api/content/set_published',
@@ -12,16 +13,24 @@ mw.content = mw.content || {
 
               },
               success: function(data) {
+                $(mwd.body).removeClass("loading");
       			$('.mw-set-content-publish').hide();
                   $('.mw-set-content-unpublish').fadeIn();
                   mw.askusertostay = false;
       		    mw.notification.success("Content is Published.");
+              },
+              error:function(){
+                  $(mwd.body).removeClass("loading");
+              },
+              complete:function(){
+                $(mwd.body).removeClass("loading");
               }
             });
       },
       unpublish : function($id) {
       	master = {};
       	master.id= $id;
+        $(mwd.body).addClass("loading");
       	  $.ajax({
               type: 'POST',
               url: mw.settings.site_url + 'api/content/set_unpublished',
@@ -32,10 +41,17 @@ mw.content = mw.content || {
 
               },
               success: function(data) {
+                $(mwd.body).removeClass("loading");
                   $('.mw-set-content-unpublish').hide();
                   $('.mw-set-content-publish').fadeIn();
                   mw.askusertostay = false;
       		      mw.notification.warning("Content is Unpublished.");
+              },
+              error:function(){
+                  $(mwd.body).removeClass("loading");
+              },
+              complete:function(){
+                $(mwd.body).removeClass("loading");
               }
             });
       },
@@ -64,6 +80,7 @@ mw.content = mw.content || {
           }
           master.title = data.title;
           master.content = data.content;
+          $(mwd.body).addClass("loading");
           $.ajax({
               type: 'POST',
               url: mw.settings.site_url + 'api/save_content',
@@ -71,6 +88,7 @@ mw.content = mw.content || {
               datatype: "json",
               async: true,
               success: function(data) {
+                $(mwd.body).removeClass("loading");
                 if(typeof data === 'object' && typeof data.error != 'undefined'){
                    if(typeof e.onError === 'function'){
                       e.onError.call(data);
@@ -83,9 +101,13 @@ mw.content = mw.content || {
                 }
               },
               error:function(data){
+                $(mwd.body).removeClass("loading");
                 if(typeof e.onError === 'function'){
                   e.onError.call(data);
                 }
+              },
+              complete:function(){
+                $(mwd.body).removeClass("loading");
               }
             });
       }
