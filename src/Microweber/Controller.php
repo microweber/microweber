@@ -25,7 +25,7 @@ function params_stripslashes_array_walk($array)
 
 function params_stripslashes_array($array)
 {
-    return is_array($array) ? array_map('params_stripslashes_array_walk', $array) : stripslashes($array);
+    return is_array($array) ? array_map('Microweber\params_stripslashes_array_walk', $array) : stripslashes($array);
 }
 
 if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {

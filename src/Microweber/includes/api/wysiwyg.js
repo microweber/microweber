@@ -497,7 +497,10 @@ mw.wysiwyg = {
 
       $(mwd.body).keyup(function(e){
 
-
+         mw.smallEditorCanceled = true;
+             mw.smallEditor.css({
+                visibility:"hidden"
+             });
         mw.tools.addClass(this, 'isTyping');
 
         if(mw.tools.isEmpty(e.target)){
@@ -1314,7 +1317,7 @@ $(window).load(function(){
       }
       else{
         if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
-          mw.smallEditorCanceled = true;
+           mw.smallEditorCanceled = true;
            mw.smallEditor.css({
             visibility:"hidden"
           });
@@ -1395,9 +1398,10 @@ $(window).load(function(){
          var off = mw.smallEditor.offset();
          if(((e.pageX - mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY-mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX+mw.smallEditorOff) < (off.left)) || ((e.pageY+mw.smallEditorOff) < (off.top))){
              mw.smallEditor.css("visibility", "hidden");
+             mw.smallEditorCanceled = true;
          }
          else{
-             mw.smallEditor.css("visibility", "visible");
+             //mw.smallEditor.css("visibility", "visible");
          }
        }
     });

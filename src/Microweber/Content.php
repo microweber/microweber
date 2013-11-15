@@ -424,9 +424,7 @@ class Content
         }
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
-//        if(isset($_REQUEST['debug'])){
-//            $cache_content = false;
-//        }
+
         if (($cache_content) != false) {
             return $cache_content;
         }
@@ -627,14 +625,7 @@ class Content
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
             $inherit_from = $this->get_parents($page['id']);
             $found = 0;
-//            if(isset($_REQUEST['debug'])){
-//                if(isset($page['parent']) and $page['parent'] != 0){
-//
-//                }
-//               // $par = $this->get_by_id($page['parent']);
-//
-//                d($inherit_from);
-//            }
+
             if (!empty($inherit_from)) {
                 foreach ($inherit_from as $value) {
                     if ($found == 0 and $value != $page['id']) {
@@ -4414,6 +4405,9 @@ class Content
 
     public function save_edit($post_data)
     {
+
+         
+
         $is_admin = $this->app->user->is_admin();
 
         if ($post_data) {

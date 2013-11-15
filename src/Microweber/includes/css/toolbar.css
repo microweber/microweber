@@ -107,11 +107,10 @@
   cursor: move;
   text-align: center;
   font-size: 11px;
-  line-height: 15px;
+  line-height: 17px;
   padding: 0px 4px;
   border:1px solid #A6A6A6;
-  border-radius: 2px;
-  background: url(../img/grad.php?top=F5F5F5&bot=BFBFBF);
+  background: white;
 
 }
 
@@ -421,7 +420,6 @@ padding:0px !important;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
   border: 1px solid #D9D9D9;
   cursor: move;
-  border-radius: 3px;
 }
 
 .mw-sorthandle-row:hover .mw-cols_set{
@@ -434,7 +432,7 @@ a.mw-make-cols{
   text-decoration: none;
   display: inline-block;
   padding:1px 5px;
-  border-radius: 2px;
+
 }
 
 a.mw-make-cols:hover, a.mw-make-cols.active{
@@ -442,12 +440,14 @@ a.mw-make-cols:hover, a.mw-make-cols.active{
   padding:0px 4px;
   border: 1px solid #D9D9D9;
   background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+  background: #E1E1E1;
 }
 
 a.mw-make-cols.active, a.mw-make-cols.active:hover{
   background: url(../img/grad.php?top=50ADF0&bot=2A83DD);
   border-color:#227BD1;
   color: white;
+  background: #50ADF0
 }
 
 

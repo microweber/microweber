@@ -242,15 +242,14 @@ ul.dropdown-menu ul.dropdown-menu {
 	left: 100%;
 	top: 0;
 }
-#logo {
-	float: left;
+#logo, .brand {
 	display: block;
 	color: white;
 	font-size: 35px;
 	text-decoration: none;
 	font-weight: 200;
 }
-#logo a, #logo a:hover {
+#logo a, #logo a:hover, .brand a, .brand a:hover {
 	color: white;
 	text-decoration: none;
 }
