@@ -160,6 +160,20 @@
       margin-top: 7px;
     }
 
+    .STYLERESET{
+      color: #666666;
+      text-decoration: underline;
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+    }
+
+    .pattern + .STYLERESET{
+      top: 8px;
+      left: 5px;
+    }
+
 </style>
 <script>
   mw.require("files.js");
@@ -169,7 +183,7 @@
 $(document).ready(function(){
     mw.$(".bgi").click(function(){
         if(!$(this).hasClass("active")){
-            mw.$(".pattern.bgi").removeClass("active");
+            mw.$(".bgi").removeClass("active");
             $(this).addClass("active");
             mw.$("#bodybg").val(!this.className.contains("STYLERESET") ? this.style.backgroundImage : "reset");
             mw.tpl.save();
@@ -177,7 +191,7 @@ $(document).ready(function(){
     });
     mw.$(".bgc").click(function(){
         if(!$(this).hasClass("active")){
-            mw.$(".pattern.bgc").removeClass("active");
+            mw.$(".bgc").removeClass("active");
             $(this).addClass("active");
             mw.$("#headerbg").val(!this.className.contains("STYLERESET") ? this.style.backgroundColor : "reset");
             mw.tpl.save();
@@ -186,7 +200,7 @@ $(document).ready(function(){
 
     mw.$(".bgctextcolor").click(function(){
         if(!$(this).hasClass("active")){
-            mw.$(".pattern.bgctextcolor").removeClass("active");
+            mw.$(".bgctextcolor").removeClass("active");
             $(this).addClass("active");
             mw.$("#textcolor").val(!this.className.contains("STYLERESET") ? this.style.backgroundColor : "reset");
             mw.tpl.save();

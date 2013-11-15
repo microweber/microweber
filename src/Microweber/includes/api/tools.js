@@ -3029,7 +3029,7 @@ mw.beforeleave_html = ""
     + "</div>";
 
 mw.beforeleave = function(url){
-    if(mw.askusertostay){
+    if(mw.askusertostay && mw.$(".edit.orig_changed").length > 0){
         if(mwd.getElementById('modal_beforeleave') === null){
             var modal = mw.tools.modal.init({
                html:mw.beforeleave_html,
