@@ -1,4 +1,4 @@
-<?php $cur_url = mw('url')->current(true); 
+<?php $cur_url = url_current(true); 
 
 $cur_url = urlencode($cur_url);
 ?>

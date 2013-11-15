@@ -78,7 +78,7 @@ $kw = '';
 		 
 		
 
-		 print mw('shop')->currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
+		 print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
 				<td class="mw-order-item-paid"><?php if($item['is_paid'] == 'y'): ?>
 					<?php _e("Yes"); ?>
 					<?php else : ?>
@@ -171,13 +171,13 @@ $kw = '';
     							<tr
                 data-index = "<?php print $index; ?>"
                 class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>" >
-    								<td class="mw-order-item-id"><a href="<?php print mw('content')->link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a></td>
+    								<td class="mw-order-item-id"><a href="<?php print content_link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a></td>
     								<td class="mw-order-item-fields"><?php 	if(isset($item['custom_fields'])): ?>
     									<?php print $item['custom_fields'] ?>
     									<?php  endif ?></td>
     								<td class="mw-order-item-amount"><?php print ($item['price']) ?></td>
     								<td class="mw-order-item-count"><?php print $item['qty'] ?></td>
-    								<td class="mw-order-item-count" width="100"><?php print  mw('shop')->currency_format($item_total); ?></td>
+    								<td class="mw-order-item-count" width="100"><?php print  currency_format($item_total); ?></td>
     							</tr>
     							<?php endforeach; ?>
     							<tr class="mw-o-box-table-footer last">
@@ -185,7 +185,7 @@ $kw = '';
     								<td class="mw-o-box-table-green"><b>
     									<?php _e("Total:"); ?>
     									</b></td>
-    								<td class="mw-o-box-table-green"><b><?php print  mw('shop')->currency_format($grandtotal); ?></b></td>
+    								<td class="mw-o-box-table-green"><b><?php print  currency_format($grandtotal); ?></b></td>
     							</tr>
     						</tbody>
     					</table>

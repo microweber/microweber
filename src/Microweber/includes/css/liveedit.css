@@ -167,8 +167,7 @@ body.dragStart .empty-element { display: block; }
 
 body .mw-col > .ui-resizable-e {
 	width: 20px;
-	right: 0;
-	right: -15px;
+	right: -10px;
 	top: 0;
 	height: 100%;
     background-image: url(../img/resize_color.gif);
@@ -401,6 +400,7 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 }
 .isTyping .mw-empty{
   visibility: hidden;
+
 }
 
 
@@ -421,6 +421,8 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 .mwtb-search{
 
 }
+
+
 
 
 

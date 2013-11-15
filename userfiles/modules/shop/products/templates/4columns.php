@@ -81,7 +81,7 @@ if(!isset($tn[1])){
 	    <?php 
 		$vals2 = array_values($item['prices']);
 		$val1 = array_shift($vals2); ?>
-        <span class="price"><?php print mw('shop')->currency_format($val1); ?></span>
+        <span class="price"><?php print currency_format($val1); ?></span>
         
          <?php } else{ ?>
 
@@ -114,5 +114,5 @@ if(!isset($tn[1])){
   <?php endif; ?>
 </div>
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
-<?php print mw('content')->paging("num={$pages_count}&paging_param={$paging_param}") ?>
+<?php print paging("num={$pages_count}&paging_param={$paging_param}") ?>
 <?php endif; ?>

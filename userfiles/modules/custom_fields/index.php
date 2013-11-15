@@ -19,25 +19,22 @@
 	$for_id = $params['content-id'];
 	 $for = 'content';
  }   else {
- 
- 
- 
- 
-  if(isset($params['for_id'])){
-	$for_id = $params['for_id'];
- }  else if(isset($params['data-id'])){
-		 $for_id = $params['data-id'];
+ 	 
+	 if(isset($params['for_id'])){
+		$for_id = $params['for_id'];
+	 }  else if(isset($params['data-id'])){
+			 $for_id = $params['data-id'];
 	 } else  if(isset($params['id'])){
-	$for_id = $params['id'];
+		$for_id = $params['id'];
+	 }
+	 
+	  //$for_id =$params['id'];
+	if(isset($params['rel_id'])){
+	$for_id =$params['rel_id'];
+	}
  }
  
-  //$for_id =$params['id'];
- if(isset($params['rel_id'])){
-$for_id =$params['rel_id'];
- }
- }
- 
- if(isset($params['content-id'])){
+if(isset($params['content-id'])){
 	$for_id = $params['content-id']; 
 	 $for = 'content';
 }
@@ -46,14 +43,13 @@ if(((!isset($for_id)) and isset($params['data-id']))){
  
 }
  
- if(isset($params['default-fields']) and isset($params['parent-module-id'])){
+if(isset($params['default-fields']) and isset($params['parent-module-id'])){
 	 
 	mw('fields')->make_default($for,$for_id,$params['default-fields']);
 }
  $more = mw('fields')->get($for ,$for_id,1); 
  
  ?>
-
 <input type="hidden" name="for_id" value="<?php print $for_id?>" />
 <input type="hidden" name="for" value="<?php print $for?>" />
 <?php
@@ -75,26 +71,24 @@ print  mw('fields')->make($field);
  }
  ?>
 <?php endforeach; ?>
- 
 <?php if(!in_array('price',$skip_types)  and is_array($price_fields )): ?>
 <?php $price_fields_c = count($price_fields); ?>
-	<?php if($price_fields_c >1) : ?>
-    <select name="price">
-      <?php endif; ?>
-      <?php foreach($price_fields  as $field): ?>
-       <?php 
+<?php if($price_fields_c >1) : ?>
+<select name="price">
+	<?php endif; ?>
+	<?php foreach($price_fields  as $field): ?>
+	<?php 
 	   $prined_items_count++;
 	   if($price_fields_c >1){ $field['make_select'] = true; } ?>
-      <?php  print  mw('fields')->make($field);   ?>
-      <?php endforeach; ?>
-      <?php if($price_fields_c >1) : ?>
-    </select>
-    <?php  else: ?>
-    <?php endif; ?>
+	<?php  print  mw('fields')->make($field);   ?>
+	<?php endforeach; ?>
+	<?php if($price_fields_c >1) : ?>
+</select>
+<?php  else: ?>
+<?php endif; ?>
 <?php endif; ?>
 <?php else: ?>
- <?php endif; ?>
+<?php endif; ?>
 <?php if($prined_items_count == 0): ?>
 <?php print lnotif("Click on settings to edit your custom fields."); ?>
 <?php endif; ?>
- 

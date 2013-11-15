@@ -29,7 +29,7 @@ description: Default comments template
   <h4><?php _e("Recent comments"); ?></h4>
   <?php else : ?>
   <h4><?php _e("Comments for"); ?> <strong>
-    <?php  $post = mw('content')->get_by_id($data['rel_id']); print $post['title']; ?>
+    <?php  $post = get_content_by_id($data['rel_id']); print $post['title']; ?>
     </strong></h4>
   <?php endif; ?>
   <div class="comments" id="comments-list-<?php print $data['id'] ?>">
@@ -118,7 +118,7 @@ description: Default comments template
     </div>
     <?php } endforeach; ?>
     <?php if($paging != false and intval($paging) > 1 and isset($paging_param)): ?>
-    <?php print mw('content')->paging("num={$paging}&paging_param={$paging_param}") ?>
+    <?php print paging("num={$paging}&paging_param={$paging_param}") ?>
     <?php endif; ?>
   </div>
   <?php else: ?>
@@ -154,7 +154,7 @@ description: Default comments template
       <?php if(isset($cur_user_data['thumbnail']) and trim($cur_user_data['thumbnail'])!=''): ?>
       <span class="mw-user-thumb mw-user-thumb-small"> <img style="vertical-align:middle" src="<?php print $cur_user_data['thumbnail'] ?>"  height="24" width="24" /> </span>
       <?php endif; ?>
-      <span class="comments-user-profile-username"> <?php print user_name($cur_user_data['id']); ?> </span> <small><a href="<?php print mw('url')->api_link('logout') ?>">(<?php _e("Logout"); ?>)</a></small> </span>
+      <span class="comments-user-profile-username"> <?php print user_name($cur_user_data['id']); ?> </span> <small><a href="<?php print api_link('logout') ?>">(<?php _e("Logout"); ?>)</a></small> </span>
       <?php endif; ?>
       <div class="row-fluid">
         <div class="span12 comment-field">

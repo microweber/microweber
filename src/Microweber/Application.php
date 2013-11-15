@@ -11,10 +11,14 @@ class Application
     public $config_file; //indicates if config is being loaded from file
     public $table_prefix = null;
     public $providers = array();
+
     public static $instance;
+
+
 
     public static function getInstance($constuctor_params = null)
     {
+
         if (self::$instance == NULL) self::$instance = new Application($constuctor_params);
         return self::$instance;
     }
@@ -68,9 +72,10 @@ class Application
 
 
         global $_mw_global_object;
-        //  if (!is_object($_mw_global_object)) {
+       //   if (!is_object($_mw_global_object)) {
         $_mw_global_object = $this;
-        //}
+        //self::$_instance=$this;
+        // }
 
 
     }

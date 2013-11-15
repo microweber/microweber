@@ -129,6 +129,8 @@ include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
 
 function get_all_functions_files_for_modules($options = false)
 {
+
+
     $args = func_get_args();
     $function_cache_id = '';
 
@@ -145,8 +147,7 @@ function get_all_functions_files_for_modules($options = false)
         return $cache_content;
     }
 
-    //d($uninstall_lock);
-    if (isset($options['glob'])) {
+     if (isset($options['glob'])) {
         $glob_patern = $options['glob'];
     } else {
         $glob_patern = '*functions.php';
@@ -180,8 +181,7 @@ function get_all_functions_files_for_modules($options = false)
 
                 $found = false;
                 foreach ($disabled_files as $disabled_file) {
-                    //d($disabled_file);
-                    if (strtolower($value) == strtolower($disabled_file)) {
+                     if (strtolower($value) == strtolower($disabled_file)) {
                         $found = 1;
                     }
                 }
@@ -189,10 +189,7 @@ function get_all_functions_files_for_modules($options = false)
                     $configs[] = $value;
                 }
             }
-            //d($value);
-            //if ($disabled_files !== null and !in_array($value, $disabled_files,1)) {
-            //
-            //}
+
         }
 
         mw('cache')->save($configs, $function_cache_id, $cache_group, 'files');

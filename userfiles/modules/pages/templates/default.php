@@ -21,5 +21,5 @@ description: List Navigation
 <script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
 
 <div class="well pages-nav pages-nav-default">
-	<?php mw('content')->pages_tree($params);  ?>
+	<?php pages_tree($params);  ?>
 </div>

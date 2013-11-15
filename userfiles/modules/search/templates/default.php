@@ -16,8 +16,9 @@ description: Default Search template
 
     <input type="text"
          id="search_field_<?php  print $params['id'] ?>"
-         class="input-xlarge mw-search-field pull-left"
+         class="input-small mw-search-field pull-left"
          placeholder="<?php _e("Search"); ?>"
+		 
     />
     <button class="btn  pull-left"
       onclick="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>',mwd.getElementById('search_field_<?php  print $params['id'] ?>').value);">

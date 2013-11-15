@@ -9,7 +9,7 @@ $(document).ready(function(){
 
       /*
 
-      var source = new EventSource('<?php print site_url('api/event_stream')?>');
+      var source = new EventSource('<?php print api_link('event_stream')?>');
       source.onmessage = function (event) {
         mw.$('#mw-admin-manage-orders').html(event.data);
       };

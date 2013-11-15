@@ -80,11 +80,11 @@
 	   
 	   var nav_go_live_btns = mw.$(".mw-admin-go-live-now-btn");
        nav_go_live_btns.click(function(e){
-         if(!$(this).attr('contrent-id')){
-        
+         //if(!$(this).attr('content-id')){
+       //  alert(go_cont);
 		var go_cont = $(this).attr('content-id');
-		if(go_cont != undefined && go_cont != 0){
-			//alert(go_cont);
+		if(go_cont != undefined && go_cont != null){
+			
 			
 			 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+go_cont, function(data) {
 					   		if(mw.notification != undefined){
@@ -98,7 +98,7 @@
 		}
 		
 		
-		}
+		//}
        });
 	   
 	   

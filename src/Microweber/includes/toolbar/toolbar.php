@@ -90,16 +90,20 @@
                     <span>Create or manage your content</span>
                     <i class=" dd_rte_arr right"></i>
                 </a>
-                <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu" style="width: 170px;">
-                  <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="ico ieditpage" style="margin-right: 12px;"></span><span>EDIT CURRENT</span></a></li>
-                  <li><a href="javascript:;" onclick="mw.quick.post();"><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span>POST</a></li>
-                  <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span>PRODUCT</a></li>
-                  <li><a href="javascript:;" onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span>PAGE</a></li>
-                  <li><a href="javascript:;" onclick="mw.quick.category();"><span class="mw-ui-btn-plus left"></span><span class="ico icategory"></span>CATEGORY</a></li>
+                <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu" style="width: 170px; text-transform:uppercase;">
+				
+				
+				
+				
+                  <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="ico ieditpage" style="margin-right: 12px;"></span><span><?php _e("Edit current"); ?></span></a></li>
+                  <li><a href="javascript:;" onclick="mw.quick.post();"><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span><?php _e("Post"); ?></a></li>
+                  <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span><?php _e("Product"); ?></a></li>
+                  <li><a href="javascript:;" onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span><?php _e("Page"); ?></a></li>
+                  <li><a href="javascript:;" onclick="mw.quick.category();"><span class="mw-ui-btn-plus left"></span><span class="ico icategory"></span><?php _e("Category"); ?></a></li>
                 </ul>
               </li>
               <li class="create-content-dropdown modules-layouts-menu">
-                <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span>Modules & Layouts</span><?php /*<i class=" dd_rte_arr right"></i>*/ ?></a>
+                <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts" data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span><?php _e("Modules & Layouts"); ?></span><?php /*<i class=" dd_rte_arr right"></i>*/ ?></a>
                 <?php
 
                 /* <ul class="mw-dropdown-list create-content-dropdown-list">
@@ -164,9 +168,9 @@
                       id="modules_switcher"
                       data-for="modules"
                       class="mwtb-search mwtb-search-modules"
-                      placeholder="Modules"/>
+                      placeholder="<?php _e("Modules"); ?>"/>
                  <div class="mw_clear"></div>
-                 <span class="mw-ui-btn mw-ui-btn-small mw-small" id="mod_switch" data-action="layouts">Switch to Layouts</span>
+                 <span class="mw-ui-btn mw-ui-btn-small mw-small" id="mod_switch" data-action="layouts"><?php _e("Switch to Layouts"); ?></span>
                  <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
              </div>
          </div>

@@ -16,6 +16,11 @@ function api($function_name, $params = false)
 
 }
 
+function api_link($str = ''){
+    return mw('url')->api_link($str);
+
+}
+
 
 function event_trigger($api_function, $data = false)
 {
@@ -66,6 +71,9 @@ function event_trigger($api_function, $data = false)
 }
 
 $mw_action_hook_index = array();
+function action_hook($function_name, $next_function_name = false){
+return event_bind($function_name, $next_function_name);
+}
 function event_bind($function_name, $next_function_name = false)
 {
     global $mw_action_hook_index;

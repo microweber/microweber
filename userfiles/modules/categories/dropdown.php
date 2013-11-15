@@ -20,7 +20,7 @@
   $pt_opts['categories_active_ids'] = $posts_parent_page;
   $pt_opts['remove_ids'] = $params['id'];
   $pt_opts['active_code_tag'] = '   selected="selected"  ';
-  mw('content')->pages_tree($pt_opts);    ?>
+  pages_tree($pt_opts);    ?>
 
 <?php  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
         $str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
@@ -34,7 +34,7 @@
                 $pt_opts['list_item_tag'] = "option";
 				$pt_opts['parent'] =$cat['id'];
 				$pt_opts['include_first'] = 1;
-				mw('category')->tree($pt_opts);
+				category_tree($pt_opts);
 			}
 		}
  }

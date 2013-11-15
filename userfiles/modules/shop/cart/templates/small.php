@@ -25,7 +25,7 @@ description: Small cart template
             $total_price +=  $item['price']* $item['qty'];
         }
       ?>
-    <span class="mw-cart-small-order-info">Cart (<strong><?php print $total_qty; ?></strong>) <?php print mw('shop')->currency_format($total_price); ?></span> |
+    <span class="mw-cart-small-order-info">Cart (<strong><?php print $total_qty; ?></strong>) <?php print currency_format($total_price); ?></span> |
     <?php
   if(!isset($params['checkout-link-enabled'])){
 	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);
@@ -37,7 +37,7 @@ description: Small cart template
     <?php $checkout_page =get_option('data-checkout-page', $params['id']); ?>
     <?php if($checkout_page != false and strtolower($checkout_page) != 'default' and intval($checkout_page) > 0){
 
-	   $checkout_page_link = mw('content')->link($checkout_page).'/view:checkout';
+	   $checkout_page_link = content_link($checkout_page).'/view:checkout';
    } else {
 	   $checkout_page_link = site_url('checkout');
 

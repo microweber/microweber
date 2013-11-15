@@ -82,7 +82,7 @@ DOMChange:function(element, callback, attr, a){
     var attr = attr || false;
     var a = a || false;
     element.addEventListener("DOMCharacterDataModified", function(e){
-
+    
         if( !mw.on.DOMChangePause ) {
             if(!a){
               callback.call(this);
@@ -97,7 +97,8 @@ DOMChange:function(element, callback, attr, a){
         }
     }, false);
     element.addEventListener("DOMNodeInserted", function(e){
-        if(mw.tools.hasClass(e.target, 'element') || mw.tools.hasClass(e.target, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
+
+        if(/*mw.tools.hasClass(e.target, 'element') || */mw.tools.hasClass(e.target, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
           return false;
         }
         if( !mw.on.DOMChangePause ) {

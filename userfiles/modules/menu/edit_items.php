@@ -45,7 +45,7 @@ if( $id != 0){
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector){
-        	mw.form.post(selector, '<?php print mw('url')->api_link('content/menu_item_save'); ?>', function(){
+        	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
  				mw.menu_item_after_save();
         	});
         }
@@ -59,7 +59,7 @@ mw.menu_item_after_save = function(){
 }
 mw.menu_item_delete = function($item_id){
     mw.tools.confirm(mw.msg.del, function(){
-    	 $.get("<?php print site_url('api/content/menu_item_delete'); ?>/?id="+$item_id, function(){
+    	 $.get("<?php print api_link('content/menu_item_delete'); ?>/?id="+$item_id, function(){
     		 	mw.$('#mw_admin_menu_items_sort_<?php print $rand; ?>').find('li[data-item-id="'+$item_id+'"]').fadeOut();
 			 	mw.menu_item_after_save();
 
@@ -131,7 +131,7 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
     			}
 			}
          });
-         $.post("<?php print site_url('api/content/menu_items_reorder'); ?>", obj,function(msg){
+         $.post("<?php print api_link('content/menu_items_reorder'); ?>", obj,function(msg){
 			 
 			 	 if(mw.notification != undefined){
 			 mw.notification.success('Menu changes are saved');

@@ -82,6 +82,7 @@ class Controller
     public function index()
     {
 
+
         if ($this->render_this_url == false and $this->app->url->is_ajax() == FALSE) {
             $page_url = $this->app->url->string();
         } else {
@@ -122,7 +123,11 @@ class Controller
         $is_preview_template = $this->app->url->param('preview_template');
         if (!$is_preview_template) {
             $is_preview_template = false;
-
+            if ($this->return_data == false) {
+                if (!defined('MW_FRONTEND')) {
+                    define('MW_FRONTEND', true);
+                }
+            }
             if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 
                 if ($is_editmode == 'n') {
@@ -263,10 +268,7 @@ class Controller
                     $page['content_type'] = $_REQUEST['content_type'];
 
                 }
-                //  d($page);
-                //$page['active_site_template'] = $page_url_segment_1;
-                //$page['layout_file'] = $the_new_page_file;
-                //$page['simply_a_file'] = $simply_a_file;
+
 
                 template_var('new_page', $page);
             }
@@ -305,6 +307,7 @@ class Controller
 
                 $page = $this->app->content->homepage();
 
+
             } else {
                 $found_mod = false;
                 $page = $this->app->content->get_by_url($page_url);
@@ -328,7 +331,7 @@ class Controller
                     $page['parent'] = '0';
                     $page['url'] = $this->app->url->string();
                     $page['active_site_template'] = $the_active_site_template;
-					 
+
                     $mod_params = '';
                     if ($preview_module_template != false) {
                         $mod_params = $mod_params . " template='{$preview_module_template}' ";
@@ -338,7 +341,7 @@ class Controller
                     }
 
                     $page['content'] = '<microweber module="' . $page_url . '" ' . $mod_params . '  />';
-                  //  $page['simply_a_file'] = 'clean.php';
+                    //  $page['simply_a_file'] = 'clean.php';
                     $page['layout_file'] = 'clean.php';
                     template_var('content', $page['content']);
 
@@ -362,7 +365,6 @@ class Controller
                             $td_base = MW_TEMPLATES_DIR . $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
-                            //d($page_url_segment_3);
                         }
 
                         $page_url_segment_3_str = implode(DS, $page_url_segment_3);
@@ -370,7 +372,6 @@ class Controller
                         if ($page_url_segment_3_str != '') {
                             $page_url_segment_3_str = rtrim($page_url_segment_3_str, DS);
                             $page_url_segment_3_str = rtrim($page_url_segment_3_str, '\\');
-                            //d($page_url_segment_3_str);
                             $page_url_segment_3_str_copy = $page_url_segment_3_str;
 
                             $is_ext = get_file_extension($page_url_segment_3_str);
@@ -380,7 +381,6 @@ class Controller
 
                             $td_f = $td_base . DS . $page_url_segment_3_str;
                             $td_fd = $td_base . DS . $page_url_segment_3_str_copy;
-                            //  d($td_f);
                             if (is_file($td_f)) {
                                 $the_new_page_file = $page_url_segment_3_str;
                                 $simply_a_file = $directly_to_file = $td_f;
@@ -593,6 +593,14 @@ class Controller
             return $content;
         }
 
+        if(!isset($page['title'])){
+            $page['title'] = 'New page';
+        }
+        if(!isset($content['title'])){
+            $content['title'] = 'New content';
+        }
+
+
         if ($render_file) {
 
 
@@ -600,7 +608,7 @@ class Controller
             $l = new $this->app->view($render_file);
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
-            $l->post_id = PAGE_ID;
+            $l->post_id = POST_ID;
             $l->category_id = CATEGORY_ID;
             $l->content = $content;
             $l->page = $page;
@@ -620,7 +628,6 @@ class Controller
                 $found_field = false;
                 if (isset($_REQUEST['isolate_content_field'])) {
                     foreach ($pq ['[field=content]'] as $elem) {
-                        //d($elem);
                         $isolated_el = $l = pq($elem)->htmlOuter();
                     }
                 }
@@ -636,7 +643,6 @@ class Controller
 
                         if (strstr($layout_toolbar, '{head}')) {
                             if ($isolated_head != false) {
-                                //	d($isolated_head);
                                 $layout_toolbar = str_replace('{head}', $isolated_head, $layout_toolbar);
                             }
                         }
@@ -654,8 +660,10 @@ class Controller
             }
             event_trigger('on_load', $content);
 
-            //$this->app->content->debug_info();
 
+            if ($is_editmode == true and !defined('IN_EDIT')) {
+                define('IN_EDIT', true);
+            }
 
             $l = $this->app->parser->process($l, $options = false);
 
@@ -732,10 +740,6 @@ class Controller
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
 
-
-            if ($is_editmode == true and !defined('IN_EDIT')) {
-                define('IN_EDIT', true);
-            }
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
 
@@ -864,9 +868,6 @@ class Controller
 
             }
 
-            // d(TEMPLATE_URL);
-            //d(crc32($l));
-            //
 
             $l = execute_document_ready($l);
 
@@ -905,7 +906,6 @@ class Controller
 
             print $l;
             unset($l);
-            //unset($content);
 
             if (isset($_REQUEST['debug'])) {
 
@@ -1547,6 +1547,9 @@ class Controller
             $url = $this->app->url->string();
         }
 
+
+
+
         $this->app->content->define_constants($page);
 
         if ($custom_display == true) {
@@ -1755,13 +1758,13 @@ class Controller
         if (!isset($data['id']) and isset($_REQUEST['id']) == true) {
             $data['id'] = $_REQUEST['id'];
         }
-        if (isset($data['ondrop']) ) {
+        if (isset($data['ondrop'])) {
 
             if (!defined('MW_MODULE_ONDROP')) {
-               	define('MW_MODULE_ONDROP', true);
+                define('MW_MODULE_ONDROP', true);
             }
 
-        unset($data['ondrop']);
+            unset($data['ondrop']);
         }
 
         $has_id = false;
@@ -1776,12 +1779,12 @@ class Controller
                         $v1 = $this->app->format->array_to_base64($v);
                         $tags .= "{$k}=\"$v1\" ";
                     } else {
-						 
-					    $v = $this->app->format->clean_html($v);
-						 
 
-						//$v = $this->app->db->escape_string($v);
-						
+                        $v = $this->app->format->clean_html($v);
+
+
+                        //$v = $this->app->db->escape_string($v);
+
                         $tags .= "{$k}=\"$v\" ";
                     }
                 }
@@ -1828,20 +1831,18 @@ class Controller
             $res = str_replace('{content}', $res, $layout);
         }
 
-        $aj =  $this->app->url->is_ajax();
+        $aj = $this->app->url->is_ajax();
 
         if (isset($_REQUEST['live_edit'])) {
 
 
-    $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
-    $p_index = normalize_path($p_index, false);
-    $l = new $this->app->view($p_index);
-    $l->params = $data;
-    $layout = $l->__toString();
-    $res = str_replace('{content}', $res, $layout);
-    $res = $this->app->parser->process($res, $options = false);
-
-
+            $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
+            $p_index = normalize_path($p_index, false);
+            $l = new $this->app->view($p_index);
+            $l->params = $data;
+            $layout = $l->__toString();
+            $res = str_replace('{content}', $res, $layout);
+            $res = $this->app->parser->process($res, $options = false);
 
 
         }
@@ -2039,10 +2040,6 @@ class Controller
         }
 
 
-
-
-
-
         $this->app->content->define_constants($page);
         $tool = str_replace('..', '', $tool);
 
@@ -2081,21 +2078,21 @@ class Controller
 
 
         }
-				if (isset($_REQUEST['empty_content'])) {
-				$page['content'] = '<div class="edit"></div>';
-				} elseif (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
+        if (isset($_REQUEST['empty_content'])) {
+            $page['content'] = '<div class="edit"></div>';
+        } elseif (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
 
             //if (isset($page['content_type']) and $page['content_type'] != 'page') {
-                $render_file = $this->app->content->get_layout($page);
+            $render_file = $this->app->content->get_layout($page);
 
-                $page['render_file'] = $render_file;
-                $l = new $this->app->view($page['render_file']);
-                $l = $l->__toString();
-                $page['content'] = $this->app->parser->isolate_content_field($l);
-         //   }
+            $page['render_file'] = $render_file;
+            $l = new $this->app->view($page['render_file']);
+            $l = $l->__toString();
+            $page['content'] = $this->app->parser->isolate_content_field($l);
+            //   }
 
-        		}
-		        		
+        }
+
         if (isset($page['content'])) {
 
 

@@ -176,13 +176,13 @@ body.mw-live-edit{
 
 #mw_handle_row{
   position: absolute;
-  z-index: 995;
+  z-index: 1000;
   margin-top: -10px;
   margin-top: 7px;
   padding-bottom: 10px;
 }
 #mw_handle_element{
-  z-index: 996;
+  z-index: 1001;
 }
 #mw_handle_module{
   z-index: 998;

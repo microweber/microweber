@@ -19,7 +19,7 @@ if(isset($params['is_shop']) and $params['is_shop']=='y'){
 }
 
 if(!isset($params['category-id']) and isset($params['page-id']) and $params['page-id']!='global'){
-  $check_if_excist = mw('content')->get_by_id($params['page-id']);
+  $check_if_excist = get_content_by_id($params['page-id']);
   if(is_array($check_if_excist)){
     if(isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y'){
      $posts_mod['subtype'] = 'product';
@@ -69,7 +69,7 @@ if($params['page-id'] == 'global'){
 
 }
 else {
- $page_info = mw('content')->get_by_id($params['page-id']);
+ $page_info = get_content_by_id($params['page-id']);
 }
 
 ?>
@@ -334,7 +334,7 @@ mw.manage_content_sort = function(){
         obj.ids.push(id);
       });
 
-       $.post("<?php print site_url('api/content/reorder'); ?>", obj, function(){});
+       $.post("<?php print api_link('content/reorder'); ?>", obj, function(){});
      },
      start:function(a,ui){
       $(this).height($(this).outerHeight());
@@ -386,7 +386,7 @@ else {
 $pt_opts['include_categories'] = 'yes';
 
 
-mw('content')->pages_tree($pt_opts);
+pages_tree($pt_opts);
 ?>
 	<?php else : ?>
 	<?php  if(isset($params['category-id'])):  ?>
@@ -398,7 +398,7 @@ $pt_opts['max_level'] = 2;
 
 
 
-mw('category')->tree($pt_opts);
+category_tree($pt_opts);
 ?>
 	<?php endif; ?>
 	<?php endif; ?>

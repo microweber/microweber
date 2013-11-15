@@ -64,17 +64,19 @@ if(!isset($tn[1])){
           <?php 
 		$vals2 = array_values($item['prices']);
 		$val1 = array_shift($vals2); ?>
-        <span class="price"><?php print mw('shop')->currency_format($val1); ?></span>
+        <span class="price"><?php print currency_format($val1); ?></span>
         <?php } else{ ?>
         <?php } ?>
         <?php endif; ?>
         <?php if($show_fields == false or in_array('add_to_cart', $show_fields)): ?>
         <?php
                 $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
-			  if( $add_cart_text == false){  $add_cart_text =  'Add to cart';  }
+			  if( $add_cart_text == false or $add_cart_text == "Add to cart"){ 
+			    $add_cart_text =  _e("Add to cart", true); 
+			   }
 
-        ?>
-        <?php if(is_array( $item['prices'])): ?>
+         ?>
+        <?php if(is_array( $item['prices'])): ?> 
         <button class="btn" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
         <?php endif; ?>
         <?php endif; ?>
@@ -93,5 +95,5 @@ if(!isset($tn[1])){
   <?php endif; ?>
 </div>
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
-<?php print mw('content')->paging("num={$pages_count}&paging_param={$paging_param}") ?>
+<?php print paging("num={$pages_count}&paging_param={$paging_param}") ?>
 <?php endif; ?>

@@ -21,6 +21,10 @@
   if(isset($params['quick_edit'])){
     $is_quick = $params['quick_edit'];
   }
+  if($is_live_edit == true){
+	   $is_quick = false;
+  }
+  
   if(isset($params['just-saved'])){
     $just_saved = $params['just-saved'];
   }
@@ -47,7 +51,7 @@
   }
 
 /* END OF FILLING UP EMPTY CONTENT  */
-
+ 
 
 /* SETTING PARENT AND ACTIVE CATEGORY */
 
@@ -144,24 +148,12 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
  $module_id = $params['id'];
  
+ 
 ?>
 <?php if($just_saved!=false) : ?>
 
 
-  <div class="quick-post-done">
-    <h2>Well done, you have saved your changes. </h2>
-    <label class="mw-ui-label"><small>Go to see them at this link</small></label>
-    <div class="vSpace"></div>
-    <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
-    <div class="vSpace"></div>
-    <label class="mw-ui-label"><small>Or create new content again</small></label>
-    <div class="vSpace"></div>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a>
-  </div>
-
-
-
-
+  
 
 <?php endif; ?>
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content" id="quickform-<?php print $rand; ?>">
@@ -172,7 +164,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
     <div class="mw-ui-field-holder"  style="padding-bottom: 5px;">
 	    <span class="mw-title-field-label mw-title-field-label-<?php print $data['subtype']; ?>"></span>
 		<input
-              autofocus
+
               type="text"
               name="title"
               placeholder="<?php print $title_placeholder; ?>"
@@ -182,13 +174,13 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
           <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
           <div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published">
-             <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>Unpublished</span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>Published</span>
+             <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span><?php _e("Unpublished"); ?></span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span><?php _e("Published"); ?></span>
           </div>
     </div>
 
 	<div class="mw-ui-field-holder" style="padding: 0 0 1px;">
 		<div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
-			<input  style="width: 160px;" name="content_url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
+			<input  style="width: 160px;" name="content_url" id="edit-content-url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
 			<span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span>
         </div>
         <?php if($data['content_type'] == 'page'){ ?>
@@ -222,22 +214,19 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	</div>
 	<?php endif; ?>
 
-
-
-
-
 	<?php if($data['content_type'] == 'page'):  ?>
 	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 	<?php endif; ?>
 
 <div class="post-save-and-go-live">
     	<?php if($is_live_edit == false) : ?>
-        
-        	<button type="submit" class="mw-ui-btn mw-ui-btn-green right">Save</button>
-        	<button type="button" class="mw-ui-btn go-live" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Go Live Edit"); ?></button>
+        <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save & Go Live Edit"); ?></button>
+        	<button type="submit" class="mw-ui-btn "><?php _e("Save"); ?></button>
+        	
 
     	<?php else: ?> 
-    	        	<button type="button" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save"); ?></button>
+    	    <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>"><?php _e("Save & Go Live Edit"); ?></button>
+        	<button type="submit" class="mw-ui-btn "><?php _e("Save"); ?></button> 
 
         <?php endif; ?>
 
@@ -283,10 +272,38 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
         </div>
 	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
  </form>
-  <div class="quick_done_alert" style="display: none">
-  	<h2><span style="text-transform: capitalize"><?php print $data['subtype'] ?></span> has been created.</h2>
-  	<a href="javascript:;" class="mw-ui-link">Go to <?php print $data['subtype'] ?></a>
-      <span class="mw-ui-btn" onclick="$(mw.tools.firstParentWithClass(this, 'mw-inline-modal')).remove();">Create New</span>
+  <div class="quick_done_alert" style="display: none" id="post-added-alert-<?php print $rand; ?>">
+   
+	  
+	  
+	  
+	  <div class="quick-post-done">
+    <h2>Well done, you have saved your changes. </h2>
+    <label class="mw-ui-label"><small>Go to see them at this link</small></label>
+    <div class="vSpace"></div>
+    <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
+    <div class="vSpace"></div>
+    <label class="mw-ui-label"><small>Or choose an action below</small></label>
+    <div class="vSpace"></div>
+	<a href="javascript:;" class="mw-ui-btn" onclick="mw.edit_content.close_alert();">Continue editing</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a>
+  </div>
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
   </div>
 <script>
     mw.require("content.js");
@@ -304,9 +321,19 @@ mw.edit_content.saving = false;
 
 
 mw.edit_content.create_new = function(){
-   mw.$('[data-type="content/quick"]').attr("content-id", "0");
-    mw.reload_module('content/quick');
+   mw.$('#<?php print $module_id ?>').attr("content-id", "0");
+   mw.$('#<?php print $module_id ?>').removeAttr("just-saved");
+
+   mw.reload_module('#<?php print $module_id ?>');
 };
+
+mw.edit_content.close_alert = function(){
+   	 mw.$('#quickform-<?php print $rand; ?>').show();
+	 mw.$('#post-added-alert-<?php print $rand; ?>').hide();
+
+};
+
+ 
 
 mw.edit_content.load_editor  = function(element_id){
 	 var element_id =  element_id || 'quick_content_<?php print $rand ?>';
@@ -343,33 +370,58 @@ mw.edit_content.before_save = function(){
 		window.parent.mw.askusertostay=false;
 	}
 }
-mw.edit_content.after_save = function(){
+mw.edit_content.after_save = function(saved_id){
 	mw.askusertostay=false;
 	var content_id =  mw.$('#mw-content-id-value').val();
+	
+	var quick_add_holder = mwd.getElementById('mw-quick-content');
+ 	if(quick_add_holder != null){
+ 	mw.tools.removeClass(quick_add_holder, 'loading');
+	}
+
+	
 	if(content_id == 0){
-	    mw.reload_module('#<?php print $module_id ?>', function(){
-	       mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
-	    });
- 	}
+			if(saved_id !== undefined){
+ 		    mw.$('#mw-content-id-value').val(saved_id);
+ 			}
+			<?php if($is_quick!=false) : ?>
+			 mw.$('#quickform-<?php print $rand; ?>').hide();
+			 mw.$('#post-added-alert-<?php print $rand; ?>').show();
+			<?php endif; ?>
+			
+			
+ 	   // mw.reload_module('#<?php print $module_id ?>');
+  	}
+	 
 	if(parent !== self && !!parent.mw){
-        parent.mw.reload_module(['posts', 'shop/products', 'pages','content'], function(){
-           mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
-        });
+     //   mw.reload_module_parent(['posts', 'shop/products', 'pages','content']);
+		    mw.reload_module_parent('posts');
+			mw.reload_module_parent('shop/products');
+			mw.reload_module_parent('pages');
+			mw.reload_module_parent('content');
+		    mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+		
+		
     	parent.mw.askusertostay=false;
     	<?php if($is_current!=false) :  ?>
     	if(window.parent.mw.history != undefined){
-    		window.parent.mw.history.load('latest_content_edit');
+ 			setTimeout(function(){
+ 				window.parent.mw.history.load('latest_content_edit');
+				},200);
+
+    		
     	}
     	<?php endif; ?>
+	} else {
+		mw.reload_module('[data-type="pages"]', function(){
+			if( mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0 ){
+				mw.$("#pages_tree_toolbar").removeClass("activated");
+				mw.treeRenderer.appendUI('#pages_tree_toolbar');
+				mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+			}
+			mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+		 });
 	}
-	mw.reload_module('[data-type="pages"]', function(){
-        if( mw.$("#pages_tree_toolbar .mw_del_tree_content").length === 0 ){
-            mw.$("#pages_tree_toolbar").removeClass("activated");
-            mw.treeRenderer.appendUI('#pages_tree_toolbar');
-            mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
-        }
-        mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
-     });
 }
 
 mw.edit_content.set_category = function(id){
@@ -441,25 +493,37 @@ mw.edit_content.handle_form_submit = function(go_live){
               if(parent !== self && !!window.parent.mw){
                  window.parent.mw.askusertostay=false;
               }
+			  
+			  
+			  
               if(go_live_edit != false){
                 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
-                  if(mw.notification != undefined){
-                    mw.notification.success('Going to live edit...', 5000);
-                  }
+                  
                   window.top.location.href = data+'/editmode:y';
                 });
               }
               else {
+				  
+				  $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
+					  if(data == null){
+						return false;  
+					  }
+					  var slug = data.replace("<?php print site_url() ?>", "").replace("/", "")
+					  mw.$("#edit-content-url").val(slug);
+					  mw.$(".view-post-slug").html(slug);
+                   	  mw.$("a.quick-post-done-link").attr("href",data+'/editmode:y');
+			 		  mw.$("a.quick-post-done-link").html(data);
+                 });
                   mw.$("#<?php print $module_id ?>").attr("content-id",this);
                   <?php if($is_quick !=false) : ?>
-                  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
+                //  mw.$("#<?php print $module_id ?>").attr("just-saved",this);
                   <?php else: ?>
                   if(self === parent){
                     //var type =  el['subtype'];
                     mw.url.windowHashParam("action", "editpage:" + this);
                   }
                   <?php endif; ?>
-                  mw.edit_content.after_save();
+                  mw.edit_content.after_save(this);
               }
               mw.edit_content.saving = false;
           },
@@ -495,7 +559,11 @@ mw.edit_content.handle_form_submit = function(go_live){
           mw.edit_content.handle_form_submit();
           return false;
         });
-
+		
+		
+		<?php if($data['id']!=0) : ?>
+		mw.$(".mw-admin-go-live-now-btn").attr('content-id',<?php print $data['id']; ?>);
+		<?php endif; ?>
 		/* reloading the editor on parent change */
 		 
        mw.$('#mw-parent-page-value').bind('change', function(e){

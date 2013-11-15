@@ -14,6 +14,16 @@ mw.iframecallbacks = {
 
          mw.askusertostay = true;
 
+         if(!!mw.current_element && mw.current_element.nodeName === 'IMG'){
+            if( mw.current_element.parentNode.nodeName !== 'A'){
+              $(mw.current_element).wrap("<a href='"+url+"' target='"+target+"'></a>");
+            }
+            else{
+                mw.current_element.parentNode.href = url;
+                mw.current_element.parentNode.target = target;
+            }
+         }
+
          if(range.commonAncestorContainer.nodeName === 'A'){
             $(range.commonAncestorContainer).attr("href", url).attr("target", target);
             return false;
@@ -84,5 +94,10 @@ mw.iframecallbacks = {
     }
 
 }
+
+
+
+
+
 
 

@@ -28,25 +28,25 @@
     <body>
 <div id="header" class="clearfix">
       <div class="container">
-      <div class="edit" rel="global" field="header1">
-        <div class="mw-row">
-            <div class="mw-col" style="width: 20%">
-                <div class="mw-col-container">
-                    <div class="brand element" id="logo"><a href="<?php print site_url(); ?>">New World</a></div>
-                </div>
-            </div>
-            <div class="mw-col" style="width: 45%">
-                <div class="mw-col-container">
-                    <module type="menu" name="header_menu" id="main-navigation" template="pills"  />
-                </div>
-            </div>
-            <div class="mw-col" style="width: 35%">
-                <div class="mw-col-container">
-                    <module type="shop/cart" template="small" />
-                </div>
-            </div>
+        <div class="edit" rel="global" field="header1">
+          <div class="mw-row">
+              <div class="mw-col" style="width: 20%">
+                  <div class="mw-col-container">
+                      <div class="brand element" id="logo"><a href="<?php print site_url(); ?>">New World</a></div>
+                  </div>
+              </div>
+              <div class="mw-col" style="width: 45%">
+                  <div class="mw-col-container">
+                      <module type="menu" name="header_menu" id="main-navigation" template="pills"  />
+                  </div>
+              </div>
+              <div class="mw-col" style="width: 35%">
+                  <div class="mw-col-container">
+                      <module type="shop/cart" template="small" />
+                  </div>
+              </div>
+          </div>
         </div>
-      </div>
   </div>
     </div>
 <!-- /#header --> 

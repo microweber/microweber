@@ -75,7 +75,7 @@ class Layouts
             } else {
                 $the_active_site_template = $this->app->option->get('current_template', 'template');
             }
-            if ($the_active_site_template == '') {
+            if ($the_active_site_template == '' or $the_active_site_template == 'mw_default') {
                 $the_active_site_template = 'default';
             }
             $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
@@ -708,27 +708,35 @@ class Layouts
 
                     }
                 }
-                $params = array_merge($sort_params,$sort_params2);
+                $params = array_merge($sort_params, $sort_params2);
 
 
                 foreach ($params as $item) {
-
+                    $curr = "";
                     if (!isset($item["css"]) and isset($item["property"]) and isset($item['value'])) {
-                        if (isset($item['selector']) and trim($item['selector']) == '@import' and isset($item["value"])) {
-                            $props = explode(',', $item['property']);
-                            $curr = "";
-                            foreach ($props as $prop) {
-                                $curr .= $prop . " " . $item['value'] . ";";
-                            }
+
+                        if ($item['value'] == 'reset') {
+                            $item["css"] = 'reset';
                         } else {
-                            $props = explode(',', $item['property']);
-                            $curr = "";
-                            foreach ($props as $prop) {
-                                $curr .= $prop . ":" . $item['value'] . ";";
+                            if (isset($item['selector']) and trim($item['selector']) == '@import' and isset($item["value"])) {
+                                $props = explode(',', $item['property']);
+
+                                foreach ($props as $prop) {
+                                    $curr .= $prop . " " . $item['value'] . ";";
+                                }
+                            } else {
+                                $props = explode(',', $item['property']);
+                                $curr = "";
+                                foreach ($props as $prop) {
+                                    $curr .= $prop . ":" . $item['value'] . ";";
+                                }
+                            }
+                            if ($curr != '') {
+                                $item["css"] = $curr;
                             }
                         }
 
-                        $item["css"] = $curr;
+
                     }
 
 
@@ -743,11 +751,10 @@ class Layouts
                         $item["css"] = str_ireplace('background-image:url(;', '', $item["css"]);
 
 
-
                         $sel = trim($item['selector']);
                         $css = trim($item["css"]);
 
-                        if (trim($sel) != '' and strlen($sel) > 2 and strlen($css) > 2) {
+                        if (trim($sel) != '' and  strlen($sel) > 2 and strlen($css) > 2) {
 
                             $delim = "\n /* $sel */ \n";
 
@@ -773,12 +780,13 @@ class Layouts
 
 
                             $css_cont_new .= $delim;
-                            if (isset($sel) and trim($sel) == '@import') {
-                                $css_cont_new .= $sel . ' ' . $item["css"] . ' ';
-                            } else {
-                                $css_cont_new .= $sel . ' { ' . $item["css"] . ' }';
+                            if (trim($item["css"]) != 'reset' and trim($item["css"]) != 'reset;') {
+                                if (isset($sel) and trim($sel) == '@import') {
+                                    $css_cont_new .= $sel . ' ' . $item["css"] . ' ';
+                                } else {
+                                    $css_cont_new .= $sel . ' { ' . $item["css"] . ' }';
+                                }
                             }
-
                             $css_cont_new .= $delim;
                         }
                     }
@@ -789,6 +797,7 @@ class Layouts
                 if ($css_cont_new != '' and $css_cont != $css_cont_new) {
 
                     file_put_contents($live_edit_css, $css_cont_new);
+                    print $css_cont_new;
                 }
             }
         }

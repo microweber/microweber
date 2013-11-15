@@ -72,9 +72,9 @@ $(document).ready(function(){
   <div class="mw-box-content" id="admin_login">
     <?php if($user != false): ?>
     <div>Welcome <?php print user_name(); ?> </div>
-    <a href="<?php print site_url() ?>"><?php _e("Go to"); ?> <?php print site_url() ?></a> <a href="<?php print site_url('api/logout') ?>" ><?php _e("Log Out"); ?></a>
+    <a href="<?php print site_url() ?>"><?php _e("Go to"); ?> <?php print site_url() ?></a> <a href="<?php print api_link('logout') ?>" ><?php _e("Log Out"); ?></a>
     <?php else:  ?>
-    <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>"  action="<?php print site_url('api/user_login') ?>"  >
+    <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>"  action="<?php print api_link('user_login') ?>"  >
       <div class="mw-ui-field-holder">
         <input  class="mw-ui-field" autofocus="" tabindex="1" required  name="username" type="text" placeholder="<?php _e("Username or Email"); ?>" <?php if(isset($_REQUEST['username']) != false): ?> value="<?php print $_REQUEST['username'] ?>"  <?php endif;  ?>  />
       </div>

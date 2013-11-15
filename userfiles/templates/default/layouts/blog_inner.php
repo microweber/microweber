@@ -1,16 +1,4 @@
-<?php
-/*
-
-type: layout
-content_type: post
-name: Blog post
-position: 4
-description: Post inner layout
-
-*/
-?>
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
-
 <div class="container" id="blog-container">
 	<div  id="blog-content-<?php print CONTENT_ID; ?>">
 		<div class="row">

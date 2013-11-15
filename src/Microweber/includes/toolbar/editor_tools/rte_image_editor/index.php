@@ -431,7 +431,7 @@ mw.embed = {
 <div class="mw_simple_tabs mw_tabs_layout_simple" id="image_tabs">
   <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;">My Computer</a></li>
-    <li><a href="javascript:;" onmouseup="mw.$('#media_search_field').focus();"><?php _e("URL"); ?></a></li>
+    <li><a href="javascript:;"><?php _e("URL"); ?></a></li>
     <li><a href="javascript:;">Uploaded</a></li>
   </ul>
 

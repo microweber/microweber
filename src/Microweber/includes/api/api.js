@@ -343,6 +343,7 @@ mw.askusertostay = false;
   }
 
   mw.loadModuleData = function(name, update_element, callback, attributes){
+
     var attributes = attributes || {};
     attributes.module = name;
     mw._({
@@ -376,6 +377,7 @@ mw.askusertostay = false;
     }
   }
   mw.reload_module = function(module, callback) {
+
     if(module.constructor === [].constructor){
         var l = module.length, i=0, w = 1;
         for( ; i<l; i++){
@@ -431,9 +433,11 @@ mw.askusertostay = false;
   }
 
 
-  mw._ = function(obj, sendSpecific, DONOTREPLACE) {
+  mw["_"] = function(obj, sendSpecific, DONOTREPLACE) {
+	  
+	  
     if(mw.on != undefined){
-    mw.on.DOMChangePause = true;
+        mw.on.DOMChangePause = true;
     }
     var DONOTREPLACE = DONOTREPLACE || false;
     var sendSpecific = sendSpecific || false;
@@ -446,6 +450,7 @@ mw.askusertostay = false;
         mw.session.checkPause = true;
       }
     var attrs = $(obj.selector)[0].attributes;
+	 
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
       attrs["data-module-name"] !== undefined ? to_send["data-module-name"] = attrs["data-module-name"].nodeValue : "";
@@ -466,6 +471,18 @@ mw.askusertostay = false;
     }
 
 
+
+     var b = true;
+     for (var a in to_send) {
+        if(to_send.hasOwnProperty(a)) { var b = false; };
+     }
+
+
+    if(b){
+      mw.tools.removeClass(mwd.body, 'loading');
+      return false;
+    }
+
     $.post(url, to_send, function(data) {
 
 
@@ -479,7 +496,23 @@ mw.askusertostay = false;
           return false;
       }
       $(selector).after(data);
-      var id = to_send.id || $(selector).next()[0].id;
+
+      if(typeof to_send.id  !== 'undefined'){
+         var id = to_send.id;
+      }
+      else{
+        if($(selector).next().length>0){
+            var id = $(selector).next()[0].id;
+        }
+        else{
+          var id = false;
+        }
+      }
+
+
+
+      if(!id){  return false; }
+
       $(selector).remove();
 
       typeof mw.resizable_columns === 'function' ? mw.resizable_columns() : '';

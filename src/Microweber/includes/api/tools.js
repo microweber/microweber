@@ -91,6 +91,8 @@ mw.simpletab = {
   set:function(el){
       if(!$(el).hasClass('active')){
         var ul = mw.tools.firstParentWithClass(el, 'mw_simple_tabs_nav');
+
+        if(ul===null || typeof ul === 'undefined' || !ul){ return false; }
         var master = mw.tools.firstParentWithClass(ul, 'mw_simple_tabs');
         $(ul.querySelector('.active')).removeClass('active');
         $(el).addClass('active');
@@ -166,8 +168,8 @@ mw.tools = {
         + '<div class="mw-defaults mw_modal mw_modal_maximized '+template+'" id="'+id+'">'
           + '<div class="mw_modal_toolbar">'
             + '<span class="mw_modal_title"></span>'
-            + '<span class="mw_modal_close" onclick="mw.tools.modal.remove(\''+id+'\')">Close</span>'
-            //+ '<span class="mw_modal_minimize" onclick="mw.tools.modal.minimax(\''+id+'\');"></span>'
+            + '<span class="mw_modal_close" onmousedown="mw.tools.modal.remove(\''+id+'\')">Close</span>'
+            //+ '<span class="mw_modal_minimize" onmousedown="mw.tools.modal.minimax(\''+id+'\');"></span>'
           + '</div>'
           + '<div class="mw_modal_container">'
           + '</div>'
@@ -268,7 +270,6 @@ mw.tools = {
       return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable);
     },
     minimize:function(id){
-
         var doc = mwd;
         var modal = mw.$("#"+id);
         var window_h = $(doc.defaultView).height();
@@ -291,7 +292,6 @@ mw.tools = {
         if(typeof $.fn.draggable === 'function'){
           modal.draggable("option", "disabled", true);
         }
-
     },
     maximize:function(id){
        var modal = $("#"+id);
@@ -1464,6 +1464,7 @@ mw.tools = {
 
                   setTimeout(function(){
                       label.scrollIntoView(false);
+
                       mw.tools.highlightStop(mw.$(".highlighted").removeClass("highlighted"));
                       mw.tools.highlight(label);
                       $(label).addClass("highlighted");
@@ -2865,12 +2866,7 @@ mw.isDragItem = mw.isBlockLevel = function(obj){
 
 
 
-mw.help = function(a){
 
-    return mw.tools.modal.frame({
-        url:"//microweber.com/help/"+a+".php"
-    });
-}
 
 
 
@@ -2926,14 +2922,14 @@ document.isHidden = function(){
 
 mw.storage = {
         init:function(){
-          if(!('localstorage' in window)) return false;
+          if(!('localstorage' in mww)) return false;
           var mw = localStorage.getItem("mw");
           var mw = mw === null ? (localStorage.setItem("mw", "{}")) : mw;
           this.change("INIT");
           return mw;
         },
         set:function(key, val){
-            if(!('localstorage' in window)) return false;
+            if(!('localstorage' in mww)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             curr[key] = val;
             var a = localStorage.setItem("mw", JSON.stringify(curr))
@@ -2941,15 +2937,15 @@ mw.storage = {
             return a;
         },
         get:function(key){
-           if(!('localstorage' in window)) return false;
+           if(!('localstorage' in mww)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             return curr[key];
         },
         _keys : {},
         change:function(key, callback, other){
-          if(!('localstorage' in window)) return false;
+          if(!('localstorage' in mww)) return false;
           if(key ==='INIT' ){
-              window.addEventListener('storage', function(e){
+              mww.addEventListener('storage', function(e){
                   if(e.key==='mw'){
                      var _new = JSON.parse(e.newValue);
                      var _old = JSON.parse(e.oldValue);
@@ -2989,13 +2985,13 @@ mw.storage = {
 
 
 
-    ///  TESTS
-      mw.storage.init();
-      mw.storage.change("reload_module", function(){
-          if( this!= ''){
-              mw.reload_module(this.toString());
-          }
-      });
+///  TESTS
+  mw.storage.init();
+  mw.storage.change("reload_module", function(){
+      if( this!= ''){
+          mw.reload_module(this.toString());
+      }
+  });
 
 
 
@@ -3033,7 +3029,7 @@ mw.beforeleave_html = ""
     + "</div>";
 
 mw.beforeleave = function(url){
-    if(mw.askusertostay){
+    if(mw.askusertostay && mw.$(".edit.orig_changed").length > 0){
         if(mwd.getElementById('modal_beforeleave') === null){
             var modal = mw.tools.modal.init({
                html:mw.beforeleave_html,

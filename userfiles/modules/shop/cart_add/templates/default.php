@@ -20,7 +20,7 @@ description: Add to cart default
 
 <div class="mw-price-item">
   
-  <span class="mw-price pull-left"><?php print  $key ?>: <?php print mw('shop')->currency_format($v); ?></span>
+  <span class="mw-price pull-left"><?php if(is_string($key) and trim(strtolower($key)) == 'price'): ?><?php _e($key); ?><?php else: ?><?php print $key; ?><?php endif; ?>: <?php print currency_format($v); ?></span>
   
   <?php if(!isset( $in_stock) or  $in_stock == false) : ?>
 <button class="btn pull-right" type="button" disabled="disabled" onclick="Alert('<?php print addslashes(_e("This item is out of stock and cannot be ordered",true)); ?>');"><i class="icon-shopping-cart"></i> <?php _e("Out of stock"); ?></button>

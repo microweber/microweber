@@ -22,7 +22,7 @@ if(isset($params['no-parent-title'])){
 $top_item = false;
 if(isset($params['recommended-id']) and $params['recommended-id'] != false){
   $recommended_parent = $params['recommended-id'];
-  $top_item = mw('content')->get_by_id(intval($recommended_parent));
+  $top_item = get_content_by_id(intval($recommended_parent));
 }
 
  
@@ -63,6 +63,6 @@ if(isset($params['change-field'])){ ?>
         $pt_opts['remove_ids'] = $params['remove_ids'];
     }
     $pt_opts['active_code_tag'] = '   selected="selected"  ';
-    mw('content')->pages_tree($pt_opts);
+    pages_tree($pt_opts);
 ?>
 </select>

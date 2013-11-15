@@ -1042,6 +1042,7 @@ class Db
                     return $results;
                 }
             }
+
         }
 
 
@@ -2691,82 +2692,102 @@ class Db
 
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
-";
-            //
-            //if (isset($_GET['debug'])) {
-
+            ";
             $this->q($sql);
-            //}
+
         }
 
-        if ($table_name != 'firecms_sessions') {
-            if (empty($column_for_not_drop))
-                $column_for_not_drop = array('id');
+        if (empty($column_for_not_drop))
+            $column_for_not_drop = array('id');
 
-            $sql = "show columns from $table_name";
+        $sql = "show columns from $table_name";
 
-            $columns = $this->query($sql);
+        $columns = $this->query($sql);
 
-            $exisiting_fields = array();
-            $no_exisiting_fields = array();
-            if (is_array($columns)) {
-                foreach ($columns as $fivesdraft) {
-                    if (is_array($fivesdraft)) {
-                        $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
-                        $exisiting_fields[strtolower($fivesdraft['field'])] = true;
-                    }
+        $exisiting_fields = array();
+        $no_exisiting_fields = array();
+        if (is_array($columns)) {
+            foreach ($columns as $fivesdraft) {
+                if (is_array($fivesdraft)) {
+                    $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
+                    $exisiting_fields[strtolower($fivesdraft['field'])] = true;
                 }
             }
+        }
 
-            for ($i = 0; $i < count($columns); $i++) {
-                $column_to_move = true;
-                for ($j = 0; $j < count($fields_to_add); $j++) {
-                    if (is_array($columns) and in_array($columns[$i]['Field'], $fields_to_add[$j])) {
-                        $column_to_move = false;
-                    }
+        for ($i = 0; $i < count($columns); $i++) {
+            $column_to_move = true;
+            for ($j = 0; $j < count($fields_to_add); $j++) {
+                if (is_array($columns) and in_array($columns[$i]['Field'], $fields_to_add[$j])) {
+                    $column_to_move = false;
                 }
-                $sql = false;
-                if ($column_to_move) {
-                    if (!empty($column_for_not_drop)) {
-                        if (isset($columns[$i]) and is_array($columns[$i]) and !in_array($columns[$i]['Field'], $column_for_not_drop)) {
-                            $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
-                        }
-                    } else {
+            }
+            $sql = false;
+            if ($column_to_move) {
+                if (!empty($column_for_not_drop)) {
+                    if (isset($columns[$i]) and is_array($columns[$i]) and !in_array($columns[$i]['Field'], $column_for_not_drop)) {
                         $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
                     }
-
-
-                    if ($sql) {
-                        $this->q($sql);
-
-                    }
                 }
-            }
 
-            foreach ($fields_to_add as $the_field) {
-                $the_field[0] = strtolower($the_field[0]);
-
-                $sql = false;
-                if (!isset($exisiting_fields[$the_field[0]])) {
-
-                    $sql = "alter table $table_name add column " . $the_field[0] . " " . $the_field[1] . "";
-
+                if ($sql) {
                     $this->q($sql);
-                } else {
-//                     $sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
-//                    d($sql);
-//                    $this->q($sql);
 
                 }
-
             }
-
         }
 
+        foreach ($fields_to_add as $the_field) {
+            $the_field[0] = strtolower($the_field[0]);
+            if (isset($the_field[1])) {
+                $field_type = strtolower(trim($the_field[1]));
+                switch ($field_type) {
+                    case 'text':
+                    case 'content':
+                        $the_field[1] = 'longtext default NULL';
+                        break;
+                    case 'title':
+                        $the_field[1] = 'text default NULL';
+                        break;
+                    case 'char':
+                    case 'character':
+                        $the_field[1] = 'char(1) default NULL';
+                        break;
+                    case 'varchar':
+                    case 'shorttext':
+                    case 'smalltext':
+                        $the_field[1] = 'varchar(255) default NULL';
+                        break;
+                    case 'int':
+                    case 'integer':
+                        $the_field[1] = 'int(11) default NULL';
+                        break;
+                    case 'datetime':
+                        $the_field[1] = 'datetime default NULL';
+                        break;
+                    case 'date':
+                        $the_field[1] = 'date default NULL';
+                        break;
+                    case 'time':
+                        $the_field[1] = 'time default NULL';
+                        break;
+                }
+            }
+
+            $sql = false;
+            if (!isset($exisiting_fields[$the_field[0]])) {
+                $sql = "alter table $table_name add column " . $the_field[0] . " " . $the_field[1] . "";
+                $this->q($sql);
+            } else {
+//                     $sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
+//                    $this->q($sql);
+
+            }
+        }
+
+
         $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, false);
-        // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
-        //set_db_tables
     }
 
     public function real_table_name($assoc_name)
@@ -2917,10 +2938,10 @@ class Db
             $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
             $new = str_replace($search, $replace, $value);
 
-          //  $new = strip_tags(html_entity_decode($new));
+            //  $new = strip_tags(html_entity_decode($new));
 
-           // $new = str_replace("'", '', $new);
-           // $new = str_replace('"', '', $new);
+            // $new = str_replace("'", '', $new);
+            // $new = str_replace('"', '', $new);
 
             $this->mw_escaped_strings[$str_crc] = $new;
             return $new;

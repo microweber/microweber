@@ -550,7 +550,7 @@ form.add-edit-page-post textarea{
 
 
 .manage-post-image-no-image{
-    background-color: #8B8B8B;
+    background-color: #F4F4F4;
 }
 
 
@@ -2909,6 +2909,7 @@ a.module-icon-title{
 }
 .dashboard-top-row{
   background:#F5f5f5;
+  background:white;
   border-bottom: 1px solid #E5E5E5;
 }
 

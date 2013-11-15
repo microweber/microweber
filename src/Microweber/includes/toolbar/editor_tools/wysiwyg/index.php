@@ -44,7 +44,7 @@ PrepareEditor = function(){
 
 $(window).load(function(){
 
-scaleHeight()
+scaleHeight();
     __area = mwd.getElementById('mw-iframe-editor-area');
    $(window).resize(function(){
    scaleHeight()

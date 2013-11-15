@@ -54,6 +54,8 @@ mw.options = {
 				    var refresh_modules12 =  el.attr('data-refresh');
 				}
 
+var also_reload = el.attr('data-reload');
+
 
                 var modal = el.getModal().container;
 
@@ -166,10 +168,19 @@ mw.options = {
 						
 						
 						if(also_reload != undefined){
+							
+							
+							 
+						 
+							
 							if (window.mw != undefined && reaload_in_parent !== true) {
                                 if (window.mw.reload_module !== undefined) {
  
 									window.mw.reload_module(also_reload, function(reloaded_el){
+
+										mw.options.form(reloaded_el, callback);
+									});
+									window.mw.reload_module('#'+also_reload, function(reloaded_el){
 
 										mw.options.form(reloaded_el, callback);
 									});
@@ -187,33 +198,26 @@ mw.options = {
 								
 								
 								
-                                if (window.mw.reload_module !== undefined) {
-	
-									window.mw.reload_module('#'+for_m_id, function(reloaded_el){
-
-										mw.options.form(reloaded_el, callback);
-									});
-                                }
+                                //if (window.mw.reload_module !== undefined) {
+//	
+//									window.mw.reload_module('#'+for_m_id, function(reloaded_el){
+//
+//										mw.options.form(reloaded_el, callback);
+//									});
+//                                }
                             }
                         } else if (reaload_in_parent !== true && refresh_modules11 != undefined && refresh_modules11 != '') {
                             refresh_modules11 = refresh_modules11.toString()
+							
+							//mw.log(refresh_modules11);
+							
                             if (window.mw != undefined) {
 							
 							 
 								if(reaload_in_parent !== true){
                                 if (window.mw.reload_module !== undefined) {
-									 
-										if (window.parent.mw.reload_module != undefined) {
-											 window.parent.mw.reload_module(refresh_modules11);
-											 window.parent.mw.reload_module("#"+refresh_modules11);
-										} else {
-										window.mw.reload_module(refresh_modules11, function(reloaded_el){
-	
-											mw.options.form(reloaded_el, callback);
-										});
-									
-									}
-								 	 
+									 mw.reload_module_parent(refresh_modules11);
+									   mw.reload_module_parent("#"+refresh_modules11);
 
                                 }
 								

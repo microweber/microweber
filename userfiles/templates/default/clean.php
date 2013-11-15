@@ -6,6 +6,7 @@ type: layout
 content_type: static
 name: Clean
 position: 2
+is_default: true
 description: Clean layout
 
 */

@@ -38,7 +38,7 @@ mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);
                     <label><?php _e("Enter Security code"); ?></label>
                     <div class="captcha-holder">
                       <input name="captcha" type="text" required class="mw-captcha-input"/>
-                      <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $form_id; ?>" src="<?php print mw('url')->api_link('captcha') ?>" />
+                      <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $form_id; ?>" src="<?php print api_link('captcha') ?>" />
                       <span class="ico irefresh" onclick="mw.tools.refresh_image(mwd.getElementById('captcha-<?php print $form_id; ?>'));"></span>
                     </div>
                     <input type="submit" class="cft-submit pull-right" style="margin-left: 12px;"  value="<?php _e("Send Message"); ?>" />

@@ -2,6 +2,9 @@
 
     if(typeof __smart_field_opener !== 'function'){
           __smart_field_opener = function(e){
+			  if(e === undefined){
+				return;	
+				}
             if(mw.tools.hasClass(e.target.className, 'mw-ui-field') || mw.tools.hasClass(e.target.className, 'mw-custom-fields-from-page-title-text')){
                 mw.tools.toggle('.custom_fields_selector', '#smart_field_opener');
             }
@@ -42,7 +45,7 @@
 
   if(isset($params['save_to_content_id'])){
 		 //
-			 $diff = mw('fields')->get($for,$params['save_to_content_id'],1,false,false, false, true);
+			 $diff = get_custom_fields($for,$params['save_to_content_id'],1,false,false, false, true);
 
 		  }
 		  
@@ -59,7 +62,7 @@ if(isset($params['default-fields'])){
 	mw('fields')->make_default($for,$params['for_module_id'],$params['default-fields']);
 }
 
-	$more = mw('fields')->get($for,$params['for_module_id'],1,false,false);
+	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);
  
  $custom_custom_field_names_for_content = array();
 if(is_array( $diff) and is_array($more) ){
@@ -102,7 +105,7 @@ if(is_array( $diff) and is_array($more) ){
 <?php if(!empty( $more)):  ?>
  <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
   <?php if(isset($params['save_to_content_id']) and isset($params["rel_id"]) and intval(($params["rel_id"]) > 0)): ?>
-  <?php $p = mw('content')->get_by_id($params["rel_id"]); ?>
+  <?php $p = get_content_by_id($params["rel_id"]); ?>
   <?php if(isset($p['title'])): ?>
   <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
     <?php _e("From"); ?>

@@ -394,18 +394,53 @@ class Category
         if (defined(PAGE_ID)) {
          //   $function_cache_id .= PAGE_ID;
         }
+		$active_cat=false;
         if (defined(CATEGORY_ID)) {
-           // $function_cache_id .= CATEGORY_ID;
+            $function_cache_id .= CATEGORY_ID;
         }
+		
+		
+		$cat_url = $this->app->url->param('category', true);
+		if ($cat_url != false) {
+            $function_cache_id .= $cat_url; 
+			$active_cat=$cat_url;
+        } else {
+		
+		$cat_url = $this->app->url->param('categories', true);
+		if ($cat_url != false) {
+            $function_cache_id .= $cat_url; 
+			
+			
+			
+        }
+			
+		}
+	
+		
+		
         $cache_group = 'categories/global';
-         $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
        // $cache_content = false;
 
 
-         if (($cache_content) != false) {
-            print $cache_content;
-            return;
+        if (isset($params['nest_level'])) {
+            $depth_level_counter = $params['nest_level'];
+        } else {
+            $depth_level_counter = 0;
         }
+
+
+        $nest_level_orig = $depth_level_counter;
+
+        if ($nest_level_orig == 0) {
+            $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+            if (($cache_content) != false) {
+                print $cache_content;
+                return;
+            }
+
+        }
+
+
 
         $link = isset($params['link']) ? $params['link'] : false;
 
@@ -414,12 +449,14 @@ class Category
         }
         $link = str_replace('data-page-id', 'data-category-id', $link);
 
-        $active_ids = isset($params['active_ids']) ? $params['active_ids'] : array(CATEGORY_ID);
+        $active_ids = isset($params['active_ids']) ? $params['active_ids'] : array($active_cat);
         if (isset($params['active_code'])) {
             $active_code = $params['active_code'];
         } else {
             $active_code = " active ";
         }
+		
+		
 
         if (isset($params['remove_ids'])) {
             $remove_ids = $params['remove_ids'];
@@ -533,11 +570,8 @@ class Category
             $remove_ids = array($page['subtype_value']);
         }
 
-        if (isset($params['nest_level'])) {
-            $depth_level_counter = $params['nest_level'];
-        } else {
-            $depth_level_counter = 0;
-        }
+
+
 
         $max_level = false;
         if (isset($params['max_level'])) {
@@ -582,8 +616,9 @@ class Category
 
         $content = ob_get_contents();
         //if (!isset($_GET['debug'])) {
-
+        if ($nest_level_orig == 0) {
           $this->app->cache->save($content, $function_cache_id, $cache_group);
+        }
         //}
         ob_end_clean();
         print $content;
@@ -765,7 +800,7 @@ class Category
 
 
                 if (intval($parent) != 0 and intval($parent) == intval(CATEGORY_ID)) {
-                    $print1 = str_replace('{active_class}', 'active', $print1);
+                     $print1 = str_replace('{active_class}', 'active', $print1);
 
                 }
                 $print1 = str_replace('{active_class}', '', $print1);
@@ -849,7 +884,7 @@ class Category
                             //if(isset($item['parent']) and intval($item['parent']) != 0){
                             if (intval($item['parent_id']) != 0 and intval($item['parent_id']) == intval(CATEGORY_ID)) {
                                 $active_parent_class = 'active-parent';
-                                $active_class = 'active';
+                                $active_class = '';
 
                             } else {
                                 $active_parent_class = '';

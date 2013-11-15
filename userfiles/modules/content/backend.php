@@ -221,6 +221,7 @@ mw.on.hashParam("action", function(){
           mw_select_post_for_editing(arr[1]);
       }
   }
+
 });
 
 

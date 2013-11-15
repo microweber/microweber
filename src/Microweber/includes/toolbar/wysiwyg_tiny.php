@@ -1,4 +1,4 @@
-<div id="mw_small_editor" class="mw_editor">
+<div id="mw_small_editor" class="mw_editor mw_small_editor">
         <div class="mw_small_editor_top">
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_small" title="<?php _e("Font"); ?>" data-value="Arial">
               <span class="mw_dropdown_val_holder">
@@ -35,7 +35,8 @@
             </div>
             <span class="mw_dlm"></span>
             <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit/Remove Link"); ?>"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>
+            <span title="Remove Formatting" data-command="removeformat" class="mw_editor_btn mw_editor_remove_formatting"><span class="ed-ico"></span></span>
+            <?php /*<span class="mw_editor_btn mw_editor_image" data-command="custom-media" title="<?php _e("Insert Media"); ?>"><span class="ed-ico"></span></span>*/ ?>
             <div class="mw_clear">&nbsp;</div>
         </div>
         <div class="mw_small_editor_bottom">

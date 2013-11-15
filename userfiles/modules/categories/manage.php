@@ -1,7 +1,9 @@
 
-<label class="mw-ui-label"><?php _e("Select category to edit"); ?></label>
-
-<div class="mw-ui-category-selector mw-ui-manage-list" id="mw-ui-category-selector-manage" style="visibility: visible;display: block"><?php
+<label class="mw-ui-label">
+	<?php _e("Select category to edit"); ?>
+</label>
+<div class="mw-ui-category-selector mw-ui-manage-list" id="mw-ui-category-selector-manage" style="visibility: visible;display: block">
+	<?php
 $field_name="categories";
 $selected = 0;
 $tree = array();
@@ -9,11 +11,9 @@ $tree['ul_class'] = 'pages_tree cat_tree_live_edit';
 $tree['li_class'] = 'sub-nav';
 $tree['rel'] = 'content';
 $tree['link'] = "<a href='javascript:mw.load_quick_cat_edit({id})'><span class='ico icategory'></span>{title}</a>";
- mw('category')->tree($tree);
-?></div>
-
-
-
+ category_tree($tree);
+?>
+</div>
 <script type="text/javascript">
 mw.load_quick_cat_edit = function($id){
   $(mwd.body).addClass("loading");
@@ -40,7 +40,7 @@ mw.$("#<?php print $params['id'] ?>").sortable({
           var id = this.attributes['value'].nodeValue;
           obj.ids.push(id);
        });
-       $.post("<?php print site_url('api/category/reorder'); ?>", obj, function(){
+       $.post("<?php print api_link('category/reorder'); ?>", obj, function(){
           if(self !== parent && !!parent.mw){
             parent.mw.reload_module('categories');
           }
@@ -59,7 +59,8 @@ mw.$("#<?php print $params['id'] ?>").sortable({
 //mw.manage_cat_sort();
 
 
-</script>  <hr>
+</script>
+<hr>
 <a href='javascript:mw.load_quick_cat_edit(0)' class="mw-ui-btn"><span class="ico iplus"></span>Add new category</a>
-   <div class="vSpace"></div>
+<div class="vSpace"></div>
 <div id="mw_quick_edit_category"></div>
