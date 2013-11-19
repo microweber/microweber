@@ -865,3 +865,5 @@ $language["upload-audio-file-or-paste-url"]= 'Upload Audio File or paste URL.' ;
 $language["you-are-now-logged-in"]= 'You are now logged in' ; 
 $language["enter-source"]= 'Enter Source' ; 
 $language["values"]= 'Values' ; 
+$language["click-to-insert-embed-code"]= 'Click to insert Embed Code' ; 
+$language["insert-embed-code"]= 'Insert Embed Code' ; 

@@ -147,8 +147,8 @@ class Content
         } else {
             $link = ($link['url']);
         }
-
-        return $link;
+    
+  return $link;
     }
 
 
@@ -431,7 +431,7 @@ class Content
 
 
 
-        if (isset($page['active_site_template']) and ($page['active_site_template']) == 'default' or $page['active_site_template'] == 'mw_default' ) {
+        if (isset($page['active_site_template']) and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default' )) {
             $site_template_settings = $this->app->option->get('current_template', 'template');
             if ($site_template_settings != 'default' and $page['active_site_template'] == 'mw_default') {
                 $page['active_site_template'] = 'default';
