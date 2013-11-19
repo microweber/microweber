@@ -1,4 +1,5 @@
 <?php
+only_admin_access();
 
 $rand_id = md5(serialize($params)); ?>
 
