@@ -26,16 +26,19 @@ if ($autoplay == '') {
     $autoplay = '0';
 }
 
-
+ 
 if ($prior != '2') {
     if ($code != '') {
         $code = html_entity_decode($code);
         if (stristr($code, '<iframe') !== false) {
             $code = preg_replace('#\<iframe(.*?)\ssrc\=\"(.*?)\"(.*?)\>#i',
                 '<iframe$1 src="$2?wmode=transparent"$3>', $code);
-        }
-        if (video_module_is_embed($code) == true) {
-            print '<div class="mwembed">' . $code + '</div>';
+				 //print '<div class="mwembed">' . $code . '</div>';
+        } 
+		
+		
+		if(video_module_is_embed($code) == true) {
+            print '<div class="mwembed">' . $code . '</div>';
         } else {
             print video_module_url2embed($code, $w, $h, $autoplay);
         }
