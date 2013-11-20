@@ -69,20 +69,16 @@ class Content
         if (!defined("MW_DB_TABLE_TAXONOMY")) {
             define('MW_DB_TABLE_TAXONOMY', MW_TABLE_PREFIX . 'categories');
         }
-
         if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
             define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
         }
 
-
         if (!is_object($this->app)) {
-
             if (is_object($app)) {
                 $this->app = $app;
             } else {
                 $this->app = mw('application');
             }
-
         }
         if (!defined("MW_DB_TABLE_CONTENT_INIT")) {
             $this->db_init();
@@ -428,8 +424,6 @@ class Content
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
-
-
 
         if (isset($page['active_site_template']) and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default' )) {
             $site_template_settings = $this->app->option->get('current_template', 'template');

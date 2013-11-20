@@ -867,3 +867,4 @@ $language["enter-source"]= 'Enter Source' ;
 $language["values"]= 'Values' ; 
 $language["click-to-insert-embed-code"]= 'Click to insert Embed Code' ; 
 $language["insert-embed-code"]= 'Insert Embed Code' ; 
+$language["click-here-to-edit-the-ants"]= 'Click here to edit the Ants' ; 
