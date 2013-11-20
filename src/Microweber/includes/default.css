@@ -181,6 +181,10 @@ img.element{
   min-height: 200px;
   position: relative;
 }
+.mwembed{
+  min-height: 20px;
+}
+
 .mw-embed-iframe iframe, .mwembed iframe{
   max-width: 100%;
   max-height: 100%;

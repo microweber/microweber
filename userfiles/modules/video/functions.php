@@ -42,7 +42,9 @@ function video_module_url2embed($u, $w, $h, $autoplay){
         return false;
       }
       return '<div class="mwembed"><iframe frameborder="0" width="'.$w.'" height="'.$h.'" src="http://www.dailymotion.com/embed/video/'.$id[0].'/?autoPlay='.$autoplay.'"></iframe></div>';
-    }
+    } else {
+	return $u;	
+	}
 }
 
 
