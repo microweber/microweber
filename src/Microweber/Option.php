@@ -541,6 +541,9 @@ class Option
 
                 }
 //
+
+                $data['allow_html'] = true;
+
                 $save = $this->app->db->save($table, $data);
 
                 if ($option_group != false) {
