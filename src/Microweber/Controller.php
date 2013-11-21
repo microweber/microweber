@@ -830,7 +830,7 @@ class Controller
                 if (isset($meta['description']) and $meta['description'] != '') {
                     $meta['og_description'] = $meta['description'];
                 } else {
-                    $meta['og_description'] = trim($this->app->format->limit($this->app->format->clean_html($meta['content']), 300));
+                    $meta['og_description'] = trim($this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 300));
                 }
 
             } else {
@@ -852,12 +852,18 @@ class Controller
                 } else {
                     $meta['description'] = $this->app->option->get('website_description', 'website');
                 }
-                if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
+
+                if (isset($meta['description']) and $meta['description'] != '') {
+                    $meta['description'] = strip_tags($meta['description']);
+                }
+
+                    if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
                 } else {
                     $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
                 }
+                $meta = $this->app->format->clean_html($meta,true);
                 $l = str_replace('{content_meta_title}', addslashes($meta['title']), $l);
-                $l = str_replace('{content_meta_description}', addslashes($meta['description']), $l);
+                $l = str_replace('{content_meta_description}', addslashes(($meta['description'])), $l);
                 $l = str_replace('{content_meta_keywords}', addslashes($meta['content_meta_keywords']), $l);
 
                 $l = str_replace('{content_image}', ($meta['content_image']), $l);

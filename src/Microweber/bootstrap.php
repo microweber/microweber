@@ -9,7 +9,7 @@ if (!defined('MW_ROOTPATH')) {
 
 
 if (!defined('MW_VERSION')) {
-    define('MW_VERSION', 0.912); 
+    define('MW_VERSION', 0.912);
 }
 
 if (version_compare(phpversion(), "5.3.0", "<=")) {
@@ -54,12 +54,11 @@ if (!defined('MW_CACHE_ROOT_DIR')) {
 }
 if (!defined('MW_CACHE_DIR')) {
     $mw_cache_subfolder = 'mw_cache';
-    if(defined('MW_CONFIG_FILE')){
-        $mw_cache_subfolder = 'mw_cache'.crc32(MW_CONFIG_FILE);
+    if (defined('MW_CONFIG_FILE')) {
+        $mw_cache_subfolder = 'mw_cache' . crc32(MW_CONFIG_FILE);
     }
-
-   // if (isset($_SERVER["SERVER_NAME"])) {
-     //   $mw_cache_subfolder = str_replace('.', '_', $_SERVER["SERVER_NAME"]);
+    // if (isset($_SERVER["SERVER_NAME"])) {
+    //   $mw_cache_subfolder = str_replace('.', '_', $_SERVER["SERVER_NAME"]);
     //}
     define('MW_CACHE_DIR', MW_CACHE_ROOT_DIR . $mw_cache_subfolder . DS);
 }
@@ -81,7 +80,7 @@ if (!defined('MW_TEMPLATES_DIR')) {
     define('MW_TEMPLATES_DIR', MW_USERFILES . MW_TEMPLATES_FOLDER_NAME . DS);
 }
 if (!defined('MW_TEMPLATES_URL')) {
-    define('MW_TEMPLATES_URL', MW_USERFILES_URL .'/'. MW_TEMPLATES_FOLDER_NAME.'/');
+    define('MW_TEMPLATES_URL', MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
 }
 if (!defined('MW_MEDIA_DIR')) {
     define('MW_MEDIA_DIR', MW_USERFILES . 'media' . DS);
@@ -151,20 +150,14 @@ function mw_autoload($className)
 
 
     if ($className != '') {
-
         // set_include_path(  get_include_path(). PATH_SEPARATOR .MW_MODULES_DIR .strtolower($className));
-        $try_module_first = MW_MODULES_DIR .$className.DS;
-        $try_module_first_lower = MW_MODULES_DIR .strtolower($className).DS;
+        $try_module_first = MW_MODULES_DIR . $className . DS;
+        $try_module_first_lower = MW_MODULES_DIR . strtolower($className) . DS;
 
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-//
-//
-        $try_file = $try_module_first.$fileName;
-        $try_file2 = $try_module_first_lower.$fileName;
-
+        $try_file = $try_module_first . $fileName;
+        $try_file2 = $try_module_first_lower . $fileName;
         include_once($fileName);
-
-
     }
 
 }
@@ -177,42 +170,26 @@ function autoload_add($dirname)
 
 spl_autoload_register('mw_autoload');
 $_mw_registry = array();
-//$_mw_global_object = null;
 function mw($class = null, $constructor_params = false)
 {
 
-    global $_mw_registry;
     global $_mw_global_object;
     global $application;
     if (is_object($application)) {
         $_mw_global_object = $application;
     }
-
-
     if (!is_object($_mw_global_object)) {
         $_mw_global_object = \Microweber\Application::getInstance($constructor_params);
-        // d($class);
-    } else {
-      //
     }
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $_mw_global_object;
     } else {
         return $_mw_global_object->$class;
     }
-
 }
 
 
-//set_error_handler('mw_error_handler');
-//require(MW_APP_PATH . 'classes' . DS.'mw'. DS.'_core_functions.php');
 
-/*
- spl_autoload_register(function($className) {
-
- require (str_replace('\\', '/', ltrim($className, '\\')) . '.php');
- });
- */
 
 // Basic system functions
 function p($f)
@@ -261,7 +238,6 @@ function c($k, $no_static = false)
     } else {
         if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
 
-            //if (is_file(MW_CONFIG_FILE)) {
             include_once (MW_CONFIG_FILE);
             if (isset($config)) {
                 $_mw_config_file_values = $config;
@@ -280,8 +256,7 @@ function c($k, $no_static = false)
                 }
             }
         }
-        //	}
-        //d(MW_CONFIG_FILE);
+
 
     }
 }

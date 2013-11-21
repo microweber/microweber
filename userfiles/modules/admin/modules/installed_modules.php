@@ -6,13 +6,7 @@ mw.require('forms.js');
 
 
 $(document).ready(function(){
-    window.addEventListener('message', receiveMessage, false);
-
-
-
-    function receiveMessage(evt){
-        alert("got message: "+evt.data);
-    }
+   
 
 
     mw.$('#modules_categories_tree_<?php print $params['id']; ?>').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>')

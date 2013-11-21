@@ -60,7 +60,8 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
            var data = JSON.parse(event.data);
            var base = mw.url.strip(uploader.settings.url);
            var params =  mw.url.getUrlParams(uploader.settings.url);
-           uploader.settings.url = base + "?" + json2url(data) + "&" + json2url(params);
+           var u = base + "?" + json2url(params) + "&" + json2url(data);
+           uploader.settings.url = u;
        }
         uploader.init();
         uploader.bind('FilesAdded', function(up, files) {

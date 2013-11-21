@@ -257,9 +257,23 @@ $target_path = normalize_path($target_path, 0);
 $path_restirct   =   MW_USERFILES; // the path the script should access
 if(isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '' and trim($_REQUEST["path"]) != 'false'){
  	$path = urldecode($_REQUEST["path"]);
+	 
+	$path = html_entity_decode($path);
+	$path = htmlspecialchars_decode($path, ENT_NOQUOTES);
+	
+ 
+	//$path = urldecode($path);
+	 $path = str_replace('%2F','/',$path);
+	//$path = str_replace('%25252F','/',$path);
+
+	
+	
 	$path = normalize_path($path, 0);
+	 
 	$path = str_replace('..','',$path);
 	$path = str_replace($path_restirct,'',$path);
+	 
+	
 	$target_path = MW_USERFILES.DS.$path;
 	$target_path = normalize_path($target_path, 1);
 }
