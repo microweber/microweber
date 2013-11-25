@@ -14,7 +14,7 @@ description: 4 Columns
 
 
 <div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-4">
-  <div class="row-fluid">
+  <div class="row row-fluid">
     <?php if (!empty($data)): ?>
     <?php
         $count = -1;
@@ -22,7 +22,7 @@ description: 4 Columns
         $count++;
     ?>
     <?php if($count % 4 == 0) { ?><div class="v-space"></div><?php } ?>
-    <div class="span3<?php if($count % 4 == 0) { ?> first <?php } ?>" >
+    <div class="span3 col-sm-3 col-md-3<?php if($count % 4 == 0) { ?> first <?php } ?>" >
         <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>">
                 <span class="valign">
@@ -47,7 +47,7 @@ description: 4 Columns
 
       <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
       <div class="blog-post-footer">
-        <a href="<?php print $item['link'] ?>" class="btn pull-fleft">
+        <a href="<?php print $item['link'] ?>" class="btn btn-default pull-fleft">
         <?php $read_more_text ? print $read_more_text : print _e('Continue Reading', true); ?>
         <i class="icon-chevron-right"></i></a>
       </div>

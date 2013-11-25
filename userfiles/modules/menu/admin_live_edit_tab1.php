@@ -326,7 +326,7 @@ $menu_name = get_option('menu_name', $params['id']);
 <?php if(is_array($menus) == true): ?>
 <?php if(is_array($menus )): ?>
 
-<div class="control-group">
+<div class="control-group form-group">
   <label class="mw-ui-label">
     <?php _e("Select the Menu you want to edit"); ?> 
 	

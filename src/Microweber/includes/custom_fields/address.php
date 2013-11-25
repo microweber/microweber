@@ -31,12 +31,15 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
      $data['input_class'] = $params['input-class'];
 } elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
      $data['input_class'] = $params['input_class'];
+} else {
+	$data['input_class'] = 'form-control';
+	
 }
  
 //print $data["custom_field_value"]; ?>
 <?php if(is_array($data['custom_field_values'])) : ?>
 
-<div class="control-group">
+<div class="control-group form-group">
   <label class="mw-ui-label mw-custom-field-label">
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
     <?php print $data['name'] ?>
@@ -64,7 +67,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 	$kv = ucwords($k);		
 	}
  
-	
+ 
 	
 	?>
      <label><?php print ($kv); ?></label>

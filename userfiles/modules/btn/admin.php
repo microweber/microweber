@@ -92,8 +92,8 @@ btn_action = function(){
 <textarea  class="mw_option_field"  name="popupcontent" style="height: 400px;"><?php print $popupcontent; ?></textarea>
 
 </div>
-<div id="btn_url_holder">
-    <input type="text" name="url" id="btn_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>"  class="mw_option_field mw-ui-field" />
+<div id="btn btn-default_url_holder">
+    <input type="text" name="url" id="btn btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>"  class="mw_option_field mw-ui-field" />
     <div class="vSpace"></div>
     <label class="mw-ui-check"><input type="checkbox" name="url_blank" value="y" class="mw_option_field"><span></span><span><?php _e("Open in new window"); ?></span></label>
 
@@ -104,20 +104,20 @@ btn_action = function(){
   <label class="mw-ui-label"><?php _e("Color"); ?></label>
   <div class="mw-ui-select"><select  class="mw_option_field"  name="button_style">
       <option <?php if($style==''){ print 'selected'; } ?> value=""><?php _e("Default"); ?></option>
-      <option <?php if($style=='btn-primary'){ print 'selected'; } ?> value="btn-primary"><?php _e("Dark Blue"); ?></option>
-      <option <?php if($style=='btn-info'){ print 'selected'; } ?> value="btn-info"><?php _e("Light Blue"); ?></option>
-      <option <?php if($style=='btn-success'){ print 'selected'; } ?> value="btn-success"><?php _e("Green"); ?></option>
-      <option <?php if($style=='btn-warning'){ print 'selected'; } ?> value="btn-warning"><?php _e("Orange"); ?></option>
-      <option <?php if($style=='btn-link'){ print 'selected'; } ?> value="btn-link"><?php _e("Simple"); ?></option>
+      <option <?php if($style=='btn-primary'){ print 'selected'; } ?> value="btn btn-default-primary"><?php _e("Dark Blue"); ?></option>
+      <option <?php if($style=='btn-info'){ print 'selected'; } ?> value="btn btn-default-info"><?php _e("Light Blue"); ?></option>
+      <option <?php if($style=='btn-success'){ print 'selected'; } ?> value="btn btn-default-success"><?php _e("Green"); ?></option>
+      <option <?php if($style=='btn-warning'){ print 'selected'; } ?> value="btn btn-default-warning"><?php _e("Orange"); ?></option>
+      <option <?php if($style=='btn-link'){ print 'selected'; } ?> value="btn btn-default-link"><?php _e("Simple"); ?></option>
   </select></div>
 </div>
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label"><?php _e("Size"); ?></label>
   <div class="mw-ui-select"><select  class="mw_option_field"  name="button_size">
       <option <?php if($size==''){ print 'selected'; } ?> value=""><?php _e("Default"); ?></option>
-      <option <?php if($size=='large'){ print 'selected'; } ?> value="btn-large"><?php _e("Large"); ?></option>
-      <option <?php if($size=='small'){ print 'selected'; } ?> value="btn-small"><?php _e("Small"); ?></option>
-      <option <?php if($size=='mini'){ print 'selected'; } ?> value="btn-mini"><?php _e("Mini"); ?></option>
+      <option <?php if($size=='large'){ print 'selected'; } ?> value="btn btn-default-large"><?php _e("Large"); ?></option>
+      <option <?php if($size=='small'){ print 'selected'; } ?> value="btn btn-default-small"><?php _e("Small"); ?></option>
+      <option <?php if($size=='mini'){ print 'selected'; } ?> value="btn btn-default-mini"><?php _e("Mini"); ?></option>
   </select></div>
 </div>
 

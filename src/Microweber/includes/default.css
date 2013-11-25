@@ -15,7 +15,10 @@
 
 article, aside, figure, footer, header, hgroup, menu, nav, section { display:block; }
 
-
+img{
+  border: none;
+  max-width: 100%;
+}
 
 
 body.mw-preview{

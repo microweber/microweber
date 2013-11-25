@@ -275,7 +275,13 @@ mw.askusertostay = false;
         if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
         v.content = "width=device-width, initial-scale=1.0";
         mwhead.appendChild(v);
-      }, 'bootstrap.min.css', 'bootstrap.min.js']
+      }, 'bootstrap.min.css', 'bootstrap.min.js'],
+      flatstrap3:[function(){
+        var v = mwd.querySelector('meta[name="viewport"]');
+        if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
+        v.content = "width=device-width, initial-scale=1.0";
+        mwhead.appendChild(v);
+      }, 'css/bootstrap.min.css', 'js/bootstrap.min.js']
     },
     page_id: '<?php print intval(PAGE_ID) ?>',
     post_id: '<?php print intval(POST_ID) ?>',

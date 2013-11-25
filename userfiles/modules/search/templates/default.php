@@ -20,7 +20,7 @@ description: Default Search template
          placeholder="<?php _e("Search"); ?>"
 		 
     />
-    <button class="btn  pull-left"
+    <button class="btn btn-default  pull-left"
       onclick="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>',mwd.getElementById('search_field_<?php  print $params['id'] ?>').value);">
       <i class="icon-search"></i>
     </button>

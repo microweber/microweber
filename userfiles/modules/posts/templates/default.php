@@ -16,7 +16,7 @@ description: Default
 
 $tn = $tn_size;
 if(!isset($tn[0]) or ($tn[0]) == 150){
-     $tn[0] = 250;
+     $tn[0] = 220;
 }
 if(!isset($tn[1])){
      $tn[1] = $tn[0];
@@ -30,13 +30,13 @@ if(!isset($tn[1])){
   <?php if (!empty($data)): ?>
   <?php foreach ($data as $item): ?>
   <div class="well clearfix post-single"  itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
-      <div class="row-fluid">
+      <div class="row row-fluid">
           <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-            <div class="span4">
+            <div class="span4 col-sm-4 col-md-4">
                 <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image" src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" class="img-rounded img-polaroid" alt="" ></a>
             </div>
           <?php endif; ?>
-          <div class="span8">
+          <div class="span8 col-sm-8 col-md-8">
               <div class="post-single-title-date">
                   <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
                     <h2 class="lead" itemprop="name"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>
@@ -50,7 +50,7 @@ if(!isset($tn[1])){
               <?php endif; ?>
 
               <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
-                  <a href="<?php print $item['link'] ?>"  class="btn">
+                  <a href="<?php print $item['link'] ?>"  class="btn btn-default">
                       <?php $read_more_text ? print $read_more_text : _e("Continue Reading"); ?>
                   </a>
               <?php endif; ?>

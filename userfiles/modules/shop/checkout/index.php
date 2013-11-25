@@ -71,8 +71,8 @@ $(document).ready(function(){
   <?php if($cart_show_enanbled != 'n'): ?>
   <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id']?>" data-checkout-link-enabled="n" />
   <?php endif ;?>
-    <div class="row-fluid mw-cart-data-holder">
-      <div class="span4">
+    <div class="row row-fluid mw-cart-data-holder">
+      <div class="span4 col-sm-4 col-md-4">
         <div class="well">
           <?php $user = get_user(); ?>
           <h2 style="margin-top:0 " class="edit nodrop" field="checkout_personal_inforomation_title" rel="global" rel_id="<?php print $params['id']?>"><?php _e("Personal Information"); ?></h2>
@@ -80,27 +80,27 @@ $(document).ready(function(){
           <label>
             <?php _e("First Name"); ?>
           </label>
-          <input name="first_name" class="field-full"  type="text" value="<?php if(isset($user['first_name'])) { print $user['first_name']; } ?>" />
+          <input name="first_name" class="field-full form-control"  type="text" value="<?php if(isset($user['first_name'])) { print $user['first_name']; } ?>" />
           <label>
             <?php _e("Last Name"); ?>
           </label>
-          <input name="last_name" class="field-full"  type="text" value="<?php if(isset($user['last_name'])) { print $user['last_name']; } ?>" />
+          <input name="last_name" class="field-full form-control"  type="text" value="<?php if(isset($user['last_name'])) { print $user['last_name']; } ?>" />
           <label>
             <?php _e("Email"); ?>
           </label>
-          <input name="email" class="field-full" type="text" value="<?php if(isset($user['email'])) { print $user['email']; } ?>" />
+          <input name="email" class="field-full form-control" type="text" value="<?php if(isset($user['email'])) { print $user['email']; } ?>" />
           <label>
             <?php _e("Phone"); ?>
           </label>
-          <input name="phone" class="field-full"  type="text" value="<?php if(isset($user['phone'])) { print $user['phone']; } ?>" />
+          <input name="phone" class="field-full form-control"  type="text" value="<?php if(isset($user['phone'])) { print $user['phone']; } ?>" />
         </div>
       </div>
 	  <?php if($cart_show_shipping != 'n'): ?>
-      <div class="span4"><module type="shop/shipping" />  </div>
+      <div class="span4 col-sm-4 col-md-4"><module type="shop/shipping" />  </div>
 	   <?php endif ;?>
 	   	  <?php if($cart_show_payments != 'n'): ?>
 
-      <div class="span4"><module type="shop/payments" /></div>
+      <div class="span4 col-sm-4 col-md-4"><module type="shop/payments" /></div>
 	  	   <?php endif ;?>
 
     </div>
@@ -108,9 +108,9 @@ $(document).ready(function(){
     <div class="mw-cart-action-holder">
       <hr />
       <?php $shop_page = get_content('is_shop=y');      ?>
-      <button class="btn btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');" type="button"><?php _e("Complete order"); ?></button>
+      <button class="btn btn-default btn-warning pull-right mw-checkout-btn" onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');" type="button"><?php _e("Complete order"); ?></button>
       <?php if(is_array($shop_page)): ?>
-      <a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn pull-left" type="button"><?php _e("Continue Shopping"); ?></a>
+      <a href="<?php print page_link($shop_page[0]['id']); ?>" class="btn btn-default pull-left" type="button"><?php _e("Continue Shopping"); ?></a>
       <?php endif; ?>
       <div class="clear"></div>
     </div>

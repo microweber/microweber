@@ -14,11 +14,11 @@ description: Columns
 
 
 <div class="clearfix container-fluid module-posts-template-columns">
-  <div class="row-fluid">
+  <div class="row row-fluid">
     <?php if (!empty($data)): ?>
     <?php foreach ($data as $item): ?>
  
-    <div class="span4" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
+    <div class="span4 col-sm-4 col-md-4" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
         <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <a itemprop="url" class="img-polaroid img-rounded" href="<?php print $item['link'] ?>">
                 <img src="<?php print thumbnail($item['image'], 290, 210); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" itemprop="image" />
@@ -39,7 +39,7 @@ description: Columns
 
       <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
       <div class="blog-post-footer">
-        <a href="<?php print $item['link'] ?>" class="btn pull-fleft" itemprop="url">
+        <a href="<?php print $item['link'] ?>" class="btn btn-default pull-fleft" itemprop="url">
         <?php $read_more_text ? print $read_more_text : print _e('Continue Reading', true); ?>
         <i class="icon-chevron-right"></i></a>
       </div>

@@ -11,11 +11,11 @@ description: Portfolio
 */
 ?>
 
-<div class="row clearfix">
+<div class="row row-fluid clearfix">
   <ul class="portfolio-post-grid holder">
     <?php if (!empty($data)): ?>
     <?php foreach ($data as $item): ?>
-    <li class="span6 portfolio-item" data-id="id-<?php print $item['id'] ?>" data-type="business">
+    <li class="span6 col-sm-6 col-md-6 portfolio-item" data-id="id-<?php print $item['id'] ?>" data-type="business">
       <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <span class="4col"><img src="<?php print $item['image'] ?>" height="340" alt=""></span>
       <?php endif; ?>

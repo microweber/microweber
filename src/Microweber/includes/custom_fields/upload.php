@@ -17,7 +17,7 @@ include('empty_field_vals.php');
 ?>
 
 
-<div class="control-group">
+<div class="control-group form-group">
  <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
  <div class="input-prepend input-append relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <span class="add-on">

@@ -20,7 +20,7 @@
 
 <?php if($action=='url' or $action==''){ ?>
 
-<a href="<?php print $url; ?>" <?php if($blank=='y'){print ' target="_blank" ';} ?> class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
+<a href="<?php print $url; ?>" <?php if($blank=='y'){print ' target="_blank" ';} ?> class="btn btn-default <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
 
 
 <?php } else if($action=='popup') { ?>
@@ -34,7 +34,7 @@
   mw.require('mw.ui.css', true);
 </script>
 
-<a href="javascript:;" id="btn<?php print $rand; ?>" class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
+<a href="javascript:;" id="btn btn-default<?php print $rand; ?>" class="btn btn-default <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
 <textarea id="area<?php print $rand; ?>" class="hide"><?php print $action_content; ?></textarea>
 <script>
 

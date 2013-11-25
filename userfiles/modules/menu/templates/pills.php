@@ -10,9 +10,11 @@ description: Pills Navigation
 
 */
 
-
+?>
+<div class="navbar-collapse collapse">
+<?php
 $menu_filter['li_class'] = 'nav-pills';
-$menu_filter['ul_class'] = 'nav nav-pills';
+$menu_filter['ul_class'] = ' nav nav-pills ';
 $menu_filter['ul_class_deep'] = 'dropdown-menu';
 $menu_filter['li_class_deep'] = 'dropdown-submenu';
 $menu_filter['li_class_empty'] = ' ';
@@ -22,3 +24,5 @@ if($mt != false){
 } else {
 	print lnotif("There are no items in the menu <b>".$params['menu-name']. '</b>');
 }
+?>
+</div>

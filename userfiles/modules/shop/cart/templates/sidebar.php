@@ -37,7 +37,7 @@ description: Sidebar cart template
           <?php 	if(isset($item['custom_fields'])): ?>
           <?php print $item['custom_fields'] ?>
           <?php  endif ?></td>
-        <td><input type="number" class="input-mini" value="<?php print $item['qty'] ?>" onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value);" /></td>
+        <td><input type="number" class="input-mini form-control input-sm" value="<?php print $item['qty'] ?>" onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value);" /></td>
         <?php /*<td><?php print currency_format($item['price']); ?></td>*/ ?>
 
         <td class="mw-cart-table-price"><?php print currency_format($item['price']* $item['qty']); ?></td>
@@ -65,7 +65,7 @@ description: Sidebar cart template
    }
    
    ?>
-  <a class="btn btn-warning right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
+  <a class="btn btn-default btn-warning right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
   <?php endif ; ?>
   <?php else : ?>
 

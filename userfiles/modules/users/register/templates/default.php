@@ -60,17 +60,21 @@ $(document).ready(function(){
 	</div>
 	<div id="form-holder_holder">
 		<form id="user_registration_form_holder" method="post" class="clearfix">
-			<div class="control-group">
+			<div class="control-group form-group">
 				<div class="controls">
-					<input type="text" class="large-field"  name="email" placeholder="<?php _e("Email"); ?>">
+					<input type="text" class="large-field form-control"  name="email" placeholder="<?php _e("Email"); ?>">
+				</div>
+			</div> 
+			<div class="control-group form-group">
+				<div class="controls">
+					<input type="password" class="large-field form-control" name="password" placeholder="<?php _e("Password"); ?>">
 				</div>
 			</div>
-			<div class="control-group">
-				<div class="controls">
-					<input type="password" class="large-field" name="password" placeholder="<?php _e("Password"); ?>">
-				</div>
-			</div>
-			<div class="control-group">
+			
+	 
+			
+			
+			<div class="control-group form-group">
 				<div class="controls">
 					<div class="input-prepend" style="width: 100%;"> <span style="width: 100px;background: white" class="add-on"> <img class="mw-captcha-img" src="<?php print api_link('captcha') ?>" onclick="mw.tools.refresh_image(this);" /> </span>
 						<input type="text" placeholder="<?php _e("Enter the text"); ?>" class="mw-captcha-input" name="captcha">
@@ -100,7 +104,7 @@ $(document).ready(function(){
 				<?php $have_social_login = true; ?>
 				<?php endif; ?>
 			</div>
-			<button type="submit" class="btn btn-large pull-right"><?php print $form_btn_title ?></button>
+			<button type="submit" class="btn btn-default btn-primary btn-large pull-right"><?php print $form_btn_title ?></button>
 			<div style="clear: both"></div>
 		</form>
 		<div class="alert" style="margin: 0;display: none;"></div>
