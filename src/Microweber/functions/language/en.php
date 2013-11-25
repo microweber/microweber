@@ -868,3 +868,6 @@ $language["values"]= 'Values' ;
 $language["click-to-insert-embed-code"]= 'Click to insert Embed Code' ; 
 $language["insert-embed-code"]= 'Insert Embed Code' ; 
 $language["click-here-to-edit-the-ants"]= 'Click here to edit the Ants' ; 
+$language["faq"]= 'FAQ' ; 
+$language["enter-the-captcha"]= 'Enter the captcha' ; 
+$language["your-content-module-is-empty"]= 'Your content module is empty' ; 

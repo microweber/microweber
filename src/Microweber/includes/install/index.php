@@ -376,7 +376,9 @@ if (isset($to_save['is_installed'])) {
                     }
 
                 }
+                __mw_install_log('Clearing cache after install');
 
+                mw('cache')->flush();
 
                 // mw('content')->create_default_content('install');
                 print('done');

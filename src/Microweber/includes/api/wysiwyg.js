@@ -1294,7 +1294,7 @@ $(window).load(function(){
 
   if(mw.settings.liveEdit){
     if(e.type=='mouseup'){
-      if(mw.tools.hasParentsWithClass(e.target, 'edit')){
+      if(mw.tools.hasParentsWithClass(e.target, 'edit') ||  mw.tools.hasClass(e.target, 'edit')){
         var sel = window.getSelection();
         if(sel.rangeCount > 0){
         var r = sel.getRangeAt(0);

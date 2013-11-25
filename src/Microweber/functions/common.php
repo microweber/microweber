@@ -1073,6 +1073,14 @@ function get_page_for_category($category_id)
 }
 
 
+function get_category_items($category_id)
+{
+    return mw('category')->get_items('parent_id='.intval($category_id));
+
+
+}
+
+
 event_bind('mw_edit_page_admin_menus', 'mw_print_admin_menu_selector');
 
 function mw_print_admin_menu_selector($params = false)

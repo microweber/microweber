@@ -96,7 +96,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 <div class="mw-ui-field-holder">
 <label class="mw-ui-label"><?php _e("Show only from category"); ?></label>
 <div class="mw-ui-select" style="width: 100%;">
-  <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field"  data-also-reload="<?php print   $params['id'] ?>"  >
+  <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field"   data-also-reload="<?php print  $config['the_module'] ?>"    >
     <option  value=''  <?php if((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>><?php _e("Select a category"); ?></option>
     <?php
         $pt_opts = array();
@@ -228,12 +228,12 @@ $show_fields = array();
     <div class="right">
       <div class="mw-ui-select" >
         <select name="data-order-by"   class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"   >
-          <option  value=""    <?php if((0 == intval($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?> &uarr;</option>
-          <option  value="position asc"    <?php if(('position asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?> &darr;</option>
-          <option  value="created_on desc"    <?php if(('created_on desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Date"); ?> &uarr;</option>
-          <option  value="created_on asc"    <?php if(('created_on asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Date"); ?> &darr;</option>
-          <option  value="title asc"    <?php if(('title asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Title"); ?> &uarr;</option>
-          <option  value="title desc"    <?php if(('title desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Title"); ?> &darr;</option>
+          <option  value=""    <?php if((0 == intval($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?> (ASC)</option>
+          <option  value="position asc"    <?php if(('position asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?> (DESC)</option>
+          <option  value="created_on desc"    <?php if(('created_on desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Date"); ?> (ASC)</option>
+          <option  value="created_on asc"    <?php if(('created_on asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Date"); ?> (DESC)</option>
+          <option  value="title asc"    <?php if(('title asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Title"); ?> (ASC)</option>
+          <option  value="title desc"    <?php if(('title desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Title"); ?> (DESC)</option>
         </select>
       </div>
     </div>
