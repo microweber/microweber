@@ -11,7 +11,17 @@ description: 4 Columns
 */
 ?>
 
-
+<?php 
+$tn = $tn_size;
+if(!isset($tn[0]) or ($tn[0]) == 150){
+     $tn[0] = 150;
+	  
+}
+if(!isset($tn[1])){
+     $tn[1] = $tn[0];
+}
+ 
+?>
 
 <div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-4">
   <div class="row row-fluid">
@@ -27,7 +37,7 @@ description: 4 Columns
             <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>">
                 <span class="valign">
                     <span class="valign-cell">
-                        <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], 290, 120); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" />
+                        <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0],  $tn[1]); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" />
                     </span>
                 </span>
             </a>

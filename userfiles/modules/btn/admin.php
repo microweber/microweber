@@ -99,25 +99,30 @@ btn_action = function(){
 
 
 </div>
-
+ 
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label"><?php _e("Color"); ?></label>
   <div class="mw-ui-select"><select  class="mw_option_field"  name="button_style">
       <option <?php if($style==''){ print 'selected'; } ?> value=""><?php _e("Default"); ?></option>
-      <option <?php if($style=='btn-primary'){ print 'selected'; } ?> value="btn btn-default-primary"><?php _e("Dark Blue"); ?></option>
-      <option <?php if($style=='btn-info'){ print 'selected'; } ?> value="btn btn-default-info"><?php _e("Light Blue"); ?></option>
-      <option <?php if($style=='btn-success'){ print 'selected'; } ?> value="btn btn-default-success"><?php _e("Green"); ?></option>
-      <option <?php if($style=='btn-warning'){ print 'selected'; } ?> value="btn btn-default-warning"><?php _e("Orange"); ?></option>
-      <option <?php if($style=='btn-link'){ print 'selected'; } ?> value="btn btn-default-link"><?php _e("Simple"); ?></option>
+      <option <?php if($style=='btn-primary'){ print 'selected'; } ?> value="btn-primary"><?php _e("Primary"); ?></option>
+      <option <?php if($style=='btn-info'){ print 'selected'; } ?> value="btn-info"><?php _e("Info"); ?></option>
+      <option <?php if($style=='btn-success'){ print 'selected'; } ?> value="btn-success"><?php _e("Success"); ?></option>
+      <option <?php if($style=='btn-warning'){ print 'selected'; } ?> value="btn-warning"><?php _e("Warning"); ?></option>
+	  <option <?php if($style=='btn-danger'){ print 'selected'; } ?> value="btn-danger"><?php _e("Danger"); ?></option>
+
+	  
+ 
+	  
+      <option <?php if($style=='btn-link'){ print 'selected'; } ?> value="btn-link"><?php _e("Simple"); ?></option>
   </select></div>
 </div>
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label"><?php _e("Size"); ?></label>
   <div class="mw-ui-select"><select  class="mw_option_field"  name="button_size">
       <option <?php if($size==''){ print 'selected'; } ?> value=""><?php _e("Default"); ?></option>
-      <option <?php if($size=='large'){ print 'selected'; } ?> value="btn btn-default-large"><?php _e("Large"); ?></option>
-      <option <?php if($size=='small'){ print 'selected'; } ?> value="btn btn-default-small"><?php _e("Small"); ?></option>
-      <option <?php if($size=='mini'){ print 'selected'; } ?> value="btn btn-default-mini"><?php _e("Mini"); ?></option>
+      <option <?php if($size=='btn-default-large btn-lg'){ print 'selected'; } ?> value="btn-default-large btn-lg"><?php _e("Large"); ?></option>
+      <option <?php if($size=='btn-default-small btn-sm'){ print 'selected'; } ?> value="btn-default-small btn-sm"><?php _e("Small"); ?></option>
+      <option <?php if($size=='btn-default-mini btn-xs'){ print 'selected'; } ?> value="btn-default-mini btn-xs"><?php _e("Mini"); ?></option>
   </select></div>
 </div>
 

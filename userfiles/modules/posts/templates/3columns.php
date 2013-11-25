@@ -17,7 +17,7 @@ description: 3 Columns
 
 $tn = $tn_size;
 if(!isset($tn[0]) or ($tn[0]) == 150){
-     $tn[0] = 250;
+     $tn[0] = 200;
 }
 if(!isset($tn[1])){
      $tn[1] = $tn[0];

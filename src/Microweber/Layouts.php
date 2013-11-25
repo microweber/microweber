@@ -572,8 +572,16 @@ class Layouts
                 $tf = $this->template_check_for_custom_css($template);
                 $tf2 = $tf . '.bak';
 
+                $option = array();
+                 $option['option_value'] = '';
+                  $option['option_key'] = 'template_settings';
+                  $option['option_group'] = 'template_'.$template;
 
-                if (rename($tf, $tf2)) {
+                 $o = save_option($option);
+
+                if (is_file($tf) and rename($tf, $tf2)) {
+
+
                     return array('success' => 'Custom css is removed');
                 } else {
                     return array('error' => 'File could not be removed');
@@ -702,7 +710,11 @@ class Layouts
                 $sort_params2 = array();
                 foreach ($params as $item) {
                     if (isset($item['selector']) and trim($item['selector']) == '@import' and isset($item["value"])) {
-                        $sort_params[] = $item;
+
+                        if ($item['value'] != 'reset') {
+                            $sort_params[] = $item;
+                        }
+
                     } else {
                         $sort_params2[] = $item;
 
@@ -779,15 +791,17 @@ class Layouts
                             }
 
 
-                            $css_cont_new .= $delim;
+
                             if (trim($item["css"]) != 'reset' and trim($item["css"]) != 'reset;') {
+                                $css_cont_new .= $delim;
                                 if (isset($sel) and trim($sel) == '@import') {
                                     $css_cont_new .= $sel . ' ' . $item["css"] . ' ';
                                 } else {
                                     $css_cont_new .= $sel . ' { ' . $item["css"] . ' }';
                                 }
+                                $css_cont_new .= $delim;
                             }
-                            $css_cont_new .= $delim;
+
                         }
                     }
 

@@ -44,6 +44,9 @@ if (r==true)
 			
 	  
 	  mw.reload_module('#<?php print $params['id'];?>');
+	  mw.reload_module('settings/template');
+	  
+	  
    
 });
    

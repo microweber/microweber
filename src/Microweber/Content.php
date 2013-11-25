@@ -1370,7 +1370,7 @@ class Content
 
         $data = $this->paging_links($base_url, $pages_count, $paging_param, $keyword_param);
         if (is_array($data)) {
-            $to_print = "<div class='{$class}'><ul>";
+            $to_print = "<div class='{$class}-holder' ><ul class='{$class}'>";
             foreach ($data as $key => $value) {
                 $act_class = '';
 
