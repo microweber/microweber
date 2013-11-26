@@ -719,13 +719,13 @@ class Controller
                   $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
               }*/
 
-            if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
+            if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
 
                 if (!defined('CONTENT_TEMPLATE')) {
                     define('CONTENT_TEMPLATE', $content['active_site_template']);
                 }
-
-
+ 
+ 
                 $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
             } else {
                 $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';

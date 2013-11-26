@@ -43,15 +43,15 @@
    <select id="mw_set_template_style" >
    	  <option value="reset">none</option>
 
-	  <option  <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'cosmo.css')){ print " selected=selected "; } ?> value="css/swatches/cosmo.css">cosmo</option>
-	   	  <option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'flatly.css')){ print " selected=selected "; } ?> value="css/swatches/flatly.css">flatly</option>
-  <option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'cyborg.css')){ print " selected=selected "; } ?> value="css/swatches/cyborg.css">cyborg</option>
-<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'yeti.css')){ print " selected=selected "; } ?> value="css/swatches/yeti.css">yeti</option>
+	  <option  <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'cosmo.css')){ print " selected=selected "; } ?> value="css/cosmo.css">cosmo</option>
+	   	  <option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'flatly.css')){ print " selected=selected "; } ?> value="css/flatly.css">flatly</option>
+  <option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'cyborg.css')){ print " selected=selected "; } ?> value="css/cyborg.css">cyborg</option>
+<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'yeti.css')){ print " selected=selected "; } ?> value="css/yeti.css">yeti</option>
 
-<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'journal.css')){ print " selected=selected "; } ?> value="css/swatches/journal.css">journal</option>
-<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'slate.css')){ print " selected=selected "; } ?> value="css/swatches/slate.css">slate</option>
-<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'cerulean.css')){ print " selected=selected "; } ?> value="css/swatches/cerulean.css">cerulean</option>
-<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'amelia.css')){ print " selected=selected "; } ?> value="css/swatches/amelia.css">amelia</option>
+<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'journal.css')){ print " selected=selected "; } ?> value="css/journal.css">journal</option>
+<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'slate.css')){ print " selected=selected "; } ?> value="css/slate.css">slate</option>
+<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'cerulean.css')){ print " selected=selected "; } ?> value="css/cerulean.css">cerulean</option>
+<option <?php if(isset($data['import']) and isset($data['import']['value']) and stristr($data['import']['value'],'amelia.css')){ print " selected=selected "; } ?> value="css/amelia.css">amelia</option>
 
 	  </select>
 

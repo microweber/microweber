@@ -740,7 +740,10 @@ class Layouts
                                 $props = explode(',', $item['property']);
                                 $curr = "";
                                 foreach ($props as $prop) {
-                                    $curr .= $prop . ":" . $item['value'] . ";";
+									if (isset($item["value"]) and trim($item["value"]) != '') {
+	
+										$curr .= $prop . ":" . $item['value'] . ";";
+									}
                                 }
                             }
                             if ($curr != '') {
