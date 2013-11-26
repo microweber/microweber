@@ -15,6 +15,16 @@ $tree['link'] = "<a href='javascript:mw.load_quick_cat_edit({id})'><span class='
 ?>
 </div>
 <script type="text/javascript">
+
+
+
+	mw.on.moduleReload("<?php print $params['id'] ?>", function(){
+		mw.manage_cat_sort();
+
+		
+	 });
+
+
 mw.load_quick_cat_edit = function($id){
   $(mwd.body).addClass("loading");
   if($id == undefined){

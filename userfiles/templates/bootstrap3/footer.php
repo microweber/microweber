@@ -12,11 +12,11 @@
 		</div>
 
 		<div id="footer-bottom">
-			<div class="edit" rel="global" field="bootstrap3-site-sub-footer">
+			<div class="edit" rel="global" field="bootstrap3-sub-footer">
 				<div class="mw-row">
 					<div class="mw-col" style="width:60%">
 						<div class="mw-col-container">
-							<div rel="footer" field="copyright">Copyright &copy; <span class="unselectable" contentEditable="false"><?php print date('Y'); ?></span>, All rights reserved </div>
+							<div>Copyright &copy; <span class="unselectable" contentEditable="false"><?php print date('Y'); ?></span>, All rights reserved </div>
 						</div>
 					</div>
 					<div class="mw-col" style="width:40%;">

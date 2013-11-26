@@ -143,8 +143,8 @@ class Content
         } else {
             $link = ($link['url']);
         }
-    
-  return $link;
+
+        return $link;
     }
 
 
@@ -417,16 +417,16 @@ class Content
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
-           return $cache_content;
+            return $cache_content;
         }
 
 
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
+        $site_template_settings = $this->app->option->get('current_template', 'template');
+        if (isset($page['active_site_template']) and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default')) {
 
-        if (isset($page['active_site_template']) and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default' )) {
-            $site_template_settings = $this->app->option->get('current_template', 'template');
             if ($site_template_settings != 'default' and $page['active_site_template'] == 'mw_default') {
                 $page['active_site_template'] = 'default';
                 $site_template_settings = 'default';
@@ -494,8 +494,18 @@ class Content
                     }
                 }
             }
-            //d( $get_layout_from_parent );
+
             if (isset($get_layout_from_parent['active_site_template']) and isset($get_layout_from_parent['layout_file'])) {
+
+                if ($get_layout_from_parent['active_site_template'] == 'default') {
+                    $get_layout_from_parent['active_site_template'] = $site_template_settings;
+                }
+
+                if ($get_layout_from_parent['active_site_template'] == 'mw_default') {
+                    $get_layout_from_parent['active_site_template'] = 'default';
+                }
+
+
                 $get_layout_from_parent['layout_file'] = str_replace('___', DS, $get_layout_from_parent['layout_file']);
                 $get_layout_from_parent['layout_file'] = str_replace('..', '', $get_layout_from_parent['layout_file']);
                 $render_file_temp = TEMPLATES_DIR . $get_layout_from_parent['active_site_template'] . DS . $get_layout_from_parent['layout_file'];
@@ -1670,11 +1680,9 @@ class Content
             //
         }
 
-         if (isset($the_active_site_template) and $the_active_site_template != 'default' and $the_active_site_template == 'mw_default') {
-             $the_active_site_template = 'default';
-         }
-
-
+        if (isset($the_active_site_template) and $the_active_site_template != 'default' and $the_active_site_template == 'mw_default') {
+            $the_active_site_template = 'default';
+        }
 
 
         if ($the_active_site_template == false) {
@@ -3681,6 +3689,9 @@ class Content
             //
             //
             $content_data = $this->get_by_id($content_id);
+            if($content_data['is_active'] != 'y'){
+                return false;
+            }
 
         }
 

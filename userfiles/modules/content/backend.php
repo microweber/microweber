@@ -155,6 +155,12 @@ function mw_select_page_for_editing($p_id){
      mw.$('#pages_edit_container').attr('data-type','content/edit_page');
      mw.$('#pages_edit_container').removeAttr('data-subtype');
      mw.$('#pages_edit_container').removeAttr('data-content-id');
+	 mw.$('#pages_edit_container').removeAttr('content-id');
+ 
+	 
+	 
+	 
+	 
      mw.$(".mw_edit_page_right").css("overflow", "hidden");
      edit_load('content/edit_page');
 }

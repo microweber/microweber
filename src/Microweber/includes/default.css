@@ -582,6 +582,49 @@ table[class*='mw-wysiwyg-table'] td{
 
 
 
+.mw-ui-row{
+  display: table;
+  width: 100%;
+}
+.mw-ui-col{
+  display: table-cell;
+  vertical-align: top;
+}
+.mw-ui-col-container{
+  position: relative;
+  clear: both;
+}
+.mw-ui-col-container:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+@media (max-width: 1024px) {
+   .mw-ui-row-drop-on-1024 > .mw-ui-col{
+      display: block;
+      clear: both;
+      width: auto !important;
+   }
+}
+@media (max-width: 768px) {
+  .mw-ui-row, .mw-ui-col{
+    display: block;
+    clear: both;
+    width: auto !important;
+  }
+}
+
+.semi_hidden{
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}
+
+
+
 
 
 

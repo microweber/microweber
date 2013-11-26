@@ -254,6 +254,8 @@ mw.askusertostay = false;
   mw.settings = {
     liveEdit:false,
     debug: true,
+	basic_mode:false,
+ 
     site_url: '<?php print site_url(); ?>',
     template_url: '<?php print TEMPLATE_URL; ?>',
     includes_url: '<?php   print( INCLUDES_URL);  ?>',

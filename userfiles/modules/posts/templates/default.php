@@ -30,7 +30,7 @@ if(!isset($tn[1])){
   <?php if (!empty($data)): ?>
   <?php foreach ($data as $item): ?>
   <div class="well clearfix post-single"  itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
-      <div class="row row-fluid">
+      <div class="row-fluid">
           <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <div class="span4 col-sm-4 col-md-4">
                 <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image" src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" class="img-rounded img-polaroid" alt="" ></a>

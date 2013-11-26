@@ -400,7 +400,7 @@ mw.edit_content.after_save = function(saved_id){
 			mw.reload_module_parent('pages');
 			mw.reload_module_parent('content');
 		    mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
-		
+			mw.reload_module('pages');
 		
     	parent.mw.askusertostay=false;
     	<?php if($is_current!=false) :  ?>

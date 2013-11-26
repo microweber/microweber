@@ -1331,7 +1331,7 @@ class Category
 
         $save = $this->app->db->save($table, $data);
 
-        $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
+        //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
         if (isset($data['id'])) {
             //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
@@ -1378,13 +1378,8 @@ class Category
 
         $this->app->db->q($clean);
 
-
         if (isset($content_ids) and !empty($content_ids)) {
-
             $content_ids = array_unique($content_ids);
-
-            // p($content_ids, 1);
-
             $data_type = trim($data['data_type']) . '_item';
 
             $content_ids_all = implode(',', $content_ids);
@@ -1394,7 +1389,7 @@ class Category
 		AND parent_id=$save
 		AND  data_type ='{$data_type}' ";
 
-            // p($q,1);
+
 
             $this->app->db->q($q);
 

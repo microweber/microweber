@@ -1,6 +1,36 @@
 <?php if(!isset($_GET['preview'])){ ?>
+
+<?php if(isset($basic_mode) and $basic_mode == true): ?>
+		<script type="text/javascript">
+		var ed = document.querySelectorAll('.edit'),l=ed.length, i = 0;
+		for( ; i<l; i++){
+			var el = ed[i];
+			var rel = el.getAttribute("rel");
+			if(typeof rel === "undefined" || rel === null || rel == ''){
+			   var rel = el.getAttribute("data-rel"); 
+			}
+			
+			if(rel != 'content' && rel != 'post' && rel != 'page'){
+				 
+				el.rel = "";
+				el.field = "";
+				var c = " " + el.className + " ";
+				el.className = c.replace(" edit ", "");	
+			
+			}
+		} 
+		document.body.className +=' mw-basic-mode';
+		</script>
+		<?php endif;  ?>
+		
+		
+		
+		
 <script type="text/javascript">
     mw.settings.liveEdit = true;
+	<?php if(isset($basic_mode) and $basic_mode == true): ?>
+	 mw.settings.basic_mode = true;
+	<?php endif;  ?>
     mw.require("liveadmin.js");
     mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
     mw.require("events.js");
@@ -22,6 +52,10 @@
 <link href="<?php print( MW_INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
     $(document).ready(function () {
+		
+		
+		
+		
         mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
         setTimeout(function(){
             mw.history.init();
@@ -48,7 +82,7 @@
     } else if(isset($_COOKIE['back_to_admin'])){
           $back_url = $_COOKIE['back_to_admin'];
     }
-   
+  
 ?>
 
 <div class="mw-defaults" id="live_edit_toolbar_holder">

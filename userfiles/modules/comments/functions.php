@@ -184,7 +184,11 @@ function post_comment($data)
         $notif['title'] = "You have new comment";
         $notif['description'] = "New comment is posted on " . mw('url')->current(1);
         $notif['content'] = mw('format')->limit($data['comment_body'], 800);
-        mw('Microweber\Notifications')->save($notif);
+		
+		
+ 		
+        $notf_id = mw('Microweber\Notifications')->save($notif);
+		$data['moderate'] = admin_url('view:modules/load_module:comments/mw_notif:'.$notf_id);
 
         $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
         $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');

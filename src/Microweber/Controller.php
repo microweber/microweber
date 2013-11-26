@@ -31,7 +31,7 @@ function params_stripslashes_array($array)
 if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
 
 
-    $_REQUEST = params_stripslashes_array($_REQUEST);
+    $_GET = params_stripslashes_array($_GET);
     $_POST = params_stripslashes_array($_POST);
     $_COOKIE = params_stripslashes_array($_COOKIE);
     $_REQUEST = params_stripslashes_array($_REQUEST);
@@ -1125,7 +1125,9 @@ class Controller
                         $data = $this->app->url->segment(2);
                     }
                 } else {
-                    $data = $_REQUEST;
+                    //$data = $_REQUEST;
+					$data = array_merge($_GET, $_POST);
+
 
                 }
 
@@ -1255,7 +1257,8 @@ class Controller
                                     $data = $this->app->url->segment(2);
                                 }
                             } else {
-                                $data = $_REQUEST;
+                              //  $data = $_REQUEST;
+							  $data = array_merge($_GET, $_POST);
                             }
 
                             $res = new $try_class($data);
@@ -1330,11 +1333,7 @@ class Controller
                     if (is_string($api_exposed_item) and is_string($api_function_full)) {
                         $api_function_full = str_replace('\\', '/', $api_function_full);
                         $api_function_full = ltrim($api_function_full, '/');
-
-                        //d($api_exposed_item);
-                        // d($api_function_full);
-
-
+                     
                         if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
 
                             $err = false;
@@ -1345,7 +1344,7 @@ class Controller
             }
 
             if ($err == false) {
-                //
+        
                 if ($mod_class_api_called == false) {
                     if (!$_POST and !$_REQUEST) {
                         //  $data = $this->app->url->segment(2);
@@ -1354,7 +1353,8 @@ class Controller
                             $data = $this->app->url->segment(2);
                         }
                     } else {
-                        $data = $_REQUEST;
+                        //$data = $_REQUEST;
+						$data = array_merge($_GET, $_POST);
                     }
 
                     $api_function_full_2 = explode('/', $api_function_full);
@@ -1416,17 +1416,13 @@ class Controller
 
                 }
 
-
                 $hooks = api_hook(true);
-
-
                 if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 
                     foreach ($hooks[$api_function] as $hook_key => $hook_value) {
                         if ($hook_value != false and $hook_value != null) {
-                            //d($hook_value);
-                            $hook_value($res);
-                            //
+                             $hook_value($res);
+                            
                         }
                     }
 

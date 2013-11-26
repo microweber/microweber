@@ -12,7 +12,7 @@ description: Blog
 
 
 ?>
-<?php include THIS_TEMPLATE_DIR. "header.php"; ?>
+<?php include TEMPLATE_DIR. "header.php"; ?>
 
 <div id="content">
 	<div class="container" id="blog-container">
@@ -31,4 +31,4 @@ description: Blog
 		</div>
 	</div>
 </div>
-<?php include THIS_TEMPLATE_DIR. "footer.php"; ?>
+<?php include TEMPLATE_DIR. "footer.php"; ?>
