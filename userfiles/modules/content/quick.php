@@ -497,6 +497,17 @@ mw.edit_content.handle_form_submit = function(go_live){
 			  
 			  
               if(go_live_edit != false){
+				  
+			  if(parent !== self && !!window.parent.mw){
+				 if(window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined){
+					 window.parent.mw.drag.save();
+				 }
+                 window.parent.mw.askusertostay=false;
+              }
+				  
+				  
+				  
+				  
                 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
                   
                   window.top.location.href = data+'/editmode:y';
