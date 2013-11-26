@@ -18,7 +18,7 @@ description: Page with right sidebar
 <div id="content">
 	<div class="container">
 		<div class="row row-fluid">
-			<div class="span7 col-sm-7 col-md-7">
+			<div class="span9 col-sm-9 col-md-9">
 				<h2 class="edit"  field="title" rel="content">New page</h2>
 				<div class="edit"  field="content" rel="content">
 					<p>You can edit this text</p>
