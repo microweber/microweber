@@ -641,6 +641,17 @@ class Content
                         if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
                             $page['layout_file'] = $par_c['layout_file'];
                             $page['active_site_template'] = $par_c['active_site_template'];
+
+
+                            if($page['active_site_template'] == 'default'){
+                                $page['active_site_template'] = $site_template_settings;
+                            }
+
+                            if ($page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
+                                $page['active_site_template'] = 'default';
+                            }
+
+
                             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
                             if (is_file($render_file_temp)) {
                                 $render_file = $render_file_temp;
