@@ -158,9 +158,11 @@ else{
 
 
 
-
+           //   d(item.src)
 
               if(filetypes=='images'){
+
+
                   afterMediaIsInserted(item.src, '', "FileUploaded");
               }
               else if(filetypes=='videos'){

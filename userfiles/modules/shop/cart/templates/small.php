@@ -14,7 +14,7 @@ description: Small cart template
 
 <script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
 
-<div class="mw-cart-small  mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>"> <span class="cart-icon"><span class="icon-shopping-cart"></span></span>
+<div class="mw-cart-small  mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>"> <span class="cart-icon"><span class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></span></span>
   <div class="mw-cart-small-content">
     <?php if(is_array($data)) :?>
     <?php

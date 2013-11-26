@@ -60,7 +60,7 @@ if(isset($params['installed'])){
 	  $update_api = new \Microweber\Update();
 
 $params = array();
- 
+$params['add_new'] = true; 
 $result = $update_api -> call('get_modules', $params);
  
 	 

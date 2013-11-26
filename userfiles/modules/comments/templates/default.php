@@ -165,7 +165,7 @@ description: Default comments template
 			</div>
 			<div class="row row-fluid">
 				<div class="span12 col-sm-12 col-md-12">
-					<div class="input-prepend captcha pull-left"> <span class="add-on pull-left"> <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);"> </span>
+					<div class="input-prepend captcha pull-left"> <span class="add-on pull-left "> <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);"> </span>
 						<input type="text" name="captcha" required class="input-medium input-sm form-control" placeholder="<?php _e("Enter text"); ?>">
 					</div>
 					<input type="submit" class="btn btn-default pull-right" value="<?php _e("Add comment"); ?>">

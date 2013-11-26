@@ -215,12 +215,12 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
   $post_params['category'] = $cat_from_url;
   
 
-} elseif ($posts_parent_category != false and intval($posts_parent_category) > 0 and ($cfg_page_id) == false) {
+} elseif ($posts_parent_category != false and intval($posts_parent_category) > 0 and ($cfg_page_id) != false) {
     $post_params['category'] = $posts_parent_category;
 
 } 
 }
-if ($posts_parent_category_cfg != false and intval($posts_parent_category_cfg) > 0) {
+if ($posts_parent_category_cfg != false and intval($posts_parent_category_cfg) > 0 and $cfg_page_id_force != false and intval($cfg_page_id_force) > 0 ) {
     $post_params['category'] = $posts_parent_category_cfg;
 
 }

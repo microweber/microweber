@@ -9,7 +9,7 @@ class Update
 {
 
     private $remote_api_url = 'http://api.microweber.com/service/update/';
-
+    private $remote_api_url_test = 'http://api.microweber.com/service/update/index_test.php';
     public $app;
 
     function __construct($app=null)

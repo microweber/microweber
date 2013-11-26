@@ -19,6 +19,8 @@ $paging_param = $params['id'].'_page';
 	if( intval( $curent_page_from_url) > 0){
 	$user_params['curent_page'] = intval( $curent_page_from_url);
 
+	} elseif(isset($params['curent_page'])){
+		 $curent_page_from_url = $user_params['curent_page']  = $params['curent_page'];
 	}
  
 if(isset($params['search'])){
@@ -26,7 +28,7 @@ $user_params['search_by_keyword'] =$params['search'];
 $users_per_page = 1000;
 $user_params['curent_page'] = 1;
 }
-
+ 
  //$user_params['debug'] = 1;
 
 $user_params['limit'] =   $users_per_page; 
@@ -111,6 +113,31 @@ $data = get_users($user_params);
   </tbody>
 </table>
  <?php if($paging != false and intval($paging) > 1 and isset($paging_param)): ?>
+ <script type="text/javascript">
+
+
+                $(document).ready(function () {
+
+                    mw.$('#<?php print $params['id'] ?> .mw-paging').find('a[data-page-number]').unbind('click');
+                    mw.$('#<?php print $params['id'] ?> .mw-paging').find('a[data-page-number]').click(function (e) {
+                        var pn = $(this).attr('data-page-number');
+
+                        mw.$('#<?php print $params['id'] ?>').attr('paging_param', '<?php print $paging_param ?>');
+                        mw.$('#<?php print $params['id'] ?>').attr('curent_page', pn)
+                        mw.reload_module('#<?php print $params['id'] ?>');
+
+
+                        return false;
+                    });
+
+
+                });
+
+
+            </script>
+			
+			
+			
     <?php print paging("num={$paging}&paging_param={$paging_param}&curent_page={$curent_page_from_url}&class=mw-paging") ?>
     <?php endif; ?>
 <?php endif; ?>

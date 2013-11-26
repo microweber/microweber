@@ -13,19 +13,23 @@ description: Default Search template
   ?>
 
 <div class="mw-search mw-search-default" id="search_box_holder_<?php  print $params['id'] ?>">
+ 
+ 
+
+
 
     <input type="text"
          id="search_field_<?php  print $params['id'] ?>"
-         class="input-small mw-search-field pull-left"
+         class="input-small mw-search-field pull-left input-sm"
          placeholder="<?php _e("Search"); ?>"
 		 
     />
     <button class="btn btn-default  pull-left"
       onclick="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>',mwd.getElementById('search_field_<?php  print $params['id'] ?>').value);">
-      <i class="icon-search"></i>
+      <i class="icon-search glyphicon glyphicon-search"></i>
     </button>
 
-
+ 
 
 
   <div class="mw-search-results" id="search_results_holder_<?php  print $params['id'] ?>"> </div>

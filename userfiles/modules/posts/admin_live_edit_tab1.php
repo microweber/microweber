@@ -97,7 +97,9 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 <label class="mw-ui-label"><?php _e("Show only from category"); ?></label>
 <div class="mw-ui-select" style="width: 100%;">
   <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field"   data-also-reload="<?php print  $config['the_module'] ?>"    >
+
     <option  value=''  <?php if((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>><?php _e("Select a category"); ?></option>
+
     <?php
         $pt_opts = array();
         $pt_opts['link'] = "{empty}{title}";
@@ -109,6 +111,8 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
         $pt_opts['rel_id'] = $posts_parent_page;
         category_tree($pt_opts);
   ?>
+  	      <option  value='0'  <?php if((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>--<?php _e("None"); ?></option>
+
   </select>
 </div>
 </div>
