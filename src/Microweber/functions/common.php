@@ -289,13 +289,23 @@ function save_edit($post_data)
  * @since Version 1.0
  *
  */
-api_expose('save_content');
+ //api_expose('save_content');
 
 function save_content($data, $delete_the_cache = true)
 {
 
 
     return mw('content')->save_content($data, $delete_the_cache);
+
+}
+
+api_expose('save_content_admin');
+
+function save_content_admin($data, $delete_the_cache = true)
+{
+
+
+    return mw('content')->save_content_admin($data, $delete_the_cache);
 
 }
 

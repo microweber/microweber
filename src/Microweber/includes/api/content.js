@@ -83,7 +83,7 @@ mw.content = mw.content || {
           $(mwd.body).addClass("loading");
           $.ajax({
               type: 'POST',
-              url: mw.settings.site_url + 'api/save_content',
+              url: mw.settings.site_url + 'api/save_content_admin',
               data: data,
               datatype: "json",
               async: true,

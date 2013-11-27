@@ -643,7 +643,7 @@ class Content
                             $page['active_site_template'] = $par_c['active_site_template'];
 
 
-                            if($page['active_site_template'] == 'default'){
+                            if ($page['active_site_template'] == 'default') {
                                 $page['active_site_template'] = $site_template_settings;
                             }
 
@@ -3700,7 +3700,7 @@ class Content
             //
             //
             $content_data = $this->get_by_id($content_id);
-            if($content_data['is_active'] != 'y'){
+            if ($content_data['is_active'] != 'y') {
                 return false;
             }
 
@@ -3870,42 +3870,38 @@ class Content
 
     }
 
-
-    public function save_content($data, $delete_the_cache = true)
+    public function save_content_admin($data, $delete_the_cache = true)
     {
 
-        global $mw_global_content_memory;
-        $mw_global_content_memory = array();
+        if (is_string($data)) {
+            $data = parse_params($data);
+        }
+
         $adm = $this->app->user->is_admin();
-        $table = MW_DB_TABLE_CONTENT;
-        $table_data = MW_DB_TABLE_CONTENT_DATA;
 
         $checks = mw_var('FORCE_SAVE_CONTENT');
         $orig_data = $data;
+        $stop = false;
 
-        if (defined('MW_API_CALL') and $checks != $table) {
-            if ($adm == false) {
-                $data = $this->app->format->strip_unsafe($data);
-
-                $stop = true;
-
-
-                $author_id = user_id();
-                if (isset($data['id']) and $data['id'] != 0 and $author_id != 0) {
-                    $page_data_to_check_author = $this->get_by_id($data['id']);
-                    if (!isset($page_data_to_check_author['created_by']) or ($page_data_to_check_author['created_by'] != $author_id)) {
-                        $stop = true;
-                        return array('error' => 'You dont have permission to edit this content');
-                    } else if (isset($page_data_to_check_author['created_by']) and ($page_data_to_check_author['created_by'] == $author_id)) {
-                        $stop = false;
-                    }
+        if ($adm == false) {
+            $data = $this->app->format->strip_unsafe($data);
+            $stop = true;
+            $author_id = user_id();
+            if (isset($data['id']) and $data['id'] != 0 and $author_id != 0) {
+                $page_data_to_check_author = $this->get_by_id($data['id']);
+                if (!isset($page_data_to_check_author['created_by']) or ($page_data_to_check_author['created_by'] != $author_id)) {
+                    $stop = true;
+                    return array('error' => 'You dont have permission to edit this content');
+                } else if (isset($page_data_to_check_author['created_by']) and ($page_data_to_check_author['created_by'] == $author_id)) {
+                    $stop = false;
                 }
+            }
+            if ($stop == true) {
+                if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
 
-                if ($stop == true) {
                     if (!isset($data['captcha'])) {
                         if (isset($data['error_msg'])) {
                             return array('error' => $data['error_msg']);
-
                         } else {
                             return array('error' => 'Please enter a captcha answer!');
 
@@ -3919,13 +3915,14 @@ class Content
                             return array('error' => 'Invalid captcha answer!');
                         }
                     }
-
                 }
-                if (isset($data['categories'])) {
-                    $data['category'] = $data['categories'];
-                }
+            }
 
 
+            if (isset($data['categories'])) {
+                $data['category'] = $data['categories'];
+            }
+            if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
                 if (isset($data['category'])) {
                     $cats_check = array();
                     if (is_array($data['category'])) {
@@ -3935,37 +3932,128 @@ class Content
                     } else {
                         $cats_check[] = intval($data['category']);
                     }
-
                     $check_if_user_can_publish = $this->app->category->get('ids=' . implode(',', $cats_check));
                     if (!empty($check_if_user_can_publish)) {
-
                         $user_cats = array();
                         foreach ($check_if_user_can_publish as $item) {
                             if (isset($item["users_can_create_content"]) and $item["users_can_create_content"] == 'y') {
                                 $user_cats[] = $item["id"];
                                 $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item["id"]);
-
-
                             }
-
                         }
-
-
                         if (!empty($user_cats)) {
                             $stop = false;
                             $data['categories'] = $user_cats;
-
                         }
                     }
-                    // d($check_if_user_can_publish);
                 }
 
+            }
+        }
+
+
+        if ($stop == true) {
+            return array('error' => 'You are dont have permissions to save content!');
+        }
+
+        return $this->save_content($data, $delete_the_cache);
+
+    }
+
+    public function save_content($data, $delete_the_cache = true)
+    {
+
+        if (is_string($data)) {
+            $data = parse_params($data);
+        }
+
+        global $mw_global_content_memory;
+        $mw_global_content_memory = array();
+        $adm = $this->app->user->is_admin();
+        $table = MW_DB_TABLE_CONTENT;
+        $table_data = MW_DB_TABLE_CONTENT_DATA;
+
+        $checks = mw_var('FORCE_SAVE_CONTENT');
+        $orig_data = $data;
+        $stop = false;
+
+        /* CODE MOVED TO $this->save_content_admin
+
+         if (defined('MW_API_CALL') and $checks != $table) {
+
+            if ($adm == false) {
+                $data = $this->app->format->strip_unsafe($data);
+                $stop = true;
+                $author_id = user_id();
+                if (isset($data['id']) and $data['id'] != 0 and $author_id != 0) {
+                    $page_data_to_check_author = $this->get_by_id($data['id']);
+                    if (!isset($page_data_to_check_author['created_by']) or ($page_data_to_check_author['created_by'] != $author_id)) {
+                        $stop = true;
+                        return array('error' => 'You dont have permission to edit this content');
+                    } else if (isset($page_data_to_check_author['created_by']) and ($page_data_to_check_author['created_by'] == $author_id)) {
+                        $stop = false;
+                    }
+                }
                 if ($stop == true) {
+                    if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
+
+                        if (!isset($data['captcha'])) {
+                            if (isset($data['error_msg'])) {
+                                return array('error' => $data['error_msg']);
+                            } else {
+                                return array('error' => 'Please enter a captcha answer!');
+
+                            }
+                        } else {
+                            $cap = $this->app->user->session_get('captcha');
+                            if ($cap == false) {
+                                return array('error' => 'You must load a captcha first!');
+                            }
+                            if ($data['captcha'] != $cap) {
+                                return array('error' => 'Invalid captcha answer!');
+                            }
+                        }
+                    }
+                }
 
 
-                    return array('error' => 'You are not logged in as admin to save content!');
+                if (isset($data['categories'])) {
+                    $data['category'] = $data['categories'];
+                }
+                if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
+                    if (isset($data['category'])) {
+                        $cats_check = array();
+                        if (is_array($data['category'])) {
+                            foreach ($data['category'] as $cat) {
+                                $cats_check[] = intval($cat);
+                            }
+                        } else {
+                            $cats_check[] = intval($data['category']);
+                        }
+                        $check_if_user_can_publish = $this->app->category->get('ids=' . implode(',', $cats_check));
+                        if (!empty($check_if_user_can_publish)) {
+                            $user_cats = array();
+                            foreach ($check_if_user_can_publish as $item) {
+                                if (isset($item["users_can_create_content"]) and $item["users_can_create_content"] == 'y') {
+                                    $user_cats[] = $item["id"];
+                                    $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item["id"]);
+                                }
+                            }
+                            if (!empty($user_cats)) {
+                                $stop = false;
+                                $data['categories'] = $user_cats;
+                            }
+                        }
+                    }
+
                 }
             }
+        }
+        */
+
+
+        if ($stop == true) {
+            return array('error' => 'You are not logged in as admin to save content!');
         }
 
         $cats_modified = false;
@@ -3981,7 +4069,6 @@ class Content
         }
         $data_to_save = $data;
 
-        $more_categories_to_delete = array();
         if (!isset($data['url']) and intval($data['id']) != 0) {
 
             $q = "SELECT * FROM $table WHERE id='{$data_to_save['id']}' ";
@@ -3989,12 +4076,8 @@ class Content
             $q = $this->app->db->query($q);
 
             $thetitle = $q[0]['title'];
-
             $q = $q[0]['url'];
-
             $theurl = $q;
-
-            $more_categories_to_delete = $this->app->category->get_for_content($data['id'], 'categories');
         } else {
             if (isset($data['url'])) {
                 $theurl = $data['url'];
@@ -4087,6 +4170,9 @@ class Content
                 $data['url'] = $this->app->url->slug($data['title']);
             }
 
+            $data['url'] = $this->app->db->escape_string($data['url']);
+
+
             $date123 = date("YmdHis");
 
             $q = "SELECT id, url FROM $table WHERE url LIKE '{$data['url']}'";
@@ -4129,8 +4215,12 @@ class Content
         $data_to_save_options = array();
 
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
-            $sql = "UPDATE $table SET is_home='n'   ";
-            $q = $this->app->db->query($sql);
+            if ($adm == true) {
+                $sql = "UPDATE $table SET is_home='n'   ";
+                $q = $this->app->db->query($sql);
+            } else {
+                $data_to_save['is_home'] = 'n';
+            }
         }
 
         if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {
@@ -4138,7 +4228,6 @@ class Content
                 $data_to_save['subtype'] = 'post';
             } else if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
                 $data_to_save['subtype'] = 'post';
-
             }
         }
 
@@ -4151,16 +4240,11 @@ class Content
             if ($check_ex == false) {
                 if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
                     $test2 = $this->app->category->get('data_type=category&rel=content&rel_id=' . intval(($data_to_save['id'])));
-
                     if (isset($test2[0])) {
                         $check_ex = $test2[0];
                         $data_to_save['subtype_value'] = $test2[0]['id'];
                     }
-
-
                 }
-
-
                 unset($data_to_save['subtype_value']);
             }
 
@@ -4235,7 +4319,6 @@ class Content
         if (isset($data_to_save['content'])) {
             if (trim($data_to_save['content']) == '' or $data_to_save['content'] == false) {
                 $data_to_save['content'] = null;
-                //
             } else {
                 $data_to_save['content'] = mw('parser')->make_tags($data_to_save['content']);
             }
@@ -4357,10 +4440,7 @@ class Content
                 $new_category["title"] = $data_to_save['title'];
                 $new_category["parent_id"] = "0";
                 $cats_modified = true;
-                //	 d($new_category);
                 // $new_category = $this->app->category->save($new_category);
-
-
             }
         }
         $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
@@ -4422,11 +4502,8 @@ class Content
                 }
             }
         }
-
-        event_trigger('mw_save_content');
-        //session_write_close();
+        event_trigger('mw_save_content', $save);
         return $save;
-
     }
 
 
@@ -4511,11 +4588,9 @@ class Content
                     $save_page = $pd;
                     $save_page['url'] = $this->app->url->string(1);
                     $save_page['title'] = $this->app->url->slug($this->app->url->string(1));
-                    $page_id = $this->save_content($save_page);
+                    $page_id = $this->save_content_admin($save_page);
                 }
-                //
 
-                // d($ref_page_url);
             } else {
                 $page_id = $ref_page['id'];
                 $ref_page['custom_fields'] = $this->custom_fields($page_id, false);
@@ -4775,7 +4850,7 @@ class Content
                                     $json_print[] = $to_save;
 
 
-                                    $saved = $this->save_content($to_save);
+                                    $saved = $this->save_content_admin($to_save);
 
 
                                 }
@@ -5387,7 +5462,10 @@ class Content
                 $params['id'] = $id;
             }
         }
-
+        $adm = $this->app->user->is_admin();
+        if ($adm == false) {
+            return array('error' => 'You must be admin to unpublish content!');
+        }
 
         if (!isset($params['id'])) {
             return array('error' => 'You must provide id parameter!');
@@ -5439,6 +5517,11 @@ class Content
                 $params['id'] = $id;
             }
         }
+        $adm = $this->app->user->is_admin();
+        if ($adm == false) {
+            return array('error' => 'You must be admin to publish content!');
+        }
+
 
         if (!isset($params['id'])) {
             return array('error' => 'You must provide id parameter!');

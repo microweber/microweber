@@ -988,6 +988,8 @@ class Controller
             define('MW_API_CALL', true);
         }
 
+
+
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -1006,6 +1008,7 @@ class Controller
         } else {
             $api_function_full = $api_function;
         }
+
 
 
         //$api_function_full = str_ireplace('api/', '', $api_function_full);
@@ -1032,7 +1035,6 @@ class Controller
         $mod_api_class = implode(DS, $mod_api_class);
         $mod_api_class_clean = ltrim($mod_api_class, '/');
         $mod_api_class_clean_uc1 = ucfirst($mod_api_class_clean);
-        //d($mod_api_class);
 
         $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
         $mod_api_class_native = normalize_path(MW_APP_PATH . $mod_api_class, false) . '.php';
@@ -1113,7 +1115,10 @@ class Controller
             }
 
         }
+        if (!defined('MW_API_FUNCTION_CALL')) {
+            define('MW_API_FUNCTION_CALL', $api_function);
 
+        }
         switch ($caller_commander) {
             case 'class_is_already_here' :
                 if ($params != false) {
