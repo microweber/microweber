@@ -69,7 +69,7 @@ mw.iframecallbacks = {
     insert_html:function(html){ return mw.wysiwyg.insert_html(html);},
     insert_image:function(url){  return mw.wysiwyg.insert_image(url);},
     set_bg_image:function(url){
-      
+
 
       return mw.wysiwyg.set_bg_image(url);
     },

@@ -887,3 +887,5 @@ $language["you-are-replying-as"]= 'You are replying as' ;
 $language["reply"]= 'Reply' ; 
 $language["add-reply"]= 'Add Reply' ; 
 $language["manage-pages"]= 'Manage pages' ; 
+$language["user-content"]= 'User content' ; 
+$language["my-module"]= 'My module' ; 

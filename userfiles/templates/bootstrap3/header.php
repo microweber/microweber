@@ -24,7 +24,7 @@
            <div class="mw-row">
               <div class="mw-col" style="width: 20%">
                   <div class="mw-col-container">
-                      <div class="brand element" id="logo"><a href="<?php print site_url(); ?>"><h2>Bootstrap 3</h2></a></div>
+                      <div class="brand element" id="logo"><h2><a href="<?php print site_url(); ?>">Bootstrap 3</a></h2></div>
                   </div>
               </div>
               <div class="mw-col" style="width: 45%">
