@@ -4146,11 +4146,8 @@ class Content
             $data['url'] = $newstr;
 
             $url_changed = true;
-            // if (intval ( $data ['id'] ) == 0) {
             $data_to_save['url'] = $data['url'];
 
-
-            // }
         }
 
 

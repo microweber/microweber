@@ -2393,3 +2393,14 @@ if (!function_exists('params_stripslashes_array')) {
         return is_array($array) ? array_map('params_stripslashes_array', $array) : stripslashes($array);
     }
 }
+
+if (!function_exists('validator')) {
+
+    function validator($data)
+    {
+        $validator = new \Microweber\Validator($data);
+        return $validator;
+    }
+}
+
+

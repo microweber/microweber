@@ -889,3 +889,4 @@ $language["add-reply"]= 'Add Reply' ;
 $language["manage-pages"]= 'Manage pages' ; 
 $language["user-content"]= 'User content' ; 
 $language["my-module"]= 'My module' ; 
+$language["forum"]= 'Forum' ; 
