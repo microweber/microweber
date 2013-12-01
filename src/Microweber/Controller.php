@@ -593,10 +593,10 @@ class Controller
             return $content;
         }
 
-        if(!isset($page['title'])){
+        if (!isset($page['title'])) {
             $page['title'] = 'New page';
         }
-        if(!isset($content['title'])){
+        if (!isset($content['title'])) {
             $content['title'] = 'New content';
         }
 
@@ -617,6 +617,7 @@ class Controller
             $l = $l->__toString();
 
 
+            // used for preview from the admin wysiwyg
             if (isset($_REQUEST['isolate_content_field'])) {
 
                 require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
@@ -692,40 +693,24 @@ class Controller
                 }
             }
 
-            // $l = str_ireplace('</head>', $default_css . '</head>', $l);
+
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             if (!stristr($l, $apijs_loaded)) {
-
-                //$apijs_loaded = $apijs_loaded.'?id='.$content['id'];
 
                 $default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
                 $default_css .= '<script src="' . MW_INCLUDES_URL . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";
 
-
-                //as of aug 28
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
-            /*  if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
-                  $custom_template_settings = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'template_settings.css';
-              } else {
-                  $custom_template_settings = TEMPLATE_DIR . DS . 'template_settings.css';
-              }
-              $custom_template_settings = normalize_path($custom_template_settings, false);
-              if (is_file($custom_template_settings)) {
-                  $custom_live_editmtime = filemtime($custom_template_settings);
-                  $custom_template_settings_url = dir2url($custom_template_settings);
-                  $liv_ed_css = '<link rel="stylesheet" href="' . $custom_template_settings_url . '?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
 
-                  $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-              }*/
 
             if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
 
                 if (!defined('CONTENT_TEMPLATE')) {
                     define('CONTENT_TEMPLATE', $content['active_site_template']);
                 }
- 
- 
+
+
                 $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
             } else {
                 $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
@@ -776,7 +761,6 @@ class Controller
                         $layout_live_edit = new $this->app->view($custom_live_edit);
                         $layout_live_edit = $layout_live_edit->__toString();
                         if ($layout_live_edit != '') {
-                            //$layout_live_edit = $this->app->parser->process($layout_live_edit, $options = array('no_apc' => 1));
                             $l = str_ireplace('</body>', $layout_live_edit . '</body>', $l, $c);
                         }
 
@@ -857,11 +841,11 @@ class Controller
                     $meta['description'] = strip_tags($meta['description']);
                 }
 
-                    if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
+                if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
                 } else {
                     $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
                 }
-                $meta = $this->app->format->clean_html($meta,true);
+                $meta = $this->app->format->clean_html($meta, true);
                 $l = str_replace('{content_meta_title}', addslashes($meta['title']), $l);
                 $l = str_replace('{content_meta_description}', addslashes(($meta['description'])), $l);
                 $l = str_replace('{content_meta_keywords}', addslashes($meta['content_meta_keywords']), $l);
@@ -916,9 +900,9 @@ class Controller
             if (isset($_REQUEST['debug'])) {
 
                 $is_admin = $this->app->user->is_admin();
-                // if ($is_admin == true) {
-                $this->app->content->debug_info();
-                // }
+                if ($is_admin == true) {
+                    $this->app->content->debug_info();
+                }
             }
 
 
@@ -989,7 +973,6 @@ class Controller
         }
 
 
-
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -1008,7 +991,6 @@ class Controller
         } else {
             $api_function_full = $api_function;
         }
-
 
 
         //$api_function_full = str_ireplace('api/', '', $api_function_full);
@@ -1101,9 +1083,7 @@ class Controller
         if (!defined('MW_API_RAW')) {
             if ($mod_class_api != false) {
                 $url_segs = $this->app->url->segment(-1);
-                // $api_function = ;
-                //d($api_functioan);
-                //d($try_class);
+
             }
         } else {
             if (is_array($api_function)) {
@@ -1124,14 +1104,14 @@ class Controller
                 if ($params != false) {
                     $data = $params;
                 } else if (!$_POST and !$_REQUEST) {
-                    //  $data = $this->app->url->segment(2);
+
                     $data = $this->app->url->params(true);
                     if (empty($data)) {
                         $data = $this->app->url->segment(2);
                     }
                 } else {
                     //$data = $_REQUEST;
-					$data = array_merge($_GET, $_POST);
+                    $data = array_merge($_GET, $_POST);
 
 
                 }
@@ -1196,7 +1176,6 @@ class Controller
                             $mod_api_err = true;
 
                             foreach ($api_exposed as $api_exposed_value) {
-                                //d($api_exposed_value);
                                 if ($mod_api_err == true) {
 
 
@@ -1210,10 +1189,7 @@ class Controller
                                         $mod_api_err = false;
                                     } else {
                                         $convert_slashes = str_replace('\\', '/', $try_class_full);
-                                        //$convert_slashes2 = str_replace('\\', '/', $try_class_full);
 
-                                        //d($convert_slashes);
-                                        // d($try_class_full);
                                         if ($convert_slashes == $api_exposed_value) {
                                             $mod_api_err = false;
                                         }
@@ -1256,18 +1232,16 @@ class Controller
                             if ($params != false) {
                                 $data = $params;
                             } else if (!$_POST and !$_REQUEST) {
-                                //  $data = $this->app->url->segment(2);
                                 $data = $this->app->url->params(true);
                                 if (empty($data)) {
                                     $data = $this->app->url->segment(2);
                                 }
                             } else {
-                              //  $data = $_REQUEST;
-							  $data = array_merge($_GET, $_POST);
+
+                                $data = array_merge($_GET, $_POST);
                             }
 
                             $res = new $try_class($data);
-                            //if (method_exists($res, $try_class_func)) {
 
                             if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
 
@@ -1276,7 +1250,7 @@ class Controller
                                     $try_class_func = $try_class_func2;
                                 }
 
-                                //exit();
+
                                 $res = $res->$try_class_func($data);
 
                                 $mod_class_api_called = true;
@@ -1338,7 +1312,7 @@ class Controller
                     if (is_string($api_exposed_item) and is_string($api_function_full)) {
                         $api_function_full = str_replace('\\', '/', $api_function_full);
                         $api_function_full = ltrim($api_function_full, '/');
-                     
+
                         if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
 
                             $err = false;
@@ -1349,7 +1323,7 @@ class Controller
             }
 
             if ($err == false) {
-        
+
                 if ($mod_class_api_called == false) {
                     if (!$_POST and !$_REQUEST) {
                         //  $data = $this->app->url->segment(2);
@@ -1359,7 +1333,7 @@ class Controller
                         }
                     } else {
                         //$data = $_REQUEST;
-						$data = array_merge($_GET, $_POST);
+                        $data = array_merge($_GET, $_POST);
                     }
 
                     $api_function_full_2 = explode('/', $api_function_full);
@@ -1426,8 +1400,8 @@ class Controller
 
                     foreach ($hooks[$api_function] as $hook_key => $hook_value) {
                         if ($hook_value != false and $hook_value != null) {
-                             $hook_value($res);
-                            
+                            $hook_value($res);
+
                         }
                     }
 
@@ -1553,8 +1527,6 @@ class Controller
         } else {
             $url = $this->app->url->string();
         }
-
-
 
 
         $this->app->content->define_constants($page);
@@ -1924,11 +1896,11 @@ class Controller
         $map = $sm_file;
         $fp = fopen($map, 'r');
 
-// send the right headers
+        // send the right headers
         header("Content-Type: text/xml");
         header("Content-Length: " . filesize($map));
 
-// dump the picture and stop the script
+        // dump the file and stop the script
         fpassthru($fp);
         exit;
 

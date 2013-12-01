@@ -32,6 +32,7 @@ class Db
 
     public $app;
     private $mw_escaped_strings = array();
+    public $connection_settings = array();
 
     function __construct($app = null)
     {
@@ -452,7 +453,7 @@ class Db
             $the_user_id = 0;
             $the_user_id = null;
         }
-        //
+
         if (intval($data['id']) == 0) {
 
             if (isset($data['created_on']) == false) {
@@ -475,7 +476,6 @@ class Db
 
         $criteria = $this->map_array_to_table($table, $data);
         if ($allow_html == false) {
-            //$allowed_tags = '<p><strong><div>';
 
             $criteria = $this->app->format->clean_html($criteria);
 
@@ -1013,7 +1013,7 @@ class Db
      * @param string|bool $cache_id It will save the query result in the cache. Set to false to disable
      * @param string|bool $cache_group Stores the result in certain cache group. Set to false to disable
      * @param bool $only_query If set to true, will perform only a query without returning a result
-     * @param array|bool $connection_settigns
+     * @param array|bool $connection_settings
      * @return array|bool|mixed
      *
      * @example
@@ -1028,7 +1028,7 @@ class Db
      *
      *
      */
-    public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settigns = false)
+    public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settings = false)
     {
         if (trim($q) == '') {
             return false;
@@ -1063,9 +1063,10 @@ class Db
 
         // }
         $this->query_log($q);
-        if ($connection_settigns != false and is_array($connection_settigns) and !empty($connection_settigns)) {
-            $db = $connection_settigns;
-
+        if ($connection_settings != false and is_array($connection_settings) and !empty($connection_settings)) {
+            $db = $connection_settings;
+        } elseif (!empty($this->connection_settings)) {
+            $db = $this->connection_settings;
         } else {
             $db = $this->app->config('db');
         }
@@ -1179,7 +1180,7 @@ class Db
      *
      *
      * @param string $q Your SQL query
-     * @param bool|array $connection_settigns
+     * @param bool|array $connection_settings
      * @return array|bool|mixed
      * @package Database
      * @uses $this->query
@@ -1194,11 +1195,11 @@ class Db
      * </code>
      *
      */
-    public function q($q, $connection_settigns = false)
+    public function q($q, $connection_settings = false)
     {
 
 
-        if ($connection_settigns == false) {
+        if ($connection_settings == false) {
             $db = array();
             if (defined("DB_HOST")) {
                 $db['host'] = DB_HOST;
@@ -1213,7 +1214,7 @@ class Db
                 $db['dbname'] = DB_NAME;
             }
         } else {
-            $db = $connection_settigns;
+            $db = $connection_settings;
         }
         $q = $this->query($q, $cache_id = false, $cache_group = false, $only_query = true, $db);
 
@@ -2427,7 +2428,7 @@ class Db
             $result = $this->query($q, false, false);
 
         }
-        //
+
 
         if (isset($result[0]['qty']) == true and $count_only == true) {
 
@@ -2471,30 +2472,17 @@ class Db
         }
 
         $return = array();
-//d($result);
+
         if (!empty($result)) {
             $result = $this->app->url->replace_site_url_back($result);
             $return = $result;
 
         }
-        if ($cache_group != false) {
-
-            if (is_array($return)) {
-
-                //$this->app->cache->save($return, $original_cache_id, $original_cache_group);
-            } else {
-
-                //  $this->app->cache->save('---empty---', $original_cache_id, $original_cache_group);
-            }
-        }
-
-
         if (empty($return)) {
             return $result;
 
         }
 
-        //
         return $return;
     }
 
@@ -2670,7 +2658,7 @@ class Db
             }
         }
 
-        // var_dump ( $exisiting_fields );
+
         $fields = array();
 
         foreach ($exisiting_fields as $k => $v) {
@@ -3106,7 +3094,7 @@ class Db
     {
 
         $q = $this->get_by_id($table, $id, $field_name);
-         if (isset($q[$field_name])) {
+        if (isset($q[$field_name])) {
             $data = $q;
             if (isset($data[$field_name])) {
                 unset($data[$field_name]);
@@ -3134,8 +3122,7 @@ class Db
         }
 
         $cg = $this->assoc_table_name($table);
-        //
-        // d($cg);
+
         $this->app->cache->delete($cg);
     }
 
@@ -3351,7 +3338,6 @@ class Db
             foreach ($sql_query as $sql) {
                 $sql = trim($sql);
 
-                //d($sql);
                 $qz = $this->q($sql);
             }
             //$this->app->cache->delete('db');
