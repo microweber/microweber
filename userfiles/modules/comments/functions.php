@@ -184,11 +184,10 @@ function post_comment($data)
         $notif['title'] = "You have new comment";
         $notif['description'] = "New comment is posted on " . mw('url')->current(1);
         $notif['content'] = mw('format')->limit($data['comment_body'], 800);
-		
-		
- 		
+
+
         $notf_id = mw('Microweber\Notifications')->save($notif);
-		$data['moderate'] = admin_url('view:modules/load_module:comments/mw_notif:'.$notf_id);
+        $data['moderate'] = admin_url('view:modules/load_module:comments/mw_notif:' . $notf_id);
 
         $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
         $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
@@ -239,7 +238,7 @@ function get_comments($params)
     $table = MODULE_DB_COMMENTS;
     $params['table'] = $table;
 
-    if (isset($params['category'])) {
+    if (isset($params['categsssory'])) {
         if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
             define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
         }
@@ -251,15 +250,18 @@ function get_comments($params)
         if (isset($params['count'])) {
             $select = " SELECT  count(*) as qty ";
             $limit = "   ";
-
+        } elseif (isset($params['single'])) {
+            $limit = " limit 1 ";
         }
         $sql = $select . " FROM $table
         LEFT JOIN $table_cat_items ON
             $table_cat_items.rel = $table.rel
             where $table_cat_items.parent_id=$cat
-            and $table_cat_items.rel_id =$table.rel_id $limit";
+            and $table_cat_items.rel_id =$table.rel_id
+            order by $table.id desc
+            $limit ";
 
-        $comments = mw('db')->query($sql, 'comments_in_category_'.crc32($sql), 'comments/global');
+        $comments = mw('db')->query($sql, 'comments_in_category_' . crc32($sql), 'comments/global');
 
         unset($params['category']);
     } else {
@@ -274,21 +276,14 @@ function get_comments($params)
     $aj = mw('url')->is_ajax();
 
     if (is_array($comments)) {
-
-
-
         $i = 0;
         foreach ($comments as $item) {
-            if ($aj == true) {
-                //  $item =  mw('format')->clean_html($item);
-
-            }
             if (isset($params['count'])) {
                 if (isset($item['qty'])) {
                     return $item['qty'];
                 }
-
             }
+
             if (isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')) {
                 $comments[$i]['comment_name'] = user_name($item['created_by']);
             }
@@ -301,10 +296,47 @@ function get_comments($params)
             if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
                 $comments[$i]['comment_body'] = mw('format')->autolink($item['comment_body']);
             }
+
+            if (isset($params['single'])) {
+
+                return $comments[$i];
+
+            }
+
             $i++;
         }
     }
 
 
     return $comments;
+}
+
+
+
+event_bind('db_query_comments', '_modify_comments_query');
+
+function _modify_comments_query($criteria)
+{
+   
+   // if we have 'posts_category' param in the query
+   // we will get comments from a category
+   if (isset($criteria['posts_category'])) {
+        if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
+            define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
+        }
+		$table = MODULE_DB_COMMENTS;
+        $table_cat_items = MW_DB_TABLE_TAXONOMY_ITEMS;
+        $cat = intval($criteria['posts_category']);
+        $sql = "
+        LEFT JOIN $table_cat_items ON
+            $table_cat_items.rel = $table.rel
+            where $table_cat_items.parent_id=$cat
+            and $table_cat_items.rel_id =$table.rel_id
+             and $table.is_moderated = 'y'
+             ";
+			 return $sql;
+
+        
+    }
+ 
 }

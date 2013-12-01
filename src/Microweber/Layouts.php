@@ -265,6 +265,12 @@ class Layouts
                                 $to_return_temp['content_type'] = trim($result);
                             }
 
+                            if (preg_match('/tag:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('tag:', '', $result);
+                                $to_return_temp['tag'] = trim($result);
+                            }
+
                             $layout_file = str_replace($path, '', $filename);
 
                             if (isset($template_dirs) and !empty($template_dirs)) {

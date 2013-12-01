@@ -16,7 +16,16 @@ if (!defined('MW_USER_IP')) {
 
     }
 }
+
+
 $mw_db_arr_maps = array();
+
+$ex_fields_static = array();
+$_mw_real_table_names = array();
+$_mw_assoc_table_names = array();
+$mw_escaped_strings = array();
+
+
 class Db
 {
 
@@ -141,12 +150,12 @@ class Db
 
         foreach ($params as $k => $v) {
             if ($k == 'table') {
-                $table = guess_table_name($v);
+                $table = $this->guess_table_name($v);
 
             }
 
             if (!isset($table) and $k == 'what' and !isset($params['rel'])) {
-                $table = guess_table_name($v);
+                $table = $this->guess_table_name($v);
             }
 
             if ($k == 'for' and !isset($params['rel'])) {
@@ -183,7 +192,7 @@ class Db
             }
         }
         if (!isset($table) and isset($params['what'])) {
-            $table = db_get_real_table_name(guess_table_name($params['what']));
+            $table = $this->real_table_name($this->guess_table_name($params['what']));
 
         }
 
@@ -199,7 +208,7 @@ class Db
         }
 
         if ($cache_group == false and $debug == false) {
-            $cache_group = guess_cache_group($table);
+            $cache_group = $this->guess_cache_group($table);
             if (!isset($criteria['id'])) {
                 $cache_group = $cache_group . '/global';
             } else {
@@ -207,7 +216,7 @@ class Db
             }
 
         } else {
-            $cache_group = guess_cache_group($cache_group);
+            $cache_group = $this->guess_cache_group($cache_group);
         }
 
         $mode = 1;
@@ -1380,9 +1389,11 @@ class Db
         $to_search = false;
         //  $table = db_g($table);
         $table = $this->real_table_name($table);
+        $table_alias = $this->assoc_table_name($table);
 
         $aTable_assoc = $table_assoc_name = $this->real_table_name($table);
         $includeIds = array();
+
         if (!empty($criteria)) {
             if (isset($criteria['debug'])) {
                 if (isset($this->app->config['debug_mode'])) {
@@ -1455,9 +1466,14 @@ class Db
                 }
 
             }
+            static $event_trigger_exists;
+            if ($event_trigger_exists == false) {
+                if (function_exists('event_trigger')) {
+                    $event_trigger_exists = true;
+                }
 
+            }
 
-            //  d($cfg_default_limit);
 
             if ($cfg_default_limit != false and intval($cfg_default_limit) > 0) {
                 $_default_limit = intval($cfg_default_limit);
@@ -1683,9 +1699,7 @@ class Db
         }
 
         if (!empty($criteria['exclude_ids'])) {
-
             $exclude_ids = $criteria['exclude_ids'];
-
             // unset($criteria['only_those_fields']);
             // no unset xcause f cache
         }
@@ -1705,6 +1719,8 @@ class Db
         if (isset($criteria['category-id'])) {
             $criteria['category'] = $criteria['category-id'];
         }
+
+
         if (isset($criteria['category'])) {
             //
             $search_n_cats = $criteria['category'];
@@ -1877,45 +1893,7 @@ class Db
                 }
             }
         }
-        if (isset($orderby) and $orderby != false) {
-            if (!is_array($orderby)) {
-                if (is_string($orderby)) {
-                    // $orderby = explode(',', $orderby);
-                }
-            }
-        }
 
-        if (isset($groupby) and $groupby != false) {
-            if (is_array($groupby)) {
-                $groupby = implode(',', $groupby);
-                $groupby = $this->escape_string($groupby);
-            }
-        }
-
-        if (is_string($groupby)) {
-
-            $groupby = " GROUP BY  {$groupby}  ";
-        } else {
-
-            $groupby = false;
-        }
-
-        if (is_string($orderby)) {
-            $order_by = " ORDER BY  $orderby  ";
-        } elseif (is_array($orderby) and !empty($orderby)) {
-            if (isset($orderby[0])) {
-                $orderby[0] = $this->escape_string($orderby[0]);
-            }
-            if (isset($orderby[1])) {
-                $orderby[1] = $this->escape_string($orderby[1]);
-            } else {
-                $orderby[1] = '';
-            }
-            $order_by = " ORDER BY  {$orderby[0]}  {$orderby[1]}  ";
-        } else {
-
-            $order_by = false;
-        }
 
         if (!isset($qLimit) and ($limit != false) and $count_only == false) {
             if (is_array($limit)) {
@@ -1969,6 +1947,73 @@ class Db
             $q = "SELECT count(*) AS qty FROM $table ";
         }
 
+        $precise_select = false;
+        if ($event_trigger_exists != false) {
+            $event_name = 'db_query_' . $table_alias;
+            $event_criteria = $orig_criteria;
+            $event_criteria['table'] = $table;
+            $event_criteria['table_alias'] = $table_alias;
+
+            $modified_query = event_trigger($event_name, $event_criteria);
+            if ($modified_query != false and is_array($modified_query) and !empty($modified_query)) {
+                foreach ($modified_query as $modified) {
+                    if (is_string($modified) and trim($modified) != '') {
+                        $q = $q . " " . $modified;
+                        $precise_select = true;
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (isset($groupby) and $groupby != false) {
+            if (is_array($groupby)) {
+                $groupby = implode(',', $groupby);
+                $groupby = $this->escape_string($groupby);
+            }
+        }
+
+        if (is_string($groupby)) {
+
+            $groupby = " GROUP BY  {$groupby}  ";
+            if ($precise_select) {
+                $groupby = " GROUP BY  $table.$groupby  ";
+            }
+        } else {
+
+            $groupby = false;
+        }
+
+        if (is_string($orderby)) {
+            $order_by = " ORDER BY  $orderby  ";
+
+            if ($precise_select) {
+                $orderby = trim($orderby);
+                $order_by = " ORDER BY  $table.$orderby  ";
+            }
+
+        } elseif (is_array($orderby) and !empty($orderby)) {
+            if (isset($orderby[0])) {
+                $orderby[0] = $this->escape_string($orderby[0]);
+            }
+            if (isset($orderby[1])) {
+                $orderby[1] = $this->escape_string($orderby[1]);
+            } else {
+                $orderby[1] = '';
+            }
+            if ($precise_select) {
+                if (strstr($orderby[0], $table) == false) {
+                    $orderby[0] = $table . '.' . $orderby[0];
+                }
+            }
+            $order_by = " ORDER BY  {$orderby[0]}  {$orderby[1]}  ";
+        } else {
+
+            $order_by = false;
+        }
+
         $where = false;
 
         if (is_array($ids)) {
@@ -1981,10 +2026,14 @@ class Db
 
                     $id = intval($id);
 
-                    $idds .= "   OR id=$id   ";
+                    // $idds .= "   OR id=$id   ";
+
+                    $idds .= "   OR $table.id=$id   ";
+
                 }
 
-                $idds = "  and ( id=0 $idds   ) ";
+                // $idds = "  and ( id=0 $idds   ) ";
+                $idds = "  and ( $table.id=0 $idds   ) ";
             } else {
 
                 $idds = false;
@@ -2001,10 +2050,13 @@ class Db
 
                 $id = intval($id);
 
-                $exclude_idds .= "   AND id<>$id   ";
+                // $exclude_idds .= "   AND id<>$id   ";
+                $exclude_idds .= "   AND $table.id<>$id   ";
+
             }
 
-            $exclude_idds = "  and ( id<>$first $exclude_idds   ) ";
+            //$exclude_idds = "  and ( id<>$first $exclude_idds   ) ";
+            $exclude_idds = "  and ( $table.id<>$first $exclude_idds   ) ";
         } else {
 
             $exclude_idds = false;
@@ -2013,7 +2065,8 @@ class Db
         if (!empty($includeIds)) {
             $includeIds_idds = false;
             $includeIds_i = implode(',', $includeIds);
-            $includeIds_idds .= "   AND id IN ($includeIds_i)   ";
+            // $includeIds_idds .= "   AND id IN ($includeIds_i)   ";
+            $includeIds_idds .= "   AND $table.id IN ($includeIds_i)   ";
         } else {
             $includeIds_idds = false;
         }
@@ -2075,12 +2128,16 @@ class Db
                             case 'help' :
                             case 'content' :
                             case in_array($v, $to_search_in_those_fields) :
-                                $where_q .= " $v REGEXP '$to_search' " . $where_post;
+                                //  $where_q .= " $v REGEXP '$to_search' " . $where_post;
+                                $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
+
+
                                 // $where_q .= " $v LIKE '%$to_search%' " . $where_post;
                                 break;
                             case 'id' :
                                 $to_search1 = intval($to_search);
-                                $where_q .= " $v='$to_search1' " . $where_post;
+                                //$where_q .= " $v='$to_search1' " . $where_post;
+                                $where_q .= " $table.$v='$to_search1' " . $where_post;
                                 break;
                             default :
 
@@ -2104,8 +2161,11 @@ class Db
                 if (defined('MW_DB_TABLE_CONTENT_DATA')) {
                     $table_custom_fields = MW_DB_TABLE_CONTENT_DATA;
 
-                    $where_q1 = " id in (select content_id from $table_custom_fields where
+                    //$where_q1 = " id in (select content_id from $table_custom_fields where field_value REGEXP '$to_search' ) OR ";
+
+                    $where_q1 = " $table.id in (select content_id from $table_custom_fields where
 			 				field_value REGEXP '$to_search' ) OR ";
+
                     $where_q .= $where_q1;
                 }
 
@@ -2117,6 +2177,9 @@ class Db
                 $table_assoc_name1 = $this->assoc_table_name($table_assoc_name);
 
                 $where_q1 = " id in (select rel_id from $table_custom_fields where
+				rel='$table_assoc_name1' and
+				custom_field_values_plain REGEXP '$to_search' ) OR ";
+                $where_q1 = " $table.id in (select rel_id from $table_custom_fields where
 				rel='$table_assoc_name1' and
 				custom_field_values_plain REGEXP '$to_search' ) OR ";
                 $where_q .= $where_q1;
@@ -2139,11 +2202,18 @@ class Db
             $where_search = " AND ({$where_search}) ";
         }
 
+
         if (!empty($criteria)) {
 
             if (!$where) {
 
                 $where = " WHERE ";
+
+                if ($precise_select and stristr($q, 'where')) {
+                    $where = " and ";
+
+                }
+
             }
             foreach ($criteria as $k => $v) {
                 $compare_sign = '=';
@@ -2164,6 +2234,12 @@ class Db
                     $k = str_replace(';', '', $k);
                     $k = str_replace('\077', '', $k);
                     $k = str_replace('<?', '', $k);
+
+
+                    if (strstr($k, $table) == false) {
+                        $k = $table . '.' . $k;
+                    }
+
                 }
 
                 if (is_string($v) != false) {
@@ -2260,12 +2336,18 @@ class Db
                 }
             }
 
-            $where .= " id is not null ";
+            //$where .= " id is not null ";
+            // $where .= " id is not null ";
+            $where .= " $table.id is not null ";
         } else {
 
             $where = " WHERE ";
+            if ($precise_select and stristr($q, 'where')) {
+                $where = " and ";
 
-            $where .= " id is not null ";
+            }
+            //$where .= " id is not null ";
+            $where .= " $table.id is not null ";
         }
 
         if ($is_in_table != false) {
@@ -2278,7 +2360,9 @@ class Db
             if (in_array('rel_id', $check_if_ttid) and in_array('rel', $check_if_ttid)) {
                 $aTable_assoc1 = $this->assoc_table_name($aTable_assoc);
                 if ($v1 != false) {
-                    $where .= " AND id in (select rel_id from $v1 where $v1.rel='{$aTable_assoc1}' and $v1.rel_id=$table.id ) ";
+                    // $where .= " AND id in (select rel_id from $v1 where $v1.rel='{$aTable_assoc1}' and $v1.rel_id=$table.id ) ";
+                    $where .= " AND $table.id in (select rel_id from $v1 where $v1.rel='{$aTable_assoc1}' and $v1.rel_id=$table.id ) ";
+
                 }
             }
         }
@@ -2303,7 +2387,10 @@ class Db
         } else {
 
             if ($count_only != true) {
-                $q .= " group by id  ";
+                // $q .= " group by id  ";
+                if (!$precise_select) {
+                    $q .= " group by $table.id  ";
+                }
             }
         }
         if ($order_by != false) {
@@ -2601,15 +2688,20 @@ class Db
         }
         $ex_fields_static[$table] = $fields;
         $this->app->cache->save($fields, $function_cache_id, $cache_group = 'db');
-        // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return $fields;
+    }
+
+    public function real_table_name($assoc_name)
+    {
+        $assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
+        if (defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
+            $assoc_name_new = MW_TABLE_PREFIX . $assoc_name_new;
+        }
+        return $assoc_name_new;
     }
 
     public function table_exist($table)
     {
-        // $sql_check = "SELECT * FROM sysobjects WHERE name='$table' ";
-        //$sql_check = "DESC {$table};";
-
 
         $table = $this->escape_string($table);
         $sql_check = "show tables like '$table'";
@@ -2625,7 +2717,7 @@ class Db
         } else {
             return $q;
         }
-        // var_dump($q);
+
     }
 
 
@@ -2650,7 +2742,7 @@ class Db
      * $fields_to_add[] = array('title', 'longtext default NULL');
      * $fields_to_add[] = array('is_active', "char(1) default 'y'");
      * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-     *  \mw('db')->build_table($table_name, $fields_to_add);
+     *   mw('db')->build_table($table_name, $fields_to_add);
      * </pre>
      *
      * @desc refresh tables in DB
@@ -2726,7 +2818,7 @@ class Db
             if ($column_to_move) {
                 if (!empty($column_for_not_drop)) {
                     if (isset($columns[$i]) and is_array($columns[$i]) and !in_array($columns[$i]['Field'], $column_for_not_drop)) {
-                        $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
+                        //   $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
                     }
                 }
 
@@ -2788,24 +2880,6 @@ class Db
 
         $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, false);
         return true;
-    }
-
-    public function real_table_name($assoc_name)
-    {
-        global $_mw_real_table_names;
-
-        if (isset($_mw_real_table_names[$assoc_name])) {
-
-            return $_mw_real_table_names[$assoc_name];
-        }
-
-
-        $assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
-        if (defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
-            $assoc_name_new = MW_TABLE_PREFIX . $assoc_name_new;
-        }
-        $_mw_real_table_names[$assoc_name] = $assoc_name_new;
-        return $assoc_name_new;
     }
 
 
@@ -2937,12 +3011,6 @@ class Db
             $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
             $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
             $new = str_replace($search, $replace, $value);
-
-            //  $new = strip_tags(html_entity_decode($new));
-
-            // $new = str_replace("'", '', $new);
-            // $new = str_replace('"', '', $new);
-
             $this->mw_escaped_strings[$str_crc] = $new;
             return $new;
         }
@@ -3038,8 +3106,7 @@ class Db
     {
 
         $q = $this->get_by_id($table, $id, $field_name);
-        //	d($q);
-        if (isset($q[$field_name])) {
+         if (isset($q[$field_name])) {
             $data = $q;
             if (isset($data[$field_name])) {
                 unset($data[$field_name]);
@@ -3424,4 +3491,110 @@ class Db
         }
         return $output;
     }
+
+    /**
+     * Get Relative table name from a string
+     *
+     * @package Database
+     * @subpackage Advanced
+     * @param string $for string Your table name
+     *
+     * @param bool $guess_cache_group If true, returns the cache group instead of the table name
+     *
+     * @return bool|string
+     * @example
+     * <code>
+     * $table = $this->guess_table_name('content');
+     * </code>
+     */
+    function guess_table_name($for, $guess_cache_group = false)
+    {
+
+        if (stristr($for, 'table_') == false) {
+            switch ($for) {
+                case 'user' :
+                case 'users' :
+                    $rel = 'users';
+                    break;
+
+                case 'media' :
+                case 'picture' :
+                case 'video' :
+                case 'file' :
+                    $rel = 'media';
+                    break;
+
+                case 'comment' :
+                case 'comments' :
+                    $rel = 'comments';
+                    break;
+
+                case 'module' :
+                case 'modules' :
+                case 'modules' :
+                case 'modul' :
+                    $rel = 'modules';
+                    break;
+
+                case 'category' :
+                case 'categories' :
+                case 'cat' :
+                case 'categories' :
+                case 'tag' :
+                case 'tags' :
+                    $rel = 'categories';
+                    break;
+
+                case 'category_items' :
+                case 'cat_items' :
+                case 'tag_items' :
+                case 'tags_items' :
+                    $rel = 'categories_items';
+                    break;
+
+                case 'post' :
+                case 'page' :
+                case 'content' :
+
+                default :
+                    $rel = $for;
+                    break;
+            }
+            $for = $rel;
+        }
+        if (defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($for, MW_TABLE_PREFIX) == false) {
+            //$for = MW_TABLE_PREFIX.$for;
+        } else {
+
+        }
+        if ($guess_cache_group != false) {
+
+            $for = str_replace('table_', '', $for);
+            $for = str_replace(MW_TABLE_PREFIX, '', $for);
+        }
+
+        return $for;
+    }
+
+    /**
+     * Guess the cache group from a table name or a string
+     *
+     * @uses guess_table_name()
+     * @param bool|string $for Your table name
+     *
+     *
+     * @return string The cache group
+     * @example
+     * <code>
+     * $cache_gr = $this->guess_cache_group('content');
+     * </code>
+     *
+     * @package Database
+     * @subpackage Advanced
+     */
+    function guess_cache_group($for = false)
+    {
+        return $this->guess_table_name($for, true);
+    }
+
 }

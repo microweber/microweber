@@ -4,26 +4,26 @@
         <div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
             <div class="wysiwyg-table">
 
-
+<?php if(is_admin()): ?>
                    <div class="wysiwyg-cell">
-                  <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
-                  <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
-
-                  <span class="mw_editor_btn"  onclick="mw.$('#mw-history-panel').toggle()"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
-
-
-
-                  <div class="mw-ui-dropdown left" id="history_dd">
-
-
-
-                          <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
-
-
-              </div>
+							  <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
+							  <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
+			
+							  <span class="mw_editor_btn"  onclick="mw.$('#mw-history-panel').toggle()"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
+			
+			
+			
+							  <div class="mw-ui-dropdown left" id="history_dd">
+			
+			
+			
+									  <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
+			
+			
+						  </div>
 
                 </div>
-
+<?php endif; ?>
 
 
                 <div class="wysiwyg-cell">

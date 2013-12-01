@@ -1955,15 +1955,9 @@ function mkdir_recursive($pathname)
 
 function db_escape_string($value)
 {
-    global $mw_escaped_strings;
-    if (isset($mw_escaped_strings[$value])) {
-        return $mw_escaped_strings[$value];
-    }
-
     $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
     $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
     $new = str_replace($search, $replace, $value);
-    $mw_escaped_strings[$value] = $new;
     return $new;
 }
 
@@ -2141,7 +2135,7 @@ function file_size_nice($size)
 $ex_fields_static = array();
 $_mw_real_table_names = array();
 $_mw_assoc_table_names = array();
-$mw_escaped_strings = array();
+
 
 
 function db_build_table($table_name, $fields_to_add, $column_for_not_drop = array())
@@ -2159,23 +2153,11 @@ function db_get_table_name($assoc_name)
 }
 
 
-$_mw_db_get_real_table_names = array();
+
 function db_get_real_table_name($assoc_name)
 {
-    global $_mw_db_get_real_table_names;
+    return mw('db')->real_table_name($assoc_name);
 
-    if (isset($_mw_db_get_real_table_names[$assoc_name])) {
-
-        return $_mw_db_get_real_table_names[$assoc_name];
-    }
-
-
-    $assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
-    if (defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
-        $assoc_name_new = MW_TABLE_PREFIX . $assoc_name_new;
-    }
-    $_mw_db_get_real_table_names[$assoc_name] = $assoc_name_new;
-    return $assoc_name_new;
 }
 
 
@@ -2196,7 +2178,7 @@ function db_get_real_table_name($assoc_name)
  */
 function guess_table_name($for, $guess_cache_group = false)
 {
-
+    return mw('db')->guess_table_name($for, $guess_cache_group);
     if (stristr($for, 'table_') == false) {
         switch ($for) {
             case 'user' :

@@ -334,7 +334,11 @@ mw.manage_content_sort = function(){
         obj.ids.push(id);
       });
 
-       $.post("<?php print api_link('content/reorder'); ?>", obj, function(){});
+       $.post("<?php print api_link('content/reorder'); ?>", obj, function(){
+		   
+		   mw.reload_module('#mw_page_layout_preview');
+		   
+		   });
      },
      start:function(a,ui){
       $(this).height($(this).outerHeight());

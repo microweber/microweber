@@ -497,13 +497,14 @@ mw.tools = {
             mw.tools.gallery.go(m, start);
             return false;
         }
-
+        var next = arr.length>1?'<span class="mwf-next">&rsaquo;</span>':'';
+        var prev = arr.length>1?'<span class="mwf-prev">&lsaquo;</span>':'';
         var ghtml = ''
         +'<div class="mwf-gallery">'
             +'<div class="mwf-gallery-container">'
             +'</div>'
-             +'<span class="mwf-next">&rsaquo;</span>'
-             +'<span class="mwf-prev">&lsaquo;</span>'
+             +next
+             +prev
             + (mw.tools.isFullscreenAvailable() ? '<span class="mwf-fullscreen">Fullscreen</span>' : '')
         +'</div>';
 
@@ -2055,7 +2056,7 @@ mw.tools = {
         dt = $(window).scrollTop(),
         db = dt + $(window).height(),
         et = $el.offset().top;
-    return (et <= db);
+    return (et <= db) && !(dt > ($el.height() + et));
   },
   wholeinview:function(el){
     var $el = $(el),

@@ -1951,6 +1951,11 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
    background-position: 23px 50%;
 }
 
+#pages_edit_container .page_posts_list_tree li.is_home > a{
+   background-image: url(../img/home.big.gif);
+   background-position: 23px 50%;
+}
+
 
 
 

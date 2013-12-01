@@ -240,7 +240,13 @@ description: Default comments template
 		<?php _e("No comments"); ?>
 	</h4>
 	<?php endif; ?>
+	
+	
+	<?php if( $are_disabled == false) :  ?>
 	<hr>
+	
+	
+	
 	<?php if(!$login_required or $cur_user != false): ?>
 	<div class="mw-comments-form" id="comments-<?php print $data['id'] ?>">
 		<form autocomplete="on" id="comments-form-<?php print $data['id'] ?>" class="form-group">
@@ -303,5 +309,10 @@ description: Default comments template
 		<?php _e("to post a comment"); ?>
 		. </div>
 	<?php endif; ?>
+	<?php else: ?>
+	 
+	<?php endif; ?>
+	
+	
 </div>
 </div>

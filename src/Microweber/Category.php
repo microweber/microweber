@@ -56,7 +56,7 @@ class Category
             $data_type_q = "and data_type = 'tag_item' ";
         }
         $data['table'] = $table_items;
-       //  $data['debug'] = $table;
+        //  $data['debug'] = $table;
         //$data['cache_group'] = $cache_group = 'categories/' . $rel_id;
         //$data['only_those_fields'] = array('parent_id');
 
@@ -392,34 +392,32 @@ class Category
 
         $function_cache_id = __FUNCTION__ . crc32(serialize($params));
         if (defined(PAGE_ID)) {
-         //   $function_cache_id .= PAGE_ID;
+            //   $function_cache_id .= PAGE_ID;
         }
-		$active_cat=false;
+        $active_cat = false;
         if (defined(CATEGORY_ID)) {
             $function_cache_id .= CATEGORY_ID;
         }
-		
-		
-		$cat_url = $this->app->url->param('category', true);
-		if ($cat_url != false) {
-            $function_cache_id .= $cat_url; 
-			$active_cat=$cat_url;
+
+
+        $cat_url = $this->app->url->param('category', true);
+        if ($cat_url != false) {
+            $function_cache_id .= $cat_url;
+            $active_cat = $cat_url;
         } else {
-		
-		$cat_url = $this->app->url->param('categories', true);
-		if ($cat_url != false) {
-            $function_cache_id .= $cat_url; 
-			
-			
-			
+
+            $cat_url = $this->app->url->param('categories', true);
+            if ($cat_url != false) {
+                $function_cache_id .= $cat_url;
+
+
+            }
+
         }
-			
-		}
-	
-		
-		
+
+
         $cache_group = 'categories/global';
-       // $cache_content = false;
+        // $cache_content = false;
 
 
         if (isset($params['nest_level'])) {
@@ -441,7 +439,6 @@ class Category
         }
 
 
-
         $link = isset($params['link']) ? $params['link'] : false;
 
         if ($link == false) {
@@ -455,8 +452,7 @@ class Category
         } else {
             $active_code = " active ";
         }
-		
-		
+
 
         if (isset($params['remove_ids'])) {
             $remove_ids = $params['remove_ids'];
@@ -492,7 +488,7 @@ class Category
             $li_class_name = $params['li_class_name'];
         }
 
-        if(!isset($li_class_name)){
+        if (!isset($li_class_name)) {
             $li_class_name = false;
         }
 
@@ -528,7 +524,7 @@ class Category
 
         if (isset($params['for_page']) and $params['for_page'] != false) {
             $page = $this->app->content->get_by_id($params['for_page']);
-             $parent = $page['subtype_value'];
+            $parent = $page['subtype_value'];
         }
         $active_code_tag = false;
         if (isset($params['active_code_tag']) and $params['active_code_tag'] != false) {
@@ -571,8 +567,6 @@ class Category
         }
 
 
-
-
         $max_level = false;
         if (isset($params['max_level'])) {
             $max_level = $params['max_level'];
@@ -604,22 +598,21 @@ class Category
 
         if ($skip123 == false) {
 
-            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name , $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
         } else {
 
             if ($fors != false and is_array($fors) and !empty($fors)) {
                 foreach ($fors as $cat) {
-                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name , $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
                 }
             }
         }
 
         $content = ob_get_contents();
-        //if (!isset($_GET['debug'])) {
         if ($nest_level_orig == 0) {
-          $this->app->cache->save($content, $function_cache_id, $cache_group);
+            $this->app->cache->save($content, $function_cache_id, $cache_group);
         }
-        //}
+
         ob_end_clean();
         print $content;
         return;
@@ -800,7 +793,7 @@ class Category
 
 
                 if (intval($parent) != 0 and intval($parent) == intval(CATEGORY_ID)) {
-                     $print1 = str_replace('{active_class}', 'active', $print1);
+                    $print1 = str_replace('{active_class}', 'active', $print1);
 
                 }
                 $print1 = str_replace('{active_class}', '', $print1);
@@ -838,10 +831,10 @@ class Category
 
                         if ($li_class_name == false) {
 
-                            $output = "<{$list_item_tag} class='{active_class} category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag}>";
+                            $output = "<{$list_item_tag} class='{active_class} category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag} title='{title_slashes}'>";
                         } else {
 
-                            $output = "<{$list_item_tag} class='{active_class} $li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'  {active_code_tag}  >";
+                            $output = "<{$list_item_tag} class='{active_class} $li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'  {active_code_tag} title='{title_slashes}' >";
                         }
                     }
 
@@ -878,6 +871,11 @@ class Category
                             $to_print = str_ireplace('{nest_level}', 'depth-' . $depth_level_counter, $to_print);
 
                             $to_print = str_ireplace('{title}', $item['title'], $to_print);
+                            $to_print = str_ireplace('{title_slashes}', addslashes($item['title']), $to_print);
+
+                            $output = str_replace('{title_slashes}', addslashes($item['title']), $output);
+
+
                             $active_class = ' ';
 
                             $active_parent_class = '';
@@ -933,6 +931,8 @@ class Category
                                 $to_print = str_ireplace('{active_code}', '', $to_print);
                             }
                             $output = str_replace('{active_code_tag}', '', $output);
+                            $output = str_replace('{title_slashes}', '', $output);
+
                             $output = str_replace('{exteded_classes}', $ext_classes, $output);
 
 
@@ -971,7 +971,7 @@ class Category
 
                         $children_of_the_main_parent1 = array();
 
-                        if(!isset($remove_ids) or !is_array($remove_ids)){
+                        if (!isset($remove_ids) or !is_array($remove_ids)) {
                             $remove_ids = array();
                         }
                         $remove_ids[] = $item['id'];
@@ -1310,7 +1310,7 @@ class Category
             $table = $data['table'];
         }
         if (isset($data['id']) and intval($data['id']) != 0 and isset($data['parent_id']) and intval($data['parent_id']) != 0) {
-            if($data['id'] == $data['parent_id']){
+            if ($data['id'] == $data['parent_id']) {
                 unset($data['parent_id']);
             }
         }
@@ -1319,12 +1319,12 @@ class Category
         if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) == 'content' and intval($data['rel_id']) != 0) {
 
             $cont_check = $this->app->content->get_by_id($data['rel_id']);
-            if($cont_check != false and isset($cs['subtype']) and $cs['subtype'] !='dynamic'){
-            $cs = array();
-            $cs['id'] = intval($data['rel_id']);
-            $cs['subtype'] = 'dynamic';
-            $table_c = MW_TABLE_PREFIX . 'content';
-            $save = $this->app->db->save($table_c, $cs);
+            if ($cont_check != false and isset($cs['subtype']) and $cs['subtype'] != 'dynamic') {
+                $cs = array();
+                $cs['id'] = intval($data['rel_id']);
+                $cs['subtype'] = 'dynamic';
+                $table_c = MW_TABLE_PREFIX . 'content';
+                $save = $this->app->db->save($table_c, $cs);
             }
 
         }
@@ -1388,7 +1388,6 @@ class Category
 		AND content_type='post'
 		AND parent_id=$save
 		AND  data_type ='{$data_type}' ";
-
 
 
             $this->app->db->q($q);

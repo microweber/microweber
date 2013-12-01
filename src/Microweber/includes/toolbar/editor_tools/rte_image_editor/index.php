@@ -1,4 +1,3 @@
-
 <?php $path = MW_INCLUDES_URL . "toolbar/editor_tools/rte_image_editor/"; ?>
 
 <script type="text/javascript">
@@ -39,7 +38,9 @@ else{
           if(eventType=='done'){
             //parent.mw.iframecallbacks[hash](url, eventType);
           }
+		  if(typeof(thismodal) != "undefined"){
           parent.mw.tools.modal.remove(thismodal.main);
+		  }
           return false;
       }
 
@@ -434,7 +435,9 @@ mw.embed = {
   <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;">My Computer</a></li>
     <li><a href="javascript:;"><?php _e("URL"); ?></a></li>
+	<?php if(is_admin()): ?>
     <li><a href="javascript:;">Uploaded</a></li>
+	<?php endif; ?>
   </ul>
 
   <div class="tab" id="drag_files_here">

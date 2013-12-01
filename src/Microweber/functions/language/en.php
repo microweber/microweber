@@ -2,7 +2,7 @@
  $language=array();
 $language["latest-posts"]= 'Latest Posts' ; 
 $language["latest-products"]= 'Latest Products' ; 
-$language["image"]= 'image' ; 
+$language["image"]= 'Image' ; 
 $language["continue-reading"]= 'Continue Reading' ; 
 $language["add-to-cart"]= 'Add to cart' ; 
 $language["your-cart-is-empty"]= 'Your cart is empty' ; 
@@ -890,3 +890,8 @@ $language["manage-pages"]= 'Manage pages' ;
 $language["user-content"]= 'User content' ; 
 $language["my-module"]= 'My module' ; 
 $language["forum"]= 'Forum' ; 
+$language["your-system-log-for-the-last-30-days"]= 'Your system log for the last 30 days' ; 
+$language["clean-up-system-log"]= 'Clean up system log' ; 
+$language["you-have-one-new-comment"]= 'You have one new comment' ; 
+$language["see-new"]= 'See new' ; 
+$language["you-don-t-have-any-orders"]= 'You don\'t have any orders' ; 
