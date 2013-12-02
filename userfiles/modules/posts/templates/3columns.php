@@ -29,7 +29,7 @@ if(!isset($tn[1])){
 
 
 <div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-3">
-  <div class="row row-fluid">
+  <div class="row-fluid">
     <?php if (!empty($data)): ?>
     <?php
         $count = -1;

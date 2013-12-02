@@ -11,7 +11,7 @@ description: Portfolio
 */
 ?>
 
-<div class="row row-fluid clearfix">
+<div class="row-fluid clearfix">
   <ul class="portfolio-post-grid holder">
     <?php if (!empty($data)): ?>
     <?php foreach ($data as $item): ?>

@@ -15,7 +15,7 @@ description: Blog
   <?php if (!empty($data)): ?>
   <?php foreach ($data as $item): ?>
   <div class="well clearfix post-single" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
-      <div class="row row-fluid">
+      <div class="row-fluid">
           <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <div class="span3 col-sm-3 col-md-3">
                 <a  href="<?php print $item['link'] ?>" itemprop="url"><img src="<?php print thumbnail($item['image'], 270); ?>" alt="<?php print addslashes($item['title']); ?>" itemprop="image" ></a>

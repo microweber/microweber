@@ -1631,17 +1631,27 @@ class Content
                     if (defined('MAIN_PAGE_ID') == false) {
                         define('MAIN_PAGE_ID', $inherit_from_id);
                     }
-                    //$inherit_from = $this->get_by_id($inherit_from_id);
+
                 }
 
-                // d($parent_page_check_if_inherited);
-
+                //$root_parent = $this->get_inherited_parent($page['parent']);
+              //  d($root_parent);
 
                 //  $this->get_inherited_parent($page['id']);
                 // if ($par_page != false) {
                 //  $par_page = $this->get_by_id($page['parent']);
                 //  }
+                if (defined('ROOT_PAGE_ID') == false) {
 
+                    $root_page = $this->get_parents($page['id']);
+                    if(!empty($root_page) and isset($root_page[0])){
+                        $root_page[0] = end($root_page);
+                    } else {
+                        $root_page[0] = $page['parent'];
+                    }
+
+                    define('ROOT_PAGE_ID', $root_page[0]);
+                }
 
                 if (defined('MAIN_PAGE_ID') == false) {
                     define('MAIN_PAGE_ID', $page['parent']);

@@ -1715,7 +1715,14 @@ if(typeof el === 'object' && el !== null){
   mw.$('.empty-element', doc).remove();
   mw.$('.edit .ui-resizable-handle', doc).remove();
   mw.tools.classNamespaceDelete('all', 'ui-', doc);
-  mw.$("[contenteditable]", doc).removeAttr("contenteditable");
+
+
+  var all = doc.querySelectorAll('[contenteditable]'), l=all.length, i=0;
+  for( ; i<l; i++ ){
+    all[i].removeAttribute('contenteditable');
+  }
+
+
   if(is_draft){
     var edits = mw.$(".edit.changed", doc);
   }
