@@ -899,3 +899,4 @@ $language["create-new-nenu"]= 'Create new nenu' ;
 $language["greate-new-page"]= 'Greate new page' ; 
 $language["create-new-page"]= 'Create new page' ; 
 $language["there-are-no-items-in-the-menu-b-my-menu-b"]= 'There are no items in the menu <b>my menu</b>' ; 
+$language["sub-category-name"]= 'Sub-category Name' ; 

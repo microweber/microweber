@@ -318,24 +318,58 @@ function mw_select_post_for_editing($p_id, $subtype){
 		
 	  var active_item_is_category = active_item.attr('data-category-id');
 	 if(active_item_is_category != undefined){
+		 
 			  mw.$('#pages_edit_container').attr('data-parent-category-id',active_item_is_category);
-			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
-			   if(active_item_parent_page != undefined){
-					var active_item_is_page = active_item_parent_page.attr('data-page-id');
+			  
+			  var active_bg = mwd.querySelector('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg');
+			 
+			  var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'have_category');
+			   
+			   if(active_item_parent_page == false){
+				 var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'is_page');
+ 
 			   }
-               else {
-				  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
+			   
+			    if(active_item_parent_page == false){
+				 var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'pages_tree_item');
+  
+			   }
+			  
+			   
+			   if(active_item_parent_page != false){
+					var active_item_is_page = active_item_parent_page.getAttribute('data-page-id');
+					
+			   }  
+				 
+ 
+
+/*
+ 			if(active_item_is_page == undefined){
+			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
+				 
 				   if(active_item_parent_page != undefined){
 						var active_item_is_page = active_item_parent_page.attr('data-page-id');
+				   } else {
+					   var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('[data-page-id]').first();
+					 
+
 				   }
-
-			   }
-
+				   
+			}
+			
+			
+				*/
+			
+			
+			 
+				   
+				   
 
 	 } else {
 	    mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
 
 	 }
+	  
 
 	  if(active_item_is_page != undefined){
 		 	 mw.$('#pages_edit_container').attr('data-parent-page-id',active_item_is_page);
