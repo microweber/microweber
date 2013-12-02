@@ -102,7 +102,7 @@ class Controller
         $is_admin = $this->app->user->is_admin();
         $page_url_orig = $page_url;
         $simply_a_file = false;
-        
+
         // if this is a file path it will load it
         if (isset($_REQUEST['view'])) {
             $is_custom_view = $_REQUEST['view'];

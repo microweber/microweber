@@ -895,3 +895,7 @@ $language["clean-up-system-log"]= 'Clean up system log' ;
 $language["you-have-one-new-comment"]= 'You have one new comment' ; 
 $language["see-new"]= 'See new' ; 
 $language["you-don-t-have-any-orders"]= 'You don\'t have any orders' ; 
+$language["create-new-nenu"]= 'Create new nenu' ; 
+$language["greate-new-page"]= 'Greate new page' ; 
+$language["create-new-page"]= 'Create new page' ; 
+$language["there-are-no-items-in-the-menu-b-my-menu-b"]= 'There are no items in the menu <b>my menu</b>' ; 

@@ -270,8 +270,12 @@ function mw_set_edit_posts(in_page, is_cat, c){
       mw.$('#pages_edit_container').removeAttr('data-page-id');
       mw.$('#pages_edit_container').removeAttr('data-category-id');
       mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
-	  
-	  
+	    mw.$('#pages_edit_container').removeAttr('subtype');
+	    mw.$('#pages_edit_container').removeAttr('data-subtype');
+     mw.$('#pages_edit_container').removeAttr('data-content-id');
+	 
+	      mw.$('#pages_edit_container').removeAttr('is_shop');
+
 	  	  mw.$('.mw-admin-go-live-now-btn').attr('content-id',in_page);
 	  
 	  

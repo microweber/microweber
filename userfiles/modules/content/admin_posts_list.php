@@ -156,7 +156,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 
- 
+
 
 if(isset($post_params['page-id']) and $post_params['page-id'] != 'global'){
 	$post_params['content_type'] = 'post';
@@ -168,8 +168,8 @@ if(isset($post_params['type'])){
 unset($post_params['type']);
 }
 //d($post_params['page-id']);
-   // $post_params['debug'] = 'posts';
-
+  //  $post_params['debug'] = 'posts';
+  
 $content   =$data = get_content($post_params);
 ?>
 <?php

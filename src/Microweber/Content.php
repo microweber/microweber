@@ -4098,6 +4098,7 @@ class Content
         }
         if (isset($data['title'])) {
             $data['title'] = strip_tags($data['title']);
+            $data['title'] =  preg_replace("/(^\s+)|(\s+$)/us", "", $data['title']);
             $data_to_save['title'] = $data['title'];
         }
 

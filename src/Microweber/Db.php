@@ -1732,12 +1732,13 @@ class Db
             if (is_array($search_n_cats) and !empty($search_n_cats)) {
 
                 foreach ($search_n_cats as $cat_name_or_id) {
-
+                    $cat_name_or_id = intval($cat_name_or_id);
                     $str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&rel=' . $table_assoc_name;
                     $str1 = 'fields=id&limit=10000&table=categories&' . 'id=' . $cat_name_or_id;
 
                     $cat_name_or_id1 = intval($cat_name_or_id);
-                    $str1_items = 'fields=rel_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
+                   // $str1_items = 'fields=rel_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
+                    $str1_items = 'fields=rel_id&limit=10000&what=category_items' . '&rel=' . $table_alias. '&parent_id=' . $cat_name_or_id;
 
                     $is_in_category_items = $this->get($str1_items);
 

@@ -208,7 +208,7 @@
 #mw_small_editor{
   position: absolute;
   visibility:hidden;
-  z-index: 999;
+  z-index: 1003;
   width:211px;
   height: 68px;
   border:1px solid #DCDCDC;

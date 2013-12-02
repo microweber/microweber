@@ -69,7 +69,7 @@
                 mw.tools.removeClass(mwd.getElementById('main-save-btn'), 'disabled');
            }
            else{
-               mw.tools.addClass(mwd.getElementById('main-save-btn'), 'disabled');
+               //mw.tools.addClass(mwd.getElementById('main-save-btn'), 'disabled');
            }
 
         },1000);
@@ -226,7 +226,7 @@
           </div>
         </div>
     </div>
-    <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
+
     <div id="mw-saving-loader"></div>
   </div>
 </div>
@@ -266,6 +266,9 @@
 
     </div>
 </div>
+
+<?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
+
 <script>
         mw.liveEditWYSIWYG = {
           ed:mwd.getElementById('liveedit_wysiwyg'),

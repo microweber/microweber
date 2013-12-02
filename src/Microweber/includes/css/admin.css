@@ -1290,8 +1290,11 @@ table.users-list-table .del-row{
 }
 
 
-.quick-add .mw-title-field::-moz-placeholder{ color: #212121; }
-.quick-add .mw-title-field::-webkit-input-placeholder{ color: #212121; }
+.quick-add .mw-title-field::-moz-placeholder{ color: #000; opacity:1; }
+.quick-add .mw-title-field::-webkit-input-placeholder{ color: #000;opacity:1 }
+
+.quick-add .mw-title-field:focus::-moz-placeholder{ color:#8F8F8F; opacity:1; }
+.quick-add .mw-title-field:focus::-webkit-input-placeholder{ color: #8F8F8F;opacity:1 }
 
 
 #pages_edit_container_data{

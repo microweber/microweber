@@ -837,7 +837,7 @@ mw.wysiwyg = {
           return false;
     },
     image_link:function(url){
-        $("img.element-current").wrap("<a href='" + url + "'></a>");
+        mw.$("img.element-current").wrap("<a href='" + url + "'></a>");
     },
     request_media:function(hash, types){
         var types = types || false;
@@ -871,7 +871,7 @@ mw.wysiwyg = {
     },
     set_bg_image:function(url){
        
-      $(".element-current").css("backgroundImage", "url(" + url + ")");
+      mw.$(".element-current").css("backgroundImage", "url(" + url + ")");
     },
     insert_html:function(html){
       if(typeof html === 'string'){
@@ -1303,7 +1303,7 @@ $(window).load(function(){
           mw.smallEditor.css({
             visibility:"visible",
             opacity:0.5,
-            top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height - $(window).scrollTop(),
+            top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height /*- $(window).scrollTop()*/,
             left:e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width()-5 )
           });
         }
@@ -1409,7 +1409,7 @@ $(window).load(function(){
         mw.smallEditor.css("visibility", "hidden");
         mw.smallEditorCanceled = true;
     });
-    mw.$("#live_edit_toolbar").bind("mousedown", function(e){
+    mw.$("#live_edit_toolbar,#mw_small_editor").bind("mousedown", function(e){
         if(e.target.nodeName != 'INPUT'){
           e.preventDefault();
         }

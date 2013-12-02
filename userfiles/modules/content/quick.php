@@ -49,6 +49,12 @@
      $is_new_content = true;
      include('_empty_content_data.php');
   }
+  
+  if(isset($params['add-to-menu'])){
+    $data['add_to_menu'] = (($params["add-to-menu"]));
+  }
+  
+  
 
 /* END OF FILLING UP EMPTY CONTENT  */
  
