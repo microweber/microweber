@@ -254,7 +254,10 @@ function url_string($skip_ajax = false)
 {
     return mw('url')->string($skip_ajax);
 }
-
+function url_title($text)
+{
+    return mw('url')->slug($text);
+}
 function url_param($param, $skip_ajax = false)
 {
     return mw('url')->param($param, $skip_ajax);

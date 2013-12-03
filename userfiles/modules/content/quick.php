@@ -60,6 +60,12 @@
  
 
 /* SETTING PARENT AND ACTIVE CATEGORY */
+if(intval($data['id']) == 0 and intval($data['parent']) == 0 and isset($params['parent-category-id']) and $params['parent-category-id'] != 0 and !isset($params['parent-page-id'])){
+      $cat_page = get_page_for_category($params['parent-category-id']);
+	  if(is_array($cat_page) and isset($cat_page['id'])){
+		$params['parent-page-id'] = $cat_page['id'];
+	  }
+}
 
 if(intval($data['id']) == 0 and intval($data['parent']) == 0 and isset($params['parent-page-id'])){
     $data['parent'] = $params['parent-page-id'];
@@ -144,7 +150,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	 if(!isset($parent_shop_check['subtype']) or $parent_shop_check['subtype'] != 'dynamic'){
 		 $parent_content_shop = get_content('order_by=updated_on desc&one=true&subtype=dynamic&is_shop=n');
 		  if(isset($parent_content_shop['id'])){
-			 $data['parent'] = $parent_content_shop['id'];
+			// $data['parent'] = $parent_content_shop['id'];
 		 }
 	 }
 	 

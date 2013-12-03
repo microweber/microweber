@@ -126,9 +126,18 @@ if ($posts_parent_page != false and intval($posts_parent_page) > 0) {
 
 }
 
+if ($posts_parent_category == false) {
+	if (isset($params['category'])) {
+ 	$posts_parent_category = $params['category'];
+	    
 
-
-
+	}
+	
+} 
+if ($posts_parent_category != false) {
+    $add_post_q .= ' parent-category-id="' . intval($posts_parent_category). '" ';
+}
+	
 if (!isset($params['global']) and $posts_parent_page != false and $posts_parent_category != false and intval($posts_parent_category) > 0) {
 
     $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $posts_parent_page;

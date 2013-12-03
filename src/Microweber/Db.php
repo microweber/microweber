@@ -1388,7 +1388,7 @@ class Db
 
 
         $to_search = false;
-        //  $table = db_g($table);
+
         $table = $this->real_table_name($table);
         $table_alias = $this->assoc_table_name($table);
 
@@ -1677,18 +1677,12 @@ class Db
         $original_cache_group = $cache_group;
 
         if (!empty($criteria['only_those_fields'])) {
-
             $only_those_fields = $criteria['only_those_fields'];
-
-            // unset($criteria['only_those_fields']);
-            // no unset xcause f cache
         }
 
         if (!empty($criteria['include_categories'])) {
-
             $include_categories = true;
         } else {
-
             $include_categories = false;
         }
         if (!isset($criteria['exclude_ids']) and isset($criteria['exclude'])) {
@@ -1701,8 +1695,6 @@ class Db
 
         if (!empty($criteria['exclude_ids'])) {
             $exclude_ids = $criteria['exclude_ids'];
-            // unset($criteria['only_those_fields']);
-            // no unset xcause f cache
         }
 
 
@@ -1723,7 +1715,7 @@ class Db
 
 
         if (isset($criteria['category'])) {
-            //
+
             $search_n_cats = $criteria['category'];
             if (is_string($search_n_cats)) {
                 $search_n_cats = explode(',', $search_n_cats);
@@ -1737,7 +1729,6 @@ class Db
                     $str1 = 'fields=id&limit=10000&table=categories&' . 'id=' . $cat_name_or_id;
 
                     $cat_name_or_id1 = intval($cat_name_or_id);
-                   // $str1_items = 'fields=rel_id&limit=10000&what=category_items&' . 'parent_id=' . $cat_name_or_id;
                     $str1_items = 'fields=rel_id&limit=10000&what=category_items' . '&rel=' . $table_alias. '&parent_id=' . $cat_name_or_id;
 
                     $is_in_category_items = $this->get($str1_items);
@@ -1753,8 +1744,7 @@ class Db
 
                 }
             }
-            // $is_in_category = $this->get('limit=1&data_type=category_item&what=category_items&rel=' . $table_assoc_name . '&rel_id=' . $id_to_return . '&parent_id=' . $is_ex['id']);
-            //  $includeIds;
+
             if ($is_in_category_items == false) {
                 return false;
             }

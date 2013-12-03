@@ -327,14 +327,14 @@ function _modify_comments_query($criteria)
 		$table = MODULE_DB_COMMENTS;
         $table_cat_items = MW_DB_TABLE_TAXONOMY_ITEMS;
         $cat = intval($criteria['posts_category']);
-        $sql = "
+        $add_sql = "
         LEFT JOIN $table_cat_items ON
             $table_cat_items.rel = $table.rel
             where $table_cat_items.parent_id=$cat
             and $table_cat_items.rel_id =$table.rel_id
              and $table.is_moderated = 'y'
              ";
-			 return $sql;
+			 return $add_sql;
 
         
     }

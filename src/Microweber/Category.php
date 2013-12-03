@@ -884,9 +884,14 @@ class Category
                                 $active_parent_class = 'active-parent';
                                 $active_class = '';
 
+                            }else if (intval($item['id']) != 0 and intval($item['id']) == intval(CATEGORY_ID)) {
+                                $active_parent_class = 'active-parent';
+                                $active_class = 'active';
+
                             } else {
                                 $active_parent_class = '';
                             }
+                            $active_class = str_replace('"',' ',$active_class);
 
                             $to_print = str_replace('{active_class}', $active_class, $to_print);
                             $to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
@@ -909,8 +914,7 @@ class Category
                                         $value_active_cat = intval($value_active_cat);
                                         if (intval($item['id']) == $value_active_cat) {
                                             $active_found = $value_active_cat;
-                                            // d($value_active_cat);
-                                        }
+                                         }
                                     }
                                 }
 

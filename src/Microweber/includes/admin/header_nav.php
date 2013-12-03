@@ -84,7 +84,9 @@
        //  alert(go_cont);
 		var go_cont = $(this).attr('content-id');
 		if(go_cont != undefined && go_cont != null){
-			
+			if(go_cont == 0){
+			return;	
+			}
 			
 			 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+go_cont, function(data) {
 					   		if(mw.notification != undefined){
