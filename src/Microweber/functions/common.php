@@ -936,6 +936,11 @@ function user_name($user_id = false, $mode = 'full')
 {
     return mw('user')->name($user_id, $mode);
 }
+function user_picture($user_id = false)
+{
+    return mw('user')->picture($user_id);
+}
+
 
 /**
  * @function get_users

@@ -25,13 +25,13 @@ class User
             }
 
         }
-		
-		
-		 if (!defined("MW_DB_USER_INIT")) {
+
+
+        if (!defined("MW_DB_USER_INIT")) {
             define('MW_DB_USER_INIT', 1);
-			$this->db_init();
+            $this->db_init();
         }
-		
+
     }
 
 
@@ -95,10 +95,12 @@ class User
 
 
         $override = event_trigger('before_user_login', $params);
+        $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
+        $overiden = false;
         if (is_array($override)) {
             foreach ($override as $resp) {
                 if (isset($resp['error']) or isset($resp['success'])) {
-                    return $resp;
+                    $overiden = true;
                 }
             }
         }
@@ -107,7 +109,12 @@ class User
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-
+        if ($overiden == true and $redirect_after != false) {
+            $this->app->url->redirect($redirect_after);
+            exit();
+        } elseif ($overiden == true) {
+            return $resp; 
+        }
 
         //$is_logged =  $this->session_get('user_session');
         // if(is_array($is_logged) and isset($is_logged['']))
@@ -367,6 +374,17 @@ class User
         if (is_admin() == false) {
             exit('You must be logged as admin');
         }
+    }
+
+    public function picture($user_id = false)
+    {
+
+
+        $name = $this->get_by_id($user_id);
+        if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
+            return $name['thumbnail'];
+        }
+
     }
 
     /**
@@ -742,6 +760,10 @@ class User
                 // because of a common typo :)
                 $user_data['first_name'] ? $name = $user_data['first_name'] : $name = $user_data['username'];
                 $name = ucwords($name);
+                if (trim($name) == '' and $user_data['email'] != '') {
+                    $n = explode('@', $user_data['email']);
+                    $name = $n[0];
+                }
                 // return $name;
                 break;
 
@@ -759,13 +781,15 @@ class User
             case 'full' :
             default :
                 $name = $user_data['first_name'] . ' ' . $user_data['last_name'];
-
-                if (trim($name) == '') {
+                $name = ucwords($name);
+                if (trim($name) == '' and $user_data['email'] != '') {
+                    $name = $user_data['email'];
+                }
+                if (trim($name) == '' and $user_data['username'] != '') {
                     $name = $user_data['username'];
+                    $name = ucwords($name);
                 }
 
-                $name = ucwords($name);
-                // return $name;
                 break;
         }
 
@@ -850,10 +874,10 @@ class User
         $fields_to_add[] = array('website_url', 'TEXT default NULL');
         $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
 
-         $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->db->build_table($table_name, $fields_to_add);
 
-         $this->app->db->add_table_index('username', $table_name, array('username(255)'));
-         $this->app->db->add_table_index('email', $table_name, array('email(255)'));
+        $this->app->db->add_table_index('username', $table_name, array('username(255)'));
+        $this->app->db->add_table_index('email', $table_name, array('email(255)'));
 
 
         $table_name = MW_DB_TABLE_LOG;
@@ -881,7 +905,7 @@ class User
         $fields_to_add[] = array('session_id', 'longtext default NULL');
         $fields_to_add[] = array('is_system', "char(1) default 'n'");
 
-         $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->db->build_table($table_name, $fields_to_add);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -1397,15 +1421,11 @@ class User
     }
 
 
-
-
-
     public function  social_login($params)
     {
-        
-		
-		
-		set_exception_handler($this->social_login_exception_handler);
+
+
+        set_exception_handler($this->social_login_exception_handler);
         $params2 = array();
 
         if (is_string($params)) {
@@ -1433,10 +1453,8 @@ class User
             try {
 
                 $authenticate = $api->authenticate($provider);
-				
-			
-				
-				
+
+
                 if (is_array($authenticate) and isset($authenticate['identifier'])) {
 
                     $data = array();
@@ -1478,7 +1496,7 @@ class User
                             $this->app->log->save($notif);
 
                         }
-                        
+
                     }
 
                     $data_ex = $this->get_all($data);
@@ -1497,64 +1515,63 @@ class User
                             $this->app->url->redirect($return_after_login);
                             exit();
                         } else {
-							if($return_after_login != false){
-								 $this->app->url->redirect($return_after_login);
-                            	exit();
-							} else {
-								
-								  $go_sess = $this->session_get('user_after_login');
-								if($go_sess != false){
-									 $this->app->url->redirect($go_sess);
-								} else {
-									 $this->app->url->redirect(site_url());
-								}
-								
-								
-                            	exit();
-							}
-						}
- 
+                            if ($return_after_login != false) {
+                                $this->app->url->redirect($return_after_login);
+                                exit();
+                            } else {
+
+                                $go_sess = $this->session_get('user_after_login');
+                                if ($go_sess != false) {
+                                    $this->app->url->redirect($go_sess);
+                                } else {
+                                    $this->app->url->redirect(site_url());
+                                }
+
+
+                                exit();
+                            }
+                        }
+
                     }
 
                 }
 
-                
 
             } catch (Exception $e) {
-				
-			
+
+
                 die("<b>got an error!</b> " . $e->getMessage());
             }
 
         }
     }
 
-    public function social_login_process($params=false)
+    public function social_login_process($params = false)
     {
-       
-	   
-	    if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url->site())) {
+
+
+        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url->site())) {
             $return_after_login = $_SERVER["HTTP_REFERER"];
             $this->session_set('user_after_login', $return_after_login);
 
         }
-	   
-	   
-	    set_exception_handler($this->social_login_exception_handler);
 
-        
-		 try{
-			 $api = new \Microweber\Auth\Social();
-       	 
-		  
-		 $api->process();
-		 
-		 
-		 } catch( Exception $e ){
-			   echo "Ooophs, we got an error: " . $e->getMessage();
-		   }
 
-     
+        set_exception_handler($this->social_login_exception_handler);
+
+
+        try {
+            $api = new \Microweber\Auth\Social();
+
+
+            $api->process();
+
+
+        } catch (Exception $e) {
+            echo "Ooophs, we got an error: " . $e->getMessage();
+        }
+
+
     }
 
 
@@ -1571,26 +1588,27 @@ class User
 
         return $data;
     }
-	
-	
-	function social_login_exception_handler($exception=false){
-		
-		
-		if ($this->app->url->is_ajax()) {
-			 if( $exception == false){
-				return; 
-			 }
-			 
-			 
-			return array('error' => $exception->getMessage());
-		}
-		$after_log = $this->session_get('user_after_login');
-		if ($after_log != false) {
-			$this->app->url->redirect($after_log);
-		} else {
-			$this->app->url->redirect(site_url());
-		}
-	}
+
+
+    function social_login_exception_handler($exception = false)
+    {
+
+
+        if ($this->app->url->is_ajax()) {
+            if ($exception == false) {
+                return;
+            }
+
+
+            return array('error' => $exception->getMessage());
+        }
+        $after_log = $this->session_get('user_after_login');
+        if ($after_log != false) {
+            $this->app->url->redirect($after_log);
+        } else {
+            $this->app->url->redirect(site_url());
+        }
+    }
 
 
 }

@@ -9,6 +9,7 @@ namespace Microweber;
  * @package Content
  * @category Content
  * @desc  These functions will allow you to get and save content in the database.
+ * @desc  These functions will allow you to get and save content in the database.
  *
  */
 
@@ -2034,6 +2035,8 @@ class Content
             $max_level = $params['max_level'];
         } else if (isset($params['maxdepth'])) {
             $max_level = $params['max_level'] = $params['maxdepth'];
+        }else if (isset($params['depth'])) {
+            $max_level = $params['max_level'] = $params['depth'];
         }
 
         if ($max_level != false) {
@@ -3123,7 +3126,12 @@ class Content
         if (isset($params['maxdepth']) != false) {
             $maxdepth = $params['maxdepth'];
         }
-
+        if (isset($params['depth']) != false) {
+            $maxdepth = $params['depth'];
+        }
+        if (isset($params_o['depth']) != false) {
+            $maxdepth = $params_o['depth'];
+        }
         if (isset($params_o['maxdepth']) != false) {
             $maxdepth = $params_o['maxdepth'];
         }

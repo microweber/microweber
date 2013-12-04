@@ -323,6 +323,10 @@ class Notifications
 
         }
     }
+    public function get_admin($params = false)
+    {
+
+    }
 
     public function get($params = false)
     {
@@ -347,7 +351,6 @@ class Notifications
                 } else if ($log_entr != false) {
                     $return[] = $log_entr;
                 }
-                // d($is_log_id);
             }
 
         }
@@ -355,7 +358,6 @@ class Notifications
             $table = MW_DB_TABLE_NOTIFICATIONS;
             $params['table'] = $table;
             $params['order_by'] = 'id desc';
-
             $return = $this->app->db->get($params);
         }
         return $return;
