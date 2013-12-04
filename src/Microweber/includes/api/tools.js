@@ -2247,6 +2247,7 @@ mw.tools = {
     mwd.getElementsByTagName('head')[0].appendChild(l);
   },
   calc:{
+
     SliderButtonsNeeded:function(parent){
         var t  = {left:false,right:false};
         var el = parent.firstElementChild;

@@ -60,10 +60,11 @@
  
 
 /* SETTING PARENT AND ACTIVE CATEGORY */
+$forced_parent = false;
 if(intval($data['id']) == 0 and intval($data['parent']) == 0 and isset($params['parent-category-id']) and $params['parent-category-id'] != 0 and !isset($params['parent-page-id'])){
       $cat_page = get_page_for_category($params['parent-category-id']);
 	  if(is_array($cat_page) and isset($cat_page['id'])){
-		$params['parent-page-id'] = $cat_page['id'];
+		$forced_parent = $params['parent-page-id'] = $cat_page['id'];
 	  }
 }
 
@@ -131,7 +132,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 			 $data['parent'] = $parent_content['id'];
 	 } 
 
-} elseif((intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'product'){
+} elseif($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'product'){
 	 
 	 //if we are adding product in a page that is not a shop
 	 $parent_shop_check =  get_content_by_id($data['parent']);
@@ -142,7 +143,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 		 }
 	 }
 	 
-} elseif((intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'post'){
+} elseif($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'post'){
 	 
 	 //if we are adding product in a page that is not a shop
 	 $parent_shop_check =  get_content_by_id($data['parent']);
@@ -150,7 +151,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	 if(!isset($parent_shop_check['subtype']) or $parent_shop_check['subtype'] != 'dynamic'){
 		 $parent_content_shop = get_content('order_by=updated_on desc&one=true&subtype=dynamic&is_shop=n');
 		  if(isset($parent_content_shop['id'])){
-			// $data['parent'] = $parent_content_shop['id'];
+			  $data['parent'] = $parent_content_shop['id'];
 		 }
 	 }
 	 

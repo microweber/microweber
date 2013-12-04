@@ -533,8 +533,6 @@ table[class*='mw-wysiwyg-table'] td{
 
 /* Borderless Zebra */
 
-
-
 .mw-wysiwyg-table-simple-zebra > tbody > tr > td{
   border-width:  0px 0px 1px;
   border-style: none none solid;
@@ -580,12 +578,14 @@ table[class*='mw-wysiwyg-table'] td{
   border-color:#D7D7D7;
 }
 
-
-
 .mw-ui-row{
   display: table;
   width: 100%;
 }
+.mw-ui-row-fixed{
+  table-layout: fixed;
+}
+
 .mw-ui-col{
   display: table-cell;
   vertical-align: top;
