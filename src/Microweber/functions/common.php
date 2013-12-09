@@ -176,6 +176,17 @@ function api_url($str = '')
     return site_url('api/' . $str);
 }
 
+function auto_link($text)
+{
+    return mw('format')->auto_link($text);
+}
+
+function prep_url($text)
+{
+    return mw('format')->prep_url($text);
+}
+
+
 
 /**
  * category_tree

@@ -113,8 +113,9 @@ class Format
         return $date;
     }
 
-    public function autolink($string){
-        $string= preg_replace("#http://([\S]+?)#Uis", '<a href="http://\\1">\\1</a>', $string);
+    public function autolink($string)
+    {
+        $string = preg_replace("#http://([\S]+?)#Uis", '<a href="http://\\1">\\1</a>', $string);
         return $string;
     }
 
@@ -152,7 +153,8 @@ class Format
 
         return '' . $retval . ' ago';
     }
-    function strip_unsafe($string, $img=false)
+
+    function strip_unsafe($string, $img = false)
     {
         if (is_array($string)) {
 
@@ -162,116 +164,115 @@ class Format
             return $string;
         } else {
 
-        // Unsafe HTML tags that members may abuse
-        $unsafe=array(
-            '/<iframe(.*?)<\/iframe>/is',
-            '/<title(.*?)<\/title>/is',
-            //'/<pre(.*?)<\/pre>/is',
-            '/<audio(.*?)<\/audio>/is',
-            '/<video(.*?)<\/video>/is',
-            '/<frame(.*?)<\/frame>/is',
-            '/<frameset(.*?)<\/frameset>/is',
-            '/<object(.*?)<\/object>/is',
-            '/<script(.*?)<\/script>/is',
-            '/<embed(.*?)<\/embed>/is',
-            '/<applet(.*?)<\/applet>/is',
-            '/<meta(.*?)>/is',
-            '/<!doctype(.*?)>/is',
-            '/<link(.*?)>/is',
-            '/<style(.*?)<\/style>/is',
-            '/<body(.*?)>/is',
-            '/<\/body>/is',
-            '/<head(.*?)>/is',
-            '/<\/head>/is',
-            '/onload="(.*?)"/is',
-            '/onunload="(.*?)"/is',
-            '/onafterprint="(.*?)"/is',
-            '/onbeforeprint="(.*?)"/is',
-            '/onbeforeunload="(.*?)"/is',
-            '/onerrorNew="(.*?)"/is',
-            '/onhaschange="(.*?)"/is',
-            '/onoffline="(.*?)"/is',
-            '/ononline="(.*?)"/is',
-            '/onpagehide="(.*?)"/is',
-            '/onpageshow="(.*?)"/is',
-            '/onpopstate="(.*?)"/is',
-            '/onredo="(.*?)"/is',
-            '/onresize="(.*?)"/is',
-            '/onstorage="(.*?)"/is',
-            '/onundo="(.*?)"/is',
-            '/onunload="(.*?)"/is',
-            '/onblur="(.*?)"/is',
-            '/onchange="(.*?)"/is',
-            '/oncontextmenu="(.*?)"/is',
-            '/onfocus="(.*?)"/is',
-            '/onformchange="(.*?)"/is',
-            '/onforminput="(.*?)"/is',
-            '/oninput="(.*?)"/is',
-            '/oninvalid="(.*?)"/is',
-            '/onreset="(.*?)"/is',
-            '/onselect="(.*?)"/is',
-            '/onblur="(.*?)"/is',
-            '/onsubmit="(.*?)"/is',
-            '/onkeydown="(.*?)"/is',
-            '/onkeypress="(.*?)"/is',
-            '/onkeyup="(.*?)"/is',
-            '/onclick="(.*?)"/is',
-            '/ondblclick="(.*?)"/is',
-            '/ondrag="(.*?)"/is',
-            '/ondragend="(.*?)"/is',
-            '/ondragenter="(.*?)"/is',
-            '/ondragleave="(.*?)"/is',
-            '/ondragover="(.*?)"/is',
-            '/ondragstart="(.*?)"/is',
-            '/ondrop="(.*?)"/is',
-            '/onmousedown="(.*?)"/is',
-            '/onmousemove="(.*?)"/is',
-            '/onmouseout="(.*?)"/is',
-            '/onmouseover="(.*?)"/is',
-            '/onmousewheel="(.*?)"/is',
-            '/onmouseup="(.*?)"/is',
-            '/ondragleave="(.*?)"/is',
-            '/onabort="(.*?)"/is',
-            '/oncanplay="(.*?)"/is',
-            '/oncanplaythrough="(.*?)"/is',
-            '/ondurationchange="(.*?)"/is',
-            '/onended="(.*?)"/is',
-            '/onerror="(.*?)"/is',
-            '/onloadedmetadata="(.*?)"/is',
-            '/onloadstart="(.*?)"/is',
-            '/onpause="(.*?)"/is',
-            '/onplay="(.*?)"/is',
-            '/onabort="(.*?)"/is',
-            '/onplaying="(.*?)"/is',
-            '/onprogress="(.*?)"/is',
-            '/onratechange="(.*?)"/is',
-            '/onreadystatechange="(.*?)"/is',
-            '/onseeked="(.*?)"/is',
-            '/onseeking="(.*?)"/is',
-            '/onstalled="(.*?)"/is',
-            '/onsuspend="(.*?)"/is',
-            '/ontimeupdate="(.*?)"/is',
-            '/onvolumechange="(.*?)"/is',
-            '/onwaiting="(.*?)"/is',
-            '/href="javascript:[^"]+"/',
-         //   '/href=javascript:[^"]+"/',
-            '/href=javascript:/is',
-          //  '/href=javascript:[^"]+/',
-            '/<html(.*?)>/is',
-            '/<iframe(.*?)>/is',
-            '/<iframe(.*?)/is',
-            '/<\/html>/is');
+            // Unsafe HTML tags that members may abuse
+            $unsafe = array(
+                '/<iframe(.*?)<\/iframe>/is',
+                '/<title(.*?)<\/title>/is',
+                //'/<pre(.*?)<\/pre>/is',
+                '/<audio(.*?)<\/audio>/is',
+                '/<video(.*?)<\/video>/is',
+                '/<frame(.*?)<\/frame>/is',
+                '/<frameset(.*?)<\/frameset>/is',
+                '/<object(.*?)<\/object>/is',
+                '/<script(.*?)<\/script>/is',
+                '/<embed(.*?)<\/embed>/is',
+                '/<applet(.*?)<\/applet>/is',
+                '/<meta(.*?)>/is',
+                '/<!doctype(.*?)>/is',
+                '/<link(.*?)>/is',
+                '/<style(.*?)<\/style>/is',
+                '/<body(.*?)>/is',
+                '/<\/body>/is',
+                '/<head(.*?)>/is',
+                '/<\/head>/is',
+                '/onload="(.*?)"/is',
+                '/onunload="(.*?)"/is',
+                '/onafterprint="(.*?)"/is',
+                '/onbeforeprint="(.*?)"/is',
+                '/onbeforeunload="(.*?)"/is',
+                '/onerrorNew="(.*?)"/is',
+                '/onhaschange="(.*?)"/is',
+                '/onoffline="(.*?)"/is',
+                '/ononline="(.*?)"/is',
+                '/onpagehide="(.*?)"/is',
+                '/onpageshow="(.*?)"/is',
+                '/onpopstate="(.*?)"/is',
+                '/onredo="(.*?)"/is',
+                '/onresize="(.*?)"/is',
+                '/onstorage="(.*?)"/is',
+                '/onundo="(.*?)"/is',
+                '/onunload="(.*?)"/is',
+                '/onblur="(.*?)"/is',
+                '/onchange="(.*?)"/is',
+                '/oncontextmenu="(.*?)"/is',
+                '/onfocus="(.*?)"/is',
+                '/onformchange="(.*?)"/is',
+                '/onforminput="(.*?)"/is',
+                '/oninput="(.*?)"/is',
+                '/oninvalid="(.*?)"/is',
+                '/onreset="(.*?)"/is',
+                '/onselect="(.*?)"/is',
+                '/onblur="(.*?)"/is',
+                '/onsubmit="(.*?)"/is',
+                '/onkeydown="(.*?)"/is',
+                '/onkeypress="(.*?)"/is',
+                '/onkeyup="(.*?)"/is',
+                '/onclick="(.*?)"/is',
+                '/ondblclick="(.*?)"/is',
+                '/ondrag="(.*?)"/is',
+                '/ondragend="(.*?)"/is',
+                '/ondragenter="(.*?)"/is',
+                '/ondragleave="(.*?)"/is',
+                '/ondragover="(.*?)"/is',
+                '/ondragstart="(.*?)"/is',
+                '/ondrop="(.*?)"/is',
+                '/onmousedown="(.*?)"/is',
+                '/onmousemove="(.*?)"/is',
+                '/onmouseout="(.*?)"/is',
+                '/onmouseover="(.*?)"/is',
+                '/onmousewheel="(.*?)"/is',
+                '/onmouseup="(.*?)"/is',
+                '/ondragleave="(.*?)"/is',
+                '/onabort="(.*?)"/is',
+                '/oncanplay="(.*?)"/is',
+                '/oncanplaythrough="(.*?)"/is',
+                '/ondurationchange="(.*?)"/is',
+                '/onended="(.*?)"/is',
+                '/onerror="(.*?)"/is',
+                '/onloadedmetadata="(.*?)"/is',
+                '/onloadstart="(.*?)"/is',
+                '/onpause="(.*?)"/is',
+                '/onplay="(.*?)"/is',
+                '/onabort="(.*?)"/is',
+                '/onplaying="(.*?)"/is',
+                '/onprogress="(.*?)"/is',
+                '/onratechange="(.*?)"/is',
+                '/onreadystatechange="(.*?)"/is',
+                '/onseeked="(.*?)"/is',
+                '/onseeking="(.*?)"/is',
+                '/onstalled="(.*?)"/is',
+                '/onsuspend="(.*?)"/is',
+                '/ontimeupdate="(.*?)"/is',
+                '/onvolumechange="(.*?)"/is',
+                '/onwaiting="(.*?)"/is',
+                '/href="javascript:[^"]+"/',
+                //   '/href=javascript:[^"]+"/',
+                '/href=javascript:/is',
+                //  '/href=javascript:[^"]+/',
+                '/<html(.*?)>/is',
+                '/<iframe(.*?)>/is',
+                '/<iframe(.*?)/is',
+                '/<\/html>/is');
 
-        // Remove graphic too if the user wants
-        if ($img==true)
-        {
-            $unsafe[]='/<img(.*?)>/is';
-        }
+            // Remove graphic too if the user wants
+            if ($img == true) {
+                $unsafe[] = '/<img(.*?)>/is';
+            }
 
-        // Remove these tags and all parameters within them
-        $string=preg_replace($unsafe, "", $string);
+            // Remove these tags and all parameters within them
+            $string = preg_replace($unsafe, "", $string);
 
-        return $string;
+            return $string;
         }
     }
 
@@ -282,11 +283,11 @@ class Format
                 $output[$key] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
-           // $var = html_entity_decode($var);
+            // $var = html_entity_decode($var);
             //$var = stripslashes($var);
             $var = $this->strip_unsafe($var);
             $var = htmlentities($var, ENT_QUOTES, "UTF-8");
-           // $var = htmlentities($var, ENT_NOQUOTES, "UTF-8");
+            // $var = htmlentities($var, ENT_NOQUOTES, "UTF-8");
             $var = str_ireplace("<script>", '', $var);
             $var = str_ireplace("</script>", '', $var);
 
@@ -296,8 +297,8 @@ class Format
             $var = str_ireplace("<microweber", '&lt;microweber', $var);
 
             //$var = str_ireplace("javascript:", '', $var);
-           // $var = str_ireplace("vbscript:", '', $var);
-           // $var = str_ireplace("livescript:", '', $var);
+            // $var = str_ireplace("vbscript:", '', $var);
+            // $var = str_ireplace("livescript:", '', $var);
             //$var = str_ireplace("HTTP-EQUIV=", '', $var);
             $var = str_ireplace("\0075\0072\\", '', $var);
 
@@ -341,9 +342,26 @@ class Format
     {
         $url_re = '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@';
         $url_replacement = "<a href='$1' target='_blank'>$1</a>";
-
-        return preg_replace($url_re, $url_replacement, $text);
+        $text = preg_replace($url_re, $url_replacement, $text);
+        return $text;
     }
+
+    // got this from code igniter
+    function prep_url($str = '')
+    {
+        if ($str === 'http://' OR $str === '') {
+            return '';
+        }
+
+        $url = parse_url($str);
+
+        if (!$url OR !isset($url['scheme'])) {
+            return 'http://' . $str;
+        }
+
+        return $str;
+    }
+
 
     public function  percent($num_amount, $num_total)
     {
@@ -454,7 +472,7 @@ class Format
     public function notif($text, $class = 'success')
     {
 
-        if($class ===true){
+        if ($class === true) {
             $to_print = '<div><div class="mw-notification-text mw-open-module-settings">';
             $to_print = $to_print . _e($text, true) . '</div></div>';
         } else {

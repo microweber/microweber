@@ -175,6 +175,8 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
 
     <script type="text/javascript">
+	
+	 
 
 
         mw.init_comment_form<?php print md5($params['id']) ?> = function () {

@@ -168,9 +168,13 @@ description: Default comments template
   $avatars_enabled = get_option('avatar_enabled', 'comments')=='y';
 
   $comment_author =  get_user_by_id($comment['created_by']) ;
-  
+  $my_comment = false;
   if(!empty($comment_author)){
 	  // $comment['comment_name'] = user_name($comment_author['id']);
+  }
+  
+  if($cur_user != false and $comment['created_by'] == $cur_user){
+ $my_comment = true;	  
   }
 
   
@@ -224,7 +228,13 @@ description: Default comments template
 								<?php _e("Your comment requires moderation"); ?>
 								</em><br />
 								<?php endif; ?>
-								<?php print nl2br($comment['comment_body'] ,1);?> </div>
+								<?php print nl2br($comment['comment_body'] ,1);?> 
+								
+								<?php if($my_comment == true): ?>
+								 
+								<?php endif; ?>
+								
+								</div>
 						</div>
 					</div>
 				</div>

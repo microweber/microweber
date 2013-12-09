@@ -155,7 +155,9 @@ class Curl
         if (function_exists("curl_init")) {
             $this->fields_string = null;
             foreach ($this->post_data as $key => $value) {
-                $this->fields_string .= $key . '=' . $value . '&';
+                if (is_string($key) and is_string($value)) {
+                    $this->fields_string .= $key . '=' . $value . '&';
+                }
             }
             $this->fields_string = rtrim($this->fields_string, "&");
 

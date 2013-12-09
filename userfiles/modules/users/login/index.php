@@ -16,7 +16,7 @@
 
 $(document).ready(function(){
 	 mw.$('#user_login_<?php print $params['id'] ?>').submit(function() {
-	   alert(1)
+
         var subm = mw.$('[type="submit"]', this);
         if(!subm.hasClass("disabled")){
              mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');

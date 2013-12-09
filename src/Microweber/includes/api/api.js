@@ -693,7 +693,7 @@ mw._response = {
         var err_holder = mwd.createElement('div');
         form[method](err_holder);
     }
-    $(err_holder).empty().attr("class", 'alert alert-' + type + ' hide');
+    $(err_holder).empty().attr("class", 'alert alert-' + type + ' ');
     return err_holder;
   },
   createHTML:function(data, holder){
