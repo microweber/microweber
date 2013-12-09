@@ -1,4 +1,4 @@
-
+<div class="well">
 <div class="box-head">
   <h3 style="font-weight: normal;font-size: 17px;padding-bottom: 7px;"><?php _e("Enter your username or email"); ?></h3>
 </div>
@@ -25,4 +25,4 @@
     <div style="clear: both"></div>
   </form>
   <div class="alert" style="margin: 0;display: none;"></div>
-</div>
+</div></div>

@@ -1,4 +1,4 @@
-
+<div class="well">
 <div class="box-head">
   <h2><a href="javascript:mw.load_module('users/register', '#<?php print $params['id'] ?>');"><?php _e("New Registration"); ?></a> or <a href="javascript:mw.load_module('users/login', '#<?php print $params['id'] ?>');"><?php _e("Login"); ?></a></h2>
 </div>
@@ -36,4 +36,4 @@
     <div style="clear: both"></div>
   </form>
   <div class="alert" style="margin: 0;display: none;"></div>
-</div>
+</div></div>

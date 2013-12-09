@@ -1,4 +1,4 @@
-<div class="mw-forgot-pass-wrapper well">
+<div class="mw-forgot-pass-wrapper">
 	<?php if(isset($_GET['reset_password_link'])): ?>
 	<module type="users/forgot_password/reset_password" />
 	<?php else:  ?>

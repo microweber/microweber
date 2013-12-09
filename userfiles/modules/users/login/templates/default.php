@@ -43,10 +43,8 @@ description: Login default
 
     <div class="vSpace"></div>
 
-
-
     <div class="social-login">
-      
+
         <?php if(get_option('enable_user_fb_registration','users') =='y'): ?>
         <a href="<?php print api_link('user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook"></a>
         <?php $have_social_login = true; ?>

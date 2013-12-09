@@ -16,6 +16,7 @@
 
 $(document).ready(function(){
 	 mw.$('#user_login_<?php print $params['id'] ?>').submit(function() {
+	   alert(1)
         var subm = mw.$('[type="submit"]', this);
         if(!subm.hasClass("disabled")){
              mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
@@ -23,34 +24,23 @@ $(document).ready(function(){
            		 mw.response('#user_login_<?php print $params['id'] ?>',this);
       			 if(typeof this.success === 'string'){
       			      var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
-					  
 					  if(c == undefined || c == ''){
 						 var c = mw.$('#<?php print $params['id'] ?>').dataset("callback");
 					  }
 					  <?php if(!isset($params['return']) and isset($_REQUEST['return'])): ?>
-					   <?php $params['return'] = $_REQUEST['return']; ?>
-					   <?php endif; ?>
-					  
-                      
+					  <?php $params['return'] = $_REQUEST['return']; ?>
+					  <?php endif; ?>
 					  <?php if(isset($params['return'])): ?>
-					  
 					  <?php 
-					  $goto =  urldecode($params['return']);
-					  
-					  if(stristr($goto, "http://") == false and stristr($goto, "https://") == false ){
-						$goto = site_url($goto);  
-						  
-					  }?>
-					 
+    					  $goto =  urldecode($params['return']);
+    					  if(stristr($goto, "http://") == false and stristr($goto, "https://") == false ){
+    						$goto = site_url($goto);
+    					  }
+                      ?>
 					   window.location.href ='<?php print $goto; ?>';
 					   return false;
 					  <?php else:  ?>
 					    mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
-
-					  
-					  
-					 
-					  
 					    if(c == '' ){
                           window.location.reload();
                         }
@@ -62,10 +52,7 @@ $(document).ready(function(){
                             window.location.reload();
                           }
                         }
-						
-						
 						 <?php endif; ?>
-						
                         return false;
       			 }
                  mw.notification.msg(this, 5000);
@@ -79,22 +66,21 @@ $(document).ready(function(){
 <?php
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){
-$module_template =$params['template'];
+    $module_template =$params['template'];
 }
 
 if($module_template != false){
-$template_file = module_templates( $config['module'], $module_template);
-
-} else {
-$template_file = module_templates( $config['module'], 'default');
-
+    $template_file = module_templates( $config['module'], $module_template);
+}
+else {
+    $template_file = module_templates( $config['module'], 'default');
 }
 
 if(isset($template_file) and is_file($template_file) != false){
-include($template_file);
+    include($template_file);
 } else {
-$template_file = module_templates( $config['module'], 'default');
-include($template_file);
+    $template_file = module_templates( $config['module'], 'default');
+    include($template_file);
 }
 
 ?><?php endif; ?>
