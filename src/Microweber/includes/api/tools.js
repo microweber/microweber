@@ -628,8 +628,9 @@ mw.tools = {
           if(!mw.tools.hasClass(event.target.className, 'mw_dropdown_fields') && !mw.tools.hasClass(event.target.className, 'dd_search')){
             $(this).toggleClass("active");
             $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
-            if($(this).find(".other-action-hover").length==0){
-              var item =  $(this).find(".mw_dropdown_fields");
+
+            if(mw.$(".other-action-hover", this).length==0){
+              var item =  mw.$(".mw_dropdown_fields", this);
 
               if(item.is(":visible")){
                   item.hide();
@@ -2575,7 +2576,7 @@ mw.switcher = {
 
 
 
- mw.check = {
+mw.check = {
    all:function(selector){
     mw.$(selector).find("input[type='checkbox']").each(function(){
        this.checked = true;
@@ -2595,7 +2596,7 @@ mw.switcher = {
      }
      return arr;
    }
- }
+}
 
 
 
@@ -2686,20 +2687,6 @@ $(window).load(function(){
 
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 mw._dump = function(obj){

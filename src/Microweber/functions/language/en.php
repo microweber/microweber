@@ -901,3 +901,4 @@ $language["create-new-page"]= 'Create new page' ;
 $language["there-are-no-items-in-the-menu-b-my-menu-b"]= 'There are no items in the menu <b>my menu</b>' ; 
 $language["sub-category-name"]= 'Sub-category Name' ; 
 $language["you-don-t-have-any-clients"]= 'You don\'t have any clients' ; 
+$language["enter-text-from-the-image"]= 'Enter text from the image' ; 

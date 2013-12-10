@@ -53,7 +53,7 @@ mw.wysiwyg = {
           var all = common.querySelectorAll('*'), l = all.length, i = 0;
           for( ; i<l; i++){
             var el = all[i];
-            if(sel.containsNode(el, true)){
+            if(typeof sel !== 'undefined' && sel.containsNode(el, true)){
               $(el).removeAttr("style");
             }
           }
