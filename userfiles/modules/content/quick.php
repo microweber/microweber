@@ -479,6 +479,7 @@ mw.edit_content.handle_form_submit = function(go_live){
 		}
 		mw.edit_content.before_save();
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
+
         var data = mw.serializeFields(el);
         module.addClass('loading');
         mw.content.save(data, {

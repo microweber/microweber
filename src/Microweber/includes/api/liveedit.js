@@ -1718,7 +1718,6 @@ if(typeof el === 'object' && el !== null){
 
 
   var all = doc.querySelectorAll('[contenteditable]'), l=all.length, i=0;
-  d(all)
 
   for( ; i<l; i++ ){
     all[i].removeAttribute('contenteditable');

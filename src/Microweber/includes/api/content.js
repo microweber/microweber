@@ -63,6 +63,15 @@ mw.content = mw.content || {
           if(data.content == "" || typeof data.content === 'undefined'){
            // calc.content = false;
           }
+          else{
+              var doc = mw.tools.parseHtml(data.content);
+              var all = doc.querySelectorAll('[contenteditable]'), l=all.length, i=0;
+              for( ; i<l; i++ ){
+                all[i].removeAttribute('contenteditable');
+              }
+              data.content = doc.body.innerHTML;
+          }
+
           if(data.title == "" || typeof data.title === 'undefined'){
             calc.title = false;
           }
