@@ -835,7 +835,14 @@ function cache_clear($cache_group = 'global', $cache_storage_type = false)
 
 
 }
+//same as cache_clear
+function cache_delete($cache_group = 'global', $cache_storage_type = false)
+{
 
+    return mw('cache')->delete($cache_group, $cache_storage_type);
+
+
+}
 
 api_expose('social_login_process');
 function social_login_process()

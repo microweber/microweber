@@ -3673,10 +3673,9 @@ class Content
         $id = $this->app->user->is_admin();
         if ($id == false) {
             return;
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
+         }
         $content_id = intval($content_id);
-        if ($content_id == 0) {
+        if ($content_id == 0 or !defined('MODULE_DB_MENUS')) {
             return;
         }
 
@@ -3965,7 +3964,6 @@ class Content
                         }
                     }
                 }
-
             }
         }
 

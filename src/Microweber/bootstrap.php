@@ -116,60 +116,21 @@ if (!defined('T')) {
     $mtime = $mtime[1] + $mtime[0];
     define('T', $mtime);
 }
-/*
-* Microweber autoloader
-* Loads up classes with namespaces
-* Add more dicectories with set_include_path
- */
-$mw_get_prev_dir = dirname(MW_APP_PATH);
-set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
-    MW_APP_PATH . PATH_SEPARATOR .
-    MW_APP_PATH . 'controllers' . DS .
-    PATH_SEPARATOR . MW_MODULES_DIR .
-    PATH_SEPARATOR . get_include_path());
 
 
-/*set_include_path(get_include_path().PATH_SEPARATOR.
-        $mw_get_prev_dir . PATH_SEPARATOR .
-        MW_APP_PATH . PATH_SEPARATOR .
-        MW_APP_PATH . 'controllers' . DS .
-        PATH_SEPARATOR . MW_MODULES_DIR
-);*/
-
-function mw_autoload($className)
-{
-    $className = ltrim($className, '\\');
-    $fileName = '';
-    $namespace = '';
-
-    if ($lastNsPos = strripos($className, '\\')) {
-        $namespace = substr($className, 0, $lastNsPos);
-        $className = substr($className, $lastNsPos + 1);
-        $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-    }
+//spl_autoload_register('mw_autoload');
 
 
-    if ($className != '') {
-        // set_include_path(  get_include_path(). PATH_SEPARATOR .MW_MODULES_DIR .strtolower($className));
-        $try_module_first = MW_MODULES_DIR . $className . DS;
-        $try_module_first_lower = MW_MODULES_DIR . strtolower($className) . DS;
 
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-        $try_file = $try_module_first . $fileName;
-        $try_file2 = $try_module_first_lower . $fileName;
-        include_once($fileName);
-    }
 
-}
+$loader = new Psr4AutoloaderClass;
+$mw_src = (__DIR__) . DS;
 
-function autoload_add($dirname)
-{
-    set_include_path($dirname .
-        PATH_SEPARATOR . get_include_path());
-}
+$loader->addNamespace('Microweber', $mw_src);
+$loader->addNamespace('Microweber', MW_APP_PATH . 'controllers');
+$loader->addNamespace('Microweber', MW_MODULES_DIR);
+$loader->register();
 
-spl_autoload_register('mw_autoload');
-$_mw_registry = array();
 function mw($class = null, $constructor_params = false)
 {
 
@@ -190,22 +151,50 @@ function mw($class = null, $constructor_params = false)
 
 
 
+/*
+* Microweber autoloader
+* Loads up classes with namespaces
+* Add more directories with set_include_path
+
+
+// SINCE WE MOVED TO PSR4 AUTOLOADER this is kept for compatibility
+
+$mw_get_prev_dir = dirname(MW_APP_PATH);
+set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
+    MW_APP_PATH . PATH_SEPARATOR .
+    MW_APP_PATH . 'controllers' . DS .
+    PATH_SEPARATOR . MW_MODULES_DIR .
+    PATH_SEPARATOR . get_include_path());
+
+spl_autoload_register('mw_autoload');
+
+*/
+
 
 // Basic system functions
-function p($f)
+
+function mw_autoload($className)
 {
-    return __DIR__ . strtolower(str_replace('_', '/', "/$f.php"));
+    $className = ltrim($className, '\\');
+    $fileName = '';
+    $namespace = '';
+
+    if ($lastNsPos = strripos($className, '\\')) {
+        $namespace = substr($className, 0, $lastNsPos);
+        $className = substr($className, $lastNsPos + 1);
+        $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+    }
+    if ($className != '') {
+        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+        include_once($fileName);
+    }
+
 }
 
-function load_file($f)
+function autoload_add($dirname)
 {
-    return (str_replace('..', '', $f));
-    //return  strtolower ( str_replace ( '_', '/', "/$f.php" ) );
-}
-
-function v(&$v, $d = NULL)
-{
-    return isset($v) ? $v : $d;
+    set_include_path($dirname .
+        PATH_SEPARATOR . get_include_path());
 }
 
 
@@ -312,21 +301,17 @@ function site_url($add_string = false)
 
     if (defined('MW_SITE_URL')) {
         $site_url = MW_SITE_URL;
-
     }
     if ($site_url == false) {
         $pageURL = 'http';
         if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {
             $pageURL .= "s";
         }
-
         $subdir_append = false;
         if (isset($_SERVER['PATH_INFO'])) {
             // $subdir_append = $_SERVER ['PATH_INFO'];
         } elseif (isset($_SERVER['REDIRECT_URL'])) {
             $subdir_append = $_SERVER['REDIRECT_URL'];
-        } else {
-            //  $subdir_append = $_SERVER ['REQUEST_URI'];
         }
 
         $pageURL .= "://";
@@ -359,15 +344,10 @@ function site_url($add_string = false)
 
         }
 
-
-        //
         if (isset($_SERVER['QUERY_STRING'])) {
             $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
         }
 
-        if (isset($_SERVER['REDIRECT_URL'])) {
-            //  $pageURL = str_replace($_SERVER ['REDIRECT_URL'], '', $pageURL);
-        }
 
         $uz = parse_url($pageURL);
         if (isset($uz['query'])) {
@@ -395,20 +375,162 @@ function site_url($add_string = false)
         $site_url = implode('/', $url_segs);
 
     }
-
-
     return $site_url . $add_string;
 }
 
 
 function mw_path_to_url($path)
 {
-    // var_dump($path);
     $path = str_ireplace(MW_ROOTPATH, '', $path);
     $path = str_replace('\\', '/', $path);
     $path = str_replace('//', '/', $path);
-    //var_dump($path);
     return site_url($path);
+}
+
+
+class Psr4AutoloaderClass
+{
+    /**
+     * An associative array where the key is a namespace prefix and the value
+     * is an array of base directories for classes in that namespace.
+     *
+     * @var array
+     */
+    protected $prefixes = array();
+
+    /**
+     * Register loader with SPL autoloader stack.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        spl_autoload_register(array($this, 'loadClass'));
+    }
+
+    /**
+     * Adds a base directory for a namespace prefix.
+     *
+     * @param string $prefix The namespace prefix.
+     * @param string $base_dir A base directory for class files in the
+     * namespace.
+     * @param bool $prepend If true, prepend the base directory to the stack
+     * instead of appending it; this causes it to be searched first rather
+     * than last.
+     * @return void
+     */
+    public function addNamespace($prefix, $base_dir, $prepend = false)
+    {
+        // normalize namespace prefix
+        $prefix = trim($prefix, '\\') . '\\';
+
+        // normalize the base directory with a trailing separator
+        $base_dir = rtrim($base_dir, '/') . DIRECTORY_SEPARATOR;
+        $base_dir = rtrim($base_dir, DIRECTORY_SEPARATOR) . '/';
+
+        // initialize the namespace prefix array
+        if (isset($this->prefixes[$prefix]) === false) {
+            $this->prefixes[$prefix] = array();
+        }
+
+        // retain the base directory for the namespace prefix
+        if ($prepend) {
+            array_unshift($this->prefixes[$prefix], $base_dir);
+        } else {
+            array_push($this->prefixes[$prefix], $base_dir);
+        }
+    }
+
+    /**
+     * Loads the class file for a given class name.
+     *
+     * @param string $class The fully-qualified class name.
+     * @return mixed The mapped file name on success, or boolean false on
+     * failure.
+     */
+    public function loadClass($class)
+    {
+        // the current namespace prefix
+        $prefix = $class;
+
+        // work backwards through the namespace names of the fully-qualified
+        // class name to find a mapped file name
+        while (false !== $pos = strrpos($prefix, '\\')) {
+
+            // retain the trailing namespace separator in the prefix
+            $prefix = substr($class, 0, $pos + 1);
+
+            // the rest is the relative class name
+            $relative_class = substr($class, $pos + 1);
+
+            // try to load a mapped file for the prefix and relative class
+            $mapped_file = $this->loadMappedFile($prefix, $relative_class);
+            if ($mapped_file) {
+                return $mapped_file;
+            }
+
+            // remove the trailing namespace separator for the next iteration
+            // of strrpos()
+            $prefix = rtrim($prefix, '\\');
+        }
+
+        // never found a mapped file
+        return false;
+    }
+
+    /**
+     * Load the mapped file for a namespace prefix and relative class.
+     *
+     * @param string $prefix The namespace prefix.
+     * @param string $relative_class The relative class name.
+     * @return mixed Boolean false if no mapped file can be loaded, or the
+     * name of the mapped file that was loaded.
+     */
+    protected function loadMappedFile($prefix, $relative_class)
+    {
+        // are there any base directories for this namespace prefix?
+        if (isset($this->prefixes[$prefix]) === false) {
+            return false;
+        }
+
+        // look through base directories for this namespace prefix
+        foreach ($this->prefixes[$prefix] as $base_dir) {
+
+            // replace the namespace prefix with the base directory,
+            // replace namespace separators with directory separators
+            // in the relative class name, append with .php
+            $file = $base_dir
+                . str_replace('\\', DIRECTORY_SEPARATOR, $relative_class)
+                . '.php';
+            $file = $base_dir
+                . str_replace('\\', '/', $relative_class)
+                . '.php';
+
+            // if the mapped file exists, require it
+            if ($this->requireFile($file)) {
+                // yes, we're done
+                return $file;
+            }
+        }
+
+        // never found it
+        return false;
+    }
+
+    /**
+     * If a file exists, require it from the file system.
+     *
+     * @param string $file The file to require.
+     * @return bool True if the file exists, false if not.
+     */
+    protected function requireFile($file)
+    {
+        if (file_exists($file)) {
+            require $file;
+            return true;
+        }
+        return false;
+    }
 }
 
 require_once (MW_APP_PATH . 'functions' . DS . 'mw_functions.php');

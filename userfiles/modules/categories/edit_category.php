@@ -97,7 +97,7 @@ $(document).ready(function(){
 		 if(mw.category_is_saving){
 			 return false;
 		 }
-		   mw.notification.success("Saving...");
+		   mw.notification.success("Saving...",6000);
 		 mw.category_is_saving = true;
 		 $('.mw-cat-save-submit').addClass('disabled');
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');

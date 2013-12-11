@@ -10,11 +10,25 @@
 	   mw.load_module('categories/manage', '#mw_add_cat_live_edit', function(){
 	   })
   }
-
+mw.load_quick_cat_edit = function($id){
+       mw.simpletab.set(mwd.getElementById('mw-live-edit-cats-tab'));
+  if($id == undefined){
+    mw.$("#mw_select_cat_to_edit_dd").val();
+  }
+  mw.$("#mw_quick_edit_category").attr("data-category-id",$id);
+  mw.load_module('categories/edit_category', '#mw_quick_edit_category', function(){
+      $(mwd.body).removeClass("loading");
+  });
+}
  </script>
 
  
 <div class="mw_simple_tabs mw_tabs_layout_simple">
+
+
+
+
+ 
 	<ul style="margin: 0;" class="mw_simple_tabs_nav">
 		<li><a class="active" href="javascript:;">
 			<?php _e("Options"); ?>
@@ -26,6 +40,9 @@
 			<?php _e("Edit categories"); ?>
 			</a></li>
 	</ul>
+	<a href="javascript:mw.load_quick_cat_edit(0);" class="mw-ui-btn" style="height: 15px;position: absolute;right: 13px;top: 12px;z-index: 1"><span>
+	<?php _e("Add new category"); ?>
+	</span></a>
 	<div class="tab">
 		<label class="mw-ui-label">
 			<?php _e("Show Categories From"); ?>
@@ -61,5 +78,6 @@ $pt_opts['include_categories'] =true;
 	</div>
 	<div class="tab semi_hidden">
 		<div id="mw_add_cat_live_edit"></div>
+		<div id="mw_quick_edit_category"></div>
 	</div>
 </div>

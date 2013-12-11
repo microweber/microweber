@@ -25,7 +25,7 @@ class Url
             }
 
             $pageURL .= "://";
-             if (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+            if (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
                 $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
             } elseif (isset($_SERVER["SERVER_NAME"])) {
                 $pageURL .= $_SERVER["SERVER_NAME"];
@@ -56,7 +56,6 @@ class Url
             if (isset($_SERVER['QUERY_STRING'])) {
                 $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
             }
-
 
 
             $uz = parse_url($pageURL);
@@ -147,23 +146,15 @@ class Url
 
     public function segment($k = -1, $page_url = false)
     {
-        //static $u;
         $u = false;
         if ($page_url == false or $page_url == '') {
             $u1 = $this->current();
         } else {
-
             $u1 = $page_url;
         }
-
-
-
         $u2 = $this->site_url();
-
-
         $u1 = rtrim($u1, '\\');
         $u1 = rtrim($u1, '/');
-
         $u2 = rtrim($u2, '\\');
         $u2 = rtrim($u2, '/');
         $u2 = reduce_double_slashes($u2);
@@ -171,14 +162,19 @@ class Url
         $u2 = rawurldecode($u2);
         $u1 = rawurldecode($u1);
         $u1 = str_replace($u2, '', $u1);
-
         if (!isset($u) or $u == false) {
             $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
-
+        }
+        if ($k != -1) {
+            if (isset($u[$k])) {
+                return $u[$k];
+            } else {
+                return null;
+            }
+        } else {
+            return $u;
         }
 
-
-        return $k != -1 ? v($u[$k]) : $u;
 
     }
 
@@ -307,7 +303,7 @@ class Url
                         $the_param = str_ireplace($param . ':', '', $segment);
 
                         if ($param == 'custom_fields_criteria') {
-                             $the_param1 = $this->app->format->base64_to_array($the_param);
+                            $the_param1 = $this->app->format->base64_to_array($the_param);
                             return $the_param1;
                         }
 
@@ -327,7 +323,7 @@ class Url
                             return $the_param1;
                         }
 
-                      return $the_param;
+                        return $the_param;
                     }
                 }
             }

@@ -79,5 +79,6 @@
 	</div>
 	<div class="tab" id="add_new_page">
 		<div id="mw_page_create_live_edit"></div>
+		
 	</div>
 </div>

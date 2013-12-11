@@ -196,9 +196,9 @@ if(typeof mw.rotator === 'undefined'){
             el.mousemove(function(event){
                 var img_width = $(img).width();
                 var img_height = $(img).height();
-                offset = Math.floor( ( img_width - el.width() ) * ( ( event.pageX - el.offset().left ) / el.width() ) )
-                offset2 = Math.floor( ( img_height - el.height() ) * ( ( event.pageY - el.offset().top ) / el.height() ) )
-            if( offset <= img_width - el.width()  ) {
+                var offset = Math.floor( ( img_width - el.width() ) * ( ( event.pageX - el.offset().left ) / el.width() ) )
+                var offset2 = Math.floor( ( img_height - el.height() ) * ( ( event.pageY - el.offset().top ) / el.height() ) )
+                if( offset <= img_width - el.width()  ) {
                    img.style.left = -offset+'px';
                 }
                 else{

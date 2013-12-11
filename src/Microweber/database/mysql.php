@@ -1,5 +1,9 @@
 <?php
-global $db_link;
+
+
+//global $db_link;
+
+$db_link = $this->db_link;
 
 $failed_query = false;
 if (defined('PDO::MYSQL_ATTR_LOCAL_INFILE')) {
@@ -23,11 +27,14 @@ if (isset($db['host'])) {
 
 
 if ($is_pdo != false) {
-    try {
-        $db_link = new PDO('mysql:host=' . $db['host'] . ';port=' . $port_num . ';dbname=' . $db['dbname'], $db['user'], $db['pass']);
-    } catch (PDOException $e) {
-        print "PDO Error!: " . $e->getMessage() . " ";
-        die();
+
+    if ($db_link == false or $db_link == NULL) {
+        try {
+            $db_link = new PDO('mysql:host=' . $db['host'] . ';port=' . $port_num . ';dbname=' . $db['dbname'], $db['user'], $db['pass']);
+        } catch (PDOException $e) {
+            print "PDO Error!: " . $e->getMessage() . " ";
+            die();
+        }
     }
     $driver = $db_link->getAttribute(PDO::ATTR_DRIVER_NAME);
 
@@ -132,24 +139,19 @@ if ($is_pdo != false) {
     }
 
 } else {
-    print 'Error: Database connection function is not found';
+    print 'Fatal error: Database connection function is not found';
     print "\n PDO: " . var_dump($is_pdo);
     print "\n mysqli_connect: " . var_dump($is_mysqli);
     print "\n mysql_connect: " . var_dump($is_mysql);
     print("\n Please install at least one of those functions");
-    exit();
+    die();
 }
 
 
 if ($failed_query != false) {
     $error = array();
     $error['error'][] = $failed_query;
-    //    mw('cache')->delete('db');
-    //    if (function_exists('event_trigger')) {
-    //        event_trigger('mw_db_init');
-    //        event_trigger('mw_db_init_default');
-    //        event_trigger('mw_db_init_modules');
-    //    }
     return $error;
 }
+$this->db_link = $db_link;
 

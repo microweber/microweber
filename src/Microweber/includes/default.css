@@ -579,7 +579,7 @@ table[class*='mw-wysiwyg-table'] td{
 }
 
 .mw-ui-row{
-  display: table;
+  display: table !important;
   width: 100%;
 }
 .mw-ui-row-fixed{
@@ -604,14 +604,14 @@ table[class*='mw-wysiwyg-table'] td{
 }
 @media (max-width: 1024px) {
    .mw-ui-row-drop-on-1024 > .mw-ui-col{
-      display: block;
+      display: block !important;
       clear: both;
       width: auto !important;
    }
 }
 @media (max-width: 768px) {
   .mw-ui-row, .mw-ui-col{
-    display: block;
+    display: block !important;
     clear: both;
     width: auto !important;
   }
