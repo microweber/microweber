@@ -2040,7 +2040,18 @@ class Db
                 $where_q1 = " $table.id in (select rel_id from $table_custom_fields where
 				rel='$table_assoc_name1' and
 				custom_field_values_plain REGEXP '$to_search' ) OR ";
+
+
+                $where_q1 = " $table.id in (select rel_id from $table_custom_fields where
+				rel='$table_assoc_name1' and
+				(custom_field_value REGEXP '$to_search') or custom_field_values_plain REGEXP '$to_search' ) OR ";
+
+
                 $where_q .= $where_q1;
+
+
+               
+
             }
 
 

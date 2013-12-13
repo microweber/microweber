@@ -1333,11 +1333,24 @@ class Category
 
         }
 
+
+        $old_parent = false;
+        if (isset($data['id'])) {
+            $old_category = $this->get_by_id($data['id']);
+            if(isset($old_category['parent_id'])){
+                $old_parent = $old_category['parent_id'];
+            }
+               //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+        }
+
         $save = $this->app->db->save($table, $data);
 
         //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
         if (isset($data['id'])) {
             //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+        }
+        if($old_parent != false){
+            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
         }
         if (isset($data['parent_id'])) {
             $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));

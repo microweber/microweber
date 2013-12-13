@@ -904,3 +904,4 @@ $language["you-don-t-have-any-clients"]= 'You don\'t have any clients' ;
 $language["enter-text-from-the-image"]= 'Enter text from the image' ; 
 $language["cart"]= 'Cart' ; 
 $language["user-stats"]= 'User stats' ; 
+$language["value"]= 'Value' ; 

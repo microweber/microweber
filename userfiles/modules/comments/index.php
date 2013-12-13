@@ -193,7 +193,12 @@ if (get_option('enable_comments', 'comments') == 'y') {
                     $('#<?php print $params['id']; ?>').append('<span id=' + comm_hold + '></span>');
 
                 }
-                mw.load_module('users/login', '#' + login_hold);
+                mw.load_module('users/login', '#' + login_hold, function(a){
+                  $(this).addClass("mw-comments-login")
+
+                });
+
+
                 return false;
             });
 
@@ -203,7 +208,11 @@ if (get_option('enable_comments', 'comments') == 'y') {
                 if ($('#' + login_hold).length == 0) {
                     $('#<?php print $params['id'] ?>').append('<span id="login-comments-form-<?php print $params['id'] ?>"></span>');
                 }
-                mw.load_module('users/register', '#' + login_hold);
+                mw.load_module('users/register', '#' + login_hold, function(){
+                   $(this).addClass("mw-comments-register")
+                });
+
+
                 return false;
             });
 
