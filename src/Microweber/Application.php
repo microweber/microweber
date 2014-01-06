@@ -4,9 +4,35 @@ namespace Microweber;
 
 
 /**
- * General-purpose class that loads other classes from the same namespace
- * and registers them for re-use in the whole application
- * Its used as dependency injection provider
+ * Application class
+ *
+ * General-purpose class that loads other classes from the Microweber namespace
+ *
+ * @package Application
+ * @category Application
+ * @desc
+ * General-purpose class that loads other classes from the Microweber namespace
+ * it holds the application config and its used as dependency injection provider
+ * loaded classes are registered as "provides" and are used in the whole application
+ *
+ *
+ *
+ *
+ * FOR ADVANCED USERS
+ *
+ * You can override any class on the fly for the whole application
+ *  ex. you can use your own cache provider
+ *  mw('application')->cache = new \MyNameSpace\Cache;
+ *  or your own content provider
+ *  mw('application')->content = new \MyNameSpace\Content;
+ *
+ *
+ * You can also create whole new applications based on microweber
+ * by extending the basic class and overide/extend every "proviver" class
+ * @file MyApp.php See example
+ * $my_application = new \Microweber\MyApp(MW_CONFIG_FILE);
+ *
+ *
  *
  */
 class Application
