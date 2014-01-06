@@ -1,5 +1,4 @@
 
-mw = window.mw || {};
 
 mw.on = mw.on || {
   _onmodules : [],
@@ -69,13 +68,12 @@ hashParamEventInit:function(){
   }
   else{
     for(var x in params){
-        if(params[x] !== mw.on._hashrec[x] || mw.on._hashrec[x]===undefined){
+        if(params[x] !== mw.on._hashrec[x] || typeof mw.on._hashrec[x] === 'undefined'){
             mw.on.hashParam(x, "", true);
         }
     }
   }
-  alert(mw)
-  alert(mw.on)
+
   mw.on._hashrec = params;
 },
 DOMChangePause:false,
@@ -84,7 +82,6 @@ DOMChange:function(element, callback, attr, a){
     var attr = attr || false;
     var a = a || false;
     element.addEventListener("DOMCharacterDataModified", function(e){
-    
         if( !mw.on.DOMChangePause ) {
             if(!a){
               callback.call(this);
@@ -92,7 +89,7 @@ DOMChange:function(element, callback, attr, a){
             else{
               clearInterval(element._int);
               element._int = setTimeout(function(){
-                    callback.call(element);
+                callback.call(element);
               }, mw.on.DOMChangeTime);
             }
 

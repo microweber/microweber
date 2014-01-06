@@ -2053,8 +2053,9 @@ mw.tools = {
     }
   },
   inview:function(el){
-    var $el = $(el),
-        dt = $(window).scrollTop(),
+    var $el = $(el);
+    if($el.length === 0) { return false; }
+    var dt = $(window).scrollTop(),
         db = dt + $(window).height(),
         et = $el.offset().top;
     return (et <= db) && !(dt > ($el.height() + et));

@@ -4,6 +4,11 @@ namespace Microweber;
 api_expose('category/reorder');
 api_expose('category/save');
 api_expose('category/delete');
+
+
+/**
+ * Class to work with categories
+ */
 class Category
 {
     public $app;
@@ -32,316 +37,6 @@ class Category
 
     }
 
-    public function get_items($params, $data_type = 'categories')
-    {
-
-        $rel_id = 0;
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $options = $params2;
-        }
-
-        $table = MW_DB_TABLE_TAXONOMY;
-        $table_items = MW_DB_TABLE_TAXONOMY_ITEMS;
-
-        $data = $params;
-        $data_type_q = false;
-        if ($data_type == 'categories') {
-            $data['data_type'] = 'category_item';
-            $data_type_q = "and data_type = 'category_item' ";
-        }
-
-        if ($data_type == 'tags') {
-            $data['data_type'] = 'tag_item';
-            $data_type_q = "and data_type = 'tag_item' ";
-        }
-        $data['table'] = $table_items;
-        //  $data['debug'] = $table;
-        //$data['cache_group'] = $cache_group = 'categories/' . $rel_id;
-        //$data['only_those_fields'] = array('parent_id');
-
-        $data = $this->app->db->get($data);
-        return $data;
-
-        $results = false;
-        if (!empty($data)) {
-            $results = array();
-            foreach ($data as $item) {
-                $results[] = $item['parent_id'];
-            }
-            $results = array_unique($results);
-        }
-        //$this->app->cache->save($results, $function_cache_id, $cache_group);
-        return $results;
-    }
-
-    public function link($id)
-    {
-
-        if (intval($id) == 0) {
-
-            return false;
-        }
-
-        $function_cache_id = '';
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        } else {
-            $table = MW_DB_TABLE_TAXONOMY;
-            $c_infp = $this->get_by_id($id);
-            if (!isset($c_infp['rel'])) {
-                return;
-            }
-
-            if (trim($c_infp['rel']) != 'content') {
-                return;
-            }
-
-            $content = $this->get_page($id);
-
-            if (!empty($content)) {
-                $url = $content['url'];
-                $url = $this->app->content->link($content['id']);
-            } else {
-                if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'content') {
-                    $this->app->db->delete_by_id($table, $id);
-                }
-            }
-
-            if (isset($url) != false) {
-                $url = $url . '/category:' . $id;
-                $this->app->cache->save($url, $function_cache_id, $cache_group);
-
-                return $url;
-            }
-
-            return;
-        }
-
-        //todo delete
-
-        $function_cache_id = '';
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        } else {
-
-            $data = array();
-
-            $data['id'] = $id;
-
-            $data = $this->get_by_id($id);
-
-            if (empty($data)) {
-
-                return false;
-            }
-            //$this->load->model ( 'Content_model', 'content_model' );
-
-            $table = MW_DB_TABLE_TAXONOMY;
-            $db_t_content = MW_TABLE_PREFIX . 'content';
-
-            $content = array();
-
-            $content['subtype'] = 'dynamic';
-
-            $content['subtype_value'] = $id;
-
-            //$orderby = array ('id', 'desc' );
-
-            $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$id} LIMIT 0,1";
-            //p($q,1);
-            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), $cache_group);
-
-            //$content = $this->content_model->getContentAndCache ( $content, $orderby );
-
-            $content = $q[0];
-
-            $url = false;
-
-            $parent_ids = $this->get_parents($data['id']);
-            //   $parent_ids = array_rpush($parent_ids, $data['id']);
-            $parent_ids = array_pad($parent_ids, -(count($parent_ids) + 1), $data['id']);
-            foreach ($parent_ids as $item) {
-
-                $content = array();
-
-                $content['subtype'] = 'dynamic';
-
-                $content['subtype_value'] = $item;
-
-                $orderby = array('id', 'desc');
-
-                $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$item} LIMIT 0,1";
-                //p($q);
-                $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), $cache_group);
-
-                //$content = $this->content_model->getContentAndCache ( $content, $orderby );
-
-                $content = $q[0];
-
-                //$content = $content [0];
-
-                $url = false;
-
-                if (!empty($content)) {
-
-                    if ($content['content_type'] == 'page') {
-                        if (function_exists('page_link')) {
-                            $url = $this->app->content->link($content['id']);
-                            //$url = $url . '/category:' . $data ['title'];
-
-                            $str = $data['title'];
-                            if (function_exists('mb_strtolower')) {
-                                $str = mb_strtolower($str, "UTF-8");
-                            } else {
-                                $str = strtolower($str);
-                            }
-
-                            $string1 = ($str);
-
-                            $url = $url . '/' . $this->app->url->slug($string1) . '/categories:' . $data['id'];
-
-                            //$url = $url . '/categories:' . $data ['id'];
-                        }
-                    }
-
-                }
-
-                //if ($url != false) {
-                $this->app->cache->save($url, $function_cache_id, $cache_group);
-                return $url;
-                //}
-            }
-
-            return false;
-        }
-
-        //var_dump ( $parent_ids );
-    }
-
-    public function get($params, $data_type = 'categories')
-    {
-        $params2 = array();
-        $rel_id = 0;
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $options = $params2;
-            extract($params);
-        }
-        if (isset($params['rel_id'])) {
-            $rel_id = $params['rel_id'];
-        }
-
-        $table = MW_DB_TABLE_TAXONOMY;
-        $table_items = MW_DB_TABLE_TAXONOMY_ITEMS;
-
-        $data = $params;
-        $data_type_q = false;
-
-        $data['table'] = $table;
-        if (isset($params['id'])) {
-            $data['cache_group'] = $cache_group = 'categories/' . $params['id'];
-        } else {
-            $data['cache_group'] = $cache_group = 'categories/global';
-
-        }
-
-        $data = $this->app->db->get($data);
-        return $data;
-
-    }
-
-
-    /**
-     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
-     * @param int
-     * @return array
-     * @author      Peter Ivanov
-     * @version 1.0
-     * @since Version 1.0
-     */
-    public function get_by_id($id = 0)
-    {
-
-        if ($id == 0) {
-            return false;
-        }
-
-        $id = intval($id);
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-        $cache_content = false;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table = MW_DB_TABLE_TAXONOMY;
-
-        $id = intval($id);
-
-        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
-
-        $q = $this->app->db->query($q);
-
-        $q = $q[0];
-
-        if (!empty($q)) {
-
-            $this->app->cache->save($q, $function_cache_id, $cache_group);
-
-            return $q;
-        } else {
-
-            return false;
-        }
-    }
-
-
     /**
      * category_tree
      *
@@ -369,10 +64,7 @@ class Category
     public function tree($params = false)
     {
 
-
-        //}
         $p2 = array();
-        // d($params);
         if (!is_array($params)) {
             if (is_string($params)) {
                 parse_str($params, $p2);
@@ -387,9 +79,7 @@ class Category
             $parent = 0;
         }
         asort($params);
-
         $function_cache_id = false;
-
         $function_cache_id = __FUNCTION__ . crc32(serialize($params));
         if (defined(PAGE_ID)) {
             //   $function_cache_id .= PAGE_ID;
@@ -417,18 +107,12 @@ class Category
 
 
         $cache_group = 'categories/global';
-        // $cache_content = false;
-
-
         if (isset($params['nest_level'])) {
             $depth_level_counter = $params['nest_level'];
         } else {
             $depth_level_counter = 0;
         }
-
-
         $nest_level_orig = $depth_level_counter;
-
         if ($nest_level_orig == 0) {
             $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
             if (($cache_content) != false) {
@@ -617,7 +301,6 @@ class Category
         print $content;
         return;
     }
-
 
     /**
      * `
@@ -884,14 +567,14 @@ class Category
                                 $active_parent_class = 'active-parent';
                                 $active_class = '';
 
-                            }else if (intval($item['id']) != 0 and intval($item['id']) == intval(CATEGORY_ID)) {
+                            } else if (intval($item['id']) != 0 and intval($item['id']) == intval(CATEGORY_ID)) {
                                 $active_parent_class = 'active-parent';
                                 $active_class = 'active';
 
                             } else {
                                 $active_parent_class = '';
                             }
-                            $active_class = str_replace('"',' ',$active_class);
+                            $active_class = str_replace('"', ' ', $active_class);
 
                             $to_print = str_replace('{active_class}', $active_class, $to_print);
                             $to_print = str_replace('{active_parent_class}', $active_parent_class, $to_print);
@@ -914,7 +597,7 @@ class Category
                                         $value_active_cat = intval($value_active_cat);
                                         if (intval($item['id']) == $value_active_cat) {
                                             $active_found = $value_active_cat;
-                                         }
+                                        }
                                     }
                                 }
 
@@ -992,6 +675,239 @@ class Category
             }
         } else {
 
+        }
+    }
+
+    public function link($id)
+    {
+
+        if (intval($id) == 0) {
+
+            return false;
+        }
+
+        $function_cache_id = '';
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+        $categories_id = intval($id);
+        $cache_group = 'categories/' . $categories_id;
+
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        } else {
+            $table = MW_DB_TABLE_TAXONOMY;
+            $c_infp = $this->get_by_id($id);
+            if (!isset($c_infp['rel'])) {
+                return;
+            }
+
+            if (trim($c_infp['rel']) != 'content') {
+                return;
+            }
+
+            $content = $this->get_page($id);
+
+            if (!empty($content)) {
+                $url = $content['url'];
+                $url = $this->app->content->link($content['id']);
+            } else {
+                if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'content') {
+                    $this->app->db->delete_by_id($table, $id);
+                }
+            }
+
+            if (isset($url) != false) {
+                $url = $url . '/category:' . $id;
+                $this->app->cache->save($url, $function_cache_id, $cache_group);
+
+                return $url;
+            }
+
+            return;
+        }
+
+        //todo delete
+
+        $function_cache_id = '';
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+        $categories_id = intval($id);
+        $cache_group = 'categories/' . $categories_id;
+
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        } else {
+
+            $data = array();
+
+            $data['id'] = $id;
+
+            $data = $this->get_by_id($id);
+
+            if (empty($data)) {
+
+                return false;
+            }
+            //$this->load->model ( 'Content_model', 'content_model' );
+
+            $table = MW_DB_TABLE_TAXONOMY;
+            $db_t_content = MW_TABLE_PREFIX . 'content';
+
+            $content = array();
+
+            $content['subtype'] = 'dynamic';
+
+            $content['subtype_value'] = $id;
+
+            //$orderby = array ('id', 'desc' );
+
+            $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$id} LIMIT 0,1";
+            //p($q,1);
+            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), $cache_group);
+
+            //$content = $this->content_model->getContentAndCache ( $content, $orderby );
+
+            $content = $q[0];
+
+            $url = false;
+
+            $parent_ids = $this->get_parents($data['id']);
+            //   $parent_ids = array_rpush($parent_ids, $data['id']);
+            $parent_ids = array_pad($parent_ids, -(count($parent_ids) + 1), $data['id']);
+            foreach ($parent_ids as $item) {
+
+                $content = array();
+
+                $content['subtype'] = 'dynamic';
+
+                $content['subtype_value'] = $item;
+
+                $orderby = array('id', 'desc');
+
+                $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$item} LIMIT 0,1";
+                //p($q);
+                $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), $cache_group);
+
+                //$content = $this->content_model->getContentAndCache ( $content, $orderby );
+
+                $content = $q[0];
+
+                //$content = $content [0];
+
+                $url = false;
+
+                if (!empty($content)) {
+
+                    if ($content['content_type'] == 'page') {
+                        if (function_exists('page_link')) {
+                            $url = $this->app->content->link($content['id']);
+                            //$url = $url . '/category:' . $data ['title'];
+
+                            $str = $data['title'];
+                            if (function_exists('mb_strtolower')) {
+                                $str = mb_strtolower($str, "UTF-8");
+                            } else {
+                                $str = strtolower($str);
+                            }
+
+                            $string1 = ($str);
+
+                            $url = $url . '/' . $this->app->url->slug($string1) . '/categories:' . $data['id'];
+
+                            //$url = $url . '/categories:' . $data ['id'];
+                        }
+                    }
+
+                }
+
+                //if ($url != false) {
+                $this->app->cache->save($url, $function_cache_id, $cache_group);
+                return $url;
+                //}
+            }
+
+            return false;
+        }
+
+        //var_dump ( $parent_ids );
+    }
+
+    /**
+     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
+     * @param int
+     * @return array
+     * @author      Peter Ivanov
+     * @version 1.0
+     * @since Version 1.0
+     */
+    public function get_by_id($id = 0)
+    {
+
+        if ($id == 0) {
+            return false;
+        }
+
+        $id = intval($id);
+
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+        $categories_id = intval($id);
+        $cache_group = 'categories/' . $categories_id;
+        $cache_content = false;
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table = MW_DB_TABLE_TAXONOMY;
+
+        $id = intval($id);
+
+        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
+
+        $q = $this->app->db->query($q);
+
+        $q = $q[0];
+
+        if (!empty($q)) {
+
+            $this->app->cache->save($q, $function_cache_id, $cache_group);
+
+            return $q;
+        } else {
+
+            return false;
         }
     }
 
@@ -1139,28 +1055,16 @@ class Category
         $data['parent_id'] = $parent_id;
 
         if ($type != FALSE) {
-
             $data['data_type'] = $type;
-
-            $type_q = " and data_type='$type'   ";
         } else {
             $type = 'category_item';
             $data['data_type'] = $type;
-
-            $type_q = " and data_type='$type'   ";
         }
-
-        $visible_on_frontend_q = false;
-        //$save = $this->categoriesGet ( $data = $data, $orderby = $orderby );
 
         $cache_group = 'categories/' . $parent_id;
         $q = " SELECT id,  parent_id FROM $table WHERE parent_id=$parent_id   ";
-        //var_dump($q);
         $q_cache_id = __FUNCTION__ . crc32($q);
-        //var_dump($q_cache_id);
         $save = $this->app->db->query($q, $q_cache_id, $cache_group);
-
-        //$save = $this->getSingleItem ( $parent_id );
         if (empty($save)) {
             return false;
         }
@@ -1176,15 +1080,12 @@ class Category
         return $to_return;
     }
 
-
     public function get_for_content($content_id, $data_type = 'categories')
     {
         if (intval($content_id) == 0) {
 
             return false;
         }
-
-
         $get_category_items = $this->get_items('rel=content&rel_id=' . ($content_id));
         $include_parents = array();
         $include_parents_str = '';
@@ -1196,9 +1097,6 @@ class Category
             }
 
         }
-
-
-        // d($include_parents);
         $get_category = $this->get('data_type=category&rel=content&rel_id=' . ($content_id));
         if (empty($get_category)) {
             $get_category = array();
@@ -1213,9 +1111,6 @@ class Category
                 }
 
             }
-
-
-            //  d($get_category2 );
         }
         if (is_array($get_category)) {
             array_unique($get_category);
@@ -1266,9 +1161,7 @@ class Category
         }
 
         $q = "select parent_id from $table_items where  rel='content' and rel_id=$content_id  " . $data_type_q;
-        // var_dump($q);
         $data = $this->app->db->query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
-        // var_dump ( $data );
         $results = false;
         if (!empty($data)) {
             $results = array();
@@ -1281,6 +1174,63 @@ class Category
         return $results;
     }
 
+    /**
+     * Gets category items
+     * @param array|string $params Array or string with parameters
+     * @param string $data_type
+     * @return array|bool
+     */
+    public function get_items($params, $data_type = 'categories')
+    {
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $options = $params2;
+        }
+        $table_items = MW_DB_TABLE_TAXONOMY_ITEMS;
+        $data = $params;
+        if ($data_type == 'categories') {
+            $data['data_type'] = 'category_item';
+        }
+        if ($data_type == 'tags') {
+            $data['data_type'] = 'tag_item';
+        }
+        $data['table'] = $table_items;
+        $data = $this->app->db->get($data);
+        return $data;
+    }
+
+    public function get($params, $data_type = 'categories')
+    {
+        $params2 = array();
+        $rel_id = 0;
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $options = $params2;
+            extract($params);
+        }
+        if (isset($params['rel_id'])) {
+            $rel_id = $params['rel_id'];
+        }
+
+        $table = MW_DB_TABLE_TAXONOMY;
+        $table_items = MW_DB_TABLE_TAXONOMY_ITEMS;
+
+        $data = $params;
+        $data_type_q = false;
+
+        $data['table'] = $table;
+        if (isset($params['id'])) {
+            $data['cache_group'] = $cache_group = 'categories/' . $params['id'];
+        } else {
+            $data['cache_group'] = $cache_group = 'categories/global';
+
+        }
+
+        $data = $this->app->db->get($data);
+        return $data;
+
+    }
 
     public function save($data, $preserve_cache = false)
     {
@@ -1337,10 +1287,10 @@ class Category
         $old_parent = false;
         if (isset($data['id'])) {
             $old_category = $this->get_by_id($data['id']);
-            if(isset($old_category['parent_id'])){
+            if (isset($old_category['parent_id'])) {
                 $old_parent = $old_category['parent_id'];
             }
-               //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+            //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
 
         $save = $this->app->db->save($table, $data);
@@ -1349,7 +1299,7 @@ class Category
         if (isset($data['id'])) {
             //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
-        if($old_parent != false){
+        if ($old_parent != false) {
             $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
         }
         if (isset($data['parent_id'])) {
@@ -1458,10 +1408,9 @@ class Category
             }
 
 
-            //d($c_id);
+
         }
     }
-
 
     public function reorder($data)
     {

@@ -916,7 +916,14 @@ mw.wysiwyg = {
     },
     save_selection:function(){
         var selection = window.getSelection();
-        var range =  selection.getRangeAt(0);
+        if (selection.rangeCount > 0 ){
+          var range = selection.getRangeAt(0);
+        }
+        else{
+          var range = mwd.createRange();
+          range.selectNode(mwd.querySelector('.edit .element'));
+         // range.collapse(true);
+        }
         mw.wysiwyg.selection = {
           sel:selection,
           range:range,

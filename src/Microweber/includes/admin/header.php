@@ -54,6 +54,20 @@
         		}
     		    mw.cookie.set('back_to_admin', window.location.href);
     		}
+			
+			
+		  mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function(){
+			   if(mw.helpinfo != undefined){
+				    mw.cookie.set('helpinfo',false); 
+				   $(".helpinfo_helper").fadeOut();
+			     
+			   }
+		  });  
+	 
+			
+			
+			
+			
 		});
     </script>
     <?php endif; ?>
