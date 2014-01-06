@@ -30,8 +30,6 @@ else{
 
     afterMediaIsInserted = function(url, todo, eventType){   //what to do after image is uploaded (depending on the hash in the url)
 
-
-
       if(typeof todo =='undefined'){var todo = false;}
 
       if(url == false){
@@ -39,7 +37,7 @@ else{
             //parent.mw.iframecallbacks[hash](url, eventType);
           }
 		  if(typeof(thismodal) != "undefined"){
-          parent.mw.tools.modal.remove(thismodal.main);
+            parent.mw.tools.modal.remove(thismodal.main);
 		  }
           return false;
       }
@@ -49,10 +47,15 @@ else{
           if(hash!==''){
             if(hash=='editimage'){
 
+
               parent.mw.image.currentResizing.attr("src", url);
               parent.mw.image.currentResizing.css('height', 'auto');
 
               parent.mw.tools.addClass(parent.mw.tools.firstParentWithClass(parent.mw.image.currentResizing[0], 'edit'), 'changed orig_changed');
+
+              parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+
+
             }
             else if(hash=='set_bg_image'){
               parent.mw.wysiwyg.set_bg_image(url);
@@ -113,6 +116,7 @@ else{
             if(typeof parent.mw.iframecallbacks[hash] === 'function'){
               if(hash == 'editimage'){
                 parent.mw.iframecallbacks[hash](this);
+                parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
               }
               else{
                 parent.mw.iframecallbacks[hash](GlobalEmbed);
@@ -248,13 +252,12 @@ else{
                    GlobalEmbed = __generateEmbed(type, val);
                    if(type!='link'){
                      if(typeof parent.mw.iframecallbacks[hash] === 'function'){
-                       parent.mw.iframecallbacks[hash](GlobalEmbed);
+                        parent.mw.iframecallbacks[hash](GlobalEmbed);
                      }
                      else if(typeof parent[hash] === 'function'){
                         parent[hash](GlobalEmbed)
                      }
-
-                       parent.mw.tools.modal.remove('mw_rte_image');
+                        parent.mw.tools.modal.remove('mw_rte_image');
                    }
                  }, 500);
              }

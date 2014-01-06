@@ -79,11 +79,16 @@ mw.iframecallbacks = {
     change_border_color:function(color){ return mw.wysiwyg.change_border_color(color);},
     change_shadow_color:function(color){ return mw.wysiwyg.change_shadow_color(color);},
     editimage:function(url){
+
         mw.image.currentResizing.attr("src", url);
         mw.image.currentResizing.css('height', 'auto');
         //d(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit'))
         mw.tools.addClass(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit'), 'changed orig_changed');
         mw.askusertostay = true;
+        parent.mw.image.currentResizing.load(function(){
+          parent.mw.image.resize.resizerSet(this);
+        });
+
     },
     add_link_to_menu:function(){
 

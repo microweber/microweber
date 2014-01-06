@@ -30,14 +30,16 @@ if ($is_pdo != false) {
 
     if ($db_link == false or $db_link == NULL) {
         try {
+          //  $db_link = new PDO('mysql:host=' . $db['host'] . ';port=' . $port_num . ';dbname=' . $db['dbname']. ';charset=utf8', $db['user'], $db['pass']);
             $db_link = new PDO('mysql:host=' . $db['host'] . ';port=' . $port_num . ';dbname=' . $db['dbname'], $db['user'], $db['pass']);
+
         } catch (PDOException $e) {
             print "PDO Error!: " . $e->getMessage() . " ";
             die();
         }
     }
     $driver = $db_link->getAttribute(PDO::ATTR_DRIVER_NAME);
-
+  //  $db_link->exec("set names utf8");
     $sth = $db_link->prepare($q);
     $sth->execute();
     if ($only_query == false) {

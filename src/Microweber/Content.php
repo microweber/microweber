@@ -1636,7 +1636,7 @@ class Content
                 }
 
                 //$root_parent = $this->get_inherited_parent($page['parent']);
-              //  d($root_parent);
+                //  d($root_parent);
 
                 //  $this->get_inherited_parent($page['id']);
                 // if ($par_page != false) {
@@ -1645,7 +1645,7 @@ class Content
                 if (defined('ROOT_PAGE_ID') == false) {
 
                     $root_page = $this->get_parents($page['id']);
-                    if(!empty($root_page) and isset($root_page[0])){
+                    if (!empty($root_page) and isset($root_page[0])) {
                         $root_page[0] = end($root_page);
                     } else {
                         $root_page[0] = $page['parent'];
@@ -1655,7 +1655,12 @@ class Content
                 }
 
                 if (defined('MAIN_PAGE_ID') == false) {
-                    define('MAIN_PAGE_ID', $page['parent']);
+                    if ($page['parent'] == 0) {
+                        define('MAIN_PAGE_ID', $page['id']);
+                    } else {
+                        define('MAIN_PAGE_ID', $page['parent']);
+                    }
+
                 }
 
                 if (defined('PARENT_PAGE_ID') == false) {
@@ -2035,7 +2040,7 @@ class Content
             $max_level = $params['max_level'];
         } else if (isset($params['maxdepth'])) {
             $max_level = $params['max_level'] = $params['maxdepth'];
-        }else if (isset($params['depth'])) {
+        } else if (isset($params['depth'])) {
             $max_level = $params['max_level'] = $params['depth'];
         }
 
@@ -2066,8 +2071,14 @@ class Content
 
             $li_class = $params['li_class'];
         }
+        if (isset($params['ul_tag'])) {
 
+            $list_tag = $params['ul_tag'];
+        }
+        if (isset($params['li_tag'])) {
 
+            $list_item_tag = $params['li_tag'];
+        }
         if (isset($params['include_categories'])) {
 
             $include_categories = $params['include_categories'];
@@ -3673,7 +3684,7 @@ class Content
         $id = $this->app->user->is_admin();
         if ($id == false) {
             return;
-         }
+        }
         $content_id = intval($content_id);
         if ($content_id == 0 or !defined('MODULE_DB_MENUS')) {
             return;
@@ -4104,7 +4115,7 @@ class Content
         }
         if (isset($data['title'])) {
             $data['title'] = strip_tags($data['title']);
-            $data['title'] =  preg_replace("/(^\s+)|(\s+$)/us", "", $data['title']);
+            $data['title'] = preg_replace("/(^\s+)|(\s+$)/us", "", $data['title']);
             $data_to_save['title'] = $data['title'];
         }
 

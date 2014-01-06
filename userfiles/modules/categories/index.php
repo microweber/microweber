@@ -18,8 +18,16 @@ if ($category_tree_parent_page == false and isset($params['content_id'])) {
 
 if ($category_tree_parent_page != false and $category_tree_parent_page != '' and $category_tree_parent_page != 0) {
     $params['rel_id'] = $params['content_id'] = $category_tree_parent_page;
+}
+
+if ($category_tree_parent_page == false and isset($params['current-page']) and $params['current-page'] == true) {
+    $params['rel_id'] = $params['content_id'] = PAGE_ID;
 
 }
+
+
+
+
 
 
 $module_template = get_option('data-template', $params['id']);

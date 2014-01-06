@@ -89,15 +89,11 @@ $('#module_open_<?php print $params['id']; ?>').show();
 	 mw.$('#module_update_<?php print $params['id']; ?>').unbind('click');
 	  mw.$('#module_update_<?php print $params['id']; ?>').click(function() {
        //  var for_module = {}
-
-
-
-
        var  for_module =  $(this).attr('data-module-name');
 	   	     mw.notification.warning("Installing update for module: "+for_module + '');
 
          $.post('<?php print admin_url() ?>view:modules?add_module='+for_module,   function(data) {
-  mw.notification.success("New update for module <b>"+for_module + '</b> is installed');
+  			mw.notification.success("New update for module <b>"+for_module + '</b> is installed');
 
          });
 

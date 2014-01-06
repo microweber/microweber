@@ -1,7 +1,7 @@
 
+mw = window.mw || {};
 
-
-mw.on = {
+mw.on = mw.on || {
   _onmodules : [],
   _onmodules_funcs : [],
   moduleReload : function(id, c, trigger){
@@ -74,6 +74,8 @@ hashParamEventInit:function(){
         }
     }
   }
+  alert(mw)
+  alert(mw.on)
   mw.on._hashrec = params;
 },
 DOMChangePause:false,

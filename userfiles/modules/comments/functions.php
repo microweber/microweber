@@ -317,7 +317,7 @@ event_bind('db_query_comments', '_modify_comments_query');
 
 function _modify_comments_query($criteria)
 {
-   
+   $add_sql = false;
    // if we have 'posts_category' param in the query
    // we will get comments from a category
    if (isset($criteria['posts_category'])) {
@@ -327,16 +327,18 @@ function _modify_comments_query($criteria)
 		$table = MODULE_DB_COMMENTS;
         $table_cat_items = MW_DB_TABLE_TAXONOMY_ITEMS;
         $cat = intval($criteria['posts_category']);
-        $add_sql = "
+        $add_sql = $add_sql . "
         LEFT JOIN $table_cat_items ON
             $table_cat_items.rel = $table.rel
             where $table_cat_items.parent_id=$cat
             and $table_cat_items.rel_id =$table.rel_id
              and $table.is_moderated = 'y'
              ";
-			 return $add_sql;
-
-        
+			
     }
+	
+	
+	
+	 return $add_sql;
  
 }

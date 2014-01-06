@@ -1,14 +1,12 @@
 <?php
+
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
+include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
+include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
+include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
 
-
-if (defined('MW_IS_INSTALLED') == true) {
-
-
-} else {
-
-
+if (!defined('MW_IS_INSTALLED')) {
     $autoinstall_cli = getopt("i:");
 
     /*
@@ -25,11 +23,9 @@ if (defined('MW_IS_INSTALLED') == true) {
 
     if (isset($cli_autoinstall) and $cli_autoinstall != false) {
         $cfg = MW_CONFIG_FILE;
-
         if (is_file($cfg) and is_readable($cfg)) {
             require ($cfg);
             if (is_array($config) and isset($config['db']) and is_array($config['db'])) {
-                // if(!isset($config['installed']) or $config['installed'] != 'yes')){
                 $autoinstall = $config;
                 if (!isset($config['is_installed'])) {
                     $autoinstall['is_installed'] = 'no';
@@ -37,14 +33,10 @@ if (defined('MW_IS_INSTALLED') == true) {
                 if (isset($config['table_prefix'])) {
                     $autoinstall['table_prefix'] = $config['table_prefix'];
                     if (!defined('MW_TABLE_PREFIX') and isset($autoinstall['table_prefix']) and !isset($_REQUEST['table_prefix'])) {
-
                         define('MW_TABLE_PREFIX', (trim($autoinstall['table_prefix'])));
-
                     }
                     if (!defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
-
                         define('MW_TABLE_PREFIX', (trim($_REQUEST['table_prefix'])));
-
                     }
                 } else {
                     $autoinstall['table_prefix'] = '';
@@ -65,16 +57,10 @@ if (defined('MW_IS_INSTALLED') == true) {
                 }
 
                 if (!defined('MW_INSTALL_FROM_CONFIG')) {
-
                     define('MW_INSTALL_FROM_CONFIG', true);
                     mw_var('mw_autoinstall', $autoinstall);
-
                 }
-
-                // }
             }
-
-
         }
 
     }
@@ -82,50 +68,33 @@ if (defined('MW_IS_INSTALLED') == true) {
 
     if (!defined('MW_TABLE_PREFIX') and !isset($_REQUEST['autoinstall'])) {
     } else if (!defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
-
         define('MW_TABLE_PREFIX', trim($_REQUEST['table_prefix']));
-
     } else if (!defined('MW_TABLE_PREFIX')) {
         $pre = mw()->config('table_prefix');
-
         define('MW_TABLE_PREFIX', $pre);
-
     }
-
 }
 
 
 $c_id = 'mw_init_all';
-//$cache_content_init = mw('option')->get_static('is_installed', 'mw_system');
-
 if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
-   
     $curent_time_zone = mw('option')->get('time_zone', 'website');
     if ($curent_time_zone != false and $curent_time_zone != '') {
         $default_time_zone = date_default_timezone_get();
-
         if ($default_time_zone != $curent_time_zone) {
-
             date_default_timezone_set($curent_time_zone);
         }
-
     }
 }
 
 
-include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'media.php');
+
 
 if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
-
     if ($cache_content_init != 'yes') {
         event_trigger('mw_db_init_modules');
     }
-
 }
-
-include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
-include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
-
 
 function get_all_functions_files_for_modules($options = false)
 {
@@ -147,7 +116,7 @@ function get_all_functions_files_for_modules($options = false)
         return $cache_content;
     }
 
-     if (isset($options['glob'])) {
+    if (isset($options['glob'])) {
         $glob_patern = $options['glob'];
     } else {
         $glob_patern = '*functions.php';
@@ -181,7 +150,7 @@ function get_all_functions_files_for_modules($options = false)
 
                 $found = false;
                 foreach ($disabled_files as $disabled_file) {
-                     if (strtolower($value) == strtolower($disabled_file)) {
+                    if (strtolower($value) == strtolower($disabled_file)) {
                         $found = 1;
                     }
                 }
@@ -207,7 +176,6 @@ if (function_exists('get_all_functions_files_for_modules')) {
         if (is_array($module_functions)) {
             foreach ($module_functions as $item) {
                 if (is_file($item)) {
-
                     include_once ($item);
                 }
             }

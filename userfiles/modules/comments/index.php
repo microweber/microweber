@@ -3,7 +3,7 @@ require_once(dirname(__FILE__) . DS . 'functions.php');
 if (get_option('enable_comments', 'comments') == 'y') {
 
     $login_required = get_option('user_must_be_logged', 'comments') == 'y';
-
+	$from_related_posts = false;
     $paging_param = $params['id'] . '_page';
     $curent_page_from_url = url_param($paging_param);
     if (isset($params['content-id'])) {
@@ -42,6 +42,13 @@ if (get_option('enable_comments', 'comments') == 'y') {
         $data['rel_id'] = $params['id'];
 
     }
+
+  if (isset($data['from-related-posts'])) {
+
+       $from_related_posts = true;
+
+    }
+
 
 
     $display_comments_from = get_option('display_comments_from', $params['id']);
@@ -107,7 +114,9 @@ if (get_option('enable_comments', 'comments') == 'y') {
         }
     }
 
-
+	if ($display_comments_from == false and $from_related_posts != false) {
+		  d(CATEGORY_ID);
+	 }
     if ($enable_comments_paging != false) {
         if (intval($comments_per_page) != 0) {
             $comments_data['limit'] = $comments_per_page;

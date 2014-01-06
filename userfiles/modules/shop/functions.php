@@ -35,5 +35,11 @@ function mw_print_admin_menu_shop_btn()
     if ($active == 'shop') {
         $cls = ' class="active" ';
     }
-    print '<li' . $cls . '><a href="' . admin_url() . 'view:shop" title="'._e("Online Shop", true).'"><i class="ico inavshop"></i><span>' . _e('Online Shop', true) . '</span></a></li>';
+	
+	$is_shop = get_content('is_active=y&is_shop=y&count=1');
+	
+	if($is_shop > 0){
+	print '<li' . $cls . '><a href="' . admin_url() . 'view:shop" title="'._e("Online Shop", true).'"><i class="ico inavshop"></i><span>' . _e('Online Shop', true) . '</span></a></li>';
+	} 
+   
 }

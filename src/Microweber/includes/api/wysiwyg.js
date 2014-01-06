@@ -860,7 +860,7 @@ mw.wysiwyg = {
            $("#mw_rte_image").remove();
         }
         else{
-          if(mw.wysiwyg.isSelectionEditable() || mw.target.item.className=='image_change'){
+          if(mw.wysiwyg.isSelectionEditable() || mw.$(mw.target.item).hasClass("image_change")){
               mw.wysiwyg.save_selection();
               mw.wysiwyg.request_media(hash);
           }

@@ -2415,3 +2415,8 @@ if (!function_exists('validator')) {
 }
 
 
+function is_post(){
+    return POST_ID != false;
+}
+
+

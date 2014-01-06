@@ -15,6 +15,43 @@
 
 article, aside, figure, footer, header, hgroup, menu, nav, section { display:block; }
 
+
+
+.mw-defaults{
+  line-height: 1.5;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.mw-defaults * {
+  color: inherit;
+  -webkit-box-sizing:inherit;
+  -moz-box-sizing:inherit;
+  box-sizing:inherit;
+}
+
+.mw-defaults li{
+  line-height: 22px;
+}
+
+.mw-defaults, .mw-defaults textarea, .mw-defaults input, .mw-defaults select{
+  font: 12px Verdana,Arial,Helvetica,sans-serif;
+  color: #212121;
+}
+.mw-defaults a{
+  color: #212121;
+  text-decoration: none;
+  outline: none;
+  font-family: Verdana, sans-serif;
+}
+
+.mw-defaults li, .mw-defaults ol, .mw-defaults ul{
+  margin: 0;
+  padding: 0;
+}
+
+
 img{
   border: none;
   max-width: 100%;

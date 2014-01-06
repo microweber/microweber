@@ -42,7 +42,6 @@ class Application
 
 
         if (!defined('MW_TABLE_PREFIX')) {
-
             if (!defined('MW_TABLE_PREFIX')) {
                 if (!isset($this->config['installed']) or trim($this->config['installed']) != 'yes') {
                     if (isset($_REQUEST['table_prefix'])) {
@@ -55,12 +54,9 @@ class Application
             if (!defined('MW_TABLE_PREFIX')) {
                 if (isset($this->config['table_prefix'])) {
                     $pre = $this->config['table_prefix'];
-                    //var_dump($pre);
-                    //exit(1);
                     define('MW_TABLE_PREFIX', $pre);
                 }
             }
-
             if (!defined('MW_TABLE_PREFIX')) {
                 define('MW_TABLE_PREFIX', null);
             }
@@ -70,14 +66,9 @@ class Application
             $this->table_prefix = MW_TABLE_PREFIX;
         }
 
-
+        //registering the global object to be the last instance
         global $_mw_global_object;
-       //   if (!is_object($_mw_global_object)) {
         $_mw_global_object = $this;
-        //self::$_instance=$this;
-        // }
-
-
     }
 
     public function config($k, $no_static = false)

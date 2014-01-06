@@ -36,10 +36,12 @@ $params['parent'] = $option;
 $params['parent'] = intval($params['data-parent']);
 } elseif (isset($params['content_id'])) {
 $params['parent'] = intval($params['content_id']);
+}elseif (isset($params['parent'])) {
+$params['parent'] = intval($params['parent']);
 }
 
  
-
+ 
 $option = get_option('include_categories', $params['id']);
 
 
