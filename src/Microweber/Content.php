@@ -3,12 +3,11 @@ namespace Microweber;
 
 
 /**
- * This file holds useful functions to work with content
+ * Content class
  * Here you will find functions to get and save content in the database and much more.
  *
  * @package Content
  * @category Content
- * @desc  These functions will allow you to get and save content in the database.
  * @desc  These functions will allow you to get and save content in the database.
  *
  */
@@ -100,6 +99,7 @@ class Content
      * @package Content
      * @see post_link()
      * @see page_link()
+     * @see content_link()
      *
      *
      * @example

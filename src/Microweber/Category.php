@@ -277,11 +277,7 @@ class Category
 
         }
         ob_start();
-
-        //  $this->app->cache->save($fields, $function_cache_id, $cache_group = 'db');
-
         if ($skip123 == false) {
-
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
         } else {
 
@@ -314,7 +310,6 @@ class Category
      * @param
      *            boolean
      *
-     * @author Peter Ivanov
      *
      * @version 1.0
      *
@@ -852,65 +847,6 @@ class Category
         //var_dump ( $parent_ids );
     }
 
-    /**
-     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
-     * @param int
-     * @return array
-     * @author      Peter Ivanov
-     * @version 1.0
-     * @since Version 1.0
-     */
-    public function get_by_id($id = 0)
-    {
-
-        if ($id == 0) {
-            return false;
-        }
-
-        $id = intval($id);
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-        $cache_content = false;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table = MW_DB_TABLE_TAXONOMY;
-
-        $id = intval($id);
-
-        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
-
-        $q = $this->app->db->query($q);
-
-        $q = $q[0];
-
-        if (!empty($q)) {
-
-            $this->app->cache->save($q, $function_cache_id, $cache_group);
-
-            return $q;
-        } else {
-
-            return false;
-        }
-    }
-
     public function get_page($category_id)
     {
         $category_id = intval($category_id);
@@ -1176,7 +1112,7 @@ class Category
 
     /**
      * Gets category items
-     * @param array|string $params Array or string with parameters
+     * @param mixed $params Array or string with parameters
      * @param string $data_type
      * @return array|bool
      */
@@ -1390,6 +1326,65 @@ class Category
         return $save;
     }
 
+    /**
+     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
+     * @param int
+     * @return array
+     * @author      Peter Ivanov
+     * @version 1.0
+     * @since Version 1.0
+     */
+    public function get_by_id($id = 0)
+    {
+
+        if ($id == 0) {
+            return false;
+        }
+
+        $id = intval($id);
+
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+        $categories_id = intval($id);
+        $cache_group = 'categories/' . $categories_id;
+        $cache_content = false;
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table = MW_DB_TABLE_TAXONOMY;
+
+        $id = intval($id);
+
+        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
+
+        $q = $this->app->db->query($q);
+
+        $q = $q[0];
+
+        if (!empty($q)) {
+
+            $this->app->cache->save($q, $function_cache_id, $cache_group);
+
+            return $q;
+        } else {
+
+            return false;
+        }
+    }
+
     public function delete($data)
     {
 
@@ -1406,7 +1401,6 @@ class Category
             if (defined("MODULE_DB_MENUS")) {
                 $this->app->db->delete_by_id('menus', $c_id, 'categories_id');
             }
-
 
 
         }

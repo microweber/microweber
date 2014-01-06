@@ -2666,7 +2666,7 @@ class Db
         for ($i = 0; $i < count($columns); $i++) {
             $column_to_move = true;
             for ($j = 0; $j < count($fields_to_add); $j++) {
-                if (is_array($columns) and in_array($columns[$i]['Field'], $fields_to_add[$j])) {
+                if (isset($fields_to_add[$j]) and is_array($fields_to_add[$j]) and is_array($columns) and is_array($columns) and in_array($columns[$i]['Field'], $fields_to_add[$j])) {
                     $column_to_move = false;
                 }
             }

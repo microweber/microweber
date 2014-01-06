@@ -274,7 +274,7 @@ body.cross{
   display: block;
   float: left;
   text-indent: -100%;
-  background-image: url(../img/logo_modules.png), url("../img/nav_item_border.jpg");
+  background-image: url(../img/logo_modules.png);
   background-repeat: no-repeat, no-repeat;
   background-position: left center, right bottom;
   margin: 0 15px;

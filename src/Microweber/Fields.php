@@ -576,27 +576,20 @@ class Fields
         }
         if (is_array($id)) {
             extract($id);
-        } else {
-
         }
-
         $id = intval($id);
         if (isset($cf_id)) {
             $id = intval($cf_id);
         }
 
         if ($id == 0) {
-
             return false;
         }
 
         $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
         $q = "DELETE FROM $custom_field_table WHERE id='$id'";
-
         $this->app->db->q($q);
-
         $this->app->cache->delete('custom_fields');
-
         return true;
     }
 
@@ -683,10 +676,8 @@ class Fields
                 }
 
             }
-            //d($form_data);
-        } else if (isset($data['field_id'])) {
-
-            $data = $this->app->db->get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
+         } else if (isset($data['field_id'])) {
+             $data = $this->app->db->get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
         }
 
         if (isset($data['custom_field_type'])) {

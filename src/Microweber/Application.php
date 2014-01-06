@@ -34,15 +34,17 @@ class Application
             }
         }
         if (!defined('MW_TABLE_PREFIX')) {
-            if (!defined('MW_TABLE_PREFIX')) {
-                if (!isset($this->config['installed']) or trim($this->config['installed']) != 'yes') {
-                    if (isset($_REQUEST['table_prefix'])) {
-                        $table_prefix = strip_tags($_REQUEST['table_prefix']);
-                        $table_prefix = str_replace(array(' ', '.', '*', ';'), '-', $table_prefix);
-                        define('MW_TABLE_PREFIX', $table_prefix);
-                    }
+
+            // if mw is not installed we will get the prefix from the $_REQUEST
+            if (!isset($this->config['installed']) or trim($this->config['installed']) != 'yes') {
+                if (isset($_REQUEST['table_prefix'])) {
+                    $table_prefix = strip_tags($_REQUEST['table_prefix']);
+                    $table_prefix = str_replace(array(' ', '.', '*', ';'), '-', $table_prefix);
+                    define('MW_TABLE_PREFIX', $table_prefix);
                 }
             }
+
+
             if (!defined('MW_TABLE_PREFIX')) {
                 if (isset($this->config['table_prefix'])) {
                     $pre = $this->config['table_prefix'];

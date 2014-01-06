@@ -11,7 +11,7 @@ description: Pills Navigation
 */
 
 ?>
-<div class="navbar-collapse collapse">
+<div class="navbar-collapse">
 <?php
 $menu_filter['li_class'] = 'nav-pills';
 $menu_filter['ul_class'] = ' nav nav-pills ';

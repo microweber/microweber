@@ -905,3 +905,4 @@ $language["enter-text-from-the-image"]= 'Enter text from the image' ;
 $language["cart"]= 'Cart' ; 
 $language["user-stats"]= 'User stats' ; 
 $language["value"]= 'Value' ; 
+$language["rating"]= 'Rating' ; 

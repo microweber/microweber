@@ -2420,3 +2420,76 @@ function is_post(){
 }
 
 
+
+function get_all_functions_files_for_modules($options = false)
+{
+
+
+    $args = func_get_args();
+    $function_cache_id = '';
+
+    $function_cache_id = serialize($options);
+
+    $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+    $cache_group = 'modules/global';
+
+    $cache_content = mw('cache')->get($cache_id, $cache_group);
+
+    if (($cache_content) != false) {
+
+        return $cache_content;
+    }
+
+    if (isset($options['glob'])) {
+        $glob_patern = $options['glob'];
+    } else {
+        $glob_patern = '*functions.php';
+    }
+
+    if (isset($options['dir_name'])) {
+        $dir_name = $options['dir_name'];
+    } else {
+        $dir_name = normalize_path(MW_MODULES_DIR);
+    }
+
+    $disabled_files = array();
+
+    $uninstall_lock = mw('module')->get('ui=any&installed=[int]0');
+
+    if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
+        foreach ($uninstall_lock as $value) {
+            $value1 = normalize_path($dir_name . $value['module'] . DS . 'functions.php', false);
+            $disabled_files[] = $value1;
+        }
+    }
+
+    $dir = mw('Utils\Files')->rglob($glob_patern, 0, $dir_name);
+
+    if (!empty($dir)) {
+        $configs = array();
+        foreach ($dir as $key => $value) {
+
+            if (is_string($value)) {
+                $value = normalize_path($value, false);
+
+                $found = false;
+                foreach ($disabled_files as $disabled_file) {
+                    if (strtolower($value) == strtolower($disabled_file)) {
+                        $found = 1;
+                    }
+                }
+                if ($found == false) {
+                    $configs[] = $value;
+                }
+            }
+
+        }
+
+        mw('cache')->save($configs, $function_cache_id, $cache_group, 'files');
+
+        return $configs;
+    } else {
+        return false;
+    }
+}

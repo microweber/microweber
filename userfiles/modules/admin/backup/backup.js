@@ -55,6 +55,13 @@ mw.admin_backup = {
 
 
 	create_full : function(selector){
+		
+		mw.load_module( 'admin/backup/log',"#mw_backup_log");
+	 
+        mw.reload_module_interval("#mw_backup_log", 5000);
+            
+			
+			
 		mw.notification.success("FULL Backup is started...");
 	 
 		$.post(mw.settings.api_url+'Utils/Backup/create_full', false ,
