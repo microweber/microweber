@@ -3,9 +3,6 @@
 (function() {
     if(typeof jQuery.browser === 'undefined'){
         var matched, browser;
-        // Use of jQuery.browser is frowned upon.
-        // More details: http://api.jquery.com/jQuery.browser
-        // jQuery.uaMatch maintained for back-compat
         jQuery.uaMatch = function( ua ) {
         	ua = ua.toLowerCase();
 
@@ -30,7 +27,6 @@
         	browser.version = matched.version;
         }
 
-        // Chrome is Webkit, but Webkit is also Safari.
         if ( browser.chrome ) {
         	browser.webkit = true;
         } else if ( browser.webkit ) {
@@ -169,7 +165,6 @@ mw.tools = {
           + '<div class="mw_modal_toolbar">'
             + '<span class="mw_modal_title"></span>'
             + '<span class="mw_modal_close" onmousedown="mw.tools.modal.remove(\''+id+'\')">Close</span>'
-            //+ '<span class="mw_modal_minimize" onmousedown="mw.tools.modal.minimax(\''+id+'\');"></span>'
           + '</div>'
           + '<div class="mw_modal_container">'
           + '</div>'
@@ -302,7 +297,6 @@ mw.tools = {
         }
     },
     minimax:function(id){
-      //check the state of the modal and toggle it;
       if($("#"+id).hasClass("is_minimized")){
          mw.tools.modal.maximize(id);
       }
@@ -478,11 +472,10 @@ mw.tools = {
           }, modal);
       }
       else{
-        //
       }
     },
     init:function(arr, start, modal){
-        // "arr" parameter must be [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]  or NodeList
+        /* "arr" parameter must be [{img:"url.jpg", description:"Lorem Ipsum", {img:"..."}]   or ["some <formated>", " <b>html</b> ..."]  or NodeList */
         if(arr === null || arr === undefined){return false;}
         if(typeof arr.length !== 'number'){ return false; }
         if(arr.length === 0){ return false; }
@@ -701,7 +694,7 @@ mw.tools = {
             });
         }
 
-    } //end For loop
+    } /* end For loop */
 
     if(typeof __dd_activated === 'undefined'){
       __dd_activated = true;
@@ -742,7 +735,7 @@ mw.tools = {
   },
 
   toolbar_slider:{
-    off:function(){ return  $(".modules_bar").width() - 60; }, //120,
+    off:function(){ return  $(".modules_bar").width() - 60; }, /*120*/
     ctrl_show_hide:function(){
       mw.$(".modules_bar").each(function(){
           var el = $(this);
@@ -973,7 +966,7 @@ mw.tools = {
         }
     }
   },
-  hasClass: function(classname, whattosearch){   //for strings
+  hasClass: function(classname, whattosearch){   /*for strings*/
     if(classname === null){return false;}
     if(typeof classname === 'string'){
       return classname.split(' ').indexOf(whattosearch) > -1;
@@ -1227,9 +1220,9 @@ mw.tools = {
   },
   sort:function(obj){
     var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');
-	// var parent_mod = mw.tools.firstParentWithClass(obj.el, 'module');
+	/* var parent_mod = mw.tools.firstParentWithClass(obj.el, 'module')*/;
 
-    // Tablicata
+
     var table = mwd.getElementById(obj.id);
 
 	var parent_mod = mw.tools.firstParentWithClass(table, 'module');
@@ -1238,7 +1231,7 @@ mw.tools = {
     for( ; i<len; i++ ){
         var curr = others[i];
         if(curr !== obj.el){
-           //curr.setAttribute('data-state', 0);
+
            $(curr).removeClass('ASC').removeClass('DESC');
         }
     }
@@ -1487,7 +1480,7 @@ mw.tools = {
         return span_holder;
     }
 
-    o.rend = function(method, el){ // parse and prepend
+    o.rend = function(method, el){
       var method = method || 'parse';
       if(method === 'parse' || el==='all'){
         var html = [];
@@ -1744,7 +1737,7 @@ mw.tools = {
       var curr = a[ia];
       for( ; ib<lb; ib++){
           if(b[ib]==curr){
-            //break +;
+
             return curr;
           }
       }
@@ -2089,7 +2082,7 @@ mw.tools = {
   setTag:function(node, tag){
     var el = mwd.createElement(tag);
     mw.tools.copyAttributes(node, el);
-    el.innerHTML = node.innerHTML;   // todo
+    el.innerHTML = node.innerHTML;   /* todo */
     mw.tools.copyEvents(node, el);
     $(node).replaceWith(el);
     return el;
@@ -2162,7 +2155,6 @@ mw.tools = {
         name:'module-settings-'+a.replace(/\//g, '_'),
         title:'',
         callback:function(){
-           // $(this.container).attr('data-settings-for-module', curr.id);
         }
       });
     }
@@ -2221,7 +2213,6 @@ mw.tools = {
       name:'module-settings-'+curr.id,
       title:'',
       callback:function(){
-          //mw.drag.ModuleSettingsPopupLoaded(this.main[0].id);
           $(this.container).attr('data-settings-for-module', curr.id);
       }
     });
@@ -2308,7 +2299,7 @@ mw.tools = {
          return 0;
        }
     }
-  } // .calc
+  }
 }
 
 
@@ -2602,7 +2593,7 @@ mw.check = {
 
 
 
-mw.walker = function(context, callback){   //todo
+mw.walker = function(context, callback){
   var context = mw.is.obj(context) ? context : mwd.body;
   var callback = mw.is.func(context) ? context :  callback;
   var walker = document.createTreeWalker(context, NodeFilter.SHOW_ELEMENT, null, false);
@@ -2722,12 +2713,12 @@ mw.dump = function(){
 
 mw.notification = {
 
-   msg:function(data, timeout, alert){
+   msg:function(data, timeout, _alert){
         var timeout = timeout || 1000;
-        var alert = alert || false;
+        var _alert = _alert || false;
         if(data != undefined){
             if(data.success != undefined ){
-               if(!alert){
+               if(!_alert){
                  mw.notification.success(data.success, timeout);
                }
                else{
@@ -2980,21 +2971,13 @@ mw.storage = {
 
 
 
-///  TESTS
-  mw.storage.init();
-  mw.storage.change("reload_module", function(){
-      if( this!= ''){
-          mw.reload_module(this.toString());
-      }
-  });
 
 
 
 
-mw.requestToReload = function(id){
-   mw.storage.set("reload_module", '');
-   mw.storage.set("reload_module", id);
-}
+
+
+
 
 rcss = function(){
   mw.$("link").each(function(){
@@ -3043,7 +3026,6 @@ mw.beforeleave = function(url){
               mw.drag.save(mwd.getElementById('main-save-btn'), function(){
                 mw.askusertostay = false;
                 window.location.href = url;
-                //mw.notification.success("Redirecting to: " + url);
               });
             });
             $(go).click(function(){
@@ -3144,18 +3126,18 @@ $(mwd.body).bind("keydown", function(e){
   var isgal = mwd.querySelector('.mw_modal_gallery') !== null;
   if(isgal){
 
-      if(e.keyCode === 27){  //escape
+      if(e.keyCode === 27){  /* escape */
         mw.tools.modal.remove(mw.$(".mw_modal_gallery"))
         mw.tools.cancelFullscreen()
       }
-      else if(e.keyCode === 37){ //left
+      else if(e.keyCode === 37){ /* left */
 
         mw.tools.gallery.prev( mw.$(".mw_modal_gallery")[0].modal)
       }
-      else if(e.keyCode === 39){ //right
+      else if(e.keyCode === 39){ /* right */
          mw.tools.gallery.next(  mw.$(".mw_modal_gallery")[0].modal )
       }
-      else if(e.keyCode === 122){// F11
+      else if(e.keyCode === 122){/* F11 */
         mw.e.cancel(e,true);
         mw.tools.toggleFullscreen(mw.$(".mw_modal_gallery")[0]);
         return false;
@@ -3299,8 +3281,6 @@ mw.$(".mw-pin").each(function(){
     },
     activeCell:null,
     setActiveCell:function(el, event){
-        //event.preventDefault();
-        //event.stopPropagation();
         if(!mw.tools.hasClass(el.className, 'tc-activecell')){
            mw.$(".tc-activecell").removeClass('tc-activecell');
            $(el).addClass('tc-activecell');
@@ -3452,7 +3432,6 @@ mw.image = {
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
           resizer.className = 'mw-defaults mw_image_resizer';
-          //resizer.innerHTML = '<span onclick="mw.image.settings(\'#editimage\');" class="image_change">Settings</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
           resizer.innerHTML = '<span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer
@@ -3481,9 +3460,9 @@ mw.image = {
         });
       },
       resizerSet:function(el){
-             //  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
+             /*  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
 
-           //  if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){
+           if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){   */
 
 
 
@@ -3513,7 +3492,7 @@ mw.image = {
                }
 
 
-        // }
+        /* } */
       },
       init:function(selector){
         mw.image_resizer == undefined?mw.image.resize.prepare():'';   /*

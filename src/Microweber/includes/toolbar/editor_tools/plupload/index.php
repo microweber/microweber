@@ -43,6 +43,9 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
   mwd.body.className +=' ' + Name;
   Params = mw.url.getUrlParams(window.location.href);
  $(document).ready(function(){
+        $(mwd.body).mousedown(function(e){
+          e.preventDefault();
+        });
       var multi =  (Params.multiple == 'true');
       var filters = [ {title:"", extensions : Params.filters} ]
       this_frame = parent.mw.$("iframe[name='"+Name+"']");

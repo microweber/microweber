@@ -28,13 +28,13 @@ else{
 
     hash = hash!=='' ? hash : 'insert_html';
 
-    afterMediaIsInserted = function(url, todo, eventType){   //what to do after image is uploaded (depending on the hash in the url)
+    afterMediaIsInserted = function(url, todo, eventType){   /* what to do after image is uploaded (depending on the hash in the url)    */
 
       if(typeof todo =='undefined'){var todo = false;}
 
       if(url == false){
           if(eventType=='done'){
-            //parent.mw.iframecallbacks[hash](url, eventType);
+            /* parent.mw.iframecallbacks[hash](url, eventType); */
           }
 		  if(typeof(thismodal) != "undefined"){
             parent.mw.tools.modal.remove(thismodal.main);
@@ -119,11 +119,13 @@ else{
                 parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
               }
               else{
+
                 parent.mw.iframecallbacks[hash](GlobalEmbed);
               }
 
             }
             else if(typeof parent[hash] === 'function'){
+
                parent[hash](GlobalEmbed)
             }
 
@@ -166,7 +168,7 @@ else{
 
 
 
-           //   d(item.src)
+
 
               if(filetypes=='images'){
 
@@ -219,7 +221,7 @@ else{
                 li.parent().find("li").removeClass('hovered');
             }
           });
-        }); // end each
+        });
 
 
 
@@ -291,7 +293,7 @@ else{
               parent.mw.tools.modal.remove('mw_rte_image');
           });
 
-    });  //end document ready
+    });  /* end document ready  */
 
 
 

@@ -66,7 +66,7 @@ mw.iframecallbacks = {
       }
 
     },
-    insert_html:function(html){ return mw.wysiwyg.insert_html(html);},
+    insert_html:function(html){  return mw.wysiwyg.insert_html(html);},
     insert_image:function(url){  return mw.wysiwyg.insert_image(url);},
     set_bg_image:function(url){
 
@@ -82,7 +82,6 @@ mw.iframecallbacks = {
 
         mw.image.currentResizing.attr("src", url);
         mw.image.currentResizing.css('height', 'auto');
-        //d(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit'))
         mw.tools.addClass(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit'), 'changed orig_changed');
         mw.askusertostay = true;
         parent.mw.image.currentResizing.load(function(){

@@ -404,11 +404,6 @@ mw.wysiwyg = {
       });
       $(mwd.body).bind('mouseup keyup keydown', function(event){
 
-
-
-
-
-
         if(event.target.isContentEditable){
           mw.wysiwyg.check_selection(event.target);
         }
@@ -497,6 +492,8 @@ mw.wysiwyg = {
 
       $(mwd.body).keyup(function(e){
 
+
+
          mw.smallEditorCanceled = true;
              mw.smallEditor.css({
                 visibility:"hidden"
@@ -538,6 +535,7 @@ mw.wysiwyg = {
         }
     },
     applier:function(tag, classname, style_object){
+
       var classname = classname || '';
       if(mw.wysiwyg.isSelectionEditable()){
           var range = window.getSelection().getRangeAt(0);
@@ -886,12 +884,24 @@ mw.wysiwyg = {
         var frame = html;
         var html = '<span id="'+id+'"></span>';
       }
-      if(!document.selection){
-         mw.wysiwyg.execCommand('inserthtml', false, html);
+      if(!!window.MSStream){
+
+        if(mw.wysiwyg.isSelectionEditable()){
+            var range = window.getSelection().getRangeAt(0);
+            var el = mwd.createElement('span');
+            el.innerHTML = html;
+            range.insertNode(el);
+        }
       }
       else{
-        document.selection.createRange().pasteHTML(html)
+        if(!document.selection){
+         mw.wysiwyg.execCommand('inserthtml', false, html);
+        }
+        else{
+          document.selection.createRange().pasteHTML(html)
+        }
       }
+
       if(isembed){
         var el = mwd.getElementById(id);
         el.parentNode.contentEditable = false;
