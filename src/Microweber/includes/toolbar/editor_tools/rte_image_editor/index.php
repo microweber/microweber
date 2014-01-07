@@ -231,6 +231,8 @@ else{
           var submit = mw.$('#btn_insert');
           var status = mw.$("#image_status");
 
+
+
           urlSearcher.bind('keyup paste', function(e){
              GlobalEmbed = false;
              if(e.type=='keyup'){
@@ -476,7 +478,7 @@ mw.embed = {
       <div class="drag_files_label" style="display: none;"><?php _e("Drag your files here"); ?></div>
     </center>
   </div>
-  <div class="tab" id="get_image_from_url">
+  <div class="tab" id="get_image_from_url" onmousedown="event.preventDefault()" onmouseup="event.preventDefault()">
 
 
     <div id="media-search-holder">
