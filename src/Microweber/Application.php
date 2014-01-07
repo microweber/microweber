@@ -6,7 +6,7 @@ namespace Microweber;
 /**
  * Application class
  *
- * General-purpose class that loads other classes from the Microweber namespace
+ * Class that loads other classes from the Microweber namespace
  *
  * @package Application
  * @category Application

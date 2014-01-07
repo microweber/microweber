@@ -35,4 +35,60 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     }
 
 
+
+    public function testSaveContent()
+    {
+
+
+        $params = array(
+            'title' => 'my-test-post',
+            'content_type' => 'post',
+            'is_active' => 'y');
+        //procedural
+        $save_post = save_content($params);
+        $get_post = get_content($params);
+
+        //PHPUnit
+        $this->assertEquals(true, $save_post);
+        $this->assertEquals(true, is_array($get_post));
+
+
+        //delete content
+        foreach($get_post as $item){
+            $delete = delete_content($item);
+            $this->assertEquals(true, is_array($item));
+        }
+
+        //OOP
+        $params = array(
+            'title' => 'my-forum-post',
+            'content_type' => 'post',
+            'subtype' => 'post',
+            'is_active' => 'y');
+        $save_post = mw('content')->save($params);
+        $get_post = mw('content')->get($params);
+        //PHPUnit
+        $this->assertEquals(true, $save_post);
+        $this->assertEquals(true, is_array($get_post));
+
+
+        //delete content
+        foreach($get_post as $item){
+            $delete = mw('content')->delete($item);
+            $this->assertEquals(true, is_array($item));
+        }
+
+
+
+
+
+
+
+
+        //PHPUnit
+       // $this->assertEquals(true, is_array($recent_posts));
+
+
+    }
+
 }
