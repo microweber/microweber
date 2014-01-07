@@ -312,7 +312,7 @@ mw.askusertostay = false;
             <span title='Click to select this module.' class='mw-sorthandle-moveit'><?php _e("Move"); ?></span>\
         </div>",
       row: "\
-        <div contenteditable='false' class='mw-defaults mw_master_handle' id='mw_handle_row'>\
+        <div contenteditable='false' class='mw-defaults mw_master_handle mw_handle_row' id='mw_handle_row'>\
             <span title='<?php _e("Click to select this column"); ?>.' class='column_separator_title'><?php _e("Columns"); ?></span>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\

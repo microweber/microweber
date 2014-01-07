@@ -15,6 +15,11 @@ $is_mysqli = function_exists('mysqli_connect');
 $is_mysql = function_exists('mysql_connect');
 
 
+if(!isset($db['pass'])){
+    $db['pass'] = '';
+}
+
+
 if (isset($db['host'])) {
     $port_check = explode(":", $db['host']);
     if (isset($port_check[1])) {

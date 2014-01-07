@@ -24,7 +24,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, is_array($recent_posts));
 
 
-
         //OOP
         $recent_posts = mw('content')->get($params);
 
@@ -34,19 +33,18 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     }
 
-
-
     public function testSaveContent()
     {
 
 
         $params = array(
-            'title' => 'my-test-post',
+            'title' => 'this-is-my-test-post',
             'content_type' => 'post',
             'is_active' => 'y');
         //procedural
         $save_post = save_content($params);
         $get_post = get_content($params);
+
 
         //PHPUnit
         $this->assertEquals(true, $save_post);
@@ -54,14 +52,16 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
 
         //delete content
-        foreach($get_post as $item){
-            $delete = delete_content($item);
-            $this->assertEquals(true, is_array($item));
+        foreach ($get_post as $item) {
+            $del_content = array('id' => $item['id'], 'forever' => true);
+            $delete = delete_content($del_content);
+
+            $this->assertEquals(true, is_array($delete));
         }
 
         //OOP
         $params = array(
-            'title' => 'my-forum-post',
+            'title' => 'another-test-forum-post',
             'content_type' => 'post',
             'subtype' => 'post',
             'is_active' => 'y');
@@ -73,20 +73,15 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
 
         //delete content
-        foreach($get_post as $item){
-            $delete = mw('content')->delete($item);
-            $this->assertEquals(true, is_array($item));
+        foreach ($get_post as $item) {
+            $del_content = array('id' => $item['id'], 'forever' => true);
+            $delete = mw('content')->delete($del_content);
+            $this->assertEquals(true, is_array($delete));
         }
 
 
-
-
-
-
-
-
         //PHPUnit
-       // $this->assertEquals(true, is_array($recent_posts));
+        // $this->assertEquals(true, is_array($recent_posts));
 
 
     }

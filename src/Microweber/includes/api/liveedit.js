@@ -725,20 +725,22 @@ mw.drag = {
 
         });
         $(window).bind("onRowOver", function(a, element){
-          var el = $(element);
-          var o = el.offset();
-          var width = el.width();
-          var pleft = parseFloat(el.css("paddingLeft"));
-          $(mw.handle_row).css({
-            top: o.top - 35,
-            left: o.left,
-            width: width
-          });
-          $(mw.handle_row).data("curr", element);
-          var size =  $(element).children(".mw-col").length;
-          mw.$("a.mw-make-cols").removeClass("active");
-          mw.$("a.mw-make-cols").eq(size-1).addClass("active");
-          element.id=="" ? element.id="row_"+mw.random() : "";
+          if(element.clicked == true){
+            var el = $(element);
+            var o = el.offset();
+            var width = el.width();
+            var pleft = parseFloat(el.css("paddingLeft"));
+            $(mw.handle_row).css({
+              top: o.top - 35,
+              left: o.left,
+              width: width
+            });
+            $(mw.handle_row).data("curr", element);
+            var size =  $(element).children(".mw-col").length;
+            mw.$("a.mw-make-cols").removeClass("active");
+            mw.$("a.mw-make-cols").eq(size-1).addClass("active");
+            element.id=="" ? element.id="row_"+mw.random() : "";
+          }
         });
         $(window).bind("onItemOver", function(a, element){
           if(element === false) { return false; }
@@ -2654,6 +2656,40 @@ $(window).bind("load", function(){
       else{
         mw.$(".mw-autocomplete-cats").show();
       }
+
+      if(!mw.tools.hasClass(event.target, 'mw_handle_row')
+         && !mw.tools.hasParentsWithClass(event.target, 'mw_handle_row')
+         && !mw.tools.hasClass(event.target, 'mw-row')
+         && !mw.tools.hasParentsWithClass(event.target, 'mw-row')){
+        $(mw.handle_row).css({
+              top:"",
+              left:""
+        });
+        mw.$(".mw-row").each(function(){
+
+            this.clicked = false;
+
+        });
+      }
+
+      if(mw.tools.hasClass(event.target, 'mw-row')){
+        mw.$(".mw-row").each(function(){
+          if(this!==event.target){
+            this.clicked = false;
+          }
+        });
+        event.target.clicked = true;
+      }
+      else if(mw.tools.hasParentsWithClass(event.target, 'mw-row')){
+         var row = mw.tools.firstParentWithClass(event.target, 'mw-row');
+         mw.$(".mw-row").each(function(){
+          if(this!==row){
+            this.clicked = false;
+          }
+        });
+         row.clicked = true;
+      }
+
     });
 
     mw.$("#liveedit_wysiwyg").mousedown(function(){

@@ -93,11 +93,8 @@ if($module_template == false and isset($params['template'])){
 
 
 ?>
-
-
 <?php  if(isset($params['ondrop'])){  ?>
-
-    <script>
+<script>
 
         var _this = mwd.getElementById('<?php print $params['id']; ?>');
         var _edit =  mw.tools.firstParentWithClass(_this, 'edit');
@@ -109,14 +106,10 @@ if($module_template == false and isset($params['template'])){
           mw.reload_module(_this);
         }
     </script>
-
 <?php  } ?>
-
-
 <?php if(defined('IN_EDIT')): ?>
-<?php /* <a href="javascript:;" onclick="mw.drag.module_view('quick_add');">+Add picture</a> */  ?><?php  endif; ?>
-
-
+<?php /* <a href="javascript:;" onclick="mw.drag.module_view('quick_add');">+Add picture</a> */  ?>
+<?php  endif; ?>
 <?php
 
 if($module_template != false){
@@ -124,18 +117,15 @@ if($module_template != false){
 } else {
     $template_file = module_templates( $config['module'], 'default');
 }
- 
-if(isset($no_img) and ($no_img) != false){
-     print lnotif( "<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); 
 
+if(isset($no_img) and ($no_img) != false){
+	print lnotif( "<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" .$config['url_to_module'] . "pictures.png' /></div>"); 
 }
 else if($no_img  != true and !empty($data) and isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else  {
 	?>
-	 
 <?php  print lnotif("No template found. Please choose template."); ?>
-
 <?php
 	
 } ?>

@@ -256,10 +256,16 @@ else{
                    GlobalEmbed = __generateEmbed(type, val);
                    if(type!='link'){
                      if(typeof parent.mw.iframecallbacks[hash] === 'function'){
-                        parent.mw.iframecallbacks[hash](GlobalEmbed);
+                        if(hash.contains("edit")){
+                           parent.mw.iframecallbacks[hash](val);
+                        }
+                        else{
+                          parent.mw.iframecallbacks[hash](GlobalEmbed);
+                        }
                      }
                      else if(typeof parent[hash] === 'function'){
-                        parent[hash](GlobalEmbed)
+                        parent[hash](GlobalEmbed);
+
                      }
                         parent.mw.tools.modal.remove('mw_rte_image');
                    }
@@ -478,13 +484,13 @@ mw.embed = {
       <div class="drag_files_label" style="display: none;"><?php _e("Drag your files here"); ?></div>
     </center>
   </div>
-  <div class="tab" id="get_image_from_url" onmousedown="event.preventDefault()" onmouseup="event.preventDefault()">
+  <div class="tab" id="get_image_from_url">
 
 
     <div id="media-search-holder">
     <div class="mw-ui-field left" style="width: 230px;" id="media_search">
         <span id="image_status"></span>
-        <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-invisible-field" name="get_image_by_url" />
+        <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-invisible-field" name="get_image_by_url" onfocus="event.preventDefault()" />
      </div>
     <button type="button" class="mw-ui-btn mw-ui-btn-blue right" id="btn_insert" style="font-size: 12px;width:80px;"><?php _e("Insert"); ?></button>
 

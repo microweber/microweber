@@ -24,41 +24,6 @@ class Format
     }
 
     /**
-     *
-     * Limits a string to a number of characters
-     *
-     * @param $str
-     * @param int $n
-     * @param string $end_char
-     * @return string
-     * @package Utils
-     * @category Strings
-     */
-    public function limit($str, $n = 500, $end_char = '&#8230;')
-    {
-        if (strlen($str) < $n) {
-            return $str;
-        }
-        $str = strip_tags($str);
-        $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
-
-        if (strlen($str) <= $n) {
-            return $str;
-        }
-
-        $out = "";
-        foreach (explode(' ', trim($str)) as $val) {
-            $out .= $val . ' ';
-
-            if (strlen($out) >= $n) {
-                $out = trim($out);
-                return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
-            }
-        }
-    }
-
-
-    /**
      * Prints an array in unordered list - <ul>
      *
      * @param array $arr
@@ -85,7 +50,6 @@ class Format
         $retStr .= '</ul>';
         return $retStr;
     }
-
 
     /**
      * Formats a date by given pattern
@@ -152,6 +116,44 @@ class Format
         }
 
         return '' . $retval . ' ago';
+    }
+
+    public function clean_html($var, $do_not_strip_tags = false)
+    {
+        if (is_array($var)) {
+            foreach ($var as $key => $val) {
+                $output[$key] = $this->clean_html($val, $do_not_strip_tags);
+            }
+        } else {
+            // $var = html_entity_decode($var);
+            //$var = stripslashes($var);
+            $var = $this->strip_unsafe($var);
+            $var = htmlentities($var, ENT_QUOTES, "UTF-8");
+            // $var = htmlentities($var, ENT_NOQUOTES, "UTF-8");
+            $var = str_ireplace("<script>", '', $var);
+            $var = str_ireplace("</script>", '', $var);
+
+            $var = str_replace('<?', '&lt;?', $var);
+            $var = str_replace('?>', '?&gt;', $var);
+            $var = str_ireplace("<module", '&lt;module', $var);
+            $var = str_ireplace("<microweber", '&lt;microweber', $var);
+
+            //$var = str_ireplace("javascript:", '', $var);
+            // $var = str_ireplace("vbscript:", '', $var);
+            // $var = str_ireplace("livescript:", '', $var);
+            //$var = str_ireplace("HTTP-EQUIV=", '', $var);
+            $var = str_ireplace("\0075\0072\\", '', $var);
+
+
+            if ($do_not_strip_tags == false) {
+                $var = strip_tags(trim($var));
+            }
+
+            $output = $var;
+            return $output;
+        }
+        return $output;
+
     }
 
     function strip_unsafe($string, $img = false)
@@ -276,45 +278,6 @@ class Format
         }
     }
 
-    public function clean_html($var, $do_not_strip_tags = false)
-    {
-        if (is_array($var)) {
-            foreach ($var as $key => $val) {
-                $output[$key] = $this->clean_html($val, $do_not_strip_tags);
-            }
-        } else {
-            // $var = html_entity_decode($var);
-            //$var = stripslashes($var);
-            $var = $this->strip_unsafe($var);
-            $var = htmlentities($var, ENT_QUOTES, "UTF-8");
-            // $var = htmlentities($var, ENT_NOQUOTES, "UTF-8");
-            $var = str_ireplace("<script>", '', $var);
-            $var = str_ireplace("</script>", '', $var);
-
-            $var = str_replace('<?', '&lt;?', $var);
-            $var = str_replace('?>', '?&gt;', $var);
-            $var = str_ireplace("<module", '&lt;module', $var);
-            $var = str_ireplace("<microweber", '&lt;microweber', $var);
-
-            //$var = str_ireplace("javascript:", '', $var);
-            // $var = str_ireplace("vbscript:", '', $var);
-            // $var = str_ireplace("livescript:", '', $var);
-            //$var = str_ireplace("HTTP-EQUIV=", '', $var);
-            $var = str_ireplace("\0075\0072\\", '', $var);
-
-
-            if ($do_not_strip_tags == false) {
-                $var = strip_tags(trim($var));
-            }
-
-            $output = $var;
-            return $output;
-        }
-        return $output;
-
-    }
-
-
     public function string_between($string, $start, $end)
     {
         $string = " " . $string;
@@ -324,7 +287,6 @@ class Format
         $len = strpos($string, $end, $ini) - $ini;
         return substr($string, $ini, $len);
     }
-
 
     public function replace_once($needle, $replace, $haystack)
     {
@@ -346,7 +308,6 @@ class Format
         return $text;
     }
 
-    // got this from code igniter
     function prep_url($str = '')
     {
         if ($str === 'http://' OR $str === '') {
@@ -362,6 +323,7 @@ class Format
         return $str;
     }
 
+    // got this from code igniter
 
     public function  percent($num_amount, $num_total)
     {
@@ -424,7 +386,6 @@ class Format
         return $var;
     }
 
-
     function array_values($ary)
     {
         $lst = array();
@@ -438,7 +399,6 @@ class Format
         }
         return $lst;
     }
-
 
     public function lipsum($number_of_characters = false)
     {
@@ -462,26 +422,44 @@ class Format
         return $this->limit($lipsum[$rand], $number_of_characters, '');
     }
 
+    /**
+     *
+     * Limits a string to a number of characters
+     *
+     * @param $str
+     * @param int $n
+     * @param string $end_char
+     * @return string
+     * @package Utils
+     * @category Strings
+     */
+    public function limit($str, $n = 500, $end_char = '&#8230;')
+    {
+        if (strlen($str) < $n) {
+            return $str;
+        }
+        $str = strip_tags($str);
+        $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
+
+        if (strlen($str) <= $n) {
+            return $str;
+        }
+
+        $out = "";
+        foreach (explode(' ', trim($str)) as $val) {
+            $out .= $val . ' ';
+
+            if (strlen($out) >= $n) {
+                $out = trim($out);
+                return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
+            }
+        }
+    }
+
     public function random_color()
     {
 
         return "#" . sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
-    }
-
-
-    public function notif($text, $class = 'success')
-    {
-
-        if ($class === true) {
-            $to_print = '<div><div class="mw-notification-text mw-open-module-settings">';
-            $to_print = $to_print . _e($text, true) . '</div></div>';
-        } else {
-            $to_print = '<div class="mw-notification mw-' . $class . ' "><div class="mw-notification-text mw-open-module-settings">';
-            $to_print = $to_print . _e($text, true) . '</div></div>';
-        }
-
-
-        return $to_print;
     }
 
     public function lnotif($text, $class = 'success')
@@ -493,6 +471,20 @@ class Format
         }
     }
 
+    public function notif($text, $class = 'success')
+    {
+
+        if ($class === true) {
+            $to_print = '<div><div class="mw-notification-text mw-open-module-settings">';
+            $to_print = $to_print . ($text) . '</div></div>';
+        } else {
+            $to_print = '<div class="mw-notification mw-' . $class . ' "><div class="mw-notification-text mw-open-module-settings">';
+            $to_print = $to_print . $text . '</div></div>';
+        }
+
+
+        return $to_print;
+    }
 
     public function no_dashes($string)
     {

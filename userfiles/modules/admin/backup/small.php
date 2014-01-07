@@ -17,7 +17,7 @@
 
     <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span><span><?php _e("Create Database Backup"); ?></span></a>
 
-    <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-blue"><span class="ico iplus"></span><span><?php _e("Create Full Backup"); ?></span></a>
+<!--    <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-blue"><span class="ico iplus"></span><span><?php _e("Create Full Backup"); ?></span></a>-->
 
     <script type="text/javascript">
 		var uploader = mw.files.uploader({
