@@ -1962,16 +1962,19 @@ mw.tools = {
     $(frame).load(function(){
         frame.contentWindow.thisframe = frame;
         var cont = $(frame).contents().find("#mw-iframe-editor-area");
-
+         cont[0].contentEditable = true;
+         /*
          if(!mw.is.ie){
            cont[0].contentEditable = true;
          }
          else{
+
+
             mw.$(".edit", cont[0]).removeAttr("contenteditable");
             mw.$(".element", cont[0]).each(function(){
                $(this).attr("contenteditable", "true");
             });
-        }
+        }  */
         if(!k) {
             if(area[0].tagName === 'TEXTAREA'){
               cont.html(area[0].value);

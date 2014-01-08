@@ -880,10 +880,12 @@ mw.wysiwyg = {
       if(!!window.MSStream){
          mw.wysiwyg.restore_selection();
         if(mw.wysiwyg.isSelectionEditable()){
+
             var range = window.getSelection().getRangeAt(0);
             var el = mwd.createElement('span');
             el.innerHTML = html;
             range.insertNode(el);
+            $(el).replaceWith(el.innerHTML);
         }
       }
       else{
@@ -934,10 +936,12 @@ mw.wysiwyg = {
         }
     },
     restore_selection:function(){
-        mw.wysiwyg.selection.element.attr("contenteditable", "true");
-        mw.wysiwyg.selection.element.focus();
-        mw.wysiwyg.selection.sel.removeAllRanges()
-        mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
+        if(!!mw.wysiwyg.selection){
+          mw.wysiwyg.selection.element.attr("contenteditable", "true");
+          mw.wysiwyg.selection.element.focus();
+          mw.wysiwyg.selection.sel.removeAllRanges()
+          mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
+        }
     },
     select_all:function(el){
         var range = document.createRange();

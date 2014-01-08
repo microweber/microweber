@@ -242,7 +242,8 @@ mw.drag = {
          mw.$("#live_edit_toolbar_holder .module").removeClass("module");
 
          $(mwd.body).mousemove(function(event){
-                        
+
+            if(!!mw.mouse && event.pageX === mw.mouse.x){ return false; }
 
             mw.tools.removeClass(this, 'isTyping');
 
