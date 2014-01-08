@@ -589,7 +589,7 @@ mw.drag = {
             $(this).removeClass("not-allowed");
 
 
-            if($(".toolbar_bnav_hover").length==0 && $(".ts_main_ul").length!=0){
+            if(mw.$(".toolbar_bnav_hover").length==0 && mw.$(".ts_main_ul").length!=0){
             $(".ts_main_ul .ts_action").invisible();
             $(".ts_main_ul .ts_action").css({left:"100%", top:0});
           }

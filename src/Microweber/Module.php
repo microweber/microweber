@@ -1424,6 +1424,8 @@ class Module
             if ($this->app->user->is_admin() == true) {
                 $this->app->cache->delete('categories');
                 $this->app->cache->delete('categories_items');
+                $this->app->cache->delete('db');
+                $this->app->cache->delete('modules');
             }
         }
 

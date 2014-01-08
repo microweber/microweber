@@ -913,3 +913,4 @@ $language["shipping-to-country-module"]= 'Shipping to country module' ;
 $language["show-shopping-cart-in-checkout"]= 'Show shopping cart in checkout?' ; 
 $language["show-shipping"]= 'Show shipping?' ; 
 $language["show-payments"]= 'Show payments?' ; 
+$language["multi-site"]= 'Multi site' ; 
