@@ -21,13 +21,13 @@ position: 4
 				<p class="p0 element">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative & Make Web.</p>
 			</div>
 		</div>
-		<div class="row row-fluid" id="shop-products-conteiner">
+		<div class="row" id="shop-products-conteiner">
 
 			<div class="col-sm-8 edit"  field="content2" rel="page">
 				<module type="shop/products" template="columns" limit="18" description-length="70" hide-paging="n"   />
 			</div>
 
-			<div class="col-sm-4">
+			<div class="col-sm-3 col-sm-offset-1">
 				<?php
               		if(is_file(THIS_TEMPLATE_DIR. 'layouts' . DS."shop_sidebar.php")){
                         include THIS_TEMPLATE_DIR. 'layouts' . DS."shop_sidebar.php";
