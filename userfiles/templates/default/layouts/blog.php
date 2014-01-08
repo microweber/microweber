@@ -25,7 +25,7 @@ description: Blog
 					<module data-type="posts"   data-page-id="<?php print CONTENT_ID ?>"  />
 				</div>
 			</div>
-			<div class="span3 col-sm-3 col-sm-offset-1" id="blog-sidebar">
+			<div class="col-sm-3 col-sm-offset-1" id="blog-sidebar">
 				<?php include_once "blog_sidebar.php"; ?>
 			</div>
 		</div>

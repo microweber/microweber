@@ -2,9 +2,9 @@
 
 <section id="content">
 	<div class="container">
-		<div class="row row-fluid">
-			<div class="span9 col-md-9 col-sm-9"> <!-------------- Product -------------->
-				
+		<div class="row">
+			<div class="col-sm-8"> <!-------------- Product -------------->
+
 				<h2 class="edit"  field="title" rel="post">Product inner page</h2>
 				<hr>
 				<div class="edit"  field="content" rel="post">
@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<!------------ Sidebar -------------->
-			<div class="span3 col-sm-3 col-md-3">
+			<div class="col-sm-3 col-sm-offset-1">
 				<?php include_once "shop_sidebar_inner.php"; ?>
 			</div>
 		</div>

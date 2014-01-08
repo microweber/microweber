@@ -27,10 +27,17 @@ description: Default comments template
 .mwcommentsmodule .mw-comments-form .captcha .add-on {
 	background-color: white;
 }
+
+.captcha-row{
+  padding-top: 20px;
+}
+
+.captcha-row img{
+  border-top:
+}
+
 .mwcommentsmodule .mw-comments-form .comment-field input, .mwcommentsmodule .mw-comments-form .comment-field textarea {
-	width: 97%;
-	width: calc(100% - 14px);
-	width: -webkit-calc(100% - 14px);
+	width: 100%;
 }
 .mwcommentsmodule .mw-comments-form textarea {
 	height: 100px;
@@ -119,8 +126,6 @@ description: Default comments template
 }
 .mwcommentsmodule .comments-template-stylish form input[type='text'],  .mwcommentsmodule .comments-template-stylish form input[type='email'],  .mwcommentsmodule .comments-template-stylish form textarea, .mwcommentsmodule .comments-template-stylish form .add-on {
 	border-radius: 0;
-	background: #fff;
-	padding:10px 8px;
 }
 .mwcommentsmodule .comments-template-stylish form input.btn {
 	margin-top: 5px;
@@ -299,13 +304,17 @@ description: Default comments template
 					<textarea required placeholder="<?php _e("Comment"); ?>" name="comment_body" class="form-control input-lg"></textarea>
 				</div>
 			</div>
-			<div class="row-fluid">
-				<div class="col-sm-12">
-					<div class="input-prepend captcha pull-left"> <span class="add-on pull-left "> <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);"> </span>
-						<input type="text" name="captcha" required class="input-medium input-sm form-control " placeholder="<?php _e("Enter text"); ?>">
-					</div>
-					<input type="submit" class="btn btn-default pull-right" value="<?php _e("Add comment"); ?>">
+			<div class="row captcha-row">
+				<div class="col-sm-6">
+                        <div class="inline-block" style="background: white;">
+                          <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);">
+                          <input type="text" name="captcha" required class="form-control" style="width:90px;display:inline" placeholder="<?php _e("Enter text"); ?>">
+                        </div>
+
+
+
 				</div>
+                <div class="col-sm-4"><input type="submit" class="btn btn-default pull-right" value="<?php _e("Add comment"); ?>"></div>
 			</div>
 		</form>
 	</div>
@@ -326,6 +335,6 @@ description: Default comments template
 	 
 	<?php endif; ?>
 	
-	
+
 </div>
 </div>

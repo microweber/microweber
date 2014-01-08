@@ -5,51 +5,59 @@ if (version_compare(phpversion(), "5.3.0", "<=")) {
 
 date_default_timezone_set('UTC');
 
-if(!defined('M')) {
-	
-	define('M', memory_get_usage());
-	
+if (!defined('M')) {
+
+    define('M', memory_get_usage());
+
 }
 
 if (!defined('MW_CACHE_EXPIRES')) {
     // you can set cache expiration time,
     // by default cache is stored forever until its deleted by some internal function
     //define("MW_CACHE_EXPIRES", 600); //10 min
-} 
-if(!defined('MW_USE_APC_CACHE')) {
-	
-	    define('MW_USE_APC_CACHE',false); //if true mw will automatically use apc if its found, but you can turn it off
+}
+if (!defined('MW_USE_APC_CACHE')) {
+
+    define('MW_USE_APC_CACHE', false); //if true mw will automatically use apc if its found, but you can turn it off
 
 }
 
-if(!defined('MW_ROOTPATH')) {
-	
+if (!defined('MW_ROOTPATH')) {
+
     define('MW_ROOTPATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
-    
+
 }
 
+$bootstrap_file_for_site = false;
+if (!isset($_SERVER["SERVER_NAME"])) {
 
-if(!isset($_SERVER["SERVER_NAME"])) {
-	
     $config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
-    
+    $bootstrap_file_for_site = MW_ROOTPATH . 'bootstrap_localhost' . '.php';
 } else {
-	
-    $config_file_for_site = MW_ROOTPATH . 'config_' . str_ireplace('www.', '', $_SERVER["SERVER_NAME"]) . '.php';
-    
+    $sever = str_ireplace('www.', '', strtolower($_SERVER["SERVER_NAME"]));
+    $config_file_for_site = MW_ROOTPATH . 'config_' . $sever . '.php';
+    $bootstrap_file_for_site = MW_ROOTPATH . 'bootstrap_' . $sever . '.php';
+
+
 }
 
-if(!defined('MW_CONFIG_FILE')) {
-	
-	if(is_file($config_file_for_site)) {
-		
-		define('MW_CONFIG_FILE', $config_file_for_site);
-	
-	} else {
-		
-		define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
-		
-	}
+if (!defined('MW_CONFIG_FILE')) {
+
+    if (is_file($config_file_for_site)) {
+
+        define('MW_CONFIG_FILE', $config_file_for_site);
+
+    } else {
+
+        define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
+
+    }
+
+    if ($bootstrap_file_for_site != false and is_file($bootstrap_file_for_site)) {
+
+        require_once ($bootstrap_file_for_site);
+
+    }
 
 }
 

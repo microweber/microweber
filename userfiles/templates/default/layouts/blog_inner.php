@@ -1,11 +1,9 @@
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 <div class="container" id="blog-container">
 	<div  id="blog-content-<?php print CONTENT_ID; ?>">
-		<div class="row row-fluid">
-			<div class="span8 col-sm-8 col-md-8" id="blog-main-inner">
+		<div class="row">
+			<div class="col-sm-8" id="blog-main-inner">
 				<h3 class="edit" field="title" rel="content">Page Title</h3>
-
-                
 				<div class="edit post-content" field="content" rel="content">
                     <module data-type="pictures" data-template="slider"  rel="content"  />
 					<div class="element" style="width:95%">
@@ -14,7 +12,7 @@
 				</div>
                 <div class="edit" rel="content" field="comments"><module data-type="comments" data-template="default" data-content-id="<?php print CONTENT_ID; ?>"  /></div>
 			</div>
-			<div class="span3 col-sm-3 col-md-3 col-sm-3 col-md-3 offset1" id="blog-sidebar">
+			<div class="col-sm-3 col-sm-offset-1" id="blog-sidebar">
 				<?php
                       if(is_file(THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php")){
                         include THIS_TEMPLATE_DIR. "layouts/blog_sidebar.php";
