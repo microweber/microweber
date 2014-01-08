@@ -242,7 +242,7 @@ mw.drag = {
          mw.$("#live_edit_toolbar_holder .module").removeClass("module");
 
          $(mwd.body).mousemove(function(event){
-
+                        
 
             mw.tools.removeClass(this, 'isTyping');
 

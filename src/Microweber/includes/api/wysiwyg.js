@@ -878,7 +878,7 @@ mw.wysiwyg = {
         var html = '<span id="'+id+'"></span>';
       }
       if(!!window.MSStream){
-         mw.wysiwyg.restore_selection()
+         mw.wysiwyg.restore_selection();
         if(mw.wysiwyg.isSelectionEditable()){
             var range = window.getSelection().getRangeAt(0);
             var el = mwd.createElement('span');
