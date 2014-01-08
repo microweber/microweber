@@ -214,7 +214,6 @@ class Controller
 
 
 
-
         $try_class = str_replace('/', '\\', $mod_api_class);
         if (class_exists($try_class, false)) {
             $caller_commander = 'class_is_already_here';
