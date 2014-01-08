@@ -243,7 +243,7 @@ mw.drag = {
 
          $(mwd.body).mousemove(function(event){
 
-            if(!!mw.mouse && event.pageX === mw.mouse.x){ return false; }
+            if(!!mw.mouse && event.pageX === mw.mouse.x){ return false;  /* Chrome fires event even if the mouse is not moving  */ }
 
             mw.tools.removeClass(this, 'isTyping');
 

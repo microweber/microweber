@@ -56,6 +56,23 @@ function __mw_install_log($text)
 
 
 $done = false;
+$auto_install = false;
+
+$cfg = MW_CONFIG_FILE;
+if (is_file($cfg) and is_readable($cfg)) {
+require ($cfg);
+	if (is_array($config) and isset($config['db']) and is_array($config['db'])) {
+		
+		if (!isset($config['is_installed']) or (trim($config['is_installed'])) == 'no') {
+			if (isset($config['autoinstall']) and (trim($config['autoinstall'])) == 'yes') {
+			$autoinstall = $config;
+			$autoinstall['is_installed'] = 'no';
+			$auto_install = true;
+			}
+		}
+	}
+}
+
 
 if (isset($autoinstall) and is_array($autoinstall) and isset($autoinstall['is_installed'])) {
     $to_save = $autoinstall;
@@ -69,7 +86,17 @@ if (is_array($to_save)) {
     $to_save = array_change_key_case($to_save, CASE_LOWER);
 }
 
+
+
+$remove = array('{default_timezone}','{table_prefix}','{is_installed}',
+		'{db_type}', '{db_host}','{dbname}', '{db_user}','{db_pass}',
+		'{admin_username}','{admin_password}','{admin_email}','{with_default_content}');
+
 if (isset($to_save['is_installed'])) {
+	
+	
+	
+	
     __mw_install_log('Starting install');
 
     if (isset($to_save['is_installed'])) {
@@ -115,6 +142,39 @@ if (isset($to_save['is_installed'])) {
 
 
         if (isset($to_save['is_installed']) and $to_save['is_installed'] != 'yes') {
+			
+			if (isset($to_save['is_installed']) and $to_save['is_installed'] != 'yes') {
+				
+				
+			}
+			
+			 
+			if(!isset($to_save['db_type'])){
+				if(isset($to_save['db']['type'])){
+					$to_save['db_type'] =$to_save['db']['type']; 
+				}
+			}
+			if(!isset($to_save['db_host'])){
+				if(isset($to_save['db']['host'])){
+					$to_save['db_host'] =$to_save['db']['host']; 
+				}
+			}
+			if(!isset($to_save['dbname'])){
+				if(isset($to_save['db']['dbname'])){
+					$to_save['dbname'] =$to_save['db']['dbname']; 
+				}
+			}
+			if(!isset($to_save['db_user'])){
+				if(isset($to_save['db']['user'])){
+					$to_save['db_user'] =$to_save['db']['user']; 
+				}
+			}
+			if(!isset($to_save['db_pass'])){
+				if(isset($to_save['db']['pass'])){
+					$to_save['db_pass'] =$to_save['db']['pass']; 
+				}
+			}
+			
             __mw_install_log('Testing database settings');
 
             if ($to_save['db_pass'] == '') {
@@ -258,7 +318,8 @@ if (isset($to_save['is_installed'])) {
                 mw('cache')->flush();
                 // _reload_c();
 
-                mw('application')->loadConfigFromFile($cfg, true);
+               $local_config = mw('application')->loadConfigFromFile($cfg, true);
+			  
                 if (!defined('USER_ID')) {
 
                     define('USER_ID', 1);
@@ -314,18 +375,23 @@ if (isset($to_save['is_installed'])) {
 
                 if (MW_IS_INSTALLED != true) {
 
-                    if (isset($to_save['admin_username']) and isset($to_save['admin_password'])) {
-                        __mw_install_log('Adding admin user');
-                        $new_admin = array();
-                        $new_admin['username'] = $to_save['admin_username'];
-                        $new_admin['password'] = ($to_save['admin_password']);
-                        if (isset($to_save['admin_email'])) {
-                            $new_admin['email'] = $to_save['admin_email'];
-                        }
-                        $new_admin['is_active'] = 'y';
-                        $new_admin['is_admin'] = 'y';
-                        mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'users');
-                        save_user($new_admin);
+                    if (isset($to_save['admin_username']) and isset($to_save['admin_password']) and $to_save['admin_username'] !='') {
+						
+						if($to_save['admin_username'] !='{admin_username}'){
+							 __mw_install_log('Adding admin user');
+							$new_admin = array();
+							$new_admin['username'] = $to_save['admin_username'];
+							$new_admin['password'] = ($to_save['admin_password']);
+							if (isset($to_save['admin_email']) and $to_save['admin_email'] != '') {
+								$new_admin['email'] = $to_save['admin_email'];
+							}
+							$new_admin['is_active'] = 'y';
+							$new_admin['is_admin'] = 'y';
+							mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'users');
+							save_user($new_admin);
+						}
+						 
+                       
 
                     }
 
@@ -351,6 +417,7 @@ if (isset($to_save['is_installed'])) {
 
 
                 if (isset($to_save['with_default_content'])) {
+					if($to_save['with_default_content'] !='{with_default_content}' and $to_save['with_default_content'] !='no'){
                     $default_content_folder = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR;
                     $default_content_file = $default_content_folder . 'mw_default_content.zip';
                     if (is_file($default_content_file)) {
@@ -374,6 +441,7 @@ if (isset($to_save['is_installed'])) {
                         // event_trigger('mw_scan_for_modules');
                         //d($to_save['with_default_content']);
                     }
+					}
 
                 }
                 __mw_install_log('Clearing cache after install');
@@ -381,7 +449,16 @@ if (isset($to_save['is_installed'])) {
                 mw('cache')->flush();
 
                 // mw('content')->create_default_content('install');
-                print('done');
+				if($auto_install != false){
+					 $done = true;
+            $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'done.php';
+            include ($f);
+            exit();
+				} else {
+				print('done');	
+				}
+				
+                
                 __mw_install_log('done');
 
             }
@@ -408,10 +485,34 @@ if (!isset($to_save['IS_INSTALLED'])) {
 
     $data = false;
     if (is_file($cfg)) {
-        $data =
+         
             include ($cfg);
+			if(isset($config)){
+				$data = $config;
+			}
+			
         //
     }
+	if(is_array($data)){
+		
+	 foreach($data as $key => $value){
+		 
+		 if(is_string($value) and !is_array($key)){
+			 $value_clean = str_ireplace($remove,'',$value);
+			 $data[$key] = $value_clean;
+		 }
+		 
+	 }
+	}
+	
+	
+	  
+	
+	
+	
+	
+	
+
     __mw_install_log('Preparing to install');
     $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'main.php';
     include ($f);

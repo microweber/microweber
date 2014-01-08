@@ -1,4 +1,5 @@
 
+mw.require("files.js");
 
 (function() {
     if(typeof jQuery.browser === 'undefined'){
@@ -2468,6 +2469,10 @@ mw.recommend = {
 }
 
 
+
+
+
+
 String.prototype._exec = function(a,b,c){
 
   var a = a || "";
@@ -3064,9 +3069,22 @@ mw.contact = {
 }
 
 
+
+
+
 $(document).ready(function(){
 
-
+mw.$(".mw-onoff").mousedown(function () {
+            var el = this;
+            if (mw.tools.hasClass(el, 'active')) {
+                mw.tools.removeClass(el, 'active');
+                el.querySelector('.is_active_n').checked = true;
+            }
+            else {
+                mw.tools.addClass(el, 'active');
+                el.querySelector('.is_active_y').checked = true;
+            }
+        });
 
 mw.$(".wysiwyg-convertible-toggler").click(function(){
    var el = $(this), next = el.next();
@@ -3798,6 +3816,43 @@ mw.image = {
         });
       }
     }
+
+
+
+
+    /* Exposing  */
+
+
+      mw.modal_iframe = mw.tools.modal.frame;
+      mw.gallery      = mw.tools.gallery.init;
+      //mw.uploader     = mw.files.uploader;
+      mw.editor       = mw.tools.wysiwyg;
+
+
+
+    /***********************************************
+
+      mw.modal({
+        content:   Required: String or Node Element or jquery Object
+        width:     Optional: ex: 400 or "85%", default 600
+        height:    Optional: ex: 400 or "85%", default 500
+        draggable: Optional: Boolean, default true
+        overlay:   Optional: Boolean, default false
+        title:     Optional: String for the title of the modal
+        template:  Optional: String
+        id:        Optional: String: set this to protect from multiple instances
+      });
+
+      The function returns Object
+
+    ************************************************/
+
+    mw.modal = function(o){
+      var modal = mw.tools.modal.init(o);
+      modal.main = modal.main[0];
+      return modal;
+    }
+
 
 
 

@@ -914,3 +914,5 @@ $language["show-shopping-cart-in-checkout"]= 'Show shopping cart in checkout?' ;
 $language["show-shipping"]= 'Show shipping?' ; 
 $language["show-payments"]= 'Show payments?' ; 
 $language["multi-site"]= 'Multi site' ; 
+$language["click-here-to-to-to-admin"]= 'click here to to to admin' ; 
+$language["click-here-to-to-to-site"]= 'click here to to to site' ; 

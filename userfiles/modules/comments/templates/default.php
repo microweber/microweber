@@ -127,6 +127,9 @@ description: Default comments template
 }
 /* /Comments Stylish Template  */
 
+.comments-form-fields .comment-field{
+  padding-bottom: 20px;
+}
 
     /* /Comments  */
 
@@ -269,14 +272,14 @@ description: Default comments template
 				<?php _e("Leave a comment"); ?>
 			</h4>
 			<?php if( $cur_user == false) :  ?>
-			<div class="row-fluid">
-				<div class="span4 col-sm-4 col-md-4 comment-field">
+			<div class="row comments-form-fields">
+				<div class="col-sm-4 comment-field">
 					<input class="input-medium form-control input-lg" placeholder="<?php _e("Your name"); ?>" required type="text" name="comment_name">
 				</div>
-				<div class="span4 col-sm-4 col-md-4 comment-field">
+				<div class="col-sm-4  comment-field">
 					<input class="input-medium form-control input-lg" placeholder="<?php _e("Website"); ?>" type="text" name="comment_website">
 				</div>
-				<div class="span4 col-sm-4 col-md-4 comment-field">
+				<div class="col-sm-4  comment-field">
 					<input class="input-medium form-control input-lg" placeholder="<?php _e("Your email"); ?>" required type="email"  name="comment_email">
 				</div>
 			</div>
@@ -291,13 +294,13 @@ description: Default comments template
 			<?php _e("Logout"); ?>
 			)</a></small> </span>
 			<?php endif; ?>
-			<div class="row-fluid">
-				<div class="span12 col-sm-12 col-md-12 comment-field">
+			<div class="row">
+				<div class="col-sm-12  comment-field">
 					<textarea required placeholder="<?php _e("Comment"); ?>" name="comment_body" class="form-control input-lg"></textarea>
 				</div>
 			</div>
 			<div class="row-fluid">
-				<div class="span12 col-sm-12 col-md-12">
+				<div class="col-sm-12">
 					<div class="input-prepend captcha pull-left"> <span class="add-on pull-left "> <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);"> </span>
 						<input type="text" name="captcha" required class="input-medium input-sm form-control " placeholder="<?php _e("Enter text"); ?>">
 					</div>

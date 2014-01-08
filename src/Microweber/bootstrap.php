@@ -57,9 +57,7 @@ if (!defined('MW_CACHE_DIR')) {
     if (defined('MW_CONFIG_FILE')) {
         $mw_cache_subfolder = 'mw_cache' . crc32(MW_CONFIG_FILE);
     }
-    // if (isset($_SERVER["SERVER_NAME"])) {
-    //   $mw_cache_subfolder = str_replace('.', '_', $_SERVER["SERVER_NAME"]);
-    //}
+
     define('MW_CACHE_DIR', MW_CACHE_ROOT_DIR . $mw_cache_subfolder . DS);
 }
 if (!defined('MW_USERFILES')) {
@@ -108,7 +106,7 @@ if (!defined('MW_USER_IP')) {
 
 
 if (!defined('MW_STORAGE_DIR')) {
-    define('MW_STORAGE_DIR', MW_APP_PATH . 'storage' . DS);
+    define('MW_STORAGE_DIR', MW_USERFILES . 'storage' . DS);
 }
 if (!defined('T')) {
     $mtime = microtime();

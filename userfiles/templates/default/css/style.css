@@ -256,7 +256,12 @@ ul.dropdown-menu ul.dropdown-menu {
 #mw-welcome {
 	padding-left: 30px;
 }
-#mw-welcome h1:first-child, #mw-welcome h2:first-child, #mw-welcome h3:first-child, #mw-welcome h4:first-child, #mw-welcome h5:first-child, #mw-welcome h6:first-child {
+#mw-welcome h1:first-child,
+#mw-welcome h2:first-child,
+#mw-welcome h3:first-child,
+#mw-welcome h4:first-child,
+#mw-welcome h5:first-child,
+#mw-welcome h6:first-child {
 	padding-top: 0;
 	padding-bottom: 10px;
 	margin-top: 0;
@@ -296,9 +301,9 @@ ul.dropdown-menu ul.dropdown-menu {
 	height: 120px;
 }
  @media (max-width: 979px) {
-.module-posts-template-columns .img-polaroid,  .module-posts-template-columns .img-rounded {
-	max-width:290px;
-}
+  .module-posts-template-columns .img-polaroid,  .module-posts-template-columns .img-rounded {
+  	max-width:290px;
+  }
 }
  @media (max-width: 768px) {
 .module-posts-template-columns .img-polaroid,  .module-posts-template-columns .img-rounded {
@@ -458,8 +463,8 @@ ul.dropdown-menu ul.dropdown-menu {
 	background-color: white;
 }
 .mw-image-carousel .carousel-control {
-	visibility: hidden;
-	font-size: 46px;
+   /*	visibility: hidden;
+	font-size: 46px;*/
 }
 .mw-image-carousel:hover .carousel-control {
 	visibility: visible;

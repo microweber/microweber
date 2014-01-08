@@ -197,7 +197,9 @@ class Controller
 
         $mod_api_class = implode(DS, $mod_api_class);
         $mod_api_class_clean = ltrim($mod_api_class, '/');
+        $mod_api_class_clean = ltrim($mod_api_class_clean, '\\');
         $mod_api_class_clean_uc1 = ucfirst($mod_api_class_clean);
+
 
         $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
         $mod_api_class_native = normalize_path(MW_APP_PATH . $mod_api_class, false) . '.php';
@@ -206,15 +208,19 @@ class Controller
         $mod_api_class_native_uc1 = normalize_path(MW_APP_PATH . $mod_api_class_clean_uc1, false) . '.php';
         $mod_api_class_native_global_ns_uc1 = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class_clean_uc1, false) . '.php';
 
+        $mod_api_class2 = normalize_path(MW_MODULES_DIR .DS. $mod_api_class_clean.DS.$mod_api_class_clean, false) . '.php';
+        $mod_api_class2_uc1 = normalize_path(MW_MODULES_DIR .DS. $mod_api_class_clean.DS.$mod_api_class_clean, false) . '.php';
+
+
+
+
+
         $try_class = str_replace('/', '\\', $mod_api_class);
         if (class_exists($try_class, false)) {
             $caller_commander = 'class_is_already_here';
             $mod_class_api_class_exist = true;
         } else {
-            //
-
-
-            if (is_file($mod_api_class1)) {
+             if (is_file($mod_api_class1)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class1);
             } else if (is_file($mod_api_class1_uc1)) {
@@ -236,6 +242,16 @@ class Controller
             } else if (is_file($mod_api_class_native)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class_native);
+
+            }
+            else if (is_file($mod_api_class2)) {
+                $mod_class_api = true;
+                include_once ($mod_api_class2);
+
+            }
+            else if (is_file($mod_api_class2_uc1)) {
+                $mod_class_api = true;
+                include_once ($mod_api_class2_uc1);
 
             }
 

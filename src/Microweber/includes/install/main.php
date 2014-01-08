@@ -401,7 +401,7 @@ $hide_db_setup = 1;
                     <label class="mw-ui-label">
                       <?php _e("Repeat password"); ?>
                     </label>
-                    <input type="password" required="true" class="mw-ui-field" name="admin_password2" <?php if(isset($data['admin_password2'])== true and isset($data['admin_password2'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
+                    <input type="password" required="true" class="mw-ui-field" name="admin_password2" <?php if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
                   </div>
                 </div>
                 <?php 		$default_content_file = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>

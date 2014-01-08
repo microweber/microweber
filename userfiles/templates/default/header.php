@@ -16,7 +16,7 @@
         mw.require("url.js");
         mw.require("tools.js");
         mw.require("<?php print( MW_INCLUDES_URL); ?>css/mw.ui.css");
-        mw.lib.require("bootstrap2");
+        mw.lib.require("bootstrap3");
     </script>
     <?php if(isset($custom_head)): ?>
     <?php print $custom_head; ?>
