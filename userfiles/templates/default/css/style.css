@@ -9,7 +9,12 @@ body {
 }
 label, input, button, select, textarea {
 	font-size: 16px;
+    font-weight: normal;
 }
+.form-control{
+  border-radius:0;
+}
+
  [class*="span"] {
  clear: none;
 }
@@ -635,7 +640,6 @@ ul.dropdown-menu ul.dropdown-menu {
 	font-size: 16px;
 }
 .checkout-total-table td select {
-	width: 120px;
 	float: left;
 }
 .checkout-total-table tbody tr > td.cell-shipping-total {

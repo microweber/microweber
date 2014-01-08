@@ -127,9 +127,7 @@ description: Default comments template
 .mwcommentsmodule .comments-template-stylish form input[type='text'],  .mwcommentsmodule .comments-template-stylish form input[type='email'],  .mwcommentsmodule .comments-template-stylish form textarea, .mwcommentsmodule .comments-template-stylish form .add-on {
 	border-radius: 0;
 }
-.mwcommentsmodule .comments-template-stylish form input.btn {
-	margin-top: 5px;
-}
+
 /* /Comments Stylish Template  */
 
 .comments-form-fields .comment-field{
@@ -314,7 +312,7 @@ description: Default comments template
 
 
 				</div>
-                <div class="col-sm-4"><input type="submit" class="btn btn-default pull-right" value="<?php _e("Add comment"); ?>"></div>
+                <div class="col-sm-6"><input type="submit" class="btn btn-default pull-right" value="<?php _e("Add comment"); ?>"></div>
 			</div>
 		</form>
 	</div>

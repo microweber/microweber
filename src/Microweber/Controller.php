@@ -1686,6 +1686,7 @@ class Controller
 
 
             $custom_live_edit = normalize_path($custom_live_edit, false);
+
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
                 $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';

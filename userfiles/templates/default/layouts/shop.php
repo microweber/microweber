@@ -16,7 +16,7 @@ position: 4
 <section id="content">
 	<div class="container">
 		<div class="row" id="shop-products-conteiner">
-			<div class="span12 col-sm-12 col-md-12 edit"  field="content" rel="page">
+			<div class="col-sm-12 edit"  field="content" rel="page">
 				<h2><?php print $page['title'] ?></h2>
 				<p class="p0 element">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative & Make Web.</p>
 			</div>

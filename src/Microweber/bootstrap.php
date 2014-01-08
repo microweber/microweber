@@ -64,7 +64,11 @@ if (!defined('MW_USERFILES')) {
     define('MW_USERFILES', MW_ROOTPATH . MW_USERFILES_FOLDER_NAME . DS);
 }
 if (!defined('MW_USERFILES_URL')) {
-    define("MW_USERFILES_URL", MW_SITE_URL . MW_USERFILES_FOLDER_NAME);
+
+    $userfiles_url = str_replace(MW_ROOTPATH, '', MW_USERFILES);
+    $userfiles_url = str_replace('\\', '/', $userfiles_url);
+    $userfiles_url = str_replace('//', '/', $userfiles_url);
+    define("MW_USERFILES_URL", MW_SITE_URL . $userfiles_url);
 }
 if (!defined('MW_MEDIA_URL')) {
     define("MW_MEDIA_URL", MW_USERFILES_URL . 'media/');
@@ -119,8 +123,6 @@ if (!defined('T')) {
 //spl_autoload_register('mw_autoload');
 
 
-
-
 $loader = new Psr4AutoloaderClass;
 $mw_src = (__DIR__) . DS;
 
@@ -146,7 +148,6 @@ function mw($class = null, $constructor_params = false)
         return $_mw_global_object->$class;
     }
 }
-
 
 
 /*
