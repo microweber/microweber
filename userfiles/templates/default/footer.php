@@ -20,8 +20,7 @@
             </div>
             <div class="mw-col" style="width: 70%">
               <div class="mw-col-container">
-      <module type="menu" name="footer_menu" id="footer-navigation" template="small" />
-
+                    <module type="menu" name="footer_menu" id="footer-navigation" template="small" />
               </div>
             </div>
 

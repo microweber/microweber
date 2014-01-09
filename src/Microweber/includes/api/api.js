@@ -149,13 +149,17 @@ mw.askusertostay = false;
     string: function(obj) {
       return typeof obj === 'string';
     },
+    array:function(obj){
+      return [].constructor === obj.constructor;
+    },
     invisible: function(obj) {
       return window.getComputedStyle(obj, null).visibility === 'hidden';
     },
     visible: function(obj) {
       return window.getComputedStyle(obj, null).visibility === 'visible';
     },
-    ie: (/*@cc_on!@*/false || !!window.MSStream)
+    ie: (/*@cc_on!@*/false || !!window.MSStream),
+    firefox:navigator.userAgent.toLowerCase().contains('firefox')
   }
 
 

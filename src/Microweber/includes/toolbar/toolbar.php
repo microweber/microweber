@@ -52,9 +52,7 @@
 <link href="<?php print( MW_INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
     $(document).ready(function () {
-		
-		
-		
+	    		
 		
         mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
         setTimeout(function(){
@@ -429,7 +427,16 @@
 
 
 
+
+
+
         });
+
+
+
+
+
+
 
 
         toolbar_set = function(a){

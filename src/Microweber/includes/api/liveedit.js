@@ -19,6 +19,9 @@ mw.SmallEditorIsDragging = false;
 mw.states = {}
 
 
+mw.isBasicMode = mw.cookie.get("advancedmode") != 'true';
+
+
 /**
  * Makes Droppable area
  *

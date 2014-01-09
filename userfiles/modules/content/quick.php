@@ -17,7 +17,7 @@
   } elseif(isset($params['from_live_edit'])){
    $is_live_edit = $params['from_live_edit'];
   }
-  
+
   if(isset($params['quick_edit'])){
     $is_quick = $params['quick_edit'];
   }
@@ -415,6 +415,8 @@ mw.edit_content.after_save = function(saved_id){
 				mw.$("#pages_tree_toolbar").removeClass("activated");
 				mw.treeRenderer.appendUI('#pages_tree_toolbar');
 				mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+
+
 			}
 			mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
 		 });
@@ -459,12 +461,18 @@ mw.edit_content.render_category_tree = function(id){
     		  itemsWrapper: mwd.querySelector('#mw-category-selector-'+id),
     		  method:'parse',
     		  onTag:function(){
-    			 mw.edit_content.set_category('mw-category-selector-'+id)
+    			 mw.edit_content.set_category('mw-category-selector-'+id);
     		  },
-    		  onUntag:function(){
-    			 mw.edit_content.set_category('mw-category-selector-'+id)
+    		  onUntag:function(a){
+    			 mw.edit_content.set_category('mw-category-selector-'+id);
     		  }
-    	  });
+    	  })
+          $(mwd.querySelectorAll('#mw-category-selector-'+id+" .pages_tree_item"))
+               .bind("mouseup", function(e){
+                  if(!mw.tools.hasClass(e.target, 'mw_toggle_tree')){
+                    $(this).toggleClass("active");
+                  }
+               });
     }
 }
 
@@ -493,9 +501,9 @@ mw.edit_content.handle_form_submit = function(go_live){
               }
 			  
 			  
-			  
+
               if(go_live_edit != false){
-				  
+
 			  if(parent !== self && !!window.parent.mw){
 				 if(window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined){
 					 window.parent.mw.drag.save();

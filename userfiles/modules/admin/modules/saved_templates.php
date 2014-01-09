@@ -136,7 +136,7 @@ $(document).ready(function(){
 <?php if(($fffound ) == false): ?>
 <div class="module-templates-add-new-holder">
   <input type="hidden" name="module" value="<?php print $module_name ?>">
-  <input  type="text" name="name" value="" onfocus="setVisible(event);" onblur="setVisible(event);">
+  <input  type="text" name="name" value="" class="mw-ui-field" onfocus="setVisible(event);" onblur="setVisible(event);">
   <input  type="hidden" name="module_id" value="<?php print $module_id ?>">
   <input  type="button" value="Save template"  class="mw-ui-btn module-templates-action-btn"   />
 </div>

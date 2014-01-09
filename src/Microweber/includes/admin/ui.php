@@ -13,7 +13,31 @@
      width: 150px;
    }
 
+   #qweqwe98989898 pre{
+     display: block;
+     margin: 12px 0;
+     border: 1px solid #ddd;
+     padding: 12px;
+     background: white;
+     box-shadow: 0 1px 1px -1px #ddd
+   }
+   #qweqwe98989898 h1,
+   #qweqwe98989898 h3,
+   #qweqwe98989898 h4,
+   #qweqwe98989898 h5,
+   #qweqwe98989898 h2{
+     font-weight: 100;
+   }
+
 </style>
+
+<script>
+
+    var zero = "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";
+
+</script>
+
+
 <textarea style="position:absolute;top:10px;left:230px;width:350px;"  onchange="eval(this.value);" placeholder="Console" cols="40" rows="1"></textarea>
 <div style="position: absolute;top:10px;right: 10px">
   <label class="mw-ui-label left">Rel&nbsp;</label>
@@ -25,6 +49,75 @@
   <col width="60%" />
   <col width="40%" />
   <tbody>
+
+    <tr>
+        <td colspan="2"><h1>Live Edit</h1></td>
+    </tr>
+    <tr>
+        <td colspan="2"><h2>.edit class</h2>
+           <p>
+            The edit class is used to define editable area.
+            <br> <br>
+            <h4>For example:</h4>
+<pre>
+&lt;div class="edit">Editable text&lt;/div>
+</pre>
+
+            If user change the content in this element, the changes will be saved to the database.  <br>
+
+            If you put a module inside the "edit", it won't be editable, except if module has its own edit area/s.
+
+
+
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"><h2>.element class</h2>
+           <p>
+            The ".element" class represents both dragable & dropable element.
+            You can modify it in any way. <br>
+            The ".element" must be inside ".edit";
+
+            <br><br>
+
+            <h4>Example:</h4>
+<pre>
+&lt;div class="edit">
+    &lt;p class="element">
+        Some block
+    &lt;/p>
+    &lt;div class="element">
+        Some other block
+    &lt;/div>
+&lt;/div>
+</pre>
+            </p>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2"><h2>.mw-row > .mw-col</h2>
+           <p>
+             The "mw-row > mw-col" construction is used to create resizable columns.
+             The maximum number columns in a row is 5;
+             You also must set the width of each column in a percent
+           </p>
+<pre>
+&lt;div class="mw-row">
+    &lt;div class="mw-col" style="width:75%">
+        Column 1
+    &lt;/div>
+    &lt;div class="mw-col" style="width:25%">
+        Column 2
+    &lt;/div>
+&lt;/div>
+</pre>
+
+        </td>
+    </tr>
+
+
 
     <tr>
         <td colspan="2"><h1>Javascript UI</h1></td>
