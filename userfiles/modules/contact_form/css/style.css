@@ -110,7 +110,7 @@
   padding-bottom: 4px;
   margin-bottom: 20px;
 }
-.contact-form-template-dream input.mw-captcha-input{ width: 50px; float: left; }
+.contact-form-template-dream input.mw-captcha-input{ width: 85px; float: left; }
 .contact-form-template-dream .captcha-holder{
   float: left;
   width: 210px;
@@ -219,7 +219,7 @@
   padding: 3px 10px 5px;
   border-radius: 2px;
 }
-.contact-form-template-dark input.mw-captcha-input{ width: 50px; float: left; }
+.contact-form-template-dark input.mw-captcha-input{ width: 85px; float: left; }
 .contact-form-template-dark .captcha-holder{
   float: left;
   width: 210px;

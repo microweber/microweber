@@ -13,10 +13,10 @@ description: Columns
 
 <div class="clearfix container-fluid module-posts-template-columns">
   <?php if (!empty($data)): ?>
-  <div class="row row-fluid">
+  <div class="row">
     <?php  $j=1;  foreach ($data as $item): ?>
     <?php $i=1 ; ?>
-    <div class="span4 col-sm-4 col-md-4" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
+    <div class="col-sm-4" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
       <?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>" itemprop="url"> <span class="valign"><img itemprop="image" src="<?php print thumbnail($item['image'], 290, 210); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  /></span> </a>
       <?php endif; ?>

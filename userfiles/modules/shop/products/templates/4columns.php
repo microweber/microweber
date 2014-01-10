@@ -18,7 +18,7 @@ description: 4 Columns
 
 $tn = $tn_size;
 if(!isset($tn[0]) or ($tn[0]) == 150){
-     $tn[0] = 250;
+     $tn[0] = 350;
 }
 if(!isset($tn[1])){
      $tn[1] = $tn[0];
@@ -44,7 +44,7 @@ if(!isset($tn[1])){
 
 
     <?php if($count % 4 == 0) { ?><div class="v-space"></div><?php } ?>
-    <div class="span3 col-sm-3 col-md-3<?php if($count % 4 == 0) { ?> first <?php } ?>">
+    <div class="col-sm-3<?php if($count % 4 == 0) { ?> first <?php } ?>">
       <?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>">
         <span class="valign">

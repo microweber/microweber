@@ -49,15 +49,15 @@ if(isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
   <?php if (!empty($data)): ?>
   <?php foreach ($data as $item): ?>
   <div class="well clearfix post-single"  itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
-      <div class="row-fluid">
+      <div class="row">
 	    <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
 		 <?php if($only_tn == false): ?>
-            <div class="span4 col-sm-4 col-md-4">
+            <div class="col-sm-4">
                 <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image" src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" class="img-rounded img-polaroid" alt="" ></a>
             </div>
 			
 			<?php else: ?>
-			<div class="span12 col-sm-12 col-md-12">
+			<div class="col-sm-12">
                 <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image" src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" class="img-rounded img-polaroid" alt="" ></a>
             </div>
 		  <?php endif; ?>
@@ -65,7 +65,7 @@ if(isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
 		  <?php if($only_tn == false): ?>
 		    
 		   
-          <div class="span8 col-sm-8 col-md-8">
+          <div class="col-sm-8">
              
                   <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
 				   <div class="post-single-title-date">

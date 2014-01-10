@@ -131,13 +131,13 @@
                     <i class=" dd_rte_arr right"></i>
                 </a>
                 
-                <?php event_trigger('mw_live_edit_content_toolbar_menu_start',$params); ?>
+                <?php event_trigger('mw_live_edit_content_toolbar_menu_start'); ?>
 
                 
                 <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu" style="width: 170px; text-transform:uppercase;">
 				
 				
-				   <?php event_trigger('mw_live_edit_content_quick_add_menu_start',$params); ?>
+				   <?php event_trigger('mw_live_edit_content_quick_add_menu_start'); ?>
 
 				
                   <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="ico ieditpage" style="margin-right: 12px;"></span><span><?php _e("Edit current"); ?></span></a></li>
@@ -148,7 +148,7 @@
                   
                   
                   
-                 <?php event_trigger('mw_live_edit_content_quick_add_menu_end',$params); ?>
+                 <?php event_trigger('mw_live_edit_content_quick_add_menu_end'); ?>
                 
                   
                 </ul>
@@ -179,7 +179,7 @@
 
             </ul>
             
-            <?php event_trigger('mw_live_edit_content_toolbar_menu_end',$params); ?>
+            <?php event_trigger('mw_live_edit_content_toolbar_menu_end'); ?>
 
             
          </div>

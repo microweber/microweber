@@ -38,13 +38,13 @@ if(!isset($tn[1])){
 
    ?>
   <div class="well clearfix post-single">
-      <div class="row row-fluid">
+      <div class="row">
           <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-            <div class="span4 col-sm-4 col-md-4">
+            <div class="col-sm-4">
                 <a href="<?php print $item['link'] ?>"><img src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" class="img-rounded img-polaroid" alt="" ></a>
             </div>
           <?php endif; ?>
-          <div class="span8 col-sm-8 col-md-8">
+          <div class="col-sm-8">
               <div class="post-single-title-date" style="padding-bottom: 0;">
                   <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
                     <h2 class="lead"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>

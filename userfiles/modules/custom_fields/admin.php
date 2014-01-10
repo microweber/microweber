@@ -14,6 +14,8 @@
 $for = 'module';
 
 $copy_from = false;
+$suggest_from_rel = false;
+$list_preview = false;
 if(isset($params['for'])){
 	$for = $params['for'];
 }
@@ -25,8 +27,13 @@ $hide_preview = '';
 if(isset($params['live_edit'])){
   $hide_preview = " live_edit=true " ;
 }
+if(isset($params['suggest-from-related']) and $params['suggest-from-related'] != 'false'){
+  $suggest_from_rel = true;
+}
 
-
+if(isset($params['list-preview']) and $params['list-preview'] != 'false'){
+  $list_preview = true;
+}
 
 
 if(isset($params['for_id'])){
@@ -48,7 +55,7 @@ if(isset($params['rel_id'])){
 
 
 if(isset($params['content-id'])){
-	$for_id = $for_module_id = $params['content-id'];
+	$for_id = $for_module_id = $params['rel_id']= $params['content-id'];
   $for = 'content';
 }
 $module_id = $for_id;
@@ -61,6 +68,7 @@ __sort_fields = function(){
   if(!sortable_holder.hasClass('ui-sortable') && sortable_holder.find('a.mw-ui-btn-small').length>1){
     sortable_holder.sortable({
       items:'a.mw-ui-btn-small',
+	  distance: 35,
       update:function(event,ui){
         var obj = {ids:[]};
         $(this).find("a.mw-ui-btn-small").each(function(){
@@ -71,6 +79,11 @@ __sort_fields = function(){
           if(window.parent != undefined && window.parent.mw != undefined){
            window.parent.mw.reload_module('custom_fields');
          }
+		 
+		 mw.reload_module('#mw_custom_fields_list_preview');
+		 
+		 
+		 
          mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
          mw.$(".mw-custom-fields-tags .mw-ui-btn-blue").removeClass("mw-ui-btn-blue");
        });
@@ -111,6 +124,13 @@ $(document).ready(function(){
 
 });
 
+mw_cf_close_edit_window = function(el){
+	 $('#custom-field-editor').slideUp();
+	 $(".mw-ui-field").find('.mw-ui-btn-blue').removeClass('mw-ui-btn-blue');
+	  mw.$("#smart_field_opener").show();
+	
+}
+ 
 </script>
 
 <div class="<?php print $config['module_class'] ?>-holder">
@@ -121,8 +141,30 @@ $(document).ready(function(){
     for_module_id="<?php print $module_id ?>"
     <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?>
     id="mw_custom_fields_list_<?php print $params['id']; ?>"  <?php if(isset($params['default-fields'])): ?> default-fields="<?php  print $params['default-fields'] ?>" <?php endif; ?>/>
+    
+  
+    
+    
+    
 </div>
 <div class="custom_fields_selector" style="display: none;">
+
+  <small>Create new field</small>
+  <?php if( $suggest_from_rel != false ): ?>  
+ 
+    <module
+    data-type="custom_fields/list"
+    for="<?php print $for  ?>"
+         <?php if(isset($params['rel_id'])): ?> save_to_content_id="<?php print $params['rel_id'] ?>"  <?php endif; ?>
+      suggest-from-related="true"
+    id="mw_custom_fields_suggested_list_<?php print $params['id']; ?>"  />
+
+    
+    
+     <?php endif; ?>
+      
+
+
 	<ul class="mw-quick-links mw-quick-links-cols">
 		<li><strong><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span>
 			<?php _e("Text Field"); ?>
@@ -161,6 +203,10 @@ $(document).ready(function(){
 			<?php _e("Multiple choices"); ?>
 			</span></a></strong></li>
 	</ul>
+    
+    
+    
+    
 </div>
 <span class="mw-ui-btn mw-ui-btn-blue" id="smart_field_opener" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;"> <span class="ico iAdd"></span><span>
 <?php _e("Add Custom Field"); ?>
@@ -173,7 +219,10 @@ $(document).ready(function(){
 		</small></label>
 	<div class="custom-field-edit">
 		<div  class="custom-field-edit-header">
-			<div class="custom-field-edit-title"></div>
+			<span class="custom-field-edit-title"></span>
+            <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;">
+           <span  class="mw-ui-arr mw-ui-arr-down " style="opacity:0.6;"></span> 
+           </span>
 		</div>
 		<div class="mw-admin-custom-field-edit-item-wrapper">
 			<div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?> "></div>
@@ -182,7 +231,23 @@ $(document).ready(function(){
 </div>
 
 
-<div class="content_cf_list_all">
+<div class="conatent_cf_list_all">
+
+
+
+<?php if( $list_preview != false ): ?>  
+  <div class="vSpace"></div>
+    <module
+    data-type="custom_fields/list"
+    for="<?php print $for  ?>"
+         <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?>
+     list-preview="true"
+    id="mw_custom_fields_list_preview"  />
+
+    
+    
+     <?php endif; ?>
+
 <?php
 /*
 

@@ -11,11 +11,11 @@ description: Columns
 */
 ?>
 
-<div class="clearfix container-fluid module-posts-template-columns">
-	<div class="row-fluid">
+<div class="clearfix container module-posts-template-columns">
+	<div class="row">
 		<?php if (!empty($data)): ?>
 		<?php foreach ($data as $item): ?>
-		<div class="span4 col-sm-4 col-md-4" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
+		<div class="col-sm-4" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
 			<?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
 			<a itemprop="url" class="img-polaroid img-rounded" href="<?php print $item['link'] ?>"> <img src="<?php print thumbnail($item['image'], 220, 200); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" itemprop="image" /> </a>
 			<?php endif; ?>

@@ -5573,7 +5573,7 @@ class Content
 	, rel_id =\"{$id}\"
 	WHERE
 	session_id =\"{$sid}\"
-	AND (rel_id=0 OR rel_id IS NULL) AND rel =\"content\"
+	AND (rel_id=0 OR rel_id IS NULL or rel_id =\"0\") AND rel =\"content\"
 
 	";
 

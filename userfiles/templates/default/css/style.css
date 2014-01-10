@@ -96,6 +96,7 @@ input.large-field, textarea.large-field {
 	font-size: 14px;
 	padding: 3px 10px;
 	padding: 4px 0;
+    display: block;
 }
 /* Radios */
 
@@ -307,7 +308,15 @@ ul.dropdown-menu ul.dropdown-menu {
 }
 .module-posts-template-columns-4 .img-polaroid, .module-posts-template-columns-4 .img-rounded {
 	height: 120px;
+
 }
+
+.module-posts-template-columns-4 .img-polaroid .valign-cell, .module-posts-template-columns-4 .img-rounded .valign-cell{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
  @media (max-width: 979px) {
   .module-posts-template-columns .img-polaroid,  .module-posts-template-columns .img-rounded {
   	max-width:290px;

@@ -857,9 +857,15 @@ mw.tools = {
     },
     del : function(id){
         mw.tools.confirm(mw.msg.del, function(){
+			
+			 if(mw.notification != undefined){
+        			 mw.notification.success('Content deleted');
+						}
+			
            $.post(mw.settings.site_url + "api/content/delete", {id:id}, function(data) {
               var todelete =  mw.$(".item_" + id);
                todelete.fadeOut(function(){
+				   
                    todelete.remove();
                    mw.reload_module('content/trash');
                });
@@ -871,6 +877,11 @@ mw.tools = {
          $.post(mw.settings.site_url + "api/category/delete", {id:id}, function(data) {
             var todelete =  mw.$(".item_" + id);
              todelete.fadeOut(function(){
+				 
+				     	 if(mw.notification != undefined){
+        			 mw.notification.success('Category deleted');
+						}
+				 
                  todelete.remove();
              });
 		 });

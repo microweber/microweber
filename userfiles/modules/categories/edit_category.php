@@ -234,8 +234,19 @@ $(document).ready(function(){
     });
   </script>
 	<input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
+    
+    
+    
+    
+    
 	<input type="submit" class="semi hidden" name="save" />
 	<div class="post-save-and-go-live">
+    
+    <?php if(intval($data['id']) != 0): ?>
+    
+    <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-medium left">Delete</a>
+     <?php endif; ?>
+    
 		<button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-green" id="mw-admin-cat-save">
 		<?php _e("Save"); ?>
 		</button>

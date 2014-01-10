@@ -11,7 +11,6 @@ class Fields
 {
 
     public $app;
-
     private $skip_cache = false;
 
     function __construct($app = null)
@@ -31,6 +30,118 @@ class Fields
 
     }
 
+    public function get_by_id($field_id)
+    {
+
+        if ($field_id != 0) {
+            $data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+            if (isset($data['options'])) {
+                $data['options'] = $this->app->format->base64_to_array($data['options']);
+            }
+            return $data;
+        }
+    }
+
+    public function make_default($rel, $rel_id, $fields_csv_str)
+    {
+        global $_mw_made_default_fields_register;
+        if (!defined('SKIP_CF_ADMIN_CHECK')) {
+            define('SKIP_CF_ADMIN_CHECK', 1);
+        }
+
+        // return false;
+        $id = $this->app->user->is_admin();
+        if ($id == false) {
+            //return false;
+        }
+
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = 'fields_' . __FUNCTION__ . crc32($function_cache_id);
+
+
+        //$is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
+
+
+        $is_made = $this->get($rel, $rel_id, $return_full = 0, $field_for = false, $debug = 0);
+
+        if (isset($_mw_made_default_fields_register[$function_cache_id])) {
+            return;
+        }
+
+
+        if (is_array($is_made) and !empty($is_made)) {
+            return;
+        }
+        $_mw_made_default_fields_register[$function_cache_id] = true;
+
+        $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+
+        if (isset($rel)) {
+            $rel = $this->app->db->escape_string($rel);
+
+            $rel = $this->app->db->assoc_table_name($rel);
+            $rel_id = $this->app->db->escape_string($rel_id);
+
+            if (strstr($fields_csv_str, ',')) {
+                $fields_csv_str = explode(',', $fields_csv_str);
+                $fields_csv_str = array_trim($fields_csv_str);
+            } else {
+                $fields_csv_str = array($fields_csv_str);
+            }
+
+
+            $pos = 0;
+            if (is_array($fields_csv_str)) {
+                foreach ($fields_csv_str as $field_type) {
+                    $ex = $this->get($rel, $rel_id, $return_full = 1, $field_for = false, $debug = 0, $field_type);
+
+                    if ($ex == false or is_array($ex) == false) {
+                        $make_field = array();
+                        $make_field['id'] = 0;
+                        $make_field['rel'] = $rel;
+                        $make_field['rel_id'] = $rel_id;
+                        $make_field['position'] = $pos;
+                        $make_field['custom_field_name'] = ucfirst($field_type);
+                        $make_field['custom_field_value'] = false;
+
+                        $make_field['custom_field_type'] = $field_type;
+
+                        $this->save($make_field);
+                        $pos++;
+                    }
+                }
+
+
+                if ($pos > 0) {
+                    $this->app->cache->delete('custom_fields/global');
+
+                }
+
+
+                if ($rel_id != '0') {
+                    $option = array();
+                    $option['option_value'] = 'yes';
+                    $option['option_key'] = $function_cache_id;
+                    $option['option_group'] = 'make_default_custom_fields';
+                    //   $this->app->option->save($option);
+                }
+
+            }
+
+            //
+
+        }
+
+
+    }
 
     public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
     {
@@ -156,8 +267,8 @@ class Fields
                 $sidq = '';
             }
 
-            if ($id != 'all') {
-				  $id = $this->app->db->escape_string($id);
+            if ($id != 'all' and $id != 'any') {
+                $id = $this->app->db->escape_string($id);
 
                 /*	 if (intval($id) == 0){
                          if (is_admin() != false) {
@@ -179,7 +290,7 @@ class Fields
             }
 
 
-            $q = " SELECT ". $select_what . " FROM  $table_custom_field WHERE
+            $q = " SELECT " . $select_what . " FROM  $table_custom_field WHERE
 		{$qt}
 		{$qt_is_active}
 		$idq1ttid
@@ -202,15 +313,14 @@ class Fields
             if ($debug != false) {
 
             }
-           // d($q);
-            if($this->skip_cache == false){
+            // d($q);
+            if ($this->skip_cache == false) {
                 $q = $this->app->db->query($q, $cache_id, 'custom_fields/global');
 
             } else {
                 $q = $this->app->db->query($q);
 
             }
-
 
 
             if (!empty($q)) {
@@ -309,235 +419,12 @@ class Fields
                 }
             }
         }
-         $result = $the_data_with_custom_field__stuff;
+        $result = $the_data_with_custom_field__stuff;
         //$result = (array_change_key_case($result, CASE_LOWER));
         $result = $this->app->url->replace_site_url_back($result);
         //d($result);
         return $result;
     }
-
-
-    public function save($data)
-    {
-
-        if (!defined('SKIP_CF_ADMIN_CHECK')) {
-            $id = user_id();
-            if ($id == 0) {
-                mw_error('Error: not logged in.');
-            }
-            $id = $this->app->user->is_admin();
-            if ($id == false) {
-                mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-            }
-        }
-        $data_to_save = ($data);
-
-        $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
-
-        if (isset($data_to_save['for'])) {
-            $data_to_save['rel'] = $this->app->db->assoc_table_name($data_to_save['for']);
-        }
-        if (isset($data_to_save['cf_id'])) {
-            $data_to_save['id'] = intval($data_to_save['cf_id']);
-
-            $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
-            $form_data_from_id = $this->app->db->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
-            if (isset($form_data_from_id['id'])) {
-                if (!isset($data_to_save['rel'])) {
-                    $data_to_save['rel'] = $form_data_from_id['rel'];
-                }
-                if (!isset($data_to_save['rel_id'])) {
-                    $data_to_save['rel_id'] = $form_data_from_id['rel_id'];
-                }
-
-                if (isset($form_data_from_id['custom_field_type']) and $form_data_from_id['custom_field_type'] != '' and (!isset($data_to_save['custom_field_type']) or ($data_to_save['custom_field_type']) == '')) {
-                    $data_to_save['custom_field_type'] = $form_data_from_id['custom_field_type'];
-                }
-
-
-            }
-
-
-            if (isset($data_to_save['copy_rel_id'])) {
-
-                $cp = $this->app->db->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
-                $data_to_save['id'] = $cp;
-                $data_to_save['rel_id'] = $data_to_save['copy_rel_id'];
-                //$data_to_save['id'] = intval($data_to_save['cf_id']);
-            }
-
-        }
-
-        if (!isset($data_to_save['rel'])) {
-            $data_to_save['rel'] = 'content';
-        }
-        $data_to_save['rel'] = $this->app->db->assoc_table_name($data_to_save['rel']);
-        if (!isset($data_to_save['rel_id'])) {
-            $data_to_save['rel_id'] = '0';
-        }
-        if (isset($data['options'])) {
-            $data_to_save['options'] = $this->app->format->array_to_base64($data['options']);
-        }
-
-        $data_to_save['session_id'] = session_id();
-
-
-        if (!isset($data_to_save['custom_field_type']) or trim($data_to_save['custom_field_type']) == '') {
-            return array('error' => 'You must set custom_field_type');
-        } else {
-            if (!isset($data_to_save['custom_field_name'])) {
-                return array('error' => 'You must set custom_field_name');
-            }
-
-            if (!isset($data_to_save['custom_field_value'])) {
-                return array('error' => 'You must set custom_field_value');
-            }
-
-            $cf_k = $data_to_save['custom_field_name'];
-            $cf_v = $data_to_save['custom_field_value'];
-            if (is_array($cf_v)) {
-                $cf_k_plain = $this->app->url->slug($cf_k);
-                $cf_k_plain = $this->app->db->escape_string($cf_k_plain);
-                $cf_k_plain = str_replace('-', '_', $cf_k_plain);
-                $data_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
-                $val1_a = array_values($cf_v);
-                $val1_a = array_pop($val1_a);
-                $data_to_save['custom_field_values_plain'] = $this->app->db->escape_string($val1_a);
-
-            } else {
-            }
-
-
-            $data_to_save['allow_html'] = true;
-          //  $data_to_save['debug'] = true;
-            $this->skip_cache = true;
-
-            $save = $this->app->db->save($table_custom_field, $data_to_save);
-            $this->app->cache->delete('custom_fields');
-            $this->app->cache->delete('custom_fields/global');
-
-            return $save;
-        }
-
-
-        //exit
-    }
-
-    public function get_by_id($field_id)
-    {
-
-        if ($field_id != 0) {
-            $data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
-            if (isset($data['options'])) {
-                $data['options'] = $this->app->format->base64_to_array($data['options']);
-            }
-            return $data;
-        }
-    }
-
-
-    public function make_default($rel, $rel_id, $fields_csv_str)
-    {
-        global $_mw_made_default_fields_register;
-        if (!defined('SKIP_CF_ADMIN_CHECK')) {
-            define('SKIP_CF_ADMIN_CHECK', 1);
-        }
-
-        // return false;
-        $id = $this->app->user->is_admin();
-        if ($id == false) {
-            //return false;
-        }
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = 'fields_' . __FUNCTION__ . crc32($function_cache_id);
-
-
-        //$is_made = $this->app->option->get($function_cache_id, 'make_default_custom_fields');
-
-
-        $is_made = $this->get($rel, $rel_id, $return_full = 0, $field_for = false, $debug = 0);
-
-        if (isset($_mw_made_default_fields_register[$function_cache_id])) {
-            return;
-        }
-
-
-
-        if (is_array($is_made) and !empty($is_made)) {
-            return;
-        }
-        $_mw_made_default_fields_register[$function_cache_id] = true;
-
-        $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
-
-        if (isset($rel)) {
-            $rel = $this->app->db->escape_string($rel);
-
-            $rel = $this->app->db->assoc_table_name($rel);
-            $rel_id = $this->app->db->escape_string($rel_id);
-
-            if (strstr($fields_csv_str, ',')) {
-                $fields_csv_str = explode(',', $fields_csv_str);
-                $fields_csv_str = array_trim($fields_csv_str);
-            } else {
-                $fields_csv_str = array($fields_csv_str);
-            }
-
-
-            $pos = 0;
-            if (is_array($fields_csv_str)) {
-                foreach ($fields_csv_str as $field_type) {
-                    $ex = $this->get($rel, $rel_id, $return_full = 1, $field_for = false, $debug = 0, $field_type);
-
-                    if ($ex == false or is_array($ex) == false) {
-                        $make_field = array();
-                        $make_field['id'] = 0;
-                        $make_field['rel'] = $rel;
-                        $make_field['rel_id'] = $rel_id;
-                        $make_field['position'] = $pos;
-                        $make_field['custom_field_name'] = ucfirst($field_type);
-                        $make_field['custom_field_value'] = false;
-
-                        $make_field['custom_field_type'] = $field_type;
-
-                        $this->save($make_field);
-                        $pos++;
-                    }
-                }
-
-
-                if ($pos > 0) {
-                    $this->app->cache->delete('custom_fields/global');
-
-                }
-
-
-                if ($rel_id != '0') {
-                    $option = array();
-                    $option['option_value'] = 'yes';
-                    $option['option_key'] = $function_cache_id;
-                    $option['option_group'] = 'make_default_custom_fields';
-                    //   $this->app->option->save($option);
-                }
-
-            }
-
-            //
-
-        }
-
-
-    }
-
 
     public function reorder($data)
     {
@@ -560,7 +447,7 @@ class Fields
 
                 $this->app->db->update_position_field($table, $indx);
                 return true;
-             }
+            }
         }
     }
 
@@ -676,8 +563,8 @@ class Fields
                 }
 
             }
-         } else if (isset($data['field_id'])) {
-             $data = $this->app->db->get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
+        } else if (isset($data['field_id'])) {
+            $data = $this->app->db->get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
         }
 
         if (isset($data['custom_field_type'])) {
@@ -769,6 +656,125 @@ class Fields
 
             return $layout;
         }
+    }
+
+    public function save($data)
+    {
+
+        if (!defined('SKIP_CF_ADMIN_CHECK')) {
+            $id = user_id();
+            if ($id == 0) {
+                mw_error('Error: not logged in.');
+            }
+            $id = $this->app->user->is_admin();
+            if ($id == false) {
+                mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            }
+        }
+        $data_to_save = ($data);
+
+        $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+
+        if (isset($data_to_save['for'])) {
+            $data_to_save['rel'] = $this->app->db->assoc_table_name($data_to_save['for']);
+        }
+        if (isset($data_to_save['cf_id'])) {
+            $data_to_save['id'] = intval($data_to_save['cf_id']);
+
+            $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+            $form_data_from_id = $this->app->db->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
+            if (isset($form_data_from_id['id'])) {
+                if (!isset($data_to_save['rel'])) {
+                    $data_to_save['rel'] = $form_data_from_id['rel'];
+                }
+                if (!isset($data_to_save['rel_id'])) {
+                    $data_to_save['rel_id'] = $form_data_from_id['rel_id'];
+                }
+
+                if (isset($form_data_from_id['custom_field_type']) and $form_data_from_id['custom_field_type'] != '' and (!isset($data_to_save['custom_field_type']) or ($data_to_save['custom_field_type']) == '')) {
+                    $data_to_save['custom_field_type'] = $form_data_from_id['custom_field_type'];
+                }
+
+
+            }
+
+
+            if (isset($data_to_save['copy_rel_id'])) {
+
+                $cp = $this->app->db->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
+                $data_to_save['id'] = $cp;
+                $data_to_save['rel_id'] = $data_to_save['copy_rel_id'];
+                //$data_to_save['id'] = intval($data_to_save['cf_id']);
+            }
+
+        }
+
+        if (!isset($data_to_save['rel'])) {
+            $data_to_save['rel'] = 'content';
+        }
+        $data_to_save['rel'] = $this->app->db->assoc_table_name($data_to_save['rel']);
+        if (!isset($data_to_save['rel_id'])) {
+            $data_to_save['rel_id'] = '0';
+        }
+        if (isset($data['options'])) {
+            $data_to_save['options'] = $this->app->format->array_to_base64($data['options']);
+        }
+
+        $data_to_save['session_id'] = session_id();
+
+
+        if (!isset($data_to_save['custom_field_type']) or trim($data_to_save['custom_field_type']) == '') {
+            return array('error' => 'You must set custom_field_type');
+        } else {
+            if (!isset($data_to_save['custom_field_name'])) {
+                return array('error' => 'You must set custom_field_name');
+            }
+
+            if (!isset($data_to_save['custom_field_value'])) {
+                return array('error' => 'You must set custom_field_value');
+            }
+
+            $cf_k = $data_to_save['custom_field_name'];
+            $cf_v = $data_to_save['custom_field_value'];
+            if (is_array($cf_v)) {
+                $cf_k_plain = $this->app->url->slug($cf_k);
+                $cf_k_plain = $this->app->db->escape_string($cf_k_plain);
+                $cf_k_plain = str_replace('-', '_', $cf_k_plain);
+                $data_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
+                $val1_a = array_values($cf_v);
+                //   $val1_a = array_pop($val1_a);
+                if (is_array($val1_a)) {
+                    $val1_a = implode(', ', $val1_a);
+
+                }
+
+
+                if($val1_a != 'Array'){
+                $data_to_save['custom_field_values_plain'] = $val1_a;
+                }
+
+            } else {
+                if(strval($cf_v) != 'Array'){
+                    $val1_a = nl2br($cf_v,1);
+
+                $data_to_save['custom_field_values_plain'] =  ($val1_a);
+                }
+            }
+
+
+            $data_to_save['allow_html'] = true;
+            //  $data_to_save['debug'] = true;
+            $this->skip_cache = true;
+
+            $save = $this->app->db->save($table_custom_field, $data_to_save);
+            $this->app->cache->delete('custom_fields');
+            $this->app->cache->delete('custom_fields/global');
+
+            return $save;
+        }
+
+
+        //exit
     }
 
 

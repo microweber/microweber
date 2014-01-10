@@ -31,7 +31,7 @@
             <module type="custom_fields" data-id="<?php print $params['id'] ?>" data-for="module"  default-fields="name,email,text"   />
             <div class="control-group form-group">
                 <?php if(get_option('disable_captcha', $params['id']) !='y'): ?>
-                    <label><?php _e("Enter Security code"); ?></label>
+                    <label class="custom-field-title"><?php _e("Enter Security code"); ?></label>
                     <div class="captcha-holder">
                       <input name="captcha" type="text" required class="mw-captcha-input"/>
                       <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $form_id; ?>" src="<?php print api_link('captcha') ?>" />

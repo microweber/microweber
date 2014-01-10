@@ -81,8 +81,8 @@ mw.wysiwyg = {
             }
             mw.$(".edit").each(function(){
                 mw.on.DOMChange(this, function(){
-                    !mw.tools.hasClass(this.className, 'changed') ? $(this).addClass("changed") :'';
-                   mw.askusertostay = true;
+                   !mw.tools.hasClass(this.className, 'changed') ? $(this).addClass("changed") :'';
+                    mw.askusertostay = true;
                     if(this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
                        this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'</p>';
                     }
@@ -90,7 +90,6 @@ mw.wysiwyg = {
                 }, false, true);
                 $(this).mouseenter(function(){
                    if(this.querySelectorAll('*').length === 0 && hasAbilityToDropElementsInside(this)) {
-
                        this.innerHTML = '<p class="element" id="el'+mw.random()+'">'+this.innerHTML+'&nbsp;</p>';
                     }
                 })
@@ -458,11 +457,16 @@ mw.wysiwyg = {
               if( r.cloneContents().querySelector(".module") !== null ||
                     mw.tools.hasClass(r.commonAncestorContainer, 'module') ||
                     mw.tools.hasParentsWithClass(r.commonAncestorContainer, 'module')){
-                    if(r.commonAncestorContainer.nodeType === 3){
-                      if(sel.extentOffset > 0){
+
+                   // if(r.commonAncestorContainer.nodeType === 3){
+                      if(sel.focusOffset > 0 && event.keyCode == 8 ){
                         return true;
                       }
-                    }
+
+                       if(sel.focusOffset < r.commonAncestorContainer.length && event.keyCode == 46 ){
+                        return true;
+                      }
+                    //}
                   return false;
               }
               var n = sel.focusNode.nodeType !== 3 ? sel.focusNode : sel.focusNode.parentNode;
@@ -511,9 +515,6 @@ mw.wysiwyg = {
             e.target.innerHTML = '&zwnj;&nbsp;';
          }
          if(e.keyCode == 13) {
-
-
-
 
                mw.$(".element-current").removeClass("element-current");
                var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;

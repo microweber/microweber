@@ -2,30 +2,30 @@
 
 <script type="text/javascript">
 
-if(typeof mw.custom_fields.text === 'undefined'){
-    mw.custom_fields.text = {}
-    mw.custom_fields.text._globalinput = mwd.createElement('input');
-    mw.custom_fields.text._globalinput.type = 'text';
-    mw.custom_fields.text._globalarea = mwd.createElement('textarea');
-}
-
-$(document).ready(function(){
-  mw.$("#mw-custom-fields-text-switch").commuter(function(){
-    var curr = mwd.querySelector('#mw-custom-fields-text-holder input');
-    mw.tools.copyAttributes(curr, mw.custom_fields.text._globalarea, ['type']);
-    curr.parentNode.replaceChild(mw.custom_fields.text._globalarea, curr);
-  }, function(){
-     var curr = mwd.querySelector('#mw-custom-fields-text-holder textarea');
-     mw.tools.copyAttributes(curr, mw.custom_fields.text._globalinput, ['type']);
-     curr.parentNode.replaceChild(mw.custom_fields.text._globalinput, curr);
-  });
-});
+//if(typeof mw.custom_fields.text === 'undefined'){
+//    mw.custom_fields.text = {}
+//    mw.custom_fields.text._globalinput = mwd.createElement('input');
+//    mw.custom_fields.text._globalinput.type = 'text';
+//    mw.custom_fields.text._globalarea = mwd.createElement('textarea');
+//}
+//
+//$(document).ready(function(){
+//  mw.$("#mw-custom-fields-text-switch").commuter(function(){
+//    var curr = mwd.querySelector('#mw-custom-fields-text-holder input');
+//    mw.tools.copyAttributes(curr, mw.custom_fields.text._globalarea, ['type']);
+//    curr.parentNode.replaceChild(mw.custom_fields.text._globalarea, curr);
+//  }, function(){
+//     var curr = mwd.querySelector('#mw-custom-fields-text-holder textarea');
+//     mw.tools.copyAttributes(curr, mw.custom_fields.text._globalinput, ['type']);
+//     curr.parentNode.replaceChild(mw.custom_fields.text._globalinput, curr);
+//  });
+//});
 
 
 </script>
 <style>
     #mw-custom-fields-text-holder textarea{
-      resize:none;
+      resize:both;
     }
 
 </style>
@@ -54,7 +54,15 @@ $(document).ready(function(){
     <div class="mw-custom-field-group">
       <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>"><?php _e("Value"); ?></label>
         <div id="mw-custom-fields-text-holder">
-            <input type="text" class="mw-ui-field" name="custom_field_value"  value="<?php print ($data['custom_field_value']) ?>"  />
+        <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?>  
+        <textarea class="mw-ui-field" name="custom_field_value"><?php print ($data['custom_field_value']) ?></textarea>
+                
+
+         <?php else: ?>
+                     <input type="text" class="mw-ui-field" name="custom_field_value"  value="<?php print ($data['custom_field_value']) ?>"  />
+
+         <?php endif; ?>
+        
         </div>
     </div>
 

@@ -406,13 +406,9 @@ mw.drag = {
 
           if(mw.tools.hasParentsWithClass(mw.mm_target, 'module') && mw.tools.hasParentsWithClass(mw.mm_target, 'edit')){
               mw.currentDragMouseOver = mw.tools.lastParentWithClass(mw.mm_target, 'module');
-
-
           }
           else if(mw.tools.hasClass(mw.mm_target.className, 'module')){
                  mw.currentDragMouseOver = mw.mm_target;
-
-
           }   else{
 
              if(
@@ -507,8 +503,6 @@ mw.drag = {
               //return false;
             }
             mw.drop_regions.init(mw.currentDragMouseOver, event, function(region){});
-
-
             var el = $(mw.currentDragMouseOver);
             $(".ui-draggable-dragging").show();
             if(el.hasClass("ui-draggable-dragging") || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, "ui-draggable-dragging")){
@@ -517,12 +511,9 @@ mw.drag = {
             }
 
             var body = $(this);
-
             var offset = el.offset();
             var height = el.outerHeight();
             var width = el.width();
-
-
             if(mw.drop_regions.global_drop_is_in_region /* && !$(mw.dragCurrent).hasClass("mw-row")&& $(mw.dragCurrent).hasClass("element-image")*/){
 
               mw.dropable.addClass("mw_dropable_vertical");
@@ -543,29 +534,22 @@ mw.drag = {
                     mw.dropables.set('top', offset, height, width);
                 }
             }
-
-
-
             if(el.hasClass("element") ||
             mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'mw-row') ||
             mw.tools.hasClass(mw.currentDragMouseOver.className, 'module') ||
             mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'element')){
                 if(el.hasClass("empty-element") || el.hasClass("mw-empty")){
                     mw.dropable.hide();
-
                 }
                 else{
                     mw.dropable.show();
-
                 }
             }
             else{
                mw.dropable.hide();
-
             }
            }
            }
-
            $(".currentDragMouseOver").removeClass("currentDragMouseOver");
            $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
          });

@@ -279,6 +279,8 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
                     type="custom_fields/admin"
                     <?php if( trim($data['subtype']) == 'product' ): ?> default-fields="price" <?php endif; ?>
                     content-id="<?php print $data['id'] ?>"
+                    suggest-from-related="true"
+                    list-preview="true"
                     id="fields_for_post_<?php print $rand; ?>" 	 />
 	</div>
 	<?php  if(trim($data['subtype']) == 'product'): ?>

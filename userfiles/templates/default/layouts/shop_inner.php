@@ -3,8 +3,7 @@
 <section id="content">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-8"> <!-------------- Product -------------->
-
+			<div class="col-sm-8">
 				<h2 class="edit"  field="title" rel="post">Product inner page</h2>
 				<hr>
 				<div class="edit"  field="content" rel="post">
@@ -24,8 +23,6 @@
 						</div>
 					</div>
 				</div>
-				<!-------------- Related Products -------------->
-				
 				<div class="edit"  field="related_products" rel="inherit">
 					<h4 class="element sidebar-title">Related Products</h4>
 					<module type="shop/products" template="4columns" related="true" />
