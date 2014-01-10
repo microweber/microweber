@@ -149,7 +149,7 @@ mw_cf_close_edit_window = function(el){
 </div>
 <div class="custom_fields_selector" style="display: none;">
 
-  <small>Create new field</small>
+  <em>Create new field</em>
   <?php if( $suggest_from_rel != false ): ?>  
  
     <module
@@ -220,7 +220,7 @@ mw_cf_close_edit_window = function(el){
 	<div class="custom-field-edit">
 		<div  class="custom-field-edit-header">
 			<span class="custom-field-edit-title"></span>
-            <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;">
+            <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;">close
            <span  class="mw-ui-arr mw-ui-arr-down " style="opacity:0.6;"></span> 
            </span>
 		</div>

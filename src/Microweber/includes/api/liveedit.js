@@ -19,7 +19,19 @@ mw.SmallEditorIsDragging = false;
 mw.states = {}
 
 
-mw.isBasicMode = mw.cookie.get("advancedmode") != 'true';
+mw.isBasicMode = mw.cookie.get("basic_mode") == 'true';
+
+
+mw.velement = function(node,c){
+  if(!mw.isBasicMode){
+    c.call(node);
+  }
+  else{
+    if(mw.tools.hasParentsWithClass(node, 'edit')){
+      c.call(node);
+    }
+  }
+}
 
 
 /**
@@ -246,6 +258,11 @@ mw.drag = {
 
          $(mwd.body).mousemove(function(event){
 
+
+         mw.velement(event.target, function(){
+
+
+
             if(!!mw.mouse && event.pageX === mw.mouse.x){ return false;  /* Chrome fires event even if the mouse is not moving  */ }
 
             mw.tools.removeClass(this, 'isTyping');
@@ -289,7 +306,14 @@ mw.drag = {
                    //trigger on element
 
                    if(mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
-                     $(window).trigger("onElementOver", mw.mm_target);
+
+
+                       $(window).trigger("onElementOver", mw.mm_target);
+
+
+
+
+
                    }
                    else if(mw.$mm_target.parents(".element").length>0 && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
                      $(window).trigger("onElementOver", mw.$mm_target.parents(".element:first")[0]);
@@ -552,6 +576,9 @@ mw.drag = {
            }
            $(".currentDragMouseOver").removeClass("currentDragMouseOver");
            $(mw.currentDragMouseOver).addClass("currentDragMouseOver");
+
+             });
+
          });
 
 
@@ -2582,7 +2609,20 @@ $(document).ready(function(){
     $(mwd.body).addClass("toolbar-hover");
   }, function(){
      $(mwd.body).removeClass("toolbar-hover");
-  })
+  });
+
+
+
+  if(mw.isBasicMode){
+    mw.$(".edit").each(function(){
+      var rel = mw.tools.mwattr(this, "rel");
+      if(rel != 'content' && rel != 'post' && rel != 'page'){
+        $(this).attr("contenteditable", "false").removeClass("edit");
+        mw.$('.empty-element', this).remove();
+        mw.$('.mw-col > .ui-resizable-handle', this).remove();
+      }
+    })
+  }
 
 
 });

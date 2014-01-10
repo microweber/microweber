@@ -54,14 +54,9 @@
     <div class="mw-custom-field-group">
       <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>"><?php _e("Value"); ?></label>
         <div id="mw-custom-fields-text-holder">
-        <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?>  
-        <textarea class="mw-ui-field" name="custom_field_value"><?php print ($data['custom_field_value']) ?></textarea>
+         <textarea class="mw-ui-field" name="custom_field_value"><?php print ($data['custom_field_value']) ?></textarea>
                 
-
-         <?php else: ?>
-                     <input type="text" class="mw-ui-field" name="custom_field_value"  value="<?php print ($data['custom_field_value']) ?>"  />
-
-         <?php endif; ?>
+ 
         
         </div>
     </div>

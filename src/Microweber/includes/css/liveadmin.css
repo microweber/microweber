@@ -1041,8 +1041,11 @@ div .mw-custom-field-form-controls:last-child{
 .custom-field-edit-title-head {
 
  
-  padding: 10px 10px;
-  
+  padding-left:10px;
+   padding-top:5px;
+   color: #999;
+    font-weight: normal;
+	font-size:10px;
 }
 .custom-field-edit-title {
 
