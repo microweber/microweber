@@ -741,7 +741,7 @@ class Fields
                 $cf_k_plain = $this->app->db->escape_string($cf_k_plain);
                 $cf_k_plain = str_replace('-', '_', $cf_k_plain);
                 $data_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
-                $val1_a = array_values($cf_v);
+                $val1_a = $this->app->format->array_values($cf_v);
                 //   $val1_a = array_pop($val1_a);
                 if (is_array($val1_a)) {
                     $val1_a = implode(', ', $val1_a);

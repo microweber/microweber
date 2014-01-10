@@ -197,7 +197,8 @@ input.large-field, textarea.large-field {
  
  
 .well .nav a.active {
- color: white; 
+ color: #0073AA;
+ font-weight:bold;
 } 
 .nav-piils a.active {
  color: white; 

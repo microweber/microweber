@@ -622,7 +622,7 @@ class Media
                     if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
                         $tn = new \Microweber\Thumbnailer($src);
                         $thumbOptions = array('maxLength' => $height, 'width' => $width);
-                        $tn->createThumb($thumbOptions, $cache_path);
+                         $tn->createThumb($thumbOptions, $cache_path);
 
                         unset($tn);
                     } else {
