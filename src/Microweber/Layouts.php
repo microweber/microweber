@@ -701,6 +701,13 @@ class Layouts
                 $template_url = MW_TEMPLATES_URL . $template . '/';
                 $this_template_url = THIS_TEMPLATE_URL;
 
+                $template_folder = MW_USERFILES . 'css' . DS . $template.DS;
+                if(!is_dir($template_folder)){
+                    mkdir_recursive($template_folder);
+                }
+
+
+
                 $live_edit_css = $template_folder . 'live_edit.css';
                 $fcont = '';
                 if (is_file($live_edit_css)) {
@@ -780,8 +787,8 @@ class Layouts
                             $delim = "\n /* $sel */ \n";
 
 
-                            $item["css"] = str_ireplace($this_template_url, '', $item["css"]);
-                            $item["css"] = str_ireplace($template_url, '', $item["css"]);
+                            //$item["css"] = str_ireplace($this_template_url, '', $item["css"]);
+                            //$item["css"] = str_ireplace($template_url, '', $item["css"]);
 
                             $item["css"] = str_ireplace('http://', '//', $item["css"]);
                             $item["css"] = str_ireplace('https://', '//', $item["css"]);

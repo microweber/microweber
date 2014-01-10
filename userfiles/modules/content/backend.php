@@ -459,6 +459,7 @@ function mw_add_product(){
         <?php } ?>
 
 
+        <?php event_trigger('mw_admin_content_side_menu_start', $params); ?>
 
 
 
@@ -466,11 +467,17 @@ function mw_add_product(){
           <label><?php _e("Post"); ?></label>
           <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipost"></span></span>
         </a>
+        
+        
+        
+        
+        
+        
+        
+ 
 
-        <a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
-          <label><?php _e("Product"); ?></label>
-          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico iproduct"></span></span>
-        </a>
+
+
 
         <a href="#action=new:page" class="mw_action_nav mw_action_page" id="action_new_page" onclick="mw.url.windowHashParam('action','new:page');mw.url.windowDeleteHashParam('parent-page');return false;">
           <label><?php _e("Page"); ?></label>
@@ -486,6 +493,14 @@ function mw_add_product(){
           <label><?php _e("Category"); ?></label>
           <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico icategory"></span></span>
         </a>
+        
+        
+        
+        
+        <?php event_trigger('mw_admin_content_side_menu_end',$params); ?>
+        
+        
+        
 
       </div>
 

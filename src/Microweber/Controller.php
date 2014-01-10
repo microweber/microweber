@@ -1679,8 +1679,17 @@ class Controller
 
 
                 $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
+                $live_edit_css_folder = MW_USERFILES . 'css' . DS . $content['active_site_template'].DS;
+                $live_edit_url_folder = MW_USERFILES_URL . 'css/' .$content['active_site_template'].'/';
+
+                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
+
             } else {
                 $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
+                $live_edit_css_folder = MW_USERFILES . 'css' . DS . 'default'.DS;
+                $live_edit_url_folder = MW_USERFILES_URL . 'css/default/';
+
+                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
             }
 
 
@@ -1688,7 +1697,7 @@ class Controller
 
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
-                $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
+                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
 
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }

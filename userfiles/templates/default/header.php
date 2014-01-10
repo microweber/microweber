@@ -21,7 +21,6 @@
     <?php if(isset($custom_head)): ?>
     <?php print $custom_head; ?>
     <?php else : ?>
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&subset=greek,latin,cyrillic-ext,latin-ext,cyrillic" />
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/style.css" type="text/css" media="all">
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
     <?php endif; ?>

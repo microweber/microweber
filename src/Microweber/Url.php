@@ -217,6 +217,18 @@ class Url
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
 
+        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $this_file = @dirname(dirname(dirname(__FILE__)));
+        $path = str_ireplace($this_file, '', $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+        $path = ltrim($path, '/');
+        $path = ltrim($path, '\\');
+
+
         return $this->site_url($path);
     }
 

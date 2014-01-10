@@ -286,7 +286,6 @@ function mw_error($e, $f = false, $l = false)
     $v->e = $e;
     $v->f = $f;
     $v->l = $l;
-    // _log($e -> getMessage() . ' ' . $e -> getFile());
     die($v);
 }
 
@@ -383,6 +382,14 @@ function mw_path_to_url($path)
     $path = str_ireplace(MW_ROOTPATH, '', $path);
     $path = str_replace('\\', '/', $path);
     $path = str_replace('//', '/', $path);
+    $path = str_ireplace(MW_ROOTPATH, '', $path);
+    $this_file = @dirname(dirname(dirname(__FILE__)));
+    $path = str_ireplace($this_file, '', $path);
+    $path = str_replace('\\', '/', $path);
+    $path = str_replace('//', '/', $path);
+
+    $path = ltrim($path, '/');
+    $path = ltrim($path, '\\');
     return site_url($path);
 }
 

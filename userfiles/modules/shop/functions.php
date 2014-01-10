@@ -35,6 +35,9 @@ function mw_print_admin_menu_shop_btn()
     if ($active == 'shop') {
         $cls = ' class="active" ';
     }
+	if(get_option('shop_disabled', 'website')== 'y'){
+		return;
+	}
 	
 	$is_shop = get_content('is_active=y&is_shop=y&count=1');
 	
@@ -43,3 +46,55 @@ function mw_print_admin_menu_shop_btn()
 	} 
    
 }
+
+ 
+
+event_bind('mw_admin_content_side_menu_end', 'mw_print_admin_menu_shop_sidebar_btn');
+
+function mw_print_admin_menu_shop_sidebar_btn($params=false)
+{
+      
+	if(get_option('shop_disabled', 'website')== 'y'){
+		return;
+	}
+	print '<a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam(\'action\',\'new:product\');"><label>'. _e("Product",true) .'</label>
+          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico iproduct"></span></span>
+        </a>';
+	 
+   
+}
+event_bind('mw_admin_content_right_sidebar_menu_list_end', 'mw_print_admin_menu_shop_right_sidebar_btn');
+
+function mw_print_admin_menu_shop_right_sidebar_btn($params=false)
+{
+      
+	if(get_option('shop_disabled', 'website')== 'y'){
+		return;
+	}
+	
+	$par='';
+	if(isset($params['page-id'])){
+		$par='&parent_page='.intval($params['page-id']);
+	 
+	}
+	
+	
+	print '<li> <a href="#action=new:product'. $par .'"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico iproduct"></span> <span>'. _e("New Product",true) .'</span> </a> </li>';
+	 
+   
+}
+event_bind('mw_live_edit_content_quick_add_menu_end', 'mw_print_admin_menu_quck_add_live_edit_btn');
+
+function mw_print_admin_menu_quck_add_live_edit_btn($params=false)
+{
+      
+	if(get_option('shop_disabled', 'website')== 'y'){
+		return;
+	}
+	
+	  
+	print '<li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span>'. _e("Product",true) .'</a></li>';
+	 
+   
+}
+ 

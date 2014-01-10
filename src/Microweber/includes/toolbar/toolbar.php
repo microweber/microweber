@@ -52,8 +52,6 @@
 <link href="<?php print( MW_INCLUDES_URL);  ?>css/toolbar.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">
     $(document).ready(function () {
-	    		
-		
         mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));
         setTimeout(function(){
             mw.history.init();
@@ -82,6 +80,7 @@
     }
   
 ?>
+
 
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div  id="live_edit_toolbar">
@@ -122,16 +121,27 @@
                     <span>Create or manage your content</span>
                     <i class=" dd_rte_arr right"></i>
                 </a>
+                
+                <?php event_trigger('mw_live_edit_content_toolbar_menu_start',$params); ?>
+
+                
                 <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu" style="width: 170px; text-transform:uppercase;">
 				
 				
-				
+				   <?php event_trigger('mw_live_edit_content_quick_add_menu_start',$params); ?>
+
 				
                   <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="ico ieditpage" style="margin-right: 12px;"></span><span><?php _e("Edit current"); ?></span></a></li>
                   <li><a href="javascript:;" onclick="mw.quick.post();"><span class="mw-ui-btn-plus left"></span><span class="ico ipost"></span><?php _e("Post"); ?></a></li>
-                  <li><a href="javascript:;" onclick="mw.quick.product();"><span class="mw-ui-btn-plus left"></span><span class="ico iproduct"></span><?php _e("Product"); ?></a></li>
+                
                   <li><a href="javascript:;" onclick="mw.quick.page();"><span class="mw-ui-btn-plus left"></span><span class="ico ipage"></span><?php _e("Page"); ?></a></li>
                   <li><a href="javascript:;" onclick="mw.quick.category();"><span class="mw-ui-btn-plus left"></span><span class="ico icategory"></span><?php _e("Category"); ?></a></li>
+                  
+                  
+                  
+                 <?php event_trigger('mw_live_edit_content_quick_add_menu_end',$params); ?>
+                
+                  
                 </ul>
               </li>
               <li class="create-content-dropdown modules-layouts-menu">
@@ -159,6 +169,10 @@
 
 
             </ul>
+            
+            <?php event_trigger('mw_live_edit_content_toolbar_menu_end',$params); ?>
+
+            
          </div>
           <div id="mw-toolbar-right" class="mw-defaults">
               <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next"  title="<?php _e("Next"); ?>" onclick="mw.liveEditWYSIWYG.slideRight();"></span>
