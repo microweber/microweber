@@ -142,6 +142,10 @@ $('#mw_page_layout_preview').attr('data-small',"1");
           <?php _e("New Post"); ?>
           </span> </a> </li>
         <?php endif; ?>
+        <li> <a href="#action=editpage:<?php print $params["page-id"]; ?>"> <span class="ico ieditpage"></span><span>
+          <?php _e("Edit Page"); ?>
+          </span> </a> </li>
+        </a>
         <?php event_trigger('mw_admin_content_right_sidebar_menu_list_end',$params); ?>
       </ul>
       <?php 

@@ -72,7 +72,18 @@ if(isset($params['quick_edit'])){
 
   }
   
-  
+    make_new_cat_after_save = function(el){
+		  $('#<?php print $params['id'] ?>').removeClass('loading');
+	   $('#<?php print $params['id'] ?>').removeAttr('just-saved');
+	    $('#<?php print $params['id'] ?>').removeAttr('selected-category-id');
+		  $('#<?php print $params['id'] ?>').removeAttr('data-category-id');
+		   $('#<?php print $params['id'] ?>').removeAttr('category-id');
+		   <?php if(isset($params['live_edit']) != false) : ?>
+  			window.location.reload();
+			 <?php else: ?>
+			  mw.reload_module('#<?php print $params['id'] ?>');
+		 <?php endif; ?>
+  }
   
   
    
@@ -125,7 +136,7 @@ $(document).ready(function(){
         	  });
         	  <?php if(intval($data['id']) == 0): ?>
         	  	mw.url.windowHashParam("new_content", "true");
-        	  	mw.url.windowHashParam("action", "editcategory:" + this);
+        	  //	mw.url.windowHashParam("action", "editcategory:" + this);
 				
 				
 				
@@ -144,11 +155,11 @@ $(document).ready(function(){
         		$('.mw-cat-save-submit').removeClass('disabled');
 				
 				
-			<?php if($quick_edit != false) : ?>
+			 
 				  $('.mw-quick-cat-done').show();
 				  $('.add-edit-category-form').hide();
 
-			<?php endif; ?>
+			 
 				
 				
 
@@ -186,7 +197,7 @@ $(document).ready(function(){
 	<div class="vSpace"></div>
 	<label class="mw-ui-label"><small>Create new category again</small></label>
 	<div class="vSpace"></div>
-	<a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.reload_module('categories/edit_category')">Create New</a> </div>
+	<a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="make_new_cat_after_save()">Create New</a> </div>
 <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
 	<input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
 	<input name="table" type="hidden" value="categories" />

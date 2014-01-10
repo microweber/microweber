@@ -322,7 +322,7 @@ html.mw_pages #mw_tabs li.active a{
   background-position: 9px 0;
 }
 
-#mw_edit_pages_content{
+#mw_edit_pages_content, #mw_index_settings{
   position: relative;
   min-width: 1022px;
 

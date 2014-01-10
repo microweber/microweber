@@ -74,7 +74,16 @@
 <?php
     $back_url = site_url().'admin/view:content';
     if(defined('CONTENT_ID')){
-          $back_url .= '#action=editpage:'.CONTENT_ID;
+        
+		  if((!defined('POST_ID') or POST_ID == false) and !defined('PAGE_ID') or PAGE_ID != false){
+			   
+			          $back_url .= '#action=showposts:'.PAGE_ID;
+			  
+  
+		  } else {
+			  $back_url .= '#action=editpage:'.CONTENT_ID;  
+		  }
+		  
     } else if(isset($_COOKIE['back_to_admin'])){
           $back_url = $_COOKIE['back_to_admin'];
     }

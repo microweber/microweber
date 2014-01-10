@@ -499,7 +499,7 @@ function mw_add_product(){
         
         <?php event_trigger('mw_admin_content_side_menu_end',$params); ?>
         
-        
+    
         
 
       </div>
