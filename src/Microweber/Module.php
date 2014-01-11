@@ -894,11 +894,10 @@ class Module
                 $s["module"] = $data_to_save["module"];
                 if (!isset($s["module_id"])) {
                     $save = $this->get('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
-                    //  d($s);
-                    //
+
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
-
+                        $s["position"] = intval($save[0]["position"]);
                         $save = $this->app->db->save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
                         $mname_clen = $this->app->db->escape_string($mname_clen);

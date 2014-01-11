@@ -104,7 +104,8 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	$parent_content_params['limit'] = 1;
 	$parent_content_params['one'] = 1;
 	$parent_content_params['fields'] = 'id';
-	$parent_content_params['order_by'] = 'updated_on desc';
+	$parent_content_params['order_by'] = 'posted_on desc, updated_on desc';
+	 
 	if(isset($params['subtype']) and $params['subtype'] == 'post'){
 		$parent_content_params['is_shop'] = 'n';
 		$parent_content_params['is_home'] = 'n';

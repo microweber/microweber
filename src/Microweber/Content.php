@@ -110,7 +110,7 @@ class Content
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'content_' . __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'content_db_' . __FUNCTION__ . crc32($function_cache_id);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -126,6 +126,7 @@ class Content
         $fields_to_add[] = array('updated_on', 'datetime default NULL');
         $fields_to_add[] = array('created_on', 'datetime default NULL');
         $fields_to_add[] = array('expires_on', 'datetime default NULL');
+        $fields_to_add[] = array('posted_on', 'datetime default NULL');
 
         $fields_to_add[] = array('created_by', 'int(11) default NULL');
 
@@ -5447,7 +5448,7 @@ class Content
             }
         }
 
-
+        $data_to_save['updated_on'] = date("Y-m-d H:i:s");
         if (isset($data_to_save['id']) and intval($data_to_save['id']) == 0) {
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
 
@@ -5465,12 +5466,13 @@ class Content
                     }
 
             }
+            $data_to_save['posted_on'] =  $data_to_save['updated_on'];
 
         }
 
 
         $cats_modified = true;
-        $data_to_save['updated_on'] = date("Y-m-d H:i:s");
+
 
         if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
             if (!isset($data_to_save['parent'])) {
@@ -5513,6 +5515,18 @@ class Content
         $data_to_save['allow_html'] = true;
         $this->no_cache = true;
         $save = $this->app->db->save($table, $data_to_save);
+
+        if ($data_to_save['parent'] != 0) {
+            $upd_posted = array();
+            $upd_posted['posted_on'] =  $data_to_save['updated_on'];
+            $upd_posted['id'] = $data_to_save['parent'];
+            $save_posted = $this->app->db->save($table, $upd_posted);
+
+         }
+
+
+
+
         $this->app->cache->delete('content/' . $save);
 
         $this->app->cache->delete('content_fields/global');
