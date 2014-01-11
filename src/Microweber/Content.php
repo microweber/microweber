@@ -4457,7 +4457,7 @@ class Content
 
                 $this->app->cache->delete('content/' . $c_id);
             }
-
+            $this->app->cache->delete('menus');
             $this->app->cache->delete('content');
             $this->app->cache->delete('categories/global');
 

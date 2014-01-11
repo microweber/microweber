@@ -1010,7 +1010,7 @@ class Controller
 
         $aj = $this->app->url->is_ajax();
 
-        if (isset($_REQUEST['live_edit'])) {
+        if (isset($_REQUEST['live_edit']) and $aj==false) {
 
 
             $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';

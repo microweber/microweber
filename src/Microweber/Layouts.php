@@ -349,34 +349,6 @@ class Layouts
         }
     }
 
-    public function get($params = false)
-    {
-
-        $table = MW_DB_TABLE_ELEMENTS;
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $options = $params2;
-        }
-        $params['table'] = $table;
-        $params['group_by'] = 'module';
-        $params['orderby'] = 'position asc';
-
-        $params['cache_group'] = 'elements/global';
-        if (isset($params['id'])) {
-            $params['limit'] = 1;
-        } else {
-            $params['limit'] = 1000;
-        }
-
-        if (!isset($params['ui'])) {
-            //   $params['ui'] = 1;
-        }
-
-        $s = $this->app->db->get($params);
-        // d($params); d( $s);
-        return $s;
-    }
-
     public function get_link($options = false)
     {
         $args = func_get_args();
@@ -483,6 +455,33 @@ class Layouts
         return $save;
     }
 
+    public function get($params = false)
+    {
+
+        $table = MW_DB_TABLE_ELEMENTS;
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $options = $params2;
+        }
+        $params['table'] = $table;
+        $params['group_by'] = 'module';
+        $params['orderby'] = 'position asc';
+
+        $params['cache_group'] = 'elements/global';
+        if (isset($params['id'])) {
+            $params['limit'] = 1;
+        } else {
+            $params['limit'] = 1000;
+        }
+
+        if (!isset($params['ui'])) {
+            //   $params['ui'] = 1;
+        }
+
+        $s = $this->app->db->get($params);
+        // d($params); d( $s);
+        return $s;
+    }
 
     public function delete_all()
     {
@@ -510,29 +509,6 @@ class Layouts
             $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
             $this->app->cache->delete('elements' . DIRECTORY_SEPARATOR . '');
-        }
-    }
-
-    function template_check_for_custom_css($template_name, $check_for_backup = false)
-    {
-        $template = $template_name;
-        if (trim($template) == '') {
-            $template = 'default';
-        }
-        $final_file_blocks = array();
-
-        if ($template != false) {
-
-            $template_folder = MW_TEMPLATES_DIR . $template . DS;
-
-            $live_edit_css = $template_folder . 'live_edit.css';
-            if ($check_for_backup == true) {
-                $live_edit_css = $live_edit_css . '.bak';
-            }
-            $fcont = '';
-            if (is_file($live_edit_css)) {
-                return $live_edit_css;
-            }
         }
     }
 
@@ -579,11 +555,11 @@ class Layouts
                 $tf2 = $tf . '.bak';
 
                 $option = array();
-                 $option['option_value'] = '';
-                  $option['option_key'] = 'template_settings';
-                  $option['option_group'] = 'template_'.$template;
+                $option['option_value'] = '';
+                $option['option_key'] = 'template_settings';
+                $option['option_group'] = 'template_' . $template;
 
-                 $o = save_option($option);
+                $o = save_option($option);
 
                 if (is_file($tf) and rename($tf, $tf2)) {
 
@@ -598,6 +574,32 @@ class Layouts
         }
 
         return $params;
+    }
+
+    function template_check_for_custom_css($template_name, $check_for_backup = false)
+    {
+        $template = $template_name;
+        if (trim($template) == '') {
+            $template = 'default';
+        }
+        $final_file_blocks = array();
+
+        if ($template != false) {
+
+            $template_folder = MW_USERFILES . 'css' . DS . $template . DS;
+
+
+            $live_edit_css = $template_folder . 'live_edit.css';
+
+            // $live_edit_css = $template_folder . 'live_edit.css';
+            if ($check_for_backup == true) {
+                $live_edit_css = $live_edit_css . '.bak';
+            }
+            $fcont = '';
+            if (is_file($live_edit_css)) {
+                return $live_edit_css;
+            }
+        }
     }
 
     function template_save_css($params)
@@ -701,11 +703,10 @@ class Layouts
                 $template_url = MW_TEMPLATES_URL . $template . '/';
                 $this_template_url = THIS_TEMPLATE_URL;
 
-                $template_folder = MW_USERFILES . 'css' . DS . $template.DS;
-                if(!is_dir($template_folder)){
+                $template_folder = MW_USERFILES . 'css' . DS . $template . DS;
+                if (!is_dir($template_folder)) {
                     mkdir_recursive($template_folder);
                 }
-
 
 
                 $live_edit_css = $template_folder . 'live_edit.css';
@@ -753,10 +754,10 @@ class Layouts
                                 $props = explode(',', $item['property']);
                                 $curr = "";
                                 foreach ($props as $prop) {
-									if (isset($item["value"]) and trim($item["value"]) != '') {
-	
-										$curr .= $prop . ":" . $item['value'] . ";";
-									}
+                                    if (isset($item["value"]) and trim($item["value"]) != '') {
+
+                                        $curr .= $prop . ":" . $item['value'] . ";";
+                                    }
                                 }
                             }
                             if ($curr != '') {
@@ -807,7 +808,6 @@ class Layouts
                             }
 
 
-
                             if (trim($item["css"]) != 'reset' and trim($item["css"]) != 'reset;') {
                                 $css_cont_new .= $delim;
                                 if (isset($sel) and trim($sel) == '@import') {
@@ -824,11 +824,15 @@ class Layouts
 
                 }
 
+                $resp = array();
+                $resp['url'] = $this->app->url->link_to_file($live_edit_css);
                 if ($css_cont_new != '' and $css_cont != $css_cont_new) {
 
                     file_put_contents($live_edit_css, $css_cont_new);
-                    print $css_cont_new;
+                    //  print $css_cont_new;
                 }
+                $resp['content'] = $css_cont_new;
+                return $resp;
             }
         }
 
