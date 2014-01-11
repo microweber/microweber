@@ -27,26 +27,26 @@ REPLACE INTO /* MW_PREFIX_PLACEHOLDER */categories VALUES("23","2013-05-23 08:56
 
 REPLACE INTO /* MW_PREFIX_PLACEHOLDER */comments VALUES("1","content","4","2013-05-23 09:22:43","2013-05-23 09:22:43","0","0","Boris","Very nice first post. I love it!\nThis is my first comment on this website. ","sokolov.boris@gmail.com","www.microweber.com","y","{SITE_URL}my-first-post","","y","n","j7i9l0qe881ghsjhffkjcbv226"); /* MW_QUERY_SEPERATOR */
 
- 
-
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("1","2013-05-23 09:21:00","2013-05-23 08:54:23","","1","1","page","home","","Home","0","","","","1","","y","y","n","n","n","","n","static","","","","","","default","mg5b3keckgqp6jusnb4f64f4t6"); /* MW_QUERY_SEPERATOR */
 
 
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("2","2013-05-23 08:56:11","2013-05-23 08:56:11","","1","1","page","blog","","Blog","0","","","","0","","y","n","n","n","n","","n","dynamic","","","layouts/blog.php","","","default","mg5b3keckgqp6jusnb4f64f4t6"); /* MW_QUERY_SEPERATOR */
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("1","2013-05-23 09:21:00","2013-05-23 08:54:23","","1","1","page","home","","Home","0","","","","1","","y","y","n","n","n","","n","static","","","","","","default","mg5b3keckgqp6jusnb4f64f4t6", ""); /* MW_QUERY_SEPERATOR */
 
 
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("3","2013-05-23 08:56:35","2013-05-23 08:56:35","","1","1","page","my-shop","","My Shop","0","","","","0","","y","n","n","y","n","","n","dynamic","","","layouts/shop.php","","","default","mg5b3keckgqp6jusnb4f64f4t6"); /* MW_QUERY_SEPERATOR */
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("2","2013-05-23 08:56:11","2013-05-23 08:56:11","","1","1","page","blog","","Blog","0","","","","0","","y","n","n","n","n","","n","dynamic","","","layouts/blog.php","","","default","mg5b3keckgqp6jusnb4f64f4t6", ""); /* MW_QUERY_SEPERATOR */
 
 
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("4","2013-05-23 09:19:08","2013-05-23 08:57:32","","1","1","post","my-first-post","","My first post","2","","","","2","","y","n","n","n","n","","n","post","","","","","","","mg5b3keckgqp6jusnb4f64f4t6"); /* MW_QUERY_SEPERATOR */
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("3","2013-05-23 08:56:35","2013-05-23 08:56:35","","1","1","page","my-shop","","My Shop","0","","","","0","","y","n","n","y","n","","n","dynamic","","","layouts/shop.php","","","default","mg5b3keckgqp6jusnb4f64f4t6", ""); /* MW_QUERY_SEPERATOR */
 
 
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("5","2013-05-23 09:20:18","2013-05-23 09:05:39","","1","1","post","my-t-shirt-product","","My T-shirt Product","3","","","","3","","y","n","n","n","n","","n","product","","","","","","","mg5b3keckgqp6jusnb4f64f4t6"); /* MW_QUERY_SEPERATOR */
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("4","2013-05-23 09:19:08","2013-05-23 08:57:32","","1","1","post","my-first-post","","My first post","2","","","","2","","y","n","n","n","n","","n","post","","","","","","","mg5b3keckgqp6jusnb4f64f4t6", ""); /* MW_QUERY_SEPERATOR */
 
 
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("6","2013-05-23 09:05:46","2013-05-23 09:05:46","","1","1","post","my-t-shirt-product-20130523090545","","My T-shirt Product","3","","","","4","","y","n","n","n","y","","n","product","","","","","","","mg5b3keckgqp6jusnb4f64f4t6"); /* MW_QUERY_SEPERATOR */
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("5","2013-05-23 09:20:18","2013-05-23 09:05:39","","1","1","post","my-t-shirt-product","","My T-shirt Product","3","","","","3","","y","n","n","n","n","","n","product","","","","","","","mg5b3keckgqp6jusnb4f64f4t6", ""); /* MW_QUERY_SEPERATOR */
 
- 
+
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */content VALUES("6","2013-05-23 09:05:46","2013-05-23 09:05:46","","1","1","post","my-t-shirt-product-20130523090545","","My T-shirt Product","3","","","","4","","y","n","n","n","y","","n","product","","","","","","","mg5b3keckgqp6jusnb4f64f4t6", ""); /* MW_QUERY_SEPERATOR */
+
+
 
 REPLACE INTO /* MW_PREFIX_PLACEHOLDER */custom_fields VALUES("1","content","5","mg5b3keckgqp6jusnb4f64f4t6","0","2013-05-23 09:19:31","2013-05-23 08:59:17","1","1","Price","price","35","price","","35","","","","","y","n",""); /* MW_QUERY_SEPERATOR */
 

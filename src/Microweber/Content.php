@@ -126,7 +126,6 @@ class Content
         $fields_to_add[] = array('updated_on', 'datetime default NULL');
         $fields_to_add[] = array('created_on', 'datetime default NULL');
         $fields_to_add[] = array('expires_on', 'datetime default NULL');
-        $fields_to_add[] = array('posted_on', 'datetime default NULL');
 
         $fields_to_add[] = array('created_by', 'int(11) default NULL');
 
@@ -164,6 +163,8 @@ class Content
         $fields_to_add[] = array('layout_style', 'TEXT default NULL');
         $fields_to_add[] = array('active_site_template', 'TEXT default NULL');
         $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
+        $fields_to_add[] = array('posted_on', 'datetime default NULL');
+
         $this->app->db->build_table($table_name, $fields_to_add);
 
 

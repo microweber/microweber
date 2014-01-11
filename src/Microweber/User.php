@@ -34,6 +34,571 @@ class User
 
     }
 
+    public function db_init()
+    {
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = 'users' . __FUNCTION__ . crc32($function_cache_id);
+
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table_name = MW_DB_TABLE_USERS;
+
+        $fields_to_add = array();
+
+        $fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('expires_on', 'datetime default NULL');
+        $fields_to_add[] = array('last_login', 'datetime default NULL');
+        $fields_to_add[] = array('last_login_ip', 'TEXT default NULL');
+
+        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+
+        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+
+        $fields_to_add[] = array('username', 'TEXT default NULL');
+
+        $fields_to_add[] = array('password', 'TEXT default NULL');
+        $fields_to_add[] = array('email', 'TEXT default NULL');
+
+        $fields_to_add[] = array('is_active', "char(1) default 'n'");
+        $fields_to_add[] = array('is_admin', "char(1) default 'n'");
+        $fields_to_add[] = array('is_verified', "char(1) default 'n'");
+        $fields_to_add[] = array('is_public', "char(1) default 'y'");
+
+        $fields_to_add[] = array('basic_mode', "char(1) default 'n'");
+
+        $fields_to_add[] = array('first_name', 'TEXT default NULL');
+        $fields_to_add[] = array('last_name', 'TEXT default NULL');
+        $fields_to_add[] = array('thumbnail', 'TEXT default NULL');
+
+        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
+
+        $fields_to_add[] = array('api_key', 'TEXT default NULL');
+
+        $fields_to_add[] = array('user_information', 'TEXT default NULL');
+        $fields_to_add[] = array('subscr_id', 'TEXT default NULL');
+        $fields_to_add[] = array('role', 'TEXT default NULL');
+        $fields_to_add[] = array('medium', 'TEXT default NULL');
+
+        $fields_to_add[] = array('oauth_uid', 'TEXT default NULL');
+        $fields_to_add[] = array('oauth_provider', 'TEXT default NULL');
+        $fields_to_add[] = array('oauth_token', 'TEXT default NULL');
+        $fields_to_add[] = array('oauth_token_secret', 'TEXT default NULL');
+
+        $fields_to_add[] = array('profile_url', 'TEXT default NULL');
+        $fields_to_add[] = array('website_url', 'TEXT default NULL');
+        $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
+
+        $this->app->db->build_table($table_name, $fields_to_add);
+
+        $this->app->db->add_table_index('username', $table_name, array('username(255)'));
+        $this->app->db->add_table_index('email', $table_name, array('email(255)'));
+
+
+        $table_name = MW_DB_TABLE_LOG;
+
+        $fields_to_add = array();
+
+        $fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+        $fields_to_add[] = array('rel', 'TEXT default NULL');
+
+        $fields_to_add[] = array('rel_id', 'TEXT default NULL');
+        $fields_to_add[] = array('position', 'int(11) default NULL');
+
+        $fields_to_add[] = array('field', 'longtext default NULL');
+        $fields_to_add[] = array('value', 'TEXT default NULL');
+        $fields_to_add[] = array('module', 'longtext default NULL');
+
+        $fields_to_add[] = array('data_type', 'TEXT default NULL');
+        $fields_to_add[] = array('title', 'longtext default NULL');
+        $fields_to_add[] = array('description', 'TEXT default NULL');
+        $fields_to_add[] = array('content', 'TEXT default NULL');
+        $fields_to_add[] = array('user_ip', 'TEXT default NULL');
+        $fields_to_add[] = array('session_id', 'longtext default NULL');
+        $fields_to_add[] = array('is_system', "char(1) default 'n'");
+
+        $this->app->db->build_table($table_name, $fields_to_add);
+
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
+        return true;
+
+    }
+
+    public function logout()
+    {
+
+        if (!defined('USER_ID')) {
+            define("USER_ID", false);
+        }
+
+        // static $uid;
+        $aj = $this->app->url->is_ajax();
+        mw('user')->session_end();
+
+        if (isset($_COOKIE['editmode'])) {
+            setcookie('editmode');
+        }
+
+        if ($aj == false) {
+            if (isset($_SERVER["HTTP_REFERER"])) {
+                $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
+            }
+        }
+    }
+
+    public function is_logged()
+    {
+
+        if (user_id() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
+
+    public function has_access($function_name)
+    {
+
+        // will be updated with roles and perms
+        $is_a = is_admin();
+
+        if ($is_a == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function admin_access()
+    {
+
+        if (is_admin() == false) {
+            exit('You must be logged as admin');
+        }
+    }
+
+    public function picture($user_id = false)
+    {
+
+
+        $name = $this->get_by_id($user_id);
+        if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
+            return $name['thumbnail'];
+        }
+
+    }
+
+    /**
+     * @function user_name
+     * gets the user's FULL name
+     *
+     * @param $user_id  the id of the user. If false it will use the curent user (you)
+     * @param string $mode full|first|last|username
+     *  'full' //prints full name (first +last)
+     *  'first' //prints first name
+     *  'last' //prints last name
+     *  'username' //prints username
+     * @return string
+     */
+    public function name($user_id = false, $mode = 'full')
+    {
+        if ($mode != 'username') {
+            if ($user_id == user_id()) {
+                // return 'You';
+            }
+        }
+        if ($user_id == false) {
+            $user_id = user_id();
+        }
+
+        $name = $this->nice_name($user_id, $mode);
+        return $name;
+    }
+
+    /**
+     * Function to get user printable name by given ID
+     *
+     * @param  $id
+     * @param string $mode
+     * @return string
+     * @example
+     * <code>
+     * //get user name for user with id 10
+     * $this->nice_name(10, 'full');
+     * </code>
+     * @uses $this->get_by_id()
+     */
+    public function nice_name($id, $mode = 'full')
+    {
+        $user = $this->get_by_id($id);
+        $user_data = $user;
+        if (empty($user)) {
+            return false;
+        }
+
+        switch ($mode) {
+            case 'first' :
+            case 'fist' :
+                // because of a common typo :)
+                $user_data['first_name'] ? $name = $user_data['first_name'] : $name = $user_data['username'];
+                $name = ucwords($name);
+                if (trim($name) == '' and $user_data['email'] != '') {
+                    $n = explode('@', $user_data['email']);
+                    $name = $n[0];
+                }
+                // return $name;
+                break;
+
+            case 'last' :
+                $user_data['last_name'] ? $name = $user_data['last_name'] : $name = $user_data['last_name'];
+                $name = ucwords($name);
+                // return $name;
+                break;
+
+            case 'username' :
+                $name = $user_data['username'];
+                // return $name;
+                break;
+
+            case 'full' :
+            default :
+                $name = $user_data['first_name'] . ' ' . $user_data['last_name'];
+                $name = ucwords($name);
+                if (trim($name) == '' and $user_data['email'] != '') {
+                    $name = $user_data['email'];
+                }
+                if (trim($name) == '' and $user_data['username'] != '') {
+                    $name = $user_data['username'];
+                    $name = ucwords($name);
+                }
+
+                break;
+        }
+
+
+        if (!isset($name) or $name == false or $name == NULL or trim($name) == '') {
+            if (isset($user_data['username']) and $user_data['username'] != false and trim($user_data['username']) != '') {
+                $name = $user_data['username'];
+            } else if (isset($user_data['email']) and $user_data['email'] != false and trim($user_data['email']) != '') {
+                $name = $user_data['email'];
+            }
+        }
+
+        return $name;
+
+    }
+
+    public function is_admin()
+    {
+
+        static $is = 0;
+        if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
+            return true;
+        }
+        if ($is != 0 or defined('USER_IS_ADMIN')) {
+            return $is;
+        } else {
+            $usr = $this->id();
+            if ($usr == false) {
+                return false;
+            }
+            $usr = $this->get($usr);
+
+            if (isset($usr['is_admin']) and $usr['is_admin'] == 'y') {
+                define("USER_IS_ADMIN", true);
+                define("IS_ADMIN", true);
+            } else {
+                define("USER_IS_ADMIN", false);
+                define("IS_ADMIN", false);
+            }
+            $is = USER_IS_ADMIN;
+
+            return USER_IS_ADMIN;
+        }
+    }
+
+    public function id()
+    {
+
+        // static $uid;
+        if (defined('USER_ID')) {
+            // print USER_ID;
+            return USER_ID;
+        } else {
+
+            $user_session = $this->session_get('user_session');
+            if ($user_session == FALSE) {
+                return false;
+            }
+            $res = false;
+            if (isset($user_session['user_id'])) {
+                $res = $user_session['user_id'];
+            }
+
+            if ($res != false) {
+                // $res = $sess->get ( 'user_id' );
+                define("USER_ID", $res);
+            }
+            return $res;
+        }
+    }
+
+    public function get($params = false)
+    {
+        $id = $params;
+        if ($id == false) {
+            $id = user_id();
+        }
+
+        if ($id == 0) {
+            return false;
+        }
+
+        $res = $this->get_by_id($id);
+
+        if (empty($res)) {
+
+            $res = $this->get_by_username($id);
+        }
+
+        return $res;
+    }
+
+    public function get_by_username($username)
+    {
+        $data = array();
+        $data['username'] = $username;
+        $data['limit'] = 1;
+        $data = $this->get_all($data);
+        if (isset($data[0])) {
+            $data = $data[0];
+        }
+        return $data;
+    }
+
+    public function api_login($api_key = false)
+    {
+
+        if ($api_key == false and isset($_REQUEST['api_key']) and user_id() == 0) {
+            $api_key = $_REQUEST['api_key'];
+        }
+
+        if ($api_key == false) {
+            return false;
+        } else {
+            if (trim($api_key) == '') {
+                return false;
+            } else {
+                $api_key = $this->app->db->escape_string($api_key);
+                if (user_id() > 0) {
+                    return true;
+                } else {
+                    $data = array();
+                    $data['api_key'] = $api_key;
+                    $data['is_active'] = 'y';
+                    $data['limit'] = 1;
+
+                    $data = $this->get_all($data);
+
+                    if ($data != false) {
+                        if (isset($data[0])) {
+                            $data = $data[0];
+
+                            if (isset($data['api_key']) and $data['api_key'] == $api_key) {
+                                return $this->login($data);
+
+                            }
+
+                        }
+
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    public function session_end()
+    {
+
+
+        $_SESSION = array();
+
+        // If it's desired to kill the session, also delete the session cookie.
+        // Note: This will destroy the session, and not just the session data!
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        session_destroy();
+        //session_write_close();
+        unset($_SESSION);
+
+    }
+
+    public function register($params)
+    {
+
+
+        $user = isset($params['username']) ? $params['username'] : false;
+        $pass = isset($params['password']) ? $params['password'] : false;
+        $email = isset($params['email']) ? $params['email'] : false;
+        $pass2 = $pass;
+        $pass = $this->hash_pass($pass);
+
+        if (!isset($params['captcha'])) {
+            return array('error' => 'Please enter the captcha answer!');
+        } else {
+            $cap = $this->session_get('captcha');
+            if ($cap == false) {
+                return array('error' => 'You must load a captcha first!');
+            }
+            if ($params['captcha'] != $cap) {
+                return array('error' => 'Invalid captcha answer!');
+            }
+        }
+
+        $override = event_trigger('before_user_register', $params);
+
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (isset($resp['error']) or isset($resp['success'])) {
+                    return $resp;
+                }
+            }
+        }
+//    if (!isset($params['password'])) {
+//        return array('error' => 'Please set password!');
+//    } else {
+//        if ($params['password'] == '') {
+//            return array('error' => 'Please set password!');
+//        }
+//    }
+
+
+        if (isset($params['password']) and  ($params['password']) != '') {
+            if ($email != false) {
+
+                $data = array();
+                $data['email'] = $email;
+                $data['password'] = $pass;
+                $data['oauth_uid'] = '[null]';
+                $data['oauth_provider'] = '[null]';
+                $data['one'] = true;
+                // $data ['is_active'] = 'y';
+                $user_data = $this->get_all($data);
+
+
+                if (empty($user_data)) {
+
+                    $data = array();
+                    $data['username'] = $email;
+                    $data['password'] = $pass;
+                    $data['oauth_uid'] = '[null]';
+                    $data['oauth_provider'] = '[null]';
+                    $data['one'] = true;
+                    // $data ['is_active'] = 'y';
+                    $user_data = $this->get_all($data);
+                }
+
+                if (empty($user_data)) {
+                    $data = array();
+
+
+                    $data['username'] = $email;
+                    $data['password'] = $pass;
+                    $data['is_active'] = 'n';
+
+                    $table = MW_TABLE_PREFIX . 'users';
+
+                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
+                    $next = $this->app->db->last_id($table);
+                    $next = intval($next) + 1;
+                    $q = "INSERT INTO $table (id,email, password, is_active)
+			VALUES ($next, '$email', '$pass', 'y')";
+
+
+                    $this->app->db->q($q);
+                    $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
+                    //$data = save_user($data);
+                    $this->session_del('captcha');
+
+                    $notif = array();
+                    $notif['module'] = "users";
+                    $notif['rel'] = 'users';
+                    $notif['rel_id'] = $next;
+                    $notif['title'] = "New user registration";
+                    $notif['description'] = "You have new user registration";
+                    $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
+                    $this->app->notifications->save($notif);
+
+                    $this->app->log->save($notif);
+
+
+                    $params = $data;
+                    $params['id'] = $next;
+                    if (isset($pass2)) {
+                        $params['password2'] = $pass2;
+                    }
+                    event_trigger('after_user_register', $params);
+                    //$this->login('email='.$email.'&password='.$pass);
+
+
+                    return array('success' => 'You have registered successfully');
+
+                    //return array($next);
+                } else {
+
+                    if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
+                        if (isset($user_data['email']) && $user_data['email'] != '') {
+                            $is_logged = $this->login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
+                        } else if (isset($user_data['username']) && $user_data['username'] != '') {
+                            $is_logged = $this->login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
+                        }
+                        if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
+                            return ($is_logged);
+                            // $user_session['success']
+                        }
+
+                    }
+
+
+                    return array('error' => 'This user already exists!');
+                }
+            }
+        }
+
+
+    }
+
+    public function session_del($name)
+    {
+        if (isset($_SESSION[$name])) {
+            unset($_SESSION[$name]);
+        }
+    }
 
     /**
      * Allows you to login a user into the system
@@ -113,7 +678,7 @@ class User
             $this->app->url->redirect($redirect_after);
             exit();
         } elseif ($overiden == true) {
-            return $resp; 
+            return $resp;
         }
 
         //$is_logged =  $this->session_get('user_session');
@@ -320,313 +885,38 @@ class User
         return false;
     }
 
-
-    public function logout()
+    public function login_set_failed_attempt()
     {
 
-        if (!defined('USER_ID')) {
-            define("USER_ID", false);
-        }
+        $this->app->log->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
-        // static $uid;
-        $aj = $this->app->url->is_ajax();
-        mw('user')->session_end();
+    }
 
-        if (isset($_COOKIE['editmode'])) {
-            setcookie('editmode');
-        }
+    public function session_set($name, $val)
+    {
 
-        if ($aj == false) {
-            if (isset($_SERVER["HTTP_REFERER"])) {
-                $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
+
+        if (!defined('MW_NO_SESSION') and !headers_sent()) {
+            if (!isset($_SESSION)) {
+                session_set_cookie_params(86400);
+                ini_set('session.gc_maxlifetime', 86400);
+                session_start();
+                $_SESSION['ip'] = MW_USER_IP;
+
             }
-        }
-    }
-
-    public function is_logged()
-    {
-
-        if (user_id() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-
-
-    }
-
-    public function has_access($function_name)
-    {
-
-        // will be updated with roles and perms
-        $is_a = is_admin();
-
-        if ($is_a == true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function admin_access()
-    {
-
-        if (is_admin() == false) {
-            exit('You must be logged as admin');
-        }
-    }
-
-    public function picture($user_id = false)
-    {
-
-
-        $name = $this->get_by_id($user_id);
-        if (isset($name['thumbnail']) and $name['thumbnail'] != '') {
-            return $name['thumbnail'];
-        }
-
-    }
-
-    /**
-     * @function user_name
-     * gets the user's FULL name
-     *
-     * @param $user_id  the id of the user. If false it will use the curent user (you)
-     * @param string $mode full|first|last|username
-     *  'full' //prints full name (first +last)
-     *  'first' //prints first name
-     *  'last' //prints last name
-     *  'username' //prints username
-     * @return string
-     */
-    public function name($user_id = false, $mode = 'full')
-    {
-        if ($mode != 'username') {
-            if ($user_id == user_id()) {
-                // return 'You';
-            }
-        }
-        if ($user_id == false) {
-            $user_id = user_id();
-        }
-
-        $name = $this->nice_name($user_id, $mode);
-        return $name;
-    }
-
-    /**
-     * Generic function to get the user by id.
-     * Uses the getUsers function to get the data
-     *
-     * @param
-     *            int id
-     * @return array
-     *
-     */
-    public function get_by_id($id)
-    {
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
-        }
-
-        $data = array();
-        $data['id'] = $id;
-        $data['limit'] = 1;
-        $data = $this->get_all($data);
-        if (isset($data[0])) {
-            $data = $data[0];
-        }
-        return $data;
-    }
-
-    public function get_by_username($username)
-    {
-        $data = array();
-        $data['username'] = $username;
-        $data['limit'] = 1;
-        $data = $this->get_all($data);
-        if (isset($data[0])) {
-            $data = $data[0];
-        }
-        return $data;
-    }
-
-    public function get($params = false)
-    {
-        $id = $params;
-        if ($id == false) {
-            $id = user_id();
-        }
-
-        if ($id == 0) {
-            return false;
-        }
-
-        $res = $this->get_by_id($id);
-
-        if (empty($res)) {
-
-            $res = $this->get_by_username($id);
-        }
-
-        return $res;
-    }
-
-
-    /**
-     * @function get_users
-     *
-     * @param $params array|string;
-     * @params $params['username'] string username for user
-     * @params $params['email'] string email for user
-     * @params $params['password'] string password for user
-     *
-     *
-     * @usage $this->get_all('email=my_email');
-     *
-     *
-     * @return array of users;
-     */
-    public function get_all($params)
-    {
-        $params = parse_params($params);
-
-        $table = MW_DB_TABLE_USERS;
-
-        $data = $this->app->format->clean_html($params);
-        $orig_data = $data;
-
-        if (isset($data['ids']) and is_array($data['ids'])) {
-            if (!empty($data['ids'])) {
-                $ids = $data['ids'];
-            }
-        }
-        if (!isset($params['search_in_fields'])) {
-            $data['search_in_fields'] = array('first_name', 'last_name', 'username', 'email');
-            // $data ['debug'] = 1;
-        }
-
-        $cache_group = 'users/global';
-        if (isset($data['id']) and intval($data['id']) != 0) {
-            $cache_group = 'users/' . $data['id'];
-        } else {
-
-        }
-        $cache_group = 'users/global';
-        if (isset($limit) and $limit != false) {
-            $data['limit'] = $limit;
-        }
-
-        if (isset($count_only) and $count_only != false) {
-            $data['get_count'] = $count_only;
-        }
-
-        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
-            $only_those_fields = $data['only_those_fields'];
-        }
-
-        if (isset($data['count']) and $data['count']) {
-            $count_only = $data['count'];
-        }
-
-        //$data ['no_cache'] = 1;
-
-        if (isset($data['username']) and $data['username'] == null) {
-            unset($data['username']);
-        }
-        if (isset($data['username']) and $data['username'] == '') {
-            //return false;
-        }
-
-        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $data['table'] = $table;
-        //  $data ['cache_group'] = $cache_group;
-
-        $get = $this->app->db->get($data);
-
-        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // var_dump($get, $function_cache_id, $cache_group);
-        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
-
-        return $get;
-    }
-
-    public function is_admin()
-    {
-
-        static $is = 0;
-        if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
-            return true;
-        }
-        if ($is != 0 or defined('USER_IS_ADMIN')) {
-            return $is;
-        } else {
-            $usr = $this->id();
-            if ($usr == false) {
-                return false;
-            }
-            $usr = $this->get($usr);
-
-            if (isset($usr['is_admin']) and $usr['is_admin'] == 'y') {
-                define("USER_IS_ADMIN", true);
-                define("IS_ADMIN", true);
+            if ($val == false) {
+                mw('user')->session_del($name);
             } else {
-                define("USER_IS_ADMIN", false);
-                define("IS_ADMIN", false);
-            }
-            $is = USER_IS_ADMIN;
+                $is_the_same = $this->session_get($name);
 
-            return USER_IS_ADMIN;
+                if ($is_the_same != $val) {
+                    $_SESSION[$name] = $val;
+
+                    //session_write_close();
+                    //$_SESSION['ip']=MW_USER_IP;
+                }
+            }
         }
-    }
-
-    public function id()
-    {
-
-        // static $uid;
-        if (defined('USER_ID')) {
-            // print USER_ID;
-            return USER_ID;
-        } else {
-
-            $user_session = $this->session_get('user_session');
-            if ($user_session == FALSE) {
-                return false;
-            }
-            $res = false;
-            if (isset($user_session['user_id'])) {
-                $res = $user_session['user_id'];
-            }
-
-            if ($res != false) {
-                // $res = $sess->get ( 'user_id' );
-                define("USER_ID", $res);
-            }
-            return $res;
-        }
-    }
-
-    public function update_last_login_time()
-    {
-
-        $uid = user_id();
-        if (intval($uid) > 0) {
-
-            $data_to_save = array();
-            $data_to_save['id'] = $uid;
-            $data_to_save['last_login'] = date("Y-m-d H:i:s");
-            $data_to_save['last_login_ip'] = MW_USER_IP;
-
-            $table = MW_DB_TABLE_USERS;
-            mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
-            $save = $this->app->db->save($table, $data_to_save);
-
-            $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
-
-        }
-
     }
 
     public function make_logged($user_id)
@@ -665,477 +955,52 @@ class User
 
     }
 
-    public function hash_pass($pass)
-    {
-
-        // Currently only md5 is supported for portability
-        // Will improve this soon!
-
-        //$hash = password_hash($pass, PASSWORD_BCRYPT);
-        //
-        $hash = md5($pass);
-        if ($hash == false) {
-            $hash = $this->app->db->escape_string($hash);
-            return $pass;
-        }
-        return $hash;
-
-    }
-
-    public function login_set_failed_attempt()
-    {
-
-        $this->app->log->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
-
-    }
-
-    public function api_login($api_key = false)
-    {
-
-        if ($api_key == false and isset($_REQUEST['api_key']) and user_id() == 0) {
-            $api_key = $_REQUEST['api_key'];
-        }
-
-        if ($api_key == false) {
-            return false;
-        } else {
-            if (trim($api_key) == '') {
-                return false;
-            } else {
-                $api_key = $this->app->db->escape_string($api_key);
-                if (user_id() > 0) {
-                    return true;
-                } else {
-                    $data = array();
-                    $data['api_key'] = $api_key;
-                    $data['is_active'] = 'y';
-                    $data['limit'] = 1;
-
-                    $data = $this->get_all($data);
-
-                    if ($data != false) {
-                        if (isset($data[0])) {
-                            $data = $data[0];
-
-                            if (isset($data['api_key']) and $data['api_key'] == $api_key) {
-                                return $this->login($data);
-
-                            }
-
-                        }
-
-                    }
-                }
-
-            }
-        }
-
-    }
-
-
     /**
-     * Function to get user printable name by given ID
+     * Generic function to get the user by id.
+     * Uses the getUsers function to get the data
      *
-     * @param  $id
-     * @param string $mode
-     * @return string
-     * @example
-     * <code>
-     * //get user name for user with id 10
-     * $this->nice_name(10, 'full');
-     * </code>
-     * @uses $this->get_by_id()
+     * @param
+     *            int id
+     * @return array
+     *
      */
-    public function nice_name($id, $mode = 'full')
+    public function get_by_id($id)
     {
-        $user = $this->get_by_id($id);
-        $user_data = $user;
-        if (empty($user)) {
+        $id = intval($id);
+        if ($id == 0) {
             return false;
         }
 
-        switch ($mode) {
-            case 'first' :
-            case 'fist' :
-                // because of a common typo :)
-                $user_data['first_name'] ? $name = $user_data['first_name'] : $name = $user_data['username'];
-                $name = ucwords($name);
-                if (trim($name) == '' and $user_data['email'] != '') {
-                    $n = explode('@', $user_data['email']);
-                    $name = $n[0];
-                }
-                // return $name;
-                break;
-
-            case 'last' :
-                $user_data['last_name'] ? $name = $user_data['last_name'] : $name = $user_data['last_name'];
-                $name = ucwords($name);
-                // return $name;
-                break;
-
-            case 'username' :
-                $name = $user_data['username'];
-                // return $name;
-                break;
-
-            case 'full' :
-            default :
-                $name = $user_data['first_name'] . ' ' . $user_data['last_name'];
-                $name = ucwords($name);
-                if (trim($name) == '' and $user_data['email'] != '') {
-                    $name = $user_data['email'];
-                }
-                if (trim($name) == '' and $user_data['username'] != '') {
-                    $name = $user_data['username'];
-                    $name = ucwords($name);
-                }
-
-                break;
+        $data = array();
+        $data['id'] = $id;
+        $data['limit'] = 1;
+        $data = $this->get_all($data);
+        if (isset($data[0])) {
+            $data = $data[0];
         }
-
-
-        if (!isset($name) or $name == false or $name == NULL or trim($name) == '') {
-            if (isset($user_data['username']) and $user_data['username'] != false and trim($user_data['username']) != '') {
-                $name = $user_data['username'];
-            } else if (isset($user_data['email']) and $user_data['email'] != false and trim($user_data['email']) != '') {
-                $name = $user_data['email'];
-            }
-        }
-
-        return $name;
-
+        return $data;
     }
 
-    public function db_init()
-    {
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = 'users' . __FUNCTION__ . crc32($function_cache_id);
-
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table_name = MW_DB_TABLE_USERS;
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('expires_on', 'datetime default NULL');
-        $fields_to_add[] = array('last_login', 'datetime default NULL');
-        $fields_to_add[] = array('last_login_ip', 'TEXT default NULL');
-
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-
-        $fields_to_add[] = array('username', 'TEXT default NULL');
-
-        $fields_to_add[] = array('password', 'TEXT default NULL');
-        $fields_to_add[] = array('email', 'TEXT default NULL');
-
-        $fields_to_add[] = array('is_active', "char(1) default 'n'");
-        $fields_to_add[] = array('is_admin', "char(1) default 'n'");
-        $fields_to_add[] = array('is_verified', "char(1) default 'n'");
-        $fields_to_add[] = array('is_public', "char(1) default 'y'");
-
-        $fields_to_add[] = array('basic_mode', "char(1) default 'n'");
-
-        $fields_to_add[] = array('first_name', 'TEXT default NULL');
-        $fields_to_add[] = array('last_name', 'TEXT default NULL');
-        $fields_to_add[] = array('thumbnail', 'TEXT default NULL');
-
-        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
-
-        $fields_to_add[] = array('api_key', 'TEXT default NULL');
-
-        $fields_to_add[] = array('user_information', 'TEXT default NULL');
-        $fields_to_add[] = array('subscr_id', 'TEXT default NULL');
-        $fields_to_add[] = array('role', 'TEXT default NULL');
-        $fields_to_add[] = array('medium', 'TEXT default NULL');
-
-        $fields_to_add[] = array('oauth_uid', 'TEXT default NULL');
-        $fields_to_add[] = array('oauth_provider', 'TEXT default NULL');
-        $fields_to_add[] = array('oauth_token', 'TEXT default NULL');
-        $fields_to_add[] = array('oauth_token_secret', 'TEXT default NULL');
-
-        $fields_to_add[] = array('profile_url', 'TEXT default NULL');
-        $fields_to_add[] = array('website_url', 'TEXT default NULL');
-        $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
-
-        $this->app->db->build_table($table_name, $fields_to_add);
-
-        $this->app->db->add_table_index('username', $table_name, array('username(255)'));
-        $this->app->db->add_table_index('email', $table_name, array('email(255)'));
-
-
-        $table_name = MW_DB_TABLE_LOG;
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-        $fields_to_add[] = array('rel', 'TEXT default NULL');
-
-        $fields_to_add[] = array('rel_id', 'TEXT default NULL');
-        $fields_to_add[] = array('position', 'int(11) default NULL');
-
-        $fields_to_add[] = array('field', 'longtext default NULL');
-        $fields_to_add[] = array('value', 'TEXT default NULL');
-        $fields_to_add[] = array('module', 'longtext default NULL');
-
-        $fields_to_add[] = array('data_type', 'TEXT default NULL');
-        $fields_to_add[] = array('title', 'longtext default NULL');
-        $fields_to_add[] = array('description', 'TEXT default NULL');
-        $fields_to_add[] = array('content', 'TEXT default NULL');
-        $fields_to_add[] = array('user_ip', 'TEXT default NULL');
-        $fields_to_add[] = array('session_id', 'longtext default NULL');
-        $fields_to_add[] = array('is_system', "char(1) default 'n'");
-
-        $this->app->db->build_table($table_name, $fields_to_add);
-
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
-        return true;
-
-    }
-
-
-    public function session_set($name, $val)
+    public function update_last_login_time()
     {
 
+        $uid = user_id();
+        if (intval($uid) > 0) {
 
-        if (!defined('MW_NO_SESSION') and !headers_sent()) {
-            if (!isset($_SESSION)) {
-                session_set_cookie_params(86400);
-                ini_set('session.gc_maxlifetime', 86400);
-                session_start();
-                $_SESSION['ip'] = MW_USER_IP;
+            $data_to_save = array();
+            $data_to_save['id'] = $uid;
+            $data_to_save['last_login'] = date("Y-m-d H:i:s");
+            $data_to_save['last_login_ip'] = MW_USER_IP;
 
-            }
-            if ($val == false) {
-                mw('user')->session_del($name);
-            } else {
-                $is_the_same = $this->session_get($name);
+            $table = MW_DB_TABLE_USERS;
+            mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
+            $save = $this->app->db->save($table, $data_to_save);
 
-                if ($is_the_same != $val) {
-                    $_SESSION[$name] = $val;
+            $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
-                    //session_write_close();
-                    //$_SESSION['ip']=MW_USER_IP;
-                }
-            }
         }
-    }
-
-    public function session_get($name)
-    {
-        if (!defined('MW_NO_SESSION')) {
-            if (!headers_sent()) {
-                if (!isset($_SESSION)) {
-                    //return false;
-                    session_start();
-                    //d($_SESSION);
-                    $_SESSION['ip'] = MW_USER_IP;
-                }
-            }
-            // probable timout here?!
-        }
-        //
-        if (isset($_SESSION) and isset($_SESSION[$name])) {
-
-
-            if (!isset($_SESSION['ip'])) {
-                $_SESSION['ip'] = MW_USER_IP;
-            } else if ($_SESSION['ip'] != MW_USER_IP) {
-
-                // mw('user')->session_end();
-                return false;
-            }
-
-            $value = ($_SESSION[$name]);
-            return $value;
-        } else {
-            return false;
-        }
-    }
-
-    public function session_del($name)
-    {
-        if (isset($_SESSION[$name])) {
-            unset($_SESSION[$name]);
-        }
-    }
-
-    public function session_end()
-    {
-
-
-        $_SESSION = array();
-
-        // If it's desired to kill the session, also delete the session cookie.
-        // Note: This will destroy the session, and not just the session data!
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
-            );
-        }
-        session_destroy();
-        //session_write_close();
-        unset($_SESSION);
 
     }
-
-
-    public function register($params)
-    {
-
-
-        $user = isset($params['username']) ? $params['username'] : false;
-        $pass = isset($params['password']) ? $params['password'] : false;
-        $email = isset($params['email']) ? $params['email'] : false;
-        $pass2 = $pass;
-        $pass = $this->hash_pass($pass);
-
-        if (!isset($params['captcha'])) {
-            return array('error' => 'Please enter the captcha answer!');
-        } else {
-            $cap = $this->session_get('captcha');
-            if ($cap == false) {
-                return array('error' => 'You must load a captcha first!');
-            }
-            if ($params['captcha'] != $cap) {
-                return array('error' => 'Invalid captcha answer!');
-            }
-        }
-
-        $override = event_trigger('before_user_register', $params);
-
-        if (is_array($override)) {
-            foreach ($override as $resp) {
-                if (isset($resp['error']) or isset($resp['success'])) {
-                    return $resp;
-                }
-            }
-        }
-//    if (!isset($params['password'])) {
-//        return array('error' => 'Please set password!');
-//    } else {
-//        if ($params['password'] == '') {
-//            return array('error' => 'Please set password!');
-//        }
-//    }
-
-
-        if (isset($params['password']) and  ($params['password']) != '') {
-            if ($email != false) {
-
-                $data = array();
-                $data['email'] = $email;
-                $data['password'] = $pass;
-                $data['oauth_uid'] = '[null]';
-                $data['oauth_provider'] = '[null]';
-                $data['one'] = true;
-                // $data ['is_active'] = 'y';
-                $user_data = $this->get_all($data);
-
-
-                if (empty($user_data)) {
-
-                    $data = array();
-                    $data['username'] = $email;
-                    $data['password'] = $pass;
-                    $data['oauth_uid'] = '[null]';
-                    $data['oauth_provider'] = '[null]';
-                    $data['one'] = true;
-                    // $data ['is_active'] = 'y';
-                    $user_data = $this->get_all($data);
-                }
-
-                if (empty($user_data)) {
-                    $data = array();
-
-
-                    $data['username'] = $email;
-                    $data['password'] = $pass;
-                    $data['is_active'] = 'n';
-
-                    $table = MW_TABLE_PREFIX . 'users';
-
-                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-                    $next = $this->app->db->last_id($table);
-                    $next = intval($next) + 1;
-                    $q = "INSERT INTO $table (id,email, password, is_active)
-			VALUES ($next, '$email', '$pass', 'y')";
-
-
-                    $this->app->db->q($q);
-                    $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
-                    //$data = save_user($data);
-                    $this->session_del('captcha');
-
-                    $notif = array();
-                    $notif['module'] = "users";
-                    $notif['rel'] = 'users';
-                    $notif['rel_id'] = $next;
-                    $notif['title'] = "New user registration";
-                    $notif['description'] = "You have new user registration";
-                    $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-                    $this->app->notifications->save($notif);
-
-                    $this->app->log->save($notif);
-
-
-                    $params = $data;
-                    $params['id'] = $next;
-                    if (isset($pass2)) {
-                        $params['password2'] = $pass2;
-                    }
-                    event_trigger('after_user_register', $params);
-                    //$this->login('email='.$email.'&password='.$pass);
-
-
-                    return array('success' => 'You have registered successfully');
-
-                    //return array($next);
-                } else {
-
-                    if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
-                        if (isset($user_data['email']) && $user_data['email'] != '') {
-                            $is_logged = $this->login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
-                        } else if (isset($user_data['username']) && $user_data['username'] != '') {
-                            $is_logged = $this->login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
-                        }
-                        if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
-                            return ($is_logged);
-                            // $user_session['success']
-                        }
-
-                    }
-
-
-                    return array('error' => 'This user already exists!');
-                }
-            }
-        }
-
-
-    }
-
 
     /**
      * Allows you to save users in the database
@@ -1245,7 +1110,6 @@ class User
         return $data;
     }
 
-
     public function reset_password_from_link($params)
     {
         if (!isset($params['captcha'])) {
@@ -1312,6 +1176,140 @@ class User
         $this->app->log->save($notif);
 
         return array('success' => 'Your password have been changed!');
+
+    }
+
+    public function session_get($name)
+    {
+        if (!defined('MW_NO_SESSION')) {
+            if (!headers_sent()) {
+                if (!isset($_SESSION)) {
+                    //return false;
+                    $start = session_start();
+                    if ($start == false) {
+
+                        session_regenerate_id();
+
+                        $start = session_id();
+                    }
+                    //d($_SESSION);
+                    $_SESSION['ip'] = MW_USER_IP;
+                }
+            }
+            // probable timout here?!
+        }
+        //
+        if (isset($_SESSION) and isset($_SESSION[$name])) {
+
+
+            if (!isset($_SESSION['ip'])) {
+                $_SESSION['ip'] = MW_USER_IP;
+            } else if ($_SESSION['ip'] != MW_USER_IP) {
+
+                // mw('user')->session_end();
+                return false;
+            }
+
+            $value = ($_SESSION[$name]);
+            return $value;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @function get_users
+     *
+     * @param $params array|string;
+     * @params $params['username'] string username for user
+     * @params $params['email'] string email for user
+     * @params $params['password'] string password for user
+     *
+     *
+     * @usage $this->get_all('email=my_email');
+     *
+     *
+     * @return array of users;
+     */
+    public function get_all($params)
+    {
+        $params = parse_params($params);
+
+        $table = MW_DB_TABLE_USERS;
+
+        $data = $this->app->format->clean_html($params);
+        $orig_data = $data;
+
+        if (isset($data['ids']) and is_array($data['ids'])) {
+            if (!empty($data['ids'])) {
+                $ids = $data['ids'];
+            }
+        }
+        if (!isset($params['search_in_fields'])) {
+            $data['search_in_fields'] = array('first_name', 'last_name', 'username', 'email');
+            // $data ['debug'] = 1;
+        }
+
+        $cache_group = 'users/global';
+        if (isset($data['id']) and intval($data['id']) != 0) {
+            $cache_group = 'users/' . $data['id'];
+        } else {
+
+        }
+        $cache_group = 'users/global';
+        if (isset($limit) and $limit != false) {
+            $data['limit'] = $limit;
+        }
+
+        if (isset($count_only) and $count_only != false) {
+            $data['get_count'] = $count_only;
+        }
+
+        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
+            $only_those_fields = $data['only_those_fields'];
+        }
+
+        if (isset($data['count']) and $data['count']) {
+            $count_only = $data['count'];
+        }
+
+        //$data ['no_cache'] = 1;
+
+        if (isset($data['username']) and $data['username'] == null) {
+            unset($data['username']);
+        }
+        if (isset($data['username']) and $data['username'] == '') {
+            //return false;
+        }
+
+        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $data['table'] = $table;
+        //  $data ['cache_group'] = $cache_group;
+
+        $get = $this->app->db->get($data);
+
+        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        // var_dump($get, $function_cache_id, $cache_group);
+        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
+
+        return $get;
+    }
+
+    public function hash_pass($pass)
+    {
+
+        // Currently only md5 is supported for portability
+        // Will improve this soon!
+
+        //$hash = password_hash($pass, PASSWORD_BCRYPT);
+        //
+        $hash = md5($pass);
+        if ($hash == false) {
+            $hash = $this->app->db->escape_string($hash);
+            return $pass;
+        }
+        return $hash;
 
     }
 
@@ -1419,7 +1417,6 @@ class User
         }
 
     }
-
 
     public function  social_login($params)
     {
@@ -1574,7 +1571,6 @@ class User
 
     }
 
-
     public function count()
     {
         $options = array();
@@ -1588,7 +1584,6 @@ class User
 
         return $data;
     }
-
 
     function social_login_exception_handler($exception = false)
     {

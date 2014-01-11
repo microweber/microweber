@@ -575,7 +575,8 @@ class Backup
     function exec_restore($params = false)
     {
         if (!is_admin()) {
-            error("must be admin");
+            return array('error' => "must be admin");
+
         }
 
         ignore_user_abort(true);
@@ -583,6 +584,7 @@ class Backup
         ini_set('memory_limit', '512M');
         set_time_limit(0);
         $loc = $this->backup_file;
+
         // Get the provided arg
         if (isset($params['id'])) {
             $id = $params['id'];
@@ -600,7 +602,7 @@ class Backup
         if ($id == NULL) {
 
             return array('error' => "You have not provided a backup to restore.");
-            die();
+
         }
 
         $here = $this->get_bakup_location();
@@ -674,10 +676,7 @@ class Backup
             $sqlStmt = '';
 
             // Restore the backup
-            //	$con = mysql_connect($DBhost, $DBuser, $DBpass);
-            //if ($con !== false) {
-            // Load and explode the sql file
-            //	mysql_select_db("$DBName");
+
             $f = fopen($filename, "r+");
             $sqlFile = fread($f, filesize($filename));
             $sqlArray = explode($this->file_q_sep, $sqlFile);
@@ -689,8 +688,6 @@ class Backup
 
                 if (strlen($stmt) > 3) {
                     try {
-                        //$result = mysql_query($stmt);
-
                         mw('db')->q($stmt);
                         //	print $stmt;
                     } catch (Exception $e) {
@@ -1412,6 +1409,59 @@ class Backup
 
     // Read a file and display its content chunk by chunk
 
+    function get_bakup_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            error("must be admin");
+        }
+
+        $loc = $this->backups_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_USERFILES . "backup" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_USERFILES . "backup" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('backup_location', 'admin/backup');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->backups_folder = $loc;
+        return $here;
+    }
+
     function delete($params)
     {
         if (!is_admin()) {
@@ -1502,59 +1552,6 @@ class Backup
         } else {
             die('File does not exist');
         }
-    }
-
-    function get_bakup_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            error("must be admin");
-        }
-
-        $loc = $this->backups_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "backup" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "backup" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('backup_location', 'admin/backup');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->backups_folder = $loc;
-        return $here;
     }
 
     function readfile_chunked($filename, $retbytes = TRUE)
