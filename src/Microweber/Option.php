@@ -411,7 +411,7 @@ class Option
 //
 
                 $data['allow_html'] = true;
-
+                $data['allow_scripts'] = true;
                 $save = $this->app->db->save($table, $data);
 
                 if ($option_group != false) {

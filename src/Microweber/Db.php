@@ -2064,9 +2064,15 @@ class Db
         }
 
         $allow_html = false;
+        $allow_scripts = false;
         if (isset($data['allow_html']) and (!isset($_REQUEST['allow_html']))) {
             $allow_html = $data['allow_html'];
         }
+        if (isset($data['allow_scripts']) and (!isset($_REQUEST['allow_scripts']))) {
+            $allow_scripts = $data['allow_scripts'];
+        }
+
+
 
         if (isset($data['debug']) and $data['debug'] == true) {
             $dbg = 1;
@@ -2117,7 +2123,9 @@ class Db
             $criteria = $this->app->format->clean_html($criteria);
 
         } else {
+            if($allow_scripts ==false){
             $criteria = $this->clean_input($criteria);
+            }
 
         }
 

@@ -1701,7 +1701,10 @@ class Controller
 
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
-
+            $website_head_tags = $this->app->option->get('website_head', 'website');;
+            if($website_head_tags != false){
+                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l);
+            }
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
 
