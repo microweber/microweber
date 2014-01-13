@@ -157,9 +157,36 @@ $(document).ready(function(){
         mw.e.cancel(e, true);
         mw.drag.save(mwd.getElementById('main-save-btn'));
      }
-   })
+   });
 
-   mw.edits = mw.$('.edit');
+   if(!mw.isBasicMode){
+     mw.edits = mw.$('.edit');
+     mw.nonEdits = false;
+   }
+   else{
+      mw.edits = $();
+      mw.nonEdits = $();
+      mw.$('.edit').each(function(){
+           var rel = mw.tools.mwattr(this, "rel");
+           if(rel == 'content' || rel == 'post' || rel == 'page'){
+               mw.edits.push(this);
+           }
+           else{
+               mw.nonEdits.push(this);
+           }
+      });
+
+      if(mw.nonEdits.length > 0){
+          mw.nonEdits.bind("dblclick", function(e){
+             if(e.target.nodeName !== 'A' && !mw.tools.hasParentsWithTag(e.target, 'a')){
+               Alert('Go to advanced mode to edit this section')
+             }
+          });
+      }
+
+   }
+
+
 
 
 
@@ -207,7 +234,6 @@ $(document).ready(function(){
    }
 
    $(mwd.body).bind("mousedown mouseup", function(e){
-
      if(e.type == 'mousedown'){
        if(!mw.tools.hasClass(e.target, 'ui-resizable-handle') && !mw.tools.hasParentsWithClass(e.target, 'ui-resizable-handle')){
           mw.tools.addClass(mwd.body, 'state-element')
@@ -282,7 +308,7 @@ mw.drag = {
          mw.$("#live_edit_toolbar_holder .module").removeClass("module");
 
          $(mwd.body).mousemove(function(event){
-
+         mw.tools.removeClass(this, 'isTyping');
 
          mw.velement(event.target, function(){
 
@@ -2645,7 +2671,8 @@ $(document).ready(function(){
       var rel = mw.tools.mwattr(this, "rel");
       if(rel != 'content' && rel != 'post' && rel != 'page'){
         $(this).attr("contenteditable", "false").removeClass("edit");
-        $(this).addClass("disabledEDIT")
+        $(this).addClass("disabledEDIT");
+        $(this).removeAttr("rel").removeAttr("field");
         mw.$('.empty-element', this).remove();
         mw.$('.mw-col > .ui-resizable-handle', this).remove();
       }

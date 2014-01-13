@@ -186,7 +186,19 @@
                                         class="ico ibackarr"></span><span><?php _e("Back to Admin"); ?></span></a>
                             </li>
                             <li>
+                                    <script>
+
+                                        mw.userCanSwitchMode = false;
+
+                                    </script>
                                 <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
+
+                                    <script>
+
+                                        mw.userCanSwitchMode = true;
+
+                                    </script>
+
 
                                     <?php if (isset($_COOKIE['advancedmode']) and $_COOKIE['advancedmode'] == 'true') { ?>
 
