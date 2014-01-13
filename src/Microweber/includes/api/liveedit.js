@@ -16,6 +16,13 @@ mw.mouseDownStarted = false;
 mw.SmallEditorIsDragging = false;
 
 
+mw.doNotBindSwitcher = false;
+
+mw.ModeTipInterval1 = false;
+mw.ModeTipInterval1TIME = 3000;
+mw.ModeTipInterval2 = false;
+mw.ModeTipInterval2TIME = 5000;
+
 mw.states = {}
 
 
@@ -143,6 +150,21 @@ $(document).ready(function(){
 
   mw.drag.create();
 
+  mw.$(".Switch2AdvancedModeTip").mouseenter(function(){
+      mw.$(".Switch2AdvancedModeTip").css("opacity", 1);
+      clearTimeout(mw.ModeTipInterval1);
+      clearTimeout(mw.ModeTipInterval2);
+  });
+
+  mw.$(".Switch2AdvancedModeTip").mouseleave(function(){
+      mw.ModeTipInterval1 = setTimeout(function(){
+         mw.$(".Switch2AdvancedModeTip").css("opacity", 0.8);
+      }, mw.ModeTipInterval1TIME);
+      mw.ModeTipInterval2 = setTimeout(function(){
+         mw.$(".Switch2AdvancedModeTip").css("opacity", 1).hide();
+      }, mw.ModeTipInterval2TIME);
+  });
+
    $(mwd.body).keyup(function(e){
      mw.$(".mw_master_handle").css({
        left:"",
@@ -176,14 +198,25 @@ $(document).ready(function(){
            }
       });
 
-      if(mw.nonEdits.length > 0){
-          mw.nonEdits.bind("dblclick", function(e){
-             if(e.target.nodeName !== 'A' && !mw.tools.hasParentsWithTag(e.target, 'a')){
-               Alert('Go to advanced mode to edit this section')
+      if(mw.nonEdits.length > 0 && mw.userCanSwitchMode){
+          mw.nonEdits.bind("dblclick selectstart", function(e){
+             if(e.target.nodeName !== 'A' && !mw.tools.hasParentsWithTag(e.target, 'a') && !mw.doNotBindSwitcher){
+                mw.$(".Switch2AdvancedModeTip").fadeIn();
+
+                clearTimeout(mw.ModeTipInterval1);
+                clearTimeout(mw.ModeTipInterval2);
+
+                mw.ModeTipInterval1 = setTimeout(function(){
+                   mw.$(".Switch2AdvancedModeTip").css("opacity", 0.8);
+                }, mw.ModeTipInterval1TIME);
+                mw.ModeTipInterval2 = setTimeout(function(){
+                   mw.$(".Switch2AdvancedModeTip").css("opacity", 1).hide();
+                }, mw.ModeTipInterval2TIME);
+
+
              }
           });
       }
-
    }
 
 

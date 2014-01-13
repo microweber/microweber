@@ -231,6 +231,18 @@
                         </ul>
                     </div>
                 </div>
+                <div class="Switch2AdvancedModeTip" style="display: none">
+                    <div class="Switch2AdvancedModeTip-tickContainer">
+                        <div class="Switch2AdvancedModeTip-tick"></div>
+                        <div class="Switch2AdvancedModeTip-tick2"></div>
+                    </div>
+                            If you want to edit this section you have to switch do "<strong>Advanced Mode</strong>".
+                            <div class="Switch2AdvancedModeTiphr"></div>
+                            <div style="text-align: center">
+                                <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');">Switch</span>
+                                <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;">Cancel</span>
+                            </div>
+                    </div>
             </div>
         </div>
 

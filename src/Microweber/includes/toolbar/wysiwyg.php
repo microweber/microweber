@@ -8,7 +8,7 @@
                    <div class="wysiwyg-cell">
 							  <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
 							  <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
-			
+
 							  <span class="mw_editor_btn"  onclick="mw.$('#mw-history-panel').toggle()"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
 			
 			
@@ -95,9 +95,9 @@
                       </div>
                     </div>
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
-                        <span class="mw_dropdown_val_holder">
+                        <span class="mw_dropdown_val_holder"> <input type="text" />
                             <span class="dd_rte_arr"></span>
-                            <span class="mw_dropdown_val">10pt</span>
+                            <span class="mw_dropdown_val" >10pt</span>
                         </span>
                       <div class="mw_dropdown_fields">
                         <ul>

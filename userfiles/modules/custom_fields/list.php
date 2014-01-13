@@ -177,7 +177,10 @@ if(is_array( $diff) and is_array($more) ){
   <?php endforeach; ?>
 </div>
 <?php else : ?>
- 
+ <?php if(isset($more) and !empty($more)): ?>
+ <br />
+ <label class="mw-ui-label">Preview of custom fields</label>
+ <?php endif; ?>
 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
   <thead>
     <tr>

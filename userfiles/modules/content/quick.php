@@ -587,7 +587,14 @@ mw.edit_content.handle_form_submit = function(go_live){
 		/* reloading the editor on parent change */
 		 
        mw.$('#mw-parent-page-value-<?php print $rand; ?>').bind('change', function(e){
-           mw.edit_content.load_editor();
+		   
+		  var iframe_ed = $('.mw-iframe-editor')
+		  
+		  var changed =  iframe_ed.contents().find('.changed').size();
+		 if(changed == 0){
+			  mw.edit_content.load_editor();
+		 }
+          
        });
 	     
        var qtabs = mw.tools.tabGroup({
