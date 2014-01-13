@@ -5517,7 +5517,7 @@ class Content
         $this->no_cache = true;
         $save = $this->app->db->save($table, $data_to_save);
 
-        if ($data_to_save['parent'] != 0) {
+        if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
             $upd_posted = array();
             $upd_posted['posted_on'] =  $data_to_save['updated_on'];
             $upd_posted['id'] = $data_to_save['parent'];

@@ -426,6 +426,26 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 
 }
 
+.dragStart .disabledEDIT{
+  opacity: 0.2;
+  position: relative;
+}
+
+.dragStart .disabledEDIT:before{
+  position: absolute;
+  display: block;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  background:;
+  background: transparent;
+  cursor:not-allowed;
+
+}
+
 
 
 

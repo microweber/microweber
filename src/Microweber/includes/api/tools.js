@@ -3820,7 +3820,6 @@ mw.image = {
         });
         mw.$("#mw_image_reset").click(function(){
           if(!$(this).hasClass("disabled")){
-            d(mw.image.current_original);
             mw.image.current.src = mw.image.current_original;
             mw.image.current_need_resize = true;
           }

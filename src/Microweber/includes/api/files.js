@@ -84,7 +84,7 @@ mw.files = {
        data.forEach(function(entry){
           if(!entry.isDirectory()){
             loader.loadImage(url+'://'+entry.name(), function(){
-              d(1 + " - " + this);
+
               var obj = {
                 src:this,
                 name:entry.name()
