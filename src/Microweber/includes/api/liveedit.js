@@ -200,7 +200,7 @@ $(document).ready(function(){
 
       if(mw.nonEdits.length > 0 && mw.userCanSwitchMode){
           mw.nonEdits.bind("dblclick selectstart", function(e){
-             if(e.target.nodeName !== 'A' && !mw.tools.hasParentsWithTag(e.target, 'a') && !mw.doNotBindSwitcher){
+             if(e.target.nodeName !== 'A' && !mw.tools.hasParentsWithTag(e.target, 'a')/* && !mw.doNotBindSwitcher*/){
                 mw.$(".Switch2AdvancedModeTip").fadeIn();
 
                 clearTimeout(mw.ModeTipInterval1);
@@ -274,6 +274,8 @@ $(document).ready(function(){
        else{
           mw.tools.removeClass(mwd.body, 'state-element');
        }
+       mw.wysiwyg.removeSimulations();
+
      }
      else{
          mw.tools.removeClass(mwd.body, 'state-element');

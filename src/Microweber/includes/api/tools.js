@@ -610,22 +610,44 @@ mw.tools = {
   },
   dropdown:function(root){
     var root = root || mwd.body;
-
     var items = root.querySelectorAll(".mw_dropdown"), l = items.length, i=0;
-
     for( ; i<l; i++ ){
         var el = items[i];
         var cls = el.className;
         if(mw.tools.hasClass(cls, 'mw_dropdown_activated')) { continue; }
         mw.tools.addClass(el, 'mw_dropdown_activated');
+        el.hasInput = el.querySelector('input.mw_dd_field') !== null;
+        if(el.hasInput){
+            var input = el.querySelector('input.mw_dd_field');
+            input.dropdown = el;
+            input.onkeyup = function(e){
+                 d(e.keyCode == 13)
+                if(e.keyCode == 13){
+                    $(this.dropdown).removeClass("active");
+                    mw.$('.mw_dropdown_fields', this.dropdown).hide();
+                    $(this.dropdown).setDropdownValue(this.value, true, true);
+
+                }
+             }
+        }
         mw.$(el).bind("click", function(event){
+          if($(this).hasClass("disabled")){
+            return false;
+          }
           if(!mw.tools.hasClass(event.target.className, 'mw_dropdown_fields') && !mw.tools.hasClass(event.target.className, 'dd_search')){
             $(this).toggleClass("active");
             $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
+            if(this.querySelector('input.mw_dd_field') !== null && mw.tools.hasClass(this, 'active')){
+               if(this.hasInput){
+                 var input = this.querySelector('input.mw_dd_field');
+                 input.value = $(this).getDropdownValue();
+                 mw.wysiwyg.save_selection(true);
+                 $(input).focus().select();
+               }
+            }
 
-            if(mw.$(".other-action-hover", this).length==0){
-              var item =  mw.$(".mw_dropdown_fields", this);
-
+            if(mw.$(".other-action-hover", this).length == 0){
+              var item = mw.$(".mw_dropdown_fields", this);
               if(item.is(":visible")){
                   item.hide();
                   item.focus();
@@ -2254,8 +2276,12 @@ mw.tools = {
     mw.$(".mwfav").remove();
     mwd.getElementsByTagName('head')[0].appendChild(l);
   },
+  px2pt:function(px){
+    var n = parseInt(px, 10);
+    if(isNaN(n)){ return false; }
+    return ((3/4) * n);
+  },
   calc:{
-
     SliderButtonsNeeded:function(parent){
         var t  = {left:false,right:false};
         var el = parent.firstElementChild;
@@ -2342,9 +2368,11 @@ Wait('jQuery', function(){
 
 
   jQuery.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
+
      var isCustom = isCustom || false;
      var triggerChange = triggerChange || false;
      var isValidOption = false;
+     var customValueToDisplay = customValueToDisplay || false;
      var el = this;
      if(isCustom){
         var isValidOption = true;

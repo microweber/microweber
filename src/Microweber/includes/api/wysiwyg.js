@@ -35,6 +35,26 @@ if(typeof Selection.prototype.containsNode === 'undefined'){
       }
 }
 
+if(typeof Range.prototype.querySelector === 'undefined'){
+  Range.prototype.querySelector = function(s){
+      var r = this;
+      var f = r.extractContents();
+      var node = f.querySelector(s);
+      r.insertNode(f);
+      return node;
+  }
+}
+
+if(typeof Range.prototype.querySelectorAll === 'undefined'){
+  Range.prototype.querySelectorAll = function(s){
+      var r = this;
+      var f = r.extractContents();
+      var nodes = f.querySelectorAll(s);
+      r.insertNode(f);
+      return nodes;
+  }
+}
+
 
 
 
@@ -514,7 +534,7 @@ mw.wysiwyg = {
         if(mw.tools.isEmpty(e.target)){
             e.target.innerHTML = '&zwnj;&nbsp;';
          }
-         if(e.keyCode == 13) {
+         if(e.keyCode == 13 && e.target.isContentEditable) {
 
                mw.$(".element-current").removeClass("element-current");
                var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
@@ -663,42 +683,50 @@ mw.wysiwyg = {
     fontFamily:function(font_name){
          mw.wysiwyg.execCommand('fontname', null, font_name);
     },
+    removeSimulations:function(node){
+      var node = node || mwd.body;
+      var a1 = node.querySelectorAll('.selection-simulation'), l1 = a1.length, i1 = 0;
+      for( ; i1<l1; i1++){
+        $(a1[i1]).removeClass("selection-simulation")
+      }
+    },
     fontSize:function(px){
+        if(window.getSelection().isCollapsed){ return false; }
         var obj = {
           fontSize:px+'px'
         }
-        //var el = mw.wysiwyg.applier('span', 'mw_applier', obj);
-        mw.wysiwyg.execCommand('fontsize', null, px);
+        var r = window.getSelection().getRangeAt(0)
+        if(r.querySelector('.mw-span-font-size') !== null){
+          $(r.querySelectorAll('.mw-span-font-size')).css("fontSize", 'inherit');
+        }
+        var el = mw.wysiwyg.applier('span', 'mw-span-font-size', obj);
+        mw.wysiwyg.removeSimulations();
+        //mw.wysiwyg.execCommand('fontsize', null, px);
     },
     resetActiveButtons:function(){
-      mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active')
+        mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active')
     },
     setActiveButtons:function(node){
         var css = mw.CSSParser(node);
         if(typeof css.get !== 'undefined'){
-          var is = css.get.isit();
-          is.bold?mw.$('.mw_editor_bold').addClass('mw_editor_btn_active'):'';
-          is.italic?mw.$('.mw_editor_italic').addClass('mw_editor_btn_active'):'';
-          is.underlined?mw.$('.mw_editor_underline').addClass('mw_editor_btn_active'):'';
-          var font = css.get.font();
-           var family_array = font.family.split(',');
-           var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
-		   var ddval = mw.$(".mw_dropdown_action_font_family");
-		   if(ddval.length!=0 && ddval.setDropdownValue != undefined){
-
-			    mw.$(".mw_dropdown_action_font_family").setDropdownValue(fam);
-		   }
-
+              var is = css.get.isit();
+              is.bold?mw.$('.mw_editor_bold').addClass('mw_editor_btn_active'):'';
+              is.italic?mw.$('.mw_editor_italic').addClass('mw_editor_btn_active'):'';
+              is.underlined?mw.$('.mw_editor_underline').addClass('mw_editor_btn_active'):'';
+              var font = css.get.font();
+              var family_array = font.family.split(',');
+              var fam = mw.tools.getFirstEqualFromTwoArrays(family_array, mw.wysiwyg.editorFonts);
+              var ddval = mw.$(".mw_dropdown_action_font_family");
+              if(ddval.length!=0 && ddval.setDropdownValue != undefined){
+                    mw.$(".mw_dropdown_action_font_family").setDropdownValue(fam);
+              }
          }
     },
     setActiveFontSize:function(node){
         var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
-
 		var ddval = mw.$(".mw_dropdown_action_font_size");
-
-
-		if(ddval.length!=0 && ddval.setDropdownValue != undefined){
-            mw.$(".mw_dropdown_action_font_size").setDropdownValue(mw.wysiwyg.editorFontSizes[size]);
+		if(ddval.length !=0 && ddval.setDropdownValue != undefined){
+            mw.$(".mw_dropdown_action_font_size").setDropdownValue(size, false, true);
 		}
     },
     isFormatElement:function(obj){
@@ -738,7 +766,6 @@ mw.wysiwyg = {
                  if(!!list){
                    mw.$('.mw_editor_'+list.nodeName.toLowerCase()).addClass('mw_editor_btn_active');
                  }
-
                  if(common.nodeType !== 3){
                      var commonCSS = mw.CSSParser(common);
                      var align = commonCSS.get.alignNormalize();
@@ -747,7 +774,6 @@ mw.wysiwyg = {
                      for( ; i<l; i++){
                         mw.wysiwyg.setActiveButtons(children[i]);
                      }
-
                      mw.wysiwyg.setActiveFontSize(common);
                  }
                  else{
@@ -758,32 +784,21 @@ mw.wysiwyg = {
                       mw.wysiwyg.setActiveButtons(common.parentElement);
                       mw.wysiwyg.setActiveFontSize(common.parentElement);
                    }
-
                  }
-
                  if(mw.wysiwyg.isFormatElement(common)){
                    var format = common.nodeName.toLowerCase();
-
-				   var ddval = mw.$(".mw_dropdown_action_format");
+				  var ddval = mw.$(".mw_dropdown_action_format");
 				  if(ddval.length!=0 && ddval.setDropdownValue != undefined){
-
-                   mw.$(".mw_dropdown_action_format").setDropdownValue(format);
+                    mw.$(".mw_dropdown_action_format").setDropdownValue(format);
 				  }
-
-
                  }
                  else{
                      mw.tools.foreachParents(common, function(loop){
                         if(mw.wysiwyg.isFormatElement(this)){
                             var format = this.nodeName.toLowerCase();
-
-
 							var ddval = mw.$(".mw_dropdown_action_format");
 							if(ddval.length!=0 && ddval.setDropdownValue != undefined){
-
 							   mw.$(".mw_dropdown_action_format").setDropdownValue(format);
-
-
 							}
                             mw.tools.stopLoop(loop);
                         }
@@ -802,16 +817,6 @@ mw.wysiwyg = {
                 }
              }
             mw.wysiwyg.started_checking = false;
-        }
-    },
-    containsNode:function(node, sel){
-        if(node === null || typeof node === 'undefined'){return false;}
-        var sel = sel || window.getSelection();
-        if( typeof Selection.prototype.containsNode !== 'undefined' ){
-          return sel.containsNode(node);
-        }
-        else{
-
         }
     },
     link:function(){
@@ -961,7 +966,8 @@ mw.wysiwyg = {
         mw.tools.addClass(mw.tools.firstParentWithClass(mwd.getElementById(id), 'edit'), 'changed orig_changed');
         return id;
     },
-    save_selection:function(){
+    save_selection:function(a){
+        var a = a || false;
         var selection = window.getSelection();
         if (selection.rangeCount > 0 ){
           var range = selection.getRangeAt(0);
@@ -976,13 +982,23 @@ mw.wysiwyg = {
           range:range,
           element:mw.$('[contenteditable="true"]').eq(0)
         }
+        if(!!a){
+            mw.wysiwyg.selection.simulate = mw.wysiwyg.applier('span', 'selection-simulation');
+        }
+        else{
+          delete mw.wysiwyg.selection.simulate;
+        }
     },
     restore_selection:function(){
         if(!!mw.wysiwyg.selection){
-          mw.wysiwyg.selection.element.attr("contenteditable", "true");
-          mw.wysiwyg.selection.element.focus();
-          mw.wysiwyg.selection.sel.removeAllRanges()
-          mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
+            mw.wysiwyg.selection.element.attr("contenteditable", "true");
+            mw.wysiwyg.selection.element.focus();
+            mw.wysiwyg.selection.sel.removeAllRanges();
+            mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range);
+            if(!!mw.wysiwyg.selection.simulate){
+              $(mw.wysiwyg.selection.simulate).removeClass('selection-simulation');
+              delete mw.wysiwyg.selection.simulate;
+            }
         }
     },
     select_all:function(el){
@@ -998,23 +1014,8 @@ mw.wysiwyg = {
         var selection = window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
-
     },
     format:function(command){
-      /* if(mw.wysiwyg.selection_length() > 0){
-        var r = mww.getSelection().getRangeAt(0);
-        var common = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
-        var h = /^(h[1-6])$/i;
-        if(!h.test(common.nodeName.toLowerCase()) && !mw.tools.hasHeadingParent(common)){
-           mw.wysiwyg.applier(command);
-        }
-        else{
-           mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
-        }
-      }
-      else{
-        mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
-      }  */
       if(!window.MSStream){
          mw.wysiwyg.execCommand('FormatBlock', false, '<' + command + '>');
       }
@@ -1024,9 +1025,7 @@ mw.wysiwyg = {
           var c = mw.wysiwyg.validateCommonAncestorContainer(sel.getRangeAt(0).commonAncestorContainer);
           mw.tools.setTag(c, command);
         }
-
       }
-
     },
     _undo:false,
     _redo:false,
@@ -1044,7 +1043,6 @@ mw.wysiwyg = {
             mw.$(".mw_editor_undo").removeClass("disabled");
             mw.$(".mw_editor_redo").addClass("disabled");
         }
-
         if(typeof mw.undoHistory[curr] !== 'undefined' && curr > 0 && curr < len){
             mw.$(".mw_editor_undo").removeClass("disabled");
             mw.$(".mw_editor_redo").removeClass("disabled");
@@ -1227,7 +1225,12 @@ mw.$(".mw_dropdown_action_font_family").change(function(){
 });
 mw.$(".mw_dropdown_action_font_size").change(function(){
     var val = $(this).getDropdownValue();
-     mw.wysiwyg.fontSize(val);
+    mw.wysiwyg.restore_selection();
+
+    mw.wysiwyg.fontSize(val);
+    mw.wysiwyg.removeSimulations();
+
+
 });
 mw.$(".mw_dropdown_action_format").change(function(){
     var val = $(this).getDropdownValue();
@@ -1268,22 +1271,15 @@ mw.$(".mw_dropdown_action_fontfx").change(function(){
   });
 
 
-
-
- if(!window['mwAdmin']){
+if(!window['mwAdmin']){
    mw.wysiwyg.prepareContentEditable();
- }
+}
 
- mw.wysiwyg.editorFonts = [];
- mw.wysiwyg.editorFontSizes = {};
 
-  mw.$(".mw_dropdown_action_font_family li").each(function(){
-      mw.wysiwyg.editorFonts.push(this.getAttribute('value'));
-  });
 
-  mw.$(".mw_dropdown_action_font_size li a").each(function(i){
-     mw.wysiwyg.editorFontSizes[Math.round(parseFloat(mw.CSSParser(this).get.font().size))] = this.parentNode.getAttribute("value");
-  });
+mw.wysiwyg.editorFonts = [];
+
+
 
 });
 
@@ -1318,7 +1314,6 @@ $(window).load(function(){
         else if( val == 'quote' ){
             var div = mw.wysiwyg.applier('blockquote', 'element');
             $(div).append("<cite>By Lorem Ipsum</cite>");
-
         }
    }
 

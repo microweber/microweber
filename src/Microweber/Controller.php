@@ -1072,7 +1072,6 @@ class Controller
 
         $render_file = $this->app->content->get_layout($content);
 
-
         $content['render_file'] = $render_file;
 
         if ($this->return_data != false) {
