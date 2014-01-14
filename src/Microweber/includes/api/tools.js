@@ -608,6 +608,11 @@ mw.tools = {
     }
 
   },
+  isField:function(target){
+    var t = target.nodeName.toLowerCase();
+    var fields = /^(input|textarea|select)$/i;
+    return fields.test(t);
+  },
   dropdown:function(root){
     var root = root || mwd.body;
     var items = root.querySelectorAll(".mw_dropdown"), l = items.length, i=0;
@@ -621,12 +626,10 @@ mw.tools = {
             var input = el.querySelector('input.mw_dd_field');
             input.dropdown = el;
             input.onkeyup = function(e){
-                 d(e.keyCode == 13)
                 if(e.keyCode == 13){
                     $(this.dropdown).removeClass("active");
                     mw.$('.mw_dropdown_fields', this.dropdown).hide();
                     $(this.dropdown).setDropdownValue(this.value, true, true);
-
                 }
              }
         }
@@ -1603,6 +1606,7 @@ mw.tools = {
         }
     });
     field.keyup(function(){
+
       var val = $(this).val();
       mw.tools.search(val, items, function(found){
         if(found){
@@ -2378,8 +2382,11 @@ Wait('jQuery', function(){
         var isValidOption = true;
         el.dataset("value", val);
         triggerChange?el.trigger("change"):'';
-        if(customValueToDisplay!=false){
+        if(!!customValueToDisplay){
            el.find(".mw_dropdown_val").html(customValueToDisplay);
+        }
+        else{
+          el.find(".mw_dropdown_val").html(val);
         }
      }
      else{
@@ -3141,6 +3148,7 @@ mw.$(".wysiwyg-convertible-toggler").click(function(){
 
 
 mw.$(".mw-dropdown-search").keyup(function(e){
+
   if(e.keyCode == '27'){
     $(this.parentNode.parentNode).hide();
   }

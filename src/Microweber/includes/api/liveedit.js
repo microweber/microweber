@@ -96,8 +96,6 @@ mw.dropables = {
   },
   set:function(pos, offset, height, width){
 
-    d(mw.currentDragMouseOver);
-
     if(pos==='top'){
       mw.top_half = true;
       mw.dropable.css({
@@ -174,7 +172,7 @@ $(document).ready(function(){
    });
 
    $(mwd.body).bind("keydown",function(e){
-
+       d(e.target)
      if(e.keyCode == 83 && e.ctrlKey){
         mw.e.cancel(e, true);
         mw.drag.save(mwd.getElementById('main-save-btn'));

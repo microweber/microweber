@@ -439,14 +439,14 @@ mw.wysiwyg = {
 
           if(event.type == 'keydown'){
 
-           if(event.target.nodeName === 'INPUT' || event.target.nodeName === 'TEXTAREA'){
+           if(mw.tools.isField(event.target) || !event.target.isContentEditable){
              return true;
            }
            var sel = window.getSelection();
            if(event.keyCode == 13) {
 
               mw.wysiwyg.checkForTextOnlyElements(event);
-              if(event.target.isContentEditable){
+              if(event.target.isContentEditable && !mw.tools.isField(event.target)){
                 var commonName = mw.wysiwyg.validateCommonAncestorContainer(sel.getRangeAt(0).commonAncestorContainer).nodeName;
                 if(commonName!='P' && !event.ctrlKey && !event.shiftKey){
                   var id = 'temp'+mw.random();
@@ -529,30 +529,22 @@ mw.wysiwyg = {
          mw.smallEditor.css({
             visibility:"hidden"
          });
-         mw.tools.addClass(this, 'isTyping');
-
-        if(mw.tools.isEmpty(e.target)){
-            e.target.innerHTML = '&zwnj;&nbsp;';
-         }
-         if(e.keyCode == 13 && e.target.isContentEditable) {
-
-               mw.$(".element-current").removeClass("element-current");
-               var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
-               for( ; i<l; i++){
-                   el[i].id =  'row_' + mw.random();
-               }
-               e.preventDefault();
-               if(!e.shiftKey){
-                //var pre = mw.wysiwyg.findTagAcrossSelection('pre');
-                //var code = mw.wysiwyg.findTagAcrossSelection('code');
-                var p = mw.wysiwyg.findTagAcrossSelection('p');
-
-                 if(!!p){
-                   //mw.is.ie?'':mw.wysiwyg.insert_html('<p class="element"></p>');
+         if(e.target.isContentEditable && !mw.tools.isField(e.target)){
+             mw.tools.addClass(this, 'isTyping');
+             if(mw.tools.isEmpty(e.target)){
+                e.target.innerHTML = '&zwnj;&nbsp;';
+             }
+             if(e.keyCode == 13) {
+                 mw.$(".element-current").removeClass("element-current");
+                 var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
+                 for( ; i<l; i++){
+                     el[i].id =  'row_' + mw.random();
                  }
-
-                 //return false;
-               }
+                 e.preventDefault();
+                 if(!e.shiftKey){
+                   var p = mw.wysiwyg.findTagAcrossSelection('p');
+                 }
+             }
          }
 
       });
@@ -687,13 +679,13 @@ mw.wysiwyg = {
       var node = node || mwd.body;
       var a1 = node.querySelectorAll('.selection-simulation'), l1 = a1.length, i1 = 0;
       for( ; i1<l1; i1++){
-        $(a1[i1]).removeClass("selection-simulation")
+        $(a1[i1]).removeClass("selection-simulation");
       }
     },
     fontSize:function(px){
         if(window.getSelection().isCollapsed){ return false; }
         var obj = {
-          fontSize:px+'px'
+          fontSize:px+'pt'
         }
         var r = window.getSelection().getRangeAt(0)
         if(r.querySelector('.mw-span-font-size') !== null){
@@ -726,7 +718,8 @@ mw.wysiwyg = {
         var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
 		var ddval = mw.$(".mw_dropdown_action_font_size");
 		if(ddval.length !=0 && ddval.setDropdownValue != undefined){
-            mw.$(".mw_dropdown_action_font_size").setDropdownValue(size, false, true);
+            mw.$(".mw_dropdown_action_font_size").setDropdownValue(mw.tools.px2pt(size), false, true);
+
 		}
     },
     isFormatElement:function(obj){
@@ -1226,11 +1219,8 @@ mw.$(".mw_dropdown_action_font_family").change(function(){
 mw.$(".mw_dropdown_action_font_size").change(function(){
     var val = $(this).getDropdownValue();
     mw.wysiwyg.restore_selection();
-
     mw.wysiwyg.fontSize(val);
     mw.wysiwyg.removeSimulations();
-
-
 });
 mw.$(".mw_dropdown_action_format").change(function(){
     var val = $(this).getDropdownValue();
