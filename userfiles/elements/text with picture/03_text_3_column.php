@@ -36,7 +36,7 @@ $counter = 3;
             <p class="element layout-paragraph"><?php print $item['description'] ?></p>
             <?php endif; ?>
             <?php if(isset($show_fields) and  $show_fields != false and in_array('read_more', $show_fields)): ?>
-            <a href="<?php print $item['link'] ?>" class="btn btn-success blog-fleft">
+            <a href="<?php print $item['link'] ?>" class="btn btn-default btn-success blog-fleft">
             <?php $read_more_text ? print $read_more_text : print 'Continue Reading'; ?>
             </a>
             <?php endif; ?>

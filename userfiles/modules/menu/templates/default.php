@@ -14,7 +14,7 @@ description: Default bar
 
 <div class="navbar navbar-static">
   <div class="navbar-inner">
-    <div class="container">
+    <div class="nav-container">
       	<?php
 
   $menu_filter['ul_class_deep'] = 'dropdown-menu';

@@ -17,14 +17,14 @@ description: Default
     </label>
 
     <?php  $selected_country = mw('user')->session_get('shipping_country'); ?>
-    <select name="country" class="field-full">
+    <select name="country" class="field-full form-control">
 	 <option value=""><?php _e("Choose country"); ?></option>
       <?php foreach($data  as $item): ?>
       <option value="<?php print $item['shipping_country'] ?>"  <?php if(isset($selected_country) and $selected_country == $item['shipping_country']): ?> selected="selected" <?php endif; ?>><?php print $item['shipping_country'] ?></option>
       <?php endforeach ; ?>
     </select>
-  </div>
+  </div> 
    
-   <module type="custom_fields" data-id="shipping-info-<?php print $params['id'] ?>" data-for="module"  default-fields="address" input-class="field-full" data-skip-fields="country"   />
+   <module type="custom_fields" data-id="shipping-info-<?php print $params['id'] ?>" data-for="module"  default-fields="address" input-class="field-full form-control" data-skip-fields="country"   />
 
 </div>

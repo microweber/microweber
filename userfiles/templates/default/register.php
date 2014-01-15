@@ -10,11 +10,11 @@
 
 <div id="content">
     <div class="container">
-    <div class="span12">
+
             <div class="well small-layout headed-box" id="sign-box">
                  <module type="users/register" />
              </div>
-         </div>
+
 
     </div>
 </div>

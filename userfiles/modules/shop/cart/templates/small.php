@@ -14,7 +14,7 @@ description: Small cart template
 
 <script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
 
-<div class="mw-cart-small  mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>"> <span class="cart-icon"><span class="icon-shopping-cart"></span></span>
+<div class="mw-cart-small  mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>"> <span class="cart-icon"><span class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></span></span>
   <div class="mw-cart-small-content">
     <?php if(is_array($data)) :?>
     <?php
@@ -44,7 +44,7 @@ description: Small cart template
    }
 
    ?>
-    <a class="btn btn-mini right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
+    <a class="btn btn-default btn-mini right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
     <?php endif ; ?>
     <?php else : ?>
     <span class="no-items">

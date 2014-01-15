@@ -38,13 +38,13 @@ if(!isset($tn[1])){
 
    ?>
   <div class="well clearfix post-single">
-      <div class="row-fluid">
+      <div class="row">
           <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-            <div class="span4">
+            <div class="col-sm-4">
                 <a href="<?php print $item['link'] ?>"><img src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" class="img-rounded img-polaroid" alt="" ></a>
             </div>
           <?php endif; ?>
-          <div class="span8">
+          <div class="col-sm-8">
               <div class="post-single-title-date" style="padding-bottom: 0;">
                   <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
                     <h2 class="lead"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>
@@ -75,7 +75,7 @@ if(!isset($tn[1])){
         ?>
 
 				 <?php if(is_array( $item['prices'])): ?>
-                <button class="btn" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
+                <button class="btn btn-default" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
                 <?php endif; ?>
         <?php endif; ?>
       </div>
@@ -96,7 +96,7 @@ if(!isset($tn[1])){
               <?php endif; ?>
 
               <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
-                  <a href="<?php print $item['link'] ?>" class="btn">
+                  <a href="<?php print $item['link'] ?>" class="btn btn-default">
                       <?php $read_more_text ? print $read_more_text : print _e("Continue Reading", true); ?>
                   </a>
               <?php endif; ?>

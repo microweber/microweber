@@ -39,8 +39,8 @@ description: Bootstrap Carousel
         <?php endforeach ; ?>
       </div>
     <!-- Carousel nav -->
-      <a class="carousel-control left" href="#<?php print $id; ?>" data-slide="prev">&lsaquo;</a>
-      <a class="carousel-control right" href="#<?php print $id; ?>" data-slide="next">&rsaquo;</a>
+      <a class="carousel-control left" href="#<?php print $id; ?>" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+      <a class="carousel-control right" href="#<?php print $id; ?>" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
     </div>
 

@@ -63,9 +63,7 @@
   border: 1px solid #E6E6E6;
   border-radius: 2px;
   padding: 10px;
-  width: 90%;
-  width: calc(100% - 22px);
-  width: -webkit-calc(100% - 22px);
+  width: 100%;
 }
 
 .contact-form-template-dream .mw-custom-field-upload{
@@ -112,7 +110,7 @@
   padding-bottom: 4px;
   margin-bottom: 20px;
 }
-.contact-form-template-dream input.mw-captcha-input{ width: 50px; float: left; }
+.contact-form-template-dream input.mw-captcha-input{ width: 85px; float: left; }
 .contact-form-template-dream .captcha-holder{
   float: left;
   width: 210px;
@@ -183,9 +181,7 @@
   border: 1px solid #454545;
   border-radius: 2px;
   padding: 10px;
-  width: 90%;
-  width: calc(100% - 22px);
-  width: -webkit-calc(100% - 22px);
+  width:100%;
 }
 .contact-form-template-dark textarea:focus,
 .contact-form-template-dark input[type="text"]:focus,
@@ -223,7 +219,7 @@
   padding: 3px 10px 5px;
   border-radius: 2px;
 }
-.contact-form-template-dark input.mw-captcha-input{ width: 50px; float: left; }
+.contact-form-template-dark input.mw-captcha-input{ width: 85px; float: left; }
 .contact-form-template-dark .captcha-holder{
   float: left;
   width: 210px;

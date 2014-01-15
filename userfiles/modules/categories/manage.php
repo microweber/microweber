@@ -15,16 +15,17 @@ $tree['link'] = "<a href='javascript:mw.load_quick_cat_edit({id})'><span class='
 ?>
 </div>
 <script type="text/javascript">
-mw.load_quick_cat_edit = function($id){
-  $(mwd.body).addClass("loading");
-  if($id == undefined){
-    mw.$("#mw_select_cat_to_edit_dd").val();
-  }
-  mw.$("#mw_quick_edit_category").attr("data-category-id",$id);
-  mw.load_module('categories/edit_category', '#mw_quick_edit_category', function(){
-      $(mwd.body).removeClass("loading");
-  });
-}
+
+
+
+	mw.on.moduleReload("<?php print $params['id'] ?>", function(){
+		mw.manage_cat_sort();
+
+		
+	 });
+
+
+
 
 
 mw.manage_cat_sort = function(){
@@ -63,4 +64,4 @@ mw.$("#<?php print $params['id'] ?>").sortable({
 <hr>
 <a href='javascript:mw.load_quick_cat_edit(0)' class="mw-ui-btn"><span class="ico iplus"></span>Add new category</a>
 <div class="vSpace"></div>
-<div id="mw_quick_edit_category"></div>
+

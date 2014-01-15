@@ -7,12 +7,19 @@
 <?php
 
     $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
-
+if (!isset( $data['input_class']) and isset($params['input-class'])) {
+     $data['input_class'] = $params['input-class'];
+} elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
+     $data['input_class'] = $params['input_class'];
+} else {
+	$data['input_class'] = 'form-control';
+	
+}
 ?>
 
 <script>mw.require('forms.js');</script>
 
-<div class="control-group">
+<div class="control-group form-group">
   <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
   <div class="mw-custom-field-form-controls">
     <input type="number"

@@ -51,19 +51,19 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
 
       <input type="hidden" name="password_reset_hash" value="<?php print $reset; ?>" />
       <input type="hidden" name="id" value="<?php print $data['id']; ?>" />
-      <!--<div class="control-group">
+      <!--<div class="control-group form-group">
       <label class="control-label">Choose Username</label>
       <div class="controls">
         <input type="text" placeholder="Choose your username" name="username" value="<?php print $data['username']; ?>">
       </div>
     </div>-->
-      <div class="control-group mw-ui-field-holder">
+      <div class="control-group form-group mw-ui-field-holder">
        <!-- <label class="control-label">Enter new password</label>-->
         <div class="controls">
           <input type="password" class="mw-ui-field field-full" placeholder="<?php _e("Choose a password"); ?>" name="pass1" >
         </div>
       </div>
-      <div class="control-group mw-ui-field-holder">
+      <div class="control-group form-group mw-ui-field-holder">
 <!--        <label class="control-label">Repeat new password</label>
 -->        <div class="controls">
           <input type="password" class="mw-ui-field field-full"  placeholder="<?php _e("Repeat the password"); ?>" name="pass2" >
@@ -75,7 +75,7 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
 
 
 
-      <div class="control-group">
+      <div class="control-group form-group">
         <div class="controls mw-ui-field-holder">
           <div class="input-prepend mw-ui-field mw-ico-field">
             <span style="width: 100px;background: white" class="add-on left">
@@ -94,8 +94,8 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
 
 
 
-      <a class="btn btn-large pull-left mw-ui-btn" href="<?php print url_current(true,true); ?>"><?php _e("Back"); ?></a>
-      <button type="submit" class="btn btn-large pull-right btn-success mw-ui-btn mw-ui-btn-green"><?php print $form_btn_title ?></button>
+      <a class="btn btn-default btn-large pull-left mw-ui-btn" href="<?php print url_current(true,true); ?>"><?php _e("Back"); ?></a>
+      <button type="submit" class="btn btn-default btn-large pull-right btn-success mw-ui-btn mw-ui-btn-green"><?php print $form_btn_title ?></button>
     </div>
     <div style="clear: both"></div>
   </form>
@@ -103,14 +103,14 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
   <?php else : ?>
   <div class="alert alert-warining text-center"><?php _e("Invalid or expired link"); ?>.
   <br /><br />
-<a class="btn  btn-info" href="<?php print url_current(true,true); ?>"><?php _e("Go back"); ?></a>
+<a class="btn btn-default  btn-info" href="<?php print url_current(true,true); ?>"><?php _e("Go back"); ?></a>
   </div>
   <?php endif; ?>
   <?php else : ?>
   <div class="alert alert-warining text-center"><?php _e("You must click on the password reset link sent on your email"); ?>.<br /><br />
-<a class="btn  btn-info" href="<?php print url_current(true,true); ?>"><?php _e("Go back"); ?></a>  </div>
+<a class="btn btn-default  btn-info" href="<?php print url_current(true,true); ?>"><?php _e("Go back"); ?></a>  </div>
   <?php endif; ?>
-  <div class="reset-pass-form-wrap-success" style="display:none"> <a class="btn  btn-primary" href="<?php print url_current(true,true); ?>"><?php _e("Click here to login with the new password"); ?></a> </div>
+  <div class="reset-pass-form-wrap-success" style="display:none"> <a class="btn btn-default  btn-primary" href="<?php print url_current(true,true); ?>"><?php _e("Click here to login with the new password"); ?></a> </div>
 </div>
 
 </div>

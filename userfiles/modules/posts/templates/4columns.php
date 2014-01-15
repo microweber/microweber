@@ -11,10 +11,20 @@ description: 4 Columns
 */
 ?>
 
+<?php 
+$tn = $tn_size;
+if(!isset($tn[0]) or ($tn[0]) == 150){
+     $tn[0] = 300;
 
+}
+if(!isset($tn[1])){
+     $tn[1] = $tn[0];
+}
+ 
+?>
 
-<div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-4">
-  <div class="row-fluid">
+<div class="clearfix container module-posts-template-columns module-posts-template-columns-4">
+  <div class="row">
     <?php if (!empty($data)): ?>
     <?php
         $count = -1;
@@ -22,12 +32,12 @@ description: 4 Columns
         $count++;
     ?>
     <?php if($count % 4 == 0) { ?><div class="v-space"></div><?php } ?>
-    <div class="span3<?php if($count % 4 == 0) { ?> first <?php } ?>" >
+    <div class="col-sm-3<?php if($count % 4 == 0) { ?> first <?php } ?>" >
         <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
             <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>">
                 <span class="valign">
                     <span class="valign-cell">
-                        <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], 290, 120); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" />
+                        <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0],  $tn[1]); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" />
                     </span>
                 </span>
             </a>
@@ -47,7 +57,7 @@ description: 4 Columns
 
       <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
       <div class="blog-post-footer">
-        <a href="<?php print $item['link'] ?>" class="btn pull-fleft">
+        <a href="<?php print $item['link'] ?>" class="btn btn-default pull-fleft">
         <?php $read_more_text ? print $read_more_text : print _e('Continue Reading', true); ?>
         <i class="icon-chevron-right"></i></a>
       </div>

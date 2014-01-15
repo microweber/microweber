@@ -7,6 +7,7 @@
 				}
             if(mw.tools.hasClass(e.target.className, 'mw-ui-field') || mw.tools.hasClass(e.target.className, 'mw-custom-fields-from-page-title-text')){
                 mw.tools.toggle('.custom_fields_selector', '#smart_field_opener');
+				
             }
           }
     }
@@ -19,7 +20,7 @@
  if(isset($params['for'])){
 	$for = $params['for'];
  }
-
+$list_preview = false;
  $live_edit = false;
   if(isset($params['live_edit'])){
 	$live_edit = $params['live_edit'];
@@ -40,7 +41,9 @@
 	 }
  }
 
-
+if(isset($params['list-preview']) and $params['list-preview'] != 'false'){
+  $list_preview = true;
+}
  $diff = false;
 
   if(isset($params['save_to_content_id'])){
@@ -50,11 +53,18 @@
 		  }
 		  
 		  
-		  
+	$suggest_from_rel = false;
+ 
+	if(isset($params['suggest-from-related']) and $params['suggest-from-related'] != 'false'){
+	  $suggest_from_rel = true;
+	}
+	  
 
 
 ?>
 <?php
+
+ 
 $data = array();
  if(isset($params['for_module_id'])): ?>
 <?php
@@ -63,19 +73,58 @@ if(isset($params['default-fields'])){
 }
 
 	$more = get_custom_fields($for,$params['for_module_id'],1,false,false);
- 
+
+ if($suggest_from_rel == true){
+	 $par =array();
+	 $par['rel'] = $for;
+	 $more = get_custom_fields($for,'all',1,false,false);
+	 $have = array();
+	  if(isset($diff) and is_array($diff)){
+		$i=0;
+		 foreach($diff as $item){
+			if(isset($item['custom_field_name']) and in_array($item['custom_field_name'],$have)){
+				 unset($diff[$i]);
+			} else if(isset($diff[$i]) and isset($item['custom_field_name'])){
+				$have[] = $item['custom_field_name'];
+			 }
+			 $i++; 
+		 }
+	 }
+	 if(is_array($more)){
+		$i=0;
+		 foreach($more as $item){
+			if(isset($item['custom_field_name']) and in_array($item['custom_field_name'],$have)){
+				 unset($more[$i]);
+			} else if(isset($more[$i]) and isset($item['custom_field_name'])){
+				$have[] = $item['custom_field_name'];
+			 }
+			 $i++; 
+		 }
+	 }
+	 
+ }
  $custom_custom_field_names_for_content = array();
 if(is_array( $diff) and is_array($more) ){
     $i=0;
 	 foreach($more as $item2){
 
 	 foreach($diff as $item1){
-			  if(isset($item1['copy_of_field'])){
+			  if(isset($more[$i]) and isset($item1['copy_of_field'])){
 				  if($item1['copy_of_field'] == $item2['id']){
 				//print $item1['copy_of_field'];
 				 unset($more[$i]);
 				  }
 			  }
+			    if(isset($more[$i]) and isset($item1['custom_field_name'])){
+				  if($item1['custom_field_name'] == $item2['custom_field_name']){
+				//print $item1['copy_of_field'];
+				 unset($more[$i]);
+				  }
+			  }
+			  
+			  
+			  
+			  
 
 		  }
 		 $i++;
@@ -101,9 +150,12 @@ if(is_array( $diff) and is_array($more) ){
  if(!empty($data)){
 	//$more = $data;
  }
+ 
 ?>
 <?php if(!empty( $more)):  ?>
- <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
+<?php if($list_preview == false): ?>
+
+<div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
   <?php if(isset($params['save_to_content_id']) and isset($params["rel_id"]) and intval(($params["rel_id"]) > 0)): ?>
   <?php $p = get_content_by_id($params["rel_id"]); ?>
   <?php if(isset($p['title'])): ?>
@@ -125,7 +177,38 @@ if(is_array( $diff) and is_array($more) ){
   <?php endforeach; ?>
 </div>
 <?php else : ?>
-<?php if(!isset($params['save_to_content_id'])): ?>
+ <?php if(isset($more) and !empty($more)): ?>
+ <br />
+ <label class="mw-ui-label">Preview of custom fields</label>
+ <?php endif; ?>
+<table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
+  <thead>
+    <tr>
+      <th width="20%">Name</th>
+      <th>Value</th> 
+    </tr>
+  </thead>
+  <tbody>
+   
+      <?php foreach( $more as $field): ?>
+       <tr>
+      <td><?php print $field['custom_field_name']; ?> 
+     
+      
+      </td>
+       
+      
+      <td ondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);"><?php  print $field['custom_field_values_plain']; ?></td>
+      <!-- <td> <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-meduim" href="javascript:;" onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);">edit</a>
+      
+      </td>-->
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
+<?php endif; ?>
+<?php else : ?>
+<?php if(!isset($params['save_to_content_id']) and $suggest_from_rel == false and $list_preview == false): ?>
 <div class="mw-ui-field mw-tag-selector mw-custom-fields-tags" onclick="__smart_field_opener(event)">
   <div class="mw-custom-fields-from-page-title"> <span class="mw-custom-fields-from-page-title-text">
     <?php _e("You dont have any custom fields"); ?>

@@ -103,7 +103,7 @@ $lim = get_option('data-limit', $params['id']);
 if ($lim != false) {
     $post_params['data-limit'] = $post_params['limit'] = $lim;
 }
-$cfg_page_id = get_option('data-page-id', $params['id']);
+$cfg_page_id = $cfg_page_id_force =get_option('data-page-id', $params['id']);
 if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
     $cfg_page_id = intval($post_params['data-page-id']);
 } else if ($cfg_page_id == false and isset($post_params['content_id'])) {
@@ -149,7 +149,7 @@ if($cfg_page_id == false and isset($post_params['related']) and $post_params['re
 		}
 	 
 }
-if (!isset($params['global'])) {
+if (intval($cfg_page_id_force) or  !isset($params['global'])) {
 
 if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
     $sub_cats = array();
@@ -157,10 +157,10 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
     if (intval($cfg_page_id) != 0 and $cat_from_url == false) {
         $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
         $page_categories = get($str0);
-        // d($page_categories);
+       
         if (is_array($page_categories)) {
             foreach ($page_categories as $item_cat) {
-                //d($item_cat);
+             
                 $sub_cats[] = $item_cat['id'];
                 $more = get_category_children($item_cat['id']);
                 if ($more != false and is_array($more)) {
@@ -215,15 +215,15 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
   $post_params['category'] = $cat_from_url;
   
 
-} elseif ($posts_parent_category != false and intval($posts_parent_category) > 0 and ($cfg_page_id) == false) {
+} elseif ($posts_parent_category != false and intval($posts_parent_category) > 0 and ($cfg_page_id) != false) {
     $post_params['category'] = $posts_parent_category;
 
-} elseif ($posts_parent_category_cfg != false and intval($posts_parent_category_cfg) > 0) {
+} 
+}
+if ($posts_parent_category_cfg != false and intval($posts_parent_category_cfg) > 0 and $cfg_page_id_force != false and intval($cfg_page_id_force) > 0 ) {
     $post_params['category'] = $posts_parent_category_cfg;
 
 }
-}
-
 $tn_size = array('150');
 
 if (isset($post_params['data-thumbnail-size'])) {
@@ -300,7 +300,6 @@ if (isset($params['is_shop'])) {
 if (!isset($post_params['subtype']) and !isset($post_params['global'])) {
     $post_params['subtype'] = 'post';
 }
-
 
 if (!isset($params['order_by'])) {
     $post_params['orderby'] = 'position desc';

@@ -41,7 +41,6 @@ class Media
         }
 
 
-
     }
 
 
@@ -299,7 +298,7 @@ class Media
                     $i++;
                 }
 
-                 $this->app->db->update_position_field($table, $indx);
+                $this->app->db->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -585,7 +584,7 @@ class Media
 
             }
         }
-        $cd = MW_MEDIA_DIR . 'thumbnail' .DS.$width.DS;
+        $cd = MW_MEDIA_DIR . 'thumbnail' . DS . $width . DS;
         if (!is_dir($cd)) {
             mkdir_recursive($cd);
         }
@@ -623,7 +622,7 @@ class Media
                     if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
                         $tn = new \Microweber\Thumbnailer($src);
                         $thumbOptions = array('maxLength' => $height, 'width' => $width);
-                        $tn->createThumb($thumbOptions, $cache_path);
+                         $tn->createThumb($thumbOptions, $cache_path);
 
                         unset($tn);
                     } else {
@@ -668,7 +667,6 @@ class Media
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
         $base_src = str_replace($surl, '', $src);
 
-
         if (!isset($width)) {
             $width = 200;
         }
@@ -677,7 +675,7 @@ class Media
         if (!isset($height)) {
             $height = 200;
         }
-        $cd = MW_MEDIA_DIR . 'thumbnail'.DS.$width.DS;
+        $cd = MW_MEDIA_DIR . 'thumbnail' . DS . $width . DS;
 
 
         $ext = strtolower(get_file_extension($base_src));
@@ -700,7 +698,9 @@ class Media
             $cache_path = $this->app->url->link_to_file($cache_path);
             return $cache_path;
         } else {
-
+            if (stristr($base_src, 'pixum_img')) {
+                return $this->pixum($width, $height);
+            }
 
             return $this->app->url->site('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height . '&cache_id=' . $cache_id;
         }
@@ -812,7 +812,7 @@ class Media
             $params['rel'] = $this->app->db->assoc_table_name($params['for']);
         }
 
-       // $params['debug'] = $table;
+        // $params['debug'] = $table;
         $params['limit'] = 1000;
         $params['table'] = $table;
         $params['orderby'] = 'position ASC';

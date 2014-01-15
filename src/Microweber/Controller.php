@@ -31,7 +31,7 @@ function params_stripslashes_array($array)
 if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
 
 
-    $_REQUEST = params_stripslashes_array($_REQUEST);
+    $_GET = params_stripslashes_array($_GET);
     $_POST = params_stripslashes_array($_POST);
     $_COOKIE = params_stripslashes_array($_COOKIE);
     $_REQUEST = params_stripslashes_array($_REQUEST);
@@ -79,6 +79,491 @@ class Controller
 
     }
 
+    public function install()
+    {
+        $installed = MW_IS_INSTALLED;
+
+        if ($installed == false) {
+            $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'index.php';
+            require ($f);
+            exit();
+        } else {
+            if ($this->app->user->is_admin() == true) {
+                $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'index.php';
+                require ($f);
+                exit();
+            } else {
+                mw_error('You must login as admin');
+            }
+        }
+    }
+
+    public function admin()
+    {
+        if (!defined('MW_BACKEND')) {
+            define('MW_BACKEND', true);
+        }
+
+        //create_mw_default_options();
+        $this->app->content->define_constants();
+        $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
+        $l = $l->__toString();
+        // var_dump($l);
+        event_trigger('on_load');
+        $layout = $this->app->parser->process($l, $options = false);
+        // $layout = $this->app->parser->process($l, $options = false);
+        $layout = execute_document_ready($layout);
+
+        print $layout;
+
+        if (isset($_REQUEST['debug'])) {
+            $this->app->content->debug_info();
+            $is_admin = $this->app->user->is_admin();
+            if ($is_admin == true) {
+
+            }
+        }
+        exit();
+    }
+
+    public function rss()
+    {
+        if (MW_IS_INSTALLED == true) {
+            event_trigger('mw_cron');
+        }
+    }
+
+    public function api_html()
+    {
+        if (!defined('MW_API_HTML_OUTPUT')) {
+            define('MW_API_HTML_OUTPUT', true);
+        }
+        $this->api();
+    }
+
+    public function m()
+    {
+
+        if (!defined('MW_API_CALL')) {
+            define('MW_API_CALL', true);
+        }
+
+        if (!defined('MW_NO_OUTPUT')) {
+            define('MW_NO_OUTPUT', true);
+        }
+        return $this->module();
+    }
+
+    public function module()
+    {
+        if (!defined('MW_API_CALL')) {
+            //	define('MW_API_CALL', true);
+        }
+        if (!defined("MW_NO_SESSION")) {
+            if (!isset($_SESSION)) {
+
+                if (!defined('MW_SESS_STARTED')) {
+                    define('MW_SESS_STARTED', true);
+                    session_start();
+                }
+
+            }
+            $editmode_sess = $this->app->user->session_get('editmode');
+            if ($editmode_sess == true and !defined('IN_EDIT')) {
+                define('IN_EDIT', true);
+            }
+        }
+
+
+        $page = false;
+
+        $custom_display = false;
+        if (isset($_REQUEST['data-display']) and $_REQUEST['data-display'] == 'custom') {
+            $custom_display = true;
+        }
+
+        if (isset($_REQUEST['data-module-name'])) {
+            $_REQUEST['module'] = $_REQUEST['data-module-name'];
+            $_REQUEST['data-type'] = $_REQUEST['data-module-name'];
+
+            if (!isset($_REQUEST['id'])) {
+                $_REQUEST['id'] = $this->app->url->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
+            }
+
+        }
+
+        if (isset($_REQUEST['data-type'])) {
+            $_REQUEST['module'] = $_REQUEST['data-type'];
+        }
+
+        if (isset($_REQUEST['display']) and $_REQUEST['display'] == 'custom') {
+            $custom_display = true;
+        }
+        if (isset($_REQUEST['view']) and $_REQUEST['view'] == 'admin') {
+            $custom_display = FALSE;
+        }
+
+        if ($custom_display == true) {
+            $custom_display_id = false;
+            if (isset($_REQUEST['id'])) {
+                $custom_display_id = $_REQUEST['id'];
+            }
+            if (isset($_REQUEST['data-id'])) {
+                $custom_display_id = $_REQUEST['data-id'];
+            }
+        }
+        if (isset($_SERVER["HTTP_REFERER"])) {
+            $from_url = $_SERVER["HTTP_REFERER"];
+
+        }
+        if (isset($_REQUEST['from_url'])) {
+            $from_url = $_REQUEST['from_url'];
+        }
+
+        if (isset($from_url) and $from_url != false) {
+
+            $url = $from_url;
+
+            if (strpos($url, '#')) {
+                $url = substr($url, 0, strpos($url, '#'));
+            }
+
+            //$url = $_SERVER["HTTP_REFERER"];
+            $url = explode('?', $url);
+            $url = $url[0];
+
+            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
+                //$page = $this->app->content->get_by_url($url);
+                $page = $this->app->content->homepage();
+                // var_dump($page);
+            } else {
+
+                $page = $this->app->content->get_by_url($url);
+
+            }
+        } else {
+            $url = $this->app->url->string();
+        }
+
+
+        $this->app->content->define_constants($page);
+
+        if ($custom_display == true) {
+
+            $u2 = $this->app->url->site();
+            $u1 = str_replace($u2, '', $url);
+            $this->render_this_url = $u1;
+            $this->isolate_by_html_id = $custom_display_id;
+            $this->index();
+            exit();
+        }
+        $url_last = false;
+        if (!isset($_REQUEST['module'])) {
+            $url = $this->app->url->string(0);
+            if ($url == __FUNCTION__) {
+                $url = $this->app->url->string(0);
+            }
+            /*
+             $is_ajax = $this->app->url->is_ajax();
+
+             if ($is_ajax == true) {
+             $url = $this->app->url->string(true);
+             }*/
+
+            $url = $this->app->format->replace_once('module/', '', $url);
+            $url = $this->app->format->replace_once('module_api/', '', $url);
+            $url = $this->app->format->replace_once('m/', '', $url);
+
+            if (is_module($url)) {
+                $_REQUEST['module'] = $url;
+                $mod_from_url = $url;
+
+            } else {
+                $url1 = $url_temp = explode('/', $url);
+                $url_last = array_pop($url_temp);
+
+                $try_intil_found = false;
+                $temp1 = array();
+                foreach ($url_temp as $item) {
+
+                    $temp1[] = implode('/', $url_temp);
+                    $url_laset = array_pop($url_temp);
+
+                }
+
+                $i = 0;
+                foreach ($temp1 as $item) {
+                    if ($try_intil_found == false) {
+
+                        if (is_module($item)) {
+
+                            $url_tempx = explode('/', $url);
+
+                            $_REQUEST['module'] = $item;
+                            $url_prev = $url_last;
+                            $url_last = array_pop($url_tempx);
+                            $url_prev = array_pop($url_tempx);
+
+                            // d($url_prev);
+                            $mod_from_url = $item;
+                            $try_intil_found = true;
+                        }
+
+                    }
+                    $i++;
+                }
+
+            }
+        }
+
+        $module_info = $this->app->url->param('module_info', true);
+
+        if ($module_info) {
+            if ($_REQUEST['module']) {
+                $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
+                $try_config_file = MW_MODULES_DIR . '' . $_REQUEST['module'] . '_config.php';
+                $try_config_file = normalize_path($try_config_file, false);
+                if (is_file($try_config_file)) {
+                    include ($try_config_file);
+
+                    if (!isset($config) or !is_array($config)) {
+                        return false;
+                    }
+
+
+                    if (!isset($config['icon']) or $config['icon'] == false) {
+                        $config['icon'] = MW_MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+                        $config['icon'] = $this->app->url->link_to_file($config['icon']);
+                    }
+                    print json_encode($config);
+                    exit();
+                }
+            }
+        }
+
+        $admin = $this->app->url->param('admin', true);
+
+        $mod_to_edit = $this->app->url->param('module_to_edit', true);
+        $embed = $this->app->url->param('embed', true);
+
+        $mod_iframe = false;
+        if ($mod_to_edit != false) {
+            $mod_to_edit = str_ireplace('_mw_slash_replace_', '/', $mod_to_edit);
+            $mod_iframe = true;
+        }
+        //$data = $_REQUEST;
+
+        if (($_POST)) {
+            $data = $_POST;
+        } else {
+            $url = $this->app->url->segment();
+
+            if (!empty($url)) {
+                foreach ($url as $k => $v) {
+                    $kv = explode(':', $v);
+                    if (isset($kv[0]) and isset($kv[1])) {
+                        $data[$kv[0]] = $kv[1];
+                    }
+                }
+            }
+        }
+
+        if (!isset($_POST['id']) and !isset($data['id']) and isset($_REQUEST['id'])) {
+            //	$data['id'] = $_REQUEST['id'];
+        }
+
+        $is_page_id = $this->app->url->param('page_id', true);
+        if ($is_page_id != '') {
+            //s  $data['page_id'] = $is_page_id;
+        }
+
+        $is_REQUEST_id = $this->app->url->param('post_id', true);
+        if ($is_REQUEST_id != '') {
+            //  $data['post_id'] = $is_REQUEST_id;
+        }
+
+        $is_category_id = $this->app->url->param('category_id', true);
+        if ($is_category_id != '') {
+            //   $data['category_id'] = $is_category_id;
+        }
+
+        $is_rel = $this->app->url->param('rel', true);
+        if ($is_rel != '') {
+            //   $data['rel'] = $is_rel;
+
+            if ($is_rel == 'page') {
+
+
+            }
+
+            if ($is_rel == 'post') {
+                // $refpage = get_ref_page ();
+
+            }
+
+            if ($is_rel == 'category') {
+                // $refpage = get_ref_page ();
+
+            }
+        }
+
+        $tags = false;
+        $mod_n = false;
+
+        if (isset($data['type']) != false) {
+            if (trim($data['type']) != '') {
+                $mod_n = $data['data-type'] = $data['type'];
+            }
+        }
+
+        if (isset($data['data-module-name'])) {
+            $mod_n = $data['data-type'] = $data['data-module-name'];
+            unset($data['data-module-name']);
+        }
+
+        if (isset($data['data-type']) != false) {
+            $mod_n = $data['data-type'];
+        }
+        if (isset($data['data-module']) != false) {
+            if (trim($data['data-module']) != '') {
+                $mod_n = $data['module'] = $data['data-module'];
+            }
+        }
+
+        if (isset($data['module'])) {
+            $mod_n = $data['data-type'] = $data['module'];
+            unset($data['module']);
+        }
+
+        if (isset($data['type'])) {
+            $mod_n = $data['data-type'] = $data['type'];
+            unset($data['type']);
+        }
+        if (isset($data['data-type']) != false) {
+            $data['data-type'] = rtrim($data['data-type'], '/');
+            $data['data-type'] = rtrim($data['data-type'], '\\');
+            $data['data-type'] = str_replace('__', '/', $data['data-type']);
+        }
+        if (!isset($data)) {
+            $data = $_REQUEST;
+        }
+        if (!isset($data['module']) and isset($mod_from_url) and $mod_from_url != false) {
+            $data['module'] = ($mod_from_url);
+        }
+
+        if (!isset($data['id']) and isset($_REQUEST['id']) == true) {
+            $data['id'] = $_REQUEST['id'];
+        }
+        if (isset($data['ondrop'])) {
+
+            if (!defined('MW_MODULE_ONDROP')) {
+                define('MW_MODULE_ONDROP', true);
+            }
+
+            unset($data['ondrop']);
+        }
+
+        $has_id = false;
+        if (isset($data) and is_array($data)) {
+            foreach ($data as $k => $v) {
+                if ($k != 'ondrop') {
+                    if ($k == 'id') {
+                        $has_id = true;
+                    }
+
+                    if (is_array($v)) {
+                        $v1 = $this->app->format->array_to_base64($v);
+                        $tags .= "{$k}=\"$v1\" ";
+                    } else {
+
+                        $v = $this->app->format->clean_html($v);
+
+
+                        //$v = $this->app->db->escape_string($v);
+
+                        $tags .= "{$k}=\"$v\" ";
+                    }
+                }
+            }
+        }
+        if ($has_id == false) {
+
+            //	$mod_n = $this->app->url->slug($mod_n) . '-' . date("YmdHis");
+            //	$tags .= "id=\"$mod_n\" ";
+        }
+
+        $tags = "<module {$tags} />";
+
+        $opts = array();
+        if ($_REQUEST) {
+            $opts = $_REQUEST;
+        }
+        $opts['admin'] = $admin;
+
+        if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
+            $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
+            if (strstr($get_arr_from_ref, $this->app->url->site())) {
+                $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
+                if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
+                    $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
+                    if (is_array($get_array)) {
+
+                        mw_var('mw_restore_get', $get_array);
+                    }
+                    //
+
+                }
+            }
+        }
+
+        $res = $this->app->parser->process($tags, $opts);
+        $res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
+
+        if ($embed != false) {
+            $p_index = MW_INCLUDES_DIR . 'api/index.php';
+            $p_index = normalize_path($p_index, false);
+            $l = new $this->app->view($p_index);
+            $layout = $l->__toString();
+            $res = str_replace('{content}', $res, $layout);
+        }
+
+        $aj = $this->app->url->is_ajax();
+
+        if (isset($_REQUEST['live_edit']) and $aj == false) {
+
+
+            $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
+            $p_index = normalize_path($p_index, false);
+            $l = new $this->app->view($p_index);
+            $l->params = $data;
+            $layout = $l->__toString();
+            $res = str_replace('{content}', $res, $layout);
+            $res = $this->app->parser->process($res, $options = false);
+
+
+        }
+
+        $res = execute_document_ready($res);
+        if (!defined('MW_NO_OUTPUT')) {
+            $res = $this->app->url->replace_site_url_back($res);
+            print $res;
+        }
+
+        if ($url_last != __FUNCTION__) {
+            if (function_exists($url_last)) {
+                //
+                $this->api($url_last);
+            } else if (isset($url_prev) and function_exists($url_prev)) {
+                $this->api($url_last);
+            } elseif (class_exists($url_last, false)) {
+                $this->api($url_last);
+            } elseif (isset($url_prev) and class_exists($url_prev, false)) {
+                $this->api($url_prev);
+            }
+        }
+        exit();
+    }
+
     public function index()
     {
 
@@ -102,6 +587,7 @@ class Controller
         $is_admin = $this->app->user->is_admin();
         $page_url_orig = $page_url;
         $simply_a_file = false;
+
         // if this is a file path it will load it
         if (isset($_REQUEST['view'])) {
             $is_custom_view = $_REQUEST['view'];
@@ -586,17 +1072,16 @@ class Controller
 
         $render_file = $this->app->content->get_layout($content);
 
-
         $content['render_file'] = $render_file;
 
         if ($this->return_data != false) {
             return $content;
         }
 
-        if(!isset($page['title'])){
+        if (!isset($page['title'])) {
             $page['title'] = 'New page';
         }
-        if(!isset($content['title'])){
+        if (!isset($content['title'])) {
             $content['title'] = 'New content';
         }
 
@@ -617,6 +1102,7 @@ class Controller
             $l = $l->__toString();
 
 
+            // used for preview from the admin wysiwyg
             if (isset($_REQUEST['isolate_content_field'])) {
 
                 require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
@@ -692,34 +1178,18 @@ class Controller
                 }
             }
 
-            // $l = str_ireplace('</head>', $default_css . '</head>', $l);
+
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             if (!stristr($l, $apijs_loaded)) {
-
-                //$apijs_loaded = $apijs_loaded.'?id='.$content['id'];
 
                 $default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
                 $default_css .= '<script src="' . MW_INCLUDES_URL . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";
 
-
-                //as of aug 28
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
-            /*  if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
-                  $custom_template_settings = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'template_settings.css';
-              } else {
-                  $custom_template_settings = TEMPLATE_DIR . DS . 'template_settings.css';
-              }
-              $custom_template_settings = normalize_path($custom_template_settings, false);
-              if (is_file($custom_template_settings)) {
-                  $custom_live_editmtime = filemtime($custom_template_settings);
-                  $custom_template_settings_url = dir2url($custom_template_settings);
-                  $liv_ed_css = '<link rel="stylesheet" href="' . $custom_template_settings_url . '?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
 
-                  $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
-              }*/
 
-            if (isset($content['active_site_template']) and trim($content['active_site_template']) != '') {
+            if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
 
                 if (!defined('CONTENT_TEMPLATE')) {
                     define('CONTENT_TEMPLATE', $content['active_site_template']);
@@ -727,19 +1197,33 @@ class Controller
 
 
                 $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
+                $live_edit_css_folder = MW_USERFILES . 'css' . DS . $content['active_site_template'] . DS;
+                $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $content['active_site_template'] . '/';
+
+                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
+
             } else {
                 $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
+                $live_edit_css_folder = MW_USERFILES . 'css' . DS . 'default' . DS;
+                $live_edit_url_folder = MW_USERFILES_URL . 'css/default/';
+
+                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
             }
 
 
             $custom_live_edit = normalize_path($custom_live_edit, false);
+
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
-                $liv_ed_css = '<link rel="stylesheet" href="' . TEMPLATE_URL . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
+                $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
 
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
-
+            $website_head_tags = $this->app->option->get('website_head', 'website');
+            ;
+            if ($website_head_tags != false) {
+                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l);
+            }
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
 
@@ -776,7 +1260,6 @@ class Controller
                         $layout_live_edit = new $this->app->view($custom_live_edit);
                         $layout_live_edit = $layout_live_edit->__toString();
                         if ($layout_live_edit != '') {
-                            //$layout_live_edit = $this->app->parser->process($layout_live_edit, $options = array('no_apc' => 1));
                             $l = str_ireplace('</body>', $layout_live_edit . '</body>', $l, $c);
                         }
 
@@ -824,13 +1307,16 @@ class Controller
                 $meta['og_type'] = $meta['content_type'];
                 if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
                     $meta['og_type'] = $meta['subtype'];
-
                 }
-
+                if ($meta['description'] != false and trim($meta['description']) != '') {
+                    $meta['description'] = $meta['description'];
+                } else if ($meta['content'] != false and trim($meta['content']) != '') {
+                    $meta['description'] = $this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500);
+                }
                 if (isset($meta['description']) and $meta['description'] != '') {
                     $meta['og_description'] = $meta['description'];
                 } else {
-                    $meta['og_description'] = trim($this->app->format->limit($this->app->format->clean_html($meta['content']), 300));
+                    $meta['og_description'] = trim($this->app->format->limit($this->app->format->clean_html(strip_tags($meta['content'])), 500));
                 }
 
             } else {
@@ -852,19 +1338,36 @@ class Controller
                 } else {
                     $meta['description'] = $this->app->option->get('website_description', 'website');
                 }
+
+                if (isset($meta['description']) and $meta['description'] != '') {
+                    $meta['content_meta_description'] = strip_tags($meta['description']);
+                    unset($meta['description']);
+                }
+
+                if (isset($meta['title']) and $meta['title'] != '') {
+                    $meta['content_meta_title'] = strip_tags($meta['title']);
+
+                }
+
+
                 if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
                 } else {
                     $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
                 }
-                $l = str_replace('{content_meta_title}', addslashes($meta['title']), $l);
-                $l = str_replace('{content_meta_description}', addslashes($meta['description']), $l);
-                $l = str_replace('{content_meta_keywords}', addslashes($meta['content_meta_keywords']), $l);
+                $meta = $this->app->format->clean_html($meta, true);
+                if (is_array($meta)) {
+                    foreach ($meta as $key => $item) {
+                        $item = addslashes($item);
 
-                $l = str_replace('{content_image}', ($meta['content_image']), $l);
-                $l = str_replace('{content_url}', $meta['content_url'], $l);
-                $l = str_replace('{og_description}', addslashes($meta['og_description']), $l);
-                $l = str_replace('{og_site_name}', addslashes($meta['og_site_name']), $l);
-                $l = str_replace('{og_type}', addslashes($meta['og_type']), $l);
+                        $item = str_replace('&amp;nbsp;', ' ', $item);
+                        $item = str_replace('  ', '', $item);
+                        $item = str_replace(' ', ' ', $item);
+                        $l = str_replace('{' . $key . '}', $item, $l);
+
+                    }
+
+                }
+
 
             }
 
@@ -910,9 +1413,9 @@ class Controller
             if (isset($_REQUEST['debug'])) {
 
                 $is_admin = $this->app->user->is_admin();
-                // if ($is_admin == true) {
-                $this->app->content->debug_info();
-                // }
+                if ($is_admin == true) {
+                    $this->app->content->debug_info();
+                }
             }
 
 
@@ -927,49 +1430,6 @@ class Controller
 
     }
 
-    public function admin()
-    {
-        if (!defined('MW_BACKEND')) {
-            define('MW_BACKEND', true);
-        }
-
-        //create_mw_default_options();
-        $this->app->content->define_constants();
-        $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
-        $l = $l->__toString();
-        // var_dump($l);
-        event_trigger('on_load');
-        $layout = $this->app->parser->process($l, $options = false);
-        // $layout = $this->app->parser->process($l, $options = false);
-        $layout = execute_document_ready($layout);
-
-        print $layout;
-
-        if (isset($_REQUEST['debug'])) {
-            $this->app->content->debug_info();
-            $is_admin = $this->app->user->is_admin();
-            if ($is_admin == true) {
-
-            }
-        }
-        exit();
-    }
-
-    public function rss()
-    {
-        if (MW_IS_INSTALLED == true) {
-            event_trigger('mw_cron');
-        }
-    }
-
-    public function api_html()
-    {
-        if (!defined('MW_API_HTML_OUTPUT')) {
-            define('MW_API_HTML_OUTPUT', true);
-        }
-        $this->api();
-    }
-
     public function api($api_function = false, $params = false)
     {
 
@@ -981,6 +1441,7 @@ class Controller
         if (!defined('MW_API_CALL')) {
             define('MW_API_CALL', true);
         }
+
 
         if (!isset($_SESSION)) {
             session_start();
@@ -1025,8 +1486,9 @@ class Controller
 
         $mod_api_class = implode(DS, $mod_api_class);
         $mod_api_class_clean = ltrim($mod_api_class, '/');
+        $mod_api_class_clean = ltrim($mod_api_class_clean, '\\');
         $mod_api_class_clean_uc1 = ucfirst($mod_api_class_clean);
-        //d($mod_api_class);
+
 
         $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
         $mod_api_class_native = normalize_path(MW_APP_PATH . $mod_api_class, false) . '.php';
@@ -1035,14 +1497,15 @@ class Controller
         $mod_api_class_native_uc1 = normalize_path(MW_APP_PATH . $mod_api_class_clean_uc1, false) . '.php';
         $mod_api_class_native_global_ns_uc1 = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class_clean_uc1, false) . '.php';
 
+        $mod_api_class2 = normalize_path(MW_MODULES_DIR . DS . $mod_api_class_clean . DS . $mod_api_class_clean, false) . '.php';
+        $mod_api_class2_uc1 = normalize_path(MW_MODULES_DIR . DS . $mod_api_class_clean . DS . $mod_api_class_clean, false) . '.php';
+
+
         $try_class = str_replace('/', '\\', $mod_api_class);
         if (class_exists($try_class, false)) {
             $caller_commander = 'class_is_already_here';
             $mod_class_api_class_exist = true;
         } else {
-            //
-
-
             if (is_file($mod_api_class1)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class1);
@@ -1065,6 +1528,14 @@ class Controller
             } else if (is_file($mod_api_class_native)) {
                 $mod_class_api = true;
                 include_once ($mod_api_class_native);
+
+            } else if (is_file($mod_api_class2)) {
+                $mod_class_api = true;
+                include_once ($mod_api_class2);
+
+            } else if (is_file($mod_api_class2_uc1)) {
+                $mod_class_api = true;
+                include_once ($mod_api_class2_uc1);
 
             }
 
@@ -1093,9 +1564,7 @@ class Controller
         if (!defined('MW_API_RAW')) {
             if ($mod_class_api != false) {
                 $url_segs = $this->app->url->segment(-1);
-                // $api_function = ;
-                //d($api_functioan);
-                //d($try_class);
+
             }
         } else {
             if (is_array($api_function)) {
@@ -1107,19 +1576,24 @@ class Controller
             }
 
         }
+        if (!defined('MW_API_FUNCTION_CALL')) {
+            define('MW_API_FUNCTION_CALL', $api_function);
 
+        }
         switch ($caller_commander) {
             case 'class_is_already_here' :
                 if ($params != false) {
                     $data = $params;
                 } else if (!$_POST and !$_REQUEST) {
-                    //  $data = $this->app->url->segment(2);
+
                     $data = $this->app->url->params(true);
                     if (empty($data)) {
                         $data = $this->app->url->segment(2);
                     }
                 } else {
-                    $data = $_REQUEST;
+                    //$data = $_REQUEST;
+                    $data = array_merge($_GET, $_POST);
+
 
                 }
 
@@ -1183,7 +1657,6 @@ class Controller
                             $mod_api_err = true;
 
                             foreach ($api_exposed as $api_exposed_value) {
-                                //d($api_exposed_value);
                                 if ($mod_api_err == true) {
 
 
@@ -1197,10 +1670,7 @@ class Controller
                                         $mod_api_err = false;
                                     } else {
                                         $convert_slashes = str_replace('\\', '/', $try_class_full);
-                                        //$convert_slashes2 = str_replace('\\', '/', $try_class_full);
 
-                                        //d($convert_slashes);
-                                        // d($try_class_full);
                                         if ($convert_slashes == $api_exposed_value) {
                                             $mod_api_err = false;
                                         }
@@ -1243,17 +1713,16 @@ class Controller
                             if ($params != false) {
                                 $data = $params;
                             } else if (!$_POST and !$_REQUEST) {
-                                //  $data = $this->app->url->segment(2);
                                 $data = $this->app->url->params(true);
                                 if (empty($data)) {
                                     $data = $this->app->url->segment(2);
                                 }
                             } else {
-                                $data = $_REQUEST;
+
+                                $data = array_merge($_GET, $_POST);
                             }
 
                             $res = new $try_class($data);
-                            //if (method_exists($res, $try_class_func)) {
 
                             if (method_exists($res, $try_class_func) or method_exists($res, $try_class_func2)) {
 
@@ -1262,7 +1731,7 @@ class Controller
                                     $try_class_func = $try_class_func2;
                                 }
 
-                                //exit();
+
                                 $res = $res->$try_class_func($data);
 
                                 $mod_class_api_called = true;
@@ -1325,10 +1794,6 @@ class Controller
                         $api_function_full = str_replace('\\', '/', $api_function_full);
                         $api_function_full = ltrim($api_function_full, '/');
 
-                        //d($api_exposed_item);
-                        // d($api_function_full);
-
-
                         if (strtolower($api_exposed_item) == strtolower($api_function_full)) {
 
                             $err = false;
@@ -1339,7 +1804,7 @@ class Controller
             }
 
             if ($err == false) {
-                //
+
                 if ($mod_class_api_called == false) {
                     if (!$_POST and !$_REQUEST) {
                         //  $data = $this->app->url->segment(2);
@@ -1348,7 +1813,8 @@ class Controller
                             $data = $this->app->url->segment(2);
                         }
                     } else {
-                        $data = $_REQUEST;
+                        //$data = $_REQUEST;
+                        $data = array_merge($_GET, $_POST);
                     }
 
                     $api_function_full_2 = explode('/', $api_function_full);
@@ -1410,17 +1876,13 @@ class Controller
 
                 }
 
-
                 $hooks = api_hook(true);
-
-
                 if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
 
                     foreach ($hooks[$api_function] as $hook_key => $hook_value) {
                         if ($hook_value != false and $hook_value != null) {
-                            //d($hook_value);
                             $hook_value($res);
-                            //
+
                         }
                     }
 
@@ -1458,430 +1920,6 @@ class Controller
         // exit ( $api_function );
     }
 
-    public function module()
-    {
-        if (!defined('MW_API_CALL')) {
-            //	define('MW_API_CALL', true);
-        }
-        if (!defined("MW_NO_SESSION")) {
-            if (!isset($_SESSION)) {
-                session_start();
-            }
-
-
-            $editmode_sess = $this->app->user->session_get('editmode');
-            if ($editmode_sess == true and !defined('IN_EDIT')) {
-                define('IN_EDIT', true);
-            }
-
-        }
-
-
-        $page = false;
-
-        $custom_display = false;
-        if (isset($_REQUEST['data-display']) and $_REQUEST['data-display'] == 'custom') {
-            $custom_display = true;
-        }
-
-        if (isset($_REQUEST['data-module-name'])) {
-            $_REQUEST['module'] = $_REQUEST['data-module-name'];
-            $_REQUEST['data-type'] = $_REQUEST['data-module-name'];
-
-            if (!isset($_REQUEST['id'])) {
-                $_REQUEST['id'] = $this->app->url->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
-            }
-
-        }
-
-        if (isset($_REQUEST['data-type'])) {
-            $_REQUEST['module'] = $_REQUEST['data-type'];
-        }
-
-        if (isset($_REQUEST['display']) and $_REQUEST['display'] == 'custom') {
-            $custom_display = true;
-        }
-        if (isset($_REQUEST['view']) and $_REQUEST['view'] == 'admin') {
-            $custom_display = FALSE;
-        }
-
-        if ($custom_display == true) {
-            $custom_display_id = false;
-            if (isset($_REQUEST['id'])) {
-                $custom_display_id = $_REQUEST['id'];
-            }
-            if (isset($_REQUEST['data-id'])) {
-                $custom_display_id = $_REQUEST['data-id'];
-            }
-        }
-        if (isset($_SERVER["HTTP_REFERER"])) {
-            $from_url = $_SERVER["HTTP_REFERER"];
-
-        }
-        if (isset($_REQUEST['from_url'])) {
-            $from_url = $_REQUEST['from_url'];
-        }
-
-        if (isset($from_url) and $from_url != false) {
-
-            $url = $from_url;
-
-            if (strpos($url, '#')) {
-                $url = substr($url, 0, strpos($url, '#'));
-            }
-
-            //$url = $_SERVER["HTTP_REFERER"];
-            $url = explode('?', $url);
-            $url = $url[0];
-
-            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
-                //$page = $this->app->content->get_by_url($url);
-                $page = $this->app->content->homepage();
-                // var_dump($page);
-            } else {
-
-                $page = $this->app->content->get_by_url($url);
-
-            }
-        } else {
-            $url = $this->app->url->string();
-        }
-
-
-
-
-        $this->app->content->define_constants($page);
-
-        if ($custom_display == true) {
-
-            $u2 = $this->app->url->site();
-            $u1 = str_replace($u2, '', $url);
-            $this->render_this_url = $u1;
-            $this->isolate_by_html_id = $custom_display_id;
-            $this->index();
-            exit();
-        }
-        $url_last = false;
-        if (!isset($_REQUEST['module'])) {
-            $url = $this->app->url->string(0);
-            if ($url == __FUNCTION__) {
-                $url = $this->app->url->string(0);
-            }
-            /*
-             $is_ajax = $this->app->url->is_ajax();
-
-             if ($is_ajax == true) {
-             $url = $this->app->url->string(true);
-             }*/
-
-            $url = $this->app->format->replace_once('module/', '', $url);
-            $url = $this->app->format->replace_once('module_api/', '', $url);
-            $url = $this->app->format->replace_once('m/', '', $url);
-
-            if (is_module($url)) {
-                $_REQUEST['module'] = $url;
-                $mod_from_url = $url;
-
-            } else {
-                $url1 = $url_temp = explode('/', $url);
-                $url_last = array_pop($url_temp);
-
-                $try_intil_found = false;
-                $temp1 = array();
-                foreach ($url_temp as $item) {
-
-                    $temp1[] = implode('/', $url_temp);
-                    $url_laset = array_pop($url_temp);
-
-                }
-
-                $i = 0;
-                foreach ($temp1 as $item) {
-                    if ($try_intil_found == false) {
-
-                        if (is_module($item)) {
-
-                            $url_tempx = explode('/', $url);
-
-                            $_REQUEST['module'] = $item;
-                            $url_prev = $url_last;
-                            $url_last = array_pop($url_tempx);
-                            $url_prev = array_pop($url_tempx);
-
-                            // d($url_prev);
-                            $mod_from_url = $item;
-                            $try_intil_found = true;
-                        }
-
-                    }
-                    $i++;
-                }
-
-            }
-        }
-
-        $module_info = $this->app->url->param('module_info', true);
-
-        if ($module_info) {
-            if ($_REQUEST['module']) {
-                $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
-                $try_config_file = MW_MODULES_DIR . '' . $_REQUEST['module'] . '_config.php';
-                $try_config_file = normalize_path($try_config_file, false);
-                if (is_file($try_config_file)) {
-                    include ($try_config_file);
-
-                    if (!isset($config) or !is_array($config)) {
-                        return false;
-                    }
-
-
-                    if (!isset($config['icon']) or $config['icon'] == false) {
-                        $config['icon'] = MW_MODULES_DIR . '' . $_REQUEST['module'] . '.png';
-                        $config['icon'] = $this->app->url->link_to_file($config['icon']);
-                    }
-                    print json_encode($config);
-                    exit();
-                }
-            }
-        }
-
-        $admin = $this->app->url->param('admin', true);
-
-        $mod_to_edit = $this->app->url->param('module_to_edit', true);
-        $embed = $this->app->url->param('embed', true);
-
-        $mod_iframe = false;
-        if ($mod_to_edit != false) {
-            $mod_to_edit = str_ireplace('_mw_slash_replace_', '/', $mod_to_edit);
-            $mod_iframe = true;
-        }
-        //$data = $_REQUEST;
-
-        if (($_POST)) {
-            $data = $_POST;
-        } else {
-            $url = $this->app->url->segment();
-
-            if (!empty($url)) {
-                foreach ($url as $k => $v) {
-                    $kv = explode(':', $v);
-                    if (isset($kv[0]) and isset($kv[1])) {
-                        $data[$kv[0]] = $kv[1];
-                    }
-                }
-            }
-        }
-
-        if (!isset($_POST['id']) and !isset($data['id']) and isset($_REQUEST['id'])) {
-            //	$data['id'] = $_REQUEST['id'];
-        }
-
-        $is_page_id = $this->app->url->param('page_id', true);
-        if ($is_page_id != '') {
-            //s  $data['page_id'] = $is_page_id;
-        }
-
-        $is_REQUEST_id = $this->app->url->param('post_id', true);
-        if ($is_REQUEST_id != '') {
-            //  $data['post_id'] = $is_REQUEST_id;
-        }
-
-        $is_category_id = $this->app->url->param('category_id', true);
-        if ($is_category_id != '') {
-            //   $data['category_id'] = $is_category_id;
-        }
-
-        $is_rel = $this->app->url->param('rel', true);
-        if ($is_rel != '') {
-            //   $data['rel'] = $is_rel;
-
-            if ($is_rel == 'page') {
-
-
-            }
-
-            if ($is_rel == 'post') {
-                // $refpage = get_ref_page ();
-
-            }
-
-            if ($is_rel == 'category') {
-                // $refpage = get_ref_page ();
-
-            }
-        }
-
-        $tags = false;
-        $mod_n = false;
-
-        if (isset($data['type']) != false) {
-            if (trim($data['type']) != '') {
-                $mod_n = $data['data-type'] = $data['type'];
-            }
-        }
-
-        if (isset($data['data-module-name'])) {
-            $mod_n = $data['data-type'] = $data['data-module-name'];
-            unset($data['data-module-name']);
-        }
-
-        if (isset($data['data-type']) != false) {
-            $mod_n = $data['data-type'];
-        }
-        if (isset($data['data-module']) != false) {
-            if (trim($data['data-module']) != '') {
-                $mod_n = $data['module'] = $data['data-module'];
-            }
-        }
-
-        if (isset($data['module'])) {
-            $mod_n = $data['data-type'] = $data['module'];
-            unset($data['module']);
-        }
-
-        if (isset($data['type'])) {
-            $mod_n = $data['data-type'] = $data['type'];
-            unset($data['type']);
-        }
-        if (isset($data['data-type']) != false) {
-            $data['data-type'] = rtrim($data['data-type'], '/');
-            $data['data-type'] = rtrim($data['data-type'], '\\');
-            $data['data-type'] = str_replace('__', '/', $data['data-type']);
-        }
-        if (!isset($data)) {
-            $data = $_REQUEST;
-        }
-        if (!isset($data['module']) and isset($mod_from_url) and $mod_from_url != false) {
-            $data['module'] = ($mod_from_url);
-        }
-
-        if (!isset($data['id']) and isset($_REQUEST['id']) == true) {
-            $data['id'] = $_REQUEST['id'];
-        }
-        if (isset($data['ondrop'])) {
-
-            if (!defined('MW_MODULE_ONDROP')) {
-                define('MW_MODULE_ONDROP', true);
-            }
-
-            unset($data['ondrop']);
-        }
-
-        $has_id = false;
-        if (isset($data) and is_array($data)) {
-            foreach ($data as $k => $v) {
-                if ($k != 'ondrop') {
-                    if ($k == 'id') {
-                        $has_id = true;
-                    }
-
-                    if (is_array($v)) {
-                        $v1 = $this->app->format->array_to_base64($v);
-                        $tags .= "{$k}=\"$v1\" ";
-                    } else {
-
-                        $v = $this->app->format->clean_html($v);
-
-
-                        //$v = $this->app->db->escape_string($v);
-
-                        $tags .= "{$k}=\"$v\" ";
-                    }
-                }
-            }
-        }
-        if ($has_id == false) {
-
-            //	$mod_n = $this->app->url->slug($mod_n) . '-' . date("YmdHis");
-            //	$tags .= "id=\"$mod_n\" ";
-        }
-
-        $tags = "<module {$tags} />";
-
-        $opts = array();
-        if ($_REQUEST) {
-            $opts = $_REQUEST;
-        }
-        $opts['admin'] = $admin;
-
-        if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
-            $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
-            if (strstr($get_arr_from_ref, $this->app->url->site())) {
-                $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
-                if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
-                    $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
-                    if (is_array($get_array)) {
-
-                        mw_var('mw_restore_get', $get_array);
-                    }
-                    //
-
-                }
-            }
-        }
-
-        $res = $this->app->parser->process($tags, $opts);
-        $res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
-
-        if ($embed != false) {
-            $p_index = MW_INCLUDES_DIR . 'api/index.php';
-            $p_index = normalize_path($p_index, false);
-            $l = new $this->app->view($p_index);
-            $layout = $l->__toString();
-            $res = str_replace('{content}', $res, $layout);
-        }
-
-        $aj = $this->app->url->is_ajax();
-
-        if (isset($_REQUEST['live_edit'])) {
-
-
-            $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
-            $p_index = normalize_path($p_index, false);
-            $l = new $this->app->view($p_index);
-            $l->params = $data;
-            $layout = $l->__toString();
-            $res = str_replace('{content}', $res, $layout);
-            $res = $this->app->parser->process($res, $options = false);
-
-
-        }
-
-        $res = execute_document_ready($res);
-        if (!defined('MW_NO_OUTPUT')) {
-            $res = $this->app->url->replace_site_url_back($res);
-            print $res;
-        }
-
-        if ($url_last != __FUNCTION__) {
-            if (function_exists($url_last)) {
-                //
-                $this->api($url_last);
-            } else if (isset($url_prev) and function_exists($url_prev)) {
-                $this->api($url_last);
-            } elseif (class_exists($url_last, false)) {
-                $this->api($url_last);
-            } elseif (isset($url_prev) and class_exists($url_prev, false)) {
-                $this->api($url_prev);
-            }
-        }
-        exit();
-    }
-
-
-    public function m()
-    {
-
-        if (!defined('MW_API_CALL')) {
-            define('MW_API_CALL', true);
-        }
-
-        if (!defined('MW_NO_OUTPUT')) {
-            define('MW_NO_OUTPUT', true);
-        }
-        return $this->module();
-    }
-
     public function sitemapxml()
     {
 
@@ -1917,11 +1955,11 @@ class Controller
         $map = $sm_file;
         $fp = fopen($map, 'r');
 
-// send the right headers
+        // send the right headers
         header("Content-Type: text/xml");
         header("Content-Length: " . filesize($map));
 
-// dump the picture and stop the script
+        // dump the file and stop the script
         fpassthru($fp);
         exit;
 
@@ -1970,25 +2008,6 @@ class Controller
         $f = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
         require ($f);
         exit();
-    }
-
-    public function install()
-    {
-        $installed = MW_IS_INSTALLED;
-
-        if ($installed == false) {
-            $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'index.php';
-            require ($f);
-            exit();
-        } else {
-            if ($this->app->user->is_admin() == true) {
-                $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'index.php';
-                require ($f);
-                exit();
-            } else {
-                mw_error('You must login as admin');
-            }
-        }
     }
 
     public function editor_tools()

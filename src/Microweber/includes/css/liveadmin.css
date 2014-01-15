@@ -5,6 +5,9 @@
 
 */
 
+
+
+
 body#UnsupportedBrowser div {
   display: none !important;
 }
@@ -68,14 +71,16 @@ body#UnsupportedBrowser #download_browsers_holder{
 
 .mw-defaults{
   line-height: 1.5;
+  -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
-       box-sizing: content-box;
+  box-sizing: content-box;
 }
 
 .mw-defaults * {
   color: inherit;
-  -moz-box-sizing: inherit;
-       box-sizing: inherit;
+  -webkit-box-sizing:inherit;
+  -moz-box-sizing:inherit;
+  box-sizing:inherit;
 }
 
 .mw-defaults li{
@@ -269,7 +274,7 @@ body.cross{
   display: block;
   float: left;
   text-indent: -100%;
-  background-image: url(../img/logo_modules.png), url("../img/nav_item_border.jpg");
+  background-image: url(../img/logo_modules.png);
   background-repeat: no-repeat, no-repeat;
   background-position: left center, right bottom;
   margin: 0 15px;
@@ -296,11 +301,7 @@ html.mw_pages #mw_toolbar_nav{
 html.mw_pages #mw_tabs li.active a{
   padding: 15px 20px 11px;
 }
-
-
-
-
-.mw_tree_title{
+ .mw_tree_title{
   background: url(../img/ico.tree.png) no-repeat 14px 0px;
   padding:5px 0 18px 55px;
   margin: 0;
@@ -317,7 +318,7 @@ html.mw_pages #mw_tabs li.active a{
   background-position: 9px 0;
 }
 
-#mw_edit_pages_content{
+#mw_edit_pages_content, #mw_index_settings{
   position: relative;
   min-width: 1022px;
 
@@ -1037,8 +1038,16 @@ div .mw-custom-field-form-controls:last-child{
   line-height: 0;
   height: 0;
 }
+.custom-field-edit-title-head {
 
-.custom-field-edit-title{
+ 
+  padding-left:10px;
+   padding-top:5px;
+   color: #999;
+    font-weight: normal;
+	font-size:10px;
+}
+.custom-field-edit-title {
 
   text-shadow:0 1px 0 #fff;
   text-transform: capitalize;
@@ -2909,7 +2918,6 @@ a.module-icon-title{
 }
 .dashboard-top-row{
   background:#F5f5f5;
-  background:white;
   border-bottom: 1px solid #E5E5E5;
 }
 

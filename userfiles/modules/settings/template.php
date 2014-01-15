@@ -87,8 +87,7 @@ $data = $arr = array();
 	}
 
 
-
-
+ 
 
 
 
@@ -129,19 +128,24 @@ mw.tpl = {
             property:$(this).dataset("property")
         }
     });
-    $.post(u,obj, function(){
+    $.post(u,obj, function(msg){
       if(self !== parent){
         var css = parent.mw.$("#mw-template-settings")[0];
 		
 		mw.reload_module('content/layout_selector_custom_css');
 		
-		
-		if(css === undefined || css === null){
+		if((css === undefined || css === null) && (msg.url !== undefined)){
 			  var l = parent.mwd.createElement('link');
               l.href = mw.settings.template_url + "live_edit.css";
+			  l.href =msg.url;
+
               l.id = "mw-template-settings";
               l.type = "text/css";
               l.rel = "stylesheet";
+			  
+			  
+ 
+			  
               parent.mwd.getElementsByTagName('head')[0].appendChild(l);
 
 		} else {

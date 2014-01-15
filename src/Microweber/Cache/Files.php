@@ -69,7 +69,6 @@ class Files
     }
 
 
-
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
 
@@ -719,6 +718,7 @@ class Files
 
         if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
 
+
             $this->recursive_remove_from_cache_index(MW_CACHE_DIR, true);
             return true;
         }
@@ -856,24 +856,16 @@ class Files
 
             // and scan through the items inside
             while (FALSE !== ($item = readdir($handle))) {
-
+                // we build the new path to delete
+                $path = $directory . DIRECTORY_SEPARATOR . $item;
                 if (!in_array($item, $this->mw_cache_deleted_items)) {
-
-
-                    $this->mw_cache_deleted_items[] = $item;
-                    // if the filepointer is not the current directory
-                    // or the parent directory
-                    if ($item != '.' && $item != '..') {
-                        // we build the new path to delete
-                        $path = $directory . DIRECTORY_SEPARATOR . $item;
-
-                        // if the new path is a directory
+                    if ($item != '.' && $item != '..' && substr($item, 0, 1) !== '.') {
+                        // if the path is a directory
                         if (is_dir($path)) {
                             // we call this function with the new path
                             $this->_rmdirs($path, $empty);
-                            // if the new path is a file
                         } else {
-                            //   $path = normalize_path($path, false);
+                            // if the path is a file
                             try {
                                 if (is_file($path)) {
                                     @unlink($path);
@@ -882,6 +874,7 @@ class Files
                             }
                         }
                     }
+                    $this->mw_cache_deleted_items[] = $item;
                 }
 
 

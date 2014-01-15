@@ -2,7 +2,7 @@
 
 
 
-//d($params);
+ 
 
 
 $rand = uniqid().rand();
@@ -254,16 +254,18 @@ mw.templatePreview<?php print $rand; ?> = {
           var  val = $(this).attr('value');
           var  selected = $(this).attr('selected');
           var  title = $(this).attr('title');
-	//	mw.log(val);
-		//mw.log(selected);
-
-		 //var value=this.val();
+		  var  tag = $(this).attr('data-tag');
+ 
 		 $layout_list_rend_str += '<li ';
      $layout_list_rend_str += ' onclick="mw.templatePreview<?php print $rand; ?>.view('+indx+');" ';
      if(val != undefined){
       $layout_list_rend_str += 'value="'+val+'" ';
+    } 
+	 
+    if(tag != undefined){
+      $layout_list_rend_str += 'data-tag="'+tag+'" ';
     }
-    if(val != undefined){
+	if(val != undefined){
       $layout_list_rend_str += 'data-index="'+indx+'" ';
     }
     if(selected != undefined){
@@ -545,6 +547,8 @@ $global_template = get_option('current_template', 'template');
 			 
 			 <?php if(isset($item['is_shop']) ): ?>   data-is-shop="<?php print $item['is_shop'] ?>"  <?php endif; ?> 
 			  <?php if(isset($item['name']) ): ?>   title="<?php print $item['name'] ?>"  <?php endif; ?>
+			  			  <?php if(isset($item['tag']) ): ?>   data-tag="<?php print $item['tag'] ?>"  <?php endif; ?>
+
 			   >
 			<?php   print $item['name'] ?>
 			</option>

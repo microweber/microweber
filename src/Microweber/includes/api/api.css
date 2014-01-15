@@ -363,7 +363,7 @@ body.dragStart #items_handle{
 
 
 
-.element-current, .element-current:hover{
+.edit .element-current, .edit .element-current:hover{
   outline: 1px solid  #429BD5 !important;
   outline: 1px solid  #9FCCEA !important;
 }
@@ -372,10 +372,20 @@ body.dragStart #items_handle{
   outline: 1px solid  #9FCCEA !important;
 }     */
 
-
+li.module-item.ui-draggable-dragging,
+li.module-item.ui-draggable-dragging:before,
+li.module-item.ui-draggable-dragging:after,
+li.module-item.ui-draggable-dragging *,
+li.module-item.ui-draggable-dragging *:before,
+li.module-item.ui-draggable-dragging *:after{
+    -webkit-box-sizing:content-box;
+    -moz-box-sizing:content-box;
+    box-sizing:content-box;
+}
 
 
 li.module-item.ui-draggable-dragging{
+
   border-radius: 1px;
   box-shadow: 0 0 2px #7A7A7A;
   box-shadow: 0 0 6px -4px #111;

@@ -297,6 +297,31 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 					</div>
 					<?php endif; ?>
 					<module type="shop/payments/currency_render" id="mw_curr_rend" />
+                    
+                    <div class="vSpace"></div>
+
+                    
+                    <h4>
+						<?php _e("Disable online shop"); ?>
+					</h4>
+					
+                    
+                    <label class="mw-ui-check">
+						<input name="shop_disabled" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_disabled', 'website') != 'y'): ?> checked="checked" <?php endif; ?> >
+						<span></span><span>
+						<?php _e("No"); ?>
+						</span></label>
+                    <label class="mw-ui-check">
+						<input name="shop_disabled" class="mw_option_field"    data-option-group="website"  value="y"  type="radio"  <?php if(get_option('shop_disabled', 'website') == 'y'): ?> checked="checked" <?php endif; ?> >
+						<span></span><span>
+						<?php _e("Yes"); ?>
+						</span></label>
+					
+					<br />
+					<small>
+					<?php _e("You can aways enable it"); ?> <a class="mw-ui-link"   href="<?php  print admin_url('view:settings#option_group=shop__payments__admin'); ?>" ><?php _e("here"); ?></a></small>
+                    
+                    
 				</div>
 				<div class="otab">
 					<h2>

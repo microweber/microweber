@@ -149,13 +149,17 @@ mw.askusertostay = false;
     string: function(obj) {
       return typeof obj === 'string';
     },
+    array:function(obj){
+      return [].constructor === obj.constructor;
+    },
     invisible: function(obj) {
       return window.getComputedStyle(obj, null).visibility === 'hidden';
     },
     visible: function(obj) {
       return window.getComputedStyle(obj, null).visibility === 'visible';
     },
-    ie: (/*@cc_on!@*/false || !!window.MSStream)
+    ie: (/*@cc_on!@*/false || !!window.MSStream),
+    firefox:navigator.userAgent.toLowerCase().contains('firefox')
   }
 
 
@@ -254,6 +258,8 @@ mw.askusertostay = false;
   mw.settings = {
     liveEdit:false,
     debug: true,
+	basic_mode:false,
+ 
     site_url: '<?php print site_url(); ?>',
     template_url: '<?php print TEMPLATE_URL; ?>',
     includes_url: '<?php   print( INCLUDES_URL);  ?>',
@@ -275,7 +281,13 @@ mw.askusertostay = false;
         if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
         v.content = "width=device-width, initial-scale=1.0";
         mwhead.appendChild(v);
-      }, 'bootstrap.min.css', 'bootstrap.min.js']
+      }, 'bootstrap.min.css', 'bootstrap.min.js'],
+      flatstrap3:[function(){
+        var v = mwd.querySelector('meta[name="viewport"]');
+        if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
+        v.content = "width=device-width, initial-scale=1.0";
+        mwhead.appendChild(v);
+      }, 'css/bootstrap.min.css', 'js/bootstrap.min.js']
     },
     page_id: '<?php print intval(PAGE_ID) ?>',
     post_id: '<?php print intval(POST_ID) ?>',
@@ -304,7 +316,7 @@ mw.askusertostay = false;
             <span title='Click to select this module.' class='mw-sorthandle-moveit'><?php _e("Move"); ?></span>\
         </div>",
       row: "\
-        <div contenteditable='false' class='mw-defaults mw_master_handle' id='mw_handle_row'>\
+        <div contenteditable='false' class='mw-defaults mw_master_handle mw_handle_row' id='mw_handle_row'>\
             <span title='<?php _e("Click to select this column"); ?>.' class='column_separator_title'><?php _e("Columns"); ?></span>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\
@@ -685,7 +697,7 @@ mw._response = {
         var err_holder = mwd.createElement('div');
         form[method](err_holder);
     }
-    $(err_holder).empty().attr("class", 'alert alert-' + type + ' hide');
+    $(err_holder).empty().attr("class", 'alert alert-' + type + ' ');
     return err_holder;
   },
   createHTML:function(data, holder){

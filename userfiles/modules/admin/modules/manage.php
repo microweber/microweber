@@ -55,12 +55,11 @@ if(isset($params['installed'])){
 	  $mod_params['installed'] = '[int]'.$params['installed'];
 }
   
- //d($mod_params);
- if(isset($params['install_new'])){
+  if(isset($params['install_new'])){
 	  $update_api = new \Microweber\Update();
 
 $params = array();
- 
+$params['add_new'] = true; 
 $result = $update_api -> call('get_modules', $params);
  
 	 
@@ -75,33 +74,32 @@ $result = $update_api -> call('get_modules', $params);
    $upds = false;
  
 ?>
+<style>
+.mw-module-installed-0 {
+ opacity:0.6;	
+}
+</style>
 <?php if(isset($mods) and is_array($mods) == true): ?>
 
 <ul class="mw-modules-admin">
-
-<?php if(is_array($upds) == true): ?>
-<?php foreach($upds as  $upd_mod): ?>
-<?php if(isset($upd_mod['module'])): ?>
-<?php $item = module_info($upd_mod['module']); ?>
-<?php if(isset($item['id'])): ?>
-<li class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?>" id="module-db-id-<?php print $item['id'] ?>" >
+  <?php if(is_array($upds) == true): ?>
+  <?php foreach($upds as  $upd_mod): ?>
+  <?php if(isset($upd_mod['module'])): ?>
+  <?php $item = module_info($upd_mod['module']); ?>
+  <?php if(isset($item['id'])): ?>
+  <li class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?>" id="module-db-id-<?php print $item['id'] ?>" >
     <module type="admin/modules/edit_module" data-module-id="<?php print $item['id'] ?>" />
   </li>
-    <?php endif; ?>
-   <?php endif; ?>
- <?php endforeach; ?>
- <?php endif; ?>
+  <?php endif; ?>
+  <?php endif; ?>
+  <?php endforeach; ?>
+  <?php endif; ?>
   <?php foreach($mods as $k=>$item): ?>
   <?php if(!isset($item['id'])): ?>
   <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<?php print $item['id'] ?>" >
-  
-  <div class=" module module-admin-modules-edit-module ">
- <?php $data = $item; include($config["path"].'update_module.php'); ?>
-</div>
-
-
-
-   
+    <div class=" module module-admin-modules-edit-module ">
+      <?php $data = $item; include($config["path"].'update_module.php'); ?>
+    </div>
   </li>
   <?php else : ?>
   <li class="mw-admin-module-list-item mw-module-installed-<?php print $item['installed'] ?>" id="module-db-id-<?php print $item['id'] ?>" >
@@ -111,6 +109,7 @@ $result = $update_api -> call('get_modules', $params);
   <?php endforeach; ?>
 </ul>
 <?php else : ?>
-<?php _e("No modules found"); ?>.
+<?php _e("No modules found"); ?>
+.
 <?php endif; ?>
 <?php endif; ?>

@@ -28,6 +28,9 @@ function __store_lang_file()
     $lang = current_lang();
 
     $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
+
+    $lang_file = MW_USERFILES . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
+
     $mw_language_content2 = array();
     if (is_array($mw_language_content) and is_array($mw_new_language_entires) and !empty($mw_new_language_entires)) {
 
@@ -65,7 +68,14 @@ function __store_lang_file()
 
             if ($c1 > $c2) {
 				if(isset($lang_file) and $lang_file != false and isset($lang_file_str) and $lang_file_str != false){
-					 file_put_contents($lang_file, $lang_file_str);
+                    $dn = dirname($lang_file);
+                    if(!is_dir($dn)){
+                        @mkdir($dn);
+                    }
+                    if(is_writable($lang_file)){
+                        file_put_contents($lang_file, $lang_file_str);
+                    }
+
 				}
                
             }
@@ -227,7 +237,11 @@ function save_language_file_content($data)
 
         $lang = current_lang();
 
-        $cust_dir = $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
+        // $cust_dir = $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
+
+        $cust_dir = MW_USERFILES . 'language' . DIRECTORY_SEPARATOR;
+
+
         if (!is_dir($cust_dir)) {
             mkdir_recursive($cust_dir);
         }
@@ -281,6 +295,10 @@ function get_language_file_content()
     $lang_file = normalize_path($lang_file, false);
 
     $lang_file2 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file2 = MW_USERFILES . 'language' . DIRECTORY_SEPARATOR . $lang . '.php';
+
+    // . 'storage' . DS
+
     $lang_file3 = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.php';
 
 

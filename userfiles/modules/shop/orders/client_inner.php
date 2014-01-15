@@ -140,7 +140,7 @@ save:function(){
 						  
 						  
 						  
-                          <span class="mw-ui-btn mw-ui-btn-small unselectable right" onmousedown="mw.tools.accordion(this.parentNode.parentNode);"><?php _e("Show Order"); ?> <span class="mw-ui-arr"></span></span> <span class="hSpace right"></span> <a href="<?php print $config['url'] ?>/../action:orders#?vieworder=<?php print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small unselectable right"><span class="mw-ui-arr mw-ui-arr-left mw-ui-arr-blue "></span> <?php _e("Go to this order"); ?></a> </div>
+                          <span class="mw-ui-btn mw-ui-btn-small unselectable right" onmousedown="mw.tools.accordion(this.parentNode.parentNode);"><?php _e("Show Order"); ?> <span class="mw-ui-arr"></span></span> <span class="hSpace right"></span> <a href="<?php print  admin_url() ?>view:shop/action:orders#vieworder=<?php print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small unselectable right"><span class="mw-ui-arr mw-ui-arr-left mw-ui-arr-blue "></span> <?php _e("Go to this order"); ?></a> </div>
                           <div class="mw-o-box-content mw-accordion-content">
                             <?php $cart_items = get_cart('order_completed=any&order_id='.$item['id'].'&no_session_id=1'); 	?>
                             <?php if(is_array($cart_items)): ?>
