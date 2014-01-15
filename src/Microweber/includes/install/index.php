@@ -449,7 +449,7 @@ if (isset($to_save['is_installed'])) {
                 // mw('content')->create_default_content('install');
                 if ($auto_install != false) {
                     $done = true;
-                    $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'done.php';
+                    $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'main.php';
                     include ($f);
                     exit();
                 } else {
