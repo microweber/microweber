@@ -202,10 +202,10 @@
 
                                     <?php if (isset($_COOKIE['advancedmode']) and $_COOKIE['advancedmode'] == 'true') { ?>
 
-                                        <a href="javascript:;" onclick="mw.setMode('simple');">Simple Mode</a>
+                                        <a href="javascript:;" onclick="mw.setMode('simple');" style="display:none">Simple Mode</a>
 
                                     <?php } else { ?>
-                                        <a href="javascript:;" onclick="mw.setMode('advanced')">Advanced Mode</a>
+                                        <a href="javascript:;" onclick="mw.setMode('advanced')" style="display:none">Advanced Mode</a>
                                     <?php } ?>
                                 <?php }  ?>
 
