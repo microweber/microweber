@@ -172,7 +172,6 @@ $(document).ready(function(){
    });
 
    $(mwd.body).bind("keydown",function(e){
-       d(e.target)
      if(e.keyCode == 83 && e.ctrlKey){
         mw.e.cancel(e, true);
         mw.drag.save(mwd.getElementById('main-save-btn'));

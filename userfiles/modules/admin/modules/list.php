@@ -107,8 +107,7 @@ if(!empty($modules)){
                    }
                    $module2['categories'] = implode(',',$temp);
 				 //   $module2['categories_ids'] = implode(',',$temp2);
-				//   d( $module2['categories']);
-                 }
+                  }
 
    ?>
 	<?php $module2['module_clean'] = str_replace('/','__',$module2['module']); ?>

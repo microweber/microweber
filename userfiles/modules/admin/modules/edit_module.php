@@ -120,25 +120,22 @@ $('#module_open_<?php print $params['id']; ?>').show();
 		<?php endif; ?>
 		<p> </p>
 	</div>
-	<?php /*   <?php if(isset($data['author'])):  ?>
-    author : <?php print $data['author'] ?><br />
-  <?php endif; ?>
-
-  <?php if(isset($data['website'])):  ?>
-    website : <?php print $data['website'] ?><br />
-  <?php endif; ?>
-
-  <?php if(isset($data['help'])):  ?>
-    help : <?php print $data['help'] ?><br />
-  <?php endif; ?> */ ?>
+ 
 	<input type="hidden" name="id" value="<?php print $data['id'] ?>" />
 	<input type="hidden" name="installed" value="<?php print $data['installed'] ?>" />
 	<input type="hidden" name="ui" value="<?php print $data['ui'] ?>" />
 	<input type="hidden" name="ui_admin" value="<?php print $data['ui_admin'] ?>" />
 	<input type="hidden" name="position" value="<?php print $data['position'] ?>" />
-	<span class="admin-modules-list-buttons"> <a id="module_open_<?php print $params['id']; ?>" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>" class="mw-ui-btn">
+	<span class="admin-modules-list-buttons"> 
+    
+    
+    <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
+    <a id="module_open_<?php print $params['id']; ?>" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>" class="mw-ui-btn">
 	<?php _e("Open"); ?>
 	</a>
+    <?php endif; ?>
+    
+    
 	<input <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?> style="display:none" <?php endif; ?> class="mw-ui-btn" name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" value="<?php _e("Install"); ?>" />
 	<input  <?php if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?> style="display:none" <?php endif; ?> class="mw-ui-btn" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Uninstall"); ?>" />
 	<?php if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>

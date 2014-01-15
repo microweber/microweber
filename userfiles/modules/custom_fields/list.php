@@ -198,7 +198,7 @@ if(is_array( $diff) and is_array($more) ){
       </td>
        
       
-      <td><?php  print $field['custom_field_values_plain']; ?></td>
+      <td ondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);"><?php  print $field['custom_field_values_plain']; ?></td>
       <!-- <td> <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-meduim" href="javascript:;" onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);">edit</a>
       
       </td>-->

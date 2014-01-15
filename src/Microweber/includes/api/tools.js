@@ -625,11 +625,20 @@ mw.tools = {
         if(el.hasInput){
             var input = el.querySelector('input.mw_dd_field');
             input.dropdown = el;
-            input.onkeyup = function(e){
-                if(e.keyCode == 13){
-                    $(this.dropdown).removeClass("active");
+            input.onkeydown = function(e){
+              if(e.keyCode == 13){
+              e.preventDefault()
+              $(this.dropdown).removeClass("active");
                     mw.$('.mw_dropdown_fields', this.dropdown).hide();
                     $(this.dropdown).setDropdownValue(this.value, true, true);
+                    return false;
+                    }
+            }
+            input.onkeyup = function(e){
+
+                if(e.keyCode == 13){
+                    return false;
+
                 }
              }
         }

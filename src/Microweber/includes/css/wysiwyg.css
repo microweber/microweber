@@ -274,6 +274,7 @@
 .mw_dropdown_type_wysiwyg:hover, .mw_dropdown_type_wysiwyg.hovered, .mw_dropdown_type_wysiwyg.active{
   border-color:#D2D2D2;
   background: #F3F3F3;
+  box-shadow: 2px 2px 2px -2px #ddd, -2px -2px 2px -2px #ddd;
 }
 
 .mw_dropdown_type_wysiwyg:active{

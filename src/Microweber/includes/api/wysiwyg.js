@@ -586,7 +586,6 @@ mw.wysiwyg = {
         }
     },
     applier:function(tag, classname, style_object){
-
       var classname = classname || '';
       if(mw.wysiwyg.isSelectionEditable()){
           var range = window.getSelection().getRangeAt(0);
@@ -681,17 +680,29 @@ mw.wysiwyg = {
       for( ; i1<l1; i1++){
         $(a1[i1]).removeClass("selection-simulation");
       }
+      mw.wysiwyg.nestingFixes();
+    },
+    nestingFixes:function(root){
+        var root = root || mwd.body;
+        var all = root.querySelectorAll('.mw-span-font-size'), l = all.length, i=0;
+        for( ; i<l; i++){
+          var el = all[i];
+          if(el.firstChild === el.lastChild && el.firstChild.nodeType !== 3){
+              $(el.firstChild).unwrap();
+          }
+        }
     },
     fontSize:function(px){
+
         if(window.getSelection().isCollapsed){ return false; }
-        var obj = {
-          fontSize:px+'pt'
+        var css = {
+          "fontSize":px+'pt'
         }
-        var r = window.getSelection().getRangeAt(0)
-        if(r.querySelector('.mw-span-font-size') !== null){
-          $(r.querySelectorAll('.mw-span-font-size')).css("fontSize", 'inherit');
+        var r = window.getSelection().getRangeAt(0);
+        var el = mw.wysiwyg.applier('span', 'mw-span-font-size', css);
+        if(el.querySelector('.mw-span-font-size') !== null){
+          $(el.querySelectorAll('.mw-span-font-size')).css("fontSize", 'inherit');
         }
-        var el = mw.wysiwyg.applier('span', 'mw-span-font-size', obj);
         mw.wysiwyg.removeSimulations();
         //mw.wysiwyg.execCommand('fontsize', null, px);
     },
