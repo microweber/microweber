@@ -5,6 +5,8 @@
     <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>default.css"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+
     <script type="text/javascript">
         if (!window.CanvasRenderingContext2D) {
           var h = "<div id='UnsupportedBrowserMSG'><h1><?php _e("Your a need better browser to run <b>Microweber</b>"); ?></h1></div>"
@@ -52,6 +54,20 @@
         		}
     		    mw.cookie.set('back_to_admin', window.location.href);
     		}
+			
+			
+		  mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function(){
+			   if(mw.helpinfo != undefined){
+				    mw.cookie.set('helpinfo',false); 
+				   $(".helpinfo_helper").fadeOut();
+			     
+			   }
+		  });  
+	 
+			
+			
+			
+			
 		});
     </script>
     <?php endif; ?>

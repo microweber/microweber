@@ -1,3 +1,3 @@
 NON EXISTING MODULE!!!!
-<?php p($config); ?>
-<?php p($params); ?>
+ 
+<?php var_dump($params); ?>

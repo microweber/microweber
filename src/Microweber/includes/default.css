@@ -17,6 +17,46 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
 
 
 
+.mw-defaults{
+  line-height: 1.5;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.mw-defaults * {
+  color: inherit;
+  -webkit-box-sizing:inherit;
+  -moz-box-sizing:inherit;
+  box-sizing:inherit;
+}
+
+.mw-defaults li{
+  line-height: 22px;
+}
+
+.mw-defaults, .mw-defaults textarea, .mw-defaults input, .mw-defaults select{
+  font: 12px Verdana,Arial,Helvetica,sans-serif;
+  color: #212121;
+}
+.mw-defaults a{
+  color: #212121;
+  text-decoration: none;
+  outline: none;
+  font-family: Verdana, sans-serif;
+}
+
+.mw-defaults li, .mw-defaults ol, .mw-defaults ul{
+  margin: 0;
+  padding: 0;
+}
+
+
+img{
+  border: none;
+  max-width: 100%;
+}
+
 
 body.mw-preview{
   zoom: 0.36;
@@ -132,6 +172,7 @@ img.element{
     clear: both;
     content: ".";
     display: block;
+    overflow: hidden;
     height: 0;
     line-height: 0;
     visibility: hidden;
@@ -530,8 +571,6 @@ table[class*='mw-wysiwyg-table'] td{
 
 /* Borderless Zebra */
 
-
-
 .mw-wysiwyg-table-simple-zebra > tbody > tr > td{
   border-width:  0px 0px 1px;
   border-style: none none solid;
@@ -575,6 +614,51 @@ table[class*='mw-wysiwyg-table'] td{
 .mw-cancel:hover{
   background: #F3F3F3;
   border-color:#D7D7D7;
+}
+
+.mw-ui-row{
+  display: table !important;
+  width: 100%;
+}
+.mw-ui-row-fixed{
+  table-layout: fixed;
+}
+
+.mw-ui-col{
+  display: table-cell;
+  vertical-align: top;
+}
+.mw-ui-col-container{
+  position: relative;
+  clear: both;
+}
+.mw-ui-col-container:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+@media (max-width: 1024px) {
+   .mw-ui-row-drop-on-1024 > .mw-ui-col{
+      display: block !important;
+      clear: both;
+      width: auto !important;
+   }
+}
+@media (max-width: 768px) {
+  .mw-ui-row, .mw-ui-col{
+    display: block !important;
+    clear: both;
+    width: auto !important;
+  }
+}
+
+.semi_hidden{
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
 }
 
 

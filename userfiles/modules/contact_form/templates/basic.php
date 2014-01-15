@@ -19,7 +19,7 @@ description: Basic contact form
   <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post" >
     <module type="custom_fields" data-id="<?php print $params['id'] ?>" data-for="module"  default-fields="name,email,text"   />
     <?php if(get_option('disable_captcha', $params['id']) !='y'): ?>
-      <div class="control-group">
+      <div class="control-group form-group">
         <label><?php _e("Security code"); ?></label>
         <div class="input-prepend">
           <span class="add-on" style="width: 100px;background: white"><img width="100" class="mw-captcha-img" src="<?php print api_link('captcha') ?>" /></span>
@@ -27,7 +27,7 @@ description: Basic contact form
         </div>
       </div>
     <?php  endif;?>
-    <input type="submit" class="btn"  value="<?php _e("Submit"); ?>" />
+    <input type="submit" class="btn btn-default"  value="<?php _e("Submit"); ?>" />
   </form>
 
 </div>

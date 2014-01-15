@@ -4,26 +4,26 @@
         <div class="editor_wrapper editor_wrapper_tabled" id="liveedit_wysiwyg">
             <div class="wysiwyg-table">
 
-
+<?php if(is_admin()): ?>
                    <div class="wysiwyg-cell">
-                  <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
-                  <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
+							  <span class="mw_editor_btn mw_editor_undo" data-command="custom-historyUndo" title="<?php _e("Undo"); ?>"><span class="ed-ico"></span></span>
+							  <span class="mw_editor_btn mw_editor_redo disabled" data-command="custom-historyRedo" title="<?php _e("Redo"); ?>"><span class="ed-ico"></span></span>
 
-                  <span class="mw_editor_btn"  onclick="mw.$('#mw-history-panel').toggle()"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
-
-
-
-                  <div class="mw-ui-dropdown left" id="history_dd">
-
-
-
-                          <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
-
-
-              </div>
+							  <span class="mw_editor_btn"  onclick="mw.$('#mw-history-panel').toggle()"><span class="dd_rte_arr" style="margin: 12px 5px 0;"></span></span>
+			
+			
+			
+							  <div class="mw-ui-dropdown left" id="history_dd">
+			
+			
+			
+									  <div class="mw-dropdown-list" id="mw-history-panel" style="display: none"></div>
+			
+			
+						  </div>
 
                 </div>
-
+<?php endif; ?>
 
 
                 <div class="wysiwyg-cell">
@@ -96,18 +96,19 @@
                     </div>
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
                         <span class="mw_dropdown_val_holder">
+                            <?php /*<input type="text" class="mw_dd_field"  />         */ ?>
                             <span class="dd_rte_arr"></span>
-                            <span class="mw_dropdown_val">10pt</span>
+                            <span class="mw_dropdown_val" >Size</span>
                         </span>
                       <div class="mw_dropdown_fields">
                         <ul>
-                          <li value="1"><a href="#" style="font-size: 10px">8pt</a></li>
-                          <li value="2"><a href="#" style="font-size: 13px">10pt</a></li>
-                          <li value="3"><a href="#" style="font-size: 16px">12pt</a></li>
-                          <li value="4"><a href="#" style="font-size: 18px">14pt</a></li>
-                          <li value="5"><a href="#" style="font-size: 24px">18pt</a></li>
-                          <li value="6"><a href="#" style="font-size: 32px">24pt</a></li>
-                          <li value="7"><a href="#" style="font-size: 48px">36pt</a></li>
+                          <li value="8"><a href="javascript:;">8</a></li>
+                          <li value="10"><a href="javascript:;">10</a></li>
+                          <li value="12"><a href="javascript:;">12</a></li>
+                          <li value="14"><a href="javascript:;">14</a></li>
+                          <li value="18"><a href="javascript:;">18</a></li>
+                          <li value="24"><a href="javascript:;">24</a></li>
+                          <li value="36"><a href="javascript:;">36</a></li>
                         </ul>
                       </div>
                     </div>

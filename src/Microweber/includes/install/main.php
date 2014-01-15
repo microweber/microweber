@@ -401,7 +401,7 @@ $hide_db_setup = 1;
                     <label class="mw-ui-label">
                       <?php _e("Repeat password"); ?>
                     </label>
-                    <input type="password" required="true" class="mw-ui-field" name="admin_password2" <?php if(isset($data['admin_password2'])== true and isset($data['admin_password2'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
+                    <input type="password" required="true" class="mw-ui-field" name="admin_password2" <?php if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
                   </div>
                 </div>
                 <?php 		$default_content_file = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
@@ -434,14 +434,14 @@ $hide_db_setup = 1;
               </form>
               <?php endif; ?>
               <?php else: ?>
-              <h2>
-                <?php _e("Done"); ?>
-                , </h2>
-              <a href="<?php print site_url('admin') ?>">
-              <?php _e("click here to to to admin"); ?>
-              </a> <a href="<?php print site_url() ?>">
-              <?php _e("click here to to to site"); ?>
-              </a>
+              <h2><?php _e("Welcome to your new website!"); ?></h2>
+              <br />
+              <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue left">
+              <?php _e("Click here to go to Admin Panel"); ?>
+              </a> <a href="<?php print site_url() ?>" class="mw-ui-btn left">
+              <?php _e("Click here visit your site"); ?>
+              </a> 
+              <div class="vSpace"></div>
               <?php endif; ?>
             </div>
             <div id="mw-install-done" style="display:none">

@@ -3,8 +3,7 @@
 <section id="content">
 	<div class="container">
 		<div class="row">
-			<div class="span9"> <!-------------- Product -------------->
-				
+			<div class="col-sm-8">
 				<h2 class="edit"  field="title" rel="post">Product inner page</h2>
 				<hr>
 				<div class="edit"  field="content" rel="post">
@@ -24,8 +23,6 @@
 						</div>
 					</div>
 				</div>
-				<!-------------- Related Products -------------->
-				
 				<div class="edit"  field="related_products" rel="inherit">
 					<h4 class="element sidebar-title">Related Products</h4>
 					<module type="shop/products" template="4columns" related="true" />
@@ -33,7 +30,7 @@
 				</div>
 			</div>
 			<!------------ Sidebar -------------->
-			<div class="span3">
+			<div class="col-sm-3 col-sm-offset-1">
 				<?php include_once "shop_sidebar_inner.php"; ?>
 			</div>
 		</div>

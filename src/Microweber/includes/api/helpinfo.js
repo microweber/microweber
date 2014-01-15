@@ -1,5 +1,5 @@
 
-
+/*
 $(window).bind("resize load", function(e){
   if(e.type=='resize' && mw.$(".mwcurrhelp").length === 0) { return false; }
 
@@ -8,6 +8,7 @@ $(window).bind("resize load", function(e){
   }
 
 });
+
 
 
 $(window).bind("keydown", function(e){
@@ -26,7 +27,7 @@ $(window).bind("keydown", function(e){
      }
    }
 });
-
+*/
 
 mw.mouse = {
   create:function(){

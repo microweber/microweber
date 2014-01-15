@@ -7,7 +7,7 @@
 
   <div class="mw-custom-field-group ">
   <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
-    <?php _e('Define Title'); ?>
+    <?php _e('Title'); ?>
   </label>
 
     <input type="text"  class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">

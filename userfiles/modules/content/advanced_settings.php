@@ -6,11 +6,18 @@ if(isset($params['content-id'])){
 }
 
 
- 
+$available_content_types = false; 
+$available_content_subtypes = false; 
 /* FILLING UP EMPTY CONTENT WITH DATA */
 if($data == false or empty($data )){
    $is_new_content = true;
    include('_empty_content_data.php');
+} else {
+	
+	$available_content_types = get_content('group_by=content_type');
+	$available_content_subtypes = get_content('group_by=subtype');
+
+ 
 }
 /* END OF FILLING UP EMPTY CONTENT  */
 $show_page_settings = false;
@@ -23,60 +30,61 @@ $show_page_settings = 1;
 
 <div class="vSpace"></div>
 <div class="mw-ui-field-holder">
-	<label class="mw-ui-label">
-		<?php _e("Description"); ?>
-		<small class="mw-help" data-help="Short description for yor content.">(?)</small></label>
-	<textarea
-				class="mw-ui-field" name="description"   placeholder="<?php _e("Describe your page in short"); ?>"><?php if($data['description']!='') print ($data['description'])?></textarea>
+  <label class="mw-ui-label">
+    <?php _e("Description"); ?>
+    <small class="mw-help" data-help="Short description for yor content.">(?)</small></label>
+  <textarea
+				class="mw-ui-field" name="description"   placeholder="<?php _e("Describe your page in short"); ?>"><?php if($data['description']!='') print ($data['description'])?>
+</textarea>
 </div>
 <div class="mw-ui-field-holder">
-	<label class="mw-ui-label">
-		<?php _e("Meta Title"); ?>
-		<small class="mw-help" data-help="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small></label>
-	<textarea class="mw-ui-field" name="content_meta_title"  placeholder="<?php _e("Title to appear on the search engines results page"); ?>."><?php if(isset($data['content_meta_title']) and $data['content_meta_title']!='') print ($data['content_meta_title'])?></textarea>
+  <label class="mw-ui-label">
+    <?php _e("Meta Title"); ?>
+    <small class="mw-help" data-help="Title for this <?php print $data['content_type'] ?> that will appear on the search engines on social networks.">(?)</small></label>
+  <textarea class="mw-ui-field" name="content_meta_title"  placeholder="<?php _e("Title to appear on the search engines results page"); ?>."><?php if(isset($data['content_meta_title']) and $data['content_meta_title']!='') print ($data['content_meta_title'])?>
+</textarea>
 </div>
 <div class="mw-ui-field-holder">
-	<label class="mw-ui-label">
-		<?php _e("Meta Keywords"); ?>
-		<small class="mw-help" data-help="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial">(?)</small></label>
-	<textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?></textarea>
+  <label class="mw-ui-label">
+    <?php _e("Meta Keywords"); ?>
+    <small class="mw-help" data-help="Keywords for this <?php print $data['content_type'] ?> that will help the search engines to find it. Ex: ipad, book, tutorial">(?)</small></label>
+  <textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?>
+</textarea>
 </div>
 <div class="vSpace"></div>
 <div class="vSpace"></div>
 <div class="mw_clear vSpace"></div>
 <?php if($show_page_settings != false): ?>
 <div class="mw-ui-check-selector">
-	<div class="mw-ui-label left" style="width: 130px">
-        <span class="ico ihome" style="top: -6px;margin-right: 15px;"></span>
-		<?php _e("Is Home"); ?>
-		<small class="mw-help" data-help="<?php _e("If yes this page will be your Home"); ?>">(?)</small></div>
-	<label class="mw-ui-check">
-		<input name="is_home" type="radio"  value="n" <?php if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
-		<span></span><span>
-		<?php _e("No"); ?>
-		</span></label>
-	<label class="mw-ui-check">
-		<input name="is_home" type="radio"  value="y" <?php if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
-		<span></span><span>
-		<?php _e("Yes"); ?>
-		</span></label>
+  <div class="mw-ui-label left" style="width: 130px"> <span class="ico ihome" style="top: -6px;margin-right: 15px;"></span>
+    <?php _e("Is Home"); ?>
+    <small class="mw-help" data-help="<?php _e("If yes this page will be your Home"); ?>">(?)</small></div>
+  <label class="mw-ui-check">
+    <input name="is_home" type="radio"  value="n" <?php if( '' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
+    <span></span><span>
+    <?php _e("No"); ?>
+    </span></label>
+  <label class="mw-ui-check">
+    <input name="is_home" type="radio"  value="y" <?php if( 'y' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
+    <span></span><span>
+    <?php _e("Yes"); ?>
+    </span></label>
 </div>
 <div class="mw_clear vSpace"></div>
 <div class="mw-ui-check-selector">
-	<div class="mw-ui-label left" style="width: 130px">
-    <span class="ico inavshop" style="top: -6px;margin-right: 15px;"></span>
-		<?php _e("Is Shop"); ?>
-		<small class="mw-help" data-help="<?php _e("If yes this page will accept products to be added to it"); ?>">(?)</small></div>
-	<label class="mw-ui-check">
-		<input name="is_shop"  type="radio"  value="n" <?php if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
-		<span></span><span>
-		<?php _e("No"); ?>
-		</span></label>
-	<label class="mw-ui-check">
-		<input name="is_shop" type="radio"  value="y" <?php if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
-		<span></span><span>
-		<?php _e("Yes"); ?>
-		</span></label>
+  <div class="mw-ui-label left" style="width: 130px"> <span class="ico inavshop" style="top: -6px;margin-right: 15px;"></span>
+    <?php _e("Is Shop"); ?>
+    <small class="mw-help" data-help="<?php _e("If yes this page will accept products to be added to it"); ?>">(?)</small></div>
+  <label class="mw-ui-check">
+    <input name="is_shop"  type="radio"  value="n" <?php if( '' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
+    <span></span><span>
+    <?php _e("No"); ?>
+    </span></label>
+  <label class="mw-ui-check">
+    <input name="is_shop" type="radio"  value="y" <?php if( 'y' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
+    <span></span><span>
+    <?php _e("Yes"); ?>
+    </span></label>
 </div>
 <div class="mw_clear vSpace"></div>
 <?php endif; ?>
@@ -104,6 +112,70 @@ $show_page_settings = 1;
 			});
 		}
 		
+		
+		
+		
+	 
+    $(document).ready(function(){
+		
+				
+		    });
+			
+			
+			
+			
+			
+			
+			
+				mw.adm_cont_type_change_holder_event = function(el){
+					
+				 
+					
+			mw.tools.confirm("<?php _e("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function(){
+				 
+		  var root = mwd.querySelector('#<?php print $params['id']; ?>');
+
+		
+		  var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+
+		var ctype = $(el).val()
+ 
+		if(form != undefined && form.querySelector('input[name="content_type"]') != null){
+		 form.querySelector('input[name="content_type"]').value = ctype
+ 		}
+				 
+			});
+		}
+		
+			
+			
+			
+			
+			
+			
+			mw.adm_cont_subtype_change_holder_event = function(el){
+					
+				 
+					
+			mw.tools.confirm("<?php _e("Are you sure you want to change the content subtype"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function(){
+				 
+		  var root = mwd.querySelector('#<?php print $params['id']; ?>');
+
+		
+		  var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+
+		var ctype = $(el).val()
+ 
+		if(form != undefined && form.querySelector('input[name="subtype"]') != null){
+		 form.querySelector('input[name="subtype"]').value = ctype
+ 		}
+				 
+			});
+		}
+			
+			
+			
+			
 		</script> 
 <small><a href="javascript:mw.del_curent_page('<?php print ($data['id'])?>');"  class="mw-ui-link">
 <?php _e('Delete'); ?>
@@ -120,5 +192,34 @@ $show_page_settings = 1;
 <small>
 <?php _e("Updated on"); ?>
 : <?php print mw('format')->date($data['updated_on'])?></small>
+<?php if(is_array($available_content_types) and !empty($available_content_types)): ?>
+<br />
+<small>
+<?php _e("Content type"); ?>
+: <?php print($data['content_type'])?></small> <a href="javascript:$('.mw_adm_cont_type_change_holder').toggle(); void(0);"  > <span class="mw-ui-arr mw-ui-arr-down" style="opacity:0.3"></span> </a>
+<div class="mw_adm_cont_type_change_holder" style="display:none">
+<em>Warning! Advanced action!<br />Do not change these settings unless you know what you are doing.</em>
+ <label class="mw-ui-label">
+    <?php _e("Change content type"); ?>
+    <small class="mw-help" data-help="Changing the content type to different than '<?php print $data['content_type'] ?>' is advanced action. Please read the documentation and consider not to change the content type">(?)</small></label>
+  <select class="mw-ui-simple-dropdown" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
+    <?php foreach($available_content_types as $item): ?>
+    <option value="<?php print $item['content_type'];  ?>"  <?php if( $item['content_type'] == trim($data['content_type'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['content_type'];  ?></option>
+    <?php endforeach; ?>
+  </select>
+  
+  
+   <label class="mw-ui-label">
+    <?php _e("Change content sub type"); ?>
+    <small class="mw-help" data-help="Changing the content subtype to different than '<?php print $data['subtype'] ?>' is advanced action. Please read the documentation and consider not to change the content type">(?)</small></label>
+  <select class="mw-ui-simple-dropdown" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
+    <?php foreach($available_content_subtypes as $item): ?>
+    <option value="<?php print $item['subtype'];  ?>"  <?php if( $item['subtype'] == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['subtype'];  ?></option>
+    <?php endforeach; ?>
+  </select>
+  
+  
+</div>
+<?php endif; ?>
 <?php endif; ?>
 <?php /* PRODUCTS ONLY  */ ?>

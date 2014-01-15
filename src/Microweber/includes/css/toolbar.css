@@ -143,6 +143,11 @@
 }
 #mw_handle_row{
     height: 20px;
+    opacity:0.5;
+}
+
+#mw_handle_row:hover{
+  opacity:1;
 }
 
 .ui-resizable-helper {

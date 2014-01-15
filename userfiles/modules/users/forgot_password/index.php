@@ -1,4 +1,4 @@
-<div class="mw-forgot-pass-wrapper well">
+<div class="mw-forgot-pass-wrapper">
 	<?php if(isset($_GET['reset_password_link'])): ?>
 	<module type="users/forgot_password/reset_password" />
 	<?php else:  ?>
@@ -24,16 +24,18 @@ $(document).ready(function(){
 
 	 
 	 mw.$('#user_forgot_password_form{rand}').submit(function() {
+
           if(formenabled){
               formenabled = false;
               var form = this;
               $(form).addClass('loading');
-              mw.tools.disable(form.submit);
+              mw.tools.disable(mw.$("[type='submit']", form));
+
               mw.form.post(mw.$('#user_forgot_password_form{rand}') , '<?php print site_url('api') ?>/user_send_forgot_password', function(a){
                   mw.response('#form-holder{rand}',this);
                   formenabled = true;
                   $(form).removeClass('loading');
-                  mw.tools.enable(form.submit);
+                  mw.tools.enable(mw.$("[type='submit']", form));
           	 });
            }
            return false;

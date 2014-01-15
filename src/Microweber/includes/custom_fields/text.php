@@ -1,13 +1,17 @@
-<?php  // d($data); ?>
-
-
 <?php
 
     $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
-
+if (!isset( $data['input_class']) and isset($params['input-class'])) {
+     $data['input_class'] = $params['input-class'];
+} elseif (!isset( $data['input_class']) and  isset($params['input_class'])) {
+     $data['input_class'] = $params['input_class'];
+} else {
+	$data['input_class'] = 'form-control';
+	
+}
 ?>
 
-<div class="control-group">
+<div class="control-group form-group">
   <label class="custom-field-title">
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
     <?php print ucwords(str_replace('_', ' ', $data['name'])); ?>

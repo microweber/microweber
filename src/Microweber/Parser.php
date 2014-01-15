@@ -339,26 +339,18 @@ class Parser
                             if (isset($module_name)) {
                                 $module_class = module_css_class($module_name);
                                 $module_title = module_info($module_name);
-                                // $module_title = array();
-                                // $module_title['name'] = $module_name;
-                                //	d($module_title);
-                                // if (!isset($attrs['id'])) {
-                                // if (isset($attrs['module-id'])) {
-                                // $attrs['id'] = $attrs['module-id'];
-                                //
-                                // }
-                                // }
+
                                 if (!isset($attrs['id'])) {
 
                                     global $mw_mod_counter;
                                     $mw_mod_counter++;
                                     $mw_mod_counter1 = crc32(serialize($attrs));
-									
-									
+
+
 									$seg_clean = $this->app->url->segment(0);
                						$seg_clean = str_replace('.', '', $seg_clean);
-									
-									
+
+
                                     $attrs['id'] = $module_class . '-' . $seg_clean  . ($mw_mod_counter1);
                                     $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
 
@@ -397,7 +389,7 @@ class Parser
 								 $userclass = trim(str_replace(' disabled module ', ' module ', $userclass));
 								 $module_class = trim(str_replace(' disabled module ', ' module ', $module_class));
 
-								
+
                                 $userclass = trim(str_replace(' module module ', ' module ', $userclass));
 
                                 $module_html = str_replace('__MODULE_CLASS_NAME__', '' . $module_class, $module_html);
@@ -433,12 +425,15 @@ class Parser
                                 $plain_modules = mw_var('plain_modules');
                                 if ($plain_modules != false) {
                                     $module_db_data = $this->app->module->get('one=1&ui=any&module=' . $module_name);
-                                    $mod_content = '';
+                                     $mod_content = '';
                                     if (is_array($module_db_data)) {
                                         if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
 
                                         } else {
+
                                             $mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
+
+
                                         }
                                     }
 
@@ -1028,6 +1023,7 @@ class Parser
                     }
                     $cf = false;
                     $field_content = false;
+                    $orig_rel = $rel;
 
                     if (isset($data[$field])) {
                         if (isset($data[$field])) {
@@ -1094,6 +1090,9 @@ class Parser
                         $get_global = 1;
                     }
 
+
+
+
                     if ($field_content == false) {
                         if ($get_global == true) {
                             if (isset($data_id)) {
@@ -1120,19 +1119,33 @@ class Parser
                         } else {
 
 
+
+
+
                             if ($use_id_as_field != false) {
                                 if (isset($data[$use_id_as_field])) {
                                     $field_content = $data[$use_id_as_field];
-
                                 }
+                            }
 
 
+
+
+                            if ($field_content == false) {
+                                if (isset($data_id) and $data_id !=false) {
+                                    $cont_field = $this->app->content->edit_field("rel={$orig_rel}&field={$field}&rel_id=$data_id");
+                                } else {
+                                    $cont_field = $this->app->content->edit_field("rel={$orig_rel}&field={$field}&rel_id=".PAGE_ID);
+                                }
                             }
 
                             if (isset($data[$field])) {
-
                                 $field_content = $data[$field];
+                            } else {
+                                if (isset($cont_field) and $cont_field != false) {
+                                    $field_content = $cont_field;
 
+                                }
                             }
                         }
 

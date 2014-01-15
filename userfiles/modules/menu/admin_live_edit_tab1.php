@@ -176,7 +176,7 @@ if (r==true)
 
 
 
-  mw.menu_edit_items = function($menu_id, $selector){
+mw.menu_edit_items = function($menu_id, $selector){
 
    mw.$($selector).attr('menu-name',$menu_id);
    
@@ -326,14 +326,14 @@ $menu_name = get_option('menu_name', $params['id']);
 <?php if(is_array($menus) == true): ?>
 <?php if(is_array($menus )): ?>
 
-<div class="control-group">
+<div class="control-group form-group">
   <label class="mw-ui-label">
     <?php _e("Select the Menu you want to edit"); ?> 
 	
-	<small class="right" style="display:none"><a href="javascript:add_new_menu();" class="mw-ui-label-help mw-ui-small"><?php _e("Create New Menu"); ?> </a> </small>
+	<small class="right" ><a href="javascript:add_new_menu();" class="mw-ui-label-help mw-ui-small"><?php _e("Create new nenu"); ?> </a> </small>
   </label>
   <div class="mw-ui-select" style="width:100%">
-    <select  name="menu_name" class="mw_option_field"   type="radio"  onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
+    <select  id="menu_selector_<?php  print $params['id'] ?>" name="menu_name" class="mw_option_field"   type="radio"  onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
       <?php foreach($menus  as $item): ?>
       <?php if($active_menu == false){
 		$active_menu =   $item['title'];

@@ -12,13 +12,13 @@ description: Navigation bar
 
   //$template_file = false; ?>
 
-<div class="navbar navbar-static">
+<div class="navbar navbar-static  navbar-default ">
   <div class="navbar-inner">
-    <div class="container">
+    <div class="nav-container">
       	<?php
 
-  $menu_filter['ul_class_deep'] = 'dropdown-menu';
-	$menu_filter['li_class_deep'] = 'dropdown-submenu';
+  $menu_filter['ul_class_deep'] = 'dropdown dropdown-menu';
+	$menu_filter['li_class_deep'] = 'dropdown dropdown-submenu';
   $menu_filter['li_class_empty'] = ' ';
 
 		$mt =  menu_tree($menu_filter);

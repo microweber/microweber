@@ -13,10 +13,10 @@ description: Team
 
 
 <?php if (!empty($data)): ?>
-<ul class="thumbnails thumbnails_3">
+<div class="thumbnails thumbnails_3">
 <?php foreach ($data as $item): ?>
-	<li class="span2">
-		<div class="element">
+	<div class="span2 col-sm-2 col-md-2">
+		<div class="content-item-team">
 			<?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
 			<a href="<?php print $item['link'] ?>">
 				<figure class="img-polaroid"><img src="<?php print thumbnail(TEMPLATE_URL."img/team.jpg", 159); ?>" alt=""></figure>
@@ -35,13 +35,13 @@ description: Team
 				<p><?php print $item['description'] ?></p>
 				<?php endif; ?>
 				<?php if($show_fields == false or in_array('read_more', $show_fields)): ?>
-				<a class="btn" href="<?php print $item['link'] ?>"> <?php $read_more_text ? print $read_more_text : print _e("Read more", true) . '...'; ?></a>
+				<a class="btn btn-default" href="<?php print $item['link'] ?>"> <?php $read_more_text ? print $read_more_text : print _e("Read more", true) . '...'; ?></a>
 				<?php endif; ?>
 			</div>
 		</div>
-	</li>
+	</div>
 <?php endforeach; ?>
-</ul>
+</div>
 <?php endif; ?>
 
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>

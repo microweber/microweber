@@ -11,10 +11,10 @@
 
 ?>
 
-
+ 
 <?php
 
-
+print load_module('pictures/admin');
 if(array_key_exists('post', $_GET)){     ?>
 
 
@@ -46,8 +46,12 @@ if(array_key_exists('post', $_GET)){     ?>
 <div class="mw-ui-field-holder">
   <input type="text" name="title" class="mw-ui-field mw-ui-fieldtitle mw-ui-field-full" placeholder="Title" id="title"  />
 </div>
+
 <div class="mw-ui-field-holder">
 <div id="mobup" class="mw-ui-btn mw-ui-btn-blue right" style="position: relative">Add Media</div>
+
+
+
 </div>
 <div class="mw-ui-field-holder">
     <textarea name="content" class="mw-ui-field mw-ui-field-full" style="height: 100px;"  placeholder="Content" id="content"></textarea>

@@ -24,41 +24,6 @@ class Format
     }
 
     /**
-     *
-     * Limits a string to a number of characters
-     *
-     * @param $str
-     * @param int $n
-     * @param string $end_char
-     * @return string
-     * @package Utils
-     * @category Strings
-     */
-    public function limit($str, $n = 500, $end_char = '&#8230;')
-    {
-        if (strlen($str) < $n) {
-            return $str;
-        }
-        $str = strip_tags($str);
-        $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
-
-        if (strlen($str) <= $n) {
-            return $str;
-        }
-
-        $out = "";
-        foreach (explode(' ', trim($str)) as $val) {
-            $out .= $val . ' ';
-
-            if (strlen($out) >= $n) {
-                $out = trim($out);
-                return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
-            }
-        }
-    }
-
-
-    /**
      * Prints an array in unordered list - <ul>
      *
      * @param array $arr
@@ -86,7 +51,6 @@ class Format
         return $retStr;
     }
 
-
     /**
      * Formats a date by given pattern
      *
@@ -113,8 +77,9 @@ class Format
         return $date;
     }
 
-    public function autolink($string){
-        $string= preg_replace("#http://([\S]+?)#Uis", '<a href="http://\\1">\\1</a>', $string);
+    public function autolink($string)
+    {
+        $string = preg_replace("#http://([\S]+?)#Uis", '<a href="http://\\1">\\1</a>', $string);
         return $string;
     }
 
@@ -152,128 +117,6 @@ class Format
 
         return '' . $retval . ' ago';
     }
-    function strip_unsafe($string, $img=false)
-    {
-        if (is_array($string)) {
-
-            foreach ($string as $key => $val) {
-                $string[$key] = $this->strip_unsafe($val, $img);
-            }
-            return $string;
-        } else {
-
-        // Unsafe HTML tags that members may abuse
-        $unsafe=array(
-            '/<iframe(.*?)<\/iframe>/is',
-            '/<title(.*?)<\/title>/is',
-            //'/<pre(.*?)<\/pre>/is',
-            '/<audio(.*?)<\/audio>/is',
-            '/<video(.*?)<\/video>/is',
-            '/<frame(.*?)<\/frame>/is',
-            '/<frameset(.*?)<\/frameset>/is',
-            '/<object(.*?)<\/object>/is',
-            '/<script(.*?)<\/script>/is',
-            '/<embed(.*?)<\/embed>/is',
-            '/<applet(.*?)<\/applet>/is',
-            '/<meta(.*?)>/is',
-            '/<!doctype(.*?)>/is',
-            '/<link(.*?)>/is',
-            '/<style(.*?)<\/style>/is',
-            '/<body(.*?)>/is',
-            '/<\/body>/is',
-            '/<head(.*?)>/is',
-            '/<\/head>/is',
-            '/onload="(.*?)"/is',
-            '/onunload="(.*?)"/is',
-            '/onafterprint="(.*?)"/is',
-            '/onbeforeprint="(.*?)"/is',
-            '/onbeforeunload="(.*?)"/is',
-            '/onerrorNew="(.*?)"/is',
-            '/onhaschange="(.*?)"/is',
-            '/onoffline="(.*?)"/is',
-            '/ononline="(.*?)"/is',
-            '/onpagehide="(.*?)"/is',
-            '/onpageshow="(.*?)"/is',
-            '/onpopstate="(.*?)"/is',
-            '/onredo="(.*?)"/is',
-            '/onresize="(.*?)"/is',
-            '/onstorage="(.*?)"/is',
-            '/onundo="(.*?)"/is',
-            '/onunload="(.*?)"/is',
-            '/onblur="(.*?)"/is',
-            '/onchange="(.*?)"/is',
-            '/oncontextmenu="(.*?)"/is',
-            '/onfocus="(.*?)"/is',
-            '/onformchange="(.*?)"/is',
-            '/onforminput="(.*?)"/is',
-            '/oninput="(.*?)"/is',
-            '/oninvalid="(.*?)"/is',
-            '/onreset="(.*?)"/is',
-            '/onselect="(.*?)"/is',
-            '/onblur="(.*?)"/is',
-            '/onsubmit="(.*?)"/is',
-            '/onkeydown="(.*?)"/is',
-            '/onkeypress="(.*?)"/is',
-            '/onkeyup="(.*?)"/is',
-            '/onclick="(.*?)"/is',
-            '/ondblclick="(.*?)"/is',
-            '/ondrag="(.*?)"/is',
-            '/ondragend="(.*?)"/is',
-            '/ondragenter="(.*?)"/is',
-            '/ondragleave="(.*?)"/is',
-            '/ondragover="(.*?)"/is',
-            '/ondragstart="(.*?)"/is',
-            '/ondrop="(.*?)"/is',
-            '/onmousedown="(.*?)"/is',
-            '/onmousemove="(.*?)"/is',
-            '/onmouseout="(.*?)"/is',
-            '/onmouseover="(.*?)"/is',
-            '/onmousewheel="(.*?)"/is',
-            '/onmouseup="(.*?)"/is',
-            '/ondragleave="(.*?)"/is',
-            '/onabort="(.*?)"/is',
-            '/oncanplay="(.*?)"/is',
-            '/oncanplaythrough="(.*?)"/is',
-            '/ondurationchange="(.*?)"/is',
-            '/onended="(.*?)"/is',
-            '/onerror="(.*?)"/is',
-            '/onloadedmetadata="(.*?)"/is',
-            '/onloadstart="(.*?)"/is',
-            '/onpause="(.*?)"/is',
-            '/onplay="(.*?)"/is',
-            '/onabort="(.*?)"/is',
-            '/onplaying="(.*?)"/is',
-            '/onprogress="(.*?)"/is',
-            '/onratechange="(.*?)"/is',
-            '/onreadystatechange="(.*?)"/is',
-            '/onseeked="(.*?)"/is',
-            '/onseeking="(.*?)"/is',
-            '/onstalled="(.*?)"/is',
-            '/onsuspend="(.*?)"/is',
-            '/ontimeupdate="(.*?)"/is',
-            '/onvolumechange="(.*?)"/is',
-            '/onwaiting="(.*?)"/is',
-            '/href="javascript:[^"]+"/',
-         //   '/href=javascript:[^"]+"/',
-            '/href=javascript:/is',
-          //  '/href=javascript:[^"]+/',
-            '/<html(.*?)>/is',
-            '/<iframe(.*?)>/is',
-            '/<iframe(.*?)/is',
-            '/<\/html>/is');
-
-        // Remove graphic too if the user wants
-        if ($img==true)
-        {
-            $unsafe[]='/<img(.*?)>/is';
-        }
-
-        // Remove these tags and all parameters within them
-        $string=preg_replace($unsafe, "", $string);
-
-        return $string;
-        }
-    }
 
     public function clean_html($var, $do_not_strip_tags = false)
     {
@@ -282,11 +125,11 @@ class Format
                 $output[$key] = $this->clean_html($val, $do_not_strip_tags);
             }
         } else {
-           // $var = html_entity_decode($var);
+            // $var = html_entity_decode($var);
             //$var = stripslashes($var);
             $var = $this->strip_unsafe($var);
             $var = htmlentities($var, ENT_QUOTES, "UTF-8");
-           // $var = htmlentities($var, ENT_NOQUOTES, "UTF-8");
+            // $var = htmlentities($var, ENT_NOQUOTES, "UTF-8");
             $var = str_ireplace("<script>", '', $var);
             $var = str_ireplace("</script>", '', $var);
 
@@ -296,8 +139,8 @@ class Format
             $var = str_ireplace("<microweber", '&lt;microweber', $var);
 
             //$var = str_ireplace("javascript:", '', $var);
-           // $var = str_ireplace("vbscript:", '', $var);
-           // $var = str_ireplace("livescript:", '', $var);
+            // $var = str_ireplace("vbscript:", '', $var);
+            // $var = str_ireplace("livescript:", '', $var);
             //$var = str_ireplace("HTTP-EQUIV=", '', $var);
             $var = str_ireplace("\0075\0072\\", '', $var);
 
@@ -313,6 +156,127 @@ class Format
 
     }
 
+    function strip_unsafe($string, $img = false)
+    {
+        if (is_array($string)) {
+
+            foreach ($string as $key => $val) {
+                $string[$key] = $this->strip_unsafe($val, $img);
+            }
+            return $string;
+        } else {
+
+            // Unsafe HTML tags that members may abuse
+            $unsafe = array(
+                '/<iframe(.*?)<\/iframe>/is',
+                '/<title(.*?)<\/title>/is',
+                //'/<pre(.*?)<\/pre>/is',
+                '/<audio(.*?)<\/audio>/is',
+                '/<video(.*?)<\/video>/is',
+                '/<frame(.*?)<\/frame>/is',
+                '/<frameset(.*?)<\/frameset>/is',
+                '/<object(.*?)<\/object>/is',
+                '/<script(.*?)<\/script>/is',
+                '/<embed(.*?)<\/embed>/is',
+                '/<applet(.*?)<\/applet>/is',
+                '/<meta(.*?)>/is',
+                '/<!doctype(.*?)>/is',
+                '/<link(.*?)>/is',
+                '/<style(.*?)<\/style>/is',
+                '/<body(.*?)>/is',
+                '/<\/body>/is',
+                '/<head(.*?)>/is',
+                '/<\/head>/is',
+                '/onload="(.*?)"/is',
+                '/onunload="(.*?)"/is',
+                '/onafterprint="(.*?)"/is',
+                '/onbeforeprint="(.*?)"/is',
+                '/onbeforeunload="(.*?)"/is',
+                '/onerrorNew="(.*?)"/is',
+                '/onhaschange="(.*?)"/is',
+                '/onoffline="(.*?)"/is',
+                '/ononline="(.*?)"/is',
+                '/onpagehide="(.*?)"/is',
+                '/onpageshow="(.*?)"/is',
+                '/onpopstate="(.*?)"/is',
+                '/onredo="(.*?)"/is',
+                '/onresize="(.*?)"/is',
+                '/onstorage="(.*?)"/is',
+                '/onundo="(.*?)"/is',
+                '/onunload="(.*?)"/is',
+                '/onblur="(.*?)"/is',
+                '/onchange="(.*?)"/is',
+                '/oncontextmenu="(.*?)"/is',
+                '/onfocus="(.*?)"/is',
+                '/onformchange="(.*?)"/is',
+                '/onforminput="(.*?)"/is',
+                '/oninput="(.*?)"/is',
+                '/oninvalid="(.*?)"/is',
+                '/onreset="(.*?)"/is',
+                '/onselect="(.*?)"/is',
+                '/onblur="(.*?)"/is',
+                '/onsubmit="(.*?)"/is',
+                '/onkeydown="(.*?)"/is',
+                '/onkeypress="(.*?)"/is',
+                '/onkeyup="(.*?)"/is',
+                '/onclick="(.*?)"/is',
+                '/ondblclick="(.*?)"/is',
+                '/ondrag="(.*?)"/is',
+                '/ondragend="(.*?)"/is',
+                '/ondragenter="(.*?)"/is',
+                '/ondragleave="(.*?)"/is',
+                '/ondragover="(.*?)"/is',
+                '/ondragstart="(.*?)"/is',
+                '/ondrop="(.*?)"/is',
+                '/onmousedown="(.*?)"/is',
+                '/onmousemove="(.*?)"/is',
+                '/onmouseout="(.*?)"/is',
+                '/onmouseover="(.*?)"/is',
+                '/onmousewheel="(.*?)"/is',
+                '/onmouseup="(.*?)"/is',
+                '/ondragleave="(.*?)"/is',
+                '/onabort="(.*?)"/is',
+                '/oncanplay="(.*?)"/is',
+                '/oncanplaythrough="(.*?)"/is',
+                '/ondurationchange="(.*?)"/is',
+                '/onended="(.*?)"/is',
+                '/onerror="(.*?)"/is',
+                '/onloadedmetadata="(.*?)"/is',
+                '/onloadstart="(.*?)"/is',
+                '/onpause="(.*?)"/is',
+                '/onplay="(.*?)"/is',
+                '/onabort="(.*?)"/is',
+                '/onplaying="(.*?)"/is',
+                '/onprogress="(.*?)"/is',
+                '/onratechange="(.*?)"/is',
+                '/onreadystatechange="(.*?)"/is',
+                '/onseeked="(.*?)"/is',
+                '/onseeking="(.*?)"/is',
+                '/onstalled="(.*?)"/is',
+                '/onsuspend="(.*?)"/is',
+                '/ontimeupdate="(.*?)"/is',
+                '/onvolumechange="(.*?)"/is',
+                '/onwaiting="(.*?)"/is',
+                '/href="javascript:[^"]+"/',
+                //   '/href=javascript:[^"]+"/',
+                '/href=javascript:/is',
+                //  '/href=javascript:[^"]+/',
+                '/<html(.*?)>/is',
+                '/<iframe(.*?)>/is',
+                '/<iframe(.*?)/is',
+                '/<\/html>/is');
+
+            // Remove graphic too if the user wants
+            if ($img == true) {
+                $unsafe[] = '/<img(.*?)>/is';
+            }
+
+            // Remove these tags and all parameters within them
+            $string = preg_replace($unsafe, "", $string);
+
+            return $string;
+        }
+    }
 
     public function string_between($string, $start, $end)
     {
@@ -323,7 +287,6 @@ class Format
         $len = strpos($string, $end, $ini) - $ini;
         return substr($string, $ini, $len);
     }
-
 
     public function replace_once($needle, $replace, $haystack)
     {
@@ -341,9 +304,26 @@ class Format
     {
         $url_re = '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@';
         $url_replacement = "<a href='$1' target='_blank'>$1</a>";
-
-        return preg_replace($url_re, $url_replacement, $text);
+        $text = preg_replace($url_re, $url_replacement, $text);
+        return $text;
     }
+
+    function prep_url($str = '')
+    {
+        if ($str === 'http://' OR $str === '') {
+            return '';
+        }
+
+        $url = parse_url($str);
+
+        if (!$url OR !isset($url['scheme'])) {
+            return 'http://' . $str;
+        }
+
+        return $str;
+    }
+
+    // got this from code igniter
 
     public function  percent($num_amount, $num_total)
     {
@@ -406,7 +386,6 @@ class Format
         return $var;
     }
 
-
     function array_values($ary)
     {
         $lst = array();
@@ -420,7 +399,6 @@ class Format
         }
         return $lst;
     }
-
 
     public function lipsum($number_of_characters = false)
     {
@@ -444,26 +422,44 @@ class Format
         return $this->limit($lipsum[$rand], $number_of_characters, '');
     }
 
+    /**
+     *
+     * Limits a string to a number of characters
+     *
+     * @param $str
+     * @param int $n
+     * @param string $end_char
+     * @return string
+     * @package Utils
+     * @category Strings
+     */
+    public function limit($str, $n = 500, $end_char = '&#8230;')
+    {
+        if (strlen($str) < $n) {
+            return $str;
+        }
+        $str = strip_tags($str);
+        $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
+
+        if (strlen($str) <= $n) {
+            return $str;
+        }
+
+        $out = "";
+        foreach (explode(' ', trim($str)) as $val) {
+            $out .= $val . ' ';
+
+            if (strlen($out) >= $n) {
+                $out = trim($out);
+                return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
+            }
+        }
+    }
+
     public function random_color()
     {
 
         return "#" . sprintf("%02X%02X%02X", mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
-    }
-
-
-    public function notif($text, $class = 'success')
-    {
-
-        if($class ===true){
-            $to_print = '<div><div class="mw-notification-text mw-open-module-settings">';
-            $to_print = $to_print . _e($text, true) . '</div></div>';
-        } else {
-            $to_print = '<div class="mw-notification mw-' . $class . ' "><div class="mw-notification-text mw-open-module-settings">';
-            $to_print = $to_print . _e($text, true) . '</div></div>';
-        }
-
-
-        return $to_print;
     }
 
     public function lnotif($text, $class = 'success')
@@ -475,6 +471,20 @@ class Format
         }
     }
 
+    public function notif($text, $class = 'success')
+    {
+
+        if ($class === true) {
+            $to_print = '<div><div class="mw-notification-text mw-open-module-settings">';
+            $to_print = $to_print . ($text) . '</div></div>';
+        } else {
+            $to_print = '<div class="mw-notification mw-' . $class . ' "><div class="mw-notification-text mw-open-module-settings">';
+            $to_print = $to_print . $text . '</div></div>';
+        }
+
+
+        return $to_print;
+    }
 
     public function no_dashes($string)
     {
@@ -485,5 +495,61 @@ class Format
         return $slug;
     }
 
+
+    function unvar_dump($str) {
+        if (strpos($str, "\n") === false) {
+            //Add new lines:
+            $regex = array(
+                '#(\\[.*?\\]=>)#',
+                '#(string\\(|int\\(|float\\(|array\\(|NULL|object\\(|})#',
+            );
+            $str = preg_replace($regex, "\n\\1", $str);
+            $str = trim($str);
+        }
+        $regex = array(
+            '#^\\040*NULL\\040*$#m',
+            '#^\\s*array\\((.*?)\\)\\s*{\\s*$#m',
+            '#^\\s*string\\((.*?)\\)\\s*(.*?)$#m',
+            '#^\\s*int\\((.*?)\\)\\s*$#m',
+            '#^\\s*float\\((.*?)\\)\\s*$#m',
+            '#^\\s*\[(\\d+)\\]\\s*=>\\s*$#m',
+            '#\\s*?\\r?\\n\\s*#m',
+        );
+        $replace = array(
+            'N',
+            'a:\\1:{',
+            's:\\1:\\2',
+            'i:\\1',
+            'd:\\1',
+            'i:\\1',
+            ';'
+        );
+        $serialized = preg_replace($regex, $replace, $str);
+        $func = create_function(
+            '$match',
+            'return "s:".strlen($match[1]).":\\"".$match[1]."\\"";'
+        );
+        $serialized = preg_replace_callback(
+            '#\\s*\\["(.*?)"\\]\\s*=>#',
+            $func,
+            $serialized
+        );
+        $func = create_function(
+            '$match',
+            'return "O:".strlen($match[1]).":\\"".$match[1]."\\":".$match[2].":{";'
+        );
+        $serialized = preg_replace_callback(
+            '#object\\((.*?)\\).*?\\((\\d+)\\)\\s*{\\s*;#',
+            $func,
+            $serialized
+        );
+        $serialized = preg_replace(
+            array('#};#', '#{;#'),
+            array('}', '{'),
+            $serialized
+        );
+
+        return unserialize($serialized);
+    }
 
 }

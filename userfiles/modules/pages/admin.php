@@ -8,13 +8,18 @@
 ?>
 <script type="text/javascript">
 
- mw.add_new_page = function(){
+ mw.add_new_page = function(id){
+	 
+		 if(id == undefined){
+			var id = 0; 
+		 }
+	 
 	 	   mw.simpletab.set(mwd.getElementById('add_new_post'));
 	   $('#mw_page_create_live_edit').removeAttr('data-content-id');
 
  	 	 $('#mw_page_create_live_edit').attr('from_live_edit',1);
 	 	  $('#mw_page_create_live_edit').attr('content_type', 'page'); 
-	     $('#mw_page_create_live_edit').attr('content-id', "0"); 
+	     $('#mw_page_create_live_edit').attr('content-id', id); 
 		 $('#mw_page_create_live_edit').attr('quick_edit',1);
 		  $('#mw_page_create_live_edit').removeAttr('live_edit');
 
@@ -39,7 +44,7 @@
 			<?php _e("Skin/Template"); ?>
 			</a></li>
 		<li><a href="javascript:;">
-			<?php _e("Reorder pages"); ?>
+			<?php _e("Manage pages"); ?>
 			</a></li>
 		<li id="add_new_post" style="display: none;"><a href="javascript:;"></a></li>
 	</ul>
@@ -113,13 +118,16 @@
         mw.require('forms.js', true);
     </script> 
 	<script type="text/javascript">
-
-
+	
+	mw.on.moduleReload("mw_pages_list_tree_live_edit", function(){
+		 mw.manage_pages_sort();
+		
+	 });
+	
+	
         mw.manage_pages_sort = function () {
             if (!mw.$("#mw_pages_list_tree_live_edit").hasClass("ui-sortable")) {
-
-
-                mw.$("#mw_pages_list_tree_live_edit .pages_tree").sortable({
+                 mw.$("#mw_pages_list_tree_live_edit ul").sortable({
                     items: 'li',
 
                     handle: '.pages_tree_link',
@@ -158,23 +166,27 @@
 
             }
         }
-
         $(document).ready(function () {
             mw.manage_pages_sort();
         });
     </script>
 	<div   class="tab semi_hidden">
-		<div class="mw-ui-category-selector mw-ui-manage-list" id="mw_pages_list_tree_live_edit" style="visibility: visible;display: block">
+		<div class="mw-ui-category-selector mw-ui-manage-list" id="mw_pages_list_tree_live_edit_holder" style="visibility: visible;display: block">
 			<?php
         $pt_opts = array();
-        $pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}" target="_top" href="{url}">{title}</a>';
+        $pt_opts['link'] = '<a data-page-id="{id}" class="pages_tree_link {nest_level}"  data-type="{content_type}"   data-shop="{is_shop}"  subtype="{subtype}"   href="javascript:mw.add_new_page({id})">{title}</a>';
 $pt_opts['ul_class'] = 'pages_tree cat_tree_live_edit';
 $pt_opts['li_class'] = 'sub-nav';
  
-        pages_tree($pt_opts);
+      //  pages_tree($pt_opts);
 
 
         ?>
+		
+		<module type="pages" link="javascript:mw.add_new_page({id})" ul-class="pages_tree cat_tree_live_edit"  li-class="sub-nav" id="mw_pages_list_tree_live_edit" />
+		
+		
+		
 		</div>
 	</div>
 	<div class="tab">

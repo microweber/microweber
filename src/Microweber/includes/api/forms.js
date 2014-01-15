@@ -45,7 +45,7 @@ mw.form = {
         $(target).addClass('loading');
     }
   },
-  post:function(selector, url_to_post, callback, ignorenopost, callback_error){
+  post:function(selector, url_to_post, callback, ignorenopost, callback_error){    
     mw.session.checkPause = true;
     if(selector.constructor === {}.constructor){
       return mw.form._post(selector);
@@ -63,6 +63,7 @@ mw.form = {
 	}
 
  // var is_form_valid = true;
+
 
     if(is_form_valid){
         var obj = mw.form.serialize(selector, ignorenopost);
@@ -145,7 +146,7 @@ mw.form = {
     proceed:{
       checkbox:function(obj){
         if(mw.form.validate.checkbox(obj)){
-               $(obj).parents('.field').removeClass("error");
+            $(obj).parents('.field').removeClass("error");
         }
         else{
             $(obj).parents('.field').addClass("error");

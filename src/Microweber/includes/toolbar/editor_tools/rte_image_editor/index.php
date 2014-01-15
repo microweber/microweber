@@ -1,4 +1,3 @@
-
 <?php $path = MW_INCLUDES_URL . "toolbar/editor_tools/rte_image_editor/"; ?>
 
 <script type="text/javascript">
@@ -29,17 +28,17 @@ else{
 
     hash = hash!=='' ? hash : 'insert_html';
 
-    afterMediaIsInserted = function(url, todo, eventType){   //what to do after image is uploaded (depending on the hash in the url)
-
-
+    afterMediaIsInserted = function(url, todo, eventType){   /* what to do after image is uploaded (depending on the hash in the url)    */
 
       if(typeof todo =='undefined'){var todo = false;}
 
       if(url == false){
           if(eventType=='done'){
-            //parent.mw.iframecallbacks[hash](url, eventType);
+            /* parent.mw.iframecallbacks[hash](url, eventType); */
           }
-          parent.mw.tools.modal.remove(thismodal.main);
+		  if(typeof(thismodal) != "undefined"){
+            parent.mw.tools.modal.remove(thismodal.main);
+		  }
           return false;
       }
 
@@ -48,12 +47,20 @@ else{
           if(hash!==''){
             if(hash=='editimage'){
 
+
               parent.mw.image.currentResizing.attr("src", url);
               parent.mw.image.currentResizing.css('height', 'auto');
+
+              parent.mw.tools.addClass(parent.mw.tools.firstParentWithClass(parent.mw.image.currentResizing[0], 'edit'), 'changed orig_changed');
+
+              parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
+
+
             }
             else if(hash=='set_bg_image'){
               parent.mw.wysiwyg.set_bg_image(url);
-
+              parent.mw.tools.addClass(parent.mw.tools.firstParentWithClass(parent.mw.current_element, 'edit'), 'changed orig_changed');
+              parent.mw.askusertostay = true;
             }
             else{
               if(typeof parent[hash] === 'function'){
@@ -109,13 +116,16 @@ else{
             if(typeof parent.mw.iframecallbacks[hash] === 'function'){
               if(hash == 'editimage'){
                 parent.mw.iframecallbacks[hash](this);
+                parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
               }
               else{
+
                 parent.mw.iframecallbacks[hash](GlobalEmbed);
               }
 
             }
             else if(typeof parent[hash] === 'function'){
+
                parent[hash](GlobalEmbed)
             }
 
@@ -161,6 +171,8 @@ else{
 
 
               if(filetypes=='images'){
+
+
                   afterMediaIsInserted(item.src, '', "FileUploaded");
               }
               else if(filetypes=='videos'){
@@ -209,7 +221,7 @@ else{
                 li.parent().find("li").removeClass('hovered');
             }
           });
-        }); // end each
+        });
 
 
 
@@ -218,6 +230,8 @@ else{
           var urlSearcher = mw.$("#media_search_field");
           var submit = mw.$('#btn_insert');
           var status = mw.$("#image_status");
+
+
 
           urlSearcher.bind('keyup paste', function(e){
              GlobalEmbed = false;
@@ -242,13 +256,18 @@ else{
                    GlobalEmbed = __generateEmbed(type, val);
                    if(type!='link'){
                      if(typeof parent.mw.iframecallbacks[hash] === 'function'){
-                       parent.mw.iframecallbacks[hash](GlobalEmbed);
+                        if(hash.contains("edit")){
+                           parent.mw.iframecallbacks[hash](val);
+                        }
+                        else{
+                          parent.mw.iframecallbacks[hash](GlobalEmbed);
+                        }
                      }
                      else if(typeof parent[hash] === 'function'){
-                        parent[hash](GlobalEmbed)
-                     }
+                        parent[hash](GlobalEmbed);
 
-                       parent.mw.tools.modal.remove('mw_rte_image');
+                     }
+                        parent.mw.tools.modal.remove('mw_rte_image');
                    }
                  }, 500);
              }
@@ -282,7 +301,7 @@ else{
               parent.mw.tools.modal.remove('mw_rte_image');
           });
 
-    });  //end document ready
+    });  /* end document ready  */
 
 
 
@@ -432,7 +451,9 @@ mw.embed = {
   <ul class="mw_simple_tabs_nav">
     <li><a href="javascript:;">My Computer</a></li>
     <li><a href="javascript:;"><?php _e("URL"); ?></a></li>
+	<?php if(is_admin()): ?>
     <li><a href="javascript:;">Uploaded</a></li>
+	<?php endif; ?>
   </ul>
 
   <div class="tab" id="drag_files_here">
@@ -469,7 +490,7 @@ mw.embed = {
     <div id="media-search-holder">
     <div class="mw-ui-field left" style="width: 230px;" id="media_search">
         <span id="image_status"></span>
-        <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-invisible-field" name="get_image_by_url" />
+        <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-invisible-field" name="get_image_by_url" onfocus="event.preventDefault()" />
      </div>
     <button type="button" class="mw-ui-btn mw-ui-btn-blue right" id="btn_insert" style="font-size: 12px;width:80px;"><?php _e("Insert"); ?></button>
 

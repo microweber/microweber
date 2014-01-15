@@ -102,18 +102,19 @@ $('#mw_page_layout_preview').attr('data-small',"1");
     });
 </script>
 <?php if(isset($page_info) and is_array($page_info)): ?>
+
 <div class="mw-admin-page-preview-holder">
-	<div  class="mw-admin-page-preview-page">
-		<div style="width: 395px;margin-left: 30px;" class="left">
-			<?php if(is_array($page_info) and isset($page_info['title'])): ?>
-			<?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
-			<h2 class="hr"><span class="icotype icotype-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
-			<?php endif; ?>
-			<div style="height:335px;" id="mw_page_layout_preview"></div>
-		</div>
-		<div class="right" style="width: 200px;">
-			<?php if(isset($page_info) and isset($page_info['title'])): ?>
-			<?php  /*   <ul class="mw-quick-links mw-quick-links-blue">
+  <div  class="mw-admin-page-preview-page">
+    <div style="width: 395px;margin-left: 30px;" class="left">
+      <?php if(is_array($page_info) and isset($page_info['title'])): ?>
+      <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
+      <h2 class="hr"><span class="icotype icotype-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
+      <?php endif; ?>
+      <div style="height:335px;" id="mw_page_layout_preview"></div>
+    </div>
+    <div class="right" style="width: 200px;">
+      <?php if(isset($page_info) and isset($page_info['title'])): ?>
+      <?php  /*   <ul class="mw-quick-links mw-quick-links-blue">
     <li>
 
 
@@ -123,38 +124,31 @@ $('#mw_page_layout_preview').attr('data-small',"1");
         </a>
     </li>
   </ul>  */  ?>
-			<?php endif; ?>
-			
-			
-			
-			
-			
-			<h2 class="hr" style="padding-top: 19px;">
-				<?php _e("Add New"); ?>
-			</h2>
-			<ul class="mw-quick-links mw-quick-links-green" >
-				<li> <a href="#action=new:page&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipage"></span> <span>
-					<?php _e("New Page"); ?>
-					</span> </a> </li>
-				<li> <a href="#action=new:category&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico icategory"></span> <span>
-					<?php _e("New Category"); ?>
-					</span> </a> </li>
-				<?php if(isset($params['is_shop']) and $params['is_shop'] == 'y'): ?>
-				<?php else :  ?>
-				<li> <a href="#action=new:post&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipost"></span> <span>
-					<?php _e("New Post"); ?>
-					</span> </a> </li>
-				<?php endif; ?>
-				<li> <a href="#action=new:product&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico iproduct"></span> <span>
-					<?php _e("New Product"); ?>
-					</span> </a> </li>
-			</ul>
-			
-			
-			
-			
-			
-			<?php 
+      <?php endif; ?>
+      <h2 class="hr" style="padding-top: 19px;">
+        <?php _e("Add New"); ?>
+      </h2>
+      <ul class="mw-quick-links mw-quick-links-green" >
+        <?php event_trigger('mw_admin_content_right_sidebar_menu_list_start',$params); ?>
+        <li> <a href="#action=new:page&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipage"></span> <span>
+          <?php _e("New Page"); ?>
+          </span> </a> </li>
+        <li> <a href="#action=new:category&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico icategory"></span> <span>
+          <?php _e("New Category"); ?>
+          </span> </a> </li>
+        <?php if(isset($params['is_shop']) and $params['is_shop'] == 'y'): ?>
+        <?php else :  ?>
+        <li> <a href="#action=new:post&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipost"></span> <span>
+          <?php _e("New Post"); ?>
+          </span> </a> </li>
+        <?php endif; ?>
+        <li> <a href="#action=editpage:<?php print $params["page-id"]; ?>"> <span class="ico ieditpage"></span><span>
+          <?php _e("Edit Page"); ?>
+          </span> </a> </li>
+        </a>
+        <?php event_trigger('mw_admin_content_right_sidebar_menu_list_end',$params); ?>
+      </ul>
+      <?php 
 			
 			/*<h2 class="hr" style="padding-top: 19px;">
 				<?php _e("Add New"); ?>
@@ -179,16 +173,12 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 			
 			
 			?>
-		</div>
-		<div class="mw_clear"></div>
-	</div>
-	<div class="mw-admin-page-preview-page-info"> </div>
+    </div>
+    <div class="mw_clear"></div>
+  </div>
+  <div class="mw-admin-page-preview-page-info"> </div>
 </div>
-
 <?php else: ?>
-
-
-
 <?php endif; ?>
 <?php elseif(isset($params["data-category-id"])):?>
 <?php  $cat_info = get_category_by_id($params["data-category-id"]);
@@ -196,45 +186,41 @@ $('#mw_page_layout_preview').attr('data-small',"1");
 ?>
 <?php if(isset($cat_info['title']) and $cat_info['title'] != ''): ?>
 <div style="width: 370px;margin-left: 30px;" class="left">
-	<h2   style="padding-top: 16px;"><span class="ico icategory"></span>&nbsp;
-		<?php _e("Category"); ?>
-		<small style="opacity:0.4">&raquo;</small> <?php print ($cat_info ['title']) ?></h2>
+  <h2   style="padding-top: 16px;"><span class="ico icategory"></span>&nbsp;
+    <?php _e("Category"); ?>
+    <small style="opacity:0.4">&raquo;</small> <?php print ($cat_info ['title']) ?></h2>
 </div>
 <?php endif; ?>
 <?php endif; ?>
-
 <?php if(isset($page_info) and ($page_info) == false): ?>
 <div style="width: 370px;margin-left: 30px;" class="left">
-
-<h2>Last Edited</h2>
+  <h2>Last Edited</h2>
 </div>
 <?php endif; ?>
-
-
 <div class="right" style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;padding-left: 30px">
-	<div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
-		<label>
-			<?php _e("Yes"); ?>
-			<input type="radio" value="on" checked="checked" name="toggle_cats_and_pages" />
-		</label>
-		<label>
-			<?php _e("No"); ?>
-			<input type="radio" value="off" name="toggle_cats_and_pages" />
-		</label>
-	</div>
-	<label class="mw-ui-label-small right" style="margin-right: 10px;">
-		<?php _e("Show Pages"); ?>
-		?</label>
+  <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
+    <label>
+      <?php _e("Yes"); ?>
+      <input type="radio" value="on" checked="checked" name="toggle_cats_and_pages" />
+    </label>
+    <label>
+      <?php _e("No"); ?>
+      <input type="radio" value="off" name="toggle_cats_and_pages" />
+    </label>
+  </div>
+  <label class="mw-ui-label-small right" style="margin-right: 10px;">
+    <?php _e("Show Pages"); ?>
+    ?</label>
 </div>
 <?php if(isset($page_info) and isset($page_info['title'])): ?>
 <?php if($page_info['is_shop'] == 'y'){ ?>
 <h2 class="left" style="padding-left: 20px;width: 430px;">
-	<?php _e("Products from"); ?>
-	<?php print ($page_info['title']) ?></h2>
+  <?php _e("Products from"); ?>
+  <?php print ($page_info['title']) ?></h2>
 <?php } else{  ?>
 <h2 class="left" style="padding-left: 20px;width: 430px;">
-	<?php _e("Posts from"); ?>
-	<?php print ($page_info['title']) ?></h2>
+  <?php _e("Posts from"); ?>
+  <?php print ($page_info['title']) ?></h2>
 <?php } ?>
 <?php endif; ?>
 <div class="mw_clear"></div>
@@ -334,7 +320,11 @@ mw.manage_content_sort = function(){
         obj.ids.push(id);
       });
 
-       $.post("<?php print api_link('content/reorder'); ?>", obj, function(){});
+       $.post("<?php print api_link('content/reorder'); ?>", obj, function(){
+		   
+		   mw.reload_module('#mw_page_layout_preview');
+		   
+		   });
      },
      start:function(a,ui){
       $(this).height($(this).outerHeight());
@@ -355,8 +345,8 @@ mw.manage_content_sort = function(){
 
 </script>
 <div class="page_posts_list_tree" data-sortable="true" style="display:none;">
-	<?php  if(isset($params['page-id'])):  ?>
-	<?php
+  <?php  if(isset($params['page-id'])):  ?>
+  <?php
 
 $pt_opts = array();
 
@@ -388,9 +378,9 @@ $pt_opts['include_categories'] = 'yes';
 
 pages_tree($pt_opts);
 ?>
-	<?php else : ?>
-	<?php  if(isset($params['category-id'])):  ?>
-	<?php
+  <?php else : ?>
+  <?php  if(isset($params['category-id'])):  ?>
+  <?php
 $pt_opts = array();
 $pt_opts['parent'] = $params['category-id'];
 
@@ -400,17 +390,17 @@ $pt_opts['max_level'] = 2;
 
 category_tree($pt_opts);
 ?>
-	<?php endif; ?>
-	<?php endif; ?>
+  <?php endif; ?>
+  <?php endif; ?>
 </div>
 <div class="manage-toobar manage-toolbar-top"> <span class="mn-tb-arr-top left"></span> <span class="posts-selector left"><span onclick="mw.check.all('#mw_admin_posts_manage')">
-	<?php _e("Select All"); ?>
-	</span>/<span onclick="mw.check.none('#mw_admin_posts_manage')">
-	<?php _e("Unselect All"); ?>
-	</span></span> <span class="mw-ui-btn" onclick="delete_selected_posts();">
-	<?php _e("Delete"); ?>
-	</span>
-	<input
+  <?php _e("Select All"); ?>
+  </span>/<span onclick="mw.check.none('#mw_admin_posts_manage')">
+  <?php _e("Unselect All"); ?>
+  </span></span> <span class="mw-ui-btn" onclick="delete_selected_posts();">
+  <?php _e("Delete"); ?>
+  </span>
+  <input
         onfocus="mw.form.dstatic(event);"
         onblur="mw.form.dstatic(event);"
         onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
@@ -419,7 +409,7 @@ category_tree($pt_opts);
         type="text"
         class="manage-search"
         id="mw-search-field"   />
-	<div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
+  <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
 </div>
 <?php    print $posts = module( $posts_mod);  ?>
 <script  type="text/javascript">

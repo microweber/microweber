@@ -18,8 +18,8 @@ description: Masonry
     <?php if (!empty($data)): ?>
 
 
-<script>mw.require("<?php print $config['url_to_module']; ?>js/masonry.pkgd.min.js", true); </script>
-<script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true); </script>
+<script>mw.require("<?php print MW_MODULES_URL; ?>posts/js/masonry.pkgd.min.js", true); </script>
+<script>mw.require("<?php print MW_MODULES_URL; ?>posts/css/style.css", true); </script>
 <script>
     mw._masons = mw._masons || [];
     $(document).ready(function(){
@@ -80,7 +80,7 @@ description: Masonry
 
       <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
       <div class="blog-post-footer">
-        <a href="<?php print $item['link'] ?>" class="btn pull-fleft">
+        <a href="<?php print $item['link'] ?>" class="btn btn-default pull-fleft">
         <?php $read_more_text ? print $read_more_text : print _e('Continue Reading', true); ?>
         <i class="icon-chevron-right"></i></a>
       </div>

@@ -1,7 +1,6 @@
 
 
-
-mw.on = {
+mw.on = mw.on || {
   _onmodules : [],
   _onmodules_funcs : [],
   moduleReload : function(id, c, trigger){
@@ -38,11 +37,16 @@ mw.on = {
     }
     if(trigger==true){
         var index = mw.on._hashparams.indexOf(param);
+
         if(index != -1){
+
           var hash = mw.hash();
           var params = mw.url.getHashParams(hash);
+
           if(typeof params[param] === 'string'){
+
               mw.on._hashparam_funcs[index].call(params[param]);
+
           }
         }
     }
@@ -69,11 +73,12 @@ hashParamEventInit:function(){
   }
   else{
     for(var x in params){
-        if(params[x] !== mw.on._hashrec[x] || mw.on._hashrec[x]===undefined){
+        if(params[x] !== mw.on._hashrec[x] || typeof mw.on._hashrec[x] === 'undefined'){
             mw.on.hashParam(x, "", true);
         }
     }
   }
+
   mw.on._hashrec = params;
 },
 DOMChangePause:false,
@@ -82,7 +87,6 @@ DOMChange:function(element, callback, attr, a){
     var attr = attr || false;
     var a = a || false;
     element.addEventListener("DOMCharacterDataModified", function(e){
-    
         if( !mw.on.DOMChangePause ) {
             if(!a){
               callback.call(this);
@@ -90,7 +94,7 @@ DOMChange:function(element, callback, attr, a){
             else{
               clearInterval(element._int);
               element._int = setTimeout(function(){
-                    callback.call(element);
+                callback.call(element);
               }, mw.on.DOMChangeTime);
             }
 
@@ -190,18 +194,18 @@ $(window).bind("hashchange load", function(event){
 
    var hash =  mw.hash();
    if(hash.contains("showpostscat")){
-   //   mw.$(".manage-toolbar-top").show();
+
       mw.$("html").addClass("showpostscat");
    }
    else{
-   ///   mw.$(".manage-toolbar-top").hide();
+
       mw.$("html").removeClass("showpostscat");
    }
 
 
    if(event.type=='hashchange'){
      mw.hashHistory.push(mw.hash());
-     //Check if current hash has lost params and bind the event with fasle
+
      var size = mw.hashHistory.length;
      var changes = mw.url.whichHashParamsHasBeenRemoved(mw.hashHistory[size-1], mw.hashHistory[size-2]), l=changes.length, i=0;
      if(l>0){
@@ -222,7 +226,7 @@ mw.__bindMultiple__events = {};
 
 
 
-mw.bindMultiple = function(object, event, func){  //Bind events without overwriting
+mw.bindMultiple = function(object, event, func){
     var dont_exists = mw.__bindMultiple__objects.indexOf(object) == -1;
 
     if(dont_exists){

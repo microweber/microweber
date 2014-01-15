@@ -105,16 +105,13 @@ class Option
             $cache_group = 'options/global';
         }
        // $cache_group = 'options/global';
-
         global $_mw_global_options_mem;
-
         if ($_mw_global_options_mem == NULL) {
             $_mw_global_options_mem = array();
         }
 
 
-        //d($key);
-        $function_cache_id = false;
+         $function_cache_id = false;
 
         $args = func_get_args();
 
@@ -220,136 +217,7 @@ class Option
         }
     }
 
-
-    public function get_OLD($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
-    {
-
-        if (!defined('MW_DB_TABLE_OPTIONS') or MW_DB_TABLE_OPTIONS == false) {
-            return false;
-        }
-        if ($option_group != false) {
-
-            $cache_group = 'options/' . $option_group;
-
-        } else {
-            $cache_group = 'options/global';
-        }
-
-
-        global $_mw_global_options_mem;
-
-        if ($_mw_global_options_mem == NULL) {
-            $_mw_global_options_mem = array();
-        }
-
-
-        //d($key);
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = 'option_' . __FUNCTION__ . '_' . $option_group . '_' . crc32($function_cache_id);
-        if (isset($_mw_global_options_mem[$function_cache_id])) {
-            return $_mw_global_options_mem[$function_cache_id];
-        }
-
-
-        $table = MW_DB_TABLE_OPTIONS;
-
-
-        $data = array();
-
-        if (is_array($key)) {
-            $data = $key;
-        } else {
-            $data['option_key'] = $key;
-        }
-        //   $cache_group = 'options/global/' . $function_cache_id;
-        $ok1 = '';
-        $ok2 = '';
-        if ($option_group != false) {
-            $option_group = $this->app->db->escape_string($option_group);
-            $ok1 = " AND option_group='{$option_group}' ";
-            $data['option_group'] = $option_group;
-        }
-
-        if ($module != false) {
-            $module = $this->app->db->escape_string($module);
-            $data['module'] = $module;
-            //  $ok1 = " AND module='{$module}' ";
-        }
-        $data['limit'] = 1;
-        // $get = $this->app->db->get_long($table, $data, $cache_group);
-        $ok = $this->app->db->escape_string($data['option_key']);
-        $ob = " order by id desc ";
-        $q = "select * from $table where option_key='{$ok}'  " . $ok1 . $ok2 . $ob;
-
-        // d($q);
-
-        //$q = "SELECT * FROM $table WHERE option_key IS NOT null  " . $ok1 . $ok2;
-
-        $q_cache_id = crc32($q);
-        $get_all = $this->app->db->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
-        // $get_all = $this->app->db->get($data);
-
-        // $get_all = $this->app->db->query($q);
-
-        if (!is_array($get_all)) {
-            // $this->app->cache->save('--false--', $function_cache_id, $cache_group);
-
-            return false;
-        }
-        $get = array();
-        foreach ($get_all as $get_opt) {
-            // if (isset($get_opt['option_key']) and $ok == $get_opt['option_key']) {
-            $get[] = $get_opt;
-            //}
-        }
-
-
-        //
-
-        if (!empty($get)) {
-
-            if ($return_full == false) {
-                if (!is_array($get)) {
-                    return false;
-                }
-                $get = $get[0]['option_value'];
-
-                if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = $this->app->url->replace_site_url_back($get['option_value']);
-                }
-                $_mw_global_options_mem[$function_cache_id] = $get;
-                return $get;
-            } else {
-
-                $get = $get[0];
-
-                if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = $this->app->url->replace_site_url_back($get['option_value']);
-                }
-
-                if (isset($get['field_values']) and $get['field_values'] != false) {
-                    $get['field_values'] = unserialize(base64_decode($get['field_values']));
-                }
-                $_mw_global_options_mem[$function_cache_id] = $get;
-                return $get;
-            }
-        } else {
-
-            //$this->app->cache->save('--false--', $function_cache_id, $cache_group);
-            $_mw_global_options_mem[$function_cache_id] = false;
-            return FALSE;
-        }
-    }
-
-    public function set_default($data)
+     public function set_default($data)
     {
         $changes = false;
 
@@ -543,7 +411,7 @@ class Option
 //
 
                 $data['allow_html'] = true;
-
+                $data['allow_scripts'] = true;
                 $save = $this->app->db->save($table, $data);
 
                 if ($option_group != false) {

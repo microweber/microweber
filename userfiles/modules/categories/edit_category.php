@@ -12,11 +12,14 @@ if($data == false or empty($data )){
 
 
 $just_saved = false;
-
+$quick_edit = false;
 if(isset($params['just-saved'])){
     $just_saved = $params['just-saved'];
-  }
-
+}
+if(isset($params['quick_edit'])){
+    $quick_edit = $params['quick_edit'];
+}
+ 
 ?>
 <script  type="text/javascript">
 
@@ -62,9 +65,6 @@ if(isset($params['just-saved'])){
   save_cat = function(el){
     if(mwd.querySelector('.mw-ui-category-selector input:checked') !== null){
        $(document.forms['admin_edit_category_form_<?php print $form_rand_id ?>']).submit();
-	   
-	   
-	   
     }
     else{
       Alert('<?php _e("Please choose Page or Category"); ?>.');
@@ -72,7 +72,18 @@ if(isset($params['just-saved'])){
 
   }
   
-  
+    make_new_cat_after_save = function(el){
+		  $('#<?php print $params['id'] ?>').removeClass('loading');
+	   $('#<?php print $params['id'] ?>').removeAttr('just-saved');
+	    $('#<?php print $params['id'] ?>').removeAttr('selected-category-id');
+		  $('#<?php print $params['id'] ?>').removeAttr('data-category-id');
+		   $('#<?php print $params['id'] ?>').removeAttr('category-id');
+		   <?php if(isset($params['live_edit']) != false) : ?>
+  			window.location.reload();
+			 <?php else: ?>
+			  mw.reload_module('#<?php print $params['id'] ?>');
+		 <?php endif; ?>
+  }
   
   
    
@@ -97,17 +108,21 @@ $(document).ready(function(){
 		 if(mw.category_is_saving){
 			 return false;
 		 }
+		   mw.notification.success("Saving...",6000);
 		 mw.category_is_saving = true;
 		 $('.mw-cat-save-submit').addClass('disabled');
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
          mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print api_link('category/save') ?>', function(val){
         	  mw.notification.success("Category changes are saved");
-			  
-			  
-			  var v = val.toString();
+ 			  var v = val.toString();
 			   $('#mw_admin_edit_cat_id').val(v);
-			    $('#mw-cat-pics-admin').attr("for-id",v);
+			   $('#mw-cat-pics-admin').attr("for-id",v);
 			  //   mw.reload_module('#mw-cat-pics-admin');
+			  
+			  
+			  
+			  
+			  
 			   
         	  mw.reload_module('[data-type="categories"]');
         	   if(self !== parent && !!parent.mw){
@@ -121,29 +136,32 @@ $(document).ready(function(){
         	  });
         	  <?php if(intval($data['id']) == 0): ?>
         	  	mw.url.windowHashParam("new_content", "true");
-        	  	mw.url.windowHashParam("action", "editcategory:" + this);
+        	  //	mw.url.windowHashParam("action", "editcategory:" + this);
+				
+				
+				
+				
+				
+				
+				
+				
              <?php endif; ?>
 
 
              var module = mw.tools.firstParentWithClass(form, 'module');
-
-             <?php if(isset($params['quick_edit'])){ ?>
-
-             $(module).attr("just-saved", true);
-			mw.tools.removeClass(module, 'loading');
-             //mw.reload_module(module, function(){
-//
-//             });
-
-             <?php } else { ?>
-
-              mw.tools.removeClass(module, 'loading');
-
-             <?php } ?>
-			 
+				mw.tools.removeClass(module, 'loading');
 			 
 			    mw.category_is_saving = false;
-        $('.mw-cat-save-submit').removeClass('disabled');
+        		$('.mw-cat-save-submit').removeClass('disabled');
+				
+				
+			 
+				  $('.mw-quick-cat-done').show();
+				  $('.add-edit-category-form').hide();
+
+			 
+				
+				
 
 	    });
      
@@ -160,6 +178,7 @@ $(document).ready(function(){
 });
 </script>
 <?php
+
     if(intval($data['id']) == 0){
 	  if(isset($params['selected-category-id']) and intval($params['selected-category-id']) != 0){
 		  $data['parent_id'] = intval($params['selected-category-id']);
@@ -171,29 +190,15 @@ $(document).ready(function(){
 	  }
     }
 
-  ?>
+?>
 
-
-  <?php if($just_saved != false) : ?>
-
-  <div class="quick-post-done">
-    <h2>Well done, you have saved your changes. </h2>
-    <label class="mw-ui-label"><small>Go to see them at this link</small></label>
-    <div class="vSpace"></div>
-    <a target="_top" class="quick-post-done-link" href="<?php print category_link($data['id']); ?>?editmode=y"><?php print category_link($data['id']); ?></a>
-    <div class="vSpace"></div>
-    <label class="mw-ui-label"><small>Or create new content again</small></label>
-    <div class="vSpace"></div>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.reload_module('categories/edit_category')">Create New</a>
-  </div>
-
-<?php endif; ?>
-
-
-
-
-
-<form class="add-edit-page-post" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
+<div class="mw-quick-cat-done quick_done_alert" style="display:none">
+	<h2>Well done, you have saved your category. </h2>
+	<div class="vSpace"></div>
+	<label class="mw-ui-label"><small>Create new category again</small></label>
+	<div class="vSpace"></div>
+	<a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="make_new_cat_after_save()">Create New</a> </div>
+<form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
 	<input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
 	<input name="table" type="hidden" value="categories" />
 	<input name="rel" type="hidden" value="<?php print ($data['rel'])?>" />
@@ -229,48 +234,59 @@ $(document).ready(function(){
     });
   </script>
 	<input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
+    
+    
+    
+    
+    
 	<input type="submit" class="semi hidden" name="save" />
 	<div class="post-save-and-go-live">
-		<button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-green" id="mw-admin-cat-save"><?php _e("Save"); ?></button>
-	 
-
-    </div>
+    
+    <?php if(intval($data['id']) != 0): ?>
+    
+    <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-medium left">Delete</a>
+     <?php endif; ?>
+    
+		<button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-green" id="mw-admin-cat-save">
+		<?php _e("Save"); ?>
+		</button>
+	</div>
 	<div class="vSpace"></div>
 	<div class="advanced_settings">
-       <ul id="quick-add-post-options" class="quick-add-nav">
-          <li><span><span class="ico itabpic"></span><span>Picture Gallery</span></span></li>
-          <li><span><span class="ico itabadvanced"></span><span>Advanced</span></span></li>
-       </ul>
-       <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
-            <div class="pictures-editor-holder">
-    			<module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"  id="mw-cat-pics-admin" />
-    		</div>
-       </div>
-       <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
-           <div class="mw-ui-field-holder">
-        		<label class="mw-ui-label">
-        			<?php _e("Description"); ?>
-        		</label>
-        		<textarea  class="mw-ui-field" name="description"><?php print ($data['description'])?></textarea>
-        	</div>
-            <div class="mw-ui-field-holder">
-    			<?php if(!isset($data['users_can_create_content'])) { $data['users_can_create_content'] = 'n'; } 	?>
-    			<div class="mw-ui-check-selector">
-    				<div class="mw-ui-label left" style="width: 230px">
-    					<?php _e("Can users create content"); ?>
-    					<small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small></div>
-    				<label class="mw-ui-check">
-    					<input name="users_can_create_content" type="radio"  value="n" <?php if( '' == trim($data['users_can_create_content']) or 'n' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-    					<span></span><span>
-    					<?php _e("No"); ?>
-    					</span></label>
-    				<label class="mw-ui-check">
-    					<input name="users_can_create_content" type="radio"  value="y" <?php if( 'y' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
-    					<span></span><span>
-    					<?php _e("Yes"); ?>
-    					</span></label>
-    			</div>
-    		</div>
-       </div>
+		<ul id="quick-add-post-options" class="quick-add-nav">
+			<li><span><span class="ico itabpic"></span><span>Picture Gallery</span></span></li>
+			<li><span><span class="ico itabadvanced"></span><span>Advanced</span></span></li>
+		</ul>
+		<div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+			<div class="pictures-editor-holder">
+				<module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"  id="mw-cat-pics-admin" />
+			</div>
+		</div>
+		<div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+			<div class="mw-ui-field-holder">
+				<label class="mw-ui-label">
+					<?php _e("Description"); ?>
+				</label>
+				<textarea  class="mw-ui-field" name="description"><?php print ($data['description'])?></textarea>
+			</div>
+			<div class="mw-ui-field-holder">
+				<?php if(!isset($data['users_can_create_content'])) { $data['users_can_create_content'] = 'n'; } 	?>
+				<div class="mw-ui-check-selector">
+					<div class="mw-ui-label left" style="width: 230px">
+						<?php _e("Can users create content"); ?>
+						<small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small></div>
+					<label class="mw-ui-check">
+						<input name="users_can_create_content" type="radio"  value="n" <?php if( '' == trim($data['users_can_create_content']) or 'n' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+						<span></span><span>
+						<?php _e("No"); ?>
+						</span></label>
+					<label class="mw-ui-check">
+						<input name="users_can_create_content" type="radio"  value="y" <?php if( 'y' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+						<span></span><span>
+						<?php _e("Yes"); ?>
+						</span></label>
+				</div>
+			</div>
+		</div>
 	</div>
 </form>

@@ -49,24 +49,34 @@ mw.custom_fields = {
       var holder = mw.$("#custom-field-editor");
 
       $(".custom_fields_selector:visible").slideUp('fast');
-
-      holder.show();
-
+		
+		if(holder != null){
+      holder.slideDown('fast');
+		}
 
       if(!!event){
         if(curr != undefined){
               mw.$("#which_field").html(curr.textContent);
               }
-
+ 
         holder.find('.custom-field-edit-title').html('<span class="'+curr.querySelector('span').className+'"></span><strong>' + curr.textContent + '</strong>');
       }
 
       mw.$($selector).load(mw.settings.api_html+ 'fields/make',data , function(){
         mw.is.func(callback) ? callback.call(this) : '';
 
-        mw.$(".mw-admin-custom-field-edit-item-wrapper input").bind("keyup", function(){
-          __save();
+        mw.$(".mw-admin-custom-field-edit-item-wrapper input,.mw-admin-custom-field-edit-item-wrapper textarea").bind("keyup", function(){
+         
+		  
+mw.on.stopWriting(this, function(){
+	
+	__save();
+	});
+		  
+		 
         });
+		
+		 
       });
 
      mw.$("#smart_field_opener").hide();
@@ -94,6 +104,7 @@ mw.custom_fields = {
       data.rel =$for_table;
       data.rel_id =$for_id;
       $.post(mw.settings.api_html+'fields/make' , data , function(){
+		  $(".custom_fields_selector:visible").slideUp('fast');
 		  mw.reload_module('custom_fields/list');
 		  mw.is.func(callback) ? callback.call($type) : '';
       });

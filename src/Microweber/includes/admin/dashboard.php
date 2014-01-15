@@ -29,6 +29,10 @@
  </div>
  <script>
  $(document).ready(function(){
+	 
+	
+	 
+	 
     mw.$("#quick-add-nav li").click(function(){
        if(!$(this).hasClass("active") && !mw.$("#mw-quick-content").hasClass("loading")){
           mw.$("#quick-add-nav li.active").removeClass("active");

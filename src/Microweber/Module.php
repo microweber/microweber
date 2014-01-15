@@ -71,7 +71,7 @@ class Module
             $params['module'] = str_replace('/admin', '', $params['module']);
         }
         if (!isset($params['ui'])) {
-          //  $params['ui'] = 1;
+            //  $params['ui'] = 1;
             //
         }
 
@@ -97,7 +97,7 @@ class Module
         }
 
         if ($custom_view != false and strtolower($custom_view) == 'admin') {
-            if (is_admin() == false) {
+            if ($this->app->user->is_admin() == false) {
                 mw_error('Not logged in as admin');
             }
         }
@@ -224,11 +224,11 @@ class Module
 
             $config['url_main'] = $config['url_base'] = strtok($find_base_url, '?');
 
-if($in_dir != false){
-    $mod_api = str_replace('/admin', '', $module_name);
-} else {
-    $mod_api = str_replace('/admin', '', $module_name_dir);
-}
+            if ($in_dir != false) {
+                $mod_api = str_replace('/admin', '', $module_name);
+            } else {
+                $mod_api = str_replace('/admin', '', $module_name_dir);
+            }
 
 
             $config['module_api'] = $this->app->url->site('api/' . $mod_api);
@@ -260,10 +260,10 @@ if($in_dir != false){
             if (!isset($attrs['id'])) {
                 global $mw_mod_counter;
                 $mw_mod_counter++;
-				$seg_clean = $this->app->url->segment(0);
+                $seg_clean = $this->app->url->segment(0);
                 $seg_clean = str_replace('.', '', $seg_clean);
 
-                $attrs1 = crc32(serialize($attrs) .$seg_clean . $mw_mod_counter);
+                $attrs1 = crc32(serialize($attrs) . $seg_clean . $mw_mod_counter);
 
 
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
@@ -305,7 +305,7 @@ if($in_dir != false){
 
 
             if (defined('MW_MODULE_ONDROP')) {
-                if(!isset($attrs['ondrop'])){
+                if (!isset($attrs['ondrop'])) {
                     $attrs['ondrop'] = true;
                 }
 
@@ -716,7 +716,6 @@ if($in_dir != false){
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
 
-        //$module_namei = str_ireplace($search, $replace, $subject)e
 
         $uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
 
@@ -859,10 +858,9 @@ if($in_dir != false){
                     $i++;
                 }
 
-                mw('db')->update_position_field($table, $indx);
+                $this->app->db->update_position_field($table, $indx);
                 return $indx;
-                // d($indx);
-            }
+             }
         }
 
         $this->db_init();
@@ -872,7 +870,7 @@ if($in_dir != false){
     public function save($data_to_save)
     {
 
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
             return false;
         }
         if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
@@ -896,11 +894,10 @@ if($in_dir != false){
                 $s["module"] = $data_to_save["module"];
                 if (!isset($s["module_id"])) {
                     $save = $this->get('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
-                    //  d($s);
-                    //
+
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
-
+                        $s["position"] = intval($save[0]["position"]);
                         $save = $this->app->db->save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
                         $mname_clen = $this->app->db->escape_string($mname_clen);
@@ -938,7 +935,7 @@ if($in_dir != false){
 
     public function delete_module($id)
     {
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
             return false;
         }
         $id = intval($id);
@@ -961,7 +958,7 @@ if($in_dir != false){
 
     public function delete_all()
     {
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
             return false;
         } else {
 
@@ -1015,7 +1012,7 @@ if($in_dir != false){
     public function uninstall($params)
     {
 
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
             return false;
         }
         if (isset($params['id'])) {
@@ -1023,7 +1020,7 @@ if($in_dir != false){
             $this_module = $this->get('ui=any&one=1&id=' . $id);
             if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
                 $module_name = $this_module['module'];
-                if (is_admin() == false) {
+                if ($this->app->user->is_admin() == false) {
                     return false;
                 }
 
@@ -1096,7 +1093,7 @@ if($in_dir != false){
         if (defined('MW_FORCE_MOD_INSTALLED')) {
 
         } else {
-            if (is_admin() == false) {
+            if ($this->app->user->is_admin() == false) {
                 return false;
             }
         }
@@ -1170,7 +1167,7 @@ if($in_dir != false){
                         $tabl = $config['tables'];
                         foreach ($tabl as $key1 => $fields_to_add) {
                             $table = db_get_real_table_name($key1);
-                            mw('db')->build_table($table, $fields_to_add);
+                            $this->app->db->build_table($table, $fields_to_add);
                         }
                     }
                     if (is_array($config) and !empty($config)) {
@@ -1274,8 +1271,8 @@ if($in_dir != false){
                         if (isset($config['tables']) and is_array($config['tables'])) {
                             $tabl = $config['tables'];
                             foreach ($tabl as $key1 => $fields_to_add) {
-                                $table = db_get_real_table_name($key1);
-                                mw('db')->build_table($table, $fields_to_add);
+                                $table = $this->app->db->real_table_name($key1);
+                                $this->app->db->build_table($table, $fields_to_add);
                             }
                         }
                     }
@@ -1292,7 +1289,7 @@ if($in_dir != false){
     {
         $params = parse_params($params);
 
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
             return false;
         }
 
@@ -1308,7 +1305,7 @@ if($in_dir != false){
     public function delete_module_as_template($data)
     {
 
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
             return false;
         }
 
@@ -1340,7 +1337,7 @@ if($in_dir != false){
     public function save_module_as_template($data_to_save)
     {
 
-        if (is_admin() == false) {
+        if ($this->app->user->is_admin() == false) {
             return false;
         }
 
@@ -1393,7 +1390,7 @@ if($in_dir != false){
             $dir_name = $options['dir_name'];
             //$list_as_element = true;
             $cache_group = 'elements/global';
-            //
+           
         } else {
             $dir_name = normalize_path(MW_MODULES_DIR);
             $list_as_element = false;
@@ -1418,22 +1415,16 @@ if($in_dir != false){
         }
 
         if (isset($options['reload_modules']) == true) {
-            //
+
         }
 
         if (isset($options['cleanup_db']) == true) {
 
-            if (is_admin() == true) {
-                if ($cache_group == 'modules') {
-                    //	delete_modules_from_db();
-                }
-
-                if ($cache_group == 'elements') {
-                    //	delete_elements_from_db();
-                }
-
+            if ($this->app->user->is_admin() == true) {
                 $this->app->cache->delete('categories');
                 $this->app->cache->delete('categories_items');
+                $this->app->cache->delete('db');
+                $this->app->cache->delete('modules');
             }
         }
 
@@ -1465,8 +1456,7 @@ if($in_dir != false){
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             set_time_limit(600);
         }
-        //$this->app->cache->flush();
-        //clearstatcache();
+
 
         $modules_remove_old = false;
         $dir = rglob($glob_patern, 0, $dir_name);
@@ -1479,7 +1469,6 @@ if($in_dir != false){
             foreach ($dir as $key => $value) {
                 $skip_module = false;
                 if (isset($options['skip_admin']) and $options['skip_admin'] == true) {
-                    // p($value);
                     if (strstr($value, 'admin')) {
                         $skip_module = true;
                     }
@@ -1489,18 +1478,15 @@ if($in_dir != false){
 
                     $config = array();
                     $value = normalize_path($value, false);
-                    //
+
                     $value_fn = $mod_name = str_replace('_config.php', '', $value);
                     $value_fn = $mod_name = str_replace('config.php', '', $value_fn);
                     $value_fn = $mod_name = str_replace('index.php', '', $value_fn);
 
 
-
                     $value_fn = $mod_name_dir = str_replace($dir_name_mods, '', $value_fn);
                     $value_fn = $mod_name_dir = str_replace($dir_name_mods2, '', $value_fn);
 
-                    //d( $value_fn);
-                    //  $value_fn = reduce_double_slashes($value_fn);
 
                     $def_icon = MW_MODULES_DIR . 'default.png';
 
@@ -1567,8 +1553,7 @@ if($in_dir != false){
 
                                 $this->app->layouts->save($config);
                             } else {
-                                //d($config);
-                                //if (isset($options['dir_name'])) {
+
                                 $this->save($config);
                                 $modules_remove_old = true;
                                 $config['installed'] = 'auto';
@@ -1579,7 +1564,7 @@ if($in_dir != false){
                                 }
                                 $this->install($config);
 
-                                //}
+
                             }
                         }
                     }
@@ -1613,7 +1598,7 @@ if($in_dir != false){
                 $uninstall_lock = $this->get('ui=any');
                 if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
                     foreach ($uninstall_lock as $value) {
-                        $ism = is_module($value['module']);
+                        $ism = $this->exists($value['module']);
                         if ($ism == false) {
                             $this->delete_module($value['id']);
                             $mn = $value['module'];
@@ -1621,7 +1606,7 @@ if($in_dir != false){
 
                             $this->app->db->q($q);
                         }
-                        //	d($ism);
+
                     }
                 }
             }

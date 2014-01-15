@@ -176,6 +176,17 @@ function api_url($str = '')
     return site_url('api/' . $str);
 }
 
+function auto_link($text)
+{
+    return mw('format')->auto_link($text);
+}
+
+function prep_url($text)
+{
+    return mw('format')->prep_url($text);
+}
+
+
 
 /**
  * category_tree
@@ -254,7 +265,10 @@ function url_string($skip_ajax = false)
 {
     return mw('url')->string($skip_ajax);
 }
-
+function url_title($text)
+{
+    return mw('url')->slug($text);
+}
 function url_param($param, $skip_ajax = false)
 {
     return mw('url')->param($param, $skip_ajax);
@@ -289,13 +303,23 @@ function save_edit($post_data)
  * @since Version 1.0
  *
  */
-api_expose('save_content');
+ //api_expose('save_content');
 
 function save_content($data, $delete_the_cache = true)
 {
 
 
     return mw('content')->save_content($data, $delete_the_cache);
+
+}
+
+api_expose('save_content_admin');
+
+function save_content_admin($data, $delete_the_cache = true)
+{
+
+
+    return mw('content')->save_content_admin($data, $delete_the_cache);
 
 }
 
@@ -811,7 +835,14 @@ function cache_clear($cache_group = 'global', $cache_storage_type = false)
 
 
 }
+//same as cache_clear
+function cache_delete($cache_group = 'global', $cache_storage_type = false)
+{
 
+    return mw('cache')->delete($cache_group, $cache_storage_type);
+
+
+}
 
 api_expose('social_login_process');
 function social_login_process()
@@ -923,6 +954,11 @@ function user_name($user_id = false, $mode = 'full')
 {
     return mw('user')->name($user_id, $mode);
 }
+function user_picture($user_id = false)
+{
+    return mw('user')->picture($user_id);
+}
+
 
 /**
  * @function get_users
@@ -975,7 +1011,10 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 {
     return mw('fields')->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
 }
-
+function make_custom_field($field_id = 0, $field_type = 'text', $settings = false)
+{
+    return mw('fields')->make($field_id, $field_type, $settings);
+}
 
 function get_categories($data)
 {
@@ -1068,6 +1107,14 @@ function get_content_children($id = 0, $without_main_parent = false)
 function get_page_for_category($category_id)
 {
     return mw('category')->get_page($category_id);
+
+
+}
+
+
+function get_category_items($category_id)
+{
+    return mw('category')->get_items('parent_id='.intval($category_id));
 
 
 }
@@ -1937,15 +1984,9 @@ function mkdir_recursive($pathname)
 
 function db_escape_string($value)
 {
-    global $mw_escaped_strings;
-    if (isset($mw_escaped_strings[$value])) {
-        return $mw_escaped_strings[$value];
-    }
-
     $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
     $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
     $new = str_replace($search, $replace, $value);
-    $mw_escaped_strings[$value] = $new;
     return $new;
 }
 
@@ -2123,7 +2164,7 @@ function file_size_nice($size)
 $ex_fields_static = array();
 $_mw_real_table_names = array();
 $_mw_assoc_table_names = array();
-$mw_escaped_strings = array();
+
 
 
 function db_build_table($table_name, $fields_to_add, $column_for_not_drop = array())
@@ -2141,23 +2182,11 @@ function db_get_table_name($assoc_name)
 }
 
 
-$_mw_db_get_real_table_names = array();
+
 function db_get_real_table_name($assoc_name)
 {
-    global $_mw_db_get_real_table_names;
+    return mw('db')->real_table_name($assoc_name);
 
-    if (isset($_mw_db_get_real_table_names[$assoc_name])) {
-
-        return $_mw_db_get_real_table_names[$assoc_name];
-    }
-
-
-    $assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
-    if (defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
-        $assoc_name_new = MW_TABLE_PREFIX . $assoc_name_new;
-    }
-    $_mw_db_get_real_table_names[$assoc_name] = $assoc_name_new;
-    return $assoc_name_new;
 }
 
 
@@ -2178,7 +2207,7 @@ function db_get_real_table_name($assoc_name)
  */
 function guess_table_name($for, $guess_cache_group = false)
 {
-
+    return mw('db')->guess_table_name($for, $guess_cache_group);
     if (stristr($for, 'table_') == false) {
         switch ($for) {
             case 'user' :
@@ -2373,5 +2402,94 @@ if (!function_exists('params_stripslashes_array')) {
     function params_stripslashes_array($array)
     {
         return is_array($array) ? array_map('params_stripslashes_array', $array) : stripslashes($array);
+    }
+}
+
+if (!function_exists('validator')) {
+
+    function validator($data)
+    {
+        $validator = new \Microweber\Validator($data);
+        return $validator;
+    }
+}
+
+
+function is_post(){
+    return POST_ID != false;
+}
+
+
+
+function get_all_functions_files_for_modules($options = false)
+{
+
+
+    $args = func_get_args();
+    $function_cache_id = '';
+
+    $function_cache_id = serialize($options);
+
+    $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+    $cache_group = 'modules/global';
+
+    $cache_content = mw('cache')->get($cache_id, $cache_group);
+
+    if (($cache_content) != false) {
+
+        return $cache_content;
+    }
+
+    if (isset($options['glob'])) {
+        $glob_patern = $options['glob'];
+    } else {
+        $glob_patern = '*functions.php';
+    }
+
+    if (isset($options['dir_name'])) {
+        $dir_name = $options['dir_name'];
+    } else {
+        $dir_name = normalize_path(MW_MODULES_DIR);
+    }
+
+    $disabled_files = array();
+
+    $uninstall_lock = mw('module')->get('ui=any&installed=[int]0');
+
+    if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
+        foreach ($uninstall_lock as $value) {
+            $value1 = normalize_path($dir_name . $value['module'] . DS . 'functions.php', false);
+            $disabled_files[] = $value1;
+        }
+    }
+
+    $dir = mw('Utils\Files')->rglob($glob_patern, 0, $dir_name);
+
+    if (!empty($dir)) {
+        $configs = array();
+        foreach ($dir as $key => $value) {
+
+            if (is_string($value)) {
+                $value = normalize_path($value, false);
+
+                $found = false;
+                foreach ($disabled_files as $disabled_file) {
+                    if (strtolower($value) == strtolower($disabled_file)) {
+                        $found = 1;
+                    }
+                }
+                if ($found == false) {
+                    $configs[] = $value;
+                }
+            }
+
+        }
+
+        mw('cache')->save($configs, $function_cache_id, $cache_group, 'files');
+
+        return $configs;
+    } else {
+        return false;
     }
 }

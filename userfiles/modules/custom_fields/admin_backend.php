@@ -84,6 +84,7 @@ $module_id = $for_id;
   <div class="custom-field-edit" id="custom-field-editor" style="display:none;">
     <div  class="custom-field-edit-header">
       <div class="custom-field-edit-title"></div>
+      
     </div>
     <div class="mw-admin-custom-field-edit-item-wrapper">
       <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?>"></div>

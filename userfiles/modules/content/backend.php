@@ -155,6 +155,12 @@ function mw_select_page_for_editing($p_id){
      mw.$('#pages_edit_container').attr('data-type','content/edit_page');
      mw.$('#pages_edit_container').removeAttr('data-subtype');
      mw.$('#pages_edit_container').removeAttr('data-content-id');
+	 mw.$('#pages_edit_container').removeAttr('content-id');
+ 
+	 
+	 
+	 
+	 
      mw.$(".mw_edit_page_right").css("overflow", "hidden");
      edit_load('content/edit_page');
 }
@@ -264,8 +270,12 @@ function mw_set_edit_posts(in_page, is_cat, c){
       mw.$('#pages_edit_container').removeAttr('data-page-id');
       mw.$('#pages_edit_container').removeAttr('data-category-id');
       mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
-	  
-	  
+	    mw.$('#pages_edit_container').removeAttr('subtype');
+	    mw.$('#pages_edit_container').removeAttr('data-subtype');
+     mw.$('#pages_edit_container').removeAttr('data-content-id');
+	 
+	      mw.$('#pages_edit_container').removeAttr('is_shop');
+
 	  	  mw.$('.mw-admin-go-live-now-btn').attr('content-id',in_page);
 	  
 	  
@@ -308,24 +318,58 @@ function mw_select_post_for_editing($p_id, $subtype){
 		
 	  var active_item_is_category = active_item.attr('data-category-id');
 	 if(active_item_is_category != undefined){
+		 
 			  mw.$('#pages_edit_container').attr('data-parent-category-id',active_item_is_category);
-			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.have_category').first();
-			   if(active_item_parent_page != undefined){
-					var active_item_is_page = active_item_parent_page.attr('data-page-id');
+			  
+			  var active_bg = mwd.querySelector('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg');
+			 
+			  var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'have_category');
+			   
+			   if(active_item_parent_page == false){
+				 var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'is_page');
+ 
 			   }
-               else {
-				  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
+			   
+			    if(active_item_parent_page == false){
+				 var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'pages_tree_item');
+  
+			   }
+			  
+			   
+			   if(active_item_parent_page != false){
+					var active_item_is_page = active_item_parent_page.getAttribute('data-page-id');
+					
+			   }  
+				 
+ 
+
+/*
+ 			if(active_item_is_page == undefined){
+			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
+				 
 				   if(active_item_parent_page != undefined){
 						var active_item_is_page = active_item_parent_page.attr('data-page-id');
+				   } else {
+					   var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('[data-page-id]').first();
+					 
+
 				   }
-
-			   }
-
+				   
+			}
+			
+			
+				*/
+			
+			
+			 
+				   
+				   
 
 	 } else {
 	    mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
 
 	 }
+	  
 
 	  if(active_item_is_page != undefined){
 		 	 mw.$('#pages_edit_container').attr('data-parent-page-id',active_item_is_page);
@@ -415,6 +459,7 @@ function mw_add_product(){
         <?php } ?>
 
 
+        <?php event_trigger('mw_admin_content_side_menu_start', $params); ?>
 
 
 
@@ -422,11 +467,17 @@ function mw_add_product(){
           <label><?php _e("Post"); ?></label>
           <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipost"></span></span>
         </a>
+        
+        
+        
+        
+        
+        
+        
+ 
 
-        <a href="#action=new:product" class="mw_action_nav mw_action_product" onclick="mw.url.windowHashParam('action','new:product');">
-          <label><?php _e("Product"); ?></label>
-          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico iproduct"></span></span>
-        </a>
+
+
 
         <a href="#action=new:page" class="mw_action_nav mw_action_page" id="action_new_page" onclick="mw.url.windowHashParam('action','new:page');mw.url.windowDeleteHashParam('parent-page');return false;">
           <label><?php _e("Page"); ?></label>
@@ -442,6 +493,14 @@ function mw_add_product(){
           <label><?php _e("Category"); ?></label>
           <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico icategory"></span></span>
         </a>
+        
+        
+        
+        
+        <?php event_trigger('mw_admin_content_side_menu_end',$params); ?>
+        
+    
+        
 
       </div>
 

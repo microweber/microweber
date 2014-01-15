@@ -17,14 +17,14 @@ description: Page with right sidebar
 
 <div id="content">
 	<div class="container">
-		<div class="row-fluid">
-			<div class="span7">
+		<div class="row">
+			<div class="col-sm-8">
 				<h2 class="edit"  field="title" rel="content">New page</h2>
 				<div class="edit"  field="content" rel="content">
 					<p>You can edit this text</p>
 				</div>
 			</div>
-			<div class="span3 offset1">
+			<div class="col-sm-3 col-sm-offset-1">
 				<div class="edit"  field="sidebar" rel="inherit">
 					<div class="well">
 						<h3>Pages</h3>

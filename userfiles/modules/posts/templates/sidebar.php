@@ -48,7 +48,7 @@ if(!isset($tn[1])){
                <?php endif; ?>
 
                 <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
-                    <a href="<?php print $item['link'] ?>" class="btn btn-mini"><?php $read_more_text ? print $read_more_text : print _e('Continue Reading', true); ?></a>
+                    <a href="<?php print $item['link'] ?>" class="btn btn-default btn-mini"><?php $read_more_text ? print $read_more_text : print _e('Continue Reading', true); ?></a>
                 <?php  endif; ?>
                </div>
             </li>

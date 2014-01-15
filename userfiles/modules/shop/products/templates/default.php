@@ -15,7 +15,7 @@ description: Default - 3 Columns
 
 $tn = $tn_size;
 if(!isset($tn[0]) or ($tn[0]) == 150){
-     $tn[0] = 250;
+     $tn[0] = 350;
 }
 if(!isset($tn[1])){
      $tn[1] = $tn[0];
@@ -24,9 +24,9 @@ if(!isset($tn[1])){
 
 ?>
 
-<div class="clearfix container-fluid module-posts-template-columns module-posts-template-columns-3">
+<div class="clearfix module-posts-template-columns module-posts-template-columns-3">
   <?php if (!empty($data)): ?>
-  <div class="row-fluid">
+  <div class="row">
     <?php
 
 
@@ -39,7 +39,7 @@ if(!isset($tn[1])){
     <?php if($count % 3 == 0) { ?>
     <div class="v-space"></div>
     <?php } ?>
-    <div class="span4<?php if($count % 3 == 0) { ?> first <?php } ?>">
+    <div class="col-sm-4<?php if($count % 3 == 0) { ?> first <?php } ?>">
       <?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>"> <span class="valign"> <span class="valign-cell"> <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  /> </span> </span> </a>
       <?php endif; ?>
@@ -77,7 +77,7 @@ if(!isset($tn[1])){
 
          ?>
         <?php if(is_array( $item['prices'])): ?> 
-        <button class="btn" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
+        <button class="btn btn-default" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
         <?php endif; ?>
         <?php endif; ?>
       </div>

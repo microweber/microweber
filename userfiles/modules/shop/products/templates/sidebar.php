@@ -69,7 +69,7 @@ if(!isset($tn[1])){
         ?>
 
 				 <?php if(is_array( $item['prices'])): ?>
-                <button class="btn" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
+                <button class="btn btn-default" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
                 <?php endif; ?>
         <?php endif; ?>
       </div>
@@ -92,7 +92,7 @@ if(!isset($tn[1])){
                <p><?php print $item['description'] ?></p>
                <?php endif; ?>
                <?php if(!isset($show_fields) or $show_fields == false or in_array('read_more', $show_fields)): ?>
-                    <a href="<?php print $item['link'] ?>" class="btn btn-mini"><?php $read_more_text ? print $read_more_text : print _e('Continue Reading', true); ?></a>
+                    <a href="<?php print $item['link'] ?>" class="btn btn-default btn-mini"><?php $read_more_text ? print $read_more_text : print _e('Continue Reading', true); ?></a>
                <?php  endif; ?>
                </div>
             </li>

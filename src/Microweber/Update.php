@@ -8,11 +8,10 @@ if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
 class Update
 {
 
+    public $app;
     private $remote_api_url = 'http://api.microweber.com/service/update/';
 
-    public $app;
-
-    function __construct($app=null)
+    function __construct($app = null)
     {
 
         if (!is_object($this->app)) {
@@ -37,28 +36,22 @@ class Update
         if ($a == false) {
             mw_error('Must be admin!');
         }
+
         if (!ini_get('safe_mode')) {
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-				ini_set("memory_limit", "160M");
+                ini_set("memory_limit", "160M");
                 ini_set("set_time_limit", 0);
             }
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
                 set_time_limit(0);
             }
-
         }
         $c_id = __FUNCTION__ . date("ymdh");
-        //	$data['layouts'] = $t;
-
         if ($skip_cache == false) {
-
             $cache_content = $this->app->cache->get($c_id, 'update/global');
-            //
             if (($cache_content) != false) {
-
                 return $cache_content;
             }
-
         } else {
             $this->app->cache->delete('update/global');
         }
@@ -70,9 +63,7 @@ class Update
         $t = mw('content')->site_templates();
         $data['templates'] = $t;
 
-        //	$t = scan_for_modules("cache_group=modules/global");
         $t = $this->app->module->get("ui=any");
-        // d($t);
         $data['modules'] = $t;
         $data['module_templates'] = array();
         if (is_array($t)) {
@@ -100,11 +91,7 @@ class Update
                             $data['module_templates'][$value['module']] = $mod_tpls;
                         }
                     }
-                    //d($module_templates);
-
-
                 }
-                //d($value);
             }
         }
 
@@ -113,13 +100,7 @@ class Update
 
         $result = $this->call('check_for_update', $data);
 
-
-        //if ($skip_cache == false) {
-
-
         $count = 0;
-
-
         if (isset($result['modules'])) {
             $count = $count + sizeof($result['modules']);
         }
@@ -133,100 +114,95 @@ class Update
             $count = $count + sizeof($result['elements']);
 
         }
-
-
-
-
-            $count = 0;
-            if (isset($result['modules'])) {
-                $count = $count + sizeof($result['modules']);
-            }
-            if (isset($result['module_templates'])) {
-                $count = $count + sizeof($result['module_templates']);
-            }
-            if (isset($result['core_update'])) {
-                $count = $count + 1;
-            }
-            if (isset($result['elements'])) {
-                $count = $count + sizeof($result['elements']);
-            }
-
-            if ($count > 0) {
-                $notif = array();
-                $notif['replace'] = true;
-                $notif['module'] = "updates";
-                $notif['rel'] = "update_check";
-                $notif['rel_id'] = 'updates';
-                $notif['title'] = "New updates are available";
-                $notif['description'] = "There are $count new updates are available";
-
-                $this->app->notifications->save($notif);
-            }
-
-
-        /*if(function_exists('$this->app->notifications->save')){
-
-
-               $count = 0;
-                if (isset($result['modules'])) {
-               $count = $count + sizeof($result['modules']);
-               }
-               if (isset($result['module_templates'])) {
-                   $count = $count + sizeof($result['module_templates']);
-               }
-               if (isset($result['core_update'])) {
-                   $count = $count + 1;
-               }
-               if (isset($result['elements'])) {
-                   $count = $count + sizeof($result['elements']);
-               }
-
-           if($count > 0){
-           $notif = array();
-           $notif['module'] = "updates";
-           $notif['rel'] = "updates";
-           $notif['title'] = "New updates are avaiable";
-           $notif['description'] = "There are $count new updates are available";
-           // d($notif);
-           //$this->app->notifications->save($notif);
-           }
-
-       }*/
-
-
-        //}
-
-
-		if(is_array($result)){
-			$result['count'] = $count;
-		}
-		//$result =  $count;
-
-
-
-		 if ($result != false) {
-            $this->app->cache->save($result, $c_id, 'update/global');
+        $count = 0;
+        if (isset($result['modules'])) {
+            $count = $count + sizeof($result['modules']);
+        }
+        if (isset($result['module_templates'])) {
+            $count = $count + sizeof($result['module_templates']);
+        }
+        if (isset($result['core_update'])) {
+            $count = $count + 1;
+        }
+        if (isset($result['elements'])) {
+            $count = $count + sizeof($result['elements']);
         }
 
+        if ($count > 0) {
+            $notif = array();
+            $notif['replace'] = true;
+            $notif['module'] = "updates";
+            $notif['rel'] = "update_check";
+            $notif['rel_id'] = 'updates';
+            $notif['title'] = "New updates are available";
+            $notif['description'] = "There are $count new updates are available";
 
-
+            $this->app->notifications->save($notif);
+        }
+        if (is_array($result)) {
+            $result['count'] = $count;
+        }
+        if ($result != false) {
+            $this->app->cache->save($result, $c_id, 'update/global');
+        }
 
 
         return $result;
     }
 
-    function post_update()
+    function call($method = false, $post_params = false)
     {
-        if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-
-                ini_set("set_time_limit", 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
+        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        if (!is_dir($cookie)) {
+            mkdir($cookie);
         }
-        mw_post_update();
+        $cookie_file = $cookie . 'cookie.txt';
+        $requestUrl = $this->remote_api_url;
+        if ($method != false) {
+            $requestUrl = $requestUrl . '?api_function=' . $method;
+        }
+
+        $curl = new \Microweber\Utils\Curl();
+
+        $curl->setUrl($requestUrl);
+        $curl->url = $requestUrl;
+
+        if (!is_array($post_params)) {
+            //   $post_params = array();
+        }
+        $post_params['site_url'] = $this->app->url->site();
+        $post_params['api_function'] = $method;
+
+        if ($post_params != false and is_array($post_params)) {
+
+            //$post_params = $this->http_build_query_for_curl($post_params);
+
+            // $post_paramsbase64 = base64_encode(serialize($post_params));
+            // $post_paramssjon = base64_encode(json_encode($post_params));
+
+            // $post_params_to_send = array('base64' => $post_paramsbase64, 'base64js' => $post_paramssjon,'serialized' => serialize($post_params));
+
+            // $result1 = $curl->post($post_params_to_send);
+            $result1 = $curl->post($post_params);
+        } else {
+            $result1 = false;
+            // $result1 = $curl->post($post_params_to_send);
+        }
+
+        if ($result1 == '' or $result1 == false) {
+            return false;
+        }
+
+
+        //	\curl_close($ch);
+        $result = false;
+        if ($result1 != false) {
+            $result = json_decode($result1, 1);
+        }
+        if ($result == false) {
+            //print $result1;
+        }
+        return $result;
     }
 
     function install_version($new_version)
@@ -269,6 +245,20 @@ class Update
 
         }
 
+    }
+
+    function post_update()
+    {
+        if (!ini_get('safe_mode')) {
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+
+                ini_set("set_time_limit", 0);
+            }
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+                set_time_limit(0);
+            }
+        }
+        mw_post_update();
     }
 
     function apply_updates($updates)
@@ -459,16 +449,13 @@ class Update
                 if (is_file($dl_file)) {
                     $unzip = new \Microweber\Utils\Unzip();
                     $target_dir = MW_ROOTPATH;
-                    //d($dl_file);
                     $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
-                    // skip_cache
                 }
             }
             $params = array();
             $params['skip_cache'] = true;
 
             $data = $this->app->modules->get($params);
-            //d($data);
             $this->app->cache->delete('update/global');
             $this->app->cache->delete('db');
             event_trigger('mw_db_init_default');
@@ -518,14 +505,14 @@ class Update
 
     }
 
+    public function send_anonymous_server_data($params = false)
+    {
 
-    public function send_anonymous_server_data($params = false){
-
-        if ($params != false and is_string( $params)) {
+        if ($params != false and is_string($params)) {
             $params = parse_params($params);
         }
 
-        if($params == false){
+        if ($params == false) {
             $params = array();
         }
 
@@ -533,66 +520,7 @@ class Update
         $params['function_name'] = 'send_lang_form_to_microweber';
 
 
-
-
         $result = $this->call('send_anonymous_server_data', $params);
-        return $result;
-    }
-
-
-
-    function call($method = false, $post_params = false)
-    {
-        $cookie = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
-        if (!is_dir($cookie)) {
-            mkdir($cookie);
-        }
-        $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_api_url;
-        if ($method != false) {
-            $requestUrl = $requestUrl . '?api_function=' . $method;
-        }
-
-        $curl = new \Microweber\Utils\Curl();
-
-        $curl->setUrl($requestUrl);
-        $curl->url = $requestUrl;
-
-        if (!is_array($post_params)) {
-         //   $post_params = array();
-        }
-        $post_params['site_url'] = $this->app->url->site();
-        $post_params['api_function'] = $method;
-
-        if ($post_params != false and is_array($post_params)) {
-
-            //$post_params = $this->http_build_query_for_curl($post_params);
-
-           // $post_paramsbase64 = base64_encode(serialize($post_params));
-           // $post_paramssjon = base64_encode(json_encode($post_params));
-
-           // $post_params_to_send = array('base64' => $post_paramsbase64, 'base64js' => $post_paramssjon,'serialized' => serialize($post_params));
-
-           // $result1 = $curl->post($post_params_to_send);
-            $result1 = $curl->post($post_params);
-        } else {
-            $result1 = false;
-            // $result1 = $curl->post($post_params_to_send);
-        }
-
-        if ($result1 == '' or $result1 == false) {
-            return false;
-        }
-
-
-        //	\curl_close($ch);
-        $result = false;
-        if ($result1 != false) {
-            $result = json_decode($result1, 1);
-        }
-        if ($result == false) {
-            //print $result1;
-        }
         return $result;
     }
 

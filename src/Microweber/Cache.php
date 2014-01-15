@@ -2,7 +2,8 @@
 namespace Microweber;
 
 /**
- * Here you will find how to work with the cache
+ * Cache class
+ *
  * These functions will allow you to save and get data from the MW cache system
  *
  * @package Cache
@@ -30,16 +31,16 @@ class Cache
      * @example
      * <code>
      * //delete the cache for the content
-     *  \Microweber\Cache::delete("content");
+     *  mw('cache')->delete("content");
      *
      * //delete the cache for the content with id 1
-     *  \Microweber\Cache::delete("content/1");
+     *  mw('cache')->delete("content/1");
      *
      * //delete the cache for users
-     *  \Microweber\Cache::delete("users");
+     *  mw('cache')->delete("users");
      *
      * //delete the cache for your custom table eg. my_table
-     * \Microweber\Cache::delete("my_table");
+     * mw('cache')->delete("my_table");
      * </code>
      *
      */
@@ -73,7 +74,7 @@ class Cache
      * <code>
      *
      * $cache_id = 'my_cache_'.crc32($sql_query_string);
-     * $cache_content = \Microweber\Cache::get($cache_id, 'my_cache_group');
+     * $cache_content = mw('cache')->get($cache_id, 'my_cache_group');
      *
      * </code>
      *
@@ -125,7 +126,7 @@ class Cache
      * //store custom data in cache
      * $data = array('something' => 'some_value');
      * $cache_id = 'my_cache_id';
-     * $cache_content = \Microweber\Cache::save($data, $cache_id, 'my_cache_group');
+     * $cache_content = mw('cache')->save($data, $cache_id, 'my_cache_group');
      * </code>
      *
      * @param mixed $data_to_cache

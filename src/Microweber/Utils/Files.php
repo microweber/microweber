@@ -15,6 +15,7 @@ class Files
      */
     public function copy_directory($source, $destination)
     {
+       static $copies;
         if (is_dir($source)) {
             @mkdir($destination);
             $directory = dir($source);
@@ -23,18 +24,21 @@ class Files
                     continue;
                 }
 
-                $PathDir = $source . '/' . $readdirectory;
+                $PathDir = $source . DIRECTORY_SEPARATOR . $readdirectory;
                 if (is_dir($PathDir)) {
-                    copy_directory($PathDir, $destination . '/' . $readdirectory);
+                    $this->copy_directory($PathDir, $destination . DIRECTORY_SEPARATOR . $readdirectory);
                     continue;
                 }
-                copy($PathDir, $destination . '/' . $readdirectory);
+                $copies[] = $destination . DIRECTORY_SEPARATOR . $readdirectory;
+                copy($PathDir, $destination . DIRECTORY_SEPARATOR . $readdirectory);
             }
 
             $directory->close();
         } else {
+            $copies[] = $destination;
             copy($source, $destination);
         }
+        return $copies;
     }
 
 
