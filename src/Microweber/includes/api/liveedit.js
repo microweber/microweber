@@ -27,6 +27,7 @@ mw.states = {}
 
 
 mw.isBasicMode = mw.cookie.get("advancedmode") != 'true';
+mw.isBasicMode = false;
 
 if(mw.isBasicMode){
   mw.cookie.ui("designtool", '');
@@ -197,6 +198,7 @@ $(document).ready(function(){
 
       if(mw.nonEdits.length > 0 && mw.userCanSwitchMode){
           mw.nonEdits.bind("dblclick selectstart", function(e){
+
              if(e.target.nodeName !== 'A' && !mw.tools.hasParentsWithTag(e.target, 'a')/* && !mw.doNotBindSwitcher*/){
                 mw.$(".Switch2AdvancedModeTip").fadeIn();
 
@@ -212,6 +214,9 @@ $(document).ready(function(){
 
 
              }
+
+
+
           });
       }
    }

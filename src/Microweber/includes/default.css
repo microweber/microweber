@@ -172,6 +172,7 @@ img.element{
     clear: both;
     content: ".";
     display: block;
+    overflow: hidden;
     height: 0;
     line-height: 0;
     visibility: hidden;

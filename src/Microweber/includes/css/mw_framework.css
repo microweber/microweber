@@ -206,6 +206,8 @@
   position: absolute !important;
   z-index: 999;
   visibility: hidden;
+  left: -9999px;
+  top: -9999px
 }
 
 .mw_image_resizer.active{
@@ -396,7 +398,7 @@ body.not-allowed{
 
 
 #live_edit_toolbar{
-  opacity: 0;
+  opacity: 1;
   transition: opacity 1s;
   -moz-transition: opacity 1s;
   -webkit-transition: opacity 1s;

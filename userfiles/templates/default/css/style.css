@@ -967,7 +967,11 @@ input.mw-captcha-input {
 	padding: 20px 20px 0;
 	margin-top: 45px;
 	color: white;
+    overflow: hidden;
+    position: relative;
 }
+
+
 #footer a {
 	color: white;
 }

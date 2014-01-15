@@ -207,6 +207,8 @@
 
 #mw_small_editor{
   position: absolute;
+  left: -9999px;
+  top: -9999px;
   visibility:hidden;
   z-index: 1003;
   width:211px;
@@ -251,7 +253,7 @@
 .mw_dropdown_type_wysiwyg input.mw_dd_field{
   border: none;
   padding: 5px;
-  background: none;
+  background: white;
   position: absolute;
   z-index: 2;
   visibility: hidden;
@@ -274,7 +276,7 @@
 .mw_dropdown_type_wysiwyg:hover, .mw_dropdown_type_wysiwyg.hovered, .mw_dropdown_type_wysiwyg.active{
   border-color:#D2D2D2;
   background: #F3F3F3;
-  box-shadow: 2px 2px 2px -2px #ddd, -2px -2px 2px -2px #ddd;
+  box-shadow: 2px 2px 2px -2px #ccc, -2px -2px 2px -2px #ddd;
 }
 
 .mw_dropdown_type_wysiwyg:active{

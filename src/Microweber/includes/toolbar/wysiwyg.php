@@ -96,7 +96,7 @@
                     </div>
                     <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
                         <span class="mw_dropdown_val_holder">
-                            <input type="text" class="mw_dd_field"  />
+                            <?php /*<input type="text" class="mw_dd_field"  />         */ ?>
                             <span class="dd_rte_arr"></span>
                             <span class="mw_dropdown_val" >Size</span>
                         </span>

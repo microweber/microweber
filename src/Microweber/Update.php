@@ -152,7 +152,7 @@ class Update
 
     function call($method = false, $post_params = false)
     {
-        $cookie = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
         if (!is_dir($cookie)) {
             mkdir($cookie);
         }

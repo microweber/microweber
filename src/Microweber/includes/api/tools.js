@@ -641,22 +641,29 @@ mw.tools = {
 
                 }
              }
+             input.onfocus = function(){
+                  
+             }
         }
+
         mw.$(el).bind("click", function(event){
           if($(this).hasClass("disabled")){
             return false;
           }
           if(!mw.tools.hasClass(event.target.className, 'mw_dropdown_fields') && !mw.tools.hasClass(event.target.className, 'dd_search')){
-            $(this).toggleClass("active");
-            $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
-            if(this.querySelector('input.mw_dd_field') !== null && mw.tools.hasClass(this, 'active')){
+
+            if(this.querySelector('input.mw_dd_field') !== null && !mw.tools.hasClass(this, 'active') && mw.tools.hasParentsWithClass(event.target, 'mw_dropdown_val_holder')){
                if(this.hasInput){
                  var input = this.querySelector('input.mw_dd_field');
+
                  input.value = $(this).getDropdownValue();
                  mw.wysiwyg.save_selection(true);
-                 $(input).focus().select();
+                 $(input).focus();
                }
             }
+
+            $(this).toggleClass("active");
+            $(".mw_dropdown").not(this).removeClass("active").find(".mw_dropdown_fields").hide();
 
             if(mw.$(".other-action-hover", this).length == 0){
               var item = mw.$(".mw_dropdown_fields", this);
@@ -678,6 +685,7 @@ mw.tools = {
               }
             }
           }
+
         });
 
         mw.$(el).hover(function(){
@@ -2292,7 +2300,7 @@ mw.tools = {
   px2pt:function(px){
     var n = parseInt(px, 10);
     if(isNaN(n)){ return false; }
-    return ((3/4) * n);
+    return Math.round(((3/4) * n));
   },
   calc:{
     SliderButtonsNeeded:function(parent){
