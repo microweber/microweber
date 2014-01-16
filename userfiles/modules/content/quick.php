@@ -513,7 +513,7 @@ mw.edit_content.handle_form_submit = function(go_live){
 				 }
                  window.parent.mw.askusertostay=false;
               }
-				  
+
 				  
 				  
 				  
@@ -597,13 +597,13 @@ mw.edit_content.handle_form_submit = function(go_live){
           
        });
 	     
-       var qtabs = mw.tools.tabGroup({
+       mww.QTABS = mw.tools.tabGroup({
           nav: mw.$("#quick-add-post-options li"),
           tabs: mw.$(".quick-add-post-options-item"),
           toggle:true
        });
        if(mwd.querySelector("#quick-add-gallery-items .admin-thumb-item") !== null){
-           qtabs.set(0);
+           QTABS.set(0);
        }
 
        var piblished_nav = mwd.getElementById("un-or-published");
