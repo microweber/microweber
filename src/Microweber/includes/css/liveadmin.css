@@ -2642,6 +2642,9 @@ a.module-icon-title{
   text-align: center;
   background: #fff url(../img/logomark_modules.png) no-repeat 20px 20px;
   background-size: 25px 25px;
+  -webkit-box-sizing:content-box;
+  -moz-box-sizing:content-box;
+  box-sizing:content-box;
 }
 .pictures-module-default-view img{
   opacity: 0.5;

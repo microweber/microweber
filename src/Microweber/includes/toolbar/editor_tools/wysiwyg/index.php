@@ -144,7 +144,7 @@ $(window).load(function(){
             $(this).css("cursor", "pointer").click(function(e){
               if(!mw.tools.hasClass(e.target, 'mw-close')) {
                 parent['QTABS'].set(0);
-                parent.mw.tools.scrollTo('.mw-iframe-editor', false, 10);
+                parent.mw.tools.scrollTo('#quick-add-post-options', false, 20);
               }
 
             });

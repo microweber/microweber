@@ -42,7 +42,7 @@ description: Pictures slider
           next:true,
           prev:true
       });
-      //Rotator.autoRotate(3000);
+      Rotator.autoRotate(5000);
     }
   });
 </script>

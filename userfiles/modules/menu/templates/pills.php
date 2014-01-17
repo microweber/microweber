@@ -11,6 +11,24 @@ description: Pills Navigation
 */
 
 ?>
+<style>
+
+.pillnavigattion{
+  padding: 12px;
+  background: rgba(10, 0, 0, 0.5);
+  color:
+}
+.pillnavigattion a{
+  color: white;
+}
+
+.pillnavigattion a:hover,
+.pillnavigattion a:focus{
+  color: #555;
+}
+
+</style>
+<div class="pillnavigattion">
 <div class="navbar-collapse">
 <?php
 $menu_filter['li_class'] = 'nav-pills';
@@ -25,4 +43,5 @@ if($mt != false){
 	print lnotif("There are no items in the menu <b>".$params['menu-name']. '</b>');
 }
 ?>
+</div>
 </div>

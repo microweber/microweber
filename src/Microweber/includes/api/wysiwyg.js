@@ -33,6 +33,8 @@ if(typeof Selection.prototype.containsNode === 'undefined'){
           }
           return false;
       }
+
+
 }
 
 if(typeof Range.prototype.querySelector === 'undefined'){
@@ -623,7 +625,11 @@ mw.wysiwyg = {
         $(mw.wysiwyg.external).find("iframe").width(280).height(320);
     },
     fontColor:function(color){
+      if(!color.contains("#")){
+        var color = "#" + color;
+      }
          mw.wysiwyg.execCommand('forecolor', null, color);
+         $(window.getSelection().getRangeAt(0).querySelectorAll('*')).css("color", color);
     },
     fontbg:function(color){
         var color = color != 'transparent' ? '#' + color : color;

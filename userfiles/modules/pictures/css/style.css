@@ -172,6 +172,8 @@ a.rotator-paging-item-thumbnail img{
 }
 
 .mw-rotator-template-default .rotator-next,
+.mw-rotator-template-slider .rotator-next,
+.mw-rotator-template-slider .rotator-prev,
 .mw-rotator-template-default .rotator-prev{
   position: absolute;
   z-index: 10;
@@ -185,6 +187,7 @@ a.rotator-paging-item-thumbnail img{
   background: url(../img/ico.png) no-repeat;
   visibility: hidden;
 }
+.mw-rotator-template-slider .rotator-prev,
 .mw-rotator-template-default .rotator-prev{
   background-position: -27px 0;
   left: 0;
@@ -235,7 +238,9 @@ a.rotator-paging-item-digit.active{
 }
 
 .mw-rotator-template-default:hover .rotator-next,
+.mw-rotator-template-slider:hover .rotator-next,
 .mw-rotator-template-default:hover .rotator-index-control,
+.mw-rotator-template-slider:hover .rotator-prev,
 .mw-rotator-template-default:hover .rotator-prev{
   visibility: visible;
 }
