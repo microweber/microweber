@@ -2782,6 +2782,9 @@ class Content
                 $surl = $this->app->url->site();
                 $cur_url = $this->app->url->current(1);
                 $item['url'] = $this->app->format->replace_once('{SITE_URL}', $surl, $item['url']);
+
+
+
                 if ($item['url'] == $cur_url) {
                     $active_class = 'active';
                 } else {
@@ -2810,6 +2813,11 @@ class Content
                 $title = '';
             }
             if ($title != '') {
+
+                $url = $this->app->format->prep_url($url);
+
+                //$url = $this->app->format->auto_link($url);
+
                 $item['url'] = $url;
                 $to_print .= '<' . $li_tag . '  class="{li_class}' . ' ' . $active_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
 
@@ -3380,7 +3388,7 @@ class Content
 
                     $this->app->cache->delete('menus');
                     $q = $this->app->db->q($sql);
-                    return;
+                   // return;
                 }
 
                 $value = intval($value);
@@ -3390,6 +3398,9 @@ class Content
             }
 
         }
+
+
+
         $add_under_parent_page = false;
         $content_data = false;
 
