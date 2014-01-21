@@ -272,7 +272,7 @@ class Url
         return $this->param($param = "__MW_GET_ALL_PARAMS__", $skip_ajax);
     }
 
-    public function param($param, $skip_ajax = false)
+    public function param($param, $skip_ajax = false, $force_url = false)
     {
         if ($_POST) {
 
@@ -286,6 +286,9 @@ class Url
         }
 
         $url = $this->current($skip_ajax);
+        if($force_url != false){
+            $url = $force_url;
+        }
 
         $rem = $this->site_url();
 

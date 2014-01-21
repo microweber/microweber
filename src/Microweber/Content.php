@@ -2814,7 +2814,7 @@ class Content
             }
             if ($title != '') {
 
-                $url = $this->app->format->prep_url($url);
+                //$url = $this->app->format->prep_url($url);
 
                 //$url = $this->app->format->auto_link($url);
 

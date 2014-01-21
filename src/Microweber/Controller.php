@@ -1113,11 +1113,19 @@ class Controller
             if ($ref_page != '') {
                 $ref_page = $this->app->content->get_by_url($ref_page);
                 $page_id = $ref_page['id'];
-                //	$ref_page['custom_fields'] = $this->app->content->custom_fields($page_id, false);
             }
 
+
         }
-        //
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $cat_url = mw('url')->param('category', true, $_SERVER['HTTP_REFERER']);
+            if ($cat_url != false) {
+                if (!defined('CATEGORY_ID')) {
+                    define('CATEGORY_ID', intval($cat_url));
+                }
+            }
+        }
+
         header("Content-type: text/javascript");
         $this->app->content->define_constants($ref_page);
 
@@ -1768,8 +1776,8 @@ class Controller
             }
         }
 
-        if(isset($content['require_login']) and $content['require_login'] == 'y'){
-            if($this->app->user->id() == 0){
+        if (isset($content['require_login']) and $content['require_login'] == 'y') {
+            if ($this->app->user->id() == 0) {
                 $page_non_active = array();
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
@@ -1871,9 +1879,6 @@ class Controller
             if ($is_editmode == true and !defined('IN_EDIT')) {
                 define('IN_EDIT', true);
             }
-
-
-
 
 
             $l = $this->app->parser->process($l, $options = false);
