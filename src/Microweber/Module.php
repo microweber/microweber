@@ -1364,7 +1364,7 @@ class Module
         $options['is_elements'] = 1;
         $options['dir_name'] = normalize_path(MW_ELEMENTS_DIR);
 
-        return scan_for_modules($options);
+        return $this->scan_for_modules($options);
 
 
     }
