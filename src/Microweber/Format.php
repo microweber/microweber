@@ -310,14 +310,18 @@ class Format
 
     function prep_url($str = '')
     {
-        if ($str === 'http://' OR $str === '') {
+        if ($str === 'http://' OR $str === 'https://' OR $str === '') {
             return '';
         }
 
         $url = parse_url($str);
 
         if (!$url OR !isset($url['scheme'])) {
-            return 'http://' . $str;
+            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+                return 'https://' . $str;
+            } else {
+                return 'http://' . $str;
+            }
         }
 
         return $str;
@@ -495,8 +499,8 @@ class Format
         return $slug;
     }
 
-
-    function unvar_dump($str) {
+    function unvar_dump($str)
+    {
         if (strpos($str, "\n") === false) {
             //Add new lines:
             $regex = array(

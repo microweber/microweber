@@ -52,6 +52,12 @@ $show_page_settings = 1;
 </textarea>
 </div>
 <div class="vSpace"></div>
+
+
+ 
+
+
+
 <div class="vSpace"></div>
 <div class="mw_clear vSpace"></div>
 <?php if($show_page_settings != false): ?>
@@ -86,8 +92,30 @@ $show_page_settings = 1;
     <?php _e("Yes"); ?>
     </span></label>
 </div>
+
+
+
+
+
 <div class="mw_clear vSpace"></div>
 <?php endif; ?>
+
+<div class="mw-ui-check-selector">
+  <div class="mw-ui-label left" style="width: 130px"> 
+    <?php _e("Require login"); ?>
+    <small class="mw-help" data-help="<?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?>">(?)</small></div>
+  <label class="mw-ui-check">
+    <input name="require_login" type="radio"  value="n" <?php if( '' == trim($data['require_login']) or 'n' == trim($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
+    <span></span><span>
+    <?php _e("No"); ?>
+    </span></label>
+  <label class="mw-ui-check">
+    <input name="require_login" type="radio"  value="y" <?php if( 'y' == trim($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
+    <span></span><span>
+    <?php _e("Yes"); ?>
+    </span></label>
+</div>
+<div class="mw_clear vSpace"></div>
 <?php  if(isset($data['position'])): ?>
 <input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
 <?php endif; ?>

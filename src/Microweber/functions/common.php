@@ -187,7 +187,6 @@ function prep_url($text)
 }
 
 
-
 /**
  * category_tree
  *
@@ -265,10 +264,12 @@ function url_string($skip_ajax = false)
 {
     return mw('url')->string($skip_ajax);
 }
+
 function url_title($text)
 {
     return mw('url')->slug($text);
 }
+
 function url_param($param, $skip_ajax = false)
 {
     return mw('url')->param($param, $skip_ajax);
@@ -303,7 +304,7 @@ function save_edit($post_data)
  * @since Version 1.0
  *
  */
- //api_expose('save_content');
+//api_expose('save_content');
 
 function save_content($data, $delete_the_cache = true)
 {
@@ -835,6 +836,7 @@ function cache_clear($cache_group = 'global', $cache_storage_type = false)
 
 
 }
+
 //same as cache_clear
 function cache_delete($cache_group = 'global', $cache_storage_type = false)
 {
@@ -954,6 +956,7 @@ function user_name($user_id = false, $mode = 'full')
 {
     return mw('user')->name($user_id, $mode);
 }
+
 function user_picture($user_id = false)
 {
     return mw('user')->picture($user_id);
@@ -1011,6 +1014,7 @@ function get_custom_fields($table, $id = 0, $return_full = false, $field_for = f
 {
     return mw('fields')->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
 }
+
 function make_custom_field($field_id = 0, $field_type = 'text', $settings = false)
 {
     return mw('fields')->make($field_id, $field_type, $settings);
@@ -1114,7 +1118,7 @@ function get_page_for_category($category_id)
 
 function get_category_items($category_id)
 {
-    return mw('category')->get_items('parent_id='.intval($category_id));
+    return mw('category')->get_items('parent_id=' . intval($category_id));
 
 
 }
@@ -1214,7 +1218,7 @@ function is_in_menu($menu_id = false, $content_id = false)
 
 }
 
-api_hook('save_content', 'add_content_to_menu');
+api_hook('save_content_admin', 'add_content_to_menu');
 
 function add_content_to_menu($content_id, $menu_id = false)
 {
@@ -2166,7 +2170,6 @@ $_mw_real_table_names = array();
 $_mw_assoc_table_names = array();
 
 
-
 function db_build_table($table_name, $fields_to_add, $column_for_not_drop = array())
 {
 
@@ -2180,7 +2183,6 @@ function db_get_table_name($assoc_name)
     $assoc_name = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name);
     return $assoc_name;
 }
-
 
 
 function db_get_real_table_name($assoc_name)
@@ -2415,10 +2417,10 @@ if (!function_exists('validator')) {
 }
 
 
-function is_post(){
+function is_post()
+{
     return POST_ID != false;
 }
-
 
 
 function get_all_functions_files_for_modules($options = false)

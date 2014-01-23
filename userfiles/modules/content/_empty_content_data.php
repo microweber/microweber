@@ -18,6 +18,7 @@ $data['is_home'] = 'n';
 
 $data['is_shop'] = 'n';	
 
+$data['require_login'] = 'n';	
 
 $data['subtype'] = 'static';	
 $data['description'] = '';	

@@ -503,10 +503,11 @@ class User
 
                 $data = array();
                 $data['email'] = $email;
-                $data['password'] = $pass;
-                $data['oauth_uid'] = '[null]';
-                $data['oauth_provider'] = '[null]';
+               // $data['password'] = $pass;
+              //  $data['oauth_uid'] = '[null]';
+               // $data['oauth_provider'] = '[null]';
                 $data['one'] = true;
+				$data['no_cache'] = true;
                 // $data ['is_active'] = 'y';
                 $user_data = $this->get_all($data);
 
@@ -515,13 +516,15 @@ class User
 
                     $data = array();
                     $data['username'] = $email;
-                    $data['password'] = $pass;
-                    $data['oauth_uid'] = '[null]';
-                    $data['oauth_provider'] = '[null]';
+                  //  $data['password'] = $pass;
+                  //  $data['oauth_uid'] = '[null]';
+                  //  $data['oauth_provider'] = '[null]';
                     $data['one'] = true;
+					$data['no_cache'] = true;
                     // $data ['is_active'] = 'y';
                     $user_data = $this->get_all($data);
                 }
+			 
 
                 if (empty($user_data)) {
                     $data = array();
@@ -539,7 +542,7 @@ class User
                     $q = "INSERT INTO $table (id,email, password, is_active)
 			VALUES ($next, '$email', '$pass', 'y')";
 
-
+ 
                     $this->app->db->q($q);
                     $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
                     //$data = save_user($data);

@@ -40,6 +40,13 @@ $(document).ready(function(){
 					   window.location.href ='<?php print $goto; ?>';
 					   return false;
 					  <?php else:  ?>
+					  
+					   if(typeof this.return === 'string'){
+						    window.location.href =this.return;
+					  		 return false;
+						   
+					   }
+					  
 					    mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
 					    if(c == '' ){
                           window.location.reload();

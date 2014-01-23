@@ -11,7 +11,6 @@ class Users extends \Microweber\User
     {
 
 
-
         if (is_object($app)) {
             $this->app = $app;
         } else {
@@ -50,33 +49,31 @@ class Users extends \Microweber\User
         }
 
         $override = event_trigger('before_user_register', $params);
-
+ 
         if (is_array($override)) {
             foreach ($override as $resp) {
+
                 if (isset($resp['error']) or isset($resp['success'])) {
                     return $resp;
                 }
             }
         }
-//    if (!isset($params['password'])) {
-//        return array('error' => 'Please set password!');
-//    } else {
-//        if ($params['password'] == '') {
-//            return array('error' => 'Please set password!');
-//        }
-//    }
 
-
+ 
         if (isset($params['password']) and  ($params['password']) != '') {
             if ($email != false) {
 
                 $data = array();
                 $data['email'] = $email;
                 $data['password'] = $pass;
-                $data['oauth_uid'] = '[null]';
-                $data['oauth_provider'] = '[null]';
+              //  $data['oauth_uid'] = '[null]';
+              //  $data['oauth_provider'] = '[null]';
                 $data['one'] = true;
                 // $data ['is_active'] = 'y';
+
+
+
+
                 $user_data = $this->get_all($data);
 
 
@@ -85,8 +82,8 @@ class Users extends \Microweber\User
                     $data = array();
                     $data['username'] = $email;
                     $data['password'] = $pass;
-                    $data['oauth_uid'] = '[null]';
-                    $data['oauth_provider'] = '[null]';
+                 //   $data['oauth_uid'] = '[null]';
+                  //  $data['oauth_provider'] = '[null]';
                     $data['one'] = true;
                     // $data ['is_active'] = 'y';
                     $user_data = $this->get_all($data);
@@ -161,7 +158,6 @@ class Users extends \Microweber\User
 
 
     }
-
 
     /**
      * Allows you to save users in the database
@@ -271,7 +267,6 @@ class Users extends \Microweber\User
         return $data;
     }
 
-
     public function reset_password_from_link($params)
     {
         if (!isset($params['captcha'])) {
@@ -317,11 +312,7 @@ class Users extends \Microweber\User
         } else {
             $data1['password'] = $params['pass1'];
             $data1['password_reset_hash'] = '';
-
-
             $data1['password'] = $this->hash_pass($data1['password']);
-
-
         }
 
 
@@ -334,9 +325,7 @@ class Users extends \Microweber\User
         $notif['rel'] = 'users';
         $notif['rel_id'] = $data1['id'];
         $notif['title'] = "The user have successfully changed password. (User id: {$data1['id']})";
-
         $this->app->log->save($notif);
-
         return array('success' => 'Your password have been changed!');
 
     }
@@ -445,7 +434,6 @@ class Users extends \Microweber\User
         }
 
     }
-
 
     public function  social_login($params)
     {
@@ -564,7 +552,6 @@ class Users extends \Microweber\User
 
     }
 
-
     /**
      * @function get_users
      *
@@ -583,7 +570,6 @@ class Users extends \Microweber\User
     {
         return $this->get_all($params);
     }
-
 
     public function count()
     {
