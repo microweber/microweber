@@ -109,7 +109,7 @@ class Update
 
         if ($post_params != false and is_array($post_params)) {
             $curl_result = $curl->post($post_params);
-            print $curl_result;
+         //   print $curl_result;
         } else {
             $curl_result = false;
         }
@@ -170,19 +170,8 @@ class Update
         if (isset($result['module_templates'])) {
             $count = $count + sizeof($result['module_templates']);
         }
-        if (isset($result['core_update'])) {
-            $count = $count + 1;
-        }
-        if (isset($result['elements'])) {
-            $count = $count + sizeof($result['elements']);
-
-        }
-        $count = 0;
-        if (isset($result['modules'])) {
-            $count = $count + sizeof($result['modules']);
-        }
-        if (isset($result['module_templates'])) {
-            $count = $count + sizeof($result['module_templates']);
+        if (isset($result['templates'])) {
+            $count = $count + sizeof($result['templates']);
         }
         if (isset($result['core_update'])) {
             $count = $count + 1;
@@ -199,7 +188,6 @@ class Update
             $notif['rel_id'] = 'updates';
             $notif['title'] = "New updates are available";
             $notif['description'] = "There are $count new updates are available";
-
             $this->app->notifications->save($notif);
         }
         if (is_array($result)) {
@@ -290,7 +278,7 @@ class Update
             }
 
         }
-
+        $unzipped = array();
         $what_next = array('modules', 'elements');
 
         foreach ($what_next as $what_nex) {
@@ -315,7 +303,7 @@ class Update
                 }
             }
         }
-        $unzipped = array();
+
         if (!empty($to_be_unzipped)) {
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
 
@@ -360,6 +348,10 @@ class Update
                 }
             }
         }
+
+
+
+
         $this->post_update();
         //$this->app->cache->delete('update/global');
         //$this->app->cache->flush();

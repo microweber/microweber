@@ -128,6 +128,50 @@ $(document).ready(function(){
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
+    
+    
+    
+    
+    
+    
+    
+     <?php if(isset($iudates["templates"]) and !empty($iudates["templates"])): ?>
+    <tr class="mw-table-head">
+      <td colspan="3"><?php _e("New templates updates are available"); ?></td>
+    </tr>
+    <?php foreach($iudates["templates"] as $k => $item): ?>
+    <?php $is_up_to_date = false; ?>
+    <tr class="update-items">
+      <td><label class="mw-ui-check">
+          <input type="checkbox" name="templates[]" value="<?php print $item["dir_name"] ?>"  />
+          <span></span></label></td>
+      <td><?php if(isset($item["icon"])) : ?>
+        <img src="<?php print $item["icon"] ?>" alt="" /> <br>
+        <?php else: ?>
+        <img src="<?php print MW_INCLUDES_URL; ?>img/module_no_icon.png" alt="" /><br>
+        <?php endif ?>
+        <span class="update-version"><?php print $item["version"] ?></span></td>
+      <td><h2> <?php print $item["name"] ?>
+          <?php if(isset($item["description"])) : ?>
+          <span class="update-description"><?php print $item["description"] ?></span>
+          <?php endif ?>
+        </h2>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+    </tr>
+    <?php endforeach; ?>
+    <?php endif; ?>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <?php if(isset($iudates["elements"]) and !empty($iudates["elements"])): ?>
     <tr class="mw-table-head">
       <td colspan="3"><?php _e("New layouts updates are available"); ?></td>
@@ -153,6 +197,19 @@ $(document).ready(function(){
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <?php if($is_up_to_date == true) : ?>
     <tr class="mw-table-head">
       <td colspan="3"><?php print notif('Everything is up to date') ?></td>

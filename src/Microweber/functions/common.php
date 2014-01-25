@@ -1718,6 +1718,12 @@ function mw_apply_updates($params)
                     $res[] = $update_api->install_module($item);
                 }
             }
+            if (isset($params['templates']) and isset($params['templates']) and is_array($params['templates'])) {
+                foreach ($params['templates'] as $item) {
+
+                    $res[] = $update_api->install_template($item);
+                }
+            }
             if (isset($upd_params['module_templates']) and is_array($upd_params['module_templates'])) {
                 foreach ($upd_params['module_templates'] as $k => $item) {
                     if (is_array($item)) {
