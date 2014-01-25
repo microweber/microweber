@@ -1048,9 +1048,9 @@ class Category
 
             }
         }
-        if (is_array($get_category)) {
-            array_unique($get_category);
-        }
+//        if (is_array($get_category) and !empty($get_category)) {
+//            array_unique($get_category);
+//        }
 
         if (empty($get_category)) {
             return false;
@@ -1209,7 +1209,7 @@ class Category
         if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) == 'content' and intval($data['rel_id']) != 0) {
 
             $cont_check = $this->app->content->get_by_id($data['rel_id']);
-            if ($cont_check != false and isset($cs['subtype']) and $cs['subtype'] != 'dynamic') {
+            if ($cont_check != false and isset($cs['subtype']) and isset($data['rel_id']) and $cs['subtype'] != 'dynamic') {
                 $cs = array();
                 $cs['id'] = intval($data['rel_id']);
                 $cs['subtype'] = 'dynamic';

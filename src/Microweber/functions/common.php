@@ -1683,6 +1683,7 @@ function mw_apply_updates($params)
 {
     only_admin_access();
     $params = parse_params($params);
+
     $update_api = mw('update');
     $res = array();
     $upd_params = array();
@@ -1707,13 +1708,13 @@ function mw_apply_updates($params)
                 $res[] = $update_api->install_version($upd_params['mw_version']);
 
             }
-            if (isset($upd_params['elements']) and is_array($upd_params['elements'])) {
-                foreach ($param['elements'] as $item) {
+            if (isset($params['modules']) and isset($upd_params['elements']) and is_array($upd_params['elements'])) {
+                foreach ($params['elements'] as $item) {
                     $res[] = $update_api->install_element($item);
                 }
             }
-            if (isset($upd_params['modules']) and is_array($upd_params['modules'])) {
-                foreach ($param['modules'] as $item) {
+            if (isset($params['modules']) and isset($upd_params['modules']) and is_array($upd_params['modules'])) {
+                foreach ($params['modules'] as $item) {
                     $res[] = $update_api->install_module($item);
                 }
             }

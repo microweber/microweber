@@ -49,7 +49,7 @@ class Users extends \Microweber\User
         }
 
         $override = event_trigger('before_user_register', $params);
- 
+
         if (is_array($override)) {
             foreach ($override as $resp) {
 
@@ -58,59 +58,41 @@ class Users extends \Microweber\User
                 }
             }
         }
-
- 
         if (isset($params['password']) and  ($params['password']) != '') {
             if ($email != false) {
-
                 $data = array();
                 $data['email'] = $email;
                 $data['password'] = $pass;
-              //  $data['oauth_uid'] = '[null]';
-              //  $data['oauth_provider'] = '[null]';
+                //  $data['oauth_uid'] = '[null]';
+                //  $data['oauth_provider'] = '[null]';
                 $data['one'] = true;
                 // $data ['is_active'] = 'y';
-
-
-
-
                 $user_data = $this->get_all($data);
-
-
                 if (empty($user_data)) {
-
                     $data = array();
                     $data['username'] = $email;
                     $data['password'] = $pass;
-                 //   $data['oauth_uid'] = '[null]';
-                  //  $data['oauth_provider'] = '[null]';
+                    // $data['oauth_uid'] = '[null]';
+                    // $data['oauth_provider'] = '[null]';
                     $data['one'] = true;
                     // $data ['is_active'] = 'y';
                     $user_data = $this->get_all($data);
                 }
-
                 if (empty($user_data)) {
                     $data = array();
-
-
                     $data['username'] = $email;
                     $data['password'] = $pass;
                     $data['is_active'] = 'n';
-
                     $table = MW_TABLE_PREFIX . 'users';
-
                     $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
                     $next = $this->app->db->last_id($table);
                     $next = intval($next) + 1;
                     $q = "INSERT INTO $table (id,email, password, is_active)
 			VALUES ($next, '$email', '$pass', 'y')";
-
-
                     $this->app->db->q($q);
                     $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
                     //$data = save_user($data);
                     $this->session_del('captcha');
-
                     $notif = array();
                     $notif['module'] = "users";
                     $notif['rel'] = 'users';
@@ -119,10 +101,7 @@ class Users extends \Microweber\User
                     $notif['description'] = "You have new user registration";
                     $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
                     $this->app->notifications->save($notif);
-
                     $this->app->log->save($notif);
-
-
                     $params = $data;
                     $params['id'] = $next;
                     if (isset($pass2)) {

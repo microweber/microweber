@@ -25,37 +25,25 @@ class Update
         }
     }
 
-    function get_modules()
+    function browse()
     {
+        $data = $this->collect_local_data();
 
+
+        $result = $this->call('browse', $data);
+        return $result;
     }
 
-    function check($skip_cache = false)
+    function get_modules()
     {
-        $a = $this->app->user->is_admin();
-        if ($a == false) {
-            mw_error('Must be admin!');
-        }
+        $data = $this->collect_local_data();
+        $data['add_new'] = true;
+        $result = $this->call('get_modules', $data);
+        return $result;
+    }
 
-        if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-                ini_set("memory_limit", "160M");
-                ini_set("set_time_limit", 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
-        }
-        $c_id = __FUNCTION__ . date("ymdh");
-        if ($skip_cache == false) {
-            $cache_content = $this->app->cache->get($c_id, 'update/global');
-            if (($cache_content) != false) {
-                return $cache_content;
-            }
-        } else {
-            $this->app->cache->delete('update/global');
-        }
-
+    private function collect_local_data()
+    {
         $data = array();
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = $this->app->url->site();
@@ -97,7 +85,82 @@ class Update
 
         $t = $this->app->layouts->get();
         $data['elements'] = $t;
+        return $data;
+    }
 
+    function call($method = false, $post_params = false)
+    {
+        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        if (!is_dir($cookie)) {
+            mkdir($cookie);
+        }
+        $cookie_file = $cookie . 'cookie.txt';
+        $requestUrl = $this->remote_api_url;
+        if ($method != false) {
+            $requestUrl = $requestUrl . '?api_function=' . $method;
+        }
+
+        $curl = new \Microweber\Utils\Curl();
+        $curl->setUrl($requestUrl);
+        $curl->url = $requestUrl;
+
+        $post_params['site_url'] = $this->app->url->site();
+        $post_params['api_function'] = $method;
+
+        if ($post_params != false and is_array($post_params)) {
+            $curl_result = $curl->post($post_params);
+            print $curl_result;
+        } else {
+            $curl_result = false;
+        }
+        if ($curl_result == '' or $curl_result == false) {
+            return false;
+        }
+
+
+        $result = false;
+        if ($curl_result != false) {
+            $result = json_decode($curl_result, 1);
+        }
+        return $result;
+    }
+
+    function get_templates()
+    {
+        $data = $this->collect_local_data();
+
+        $result = $this->call('get_templates', $data);
+        return $result;
+    }
+
+    function check($skip_cache = false)
+    {
+        $a = $this->app->user->is_admin();
+        if ($a == false) {
+            mw_error('Must be admin!');
+        }
+
+        if (!ini_get('safe_mode')) {
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+                ini_set("memory_limit", "160M");
+                ini_set("set_time_limit", 0);
+            }
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+                set_time_limit(0);
+            }
+        }
+        $c_id = __FUNCTION__ . date("ymdh");
+        if ($skip_cache == false) {
+            $cache_content = $this->app->cache->get($c_id, 'update/global');
+            if (($cache_content) != false) {
+                return $cache_content;
+            }
+        } else {
+            $this->app->cache->delete('update/global');
+        }
+
+
+        $data = $this->collect_local_data();
         $result = $this->call('check_for_update', $data);
 
         $count = 0;
@@ -150,61 +213,6 @@ class Update
         return $result;
     }
 
-    function call($method = false, $post_params = false)
-    {
-        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
-        if (!is_dir($cookie)) {
-            mkdir($cookie);
-        }
-        $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_api_url;
-        if ($method != false) {
-            $requestUrl = $requestUrl . '?api_function=' . $method;
-        }
-
-        $curl = new \Microweber\Utils\Curl();
-
-        $curl->setUrl($requestUrl);
-        $curl->url = $requestUrl;
-
-        if (!is_array($post_params)) {
-            //   $post_params = array();
-        }
-        $post_params['site_url'] = $this->app->url->site();
-        $post_params['api_function'] = $method;
-
-        if ($post_params != false and is_array($post_params)) {
-
-            //$post_params = $this->http_build_query_for_curl($post_params);
-
-            // $post_paramsbase64 = base64_encode(serialize($post_params));
-            // $post_paramssjon = base64_encode(json_encode($post_params));
-
-            // $post_params_to_send = array('base64' => $post_paramsbase64, 'base64js' => $post_paramssjon,'serialized' => serialize($post_params));
-
-            // $result1 = $curl->post($post_params_to_send);
-            $result1 = $curl->post($post_params);
-        } else {
-            $result1 = false;
-            // $result1 = $curl->post($post_params_to_send);
-        }
-
-        if ($result1 == '' or $result1 == false) {
-            return false;
-        }
-
-
-        //	\curl_close($ch);
-        $result = false;
-        if ($result1 != false) {
-            $result = json_decode($result1, 1);
-        }
-        if ($result == false) {
-            //print $result1;
-        }
-        return $result;
-    }
-
     function install_version($new_version)
     {
         only_admin_access();
@@ -221,7 +229,6 @@ class Update
         $params['mw_update_check_site'] = $this->app->url->site();
 
         $result = $this->call('get_download_link', $params);
-        //d($result);
         if (isset($result["core_update"])) {
 
             $value = trim($result["core_update"]);
@@ -245,20 +252,6 @@ class Update
 
         }
 
-    }
-
-    function post_update()
-    {
-        if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-
-                ini_set("set_time_limit", 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
-        }
-        mw_post_update();
     }
 
     function apply_updates($updates)
@@ -305,8 +298,7 @@ class Update
             if (!is_dir($down_dir2)) {
                 mkdir_recursive($down_dir2);
             }
-            // d($updates);
-            // d($what_nex);
+
             if (isset($updates[$what_nex])) {
 
                 foreach ($updates[$what_nex] as $key => $value) {
@@ -360,12 +352,9 @@ class Update
                         $a = $unzip->extract($value2, $unzip_loc);
                         $unzip->close();
                         $unzipped = array_merge($a, $unzipped);
-                        //  d($unzipped);
-                        //  d($unzip_loc);
-                        // d($value2);
 
                         if ($key == 'modules') {
-                            $this->app->modules->install($key2);
+                            $this->app->module->install($key2);
                         }
                     }
                 }
@@ -375,6 +364,20 @@ class Update
         //$this->app->cache->delete('update/global');
         //$this->app->cache->flush();
         return $unzipped;
+    }
+
+    function post_update()
+    {
+        if (!ini_get('safe_mode')) {
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+
+                ini_set("set_time_limit", 0);
+            }
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+                set_time_limit(0);
+            }
+        }
+        mw_post_update();
     }
 
     public function install_module_template($module, $layout)
@@ -427,13 +430,52 @@ class Update
 
     }
 
+    function install_template($template_name)
+    {
+
+        $params = array();
+        $params['template'] = $template_name;
+        $params['add_new'] = $template_name;
+        $result = $this->call('get_download_link', $params);
+        if (isset($result["templates"])) {
+            foreach ($result["templates"] as $mod_k => $value) {
+                $result = $this->install_from_remote($value);
+            }
+
+
+        }
+        return $result;
+
+    }
+
+    private function install_from_remote($url)
+    {
+        $fname = basename($url);
+        $dir_c = MW_CACHE_DIR . 'downloads' . DS;
+        if (!is_dir($dir_c)) {
+            mkdir_recursive($dir_c);
+        }
+        $dl_file = $dir_c . $fname;
+        if (!is_file($dl_file)) {
+            $get = $this->app->url->download($url, $post_params = false, $save_to_file = $dl_file);
+        }
+        if (is_file($dl_file)) {
+            $unzip = new \Microweber\Utils\Unzip();
+            $target_dir = MW_ROOTPATH;
+            $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
+            return $result;
+        }
+    }
+
     function install_module($module_name)
     {
 
         $params = array();
-
         $params['module'] = $module_name;
+        $params['add_new'] = $module_name;
+
         $result = $this->call('get_download_link', $params);
+
         if (isset($result["modules"])) {
             foreach ($result["modules"] as $mod_k => $value) {
 
@@ -455,11 +497,15 @@ class Update
             $params = array();
             $params['skip_cache'] = true;
 
-            $data = $this->app->modules->get($params);
+            $data = $this->app->module->get($params);
             $this->app->cache->delete('update/global');
             $this->app->cache->delete('db');
+            $this->app->cache->delete('modules');
             event_trigger('mw_db_init_default');
             event_trigger('mw_db_init_modules');
+
+            $this->app->module->scan_for_modules();
+
 
         }
         return $result;
@@ -497,7 +543,7 @@ class Update
             $params = array();
             $params['skip_cache'] = true;
 
-            $data = $this->app->modules->get($params);
+            $data = $this->app->module->get($params);
             //d($data);
 
         }

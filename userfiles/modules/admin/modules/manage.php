@@ -57,14 +57,13 @@ if(isset($params['installed'])){
   
   if(isset($params['install_new'])){
 	  $update_api = new \Microweber\Update();
+$result = $update_api -> get_modules();
 
-$params = array();
-$params['add_new'] = true; 
-$result = $update_api -> call('get_modules', $params);
  
 	 
 	 
 	 $mods = $result;  
+	 
 	 
 } else {
 	 $mods = mw('module')->get($mod_params); 
@@ -98,7 +97,14 @@ $result = $update_api -> call('get_modules', $params);
   <?php if(!isset($item['id'])): ?>
   <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<?php print $item['id'] ?>" >
     <div class=" module module-admin-modules-edit-module ">
-      <?php $data = $item; include($config["path"].'update_module.php'); ?>
+      <?php 
+	 
+	 if(isset($item[0]) and is_array($item[0])){
+		$item = $item[0];
+	 }
+	 // print_r($item);
+	  
+	  $data = $item; include($config["path"].'update_module.php'); ?>
     </div>
   </li>
   <?php else : ?>

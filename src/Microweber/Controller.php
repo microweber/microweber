@@ -1209,12 +1209,14 @@ class Controller
         $p = normalize_path($p, false);
 
         $l = new $this->app->view($p_index);
+
         $layout = $l->__toString();
         // var_dump($l);
 
         if (isset($_REQUEST['plain'])) {
             if (is_file($p)) {
                 $p = new $this->app->view($p);
+
                 $layout = $p->__toString();
                 print $layout;
                 exit();
@@ -1232,8 +1234,15 @@ class Controller
 
         if (isset($page['render_file'])) {
             $l = new $this->app->view($page['render_file']);
+            $l->page_id = PAGE_ID;
+            $l->content_id = CONTENT_ID;
+            $l->post_id = POST_ID;
+            $l->category_id = CATEGORY_ID;
+            $l->content = $page;
+            $l->page = $page;
+            $l->application = $this->app;
             $l = $l->__toString();
-            $page['content'] = $this->app->parser->isolate_content_field($l);
+             $page['content'] = $this->app->parser->isolate_content_field($l);
 
 
         }
@@ -1246,8 +1255,20 @@ class Controller
 
             $page['render_file'] = $render_file;
             $l = new $this->app->view($page['render_file']);
+
+
+
+            $l->page_id = PAGE_ID;
+            $l->content_id = CONTENT_ID;
+            $l->post_id = POST_ID;
+            $l->category_id = CATEGORY_ID;
+            $l->content = $page;
+            $l->page = $page;
+            $l->application = $this->app;
             $l = $l->__toString();
-            $page['content'] = $this->app->parser->isolate_content_field($l);
+
+
+           $page['content'] = $this->app->parser->isolate_content_field($l);
             //   }
 
         }
