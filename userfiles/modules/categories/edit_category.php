@@ -85,7 +85,10 @@ if(isset($params['quick_edit'])){
 		 <?php endif; ?>
   }
   
-  
+      continue_editing_cat = function(){
+		 $('.add-edit-category-form').show();
+		  $('.mw-quick-cat-done').hide();
+  }
    
  <?php if($just_saved != false) : ?>
 	  $('#<?php print $params['id'] ?>').removeClass('loading');
@@ -114,7 +117,8 @@ $(document).ready(function(){
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
          mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print api_link('category/save') ?>', function(val){
         	  mw.notification.success("Category changes are saved");
- 			  var v = val.toString();
+ 			  var v = this.toString();
+			 
 			   $('#mw_admin_edit_cat_id').val(v);
 			   $('#mw-cat-pics-admin').attr("for-id",v);
 			  //   mw.reload_module('#mw-cat-pics-admin');
@@ -197,6 +201,9 @@ $(document).ready(function(){
 	<div class="vSpace"></div>
 	<label class="mw-ui-label"><small>Create new category again</small></label>
 	<div class="vSpace"></div>
+    <a href="javascript:;" class="mw-ui-btn" onclick="continue_editing_cat()">Continue editing</a>
+    
+    
 	<a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="make_new_cat_after_save()">Create New</a> </div>
 <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
 	<input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />

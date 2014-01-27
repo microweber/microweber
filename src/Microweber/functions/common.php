@@ -1,12 +1,49 @@
 <?php
-
+/**
+ * Gets content or posts by matching criteria.
+ *
+ * Function parameters:
+ *
+ *     'limit' - Limit the results, default is 30
+ *     'current_page' - Default is 0.You can make paging of the results
+ *     'category' - Id of category to get posts from
+ *
+ *     'content_type' - The type of the content you want to get. "page" and "post" are supported by default
+ *     'subtype' - The sub-type of the content. defaults are "post", "product", "static" , "dynamic"
+ *
+ *     'include_ids' - Comma separated values, such as 1,3,5
+ *     'exclude_ids' - Comma separated values , such as 2,4,6
+ *
+ *     'position' - The post position in the database
+ *
+ *     'is_active' - - 'y' or 'n' Indicates if the post is active/published
+ *     'is_deleted' - 'y' or 'n' Indicates if the post is deleted
+ *
+ * @since 0.1
+ * @link http://microweber.com/docs/functions/get_content
+ *
+ * @param array|bool $params Optional
+ * @return array The database results
+ */
 function get_content($params = false)
 {
 
     return mw('content')->get($params);
 }
 
-
+/**
+ * Gets a single content item by id
+ *
+ * Function parameters:
+ *
+ *     'id' - the id of the content
+ *
+ * @since 0.1
+ * @link http://microweber.com/docs/functions/get_content_by_id
+ *
+ * @param int|bool $params Optional
+ * @return array The database results
+ */
 function get_content_by_id($params = false)
 {
     return mw('content')->get_by_id($params);
@@ -15,7 +52,19 @@ function get_content_by_id($params = false)
 
 api_expose('content_link');
 
-
+/**
+ * Returns the link of a given content id
+ *
+ * Function parameters:
+ *
+ *     'id' - the id of the content
+ *
+ * @since 0.1
+ * @link http://microweber.com/docs/functions/get_content_by_id
+ *
+ * @param bool|int $id the id of the content
+ * @return string The content URL
+ */
 function content_link($id = false)
 {
 
