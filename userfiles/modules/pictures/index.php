@@ -79,11 +79,21 @@ $for_id = $params['rel_id'];
 <?php $data = get_pictures('rel_id='.$params['rel_id'].'&for='.$for);
   
  if(!is_array( $data)){
+	 
+	 
+	 
+	 
+	 
 	/* $data = array(); 
 	 $data[0]['id'] = 0;
 	 $data[0]['filename'] =  $config['url_to_module'].'no_image.png';*/
          $no_img = true;
+ } else {
+	  $data = mw()->format->add_slashes_recursive($data);
  }
+ 
+ 
+ 
  
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){

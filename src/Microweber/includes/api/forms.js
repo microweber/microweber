@@ -45,11 +45,12 @@ mw.form = {
         $(target).addClass('loading');
     }
   },
-  post:function(selector, url_to_post, callback, ignorenopost, callback_error){    
+  post:function(selector, url_to_post, callback, ignorenopost, callback_error){
     mw.session.checkPause = true;
     if(selector.constructor === {}.constructor){
       return mw.form._post(selector);
     }
+  
     var callback_error = callback_error || false;
     var ignorenopost = ignorenopost || false;
     var is_form_valid = mw.form.validate.init(selector);

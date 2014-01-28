@@ -15,12 +15,14 @@
 
 
 $(document).ready(function(){
-	 mw.$('#user_login_<?php print $params['id'] ?>').submit(function() {
+  if(!mw.$('#user_login_<?php print $params['id'] ?>').hasClass("custom-submit")){
 
+	 mw.$('#user_login_<?php print $params['id'] ?>').submit(function() {
         var subm = mw.$('[type="submit"]', this);
         if(!subm.hasClass("disabled")){
              mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
              mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>') , '<?php print api_link('user_login'); ?>', function(a, b){
+
            		 mw.response('#user_login_<?php print $params['id'] ?>',this);
       			 if(typeof this.success === 'string'){
       			      var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
@@ -40,11 +42,11 @@ $(document).ready(function(){
 					   window.location.href ='<?php print $goto; ?>';
 					   return false;
 					  <?php else:  ?>
-					  
+
 					   if(typeof this.return === 'string'){
-						    window.location.href =this.return;
+						    window.location.href = this.return;
 					  		 return false;
-						   
+
 					   }
 					  
 					    mw.reload_module('[data-type="<?php print $config['module'] ?>"]');
@@ -68,6 +70,7 @@ $(document).ready(function(){
         }
         return false;
      });
+     }
 });
 </script>
 <?php

@@ -5,7 +5,7 @@
 
 
    </div>
-   <div class="mw-ui-col" style="width: 710px">
+   <?php /*<div class="mw-ui-col" style="width: 710px">
        <div class="quick-add" style="margin-top: 71px;">
             <ul class="quick-add-nav" id="quick-add-nav">
                 <li class="active">
@@ -25,7 +25,7 @@
                 <module type="content/quick" quick_edit="true" data-subtype="post" id="mw-quick-content" />
             </div>
        </div>
-   </div>
+   </div>*/ ?>
  </div>
  <script>
  $(document).ready(function(){

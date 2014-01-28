@@ -77,6 +77,30 @@ class Format
         return $date;
     }
 
+    function add_slashes_recursive( $variable )
+    {
+        if ( is_string( $variable ) )
+            return addslashes( $variable ) ;
+
+        elseif ( is_array( $variable ) )
+            foreach( $variable as $i => $value )
+                $variable[ $i ] = $this->add_slashes_recursive( $value ) ;
+
+        return $variable ;
+    }
+
+    function strip_slashes_recursive( $variable )
+    {
+        if ( is_string( $variable ) )
+            return stripslashes( $variable ) ;
+        if ( is_array( $variable ) )
+            foreach( $variable as $i => $value )
+                $variable[ $i ] = $this->strip_slashes_recursive( $value ) ;
+
+        return $variable ;
+    }
+
+
     public function autolink($string)
     {
         $string = preg_replace("#http://([\S]+?)#Uis", '<a href="http://\\1">\\1</a>', $string);

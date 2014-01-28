@@ -3801,6 +3801,7 @@ class Content
         return $this->save_content($data, $delete_the_cache);
     }
 
+
     public function save_edit($post_data)
     {
 
@@ -4845,6 +4846,17 @@ class Content
         $text = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $text); #hex notation
         return $text;
     }
+
+
+
+
+
+
+
+
+
+
+
 
     public function reorder($params)
     {
