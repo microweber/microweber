@@ -1,4 +1,4 @@
-
+<script type="text/javascript" src="<?php print $config['url_to_module'] ?>pictures.js"></script>
 <script  type="text/javascript">
     mw.require('<?php print $config['url_to_module'] ?>pictures.js', true);
 

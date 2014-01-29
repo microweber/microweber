@@ -474,7 +474,7 @@ mw.wysiwyg = {
               }
               if(typeof mw.current_element !== 'undefined' && mw.current_element.innerHTML == ''){
                    $(mw.current_element).remove();
-                   return false;
+                   //return false;
               }
               if( r.cloneContents().querySelector(".module") !== null ||
                     mw.tools.hasClass(r.commonAncestorContainer, 'module') ||
@@ -1305,6 +1305,16 @@ $(window).load(function(){
             if(mw.wysiwyg.selection_length() <= 2){
                $(div).append("&nbsp;");
             }
+        } else if( val == 'code' ){
+            var div = mw.wysiwyg.applier('code', '');
+        }else if( val == 'insert_html' ){
+			
+			var new_insert_html=prompt("Paste your html code in the box");
+			if (new_insert_html!=null)
+			  {
+				 var div = mw.wysiwyg.applier('div');
+				 div.innerHTML =new_insert_html;
+			  }
         }
         else if( val == 'table' ){
              var table = mw.wysiwyg.applier('table', 'mw-wysiwyg-table', {width:"100%"});

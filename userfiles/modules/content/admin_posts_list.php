@@ -168,7 +168,7 @@ if(isset($post_params['type'])){
 unset($post_params['type']);
 }
 //d($post_params['page-id']);
-  
+
  
 $content   =$data = get_content($post_params);
 ?>

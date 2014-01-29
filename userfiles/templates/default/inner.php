@@ -9,4 +9,13 @@
 */
 
 ?>
+
+ 
+
+<?php if(isset($content) and isset($content['subtype']) and $content['subtype'] == 'product'): ?>
+<?php include THIS_TEMPLATE_DIR. "layouts/shop_inner.php"; ?>
+<?php else: ?>
 <?php include THIS_TEMPLATE_DIR. "layouts/blog_inner.php"; ?>
+<?php endif; ?>
+
+

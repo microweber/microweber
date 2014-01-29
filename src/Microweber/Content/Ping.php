@@ -109,6 +109,7 @@ class Ping
 
                     }
                 }
+
                 $curl = new \Microweber\Utils\Curl();
                 $curl->url = 'http://www.google.com/webmasters/sitemaps/ping?sitemap=' . $this->app->url->site('sitemap.xml');
                 $curl->timeout = 3;

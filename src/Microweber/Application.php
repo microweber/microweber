@@ -22,13 +22,13 @@ namespace Microweber;
  *
  * You can override any class on the fly for the whole application
  *  ex. you can use your own cache provider
- *  mw('application')->cache = new \MyNameSpace\Cache;
+ *  mw('application')->cache = new \MyNamespace\Cache;
  *  or your own content provider
- *  mw('application')->content = new \MyNameSpace\Content;
+ *  mw('application')->content = new \MyNamespace\Content;
  *
  *
  * You can also create whole new applications based on microweber
- * by extending the basic class and overide/extend every "proviver" class
+ * by extending the basic class and override/extend every "provider" class
  * @file MyApp.php See example
  * $my_application = new \Microweber\MyApp(MW_CONFIG_FILE);
  *

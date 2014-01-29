@@ -41,6 +41,44 @@ class Curl
         return $this->setHeaders()->execute();
     }
 
+    public function post($data = false)
+    {
+        if (is_array($data)) {
+            $this->post_data = $data;
+            $this->buildPostString();
+            return $this->setHeaders('post')->execute();
+        } else {
+            $this->fields_string = $data;
+            return $this->setHeaders()->execute();
+        }
+
+
+    }
+
+    //Set the headers and process curl via a GET
+
+    private function buildPostString()
+    {
+
+        if (function_exists("curl_init")) {
+            $this->fields_string = null;
+            foreach ($this->post_data as $key => $value) {
+                if (is_string($key) and is_string($value)) {
+                    $this->fields_string .= $key . '=' . $value . '&';
+                } elseif (is_array($value)) {
+
+                }
+            }
+            $this->fields_string = rtrim($this->fields_string, "&");
+
+
+            return $this;
+        }
+
+    }
+
+    //Set the headers and process curl via a POST
+
     public function execute()
     {
 
@@ -61,8 +99,16 @@ class Curl
 
             if ($this->fields_string != false) {
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $this->fields_string);
+                if (isset($this->post_data) and is_array($this->post_data) and !empty($this->post_data)) {
+                    $str = http_build_query($this->post_data);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $str);
+                } else {
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $this->fields_string);
+                }
+
             }
+
+
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             // grab URL
             $result = curl_exec($ch);
@@ -101,7 +147,7 @@ class Curl
         return $result;
     }
 
-    //Set the headers and process curl via a GET
+    //Starts curl and sets headers and returns the data in a string
 
     private function setHeaders($type = '')
     {
@@ -129,41 +175,5 @@ class Curl
             }
         }
         return $this;
-    }
-
-    //Set the headers and process curl via a POST
-
-    public function post($data = false)
-    {
-        if (is_array($data)) {
-            $this->post_data = $data;
-            $this->buildPostString();
-            return $this->setHeaders('post')->execute();
-        } else {
-            $this->fields_string = $data;
-            return $this->setHeaders()->execute();
-        }
-
-
-    }
-
-    //Starts curl and sets headers and returns the data in a string
-
-    private function buildPostString()
-    {
-
-        if (function_exists("curl_init")) {
-            $this->fields_string = null;
-            foreach ($this->post_data as $key => $value) {
-                if (is_string($key) and is_string($value)) {
-                    $this->fields_string .= $key . '=' . $value . '&';
-                }
-            }
-            $this->fields_string = rtrim($this->fields_string, "&");
-
-
-            return $this;
-        }
-
     }
 }

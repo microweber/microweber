@@ -1,7 +1,7 @@
 <?php
 only_admin_access();
 
-
+$is_in_shop = false;
 $rand = uniqid(); ?>
 <?php $my_tree_id = crc32(mw('url')->string()); ?>
 <?php $active_content_id = '';
@@ -75,6 +75,7 @@ $(document).ready(function(){
     });
     mw.on.moduleReload("pages_tree_toolbar", function(e){
         mw.treeRenderer.appendUI();
+		 mw_make_pages_tree_sortable()
     });
     mw.on.moduleReload("pages_edit_container", function(){
         mw.treeRenderer.appendUI("#pages_edit_container .page_posts_list_tree");
@@ -82,6 +83,11 @@ $(document).ready(function(){
    $(mwd.body).ajaxStop(function(){
       $(this).removeClass("loading");
    });
+   
+   
+    
+   mw_make_pages_tree_sortable()
+   
 });
 
 
@@ -418,6 +424,80 @@ function mw_add_product(){
 
 }
 
+function mw_make_pages_tree_sortable(){
+	
+	
+	
+	
+	
+	 
+
+	$("#pages_tree_toolbar .pages_tree").sortable({
+      axis:'y',
+	   items: '>.pages_tree_item',
+	   distance: 35,
+	   containment: "parent",
+      update:function(){
+		   var obj = {ids:[]}
+		   $(this).find('.pages_tree_item').each(function(){
+			var id = this.attributes['data-page-id'].nodeValue;
+			obj.ids.push(id);
+		  });
+
+		   $.post("<?php print api_link('content/reorder'); ?>", obj, function(){
+			   
+			   mw.reload_module('#mw_page_layout_preview');
+			   
+			   });
+		 },
+		 start:function(a,ui){
+		 
+		},
+         scroll:false
+     });
+
+	$("#pages_tree_toolbar .pages_tree .have_category").sortable({
+      axis:'y',
+	  items: '.category_tree',
+	   containment: "parent",
+	    distance: 35,
+      update:function(){
+		   var obj = {ids:[]}
+		   $(this).find('.category_element').each(function(){
+			var id = this.attributes['data-category-id'].nodeValue;
+			obj.ids.push(id);
+		  });
+
+		   $.post("<?php print api_link('category/reorder'); ?>", obj, function(){
+			   
+			   mw.reload_module('#mw_page_layout_preview');
+			   
+			   });
+		 },
+		 start:function(a,ui){
+		   
+		},
+         scroll:false
+     });
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}
 
 
 
@@ -436,14 +516,19 @@ function mw_add_product(){
 
 
 
-
+ 
 
 
 
       <div class="mw_edit_pages_nav">
         <?php
+		
+		
             $view = mw('url')->param('view');
             if($view=='shop'){
+				
+				$is_in_shop = true;
+				
         ?>
         <a href="<?php print admin_url(); ?>view:shop" class="mw_tree_title mw_tree_title_shop">
         <?php _e("My Online Shop"); ?>
@@ -453,13 +538,46 @@ function mw_add_product(){
 
 
         <?php } else { ?>
-        <a href="<?php print admin_url(); ?>view:content" class="mw_tree_title">
-        <?php _e("Website  Navigation"); ?>
-        </a>
+        
+        <?php $site_name = $site_url = site_url();
+		 
+		  $site_name = str_ireplace('www.','',$site_name);
+		  $site_name = (parse_url($site_name));
+		  if($site_name != false and isset($site_name['host'])){
+			   $site_name = explode('.',$site_name['host']);
+			   $site_name =  $site_name[0];
+			   
+		  }  
+		 if($site_name != false and is_string($site_name)){
+			 if(strlen( $site_name) > 15){
+				 $site_name = substr($site_name, 0, 15).'...'; 
+			 } 
+			 $site_nav_url = $site_url;
+			 
+		 } else {
+			$site_name = _e("Website  Navigation", 1);
+			$site_nav_url = admin_url().'view:content';
+		 }
+		 
+		   ?>
+         
+        
+        <a href="<?php print $site_nav_url; ?>" class="mw_tree_title" target="_blank"><?php print $site_name ?></a>
         <?php } ?>
 
 
+		<?php if($is_in_shop == false): ?>
+        
         <?php event_trigger('mw_admin_content_side_menu_start', $params); ?>
+        
+        <?php else: ?>
+    
+    
+        <?php event_trigger('mw_admin_shop_side_menu_start', $params); ?>
+
+        <?php endif; ?>
+
+
 
 
 
@@ -495,13 +613,17 @@ function mw_add_product(){
         </a>
         
         
-        
+        <?php if($is_in_shop == false): ?>
         
         <?php event_trigger('mw_admin_content_side_menu_end',$params); ?>
         
+        <?php else: ?>
     
-        
+    
+        <?php event_trigger('mw_admin_shop_side_menu_end',$params); ?>
 
+        <?php endif; ?>
+ 
       </div>
 
 
@@ -513,7 +635,7 @@ function mw_add_product(){
 
       <div class="mw_pages_posts_tree mw-tree"  id="pages_tree_container_<?php print $my_tree_id; ?>">
         <?php
-	  $is_shop_str = '';
+		 $is_shop_str = " is_shop='n' "   ;
 	   if(isset($is_shop)){
 		 $is_shop_str = " is_shop='{$is_shop}' "   ;
 	   }elseif(isset($params['is_shop'])){
@@ -586,7 +708,7 @@ $ed_content = false;
           <?php  show_help('content');  ?>
 
 
-         <?php } else if($view == 'shop'){  ?>
+         <?php } elseif($view == 'shop'){  ?>
 
               <?php  show_help('shop');  ?>
 
