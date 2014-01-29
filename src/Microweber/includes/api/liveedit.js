@@ -1420,6 +1420,7 @@ mw.drag = {
 	    mw.pauseSave = true;
         var need_re_init = false;
 		mw.$(".edit .module-item").each(function (c) {
+
                 mw._({
                   selector:this,
                   done:function(module){

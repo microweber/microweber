@@ -107,6 +107,7 @@ if (isset($is_elements) and $is_elements == true) {
             <?php $module_id = $module_item['name_clean'] . '_' . uniqid(); ?>
             <li id="<?php print $module_id; ?>" data-module-name="<?php print $module_item['module'] ?>"
                 data-filter="<?php print $module_item['name'] ?>"
+                 ondrop="true"
                 data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
                 class="module-item <?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span
                     unselectable="on" class="mw_module_hold"

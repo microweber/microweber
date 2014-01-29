@@ -469,6 +469,7 @@ mw.askusertostay = false;
       attrs["data-type"] !== undefined ? to_send["data-type"] = attrs["data-type"].nodeValue : "";
       attrs["type"] !== undefined ? to_send["type"] = attrs["type"].nodeValue : "";
       attrs["template"] !== undefined ? to_send["template"] = attrs["template"].nodeValue : "";
+      attrs["ondrop"] !== undefined ? to_send["ondrop"] = attrs["ondrop"].nodeValue : "";
     }
     else {
       for (var i in attrs) {
@@ -610,7 +611,7 @@ mw.askusertostay = false;
 
 
 
-  
+
 
 
 

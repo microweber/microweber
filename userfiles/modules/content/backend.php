@@ -538,11 +538,8 @@ function mw_make_pages_tree_sortable(){
 
 
         <?php } else { ?>
-        <a href="<?php print admin_url(); ?>view:content" class="mw_tree_title">
         
-        
-        
-          <?php $site_name = site_url();
+        <?php $site_name = $site_url = site_url();
 		 
 		  $site_name = str_ireplace('www.','',$site_name);
 		  $site_name = (parse_url($site_name));
@@ -555,17 +552,17 @@ function mw_make_pages_tree_sortable(){
 			 if(strlen( $site_name) > 15){
 				 $site_name = substr($site_name, 0, 15).'...'; 
 			 } 
+			 $site_nav_url = $site_url;
 			 
-			  print $site_name;
 		 } else {
-			 _e("Website  Navigation");
+			$site_name = _e("Website  Navigation", 1);
+			$site_nav_url = admin_url().'view:content';
 		 }
 		 
 		   ?>
+         
         
-        
-        <?php //  ?>
-        </a>
+        <a href="<?php print $site_nav_url; ?>" class="mw_tree_title" target="_blank"><?php print $site_name ?></a>
         <?php } ?>
 
 

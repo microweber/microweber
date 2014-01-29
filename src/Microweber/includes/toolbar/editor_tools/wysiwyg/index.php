@@ -226,7 +226,9 @@ delete_module = function(inner_node){
     background: #787878;
 }
 
-
+.mw-admin-editor .module{
+	 
+}
 
 </style>
 </head>
@@ -236,7 +238,7 @@ delete_module = function(inner_node){
     //exit('Must be admin');
   }
  ?>
-
+ 
 
 <div class="mw-admin-editor" id="the_admin_editor">
  <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
