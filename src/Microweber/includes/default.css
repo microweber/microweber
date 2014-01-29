@@ -181,6 +181,9 @@ img.element{
     float: left;
     margin: 0;
     padding: 0;
+    -webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
 }
 .edit, .mw-col {
     min-height: 50px;

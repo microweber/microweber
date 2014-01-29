@@ -197,7 +197,7 @@ $('#mw_page_layout_preview').attr('data-small',"1");
   <h2>Last Edited</h2>
 </div>
 <?php endif; ?>
-<div class="right" style="overflow: hidden;padding-bottom: 25px;padding-top: 10px;padding-left: 30px">
+<div class="right" style="overflow: hidden;padding-bottom: 25px;padding-top: 10px; padding-left: 30px; display:none;">
   <div id="toggle_cats_and_pages" onmousedown="mw.switcher._switch(this, toggle_cats_and_pages);" class="mw-switcher unselectable right"><span class="mw-switch-handle"></span>
     <label>
       <?php _e("Yes"); ?>
@@ -343,7 +343,7 @@ mw.manage_content_sort = function(){
 
 
 
-</script>
+</script> 
 <div class="page_posts_list_tree" data-sortable="true" style="display:none;">
   <?php  if(isset($params['page-id'])):  ?>
   <?php

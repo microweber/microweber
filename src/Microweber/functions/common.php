@@ -1,4 +1,12 @@
 <?php
+/**
+ *  Microweber common functions
+ *
+ *
+ * @package     Microweber
+ *
+ */
+
 
 
 
