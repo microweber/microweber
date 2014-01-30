@@ -125,6 +125,7 @@ body.state-element .mw-row .element{
 .mw-col-container{
   padding: 0px;
   margin: 6px 0;
+  max-width: 100%;
 }
 
 .mw-row > .mw-col + .mw-col > .mw-col-container{ padding: 10px; }

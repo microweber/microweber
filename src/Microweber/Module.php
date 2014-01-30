@@ -93,7 +93,7 @@ class Module
             $custom_view = $attrs['view'];
             $custom_view = trim($custom_view);
             $custom_view = str_replace('\\', '/', $custom_view);
-            $custom_view = str_replace('..', '', $custom_view);
+            $attrs['view'] = $custom_view = str_replace('..', '', $custom_view);
         }
 
         if ($custom_view != false and strtolower($custom_view) == 'admin') {
@@ -140,8 +140,22 @@ class Module
         $mod_d1 = normalize_path($mod_d, 1);
         $try_file1zz = $mod_d1 . 'index.php';
         $in_dir = false;
+
+
+
+        if ($custom_view == true) {
+
+            $try_file1zz = $mod_d1 . trim($custom_view) . '.php';
+        } else {
+            $try_file1zz = $mod_d1 . 'index.php';
+        }
+
+
         if (is_dir($module_in_template_dir) and is_file($try_file1zz)) {
             $try_file1 = $try_file1zz;
+
+
+
             $in_dir = true;
         } elseif (is_file($module_in_template_file)) {
             $try_file1 = $module_in_template_file;
@@ -169,6 +183,7 @@ class Module
                     $try_file1 = $module_in_default_file;
                 }
             } else {
+
                 if (is_dir($module_in_default_dir)) {
                     $in_dir = true;
                     $mod_d1 = normalize_path($module_in_default_dir, 1);
@@ -185,6 +200,10 @@ class Module
 
                     $try_file1 = $element_in_default_file;
                 }
+
+
+
+
             }
         }
         //

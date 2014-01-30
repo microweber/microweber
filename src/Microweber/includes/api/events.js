@@ -179,7 +179,26 @@ DOMChange:function(element, callback, attr, a){
               callback.call(el, e.target)
           }
       });
+  },
+  animationStart:function(el, callback){
+        if( el === null || typeof el==='undefined' ) { return false; }
+        if( typeof callback !== 'function') { return el; }
+
+
+
+        el.addEventListener("webkitAnimationStart", test999, false);
+        el.addEventListener("mozAnimationStart", test999, false);
+        el.addEventListener("animationstart", test999, false);
+
+           alert(2)
+        return el;
+
   }
+}
+
+test999 = function(e){
+    d(e)
+
 }
 
 mw.hashHistory = [window.location.hash]
