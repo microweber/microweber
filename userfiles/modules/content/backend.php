@@ -636,6 +636,8 @@ function mw_make_pages_tree_sortable(){
       <div class="mw_pages_posts_tree mw-tree"  id="pages_tree_container_<?php print $my_tree_id; ?>">
         <?php
 		 $is_shop_str = " is_shop='n' "   ;
+		 		 $is_shop_str = "   "   ;
+
 	   if(isset($is_shop)){
 		 $is_shop_str = " is_shop='{$is_shop}' "   ;
 	   }elseif(isset($params['is_shop'])){
