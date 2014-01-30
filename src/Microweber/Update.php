@@ -116,8 +116,6 @@ class Update
         if ($curl_result == '' or $curl_result == false) {
             return false;
         }
-
-
         $result = false;
         if ($curl_result != false) {
             $result = json_decode($curl_result, 1);

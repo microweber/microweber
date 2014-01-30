@@ -180,26 +180,25 @@ DOMChange:function(element, callback, attr, a){
           }
       });
   },
-  animationStart:function(el, callback){
-        if( el === null || typeof el==='undefined' ) { return false; }
-        if( typeof callback !== 'function') { return el; }
-
-
-
-        el.addEventListener("webkitAnimationStart", test999, false);
-        el.addEventListener("mozAnimationStart", test999, false);
-        el.addEventListener("animationstart", test999, false);
-
-           alert(2)
-        return el;
-
+  css: {
+    transitionStart: function(el, callback){
+       if( el === null || typeof el==='undefined' ) { return false; }
+       if( typeof callback !== 'function') { return el; }
+       $(el).bind("transitionstart webkitTransitionStart oTransitionStart MSTransitionStart mozTransitionStart MozTransitionStart", function(e){
+            callback.call(this, e);
+       });
+    },
+    animationStart: function(el, callback){
+       if( el === null || typeof el==='undefined' ) { return false; }
+       if( typeof callback !== 'function') { return el; }
+       $(el).bind("animationstart webkitAnimationStart oAnimationStart MSAnimationStart mozAnimationStart MozAnimationStart", function(e){
+            callback.call(this, e);
+       });
+    }
   }
 }
 
-test999 = function(e){
-    d(e)
 
-}
 
 mw.hashHistory = [window.location.hash]
 
