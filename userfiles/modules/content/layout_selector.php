@@ -128,8 +128,7 @@ $layout_options = array();
  
  
  
- 
- 
+
 $layout_options  ['site_template'] = $data['active_site_template'];
 $layout_options  ['no_cache'] = true;
  
@@ -483,6 +482,17 @@ if(defined('ACTIVE_SITE_TEMPLATE')){
 }
  
 $global_template = get_option('current_template', 'template');
+ 
+ 
+ if($global_template == false){
+	 
+	$global_template = 'default'; 
+ }
+ 
+ 
+ 
+ 
+ 
  
  ?>
 	<?php if($template_selector_position == 'top'): ?>
