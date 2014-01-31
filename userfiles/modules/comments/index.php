@@ -17,6 +17,10 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
         $data['rel'] = 'content';
     }
+	
+	
+	
+ 
 
    $are_disabled = get_option('disable_new_comments', $params['id'])=='y';  
     $display_comments_from_which_post = get_option('display_comments_from_which_post', $params['id']);
@@ -61,6 +65,14 @@ if (get_option('enable_comments', 'comments') == 'y') {
     $comments_data = array();
     $comments_data['rel_id'] = $data['rel_id'];
     $comments_data['rel'] = $data['rel'];
+	
+	
+	
+	 if (isset($params['order']) and trim(strtolower($params['order'])) == 'reverse') {
+
+        $comments_data['order_by'] = 'created_on desc';
+    }
+	
 
     if ($display_comments_from != false and $display_comments_from == 'current' and $display_comments_from_which_post != false and $display_comments_from_which_post != 'current_post') {
 
@@ -115,7 +127,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
     }
 
 	if ($display_comments_from == false and $from_related_posts != false) {
-		  d(CATEGORY_ID);
+		 
 	 }
     if ($enable_comments_paging != false) {
         if (intval($comments_per_page) != 0) {
@@ -157,33 +169,13 @@ if (get_option('enable_comments', 'comments') == 'y') {
     }
 
     ?>
-    <script type="text/javascript">
+<script type="text/javascript">
 
         mw.require("url.js", true);
         mw.require("tools.js", true);
         mw.require("forms.js", true);
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <script type="text/javascript">
+<script type="text/javascript">
 	
 	 
 
@@ -266,7 +258,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
         });
 
     </script>
-    <?php
+<?php
     if ($template_file != false and is_file($template_file)) {
         include($template_file);
     }

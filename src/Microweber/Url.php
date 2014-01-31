@@ -4,6 +4,9 @@ namespace Microweber;
 class Url
 {
     public $site_url_var;
+    public $current_url_var;
+
+
 
     public function site($add_string = false)
     {
@@ -21,6 +24,270 @@ class Url
             }
         }
         return $u1;
+    }
+
+    function link_to_file($path)
+    {
+        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $this_file = @dirname(dirname(dirname(__FILE__)));
+        $path = str_ireplace($this_file, '', $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+        $path = ltrim($path, '/');
+        $path = ltrim($path, '\\');
+        return $this->site_url($path);
+    }
+    public function set($url = false)
+    {
+        return $this->site_url_var = ($url);
+    }
+
+    public function set_current($url = false)
+    {
+        return $this->current_url_var = ($url);
+    }
+    function to_path($path)
+    {
+        if (trim($path) == '') {
+            return false;
+        }
+        $path = str_ireplace($this->site_url(), MW_ROOTPATH, $path);
+        $path = str_replace('\\', '/', $path);
+        $path = str_replace('//', '/', $path);
+        return normalize_path($path, false);
+    }
+
+    function redirect($url)
+    {
+        if (trim($url) == '') {
+            return false;
+        }
+        $url = str_ireplace('Location:', '', $url);
+        $url = trim($url);
+        if (headers_sent()) {
+            print '<meta http-equiv="refresh" content="0;url=' . $url . '">';
+        } else {
+            header('Location: ' . $url);
+        }
+        exit();
+    }
+
+    public function params($skip_ajax = false)
+    {
+        return $this->param($param = "__MW_GET_ALL_PARAMS__", $skip_ajax);
+    }
+
+    public function param($param, $skip_ajax = false, $force_url = false)
+    {
+        if ($_POST) {
+            if (isset($_POST['search_by_keyword'])) {
+                if ($param == 'keyword') {
+                    return $_POST['search_by_keyword'];
+                }
+            }
+        }
+        $url = $this->current($skip_ajax);
+        if ($force_url != false) {
+            $url = $force_url;
+        }
+        $rem = $this->site_url();
+        $url = str_ireplace($rem, '', $url);
+        $url = str_ireplace('?', '/', $url);
+        $url = str_ireplace('=', ':', $url);
+        $url = str_ireplace('&', '/', $url);
+        $all_params = array();
+        $segs = explode('/', $url);
+        foreach ($segs as $segment) {
+            $seg1 = explode(':', $segment);
+            if ($param == '__MW_GET_ALL_PARAMS__') {
+                if (isset($seg1[0]) and isset($seg1[1])) {
+                    $all_params[$seg1[0]] = $seg1[1];
+                }
+            } else {
+                $param_sub_position = false;
+                if (trim($seg1[0]) == trim($param)) {
+                    if ($param_sub_position == false) {
+                        $the_param = str_ireplace($param . ':', '', $segment);
+                        if ($param == 'custom_fields_criteria') {
+                            $the_param1 = $this->app->format->base64_to_array($the_param);
+                            return $the_param1;
+                        }
+                        return $the_param;
+                    } else {
+
+                        $the_param = str_ireplace($param . ':', '', $segment);
+                        $params_list = explode(',', $the_param);
+                        if ($param == 'custom_fields_criteria') {
+                            $the_param1 = base64_decode($the_param);
+                            $the_param1 = unserialize($the_param1);
+                            return $the_param1;
+                        }
+                        return $the_param;
+                    }
+                }
+            }
+        }
+
+        if (empty($all_params)) {
+            return false;
+        }
+        return $all_params;
+    }
+
+    function param_unset($param, $url = false)
+    {
+        if ($url == false) {
+            $url = $this->string();
+        }
+        $site = $this->site_url();
+        $url = str_ireplace($site, '', $url);
+        $segs = explode('/', $url);
+        $segs_clean = array();
+        foreach ($segs as $segment) {
+            $origsegment = ($segment);
+            $segment = explode(':', $segment);
+            if ($segment[0] == $param) {
+            } else {
+                $segs_clean[] = $origsegment;
+            }
+        }
+        $segs_clean = implode('/', $segs_clean);
+        $site = ($segs_clean);
+        return $site;
+    }
+
+    /**
+     * Returns the current url path, does not include the domain name
+     *
+     * @param bool $skip_ajax If true it will try to get the referring url from ajax request
+     * @return string the url string
+     */
+    function string($skip_ajax = false)
+    {
+        if ($skip_ajax == true) {
+            $url = $this->current($skip_ajax);
+        } else {
+            $url = false;
+        }
+
+        $u1 = implode('/', $this->segment(-1, $url));
+
+        return $u1;
+    }
+
+    /**
+     * Returns the current url as a string
+     *
+     * @param bool $skip_ajax If true it will try to get the referring url from ajax request
+     * @param bool $no_get If true it will remove the params after '?'
+     * @return string the url string
+     */
+    public function current($skip_ajax = false, $no_get = false)
+    {
+        $u = false;
+        if ($skip_ajax == true) {
+            $is_ajax = $this->is_ajax();
+            if ($is_ajax == true) {
+                if ($_SERVER['HTTP_REFERER'] != false) {
+                    $u = $_SERVER['HTTP_REFERER'];
+                }
+            }
+        }
+        if ($u == false) {
+
+            if (!isset($_SERVER['REQUEST_URI'])) {
+                $serverrequri = $_SERVER['PHP_SELF'];
+            } else {
+                $serverrequri = $_SERVER['REQUEST_URI'];
+            }
+            $s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
+            $protocol = 'http';
+            $port = 80;
+            if (isset($_SERVER["SERVER_PROTOCOL"])) {
+                $protocol = $this->strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/") . $s;
+            }
+            if (isset($_SERVER["SERVER_PORT"])) {
+                $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER["SERVER_PORT"]);
+            }
+            if (isset($_SERVER["SERVER_PORT"])) {
+                $u = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $serverrequri;
+            } elseif (isset($_SERVER["HOSTNAME"])) {
+                $u = $protocol . "://" . $_SERVER['HOSTNAME'] . $port . $serverrequri;
+            }
+        }
+        if ($u == false) {
+            $u = $this->current_url_var;
+        }
+        if ($no_get == true) {
+            $u = strtok($u, '?');
+        }
+        if (is_string($u)) {
+            $u = str_replace(' ', '%20', $u);
+        }
+        return $u;
+    }
+
+    /**
+     * Return true if the current request is via ajax
+     *
+     * @return true|false
+     */
+    public function is_ajax()
+    {
+        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
+    }
+
+    public function  strleft($s1, $s2)
+    {
+        return substr($s1, 0, strpos($s1, $s2));
+    }
+
+    /**
+     * Returns single URL segment
+     *
+     * @param $num The segment number
+     * @param bool $page_url If false it will use the current URL
+     * @return string|false the url segment or false
+     */
+    public function segment($num = -1, $page_url = false)
+    {
+        $u = false;
+        if ($page_url == false or $page_url == '') {
+            $u1 = $this->current();
+        } else {
+            $u1 = $page_url;
+        }
+        $u2 = $this->site_url();
+        $u1 = rtrim($u1, '\\');
+        $u1 = rtrim($u1, '/');
+        $u2 = rtrim($u2, '\\');
+        $u2 = rtrim($u2, '/');
+        $u2 = reduce_double_slashes($u2);
+        $u1 = reduce_double_slashes($u1);
+        $u2 = rawurldecode($u2);
+        $u1 = rawurldecode($u1);
+        $u1 = str_replace($u2, '', $u1);
+        $u1 = str_replace(' ', '%20', $u1);
+        if (!isset($u) or $u == false) {
+            $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
+        }
+        if ($num != -1) {
+            if (isset($u[$num])) {
+                return $u[$num];
+            } else {
+                return null;
+            }
+        } else {
+            return $u;
+        }
+
+
     }
 
     public function site_url($add_string = false)
@@ -102,317 +369,33 @@ class Url
         return $site_url . $add_string;
     }
 
-    function link_to_file($path)
-    {
-
-        $path = str_ireplace(MW_ROOTPATH, '', $path);
-        $path = str_replace('\\', '/', $path);
-        $path = str_replace('//', '/', $path);
-
-        $path = str_ireplace(MW_ROOTPATH, '', $path);
-        $path = str_replace('\\', '/', $path);
-        $path = str_replace('//', '/', $path);
-        $path = str_ireplace(MW_ROOTPATH, '', $path);
-        $this_file = @dirname(dirname(dirname(__FILE__)));
-        $path = str_ireplace($this_file, '', $path);
-        $path = str_replace('\\', '/', $path);
-        $path = str_replace('//', '/', $path);
-        $path = ltrim($path, '/');
-        $path = ltrim($path, '\\');
-
-
-        return $this->site_url($path);
-    }
-
-    function to_path($path)
-    {
-        if (trim($path) == '') {
-            return false;
-        }
-
-        $path = str_ireplace($this->site_url(), MW_ROOTPATH, $path);
-        $path = str_replace('\\', '/', $path);
-        $path = str_replace('//', '/', $path);
-
-        return normalize_path($path, false);
-    }
-
-    function redirect($url)
-    {
-        if (trim($url) == '') {
-            return false;
-        }
-        $url = str_ireplace('Location:', '', $url);
-        $url = trim($url);
-        if (headers_sent()) {
-            print '<meta http-equiv="refresh" content="0;url=' . $url . '">';
-        } else {
-            header('Location: ' . $url);
-        }
-        exit();
-    }
-
-    public function params($skip_ajax = false)
-    {
-        return $this->param($param = "__MW_GET_ALL_PARAMS__", $skip_ajax);
-    }
-
-    public function param($param, $skip_ajax = false, $force_url = false)
-    {
-        if ($_POST) {
-
-            if (isset($_POST['search_by_keyword'])) {
-
-                if ($param == 'keyword') {
-
-                    return $_POST['search_by_keyword'];
-                }
-            }
-        }
-
-        $url = $this->current($skip_ajax);
-        if ($force_url != false) {
-            $url = $force_url;
-        }
-
-        $rem = $this->site_url();
-
-        $url = str_ireplace($rem, '', $url);
-
-        $url = str_ireplace('?', '/', $url);
-        $url = str_ireplace('=', ':', $url);
-        $url = str_ireplace('&', '/', $url);
-        $all_params = array();
-        $segs = explode('/', $url);
-        foreach ($segs as $segment) {
-
-            $seg1 = explode(':', $segment);
-
-            if ($param == '__MW_GET_ALL_PARAMS__') {
-                if (isset($seg1[0]) and isset($seg1[1])) {
-                    $all_params[$seg1[0]] = $seg1[1];
-                }
-            } else {
-                $param_sub_position = false;
-
-
-                if (trim($seg1[0]) == trim($param)) {
-
-                    if ($param_sub_position == false) {
-
-                        $the_param = str_ireplace($param . ':', '', $segment);
-
-                        if ($param == 'custom_fields_criteria') {
-                            $the_param1 = $this->app->format->base64_to_array($the_param);
-                            return $the_param1;
-                        }
-
-                        return $the_param;
-                    } else {
-
-                        $the_param = str_ireplace($param . ':', '', $segment);
-
-                        $params_list = explode(',', $the_param);
-
-                        if ($param == 'custom_fields_criteria') {
-
-                            $the_param1 = base64_decode($the_param);
-
-                            $the_param1 = unserialize($the_param1);
-
-                            return $the_param1;
-                        }
-
-                        return $the_param;
-                    }
-                }
-            }
-        }
-
-        if (empty($all_params)) {
-            return false;
-        }
-        return $all_params;
-    }
-
-    function param_unset($param, $url = false)
-    {
-        if ($url == false) {
-            $url = $this->string();
-        }
-        $site = $this->site_url();
-
-        $url = str_ireplace($site, '', $url);
-
-        $segs = explode('/', $url);
-
-        $segs_clean = array();
-
-        foreach ($segs as $segment) {
-
-            $origsegment = ($segment);
-
-            $segment = explode(':', $segment);
-
-            if ($segment[0] == $param) {
-
-            } else {
-
-                $segs_clean[] = $origsegment;
-            }
-        }
-
-        $segs_clean = implode('/', $segs_clean);
-
-        $site = ($segs_clean);
-        return $site;
-    }
-
     /**
-     * Returns the curent url path, does not include the domain name
+     * Returns ALL URL segments as array
      *
-     * @return string the url string
+     * @param bool $page_url If false it will use the current URL
+     * @return array|false the url segments or false
      */
-    function string($skip_ajax = false)
+    public function segments($page_url = false)
     {
-        if ($skip_ajax == true) {
-            $url = $this->current($skip_ajax);
-        } else {
-            $url = false;
-        }
-
-        $u1 = implode('/', $this->segment(-1, $url));
-
-        return $u1;
-    }
-
-    public function current($skip_ajax = false, $no_get = false)
-    {
-        $u = false;
-        if ($skip_ajax == true) {
-            $is_ajax = $this->is_ajax();
-
-            if ($is_ajax == true) {
-                if ($_SERVER['HTTP_REFERER'] != false) {
-                    $u = $_SERVER['HTTP_REFERER'];
-                } else {
-
-                }
-            }
-        }
-
-        if ($u == false) {
-
-            if (!isset($_SERVER['REQUEST_URI'])) {
-                $serverrequri = $_SERVER['PHP_SELF'];
-            } else {
-                $serverrequri = $_SERVER['REQUEST_URI'];
-            }
-
-            $s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
-
-            $protocol = 'http';
-            $port = 80;
-            if (isset($_SERVER["SERVER_PROTOCOL"])) {
-                $protocol = $this->strleft(strtolower($_SERVER["SERVER_PROTOCOL"]), "/") . $s;
-            }
-            if (isset($_SERVER["SERVER_PORT"])) {
-                $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":" . $_SERVER["SERVER_PORT"]);
-            }
-            if (isset($_SERVER["SERVER_PORT"])) {
-                $u = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $serverrequri;
-            } elseif (isset($_SERVER["HOSTNAME"])) {
-                $u = $protocol . "://" . $_SERVER['HOSTNAME'] . $port . $serverrequri;
-            }
-
-        }
-
-        if ($no_get == true) {
-
-            $u = strtok($u, '?');
-        }
-        if (is_string($u)) {
-            $u = str_replace(' ', '%20', $u);
-        }
-
-        return $u;
-    }
-
-    public function is_ajax()
-    {
-        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'));
-    }
-
-    public function  strleft($s1, $s2)
-    {
-        return substr($s1, 0, strpos($s1, $s2));
-    }
-
-    public function segment($k = -1, $page_url = false)
-    {
-        $u = false;
-        if ($page_url == false or $page_url == '') {
-            $u1 = $this->current();
-        } else {
-            $u1 = $page_url;
-        }
-        $u2 = $this->site_url();
-        $u1 = rtrim($u1, '\\');
-        $u1 = rtrim($u1, '/');
-        $u2 = rtrim($u2, '\\');
-        $u2 = rtrim($u2, '/');
-        $u2 = reduce_double_slashes($u2);
-        $u1 = reduce_double_slashes($u1);
-        $u2 = rawurldecode($u2);
-        $u1 = rawurldecode($u1);
-        $u1 = str_replace($u2, '', $u1);
-
-        $u1 = str_replace(' ', '%20', $u1);
-
-
-        if (!isset($u) or $u == false) {
-            $u = explode('/', trim(preg_replace('/([^\w\:\-\.\%\/])/i', '', current(explode('?', $u1, 2))), '/'));
-        }
-        if ($k != -1) {
-            if (isset($u[$k])) {
-                return $u[$k];
-            } else {
-                return null;
-            }
-        } else {
-            return $u;
-        }
-
-
+        return $this->segment($k = -1, $page_url);
     }
 
     function slug($text)
     {
-
         // Swap out Non "Letters" with a -
         $text = preg_replace('/[^\\pL\d]+/u', '-', $text);
-
         // Trim out extra -'s
         $text = trim($text, '-');
-
-
         $text = URLify::filter($text);
-
-
         // Strip out anything we haven't been able to convert
         $text = preg_replace('/[^-\w]+/', '', $text);
-
         $text = str_replace(':', '-', $text);
-
         return $text;
     }
 
     public function download($requestUrl, $post_params = false, $save_to_file = false)
     {
 
-        if ($post_params == false) {
-            //..$post_params = array('date' => date("YmdHis"));
-        }
         if ($post_params != false and is_array($post_params)) {
             $postdata = http_build_query($post_params);
         } else {
@@ -426,13 +409,11 @@ class Url
 
         if (function_exists('curl_init')) {
             $ch = curl_init($requestUrl);
-
             curl_setopt($ch, CURLOPT_COOKIEJAR, MW_CACHE_DIR . "global/cookie.txt");
             curl_setopt($ch, CURLOPT_COOKIEFILE, MW_CACHE_DIR . "global/cookie.txt");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 5.01; Microweber " . MW_VERSION . ";)");
-
             if ($post_params != false) {
                 curl_setopt($ch, CURLOPT_POST, count($post_params));
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $post_params);
@@ -448,7 +429,6 @@ class Url
         }
 
         if ($save_to_file == true) {
-            //  d($result);
             file_put_contents($save_to_file, $result);
         } else {
             return $result;
@@ -459,34 +439,20 @@ class Url
     public function replace_site_url($arr)
     {
         $site = $this->site_url();
-
         if (is_string($arr)) {
-
             $ret = str_ireplace($site, '{SITE_URL}', $arr);
-
             return $ret;
         }
-
         if (is_array($arr) and !empty($arr)) {
-
             $ret = array();
-
             foreach ($arr as $k => $v) {
-
                 if (is_array($v)) {
-
                     $v = $this->replace_site_url($v);
                 } else {
-
                     $v = str_ireplace($site, '{SITE_URL}', $v);
-
-                    // $v = addslashes ( $v );
-                    // $v = htmlspecialchars ( $v, ENT_QUOTES, 'UTF-8' );
                 }
-
                 $ret[$k] = ($v);
             }
-
             return $ret;
         }
     }
@@ -495,17 +461,12 @@ class Url
     {
 
         if (is_string($arr)) {
-
             $parser_mem_crc = 'replace_site_vars_back_' . crc32($arr);
-
             $ch = mw_var($parser_mem_crc);
             if ($ch != false) {
-
                 $ret = $ch;
             } else {
-
                 $site = $this->site_url();
-
                 $ret = str_replace('{SITE_URL}', $site, $arr);
                 mw_var($parser_mem_crc, $ret);
             }
@@ -513,21 +474,15 @@ class Url
         }
 
         if (is_array($arr) and !empty($arr)) {
-
             $ret = array();
-
             foreach ($arr as $k => $v) {
-
                 if (is_array($v)) {
-
                     $v = $this->replace_site_url_back($v);
                 } else if (is_string($v)) {
                     $v = $this->replace_site_url_back($v);
                 }
-
                 $ret[$k] = ($v);
             }
-
             return $ret;
         }
     }

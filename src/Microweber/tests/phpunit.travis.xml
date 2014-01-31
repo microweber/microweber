@@ -2,7 +2,7 @@
 
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         bootstrap="bootstrap.php"
+         bootstrap="bootstrap.travis.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -19,6 +19,16 @@
             <directory>./classes</directory>
         </testsuite>
     </testsuites>
+
+    <php>
+        <var name="db_type" value="mysql"/>
+        <var name="db_host" value="localhost"/>
+        <var name="db_username" value="root"/>
+        <var name="db_password" value=""/>
+        <var name="db_name" value="microweber_tests"/>
+        <var name="db_table_prefix" value="mw_"/>
+        <var name="db_port" value="3306"/>
+    </php>
 
 
 </phpunit>

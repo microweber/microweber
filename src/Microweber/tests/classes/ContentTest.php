@@ -1,6 +1,6 @@
 <?php
 
-namespace ContentTest;
+namespace ClassTest;
 
 
 class ContentTest extends \PHPUnit_Framework_TestCase

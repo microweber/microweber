@@ -349,6 +349,11 @@ function is_ajax()
 
 }
 
+function url_current($skip_ajax = false, $no_get = false)
+{
+    return mw('url')->current($skip_ajax, $no_get);
+}
+
 function url_segment($k = -1, $page_url = false)
 {
     return mw('url')->segment($k, $page_url);
@@ -385,10 +390,6 @@ function url_param($param, $skip_ajax = false)
     return mw('url')->param($param, $skip_ajax);
 }
 
-function url_current($skip_ajax = false, $no_get = false)
-{
-    return mw('url')->current($skip_ajax, $no_get);
-}
 
 api_expose('save_edit');
 function save_edit($post_data)
