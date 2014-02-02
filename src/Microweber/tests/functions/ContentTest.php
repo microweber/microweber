@@ -11,13 +11,14 @@ class ContentTest extends \PHPUnit_Framework_TestCase
        // mw('content')->db_init();
     }
 
-    public function testContent()
+    public function testPosts()
     {
 
 
         $params = array(
             'title' => 'this-is-my-test-post',
             'content_type' => 'post',
+          // 'debug' => 1,
             'is_active' => 'y');
         //saving
         $save_post = save_content($params);
@@ -46,6 +47,48 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(false, $content);
 
         }
+
+    }
+
+
+    public function testPages()
+    {
+        $params = array(
+            'title' => 'My test page',
+            'content_type' => 'page',
+            // 'debug' => 1,
+            'is_active' => 'y');
+        //saving
+        $parent_page = save_content($params);
+
+
+        $params = array(
+            'title' => 'My test sub page',
+            'content_type' => 'page',
+            'parent' => $parent_page,
+            // 'debug' => 1,
+            'is_active' => 'y');
+        $sub_page = save_content($params);
+
+
+        //getting
+        $params = array(
+            'parent' => $parent_page,
+            'content_type' => 'page',
+            // 'debug' => 1,
+            'is_active' => 'y');
+        $get_sub_page = get_content($params);
+
+
+        //PHPUnit
+        $this->assertEquals(true, intval($parent_page)>0);
+        $this->assertEquals(true, intval($sub_page)>0);
+
+        $this->assertEquals(true, is_array($get_sub_page));
+
+
+
+
 
     }
 

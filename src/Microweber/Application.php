@@ -152,7 +152,12 @@ class Application
 
         return $this->config($key, $no_cache);
     }
+    public function set_config($config)
+    {
 
+
+        $this->config = $config;
+    }
     /**
      * Gets a value from the config file
      *
@@ -257,6 +262,7 @@ class Application
 
     public function __set($property, $value)
     {
+
         if (!property_exists($this, $property) and !isset($this->providers[$property])) {
             $property = ucfirst($property);
             $property2 = strtolower($property);

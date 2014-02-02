@@ -79,8 +79,9 @@ class Content
         }
 
         if ($prefix == false) {
-            $prefix = $this->app->table_prefix;
+            $prefix = $this->app->config('table_prefix');
         }
+
         if ($prefix == false and defined("MW_TABLE_PREFIX")) {
             $prefix = MW_TABLE_PREFIX;
         }
@@ -133,7 +134,7 @@ class Content
 
 
         /**
-         * Define table names constants
+         * Define table names constants for global default usage
          */
 
         if (!defined("MW_DB_TABLE_CONTENT")) {
@@ -186,23 +187,18 @@ class Content
     public function db_init()
     {
 
-        $function_cache_id = false;
-        $args = func_get_args();
-        foreach ($args as $k => $v) {
 
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = 'content_db_' . __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id =  serialize($this->db_tables);
+        $function_cache_id = 'content_db_tables_' .$this->table_prefix. __FUNCTION__ . crc32($function_cache_id);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
-            return $cache_content;
+          return $cache_content;
         }
 
-        $table_name = MW_DB_TABLE_CONTENT;
+        $table_name = $this->db_tables['content'];
 
         $fields_to_add = array();
 
@@ -255,7 +251,7 @@ class Content
         $this->app->db->add_table_index('title', $table_name, array('title(255)'));
 
 
-        $table_name = MW_DB_TABLE_CONTENT_DATA;
+        $table_name = $this->db_tables['content_data'];
 
 
         $fields_to_add = array();
@@ -272,7 +268,7 @@ class Content
         $this->app->db->build_table($table_name, $fields_to_add);
 
 
-        $table_name = MW_DB_TABLE_CONTENT_FIELDS;
+        $table_name = $this->db_tables['content_fields'];
 
         $fields_to_add = array();
 
@@ -290,7 +286,7 @@ class Content
         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(255)'));
 
-        $table_name = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
+        $table_name = $this->db_tables['content_fields_drafts'];
         $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
         $fields_to_add[] = array('is_temp', "char(1) default 'y'");
         $fields_to_add[] = array('url', 'TEXT default NULL');
@@ -302,7 +298,7 @@ class Content
         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(255)'));
 
 
-        $table_name = MW_DB_TABLE_MEDIA;
+        $table_name = $this->db_tables['media'];
 
         $fields_to_add = array();
 
@@ -329,7 +325,7 @@ class Content
         $this->app->db->add_table_index('media_type', $table_name, array('media_type(55)'));
 
 
-        $table_name = MW_DB_TABLE_CUSTOM_FIELDS;
+        $table_name = $this->db_tables['custom_fields'];
 
         $fields_to_add = array();
         $fields_to_add[] = array('rel', 'TEXT default NULL');
@@ -373,7 +369,7 @@ class Content
         $this->app->db->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
 
 
-        $table_name = MW_DB_TABLE_MENUS;
+        $table_name = $this->db_tables['menus'];
 
         $fields_to_add = array();
         $fields_to_add[] = array('title', 'TEXT default NULL');
@@ -389,7 +385,7 @@ class Content
         $fields_to_add[] = array('url', 'TEXT default NULL');
         $this->app->db->build_table($table_name, $fields_to_add);
 
-        $table_name = MW_DB_TABLE_TAXONOMY;
+        $table_name = $this->db_tables['categories'];
 
         $fields_to_add = array();
 
@@ -423,7 +419,7 @@ class Content
         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
         $this->app->db->add_table_index('parent_id', $table_name, array('parent_id'));
 
-        $table_name = MW_DB_TABLE_TAXONOMY_ITEMS;
+        $table_name = $this->db_tables['categories_items'];
 
         $fields_to_add = array();
         $fields_to_add[] = array('parent_id', 'int(11) default NULL');
@@ -1035,7 +1031,7 @@ class Content
             return FALSE;
         }
 
-        $table = MW_DB_TABLE_CONTENT;
+        $table = $this->db_tables['content'];
 
         $ids = array();
 
@@ -1084,7 +1080,7 @@ class Content
     {
 
 
-        $table = MW_DB_TABLE_CONTENT_DATA;
+        $table = $this->db_tables['content_data'];
 
         $data = array();
 
@@ -1420,7 +1416,7 @@ class Content
         ob_start();
 
 
-        $table = MW_DB_TABLE_CONTENT;
+        $table = $this->db_tables['content'];
         $par_q = '';
         if ($parent == false) {
 
@@ -1968,7 +1964,7 @@ class Content
     public function get_menu($params = false)
     {
 
-        $table = MODULE_DB_MENUS;
+        $table = $this->db_tables['menus'];
 
         $params2 = array();
         if ($params == false) {
@@ -2019,7 +2015,7 @@ class Content
             if (isset($data_to_save['menu_id'])) {
                 $data_to_save['id'] = intval($data_to_save['menu_id']);
             }
-            $table = MODULE_DB_MENUS;
+            $table = $this->db_tables['menus'];
 
             $data_to_save['table'] = $table;
             $data_to_save['item_type'] = 'menu';
@@ -2099,7 +2095,7 @@ class Content
         $params_order = array();
         $params_order['position'] = 'ASC';
 
-        $menus = MODULE_DB_MENUS;
+        $menus = $this->db_tables['menus'];
 
         $sql = "SELECT * FROM {$menus}
 	WHERE parent_id=$menu_id
@@ -2424,7 +2420,7 @@ class Content
             return false;
         }
 
-        $table = MW_DB_TABLE_CONTENT;
+        $table = $this->db_tables['content'];
         $id = intval($id);
         if ($id == 0) {
             return false;
@@ -2537,7 +2533,7 @@ class Content
         $u1 = ltrim($u1, '/');
         $url = $u1;
 
-        $table = MW_DB_TABLE_CONTENT;
+        $table = $this->db_tables['content'];
         $url = $this->app->db->escape_string($url);
         $url = addslashes($url);
         $url12 = parse_url($url);
@@ -3359,7 +3355,7 @@ class Content
             return;
         }
         $content_id = intval($content_id);
-        if ($content_id == 0 or !defined('MODULE_DB_MENUS')) {
+        if ($content_id == 0 or !isset($this->db_tables['menus'])) {
             return;
         }
 
@@ -3369,7 +3365,7 @@ class Content
         }
 
 
-        $menus = MODULE_DB_MENUS;
+        $menus = $this->db_tables['menus'];
         if (isset($_REQUEST['add_content_to_menu']) and is_array($_REQUEST['add_content_to_menu'])) {
             $add_to_menus = $_REQUEST['add_content_to_menu'];
             $add_to_menus_int = array();
@@ -3983,7 +3979,7 @@ class Content
     {
 
         // ->'content';
-        $table = MW_DB_TABLE_CONTENT;
+        $table = $this->db_tables['content'];
 
 
         $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
@@ -4209,7 +4205,7 @@ class Content
         if (isset($params['cache_group'])) {
             $cache_group = $params['cache_group'];
         }
-        $table = MW_DB_TABLE_CONTENT;
+        $table = $this->db_tables['content'];
         if (!isset($params['is_deleted'])) {
             $params['is_deleted'] = 'n';
         }
@@ -4272,8 +4268,9 @@ class Content
 
         $mw_global_content_memory = array();
         $adm = $this->app->user->is_admin();
-        $table = MW_DB_TABLE_CONTENT;
-        $table_data = MW_DB_TABLE_CONTENT_DATA;
+        $table = $this->db_tables['content'];
+
+        $table_data = $this->db_tables['content_data'];
 
         $checks = mw_var('FORCE_SAVE_CONTENT');
         $orig_data = $data;
@@ -4458,7 +4455,7 @@ class Content
         if (isset($data['category']) or isset($data['categories'])) {
             $cats_modified = true;
         }
-        $table_cats = MW_TABLE_PREFIX . 'categories';
+        $table_cats = $this->db_tables['categories'];
 
         if (isset($data_to_save['title']) and ($data_to_save['title'] != '') and (!isset($data['url']) or trim($data['url']) == '')) {
             $data['url'] = $this->app->url->slug($data_to_save['title']);
@@ -4751,7 +4748,7 @@ class Content
                 // $new_category = $this->app->category->save($new_category);
             }
         }
-        $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
+        $custom_field_table = $this->db_tables['custom_fields'];
 
         $sid = session_id();
 
@@ -4770,7 +4767,7 @@ class Content
         $this->app->db->q($clean);
         $this->app->cache->delete('custom_fields');
 
-        $media_table = MW_TABLE_PREFIX . 'media';
+        $media_table = $this->db_tables['media'];
 
         $clean = " UPDATE $media_table SET
 
@@ -4821,7 +4818,7 @@ class Content
     {
 
         $adm = $this->app->user->is_admin();
-        $table = MW_DB_TABLE_CONTENT_DATA;
+        $table = $this->db_tables['content_data'];
 
         $check_force = mw_var('FORCE_SAVE_CONTENT_DATA_FIELD');
 
@@ -4880,7 +4877,7 @@ class Content
     {
 
 
-        $table = MW_DB_TABLE_CONTENT_DATA;
+        $table = $this->db_tables['content_data'];
 
 
         if (is_string($data)) {
@@ -4945,7 +4942,7 @@ class Content
             return FALSE;
         }
 
-        $table = MW_DB_TABLE_CONTENT;
+        $table = $this->db_tables['content'];
 
         $ids = array();
 
@@ -5003,8 +5000,8 @@ class Content
     {
 
         $adm = $this->app->user->is_admin();
-        $table = MW_DB_TABLE_CONTENT_FIELDS;
-        $table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
+        $table = $this->db_tables['content_fields'];
+        $table_drafts = $this->db_tables['content_fields_drafts'];
 
         //$checks = mw_var('FORCE_SAVE_CONTENT');
 
@@ -5129,9 +5126,9 @@ class Content
     {
 
 
-        $table = MW_DB_TABLE_CONTENT_FIELDS;
+        $table = $this->db_tables['content_fields'];
 
-        $table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
+        $table_drafts = $this->db_tables['content_fields_drafts'];
 
         if (is_string($data)) {
             $data = parse_params($data);
@@ -5247,7 +5244,7 @@ class Content
 
 
         if (!empty($del_ids)) {
-            $table = MW_DB_TABLE_CONTENT;
+            $table = $this->db_tables['content'];
 
             foreach ($del_ids as $value) {
                 $c_id = intval($value);
@@ -5259,7 +5256,7 @@ class Content
                     $q = "UPDATE $table SET is_deleted='n' WHERE parent=$c_id   AND  is_deleted='y' ";
                     $q = $this->app->db->query($q);
                     if (defined("MW_DB_TABLE_TAXONOMY")) {
-                        $table1 = MW_DB_TABLE_TAXONOMY;
+                        $table1 = $this->db_tables['categories'];
                         $q = "UPDATE $table1 SET is_deleted='n' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='y' ";
                         $q = $this->app->db->query($q);
                     }
@@ -5271,31 +5268,31 @@ class Content
                     $this->app->db->delete_by_id('menus', $c_id, 'content_id');
 
                     if (defined("MW_DB_TABLE_MEDIA")) {
-                        $table1 = MW_DB_TABLE_MEDIA;
+                        $table1 = $this->db_tables['media'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                         $q = $this->app->db->query($q);
                     }
 
                     if (defined("MW_DB_TABLE_TAXONOMY")) {
-                        $table1 = MW_DB_TABLE_TAXONOMY;
+                        $table1 = $this->db_tables['categories'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                         $q = $this->app->db->query($q);
                     }
 
 
                     if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
-                        $table1 = MW_DB_TABLE_TAXONOMY_ITEMS;
+                        $table1 = $this->db_tables['categories_items'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                         $q = $this->app->db->query($q);
                     }
                     if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
-                        $table1 = MW_DB_TABLE_CUSTOM_FIELDS;
+                        $table1 = $this->db_tables['custom_fields'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                         $q = $this->app->db->query($q);
                     }
 
                     if (defined("MW_DB_TABLE_CONTENT_DATA")) {
-                        $table1 = MW_DB_TABLE_CONTENT_DATA;
+                        $table1 = $this->db_tables['content_data'];
                         $q = "DELETE FROM $table1 WHERE content_id=$c_id    ";
                         $q = $this->app->db->query($q);
                     }
@@ -5308,7 +5305,7 @@ class Content
                     $q = "UPDATE $table SET is_deleted='y' WHERE parent=$c_id ";
                     $q = $this->app->db->query($q);
                     if (defined("MW_DB_TABLE_TAXONOMY")) {
-                        $table1 = MW_DB_TABLE_TAXONOMY;
+                        $table1 = $this->db_tables['categories'];
                         $q = "UPDATE $table1 SET is_deleted='y' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='n' ";
 
                         $q = $this->app->db->query($q);
@@ -5354,7 +5351,7 @@ class Content
         $this->define_constants($page);
 
 
-        $table_drafts = MW_DB_TABLE_CONTENT_FIELDS_DRAFTS;
+        $table_drafts = $this->db_tables['content_fields_drafts'];
 
 
         $data = parse_params($data);
@@ -5456,7 +5453,7 @@ class Content
     {
         $id = $this->app->user->is_admin();
         if ($id == false) {
-            exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            return('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $ids = $params['ids'];
         if (empty($ids)) {
@@ -5471,7 +5468,7 @@ class Content
         $ids_implode = $this->app->db->escape_string($ids_implode);
 
 
-        $table = MW_TABLE_PREFIX . 'content';
+        $table = $this->db_tables['content'];
         $maxpos = 0;
         $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
         $get_max_pos = $this->app->db->query($get_max_pos);
@@ -5742,7 +5739,7 @@ class Content
                 if (intval($any) == 0) {
 
 
-                    $table = MW_TABLE_PREFIX . 'content';
+                    $table = $this->db_tables['content'];
                     mw_var('FORCE_SAVE_CONTENT', $table);
                     mw_var('FORCE_SAVE', $table);
 
@@ -5786,7 +5783,7 @@ class Content
 
         $id = $this->app->db->escape_string($id);
         $id = htmlspecialchars_decode($id);
-        $table = MODULE_DB_MENUS;
+        $table = $this->db_tables['menus'];
 
         $this->app->db->delete_by_id($table, trim($id), $field_name = 'id');
 
@@ -5805,7 +5802,7 @@ class Content
         }
         $id = intval($id);
 
-        $table = MODULE_DB_MENUS;
+        $table = $this->db_tables['menus'];
 
         return get("one=1&limit=1&table=$table&id=$id");
 
@@ -5873,7 +5870,7 @@ class Content
             $this->app->cache->delete('menus/' . $data_to_save['parent_id']);
         }
 
-        $table = MODULE_DB_MENUS;
+        $table = $this->db_tables['menus'];
 
 
         $data_to_save['table'] = $table;
@@ -5902,7 +5899,7 @@ class Content
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
-        $table = MODULE_DB_MENUS;
+        $table = $this->db_tables['menus'];
 
         $this->app->db->delete_by_id($table, intval($id), $field_name = 'id');
 
@@ -5919,7 +5916,7 @@ class Content
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-        $table = MODULE_DB_MENUS;
+        $table = $this->db_tables['menus'];
 
         if (isset($data['ids_parents'])) {
             $value = $data['ids_parents'];
@@ -5984,7 +5981,7 @@ class Content
 
     public function get_menu_items($params = false)
     {
-        $table = MODULE_DB_MENUS;
+        $table = $this->db_tables['menus'];
         $params2 = array();
         if ($params == false) {
             $params = array();

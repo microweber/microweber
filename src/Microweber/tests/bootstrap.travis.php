@@ -25,4 +25,4 @@ $config = array(
 );
 
 
-mw()->config = $config;
+mw()->set_config($config);
