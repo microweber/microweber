@@ -5,35 +5,13 @@ namespace FunctionsTest;
 
 class ContentTest extends \PHPUnit_Framework_TestCase
 {
-
-
-    public function testGetContent()
+    function __construct()
     {
-
-
-        $params = array(
-            'limit' => 10, // get 10 posts
-            'order_by' => 'created_on desc',
-            'content_type' => 'post', //or page
-            'subtype' => 'post', //or product, you can use this field to store your custom content
-            'is_active' => 'y');
-        //procedural
-        $recent_posts = get_content($params);
-
-        //PHPUnit
-        $this->assertEquals(true, is_array($recent_posts));
-
-
-        //OOP
-        $recent_posts = mw('content')->get($params);
-
-        //PHPUnit
-        $this->assertEquals(true, is_array($recent_posts));
-
-
+      //  cache_clear('db');
+       // mw('content')->db_init();
     }
 
-    public function testSaveContent()
+    public function testContent()
     {
 
 
@@ -41,8 +19,10 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             'title' => 'this-is-my-test-post',
             'content_type' => 'post',
             'is_active' => 'y');
-        //procedural
+        //saving
         $save_post = save_content($params);
+
+        //getting
         $get_post = get_content($params);
 
 
@@ -53,37 +33,69 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         //delete content
         foreach ($get_post as $item) {
-            $del_content = array('id' => $item['id'], 'forever' => true);
-            $delete = delete_content($del_content);
+            $del_params = array('id' => $item['id'], 'forever' => true);
+            $delete = delete_content($del_params);
 
+
+            //check if deleted
+            $content = get_content_by_id($item['id']);
+
+
+            //PHPUnit
             $this->assertEquals(true, is_array($delete));
+            $this->assertEquals(false, $content);
+
         }
-
-        //OOP
-        $params = array(
-            'title' => 'another-test-forum-post',
-            'content_type' => 'post',
-            'subtype' => 'post',
-            'is_active' => 'y');
-        $save_post = mw('content')->save($params);
-        $get_post = mw('content')->get($params);
-        //PHPUnit
-        $this->assertEquals(true, $save_post);
-        $this->assertEquals(true, is_array($get_post));
-
-
-        //delete content
-        foreach ($get_post as $item) {
-            $del_content = array('id' => $item['id'], 'forever' => true);
-            $delete = mw('content')->delete($del_content);
-            $this->assertEquals(true, is_array($delete));
-        }
-
-
-        //PHPUnit
-        // $this->assertEquals(true, is_array($recent_posts));
-
 
     }
+
+    public function testContentCategories()
+    {
+        /*
+         get_content($params = false)
+                content_categories($content_id );
+               get_content_children($id = 0, $without_main_parent = false)
+        content_data($content_id, $field_name = false)
+                get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
+
+        site_templates($options = false)
+
+        */
+
+    }
+
+    public function testCategories()
+    {
+        /*
+
+
+                content_categories($content_id );
+                category_link($id)
+      get_categories($data)
+        get_category_by_id($id = 0)
+        delete_category($data)
+        reorder_categories($data)
+        get_category_children($parent_id = 0
+        get_page_for_category($category_id)
+         get_category_items($category_id)
+
+
+
+        get_menu($params = false)
+add_new_menu($data_to_save)
+ menu_delete($id = false)
+delete_menu_item($id)
+ get_menu_item($id)
+edit_menu_item($data_to_save)
+reorder_menu_items($data)
+menu_tree($menu_id, $maxdepth = false)
+        is_in_menu($menu_id = false, $content_id = false)
+        add_content_to_menu($content_id, $menu_id = false)
+
+
+              */
+
+    }
+
 
 }
