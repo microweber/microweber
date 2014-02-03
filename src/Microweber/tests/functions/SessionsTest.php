@@ -3,14 +3,18 @@
 namespace FunctionsTest;
 
 
-class Sessions extends \PHPUnit_Framework_TestCase
+class SessionsTest extends \PHPUnit_Framework_TestCase
 {
-
-    public function testSessions()
+    function __construct()
     {
         // session_provider for unit tests,
         // does not persist values between requests
         mw('user')->session_provider = 'array';
+    }
+
+    public function testSessions()
+    {
+
 
         $expected = "Session var " . rand();
         session_set('my_sess_var', $expected);

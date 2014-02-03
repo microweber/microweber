@@ -14,7 +14,7 @@
 // ------------------------------------------------------------------------
 
 
-function get_cart($params)
+function get_cart($params=false)
 {
     return mw('shop')->get_cart($params);
 }
@@ -25,6 +25,10 @@ api_expose('update_cart');
 function update_cart($data)
 {
     return mw('shop')->update_cart($data);
+}
+function empty_cart()
+{
+    return mw('shop')->empty_cart();
 }
 
 
