@@ -34,6 +34,10 @@ class Db
     public $table_prefix = false;
     private $mw_escaped_strings = array();
     private $table_fields = array();
+     
+    private  $results_map = array();
+
+
 
     function __construct($app = null)
     {
@@ -82,7 +86,7 @@ class Db
 
             return false;
         }
-
+        $this->results_map = array();
         $q = "DELETE FROM $table_real WHERE {$field_name}={$id} ";
 
         $cache_group = $this->assoc_table_name($table);
@@ -582,16 +586,15 @@ class Db
         //$mode = 2;
         switch ($mode) {
             case 1 :
-                static $results_map = array();
-                //static $results_map_hits = array();
+                 //static  $this->results_map_hits = array();
                 $criteria_id = (int)crc32($table . serialize($criteria));
-                if (isset($results_map[$criteria_id])) {
-                    $get_db_items = $results_map[$criteria_id];
-                    //$results_map_hits[$criteria_id]++;
+                if (isset( $this->results_map[$criteria_id])) {
+                    $get_db_items =  $this->results_map[$criteria_id];
+                    // $this->results_map_hits[$criteria_id]++;
                 } else {
                     $get_db_items = $this->get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
-                    //$results_map_hits[$criteria_id] = 1;
-                    $results_map[$criteria_id] = $get_db_items;
+                    // $this->results_map_hits[$criteria_id] = 1;
+                     $this->results_map[$criteria_id] = $get_db_items;
                 }
                 break;
             case 2 :

@@ -1152,7 +1152,7 @@ class User
                 }
             }
         } else {
-            if (MW_IS_INSTALLED == true) {
+            if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 
 
                 if ($force == false) {
@@ -1184,8 +1184,14 @@ class User
     function delete($data)
     {
         $adm = is_admin();
-        if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        if (defined('MW_API_CALL') and $adm == false) {
+            return ('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+
+        if(!is_array($data)){
+            $new_data = array();
+            $new_data['id'] = intval($data);
+            $data = $new_data;
         }
 
         if (isset($data['id'])) {
