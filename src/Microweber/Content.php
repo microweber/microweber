@@ -4404,19 +4404,29 @@ class Content
 
     public function delete($data)
     {
-
+        $to_trash = false;
+        $to_untrash = false;
 
         if (defined('MW_API_CALL')) {
 
-
+            $to_trash = true;
             $adm = $this->app->user->is_admin();
             if ($adm == false) {
                 return array('error' => 'You must be admin to delete content!');
             }
         }
 
-        $to_trash = true;
-        $to_untrash = false;
+        if(!is_array($data)){
+            $del_data = array();
+            $del_data['id'] = intval($data);
+            $data = $del_data;
+          //  d($to_trash);
+            //$del_data['forever'] = intval($data);
+
+        }
+
+
+
         if (isset($data['forever']) or isset($data['delete_forever'])) {
 
             $to_trash = false;

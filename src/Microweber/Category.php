@@ -856,6 +856,65 @@ class Category
         //var_dump ( $parent_ids );
     }
 
+    /**
+     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
+     * @param int
+     * @return array
+     * @author      Peter Ivanov
+     * @version 1.0
+     * @since Version 1.0
+     */
+    public function get_by_id($id = 0)
+    {
+
+        if ($id == 0) {
+            return false;
+        }
+
+        $id = intval($id);
+
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+        $categories_id = intval($id);
+        $cache_group = 'categories/' . $categories_id;
+        $cache_content = false;
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table = $this->tables['categories'];
+
+        $id = intval($id);
+
+        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
+
+        $q = $this->app->db->query($q);
+
+        $q = $q[0];
+
+        if (!empty($q)) {
+
+            $this->app->cache->save($q, $function_cache_id, $cache_group);
+
+            return $q;
+        } else {
+
+            return false;
+        }
+    }
+
     public function get_page($category_id)
     {
         $category_id = intval($category_id);
@@ -1171,7 +1230,10 @@ class Category
             $data['cache_group'] = $cache_group = 'categories/global';
 
         }
-
+        if (isset($data['parent_page'])) {
+            $data['rel'] = 'content';
+            $data['rel_id'] = $data['parent_page'];
+        }
         $data = $this->app->db->get($data);
         return $data;
 
@@ -1201,12 +1263,20 @@ class Category
                 $content_ids = $data['content_id'];
             }
         }
+
+
         $no_position_fix = false;
         if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) != '' and trim($data['rel_id']) != '') {
 
             $table = $table_items;
             $no_position_fix = true;
         }
+
+        if (isset($data['parent_page'])) {
+            $data['rel'] = 'content';
+            $data['rel_id'] = $data['parent_page'];
+        }
+
         if (isset($data['table']) and ($data['table'] != '')) {
             $table = $data['table'];
         }
@@ -1337,84 +1407,27 @@ class Category
         return $save;
     }
 
-    /**
-     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
-     * @param int
-     * @return array
-     * @author      Peter Ivanov
-     * @version 1.0
-     * @since Version 1.0
-     */
-    public function get_by_id($id = 0)
-    {
-
-        if ($id == 0) {
-            return false;
-        }
-
-        $id = intval($id);
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-        $cache_content = false;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table = $this->tables['categories'];
-
-        $id = intval($id);
-
-        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
-
-        $q = $this->app->db->query($q);
-
-        $q = $q[0];
-
-        if (!empty($q)) {
-
-            $this->app->cache->save($q, $function_cache_id, $cache_group);
-
-            return $q;
-        } else {
-
-            return false;
-        }
-    }
-
     public function delete($data)
     {
 
         $adm = $this->app->user->is_admin();
-        if ($adm == false) {
+        if (defined('MW_API_CALL') and $adm == false) {
             return false;
         }
 
-        if (isset($data['id'])) {
+        if (is_array($data) and isset($data['id'])) {
             $c_id = intval($data['id']);
-            $del = $this->app->db->delete_by_id('categories', $c_id);
-            $this->app->db->delete_by_id('categories', $c_id, 'parent_id');
-            $this->app->db->delete_by_id('categories_items', $c_id, 'parent_id');
-            if (defined("MODULE_DB_MENUS")) {
-                $this->app->db->delete_by_id('menus', $c_id, 'categories_id');
-            }
-
-            return $del;
+        } else {
+            $c_id = intval($data);
         }
+
+        $del = $this->app->db->delete_by_id('categories', $c_id);
+        $this->app->db->delete_by_id('categories', $c_id, 'parent_id');
+        $this->app->db->delete_by_id('categories_items', $c_id, 'parent_id');
+        if (defined("MODULE_DB_MENUS")) {
+            $this->app->db->delete_by_id('menus', $c_id, 'categories_id');
+        }
+        return $del;
     }
 
     public function reorder($data)

@@ -2,6 +2,7 @@
 
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'db.php');
+include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'content.php');

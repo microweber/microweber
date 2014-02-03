@@ -87,7 +87,9 @@ class Db
 
         $cache_group = $this->assoc_table_name($table);
 
+        $this->app->cache->delete($cache_group.'/'.$id);
         $this->app->cache->delete($cache_group);
+
         $q = $this->q($q);
 
         $table1 = $this->table_prefix . 'categories';
@@ -122,19 +124,18 @@ class Db
             $q = $this->query($q);
         }
 
-
         if (defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
             $table1 = MW_DB_TABLE_TAXONOMY_ITEMS;
             $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='$table'  ";
             $q = $this->query($q);
         }
 
-
         if (defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
             $table1 = MW_DB_TABLE_CUSTOM_FIELDS;
             $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='$table'  ";
             $q = $this->query($q);
         }
+        return $c_id;
     }
 
     /**

@@ -42,6 +42,7 @@ function get($params)
     return mw('db')->get($params);
 
 }
+
 function db_build_table($table_name, $fields_to_add, $column_for_not_drop = array())
 {
 
@@ -84,4 +85,13 @@ function guess_table_name($for, $guess_cache_group = false)
     return mw('db')->guess_table_name($for, $guess_cache_group);
 
 
+}
+
+
+function db_escape_string($value)
+{
+    $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
+    $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
+    $new = str_replace($search, $replace, $value);
+    return $new;
 }

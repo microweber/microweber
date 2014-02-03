@@ -8,8 +8,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     function __construct()
     {
-      //  cache_clear('db');
-       // mw('content')->db_init();
+        //  cache_clear('db');
+        // mw('content')->db_init();
     }
 
     public function testPosts()
@@ -19,7 +19,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $params = array(
             'title' => 'this-is-my-test-post',
             'content_type' => 'post',
-          // 'debug' => 1,
+            // 'debug' => 1,
             'is_active' => 'y');
         //saving
         $save_post = save_content($params);
@@ -46,10 +46,9 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             //PHPUnit
             $this->assertEquals(true, is_array($delete));
             $this->assertEquals(false, $content);
-         }
+        }
 
     }
-
 
     public function testPages()
     {
@@ -81,12 +80,9 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
 
         //PHPUnit
-        $this->assertEquals(true, intval($parent_page)>0);
-        $this->assertEquals(true, intval($sub_page)>0);
+        $this->assertEquals(true, intval($parent_page) > 0);
+        $this->assertEquals(true, intval($sub_page) > 0);
         $this->assertEquals(true, is_array($get_sub_page));
-
-
-
 
 
     }
@@ -116,34 +112,42 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             // 'debug' => 1,
             'is_active' => 'y');
         //saving
-        $parent_page = save_content($params);
+        $parent_page_id = save_content($params);
+        $parent_page_data = get_content_by_id($parent_page_id);
 
 
         $params = array(
-            'debug' => 1,
-            'id' => '0',
+          //  'id' => '0',
             'title' => 'Test Category 1',
-            'content_id' => $parent_page
-         );
+            'parent_page' => $parent_page_id
+        );
         //saving
-        $category = save_category($params);
-        d($category);
-
-        $category_data=get_category_by_id($category);
-        d($category_data);
+        $category_id = save_category($params);
 
 
+        $category_data = get_category_by_id($category_id);
 
+        $category_page = get_page_for_category($category_data['id']);
 
+        $delete_category = delete_category($category_id);
 
+        $delete_page = delete_content($parent_page_id);
+
+        $deleted_page = get_content_by_id($parent_page_id);
 
 
 
         //PHPUnit
-        $this->assertEquals(true, intval($parent_page)>0);
-        $this->assertEquals(true, intval($category)>0);
+        $this->assertEquals(true, intval($parent_page_id) > 0);
+        $this->assertEquals(true, intval($category_id) > 0);
         $this->assertEquals(true, is_array($category_data));
+        $this->assertEquals(true, is_array($category_page));
+        $this->assertEquals($category_page['title'], $parent_page_data['title']);
 
+
+        $this->assertEquals($category_id, $delete_category);
+        $this->assertEquals(false, $deleted_page);
+        $this->assertEquals(true, is_array($delete_page));
         /*
 
 

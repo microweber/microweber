@@ -174,12 +174,12 @@ function content_parents($id = 0, $without_main_parent = false)
 {
     return mw('content')->get_parents($id, $without_main_parent);
 }
+
 function get_content_children($id = 0, $without_main_parent = false)
 {
 
     return mw('content')->get_children($id, $without_main_parent);
 }
-
 
 
 function page_link($id = false)
@@ -277,7 +277,6 @@ function content_data($content_id, $field_name = false)
 }
 
 
-
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
 {
     return mw('fields')->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
@@ -288,46 +287,6 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
     return mw('fields')->make($field_id, $field_type, $settings);
 }
 
-function template_dir()
-{
-
-    return mw('content')->template_dir();
-
-}
-
-
-function template_url()
-{
-    return mw('content')->template_url();
-
-}
-
-
-function template_name()
-{
-
-    return mw('content')->template_name();
-}
-
-
-function template_header($script_src)
-{
-    return mw('content')->template_header($script_src);
-}
-
-function template_headers_src()
-{
-    return mw('content')->template_header(true);
-
-}
-
-
-api_expose('current_template_save_custom_css');
-function current_template_save_custom_css($data)
-{
-    return mw('layouts')->template_save_css($data);
-
-}
 
 function is_post()
 {
