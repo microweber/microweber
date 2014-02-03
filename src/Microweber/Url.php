@@ -199,6 +199,10 @@ class Url
                 }
             }
         }
+
+        if ($u == false and $this->current_url_var != false) {
+            $u = $this->current_url_var;
+        }
         if ($u == false) {
 
             if (!isset($_SERVER['REQUEST_URI'])) {
@@ -221,9 +225,7 @@ class Url
                 $u = $protocol . "://" . $_SERVER['HOSTNAME'] . $port . $serverrequri;
             }
         }
-        if ($u == false) {
-            $u = $this->current_url_var;
-        }
+
         if ($no_get == true) {
             $u = strtok($u, '?');
         }

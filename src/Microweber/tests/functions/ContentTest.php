@@ -15,7 +15,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     public function testPosts()
     {
 
-
         $params = array(
             'title' => 'this-is-my-test-post',
             'content_type' => 'post',
@@ -107,8 +106,10 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             'subtype' => 'dynamic',
             // 'debug' => 1,
             'is_active' => 'y');
+
         //saving
         $parent_page_id = save_content($params);
+
         $parent_page_data = get_content_by_id($parent_page_id);
 
 
@@ -117,6 +118,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             'title' => 'Test Category 1',
             'parent_page' => $parent_page_id
         );
+
         //saving
         $category_id = save_category($params);
 
@@ -139,49 +141,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($category_id, $delete_category);
         $this->assertEquals(false, $deleted_page);
         $this->assertEquals(true, is_array($delete_page));
-
-
-
-        /*
-
-
-
-                content_categories($content_id );
-                category_link($id)
-      get_categories($data)
-        get_category_by_id($id = 0)
-        delete_category($data)
-        reorder_categories($data)
-        get_category_children($parent_id = 0
-        get_page_for_category($category_id)
-         get_category_items($category_id)
-
-
-
-        get_menu($params = false)
-add_new_menu($data_to_save)
- menu_delete($id = false)
-delete_menu_item($id)
- get_menu_item($id)
-edit_menu_item($data_to_save)
-reorder_menu_items($data)
-menu_tree($menu_id, $maxdepth = false)
-        is_in_menu($menu_id = false, $content_id = false)
-        add_content_to_menu($content_id, $menu_id = false)
-
-
-
-         get_content($params = false)
-                content_categories($content_id );
-               get_content_children($id = 0, $without_main_parent = false)
-        content_data($content_id, $field_name = false)
-                get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
-
-        site_templates($options = false)
-
-
-
-              */
 
     }
 

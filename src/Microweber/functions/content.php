@@ -209,22 +209,13 @@ function save_edit($post_data)
 /**
  * Function to save content into the content_table
  *
- * @param
- *            array
+ * @param array|string $data data to save
  *
- * @param
- *            boolean
- *
+ * @param bool $delete_the_cache
  * @return string | the id saved
- *
- *
  * @version 1.0
- *
- * @since Version 1.0
- *
+ * @since Version 0.1
  */
-//api_expose('save_content');
-
 function save_content($data, $delete_the_cache = true)
 {
 
