@@ -85,12 +85,20 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $sub_page_parents = content_parents($get_sub_page['id']);
 
+
+        //clean
+        $delete_parent = delete_content($parent_page);
+        $delete_sub_page = delete_content($sub_page);
+
+
         //PHPUnit
         $this->assertEquals(true, in_array($parent_page,$sub_page_parents));
         $this->assertEquals(true, strval($page_link) != '');
         $this->assertEquals(true, intval($parent_page) > 0);
         $this->assertEquals(true, intval($sub_page) > 0);
         $this->assertEquals(true, is_array($get_sub_page));
+        $this->assertEquals(true, is_array($delete_parent));
+        $this->assertEquals(true, is_array($delete_sub_page));
 
     }
 

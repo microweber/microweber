@@ -2432,7 +2432,7 @@ class Db
         }
 
         $this->q($q);
-
+       // $this->results_map = array();
         if ($id_to_return == false) {
             $id_to_return = $this->last_id($table);
         }

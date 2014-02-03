@@ -17,7 +17,6 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         $option['option_group'] = 'unit_tests';
 
         $save_option = save_option($option);
-
         $get_option = get_option('my_unit_test', 'unit_tests');
 
         //PHPUnit
