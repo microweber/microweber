@@ -5,6 +5,7 @@ namespace FunctionsTest;
 
 class ContentTest extends \PHPUnit_Framework_TestCase
 {
+
     function __construct()
     {
       //  cache_clear('db');
@@ -45,8 +46,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             //PHPUnit
             $this->assertEquals(true, is_array($delete));
             $this->assertEquals(false, $content);
-
-        }
+         }
 
     }
 
@@ -83,7 +83,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         //PHPUnit
         $this->assertEquals(true, intval($parent_page)>0);
         $this->assertEquals(true, intval($sub_page)>0);
-
         $this->assertEquals(true, is_array($get_sub_page));
 
 
@@ -109,6 +108,42 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     public function testCategories()
     {
+
+        $params = array(
+            'title' => 'My categories page',
+            'content_type' => 'page',
+            'subtype' => 'dynamic',
+            // 'debug' => 1,
+            'is_active' => 'y');
+        //saving
+        $parent_page = save_content($params);
+
+
+        $params = array(
+            'debug' => 1,
+            'id' => '0',
+            'title' => 'Test Category 1',
+            'content_id' => $parent_page
+         );
+        //saving
+        $category = save_category($params);
+        d($category);
+
+        $category_data=get_category_by_id($category);
+        d($category_data);
+
+
+
+
+
+
+
+
+        //PHPUnit
+        $this->assertEquals(true, intval($parent_page)>0);
+        $this->assertEquals(true, intval($category)>0);
+        $this->assertEquals(true, is_array($category_data));
+
         /*
 
 

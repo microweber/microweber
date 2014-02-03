@@ -273,8 +273,7 @@ class Application
 
     public function get($provider, $args = null)
     {
-        // A.k.a call
-        return $this->call($provider, $args);
+       return $this->call($provider, $args);
     }
 
     public function call($provider, $args = null)

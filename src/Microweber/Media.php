@@ -20,14 +20,13 @@ class Media
 {
 
     public $app;
-
+    public $tables = array();
+    public $table_prefix = false;
     function __construct($app = null)
     {
 
 
-        if (!defined("MW_DB_TABLE_MEDIA") and defined('MW_TABLE_PREFIX')) {
-            define('MW_DB_TABLE_MEDIA', MW_TABLE_PREFIX . 'media');
-        }
+     
 
 
         if (!is_object($this->app)) {
@@ -40,6 +39,11 @@ class Media
 
         }
 
+        $prefix = $this->app->config('table_prefix');
+        if (!defined("MW_DB_TABLE_MEDIA") and defined('MW_TABLE_PREFIX')) {
+            define('MW_DB_TABLE_MEDIA', $prefix . 'media');
+        }
+        $this->tables['media'] = $prefix . 'media';
 
     }
 
@@ -77,20 +81,6 @@ class Media
                     } else {
                         return $img;
                         return false;
-                        // $src = $img;
-                        // $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
-                        //
-                        // if (!file_exists($dl_file)) {
-                        // $is_dl = $this->app->url->download($src, false, $dl_file);
-                        // } else {
-                        // $is_dl = 1;
-                        // }
-                        // if ($is_dl == true) {
-                        // $src = $dl_file;
-                        // return $src;
-                        // } else {
-                        //
-                        // }
 
                     }
 
@@ -288,7 +278,7 @@ class Media
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
-        $table = MW_DB_TABLE_MEDIA;
+        $table = $this->tables['media'];
         foreach ($data as $value) {
             if (is_array($value)) {
                 $indx = array();
@@ -424,12 +414,12 @@ class Media
         // ->'content';
         if (isset($s['rel']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);
-            $table = MW_DB_TABLE_MEDIA;
+            $table = $this->tables['media'];
             //$s['debug'] = $t;
             $s = $this->app->db->save($table, $s);
             return ($s);
         } elseif (isset($s['id']) and isset($s['title'])) {
-            $table = MW_DB_TABLE_MEDIA;
+            $table = $this->tables['media'];
             //$s['debug'] = $t;
             $s = $this->app->db->save($table, $s);
             return ($s);
@@ -800,7 +790,7 @@ class Media
     public function get($params)
     {
 
-        $table = MW_DB_TABLE_MEDIA;
+        $table = $this->tables['media'];
         $params = parse_params($params);
         /*
          // if (is_string($params)) {

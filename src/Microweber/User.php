@@ -1,32 +1,26 @@
 <?php
 namespace Microweber;
 
-//event_bind('mw_db_init', mw('Microweber\User')->db_init());
 
 class User
 {
 
     public $app;
+    public $tables = array();
+    public $table_prefix = false;
 
     function __construct($app = null)
     {
-        if (!defined("MW_DB_TABLE_USERS")) {
-            define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
-        }
-        if (!defined("MW_DB_TABLE_LOG")) {
-            define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
-        }
-        if (!is_object($this->app)) {
 
+        if (!is_object($this->app)) {
             if (is_object($app)) {
                 $this->app = $app;
             } else {
                 $this->app = mw('application');
             }
-
         }
 
-
+        $this->set_table_names();
         if (!defined("MW_DB_USER_INIT")) {
             define('MW_DB_USER_INIT', 1);
             $this->db_init();
@@ -34,18 +28,53 @@ class User
 
     }
 
-    public function db_init()
+    public function set_table_names($tables = false)
     {
-        $function_cache_id = false;
 
-        $args = func_get_args();
 
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        if (!isset($tables['prefix'])) {
+            $prefix = $this->table_prefix;
+        } else {
+            $prefix = $tables['prefix'];
         }
 
-        $function_cache_id = 'users' . __FUNCTION__ . crc32($function_cache_id);
+        if ($prefix == false) {
+            $prefix = $this->app->config('table_prefix');
+        }
+
+        if ($prefix == false and defined("MW_TABLE_PREFIX")) {
+            $prefix = MW_TABLE_PREFIX;
+        }
+        if (!is_array($tables)) {
+            $tables = array();
+        }
+        if (!isset($tables['users'])) {
+            $tables['users'] = $prefix . 'users';
+        }
+        if (!isset($tables['log'])) {
+            $tables['log'] = $prefix . 'log';
+        }
+        $this->table_prefix = $prefix;
+        $this->tables = $tables;
+        /**
+         * Define table names constants for global default usage
+         */
+        if (!defined("MW_DB_TABLE_USERS")) {
+            define('MW_DB_TABLE_USERS', $tables['users']);
+        }
+        if (!defined("MW_DB_TABLE_LOG")) {
+            define('MW_DB_TABLE_LOG', $tables['log']);
+        }
+
+
+    }
+
+    public function db_init()
+    {
+
+        $function_cache_id = serialize($this->tables);
+
+        $function_cache_id = 'users' . __FUNCTION__ . crc32($function_cache_id . $this->table_prefix);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -54,7 +83,7 @@ class User
             return $cache_content;
         }
 
-        $table_name = MW_DB_TABLE_USERS;
+        $table_name = $this->tables['users'];
 
         $fields_to_add = array();
 
@@ -108,7 +137,7 @@ class User
         $this->app->db->add_table_index('email', $table_name, array('email(255)'));
 
 
-        $table_name = MW_DB_TABLE_LOG;
+        $table_name = $this->tables['log'];
 
         $fields_to_add = array();
 
@@ -503,11 +532,11 @@ class User
 
                 $data = array();
                 $data['email'] = $email;
-               // $data['password'] = $pass;
-              //  $data['oauth_uid'] = '[null]';
-               // $data['oauth_provider'] = '[null]';
+                // $data['password'] = $pass;
+                //  $data['oauth_uid'] = '[null]';
+                // $data['oauth_provider'] = '[null]';
                 $data['one'] = true;
-				$data['no_cache'] = true;
+                $data['no_cache'] = true;
                 // $data ['is_active'] = 'y';
                 $user_data = $this->get_all($data);
 
@@ -516,15 +545,15 @@ class User
 
                     $data = array();
                     $data['username'] = $email;
-                  //  $data['password'] = $pass;
-                  //  $data['oauth_uid'] = '[null]';
-                  //  $data['oauth_provider'] = '[null]';
+                    //  $data['password'] = $pass;
+                    //  $data['oauth_uid'] = '[null]';
+                    //  $data['oauth_provider'] = '[null]';
                     $data['one'] = true;
-					$data['no_cache'] = true;
+                    $data['no_cache'] = true;
                     // $data ['is_active'] = 'y';
                     $user_data = $this->get_all($data);
                 }
-			 
+
 
                 if (empty($user_data)) {
                     $data = array();
@@ -542,7 +571,7 @@ class User
                     $q = "INSERT INTO $table (id,email, password, is_active)
 			VALUES ($next, '$email', '$pass', 'y')";
 
- 
+
                     $this->app->db->q($q);
                     $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
                     //$data = save_user($data);
@@ -594,6 +623,61 @@ class User
         }
 
 
+    }
+
+    public function hash_pass($pass)
+    {
+
+        // Currently only md5 is supported for portability
+        // Will improve this soon!
+
+        //$hash = password_hash($pass, PASSWORD_BCRYPT);
+        //
+        $hash = md5($pass);
+        if ($hash == false) {
+            $hash = $this->app->db->escape_string($hash);
+            return $pass;
+        }
+        return $hash;
+
+    }
+
+    public function session_get($name)
+    {
+        if (!defined('MW_NO_SESSION')) {
+            if (!headers_sent()) {
+                if (!isset($_SESSION)) {
+                    //return false;
+                    $start = session_start();
+                    if ($start == false) {
+
+                        session_regenerate_id();
+
+                        $start = session_id();
+                    }
+                    //d($_SESSION);
+                    $_SESSION['ip'] = MW_USER_IP;
+                }
+            }
+            // probable timout here?!
+        }
+        //
+        if (isset($_SESSION) and isset($_SESSION[$name])) {
+
+
+            if (!isset($_SESSION['ip'])) {
+                $_SESSION['ip'] = MW_USER_IP;
+            } else if ($_SESSION['ip'] != MW_USER_IP) {
+
+                // mw('user')->session_end();
+                return false;
+            }
+
+            $value = ($_SESSION[$name]);
+            return $value;
+        } else {
+            return false;
+        }
     }
 
     public function session_del($name)
@@ -995,8 +1079,8 @@ class User
             $data_to_save['last_login'] = date("Y-m-d H:i:s");
             $data_to_save['last_login_ip'] = MW_USER_IP;
 
-            $table = MW_DB_TABLE_USERS;
-            mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
+            $table = $this->tables['users'];
+            mw_var("FORCE_SAVE", $this->tables['users']);
             $save = $this->app->db->save($table, $data_to_save);
 
             $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
@@ -1088,7 +1172,7 @@ class User
                 mw_var('save_user_no_pass_hash', false);
             }
         }
-        $table = MW_DB_TABLE_USERS;
+        $table = $this->tables['users'];
         $save = $this->app->db->save($table, $data_to_save);
         $id = $save;
         $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
@@ -1150,7 +1234,7 @@ class User
         $data1 = array();
         $data1['id'] = intval($params['id']);
         $data1['password_reset_hash'] = $this->app->db->escape_string($params['password_reset_hash']);
-        $table = MW_DB_TABLE_USERS;
+        $table = $this->tables['users'];
 
         $check = $this->get_all("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
         if (!is_array($check)) {
@@ -1179,140 +1263,6 @@ class User
         $this->app->log->save($notif);
 
         return array('success' => 'Your password have been changed!');
-
-    }
-
-    public function session_get($name)
-    {
-        if (!defined('MW_NO_SESSION')) {
-            if (!headers_sent()) {
-                if (!isset($_SESSION)) {
-                    //return false;
-                    $start = session_start();
-                    if ($start == false) {
-
-                        session_regenerate_id();
-
-                        $start = session_id();
-                    }
-                    //d($_SESSION);
-                    $_SESSION['ip'] = MW_USER_IP;
-                }
-            }
-            // probable timout here?!
-        }
-        //
-        if (isset($_SESSION) and isset($_SESSION[$name])) {
-
-
-            if (!isset($_SESSION['ip'])) {
-                $_SESSION['ip'] = MW_USER_IP;
-            } else if ($_SESSION['ip'] != MW_USER_IP) {
-
-                // mw('user')->session_end();
-                return false;
-            }
-
-            $value = ($_SESSION[$name]);
-            return $value;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * @function get_users
-     *
-     * @param $params array|string;
-     * @params $params['username'] string username for user
-     * @params $params['email'] string email for user
-     * @params $params['password'] string password for user
-     *
-     *
-     * @usage $this->get_all('email=my_email');
-     *
-     *
-     * @return array of users;
-     */
-    public function get_all($params)
-    {
-        $params = parse_params($params);
-
-        $table = MW_DB_TABLE_USERS;
-
-        $data = $this->app->format->clean_html($params);
-        $orig_data = $data;
-
-        if (isset($data['ids']) and is_array($data['ids'])) {
-            if (!empty($data['ids'])) {
-                $ids = $data['ids'];
-            }
-        }
-        if (!isset($params['search_in_fields'])) {
-            $data['search_in_fields'] = array('first_name', 'last_name', 'username', 'email');
-            // $data ['debug'] = 1;
-        }
-
-        $cache_group = 'users/global';
-        if (isset($data['id']) and intval($data['id']) != 0) {
-            $cache_group = 'users/' . $data['id'];
-        } else {
-
-        }
-        $cache_group = 'users/global';
-        if (isset($limit) and $limit != false) {
-            $data['limit'] = $limit;
-        }
-
-        if (isset($count_only) and $count_only != false) {
-            $data['get_count'] = $count_only;
-        }
-
-        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
-            $only_those_fields = $data['only_those_fields'];
-        }
-
-        if (isset($data['count']) and $data['count']) {
-            $count_only = $data['count'];
-        }
-
-        //$data ['no_cache'] = 1;
-
-        if (isset($data['username']) and $data['username'] == null) {
-            unset($data['username']);
-        }
-        if (isset($data['username']) and $data['username'] == '') {
-            //return false;
-        }
-
-        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $data['table'] = $table;
-        //  $data ['cache_group'] = $cache_group;
-
-        $get = $this->app->db->get($data);
-
-        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // var_dump($get, $function_cache_id, $cache_group);
-        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
-
-        return $get;
-    }
-
-    public function hash_pass($pass)
-    {
-
-        // Currently only md5 is supported for portability
-        // Will improve this soon!
-
-        //$hash = password_hash($pass, PASSWORD_BCRYPT);
-        //
-        $hash = md5($pass);
-        if ($hash == false) {
-            $hash = $this->app->db->escape_string($hash);
-            return $pass;
-        }
-        return $hash;
 
     }
 
@@ -1387,7 +1337,7 @@ class User
                             $data_to_save['id'] = $data_res['id'];
                             $data_to_save['password_reset_hash'] = $function_cache_id;
 
-                            $table = MW_DB_TABLE_USERS;
+                            $table = $this->tables['users'];
                             mw_var('FORCE_SAVE', $table);
 
                             $save = $this->app->db->save($table, $data_to_save);
@@ -1475,7 +1425,7 @@ class User
                         $data_to_save['is_active'] = 'y';
                         $data_to_save['is_admin'] = 'n';
 
-                        $table = MW_DB_TABLE_USERS;
+                        $table = $this->tables['users'];
                         mw_var('FORCE_SAVE', $table);
 
                         $save = $this->app->db->save($table, $data_to_save);
@@ -1586,6 +1536,85 @@ class User
         $data = $this->get_all($options);
 
         return $data;
+    }
+
+    /**
+     * @function get_users
+     *
+     * @param $params array|string;
+     * @params $params['username'] string username for user
+     * @params $params['email'] string email for user
+     * @params $params['password'] string password for user
+     *
+     *
+     * @usage $this->get_all('email=my_email');
+     *
+     *
+     * @return array of users;
+     */
+    public function get_all($params)
+    {
+        $params = parse_params($params);
+
+        $table = $this->tables['users'];
+
+        $data = $this->app->format->clean_html($params);
+        $orig_data = $data;
+
+        if (isset($data['ids']) and is_array($data['ids'])) {
+            if (!empty($data['ids'])) {
+                $ids = $data['ids'];
+            }
+        }
+        if (!isset($params['search_in_fields'])) {
+            $data['search_in_fields'] = array('first_name', 'last_name', 'username', 'email');
+            // $data ['debug'] = 1;
+        }
+
+        $cache_group = 'users/global';
+        if (isset($data['id']) and intval($data['id']) != 0) {
+            $cache_group = 'users/' . $data['id'];
+        } else {
+
+        }
+        $cache_group = 'users/global';
+        if (isset($limit) and $limit != false) {
+            $data['limit'] = $limit;
+        }
+
+        if (isset($count_only) and $count_only != false) {
+            $data['get_count'] = $count_only;
+        }
+
+        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
+            $only_those_fields = $data['only_those_fields'];
+        }
+
+        if (isset($data['count']) and $data['count']) {
+            $count_only = $data['count'];
+        }
+
+        //$data ['no_cache'] = 1;
+
+        if (isset($data['username']) and $data['username'] == null) {
+            unset($data['username']);
+        }
+        if (isset($data['username']) and $data['username'] == '') {
+            //return false;
+        }
+
+        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $data['table'] = $table;
+        //  $data ['cache_group'] = $cache_group;
+
+        $get = $this->app->db->get($data);
+
+        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        // var_dump($get, $function_cache_id, $cache_group);
+        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
+
+        return $get;
     }
 
     function social_login_exception_handler($exception = false)

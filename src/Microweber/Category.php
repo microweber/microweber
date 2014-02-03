@@ -12,16 +12,11 @@ api_expose('category/delete');
 class Category
 {
     public $app;
+    public $tables = array();
+    public $table_prefix = false;
 
     function __construct($app = null)
     {
-        if (!defined("MW_DB_TABLE_TAXONOMY")) {
-            define('MW_DB_TABLE_TAXONOMY', MW_TABLE_PREFIX . 'categories');
-        }
-
-        if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
-            define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
-        }
 
 
         if (!is_object($this->app)) {
@@ -34,7 +29,21 @@ class Category
 
         }
 
+        $prefix = $this->app->config('table_prefix');
+        $this->tables = $this->app->content->tables;
+        if (!isset($this->tables['categories'])) {
+            $this->tables['categories'] = $prefix . 'categories';
+        }
+        if (!isset($this->tables['categories_items'])) {
+            $this->tables['categories_items'] = $prefix . 'categories_items';
+        }
+        if (!defined("MW_DB_TABLE_TAXONOMY")) {
+            define('MW_DB_TABLE_TAXONOMY', $this->tables['categories']);
+        }
 
+        if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
+            define('MW_DB_TABLE_TAXONOMY_ITEMS', $this->tables['categories_items']);
+        }
     }
 
     /**
@@ -200,7 +209,7 @@ class Category
             $orderby = false;
         }
 
-        $table = MW_DB_TABLE_TAXONOMY;
+        $table = $this->tables['categories'];
         if (isset($params['content_id'])) {
             $params['for_page'] = $params['content_id'];
 
@@ -319,9 +328,9 @@ class Category
     public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false)
     {
 
-        $db_t_content = MW_TABLE_PREFIX . 'content';
+        $db_t_content = $this->tables['content'];
 
-        $table = $db_categories = MW_DB_TABLE_TAXONOMY;
+        $table = $db_categories = $this->tables['categories'];
 
         if ($parent == false) {
 
@@ -700,7 +709,7 @@ class Category
 
             return $cache_content;
         } else {
-            $table = MW_DB_TABLE_TAXONOMY;
+            $table = $this->tables['categories'];
             $c_infp = $this->get_by_id($id);
             if (!isset($c_infp['rel'])) {
                 return;
@@ -765,8 +774,8 @@ class Category
             }
             //$this->load->model ( 'Content_model', 'content_model' );
 
-            $table = MW_DB_TABLE_TAXONOMY;
-            $db_t_content = MW_TABLE_PREFIX . 'content';
+            $table = $this->tables['categories'];
+            $db_t_content = $this->tables['content'];
 
             $content = array();
 
@@ -902,7 +911,7 @@ class Category
             return FALSE;
         }
 
-        $table = MW_DB_TABLE_TAXONOMY;
+        $table = $this->tables['categories'];
 
         $ids = array();
 
@@ -966,9 +975,9 @@ class Category
         $categories_id = intval($parent_id);
         $cache_group = 'categories/' . $categories_id;
 
-        $table = MW_DB_TABLE_TAXONOMY;
+        $table = $this->tables['categories'];
 
-        $db_t_content = MW_TABLE_PREFIX . 'content';
+        $db_t_content = $this->tables['content'];
 
         if (isset($orderby) == false) {
             $orderby = array();
@@ -1077,8 +1086,8 @@ class Category
             return $cache_content;
         }
 
-        $table = MW_DB_TABLE_TAXONOMY;
-        $table_items = MW_DB_TABLE_TAXONOMY_ITEMS;
+        $table = $this->tables['categories'];
+        $table_items = $this->tables['categories_items'];
 
         $data = array();
 
@@ -1123,7 +1132,7 @@ class Category
             $params = parse_str($params, $params2);
             $params = $options = $params2;
         }
-        $table_items = MW_DB_TABLE_TAXONOMY_ITEMS;
+        $table_items = $this->tables['categories_items'];
         $data = $params;
         if ($data_type == 'categories') {
             $data['data_type'] = 'category_item';
@@ -1149,8 +1158,8 @@ class Category
             $rel_id = $params['rel_id'];
         }
 
-        $table = MW_DB_TABLE_TAXONOMY;
-        $table_items = MW_DB_TABLE_TAXONOMY_ITEMS;
+        $table = $this->tables['categories'];
+        $table_items = $this->tables['categories_items'];
 
         $data = $params;
         $data_type_q = false;
@@ -1173,11 +1182,13 @@ class Category
 
         $adm = $this->app->user->is_admin();
         if ($adm == false) {
-            mw_error('Ony admin can save category');
+            if (defined('MW_API_CALL')) {
+                return array('error' => 'Only admin can save category');
+            }
         }
 
-        $table = MW_TABLE_PREFIX . 'categories';
-        $table_items = MW_TABLE_PREFIX . 'categories_items';
+        $table = $this->tables['categories'];
+        $table_items = $this->tables['categories_items'];
 
         $content_ids = false;
 
@@ -1213,7 +1224,7 @@ class Category
                 $cs = array();
                 $cs['id'] = intval($data['rel_id']);
                 $cs['subtype'] = 'dynamic';
-                $table_c = MW_TABLE_PREFIX . 'content';
+                $table_c = $this->tables['content'];
                 $save = $this->app->db->save($table_c, $cs);
             }
 
@@ -1246,7 +1257,7 @@ class Category
             return false;
         }
 
-        $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
+        $custom_field_table = $this->tables['custom_fields'];
 
         $sid = session_id();
 
@@ -1265,7 +1276,7 @@ class Category
         $this->app->db->q($clean);
         $this->app->cache->clear('custom_fields');
 
-        $media_table = MW_TABLE_PREFIX . 'media';
+        $media_table = $this->tables['media'];
 
         $clean = " UPDATE $media_table SET
 
@@ -1364,7 +1375,7 @@ class Category
             return $cache_content;
         }
 
-        $table = MW_DB_TABLE_TAXONOMY;
+        $table = $this->tables['categories'];
 
         $id = intval($id);
 
@@ -1390,19 +1401,19 @@ class Category
 
         $adm = $this->app->user->is_admin();
         if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            return false;
         }
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->db->delete_by_id('categories', $c_id);
+            $del = $this->app->db->delete_by_id('categories', $c_id);
             $this->app->db->delete_by_id('categories', $c_id, 'parent_id');
             $this->app->db->delete_by_id('categories_items', $c_id, 'parent_id');
             if (defined("MODULE_DB_MENUS")) {
                 $this->app->db->delete_by_id('menus', $c_id, 'categories_id');
             }
 
-
+            return $del;
         }
     }
 
@@ -1414,7 +1425,7 @@ class Category
             return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
         }
 
-        $table = MW_TABLE_PREFIX . 'categories';
+        $table = $this->tables['categories'];
         foreach ($data as $value) {
             if (is_array($value)) {
                 $indx = array();
