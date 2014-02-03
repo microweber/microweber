@@ -98,7 +98,6 @@ function get_page_for_category($category_id)
 }
 
 
-
 /**
  * category_tree
  *
@@ -128,9 +127,6 @@ function category_tree($params = false)
 
     return mw('category')->tree($params);
 }
-
-
-
 
 
 function get_category_items($category_id)

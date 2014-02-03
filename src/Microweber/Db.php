@@ -83,7 +83,7 @@ class Db
             return false;
         }
 
-        $q = "DELETE FROM $table_real WHERE {$field_name}='$id' ";
+        $q = "DELETE FROM $table_real WHERE {$field_name}={$id} ";
 
         $cache_group = $this->assoc_table_name($table);
 
@@ -98,7 +98,6 @@ class Db
         $q = "DELETE FROM $table1 WHERE rel_id='$id'  AND  rel='$table'  ";
 
         $q = $this->q($q);
-        //  $this->app->cache->delete('categories');
 
         $q = "DELETE FROM $table_items WHERE rel_id='$id'  AND  rel='$table'  ";
         $q = $this->q($q);

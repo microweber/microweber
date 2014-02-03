@@ -28,9 +28,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $get_post = get_content($params);
 
 
-        //PHPUnit
-        $this->assertEquals(true, $save_post);
-        $this->assertEquals(true, is_array($get_post));
+
 
 
         //delete content
@@ -48,6 +46,12 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(false, $content);
         }
 
+
+
+        //PHPUnit
+        $this->assertEquals(true, $save_post);
+        $this->assertEquals(true, is_array($get_post));
+
     }
 
     public function testPages()
@@ -60,6 +64,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         //saving
         $parent_page = save_content($params);
 
+        $page_link = content_link($parent_page);
+
 
         $params = array(
             'title' => 'My test sub page',
@@ -69,40 +75,30 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             'is_active' => 'y');
         $sub_page = save_content($params);
 
-
         //getting
         $params = array(
             'parent' => $parent_page,
             'content_type' => 'page',
+            'single' => true,
             // 'debug' => 1,
             'is_active' => 'y');
         $get_sub_page = get_content($params);
 
+        $sub_page_parents = content_parents($get_sub_page['id']);
 
         //PHPUnit
+        $this->assertEquals(true, in_array($parent_page,$sub_page_parents));
+        $this->assertEquals(true, strval($page_link) != '');
         $this->assertEquals(true, intval($parent_page) > 0);
         $this->assertEquals(true, intval($sub_page) > 0);
         $this->assertEquals(true, is_array($get_sub_page));
 
-
     }
+
+
+
 
     public function testContentCategories()
-    {
-        /*
-         get_content($params = false)
-                content_categories($content_id );
-               get_content_children($id = 0, $without_main_parent = false)
-        content_data($content_id, $field_name = false)
-                get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
-
-        site_templates($options = false)
-
-        */
-
-    }
-
-    public function testCategories()
     {
 
         $params = array(
@@ -124,17 +120,12 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         //saving
         $category_id = save_category($params);
 
-
         $category_data = get_category_by_id($category_id);
-
         $category_page = get_page_for_category($category_data['id']);
 
         $delete_category = delete_category($category_id);
-
         $delete_page = delete_content($parent_page_id);
-
         $deleted_page = get_content_by_id($parent_page_id);
-
 
 
         //PHPUnit
@@ -148,7 +139,11 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($category_id, $delete_category);
         $this->assertEquals(false, $deleted_page);
         $this->assertEquals(true, is_array($delete_page));
+
+
+
         /*
+
 
 
                 content_categories($content_id );
@@ -173,6 +168,17 @@ reorder_menu_items($data)
 menu_tree($menu_id, $maxdepth = false)
         is_in_menu($menu_id = false, $content_id = false)
         add_content_to_menu($content_id, $menu_id = false)
+
+
+
+         get_content($params = false)
+                content_categories($content_id );
+               get_content_children($id = 0, $without_main_parent = false)
+        content_data($content_id, $field_name = false)
+                get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
+
+        site_templates($options = false)
+
 
 
               */
