@@ -25,8 +25,8 @@ class Option
 
         }
         $this->set_table_names();
-        if (!defined("$this->tables['options']")) {
-
+        if (!defined("MW_DB_TABLE_OPTIONS_INIT")) {
+            define('MW_DB_TABLE_OPTIONS_INIT', 1);
             $this->db_init();
         }
     }

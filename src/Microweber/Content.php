@@ -4408,7 +4408,6 @@ class Content
         $to_untrash = false;
 
         if (defined('MW_API_CALL')) {
-
             $to_trash = true;
             $adm = $this->app->user->is_admin();
             if ($adm == false) {
@@ -4420,9 +4419,6 @@ class Content
             $del_data = array();
             $del_data['id'] = intval($data);
             $data = $del_data;
-          //  d($to_trash);
-            //$del_data['forever'] = intval($data);
-
         }
 
 
@@ -4432,10 +4428,8 @@ class Content
             $to_trash = false;
         }
         if (isset($data['undelete'])) {
-
             $to_trash = true;
             $to_untrash = true;
-
         }
 
         $del_ids = array();
