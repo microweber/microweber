@@ -1941,6 +1941,13 @@ d($q);
     {
 
         $assoc_name_new = $assoc_name;
+
+
+        if($this->table_prefix == false){
+            $this->table_prefix = $this->app->config('table_prefix');
+        }
+
+
         if ($this->table_prefix != false) {
             $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
         } else if (defined('MW_TABLE_PREFIX')) {
