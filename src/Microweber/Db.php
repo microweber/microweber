@@ -88,7 +88,7 @@ class Db
         }
         $this->results_map = array();
         $q = "DELETE FROM $table_real WHERE {$field_name}={$id} ";
-
+d($q);
         $cache_group = $this->assoc_table_name($table);
 
         $this->app->cache->delete($cache_group.'/'.$id);
