@@ -429,6 +429,7 @@ class Shop
 
             $posted_fields = array();
             $place_order = array();
+            $place_order['id'] = false;
             //$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
 
             $return_url_after = '';
@@ -543,6 +544,7 @@ class Shop
 
 
                 $ord = $this->app->db->save($table_orders, $place_order);
+                $place_order['id'] =$ord;
 
                 $q = " UPDATE $cart_table SET
 		order_id='{$ord}'
@@ -587,7 +589,11 @@ class Shop
             }
 
         }
+
+
+
         if (!empty($checkout_errors)) {
+
             return array('error' => $checkout_errors);
         }
 
@@ -846,7 +852,7 @@ class Shop
     {
 
         if (!isset($data['id'])) {
-            mw_error('Invalid data');
+            $this->app->error('Invalid data');
         }
         if (!session_id() and !headers_sent()) {
             session_start();
@@ -875,11 +881,11 @@ class Shop
     {
 
         if (!isset($data['id'])) {
-            mw_error('Invalid data');
+            $this->app->error('Invalid data');
         }
 
         if (!isset($data['qty'])) {
-            mw_error('Invalid data');
+            $this->app->error('Invalid data');
         }
         if (!session_id() and !headers_sent()) {
             session_start();
@@ -914,6 +920,113 @@ class Shop
         }
     }
 
+    public function get_cart($params = false)
+    {
+
+        $params2 = array();
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+        $table = $this->tables['cart'];
+        $params['table'] = $table;
+
+        if (!defined('MW_ORDERS_SKIP_SID')) {
+
+            if ($this->app->user->is_admin() == false) {
+                $params['session_id'] = session_id();
+
+            } else {
+                if (isset($params['session_id']) and $this->app->user->is_admin() == true) {
+
+                } else {
+                    $params['session_id'] = session_id();
+
+                }
+            }
+
+            if (isset($params['no_session_id']) and $this->app->user->is_admin() == true) {
+                unset($params['session_id']);
+                //	$params['session_id'] = session_id();
+            } else {
+
+            }
+        }
+        $params['limit'] = 10000;
+        if (!isset($params['order_completed'])) {
+            if (!isset($params['order_id'])) {
+                $params['order_completed'] = 'n';
+            }
+        } elseif (isset($params['order_completed']) and  $params['order_completed'] == 'any') {
+            unset($params['order_completed']);
+        }
+        // $params['debug'] = session_id();
+        if ($this->no_cache == true) {
+            $params['no_cache'] = 1;
+        }
+        $get = $this->app->db->get($params);
+        //return $get;
+
+        $return = array();
+        if (is_array($get)) {
+            foreach ($get as $item) {
+
+                if (isset($item['rel_id']) and isset($item['rel']) and $item['rel'] = 'content') {
+                    $item['content_data'] = $this->app->content->data($item['rel_id']);
+
+
+                }
+
+                if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+
+                    $item = $this->_render_item_custom_fields_data($item);
+
+
+                }
+
+                $return[] = $item;
+
+            }
+
+        } else {
+            $return = $get;
+        }
+
+
+        return $return;
+
+
+    }
+
+    private function _render_item_custom_fields_data($item)
+    {
+        if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+            $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
+
+            $tmp_val = '';
+            if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
+                $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
+                foreach ($item['custom_fields_data'] as $cfk => $cfv) {
+                    if (is_array($cfv)) {
+                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
+                        $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
+                        foreach ($cfv as $cfk1 => $cfv1) {
+                            $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+                        }
+                        $tmp_val .= '</ul>';
+                        $tmp_val .= '</li>';
+                    } else {
+                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
+                    }
+                }
+                $tmp_val .= '</ul>';
+                $item['custom_fields'] = $tmp_val;
+            }
+        }
+        return $item;
+    }
+
     public function update_cart($data)
     {
 
@@ -938,7 +1051,7 @@ class Shop
         }
         if (!isset($data['for']) or !isset($data['for_id'])) {
             if (!isset($data['id'])) {
-                mw_error('Invalid data');
+                $this->app->error('Invalid data');
             } else {
                 $cart = array();
                 $cart['id'] = intval($data['id']);
@@ -963,7 +1076,7 @@ class Shop
 
 
         if (!isset($data['for']) and !isset($data['for_id'])) {
-            mw_error('Invalid for and for_id params');
+            $this->app->error('Invalid for and for_id params');
         }
 
 
@@ -975,7 +1088,7 @@ class Shop
 
         if ($for_id == 0) {
 
-            mw_error('Invalid data');
+            $this->app->error('Invalid data');
         }
         $cont_data = false;
 
@@ -993,7 +1106,7 @@ class Shop
             $cont = $this->app->content->get_by_id($for_id);
             $cont_data = $this->app->content->data($for_id);
             if ($cont == false) {
-                mw_error('Invalid product?');
+                $this->app->error('Invalid product?');
             } else {
                 if (is_array($cont) and isset($cont['title'])) {
                     $data['title'] = $cont['title'];
@@ -1003,26 +1116,27 @@ class Shop
 
         }
 
-
         if (isset($data['title']) and is_string($data['title'])) {
-            //  $data['title'] = html_entity_decode($data['title']);
             $data['title'] = strip_tags($data['title']);
-            // $data['title'] = str_replace('&nbsp;', ' ', $data['title']);
-
         }
+
+        $found_price = false;
+        $add = array();
+        $prices = array();
+
+        $skip_keys = array();
 
 
         $cfs = array();
         $cfs = $this->app->fields->get($for, $for_id, 1);
         if ($cfs == false) {
+            $cfs = $data;
+            if (isset($data['price'])) {
+                $found_price = $data['price'];
+            }
 
-            mw_error('Invalid data');
+            //   $this->app->error('Invalid data');
         }
-
-        $add = array();
-        $prices = array();
-        $found_price = false;
-        $skip_keys = array();
 
 
         if (is_array($cfs)) {
@@ -1130,9 +1244,11 @@ class Shop
             }
             // }
         }
+
+
         if ($found_price == false) {
             // $found_price = 0;
-            mw_error('Invalid data: Please post a "price" field with <input name="price"> ');
+            $this->app->error('Invalid data: Please post a "price" field with <input name="price"> ');
         }
 
         if (is_array($prices)) {
@@ -1144,17 +1260,12 @@ class Shop
             $cart['rel_id'] = intval($data['for_id']);
             $cart['title'] = ($data['title']);
             $cart['price'] = floatval($found_price);
-            //d($add);
-            // if (!empty($add)) {
+
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
-            // }
-            //d($cart['custom_fields_data']);
             $cart['order_completed'] = 'n';
             $cart['session_id'] = session_id();
-            //  $cart['one'] = 1;
             $cart['limit'] = 1;
-            //$cart['debug'] = 1;
-            //     $cart['no_cache'] = 1;
+
             $checkz = $this->get_cart($cart);
 
 
@@ -1193,7 +1304,7 @@ class Shop
             $cart_s = $this->app->db->save($table, $cart);
             return ($cart_s);
         } else {
-            mw_error('Invalid cart items');
+            $this->app->error('Invalid cart items');
         }
 
 
@@ -1508,113 +1619,6 @@ class Shop
 
     }
 
-    private function _render_item_custom_fields_data($item)
-    {
-        if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-            $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
-
-            $tmp_val = '';
-            if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
-                $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
-                foreach ($item['custom_fields_data'] as $cfk => $cfv) {
-                    if (is_array($cfv)) {
-                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
-                        $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
-                        foreach ($cfv as $cfk1 => $cfv1) {
-                            $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
-                        }
-                        $tmp_val .= '</ul>';
-                        $tmp_val .= '</li>';
-                    } else {
-                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
-                    }
-                }
-                $tmp_val .= '</ul>';
-                $item['custom_fields'] = $tmp_val;
-            }
-        }
-        return $item;
-    }
-
-    public function get_cart($params = false)
-    {
-
-        $params2 = array();
-
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        $table = $this->tables['cart'];
-        $params['table'] = $table;
-
-        if (!defined('MW_ORDERS_SKIP_SID')) {
-
-            if ($this->app->user->is_admin() == false) {
-                $params['session_id'] = session_id();
-
-            } else {
-                if (isset($params['session_id']) and $this->app->user->is_admin() == true) {
-
-                } else {
-                    $params['session_id'] = session_id();
-
-                }
-            }
-
-            if (isset($params['no_session_id']) and $this->app->user->is_admin() == true) {
-                unset($params['session_id']);
-                //	$params['session_id'] = session_id();
-            } else {
-
-            }
-        }
-        $params['limit'] = 10000;
-        if (!isset($params['order_completed'])) {
-            if (!isset($params['order_id'])) {
-                $params['order_completed'] = 'n';
-            }
-        } elseif (isset($params['order_completed']) and  $params['order_completed'] == 'any') {
-            unset($params['order_completed']);
-        }
-        // $params['debug'] = session_id();
-        if ($this->no_cache == true) {
-            $params['no_cache'] = 1;
-        }
-        $get = $this->app->db->get($params);
-        //return $get;
-
-        $return = array();
-        if (is_array($get)) {
-            foreach ($get as $item) {
-
-                if (isset($item['rel_id']) and isset($item['rel']) and $item['rel'] = 'content') {
-                    $item['content_data'] = $this->app->content->data($item['rel_id']);
-
-
-                }
-
-                if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-
-                    $item = $this->_render_item_custom_fields_data($item);
-
-
-                }
-
-                $return[] = $item;
-
-            }
-
-        } else {
-            $return = $get;
-        }
-
-
-        return $return;
-
-
-    }
-
     function update_quantities($order_id = false)
     {
         $order_id = intval($order_id);
@@ -1726,7 +1730,7 @@ class Shop
         }
         if ($this->app->user->is_admin() == false) {
 
-            mw_error("You must be admin");
+            $this->app->error("You must be admin");
         }
 
         $table = $this->tables['cart_orders'];
@@ -1741,7 +1745,7 @@ class Shop
 
         $adm = $this->app->user->is_admin();
         if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = $this->tables['cart_orders'];
 
@@ -1761,7 +1765,7 @@ class Shop
 
         $adm = $this->app->user->is_admin();
         if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = $this->tables['cart_orders'];
 

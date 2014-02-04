@@ -70,7 +70,7 @@ class ShopTest extends \PHPUnit_Framework_TestCase
     {
 
         $params = array(
-            'title' => 'this-is-my-test-shop',
+            'title' => 'this-is-my-other-test-shop',
             'content_type' => 'page',
             'is_shop' => 'y',
             // 'debug' => 1,
@@ -78,8 +78,10 @@ class ShopTest extends \PHPUnit_Framework_TestCase
 
         //creating our shop page
         $my_shop = save_content($params);
+
+
         $params = array(
-            'title' => 'this-is-my-test-product',
+            'title' => 'this-is-my-other-test-product',
             'content_type' => 'post',
             'subtype' => 'product',
             'parent' => $my_shop,
@@ -139,6 +141,54 @@ class ShopTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testCheckout()
+    {
+
+        $params = array(
+            'content_type' => 'post',
+            'subtype' => 'product',
+            // 'debug' => 1,
+            'is_active' => 'y');
+
+        //get products
+        $products = get_content($params);
+
+        foreach ($products as $product) {
+            $add_to_cart = array(
+                'content_id' => $product['id'],
+                'price' => 35
+            );
+            $cart_add = update_cart($add_to_cart);
+
+
+        }
+        $cart = get_cart();
+
+
+        $checkout_params = array(
+            'first_name' => 'John',
+            'last_name' => 'The Tester',
+            // 'debug' => 1,
+            'email' => 'email@example.com');
+        $checkout = checkout($checkout_params);
+
+
+        //PHPUnit
+        $this->assertEquals(true, is_array($products));
+        $this->assertEquals(true, is_array($cart));
+        $this->assertEquals(true, !isset($checkout['error']));
+        $this->assertEquals(true, isset($checkout['success']));
+        $this->assertEquals(true, intval($checkout['id']) > 0);
+    }
+
+    public function testGetOrders()
+    {
+
+
+
+
+    }
+
     protected function setUp()
     {
 
@@ -148,13 +198,10 @@ class ShopTest extends \PHPUnit_Framework_TestCase
     {
         if (isset($this->delete_content) and is_array($this->delete_content)) {
             foreach ($this->delete_content as $item) {
-
                 $delete_content = delete_content($item);
                 $check_deleted = get_content_by_id($item);
                 $this->assertEquals(true, is_array($delete_content));
                 $this->assertEquals(true, !is_array($check_deleted));
-
-
             }
         }
     }
