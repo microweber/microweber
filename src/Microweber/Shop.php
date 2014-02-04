@@ -1148,9 +1148,9 @@ class Shop
 
         $cart['one'] = 1;
         $cart['limit'] = 1;
-        $checkz = $this->get_cart($cart);
+        $check_cart = $this->get_cart($cart);
 
-        if ($checkz != false and is_array($checkz)) {
+        if ($check_cart != false and is_array($check_cart)) {
             $table = $this->tables['cart'];
             $this->app->db->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
         } else {
@@ -1181,20 +1181,20 @@ class Shop
 
         $cart['one'] = 1;
         $cart['limit'] = 1;
-        $checkz = $this->get_cart($cart);
+        $check_cart = $this->get_cart($cart);
 
-        if ($checkz != false and is_array($checkz)) {
-            // d($checkz);
+        if ($check_cart != false and is_array($check_cart)) {
+            // d($check_cart);
             $cart['qty'] = intval($data['qty']);
 
 
-            $cart_s = $this->update_cart($cart);
-            return ($cart_s);
+            $cart_saved_id = $this->update_cart($cart);
+            return ($cart_saved_id);
             $table = $this->tables['cart'];
             mw_var('FORCE_SAVE', $table);
 
-            $cart_s = $this->app->db->save($table, $cart);
-            return ($cart_s);
+            $cart_saved_id = $this->app->db->save($table, $cart);
+            return ($cart_saved_id);
             //   $this->app->db->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
         } else {
 
@@ -1301,10 +1301,10 @@ class Shop
         $skip_keys = array();
 
 
-        $cfs = array();
-        $cfs = $this->app->fields->get($for, $for_id, 1);
-        if ($cfs == false) {
-            $cfs = $data;
+        $content_custom_fields = array();
+        $content_custom_fields = $this->app->fields->get($for, $for_id, 1);
+        if ($content_custom_fields == false) {
+            $content_custom_fields = $data;
             if (isset($data['price'])) {
                 $found_price = $data['price'];
             }
@@ -1313,8 +1313,8 @@ class Shop
         }
 
 
-        if (is_array($cfs)) {
-            foreach ($cfs as $cf) {
+        if (is_array($content_custom_fields)) {
+            foreach ($content_custom_fields as $cf) {
 
                 if (isset($cf['custom_field_type']) and $cf['custom_field_type'] == 'price') {
 
@@ -1330,7 +1330,7 @@ class Shop
 
                 $found = false;
 
-                foreach ($cfs as $cf) {
+                foreach ($content_custom_fields as $cf) {
 
                     if (isset($cf['custom_field_type']) and $cf['custom_field_type'] != 'price') {
                         $key1 = str_replace('_', ' ', $cf['custom_field_name']);
@@ -1359,21 +1359,14 @@ class Shop
                             $prices[$cf['custom_field_name']] = $cf['custom_field_value'];
 
                         }
-                        //$item[$cf['custom_field_name']] = $cf['custom_field_value'];
-                        // unset($item[$k]);
                     } elseif (isset($cf['type']) and $cf['type'] == 'price') {
                         if ($cf['custom_field_value'] != '') {
 
                             $prices[$cf['custom_field_name']] = $cf['custom_field_value'];
 
                         }
-                        //$item[$cf['custom_field_name']] = $cf['custom_field_value'];
-                        // unset($item[$k]);
-                    } else {
-                        //unset($item);
                     }
-
-                }
+                 }
                 if ($found == false) {
                     $skip_keys[] = $k;
                 }
@@ -1440,18 +1433,18 @@ class Shop
             $cart['session_id'] = session_id();
             $cart['limit'] = 1;
 
-            $checkz = $this->get_cart($cart);
+            $check_cart = $this->get_cart($cart);
 
 
-            if ($checkz != false and is_array($checkz) and isset($checkz[0])) {
+            if ($check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
 
-                $cart['id'] = $checkz[0]['id'];
+                $cart['id'] = $check_cart[0]['id'];
                 if ($update_qty > 0) {
-                    $cart['qty'] = $checkz[0]['qty'] + $update_qty;
+                    $cart['qty'] = $check_cart[0]['qty'] + $update_qty;
                 } elseif ($update_qty_new > 0) {
                     $cart['qty'] = $update_qty_new;
                 } else {
-                    $cart['qty'] = $checkz[0]['qty'] + 1;
+                    $cart['qty'] = $check_cart[0]['qty'] + 1;
                 }
 
                 //
@@ -1475,8 +1468,8 @@ class Shop
             mw_var('FORCE_SAVE', $table);
 
             //   $cart['debug'] = 1;
-            $cart_s = $this->app->db->save($table, $cart);
-            return ($cart_s);
+            $cart_saved_id = $this->app->db->save($table, $cart);
+            return ($cart_saved_id);
         } else {
             $this->app->error('Invalid cart items');
         }
@@ -1766,7 +1759,7 @@ class Shop
         $adm = $this->app->user->is_admin();
 
         if (defined('MW_API_CALL') and $adm == false) {
-           return $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+           return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = $this->tables['cart_orders'];
         if (!is_array($data)) {
@@ -1779,7 +1772,7 @@ class Shop
             $q = "DELETE FROM $table2 WHERE session_id='$c_id' ";
             $this->app->cache->delete('cart');
 
-            $this->app->cache->delete('cart_orders/global');
+            $this->app->cache->delete('cart_orders');
             $res = $this->app->db->q($q);
             return $c_id;
         } else if (isset($data['id'])) {
@@ -1791,7 +1784,7 @@ class Shop
 
 
             $this->app->cache->delete('cart');
-            $this->app->cache->delete('cart_orders/global');
+            $this->app->cache->delete('cart_orders');
             return $c_id;
             //d($c_id);
         }

@@ -345,6 +345,9 @@ class User
         if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
 
             $installed = $this->app->config('installed');
+            if (!defined('MW_IS_INSTALLED')){
+                define("MW_IS_INSTALLED", $installed);
+            }
             if ($installed != 'yes') {
                 return true;
             }
@@ -1175,7 +1178,7 @@ class User
                 }
             }
         } else {
-            if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
+            if (defined('MW_API_CALL') and defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 
 
                 if ($force == false) {

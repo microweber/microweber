@@ -201,7 +201,7 @@ class ShopTest extends \PHPUnit_Framework_TestCase
             'first_name' => 'John',
             'last_name' => 'The Tester',
             'order_completed' => 'y',
-             'debug' => 1,
+            // 'debug' => 1,
             'email' => 'email@example.com');
 
 
@@ -215,7 +215,7 @@ class ShopTest extends \PHPUnit_Framework_TestCase
             if ($order['order_status'] != 'completed') {
                 $modify_order_params = array(
                     'id' => $order['id'],
-                   'debug' => 1,
+                    //  'debug' => 1,
                     'order_status' => 'completed'
                 );
 
@@ -244,7 +244,7 @@ class ShopTest extends \PHPUnit_Framework_TestCase
             'first_name' => 'John',
             'last_name' => 'The Tester',
             'order_completed' => 'y',
-            'debug' => 1,
+            // 'debug' => 1,
             'email' => 'email@example.com');
 
 
