@@ -114,12 +114,6 @@ class ShopTest extends \PHPUnit_Framework_TestCase
         $cart_emptied = get_cart();
 
 
-        $delete_shop = delete_content($my_shop);
-        $delete_product = delete_content($my_product);
-        $check_deleted_shop = get_content_by_id($my_shop);
-        $check_deleted_product = get_content_by_id($my_product);
-
-
         //PHPUnit
         $this->assertEquals(true, is_array($product));
         $this->assertEquals(true, is_array($custom_fields));
@@ -133,11 +127,11 @@ class ShopTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, !empty($cart));
         $this->assertEquals(true, is_array($cart));
         $this->assertEquals(true, !is_array($cart_emptied));
-        // check deleted
-        $this->assertEquals(true, is_array($delete_shop));
-        $this->assertEquals(true, is_array($delete_product));
-        $this->assertEquals(true, !is_array($check_deleted_shop));
-        $this->assertEquals(true, !is_array($check_deleted_product));
+
+        // delete test content on exit
+        $this->delete_content[] = $my_shop;
+        $this->delete_content[] = $my_product;
+
 
     }
 
@@ -162,6 +156,7 @@ class ShopTest extends \PHPUnit_Framework_TestCase
 
 
         }
+        // cart must be array with items
         $cart = get_cart();
 
 
@@ -170,7 +165,12 @@ class ShopTest extends \PHPUnit_Framework_TestCase
             'last_name' => 'The Tester',
             // 'debug' => 1,
             'email' => 'email@example.com');
+
+        // completing the checkout process
         $checkout = checkout($checkout_params);
+
+        // get the new order
+        $order = get_order_by_id($checkout['id']);
 
 
         //PHPUnit
@@ -179,14 +179,82 @@ class ShopTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, !isset($checkout['error']));
         $this->assertEquals(true, isset($checkout['success']));
         $this->assertEquals(true, intval($checkout['id']) > 0);
+        $this->assertEquals(true, intval($order['id']) > 0);
+
+
     }
 
     public function testGetOrders()
     {
+        $orders_params = array(
+            'first_name' => 'John',
+            'last_name' => 'The Tester',
+            'order_completed' => 'y',
+            // 'debug' => 1,
+            'email' => 'email@example.com');
 
 
+        // Get completed orders
+        $orders = get_orders($orders_params);
 
 
+        //Modify and save order
+        foreach ($orders as $order) {
+
+            if ($order['order_status'] != 'completed') {
+                $modify_order_params = array(
+                    'id' => $order['id'],
+                    //  'debug' => 1,
+                    'order_status' => 'completed'
+                );
+
+
+                $order_id = update_order($modify_order_params);
+                $check_status = get_order_by_id($order['id']);
+
+                //PHPUnit
+                $this->assertEquals($check_status['order_status'], 'completed');
+                $this->assertEquals($order_id, $order['id']);
+
+            }
+
+
+        }
+
+        //PHPUnit
+        $this->assertEquals(true, is_array($orders));
+
+
+    }
+
+    public function testDeleteOrders()
+    {
+        $orders_params = array(
+            'first_name' => 'John',
+            'last_name' => 'The Tester',
+            'order_completed' => 'y',
+            // 'debug' => 1,
+            'email' => 'email@example.com');
+
+
+        // Get completed orders
+        $orders = get_orders($orders_params);
+        foreach ($orders as $order) {
+
+            //delete order
+            $delete_order = delete_order($order['id']);
+            $check_deleted = get_order_by_id($order['id']);
+
+
+            //PHPUnit
+            $this->assertEquals(true, intval($delete_order) > 0);
+            $this->assertEquals(true, !is_array($check_deleted));
+
+        }
+
+
+        //PHPUnit
+        $this->assertEquals(true, is_array($orders));
     }
 
     protected function setUp()
@@ -200,6 +268,8 @@ class ShopTest extends \PHPUnit_Framework_TestCase
             foreach ($this->delete_content as $item) {
                 $delete_content = delete_content($item);
                 $check_deleted = get_content_by_id($item);
+
+                //PHPUnit
                 $this->assertEquals(true, is_array($delete_content));
                 $this->assertEquals(true, !is_array($check_deleted));
             }

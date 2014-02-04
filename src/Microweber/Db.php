@@ -2437,7 +2437,7 @@ class Db
         if ($dbg != false) {
             var_dump($q);
         }
-
+        $this->results_map = array();
         $this->q($q);
        // $this->results_map = array();
         if ($id_to_return == false) {
