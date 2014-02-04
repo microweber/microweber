@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * This file will bootstrap Microweber by:
+ *
+ *  - Registering PSR-4 Autoloader
+ *  - Defining constants if they are not set
+ *  - Including common functions files
+ *
+ * If you need to customize the defaults, please create a bootstrap.php in
+ * your site's root and define your constants there.
+ *
+ */
+
+
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }

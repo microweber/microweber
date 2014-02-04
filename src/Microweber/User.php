@@ -1,32 +1,29 @@
 <?php
 namespace Microweber;
 
-//event_bind('mw_db_init', mw('Microweber\User')->db_init());
 
 class User
 {
 
     public $app;
+    public $tables = array();
+    public $table_prefix = false;
+
+
+
 
     function __construct($app = null)
     {
-        if (!defined("MW_DB_TABLE_USERS")) {
-            define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
-        }
-        if (!defined("MW_DB_TABLE_LOG")) {
-            define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
-        }
-        if (!is_object($this->app)) {
 
+        if (!is_object($this->app)) {
             if (is_object($app)) {
                 $this->app = $app;
             } else {
                 $this->app = mw('application');
             }
-
         }
 
-
+        $this->set_table_names();
         if (!defined("MW_DB_USER_INIT")) {
             define('MW_DB_USER_INIT', 1);
             $this->db_init();
@@ -34,18 +31,53 @@ class User
 
     }
 
-    public function db_init()
+    public function set_table_names($tables = false)
     {
-        $function_cache_id = false;
 
-        $args = func_get_args();
 
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        if (!isset($tables['prefix'])) {
+            $prefix = $this->table_prefix;
+        } else {
+            $prefix = $tables['prefix'];
         }
 
-        $function_cache_id = 'users' . __FUNCTION__ . crc32($function_cache_id);
+        if ($prefix == false) {
+            $prefix = $this->app->config('table_prefix');
+        }
+
+        if ($prefix == false and defined("MW_TABLE_PREFIX")) {
+            $prefix = MW_TABLE_PREFIX;
+        }
+        if (!is_array($tables)) {
+            $tables = array();
+        }
+        if (!isset($tables['users'])) {
+            $tables['users'] = $prefix . 'users';
+        }
+        if (!isset($tables['log'])) {
+            $tables['log'] = $prefix . 'log';
+        }
+        $this->table_prefix = $prefix;
+        $this->tables = $tables;
+        /**
+         * Define table names constants for global default usage
+         */
+        if (!defined("MW_DB_TABLE_USERS")) {
+            define('MW_DB_TABLE_USERS', $tables['users']);
+        }
+        if (!defined("MW_DB_TABLE_LOG")) {
+            define('MW_DB_TABLE_LOG', $tables['log']);
+        }
+
+
+    }
+
+    public function db_init()
+    {
+
+        $function_cache_id = serialize($this->tables);
+
+        $function_cache_id = 'users' . __FUNCTION__ . crc32($function_cache_id . $this->table_prefix);
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -54,7 +86,7 @@ class User
             return $cache_content;
         }
 
-        $table_name = MW_DB_TABLE_USERS;
+        $table_name = $this->tables['users'];
 
         $fields_to_add = array();
 
@@ -108,7 +140,7 @@ class User
         $this->app->db->add_table_index('email', $table_name, array('email(255)'));
 
 
-        $table_name = MW_DB_TABLE_LOG;
+        $table_name = $this->tables['log'];
 
         $fields_to_add = array();
 
@@ -382,6 +414,32 @@ class User
         return $res;
     }
 
+    /**
+     * Generic function to get the user by id.
+     * Uses the getUsers function to get the data
+     *
+     * @param
+     *            int id
+     * @return array
+     *
+     */
+    public function get_by_id($id)
+    {
+        $id = intval($id);
+        if ($id == 0) {
+            return false;
+        }
+
+        $data = array();
+        $data['id'] = $id;
+        $data['limit'] = 1;
+        $data = $this->get_all($data);
+        if (isset($data[0])) {
+            $data = $data[0];
+        }
+        return $data;
+    }
+
     public function get_by_username($username)
     {
         $data = array();
@@ -435,172 +493,6 @@ class User
             }
         }
 
-    }
-
-    public function session_end()
-    {
-
-
-        $_SESSION = array();
-
-        // If it's desired to kill the session, also delete the session cookie.
-        // Note: This will destroy the session, and not just the session data!
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
-            );
-        }
-        session_destroy();
-        //session_write_close();
-        unset($_SESSION);
-
-    }
-
-    public function register($params)
-    {
-
-
-        $user = isset($params['username']) ? $params['username'] : false;
-        $pass = isset($params['password']) ? $params['password'] : false;
-        $email = isset($params['email']) ? $params['email'] : false;
-        $pass2 = $pass;
-        $pass = $this->hash_pass($pass);
-
-        if (!isset($params['captcha'])) {
-            return array('error' => 'Please enter the captcha answer!');
-        } else {
-            $cap = $this->session_get('captcha');
-            if ($cap == false) {
-                return array('error' => 'You must load a captcha first!');
-            }
-            if ($params['captcha'] != $cap) {
-                return array('error' => 'Invalid captcha answer!');
-            }
-        }
-
-        $override = event_trigger('before_user_register', $params);
-
-        if (is_array($override)) {
-            foreach ($override as $resp) {
-                if (isset($resp['error']) or isset($resp['success'])) {
-                    return $resp;
-                }
-            }
-        }
-//    if (!isset($params['password'])) {
-//        return array('error' => 'Please set password!');
-//    } else {
-//        if ($params['password'] == '') {
-//            return array('error' => 'Please set password!');
-//        }
-//    }
-
-
-        if (isset($params['password']) and  ($params['password']) != '') {
-            if ($email != false) {
-
-                $data = array();
-                $data['email'] = $email;
-               // $data['password'] = $pass;
-              //  $data['oauth_uid'] = '[null]';
-               // $data['oauth_provider'] = '[null]';
-                $data['one'] = true;
-				$data['no_cache'] = true;
-                // $data ['is_active'] = 'y';
-                $user_data = $this->get_all($data);
-
-
-                if (empty($user_data)) {
-
-                    $data = array();
-                    $data['username'] = $email;
-                  //  $data['password'] = $pass;
-                  //  $data['oauth_uid'] = '[null]';
-                  //  $data['oauth_provider'] = '[null]';
-                    $data['one'] = true;
-					$data['no_cache'] = true;
-                    // $data ['is_active'] = 'y';
-                    $user_data = $this->get_all($data);
-                }
-			 
-
-                if (empty($user_data)) {
-                    $data = array();
-
-
-                    $data['username'] = $email;
-                    $data['password'] = $pass;
-                    $data['is_active'] = 'n';
-
-                    $table = MW_TABLE_PREFIX . 'users';
-
-                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-                    $next = $this->app->db->last_id($table);
-                    $next = intval($next) + 1;
-                    $q = "INSERT INTO $table (id,email, password, is_active)
-			VALUES ($next, '$email', '$pass', 'y')";
-
- 
-                    $this->app->db->q($q);
-                    $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
-                    //$data = save_user($data);
-                    $this->session_del('captcha');
-
-                    $notif = array();
-                    $notif['module'] = "users";
-                    $notif['rel'] = 'users';
-                    $notif['rel_id'] = $next;
-                    $notif['title'] = "New user registration";
-                    $notif['description'] = "You have new user registration";
-                    $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-                    $this->app->notifications->save($notif);
-
-                    $this->app->log->save($notif);
-
-
-                    $params = $data;
-                    $params['id'] = $next;
-                    if (isset($pass2)) {
-                        $params['password2'] = $pass2;
-                    }
-                    event_trigger('after_user_register', $params);
-                    //$this->login('email='.$email.'&password='.$pass);
-
-
-                    return array('success' => 'You have registered successfully');
-
-                    //return array($next);
-                } else {
-
-                    if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
-                        if (isset($user_data['email']) && $user_data['email'] != '') {
-                            $is_logged = $this->login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
-                        } else if (isset($user_data['username']) && $user_data['username'] != '') {
-                            $is_logged = $this->login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
-                        }
-                        if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
-                            return ($is_logged);
-                            // $user_session['success']
-                        }
-
-                    }
-
-
-                    return array('error' => 'This user already exists!');
-                }
-            }
-        }
-
-
-    }
-
-    public function session_del($name)
-    {
-        if (isset($_SESSION[$name])) {
-            unset($_SESSION[$name]);
-        }
     }
 
     /**
@@ -898,8 +790,20 @@ class User
     public function session_set($name, $val)
     {
 
+        if($this->session_provider == 'array'){
+            // used for unit tests, does not persist values between requests
+            $is_the_same = $this->session_get($name);
+            if ($is_the_same != $val) {
+                $_SESSION[$name] = $val;
+            }
+            return;
+        }
+
+
 
         if (!defined('MW_NO_SESSION') and !headers_sent()) {
+
+
             if (!isset($_SESSION)) {
                 session_set_cookie_params(86400);
                 ini_set('session.gc_maxlifetime', 86400);
@@ -907,6 +811,7 @@ class User
                 $_SESSION['ip'] = MW_USER_IP;
 
             }
+
             if ($val == false) {
                 mw('user')->session_del($name);
             } else {
@@ -914,9 +819,6 @@ class User
 
                 if ($is_the_same != $val) {
                     $_SESSION[$name] = $val;
-
-                    //session_write_close();
-                    //$_SESSION['ip']=MW_USER_IP;
                 }
             }
         }
@@ -958,32 +860,6 @@ class User
 
     }
 
-    /**
-     * Generic function to get the user by id.
-     * Uses the getUsers function to get the data
-     *
-     * @param
-     *            int id
-     * @return array
-     *
-     */
-    public function get_by_id($id)
-    {
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
-        }
-
-        $data = array();
-        $data['id'] = $id;
-        $data['limit'] = 1;
-        $data = $this->get_all($data);
-        if (isset($data[0])) {
-            $data = $data[0];
-        }
-        return $data;
-    }
-
     public function update_last_login_time()
     {
 
@@ -995,14 +871,180 @@ class User
             $data_to_save['last_login'] = date("Y-m-d H:i:s");
             $data_to_save['last_login_ip'] = MW_USER_IP;
 
-            $table = MW_DB_TABLE_USERS;
-            mw_var("FORCE_SAVE", MW_DB_TABLE_USERS);
+            $table = $this->tables['users'];
+            mw_var("FORCE_SAVE", $this->tables['users']);
             $save = $this->app->db->save($table, $data_to_save);
 
             $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
         }
 
+    }
+
+    public function session_end()
+    {
+
+
+        $_SESSION = array();
+
+        // If it's desired to kill the session, also delete the session cookie.
+        // Note: This will destroy the session, and not just the session data!
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        session_destroy();
+        //session_write_close();
+        unset($_SESSION);
+
+    }
+
+    public function register($params)
+    {
+
+
+        $user = isset($params['username']) ? $params['username'] : false;
+        $pass = isset($params['password']) ? $params['password'] : false;
+        $email = isset($params['email']) ? $params['email'] : false;
+        $pass2 = $pass;
+        $pass = $this->hash_pass($pass);
+
+        if (!isset($params['captcha'])) {
+            return array('error' => 'Please enter the captcha answer!');
+        } else {
+            $cap = $this->session_get('captcha');
+            if ($cap == false) {
+                return array('error' => 'You must load a captcha first!');
+            }
+            if ($params['captcha'] != $cap) {
+                return array('error' => 'Invalid captcha answer!');
+            }
+        }
+
+        $override = event_trigger('before_user_register', $params);
+
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (isset($resp['error']) or isset($resp['success'])) {
+                    return $resp;
+                }
+            }
+        }
+//    if (!isset($params['password'])) {
+//        return array('error' => 'Please set password!');
+//    } else {
+//        if ($params['password'] == '') {
+//            return array('error' => 'Please set password!');
+//        }
+//    }
+
+
+        if (isset($params['password']) and  ($params['password']) != '') {
+            if ($email != false) {
+
+                $data = array();
+                $data['email'] = $email;
+                // $data['password'] = $pass;
+                //  $data['oauth_uid'] = '[null]';
+                // $data['oauth_provider'] = '[null]';
+                $data['one'] = true;
+                $data['no_cache'] = true;
+                // $data ['is_active'] = 'y';
+                $user_data = $this->get_all($data);
+
+
+                if (empty($user_data)) {
+
+                    $data = array();
+                    $data['username'] = $email;
+                    //  $data['password'] = $pass;
+                    //  $data['oauth_uid'] = '[null]';
+                    //  $data['oauth_provider'] = '[null]';
+                    $data['one'] = true;
+                    $data['no_cache'] = true;
+                    // $data ['is_active'] = 'y';
+                    $user_data = $this->get_all($data);
+                }
+
+
+                if (empty($user_data)) {
+                    $data = array();
+
+
+                    $data['username'] = $email;
+                    $data['password'] = $pass;
+                    $data['is_active'] = 'n';
+
+                    $table = MW_TABLE_PREFIX . 'users';
+
+                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
+                    $next = $this->app->db->last_id($table);
+                    $next = intval($next) + 1;
+                    $q = "INSERT INTO $table (id,email, password, is_active)
+			VALUES ($next, '$email', '$pass', 'y')";
+
+
+                    $this->app->db->q($q);
+                    $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
+                    //$data = save_user($data);
+                    $this->session_del('captcha');
+
+                    $notif = array();
+                    $notif['module'] = "users";
+                    $notif['rel'] = 'users';
+                    $notif['rel_id'] = $next;
+                    $notif['title'] = "New user registration";
+                    $notif['description'] = "You have new user registration";
+                    $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
+                    $this->app->notifications->save($notif);
+
+                    $this->app->log->save($notif);
+
+
+                    $params = $data;
+                    $params['id'] = $next;
+                    if (isset($pass2)) {
+                        $params['password2'] = $pass2;
+                    }
+                    event_trigger('after_user_register', $params);
+                    //$this->login('email='.$email.'&password='.$pass);
+
+
+                    return array('success' => 'You have registered successfully');
+
+                    //return array($next);
+                } else {
+
+                    if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
+                        if (isset($user_data['email']) && $user_data['email'] != '') {
+                            $is_logged = $this->login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
+                        } else if (isset($user_data['username']) && $user_data['username'] != '') {
+                            $is_logged = $this->login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
+                        }
+                        if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
+                            return ($is_logged);
+                            // $user_session['success']
+                        }
+
+                    }
+
+
+                    return array('error' => 'This user already exists!');
+                }
+            }
+        }
+
+
+    }
+
+    public function session_del($name)
+    {
+        if (isset($_SESSION[$name])) {
+            unset($_SESSION[$name]);
+        }
     }
 
     /**
@@ -1068,7 +1110,7 @@ class User
                 }
             }
         } else {
-            if (MW_IS_INSTALLED == true) {
+            if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 
 
                 if ($force == false) {
@@ -1088,7 +1130,7 @@ class User
                 mw_var('save_user_no_pass_hash', false);
             }
         }
-        $table = MW_DB_TABLE_USERS;
+        $table = $this->tables['users'];
         $save = $this->app->db->save($table, $data_to_save);
         $id = $save;
         $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
@@ -1100,8 +1142,14 @@ class User
     function delete($data)
     {
         $adm = is_admin();
-        if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        if (defined('MW_API_CALL') and $adm == false) {
+            return ('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+
+        if (!is_array($data)) {
+            $new_data = array();
+            $new_data['id'] = intval($data);
+            $data = $new_data;
         }
 
         if (isset($data['id'])) {
@@ -1150,7 +1198,7 @@ class User
         $data1 = array();
         $data1['id'] = intval($params['id']);
         $data1['password_reset_hash'] = $this->app->db->escape_string($params['password_reset_hash']);
-        $table = MW_DB_TABLE_USERS;
+        $table = $this->tables['users'];
 
         $check = $this->get_all("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
         if (!is_array($check)) {
@@ -1184,6 +1232,18 @@ class User
 
     public function session_get($name)
     {
+
+
+        if($this->session_provider == 'array'){
+            // used for unit tests, does not persist values between requests
+
+            if (isset($_SESSION[$name])) {
+                return $_SESSION[$name];
+            }
+            return;
+        }
+
+
         if (!defined('MW_NO_SESSION')) {
             if (!headers_sent()) {
                 if (!isset($_SESSION)) {
@@ -1238,7 +1298,7 @@ class User
     {
         $params = parse_params($params);
 
-        $table = MW_DB_TABLE_USERS;
+        $table = $this->tables['users'];
 
         $data = $this->app->format->clean_html($params);
         $orig_data = $data;
@@ -1387,7 +1447,7 @@ class User
                             $data_to_save['id'] = $data_res['id'];
                             $data_to_save['password_reset_hash'] = $function_cache_id;
 
-                            $table = MW_DB_TABLE_USERS;
+                            $table = $this->tables['users'];
                             mw_var('FORCE_SAVE', $table);
 
                             $save = $this->app->db->save($table, $data_to_save);
@@ -1475,7 +1535,7 @@ class User
                         $data_to_save['is_active'] = 'y';
                         $data_to_save['is_admin'] = 'n';
 
-                        $table = MW_DB_TABLE_USERS;
+                        $table = $this->tables['users'];
                         mw_var('FORCE_SAVE', $table);
 
                         $save = $this->app->db->save($table, $data_to_save);
@@ -1608,6 +1668,8 @@ class User
         }
     }
 
+
+    public $session_provider = false;
 
 }
 

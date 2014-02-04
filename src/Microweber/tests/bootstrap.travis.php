@@ -1,12 +1,14 @@
 <?php
+if (!defined('MW_TABLE_PREFIX')) {
+  //  define('MW_TABLE_PREFIX', $GLOBALS['db_table_prefix']);
+}
 
-$here = __DIR__;
-require_once($here.'/../bootstrap.php');
+require_once(__DIR__.'/../bootstrap.php');
 
 
 $config = array(
     // In development, debug mode unlocks extra error info
-    'debug_mode' => 1,
+    'debug_mode' => true,
     'admin_url' => 'admin',
     'uri_protocol' => 'AUTO',
     'default_timezone' => 'UTC',
@@ -22,4 +24,5 @@ $config = array(
     )
 );
 
-mw()->config = $config;
+
+mw()->set_config($config);

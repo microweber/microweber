@@ -14,8 +14,6 @@ class Forms
             $this->app = mw('application');
         }
 
-
-
         if (!defined("MW_DB_TABLE_COUNTRIES")) {
             define('MW_DB_TABLE_COUNTRIES', MW_TABLE_PREFIX . 'countries');
         }
@@ -27,13 +25,11 @@ class Forms
             define('MW_DB_TABLE_FORMS_DATA', MW_TABLE_PREFIX . 'forms_data');
             $this->db_init();
         }
-
-
-
-
-
-
     }
+
+
+
+
 
     public function get_entires($params)
     {
