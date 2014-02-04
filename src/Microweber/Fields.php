@@ -433,7 +433,7 @@ class Fields
 
         $adm = $this->app->user->is_admin();
         if ($adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+            $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         $table = $this->tables['custom_fields'];
@@ -456,11 +456,11 @@ class Fields
     public function delete($id)
     {
         $uid = user_id();
-        if ($uid == 0) {
-            mw_error('Error: not logged in.');
+        if (defined('MW_API_CALL') and $uid == 0) {
+            $this->app->error('Error: not logged in.');
         }
         $uid = $this->app->user->is_admin();
-        if ($uid == false) {
+        if (defined('MW_API_CALL') and $uid == false) {
             exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         if (is_array($id)) {
@@ -479,7 +479,7 @@ class Fields
         $q = "DELETE FROM $custom_field_table WHERE id='$id'";
         $this->app->db->q($q);
         $this->app->cache->delete('custom_fields');
-        return true;
+        return $id;
     }
 
     public function make_field($field_id = 0, $field_type = 'text', $settings = false)
@@ -499,7 +499,7 @@ class Fields
                 return $this->make($field_id);
 
                 //
-                // mw_error('no permission to get data');
+                // $this->app->error('no permission to get data');
                 //  $form_data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
@@ -666,11 +666,11 @@ class Fields
         if (defined('MW_API_CALL') and !defined('SKIP_CF_ADMIN_CHECK')) {
             $id = user_id();
             if ($id == 0) {
-                mw_error('Error: not logged in.');
+                $this->app->error('Error: not logged in.');
             }
             $id = $this->app->user->is_admin();
             if ($id == false) {
-                mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+                $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
             }
         }
         $data_to_save = ($data);
@@ -764,6 +764,7 @@ class Fields
 
                 if ($val1_a != 'Array') {
                     $data_to_save['custom_field_values_plain'] = $val1_a;
+                    $data_to_save['custom_field_value'] =  'Array';
                 }
 
             } else {

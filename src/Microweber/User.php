@@ -1171,7 +1171,7 @@ class User
 
                     }
 
-                    // mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+                    // $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
 
                 } else {
                     mw_var('force_save_user', false);
@@ -1182,7 +1182,7 @@ class User
 
 
                 if ($force == false) {
-                    mw_error('COMLETE ME!!!! ');
+                    $this->app->error('COMLETE ME!!!! ');
                 } else {
                     mw_var('force_save_user', false);
                 }
