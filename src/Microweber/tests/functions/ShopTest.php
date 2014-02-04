@@ -139,6 +139,17 @@ class ShopTest extends \PHPUnit_Framework_TestCase
     {
 
         $params = array(
+            'title' => 'this-is-another-test-product',
+            'content_type' => 'post',
+            'subtype' => 'product',
+
+            // 'debug' => 1,
+            'is_active' => 'y');
+        //adding a product to our shop page
+        $my_product = save_content($params);
+
+
+        $params = array(
             'content_type' => 'post',
             'subtype' => 'product',
             // 'debug' => 1,
@@ -180,7 +191,7 @@ class ShopTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, isset($checkout['success']));
         $this->assertEquals(true, intval($checkout['id']) > 0);
         $this->assertEquals(true, intval($order['id']) > 0);
-
+        $this->delete_content[] = $my_product;
 
     }
 
@@ -190,7 +201,7 @@ class ShopTest extends \PHPUnit_Framework_TestCase
             'first_name' => 'John',
             'last_name' => 'The Tester',
             'order_completed' => 'y',
-            // 'debug' => 1,
+             'debug' => 1,
             'email' => 'email@example.com');
 
 
@@ -204,7 +215,7 @@ class ShopTest extends \PHPUnit_Framework_TestCase
             if ($order['order_status'] != 'completed') {
                 $modify_order_params = array(
                     'id' => $order['id'],
-                    //  'debug' => 1,
+                   'debug' => 1,
                     'order_status' => 'completed'
                 );
 
@@ -233,7 +244,7 @@ class ShopTest extends \PHPUnit_Framework_TestCase
             'first_name' => 'John',
             'last_name' => 'The Tester',
             'order_completed' => 'y',
-            // 'debug' => 1,
+            'debug' => 1,
             'email' => 'email@example.com');
 
 

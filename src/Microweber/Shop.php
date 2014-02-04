@@ -1756,7 +1756,7 @@ class Shop
             //$this->app->db->delete_by_id($table, $c_id, 'email');
             $this->app->cache->delete('cart_orders/global');
             return $res;
-            //d($c_id);
+
         }
     }
 
