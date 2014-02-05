@@ -66,6 +66,11 @@ function get_orders($params = false)
 {
     return mw('shop')->get_orders($params);
 }
+function get_order_by_id($params = false)
+{
+    return mw('shop')->get_order_by_id($params);
+}
+
 
 function cart_sum($return_amount = true)
 {

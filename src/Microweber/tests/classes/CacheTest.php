@@ -14,7 +14,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $data = array('something' => 'some_value');
 
         $cache_id = 'my_cache_id_'.rand();
-        $cache_group = 'my_cache_group_'.rand();
+        $cache_group = 'my_test_group';
 
         $saved_cache = mw('cache')->save($data, $cache_id, $cache_group);
         $cache_content = mw('cache')->get($cache_id, $cache_group);
@@ -31,7 +31,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $data = array('something' => 'some_value');
 
         $cache_id = 'my_cache_id_'.rand();
-        $cache_group = 'my_cache_group_'.rand();
+        $cache_group = 'my_test_group';
 
 
         $saved_cache = mw('cache')->save($data, $cache_id, $cache_group);

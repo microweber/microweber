@@ -3,6 +3,9 @@ if (!defined('MW_TABLE_PREFIX')) {
   //  define('MW_TABLE_PREFIX', $GLOBALS['db_table_prefix']);
 }
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once(__DIR__.'/../bootstrap.php');
 
 

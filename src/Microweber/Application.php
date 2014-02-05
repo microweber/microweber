@@ -340,4 +340,27 @@ class Application
         }
 
     }
+
+    function error( $e, $f = false, $l = false ) {
+
+
+        if(!$this->url->is_ajax()){
+            $err = "Error: ".$e;
+            if($f != false){
+                $err= $err.  "\nFile: ".$f;
+            }
+            if($f != false){
+                $err= $err.  "\nLine: ".$l;
+            }
+            throw new \Exception($err);
+
+        } else {
+            $v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'error.php');
+            $v->e = $e;
+            $v->f = $f;
+            $v->l = $l;
+            die($v);
+
+        }
+    }
 }

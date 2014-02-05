@@ -90,7 +90,7 @@ mw.askusertostay = false;
         var t = url.split('.').pop();
         var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
         var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-        if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && typeof CanvasRenderingContext2D === 'function') {
+        if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && !!window.CanvasRenderingContext2D) {
            mwd.write(string);
         }
         else {

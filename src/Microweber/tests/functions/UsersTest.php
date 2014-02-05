@@ -5,7 +5,19 @@ namespace FunctionsTest;
 
 class UsersTest extends \PHPUnit_Framework_TestCase
 {
+    public function testLogged()
+    {
 
+
+
+        $verify_admin = is_admin();
+        $verify_logged = is_logged();
+
+        //PHPUnit
+        $this->assertEquals(false, $verify_admin);
+        $this->assertEquals(false, $verify_logged);
+
+    }
     public function testAddUser()
     {
 
