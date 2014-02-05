@@ -49,7 +49,7 @@ class CustomFieldsTest extends \PHPUnit_Framework_TestCase
             'field_type' => 'dropdown',
             // 'debug' => 1,
             'content_id' => $my_product);
-        //adding a custom field "price" to product
+        //adding a custom field "Color" to product
         $saved_fields[] = save_custom_field($custom_field);
 
         $custom_field = array(
@@ -58,7 +58,7 @@ class CustomFieldsTest extends \PHPUnit_Framework_TestCase
             'field_type' => 'radio',
             // 'debug' => 1,
             'content_id' => $my_product);
-        //adding a custom field "price" to product
+        //adding a custom field "Size" to product
         $saved_fields[] = save_custom_field($custom_field);
 
         $custom_fields = get_custom_fields('content', $my_product, $return_full = true);
