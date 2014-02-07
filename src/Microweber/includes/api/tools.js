@@ -3800,6 +3800,13 @@ mw.image = {
             }
           },33);
         }
+        img.onerror = function(){
+          setTimeout(function(){
+            if(typeof callback === 'function'){
+              callback.call(img, 0, 0, 'error');
+            }
+          },33);
+        }
         mwd.body.appendChild(img);
       },
       description:{

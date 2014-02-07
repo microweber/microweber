@@ -1833,7 +1833,6 @@ class Controller
             $redirect = $this->app->format->prep_url($content['original_link']);
             if($redirect != ''){
                 $this->app->url->redirect($redirect);
-
             }
         }
 

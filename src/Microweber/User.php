@@ -192,7 +192,7 @@ class User
             }
         }
 
- 
+
         if ($redirect_after == true) {
 			$redir = site_url($redirect_after);
             $this->app->url->redirect($redir);
@@ -1620,16 +1620,25 @@ class User
         if (!defined('MW_NO_SESSION')) {
             if (!headers_sent()) {
                 if (!isset($_SESSION)) {
-                    //return false;
-                    $start = session_start();
-                    if ($start == false) {
+
+                    try {
+                        $start = session_start();
+                    } catch(ErrorExpression $e) {
+
 
                         session_regenerate_id();
 
                         $start = session_id();
+
+
+                       }
+
+                    if ($start == false) {
+                        session_write_close(); //now close it,
+                        session_regenerate_id();
+                        $start = session_id();
                     }
-                    //d($_SESSION);
-                    $_SESSION['ip'] = MW_USER_IP;
+                     $_SESSION['ip'] = MW_USER_IP;
                 }
             }
             // probable timout here?!
