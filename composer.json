@@ -1,40 +1,10 @@
 {
     "name": "microweber/microweber",
     "description": "New generation of CMS with drag and drop",
-    "version": "0.9.1",
+    "version": "0.9",
     "type": "cms",
     "keywords": ["cms", "drag and drop", "cool", "awesome"],
     "homepage": "http://microweber.com",
-    "time": "2014-02-05",
-    "license": "BSD-3-Clause",
-    "authors": [
-        {
-            "name": "Peter Ivanov",
-            "email": "peter@microweber.com",
-            "homepage": "http://microweber.com",
-            "role": "Developer"
-        },
-        {
-            "name": "Alexander Raykov",
-            "email": "alex@microweber.com",
-            "homepage": "http://microweber.com",
-            "role": "Developer"
-        },
-        {
-            "name": "Boris Sokolov",
-            "email": "boris@microweber.com",
-            "homepage": "http://microweber.com",
-            "role": "Designer"
-        }
-    ],
-    "support": {
-        "email": "support@microweber.com",
-        "issues": "https://github.com/microweber/microweber/issues",
-        "forum": "http://microweber.com/community",
-        "wiki": "http://microweber.com/learn",
-        "irc": "irc://irc.freenode.org/microweber",
-        "source": "https://github.com/microweber/microweber"
-    },
     "autoload": {
         "psr-4": {
             "Microweber\\": "src/"
@@ -46,7 +16,15 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/microweber/microweber"
+            "url": "https://git@github.com:microweber/microweber.git"
         }
-    ]
+    ],
+    "support": {
+        "email": "support@microweber.com",
+        "issues": "https://github.com/microweber/microweber/issues",
+        "forum": "http://microweber.com/community",
+        "wiki": "http://microweber.com/learn",
+        "irc": "irc://irc.freenode.org/microweber",
+        "source": "https://github.com/microweber/microweber"
+    }
 }

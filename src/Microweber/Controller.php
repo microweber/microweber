@@ -1828,6 +1828,16 @@ class Controller
             return $content;
         }
 
+        if(isset($content['original_link']) and $content['original_link'] != ''){
+            $content['original_link'] = str_ireplace('{site_url}',$this->app->url->site(),$content['original_link']);
+            $redirect = $this->app->format->prep_url($content['original_link']);
+            if($redirect != ''){
+                $this->app->url->redirect($redirect);
+
+            }
+        }
+
+
         if (!isset($page['title'])) {
             $page['title'] = 'New page';
         }

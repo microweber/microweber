@@ -149,12 +149,6 @@ class ShopTest extends \PHPUnit_Framework_TestCase
         $my_product = save_content($params);
 
 
-        $params = array(
-            'content_type' => 'post',
-            'subtype' => 'product',
-            // 'debug' => 1,
-            'is_active' => 'y');
-
         //get products
         $products = get_content($params);
 
@@ -163,10 +157,11 @@ class ShopTest extends \PHPUnit_Framework_TestCase
                 'content_id' => $product['id'],
                 'price' => 35
             );
+
             $cart_add = update_cart($add_to_cart);
 
-
-        }
+            $this->assertEquals('this-is-another-test-product', $product['title']);
+         }
         // cart must be array with items
         $cart = get_cart();
 

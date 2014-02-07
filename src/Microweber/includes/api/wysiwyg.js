@@ -1229,7 +1229,7 @@ $(mwd).ready(function(){
       });
       mw.$(".mw_dropdown_action_font_size").change(function(){
           var val = $(this).getDropdownValue();
-          mw.wysiwyg.restore_selection();
+         // mw.wysiwyg.restore_selection();
           mw.wysiwyg.fontSize(val);
           mw.wysiwyg.removeSimulations();
           mw.$('.mw_dropdown_val', this).append('pt');

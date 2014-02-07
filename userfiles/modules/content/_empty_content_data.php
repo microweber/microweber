@@ -27,7 +27,7 @@ $data['subtype_value'] = '';
 $data['parent'] = 0;	
 $data['layout_name'] = '';		
 $data['layout_file'] = '';	
-
+$data['original_link'] = '';	
 if($is_new == false){
 	 
 } else {

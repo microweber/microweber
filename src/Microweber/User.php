@@ -170,7 +170,7 @@ class User
 
     }
 
-    public function logout()
+    public function logout($params = false)
     {
 
         if (!defined('USER_ID')) {
@@ -180,16 +180,27 @@ class User
         // static $uid;
         $aj = $this->app->url->is_ajax();
         mw('user')->session_end();
+        $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
 
         if (isset($_COOKIE['editmode'])) {
             setcookie('editmode');
         }
 
-        if ($aj == false) {
+        if ($redirect_after == false and $aj == false) {
             if (isset($_SERVER["HTTP_REFERER"])) {
                 $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
             }
         }
+
+ 
+        if ($redirect_after == true) {
+			$redir = site_url($redirect_after);
+            $this->app->url->redirect($redir);
+            exit();
+        }
+
+
+
     }
 
     public function is_logged()

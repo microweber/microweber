@@ -27,14 +27,10 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $get_post = get_content($params);
 
 
-
-
-
         //delete content
         foreach ($get_post as $item) {
             $del_params = array('id' => $item['id'], 'forever' => true);
             $delete = delete_content($del_params);
-
 
             //check if deleted
             $content = get_content_by_id($item['id']);
@@ -43,6 +39,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             //PHPUnit
             $this->assertEquals(true, is_array($delete));
             $this->assertEquals(false, $content);
+            $this->assertEquals('this-is-my-test-post', ($item['title']));
+
         }
 
 
@@ -96,9 +94,14 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, strval($page_link) != '');
         $this->assertEquals(true, intval($parent_page) > 0);
         $this->assertEquals(true, intval($sub_page) > 0);
+
         $this->assertEquals(true, is_array($get_sub_page));
         $this->assertEquals(true, is_array($delete_parent));
         $this->assertEquals(true, is_array($delete_sub_page));
+
+        $this->assertEquals('My test sub page', $get_sub_page['title']);
+        $this->assertEquals($sub_page, $get_sub_page['id']);
+
 
     }
 
@@ -114,6 +117,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             'subtype' => 'dynamic',
             // 'debug' => 1,
             'is_active' => 'y');
+
 
         //saving
         $parent_page_id = save_content($params);
