@@ -548,6 +548,10 @@ table[class*='mw-wysiwyg-table'] td{
   vertical-align: top;
 }
 
+table[class*='mw-wysiwyg-table'].valign td{
+  vertical-align: middle;
+}
+
 .mw-wysiwyg-table > tbody > tr > td{
   border:  1px solid #DDDDDD;
 }
@@ -663,6 +667,11 @@ table[class*='mw-wysiwyg-table'] td{
   position: absolute !important;
   left: -9999px !important;
   top: -9999px !important;
+}
+
+
+.mw-span-font-size > *{
+  font-size: inherit;
 }
 
 

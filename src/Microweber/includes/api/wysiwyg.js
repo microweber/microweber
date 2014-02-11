@@ -702,13 +702,32 @@ mw.wysiwyg = {
         if(window.getSelection().isCollapsed){ return false; }
         var css = {
           "fontSize":px+'pt'
-        }
+        };
+
+
+
+        mw.wysiwyg.execCommand('fontsize', null, px);
         var r = window.getSelection().getRangeAt(0);
+
+
+
+
+
+
+
         var el = mw.wysiwyg.applier('span', 'mw-span-font-size', css);
+
         if(el.querySelector('.mw-span-font-size') !== null){
           $(el.querySelectorAll('.mw-span-font-size')).css("fontSize", 'inherit');
         }
-        mw.wysiwyg.removeSimulations();
+
+
+
+
+
+
+
+      //  mw.wysiwyg.removeSimulations();
         //mw.wysiwyg.execCommand('fontsize', null, px);
     },
     resetActiveButtons:function(){

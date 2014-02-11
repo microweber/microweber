@@ -50,6 +50,15 @@ mw.askusertostay = false;
   String.prototype.contains = function(a) {
     return !!~this.indexOf(a);
   };
+  String.prototype.tonumber = function(){
+    var n = parseFloat(this);
+    if(!isNaN(n)){
+        return n;
+    }
+    else{
+      return 0;
+    }
+  }
 
 
 
@@ -581,7 +590,7 @@ mw.askusertostay = false;
 
 
 
-  api = function(action, params, callback){
+  mw.get = function(action, params, callback){
     var url = mw.settings.api_url + action;
     var type = typeof params;
     if(type === 'string'){
@@ -601,12 +610,14 @@ mw.askusertostay = false;
   get_content = function(params, callback){
     var obj = mw.url.getUrlParams("?"+params);
     if(typeof callback!='function'){
-       api('get_content_admin', obj);
+       mw.get('get_content_admin', obj);
     }
     else{
-       api('get_content_admin', obj, function(){callback.call(this)});
+       mw.get('get_content_admin', obj, function(){callback.call(this)});
     }
   }
+
+  mw.get_content = get_content
 
 
 

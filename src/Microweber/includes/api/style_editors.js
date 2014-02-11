@@ -295,15 +295,7 @@ init_square_maps = function(){
   });
 }
 
-String.prototype.tonumber = function(){
-  var n = parseFloat(this);
-  if(!isNaN(n)){
-      return n;
-  }
-  else{
-    return 0;
-  }
-}
+
 
 mw.setCurrentStyles = function(el){
 

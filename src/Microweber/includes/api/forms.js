@@ -50,7 +50,7 @@ mw.form = {
     if(selector.constructor === {}.constructor){
       return mw.form._post(selector);
     }
-  
+
     var callback_error = callback_error || false;
     var ignorenopost = ignorenopost || false;
     var is_form_valid = mw.form.validate.init(selector);
@@ -203,6 +203,11 @@ mw.form = {
     var ignorenopost = ignorenopost || false;
     return mw.serializeFields(id, ignorenopost);
   }
+}
+
+
+mw.postForm = function(o){
+  return mw.form._post(o);
 }
 
 

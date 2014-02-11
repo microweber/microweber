@@ -98,3 +98,8 @@ mw.files = {
     }
 }
 
+
+mw.uploader = function(o){
+  return mw.files.uploader(o);
+}
+

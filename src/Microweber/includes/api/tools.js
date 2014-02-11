@@ -2690,6 +2690,10 @@ Array.prototype.min = function(){
     return Math.min.apply(Math, this);
 };
 
+Array.prototype.max = function(){
+    return Math.max.apply(Math, this);
+};
+
 
 
 
@@ -2979,14 +2983,14 @@ document.isHidden = function(){
 
 mw.storage = {
         init:function(){
-          if(!('localstorage' in mww)) return false;
+          if(!('localStorage' in mww)) return false;
           var lsmw = localStorage.getItem("mw");
           var lsmw = lsmw === null ? (localStorage.setItem("mw", "{}")) : lsmw;
           this.change("INIT");
           return lsmw;
         },
         set:function(key, val){
-            if(!('localstorage' in mww)) return false;
+            if(!('localStorage' in mww)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             curr[key] = val;
             var a = localStorage.setItem("mw", JSON.stringify(curr))
@@ -2994,13 +2998,13 @@ mw.storage = {
             return a;
         },
         get:function(key){
-           if(!('localstorage' in mww)) return false;
+           if(!('localStorage' in mww)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             return curr[key];
         },
         _keys : {},
         change:function(key, callback, other){
-          if(!('localstorage' in mww)) return false;
+          if(!('localStorage' in mww)) return false;
           if(key ==='INIT' ){
               mww.addEventListener('storage', function(e){
                   if(e.key==='mw'){
@@ -3037,7 +3041,7 @@ mw.storage = {
         }
     }
 
-
+mw.storage.init();
 
 
 
@@ -3897,7 +3901,9 @@ mw.image = {
       mw.gallery      = mw.tools.gallery.init;
       //mw.uploader     = mw.files.uploader;
       mw.editor       = mw.tools.wysiwyg;
-
+      mw.dropdown     = mw.tools.dropdown;
+      mw.tabs         = mw.tools.tabGroup;
+      mw.inlineModal = mw.tools.inlineModal;
 
 
     /***********************************************
