@@ -2900,7 +2900,7 @@ class Content
 
 
         if (!isset($link) or $link == false) {
-            $link = '<a data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}" href="{url}">{title}</a>';
+            $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}"  href="{url}">{title}</a>';
         }
 
         $to_print = '<' . $ul_tag . ' role="menu" class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';

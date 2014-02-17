@@ -1,25 +1,17 @@
 {
     "name": "microweber/microweber",
     "description": "New generation of CMS with drag and drop",
-    "version": "0.9",
-    "type": "cms",
     "keywords": ["cms", "drag and drop", "cool", "awesome"],
-    "homepage": "http://microweber.com",
-    "autoload": {
-        "psr-4": {
-            "Microweber\\": "src/"
-        },
-        "classmap": ["src/"],
-        "files": ["src/Microweber/bootstrap.php"]
-    },
-    "minimum-stability": "dev",
-    "repositories": [
+    "homepage":         "http://microweber.com",
+    "authors": [
         {
-            "type": "vcs",
-            "url": "https://git@github.com:microweber/microweber.git"
+            "name":         "Microweber Team",
+            "email":        "admin@microweber.com",
+            "homepage":     "http://microweber.com",
+            "role":         "Team"
         }
     ],
-    "support": {
+	 "support": {
         "email": "support@microweber.com",
         "issues": "https://github.com/microweber/microweber/issues",
         "forum": "http://microweber.com/community",

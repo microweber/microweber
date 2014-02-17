@@ -1268,7 +1268,7 @@ class Module
             }
         }
 
-        if (isset($options['skip_cache']) == false) {
+        if (isset($options['skip_cache']) == false and isset($options['no_cache']) == false) {
 
             $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
@@ -1340,10 +1340,24 @@ class Module
 
                     $content = ob_get_contents();
                     ob_end_clean();
+                    $value_fn = str_replace(MW_MODULES_DIR, '', $value_fn);
+
+
+                    $replace_root = MW_ROOTPATH.DS.'userfiles'.DS.'modules'.DS;
+
+                    $value_fn = str_replace($replace_root, '', $value_fn);
+
+                    $replace_root = dirname(dirname(MW_APP_PATH)).DS.'userfiles'.DS.'modules'.DS;
+                    $value_fn = str_replace($replace_root, '', $value_fn);
+
+
 
                     $value_fn = rtrim($value_fn, '\\');
                     $value_fn = rtrim($value_fn, '/');
                     $value_fn = str_replace('\\', '/', $value_fn);
+                    $value_fn = str_replace(MW_MODULES_DIR, '', $value_fn);
+
+
                     $config['module'] = $value_fn . '';
                     $config['module'] = rtrim($config['module'], '\\');
                     $config['module'] = rtrim($config['module'], '/');

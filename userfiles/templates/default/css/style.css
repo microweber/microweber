@@ -196,9 +196,10 @@ input.large-field, textarea.large-field {
 }
  
  
-.well .nav .nav-list a.active {
+.well .nav .nav-list a.active,.well .nav.nav-list a.active {
  color: #0073AA;
  font-weight:bold;
+ background-color:#efecec;
 } 
 .nav-piils a.active {
  color: white; 

@@ -1,14 +1,5 @@
 <div class="mw-user-reg-holder">
-	<?php $user = user_id(); ?>
-	<?php $have_social_login = false; ?>
-	<?php  if(isset($_GET['reset_password_link'])): ?>
-	<module type="users/forgot_password" />
-	<?php elseif($user > 0 and !defined("IN_EDIT")):  ?>
-	<div style="padding-top: 10px; height:15px; display:block;" class="mw-user-reg-margin"></div>
-	<div class="clearfix">
-		<module type="users/profile" />
-	</div>
-	<?php else:  ?>
+ 
 	<?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) {
 		$form_btn_title = 'Register';
@@ -85,5 +76,5 @@ if(isset($template_file) and ($template_file) != false and is_file($template_fil
 }
 
 ?>
-	<?php endif; ?>
+ 
 </div>

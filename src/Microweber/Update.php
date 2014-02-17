@@ -1,6 +1,7 @@
 <?php
 namespace Microweber;
 
+
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
     define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
 }
@@ -42,6 +43,14 @@ class Update
         return $result;
     }
 
+    function get_templates()
+    {
+        $data = $this->collect_local_data();
+
+        $result = $this->call('get_templates', $data);
+        return $result;
+    }
+
     private function collect_local_data()
     {
         $data = array();
@@ -50,8 +59,8 @@ class Update
 
         $t = mw('content')->site_templates();
         $data['templates'] = $t;
-
-        $t = $this->app->module->get("ui=any");
+        $t = $this->app->module->scan_for_modules("skip_cache=1");
+        //$t = $this->app->module->get("ui=any");
         $data['modules'] = $t;
         $data['module_templates'] = array();
         if (is_array($t)) {
@@ -83,52 +92,12 @@ class Update
             }
         }
 
-        $t = $this->app->layouts->get();
+        $t = $this->app->module->get_layouts("skip_cache=1");
+
         $data['elements'] = $t;
+
+
         return $data;
-    }
-
-    function call($method = false, $post_params = false)
-    {
-        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
-        if (!is_dir($cookie)) {
-            mkdir($cookie);
-        }
-        $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_api_url;
-        if ($method != false) {
-            $requestUrl = $requestUrl . '?api_function=' . $method;
-        }
-
-        $curl = new \Microweber\Utils\Curl();
-        $curl->setUrl($requestUrl);
-        $curl->url = $requestUrl;
-
-        $post_params['site_url'] = $this->app->url->site();
-        $post_params['api_function'] = $method;
-
-        if ($post_params != false and is_array($post_params)) {
-            $curl_result = $curl->post($post_params);
-           // print $curl_result;
-        } else {
-            $curl_result = false;
-        }
-        if ($curl_result == '' or $curl_result == false) {
-            return false;
-        }
-        $result = false;
-        if ($curl_result != false) {
-            $result = json_decode($curl_result, 1);
-        }
-        return $result;
-    }
-
-    function get_templates()
-    {
-        $data = $this->collect_local_data();
-
-        $result = $this->call('get_templates', $data);
-        return $result;
     }
 
     function check($skip_cache = false)
@@ -348,8 +317,6 @@ class Update
         }
 
 
-
-
         $this->post_update();
         //$this->app->cache->delete('update/global');
         //$this->app->cache->flush();
@@ -557,6 +524,41 @@ class Update
 
 
         $result = $this->call('send_anonymous_server_data', $params);
+        return $result;
+    }
+
+    function call($method = false, $post_params = false)
+    {
+        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        if (!is_dir($cookie)) {
+            mkdir($cookie);
+        }
+        $cookie_file = $cookie . 'cookie.txt';
+        $requestUrl = $this->remote_api_url;
+        if ($method != false) {
+            $requestUrl = $requestUrl . '?api_function=' . $method;
+        }
+
+        $curl = new \Microweber\Utils\Curl();
+        $curl->setUrl($requestUrl);
+        $curl->url = $requestUrl;
+
+        $post_params['site_url'] = $this->app->url->site();
+        $post_params['api_function'] = $method;
+
+        if ($post_params != false and is_array($post_params)) {
+            $curl_result = $curl->post($post_params);
+            //  print $curl_result;
+        } else {
+            $curl_result = false;
+        }
+        if ($curl_result == '' or $curl_result == false) {
+            return false;
+        }
+        $result = false;
+        if ($curl_result != false) {
+            $result = json_decode($curl_result, 1);
+        }
         return $result;
     }
 

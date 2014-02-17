@@ -1281,20 +1281,22 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 input.mw-title-field{
   font-size: 18px;
-  padding-top:5px;
-  padding-bottom: 5px;
+  padding:12px;
   width: 328px;
-
-  height: 23px;
-  border-left: none;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
 }
+.mw-title-field-label{
+  display: none !important;
+}
+
 .mw-title-field-label-post + input.mw-title-field,
 .mw-title-field-label-product + input.mw-title-field,
 .mw-title-field-label-page + input.mw-title-field{
-  width: 355px;
+  width: 405px;
   float: left;
+  background: #f5f5f5
+
 }
 
 
@@ -2940,6 +2942,9 @@ body.dragStart .empty-element.currentDragMouseOver:before{
   padding: 12px;
   text-align: center;
 }
+
+
+
 
 
 

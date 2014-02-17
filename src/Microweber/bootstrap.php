@@ -12,10 +12,11 @@
  *
  */
 
-
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
+
+
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname(dirname(dirname(__FILE__))) . DS);
 }

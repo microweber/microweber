@@ -325,6 +325,8 @@ class User
                 $name = ucwords($name);
                 if (trim($name) == '' and $user_data['email'] != '') {
                     $name = $user_data['email'];
+					$name_from_email = explode('@',$user_data['email']);
+                $name = $name_from_email[0];
                 }
                 if (trim($name) == '' and $user_data['username'] != '') {
                     $name = $user_data['username'];
@@ -339,7 +341,8 @@ class User
             if (isset($user_data['username']) and $user_data['username'] != false and trim($user_data['username']) != '') {
                 $name = $user_data['username'];
             } else if (isset($user_data['email']) and $user_data['email'] != false and trim($user_data['email']) != '') {
-                $name = $user_data['email'];
+				$name_from_email = explode('@',$user_data['email']);
+                $name = $name_from_email[0];
             }
         }
 
