@@ -97,10 +97,14 @@
 
                 </li>
                 <li class="create-content-dropdown">
-                    <a href="javascript:;" class="tst-add" title="Create or manage your content">
-                        <span>Create or manage your content</span>
-                        <i class=" dd_rte_arr right"></i>
+
+
+                    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Create or manage your content" style="margin: 12px;background-color: #fff">
+                        <span class="ico iplus"></span>
+                        Add New
                     </a>
+
+
 
                     <?php event_trigger('mw_live_edit_content_toolbar_menu_start'); ?>
 
@@ -134,30 +138,20 @@
 
                     </ul>
                 </li>
-                <li class="create-content-dropdown modules-layouts-menu">
-                    <a href="javascript:;" class="mw-pin tst-modules" title="Modules & Layouts"
-                       data-for="#modules-and-layouts,#tab_modules,.tst-modules"><span><?php _e("Modules & Layouts"); ?></span><?php /*<i class=" dd_rte_arr right"></i>*/ ?>
-                    </a>
-                    <?php
-
-                    /* <ul class="mw-dropdown-list create-content-dropdown-list">
-                      <li><a href="javascript:;" onclick="toolbar_set('modules');" ><span>Modules</span></a></li>
-                      <li><a href="javascript:;" onclick="toolbar_set('layouts');" ><span>Layouts</span></a></li>
-                    </ul>*/
-                    ?>
 
 
-                </li>
-                <li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a>
-                </li>
+            <?php /*    <li><a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Browse Modules" style="margin: 12px 12px 12px 0;background-color: #fff">Modules</a></li>  */ ?>
+
+                <?php /*<li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a>
+                </li>*/ ?>
 
                 <li>
-                <span style="display: none"
-                      class="liveedit_wysiwyg_prev"
-                      id="liveedit_wysiwyg_main_prev"
-                      title="<?php _e("Previous"); ?>"
-                      onclick="mw.liveEditWYSIWYG.slideLeft();">
-                </span>
+                  <span style="display: none"
+                        class="liveedit_wysiwyg_prev"
+                        id="liveedit_wysiwyg_main_prev"
+                        title="<?php _e("Previous"); ?>"
+                        onclick="mw.liveEditWYSIWYG.slideLeft();">
+                  </span>
                 </li>
 
 
@@ -185,6 +179,8 @@
                                 <a title="Back to Admin" href="<?php print $back_url; ?>"><span
                                         class="ico ibackarr"></span><span><?php _e("Back to Admin"); ?></span></a>
                             </li>
+
+
                             <li>
                                     <script>
 
@@ -226,6 +222,13 @@
                                             class="ico iPublish"></span><span><?php _e("Publish"); ?></span></a>
                                 </li>
                             <?php endif; ?>
+                            <li class="ts_main_li mw-designtype-universal">
+                                <a href="javascript:;" onclick="mw.drag.module_settings('settings/template');">
+                                       <span class="ico ico-extools active"></span>
+                                Template Settings</a>
+                            </li>
+
+                            <li><a  href="#design_bnav" class="mw_ex_tools"><span class="ico itabadvanced"></span>Tools</a></li>
                             <li><a href="<?php print mw('url')->api_link('logout'); ?>"><span
                                         class="ico ilogout"></span><span><?php _e("Logout"); ?></span></a></li>
                         </ul>
@@ -269,7 +272,7 @@
                 <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
             </div>
         </div>
-        <div id="tab_modules" class="mw_toolbar_tab">
+        <div id="tab_modules" class="mw_toolbar_tab active">
             <div class="modules_bar_slider bar_slider">
                 <div class="modules_bar">
                     <module type="admin/modules/list"/>

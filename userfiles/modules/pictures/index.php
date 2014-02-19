@@ -88,7 +88,7 @@ if (isset($params['rel_id']) == true): ?>
         </script>
     <?php } ?>
     <?php if (defined('IN_EDIT')): ?>
-         <a href="javascript:;" onclick="mw.drag.module_view('quick_add');">+Add picture</a>
+         <?php /*<a href="javascript:;" onclick="mw.drag.module_view('quick_add');">+Add picture</a>*/ ?>
     <?php endif; ?>
     <?php
 

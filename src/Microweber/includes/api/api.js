@@ -276,28 +276,6 @@ mw.askusertostay = false;
     api_url: '<?php print site_url(); ?>api/',
     libs_url: '<?php   print( INCLUDES_URL);  ?>api/libs/',
     api_html: '<?php print site_url(); ?>api_html/',
-    libs:{
-      jqueryui:['jquery-ui.min.css', 'jquery-ui.min.js'],
-      morris:['morris.css', 'raphael.js', 'morris.js'],
-      bootstrap2:[function(){
-        var v = mwd.querySelector('meta[name="viewport"]');
-        if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
-        v.content = "width=device-width, initial-scale=1.0";
-        mwhead.appendChild(v);
-      }, 'css/bootstrap.min.css', 'css/bootstrap-responsive.min.css', 'js/bootstrap.min.js'],
-      bootstrap3:[function(){
-        var v = mwd.querySelector('meta[name="viewport"]');
-        if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
-        v.content = "width=device-width, initial-scale=1.0";
-        mwhead.appendChild(v);
-      }, 'bootstrap.min.css', 'bootstrap.min.js'],
-      flatstrap3:[function(){
-        var v = mwd.querySelector('meta[name="viewport"]');
-        if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
-        v.content = "width=device-width, initial-scale=1.0";
-        mwhead.appendChild(v);
-      }, 'css/bootstrap.min.css', 'js/bootstrap.min.js']
-    },
     page_id: '<?php print intval(PAGE_ID) ?>',
     post_id: '<?php print intval(POST_ID) ?>',
     category_id: '<?php print intval(CATEGORY_ID) ?>',
@@ -345,6 +323,45 @@ mw.askusertostay = false;
     },
     sorthandle_delete_confirmation_text: "<?php _e("Are you sure you want to delete this element"); ?>?"
   }
+
+
+
+  mw.settings.libs = {
+      jqueryui:['jquery-ui.min.css', 'jquery-ui.min.js'],
+      morris:['morris.css', 'raphael.js', 'morris.js'],
+      rangy:['rangy-core.js','rangy-cssclassapplier.js','rangy-selectionsaverestore.js','rangy-serializer.js'],
+      bootstrap2:[
+        function(){
+          var v = mwd.querySelector('meta[name="viewport"]');
+          if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
+          v.content = "width=device-width, initial-scale=1.0";
+          mwhead.appendChild(v);
+        },
+        'css/bootstrap.min.css',
+        'css/bootstrap-responsive.min.css',
+        'js/bootstrap.min.js'],
+      bootstrap3:[
+        function(){
+            var v = mwd.querySelector('meta[name="viewport"]');
+            if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
+            v.content = "width=device-width, initial-scale=1.0";
+            mwhead.appendChild(v);
+        },
+        'bootstrap.min.css',
+        'bootstrap.min.js'
+      ],
+      flatstrap3:[
+        function(){
+        var v = mwd.querySelector('meta[name="viewport"]');
+        if(v === null){ var v = mwd.createElement('meta'); v.name = "viewport"; }
+        v.content = "width=device-width, initial-scale=1.0";
+        mwhead.appendChild(v);
+      },
+      'css/bootstrap.min.css',
+      'js/bootstrap.min.js'
+    ]
+  }
+
 
 
   mw.load_module = function($module_name, $update_element, callback, attributes) {

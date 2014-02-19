@@ -24,10 +24,11 @@
                         </span>
               <div class="mw_dropdown_fields">
                         <ul>
-                          <li value="8"><a href="javascript:;">8</a></li>
                           <li value="10"><a href="javascript:;">10</a></li>
+                          <li value="11"><a href="javascript:;">11</a></li>
                           <li value="12"><a href="javascript:;">12</a></li>
                           <li value="14"><a href="javascript:;">14</a></li>
+                          <li value="16"><a href="javascript:;">16</a></li>
                           <li value="18"><a href="javascript:;">18</a></li>
                           <li value="24"><a href="javascript:;">24</a></li>
                           <li value="36"><a href="javascript:;">36</a></li>

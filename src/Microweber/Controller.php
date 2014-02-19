@@ -135,8 +135,8 @@ class Controller
         header("Content-Type: application/rss+xml; charset=UTF-8");
 
         $cont = get_content("is_active=y&is_deleted=n&limit=2500&orderby=updated_on desc");
-        $site_title = $this->app->option->get('website_title', 'website');
 
+        $site_title = $this->app->option->get('website_title', 'website');
         $site_desc = $this->app->option->get('website_description', 'website');
         $rssfeed = '<?xml version="1.0" encoding="UTF-8"?>';
         $rssfeed .= '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">' . "\n";
