@@ -488,15 +488,17 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 
 #modules-and-layouts{
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
+  top: 0 ;
+  left: 15%;
   z-index: 99;
-  width: 100%;
+  width: 70%;
   height: 9px;
   overflow: hidden;
   border: none !important;
   cursor: pointer;
 }
+
+
 
 #modules-and-layouts:after{
   position: absolute;
@@ -525,6 +527,8 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 
 #modules-and-layouts:hover{
   height: 100px !important;
+  left: 0;
+  width: 100%;
   box-shadow:none;
   cursor: default;
   -webkit-transition: height 200ms cubic-bezier(1,.28,1,.09);

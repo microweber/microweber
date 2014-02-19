@@ -648,12 +648,7 @@ mw.drag = {
              mw.$(".tc-activecell").removeClass('tc-activecell');
            }
 
-           if(mw.tools.hasParentsWithClass(target, 'nodrop') || mw.tools.hasClass(target.className, 'nodrop')){
-             mw.wysiwyg.disableEditors();
-           }
-           else{
-              mw.wysiwyg.enableEditors();
-           }
+
 
 
 

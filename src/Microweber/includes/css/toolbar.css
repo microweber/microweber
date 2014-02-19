@@ -1098,15 +1098,7 @@ li .ts_action_item:last-child{
   left: 14px;
 }
 
-#modules-and-layouts{
-  position: absolute;
-  top: -9999px;
-  border-top: 1px solid #E5E5E5;
-}
-#modules-and-layouts.active{
-  position: relative;
-  top: 0;
-}
+
 
 input.mwtb-search{
   width: 99px;

@@ -60,12 +60,7 @@
   line-height: normal;
 }
 
-.mw_editor.disabled{
-  opacity: 1;
-}
-.mw_editor.disabled > *{
-  opacity: 0.5;
-}
+
 
 .mw_editor_btn{
   display: inline-block;
@@ -74,7 +69,25 @@
   height: 25px;
   padding: 1px;
   border-radius: 1px;
+  position: relative;
 }
+
+.mw-editor-disabled #liveedit_wysiwyg:after{
+   content:"";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background:#F5F5F5;
+    opacity: 0.8;
+    cursor: default;
+    visibility: visible;
+    z-index: 99;
+}
+
+
 
 
 .editor_wrapper{
@@ -216,6 +229,10 @@
   border:1px solid #DCDCDC;
   background: #F5F5F5;
   border-radius: 1px;
+}
+
+.mw_small_editor.mw-editor-disabled{
+  display: none !important;
 }
 
 #mw_small_editor:hover{
@@ -697,6 +714,10 @@
   background:#3399FF;
   color: white;
 }
+
+
+
+
 
 /*
 body.toolbar-hover .edit ::selection{

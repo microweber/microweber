@@ -551,6 +551,18 @@ mw.edit_content.handle_form_submit = function(go_live){
               module.removeClass('loading');
               if(typeof this.title !== 'undefined'){
                 mw.notification.error('Please enter title');
+				
+				$('.mw-title-field').animate({
+				paddingLeft: "+=5px",
+				 
+ 				backgroundColor: "#efecec"
+				}).animate({
+				paddingLeft: "-=5px",
+				 
+ 				backgroundColor: "white"
+				});
+
+
               }
               if(typeof this.content !== 'undefined'){
                 mw.notification.error('Please enter content');
