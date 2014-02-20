@@ -1579,7 +1579,7 @@ class User
             if ($is_the_same != $val) {
                 $_SESSION[$name] = $val;
             }
-            return;
+            return $_SESSION;
         }
 
 
@@ -1599,10 +1599,11 @@ class User
             } else {
                 $is_the_same = $this->session_get($name);
 
-                if ($is_the_same != $val) {
+                 if ($is_the_same != $val) {
                     $_SESSION[$name] = $val;
-                }
+                 }
             }
+            //return $_SESSION;
         }
     }
 
@@ -1647,6 +1648,7 @@ class User
             // probable timout here?!
         }
         //
+
         if (isset($_SESSION) and isset($_SESSION[$name])) {
 
 
@@ -1655,11 +1657,12 @@ class User
             } else if ($_SESSION['ip'] != MW_USER_IP) {
 
                 // mw('user')->session_end();
-                return false;
+                //return false;
             }
 
-            $value = ($_SESSION[$name]);
-            return $value;
+
+
+            return $_SESSION[$name];
         } else {
             return false;
         }

@@ -489,13 +489,13 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 #modules-and-layouts{
   position: fixed !important;
   top: 0 ;
-  left: 15%;
+  left: 0;
   z-index: 99;
-  width: 70%;
-  height: 9px;
+  width: 100%;
+  height: 18px;
   overflow: hidden;
-  border: none !important;
   cursor: pointer;
+  border-bottom: 1px solid #ddd;
 }
 
 
@@ -508,16 +508,17 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
   left: 0;
   width:100%;
   height: 100%;
-  background: #f5f5f5;
+  background-color: #f5f5f5;
+  background-image: url(../img/modulestoolbar.png);
+  background-repeat: no-repeat;
+  background-position: center center;
   z-index: 6;
 }
 
 
 
 #live_edit_toolbar:hover #modules-and-layouts:after{
-  background: #0088CC;
-  background: #fff;
-/*  box-shadow: 0 0 6px #000;        */
+
 }
 
 #live_edit_toolbar:hover #modules-and-layouts{
@@ -526,7 +527,8 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 
 
 #modules-and-layouts:hover{
-  height: 100px !important;
+  height: 90px !important;
+  border-bottom: none !important;
   left: 0;
   width: 100%;
   box-shadow:none;

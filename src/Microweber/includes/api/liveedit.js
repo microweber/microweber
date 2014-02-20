@@ -1323,7 +1323,6 @@ mw.drag = {
 				el.parents('.mw-row:first').height('auto')
 			}
 
-            //el.children('.empty-element').height('auto');
 			el.height('auto');
             var mwr = mw.tools.firstParentWithClass(this, 'mw-row');
             if(!!mwr) {
@@ -1354,28 +1353,31 @@ mw.drag = {
 	 * @example mw.drag.fix_placeholders(isHard , selector)
 	 */
     fix_placeholders:function(isHard, selector){
-      var selector = selector || '.mw-row';
-      if(isHard){ //append the empty elements
-       $(selector).each(function(){
-          var el = $(this);
-          el.children("div.mw-col").each(function(){
-            var the_empty_child = $(this).children("div.empty-element");
-            if(the_empty_child.length==0){
-              $(this).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-              var the_empty_child = $(this).children("div.empty-element");
-            }
-          });
-        });
+      if($(window).width() < 768){
+        return false;
       }
-      //scale the empty elements
-      mw.$("div.empty-element").css({position:'absolute'});
-      mw.$("div.empty-element").parent().height('auto');
-      mw.$("div.empty-element").each(function(){
-        var el = $(this);
-        var the_row_height = el.parents(".mw-row").eq(0).height();
-        var the_column_height = el.parent().height();
-        el.css({height:the_row_height-the_column_height, position:'relative'});
-      });
+          var selector = selector || '.mw-row';
+          if(isHard){ //append the empty elements
+           $(selector).each(function(){
+              var el = $(this);
+              el.children("div.mw-col").each(function(){
+                var the_empty_child = $(this).children("div.empty-element");
+                if(the_empty_child.length==0){
+                  $(this).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
+                  var the_empty_child = $(this).children("div.empty-element");
+                }
+              });
+            });
+          }
+          //scale the empty elements
+          mw.$("div.empty-element").css({position:'absolute'});
+          mw.$("div.empty-element").parent().height('auto');
+          mw.$("div.empty-element").each(function(){
+            var el = $(this);
+            var the_row_height = el.parents(".mw-row").eq(0).height();
+            var the_column_height = el.parent().height();
+            el.css({height:the_row_height-the_column_height, position:'relative'});
+          });
     },
 
 
@@ -1887,9 +1889,6 @@ mw.pcWidthExtend = function(selector, howMuch, cache, final, len){
 
 mw.px2pc = function(row){
 
-
-
-
     var cache = [];
     var row = $(row);
     var width = row.width();
@@ -1919,6 +1918,7 @@ mw.px2pc = function(row){
 
 
 mw.scale_cols = function(){
+
   $(".mw-row").each(function(){
     var el = $(this);
     var cols = el.children(".mw-col");
@@ -1965,6 +1965,10 @@ mw.delete_column = function(which){
  * @example mw.resizable_columns()
  */
 mw.resizable_columns = function () {
+if($(window).width() < 768){
+  return false;
+}
+
 
 $(".mw-row").each(function(){
     mw.px2pc(this);

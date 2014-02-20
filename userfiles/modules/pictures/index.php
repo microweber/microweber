@@ -81,7 +81,7 @@ if (isset($params['rel_id']) == true): ?>
             var rel = mw.tools.mwattr(_edit, 'rel');
             var field = mw.tools.mwattr(_edit, 'field');
             var is = (!!rel && !!field) && ( (rel == 'content' || rel == 'page' || rel == 'post') && field == 'content' );
-            if (is && (_edit.querySelector('.module[data-type="pictures"][content-id]') === null)) {
+            if (is && (_edit.querySelector('.module[data-type="pictures"][content-id]') === null) && (_edit.querySelector('.module[data-type="pictures"][rel="content"]') === null)) {
                 $(_this).attr('content-id', "<?php print CONTENT_ID ?>");
                 mw.reload_module(_this);
             }
@@ -99,7 +99,10 @@ if (isset($params['rel_id']) == true): ?>
     }
 
     if (isset($no_img) and ($no_img) != false) {
-        print lnotif("<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" . $config['url_to_module'] . "pictures.png' /></div>");
+
+
+       // print lnotif("<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" . $config['url_to_module'] . "pictures.png' /></div>");
+        print "<div class='pictures-module-default-view mw-open-module-settings thumbnail'><img src='" . $config['url_to_module'] . "pictures.png' /></div>";
     } else if ($no_img != true and !empty($data) and isset($template_file) and is_file($template_file) != false) {
         include($template_file);
     } else {

@@ -349,12 +349,16 @@ mw.wysiwyg = {
     },
     editors_disabled:false,
     enableEditors:function(){
+
         mw.$(".mw_editor, #mw_small_editor").removeClass("mw-editor-disabled");
         mw.wysiwyg.editors_disabled = false;
+
+
+
     },
     disableEditors:function(){
-       mw.$(".mw_editor, #mw_small_editor").addClass("mw-editor-disabled");
-       mw.wysiwyg.editors_disabled = false;
+      /*  mw.$(".mw_editor, #mw_small_editor").addClass("mw-editor-disabled");
+       mw.wysiwyg.editors_disabled = false;   */
     },
     checkForTextOnlyElements:function(e, method){
       var e = e || false;

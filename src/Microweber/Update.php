@@ -59,8 +59,8 @@ class Update
 
         $t = mw('content')->site_templates();
         $data['templates'] = $t;
-        $t = $this->app->module->scan_for_modules("skip_cache=1");
-        //$t = $this->app->module->get("ui=any");
+        //$t = $this->app->module->scan_for_modules("skip_cache=1");
+       $t = $this->app->module->get("ui=any");
         $data['modules'] = $t;
         $data['module_templates'] = array();
         if (is_array($t)) {

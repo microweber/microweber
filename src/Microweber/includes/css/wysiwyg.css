@@ -86,6 +86,9 @@
     visibility: visible;
     z-index: 99;
 }
+.mw-editor-disabled .wysiwyg-convertible.active{
+  display: none !important;
+}
 
 
 

@@ -268,6 +268,10 @@ description: Default comments template
 		<form autocomplete="on" id="comments-form-<?php print $data['id'] ?>" class="form-group">
 			<input type="hidden" name="rel_id" value="<?php print $data['rel_id'] ?>">
 			<input type="hidden" name="rel" value="<?php print $data['rel'] ?>">
+            <input type="hidden" name="module_id" value="<?php print $params['id'] ?>">
+
+          
+            
 			<?php if($form_title != false): ?>
 			<input type="hidden" name="comment_subject" value="<?php print $form_title ?>">
 			<?php endif; ?>
@@ -305,7 +309,7 @@ description: Default comments template
 			<div class="row captcha-row">
 				<div class="col-sm-6">
                         <div class="inline-block" style="background: white;">
-                          <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>" onclick="mw.tools.refresh_image(this);">
+                          <img title="Click to refresh image" alt="<?php _e("Captcha image"); ?>" class="mw-captcha-img" src="<?php print site_url('api_html/captcha') ?>?id=<?php print $params['id']; ?>" onclick="mw.tools.refresh_image(this);">
                           <input type="text" name="captcha" required class="form-control" style="width:90px;display:inline" placeholder="<?php _e("Enter text"); ?>">
                         </div>
 

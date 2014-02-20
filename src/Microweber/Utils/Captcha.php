@@ -15,10 +15,7 @@ class Captcha
         $font = dirname(__FILE__) . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
         $font = normalize_path($font, 0);
 
-        header("Content-type: image/png");
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        header("Pragma: no-cache");
+
         if (function_exists('imagettftext')) {
             $text1 = mt_rand(100, 4500);
         } else {
@@ -40,7 +37,14 @@ class Captcha
         $bgcolor = imagecolorallocate($image, 255, 255, 255);
         // $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
         $black = imagecolorallocate($image, 0, 0, 0);
-        mw('user')->session_set('captcha', $answ);
+        $captcha_sid = 'captcha';
+        if (isset($_GET['id'])) {
+            $captcha_sid = 'captcha_'.$_GET['id'];
+        }
+
+        $sess = mw()->user->session_set($captcha_sid, $answ);
+        // $test = mw()->user->session_get('captcha');
+
         // session_write_close();
         $col1z = rand(200, 242);
         $col1z1 = rand(150, 242);
@@ -121,13 +125,19 @@ class Captcha
         $embize = mt_rand(1, 4);
         // imageconvolution($image, $emboss, $embize, 255);
         //   imagefilter($image, IMG_FILTER_SMOOTH, 50);
+
+        header("Content-type: image/png");
+        header("Cache-Control: no-store, no-cache, must-revalidate");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+
+
         imagepng($image);
         imagecolordeallocate($image, $bgcolor);
         imagecolordeallocate($image, $black);
 
         imagedestroy($image);
     }
-
 
     static function captcha_vector($palette, $startx, $starty, $angle, $length, $colour)
     {

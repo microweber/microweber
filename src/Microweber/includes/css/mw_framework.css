@@ -411,7 +411,7 @@ body.loaded #live_edit_toolbar{
 
 #live_edit_toolbar{
   position: fixed;
-  top: 0;
+  top: 19px;
   left: 0;
   border-bottom: 1px solid #DDDDDD;
 }
@@ -1282,9 +1282,10 @@ a.mw-ui-btn, span.mw-ui-btn{
 input.mw-title-field{
   font-size: 18px;
   padding:12px;
-  width: 328px;
+  width: 368px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
+  background: #f5f5f5
 }
 .mw-title-field-label{
   display: none !important;
@@ -1295,7 +1296,7 @@ input.mw-title-field{
 .mw-title-field-label-page + input.mw-title-field{
   width: 405px;
   float: left;
-  background: #f5f5f5
+
 
 }
 

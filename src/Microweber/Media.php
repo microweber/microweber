@@ -16,17 +16,16 @@ api_expose('create_media_dir');
 api_expose('media/upload');
 api_expose('media/delete_media_file');
 
+
 class Media
 {
 
     public $app;
     public $tables = array();
     public $table_prefix = false;
+
     function __construct($app = null)
     {
-
-
-     
 
 
         if (!is_object($this->app)) {
@@ -46,7 +45,6 @@ class Media
         $this->tables['media'] = $prefix . 'media';
 
     }
-
 
     public function get_picture($content_id, $for = 'post', $full = false)
     {
@@ -101,6 +99,7 @@ class Media
     }
 
 
+
     public function upload_progress_check()
     {
         if ($this->app->user->is_admin() == false) {
@@ -142,7 +141,6 @@ class Media
         //ini_set("session.upload_progress.enabled", true);
         // return $_SESSION;
     }
-
 
     public function upload($data)
     {
@@ -269,7 +267,6 @@ class Media
         fclose($whandle);
     }
 
-
     public function reorder($data)
     {
 
@@ -295,7 +292,6 @@ class Media
         }
     }
 
-
     public function delete($data)
     {
 
@@ -317,6 +313,29 @@ class Media
         }
     }
 
+    public function get($params)
+    {
+
+        $table = $this->tables['media'];
+        $params = parse_params($params);
+        /*
+         // if (is_string($params)) {
+         // $params = parse_str($params, $params2);
+         // $params = $params2;
+         // }*/
+
+        if (isset($params['for'])) {
+            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
+        }
+
+        // $params['debug'] = $table;
+        $params['limit'] = 1000;
+        $params['table'] = $table;
+        $params['orderby'] = 'position ASC';
+        $data = $this->app->db->get($params);
+
+        return $data;
+    }
 
     public function save($data)
     {
@@ -427,71 +446,6 @@ class Media
             mw_error('Invalid data');
         }
     }
-
-    public function pixum_img()
-    {
-        $mime_type = "image/jpg";
-        $extension = ".jpg";
-        $cache_folder = MW_CACHE_DIR . 'pixum' . DS;
-        if (!is_dir($cache_folder)) {
-            mkdir_recursive($cache_folder);
-        }
-
-        if (isset($_REQUEST['width'])) {
-            $w = $_REQUEST['width'];
-        } else {
-            $w = 1;
-        }
-
-        if (isset($_REQUEST['height'])) {
-            $h = $_REQUEST['height'];
-        } else {
-            $h = 1;
-        }
-        $h = intval($h);
-        $w = intval($w);
-        if ($h == 0) {
-            $h = 1;
-        }
-
-        if ($w == 0) {
-            $w = 1;
-        }
-        $hash = 'pixum-' . ($h) . 'x' . $w;
-        $cachefile = $cache_folder . '/' . $hash . $extension;
-
-        header("Content-Type: image/jpg");
-
-        # Generate cachefile for image, if it doesn't exist
-        if (!file_exists($cachefile)) {
-
-            $img = imagecreatetruecolor($w, $h);
-
-            $bg = imagecolorallocate($img, 225, 226, 227);
-
-            imagefilledrectangle($img, 0, 0, $w, $h, $bg);
-            //  header("Content-type: image/png");
-            imagejpeg($img, $cachefile);
-            imagedestroy($img);
-
-            $fp = fopen($cachefile, 'rb');
-            # stream the image directly from the cachefile
-            fpassthru($fp);
-            exit;
-        } else {
-
-            $fp = fopen($cachefile, 'rb');
-            # stream the image directly from the cachefile
-            fpassthru($fp);
-            exit;
-        }
-    }
-
-    public function pixum($width, $height)
-    {
-        return $this->app->url->site('api/pixum_img') . "?width=" . $width . "&height=" . $height;
-    }
-
 
     public function thumbnail_img($params)
     {
@@ -612,7 +566,7 @@ class Media
                     if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
                         $tn = new \Microweber\Thumbnailer($src);
                         $thumbOptions = array('maxLength' => $height, 'width' => $width);
-                         $tn->createThumb($thumbOptions, $cache_path);
+                        $tn->createThumb($thumbOptions, $cache_path);
 
                         unset($tn);
                     } else {
@@ -641,6 +595,108 @@ class Media
 
     }
 
+    public function pixum($width, $height)
+    {
+        return $this->app->url->site('api/pixum_img') . "?width=" . $width . "&height=" . $height;
+    }
+
+    public function pixum_img()
+    {
+        $mime_type = "image/jpg";
+        $extension = ".jpg";
+        $cache_folder = MW_CACHE_DIR . 'pixum' . DS;
+        if (!is_dir($cache_folder)) {
+            mkdir_recursive($cache_folder);
+        }
+
+        if (isset($_REQUEST['width'])) {
+            $w = $_REQUEST['width'];
+        } else {
+            $w = 1;
+        }
+
+        if (isset($_REQUEST['height'])) {
+            $h = $_REQUEST['height'];
+        } else {
+            $h = 1;
+        }
+        $h = intval($h);
+        $w = intval($w);
+        if ($h == 0) {
+            $h = 1;
+        }
+
+        if ($w == 0) {
+            $w = 1;
+        }
+        $hash = 'pixum-' . ($h) . 'x' . $w;
+        $cachefile = $cache_folder . '/' . $hash . $extension;
+
+        header("Content-Type: image/jpg");
+
+        # Generate cachefile for image, if it doesn't exist
+        if (!file_exists($cachefile)) {
+
+            $img = imagecreatetruecolor($w, $h);
+
+            $bg = imagecolorallocate($img, 225, 226, 227);
+
+            imagefilledrectangle($img, 0, 0, $w, $h, $bg);
+            //  header("Content-type: image/png");
+            imagejpeg($img, $cachefile);
+            imagedestroy($img);
+
+            $fp = fopen($cachefile, 'rb');
+            # stream the image directly from the cachefile
+            fpassthru($fp);
+            exit;
+        } else {
+
+            $fp = fopen($cachefile, 'rb');
+            # stream the image directly from the cachefile
+            fpassthru($fp);
+            exit;
+        }
+    }
+
+    private function svgScaleHack($svg, $minWidth, $minHeight)
+    {
+        $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
+        $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
+        preg_match($reW, $svg, $mw);
+        preg_match($reH, $svg, $mh);
+
+        if (!isset($mw[2]) and isset($mh[2])) {
+            $mw[2] = $mh[2];
+        }
+
+        if (empty($mw)) {
+            $width = floatval($minWidth);
+            $height = floatval($minHeight);
+        } else {
+            $width = floatval($mw[2]);
+            $height = floatval($mh[2]);
+        }
+
+        if (!$width || !$height) return false;
+
+        // scale to make width and height big enough
+        $scale = 1;
+        if ($width < $minWidth) {
+            $scale = $minWidth / $width;
+        }
+        if ($height < $minHeight) {
+            $scale = max($scale, ($minHeight / $height));
+        }
+        $scale = 1;
+        //$width *= $scale*2;
+        //$height *= $scale*2;
+
+        $svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
+        $svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
+
+        return $svg;
+    }
 
     public function thumbnail($src, $width = 200, $height = 200)
     {
@@ -787,31 +843,6 @@ class Media
         //d($src);
     }
 
-    public function get($params)
-    {
-
-        $table = $this->tables['media'];
-        $params = parse_params($params);
-        /*
-         // if (is_string($params)) {
-         // $params = parse_str($params, $params2);
-         // $params = $params2;
-         // }*/
-
-        if (isset($params['for'])) {
-            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
-        }
-
-        // $params['debug'] = $table;
-        $params['limit'] = 1000;
-        $params['table'] = $table;
-        $params['orderby'] = 'position ASC';
-        $data = $this->app->db->get($params);
-
-        return $data;
-    }
-
-
     public function create_media_dir($params)
     {
         only_admin_access();
@@ -847,7 +878,6 @@ class Media
         return $resp;
 
     }
-
 
     public function delete_media_file($params)
     {
@@ -894,46 +924,6 @@ class Media
         }
         return $resp;
 
-    }
-
-
-    private function svgScaleHack($svg, $minWidth, $minHeight)
-    {
-        $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
-        $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
-        preg_match($reW, $svg, $mw);
-        preg_match($reH, $svg, $mh);
-
-        if (!isset($mw[2]) and isset($mh[2])) {
-            $mw[2] = $mh[2];
-        }
-
-        if (empty($mw)) {
-            $width = floatval($minWidth);
-            $height = floatval($minHeight);
-        } else {
-            $width = floatval($mw[2]);
-            $height = floatval($mh[2]);
-        }
-
-        if (!$width || !$height) return false;
-
-        // scale to make width and height big enough
-        $scale = 1;
-        if ($width < $minWidth) {
-            $scale = $minWidth / $width;
-        }
-        if ($height < $minHeight) {
-            $scale = max($scale, ($minHeight / $height));
-        }
-        $scale = 1;
-        //$width *= $scale*2;
-        //$height *= $scale*2;
-
-        $svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
-        $svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
-
-        return $svg;
     }
 
 

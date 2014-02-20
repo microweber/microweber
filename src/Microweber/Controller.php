@@ -2056,11 +2056,23 @@ class Controller
 
         $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
         $l = $l->__toString();
-        // var_dump($l);
-        //session_write_close();
+
+
+//        $api_files = array('tools.js', 'url.js', 'wysiwyg.js', 'liveedit.js'
+//        , 'liveadmin.js' );
+//        $api_files_output = '';
+//        foreach ($api_files as $api_file) {
+//            $f = MW_INCLUDES_DIR . 'api' . DS . $api_file;
+//            if (is_file($f)) {
+//                $api_files_output = $api_files_output . "\n\n" . file_get_contents($f);
+//            }
+//        }
+
+
         $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
         $l = str_replace('{MW_SITE_URL}', $this->app->url->site(), $l);
         $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
+        //  $l = $l.$api_files_output;
         //$l = $this->app->parser->process($l, $options = array('parse_only_vars' => 1));
         print $l;
         exit();

@@ -2637,8 +2637,8 @@ a.module-icon-title{
   opacity: 0.5;
 }
 .pictures-module-default-view{
-  padding: 60px;
-  width: 100px;
+  padding: 60px 0;
+  width: 100%;
   text-align: center;
   background: #fff url(../img/logomark_modules.png) no-repeat 20px 20px;
   background-size: 25px 25px;
@@ -2648,6 +2648,7 @@ a.module-icon-title{
 }
 .pictures-module-default-view img{
   opacity: 0.5;
+  margin: auto;
 }
 
 .picture-module-default-view{
