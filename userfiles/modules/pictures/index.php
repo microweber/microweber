@@ -82,8 +82,10 @@ if (isset($params['rel_id']) == true): ?>
             var field = mw.tools.mwattr(_edit, 'field');
             var is = (!!rel && !!field) && ( (rel == 'content' || rel == 'page' || rel == 'post') && field == 'content' );
             if (is && (_edit.querySelector('.module[data-type="pictures"][content-id]') === null) && (_edit.querySelector('.module[data-type="pictures"][rel="content"]') === null)) {
-                $(_this).attr('content-id', "<?php print CONTENT_ID ?>");
+                if (is && (_edit.querySelector('.module[type="pictures"][content-id]') === null) && (_edit.querySelector('.module[type="pictures"][rel="content"]') === null)) {
+			    $(_this).attr('content-id', "<?php print CONTENT_ID ?>");
                 mw.reload_module(_this);
+				}
             }
         </script>
     <?php } ?>

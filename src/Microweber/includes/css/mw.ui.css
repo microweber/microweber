@@ -1151,6 +1151,9 @@ div.mw-date{
   background: white;
   box-shadow: 0px 1px 2px -2px  #111;
 }
+.toolbar-sections-tabs .mw-dropdown-list{
+  top: 102%;
+}
 
 
 

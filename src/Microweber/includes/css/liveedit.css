@@ -526,7 +526,7 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 }
 
 
-#modules-and-layouts:hover{
+#modules-and-layouts.hovered{
   height: 90px !important;
   border-bottom: none !important;
   left: 0;
@@ -538,7 +538,7 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
   -o-transition: height 200ms cubic-bezier(1,.28,1,.09);
   transition: height 200ms cubic-bezier(1,.28,1,.09);
 }
-#modules-and-layouts:hover:after{
+#modules-and-layouts.hovered:after{
   display: none;
 }
 

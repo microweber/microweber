@@ -2599,7 +2599,33 @@ $(document).ready(function(){
     $(mwd.body).addClass("toolbar-hover");
   }, function(){
      $(mwd.body).removeClass("toolbar-hover");
-  })
+  });
+
+
+  mw.modulesandlayoutsinterval = false;
+  mw.modulesandlayoutsintervalTime = 220;
+
+
+  mw.$("#modules-and-layouts").hover(function(){
+         var sel = window.getSelection();
+         if(sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed){
+             mw.modulesandlayoutsintervalTime = 470;
+         }
+         else{
+           mw.modulesandlayoutsintervalTime = 220;
+         }
+         clearTimeout(mw.modulesandlayoutsinterval);
+         var $el = $(this);
+         mw.modulesandlayoutsinterval = setTimeout(function(){
+            $el.addClass("hovered");
+         }, mw.modulesandlayoutsintervalTime);
+  }, function(){
+        clearTimeout(mw.modulesandlayoutsinterval);
+        $(this).removeClass("hovered");
+  }).click(function(){
+       clearTimeout(mw.modulesandlayoutsinterval);
+       $(this).addClass("hovered");
+  });
 
 
 });

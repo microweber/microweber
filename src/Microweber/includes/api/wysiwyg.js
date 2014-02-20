@@ -948,7 +948,20 @@ mw.wysiwyg = {
       }
     },
     selection_length:function(){
-      return window.getSelection().getRangeAt(0).cloneContents().childNodes.length;
+      var n = window.getSelection().getRangeAt(0).cloneContents().childNodes,
+          l = n.length,
+          i=0;
+      var final = 0;
+      for(;i<l;i++){
+        var item = n[i];
+        if(item.nodeType === 1){
+            var final = final + item.textContent.length;
+        }
+        else if(item.nodeType === 3){
+            var final = final + item.nodeValue.length;
+        }
+      }
+      return final;
     },
     fontFX:function(cls){
        mw.wysiwyg.applier('span', cls);

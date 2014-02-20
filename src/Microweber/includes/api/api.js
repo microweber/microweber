@@ -189,7 +189,7 @@ mw.askusertostay = false;
     to_delete_comment:"<?php _e('Are you sure you want to delete this comment'); ?>",
     del:"<?php _e('Are you sure you want to delete this?'); ?>",
     save_and_continue:"<?php _e('Save &amp; Continue'); ?>",
-    before_leave:"<?php _e("Leave withot saving"); ?>",
+    before_leave:"<?php _e("Leave without saving"); ?>",
     session_expired:"<?php _e("Your session has expired"); ?>",
     login_to_continue:"<?php _e("Please login to continue"); ?>",
     more:"<?php _e("More"); ?>",
