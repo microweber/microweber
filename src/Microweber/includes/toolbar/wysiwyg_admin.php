@@ -103,9 +103,12 @@ $(document).ready(function(){
                           <li value="14"><a href="javascript:;">14</a></li>
                           <li value="16"><a href="javascript:;">16</a></li>
                           <li value="18"><a href="javascript:;">18</a></li>
+                          <li value="20"><a href="javascript:;">20</a></li>
+                          <li value="20"><a href="javascript:;">22</a></li>
                           <li value="24"><a href="javascript:;">24</a></li>
                           <li value="36"><a href="javascript:;">36</a></li>
-                        </ul>
+                          <li value="72"><a href="javascript:;">72</a></li>
+                    </ul>
                       </div>
             </div>
 

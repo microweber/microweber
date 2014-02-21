@@ -533,10 +533,10 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
   width: 100%;
   box-shadow:none;
   cursor: default;
-  -webkit-transition: height 200ms cubic-bezier(1,.28,1,.09);
-  -moz-transition: height 200ms cubic-bezier(1,.28,1,.09);
-  -o-transition: height 200ms cubic-bezier(1,.28,1,.09);
-  transition: height 200ms cubic-bezier(1,.28,1,.09);
+  -webkit-transition: height 150ms cubic-bezier(1,.28,1,.09);
+  -moz-transition: height 150ms cubic-bezier(1,.28,1,.09);
+  -o-transition: height 150ms cubic-bezier(1,.28,1,.09);
+  transition: height 150ms cubic-bezier(1,.28,1,.09);
 }
 #modules-and-layouts.hovered:after{
   display: none;

@@ -736,7 +736,6 @@ class Layouts
                 }
                 $params = array_merge($sort_params, $sort_params2);
 
-
                 foreach ($params as $item) {
                     $curr = "";
                     if (!isset($item["css"]) and isset($item["property"]) and isset($item['value'])) {

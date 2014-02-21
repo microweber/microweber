@@ -2154,7 +2154,9 @@ class Controller
                 if (is_array($meta)) {
                     foreach ($meta as $key => $item) {
                         $item = addslashes($item);
-
+						$item = str_replace('&amp;zwnj;', '', $item);
+						$item = str_replace('&amp;quot;', ' ', $item);
+						
                         $item = str_replace('&amp;nbsp;', ' ', $item);
                         $item = str_replace('  ', '', $item);
                         $item = str_replace(' ', ' ', $item);

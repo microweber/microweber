@@ -1089,6 +1089,15 @@ mw.drag = {
                 if(target.tagName=='BODY'){
                   $(window).trigger("onBodyClick", target);
                 }
+
+                if(mw.tools.hasClass(target, 'mw-empty') || mw.tools.hasParentsWithClass(target, 'mw-empty') ){
+                    mw.$("#modules-and-layouts").addClass("hovered");
+                }
+                else{
+                  if(!mw.tools.hasClass(target, 'mw_toolbar_tab') || !mw.tools.hasParentsWithClass(target, 'mw_toolbar_tab')){
+                     mw.$("#modules-and-layouts").removeClass("hovered");
+                  }
+                }
             }
 
 

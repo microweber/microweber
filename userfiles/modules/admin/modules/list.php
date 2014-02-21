@@ -51,7 +51,6 @@ if(isset($_COOKIE['recommend']) and isset($modules) and is_array($modules)){
                     if($key == $item['module']){
                         $sorted_modules[] = $item;
                      }
-
                }
             }
         }
