@@ -1069,6 +1069,276 @@ class Controller
         exit();
     }
 
+    public function m()
+    {
+
+        if (!defined('MW_API_CALL')) {
+            define('MW_API_CALL', true);
+        }
+
+        if (!defined('MW_NO_OUTPUT')) {
+            define('MW_NO_OUTPUT', true);
+        }
+        return $this->module();
+    }
+
+    public function sitemapxml()
+    {
+
+
+        $sm_file = MW_CACHE_DIR . 'sitemap.xml';
+
+        $skip = false;
+        if (is_file($sm_file)) {
+            $filelastmodified = filemtime($sm_file);
+
+            if (($filelastmodified - time()) > 3 * 3600) {
+                $skip = 1;
+            }
+
+        }
+
+
+        if ($skip == false) {
+            $map = new \Microweber\Utils\Sitemap($sm_file);
+            $map->file = MW_CACHE_DIR . 'sitemap.xml';
+
+            $cont = get_content("is_active=y&is_deleted=n&limit=2500&fields=id,updated_on&orderby=updated_on desc");
+
+
+            if (!empty($cont)) {
+                foreach ($cont as $item) {
+                    $map->addPage($this->app->content->link($item['id']), 'daily', 1, $item['updated_on']);
+                }
+            }
+            $map = $map->create();
+
+        }
+        $map = $sm_file;
+        $fp = fopen($map, 'r');
+
+        // send the right headers
+        header("Content-Type: text/xml");
+        header("Content-Length: " . filesize($map));
+
+        // dump the file and stop the script
+        fpassthru($fp);
+        exit;
+
+
+    }
+
+    public function apijs()
+    {
+
+        define("MW_NO_SESSION", 1);
+
+
+        $ref_page = false;
+
+        if (isset($_REQUEST['id'])) {
+            $ref_page = $this->app->content->get_by_id($_REQUEST['id']);
+        } else if (isset($_SERVER['HTTP_REFERER'])) {
+            $ref_page = $_SERVER['HTTP_REFERER'];
+            if ($ref_page != '') {
+                $ref_page = $this->app->content->get_by_url($ref_page);
+                $page_id = $ref_page['id'];
+            }
+
+
+        }
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $cat_url = mw('url')->param('category', true, $_SERVER['HTTP_REFERER']);
+            if ($cat_url != false) {
+                if (!defined('CATEGORY_ID')) {
+                    define('CATEGORY_ID', intval($cat_url));
+                }
+            }
+        }
+
+        header("Content-type: text/javascript");
+        $this->app->content->define_constants($ref_page);
+
+
+        $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
+        $l = $l->__toString();
+
+
+        /*     $api_files = array('tools.js', 'url.js','forms.js','files.js','events.js' );
+             $api_files_output = '';
+             foreach ($api_files as $api_file) {
+                 $f = MW_INCLUDES_DIR . 'api' . DS . $api_file;
+                 if (is_file($f)) {
+                     $api_files_output = $api_files_output . "\n\n" . file_get_contents($f);
+                 }
+             }
+             foreach ($api_files as $api_file) {
+                 $api_files_output = str_replace('mw.require("'.$api_file.'");','',$api_files_output);
+             }*/
+
+
+        $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
+        $l = str_replace('{MW_SITE_URL}', $this->app->url->site(), $l);
+        $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
+        //  $l = $l.$api_files_output;
+        //$l = $this->app->parser->process($l, $options = array('parse_only_vars' => 1));
+        print $l;
+        exit();
+    }
+
+    public function plupload()
+    {
+        $this->app->content->define_constants();
+        $f = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
+        require ($f);
+        exit();
+    }
+
+    public function editor_tools()
+    {
+        if (!defined('IN_ADMIN')) {
+            define('IN_ADMIN', true);
+        }
+
+        if (MW_IS_INSTALLED == true) {
+            //event_trigger('mw_db_init');
+            //  event_trigger('mw_cron');
+        }
+
+        $tool = $this->app->url->segment(1);
+
+        if ($tool) {
+
+        } else {
+            $tool = 'index';
+        }
+        $page = false;
+        if (isset($_REQUEST["content_id"])) {
+
+            if (intval($_REQUEST["content_id"]) == 0) {
+                $this->create_new_page = true;
+                $this->return_data = 1;
+                $page = $this->index();
+
+            } else {
+                $page = $this->app->content->get_by_id($_REQUEST["content_id"]);
+
+            }
+
+
+        } elseif (isset($_SERVER["HTTP_REFERER"])) {
+            $url = $_SERVER["HTTP_REFERER"];
+            $url = explode('?', $url);
+            $url = $url[0];
+
+            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
+                //$page = $this->app->content->get_by_url($url);
+                $page = $this->app->content->homepage();
+            } else {
+
+                $page = $this->app->content->get_by_url($url);
+            }
+        } else {
+            $url = $this->app->url->string();
+        }
+
+
+        $this->app->content->define_constants($page);
+        $tool = str_replace('..', '', $tool);
+
+        $p_index = MW_INCLUDES_DIR . 'toolbar/editor_tools/index.php';
+        $p_index = normalize_path($p_index, false);
+
+        $p = MW_INCLUDES_DIR . 'toolbar/editor_tools/' . $tool . '/index.php';
+        $p = normalize_path($p, false);
+
+        $l = new $this->app->view($p_index);
+
+        $layout = $l->__toString();
+        // var_dump($l);
+
+        if (isset($_REQUEST['plain'])) {
+            if (is_file($p)) {
+                $p = new $this->app->view($p);
+
+                $layout = $p->__toString();
+                print $layout;
+                exit();
+
+            }
+        } else if (is_file($p)) {
+            $p = new $this->app->view($p);
+            $layout_tool = $p->__toString();
+            $layout = str_replace('{content}', $layout_tool, $layout);
+
+        } else {
+            $layout = str_replace('{content}', 'Not found!', $layout);
+        }
+
+
+        if (isset($page['render_file'])) {
+            $l = new $this->app->view($page['render_file']);
+            $l->page_id = PAGE_ID;
+            $l->content_id = CONTENT_ID;
+            $l->post_id = POST_ID;
+            $l->category_id = CATEGORY_ID;
+            $l->content = $page;
+            $l->page = $page;
+            $l->application = $this->app;
+            $l = $l->__toString();
+            $page['content'] = $this->app->parser->isolate_content_field($l);
+
+
+        }
+        if (isset($_REQUEST['empty_content'])) {
+            $page['content'] = '<div class="edit"></div>';
+        } elseif (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
+
+            //if (isset($page['content_type']) and $page['content_type'] != 'page') {
+            $render_file = $this->app->content->get_layout($page);
+
+            $page['render_file'] = $render_file;
+            $l = new $this->app->view($page['render_file']);
+
+
+            $l->page_id = PAGE_ID;
+            $l->content_id = CONTENT_ID;
+            $l->post_id = POST_ID;
+            $l->category_id = CATEGORY_ID;
+            $l->content = $page;
+            $l->page = $page;
+            $l->application = $this->app;
+            $l = $l->__toString();
+
+
+            $page['content'] = $this->app->parser->isolate_content_field($l);
+            //   }
+
+        }
+
+        if (isset($page['content'])) {
+
+
+            $layout = str_replace('{content}', $page['content'], $layout);
+
+        }
+
+        $layout = $this->app->parser->process($layout, $options = false);
+
+        $layout = execute_document_ready($layout);
+
+        $layout = str_replace('{head}', '', $layout);
+
+        $layout = str_replace('{content}', '', $layout);
+
+        print $layout;
+        exit();
+        //
+        //header("HTTP/1.0 404 Not Found");
+        //$v = new $this->app->view(MW_ADMIN_VIEWS_DIR . '404.php');
+        //echo $v;
+    }
+
     public function index()
     {
 
@@ -1291,31 +1561,22 @@ class Controller
             }
         }
 
-
+        $the_active_site_template = $this->app->option->get('current_template', 'template');
         if ($page == false) {
             if (trim($page_url) == '' and $preview_module == false) {
-                //
-
                 $page = $this->app->content->homepage();
-
-
             } else {
                 $found_mod = false;
                 $page = $this->app->content->get_by_url($page_url);
                 $page_exact = $this->app->content->get_by_url($page_url, true);
-
-                $the_active_site_template = $this->app->option->get('current_template', 'template');
                 $page_url_segment_1 = $this->app->url->segment(0, $page_url);
-
                 if ($preview_module != false) {
                     $page_url = $preview_module;
                 }
-
                 if ($the_active_site_template == false or $the_active_site_template == '') {
                     $the_active_site_template = 'default';
                 }
                 if ($page_exact == false and $found_mod == false and $this->app->module->is_installed($page_url)) {
-
                     $found_mod = true;
                     $page['id'] = 0;
                     $page['content_type'] = 'page';
@@ -1726,14 +1987,20 @@ class Controller
                 if (!defined('CONTENT_TEMPLATE')) {
                     define('CONTENT_TEMPLATE', $content['active_site_template']);
                 }
+
                 $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
                 $live_edit_css_folder = MW_USERFILES . 'css' . DS . $content['active_site_template'] . DS;
                 $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $content['active_site_template'] . '/';
                 $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
             } else {
+
+                if (!defined('CONTENT_TEMPLATE')) {
+                    define('CONTENT_TEMPLATE', $the_active_site_template);
+                }
+
                 $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
                 $live_edit_css_folder = MW_USERFILES . 'css' . DS . 'default' . DS;
-                $live_edit_url_folder = MW_USERFILES_URL . 'css/default/';
+                $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $the_active_site_template . '/';
                 $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
             }
 
@@ -1744,14 +2011,14 @@ class Controller
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
             $website_head_tags = $this->app->option->get('website_head', 'website');
-$rep_count = 1;
+            $rep_count = 1;
             if ($website_head_tags != false) {
-                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l,$rep_count);
+                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l, $rep_count);
             }
 
-            if(defined('MW_VERSION')){
-            $generator_tag= "\n".'<meta name="generator" content="Microweber '.MW_VERSION.'" />'."\n";
-             $l = str_ireplace('</head>', $generator_tag . '</head>', $l,$rep_count);
+            if (defined('MW_VERSION')) {
+                $generator_tag = "\n" . '<meta name="generator" content="Microweber ' . MW_VERSION . '" />' . "\n";
+                $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
             }
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
@@ -1957,278 +2224,6 @@ $rep_count = 1;
             exit();
         }
 
-    }
-
-    public function m()
-    {
-
-        if (!defined('MW_API_CALL')) {
-            define('MW_API_CALL', true);
-        }
-
-        if (!defined('MW_NO_OUTPUT')) {
-            define('MW_NO_OUTPUT', true);
-        }
-        return $this->module();
-    }
-
-    public function sitemapxml()
-    {
-
-
-        $sm_file = MW_CACHE_DIR . 'sitemap.xml';
-
-        $skip = false;
-        if (is_file($sm_file)) {
-            $filelastmodified = filemtime($sm_file);
-
-            if (($filelastmodified - time()) > 3 * 3600) {
-                $skip = 1;
-            }
-
-        }
-
-
-        if ($skip == false) {
-            $map = new \Microweber\Utils\Sitemap($sm_file);
-            $map->file = MW_CACHE_DIR . 'sitemap.xml';
-
-            $cont = get_content("is_active=y&is_deleted=n&limit=2500&fields=id,updated_on&orderby=updated_on desc");
-
-
-            if (!empty($cont)) {
-                foreach ($cont as $item) {
-                    $map->addPage($this->app->content->link($item['id']), 'daily', 1, $item['updated_on']);
-                }
-            }
-            $map = $map->create();
-
-        }
-        $map = $sm_file;
-        $fp = fopen($map, 'r');
-
-        // send the right headers
-        header("Content-Type: text/xml");
-        header("Content-Length: " . filesize($map));
-
-        // dump the file and stop the script
-        fpassthru($fp);
-        exit;
-
-
-    }
-
-    public function apijs()
-    {
-
-        define("MW_NO_SESSION", 1);
-
-
-        $ref_page = false;
-
-        if (isset($_REQUEST['id'])) {
-            $ref_page = $this->app->content->get_by_id($_REQUEST['id']);
-        } else if (isset($_SERVER['HTTP_REFERER'])) {
-            $ref_page = $_SERVER['HTTP_REFERER'];
-            if ($ref_page != '') {
-                $ref_page = $this->app->content->get_by_url($ref_page);
-                $page_id = $ref_page['id'];
-            }
-
-
-        }
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $cat_url = mw('url')->param('category', true, $_SERVER['HTTP_REFERER']);
-            if ($cat_url != false) {
-                if (!defined('CATEGORY_ID')) {
-                    define('CATEGORY_ID', intval($cat_url));
-                }
-            }
-        }
-
-        header("Content-type: text/javascript");
-        $this->app->content->define_constants($ref_page);
-
-
-        $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
-        $l = $l->__toString();
-
-
-   /*     $api_files = array('tools.js', 'url.js','forms.js','files.js','events.js' );
-        $api_files_output = '';
-        foreach ($api_files as $api_file) {
-            $f = MW_INCLUDES_DIR . 'api' . DS . $api_file;
-            if (is_file($f)) {
-                $api_files_output = $api_files_output . "\n\n" . file_get_contents($f);
-            }
-        }
-        foreach ($api_files as $api_file) {
-            $api_files_output = str_replace('mw.require("'.$api_file.'");','',$api_files_output);
-        }*/
-
-
-
-
-        $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
-        $l = str_replace('{MW_SITE_URL}', $this->app->url->site(), $l);
-        $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
-        //  $l = $l.$api_files_output;
-        //$l = $this->app->parser->process($l, $options = array('parse_only_vars' => 1));
-        print $l;
-        exit();
-    }
-
-    public function plupload()
-    {
-        $this->app->content->define_constants();
-        $f = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
-        require ($f);
-        exit();
-    }
-
-    public function editor_tools()
-    {
-        if (!defined('IN_ADMIN')) {
-            define('IN_ADMIN', true);
-        }
-
-        if (MW_IS_INSTALLED == true) {
-            //event_trigger('mw_db_init');
-            //  event_trigger('mw_cron');
-        }
-
-        $tool = $this->app->url->segment(1);
-
-        if ($tool) {
-
-        } else {
-            $tool = 'index';
-        }
-        $page = false;
-        if (isset($_REQUEST["content_id"])) {
-
-            if (intval($_REQUEST["content_id"]) == 0) {
-                $this->create_new_page = true;
-                $this->return_data = 1;
-                $page = $this->index();
-
-            } else {
-                $page = $this->app->content->get_by_id($_REQUEST["content_id"]);
-
-            }
-
-
-        } elseif (isset($_SERVER["HTTP_REFERER"])) {
-            $url = $_SERVER["HTTP_REFERER"];
-            $url = explode('?', $url);
-            $url = $url[0];
-
-            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
-                //$page = $this->app->content->get_by_url($url);
-                $page = $this->app->content->homepage();
-            } else {
-
-                $page = $this->app->content->get_by_url($url);
-            }
-        } else {
-            $url = $this->app->url->string();
-        }
-
-
-        $this->app->content->define_constants($page);
-        $tool = str_replace('..', '', $tool);
-
-        $p_index = MW_INCLUDES_DIR . 'toolbar/editor_tools/index.php';
-        $p_index = normalize_path($p_index, false);
-
-        $p = MW_INCLUDES_DIR . 'toolbar/editor_tools/' . $tool . '/index.php';
-        $p = normalize_path($p, false);
-
-        $l = new $this->app->view($p_index);
-
-        $layout = $l->__toString();
-        // var_dump($l);
-
-        if (isset($_REQUEST['plain'])) {
-            if (is_file($p)) {
-                $p = new $this->app->view($p);
-
-                $layout = $p->__toString();
-                print $layout;
-                exit();
-
-            }
-        } else if (is_file($p)) {
-            $p = new $this->app->view($p);
-            $layout_tool = $p->__toString();
-            $layout = str_replace('{content}', $layout_tool, $layout);
-
-        } else {
-            $layout = str_replace('{content}', 'Not found!', $layout);
-        }
-
-
-        if (isset($page['render_file'])) {
-            $l = new $this->app->view($page['render_file']);
-            $l->page_id = PAGE_ID;
-            $l->content_id = CONTENT_ID;
-            $l->post_id = POST_ID;
-            $l->category_id = CATEGORY_ID;
-            $l->content = $page;
-            $l->page = $page;
-            $l->application = $this->app;
-            $l = $l->__toString();
-            $page['content'] = $this->app->parser->isolate_content_field($l);
-
-
-        }
-        if (isset($_REQUEST['empty_content'])) {
-            $page['content'] = '<div class="edit"></div>';
-        } elseif (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
-
-            //if (isset($page['content_type']) and $page['content_type'] != 'page') {
-            $render_file = $this->app->content->get_layout($page);
-
-            $page['render_file'] = $render_file;
-            $l = new $this->app->view($page['render_file']);
-
-
-            $l->page_id = PAGE_ID;
-            $l->content_id = CONTENT_ID;
-            $l->post_id = POST_ID;
-            $l->category_id = CATEGORY_ID;
-            $l->content = $page;
-            $l->page = $page;
-            $l->application = $this->app;
-            $l = $l->__toString();
-
-
-            $page['content'] = $this->app->parser->isolate_content_field($l);
-            //   }
-
-        }
-
-        if (isset($page['content'])) {
-
-
-            $layout = str_replace('{content}', $page['content'], $layout);
-
-        }
-
-        $layout = $this->app->parser->process($layout, $options = false);
-
-        $layout = execute_document_ready($layout);
-
-        $layout = str_replace('{head}', '', $layout);
-
-        $layout = str_replace('{content}', '', $layout);
-
-        print $layout;
-        exit();
-        //
-        //header("HTTP/1.0 404 Not Found");
-        //$v = new $this->app->view(MW_ADMIN_VIEWS_DIR . '404.php');
-        //echo $v;
     }
 
     public function robotstxt()

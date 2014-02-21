@@ -461,7 +461,7 @@ class Media
         if (!isset($height)) {
             $width = 200;
         }
- 
+
         if (!isset($src) or $src == false) {
             return $this->pixum($width, $height);
         }
