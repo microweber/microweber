@@ -19,10 +19,11 @@ $(document).ready(function(){
 
 
 </script>
-<?php
-$here = dirname(__FILE__).DS.'gateways'.DS;
- $shipping_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}");
+<?php 
 
+$here = dirname(__FILE__).DS.'gateways'.DS;
+ $shipping_modules = scan_for_modules("cache_group=modules/global/shipping&dir_name={$here}");
+  
 //$shipping_modules = mw('module')->get('debug=1&ui=any&module=shop\shipping\gateways\*');
  
 ?>

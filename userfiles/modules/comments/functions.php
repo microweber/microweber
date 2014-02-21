@@ -138,6 +138,19 @@ function post_comment($data)
         } else {
             $cap = mw('user')->session_get('captcha');
 
+	 if (isset($data['module_id'])) {
+				 
+						$captcha_sid = 'captcha_'.$data['module_id'];
+						$cap_sid = mw('user')->session_get($captcha_sid);
+						if($cap_sid != false){
+							$cap = $cap_sid;
+						}
+					 
+			}
+
+
+
+
             if ($cap == false) {
                 return array('error' => 'You must load a captcha first!');
             }

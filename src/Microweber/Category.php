@@ -90,12 +90,11 @@ class Category
         asort($params);
         $function_cache_id = false;
         $function_cache_id = __FUNCTION__ . crc32(serialize($params));
-        if (defined(PAGE_ID)) {
-            //   $function_cache_id .= PAGE_ID;
-        }
+         
         $active_cat = false;
-        if (defined(CATEGORY_ID)) {
+        if (defined('CATEGORY_ID')) {
             $function_cache_id .= CATEGORY_ID;
+			$active_cat = CATEGORY_ID;
         }
 
 
@@ -108,12 +107,9 @@ class Category
             $cat_url = $this->app->url->param('categories', true);
             if ($cat_url != false) {
                 $function_cache_id .= $cat_url;
-
-
             }
 
         }
-
 
         $cache_group = 'categories/global';
         if (isset($params['nest_level'])) {

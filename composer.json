@@ -1,52 +1,22 @@
 {
     "name": "microweber/microweber",
     "description": "New generation of CMS with drag and drop",
-    "version": "0.9.1",
-    "type": "cms",
     "keywords": ["cms", "drag and drop", "cool", "awesome"],
-    "homepage": "http://microweber.com",
-    "time": "2014-02-05",
-    "license": "BSD-3-Clause",
+    "homepage":         "http://microweber.com",
     "authors": [
         {
-            "name": "Peter Ivanov",
-            "email": "peter@microweber.com",
-            "homepage": "http://microweber.com",
-            "role": "Developer"
-        },
-        {
-            "name": "Alexander Raykov",
-            "email": "alex@microweber.com",
-            "homepage": "http://microweber.com",
-            "role": "Developer"
-        },
-        {
-            "name": "Boris Sokolov",
-            "email": "boris@microweber.com",
-            "homepage": "http://microweber.com",
-            "role": "Designer"
+            "name":         "Microweber Team",
+            "email":        "admin@microweber.com",
+            "homepage":     "http://microweber.com",
+            "role":         "Team"
         }
     ],
-    "support": {
+	 "support": {
         "email": "support@microweber.com",
         "issues": "https://github.com/microweber/microweber/issues",
         "forum": "http://microweber.com/community",
         "wiki": "http://microweber.com/learn",
         "irc": "irc://irc.freenode.org/microweber",
         "source": "https://github.com/microweber/microweber"
-    },
-    "autoload": {
-        "psr-4": {
-            "Microweber\\": "src/"
-        },
-        "classmap": ["src/"],
-        "files": ["src/Microweber/bootstrap.php"]
-    },
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/microweber/microweber"
-        }
-    ]
+    }
 }

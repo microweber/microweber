@@ -1631,12 +1631,33 @@ class Db
                     $compare_sign = '<';
                     $v = str_replace('[lt]', '', $v);
                 }
-
-                if (stristr($v, '[mt]')) {
-
+				 if (stristr($v, '[lte]')) {
+                    $compare_sign = '<=';
+                    $v = str_replace('[lte]', '', $v);
+                }
+				if (stristr($v, '[st]')) {
+                    $compare_sign = '<';
+                    $v = str_replace('[st]', '', $v);
+                }
+				if (stristr($v, '[ste]')) {
+                    $compare_sign = '<=';
+                    $v = str_replace('[ste]', '', $v);
+                }
+ 				if (stristr($v, '[gt]')) {
                     $compare_sign = '>';
-
+                    $v = str_replace('[gt]', '', $v);
+                }
+				if (stristr($v, '[gte]')) {
+                    $compare_sign = '>=';
+                    $v = str_replace('[gte]', '', $v);
+                }
+                if (stristr($v, '[mt]')) {
+                    $compare_sign = '>';
                     $v = str_replace('[mt]', '', $v);
+                }
+				 if (stristr($v, '[mte]')) {
+                    $compare_sign = '>=';
+                    $v = str_replace('[mte]', '', $v);
                 }
 
                 if (stristr($v, '[neq]')) {
@@ -2439,8 +2460,7 @@ class Db
         }
         $this->results_map = array();
         $this->q($q);
-       // $this->results_map = array();
-        if ($id_to_return == false) {
+         if ($id_to_return == false) {
             $id_to_return = $this->last_id($table);
         }
 

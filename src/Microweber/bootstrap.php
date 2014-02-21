@@ -12,17 +12,18 @@
  *
  */
 
-
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
+
+
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname(dirname(dirname(__FILE__))) . DS);
 }
 
 
 if (!defined('MW_VERSION')) {
-    define('MW_VERSION', 0.921);
+    define('MW_VERSION', 0.93);
 }
 
 if (version_compare(phpversion(), "5.3.0", "<=")) {

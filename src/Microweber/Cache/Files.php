@@ -732,7 +732,7 @@ class Files
         $this->recursive_remove_from_cache_index(MW_CACHE_ROOT_DIR, true);
 
 
-        return array('success' => 'Cache is cleared');
+        return array('success' => 'Files cache is cleared');
 
     }
 
@@ -867,6 +867,7 @@ class Files
                         } else {
                             // if the path is a file
                             try {
+                                $this->mw_cache_deleted_items[] = $item;
                                 if (is_file($path)) {
                                     @unlink($path);
                                 }
@@ -874,7 +875,7 @@ class Files
                             }
                         }
                     }
-                    $this->mw_cache_deleted_items[] = $item;
+                  //  $this->mw_cache_deleted_items[] = $item;
                 }
 
 

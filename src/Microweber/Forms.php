@@ -5,7 +5,8 @@ namespace Microweber;
 class Forms
 {
     public $app;
-    function __construct($app=null)
+
+    function __construct($app = null)
     {
 
         if (is_object($app)) {
@@ -27,9 +28,78 @@ class Forms
         }
     }
 
+    public function db_init()
+    {
+        $function_cache_id = false;
+        $force = false;
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
+
+        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+
+        if ($force == false and ($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table_name = MW_DB_TABLE_FORMS_DATA;
+
+        $fields_to_add = array();
+
+        //$fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+        //$fields_to_add[] = array('edited_by', 'int(11) default NULL');
+        $fields_to_add[] = array('rel', 'TEXT default NULL');
+        $fields_to_add[] = array('rel_id', 'TEXT default NULL');
+        //$fields_to_add[] = array('position', 'int(11) default NULL');
+        $fields_to_add[] = array('list_id', 'int(11) default 0');
+        $fields_to_add[] = array('form_values', 'TEXT default NULL');
+        $fields_to_add[] = array('module_name', 'TEXT default NULL');
+
+        $fields_to_add[] = array('url', 'TEXT default NULL');
+        $fields_to_add[] = array('user_ip', 'TEXT default NULL');
+
+        $this->app->db->build_table($table_name, $fields_to_add);
+
+        $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
+        $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        $this->app->db->add_table_index('list_id', $table_name, array('list_id'));
+
+        $table_name = MW_DB_TABLE_FORMS_LISTS;
+
+        $fields_to_add = array();
+
+        //$fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+        $fields_to_add[] = array('title', 'longtext default NULL');
+        $fields_to_add[] = array('description', 'TEXT default NULL');
+        $fields_to_add[] = array('custom_data', 'TEXT default NULL');
+
+        $fields_to_add[] = array('module_name', 'TEXT default NULL');
+        $fields_to_add[] = array('last_export', 'datetime default NULL');
+        $fields_to_add[] = array('last_sent', 'datetime default NULL');
+
+        $this->app->db->build_table($table_name, $fields_to_add);
+
+        $this->app->db->add_table_index('title', $table_name, array('title(55)'));
 
 
+        $table_sql = MW_INCLUDES_DIR . 'install' . DS . 'countries.sql';
 
+        $this->app->db->import_sql_file($table_sql);
+
+        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
+        return true;
+
+    }
 
     public function get_entires($params)
     {
@@ -144,6 +214,15 @@ class Forms
             } else {
                 $cap = mw('user')->session_get('captcha');
 
+                if($for_id != false){
+                    $captcha_sid = 'captcha_'.$for_id;
+                    $cap_sid = mw('user')->session_get($captcha_sid);
+                    if($cap_sid != false){
+                        $cap = $cap_sid;
+                    }
+                }
+
+
                 if ($cap == false) {
                     return array('error' => 'You must load a captcha first!');
                 }
@@ -162,6 +241,7 @@ class Forms
         $email_to = $this->app->option->get('email_to', $for_id);
         $email_bcc = $this->app->option->get('email_bcc', $for_id);
         $email_autorespond = $this->app->option->get('email_autorespond', $for_id);
+
 
         $email_autorespond_subject = $this->app->option->get('email_autorespond_subject', $for_id);
 
@@ -199,7 +279,7 @@ class Forms
         $to_save['list_id'] = $list_id;
         $to_save['rel_id'] = $for_id;
         $to_save['rel'] = $for;
-       // $to_save['allow_html'] = 1;
+        // $to_save['allow_html'] = 1;
         //$to_save['custom_fields'] = $fields_data;
 
         if (isset($params['module_name'])) {
@@ -226,9 +306,9 @@ class Forms
                 $value['rel_id'] = $save;
                 $value['rel'] = 'forms_data';
                 $value['allow_html'] = 1;
-				// $value['debug'] = 1;
+                // $value['debug'] = 1;
                 $cf_save = $this->app->db->save($table_custom_field, $value);
-				//d($cf_save);
+                //d($cf_save);
             }
         }
 
@@ -268,8 +348,21 @@ class Forms
             //	d($cf_to_save);
             if ($email_to == false) {
                 $email_to = $this->app->option->get('email_from', 'email');
-
             }
+            $admin_user_mails = array();
+            if ($email_to == false) {
+                $admins = $this->app->user->get_all('is_admin=y');
+                if (is_array($admins) and !empty($admins)) {
+                    foreach ($admins as $admin) {
+                        if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))) {
+                            $admin_user_mails[] = $admin['email'];
+                            $email_to = $admin['email'];
+                        }
+                    }
+                }
+            }
+
+
             if ($email_to != false) {
                 $mail_sj = "Thank you!";
                 $mail_autoresp = "Thank you for your submition! <br/>";
@@ -284,10 +377,15 @@ class Forms
                 $mail_autoresp = $mail_autoresp . $this->app->format->array_to_ul($pp_arr);
 
                 $user_mails = array();
+                if (isset($admin_user_mails) and !empty($admin_user_mails)) {
+                    $user_mails = $admin_user_mails;
+                }
+
                 $user_mails[] = $email_to;
                 if (isset($email_bcc) and (filter_var($email_bcc, FILTER_VALIDATE_EMAIL))) {
                     $user_mails[] = $email_bcc;
                 }
+
 
                 if (isset($cf_to_save) and !empty($cf_to_save)) {
                     foreach ($cf_to_save as $value) {
@@ -301,13 +399,11 @@ class Forms
                 }
                 $scheduler = new \Microweber\Utils\Events();
                 // schedule a global scope function:
-
-                if (!empty($user_mails)) {
+                 if (!empty($user_mails)) {
                     array_unique($user_mails);
                     foreach ($user_mails as $value) {
-                        //\Microweber\email\Sender::send($value,$mail_sj,$mail_autoresp );
-                        $scheduler->registerShutdownEvent("\Microweber\email\Sender::send", $value, $mail_sj, $mail_autoresp);
-
+                        \Microweber\email\Sender::send($value, $mail_sj, $mail_autoresp);
+                        // $scheduler->registerShutdownEvent("\Microweber\email\Sender::send", $value, $mail_sj, $mail_autoresp);
                     }
                 }
 
@@ -327,7 +423,7 @@ class Forms
         return $this->app->db->get($params);
     }
 
-    public function  countries_list($force=false)
+    public function  countries_list($force = false)
     {
 
         $function_cache_id = false;
@@ -352,20 +448,14 @@ class Forms
         $table = MW_DB_TABLE_COUNTRIES;
 
 
-
-
-
         if (!$this->app->db->table_exist($table)) {
             $this->db_init();
-           // return false;
+            // return false;
         }
 
 
-
-
-
         $sql = "SELECT name AS country_name FROM $table   ";
-		 
+
 
         $q = $this->app->db->query($sql, 'get_countries_list' . crc32($sql), 'forms');
 
@@ -443,83 +533,6 @@ class Forms
         }
     }
 
-    public function db_init()
-    {
-        $function_cache_id = false;
-        $force=false;
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
-
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
-
-        if ($force == false and ($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table_name = MW_DB_TABLE_FORMS_DATA;
-
-        $fields_to_add = array();
-
-        //$fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        //$fields_to_add[] = array('edited_by', 'int(11) default NULL');
-        $fields_to_add[] = array('rel', 'TEXT default NULL');
-        $fields_to_add[] = array('rel_id', 'TEXT default NULL');
-        //$fields_to_add[] = array('position', 'int(11) default NULL');
-        $fields_to_add[] = array('list_id', 'int(11) default 0');
-        $fields_to_add[] = array('form_values', 'TEXT default NULL');
-        $fields_to_add[] = array('module_name', 'TEXT default NULL');
-
-        $fields_to_add[] = array('url', 'TEXT default NULL');
-        $fields_to_add[] = array('user_ip', 'TEXT default NULL');
-
-         $this->app->db->build_table($table_name, $fields_to_add);
-
-         $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
-         $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-         $this->app->db->add_table_index('list_id', $table_name, array('list_id'));
-
-        $table_name = MW_DB_TABLE_FORMS_LISTS;
-
-        $fields_to_add = array();
-
-        //$fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('title', 'longtext default NULL');
-        $fields_to_add[] = array('description', 'TEXT default NULL');
-        $fields_to_add[] = array('custom_data', 'TEXT default NULL');
-
-        $fields_to_add[] = array('module_name', 'TEXT default NULL');
-        $fields_to_add[] = array('last_export', 'datetime default NULL');
-        $fields_to_add[] = array('last_sent', 'datetime default NULL');
-
-         $this->app->db->build_table($table_name, $fields_to_add);
-
-         $this->app->db->add_table_index('title', $table_name, array('title(55)'));
-
-
-        $table_sql = MW_INCLUDES_DIR . 'install' . DS . 'countries.sql';
-
-         $this->app->db->import_sql_file($table_sql);
-
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
-        return true;
-
-    }
-
-
-
-
-
     public function export_to_excel($params)
     {
         //this function is experimental
@@ -591,7 +604,6 @@ class Forms
 
 
     }
-
 
     /**
      * Creates database table from array
@@ -777,7 +789,6 @@ class Forms
     {
         $this->app->db->q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
     }
-
 
     /**
      * Create foreign key if not exists

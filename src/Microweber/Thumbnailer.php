@@ -86,11 +86,19 @@ class Thumbnailer {
 			$newHeight = $sizes[1];
 		}
 
+        $crop_x = 0;
+        if (isset($specifications['crop_x'])) {
+            $crop_x = $specifications['crop_x'];
+        }
+        $crop_y = 0;
+        if (isset($specifications['crop_y'])) {
+            $crop_y = $specifications['crop_y'];
+        }
 		$im = @imagecreatetruecolor($newWidth, $newHeight);
 		imagealphablending($im, false);
 		imagesavealpha($im, true);
-
-			imagecopyresampled($im, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $sizes[0], $sizes[1]);
+        imagecopyresampled($im, $originalImage, 0, 0, $crop_x, $crop_y, $newWidth, $newHeight, $sizes[0], $sizes[1]);
+			//imagecopyresampled($im, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $sizes[0], $sizes[1]);
 
 
 		$type = !isset($specifications['mime']) ? $sizes['mime'] : $specifications['mime'];

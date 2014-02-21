@@ -83,7 +83,17 @@ input.large-field, textarea.large-field {
 
 }
 
-
+#header .navbar-static {
+	 background-color:white; 
+}
+#header .navbar-static li a.active {
+ color:#333;
+ font-weight:bold; 
+}
+#header .navbar-static li a:hover {
+ color:#808080 !important;
+  
+}
 /* /Global styles */
 
 
@@ -196,9 +206,10 @@ input.large-field, textarea.large-field {
 }
  
  
-.well .nav .nav-list a.active {
+.well .nav .nav-list a.active,.well .nav.nav-list a.active {
  color: #0073AA;
  font-weight:bold;
+ background-color:#efecec;
 } 
 .nav-piils a.active {
  color: white; 

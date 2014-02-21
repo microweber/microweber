@@ -37,11 +37,10 @@
 
                     type="text"
                     data-mod-name="<?php print $params['data-type'] ?>"
-                    value="<?php print get_option('embed_url', $params['id']) ?>"
+                    value="<?php print htmlentities(get_option('embed_url', $params['id'])) ?>"
                     />
             </div>
-
-        </div>
+         </div>
     </div>
     <div class="tab semi_hidden">
         <div class="mw-ui-field-holder">

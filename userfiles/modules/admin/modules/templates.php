@@ -29,6 +29,13 @@ $mod_name = $params['parent-module'];
  
  
 $cur_template = get_option('data-template', $params['parent-module-id']);
+if($cur_template == false){
+	
+	if(isset($_GET['data-template'])){
+		$cur_template = $_GET['data-template'].'.php';
+	}
+}
+ 
  ?><?php  if(is_array( $templates)): ?>
  
  <div class="mw-mod-template-settings-holder">

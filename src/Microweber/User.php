@@ -170,7 +170,7 @@ class User
 
     }
 
-    public function logout()
+    public function logout($params = false)
     {
 
         if (!defined('USER_ID')) {
@@ -180,16 +180,27 @@ class User
         // static $uid;
         $aj = $this->app->url->is_ajax();
         mw('user')->session_end();
+        $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
 
         if (isset($_COOKIE['editmode'])) {
             setcookie('editmode');
         }
 
-        if ($aj == false) {
+        if ($redirect_after == false and $aj == false) {
             if (isset($_SERVER["HTTP_REFERER"])) {
                 $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
             }
         }
+
+
+        if ($redirect_after == true) {
+			$redir = site_url($redirect_after);
+            $this->app->url->redirect($redir);
+            exit();
+        }
+
+
+
     }
 
     public function is_logged()
@@ -314,6 +325,8 @@ class User
                 $name = ucwords($name);
                 if (trim($name) == '' and $user_data['email'] != '') {
                     $name = $user_data['email'];
+					$name_from_email = explode('@',$user_data['email']);
+                $name = $name_from_email[0];
                 }
                 if (trim($name) == '' and $user_data['username'] != '') {
                     $name = $user_data['username'];
@@ -328,7 +341,8 @@ class User
             if (isset($user_data['username']) and $user_data['username'] != false and trim($user_data['username']) != '') {
                 $name = $user_data['username'];
             } else if (isset($user_data['email']) and $user_data['email'] != false and trim($user_data['email']) != '') {
-                $name = $user_data['email'];
+				$name_from_email = explode('@',$user_data['email']);
+                $name = $name_from_email[0];
             }
         }
 
@@ -1565,7 +1579,7 @@ class User
             if ($is_the_same != $val) {
                 $_SESSION[$name] = $val;
             }
-            return;
+            return $_SESSION;
         }
 
 
@@ -1585,10 +1599,11 @@ class User
             } else {
                 $is_the_same = $this->session_get($name);
 
-                if ($is_the_same != $val) {
+                 if ($is_the_same != $val) {
                     $_SESSION[$name] = $val;
-                }
+                 }
             }
+            //return $_SESSION;
         }
     }
 
@@ -1609,21 +1624,31 @@ class User
         if (!defined('MW_NO_SESSION')) {
             if (!headers_sent()) {
                 if (!isset($_SESSION)) {
-                    //return false;
-                    $start = session_start();
-                    if ($start == false) {
+
+                    try {
+                        $start = session_start();
+                    } catch(ErrorExpression $e) {
+
 
                         session_regenerate_id();
 
                         $start = session_id();
+
+
+                       }
+
+                    if ($start == false) {
+                        session_write_close(); //now close it,
+                        session_regenerate_id();
+                        $start = session_id();
                     }
-                    //d($_SESSION);
-                    $_SESSION['ip'] = MW_USER_IP;
+                     $_SESSION['ip'] = MW_USER_IP;
                 }
             }
             // probable timout here?!
         }
         //
+
         if (isset($_SESSION) and isset($_SESSION[$name])) {
 
 
@@ -1632,11 +1657,12 @@ class User
             } else if ($_SESSION['ip'] != MW_USER_IP) {
 
                 // mw('user')->session_end();
-                return false;
+                //return false;
             }
 
-            $value = ($_SESSION[$name]);
-            return $value;
+
+
+            return $_SESSION[$name];
         } else {
             return false;
         }

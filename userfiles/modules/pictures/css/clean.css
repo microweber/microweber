@@ -1,0 +1,30 @@
+.mw-pictures-clean{
+  zoom:1;
+  position: relative;
+}
+
+.mw-pictures-clean:after{
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.mw-pictures-clean-item{
+  float: left;
+  width: 48%;
+  padding-bottom: 20px;
+}
+.mw-pictures-clean .mw-pictures-clean-item:nth-child(2n){
+    float: right;
+}
+.mw-pictures-clean .mw-pictures-clean-item:nth-child(2n+1){
+    clear: both;
+}
+
+.mw-pictures-clean-item img{
+  width: 100%;
+  height: auto;
+}

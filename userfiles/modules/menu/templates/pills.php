@@ -25,7 +25,7 @@ description: Pills Navigation
 .pillnavigattion a:hover,
 .pillnavigattion a:focus{
   color: #555;
-}
+} 
 
 </style>
 <div class="pillnavigattion">

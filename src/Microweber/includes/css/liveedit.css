@@ -271,6 +271,8 @@ body .mw-col > .ui-resizable-e *{
 
 
 
+
+
 .mw_dropable:after{
     display: block;
     position: absolute;
@@ -484,8 +486,61 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 .Switch2AdvancedModeTip-tick2{position:absolute;top:-7px;left:0;z-index:502;width:0;height:0;border-right:7px solid transparent;border-bottom:7px solid #b5c6cc;border-left:7px solid transparent}
 
 
+#modules-and-layouts{
+  position: fixed !important;
+  top: 0 ;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+  height: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
 
 
+
+#modules-and-layouts:after{
+  position: absolute;
+  content:"";
+  display: block;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background-color: #f5f5f5;
+  background-image: url(../img/modulestoolbar.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  z-index: 6;
+}
+
+
+
+#live_edit_toolbar:hover #modules-and-layouts:after{
+
+}
+
+#live_edit_toolbar:hover #modules-and-layouts{
+/*  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.46);        */
+}
+
+
+#modules-and-layouts.hovered{
+  height: 90px !important;
+  border-bottom: none !important;
+  left: 0;
+  width: 100%;
+  box-shadow:none;
+  cursor: default;
+  -webkit-transition: height 150ms cubic-bezier(1,.28,1,.09);
+  -moz-transition: height 150ms cubic-bezier(1,.28,1,.09);
+  -o-transition: height 150ms cubic-bezier(1,.28,1,.09);
+  transition: height 150ms cubic-bezier(1,.28,1,.09);
+}
+#modules-and-layouts.hovered:after{
+  display: none;
+}
 
 
 

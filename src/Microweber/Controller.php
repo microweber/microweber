@@ -131,6 +131,36 @@ class Controller
         if (MW_IS_INSTALLED == true) {
             event_trigger('mw_cron');
         }
+
+        header("Content-Type: application/rss+xml; charset=UTF-8");
+
+        $cont = get_content("is_active=y&is_deleted=n&limit=2500&orderby=updated_on desc");
+
+        $site_title = $this->app->option->get('website_title', 'website');
+        $site_desc = $this->app->option->get('website_description', 'website');
+        $rssfeed = '<?xml version="1.0" encoding="UTF-8"?>';
+        $rssfeed .= '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">' . "\n";
+        $rssfeed .= '<channel>' . "\n";
+        $rssfeed .= '<atom:link href="' . site_url('rss') . '" rel="self" type="application/rss+xml" />' . "\n";
+        $rssfeed .= '<title>' . $site_title . '</title>' . "\n";
+        $rssfeed .= '<link>' . site_url() . '</link>' . "\n";
+        $rssfeed .= '<description>' . $site_desc . '</description>' . "\n";
+        foreach ($cont as $row) {
+            if (!isset($row['description']) or  $row['description'] == '') {
+                $row['description'] = $row['content'];
+            }
+            $row['description'] = character_limiter(strip_tags(($row['description'])), 500);
+            $rssfeed .= '<item>' . "\n";
+            $rssfeed .= '<title>' . $row['title'] . '</title>' . "\n";
+            $rssfeed .= '<description><![CDATA[' . $row['description'] . '  ]]></description>' . "\n";
+            $rssfeed .= '<link>' . content_link($row['id']) . '</link>' . "\n";
+            $rssfeed .= '<pubDate>' . date("D, d M Y H:i:s O", strtotime($row['created_on'])) . '</pubDate>' . "\n";
+            $rssfeed .= '<guid>' . content_link($row['id']) . '</guid>' . "\n";
+            $rssfeed .= '</item>' . "\n";
+        }
+        $rssfeed .= '</channel>' . "\n";
+        $rssfeed .= '</rss>';
+        print $rssfeed;
     }
 
     public function api_html()
@@ -1132,11 +1162,25 @@ class Controller
 
         $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
         $l = $l->__toString();
-        // var_dump($l);
-        //session_write_close();
+
+
+        /*     $api_files = array('tools.js', 'url.js','forms.js','files.js','events.js' );
+             $api_files_output = '';
+             foreach ($api_files as $api_file) {
+                 $f = MW_INCLUDES_DIR . 'api' . DS . $api_file;
+                 if (is_file($f)) {
+                     $api_files_output = $api_files_output . "\n\n" . file_get_contents($f);
+                 }
+             }
+             foreach ($api_files as $api_file) {
+                 $api_files_output = str_replace('mw.require("'.$api_file.'");','',$api_files_output);
+             }*/
+
+
         $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
         $l = str_replace('{MW_SITE_URL}', $this->app->url->site(), $l);
         $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
+        //  $l = $l.$api_files_output;
         //$l = $this->app->parser->process($l, $options = array('parse_only_vars' => 1));
         print $l;
         exit();
@@ -1242,7 +1286,7 @@ class Controller
             $l->page = $page;
             $l->application = $this->app;
             $l = $l->__toString();
-             $page['content'] = $this->app->parser->isolate_content_field($l);
+            $page['content'] = $this->app->parser->isolate_content_field($l);
 
 
         }
@@ -1257,7 +1301,6 @@ class Controller
             $l = new $this->app->view($page['render_file']);
 
 
-
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
             $l->post_id = POST_ID;
@@ -1268,7 +1311,7 @@ class Controller
             $l = $l->__toString();
 
 
-           $page['content'] = $this->app->parser->isolate_content_field($l);
+            $page['content'] = $this->app->parser->isolate_content_field($l);
             //   }
 
         }
@@ -1518,31 +1561,22 @@ class Controller
             }
         }
 
-
+        $the_active_site_template = $this->app->option->get('current_template', 'template');
         if ($page == false) {
             if (trim($page_url) == '' and $preview_module == false) {
-                //
-
                 $page = $this->app->content->homepage();
-
-
             } else {
                 $found_mod = false;
                 $page = $this->app->content->get_by_url($page_url);
                 $page_exact = $this->app->content->get_by_url($page_url, true);
-
-                $the_active_site_template = $this->app->option->get('current_template', 'template');
                 $page_url_segment_1 = $this->app->url->segment(0, $page_url);
-
                 if ($preview_module != false) {
                     $page_url = $preview_module;
                 }
-
                 if ($the_active_site_template == false or $the_active_site_template == '') {
                     $the_active_site_template = 'default';
                 }
                 if ($page_exact == false and $found_mod == false and $this->app->module->is_installed($page_url)) {
-
                     $found_mod = true;
                     $page['id'] = 0;
                     $page['content_type'] = 'page';
@@ -1828,6 +1862,15 @@ class Controller
             return $content;
         }
 
+        if (isset($content['original_link']) and $content['original_link'] != '') {
+            $content['original_link'] = str_ireplace('{site_url}', $this->app->url->site(), $content['original_link']);
+            $redirect = $this->app->format->prep_url($content['original_link']);
+            if ($redirect != '') {
+                $this->app->url->redirect($redirect);
+            }
+        }
+
+
         if (!isset($page['title'])) {
             $page['title'] = 'New page';
         }
@@ -1941,39 +1984,41 @@ class Controller
 
 
             if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
-
                 if (!defined('CONTENT_TEMPLATE')) {
                     define('CONTENT_TEMPLATE', $content['active_site_template']);
                 }
 
-
                 $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
                 $live_edit_css_folder = MW_USERFILES . 'css' . DS . $content['active_site_template'] . DS;
                 $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $content['active_site_template'] . '/';
-
                 $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
-
             } else {
+
+                if (!defined('CONTENT_TEMPLATE')) {
+                    define('CONTENT_TEMPLATE', $the_active_site_template);
+                }
+
                 $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
                 $live_edit_css_folder = MW_USERFILES . 'css' . DS . 'default' . DS;
-                $live_edit_url_folder = MW_USERFILES_URL . 'css/default/';
-
+                $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $the_active_site_template . '/';
                 $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
             }
 
-
             $custom_live_edit = normalize_path($custom_live_edit, false);
-
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
                 $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
-
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
             $website_head_tags = $this->app->option->get('website_head', 'website');
-
+            $rep_count = 1;
             if ($website_head_tags != false) {
-                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l);
+                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l, $rep_count);
+            }
+
+            if (defined('MW_VERSION')) {
+                $generator_tag = "\n" . '<meta name="generator" content="Microweber ' . MW_VERSION . '" />' . "\n";
+                $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
             }
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
@@ -2109,7 +2154,9 @@ class Controller
                 if (is_array($meta)) {
                     foreach ($meta as $key => $item) {
                         $item = addslashes($item);
-
+						$item = str_replace('&amp;zwnj;', '', $item);
+						$item = str_replace('&amp;quot;', ' ', $item);
+						
                         $item = str_replace('&amp;nbsp;', ' ', $item);
                         $item = str_replace('  ', '', $item);
                         $item = str_replace(' ', ' ', $item);
@@ -2179,6 +2226,20 @@ class Controller
             exit();
         }
 
+    }
+
+    public function robotstxt()
+    {
+
+        header("Content-Type: text/plain");
+        $robots = get_option('robots_txt', 'website');
+
+        if ($robots == false) {
+            $robots = "User-agent: *\nAllow: / ";
+        }
+
+        print $robots;
+        exit;
     }
 
     public function show_404()

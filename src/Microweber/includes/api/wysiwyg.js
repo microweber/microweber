@@ -5,8 +5,7 @@
 
 mw.require('css_parser.js');
 mw.require('events.js');
-
-Selection.prototype.collapse = function(){}
+mw.lib.require('rangy');
 
 
 
@@ -62,6 +61,24 @@ if(typeof Range.prototype.querySelectorAll === 'undefined'){
 
 mw.wysiwyg = {
     globalTarget: mwd.body,
+    allStatements:function(c,f){
+        var sel = window.getSelection(),
+            range = sel.getRangeAt(0),
+            common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+
+        var nodrop_state = !mw.tools.hasClass(common, 'nodrop') &&  !mw.tools.hasParentsWithClass(common, 'nodrop');
+
+        if(mw.wysiwyg.isSelectionEditable() && nodrop_state){
+            if(typeof c === 'function'){
+              c.call();
+            }
+        }
+        else{
+          if(typeof f === 'function'){
+            f.call();
+          }
+        }
+    },
     action:{
       removeformat:function(){
         var sel = window.getSelection();
@@ -281,46 +298,9 @@ mw.wysiwyg = {
         }
     },
     paste:function(e){
-
-
-       var text = '';
-       if ( window.clipboardData ) {
-        var text = window.clipboardData.getData('Text');
-        e.preventDefault();
-       }
-       mw.wysiwyg.save_selection();
-        var pro = mwd.createElement('div');
-        //var pro = mwd.createElement('textarea');
-        pro.innerHTML = text;
-       // pro.className = 'semi_hidden';
-
-
-       var rects = window.getSelection().getRangeAt(0).getClientRects()[0];
-       var rtop = typeof rects != 'undefined' ? rects.top : 50;
-       var rleft = typeof rects != 'undefined' ? rects.left : 50;
-       $(pro).css({
-            position:'absolute',
-            width:1,
-            height:1,
-            opacity:0,
-            overflow:'hidden',
-            top:rtop,
-            left:rleft
-       })
-        pro.contentEditable = true;
-        mwd.body.appendChild(pro);
-        pro.focus();
-        var range = mwd.createRange();
-        range.selectNodeContents(pro);
-        range.collapse(false);
         setTimeout(function(){
-          mw.wysiwyg.restore_selection();
-           if(mw.wysiwyg.hasContentFromWord(pro)){
-             pro.innerHTML = mw.wysiwyg.clean_word(pro.innerHTML);
-           }
-          mw.wysiwyg.insert_html( pro.innerHTML );
-          $(pro).remove();
-        }, 120);
+            mw.wysiwyg.cleanHTML();
+        }, 79);
     },
 
     hasContentFromWord:function(node){
@@ -369,12 +349,16 @@ mw.wysiwyg = {
     },
     editors_disabled:false,
     enableEditors:function(){
-        mw.$(".mw_editor, #mw_small_editor").removeClass("disabled");
+
+        mw.$(".mw_editor, #mw_small_editor").removeClass("mw-editor-disabled");
         mw.wysiwyg.editors_disabled = false;
+
+
+
     },
     disableEditors:function(){
-       //mw.$(".mw_editor, #mw_small_editor").addClass("disabled");
-       mw.wysiwyg.editors_disabled = false;
+      /*  mw.$(".mw_editor, #mw_small_editor").addClass("mw-editor-disabled");
+       mw.wysiwyg.editors_disabled = false;   */
     },
     checkForTextOnlyElements:function(e, method){
       var e = e || false;
@@ -698,18 +682,24 @@ mw.wysiwyg = {
           }
         }
     },
-    fontSize:function(px){
+    fontSize:function(a){
         if(window.getSelection().isCollapsed){ return false; }
-        var css = {
-          "fontSize":px+'pt'
-        }
-        var r = window.getSelection().getRangeAt(0);
-        var el = mw.wysiwyg.applier('span', 'mw-span-font-size', css);
-        if(el.querySelector('.mw-span-font-size') !== null){
-          $(el.querySelectorAll('.mw-span-font-size')).css("fontSize", 'inherit');
-        }
-        mw.wysiwyg.removeSimulations();
-        //mw.wysiwyg.execCommand('fontsize', null, px);
+        mw.wysiwyg.allStatements(function(){
+
+          rangy.init();
+          var clstemp = 'mw-font-size-' + mw.random();
+          var classApplier = rangy.createCssClassApplier("mw-font-size " + clstemp, true);
+          classApplier.applyToSelection();
+          var all = mwd.querySelectorAll('.'+clstemp),
+              l=all.length,
+              i=0;
+          for(; i<l;i++){
+            all[i].style.fontSize = a+'px';
+            mw.tools.removeClass(all[i], clstemp)
+          }
+          //mw.wysiwyg.execCommand('fontsize', null, px);
+
+       });
     },
     resetActiveButtons:function(){
         mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active')
@@ -734,8 +724,8 @@ mw.wysiwyg = {
         var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
 		var ddval = mw.$(".mw_dropdown_action_font_size");
 		if(ddval.length !=0 && ddval.setDropdownValue != undefined){
-            mw.$(".mw_dropdown_action_font_size").setDropdownValue(mw.tools.px2pt(size), false, true);
-            mw.$(".mw_dropdown_action_font_size .mw_dropdown_val").html(mw.tools.px2pt(size)+'pt')
+            //mw.$(".mw_dropdown_action_font_size").setDropdownValue(mw.tools.px2pt(size), false, true);
+            mw.$(".mw_dropdown_action_font_size .mw_dropdown_val").html(size+'px')
 		}
     },
     isFormatElement:function(obj){
@@ -958,7 +948,20 @@ mw.wysiwyg = {
       }
     },
     selection_length:function(){
-      return window.getSelection().getRangeAt(0).cloneContents().childNodes.length;
+      var n = window.getSelection().getRangeAt(0).cloneContents().childNodes,
+          l = n.length,
+          i=0;
+      var final = 0;
+      for(;i<l;i++){
+        var item = n[i];
+        if(item.nodeType === 1){
+            var final = final + item.textContent.length;
+        }
+        else if(item.nodeType === 3){
+            var final = final + item.nodeValue.length;
+        }
+      }
+      return final;
     },
     fontFX:function(cls){
        mw.wysiwyg.applier('span', cls);
@@ -1176,6 +1179,42 @@ mw.wysiwyg = {
         html = html.replace( /<(H\d)><EM>([\s\S]*?)<\/EM><\/\1>/gi, '<$1>$2<\/$1>' );
     	return html ;
     },
+    cleanTables:function(root){
+        var toRemove = "tbody > *:not(tr), thead > *:not(tr), tr > *:not(td)",
+            all = root.querySelectorAll(toRemove),
+            l = all.length,
+            i = 0;
+        for( ; i<l; i++){
+          $(all[i]).remove();
+        }
+        var tables = root.querySelectorAll('table'),
+            l = tables.length,
+            i = 0;
+        for( ; i<l; i++){
+            var item = tables[i],
+                l = item.children.length,
+                i = 0;
+            for( ; i<l; i++){
+                var item = item.children[i];
+                if(typeof item !== 'undefined' && item.nodeType !== 3){
+                    var name = item.nodeName.toLowerCase();
+                    var posibles = "thead tfoot tr tbody col colgroup";
+                    if(!posibles.contains(name)){
+                       $(item).remove();
+                    }
+                }
+            }
+        }
+    },
+    cleanHTML :function(){
+      var all = mwd.querySelecorAll('.edit'), l = all.length, i=0;
+      for(;i<l;i++){
+        if(mw.wysiwyg.hasContentFromWord(all[i])){
+            all[i].innerHTML = mw.wysiwyg.clean_word(all[i].innerHTML);
+        }
+        mw.wysiwyg.cleanTables(all[i]);
+      }
+    },
     normalizeBase64Image:function(node, callback){
         if(typeof node.src !== 'undefined' && node.src.indexOf('data:image/') === 0){
             var type = node.src.split('/')[1].split(';')[0];
@@ -1229,7 +1268,7 @@ $(mwd).ready(function(){
       });
       mw.$(".mw_dropdown_action_font_size").change(function(){
           var val = $(this).getDropdownValue();
-          mw.wysiwyg.restore_selection();
+         // mw.wysiwyg.restore_selection();
           mw.wysiwyg.fontSize(val);
           mw.wysiwyg.removeSimulations();
           mw.$('.mw_dropdown_val', this).append('pt');
@@ -1310,8 +1349,7 @@ $(window).load(function(){
         }else if( val == 'insert_html' ){
 			
 			var new_insert_html=prompt("Paste your html code in the box");
-			if (new_insert_html!=null)
-			  {
+			if (new_insert_html!=null){
 				 var div = mw.wysiwyg.applier('div');
 				 div.innerHTML =new_insert_html;
 			  }
@@ -1331,22 +1369,10 @@ $(window).load(function(){
 
   $(window).bind("keydown paste mousedown mouseup", function(e){
 
-    mw.wysiwyg.globalTarget = e.target;
-    var selection = window.getSelection();
-    if( mw.wysiwyg.globalTarget.isContentEditable
-        && selection.containsNode(mw.wysiwyg.globalTarget, true)
-        && !mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'nodrop')
-        && !mw.tools.hasClass(mw.wysiwyg.globalTarget.className, 'nodrop')){
-                mw.wysiwyg.enableEditors();
-    }
-    else{
-        if(!mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'mw_editor') &&
-           mw.wysiwyg.globalTarget.parentNode !== null &&
-           !mw.tools.hasParentsWithClass(mw.wysiwyg.globalTarget, 'mw_modal') &&
-           !mw.tools.hasClass(mw.wysiwyg.globalTarget.className, 'mw_editor')){
-                mw.wysiwyg.disableEditors();
-        }
-    }
+
+
+
+
 
   if(e.ctrlKey && e.type =='keydown') {
         var code = e.keyCode;
@@ -1365,9 +1391,53 @@ $(window).load(function(){
   }
 
   if(mw.settings.liveEdit){
+
+
+
+    if(e.type=='mousedown'){
+
+    }
     if(e.type=='mouseup'){
-      if(mw.tools.hasParentsWithClass(e.target, 'edit') ||  mw.tools.hasClass(e.target, 'edit')){
-        var sel = window.getSelection();
+
+
+              var sel = window.getSelection();
+
+    if(sel.rangeCount > 0){
+              var range = sel.getRangeAt(0),
+                  common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+
+            if(mw.tools.hasClass(common, 'edit') || mw.tools.hasParentsWithClass(common, 'edit')) {
+                var nodrop_state = !mw.tools.hasClass(common, 'nodrop') &&  !mw.tools.hasParentsWithClass(common, 'nodrop');
+                if(nodrop_state){
+                mw.wysiwyg.enableEditors();
+                }
+                else{
+                   mw.wysiwyg.disableEditors();
+                }
+            }
+            else{
+               mw.wysiwyg.disableEditors();
+            }
+
+      }
+
+    /* if(mw.tools.hasClass(e.target, 'mw_editor') || mw.tools.hasParentsWithClass(e.target, 'mw_editor')){
+          if(mw.tools.hasClass(e.target, 'mw-editor-disabled') || mw.tools.hasParentsWithClass(e.target, 'mw-editor-disabled')){
+               mw.wysiwyg.disableEditors();
+          }
+          else{
+              var common = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().getRangeAt(0).commonAncestorContainer);
+              if(mw.tools.hasClass(common, 'nodrop') || mw.tools.hasParentsWithClass(common, 'nodrop')){
+                  mw.wysiwyg.disableEditors();
+                 return false;
+              }
+          }
+      } */
+
+
+
+       var sel = window.getSelection();
+      if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit')) && !sel.getRangeAt(0).collapsed){
         if(sel.rangeCount > 0){
         var r = sel.getRangeAt(0);
         if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
@@ -1389,12 +1459,22 @@ $(window).load(function(){
       }
       else{
         if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
-           mw.smallEditorCanceled = true;
-           mw.smallEditor.css({
-            visibility:"hidden"
-          });
+             mw.smallEditorCanceled = true;
+             mw.smallEditor.css({
+              visibility:"hidden"
+            });
+        }
       }
-      }
+
+     setTimeout(function(){
+        if(window.getSelection().rangecount > 0 && window.getSelection().getRangeAt(0).collapsed ){
+            mw.smallEditorCanceled = true;
+             mw.smallEditor.css({
+              visibility:"hidden"
+            });
+        }
+     }, 39);
+
     }
   }
 });
@@ -1466,6 +1546,7 @@ $(window).load(function(){
 
    if(mw.settings.liveEdit){
     $(window).bind("mousemove", function(e){
+       var isCollapsed = window.get
        if(!mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")){
          var off = mw.smallEditor.offset();
          if(((e.pageX - mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY-mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX+mw.smallEditorOff) < (off.left)) || ((e.pageY+mw.smallEditorOff) < (off.top))){

@@ -52,12 +52,6 @@ $show_page_settings = 1;
 </textarea>
 </div>
 <div class="vSpace"></div>
-
-
- 
-
-
-
 <div class="vSpace"></div>
 <div class="mw_clear vSpace"></div>
 <?php if($show_page_settings != false): ?>
@@ -92,16 +86,10 @@ $show_page_settings = 1;
     <?php _e("Yes"); ?>
     </span></label>
 </div>
-
-
-
-
-
 <div class="mw_clear vSpace"></div>
 <?php endif; ?>
-
 <div class="mw-ui-check-selector">
-  <div class="mw-ui-label left" style="width: 130px"> 
+  <div class="mw-ui-label left" style="width: 130px">
     <?php _e("Require login"); ?>
     <small class="mw-help" data-help="<?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?>">(?)</small></div>
   <label class="mw-ui-check">
@@ -114,6 +102,26 @@ $show_page_settings = 1;
     <span></span><span>
     <?php _e("Yes"); ?>
     </span></label>
+</div>
+<?php 
+ $redirected = false;
+ 
+ 
+ 
+ if(isset($data['original_link']) and $data['original_link'] != ''){
+	 
+	$redirected = true;	 
+ } else {
+	$data['original_link'] = ''; 
+ }
+ 
+ 
+ ?>
+<div class="mw-ui-field-holder">
+  <label class="mw-ui-label">
+    <?php _e("Redirect to url"); ?>
+    <small class="mw-help" data-help="<?php _e("If set this, the user will be redirected to the new URL when visits the page"); ?>">(?)</small> </label>
+  <input name="original_link" class="mw-ui-field" type="text" value="<?php print $data['original_link'] ?>">
 </div>
 <div class="mw_clear vSpace"></div>
 <?php  if(isset($data['position'])): ?>
@@ -225,9 +233,9 @@ $show_page_settings = 1;
 <small>
 <?php _e("Content type"); ?>
 : <?php print($data['content_type'])?></small> <a href="javascript:$('.mw_adm_cont_type_change_holder').toggle(); void(0);"  > <span class="mw-ui-arr mw-ui-arr-down" style="opacity:0.3"></span> </a>
-<div class="mw_adm_cont_type_change_holder" style="display:none">
-<em>Warning! Advanced action!<br />Do not change these settings unless you know what you are doing.</em>
- <label class="mw-ui-label">
+<div class="mw_adm_cont_type_change_holder" style="display:none"> <em>Warning! Advanced action!<br />
+  Do not change these settings unless you know what you are doing.</em>
+  <label class="mw-ui-label">
     <?php _e("Change content type"); ?>
     <small class="mw-help" data-help="Changing the content type to different than '<?php print $data['content_type'] ?>' is advanced action. Please read the documentation and consider not to change the content type">(?)</small></label>
   <select class="mw-ui-simple-dropdown" name="change_content_type" onchange="mw.adm_cont_type_change_holder_event(this)">
@@ -235,9 +243,7 @@ $show_page_settings = 1;
     <option value="<?php print $item['content_type'];  ?>"  <?php if( $item['content_type'] == trim($data['content_type'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['content_type'];  ?></option>
     <?php endforeach; ?>
   </select>
-  
-  
-   <label class="mw-ui-label">
+  <label class="mw-ui-label">
     <?php _e("Change content sub type"); ?>
     <small class="mw-help" data-help="Changing the content subtype to different than '<?php print $data['subtype'] ?>' is advanced action. Please read the documentation and consider not to change the content type">(?)</small></label>
   <select class="mw-ui-simple-dropdown" name="change_contentsub_type" onchange="mw.adm_cont_subtype_change_holder_event(this)">
@@ -245,8 +251,6 @@ $show_page_settings = 1;
     <option value="<?php print $item['subtype'];  ?>"  <?php if( $item['subtype'] == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['subtype'];  ?></option>
     <?php endforeach; ?>
   </select>
-  
-  
 </div>
 <?php endif; ?>
 <?php endif; ?>

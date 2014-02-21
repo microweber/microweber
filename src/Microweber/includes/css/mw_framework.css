@@ -411,7 +411,7 @@ body.loaded #live_edit_toolbar{
 
 #live_edit_toolbar{
   position: fixed;
-  top: 0;
+  top: 19px;
   left: 0;
   border-bottom: 1px solid #DDDDDD;
 }
@@ -1175,8 +1175,8 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 
 
-.mw-ui-btn-blue{background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);background:#CDE1FB; border-color: #BAD7F6;border-bottom-color: #89B6D9;}
-.mw-ui-btn-blue:hover{background: url(../img/grad.php?top=CDE1FB&bot=CDE1FB);}
+.mw-ui-btn-blue{ background:#CDE1FB; border-color: #BAD7F6;border-bottom-color: #89B6D9;}
+.mw-ui-btn-blue:hover{ background:#CDE1FB; }
 
 
 .mw-ui-btn-red{background: url(../img/grad.php?top=FFB0B0&bot=FF7373);border-color: #FFB0B0;border-bottom-color: #FF1F1F;}
@@ -1281,20 +1281,23 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 input.mw-title-field{
   font-size: 18px;
-  padding-top:5px;
-  padding-bottom: 5px;
-  width: 328px;
-
-  height: 23px;
-  border-left: none;
+  padding:12px;
+  width: 368px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
+  background: #f5f5f5
 }
+.mw-title-field-label{
+  display: none !important;
+}
+
 .mw-title-field-label-post + input.mw-title-field,
 .mw-title-field-label-product + input.mw-title-field,
 .mw-title-field-label-page + input.mw-title-field{
-  width: 355px;
+  width: 405px;
   float: left;
+
+
 }
 
 
@@ -2668,7 +2671,7 @@ body.mw-external-loading:after{
 
 .mw-before-leave-container [class*='confirm-btn']{
   margin:10px 13px 8px;
-  width: 145px;
+  width: 165px;
   opacity: 0.6;
 }
 
@@ -2940,6 +2943,9 @@ body.dragStart .empty-element.currentDragMouseOver:before{
   padding: 12px;
   text-align: center;
 }
+
+
+
 
 
 

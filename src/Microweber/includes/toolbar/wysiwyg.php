@@ -87,15 +87,19 @@
             <?php /*<input type="text" class="mw_dd_field"  />         */ ?>
             <span class="dd_rte_arr"></span> <span class="mw_dropdown_val" >Size</span> </span>
             <div class="mw_dropdown_fields">
-              <ul>
-                <li value="8"><a href="javascript:;">8</a></li>
-                <li value="10"><a href="javascript:;">10</a></li>
-                <li value="12"><a href="javascript:;">12</a></li>
-                <li value="14"><a href="javascript:;">14</a></li>
-                <li value="18"><a href="javascript:;">18</a></li>
-                <li value="24"><a href="javascript:;">24</a></li>
-                <li value="36"><a href="javascript:;">36</a></li>
-              </ul>
+                    <ul>
+                          <li value="10"><a href="javascript:;">10</a></li>
+                          <li value="11"><a href="javascript:;">11</a></li>
+                          <li value="12"><a href="javascript:;">12</a></li>
+                          <li value="14"><a href="javascript:;">14</a></li>
+                          <li value="16"><a href="javascript:;">16</a></li>
+                          <li value="18"><a href="javascript:;">18</a></li>
+                          <li value="20"><a href="javascript:;">20</a></li>
+                          <li value="20"><a href="javascript:;">22</a></li>
+                          <li value="24"><a href="javascript:;">24</a></li>
+                          <li value="36"><a href="javascript:;">36</a></li>
+                          <li value="72"><a href="javascript:;">72</a></li>
+                    </ul>
             </div>
           </div>
           <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>"> <span class="mw_dropdown_val_holder"> <span class="dd_rte_arr"></span> <span class="mw_dropdown_val">
@@ -137,7 +141,12 @@
     </div>
     <div class="wysiwyg-cell">
       <div class="relative"> <span class="mw_editor_btn mw_editor_ul wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1440"> <span class="dd_rte_arr"></span> <span class="ed-ico"></span> </span>
-        <div class="wysiwyg-convertible wysiwyg-convertible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="<?php _e("Remove Link"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="<?php _e("Ordered List"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="<?php _e("Unordered List"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span> </div>
+        <div class="wysiwyg-convertible wysiwyg-convertible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_unlink" data-command="custom-unlink" title="<?php _e("Remove Link"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="<?php _e("Ordered List"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="<?php _e("Unordered List"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
+
+        <?php /*<span class="mw_editor_btn mw_editor_element" title="<?php _e("Create Draggable Element from selected text."); ?>" data-command="custom-createelement"><span class="ed-ico"></span></span>*/ ?>
+
+
+        </div>
       </div>
     </div>
     <div class="wysiwyg-cell">
@@ -145,7 +154,7 @@
         <div class="wysiwyg-convertible wysiwyg-convertible-1440"> <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyleft mw-align-left" data-command="justifyLeft" title="<?php _e("Align Left"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_alignment mw_editor_justifycenter mw-align-center" data-command="justifyCenter" title="<?php _e("Align Center"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyright mw-align-right" data-command="justifyRight" title="<?php _e("Align Right"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_alignment mw_editor_justifyfull mw-align-justify" data-command="justifyFull" title="<?php _e("Align Both Sides"); ?>"><span class="ed-ico"></span></span> </div>
       </div>
     </div>
-    <div class="wysiwyg-cell visible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> <span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span> </div>
+    <div class="wysiwyg-cell visible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> <?php /*<span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>*/ ?> </div>
     <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
     <?php event_trigger('mw_editor_btn'); ?>
   </div>

@@ -16,17 +16,16 @@ api_expose('create_media_dir');
 api_expose('media/upload');
 api_expose('media/delete_media_file');
 
+
 class Media
 {
 
     public $app;
     public $tables = array();
     public $table_prefix = false;
+
     function __construct($app = null)
     {
-
-
-     
 
 
         if (!is_object($this->app)) {
@@ -46,7 +45,6 @@ class Media
         $this->tables['media'] = $prefix . 'media';
 
     }
-
 
     public function get_picture($content_id, $for = 'post', $full = false)
     {
@@ -89,6 +87,30 @@ class Media
         }
     }
 
+    public function get($params)
+    {
+
+        $table = $this->tables['media'];
+        $params = parse_params($params);
+        /*
+         // if (is_string($params)) {
+         // $params = parse_str($params, $params2);
+         // $params = $params2;
+         // }*/
+
+        if (isset($params['for'])) {
+            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
+        }
+
+        // $params['debug'] = $table;
+        $params['limit'] = 1000;
+        $params['table'] = $table;
+        $params['orderby'] = 'position ASC';
+        $data = $this->app->db->get($params);
+
+        return $data;
+    }
+
     public function get_first_image_from_html($html)
     {
         if (preg_match('/<img.+?src="(.+?)"/', $html, $matches)) {
@@ -99,7 +121,6 @@ class Media
             return false;
         }
     }
-
 
     public function upload_progress_check()
     {
@@ -142,7 +163,6 @@ class Media
         //ini_set("session.upload_progress.enabled", true);
         // return $_SESSION;
     }
-
 
     public function upload($data)
     {
@@ -269,7 +289,6 @@ class Media
         fclose($whandle);
     }
 
-
     public function reorder($data)
     {
 
@@ -295,7 +314,6 @@ class Media
         }
     }
 
-
     public function delete($data)
     {
 
@@ -316,7 +334,6 @@ class Media
             $this->app->db->delete_by_id('media', $c_id);
         }
     }
-
 
     public function save($data)
     {
@@ -428,6 +445,178 @@ class Media
         }
     }
 
+    public function thumbnail_img($params)
+    {
+        if (isset($_SESSION) and !empty($_SESSION)) {
+            //session_write_close();
+        }
+        extract($params);
+
+
+        if (!isset($width)) {
+            $width = 200;
+        }
+
+
+        if (!isset($height)) {
+            $width = 200;
+        }
+
+        if (!isset($src) or $src == false) {
+            return $this->pixum($width, $height);
+        }
+
+
+        //require_once ();
+        $surl = $this->app->url->site();
+        $local = false;
+
+        $media_url = MW_MEDIA_URL;
+        $media_url = trim($media_url);
+        $src = str_replace('{SITE_URL}', $surl, $src);
+        $src = str_replace('%7BSITE_URL%7D', $surl, $src);
+        $src = str_replace('..', '', $src);
+
+        // $src = str_replace('%7BSITE_URL%7D', $surl, $src);
+
+        /*
+         */
+
+
+        if (strstr($src, $surl) or strpos($src, $surl)) {
+
+            $src = str_replace($surl . '/', $surl, $src);
+            //$src = str_replace($media_url, '', $src);
+            $src = str_replace($surl, '', $src);
+            $src = ltrim($src, DS);
+            $src = ltrim($src, '/');
+            $src = rtrim($src, DS);
+            $src = rtrim($src, '/');
+            //$src = MW_MEDIA_DIR . $src;
+            $src = MW_ROOTPATH . $src;
+            $src = normalize_path($src, false);
+
+        } else {
+
+            $src = MW_ROOTPATH . $src;
+            $src = normalize_path($src, false);
+
+          /*  if (!is_file($src)) {
+                $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
+
+                if (!file_exists($dl_file)) {
+                    $is_dl = $this->app->url->download($src, false, $dl_file);
+                } else {
+                    $is_dl = 1;
+                }
+                if ($is_dl == true) {
+                    $src = $dl_file;
+                } else {
+
+                }
+            }*/
+
+
+
+
+            if (is_file($src)) {
+
+            } else {
+                return $this->pixum_img();
+            }
+
+            if ($src == false) {
+
+            }
+        }
+        $media_root = MW_MEDIA_DIR;
+
+        if (!is_writable($media_root)) {
+            $media_root = MW_CACHE_DIR;
+        }
+
+        $cd = $media_root . 'thumbnail' . DS . $width . DS;
+
+        if (!is_dir($cd)) {
+            mkdir_recursive($cd);
+        }
+
+        $index_file = $cd . 'index.html';
+        if (!is_file($index_file)) {
+            file_put_contents($index_file, 'Thumbnail directory is not allowed');
+        }
+
+        $ext = strtolower(get_file_extension($src));
+        $cache = crc32(serialize($params)) . '.' . $ext;
+
+        $cache = str_replace(' ', '_', $cache);
+
+        if (isset($cache_id)) {
+            $cache = str_replace(' ', '_', $cache_id);
+            $cache = str_replace('..', '', $cache);
+        }
+
+        $cache_path = $cd . $cache;
+
+        if (file_exists($cache_path)) {
+            if (!headers_sent()) {
+                if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+                    $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
+                } else {
+                    $if_modified_since = '';
+                }
+                $mtime = filemtime($src);
+                $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
+                if ($if_modified_since == $gmdate_mod) {
+                    header("HTTP/1.0 304 Not Modified");
+                }
+            }
+
+        } else {
+            if (file_exists($src)) {
+                if (($ext) == 'svg') {
+                    $res1 = file_get_contents($src);
+                    $res1 = $this->svgScaleHack($res1, $width, $height);
+                    file_put_contents($cache_path, $res1);
+
+                } else {
+                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
+                        $tn = new \Microweber\Thumbnailer($src);
+                        $thumbOptions = array('maxLength' => $height, 'width' => $width);
+                        $tn->createThumb($thumbOptions, $cache_path);
+
+                        unset($tn);
+                    } else {
+                        return $this->pixum_img();
+                    }
+
+
+                }
+            }
+
+        }
+
+
+        $ext = get_file_extension($cache_path);
+        if ($ext == 'jpg') {
+            $ext = 'jpeg';
+        }
+        header("Content-Type: image/" . $ext);
+        header("Content-Length: " . filesize($cache_path));
+
+
+        readfile($cache_path);
+
+        exit;
+
+
+    }
+
+    public function pixum($width, $height)
+    {
+        return $this->app->url->site('api/pixum_img') . "?width=" . $width . "&height=" . $height;
+    }
+
     public function pixum_img()
     {
         $mime_type = "image/jpg";
@@ -487,160 +676,44 @@ class Media
         }
     }
 
-    public function pixum($width, $height)
+    private function svgScaleHack($svg, $minWidth, $minHeight)
     {
-        return $this->app->url->site('api/pixum_img') . "?width=" . $width . "&height=" . $height;
-    }
+        $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
+        $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
+        preg_match($reW, $svg, $mw);
+        preg_match($reH, $svg, $mh);
 
-
-    public function thumbnail_img($params)
-    {
-        if (isset($_SESSION) and !empty($_SESSION)) {
-            //session_write_close();
-        }
-        extract($params);
-
-
-        if (!isset($width)) {
-            $width = 200;
+        if (!isset($mw[2]) and isset($mh[2])) {
+            $mw[2] = $mh[2];
         }
 
-
-        if (!isset($height)) {
-            $width = 200;
-        }
-
-        if (!isset($src) or $src == false) {
-            return $this->pixum($width, $height);
-        }
-
-
-        //require_once ();
-        $surl = $this->app->url->site();
-        $local = false;
-
-        $media_url = MW_MEDIA_URL;
-        $media_url = trim($media_url);
-        $src = str_replace('{SITE_URL}', $surl, $src);
-        $src = str_replace('%7BSITE_URL%7D', $surl, $src);
-        $src = str_replace('..', '', $src);
-
-        // $src = str_replace('%7BSITE_URL%7D', $surl, $src);
-
-        /*
-         */
-
-
-        if (strstr($src, $surl) or strpos($src, $surl)) {
-
-            $src = str_replace($surl . '/', $surl, $src);
-            //$src = str_replace($media_url, '', $src);
-            $src = str_replace($surl, '', $src);
-            $src = ltrim($src, DS);
-            $src = ltrim($src, '/');
-            $src = rtrim($src, DS);
-            $src = rtrim($src, '/');
-            //$src = MW_MEDIA_DIR . $src;
-            $src = MW_ROOTPATH . $src;
-            $src = normalize_path($src, false);
-
+        if (empty($mw)) {
+            $width = floatval($minWidth);
+            $height = floatval($minHeight);
         } else {
-
-            $src = MW_ROOTPATH . $src;
-            $src = normalize_path($src, false);
-
-
-            // $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
-            //
-            // if (!file_exists($dl_file)) {
-            // $is_dl = $this->app->url->download($src, false, $dl_file);
-            // } else {
-            // $is_dl = 1;
-            // }
-            // if ($is_dl == true) {
-            // $src = $dl_file;
-            // } else {
-            //
-            // }
-
-
-            if (is_file($src)) {
-
-            } else {
-                return $this->pixum_img();
-            }
-
-            if ($src == false) {
-
-            }
-        }
-        $cd = MW_MEDIA_DIR . 'thumbnail' . DS . $width . DS;
-        if (!is_dir($cd)) {
-            mkdir_recursive($cd);
-        }
-        $index_file = $cd . 'index.html';
-        if (!is_file($index_file)) {
-            file_put_contents($index_file, 'Thumbnail directory is not allowed');
+            $width = floatval($mw[2]);
+            $height = floatval($mh[2]);
         }
 
-        $ext = strtolower(get_file_extension($src));
-        $cache = crc32(serialize($params)) . '.' . $ext;
+        if (!$width || !$height) return false;
 
-        $cache = str_replace(' ', '_', $cache);
-
-        if (isset($cache_id)) {
-            $cache = str_replace(' ', '_', $cache_id);
-            $cache = str_replace('..', '', $cache);
+        // scale to make width and height big enough
+        $scale = 1;
+        if ($width < $minWidth) {
+            $scale = $minWidth / $width;
         }
-
-        $cache_path = $cd . $cache;
-
-        if (file_exists($cache_path)) {
-
-        } else {
-            //
-
-            if (file_exists($src)) {
-
-
-                if (($ext) == 'svg') {
-                    $res1 = file_get_contents($src);
-                    $res1 = $this->svgScaleHack($res1, $width, $height);
-                    file_put_contents($cache_path, $res1);
-
-                } else {
-                    if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
-                        $tn = new \Microweber\Thumbnailer($src);
-                        $thumbOptions = array('maxLength' => $height, 'width' => $width);
-                         $tn->createThumb($thumbOptions, $cache_path);
-
-                        unset($tn);
-                    } else {
-                        return $this->pixum_img();
-                    }
-
-
-                }
-            }
-
+        if ($height < $minHeight) {
+            $scale = max($scale, ($minHeight / $height));
         }
+        $scale = 1;
+        //$width *= $scale*2;
+        //$height *= $scale*2;
 
+        $svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
+        $svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
 
-        $ext = get_file_extension($cache_path);
-        if ($ext == 'jpg') {
-            $ext = 'jpeg';
-        }
-        header("Content-Type: image/" . $ext);
-        header("Content-Length: " . filesize($cache_path));
-
-
-        readfile($cache_path);
-
-        exit;
-
-
+        return $svg;
     }
-
 
     public function thumbnail($src, $width = 200, $height = 200)
     {
@@ -787,31 +860,6 @@ class Media
         //d($src);
     }
 
-    public function get($params)
-    {
-
-        $table = $this->tables['media'];
-        $params = parse_params($params);
-        /*
-         // if (is_string($params)) {
-         // $params = parse_str($params, $params2);
-         // $params = $params2;
-         // }*/
-
-        if (isset($params['for'])) {
-            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
-        }
-
-        // $params['debug'] = $table;
-        $params['limit'] = 1000;
-        $params['table'] = $table;
-        $params['orderby'] = 'position ASC';
-        $data = $this->app->db->get($params);
-
-        return $data;
-    }
-
-
     public function create_media_dir($params)
     {
         only_admin_access();
@@ -847,7 +895,6 @@ class Media
         return $resp;
 
     }
-
 
     public function delete_media_file($params)
     {
@@ -894,46 +941,6 @@ class Media
         }
         return $resp;
 
-    }
-
-
-    private function svgScaleHack($svg, $minWidth, $minHeight)
-    {
-        $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
-        $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
-        preg_match($reW, $svg, $mw);
-        preg_match($reH, $svg, $mh);
-
-        if (!isset($mw[2]) and isset($mh[2])) {
-            $mw[2] = $mh[2];
-        }
-
-        if (empty($mw)) {
-            $width = floatval($minWidth);
-            $height = floatval($minHeight);
-        } else {
-            $width = floatval($mw[2]);
-            $height = floatval($mh[2]);
-        }
-
-        if (!$width || !$height) return false;
-
-        // scale to make width and height big enough
-        $scale = 1;
-        if ($width < $minWidth) {
-            $scale = $minWidth / $width;
-        }
-        if ($height < $minHeight) {
-            $scale = max($scale, ($minHeight / $height));
-        }
-        $scale = 1;
-        //$width *= $scale*2;
-        //$height *= $scale*2;
-
-        $svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
-        $svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
-
-        return $svg;
     }
 
 
