@@ -3,34 +3,38 @@ mw.content = mw.content || {
             master = {};
             master.id= $id;
             $(mwd.body).addClass("loading");
-      	  $.ajax({
-              type: 'POST',
-              url: mw.settings.site_url + 'api/content/set_published',
-              data: master,
-              datatype: "json",
-              async: true,
-              beforeSend: function() {
+            mw.drag.save(mwd.getElementById('main-save-btn'), function(){
+            	  $.ajax({
+                    type: 'POST',
+                    url: mw.settings.site_url + 'api/content/set_published',
+                    data: master,
+                    datatype: "json",
+                    async: true,
+                    beforeSend: function() {
 
-              },
-              success: function(data) {
-                $(mwd.body).removeClass("loading");
-      			$('.mw-set-content-publish').hide();
-                  $('.mw-set-content-unpublish').fadeIn();
-                  mw.askusertostay = false;
-      		    mw.notification.success("Content is Published.");
-              },
-              error:function(){
-                  $(mwd.body).removeClass("loading");
-              },
-              complete:function(){
-                $(mwd.body).removeClass("loading");
-              }
+                    },
+                    success: function(data) {
+                      $(mwd.body).removeClass("loading");
+            			$('.mw-set-content-publish').hide();
+                        $('.mw-set-content-unpublish').fadeIn();
+                        mw.askusertostay = false;
+            		    mw.notification.success("Content is Published.");
+                    },
+                    error:function(){
+                        $(mwd.body).removeClass("loading");
+                    },
+                    complete:function(){
+                      $(mwd.body).removeClass("loading");
+                    }
+                  });
             });
       },
       unpublish : function($id) {
       	master = {};
       	master.id= $id;
         $(mwd.body).addClass("loading");
+
+        mw.drag.save(mwd.getElementById('main-save-btn'), function(){
       	  $.ajax({
               type: 'POST',
               url: mw.settings.site_url + 'api/content/set_unpublished',
@@ -54,6 +58,7 @@ mw.content = mw.content || {
                 $(mwd.body).removeClass("loading");
               }
             });
+        });
       },
       save:function(data, e){
           var master = {};

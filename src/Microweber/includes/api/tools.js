@@ -3087,7 +3087,7 @@ mw.beforeleave = function(url){
             var modal = mw.tools.modal.init({
                html:mw.beforeleave_html,
                name:'modal_beforeleave',
-               width:430,
+               width:470,
                height:230,
                template:'mw_modal_basic'
             });

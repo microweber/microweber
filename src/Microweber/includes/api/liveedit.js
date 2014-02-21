@@ -2614,12 +2614,12 @@ $(document).ready(function(){
              mw.modulesandlayoutsintervalTime = 470;
          }
          else{
-           mw.modulesandlayoutsintervalTime = 220;
+             mw.modulesandlayoutsintervalTime = 220;
          }
          clearTimeout(mw.modulesandlayoutsinterval);
          setTimeout(function(){
               mw.modulesClickInsert = true;
-         }, (mw.modulesandlayoutsintervalTime + 200));
+         }, (mw.modulesandlayoutsintervalTime + 200 + 200));
          var $el = $(this);
          mw.modulesandlayoutsinterval = setTimeout(function(){
             $el.addClass("hovered");

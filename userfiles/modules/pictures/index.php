@@ -69,7 +69,7 @@ if (isset($params['rel_id']) == true): ?>
 			//$data = $default_images;
 			$data = array();
 			foreach($default_images as $default_image){
-			$data[] = array('filename'=> $default_image);	
+			$data[] = array('filename'=> $default_image,'title'=> basename($default_image));	
 			}
 			
 		} else {

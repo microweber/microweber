@@ -301,7 +301,7 @@ html.mw_pages #mw_toolbar_nav{
 html.mw_pages #mw_tabs li.active a{
   padding: 15px 20px 11px;
 }
- .mw_tree_title{
+.mw_tree_title{
   background: url(../img/ico.tree.png) no-repeat 14px 0px;
   padding:5px 0 18px 55px;
   margin: 0;
@@ -311,8 +311,15 @@ html.mw_pages #mw_tabs li.active a{
   color: #777777;
   font-size: 15px;
   letter-spacing: 2px;
-  display: block;
+  display: inline-block;
+  float: left;
 }
+
+
+.mw_action_nav.mw_action_post{
+   clear: both;
+}
+
 .mw_tree_title_shop{
   background-image: url(../img/shop.big.png);
   background-position: 9px 0;

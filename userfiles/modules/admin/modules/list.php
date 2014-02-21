@@ -42,53 +42,53 @@ if(isset($_COOKIE['recommend']) and isset($modules) and is_array($modules)){
     $recommended = json_decode($_COOKIE['recommend'],true);
    
     if(is_array($recommended) and !empty($recommended)){
-
+        $position = 9; 
         $sorted_modules = array();
         arsort($recommended);
         foreach ($recommended as $key => $value) {
             foreach ($modules as $mod_key => $item) {
-               if(isset($item['module']) and isset($item['position']) and $item['position'] > 3){
+               if(isset($item['module']) and isset($item['position']) and $item['position'] > $position){
                     if($key == $item['module']){
-                        $sorted_modules[] =  $item;
-                      //  unset($modules[$mod_key]);
-                    }
+                        $sorted_modules[] = $item;
+                     }
 
                }
             }
         }
+
         if(!empty($sorted_modules)){
-            
-            $position = 4;
+            //arsort( $sorted_modules);
             if(!empty($modules)){
                 $re_sorted_modules = array();
                 $temp = array();
-                foreach ($modules as $key => $item) {
+                $modules_copy = $modules;
+                foreach ($modules_copy as $key => $item) {
+                        if(is_array($sorted_modules) and !empty($sorted_modules)){
+                            foreach ($sorted_modules as $key2 => $sorted_module) {
+                                if($sorted_module['module'] == $item['module']){
+                                unset($modules_copy[$key]);   
+                                }
+                            }
+                        }
+                }
+                foreach ($modules_copy as $key => $item) {
 
-                    if(is_array($sorted_modules) and !empty($sorted_modules)){
-                   
-                    foreach ($sorted_modules as $key2 => $sorted_module) {
-                       if(!in_array($item['module'], $temp) ){
-                       //  $temp[] = $item['module'];
-                         $temp[] = $sorted_module['module'];
-                      
-
-
-                        if($item['position'] < $position){
-                        $re_sorted_modules[] = $item;
-                        } elseif($item['position'] > $position and $item['module'] == $sorted_module['module']){
-
-                        $re_sorted_modules[] = $sorted_module;  
-                        unset($sorted_modules[$key2]);      
-                        } else {
-
-                        $re_sorted_modules[] = $item;        
-                        
+                    $re_sorted_modules[] = $item;
+                     if($item['position'] > $position){
+                        if(is_array($sorted_modules) and !empty($sorted_modules)){
+                            foreach ($sorted_modules as $key2 => $sorted_module) {
+                            $re_sorted_modules[] = $sorted_module;
+                            unset($sorted_modules[$key2]);      
+                            }
                         }
 
-                        }
-                         }
-                    }
+                     }  
+
+
                    
+                }
+                if(!empty($re_sorted_modules)){
+                $modules = $re_sorted_modules; 
                 }
                // $modules = $re_sorted_modules;
 
