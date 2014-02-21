@@ -1175,8 +1175,8 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 
 
-.mw-ui-btn-blue{background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);background:#CDE1FB; border-color: #BAD7F6;border-bottom-color: #89B6D9;}
-.mw-ui-btn-blue:hover{background: url(../img/grad.php?top=CDE1FB&bot=CDE1FB);}
+.mw-ui-btn-blue{ background:#CDE1FB; border-color: #BAD7F6;border-bottom-color: #89B6D9;}
+.mw-ui-btn-blue:hover{ background:#CDE1FB; }
 
 
 .mw-ui-btn-red{background: url(../img/grad.php?top=FFB0B0&bot=FF7373);border-color: #FFB0B0;border-bottom-color: #FF1F1F;}

@@ -805,8 +805,6 @@ class Layouts
                                 }
 
                             }
-
-
                             if (trim($item["css"]) != 'reset' and trim($item["css"]) != 'reset;') {
                                 $css_cont_new .= $delim;
                                 if (isset($sel) and trim($sel) == '@import') {
@@ -816,7 +814,6 @@ class Layouts
                                 }
                                 $css_cont_new .= $delim;
                             }
-
                         }
                     }
 
