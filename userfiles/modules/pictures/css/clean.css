@@ -1,3 +1,17 @@
+.mw-pictures-clean{
+  zoom:1;
+  position: relative;
+}
+
+.mw-pictures-clean:after{
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
 .mw-pictures-clean-item{
   float: left;
   width: 48%;

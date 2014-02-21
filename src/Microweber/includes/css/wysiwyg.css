@@ -473,7 +473,7 @@
 
 
 #liveedit_wysiwyg{
-  height: 50px;
+  height: 40px;
     cursor: default;
 }
 
@@ -521,7 +521,7 @@
 
 .wysiwyg-table{
   display: table;
-  padding-top: 12px;
+  padding-top: 4px;
   position: relative;
   left: 0;
 }

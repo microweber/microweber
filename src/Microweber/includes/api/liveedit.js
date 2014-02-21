@@ -1035,7 +1035,7 @@ mw.drag = {
              }
              if(e.type == 'mouseup' && e.which == 1 && !!this.mousedown){
                  mw.$(items).each(function(){this.mousedown = false});
-                 if(!mw.isDrag && mww.getSelection().rangeCount > 0 && mwd.querySelector('.mw_modal') === null){
+                 if(!mw.isDrag && mww.getSelection().rangeCount > 0 && mwd.querySelector('.mw_modal') === null && mw.modulesClickInsert){
                       var html = this.outerHTML;
                       mw.wysiwyg.insert_html( html );
                       mw.drag.load_new_modules();
@@ -1427,6 +1427,7 @@ mw.drag = {
                 }, true);
 			need_re_init = true;
 		});
+
         if(mw.have_new_items == true){
             need_re_init = true;
         }
@@ -2604,10 +2605,11 @@ $(document).ready(function(){
 
   mw.modulesandlayoutsinterval = false;
   mw.modulesandlayoutsintervalTime = 220;
-
+  mw.modulesClickInsert = false;
 
   mw.$("#modules-and-layouts").hover(function(){
          var sel = window.getSelection();
+         mw.modulesClickInsert = false;
          if(sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed){
              mw.modulesandlayoutsintervalTime = 470;
          }
@@ -2615,6 +2617,9 @@ $(document).ready(function(){
            mw.modulesandlayoutsintervalTime = 220;
          }
          clearTimeout(mw.modulesandlayoutsinterval);
+         setTimeout(function(){
+              mw.modulesClickInsert = true;
+         }, (mw.modulesandlayoutsintervalTime + 200));
          var $el = $(this);
          mw.modulesandlayoutsinterval = setTimeout(function(){
             $el.addClass("hovered");
@@ -2622,9 +2627,11 @@ $(document).ready(function(){
   }, function(){
         clearTimeout(mw.modulesandlayoutsinterval);
         $(this).removeClass("hovered");
+        mw.modulesClickInsert = false;
   }).click(function(){
        clearTimeout(mw.modulesandlayoutsinterval);
        $(this).addClass("hovered");
+
   });
 
 
@@ -2639,7 +2646,7 @@ mw.toolbar = {
     });
   },
   fixPad : function(){
-   mwd.body.style.paddingTop = mw.toolbar.minTop + mw.$("#live_edit_toolbar").height() + 'px';
+   mwd.body.style.paddingTop = mw.toolbar.minTop + mw.$("#live_edit_toolbar").height() + mw.$("#modules-and-layouts").height() +  'px';
   }
 }
 

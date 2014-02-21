@@ -609,7 +609,8 @@ table[class*='mw-wysiwyg-table'].valign td{
 
 /* /Tables */
 
-
+#mw-inline-tableControl{display: none;}
+.mw-live-edit #mw-inline-tableControl{display: block;}
 
 .mw-cancel{
   font-size: 11px;

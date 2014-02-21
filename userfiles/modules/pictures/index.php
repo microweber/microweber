@@ -17,8 +17,12 @@ if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'content' an
     $params['rel_id'] = CONTENT_ID;
     $params['for'] = 'content';
 }
-
-
+$default_images = false;
+if (isset($params['images']) and trim(strtolower(($params['images']))) != '') {
+     $default_images = explode(',',$params['images']);
+	 $default_images = array_trim($default_images);
+}
+ 
 if (isset($params['for'])) {
     $for = $params['for'];
 } else {
@@ -60,7 +64,20 @@ if (isset($params['rel_id']) == true): ?>
     <?php $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
 
     if (!is_array($data)) {
-        $no_img = true;
+		
+		if(is_array($default_images) and !empty($default_images)){
+			//$data = $default_images;
+			$data = array();
+			foreach($default_images as $default_image){
+			$data[] = array('filename'=> $default_image);	
+			}
+			
+		} else {
+			 $no_img = true;
+		}
+		
+		
+       
     } else {
         $data = mw()->format->add_slashes_recursive($data);
     }

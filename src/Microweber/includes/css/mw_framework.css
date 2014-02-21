@@ -2671,7 +2671,7 @@ body.mw-external-loading:after{
 
 .mw-before-leave-container [class*='confirm-btn']{
   margin:10px 13px 8px;
-  width: 145px;
+  width: 165px;
   opacity: 0.6;
 }
 

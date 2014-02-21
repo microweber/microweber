@@ -571,6 +571,10 @@ mw.askusertostay = false;
         mw.on.DOMChangePause = false;
        }
        mw.tools.removeClass(mwd.body, 'loading');
+    }).fail(function(){
+       mw.pauseSave = false;
+    }).always(function(){
+        mw.pauseSave = false;
     });
 
   }

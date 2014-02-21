@@ -83,7 +83,17 @@ input.large-field, textarea.large-field {
 
 }
 
-
+#header .navbar-static {
+	 background-color:white; 
+}
+#header .navbar-static li a.active {
+ color:#333;
+ font-weight:bold; 
+}
+#header .navbar-static li a:hover {
+ color:#808080 !important;
+  
+}
 /* /Global styles */
 
 

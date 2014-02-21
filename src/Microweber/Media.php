@@ -87,6 +87,30 @@ class Media
         }
     }
 
+    public function get($params)
+    {
+
+        $table = $this->tables['media'];
+        $params = parse_params($params);
+        /*
+         // if (is_string($params)) {
+         // $params = parse_str($params, $params2);
+         // $params = $params2;
+         // }*/
+
+        if (isset($params['for'])) {
+            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
+        }
+
+        // $params['debug'] = $table;
+        $params['limit'] = 1000;
+        $params['table'] = $table;
+        $params['orderby'] = 'position ASC';
+        $data = $this->app->db->get($params);
+
+        return $data;
+    }
+
     public function get_first_image_from_html($html)
     {
         if (preg_match('/<img.+?src="(.+?)"/', $html, $matches)) {
@@ -97,8 +121,6 @@ class Media
             return false;
         }
     }
-
-
 
     public function upload_progress_check()
     {
@@ -313,30 +335,6 @@ class Media
         }
     }
 
-    public function get($params)
-    {
-
-        $table = $this->tables['media'];
-        $params = parse_params($params);
-        /*
-         // if (is_string($params)) {
-         // $params = parse_str($params, $params2);
-         // $params = $params2;
-         // }*/
-
-        if (isset($params['for'])) {
-            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
-        }
-
-        // $params['debug'] = $table;
-        $params['limit'] = 1000;
-        $params['table'] = $table;
-        $params['orderby'] = 'position ASC';
-        $data = $this->app->db->get($params);
-
-        return $data;
-    }
-
     public function save($data)
     {
 
@@ -463,7 +461,7 @@ class Media
         if (!isset($height)) {
             $width = 200;
         }
-
+ 
         if (!isset($src) or $src == false) {
             return $this->pixum($width, $height);
         }
@@ -503,19 +501,22 @@ class Media
             $src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
 
+          /*  if (!is_file($src)) {
+                $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
 
-            // $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
-            //
-            // if (!file_exists($dl_file)) {
-            // $is_dl = $this->app->url->download($src, false, $dl_file);
-            // } else {
-            // $is_dl = 1;
-            // }
-            // if ($is_dl == true) {
-            // $src = $dl_file;
-            // } else {
-            //
-            // }
+                if (!file_exists($dl_file)) {
+                    $is_dl = $this->app->url->download($src, false, $dl_file);
+                } else {
+                    $is_dl = 1;
+                }
+                if ($is_dl == true) {
+                    $src = $dl_file;
+                } else {
+
+                }
+            }*/
+
+
 
 
             if (is_file($src)) {
@@ -528,10 +529,18 @@ class Media
 
             }
         }
-        $cd = MW_MEDIA_DIR . 'thumbnail' . DS . $width . DS;
+        $media_root = MW_MEDIA_DIR;
+
+        if (!is_writable($media_root)) {
+            $media_root = MW_CACHE_DIR;
+        }
+
+        $cd = $media_root . 'thumbnail' . DS . $width . DS;
+
         if (!is_dir($cd)) {
             mkdir_recursive($cd);
         }
+
         $index_file = $cd . 'index.html';
         if (!is_file($index_file)) {
             file_put_contents($index_file, 'Thumbnail directory is not allowed');
@@ -550,13 +559,21 @@ class Media
         $cache_path = $cd . $cache;
 
         if (file_exists($cache_path)) {
+            if (!headers_sent()) {
+                if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+                    $if_modified_since = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
+                } else {
+                    $if_modified_since = '';
+                }
+                $mtime = filemtime($src);
+                $gmdate_mod = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
+                if ($if_modified_since == $gmdate_mod) {
+                    header("HTTP/1.0 304 Not Modified");
+                }
+            }
 
         } else {
-            //
-
             if (file_exists($src)) {
-
-
                 if (($ext) == 'svg') {
                     $res1 = file_get_contents($src);
                     $res1 = $this->svgScaleHack($res1, $width, $height);

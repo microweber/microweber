@@ -99,7 +99,7 @@
                 <li class="create-content-dropdown">
 
 
-                    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Create or manage your content" style="margin: 12px;background-color: #fff">
+                    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Create or manage your content" style="margin: 6px;background-color: #fff">
                         <span class="ico iplus"></span>
                         Add New
                     </a>
@@ -165,7 +165,7 @@
                     <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next" title="<?php _e("Next"); ?>"
                           onclick="mw.liveEditWYSIWYG.slideRight();"></span>
 
-            <div class="right" style="padding: 10px 0;">
+            <div class="right" style="padding: 5px 0;">
                         <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right"
                               onclick="mw.drag.save(this)" id="main-save-btn"><?php _e("Save"); ?></span>
 
@@ -222,7 +222,7 @@
                                             class="ico iPublish"></span><span><?php _e("Publish"); ?></span></a>
                                 </li>
                             <?php endif; ?>
-                            <li class="ts_main_li mw-designtype-universal">
+                            <li class="mw-designtype-universal">
                                 <a href="javascript:;" onclick="mw.drag.module_settings('settings/template');">
                                        <span class="ico ico-extools active"></span>
                                 Template Settings</a>

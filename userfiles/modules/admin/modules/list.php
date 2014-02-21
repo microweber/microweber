@@ -38,7 +38,80 @@ if (isset($is_elements) and $is_elements == true) {
     }
 }
 
+if(isset($_COOKIE['recommend']) and isset($modules) and is_array($modules)){
+    $recommended = json_decode($_COOKIE['recommend'],true);
+   
+    if(is_array($recommended) and !empty($recommended)){
 
+        $sorted_modules = array();
+        arsort($recommended);
+        foreach ($recommended as $key => $value) {
+            foreach ($modules as $mod_key => $item) {
+               if(isset($item['module']) and isset($item['position']) and $item['position'] > 3){
+                    if($key == $item['module']){
+                        $sorted_modules[] =  $item;
+                      //  unset($modules[$mod_key]);
+                    }
+
+               }
+            }
+        }
+        if(!empty($sorted_modules)){
+            
+            $position = 4;
+            if(!empty($modules)){
+                $re_sorted_modules = array();
+                $temp = array();
+                foreach ($modules as $key => $item) {
+
+                    if(is_array($sorted_modules) and !empty($sorted_modules)){
+                   
+                    foreach ($sorted_modules as $key2 => $sorted_module) {
+                       if(!in_array($item['module'], $temp) ){
+                       //  $temp[] = $item['module'];
+                         $temp[] = $sorted_module['module'];
+                      
+
+
+                        if($item['position'] < $position){
+                        $re_sorted_modules[] = $item;
+                        } elseif($item['position'] > $position and $item['module'] == $sorted_module['module']){
+
+                        $re_sorted_modules[] = $sorted_module;  
+                        unset($sorted_modules[$key2]);      
+                        } else {
+
+                        $re_sorted_modules[] = $item;        
+                        
+                        }
+
+                        }
+                         }
+                    }
+                   
+                }
+               // $modules = $re_sorted_modules;
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+             
+        //$modules = array_merge($sorted_modules,$modules);
+        
+
+
+        }
+    }
+}
 
 
 ?>
@@ -107,7 +180,7 @@ if (isset($is_elements) and $is_elements == true) {
             <?php $module_id = $module_item['name_clean'] . '_' . uniqid(); ?>
             <li id="<?php print $module_id; ?>" data-module-name="<?php print $module_item['module'] ?>"
                 data-filter="<?php print $module_item['name'] ?>"
-                 ondrop="true"
+                ondrop="true"
                 data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
                 class="module-item <?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span
                     unselectable="on" class="mw_module_hold"

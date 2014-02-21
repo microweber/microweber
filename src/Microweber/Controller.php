@@ -1723,39 +1723,35 @@ class Controller
 
 
             if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
-
                 if (!defined('CONTENT_TEMPLATE')) {
                     define('CONTENT_TEMPLATE', $content['active_site_template']);
                 }
-
-
                 $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
                 $live_edit_css_folder = MW_USERFILES . 'css' . DS . $content['active_site_template'] . DS;
                 $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $content['active_site_template'] . '/';
-
                 $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
-
             } else {
                 $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
                 $live_edit_css_folder = MW_USERFILES . 'css' . DS . 'default' . DS;
                 $live_edit_url_folder = MW_USERFILES_URL . 'css/default/';
-
                 $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
             }
 
-
             $custom_live_edit = normalize_path($custom_live_edit, false);
-
             if (is_file($custom_live_edit)) {
                 $custom_live_editmtime = filemtime($custom_live_edit);
                 $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
-
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
             $website_head_tags = $this->app->option->get('website_head', 'website');
-
+$rep_count = 1;
             if ($website_head_tags != false) {
-                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l);
+                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l,$rep_count);
+            }
+
+            if(defined('MW_VERSION')){
+            $generator_tag= "\n".'<meta name="generator" content="Microweber '.MW_VERSION.'" />'."\n";
+             $l = str_ireplace('</head>', $generator_tag . '</head>', $l,$rep_count);
             }
 
             if ($is_editmode == true and $this->isolate_by_html_id == false and !isset($_REQUEST['isolate_content_field'])) {
@@ -2058,15 +2054,19 @@ class Controller
         $l = $l->__toString();
 
 
-//        $api_files = array('tools.js', 'url.js', 'wysiwyg.js', 'liveedit.js'
-//        , 'liveadmin.js' );
-//        $api_files_output = '';
-//        foreach ($api_files as $api_file) {
-//            $f = MW_INCLUDES_DIR . 'api' . DS . $api_file;
-//            if (is_file($f)) {
-//                $api_files_output = $api_files_output . "\n\n" . file_get_contents($f);
-//            }
-//        }
+   /*     $api_files = array('tools.js', 'url.js','forms.js','files.js','events.js' );
+        $api_files_output = '';
+        foreach ($api_files as $api_file) {
+            $f = MW_INCLUDES_DIR . 'api' . DS . $api_file;
+            if (is_file($f)) {
+                $api_files_output = $api_files_output . "\n\n" . file_get_contents($f);
+            }
+        }
+        foreach ($api_files as $api_file) {
+            $api_files_output = str_replace('mw.require("'.$api_file.'");','',$api_files_output);
+        }*/
+
+
 
 
         $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);

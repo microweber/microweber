@@ -23,7 +23,7 @@ description: Default Picture List
   <?php $count++; ?>
   <div class="mw-pictures-clean-item mw-pictures-clean-item-<?php print $item['id']; ?>">
     <a href="<?php print thumbnail( $item['filename'], 1000); ?>" onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>);return false;">
-        <img src="<?php print thumbnail( $item['filename'], 300); ?>" />
+        <img src="<?php print thumbnail( $item['filename'], 600); ?>" />
     </a>
   </div>
   <?php endforeach;  ?>
