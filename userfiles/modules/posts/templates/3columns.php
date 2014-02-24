@@ -41,12 +41,8 @@ if(!isset($tn[1])){
 
     <div class="col-sm-4<?php if($count % 3 == 0) { ?> first <?php } ?>" >
         <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-            <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>">
-                <span class="valign">
-                    <span class="valign-cell">
-                        <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" />
-                    </span>
-                </span>
+            <a class="module-posts-template-columns-image-holder" href="<?php print $item['link'] ?>">
+                <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" />
             </a>
         <?php endif; ?>
         <div class="module-posts-head">

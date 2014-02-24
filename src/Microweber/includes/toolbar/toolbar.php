@@ -22,6 +22,14 @@
         mw.require("liveedit.js");
 
     </script>
+
+
+<script type="text/javascript">
+   mw.require("helpinfo.js", true);
+   mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css", true);
+</script>
+
+
     <link href="<?php print(MW_INCLUDES_URL); ?>api/api.css" rel="stylesheet" type="text/css"/>
     <link href="<?php print(MW_INCLUDES_URL); ?>css/mw_framework.css" rel="stylesheet" type="text/css"/>
     <link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>

@@ -1,56 +1,13 @@
-**Microweber Licence Agreement**
+Copyright [2012] Microweber Ltd.
 
-You are free:
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-to Share —  distribute and transmit the work
-Under the following conditions:
+    http://www.apache.org/licenses/LICENSE-2.0
 
-* Attribution — You must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work).
-
-
-* No Derivative Works — You may not built copies of this system and sell them or offer them as a service
-
-
-**With the understanding that:**
-
-* Waiver — Any of the above conditions can be waived if you get permission from the copyright holder.
-
-* Public Domain — Where the work or any of its elements is in the public domain under applicable law, that status is in no way affected by the license.
-
-* Other Rights — In no way are any of the following rights affected by the license:
-Your fair dealing or fair use rights, or other applicable copyright exceptions and limitations;
-
-
-The author's moral rights;
-
-Rights other persons may have either in the work itself or in how the work is used, such as publicity or privacy rights.
-
-Notice — For any reuse or distribution, you must make clear to others the license terms of this work. The best way to do this is with a link to this web page.
-
-
-**Attribution:**
-
-* You cannot remove the Microweber link from the default theme.
-
-* You cannot alter or remove the Microweber logo and branding from the Admin panel and Live edit.
-
-* You may use this software in commercial applications, however you may not resell this software without permission from Microweber
-
-* Any modification to the Microweber core functions and modules belongs to Microweber LTD.
-
-* Any new code that you create and its based on the functions of Microweber belongs to you (the author).
-
-
----
-
-For more information for this license agreement, please write us an email to info[@]microweber.com
-
-
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

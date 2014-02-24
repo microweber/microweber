@@ -43,7 +43,7 @@ if(isset($params['menu-name'])){
 				
 				}
 				
-				//d($module_template );
+				
 				if(isset($template_file) and $template_file != '' and is_file($template_file) != false){
 					include($template_file);
 				} else {

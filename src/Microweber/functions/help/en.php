@@ -123,7 +123,7 @@
 
        <div class="mw-helpinfo semi_hidden">
 
-            <div class="mw-help-item" data-for="#modules_admin_mw_modules_admin_wrapper" data-pos="righttop"  data-onnext="nextpage('<?php print admin_url('view:settings'); ?>')">
+            <div class="mw-help-item" data-for="#modules_admin_mw_modules_admin_wrapper" data-pos="topcenter"  data-onnext="nextpage('<?php print admin_url('view:settings'); ?>')">
                 <p>Welcome to the "Modules" section</p>
                 <p>Here you can Explore, Edit or delete your modules.</p>
             </div>
@@ -131,18 +131,18 @@
         </div>
 
 <?php } else if($section == 'users'){ ?>
-       <div class="mw-helpinfo semi_hidden">
+<div class="mw-helpinfo semi_hidden">
 
 
- <div class="mw-help-item" data-for="#users_admin_panel" id="mwhelpinfouser1" data-pos="righttop" data-onnext="viewuser()">
+ <div class="mw-help-item" data-for="#users_admin_panel" id="mwhelpinfouser1" data-pos="topcenter" data-onnext="viewuser()">
      <p>View and manage your users information. </p>
  </div>
- <div class="mw-help-item" data-for="#user_edit_admin_panel" data-pos="righttop">
-     <p>View and manage your users information. </p>
+ <div class="mw-help-item" data-for=".mw-o-box-header" data-pos="topcenter">
+     <p>View and manage your users information.</p>
  </div>
 
  <div class="mw-help-item" data-for="#mw_edit_page_left .mw-ui-btn-green" data-pos="rightcenter" data-onnext="final()">
-     <p>Add New users to your awesome website.</p>
+     <p>Add New users to your awesome website. </p>
  </div>
 
 
@@ -210,10 +210,11 @@
         if(!mw.helpinfo.functions._viewuser){
           mw.helpinfo.functions._viewuser = true;
           setTimeout(function(){
-          mw.$("#users_admin_panel tbody tr:first").addClass("active");
+            mw.$("#users_admin_panel tbody tr:first").addClass("active");
             mw.mouse.gotoAndClick("#users_admin_panel tbody .mw-ui-btn");
             mw.$(".module-users-edit-user").addClass("mwcurrhelp");
             mw.$("#mwhelpinfouser1").remove();
+            mw.helpinfo.next()
 
         }, 300);
         }

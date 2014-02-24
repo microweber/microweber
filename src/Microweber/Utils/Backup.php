@@ -1369,7 +1369,7 @@ class Backup
         if (!is_admin()) {
             error("must be admin");
         }
-        ;
+
         $here = $this->get_bakup_location();
 
         $files = glob("$here{*.sql,*.zip}", GLOB_BRACE);
