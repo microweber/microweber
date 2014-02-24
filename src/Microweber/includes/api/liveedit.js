@@ -9,7 +9,7 @@ mw.have_new_items = false;
 mw.dragCurrent = null;
 mw.currentDragMouseOver = null;
 
-
+mw.modulesClickInsert = true;
 
 mw.mouseDownOnEditor = false;
 mw.mouseDownStarted = false;
@@ -271,7 +271,7 @@ mw.drag = {
                 }
            }*/
 
-           mw.mouse = {
+           mw.emouse = {
              x:event.pageX,
              y:event.pageY
            }
@@ -280,10 +280,11 @@ mw.drag = {
            mw.$mm_target = $(mw.mm_target);
 
 
-           if(!mw.isDrag){
-               if(mw.mouse.x % 2 === 0 ){ //not on every pixel
-                   //trigger on element
 
+
+           if(!mw.isDrag){
+               if(mw.emouse.x % 2 === 0 ){ //not on every pixel
+                   //trigger on element
                    if(mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
@@ -1094,8 +1095,9 @@ mw.drag = {
                     mw.$("#modules-and-layouts").addClass("hovered");
                 }
                 else{
-                  if(!mw.tools.hasClass(target, 'mw_toolbar_tab') || !mw.tools.hasParentsWithClass(target, 'mw_toolbar_tab')){
+                  if(!mw.tools.hasClass(target, 'modules-and-layouts-holder') && !mw.tools.hasParentsWithClass(target, 'modules-and-layouts-holder')){
                      mw.$("#modules-and-layouts").removeClass("hovered");
+
                   }
                 }
             }
@@ -2612,35 +2614,12 @@ $(document).ready(function(){
   });
 
 
-  mw.modulesandlayoutsinterval = false;
-  mw.modulesandlayoutsintervalTime = 220;
-  mw.modulesClickInsert = false;
 
-  mw.$("#modules-and-layouts").hover(function(){
-         var sel = window.getSelection();
-         mw.modulesClickInsert = false;
-         if(sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed){
-             mw.modulesandlayoutsintervalTime = 470;
-         }
-         else{
-             mw.modulesandlayoutsintervalTime = 220;
-         }
-         clearTimeout(mw.modulesandlayoutsinterval);
-         setTimeout(function(){
-              mw.modulesClickInsert = true;
-         }, (mw.modulesandlayoutsintervalTime + 200 + 200));
-         var $el = $(this);
-         mw.modulesandlayoutsinterval = setTimeout(function(){
-            $el.addClass("hovered");
-         }, mw.modulesandlayoutsintervalTime);
-  }, function(){
-        clearTimeout(mw.modulesandlayoutsinterval);
-        $(this).removeClass("hovered");
-        mw.modulesClickInsert = false;
-  }).click(function(){
-       clearTimeout(mw.modulesandlayoutsinterval);
-       $(this).addClass("hovered");
 
+ mw.$("#modules-and-layouts").click(function(e){
+       if(e.target === this){
+           $(this).addClass("hovered");
+       }
   });
 
 

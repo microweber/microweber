@@ -128,7 +128,11 @@ if (!is_array($countries)) {
             }
         });
 
-        mw.$(".mw-onoff").mousedown(function () {
+        mw.$(".mw-onoff").each(function () {
+          if(!$(this).hasClass('activated')){
+
+$(this).addClass('activated');
+        mw.$(this).mousedown(function () {
             var el = this;
             if (mw.tools.hasClass(el, 'active')) {
                 mw.tools.removeClass(el, 'active');
@@ -138,6 +142,9 @@ if (!is_array($countries)) {
                 mw.tools.addClass(el, 'active');
                 el.querySelector('.is_active_y').checked = true;
             }
+        });
+
+        }
         });
 
 
@@ -193,12 +200,12 @@ foreach ($datas as $data_key => $data): ?>
 	</span>
             <br/><br/>
             <?php if ($truck_class == 'green'): ?>
-                <small class="mw-ui-label-help">Shipping to those countires is enabled. <br/><br/>
+                <small class="mw-ui-label-help">Shipping to those countries is enabled. <br/><br/>
                     To disable it set <br/>"<em>is active</em>" to "No".
                 </small>
             <?php else: ?>
 
-                <small class="mw-ui-label-help">Shipping to those countires is disabled. <br/><br/>
+                <small class="mw-ui-label-help">Shipping to those countries is disabled. <br/><br/>
                     To enable it set <br/>"<em>is active</em>" to "Yes".
                 </small>
             <?php endif ?>

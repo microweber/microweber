@@ -25,8 +25,31 @@
 
 
 <script type="text/javascript">
-   mw.require("helpinfo.js", true);
-   mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css", true);
+if(mw.cookie.get("helpinfo") != 'false'){
+     mw.require("helpinfo.js", true);
+     mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css", true);
+}
+</script>
+<script type="text/javascript">
+
+  if(mw.cookie.get("helpinfo") != 'false'){
+     mw.helpinfo.pauseInit = true;
+     $(window).bind("load", function(){
+        mw.mouse.gotoAndClick("#modules-and-layouts",
+          {
+              left:mw.$("#modules-and-layouts").width()/2,
+              top:0
+          });
+          setTimeout(function(){
+              mw.tools.scrollTo();
+              mw.helpinfo.init();
+              mw.$("#mw_info_helper_footer .mw-ui-btn").eq(0).bind("click", function(){
+                mw.helpinfo.hide(true);
+              });
+          }, 2000);
+     });
+  }
+
 </script>
 
 
@@ -66,6 +89,26 @@
     $user = get_user();
 
     ?>
+
+
+<div class="mw-helpinfo semi_hidden">
+
+
+<div class="mw-help-item" data-for="#live_edit_toolbar" data-pos="bottomcenter">
+    <div style="width: 300px;">
+     <p style="text-align: center">
+        <img src="<?php print INCLUDES_URL; ?>img/dropf.gif" alt="" />
+     </p>
+     <p>
+        You can easily grab any Module and insert it in your content.
+
+     </p>
+     </div>
+ </div>
+
+
+
+</div>
 
 
     <div class="mw-defaults" id="live_edit_toolbar_holder">
@@ -263,7 +306,7 @@
     </div>
 
 
-    <div id="modules-and-layouts" style="">
+    <div id="modules-and-layouts" style="" class="modules-and-layouts-holder">
         <div class="toolbars-search">
             <div class="mw-autocomplete left">
                 <input

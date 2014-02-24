@@ -334,7 +334,7 @@ class Import
             return array('error' => "You have not provided a file to restore.");
             die();
         }
-        $id = str_replace('..','',$id);
+        $id = str_replace('..', '', $id);
 
         $here = $this->get_bakup_location();
         $filename = $here . $id;
@@ -350,15 +350,16 @@ class Import
         return $params;
     }
 
-    public function import_file($filename){
+    public function import_file($filename)
+    {
         only_admin_access();
 
         if (!is_file($filename)) {
             return array('error' => "You have not provided a existing backup to restore.");
         }
         $ext = get_file_extension($filename);
-        $import_method = strtolower('import_'.$ext);
-        if(method_exists($this,$import_method)){
+        $import_method = strtolower('import_' . $ext);
+        if (method_exists($this, $import_method)) {
             return $this->$import_method($filename);
         } else {
             return array('error' => "Cannot find method for importing $ext files.");
@@ -366,18 +367,117 @@ class Import
         }
     }
 
-    public function import_xml($filename){
+    public function import_csv($filename){
+        only_admin_access();
+        if (!is_file($filename)) {
+            return array('error' => "You have not provided a existing backup to restore.");
+        }
+        $file = fopen($filename,"r");
+
+        while(! feof($file))
+        {
+            $row = fgetcsv($file);
+            if(!isset($row[1])){
+                $row = fgetcsv($file,null,';');
+            }
+            d($row);
+        }
+
+        fclose($file);
+    }
+
+    public function import_xml($filename)
+    {
         only_admin_access();
         if (!is_file($filename)) {
             return array('error' => "You have not provided a existing backup to restore.");
         }
 
+
         $content = file_get_contents($filename);
-        d($content);
+
+        $here = __DIR__ . DIRECTORY_SEPARATOR;
+        $parser = $here . 'SimplePie.php';
+        if (!class_exists('\SimplePie')) {
+            require_once($parser);
+        }
+
+        $feed = new \SimplePie();
+        $feed->set_input_encoding('utf-8');
+        $feed->set_raw_data($content);
+
+        $feed->init();
 
 
+        $feed->handle_content_type();
+
+        $content_items = array();
+        foreach ($feed->get_items() as $item) {
+            $content = array();
+            $content['data_import_link'] = $item->get_link();
+            $content['created_on'] = $item->get_date();
+            $upd = $item->get_updated_date();
+            if ($upd != false) {
+                $content['updated_on'] = $item->get_updated_date();
+            }
+            $content['title'] = $item->get_title();
+            $content['description'] = $item->get_description();
+            $content['content'] = $item->get_content();
+            if ($content['content'] == false) {
+                $content['content'] = $content['description'];
+            }
+            $cats = $item->get_categories();
+            //  $cat = $item->get_category();
+            if (!empty($cats)) {
+                foreach ($cats as $category) {
+                    $content['categories'][] = $category->get_label();
+                }
+            }
+            $content_items[] = $content;
+        }
+        return $this->batch_save($content_items);
     }
 
+
+
+
+    function batch_save($content_items)
+    {
+        if (!empty($content_items)) {
+            $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
+            if ($parent == false) {
+                return array('error' => "No parent page found");
+            }
+
+            $parent_id = $parent['id'];
+            $restored_items = array();
+            foreach ($content_items as $content) {
+                $is_saved = get_content('debug=1&one=true&title=' . $content['title']);
+
+                $content['parent'] = $parent_id;
+                $content['content_type'] = 'post';
+                $content['subtype'] = 'post';
+                $content['is_active'] = 'y';
+                //  $content['debug'] = 'y';
+                $content['download_remote_images'] = true;
+
+                if ($is_saved != false) {
+                    $content['id'] = $is_saved['id'];
+                    $content['content_type'] = $is_saved['content_type'];
+                    $content['subtype'] = $is_saved['subtype'];
+                }
+
+                $import = save_content($content);
+                $restored_items[] = $import;
+            }
+            cache_clear('categories');
+            cache_clear('content');
+            return array('success' => count($restored_items) . " items restored");
+
+
+        }
+
+    }
 
 }
 

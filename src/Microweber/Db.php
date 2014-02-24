@@ -942,16 +942,22 @@ class Db
         if (!empty($criteria)) {
             foreach ($criteria as $fk => $fv) {
                 if (strstr($fk, 'custom_field_') == true) {
-
                     $addcf = str_ireplace('custom_field_', '', $fk);
-
-                    // $criteria ['custom_fields_criteria'] [] = array ($addcf =>
-                    // $fv );
-
                     $criteria['custom_fields_criteria'][$addcf] = $fv;
                 }
             }
+            foreach ($criteria as $fk => $fv) {
+                if (strstr($fk, 'data_') == true) {
+                    $addcf = str_ireplace('data_', '', $fk);
+                    $criteria['data_fields_criteria'][$addcf] = $fv;
+                }
+            }
         }
+
+
+
+
+
         if (!empty($criteria['custom_fields_criteria'])) {
 
             $table_custom_fields = $this->table_prefix . 'custom_fields';
@@ -994,16 +1000,13 @@ class Db
 
                     $category_ids_q = false;
                 }
-
                 $only_custom_fieldd_ids_q = false;
-
                 if (!empty($only_custom_fieldd_ids)) {
 
                     $only_custom_fieldd_ids_i = implode(',', $only_custom_fieldd_ids);
 
                     $only_custom_fieldd_ids_q = " and rel_id in ($only_custom_fieldd_ids_i) ";
                 }
-
 
                 if ($is_not_null == true) {
                     $cfvq = " custom_field_value IS NOT NULL  ";
@@ -1021,25 +1024,13 @@ class Db
                 $q2 = $q;
 
                 $q = $this->query($q, md5($q), 'custom_fields/global');
-                //
-
                 if (!empty($q)) {
-
                     $ids_old = $ids;
-
                     $ids = array();
-
                     foreach ($q as $itm) {
-
                         $only_custom_fieldd_ids[] = $itm['rel_id'];
-
-                        // if(in_array($itm ['rel_id'],$category_ids)==
-                        // false){
-
                         $includeIds[] = $itm['rel_id'];
 
-                        // }
-                        //
                     }
                 }
             }
@@ -2885,6 +2876,9 @@ class Db
                     $cats_data_modified = true;
                     $this->q($clean_q);
                 } else {
+                    if (is_array($original_data['categories'])) {
+                        $original_data['categories'] = implode(',',$original_data['categories']);
+                    }
 
                     if (is_string($original_data['categories'])) {
                         $original_data['categories'] = str_replace('/', ',', $original_data['categories']);
@@ -2904,7 +2898,10 @@ class Db
 								data_type='category'
 								AND   rel='{$table_assoc_name}'
 								AND   title='{$cname_check}'   ";
-                                    // d($cncheckq);
+                                    if(isset($original_data['parent']) and $original_data['parent']  != ''){
+                                        $par_rel = intval($original_data['parent']);
+                                        $cncheckq = $cncheckq. " ". " AND rel_id='{$par_rel}' ";
+                                    }
                                     $is_ex = $this->query($cncheckq);
 
                                     if (empty($is_ex)) {
@@ -2916,6 +2913,14 @@ class Db
 									data_type='category',
 									rel='{$table_assoc_name}'
 									";
+                                    if(isset($original_data['parent']) and $original_data['parent']  != ''){
+                                        $par_rel = intval($original_data['parent']);
+                                        $clean_q = $clean_q. " ". ",rel_id='{$par_rel}' ";
+                                    }
+
+
+
+
                                         $cats_data_items_modified = true;
                                         $cats_data_modified = true;
 

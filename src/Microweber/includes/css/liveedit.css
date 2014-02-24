@@ -517,9 +517,10 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 
 
 
-#live_edit_toolbar:hover #modules-and-layouts:after{
-
+#live_edit_toolbar #modules-and-layouts:hover:after{
+  background-color: #EBEBEB;
 }
+
 
 #live_edit_toolbar:hover #modules-and-layouts{
 /*  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.46);        */
@@ -540,6 +541,10 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 }
 #modules-and-layouts.hovered:after{
   display: none;
+}
+
+#mw_helpinfo_prev_btn, #mw_helpinfo_next_btn{
+  display: none !important;
 }
 
 

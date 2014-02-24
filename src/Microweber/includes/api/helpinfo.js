@@ -3,7 +3,7 @@
 $(window).bind("resize load", function(e){
   if(e.type=='resize' && mw.$(".mwcurrhelp").length === 0) { return false; }
 
-  if(mw.cookie.get("helpinfo") != 'false'){
+  if(mw.cookie.get("helpinfo") != 'false' && !mw.helpinfo.pauseInit){
      mw.helpinfo.init();
   }
 
@@ -29,7 +29,7 @@ $(window).bind("keydown", function(e){
 });
 */
 
-mw.mouse = {
+mw.mouse = mw.mouse || {
   create:function(){
     if(typeof mw.mouse.m === 'undefined'){
       mw.mouse.m = mwd.createElement('div');
@@ -42,16 +42,22 @@ mw.mouse = {
     }
     return mw.mouse.m;
   },
-  goto:function(el, callback){
+  goto:function(el, callback, o){
     mw.mouse.create();
     var off = $(el).offset();
+    if(typeof o !== 'object'){
+        o = {
+          left:0,
+          top:0
+        }
+    }
     if(typeof off === 'undefined') { return false; }
     $(mw.mouse.m).css({
       left:'50%',
       top:'50%',
       display:'block'
     })
-    .animate({top:off.top - 5, left:off.left - 5}, 1200, function(){
+    .animate({top:off.top - 5 + o.top, left:off.left - 5 + o.left}, 1200, function(){
        if( typeof callback === 'function'){
          callback.call(el)
        }
@@ -77,15 +83,22 @@ mw.mouse = {
          }
        }, 200);
   },
-  gotoAndClick:function(el){
+  gotoAndClick:function(el, o){
+    if(typeof o !== 'object'){
+        o = {
+          left:0,
+          top:0
+        }
+    }
     mw.mouse.goto(el, function(){
       mw.mouse.click(el);
-    })
+    }, o)
   }
 }
 
 
 mw.helpinfo = {
+    pauseInit:false,
     helper : function(){
       if( typeof mw.helpinfo_helper === 'undefined'){
         mw.helpinfo_helper = mwd.createElement('div');
@@ -250,7 +263,7 @@ mw.helpinfo = {
     next:function(){
         clearTimeout(mw.helpinfo.int);
         if($(mwd.body).hasClass("loading")){
-          mw.helpinfo.int = setTimeout(function(){mw.helpinfo.next()}, 400);
+          mw.helpinfo.int = setTimeout(function(){ mw.helpinfo.next() }, 400);
           return false;
         }
         if($(mw.helpinfo.active).dataset("onnext") != ''){
@@ -260,7 +273,6 @@ mw.helpinfo = {
            }
           return false;
         }
-
         $(mw.helpinfo.active).removeClass("active");
         mw.helpinfo.active = $(mw.helpinfo.active).next().length > 0 ? $(mw.helpinfo.active).next() : mw.$(".mw-help-item").eq(0);
         var who = $($(mw.helpinfo.active).dataset("for"));
@@ -285,7 +297,7 @@ mw.helpinfo = {
         }
         mw.helpinfo.init();
     },
-    hide:function(disable){
+    hide:function(disable, tohelp){
        var disable = disable || false;
        var tohelp = tohelp || false;
        mw.$(".mwcurrhelp").removeClass("mwcurrhelp");

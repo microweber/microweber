@@ -3141,17 +3141,23 @@ mw.contact = {
 
 $(document).ready(function(){
 
-mw.$(".mw-onoff").mousedown(function () {
-            var el = this;
-            if (mw.tools.hasClass(el, 'active')) {
-                mw.tools.removeClass(el, 'active');
-                el.querySelector('.is_active_n').checked = true;
-            }
-            else {
-                mw.tools.addClass(el, 'active');
-                el.querySelector('.is_active_y').checked = true;
-            }
-        });
+mw.$(".mw-onoff").each(function () {
+if(!$(this).hasClass('activated')){
+
+$(this).addClass('activated');
+mw.$(this).mousedown(function () {
+    var el = this;
+    if (mw.tools.hasClass(el, 'active')) {
+        mw.tools.removeClass(el, 'active');
+        el.querySelector('.is_active_n').checked = true;
+    }
+    else {
+        mw.tools.addClass(el, 'active');
+        el.querySelector('.is_active_y').checked = true;
+    }
+});
+}
+});
 
 mw.$(".wysiwyg-convertible-toggler").click(function(){
    var el = $(this), next = el.next();

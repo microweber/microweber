@@ -918,6 +918,18 @@ class Parser
         return $l;
     }
 
+    public function query($l, $selector = 'body',$return_function = 'htmlOuter')
+    {
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        $pq = \phpQuery::newDocument($l);
+        $res = array();
+        foreach ($pq [$selector] as $elem) {
+            $l = pq($elem)->$return_function();
+            $res[]=$l;
+        }
+        return $res;
+    }
+
     public function get_html($l, $selector = 'body')
     {
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
