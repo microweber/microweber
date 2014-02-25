@@ -35,7 +35,7 @@ description: Product Gallery Multiline
     <?php endforeach ; ?>
   </div>
 </div>
-<script>gallery<?php print $rand; ?> = [<?php foreach($data  as $item): ?>{image:"<?php print thumbnail( $item['filename'], 1000); ?>",description:"<?php print $item['title']; ?>"},<?php endforeach;  ?>];</script>
+<script>gallery<?php print $rand; ?> = [<?php foreach($data  as $item): ?>{image:"<?php print thumbnail( $item['filename'], 1000); ?>", description:"<?php print $item['title']; ?>"},<?php endforeach;  ?>];</script>
 
 <script type="text/javascript">
     mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);
@@ -46,7 +46,7 @@ description: Product Gallery Multiline
 
   Rotator = null;
   $(document).ready(function(){
-    if($('#<?php print $id; ?>').find('.mw-gallery-item').length>1){
+    if(mw.$('#<?php print $id; ?>').find('.mw-gallery-item').length>1){
         Rotator = mw.rotator('#<?php print $id; ?>');
         if (!Rotator) return false;
         Rotator.options({
@@ -59,9 +59,9 @@ description: Product Gallery Multiline
         mw.require("tools.js", true);
     }
 
-    mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function(){
+      mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function(){
             mw.productZoom(this);
-        });
+      });
 
   });
 

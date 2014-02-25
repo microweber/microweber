@@ -134,7 +134,6 @@ if (!defined('T')) {
 }
 
 
-//spl_autoload_register('mw_autoload');
 
 
 $loader = new Psr4AutoloaderClass;
@@ -143,6 +142,7 @@ $mw_src = (__DIR__) . DS;
 $loader->addNamespace('Microweber', $mw_src);
 $loader->addNamespace('Microweber', MW_APP_PATH . 'controllers');
 $loader->addNamespace('Microweber', MW_MODULES_DIR);
+//$loader->addNamespace('', MW_APP_PATH . 'libs');
 $loader->register();
 
 function mw($class = null, $constructor_params = false)
@@ -164,6 +164,9 @@ function mw($class = null, $constructor_params = false)
 }
 
 
+
+
+
 /*
 * Microweber autoloader
 * Loads up classes with namespaces
@@ -171,17 +174,20 @@ function mw($class = null, $constructor_params = false)
 
 
 // SINCE WE MOVED TO PSR4 AUTOLOADER this is kept for compatibility
-
+*/
 $mw_get_prev_dir = dirname(MW_APP_PATH);
+$libs_path = MW_APP_PATH . 'libs' . DS ;
+
 set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     MW_APP_PATH . PATH_SEPARATOR .
     MW_APP_PATH . 'controllers' . DS .
     PATH_SEPARATOR . MW_MODULES_DIR .
+    PATH_SEPARATOR .$libs_path.
     PATH_SEPARATOR . get_include_path());
 
 spl_autoload_register('mw_autoload');
 
-*/
+
 
 
 // Basic system functions

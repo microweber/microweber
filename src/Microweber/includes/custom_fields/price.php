@@ -1,6 +1,6 @@
-<?php //$rand = rand(); ?>
+<?php $rand = rand(); ?>
 <?php if(!isset($data['make_select'])) : ?> 
-<div class="mw-custom-field-group">
+<div class="mw-custom-field-group mw-custom-field-price">
   <label class="mw-custom-field-label" ><?php print $data["custom_field_name"]; ?></label>
   <div class="mw-custom-field-form-controls">
   

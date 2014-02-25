@@ -134,6 +134,19 @@ description: Default comments template
   padding-bottom: 20px;
 }
 
+@media (max-width:768px){
+  .comments-template-stylish .comment-image-holder .mw-ui-col-container{
+    display: none;
+  }
+
+  .comments-template-stylish .mw-ui-col-container img.comment-image{
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
+
     /* /Comments  */
 
    </style>

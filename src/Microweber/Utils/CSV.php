@@ -9,550 +9,192 @@
  * @subpackage CSV
  * @copyright 2013 Johnny Freeman
  */
+namespace Microweber\Utils;
 
-namespace Coseva;
+// original namespace
+//namespace Coseva;
 
 use \SplFileObject,
     \LimitIterator,
     \IteratorAggregate,
     \ArrayIterator,
+    \Iterator,
     \InvalidArgumentException;
 
-/**
- * CSV.
- */
-class CSV implements IteratorAggregate
-{
-    /**
-     * Storage for parsed CSV rows.
-     *
-     * @var array $_rows the rows found in the CSV resource
-     */
-    protected $_rows;
 
-    /**
-     * Storage for filter callbacks to be executed during the parsing stage.
-     *
-     * @var array $_filters filter callbacks
-     */
-    protected $_filters = array();
 
-    /**
-     * Holds the CSV file pointer.
-     *
-     * @var SplFileObject $_file the active CSV file
-     */
-    protected $_file;
+class CSV {
+    // take a CSV line (utf-8 encoded) and returns an array
+    // 'string1,string2,"string3","the ""string4"""' => array('string1', 'string2', 'string3', 'the "string4"')
+    static public function parseString($string, $separator = ',') {
+        $values = array();
+        $string = str_replace("\r\n", '', $string); // eat the traling new line, if any
+        if ($string == '') return $values;
+        $tokens = explode($separator, $string);
+        $count = count($tokens);
+        for ($i = 0; $i < $count; $i++) {
+            $token = $tokens[$i];
+            $len = strlen($token);
+            $newValue = '';
+            if ($len > 0 and $token[0] == '"') { // if quoted
+                $token = substr($token, 1); // remove leading quote
+                do { // concatenate with next token while incomplete
+                    $complete = Csv::_hasEndQuote($token);
+                    $token = str_replace('""', '"', $token); // unescape escaped quotes
+                    $len = strlen($token);
+                    if ($complete) { // if complete
+                        $newValue .= substr($token, 0, -1); // remove trailing quote
+                    } else { // incomplete, get one more token
+                        $newValue .= $token;
+                        $newValue .= $separator;
+                        if ($i == $count - 1) throw new Exception('Illegal unescaped quote.');
+                        $token = $tokens[++$i];
+                    }
+                } while (!$complete);
 
-    /**
-     * Holds config options for opening the file.
-     *
-     * @var array $_fileConfig configuration
-     */
-    protected $_fileConfig = array();
-
-    /**
-     * A list of open modes that are accepted by our file handler.
-     *
-     * @see http://php.net/manual/en/function.fopen.php for a list of modes
-     * @var array $_availableOpenModes
-     */
-    private static $_availableOpenModes = array(
-        'r', 'r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+'
-    );
-
-    /**
-     * Whether or not to flush empty rows after filtering.
-     *
-     * @var bool $_flushOnAfterFilter
-     */
-    protected $_flushOnAfterFilter = false;
-
-    /**
-     * Whether or not to do garbage collection after parsing.
-     *
-     * @var bool $_garbageCollection
-     */
-    protected $_garbageCollection = true;
-
-    /**
-     * An array of instances of CSV to prevent unnecessary parsing of CSV files.
-     *
-     * @var array $_instances A list of CSV instances, keyed by filename
-     */
-    private static $_instances = array();
-
-    /**
-     * Constructor for CSV.
-     *
-     * To read a csv file, just pass the path to the .csv file.
-     *
-     * @param string  $filename         The file to read. Should be readable.
-     * @param string  $open_mode        The mode in which to open the file
-     * @param boolean $use_include_path Whether to search through include_path
-     * @see http://php.net/manual/en/function.fopen.php for a list of modes
-     * @throws InvalidArgumentException when the given file could not be read
-     * @throws InvalidArgumentException when the given open mode does not exist
-     * @return CSV                      $this
-     */
-    public function __construct($filename, $open_mode = 'r', $use_include_path = false)
-    {
-        // Check if the given filename was readable.
-        if (!$this->_resolveFilename($filename, $use_include_path)) {
-            throw new InvalidArgumentException(
-                var_export($filename, true) . ' is not readable.'
-            );
-        }
-
-        // Check if the given open mode was valid.
-        if (!in_array($open_mode, self::$_availableOpenModes)) {
-            throw new InvalidArgumentException(
-                'Unknown open mode ' . var_export($open_mode, true) . '.'
-            );
-        }
-
-        // Store the configuration.
-        $this->_fileConfig = array(
-            'filename' => $filename,
-            'open_mode' => $open_mode,
-            // Explicitely cast this as a boolean to ensure proper bevahior.
-            'use_include_path' => (bool) $use_include_path,
-            // set comma as default delimiter
-            'delimiter' => ','
-        );
-
-        // Try to automatically determine the most optimal settings for this file.
-        // First we clear the stat cache to have a better prediction.
-        clearstatcache(false, $filename);
-
-        $fsize = filesize($filename);
-        $malloc = memory_get_usage();
-        $mlimit = (int) ini_get('memory_limit');
-
-        // We have memory to spare. Make use of that.
-        if ($mlimit < 0 || $mlimit - $malloc > $fsize * 2) {
-            $this->_garbageCollection = false;
-        }
-
-        // If the file is large, flush empty rows to improve filter speed.
-        if ($fsize > 1e6) $this->_flushOnAfterFilter = true;
-    }
-
-    /**
-     * Get an instance of CSV, based on the filename.
-     *
-     * @param string $filename the CSV file to read. Should be readable.
-     *   Filenames will be resolved. Symlinks will be followed.
-     * @return CSV self::$_instances[$key]
-     */
-    public static function getInstance($filename, $open_mode = 'r', $use_include_path = false)
-    {
-        // Create a combined key so different open modes can get their own instance.
-        $key = $open_mode . ':' . $filename;
-
-        // Check if an instance exists. If not, create one.
-        if (!isset(self::$_instances[$key])) {
-            // Collect the class name. This won't break when the class name changes.
-            $class = __CLASS__;
-
-            // Create a new instance of this class.
-            self::$_instances[$key] = new $class($filename, $open_mode, $use_include_path);
-        }
-
-        return self::$_instances[$key];
-    }
-
-    /**
-     * Resolve a given filename, keeping include paths in mind.
-     *
-     * Note: Because PHP's integer type is signed and many platforms use 32bit
-     * integers, some filesystem functions may return unexpected results for
-     * files which are larger than 2GB.
-     *
-     * @param string &$filename the file to resolve.
-     * @param boolean $use_include_path whether or not to use the PHP include path.
-     *   If set to true, the PHP include path will be used to look for the given
-     *   filename. Only if the filename is using a relative path.
-     * @see http://php.net/manual/en/function.realpath.php
-     * @return boolean true|false to indicate whether the resolving succeeded.
-     */
-    private function _resolveFilename(&$filename, $use_include_path = false)
-    {
-        $exists = file_exists($filename);
-
-        // The given filename did not suffice. Let's do a deeper check.
-        if (!$exists && $use_include_path && substr($filename, 0, 1) !== '/') {
-            // Gather the include paths.
-            $paths = explode(':', get_include_path());
-
-            // Walk through the include paths.
-            foreach ($paths as $path) {
-                // Check if the file exists within this path.
-                $exists = realpath($path . '/' . $filename);
-
-                // It didn't work. Move along.
-                if (!$exists) continue;
-
-                // It actually did work. Now overwrite my filename.
-                $filename = $exists;
-                $exists = true;
-                break;
-            }
-        }
-
-        return $exists && is_readable($filename);
-    }
-
-    /**
-     * Allows you to register any number of filters on a particular column or an
-     * entire row.
-     *
-     * @param integer|callable $column Specific column number or the callable to
-     *  be applied. Optional: Zero-based column number. If this parameter is
-     *  preset the $callable will recieve the contents of the current column
-     *  (as a string), and will receive the entire (array based) row otherwise.
-     * @param callable $callable Either the current row (as an array) or the
-     *  current column (as a string) as the first parameter. The callable must
-     *  return the new filtered row or column.
-     *  Note: You can also use any native PHP functions that permit one parameter
-     *  and return the new value, like trim, htmlspecialchars, urlencode, etc.
-     * @throws InvalidArgumentException when no valid callable was given
-     * @throws InvalidArgumentException when no proper column index was supplied
-     * @return CSV                      $this
-     */
-    public function filter($column, $callable = null)
-    {
-        // Get the function arguments.
-        $args = func_get_args();
-        $column = array_shift($args);
-
-        // Check if we actually have a column or a callable.
-        if (is_numeric($column)) {
-            $callable = array_shift($args);
-        } else {
-            $callable = $column;
-            $column = null;
-        }
-
-        // Check the function arguments.
-        if (!is_callable($callable)) throw new InvalidArgumentException(
-            'The $callable parameter must be callable.'
-        );
-
-        if (isset($column) && !is_numeric($column)) throw new InvalidArgumentException(
-            'No proper column index provided. Expected a numeric, while given '
-            . var_export($column, true)
-        );
-
-        // Add the filter to our stack. Apply it to the whole row when our column
-        // appears to be the callable, being the only present argument.
-        $this->_filters[] = array(
-            'callable' => $callable,
-            // Explicitely cast the column as an integer.
-            'column' => isset($column) ? (int) $column : null,
-            'args' => $args
-        );
-
-        return $this;
-    }
-
-    /**
-     * Flush rows that have turned out empty, either after applying filters or
-     * rows that simply have been empty in the source CSV from the get-go.
-     *
-     * @param boolean $onAfterFilter whether or not to trigger while parsing.
-     *   Leave this blank to trigger a flush right now.
-     * @return CSV $this
-     */
-    public function flushEmptyRows($onAfterFilter = null)
-    {
-        // Update the _flushOnAfterFilter flag and return.
-        if (!empty($onAfterFilter)) {
-            $this->_flushOnAfterFilter = (bool) $onAfterFilter;
-            return $this;
-        }
-
-        // Parse the CSV.
-        if (!isset($this->_rows)) $this->parse();
-
-        // Walk through the rows.
-        foreach ($this->_rows as $index => &$row) {
-            $this->_flushEmptyRow($row, $index);
-        }
-
-        // Remove garbage.
-        unset($row, $index);
-
-        return $this;
-    }
-
-    /**
-     * Flush a row if it's empty.
-     *
-     * @param mixed $row the row to flush
-     * @param mixed $index the index of the row
-     * @param bool $trim whether or not to trim the data.
-     * @return void
-     */
-    private function _flushEmptyRow($row, $index, $trim = false)
-    {
-        // If the row is scalar, let's trim it first.
-        if ($trim && is_scalar($row)) $row = trim($row);
-
-        // Remove any rows that appear empty.
-        if (empty($row)) unset($this->_rows[$index], $row, $index);
-    }
-
-    /**
-     * This method will convert the csv to an array and will run all registered
-     * filters against it.
-     *
-     * @param integer $rowOffset Determines which row the parser will start on.
-     *   Zero-based index.
-     *   Note: When using a row offset, skipped rows will never be parsed nor
-     *   stored. As such, we encourage to use different instances when mixing
-     *   offsets, to prevent resultsets from interfering.
-     * @return CSV $this
-     */
-    public function parse($rowOffset = 0)
-    {
-        // Cast the row offset as an integer.
-        $rowOffset = (int) $rowOffset;
-
-        if (!isset($this->_rows)) {
-            // Open the file if there is no SplFIleObject present.
-            if (!($this->_file instanceof SplFileObject)) {
-                $this->_file = new SplFileObject(
-                    $this->_fileConfig['filename'],
-                    $this->_fileConfig['open_mode'],
-                    $this->_fileConfig['use_include_path']
-                );
-
-                // Set the flag to parse CSV.
-                $this->_file->setFlags(SplFileObject::READ_CSV);
-
-                // Set the delimiter
-                $this->setDelimiter($this->_fileConfig['delimiter']);
+            } else { // unescaped, use token as is
+                $newValue .= $token;
             }
 
-            $this->_rows = array();
+            $values[] = $newValue;
+        }
+        return $values;
+    }
 
-            // Fetch the rows.
-            foreach (new LimitIterator($this->_file, $rowOffset) as $key => $row) {
-                // Apply any filters.
-                $this->_rows[$key] = $this->_applyFilters($row);
-
-                // Flush empty rows.
-                if ($this->_flushOnAfterFilter) {
-                    $this->_flushEmptyRow($row, $key, true);
-                }
-            }
-
-            // Flush the filters.
-            $this->flushFilters();
-
-            // We won't need the file anymore.
-            unset($this->_file);
-        } elseif (empty($this->_filters)) {
-            // Nothing to do here.
-            // We return now to avoid triggering garbage collection.
-            return $this;
+    static public function escapeString($string) {
+        $string = str_replace('"', '""', $string);
+        if (strpos($string, '"') !== false or strpos($string, ',') !== false or strpos($string, "\r") !== false or strpos($string, "\n") !== false) {
+            $string = '"'.$string.'"';
         }
 
-        if (!empty($this->_filters)) {
-            // We explicitely divide the strategies here, since checking this
-            // after applying filters on every row makes for a double iteration
-            // through $this->flushEmptyRows().
-            // We therefore do this while iterating, but array_map cannot supply
-            // us with a proper index and therefore the flush would be delayed.
-            if ($this->_flushOnAfterFilter) {
-                foreach ($this->_rows as $index => &$row) {
-                    // Apply the filters.
-                    $row = $this->_applyFilters($row);
+        return $string;
+    }
 
-                    // Flush it if it's empty.
-                    $this->_flushEmptyRow($row, $index);
-                }
-            } else {
-                // Apply our filters.
-                $this->_rows = array_map(
-                    array($this, '_applyFilters'),
-                    $this->_rows
-                );
+    // checks if a string ends with an unescaped quote
+    // 'string"' => true
+    // 'string""' => false
+    // 'string"""' => true
+    static public function _hasEndQuote($token) {
+        $len = strlen($token);
+        if ($len == 0) return false;
+        elseif ($len == 1 and $token == '"') return true;
+        elseif ($len > 1) {
+            while ($len > 1 and $token[$len-1] == '"' and $token[$len-2] == '"') { // there is an escaped quote at the end
+                $len -= 2; // strip the escaped quote at the end
             }
+            if ($len == 0) return false; // the string was only some escaped quotes
+            elseif ($token[$len-1] == '"') return true; // the last quote was not escaped
+            else return false; // was not ending with an unescaped quote
+        }
+    }
 
-            // Flush the filters.
-            $this->flushFilters();
+    // very basic separator detection function
+    static public function detectSeparator($filename, $separators = array(',', ';')) {
+        $file = fopen($filename, 'r');
+        $string = fgets($file);
+        fclose($file);
+        $matched = array();
+        foreach ($separators as $separator) if (preg_match("/$separator/", $string)) $matched[] = $separator;
+        if (count($matched) == 1) return $matched[0];
+        else return null;
+    }
+}
+
+class CsvReader implements Iterator {
+
+    protected $fileHandle = null;
+    protected $position = null;
+    protected $filename = null;
+    protected $currentLine = null;
+    protected $currentArray = null;
+    protected $separator = ',';
+
+
+    public function __construct($filename, $separator = ',') {
+        $this->separator = $separator;
+        $this->fileHandle = fopen($filename, 'r');
+        if (!$this->fileHandle) return;
+        $this->filename = $filename;
+        $this->position = 0;
+        $this->_readLine();
+    }
+
+    public function __destruct() {
+        $this->close();
+    }
+
+    // You should not have to call it unless you need to
+    // explicitly free the file descriptor
+    public function close() {
+        if ($this->fileHandle) {
+            fclose($this->fileHandle);
+            $this->fileHandle = null;
+        }
+    }
+
+    public function rewind() {
+        if ($this->fileHandle) {
+            $this->position = 0;
+            rewind($this->fileHandle);
         }
 
-        // Do some garbage collection to free memory of garbage we won't use.
-        // @see http://php.net/manual/en/function.gc-collect-cycles.php
-        if ($this->_garbageCollection) gc_collect_cycles();
-
-        return $this;
+        $this->_readLine();
     }
 
-    /**
-     * Whether or not to use garbage collection after parsing.
-     *
-     * @param bool $collect
-     * @return CSV $this
-     */
-    public function collectGarbage($collect = true) {
-        $this->_garbageCollection = (bool) $collect;
-        return $this;
+    public function current() {
+        return $this->currentArray;
     }
 
-    /**
-     * Flushes all active filters.
-     *
-     * @return CSV $this
-     */
-    public function flushFilters()
-    {
-        $this->_filters = array();
-        return $this;
+    public function key() {
+        return $this->position;
     }
 
-    /**
-     * Apply filters to the given row.
-     *
-     * @param  array $row
-     * @return array $row
-     */
-    public function _applyFilters(array $row)
-    {
-        if (!empty($this->_filters)) {
-            // Run filters in the same order they were registered.
-            foreach ($this->_filters as &$filter) {
-                $callable =& $filter['callable'];
-                $column =& $filter['column'];
-                $arguments =& $filter['args'];
+    public function next() {
+        $this->position++;
+        $this->_readLine();
+    }
 
-                // Apply to the entire row.
-                if (is_null($column)) {
-                    $row = call_user_func_array(
-                        $callable,
-                        array_merge(
-                            array(&$row),
-                            $arguments
-                        )
-                    );
-                } else {
-                    $row[$column] = call_user_func_array(
-                        $callable,
-                        array_merge(
-                            array(&$row[$column]),
-                            $arguments
-                        )
-                    );
-                }
-            }
+    public function valid() {
+        return $this->currentArray !== null;
+    }
 
-            // Unset references.
-            unset($filter, $callable, $column, $arguments);
+    protected function _readLine() {
+        if (!feof($this->fileHandle)) $this->currentLine = trim(utf8_encode(fgets($this->fileHandle)));
+        else $this->currentLine = null;
+        if ($this->currentLine != '') $this->currentArray = Csv::parseString($this->currentLine, $this->separator);
+        else $this->currentArray = null;
+    }
+}
+
+class CsvWriter {
+
+    protected $fileHandle = null;
+
+    public function __construct($filename, $mode = 'w') {
+        if ($mode != 'w' and $mode != 'a') throw new Exception('CsvWriter only accepts "w" and "a" mode.');
+        $this->fileHandle = fopen($filename, $mode);
+        if (!$this->fileHandle) throw new Exception("Impossible to open file $filename.");
+    }
+
+    public function __destruct() {
+        $this->close();
+    }
+
+    public function addLine(array $values) {
+        foreach ($values as $key => $value) {
+            $values[$key] = utf8_decode(Csv::escapeString($value));
         }
-
-        return $row;
+        $string = implode(',', $values) . "\r\n";
+        fwrite($this->fileHandle, $string);
     }
 
-    /**
-     * Set a delimiter for the CSV file.
-     *
-     * @param string $delimiter
-     * @return object $this CSV instance
-     */
-    public function setDelimiter($delimiter)
-    {
-        $this->_fileConfig['delimiter'] = $delimiter;
-
-        // if the file has already been instantiated
-        // just set the dimiter immediately
-        if ($this->_file instanceof SplFileObject) {
-            $this->_file->setCsvControl($this->_fileConfig['delimiter']);
+    // You should not have to call it unless you need to flush the
+    // data from the buffer to your file explicitly before the
+    // end of your script
+    public function close() {
+        if ($this->fileHandle) {
+            fclose($this->fileHandle);
+            $this->fileHandle = null;
         }
-
-        return $this;
     }
-
-    /**
-     * Get an array iterator for the CSV rows.
-     *
-     * Required for implementing IteratorAggregate
-     *
-     * @return ArrayIterator
-     */
-    public function getIterator()
-    {
-        if (!isset($this->_rows)) $this->parse();
-        return new ArrayIterator($this->_rows);
-    }
-
-    /**
-     * This is a great way to display the filtered contents of the csv to you
-     * during the development process (for debugging purposes).
-     *
-     * @return string $output HTML table of CSV contents
-     */
-    public function toTable()
-    {
-        $output = '';
-
-        if (!isset($this->_rows)) $this->parse();
-
-        if (!empty($this->_rows)) {
-            // Begin table.
-            $output = '<table border="1" cellspacing="1" cellpadding="3">';
-
-            // Table head.
-            $output .= '<thead><tr><th>&nbsp;</th>';
-            foreach ($this->_rows as $row) {
-                foreach ($row as $key => $col) {
-                    $output .= '<th>' . $key .  '</th>';
-                }
-                break;
-            }
-            $output .= '</tr></thead>';
-
-            // Table body.
-            $output .= '<tbody>';
-            foreach ($this->_rows as $i => $row) {
-                $output .= '<tr>';
-                $output .= '<th>' . $i . '</th>';
-                foreach ($row as $col) {
-                     $output .= '<td>' . $col .  '</td>';
-                }
-                $output .= '</tr>';
-            }
-            $output .= '</tbody>';
-
-            // Close table.
-            $output .= '</table>';
-        }
-
-        return $output;
-    }
-
-    /**
-     * Use this to get the entire CSV in JSON format.
-     *
-     * @return string JSON encoded string
-     */
-    public function toJSON()
-    {
-        if (!isset($this->_rows)) $this->parse();
-        return json_encode($this->_rows);
-    }
-
-    /**
-     * If you cast a CSV instance as a string it will print the contents on the
-     * CSV to an HTML table.
-     *
-     * @return string $this->toTable() HTML table of CSV contents
-     */
-    public function __toString()
-    {
-        return $this->toTable();
-    }
-
 }

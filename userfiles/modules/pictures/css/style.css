@@ -61,7 +61,6 @@
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: 100%;
   margin: auto;
   display: block;
 }
@@ -488,16 +487,20 @@ a.rotator-paging-item-digit.active{
 /* Masonry */
 
 .masonry-item{
-  width: 19%;
+  width: 300px;
   margin-bottom: 5px;
-  box-shadow: 0 2px 2px #999;
+  box-shadow: 0 0px 2px  #999;
   background: white;
   cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+.masonry-item > img{
+  float: left;
 }
 
 .masonry-item:hover{
-    box-shadow: 0 3px 3px #555;
-    box-shadow: 0 6px 6px -2px #555;
+
 }
 
 .masonry-item-description{
@@ -508,7 +511,7 @@ a.rotator-paging-item-digit.active{
 }
 
 
-/* Masonry */
+/* /Masonry */
 
 
 

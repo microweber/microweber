@@ -467,6 +467,8 @@ class Media
         }
 
 
+        $src = strtok($src, '?');
+
         //require_once ();
         $surl = $this->app->url->site();
         $local = false;
@@ -501,22 +503,20 @@ class Media
             $src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
 
-          /*  if (!is_file($src)) {
-                $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
+            /*  if (!is_file($src)) {
+                  $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
 
-                if (!file_exists($dl_file)) {
-                    $is_dl = $this->app->url->download($src, false, $dl_file);
-                } else {
-                    $is_dl = 1;
-                }
-                if ($is_dl == true) {
-                    $src = $dl_file;
-                } else {
+                  if (!file_exists($dl_file)) {
+                      $is_dl = $this->app->url->download($src, false, $dl_file);
+                  } else {
+                      $is_dl = 1;
+                  }
+                  if ($is_dl == true) {
+                      $src = $dl_file;
+                  } else {
 
-                }
-            }*/
-
-
+                  }
+              }*/
 
 
             if (is_file($src)) {
@@ -734,10 +734,11 @@ class Media
             $width = 200;
         }
 
-
+        $src = strtok($src, '?');
         if (!isset($height)) {
             $height = 200;
         }
+
         $cd = MW_MEDIA_DIR . 'thumbnail' . DS . $width . DS;
 
 
