@@ -105,59 +105,6 @@ class Import
 
     }
 
-    function get_import_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            error("must be admin");
-        }
-
-        $loc = $this->imports_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "import" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('import_location', 'admin/import');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->imports_folder = $loc;
-        return $here;
-    }
-
     function move_uploaded_file_to_import($params)
     {
         only_admin_access();
@@ -230,6 +177,59 @@ class Import
     function get_bakup_location()
     {
         return $this->get_import_location();
+    }
+
+    function get_import_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            error("must be admin");
+        }
+
+        $loc = $this->imports_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_USERFILES . "import" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('import_location', 'admin/import');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->imports_folder = $loc;
+        return $here;
     }
 
     function download($params)
@@ -381,7 +381,7 @@ class Import
         if (!isset($head[2])) {
             $csv = new \Keboola\Csv\CsvFile($filename, ';');
             $head = $csv->getHeader();
-        } else if (isset($head[0]) and stristr($head[0],';')) {
+        } else if (isset($head[0]) and stristr($head[0], ';')) {
             $csv = new \Keboola\Csv\CsvFile($filename, ';');
             $head = $csv->getHeader();
         }
@@ -399,10 +399,10 @@ class Import
                         if (isset($head[$k])) {
                             $row[$head[$k]] = $v;
                             $new_k = strtolower($head[$k]);
-                            $new_k = str_replace(' ','_',$new_k);
-                            $new_k = str_replace('__','_',$new_k);
+                            $new_k = str_replace(' ', '_', $new_k);
+                            $new_k = str_replace('__', '_', $new_k);
                             $new_k = preg_replace("/[^a-zA-Z0-9_]+/", "", $new_k);
-                            $new_k = rtrim($new_k,'_');
+                            $new_k = rtrim($new_k, '_');
                             $r[$new_k] = $v;
                         }
                     }
@@ -412,12 +412,11 @@ class Import
             $i++;
         }
         $content_items = $rows;
-         $content_items = $this->map_array($rows);
-        d($content_items);
+        $content_items = $this->map_array($rows);
         return $this->batch_save($content_items);
 
-      //  d($content_items);
-       // d($rows);
+        //  d($content_items);
+        // d($rows);
 //        $head = array_pop($csv);
 //        //  d($head);
 //        foreach ($csv as $k => $row) {
@@ -428,79 +427,91 @@ class Import
 
     }
 
-    public function import_xml($filename)
+    function map_array($content_items)
     {
-        only_admin_access();
-        if (!is_file($filename)) {
-            return array('error' => "You have not provided a existing backup to restore.");
-        }
+        $res = array();
+        $map_keys = array();
+
+        //title keys
+        $map_keys['name'] = 'title';
+        $map_keys['product_name'] = 'title';
+        $map_keys['productname'] = 'title';
 
 
-        $content = file_get_contents($filename);
+        //description keys
+        $map_keys['introtext'] = 'description';
+        $map_keys['short_description'] = 'description';
 
-        $here = __DIR__ . DIRECTORY_SEPARATOR;
-        $parser = $here . 'SimplePie.php';
-        if (!class_exists('\SimplePie')) {
-            require_once($parser);
-        }
-
-        $feed = new \SimplePie();
-        $feed->set_input_encoding('utf-8');
-        $feed->set_raw_data($content);
-
-        $feed->init();
+        $map_keys['encoded'] = 'content';
+        $map_keys['fulltext'] = 'content';
 
 
-        $feed->handle_content_type();
-
-        $content_items = array();
-        foreach ($feed->get_items() as $item) {
-            $link = $item->get_permalink();
-            if ($link != false) {
-                $content = array();
-                $content['data_import_link'] = $link;
-                $content['created_on'] = $item->get_date();
-                $upd = $item->get_updated_date();
-                if ($upd != false) {
-                    $content['updated_on'] = $item->get_updated_date();
-                }
-                $content['title'] = $item->get_title();
-                $content['description'] = $item->get_description();
-                $content['content'] = $item->get_content();
-
-                $cats = $item->get_categories();
-                //$item_tags = $item->get_item_tags();
-
-                $media_group = $item->get_source();
+        $map_keys['post_type'] = 'content_type';
 
 
-                //  $cat = $item->get_category();
-                if (!empty($cats)) {
-                    foreach ($cats as $category) {
-                        if (!isset($category->label)) {
-                            // no category
-                            if (isset($category->term)) {
-                                if (stristr($category->term, 'kind#')) {
-                                    if (!stristr($category->term, 'kind#post') and !stristr($category->term, 'kind#page')) {
-                                        $content = false;
-                                    }
-                                }
-                            }
-                        }
+        //url keys
+        $map_keys['url_rewritten'] = 'url';
+        $map_keys['alias'] = 'url';
 
-                        if (is_array($content) and $category->get_label() != false) {
-                            $content['categories'][] = $category->get_label();
-                        }
-                    }
 
-                }
-                if (is_array($content) and !empty($content)) {
-                    $content_items[] = $content;
-                }
+        //image keys
+        $map_keys['image_urls_xyz'] = 'insert_content_image';
+        $map_keys['picture_url'] = 'insert_content_image';
+
+
+        //categories keys
+        $map_keys['categories_xyz'] = 'categories';
+        $map_keys['categorysubcategory'] = 'categories';
+
+
+        //custom fields
+        $map_keys['wholesale_price'] = 'custom_field_price';
+        $map_keys['price'] = 'custom_field_price';
+
+        //data fields
+        $map_keys['manufacturer'] = 'data_manufacturer';
+        $map_keys['supplier'] = 'data_supplier';
+        $map_keys['ean13'] = 'data_ean13';
+        $map_keys['weight'] = 'data_weight';
+        $map_keys['quantity'] = 'data_qty';
+        $map_keys['qty'] = 'data_qty';
+        $map_keys['reference'] = 'data_reference';
+
+
+        //meta fields
+        $map_keys['meta_title'] = 'content_meta_title';
+        $map_keys['meta_keywords'] = 'content_meta_keywords';
+        $map_keys['meta_keyword'] = 'content_meta_keywords';
+        $map_keys['meta_description'] = 'content_meta_description';
+
+        //date fields
+        $map_keys['product_creation_date'] = 'created_on';
+        $map_keys['product_available_date'] = 'updated_on';
+        $map_keys['created'] = 'created_on';
+        $map_keys['modified'] = 'updated_on';
+
+
+        foreach ($content_items as $item) {
+            if (isset($item['id'])) {
+                unset($item['id']);
             }
+            $new_item = array();
+            foreach ($map_keys as $map_key => $map_val) {
+                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
+                    $new_val = $item[$map_key];
+                    if ($map_key == 'categorysubcategory') {
+                        $new_val = explode('/', $new_val);
+                    }
+                    $item[$map_val] = $new_val;
+                    $new_item[$map_val] = $new_val;
+                }
+
+            }
+            //$res[] = $new_item;
+            $res[] = $item;
+
         }
-        //d($content_items);
-        return $this->batch_save($content_items);
+        return $res;
     }
 
     function batch_save($content_items)
@@ -553,88 +564,120 @@ class Import
 
     }
 
-    function map_array($content_items)
+    public function import_xml($filename)
     {
-        $res = array();
-        $map_keys = array();
+        only_admin_access();
+        if (!is_file($filename)) {
+            return array('error' => "You have not provided a existing backup to restore.");
+        }
+        $content_items = array();
 
-        //title keys
-        $map_keys['name'] = 'title';
-        $map_keys['product_name'] = 'title';
-        $map_keys['productname'] = 'title';
+        $content_feed = file_get_contents($filename);
 
+        $here = MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR;
+        $parser = $here . 'SimplePie.php';
+        require_once($parser);
+        $parser2 = MW_APP_PATH . 'libs/QueryPath/QueryPath.php';
+        require_once($parser2);
+        $parser2 = MW_APP_PATH . 'libs/QueryPath/qp.php';
 
-        //description keys
-        $map_keys['introtext'] = 'description';
-        $map_keys['short_description'] = 'description';
-
-        //url keys
-        $map_keys['url_rewritten'] = 'url';
-        $map_keys['alias'] = 'url';
-
-
-        //image keys
-        $map_keys['image_urls_xyz'] = 'insert_content_image';
-        $map_keys['picture_url'] = 'insert_content_image';
+        require_once($parser2);
 
 
-        //categories keys
-        $map_keys['categories_xyz'] = 'categories';
-        $map_keys['categorysubcategory'] = 'categories';
+        $feed = new \SimplePie();
+        $feed->set_input_encoding('utf-8');
+        $feed->set_raw_data($content_feed);
 
+        $feed->init();
+        $feed->handle_content_type();
 
+        $items = $feed->get_items();
+        if (!empty($items)) {
+            foreach ($items as $item) {
+                $link = $item->get_permalink();
 
-
-        //custom fields
-        $map_keys['wholesale_price'] = 'custom_field_price';
-        $map_keys['price'] = 'custom_field_price';
-
-        //data fields
-        $map_keys['manufacturer'] = 'data_manufacturer';
-        $map_keys['supplier'] = 'data_supplier';
-        $map_keys['ean13'] = 'data_ean13';
-        $map_keys['weight'] = 'data_weight';
-        $map_keys['quantity'] = 'data_qty';
-        $map_keys['qty'] = 'data_qty';
-        $map_keys['reference'] = 'data_reference';
-
-
-
-
-        //meta fields
-        $map_keys['meta_title'] = 'content_meta_title';
-        $map_keys['meta_keywords'] = 'content_meta_keywords';
-        $map_keys['meta_keyword'] = 'content_meta_keywords';
-        $map_keys['meta_description'] = 'content_meta_description';
-
-        //date fields
-        $map_keys['product_creation_date'] = 'created_on';
-        $map_keys['product_available_date'] = 'updated_on';
-        $map_keys['created'] = 'created_on';
-        $map_keys['modified'] = 'updated_on';
-
-
-        foreach ($content_items as $item) {
-            if(isset($item['id'])){
-                unset($item['id']);
-            }
-            $new_item = array();
-            foreach($map_keys as $map_key => $map_val){
-                if((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)){
-                   $new_val = $item[$map_key];
-                    if($map_key == 'categorysubcategory'){
-                    $new_val = explode('/',$new_val);
+                if ($link != false) {
+                    $content = array();
+                    $content['data_import_link'] = $link;
+                    $content['created_on'] = $item->get_date();
+                    $upd = $item->get_updated_date();
+                    if ($upd != false) {
+                        $content['updated_on'] = $item->get_updated_date();
                     }
-                    $item[$map_val]=$new_val;
-                    $new_item[$map_val]=$new_val;
+                    $content['title'] = $item->get_title();
+                    $content['description'] = $item->get_description();
+                    $content['content'] = $item->get_content();
+
+                    $post_type = $item->get_item_tags('http://wordpress.org/export/1.2/', 'post_type');
+                    if (isset($post_type[0]) and isset($post_type[0]['data'])) {
+                        $post_type = $post_type[0]['data'];
+                        $content['content_type'] = $post_type;
+                        $content['subtype'] = $post_type;
+
+
+                    }
+
+                    $cats = $item->get_categories();
+                    if (!empty($cats)) {
+                        foreach ($cats as $category) {
+                            if (!isset($category->label)) {
+                                // no category
+                                if (isset($category->term)) {
+                                    if (stristr($category->term, 'kind#')) {
+                                        if (!stristr($category->term, 'kind#post') and !stristr($category->term, 'kind#page')) {
+                                            $content = false;
+                                        }
+                                    }
+                                }
+                            }
+                            if (is_array($content) and $category->get_label() != false) {
+                                $content['categories'][] = $category->get_label();
+                            }
+                        }
+                    }
+                    if (is_array($content) and !empty($content)) {
+                        $content_items[] = $content;
+                    }
+                }
+            }
+        } else {
+            libxml_use_internal_errors(true);
+            $cont = array();
+            $items = qp($content_feed, 'channel>item');
+            foreach ($items as $item) {
+                $content_item = array();
+                //  print $item->text();
+                $el = qp($item, 'channel>item>title');
+                $content_item['title'] = $el->text();
+
+                $el = qp($item, 'channel>item>encoded');
+                $content_item['content'] = $el->text();
+
+                $el = qp($item, 'channel>item>description');
+                $content_item['description'] = $el->text();
+
+                $el = qp($item, 'channel>item>post_type');
+                $content_item['post_type'] = $el->text();
+
+                $cats = qp($item, 'channel>item>category');
+                foreach ($cats as $cat) {
+                    $content_item['categories'][] = $cat->text();
+                    //print ;
                 }
 
+
+                //print $title->text();
+                $content_items[] = $content_item;
+
             }
-            //$res[] = $new_item;
-             $res[] = $item;
+
 
         }
-        return $res;
+
+
+        //
+
+        return $this->batch_save($content_items);
     }
 
 

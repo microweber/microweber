@@ -57,6 +57,10 @@ img{
   max-width: 100%;
 }
 
+.mw-captcha-img{
+  min-width: 75px;
+}
+
 
 body.mw-preview{
   zoom: 0.36;

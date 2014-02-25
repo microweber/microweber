@@ -82,9 +82,9 @@ body.mw-live-edit.dragStart .edit{
 
 }
 
-.element{
-  min-height: 14px;
-}
+.element{ min-height: 14px; }
+
+hr.element{ min-height: 0px; }
 
 .empty-element {
 	/*background-image: url(images/drop.png); */

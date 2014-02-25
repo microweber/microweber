@@ -185,7 +185,7 @@ set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     PATH_SEPARATOR .$libs_path.
     PATH_SEPARATOR . get_include_path());
 
-spl_autoload_register('mw_autoload');
+ spl_autoload_register('mw_autoload');
 
 
 
@@ -205,7 +205,9 @@ function mw_autoload($className)
     }
     if ($className != '') {
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+       // if(is_file($fileName)){
         include_once($fileName);
+       // }
     }
 
 }
