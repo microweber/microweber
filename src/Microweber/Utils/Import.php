@@ -174,64 +174,6 @@ class Import
 
     }
 
-    function get_bakup_location()
-    {
-        return $this->get_import_location();
-    }
-
-    function get_import_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            error("must be admin");
-        }
-
-        $loc = $this->imports_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "import" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('import_location', 'admin/import');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->imports_folder = $loc;
-        return $here;
-    }
-
     function download($params)
     {
         if (!is_admin()) {
@@ -350,6 +292,64 @@ class Import
         return $params;
     }
 
+    function get_bakup_location()
+    {
+        return $this->get_import_location();
+    }
+
+    function get_import_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            error("must be admin");
+        }
+
+        $loc = $this->imports_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_USERFILES . "import" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('import_location', 'admin/import');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->imports_folder = $loc;
+        return $here;
+    }
+
     public function import_file($filename)
     {
         only_admin_access();
@@ -367,18 +367,18 @@ class Import
         }
     }
 
-    public function import_csv($filename){
+    public function import_csv($filename)
+    {
         only_admin_access();
         if (!is_file($filename)) {
             return array('error' => "You have not provided a existing backup to restore.");
         }
-        $file = fopen($filename,"r");
+        $file = fopen($filename, "r");
 
-        while(! feof($file))
-        {
+        while (!feof($file)) {
             $row = fgetcsv($file);
-            if(!isset($row[1])){
-                $row = fgetcsv($file,null,';');
+            if (!isset($row[1])) {
+                $row = fgetcsv($file, null, ';');
             }
             d($row);
         }
@@ -413,33 +413,42 @@ class Import
 
         $content_items = array();
         foreach ($feed->get_items() as $item) {
-            $content = array();
-            $content['data_import_link'] = $item->get_link();
-            $content['created_on'] = $item->get_date();
-            $upd = $item->get_updated_date();
-            if ($upd != false) {
-                $content['updated_on'] = $item->get_updated_date();
-            }
-            $content['title'] = $item->get_title();
-            $content['description'] = $item->get_description();
-            $content['content'] = $item->get_content();
-            if ($content['content'] == false) {
-                $content['content'] = $content['description'];
-            }
-            $cats = $item->get_categories();
-            //  $cat = $item->get_category();
-            if (!empty($cats)) {
-                foreach ($cats as $category) {
-                    $content['categories'][] = $category->get_label();
+            $link = $item->get_permalink();
+            if ($link != false) {
+                $content = array();
+                $content['data_import_link'] = $link;
+                $content['created_on'] = $item->get_date();
+                $upd = $item->get_updated_date();
+                if ($upd != false) {
+                    $content['updated_on'] = $item->get_updated_date();
                 }
+                $content['title'] = $item->get_title();
+                $content['description'] = $item->get_description();
+                $content['content'] = $item->get_content();
+
+                $cats = $item->get_categories();
+                //$item_tags = $item->get_item_tags();
+
+                $media_group = $item->get_source();
+d($media_group);
+
+                //  $cat = $item->get_category();
+                if (!empty($cats)) {
+                    foreach ($cats as $category) {
+                        if (!isset($category->label)) {
+                            // no category
+                        } else {
+                            $content['categories'][] = $category->get_label();
+                        }
+                    }
+
+                }
+                $content_items[] = $content;
             }
-            $content_items[] = $content;
         }
-        return $this->batch_save($content_items);
+        d($content_items);
+        // return $this->batch_save($content_items);
     }
-
-
-
 
     function batch_save($content_items)
     {
@@ -452,7 +461,13 @@ class Import
             $parent_id = $parent['id'];
             $restored_items = array();
             foreach ($content_items as $content) {
-                $is_saved = get_content('debug=1&one=true&title=' . $content['title']);
+                $is_saved = get_content('one=true&title=' . $content['title']);
+
+
+                if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
+                    $content['content'] = $content['description'];
+                }
+
 
                 $content['parent'] = $parent_id;
                 $content['content_type'] = 'post';

@@ -39,7 +39,7 @@ description: Inner Slider
     $(document).ready(function(){
       var el = mwd.getElementById('<?php print $id; ?>');
       var module = mw.tools.firstParentWithClass(el, 'module');
-      module.style.paddingBottom = '130px';
+      //module.style.paddingBottom = '130px';
     });
 
 </script>

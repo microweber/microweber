@@ -482,8 +482,9 @@ class Controller
                                 }
 
                                 if (!defined('MW_API_HTML_OUTPUT')) {
+                                    if(!headers_sent()){
                                     header('Content-Type: application/json');
-
+                                    }
                                     print json_encode($res);
                                 } else {
 

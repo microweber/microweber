@@ -65,6 +65,7 @@ hr {
 	max-width: 99%;
 	max-width: calc(100% - 10px);
 	max-width: -webkit-calc(100% - 10px);
+    height: auto;
 }
 input.large-field, textarea.large-field {
 	font-size: 18px;
