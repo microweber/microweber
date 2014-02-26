@@ -922,7 +922,14 @@ class Content
                 }
             }
         }
+        if ($render_file == false and ((!isset($page['layout_file'])) or $page['layout_file'] == false) and isset($page['url']) and $page['url'] !='') {
+            $page['url'] = trim(str_replace('..','',$page['url']));
+            $template_view = ACTIVE_TEMPLATE_DIR . strtolower($page['url']).'.php';
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
 
+        }
 
         if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) == 'default') {
 
@@ -954,14 +961,9 @@ class Content
             if ($render_file == false and is_file($template_view) == true) {
                 $render_file = $template_view;
             }
+
         }
-        if ($render_file == false and ((!isset($page['layout_file'])) or $page['layout_file'] == false) and isset($page['url'])) {
-            $page['url'] = trim(str_replace('..','',$page['url']));
-            $template_view = ACTIVE_TEMPLATE_DIR . strtolower($page['url']).'.php';
-            if (is_file($template_view) == true) {
-                $render_file = $template_view;
-            }
-        }
+
 
 
         if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {

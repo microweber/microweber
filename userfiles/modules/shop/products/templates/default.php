@@ -29,6 +29,9 @@ if(!isset($tn[1])){
 .module-products-template-columns-3 .mw-ui-row > .mw-ui-col{
   width: 30%;
 }
+.module-products-template-columns-3 .mw-ui-row{
+  margin-bottom: 30px;
+}
 
 .module-products-template-columns-3 .mw-ui-row > .mw-ui-col > .mw-ui-col-container{
   padding: 12px;
@@ -41,18 +44,12 @@ if(!isset($tn[1])){
   padding-left: 0;
 }
 
-.mw-ui-row.last-row-single .mw-ui-row:last-child{
+.last-row-single .mw-ui-row:last-child{
     width: 30%;
 }
-.mw-ui-row.last-row-twoitems .mw-ui-row:last-child{
-    width: 60%;
+.last-row-twoitems .mw-ui-row:last-child{
+    width: 67%;
 }
-
-
-img{
-  border: 1px solid red;
-}
-
 
 </style>
 

@@ -215,7 +215,7 @@ mw('Microweber\Notifications')->mark_as_read('users');
         </div>
     </div>
     <div class="mw_edit_page_right" style="padding: 20px 0 0 20px;">
-        <div class="modules-index-bar"><span class="mw-ui-label-help font-11 left"><?php _e("Sort modules:"); ?></span>
+        <div class="modules-index-bar"><span class="mw-ui-label-help font-11 left"><?php _e("Sort users"); ?>:</span>
             <input name="module_keyword" class="mw-ui-searchfield right" type="search"
                    placeholder="<?php _e("Search for users"); ?>"
                    onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"/>
