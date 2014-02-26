@@ -102,3 +102,26 @@
 
 /* /Navbar */
 
+
+
+
+/* Default */
+
+.pages-nav-default li{
+  list-style: none;
+}
+.pages-nav-default li a{
+  display: block;
+  padding: 5px 10px;
+}
+.pages-nav-default li li a{ padding-left: 25px;font-size: 90%; }
+.pages-nav-default li li li a{ padding-left: 40px; font-size: 80%;}
+.pages-nav-default li li li li a{ padding-left: 55px; }
+
+.pages-nav-default li a:hover,
+.pages-nav-default li a:focus{
+  background-color:#E4E4E2;
+}
+
+/* /Default */
+
