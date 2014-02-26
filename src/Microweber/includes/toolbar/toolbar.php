@@ -25,14 +25,16 @@
 
 
 <script type="text/javascript">
-if(mw.cookie.get("helpinfo") != 'false'){
+if(mw.cookie.get("helpinfoliveedit") != 'false'){
      mw.require("helpinfo.js", true);
      mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css", true);
 }
 </script>
 <script type="text/javascript">
 
-  if(mw.cookie.get("helpinfo") != 'false'){
+
+  if(mw.cookie.get("helpinfoliveedit") != 'false'){
+     mw.helpinfo.cookie = "helpinfoliveedit";
      mw.helpinfo.pauseInit = true;
      $(window).bind("load", function(){
         mw.mouse.gotoAndClick("#modules-and-layouts",
@@ -43,10 +45,18 @@ if(mw.cookie.get("helpinfo") != 'false'){
           setTimeout(function(){
               mw.tools.scrollTo();
               mw.helpinfo.init();
+              setTimeout(function(){
+                mw.helpinfo.hide(true);
+              }, 8000);
               mw.$("#mw_info_helper_footer .mw-ui-btn").eq(0).bind("click", function(){
                 mw.helpinfo.hide(true);
               });
           }, 2000);
+          $(mwd.body).mousedown(function(e){
+            if(!mw.tools.hasParentsWithClass(e.target, 'mw-defaults')){
+                mw.helpinfo.hide(true);
+            }
+          });
      });
   }
 

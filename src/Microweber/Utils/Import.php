@@ -415,15 +415,7 @@ class Import
         $content_items = $this->map_array($rows);
         return $this->batch_save($content_items);
 
-        //  d($content_items);
-        // d($rows);
-//        $head = array_pop($csv);
-//        //  d($head);
-//        foreach ($csv as $k => $row) {
-//            d($row);
-//            // d($k);
-//            print '------------------------------------';
-//        }
+
 
     }
 

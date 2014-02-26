@@ -97,7 +97,9 @@ mw.mouse = mw.mouse || {
 }
 
 
+
 mw.helpinfo = {
+    cookie:"helpinfo",
     pauseInit:false,
     helper : function(){
       if( typeof mw.helpinfo_helper === 'undefined'){
@@ -225,9 +227,10 @@ mw.helpinfo = {
     },
     init:function(activate){
        var activate = activate || false;
+
        //alert(mw.cookie.get("helpinfo"))
        if(activate){
-         mw.cookie.set("helpinfo", "true", 4380);
+         mw.cookie.set(mw.helpinfo.cookie, "true", 4380);
          mw.helpinfo.init();
          return false;
        }
@@ -305,7 +308,7 @@ mw.helpinfo = {
        $(mw.helpinfo_overlay).hide();
 
        if(disable){
-          mw.cookie.set("helpinfo", "false", 4380);
+          mw.cookie.set(mw.helpinfo.cookie , "false", 4380);
           mw.$("#helpbtn").parent().removeClass("active");
        }
     },
@@ -321,7 +324,7 @@ mw.helpinfo = {
         mw.$("#mw_info_helper_footer").hide();
         mw.helpinfo.position(help, 'bottomcenter');
         mw.helpinfo.autoscroll(help);
-        mw.cookie.set("helpinfo", "false", 4380);
+        mw.cookie.set(mw.helpinfo.cookie , "false", 4380);
         setTimeout(function(){
              mw.$("#helpinfo_helper").animate({opacity:0, top:0}, 500, function(){
                  mw.$("#helpinfo_helper").removeAttr("style").css({left:-9999});
