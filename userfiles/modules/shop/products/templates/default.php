@@ -24,22 +24,74 @@ if(!isset($tn[1])){
 
 ?>
 
-<div class="clearfix module-posts-template-columns module-posts-template-columns-3">
+<style>
+
+.module-products-template-columns-3 .mw-ui-row > .mw-ui-col{
+  width: 30%;
+}
+
+.module-products-template-columns-3 .mw-ui-row > .mw-ui-col > .mw-ui-col-container{
+  padding: 12px;
+}
+
+.module-products-template-columns-3 .mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container{
+  padding-right: 0;
+}
+.module-products-template-columns-3 .mw-ui-row > .mw-ui-col:first-child > .mw-ui-col-container{
+  padding-left: 0;
+}
+
+.mw-ui-row.last-row-single .mw-ui-row:last-child{
+    width: 30%;
+}
+.mw-ui-row.last-row-twoitems .mw-ui-row:last-child{
+    width: 60%;
+}
+
+
+img{
+  border: 1px solid red;
+}
+
+
+</style>
+
+
   <?php if (!empty($data)): ?>
-  <div class="row">
+
     <?php
 
 
-    $count = -1;
+    $count = 0;
+    $len =  count($data);
+
+    $helpclass = '';
+
+    if($len%3 !=0 ){
+        if($len%4 == 0 ){
+             $helpclass = 'last-row-single';
+        }
+        elseif($len%5 == 0 ){
+            $helpclass = 'last-row-twoitems';
+        }
+    } ?>
+
+<div class="clearfix module-products-template-columns-3 <?php print $helpclass; ?>">
+<?php
+
+
     foreach ($data as $item):
 
     $count++;
 
     ?>
-    <?php if($count % 3 == 0) { ?>
-    <div class="v-space"></div>
+    <?php if($count == 1 or $count % 4 == 0) { ?>
+
+       <div class="mw-ui-row">
+
     <?php } ?>
-    <div class="col-sm-4<?php if($count % 3 == 0) { ?> first <?php } ?>">
+    <div class="mw-ui-col">
+    <div class="mw-ui-col-container">
       <?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>"> <span class="valign"> <span class="valign-cell"> <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  /> </span> </span> </a>
       <?php endif; ?>
@@ -90,10 +142,19 @@ if(!isset($tn[1])){
       <?php break; endforeach ; ?>
       <?php  endif; ?>
     </div>
+    </div>
+
+    <?php if($count % 3 == 0 or $count == $len){ ?>
+
+    </div>
+
+    <?php  }?>
     <?php  endforeach; ?>
-  </div>
-  <?php endif; ?>
+
+
 </div>
+
+<?php endif; ?>
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
 <?php print paging("num={$pages_count}&paging_param={$paging_param}") ?>
 <?php endif; ?>

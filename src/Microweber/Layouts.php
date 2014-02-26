@@ -182,8 +182,7 @@ class Layouts
                         $templ_dir = str_replace(MW_TEMPLATES_DIR, '', $here_dir);
                         if ($templ_dir != '') {
                             $templ_dir = explode(DS, $templ_dir);
-                            //d($templ_dir);
-                            if (isset($templ_dir[0])) {
+                             if (isset($templ_dir[0])) {
                                 $to_return_temp['template_dir'] = $templ_dir[0];
 
                             }
@@ -225,7 +224,11 @@ class Layouts
                                 $result = str_ireplace('version:', '', $result);
                                 $to_return_temp['version'] = trim($result);
                             }
-
+                            if (preg_match('/visible:.+/', $fin, $regs)) {
+                                $result = $regs[0];
+                                $result = str_ireplace('visible:', '', $result);
+                                $to_return_temp['visible'] = trim($result);
+                             }
 
                             if (preg_match('/icon:.+/', $fin, $regs)) {
                                 $result = $regs[0];
@@ -276,8 +279,7 @@ class Layouts
                             if (isset($template_dirs) and !empty($template_dirs)) {
                                 foreach ($template_dirs as $template_dir) {
                                     $layout_file = str_replace($template_dir, '', $layout_file);
-
-                                }
+                                 }
                             }
 
                             //   $layout_file = str_replace(MW_TEMPLATES_DIR, '', $layout_file);

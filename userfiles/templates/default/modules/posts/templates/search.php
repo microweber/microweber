@@ -8,6 +8,8 @@ name: Search
 
 description: Search
 
+visible: no 
+
 */
 ?>
 <?php

@@ -1,32 +1,16 @@
 
-
-  <div class="send-your-lang">
-
-  <label class="mw-ui-label"><small>Help us to improove Microweber</small></label>
-  <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue">Send us your translation</a>
-
-  </div>
-
-
-
+<div class="send-your-lang">
+  <label class="mw-ui-label"><small>Help us improve Microweber</small></label>
+  <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue">Send us your translation</a> </div>
 <?php only_admin_access(); ?>
 <label class="mw-ui-label left">
-    <?php _e("Edit your language file"); ?>
+  <?php _e("Edit your language file"); ?>
 </label>
-
-
-
-
-
 <div class="mw_clear"></div>
 <div class="vSpace"></div>
-
-
-
 <script  type="text/javascript">
     mw.require('forms.js', true);
-</script>
-
+</script> 
 <script type="text/javascript">
 
 
@@ -71,7 +55,6 @@ mw.notification.msg(this);
 
 
 </script>
-
 <style>
     .send-your-lang{
       float: right;
@@ -102,7 +85,6 @@ mw.notification.msg(this);
     }
 
 </style>
-
 <?php
 
 
@@ -115,30 +97,25 @@ $cont  = get_language_file_content();
  ?>
 <?php if(!empty($cont)): ?>
 <form id="language-form-<?php print $params['id'] ?>">
- <table width="100%" border="0" class="mw-ui-admin-table" cellspacing="0" cellpadding="0">
-<thead>
-  <tr>
-    <th scope="col">Key</th>
-    <th scope="col">Value</th>
-
-  </tr>
-  </thead>
-  <tbody>
-  <?php foreach($cont as $k => $item): ?>
-  <tr>
-    <td><?php print $k ?></td>
-    <td>
-    <textarea name="<?php print $k ?>" class="mw-ui-field" type="text" onchange="save_lang_form()" wrap="soft"><?php print $item ?></textarea>
-
-<?php /*    <input name="<?php print $k ?>" class="mw-ui-field" value="<?php print $item ?>" style="width: 400px;" type="text" onchange="save_lang_form()" /></td> */ ?>
-
-  </tr>
-  </tbody>
-  <?php endforeach; ?>
-</table>
+  <table width="100%" border="0" class="mw-ui-admin-table" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th scope="col">Key</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach($cont as $k => $item): ?>
+      <tr>
+        <td><?php print $k ?></td>
+        <td><textarea name="<?php print $k ?>" class="mw-ui-field" type="text" onchange="save_lang_form()" wrap="soft"><?php print $item ?></textarea>
+          <?php /*    <input name="<?php print $k ?>" class="mw-ui-field" value="<?php print $item ?>" style="width: 400px;" type="text" onchange="save_lang_form()" /></td> */ ?>
+      </tr>
+    </tbody>
+    <?php endforeach; ?>
+  </table>
 </form>
- <div class="send-your-lang" style="margin: 40px 0;">
-  <label class="mw-ui-label"><small>Help us to improove Microweber</small></label>
-  <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue">Send us your translation</a>
-  </div>
+<div class="send-your-lang" style="margin: 40px 0;">
+  <label class="mw-ui-label"><small>Help us improve Microweber</small></label>
+  <a onclick="send_lang_form_to_microweber()" class="mw-ui-btn mw-ui-btn-blue">Send us your translation</a> </div>
 <?php endif; ?>
