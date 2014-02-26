@@ -1,30 +1,58 @@
+/* Default */
+
+
+.post-list-template-default .post-list-image{
+  width: 240px;
+}
+
+
+/* /Default */
+
+
+/* Columns */
+
+.module-posts-template-columns .module-posts-image{
+  height: 120px;
+  display: block;
+}
+
+.module-posts-template-columns .module-posts-image img{
+    max-height: 120px;
+    max-width: 100%;
+}
+
+.module-posts-template-columns .row{
+  margin-bottom: 30px;
+}
+.module-posts-template-columns .row:last-child{
+  margin-bottom: 0;
+}
+
+
+
+/* /Columns */
+
+
+
+
+
+
 /* Masonry */
 
 .masonry-item{
   width: 19%;
   margin-bottom: 5px;
-  box-shadow: 0 2px 2px #999;
+  box-shadow: 0 0px 2px -1px #999;
+  border:1px solid #E0E0E0;
   background: white;
 }
 .module-posts-template-masonry .masonry-item{
   cursor: default;
-  width: 24%;
+  width: 300px;
 }
 
-.masonry-item > img{
+.masonry-item img{
   width: 100%;
-}
-
-@media (max-width: 767px){
- .module-posts-template-masonry .masonry-item{   width: 48%;  }
-}
-@media only screen and (max-width: 479px) {
- .module-posts-template-masonry .masonry-item{   width: 98%;  }
-}
-
-.masonry-item:hover{
-    box-shadow: 0 3px 3px #555;
-    box-shadow: 0 6px 6px -2px #555;
 }
 
 .masonry-item-description{
@@ -39,11 +67,11 @@
 }
 .masonry-item-container:after{
   content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 .masonry-item-container .description{
   font-size: 13px;

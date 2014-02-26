@@ -52,3 +52,10 @@
 
 }
 
+.icon-trash{
+    background: url(../trash.png) no-repeat;
+    display: inline-block;
+    width: 11px;
+    height: 13px;
+}
+

@@ -79,22 +79,23 @@ class Import
         $backups = array();
         if (!empty($files)) {
             foreach ($files as $file) {
+                if (is_file($file)) { //if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
+                    $mtime = filemtime($file);
+                    // Get time and date from filename
+                    $date = date("F d Y", $mtime);
+                    $time = date("H:i:s", $mtime);
+                    // Remove the sql extension part in the filename
+                    //	$filenameboth = str_replace('.sql', '', $file);
+                    $bak = array();
+                    $bak['filename'] = basename($file);
+                    $bak['date'] = $date;
+                    $bak['time'] = str_replace('_', ':', $time);
 
-                //if (strpos($file, '.sql', 1) or strpos($file, '.zip', 1)) {
-                $mtime = filemtime($file);
-                // Get time and date from filename
-                $date = date("F d Y", $mtime);
-                $time = date("H:i:s", $mtime);
-                // Remove the sql extension part in the filename
-                //	$filenameboth = str_replace('.sql', '', $file);
-                $bak = array();
-                $bak['filename'] = basename($file);
-                $bak['date'] = $date;
-                $bak['time'] = str_replace('_', ':', $time);
-                ;
-                $bak['size'] = filesize($file);
+                    $bak['size'] = filesize($file);
 
-                $backups[] = $bak;
+                    $backups[] = $bak;
+                }
+
             }
 
             // }
@@ -416,144 +417,6 @@ class Import
         return $this->batch_save($content_items);
 
 
-
-    }
-
-    function map_array($content_items)
-    {
-        $res = array();
-        $map_keys = array();
-
-        //title keys
-        $map_keys['name'] = 'title';
-        $map_keys['product_name'] = 'title';
-        $map_keys['productname'] = 'title';
-
-
-        //description keys
-        $map_keys['introtext'] = 'description';
-        $map_keys['short_description'] = 'description';
-
-        $map_keys['encoded'] = 'content';
-        $map_keys['fulltext'] = 'content';
-
-
-        $map_keys['post_type'] = 'content_type';
-
-
-        //url keys
-        $map_keys['url_rewritten'] = 'url';
-        $map_keys['alias'] = 'url';
-
-
-        //image keys
-        $map_keys['image_urls_xyz'] = 'insert_content_image';
-        $map_keys['picture_url'] = 'insert_content_image';
-
-
-        //categories keys
-        $map_keys['categories_xyz'] = 'categories';
-        $map_keys['categorysubcategory'] = 'categories';
-
-
-        //custom fields
-        $map_keys['wholesale_price'] = 'custom_field_price';
-        $map_keys['price'] = 'custom_field_price';
-
-        //data fields
-        $map_keys['manufacturer'] = 'data_manufacturer';
-        $map_keys['supplier'] = 'data_supplier';
-        $map_keys['ean13'] = 'data_ean13';
-        $map_keys['weight'] = 'data_weight';
-        $map_keys['quantity'] = 'data_qty';
-        $map_keys['qty'] = 'data_qty';
-        $map_keys['reference'] = 'data_reference';
-
-
-        //meta fields
-        $map_keys['meta_title'] = 'content_meta_title';
-        $map_keys['meta_keywords'] = 'content_meta_keywords';
-        $map_keys['meta_keyword'] = 'content_meta_keywords';
-        $map_keys['meta_description'] = 'content_meta_description';
-
-        //date fields
-        $map_keys['product_creation_date'] = 'created_on';
-        $map_keys['product_available_date'] = 'updated_on';
-        $map_keys['created'] = 'created_on';
-        $map_keys['modified'] = 'updated_on';
-
-
-        foreach ($content_items as $item) {
-            if (isset($item['id'])) {
-                unset($item['id']);
-            }
-            $new_item = array();
-            foreach ($map_keys as $map_key => $map_val) {
-                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
-                    $new_val = $item[$map_key];
-                    if ($map_key == 'categorysubcategory') {
-                        $new_val = explode('/', $new_val);
-                    }
-                    $item[$map_val] = $new_val;
-                    $new_item[$map_val] = $new_val;
-                }
-
-            }
-            //$res[] = $new_item;
-            $res[] = $item;
-
-        }
-        return $res;
-    }
-
-    function batch_save($content_items)
-    {
-        if (!empty($content_items)) {
-            $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
-            if ($parent == false) {
-                return array('error' => "No parent page found");
-            }
-
-
-            $content_items = $this->map_array($content_items);
-
-
-            $parent_id = $parent['id'];
-            $restored_items = array();
-            foreach ($content_items as $content) {
-                if (isset($content['title'])) {
-                    $is_saved = get_content('one=true&title=' . $content['title']);
-
-
-                    if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
-                        $content['content'] = $content['description'];
-                    }
-
-
-                    $content['parent'] = $parent_id;
-                    $content['content_type'] = 'post';
-                    $content['subtype'] = 'post';
-                    $content['is_active'] = 'y';
-                    //  $content['debug'] = 'y';
-                    $content['download_remote_images'] = true;
-
-                    if ($is_saved != false) {
-                        $content['id'] = $is_saved['id'];
-                        $content['content_type'] = $is_saved['content_type'];
-                        $content['subtype'] = $is_saved['subtype'];
-                    }
-
-                    $import = save_content($content);
-                    $restored_items[] = $import;
-                }
-            }
-            cache_clear('categories');
-            cache_clear('content');
-            return array('success' => count($restored_items) . " items restored");
-
-
-        }
-
     }
 
     public function import_xml($filename)
@@ -670,6 +533,290 @@ class Import
         //
 
         return $this->batch_save($content_items);
+    }
+
+    function batch_save($content_items)
+    {
+        $chunk_size = 25;
+
+        if (count($content_items) < $chunk_size) {
+            return $this->batch_process($content_items);
+        }
+
+
+        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
+        $index_file = $chunks_folder . 'index.php';
+
+        if (!is_dir($chunks_folder)) {
+            mkdir_recursive($chunks_folder);
+            @touch($index_file);
+        }
+
+        if (!is_writable($chunks_folder)) {
+            return array('error' => "Import folder is not writable!");
+
+        }
+
+
+        $chunks = (array_chunk($content_items, $chunk_size, true));
+
+        if (!empty($chunks)) {
+            foreach ($chunks as $chunk) {
+                $chunk_data = serialize($chunk);
+                $file_name = 'import_chunk_' . md5($chunk_data);
+                $file_location = $chunks_folder . $file_name;
+                if (!is_file($file_location)) {
+                    file_put_contents($file_location, $chunk_data);
+                }
+
+            }
+        }
+
+        $i = 0;
+        $dir = $chunks_folder;
+        if ($handle = opendir($dir)) {
+            while (($file = readdir($handle)) !== false) {
+                if (!in_array($file, array('.', '..')) && !is_dir($dir . $file))
+                    $i++;
+            }
+        }
+        file_put_contents($index_file, $i);
+
+
+        return array('success' => count($content_items) . " items are scheduled for import");
+        return;
+
+        if (!empty($content_items)) {
+            $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
+            if ($parent == false) {
+                return array('error' => "No parent page found");
+            }
+
+
+            $content_items = $this->map_array($content_items);
+
+
+            $parent_id = $parent['id'];
+            $restored_items = array();
+            foreach ($content_items as $content) {
+                if (isset($content['title'])) {
+                    $is_saved = get_content('one=true&title=' . $content['title']);
+
+
+                    if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
+                        $content['content'] = $content['description'];
+                    }
+
+
+                    $content['parent'] = $parent_id;
+                    $content['content_type'] = 'post';
+                    $content['subtype'] = 'post';
+                    $content['is_active'] = 'y';
+                    //  $content['debug'] = 'y';
+                    $content['download_remote_images'] = true;
+
+                    if ($is_saved != false) {
+                        $content['id'] = $is_saved['id'];
+                        $content['content_type'] = $is_saved['content_type'];
+                        $content['subtype'] = $is_saved['subtype'];
+                    }
+
+                    $import = save_content($content);
+                    $restored_items[] = $import;
+                }
+            }
+            cache_clear('categories');
+            cache_clear('content');
+            return array('success' => count($restored_items) . " items restored");
+
+
+        }
+
+    }
+
+    function batch_process($content_items = false)
+    {
+
+        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
+        $index_file = $chunks_folder . 'index.php';
+
+
+        $total = 0;
+        $remaining = 0;
+        $batch_file = false;
+        if (!is_array($content_items) or empty($content_items)) {
+            if (is_file($index_file)) {
+                $total = file_get_contents($index_file);
+            }
+            $i = 0;
+            $dir = $chunks_folder;
+            if ($handle = opendir($dir)) {
+                while (($file = readdir($handle)) !== false) {
+                    if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_')) {
+                        if (!is_array($content_items)) {
+                            $batch_file = $chunks_folder . $file;
+                            $batch_file_content = file_get_contents($batch_file);
+                            $content_items = @unserialize($batch_file_content);
+                        }
+                        $i++;
+                    }
+                }
+                $remaining = $i;
+            }
+
+
+        } else {
+            $total = count($content_items);
+        }
+
+        if ($content_items != false and is_array($content_items)) {
+            if (!empty($content_items)) {
+                $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
+                if ($parent == false) {
+                    return array('error' => "No parent page found");
+                }
+
+
+                $content_items = $this->map_array($content_items);
+
+
+                $parent_id = $parent['id'];
+                $restored_items = array();
+                foreach ($content_items as $content) {
+                    if (isset($content['title'])) {
+                        $is_saved = get_content('one=true&title=' . $content['title']);
+
+
+                        if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
+                            $content['content'] = $content['description'];
+                        }
+
+
+                        $content['parent'] = $parent_id;
+                        $content['content_type'] = 'post';
+                        $content['subtype'] = 'post';
+                        $content['is_active'] = 'y';
+                        //  $content['debug'] = 'y';
+                        $content['download_remote_images'] = true;
+
+                        if ($is_saved != false) {
+                            $content['id'] = $is_saved['id'];
+                            $content['content_type'] = $is_saved['content_type'];
+                            $content['subtype'] = $is_saved['subtype'];
+                        }
+
+                        $import = save_content($content);
+                        $restored_items[] = $import;
+                    }
+                }
+                cache_clear('categories');
+                cache_clear('content');
+
+                if ($batch_file != false and is_file($batch_file)) {
+                    unlink($batch_file);
+                }
+
+                $remaining = $remaining - 1;
+                if ($remaining <= 0) {
+                    file_put_contents($index_file, '0');
+                }
+                return array('success' => count($restored_items) . " items restored"
+                , 'total' => ($total)
+                , 'remaining' => ($remaining)
+                );
+
+
+            }
+
+        }
+        return false;
+    }
+
+    function map_array($content_items)
+    {
+        $res = array();
+        $map_keys = array();
+
+        //title keys
+        $map_keys['name'] = 'title';
+        $map_keys['product_name'] = 'title';
+        $map_keys['productname'] = 'title';
+
+
+        //description keys
+        $map_keys['introtext'] = 'description';
+        $map_keys['short_description'] = 'description';
+
+        $map_keys['encoded'] = 'content';
+        $map_keys['fulltext'] = 'content';
+
+
+        $map_keys['post_type'] = 'content_type';
+
+
+        //url keys
+        $map_keys['url_rewritten'] = 'url';
+        $map_keys['alias'] = 'url';
+
+
+        //image keys
+        $map_keys['image_urls_xyz'] = 'insert_content_image';
+        $map_keys['picture_url'] = 'insert_content_image';
+
+
+        //categories keys
+        $map_keys['categories_xyz'] = 'categories';
+        $map_keys['categorysubcategory'] = 'categories';
+
+
+        //custom fields
+        $map_keys['wholesale_price'] = 'custom_field_price';
+        $map_keys['price'] = 'custom_field_price';
+
+        //data fields
+        $map_keys['manufacturer'] = 'data_manufacturer';
+        $map_keys['supplier'] = 'data_supplier';
+        $map_keys['ean13'] = 'data_ean13';
+        $map_keys['weight'] = 'data_weight';
+        $map_keys['quantity'] = 'data_qty';
+        $map_keys['qty'] = 'data_qty';
+        $map_keys['reference'] = 'data_reference';
+
+
+        //meta fields
+        $map_keys['meta_title'] = 'content_meta_title';
+        $map_keys['meta_keywords'] = 'content_meta_keywords';
+        $map_keys['meta_keyword'] = 'content_meta_keywords';
+        $map_keys['meta_description'] = 'content_meta_description';
+
+        //date fields
+        $map_keys['product_creation_date'] = 'created_on';
+        $map_keys['product_available_date'] = 'updated_on';
+        $map_keys['created'] = 'created_on';
+        $map_keys['modified'] = 'updated_on';
+
+
+        foreach ($content_items as $item) {
+            if (isset($item['id'])) {
+                unset($item['id']);
+            }
+            $new_item = array();
+            foreach ($map_keys as $map_key => $map_val) {
+                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
+                    $new_val = $item[$map_key];
+                    if ($map_key == 'categorysubcategory') {
+                        $new_val = explode('/', $new_val);
+                    }
+                    $item[$map_val] = $new_val;
+                    $new_item[$map_val] = $new_val;
+                }
+
+            }
+            //$res[] = $new_item;
+            $res[] = $item;
+
+        }
+        return $res;
     }
 
 

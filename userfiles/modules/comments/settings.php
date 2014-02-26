@@ -155,7 +155,7 @@
               <span></span> <span><?php _e("Allow people to post comments"); ?></span> </label>
             <div class="vSpace"></div>
             <div id="other-settings" class="<?php if($are_enabled==false) {print " deactivated";}; ?>">
-              <label class="mw-ui-label-inline"><?php _e("Other comments settigs"); ?></label>
+              <label class="mw-ui-label-inline"><?php _e("Other comments settings"); ?></label>
               <div class="comments-settings-right">
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">

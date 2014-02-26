@@ -250,7 +250,7 @@ $(document).ready(function(){
 							<?php _e("My Comments"); ?>
 						</h2>
 						<small>
-						<?php _e("Read, moderate & publish commets"); ?>
+						<?php _e("Read, moderate & publish comments"); ?>
 						</small> </div>
 					<input
               autocomplete="off"
@@ -273,7 +273,7 @@ $(document).ready(function(){
           */ ?>
 		</div>
 		<div class="comments-tab comments-settings" style="display: none">
-			<module type="comments/settings" id="mw_admin_comments_settigs"  />
+			<module type="comments/settings" id="mw_admin_comments_settings"  />
 		</div>
 		<div class="comments-tab comments-templates" style="display: none">
 			<div class="comments-admin-header">

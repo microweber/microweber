@@ -295,18 +295,8 @@ ul.dropdown-menu ul.dropdown-menu {
 
 /* Posts */
 
-.valign {
-	display: table;
-	table-layout: fixed;
-	width: 100%;
-	height: 100%;
-}
-.valign-cell {
-	display: table-cell;
-	vertical-align: middle;
-	width: 100%;
-	height: 100%;
-}
+
+
 .module-posts-template-columns .span4 {
 	padding-bottom: 25px;
 }

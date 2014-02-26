@@ -31,7 +31,7 @@ description: Default cart template
           <?php 	if(isset($item['custom_fields'])): ?>
           <?php print $item['custom_fields'] ?>
           <?php  endif ?></td>
-        <td><input type="number" class="input-mini form-control input-sm" value="<?php print $item['qty'] ?>" onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value);" /></td>
+        <td><input type="number" min="1" class="input-mini form-control input-sm" value="<?php print $item['qty'] ?>" onchange="mw.cart.qty('<?php print $item['id'] ?>', this.value);" /></td>
         <?php /*<td><?php print currency_format($item['price']); ?></td>*/ ?>
 
         <td class="mw-cart-table-price"><?php print currency_format($item['price']* $item['qty']); ?></td>

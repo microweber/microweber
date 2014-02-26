@@ -39,34 +39,38 @@ if(isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
 			}
 		}
 	}
-			   
+
 
 }
  
 ?>
+
+<script>mw.require("<?php print MW_MODULES_URL; ?>posts/css/style.css", true); </script>
  
-<div class="post-list">
+<div class="post-list post-list-template-default">
   <?php if (!empty($data)): ?>
   <?php foreach ($data as $item): ?>
   <div class="well clearfix post-single"  itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
-      <div class="row">
+      <div class="mw-ui-row">
 	    <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
 		 <?php if($only_tn == false): ?>
-            <div class="col-sm-4">
+            <div class="mw-ui-col post-list-image">
+            <div class="mw-ui-col-container">
                 <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image" src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" class="img-rounded img-polaroid" alt="" ></a>
             </div>
-			
+            </div>
+
 			<?php else: ?>
-			<div class="col-sm-12">
+			<div class="mw-ui-col">
                 <a href="<?php print $item['link'] ?>" itemprop="url"><img itemprop="image" src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" class="img-rounded img-polaroid" alt="" ></a>
             </div>
 		  <?php endif; ?>
           <?php endif; ?>
 		  <?php if($only_tn == false): ?>
 		    
-		   
-          <div class="col-sm-8">
-             
+
+          <div class="mw-ui-col">
+
                   <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
 				   <div class="post-single-title-date">
                     <h2 class="lead" itemprop="name"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>

@@ -314,7 +314,7 @@ body.Resizing .mwembed:after{
 }
 
 
-
+/**/
 .mw-textfx-3d{
   font-size: 20px;
   text-shadow: 0 1px 0 #ccc,
@@ -596,12 +596,20 @@ table[class*='mw-wysiwyg-table'].valign td{
 .well{
   display: block;
 }
-.valign{
-  display: table;
+.valign {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	height: 100%;
 }
-
-.valign-cell{
-  display: table-cell;
+.valign-cell {
+	display: table-cell;
+	vertical-align: middle;
+	width: 100%;
+	height: 100%;
+}
+.valign-cell > *{
+  vertical-align: middle;
 }
 .img-polaroid, .img-rounded{
   display: inline-block;
@@ -677,6 +685,16 @@ table[class*='mw-wysiwyg-table'].valign td{
 
 .mw-span-font-size > *{
   font-size: inherit;
+}
+
+
+.pagination-holder > ul{
+  margin:10px 0;
+}
+
+.pagination-holder li{
+  list-style: none;
+  display: inline;
 }
 
 
