@@ -14,10 +14,8 @@ $(document).ready(function(){
       <?php _e("Website Name"); ?>
       <br>
       <small>
-      <?php _e("This is very important for the Search Engines"); ?>
-      .
-      <?php _e("Your website will be categorized by many criterias and the Name is one of it"); ?>
-      . <a href="javascript:;" class="mw-ui-link" onclick="mw.help('website_name');">
+      <?php _e("This is very important for search engines"); ?>.
+      <?php _e("Your website will be categorized by many criteria and its name is one of them"); ?>. <a href="javascript:;" class="mw-ui-link" onclick="mw.help('website_name');">
       <?php _e("See the example"); ?>
       </a> </small> </label>
     <input name="website_title" class="mw_option_field mw-ui-field"   type="text" option-group="website"  value="<?php print get_option('website_title','website'); ?>" />
@@ -27,8 +25,7 @@ $(document).ready(function(){
       <?php _e("Website Description"); ?>
       <br>
       <small>
-      <?php _e("Describe what is your website for in short descriprion"); ?>
-      .</small> </label>
+      <?php _e("Describe what your website is about"); ?>.</small> </label>
     <textarea name="website_description" class="mw_option_field mw-ui-field"   type="text" option-group="website"><?php print get_option('website_description','website'); ?></textarea>
   </div>
   <div class="mw-ui-field-holder">
@@ -36,8 +33,7 @@ $(document).ready(function(){
       <?php _e("Posts per Page"); ?>
       <br>
       <small>
-      <?php _e("Select how many posts or products you want to have per page"); ?>
-      ?</small> </label>
+      <?php _e("Select how many posts or products you want to be shown per page"); ?>?</small> </label>
     <div class="mw-ui-select" style="min-width:85px;">
       <select  name="items_per_page" class="mw_option_field"   type="range" option-group="website" >
         <?php

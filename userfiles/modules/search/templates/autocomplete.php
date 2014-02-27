@@ -11,30 +11,30 @@ description: Autocomplete Search template
 */
 
   ?>
-  <?php $rand = uniqid(); ?>
 
 
+<script>mw.require("<?php print MW_MODULES_URL; ?>search/search.css", true); </script>
+<?php $rand = uniqid(); ?>
+<div class="mw-search mw-search-autocomplete" id="search_box_holder_<?php  print $params['id'] . $rand ?>">
+    <div class="mw-search-autocomplete-field-holder">
+      <input type="text"
+           id="search_field_<?php  print $params['id'] . $rand  ?>"
+           class="input-large mw-search-field"
+           placeholder="<?php _e("Search"); ?>"
+           onkeyup="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php  print $params['id'] . $rand  ?>'), this, event, 'search_results_holder_<?php  print $params['id'] . $rand  ?>');"
+           onpaste="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php  print $params['id'] . $rand  ?>'), this, event, 'search_results_holder_<?php  print $params['id'] . $rand  ?>');"
+       />
+    </div>
 
+        <div class="mw-autocomplete-search-results" style="display: none" id="search_results_holder_<?php  print $params['id'] . $rand  ?>"></div>
 
-<div class="mw-search mw-search-autocomplete " id="search_box_holder_<?php  print $params['id'] . $rand ?>">
-  <div class="input-append">
-    <input type="text"
-         id="search_field_<?php  print $params['id'] . $rand  ?>"
-         class="input-large mw-search-field"
-         placeholder="<?php _e("Search"); ?>"
-         onkeyup="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php  print $params['id'] . $rand  ?>'), this, event, 'search_results_holder_<?php  print $params['id'] . $rand  ?>');"
-         onpaste="mw.autocompleteSearch(mwd.getElementById('search_box_holder_<?php  print $params['id'] . $rand  ?>'), this, event, 'search_results_holder_<?php  print $params['id'] . $rand  ?>');"
-     />
-    <span class="add-on"><i class="icon-search"></i></span> </div>
-  <div class="mw-search-results" id="search_results_holder_<?php  print $params['id'] . $rand  ?>"> </div>
 </div>
-
 
 <script>
 
 
 mw.autocompleteSearch = function(parent, el, e, holder_id){
-    var parent = $(parent);
+      var parent = $(parent);
       if(e.type == 'keyup'){
          if(e.keyCode == 38){
             mw.acnav('up', parent);
@@ -45,14 +45,18 @@ mw.autocompleteSearch = function(parent, el, e, holder_id){
           else if(e.keyCode == 13){
                mw.acnav('enter', parent);
           }
+          else if(e.keyCode == 37){
+
+          }
+          else if(e.keyCode == 39){
+
+          }
           else{
               parent.addClass("loading");
-              parent.find(".add-on i").attr("class", "icon-spinner icon-spin");
               mw.on.stopWriting(el,function(){
                   if(el.value == ''){
                     $(mwd.getElementById(holder_id)).hide();
                     parent.removeClass("loading");
-                    parent.find(".add-on i").attr("class", "icon-search");
                     return false;
                   }
                   $(mwd.getElementById(holder_id)).show();
@@ -60,7 +64,6 @@ mw.autocompleteSearch = function(parent, el, e, holder_id){
                        template:'search',
                        done:function(){
                          parent.removeClass("loading");
-                         parent.find(".add-on i").attr("class", "icon-search");
                        }
                     });
               });
@@ -69,8 +72,10 @@ mw.autocompleteSearch = function(parent, el, e, holder_id){
 }
 
 mw.acnav = function(a, parent){
-   var lis = parent.find(".module-posts-template-search li");
-   var active = parent.find(".module-posts-template-search li.active");
+   var parent = $(parent)[0];
+
+   var lis = mw.$('.module-posts-template-search > ul > li', parent);
+   var active = mw.$('.module-posts-template-search > ul li.active', parent);
    if(a == 'up'){
     if(active.length > 0){
        if(active.prev().length > 0){
@@ -79,7 +84,7 @@ mw.acnav = function(a, parent){
        }
        else{
           active.removeClass("active");
-           lis.eq(lis.length - 1).addClass("active")
+          lis.eq(lis.length - 1).addClass("active")
        }
     }
     else{
@@ -94,7 +99,7 @@ mw.acnav = function(a, parent){
          }
          else{
             active.removeClass("active");
-             lis.eq(0).addClass("active")
+            lis.eq(0).addClass("active")
          }
       }
       else{
@@ -108,7 +113,14 @@ mw.acnav = function(a, parent){
    }
 }
 
-
+if(!mw.autocompleteBinded){
+   mw.autocompleteBinded = true;
+   $(mwd.body).bind('keyup mousedown', function(e){
+      if(!mw.tools.hasParentsWithClass(e.target, 'mw-search-autocomplete')){
+        mw.$('.mw-autocomplete-search-results').hide();
+      }
+   });
+}
 
 
 

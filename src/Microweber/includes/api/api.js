@@ -135,11 +135,11 @@ mw.askusertostay = false;
 
 
 
-  Wait = function(a, b, max) {
-    window[a] === undefined ? setTimeout(function() {
-      Wait(a, b), 52
-    }) : b.call(a);
-  }
+Wait = function(a, b, max) {
+  window[a] === undefined ? setTimeout(function() {
+    Wait(a, b), 52
+  }) : b.call(a);
+}
 
 
 
@@ -176,7 +176,7 @@ mw.askusertostay = false;
 /*
  * Microweber - Javascript Framework
  *
- * Copyright (c) Mass Media Group (www.ooyes.net) Licensed under the Microweber
+ * Copyright (c) Licensed under the Microweber
  * license http://microweber.com/license
  *
  */

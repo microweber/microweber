@@ -11,20 +11,19 @@ description: Default Search template
 */
 
   ?>
-
+  <script>mw.require("<?php print MW_MODULES_URL; ?>search/search.css", true); </script>
 <div class="mw-search mw-search-default" id="search_box_holder_<?php  print $params['id'] ?>">
 
-   <div class="row">
-    <div class="col-xs-10">
+   <div class="mw-ui-row">
+    <div class="mw-ui-col">
         <input type="text"
                id="search_field_<?php  print $params['id'] ?>"
                class="form-control mw-search-field"
                placeholder="<?php _e("Search"); ?>" />
     </div>
-    <div class="col-xs-2">
-      <button class="btn btn-default pull-left"
-        onclick="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', mwd.getElementById('search_field_<?php  print $params['id'] ?>').value);">
-        <i class="icon-search glyphicon glyphicon-search"></i>
+    <div class="mw-ui-col mw-search-default-btn-holder">
+      <button class="mw-search-default-btn" onclick="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', mwd.getElementById('search_field_<?php  print $params['id'] ?>').value);">
+
       </button>
     </div>
    </div>

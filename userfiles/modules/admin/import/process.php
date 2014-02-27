@@ -27,6 +27,6 @@ $remaining_perc = 100-$res;
  ?>
 <?php if($remaining > 0): ?>
 <meter value="<?php print $remaining_perc; ?>" optimum="100" high="90" low="40" max="100" min="0">Import progress</meter>
- 		
+ <?php print $total ?>/<?php print $remaining ?>	
 <?php endif ?>
 <?php endif ?>

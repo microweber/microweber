@@ -514,7 +514,7 @@ class Content
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
-            return $cache_content;
+             return $cache_content;
         }
 
 
@@ -4053,7 +4053,7 @@ class Content
         }
         $url_changed = false;
 
-        if (isset($data['url']) != false) {
+        if (isset($data['url']) != false and is_string($data['url'])) {
 
             $search_weird_chars = array('%E2%80%99',
                 '%E2%80%99',

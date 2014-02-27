@@ -81,4 +81,52 @@
 
 
 
-/* Masonry */
+/* /Masonry */
+
+
+/* search */
+
+
+
+.module-posts-template-search{
+    min-width: 100%;
+    background: white;
+    border-radius: 3px;
+    border: 1px solid #E3E3E3;
+}
+
+.module-posts-template-search li{
+  list-style: none;
+  padding: 12px;
+}
+
+.module-posts-template-search li,
+.module-posts-template-search p{
+  font-size: 12px;
+}
+
+.module-posts-template-search .pagination-holder{
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.module-posts-template-search-image{
+  margin-right: 12px;
+}
+
+.module-posts-template-search-image-holder{
+  width: 82px;
+}
+
+.module-posts-template-search-body > h5{
+  margin-top: 0;
+}
+
+
+
+
+/* /search */
+
+
+
+

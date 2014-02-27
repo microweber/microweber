@@ -17,7 +17,7 @@ mw.files = {
         case 'videos':
           return 'avi,asf,mpg,mpeg,mp4,flv,mkv,webm,ogg,wma,mov,wmv';
           break;
-		case 'file':  
+		case 'file':
         case 'files':
           return 'doc,docx,pdf,html,js,css,htm,rtf,txt,zip,gzip,rar,cad,xml,psd,xlsx,csv';
           break;
@@ -44,7 +44,6 @@ mw.files = {
         }
     },
     normalize_filetypes:function(a){
-
       var str = '';
       var a = a.replace(/\s/g, '');
       var arr = a.split(','), i=0, l=arr.length;
@@ -56,7 +55,6 @@ mw.files = {
     },
     uploader:function(obj){
         var obj = $.extend({}, mw.files.settings, obj);
-
         var frame = mwd.createElement('iframe');
         frame.className = 'mw-uploader mw-uploader-'+obj.type;
         frame.scrolling = 'no';
@@ -66,40 +64,24 @@ mw.files = {
         var params = "?type="+obj.type+"&filters="+mw.files.normalize_filetypes(obj.filetypes)+'&multiple='+obj.multiple +'&autostart='+obj.autostart + '&mwv=' + mw.version;
         frame.src = mw.external_tool('plupload'+params);
         frame.name = obj.name || 'mw-uploader-frame-'+mw.random();
-
-
-
         frame.style.background = "transparent";
         frame.setAttribute('frameborder', 0);
         frame.setAttribute('frameBorder', 0);
         frame.setAttribute('allowtransparency', 'true');
         frame.setAttribute('allowTransparency', 'true');
-
-
         return frame;
-    },
-    unzip:function(url, callback){
-       var loader = new ZipLoader(url);
-       var data = loader.getEntries(url);
-       data.forEach(function(entry){
-          if(!entry.isDirectory()){
-            loader.loadImage(url+'://'+entry.name(), function(){
-
-              var obj = {
-                src:this,
-                name:entry.name()
-              }
-              callback.call(obj);
-            });
-
-          }
-        });
-
     }
 }
 
-
 mw.uploader = function(o){
   return mw.files.uploader(o);
+}
+
+$.fn.uploader = function(o){
+  var uploader = mw.uploader(o);
+  $(this).empty().append(uploader);
+  this.uploader = uploader;
+  this[0].uploader = uploader;
+  return this;
 }
 

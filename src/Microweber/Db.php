@@ -1167,6 +1167,7 @@ class Db
 
         if (isset($criteria['search_by_keyword'])) {
             $to_search = $this->escape_string($criteria['search_by_keyword']);
+            $to_search = str_replace('\\','',$to_search);
         }
 
         $to_search_in_those_fields = array();

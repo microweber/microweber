@@ -212,7 +212,7 @@ class Option
         $data = array();
 
         $data['name'] = 'Website name';
-        $data['help'] = 'This is very important for the search engines. Your website will be categorized by many criterias and the name is one of it.';
+        $data['help'] = 'This is very important for search engines. Your website will be categorized by many criteria and its name is one of them.';
         $data['option_group'] = 'website';
         $data['option_key'] = 'website_title';
         $data['option_value'] = 'Microweber';

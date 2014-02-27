@@ -117,7 +117,7 @@ $(document).ready(function(){
 
      if(e.keyCode == 83 && e.ctrlKey){
         mw.e.cancel(e, true);
-        mw.drag.save(mwd.getElementById('main-save-btn'))
+        mw.drag.save(mwd.getElementById('main-save-btn'));
      }
    })
 
@@ -135,11 +135,11 @@ $(document).ready(function(){
          mw.currentDragMouseOver = this;
          if(off.top+h<e.pageY){
             mw.dropables.set("top", off, h, w);
-            mw.dropable.show()
+            mw.dropable.show();
          }
          else{
            mw.dropables.set("bottom", off, h, w);
-           mw.dropable.show()
+           mw.dropable.show();
          }
        }
        mw.dropable.addClass("mw_dropable_onleaveedit");

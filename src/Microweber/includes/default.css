@@ -234,7 +234,10 @@ img.element{
   min-height: 20px;
 }
 
-.mw-embed-iframe iframe, .mwembed iframe{
+.mw-embed-iframe iframe,
+.mwembed video,
+.mwembed audio,
+.mwembed iframe{
   max-width: 100%;
   max-height: 100%;
 }

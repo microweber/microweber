@@ -29,7 +29,7 @@ $only_tn = false;
  
  
 $search_keys = array('title','created_on','description','read_more');
-		 
+
 if(isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
 	$only_tn = true;
 	foreach($search_keys as $search_key){
@@ -46,7 +46,7 @@ if(isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
 ?>
 
 <script>mw.require("<?php print MW_MODULES_URL; ?>posts/css/style.css", true); </script>
- 
+
 <div class="post-list post-list-template-default">
   <?php if (!empty($data)): ?>
   <?php foreach ($data as $item): ?>

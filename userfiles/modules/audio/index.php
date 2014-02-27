@@ -11,14 +11,12 @@
     }
 ?>
 
-<div class="mw-audio" id="<?php print $id; ?>">
-    <div style="padding: 10px 0">
+<div class="mwembed mw-audio" id="<?php print $id; ?>">
         <?php if( $audio != '' ){ ?>
-            <embed wmode="transparent" autoplay="false" autostart="false" type="audio/mpeg"  width="100%"  data="<?php print $audio; ?>" src="<?php print $audio; ?>"></embed>
+            <audio controls src="<?php print $audio; ?>"></audio>
         <?php } else{ ?>
             <?php print lnotif("Upload Audio File or paste URL.");   ?>
         <?php } ?>
-    </div>
 </div>
 
 

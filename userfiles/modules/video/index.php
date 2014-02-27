@@ -48,11 +48,11 @@ if ($prior != '2') {
 } else if ($prior == '2') {
     if ($upload != '') {
         if ($autoplay == '0') {
-            $autoplay = 'false';
+            $autoplay = '';
         } else {
-            $autoplay = 'true';
+            $autoplay = 'autoplay';
         }
-        print '<div class="mwembed "><embed width="' . $w . '" height="' . $h . '" autoplay="' . $autoplay . '" wmode="transparent" src="' . $upload . '"></embed></div>';
+        print '<div class="mwembed "><video controls width="' . $w . '" height="' . $h . '" ' . $autoplay . ' src="' . $upload . '"></video></div>';
     } else {
      print lnotif("<div class='video-module-default-view mw-open-module-settings'><img src='" . $config['url_to_module'] . "video.png' /></div>", true);
 
