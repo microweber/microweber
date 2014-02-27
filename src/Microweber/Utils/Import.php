@@ -441,6 +441,7 @@ class Import
         $remaining = 0;
         $batch_file = false;
         if (!is_array($content_items) or empty($content_items)) {
+            $content_items = array();
             if (is_file($index_file)) {
                 $total = file_get_contents($index_file);
             }
@@ -459,26 +460,48 @@ class Import
 
             $i = 0;
             $dir = $chunks_folder;
+            $rem_counter = 0;
+            $process_xml_files = array();
+            $chunk_size = $this->batch_size;
+
             if ($handle = opendir($dir)) {
                 while (($file = readdir($handle)) !== false) {
                     if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_')) {
-                        if (!is_array($content_items)) {
+                        //if (!is_array($content_items)) {
+                        if ($i<$chunk_size) {
                             $batch_file = $chunks_folder . $file;
+
                             $batch_file_content = file_get_contents($batch_file);
                             if (strstr($file, 'import_chunk_xml')) {
-                                $content_from_xml = $this->parse_content_from_xml_string($batch_file_content);
-                                if (is_array($content_from_xml)) {
-                                    foreach ($content_from_xml as $content_from_x) {
+
+                               // for ($x=0; $x<=10; $x++){
+                                    $content_from_xml = $this->parse_content_from_xml_string($batch_file_content);
+                                    if (is_array($content_from_xml)) {
+                                        foreach ($content_from_xml as $content_from_x) {
+                                            $content_items[] = $content_from_x;
+                                        }
+                                       // $rem_counter--;
+                                    }
+                                //}
+
+
+
+
+                                //d($content_from_xml);
+                            } else {
+                                $content_items_from_file = @unserialize($batch_file_content);
+                                if(!empty($content_items_from_file)){
+                                    foreach ($content_items_from_file as $content_from_x) {
                                         $content_items[] = $content_from_x;
                                     }
                                 }
 
-                                //d($content_from_xml);
-                            } else {
-                                $content_items = @unserialize($batch_file_content);
-
+                            }
+                            if ($batch_file != false and is_file($batch_file)) {
+                                unlink($batch_file);
                             }
                         }
+                       // $rem_counter++;
                         $i++;
                     }
                 }
@@ -533,9 +556,7 @@ class Import
                 cache_clear('categories');
                 cache_clear('content');
 
-                if ($batch_file != false and is_file($batch_file)) {
-                    unlink($batch_file);
-                }
+
 
                 $remaining = $remaining - 1;
                 if ($remaining <= 0) {
@@ -834,41 +855,11 @@ class Import
                         $content_batch = str_replace('</' . $xml_path, '</item', $content_batch);
 
 
-                        $rss_stub = '<?xml version="1.0"?>
-';
+                        $rss_stub = '<?xml version="1.0"?>'."\n";
                         file_put_contents($file_location, $rss_stub . $content_batch);
                     }
                     $content_batch = "";
                     // }
-
-
-                    //
-//                    libxml_use_internal_errors(true);
-//                    $node = new \SimpleXMLElement($xml_str);
-//                    // *** Do something of interest with $node, this is the item we have been looking for. ***
-//                    // Skip to the next node of interest.
-////d($node->content->__toString());
-//                 //   d($node->description[0]->__toString());
-//
-//                    $encoded = json_encode($node);
-//                    $a = (json_decode($encoded, true));
-//d($a);
-//                    if (is_array($a)) {
-//                        if (isset($a['item']) and is_array($a['item'])) {
-//
-//                            $a_item = $a['item'];
-//                            foreach ($a_item as $a_ite) {
-//                                $content_items[] = $a_ite;
-//                            }
-//                        } else {
-//                            $content_items[] = $a;
-//                        }
-//                    }
-//                    $i++;
-//                    if ($i % $chunk_size == 0) {
-//                        $this->batch_save($content_items);
-//                        $content_items = array();
-//                    }
 
                     $i++;
                     $XMLReader->next($xml_path);
@@ -902,9 +893,6 @@ class Import
         $chunks_folder = $this->get_chunks_location();
 
         $content_items = array();
-
-        //  $content_feed = file_get_contents($filename);
-
         $here = MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR;
         $parser = $here . 'SimplePie.php';
         require_once($parser);
@@ -913,7 +901,6 @@ class Import
         $parser2 = MW_APP_PATH . 'libs/QueryPath/qp.php';
 
         require_once($parser2);
-
 
         require(MW_APP_PATH . 'libs/xmlreader-iterators.php'); // https://gist.github.com/hakre/5147685
 
@@ -1236,11 +1223,6 @@ class Import
     {
         $chunk_size = $this->batch_size;
         $content_items = $this->map_array($content_items);
-
-        if (count($content_items) < $chunk_size) {
-            // return $this->batch_process($content_items);
-        }
-
 
         $chunks_folder = $this->get_chunks_location();
         $index_file = $chunks_folder . 'index.php';
