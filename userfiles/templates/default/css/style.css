@@ -184,10 +184,9 @@ input.large-field, textarea.large-field {
 #header .nav {
 	margin-bottom: 0;
 }
-#header-cart {
+#header .mw-cart-small {
 	float: right;
-	width: auto;
-	display: inline-block;
+    border-radius: 3px;
 }
 .nav {
 	color: #0088CC;

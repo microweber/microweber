@@ -90,11 +90,11 @@ class Category
         asort($params);
         $function_cache_id = false;
         $function_cache_id = __FUNCTION__ . crc32(serialize($params));
-         
+
         $active_cat = false;
         if (defined('CATEGORY_ID')) {
             $function_cache_id .= CATEGORY_ID;
-			$active_cat = CATEGORY_ID;
+            $active_cat = CATEGORY_ID;
         }
 
 
@@ -127,9 +127,7 @@ class Category
 
         }
 
-
         $link = isset($params['link']) ? $params['link'] : false;
-
         if ($link == false) {
             $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level}'  >{title}</a>";
         }
@@ -141,7 +139,6 @@ class Category
         } else {
             $active_code = " active ";
         }
-
 
         if (isset($params['remove_ids'])) {
             $remove_ids = $params['remove_ids'];
@@ -209,6 +206,7 @@ class Category
         if (isset($params['content_id'])) {
             $params['for_page'] = $params['content_id'];
 
+
         }
 
         if (isset($params['for_page']) and $params['for_page'] != false) {
@@ -224,6 +222,8 @@ class Category
         if (isset($params['subtype_value']) and $params['subtype_value'] != false) {
             $parent = $params['subtype_value'];
         }
+
+
         $skip123 = false;
         $fors = array();
         if (isset($params['parent']) and $params['parent'] != false) {
@@ -255,7 +255,6 @@ class Category
             $remove_ids = array($page['subtype_value']);
         }
 
-
         $max_level = false;
         if (isset($params['max_level'])) {
             $max_level = $params['max_level'];
@@ -273,14 +272,16 @@ class Category
         if (is_string($add_ids)) {
             $add_ids = explode(',', $add_ids);
         }
+
         if (isset($params['rel']) and $params['rel'] != false and isset($params['rel_id'])) {
             $table_assoc_name = $this->app->db->assoc_table_name($params['rel']);
             $skip123 = true;
             $str0 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
             $fors = $this->app->db->get($str0);
 
-
         }
+
+
         ob_start();
         if ($skip123 == false) {
             $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
@@ -852,65 +853,6 @@ class Category
         //var_dump ( $parent_ids );
     }
 
-    /**
-     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
-     * @param int
-     * @return array
-     * @author      Peter Ivanov
-     * @version 1.0
-     * @since Version 1.0
-     */
-    public function get_by_id($id = 0)
-    {
-
-        if ($id == 0) {
-            return false;
-        }
-
-        $id = intval($id);
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-        $cache_content = false;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table = $this->tables['categories'];
-
-        $id = intval($id);
-
-        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
-
-        $q = $this->app->db->query($q);
-
-        $q = $q[0];
-
-        if (!empty($q)) {
-
-            $this->app->cache->save($q, $function_cache_id, $cache_group);
-
-            return $q;
-        } else {
-
-            return false;
-        }
-    }
-
     public function get_page($category_id)
     {
         $category_id = intval($category_id);
@@ -1401,6 +1343,65 @@ class Category
         }
 
         return $save;
+    }
+
+    /**
+     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
+     * @param int
+     * @return array
+     * @author      Peter Ivanov
+     * @version 1.0
+     * @since Version 1.0
+     */
+    public function get_by_id($id = 0)
+    {
+
+        if ($id == 0) {
+            return false;
+        }
+
+        $id = intval($id);
+
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+        $categories_id = intval($id);
+        $cache_group = 'categories/' . $categories_id;
+        $cache_content = false;
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table = $this->tables['categories'];
+
+        $id = intval($id);
+
+        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
+
+        $q = $this->app->db->query($q);
+
+        $q = $q[0];
+
+        if (!empty($q)) {
+
+            $this->app->cache->save($q, $function_cache_id, $cache_group);
+
+            return $q;
+        } else {
+
+            return false;
+        }
     }
 
     public function delete($data)

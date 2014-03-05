@@ -35,21 +35,21 @@ class Parser
 
         $layout = str_replace('<?', '&lt;?', $layout);
 
-        $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
-        preg_match_all($script_pattern, $layout, $mw_script_matches);
-
-        if (!empty($mw_script_matches)) {
-            foreach ($mw_script_matches [0] as $key => $value) {
-                if ($value != '') {
-                    $v1 = crc32($value);
-                    $v1 = '<!-- mw_replace_back_this_process_pre_' . $v1 . ' -->';
-                    $layout = str_replace($value, $v1, $layout);
-                    if (!isset($this->_replaced_codes[$v1])) {
-                        $this->_replaced_codes[$v1] = $value;
-                    }
-                }
-            }
-        }
+//        $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
+//        preg_match_all($script_pattern, $layout, $mw_script_matches);
+//
+//        if (!empty($mw_script_matches)) {
+//            foreach ($mw_script_matches [0] as $key => $value) {
+//                if ($value != '') {
+//                    $v1 = crc32($value);
+//                    $v1 = '<!-- mw_replace_back_this_process_pre_' . $v1 . ' -->';
+//                    $layout = str_replace($value, $v1, $layout);
+//                    if (!isset($this->_replaced_codes[$v1])) {
+//                        $this->_replaced_codes[$v1] = $value;
+//                    }
+//                }
+//            }
+//        }
 
 
         $layout = str_replace('<microweber module=', '<module data-type=', $layout);

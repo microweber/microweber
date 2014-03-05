@@ -10,12 +10,7 @@
 * {
    margin: 0;
    padding: 0;
-
 }
-
-article, aside, figure, footer, header, hgroup, menu, nav, section { display:block; }
-
-
 
 .mw-defaults{
   line-height: 1.5;
@@ -35,7 +30,7 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
   line-height: 22px;
 }
 
-.mw-defaults, .mw-defaults textarea, .mw-defaults input, .mw-defaults select{
+.mw-defaults, .mw-defaults *{
   font: 12px Verdana,Arial,Helvetica,sans-serif;
   color: #212121;
 }
@@ -43,7 +38,6 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
   color: #212121;
   text-decoration: none;
   outline: none;
-  font-family: Verdana, sans-serif;
 }
 
 .mw-defaults li, .mw-defaults ol, .mw-defaults ul{
@@ -52,7 +46,7 @@ article, aside, figure, footer, header, hgroup, menu, nav, section { display:blo
 }
 
 
-img{
+.mw-defaults img{
   border: none;
   max-width: 100%;
 }
@@ -106,6 +100,8 @@ body.mw-preview{
 }
 
 .mw-row{
+  margin-top: 10px;
+  margin-bottom: 10px;
   zoom:1;
 }
 
@@ -127,30 +123,26 @@ body.state-element .mw-row .element{
 }
 
 .mw-col-container{
-  padding: 0px;
-  margin: 6px 0;
+  padding-left: 10px;
+  padding-right: 10px;
   max-width: 100%;
 }
 
-.mw-row > .mw-col + .mw-col > .mw-col-container{ padding: 10px; }
-
-.mw-row > .mw-col:first-child > .mw-col-container{ padding: 10px 10px 10px 0; }
-.mw-row > .mw-col:last-child > .mw-col-container{ padding: 10px 0 10px 10px; }
-.mw-row > .mw-col:only-child > .mw-col-container{ padding: 0px; }
-
-
-
-.element, .edit .module {
-    display: block;
-    clear: both;
-    -moz-transition: none !important;
-    -webkit-transition: none !important;
-    -o-transition: color 0 ease-in !important;
-    transition: none !important;
+.mw-row > .mw-col:first-child > .mw-col-container{
+  padding-left: 0;
+}
+.mw-row > .mw-col:last-child > .mw-col-container{
+  padding-right: 0;
 }
 
-
-
+.element, .edit .module {
+  display: block;
+  clear: both;
+  -moz-transition: none !important;
+  -webkit-transition: none !important;
+  -o-transition: color 0 ease-in !important;
+  transition: none !important;
+}
 
 img[align='center'],
 img[align='middle']{
@@ -158,7 +150,6 @@ img[align='middle']{
   margin-right: auto;
   display: block;
 }
-
 
 .element, .mw-col, .mw_item{
  -ms-transform-origin:50% 50%;
@@ -182,6 +173,9 @@ img.element{
     line-height: 0;
     visibility: hidden;
 }
+
+/*****************  Grids  *******************/
+
 .mw-col {
     float: left;
     margin: 0;
@@ -205,20 +199,77 @@ img.element{
   .mw-col{
     width: auto !important;
     float: none;
-    margin: 6px;
   }
-
   .mw-col > .ui-resizable-e{
     display: none;
   }
+  .mw-row .mw-col .mw-col-container{ padding-left: 0px;padding-right: 0px; }
+}
 
-.mw-col-container{ padding: 10px; }
 
-.mw-row > .mw-col:first-child > .mw-col-container{ padding: 10px; }
-.mw-row > .mw-col:last-child > .mw-col-container{ padding: 10px; }
+/* Static Grid */
+.mw-ui-row, .mw-ui-row-nodrop{
+  display: table !important;
+  width: 100%;
+}
+.mw-ui-row-fixed{
+  table-layout: fixed;
+}
 
+.mw-ui-col, .mw-ui-row-nodrop .mw-ui-col{
+  display: table-cell;
+  vertical-align: top;
+}
+.mw-ui-col-container{
+  position: relative;
+  clear: both;
+  padding-left:10px;
+  padding-right:10px;
+}
+
+.mw-ui-row > .mw-ui-col:only-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:only-child > .mw-ui-col-container{ padding: 0px; }
+.mw-ui-row > .mw-ui-col:first-child > .mw-ui-col-container, .mw-ui-row-drop > .mw-ui-col:first-child > .mw-ui-col-container{
+  padding-left: 0
+}
+.mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:last-child > .mw-ui-col-container{
+  padding-right: 0
+}
+
+.mw-ui-col-container:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+@media (max-width: 1024px) {
+   .mw-ui-row-drop-on-1024 > .mw-ui-col{
+      display: block !important;
+      clear: both;
+      width: auto !important;
+   }
+   .mw-ui-row-drop-on-1024 > .mw-ui-col > .mw-ui-col-container{
+     padding-left: 0;
+     padding-right: 0;
+   }
 
 }
+@media (max-width: 768px) {
+  .mw-ui-row, .mw-ui-row > .mw-ui-col{
+    display: block !important;
+    clear: both;
+    width: auto !important;
+  }
+  .mw-ui-row > .mw-ui-col > .mw-ui-col-container{
+     padding-left: 0;
+     padding-right: 0;
+   }
+}
+
+
+/***************** /Grids  *******************/
+
 
 .layout-element{
   clear: both;
@@ -299,7 +350,6 @@ body.Resizing .mwembed:after{
   transition: none !important;
 }
 
-
 .relative{
   position: relative;
 }
@@ -316,211 +366,6 @@ body.Resizing .mwembed:after{
     padding-top: 6px;
 }
 
-
-/**/
-.mw-textfx-3d{
-  font-size: 20px;
-  text-shadow: 0 1px 0 #ccc,
-               0 2px 0 #c9c9c9,
-               0 3px 0 #bbb,
-               0 4px 0 #b9b9b9,
-               0 5px 0 #aaa,
-               0 6px 1px rgba(0,0,0,.1),
-               0 0 5px rgba(0,0,0,.1),
-               0 1px 3px rgba(0,0,0,.3),
-               0 3px 5px rgba(0,0,0,.2),
-               0 5px 10px rgba(0,0,0,.25),
-               0 10px 10px rgba(0,0,0,.2),
-               0 20px 20px rgba(0,0,0,.15);
-
-}
-
-.mw-textfx-neon{
-  font-size: 20px;
-  text-shadow: 0 0 10px #fff,
-                   0 0 20px #fff,
-                   0 0 30px #fff,
-                   0 0 40px #ff00de,
-                   0 0 70px #ff00de,
-                   0 0 80px #ff00de,
-                   0 0 100px #ff00de,
-                   0 0 150px #ff00de;
-}
-
-
-
-/* FILETYPES  */
-
-
-/* Adding icons to pdf span, doc span, etc.mw-filetype- */
-/* MICROSOFT */
-/* MS Access */
-.mw-filetype-ade span, .mw-filetype-adp span, .mw-filetype-adn span, .mw-filetype-accdb span, .mw-filetype-accdr span, .mw-filetype-accdt span, .mw-filetype-mdb span, .mw-filetype-mda span, .mw-filetype-mdn span, .mw-filetype-mdt span, .mw-filetype-mdw span, .mw-filetype-mdf span, .mw-filetype-mde span, .mw-filetype-accde span, .mw-filetype-mam span, .mw-filetype-maq span, .mw-filetype-mar span, .mw-filetype-mat span, .mw-filetype-maf span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/access.png') no-repeat center left;
-}
-/*MS Excel*/
-.mw-filetype-xls span, .mw-filetype-xlb span, .mw-filetype-xlc span, .mw-filetype-xld span, .mw-filetype-xlk span, .mw-filetype-xlt span, .mw-filetype-xlw span, .mw-filetype-xlsx span, .mw-filetype-xlsm span, .mw-filetype-xlsb span, .mw-filetype-xltm span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/excel.png') no-repeat center left;
-}
-/*MS Excel Scripts*/
-.mw-filetype-xla span, .mw-filetype-xll span, .mw-filetype-xlm span, .mw-filetype-xlv span, .mw-filetype-xlam span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/script-excel.png') no-repeat center left;
-}
-/*MS Excel CSV*/
-.mw-filetype-csv span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/excel-csv.png') no-repeat center left;
-}
-/*MS Outlook*/
-.mw-filetype-eml span, .mw-filetype-msg span, .mw-filetype-ost span, .mw-filetype-pst span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/outlook.png') no-repeat center left;
-}
-/*MS Powerpoint*/
-.mw-filetype-ppt span, .mw-filetype-pptx span, .mw-filetype-pps span, .mw-filetype-ppsx span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/powerpoint.png') no-repeat center left;
-}
-/*MS Word*/
-.mw-filetype-doc span, .mw-filetype-docx span, .mw-filetype-docm span, .mw-filetype-dotx span, .mw-filetype-dotm span, .mw-filetype-dot span, .mw-filetype-rtf span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/word.png') no-repeat center left;
-}
-/*MS Visual Studio ('Common Programming Languages')*/
-.mw-filetype-h span, .mw-filetype-hh span, .mw-filetype-hpp span, .mw-filetype-h++ span, .mw-filetype-cc span, .mw-filetype-cpp span, .mw-filetype-cxx span, .mw-filetype-c++ span, .mw-filetype-vb span, .mw-filetype-vbs span, .mw-filetype-cs span, .mw-filetype-h span, .mw-filetype-c span, .mw-filetype-f# span, .mw-filetype-fs span, .mw-filetype-fsi span, .mw-filetype-ml span, .mw-filetype-mli span, .mw-filetype-fsx span, .mw-filetype-fsscript span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/visual-studio.png') no-repeat center left;
-}
-/*ADOBE*/
-/*Public Data File (PDF)*/
-.mw-filetype-pdf span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/pdf.png') no-repeat center left;
-}
-/*Flash*/
-.mw-filetype-fla span, .mw-filetype-swf span, .mw-filetype-flv span, .mw-filetype-f4v span, .mw-filetype-f4p span, .mw-filetype-f4a span, .mw-filetype-f4b span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/flash.png') no-repeat center left;
-}
-/*Photoshop*/
-.mw-filetype-psd span, .mw-filetype-psb span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/photoshop.png') no-repeat center left;
-}
-/*Illustrator*/
-.mw-filetype-ai  span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/illustrator.png') no-repeat center left;
-}
-/*COREL*/
-/*WordPerfect*/
-.mw-filetype-wp span, .mw-filetype-wp7 span, .mw-filetype-wp6 span, .mw-filetype-wp5 span, .mw-filetype-wp4 span, .mw-filetype-wpd span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/wordperfect.png') no-repeat center left;
-}
-/*Presentations*/
-.mw-filetype-chs span, .mw-filetype-cmx span, .mw-filetype-mst span, .mw-filetype-pqf span, .mw-filetype-pqw span, .mw-filetype-prc span, .mw-filetype-shb span, .mw-filetype-shw span, .mw-filetype-wpg span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/presentations.png') no-repeat center left;
-}
-/*Quattro Pro*/
-.mw-filetype-clp span, .mw-filetype-mu span, .mw-filetype-mxe span, .mw-filetype-gbe span, .mw-filetype-gpw span, .mw-filetype-som span, .mw-filetype-trn span, .mw-filetype-vrm span, .mw-filetype-wb0 span, .mw-filetype-wb1 span, .mw-filetype-wb2 span, .mw-filetype-wb3 span, .mw-filetype-wb? span, .mw-filetype-wkg span, .mw-filetype-wg! span, .mw-filetype-wq1 span, .mw-filetype-wq2 span, .mw-filetype-wq? span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/quattropro.png') no-repeat center left;
-}
-/*OPEN OFFICE*/
-/*odf*/
-.mw-filetype-odf span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/opendocument.png') no-repeat center left;
-}
-/*Writer*/
-.mw-filetype-odt span, .mw-filetype-sxw span, .mw-filetype-ott span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/writer.png') no-repeat center left;
-}
-/*Draw*/
-.mw-filetype-odg span, .mw-filetype-otg span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/draw.png') no-repeat center left;
-}
-/*Math*/
-.mw-filetype-sms span, .mw-filetype-sxm span, .mw-filetype-mml span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/math.png') no-repeat center left;
-}
-/*Impress*/
-.mw-filetype-odp span, .mw-filetype-otp span, .mw-filetype-sdp span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/impress.png') no-repeat center left;
-}
-/*Base*/
-.mw-filetype-odb span {
-   padding-left: 18px;
-   background: transparent url('img/base.mw-filetype-png') no-repeat center left;
-}
-/*Calc*/
-.mw-filetype-ods span, .mw-filetype-sxc span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/calc.png') no-repeat center left;
-}
-/*BASIC FILE FORMATS*/
-/*Images (not even close to ALL image file formats span, just common ones)*/
-.mw-filetype-jpg span, .mw-filetype-jpeg span, .mw-filetype-png span, .mw-filetype-gif span, .mw-filetype-bmp span, .mw-filetype-tif span, .mw-filetype-tiff span, .mw-filetype-ink span, .mw-filetype-jpeg span, .mw-filetype-giff span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/image.png') no-repeat center left;
-}
-/*Icon*/
-.mw-filetype-ico span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/icon.png') no-repeat center left;
-}
-/*svg (Scalable Vector Graphics)*/
-.mw-filetype-svg span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/svg.png') no-repeat center left;
-}
-/*Video*/
-.mw-filetype-amv span, .mw-filetype-avi span, .mw-filetype-dv-avi span, .mw-filetype-m4v span, .mw-filetype-mpeg span, .mw-filetype-mpg span, .mw-filetype-mov span, .mw-filetype-qt span, .mw-filetype-mp4 span, .mw-filetype-wmv span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/video.png') no-repeat center left;
-}
-/*Music*/
-.mw-filetype-wav span, .mw-filetype-aiff span, .mw-filetype-flac span, .mw-filetype-mp3 span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/music.png') no-repeat center left;
-}
-/*Text*/
-.mw-filetype-txt span, .mw-filetype-text span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/text.png') no-repeat center left;
-}
-/*Executable/Binary*/
-.mw-filetype-bin span, .mw-filetype-exe span, .mw-filetype-bat span, .mw-filetype-msi span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/binary.png') no-repeat center left;
-}
-/*Zipped Folder*/
-.mw-filetype-tar span, .mw-filetype-gz span, .mw-filetype-zip span, .mw-filetype-7z span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/binary.png') no-repeat center left;
-}
-/*non-html web documents*/
-.mw-filetype-css span, .mw-filetype-js span, .mw-filetype-xml span, .mw-filetype-htm span, .mw-filetype-html span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/webdoc.png') no-repeat center left;
-}
-/*RSS Feeds*/
-.mw-filetype-rss span {
-   padding-left: 18px;
-   background: transparent url('img/filetypes/rss.png') no-repeat center left;
-}
-
-
-
 #mw-html-info{
   position: absolute;
   left: -9999px;
@@ -530,7 +375,6 @@ body.Resizing .mwembed:after{
 .free-item{
   position: absolute;
 }
-
 
 .edit .module-video, .edit .module-pictures {
   padding: 10px 0;
@@ -546,8 +390,6 @@ table[class*='mw-wysiwyg-table']{
     border-spacing: 0;
     max-width: 100%;
     table-layout: fixed;
-
-
 }
 
 table[class*='mw-wysiwyg-table'] td{
@@ -640,56 +482,15 @@ table[class*='mw-wysiwyg-table'].valign td{
   border-color:#D7D7D7;
 }
 
-.mw-ui-row{
-  display: table !important;
-  width: 100%;
-}
-.mw-ui-row-fixed{
-  table-layout: fixed;
-}
-
-.mw-ui-col{
-  display: table-cell;
-  vertical-align: top;
-}
-.mw-ui-col-container{
-  position: relative;
-  clear: both;
-}
-.mw-ui-col-container:after{
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
-}
-@media (max-width: 1024px) {
-   .mw-ui-row-drop-on-1024 > .mw-ui-col{
-      display: block !important;
-      clear: both;
-      width: auto !important;
-   }
-}
-@media (max-width: 768px) {
-  .mw-ui-row, .mw-ui-col{
-    display: block !important;
-    clear: both;
-    width: auto !important;
-  }
-}
-
 .semi_hidden{
   position: absolute !important;
   left: -9999px !important;
   top: -9999px !important;
 }
 
-
 .mw-span-font-size > *{
   font-size: inherit;
 }
-
 
 .pagination-holder > ul{
   margin:10px 0;
@@ -699,24 +500,3 @@ table[class*='mw-wysiwyg-table'].valign td{
   list-style: none;
   display: inline;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

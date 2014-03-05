@@ -2065,7 +2065,7 @@ class Content
         }
 
 
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id.site_url());
         if (defined('PAGE_ID')) {
             $function_cache_id = $function_cache_id . PAGE_ID;
         }

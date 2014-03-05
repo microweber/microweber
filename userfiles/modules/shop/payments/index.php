@@ -24,7 +24,7 @@ $(document).ready(function(){
 		  
 		<li>
 			<label title="<?php print  $payment_option['name']; ?>">
-				<input type="radio" <?php if($count == 1){  ?> checked="checked" <?php } ?> value="<?php print  $payment_option['gw_file']; ?>" name="payment_gw" />
+				<input type="radio" <?php if($count == 1):  ?> checked="checked" <?php endif;?> value="<?php print  $payment_option['gw_file']; ?>" name="payment_gw" />
 				<?php if(isset($payment_option['icon'])) :?>
 				<img src="<?php print  $payment_option['icon']; ?>" alt="" />
 				<?php else : ?>
@@ -37,7 +37,10 @@ $(document).ready(function(){
 	</ul>
 	<?php endif;?>
 	<div id="mw-payment-gateway-selected-<?php print $params['id']; ?>">
+        <?php //var_dump($payment_options); ?>
+        <?php if(isset( $payment_options[0])): ?>
 		<module type="<?php print $payment_options[0]['gw_file'] ?>"  />
+        <?php endif;?>
 	</div>
 </div>
 <?php else : ?>

@@ -12,10 +12,14 @@ description: Small cart template
   ?>
 
 
-<script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
+<script>
+    //mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);
+    mw.moduleCSS("<?php print $config['url_to_module'] ?>templates/templates.css");
+</script>
 
-<div class="mw-cart-small  mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>"> <span class="cart-icon"><span class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></span></span>
-  <div class="mw-cart-small-content">
+<div class="mw-cart-small <?php if(is_array($data)==false){print "mw-cart-small-no-items";} ?>  mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>">
+  <div class="mw-ui-row-nodrop">
+    <div class="mw-ui-col icon-shopping-cart-holder"><span class="mw-cart-small-icon-shopping-cart"></span></div>
     <?php if(is_array($data)) :?>
     <?php
         $total_qty = 0;
@@ -25,7 +29,7 @@ description: Small cart template
             $total_price +=  $item['price']* $item['qty'];
         }
       ?>
-    <span class="mw-cart-small-order-info">Cart (<strong><?php print $total_qty; ?></strong>) <?php print currency_format($total_price); ?></span> |
+    <div class="mw-ui-col"><span class="mw-cart-small-order-info">Cart (<strong><?php print $total_qty; ?></strong>) <?php print currency_format($total_price); ?></span></div>
     <?php
   if(!isset($params['checkout-link-enabled'])){
 	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);
@@ -44,12 +48,12 @@ description: Small cart template
    }
 
    ?>
-    <a class="btn btn-default btn-mini right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
+    <div class="mw-ui-col"><a href="<?php print $checkout_page_link; ?>" class="mw-cart-small-checkout"><?php _e("Checkout"); ?></a>  </div>
     <?php endif ; ?>
     <?php else : ?>
-    <span class="no-items">
+    <div class="mw-ui-col"><h5 class="no-items">
     <?php   _e('Your cart is empty') ?>
-    </span>
+    </h5></div>
     <?php endif ; ?>
   </div>
 </div>

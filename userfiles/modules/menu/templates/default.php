@@ -12,7 +12,7 @@ description: Default Menu skin
 
   //$template_file = false; ?>
 
-<script>mw.require("<?php print $config['url_to_module']; ?>style.css", true);</script>
+<script>mw.moduleCSS("<?php print $config['url_to_module']; ?>style.css", true);</script>
 
 
 

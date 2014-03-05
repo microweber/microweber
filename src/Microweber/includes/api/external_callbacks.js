@@ -52,16 +52,11 @@ mw.iframecallbacks = {
                mw.wysiwyg.execCommand("CreateLink", false, url);
              }
            }
-         else{
-             var name =  mw.tools.get_filename(url);
-             var extension = url.split('.').pop();
-             if(typeof extension != 'undefined'){
-               var html = "<a href='" + url + "' target='"+target+"'>" + name + "." + extension + "</a>";
-             }
-             else{
-               var html = "<a href='" + url + "' target='"+target+"'>" + url + "</a>";
-             }
-             mw.wysiwyg.insert_html(html);
+           else{
+
+               var html = " <a href='" + url + "' target='"+target+"'>" + url + "</a> ";
+
+               mw.wysiwyg.insert_html(html);
           }
       }
 

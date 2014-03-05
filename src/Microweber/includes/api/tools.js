@@ -1032,6 +1032,15 @@ mw.tools = {
       return false;
     }
   },
+  hasAnyOfClasses:function(node, arr){
+    var final = false, i = 0, l = arr.length, cls = node.className;
+    for( ; i<l; i++){
+        if(mw.tools.hasClass(cls, arr[i])){
+          var final = true;
+        }
+    }
+    return final;
+  },
   addClass: function(el, cls){
     if(el === null){return false;}
     if(cls == ' ') { return false; }

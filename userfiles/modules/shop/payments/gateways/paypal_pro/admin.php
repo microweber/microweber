@@ -19,9 +19,22 @@
 </ul>
 <!--<label class="mw-ui-label">API Username:</label>
 <input type="text" class="mw-ui-field mw_option_field" name="paypalpro_username"    data-option-group="payments"  value="<?php print get_option('paypalpro_username', 'payments'); ?>" >-->
-<label class="mw-ui-label"><?php _e("API Username"); ?>:</label>
-<input type="text" class="mw-ui-field mw_option_field" name="paypalpro_apikey"    data-option-group="payments"  value="<?php print get_option('paypalpro_apikey', 'payments'); ?>" >
-<label class="mw-ui-label"><?php _e("API Password"); ?>:</label>
-<input type="text" class="mw-ui-field mw_option_field" name="paypalpro_apipassword"    data-option-group="payments"  value="<?php print get_option('paypalpro_apipassword', 'payments'); ?>" >
-<label class="mw-ui-label"><?php _e("Signature"); ?>:</label>
-<input type="text" class="mw-ui-field mw_option_field" name="paypalpro_apisignature"    data-option-group="payments"  value="<?php print get_option('paypalpro_apisignature', 'payments'); ?>" >
+
+<div class="mw-ui-row">
+
+    <div class="mw-ui-col">
+        <label class="mw-ui-label"><?php _e("API Username"); ?>:</label>
+        <input type="text" class="mw-ui-field mw_option_field" name="paypalpro_apikey"    data-option-group="payments"  value="<?php print get_option('paypalpro_apikey', 'payments'); ?>" >
+        <label class="mw-ui-label"><?php _e("API Password"); ?>:</label>
+        <input type="text" class="mw-ui-field mw_option_field" name="paypalpro_apipassword"    data-option-group="payments"  value="<?php print get_option('paypalpro_apipassword', 'payments'); ?>" >
+        <label class="mw-ui-label"><?php _e("Signature"); ?>:</label>
+        <input type="text" class="mw-ui-field mw_option_field" name="paypalpro_apisignature"    data-option-group="payments"  value="<?php print get_option('paypalpro_apisignature', 'payments'); ?>" >
+    </div>
+    <div class="mw-ui-col">
+
+        <a class="mw-ui-btn" href="http://www.youtube.com/watch?v=oCivDxMpUcs" target="_blank">Learn more about setting up <br>you <strong>PayPal Pro</strong> Account</a>
+
+    </div>
+
+</div>
+

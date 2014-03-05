@@ -228,9 +228,14 @@ mw.drag = {
          mw.top_half = false;
          var edits = mwd.body.querySelectorAll(".edit"), elen = edits.length, ei = 0;
          for(;ei < elen;ei++){
+
            var els = edits[ei].querySelectorAll('p,div,h1,h2,h3,h4,h5,h6'), i = 0, l = els.length;
             for( ; i<l; i++){
                var el = els[i];
+               var noelements = ['mw-ui-col', 'mw-col-container','mw-ui-col-container'];
+               if(mw.tools.hasAnyOfClasses(el, noelements) ){
+                    continue;
+               }
                var cls = el.className;
                if(!mw.tools.hasParentsWithClass(el, 'module') && !mw.tools.hasClass(cls, 'module') && !mw.tools.hasClass(cls, 'mw-col') && !mw.tools.hasClass(cls, 'mw-row')){
                   mw.tools.addClass(el, 'element');
@@ -295,7 +300,6 @@ mw.drag = {
                      $(window).trigger("onElementLeave", mw.mm_target);
                    }
 
-                   //trigger on module
                    if(mw.$mm_target.hasClass("module")){
                      $(window).trigger("onModuleOver", mw.mm_target);
                    }
@@ -1106,6 +1110,7 @@ mw.drag = {
 
 			if (mw.isDrag) {
 
+
 			  mw.isDrag = false;
               if(!mw.tools.hasClass(mw.currentDragMouseOver, 'edit')){
                 mw.tools.addClass(mw.tools.firstParentWithClass(mw.currentDragMouseOver, 'edit'), 'changed orig_changed');
@@ -1132,7 +1137,6 @@ mw.drag = {
                 mw.$(".mw_dropable").hide();
 
 				setTimeout(function () {
-
 
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
 

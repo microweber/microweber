@@ -30,7 +30,7 @@ mw.askusertostay = false;
      mw.tools.confirm("<?php _e("You have unsaved changes! Are you sure"); ?>?");
   }
 
-  mw.module = {} //Global Variable for modules scripts
+  mw.module = {}
 
   mwd = document;
   mww = window;
@@ -124,13 +124,16 @@ mw.askusertostay = false;
       }
     }
 
-
-
-
-
-
-   /**/
-
+    mw.moduleCSS = function(url){
+      if (!~mw.required.indexOf(url)) {
+        mw.required.push(url);
+        var el = mwd.createElement('link');
+        el.rel='stylesheet';
+        el.type='text/css';
+        el.href = url;
+        mwhead.insertBefore(el, mwhead.firstChild);
+      }
+    }
 
 
 
@@ -268,9 +271,10 @@ Wait = function(a, b, max) {
     liveEdit:false,
     debug: true,
 	basic_mode:false,
- 
+
     site_url: '<?php print site_url(); ?>',
     template_url: '<?php print TEMPLATE_URL; ?>',
+    modules_url:'<?php print MW_MODULES_URL; ?>',
     includes_url: '<?php   print( INCLUDES_URL);  ?>',
     upload_url: '<?php print site_url(); ?>api/upload/',
     api_url: '<?php print site_url(); ?>api/',

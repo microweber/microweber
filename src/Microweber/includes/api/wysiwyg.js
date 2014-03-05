@@ -319,28 +319,6 @@ mw.wysiwyg = {
       mw.$("#liveedit_wysiwyg").bind("mousedown mouseup click", function(event){event.preventDefault()});
 
       var items = mw.$(".element").not(".module");
-      $(mwd.body).bind("paste", function(event){
-        if(mw.is.firefox){
-            if(event.target.isContentEditable && mw.tools.hasClass(event.target, 'edit')){
-                var data = event.originalEvent.clipboardData.getData('text/html');
-                var htmlData = mw.tools.parseHtml(data).body;
-                if(htmlData.querySelector('.edit') !== null){
-                    mw.wysiwyg.insert_html(htmlData.textContent);
-                    return false;
-                }
-            }
-            if(/^(h[1-6])$/i.test(event.target.nodeName.toLowerCase())){
-               var data = event.originalEvent.clipboardData.getData('text/html');
-               var htmlData = mw.tools.parseHtml(data).body;
-               mw.wysiwyg.insert_html(htmlData.textContent);
-               return false;
-            }
-        }
-        if(event.target.isContentEditable){
-            //mw.wysiwyg.paste(event);
-        }
-      });
-
       mw.$(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
     },
     deselect:function(s){
@@ -1190,7 +1168,7 @@ mw.wysiwyg = {
         var tables = root.querySelectorAll('table'),
             l = tables.length,
             i = 0;
-        for( ; i<l; i++){
+        for( ; i<l; i++ ){
             var item = tables[i],
                 l = item.children.length,
                 i = 0;
@@ -1310,8 +1288,12 @@ $(mwd).ready(function(){
   });
 
 
+
+
+
 if(!window['mwAdmin']){
    mw.wysiwyg.prepareContentEditable();
+   
 }
 
 
@@ -1324,6 +1306,7 @@ mw.wysiwyg.editorFonts = [];
 
 
 $(window).load(function(){
+
   mw.wysiwyg.init_editables();
 
   mw.$("#wysiwyg_insert").bind("change", function(){
@@ -1566,7 +1549,6 @@ $(window).load(function(){
         if(e.target.nodeName != 'INPUT'){
           e.preventDefault();
         }
-
         if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
             mw.smallEditor.css("visibility", "hidden");
             mw.smallEditorCanceled = true;
