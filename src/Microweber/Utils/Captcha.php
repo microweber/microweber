@@ -35,11 +35,13 @@ class Captcha
         $tcol1z11 = rand(0, 150);
 
         $bgcolor = imagecolorallocate($image, 255, 255, 255);
+        $gray = imagecolorallocate($image, 240, 240, 240);
+
         // $black = imagecolorallocate($image, $tcol1z, $ttcol1z1, $tcol1z11);
         $black = imagecolorallocate($image, 0, 0, 0);
         $captcha_sid = 'captcha';
         if (isset($_GET['id'])) {
-            $captcha_sid = 'captcha_'.$_GET['id'];
+            $captcha_sid = 'captcha_' . $_GET['id'];
         }
 
         $sess = mw()->user->session_set($captcha_sid, $answ);
@@ -56,19 +58,30 @@ class Captcha
             for ($j = 0; $j < $y; $j++) {
                 if (mt_rand(0, 20) < 10) {
 
-                    //  $coords = array(mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), 5, 6);
+                    //$coords = array(mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 10), 5, 6);
 
                     $y21 = mt_rand(5, 20);
                     self::captcha_vector($image, $x - mt_rand(0, 10), mt_rand(0, 10), mt_rand(0, 180), 200, $bgcolor);
-                    //   imagesetpixel($image, $i, $j, $color2);
+                    //  imagesetpixel($image, $i, $j, $color2);
                 }
             }
         }
+
+
+
+
+
         $x1 = mt_rand(0, 5);
         $y1 = mt_rand(20, 22);
 
 
-        $tsize = rand(12, 15);
+        $tsize = rand(13, 15);
+
+        $pad = 2;                      // extra char spacing for text
+
+
+
+
 
 
         if (function_exists('imagettftext')) {
@@ -83,6 +96,9 @@ class Captcha
         } else {
 
         }
+        $s = 180;
+        $e = 360;
+
 
         if (function_exists('imagefilter')) {
             $filter_img = rand(1, 6);
@@ -109,6 +125,8 @@ class Captcha
         }
 
 
+
+
         $y21 = mt_rand(5, 20);
         self::captcha_vector($image, $x, $y21 / 2, 180, 200, $bgcolor);
 
@@ -118,8 +136,13 @@ class Captcha
         $y21 = mt_rand(5, 20);
         self::captcha_vector($image, $x / 3, $y21 / 3, $col1z11, 200, $bgcolor);
 
+        if (function_exists('imagestring')) {
+        imagestring($image, 5, $y21, 2, $text, $bgcolor);
+            self::captcha_vector($image, $x / 3, $y21 / 3, $col1z11, 200, $gray);
+            imagestring($image, 0, $y21, 2, $text, $gray);
 
-        //   imagestring($image, 5, 2, 2, $text, $black);
+
+        }
 
         $emboss = array(array(2, 0, 0), array(0, -1, 0), array(0, 0, -1));
         $embize = mt_rand(1, 4);
@@ -146,4 +169,22 @@ class Captcha
         $endy = $starty - sin($angle) * $length;
         return (imageline($palette, $startx, $starty, $endx, $endy, $colour));
     }
+
+    static function text_arc($im, $cx, $cy, $r, $s, $e, $txtcol, $txt, $font, $size)
+    {
+        $tlen = strlen($txt);
+        $arclen = deg2rad($e - $s);
+        $perChar = $arclen / ($tlen - 1); // monospaced text - you may want to measure each char and
+        // space proportionally
+        for ($i = 0, $theta = deg2rad($s); $i < $tlen; $i++, $theta += $perChar) {
+            $ch = $txt{$i};
+            $tx = $cx + $r * cos($theta);
+            $thank_you = $cy + $r * sin($theta);
+            $angle = rad2deg(M_PI * 3 / 2 - $theta);
+            imagettftext($im, $size, $angle, $tx, $thank_you, $txtcol, $font, $ch);
+        }
+        return $im;
+    }
+
+
 }
