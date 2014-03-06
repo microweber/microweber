@@ -1,5 +1,5 @@
 
-<div class="mw-user-logged-holder well">
+<div class="mw-user-logged-holder">
 	<div class="mw-user-welcome">
 		<?php _e("Welcome"); ?>
 		<?php print user_name(); ?> </div>

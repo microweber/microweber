@@ -627,4 +627,13 @@ mw.edit_content.handle_form_submit = function(go_live){
        });
 
     });
-</script> 
+</script>
+
+<style>
+#mw_edit_page_left{
+  visibility: hidden;
+}
+
+</style>
+
+

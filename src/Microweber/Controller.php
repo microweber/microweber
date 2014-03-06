@@ -1346,6 +1346,8 @@ class Controller
 
         if ($this->render_this_url == false and $this->app->url->is_ajax() == FALSE) {
             $page_url = $this->app->url->string();
+        } elseif ($this->render_this_url == false and $this->app->url->is_ajax() == true) {
+            $page_url = $this->app->url->string(1);
         } else {
             $page_url = $this->render_this_url;
             $this->render_this_url = false;

@@ -128,5 +128,23 @@
 /* /search */
 
 
+/* Sidebar */
+
+.module-posts-template-sidebar li{
+  list-style: none
+}
+
+.module-posts-template-sidebar-image-column{
+  width: 80px;
+}
+
+.module-posts-template-sidebar-content-column h5{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* /Sidebar */
+
+
 
 

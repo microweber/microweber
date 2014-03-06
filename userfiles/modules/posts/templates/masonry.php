@@ -19,7 +19,7 @@ description: Masonry
 
 
 <script>mw.require("<?php print MW_MODULES_URL; ?>posts/js/masonry.pkgd.min.js", true); </script>
-<script>mw.require("<?php print MW_MODULES_URL; ?>posts/css/style.css", true); </script>
+<script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>posts/css/style.css"); </script>
 <script>
     mw._masons = mw._masons || [];
     $(document).ready(function(){

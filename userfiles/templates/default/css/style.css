@@ -40,9 +40,7 @@ a, .link {
 	margin-bottom: 0;
 }
 .field-full {
-	width: 90%;
-	width: calc(100% - 14px);
-	width: -webkit-calc(100% - 14px);
+	width: 100%;
 }
 .v-space {
 	clear: both;
@@ -62,21 +60,15 @@ hr {
 	cursor: pointer;
 }
 .img-polaroid, .mw-col .img-polaroid {
-	max-width: 99%;
-	max-width: calc(100% - 10px);
-	max-width: -webkit-calc(100% - 10px);
+	max-width: 100%;
     height: auto;
 }
 input.large-field, textarea.large-field {
 	font-size: 18px;
 	padding: 10px;
-	width: 90%;
-	width: calc(100% - 22px);
-	width: -webkit-calc(100% - 22px);
+	width: 100%;
 }
 .btn, .thumbnail, .navbar-inner, .nab > li > a, .nav-pills > li > a, .well, .img-rounded, * > input[type], select, textarea, .nav .dropdown-menu {
-	-webkit-border-radius: 0;
-	-moz-border-radius: 0;
 	border-radius: 0;
 }
 #header .nav-pills > li > a {

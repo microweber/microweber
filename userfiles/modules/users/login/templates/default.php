@@ -13,7 +13,6 @@ description: Login default
 ?>
 <?php $user = user_id(); ?>
 <?php $have_social_login = false; ?>
-
 <div id="mw-login">
   <?php if($user != false): ?>
   <div class="well">

@@ -38,7 +38,8 @@ description: Product Gallery Multiline
 <script>gallery<?php print $rand; ?> = [<?php foreach($data  as $item): ?>{image:"<?php print thumbnail( $item['filename'], 1000); ?>", description:"<?php print $item['title']; ?>"},<?php endforeach;  ?>];</script>
 
 <script type="text/javascript">
-    mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);
+    mw.moduleCSS("<?php print INCLUDES_URL ?>css/mw.ui.css");
+    mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
     mw.require("<?php print $config['url_to_module']; ?>js/api.js", true);
 </script>
 
