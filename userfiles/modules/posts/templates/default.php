@@ -42,10 +42,10 @@ if(isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
 
 
 }
- 
+
 ?>
 
-<script>mw.require("<?php print MW_MODULES_URL; ?>posts/css/style.css", true); </script>
+<script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>posts/css/style.css"); </script>
 
 <div class="post-list post-list-template-default">
   <?php if (!empty($data)): ?>
@@ -67,7 +67,7 @@ if(isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
 		  <?php endif; ?>
           <?php endif; ?>
 		  <?php if($only_tn == false): ?>
-		    
+
 
           <div class="mw-ui-col">
 

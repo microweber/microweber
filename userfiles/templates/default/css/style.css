@@ -59,6 +59,13 @@ hr {
 .mw-captcha-img {
 	cursor: pointer;
 }
+.mw-captcha-image-holder{
+  border: 1px solid #ccc;
+  border-right: none;
+  height: 34px;
+  vertical-align: middle;
+}
+
 .img-polaroid, .mw-col .img-polaroid {
 	max-width: 100%;
     height: auto;
@@ -843,6 +850,9 @@ i.myspace {
 	margin: auto;
 	width: 160px;
 }
+
+
+
 .social-login {
 	float: left;
 	white-space: nowrap;
@@ -854,15 +864,11 @@ i.myspace {
 	padding-bottom: 2px;
 	color: #A5A5A5;
 }
-.social-login + .btn-large {
-	margin-top: 11px;
-}
+
 input.mw-captcha-input {
-	width: 60%;
-	width: calc(100% - 126px);
-	width: -webkit-calc(100% - 126px);
+	width: 100%;
 }
-.social-login a {
+.social-login li {
 	float: left;
 	margin-right: 5px;
 }

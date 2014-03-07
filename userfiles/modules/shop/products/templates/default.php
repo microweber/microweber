@@ -125,8 +125,12 @@ if(!isset($tn[1])){
 			   }
 
          ?>
-        <?php if(is_array( $item['prices'])): ?> 
+        <?php if(is_array( $item['prices'])): ?>
+
         <button class="btn btn-default" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $item['id'].$count ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;<?php print $add_cart_text ?></button>
+
+
+
         <?php endif; ?>
         <?php endif; ?>
       </div>

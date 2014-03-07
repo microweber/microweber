@@ -1,12 +1,13 @@
 <script type="text/javascript">
+    mw.require("tools.js", true);
     mw.require("shop.js", true);
     mw.require("events.js", true);
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
-    mw.on.moduleReload('cart_fields_<?php print $params['id'] ?>', function(){
-          mw.reload_module('#<?php print $params['id'] ?>');
-    });
+        mw.on.moduleReload('cart_fields_<?php print $params['id'] ?>', function(){
+              mw.reload_module('#<?php print $params['id'] ?>');
+        });
     })
 
 </script>

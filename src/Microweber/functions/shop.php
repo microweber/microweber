@@ -14,7 +14,7 @@
 // ------------------------------------------------------------------------
 
 
-function get_cart($params=false)
+function get_cart($params = false)
 {
     return mw('shop')->get_cart($params);
 }
@@ -26,11 +26,16 @@ function update_cart($data)
 {
     return mw('shop')->update_cart($data);
 }
+
 function empty_cart()
 {
     return mw('shop')->empty_cart();
 }
 
+function checkout_url()
+{
+    return site_url('checkout');
+}
 
 api_expose('update_order');
 /**
@@ -66,6 +71,7 @@ function get_orders($params = false)
 {
     return mw('shop')->get_orders($params);
 }
+
 function get_order_by_id($params = false)
 {
     return mw('shop')->get_order_by_id($params);

@@ -3,24 +3,21 @@ mw.require('forms.js');
 
 
 mw.cart = {
-  add : function(selector, price){
-	 //  data = mw.$(selector+' input').serialize();
+  add : function(selector, price, c){
 	 data = mw.form.serialize(selector);
-
 	 if(price != undefined && data != undefined){
 		data.price= price
 	 }
-
-
-
      $.post(mw.settings.api_url+'update_cart', data ,
      function(data) {
 		 mw.reload_module('shop/cart');
-         mw.cart.notification('success', "Successfully added to cart.");
+         if(typeof c === 'function'){
+           c.call(data);
+         }
      });
   },
 
-   remove : function($id){
+  remove : function($id){
 
 	  data = {}
 	  data.id=$id;
@@ -142,20 +139,6 @@ mw.cart = {
 			});
 
 
-  },
-  notification:function(type, msg){
-    var n = mwd.createElement('div');
-    n.className = 'mw-shop-notification';
-    n.innerHTML = ''
-    + '<div class="alert alert-'+type+'">'
-    + '<span class="mw-shop-notification-icon mw-shop-notification-'+type+'"></span>'
-    + msg + '</div>';
-    mwd.body.appendChild(n);
-    var w = $(n).width();
-    n.style.marginLeft = -(w/2)+'px';
-    n.className += ' gooff';
-    setTimeout(function(){$(n).remove()}, 3000);
-    return n;
   }
 }
 

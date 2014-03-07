@@ -502,23 +502,14 @@ mw.edit_content.handle_form_submit = function(go_live){
               if(parent !== self && !!window.parent.mw){
                  window.parent.mw.askusertostay=false;
               }
-			  
-			  
-
               if(go_live_edit != false){
-
-			  if(parent !== self && !!window.parent.mw){
-				 if(window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined){
-					 window.parent.mw.drag.save();
-				 }
-                 window.parent.mw.askusertostay=false;
-              }
-
-				  
-				  
-				  
+    		    if(parent !== self && !!window.parent.mw){
+    				 if(window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined){
+    					 window.parent.mw.drag.save();
+    				 }
+                     window.parent.mw.askusertostay=false;
+                }
                 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
-                  
                   window.top.location.href = data+'/editmode:y';
                 });
               }
@@ -586,29 +577,21 @@ mw.edit_content.handle_form_submit = function(go_live){
        mw.$("#<?php print $module_id ?>").removeAttr("just-saved");
        <?php endif; ?>
        mw.edit_content.render_category_tree("<?php print $rand; ?>");
-
         mw.$("#quickform-<?php print $rand; ?>").submit(function(){
           mw.edit_content.handle_form_submit();
           return false;
         });
-		
-		
 		<?php if($data['id']!=0) : ?>
-		mw.$(".mw-admin-go-live-now-btn").attr('content-id',<?php print $data['id']; ?>);
+		    mw.$(".mw-admin-go-live-now-btn").attr('content-id',<?php print $data['id']; ?>);
 		<?php endif; ?>
 		/* reloading the editor on parent change */
-		 
        mw.$('#mw-parent-page-value-<?php print $rand; ?>').bind('change', function(e){
-		   
-		  var iframe_ed = $('.mw-iframe-editor')
-		  
-		  var changed =  iframe_ed.contents().find('.changed').size();
+		 var iframe_ed = $('.mw-iframe-editor')
+	     var changed =  iframe_ed.contents().find('.changed').size();
 		 if(changed == 0){
 			  mw.edit_content.load_editor();
 		 }
-          
        });
-	     
        mww.QTABS = mw.tools.tabGroup({
           nav: mw.$("#quick-add-post-options li"),
           tabs: mw.$(".quick-add-post-options-item"),
@@ -617,7 +600,6 @@ mw.edit_content.handle_form_submit = function(go_live){
        if(mwd.querySelector("#quick-add-gallery-items .admin-thumb-item") !== null){
            QTABS.set(0);
        }
-
        var piblished_nav = mwd.getElementById("un-or-published");
        mw.ui.btn.radionav(piblished_nav, 'span');
        $(piblished_nav.getElementsByTagName('span')).bind("click", function(){
@@ -628,12 +610,3 @@ mw.edit_content.handle_form_submit = function(go_live){
 
     });
 </script>
-
-<style>
-#mw_edit_page_left{
-  visibility: hidden;
-}
-
-</style>
-
-

@@ -13,7 +13,6 @@ description: Small cart template
 
 
 <script>
-    //mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);
     mw.moduleCSS("<?php print $config['url_to_module'] ?>templates/templates.css");
 </script>
 

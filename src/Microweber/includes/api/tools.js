@@ -342,7 +342,13 @@ mw.tools = {
             var id = $(id)[0].id;
           }
         }
-        var el = mwd.getElementById(id);
+        if(!id.contains("#")){
+          var el = mwd.getElementById(id);
+        }
+        else{
+          var el = mw.$(id)[0]; 
+        }
+
         if(el===null){ return false; }
         if(!!el.overlay){
           $(el.overlay).remove();

@@ -19,14 +19,14 @@ $payment_success = true;
 function checkout_callback(data,selector){
 		   var z = typeof(data);
 		   if(z != 'object'){
-			  var o;
-					  try{
-					    o =  $.parseJSON(data);
-					    data = o;
-					   }
-					  catch(e){
-						  $('.mw-checkout-responce').append(data);
-					  }
+			  var dataObj;
+        	  try{
+        	    dataObj =  $.parseJSON(data);
+        	    data = dataObj;
+        	   }
+        	  catch(e){
+        		  $('.mw-checkout-responce').append(data);
+        	  }
 		   } else {
 			   $('.mw-checkout-responce').html(data);
 		   }
@@ -71,36 +71,38 @@ $(document).ready(function(){
   <?php if($cart_show_enanbled != 'n'): ?>
   <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id']?>" data-checkout-link-enabled="n" />
   <?php endif ;?>
-    <div class="row row-fluid mw-cart-data-holder">
-      <div class="span4 col-sm-4 col-md-4">
-        <div class="well">
-          <?php $user = get_user(); ?>
-          <h2 style="margin-top:0 " class="edit nodrop" field="checkout_personal_inforomation_title" rel="global" rel_id="<?php print $params['id']?>"><?php _e("Personal Information"); ?></h2>
-          <hr />
-          <label>
-            <?php _e("First Name"); ?>
-          </label>
-          <input name="first_name" class="field-full form-control"  type="text" value="<?php if(isset($user['first_name'])) { print $user['first_name']; } ?>" />
-          <label>
-            <?php _e("Last Name"); ?>
-          </label>
-          <input name="last_name" class="field-full form-control"  type="text" value="<?php if(isset($user['last_name'])) { print $user['last_name']; } ?>" />
-          <label>
-            <?php _e("Email"); ?>
-          </label>
-          <input name="email" class="field-full form-control" type="text" value="<?php if(isset($user['email'])) { print $user['email']; } ?>" />
-          <label>
-            <?php _e("Phone"); ?>
-          </label>
-          <input name="phone" class="field-full form-control"  type="text" value="<?php if(isset($user['phone'])) { print $user['phone']; } ?>" />
+    <div class="mw-ui-row">
+      <div class="mw-ui-col" style="width: 33%;">
+        <div class="mw-ui-col-container">
+            <div class="well">
+              <?php $user = get_user(); ?>
+              <h2 style="margin-top:0 " class="edit nodrop" field="checkout_personal_inforomation_title" rel="global" rel_id="<?php print $params['id']?>"><?php _e("Personal Information"); ?></h2>
+              <hr />
+              <label>
+                <?php _e("First Name"); ?>
+              </label>
+              <input name="first_name" class="field-full form-control"  type="text" value="<?php if(isset($user['first_name'])) { print $user['first_name']; } ?>" />
+              <label>
+                <?php _e("Last Name"); ?>
+              </label>
+              <input name="last_name" class="field-full form-control"  type="text" value="<?php if(isset($user['last_name'])) { print $user['last_name']; } ?>" />
+              <label>
+                <?php _e("Email"); ?>
+              </label>
+              <input name="email" class="field-full form-control" type="text" value="<?php if(isset($user['email'])) { print $user['email']; } ?>" />
+              <label>
+                <?php _e("Phone"); ?>
+              </label>
+              <input name="phone" class="field-full form-control"  type="text" value="<?php if(isset($user['phone'])) { print $user['phone']; } ?>" />
+            </div>
         </div>
       </div>
 	  <?php if($cart_show_shipping != 'n'): ?>
-      <div class="span4 col-sm-4 col-md-4"><module type="shop/shipping" />  </div>
+      <div class="mw-ui-col"><div class="mw-ui-col-container"><module type="shop/shipping" /></div></div>
 	   <?php endif ;?>
 	   	  <?php if($cart_show_payments != 'n'): ?>
 
-      <div class="span4 col-sm-4 col-md-4"><module type="shop/payments" /></div>
+      <div class="mw-ui-col"><div class="mw-ui-col-container"><module type="shop/payments" /></div></div>
 	  	   <?php endif ;?>
 
     </div>

@@ -159,7 +159,9 @@ description: Default comments template
 					<textarea required placeholder="<?php _e("Comment"); ?>" name="comment_body" class="form-control input-lg"></textarea>
 				</div>
 			</div>
-            <div class="mw-ui-row captcha-row" style="width: 210px;">
+
+            <?php if(!is_admin()){ ?>
+            <div class="mw-ui-row vertical-middle captcha-row">
                 <div class="mw-ui-col">
                     <img
                         title="Click to refresh image"
@@ -172,6 +174,7 @@ description: Default comments template
                     <input type="text" name="captcha" required class="form-control" placeholder="<?php _e("Enter text"); ?>" />
                 </div>
             </div>
+            <?php } ?>
             <input type="submit" class="btn btn-default pull-right" value="<?php _e("Add comment"); ?>">
 		</form>
 	</div>

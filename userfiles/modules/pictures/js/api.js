@@ -4,7 +4,9 @@ if(typeof mw.rotator === 'undefined'){
 
             Simple JS API for CSS3 Transitions
 
-            The Transition styles are for the slider-item with class 'active'
+            The Transition styles are for the slider-item with class 'active'.
+
+            The base functionality is also availabale for old browsers.
 
         */
         var rotator = $(selector)[0];
@@ -20,9 +22,6 @@ if(typeof mw.rotator === 'undefined'){
         }, function(){
             $(this).removeClass('rotator-hover');
         });
-
-
-
         rotator.next = function(){
             var active = $(holder).children('.active');
             var next = active.next('.mw-gallery-item').length>0 ? active.next('.mw-gallery-item') : $(holder).children('.mw-gallery-item').eq(0);
@@ -41,7 +40,6 @@ if(typeof mw.rotator === 'undefined'){
            var img = mw.$('.active img:first', rotator)[0].src;
            mw.image.preload(img, function(w,h){
              var rw = mw.$('.mw-gallery-holder', rotator).width();
-
              if(w > rw){
                  $(this).width(rw);
              }
@@ -181,6 +179,9 @@ if(typeof mw.rotator === 'undefined'){
           $(this).css("marginTop", -$(this).height()/2);
           $(this).css("marginLeft", -$(this).width()/2);
         });
+        $(window).bind("resize", function(){
+           rotator.normalize(rotator);
+        });
         return rotator;
     }
     mw.productZoom = function(parent){
@@ -233,6 +234,10 @@ if(typeof mw.rotator === 'undefined'){
                 }
             }
         });
+    }
+
+    $.fn.popupZoom = function(){
+      return mw.popupZoom(this);
     }
 
     mw._popupZoom = {

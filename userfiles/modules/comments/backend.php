@@ -1,13 +1,9 @@
 <?php only_admin_access();?>
 <script type="text/javascript">
-
-
     mw.require('<?php print $config['url_to_module'] ?>style.css', true);
     mw.require('color.js', true);
 </script>
 <script type="text/javascript">
-
-
 mw.on.hashParam("search", function(){
     if(this  !== ''){
     	$('#mw_admin_posts_with_comments').attr('data-search-keyword',this);
@@ -15,22 +11,11 @@ mw.on.hashParam("search", function(){
     	$('#mw_admin_posts_with_comments').removeAttr('data-search-keyword');
     }
 	$('#mw_admin_posts_with_comments').removeAttr('content_id');
-
-
     mw.reload_module('#mw_admin_posts_with_comments', function(){
           mw.$(".mw-ui-searchfield, input[type='search']").removeClass('loading');
-		  
-		  
-		  
-
-		  
-		  
-		  
     });
-
 });
-mw.on.hashParam("content_id", function(){   
-
+mw.on.hashParam("content_id", function(){
 		if(this == 'settings'){
 			$('.comments-settings').show();
 			$('.comments-items').hide();
@@ -44,30 +29,18 @@ mw.on.hashParam("content_id", function(){
 			$('.comments-items').show();
 			$('.comments-templates').hide();
 		}
-
     if(this  !== '' && this  != '0'){
-		
-	
 		$('#mw_comments_admin_dashboard').hide();
 		$('#mw_admin_posts_with_comments').show();
     	$('#mw_admin_posts_with_comments').attr('content_id',this);
-		// mw.load_module('comments/manage', '#mw_admin_posts_with_comments_edit');
 		 mw.reload_module('#mw_admin_posts_with_comments', function(){
 		 mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
-		 
-		 
-		 
-		 
     });
-	
     } else {
-    	$('#mw_admin_posts_with_comments').removeAttr('content_id');
-			$('#mw_admin_posts_with_comments').removeAttr('rel_id');
-
+    	mw.$('#mw_admin_posts_with_comments').removeAttr('content_id');
+		mw.$('#mw_admin_posts_with_comments').removeAttr('rel_id');
 	$('#mw_admin_posts_with_comments').removeAttr('rel');
-
 		  mw.reload_module('#mw_admin_posts_with_comments');
-
     }
 });
 
@@ -76,15 +49,12 @@ mw.on.hashParam("rel_id", function(){
 		$('#mw_comments_admin_dashboard').hide();
 		$('#mw_admin_posts_with_comments').show();
     	$('#mw_admin_posts_with_comments').attr('rel_id',this);
-		// mw.load_module('comments/manage', '#mw_admin_posts_with_comments_edit');
 		 mw.reload_module('#mw_admin_posts_with_comments', function(){
 		 mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
     });
-	
     } else {
     	$('#mw_admin_posts_with_comments').removeAttr('rel_id');
 		  mw.reload_module('#mw_admin_posts_with_comments');
-
     }
 });
 
@@ -97,34 +67,22 @@ mw.on.hashParam("comments_for_content", function(){
     mw.require("forms.js", true);
 </script>
 <script type="text/javascript">
-
-
     mw.adminComments = {
-		
-		  
-		
-		
       action:function(form, val){
           var form = $(form);
           var field = form.find('.comment_state');
-		  var connected_id = form.find('[name="connected_id"]').val();
+		  var connected_id = mw.$('[name="connected_id"]', form[0]).val();
           field.val(val);
           var conf = true;
           if(val=='delete'){var conf = confirm(mw.msg.to_delete_comment);}
           if(conf){
               var id = form.attr('id');
-			  
 			  var data = form.serialize();
-			   
 			  $.post( "<?php print api_link('post_comment'); ?>",data, function( data ) {
 				   mw.reload_module('#mw_comments_for_post_'+connected_id, function(){
 					  $('#mw_comments_for_post_'+connected_id).find(".comments-holder,.new-comments,.old-comments").show();
 				  });
 				});
-							  
-			  
-              
-			
           }
       },
       toggleEdit:function(id){
@@ -147,18 +105,12 @@ mw.on.hashParam("comments_for_content", function(){
             }
       },
       toggleMaster:function(master, e){
-		  
 		  if(master === null){
-			  return false;
+		    return false;
 		  }
-		  
-		  
 		  if(e != undefined){
-          mw.e.cancel(e);
+                mw.e.cancel(e);
 		  }
-		
-		  
-		  
           var _new = master.parentNode.querySelector('.new-comments');
           var _old = master.parentNode.querySelector('.old-comments');
           if($(_new).is(":visible") || $(_old).is(":visible")){
@@ -168,33 +120,21 @@ mw.on.hashParam("comments_for_content", function(){
           else{
               $([_new, _old]).show();
               $(master).addClass("active");
-			  
-			  
 				var  is_cont = $(master).attr('content-id')
-				
 				if(typeof is_cont != "undefined"){
-					
 					var mark_as_old = {}
 					mark_as_old.content_id = is_cont;
 					$.post('<?php print api_link('mark_comments_as_old'); ?>', mark_as_old, function(data) {
 					   
 					});
-					
-
 				}
          }
       }
     }
-
-
-
-
 </script>
 <?php $mw_notif =  (url_param('mw_notif'));
- 
 if( $mw_notif != false){
- $mw_notif = mw('notifications')->read( $mw_notif);	
- 
+    $mw_notif = mw('notifications')->read( $mw_notif);
 }
 mw('notifications')->mark_as_read('comments');
  ?>
@@ -202,25 +142,14 @@ mw('notifications')->mark_as_read('comments');
 <script type="text/javascript">
 
 $(document).ready(function(){
-/*$('#mw_admin_posts_with_comments').attr('content_id',"<?php print $mw_notif['rel_id'] ?>");
-	  mw.reload_module('#mw_admin_posts_with_comments', function(){
-			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
- });*/
- 
- $('#mw_admin_posts_with_comments').attr('rel_id',"<?php print $mw_notif['rel_id'] ?>");
- $('#mw_admin_posts_with_comments').attr('rel',"<?php print $mw_notif['rel'] ?>");
-	  mw.reload_module('#mw_admin_posts_with_comments', function(){
-			mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
- });
-
+     $('#mw_admin_posts_with_comments').attr('rel_id',"<?php print $mw_notif['rel_id'] ?>");
+     $('#mw_admin_posts_with_comments').attr('rel',"<?php print $mw_notif['rel'] ?>");
+     mw.reload_module('#mw_admin_posts_with_comments', function(){
+        mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+     });
 });
-
-
-
 </script>
 <?php endif; ?>
-<?php // d($config); ?>
-
 <div id="mw_edit_pages_content">
 <div id="mw_edit_page_left" class="mw_edit_page_default">
 	<?php $info = module_info($config['module']); ?>
@@ -238,7 +167,8 @@ $(document).ready(function(){
 		<div class="vSpace"></div>
 		<a href="javascript:Alert('Coming soon');" class="mw-ui-btn mw-ui-btn-green">
 		<?php _e("Get more templates"); ?>
-		</a> </div>
+		</a>
+    </div>
 </div>
 <div class="mw_edit_page_right" style="padding: 20px;width: 710px;">
 	<div class="comments-tabs mw_simple_tabs mw_tabs_layout_stylish active">
@@ -253,12 +183,12 @@ $(document).ready(function(){
 						<?php _e("Read, moderate & publish comments"); ?>
 						</small> </div>
 					<input
-              autocomplete="off"
-              type="search"
-              class="mw-ui-searchfield"
-              placeholder="<?php _e("Search comments"); ?>"
-              onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
-             />
+                          autocomplete="off"
+                          type="search"
+                          class="mw-ui-searchfield"
+                          placeholder="<?php _e("Search comments"); ?>"
+                          onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
+                    />
 				</div>
 				<module type="comments/search_content" id="mw_admin_posts_with_comments"  />
 			</div>

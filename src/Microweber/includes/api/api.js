@@ -685,7 +685,6 @@ mw.serializeFields =  function(id, ignorenopost){
 
 mw.response = function(form, data, messages_at_the_bottom){
     var messages_at_the_bottom = messages_at_the_bottom || false;
-
     if(data == null  ||  typeof data == 'undefined' ){
       return false;
     }

@@ -112,9 +112,9 @@ if(is_array($data)){
 	 
              $max = 150;
              if(strlen($value['custom_field_values_plain']) > $max){
-                $first = substr($value['custom_field_values_plain'], 0, $max);
+                $first = substr($value['custom_field_values_plain'], 0, $max); 
                 $rest = substr($value['custom_field_values_plain'], $max);
-                print '<div>' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less">...<?php _e("More"); ?></a></div>';
+                print '<div>' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less"> ...more</a></div>';
              }
              else {
 

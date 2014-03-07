@@ -30,6 +30,11 @@ if(typeof  processContactForm !== 'object'){
           form[0].reset();
           form.find(".alert-error").remove();
           setTimeout(function(){
+			  var cap = mwd.getElementById('captcha-<?php print $form_id; ?>');
+			  if(cap !== null){
+			  mw.tools.refresh_image(cap);
+			  }
+			  
               mw.$(selector).css("top", "-100%");
               form.removeClass("deactivated");
           }, 3200);

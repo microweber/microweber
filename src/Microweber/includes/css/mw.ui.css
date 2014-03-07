@@ -401,10 +401,9 @@ a.mw-ui-btn, span.mw-ui-btn{
 .mw-ui-btn-blue:hover{ background:#CDE1FB; }
 
 
-.mw-ui-btn-red{background: url(../img/grad.php?top=FFB0B0&bot=FF7373);border-color: #FFB0B0;border-bottom-color: #FF1F1F;}
+.mw-ui-btn-red{background: #FF7373 /*url(../img/grad.php?top=FFB0B0&bot=FF7373)*/;border-color: transparent;}
 
-.mw-ui-btn-red:hover{background: url(../img/grad.php?top=FF9E9E&bot=FF5C5C);}
-.mw-ui-btn-red:active{box-shadow: inset 0 0 5px -1px #B80000}
+.mw-ui-btn-red:hover{background: #FF7373;}
 
 
 
@@ -441,7 +440,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 
 .mw-ui-btn2-revert:hover, .mw-ui-btn2-revert:active, .mw-ui-btn2-revert.active{
-  background: url(../img/grad.php?top=F5F5F5&bot=EBEBEB) no-repeat;
+  background: #EBEBEB;
   border-color:#E9E6E6 #DFDDDD #A1A0A0;
   box-shadow:inset 0 1px 0px 0px #fff;
 }
@@ -469,7 +468,7 @@ a.mw-ui-btn, span.mw-ui-btn{
 
 
 .mw-ui-btn:active, .mw-ui-btn2:active, .mw-ui-btn.active{
-    box-shadow:inset 0 0 5px #ccc;
+    box-shadow:inset 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .mw-ui-btn-action{
@@ -1286,6 +1285,8 @@ background-color: #f5f5f5;
   height: 29px;
   background-repeat: no-repeat;
   background-size: contain;
+  text-indent: -9999px;
+  position: relative;
 }
 
 .mw-social-ico-facebook {background-image: url(../img/mw.soc.fb.png);}

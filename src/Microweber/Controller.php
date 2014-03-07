@@ -106,6 +106,16 @@ class Controller
 
         //create_mw_default_options();
         $this->app->content->define_constants();
+
+
+        if(defined('TEMPLATE_DIR')){
+            $load_template_functions = TEMPLATE_DIR.'functions.php';
+            if(is_file($load_template_functions)){
+                include_once($load_template_functions);
+            }
+        }
+
+
         $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
         $l = $l->__toString();
         // var_dump($l);
@@ -113,6 +123,9 @@ class Controller
         $layout = $this->app->parser->process($l, $options = false);
         // $layout = $this->app->parser->process($l, $options = false);
         $layout = execute_document_ready($layout);
+
+
+
 
         print $layout;
 
@@ -277,7 +290,12 @@ class Controller
 
 
         $this->app->content->define_constants($page);
-
+        if(defined('TEMPLATE_DIR')){
+            $load_template_functions = TEMPLATE_DIR.'functions.php';
+            if(is_file($load_template_functions)){
+                include_once($load_template_functions);
+            }
+        }
         if ($custom_display == true) {
 
             $u2 = $this->app->url->site();
@@ -1880,6 +1898,13 @@ class Controller
         $render_file = $this->app->content->get_layout($content);
 
         $content['render_file'] = $render_file;
+
+        if(defined('TEMPLATE_DIR')){
+            $load_template_functions = TEMPLATE_DIR.'functions.php';
+            if(is_file($load_template_functions)){
+                include_once($load_template_functions);
+            }
+        }
 
         if ($this->return_data != false) {
             return $content;
