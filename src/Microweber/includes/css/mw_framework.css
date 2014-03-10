@@ -271,7 +271,6 @@
 .mw_edit_settings:hover{  /*
     border-color:#2680D3;
     color: white;
-    background: url(../img/grad.php?top=50ADF0&bot=2A83DD);
     text-decoration: none;  */
 }
 
@@ -319,11 +318,7 @@
 
 .mw_edit_delete:hover{
   border-color:#FF3636;
-
-background: url(../img/grad.php?top=FF7C7C&bot=FF1313);
-
-
-
+  background: #FF1313;
 }
 .mw_edit_delete:hover span{
     background-position: 0 -8px;
@@ -1016,7 +1011,7 @@ right: 15px;
 }
 
 .cat_selector_view_ctrl a.active{
-    background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1) no-repeat;
+    background:#E1E1E1;
     border-color:#BDBBBB;
 }
 
@@ -1678,7 +1673,7 @@ table tbody tr.mw-warning > td{
   padding:8px 20px;
   text-align: center;
   color: #212121;
-  background: url(../img/grad.php?top=F4F4F4&bot=EBEBEB);
+  background: #EBEBEB;
   border-width:1px 1px 0;
   border-color:#EBE9E9 #D8D6D6 transparent;
   border-style:solid solid none;
@@ -1687,7 +1682,7 @@ table tbody tr.mw-warning > td{
 }
 
 .mw_tabs_layout_stylish > .mw_simple_tabs_nav li a.active{
- background: url(../img/grad.php?top=F5F5F5&bot=E1E1E1);
+ background: #E1E1E1;
  border-color:#E2DDDD #B7B4B4 transparent;
 }
 

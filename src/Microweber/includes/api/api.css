@@ -12,9 +12,6 @@ body.mw-live-edit{
 .mw-defaults .left{ float: left; }
 .mw-defaults .right{ float: right; }
 
-
-
-
 .relative{
   position: relative;
 }
@@ -26,25 +23,11 @@ body.mw-live-edit{
 .z-6{z-index:6}
 .z-7{z-index:7}
 
-
-
-
 .semi_hidden{
   position: absolute !important;
   top: -9999px !important;
   left: -9999px !important;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 .ed_slider{
   display: inline-block;
@@ -68,9 +51,7 @@ body.mw-live-edit{
   width: 9px;
   height: 17px;
   border: 1px solid #DAD8D8;
-  background: url(../img/grad.php?top=F5F5F5&bot=E0E0E0);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
+  background:#E0E0E0;
   border-radius: 5px;
 }
 
@@ -96,15 +77,13 @@ body.mw-live-edit{
   overflow: hidden;
   width: 10px;
   height: 10px;
-  background: url(../img/grad.php?top=FDFDFD&bot=F5F5F5);
+  background: #F5F5F5;
   cursor: pointer;
   border: 1px solid #D6D6D6;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   border-radius: 2px;
 }
 .square_map td .square_map_item:hover, .square_map td .square_map_item.active{
-  background: url(../img/grad.php?top=C1E1F6&bot=75AACD);
+  background: #75AACD;
   border-color:#429BD5;
 }
 .square_map_value{
@@ -121,13 +100,11 @@ body.mw-live-edit{
   z-index: 999;
   width: 18px;
   height: 18px;
-  background: white url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/cursor_drag_arrow_2.png) no-repeat center center;
+  background: white url(../img/cursor_drag_arrow_c.png) no-repeat center center;
   cursor: move;
-
   box-shadow: 1px 0 1px #212121;
   opacity:0.66;
-
-    -webkit-border-top-left-radius: 10px;
+  -webkit-border-top-left-radius: 10px;
   -webkit-border-bottom-left-radius: 10px;
   -moz-border-radius-topleft: 10px;
   -moz-border-radius-bottomleft: 10px;
@@ -146,8 +123,6 @@ body.mw-live-edit{
 .fx{
   display: none;
 }
-
-
 
 .mw_element_resizer{
   position: absolute;
@@ -344,24 +319,10 @@ html.mw_pages #items_handle{
   right: 0;
 }
 
-
-
-
-
-
 body.dragStart .ui-resizable-handle,
 body.dragStart #items_handle{
   display: none !important;
 }
-
-
-
-
-
-
-
-
-
 
 .edit .element-current, .edit .element-current:hover{
   outline: 1px solid  #429BD5 !important;
@@ -485,30 +446,12 @@ div[id*='SSDIVEL']{
 }
 
 
-
-
 #mw_toolbar_back_to_live_edit {
- position:fixed;
- top:4px;
- left:50%;
- width:120px; 
- margin-left:-10px;
-
-  opacity:0.6;
-  z-index:99999 !important;
+    position:fixed;
+    top:4px;
+    left:50%;
+    width:120px;
+    margin-left:-10px;
+    opacity:0.6;
+    z-index:99999 !important;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -51,23 +51,10 @@ h2.hr{
   border-bottom: 1px solid #E2E2E2;
 }
 
-/*
-
-
-body.view-shop.action-Array .mw-admin-wrapper,
-body.view-content .mw-admin-wrapper
-{background: url("../img/treebg.gif") repeat-y -167px 0;}
-body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-y -304px 0;}
-
-*/
-
 
 #mw-admin-container, html, body{
     min-height: 100%;
 }
-
-
-
 
 
 #mw-admin-container:after, .admin-main-wrapper:after, #mw-admin-content:after{
@@ -199,8 +186,6 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   border: 1px solid transparent;
   border-top-color: transparent;
   border-bottom-color: transparent;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
   border-radius: 2px;
 }
 #stats li a.active{
@@ -248,14 +233,6 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
   font-size: 50px;
   border-radius:100%;
 }
-
-
-
-
-
-
-
-
 
 .stats_table th{
   font-size: 11px;
@@ -337,10 +314,6 @@ body.view-modules .mw-admin-wrapper{background: url("../img/treebg.gif") repeat-
     background: #a8a8a8;
     color: white;
 }
-
-
-
-
 
 .shipping-country-holder{
   border: 1px solid #E8E8E8;
@@ -748,12 +721,6 @@ right: 20px;
   background-color: #EEEEEE;
 }
 
-
-
-
-
-
-
 .mw-toolbar-notification .mw-toolbar-notif-items-wrap table{
   border: none;
   width: 100%;
@@ -828,10 +795,6 @@ right: 20px;
 
 /* Help */
 
-
-
-
-
     #mw_edit_page_left.mw_edit_page_default{
       width: 224px;
     }
@@ -858,7 +821,7 @@ right: 20px;
     }
 
     .help-opener, .help-nav li > a{
-      background: url(../img/grad.php?top=F6F6F6&bot=F0F0F0);
+      background: #F0F0F0;
       border-bottom: 1px solid #E7E7E7;
       padding: 10px 7px 10px 20px;
       display: block;
@@ -869,7 +832,7 @@ right: 20px;
 
     .active > .help-opener{
       font-weight: bold;
-      background: url(../img/grad.php?top=F5F5F5&bot=E0E0E0);
+      background: #F0F0F0;
       border-bottom-color:#ADADAD;
 
     }
@@ -918,15 +881,6 @@ right: 20px;
       background: #FBFBFB;
     }
 
-
-    .help-nav li a{ /*
-      background-color: #FBFBFB;
-      background-repeat: no-repeat;
-      background-position: 49px 6px;
-      padding: 7px 7px 7px 75px;
-      display: block;
-      cursor: pointer;  */
-    }
 
     .help-nav li a:hover{
       text-decoration: underline;
@@ -1272,6 +1226,17 @@ table.users-list-table .del-row{
   padding: 12px;
 }
 
+
+/*
+
+
+*,*:before,*:after{
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+}
+
+*/
 
 
 

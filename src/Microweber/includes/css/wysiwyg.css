@@ -305,12 +305,12 @@
 
 .mw_dropdown_type_wysiwyg_blue{
   border-color:#8EC4F0;
-  background: url(../img/grad.php?top=CDE1FB&bot=ABD3F4);
+  background: #ABD3F4;
   color: #125287;
 }
 
 .mw_dropdown_type_wysiwyg_blue:hover, .mw_dropdown_type_wysiwyg_blue.hovered{
-  background: url(../img/grad.php?top=CDE1FB&bot=81BDEF);
+  background:#81BDEF;
   border-color:#8EC4F0;
 }
 

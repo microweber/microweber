@@ -3,8 +3,7 @@
 
 
 
-
-    #mw_edit_page_left.mw_edit_page_default {
+#mw_edit_page_left.mw_edit_page_default {
 	width: 224px;
 }
 .help-nav {
@@ -23,7 +22,7 @@
 	display: block;
 }
 .help-opener, .help-nav li > a {
-	background: url(../img/grad.php?top=F6F6F6&bot=F0F0F0);
+	background: #F0F0F0;
 	border-bottom: 1px solid #E7E7E7;
 	padding: 10px 7px 10px 20px;
 	display: block;
@@ -33,7 +32,7 @@
 }
 .active > .help-opener {
 	font-weight: bold;
-	background: url(../img/grad.php?top=F5F5F5&bot=E0E0E0);
+	background: #E0E0E0;
 	border-bottom-color:#ADADAD;
 }
 .help-nav li > ul > li > .help-opener {

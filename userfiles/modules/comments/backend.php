@@ -125,7 +125,7 @@ mw.on.hashParam("comments_for_content", function(){
 					var mark_as_old = {}
 					mark_as_old.content_id = is_cont;
 					$.post('<?php print api_link('mark_comments_as_old'); ?>', mark_as_old, function(data) {
-					   
+
 					});
 				}
          }
