@@ -12,6 +12,7 @@ description: Default register template
 
 ?>
 <script  type="text/javascript">
+    mw.moduleCSS("<?php print MW_MODULES_URL; ?>users/users_modules.css");
     mw.require('forms.js', true);
     mw.require('url.js', true);
     $(document).ready(function(){
@@ -33,7 +34,7 @@ description: Default register template
 	<div class="box-head">
 		<h2>
 			<?php _e("New Registration or"); ?>
-			<a href="javascript:mw.load_module('users/login', '#<?php print $params['id'] ?>');">
+			<a href="<?php print login_url(); ?>">
 			    <?php _e("Login"); ?>
 			</a>
         </h2>
@@ -50,8 +51,6 @@ description: Default register template
 					<input type="password" class="large-field form-control" name="password" placeholder="<?php _e("Password"); ?>">
 				</div>
 			</div>
-
-
             <div class="mw-ui-row vertical-middle captcha-row">
               <div class="mw-ui-col">
                  <div class="mw-captcha-image-holder"><img class="mw-captcha-img" src="<?php print api_link('captcha') ?>" onclick="mw.tools.refresh_image(this);" /></div>
@@ -61,9 +60,7 @@ description: Default register template
               </div>
             </div>
              <div class="vSpace"></div>
-
             <div class="alert" style="margin: 0;display: none;"></div>
-
 			<div class="social-login">
 
                     <?php
@@ -73,35 +70,27 @@ description: Default register template
                         $google = get_option('enable_user_google_registration','users') =='y';
                         $windows = get_option('enable_user_windows_live_registration','users') =='y';
                         $github = get_option('enable_user_github_registration','users') =='y';
-
                         if($facebook or $twitter or $google or $windows or $github){
                            $have_social_login = true;
                         }
-                        else{
-                          $have_social_login = false;
-                        }
+                        else{ $have_social_login = false;  }
                     ?>
-
-                    <?php if($have_social_login){ ?>
-
-                        <h5><?php _e("Login with"); ?>:</h5>
-                    <?php } ?>
-
+                    <?php if($have_social_login){ ?><h5><?php _e("Login with"); ?>:</h5><?php } ?>
                     <?php if($have_social_login){ ?><ul><?php } ?>
                         <?php if($facebook): ?>
-                        <li><a href="<?php print api_link('user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook">Facebook login</a></li>
+                        <li><a href="<?php print api_link('user_social_login?provider=facebook') ?>" class="mw-signin-with-facebook">Facebook login</a></li>
                         <?php endif; ?>
                         <?php if($twitter): ?>
-                        <li><a href="<?php print api_link('user_social_login?provider=twitter') ?>" class="mw-social-ico-twitter">Twitter login</a></li>
+                        <li><a href="<?php print api_link('user_social_login?provider=twitter') ?>" class="mw-signin-with-twitter">Twitter login</a></li>
                         <?php endif; ?>
                         <?php if($google): ?>
-                        <li><a href="<?php print api_link('user_social_login?provider=google') ?>" class="mw-social-ico-google">Google login</a></li>
+                        <li><a href="<?php print api_link('user_social_login?provider=google') ?>" class="mw-signin-with-google">Google login</a></li>
                         <?php endif; ?>
                         <?php if($windows): ?>
-                        <li><a href="<?php print api_link('user_social_login?provider=live') ?>" class="mw-social-ico-live">Windows login</a></li>
+                        <li><a href="<?php print api_link('user_social_login?provider=live') ?>" class="mw-signin-with-live">Windows login</a></li>
                         <?php endif; ?>
                         <?php if($github): ?>
-                        <li><a href="<?php print api_link('user_social_login?provider=github') ?>" class="mw-social-ico-github">Github login</a></li>
+                        <li><a href="<?php print api_link('user_social_login?provider=github') ?>" class="mw-signin-with-github">Github login</a></li>
                         <?php endif; ?>
                     <?php if($have_social_login){ ?></ul><?php } ?>
             </div>

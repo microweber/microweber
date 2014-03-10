@@ -598,200 +598,6 @@ class Shop
 
     }
 
-    public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
-    {
-
-        $ord_data = $this->get_order_by_id($order_id);
-        if (is_array($ord_data)) {
-            if ($skip_enabled_check == false) {
-                $order_email_enabled = $this->app->option->get('order_email_enabled', 'orders');
-            } else {
-                $order_email_enabled = $skip_enabled_check;
-            }
-            if ($order_email_enabled == true) {
-                $order_email_subject = $this->app->option->get('order_email_subject', 'orders');
-                $order_email_content = $this->app->option->get('order_email_content', 'orders');
-                $order_email_cc = $this->app->option->get('order_email_cc', 'orders');
-
-                if ($order_email_subject == false or trim($order_email_subject) == '') {
-                    $order_email_subject = "Thank you for your order!";
-                }
-
-                if ($to == false) {
-
-                    $to = $ord_data['email'];
-                }
-                if ($order_email_content != false and trim($order_email_subject) != '') {
-
-                    if (!empty($ord_data)) {
-                        $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . session_id());
-                        $order_items_html = $this->app->format->array_to_ul($cart_items);
-
-                        $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
-
-
-                        foreach ($ord_data as $key => $value) {
-                            if (is_string($value) and is_string($key)) {
-                                $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
-                            }
-
-                        }
-                    }
-                    if (!defined('MW_ORDERS_SKIP_SID')) {
-                        //		define('MW_ORDERS_SKIP_SID', 1);
-                    }
-
-                    $cc = false;
-                    if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
-                        $cc = $order_email_cc;
-
-                    }
-
-                    if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-
-                        $scheduler = new \Microweber\Utils\Events();
-                        $sender = new \Microweber\email\Sender();
-                        // schedule a global scope function:
-                        // $scheduler->registerShutdownEvent("email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
-
-                        return $sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
-                    }
-
-                }
-            }
-        }
-    }
-
-    public function get_order_by_id($id = false)
-    {
-
-
-        $table = $this->tables['cart_orders'];
-        $params['table'] = $table;
-        $params['one'] = true;
-
-        $params['id'] = intval($id);
-
-        $item = $this->app->db->get($params);
-
-        if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-
-            $item = $this->_render_item_custom_fields_data($item);
-
-
-        }
-
-        return $item;
-
-    }
-
-    private function _render_item_custom_fields_data($item)
-    {
-        if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-            $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
-
-            $tmp_val = '';
-            if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
-                $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
-                foreach ($item['custom_fields_data'] as $cfk => $cfv) {
-                    if (is_array($cfv)) {
-                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
-                        $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
-                        foreach ($cfv as $cfk1 => $cfv1) {
-                            $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
-                        }
-                        $tmp_val .= '</ul>';
-                        $tmp_val .= '</li>';
-                    } else {
-                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
-                    }
-                }
-                $tmp_val .= '</ul>';
-                $item['custom_fields'] = $tmp_val;
-            }
-        }
-        return $item;
-    }
-
-    public function get_cart($params = false)
-    {
-
-        $params2 = array();
-
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        $table = $this->tables['cart'];
-        $params['table'] = $table;
-
-        if (!defined('MW_ORDERS_SKIP_SID')) {
-
-            if ($this->app->user->is_admin() == false) {
-                $params['session_id'] = session_id();
-
-            } else {
-                if (isset($params['session_id']) and $this->app->user->is_admin() == true) {
-
-                } else {
-                    $params['session_id'] = session_id();
-
-                }
-            }
-
-            if (isset($params['no_session_id']) and $this->app->user->is_admin() == true) {
-                unset($params['session_id']);
-                //	$params['session_id'] = session_id();
-            } else {
-
-            }
-        }
-        $params['limit'] = 10000;
-        if (!isset($params['order_completed'])) {
-            if (!isset($params['order_id'])) {
-                $params['order_completed'] = 'n';
-            }
-        } elseif (isset($params['order_completed']) and  $params['order_completed'] == 'any') {
-            unset($params['order_completed']);
-        }
-        // $params['debug'] = session_id();
-        if ($this->no_cache == true) {
-            $params['no_cache'] = 1;
-        }
-        $get = $this->app->db->get($params);
-        //return $get;
-
-        $return = array();
-        if (is_array($get)) {
-            foreach ($get as $item) {
-
-                if (isset($item['rel_id']) and isset($item['rel']) and $item['rel'] = 'content') {
-                    $item['content_data'] = $this->app->content->data($item['rel_id']);
-
-
-                }
-
-                if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-
-                    $item = $this->_render_item_custom_fields_data($item);
-
-
-                }
-
-                $return[] = $item;
-
-            }
-
-        } else {
-            $return = $get;
-        }
-
-
-        return $return;
-
-
-    }
-
     public function recover_shopping_cart($sid = false, $ord_id = false)
     {
         if ($sid == false) {
@@ -982,94 +788,6 @@ class Shop
             return $diferent_items;
         }
         return $amount;
-    }
-
-    function update_quantities($order_id = false)
-    {
-        $order_id = intval($order_id);
-        if ($order_id == false) {
-            return;
-        }
-        $res = false;
-        $ord_data = $this->get_order_by_id($order_id);
-
-        $cart_data = $this->order_items($order_id);
-        if (!empty($cart_data)) {
-            $res = array();
-            foreach ($cart_data as $item) {
-
-
-                if (isset($item['rel']) and isset($item['rel_id']) and $item['rel'] == 'content') {
-
-                    $data_fields = $this->app->content->data($item['rel_id'], 1);
-
-                    if (isset($item['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
-                        $old_qty = intval($data_fields['qty']);
-
-                        $new_qty = $old_qty - intval($item['qty']);
-                        mw_var('FORCE_SAVE_CONTENT_DATA_FIELD', 1);
-                        $new_qty = intval($new_qty);
-
-
-                        if (defined('MW_DB_TABLE_CONTENT_DATA')) {
-
-                            $table_name_data = MW_DB_TABLE_CONTENT_DATA;
-                            $notify = false;
-                            mw_var('FORCE_ANON_UPDATE', $table_name_data);
-                            $new_q = array();
-                            $new_q['field_name'] = 'qty';
-                            $new_q['content_id'] = $item['rel_id'];
-                            if ($new_qty > 0) {
-
-                                $new_q['field_value'] = $new_qty;
-
-
-                            } else {
-                                $notify = true;
-                                $new_q['field_value'] = '0';
-
-
-                            }
-                            $res[] = $new_q;
-                            $upd_qty = $this->app->content->save_content_data_field($new_q);
-                            if ($notify) {
-                                $notif = array();
-                                //$notif['module'] = "content";
-                                $notif['rel'] = 'content';
-                                $notif['rel_id'] = $item['rel_id'];
-                                $notif['title'] = "Your item is out of stock!";
-                                $notif['description'] = "You sold all items you had in stock. Please update your quantity";
-                                $notif = $this->app->notifications->save($notif);
-
-                            }
-
-
-                        }
-                    }
-
-                }
-
-
-            }
-
-        }
-
-
-        return $res;
-    }
-
-    public function order_items($order_id = false)
-    {
-        $order_id = intval($order_id);
-        if ($order_id == false) {
-            return;
-        }
-        $params = array();
-        $table = $this->tables['cart'];
-        $params['table'] = $table;
-        $params['order_id'] = $order_id;
-        $get = $this->app->db->get($params);
-        return $get;
     }
 
     public function after_checkout($order_id, $suppress_output = true)
@@ -1366,7 +1084,7 @@ class Shop
 
                         }
                     }
-                 }
+                }
                 if ($found == false) {
                     $skip_keys[] = $k;
                 }
@@ -1699,6 +1417,288 @@ class Shop
         return $url;
     }
 
+    public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
+    {
+
+        $ord_data = $this->get_order_by_id($order_id);
+        if (is_array($ord_data)) {
+            if ($skip_enabled_check == false) {
+                $order_email_enabled = $this->app->option->get('order_email_enabled', 'orders');
+            } else {
+                $order_email_enabled = $skip_enabled_check;
+            }
+            if ($order_email_enabled == true) {
+                $order_email_subject = $this->app->option->get('order_email_subject', 'orders');
+                $order_email_content = $this->app->option->get('order_email_content', 'orders');
+                $order_email_cc = $this->app->option->get('order_email_cc', 'orders');
+
+                if ($order_email_subject == false or trim($order_email_subject) == '') {
+                    $order_email_subject = "Thank you for your order!";
+                }
+
+                if ($to == false) {
+
+                    $to = $ord_data['email'];
+                }
+                if ($order_email_content != false and trim($order_email_subject) != '') {
+
+                    if (!empty($ord_data)) {
+                        $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . session_id());
+                        $order_items_html = $this->app->format->array_to_ul($cart_items);
+
+                        $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
+
+
+                        foreach ($ord_data as $key => $value) {
+                            if (is_string($value) and is_string($key)) {
+                                $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
+                            }
+
+                        }
+                    }
+                    if (!defined('MW_ORDERS_SKIP_SID')) {
+                        //		define('MW_ORDERS_SKIP_SID', 1);
+                    }
+
+                    $cc = false;
+                    if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
+                        $cc = $order_email_cc;
+
+                    }
+
+                    if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+
+                        $scheduler = new \Microweber\Utils\Events();
+                        $sender = new \Microweber\email\Sender();
+                        // schedule a global scope function:
+                        // $scheduler->registerShutdownEvent("email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+
+                        return $sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                    }
+
+                }
+            }
+        }
+    }
+
+    public function get_order_by_id($id = false)
+    {
+
+
+        $table = $this->tables['cart_orders'];
+        $params['table'] = $table;
+        $params['one'] = true;
+
+        $params['id'] = intval($id);
+
+        $item = $this->app->db->get($params);
+
+        if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+
+            $item = $this->_render_item_custom_fields_data($item);
+
+
+        }
+
+        return $item;
+
+    }
+
+    private function _render_item_custom_fields_data($item)
+    {
+        if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+            $item['custom_fields_data'] = $this->app->format->base64_to_array($item['custom_fields_data']);
+
+            $tmp_val = '';
+            if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
+                $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
+                foreach ($item['custom_fields_data'] as $cfk => $cfv) {
+                    if (is_array($cfv)) {
+                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
+                        $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
+                        foreach ($cfv as $cfk1 => $cfv1) {
+                            $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+                        }
+                        $tmp_val .= '</ul>';
+                        $tmp_val .= '</li>';
+                    } else {
+                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
+                    }
+                }
+                $tmp_val .= '</ul>';
+                $item['custom_fields'] = $tmp_val;
+            }
+        }
+        return $item;
+    }
+
+    public function get_cart($params = false)
+    {
+
+        $params2 = array();
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+        $table = $this->tables['cart'];
+        $params['table'] = $table;
+
+        if (!defined('MW_ORDERS_SKIP_SID')) {
+
+            if ($this->app->user->is_admin() == false) {
+                $params['session_id'] = session_id();
+
+            } else {
+                if (isset($params['session_id']) and $this->app->user->is_admin() == true) {
+
+                } else {
+                    $params['session_id'] = session_id();
+
+                }
+            }
+
+            if (isset($params['no_session_id']) and $this->app->user->is_admin() == true) {
+                unset($params['session_id']);
+                //	$params['session_id'] = session_id();
+            } else {
+
+            }
+        }
+        $params['limit'] = 10000;
+        if (!isset($params['order_completed'])) {
+            if (!isset($params['order_id'])) {
+                $params['order_completed'] = 'n';
+            }
+        } elseif (isset($params['order_completed']) and  $params['order_completed'] == 'any') {
+            unset($params['order_completed']);
+        }
+        // $params['debug'] = session_id();
+        if ($this->no_cache == true) {
+            $params['no_cache'] = 1;
+        }
+        $get = $this->app->db->get($params);
+        //return $get;
+
+        $return = array();
+        if (is_array($get)) {
+            foreach ($get as $item) {
+
+                if (isset($item['rel_id']) and isset($item['rel']) and $item['rel'] = 'content') {
+                    $item['content_data'] = $this->app->content->data($item['rel_id']);
+
+
+                }
+
+                if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
+
+                    $item = $this->_render_item_custom_fields_data($item);
+
+
+                }
+
+                $return[] = $item;
+
+            }
+
+        } else {
+            $return = $get;
+        }
+
+
+        return $return;
+
+
+    }
+
+    function update_quantities($order_id = false)
+    {
+        $order_id = intval($order_id);
+        if ($order_id == false) {
+            return;
+        }
+        $res = false;
+        $ord_data = $this->get_order_by_id($order_id);
+
+        $cart_data = $this->order_items($order_id);
+        if (!empty($cart_data)) {
+            $res = array();
+            foreach ($cart_data as $item) {
+
+
+                if (isset($item['rel']) and isset($item['rel_id']) and $item['rel'] == 'content') {
+
+                    $data_fields = $this->app->content->data($item['rel_id'], 1);
+
+                    if (isset($item['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
+                        $old_qty = intval($data_fields['qty']);
+
+                        $new_qty = $old_qty - intval($item['qty']);
+                        mw_var('FORCE_SAVE_CONTENT_DATA_FIELD', 1);
+                        $new_qty = intval($new_qty);
+
+
+                        if (defined('MW_DB_TABLE_CONTENT_DATA')) {
+
+                            $table_name_data = MW_DB_TABLE_CONTENT_DATA;
+                            $notify = false;
+                            mw_var('FORCE_ANON_UPDATE', $table_name_data);
+                            $new_q = array();
+                            $new_q['field_name'] = 'qty';
+                            $new_q['content_id'] = $item['rel_id'];
+                            if ($new_qty > 0) {
+
+                                $new_q['field_value'] = $new_qty;
+
+
+                            } else {
+                                $notify = true;
+                                $new_q['field_value'] = '0';
+
+
+                            }
+                            $res[] = $new_q;
+                            $upd_qty = $this->app->content->save_content_data_field($new_q);
+                            if ($notify) {
+                                $notif = array();
+                                //$notif['module'] = "content";
+                                $notif['rel'] = 'content';
+                                $notif['rel_id'] = $item['rel_id'];
+                                $notif['title'] = "Your item is out of stock!";
+                                $notif['description'] = "You sold all items you had in stock. Please update your quantity";
+                                $notif = $this->app->notifications->save($notif);
+
+                            }
+
+
+                        }
+                    }
+
+                }
+
+
+            }
+
+        }
+
+
+        return $res;
+    }
+
+    public function order_items($order_id = false)
+    {
+        $order_id = intval($order_id);
+        if ($order_id == false) {
+            return;
+        }
+        $params = array();
+        $table = $this->tables['cart'];
+        $params['table'] = $table;
+        $params['order_id'] = $order_id;
+        $get = $this->app->db->get($params);
+        return $get;
+    }
+
     /**
      * update_order
      *
@@ -1759,7 +1759,7 @@ class Shop
         $adm = $this->app->user->is_admin();
 
         if (defined('MW_API_CALL') and $adm == false) {
-           return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);
+            return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = $this->tables['cart_orders'];
         if (!is_array($data)) {
@@ -1974,6 +1974,34 @@ class Shop
                 return $res;
             }
         }
+    }
+
+    function checkout_url()
+    {
+
+
+        $template_dir = $this->app->content->template_dir();
+        $file = $template_dir . 'checkout.php';
+        $default_url = false;
+        if (is_file($file)) {
+            $default_url = 'checkout';
+        } else {
+            $default_url = 'shop/checkout';
+        }
+
+        $checkout_url = $this->app->option->get('checkout_url', 'shop');
+        if ($checkout_url != false and trim($checkout_url) != '') {
+            $default_url = $checkout_url;
+        }
+
+        $checkout_url_sess = $this->app->user->session_get('checkout_url');
+
+        if ($checkout_url_sess == false) {
+            return $this->app->url->site($default_url);
+        } else {
+            return $this->app->url->site($checkout_url_sess);
+        }
+
     }
 
 

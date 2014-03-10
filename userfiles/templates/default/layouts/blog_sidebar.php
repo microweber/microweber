@@ -53,6 +53,6 @@
   </div>
   <h4 class="element sidebar-title">Other pages</h4>
   <div class="sidebar-box">
-  	<module type="pages" template="pills"  />
+  	<module type="pages"  />
   </div>
 </div>

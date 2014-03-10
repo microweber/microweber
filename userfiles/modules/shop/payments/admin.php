@@ -299,8 +299,16 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 					<module type="shop/payments/currency_render" id="mw_curr_rend" />
                     
                     <div class="vSpace"></div>
-
                     
+                    
+                    
+                    <h2>Checkout URL</h2>
+					<?php ?>
+					<?php $checkout_url = get_option('checkout_url', 'shop');  ?>
+				 
+				 	<input name="checkout_url"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('checkout_url','shop'); ?>" placeholder="Use default"  />
+
+                     <div class="vSpace"></div>
                     <h4>
 						<?php _e("Disable online shop"); ?>
 					</h4>

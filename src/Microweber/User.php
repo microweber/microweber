@@ -1702,6 +1702,89 @@ class User
         }
     }
 
+    function register_url()
+    {
+
+
+        $template_dir = $this->app->content->template_dir();
+        $file = $template_dir . 'register.php';
+        $default_url = false;
+        if (is_file($file)) {
+            $default_url = 'register';
+        } else {
+            $default_url = 'users/register';
+        }
+
+        $checkout_url = $this->app->option->get('register_url', 'users');
+        if ($checkout_url != false and trim($checkout_url) != '') {
+            $default_url = $checkout_url;
+        }
+
+        $checkout_url_sess = $this->app->user->session_get('register_url');
+
+        if ($checkout_url_sess == false) {
+            return $this->app->url->site($default_url);
+        } else {
+            return $this->app->url->site($checkout_url_sess);
+        }
+
+    }
+    function login_url()
+    {
+
+
+        $template_dir = $this->app->content->template_dir();
+        $file = $template_dir . 'login.php';
+        $default_url = false;
+        if (is_file($file)) {
+            $default_url = 'login';
+        } else {
+            $default_url = 'users/login';
+        }
+
+        $checkout_url = $this->app->option->get('login_url', 'users');
+        if ($checkout_url != false and trim($checkout_url) != '') {
+            $default_url = $checkout_url;
+        }
+
+        $checkout_url_sess = $this->app->user->session_get('login_url');
+
+        if ($checkout_url_sess == false) {
+            return $this->app->url->site($default_url);
+        } else {
+            return $this->app->url->site($checkout_url_sess);
+        }
+
+    }
+
+    function forgot_password_url()
+    {
+
+
+        $template_dir = $this->app->content->template_dir();
+        $file = $template_dir . 'forgot_password.php';
+        $default_url = false;
+        if (is_file($file)) {
+            $default_url = 'forgot_password';
+        } else {
+            $default_url = 'users/forgot_password';
+        }
+
+        $checkout_url = $this->app->option->get('forgot_password_url', 'users');
+        if ($checkout_url != false and trim($checkout_url) != '') {
+            $default_url = $checkout_url;
+        }
+
+        $checkout_url_sess = $this->app->user->session_get('forgot_password_url');
+
+        if ($checkout_url_sess == false) {
+            return $this->app->url->site($default_url);
+        } else {
+            return $this->app->url->site($checkout_url_sess);
+        }
+
+    }
+
 }
 
 

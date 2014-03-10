@@ -1,6 +1,27 @@
 <?php
 
 
+function forgot_password_url()
+{
+
+    return mw('user')->forgot_password_url();
+
+
+}
+
+function register_url()
+{
+    return mw('user')->register_url();
+
+
+}
+
+function login_url()
+{
+
+    return mw('user')->login_url();
+
+}
 
 function session_set($key, $val)
 {
@@ -111,18 +132,12 @@ function save_user($params)
 }
 
 
-
 api_expose('delete_user');
 
 function delete_user($data)
 {
     return mw('user')->delete($data);
 }
-
-
-
-
-
 
 
 api_expose('social_login_process');
@@ -218,9 +233,6 @@ function is_admin()
 
     return mw('user')->is_admin();
 }
-
-
-
 
 
 /**

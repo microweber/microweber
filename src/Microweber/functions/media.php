@@ -5,6 +5,13 @@ function get_picture($content_id, $for = 'post', $full = false)
     return mw('media')->get_picture($content_id, $for, $full);
 
 }
+function get_picture_by_id($media_id)
+{
+    return mw('media')->get_by_id($media_id);
+
+}
+
+
 
 
 api_expose('upload_progress_check');
@@ -43,8 +50,11 @@ function delete_media($data)
 }
 
 api_expose('save_media');
-
 function save_media($data)
+{
+    return save_picture($data);
+}
+function save_picture($data)
 {
 
     return mw('media')->save($data);

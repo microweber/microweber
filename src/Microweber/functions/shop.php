@@ -26,7 +26,7 @@ function update_cart($data)
 {
     return mw('shop')->update_cart($data);
 }
-
+api_expose('empty_cart');
 function empty_cart()
 {
     return mw('shop')->empty_cart();
@@ -34,7 +34,7 @@ function empty_cart()
 
 function checkout_url()
 {
-    return site_url('checkout');
+    return mw('shop')->checkout_url();
 }
 
 api_expose('update_order');

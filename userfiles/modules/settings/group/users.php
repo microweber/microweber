@@ -236,6 +236,55 @@ mw.tools.tabGroup({
 
 
 
+
+                     <div class="vSpace"></div>
+   <a href="javascript:;" onclick="$('#user-login-urls-set').toggle()" class="mw-ui-link">Users URL settings</a>
+              <div id="user-login-urls-set" style="display:none;">
+              
+                    <h3>Register URL</h3>
+                    <p>You can set a custom url for the register page</p>
+					 
+                       
+
+					<?php $checkout_url = get_option('register_url', 'users');  ?>
+				 
+				 	<input name="register_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('register_url','users'); ?>" placeholder="Use default"  />
+
+                     <div class="vSpace"></div>
+                     
+                     
+                        <h3>Login URL</h3>
+                    <p>You can set a custom url for the login page</p>
+					 
+                       
+
+					<?php $checkout_url = get_option('login_url', 'users');  ?>
+				 
+				 	<input name="login_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('login_url','users'); ?>" placeholder="Use default"  />
+
+                     <div class="vSpace"></div>
+                     
+                     
+                           <h3>Forgot password  URL</h3>
+                    <p>You can set a custom url for the forgot password page</p>
+					 
+                       
+
+					<?php $checkout_url = get_option('forgot_password_url', 'users');  ?>
+				 
+				 	<input name="forgot_password_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('forgot_password_url','users'); ?>" placeholder="Use default"  />
+
+                     <div class="vSpace"></div>
+                     
+              
+              
+              </div>
+                     
+                     
+                     
+                     
+
+
   <?php
 
 

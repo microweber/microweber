@@ -843,7 +843,7 @@ i.myspace {
 
 
 #sign-box {
-	max-width: 350px;
+	max-width: 450px;
 }
 .login-register .facebook-login {
 	display: block;
@@ -886,6 +886,24 @@ input.mw-captcha-input {
 	white-space: normal;
 	text-decoration: underline
 }
+
+[class*="mw-signin-with-"]{
+  display: inline-block;
+  width: 30px;
+  height: 29px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  text-indent: -9999px;
+  position: relative;
+}
+
+.mw-signin-with-facebook {background-image: url(../img/mw.soc.fb.png);}
+.mw-signin-with-twitter {background-image: url(../img/mw.soc.tw.png);}
+.mw-signin-with-live {background-image: url(../img/mw.soc.win.png);}
+.mw-signin-with-github {background-image: url(../img/mw.soc.git.png);}
+.mw-signin-with-google {background-image: url(../img/mw.soc.goog.png);}
+
+
 /* /Login and Register */
 
 /* Search */

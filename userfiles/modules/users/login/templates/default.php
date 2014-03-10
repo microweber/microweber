@@ -16,14 +16,14 @@ description: Login default
 
 <script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>users/login/templates.css")</script>
 
-<div id="mw-login">
+<div id="mw-login" class="well">
   <?php if($user != false): ?>
-  <div class="well">
+  <div>
     <module type="users/profile" />
   </div>
   <?php else:  ?>
   <div class="box-head">
-    <h2><?php _e("Login or"); ?> <a href="javascript:mw.load_module('users/register', '#<?php print $params['id'] ?>');"><?php _e("Register"); ?></a></h2>
+    <h2><?php _e("Login or"); ?> <a href="<?php print register_url(); ?>"><?php _e("Register"); ?></a></h2>
   </div>
 
   <div id="user_login_holder_<?php print $params['id'] ?>">
@@ -34,7 +34,7 @@ description: Login default
     <div class="control-group form-group" style="margin-bottom: 0;">
       <input  class="mw-ui-field large-field form-control"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
     </div>
-    <a class="reset-password-link" href="javascript:mw.load_module('users/forgot_password', '#<?php print $params['id'] ?>');"><?php _e("Forgot password"); ?>?</a>
+    <a class="reset-password-link" href="<?php print forgot_password_url(); ?>"><?php _e("Forgot password"); ?>?</a>
 
     <div class="vSpace"></div>
     <div class="alert" style="margin: 0;display: none;"></div>
@@ -65,19 +65,19 @@ description: Login default
 
     <?php if($have_social_login){ ?><ul><?php } ?>
         <?php if($facebook): ?>
-        <li><a href="<?php print api_link('user_social_login?provider=facebook') ?>" class="mw-social-ico-facebook">Facebook login</a></li>
+        <li><a href="<?php print api_link('user_social_login?provider=facebook') ?>" class="mw-signin-with-facebook">Facebook login</a></li>
         <?php endif; ?>
         <?php if($twitter): ?>
-        <li><a href="<?php print api_link('user_social_login?provider=twitter') ?>" class="mw-social-ico-twitter">Twitter login</a></li>
+        <li><a href="<?php print api_link('user_social_login?provider=twitter') ?>" class="mw-signin-with-twitter">Twitter login</a></li>
         <?php endif; ?>
         <?php if($google): ?>
-        <li><a href="<?php print api_link('user_social_login?provider=google') ?>" class="mw-social-ico-google">Google login</a></li>
+        <li><a href="<?php print api_link('user_social_login?provider=google') ?>" class="mw-signin-with-google">Google login</a></li>
         <?php endif; ?>
         <?php if($windows): ?>
-        <li><a href="<?php print api_link('user_social_login?provider=live') ?>" class="mw-social-ico-live">Windows login</a></li>
+        <li><a href="<?php print api_link('user_social_login?provider=live') ?>" class="mw-signin-with-live">Windows login</a></li>
         <?php endif; ?>
         <?php if($github): ?>
-        <li><a href="<?php print api_link('user_social_login?provider=github') ?>" class="mw-social-ico-github">Github login</a></li>
+        <li><a href="<?php print api_link('user_social_login?provider=github') ?>" class="mw-signin-with-github">Github login</a></li>
         <?php endif; ?>
     <?php if($have_social_login){ ?></ul><?php } ?>
 

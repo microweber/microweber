@@ -313,6 +313,13 @@ html.mw_pages #mw_tabs li.active a{
   letter-spacing: 2px;
   display: inline-block;
   float: left;
+
+  max-width: 258px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis
+
+
 }
 
 

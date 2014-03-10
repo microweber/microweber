@@ -11,7 +11,7 @@
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 <div id="content">
      <div class="container edit"  field="content" rel="content">
-        <div class="well small-layout headed-box" id="sign-box">
+        <div class="small-layout headed-box" id="sign-box">
             <module="users/login" />
         </div>
      </div>

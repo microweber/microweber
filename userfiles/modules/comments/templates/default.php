@@ -181,11 +181,11 @@ description: Default comments template
 	<?php else :  ?>
 	<div class="alert">
 		<?php _e("You have to"); ?>
-		<a href='<?php print site_url(); ?>login' class="comments-login-link">
+		<a href='<?php print login_url(); ?>' class="comments-login-link">
 		<?php _e("log in"); ?>
 		</a>
 		<?php _e("or"); ?>
-		<a class="comments-register-link" href='<?php print site_url(); ?>register'>
+		<a class="comments-register-link" href='<?php print register_url(); ?>'>
 		<?php _e("register"); ?>
 		</a>
 		<?php _e("to post a comment"); ?>

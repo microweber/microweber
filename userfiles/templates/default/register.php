@@ -10,12 +10,9 @@
 
 <div id="content">
     <div class="container">
-
-            <div class="well small-layout headed-box" id="sign-box">
-                 <module type="users/register" />
-             </div>
-
-
+        <div class="small-layout headed-box" id="sign-box">
+             <module type="users/register" />
+         </div>
     </div>
 </div>
 
