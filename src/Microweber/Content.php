@@ -5156,6 +5156,12 @@ class Content
                     $data['subtype'] = 'post';
                     $data['content_type'] = 'post';
                 }
+                if (!isset($data['subtype'])) {
+                    $data['subtype'] = 'post';
+                }
+                if (!isset($data['content_type'])) {
+                    $data['content_type'] = 'post';
+                }
             }
         }
 
