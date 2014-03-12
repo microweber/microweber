@@ -16,6 +16,8 @@ mw.on.hashParam("search", function(){
     });
 });
 mw.on.hashParam("content_id", function(){
+        mw.$("a.comments-group").removeClass("active");
+        mw.$("a[href*='content_id="+this+"']").addClass("active");
 		if(this == 'settings'){
 			$('.comments-settings').show();
 			$('.comments-items').hide();

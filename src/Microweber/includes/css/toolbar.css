@@ -1,22 +1,181 @@
 @import url("liveadmin.css");
 @import url("liveedit.css");
   .helper{
-
     background: #ccc;
-
     position: absolute;
-
     z-index: 997;
-
     width: 100px;
-
     height: 200px;
-
     opacity:.7;
-
   }
 
 
+
+
+/* Section Tabs and Dropdowns */
+
+.mw-dropdown-list > ul {
+  max-height: 265px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+.toolbar-sections-tabs{
+  float: left;
+  position: relative;
+  z-index: 12;
+  background:  #F5F5F5;
+}
+
+
+.toolbar-sections-tabs > ul > li.hover > ul,
+.toolbar-sections-tabs > ul > li.active > ul{
+  display: block;
+}
+
+.toolbar-sections-tabs > ul > li > ul > li{
+  list-style: none
+}
+
+.toolbar-sections-tabs .mw-dropdown-list li a{
+  display: block;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: 15px 50%;
+  padding: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border:1px solid #EAEAEA;
+  border-top:none;
+}
+
+.toolbar-sections-tabs li:hover > [class*='tst-'], [class*='tst-']:hover, [class*='tst-'].active{
+  background-color: white;
+  border-bottom-color: white;
+}
+
+.mw-dropdown-list-icons a > .ico{
+  opacity: 0.5;
+}
+
+.mw-dropdown-list-icons a:hover > .ico{
+  opacity: 1;
+}
+
+.mw-dropdown-list .pages_tree a{
+  padding-left: 35px;
+}
+
+.toolbar-sections-tabs .mw-dropdown-list a .ico + span{
+  position: relative;
+  top: 2px;
+}
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list {
+  background: white;
+}
+
+
+.toolbar-sections-tabs > ul > li{
+  float: left;
+  list-style: none;
+  position: relative;
+}
+
+.mw-dropdown-list{
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  min-width: 100%;
+  background: white;
+  box-shadow: 0px 1px 2px -2px  #111;
+}
+.toolbar-sections-tabs .mw-dropdown-list{
+  top: 102%;
+}
+
+
+
+.create-content-dropdown-list{
+  display: none;
+}
+
+.create-content-dropdown-list li.is_page > a, .create-content-dropdown-list li.page > a{ background-image: url(../img/tree.pageico.png); }
+.create-content-dropdown-list li.post > a{ background-image: url(../img/tree.post.png); }
+.create-content-dropdown-list li.product > a{ background-image: url(../img/tree.shopico.png); }
+.create-content-dropdown-list li.is_category > a{ background-image: url(../img/tree.cat.png); }
+.create-content-dropdown-list li.is_blog > a{ background-image: url(../img/tree.blog.png); }
+.create-content-dropdown-list li.have_category > a, .create-content-dropdown-list li.page.dynamic > a{ background-image: url(../img/tree.dynamic.png); }
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list li a{ padding-left: 35px;  }
+
+.toolbar-sections-tabs > ul > li.modules-layouts-menu .mw-dropdown-list  li a{padding: 7px 15px; }
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list.liveeditcreatecontentmenu li a{
+  padding-left: 21px;
+}
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list li li a{ padding-left: 40px; background-position: 21px 50%; }
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list li li li a{ padding-left: 60px; background-position: 46px 50%; }
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list ul{ background: white url(../img/deeparr.png) no-repeat 21px 9px; }
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list a:hover{
+     text-decoration: underline;
+     background-color: #f5f5f5;
+}
+
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list ul ul{ background-position: 41px 9px; }
+.toolbar-sections-tabs > ul > li > .mw-dropdown-list ul ul ul{ background-position: 61px 9px; }
+
+
+.toolbar-sections-tabs > ul > li > ul > li > a:hover,
+.toolbar-sections-tabs > ul > li > ul > li > a:focus{
+  background-color: #F7F7F7;
+}
+
+.toolbar-sections-tabs > ul > li > ul > li > a:active{
+  box-shadow: inset 0 0 9px -3px #ddd;
+
+}
+
+.toolbar-sections-tabs > ul > li > ul > li > a .mw-ui-btn-plus{
+  top: 9px;
+}
+
+/* // Section Tabs and Dropdowns */
+
+.mw-ui-manage-list li{
+    list-style: none;
+}
+
+.mw-ui-manage-list li a{
+  display: block;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: 15px 50%;
+  padding: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border:1px solid #EAEAEA;
+  border-top:none;
+}
+
+.mw-ui-manage-list li a .ico{
+  margin: -5px 5px -5px 0;
+}
+
+.mw-ui-manage-list li li a{ padding-left: 25px; }
+.mw-ui-manage-list li li li a{ padding-left: 35px; }
+.mw-ui-manage-list li li li li a{ padding-left: 45px; }
+.mw-ui-manage-list li li li li li a{ padding-left: 55px; }
+
+.mw-ui-manage-list li a:hover{
+  text-decoration: underline;
+  background-color: #f5f5f5;
+}
 
 
 

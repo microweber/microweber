@@ -2025,7 +2025,7 @@ class Controller
             if (!stristr($l, $apijs_loaded)) {
 
                 $default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-                $default_css .= '<script src="' . MW_INCLUDES_URL . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";
+              /*  $default_css .= '<script src="' . MW_INCLUDES_URL . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";*/
 
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }

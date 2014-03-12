@@ -284,12 +284,8 @@ mw.drag = {
            mw.mm_target = event.target;
            mw.$mm_target = $(mw.mm_target);
 
-
-
-
            if(!mw.isDrag){
-               if(mw.emouse.x % 2 === 0 ){ //not on every pixel
-                   //trigger on element
+               if(mw.emouse.x % 2 === 0 ){
                    if(mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
@@ -365,10 +361,8 @@ mw.drag = {
            }
            else{
 
-
-
            if( mw.$mm_target.hasClass("empty-element")){
-                $(window).trigger("onDragHoverOnEmpty", mw.mm_target);  //needed for webkit mouseover bug
+                $(window).trigger("onDragHoverOnEmpty", mw.mm_target);
            }
            else if($(mw.mm_target.parentNode).hasClass("empty-element")){
                 $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
@@ -441,7 +435,7 @@ mw.drag = {
                 }
 
                else if(!mw.mm_target.className.contains("ui-") && !mw.tools.hasParentsWithClass(mw.mm_target, "ui-draggable-dragging")){
-                    if(mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasParentsWithClass(mw.mm_target, 'no-drop') && !mw.$mm_target.hasClass('no-drop')){
+                    if(mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop') && !mw.$mm_target.hasClass('nodrop')){
 
                         if(mw.tools.hasClass(mw.mm_target.className, 'mw-col') || mw.tools.hasClass(mw.mm_target.className, 'mw-col-container') ){
                            mw.currentDragMouseOver = mw.tools.firstParentWithClass(mw.mm_target, 'mw-row');
@@ -471,36 +465,14 @@ mw.drag = {
 
 
 
-
-              //mw.currentDragMouseOver = mw.mm_target;
-
-
-            /* if(mw.mm_target.tagName==='BODY' && mw.mouse.y%2==0){
-                    var items = mwd.getElementsByClassName('element');
-                    for(var i=0; i<items.length; i++ ){
-                      var rect = items[i].getClientRects()[0];
-                      var top = rect.top;
-                      var bot = rect.bottom;
-                      var height = rect.height;
-
-                      if(mw.mouse.y > top && mw.mouse.y < bot){
-                        if(mw.mouse.y<top+height/2){
-                          mw.currentDragMouseOver = items[i];
-                          mw.dropable.data("position", 'top');
-                        }
-                        else if(mw.mouse.y>top+height/2){
-                          mw.currentDragMouseOver = items[i];
-                          mw.dropable.data("position", 'bottom');
-                        }
-                      }
-                    }
-               } */
-
-
-
            }
 
            if(mw.isDrag && mw.currentDragMouseOver!=null  /*&& !mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'module') && !mw.tools.hasClass(mw.currentDragMouseOver.className, 'module')*/){
+
+            if(mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')){
+              mw.dropable.hide();
+              return false;
+            }
 
             if(mw.tools.hasClass('nodrop', mw.currentDragMouseOver.className) || mw.tools.hasParentsWithClass(mw.currentDragMouseOver, 'nodrop') || mw.currentDragMouseOver.getAttribute('field') === 'title'){
               mw.currentDragMouseOver = mw.drag.noop;
@@ -660,6 +632,11 @@ mw.drag = {
         });
 
         $(window).bind("onElementOver", function(a, element){
+          if(mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop')){
+            mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
+            return false;
+          }
+          else{mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show(); }
           var el = $(element);
           if(element.textContent.length < 2 && element.nodeName !== 'IMG') return false;
           var o = el.offset();
@@ -673,25 +650,25 @@ mw.drag = {
           $(mw.handle_element).data("curr", element);
           element.id=="" ? element.id="row_"+mw.random() : "";
           mw.dropable.removeClass("mw_dropable_onleaveedit");
-
-
-
-
-
         });
         $(window).bind("onModuleOver", function(a, element){
 
-          var order = mw.tools.parentsOrder(element, ['edit', 'module']);
 
-          if(order.edit == -1 || (order.module > -1 && order.edit > order.module)){
-            mw.$("#mw_handle_module .mw-sorthandle-moveit").hide();
-            mw.$("#mw_handle_module .mw_edit_delete").hide();
+          if(mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop')){
+            mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
+            //return false;
           }
           else{
-            mw.$("#mw_handle_module .mw-sorthandle-moveit").show();
-            mw.$("#mw_handle_module .mw_edit_delete").show();
+            var order = mw.tools.parentsOrder(element, ['edit', 'module']);
+            if(order.edit == -1 || (order.module > -1 && order.edit > order.module)){
+              mw.$("#mw_handle_module .mw-sorthandle-moveit").hide();
+              mw.$("#mw_handle_module .mw_edit_delete").hide();
+            }
+            else{
+              mw.$("#mw_handle_module .mw-sorthandle-moveit").show();
+              mw.$("#mw_handle_module .mw_edit_delete").show();
+            }
           }
-
 
           var el = $(element);
           //var title = el.dataset("filter");
@@ -719,11 +696,9 @@ mw.drag = {
           element.id=="" ? element.id="row_"+mw.random() : "";
 
 
-
-
-
         });
         $(window).bind("onRowOver", function(a, element){
+
           if(element.clicked == true){
             var el = $(element);
             var o = el.offset();
@@ -740,6 +715,11 @@ mw.drag = {
             mw.$("a.mw-make-cols").eq(size-1).addClass("active");
             element.id=="" ? element.id="row_"+mw.random() : "";
           }
+          if(mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop')){
+            mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
+            return false;
+          }
+          else{mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show(); }
         });
         $(window).bind("onItemOver", function(a, element){
           if(element === false) { return false; }
@@ -847,7 +827,6 @@ mw.drag = {
                     }
                     else{
                       $(window).trigger("onElementClick", curr);
-
                     }
                 }
                 if(!$(curr).hasClass('module')){
@@ -856,7 +835,6 @@ mw.drag = {
             });
             $(mw.handle_module).mouseenter(function(){
                 var curr = $(this).data("curr");
-
                 $(this).draggable("option", "helper", function(){
                     var clone =  $(curr).clone(true);
                     clone.css({
@@ -985,16 +963,47 @@ mw.drag = {
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
-
             mw.drag.toolbar_modules();
-
         }
-
         mw.drag.the_drop();
 	},
+    properFocus:function(event){
+        if(mw.tools.hasClass(event.target, 'mw-row') || mw.tools.hasClass(event.target, 'mw-col')){
+            if(mw.tools.hasClass(event.target, 'mw-col')){
+                var tofocus = event.target.querySelector('.mw-col-container');
+            }
+            else{
+                 var i=0,
+                     cols = event.target.children,
+                     l = cols.length;
+               for(;i<l;i++){
+                  var _cleft = $(cols[i]).offset().left;
+                  if(_cleft<event.pageX && (_cleft+cols[i].clientWidth) > event.pageX){
+                    var tofocus = cols[i].querySelector('.mw-col-container');
+                    if(tofocus === null) {
+                        cols[i].innerHTML = '<div class="mw-col-container">' + cols[i].innerHTML + '</div>';
+                    }
+                    var tofocus = cols[i].querySelector('.mw-col-container');
+                    break;
+                  }
+               }
+            }
+            if(tofocus.querySelector('.element') !== null){
+                var arr = tofocus.querySelectorAll('.element'), l = arr.length;
+                var tofocus = arr[l-1];
+            }
+           if(!!tofocus){
+              var range = document.createRange();
+              var sel = window.getSelection();
+              range.selectNodeContents(tofocus);
+              range.collapse(false);
+              sel.removeAllRanges();
+              sel.addRange(range);
+           }
+      }
+    },
     toolbar_modules:function(selector){
         var items = selector || ".modules-list li";
-
         mw.$(items).draggable({
             revert: true,
             cursorAt:{
@@ -1002,12 +1011,10 @@ mw.drag = {
             },
             revertDuration: 0,
             start:function(a,b){
-
                 mw.isDrag = true;
                 mw.dragCurrent = mw.GlobalModuleListHelper;
                 $(mwd.body).addClass("dragStart");
                 $(mw.image_resizer).removeClass("active");
-
             },
            stop:function(){
               mw.isDrag = false;
@@ -1016,9 +1023,8 @@ mw.drag = {
               $(mwd.body).removeClass("dragStart");
               setTimeout(function(){
                 mw.drag.load_new_modules();
-                mw.recommend.increase($(mw.dragCurrent).attr("data-module-name"))
+                mw.recommend.increase($(mw.dragCurrent).attr("data-module-name"));
                 mw.drag.toolbar_modules(el);
-
               }, 200);
            }
         });
@@ -1054,18 +1060,12 @@ mw.drag = {
           $(mwd.body).addClass("bup");
 
 		$(mwd.body).bind("mouseup", function (event) {
-
-
             mw.image._dragcurrent = null;
             mw.image._dragparent = null;
-
             var sliders = mwd.getElementsByClassName("canvas-slider"), len = sliders.length, i=0;
             for( ; i<len; i++){ sliders[i].isDrag = false; }
             if (!mw.isDrag) {
     		    var target = event.target;
-
-
-
                 if($(target).hasClass("element")){
                   $(window).trigger("onElementClick", target);
                 }
@@ -1106,7 +1106,9 @@ mw.drag = {
                 }
             }
 
-
+            if(!mw.isDrag){
+              mw.drag.properFocus(event);
+            }
 
 			if (mw.isDrag) {
 
@@ -2718,6 +2720,8 @@ if(!mw.tools.hasClass(event.target, 'mw_handle_row')
         });
          row.clicked = true;
       }
+
+
     });
 
     mw.$("#liveedit_wysiwyg").mousedown(function(){

@@ -13,7 +13,7 @@ description: Basic contact form
 ?>
 
 <script>
-    mw.require("<?php print $config['url_to_module']; ?>css/style.css", true);
+    mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css", true);
 </script>
 
 <div class="contact-form-container contact-form-template-basic">

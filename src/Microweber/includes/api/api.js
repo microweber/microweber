@@ -2,16 +2,9 @@
 if(typeof mw === 'undefined'){
 
 
-
-
 mw = {}
 
-
-
-
-
 mw.version = "<?php print MW_VERSION; ?>";
-
 
 mw.pauseSave = false;
 
@@ -19,11 +12,11 @@ mw.askusertostay = false;
 
   if (top === self){
     window.onbeforeunload = function() {
-        if(mw.askusertostay){
-            mw.notification.warning("<?php _e("You have unsaved changes"); ?>!");
-            return "<?php _e("You have unsaved changes"); ?>!";
-        }
-   }
+      if(mw.askusertostay){
+        mw.notification.warning("<?php _e("You have unsaved changes"); ?>!");
+        return "<?php _e("You have unsaved changes"); ?>!";
+      }
+    }
   }
 
   warnOnLeave = function(){
@@ -35,9 +28,6 @@ mw.askusertostay = false;
   mwd = document;
   mww = window;
   mwhead = mwd.head || mwd.getElementsByTagName('head')[0];
-  mw.rh = document.createElement('script');
-  mwhead.appendChild(mw.rh);
-
 
   mw.loaded = false;
 
@@ -60,8 +50,6 @@ mw.askusertostay = false;
     }
   }
 
-
-
   mw.onLive = function(callback) {
     if (typeof mw.settings.liveEdit === 'boolean' && mw.settings.liveEdit) {
       callback.call(this)
@@ -72,7 +60,6 @@ mw.askusertostay = false;
       callback.call(this);
     }
   }
-
 
   if (!Array.indexOf) {
     Array.prototype.indexOf = function(obj) {
@@ -87,69 +74,57 @@ mw.askusertostay = false;
   }
 
 
-
-
-
-    mw.required = typeof mw.required === 'undefined'?[]:mw.required;
-    mw.require = function(url, inHead) {
-      var inHead = inHead || false;
-      var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
-      if (!~mw.required.indexOf(url)) {
-        mw.required.push(url);
-        var t = url.split('.').pop();
-        var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
-        var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-        if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && !!window.CanvasRenderingContext2D) {
-           mwd.write(string);
-        }
-        else {
-            if(typeof $ === 'function'){
-                $(mwhead).append(string);
-            }
-            else{
-                if( t !== "css")  {
-                    var el = mwd.createElement('script');
-                    el.src = url;
-                    mwhead.appendChild(el);
-                }
-                else{
-                   var el = mwd.createElement('link');
-                   el.rel='stylesheet';
-                   el.type='text/css';
-                   el.href = url;
-                   mwhead.appendChild(el);
-                }
-            }
-        }
+  mw.required = typeof mw.required === 'undefined'?[]:mw.required;
+  mw.require = function(url, inHead) {
+    var inHead = inHead || false;
+    var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
+    if (!~mw.required.indexOf(url)) {
+      mw.required.push(url);
+      var t = url.split('.').pop();
+      var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
+      var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
+      if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && !!window.CanvasRenderingContext2D) {
+         mwd.write(string);
+      }
+      else {
+          if(typeof $ === 'function'){
+              $(mwhead).append(string);
+          }
+          else{
+              if( t !== "css")  {
+                  var el = mwd.createElement('script');
+                  el.src = url;
+                  mwhead.appendChild(el);
+              }
+              else{
+                 var el = mwd.createElement('link');
+                 el.rel='stylesheet';
+                 el.type='text/css';
+                 el.href = url;
+                 mwhead.appendChild(el);
+              }
+          }
       }
     }
-
-    mw.moduleCSS = function(url){
-      if (!~mw.required.indexOf(url)) {
-        mw.required.push(url);
-        var el = mwd.createElement('link');
-        el.rel='stylesheet';
-        el.type='text/css';
-        el.href = url;
-        mwhead.insertBefore(el, mwhead.firstChild);
-      }
+  }
+  mw.moduleCSS = function(url){
+    if (!~mw.required.indexOf(url)) {
+      mw.required.push(url);
+      var el = mwd.createElement('link');
+      el.rel='stylesheet';
+      el.type='text/css';
+      el.href = url;
+      mwhead.insertBefore(el, mwhead.firstChild);
     }
+  }
 
+  Wait = function(a, b, max) {
+    window[a] === undefined ? setTimeout(function() {
+      Wait(a, b), 52
+    }) : b.call(a);
+  }
 
-
-
-Wait = function(a, b, max) {
-  window[a] === undefined ? setTimeout(function() {
-    Wait(a, b), 52
-  }) : b.call(a);
-}
-
-
-
-
-
-  mw.target = {} //
-
+  mw.target = {}
 
   mw.is = {
     obj: function(obj) {
@@ -175,7 +150,6 @@ Wait = function(a, b, max) {
   }
 
 
-
 /*
  * Microweber - Javascript Framework
  *
@@ -199,20 +173,12 @@ Wait = function(a, b, max) {
     less:"<?php _e("Less"); ?>"
   }
 
-
-
-
-
-
-
-
   mw.lib = {
     _required:[],
     require:function(name){
           if(mw.lib._required.indexOf(name) !== -1){
               return false;
           };
-
           mw.lib._required.push(name);
           if(typeof mw.settings.libs[name] === 'undefined') return false;
           if(mw.settings.libs[name].constructor !== [].constructor) return false;
@@ -228,7 +194,7 @@ Wait = function(a, b, max) {
     get:function(name, done, error){
           if(mw.lib._required.indexOf(name) !== -1){
               if(typeof done === 'function'){
-                     done.call();
+                done.call();
               }
               return false;
           };
@@ -261,17 +227,10 @@ Wait = function(a, b, max) {
     }
   }
 
-
-
-
-
-
-
   mw.settings = {
     liveEdit:false,
     debug: true,
 	basic_mode:false,
-
     site_url: '<?php print site_url(); ?>',
     template_url: '<?php print TEMPLATE_URL; ?>',
     modules_url:'<?php print MW_MODULES_URL; ?>',
@@ -295,8 +254,6 @@ Wait = function(a, b, max) {
     row_id: false,
     edit_area_placeholder: '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span><?php _e("Please drag items here"); ?></span></div>',
     empty_column_placeholder: '<div id="_ID_" class="empty-element empty-element-column"><?php _e("Please drag items here"); ?></div>',
-
-    //handles
     handles: {
       module: "\
         <div contenteditable='false' id='mw_handle_module' class='mw-defaults mw_master_handle mw-sorthandle mw-sorthandle-col mw-sorthandle-module'>\
@@ -327,8 +284,6 @@ Wait = function(a, b, max) {
     },
     sorthandle_delete_confirmation_text: "<?php _e("Are you sure you want to delete this element"); ?>?"
   }
-
-
 
   mw.settings.libs = {
       jqueryui:['jquery-ui.min.css', 'jquery-ui.min.js'],
@@ -366,10 +321,7 @@ Wait = function(a, b, max) {
     ]
   }
 
-
-
   mw.load_module = function($module_name, $update_element, callback, attributes) {
-
    var attributes = attributes || {};
    attributes.module = $module_name;
       mw._({
@@ -385,7 +337,6 @@ Wait = function(a, b, max) {
   }
 
   mw.loadModuleData = function(name, update_element, callback, attributes){
-
     var attributes = attributes || {};
     attributes.module = name;
     mw._({
@@ -410,8 +361,6 @@ Wait = function(a, b, max) {
     }, interval);
     return int;
   }
-
-
 
   mw.reload_module_parent = function(module, callback) {
     if(self !== parent && !!parent.mw){
@@ -474,10 +423,7 @@ Wait = function(a, b, max) {
     });
   }
 
-
   mw["_"] = function(obj, sendSpecific, DONOTREPLACE) {
-	  
-	  
     if(mw.on != undefined){
         mw.on.DOMChangePause = true;
     }
@@ -513,13 +459,10 @@ Wait = function(a, b, max) {
       }
     }
 
-
-
-     var b = true;
-     for (var a in to_send) {
-        if(to_send.hasOwnProperty(a)) { var b = false; };
-     }
-
+    var b = true;
+    for (var a in to_send) {
+       if(to_send.hasOwnProperty(a)) { var b = false; };
+    }
 
     if(b){
       mw.tools.removeClass(mwd.body, 'loading');
@@ -527,8 +470,6 @@ Wait = function(a, b, max) {
     }
 
     $.post(url, to_send, function(data) {
-
-
 
       if(mw.session != undefined){
         mw.session.checkPause = false;
@@ -551,8 +492,6 @@ Wait = function(a, b, max) {
           var id = false;
         }
       }
-
-
 
       if(!id){  return false; }
 
@@ -583,9 +522,6 @@ Wait = function(a, b, max) {
 
   }
 
-
-
-
   mw.log = d = function(what) {
     if (window.console && mw.settings.debug) {
       console.log(what);
@@ -609,11 +545,6 @@ Wait = function(a, b, max) {
       return jQuery(selector, context);
     }
   };
-
-
-
-
-
 
   mw.get = function(action, params, callback){
     var url = mw.settings.api_url + action;
@@ -644,44 +575,31 @@ Wait = function(a, b, max) {
 
   mw.get_content = get_content
 
-
-
-
-
-
-
-
-mw.serializeFields =  function(id, ignorenopost){
-      var ignorenopost = ignorenopost || false;
-      var el = mw.$(id);
-      fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
-      var data = {}
-      $(fields, el).each(function(){
-          if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled){
-            var el = this, _el = $(el);
-            var val = _el.val();
-            var name = el.name;
-            if(el.name.contains("[]")){
-              try {
-                 data[name].push(val);
+  mw.serializeFields =  function(id, ignorenopost){
+        var ignorenopost = ignorenopost || false;
+        var el = mw.$(id);
+        fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
+        var data = {}
+        $(fields, el).each(function(){
+            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled){
+              var el = this, _el = $(el);
+              var val = _el.val();
+              var name = el.name;
+              if(el.name.contains("[]")){
+                try {
+                   data[name].push(val);
+                }
+                catch(e){
+                  data[name] = [val];
+                }
               }
-              catch(e){
-                data[name] = [val];
+              else{
+                data[name] = val;
               }
             }
-            else{
-              data[name] = val;
-            }
-          }
-      });
-      return data;
- }
-
-
-
-
-
-
+        });
+        return data;
+   }
 
 mw.response = function(form, data, messages_at_the_bottom){
     var messages_at_the_bottom = messages_at_the_bottom || false;
@@ -707,7 +625,7 @@ mw.response = function(form, data, messages_at_the_bottom){
         return false;
     }
     else{
-return false;
+        return false;
     }
 }
 
@@ -753,26 +671,19 @@ mw._response = {
     $(holder).show();
   }
 }
-
-mw.require("session.js");
-
-
+  mw.require("session.js");
 }
 
+mw.required.push("<?php print MW_INCLUDES_URL; ?>api/jquery.js");
+mw.required.push("<?php print MW_INCLUDES_URL; ?>api/tools.js");
+mw.required.push("<?php print MW_INCLUDES_URL; ?>api/files.js");
+mw.required.push("<?php print MW_INCLUDES_URL; ?>api/forms.js");
+mw.required.push("<?php print MW_INCLUDES_URL; ?>api/url.js");
+mw.required.push("<?php print MW_INCLUDES_URL; ?>api/events.js");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<?php  include "jquery.js"; ?>
+<?php  include "tools.js"; ?>
+<?php  include "files.js"; ?>
+<?php  include "forms.js"; ?>
+<?php  include "url.js"; ?>
+<?php  include "events.js"; ?>

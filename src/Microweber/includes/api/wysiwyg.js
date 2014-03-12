@@ -190,7 +190,6 @@ mw.wysiwyg = {
           }
         }
         else{   // IE browser
-
             mw.wysiwyg.removeEditable();
             var cls = target.className;
             if(!mw.tools.hasClass(cls, 'empty-element')  && !mw.tools.hasClass(cls, 'ui-resizable-handle')){
@@ -231,10 +230,8 @@ mw.wysiwyg = {
         else{
            return (node.parentNode.isContentEditable) ? true : false;
         }
-
     },
     execCommand:function(a,b,c){
-
         try{  // 0x80004005
             if(document.queryCommandSupported(a) && mw.wysiwyg.isSelectionEditable()){
                 var b = b || false;
@@ -243,8 +240,7 @@ mw.wysiwyg = {
                    ($.browser.mozilla && !mw.is.ie)?mwd.designMode = 'on':'';  // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
                    mwd.execCommand(a,b,c);
                    ($.browser.mozilla && !mw.is.ie)?mwd.designMode = 'off':'';
-                 }
-
+                }
                 var node = window.getSelection().focusNode;
                 if(node!==null && mw.loaded){
                     if(mw.tools.hasClass(node, 'edit')){
@@ -254,7 +250,6 @@ mw.wysiwyg = {
                        mw.tools.addClass(mw.tools.firstParentWithClass(node, 'edit'), 'changed orig_changed');
                     }
                 }
-
             }
         }
         catch(e){}
@@ -883,7 +878,6 @@ mw.wysiwyg = {
       mw.wysiwyg.request_media('#set_bg_image');
     },
     set_bg_image:function(url){
-
       mw.$(".element-current").css("backgroundImage", "url(" + url + ")");
     },
     insert_html:function(html){
@@ -893,7 +887,6 @@ mw.wysiwyg = {
       else{
          var isembed = false;
       }
-
       if(isembed){
         var id = 'frame-'+mw.random();
         var frame = html;
@@ -902,7 +895,6 @@ mw.wysiwyg = {
       if(!!window.MSStream){
          mw.wysiwyg.restore_selection();
         if(mw.wysiwyg.isSelectionEditable()){
-
             var range = window.getSelection().getRangeAt(0);
             var el = mwd.createElement('span');
             el.innerHTML = html;
@@ -918,7 +910,6 @@ mw.wysiwyg = {
           document.selection.createRange().pasteHTML(html)
         }
       }
-
       if(isembed){
         var el = mwd.getElementById(id);
         el.parentNode.contentEditable = false;
@@ -941,9 +932,6 @@ mw.wysiwyg = {
       }
       return final;
     },
-    fontFX:function(cls){
-       mw.wysiwyg.applier('span', cls);
-    },
     insert_image:function(url){
         var id = 'image_' + mw.random();
         var img = '<img id="'+id+'" contentEditable="true" class="element" src="' + url + '" />';
@@ -956,7 +944,6 @@ mw.wysiwyg = {
     },
     save_selection:function(a){
         var a = a || false;
-
         var selection = window.getSelection();
         if (selection.rangeCount > 0 ){
           var range = selection.getRangeAt(0);
@@ -965,12 +952,10 @@ mw.wysiwyg = {
           var range = mwd.createRange();
           range.selectNode(mwd.querySelector('.edit .element'));
         }
-
         mw.wysiwyg.selection = {}
         mw.wysiwyg.selection.sel     = selection;
         mw.wysiwyg.selection.range   = range;
         mw.wysiwyg.selection.element = $(mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer));
-
         if(!!a){
             mw.wysiwyg.selection.simulate = mw.wysiwyg.applier('span', 'selection-simulation');
         }
@@ -1428,7 +1413,7 @@ $(window).load(function(){
           mw.smallEditor.css({
             visibility:"visible",
             opacity:0.5,
-            top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height /*- $(window).scrollTop()*/,
+            top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height,
             left:e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width()-5 )
           });
         }
@@ -1499,30 +1484,6 @@ $(window).load(function(){
         }
 
 
-
-
-
-      /**************************************  The Dot   ***********************************
-
-
-
-       mw.wysiwyg._C = mwd.createElement('div');
-       mw.wysiwyg._C.className = 'mwwysiwygcursor';
-       mwd.body.appendChild(mw.wysiwyg._C);
-
-       setInterval(function(){
-              //var r = window.getSelection().getRangeAt(0).getBoundingClientRect();
-              var r = window.getSelection().getRangeAt(0).getClientRects()[0];
-              if(!!r){
-                mw.wysiwyg._C.style.top = (r.top - 6) + 'px';
-                mw.wysiwyg._C.style.left = (r.left + r.width - 2) + 'px';
-              }
-
-       }, 77);
-
-
-
-      *************************************************************************************/
 
 
    mw.smallEditorOff = 150;

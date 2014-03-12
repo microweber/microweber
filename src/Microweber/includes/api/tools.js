@@ -1,5 +1,6 @@
 
 mw.require("files.js");
+mw.require(mw.settings.includes_url + "css/mw.ui.css");
 
 (function() {
     if(typeof jQuery.browser === 'undefined'){
@@ -346,7 +347,7 @@ mw.tools = {
           var el = mwd.getElementById(id);
         }
         else{
-          var el = mw.$(id)[0]; 
+          var el = mw.$(id)[0];
         }
 
         if(el===null){ return false; }

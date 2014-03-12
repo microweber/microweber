@@ -53,9 +53,7 @@ mw.iframecallbacks = {
              }
            }
            else{
-
                var html = " <a href='" + url + "' target='"+target+"'>" + url + "</a> ";
-
                mw.wysiwyg.insert_html(html);
           }
       }
@@ -64,8 +62,6 @@ mw.iframecallbacks = {
     insert_html:function(html){  return mw.wysiwyg.insert_html(html);},
     insert_image:function(url){  return mw.wysiwyg.insert_image(url);},
     set_bg_image:function(url){
-
-
       return mw.wysiwyg.set_bg_image(url);
     },
     fontColor:function(color){ return mw.wysiwyg.fontColor(color);},

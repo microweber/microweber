@@ -157,11 +157,6 @@
   left: 6px;
 }
 
-
-
-
-
-
 .edit, .mw-col{
   min-height: 50px;
   position: relative;
@@ -180,19 +175,12 @@
   zoom:1;
 }
 
-
-
-
-
 .ui-draggable-dragging{
   z-index: 999;
 }
 .ui-resizable-e{
   z-index: 5 !important;
 }
-
-
-
 
 .mw_image_resizer{
   position: absolute !important;
@@ -351,10 +339,6 @@ body.not-allowed{
   z-index: 2;
 }
 
-.ui-resizable-handle{
- /* background: #5B5B5B;
-  cursor: default !important; */
-}
 .mw_drag_float{
   float: left !important;
   display: inline-block !important;
@@ -365,24 +349,16 @@ body.not-allowed{
   display: inline-block !important;
 }
 
-.ui-draggable-dragging *{
-
-}
-
-
-
 #live_edit_toolbar_holder,
 #live_edit_toolbar{
   width: 100%;
   position: relative;
   z-index: 998;
-
 }
 
 #live_edit_toolbar.scrolling{
   box-shadow:0 2px 7px -8px #111;
 }
-
 
 #live_edit_toolbar{
   opacity: 1;
@@ -403,27 +379,6 @@ body.loaded #live_edit_toolbar{
   border-bottom: 1px solid #DDDDDD;
 }
 
-[contenteditable]{
-  outline: none;
-}
-
-.unselectable, .unselectable *{
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
-  -khtml-user-select: none;
-   user-select: none;
-}
-.msie_uploader{
-  position: absolute;
-  z-index: 1;
-  top: -9999px;
-  font-size: 100px;
-  opacity:0;
-  filter:alpha(opacity=0);
-}
-
-
 .mw_action_nav{
   display: block;
   width: 65px;
@@ -437,7 +392,6 @@ body.loaded #live_edit_toolbar{
 }
 
 .mw_action_nav label{
-  /*color: #6C6C6C; */
   font-size: 10px;
   cursor: pointer;
   display: block;
@@ -467,7 +421,7 @@ body.loaded #live_edit_toolbar{
 .mw_action_post button{background-position: -64px 0}
 .mw_action_sub_page button{background-position: -262px 0}
 .mw_action_category button{background-position: -130px 0}
-.mw_action_product button{background-position: -196px 0;/*box-shadow:0px 1px 2px -2px #434343; */}
+.mw_action_product button{background-position: -196px 0;}
 
 
 #action_new_sub_page{
@@ -479,19 +433,6 @@ body.view-shop .mw_action_post{
   display: none;
 }
 
-/*
-
-.mw_action_page:hover button{background-position: 0 -31px}
-.mw_action_post:hover button{background-position: -64px -31px}
-.mw_action_category:hover button{background-position: -130px -31px}
-.mw_action_product:hover button{background-position: -196px -31px}
-
-
-*/
-
-
-
-
 .mw_edit_pages_nav{
   height: 100px;
   border-bottom: 1px solid #E2E2E2;
@@ -499,8 +440,6 @@ body.view-shop .mw_action_post{
   padding:14px 0 0 13px;
   position: relative;
 }
-
-
 
 .mw_edit_pages_nav .mw-ui-btn{
   padding: 3px 4px;
@@ -510,18 +449,12 @@ body.view-shop .mw_action_post{
 .mw_edit_pages_nav .mw-ui-btn .iplus{
   margin-left: 5px;
 }
-
-
-
-
-
 .mw_action_nav button:active{
   box-shadow:0 0 5px #CCCCCC inset
 }
 .mw-tree{
   padding: 10px 0;
 }
-
 
 .mw-tree *{
   margin: 0;
@@ -599,20 +532,6 @@ body.view-shop .mw_action_post{
 }
 
 
-/*
-
-#mw_edit_page_left .is_home > a:before{
-  position: absolute;
-  display: block;
-  width: 22px;
-  height: 12px;
-  background: url(../img/is_home.gif) no-repeat;
-  top: 12px;
-  right: 0;
-  content: "";
-}     */
-
-
 #mw_edit_page_left .is_home > a, .mw-tree .is_home > a, .mw-tree .is_home > label{
   background-image: url(../img/is_home.gif);
 }
@@ -620,8 +539,6 @@ body.view-shop .mw_action_post{
 #mw_edit_page_left .is_home > a:hover:before{
   visibility: hidden;
 }
-
-
 
 .mw-tree .module a:after, .mw-tree .module label:after{
   content: ".";
@@ -721,7 +638,6 @@ li li li li .pages_tree_link_text{
 
 .mw-tree ul.depth-2{
   margin-left:82px;
-  /*border-left: 1px solid #CFCFCF;*/
 }
 .mw-tree ul.depth-2 ul{
   margin-left:30px;
@@ -762,9 +678,6 @@ li li li li .pages_tree_link_text{
   padding-left: 22px;
 }
 
-
-
-
 .mw-tree ul.depth-2 li.depth-2 a:hover, .mw-tree ul.depth-2 li.active-bg a{
   border-left-color:#EDEDED;
   border-right-color:#EDEDED;
@@ -791,14 +704,12 @@ html.mw_pages, html.mw_pages body{
 .mw_edit_page_right{
   padding-bottom: 50px;
   width: 685px;
-
   padding: 20px;
   float: left;
   position: relative;
 }
 
 #mw_edit_page_left + .mw_edit_page_right{
-
   padding: 0;
 }
 
@@ -822,10 +733,6 @@ html.mw_pages, html.mw_pages body{
 .tree-show-hide-nav a.mw-ui-btn{
   padding: 3px 14px 5px;
   height: 11px;
-}
-
-.tree-show-hide-nav a:hover{
-
 }
 
 .tree-show-hide-nav span{

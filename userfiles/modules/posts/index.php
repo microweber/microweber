@@ -15,7 +15,13 @@ $cat_from_url = url_param('category');
 
 if (isset($params['curent_page'])) {
     $curent_page = $params['curent_page'];
-} else {
+} elseif (isset($params['current_page'])) {
+    $curent_page = $params['current_page'];
+} elseif (isset($params['current-page'])) {
+    $curent_page = $params['current-page'];
+} elseif (isset($params['curent-page'])) {
+    $curent_page = $params['curent-page'];
+}else {
     $curent_page_from_url = url_param($paging_param);
 
     if ($curent_page_from_url != false) {
@@ -303,6 +309,9 @@ if (!isset($post_params['subtype']) and !isset($post_params['global'])) {
     $post_params['subtype'] = 'post';
 }
 
+if (!isset($params['order_by']) and isset($params['order-by'])) {
+    $params['orderby'] = $post_params['orderby'] = $params['order-by'];
+}
 if (!isset($params['order_by'])) {
     $post_params['orderby'] = 'position desc';
 }
@@ -396,8 +405,6 @@ if (isset($params['data-id'])) {
 		}
 
 	}
-
-
 
 
 

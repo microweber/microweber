@@ -7,6 +7,82 @@
 
 
 
+.vSpace{
+  padding-top: 6px;
+  padding-bottom: 6px;
+  display: block;
+  clear: both;
+}
+.hSpace{
+  display: inline-block;
+  width: 12px;
+  height: 1px;
+}
+
+.relative{
+  position: relative;
+}
+
+.inline{
+  display: inline !important;
+}
+
+.inline-block{
+  display: inline-block !important;
+}
+
+.center{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.faded{
+   opacity: 0.3;
+}
+.faded:hover, .faded.active{
+   opacity: 1;
+}
+
+.filter-gray{
+   filter: url(../img/fx/grayscale.svg#grayscale);
+   filter: gray;
+   -webkit-filter: grayscale(100%);
+}
+.filter-sepia{
+   filter: url(../img/fx/sepia.svg#sepia);
+   filter: sepia;
+   -webkit-filter: sepia(100%);
+}
+
+.mwfadeout{
+  transition: opacity 0.45s;
+  -moz-transition:opacity 0.45s;
+  -webkit-transition: opacity 0.45s;
+  -o-transition: opacity 0.45s;
+  opacity:0;
+}
+.mwfadein{
+  transition: opacity 0.45s;
+  -moz-transition:opacity 0.45s;
+  -webkit-transition: opacity 0.45s;
+  -o-transition: opacity 0.45s;
+  opacity:1;
+}
+
+
+
+
+
+.font-10{font-size: 10px !important;}
+.font-11{font-size: 11px !important;}
+.font-12{font-size: 12px !important;}
+.font-13{font-size: 13px !important;}
+.font-14{font-size: 14px !important;}
+.font-15{font-size: 15px !important;}
+.font-16{font-size: 16px !important;}
+
+
+
 
 body#UnsupportedBrowser div {
   display: none !important;

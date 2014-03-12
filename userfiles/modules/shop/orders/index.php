@@ -88,7 +88,7 @@ $kw = '';
 				<td class="mw-order-item-email"><?php print $item['email'] ?></td>
 				<td class="mw-order-item-phone"><?php print $item['phone'] ?></td>
 				<td class="mw-order-item-country"><?php print $item['country'] ?></td>
-				<td class="mw-order-item-edit" width="80" align="center"><span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span> <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#vieworder=<?php print ($item['id']) ?>">
+				<td class="mw-order-item-edit" width="80" align="center"><span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span> <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-blue mw-ui-btn-small" href="#vieworder=<?php print ($item['id']) ?>">
 					<?php _e("View order"); ?>
 					</a></td>
 			</tr>

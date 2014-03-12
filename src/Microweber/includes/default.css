@@ -173,10 +173,15 @@ img.element{
     position: relative;
 }
 
+.mw-col + br, .mw-col + p{
+  display: none !important;
+}
+
 .mw-col-container{
   padding-left: 10px;
   padding-right: 10px;
   max-width: 100%;
+  min-height: 30px;
 }
 
 .mw-row > .mw-col:first-child > .mw-col-container{
@@ -209,7 +214,7 @@ img.element{
 /* Static Grid */
 .mw-ui-row, .mw-ui-row-nodrop{
   display: table !important;
-  width: 100%;
+  table-layout: fixed;
 }
 
 .mw-ui-row-fixed{

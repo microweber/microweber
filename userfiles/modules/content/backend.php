@@ -560,9 +560,9 @@ function mw_make_pages_tree_sortable(){
 		 }
 		 
 		   ?>
-         
-        
-        <a href="<?php print $site_nav_url; ?>" class="mw_tree_title" target="_blank"><?php print $site_name ?></a>
+
+
+        <a href="<?php print admin_url().'view:content'; ?>" class="mw_tree_title"><?php print $site_name ?></a>
         <?php } ?>
 
 

@@ -591,7 +591,6 @@ class Category
 
                             if (is_array($active_ids) == true) {
                                 $active_ids = array_trim($active_ids);
-                                //d($active_ids);
 
                                 foreach ($active_ids as $value_active_cat) {
                                     if ($value_active_cat != '') {
@@ -850,7 +849,6 @@ class Category
             return false;
         }
 
-        //var_dump ( $parent_ids );
     }
 
     public function get_page($category_id)
@@ -926,9 +924,6 @@ class Category
 
         $taxonomies = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
 
-        //var_dump($q);
-        //  var_dump($taxonomies);
-        //  exit;
 
         if (!empty($taxonomies)) {
 
@@ -1447,7 +1442,6 @@ class Category
 
                 mw('db')->update_position_field($table, $indx);
                 return true;
-                // d($indx);
             }
         }
     }

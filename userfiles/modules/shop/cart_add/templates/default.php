@@ -32,7 +32,7 @@ else{
     _AddToCartModalContent = window._AddToCartModalContent || function(title){
         var html = ''
         + '<div>'
-          + '<h5>'+title + '</h5>'
+          + '<h5>' + title + '</h5>'
           + '<p><?php _e("has been added to your cart"); ?></p>'
           + '<a href="javascript:;" onclick="mw.tools.modal.remove(\'#AddToCartModal\')" class="mw-ui-btn"><?php _e("Continue shopping"); ?></a>'
           + '<a href="<?php print checkout_url(); ?>" class="mw-ui-btn mw-ui-btn-blue"><?php _e("Checkout"); ?></a>'
