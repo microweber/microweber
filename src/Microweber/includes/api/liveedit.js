@@ -361,6 +361,14 @@ mw.drag = {
            }
            else{
 
+           if(mw.tools.hasClass(mw.mm_target, 'nodrop') || mw.tools.hasParentsWithClass(mw.mm_target, 'nodrop')){
+             mw.mm_target = mw.drag.noop;
+             mw.$mm_target = $(mw.drag.noop);
+             mw.dropable.hide();
+
+             return false;
+           }
+
            if( mw.$mm_target.hasClass("empty-element")){
                 $(window).trigger("onDragHoverOnEmpty", mw.mm_target);
            }
@@ -381,6 +389,7 @@ mw.drag = {
              mw.$mm_target = $(mw.drag.noop);
 
              mw.dropable.removeClass("mw_dropable_onleaveedit");
+             mw.dropable.hide();
 
            //return false;
            }
@@ -659,6 +668,7 @@ mw.drag = {
             //return false;
           }
           else{
+            mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show(); 
             var order = mw.tools.parentsOrder(element, ['edit', 'module']);
             if(order.edit == -1 || (order.module > -1 && order.edit > order.module)){
               mw.$("#mw_handle_module .mw-sorthandle-moveit").hide();

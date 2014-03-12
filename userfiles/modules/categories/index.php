@@ -2,7 +2,9 @@
 if (isset($params['class'])) {
     unset($params['class']);
 }
-
+if (isset($params['content-id'])) {
+    $params['content_id'] = $params['content-id'];
+}
 if (!isset($params['ul_class'])) {
     $params['ul_class'] = 'nav nav-list';
 }

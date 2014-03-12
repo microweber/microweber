@@ -11,8 +11,8 @@
      if ($text == ''){ $text = 'Button';}
 
      if($size == false and isset($params['button_size'])){
-                  $size = $params['button_size'];
-                 
+        $size = $params['button_size'];
+
      }
 
 ?>

@@ -2240,6 +2240,13 @@ body.dragStart div.edit:hover:after{
     font-size: 11px;
 }
 
+body.dragStart .nodrop .edit:hover:before,
+body.dragStart .nodrop .edit:hover:after,
+body.dragStart .nodrop.edit:hover:before,
+body.dragStart .nodrop.edit:hover:after{
+  display: none;
+}
+
 body.dragStart .module .edit:hover:before,
 body.dragStart .module .edit:hover:after{
   display: none;
@@ -2290,6 +2297,23 @@ body.dragStart .empty-element.currentDragMouseOver:before{
   line-height:100%;
   top: 0;
   left: 0;
+}
+body.dragStart .nodrop .empty-element.currentDragMouseOver:before{
+  display: none;
+}
+
+body.dragStart .nodrop .mw-ui-col > .mw-ui-col-container:before,
+body.dragStart .nodrop .mw-col > .mw-col-container:before{
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 99;
+  content: '';
+  top: 0;
+  left: 0;
+  cursor: not-allowed;
 }
 
 

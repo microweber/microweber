@@ -565,7 +565,6 @@ mw.tools = {
             img.style.maxHeight = mxh + 'px';
             var holder = img.parentNode;
             mw.tools.modal.center(holder);
-
         }
         else{
             var holder = modal.container.querySelector('.mwf-gallery-modeHTML');
@@ -3293,7 +3292,6 @@ mw.$(".mw-pin").each(function(){
 
   mw.ui.btn = {
     radionav : function(nav, btn_selector){
-
         if( mw.tools.hasClass(nav.className, 'activated') ) { return false; }
         var btn_selector = btn_selector || ".mw-ui-btn";
         var all = nav.querySelectorAll(btn_selector), i = 0, l = all.length, el;
@@ -3449,8 +3447,6 @@ mw.$(".mw-pin").each(function(){
         }
     }
   }
-
-
   mw.dynamicCSS = {
     previewOne:function(selector, value){
       if(mwd.getElementById('user_css') === null){
@@ -3493,20 +3489,15 @@ mw.$(".mw-pin").each(function(){
   set_obj:function(element, option, value){
 
     if(typeof element.attributes["data-mwfx"] !== 'undefined'){
-
-     var json = mw.css3fx.read(element);
-
-     json[option] = value;
-
-     var string = JSON.stringify(json);
-
-     var string = string.replace(/{/g, "").replace(/}/g);
-     var string = string.replace(/"/g, "XX");
-
-     $(element).dataset("mwfx", string);
+       var json = mw.css3fx.read(element);
+       json[option] = value;
+       var string = JSON.stringify(json);
+       var string = string.replace(/{/g, "").replace(/}/g);
+       var string = string.replace(/"/g, "XX");
+       $(element).dataset("mwfx", string);
     }
     else{
-      $(element).dataset("mwfx", "XX"+option+"XX:XX"+value+"XX");
+       $(element).dataset("mwfx", "XX"+option+"XX:XX"+value+"XX");
     }
   },
   init_css:function(el){
@@ -3815,7 +3806,6 @@ mw.image = {
         var img = mwd.createElement('img');
         if(typeof window.chrome === 'object'){
           var img = new Image();
-		  $(mwd.body).append('<img src=\"'+url+'\" style=\"display:none;\">');
         }
         img.className = 'semi_hidden';
         img.src = url;
@@ -3824,6 +3814,7 @@ mw.image = {
             if(typeof callback === 'function'){
               callback.call(img, $(img).width(), $(img).height());
             }
+            $(img).remove()
           },33);
         }
         img.onerror = function(){
