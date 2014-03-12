@@ -168,13 +168,18 @@ class Parser
 @xsi';
 
                 $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+                $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
+
                 $attrs = array();
                 foreach ($mw_replaced_modules as $key => $value) {
                     if ($value != '') {
+
+
                         $replace_key = $key;
                         $attrs = array();
                         if (preg_match_all($attribute_pattern, $value, $attrs1, PREG_SET_ORDER)) {
                             foreach ($attrs1 as $item) {
+
                                 $m_tag = trim($item[0], "\x22\x27");
                                 $m_tag = trim($m_tag, "\x27\x22");
                                 $m_tag = explode('=', $m_tag);
@@ -183,6 +188,17 @@ class Parser
                                 $a = trim($a, '""');
                                 $b = trim($m_tag[1], "''");
                                 $b = trim($b, '""');
+                                if(isset($m_tag[2])){
+                                    $rest_pieces = $m_tag;
+                                    if(isset($rest_pieces[0])){
+                                        unset($rest_pieces[0]);
+                                    }
+                                    if(isset($rest_pieces[1])){
+                                        unset($rest_pieces[1]);
+                                    }
+                                    $rest_pieces = implode('=',$rest_pieces);
+                                    $b = $b.$rest_pieces;
+                                }
 
                                 $attrs[$a] = $b;
                             }

@@ -1364,6 +1364,13 @@ class Db
                 }
             }
             $order_by = " ORDER BY  {$orderby[0]}  {$orderby[1]}  ";
+            $order_by = str_replace(';',' ',$order_by);
+            $order_by = str_replace(',',' ',$order_by);
+            $order_by = str_replace('*',' ',$order_by);
+            $order_by = str_ireplace('drop ',' ',$order_by);
+            $order_by = str_ireplace('select ',' ',$order_by);
+            $order_by = str_ireplace('insert ',' ',$order_by);
+
         } else {
 
             $order_by = false;

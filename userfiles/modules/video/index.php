@@ -7,19 +7,35 @@ if (!function_exists('video_module_url2embed')) {
 $prior = get_option('prior', $params['id']);
 
 $code = get_option('embed_url', $params['id']);
-if($code == false){
-    if(isset($params['url'])){
+if ($code == false) {
+    if (isset($params['url'])) {
         $code = $params['url'];
     }
 }
+
 $upload = get_option('upload', $params['id']);
 
 
 $w = get_option('width', $params['id']);
+
 $h = get_option('height', $params['id']);
 $autoplay = get_option('autoplay', $params['id']) == 'y';
+if ($w == false) {
+    if (isset($params['width'])) {
+        $w = intval($params['width']);
+    }
+}
 
-
+if ($h == false) {
+    if (isset($params['height'])) {
+        $h = intval($params['height']);
+    }
+}
+if ($autoplay == false) {
+    if (isset($params['autoplay'])) {
+        $autoplay = intval($params['autoplay']);
+    }
+}
 if ($w == '') {
     $w = '450';
 }
@@ -31,7 +47,7 @@ if ($autoplay == '') {
 }
 
 
-if ($prior != '2') {
+if ($prior != '2' or $prior == false) {
     if ($code != '') {
         $code = html_entity_decode($code);
         if (stristr($code, '<iframe') !== false) {

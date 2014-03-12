@@ -3,7 +3,7 @@ require_once(dirname(__FILE__) . DS . 'functions.php');
 if (get_option('enable_comments', 'comments') == 'y') {
 
     $login_required = get_option('user_must_be_logged', 'comments') == 'y';
-	$from_related_posts = false;
+    $from_related_posts = false;
     $paging_param = $params['id'] . '_page';
     $curent_page_from_url = url_param($paging_param);
     if (isset($params['content-id'])) {
@@ -17,17 +17,22 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
         $data['rel'] = 'content';
     }
-	
-	
-	
- 
 
-   $are_disabled = get_option('disable_new_comments', $params['id'])=='y';  
+    if (!isset($data['rel_id']) and isset($params['content-id'])) {
+        $data['rel_id'] = intval($params['content-id']);
+        $data['rel'] = 'content';
+    }
+
+
+    $are_disabled = get_option('disable_new_comments', $params['id']) == 'y';
     $display_comments_from_which_post = get_option('display_comments_from_which_post', $params['id']);
     if ($display_comments_from_which_post == 'current_post' and isset($data['rel_id'])) {
 
         unset($data['rel_id']);
 
+    }
+    if (isset($data['no-form'])) {
+        $are_disabled = true;
     }
     if (!isset($data['rel_id']) or $data['rel_id'] == false) {
 
@@ -47,12 +52,11 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
     }
 
-  if (isset($data['from-related-posts'])) {
+    if (isset($data['from-related-posts'])) {
 
-       $from_related_posts = true;
+        $from_related_posts = true;
 
     }
-
 
 
     $display_comments_from = get_option('display_comments_from', $params['id']);
@@ -65,14 +69,14 @@ if (get_option('enable_comments', 'comments') == 'y') {
     $comments_data = array();
     $comments_data['rel_id'] = $data['rel_id'];
     $comments_data['rel'] = $data['rel'];
-	
-	
-	
-	 if (isset($params['order']) and trim(strtolower($params['order'])) == 'reverse') {
 
+
+    if (isset($params['order']) and trim(strtolower($params['order'])) == 'reverse') {
         $comments_data['order_by'] = 'created_on desc';
+    } elseif (isset($params['order'])) {
+        $comments_data['order_by'] = $params['order'];
     }
-	
+
 
     if ($display_comments_from != false and $display_comments_from == 'current' and $display_comments_from_which_post != false and $display_comments_from_which_post != 'current_post') {
 
@@ -126,9 +130,9 @@ if (get_option('enable_comments', 'comments') == 'y') {
         }
     }
 
-	if ($display_comments_from == false and $from_related_posts != false) {
-		 
-	 }
+    if ($display_comments_from == false and $from_related_posts != false) {
+
+    }
     if ($enable_comments_paging != false) {
         if (intval($comments_per_page) != 0) {
             $comments_data['limit'] = $comments_per_page;
@@ -169,15 +173,13 @@ if (get_option('enable_comments', 'comments') == 'y') {
     }
 
     ?>
-<script type="text/javascript">
+    <script type="text/javascript">
 
         mw.require("url.js", true);
         mw.require("tools.js", true);
         mw.require("forms.js", true);
     </script>
-<script type="text/javascript">
-	
-	 
+    <script type="text/javascript">
 
 
         mw.init_comment_form<?php print md5($params['id']) ?> = function () {
@@ -194,8 +196,8 @@ if (get_option('enable_comments', 'comments') == 'y') {
                     $('#<?php print $params['id']; ?>').append('<span id=' + comm_hold + '></span>');
 
                 }
-                mw.load_module('users/login', '#' + login_hold, function(a){
-                  $(this).addClass("mw-comments-login")
+                mw.load_module('users/login', '#' + login_hold, function (a) {
+                    $(this).addClass("mw-comments-login")
 
                 });
 
@@ -209,8 +211,8 @@ if (get_option('enable_comments', 'comments') == 'y') {
                 if ($('#' + login_hold).length == 0) {
                     $('#<?php print $params['id'] ?>').append('<span id="login-comments-form-<?php print $params['id'] ?>"></span>');
                 }
-                mw.load_module('users/register', '#' + login_hold, function(){
-                   $(this).addClass("mw-comments-register")
+                mw.load_module('users/register', '#' + login_hold, function () {
+                    $(this).addClass("mw-comments-register")
                 });
 
 
@@ -258,7 +260,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
         });
 
     </script>
-<?php
+    <?php
     if ($template_file != false and is_file($template_file)) {
         include($template_file);
     }
