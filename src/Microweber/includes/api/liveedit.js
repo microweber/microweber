@@ -2077,11 +2077,11 @@ $(".mw-row").each(function(){
 					containment: "parent",
                     greedy:true,
 					cancel: ".mw-sorthandle",
-					minWidth: 150,
+					minWidth: 33,
 
 					resize: function (event, ui) {
 					  mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
-                        if(mw.global_resizes.next.width()<151){
+                        if(mw.global_resizes.next.width()<33){
                            $(this).resizable("option", "maxWidth", ui.size.width);
                         }
                         mw.settings.resize_started = true;

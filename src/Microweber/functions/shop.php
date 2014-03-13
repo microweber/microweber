@@ -10,10 +10,6 @@
  * @subpackage        shop
  * @since        Version 0.1
  */
-
-// ------------------------------------------------------------------------
-
-
 function get_cart($params = false)
 {
     return mw('shop')->get_cart($params);
@@ -26,6 +22,7 @@ function update_cart($data)
 {
     return mw('shop')->update_cart($data);
 }
+
 api_expose('empty_cart');
 function empty_cart()
 {

@@ -10,63 +10,68 @@ description: Product Gallery Multiline
 
 */
 
-  ?>
+?>
 
 
 
 
- <?php if(is_array($data )): ?>
+<?php if (is_array($data)): ?>
 
- <?php $id = "slider-".uniqid(); ?>
+    <?php $id = "slider-" . uniqid(); ?>
 
-    <?php  $rand = uniqid(); ?>
+    <?php $rand = uniqid(); ?>
 
-<div class="autoscale mw-rotator mw-rotator-template-inner mw-rotator-template-multiline" id="<?php print $id; ?>">
-  <div class="autoscale mw-gallery-holder">
-   <?php $count = -1; foreach($data  as $item): ?>
-    <?php $count++;  ?>
-    <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
+    <div class="autoscale mw-rotator mw-rotator-template-inner mw-rotator-template-multiline" id="<?php print $id; ?>">
+        <div class="autoscale mw-gallery-holder">
+            <?php $count = -1; foreach ($data as $item): ?>
+                <?php $count++; ?>
+                <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
         <span class=" mw-slider-zoomholder">
-            <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 600); ?>" alt="" />
-            <img src="<?php print thumbnail($item['filename'], 1200); ?>" class="mw-slider-zoomimg" alt=""  onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>)" />
+            <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 600); ?>" alt=""/>
+            <img src="<?php print thumbnail($item['filename'], 1200); ?>" class="mw-slider-zoomimg" alt=""
+                 onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>)"/>
         </span>
-        <?php if($item['title'] != ''){ ?><i class="mw-rotator-description"><i class="mw-rotator-description-content"><?php print $item['title']; ?></i></i><?php } ?>
+                    <?php if ($item['title'] != '') { ?><i class="mw-rotator-description"><i
+                            class="mw-rotator-description-content"><?php print $item['title']; ?></i></i><?php } ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
-    <?php endforeach ; ?>
-  </div>
-</div>
-<script>gallery<?php print $rand; ?> = [<?php foreach($data  as $item): ?>{image:"<?php print thumbnail( $item['filename'], 1000); ?>", description:"<?php print $item['title']; ?>"},<?php endforeach;  ?>];</script>
+    <script>gallery<?php print $rand; ?> = [
+                <?php foreach($data  as $item): ?>{image: "<?php print thumbnail( $item['filename'], 1000); ?>", description: "<?php print $item['title']; ?>"},
+            <?php endforeach;  ?>
+        ];</script>
 
-<script type="text/javascript">
-    mw.moduleCSS("<?php print INCLUDES_URL ?>css/mw.ui.css");
-    mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
-    mw.require("<?php print $config['url_to_module']; ?>js/api.js", true);
-</script>
+    <script type="text/javascript">
+        mw.moduleCSS("<?php print INCLUDES_URL ?>css/mw.ui.css");
+        mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
+        mw.require("<?php print $config['url_to_module']; ?>js/api.js", true);
+    </script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-  Rotator = null;
-  $(document).ready(function(){
-    if(mw.$('#<?php print $id; ?>').find('.mw-gallery-item').length>1){
-        Rotator = mw.rotator('#<?php print $id; ?>');
-        if (!Rotator) return false;
-        Rotator.options({
-            paging:true,
-            pagingMode:"thumbnails",
-            next:true,
-            prev:true,
-            reflection:false
+        Rotator = null;
+        $(document).ready(function () {
+            if (mw.$('#<?php print $id; ?>').find('.mw-gallery-item').length > 1) {
+                Rotator = mw.rotator('#<?php print $id; ?>');
+                if (!Rotator) return false;
+                Rotator.options({
+                    paging: true,
+                    pagingMode: "thumbnails",
+                    next: true,
+                    prev: true,
+                    reflection: false
+                });
+                mw.require("tools.js", true);
+            }
+
+            mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function () {
+                mw.productZoom(this);
+            });
+
         });
-        mw.require("tools.js", true);
-    }
 
-      mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function(){
-            mw.productZoom(this);
-      });
-
-  });
-
-</script>
+    </script>
 
 
 <?php else : ?>
