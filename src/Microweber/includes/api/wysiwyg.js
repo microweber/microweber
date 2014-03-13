@@ -7,8 +7,6 @@ mw.require('css_parser.js');
 mw.require('events.js');
 mw.lib.require('rangy');
 
-
-
 if(typeof Selection.prototype.containsNode === 'undefined'){
       Selection.prototype.containsNode = function(a){
           if(this.rangeCount === 0){ return false; }
@@ -32,8 +30,6 @@ if(typeof Selection.prototype.containsNode === 'undefined'){
           }
           return false;
       }
-
-
 }
 
 if(typeof Range.prototype.querySelector === 'undefined'){
@@ -65,7 +61,6 @@ mw.wysiwyg = {
         var sel = window.getSelection(),
             range = sel.getRangeAt(0),
             common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
-
         var nodrop_state = !mw.tools.hasClass(common, 'nodrop') &&  !mw.tools.hasParentsWithClass(common, 'nodrop');
 
         if(mw.wysiwyg.isSelectionEditable() && nodrop_state){
@@ -322,12 +317,8 @@ mw.wysiwyg = {
     },
     editors_disabled:false,
     enableEditors:function(){
-
         mw.$(".mw_editor, #mw_small_editor").removeClass("mw-editor-disabled");
         mw.wysiwyg.editors_disabled = false;
-
-
-
     },
     disableEditors:function(){
       /*  mw.$(".mw_editor, #mw_small_editor").addClass("mw-editor-disabled");
@@ -348,12 +339,10 @@ mw.wysiwyg = {
           }
           else{
 
-
           }
       }
     },
     init:function(selector){
-
       var selector = selector || ".mw_editor_btn";
       var mw_editor_btns = mw.$(selector);
       mw_editor_btns.bind("mousedown mouseup click", function(event){
@@ -390,12 +379,9 @@ mw.wysiwyg = {
         }
         if( event.keyCode == 46  && event.type=='keydown'){
             mw.tools.removeClass(mw.image_resizer, 'active');
-
             mw.tools.addClass(mw.tools.firstParentWithClass( mwd.querySelector('.element-current'), 'edit'), 'changed orig_changed');
             mw.askusertostay = true;
         }
-
-
           if(event.type == 'keydown'){
 
            if(mw.tools.isField(event.target) || !event.target.isContentEditable){
@@ -403,7 +389,6 @@ mw.wysiwyg = {
            }
            var sel = window.getSelection();
            if(event.keyCode == 13) {
-
               mw.wysiwyg.checkForTextOnlyElements(event);
               if(event.target.isContentEditable && !mw.tools.isField(event.target)){
                 var commonName = mw.wysiwyg.validateCommonAncestorContainer(sel.getRangeAt(0).commonAncestorContainer).nodeName;
@@ -442,7 +427,7 @@ mw.wysiwyg = {
                         return true;
                       }
 
-                       if(sel.focusOffset < r.commonAncestorContainer.length && event.keyCode == 46 ){
+                      if(sel.focusOffset < r.commonAncestorContainer.length && event.keyCode == 46 ){
                         return true;
                       }
                     //}
@@ -464,15 +449,11 @@ mw.wysiwyg = {
         if(mw.tools.hasParentsWithClass(target, 'element')){
           //mw.wysiwyg.select_all(mw.tools.firstParentWithClass(target, 'element'));
         }
-
         var s = window.getSelection();
         var r = s.getRangeAt(0);
         var c = r.cloneContents();
-
         var common =  mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
-
         var a = common.querySelectorAll('*'), l = a.length, i=0;
-
         for( ; i<l; i++ ){
           if(!!s.containsNode && s.containsNode(a[i], true)){
               r.setEndBefore(a[i]);

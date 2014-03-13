@@ -668,7 +668,7 @@ mw.drag = {
             //return false;
           }
           else{
-            mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show(); 
+            mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show();
             var order = mw.tools.parentsOrder(element, ['edit', 'module']);
             if(order.edit == -1 || (order.module > -1 && order.edit > order.module)){
               mw.$("#mw_handle_module .mw-sorthandle-moveit").hide();
