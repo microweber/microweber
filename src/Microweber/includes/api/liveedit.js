@@ -708,8 +708,6 @@ mw.drag = {
 
         });
         $(window).bind("onRowOver", function(a, element){
-
-          if(element.clicked == true){
             var el = $(element);
             var o = el.offset();
             var width = el.width();
@@ -724,19 +722,16 @@ mw.drag = {
             mw.$("a.mw-make-cols").removeClass("active");
             mw.$("a.mw-make-cols").eq(size-1).addClass("active");
             element.id=="" ? element.id="row_"+mw.random() : "";
-          }
           if(mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop')){
-            mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
-            return false;
+              mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
+              return false;
           }
           else{mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").show(); }
         });
         $(window).bind("onItemOver", function(a, element){
           if(element === false) { return false; }
           var el = $(element);
-
           var o = el.offset();
-          //mw.log(mw.random());
           var pleft = parseFloat(el.css("paddingLeft"));
           $(mw.handle_item).css({
             top:o.top,
@@ -744,9 +739,6 @@ mw.drag = {
           });
           $(mw.handle_item).data("curr", element);
         });
-
-
-
         mw.$("#mw_handle_row,#mw_handle_module,#mw_handle_element,#items_handle").hover(function(){
            var active = $(this).data("curr");
            $(active).addClass("element-active");
@@ -757,56 +749,41 @@ mw.drag = {
            $(this).removeClass(this.id+'hover');
            $(this).css({top:'', left:''});
         });
-
-
-
         $(window).bind("onAllLeave", function(e, target){
-
             $("#mw_handle_row,#mw_handle_module,#mw_handle_element").css({
               top:"",
               left:""
             });
-
-
         });
         $(window).bind("onElementLeave", function(e, target){
             $(mw.handle_element).css({
               top:"",
               left:""
             });
-
         });
         $(window).bind("onModuleLeave", function(e, target){
-
             $(mw.handle_module).css({
               top:"",
               left:""
             });
         });
         $(window).bind("onRowLeave", function(e, target){
-
-        setTimeout(function(){
-            if(mw.$("#mw_handle_row").hasClass('mw_handle_row_hover')){
-                $(mw.handle_row).css({
-                  top:"",
-                  left:""
-                });
-            }
-        },222);
-
+            setTimeout(function(){
+                if(mw.$("#mw_handle_row").hasClass('mw_handle_row_hover')){
+                    $(mw.handle_row).css({
+                      top:"",
+                      left:""
+                    });
+                }
+            },222);
         });
-
-
-
         $(window).bind("onItemLeave", function(e, target){
             $(mw.handle_item).css({
               top:"",
               left:""
             });
         });
-
 	},
-
 	init: function (selector, callback) {
         if(!mw.handle_item){
             $(mwd.body).append(mw.settings.handles.module);
@@ -816,7 +793,7 @@ mw.drag = {
             mw.handle_module = mwd.getElementById('mw_handle_module');
             mw.handle_row = mwd.getElementById('mw_handle_row');
             mw.handle_element = mwd.getElementById('mw_handle_element');
-            mw.handle_item = '';// mwd.getElementById('items_handle');
+            mw.handle_item = '';
 
             $(mw.handle_element).mouseenter(function(){
                 var curr = $(this).data("curr");
@@ -1082,47 +1059,37 @@ mw.drag = {
                 else if(mw.tools.hasParentsWithClass(target, 'element')){
                   $(window).trigger("onElementClick", $(target).parents(".element")[0]);
                 }
-
-
                 if($(target).hasClass("mw_item")){
                   $(window).trigger("onItemClick", target);
                 }
                 else if(mw.tools.hasParentsWithClass(target, 'mw_item')){
                   $(window).trigger("onItemClick", $(target).parents(".mw_item")[0]);
                 }
-
-
                 if(target.tagName=='IMG' && mw.tools.hasParentsWithClass(target, 'edit')){
                    var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
                   if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
                     if(!mw.tools.hasParentsWithClass(target, 'mw-defaults')){
                        $(window).trigger("onImageClick", target);
                     }
-                    mw.wysiwyg.select_element(target)
+                    mw.wysiwyg.select_element(target);
                   }
                 }
                 if(target.tagName=='BODY'){
                   $(window).trigger("onBodyClick", target);
                 }
-
                 if(mw.tools.hasClass(target, 'mw-empty') || mw.tools.hasParentsWithClass(target, 'mw-empty') ){
                     mw.$("#modules-and-layouts").addClass("hovered");
                 }
                 else{
                   if(!mw.tools.hasClass(target, 'modules-and-layouts-holder') && !mw.tools.hasParentsWithClass(target, 'modules-and-layouts-holder')){
                      mw.$("#modules-and-layouts").removeClass("hovered");
-
                   }
                 }
             }
-
             if(!mw.isDrag){
               mw.drag.properFocus(event);
             }
-
 			if (mw.isDrag) {
-
-
 			  mw.isDrag = false;
               if(!mw.tools.hasClass(mw.currentDragMouseOver, 'edit')){
                 mw.tools.addClass(mw.tools.firstParentWithClass(mw.currentDragMouseOver, 'edit'), 'changed orig_changed');
@@ -1130,10 +1097,7 @@ mw.drag = {
               else{
                  mw.tools.addClass(mw.currentDragMouseOver, 'changed orig_changed');
               }
-
-               mw.askusertostay = true;
-
-
+              mw.askusertostay = true;
               $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
 			  /*  var history_id = 'history_'+mw.random();
 
@@ -1149,14 +1113,10 @@ mw.drag = {
                 mw.$(".mw_dropable").hide();
 
 				setTimeout(function () {
-
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
-
                         if(mw.currentDragMouseOver === null){
                           return false;
                         };
-
-
                         var curr_prev = $(mw.dragCurrent).prev();
                         var curr_next = $(mw.dragCurrent).next();
                         var curr_parent = $(mw.dragCurrent).parent();
@@ -1176,7 +1136,6 @@ mw.drag = {
                               }
                               return false;
                          }
-
                         if($(mw.currentDragMouseOver).hasClass("edit")){
 
                         if(hasAbilityToDropElementsInside(mw.currentDragMouseOver)){
@@ -1187,7 +1146,6 @@ mw.drag = {
                                $(mw.currentDragMouseOver).append(mw.dragCurrent);
                            }
                         }
-
                         else{
                            if(position=='top'){
                                $(mw.currentDragMouseOver).before(mw.dragCurrent);
@@ -1242,13 +1200,10 @@ mw.drag = {
 
                             }
                             else{
-
                                 if(mw.currentDragMouseOver.parentNode!==null && !hasAbilityToDropElementsInside(mw.currentDragMouseOver.parentNode.nodeName)){
                                    mw.currentDragMouseOver =  mw.currentDragMouseOver.parentNode;
-
                                    var hovered = $(mw.currentDragMouseOver);
                                 }
-
                                   if(position=='top'){
                                      $(mw.dragCurrent).removeClass("mw_drag_float");
                                      $(mw.dragCurrent).removeClass("mw_drag_float_right");
@@ -1256,8 +1211,8 @@ mw.drag = {
                                      if(hovered.hasClass("edit") || dropInside(mw.currentDragMouseOver)){
                                         hovered.prepend(mw.dragCurrent);
                                      }
-                                     else{hovered.before(mw.dragCurrent);
-
+                                     else{
+                                       hovered.before(mw.dragCurrent);
                                      }
                                   }
                                   else if(position=='bottom'){
@@ -1266,10 +1221,8 @@ mw.drag = {
                                      hovered.removeClass("mw_drag_float");
                                      if(hovered.hasClass("edit") || dropInside(mw.currentDragMouseOver)){
                                         hovered.append(mw.dragCurrent);
-
                                      }
                                      else{
-
                                         hovered.after(mw.dragCurrent);
                                      }
                                      $(mw.dragCurrent).addClass("clear");
@@ -1330,8 +1283,6 @@ mw.drag = {
           top:'',
           left:''
         });
-		//$(mw.dragCurrent).removeAttr('style');
-		//$(".element", '.edit').removeAttr('style');
         setTimeout(function(){
 		mw.$(".edit .mw-col").each(function () {
 			var el = $(this);
@@ -1366,13 +1317,9 @@ mw.drag = {
                  if(!mw.tools.hasClass(els[i].className, 'nodrop') && !mw.tools.hasClass(els[i].className, 'mw-empty')){
                    els[i].innerHTML = '<p class="element">'+els[i].innerHTML+'</p>';
                  }
-
              }
           }
         }
-
-
-
 	},
     /**
 	 * fix_placeholders in the layout
@@ -1380,9 +1327,9 @@ mw.drag = {
 	 * @example mw.drag.fix_placeholders(isHard , selector)
 	 */
     fix_placeholders:function(isHard, selector){
-      if($(window).width() < 768){
-        return false;
-      }
+          if($(window).width() < 768){
+            return false;
+          }
           var selector = selector || '.mw-row';
           if(isHard){ //append the empty elements
            $(selector).each(function(){
@@ -1785,7 +1732,7 @@ if(typeof el === 'object' && el !== null){
                     }
                 });
 
-        		}
+        }
 
         if((typeof _el.attr("rel") != 'undefined' && _el.attr("rel")!='') || _el.dataset('rel') != ''){
 
@@ -1998,14 +1945,10 @@ if($(window).width() < 768){
 }
 
 
-$(".mw-row").each(function(){
-    mw.px2pc(this);
-});
-
-
+    $(".mw-row").each(function(){
+        mw.px2pc(this);
+    });
 	mw.$('.mw-col').each(function () {
-
-
     if(!mw.tools.hasClass(this.className, 'ui-resizable')){
 
 		$el_id_column = $(this).attr('id');
@@ -2013,9 +1956,6 @@ $(".mw-row").each(function(){
 			$el_id_column = 'mw-column-' + mw.random();
 			$(this).attr('id', $el_id_column);
 		}
-
-
-
 
 		$is_done = $(this).hasClass('ui-resizable')
 		$ds = mw.settings.drag_started;
@@ -2034,8 +1974,6 @@ $(".mw-row").each(function(){
 				$also = $(this).prev(".mw-col");
 			}
 
-
-
 			$also_el_id_column = $also.attr('id');
 			if ($also_el_id_column == undefined || $also_el_id_column == 'undefined' || $also_el_id_column == '') {
 				$also_el_id_column = 'mw-column-' + mw.random();
@@ -2044,11 +1982,6 @@ $(".mw-row").each(function(){
 			$also_reverse_id = $also_el_id_column;
 
 			$also_inner_items = $inner_column.attr('id');
-
-
-
-
-
 			if ($no_next == false) {
 				$handles = 'e'
 			}
@@ -2668,10 +2601,8 @@ mw.setLiveEditor = function(){
 
 $(window).bind("load", function(){
 
-
-    mw.setLiveEditor();
-
-
+   mw.wysiwyg.prepareContentEditable();
+   mw.setLiveEditor();
 
   mw.$("#history_dd").hover(function(){
     $(this).addClass("hover");
@@ -2682,21 +2613,20 @@ $(window).bind("load", function(){
   mw.toolbar.center_icons();
 
   mw.image.resize.init(".element-image");
-
     $(mwd.body).mousedown(function(event){
-      if(mw.$(".editor_hover").length==0){
-        $(mw.wysiwyg.external).empty().css("top", "-9999px");
 
-        $(mwd.body).removeClass('hide_selection');
+      if(mw.$(".editor_hover").length === 0){
+          $(mw.wysiwyg.external).empty().css("top", "-9999px");
+          $(mwd.body).removeClass('hide_selection');
       }
       if(!mw.$("#history_dd").hasClass("hover")){
-        $("#historycontainer").hide()
+          $("#historycontainer").hide();
       }
       if(mw.$(".toolbars-search.active").length === 0){
-        mw.$(".mw-autocomplete-cats").hide();
+          mw.$(".mw-autocomplete-cats").hide();
       }
       else{
-        mw.$(".mw-autocomplete-cats").show();
+          mw.$(".mw-autocomplete-cats").show();
       }
 if(!mw.tools.hasClass(event.target, 'mw_handle_row')
          && !mw.tools.hasParentsWithClass(event.target, 'mw_handle_row')
@@ -2707,12 +2637,9 @@ if(!mw.tools.hasClass(event.target, 'mw_handle_row')
               left:""
         });
         mw.$(".mw-row").each(function(){
-
             this.clicked = false;
-
         });
       }
-
       if(mw.tools.hasClass(event.target, 'mw-row')){
         mw.$(".mw-row").each(function(){
           if(this!==event.target){
@@ -2730,8 +2657,6 @@ if(!mw.tools.hasClass(event.target, 'mw_handle_row')
         });
          row.clicked = true;
       }
-
-
     });
 
     mw.$("#liveedit_wysiwyg").mousedown(function(){
@@ -2779,6 +2704,125 @@ if(typeof mw.hasDraft === 'object'){
 
 
     mw.toolbar.fixPad();
+
+
+
+    /*  WYSIWYG */
+
+
+
+
+
+
+
+    $(window).bind("mouseup", function(e){
+                  var sel = window.getSelection();
+                  if(sel.rangeCount > 0){
+                          var range = sel.getRangeAt(0),
+                              common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
+
+                          if(mw.tools.hasClass(common, 'edit') || mw.tools.hasParentsWithClass(common, 'edit')) {
+                              var nodrop_state = !mw.tools.hasClass(common, 'nodrop') && !mw.tools.hasParentsWithClass(common, 'nodrop');
+                              if(nodrop_state){
+                                  mw.wysiwyg.enableEditors();
+                              }
+                              else{
+                                  mw.wysiwyg.disableEditors();
+                              }
+                          }
+                          else{
+                             mw.wysiwyg.disableEditors();
+                          }
+                  }
+
+                  /* if(mw.tools.hasClass(e.target, 'mw_editor') || mw.tools.hasParentsWithClass(e.target, 'mw_editor')){
+                        if(mw.tools.hasClass(e.target, 'mw-editor-disabled') || mw.tools.hasParentsWithClass(e.target, 'mw-editor-disabled')){
+                             mw.wysiwyg.disableEditors();
+                        }
+                        else{
+                            var common = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().getRangeAt(0).commonAncestorContainer);
+                            if(mw.tools.hasClass(common, 'nodrop') || mw.tools.hasParentsWithClass(common, 'nodrop')){
+                                mw.wysiwyg.disableEditors();
+                               return false;
+                            }
+                        }
+                    } */
+
+                     var sel = window.getSelection();
+                    if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit')) && !sel.getRangeAt(0).collapsed){
+                      if(sel.rangeCount > 0){
+                      var r = sel.getRangeAt(0);
+                      if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
+                        mw.smallEditorCanceled = false;
+                        mw.smallEditor.css({
+                          visibility:"visible",
+                          opacity:0.5,
+                          top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height,
+                          left:e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width()-5 )
+                        });
+                      }
+                      else{
+                           mw.smallEditorCanceled = true;
+                           mw.smallEditor.css({
+                              visibility:"hidden"
+                           });
+                      }
+                    }
+                    }
+                    else{
+                      if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
+                           mw.smallEditorCanceled = true;
+                           mw.smallEditor.css({
+                            visibility:"hidden"
+                          });
+                      }
+                    }
+                   setTimeout(function(){
+                      if(window.getSelection().rangecount > 0 && window.getSelection().getRangeAt(0).collapsed ){
+                          mw.smallEditorCanceled = true;
+                           mw.smallEditor.css({
+                            visibility:"hidden"
+                          });
+                      }
+                   }, 39);
+    });
+
+
+
+      mw.smallEditorOff = 150;
+
+     $(window).bind("mousemove", function(e){
+       var isCollapsed = window.get
+       if(!mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")){
+         var off = mw.smallEditor.offset();
+         if(((e.pageX - mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY-mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX+mw.smallEditorOff) < (off.left)) || ((e.pageY+mw.smallEditorOff) < (off.top))){
+             mw.smallEditor.css("visibility", "hidden");
+             mw.smallEditorCanceled = true;
+         }
+         else{
+             //mw.smallEditor.css("visibility", "visible");
+         }
+       }
+    });
+    $(window).bind("scroll", function(e){
+        mw.smallEditor.css("visibility", "hidden");
+        mw.smallEditorCanceled = true;
+    });
+    mw.$("#live_edit_toolbar,#mw_small_editor").bind("mousedown", function(e){
+        if(e.target.nodeName != 'INPUT'){
+          e.preventDefault();
+        }
+        if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
+            mw.smallEditor.css("visibility", "hidden");
+            mw.smallEditorCanceled = true;
+        }
+    });
+
+
+    /*  /WYSIWYG */
+
+
+
 
 
 });

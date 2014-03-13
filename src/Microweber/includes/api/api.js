@@ -107,7 +107,7 @@ mw.askusertostay = false;
       }
     }
   }
-  mw.moduleCSS = function(url){
+  mw.moduleCSS = mw.module_css = function(url){
     if (!~mw.required.indexOf(url)) {
       mw.required.push(url);
       var el = mwd.createElement('link');
@@ -117,10 +117,13 @@ mw.askusertostay = false;
       mwhead.insertBefore(el, mwhead.firstChild);
     }
   }
+  mw.moduleJS = mw.module_js = function(url){
+    mw.require(url, true);
+  }
 
-  Wait = function(a, b, max) {
+  mw.wait = function(a, b, max) {
     window[a] === undefined ? setTimeout(function() {
-      Wait(a, b), 52
+      mw.wait(a, b), 52
     }) : b.call(a);
   }
 

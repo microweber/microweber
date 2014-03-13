@@ -1252,7 +1252,7 @@ mw.tools = {
               $(who).show().addClass('toggle-active');
               var callback = toggler.dataset("callback");
               if(callback != ""){
-                Wait(callback, function(){
+                mw.wait(callback, function(){
                     window[callback]();
                 });
               }
@@ -2368,31 +2368,13 @@ mw.tools = {
 }
 
 
-
-
-
-
-
-
-
-
-
-
 Alert = mw.tools.alert;
 
-
-
-
-
-Wait('jQuery', function(){
-
+mw.wait('jQuery', function(){
   jQuery.fn.getDropdownValue = function() {
     return this.dataset("value");
   };
-
-
   jQuery.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
-
      var isCustom = isCustom || false;
      var triggerChange = triggerChange || false;
      var isValidOption = false;
@@ -2423,23 +2405,18 @@ Wait('jQuery', function(){
      this.dataset("value", val);
   };
 
-
-
-
-
-jQuery.fn.commuter = function(a,b) {
-  if(a===undefined){return false}
-  var b = b || function(){};
-  return this.each(function(){
-    if((this.type==='checkbox'  || this.type==='radio') && !$(this).hasClass("cmactivated") ){
-      $(this).addClass("cmactivated");
-      $(this).bind("change", function(){
-        this.checked === true ? a.call(this) : b.call(this);
-      });
-    }
-  });
-};
-
+  jQuery.fn.commuter = function(a,b) {
+    if(a===undefined){return false}
+    var b = b || function(){};
+    return this.each(function(){
+      if((this.type==='checkbox'  || this.type==='radio') && !$(this).hasClass("cmactivated") ){
+        $(this).addClass("cmactivated");
+        $(this).bind("change", function(){
+          this.checked === true ? a.call(this) : b.call(this);
+        });
+      }
+    });
+  };
 });
 
 
@@ -2535,12 +2512,7 @@ mw.recommend = {
 }
 
 
-
-
-
-
 String.prototype._exec = function(a,b,c){
-
   var a = a || "";
   var b = b || "";
   var c = c || "";
@@ -2564,14 +2536,7 @@ String.prototype.toCamelCase = function() {
     return  mw.tools.toCamelCase(this);
 };
 
-mw.exec = function(str, a,b,c){
-    return str._exec(a,b,c);
-}
-
-
-
-
-
+mw.exec = function(str, a,b,c){ return str._exec(a,b,c); }
 
 
 /*
@@ -2640,8 +2605,6 @@ mw.switcher = {
 }
 
 
-
-
 mw.check = {
    all:function(selector){
     mw.$(selector).find("input[type='checkbox']").each(function(){
@@ -2663,8 +2626,6 @@ mw.check = {
      return arr;
    }
 }
-
-
 
 
 mw.walker = function(context, callback){
@@ -2696,11 +2657,6 @@ Array.prototype.min = function(){
 Array.prototype.max = function(){
     return Math.max.apply(Math, this);
 };
-
-
-
-
-
 
 
 __mwextend = function(el){
@@ -2741,21 +2697,17 @@ mw.extend = function(el){
 }
 
 $(window).load(function(){
-  mw.loaded = true;
-  mwd.body.className+=' loaded';
-  mw.tools.removeClass(mwd.body, 'loading');
+    mw.loaded = true;
+    mwd.body.className+=' loaded';
+    mw.tools.removeClass(mwd.body, 'loading');
 
 
-  mw.$('div.mw-ui-field').click(function(e){
-    if(e.target.type!= 'text'){
-       try{this.querySelector('input[type="text"]').focus();}
-       catch(e){}
-    }
- });
-
-
-
-
+    mw.$('div.mw-ui-field').click(function(e){
+      if(e.target.type!= 'text'){
+         try{this.querySelector('input[type="text"]').focus();}
+         catch(e){}
+      }
+   });
 });
 
 
@@ -2782,7 +2734,6 @@ mw._dump = function(obj){
 
 
 mw.dump = function(){
-
     mw.tools.modal.init({
       html: mw._dump(),
       width:800
@@ -2790,7 +2741,6 @@ mw.dump = function(){
 }
 
 mw.notification = {
-
    msg:function(data, timeout, _alert){
         var timeout = timeout || 1000;
         var _alert = _alert || false;
@@ -2802,7 +2752,6 @@ mw.notification = {
                else{
                  Alert (data.success);
                }
-
             }
             if(data.error != undefined ){
                mw.notification.error(data.error, timeout);

@@ -5,7 +5,6 @@ $(document).ready(function(){
    mw.wysiwyg.init();
    mw.tools.dropdown(mwd.getElementById('mw-admin-text-editor'));
 
-
    Editor = mw.$('#mw-admin-text-editor');
    Editor.mousedown(function(e){e.preventDefault()})
 
@@ -17,8 +16,6 @@ $(document).ready(function(){
 
 
 });
-
-
 
 
 </script>
@@ -89,27 +86,26 @@ $(document).ready(function(){
 
 
             <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
-
                 <span class="mw_dropdown_val_holder">
-                            <input type="text" class="mw_dd_field"  />
-                            <span class="dd_rte_arr"></span>
-                            <span class="mw_dropdown_val" >Size</span>
-                        </span>
-              <div class="mw_dropdown_fields">
-                        <ul>
-                          <li value="10"><a href="javascript:;">10</a></li>
-                          <li value="11"><a href="javascript:;">11</a></li>
-                          <li value="12"><a href="javascript:;">12</a></li>
-                          <li value="14"><a href="javascript:;">14</a></li>
-                          <li value="16"><a href="javascript:;">16</a></li>
-                          <li value="18"><a href="javascript:;">18</a></li>
-                          <li value="20"><a href="javascript:;">20</a></li>
-                          <li value="20"><a href="javascript:;">22</a></li>
-                          <li value="24"><a href="javascript:;">24</a></li>
-                          <li value="36"><a href="javascript:;">36</a></li>
-                          <li value="72"><a href="javascript:;">72</a></li>
+                  <input type="text" class="mw_dd_field"  />
+                  <span class="dd_rte_arr"></span>
+                  <span class="mw_dropdown_val" >Size</span>
+                </span>
+                <div class="mw_dropdown_fields">
+                    <ul>
+                      <li value="10"><a href="javascript:;">10</a></li>
+                      <li value="11"><a href="javascript:;">11</a></li>
+                      <li value="12"><a href="javascript:;">12</a></li>
+                      <li value="14"><a href="javascript:;">14</a></li>
+                      <li value="16"><a href="javascript:;">16</a></li>
+                      <li value="18"><a href="javascript:;">18</a></li>
+                      <li value="20"><a href="javascript:;">20</a></li>
+                      <li value="20"><a href="javascript:;">22</a></li>
+                      <li value="24"><a href="javascript:;">24</a></li>
+                      <li value="36"><a href="javascript:;">36</a></li>
+                      <li value="72"><a href="javascript:;">72</a></li>
                     </ul>
-                      </div>
+                </div>
             </div>
 
 
@@ -120,9 +116,11 @@ $(document).ready(function(){
             <span class="mw_editor_btn mw_editor_ol" data-command="insertorderedlist" title="<?php _e("Ordered List"); ?>"><span class="ed-ico"></span></span>
             <span class="mw_editor_btn mw_editor_ul" data-command="insertunorderedlist" title="<?php _e("Unordered List"); ?>"><span class="ed-ico"></span></span>
 
-          <?php /*  <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span>
-            <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
-*/ ?>
+<?php
+/*  <span class="mw_editor_btn mw_editor_indent" data-command="indent" title="<?php _e("Indent"); ?>"><span class="ed-ico"></span></span>
+    <span class="mw_editor_btn mw_editor_outdent" data-command="outdent" title="<?php _e("Outdent"); ?>"><span class="ed-ico"></span></span>
+*/
+?>
 
 
             <span class="mw_dlm"></span>

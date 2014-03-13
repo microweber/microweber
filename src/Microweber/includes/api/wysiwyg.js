@@ -1,8 +1,6 @@
 /* WYSIWYG Editor */
 /* ContentEditable Functions */
 
-
-
 mw.require('css_parser.js');
 mw.require('events.js');
 mw.lib.require('rangy');
@@ -51,8 +49,6 @@ if(typeof Range.prototype.querySelectorAll === 'undefined'){
       return nodes;
   }
 }
-
-
 
 
 mw.wysiwyg = {
@@ -132,7 +128,7 @@ mw.wysiwyg = {
                 this.contentEditable = false;
             });
             mw.on.moduleReload(function(){
-                  mw.wysiwyg.nceui();
+                mw.wysiwyg.nceui();
             })
         }
       }
@@ -160,7 +156,7 @@ mw.wysiwyg = {
         var arr = [];
         mw.tools.foreachParents(target, function(loop){
             arr.push(this.className);
-            if($(this).hasClass("module")){mw.tools.loop[loop]=false;}
+            if($(this).hasClass("module")){mw.tools.stopLoop(loop)}
         });
     },
     prepareContentEditable:function(){
@@ -263,36 +259,17 @@ mw.wysiwyg = {
         mw.$("#mw-text-editor").removeClass("editor_hover");
     },
     nceui:function(){  //remove defaults for browser's content editable tools
-
-
-        mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
-        mw.wysiwyg.execCommand('2D-Position', false, false);
-        mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
-
-        if(mw.is.ie){   /*
-            var all = document.querySelectorAll('.edit *:not(.disable-resize)');
-            if(all.length>0){
-                for(var i=0;i<all.length;i++){
-                    var dis = all[i];
-                    dis.className+=' disable-resize';
-                    dis.attachEvent("onresizestart", function(e) {
-                        e.returnValue = false;
-                    }, false);
-                    if(dis.tagName == 'IMG' ){
-                       dis.attachEvent("onmousedown", function(e) {
-                            e.returnValue = false;
-                       }, false);
-                    }
-                }
-            }  */
+        if(mw.settings.liveEdit){
+            mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
+            mw.wysiwyg.execCommand('2D-Position', false, false);
+            mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
         }
-    },
+   },
     paste:function(e){
         setTimeout(function(){
             mw.wysiwyg.cleanHTML();
         }, 79);
     },
-
     hasContentFromWord:function(node){
         if(node.getElementsByTagName("o:p").length > 0 ||
            node.getElementsByTagName("v:shapetype").length > 0 ||
@@ -303,11 +280,8 @@ mw.wysiwyg = {
         return false;
     },
     prepare:function(){
-
       mw.wysiwyg.external = mw.wysiwyg._external();
-
       mw.$("#liveedit_wysiwyg").bind("mousedown mouseup click", function(event){event.preventDefault()});
-
       var items = mw.$(".element").not(".module");
       mw.$(".mw_editor").hover(function(){$(this).addClass("editor_hover")}, function(){$(this).removeClass("editor_hover")});
     },
@@ -566,8 +540,7 @@ mw.wysiwyg = {
       if(!color.contains("#")){
         var color = "#" + color;
       }
-         mw.wysiwyg.execCommand('forecolor', null, color);
-         $(window.getSelection().getRangeAt(0).querySelectorAll('*')).css("color", color);
+      mw.wysiwyg.execCommand('forecolor', null, color);
     },
     fontbg:function(color){
         var color = color != 'transparent' ? '#' + color : color;
@@ -639,7 +612,6 @@ mw.wysiwyg = {
     fontSize:function(a){
         if(window.getSelection().isCollapsed){ return false; }
         mw.wysiwyg.allStatements(function(){
-
           rangy.init();
           var clstemp = 'mw-font-size-' + mw.random();
           var classApplier = rangy.createCssClassApplier("mw-font-size " + clstemp, true);
@@ -651,12 +623,10 @@ mw.wysiwyg = {
             all[i].style.fontSize = a+'px';
             mw.tools.removeClass(all[i], clstemp)
           }
-          //mw.wysiwyg.execCommand('fontsize', null, px);
-
        });
     },
     resetActiveButtons:function(){
-        mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active')
+        mw.$('.mw_editor_btn_active').removeClass('mw_editor_btn_active');
     },
     setActiveButtons:function(node){
         var css = mw.CSSParser(node);
@@ -917,7 +887,7 @@ mw.wysiwyg = {
         var id = 'image_' + mw.random();
         var img = '<img id="'+id+'" contentEditable="true" class="element" src="' + url + '" />';
         mw.wysiwyg.insert_html(img);
-        mw.$("#"+id).attr("contenteditable", false);
+        mw.settings.liveEdit?mw.$("#"+id).attr("contenteditable", false):'';
         mw.$("#"+id).removeAttr("_moz_dirty");
         mw.wysiwyg.save_selection();
         mw.tools.addClass(mw.tools.firstParentWithClass(mwd.getElementById(id), 'edit'), 'changed orig_changed');
@@ -1188,13 +1158,9 @@ mw.wysiwyg = {
 }
 
 
-
-
-
 mw.disable_selection = function(element){
     var el = element || ".module";
     var el = $(el, ".edit").not(".unselectable");
-
     el.attr("unselectable", "on");
     el.addClass("unselectable");
     el.bind("selectstart", function(event){
@@ -1205,37 +1171,24 @@ mw.disable_selection = function(element){
 
 
 $(mwd).ready(function(){
-
-      mw.$(".mw_dropdown_action_font_family").change(function(){
-          var val = $(this).getDropdownValue();
-          mw.wysiwyg.fontFamily(val);
-      });
-      mw.$(".mw_dropdown_action_font_size").change(function(){
-          var val = $(this).getDropdownValue();
-         // mw.wysiwyg.restore_selection();
-          mw.wysiwyg.fontSize(val);
-          mw.wysiwyg.removeSimulations();
-          mw.$('.mw_dropdown_val', this).append('pt');
-      });
-      mw.$(".mw_dropdown_action_format").change(function(){
-          var val = $(this).getDropdownValue();
-          mw.wysiwyg.format(val);
-      });
-      mw.$(".mw_dropdown_action_fontfx").change(function(){
-          var val = $(this).getDropdownValue();
-          mw.wysiwyg.fontFX(val);
-      });
-
-
-
-
+  mw.$(".mw_dropdown_action_font_family").change(function(){
+      var val = $(this).getDropdownValue();
+      mw.wysiwyg.fontFamily(val);
+  });
+  mw.$(".mw_dropdown_action_font_size").change(function(){
+      var val = $(this).getDropdownValue();
+      mw.wysiwyg.fontSize(val);
+      mw.wysiwyg.removeSimulations();
+      mw.$('.mw_dropdown_val', this).append('px');
+  });
+  mw.$(".mw_dropdown_action_format").change(function(){
+      var val = $(this).getDropdownValue();
+      mw.wysiwyg.format(val);
+  });
   mw.wysiwyg.nceui();
-
   mw.smallEditor = mw.$("#mw_small_editor");
   mw.smallEditorCanceled = true;
   mw.bigEditor = mw.$("#mw-text-editor");
-
-
   $(mwd.body).mousedown(function(event){
     var target = event.target;
     if($(target).hasClass("element")){
@@ -1249,24 +1202,10 @@ $(mwd).ready(function(){
     }
     else if($(target).parents(".edit").length>0){
       $(window).trigger("onEditMouseDown", [$(target).parents(".edit")[0], target]);
-
     }
   });
 
-
-
-
-
-if(!window['mwAdmin']){
-   mw.wysiwyg.prepareContentEditable();
-   
-}
-
-
-
-mw.wysiwyg.editorFonts = [];
-
-
+  mw.wysiwyg.editorFonts = [];
 
 });
 
@@ -1276,227 +1215,91 @@ $(window).load(function(){
   mw.wysiwyg.init_editables();
 
   mw.$("#wysiwyg_insert").bind("change", function(){
+     if(mw.wysiwyg.isSelectionEditable()){
+          var val = $(this).getDropdownValue();
+          if( val == 'hr' ){
+              mw.wysiwyg._do('InsertHorizontalRule');
+          }
+          else if( val == 'box' ){
+              var div = mw.wysiwyg.applier('div', 'well element');
+              if(mw.wysiwyg.selection_length() <= 2){
+                 $(div).append("<p>&nbsp;</p>");
+              }
+          }
+          else if( val == 'pre' ){
+              var div = mw.wysiwyg.applier('pre', '');
+              if(mw.wysiwyg.selection_length() <= 2){
+                 $(div).append("&nbsp;");
+              }
+          } else if( val == 'code' ){
+              var div = mw.wysiwyg.applier('code', '');
+          }else if( val == 'insert_html' ){
 
-   if(mw.wysiwyg.isSelectionEditable()){
-        var val = $(this).getDropdownValue();
-        if( val == 'hr' ){
-            mw.wysiwyg._do('InsertHorizontalRule');
-        }
-        else if( val == 'box' ){
-            var div = mw.wysiwyg.applier('div', 'well element');
-            if(mw.wysiwyg.selection_length() <= 2){
-               $(div).append("<p>&nbsp;</p>");
-            }
-        }
-        else if( val == 'pre' ){
-            var div = mw.wysiwyg.applier('pre', '');
-            if(mw.wysiwyg.selection_length() <= 2){
-               $(div).append("&nbsp;");
-            }
-        } else if( val == 'code' ){
-            var div = mw.wysiwyg.applier('code', '');
-        }else if( val == 'insert_html' ){
-			
-			var new_insert_html=prompt("Paste your html code in the box");
-			if (new_insert_html!=null){
-				 var div = mw.wysiwyg.applier('div');
-				 div.innerHTML =new_insert_html;
-			  }
-        }
-        else if( val == 'table' ){
-             var table = mw.wysiwyg.applier('table', 'mw-wysiwyg-table', {width:"100%"});
-             table.innerHTML = '<tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr>';
-             table.setAttribute('onclick', 'mw.inline.tableController(this, event);');
-        }
-        else if( val == 'quote' ){
-            var div = mw.wysiwyg.applier('blockquote', 'element');
-            $(div).append("<cite>By Lorem Ipsum</cite>");
-        }
-   }
-
+  			var new_insert_html=prompt("Paste your html code in the box");
+  			if (new_insert_html!=null){
+  				 var div = mw.wysiwyg.applier('div');
+  				 div.innerHTML =new_insert_html;
+  			  }
+          }
+          else if( val === 'table' ){
+               var table = mw.wysiwyg.applier('table', 'mw-wysiwyg-table', {width:"100%"});
+               table.innerHTML = '<tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr>';
+               table.setAttribute('onclick', 'mw.inline.tableController(this, event);');
+          }
+          else if( val === 'quote' ){
+              var div = mw.wysiwyg.applier('blockquote', 'element');
+              $(div).append("<cite>By Lorem Ipsum</cite>");
+          }
+     }
   });
 
   $(window).bind("keydown paste mousedown mouseup", function(e){
+      if(e.ctrlKey && e.type =='keydown') {
+            var code = e.keyCode;
+            if( code === 66 ){
+                mw.wysiwyg.execCommand('bold');
+                e.preventDefault();
+            }
+            else if(code == 73) {
+                mw.wysiwyg.execCommand('italic');
+                e.preventDefault();
+            }
+            else if(code == 85) {
+                mw.wysiwyg.execCommand('underline');
+                e.preventDefault();
+            }
+      }
+    });
 
-
-
-
-
-
-  if(e.ctrlKey && e.type =='keydown') {
-        var code = e.keyCode;
-        if( code == 66){
-               mw.wysiwyg.execCommand('bold');
-               e.preventDefault();
+  mw.$(".mw_editor").each(function(){
+     mw.tools.dropdown(this);
+  });
+  var nodes = mwd.querySelectorAll(".edit"), l = nodes.length, i=0;
+  for( ; i<l; i++ ){
+      var node = nodes[i];
+      var rel = mw.tools.mwattr(node, "rel");
+      var field = mw.tools.mwattr(node, "field");
+      if( field == 'content' && rel == 'content' ){
+        if(node.querySelector('p') !== null){
+          var node = node.querySelector('p');
         }
-        else if(code == 73) {
-            mw.wysiwyg.execCommand('italic');
-            e.preventDefault();
+        node.contentEditable = true;
+        node.focus();
+        var range = mwd.createRange();
+        range.setStart(node, 0);
+        range.collapse(false);
+        var selection = window.getSelection();
+        if(selection !== null){
+          selection.removeAllRanges();
+          selection.addRange(range);
         }
-        else if(code == 85) {
-            mw.wysiwyg.execCommand('underline');
-            e.preventDefault();
-        }
+        break;
+      }
   }
 
-  if(mw.settings.liveEdit){
 
 
 
-    if(e.type=='mousedown'){
-
-    }
-    if(e.type=='mouseup'){
-
-
-              var sel = window.getSelection();
-
-    if(sel.rangeCount > 0){
-              var range = sel.getRangeAt(0),
-                  common = mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer);
-
-            if(mw.tools.hasClass(common, 'edit') || mw.tools.hasParentsWithClass(common, 'edit')) {
-                var nodrop_state = !mw.tools.hasClass(common, 'nodrop') &&  !mw.tools.hasParentsWithClass(common, 'nodrop');
-                if(nodrop_state){
-                mw.wysiwyg.enableEditors();
-                }
-                else{
-                   mw.wysiwyg.disableEditors();
-                }
-            }
-            else{
-               mw.wysiwyg.disableEditors();
-            }
-
-      }
-
-    /* if(mw.tools.hasClass(e.target, 'mw_editor') || mw.tools.hasParentsWithClass(e.target, 'mw_editor')){
-          if(mw.tools.hasClass(e.target, 'mw-editor-disabled') || mw.tools.hasParentsWithClass(e.target, 'mw-editor-disabled')){
-               mw.wysiwyg.disableEditors();
-          }
-          else{
-              var common = mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().getRangeAt(0).commonAncestorContainer);
-              if(mw.tools.hasClass(common, 'nodrop') || mw.tools.hasParentsWithClass(common, 'nodrop')){
-                  mw.wysiwyg.disableEditors();
-                 return false;
-              }
-          }
-      } */
-
-
-
-       var sel = window.getSelection();
-      if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit')) && !sel.getRangeAt(0).collapsed){
-        if(sel.rangeCount > 0){
-        var r = sel.getRangeAt(0);
-        if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
-          mw.smallEditorCanceled = false;
-          mw.smallEditor.css({
-            visibility:"visible",
-            opacity:0.5,
-            top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height,
-            left:e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width()-5 )
-          });
-        }
-        else{
-             mw.smallEditorCanceled = true;
-             mw.smallEditor.css({
-                visibility:"hidden"
-             });
-        }
-      }
-      }
-      else{
-        if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
-             mw.smallEditorCanceled = true;
-             mw.smallEditor.css({
-              visibility:"hidden"
-            });
-        }
-      }
-
-     setTimeout(function(){
-        if(window.getSelection().rangecount > 0 && window.getSelection().getRangeAt(0).collapsed ){
-            mw.smallEditorCanceled = true;
-             mw.smallEditor.css({
-              visibility:"hidden"
-            });
-        }
-     }, 39);
-
-    }
-  }
-});
-
-      $(mwd.body).bind("paste", function(event){
-        if(event.target.isContentEditable){
-            //mw.wysiwyg.paste(event);
-        }
-      });
-
-      mw.$(".mw_editor").each(function(){
-         mw.tools.dropdown(this);
-      });
-
-
-        var nodes = mwd.querySelectorAll(".edit"), l = nodes.length, i=0;
-
-
-        for( ; i<l; i++ ){
-            var node = nodes[i];
-            var rel = mw.tools.mwattr(node, "rel");
-            var field = mw.tools.mwattr(node, "field");
-            if( field == 'content' && rel == 'content' ){
-              if(node.querySelector('p') !== null){
-                var node = node.querySelector('p');
-              }
-              node.contentEditable = true;
-              node.focus();
-              var range = mwd.createRange();
-              range.setStart(node, 0);
-              range.collapse(false);
-              var selection = window.getSelection();
-              if(selection !== null){
-                selection.removeAllRanges();
-                selection.addRange(range);
-              }
-              break;
-            }
-        }
-
-
-
-
-   mw.smallEditorOff = 150;
-
-   if(mw.settings.liveEdit){
-    $(window).bind("mousemove", function(e){
-       var isCollapsed = window.get
-       if(!mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")){
-         var off = mw.smallEditor.offset();
-         if(((e.pageX - mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY-mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX+mw.smallEditorOff) < (off.left)) || ((e.pageY+mw.smallEditorOff) < (off.top))){
-             mw.smallEditor.css("visibility", "hidden");
-             mw.smallEditorCanceled = true;
-         }
-         else{
-             //mw.smallEditor.css("visibility", "visible");
-         }
-       }
-    });
-    $(window).bind("scroll", function(e){
-        mw.smallEditor.css("visibility", "hidden");
-        mw.smallEditorCanceled = true;
-    });
-    mw.$("#live_edit_toolbar,#mw_small_editor").bind("mousedown", function(e){
-        if(e.target.nodeName != 'INPUT'){
-          e.preventDefault();
-        }
-        if(!mw.tools.hasParentsWithClass(e.target, 'mw_small_editor')){
-            mw.smallEditor.css("visibility", "hidden");
-            mw.smallEditorCanceled = true;
-        }
-    });
-   }
 });
 
 

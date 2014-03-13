@@ -1,22 +1,6 @@
 {
     "name": "microweber/microweber",
     "description": "New generation of CMS with drag and drop",
-    "keywords": ["cms", "drag and drop", "cool", "awesome"],
-    "homepage":         "http://microweber.com",
-    "authors": [
-        {
-            "name":         "Microweber Team",
-            "email":        "admin@microweber.com",
-            "homepage":     "http://microweber.com",
-            "role":         "Team"
-        }
-    ],
-	 "support": {
-        "email": "support@microweber.com",
-        "issues": "https://github.com/microweber/microweber/issues",
-        "forum": "http://microweber.com/community",
-        "wiki": "http://microweber.com/learn",
-        "irc": "irc://irc.freenode.org/microweber",
-        "source": "https://github.com/microweber/microweber"
-    }
+    "keywords": ["cms", "drag and drop", "shop", "blog"],
+    "homepage": "http://microweber.com"
 }

@@ -1,4 +1,4 @@
-
+mw.require('url.js');
 
 mw.on = mw.on || {
   _onmodules : [],
@@ -37,16 +37,11 @@ mw.on = mw.on || {
     }
     if(trigger==true){
         var index = mw.on._hashparams.indexOf(param);
-
         if(index != -1){
-
           var hash = mw.hash();
           var params = mw.url.getHashParams(hash);
-
           if(typeof params[param] === 'string'){
-
               mw.on._hashparam_funcs[index].call(params[param]);
-
           }
         }
     }
@@ -56,13 +51,6 @@ mw.on = mw.on || {
     }
 },
 hashParamEventInit:function(){
-  if(typeof mw.url == 'undefined'){
-    mw.require('url.js');
-  }
-
-
-
-
   var hash = mw.hash();
   var params = mw.url.getHashParams(hash);
   if(hash==='' || hash==='#' || hash ==='#?'){
@@ -129,7 +117,7 @@ DOMChange:function(element, callback, attr, a){
                 else{
                   clearInterval(element._int);
                   element._int = setTimeout(function(){
-                        callback.call(element);
+                    callback.call(element);
                   }, mw.on.DOMChangeTime);
                 }
              }
