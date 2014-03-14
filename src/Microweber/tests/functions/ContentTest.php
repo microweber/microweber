@@ -44,7 +44,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         }
 
 
-
         //PHPUnit
         $this->assertEquals(true, $save_post);
         $this->assertEquals(true, is_array($get_post));
@@ -90,7 +89,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
 
         //PHPUnit
-        $this->assertEquals(true, in_array($parent_page,$sub_page_parents));
+        $this->assertEquals(true, in_array($parent_page, $sub_page_parents));
         $this->assertEquals(true, strval($page_link) != '');
         $this->assertEquals(true, intval($parent_page) > 0);
         $this->assertEquals(true, intval($sub_page) > 0);
@@ -104,9 +103,82 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
 
     }
+    public function testGetPages()
+    {
+        $params = array(
+            'title' => 'My test page is here',
+            'content_type' => 'page',
+            // 'debug' => 1,
+            'is_active' => 'y');
+        //saving
+        $new_page_id = save_content($params);
 
 
+        $get_pages = get_pages($params);
+        $page_found = false;
 
+        if (is_array($get_pages)) {
+            foreach ($get_pages as $page) {
+                if ($page['id'] == $new_page_id) {
+                    $page_found = true;
+                    $this->assertEquals('page', $page['content_type']);
+                }
+                //PHPUnit
+                $this->assertEquals(true, intval($page['id']) > 0);
+            }
+        }
+
+        //clean
+        $delete_sub_page = delete_content($new_page_id);
+
+        //PHPUnit
+        $this->assertEquals(true, $page_found);
+        $this->assertEquals(true, intval($new_page_id) > 0);
+
+        $this->assertEquals(true, is_array($get_pages));
+        $this->assertEquals(true, is_array($delete_sub_page));
+
+
+    }
+
+    public function testGetPosts()
+    {
+        $params = array(
+            'title' => 'My test post is here',
+            'content_type' => 'post',
+            // 'debug' => 1,
+            'is_active' => 'y');
+        //saving
+        $new_post_id = save_content($params);
+
+
+        $get_posts = get_posts($params);
+        $post_found = false;
+
+        if (is_array($get_posts)) {
+            foreach ($get_posts as $post) {
+                if ($post['id'] == $new_post_id) {
+                    $post_found = true;
+                    $this->assertEquals('post', $post['content_type']);
+                    $this->assertEquals('post', $post['subtype']);
+                }
+                //PHPUnit
+                $this->assertEquals(true, intval($post['id']) > 0);
+            }
+        }
+
+        //clean
+        $delete_sub_page = delete_content($new_post_id);
+
+        //PHPUnit
+        $this->assertEquals(true, $post_found);
+        $this->assertEquals(true, intval($new_post_id) > 0);
+
+        $this->assertEquals(true, is_array($get_posts));
+        $this->assertEquals(true, is_array($delete_sub_page));
+
+
+    }
 
     public function testContentCategories()
     {

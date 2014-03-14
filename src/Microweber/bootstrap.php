@@ -134,8 +134,6 @@ if (!defined('T')) {
 }
 
 
-
-
 $loader = new Psr4AutoloaderClass;
 $mw_src = (__DIR__) . DS;
 
@@ -164,9 +162,6 @@ function mw($class = null, $constructor_params = false)
 }
 
 
-
-
-
 /*
 * Microweber autoloader
 * Loads up classes with namespaces
@@ -176,18 +171,16 @@ function mw($class = null, $constructor_params = false)
 // SINCE WE MOVED TO PSR4 AUTOLOADER this is kept for compatibility
 */
 $mw_get_prev_dir = dirname(MW_APP_PATH);
-$libs_path = MW_APP_PATH . 'libs' . DS ;
+$libs_path = MW_APP_PATH . 'libs' . DS;
 
 set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     MW_APP_PATH . PATH_SEPARATOR .
     MW_APP_PATH . 'controllers' . DS .
     PATH_SEPARATOR . MW_MODULES_DIR .
-    PATH_SEPARATOR .$libs_path.
+    PATH_SEPARATOR . $libs_path .
     PATH_SEPARATOR . get_include_path());
 
- spl_autoload_register('mw_autoload');
-
-
+spl_autoload_register('mw_autoload');
 
 
 // Basic system functions
@@ -205,9 +198,9 @@ function mw_autoload($className)
     }
     if ($className != '') {
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-       // if(is_file($fileName)){
+        // if(is_file($fileName)){
         include_once($fileName);
-       // }
+        // }
     }
 
 }
@@ -562,3 +555,8 @@ class Psr4AutoloaderClass
 }
 
 require_once (MW_APP_PATH . 'functions' . DS . 'mw_functions.php');
+$custom_functions_file = MW_APP_PATH . 'functions' . DS . 'my_functions.php';
+
+if (file_exists($custom_functions_file)) {
+    require_once ($custom_functions_file);
+}

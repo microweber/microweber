@@ -320,6 +320,7 @@ body .mw-col > .ui-resizable-e *{
     top: 2px;
     border-top-color: transparent;
     border-bottom-color:#C4C4C4;
+    height:24px;
 }
 
 #module-modal-settings-menu-holder .mw-dropdown-content{

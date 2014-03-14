@@ -79,7 +79,17 @@ function get_content_admin($params)
  */
 function get_posts($params = false)
 {
-    return mw('content')->get($params);
+    return mw('content')->get_posts($params);
+}
+
+function get_pages($params = false)
+{
+    return mw('content')->get_pages($params);
+}
+
+function get_products($params = false)
+{
+    return mw('content')->get_products($params);
 }
 
 
@@ -266,23 +276,25 @@ function content_data($content_id, $field_name = false)
 
     return mw('content')->data($content_id, $field_name);
 }
-function next_content($content_id=false)
+
+function next_content($content_id = false)
 {
 
 
     return mw('content')->next_content($content_id);
 }
-function prev_content($content_id=false)
+
+function prev_content($content_id = false)
 {
 
 
     return mw('content')->prev_content($content_id);
 }
+
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
 {
     return mw('fields')->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
 }
-
 
 
 function get_custom_field_by_id($id)
@@ -299,6 +311,7 @@ function delete_custom_field($data)
 {
     return mw('fields')->delete($data);
 }
+
 function make_custom_field($field_id = 0, $field_type = 'text', $settings = false)
 {
     return mw('fields')->make($field_id, $field_type, $settings);

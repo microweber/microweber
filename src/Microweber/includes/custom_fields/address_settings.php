@@ -82,7 +82,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
   <div class="custom-field-col-right">
     <div class="mw-custom-field-group">
       <?php foreach($opt as $key => $val){ ?>
-      <div id="mw-ui-field-holder mw-custom-fields-address-fields-<?php print $key; ?>">
+      <div class="mw-ui-field-holder mw-custom-fields-address-fields-<?php print $key; ?>">
         <label class="mw-ui-label"><?php print $val; ?></label>
         <input type="text" class="mw-ui-field" name="custom_field_value[<?php print $key; ?>]" <?php if(isset($data['custom_field_values'][$key]) and isset($data['custom_field_values'][$key][0])) : ?> value="<?php print $data['custom_field_values'][$key][0] ?>"  <?php endif; ?> />
       </div>

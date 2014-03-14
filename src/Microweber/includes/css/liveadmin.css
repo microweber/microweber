@@ -461,21 +461,6 @@ html.mw_pages #mw_tabs li.active a{
 }
 
 
-.mw-ui-field-holder{
-  padding: 10px 0;
-  position: relative;
-}
-.mw-ui-field-holder:after{
-  content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    line-height: 0;
-    height: 0;
-}
-
-
-
 .mw_save_buttons_holder input[type='submit']{
   float: left;
   width: 46%;
@@ -833,6 +818,7 @@ float: left;
 
 .mw-quick-links-cols{
   columns: 4 auto;
+  clear: both;
   -webkit-columns: 4 auto;
   -moz-columns: 4 auto;
   -o-columns: 4 auto;
@@ -2690,6 +2676,7 @@ a.module-icon-title{
 #mw_admin_product_settings .mw-ui-field-holder{
   float: left;
   width:115px;
+  clear: none;
 }
 
 #mw_admin_product_settings .mw-ui-field-holder label{

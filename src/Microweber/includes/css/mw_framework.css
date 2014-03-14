@@ -444,6 +444,7 @@ body.view-shop .mw_action_post{
 .mw_edit_pages_nav .mw-ui-btn{
   padding: 3px 4px;
   background: #f5f5f5;
+  height: 27px;
 }
 
 .mw_edit_pages_nav .mw-ui-btn .iplus{
@@ -732,7 +733,7 @@ html.mw_pages, html.mw_pages body{
 }
 .tree-show-hide-nav a.mw-ui-btn{
   padding: 3px 14px 5px;
-  height: 11px;
+  height: 23px;
 }
 
 .tree-show-hide-nav span{
@@ -819,6 +820,9 @@ a:hover .mw_ed_tree_content{
 
 .mw_tree_sub_page{
   background-position: -1143px -1px;
+}
+#mw_edit_pages .mw_tree_sub_page{
+  float: right;
 }
 
 
@@ -944,7 +948,7 @@ right: 15px;
 .mw-title-field-label-page + input.mw-title-field{
   width: 405px;
   float: left;
-
+  height: 50px;
 
 }
 
@@ -969,13 +973,14 @@ right: 15px;
 }
 
 
-div.mw-custom-fields-tags{
+div.mw-ui-field.mw-custom-fields-tags{
   background: #EDEDED ;
   margin-bottom: 14px;
   display: block;
   cursor: pointer;
   padding-right: 46px;
   position: relative;
+  float: none;
 }
 div.mw-custom-fields-tags a:last-child:after{
     background: url("../img/tag_plus.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -1003,6 +1008,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   margin-right: 5px;
   margin-bottom: 5px;
   padding-right: 16px;
+  height: 22px;
 }
 .mw-tag-selector > span > i{
     display: inline-block;
@@ -1076,12 +1082,7 @@ textarea.mw-ui-field{
 }
 
 
-.mw-ui-label{
-  display: block;
-  font-weight: bold;
-  padding-bottom: 10px;
-  color: #6C6C6C;
-}
+
 
 .mw-ui-label-inline:before{
   content: " ";

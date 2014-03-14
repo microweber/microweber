@@ -371,7 +371,6 @@ mw.askusertostay = false;
     }
   }
   mw.reload_module = function(module, callback) {
-
     if(module.constructor === [].constructor){
         var l = module.length, i=0, w = 1;
         for( ; i<l; i++){
@@ -683,6 +682,9 @@ mw.required.push("<?php print MW_INCLUDES_URL; ?>api/files.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/forms.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/url.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/events.js");
+
+
+
 
 <?php  include "jquery.js"; ?>
 <?php  include "tools.js"; ?>

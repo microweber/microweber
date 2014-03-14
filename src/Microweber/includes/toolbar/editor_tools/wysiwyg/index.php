@@ -215,6 +215,9 @@ delete_module = function(inner_node){
 .mw-wysiwyg-module-helper{
   min-height: 23px;
 }
+img{
+  max-width: 100%;
+}
 
 
 ::-webkit-scrollbar {

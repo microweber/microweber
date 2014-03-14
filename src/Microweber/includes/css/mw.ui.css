@@ -192,7 +192,11 @@
 
 .mw-ui-btn{
   display: inline-block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box ;
+  box-sizing: border-box;
   padding: 8px 10px;
+  height: 33px;
   cursor: pointer;
   background: #F5F5F5;
   border-width: 1px;
@@ -205,6 +209,24 @@
   position: relative;
   border-radius: 1px;
   box-shadow:inset 0 1px 0px 0px #fff;
+  text-decoration: none ;
+}
+.mw-defaults .mw-ui-btn{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box ;
+  box-sizing: border-box;
+}
+
+.mw-ui-btn-nav{
+  position: relative;
+}
+.mw-ui-btn-nav:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 .mw-ui-btn-nav .mw-ui-btn{
@@ -216,11 +238,23 @@
 }
 
 .mw-ui-btn-large, .mw-ui-btn-big{
-  padding: 10px;
   font-size: 18px;
+  height: 47px;
+  padding: 10px 20px;
 }
-.mw-ui-btn-light{ background: #F6F6F6; color: #B8B8B8 }
-.mw-ui-btn-white{ background: #fff; color: #B8B8B8 }
+
+.mw-ui-btn-small{
+  padding: 2px 8px;
+  line-height:12px;
+  height: 18px;
+}
+.mw-ui-btn-medium{
+  padding: 5px 12px;
+  height: 26px;
+}
+
+.mw-ui-btn-light{ background: #F6F6F6; color: #B8B8B8; }
+.mw-ui-btn-white{ background: #fff; color: #B8B8B8; }
 
 .mw-ui-btn:disabled{
   cursor: default !important;
@@ -248,15 +282,7 @@
   border-color: #D1C9C9 #BAB6B6 #BAB6B6 #BAB6B6;
 }
 
-.mw-ui-btn-small{
-  padding: 2px 10px 2px 5px;
-  font-size: 10px;
-  line-height:12px;
-}
-.mw-ui-btn-medium{
-  padding: 5px 12px 6px;
-  height: 15px;
-}
+
 
 .mw-ui-btn-plus{
   display: inline-block;
@@ -305,9 +331,7 @@
 .mw-ui-btn-red{background: #FF7373;border-color: transparent;}
 .mw-ui-btn-red:hover{background: #FF7373;}
 
-.mw-btn-single-ico{
-  text-align: center;
-}
+.mw-btn-single-ico{ text-align: center; }
 
 .mw-btn-single-ico .ico{
   float: none;
@@ -402,6 +426,7 @@
 
 .mw-ui-check input + span{
   display: inline-block;
+  vertical-align: middle;
   width: 16px;
   height: 16px;
   position: relative;
@@ -497,6 +522,14 @@ select.mw-ui-simple-dropdown:focus{
   box-shadow:0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 
+
+.mw-ui-label{
+  display: block;
+  font-weight: bold;
+  padding-bottom: 10px;
+  color: #6C6C6C;
+}
+
 .mw-ui-field{
   border: 1px solid #E6E6E6;
   border-top-color: #C6C6C6;
@@ -504,7 +537,15 @@ select.mw-ui-simple-dropdown:focus{
   background: white;
   outline: none;
   cursor: text;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box ;
+  box-sizing: border-box;
+  float: left;
 }
+input.mw-ui-field,select.mw-ui-field{
+  height: 33px;
+}
+
 .mw-ui-field-dropdown{
   background: white url(../img/field-dropdown.png) no-repeat 98% 50%;
   cursor: pointer;
@@ -551,6 +592,20 @@ div.mw-ui-field:after{
   visibility: hidden;
   line-height: 0;
   height: 0;
+}
+
+.mw-ui-field-holder{
+  padding: 10px 0;
+  position: relative;
+  clear: both;
+}
+.mw-ui-field-holder:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 .mw-ui-field-full, input.mw-ui-field-full{

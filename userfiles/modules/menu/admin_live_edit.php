@@ -57,7 +57,7 @@
 		<li style="display:none"><a href="javascript:;" id="add_new_menu_tab"></a></li>
 		<li style="display:none"><a href="javascript:;" id="add_new_content_tab"></a></li>
 	</ul>
-	<a href="javascript:mw.add_new_page_to_menu();" class="mw-ui-btn" style="height: 15px;position: absolute;right: 13px;top: 12px;z-index: 1"><span>
+	<a href="javascript:mw.add_new_page_to_menu();" class="mw-ui-btn" style="position: absolute;right: 13px;top: 12px;z-index: 1"><span>
 	<?php _e("Create new page"); ?>
 	</span></a>
 	<div class="tab">

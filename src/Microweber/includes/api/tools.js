@@ -34,7 +34,6 @@ mw.require(mw.settings.includes_url + "css/mw.ui.css");
         } else if ( browser.webkit ) {
         	browser.safari = true;
         }
-
         jQuery.browser = browser;
     }
 })();
@@ -101,16 +100,9 @@ mw.simpletab = {
   }
 }
 
-
-
-
-
-
 mw.external_tool = function(url){
   return !url.contains("/") ? mw.settings.site_url  +  "editor_tools/" + url : url;
 }
-
-
 
 mw.tools = {
   inlineModal:function(o){
@@ -2052,9 +2044,10 @@ mw.tools = {
       else{
         area.html(val);
       }
-       if(area.hasClass("mw_option_field")){
+      if(area.hasClass("mw_option_field")){
          area.trigger("change");
-       }
+      }
+      this.value = val;
     });
     return frame;
   },
@@ -3879,6 +3872,24 @@ mw.image = {
       return modal;
     }
 
+
+    /* Exposing to jquery */
+
+    $.fn.mwmodal   = mw.modal;
+    $.fn.mwgallery = mw.gallery;
+    $.fn.mweditor  = function(params){
+        var editors = $([]);
+        this.each(function(){
+            var el = $(this);
+            var w = el.width();
+            var h = el.height();
+            var editor  = mw.editor(this, params);
+            $(editor).width(w)
+            $(editor).height(h)
+            editors.push(editor);
+        });
+        return editors;
+    }
 
 
 

@@ -3,7 +3,6 @@ mw.resizable_row_width = false;
 mw.mouse_over_handle = false;
 mw.external_content_dragged = false;
 
-
 mw.have_new_items = false;
 
 mw.dragCurrent = null;
@@ -100,17 +99,14 @@ mw.dropables = {
 
 
 
-
 $(document).ready(function(){
 
   mw.drag.create();
-
    $(mwd.body).keyup(function(e){
      mw.$(".mw_master_handle").css({
        left:"",
        top:""
      });
-
    });
 
    $(mwd.body).bind("keydown",function(e){
@@ -122,8 +118,6 @@ $(document).ready(function(){
    })
 
    mw.edits = mw.$('.edit');
-
-
 
    mw.edits.mouseleave(function(e){
      if(mw.isDrag){
@@ -146,7 +140,6 @@ $(document).ready(function(){
      }
    });
 
-
    $(window).bind("onDragHoverOnEmpty", function(e,el){
      if($.browser.webkit){
        var _el = $(el);
@@ -160,8 +153,6 @@ $(document).ready(function(){
      }
    });
 
-
-
    var t = mwd.querySelectorAll('[field="title"]'), l = t.length, i = 0;
 
    for( ; i<l; i++){
@@ -169,7 +160,6 @@ $(document).ready(function(){
    }
 
    $(mwd.body).bind("mousedown mouseup", function(e){
-
      if(e.type == 'mousedown'){
        if(!mw.tools.hasClass(e.target, 'ui-resizable-handle') && !mw.tools.hasParentsWithClass(e.target, 'ui-resizable-handle')){
           mw.tools.addClass(mwd.body, 'state-element')
@@ -187,10 +177,6 @@ $(document).ready(function(){
 
 
 
-
-
-
-
 hasAbilityToDropElementsInside = function(target){
 
   var items = /^(span|h[1-6]|hr|ul|ol|input|table|b|em|i|a|img|textarea|br|canvas|font|strike|sub|sup|dl|button|small|select|big|abbr|body)$/i;
@@ -198,11 +184,9 @@ hasAbilityToDropElementsInside = function(target){
     return  !items.test(target);
   }
   var x =  items.test(target.nodeName);
-
   if(x){
     return false;
   }
-
   if(mw.tools.hasParentsWithClass(target, 'module') ){
     if(mw.tools.hasParentsWithClass(target, 'edit') ){
       return true;
@@ -214,12 +198,7 @@ hasAbilityToDropElementsInside = function(target){
   else if(mw.tools.hasClass(target, 'module')){
       return false;
   }
-
-
-
-
   return true;
-
 }
 
 mw.drag = {
@@ -228,7 +207,6 @@ mw.drag = {
          mw.top_half = false;
          var edits = mwd.body.querySelectorAll(".edit"), elen = edits.length, ei = 0;
          for(;ei < elen;ei++){
-
            var els = edits[ei].querySelectorAll('p,div,h1,h2,h3,h4,h5,h6'), i = 0, l = els.length;
             for( ; i<l; i++){
                var el = els[i];
@@ -242,12 +220,9 @@ mw.drag = {
                }
             }
          }
-
-
          mw.$("#live_edit_toolbar_holder .module").removeClass("module");
 
          $(mwd.body).mousemove(function(event){
-
 
             mw.tools.removeClass(this, 'isTyping');
 
@@ -295,7 +270,6 @@ mw.drag = {
                    else if(mw.mm_target.id!='mw_handle_element' && mw.$mm_target.parents("#mw_handle_element").length==0){
                      $(window).trigger("onElementLeave", mw.mm_target);
                    }
-
                    if(mw.$mm_target.hasClass("module")){
                      $(window).trigger("onModuleOver", mw.mm_target);
                    }
@@ -306,18 +280,14 @@ mw.drag = {
                      $(window).trigger("onModuleLeave", mw.mm_target);
                    }
 
-                   //trigger on img
+
                    if(mw.mm_target.tagName === 'IMG'){
-
-                    var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
-
-                  if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
-                    if(!mw.tools.hasParentsWithClass(mw.mm_target, 'mw-defaults')){
-                       $(window).trigger("onImageOver", mw.mm_target);
-                    }
-                  }
-
-
+                      var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
+                      if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
+                        if(!mw.tools.hasParentsWithClass(mw.mm_target, 'mw-defaults')){
+                           $(window).trigger("onImageOver", mw.mm_target);
+                        }
+                      }
                    }
 
 
@@ -335,11 +305,7 @@ mw.drag = {
 
                    //trigger on item
                    if((mw.isDragItem(mw.mm_target) && mw.$mm_target.parent().hasClass("element")) || mw.mm_target.className.contains('mw_item')){
-
                         $(window).trigger("onItemOver", mw.tools.firstParentWithClass(mw.mm_target, 'edit'));
-
-                        //$(window).trigger("onItemOver", mw.mm_target);
-                        //mw.$mm_target.addClass("mw_item");
                    }
                    else if(mw.$mm_target.parents(".mw_item").length>0){
                        $(window).trigger("onItemOver", mw.$mm_target.parents(".mw_item")[0]);
@@ -354,10 +320,7 @@ mw.drag = {
                    }
 
                }
-
-
                mw.image._dragTxt(event);
-
            }
            else{
 
@@ -384,14 +347,11 @@ mw.drag = {
 
 
            if(!mw.tools.hasParentsWithClass(mw.mm_target, 'edit') && !mw.tools.hasClass(mw.mm_target.className, 'edit')){
-
              mw.mm_target = mw.drag.noop;
              mw.$mm_target = $(mw.drag.noop);
 
              mw.dropable.removeClass("mw_dropable_onleaveedit");
              mw.dropable.hide();
-
-           //return false;
            }
            else{
              var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
@@ -400,8 +360,6 @@ mw.drag = {
                /*
                 mw.mm_target = mw.drag.noop;
                 mw.$mm_target = $(mw.drag.noop);   */
-
-
              }
            }
 
@@ -2710,11 +2668,6 @@ if(typeof mw.hasDraft === 'object'){
     /*  WYSIWYG */
 
 
-
-
-
-
-
     $(window).bind("mouseup", function(e){
                   var sel = window.getSelection();
                   if(sel.rangeCount > 0){
@@ -2854,8 +2807,6 @@ mw.iphonePreview = function(){
 }
 
 
-
-
 mw.quick = {
           w : 700,
           h : 500,
@@ -2908,8 +2859,6 @@ mw.quick = {
            });
            modal.overlay.style.backgroundColor = "white";
         },
-
-
         post : function(){
             var modal = mw.tools.modal.frame({
 			  url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-post&subtype=post&parent-page-id="+mw.settings.page_id+"&parent-category-id="+mw.settings.category_id,

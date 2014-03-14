@@ -208,7 +208,7 @@ mw_cf_close_edit_window = function(el){
     
     
 </div>
-<span class="mw-ui-btn mw-ui-btn-blue" id="smart_field_opener" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;"> <span class="ico iAdd"></span><span>
+<span class="mw-ui-btn mw-ui-btn-blue" id="smart_field_opener" onclick="mw.tools.toggle('.custom_fields_selector', this);" > <span class="ico iAdd"></span><span>
 <?php _e("Add Custom Field"); ?>
 </span> </span>
 <div id="custom-field-editor" style="display: none">
