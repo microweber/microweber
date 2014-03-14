@@ -428,7 +428,7 @@ mw.embed = {
 
 #media_search_field{
   float: right;
-  width: 202px;
+  width: 180px;
 }
 
 #media-search-holder{

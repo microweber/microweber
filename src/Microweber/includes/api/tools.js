@@ -153,6 +153,9 @@ mw.tools = {
     },
     source:function(id, template){
       var template = template || 'mw_modal_default';
+      if(template == 'basic'){var template = 'mw_modal_basic';}
+      if(template == 'default'){var template = 'mw_modal_default';}
+      if(template == 'simple'){var template = 'mw_modal_simple';}
       var id = id || "modal_"+mw.random();
       var html = ''
         + '<div class="mw-defaults mw_modal mw_modal_maximized '+template+'" id="'+id+'">'
@@ -196,7 +199,8 @@ mw.tools = {
         }
         modal_object.show();
         var draggable = draggable || true;
-        if(typeof $.fn.draggable === 'function' && !!draggable){
+        if(typeof $.fn.draggable === 'function' && draggable){
+            modal_object.addClass("mw-modal-draggable")
             modal_object.draggable({
               handle:'.mw_modal_toolbar',
               containment:'window',
@@ -3868,15 +3872,59 @@ mw.image = {
 
     mw.modal = function(o){
       var modal = mw.tools.modal.init(o);
-      modal.main = modal.main[0];
+      if(!!modal){
+        modal.main = modal.main[0];
+      }
+      else{
+        var modal = undefined;
+      }
       return modal;
     }
 
 
     /* Exposing to jquery */
+    mwglobalmodaltimeresize = null;
+    $.mwmodal  = function(params, x){
+        if(typeof params === 'object'){
+          return mw.modal(params);
+        }
+        else if(typeof params === 'string'){
+          if(params=='close' || params == 'remove'){
+            mw.tools.modal.remove(x);
+          }
+        }
+    };
 
-    $.fn.mwmodal   = mw.modal;
-    $.fn.mwgallery = mw.gallery;
+    $.fn.mwmodal = function(params){
+        var params = params || {}
+        if(typeof params === 'string'){
+           if(params=='close' || params == 'remove'){
+              !!this[0].modal ? mw.tools.modal.remove(this[0].modal): '';
+            }
+        }
+        else{
+          params.width = params.width || this.width();
+          params.height = params.height || this.height();
+          params.content = this.html();
+          var modal = mw.modal(params);
+          this[0].modal = modal;
+          if(!!modal){
+              modal.container.style.padding = 0;
+              modal.main.style.height = params.height + mw.$('.mw_modal_toolbar', modal.main).height() + 'px';
+              $(window).bind('resize', function(){
+                 clearTimeout(mwglobalmodaltimeresize)
+                  mwglobalmodaltimeresize = setTimeout(function(){
+                  mw.tools.modal.center(modal.main)
+                 }, 123);
+              });
+          }
+          else{
+            var modal = undefined;
+          }
+          return modal;
+      }
+    }
+
     $.fn.mweditor  = function(params){
         var editors = $([]);
         this.each(function(){

@@ -30,10 +30,14 @@
   line-height: 22px;
 }
 
-.mw-defaults, .mw-defaults *{
+.mw-defaults{
   font: 12px Verdana,Arial,Helvetica,sans-serif;
   color: #212121;
 }
+.mw-defaults *{
+  color: #212121;
+}
+
 .mw-defaults a{
   color: #212121;
   text-decoration: none;

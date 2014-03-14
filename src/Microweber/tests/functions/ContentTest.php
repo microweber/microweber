@@ -27,9 +27,10 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $get_post = get_content($params);
 
 
-        //delete content
+
         foreach ($get_post as $item) {
             $del_params = array('id' => $item['id'], 'forever' => true);
+            //delete content
             $delete = delete_content($del_params);
 
             //check if deleted
@@ -140,7 +141,46 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
 
     }
+    public function testGetProducts()
+    {
+        $params = array(
+            'title' => 'My test product is here',
+            'content_type' => 'post',
+            'subtype' => 'product',
+            // 'debug' => 1,
+            'is_active' => 'y');
+        //saving
+        $new_page_id = save_content($params);
 
+
+        $get_pages = get_products($params);
+        $page_found = false;
+
+        if (is_array($get_pages)) {
+            foreach ($get_pages as $page) {
+                if ($page['id'] == $new_page_id) {
+                    $page_found = true;
+                    $this->assertEquals('post', $page['content_type']);
+                    $this->assertEquals('product', $page['subtype']);
+
+                }
+                //PHPUnit
+                $this->assertEquals(true, intval($page['id']) > 0);
+            }
+        }
+
+        //clean
+        $delete_sub_page = delete_content($new_page_id);
+
+        //PHPUnit
+        $this->assertEquals(true, $page_found);
+        $this->assertEquals(true, intval($new_page_id) > 0);
+
+        $this->assertEquals(true, is_array($get_pages));
+        $this->assertEquals(true, is_array($delete_sub_page));
+
+
+    }
     public function testGetPosts()
     {
         $params = array(
@@ -225,6 +265,47 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($category_id, $delete_category);
         $this->assertEquals(false, $deleted_page);
         $this->assertEquals(true, is_array($delete_page));
+
+    }
+
+
+
+    public function testNextPrev()
+    {
+
+        $params = array(
+            'title' => 'this is my test next prev post',
+            'content_type' => 'post',
+            // 'debug' => 1,
+            'is_active' => 'y');
+        //saving
+        $save_post1 = save_content($params);
+        $save_post2 = save_content($params);
+        $save_post3 = save_content($params);
+
+        //getting
+        $next = next_content($save_post1);
+        $prev = prev_content($save_post2);
+
+        $this->assertEquals($save_post2, ($next['id']));
+        $this->assertEquals($save_post1, ($prev['id']));
+
+        $next = next_content($save_post2);
+        $prev = prev_content($save_post3);
+
+        $this->assertEquals($save_post3, ($next['id']));
+        $this->assertEquals($save_post2, ($prev['id']));
+
+
+        $del1 = delete_content($save_post1);
+        $del2 = delete_content($save_post2);
+        $del3 = delete_content($save_post3);
+
+        //PHPUnit
+        $this->assertEquals(true, is_array($del1));
+        $this->assertEquals(true, is_array($del2));
+        $this->assertEquals(true, is_array($del3));
+         $this->assertEquals(true, is_array($next));
 
     }
 
