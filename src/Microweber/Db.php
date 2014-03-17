@@ -1263,14 +1263,17 @@ class Db
                 if ($is_not_null == true) {
                     $cfvq = " custom_field_value IS NOT NULL  ";
                 } else {
-                    $cfvq = " (custom_field_value LIKE '$v'  or custom_field_values_plain LIKE '$v'  )";
+                    $v= $this->escape_string($v);
+                    $cfvq = " (custom_field_value='$v'  or custom_field_values_plain='$v'  )";
+                    $cfvq .= " or (custom_field_value LIKE '$v'  or custom_field_values_plain LIKE '$v'  )";
 
                 }
                 $table_assoc_name1 = $this->assoc_table_name($table_assoc_name);
                 $q = "SELECT  rel_id from " . $table_custom_fields . " where";
                 $q .= " rel='$table_assoc_name1' and ";
                 $q .= " (custom_field_name = '$k' or custom_field_name_plain='$k' ) and  ";
-                $q .= $this->escape_string($cfvq);
+               // $q .= $this->escape_string($cfvq);
+                $q .= trim($cfvq);
                 $q .= $ids_q;
                 $q .= $only_custom_fieldd_ids_q;
                 $q2 = $q;

@@ -895,8 +895,13 @@ a:hover .mw_ed_tree_content{
 }
 
 .mw-ui-category-selector li a{
-  display: block;
-  padding: 5px 0
+    display: block;
+    padding: 5px 0;
+    overflow: hidden;
+    line-height: 24px;
+}
+.mw-ui-category-selector li a:hover{
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .mw-ui-category-selector div.module-categories-selector  .mw-ui-check input[type="radio"] + span{

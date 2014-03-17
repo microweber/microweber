@@ -340,8 +340,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     }
 
-
-
     public function testCustomFields()
     {
         $price = rand();
@@ -360,38 +358,33 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $custom_fields = get_custom_fields($product_id);
 
 
-
         //test get by custom fields
         $params = array(
             'limit' => 1,
             'custom_field_price' => $price);
 
         $products = get_products($params);
-         
+        $found = false;
+        foreach ($products as $product) {
+            if(isset($product['id']) and $product['id'] == $product_id){
+                $found = true;
+            }
 
+            //PHPUnit
+            $this->assertEquals(true, isset($product['id']));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
+        d($products);
 
 
         $delete_page = delete_content($product_id);
         $deleted_page = get_content_by_id($product_id);
 
         //PHPUnit
+        $this->assertEquals(true, $found);
+
+        $this->assertEquals(true, is_array($products));
+
         $this->assertEquals(true, is_array($custom_fields));
         $this->assertEquals(true, isset($custom_fields['price']));
         $this->assertEquals($price, intval($custom_fields['price']));
