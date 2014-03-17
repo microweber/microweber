@@ -33,7 +33,7 @@ setActiveProvider = function(el){
     mw.notification.success("<?php _e("Shop settings are saved"); ?>.");
 	
 	 mw.reload_module_parent("shop/payments");
-	 
+
 	
 	
   });
@@ -137,6 +137,7 @@ mw.$("#available_providers").sortable({
 .mw-set-payment-options .mw-ui-label {
 	padding-bottom: 5px;
 	padding-top: 10px;
+    clear: both
 }
 .mw-set-payment-options .mw-ui-inline-selector li label.mw-ui-label {
 	width: 75px;
@@ -351,15 +352,28 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 					. <a class="mw-ui-link" target="_blank"  href="<?php  print admin_url('view:settings#option_group=email'); ?>" style="padding: 6px;">
 					<?php _e("Setup email here"); ?>
 					.</a></small>
-					<label class="mw-ui-label">
-						<?php _e("Email subject"); ?>
-					</label>
-					<input name="order_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your order"); ?>!" data-option-group="orders"  value="<?php print get_option('order_email_subject', 'orders') ?>"  type="text" />
-					<label class="mw-ui-label">
+                    <div class="mw-ui-row">
+                      <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                          <label class="mw-ui-label">
+      						<?php _e("Email subject"); ?>
+      					</label>
+      					<input name="order_email_subject" class="mw-ui-field mw_option_field"   id="order_email_subject"  placeholder="<?php _e("Thank you for your order"); ?>!" data-option-group="orders"  value="<?php print get_option('order_email_subject', 'orders') ?>"  type="text" />
+                        </div>
+                      </div>
+                      <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                        <label class="mw-ui-label">
 						<?php _e("Send copy email to"); ?>
 					</label>
-					<input name="order_email_cc" class="mw-ui-field mw_option_field"  style="float: left;margin-right:10px;"  id="order_email_cc" placeholder="me@email.com"  data-option-group="orders"  value="<?php print get_option('order_email_cc', 'orders') ?>"  type="text" />
-					<a class="mw-ui-btn" href="javascript:$('#test_ord_eml_toggle').toggle(); void(0);">
+
+					    <input name="order_email_cc" class="mw-ui-field mw_option_field"  style="float: left;margin-right:10px;"  id="order_email_cc" placeholder="me@email.com"  data-option-group="orders"  value="<?php print get_option('order_email_cc', 'orders') ?>"  type="text" />
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="vSpace"></div>
+					<a class="mw-ui-btn mw-ui-btn-link" href="javascript:void(0);" onclick="$('#test_ord_eml_toggle').show();$(this).hide();">
 					<?php _e("Test"); ?>
 					</a>
 					<table width=" 100%" border="0" id="test_ord_eml_toggle" style="display:none">

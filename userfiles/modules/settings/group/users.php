@@ -66,6 +66,14 @@ mw.tools.tabGroup({
        border-radius:2px;
        background: #F4F4F4;
      }
+     .group-logins:after{
+       content: ".";
+       display: block;
+       clear: both;
+       visibility: hidden;
+       line-height: 0;
+       height: 0;
+     }
 
      .group-logins ul{
        padding: 0 0 20px 14px;

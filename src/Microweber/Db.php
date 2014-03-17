@@ -1263,22 +1263,35 @@ class Db
                 if ($is_not_null == true) {
                     $cfvq = " custom_field_value IS NOT NULL  ";
                 } else {
-                    $v= $this->escape_string($v);
-                    $cfvq = " (custom_field_value='$v'  or custom_field_values_plain='$v'  )";
-                    $cfvq .= " or (custom_field_value LIKE '$v'  or custom_field_values_plain LIKE '$v'  )";
+                    $v = $this->escape_string($v);
+
+
+                    $value_q = $this->_value_query_sign($v);
+
+
+                    if (isset($value_q['value']) and $value_q['value'] != '' and isset($value_q['compare_sign'])) {
+                        $cfvq = " (custom_field_value" . $value_q['compare_sign'] . "'" . $value_q['value'] . "'  or custom_field_values_plain" . $value_q['compare_sign'] . "'" . $value_q['value'] . "'  )";
+
+                    } else {
+                        $cfvq = " (custom_field_value='$v'  or custom_field_values_plain='$v'  )";
+
+                    }
+
+                   $cfvq .= " or (custom_field_value LIKE '$v'  or custom_field_values_plain LIKE '$v'  )";
 
                 }
                 $table_assoc_name1 = $this->assoc_table_name($table_assoc_name);
                 $q = "SELECT  rel_id from " . $table_custom_fields . " where";
                 $q .= " rel='$table_assoc_name1' and ";
                 $q .= " (custom_field_name = '$k' or custom_field_name_plain='$k' ) and  ";
-               // $q .= $this->escape_string($cfvq);
+                // $q .= $this->escape_string($cfvq);
                 $q .= trim($cfvq);
                 $q .= $ids_q;
                 $q .= $only_custom_fieldd_ids_q;
                 $q2 = $q;
-
-                $q = $this->query($q, md5($q), 'custom_fields/global');
+//d($q2);
+             //   $q = $this->query($q, md5($q), 'custom_fields/global');
+                $q = $this->query($q);
                 if (!empty($q)) {
                     $ids_old = $ids;
                     $ids = array();
@@ -2175,6 +2188,145 @@ class Db
         }
     }
 
+    private function _value_query_sign($v)
+    {
+        $compare_sign = '=';
+        if (is_string($v) != false) {
+            $v = $this->escape_string(strip_tags($v));
+            $v = str_replace('{', '', $v);
+            $v = str_replace('}', '', $v);
+            $v = str_replace('*', '', $v);
+            $v = str_replace(';', '', $v);
+            $v = str_replace('\077', '', $v);
+            $v = str_replace('<?', '', $v);
+            $v = str_replace("'", '', $v);
+            $v = str_replace('"', '', $v);
+
+
+            $first_char = substr($v, 0, 1);
+            $first_two_chars = substr($v, 0, 2);
+
+
+            if (stristr($first_two_chars, '=<')) {
+                $compare_sign = '<=';
+                $v = str_replace('=<', '', $v);
+            }elseif (stristr($first_two_chars, '<=')) {
+                $compare_sign = '<=';
+                $v = str_replace('<=', '', $v);
+            } elseif (stristr($first_two_chars, '<')) {
+                $compare_sign = '<';
+                $v = str_replace('<', '', $v);
+            }elseif (stristr($first_char, '<')) {
+                $compare_sign = '<';
+                $v = str_replace('<', '', $v);
+            }elseif (stristr($first_two_chars, '=>')) {
+                $compare_sign = '>=';
+                $v = str_replace('=>', '', $v);
+            }elseif (stristr($first_two_chars, '>=')) {
+                $compare_sign = '>=';
+                $v = str_replace('>=', '', $v);
+            } elseif (stristr($first_two_chars, '>=')) {
+
+                $compare_sign = '>=';
+                $v = str_replace('>=', '', $v);
+            }elseif (stristr($first_char, '>')) {
+
+                $compare_sign = '>';
+                $v = str_replace('>', '', $v);
+
+            }
+        }
+
+
+        if (stristr($v, '[lt]')) {
+            $compare_sign = '<';
+            $v = str_replace('[lt]', '', $v);
+        }
+        if (stristr($v, '[lte]')) {
+            $compare_sign = '<=';
+            $v = str_replace('[lte]', '', $v);
+        }
+        if (stristr($v, '[st]')) {
+            $compare_sign = '<';
+            $v = str_replace('[st]', '', $v);
+        }
+        if (stristr($v, '[ste]')) {
+            $compare_sign = '<=';
+            $v = str_replace('[ste]', '', $v);
+        }
+        if (stristr($v, '[gt]')) {
+            $compare_sign = '>';
+            $v = str_replace('[gt]', '', $v);
+        }
+        if (stristr($v, '[gte]')) {
+            $compare_sign = '>=';
+            $v = str_replace('[gte]', '', $v);
+        }
+
+
+
+
+
+
+
+
+
+
+        if (stristr($v, '[mt]')) {
+            $compare_sign = '>';
+            $v = str_replace('[mt]', '', $v);
+        }
+        if (stristr($v, '[mte]')) {
+            $compare_sign = '>=';
+            $v = str_replace('[mte]', '', $v);
+        }
+
+        if (stristr($v, '[neq]')) {
+            $compare_sign = '!=';
+            $v = str_replace('[neq]', '', $v);
+        }
+
+        if (stristr($v, '[eq]')) {
+            $compare_sign = '=';
+            $v = str_replace('[eq]', '', $v);
+        }
+
+
+        if (stristr($v, '[int]')) {
+
+            $is_val_str = false;
+            $is_val_int = true;
+
+            $v = str_replace('[int]', '', $v);
+        }
+
+        if (stristr($v, '[is]')) {
+
+            $compare_sign = ' IS ';
+
+            $v = str_replace('[is]', '', $v);
+        }
+
+        if (stristr($v, '[like]')) {
+
+            $compare_sign = ' LIKE ';
+
+            $v = str_replace('[like]', '', $v);
+        }
+
+        if (stristr($v, '[is_not]')) {
+
+            $compare_sign = ' IS NOT ';
+
+            $v = str_replace('[is_not]', '', $v);
+        }
+
+
+        return array('value' => $v, 'compare_sign' => $compare_sign);
+
+
+    }
+
     /**
      * Returns an array that contains only keys that has the same names as the table fields from the database
      *
@@ -2992,21 +3144,48 @@ class Db
                                 $this->q($clean);
                             }
                             $cfvq = '';
+                            $cftype='content';
+                            $cftitle=false;
                             $custom_field_to_save['custom_field_name'] = $cf_k;
                             if (is_array($cf_v)) {
                                 $cf_k_plain = $this->app->url->slug($cf_k);
                                 $cf_k_plain = $this->escape_string($cf_k_plain);
                                 $cf_k_plain = str_replace('-', '_', $cf_k_plain);
-                                $custom_field_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
-                                $custom_field_to_save['custom_field_values_plain'] = $this->escape_string(array_pop(array_values($cf_v)));
+
+                                $val_to_serilize = $cf_v;
+                                if(isset($custom_field_to_save['values'])){
+                                    $val_to_serilize = $custom_field_to_save['values'];
+                                }
+                                if(isset($custom_field_to_save['type'])){
+                                    $cftype = $custom_field_to_save['type'];
+                                }
+                                if(isset($custom_field_to_save['title'])){
+                                    $cftitle = $custom_field_to_save['title'];
+                                }
+                                if(isset($custom_field_to_save['name'])){
+                                    $cftitle = $custom_field_to_save['name'];
+                                }
+                                if($cftitle != false){
+                                    $custom_field_to_save['custom_field_name'] = $cftitle;
+                                }
+                                $temp = serialize($val_to_serilize);
+                                $custom_field_to_save['custom_field_values'] = base64_encode($temp);
+
+                            
+                                $temp = array_values($val_to_serilize);
+                                $temp = array_pop($temp);
+                                $custom_field_to_save['custom_field_values_plain'] = $this->escape_string($temp);
                                 $cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
                                 $cfvq .= "custom_field_values_plain =\"" . $custom_field_to_save['custom_field_values_plain'] . "\",";
                                 $cfvq .= "custom_field_name_plain =\"" . $cf_k_plain . "\",";
 
+                                $custom_field_to_save['custom_field_value'] = 'Array';
+
                             } else {
                                 $cf_v = $this->escape_string($cf_v);
+                                $custom_field_to_save['custom_field_value'] = $cf_v;
                             }
-                            $custom_field_to_save['custom_field_value'] = $cf_v;
+
 
                             $custom_field_to_save['rel'] = $table_assoc_name;
 
@@ -3040,7 +3219,7 @@ class Db
                             custom_field_name ='{$cf_k}',
                             $cfvq
                             custom_field_value ='{$custom_field_to_save['custom_field_value']}',
-                            custom_field_type = 'content',
+                            custom_field_type = '{$cftype}',
                             rel ='{$custom_field_to_save ['rel']}',
                             rel_id ='{$custom_field_to_save ['rel_id']}'
 
@@ -3231,6 +3410,11 @@ class Db
 
     }
 
+
+    //
+// remove_remarks will strip the sql comment lines out of an uploaded sql file
+//
+
     /**
      * Set table's engine
      *
@@ -3244,11 +3428,6 @@ class Db
     {
         $this->q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
     }
-
-
-    //
-// remove_remarks will strip the sql comment lines out of an uploaded sql file
-//
 
     /**
      * Create foreign key if not exists
@@ -3293,6 +3472,12 @@ class Db
 
     }
 
+
+//
+// split_sql_file will split an uploaded sql file into single sql statements.
+// Note: expects trim() to have already been run on $sql.
+//
+
     public function get_tables()
     {
 //        $db = c('db');
@@ -3327,12 +3512,6 @@ class Db
             return $ret;
         }
     }
-
-
-//
-// split_sql_file will split an uploaded sql file into single sql statements.
-// Note: expects trim() to have already been run on $sql.
-//
 
     public function import_sql_file($full_path_to_file)
     {

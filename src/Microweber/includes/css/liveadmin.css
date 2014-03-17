@@ -271,10 +271,9 @@ body.cross{
     margin:4px 6px 0;
 }
 
-#mw_toolbar_nav.mw-small-toolbar .mw-ui-btn{ margin-top: 2px;}
+#mw_toolbar_nav.mw-small-toolbar .mw-ui-btn{ margin-top: 3px;}
 
-#mw_toolbar_nav.mw-small-toolbar .mw-ui-btn.mw-btn-single-ico{ margin-top: 5px; }
-
+#mw_toolbar_nav.mw-small-toolbar .mw-ui-btn.mw-btn-single-ico{ margin-top: 3px; }
 
 #mw_tabs{
   float: left;
