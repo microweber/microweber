@@ -5042,7 +5042,6 @@ class Content
      * @subpackage Advanced
      *
      * @uses $this->save_content()
-     * @see content_set_unpublished()
      * @example
      * <code>
      * //set published the content with id 5

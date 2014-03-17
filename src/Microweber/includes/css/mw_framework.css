@@ -890,6 +890,13 @@ a:hover .mw_ed_tree_content{
 
 .mw-ui-category-selector li{
   list-style: none;
+  clear: both;
+  padding: 0 20px;
+}
+
+.mw-ui-category-selector li a{
+  display: block;
+  padding: 5px 0
 }
 
 .mw-ui-category-selector div.module-categories-selector  .mw-ui-check input[type="radio"] + span{
@@ -897,9 +904,6 @@ a:hover .mw_ed_tree_content{
 }
 
 
-.mw-ui-category-selector ul ul{
-  padding-left: inherit;
-}
 
 
 .cat_selector_view_ctrl{
@@ -909,9 +913,9 @@ a:hover .mw_ed_tree_content{
   font-size: 11px;
   position: absolute;
   z-index: 2;
-right: 15px;
-    top: 6px;
-    display: none;
+  right: 15px;
+  top: 6px;
+  display: none;
 }
 
 .cat_selector_view_ctrl a{

@@ -40,7 +40,7 @@ mw.load_quick_cat_edit = function($id){
 			<?php _e("Edit categories"); ?>
 			</a></li>
 	</ul>
-	<a href="javascript:mw.load_quick_cat_edit(0);" class="mw-ui-btn" style="height: 15px;position: absolute;right: 13px;top: 12px;z-index: 1"><span>
+	<a href="javascript:mw.load_quick_cat_edit(0);" class="mw-ui-btn" style="position: absolute;right: 13px;top: 12px;z-index: 1"><span>
 	<?php _e("Add new category"); ?>
 	</span></a>
 	<div class="tab">

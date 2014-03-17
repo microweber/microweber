@@ -449,9 +449,7 @@ div[id*='SSDIVEL']{
 #mw_toolbar_back_to_live_edit {
     position:fixed;
     top:4px;
-    left:50%;
-    width:120px;
-    margin-left:-10px;
+    left:47%;
     opacity:0.6;
     z-index:99999 !important;
 }

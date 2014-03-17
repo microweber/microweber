@@ -293,6 +293,13 @@ function prev_content($content_id = false)
 
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
 {
+    if(isset($table) and intval($table) > 0){
+        $id = intval(intval($table));
+        $table = 'content';
+    }
+
+
+
     return mw('fields')->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
 }
 

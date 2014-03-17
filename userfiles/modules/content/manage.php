@@ -397,7 +397,7 @@ category_tree($pt_opts);
   <?php _e("Select All"); ?>
   </span>/<span onclick="mw.check.none('#mw_admin_posts_manage')">
   <?php _e("Unselect All"); ?>
-  </span></span> <span class="mw-ui-btn" onclick="delete_selected_posts();">
+  </span></span> <span class="mw-ui-btn mw-ui-btn-medium" onclick="delete_selected_posts();">
   <?php _e("Delete"); ?>
   </span>
   <input

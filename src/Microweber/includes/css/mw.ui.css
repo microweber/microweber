@@ -543,7 +543,7 @@ select.mw-ui-simple-dropdown:focus{
   float: left;
 }
 input.mw-ui-field,select.mw-ui-field{
-  height: 33px;
+  min-height: 33px;
 }
 
 .mw-ui-field-dropdown{
@@ -559,6 +559,7 @@ input.mw-title-field{
   font-size: 18px;
   padding:12px;
   width: 368px;
+  height: 50px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   background: #f5f5f5

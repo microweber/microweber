@@ -27,7 +27,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $get_post = get_content($params);
 
 
-
         foreach ($get_post as $item) {
             $del_params = array('id' => $item['id'], 'forever' => true);
             //delete content
@@ -104,6 +103,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
 
     }
+
     public function testGetPages()
     {
         $params = array(
@@ -141,6 +141,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
 
     }
+
     public function testGetProducts()
     {
         $params = array(
@@ -181,6 +182,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
 
     }
+
     public function testGetPosts()
     {
         $params = array(
@@ -268,8 +270,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     }
 
-
-
     public function testNextPrev()
     {
 
@@ -305,7 +305,100 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, is_array($del1));
         $this->assertEquals(true, is_array($del2));
         $this->assertEquals(true, is_array($del3));
-         $this->assertEquals(true, is_array($next));
+        $this->assertEquals(true, is_array($next));
+
+    }
+
+    public function testSaveWithCustomFields()
+    {
+        $price = rand();
+        $params = array(
+            'title' => 'My custom product',
+            'content_type' => 'post',
+            'subtype' => 'product',
+            'custom_field_price' => $price,
+            // 'debug' => 1,
+            'is_active' => 'y');
+
+
+        //saving
+        $product_id = save_content($params);
+        $product_data = get_content_by_id($product_id);
+        $custom_fields = get_custom_fields($product_id);
+
+        $delete_page = delete_content($product_id);
+        $deleted_page = get_content_by_id($product_id);
+
+        //PHPUnit
+        $this->assertEquals(true, is_array($custom_fields));
+        $this->assertEquals(true, isset($custom_fields['price']));
+        $this->assertEquals($price, intval($custom_fields['price']));
+
+        $this->assertEquals(true, is_array($delete_page));
+        $this->assertEquals(false, $deleted_page);
+        $this->assertEquals(true, is_array($delete_page));
+
+    }
+
+
+
+    public function testCustomFields()
+    {
+        $price = rand();
+        $params = array(
+            'title' => 'My custom product test title',
+            'content_type' => 'post',
+            'subtype' => 'product',
+            'custom_field_price' => $price,
+            // 'debug' => 1,
+            'is_active' => 'y');
+
+
+        //saving
+        $product_id = save_content($params);
+        $product_data = get_content_by_id($product_id);
+        $custom_fields = get_custom_fields($product_id);
+
+
+
+        //test get by custom fields
+        $params = array(
+            'limit' => 1,
+            'custom_field_price' => $price);
+
+        $products = get_products($params);
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $delete_page = delete_content($product_id);
+        $deleted_page = get_content_by_id($product_id);
+
+        //PHPUnit
+        $this->assertEquals(true, is_array($custom_fields));
+        $this->assertEquals(true, isset($custom_fields['price']));
+        $this->assertEquals($price, intval($custom_fields['price']));
+
+        $this->assertEquals(true, is_array($delete_page));
+        $this->assertEquals(false, $deleted_page);
+        $this->assertEquals(true, is_array($delete_page));
 
     }
 

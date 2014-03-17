@@ -60,7 +60,7 @@ $module_id = $for_id;
 </script>
 
 <div class="<?php print $config['module_class'] ?>-holder">
-    <span class="mw-ui-btn mw-ui-btn-blue" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="height: 15px;">
+    <span class="mw-ui-btn mw-ui-btn-blue" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="min-height: 15px;">
         <span class="ico iAdd"></span><span><?php _e("Add  New Custom Field"); ?></span>
     </span>
   <div class="vSpace"></div>

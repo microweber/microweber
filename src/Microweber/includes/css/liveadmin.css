@@ -768,7 +768,6 @@ form.add-edit-page-post textarea{
 .manage-toolbar-top .mw-ui-btn{
 float: left;
     margin-right: 7px;
-    padding: 4px 10px;
     top: 3px;
 }
 
@@ -2202,6 +2201,7 @@ body.still-loading:before{
   border-bottom-color: #AEADAD;
   color: #111111;
 }
+
 
 .mw-simple-rotator{
     overflow: hidden;
