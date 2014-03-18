@@ -22,10 +22,22 @@
     <label><?php _e("Credit Card Number"); ?></label>
     <input name="cc_number"  type="text" value="" class="field-full form-control" />
 
-  
+
     <label><?php _e("Expiration Date"); ?></label>
-    <input name="cc_month" class="input-mini form-control input-sm" placeholder="<?php _e("Month"); ?>" style="margin-right:10px;"  type="text" value="" class="field-full form-control" />
-    <input name="cc_year" class="input-mini form-control input-sm" placeholder="<?php _e("Year"); ?>"  type="text" value="" class="field-full form-control" />
+    <div class="mw-ui-row-nodrop">
+        <div class="mw-ui-col">
+          <div class="mw-ui-col-container">
+              <input name="cc_month" class="input-mini form-control input-sm" placeholder="<?php _e("Month"); ?>"  type="text" value="" class="field-full form-control" />
+          </div>
+        </div>
+        <div class="mw-ui-col">
+          <div class="mw-ui-col-container">
+              <input name="cc_year" class="input-mini form-control input-sm" placeholder="<?php _e("Year"); ?>"  type="text" value="" class="field-full form-control" />
+          </div>
+        </div>
+    </div>
+
+
 
     <label><?php _e("Verification Code"); ?></label>
     <input name="cc_verification_value"  type="text" value="" class="field-full form-control" />

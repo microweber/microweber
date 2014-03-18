@@ -112,18 +112,15 @@ $(document).ready(function(){
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
+    clear: both;
+    float: left;
 }
 .pattern + .STYLERESET {
 	top: 8px;
 	left: 5px;
 }
 </style>
-<div class="mw_simple_tabs mw_tabs_layout_stylish">
-  <ul style="margin: 0;" class="mw_simple_tabs_nav">
-    <li><a class="active" href="javascript:;">Basic settings</a></li>
-    <li><a href="javascript:;" class="">Advanced</a></li>
-  </ul>
-  <div class="tab">
+
     <label class="mw-ui-label">Default Font</label>
     <input type="hidden"
              class="tpl-field"
@@ -171,8 +168,7 @@ $(document).ready(function(){
              name="import"
              id="import_css"
              />*/ ?>
-  </div>
-  <div class="tab semi_hidden">
+
     <label class="mw-ui-label">Site Background</label>
     <div style="padding-left:20px">
       <label class="mw-ui-label-small">Patterns</label>
@@ -223,8 +219,7 @@ $(document).ready(function(){
              name="headerbg"
              id="headerbg"
              data-property="color" />
-  </div>
-</div>
+
 <?php /*
    <select id="mw_set_template_style">
 	  <option value="css/styles/spacelab.css">spacelab</option>

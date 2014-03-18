@@ -247,7 +247,7 @@ img.element{
 }
 
 .mw-ui-row > .mw-ui-col:only-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:only-child > .mw-ui-col-container{ padding: 0px; }
-.mw-ui-row > .mw-ui-col:first-child > .mw-ui-col-container, .mw-ui-row-drop > .mw-ui-col:first-child > .mw-ui-col-container{
+.mw-ui-row > .mw-ui-col:first-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:first-child > .mw-ui-col-container{
   padding-left: 0
 }
 .mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container, .mw-ui-row-nodrop > .mw-ui-col:last-child > .mw-ui-col-container{

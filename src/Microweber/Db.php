@@ -3126,7 +3126,7 @@ class Db
 
                     foreach ($custom_field_to_save as $cf_k => $cf_v) {
 
-                        if (($cf_v != '')) {
+                        if (($cf_v != '') and $table_assoc_name != 'custom_fields') {
                             //   $cf_v = replace_site_vars($cf_v);
                             //d($cf_v);
                             if ($cf_k != '') {
@@ -3171,7 +3171,7 @@ class Db
                                 $temp = serialize($val_to_serilize);
                                 $custom_field_to_save['custom_field_values'] = base64_encode($temp);
 
-                            
+
                                 $temp = array_values($val_to_serilize);
                                 $temp = array_pop($temp);
                                 $custom_field_to_save['custom_field_values_plain'] = $this->escape_string($temp);
@@ -3180,6 +3180,7 @@ class Db
                                 $cfvq .= "custom_field_name_plain =\"" . $cf_k_plain . "\",";
 
                                 $custom_field_to_save['custom_field_value'] = 'Array';
+                                //d($custom_field_to_save);
 
                             } else {
                                 $cf_v = $this->escape_string($cf_v);
@@ -3190,6 +3191,9 @@ class Db
                             $custom_field_to_save['rel'] = $table_assoc_name;
 
                             $custom_field_to_save['rel_id'] = $id_to_return;
+
+
+
                             $custom_field_to_save['skip_custom_field_save'] = true;
 
 
