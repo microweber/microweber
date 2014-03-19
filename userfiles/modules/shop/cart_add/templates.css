@@ -1,0 +1,17 @@
+#AddToCartModal h5{
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+#AddToCartModal{
+  text-align: center;
+}
+
+#AddToCartModal p{
+  padding:0 0 24px;
+  margin: 0;
+}
+
+#AddToCartModal .mw-ui-btn{
+  margin: 0 12px;
+}
