@@ -497,6 +497,10 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
   overflow: hidden;
   cursor: pointer;
   border-bottom: 1px solid #ddd;
+  -webkit-transition: all 100ms cubic-bezier(1,.28,1,.03);
+  -moz-transition: all 100ms cubic-bezier(1,.28,1,.03);
+  -o-transition: all 100ms cubic-bezier(1,.28,1,.03);
+  transition: all 100ms cubic-bezier(1,.28,1,.03);
 }
 
 
@@ -514,13 +518,26 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
   background-repeat: no-repeat;
   background-position: center center;
   z-index: 6;
+    -webkit-transition: all 100ms cubic-bezier(1,.28,1,.03);
+  -moz-transition: all 100ms cubic-bezier(1,.28,1,.03);
+  -o-transition: all 100ms cubic-bezier(1,.28,1,.03);
+  transition: all 100ms cubic-bezier(1,.28,1,.03);
+
 }
 
 
 
 #live_edit_toolbar #modules-and-layouts:hover:after{
   background-color: #EBEBEB;
+  height: 21px;
 }
+#live_edit_toolbar #modules-and-layouts:hover{
+  height: 21px;
+  box-shadow:0 0 4px -4px #000;
+}
+
+
+
 
 
 #live_edit_toolbar:hover #modules-and-layouts{

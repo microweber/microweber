@@ -14,7 +14,7 @@ description: Columns
 <div class="clearfix container module-posts-template-columns">
 
 		<?php if (!empty($data)): ?>
-		<?php $count = 0; foreach ($data as $item): ?>
+		<?php $count = 0; $len = count($data);  foreach ($data as $item): ?>
         <?php
             $count++;
             if($count == 1 or ($count%4)==0){
@@ -43,9 +43,9 @@ description: Columns
 				<i class="icon-chevron-right"></i></a> </div>
 			<?php endif; ?>
 		</div>
-
+ 
         <?php
-            if(($count%3)==0){
+            if(($count%3)==0 or $len == $len){
                print '</div>';
             }
          ?>
