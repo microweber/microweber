@@ -194,11 +194,10 @@ class User
 
 
         if ($redirect_after == true) {
-			$redir = site_url($redirect_after);
+            $redir = site_url($redirect_after);
             $this->app->url->redirect($redir);
             exit();
         }
-
 
 
     }
@@ -325,8 +324,8 @@ class User
                 $name = ucwords($name);
                 if (trim($name) == '' and $user_data['email'] != '') {
                     $name = $user_data['email'];
-					$name_from_email = explode('@',$user_data['email']);
-                $name = $name_from_email[0];
+                    $name_from_email = explode('@', $user_data['email']);
+                    $name = $name_from_email[0];
                 }
                 if (trim($name) == '' and $user_data['username'] != '') {
                     $name = $user_data['username'];
@@ -341,7 +340,7 @@ class User
             if (isset($user_data['username']) and $user_data['username'] != false and trim($user_data['username']) != '') {
                 $name = $user_data['username'];
             } else if (isset($user_data['email']) and $user_data['email'] != false and trim($user_data['email']) != '') {
-				$name_from_email = explode('@',$user_data['email']);
+                $name_from_email = explode('@', $user_data['email']);
                 $name = $name_from_email[0];
             }
         }
@@ -359,7 +358,7 @@ class User
         if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
 
             $installed = $this->app->config('installed');
-            if (!defined('MW_IS_INSTALLED')){
+            if (!defined('MW_IS_INSTALLED')) {
                 define("MW_IS_INSTALLED", $installed);
             }
             if ($installed != 'yes') {
@@ -490,85 +489,6 @@ class User
             }
         }
 
-    }
-
-    /**
-     * @function get_users
-     *
-     * @param $params array|string;
-     * @params $params['username'] string username for user
-     * @params $params['email'] string email for user
-     * @params $params['password'] string password for user
-     *
-     *
-     * @usage $this->get_all('email=my_email');
-     *
-     *
-     * @return array of users;
-     */
-    public function get_all($params)
-    {
-        $params = parse_params($params);
-
-        $table = $this->tables['users'];
-
-        $data = $this->app->format->clean_html($params);
-        $orig_data = $data;
-
-        if (isset($data['ids']) and is_array($data['ids'])) {
-            if (!empty($data['ids'])) {
-                $ids = $data['ids'];
-            }
-        }
-        if (!isset($params['search_in_fields'])) {
-            $data['search_in_fields'] = array('first_name', 'last_name', 'username', 'email');
-            // $data ['debug'] = 1;
-        }
-
-        $cache_group = 'users/global';
-        if (isset($data['id']) and intval($data['id']) != 0) {
-            $cache_group = 'users/' . $data['id'];
-        } else {
-
-        }
-        $cache_group = 'users/global';
-        if (isset($limit) and $limit != false) {
-            $data['limit'] = $limit;
-        }
-
-        if (isset($count_only) and $count_only != false) {
-            $data['get_count'] = $count_only;
-        }
-
-        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
-            $only_those_fields = $data['only_those_fields'];
-        }
-
-        if (isset($data['count']) and $data['count']) {
-            $count_only = $data['count'];
-        }
-
-        //$data ['no_cache'] = 1;
-
-        if (isset($data['username']) and $data['username'] == null) {
-            unset($data['username']);
-        }
-        if (isset($data['username']) and $data['username'] == '') {
-            //return false;
-        }
-
-        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $data['table'] = $table;
-        //  $data ['cache_group'] = $cache_group;
-
-        $get = $this->app->db->get($data);
-
-        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // var_dump($get, $function_cache_id, $cache_group);
-        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
-
-        return $get;
     }
 
     /**
@@ -877,89 +797,6 @@ class User
     {
 
         $this->app->log->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
-
-    }
-
-    public function make_logged($user_id)
-    {
-
-        if (is_array($user_id)) {
-            if (isset($user_id['id'])) {
-                $user_id = $user_id['id'];
-            }
-        }
-
-        if (intval($user_id) > 0) {
-            $data = $this->get_by_id($user_id);
-            if ($data == false) {
-                return false;
-            } else {
-                if (is_array($data)) {
-                    $user_session = array();
-                    $user_session['is_logged'] = 'yes';
-                    $user_session['user_id'] = $data['id'];
-
-                    if (!defined('USER_ID')) {
-                        define("USER_ID", $data['id']);
-
-
-                    }
-                    event_trigger('user_login', $data);
-                    $this->session_set('user_session', $user_session);
-                    $user_session = $this->session_get('user_session');
-                    $this->update_last_login_time();
-                    $user_session['success'] = "You are logged in!";
-                    return $user_session;
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Generic function to get the user by id.
-     * Uses the getUsers function to get the data
-     *
-     * @param
-     *            int id
-     * @return array
-     *
-     */
-    public function get_by_id($id)
-    {
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
-        }
-
-        $data = array();
-        $data['id'] = $id;
-        $data['limit'] = 1;
-        $data = $this->get_all($data);
-        if (isset($data[0])) {
-            $data = $data[0];
-        }
-        return $data;
-    }
-
-    public function update_last_login_time()
-    {
-
-        $uid = user_id();
-        if (intval($uid) > 0) {
-
-            $data_to_save = array();
-            $data_to_save['id'] = $uid;
-            $data_to_save['last_login'] = date("Y-m-d H:i:s");
-            $data_to_save['last_login_ip'] = MW_USER_IP;
-
-            $table = $this->tables['users'];
-            mw_var("FORCE_SAVE", $this->tables['users']);
-            $save = $this->app->db->save($table, $data_to_save);
-
-            $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
-
-        }
 
     }
 
@@ -1421,7 +1258,7 @@ class User
     {
 
 
-        set_exception_handler($this->social_login_exception_handler);
+        set_exception_handler($this->social_login_exception_handler());
         $params2 = array();
 
         if (is_string($params)) {
@@ -1542,32 +1379,84 @@ class User
         }
     }
 
-    public function social_login_process($params = false)
+    function social_login_exception_handler($exception = false)
     {
 
 
-        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url->site())) {
-            $return_after_login = $_SERVER["HTTP_REFERER"];
-            $this->session_set('user_after_login', $return_after_login);
+        if ($this->app->url->is_ajax()) {
+            if ($exception == false) {
+                return;
+            }
 
+
+            return array('error' => $exception->getMessage());
+        }
+        $after_log = $this->session_get('user_after_login');
+        if ($after_log != false) {
+            $this->app->url->redirect($after_log);
+        } else {
+            $this->app->url->redirect(site_url());
+        }
+    }
+
+    public function session_get($name)
+    {
+
+
+        if ($this->session_provider == 'array') {
+            // used for unit tests, does not persist values between requests
+
+            if (isset($_SESSION[$name])) {
+                return $_SESSION[$name];
+            }
+            return;
         }
 
 
-        set_exception_handler($this->social_login_exception_handler);
+        if (!defined('MW_NO_SESSION')) {
+            if (!headers_sent()) {
+                if (!isset($_SESSION)) {
+
+                    try {
+                        $start = session_start();
+                    } catch (ErrorExpression $e) {
 
 
-        try {
-            $api = new \Microweber\Auth\Social();
+                        session_regenerate_id();
+
+                        $start = session_id();
 
 
-            $api->process();
+                    }
 
-
-        } catch (Exception $e) {
-            echo "Ooophs, we got an error: " . $e->getMessage();
+                    if ($start == false) {
+                        session_write_close(); //now close it,
+                        session_regenerate_id();
+                        $start = session_id();
+                    }
+                    $_SESSION['ip'] = MW_USER_IP;
+                }
+            }
+            // probable timout here?!
         }
+        //
+
+        if (isset($_SESSION) and isset($_SESSION[$name])) {
 
 
+            if (!isset($_SESSION['ip'])) {
+                $_SESSION['ip'] = MW_USER_IP;
+            } else if ($_SESSION['ip'] != MW_USER_IP) {
+
+                // mw('user')->session_end();
+                //return false;
+            }
+
+
+            return $_SESSION[$name];
+        } else {
+            return false;
+        }
     }
 
     public function session_set($name, $val)
@@ -1599,73 +1488,202 @@ class User
             } else {
                 $is_the_same = $this->session_get($name);
 
-                 if ($is_the_same != $val) {
+                if ($is_the_same != $val) {
                     $_SESSION[$name] = $val;
-                 }
+                }
             }
             //return $_SESSION;
         }
     }
 
-    public function session_get($name)
+    /**
+     * @function get_users
+     *
+     * @param $params array|string;
+     * @params $params['username'] string username for user
+     * @params $params['email'] string email for user
+     * @params $params['password'] string password for user
+     *
+     *
+     * @usage $this->get_all('email=my_email');
+     *
+     *
+     * @return array of users;
+     */
+    public function get_all($params)
+    {
+        $params = parse_params($params);
+
+        $table = $this->tables['users'];
+
+        $data = $this->app->format->clean_html($params);
+        $orig_data = $data;
+
+        if (isset($data['ids']) and is_array($data['ids'])) {
+            if (!empty($data['ids'])) {
+                $ids = $data['ids'];
+            }
+        }
+        if (!isset($params['search_in_fields'])) {
+            $data['search_in_fields'] = array('first_name', 'last_name', 'username', 'email');
+            // $data ['debug'] = 1;
+        }
+
+        $cache_group = 'users/global';
+        if (isset($data['id']) and intval($data['id']) != 0) {
+            $cache_group = 'users/' . $data['id'];
+        } else {
+
+        }
+        $cache_group = 'users/global';
+        if (isset($limit) and $limit != false) {
+            $data['limit'] = $limit;
+        }
+
+        if (isset($count_only) and $count_only != false) {
+            $data['get_count'] = $count_only;
+        }
+
+        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
+            $only_those_fields = $data['only_those_fields'];
+        }
+
+        if (isset($data['count']) and $data['count']) {
+            $count_only = $data['count'];
+        }
+
+        //$data ['no_cache'] = 1;
+
+        if (isset($data['username']) and $data['username'] == null) {
+            unset($data['username']);
+        }
+        if (isset($data['username']) and $data['username'] == '') {
+            //return false;
+        }
+
+        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $data['table'] = $table;
+        //  $data ['cache_group'] = $cache_group;
+
+        $get = $this->app->db->get($data);
+
+        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        // var_dump($get, $function_cache_id, $cache_group);
+        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
+
+        return $get;
+    }
+
+    public function make_logged($user_id)
+    {
+
+        if (is_array($user_id)) {
+            if (isset($user_id['id'])) {
+                $user_id = $user_id['id'];
+            }
+        }
+
+        if (intval($user_id) > 0) {
+            $data = $this->get_by_id($user_id);
+            if ($data == false) {
+                return false;
+            } else {
+                if (is_array($data)) {
+                    $user_session = array();
+                    $user_session['is_logged'] = 'yes';
+                    $user_session['user_id'] = $data['id'];
+
+                    if (!defined('USER_ID')) {
+                        define("USER_ID", $data['id']);
+
+
+                    }
+                    event_trigger('user_login', $data);
+                    $this->session_set('user_session', $user_session);
+                    $user_session = $this->session_get('user_session');
+                    $this->update_last_login_time();
+                    $user_session['success'] = "You are logged in!";
+                    return $user_session;
+                }
+            }
+        }
+
+    }
+
+    /**
+     * Generic function to get the user by id.
+     * Uses the getUsers function to get the data
+     *
+     * @param
+     *            int id
+     * @return array
+     *
+     */
+    public function get_by_id($id)
+    {
+        $id = intval($id);
+        if ($id == 0) {
+            return false;
+        }
+
+        $data = array();
+        $data['id'] = $id;
+        $data['limit'] = 1;
+        $data = $this->get_all($data);
+        if (isset($data[0])) {
+            $data = $data[0];
+        }
+        return $data;
+    }
+
+    public function update_last_login_time()
+    {
+
+        $uid = user_id();
+        if (intval($uid) > 0) {
+
+            $data_to_save = array();
+            $data_to_save['id'] = $uid;
+            $data_to_save['last_login'] = date("Y-m-d H:i:s");
+            $data_to_save['last_login_ip'] = MW_USER_IP;
+
+            $table = $this->tables['users'];
+            mw_var("FORCE_SAVE", $this->tables['users']);
+            $save = $this->app->db->save($table, $data_to_save);
+
+            $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+
+        }
+
+    }
+
+    public function social_login_process($params = false)
     {
 
 
-        if ($this->session_provider == 'array') {
-            // used for unit tests, does not persist values between requests
+        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url->site())) {
+            $return_after_login = $_SERVER["HTTP_REFERER"];
+            $this->session_set('user_after_login', $return_after_login);
 
-            if (isset($_SESSION[$name])) {
-                return $_SESSION[$name];
-            }
-            return;
         }
 
 
-        if (!defined('MW_NO_SESSION')) {
-            if (!headers_sent()) {
-                if (!isset($_SESSION)) {
-
-                    try {
-                        $start = session_start();
-                    } catch(ErrorExpression $e) {
+        set_exception_handler($this->social_login_exception_handler);
 
 
-                        session_regenerate_id();
+        try {
+            $api = new \Microweber\Auth\Social();
 
-                        $start = session_id();
+
+            $api->process();
 
 
-                       }
-
-                    if ($start == false) {
-                        session_write_close(); //now close it,
-                        session_regenerate_id();
-                        $start = session_id();
-                    }
-                     $_SESSION['ip'] = MW_USER_IP;
-                }
-            }
-            // probable timout here?!
+        } catch (Exception $e) {
+            echo "Ooophs, we got an error: " . $e->getMessage();
         }
-        //
-
-        if (isset($_SESSION) and isset($_SESSION[$name])) {
 
 
-            if (!isset($_SESSION['ip'])) {
-                $_SESSION['ip'] = MW_USER_IP;
-            } else if ($_SESSION['ip'] != MW_USER_IP) {
-
-                // mw('user')->session_end();
-                //return false;
-            }
-
-
-
-            return $_SESSION[$name];
-        } else {
-            return false;
-        }
     }
 
     public function count()
@@ -1680,26 +1698,6 @@ class User
         $data = $this->get_all($options);
 
         return $data;
-    }
-
-    function social_login_exception_handler($exception = false)
-    {
-
-
-        if ($this->app->url->is_ajax()) {
-            if ($exception == false) {
-                return;
-            }
-
-
-            return array('error' => $exception->getMessage());
-        }
-        $after_log = $this->session_get('user_after_login');
-        if ($after_log != false) {
-            $this->app->url->redirect($after_log);
-        } else {
-            $this->app->url->redirect(site_url());
-        }
     }
 
     function register_url()
@@ -1729,6 +1727,7 @@ class User
         }
 
     }
+
     function login_url()
     {
 

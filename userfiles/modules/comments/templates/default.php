@@ -160,7 +160,7 @@ description: Default comments template
 				</div>
 			</div>
 
-            <?php if(!is_admin()){ ?>
+             
             <div class="mw-ui-row vertical-middle captcha-row">
                 <div class="mw-ui-col">
                     <img
@@ -174,7 +174,7 @@ description: Default comments template
                     <input type="text" name="captcha" required class="form-control" placeholder="<?php _e("Enter text"); ?>" />
                 </div>
             </div>
-            <?php } ?>
+             
             <input type="submit" class="btn btn-default pull-right" value="<?php _e("Add comment"); ?>">
 		</form>
 	</div>

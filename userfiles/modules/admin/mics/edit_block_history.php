@@ -118,4 +118,6 @@ foreach ($history_files as $value) {
 	<?php endforeach; ?>
 	<?php endif; ?>
 </ul>
+<?php else: ?>
+<div style="padding:12px;">No history</div>
 <?php endif; ?>
