@@ -2368,14 +2368,34 @@ ul.mw-menu-selector-list{
   display: none;
   top: 100%;
   left: 0px;
-  width:595px;
+  width:100%;
   background: white;
   border: 1px solid #E0E0E0;
   padding: 15px 0 10px;
   -moz-columns:3 120px;
   -webkit-columns:3 120px;
   columns:3 120px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 
+}
+
+#menu-selector-item{
+  position: relative;
+}
+
+#menu-selector-item .mw-ui-field{
+    width: 100%;
+}
+
+#menu-selector-item:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 ul.mw-menu-selector-list li{
@@ -2389,7 +2409,6 @@ ul.mw-menu-selector-list li{
   color: #8C8C8C;
   font-size: 11px;
   position: relative;
-  top: -4px;
 }
 
 

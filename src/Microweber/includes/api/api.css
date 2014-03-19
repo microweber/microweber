@@ -157,10 +157,10 @@ body.mw-live-edit{
   padding-bottom: 10px;
 }
 #mw_handle_element{
-  z-index: 1001;
+  z-index: 1000;
 }
 #mw_handle_module{
-  z-index: 1002;
+  z-index: 1001;
 }
 
 

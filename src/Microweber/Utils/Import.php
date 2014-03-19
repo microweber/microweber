@@ -117,7 +117,7 @@ class Import
         if (defined('MW_CRON_EXEC')) {
 
         } else if (!is_admin()) {
-            error("must be admin");
+            return false;
         }
 
         $loc = $this->imports_folder;

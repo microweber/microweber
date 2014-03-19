@@ -40,15 +40,26 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 <?php if(is_array($data['custom_field_values'])) : ?>
 
 <div class="control-group form-group">
-  <label class="mw-ui-label mw-custom-field-label">
+
+
+
+
+  
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
+    <label class="mw-ui-label mw-custom-field-label">
     <?php print $data['name'] ?>
+     </label>
+      <hr style="margin-top: 7px;" />
     <?php elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
-    <?php print $data['custom_field_name'] ?>
+    <?php // print $data['custom_field_name'] ?>
     <?php else : ?>
     <?php endif; ?>
-  </label>
-  <hr style="margin-top: 7px;" />
+ 
+ 
+  
+  
+  
+  
   <?php if(isset($data['help']) == true and $data['help'] != ''): ?>
   <small  class="mw-custom-field-help"><?php print $data['help'] ?></small>
   <?php endif; ?>

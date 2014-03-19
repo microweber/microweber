@@ -26,7 +26,7 @@ $rand = uniqid(); ?>
 	
 		 
 		 
-		 
+
 		 
  	}
  
@@ -165,7 +165,7 @@ $show_fields = array();
       <span></span> <span><?php _e("Thumbnail"); ?></span> </label>
     <div class="right">
       <label class="mw-ui-label-horizontal"><?php _e("Size"); ?></label>
-      <input name="data-thumbnail-size" class="mw-ui-field mw_option_field"   type="text" style="width:65px;" placeholder="250x200"  value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
+      <input name="data-thumbnail-size" class="mw-ui-field mw_option_field"   type="text" style="width:95px;" placeholder="250x200"  value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
     </div>
   </li>
   <li>
@@ -174,7 +174,7 @@ $show_fields = array();
       <span></span> <span><?php _e("Title"); ?></span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal"><?php _e("Length"); ?></label>
-      <input name="data-title-limit" class="mw-ui-field mw_option_field"   type="text" placeholder="255" style="width:65px;"  value="<?php print get_option('data-title-limit', $params['id']) ?>" />
+      <input name="data-title-limit" class="mw-ui-field mw_option_field"   type="text" placeholder="255" style="width:95px;"  value="<?php print get_option('data-title-limit', $params['id']) ?>" />
     </div>
   </li>
   <li>
@@ -183,7 +183,7 @@ $show_fields = array();
       <span></span> <span><?php _e("Description"); ?></span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal"><?php _e("Length"); ?></label>
-      <input name="data-character-limit" class="mw-ui-field mw_option_field"   type="text" placeholder="80" style="width:65px;"  value="<?php print get_option('data-character-limit', $params['id']) ?>" />
+      <input name="data-character-limit" class="mw-ui-field mw_option_field"   type="text" placeholder="80" style="width:95px;"  value="<?php print get_option('data-character-limit', $params['id']) ?>" />
     </div>
   </li>
   <?php if($is_shop): ?>
@@ -198,7 +198,7 @@ $show_fields = array();
       <span></span> <span><?php _e("Add to cart button"); ?></span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal"><?php _e("Title"); ?></label>
-      <input name="data-add-to-cart-text" class="mw-ui-field mw_option_field" style="width:65px;" placeholder="<?php _e("Add to cart"); ?>"  type="text"    value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>" />
+      <input name="data-add-to-cart-text" class="mw-ui-field mw_option_field" style="width:95px;" placeholder="<?php _e("Add to cart"); ?>"  type="text"    value="<?php print get_option('data-add-to-cart-text', $params['id']) ?>" />
     </div>
   </li>
   <?php endif; ?>
@@ -208,7 +208,7 @@ $show_fields = array();
       <span></span> <span><?php _e("Read More Link"); ?></span></label>
     <div class="right">
       <label class="mw-ui-label-horizontal"><?php _e("Title"); ?></label>
-      <input name="data-read-more-text" class="mw-ui-field mw_option_field"   type="text" placeholder="<?php _e("Read more"); ?>" style="width:65px;"   value="<?php print get_option('data-read-more-text', $params['id']) ?>" />
+      <input name="data-read-more-text" class="mw-ui-field mw_option_field"   type="text" placeholder="<?php _e("Read more"); ?>" style="width:95px;"   value="<?php print get_option('data-read-more-text', $params['id']) ?>" />
     </div>
   </li>
   <li>
@@ -221,15 +221,15 @@ $show_fields = array();
       <input type="checkbox" name="data-hide-paging" value="y" class="mw_option_field" <?php if(get_option('data-hide-paging', $params['id']) =='y'): ?>   checked="checked"  <?php endif; ?> />
       <span></span><span><?php _e("Hide paging"); ?></span></label>
     <div class="right">
-      <label class="mw-ui-labe-horizontall"><?php _e("Posts per page"); ?></label>
-      <input name="data-limit" class="mw-ui-field mw_option_field"   type="number"  style="width:65px;" placeholder="10"  value="<?php print get_option('data-limit', $params['id']) ?>" />
+      <label class="mw-ui-label-horizontal"><?php _e("Posts per page"); ?></label>
+      <input name="data-limit" class="mw-ui-field mw_option_field right"   type="number"  style="width:95px;" placeholder="10"  value="<?php print get_option('data-limit', $params['id']) ?>" />
     </div>
   </li>
   <li>
-    <label class="mw-ui-check left">
+    <label class="mw-ui-label-horizontal">
       <?php $ord_by = get_option('data-order-by', $params['id']); ?>
       <span></span><span><?php _e("Order by"); ?></span></label>
-    <div class="right">
+    <div class="left">
       <div class="mw-ui-select" >
         <select name="data-order-by"   class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"   >
           <option  value=""    <?php if((0 == intval($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?> (ASC)</option>

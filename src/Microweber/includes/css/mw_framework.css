@@ -1018,6 +1018,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   margin-bottom: 5px;
   padding-right: 16px;
   height: 24px;
+  line-height:16px;
 }
 .mw-tag-selector > span > i{
     display: inline-block;

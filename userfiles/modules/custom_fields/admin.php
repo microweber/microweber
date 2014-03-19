@@ -150,8 +150,16 @@ mw_cf_close_edit_window = function(el){
 <div class="custom_fields_selector" style="display: none;">
 
   <em>Create new field</em>
-  <?php if( $suggest_from_rel != false ): ?>  
- 
+  <?php if( $suggest_from_rel != false ): ?>
+
+
+  <style scoped="scoped">
+    .div.mw-ui-field.mw-custom-fields-tags{
+      background: white;
+    }
+
+  </style>
+
     <module
     data-type="custom_fields/list"
     for="<?php print $for  ?>"

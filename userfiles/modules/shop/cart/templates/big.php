@@ -80,7 +80,7 @@ description: Full width cart template
     <div>
     <h3><?php _e("Order summary"); ?></h3>
     <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table" width="100%">
-        <col width="100%">
+        <col width="60%">
         <col width="200px">
         <tbody>
 		

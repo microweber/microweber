@@ -137,9 +137,9 @@ class Captcha
         self::captcha_vector($image, $x / 3, $y21 / 3, $col1z11, 200, $bgcolor);
 
         if (function_exists('imagestring')) {
-        imagestring($image, 5, $y21, 2, $text, $bgcolor);  
-            self::captcha_vector($image, $x / 3, $y21 / 3, $col1z11, 200, $gray);
-            imagestring($image, 0, $y21, 2, $text, $gray); 
+       //  imagestring($image, 5, $y21, 2, $text, $bgcolor);
+          self::captcha_vector($image, $x / 3, $y21 / 3, $col1z11, 200, $gray);
+            imagestring($image, 0, $y21, 2, $text, $gray);
 
 
         }

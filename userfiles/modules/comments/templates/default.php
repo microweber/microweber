@@ -81,7 +81,7 @@ description: Default comments template
 					<div class="mw-ui-col-container">
 						<div class="comment-content">
 							<div class="comment-author">
-								<?php if(isset( $comment['comment_website'])){ ?><a href="<?php print $comment['comment_website']; ?>"><?php } ?><?php print $comment['comment_name'] ?><?php if(isset( $comment['comment_website'])){ ?></a><?php } ?>
+								<?php if(isset( $comment['comment_website'])){ ?><a href="<?php print mw('format')->prep_url($comment['comment_website']); ?>"><?php } ?><?php print $comment['comment_name'] ?><?php if(isset( $comment['comment_website'])){ ?></a><?php } ?>
 								<?php if(isset($comment['updated_on'])): ?>
                                 &nbsp;
 								<small class="muted">
