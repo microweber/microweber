@@ -1134,18 +1134,21 @@ table.users-list-table .del-row{
 
 }
 
+
+.mw-template-name{
+    color: #FFFFFF;
+    display: block;
+    font-size: 20px;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+}
+
 .templatePreviewOL:hover .templatePreviewOLContent{
   visibility: visible;
 }
-.templatePreviewOLContent .mw-ui-btn{
-  width: 82px;
-  box-shadow: 0 0 2px #111;
-}
 
-.templatePreviewOLContent .mw-ui-btn-large{
-  width: 203px;
-  margin-bottom: 15px;
-}
+
 
 .templatePreviewDescription{
   display: block;
@@ -1226,6 +1229,8 @@ table.users-list-table .del-row{
 #pages_edit_container_data{
   padding: 12px;
 }
+
+
 
 
 /*

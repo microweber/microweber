@@ -1017,7 +1017,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   margin-right: 5px;
   margin-bottom: 5px;
   padding-right: 16px;
-  height: 22px;
+  height: 24px;
 }
 .mw-tag-selector > span > i{
     display: inline-block;
@@ -1029,7 +1029,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
 }
 .tag-label-content{
   position: relative;
-  top: 3px;
+  top: 1px;
 }
 
 .mw-tag-selector > span > i.have_category{ background-image: url(../img/tree.dynamic.png); }

@@ -666,7 +666,7 @@ class Import
             }
             $content_items[] = $content_item;
         }
-        d($content_items);
+       // d($content_items);
 
         return $content_items;
 

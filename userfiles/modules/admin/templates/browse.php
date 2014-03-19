@@ -22,8 +22,8 @@
 $(document).ready(function(){
 
   mw.options.form('.<?php print $config['module_class'] ?>', function(){
-      mw.notification.success("<?php _e("Default template saved"); ?>.");
-    });
+    mw.notification.success("<?php _e("Default template saved"); ?>.");
+  });
 
 
 
@@ -119,7 +119,7 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
 
   <div class="templatePreviewOL">
   <div class="templatePreviewOLContent">
-     <span class="mw-ui-btn mw-ui-btn-large"><?php print $item['name'] ?></span>
+     <span class="mw-template-name"><?php print $item['name'] ?></span>
      <span class="mw-ui-btn left mw-ui-btn-green"><?php _e("Use as default"); ?></span>
      <a
         onclick="modulePreview(this); return false;"

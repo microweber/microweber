@@ -15,11 +15,13 @@
 
     </div>
 
+   <div class="vSpace"></div>
 
-    <label class="mw-ui-label"><small><?php _e("Allowable Format for upload"); ?></small></label>
 
 
     <div class="mw-custom-fields-upload-filetypes">
+
+    <label class="mw-ui-label"><small><?php _e("Allowable Format for upload"); ?></small></label>
 
       <label class="mw-ui-check">
 
