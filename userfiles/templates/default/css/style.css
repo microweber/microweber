@@ -79,8 +79,7 @@ input.large-field, textarea.large-field {
 	border-radius: 0;
 }
 #header .nav-pills > li > a {
-	padding: 16px;
-
+	padding: 12px 16px;
 }
 
 #header .navbar-static {
@@ -185,7 +184,7 @@ input.large-field, textarea.large-field {
 }
 #header .mw-cart-small {
 	float: right;
-    border-radius: 3px;
+    margin-top: 15px;
 }
 .nav {
 	color: #0088CC;
@@ -276,6 +275,10 @@ ul.dropdown-menu ul.dropdown-menu {
 	text-decoration: none;
 	font-weight: 200;
 }
+#logo{
+  padding-top: 12px;
+}
+
 #logo a, #logo a:hover, .brand a, .brand a:hover {
 	color: white;
 	text-decoration: none;
@@ -520,9 +523,7 @@ ul.dropdown-menu ul.dropdown-menu {
 .sidebar-box .nav li.depth-1 li a {
 	display: block;
 }
-.sidebar-box .nav li.depth-1 > a.active-parent {
-	background: #eee;
-}
+
 .sidebar-box .nav li.depth-1 li.active > a {
 	text-decoration: underline;
 }
@@ -960,7 +961,7 @@ input.mw-captcha-input {
 }
 
 
-#footer a {
+#footer a, #footer a:hover, #footer a:focus {
 	color: white;
 }
 #footer a.active {
@@ -969,6 +970,11 @@ input.mw-captcha-input {
 #footer .muted {
 	color: #999999;
 }
+#footer-navigation{
+  text-align: right;
+  padding-top: 12px;
+}
+
 #footer hr {
 	border-top: 1px solid black;
 	border-bottom: 1px solid #363B43;

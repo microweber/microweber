@@ -139,7 +139,7 @@ reset_password = function(y){
 	visibility: visible;
 }
 #reset_password{
-  margin-left: 12px;
+  margin-right: 12px;
 }
 
 </style>
@@ -182,7 +182,7 @@ reset_password = function(y){
       <tr>
         <td><label class="mw-ui-label" style="padding-bottom: 0;"><?php _e("Password"); ?></label></td>
         <td>
-            <span class="mw-ui-link" onclick="reset_password();"><?php _e("Change Password"); ?></span>
+            <span class="mw-ui-link" onclick="reset_password();$(this).hide()"><?php _e("Change Password"); ?></span>
 
             <input type="password" disabled="disabled" name="password" class="mw-ui-field semi_hidden" id="reset_password" />
       </td>

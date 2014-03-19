@@ -783,6 +783,7 @@ class Backup
 
         // Loop through the folder
         $dir = dir($source);
+        if($dir != false){
         while (false !== $entry = $dir->read()) {
             // Skip pointers
             if ($entry == '.' || $entry == '..') {
@@ -793,6 +794,7 @@ class Backup
             if ($dest !== "$source/$entry") {
                 $this->copyr("$source/$entry", "$dest/$entry");
             }
+        }
         }
 
         // Clean up

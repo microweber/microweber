@@ -1577,9 +1577,13 @@ class Shop
         if ($this->no_cache == true) {
             $params['no_cache'] = 1;
         }
+
         $get = $this->app->db->get($params);
         //return $get;
-
+        if(isset($params['count']) and $params['count'] != false){
+           
+return $get;
+        }
         $return = array();
         if (is_array($get)) {
             foreach ($get as $item) {
@@ -1604,6 +1608,9 @@ class Shop
         } else {
             $return = $get;
         }
+
+
+
 
 
         return $return;

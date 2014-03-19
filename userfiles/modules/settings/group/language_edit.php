@@ -75,7 +75,7 @@ mw.notification.msg(this);
         background-color: transparent;
         border-color: transparent;
         width: 300px;
-        height: 17px;
+        height: 36px;
         resize: none;
     }
     .mw-ui-admin-table .mw-ui-field:hover, .mw-ui-admin-table .mw-ui-field:focus{

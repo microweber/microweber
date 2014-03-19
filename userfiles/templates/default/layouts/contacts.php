@@ -47,7 +47,7 @@ position: 7
             <div class="mw-row">
                 <div class="mw-col" style="width: 50%;">
                      <div class="mw-col-container">
-                        <module type="contact_form" template="inline" class="contact-form" id="contact-form" />
+                        <module type="contact_form" class="contact-form" id="contact-form" />
                      </div>
                 </div>
                 <div class="mw-col" style="width: 50%;">
@@ -66,7 +66,7 @@ position: 7
     					</div>
                     <h3>Follow Us</h3>
 					<hr>
-    				<div class="social-icons"> <a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a> <a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a> <a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a> <a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>
+    				<div class="social-icons"> <a href="http://www.facebook.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.fb.png", 30, 30); ?>" /></a> <a href="http://www.twitter.com/microweber"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.tw.png", 30, 30); ?>" /></a> <a href="http://plus.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.googplus.png", 30, 30); ?>" /></a> <a href="http://plux.google.com"><img src="<?php print thumbnail(TEMPLATE_URL."img/mw.soc.yt.png", 30, 30); ?>" /></a><br>
     				</div>
                 </div>
               </div>

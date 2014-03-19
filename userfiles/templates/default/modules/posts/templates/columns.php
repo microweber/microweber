@@ -43,7 +43,7 @@ description: Columns
 				<i class="icon-chevron-right"></i></a> </div>
 			<?php endif; ?>
 		</div>
- 
+
         <?php
             if(($count%3)==0 or $len == $len){
                print '</div>';

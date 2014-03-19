@@ -559,6 +559,12 @@ class Forms
                 }
             }
 
+            if (!isset($item['custom_fields'])) {
+
+                //$cust_fields = mw('fields')->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
+
+            }
+
 
             $csv_output = '';
             if (isset($custom_fields) and is_array($custom_fields)) {
@@ -574,6 +580,7 @@ class Forms
 
                 foreach ($data as $item) {
 
+
                     if (isset($item['custom_fields'])) {
                         $csv_output .= $item['id'] . ",";
                         $csv_output .= "\t";
@@ -583,7 +590,17 @@ class Forms
                         $csv_output .= "\t";
 
                         foreach ($item['custom_fields'] as $item1) {
-                            $csv_output .= $item1['custom_field_values_plain'] . ",";
+
+                            $output_val = false;
+                            if(isset($item1['custom_field_values_plain']) and $item1['custom_field_values_plain'] !=''){
+                                $output_val = $item1['custom_field_values_plain'];
+                            }elseif(isset($item1['custom_field_values']) and $item1['custom_field_values'] !=''){
+                                $output_val = $item1['custom_field_values'];
+                            }elseif(isset($item1['custom_field_value']) and $item1['custom_field_value'] !=''){
+                                $output_val = $item1['custom_field_value'];
+                            }
+
+                            $csv_output .= $output_val . ",";
                             $csv_output .= "\t";
                         }
                         $csv_output .= "\n";

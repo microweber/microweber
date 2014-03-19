@@ -83,7 +83,6 @@
 
 .nav-small > li{
   display: inline;
-  float: left;
 }
 
 .nav-small > li > a{
@@ -95,13 +94,6 @@
   position: relative;
 
 }
-
-.nav-small > li > a:hover,
-#header .nav-small > li > a:hover,
-#footer .nav-small > li > a:hover{
-  color: #333333;
-}
-
 
 .nav-small li:first-child > a{
   margin-left: 0;
