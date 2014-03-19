@@ -328,8 +328,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                     placeholder="<?php _e("Modules"); ?>"/>
 
                 <div class="mw_clear"></div>
-                        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small mw-small" id="mod_switch"
-                              data-action="layouts"><?php _e("Switch to Layouts"); ?></span>
+                        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small" id="mod_switch" data-action="layouts"><?php _e("Switch to Layouts"); ?></span>
                 <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
             </div>
         </div>

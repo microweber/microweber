@@ -1071,6 +1071,7 @@ mw.drag = {
                 mw.$(".mw_dropable").hide();
 
 				setTimeout(function () {
+				        mw.$("#modules-and-layouts.hovered").removeClass("hovered");
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         if(mw.currentDragMouseOver === null){
                           return false;
@@ -1224,6 +1225,10 @@ mw.drag = {
                     mw.currentDragMouseOver = null;
 
                     $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
+
+
+
+
 
 				}, 77);
 			}

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -186,7 +187,7 @@ input[type='text'], input[type='password'] {
 }
 #mw-install-done .mw-ui-btn {
 	margin: 0 0 0 35px;
-	width: 190px;
+	width: 220px;
 }
 #mw-install-done .mw-ui-btn-blue {
 	margin: 0 35px 0 0;
@@ -438,7 +439,7 @@ $hide_db_setup = 1;
               <br />
               <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue left">
               <?php _e("Click here to go to Admin Panel"); ?>
-              </a> <a href="<?php print site_url() ?>" class="mw-ui-btn left">
+              </a> <a href="<?php print site_url() ?>" class="mw-ui-btn left" style="margin-left: 20px;">
               <?php _e("Click here visit your site"); ?>
               </a> 
               <div class="vSpace"></div>

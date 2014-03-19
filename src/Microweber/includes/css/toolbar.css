@@ -1263,13 +1263,14 @@ input.mwtb-search{
   border: 1px solid #DEDEDE;
 }
 #mod_switch{
-    clear: both;
-    float: right;
-    margin-top: 6px;
-    padding: 3px;
-    width: 136px;
-    text-shadow: 0 1px 0 #DDDDDD;
-
+  clear: both;
+  float: right;
+  font-size: 11px;
+  height: auto;
+  margin-top: 5px;
+  padding: 3px;
+  text-shadow: 0 1px 0 #DDDDDD;
+  width: 136px;
 }
 
 #mod_switch:hover{

@@ -820,33 +820,6 @@ class Shop
         }
     }
 
-    public function get_orders($params = false)
-    {
-
-        $params2 = array();
-        if ($params == false) {
-            $params = array();
-        }
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        if (defined('MW_API_CALL') and $this->app->user->is_admin() == false) {
-
-            if (!isset($params['payment_verify_token'])) {
-                $params['session_id'] = session_id();
-            }
-
-        }
-
-        $table = $this->tables['cart_orders'];
-        $params['table'] = $table;
-
-
-        return $this->app->db->get($params);
-
-    }
-
     public function remove_cart_item($data)
     {
 
@@ -1218,6 +1191,33 @@ class Shop
 
     }
 
+    public function get_orders($params = false)
+    {
+
+        $params2 = array();
+        if ($params == false) {
+            $params = array();
+        }
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+        if (defined('MW_API_CALL') and $this->app->user->is_admin() == false) {
+
+            if (!isset($params['payment_verify_token'])) {
+                $params['session_id'] = session_id();
+            }
+
+        }
+
+        $table = $this->tables['cart_orders'];
+        $params['table'] = $table;
+
+
+        return $this->app->db->get($params);
+
+    }
+
     function empty_cart()
     {
         $sid = session_id();
@@ -1545,19 +1545,15 @@ class Shop
         $params['table'] = $table;
 
         if (!defined('MW_ORDERS_SKIP_SID')) {
-
             if ($this->app->user->is_admin() == false) {
                 $params['session_id'] = session_id();
-
             } else {
                 if (isset($params['session_id']) and $this->app->user->is_admin() == true) {
 
                 } else {
                     $params['session_id'] = session_id();
-
                 }
             }
-
             if (isset($params['no_session_id']) and $this->app->user->is_admin() == true) {
                 unset($params['session_id']);
                 //	$params['session_id'] = session_id();
@@ -1579,43 +1575,24 @@ class Shop
         }
 
         $get = $this->app->db->get($params);
-        //return $get;
-        if(isset($params['count']) and $params['count'] != false){
-           
-return $get;
+        if (isset($params['count']) and $params['count'] != false) {
+            return $get;
         }
         $return = array();
         if (is_array($get)) {
             foreach ($get as $item) {
-
                 if (isset($item['rel_id']) and isset($item['rel']) and $item['rel'] = 'content') {
                     $item['content_data'] = $this->app->content->data($item['rel_id']);
-
-
                 }
-
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-
                     $item = $this->_render_item_custom_fields_data($item);
-
-
                 }
-
                 $return[] = $item;
-
             }
-
         } else {
             $return = $get;
         }
-
-
-
-
-
         return $return;
-
-
     }
 
     function update_quantities($order_id = false)
