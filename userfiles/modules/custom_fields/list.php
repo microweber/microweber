@@ -177,31 +177,22 @@ if(is_array( $diff) and is_array($more) ){
   <?php endforeach; ?>
 </div>
 <?php else : ?>
- <?php if(isset($more) and !empty($more)): ?>
- <br />
- <label class="mw-ui-label">Preview of custom fields</label>
- <?php endif; ?>
+<?php if(isset($more) and !empty($more)): ?>
+<br />
+<label class="mw-ui-label">Preview of custom fields</label>
+<?php endif; ?>
 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
   <thead>
     <tr>
       <th width="20%">Name</th>
-      <th>Value</th> 
+      <th>Value</th>
     </tr>
   </thead>
   <tbody>
-   
-      <?php foreach( $more as $field): ?>
-       <tr>
-      <td><?php print $field['custom_field_name']; ?> 
-     
-      
-      </td>
-       
-      
+    <?php foreach( $more as $field): ?>
+    <tr>
+      <td ondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);"><?php print $field['custom_field_name']; ?></td>
       <td ondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);"><?php  print $field['custom_field_values_plain']; ?></td>
-      <!-- <td> <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-meduim" href="javascript:;" onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);">edit</a>
-      
-      </td>-->
     </tr>
     <?php endforeach; ?>
   </tbody>

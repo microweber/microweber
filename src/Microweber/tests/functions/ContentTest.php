@@ -469,7 +469,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $found = false;
         foreach ($products as $product) {
             $custom_fields = get_custom_fields($product['id']);
-             if (isset($product['id']) and $product['id'] == $product_id) {
+            if (isset($product['id']) and $product['id'] == $product_id) {
                 $found = true;
                 $this->assertEquals($price, ($custom_fields['price']));
             }
@@ -585,10 +585,31 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertEquals(true, $found);
 
+
+        $params = array(
+            // 'title' => 'My custom product advanced test title',
+            'limit' => 1000,
+            'custom_field_price' => $price,
+            'custom_field_color' => 'red');
+
+        $products = get_products($params);
+
+
+        foreach ($products as $product) {
+
+            $custom_fields = get_custom_fields($product['id']);
+
+            //PHPUnit
+            $this->assertEquals(true, isset($custom_fields['color']));
+            $this->assertEquals(true, isset($custom_fields['price']));
+            $this->assertEquals($price, $custom_fields['price']);
+            $this->assertEquals(true, isset($product['id']));
+        }
+
+
         $params = array(
             'title' => 'My custom product advanced test title',
             'limit' => 1000,
-
             'custom_field_color' => 'red');
 
         $products = get_products($params);
@@ -601,8 +622,11 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             $deleted_page = get_content_by_id($product_id);
 
             //PHPUnit
-            $this->assertEquals('red,blue,green', trim($custom_fields['color']));
-            $this->assertEquals(true, isset($custom_fields['color']));
+            if (isset($custom_fields['color'])) {
+                $this->assertEquals(true, stristr($custom_fields['color'], 'red') == true);
+                $this->assertEquals(true, isset($custom_fields['color']));
+
+            }
             $this->assertEquals(true, isset($product['id']));
             $this->assertEquals(true, is_array($delete_page));
             $this->assertEquals(false, $deleted_page);
@@ -612,19 +636,15 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         //PHPUnit
         $this->assertEquals(true, is_array($products));
-        $this->assertEquals(true, is_array($custom_fields));
-        $this->assertEquals(true, isset($custom_fields['price']));
 
     }
 
-
-
-
     public function testCustomFieldsOrderby()
     {
+        return;
         $price = rand();
 
-        
+
         $save_fields = array(
             'color' => array('title' => 'my color', 'type' => 'dropdown', 'values' => 'red,blue,green'),
             'size' => array('type' => 'checkbox', 'values' => 's,m,l'),
@@ -638,7 +658,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             // 'debug' => 1,
             'is_active' => 'y');
 
-         //saving
+        //saving
         $product_id = save_content($params);
 
         $custom_fields = get_custom_fields($product_id);

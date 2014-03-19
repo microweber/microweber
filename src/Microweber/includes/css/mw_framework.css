@@ -575,7 +575,7 @@ body.view-shop .mw_action_post{
 }
 
 #mw_edit_page_left a:hover .pages_tree_link_text{
-  max-width: 50%;
+  max-width: 40%;
 }
 #mw_edit_page_left .mw_ed_tree_show_posts,
 #mw_edit_page_left .mw_ed_tree_content,

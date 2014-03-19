@@ -112,7 +112,10 @@ if (!defined('MW_ELEMENTS_URL')) {
     define('MW_ELEMENTS_URL', MW_USERFILES_URL . 'elements/');
 }
 if (!defined('MW_MODULES_URL')) {
-    define('MW_MODULES_URL', MW_USERFILES_URL . '/modules/');
+    define('MW_MODULES_URL', MW_USERFILES_URL . 'modules/');
+}
+if (!defined('MODULES_URL')) {
+    define('MODULES_URL', MW_MODULES_URL);
 }
 if (!defined('MW_USER_IP')) {
     if (isset($_SERVER["REMOTE_ADDR"])) {

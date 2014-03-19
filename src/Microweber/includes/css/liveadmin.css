@@ -267,8 +267,8 @@ body.cross{
   height: 40px;
 }
 
-#mw_toolbar_nav .mw-ui-btn{
-    margin:4px 6px 0;
+#mw-go_livebtn_admin{
+      margin:6px 6px 0;
 }
 
 #mw_toolbar_nav.mw-small-toolbar .mw-ui-btn{ margin-top: 3px;}
@@ -360,7 +360,7 @@ body.cross{
 #mw-toolbar-right{
     float: right;
     background: #F5F5F5;
-    padding: 0 10px 0px 0;
+    padding: 2px 10px 0px 0;
     position: relative;
     z-index: 12;
 }

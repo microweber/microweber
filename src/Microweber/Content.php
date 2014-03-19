@@ -529,6 +529,8 @@ class Content
                 $site_template_settings = 'default';
             }
 
+
+
             if ($site_template_settings != false) {
                 $site_template_settings = str_replace('..', '', $site_template_settings);
                 $site_template_settings_dir = TEMPLATES_DIR . $site_template_settings . DS;

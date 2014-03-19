@@ -137,12 +137,22 @@ $(document).ready(function(){
     <tbody>
       <?php $i=0; foreach($users_last5 as $item) : ?>
       <tr>
-        <td><?php print $item['visit_date'] ?> <?php print $item['visit_time'] ?></td>
+        <td><?php print $item['visit_date'] ?><br><?php print $item['visit_time'] ?></td>
         <?php if(function_exists('ip2country')): ?>
         <td><?php   print ip2country($item['user_ip']); ?></td>
         <?php endif; ?>
         <td><?php print $item['user_ip'] ?></td>
-        <td><?php print $item['last_page'] ?></td>
+        <?php
+            $last = explode('/',$item['last_page']);
+            $size = count($last);
+            if($last[$size-1] == ''){
+              $last = $last[$size-2];
+            }
+            else{
+               $last = $last[$size-1];
+            }
+        ?>
+        <td><a href="<?php print $item['last_page'] ?>" class="mw-ui-link last-page-link" title="<?php print $item['last_page'] ?>">/<?php print $last; ?></a></td>
         <td><?php print $item['view_count'] ?></td>
       </tr>
       <?php $i++; endforeach; ?>

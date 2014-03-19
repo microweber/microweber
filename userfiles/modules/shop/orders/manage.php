@@ -36,16 +36,12 @@
 
  $(document).ready(function(){
 	 
-	   mw.$("#mw-admin-order-type-filter").change(function(){
-   mw_admin_set_order_type_filter();
- 		});
-		
-		
-		
- 
- 
+    mw.$("#mw-admin-order-type-filter").change(function(){
+        mw_admin_set_order_type_filter();
+    });
+
   });
- 
+
  function mw_admin_set_order_type_filter(){
 	var v = $("#mw-admin-order-type-filter").val();
 	

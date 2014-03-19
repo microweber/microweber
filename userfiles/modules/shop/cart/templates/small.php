@@ -28,7 +28,7 @@ description: Small cart template
             $total_price +=  $item['price']* $item['qty'];
         }
       ?>
-    <div class="mw-ui-col"><span class="mw-cart-small-order-info">Cart (<strong><?php print $total_qty; ?></strong>) <?php print currency_format($total_price); ?></span></div>
+    <div class="mw-ui-col"><span class="mw-cart-small-order-info">Cart (<strong><?php print $total_qty; ?></strong>) <span class="mw-cart-small-order-info-total"><?php print currency_format($total_price); ?></span></span></div>
     <?php
   if(!isset($params['checkout-link-enabled'])){
 	  $checkout_link_enanbled =  get_option('data-checkout-link-enabled', $params['id']);

@@ -105,13 +105,34 @@ $kw = '';
 
     </label>
 
-      <div class="mw-o-box">
+      <div class="mw-o-box" style="width: 960px;">
         <div class="mw-o-box-content">
            <div id="orders_stat" style="height: 250px;"></div>
         </div>
       </div>
       <div class="vSpace"></div>
-      <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
+      <style>
+      .stats_table{
+        font-size: 11px;
+        width: 100%;
+      }
+
+      .stats_table tr td:nth-child(3){
+        text-align: left;
+      }
+
+      .last-page-link{
+        max-width: 100px;
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+      }
+
+      </style>
+
+      <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960" style="table-layout: fixed">
     		<thead>
     			<tr>
     				<td><?php _e("Cart"); ?></td>
