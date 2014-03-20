@@ -20,14 +20,14 @@ description: Default Picture List
             <?php $count = -1; foreach ($data as $item): ?>
                 <?php $count++; ?>
                 <div class="mw-pictures-clean-item mw-pictures-clean-item-<?php print $item['id']; ?>">
-                    <a href="<?php print thumbnail($item['filename'], 1000); ?>"
+                    <a href="<?php print ($item['filename']); ?>"
                        onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>);return false;">
                         <img src="<?php print thumbnail($item['filename'], 600); ?>"/>
                     </a>
                 </div>
             <?php endforeach;  ?>
             <script>gallery<?php print $rand; ?> = [
-                        <?php foreach($data  as $item): ?>{image: "<?php print thumbnail( $item['filename'], 1000); ?>", description: "<?php print $item['title']; ?>"},
+                        <?php foreach($data  as $item): ?>{image: "<?php print ($item['filename']); ?>", description: "<?php print $item['title']; ?>"},
                     <?php endforeach;  ?>
                 ];</script>
         </div>

@@ -114,8 +114,7 @@ class Import
     function move_uploaded_file_to_import($params)
     {
         only_admin_access();
-
-        if (!isset($params['src'])) {
+         if (!isset($params['src'])) {
 
             return array('error' => "You have not provided src to the file.");
 

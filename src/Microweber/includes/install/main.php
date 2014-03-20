@@ -24,7 +24,16 @@
 ?>
 <script  type="text/javascript">
 
+function prefix_add(el){
+	var val = el.value;
+	if(val != ''){
+		var last = val.slice(-1);
+		if(last != '_'){
+			el.value = el.value + '_';
+		}	
+	}
 
+}
 
 
 $(document).ready(function(){
@@ -367,7 +376,7 @@ $hide_db_setup = 1;
                     <label class="mw-ui-label">
                       <?php _e("Table prefix"); ?>
                       <span class="mw-help" data-help="<?php _e("Change this If you want to install multiple instances of Microweber to this database."); ?>">?</span></label>
-                    <input type="text" class="mw-ui-field" name="table_prefix" <?php if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?> />
+                    <input type="text" class="mw-ui-field" name="table_prefix" <?php if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?> onblur="prefix_add(this)" />
                   </div>
                 </div>
                 

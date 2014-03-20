@@ -114,10 +114,21 @@ if (isset($to_save['is_installed'])) {
         if (!isset($to_save['default_timezone'])) {
             $to_save['default_timezone'] = "UTC";
         }
+		
+		 if (isset($to_save['table_prefix'])) {
+				$prefix = trim($to_save['table_prefix']);
+				if($prefix != ''){
+					$last_char = substr($prefix, -1);
+					if($last_char != '_'){
+						$prefix = $prefix.'_';
+						$to_save['table_prefix'] = $prefix;
+					}
+				} 
+			 
+		 }
+		 
         if (!defined('MW_TABLE_PREFIX') and isset($to_save['table_prefix'])) {
-
-            define('MW_TABLE_PREFIX', (trim($to_save['table_prefix'])));
-
+            define('MW_TABLE_PREFIX',$to_save['table_prefix']);
         }
 
         //$to_save['IS_INSTALLED'] = 'yes';

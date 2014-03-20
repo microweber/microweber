@@ -38,9 +38,32 @@ if (!defined('MW_IS_INSTALLED')) {
                 if (isset($config['table_prefix'])) {
                     $autoinstall['table_prefix'] = $config['table_prefix'];
                     if (!defined('MW_TABLE_PREFIX') and isset($autoinstall['table_prefix']) and !isset($_REQUEST['table_prefix'])) {
+
+                        if (isset($autoinstall['table_prefix'])) {
+                            $prefix = trim($autoinstall['table_prefix']);
+                            if($prefix != ''){
+                                $last_char = substr($prefix, -1);
+                                if($last_char != '_'){
+                                    $prefix = $prefix.'_';
+                                    $autoinstall['table_prefix'] = $prefix;
+                                }
+                            }
+                        }
+
                         define('MW_TABLE_PREFIX', (trim($autoinstall['table_prefix'])));
                     }
                     if (!defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
+
+                        if (isset($_REQUEST['table_prefix'])) {
+                            $prefix = trim($_REQUEST['table_prefix']);
+                            if($prefix != ''){
+                                $last_char = substr($prefix, -1);
+                                if($last_char != '_'){
+                                    $prefix = $prefix.'_';
+                                    $_REQUEST['table_prefix'] = $prefix;
+                                }
+                            }
+                        }
                         define('MW_TABLE_PREFIX', (trim($_REQUEST['table_prefix'])));
                     }
                 } else {

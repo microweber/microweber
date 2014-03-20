@@ -3340,6 +3340,7 @@ class Content
 
 
                                 $is_native_fld = $this->app->db->get_fields('content');
+							 
                                 if (in_array($field, $is_native_fld)) {
                                     $to_save[$field] = ($html_to_save);
                                 } else {
@@ -3347,10 +3348,16 @@ class Content
                                     //$to_save['custom_fields'][$field] = ($html_to_save);
                                 }
 
+
+
+
+ 
+   
+
                                 if ($is_no_save != true and $is_draft == false) {
                                     $json_print[] = $to_save;
 
-
+ 
                                     $saved = $this->save_content_admin($to_save);
 
 
