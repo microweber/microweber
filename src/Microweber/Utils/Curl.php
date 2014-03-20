@@ -22,6 +22,8 @@ class Curl
         //$this->log = new \Logging\Log();
     }
 
+
+
     public function setUrl($url)
     {
         $this->url = $url;

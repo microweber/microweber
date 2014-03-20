@@ -542,6 +542,8 @@ class Update
         $curl = new \Microweber\Utils\Curl();
         $curl->setUrl($requestUrl);
         $curl->url = $requestUrl;
+        $curl->timeout = 10;
+
 
         $post_params['site_url'] = $this->app->url->site();
         $post_params['api_function'] = $method;
