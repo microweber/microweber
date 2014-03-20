@@ -11,7 +11,7 @@ description: Columns
 */
 ?>
 
-<div class="clearfix container well module-posts-template-columns">
+<div class="clearfix container module-posts-template-columns">
 
 		<?php if (!empty($data)): ?>
 		<?php $count = 0; $len = count($data);  foreach ($data as $item): ?>

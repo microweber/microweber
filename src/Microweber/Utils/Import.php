@@ -111,6 +111,36 @@ class Import
 
     }
 
+    function move_uploaded_file_to_import($params)
+    {
+        only_admin_access();
+
+        if (!isset($params['src'])) {
+
+            return array('error' => "You have not provided src to the file.");
+
+        }
+
+        $check = url2dir(trim($params['src']));
+        $here = $this->get_import_location();
+        if (is_file($check)) {
+            $fn = basename($check);
+            if (copy($check, $here . $fn)) {
+                @unlink($check);
+                return array('success' => "$fn was moved!");
+
+            } else {
+                return array('error' => "Error moving uploaded file!");
+
+            }
+
+        } else {
+            return array('error' => "Uploaded file is not found!");
+
+        }
+
+    }
+
     function get_import_location()
     {
 
@@ -162,36 +192,6 @@ class Import
 
         $this->imports_folder = $loc;
         return $here;
-    }
-
-    function move_uploaded_file_to_import($params)
-    {
-        only_admin_access();
-
-        if (!isset($params['src'])) {
-
-            return array('error' => "You have not provided src to the file.");
-
-        }
-
-        $check = url2dir(trim($params['src']));
-        $here = $this->get_import_location();
-        if (is_file($check)) {
-            $fn = basename($check);
-            if (copy($check, $here . $fn)) {
-                @unlink($check);
-                return array('success' => "$fn was moved!");
-
-            } else {
-                return array('error' => "Error moving uploaded file!");
-
-            }
-
-        } else {
-            return array('error' => "Uploaded file is not found!");
-
-        }
-
     }
 
     function delete($params)
@@ -427,252 +427,6 @@ class Import
 
     }
 
-    function batch_process($content_items = false)
-    {
-
-        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
-        $index_file = $chunks_folder . 'index.php';
-        if (!is_dir($chunks_folder)) {
-            mkdir_recursive($chunks_folder);
-
-        }
-
-        $total = 0;
-        $remaining = 0;
-        $batch_file = false;
-        if (!is_array($content_items) or empty($content_items)) {
-            $content_items = array();
-            if (is_file($index_file)) {
-                $total = file_get_contents($index_file);
-            }
-            if ($total == 0) {
-                $total = 0;
-                $dir = $chunks_folder;
-                if ($handle = opendir($dir)) {
-                    while (($file = readdir($handle)) !== false) {
-                        if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_'))
-                            $total++;
-                    }
-                }
-                file_put_contents($index_file, $total);
-            }
-
-
-            $i = 0;
-            $dir = $chunks_folder;
-            $rem_counter = 0;
-            $process_xml_files = array();
-            $chunk_size = $this->batch_size;
-
-            if ($handle = opendir($dir)) {
-                while (($file = readdir($handle)) !== false) {
-                    if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_')) {
-                        //if (!is_array($content_items)) {
-                        if ($i<$chunk_size) {
-                            $batch_file = $chunks_folder . $file;
-
-                            $batch_file_content = file_get_contents($batch_file);
-                            if (strstr($file, 'import_chunk_xml')) {
-
-                               // for ($x=0; $x<=10; $x++){
-                                    $content_from_xml = $this->parse_content_from_xml_string($batch_file_content);
-                                    if (is_array($content_from_xml)) {
-                                        foreach ($content_from_xml as $content_from_x) {
-                                            $content_items[] = $content_from_x;
-                                        }
-                                       // $rem_counter--;
-                                    }
-                                //}
-
-
-
-
-                                //d($content_from_xml);
-                            } else {
-                                $content_items_from_file = @unserialize($batch_file_content);
-                                if(!empty($content_items_from_file)){
-                                    foreach ($content_items_from_file as $content_from_x) {
-                                        $content_items[] = $content_from_x;
-                                    }
-                                }
-
-                            }
-                            if ($batch_file != false and is_file($batch_file)) {
-                                unlink($batch_file);
-                            }
-                        }
-                       // $rem_counter++;
-                        $i++;
-                    }
-                }
-                $remaining = $i;
-            }
-
-
-        } else {
-            $total = count($content_items);
-        }
-
-        if ($content_items != false and is_array($content_items)) {
-            if (!empty($content_items)) {
-                $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
-                if ($parent == false) {
-                    return array('error' => "No parent page found");
-                }
-
-
-                $content_items = $this->map_array($content_items);
-
-
-                $parent_id = $parent['id'];
-                $restored_items = array();
-                foreach ($content_items as $content) {
-                    if (isset($content['title'])) {
-                        $is_saved = get_content('one=true&title=' . $content['title']);
-
-
-                        if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
-                            $content['content'] = $content['description'];
-                        }
-
-
-                        $content['parent'] = $parent_id;
-                        $content['content_type'] = 'post';
-                        $content['subtype'] = 'post';
-                        $content['is_active'] = 'y';
-                        //  $content['debug'] = 'y';
-                        $content['download_remote_images'] = true;
-
-                        if ($is_saved != false) {
-                            $content['id'] = $is_saved['id'];
-                            $content['content_type'] = $is_saved['content_type'];
-                            $content['subtype'] = $is_saved['subtype'];
-                        }
-
-                        $import = save_content($content);
-                        $restored_items[] = $import;
-                    }
-                }
-                cache_clear('categories');
-                cache_clear('content');
-
-
-
-                $remaining = $remaining - 1;
-                if ($remaining <= 0) {
-                    file_put_contents($index_file, '0');
-                }
-
-                if ($total  < $remaining) {
-                    $total = 0;
-                    $dir = $chunks_folder;
-                    if ($handle = opendir($dir)) {
-                        while (($file = readdir($handle)) !== false) {
-                            if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_'))
-                                $total++;
-                        }
-                    }
-                    file_put_contents($index_file, $total);
-                }
-
-
-                $ret = array('success' => count($restored_items) . " items restored"
-                , 'total' => ($total)
-                , 'remaining' => ($remaining)
-                );
-
-                return $ret;
-
-
-            }
-
-        }
-        return false;
-    }
-
-    function parse_content_from_xml_string($xml_string)
-    {
-
-        libxml_use_internal_errors(true);
-        $parser2 = MW_APP_PATH . 'libs/QueryPath/QueryPath.php';
-        require_once($parser2);
-        $parser2 = MW_APP_PATH . 'libs/QueryPath/qp.php';
-
-        require_once($parser2);
-
-        $content_items = array();
-
-
-        $items = qp($xml_string, 'item');
-        if (count($items) == 0) {
-            $items = qp($xml_string, 'item');
-        }
-        // d($items);
-        foreach ($items as $item) {
-            $content_item = array();
-
-            //$arr = $item->eq(0)->contents();
-            // d($arr);
-            //  print $item->text();
-            // $el = qp($item, 'channel>item>title');
-            $el = $item->find('title');
-            $content_item['title'] = $el->eq(0)->text();
-
-
-            // $el = qp($item, 'channel>item>encoded');
-            //$el = $item->find('encoded');
-            $content_item['content'] = false;
-            if ($content_item['content'] == false) {
-                $el = $item->find('content');
-                $content_item['content'] = $el->eq(0)->text();
-                $content_item['content'] = $el->eq(0)->text();
-            }
-
-
-            //$el = qp($item, 'channel>item>description');
-            $el = $item->find('description');
-            $content_item['description'] = $el->eq(0)->text();
-
-            if ($content_item['content'] == false) {
-                $content_item['content'] = $c = ($item->find('content')->eq(0)->innerHTML());
-            }
-            if ($content_item['content'] == false) {
-                $el = $item->find('summary');
-
-                $content_item['content'] = $el->eq(0)->text();
-            }
-
-            if ($content_item['content'] == false) {
-                $el = $item->find('encoded');
-                $content_item['content'] = $el->eq(0)->text();
-
-            }
-            //$c= ($item->find('content')->text());
-
-
-            // d($c);
-            //$itm = $item->eq(0)->html();
-            // d($itm);
-            // print $item->tag() . PHP_EOL;
-            // d($content_item['content']);
-            //$el = qp($item, 'channel>item>post_type');
-            $el = $item->find('post_type');
-
-            $content_item['post_type'] = $el->eq(0)->text();
-            $cats = $item->find('category');
-            // $cats = qp($item, 'channel>item>category');
-            foreach ($cats as $cat) {
-                $content_item['categories'][] = $cat->text();
-            }
-            $content_items[] = $content_item;
-        }
-       // d($content_items);
-
-        return $content_items;
-
-
-    }
-
     function map_array($content_items)
     {
 
@@ -808,6 +562,358 @@ class Import
         return $res;
     }
 
+    function batch_save($content_items)
+    {
+        $chunk_size = $this->batch_size;
+        $content_items = $this->map_array($content_items);
+
+        $chunks_folder = $this->get_chunks_location();
+        $index_file = $chunks_folder . 'index.php';
+
+        if (!is_dir($chunks_folder)) {
+            mkdir_recursive($chunks_folder);
+            @touch($index_file);
+        }
+
+        if (!is_writable($chunks_folder)) {
+            return array('error' => "Import folder is not writable!");
+        }
+
+
+        $chunks = (array_chunk($content_items, $chunk_size, true));
+
+        if (!empty($chunks)) {
+            foreach ($chunks as $chunk) {
+                $chunk_data = serialize($chunk);
+                $file_name = 'import_chunk_' . md5($chunk_data);
+                $file_location = $chunks_folder . $file_name;
+                if (!is_file($file_location)) {
+                    file_put_contents($file_location, $chunk_data);
+                }
+
+            }
+        }
+
+//        $i = 0;
+//        $dir = $chunks_folder;
+//        if ($handle = opendir($dir)) {
+//            while (($file = readdir($handle)) !== false) {
+//                if (!in_array($file, array('.', '..')) && !is_dir($dir . $file))
+//                    $i++;
+//            }
+//        }
+//        file_put_contents($index_file, '0');
+
+
+        return array('success' => count($content_items) . " items are scheduled for import");
+        return;
+
+        if (!empty($content_items)) {
+            $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
+            if ($parent == false) {
+                return array('error' => "No parent page found");
+            }
+
+
+            $content_items = $this->map_array($content_items);
+
+
+            $parent_id = $parent['id'];
+            $restored_items = array();
+            foreach ($content_items as $content) {
+                if (isset($content['title'])) {
+                    $is_saved = get_content('one=true&title=' . $content['title']);
+
+
+                    if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
+                        $content['content'] = $content['description'];
+                    }
+
+
+                    $content['parent'] = $parent_id;
+                    $content['content_type'] = 'post';
+                    $content['subtype'] = 'post';
+                    $content['is_active'] = 'y';
+                    //  $content['debug'] = 'y';
+                    $content['download_remote_images'] = true;
+
+                    if ($is_saved != false) {
+                        $content['id'] = $is_saved['id'];
+                        $content['content_type'] = $is_saved['content_type'];
+                        $content['subtype'] = $is_saved['subtype'];
+                    }
+
+                    $import = save_content($content);
+                    $restored_items[] = $import;
+                }
+            }
+            cache_clear('categories');
+            cache_clear('content');
+            return array('success' => count($restored_items) . " items restored");
+
+
+        }
+
+    }
+
+    function get_chunks_location()
+    {
+
+        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
+        $index_file = $chunks_folder . 'index.php';
+
+        if (!is_dir($chunks_folder)) {
+            mkdir_recursive($chunks_folder);
+            @touch($index_file);
+        }
+
+
+        return $chunks_folder;
+    }
+
+    function batch_process($content_items = false)
+    {
+
+        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
+        $index_file = $chunks_folder . 'index.php';
+        if (!is_dir($chunks_folder)) {
+            mkdir_recursive($chunks_folder);
+
+        }
+
+        $total = 0;
+        $remaining = 0;
+        $batch_file = false;
+        if (!is_array($content_items) or empty($content_items)) {
+            $content_items = array();
+            if (is_file($index_file)) {
+                $total = file_get_contents($index_file);
+            }
+            if ($total == 0) {
+                $total = 0;
+                $dir = $chunks_folder;
+                if ($handle = opendir($dir)) {
+                    while (($file = readdir($handle)) !== false) {
+                        if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_'))
+                            $total++;
+                    }
+                }
+                file_put_contents($index_file, $total);
+            }
+
+
+            $i = 0;
+            $dir = $chunks_folder;
+            $rem_counter = 0;
+            $process_xml_files = array();
+            $chunk_size = $this->batch_size;
+
+            if ($handle = opendir($dir)) {
+                while (($file = readdir($handle)) !== false) {
+                    if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_')) {
+                        //if (!is_array($content_items)) {
+                        if ($i < $chunk_size) {
+                            $batch_file = $chunks_folder . $file;
+
+                            $batch_file_content = file_get_contents($batch_file);
+                            if (strstr($file, 'import_chunk_xml')) {
+
+                                // for ($x=0; $x<=10; $x++){
+                                $content_from_xml = $this->parse_content_from_xml_string($batch_file_content);
+                                if (is_array($content_from_xml)) {
+                                    foreach ($content_from_xml as $content_from_x) {
+                                        $content_items[] = $content_from_x;
+                                    }
+                                    // $rem_counter--;
+                                }
+                                //}
+
+
+                                //d($content_from_xml);
+                            } else {
+                                $content_items_from_file = @unserialize($batch_file_content);
+                                if (!empty($content_items_from_file)) {
+                                    foreach ($content_items_from_file as $content_from_x) {
+                                        $content_items[] = $content_from_x;
+                                    }
+                                }
+
+                            }
+                            if ($batch_file != false and is_file($batch_file)) {
+                                unlink($batch_file);
+                            }
+                        }
+                        // $rem_counter++;
+                        $i++;
+                    }
+                }
+                $remaining = $i;
+            }
+
+
+        } else {
+            $total = count($content_items);
+        }
+
+        if ($content_items != false and is_array($content_items)) {
+            if (!empty($content_items)) {
+                $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
+                if ($parent == false) {
+                    return array('error' => "No parent page found");
+                }
+
+
+                $content_items = $this->map_array($content_items);
+
+
+                $parent_id = $parent['id'];
+                $restored_items = array();
+                foreach ($content_items as $content) {
+                    if (isset($content['title'])) {
+                        $is_saved = get_content('one=true&title=' . $content['title']);
+
+
+                        if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
+                            $content['content'] = $content['description'];
+                        }
+
+
+                        $content['parent'] = $parent_id;
+                        $content['content_type'] = 'post';
+                        $content['subtype'] = 'post';
+                        $content['is_active'] = 'y';
+                        //  $content['debug'] = 'y';
+                        $content['download_remote_images'] = true;
+
+                        if ($is_saved != false) {
+                            $content['id'] = $is_saved['id'];
+                            $content['content_type'] = $is_saved['content_type'];
+                            $content['subtype'] = $is_saved['subtype'];
+                        }
+
+                        $import = save_content($content);
+                        $restored_items[] = $import;
+                    }
+                }
+                cache_clear('categories');
+                cache_clear('content');
+
+
+                $remaining = $remaining - 1;
+                if ($remaining <= 0) {
+                    file_put_contents($index_file, '0');
+                }
+
+                if ($total < $remaining) {
+                    $total = 0;
+                    $dir = $chunks_folder;
+                    if ($handle = opendir($dir)) {
+                        while (($file = readdir($handle)) !== false) {
+                            if (!in_array($file, array('.', '..')) && !is_dir($dir . $file) and strstr($file, 'import_chunk_'))
+                                $total++;
+                        }
+                    }
+                    file_put_contents($index_file, $total);
+                }
+
+
+                $ret = array('success' => count($restored_items) . " items restored"
+                , 'total' => ($total)
+                , 'remaining' => ($remaining)
+                );
+
+                return $ret;
+
+
+            }
+
+        }
+        return false;
+    }
+
+    function parse_content_from_xml_string($xml_string)
+    {
+
+        libxml_use_internal_errors(true);
+        $parser2 = MW_APP_PATH . 'libs/QueryPath/QueryPath.php';
+        require_once($parser2);
+        $parser2 = MW_APP_PATH . 'libs/QueryPath/qp.php';
+
+        require_once($parser2);
+
+        $content_items = array();
+
+
+        $items = qp($xml_string, 'item');
+        if (count($items) == 0) {
+            $items = qp($xml_string, 'item');
+        }
+        // d($items);
+        foreach ($items as $item) {
+            $content_item = array();
+
+            //$arr = $item->eq(0)->contents();
+            // d($arr);
+            //  print $item->text();
+            // $el = qp($item, 'channel>item>title');
+            $el = $item->find('title');
+            $content_item['title'] = $el->eq(0)->text();
+
+
+            // $el = qp($item, 'channel>item>encoded');
+            //$el = $item->find('encoded');
+            $content_item['content'] = false;
+            if ($content_item['content'] == false) {
+                $el = $item->find('content');
+                $content_item['content'] = $el->eq(0)->text();
+                $content_item['content'] = $el->eq(0)->text();
+            }
+
+
+            //$el = qp($item, 'channel>item>description');
+            $el = $item->find('description');
+            $content_item['description'] = $el->eq(0)->text();
+
+            if ($content_item['content'] == false) {
+                $content_item['content'] = $c = ($item->find('content')->eq(0)->innerHTML());
+            }
+            if ($content_item['content'] == false) {
+                $el = $item->find('summary');
+
+                $content_item['content'] = $el->eq(0)->text();
+            }
+
+            if ($content_item['content'] == false) {
+                $el = $item->find('encoded');
+                $content_item['content'] = $el->eq(0)->text();
+
+            }
+            //$c= ($item->find('content')->text());
+
+
+            // d($c);
+            //$itm = $item->eq(0)->html();
+            // d($itm);
+            // print $item->tag() . PHP_EOL;
+            // d($content_item['content']);
+            //$el = qp($item, 'channel>item>post_type');
+            $el = $item->find('post_type');
+
+            $content_item['post_type'] = $el->eq(0)->text();
+            $cats = $item->find('category');
+            // $cats = qp($item, 'channel>item>category');
+            foreach ($cats as $cat) {
+                $content_item['categories'][] = $cat->text();
+            }
+            $content_items[] = $content_item;
+        }
+        // d($content_items);
+
+        return $content_items;
+
+
+    }
+
     public function import_xml($filename)
     {
         only_admin_access();
@@ -855,7 +961,7 @@ class Import
                         $content_batch = str_replace('</' . $xml_path, '</item', $content_batch);
 
 
-                        $rss_stub = '<?xml version="1.0"?>'."\n";
+                        $rss_stub = '<?xml version="1.0"?>' . "\n";
                         file_put_contents($file_location, $rss_stub . $content_batch);
                     }
                     $content_batch = "";
@@ -1202,115 +1308,6 @@ class Import
         // }
         // return $content_items;
         return $this->batch_save($content_items);
-    }
-
-    function get_chunks_location()
-    {
-
-        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
-        $index_file = $chunks_folder . 'index.php';
-
-        if (!is_dir($chunks_folder)) {
-            mkdir_recursive($chunks_folder);
-            @touch($index_file);
-        }
-
-
-        return $chunks_folder;
-    }
-
-    function batch_save($content_items)
-    {
-        $chunk_size = $this->batch_size;
-        $content_items = $this->map_array($content_items);
-
-        $chunks_folder = $this->get_chunks_location();
-        $index_file = $chunks_folder . 'index.php';
-
-        if (!is_dir($chunks_folder)) {
-            mkdir_recursive($chunks_folder);
-            @touch($index_file);
-        }
-
-        if (!is_writable($chunks_folder)) {
-            return array('error' => "Import folder is not writable!");
-        }
-
-
-        $chunks = (array_chunk($content_items, $chunk_size, true));
-
-        if (!empty($chunks)) {
-            foreach ($chunks as $chunk) {
-                $chunk_data = serialize($chunk);
-                $file_name = 'import_chunk_' . md5($chunk_data);
-                $file_location = $chunks_folder . $file_name;
-                if (!is_file($file_location)) {
-                    file_put_contents($file_location, $chunk_data);
-                }
-
-            }
-        }
-
-//        $i = 0;
-//        $dir = $chunks_folder;
-//        if ($handle = opendir($dir)) {
-//            while (($file = readdir($handle)) !== false) {
-//                if (!in_array($file, array('.', '..')) && !is_dir($dir . $file))
-//                    $i++;
-//            }
-//        }
-//        file_put_contents($index_file, '0');
-
-
-        return array('success' => count($content_items) . " items are scheduled for import");
-        return;
-
-        if (!empty($content_items)) {
-            $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
-            if ($parent == false) {
-                return array('error' => "No parent page found");
-            }
-
-
-            $content_items = $this->map_array($content_items);
-
-
-            $parent_id = $parent['id'];
-            $restored_items = array();
-            foreach ($content_items as $content) {
-                if (isset($content['title'])) {
-                    $is_saved = get_content('one=true&title=' . $content['title']);
-
-
-                    if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
-                        $content['content'] = $content['description'];
-                    }
-
-
-                    $content['parent'] = $parent_id;
-                    $content['content_type'] = 'post';
-                    $content['subtype'] = 'post';
-                    $content['is_active'] = 'y';
-                    //  $content['debug'] = 'y';
-                    $content['download_remote_images'] = true;
-
-                    if ($is_saved != false) {
-                        $content['id'] = $is_saved['id'];
-                        $content['content_type'] = $is_saved['content_type'];
-                        $content['subtype'] = $is_saved['subtype'];
-                    }
-
-                    $import = save_content($content);
-                    $restored_items[] = $import;
-                }
-            }
-            cache_clear('categories');
-            cache_clear('content');
-            return array('success' => count($restored_items) . " items restored");
-
-
-        }
-
     }
 
     public function export()

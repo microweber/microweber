@@ -86,16 +86,11 @@
 
 .mw-dropdown-list{
   position: absolute;
-  top: 100%;
   left: -1px;
   min-width: 100%;
   background: white;
   box-shadow: 0px 1px 2px -2px  #111;
 }
-.toolbar-sections-tabs .mw-dropdown-list{
-  top: 102%;
-}
-
 
 
 .create-content-dropdown-list{

@@ -129,7 +129,7 @@ REPLACE INTO /* MW_PREFIX_PLACEHOLDER */menus VALUES("8","","menu_item","2","3",
 REPLACE INTO /* MW_PREFIX_PLACEHOLDER */notifications VALUES("1","2013-05-23 09:22:43","2013-05-23 09:22:43","0","0","","You have new comment","New comment is posted on {SITE_URL}my-first-post","Very nice first post. I love it!\nThis is my first comment on this website. ","comments","content","4","1","n"); /* MW_QUERY_SEPERATOR */
  
 
-REPLACE INTO /* MW_PREFIX_PLACEHOLDER */options VALUES("1","2013-05-23 08:53:49","2013-05-23 08:53:49","website_title","Microweber","","","1","website","Website name","This is very important for search engines. Your website will be categorized by many criteria and its name is one of them.","text","","","1"); /* MW_QUERY_SEPERATOR */
+REPLACE INTO /* MW_PREFIX_PLACEHOLDER */options VALUES("1","2013-05-23 08:53:49","2013-05-23 08:53:49","website_title","Microweber","","","1","website","Website name","This is very important for the search engines. Your website will be categorized by many criterias and the name is one of it.","text","","","1"); /* MW_QUERY_SEPERATOR */
 
 
 REPLACE INTO /* MW_PREFIX_PLACEHOLDER */options VALUES("2","2013-05-23 08:53:49","2013-05-23 08:53:49","website_description","My website\'s description","","","2","website","Website description","Create Free Online Shop, Free Website and Free Blog with Microweber (MW)","textarea","","","1"); /* MW_QUERY_SEPERATOR */
