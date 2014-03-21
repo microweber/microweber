@@ -27,7 +27,7 @@
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Paste video URL or Embed Code"); ?></label>
 
-            <div class="mw-ui-field mw-ico-field" style="width:370px;">
+            <div class="mw-ui-field mw-ico-field" >
                 <span class="ico iplay"></span>
                 <input
                     name="embed_url"

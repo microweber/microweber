@@ -497,6 +497,7 @@ class Module
                 } else if (is_file($tf_theme)) {
                     return $tf_theme;
                 } else if (is_file($tf)) {
+
                     return $tf;
                 } else {
                     return false;

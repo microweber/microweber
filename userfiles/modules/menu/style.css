@@ -28,7 +28,7 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-.module-navigation-default a:hover, .module-navigation-default a:focus{ background-color: #efecec; }
+.module-navigation-default a:hover, .module-navigation-default a:focus, .module-navigation-default li:hover > a{ background-color: #efecec; }
 
 .module-navigation-default a:active{ box-shadow: inset 0 0 6px #ccc; }
 

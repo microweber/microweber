@@ -64,7 +64,7 @@ if($module_template != false and $module_template != 'none'){
 ?>
 <?php if($for_id !== false): ?>
 
-<div class="mw-add-to-cart-holder mw-add-to-cart-<?php print $params['id'] ?>" style="padding-top: 12px;">
+<div class="mw-add-to-cart-holder mw-add-to-cart-<?php print $params['id'] ?>" >
   <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price"  id="cart_fields_<?php print $params['id'] ?>"  />
   <?php $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id."");
  
