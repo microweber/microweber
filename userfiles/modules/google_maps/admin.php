@@ -31,7 +31,7 @@
 <div class="mw-ui-field-holder">
 <label class="mw-ui-label" style="padding-bottom: 20px;"><?php _e("Zoom Level"); ?></label>
 
-<div
+<?php /* <div
     data-type=""
     data-custom="zoommap"
     data-value="<?php print get_option('data-zoom', $params['id']) ?>"
@@ -42,11 +42,13 @@
     aria-disabled="false">
     <a href="#" class="ui-slider-handle ui-state-default ui-corner-all" style="left: 0%;"></a>
 </div>
-
+*/ ?>
 <input
     name="data-zoom"
-    class="mw-ui-field mw_option_field semi_hidden"
-    type="text" id="zoom_level"
+    class="mw-ui-field-range mw_option_field"
+    max="19"
+    min="0"
+    type="range" id="zoom_level"
     value="<?php print get_option('data-zoom', $params['id']) ?>" />
 </div>
 
