@@ -2202,9 +2202,12 @@ class Controller
                 if (is_array($meta)) {
                     foreach ($meta as $key => $item) {
                         $item = addslashes($item);
+                        $item = strip_tags($item);
                         $item = str_replace('&amp;zwnj;', '', $item);
                         $item = str_replace('&amp;quot;', ' ', $item);
-
+                        $item = str_replace('&amp;', ' ', $item);
+                        $item = str_replace('amp;', ' ', $item);
+                        $item = str_replace('#039;', ' ', $item);
                         $item = str_replace('&amp;nbsp;', ' ', $item);
                         $item = str_replace('  ', '', $item);
                         $item = str_replace(' ', ' ', $item);
