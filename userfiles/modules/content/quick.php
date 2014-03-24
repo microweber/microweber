@@ -232,9 +232,16 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 		<?php _e("Save"); ?>
 		</button>
 		<?php else: ?>
+        <?php if($data['id'] == 0): ?>
 		<button type="submit" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
 		<?php _e("Go Live Edit"); ?>
 		</button>
+        <?php else: ?>
+        <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
+		<?php _e("Go Live Edit"); ?>
+		</button>
+        <?php endif; ?>
+        
 		<button type="submit" class="mw-ui-btn ">
 		<?php _e("Save"); ?>
 		</button>
