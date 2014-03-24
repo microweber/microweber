@@ -73,7 +73,18 @@ function event_trigger($api_function, $data = false)
 
 $mw_action_hook_index = array();
 function action_hook($function_name, $next_function_name = false){
+
+
+    $show_hooks = isset($_REQUEST['mw_show_hooks']);
+    
+
 return event_bind($function_name, $next_function_name);
+
+
+
+
+
+
 }
 function event_bind($function_name, $next_function_name = false)
 {

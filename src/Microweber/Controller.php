@@ -2212,7 +2212,6 @@ class Controller
                         $item = str_replace('  ', '', $item);
                         $item = str_replace(' ', ' ', $item);
                         $l = str_replace('{' . $key . '}', $item, $l);
-
                     }
 
                 }

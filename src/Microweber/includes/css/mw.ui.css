@@ -612,9 +612,7 @@ div.mw-ui-field:after{
 }
 
 .mw-ui-field-full, input.mw-ui-field-full{
-  width:96%;
-  width:calc(100% - 22px);
-  width:-webkit-calc(100% - 22px);
+  width:100%;
 }
 
 .mw-ico-field{

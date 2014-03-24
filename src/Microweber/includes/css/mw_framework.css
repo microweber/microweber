@@ -969,6 +969,10 @@ a:hover .mw_ed_tree_content{
   display: block;
 }
 
+.mw-tag-selector.mw-ui-field-full{
+  width: 100%;
+}
+
 
 
 .disabled, :disabled, [disabled]{
