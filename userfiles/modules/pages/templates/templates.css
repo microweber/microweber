@@ -112,7 +112,7 @@
 }
 .pages-nav-default li a{
   display: block;
-  padding: 5px 10px;
+  padding: 10px 15px;
 }
 .pages-nav-default li li a{ padding-left: 25px;font-size: 90%; }
 .pages-nav-default li li li a{ padding-left: 40px; font-size: 80%;}
