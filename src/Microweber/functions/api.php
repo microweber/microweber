@@ -16,7 +16,8 @@ function api($function_name, $params = false)
 
 }
 
-function api_link($str = ''){
+function api_link($str = '')
+{
     return mw('url')->api_link($str);
 
 }
@@ -66,26 +67,23 @@ function event_trigger($api_function, $data = false)
 
         }
         if (!empty($return)) {
+            $show_hooks = isset($_REQUEST['mw_show_hooks']);
+            if($show_hooks != false and isset($api_function) and $api_function != 'on_load'){
+                print $api_function;
+            }
             return $return;
         }
     }
 }
 
 $mw_action_hook_index = array();
-function action_hook($function_name, $next_function_name = false){
-
-
-    $show_hooks = isset($_REQUEST['mw_show_hooks']);
-    
-
-return event_bind($function_name, $next_function_name);
-
-
-
-
+function action_hook($function_name, $next_function_name = false)
+{
+   return event_bind($function_name, $next_function_name);
 
 
 }
+
 function event_bind($function_name, $next_function_name = false)
 {
     global $mw_action_hook_index;

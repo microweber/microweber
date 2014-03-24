@@ -257,247 +257,6 @@ class Backup
 
     }
 
-    function log_action($back_log_action)
-    {
-
-        if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
-
-
-            if ($back_log_action == false) {
-                $this->app->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
-            } else {
-                $check = $this->app->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
-
-                if (is_array($check) and isset($check['id'])) {
-                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
-                } else {
-                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
-                }
-            }
-        }
-    }
-
-    function create($filename = false)
-    {
-        if (is_array($filename)) {
-            $filename = false;
-        }
-
-
-        ignore_user_abort(true);
-        $start = microtime_float();
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else {
-            only_admin_access();
-
-        }
-        $temp_db = $db = $this->app->config('db');
-
-        // Settings
-        $table = '*';
-        $host = $DBhost = $db['host'];
-        $user = $DBuser = $db['user'];
-        $pass = $DBpass = $db['pass'];
-        $name = $DBName = $db['dbname'];
-
-        // Set the suffix of the backup filename
-        if ($table == '*') {
-            $extname = 'all';
-        } else {
-            $extname = str_replace(",", "_", $table);
-            $extname = str_replace(" ", "_", $extname);
-        }
-
-        $here = $this->get_bakup_location();
-
-        if (!is_dir($here)) {
-            if (!mkdir_recursive($here)) {
-
-                $back_log_action = "Error the dir is not writable: " . $here;
-                $this->log_action($back_log_action);
-
-
-            } else {
-
-            }
-        }
-
-        ini_set('memory_limit', '512M');
-        set_time_limit(0);
-        // Generate the filename for the backup file
-        $index1 = $here . 'index.php';
-        if ($filename == false) {
-            $filename_to_return = 'database_backup_' . date("Y-M-d-His") . uniqid() . '_' . $extname . '.sql';
-        } else {
-            $filename_to_return = $filename;
-        }
-
-        $filess = $here . $filename_to_return;
-
-        if (is_file($filess)) {
-            return false;
-        }
-
-
-        touch($filess);
-        touch($index1);
-
-        $sql_bak_file = $filess;
-
-
-        $hta = $here . '.htaccess';
-        if (!is_file($hta)) {
-            touch($hta);
-            file_put_contents($hta, 'Deny from all');
-        }
-
-        $head = "/* Microweber database backup exported on: " . date('l jS \of F Y h:i:s A') . " */ \n";
-        $head .= "/* MW_TABLE_PREFIX: " . MW_TABLE_PREFIX . " */ \n\n\n";
-        file_put_contents($sql_bak_file, $head);
-        $return = "";
-        $tables = '*';
-        // Get all of the tables
-        if ($tables == '*') {
-            $tables = array();
-            //$result = mysql_query('SHOW TABLES');
-            $qs = 'SHOW TABLES';
-            $result = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
-            //while ($row = mysql_fetch_row($result)) {
-            //	$tables[] = $row[0];
-            //}
-            if (!empty($result)) {
-                foreach ($result as $item) {
-                    $item_vals = (array_values($item));
-                    $tables[] = $item_vals[0];
-                }
-            }
-
-
-        } else {
-            if (is_array($tables)) {
-                $tables = explode(',', $tables);
-            }
-        }
-
-        $back_log_action = "Starting database backup";
-        $this->log_action($back_log_action);
-        // Cycle through each provided table
-        foreach ($tables as $table) {
-
-            if (stristr($table, MW_TABLE_PREFIX)) {
-
-                $back_log_action = "Backing up database table $table";
-                $this->log_action($back_log_action);
-
-                //$result = mysql_query('SELECT * FROM ' . $table);
-
-                $qs = 'SELECT * FROM ' . $table;
-                $result = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
-
-                $num_fields = count($result[0]);
-                //$num_fields = mysql_num_fields($result);
-                $table_without_prefix = $this->prefix_placeholder . str_ireplace(MW_TABLE_PREFIX, "", $table);
-
-                // First part of the output - remove the table
-                //$return .= 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
-                $return = 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this->file_q_sep . "\n\n\n";
-                $this->append_string_to_file($sql_bak_file, $return);
-
-
-                // Second part of the output - create table
-//				$res_ch = mysql_query('SHOW CREATE TABLE ' . $table);
-//				if ($res_ch == false) {
-//					$err = mysql_error();
-//					if ($err != false) {
-//						return array('error' => 'Query failed: ' . $err);
-//					}
-//
-//				}
-//				$row2 = mysql_fetch_row($res_ch);
-
-
-                $qs = 'SHOW CREATE TABLE ' . $table;
-                $res_ch = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
-                $row2 = array_values($res_ch[0]);
-
-
-                $create_table_without_prefix = str_ireplace(MW_TABLE_PREFIX, $this->prefix_placeholder, $row2[1]);
-
-                //$return .= "\n\n" . $create_table_without_prefix . $this -> file_q_sep . "\n\n\n";
-
-
-                $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
-                $this->append_string_to_file($sql_bak_file, $return);
-                // Third part of the output - insert values into new table
-                //for ($i = 0; $i < $num_fields; $i++) {
-
-                $this->log_action(false);
-                if (!empty($result)) {
-                    foreach ($result as $row) {
-                        $row = array_values($row);
-                        $return = 'INSERT INTO ' . $table_without_prefix . ' VALUES(';
-                        for ($j = 0; $j < $num_fields; $j++) {
-                            $row[$j] = addslashes($row[$j]);
-                            $row[$j] = str_replace("\n", "\\n", $row[$j]);
-                            if (isset($row[$j])) {
-                                $return .= '"' . $row[$j] . '"';
-                            } else {
-                                $return .= '""';
-                            }
-                            if ($j < ($num_fields - 1)) {
-                                $return .= ',';
-                            }
-                        }
-                        $return .= ")" . $this->file_q_sep . "\n\n\n";
-                        $this->append_string_to_file($sql_bak_file, $return);
-                        //$this->log_action(false);
-                    }
-                    //  }
-
-//					while ($row = mysql_fetch_row($result)) {
-//
-//					}
-
-
-                }
-                $return = "\n\n\n";
-                $this->append_string_to_file($sql_bak_file, $return);
-            }
-
-        }
-        $this->log_action(false);
-        $back_log_action = "Saving to file " . basename($filess);
-        $this->log_action($back_log_action);
-        // Save the sql file
-//		$handle = fopen($filess, 'w+');
-//		$head = "/* Microweber database backup exported on: " . date('l jS \of F Y h:i:s A') . " */ \n";
-//		$head .= "/* MW_TABLE_PREFIX: " . MW_TABLE_PREFIX . " */ \n\n\n";
-//		$return = $head . $return;
-//
-//		fwrite($handle, $return);
-//		fclose($handle);
-
-
-        //  unset($return);
-        $end = microtime_float();
-        $end = round($end - $start, 3);
-        $this->log_action(false);
-
-        //mysql_close($link);
-
-        return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end);
-        // Close MySQL Connection
-        //
-    }
-
-    function append_string_to_file($file_path, $string_to_append)
-    {
-        file_put_contents($file_path, $string_to_append, FILE_APPEND);
-
-    }
-
     function cronjob_exec($params = false)
     {
 
@@ -783,18 +542,18 @@ class Backup
 
         // Loop through the folder
         $dir = dir($source);
-        if($dir != false){
-        while (false !== $entry = $dir->read()) {
-            // Skip pointers
-            if ($entry == '.' || $entry == '..') {
-                continue;
-            }
+        if ($dir != false) {
+            while (false !== $entry = $dir->read()) {
+                // Skip pointers
+                if ($entry == '.' || $entry == '..') {
+                    continue;
+                }
 
-            // Deep copy directories
-            if ($dest !== "$source/$entry") {
-                $this->copyr("$source/$entry", "$dest/$entry");
+                // Deep copy directories
+                if ($dest !== "$source/$entry") {
+                    $this->copyr("$source/$entry", "$dest/$entry");
+                }
             }
-        }
         }
 
         // Clean up
@@ -853,10 +612,11 @@ class Backup
         $here = $this->get_bakup_location();
 
         session_write_close();
+
         if ($cache_state == 'opened') {
 
 
-            return true;
+            return $cache_content;
         }
 
 
@@ -898,7 +658,8 @@ class Backup
 
                 if (($time - 3) < $time_sec) {
                     // print 'time lock';
-                    return false;
+                   // return false;
+                    return $cache_content;
                 }
 
             }
@@ -910,7 +671,7 @@ class Backup
             if (!is_object($mw_backup_zip_obj)) {
                 $mw_backup_zip_obj = new  ZipArchive();
             }
-
+            $zip_opened = false;
             if (is_array($backup_actions)) {
                 $i = 0;
 
@@ -918,6 +679,7 @@ class Backup
 
 
                 if (!$mw_backup_zip_obj->open($filename, ZIPARCHIVE::CREATE)) {
+                    $zip_opened = 1;
                     return false;
                 }
                 $this->app->cache->save('opened', $cache_state_id, 'backup');
@@ -932,9 +694,12 @@ class Backup
 
                     }
 
-
                     if ($i > $limit_per_turn or $cache_lock == $item) {
-                        $mw_backup_zip_obj->close();
+                        if (isset($mw_backup_zip_obj) and is_object($mw_backup_zip_obj)) {
+                            if ($zip_opened == 1) {
+                                $mw_backup_zip_obj->close();
+                            }
+                        }
                         $this->app->cache->save('closed', $cache_state_id, 'backup');
                     } else {
 
@@ -965,6 +730,7 @@ class Backup
 
 
                             if (!$mw_backup_zip_obj->open($filename, ZIPARCHIVE::CREATE)) {
+                                $zip_opened = 1;
                                 return false;
                             }
                             $this->app->cache->save('opened', $cache_state_id, 'backup');
@@ -1036,6 +802,301 @@ class Backup
             $this->app->cache->save(false, $cache_id, 'backup');
 
         }
+        return $cache_content;
+
+    }
+
+    function get_bakup_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            error("must be admin");
+        }
+
+        $loc = $this->backups_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_USERFILES . "backup" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_USERFILES . "backup" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('backup_location', 'admin/backup');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->backups_folder = $loc;
+        return $here;
+    }
+
+    function log_action($back_log_action)
+    {
+
+        if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
+
+
+            if ($back_log_action == false) {
+                $this->app->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
+            } else {
+                $check = $this->app->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+
+                if (is_array($check) and isset($check['id'])) {
+                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+                } else {
+                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+                }
+            }
+        }
+    }
+
+    function create($filename = false)
+    {
+        if (is_array($filename)) {
+            $filename = false;
+        }
+
+
+        ignore_user_abort(true);
+        $start = microtime_float();
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else {
+            only_admin_access();
+
+        }
+        $temp_db = $db = $this->app->config('db');
+
+        // Settings
+        $table = '*';
+        $host = $DBhost = $db['host'];
+        $user = $DBuser = $db['user'];
+        $pass = $DBpass = $db['pass'];
+        $name = $DBName = $db['dbname'];
+
+        // Set the suffix of the backup filename
+        if ($table == '*') {
+            $extname = 'all';
+        } else {
+            $extname = str_replace(",", "_", $table);
+            $extname = str_replace(" ", "_", $extname);
+        }
+
+        $here = $this->get_bakup_location();
+
+        if (!is_dir($here)) {
+            if (!mkdir_recursive($here)) {
+
+                $back_log_action = "Error the dir is not writable: " . $here;
+                $this->log_action($back_log_action);
+
+
+            } else {
+
+            }
+        }
+
+        ini_set('memory_limit', '512M');
+        set_time_limit(0);
+        // Generate the filename for the backup file
+        $index1 = $here . 'index.php';
+        if ($filename == false) {
+            $filename_to_return = 'database_backup_' . date("Y-M-d-His") . uniqid() . '_' . $extname . '.sql';
+        } else {
+            $filename_to_return = $filename;
+        }
+
+        $filess = $here . $filename_to_return;
+
+        if (is_file($filess)) {
+            return false;
+        }
+
+
+        touch($filess);
+        touch($index1);
+
+        $sql_bak_file = $filess;
+
+
+        $hta = $here . '.htaccess';
+        if (!is_file($hta)) {
+            touch($hta);
+            file_put_contents($hta, 'Deny from all');
+        }
+
+        $head = "/* Microweber database backup exported on: " . date('l jS \of F Y h:i:s A') . " */ \n";
+        $head .= "/* MW_TABLE_PREFIX: " . MW_TABLE_PREFIX . " */ \n\n\n";
+        file_put_contents($sql_bak_file, $head);
+        $return = "";
+        $tables = '*';
+        // Get all of the tables
+        if ($tables == '*') {
+            $tables = array();
+            //$result = mysql_query('SHOW TABLES');
+            $qs = 'SHOW TABLES';
+            $result = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+            //while ($row = mysql_fetch_row($result)) {
+            //	$tables[] = $row[0];
+            //}
+            if (!empty($result)) {
+                foreach ($result as $item) {
+                    $item_vals = (array_values($item));
+                    $tables[] = $item_vals[0];
+                }
+            }
+
+
+        } else {
+            if (is_array($tables)) {
+                $tables = explode(',', $tables);
+            }
+        }
+
+        $back_log_action = "Starting database backup";
+        $this->log_action($back_log_action);
+        // Cycle through each provided table
+        foreach ($tables as $table) {
+
+            if (stristr($table, MW_TABLE_PREFIX)) {
+
+                $back_log_action = "Backing up database table $table";
+                $this->log_action($back_log_action);
+
+                //$result = mysql_query('SELECT * FROM ' . $table);
+
+                $qs = 'SELECT * FROM ' . $table;
+                $result = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+
+                $num_fields = count($result[0]);
+                //$num_fields = mysql_num_fields($result);
+                $table_without_prefix = $this->prefix_placeholder . str_ireplace(MW_TABLE_PREFIX, "", $table);
+
+                // First part of the output - remove the table
+                //$return .= 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
+                $return = 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this->file_q_sep . "\n\n\n";
+                $this->append_string_to_file($sql_bak_file, $return);
+
+
+                // Second part of the output - create table
+//				$res_ch = mysql_query('SHOW CREATE TABLE ' . $table);
+//				if ($res_ch == false) {
+//					$err = mysql_error();
+//					if ($err != false) {
+//						return array('error' => 'Query failed: ' . $err);
+//					}
+//
+//				}
+//				$row2 = mysql_fetch_row($res_ch);
+
+
+                $qs = 'SHOW CREATE TABLE ' . $table;
+                $res_ch = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+                $row2 = array_values($res_ch[0]);
+
+
+                $create_table_without_prefix = str_ireplace(MW_TABLE_PREFIX, $this->prefix_placeholder, $row2[1]);
+
+                //$return .= "\n\n" . $create_table_without_prefix . $this -> file_q_sep . "\n\n\n";
+
+
+                $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
+                $this->append_string_to_file($sql_bak_file, $return);
+                // Third part of the output - insert values into new table
+                //for ($i = 0; $i < $num_fields; $i++) {
+
+                $this->log_action(false);
+                if (!empty($result)) {
+                    foreach ($result as $row) {
+                        $row = array_values($row);
+                        $return = 'INSERT INTO ' . $table_without_prefix . ' VALUES(';
+                        for ($j = 0; $j < $num_fields; $j++) {
+                            $row[$j] = addslashes($row[$j]);
+                            $row[$j] = str_replace("\n", "\\n", $row[$j]);
+                            if (isset($row[$j])) {
+                                $return .= '"' . $row[$j] . '"';
+                            } else {
+                                $return .= '""';
+                            }
+                            if ($j < ($num_fields - 1)) {
+                                $return .= ',';
+                            }
+                        }
+                        $return .= ")" . $this->file_q_sep . "\n\n\n";
+                        $this->append_string_to_file($sql_bak_file, $return);
+                        //$this->log_action(false);
+                    }
+                    //  }
+
+//					while ($row = mysql_fetch_row($result)) {
+//
+//					}
+
+
+                }
+                $return = "\n\n\n";
+                $this->append_string_to_file($sql_bak_file, $return);
+            }
+
+        }
+        $this->log_action(false);
+        $back_log_action = "Saving to file " . basename($filess);
+        $this->log_action($back_log_action);
+        // Save the sql file
+//		$handle = fopen($filess, 'w+');
+//		$head = "/* Microweber database backup exported on: " . date('l jS \of F Y h:i:s A') . " */ \n";
+//		$head .= "/* MW_TABLE_PREFIX: " . MW_TABLE_PREFIX . " */ \n\n\n";
+//		$return = $head . $return;
+//
+//		fwrite($handle, $return);
+//		fclose($handle);
+
+
+        //  unset($return);
+        $end = microtime_float();
+        $end = round($end - $start, 3);
+        $this->log_action(false);
+
+        //mysql_close($link);
+
+        return array('success' => "Backup was created for $end sec! $filename_to_return", 'filename' => $filename_to_return, 'runtime' => $end);
+        // Close MySQL Connection
+        //
+    }
+
+    function append_string_to_file($file_path, $string_to_append)
+    {
+        file_put_contents($file_path, $string_to_append, FILE_APPEND);
 
     }
 
@@ -1251,6 +1312,137 @@ class Backup
         $userfiles_folder = MW_USERFILES;
 
 
+        $all_images = $this->app->media->get('limit=100000');
+
+        if (!empty($all_images)) {
+            foreach ($all_images as $image) {
+                if (isset($image['filename']) and $image['filename'] != false) {
+                    $fn = url2dir($image['filename']);
+                    if (is_file($fn)) {
+                        $backup_actions[] = $fn;
+                    }
+                }
+
+            }
+        }
+
+        //d($all_images);
+        // exit;
+
+
+//        $it = new RecursiveDirectoryIterator($userfiles_folder);
+//
+//        foreach(new RecursiveIteratorIterator($it) as $file) {
+//            $backup_actions[] = $file;
+//           // echo $file . "\n";
+//
+//        }
+
+
+        /*
+        $folders = \rglob($userfiles_folder . '*', GLOB_NOSORT);
+         if (!empty($folders)) {
+             $text_files = array();
+
+
+             foreach ($folders as $fold) {
+                 if (!stristr($fold, 'backup')) {
+                     if (stristr($fold, '.php') or stristr($fold, '.js')  or stristr($fold, '.css')) {
+                         $text_files[] = $fold;
+                     } else {
+                         $backup_actions[] = $fold;
+
+
+                     }
+                 }
+
+             }
+
+             if (!empty($text_files)) {
+                 $backup_actions = array_merge($text_files, $backup_actions);
+             }
+
+             //    rsort($backup_actions);
+
+         }
+
+        */
+        $cache_id = 'backup_queue';
+        $cache_id_loc = 'backup_progress';
+
+        $cache_state_id = 'backup_zip_state';
+        //$backup_actions[] = 'makesdfsdf_db_backup';
+        $this->app->cache->save($backup_actions, $cache_id, 'backup');
+        $this->app->cache->save(false, $cache_id_loc, 'backup');
+        $this->app->cache->save(false, $cache_state_id, 'backup');
+        //$cron->Register('make_full_backup', 0, '\Microweber\Utils\Backup::cronjob_exec');
+        //$cron->job('make_full_backup', 0, array('\Microweber\Utils\Backup','cronjob_exec'));
+
+        // $cron->job('run_something_once', 0, array('\Microweber\Utils\Backup','cronjob'));
+        if (!defined('MW_NO_SESSION')) {
+            define('MW_NO_SESSION', 1);
+        }
+
+        $cron->job('make_full_backup', '5 sec', array('\Microweber\Utils\Backup', 'cronjob'), array('type' => 'full'));
+        //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
+        exit();
+
+
+        $this->log_action(false);
+        //  $url = site_url();
+        //header("Location: " . $url);
+        // redirect the url to the 'busy importing' page
+        ob_end_clean();
+        //Erase the output buffer
+        header("Connection: close");
+        //Tell the browser that the connection's closed
+        ignore_user_abort(true);
+        //Ignore the user's abort (which we caused with the redirect).
+        set_time_limit(0);
+        //Extend time limit
+        ob_start();
+        //Start output buffering again
+        header("Content-Length: 0");
+        //Tell the browser we're serious... there's really nothing else to receive from this page.
+        //@ob_end_flush();
+        //Send the output buffer and turn output buffering off.
+        flush();
+        //Yes... flush again.
+        session_write_close();
+
+        $scheduler = new \Microweber\Utils\Events();
+
+        // schedule a global scope function:
+        $scheduler->registerShutdownEvent("\Microweber\Utils\Backup::bgworker");
+
+        exit();
+    }
+
+    function _OLD____create_full()
+    {
+
+        if (!defined("INI_SYSTEM_CHECK_DISABLED")) {
+            define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+        }
+
+
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+            ini_set('memory_limit', '512M');
+            //ini_set("set_time_limit", 600);
+
+        }
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+            set_time_limit(600);
+        }
+
+        $cron = new \Microweber\Utils\Cron();
+
+        $backup_actions = array();
+        $backup_actions[] = 'make_db_backup';
+
+        $userfiles_folder = MW_USERFILES;
+
+
 //        $it = new RecursiveDirectoryIterator($userfiles_folder);
 //
 //        foreach(new RecursiveIteratorIterator($it) as $file) {
@@ -1366,6 +1558,8 @@ class Backup
 
     }
 
+    // Read a file and display its content chunk by chunk
+
     public function get()
     {
         if (!is_admin()) {
@@ -1407,61 +1601,6 @@ class Backup
 
         return $backups;
 
-    }
-
-    // Read a file and display its content chunk by chunk
-
-    function get_bakup_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            error("must be admin");
-        }
-
-        $loc = $this->backups_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "backup" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "backup" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('backup_location', 'admin/backup');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->backups_folder = $loc;
-        return $here;
     }
 
     function delete($params)
