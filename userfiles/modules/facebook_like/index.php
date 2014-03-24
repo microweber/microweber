@@ -31,5 +31,5 @@
 ?>
 
 <div style="padding:12px 0;">
-  <iframe src="//www.facebook.com/plugins/like.php?href=<?php print $url_to_like; ?>&amp;send=false&amp;layout=<?php print $layout; ?>&amp;width=450<?php print $show_faces_str; ?>&amp;font&amp;colorscheme=<?php print $color; ?>&amp;action=like&amp;height=80&amp;appId=<?php print get_option('fb_app_id', 'users');?>" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" width="" allowTransparency="true"></iframe>
+  <iframe src="//www.facebook.com/plugins/like.php?href=<?php print $url_to_like; ?>&amp;send=false&amp;layout=<?php print $layout; ?>&amp;width=450<?php print $show_faces_str; ?>&amp;font&amp;colorscheme=<?php print $color; ?>&amp;action=like&amp;height=80&amp;appId=<?php print get_option('fb_app_id', 'users');?>" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:60px;" width="" allowTransparency="true"></iframe>
 </div>
