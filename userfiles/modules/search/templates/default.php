@@ -11,7 +11,7 @@ description: Default Search template
 */
 
   ?>
-  <script>mw.require("<?php print MW_MODULES_URL; ?>search/search.css", true); </script>
+<script>mw.require("<?php print MW_MODULES_URL; ?>search/search.css", true); </script>
 <div class="mw-search mw-search-default" id="search_box_holder_<?php  print $params['id'] ?>">
 
    <div class="mw-ui-row">
@@ -19,6 +19,11 @@ description: Default Search template
         <input type="text"
                id="search_field_<?php  print $params['id'] ?>"
                class="form-control mw-search-field"
+               
+                
+                
+                 onkeyup="mw.url.windowHashParam('keyword<?php print $seach_prefix ?>', this.value);"
+                
                placeholder="<?php _e("Search"); ?>" />
     </div>
     <div class="mw-ui-col mw-search-default-btn-holder">

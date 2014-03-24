@@ -1289,7 +1289,7 @@ class Db
                 $q .= $ids_q;
                 $q .= $only_custom_fieldd_ids_q;
                 $q2 = $q;
-//d($q2);
+ 
              //   $q = $this->query($q, md5($q), 'custom_fields/global');
                 $q = $this->query($q);
                 if (!empty($q)) {
@@ -1352,21 +1352,15 @@ class Db
             }
             $is_in_category_items = false;
             if (is_array($search_n_cats) and !empty($search_n_cats)) {
-
                 foreach ($search_n_cats as $cat_name_or_id) {
                     $cat_name_or_id = intval($cat_name_or_id);
                     $str0 = 'fields=id&limit=10000&data_type=category&what=categories&' . 'id=' . $cat_name_or_id . '&rel=' . $table_assoc_name;
                     $str1 = 'fields=id&limit=10000&table=categories&' . 'id=' . $cat_name_or_id;
-
                     $cat_name_or_id1 = intval($cat_name_or_id);
                     $str1_items = 'fields=rel_id&limit=10000&what=category_items' . '&rel=' . $table_alias . '&parent_id=' . $cat_name_or_id;
-
                     $is_in_category_items = $this->get($str1_items);
-
                     if (!empty($is_in_category_items)) {
-
                         foreach ($is_in_category_items as $is_in_category_items_tt) {
-
                             $includeIds[] = $is_in_category_items_tt["rel_id"];
 
                         }
@@ -1420,7 +1414,6 @@ class Db
 
         $is_in_table = false;
         if (isset($criteria['in_table'])) {
-
             $is_in_table = $this->escape_string($criteria['in_table']);
 
         }
@@ -1458,58 +1451,34 @@ class Db
 
         $original_cache_id = false;
         if ($cache_group != false) {
-
             $cache_group = trim($cache_group);
-
-            // $start_time = mktime ();
-
             if ($force_cache_id != false) {
 
                 $cache_id = $force_cache_id;
 
                 $function_cache_id = $force_cache_id;
             } else {
-
                 $function_cache_id = false;
-
                 $args = func_get_args();
                 ksort($criteria);
                 $function_cache_id = crc32(serialize($criteria));
-
-
-                /*
-                            foreach ($args as $k => $v) {
-
-                                $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-                            }
-                */
-
-
                 $function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
-
                 $cache_id = $function_cache_id;
             }
-
             $original_cache_id = $cache_id;
 
             //  $cache_content = $this->app->cache->get($original_cache_id, $original_cache_group);
             $cache_content = false;
             if (($cache_content) != false) {
-
                 if ($cache_content == '---empty---') {
-
                     return false;
                 }
-
                 if ($count_only == true) {
-
                     $ret = intval($cache_content[0]['qty']);
-
                     return $ret;
                 } else {
                     //  $cache_content = $this->app->url->replace_site_url_back($cache_content);
                     // $cache_content = $this->stripslashes_array($cache_content);
-
                     return $cache_content;
                 }
             }
@@ -1524,21 +1493,16 @@ class Db
                 $limit = " limit  0 , {$limit}  ";
             }
         } else {
-
             $limit = false;
         }
         $orig_criteria = $criteria;
         $criteria = $this->map_array_to_table($table, $criteria);
         $criteria = $this->addslashes_array($criteria);
         if ($only_those_fields == false) {
-
             $q = "SELECT * FROM $table ";
         } else {
-
             if (is_array($criteria) and is_array($only_those_fields)) {
-
                 if (!empty($only_those_fields)) {
-
                     $ex_fields = $this->get_fields($table);
                     $flds1 = array();
                     foreach ($ex_fields as $ex_field) {
@@ -1548,23 +1512,18 @@ class Db
                             }
                         }
                     }
-
                     $flds = implode(',', $flds1);
                     $flds = $this->escape_string($flds);
-
                     $q = "SELECT $flds FROM $table ";
                 } else {
-
                     $q = "SELECT * FROM $table ";
                 }
             } else {
-
                 $q = "SELECT * FROM $table ";
             }
         }
 
         if ($count_only == true) {
-
             $q = "SELECT count(*) AS qty FROM $table ";
         }
 
@@ -1584,9 +1543,7 @@ class Db
                     }
 
                 }
-
             }
-
         }
 
         if (isset($groupby) and $groupby != false) {
@@ -1597,13 +1554,11 @@ class Db
         }
 
         if (is_string($groupby)) {
-
             $groupby = " GROUP BY  {$groupby}  ";
             if ($precise_select) {
                 $groupby = " GROUP BY  $table.$groupby  ";
             }
         } else {
-
             $groupby = false;
         }
 
@@ -1638,62 +1593,39 @@ class Db
             $order_by = str_ireplace('insert ', ' ', $order_by);
 
         } else {
-
             $order_by = false;
         }
 
         $where = false;
 
         if (is_array($ids)) {
-
             if (!empty($ids)) {
-
                 $idds = false;
-
                 foreach ($ids as $id) {
-
                     $id = intval($id);
-
-                    // $idds .= "   OR id=$id   ";
-
                     $idds .= "   OR $table.id=$id   ";
-
                 }
-
-                // $idds = "  and ( id=0 $idds   ) ";
                 $idds = "  and ( $table.id=0 $idds   ) ";
             } else {
-
                 $idds = false;
             }
         }
 
         if (!empty($exclude_ids)) {
-
             $first = array_shift($exclude_ids);
-
             $exclude_idds = false;
-
             foreach ($exclude_ids as $id) {
-
                 $id = intval($id);
-
-                // $exclude_idds .= "   AND id<>$id   ";
                 $exclude_idds .= "   AND $table.id<>$id   ";
-
             }
-
-            //$exclude_idds = "  and ( id<>$first $exclude_idds   ) ";
             $exclude_idds = "  and ( $table.id<>$first $exclude_idds   ) ";
         } else {
-
             $exclude_idds = false;
         }
 
         if (!empty($includeIds)) {
             $includeIds_idds = false;
             $includeIds_i = implode(',', $includeIds);
-            // $includeIds_idds .= "   AND id IN ($includeIds_i)   ";
             $includeIds_idds .= "   AND $table.id IN ($includeIds_i)   ";
         } else {
             $includeIds_idds = false;
@@ -1705,34 +1637,24 @@ class Db
             $to_search = $this->escape_string(strip_tags(html_entity_decode($to_search)));
             $to_search = str_replace('<', '', $to_search);
             $to_search = str_replace('>', '', $to_search);
-
             $to_search = str_replace('[', '', $to_search);
             $to_search = str_replace(']', '', $to_search);
             $to_search = str_replace('*', '', $to_search);
             $to_search = str_replace(';', '', $to_search);
-
             $to_search = str_replace('{', '', $to_search);
             $to_search = str_replace('}', '', $to_search);
-
             $to_search = str_replace('\077', '', $to_search);
             $to_search = str_replace('<?', '', $to_search);
-
-
         }
 
         if ($to_search != false and $to_search != '') {
             $fieals = $this->get_fields($table);
 
-
             $where_post = ' OR ';
-
             $where_q = '';
 
-
             foreach ($fieals as $v) {
-
                 $add_to_seachq_q = true;
-
                 if (!empty($to_search_in_those_fields)) {
                     $add_to_seachq_q = FALSE;
                     foreach ($to_search_in_those_fields as $fld1z) {
@@ -1740,26 +1662,21 @@ class Db
                             $add_to_seachq_q = 1;
                         }
                     }
-
                 }
-
 
                 if ($add_to_seachq_q == true) {
                     $to_search = $this->escape_string($to_search);
-                    //if ($v != 'id' && $v != 'password') {
                     if (in_array($v, $to_search_in_those_fields) or ($v != '_username' && $v != '_password')) {
                         switch ($v) {
-
                             case 'title' :
                             case 'description' :
                             case 'name' :
                             case 'help' :
                             case 'content' :
+                            case 'content_meta_title' :
                             case in_array($v, $to_search_in_those_fields) :
                                 //  $where_q .= " $v REGEXP '$to_search' " . $where_post;
                                 $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
-
-
                                 // $where_q .= " $v LIKE '%$to_search%' " . $where_post;
                                 break;
                             case 'id' :
@@ -1768,32 +1685,19 @@ class Db
                                 $where_q .= " $table.$v='$to_search1' " . $where_post;
                                 break;
                             default :
-
-
                                 break;
                         }
 
-                        if (DB_IS_SQLITE == false) {
-
-                            // $where_q .= " $v REGEXP '$to_search' " . $where_post;
-                            // $where_q .= " $v REGEXP '$to_search' " . $where_post;
-                        } else {
-
-                        }
                     }
-
                 }
-            }
+             }
 
             if (isset($search_data_fields) and $search_data_fields != false) {
                 if (defined('MW_DB_TABLE_CONTENT_DATA')) {
                     $table_custom_fields = MW_DB_TABLE_CONTENT_DATA;
-
                     //$where_q1 = " id in (select content_id from $table_custom_fields where field_value REGEXP '$to_search' ) OR ";
-
                     $where_q1 = " $table.id in (select content_id from $table_custom_fields where
 			 				field_value REGEXP '$to_search' ) OR ";
-
                     $where_q .= $where_q1;
                 }
 
