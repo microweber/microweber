@@ -139,7 +139,12 @@ class Captcha
         if (function_exists('imagestring')) {
        //  imagestring($image, 5, $y21, 2, $text, $bgcolor);
           self::captcha_vector($image, $x / 3, $y21 / 3, $col1z11, 200, $gray);
-            imagestring($image, 0, $y21, 2, $text, $gray);
+         imagestring($image, 0, $y21, 2, $text, $gray);
+
+//            $line_color = imagecolorallocate($image, 64,64,64);
+//            for($i=0;$i<10;$i++) {
+//                imageline($image,0,rand()%50,200,rand()%50,$line_color);
+//            }
 
 
         }

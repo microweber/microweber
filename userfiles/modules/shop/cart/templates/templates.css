@@ -115,7 +115,13 @@ ul.mw-custom-fields-cart-item li{
 .mw-cart-big input[type='number'],
 .mw-sidebar-cart input[type='number']{
   width: 40px;
+
 }
+.mw-cart-big input[type='number']::-webkit-outer-spin-button,
+	.mw-sidebar-cart input[type='number']::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0; 
+	}
 
 .mw-cart-table-price{
   white-space: nowrap;
