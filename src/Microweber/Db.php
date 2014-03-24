@@ -1289,7 +1289,7 @@ class Db
                 $q .= $ids_q;
                 $q .= $only_custom_fieldd_ids_q;
                 $q2 = $q;
- 
+
              //   $q = $this->query($q, md5($q), 'custom_fields/global');
                 $q = $this->query($q);
                 if (!empty($q)) {

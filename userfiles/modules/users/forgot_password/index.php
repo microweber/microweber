@@ -10,6 +10,11 @@
 		    $form_btn_title = _e("Reset password", true);
 		}
  
+ 
+ $form_title = get_option('form-title', $params['id']);
+ $show_login_link = get_option('show-login-link', $params['id']);
+ 
+ 
  		 ?>
 	<?php //$rand = uniqid(); ?>
 	<script  type="text/javascript">
