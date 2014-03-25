@@ -13,7 +13,7 @@ description: Autocomplete Search template
   ?>
 
 
-<script>mw.require("<?php print MW_MODULES_URL; ?>search/search.css", true); </script>
+<script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>search/search.css"); </script>
 <?php $rand = uniqid(); ?>
 <div class="mw-search mw-search-autocomplete" id="search_box_holder_<?php  print $params['id'] . $rand ?>">
     <div class="mw-search-autocomplete-field-holder">
