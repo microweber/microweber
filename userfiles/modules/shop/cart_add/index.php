@@ -65,25 +65,20 @@ if($module_template != false and $module_template != 'none'){
 <?php if($for_id !== false): ?>
 
 <div class="mw-add-to-cart-holder mw-add-to-cart-<?php print $params['id'] ?>" >
-  <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price"  id="cart_fields_<?php print $params['id'] ?>"  />
-  <?php $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id."");
- 
-
-   ?>
+  <?php $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id.""); ?>
   <?php if(is_array($data) == true): ?>
-
 
   <input type="hidden"  name="for" value="<?php print $for ?>" />
   <input type="hidden"  name="for_id" value="<?php print $for_id ?>" />
   
 
-  <span class="price">
+  
   <?php   if(isset($template_file) and is_file($template_file) != false){
  	include($template_file);
 } else {
 	print lnotif( 'No default template for '.$config['module'].' is found');
 }  ?>
-</span>
+ 
   <?php endif; ?>
 </div>
 <?php endif; ?>
