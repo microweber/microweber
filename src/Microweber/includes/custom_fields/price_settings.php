@@ -28,8 +28,23 @@ $data['custom_field_value'] = 0;
     name="custom_field_value"
     value="<?php print ($data['custom_field_value']) ?>" />
 
-
-
+ 
+<?php /*
+ <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[on_sale]"  <?php if(isset($data['options']) == true and isset($data['options']["on_sale"]) == true): ?> checked="checked" <?php endif; ?> value="on_sale"><span></span><span>On sale?</span></label>
+ 
+ 
+ 
+ 
+ 
+ <input type="text"
+    class="mw-ui-field mw-custom-field-option"
+    name="options[sale_price]"
+    value="<?php if(isset($data['options']) == true and isset($data['options']["sale_price"]) == true): ?><?php print $data['options']["sale_price"][0] ?><?php endif; ?>" />
+    
+    
+    */  ?>
+    
+    
 
 <?php print $savebtn; ?>
 

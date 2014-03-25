@@ -29,13 +29,13 @@ mw.admin_backup = {
 
 
 	restore : function(src){
-
+		mw.notification.success("Backup restoration started",7000);
 		data = {}
 		data.id=src;
 		$.post(mw.settings.api_url+'Utils/Backup/restore', data ,
 			function(msg) {
 				mw.reload_module('admin/backup/manage');
-				mw.notification.msg(msg);
+				mw.notification.msg(msg,10000);
 			});
 
 	},
@@ -62,7 +62,7 @@ mw.admin_backup = {
             
 			
 			
-		mw.notification.success("FULL Backup is started...");
+		mw.notification.success("Full Backup is started...",7000);
 	 
 		$.post(mw.settings.api_url+'Utils/Backup/create_full', false ,
 			function(msg) {

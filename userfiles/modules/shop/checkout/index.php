@@ -66,7 +66,7 @@ $(document).ready(function(){
 <?php if($payment_success == false): ?>
   <div class="vSpace"></div>
 <form class="mw-checkout-form"  id="checkout_form_<?php print $params['id'] ?>" method="post" action="<?php print api_link('checkout') ?>" >
-  
+
   <?php $cart_show_enanbled =  get_option('data-show-cart', $params['id']); ?>
   <?php if($cart_show_enanbled != 'n'): ?>
   <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id']?>" data-checkout-link-enabled="n" />

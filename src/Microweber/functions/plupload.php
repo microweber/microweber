@@ -252,6 +252,7 @@ header("Pragma: no-cache");
 
 // Settings
 $target_path = MW_MEDIA_DIR . DS;
+$target_path = MW_MEDIA_DIR . DS.'uploaded'.DS;
 $target_path = normalize_path($target_path, 0);
 
 $path_restirct   =   MW_USERFILES; // the path the script should access

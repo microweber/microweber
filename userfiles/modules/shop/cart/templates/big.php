@@ -80,13 +80,18 @@ description: Full width cart template
     <div>
     <h3><?php _e("Order summary"); ?></h3>
     <table cellspacing="0" cellpadding="0" class="table table-bordered table-striped mw-cart-table mw-cart-table-medium checkout-total-table" width="100%">
+        <style scoped="scoped">
+            td{
+              white-space: nowrap;
+            }
+        </style>
         <col width="60%">
         <col width="200px">
         <tbody>
 		
             <tr <?php if(!$show_shipping_stuff) :?> style="display:none" <?php endif ; ?>>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-country">
+                <td colspan="2" class="cell-shipping-country">
 				
 				
 				
@@ -95,11 +100,11 @@ description: Full width cart template
 			
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label><div class="mw-big-cart-shipping-price" style="display:inline-block"><module type="shop/shipping"  view="cost" /></div></td>
+                <td colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label><div class="mw-big-cart-shipping-price" style="display:inline-block"><module type="shop/shipping"  view="cost" /></div></td>
             </tr>
             <tr>
                 <td colspan="3"></td>
-                <td style="width: 260px;" colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></span></td>
+                <td colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></span></td>
             </tr>
         </tbody>
     </table>

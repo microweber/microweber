@@ -35,7 +35,7 @@
                     <div class="vSpace"></div>
                     <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')"
                        class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span><span>
-          <?php _e("Create Database Backup"); ?>
+          <?php _e("Database Backup"); ?>
           </span></a>
 
                     <div class="vSpace"></div>

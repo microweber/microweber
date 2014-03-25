@@ -34,5 +34,22 @@ if (isset($check['value'])) {
 } else {
     if (is_array($job) and !empty($job)) {
         print count($job) . '  items remaining. ';
+		
+		?> 
+		
+		<script type="text/javascript">
+
+            $(document).ready(function () {
+
+                mw.reload_module('admin/backup/manage');
+
+            });
+
+        </script>
+		
+		
+		<?php 
+		
+		
     }
 }

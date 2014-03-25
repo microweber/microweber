@@ -4128,7 +4128,6 @@ class Content
             $upd_posted['posted_on'] = $data_to_save['updated_on'];
             $upd_posted['id'] = $data_to_save['parent'];
             $save_posted = $this->app->db->save($table, $upd_posted);
-
         }
 
 
