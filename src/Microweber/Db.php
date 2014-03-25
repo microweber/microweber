@@ -2947,12 +2947,9 @@ class Db
                         if (is_string($from_save_cats)) {
                             $from_save_cats = explode(',', $from_save_cats);
                         }
-
-
                         if (isarr($from_save_cats)) {
                             $cat_names_or_ids = $from_save_cats;
                         }
-
                     }
                     $cats_data_modified = false;
                     $cats_data_items_modified = false;
@@ -3009,7 +3006,7 @@ class Db
                 }
             }
         }
-        if (!isset($original_data['skip_custom_field_save']) and (!empty($custom_field_to_save) or (isset($original_data['custom_fields']) and $table_assoc_name != 'table_custom_fields'))) {
+        if (!isset($original_data['skip_custom_field_save']) and ((!empty($custom_field_to_save) or (isset($original_data['custom_fields'])) and $table_assoc_name != 'table_custom_fields' and $table_assoc_name != 'custom_fields') )) {
 
 
             if (isset($original_data['custom_fields']) and is_array($original_data['custom_fields']) and !empty($original_data['custom_fields'])) {
@@ -3018,6 +3015,13 @@ class Db
 
             if (!empty($custom_field_to_save)) {
                 if (!$this->table_exist($custom_field_table)) {
+                    return false;
+                }
+                if($table_assoc_name == 'custom_fields'){
+                    return false;
+                } elseif($table_assoc_name == 'table_custom_fields'){
+                    return false;
+                }elseif($table_assoc_name == $this->table_prefix.'custom_fields'){
                     return false;
                 }
 
