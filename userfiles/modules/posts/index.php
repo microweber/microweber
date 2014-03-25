@@ -1,11 +1,9 @@
 <?php
-$curent_page = 1;
+$curent_page = $current_page = 1;
 $post_params = $params;
 if (isset($post_params['id'])) {
     $paging_param = 'current_page' . crc32($post_params['id']);
     unset($post_params['id']);
-} else {
-
 }
 $cat_from_url = url_param('category');
 //$paging_param = 'curent_page';
@@ -18,6 +16,15 @@ if (isset($params['curent_page'])) {
 } elseif (isset($params['curent-page'])) {
     $params['current_page'] = $params['curent-page'];
 }
+
+if (isset($params['paging_param'])) {
+    if (isset($params[$params['paging_param']])) {
+        $current_page = $curent_page = $params['current_page'] = $params[$params['paging_param']];
+        $paging_param = $params['paging_param'];
+    }
+
+}
+
 
 if (isset($params['current_page'])) {
     $curent_page = $params['curent_page'] = $params['current_page'];
@@ -144,11 +151,9 @@ if (intval($cfg_page_id_force) or  !isset($params['global'])) {
                             $sub_categories[] = $item_more_subcat;
                         }
                     }
-
                 }
             }
         }
-
 
         if ($posts_parent_category != false and intval($posts_parent_category) > 0 and $cat_from_url == false) {
             if ($page_categories != false and is_array($page_categories) and !empty($page_categories)) {
@@ -162,13 +167,11 @@ if (intval($cfg_page_id_force) or  !isset($params['global'])) {
                 $post_params['category'] = $posts_parent_category_cfg;
             }
 
-
             if (is_array($sub_categories) and !empty($sub_categories) and isset($post_params['related']) and $post_params['related'] != false) {
                 $post_params['category'] = $sub_categories;
             } elseif ($cfg_page_id != false) {
                 $post_params['parent'] = $cfg_page_id;
             }
-
 
         } else {
             $post_params['parent'] = $cfg_page_id;
@@ -176,23 +179,21 @@ if (intval($cfg_page_id_force) or  !isset($params['global'])) {
             if ((!isset($post_params['category']) or $post_params['category'] == false) and $cat_from_url != false) {
                 $post_params['category'] = $cat_from_url;
             }
-
         }
-
 
     } elseif ($cat_from_url != false) {
         $post_params['category'] = $cat_from_url;
-
 
     } elseif ($posts_parent_category != false and intval($posts_parent_category) > 0 and ($cfg_page_id) != false) {
         $post_params['category'] = $posts_parent_category;
 
     }
 }
+
 if ($posts_parent_category_cfg != false and intval($posts_parent_category_cfg) > 0 and $cfg_page_id_force != false and intval($cfg_page_id_force) > 0) {
     $post_params['category'] = $posts_parent_category_cfg;
-
 }
+
 $tn_size = array('150');
 
 if (isset($post_params['data-thumbnail-size'])) {
@@ -234,21 +235,16 @@ if ($show_fields == false) {
 }
 
 if (is_array($show_fields)) {
-
     $show_fields = array_trim($show_fields);
-
 }
 
 if (isset($curent_page) and intval($curent_page) > 0) {
     $post_params['curent_page'] = intval($curent_page);
-
 }
 
 // $post_params['debug'] = 'posts';
 if (!isset($post_params['content_type'])) {
     $post_params['content_type'] = 'post';
-    // $post_params['subtype'] = 'post';
-
 }
 
 if ($post_params['content_type'] == 'product') {
@@ -263,11 +259,8 @@ if ($post_params['content_type'] == 'product') {
 if (isset($params['is_shop'])) {
     $post_params['subtype'] = 'product';
     unset($post_params['is_shop']);
-} else {
-    if (!isset($post_params['content_type'])) {
-// $post_params['subtype'] = 'post';
-    }
 }
+
 if (!isset($post_params['subtype']) and !isset($post_params['global'])) {
     $post_params['subtype'] = 'post';
 }
@@ -275,6 +268,7 @@ if (!isset($post_params['subtype']) and !isset($post_params['global'])) {
 if (!isset($params['order_by']) and isset($params['order-by'])) {
     $params['orderby'] = $post_params['orderby'] = $params['order-by'];
 }
+
 if (!isset($params['order_by'])) {
     $post_params['orderby'] = 'position desc';
 }
@@ -300,10 +294,7 @@ if ($schema_org_item_type != false) {
     $schema_org_item_type = ucfirst($schema_org_item_type);
     $schema_org_item_type_tag = ' itemtype="http://schema.org/' . $schema_org_item_type . '" ';
     $schema_org_item_type_tag = 'http://schema.org/' . $schema_org_item_type;
-
-
 }
-
 
 $ord_by = get_option('data-order-by', $params['id']);
 if ($ord_by != false and trim($ord_by) != '') {
@@ -314,6 +305,7 @@ $date_format = get_option('date_format', 'website');
 if ($date_format == false) {
     $date_format = "Y-m-d H:i:s";
 }
+
 if (isset($params['title'])) {
 
     unset($post_params['title']);
@@ -322,17 +314,17 @@ if (isset($params['title'])) {
 $post_params['is_active'] = 'y';
 $post_params['is_deleted'] = 'n';
 
-
-if (((!isset($post_params['parent']) and !isset($post_params['category']) or isset($post_params['category']) and empty($post_params['category']))and $cat_from_url != false and trim($cat_from_url) != '')) {
+if (((!isset($post_params['parent']) and !isset($post_params['category'])
+    or isset($post_params['category']) and empty($post_params['category']))
+    and $cat_from_url != false and trim($cat_from_url) != '')
+) {
     $post_params['category'] = ($cat_from_url);
 }
+
 if (isset($params['content_type']) and $params['content_type'] == 'all') {
     unset($post_params['content_type']);
     unset($post_params['subtype']);
-
 }
-
-//
 
 
 if (isset($params['search-parent'])) {
@@ -366,7 +358,9 @@ if (isset($post_params['category']) and is_string($post_params['category'])) {
     }
 
 }
-
+if (defined('POST_ID') and isset($posts_parent_category) and $posts_parent_category != false or isset($post_params['related'])) {
+    $post_params['exclude_ids'] = POST_ID;
+}
 
 $content = get_content($post_params);
 $data = array();
@@ -447,7 +441,7 @@ $post_params_paging['page_count'] = true;
 $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
 
 if ($cfg_data_hide_paging === false) {
-    if (isset($post_params['hide-paging'])) {
+    if (isset($post_params['hide-paging']) and trim($post_params['hide-paging']) != 'false') {
         $cfg_data_hide_paging = 'y';
         unset($post_params['hide-paging']);
     }
@@ -464,7 +458,6 @@ if ($cfg_data_hide_paging != 'y') {
 $paging_links = false;
 if (intval($pages_count) > 1) {
     //$paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
-
 }
 
 $read_more_text = get_option('data-read-more-text', $params['id']);
@@ -498,28 +491,18 @@ if (!isset($params['return'])) {
         include($template_file);
 
         ?>
-        <?php if (isset($params['ajax_paging'])): ?>
+        <?php if (isset($params['ajax_paging']) or  isset($params['ajax-paging'])): ?>
             <script type="text/javascript">
-
-
                 $(document).ready(function () {
-
                     mw.$('#<?php print $params['id'] ?>').find('a[data-page-number]').unbind('click');
                     mw.$('#<?php print $params['id'] ?>').find('a[data-page-number]').click(function (e) {
                         var pn = $(this).attr('data-page-number');
-
-                        mw.$('#<?php print $params['id'] ?>').attr('paging_param', 'curent_page');
-                        mw.$('#<?php print $params['id'] ?>').attr('curent_page', pn)
+                        mw.$('#<?php print $params['id'] ?>').attr('paging_param', 'current_page');
+                        mw.$('#<?php print $params['id'] ?>').attr('current_page', pn)
                         mw.reload_module('#<?php print $params['id'] ?>');
-
-
                         return false;
                     });
-
-
                 });
-
-
             </script>
         <?php endif; ?>
         <?php if (isset($params['is_shop'])): ?>
@@ -528,9 +511,7 @@ if (!isset($params['return'])) {
             </script>
         <?php endif; ?>
     <?php
-
     } else {
-
         print lnotif('No default template for ' . $config['module'] . ' is found');
     }
 }

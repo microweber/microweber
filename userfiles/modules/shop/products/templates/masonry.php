@@ -35,7 +35,7 @@ if(!isset($tn[1])){
 
 
 <script>mw.require("<?php print $config['url_to_module']; ?>js/masonry.pkgd.min.js", true); </script>
-<script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true); </script>
+<script>mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css"); </script>
 <script>
     mw._masons = mw._masons || [];
     $(document).ready(function(){
@@ -103,7 +103,7 @@ if(!isset($tn[1])){
 
       <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
 
-        <a href="<?php print $item['link'] ?>"><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
+        <a href="<?php print $item['link'] ?>" class="mw-more"><?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?></a>
 
       <?php endif; ?>
 

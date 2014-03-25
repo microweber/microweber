@@ -24,35 +24,8 @@ if(!isset($tn[1])){
 
 ?>
 
-<style>
 
-.module-products-template-columns-3 .mw-ui-row > .mw-ui-col{
-  width: 30%;
-}
-.module-products-template-columns-3 .mw-ui-row{
-  margin-bottom: 30px;
-}
-
-.module-products-template-columns-3 .mw-ui-row > .mw-ui-col > .mw-ui-col-container{
-  padding: 12px;
-}
-
-.module-products-template-columns-3 .mw-ui-row > .mw-ui-col:last-child > .mw-ui-col-container{
-  padding-right: 0;
-}
-.module-products-template-columns-3 .mw-ui-row > .mw-ui-col:first-child > .mw-ui-col-container{
-  padding-left: 0;
-}
-
-.last-row-single .mw-ui-row:last-child{
-    width: 30%;
-}
-.last-row-twoitems .mw-ui-row:last-child{
-    width: 67%;
-}
-
-</style>
-
+<script>mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css"); </script>
 
   <?php if (!empty($data)): ?>
 
@@ -103,7 +76,7 @@ if(!isset($tn[1])){
       <p class="description"> <?php print $item['description']; ?> </p>
       <?php endif; ?>
       <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
-      <a href="<?php print $item['link'] ?>">
+      <a href="<?php print $item['link'] ?>" class="mw-more">
       <?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?>
       </a>
       <?php endif; ?>
@@ -157,5 +130,5 @@ if(!isset($tn[1])){
 
 <?php endif; ?>
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
-<?php print paging("num={$pages_count}&paging_param={$paging_param}") ?>
+    <?php print paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") ?>
 <?php endif; ?>

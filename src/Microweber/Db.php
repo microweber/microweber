@@ -1610,7 +1610,9 @@ class Db
                 $idds = false;
             }
         }
-
+        if(is_string($exclude_ids)){
+            $exclude_ids = explode(',',$exclude_ids);
+        }
         if (!empty($exclude_ids)) {
             $first = array_shift($exclude_ids);
             $exclude_idds = false;
