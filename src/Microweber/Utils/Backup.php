@@ -1349,7 +1349,7 @@ class Backup
                 $backup_actions = array_merge($text_files, $backup_actions);
             }
         }
- 
+
         $cache_id = 'backup_queue';
         $cache_id_loc = 'backup_progress';
 

@@ -85,26 +85,35 @@ description: Full width cart template
               white-space: nowrap;
             }
         </style>
-        <col width="60%">
+        <col>
         <col width="200px">
         <tbody>
-		
+
             <tr <?php if(!$show_shipping_stuff) :?> style="display:none" <?php endif ; ?>>
-                <td colspan="3"></td>
-                <td colspan="2" class="cell-shipping-country">
-				
-				
-				
-				<label><?php _e("Shipping to"); ?>:</label> <module type="shop/shipping"  view="select" /></td>
+            <td></td>
+                <td  class="cell-shipping-country">
+
+
+                <div class="mw-ui-row">
+                    <div class="mw-ui-col">
+                        <label><?php _e("Shipping to"); ?>:</label>
+                    </div>
+                    <div clas
+                </div>
+
+
+                <module type="shop/shipping"  view="select" />
+
+                </td>
             </tr>
 			
             <tr>
-                <td colspan="3"></td>
-                <td colspan="2" class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label><div class="mw-big-cart-shipping-price" style="display:inline-block"><module type="shop/shipping"  view="cost" /></div></td>
+                 <td></td>
+                <td  class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label><div class="mw-big-cart-shipping-price" style="display:inline-block"><module type="shop/shipping"  view="cost" /></div></td>
             </tr>
             <tr>
-                <td colspan="3"></td>
-                <td colspan="2" class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></span></td>
+               <td></td>
+                <td  class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></span></td>
             </tr>
         </tbody>
     </table>

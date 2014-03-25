@@ -60,6 +60,7 @@ function get_content_admin($params)
  * @param string|array|bool $params
  * @return string The url of the content
  * @package Content
+ * @link http://microweber.com/docs/functions/get_posts
  *
  * @uses get_content()
  * @example
@@ -82,6 +83,17 @@ function get_posts($params = false)
     return mw('content')->get_posts($params);
 }
 
+/**
+ * Return array of pages specified by $params
+ *
+ * This function makes query in the database and returns data from the content table
+ *
+ * @param string|array|bool $params
+ * @return string The url of the content
+ * @package Content
+ * @link http://microweber.com/docs/functions/get_pages
+ *
+ */
 function get_pages($params = false)
 {
     return mw('content')->get_pages($params);
@@ -228,20 +240,14 @@ function save_edit($post_data)
  */
 function save_content($data, $delete_the_cache = true)
 {
-
-
     return mw('content')->save_content($data, $delete_the_cache);
-
 }
 
 api_expose('save_content_admin');
 
 function save_content_admin($data, $delete_the_cache = true)
 {
-
-
     return mw('content')->save_content_admin($data, $delete_the_cache);
-
 }
 
 
@@ -262,44 +268,31 @@ function get_content_field_draft($data)
 
 function get_content_field($data, $debug = false)
 {
-
-
     return mw('content')->edit_field($data, $debug);
-
-
 }
 
 
 function content_data($content_id, $field_name = false)
 {
-
-
     return mw('content')->data($content_id, $field_name);
 }
 
 function next_content($content_id = false)
 {
-
-
     return mw('content')->next_content($content_id);
 }
 
 function prev_content($content_id = false)
 {
-
-
     return mw('content')->prev_content($content_id);
 }
 
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
 {
-    if(isset($table) and intval($table) > 0){
+    if (isset($table) and intval($table) > 0) {
         $id = intval(intval($table));
         $table = 'content';
     }
-
-
-
     return mw('fields')->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
 }
 
@@ -324,8 +317,23 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
     return mw('fields')->make($field_id, $field_type, $settings);
 }
 
+function is_page()
+{
+    if (defined('PAGE_ID')) {
+        return PAGE_ID;
+    }
+}
 
 function is_post()
 {
-    return POST_ID != false;
+    if (defined('POST_ID')) {
+        return POST_ID;
+    }
+}
+
+function is_category()
+{
+    if (defined('CATEGORY_ID')) {
+        return CATEGORY_ID;
+    }
 }
