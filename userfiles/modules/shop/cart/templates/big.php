@@ -98,11 +98,13 @@ description: Full width cart template
                     <div class="mw-ui-col">
                         <label><?php _e("Shipping to"); ?>:</label>
                     </div>
-                    <div clas
+                    <div class="mw-ui-col">
+                         <module type="shop/shipping"  view="select" />
+                    </div>
                 </div>
 
 
-                <module type="shop/shipping"  view="select" />
+
 
                 </td>
             </tr>

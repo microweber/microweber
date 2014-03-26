@@ -27,9 +27,7 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
 ?>
 
 <?php if (is_array($data['custom_field_values'])) : ?>
-
-    <div class="control-group form-group">
-
+    <div class="control-group form-group mw-custom-field-address-control">
         <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
             <label class="mw-ui-label mw-custom-field-label">
                 <?php print $data['name'] ?>
@@ -39,11 +37,9 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
             <?php // print $data['custom_field_name'] ?>
         <?php else : ?>
         <?php endif; ?>
-
         <?php if (isset($data['help']) == true and $data['help'] != ''): ?>
             <small class="mw-custom-field-help"><?php print $data['help'] ?></small>
         <?php endif; ?>
-
         <?php foreach ($data['custom_field_values'] as $k => $v): ?>
             <?php if (is_array($skips)
                 and (!in_array($data['custom_field_name'], $skips)
@@ -59,11 +55,7 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
                     $kv = ucwords($k);
                 }
                 ?>
-
-
-
                 <label><?php print ($kv); ?></label>
-
                 <input
                     type="text"  <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>
                     name="<?php print $data['custom_field_name'] ?>[<?php print ($k); ?>]" <?php if ($is_required) { ?> required <?php } ?>

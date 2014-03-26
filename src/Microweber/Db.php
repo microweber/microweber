@@ -3010,6 +3010,7 @@ class Db
                 if (!$this->table_exist($custom_field_table)) {
                     return false;
                 }
+
                 if ($table_assoc_name == 'custom_fields') {
                     return false;
                 } elseif ($table_assoc_name == 'table_custom_fields') {
@@ -3048,6 +3049,7 @@ class Db
                             }
                             $cfvq = '';
                             $cftype = 'default_content';
+                            $cftype = 'content';
                             $cftitle = false;
                             $custom_field_to_save['custom_field_name'] = $cf_k;
                             if (is_array($cf_v)) {
@@ -3143,7 +3145,11 @@ class Db
                             }
                             $cf_to_save['custom_field_name'] = $cf_k;
                             $cf_to_save['custom_field_name'] = $cf_k;
+
+
+                           // d($cf_k);
                             if ($cftype != 'default_content') {
+
                                 $this->q($add);
                             }
 
