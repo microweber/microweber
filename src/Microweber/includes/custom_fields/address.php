@@ -12,7 +12,7 @@ if (isset($params['skip-fields']) and $params['skip-fields'] != '') {
 }
 
 if (!is_array($data['custom_field_values'])) {
-    $default_data = array('country' => 'Country', 'city' => 'City', 'zip' => 'Zip', 'state' => 'State', 'address' => 'Address');
+    $default_data = array('country' => 'Country', 'city' => 'City', 'zip' => 'Zip/Post code', 'state' => 'State/Province', 'address' => 'Address');
     $data['custom_field_values'] = $default_data;
 }
 

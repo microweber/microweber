@@ -20,6 +20,7 @@ $(document).ready(function(){
 	<h2 style="margin-top:0 " class="edit nodrop" field="checkout_payment_information_title" rel="global" rel_id="<?php print $params['id']?>">
 		<?php _e("Payment method"); ?>
 	</h2>
+    <hr>
 	<ul name="payment_gw" class="gateway-selector field-full mw-payment-gateway mw-payment-gateway-<?php print $params['id']; ?>">
 		<?php $count = 0; foreach ($payment_options as $payment_option) : $count ++; ?>
 		<li>

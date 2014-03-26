@@ -7,6 +7,7 @@ namespace Microweber;
 // http://stackoverflow.com/questions/3117512/prevent-automatic-add-slashes-while-using-parse-str
 if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_quotes_runtime') and get_magic_quotes_runtime()) {
     @set_magic_quotes_runtime(0);
+    @set_magic_quotes_runtime(0);
 }
 function params_stripslashes_array_walk($array)
 {
@@ -1291,8 +1292,10 @@ class Controller
         } else {
             $layout = str_replace('{content}', 'Not found!', $layout);
         }
-
-
+        $category = false;
+        if (defined('CATEGORY_ID')) {
+            $category = $this->app->category->get_by_id(CATEGORY_ID);
+        }
         if (isset($page['render_file'])) {
             $l = new $this->app->view($page['render_file']);
             $l->page_id = PAGE_ID;
@@ -1300,6 +1303,8 @@ class Controller
             $l->post_id = POST_ID;
             $l->category_id = CATEGORY_ID;
             $l->content = $page;
+            $l->category = $category;
+
             $l->page = $page;
             $l->application = $this->app;
             $l = $l->__toString();
@@ -1323,6 +1328,7 @@ class Controller
             $l->post_id = POST_ID;
             $l->category_id = CATEGORY_ID;
             $l->content = $page;
+            $l->category = $category;
             $l->page = $page;
             $l->application = $this->app;
             $l = $l->__toString();
@@ -1921,8 +1927,10 @@ class Controller
         if (!isset($content['title'])) {
             $content['title'] = 'New content';
         }
-
-
+        $category = false;
+        if (defined('CATEGORY_ID')) {
+            $category = $this->app->category->get_by_id(CATEGORY_ID);
+        }
         if ($render_file) {
 
 
@@ -1933,6 +1941,8 @@ class Controller
             $l->post_id = POST_ID;
             $l->category_id = CATEGORY_ID;
             $l->content = $content;
+            $l->category = $category;
+
             $l->page = $page;
             $l->application = $this->app;
 

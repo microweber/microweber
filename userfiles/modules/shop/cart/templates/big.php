@@ -14,12 +14,12 @@ description: Full width cart template
 <script>mw.moduleCSS("<?php print $config['url_to_module'] ?>templates/templates.css");</script>
 <div class="mw-cart mw-cart-big mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>">
   <div class="mw-cart-title mw-cart-<?php print $params['id']?>">
-    <h4 style="margin-top: 16px;" class="edit" rel="<?php print $params['id']?>" field="cart_title">
+    <h4 class="edit" rel="<?php print $params['id']?>" field="cart_title">
       <?php  _e('My cart'); ?>
     </h4>
   </div>
   <?php if(is_array($data)) :?>
-  <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium">
+  <table class="table table-bordered table-striped mw-cart-table mw-cart-table-medium mw-cart-big-table">
     <colgroup>
         <col width="60">
         <col width="620">
@@ -73,7 +73,7 @@ description: Full width cart template
 	if($show_shipping_info === false or $show_shipping_info == 'y'){
 	$show_shipping_stuff = true;	
 	} else {
-	$show_shipping_stuff = false;	
+	$show_shipping_stuff = false;
 	}
 
 	 if(is_array($shipping_options)) :?>
@@ -84,38 +84,46 @@ description: Full width cart template
             td{
               white-space: nowrap;
             }
+            .checkout-total-table{
+              table-layout: fixed;
+            }
+            .checkout-total-table label{
+              display: block;
+              text-align: right;
+            }
+
+            .cell-shipping-total, .cell-shipping-price{
+              text-align: right;
+            }
+            .total_cost{
+              font-weight: normal;
+            }
+
         </style>
-        <col>
-        <col width="200px">
+        <col width="60%">
+        <col width="">
+        <col width="">
         <tbody>
 
             <tr <?php if(!$show_shipping_stuff) :?> style="display:none" <?php endif ; ?>>
-            <td></td>
-                <td  class="cell-shipping-country">
-
-
-                <div class="mw-ui-row">
-                    <div class="mw-ui-col">
-                        <label><?php _e("Shipping to"); ?>:</label>
-                    </div>
-                    <div class="mw-ui-col">
-                         <module type="shop/shipping"  view="select" />
-                    </div>
-                </div>
-
-
-
-
+                <td></td>
+                <td class="cell-shipping-country">
+                    <label><?php _e("Shipping to"); ?>:</label>
+                </td>
+                <td class="cell-shipping-country">
+                    <module type="shop/shipping"  view="select" />
                 </td>
             </tr>
 			
             <tr>
                  <td></td>
-                <td  class="cell-shipping-price"><label><?php _e("Shipping price"); ?>:</label><div class="mw-big-cart-shipping-price" style="display:inline-block"><module type="shop/shipping"  view="cost" /></div></td>
+                 <td><label><?php _e("Shipping price"); ?>:</label></td>
+                <td  class="cell-shipping-price"><div class="mw-big-cart-shipping-price" style="display:inline-block"><module type="shop/shipping"  view="cost" /></div></td>
             </tr>
             <tr>
                <td></td>
-                <td  class="cell-shipping-total"><label><?php _e("Total Price"); ?>:</label> <span class="total_cost"><?php print currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></span></td>
+               <td><label><?php _e("Total Price"); ?>:</label></td>
+               <td  class="cell-shipping-total"> <span class="total_cost"><?php print currency_format($total + intval(mw('user')->session_get('shipping_cost'))); ?></span></td>
             </tr>
         </tbody>
     </table>
@@ -142,6 +150,6 @@ description: Full width cart template
 
   <?php endif ; ?>
   <?php else : ?>
-  <h4 class="alert"><?php _e("Your cart is empty."); ?></h4>
+  <h4 class="alert alert-warning"><?php _e("Your cart is empty."); ?></h4>
   <?php endif ; ?>
 </div>

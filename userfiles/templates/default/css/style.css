@@ -633,9 +633,6 @@ ul.dropdown-menu ul.dropdown-menu {
 	font-size: 14px;
 }
 .checkout-total-table td label {
-	display: block;
-	float: left;
-	width: 110px;
 	padding-right: 12px;
 	margin-top: 5px;
 	margin: 0;
@@ -655,7 +652,12 @@ ul.dropdown-menu ul.dropdown-menu {
 	background: #DEFBDD;
 	font-weight: bold;
 }
-.checkout-total-table tbody tr > td.cell-shipping-country,  .checkout-total-table tbody tr > td.cell-shipping-price {
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td{
+  background: white;
+}
+
+.checkout-total-table tbody tr > td:nth-child(2),
+.checkout-total-table tbody tr > td:nth-child(3) {
 	background:  #F9F9F9;
 }
 .checkout-total-table tbody tr td:first-child {

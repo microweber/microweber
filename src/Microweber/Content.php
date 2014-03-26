@@ -2870,18 +2870,18 @@ class Content
                 } else {
                     $active_class = '';
                 }
-            } else if (CONTENT_ID != 0 and $item['content_id'] == CONTENT_ID) {
+            } else if (defined('CONTENT_ID') and CONTENT_ID != 0 and $item['content_id'] == CONTENT_ID) {
                 $active_class = 'active';
-            } elseif (PAGE_ID != 0 and $item['content_id'] == PAGE_ID) {
+            } elseif (defined('PAGE_ID') and PAGE_ID != 0 and $item['content_id'] == PAGE_ID) {
                 $active_class = 'active';
-            } elseif (POST_ID != 0 and $item['content_id'] == POST_ID) {
+            } elseif (defined('POST_ID') and POST_ID != 0 and $item['content_id'] == POST_ID) {
                 $active_class = 'active';
-            } elseif (CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
+            } elseif (defined('CATEGORY_ID') and CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
                 $active_class = 'active';
-            } elseif (isset($cont['parent']) and PAGE_ID != 0 and $cont['parent'] == PAGE_ID) {
+            } elseif (isset($cont['parent']) and defined('PAGE_ID') and PAGE_ID != 0 and $cont['parent'] == PAGE_ID) {
                 // $active_class = 'active';
 
-            } elseif (isset($cont['parent']) and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
+            } elseif (isset($cont['parent']) and defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
 
                 $active_class = 'active';
             } else {
@@ -4608,10 +4608,10 @@ class Content
 
                             if (is_array($check_if_page)
                                 and isset($check_if_page['content_type'])
-                                    and isset($check_if_page['parent'])
-                                        and $check_if_page['content_type'] != ''
-                                            and intval($check_if_page['parent']) != 0
-                                                and $check_if_page['content_type'] != 'page'
+                                and isset($check_if_page['parent'])
+                                and $check_if_page['content_type'] != ''
+                                and intval($check_if_page['parent']) != 0
+                                and $check_if_page['content_type'] != 'page'
                             ) {
                                 // $inh = $this->get_inherited_parent($page_id);
                                 $inh = $check_if_page['parent'];

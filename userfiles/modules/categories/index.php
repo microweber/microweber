@@ -5,6 +5,13 @@ if (isset($params['class'])) {
 if (isset($params['content-id'])) {
     $params['content_id'] = $params['content-id'];
 }
+
+
+if (isset($params['from-page']) and trim($params['from-page']) != 'false') {
+    $params['content_id'] = PAGE_ID;
+}
+
+
 if (!isset($params['ul_class'])) {
     $params['ul_class'] = 'nav nav-list';
 }
@@ -28,15 +35,10 @@ if ($category_tree_parent_page == false and isset($params['current-page']) and $
 }
 
 
-
-
-
-
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
     $module_template = $params['template'];
 }
-
 
 
 if ($module_template != false) {

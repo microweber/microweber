@@ -363,19 +363,14 @@ function edit_menu_item($data_to_save)
 }
 
 api_expose('reorder_menu_items');
-
 function reorder_menu_items($data)
 {
-
     return mw('content')->menu_items_reorder($data);
-
 }
 
-function menu_tree($menu_id, $maxdepth = false)
+function menu_tree($menu_id = false, $maxdepth = false)
 {
     return mw('content')->menu_tree($menu_id, $maxdepth);
-
-
 }
 
 function is_in_menu($menu_id = false, $content_id = false)
@@ -1548,7 +1543,6 @@ function get_all_functions_files_for_modules($options = false)
         return false;
     }
 }
-
 
 
 function template_dir()
