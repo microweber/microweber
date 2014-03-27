@@ -328,10 +328,10 @@ $menu_name = get_option('menu_name', $params['id']);
 
 <div class="control-group form-group">
   <label class="mw-ui-label">
-    <?php _e("Select the Menu you want to edit"); ?> 
-	
-	<small class="right" ><a href="javascript:add_new_menu();" class="mw-ui-label-help mw-ui-small"><?php _e("Create new nenu"); ?> </a> </small>
-  </label>
+    <?php _e("Select the Menu you want to edit"); ?>
+    <small class="right" ><a href="javascript:add_new_menu();" class="mw-ui-label-help mw-ui-small">
+    <?php _e("Create new nenu"); ?>
+    </a> </small> </label>
   <div class="mw-ui-select" style="width:100%">
     <select  id="menu_selector_<?php  print $params['id'] ?>" name="menu_name" class="mw_option_field"   type="radio"  onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
       <?php foreach($menus  as $item): ?>
@@ -341,10 +341,11 @@ $menu_name = get_option('menu_name', $params['id']);
       <option <?php  if($menu_name == $item['title'] or $menu_id == $item['id']): ?> <?php  $active_menu = $item['title'] ?> selected="selected" <?php endif; ?> value="<?php print $item['title'] ?>"><?php print ucwords(str_replace('_', ' ', $item['title'])) ?></option>
       <?php endforeach ; ?>
     </select>
-	
   </div>
   <hr>
-  <label class="mw-ui-label"><?php _e("Select from"); ?>:</label>
+  <label class="mw-ui-label">
+    <?php _e("Select from"); ?>
+    :</label>
   <a href="javascript:requestLink();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><span class="ico iplus"></span><span>
   <?php _e("Add Page to Menu"); ?>
   </span></a> <a href="javascript:requestCustomLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="ico iplus"></span><span>
@@ -370,14 +371,17 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   <div class="mw_clear"></div>
   <input type="text" class="mw-ui-field" placeholder="<?php _e("URL"); ?>" name="url"  />
   <input type="hidden" name="parent_id" id="add-custom-link-parent-id" value="<?php  print   $menu_id ?>" />
-  <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');"><?php _e("Add to menu"); ?></button>
+  <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');">
+  <?php _e("Add to menu"); ?>
+  </button>
 </div>
 <div class="vSpace"></div>
- 
 <div class="<?php print $config['module_class']; ?> menu_items order-has-link"   id="items_list_<?php  print $rand ?>">
   <?php if($active_menu != false): ?>
   <h2><?php print $menu_name; ?> Links
-    <label class="mw-ui-label"><small><?php _e("Here you can edit your menu links. You can also drag and drop to reorder them."); ?></small></label>
+    <label class="mw-ui-label"><small>
+      <?php _e("Here you can edit your menu links. You can also drag and drop to reorder them."); ?>
+      </small></label>
   </h2>
   <label class="mw-ui-label">
     <?php _e("Edit existing links/buttons"); ?>
@@ -386,5 +390,4 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   <module data-type="menu/edit_items"  id="items_list_<?php  print $rand ?>" menu-name="<?php  print $active_menu ?>"  />
   <?php endif; ?>
 </div>
-
 <div class="vSpace"></div>

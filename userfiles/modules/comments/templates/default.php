@@ -15,7 +15,7 @@ description: Default comments template
 
   
    ?>
-<script>mw.require("<?php print $config['url_to_module']; ?>comments.css", true);</script>
+<script>mw.moduleCSS("<?php print $config['url_to_module']; ?>comments.css", true);</script>
 <div class="mwcommentsmodule ">
 <div class=" comments-template-stylish">
 	<?php
@@ -56,7 +56,7 @@ description: Default comments template
 
   ?>
 				<?php if($avatars_enabled){ ?>
-				<div class="mw-ui-col comment-image-holder" >
+				<div class="mw-ui-col comment-image-holder">
 					<div class="mw-ui-col-container">
 						<?php $avatar_style =  get_option('avatar_style', 'comments'); ?>
 						<?php  if (isset($comment_author['thumbnail'])  and  trim($comment_author['thumbnail']) != ''){ ?>

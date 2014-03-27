@@ -52,9 +52,16 @@ function event_trigger($api_function, $data = false)
                             if ($data != false) {
                                 $return[$hook_value] = call_user_func($hook_value, $data); // As of PHP 5.3.0
                             } else {
-                                $return[$hook_value] = call_user_func($hook_value, function () {
-                                    return true;
-                                });
+                                if (is_string($hook_value) and is_callable($hook_value)) {
+                                    $return[$hook_value] = call_user_func($hook_value, function () {
+                                        return true;
+                                    });
+                                } elseif (is_callable($hook_value)) {
+                                    $return[$hook_value] = call_user_func($hook_value, function () {
+                                        return true;
+                                    });
+                                }
+
                             }
                         } catch (Exception $e) {
 
@@ -66,11 +73,17 @@ function event_trigger($api_function, $data = false)
             }
 
         }
+
+        $show_hooks = isset($_REQUEST['mw_show_system_hooks']);
+        if ($show_hooks != false and isset($api_function) and $api_function != 'on_load') {
+
+           if(is_admin()){
+            print $api_function;
+           }
+        }
         if (!empty($return)) {
-            $show_hooks = isset($_REQUEST['mw_show_hooks']);
-            if($show_hooks != false and isset($api_function) and $api_function != 'on_load'){
-                print $api_function;
-            }
+
+
             return $return;
         }
     }
@@ -79,7 +92,7 @@ function event_trigger($api_function, $data = false)
 $mw_action_hook_index = array();
 function action_hook($function_name, $next_function_name = false)
 {
-   return event_bind($function_name, $next_function_name);
+    return event_bind($function_name, $next_function_name);
 
 
 }

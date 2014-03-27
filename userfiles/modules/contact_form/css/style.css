@@ -98,6 +98,7 @@
 .contact-form-template-dream{
   position: relative;
   overflow: hidden;
+  text-align: left;
 }
 
 .contact-form-template-dream .contact-form {
@@ -173,6 +174,7 @@
 .contact-form-template-dark{
   position: relative;
   overflow: hidden;
+  text-align: left;
 }
 
 .contact-form-template-dark .contact-form {
@@ -256,6 +258,10 @@
 
 
 /* Basic */
+
+.contact-form-template-basic {
+  text-align: left;
+}
 
 .contact-form-template-basic textarea, .contact-form-template-basic select, .contact-form-template-basic input[type="text"], .contact-form-template-basic input[type="password"], .contact-form-template-basic input[type="datetime"], .contact-form-template-basic input[type="datetime-local"], .contact-form-template-basic input[type="date"], .contact-form-template-basic input[type="month"], .contact-form-template-basic input[type="time"], .contact-form-template-basic input[type="week"], .contact-form-template-basic input[type="number"], .contact-form-template-basic input[type="email"], .contact-form-template-basic input[type="url"], .contact-form-template-basic input[type="search"], .contact-form-template-basic input[type="tel"], .contact-form-template-basic input[type="color"]{
   border: 1px solid #E6E6E6;

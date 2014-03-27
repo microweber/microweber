@@ -11,7 +11,7 @@ $paypal_is_test = (get_option('paypalexpress_testmode', 'payments')) == 'y';
 ?>
 
 <div class="edit" rel="page" field="paypal_checkout_html">
-    <p class="alert alert-warning"><small style="font-size: x-small"><strong> *<?php _e("Note"); ?> </strong><?php _e("Your shopping cart will be emptied when you complete the order"); ?></small> </p>
+    <p class="alert alert-warning"><small><strong> *<?php _e("Note"); ?> </strong><?php _e("Your shopping cart will be emptied when you complete the order"); ?></small> </p>
 </div>
 
 
