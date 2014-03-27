@@ -1,16 +1,34 @@
-<?php 
+<?php
 
 
-  $layout=get_option('layout', $params['id']);  
-  $url_to_like=get_option('url', $params['id']);  
+
+
+  $layout=get_option('layout', $params['id']);
+  $url_to_like=get_option('url', $params['id']);
   $color=get_option('color', $params['id']);
-  $show_faces=get_option('show_faces', $params['id']); 
+  $show_faces=get_option('show_faces', $params['id']);
 
+
+  if($layout == false and isset($params['layout'])){
+          $layout = $params['layout'];
+  }
+   if($layout == false and isset($params['layout'])){
+          $layout = $params['layout'];
+  }
+   if($color == false and isset($params['color'])){
+          $color = $params['color'];
+  }
+   if($show_faces == false and isset($params['show-faces'])){
+          $show_faces = $params['show-faces'];
+  }
+     if($url_to_like == false and isset($params['url-to-like'])){
+          $url_to_like = $params['url-to-like'];
+  }
   
   if($layout == false or trim($layout) == ''){
 	$layout = "standard"  ;
   } else {
-	$layout = trim($layout);  
+	$layout = trim($layout);
   }
    if($url_to_like == false or trim($url_to_like) == ''){
 	 $cur_url = url_current(true); 

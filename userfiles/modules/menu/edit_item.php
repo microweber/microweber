@@ -88,7 +88,7 @@ if( $id != 0){
     <div class="custom_link_delete_header"> <span class="mw-ui-delete" onclick="mw.menu_item_delete(<?php  print $data['id'] ?>);"><?php _e("Delete"); ?></span></div>
     <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
 	
-    <input type="text" placeholder="<?php _e("Title"); ?>" class="mw-ui-field" name="title" value="<?php  print $data['title'] ?>" /> 
+    <input type="text" placeholder="<?php _e("Title"); ?>" class="mw-ui-field" name="title" value="<?php  print $data['title'] ?>" onblur="mw.menu_save_new_item('#custom_link_inline_controller',true);" /> 
 	<?php  if(isset($params['menu-id'])): ?>
     <input type="hidden" name="parent_id" value="<?php  print $params['menu-id'] ?>" />
 	<?php else: ?>
@@ -98,7 +98,7 @@ if( $id != 0){
     <?php _e("Select"); ?>
     </button>
     <div class="mw_clear vSpace"></div>
-    <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field"  name="url" value="<?php  print $data['url'] ?>" />
+    <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field"  name="url" value="<?php  print $data['url'] ?>" onblur="mw.menu_save_new_item('#custom_link_inline_controller',true);" />
     <button class="mw-ui-btn2 mw-ui-btn-green left" onclick="mw.menu_save_new_item('#custom_link_inline_controller');"><?php _e("Save"); ?></button>
     <div class="mw_clear vSpace"></div>
     <?php if($data['id'] != 0): ?>

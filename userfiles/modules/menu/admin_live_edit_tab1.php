@@ -268,13 +268,13 @@ $(document).ready(function(){
  </script>
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
-        mw.menu_save_new_item = function(selector){
+        mw.menu_save_new_item = function(selector,no_reload){
         	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
 				
 				mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
-
+				if(no_reload === undefined){
         		mw.reload_module('menu/edit_items');
-				
+				}
 				
 				
         		if(self!==parent && typeof parent.mw === 'object'){
