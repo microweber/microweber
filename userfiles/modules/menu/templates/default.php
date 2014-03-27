@@ -10,7 +10,7 @@ description: Default Menu skin
 
 */
 
-  //$template_file = false; ?>
+?>
 
 <script>mw.moduleCSS("<?php print $config['url_to_module']; ?>style.css", true);</script>
 

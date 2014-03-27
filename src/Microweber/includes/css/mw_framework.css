@@ -1994,7 +1994,7 @@ body.dragStart .edit .element:after{
   color: #188DE7 !important;
 }    */
 
-
+/*
 
 body.dragStart div.edit:hover:before{
     display: block;
@@ -2024,7 +2024,7 @@ body.dragStart div.edit:hover:after{
     position: absolute;
     font-size: 11px;
 }
-
+   */
 body.dragStart .nodrop .edit:hover:before,
 body.dragStart .nodrop .edit:hover:after,
 body.dragStart .nodrop.edit:hover:before,

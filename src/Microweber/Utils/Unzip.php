@@ -201,7 +201,7 @@ class Unzip
                     $size = zip_entry_filesize($entry);
                     $name = zip_entry_name($entry);
 
-                    $is_dir_there = $target_dir . $name;
+                    $is_dir_there = $target_file_to_save= normalize_path($target_dir . $name,false);;
                     $dnf = dirname($is_dir_there);
 
                     if (!is_dir($dnf)) {
@@ -209,8 +209,8 @@ class Unzip
                     }
 
 
-                    if (!is_dir($target_dir . $name)) {
-                        $unzipped = @fopen($target_dir . $name, 'wb');
+                    if (!is_dir($target_file_to_save)) {
+                         $unzipped = @fopen($target_file_to_save, 'wb');
                         while ($size > 0) {
                             $chunkSize = ($size > 10240) ? 10240 : $size;
                             $size -= $chunkSize;
@@ -219,7 +219,7 @@ class Unzip
                                 @fwrite($unzipped, $chunk);
                             }
                         }
-                        $file_locations[] = $target_dir . $name;
+                        $file_locations[] = $target_file_to_save;
                         @fclose($unzipped);
                     }
                 }

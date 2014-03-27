@@ -42,22 +42,22 @@ if ($template != false and strtolower($template) != 'none') {
                 data = dataObj;
             }
             catch (e) {
-                $('.mw-checkout-responce').append(data);
+                mw.$('.mw-checkout-responce').append(data);
             }
         } else {
-            $('.mw-checkout-responce').html(data);
+            mw.$('.mw-checkout-responce').html(data);
         }
-        $('.mw-checkout-responce').removeClass('alert-error');
-        $('.mw-checkout-responce').removeClass('alert-success');
+        mw.$('.mw-checkout-responce').removeClass('alert-error');
+        mw.$('.mw-checkout-responce').removeClass('alert-success');
         if (data.success !== undefined) {
-            $('.mw-checkout-responce').html(data.success);
-            $('.mw-checkout-responce').addClass('alert alert-success');
-            $('.mw-checkout-form').fadeOut();
+            mw.$('.mw-checkout-responce').html(data.success);
+            mw.$('.mw-checkout-responce').addClass('alert alert-success');
+            mw.$('.mw-checkout-form').fadeOut();
         } else if (data.error !== undefined) {
-            $('.mw-checkout-responce').empty().append(data.error);
-            $('.mw-checkout-responce').addClass('alert alert-error');
+            mw.$('.mw-checkout-responce').empty().append(data.error);
+            mw.$('.mw-checkout-responce').addClass('alert alert-error');
         } else {
-            $('.mw-checkout-responce').append(data);
+            mw.$('.mw-checkout-responce').append(data);
         }
     }
 

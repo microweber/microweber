@@ -535,14 +535,14 @@ class Backup
 
         */
 
-        ob_start();
+        //ob_start();
         $api = new \Microweber\Utils\Backup();
         $this->app->cache->flush();
         $rest = $api->exec_restore($params);
 
         $this->app->cache->flush();
-
-        ob_end_clean();
+return $rest;
+        //ob_end_clean();
         return array('success' => "Backup was restored!");
         //$scheduler = new \Microweber\Utils\Events();
 
@@ -732,19 +732,20 @@ class Backup
             $srcDir = $temp_dir_restore;
             $destDir = MW_USERFILES;
 
-
-            $this->copyr($srcDir, $destDir);
+ 
+            $copy = $this->copyr($srcDir, $destDir);
+		 
 
         }
 
         if (function_exists('mw_post_update')) {
-            mw_post_update();
+          mw_post_update();
         }
         $back_log_action = "Cleaning up cache";
         $this->log_action($back_log_action);
-        mw('cache')->clear();
+      mw('cache')->clear();
 
-        sleep(5);
+       
         $this->log_action(false);
 
     }
@@ -805,11 +806,26 @@ class Backup
     function copyr($source, $dest)
     {
         // Simple copy for a file
+		//$dest = normalize_path($dest,false);
+		//$source = normalize_path($source,false);
+		
+		
         if (is_file($source)) {
+			
+			$dest = normalize_path($dest,false);
+			$source = normalize_path($source,false);
+			
+			
+			$dest_dir = dirname($dest);
+			  if (!is_dir($dest_dir)) {
+				mkdir_recursive($dest_dir);
+			}
+			 
             return copy($source, $dest);
         }
 
         // Make destination directory
+		
         if (!is_dir($dest)) {
             mkdir_recursive($dest);
         }
@@ -824,7 +840,8 @@ class Backup
                 }
 
                 // Deep copy directories
-                if ($dest !== "$source/$entry") {
+				 
+                if ($dest !== "$source/$entry" and $dest !== "$source".DS."$entry") {
                     $this->copyr("$source/$entry", "$dest/$entry");
                 }
             }

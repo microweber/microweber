@@ -27,7 +27,7 @@
           <h3 class="element contact-form-title"><?php _e("Leave a Message"); ?></h3>
         </div>
         <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post" >
-            <module type="custom_fields" data-id="<?php print $params['id'] ?>" data-for="module"  default-fields="name,email,text"   />
+            <module type="custom_fields" data-id="<?php print $params['id'] ?>" data-for="module"  default-fields="name,email,message"   />
             <div class="control-group form-group">
                 <?php if(get_option('disable_captcha', $params['id']) !='y'): ?>
 

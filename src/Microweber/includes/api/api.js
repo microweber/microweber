@@ -669,8 +669,8 @@ mw._response = {
           }
       }
     }
-    $(holder).append('<ul class="mw-error-list">'+html+'</ul>');
-    $(holder).show();
+    mw.$(holder).eq(0).append('<ul class="mw-error-list">'+html+'</ul>');
+    mw.$(holder).eq(0).show();
   }
 }
   mw.require("session.js");

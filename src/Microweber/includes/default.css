@@ -149,7 +149,7 @@ img.element{
   margin-bottom: 12px;
 }
 
-.edit:after, .mw-col:after, .element:after{
+.edit:after, .mw-col:after, .element:after, .module:after{
     clear: both;
     content: ".";
     display: block;
