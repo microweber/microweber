@@ -211,6 +211,14 @@ saveStaticElementsStyles = function(callback){
 
 mw.sliders_settings = function(el){
     var el = $(el);
+	
+	if(typeof jQuery.fn.dataset !== 'function'){
+		return;	
+	}
+ 
+	
+	
+	
     var step = parseFloat(el.dataset('step'));
     var step = !isNaN(step)?step:1;
     var min = parseFloat(el.dataset('min'));
