@@ -896,7 +896,7 @@ class Parser
         $html_to_save = str_replace(' class=""', '', $html_to_save);
         $html_to_save = str_replace(' class=" "', '', $html_to_save);
 
-        $html_to_save = preg_replace('/<!--(.*)-->/Uis', '', $html_to_save);
+        // $html_to_save = preg_replace('/<!--(.*)-->/Uis', '', $html_to_save);
 
         return $html_to_save;
     }

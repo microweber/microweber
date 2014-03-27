@@ -13,7 +13,7 @@
 
 <div class="control-group form-group">
   <label class="custom-field-title" ><?php print $data["custom_field_name"]; ?></label>
-    <input type="email"   <?php if ($is_required): ?> required="true"  <?php endif; ?>
+    <input type="email" class="form-control"   <?php if ($is_required): ?> required="true"  <?php endif; ?>
     data-custom-field-id="<?php print $data["id"]; ?>"
     name="<?php print $data["custom_field_name"]; ?>"
 

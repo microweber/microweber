@@ -77,9 +77,9 @@ function event_trigger($api_function, $data = false)
         $show_hooks = isset($_REQUEST['mw_show_system_hooks']);
         if ($show_hooks != false and isset($api_function) and $api_function != 'on_load') {
 
-           if(is_admin()){
-            print $api_function;
-           }
+            if (is_admin()) {
+                print $api_function;
+            }
         }
         if (!empty($return)) {
 

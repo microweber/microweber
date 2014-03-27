@@ -19,13 +19,18 @@ include('empty_field_vals.php');
 
 <div class="control-group form-group">
  <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
- <div class="input-prepend input-append relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
-    <span class="add-on">
-        <i class="icon-file"></i>
-    </span>
-    <input type="text" <?php if($is_required){ ?> required <?php } ?> class="no-post" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
-
+ <div class="relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
+    <div class="mw-ui-row">
+    <div class="mw-ui-col">
+      <input type="text" <?php if($is_required){ ?> required <?php } ?> class="no-post form-control" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+    </div>
+    <div class="mw-ui-col">
     <button type="button" class="btn"><?php _e("Browse"); ?></button>
+    </div>
+    </div>
+
+
+
  </div>
 </div>
 <div class="progress" id="upload_progress_<?php print($rand); ?>" style="display:none;">
