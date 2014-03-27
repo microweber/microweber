@@ -83,7 +83,7 @@ description: Login default
 
     </div>
 
-    <input class="btn btn-default btn-large pull-right" type="submit" value="<?php _e("Login"); ?>" />
+    <input class="btn pull-right" type="submit" value="<?php _e("Login"); ?>" />
 
 
 

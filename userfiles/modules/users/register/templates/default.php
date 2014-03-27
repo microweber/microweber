@@ -94,7 +94,7 @@ description: Default register template
                         <?php endif; ?>
                     <?php if($have_social_login){ ?></ul><?php } ?>
             </div>
-			<button type="submit" class="btn btn-default btn-primary btn-large pull-right"><?php print $form_btn_title ?></button>
+			<button type="submit" class="btn btn-default pull-right"><?php print $form_btn_title ?></button>
 			<div style="clear: both"></div>
 		</form>
 

@@ -33,7 +33,7 @@
         </div>
       </div>
       <br>
-      <button type="submit" class="btn btn-default btn-large pull-right"><?php print $form_btn_title; ?></button>
+      <button type="submit" class="btn btn-default pull-right"><?php print $form_btn_title; ?></button>
     </form>
     <div class="alert" style="margin: 0;display: none;"></div>
   </div>
