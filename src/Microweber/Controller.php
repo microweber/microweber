@@ -1991,7 +1991,15 @@ class Controller
                 }
 
             }
-            event_trigger('on_load', $content);
+           $modify_content=event_trigger('on_load', $content);
+            if(is_array($modify_content)){
+                foreach($modify_content as $modify){
+                  if(isset($modify['id'])){
+                     //.. $content = array_merge($content,$modify);
+                      $content = $modify;
+                  }
+                }
+            }
 
 
             if ($is_editmode == true and !defined('IN_EDIT')) {
@@ -2015,7 +2023,7 @@ class Controller
 
             $is_admin = $this->app->user->is_admin();
             $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
-            event_trigger('site_header', TEMPLATE_NAME);
+           $headers = event_trigger('site_header', TEMPLATE_NAME);
 
 
             if (function_exists('template_headers_src')) {

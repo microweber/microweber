@@ -503,7 +503,7 @@ class Backup
             $id = $params['file'];
 
         }
-
+  
         if ($id == NULL) {
 
             return array('error' => "You have not provided a backup to restore.");
@@ -535,14 +535,14 @@ class Backup
 
         */
 
-        //ob_start();
+        ob_start();
         $api = new \Microweber\Utils\Backup();
         $this->app->cache->flush();
         $rest = $api->exec_restore($params);
 
         $this->app->cache->flush();
-return $rest;
-        //ob_end_clean();
+
+        ob_end_clean();
         return array('success' => "Backup was restored!");
         //$scheduler = new \Microweber\Utils\Events();
 
@@ -612,11 +612,8 @@ return $rest;
                 if (!is_dir($target_dir)) {
                     mkdir_recursive($target_dir);
                 }
-
                 $result = $unzip->extract($filename, $target_dir, $preserve_filepath = TRUE);
-
                 $temp_dir_restore = $target_dir;
-
                 $sql_restore = $target_dir . 'mw_sql_restore.sql';
                 if (is_file($sql_restore)) {
                     $sql_file = $sql_restore;
@@ -732,100 +729,47 @@ return $rest;
             $srcDir = $temp_dir_restore;
             $destDir = MW_USERFILES;
 
- 
+
             $copy = $this->copyr($srcDir, $destDir);
-		 
+
 
         }
 
         if (function_exists('mw_post_update')) {
-          mw_post_update();
+            mw_post_update();
         }
         $back_log_action = "Cleaning up cache";
         $this->log_action($back_log_action);
-      mw('cache')->clear();
+        mw('cache')->clear();
 
-       
+
         $this->log_action(false);
 
-    }
-
-    function get_bakup_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            error("must be admin");
-        }
-
-        $loc = $this->backups_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "backup" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "backup" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('backup_location', 'admin/backup');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->backups_folder = $loc;
-        return $here;
     }
 
     function copyr($source, $dest)
     {
         // Simple copy for a file
-		//$dest = normalize_path($dest,false);
-		//$source = normalize_path($source,false);
-		
-		
+        //$dest = normalize_path($dest,false);
+        //$source = normalize_path($source,false);
+
+
         if (is_file($source)) {
-			
-			$dest = normalize_path($dest,false);
-			$source = normalize_path($source,false);
-			
-			
-			$dest_dir = dirname($dest);
-			  if (!is_dir($dest_dir)) {
-				mkdir_recursive($dest_dir);
-			}
-			 
+
+            $dest = normalize_path($dest, false);
+            $source = normalize_path($source, false);
+
+
+            $dest_dir = dirname($dest);
+            if (!is_dir($dest_dir)) {
+                mkdir_recursive($dest_dir);
+            }
+
             return copy($source, $dest);
         }
 
         // Make destination directory
-		
+
         if (!is_dir($dest)) {
             mkdir_recursive($dest);
         }
@@ -840,8 +784,8 @@ return $rest;
                 }
 
                 // Deep copy directories
-				 
-                if ($dest !== "$source/$entry" and $dest !== "$source".DS."$entry") {
+
+                if ($dest !== "$source/$entry" and $dest !== "$source" . DS . "$entry") {
                     $this->copyr("$source/$entry", "$dest/$entry");
                 }
             }
@@ -1418,26 +1362,6 @@ return $rest;
         exit();
     }
 
-    function log_action($back_log_action)
-    {
-
-        if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
-
-
-            if ($back_log_action == false) {
-                $this->app->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
-            } else {
-                $check = $this->app->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
-
-                if (is_array($check) and isset($check['id'])) {
-                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
-                } else {
-                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
-                }
-            }
-        }
-    }
-
     function _OLD____create_full()
     {
 
@@ -1548,6 +1472,26 @@ return $rest;
         exit();
     }
 
+    function log_action($back_log_action)
+    {
+
+        if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
+
+
+            if ($back_log_action == false) {
+                $this->app->log->delete("is_system=y&rel=backup&user_ip=" . USER_IP);
+            } else {
+                $check = $this->app->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+
+                if (is_array($check) and isset($check['id'])) {
+                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
+                } else {
+                    $this->app->log->save("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP);
+                }
+            }
+        }
+    }
+
     function move_uploaded_file_to_backup($params)
     {
         only_admin_access();
@@ -1577,8 +1521,6 @@ return $rest;
         }
 
     }
-
-    // Read a file and display its content chunk by chunk
 
     public function get()
     {
@@ -1621,6 +1563,61 @@ return $rest;
 
         return $backups;
 
+    }
+
+    // Read a file and display its content chunk by chunk
+
+    function get_bakup_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            error("must be admin");
+        }
+
+        $loc = $this->backups_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_USERFILES . "backup" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_USERFILES . "backup" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('backup_location', 'admin/backup');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->backups_folder = $loc;
+        return $here;
     }
 
     function delete($params)

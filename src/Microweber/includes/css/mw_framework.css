@@ -341,7 +341,7 @@ body.not-allowed{
 #live_edit_toolbar{
   width: 100%;
   position: relative;
-  z-index: 998;
+  z-index: 1100;
 }
 
 #live_edit_toolbar.scrolling{
