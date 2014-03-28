@@ -1623,7 +1623,7 @@ class Controller
         //$page_data = $this->app->content->get_by_id(PAGE_ID);
 
         $render_file = $this->app->content->get_layout($content);
-
+  
         $content['render_file'] = $render_file;
 
         if (defined('TEMPLATE_DIR')) {
@@ -1656,6 +1656,7 @@ class Controller
         if (defined('CATEGORY_ID')) {
             $category = $this->app->category->get_by_id(CATEGORY_ID);
         }
+       
         if ($render_file) {
 
 

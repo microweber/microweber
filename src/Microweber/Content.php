@@ -514,8 +514,8 @@ class Content
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
-            return $cache_content;
-        }
+             return $cache_content;
+        } 
 
 
         $render_file = false;
@@ -719,7 +719,13 @@ class Content
                 $render_file = $render_file_temp2;
             }
         }
+  if (isset($page['active_site_template']) and $page['active_site_template'] == 'default') {
+                $page['active_site_template'] = $site_template_settings;
+            }
 
+            if (isset($page['active_site_template']) and  $page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
+                $page['active_site_template'] = 'default';
+            } 
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
 
             /*   $inherit_from = array();
@@ -770,13 +776,7 @@ class Content
         }
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] != 'inherit')) {
 
-            if ($page['active_site_template'] == 'default') {
-                $page['active_site_template'] = $site_template_settings;
-            }
-
-            if ($page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
-                $page['active_site_template'] = 'default';
-            }
+          
 
 
             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];

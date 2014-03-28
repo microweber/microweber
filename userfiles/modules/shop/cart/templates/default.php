@@ -11,7 +11,7 @@ description: Default cart template
 */
 
 ?>
-<script>mw.require("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
+<script>mw.moduleCSS("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
 <div class="mw-cart mw-sidebar-cart mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>">
 
   <?php if(is_array($data)) :?>
@@ -60,7 +60,7 @@ description: Default cart template
    }
    
    ?>
-  <a class="btn btn-default btn-warning pull-right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
+  <a class="btn btn-default pull-right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
   <?php endif ; ?>
   <?php else : ?>
        <h4 class="alert"><?php _e("Your cart is empty"); ?>.</h4>

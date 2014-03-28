@@ -65,7 +65,7 @@ description: Sidebar cart template
    }
    
    ?>
-  <a class="btn btn-default btn-warning right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
+  <a class="btn btn-warning right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
   <?php endif ; ?>
   <?php else : ?>
 

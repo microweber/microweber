@@ -5,7 +5,7 @@ namespace FunctionsTest;
 
 //class MenuTest extends \PHPUnit_Framework_TestCase
 
-class NONWORKING  
+class NONWORKING
 {
 
     function __construct()

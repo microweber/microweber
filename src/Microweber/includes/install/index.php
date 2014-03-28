@@ -9,11 +9,7 @@ $autoinstall = false;
 
 
 if (defined('MW_INSTALL_FROM_CONFIG')) {
-
-
     $autoinstall = mw_var('mw_autoinstall');
-
-
 }
 $installed = false;
 if (defined('MW_IS_INSTALLED')) {
@@ -114,21 +110,21 @@ if (isset($to_save['is_installed'])) {
         if (!isset($to_save['default_timezone'])) {
             $to_save['default_timezone'] = "UTC";
         }
-		
-		 if (isset($to_save['table_prefix'])) {
-				$prefix = trim($to_save['table_prefix']);
-				if($prefix != ''){
-					$last_char = substr($prefix, -1);
-					if($last_char != '_'){
-						$prefix = $prefix.'_';
-						$to_save['table_prefix'] = $prefix;
-					}
-				} 
-			 
-		 }
-		 
+
+        if (isset($to_save['table_prefix'])) {
+            $prefix = trim($to_save['table_prefix']);
+            if ($prefix != '') {
+                $last_char = substr($prefix, -1);
+                if ($last_char != '_') {
+                    $prefix = $prefix . '_';
+                    $to_save['table_prefix'] = $prefix;
+                }
+            }
+
+        }
+
         if (!defined('MW_TABLE_PREFIX') and isset($to_save['table_prefix'])) {
-            define('MW_TABLE_PREFIX',$to_save['table_prefix']);
+            define('MW_TABLE_PREFIX', $to_save['table_prefix']);
         }
 
         //$to_save['IS_INSTALLED'] = 'yes';
@@ -424,7 +420,6 @@ if (isset($to_save['is_installed'])) {
                     if ($to_save['with_default_content'] != '{with_default_content}' and $to_save['with_default_content'] != 'no') {
                         $default_content_folder = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR;
                         $default_content_file = $default_content_folder . 'mw_default_content.zip';
-
 
 
                         if (is_file($default_content_file)) {

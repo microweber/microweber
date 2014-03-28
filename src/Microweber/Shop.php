@@ -1448,15 +1448,11 @@ class Shop
             }
 
             if (isset($cont_data['qty']) and trim($cont_data['qty']) != 'nolimit') {
-
                 if (intval($cont_data['qty']) < intval($cart['qty'])) {
                     $cart['qty'] = $cont_data['qty'];
                 }
-
             }
-
             mw_var('FORCE_SAVE', $table);
-
             //   $cart['debug'] = 1;
             $cart_saved_id = $this->app->db->save($table, $cart);
             return ($cart_saved_id);
@@ -1464,8 +1460,6 @@ class Shop
             $this->app->error('Invalid cart items');
         }
 
-
-        exit;
     }
 
     public function checkout_confirm_email_test($params)
