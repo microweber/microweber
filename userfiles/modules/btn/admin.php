@@ -103,7 +103,7 @@ btn_action = function(){
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label"><?php _e("Color"); ?></label>
   <div class="mw-ui-select"><select  class="mw_option_field"  name="button_style">
-      <option <?php if($style==''){ print 'selected'; } ?> value=""><?php _e("Default"); ?></option>
+      <option <?php if($style=='btn-default' || $style==''){ print 'selected'; } ?> value="btn-default"><?php _e("Default"); ?></option>
       <option <?php if($style=='btn-primary'){ print 'selected'; } ?> value="btn-primary"><?php _e("Primary"); ?></option>
       <option <?php if($style=='btn-info'){ print 'selected'; } ?> value="btn-info"><?php _e("Info"); ?></option>
       <option <?php if($style=='btn-success'){ print 'selected'; } ?> value="btn-success"><?php _e("Success"); ?></option>

@@ -30,16 +30,12 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
     <div class="control-group form-group mw-custom-field-address-control">
 
         <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
-            <label class="mw-custom-field-label">
-                <?php print $data['name'] ?>
-            </label>
-            <hr style="margin-top: 7px;" />
+
+
         <?php elseif (isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
 
-            <label class="mw-custom-field-label">
-                <?php print $data['custom_field_name'] ?>
-            </label>
-            <hr style="margin-top: 7px;" />
+
+
         <?php else : ?>
         <?php endif; ?>
         <?php if (isset($data['help']) == true and $data['help'] != ''): ?>

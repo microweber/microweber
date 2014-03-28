@@ -19,7 +19,7 @@ description: Product Gallery
   <div class="autoscale mw-gallery-holder">
     <?php $count = -1; foreach ($data as $item): ?>
     <?php $count++; ?>
-    <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>"> <span class=" mw-slider-zoomholder"> <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 600); ?>" alt=""/> <img src="<?php print thumbnail($item['filename'], 1200); ?>" class="mw-slider-zoomimg" alt=""
+    <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>"> <span class=" mw-slider-zoomholder"> <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 700); ?>" alt=""/> <img src="<?php print $item['filename']; ?>" class="mw-slider-zoomimg" alt=""
                  onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>)"/> </span>
       <?php if ($item['title'] != '') { ?>
       <i class="mw-rotator-description"><i class="mw-rotator-description-content"><?php print $item['title']; ?></i></i>

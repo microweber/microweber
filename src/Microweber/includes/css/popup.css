@@ -14,9 +14,14 @@ body{
 }
 
 
+.module > .settings-wrapper:first-child{
+  padding: 20px;
+}
 
-
-
+.module + .module > .settings-wrapper:first-child,
+.mw-ui-label + .module > .settings-wrapper:first-child{
+  padding: 0;
+}
 
 #image_status, .image_status{
   display: block;

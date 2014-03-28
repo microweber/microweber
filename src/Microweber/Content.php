@@ -2280,11 +2280,7 @@ class Content
 //                    }
 //
 
-
-
-
                     if (isset($cont['content_id'])) {
-
                         if (in_array($item['content_id'], $passed_actives)) {
                             $active_class = 'active';
                         }

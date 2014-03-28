@@ -1031,18 +1031,18 @@ float: left;
   padding: 5px 10px;
   width: 190px;
 }
-.mw-custom-field-form-controls{
+.is_admin .mw-custom-field-form-controls{
   clear: both;
   padding: 8px 0;
 }
-div .mw-custom-field-form-controls:first-child{
+.is_admin div .mw-custom-field-form-controls:first-child{
   padding-top: 0;
 }
-div .mw-custom-field-form-controls:last-child{
+.is_admin div .mw-custom-field-form-controls:last-child{
   padding-bottom: 0;
 }
 
-.mw-custom-field-form-controls:after{
+.is_admin .mw-custom-field-form-controls:after{
   content: ".";
   display: block;
   clear: both;
@@ -1051,7 +1051,7 @@ div .mw-custom-field-form-controls:last-child{
   height: 0;
 }
 
-.mw-custom-field-group .mw-custom-field-form-controls:first-child .mw-removefield{
+.is_admin .mw-custom-field-group .mw-custom-field-form-controls:first-child .mw-removefield{
   display: none;
 }
 

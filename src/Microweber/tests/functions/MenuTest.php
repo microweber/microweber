@@ -3,11 +3,16 @@
 namespace FunctionsTest;
 
 
-class MenuTest extends \PHPUnit_Framework_TestCase
+//class MenuTest extends \PHPUnit_Framework_TestCase
+
+class NONWORKING  
 {
 
     function __construct()
     {
+
+
+
         //  cache_clear('db');
         // mw('content')->db_init();
     }

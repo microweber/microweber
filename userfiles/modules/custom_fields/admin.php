@@ -1,4 +1,5 @@
 <?php only_admin_access(); ?>
+<div class="settings-wrapper">
 <script type="text/javascript">
 
 
@@ -275,4 +276,6 @@ mw_cf_close_edit_window = function(el){
  }*/
   
 ?>
+</div>
+
 </div>

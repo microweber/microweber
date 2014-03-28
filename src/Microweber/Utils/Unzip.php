@@ -66,13 +66,14 @@ class Unzip
      * @param     none
      * @return    none
      */
-    public function extract($zip_file, $target_dir = NULL, $preserve_filepath = TRUE)
+	  public function extract($zip_file, $target_dir = NULL, $preserve_filepath = TRUE)
     {
         $this->_zip_file = $zip_file;
         $this->_target_dir = $target_dir ? $target_dir : dirname($this->_zip_file);
 
 
         if (function_exists('zip_open')) {
+			 
             $is_any = $this->native_unzip($zip_file, $target_dir, $preserve_filepath);
 
             if (!empty($is_any)) {
@@ -182,6 +183,124 @@ class Unzip
 
 
     }
+	
+    public function old_____extract($zip_file, $target_dir = NULL, $preserve_filepath = TRUE)
+    {
+        $this->_zip_file = $zip_file;
+        $this->_target_dir = $target_dir ? $target_dir : dirname($this->_zip_file);
+
+
+        if (function_exists('zip_open')) {
+            $is_any = $this->native_unzip($zip_file, $target_dir, $preserve_filepath);
+
+            if (!empty($is_any)) {
+                return $is_any;
+            }
+        }
+
+
+        if (function_exists('gzinflate')) {
+
+
+            if (!$files = $this->_list_files()) {
+                $this->set_error('ZIP folder was empty.');
+                return FALSE;
+            }
+
+
+            $file_locations = array();
+            foreach ($files as $file => $trash) {
+                $dirname = pathinfo($file, PATHINFO_DIRNAME);
+                $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                $dirname = str_replace('\/', '/', $dirname);
+
+                $folders = explode('/', $dirname);
+                $out_dn = $this->_target_dir . '/' . $dirname;
+                $out_dn = str_replace('\/', '/', $out_dn);
+                // Skip stuff in stupid folders
+                if (in_array(current($folders), $this->_skip_dirs)) {
+                    continue;
+                }
+
+                // Skip any files that are not allowed
+                if (is_array($this->_allow_extensions) && $extension && !in_array($extension, $this->_allow_extensions)) {
+                    continue;
+                }
+
+                if (!is_dir($out_dn) && $preserve_filepath) {
+                    $str = "";
+                    foreach ($folders as $folder) {
+                        $str = $str ? $str . '/' . $folder : $folder;
+                        if (!is_dir($this->_target_dir . '/' . $str)) {
+                            $this->set_debug('Creating folder: ' . $this->_target_dir . '/' . $str);
+
+                            if (!@mkdir_recursive($this->_target_dir . '/' . $str)) {
+                                $this->set_error('Desitnation path is not writable.');
+                                return FALSE;
+                            }
+
+                            // Apply chmod if configured to do so
+                            $this->apply_chmod && chmod($this->_target_dir . '/' . $str, $this->apply_chmod);
+                        }
+                    }
+                }
+
+                if (substr($file, -1, 1) == '/') {
+                    continue;
+                }
+
+                $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
+
+                $this->_extract_file($file, $file_location, $this->underscore_case);
+                // Skip stuff in stupid folders
+                if (in_array(current($folders), $this->_skip_dirs)) {
+                    continue;
+                }
+
+                // Skip any files that are not allowed
+                if (is_array($this->_allow_extensions) && $extension && !in_array($extension, $this->_allow_extensions)) {
+                    continue;
+                }
+
+                if (!is_dir($out_dn) && $preserve_filepath) {
+                    $str = "";
+                    foreach ($folders as $folder) {
+                        $str = $str ? $str . '/' . $folder : $folder;
+                        if (!is_dir($this->_target_dir . '/' . $str)) {
+                            $this->set_debug('Creating folder: ' . $this->_target_dir . '/' . $str);
+
+                            if (!@mkdir_recursive($this->_target_dir . '/' . $str)) {
+                                $this->set_error('Desitnation path is not writable.');
+                                $resp = array('error' => 'Error with the unzip! Desitnation path is not writable.');
+                                return $resp;
+                                return FALSE;
+                            }
+
+                            // Apply chmod if configured to do so
+                            $this->apply_chmod && chmod($this->_target_dir . '/' . $str, $this->apply_chmod);
+                        }
+                    }
+                }
+
+                if (substr($file, -1, 1) == '/') {
+                    continue;
+                }
+
+                $file_locations[] = $file_location = $this->_target_dir . '/' . ($preserve_filepath ? $file : basename($file));
+
+                $this->_extract_file($file, $file_location, $this->underscore_case);
+            }
+
+            return $file_locations;
+
+
+        }
+
+        $resp = array('error' => 'There was an error with the unzip');
+        return $resp;
+
+
+    }
 
 
     // --------------------------------------------------------------------
@@ -200,17 +319,24 @@ class Unzip
                 while ($entry = zip_read($archive)) {
                     $size = zip_entry_filesize($entry);
                     $name = zip_entry_name($entry);
-
-                    $is_dir_there = $target_file_to_save= normalize_path($target_dir . $name,false);;
+					$file_name = basename($name);
+ 
+					$is_dir_there = $target_dir . $name;
+                    $target_file_to_save= normalize_path($target_dir . $name,false);;
+					
                     $dnf = dirname($is_dir_there);
 
                     if (!is_dir($dnf)) {
                         mkdir_recursive($dnf);
                     }
-
-
-                    if (!is_dir($target_file_to_save)) {
-                         $unzipped = @fopen($target_file_to_save, 'wb');
+ 
+                     if (is_dir($dnf) and !is_dir($target_file_to_save) and strstr($target_file_to_save,'.')) {
+						 $dnf = dirname($target_file_to_save);
+						 if (!is_dir($dnf)) {
+							mkdir_recursive($dnf);
+						 }
+											
+                        $unzipped = @fopen($target_file_to_save, 'wb');
                         while ($size > 0) {
                             $chunkSize = ($size > 10240) ? 10240 : $size;
                             $size -= $chunkSize;
