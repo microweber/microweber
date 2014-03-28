@@ -130,6 +130,305 @@ class Backup
 
     }
 
+    function exec_restore($params = false)
+    {
+        if (!is_admin()) {
+            return array('error' => "must be admin");
+
+        }
+
+        ignore_user_abort(true);
+
+        ini_set('memory_limit', '512M');
+        set_time_limit(0);
+        $loc = $this->backup_file;
+
+        // Get the provided arg
+        if (isset($params['id'])) {
+            $id = $params['id'];
+        } else if (isset($_GET['filename'])) {
+            $id = $params['filename'];
+        } else if (isset($_GET['file'])) {
+            $id = $params['file'];
+
+        } else if ($loc != false) {
+            $id = $loc;
+
+        }
+
+        // Check if the file has needed args
+        if ($id == NULL) {
+
+            return array('error' => "You have not provided a backup to restore.");
+
+        }
+
+        $here = $this->get_bakup_location();
+        // Generate filename and set error variables
+
+        $filename = $here . $id;
+        //	$filename = $here . $id . '.sql';
+        $ext = get_file_extension($filename);
+        $ext_error = false;
+
+        $sql_file = false;
+
+        if (!is_file($filename)) {
+            return array('error' => "You have not provided a existing backup to restore.");
+            die();
+        }
+
+        $temp_dir_restore = false;
+        switch ($ext) {
+            case 'zip' :
+                $back_log_action = "Unzipping userfiles";
+                $this->log_action($back_log_action);
+
+                $exract_folder = md5(basename($filename));
+                $unzip = new \Microweber\Utils\Unzip();
+                $target_dir = MW_CACHE_DIR . 'backup_restore' . DS . $exract_folder . DS;
+                if (!is_dir($target_dir)) {
+                    mkdir_recursive($target_dir);
+                }
+                $result = $unzip->extract($filename, $target_dir, $preserve_filepath = TRUE);
+                $temp_dir_restore = $target_dir;
+                $sql_restore = $target_dir . 'mw_sql_restore.sql';
+                if (is_file($sql_restore)) {
+                    $sql_file = $sql_restore;
+                }
+                //return $result;
+                break;
+
+            case 'sql' :
+                $sql_file = $filename;
+                break;
+
+            default :
+                $ext_error = true;
+                break;
+        }
+
+        if ($ext_error == true) {
+            return array('error' => "Invalid file extension. The restore file must be .sql or .zip");
+            die();
+        }
+
+        if ($sql_file != false) {
+            $back_log_action = "Restoring database";
+            $this->log_action($back_log_action);
+
+            $db = $this->app->config('db');
+            $filename = $sql_file;
+            // Settings
+            $table = '*';
+            $host = $DBhost = $db['host'];
+            $user = $DBuser = $db['user'];
+            $pass = $DBpass = $db['pass'];
+            $name = $DBName = $db['dbname'];
+
+            $sqlErrorText = '';
+            $sqlErrorCode = 0;
+            $sqlStmt = '';
+
+            // Restore the backup
+
+            $f = fopen($filename, "r+");
+            $sqlFile = fread($f, filesize($filename));
+            $sqlArray = explode($this->file_q_sep, $sqlFile);
+
+            // Process the sql file by statements
+            foreach ($sqlArray as $stmt) {
+                $stmt = str_replace('/* MW_TABLE_SEP */', ' ', $stmt);
+                $stmt = str_ireplace($this->prefix_placeholder, MW_TABLE_PREFIX, $stmt);
+
+                if (strlen($stmt) > 3) {
+                    try {
+                        mw('db')->q($stmt);
+                        //	print $stmt;
+                    } catch (Exception $e) {
+                        print 'Caught exception: ' . $e->getMessage() . "\n";
+                        $sqlErrorCode = 1;
+                    }
+
+                    //d($stmt);
+                    //
+                }
+            }
+            //}
+
+            // Print message (error or success)
+            if ($sqlErrorCode == 0) {
+                $back_log_action = "Database restored successfully!";
+                $this->log_action($back_log_action);
+
+                print("Database restored successfully!\n");
+                print("Backup used: " . $filename . "\n");
+            } else {
+                print("An error occurred while restoring backup!<br><br>\n");
+                print("Error code: $sqlErrorCode<br>\n");
+                print("Error text: $sqlErrorText<br>\n");
+                print("Statement:<br/> $sqlStmt<br>");
+            }
+
+            // Close the connection
+            // mysql_close($con);
+
+            // Change the filename from sql to zip
+            //$filename = str_replace('.sql', '.zip', $filename);
+            $back_log_action = "Database restored successfully!";
+            $this->log_action($back_log_action);
+
+            // Files restored successfully
+            print("Files restored successfully!<br>\n");
+            print("Backup used: " . $filename . "<br>\n");
+            fclose($f);
+            if ($temp_dir_restore != false) {
+                @unlink($filename);
+            }
+
+        }
+
+
+        if (defined('MW_USERFILES')) {
+            if (!is_dir(MW_USERFILES)) {
+                mkdir_recursive(MW_USERFILES);
+            }
+        }
+
+
+        if (defined('MW_MEDIA_DIR')) {
+            if (!is_dir(MW_MEDIA_DIR)) {
+                mkdir_recursive(MW_MEDIA_DIR);
+            }
+        }
+
+        if ($temp_dir_restore != false and is_dir($temp_dir_restore)) {
+
+            $srcDir = $temp_dir_restore;
+            $destDir = MW_USERFILES;
+
+
+            $copy = $this->copyr($srcDir, $destDir);
+
+
+        }
+
+        if (function_exists('mw_post_update')) {
+            mw_post_update();
+        }
+        $back_log_action = "Cleaning up cache";
+        $this->log_action($back_log_action);
+        mw('cache')->clear();
+
+
+        $this->log_action(false);
+
+    }
+
+    function get_bakup_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            error("must be admin");
+        }
+
+        $loc = $this->backups_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_USERFILES . "backup" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_USERFILES . "backup" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('backup_location', 'admin/backup');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->backups_folder = $loc;
+        return $here;
+    }
+
+    function copyr($source, $dest)
+    {
+        // Simple copy for a file
+        //$dest = normalize_path($dest,false);
+        //$source = normalize_path($source,false);
+
+
+        if (is_file($source)) {
+
+            $dest = normalize_path($dest, false);
+            $source = normalize_path($source, false);
+
+
+            $dest_dir = dirname($dest);
+            if (!is_dir($dest_dir)) {
+                mkdir_recursive($dest_dir);
+            }
+
+            return copy($source, $dest);
+        }
+
+        // Make destination directory
+
+        if (!is_dir($dest)) {
+            mkdir_recursive($dest);
+        }
+
+        // Loop through the folder
+        if (is_dir($source)) {
+            $dir = dir($source);
+            if ($dir != false) {
+                while (false !== $entry = $dir->read()) {
+                    // Skip pointers
+                    if ($entry == '.' || $entry == '..') {
+                        continue;
+                    }
+
+                    // Deep copy directories
+
+                    if ($dest !== "$source/$entry" and $dest !== "$source" . DS . "$entry") {
+                        $this->copyr("$source/$entry", "$dest/$entry");
+                    }
+                }
+            }
+
+            // Clean up
+            $dir->close();
+        }
+        return true;
+    }
+
     static function bgworker()
     {
         if (!defined('MW_NO_SESSION')) {
@@ -503,7 +802,7 @@ class Backup
             $id = $params['file'];
 
         }
-  
+
         if ($id == NULL) {
 
             return array('error' => "You have not provided a backup to restore.");
@@ -550,250 +849,6 @@ class Backup
         // $scheduler->registerShutdownEvent("\Microweber\Utils\Backup::bgworker_restore", $params);
 
         return $rest;
-    }
-
-    function exec_restore($params = false)
-    {
-        if (!is_admin()) {
-            return array('error' => "must be admin");
-
-        }
-
-        ignore_user_abort(true);
-
-        ini_set('memory_limit', '512M');
-        set_time_limit(0);
-        $loc = $this->backup_file;
-
-        // Get the provided arg
-        if (isset($params['id'])) {
-            $id = $params['id'];
-        } else if (isset($_GET['filename'])) {
-            $id = $params['filename'];
-        } else if (isset($_GET['file'])) {
-            $id = $params['file'];
-
-        } else if ($loc != false) {
-            $id = $loc;
-
-        }
-
-        // Check if the file has needed args
-        if ($id == NULL) {
-
-            return array('error' => "You have not provided a backup to restore.");
-
-        }
-
-        $here = $this->get_bakup_location();
-        // Generate filename and set error variables
-
-        $filename = $here . $id;
-        //	$filename = $here . $id . '.sql';
-        $ext = get_file_extension($filename);
-        $ext_error = false;
-
-        $sql_file = false;
-
-        if (!is_file($filename)) {
-            return array('error' => "You have not provided a existing backup to restore.");
-            die();
-        }
-
-        $temp_dir_restore = false;
-        switch ($ext) {
-            case 'zip' :
-                $back_log_action = "Unzipping userfiles";
-                $this->log_action($back_log_action);
-
-                $exract_folder = md5(basename($filename));
-                $unzip = new \Microweber\Utils\Unzip();
-                $target_dir = MW_CACHE_DIR . 'backup_restore' . DS . $exract_folder . DS;
-                if (!is_dir($target_dir)) {
-                    mkdir_recursive($target_dir);
-                }
-                $result = $unzip->extract($filename, $target_dir, $preserve_filepath = TRUE);
-                $temp_dir_restore = $target_dir;
-                $sql_restore = $target_dir . 'mw_sql_restore.sql';
-                if (is_file($sql_restore)) {
-                    $sql_file = $sql_restore;
-                }
-                //return $result;
-                break;
-
-            case 'sql' :
-                $sql_file = $filename;
-                break;
-
-            default :
-                $ext_error = true;
-                break;
-        }
-
-        if ($ext_error == true) {
-            return array('error' => "Invalid file extension. The restore file must be .sql or .zip");
-            die();
-        }
-
-        if ($sql_file != false) {
-            $back_log_action = "Restoring database";
-            $this->log_action($back_log_action);
-
-            $db = $this->app->config('db');
-            $filename = $sql_file;
-            // Settings
-            $table = '*';
-            $host = $DBhost = $db['host'];
-            $user = $DBuser = $db['user'];
-            $pass = $DBpass = $db['pass'];
-            $name = $DBName = $db['dbname'];
-
-            $sqlErrorText = '';
-            $sqlErrorCode = 0;
-            $sqlStmt = '';
-
-            // Restore the backup
-
-            $f = fopen($filename, "r+");
-            $sqlFile = fread($f, filesize($filename));
-            $sqlArray = explode($this->file_q_sep, $sqlFile);
-
-            // Process the sql file by statements
-            foreach ($sqlArray as $stmt) {
-                $stmt = str_replace('/* MW_TABLE_SEP */', ' ', $stmt);
-                $stmt = str_ireplace($this->prefix_placeholder, MW_TABLE_PREFIX, $stmt);
-
-                if (strlen($stmt) > 3) {
-                    try {
-                        mw('db')->q($stmt);
-                        //	print $stmt;
-                    } catch (Exception $e) {
-                        print 'Caught exception: ' . $e->getMessage() . "\n";
-                        $sqlErrorCode = 1;
-                    }
-
-                    //d($stmt);
-                    //
-                }
-            }
-            //}
-
-            // Print message (error or success)
-            if ($sqlErrorCode == 0) {
-                $back_log_action = "Database restored successfully!";
-                $this->log_action($back_log_action);
-
-                print("Database restored successfully!\n");
-                print("Backup used: " . $filename . "\n");
-            } else {
-                print("An error occurred while restoring backup!<br><br>\n");
-                print("Error code: $sqlErrorCode<br>\n");
-                print("Error text: $sqlErrorText<br>\n");
-                print("Statement:<br/> $sqlStmt<br>");
-            }
-
-            // Close the connection
-            // mysql_close($con);
-
-            // Change the filename from sql to zip
-            //$filename = str_replace('.sql', '.zip', $filename);
-            $back_log_action = "Database restored successfully!";
-            $this->log_action($back_log_action);
-
-            // Files restored successfully
-            print("Files restored successfully!<br>\n");
-            print("Backup used: " . $filename . "<br>\n");
-            fclose($f);
-            if ($temp_dir_restore != false) {
-                unlink($filename);
-            }
-
-        }
-
-
-        if (defined('MW_USERFILES')) {
-            if (!is_dir(MW_USERFILES)) {
-                mkdir_recursive(MW_USERFILES);
-            }
-        }
-
-
-        if (defined('MW_MEDIA_DIR')) {
-            if (!is_dir(MW_MEDIA_DIR)) {
-                mkdir_recursive(MW_MEDIA_DIR);
-            }
-        }
-
-        if ($temp_dir_restore != false and is_dir($temp_dir_restore)) {
-
-            $srcDir = $temp_dir_restore;
-            $destDir = MW_USERFILES;
-
-
-            $copy = $this->copyr($srcDir, $destDir);
-
-
-        }
-
-        if (function_exists('mw_post_update')) {
-            mw_post_update();
-        }
-        $back_log_action = "Cleaning up cache";
-        $this->log_action($back_log_action);
-        mw('cache')->clear();
-
-
-        $this->log_action(false);
-
-    }
-
-    function copyr($source, $dest)
-    {
-        // Simple copy for a file
-        //$dest = normalize_path($dest,false);
-        //$source = normalize_path($source,false);
-
-
-        if (is_file($source)) {
-
-            $dest = normalize_path($dest, false);
-            $source = normalize_path($source, false);
-
-
-            $dest_dir = dirname($dest);
-            if (!is_dir($dest_dir)) {
-                mkdir_recursive($dest_dir);
-            }
-
-            return copy($source, $dest);
-        }
-
-        // Make destination directory
-
-        if (!is_dir($dest)) {
-            mkdir_recursive($dest);
-        }
-
-        // Loop through the folder
-        $dir = dir($source);
-        if ($dir != false) {
-            while (false !== $entry = $dir->read()) {
-                // Skip pointers
-                if ($entry == '.' || $entry == '..') {
-                    continue;
-                }
-
-                // Deep copy directories
-
-                if ($dest !== "$source/$entry" and $dest !== "$source" . DS . "$entry") {
-                    $this->copyr("$source/$entry", "$dest/$entry");
-                }
-            }
-        }
-
-        // Clean up
-        $dir->close();
-        return true;
     }
 
     function cronjob($params = false)
@@ -1522,6 +1577,8 @@ class Backup
 
     }
 
+    // Read a file and display its content chunk by chunk
+
     public function get()
     {
         if (!is_admin()) {
@@ -1563,61 +1620,6 @@ class Backup
 
         return $backups;
 
-    }
-
-    // Read a file and display its content chunk by chunk
-
-    function get_bakup_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            error("must be admin");
-        }
-
-        $loc = $this->backups_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "backup" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "backup" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('backup_location', 'admin/backup');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->backups_folder = $loc;
-        return $here;
     }
 
     function delete($params)

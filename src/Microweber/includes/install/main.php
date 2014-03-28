@@ -378,8 +378,47 @@ $hide_db_setup = 1;
                       <span class="mw-help" data-help="<?php _e("Change this If you want to install multiple instances of Microweber to this database."); ?>">?</span></label>
                     <input type="text" class="mw-ui-field" name="table_prefix" <?php if(isset($data['table_prefix'])== true and isset($data['table_prefix'])!= '' and trim($data['table_prefix'])!= '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?> onblur="prefix_add(this)" />
                   </div>
+
+
+
+
+                    <?php
+                    $templates= mw('content')->site_templates();
+ 
+
+                    ?>
+					<?php  if(is_array($templates) and !empty($templates)): ?>
+                    
+                    
+                    <div class="mw-ui-field-holder">
+                    <label class="mw-ui-label">
+                      <?php print("Template"); ?>
+                      <span class="mw-help" data-help="<?php print("Choose default site template"); ?>">?</span></label>
+                    
+                    
+                     <select class="mw-ui-field" name="default_template">
+                    <?php foreach( $templates as  $template): ?>
+                    <?php  if(isset($template['dir_name']) and isset($template['name'])): ?>
+                    <option <?php  if(isset($template['is_default']) and ($template['is_default']) != false): ?> selected="selected" <?php endif; ?> value="<?php print $template['dir_name']; ?>"><?php print $template['name']; ?></option>
+                    <?php endif; ?>
+                    <?php  endforeach; ?>
+                    </select>
+                    
+                    
+                    
+                  </div>
+
+                    
+                    
+                   
+                    <?php endif; ?>
+
                 </div>
-                
+
+
+
+
+
                 <!-- <div class="mw-ui-field-holder">
               <label class="mw-ui-label">Database type</label>
               <input type="hidden" class="mw-ui-field" name="DB_TYPE" <?php if(isset($data['db'])== true and isset($data['db']['type'])== true): ?> value="<?php print $data['db']['type'] ?>" <?php endif; ?> />
@@ -414,7 +453,7 @@ $hide_db_setup = 1;
                     <input type="password" required="true" class="mw-ui-field" name="admin_password2" <?php if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
                   </div>
                 </div>
-                <?php 		$default_content_file = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
+                <?php 	$default_content_file = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
                 <?php if(is_file($default_content_file)): ?>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
@@ -425,7 +464,7 @@ $hide_db_setup = 1;
                   </label>
                 </div>
                 <?php endif; ?>
-                <?php 		$default_content_file = MW_ROOTPATH .  '.htaccess'; ?>
+                <?php 	$default_content_file = MW_ROOTPATH .  '.htaccess'; ?>
                 <div class="mw-ui-field-holder"> <small>
                   <?php if(is_file($default_content_file)): ?>
                   <?php _e("Your .htaccess file will be modified"); ?>

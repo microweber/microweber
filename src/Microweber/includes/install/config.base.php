@@ -14,6 +14,7 @@ $config = array(
 	'installed' => '{is_installed}',
 	'autoinstall' => '{autoinstall}',
 	'with_default_content' => '{with_default_content}',
+	'default_template' => '{default_template}',
 	// database settings
 	'db' => array(
 		'type' => '{db_type}',
@@ -26,9 +27,7 @@ $config = array(
 	'admin_username' => '{admin_username}', 
 	'admin_password' => '{admin_password}', 
 	'admin_email' => '{admin_email}'
-	
-	
-	
+		
 );
  
  

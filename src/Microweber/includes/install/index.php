@@ -84,7 +84,7 @@ if (is_array($to_save)) {
 
 $remove = array('{default_timezone}', '{table_prefix}', '{is_installed}',
     '{db_type}', '{db_host}', '{dbname}', '{db_user}', '{db_pass}',
-    '{admin_username}', '{admin_password}', '{admin_email}', '{with_default_content}');
+    '{admin_username}', '{admin_password}', '{admin_email}', '{with_default_content}','{default_template}');
 
 if (isset($to_save['is_installed'])) {
 
@@ -375,9 +375,7 @@ if (isset($to_save['is_installed'])) {
 
 
                 if (MW_IS_INSTALLED != true) {
-
                     if (isset($to_save['admin_username']) and isset($to_save['admin_password']) and $to_save['admin_username'] != '') {
-
                         if ($to_save['admin_username'] != '{admin_username}') {
                             __mw_install_log('Adding admin user');
                             $new_admin = array();
@@ -391,17 +389,12 @@ if (isset($to_save['is_installed'])) {
                             mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'users');
                             save_user($new_admin);
                         }
-
-
                     }
-
                 }
 
 
                 __mw_install_log('Loading modules');
-
                 event_trigger('mw_scan_for_modules');
-
                 $save_config = $save_config_orig;
                 $to_save['is_installed'] = 'yes';
                 foreach ($to_save as $k => $v) {
@@ -414,6 +407,10 @@ if (isset($to_save['is_installed'])) {
                 clearstatcache();
                 _reload_c();
                 __mw_install_log('Finalizing config file');
+
+
+
+
 
 
                 if (isset($to_save['with_default_content'])) {
@@ -448,6 +445,22 @@ if (isset($to_save['is_installed'])) {
                     }
 
                 }
+
+				if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
+					$templ = $to_save['default_template'];
+                    $templ = str_replace('..', '', $templ);
+                    $option = array();
+                    $option['option_value'] = trim($templ);
+                    $option['option_key'] = 'current_template';
+                    $option['option_group'] = 'template';
+                    $option = mw('option')->save($option);
+					mw('cache')->delete('options');
+					
+                }
+
+              
+
+
                 __mw_install_log('Clearing cache after install');
 
                 mw('cache')->flush();

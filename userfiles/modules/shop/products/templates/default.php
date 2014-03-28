@@ -38,10 +38,10 @@ if(!isset($tn[1])){
     $helpclass = '';
 
     if($len%3 !=0 ){
-        if($len%4 == 0 ){
+        if($len%4 == 0 or $len==1){
              $helpclass = 'last-row-single';
         }
-        elseif($len%5 == 0 ){
+        elseif($len%5 == 0  or $len==2){
             $helpclass = 'last-row-twoitems';
         }
     } ?>

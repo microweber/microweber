@@ -457,7 +457,7 @@ class Option
      * $option['option_value'] = 'my value';
      * $option['option_key'] = 'my_option';
      * $option['option_group'] = 'my_option_group';
-     * $this->save($option);
+     * mw('option')->save($option);
      *
      *
      *

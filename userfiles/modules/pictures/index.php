@@ -62,7 +62,7 @@ if (isset($params['rel_id']) == true) {
         if (is_array($default_images) and !empty($default_images)) {
             $data = array();
             foreach ($default_images as $default_image) {
-                $data[] = array('filename' => $default_image, 'title' => basename($default_image));
+                $data[] = array('filename' => $default_image);
             }
         } else {
             $no_img = true;

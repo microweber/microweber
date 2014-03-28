@@ -12,7 +12,7 @@ description: Full width cart template
 
 ?>
 <script>mw.moduleCSS("<?php print $config['url_to_module'] ?>templates/templates.css");</script>
-<div class="mw-cart mw-cart-big mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix  ?>">
+<div class="mw-cart mw-cart-big mw-cart-<?php print $params['id']?> <?php print  $template_css_prefix;  ?>">
   <div class="mw-cart-title mw-cart-<?php print $params['id']?>">
     <h4 class="edit" rel="<?php print $params['id']?>" field="cart_title">
       <?php  _e('My cart'); ?>
@@ -71,9 +71,9 @@ description: Full width cart template
 	$show_shipping_info =  get_option('show_shipping', $params['id']);
  
 	if($show_shipping_info === false or $show_shipping_info == 'y'){
-	$show_shipping_stuff = true;	
+	    $show_shipping_stuff = true;
 	} else {
-	$show_shipping_stuff = false;
+	    $show_shipping_stuff = false;
 	}
 
 	 if(is_array($shipping_options)) :?>
@@ -146,7 +146,7 @@ description: Full width cart template
    ?>
   <a class="btn  btn-warning pull-right" href="<?php print $checkout_page_link; ?>"><?php _e("Checkout"); ?></a>
 
-  <a href="javascript:;" class="btn btn-default pull-right continue-shopping"><?php _e("Continue Shopping"); ?></a>
+  
 
   <?php endif ; ?>
   <?php else : ?>
