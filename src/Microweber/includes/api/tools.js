@@ -1,4 +1,3 @@
-
 mw.require("files.js");
 mw.require(mw.settings.includes_url + "css/mw.ui.css");
 
@@ -2204,6 +2203,7 @@ mw.tools = {
     }
   },
   module_settings:function(a, view){
+
   if(typeof a === 'string'){
       var src = mw.settings.site_url + "api/module?id="+a+"&live_edit=true&module_settings=true&type="+a;
       return mw.tools.modal.frame({
@@ -2243,13 +2243,14 @@ mw.tools = {
 	if(module_type != null && view != undefined){
 		 data1['data-type'] = data1['type'] = module_type+'/'+view;
 	}
-    if(data1.class != undefined){
-  	  delete(data1.class);
+	
+    if(typeof data1['class'] != 'undefined'){
+  	  delete(data1['class']);
     }
-    if(data1.style != undefined){
-  	  delete(data1.style);
+    if(typeof data1['style'] != 'undefined'){
+  	  delete(data1['style']);
     }
-    if(data1.contenteditable != undefined){
+    if(typeof data1.contenteditable != 'undefined'){
   	  delete(data1.contenteditable);
     }
 	data1.live_edit = 'true';
@@ -2954,7 +2955,7 @@ mw.storage = {
         _keys : {},
         change:function(key, callback, other){
           if(!('localStorage' in mww)) return false;
-          if(key ==='INIT' ){
+          if(key ==='INIT' && 'addEventListener' in document){
               mww.addEventListener('storage', function(e){
                   if(e.key==='mw'){
                      var _new = JSON.parse(e.newValue);
@@ -3938,35 +3939,5 @@ mw.image = {
         });
         return editors;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	

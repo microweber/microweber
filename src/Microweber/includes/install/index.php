@@ -453,8 +453,11 @@ if (isset($to_save['is_installed'])) {
                     $option['option_value'] = trim($templ);
                     $option['option_key'] = 'current_template';
                     $option['option_group'] = 'template';
+                    mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'options');
+
                     $option = mw('option')->save($option);
-					mw('cache')->delete('options');
+
+                    mw('cache')->delete('options');
 					
                 }
 

@@ -685,8 +685,8 @@ mw.required.push("<?php print MW_INCLUDES_URL; ?>api/events.js");
 
 
 
+<?php  include "jquery.js";  ?>
 
-<?php  include "jquery.js"; ?>
 <?php  include "tools.js"; ?>
 <?php  include "files.js"; ?>
 <?php  include "forms.js"; ?>
