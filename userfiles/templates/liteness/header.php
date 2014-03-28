@@ -24,7 +24,7 @@
        <div class="container">
         <div class="row">
             <div class="col-md-9">
-              <h1 class="edit nodrop element" id="logo">
+              <h1 class="edit nodrop element" id="logo" field="logo-top" rel="global">
                   <a href="<?php print site_url(); ?>">
                     <span>Liteness</span>
                     <small>Define your own Space</small>

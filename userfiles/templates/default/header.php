@@ -2,6 +2,8 @@
 <html prefix="og: http://ogp.me/ns#">
     <head>
     <title>{content_meta_title}</title>
+
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta property="og:title" content="{content_meta_title}">
@@ -18,13 +20,18 @@
         mw.require("<?php print( MW_INCLUDES_URL); ?>css/mw.ui.css");
         mw.lib.require("bootstrap3");
     </script>
+
+
+
+
+
     <?php if(isset($custom_head)): ?>
     <?php print $custom_head; ?>
     <?php else : ?>
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/style.css" type="text/css" media="all">
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
     <?php endif; ?>
- 
+
     
     </head>
     <body>
