@@ -30,7 +30,7 @@ description: Default register template
     });
 </script>
 
-<div class="well">
+<div class="module-register well">
 	<div class="box-head">
 		<h2>
 			<?php _e("New Registration or"); ?>

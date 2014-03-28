@@ -1,6 +1,6 @@
 <script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>users/users_modules.css")</script>
 
-<div class="well">
+<div class="module-forgot-password well">
   <?php if(!isset($show_login_link) or $show_login_link != 'n'): ?>
   <div class="box-head">
     <h2><a href="<?php print register_url(); ?>">

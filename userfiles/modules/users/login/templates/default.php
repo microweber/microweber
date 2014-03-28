@@ -16,7 +16,7 @@ description: Login default
 
 <script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>users/login/templates.css")</script>
 
-<div id="mw-login" class="well">
+<div id="mw-login" class="module-login well">
   <?php if($user != false): ?>
   <div>
     <module type="users/profile" />
@@ -29,10 +29,10 @@ description: Login default
   <div id="user_login_holder_<?php print $params['id'] ?>">
   <form   method="post" id="user_login_<?php print $params['id'] ?>"  class="clearfix" action="#"  >
     <div class="control-group form-group">
-      <input  class="mw-ui-field large-field form-control"   name="username" type="text" placeholder="<?php _e("Email or username"); ?>"   />
+      <input  class="large-field form-control"   name="username" type="text" placeholder="<?php _e("Email or username"); ?>"   />
     </div>
-    <div class="control-group form-group" style="margin-bottom: 0;">
-      <input  class="mw-ui-field large-field form-control"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
+    <div class="control-group form-group">
+      <input  class="large-field form-control"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
     </div>
     <a class="reset-password-link" href="<?php print forgot_password_url(); ?>"><?php _e("Forgot password"); ?>?</a>
 

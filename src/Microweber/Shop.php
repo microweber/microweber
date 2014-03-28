@@ -1295,6 +1295,7 @@ class Shop
 
         $content_custom_fields = array();
         $content_custom_fields = $this->app->fields->get($for, $for_id, 1);
+
         if ($content_custom_fields == false) {
             $content_custom_fields = $data;
             if (isset($data['price'])) {
@@ -1404,12 +1405,13 @@ class Shop
             // }
         }
 
-
+        if ($found_price == false and is_array($prices)) {
+            $found_price = array_pop($prices);
+        }
         if ($found_price == false) {
             // $found_price = 0;
             $this->app->error('Invalid data: Please post a "price" field with <input name="price"> ');
         }
-
         if (is_array($prices)) {
             ksort($add);
             asort($add);
@@ -1419,15 +1421,11 @@ class Shop
             $cart['rel_id'] = intval($data['for_id']);
             $cart['title'] = ($data['title']);
             $cart['price'] = floatval($found_price);
-
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
             $cart['order_completed'] = 'n';
             $cart['session_id'] = session_id();
             $cart['limit'] = 1;
-
             $check_cart = $this->get_cart($cart);
-
-
             if ($check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
 
                 $cart['id'] = $check_cart[0]['id'];
