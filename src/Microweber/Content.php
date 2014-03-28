@@ -4461,7 +4461,7 @@ class Content
                         $results[] = $arr;
                     }
                 }
-                if (isset($page_data['content'])) {
+                if (isset($page_data['content']) and $page_data['content'] != '') {
                     $arr = array('rel' => 'content',
                         'field' => 'content',
                         'value' => $page_data['content']);

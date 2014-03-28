@@ -46,9 +46,9 @@ else{
        });
     }
 </script>
+<br class="mw-add-to-cart-spacer" />
 <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price"  id="cart_fields_<?php print $params['id'] ?>"  />
 <?php if(is_array($data)): ?>
-
 <span class="price">
 <?php $i=1 ;foreach($data  as $key => $v ): ?>
 <div class="mw-price-item"> <span class="mw-price pull-left">

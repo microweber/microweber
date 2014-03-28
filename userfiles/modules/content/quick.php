@@ -404,8 +404,10 @@ mw.edit_content.after_save = function(saved_id){
      //   mw.reload_module_parent(['posts', 'shop/products', 'pages','content']);
 		    mw.reload_module_parent('posts');
 			mw.reload_module_parent('shop/products');
+			mw.reload_module_parent('shop/cart_add');
 			mw.reload_module_parent('pages');
-			mw.reload_module_parent('content');
+			 mw.reload_module_parent('content');
+			  mw.reload_module_parent('custom_fields');
 		    mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
 			mw.reload_module('pages');
 		

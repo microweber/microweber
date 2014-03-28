@@ -87,20 +87,20 @@ class Parser
 
             $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
             $replaced_scripts = array();
-            preg_match_all($script_pattern, $layout, $mw_script_matches);
-
-            if (!empty($mw_script_matches)) {
-                foreach ($mw_script_matches [0] as $key => $value) {
-                    if ($value != '') {
-                        $v1 = crc32($value);
-                        $v1 = '<!-- mw_replace_back_this_script_' . $v1 . ' -->';
-                        $layout = str_replace($value, $v1, $layout);
-                        if (!isset($replaced_scripts[$v1])) {
-                            $replaced_scripts[$v1] = $value;
-                        }
-                    }
-                }
-            }
+//            preg_match_all($script_pattern, $layout, $mw_script_matches);
+//
+//            if (!empty($mw_script_matches)) {
+//                foreach ($mw_script_matches [0] as $key => $value) {
+//                    if ($value != '') {
+//                        $v1 = crc32($value);
+//                        $v1 = '<!-- mw_replace_back_this_script_' . $v1 . ' -->';
+//                    //    $layout = str_replace($value, $v1, $layout);
+//                        if (!isset($replaced_scripts[$v1])) {
+//                          //  $replaced_scripts[$v1] = $value;
+//                        }
+//                    }
+//                }
+//            }
 
             $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
             preg_match_all($script_pattern, $layout, $mw_script_matches);
@@ -863,6 +863,7 @@ class Parser
 
     public function clean_word($html_to_save)
     {
+
         if (strstr($html_to_save, '<!--[if gte mso')) {
             // word mess up tags
             $tags = extract_tags($html_to_save, 'xml', $selfclosing = false, $return_the_entire_tag = true, $charset = 'UTF-8');
