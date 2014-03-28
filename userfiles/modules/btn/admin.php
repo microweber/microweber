@@ -8,7 +8,7 @@
     $url =  get_option('url', $params['id']);
     $popupcontent =  get_option('popupcontent', $params['id']);
     $text =  get_option('text', $params['id']);
-	 
+    $url_blank = get_option('url_blank', $params['id']);
 ?>
 
 <style>
@@ -95,8 +95,16 @@ btn_action = function(){
 <div id="btn btn-default_url_holder">
     <input type="text" name="url" id="btn btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>"  class="mw_option_field mw-ui-field" />
     <div class="vSpace"></div>
-    <label class="mw-ui-check"><input type="checkbox" name="url_blank" value="y" class="mw_option_field"><span></span><span><?php _e("Open in new window"); ?></span></label>
-
+    <label class="mw-ui-check">
+    	<input type="checkbox" 
+    		name="url_blank" 
+    		value="y" 
+    		class="mw_option_field"
+    		<?php if( url_blank == 'y'): ?> checked="checked" <?php endif; ?>
+    	>
+    	<span></span>
+    	<span><?php _e("Open in new window"); ?></span>
+    </label>
 
 </div>
  
