@@ -68,7 +68,7 @@ description: Default comments template
 						<img src="<?php print thumbnail($config['url_to_module']. '/img/comment-default-'.$avatar_style.'.jpg', 60, 60);  ?>"  width="60" height="60"  class="comment-image" alt="<?php print addslashes($comment['comment_name']) ?>" />
 						<?php } else if($avatar_style == '2'){ ?>
 						<span class="comment-image random-color"> <span style="background-color: <?php print mw('format')->random_color(); ?>"> </span> </span>
-						<?php } else if(isset( $comment_author['thumbnail'])){ ?>
+						<?php } else if(isset($comment_author['thumbnail']) and $comment_author['thumbnail'] != ''){ ?>
 						<img src="<?php print ($comment_author['thumbnail']);  ?>" width="60" height="60" class="comment-image" alt="<?php print addslashes($comment['comment_name']) ?>" />
 						<?php } else {  ?>
 						<img src="<?php print thumbnail($config['url_to_module']. '/img/comment-default-1.jpg', 60, 60);   ?>"  width="60" height="60"  class="comment-image" alt="<?php print addslashes($comment['comment_name']) ?>" />

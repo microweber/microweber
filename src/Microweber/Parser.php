@@ -84,9 +84,9 @@ class Parser
             $layout = str_replace('<microweber module=', '<module data-type=', $layout);
             $layout = str_replace('</microweber>', '', $layout);
             $layout = str_replace('></module>', '/>', $layout);
-
-            $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
             $replaced_scripts = array();
+//            $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
+//
 //            preg_match_all($script_pattern, $layout, $mw_script_matches);
 //
 //            if (!empty($mw_script_matches)) {
@@ -102,21 +102,21 @@ class Parser
 //                }
 //            }
 
-            $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
-            preg_match_all($script_pattern, $layout, $mw_script_matches);
-
-            if (!empty($mw_script_matches)) {
-                foreach ($mw_script_matches [0] as $key => $value) {
-                    if ($value != '') {
-                        $v1 = crc32($value);
-                        $v1 = '<!-- mw_replace_back_this_code_' . $v1 . ' -->';
-                        $layout = str_replace($value, $v1, $layout);
-                        if (!isset($replaced_scripts[$v1])) {
-                            $this->_replaced_codes[$v1] = $value;
-                        }
-                    }
-                }
-            }
+//            $script_pattern = "/<code[^>]*>(.*)<\/code>/Uis";
+//            preg_match_all($script_pattern, $layout, $mw_script_matches);
+//
+//            if (!empty($mw_script_matches)) {
+//                foreach ($mw_script_matches [0] as $key => $value) {
+//                    if ($value != '') {
+//                        $v1 = crc32($value);
+//                        $v1 = '<!-- mw_replace_back_this_code_' . $v1 . ' -->';
+//                        $layout = str_replace($value, $v1, $layout);
+//                        if (!isset($replaced_scripts[$v1])) {
+//                            $this->_replaced_codes[$v1] = $value;
+//                        }
+//                    }
+//                }
+//            }
 
             preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $layout, $layoutmatches);
             if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {

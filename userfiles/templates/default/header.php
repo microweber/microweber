@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{DEFAULT_TEMPLATE_URL}css/style.css" type="text/css" media="all">
     <script type="text/javascript" src="{DEFAULT_TEMPLATE_URL}js/default.js"></script>
     <?php endif; ?>
+ 
+    
     </head>
     <body>
 <div id="header" class="clearfix">
