@@ -14,12 +14,13 @@ description: Columns
 <div class="clearfix container module-posts-template-columns">
 
 		<?php if (!empty($data)): ?>
+        <?php $len = count($data); ?>
 		<?php $count = 0; foreach ($data as $item): ?>
         <?php
             $count++;
             if($count == 1 or ($count%4)==0){
-               print '<div class="row">';
-            }
+              print '<div class="row">';
+			 }
         ?>
 
 		<div class="col-sm-4" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
@@ -45,9 +46,9 @@ description: Columns
 		</div>
 
         <?php
-            if(($count%3)==0){
-               print '</div>';
-            }
+            if(($count%3)==0 or  $len == $count){
+			   print '</div>';
+             }
          ?>
 		<?php endforeach; ?>
 		<?php endif; ?>

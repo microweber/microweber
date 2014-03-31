@@ -94,7 +94,7 @@ if(!isset($tn[1])){
         <?php
                 $add_cart_text = get_option('data-add-to-cart-text', $params['id']);
 			  if( $add_cart_text == false or $add_cart_text == "Add to cart"){ 
-			    $add_cart_text =  _e("Add to cart", true); 
+			    $add_cart_text =  _e("Add to cart", true);
 			   }
 
          ?>
@@ -122,7 +122,7 @@ if(!isset($tn[1])){
 
     </div>
 
-    <?php  }?>
+    <?php  } ?>
     <?php  endforeach; ?>
 
 
