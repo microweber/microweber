@@ -481,9 +481,24 @@ mw.askusertostay = true;
 
   var shadow_pos  = $("#ed_shadow").canvasCTRL();
 
+if(typeof(shadow_pos.bind) != 'function'){
+	return false;
+}
+
   shadow_pos.bind("change", function(event, val){
       if(mw.current_element_styles.boxShadow !="none"){
+		  
+		 
+		
+		 if(typeof( mw.current_element_styles.boxShadow) === 'undefined'){
+			return false;
+		}  
+		  
         var arr = mw.current_element_styles.boxShadow.split(' ');
+		
+		
+		
+		
         var len = arr.length;
         var s = parseFloat(arr[len-2]);
       }
@@ -491,6 +506,9 @@ mw.askusertostay = true;
       var color = mw.$(".ed_shadow_color").dataset("color");
       mw.$(".element-current").css("box-shadow", val.left+"px " + val.top + "px "+ s +"px #"+color);
   });
+
+
+
 
   var shadow_strength = mw.$("#ed_shadow_strength").canvasCTRL({axis:'x', alwayPositive:'yes'});
 

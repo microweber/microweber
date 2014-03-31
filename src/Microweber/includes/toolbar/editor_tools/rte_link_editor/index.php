@@ -285,7 +285,7 @@ ul li.mw-dd-list-result:last-child a{
             <div class="media-search-holder">
               <div class="mw-ui-field left" style="width: 260px;float: left;margin-right: 10px;">
                   <span id="" class="image_status link"></span>
-                  <input type="text" style="width: 220px;" class="mw-ui-invisible-field" id="customweburl" autofocus="" />
+                  <input type="text" style="width: 200px;" class="mw-ui-invisible-field" id="customweburl" autofocus="" />
               </div>
               <span class="mw-ui-btn mw-ui-btn-blue right" id="insert_url"><?php _e("Insert"); ?></span>
               <div class="mw_clear" style="padding-bottom: 5px;"></div>
@@ -316,7 +316,7 @@ ul li.mw-dd-list-result:last-child a{
               <div class="mw-ui-field relative left" style="width: 328px;">
                   <span class="image_status link"></span>
                   <div id="upload_frame"></div>
-                  <span class="mw-ui-btn mw-ui-btn-blue insert_the_link" id="insert_email" style="height: 15px;position: absolute; right: -1px; top: -1px;"><?php _e("Upload"); ?></span>
+                  <span class="mw-ui-btn mw-ui-btn-blue insert_the_link" id="insert_email" style="position: absolute; right: -1px; top: -1px;"><?php _e("Upload"); ?></span>
               </div>
             </div>
 
@@ -333,7 +333,7 @@ ul li.mw-dd-list-result:last-child a{
             <div class="media-search-holder">
                 <div class="mw-ui-field left" style="width: 260px;float: left;margin-right: 10px;">
                     <span id="" class="image_status link"></span>
-                    <input type="text" style="width: 220px;" class="mw-ui-invisible-field" id="email_field" />
+                    <input type="text" style="width: 200px;" class="mw-ui-invisible-field" id="email_field" />
                 </div>
                 <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
             </div>
