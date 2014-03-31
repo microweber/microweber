@@ -413,38 +413,7 @@ if (isset($to_save['is_installed'])) {
 
 
 
-                if (isset($to_save['with_default_content'])) {
-                    if ($to_save['with_default_content'] != '{with_default_content}' and $to_save['with_default_content'] != 'no') {
-                        $default_content_folder = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR;
-                        $default_content_file = $default_content_folder . 'mw_default_content.zip';
 
-
-                        if (is_file($default_content_file)) {
-
-                            __mw_install_log('Installing default content');
-
-
-                            define("MW_NO_DEFAULT_CONTENT", true);
-
-                            $restore = new \Microweber\Utils\Backup();
-                            $restore->backups_folder = $default_content_folder;
-                            $restore->backup_file = 'mw_default_content.zip';
-                            ob_start();
-                            $rest = $restore->exec_restore();
-
-
-                            //mw_post_update();
-
-                            ob_get_clean();
-
-                            __mw_install_log('Default content is installed');
-
-                            // event_trigger('mw_scan_for_modules');
-                            //d($to_save['with_default_content']);
-                        }
-                    }
-
-                }
 
 				if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
 					$templ = $to_save['default_template'];
@@ -461,8 +430,24 @@ if (isset($to_save['is_installed'])) {
 					
                 }
 
-              
 
+                if (isset($to_save['with_default_content'])) {
+                    if ($to_save['with_default_content'] != '{with_default_content}' and $to_save['with_default_content'] != 'no') {
+                        $default_content_folder = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR;
+                        $default_content_file = $default_content_folder . 'mw_default_content.zip';
+                        if (is_file($default_content_file)) {
+                            __mw_install_log('Installing default content');
+                            define("MW_NO_DEFAULT_CONTENT", true);
+                            $restore = new \Microweber\Utils\Backup();
+                            $restore->backups_folder = $default_content_folder;
+                            $restore->backup_file = 'mw_default_content.zip';
+                            ob_start();
+                            $rest = $restore->exec_restore();
+                            ob_get_clean();
+                            __mw_install_log('Default content is installed');
+                        }
+                    }
+                }
 
                 __mw_install_log('Clearing cache after install');
 

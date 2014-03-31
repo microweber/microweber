@@ -174,11 +174,10 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	<input type="hidden" name="parent"  id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class="" />
 	<div class="mw-ui-field-holder"  style="padding-bottom: 5px;"> <span class="mw-title-field-label mw-title-field-label-<?php print $data['subtype']; ?>"></span>
 		<input
-
               type="text"
               name="title"
               placeholder="<?php print $title_placeholder; ?>"
-              class="mw-ui-field mw-title-field left"
+              class="mw-ui-field mw-title-field left mw-title-field-<?php print $data['content_type']; ?>"
               value="<?php print $data['title']; ?>" />
 		<input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
 		<div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published"> <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>

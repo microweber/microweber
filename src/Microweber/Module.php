@@ -284,10 +284,14 @@ class Module
                 global $mw_mod_counter;
                 $mw_mod_counter++;
                 $seg_clean = $this->app->url->segment(0);
+                $seg_clean = str_replace('%20', '-', $seg_clean);
+                $seg_clean = str_replace(' ', '-', $seg_clean);
+
                 $seg_clean = str_replace('.', '', $seg_clean);
 
                 $attrs1 = crc32(serialize($attrs) . $seg_clean . $mw_mod_counter);
-
+                 $attrs1 = str_replace('%20', '-', $attrs1);
+                $attrs1 = str_replace(' ', '-', $attrs1);
 
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
 

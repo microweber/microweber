@@ -215,14 +215,14 @@ $(document).ready(function(){
 	<div class="mw-ui-field-holder">
 		<?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
 		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
-		<input  class="mw-ui-field mw-title-field" name="title" type="text" placeholder="<?php _e("Sub-category Name"); ?>" />
+		<input  class="mw-ui-field mw-title-field mw-title-field-category" name="title" type="text" placeholder="<?php _e("Sub-category Name"); ?>" />
 		<?php else: ?>
 		<?php if( isset($data['parent_id'] ) and $data['parent_id'] > 0): ?>
 		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
 		<?php else: ?>
 		<span class="mw-title-field-label mw-title-field-label-category"></span>
 		<?php endif; ?>
-		<input  class="mw-ui-field mw-title-field" name="title" type="text" <?php if($data['id'] == 0){ ?>placeholder<?php } else{ ?>value<?php } ?>="<?php print ($data['title']); ?>" />
+		<input  class="mw-ui-field mw-title-field mw-title-field-category" name="title" type="text" <?php if($data['id'] == 0){ ?>placeholder<?php } else{ ?>value<?php } ?>="<?php print ($data['title']); ?>" />
 		<?php endif; ?>
 	</div>
 	<div class="mw-ui-field-holder">
