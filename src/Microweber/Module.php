@@ -287,6 +287,7 @@ class Module
                 $seg_clean = str_replace('.', '', $seg_clean);
 
                 $attrs1 = crc32(serialize($attrs) . $seg_clean . $mw_mod_counter);
+                $attrs1 = str_replace('%20', '-', $attrs1);
 
 
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
