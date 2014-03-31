@@ -16,7 +16,7 @@ $num = 1.00;
 <?php $payment_currency_rate = get_option('payment_currency_rate', 'payments'); 
 if($payment_currency_rate != false){
  $payment_currency_rate = str_replace(',','.',$payment_currency_rate);
- $payment_currency_rate = floatval( $payment_currency_rate);
+ $payment_currency_rate = trim( $payment_currency_rate);
 
 }
  ?>
@@ -59,7 +59,7 @@ if($payment_currency_rate != false){
 	<?php _e("Equals to"); ?>
 	(rate: <?php print  $payment_currency_rate ?>
 	<?php _e("or"); ?>
-	<?php print ( currency_format(1, $cur)); ?>=<?php print ( currency_format(1*$payment_currency_rate, $payment_currency)); ?> )</label>
+	<?php print ( currency_format(100, $cur)); ?>=<?php print ( currency_format(100*$payment_currency_rate, $payment_currency)); ?> )</label>
 <input  value="<?php print ( currency_format($num*$payment_currency_rate, $payment_currency)); ?>" disabled  type="text" class="mw-ui-invisible-field" />
 <?php endif; ?>
 <div class="vSpace"></div>
