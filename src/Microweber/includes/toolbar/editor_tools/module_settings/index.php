@@ -24,7 +24,7 @@
               mw.require("tools.js");
               mw.require("forms.js");
               mw.require('wysiwyg.js');
-			   mw.require('options.js');
+			  mw.require('options.js');
           </script>
 
 <style>

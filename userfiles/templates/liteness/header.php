@@ -13,12 +13,22 @@
     <meta property="og:description" content="{og_description}">
     <meta property="og:site_name" content="{og_site_name}">
     <link href='//fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,300&subset=latin,cyrillic,cyrillic-ext,greek,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic&subset=latin,cyrillic,greek,latin-ext' rel='stylesheet' type='text/css'>
     <script type="text/javascript">
         mw.lib.require("bootstrap3");
     </script>
     <link rel="stylesheet" href="<?php print template_url(); ?>css/style.css" type="text/css" />
- </head>
-<body>
+    <?php
+        $color_scheme = get_option('color-scheme', 'mw-template-liteness');
+        if($color_scheme==''){
+          $color_scheme = 'default';
+        }
+        $font = get_option('font', 'mw-template-liteness');
+    ?>
+    <link rel="stylesheet" id="colorscss" href="<?php print template_url(); ?>css/colors/<?php print $color_scheme; ?>.css" type="text/css" />
+</head>
+<body class="<?php print $font; ?>">
 <div id="main-container">
     <div id="header">
        <div class="container">

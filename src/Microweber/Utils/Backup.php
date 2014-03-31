@@ -32,6 +32,7 @@ class Backup
 
     public $backups_folder = false;
     public $backup_file = false;
+    public $debug = false;
     public $app;
     /**
      * The backup class is used for making or restoring a backup
@@ -235,23 +236,28 @@ class Backup
             $f = fopen($filename, "r+");
             $sqlFile = fread($f, filesize($filename));
             $sqlArray = explode($this->file_q_sep, $sqlFile);
+            if(!isset($sqlArray[1])){
+                $sqlArray = explode("\n", $sqlFile);
 
+            }
             // Process the sql file by statements
             foreach ($sqlArray as $stmt) {
                 $stmt = str_replace('/* MW_TABLE_SEP */', ' ', $stmt);
                 $stmt = str_ireplace($this->prefix_placeholder, MW_TABLE_PREFIX, $stmt);
-
+                if($this->debug){
+                    d($stmt);
+                }
                 if (strlen($stmt) > 3) {
                     try {
                         mw('db')->q($stmt);
-                        //	print $stmt;
+
+                        //
                     } catch (Exception $e) {
                         print 'Caught exception: ' . $e->getMessage() . "\n";
                         $sqlErrorCode = 1;
                     }
 
-                    //d($stmt);
-                    //
+
                 }
             }
             //}
