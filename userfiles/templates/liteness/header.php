@@ -17,7 +17,7 @@
         mw.lib.require("bootstrap3");
     </script>
     <link rel="stylesheet" href="<?php print template_url(); ?>css/style.css" type="text/css" />
-</head>
+ </head>
 <body>
 <div id="main-container">
     <div id="header">

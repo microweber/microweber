@@ -413,24 +413,6 @@ if (isset($to_save['is_installed'])) {
 
 
 
-
-
-				if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
-					$templ = $to_save['default_template'];
-                    $templ = str_replace('..', '', $templ);
-                    $option = array();
-                    $option['option_value'] = trim($templ);
-                    $option['option_key'] = 'current_template';
-                    $option['option_group'] = 'template';
-                    mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'options');
-
-                    $option = mw('option')->save($option);
-
-                    mw('cache')->delete('options');
-					
-                }
-
-
                 if (isset($to_save['with_default_content'])) {
                     if ($to_save['with_default_content'] != '{with_default_content}' and $to_save['with_default_content'] != 'no') {
                         $default_content_folder = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR;
@@ -448,6 +430,24 @@ if (isset($to_save['is_installed'])) {
                         }
                     }
                 }
+
+				if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
+					$templ = $to_save['default_template'];
+                    $templ = str_replace('..', '', $templ);
+                    $option = array();
+                    $option['option_value'] = trim($templ);
+                    $option['option_key'] = 'current_template';
+                    $option['option_group'] = 'template';
+                    mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'options');
+
+                    $option = mw('option')->save($option);
+
+                    mw('cache')->delete('options');
+					
+                }
+
+
+
 
                 __mw_install_log('Clearing cache after install');
 
