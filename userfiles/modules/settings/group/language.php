@@ -69,6 +69,7 @@ if($def_language == false){
       <option value="tr" <?php if($def_language == 'tr' or $def_language == false): ?> selected="" <?php endif; ?>>Turkish - Türkçe</option>
       <option value="uk" <?php if($def_language == 'uk' or $def_language == false): ?> selected="" <?php endif; ?>>Ukrainian - Українська мова</option>
       <option value="ur" <?php if($def_language == 'ur' or $def_language == false): ?> selected="" <?php endif; ?>>Urdu - اردو</option>
+      <option value="ps" <?php if($def_language == 'ps' or $def_language == false): ?> selected="" <?php endif; ?>>Pashto - پښتو</option>
     </select>
   </div>
   <?php
@@ -83,6 +84,5 @@ if($def_language == false){
    ?>
 </div>
 <div class="mw-ui-field-holder">
-
   <microweber module="settings/group/language_edit" id="mw_lang_file_edit" />
 </div>

@@ -275,6 +275,13 @@ body.has-color .box-container{
   margin: 50px auto 0;
 }
 
+#header .header-cart > p.element:only-child{
+  display: none;
+}
+.dragStart #header .header-cart:hover{
+  background-color: #FFFFB9;
+}
+
 #header .header-cart *{
   vertical-align: middle;
 }

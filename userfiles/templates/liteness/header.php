@@ -32,7 +32,7 @@
                </h1>
             </div>
             <div class="col-md-3">
-              <div class="header-cart"><module type="shop/cart" template="small"></div>
+              <div class="edit header-cart" field="header-cart" rel="global"><module type="shop/cart" template="small"></div>
             </div>
        </div>
        </div>

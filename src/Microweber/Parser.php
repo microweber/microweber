@@ -94,9 +94,9 @@ class Parser
                     if ($value != '') {
                         $v1 = crc32($value);
                         $v1 = '<tag>mw_replace_back_this_script_' . $v1 . '</tag>';
-                         $layout = str_replace($value, $v1, $layout);
+                        $layout = str_replace($value, $v1, $layout);
                         if (!isset($replaced_scripts[$v1])) {
-                            $replaced_scripts[$v1] =$value;
+                            $replaced_scripts[$v1] = $value;
                         }
                     }
                 }
@@ -190,16 +190,16 @@ class Parser
                                 $a = trim($a, '""');
                                 $b = trim($m_tag[1], "''");
                                 $b = trim($b, '""');
-                                if(isset($m_tag[2])){
+                                if (isset($m_tag[2])) {
                                     $rest_pieces = $m_tag;
-                                    if(isset($rest_pieces[0])){
+                                    if (isset($rest_pieces[0])) {
                                         unset($rest_pieces[0]);
                                     }
-                                    if(isset($rest_pieces[1])){
+                                    if (isset($rest_pieces[1])) {
                                         unset($rest_pieces[1]);
                                     }
-                                    $rest_pieces = implode('=',$rest_pieces);
-                                    $b = $b.$rest_pieces;
+                                    $rest_pieces = implode('=', $rest_pieces);
+                                    $b = $b . $rest_pieces;
                                 }
 
                                 $attrs[$a] = $b;
@@ -822,7 +822,7 @@ class Parser
             pq($elem)->replaceWith($module_html);
         }
 
-        $layout = $pq->htmlOuter(); 
+        $layout = $pq->htmlOuter();
         $layout = str_replace("\u00a0", ' ', $layout);
         $layout = str_replace('<?', '&lt;?', $layout);
         $layout = str_replace('?>', '?&gt;', $layout);
@@ -937,14 +937,14 @@ class Parser
         return $l;
     }
 
-    public function query($l, $selector = 'body',$return_function = 'htmlOuter')
+    public function query($l, $selector = 'body', $return_function = 'htmlOuter')
     {
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
         $pq = \phpQuery::newDocument($l);
         $res = array();
         foreach ($pq [$selector] as $elem) {
             $l = pq($elem)->$return_function();
-            $res[]=$l;
+            $res[] = $l;
         }
         return $res;
     }
