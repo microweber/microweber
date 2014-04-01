@@ -2239,7 +2239,7 @@ mw.tools = {
                   mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
              }
              else{
-                 mw.$('.mw-template-settings').addClass('mw-template-settings-hidden');   
+                 mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
              }
         });
     }

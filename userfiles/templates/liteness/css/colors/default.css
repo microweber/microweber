@@ -71,6 +71,10 @@ a, a:hover, a:focus, a:active{
 
 /* Header */
 
+#header{
+  background: white;
+}
+
 .module-navigation-default li li a{
   border-color: #EFEFEF;
   background-color: white;
@@ -98,6 +102,9 @@ a, a:hover, a:focus, a:active{
 /* /Sidebar */
 
 
+#footer{
+  background: white;
+}
 
 #footer .mw-ui-row, .mw-cart-action-holder{ border-top-color: #eee;}
 

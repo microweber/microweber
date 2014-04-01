@@ -3057,13 +3057,14 @@ a#backtoadminindropdown .ico + span{
 }
 .template-settings-icon{
   display: block;
-  width: 50px;
-  height: 50px;
+  width: 42px;
+  height: 42px;
   position: absolute;
-  left: -50px;
+  left: -42px;
   top: 22px;
   z-index: 1;
-  background: white;
+  background: white url(../img/settingswheel.svg) no-repeat center;
+  background-size: 47%;
   box-shadow: -2px 0 2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
