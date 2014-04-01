@@ -285,7 +285,7 @@ $(document).ready(function(){
         }
     }
 </script>
-<?php $menus = get_menu(); ?>
+<?php $menus = get_menus(); ?>
 <?php
  
 $menu_name = get_option('menu_name', $params['id']);
@@ -311,10 +311,10 @@ $menu_name = get_option('menu_name', $params['id']);
   
   
   if($menu_id == false and $menu_name != false){
-  $menu_id = get_menu('one=1&title='.$menu_name);
+  $menu_id = get_menus('one=1&title='.$menu_name);
 	  if($menu_id == false and isset($params['title'])){
 	  mw('content')->menu_create('id=0&title=' . $params['title']);
-	    $menu_id = get_menu('one=1&title='.$menu_name);
+	    $menu_id = get_menus('one=1&title='.$menu_name);
 	  }
 
   }

@@ -197,7 +197,7 @@ mw.tools = {
               modal_object.css("overflow", "auto");
         }
         modal_object.show();
-        var draggable = draggable || true;
+        var draggable = typeof draggable !== 'undefined' ? draggable : true;
         if(typeof $.fn.draggable === 'function' && draggable){
             modal_object.addClass("mw-modal-draggable")
             modal_object.draggable({
@@ -256,6 +256,7 @@ mw.tools = {
       else{return false;}
     },
     init:function(o){
+
       var o = $.extend({}, mw.tools.modal.settings, o);
       if(typeof o.content !== 'undefined' && typeof o.html === 'undefined') { o.html = o.content; }
       if(typeof o.id !== 'undefined' && typeof o.name === 'undefined') { o.name = o.id; }
@@ -316,6 +317,7 @@ mw.tools = {
           title:obj.title,
           name:obj.name,
           overlay:obj.overlay,
+          draggable:obj.draggable,
           template:obj.template
         });
         if(!!modal){
@@ -2202,6 +2204,7 @@ mw.tools = {
       Notification.requestPermission( function(result) { mw.tools.notificationPermission = result  } );
     }
   },
+
   module_settings:function(a, view){
 
   if(typeof a === 'string'){
@@ -2213,6 +2216,7 @@ mw.tools = {
         name:'module-settings-'+a.replace(/\//g, '_'),
         title:'',
         callback:function(){
+
         }
       });
     }

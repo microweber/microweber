@@ -316,7 +316,12 @@ function get_user_by_id($params = false)
 {
     return mw('user')->get_by_id($params);
 }
+function get_menus($params = false)
+{
 
+    return mw('content')->get_menus($params);
+
+}
 
 function get_menu($params = false)
 {

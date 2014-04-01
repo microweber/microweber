@@ -3038,3 +3038,18 @@ a#backtoadminindropdown:hover{
 a#backtoadminindropdown .ico + span{
   top: 0;
 }
+
+/* Template settings modal */
+.mw-template-settings{
+  background: white;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  border: none;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+
+
+

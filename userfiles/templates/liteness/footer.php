@@ -1,4 +1,4 @@
-
+</div><!-- /#content-holder -->
 <div id="footer">
   <div class="container">
     <div class="mw-ui-row">

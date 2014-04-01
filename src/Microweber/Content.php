@@ -1964,8 +1964,7 @@ class Content
         }
         return false;
     }
-
-    public function get_menu($params = false)
+    public function get_menus($params = false)
     {
 
         $table = $this->tables['menus'];
@@ -1990,12 +1989,34 @@ class Content
 
             if (!defined("MW_MENU_IS_ALREADY_MADE_ONCE")) {
                 if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
-                    $this->menu_create('id=0&title=' . $params['title']);
+                    $new_menu = $this->menu_create('id=0&title=' . $params['title']);
+                    $params['id'] = $new_menu;
+                    $menus = $this->app->db->get($params);
                 }
                 define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
             }
 
 
+        }
+        if (!empty($menus)) {
+            return $menus;
+        }
+
+    }
+    public function get_menu($params = false)
+    {
+        $params2 = array();
+        if ($params == false) {
+            $params = array();
+        }
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+
+      $menu = $this->get_menus($params);
+        if(isset($menu[0])){
+            return $menu[0];
         }
 
     }
@@ -2012,7 +2033,8 @@ class Content
         }
 
         $id = $this->app->user->is_admin();
-        if ($id == false) {
+        if (defined("MW_API_CALL") and $id == false) {
+            return false;
             //error('Error: not logged in as admin.'.__FILE__.__LINE__);
         } else {
 
@@ -2083,7 +2105,7 @@ class Content
         if ($orig_depth == 0) {
 
             $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-            if (($cache_content) != false) {
+            if (!isset($no_cache) and ($cache_content) != false) {
                    return $cache_content;
             }
 
@@ -2112,6 +2134,24 @@ class Content
 
         $menu_params['table'] = $menus;
         $menu_params['orderby'] = "position ASC";
+
+        $title = false;
+        if (isset($params_o['title']) != false) {
+            $title = $params_o['title'];
+            unset($params_o['title']);
+        } elseif (isset($params_o['name']) != false) {
+            $title = $params_o['name'];
+            unset($params_o['name']);
+
+        }
+
+        if($title != false and is_string($title)){
+            $title = $this->app->db->escape_string($title);
+            $sql1 = "SELECT * FROM {$menus}
+            WHERE title LIKE '$title'
+            ORDER BY position ASC ";
+
+        }
 
         //$q = $this->app->db->get($menu_params);
 
@@ -3428,12 +3468,16 @@ class Content
 
     public function add_content_to_menu($content_id, $menu_id = false)
     {
+        $new_item = false;
+
         $id = $this->app->user->is_admin();
-        if ($id == false) {
+        if (defined("MW_API_CALL") and $id == false) {
+
             return;
         }
         $content_id = intval($content_id);
         if ($content_id == 0 or !isset($this->tables['menus'])) {
+
             return;
         }
 
@@ -3478,11 +3522,16 @@ class Content
             //
             $content_data = $this->get_by_id($content_id);
             if ($content_data['is_active'] != 'y') {
+
                 return false;
             }
 
         }
-
+        if (!isset($add_to_menus_int) or empty($add_to_menus_int)) {
+            if ($menu_id != false) {
+                $add_to_menus_int[] = intval($menu_id);
+            }
+        }
 
         if (isset($add_to_menus_int) and is_array($add_to_menus_int)) {
             $add_to_menus_int_implode = implode(',', $add_to_menus_int);
@@ -3494,10 +3543,9 @@ class Content
 
             $q = $this->app->db->q($sql);
 
-
             foreach ($add_to_menus_int as $value) {
-                $check = $this->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
-                if ($check == 0) {
+                $check = $this->get_menu_items("no_cache=1&limit=1&count=1&parent_id={$value}&content_id=$content_id");
+                 if ($check == 0) {
                     $save = array();
                     $save['item_type'] = 'menu_item';
                     //	$save['debug'] = $menus;
@@ -3508,11 +3556,7 @@ class Content
                         $check_par = $this->get_menu_items("limit=1&one=1&content_id=$parent_cont");
                         if (is_array($check_par) and isset($check_par['id'])) {
                             $save['parent_id'] = $check_par['id'];
-
-
                         }
-
-
                     }
 
                     $save['url'] = '';
@@ -3530,7 +3574,7 @@ class Content
             $this->app->cache->delete('menus');
 
         }
-
+return $new_item;
 
     }
 

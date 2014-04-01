@@ -3,23 +3,57 @@
 namespace FunctionsTest;
 
 
-//class MenuTest extends \PHPUnit_Framework_TestCase
-
-class NONWORKING
+class MenusTest extends \PHPUnit_Framework_TestCase
 {
+    private $cleanup_content = array();
 
-    function __construct()
+    public function testMenuAdd()
     {
 
+        $my_menu_name = 'my test menu';
+        $params = array(
+            'title' => $my_menu_name,
+            'make_on_not_found' => true
+        );
+        $my_menu = get_menu($params);
+
+        $params = array(
+            'title' => 'My menu page',
+            'content_type' => 'page',
+            'is_active' => 'y');
+        //saving
+        $parent_page = save_content($params);
+
+        $pages = get_pages();
+
+        foreach ($pages as $page) {
+            $add = add_content_to_menu($page['id'], $my_menu['id']);
+
+            $this->assertEquals(true, isset($page['id']));
+            $this->assertEquals(true, isset($my_menu['id']));
+        }
 
 
-        //  cache_clear('db');
-        // mw('content')->db_init();
+        $params = array();
+        $params['menu_id'] = $my_menu;
+        $params['ul_class'] = 'nav-small';
+        $params['maxdepth'] = 1;
+        $menu = menu_tree($params);
+        $find_string = stripos($menu, 'nav-small');
+
+        //PHPUnit
+        $this->assertEquals(true, is_array($my_menu));
+        $this->assertEquals(true, is_array($pages));
+        $this->assertEquals(true, $find_string > 0);
+        $this->cleanup_content[] = $parent_page;
     }
 
     public function testMenu()
     {
         $params = array();
+        $params['menu_id'] = 1;
+        $params['debug'] = 1;
+
         $params['ul_class'] = 'nav-small';
         $params['maxdepth'] = 1;
         $menu = menu_tree($params);
@@ -28,8 +62,6 @@ class NONWORKING
         //PHPUnit
         $this->assertEquals(true, $find_string > 0);
     }
-
-
 
     public function testMenuWithId()
     {
@@ -59,7 +91,6 @@ class NONWORKING
         $this->assertEquals(true, $find_string > 0);
     }
 
-
     public function testMenuTags()
     {
         $params = array();
@@ -76,5 +107,14 @@ class NONWORKING
         $this->assertEquals(true, $find_string > 0);
     }
 
+    public function testRemoveSampleContent()
+    {
+        foreach ($this->cleanup_content as $page) {
+            $delete_page = delete_content($page['id']);
+            $deleted_page = get_content_by_id($page['id']);
 
+            $this->assertEquals(false, $deleted_page);
+            $this->assertEquals(true, is_array($delete_page));
+        }
+    }
 }

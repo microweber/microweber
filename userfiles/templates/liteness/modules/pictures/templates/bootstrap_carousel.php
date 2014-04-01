@@ -13,7 +13,7 @@ description: Bootstrap Carousel
   ?>
 <?php if(is_array($data )): ?>
 
-<script>mw.require("<?php print $config['url_to_module']; ?>css/style.css", true); </script>
+<script>mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css"); </script>
 
 <?php $rand = 'item_carousel_'.$params['id']; $id = 'carousel_'.$params['id']; ?>
     <div class="mw-module-images">

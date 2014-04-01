@@ -14,7 +14,7 @@ description: Default Picture List
 <?php if (is_array($data)): ?>
     <?php $rand = uniqid(); ?>
     <script>mw.require("tools.js", true); </script>
-    <script>mw.moduleCSS("<?php print $config['url_to_module']; ?>css/clean.css", true); </script>
+    <script>mw.moduleCSS("<?php print $config['url_to_module']; ?>css/clean.css"); </script>
     <div class="mw-module-images<?php if ($no_img) { ?> no-image<?php } ?>">
         <div class="mw-pictures-clean" id="mw-gallery-<?php print $rand; ?>">
             <?php $count = -1; foreach ($data as $item): ?>

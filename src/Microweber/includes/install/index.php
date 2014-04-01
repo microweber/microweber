@@ -57,7 +57,6 @@ $cfg = MW_CONFIG_FILE;
 if (is_file($cfg) and is_readable($cfg)) {
     require ($cfg);
     if (is_array($config) and isset($config['db']) and is_array($config['db'])) {
-
         if (!isset($config['is_installed']) or (trim($config['is_installed'])) == 'no') {
             if (isset($config['autoinstall']) and (trim($config['autoinstall'])) == 'yes') {
                 $autoinstall = $config;
@@ -67,11 +66,8 @@ if (is_file($cfg) and is_readable($cfg)) {
         }
     }
 }
-
-
 if (isset($autoinstall) and is_array($autoinstall) and isset($autoinstall['is_installed'])) {
     $to_save = $autoinstall;
-
 } else {
     $to_save = $_REQUEST;
 }

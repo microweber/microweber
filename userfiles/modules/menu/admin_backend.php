@@ -5,7 +5,7 @@
     <h2 style="padding:30px 0 0 25px;"><span class="ico imanage-module"></span><?php _e("Menus"); ?></h2>
     <div class="mw-admin-side-nav" id="menus_categories_tree_{rand}" >
       <div id="menus_admin_categories_{rand}">
-        <?php $menus = get_menu(); ?>
+        <?php $menus = get_menus(); ?>
         <ul>
           <?php foreach($menus as $item): ?>
           <li><a  href="<?php print $config['url'] ?>?menu_name=<?php print $item['title'] ?>"><?php print  $item['title'] ?></a></li>

@@ -17,6 +17,7 @@
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic&subset=latin,cyrillic,greek,latin-ext' rel='stylesheet' type='text/css'>
     <script type="text/javascript">
         mw.lib.require("bootstrap3");
+        mw.require(mw.settings.template_url + "js/functions.js");
     </script>
     <link rel="stylesheet" href="<?php print template_url(); ?>css/style.css" type="text/css" />
     <?php
@@ -55,3 +56,4 @@
             </div>
        </div>
     </div>
+    <div id="content-holder">

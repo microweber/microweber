@@ -8,8 +8,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     function __construct()
     {
-        //  cache_clear('db');
-        // mw('content')->db_init();
+          cache_clear('db');
+          mw('content')->db_init();
     }
 
     public function testPosts()
