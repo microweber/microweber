@@ -514,8 +514,8 @@ class Content
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
-             return $cache_content;
-        } 
+            return $cache_content;
+        }
 
 
         $render_file = false;
@@ -719,13 +719,13 @@ class Content
                 $render_file = $render_file_temp2;
             }
         }
-  if (isset($page['active_site_template']) and $page['active_site_template'] == 'default') {
-                $page['active_site_template'] = $site_template_settings;
-            }
+        if (isset($page['active_site_template']) and $page['active_site_template'] == 'default') {
+            $page['active_site_template'] = $site_template_settings;
+        }
 
-            if (isset($page['active_site_template']) and  $page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
-                $page['active_site_template'] = 'default';
-            } 
+        if (isset($page['active_site_template']) and  $page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
+            $page['active_site_template'] = 'default';
+        }
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
 
             /*   $inherit_from = array();
@@ -775,8 +775,6 @@ class Content
             }
         }
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] != 'inherit')) {
-
-          
 
 
             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
@@ -1964,6 +1962,25 @@ class Content
         }
         return false;
     }
+
+    public function get_menu($params = false)
+    {
+        $params2 = array();
+        if ($params == false) {
+            $params = array();
+        }
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+
+        $menu = $this->get_menus($params);
+        if (isset($menu[0])) {
+            return $menu[0];
+        }
+
+    }
+
     public function get_menus($params = false)
     {
 
@@ -2000,23 +2017,6 @@ class Content
         }
         if (!empty($menus)) {
             return $menus;
-        }
-
-    }
-    public function get_menu($params = false)
-    {
-        $params2 = array();
-        if ($params == false) {
-            $params = array();
-        }
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-
-      $menu = $this->get_menus($params);
-        if(isset($menu[0])){
-            return $menu[0];
         }
 
     }
@@ -2106,7 +2106,7 @@ class Content
 
             $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
             if (!isset($no_cache) and ($cache_content) != false) {
-                   return $cache_content;
+                //    return $cache_content;
             }
 
         }
@@ -2145,7 +2145,7 @@ class Content
 
         }
 
-        if($title != false and is_string($title)){
+        if ($title != false and is_string($title)) {
             $title = $this->app->db->escape_string($title);
             $sql1 = "SELECT * FROM {$menus}
             WHERE title LIKE '$title'
@@ -2270,33 +2270,44 @@ class Content
             }
 
             $active_class = '';
-            if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
-                $site_url = $this->app->url->site();
-                $cur_url = $this->app->url->current(1);
+            $site_url = $this->app->url->site();
+            $cur_url = $this->app->url->current(1);
+            if (trim($item['url'] != '')) {
                 $item['url'] = $this->app->format->replace_once('{SITE_URL}', $site_url, $item['url']);
 
-
+            }
+            if (trim($item['url'] != '') and intval($item['content_id']) == 0 and intval($item['categories_id']) == 0) {
                 if ($item['url'] == $cur_url) {
                     $active_class = 'active';
 
                 } else {
                     $active_class = '';
                 }
-            } else if (defined('CONTENT_ID') and CONTENT_ID != 0 and $item['content_id'] == CONTENT_ID) {
+
+            } elseif (trim($item['url'] == '') and defined('CONTENT_ID') and CONTENT_ID != 0 and $item['content_id'] == CONTENT_ID) {
                 $active_class = 'active';
-            } elseif (defined('PAGE_ID') and PAGE_ID != 0 and $item['content_id'] == PAGE_ID) {
+
+            } elseif (trim($item['url'] == '') and defined('PAGE_ID') and PAGE_ID != 0 and $item['content_id'] == PAGE_ID) {
                 $active_class = 'active';
-            } elseif (defined('POST_ID') and POST_ID != 0 and $item['content_id'] == POST_ID) {
+            } elseif (trim($item['url'] == '') and defined('POST_ID') and POST_ID != 0 and $item['content_id'] == POST_ID) {
                 $active_class = 'active';
-            } elseif (defined('CATEGORY_ID') and CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
+            } elseif (trim($item['url'] == '') and defined('CATEGORY_ID') and CATEGORY_ID != false and intval($item['categories_id']) != 0 and $item['categories_id'] == CATEGORY_ID) {
                 $active_class = 'active';
             } elseif (isset($cont['parent']) and defined('PAGE_ID') and PAGE_ID != 0 and $cont['parent'] == PAGE_ID) {
                 // $active_class = 'active';
-
-            } elseif (isset($cont['parent']) and defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
-
+            } elseif (trim($item['url'] == '') and isset($cont['parent']) and defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
                 $active_class = 'active';
+            } elseif (trim($item['url'] != '') and $item['url']== $cur_url) {
+                $active_class = 'active';
+            } elseif (trim($item['url'] != '') and $item['content_id'] != 0 and defined('PAGE_ID') and PAGE_ID != 0) {
+                $cont_link = $this->link(PAGE_ID);
+                if ($item['content_id'] == PAGE_ID and $cont_link == $item['url']) {
+                    $active_class = 'active';
+                } elseif ($cont_link == $item['url']) {
+                    $active_class = 'active';
+                }
             } else {
+
                 $active_class = '';
             }
 
@@ -2323,24 +2334,24 @@ class Content
                     if (isset($cont['content_id'])) {
                         if (in_array($item['content_id'], $passed_actives)) {
                             $active_class = 'active';
+
                         }
 
                     }
 
 
-
-                  /*  debug
-                  if (isset($cont['id'])) {
-                            if (isset($item['id'])){
-                                d($passed_actives);
-                                print '-------------------';
-                                d($item['id']);
-                            }
-                        if (in_array($item['id'], $passed_actives)) {
-                            $active_class = 'active';
-                        }
-                    }
-                  */
+                    /*  debug
+                    if (isset($cont['id'])) {
+                              if (isset($item['id'])){
+                                  d($passed_actives);
+                                  print '-------------------';
+                                  d($item['id']);
+                              }
+                          if (in_array($item['id'], $passed_actives)) {
+                              $active_class = 'active';
+                          }
+                      }
+                    */
                 }
             }
 
@@ -3040,6 +3051,62 @@ class Content
     }
 
     /**
+     * Get single content item by id from the content_table
+     *
+     * @param int $id The id of the content item
+     * @return array
+     * @category Content
+     * @function  get_content_by_id
+     *
+     * @example
+     * <pre>
+     * $content = $this->get_by_id(1);
+     * var_dump($content);
+     * </pre>
+     *
+     */
+    public function get_by_id($id)
+    {
+
+        if ($id == false) {
+            return false;
+        }
+
+        $table = $this->tables['content'];
+        $id = intval($id);
+        if ($id == 0) {
+            return false;
+        }
+
+        $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
+
+        $params = array();
+        $params['id'] = $id;
+        $params['limit'] = 1;
+        $params['table'] = $table;
+        $params['cache_group'] = 'content/' . $id;
+
+        if ($this->no_cache == true) {
+            $q = $this->app->db->query($q);
+        } else {
+            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+        }
+
+        if (is_array($q) and isset($q[0])) {
+            $content = $q[0];
+            if (isset($content['title'])) {
+                $content['title'] = html_entity_decode($content['title']);
+                $content['title'] = strip_tags($content['title']);
+                $content['title'] = $this->app->format->clean_html($content['title']);
+            }
+        } else {
+            return false;
+        }
+
+        return $content;
+    }
+
+    /**
      *  Get the first parent that has layout
      *
      * @category Content
@@ -3545,7 +3612,7 @@ class Content
 
             foreach ($add_to_menus_int as $value) {
                 $check = $this->get_menu_items("no_cache=1&limit=1&count=1&parent_id={$value}&content_id=$content_id");
-                 if ($check == 0) {
+                if ($check == 0) {
                     $save = array();
                     $save['item_type'] = 'menu_item';
                     //	$save['debug'] = $menus;
@@ -3574,8 +3641,24 @@ class Content
             $this->app->cache->delete('menus');
 
         }
-return $new_item;
+        return $new_item;
 
+    }
+
+    public function get_menu_items($params = false)
+    {
+        $table = $this->tables['menus'];
+        $params2 = array();
+        if ($params == false) {
+            $params = array();
+        }
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+        $params['table'] = $table;
+        $params['item_type'] = 'menu_item';
+        return $this->app->db->get($params);
     }
 
     /**
@@ -4179,6 +4262,9 @@ return $new_item;
 
     }
 
+
+// ------------------------------------------------------------------------
+
     public function custom_fields($content_id, $full = true, $field_type = false)
     {
 
@@ -4312,9 +4398,6 @@ return $new_item;
 
 
     }
-
-
-// ------------------------------------------------------------------------
 
     public function delete($data)
     {
@@ -5607,62 +5690,6 @@ return $new_item;
         return $save;
     }
 
-    /**
-     * Get single content item by id from the content_table
-     *
-     * @param int $id The id of the content item
-     * @return array
-     * @category Content
-     * @function  get_content_by_id
-     *
-     * @example
-     * <pre>
-     * $content = $this->get_by_id(1);
-     * var_dump($content);
-     * </pre>
-     *
-     */
-    public function get_by_id($id)
-    {
-
-        if ($id == false) {
-            return false;
-        }
-
-        $table = $this->tables['content'];
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
-        }
-
-        $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
-
-        $params = array();
-        $params['id'] = $id;
-        $params['limit'] = 1;
-        $params['table'] = $table;
-        $params['cache_group'] = 'content/' . $id;
-
-        if ($this->no_cache == true) {
-            $q = $this->app->db->query($q);
-        } else {
-            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
-        }
-
-        if (is_array($q) and isset($q[0])) {
-            $content = $q[0];
-            if (isset($content['title'])) {
-                $content['title'] = html_entity_decode($content['title']);
-                $content['title'] = strip_tags($content['title']);
-                $content['title'] = $this->app->format->clean_html($content['title']);
-            }
-        } else {
-            return false;
-        }
-
-        return $content;
-    }
-
     public function save_content_data_field($data, $delete_the_cache = true)
     {
 
@@ -5942,27 +5969,6 @@ return $new_item;
         return $this->get($params);
     }
 
-    public function get_products($params = false)
-    {
-        $params2 = array();
-
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-
-        if (!is_array($params)) {
-            $params = array();
-        }
-        if (!isset($params['content_type'])) {
-            $params['content_type'] = 'post';
-        }
-        if (!isset($params['subtype'])) {
-            $params['subtype'] = 'product';
-        }
-        return $this->get($params);
-    }
-
     /**
      * Get array of content items from the database
      *
@@ -6126,6 +6132,27 @@ return $new_item;
             return $get;
         }
 
+    }
+
+    public function get_products($params = false)
+    {
+        $params2 = array();
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+
+        if (!is_array($params)) {
+            $params = array();
+        }
+        if (!isset($params['content_type'])) {
+            $params['content_type'] = 'post';
+        }
+        if (!isset($params['subtype'])) {
+            $params['subtype'] = 'product';
+        }
+        return $this->get($params);
     }
 
     public function menu_delete($id = false)
@@ -6341,22 +6368,6 @@ return $new_item;
         } else {
             return false;
         }
-    }
-
-    public function get_menu_items($params = false)
-    {
-        $table = $this->tables['menus'];
-        $params2 = array();
-        if ($params == false) {
-            $params = array();
-        }
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        $params['table'] = $table;
-        $params['item_type'] = 'menu_item';
-        return $this->app->db->get($params);
     }
 }
 

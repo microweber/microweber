@@ -284,7 +284,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                                 </li>
                             <?php endif; ?>
                             <li class="mw-designtype-universal">
-                                <a href="javascript:;" onclick="mw.drag.module_settings('settings/template');">
+                                <a href="javascript:;" onclick="mw.tools.template_settings();">
                                        <span class="ico ico-extools active"></span>
                                 Template Settings</a>
                             </li>

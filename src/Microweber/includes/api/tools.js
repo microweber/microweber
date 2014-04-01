@@ -2204,7 +2204,57 @@ mw.tools = {
       Notification.requestPermission( function(result) { mw.tools.notificationPermission = result  } );
     }
   },
+  TemplateSettingsEventsBinded: false,
+  TemplateSettingsModalDefaults: {
+    top:100,
+    width:300
+  },
+  template_settings:function(){
+    if(mw.$('.mw-template-settings').length === 0){
+        var src = mw.settings.site_url + 'api/module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false';
+        var modal = mw.tools.modal.frame({
+            url:src,
+            width:mw.tools.TemplateSettingsModalDefaults.width,
+            name:'template-settings',
+            title:'Template Settings',
+            template:'mw-template-settings',
+            center:false,
+            resize:false,
+            draggable:false
+        });
+        $(modal.main).css({
+           right:-mw.tools.TemplateSettingsModalDefaults.width - 5,
+           left:'auto',
+           top:mw.tools.TemplateSettingsModalDefaults.top,
+           height:'auto'
+        }).addClass('mw-template-settings-hidden');
 
+        mw.$('.mw_modal_container', $(modal.main)[0]).height('auto');
+        mw.$('iframe', $(modal.main)[0]).height('auto').removeAttr('height').bind('load', function(){
+           mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
+        });
+        $(modal.main).append('<span class="template-settings-icon"></span>');
+        mw.$('.template-settings-icon').click(function(){
+             if(mw.$('.mw-template-settings').hasClass('mw-template-settings-hidden')){
+                  mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
+             }
+             else{
+                 mw.$('.mw-template-settings').addClass('mw-template-settings-hidden');   
+             }
+        });
+    }
+    else{
+       mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
+    }
+    if(!mw.tools.TemplateSettingsEventsBinded){
+      mw.tools.TemplateSettingsEventsBinded = true;
+      $(mwd.body).bind('click', function(e){
+        if(!mw.tools.hasParentsWithClass(e.target, 'mw-template-settings') && !mw.tools.hasParentsWithClass(e.target, 'mw-defaults')){
+           mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
+        }
+      });
+    }
+  },
   module_settings:function(a, view){
 
   if(typeof a === 'string'){
