@@ -19,7 +19,7 @@
           type="pictures"
           content-id="<?php print PAGE_ID; ?>"
           template="bootstrap_carousel"
-          images="<?php print template_url(); ?>default_content/image_1.jpg,<?php print template_url(); ?>default_content/image_2.jpg,<?php print template_url(); ?>default_content/image_3.jpg"  />
+        />
     </div>
     <div class="box-container latest-items">
       <h2 class="element section-title"> <small>What's new</small> <span>From the store</span> </h2>
