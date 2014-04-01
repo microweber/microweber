@@ -12,8 +12,9 @@
 
 ?>
 <?php include TEMPLATE_DIR. "header.php"; ?>
-<div class="edit" field="home-content" rel="content">
-  <div class="container">
+
+<div class="container">
+  <div class="edit" field="content" rel="content">
     <div class="content-gallery-slider home-slider">
       <module
           type="pictures"

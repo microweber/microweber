@@ -723,6 +723,9 @@ class Content
         if (isset($page['active_site_template']) and  $page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
             $page['active_site_template'] = 'default';
         }
+
+
+
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
 
             /*   $inherit_from = array();
