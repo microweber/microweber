@@ -632,6 +632,13 @@ img{
 .post-list-template-default, .module-posts-template-sidebar, .module-posts-template-search{
   text-align: left;
 }
+.module-posts-template-search,
+.module-posts-template-search a:active,
+.module-posts-template-search a:hover,
+.module-posts-template-search a:focus,
+.module-posts-template-search a{
+  color: #555566
+}
 
 .post-list-template-default .post-single-title-date .lead{
   margin-top: 0;
