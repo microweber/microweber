@@ -3092,14 +3092,7 @@ a#backtoadminindropdown .ico + span{
   margin-top: -1px;
 }
 
-.mw-template-settings-animating{
-  overflow: hidden !important;
-  -webkit-transition: all 1.1s;
-  -moz-transition: all 1.1s;
-  -o-transition: all 1.1s;
-  -ms-transition: all 1.1s;
-  transition: all 1.1s;
-}
+
 
 /* /Template settings modal */
 

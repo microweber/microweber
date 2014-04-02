@@ -174,6 +174,7 @@ mw.askusertostay = false;
     session_expired:"<?php _e("Your session has expired"); ?>",
     login_to_continue:"<?php _e("Please login to continue"); ?>",
     more:"<?php _e("More"); ?>",
+    templateSettingsHidden:"<?php _e("Template settings will be here"); ?>",
     less:"<?php _e("Less"); ?>"
   }
 

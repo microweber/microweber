@@ -1741,7 +1741,7 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 
 .mw-tooltip{
   position: absolute;
-  z-index: 1099;
+  z-index: 1100;
   left: -9999px;
   top: -9999px;
 }

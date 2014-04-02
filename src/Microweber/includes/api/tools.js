@@ -222,7 +222,7 @@ mw.tools = {
         var tip = mw.tools.tooltip.source(o.content,o.skin,o.position);
         tip.tooltipData = o;
         $(window).bind('resize scroll', function(){
-          mw.tools.tooltip.setPosition(tip, o.element, o.position); 
+          mw.tools.tooltip.setPosition(tip, o.element, o.position);
         });
         mw.tools.tooltip.setPosition(tip, o.element, o.position);
 
@@ -2379,17 +2379,23 @@ mw.tools = {
              }
         });
         mw.$('.template-settings-close').click(function(){
-            var actions = mw.$('#toolbar-dropdown-actions'), off = actions.offset(), tpl = mw.$('.mw-template-settings');
-            tpl.height(tpl.height()).addClass('mw-template-settings-animating').css({
-              top:off.top - $(window).scrollTop(),
-              right:$(window).width() - off.left - actions.width(),
-              width:actions.width(),
-              height:actions.height(),
-              opacity:0,
-            });
-            setTimeout(function(){
-                mw.$('.mw-template-settings').remove();
-            },1100);
+            mw.$('.mw-template-settings').remove();
+            mw.cookie.set("remove_template_settings", "true");
+            var cookie = mw.cookie.get("template_settings_message");
+            if(typeof cookie == 'undefined' || cookie == 'true'){
+                mw.cookie.set("template_settings_message", 'false', 3048);
+                var actions = mw.$('#toolbar-dropdown-actions');
+                var tooltip = mw.tooltip({
+                    element:actions,
+                    content:"<div style='text-align:center;width:200px;'>"+mw.msg.templateSettingsHidden+".</div>",
+                    position:"bottom-center"
+                });
+                setTimeout(function(){
+                  mw.$(tooltip).fadeOut(function(){
+                    $(tooltip).remove();
+                  })
+                }, 2000);
+            }
         });
     }
     else{
