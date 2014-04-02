@@ -168,148 +168,147 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 <?php endif; ?>
 
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-<?php print $rand; ?>">
-	<input type="hidden" name="id" id="mw-content-id-value-<?php print $rand; ?>"  value="<?php print $data['id']; ?>" />
-	<input type="hidden" name="subtype" id="mw-content-subtype-value-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" />
-	<input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>"   value="<?php print $data['content_type']; ?>" />
-	<input type="hidden" name="parent"  id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class="" />
-	<div class="mw-ui-field-holder"  style="padding-bottom: 5px;"> <span class="mw-title-field-label mw-title-field-label-<?php print $data['subtype']; ?>"></span>
-		<input
+  <input type="hidden" name="id" id="mw-content-id-value-<?php print $rand; ?>"  value="<?php print $data['id']; ?>" />
+  <input type="hidden" name="subtype" id="mw-content-subtype-value-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" />
+  <input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>"   value="<?php print $data['content_type']; ?>" />
+  <input type="hidden" name="parent"  id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class="" />
+  <div class="mw-ui-field-holder"  style="padding-bottom: 5px;"> <span class="mw-title-field-label mw-title-field-label-<?php print $data['subtype']; ?>"></span>
+    <input
               type="text"
               name="title"
               placeholder="<?php print $title_placeholder; ?>"
               class="mw-ui-field mw-title-field left mw-title-field-<?php print $data['content_type']; ?>"
               value="<?php print $data['title']; ?>" />
-		<input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
-		<div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published"> <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>
-			<?php _e("Unpublished"); ?>
-			</span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>
-			<?php _e("Published"); ?>
-			</span> </div>
-	</div>
-	<div class="mw-ui-field-holder" style="padding: 0 0 1px;">
-		<div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
-			<input  style="width: 160px;" name="content_url" id="edit-content-url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
-			<span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
-		<?php if($data['content_type'] == 'page'){ ?>
-		<div class="quick-parent-selector">
-			<module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
-		</div>
-		<?php } ?>
-	</div>
-	<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-	<div class="mw-ui-field-holder" style="padding-top: 0">
-		<div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
-			<input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
-		</div>
-		<div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
-			<?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-			<module
+    <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
+    <div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published"> <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>
+      <?php _e("Unpublished"); ?>
+      </span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>
+      <?php _e("Published"); ?>
+      </span> </div>
+  </div>
+  <div class="mw-ui-field-holder" style="padding: 0 0 1px;">
+    <div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
+      <input  style="width: 160px;" name="content_url" id="edit-content-url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
+      <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
+    <?php if($data['content_type'] == 'page'){ ?>
+    <div class="quick-parent-selector">
+      <module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
+    </div>
+    <?php } ?>
+  </div>
+  <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+  <div class="mw-ui-field-holder" style="padding-top: 0">
+    <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
+      <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
+    </div>
+    <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
+      <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+      <module
                     type="categories/selector"
                     for="content"
         			active_ids="<?php print $data['parent']; ?>"
         			subtype="<?php print $data['subtype']; ?>"
         			categories_active_ids="<?php print $categories_active_ids; ?>"
         			for-id="<?php print $data['id']; ?>" />
-			<?php endif; ?>
-		</div>
-	</div>
-	<?php endif; ?>
-	<?php if($data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
-	<div class="mw-ui-field-holder" style="padding-bottom: 25px;">
-		<textarea class="semi_hidden" name="content" id="quick_content_<?php print $rand ?>"></textarea>
-	</div>
-	<?php endif; ?>
-	<?php if($data['content_type'] == 'page'):  ?>
-	<module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
-	<?php endif; ?>
-	<div class="post-save-and-go-live">
-		<?php if($is_live_edit == false) : ?>
-		<button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
-		<?php _e("Go Live Edit"); ?>
-		</button>
-		<button type="submit" class="mw-ui-btn ">
-		<?php _e("Save"); ?>
-		</button>
-		<?php else: ?>
-        <?php if($data['id'] == 0): ?>
-		<button type="submit" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
-		<?php _e("Go Live Edit"); ?>
-		</button>
-        <?php else: ?>
-        <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
-		<?php _e("Go Live Edit"); ?>
-		</button>
-        <?php endif; ?>
-        
-		<button type="submit" class="mw-ui-btn ">
-		<?php _e("Save"); ?>
-		</button>
-		<?php endif; ?>
-	</div>
-	<ul class="quick-add-nav" id="quick-add-post-options">
-		<li><span><span class="ico itabpic"></span><span>
-			<?php _e("Picture Gallery"); ?>
-			</span></span></li>
-		<?php if($data['content_type'] == 'page'): ?>
-		<li><span><span class="ico itabaddtonav"></span><span>
-			<?php _e('Add to navigation menu'); ?>
-			</span> </span></li>
-		<?php endif; ?>
-		<?php  if(trim($data['subtype']) == 'product'): ?>
-		<li><span><span class="ico itabprice"></span><span>
-			<?php _e("Price & Fields"); ?>
-			</span></span></li>
-		<li><span><span class="ico itabtruck"></span><span>
-			<?php _e("Shipping & Options"); ?>
-			</span></span></li>
-		<?php else: ?>
-		<li><span><span class="ico itabcustoms"></span><span>
-			<?php _e("Custom Fields"); ?>
-			</span></span></li>
-		<?php endif; ?>
-		<li><span><span class="ico itabadvanced"></span><span>
-			<?php _e("Advanced"); ?>
-			</span></span></li>
-	</ul>
-	<div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-gallery-items">
-		<module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
-		<?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
-	</div>
-	<?php if($data['content_type'] == 'page'): ?>
-	<div class="mw-o-box mw-o-box-content quick-add-post-options-item">
-		<?php event_trigger('mw_edit_page_admin_menus', $data); ?>
-		<?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
-	</div>
-	<?php endif; ?>
-	<div class="mw-o-box mw-o-box-content quick-add-post-options-item">
-		<module
+      <?php endif; ?>
+    </div>
+  </div>
+  <?php endif; ?>
+  <?php if($data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
+  <div class="mw-ui-field-holder" style="padding-bottom: 25px;">
+    <textarea class="semi_hidden" name="content" id="quick_content_<?php print $rand ?>"></textarea>
+  </div>
+  <?php endif; ?>
+  <?php if($data['content_type'] == 'page'):  ?>
+  <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
+  <?php endif; ?>
+  <div class="post-save-and-go-live">
+    <?php if($is_live_edit == false) : ?>
+    <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
+    <?php _e("Go Live Edit"); ?>
+    </button>
+    <button type="submit" class="mw-ui-btn ">
+    <?php _e("Save"); ?>
+    </button>
+    <?php else: ?>
+    <?php if($data['id'] == 0): ?>
+    <button type="submit" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
+    <?php _e("Go Live Edit"); ?>
+    </button>
+    <?php else: ?>
+    <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
+    <?php _e("Go Live Edit"); ?>
+    </button>
+    <?php endif; ?>
+    <button type="submit" class="mw-ui-btn ">
+    <?php _e("Save"); ?>
+    </button>
+    <?php endif; ?>
+  </div>
+  <ul class="quick-add-nav" id="quick-add-post-options">
+    <li><span><span class="ico itabpic"></span><span>
+      <?php _e("Picture Gallery"); ?>
+      </span></span></li>
+    <?php if($data['content_type'] == 'page'): ?>
+    <li><span><span class="ico itabaddtonav"></span><span>
+      <?php _e('Add to navigation menu'); ?>
+      </span> </span></li>
+    <?php endif; ?>
+    <?php  if(trim($data['subtype']) == 'product'): ?>
+    <li><span><span class="ico itabprice"></span><span>
+      <?php _e("Price & Fields"); ?>
+      </span></span></li>
+    <li><span><span class="ico itabtruck"></span><span>
+      <?php _e("Shipping & Options"); ?>
+      </span></span></li>
+    <?php else: ?>
+    <li><span><span class="ico itabcustoms"></span><span>
+      <?php _e("Custom Fields"); ?>
+      </span></span></li>
+    <?php endif; ?>
+    <li><span><span class="ico itabadvanced"></span><span>
+      <?php _e("Advanced"); ?>
+      </span></span></li>
+  </ul>
+  <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-gallery-items">
+    <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
+    <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
+  </div>
+  <?php if($data['content_type'] == 'page'): ?>
+  <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+    <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
+    <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
+  </div>
+  <?php endif; ?>
+  <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+    <module
                     type="custom_fields/admin"
                     <?php if( trim($data['subtype']) == 'product' ): ?> default-fields="price" <?php endif; ?>
                     content-id="<?php print $data['id'] ?>"
                     suggest-from-related="true"
                     list-preview="true"
                     id="fields_for_post_<?php print $rand; ?>" 	 />
-	</div>
-	<?php  if(trim($data['subtype']) == 'product'): ?>
-	<div class="mw-o-box mw-o-box-content quick-add-post-options-item">
-		<?php event_trigger('mw_edit_product_admin', $data); ?>
-	</div>
-	<?php endif; ?>
-	<div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
-		<module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
-	</div>
-	<?php event_trigger('mw_admin_edit_page_footer', $data); ?>
+  </div>
+  <?php  if(trim($data['subtype']) == 'product'): ?>
+  <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+    <?php event_trigger('mw_edit_product_admin', $data); ?>
+  </div>
+  <?php endif; ?>
+  <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
+    <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
+  </div>
+  <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
 </form>
 <div class="quick_done_alert" style="display: none" id="post-added-alert-<?php print $rand; ?>">
-	<div class="quick-post-done">
-		<h2>Well done, you have saved your changes. </h2>
-		<label class="mw-ui-label"><small>Go to see them at this link</small></label>
-		<div class="vSpace"></div>
-		<a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
-		<div class="vSpace"></div>
-		<label class="mw-ui-label"><small>Or choose an action below</small></label>
-		<div class="vSpace"></div>
-		<a href="javascript:;" class="mw-ui-btn" onclick="mw.edit_content.close_alert();">Continue editing</a> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a> </div>
+  <div class="quick-post-done">
+    <h2>Well done, you have saved your changes. </h2>
+    <label class="mw-ui-label"><small>Go to see them at this link</small></label>
+    <div class="vSpace"></div>
+    <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
+    <div class="vSpace"></div>
+    <label class="mw-ui-label"><small>Or choose an action below</small></label>
+    <div class="vSpace"></div>
+    <a href="javascript:;" class="mw-ui-btn" onclick="mw.edit_content.close_alert();">Continue editing</a> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a> </div>
 </div>
 <script>
     mw.require("content.js");

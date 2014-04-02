@@ -1457,6 +1457,11 @@ body.design_hover .element-current{
 user-select: none;
 }
 
+.mw-toolbar-btn-menu > a{
+  margin: 6px;
+  background-color: #fff;
+}
+
 
 
 

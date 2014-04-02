@@ -92,7 +92,7 @@
     <div class="quick-links-case">
       <h2><?php _e("Quick Links"); ?></h2>
       <ul class="mw-quick-links left">
-        <?php event_trigger('mw_admin_dashboard_quick_link'); ?>
+        <?php event_trigger('admin_dashboard_quick_link'); ?>
 
 
 
@@ -116,7 +116,7 @@
           <sup class="mw-notif-bubble"><?php print  $notif_count ?></sup>
           <?php endif; ?></span><span><?php _e("Updates"); ?></span></a></li>
         <?php endif; ?>
-        <?php event_trigger('mw_admin_dashboard_quick_link2'); ?>
+        <?php event_trigger('admin_dashboard_quick_link2'); ?>
       </ul>
     </div>
    <div class="quick-links-case">
@@ -136,7 +136,7 @@
 
         ?>
 
-        <?php event_trigger('mw_admin_dashboard_help_link'); ?>
+        <?php event_trigger('admin_dashboard_help_link'); ?>
       </ul>
     </div>
   </div>
@@ -146,7 +146,7 @@
  </div>
 
 
- <?php event_trigger('mw_admin_dashboard_main'); ?>
+ <?php event_trigger('admin_dashboard_main'); ?>
 
 
 

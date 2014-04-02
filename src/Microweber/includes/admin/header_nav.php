@@ -42,15 +42,15 @@
 			<li <?php if($active == 'content'): ?> class="active" id="mw-admin-nav-website" <?php endif; ?>><a href="<?php print admin_url(); ?>view:content" title="<?php _e("Website"); ?>"><i class="ico inavwevsite"></i><span>
 				<?php _e("Website"); ?>
 				</span></a></li>
-			<?php event_trigger('mw_admin_header_menu_start'); ?>
+			<?php event_trigger('admin_header_menu_start'); ?>
 			<li <?php if($active == 'modules'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:modules" title="<?php _e("Modules"); ?>"><i class="ico inavmodules"></i><span>
 				<?php _e("Modules"); ?>
 				</span></a></li>
-			<?php event_trigger('mw_admin_header_menu'); ?>
+			<?php event_trigger('admin_header_menu'); ?>
 			<li <?php if($active == 'users'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:users" title="<?php _e("Users"); ?>"><i class="ico inavusers"></i><span>
 				<?php _e("Users"); ?>
 				</span></a></li>
-			<?php event_trigger('mw_admin_header_menu_end'); ?>
+			<?php event_trigger('admin_header_menu_end'); ?>
 		</ul>
 	</div>
 	<div class="mw-v-cell">

@@ -177,16 +177,16 @@
 
                 if(settingsType == 'settings/template'){
                     mw.$('iframe', thismodal.main[0]).height($(document).height());
-                    mw.$('iframe', thismodal.main[0]).css('maxHeight', $(parent.window).height() - parent.mw.tools.TemplateSettingsModalDefaults.top - mw.$('.mw_modal_toolbar', thismodal.main[0]).outerHeight() - 10);
+                    mw.$('iframe', thismodal.main[0]).css('maxHeight', $(parent.window).height() - parent.mw.tools.TemplateSettingsModalDefaults.top - mw.$('.mw_modal_toolbar', thismodal.main[0]).outerHeight() - 40);
 
                     $(window.parent.window).bind("resize", function(){
                        mw.$('iframe', thismodal.main[0]).height($(document).height());
-                       mw.$('iframe', thismodal.main[0]).css('maxHeight', $(parent.window).height() - parent.mw.tools.TemplateSettingsModalDefaults.top - mw.$('.mw_modal_toolbar', thismodal.main[0]).outerHeight() - 10);
+                       mw.$('iframe', thismodal.main[0]).css('maxHeight', $(parent.window).height() - parent.mw.tools.TemplateSettingsModalDefaults.top - mw.$('.mw_modal_toolbar', thismodal.main[0]).outerHeight() - 40);
                     });
 
                     $(mwd.body).bind('DOMNodeInserted', function(){
                        mw.$('iframe', thismodal.main[0]).height($(document).height());
-                       mw.$('iframe', thismodal.main[0]).css('maxHeight', $(parent.window).height() - parent.mw.tools.TemplateSettingsModalDefaults.top - mw.$('.mw_modal_toolbar', thismodal.main[0]).outerHeight() - 10);
+                       mw.$('iframe', thismodal.main[0]).css('maxHeight', $(parent.window).height() - parent.mw.tools.TemplateSettingsModalDefaults.top - mw.$('.mw_modal_toolbar', thismodal.main[0]).outerHeight() - 40);
                     });
                 }
 

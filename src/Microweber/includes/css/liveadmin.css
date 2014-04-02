@@ -3051,6 +3051,9 @@ a#backtoadminindropdown .ico + span{
   -ms-transition: right 0.5s ease;
   transition: right 0.5s ease;
 }
+#frame-template-settings{
+  margin-top: 30px;
+}
 
 .mw-template-settings .mw_modal_toolbar{
   display: none;
@@ -3067,6 +3070,35 @@ a#backtoadminindropdown .ico + span{
   background-size: 47%;
   box-shadow: -2px 0 2px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+}
+.template-settings-close{
+  display: block;
+  position: absolute;
+  right: 6px;
+  right: 6px;
+  top: 9px;
+  cursor: pointer;
+  color: #888;
+  font-size: 11px;
+}
+.template-settings-close-x{
+  width: 18px;
+  height: 18px;
+  background: url(../img/close.svg) no-repeat center;
+  background-size: cover;
+  display: block;
+  float: right;
+  margin-left: 3px;
+  margin-top: -1px;
+}
+
+.mw-template-settings-animating{
+  overflow: hidden !important;
+  -webkit-transition: all 1.1s;
+  -moz-transition: all 1.1s;
+  -o-transition: all 1.1s;
+  -ms-transition: all 1.1s;
+  transition: all 1.1s;
 }
 
 /* /Template settings modal */

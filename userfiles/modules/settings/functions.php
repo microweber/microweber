@@ -10,7 +10,7 @@
  */
 
 // ------------------------------------------------------------------------
-event_bind('mw_admin_header_menu', 'mw_print_admin_menu_settings_btn');
+event_bind('admin_header_menu', 'mw_print_admin_menu_settings_btn');
 
 function mw_print_admin_menu_settings_btn()
 {
