@@ -113,20 +113,88 @@ mw.tools = {
         return tooltip;
     },
     setPosition:function(tooltip, el, position){
-        var off = $(o.element).offset()
+        var el =  mw.$(o.element),
+            width = el.outerWidth(),
+            tipwidth = tooltip.width(),
+            height = el.outerHeight(),
+            tipheight = tooltip.height(),
+            off = el.offset(),
+            arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
+
+        if(pos == 'bottom-left'){
+         $(tooltip).css({
+             top:off.top + h + arrheight,
+             left:off.left
+         });
+        }
+        else if(pos == 'bottom-center'){
+         $(tooltip).css({
+             top:off.top + h + arrheight,
+             left:off.left - tipwidth/2 + w/2
+         });
+        }
+        else if(pos=='bottom-right'){
+          $(tooltip).css({
+             top:off.top + h + arrheight,
+             left:off.left - tipwidth + w
+         });
+        }
+        else if(pos=='top-right'){
+          $(tooltip).css({
+             top:off.top - tipheight - arrheight,
+             left:off.left - tipwidth + w
+         });
+        }
+        else if(pos=='top-left'){
+          $(tooltip).css({
+             top:off.top - tipheight - arrheight,
+             left:off.left
+         });
+        }
+        else if(pos=='top-center'){
+          $(tooltip).css({
+             top:off.top - tipheight - arrheight,
+             left:off.left - tipwidth/2 + w/2
+         });
+        }
+        else if(pos=='left-top'){
+         $(tooltip).css({
+             top:off.top,
+             left:off.left - tipwidth -arrheight
+         });
+        }
+        else if(pos == 'left-center'){
+         $(tooltip).css({
+             top:off.top -  tipheight/2 + h/2,
+             left:off.left - tipwidth - arrheight
+         });
+        }
+        else if(pos=='right-top'){
+         $(tooltip).css({
+             top:off.top,
+             left:off.left + w + arrheight
+         });
+        }
+        else if(pos == 'right-center'){
+         $(tooltip).css({
+             top:off.top -  tipheight/2 + h/2,
+             left:off.left + w + arrheight
+         });
+        }
     },
-    prepare:function(о){
+    prepare:function(o){
+
         if(typeof o.element === 'undefined') return false;
         if(o.element === null) return false;
         if(o.element.constructor === [].constructor && o.element.length===0) return false;
         if(typeof o.position === 'undefined'){
           o.position = 'top-center';
         }
-        if(typeof о.skin === 'undefined'){
-          о.skin = 'default';
+        if(typeof o.skin === 'undefined'){
+          o.skin = 'mw-tooltip-default';
         }
-        if(typeof о.content === 'undefined'){
-          о.content = '';
+        if(typeof o.content === 'undefined'){
+          o.content = '';
         }
         return {
           element:o.element,

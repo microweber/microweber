@@ -1733,6 +1733,26 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 /* /Admin Table */
 
 
+
+
+/*********************************************
+    Tooltip Basic Styles & Default Skin
+*********************************************/
+
+.mw-tooltip{
+  position: absolute;
+  z-index: 1100;
+  left: -9999px;
+  top: -9999px;
+}
+
+.mw-tooltip-default{
+  background-color: white;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+
+
 @media (max-width: 1024px) {
     .hide-1024{ display: none;  }
     .show-1024{ display: block;  }
