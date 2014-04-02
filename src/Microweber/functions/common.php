@@ -1003,9 +1003,9 @@ function array_trim($Input)
 }
 
 
-event_bind('rte_image_editor_image_search', 'mw_print_rte_image_editor_image_search');
+event_bind('live_edit_toolbar_image_search', 'mw_print_live_edit_toolbar_image_search');
 
-function mw_print_rte_image_editor_image_search()
+function mw_print_live_edit_toolbar_image_search()
 {
     $active = mw('url')->param('view');
     $cls = '';

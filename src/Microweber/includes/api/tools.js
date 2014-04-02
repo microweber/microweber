@@ -104,6 +104,47 @@ mw.external_tool = function(url){
 }
 
 mw.tools = {
+  tooltip:{
+    source:function(content, skin, position){
+        var tooltip = mwd.createElement('div');
+        tooltip.className = 'mw-tooltip '+position + ' ' +skin;
+        tooltip.id = 'mw-tooltip-'+mw.random();
+        tooltip.innerHTML = '<div class="mw-tooltip-content">'+content+'</div><span class="mw-tooltip-arrow"></span>';
+        return tooltip;
+    },
+    setPosition:function(tooltip, el, position){
+        var off = $(o.element).offset()
+    },
+    prepare:function(о){
+        if(typeof o.element === 'undefined') return false;
+        if(o.element === null) return false;
+        if(o.element.constructor === [].constructor && o.element.length===0) return false;
+        if(typeof o.position === 'undefined'){
+          o.position = 'top-center';
+        }
+        if(typeof о.skin === 'undefined'){
+          о.skin = 'default';
+        }
+        if(typeof о.content === 'undefined'){
+          о.content = '';
+        }
+        return {
+          element:o.element,
+          skin:o.skin,
+          position:o.position,
+          content:o.content
+        }
+    },
+    init:function(o){
+        var o = mw.tools.tooltip.prepare(o);
+        if(o === false) return false;
+        var tip = mw.tools.tooltip.source(o.content,o.skin,o.position);
+        mw.tools.tooltip.setPosition(tip, o.element, o.position);
+    }
+  },
+  tip:function(o){
+    return mw.tools.tooltip.init(o);
+  },
   inlineModal:function(o){
     /*
     **********************************************
@@ -3923,6 +3964,7 @@ mw.image = {
 
       mw.modal_iframe = mw.tools.modal.frame;
       mw.gallery      = mw.tools.gallery.init;
+      mw.tooltip      = mw.tools.tip;
       //mw.uploader     = mw.files.uploader;
       mw.editor       = mw.tools.wysiwyg;
       mw.dropdown     = mw.tools.dropdown;

@@ -204,6 +204,12 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             </a>
             <div class="mw-dropdown-content" style="width: 155px;">
               <ul class="mw-dropdown-list mw-dropdown-list-icons">
+              
+              
+               <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
+              
+              
+              
                 <li> <a title="Back to Admin" href="<?php print $back_url; ?>"><span
                                         class="ico ibackarr"></span><span>
                   <?php _e("Back to Admin"); ?>
@@ -231,6 +237,13 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                                         class="ico iviewsite"></span><span>
                   <?php _e("View Website"); ?>
                   </span></a> </li>
+                  
+                  
+                 <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
+ 
+                  
+                  
+                  
                 <?php /*<li><a href="#" onclick="mw.preview();void(0);"><span class="ico ibackarr"></span><span><?php _e("Preview"); ?></span></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
                 <?php $pub_or_inpub = mw('content')->get_by_id(CONTENT_ID); ?>
@@ -251,6 +264,12 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                                         class="ico ilogout"></span><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
+                  
+                  
+                 <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
+  
+                  
+                  
               </ul>
             </div>
           </div>
@@ -526,7 +545,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
 
     </script>
-<?php event_trigger('mw_after_editor_toolbar'); ?>
+<?php event_trigger('live_edit_toolbar_end'); ?>
 <?php include MW_INCLUDES_DIR . 'toolbar' . DS . "design.php"; ?>
 <?php } else { ?>
 <script>

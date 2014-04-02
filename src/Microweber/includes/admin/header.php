@@ -58,7 +58,7 @@
 			
 		  mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function(){
 			   if(mw.helpinfo != undefined){
-				    mw.cookie.set('helpinfo',false, 4380); 
+				    mw.cookie.set('helpinfo',false, 4380);
 				   $(".helpinfo_helper").fadeOut();
 			     
 			   }
