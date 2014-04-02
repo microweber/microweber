@@ -214,7 +214,13 @@ class Controller
         } else {
             $api_function_full = $api_function;
         }
+        if (defined('TEMPLATE_DIR')) {
+            $load_template_functions = TEMPLATE_DIR . 'functions.php';
 
+            if (is_file($load_template_functions)) {
+                include_once($load_template_functions);
+            }
+        }
 
         //$api_function_full = str_ireplace('api/', '', $api_function_full);
 
@@ -1623,11 +1629,12 @@ class Controller
         //$page_data = $this->app->content->get_by_id(PAGE_ID);
 
         $render_file = $this->app->content->get_layout($content);
-  
+
         $content['render_file'] = $render_file;
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
+
             if (is_file($load_template_functions)) {
                 include_once($load_template_functions);
             }
@@ -1954,12 +1961,15 @@ class Controller
                     foreach ($meta as $key => $item) {
                         $item = addslashes($item);
                         $item = strip_tags($item);
-                        $item = str_replace('&amp;zwnj;', '', $item);
+                        $item = str_replace('&amp;zwnj;', ' ', $item);
                         $item = str_replace('&amp;quot;', ' ', $item);
                         $item = str_replace('&amp;', ' ', $item);
                         $item = str_replace('amp;', ' ', $item);
+						$item = str_replace('nbsp;', ' ', $item);
+
                         $item = str_replace('#039;', ' ', $item);
                         $item = str_replace('&amp;nbsp;', ' ', $item);
+						
                         $item = str_replace('  ', '', $item);
                         $item = str_replace(' ', ' ', $item);
                         $l = str_replace('{' . $key . '}', $item, $l);

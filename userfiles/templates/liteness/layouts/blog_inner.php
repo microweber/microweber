@@ -1,6 +1,7 @@
 <?php include TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container" id="blog-container">
+<div class="box-container">
   <div id="blog-content-<?php print CONTENT_ID; ?>">
     <div class="row">
       <div class="col-lg-9" id="blog-main-inner">
@@ -39,5 +40,6 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 <?php include   TEMPLATE_DIR.  "footer.php"; ?>

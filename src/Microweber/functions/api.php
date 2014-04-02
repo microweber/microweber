@@ -124,6 +124,7 @@ function api_expose($function_name)
 
         return $index;
     } else {
+
         $index .= ' ' . $function_name;
     }
 }

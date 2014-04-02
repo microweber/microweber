@@ -1,4 +1,4 @@
-<?php $menus = get_menu(); ?>
+<?php $menus = get_menus(); ?>
 <?php  $rand = uniqid(); ?>
 
 <div class="mw-ui-field-holder">

@@ -57,7 +57,6 @@ $cfg = MW_CONFIG_FILE;
 if (is_file($cfg) and is_readable($cfg)) {
     require ($cfg);
     if (is_array($config) and isset($config['db']) and is_array($config['db'])) {
-
         if (!isset($config['is_installed']) or (trim($config['is_installed'])) == 'no') {
             if (isset($config['autoinstall']) and (trim($config['autoinstall'])) == 'yes') {
                 $autoinstall = $config;
@@ -67,11 +66,8 @@ if (is_file($cfg) and is_readable($cfg)) {
         }
     }
 }
-
-
 if (isset($autoinstall) and is_array($autoinstall) and isset($autoinstall['is_installed'])) {
     $to_save = $autoinstall;
-
 } else {
     $to_save = $_REQUEST;
 }
@@ -84,7 +80,7 @@ if (is_array($to_save)) {
 
 $remove = array('{default_timezone}', '{table_prefix}', '{is_installed}',
     '{db_type}', '{db_host}', '{dbname}', '{db_user}', '{db_pass}',
-    '{admin_username}', '{admin_password}', '{admin_email}', '{with_default_content}','{default_template}');
+    '{admin_username}', '{admin_password}', '{admin_email}', '{with_default_content}', '{default_template}');
 
 if (isset($to_save['is_installed'])) {
 
@@ -409,30 +405,45 @@ if (isset($to_save['is_installed'])) {
                 __mw_install_log('Finalizing config file');
 
 
-
-
-
-
                 if (isset($to_save['with_default_content'])) {
                     if ($to_save['with_default_content'] != '{with_default_content}' and $to_save['with_default_content'] != 'no') {
                         $default_content_folder = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR;
                         $default_content_file = $default_content_folder . 'mw_default_content.zip';
+
+                        if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
+                            if (defined('MW_TEMPLATES_DIR')) {
+                                $template_dir = MW_TEMPLATES_DIR.DS.$to_save['default_template'];
+                                $template_dir = normalize_path($template_dir,true);
+                                if(is_dir($template_dir)){
+                                    $template_default_content = $template_dir.'mw_default_content.zip';
+                                    if(is_file($template_default_content) and is_readable($template_default_content)){
+                                        $default_content_file = $template_default_content;
+                                        $default_content_folder = $template_dir;
+
+                                    }
+                                }
+                             }
+
+                        }
+
                         if (is_file($default_content_file)) {
                             __mw_install_log('Installing default content');
                             define("MW_NO_DEFAULT_CONTENT", true);
                             $restore = new \Microweber\Utils\Backup();
                             $restore->backups_folder = $default_content_folder;
                             $restore->backup_file = 'mw_default_content.zip';
+                            // $restore->debug = 1;
                             ob_start();
                             $rest = $restore->exec_restore();
+
                             ob_get_clean();
                             __mw_install_log('Default content is installed');
                         }
                     }
                 }
 
-				if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
-					$templ = $to_save['default_template'];
+                if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
+                    $templ = $to_save['default_template'];
                     $templ = str_replace('..', '', $templ);
                     $option = array();
                     $option['option_value'] = trim($templ);
@@ -443,10 +454,7 @@ if (isset($to_save['is_installed'])) {
                     $option = mw('option')->save($option);
 
                     mw('cache')->delete('options');
-					
                 }
-
-
 
 
                 __mw_install_log('Clearing cache after install');

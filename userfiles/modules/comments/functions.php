@@ -3,7 +3,7 @@ if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', MW_TABLE_PREFIX . 'comments');
 }
 
-event_bind('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_comments_btn');
+event_bind('admin_dashboard_quick_link', 'mw_print_admin_dashboard_comments_btn');
 
 function mw_print_admin_dashboard_comments_btn()
 {

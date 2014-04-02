@@ -568,12 +568,12 @@ function mw_make_pages_tree_sortable(){
 
 		<?php if($is_in_shop == false): ?>
         
-        <?php event_trigger('mw_admin_content_side_menu_start', $params); ?>
+        <?php event_trigger('admin_content_side_menu_start', $params); ?>
         
         <?php else: ?>
     
     
-        <?php event_trigger('mw_admin_shop_side_menu_start', $params); ?>
+        <?php event_trigger('admin_shop_side_menu_start', $params); ?>
 
         <?php endif; ?>
 
@@ -615,12 +615,12 @@ function mw_make_pages_tree_sortable(){
         
         <?php if($is_in_shop == false): ?>
         
-        <?php event_trigger('mw_admin_content_side_menu_end',$params); ?>
+        <?php event_trigger('admin_content_side_menu',$params); ?>
         
         <?php else: ?>
     
     
-        <?php event_trigger('mw_admin_shop_side_menu_end',$params); ?>
+        <?php event_trigger('admin_shop_side_menu',$params); ?>
 
         <?php endif; ?>
  
@@ -660,7 +660,8 @@ function mw_make_pages_tree_sortable(){
         
         
         
-        
+             <?php event_trigger('admin_content_after_website_tree',$params); ?>
+   
         
         
         

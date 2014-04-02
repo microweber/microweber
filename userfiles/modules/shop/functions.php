@@ -26,7 +26,7 @@ function mw_print_admin_shop_product_settings($data = false) {
 
 
 
-event_bind('mw_admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
+event_bind('admin_header_menu_start', 'mw_print_admin_menu_shop_btn');
 
 function mw_print_admin_menu_shop_btn()
 {
@@ -49,8 +49,8 @@ function mw_print_admin_menu_shop_btn()
 
  
 
-event_bind('mw_admin_shop_side_menu_start', 'mw_print_admin_menu_shop_sidebar_btn');
-event_bind('mw_admin_content_side_menu_end', 'mw_print_admin_menu_shop_sidebar_btn');
+event_bind('admin_shop_side_menu_start', 'mw_print_admin_menu_shop_sidebar_btn');
+event_bind('admin_content_side_menu', 'mw_print_admin_menu_shop_sidebar_btn');
 
 function mw_print_admin_menu_shop_sidebar_btn($params=false)
 {
@@ -64,7 +64,7 @@ function mw_print_admin_menu_shop_sidebar_btn($params=false)
 	 
    
 }
-event_bind('mw_admin_content_right_sidebar_menu_list_end', 'mw_print_admin_menu_shop_right_sidebar_btn');
+event_bind('admin_content_right_sidebar_menu_list_end', 'mw_print_admin_menu_shop_right_sidebar_btn');
 
 function mw_print_admin_menu_shop_right_sidebar_btn($params=false)
 {
@@ -84,7 +84,7 @@ function mw_print_admin_menu_shop_right_sidebar_btn($params=false)
 	 
    
 }
-event_bind('mw_live_edit_content_quick_add_menu_end', 'mw_print_admin_menu_quck_add_live_edit_btn');
+event_bind('live_edit_quick_add_menu_end', 'mw_print_admin_menu_quck_add_live_edit_btn');
 
 function mw_print_admin_menu_quck_add_live_edit_btn($params=false)
 {

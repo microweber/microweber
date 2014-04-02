@@ -104,6 +104,134 @@ mw.external_tool = function(url){
 }
 
 mw.tools = {
+  tooltip:{
+    source:function(content, skin, position){
+        var tooltip = mwd.createElement('div');
+        tooltip.className = 'mw-tooltip '+position + ' ' +skin;
+        tooltip.id = 'mw-tooltip-'+mw.random();
+        tooltip.innerHTML = '<div class="mw-tooltip-content">'+content+'</div><span class="mw-tooltip-arrow"></span>';
+        mwd.body.appendChild(tooltip);
+        return tooltip;
+    },
+    setPosition:function(tooltip, el, position){
+        var el =  mw.$(el),
+            w = el.outerWidth(),
+            tipwidth = $(tooltip).width(),
+            h = el.outerHeight(),
+            tipheight = $(tooltip).height(),
+            off = el.offset(),
+            arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
+
+        if(position == 'bottom-left'){
+         $(tooltip).css({
+             top:off.top + h + arrheight,
+             left:off.left
+         });
+        }
+        else if(position == 'bottom-center'){
+         $(tooltip).css({
+             top:off.top + h + arrheight,
+             left:off.left - tipwidth/2 + w/2
+         });
+        }
+        else if(position=='bottom-right'){
+          $(tooltip).css({
+             top:off.top + h + arrheight,
+             left:off.left - tipwidth + w
+         });
+        }
+        else if(position=='top-right'){
+          $(tooltip).css({
+             top:off.top - tipheight - arrheight,
+             left:off.left - tipwidth + w
+         });
+        }
+        else if(position=='top-left'){
+          $(tooltip).css({
+             top:off.top - tipheight - arrheight,
+             left:off.left
+         });
+        }
+        else if(position=='top-center'){
+          $(tooltip).css({
+             top:off.top - tipheight - arrheight,
+             left:off.left - tipwidth/2 + w/2
+         });
+        }
+        else if(position=='left-top'){
+         $(tooltip).css({
+             top:off.top,
+             left:off.left - tipwidth -arrheight
+         });
+        }
+        else if(position=='left-bottom'){
+         $(tooltip).css({
+             top:(off.top + h) - tipheight,
+             left:off.left - tipwidth -arrheight
+         });
+        }
+        else if(position == 'left-center'){
+         $(tooltip).css({
+             top:off.top -  tipheight/2 + h/2,
+             left:off.left - tipwidth - arrheight
+         });
+        }
+        else if(position=='right-top'){
+         $(tooltip).css({
+             top:off.top,
+             left:off.left + w + arrheight
+         });
+        }
+        else if(position=='right-bottom'){
+         $(tooltip).css({
+             top:(off.top + h) - tipheight,
+             left:off.left + w + arrheight
+         });
+        }
+        else if(position == 'right-center'){
+         $(tooltip).css({
+             top:off.top -  tipheight/2 + h/2,
+             left:off.left + w + arrheight
+         });
+        }
+    },
+    prepare:function(o){
+
+        if(typeof o.element === 'undefined') return false;
+        if(o.element === null) return false;
+        if(o.element.constructor === [].constructor && o.element.length===0) return false;
+        if(typeof o.position === 'undefined'){
+          o.position = 'top-center';
+        }
+        if(typeof o.skin === 'undefined'){
+          o.skin = 'mw-tooltip-default';
+        }
+        if(typeof o.content === 'undefined'){
+          o.content = '';
+        }
+        return {
+          element:o.element,
+          skin:o.skin,
+          position:o.position,
+          content:o.content
+        }
+    },
+    init:function(o){
+        var o = mw.tools.tooltip.prepare(o);
+        if(o === false) return false;
+        var tip = mw.tools.tooltip.source(o.content,o.skin,o.position);
+        tip.tooltipData = o;
+        $(window).bind('resize scroll', function(){
+          mw.tools.tooltip.setPosition(tip, o.element, o.position);
+        });
+        mw.tools.tooltip.setPosition(tip, o.element, o.position);
+
+        return tip;
+    }
+  },
+  tip:function(o){
+    return mw.tools.tooltip.init(o);
+  },
   inlineModal:function(o){
     /*
     **********************************************
@@ -197,7 +325,7 @@ mw.tools = {
               modal_object.css("overflow", "auto");
         }
         modal_object.show();
-        var draggable = draggable || true;
+        var draggable = typeof draggable !== 'undefined' ? draggable : true;
         if(typeof $.fn.draggable === 'function' && draggable){
             modal_object.addClass("mw-modal-draggable")
             modal_object.draggable({
@@ -256,6 +384,7 @@ mw.tools = {
       else{return false;}
     },
     init:function(o){
+
       var o = $.extend({}, mw.tools.modal.settings, o);
       if(typeof o.content !== 'undefined' && typeof o.html === 'undefined') { o.html = o.content; }
       if(typeof o.id !== 'undefined' && typeof o.name === 'undefined') { o.name = o.id; }
@@ -316,6 +445,7 @@ mw.tools = {
           title:obj.title,
           name:obj.name,
           overlay:obj.overlay,
+          draggable:obj.draggable,
           template:obj.template
         });
         if(!!modal){
@@ -2202,6 +2332,84 @@ mw.tools = {
       Notification.requestPermission( function(result) { mw.tools.notificationPermission = result  } );
     }
   },
+  TemplateSettingsEventsBinded: false,
+  TemplateSettingsModalDefaults: {
+    top:100,
+    width:300
+  },
+  template_settings:function(justInit){
+    var justInit = justInit || false;
+    if(mw.$('.mw-template-settings').length === 0){
+        var src = mw.settings.site_url + 'api/module?id=settings/template&live_edit=true&module_settings=true&type=settings/template&autosize=false';
+        var modal = mw.tools.modal.frame({
+            url:src,
+            width:mw.tools.TemplateSettingsModalDefaults.width,
+            name:'template-settings',
+            title:'Template Settings',
+            template:'mw-template-settings',
+            center:false,
+            resize:false,
+            draggable:false
+        });
+        $(modal.main).css({
+           right:-mw.tools.TemplateSettingsModalDefaults.width - 5,
+           left:'auto',
+           top:mw.tools.TemplateSettingsModalDefaults.top,
+           height:'auto',
+           zIndex:1000,
+        }).addClass('mw-template-settings-hidden');
+
+        mw.$('.mw_modal_container', $(modal.main)[0]).height('auto');
+        mw.$('iframe', $(modal.main)[0]).height('auto').removeAttr('height').bind('load', function(){
+           if(justInit){
+               mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
+           }
+           else{
+              mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
+           }
+
+        });
+        $(modal.main).append('<span class="template-settings-icon"></span><span class="template-settings-close"><span class="template-settings-close-x"></span>'+mw.msg.remove+'</span>');
+        mw.$('.template-settings-icon').click(function(){
+             if(mw.$('.mw-template-settings').hasClass('mw-template-settings-hidden')){
+                 mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
+             }
+             else{
+                 mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
+             }
+        });
+        mw.$('.template-settings-close').click(function(){
+            mw.$('.mw-template-settings').remove();
+            mw.cookie.set("remove_template_settings", "true");
+            var cookie = mw.cookie.get("template_settings_message");
+            if(typeof cookie == 'undefined' || cookie == 'true'){
+                mw.cookie.set("template_settings_message", 'false', 3048);
+                var actions = mw.$('#toolbar-dropdown-actions');
+                var tooltip = mw.tooltip({
+                    element:actions,
+                    content:"<div style='text-align:center;width:200px;'>"+mw.msg.templateSettingsHidden+".</div>",
+                    position:"bottom-center"
+                });
+                setTimeout(function(){
+                  mw.$(tooltip).fadeOut(function(){
+                    $(tooltip).remove();
+                  })
+                }, 2000);
+            }
+        });
+    }
+    else{
+       mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
+    }
+    if(!mw.tools.TemplateSettingsEventsBinded){
+      mw.tools.TemplateSettingsEventsBinded = true;
+      $(mwd.body).bind('click', function(e){
+        if(!mw.tools.hasParentsWithClass(e.target, 'mw-template-settings') && !mw.tools.hasParentsWithClass(e.target, 'mw-defaults')){
+           mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
+        }
+      });
+    }
+  },
   module_settings:function(a, view){
 
   if(typeof a === 'string'){
@@ -2213,6 +2421,7 @@ mw.tools = {
         name:'module-settings-'+a.replace(/\//g, '_'),
         title:'',
         callback:function(){
+
         }
       });
     }
@@ -2432,6 +2641,7 @@ mw.cookie = {
   },
   set:function( name, value, expires, path, domain, secure ){
     var now = new Date();
+    var expires = expires
     now.setTime( now.getTime() );
     if ( expires ){
         var expires = expires * 1000 * 60 * 60 * 24;
@@ -3749,7 +3959,7 @@ mw.image = {
             if(typeof callback === 'function'){
               callback.call(img, $(img).width(), $(img).height());
             }
-            $(img).remove()
+            $(img).remove();
           },33);
         }
         img.onerror = function(){
@@ -3847,6 +4057,7 @@ mw.image = {
 
       mw.modal_iframe = mw.tools.modal.frame;
       mw.gallery      = mw.tools.gallery.init;
+      mw.tooltip      = mw.tools.tip;
       //mw.uploader     = mw.files.uploader;
       mw.editor       = mw.tools.wysiwyg;
       mw.dropdown     = mw.tools.dropdown;

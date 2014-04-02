@@ -138,7 +138,7 @@ function mw_shop_recover_shopping_cart($sid = false)
 }
 
 
-event_bind('mw_admin_dashboard_quick_link', 'mw_print_admin_dashboard_orders_btn');
+event_bind('admin_dashboard_quick_link', 'mw_print_admin_dashboard_orders_btn');
 
 function mw_print_admin_dashboard_orders_btn()
 {
@@ -158,7 +158,7 @@ function mw_print_admin_dashboard_orders_btn()
     if ($ord_pending > 0) {
         $neword = '<span class="icounter">' . $ord_pending . ' new</span>';
     }
-    print '<li' . $cls . '><a href="' . admin_url() . 'view:shop/action:orders"><span class="ico iorder">' . $notif_html . '</span>' . $neword . '<span>View Orders</span></a></li>';
+    print '<li' . $cls . '><a href="' . admin_url() . 'view:shop/action:orders"><span class="ico iorder">' . $notif_html . '</span>' . $neword . '<span>' . _e("View Orders", true) . '</span></a></li>';
 }
 
 

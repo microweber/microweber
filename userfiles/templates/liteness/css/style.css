@@ -1,6 +1,3 @@
-@import url("colors.css");
-
-
 
 * {
   margin: 0;
@@ -17,9 +14,24 @@
 
     body,
     h1, h2, h3, h4, h5, h6,
-    .h1, .h2, .h3, .h4, .h5, .h6{ font-family: 'Lato', sans-serif; }
+    .h1, .h2, .h3, .h4, .h5, .h6, textarea{ font-family: 'Lato', sans-serif; }
 
-    textarea{ font-family: 'Lato', sans-serif; }
+
+    body.font-georgia,
+    body.font-georgia h1, body.font-georgia h2, body.font-georgia h3, body.font-georgia h4, body.font-georgia h5, body.font-georgia h6,
+    body.font-georgia .h1, body.font-georgia .h2, body.font-georgia .h3, body.font-georgia .h4, body.font-georgia .h5, body.font-georgia .h6,
+    body.font-georgia textarea{ font-family: 'Georgia', serif; }
+
+
+    body.font-robotoslab,
+    body.font-robotoslab h1, body.font-robotoslab h2, body.font-robotoslab h3, body.font-robotoslab h4, body.font-robotoslab h5, body.font-robotoslab h6,
+    body.font-robotoslab .h1, body.font-robotoslab .h2, body.font-robotoslab .h3, body.font-robotoslab .h4, body.font-robotoslab .h5, body.font-robotoslab .h6,
+    body.font-robotoslab textarea{ font-family: "Roboto Slab", serif; }
+
+    body.font-opensans,
+    body.font-opensans h1, body.font-opensans h2, body.font-opensans h3, body.font-opensans h4, body.font-opensans h5, body.font-opensans h6,
+    body.font-opensans .h1, body.font-opensans .h2, body.font-opensans .h3, body.font-opensans .h4, body.font-opensans .h5, body.font-opensans .h6,
+    body.font-opensans textarea{ font-family: 'Open Sans', sans-serif; }
 
     /***********************
               /Fonts
@@ -62,6 +74,33 @@
            /Font Icons
     **********************/
 
+body{
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/***********************
+   Image Backgrounds
+**********************/
+
+body.bgimage0{ background-image: none; }
+body.bgimage1{ background-image: url(../img/bgimage1.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
+body.bgimage2{ background-image: url(../img/bgimage2.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
+body.bgimage3{ background-image: url(../img/bgimage3.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
+
+body.bgimage1 .box-container,
+body.bgimage2 .box-container,
+body.bgimage3 .box-container{
+  padding: 20px;
+}
+
+/***********************
+   /Image Backgrounds
+**********************/
+
+
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
   font-weight: 100;
 }
@@ -77,13 +116,6 @@ img{
   border: 0;
 }
 
-
-body.has-color .box-container{
-  /*********************************************************************
-    When color is added, the boxes need extra padding for better view.
-  *********************************************************************/
-  padding: 20px;
-}
 
 
   /* Overwriting Bootstrap classes */
@@ -304,6 +336,7 @@ body.has-color .box-container{
 #logo{
   font-size: 40px;
   font-weight: 100;
+  display: inline-block;
 }
 #logo a{
   text-decoration: none;
@@ -319,8 +352,9 @@ body.has-color .box-container{
 #main-menu{
   clear: both;
   min-height: 65px;
-  border-top: 1px solid #EFEFEF;
-  border-bottom: 1px solid #EFEFEF;
+  border-width: 1px 0 1px;
+  border-style: solid none solid;
+  border-color: transparent;
   margin: 30px 0;
 }
 #main-menu:after{
@@ -450,11 +484,15 @@ body.has-color .box-container{
 /* Footer */
 
 #footer{
-    margin:50px auto;
-    padding:20px 0 0;
+  margin-top: 50px;
+}
+
+#footer .container .mw-ui-row{
     border-top-style: solid;
     border-top-width: 1px;
+    padding-top: 20px;
 }
+
 #footer, #footer p{
     font-size: 12px;
 }
@@ -594,6 +632,13 @@ body.has-color .box-container{
 }
 .post-list-template-default, .module-posts-template-sidebar, .module-posts-template-search{
   text-align: left;
+}
+.module-posts-template-search,
+.module-posts-template-search a:active,
+.module-posts-template-search a:hover,
+.module-posts-template-search a:focus,
+.module-posts-template-search a{
+  color: #555566
 }
 
 .post-list-template-default .post-single-title-date .lead{
@@ -765,7 +810,6 @@ label.mw-price{
   display: block;
   padding-bottom: 12px;
   font-weight: 100;
-  color: #8E8E8E;
 }
 
 .comments-template-stylish hr{

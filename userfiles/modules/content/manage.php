@@ -129,7 +129,7 @@ $('#mw_page_layout_preview').attr('data-small',"1");
         <?php _e("Add New"); ?>
       </h2>
       <ul class="mw-quick-links mw-quick-links-green" >
-        <?php event_trigger('mw_admin_content_right_sidebar_menu_list_start',$params); ?>
+        <?php event_trigger('admin_content_right_sidebar_menu_list_start',$params); ?>
         <li> <a href="#action=new:page&parent_page=<?php print $params["page-id"]; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipage"></span> <span>
           <?php _e("New Page"); ?>
           </span> </a> </li>
@@ -146,7 +146,7 @@ $('#mw_page_layout_preview').attr('data-small',"1");
           <?php _e("Edit Page"); ?>
           </span> </a> </li>
         </a>
-        <?php event_trigger('mw_admin_content_right_sidebar_menu_list_end',$params); ?>
+        <?php event_trigger('admin_content_right_sidebar_menu_list_end',$params); ?>
       </ul>
       <?php 
 			

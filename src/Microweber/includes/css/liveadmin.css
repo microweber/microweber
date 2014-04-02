@@ -3038,3 +3038,62 @@ a#backtoadminindropdown:hover{
 a#backtoadminindropdown .ico + span{
   top: 0;
 }
+
+/* Template settings modal */
+.mw-template-settings{
+  background: white;
+  overflow: visible;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  border: none;
+  -webkit-transition: right 0.5s ease;
+  -moz-transition: right 0.5s ease;
+  -o-transition: right 0.5s ease;
+  -ms-transition: right 0.5s ease;
+  transition: right 0.5s ease;
+}
+#frame-template-settings{
+  margin-top: 30px;
+}
+
+.mw-template-settings .mw_modal_toolbar{
+  display: none;
+}
+.template-settings-icon{
+  display: block;
+  width: 42px;
+  height: 42px;
+  position: absolute;
+  left: -42px;
+  top: 22px;
+  z-index: 1;
+  background: white url(../img/settingswheel.svg) no-repeat center;
+  background-size: 47%;
+  box-shadow: -2px 0 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+.template-settings-close{
+  display: block;
+  position: absolute;
+  right: 6px;
+  right: 6px;
+  top: 9px;
+  cursor: pointer;
+  color: #888;
+  font-size: 11px;
+}
+.template-settings-close-x{
+  width: 18px;
+  height: 18px;
+  background: url(../img/close.svg) no-repeat center;
+  background-size: cover;
+  display: block;
+  float: right;
+  margin-left: 3px;
+  margin-top: -1px;
+}
+
+
+
+/* /Template settings modal */
+
+

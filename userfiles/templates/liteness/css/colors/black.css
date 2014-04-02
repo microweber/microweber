@@ -6,12 +6,21 @@
 
  ***************************************************/
 
-
-body, .box-container,
-a, a:hover, a:focus, a:active{
-    color:#556;
+body{
+  background-color: #001C2B;
 }
-.box-container{  background-color: white; }
+
+body,
+a, a:hover, a:focus, a:active{
+    color:#fff;
+}
+.box-container a,
+.box-container a:hover,
+.box-container a:focus,
+.box-container a:active{
+    color:#555566;
+}
+.box-container{  background-color: white; color: #555566; padding: 20px; }
 
 /* Commons */
 
@@ -70,10 +79,27 @@ a, a:hover, a:focus, a:active{
 
 
 /* Header */
+#header{
+  background-color:#2974AB;
+}
+
+.module-navigation-default > ul > li > ul{
+  padding-top: 0;
+}
 
 .module-navigation-default li li a{
-  border-color: #EFEFEF;
+  border:none;
   background-color: white;
+}
+#main-menu{
+  border-color:transparent;
+  background-color:#1C659C;
+  border-top-color: rgba(246, 250, 253, 0.2);
+  border-bottom-color: rgba(246, 250, 253, 0.2);
+}
+
+#logo small{
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* /Header */
@@ -95,14 +121,21 @@ a, a:hover, a:focus, a:active{
 
 
 
-#footer, .mw-cart-action-holder{ border-top-color: #eee;}
+.mw-cart-action-holder{ border-top-color: #eee;}
+#footer {
+  background: #2974AB;
+}
+
+#footer .container .mw-ui-row{
+  border-top: none;
+}
 
 #powered,
 #copyright{
-    color: #ADADAD;
+    color: rgba(255, 255, 255, 0.7);
 }
 .inner-bottom-box{
-  background: #F3F3F2
+  background: transparent
 }
 
 .btn-action, .product-price-holder .btn, .btn-action-default{
@@ -144,8 +177,16 @@ a, a:hover, a:focus, a:active{
   border-color: #EBEBEB;
 }
 
-
 /* Modules */
+
+.module-navigation-default a{
+  background-color: transparent;
+}
+.module-navigation-default li:hover a,
+.module-navigation-default li a:hover,
+.module-navigation-default li a:focus{
+  background-color: #02355F
+}
 
 .contact-form-template-dream .contact-form,
 .contact-form-template-dream .contact-form-title,
@@ -155,11 +196,11 @@ a, a:hover, a:focus, a:active{
   border-color:#EFEFEF
 }
 
- .mwcommentsmodule input[type="email"], .mwcommentsmodule textarea, .mwcommentsmodule input[type="text"],
- .mwcommentsmodule .comments-template-stylish .comment .comment-content {
+.mwcommentsmodule input[type="email"], .mwcommentsmodule textarea, .mwcommentsmodule input[type="text"],
+.mwcommentsmodule .comments-template-stylish .comment .comment-content {
    border-color: #efefef;
    background-color: white;
- }
+}
 
 
 .module-navigation-default li:hover a.active,
@@ -167,9 +208,12 @@ a, a:hover, a:focus, a:active{
 .module-navigation-default a.active:hover,
 .module-navigation-default a.active:active,
 .module-navigation-default a.active:focus{
-  background: #8E8E8E;
-  background: #555566;
+  background: #001C2B;
   color: white;
+}
+
+.comments-user-profile{
+  color: #8E8E8E;
 }
 
 
@@ -180,10 +224,11 @@ a, a:hover, a:focus, a:active{
 
 
 
+/***************************************************
 
+    Black Scheme
 
-
-
+***************************************************/
 
 
 

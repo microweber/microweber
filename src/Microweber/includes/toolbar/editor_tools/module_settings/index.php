@@ -24,7 +24,7 @@
               mw.require("tools.js");
               mw.require("forms.js");
               mw.require('wysiwyg.js');
-			   mw.require('options.js');
+			  mw.require('options.js');
           </script>
 
 <style>
@@ -56,8 +56,21 @@
 
 </style>
 
+ <?php
+    $autoSize = true;
+    if(isset($_GET['autosize'])){
+      $autoSize = $_GET['autosize'];
+    }
 
+    $type = '';
+    if(isset($_GET['type'])){
+      $type = $_GET['type'];
+    }
+ ?>
  <script type="text/javascript">
+
+ autoSize = <?php print $autoSize; ?>;
+ settingsType = '<?php print $type; ?>';
 
  window.onbeforeunload = function(){
    $(mwd.body).addClass("mw-external-loading")
@@ -75,7 +88,7 @@
 		   ?>
 		   
 		   
-		   mw_module_params  = <?php print  json_encode($mpar); ?>
+		   mw_module_params  = <?php print json_encode($mpar); ?>
  
          <?php endif; ?>
 
@@ -89,13 +102,14 @@
 
             $(thismodal.main).find(".mw_modal_title").html(mw_module_settings_info.name);
             thismodal.main.scrollTop(0);
-            __autoresize = function(){
+            __autoresize = function(force){
+                var force = force || false;
                 var _old = thismodal.main.height();
                 thismodal.main.scrollTop(0);
                 parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, mw.$('#settings-container').height()+25, false);
                 setTimeout(function(){
                     var _new = thismodal.main.height();
-                    if(_new>_old) {
+                    if(_new>_old || force) {
                         parent.mw.tools.modal.center("#"+thismodal.main[0].id, 'vertical');
                     }
                 }, 400)
@@ -161,31 +175,46 @@
 
               $(window).load(function () {
 
+                if(settingsType == 'settings/template'){
+                    mw.$('iframe', thismodal.main[0]).height($(document).height());
+                    mw.$('iframe', thismodal.main[0]).css('maxHeight', $(parent.window).height() - parent.mw.tools.TemplateSettingsModalDefaults.top - mw.$('.mw_modal_toolbar', thismodal.main[0]).outerHeight() - 40);
 
+                    $(window.parent.window).bind("resize", function(){
+                       mw.$('iframe', thismodal.main[0]).height($(document).height());
+                       mw.$('iframe', thismodal.main[0]).css('maxHeight', $(parent.window).height() - parent.mw.tools.TemplateSettingsModalDefaults.top - mw.$('.mw_modal_toolbar', thismodal.main[0]).outerHeight() - 40);
+                    });
 
+                    $(mwd.body).bind('DOMNodeInserted', function(){
+                       mw.$('iframe', thismodal.main[0]).height($(document).height());
+                       mw.$('iframe', thismodal.main[0]).css('maxHeight', $(parent.window).height() - parent.mw.tools.TemplateSettingsModalDefaults.top - mw.$('.mw_modal_toolbar', thismodal.main[0]).outerHeight() - 40);
+                    });
+                }
 
+                if(autoSize){
 
                 parent.mw.tools.modal.resize("#"+thismodal.main[0].id, false, $('#settings-container').height()+25, true);
 
-                $(mwd.body).bind('mouseup click DOMNodeInserted',function(){
-                  setTimeout(function(){
-                     __autoresize();
+                    $(mwd.body).bind('mouseup click DOMNodeInserted',function(){
+                      setTimeout(function(){
+                         __autoresize();
 
 
-                  }, 99);
-                }).ajaxStop(function(){
-                    setTimeout(function(){
+                      }, 99);
+                    }).ajaxStop(function(){
+                        setTimeout(function(){
 
-                    __autoresize();
-                  }, 99);
-                });
+                        __autoresize();
+                      }, 99);
+                    });
 
-                setInterval(function(){
-                    __autoresize();
-                }, 99);
+                    setInterval(function(){
+                        __autoresize();
+                    }, 99);
 
-
-
+                    $(window.parent.window).bind("resize", function(){
+                          parent.mw.tools.modal.center("#"+thismodal.main[0].id);
+                     });
+               }
 
 
               });

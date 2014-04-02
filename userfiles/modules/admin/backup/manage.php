@@ -1,5 +1,8 @@
-<?php if(!is_admin()){error("must be admin");}; ?>
-<?php
+<?php if(!is_admin()){
+
+    return;
+
+}
 /*
 $var3 = api('mw/utils/Backup/get_bakup_location');
  d($var3);

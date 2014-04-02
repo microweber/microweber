@@ -316,7 +316,12 @@ function get_user_by_id($params = false)
 {
     return mw('user')->get_by_id($params);
 }
+function get_menus($params = false)
+{
 
+    return mw('content')->get_menus($params);
+
+}
 
 function get_menu($params = false)
 {
@@ -998,9 +1003,9 @@ function array_trim($Input)
 }
 
 
-event_bind('rte_image_editor_image_search', 'mw_print_rte_image_editor_image_search');
+event_bind('live_edit_toolbar_image_search', 'mw_print_live_edit_toolbar_image_search');
 
-function mw_print_rte_image_editor_image_search()
+function mw_print_live_edit_toolbar_image_search()
 {
     $active = mw('url')->param('view');
     $cls = '';
