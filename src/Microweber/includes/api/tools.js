@@ -110,72 +110,85 @@ mw.tools = {
         tooltip.className = 'mw-tooltip '+position + ' ' +skin;
         tooltip.id = 'mw-tooltip-'+mw.random();
         tooltip.innerHTML = '<div class="mw-tooltip-content">'+content+'</div><span class="mw-tooltip-arrow"></span>';
+        mwd.body.appendChild(tooltip);
         return tooltip;
     },
     setPosition:function(tooltip, el, position){
-        var el =  mw.$(o.element),
-            width = el.outerWidth(),
-            tipwidth = tooltip.width(),
-            height = el.outerHeight(),
-            tipheight = tooltip.height(),
+        var el =  mw.$(el),
+            w = el.outerWidth(),
+            tipwidth = $(tooltip).width(),
+            h = el.outerHeight(),
+            tipheight = $(tooltip).height(),
             off = el.offset(),
             arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
 
-        if(pos == 'bottom-left'){
+        if(position == 'bottom-left'){
          $(tooltip).css({
              top:off.top + h + arrheight,
              left:off.left
          });
         }
-        else if(pos == 'bottom-center'){
+        else if(position == 'bottom-center'){
          $(tooltip).css({
              top:off.top + h + arrheight,
              left:off.left - tipwidth/2 + w/2
          });
         }
-        else if(pos=='bottom-right'){
+        else if(position=='bottom-right'){
           $(tooltip).css({
              top:off.top + h + arrheight,
              left:off.left - tipwidth + w
          });
         }
-        else if(pos=='top-right'){
+        else if(position=='top-right'){
           $(tooltip).css({
              top:off.top - tipheight - arrheight,
              left:off.left - tipwidth + w
          });
         }
-        else if(pos=='top-left'){
+        else if(position=='top-left'){
           $(tooltip).css({
              top:off.top - tipheight - arrheight,
              left:off.left
          });
         }
-        else if(pos=='top-center'){
+        else if(position=='top-center'){
           $(tooltip).css({
              top:off.top - tipheight - arrheight,
              left:off.left - tipwidth/2 + w/2
          });
         }
-        else if(pos=='left-top'){
+        else if(position=='left-top'){
          $(tooltip).css({
              top:off.top,
              left:off.left - tipwidth -arrheight
          });
         }
-        else if(pos == 'left-center'){
+        else if(position=='left-bottom'){
+         $(tooltip).css({
+             top:(off.top + h) - tipheight,
+             left:off.left - tipwidth -arrheight
+         });
+        }
+        else if(position == 'left-center'){
          $(tooltip).css({
              top:off.top -  tipheight/2 + h/2,
              left:off.left - tipwidth - arrheight
          });
         }
-        else if(pos=='right-top'){
+        else if(position=='right-top'){
          $(tooltip).css({
              top:off.top,
              left:off.left + w + arrheight
          });
         }
-        else if(pos == 'right-center'){
+        else if(position=='right-bottom'){
+         $(tooltip).css({
+             top:(off.top + h) - tipheight,
+             left:off.left + w + arrheight
+         });
+        }
+        else if(position == 'right-center'){
          $(tooltip).css({
              top:off.top -  tipheight/2 + h/2,
              left:off.left + w + arrheight
@@ -207,7 +220,13 @@ mw.tools = {
         var o = mw.tools.tooltip.prepare(o);
         if(o === false) return false;
         var tip = mw.tools.tooltip.source(o.content,o.skin,o.position);
+        tip.tooltipData = o;
+        $(window).bind('resize scroll', function(){
+          mw.tools.tooltip.setPosition(tip, o.element, o.position); 
+        });
         mw.tools.tooltip.setPosition(tip, o.element, o.position);
+
+        return tip;
     }
   },
   tip:function(o){

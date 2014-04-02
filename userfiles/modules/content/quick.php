@@ -269,15 +269,24 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
     <li><span><span class="ico itabadvanced"></span><span>
       <?php _e("Advanced"); ?>
       </span></span></li>
+      
+        <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
+  
+      
+      
   </ul>
   <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-gallery-items">
     <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
     <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
+            <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
+
   </div>
   <?php if($data['content_type'] == 'page'): ?>
   <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
     <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
     <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
+                <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
+
   </div>
   <?php endif; ?>
   <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
@@ -288,6 +297,12 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
                     suggest-from-related="true"
                     list-preview="true"
                     id="fields_for_post_<?php print $rand; ?>" 	 />
+                    
+                    
+                    
+                    
+              <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
+                  
   </div>
   <?php  if(trim($data['subtype']) == 'product'): ?>
   <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
@@ -295,8 +310,14 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
   </div>
   <?php endif; ?>
   <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
+  
+   <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
+
+  
     <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
   </div>
+     <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
+
   <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
 </form>
 <div class="quick_done_alert" style="display: none" id="post-added-alert-<?php print $rand; ?>">

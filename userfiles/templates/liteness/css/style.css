@@ -336,6 +336,7 @@ img{
 #logo{
   font-size: 40px;
   font-weight: 100;
+  display: inline-block;
 }
 #logo a{
   text-decoration: none;

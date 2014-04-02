@@ -50,7 +50,7 @@ function mw_print_admin_menu_shop_btn()
  
 
 event_bind('admin_shop_side_menu_start', 'mw_print_admin_menu_shop_sidebar_btn');
-event_bind('admin_content_side_menu_end', 'mw_print_admin_menu_shop_sidebar_btn');
+event_bind('admin_content_side_menu', 'mw_print_admin_menu_shop_sidebar_btn');
 
 function mw_print_admin_menu_shop_sidebar_btn($params=false)
 {
