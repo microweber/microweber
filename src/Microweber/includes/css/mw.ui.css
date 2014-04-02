@@ -1767,6 +1767,7 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 
 .mw-tooltip-default{
   background-color: white;
+  color: #434343;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
 
