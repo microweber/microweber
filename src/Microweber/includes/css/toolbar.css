@@ -1450,16 +1450,36 @@ body.design_hover .element-current{
   z-index: 995;
   box-shadow:0 0 2px #00CC00;
   -webkit-touch-callout: none;
--webkit-user-select: none;
--khtml-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .mw-toolbar-btn-menu > a{
   margin: 6px;
   background-color: #fff;
+}
+
+.editor-template-settings .ed-ico{
+  background: url(../img/settingswheel.svg) no-repeat center;
+  background-size: 68%;
+  -webkit-transition-duration: 1.7s;
+  -moz-transition-duration: 1.7s;
+  -o-transition-duration: 1.7s;
+  transition-duration: 1.7s;
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  -o-transition-property: -o-transform;
+  transition-property: transform;
+}
+.editor-template-settings .ed-ico:hover,
+.editor-template-settings .ed-ico.action{
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -o-transform:rotate(90deg);
+    -transform:rotate(90deg);
 }
 
 

@@ -101,6 +101,10 @@ mw.dropables = {
 
 $(document).ready(function(){
 
+  mw.$("#toolbar-template-settings").click(function(){
+     mw.tools.toggle_template_settings();
+  });
+
   mw.drag.create();
    $(mwd.body).keyup(function(e){
      mw.$(".mw_master_handle").css({
@@ -1036,7 +1040,7 @@ mw.drag = {
                   $(window).trigger("onBodyClick", target);
                 }
                 if(mw.tools.hasClass(target, 'mw-empty') || mw.tools.hasParentsWithClass(target, 'mw-empty') ){
-                    mw.$("#modules-and-layouts").addClass("hovered");
+                   // mw.$("#modules-and-layouts").addClass("hovered");
                 }
                 else{
                   if(!mw.tools.hasClass(target, 'modules-and-layouts-holder') && !mw.tools.hasParentsWithClass(target, 'modules-and-layouts-holder')){

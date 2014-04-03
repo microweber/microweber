@@ -149,6 +149,16 @@ img.element{
   margin-bottom: 12px;
 }
 
+.mw-col-container img.element:first-child,
+.mw-col-container .picture:first-child img.element{
+  margin-top: 0;
+}
+
+.mw-col-container img.element:last-child,
+.mw-col-container .picture:last-child img.element{
+  margin-bottom: 0;
+}
+
 .edit:after, .mw-col:after, .element:after, .module:after{
     clear: both;
     content: ".";
@@ -543,12 +553,6 @@ table[class*='mw-wysiwyg-table'].valign td{
 .pagination-holder li{
   list-style: none;
   display: inline;
-}
-
-
-
-.captcha-row{
-  width: 210px;
 }
 
 .mw-defaults img{

@@ -28,7 +28,7 @@
         $font = get_option('font', 'mw-template-liteness');
         $bgimage = get_option('bgimage', 'mw-template-liteness');
     ?>
-    <link rel="stylesheet" id="colorscss" href="<?php print template_url(); ?>css/colors/<?php print $color_scheme; ?>.css" type="text/css" />
+    <link rel="stylesheet" id="colorscss" href="<?php print template_url(); ?>css/colors/<?php print $color_scheme; ?>.css" type="text/css"  />
 </head>
 <body class="<?php print $font . ' ' . $bgimage; ?>">
 <div id="main-container">

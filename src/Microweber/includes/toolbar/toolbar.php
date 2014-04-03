@@ -54,7 +54,10 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
   $(window).bind('load', function(){
      <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
-        mw.tools.template_settings(true);
+        var show_settings = mw.cookie.get('remove_template_settings') != 'true';
+        if(show_settings){
+          mw.tools.template_settings(true);
+        }
      <?php  } ?>
   });
 
@@ -256,9 +259,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                   <?php _e("Publish"); ?>
                   </span></a> </li>
                 <?php endif; ?>
-                <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
-                <li class="mw-designtype-universal"> <a href="javascript:;" onclick="mw.tools.template_settings();"> <span class="ico ico-extools active"></span> Template Settings</a> </li>
-                <?php } ?>
+
                 <li><a  href="#design_bnav" class="mw_ex_tools"><span class="ico itabadvanced"></span>Tools</a></li>
                 <li><a href="<?php print mw('url')->api_link('logout'); ?>"><span
                                         class="ico ilogout"></span><span>

@@ -8,7 +8,7 @@
         <h3 class="page-title edit" field="title" rel="content">Page Title</h3>
         <div class="edit post-content" field="content" rel="content">
           <module data-type="pictures" data-template="slider"  rel="content"  />
-          <div class="element" style="width:95%">
+          <div class="element">
             <p align="justify">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</p>
           </div>
         </div>

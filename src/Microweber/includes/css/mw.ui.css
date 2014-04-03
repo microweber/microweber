@@ -101,7 +101,7 @@
 .ifullscreen{background-position: -798px -20px;}
 .no-fullscreen{background-position: -820px -20px;}
 .ismall_warn{background-position: -929px -86px;}
-.irefresh{background-position:-929px -119px; cursor: pointer;}
+.irefresh{background:url(../img/reload.svg) no-repeat scroll center center / 65%; cursor: pointer;}
 .ipage_arr_up{background-position: -1282px -95px}
 .iMove{
   background-position: -1090px 2px;

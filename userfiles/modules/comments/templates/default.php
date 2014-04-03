@@ -15,6 +15,8 @@ description: Default comments template
 
   
    ?>
+
+   <?php $rand = rand();  ?>
 <script>mw.moduleCSS("<?php print $config['url_to_module']; ?>comments.css", true);</script>
 <div class="mwcommentsmodule ">
 <div class=" comments-template-stylish">
@@ -165,6 +167,7 @@ description: Default comments template
                 <div class="mw-ui-col">
                     <img
                         title="Click to refresh image"
+                        id='comment-captcha-<?php print $rand; ?>'
                         alt="<?php _e("Captcha image"); ?>"
                         class="mw-captcha-img"
                         src="<?php print site_url('api_html/captcha') ?>?id=<?php print $params['id']; ?>"
@@ -172,6 +175,9 @@ description: Default comments template
                 </div>
                 <div class="mw-ui-col">
                     <input type="text" name="captcha" required class="form-control" placeholder="<?php _e("Enter text"); ?>" />
+                </div>
+                <div class="mw-ui-col">
+                    <span onclick="mw.tools.refresh_image(mwd.getElementById('comment-captcha-<?php print $rand; ?>'));" class="ico irefresh"></span>
                 </div>
             </div>
              

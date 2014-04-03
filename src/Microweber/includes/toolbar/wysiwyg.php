@@ -119,14 +119,14 @@
                 <li value="pre"><a href="javascript:;" style="font-size: 10px">
                   <?php _e("Pre formatted"); ?>
                   </a></li>
-                  
+
                     <li value="code"><a href="javascript:;" style="font-size: 10px">
                   <?php _e("Code format"); ?>
                   </a></li>
                    <li value="insert_html"><a href="javascript:;" style="font-size: 10px">
                   <?php _e("HTML"); ?>
                   </a></li>
-                  
+
                 <?php /*<li value="quote"><a href="#" style="font-size: 10px"><?php _e("Quote"); ?></a></li>*/ ?>
               </ul>
             </div>
@@ -156,6 +156,9 @@
     </div>
     <div class="wysiwyg-cell visible-1440"> <span class="mw_editor_btn mw_editor_link" data-command="custom-link" title="<?php _e("Add/Edit Link"); ?>"><span class="ed-ico"></span></span> <?php /*<span data-command="custom-createelement" title="Create Draggable Element from selected text." class="mw_editor_btn mw_editor_element mw_editor_btn_active"><span class="ed-ico"></span></span>*/ ?> </div>
     <div class="wysiwyg-cell"><span class="mw_editor_btn mw_editor_remove_formatting" data-command="removeformat" title="<?php _e("Remove Formatting"); ?>"><span class="ed-ico"></span></span></div>
+    <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
+    <div class="wysiwyg-cell"><span class="mw_editor_btn editor-template-settings" id="toolbar-template-settings" title="<?php _e("Template Settings"); ?>"><span class="ed-ico"></span></span></div>
+    <?php } ?>
     <?php event_trigger('live_edit_toolbar_btn'); ?>
   </div>
 </div>
