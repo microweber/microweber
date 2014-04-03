@@ -106,6 +106,9 @@ mw.external_tool = function(url){
 mw.tools = {
   tooltip:{
     source:function(content, skin, position){
+        if(typeof content === 'object'){
+          var content = mw.$(content).html();
+        }
         var tooltip = mwd.createElement('div');
         tooltip.className = 'mw-tooltip '+position + ' ' +skin;
         tooltip.id = 'mw-tooltip-'+mw.random();
@@ -199,6 +202,7 @@ mw.tools = {
 
         if(typeof o.element === 'undefined') return false;
         if(o.element === null) return false;
+        if(typeof o.element === 'string'){o.element = mw.$(o.element)};
         if(o.element.constructor === [].constructor && o.element.length===0) return false;
         if(typeof o.position === 'undefined'){
           o.position = 'top-center';
@@ -1030,7 +1034,7 @@ mw.tools = {
     },
     del : function(id){
         mw.tools.confirm(mw.msg.del, function(){
-			
+
 			 if(mw.notification != undefined){
         			 mw.notification.success('Content deleted');
 						}
@@ -1122,7 +1126,42 @@ mw.tools = {
        $(tree.querySelectorAll('li')).addClass('active');
        mw.tools.tree.remember(tree);
     },
-    checker:function(el){
+	checker:function(el){
+
+		var is_checkbox = el.getElementsByTagName('input')[0];
+		if(is_checkbox.type != 'checkbox'){
+		    return false;
+		}
+
+        var state = el.getElementsByTagName('input')[0].checked;
+        if( state === true){
+			 if(is_checkbox.type == 'checkbox'){
+				 
+				var ul = mw.tools.firstParentWithClass(is_checkbox, 'pages_tree');
+				if(ul!=false){
+					if(ul.querySelector('input[type="radio"]:checked') !== null){
+						return false;
+					}		
+				} 
+			}
+          mw.tools.foreachParents(el.parentNode, function(loop){
+            this.tagName === 'LI' ? this.getElementsByTagName('input')[0].checked=true : '';
+            this.tagName === 'DIV' ? mw.tools.stopLoop(loop) : '';
+          });
+        }
+        else{
+			
+			
+			
+			
+          var f = el.parentNode.getElementsByTagName('input'), i=0, len = f.length;
+          for( ; i<len; i++){
+            f[i].checked=false;
+          }
+			  
+        }
+    },
+    old_checker:function(el){
 
 		var is_checkbox = el.getElementsByTagName('input')[0];
 		if(is_checkbox.type != 'checkbox'){
@@ -1858,7 +1897,7 @@ mw.tools = {
     if(obj === null || typeof obj === 'undefined' || obj.nodeType === 3){
       return false;
     }
-    var t = obj.tagName.toLowerCase();
+    var t = obj.nodeName.toLowerCase();
     if(t=='input' || t=='textarea' || t=='select') {return true};
     return false;
   },
@@ -2337,6 +2376,26 @@ mw.tools = {
     top:100,
     width:300
   },
+  hide_template_settings:function(){
+     mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
+     mw.$("#toolbar-template-settings").removeClass("mw_editor_btn_active");
+  },
+  show_template_settings:function(){
+    if(mw.$('.mw-template-settings').length===0){
+        mw.tools.template_settings();
+    }
+    mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
+    mw.$("#toolbar-template-settings").addClass("mw_editor_btn_active");
+    mw.cookie.set("remove_template_settings", "false"); 
+  },
+  toggle_template_settings:function(){
+     if(mw.$('.mw-template-settings').hasClass('mw-template-settings-hidden') || mw.$('.mw-template-settings').length===0){
+         mw.tools.show_template_settings();
+     }
+     else{
+         mw.tools.hide_template_settings();
+     }
+  },
   template_settings:function(justInit){
     var justInit = justInit || false;
     if(mw.$('.mw-template-settings').length === 0){
@@ -2352,9 +2411,9 @@ mw.tools = {
             draggable:false
         });
         $(modal.main).css({
-           right:-mw.tools.TemplateSettingsModalDefaults.width - 5,
-           left:'auto',
-           top:mw.tools.TemplateSettingsModalDefaults.top,
+           right:-mw.tools.TemplateSettingsModalDefaults.width - 115,
+           left: 'auto',
+           top: mw.tools.TemplateSettingsModalDefaults.top,
            height:'auto',
            zIndex:1000,
         }).addClass('mw-template-settings-hidden');
@@ -2362,53 +2421,51 @@ mw.tools = {
         mw.$('.mw_modal_container', $(modal.main)[0]).height('auto');
         mw.$('iframe', $(modal.main)[0]).height('auto').removeAttr('height').bind('load', function(){
            if(justInit){
-               mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
+               mw.tools.hide_template_settings();
            }
            else{
-              mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
+              mw.tools.show_template_settings();
            }
-
         });
         $(modal.main).append('<span class="template-settings-icon"></span><span class="template-settings-close"><span class="template-settings-close-x"></span>'+mw.msg.remove+'</span>');
         mw.$('.template-settings-icon').click(function(){
-             if(mw.$('.mw-template-settings').hasClass('mw-template-settings-hidden')){
-                 mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
-             }
-             else{
-                 mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
-             }
+               mw.tools.toggle_template_settings();
         });
         mw.$('.template-settings-close').click(function(){
             mw.$('.mw-template-settings').remove();
             mw.cookie.set("remove_template_settings", "true");
+            mw.tools.hide_template_settings();
             var cookie = mw.cookie.get("template_settings_message");
             if(typeof cookie == 'undefined' || cookie == 'true'){
                 mw.cookie.set("template_settings_message", 'false', 3048);
-                var actions = mw.$('#toolbar-dropdown-actions');
+                var actions = mw.$('#toolbar-template-settings');
                 var tooltip = mw.tooltip({
                     element:actions,
                     content:"<div style='text-align:center;width:200px;'>"+mw.msg.templateSettingsHidden+".</div>",
                     position:"bottom-center"
                 });
+                mw.$("#toolbar-template-settings .ed-ico").addClass("action");
                 setTimeout(function(){
                   mw.$(tooltip).fadeOut(function(){
                     $(tooltip).remove();
-                  })
+                    mw.$("#toolbar-template-settings .ed-ico").removeClass("action");
+                  });
                 }, 2000);
             }
         });
     }
     else{
-       mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
+       mw.tools.hide_template_settings();
     }
     if(!mw.tools.TemplateSettingsEventsBinded){
       mw.tools.TemplateSettingsEventsBinded = true;
       $(mwd.body).bind('click', function(e){
         if(!mw.tools.hasParentsWithClass(e.target, 'mw-template-settings') && !mw.tools.hasParentsWithClass(e.target, 'mw-defaults')){
-           mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
+           mw.tools.hide_template_settings();
         }
       });
     }
+
   },
   module_settings:function(a, view){
 
@@ -3143,9 +3200,11 @@ document.isHidden = function(){
 
 mw.storage = {
         init:function(){
-          if(!('localStorage' in mww)) return false;
+          if(!('localStorage' in mww) ||  /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
           var lsmw = localStorage.getItem("mw");
-          var lsmw = lsmw === null ? (localStorage.setItem("mw", "{}")) : lsmw;
+          if(typeof lsmw === 'undefined' || lsmw === null){
+              var lsmw = lsmwlocalStorage.setItem("mw", "{}")
+          }
           this.change("INIT");
           return lsmw;
         },
