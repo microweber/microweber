@@ -10,8 +10,7 @@
       <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/popup.css"/>
       <script>
         window.RegisterChange = function(){
-
-          $(thisframe).trigger('change', arguments);
+          parent.$(parent.document.getElementsByName(this.name)).trigger('change', arguments);
         }
       </script>
   </head>

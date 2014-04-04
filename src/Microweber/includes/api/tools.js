@@ -111,8 +111,10 @@ mw.tools = {
         div.className = 'mw-external-tool';
         return div;
       },
-      prepare:function(url, callback){
+      prepare:function(name, callback){
          var frame =  mwd.createElement('iframe');
+         frame.name = name; /* for callbacks */
+         var url = mw.external_tool(name);
          frame.src = url;
          frame.scrolling = 'no';
          frame.frameBorder = 0;
@@ -126,8 +128,7 @@ mw.tools = {
       },
       init:function(name, callback, holder){
         if(typeof mw.tools.externalInstrument.register[name] === 'undefined'){
-          var url = mw.external_tool(name);
-          var frame = mw.tools.externalInstrument.prepare(url);
+          var frame = mw.tools.externalInstrument.prepare(name);
           frame.height = 300;
           mw.tools.externalInstrument.register[name] = frame;
           var holder = !holder ? mw.tools.externalInstrument.holder() : holder;
@@ -137,11 +138,18 @@ mw.tools = {
         else{
            $(mw.tools.externalInstrument.register[name]).unbind('change');
         }
-        $(frame).bind('change', function(a){
-            callback.call(this);
-            callback.call(a);
+        $(mw.tools.externalInstrument.register[name]).bind('change', function(){
+            Array.prototype.shift.apply(arguments);
+            callback.apply(this, arguments);
         });
+        return mw.tools.externalInstrument.register[name];
       }
+  },
+  external:function(name, callback, holder){
+    return mw.tools.externalInstrument.init(name, callback, holder);
+  },
+  _external:function(o){
+    return mw.tools.external(o.name, o.callback, o.holder);
   },
   tooltip:{
     source:function(content, skin, position){
@@ -151,7 +159,7 @@ mw.tools = {
         var tooltip = mwd.createElement('div');
         tooltip.className = 'mw-tooltip '+position + ' ' +skin;
         tooltip.id = 'mw-tooltip-'+mw.random();
-        tooltip.innerHTML = '<div class="mw-tooltip-content">'+content+'</div><span class="mw-tooltip-arrow"></span>';
+        tooltip.innerHTML = '<div class="mw-tooltip-content">' + content + '</div><span class="mw-tooltip-arrow"></span>';
         mwd.body.appendChild(tooltip);
         return tooltip;
     },
@@ -2249,14 +2257,17 @@ mw.tools = {
         if(!k) {
             if(area[0].tagName === 'TEXTAREA'){
               cont.html(area[0].value);
+              this.value = area[0].value;
             }
             else{
-              cont.html(area.html())
+              cont.html(area.html());
+              this.value = area.html();
             }
         }
         if(typeof frame.contentWindow.PrepareEditor === 'function'){
           frame.contentWindow.PrepareEditor();
         }
+
     });
     $(frame).bind('change', function(e, val){
       if(area[0].tagName === 'TEXTAREA'){
@@ -4170,7 +4181,8 @@ mw.image = {
       mw.editor       = mw.tools.wysiwyg;
       mw.dropdown     = mw.tools.dropdown;
       mw.tabs         = mw.tools.tabGroup;
-      mw.inlineModal = mw.tools.inlineModal;
+      mw.inlineModal  = mw.tools.inlineModal;
+      mw.external     = function( o ){ return mw.tools._external( o ) };
 
 
     /***********************************************
@@ -4199,64 +4211,6 @@ mw.image = {
         var modal = undefined;
       }
       return modal;
-    }
-
-
-    /* Exposing to jquery */
-    mwglobalmodaltimeresize = null;
-    $.mwmodal  = function(params, x){
-        if(typeof params === 'object'){
-          return mw.modal(params);
-        }
-        else if(typeof params === 'string'){
-          if(params=='close' || params == 'remove'){
-            mw.tools.modal.remove(x);
-          }
-        }
-    };
-
-    $.fn.mwmodal = function(params){
-        var params = params || {}
-        if(typeof params === 'string'){
-           if(params=='close' || params == 'remove'){
-              !!this[0].modal ? mw.tools.modal.remove(this[0].modal): '';
-            }
-        }
-        else{
-          params.width = params.width || this.width();
-          params.height = params.height || this.height();
-          params.content = this.html();
-          var modal = mw.modal(params);
-          this[0].modal = modal;
-          if(!!modal){
-              modal.container.style.padding = 0;
-              modal.main.style.height = params.height + mw.$('.mw_modal_toolbar', modal.main).height() + 'px';
-              $(window).bind('resize', function(){
-                 clearTimeout(mwglobalmodaltimeresize)
-                  mwglobalmodaltimeresize = setTimeout(function(){
-                  mw.tools.modal.center(modal.main)
-                 }, 123);
-              });
-          }
-          else{
-            var modal = undefined;
-          }
-          return modal;
-      }
-    }
-
-    $.fn.mweditor  = function(params){
-        var editors = $([]);
-        this.each(function(){
-            var el = $(this);
-            var w = el.width();
-            var h = el.height();
-            var editor  = mw.editor(this, params);
-            $(editor).width(w)
-            $(editor).height(h)
-            editors.push(editor);
-        });
-        return editors;
     }
 	
 	
