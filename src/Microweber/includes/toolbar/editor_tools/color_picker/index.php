@@ -48,7 +48,7 @@
 </style>
 
 
-	<script type="text/javascript" src="<?php print mw('url')->link_to_file(dirname(__FILE__)); ?>/jscolor.js?v=<?php print uniqid(); ?>"></script>
+	<script type="text/javascript" src="<?php print mw('url')->link_to_file(dirname(__FILE__)); ?>/jscolor.js"></script>
     <script>
         parent.mw.require('external_callbacks.js');
         mw.require('color.js');
@@ -64,6 +64,10 @@
 
         $(document).ready(function(){
 
+
+        $(window).bind('haschange', function(){
+            _command = window.location.hash.replace("#", "");
+        });
 
         if(_hide_selection.indexOf(_command)!=-1){
           $(parent.mwd.body).addClass('hide_selection');
@@ -121,12 +125,15 @@
         });
 
         _do = function(val){
+
           if(typeof parent.mw.iframecallbacks[_command] === 'function'){
             parent.mw.iframecallbacks[_command](val);
           }
           else if(typeof parent[_command] === 'function'){
-             parent[_command](val)
+             parent[_command](val);
           }
+
+          RegisterChange(val);
 
         }
 
@@ -146,7 +153,7 @@
 
     <input type="hidden" id="colorpicker" onchange="_do(this.value);" />
     <div class="vSpace"></div>
-<label class="mw-ui-label"><?php _e("Custom color"); ?></label>
+    <label class="mw-ui-label"><?php _e("Custom color"); ?></label>
 
 
 

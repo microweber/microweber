@@ -1835,6 +1835,19 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 /* /Tooltip default skin  */
 
 
+/* External Tools */
+
+.mw-external-tool{
+  position: absolute;
+  z-index: 1101;
+  top: 100px;
+  left: 100px;
+
+}
+
+/* /External Tools */
+
+
 
 @media (max-width: 1024px) {
     .hide-1024{ display: none;  }
