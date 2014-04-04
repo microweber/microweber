@@ -146,6 +146,16 @@ $loader->addNamespace('Microweber', MW_MODULES_DIR);
 //$loader->addNamespace('', MW_APP_PATH . 'libs');
 $loader->register();
 
+
+
+/**
+ * Constructor function
+ *
+ * @param null $class
+ * @param bool $constructor_params
+ * @return \Microweber\Application Microweber Application object
+
+ */
 function mw($class = null, $constructor_params = false)
 {
 

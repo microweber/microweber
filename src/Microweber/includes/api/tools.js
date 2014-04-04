@@ -111,29 +111,34 @@ mw.tools = {
         div.className = 'mw-external-tool';
         return div;
       },
-      prepare:function(name, callback){
+      prepare:function(name, params){
          var frame =  mwd.createElement('iframe');
          frame.name = name; /* for callbacks */
          var url = mw.external_tool(name);
-         frame.src = url;
+         if(typeof params === 'object'){
+           var params = $.param(params);
+         }
+         else{
+            params = "";
+         }
+         frame.src = url + "?" + params;
          frame.scrolling = 'no';
          frame.frameBorder = 0;
          frame.onload = function(){
             frame.contentWindow.thisframe = frame;
-            if(typeof callback === 'function'){
-              callback.call(frame);
-            }
          }
          return frame;
       },
-      init:function(name, callback, holder){
+      init:function(name, callback, holder, params){
         if(typeof mw.tools.externalInstrument.register[name] === 'undefined'){
-          var frame = mw.tools.externalInstrument.prepare(name);
+          var frame = mw.tools.externalInstrument.prepare(name, params);
           frame.height = 300;
           mw.tools.externalInstrument.register[name] = frame;
-          var holder = !holder ? mw.tools.externalInstrument.holder() : holder;
-          holder.appendChild(frame);
-          mwd.body.appendChild(holder);
+          if(!holder){
+              var holder =  mw.tools.externalInstrument.holder();
+              $(mwd.body).append(holder);
+          }
+          mw.$(holder).append(frame);
         }
         else{
            $(mw.tools.externalInstrument.register[name]).unbind('change');
@@ -145,11 +150,11 @@ mw.tools = {
         return mw.tools.externalInstrument.register[name];
       }
   },
-  external:function(name, callback, holder){
-    return mw.tools.externalInstrument.init(name, callback, holder);
+  external:function(name, callback, holder, params){
+    return mw.tools.externalInstrument.init(name, callback, holder, params);
   },
   _external:function(o){
-    return mw.tools.external(o.name, o.callback, o.holder);
+    return mw.tools.external(o.name, o.callback, o.holder, o.params);
   },
   tooltip:{
     source:function(content, skin, position){

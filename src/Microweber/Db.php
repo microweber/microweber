@@ -1851,9 +1851,9 @@ class Db
     /**
      * Escapes a string from sql injection
      *
-     * @param string $value to escape
-     *
-     * @return mixed
+     * @param string|array $value to escape
+     * @return string|array Escaped string
+     * @return mixed Es
      * @example
      * <code>
      * //escape sql string
@@ -1865,7 +1865,6 @@ class Db
      * @package Database
      * @subpackage Advanced
      */
-
     public function escape_string($value)
     {
 

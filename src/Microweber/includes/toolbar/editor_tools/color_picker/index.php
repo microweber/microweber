@@ -3,7 +3,6 @@
 #my-colors{
   width: 235px;
   max-height: 90px;
-  border: 1px solid #ccc;
   overflow-x:hidden;
   overflow-y:auto;
 }
@@ -27,8 +26,6 @@
   margin: 0 10px 10px;
   background: white;
   overflow: hidden;
-  box-shadow: 0px 0px 6px #CCCCCC;
-  box-shadow: 0 0 6px -4px #111;
 }
 
 #mwpicker{
@@ -36,14 +33,32 @@
   position: relative;
   width: 240px; height: 130px;
 }
-
+#mwpicker > div{
+  background: none !important;
+  border: none !important;
+}
 
 .transparent{
   background: url(<?php print mw('url')->link_to_file(dirname(__FILE__)); ?>/ico.transparentbg.png) no-repeat 1px 1px;
 }
 
 
+<?php if(isset($_GET['onlypicker'])){ ?>
+  #main_holder > *{
+    display: none;
+  }
 
+  #main_holder #mwpicker{
+    display: block;
+  }
+
+  #main_holder{
+    padding: 0;
+    margin: 0;
+  }
+
+
+<?php  } ?>
 
 </style>
 

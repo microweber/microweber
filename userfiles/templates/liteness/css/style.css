@@ -33,6 +33,21 @@
     body.font-opensans .h1, body.font-opensans .h2, body.font-opensans .h3, body.font-opensans .h4, body.font-opensans .h5, body.font-opensans .h6,
     body.font-opensans textarea{ font-family: 'Open Sans', sans-serif; }
 
+    body.font-verdana,
+    body.font-verdana h1, body.font-verdana h2, body.font-verdana h3, body.font-verdana h4, body.font-verdana h5, body.font-verdana h6,
+    body.font-verdana .h1, body.font-verdana .h2, body.font-verdana .h3, body.font-verdana .h4, body.font-verdana .h5, body.font-verdana .h6,
+    body.font-verdana textarea{ font-family: 'Verdana', sans-serif; }
+
+    body.font-arial,
+    body.font-arial h1, body.font-arial h2, body.font-arial h3, body.font-arial h4, body.font-arial h5, body.font-arial h6,
+    body.font-arial .h1, body.font-arial .h2, body.font-arial .h3, body.font-arial .h4, body.font-arial .h5, body.font-arial .h6,
+    body.font-arial textarea{ font-family: 'Arial', sans-serif; }
+
+    body.font-times,
+    body.font-times h1, body.font-times h2, body.font-times h3, body.font-times h4, body.font-times h5, body.font-times h6,
+    body.font-times .h1, body.font-times .h2, body.font-times .h3, body.font-times .h4, body.font-times .h5, body.font-times .h6,
+    body.font-times textarea{ font-family: "Times New Roman", Times, serif; }
+
     /***********************
               /Fonts
     **********************/
@@ -40,6 +55,7 @@
     /***********************
            Font Icons
     **********************/
+
 
 @font-face {
     font-family: 'Mono Social Icons Font';
