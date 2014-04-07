@@ -50,6 +50,7 @@ namespace Microweber;
  * @property \Microweber\Notifications $notifications
  * @property \Microweber\Layouts $layouts
  * @property \Microweber\Log $log
+ * @property \Microweber\Parser $parser
  */
 class Application
 {

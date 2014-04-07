@@ -27,16 +27,17 @@ scaleHeight = function(){
 PrepareEditor = function(){
   if(window.name.contains("mweditor")){
      HOLD = false;
+     edmwdoc = mw.tools.parseHtml('');
      mw.on.DOMChange(mwd.getElementById('mw-iframe-editor-area'), function(){
           el = $(this);
           typeof HOLD === 'number' ? clearTimeout(HOLD) : '';
-               HOLD = setTimeout(function(){
-                 if(el[0].querySelector(".edit")===null){
-                    parent.mw.$("iframe#"+window.name).trigger("change", el.html());
-                 }
-                 else{
-                   parent.mw.$("iframe#"+window.name).trigger("change", $(el[0].querySelector(".edit")).html());
-                 }
+          HOLD = setTimeout(function(){
+                var html = el.html();
+                edmwdoc.body.innerHTML = html;
+                $('[contenteditable]', edmwdoc.body).removeAttr('contenteditable');
+
+                var html = edmwdoc.body.innerHTML;
+                parent.mw.$("iframe#"+window.name).trigger("change", html);
           }, 600);
      });
   }

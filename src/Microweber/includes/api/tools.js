@@ -104,6 +104,15 @@ mw.external_tool = function(url){
 }
 
 mw.tools = {
+  createStyle:function(c, css, ins){
+    var ins = ins || mwd.getElementsByTagName('head')[0];
+    var style = mw.$(c)[0];
+    if(typeof style === 'undefined'){
+      var style = mwd.createElement('style');
+      ins.appendChild(style);
+    }
+    style.innerHTML = css;
+  },
   externalInstrument:{
       register:{},
       holder:function(){
@@ -169,6 +178,7 @@ mw.tools = {
         return tooltip;
     },
     setPosition:function(tooltip, el, position){
+        var time = time || 0;
         var el =  mw.$(el),
             w = el.outerWidth(),
             tipwidth = $(tooltip).width(),
@@ -248,6 +258,22 @@ mw.tools = {
              top:off.top -  tipheight/2 + h/2,
              left:off.left + w + arrheight
          });
+        }
+    },
+    fixPosition:function(tooltip){
+        /* mw_todo */
+        var max = 5;
+        var arr = mw.$('.mw-tooltip-arrow', tooltip);
+        arr.css('left', '');
+        var arr_left =  parseFloat(arr.css('left'));
+        var tt = $(tooltip),
+            w = tt.width(),
+            off = tt.offset(),
+            ww = $(window).width();
+        if((off.left + w) > (ww - max)){
+           var diff = off.left - (ww - w -max);
+           tt.css('left', ww - w - max);
+           arr.css('left', arr_left + diff);
         }
     },
     prepare:function(o){
@@ -2033,7 +2059,6 @@ mw.tools = {
       var curr = a[ia];
       for( ; ib<lb; ib++){
           if(b[ib]==curr){
-
             return curr;
           }
       }
@@ -2842,49 +2867,15 @@ mw.recommend = {
 }
 
 
-String.prototype._exec = function(a,b,c){
-  var a = a || "";
-  var b = b || "";
-  var c = c || "";
-  if(!this.contains(".")){
-    return window[this](a,b,c);
-  }
-  else{
-    var arr = this.split(".");
-    var temp = window[arr[0]];
-
-    var len = arr.length-1, i=1;
-    for( ; i<=len; i++){
-        var temp = temp[arr[i]];
-    }
-    return (typeof temp === 'function') ? temp(a,b,c) : temp;
-  }
-}
 
 
 String.prototype.toCamelCase = function() {
     return  mw.tools.toCamelCase(this);
 };
 
-mw.exec = function(str, a,b,c){ return str._exec(a,b,c); }
 
 
-/*
 
-$(document).ready(function(){
-  $(".modules-list.list-elements img").each(function(){
-    var file = mw.extras.get_filename(this.src);
-    $(this).after("<div><textarea onfocus='this.select()' style='padding:5px;background:#B8CDE2;white-space:nowrap;box-shadow:inset 0 0 2px #000;height:14px;border:0;width:120px;font:11px Arial;resize:none'>"+file+"</textarea></div>");
-  });
-
-  $(".mw_module_image, .mw_module_hold").css({
-    minWidth:0,
-    maxWidth:'none',
-    width:'auto'
-  })
-});
-
-*/
 
 
 $.fn.datas = function(){
@@ -3268,7 +3259,7 @@ mw.storage = {
           if(!('localStorage' in mww) ||  /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
           var lsmw = localStorage.getItem("mw");
           if(typeof lsmw === 'undefined' || lsmw === null){
-              var lsmw = lsmwlocalStorage.setItem("mw", "{}")
+              var lsmw = localStorage.setItem("mw", "{}")
           }
           this.change("INIT");
           return lsmw;
@@ -3341,7 +3332,6 @@ mw.storage.init();
 rcss = function(){
   mw.$("link").each(function(){
     var href = this.href;
-
     this.href =  mw.url.set_param('v', mw.random(), href);
   });
 }

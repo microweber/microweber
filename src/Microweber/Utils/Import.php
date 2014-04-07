@@ -364,7 +364,7 @@ class Import
         }
 
         $ext = get_file_extension($filename);
-        $import_method = strtolower('import_' . $ext);
+        $import_method = strtolower('queue_import_' . $ext);
         if (method_exists($this, $import_method)) {
             ini_set('memory_limit', '512M');
             set_time_limit(900);
@@ -375,7 +375,7 @@ class Import
         }
     }
 
-    public function import_csv($filename)
+    public function queue_import_csv($filename)
     {
         only_admin_access();
         if (!is_file($filename)) {
@@ -913,7 +913,7 @@ class Import
 
     }
 
-    public function import_xml($filename)
+    public function queue_import_xml($filename)
     {
         only_admin_access();
 
@@ -976,10 +976,10 @@ class Import
         $file_name = 'import_chunk_xml_' . md5($content_batch);
         $file_location = $chunks_folder . $file_name;
         if (!is_file($file_location)) {
-            file_put_contents($file_location, $content_batch);
+           file_put_contents($file_location, $content_batch);
         }
-        //$this->batch_save($content_items);
-        //$content_items = array();
+
+
         return array('success' => ($i) . " xml items will be imported");
 
 

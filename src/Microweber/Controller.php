@@ -2214,6 +2214,16 @@ class Controller
 
 
         $this->app->content->define_constants($page);
+
+
+
+        if (defined('TEMPLATE_DIR')) {
+            $load_template_functions = TEMPLATE_DIR . 'functions.php';
+            if (is_file($load_template_functions)) {
+                include_once($load_template_functions);
+            }
+        }
+
         $tool = str_replace('..', '', $tool);
 
         $p_index = MW_INCLUDES_DIR . 'toolbar/editor_tools/index.php';
