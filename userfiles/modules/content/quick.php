@@ -530,11 +530,12 @@ mw.edit_content.handle_form_submit = function(go_live){
 		
 		if(typeof(data.content) != "undefined" && typeof(data.id) != "undefined" && data.id != 0){
 			var inner_edits = mw.collect_inner_edit_fields(data.content);
-			if(inner_edits != false){
+			
+				 
+			if(inner_edits != undefined && inner_edits != false){
 				save_inner_edit_data = inner_edits;
 				
-				
-				
+				 
 				save_inner_edit_data.id = data.id;
 				mw.save_inner_editable_fields(save_inner_edit_data);
 			}

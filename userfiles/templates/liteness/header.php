@@ -20,42 +20,8 @@
         mw.require(mw.settings.template_url + "js/functions.js");
     </script>
     <link rel="stylesheet" href="<?php print template_url(); ?>css/style.css" type="text/css" />
-    <?php
-        $color_scheme = get_option('color-scheme', 'mw-template-liteness');
-        if($color_scheme==''){
-          $color_scheme = 'default';
-        }
-        $font = get_option('font', 'mw-template-liteness');
-        $bgimage = get_option('bgimage', 'mw-template-liteness');
 
-$option = array();
-$option['option_value'] = '';
-$option['option_key'] = 'custom_css_json';
-$option['option_group'] = 'mw-template-liteness';
-//save_option($option);
-
-        $custom_css_json = get_option('custom_css_json', 'mw-template-liteness');
-    ?>
-    <link rel="stylesheet" id="colorscss" href="<?php print template_url(); ?>css/colors/<?php print $color_scheme; ?>.css" type="text/css"  />
-
-    <?php
-      if($custom_css_json != '' and $custom_css_json != '{}'){
-
-          $selectors = liteness_template_colors_selectors();
-          $json = json_decode($custom_css_json, true);
-          $final = '';
-          foreach($json as $item => $value){
-            $final .= $selectors[$item.'_bg'].'{background-color:'.$value.'}';
-            $final .= $selectors[$item.'_color'].'{color:'.$value.'}';
-          }
-          print '<style id="customcolorscss" type="text/css">'.$final.'</style>';
-       }
-       else{
-          print '<style id="customcolorscss" type="text/css"></style>';
-       }
-
-    ?>
-
+    <?php include THIS_TEMPLATE_DIR . 'header_options.php'; ?>
 </head>
 <body class="<?php print $font . ' ' . $bgimage; ?>">
 <div id="main-container">

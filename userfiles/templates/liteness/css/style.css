@@ -211,10 +211,12 @@ body.bgimage0{ background-image: none; }
 body.bgimage1{ background-image: url(../img/bgimage1.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
 body.bgimage2{ background-image: url(../img/bgimage2.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
 body.bgimage3{ background-image: url(../img/bgimage3.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
+body.bgimagecustom{ background-size: cover; background-repeat: no-repeat; background-attachment: fixed; }
 
 body.bgimage1 .box-container,
 body.bgimage2 .box-container,
-body.bgimage3 .box-container{
+body.bgimage3 .box-container,
+body.bgimagecustom .box-container{
   padding: 20px;
 }
 

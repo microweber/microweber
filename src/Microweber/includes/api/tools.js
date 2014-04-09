@@ -4172,7 +4172,14 @@ mw.image = {
       mw.modal_iframe = mw.tools.modal.frame;
       mw.gallery      = mw.tools.gallery.init;
       mw.tooltip      = mw.tools.tip;
-      //mw.uploader     = mw.files.uploader;
+      mw.uploader = function(o){
+          var uploader = mw.files.uploader(o);
+          var el = mw.$(o.element)[0];
+          if(typeof el !== 'undefined'){
+            el.appendChild(uploader);
+          }
+          return uploader;
+      }
       mw.editor       = mw.tools.wysiwyg;
       mw.dropdown     = mw.tools.dropdown;
       mw.tabs         = mw.tools.tabGroup;

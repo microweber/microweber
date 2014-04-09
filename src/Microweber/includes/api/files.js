@@ -73,15 +73,3 @@ mw.files = {
     }
 }
 
-mw.uploader = function(o){
-  return mw.files.uploader(o);
-}
-
-$.fn.uploader = function(o){
-  var uploader = mw.uploader(o);
-  $(this).empty().append(uploader);
-  this.uploader = uploader;
-  this[0].uploader = uploader;
-  return this;
-}
-
