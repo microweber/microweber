@@ -9,7 +9,7 @@
       </div>
       <div class="mw-ui-col" id="footer-menu">
         <div class="edit" field="footer-right" rel="global">
-          <module type="menu"  name="footer_menu" template="small" id="footer-menu">
+          <module type="menu"  name="footer_menu" template="small">
         </div>
       </div>
       <div class="mw-ui-col" id="powered">

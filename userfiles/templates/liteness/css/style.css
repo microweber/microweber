@@ -108,8 +108,7 @@ a, a:hover, a:focus, a:active{
 
 
 
-#header a, #header a:hover, #header a:focus, #header a:active,
-#footer a, #footer a:hover, #footer a:focus, #footer a:active{ color: inherit; }
+
 
 #header .pagination > a.active,
 #footer .pagination > a.active,
@@ -125,14 +124,16 @@ a, a:hover, a:focus, a:active{
 }
 
 .btn-default{
-  background-color: #F0F0F0;
+  background-color: #87879B;
   border-color: transparent;
+  color: white;
 }
 
 .btn-default:hover,
 .btn-default:focus{
-  background-color: #EBEBEB;
+  background-color: #7F7F94;
   border-color: transparent;
+  color: white;
 }
 .btn-warning{ background: #ED8D00; }
 
@@ -155,7 +156,7 @@ a, a:hover, a:focus, a:active{
 }
 
 .date, .muted{
-  color: rgba(142, 142, 142, 1);
+  color: rgba(92, 92, 92, 0.5);
 }
 
 .btn-action, .product-price-holder .btn, .btn-action-default{
@@ -199,9 +200,9 @@ a, a:hover, a:focus, a:active{
 
 .comments-user-profile{ color: #8E8E8E; }
 
-::selection{color:#fff;background:#777}
-::-moz-selection{color:#fff;background:#777}
-::-webkit-selection{color:#fff;background:#777}
+::selection{color:#fff;background:rgba(0, 0, 0, 0.5)}
+::-moz-selection{color:#fff;background:rgba(0, 0, 0, 0.5)  }
+::-webkit-selection{color:#fff;background:rgba(0, 0, 0, 0.5)  }
 
 /***********************
    Image Backgrounds
@@ -300,6 +301,10 @@ img{
     background: #E66B7D;
     color: white;
     margin-bottom: 12px;
+  }
+
+  h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small{
+    color: inherit;
   }
 
   /* /Overwriting Bootstrap classes */
@@ -495,6 +500,8 @@ img{
   border-style: solid none solid;
   border-color: transparent;
   margin: 30px 0 0;
+  background:white !important;
+
 }
 #main-menu:after{
   content: ".";
@@ -534,6 +541,10 @@ img{
   outline: none;
 }
 
+.module-navigation-default a{
+  color: #555566;
+}
+
 .module-navigation-default li:hover a.active,
 .module-navigation-default a.active,
 .module-navigation-default a.active:hover,
@@ -541,6 +552,7 @@ img{
 .module-navigation-default a.active:focus{
   outline: none;
   box-shadow: none;
+  color: white;
 }
 
 .module-navigation-default > ul > li > ul a{
@@ -739,6 +751,10 @@ img{
 
 /* Local Modules and Module overwriting */
 
+
+.mwcommentsmodule .comments-template-stylish .comment .comment-content, .mwcommentsmodule .comment-author{
+  color: inherit
+}
 
 .mw-rotator-template-inner .rotator-next, .mw-rotator-template-inner .rotator-prev{
   height: 40px;

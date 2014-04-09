@@ -75,7 +75,16 @@
 
         _hide_selection = ['fontColor', 'fontbg'];
 
-
+        setColor = function(color){
+           if(!!window.picker){
+             var color = color.contains('rgb') ? mw.color.rgbToHex(color) : color;
+             var color = color.replace("#", "");
+             picker.fromString(color);
+           }
+           else{
+               setColor(color);
+           }
+        }
 
         $(document).ready(function(){
 

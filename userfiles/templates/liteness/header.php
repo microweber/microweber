@@ -20,8 +20,20 @@
         mw.require(mw.settings.template_url + "js/functions.js");
     </script>
     <link rel="stylesheet" href="<?php print template_url(); ?>css/style.css" type="text/css" />
-
     <?php include THIS_TEMPLATE_DIR . 'header_options.php'; ?>
+    <style>
+        .module-navigation-default li a.active,
+        #header .module-navigation-default li a.active,
+        .module-navigation-default li a:hover,
+        .module-navigation-default li:hover a,
+        #header .module-navigation-default li a:hover,
+        #header .module-navigation-default li:hover a,
+        .module-navigation-default li a:focus,
+        #header .module-navigation-default li a:focus{
+          color: white;
+        }
+
+    </style>
 </head>
 <body class="<?php print $font . ' ' . $bgimage; ?>">
 <div id="main-container">
@@ -29,7 +41,7 @@
        <div class="container">
         <div class="row">
             <div class="col-md-9">
-              <h1 class="edit nodrop element" id="logo" field="logo-top" rel="global">
+               <h1 class="edit nodrop element" id="logo" field="logo-top" rel="global">
                   <a href="<?php print site_url(); ?>">
                     <span>Liteness</span>
                     <small>Define your own Space</small>

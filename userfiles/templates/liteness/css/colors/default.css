@@ -24,7 +24,7 @@
 
 #footer{ background: white; }
 #footer .mw-ui-row, .mw-cart-action-holder{ border-top-color: #eee;}
-#powered, #copyright{ color: #ADADAD; }
+#powered, #powered a, #copyright{ color: #ADADAD; }
 
 
 /* Modules */

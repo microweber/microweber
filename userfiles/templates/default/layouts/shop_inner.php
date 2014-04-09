@@ -16,7 +16,7 @@
             <div class="mw-col" style="width:50%">
               <div class="mw-col-container">
                 <div class="product-description">
-                  <div class="edit"  field="excerpt" rel="post">
+                  <div class="edit"  field="content_body" rel="post">
                     <p class="element">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative &amp; <strong style="font-weight: 600">Make Web</strong>.</p>
                   </div>
                   <module type="shop/cart_add" rel="post" />

@@ -92,7 +92,7 @@ class Router
                 return call_user_func($controller->functions[$method_full]);
 
                 // exit();
-            } elseif (is_array($controller->functions) and !empty($controller->functions)) {
+            }  elseif (is_array($controller->functions) and !empty($controller->functions)) {
                 $attached_routes = $controller->functions;
                 //routing wildcard urls
                 foreach ($attached_routes as $k => $v) {
@@ -114,10 +114,26 @@ class Router
         }
 
 
+
         if ($is_custom_controller_called == false) {
+
             if (method_exists($controller, $method)) {
                 return $controller->$method();
             } else {
+
+            if (isset($this->vars[$method]) and is_string($this->vars[$method])) {
+                  if(class_exists($this->vars[$method],true)){
+                      $method2 = mw('url')->segment(1);
+                      $sub_contoller = new $this->vars[$method];
+                      if (method_exists($sub_contoller, $method)) {
+                          return $sub_contoller->$method();
+                      }if ($method2 != false and method_exists($sub_contoller, $method2)) {
+                          return $sub_contoller->$method2();
+                      }elseif (method_exists($sub_contoller, 'index')) {
+                          return $sub_contoller->index();
+                      }
+                  }
+                }
                 return $controller->index();
             }
         }
@@ -144,5 +160,15 @@ class Router
                 }
             }
         }
+    }
+
+
+    public static $_instance;
+
+    public static function getInstance() {
+        if ( !(self::$_instance instanceof self) ) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
     }
 }

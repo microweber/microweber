@@ -2,7 +2,11 @@
 if(typeof mw === 'undefined'){
 
 
-mw = {}
+mw = function(){
+  /* mw_todo */
+}
+
+
 
 mw.version = "<?php print MW_VERSION; ?>";
 
@@ -678,6 +682,7 @@ mw._response = {
   mw.require("session.js");
 }
 
+
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/jquery.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/tools.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/files.js");
@@ -686,9 +691,7 @@ mw.required.push("<?php print MW_INCLUDES_URL; ?>api/url.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/events.js");
 
 
-
 <?php  include "jquery.js";  ?>
-
 <?php  include "tools.js"; ?>
 <?php  include "files.js"; ?>
 <?php  include "forms.js"; ?>

@@ -217,9 +217,9 @@ class Content
 
 
         $fields_to_add[] = array('content_type', 'TEXT default NULL');
-        $fields_to_add[] = array('url', 'longtext default NULL');
+        $fields_to_add[] = array('url', 'LONGTEXT default NULL');
         $fields_to_add[] = array('content_filename', 'TEXT default NULL');
-        $fields_to_add[] = array('title', 'longtext default NULL');
+        $fields_to_add[] = array('title', 'LONGTEXT default NULL');
         $fields_to_add[] = array('parent', 'int(11) default NULL');
         $fields_to_add[] = array('description', 'TEXT default NULL');
         $fields_to_add[] = array('content_meta_title', 'TEXT default NULL');
@@ -228,7 +228,7 @@ class Content
         $fields_to_add[] = array('position', 'int(11) default 1');
 
         $fields_to_add[] = array('content', 'LONGTEXT default NULL');
-        $fields_to_add[] = array('excerpt', 'LONGTEXT default NULL');
+        $fields_to_add[] = array('content_body', 'LONGTEXT default NULL');
 
         $fields_to_add[] = array('is_active', "char(1) default 'y'");
         $fields_to_add[] = array('is_home', "char(1) default 'n'");
@@ -522,7 +522,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+             return $cache_content;
         }
 
         $render_file = false;
@@ -924,7 +924,7 @@ class Content
 
         }
 
-        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) == 'default') {
+        if (isset($page['active_site_template']) and $render_file == false and (strtolower($page['active_site_template']) == 'default' or $page['active_site_template'] == $site_template_settings)) {
 
             if ($render_file == false and isset($page['active_site_template']) and isset($page['id'])) {
                 if (isset($look_for_post) and $look_for_post != false) {
@@ -948,14 +948,12 @@ class Content
                 }
             }
 
-
             $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
-
             if ($render_file == false and is_file($template_view) == true) {
                 $render_file = $template_view;
             }
-
         }
+
         if ($render_file == false and isset($page['active_site_template'])) {
             $url_file = $this->app->url->string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
@@ -3638,7 +3636,7 @@ class Content
 
         if(isset($post_data['id']) and intval($post_data['id']) > 0){
            $page_id = intval($post_data['id']);
-        }else if ($ref_page != '') {
+        } elseif ($ref_page != '') {
             //removing hash from url
             if (strpos($ref_page_url, '#')) {
                 $ref_page = $ref_page_url = substr($ref_page_url, 0, strpos($ref_page_url, '#'));
@@ -3659,9 +3657,7 @@ class Content
             if (isset($ustr) and trim($ustr) == 'favicon.ico') {
                 return false;
             } elseif ($ustr2 == '' or $ustr2 == '/') {
-
                 $ref_page = $this->homepage();
-
             }
 
 
@@ -5509,7 +5505,24 @@ class Content
         if (isset($data['content_url']) and !isset($data['url'])) {
             $data['url'] = $data['content_url'];
         }
+
+        if (!isset($data['parent']) and isset($data['content_parent'])) {
+            $data['parent'] = $data['content_parent'];
+        }
+
+
+
+
+
         $data_to_save = $data;
+        if (!isset($data['title']) and isset($data['content_title'])) {
+            $data['title'] = $data['content_title'];
+        }
+        if (isset($data['title'])) {
+            $data['title'] = strip_tags($data['title']);
+            $data['title'] = preg_replace("/(^\s+)|(\s+$)/us", "", $data['title']);
+            $data_to_save['title'] = $data['title'];
+        }
 
         if (!isset($data['url']) and intval($data['id']) != 0) {
 
@@ -5528,11 +5541,7 @@ class Content
             }
             $thetitle = $data['title'];
         }
-        if (isset($data['title'])) {
-            $data['title'] = strip_tags($data['title']);
-            $data['title'] = preg_replace("/(^\s+)|(\s+$)/us", "", $data['title']);
-            $data_to_save['title'] = $data['title'];
-        }
+
 
         if (isset($data['id']) and intval($data['id']) == 0) {
             if (!isset($data['title']) or ($data['title']) == '') {
