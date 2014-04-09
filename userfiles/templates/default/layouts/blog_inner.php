@@ -7,14 +7,14 @@
 				<div class="edit post-content" field="content" rel="content">
                     <module data-type="pictures" data-template="slider"  rel="content"  />
                     
-                    
+                    <div class="edit"  field="content_body" rel="content">
 					<div class="element" style="width:95%">
                     
 						<p align="justify">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</p>
                         
                         
 					</div>
-                    
+                    </div>
                     
 				</div>
                 <div class="edit" rel="content" field="comments"><module data-type="comments" data-template="default" data-content-id="<?php print CONTENT_ID; ?>"  /></div>

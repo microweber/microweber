@@ -26,6 +26,18 @@
           $final .= $selectors[$item.'_bg'].'{background-color:'.$value.'}';
           $final .= $selectors[$item.'_color'].'{color:'.$value.'}';
         }
+         /*************************************************************************************
+            Add some extra space inside the content boxes when body background is onot white.
+         *************************************************************************************/
+        if(isset($json['third'])){
+            $bodybg = strtolower($json['third']);
+            if($bodybg != '#ffffff' and $bodybg != '' and $bodybg != 'transparent' and  $color_scheme != 'transparent'){
+               $final.= '.box-container {padding: 20px; }.box-container .box-container{  padding: 0; }';
+            }
+            if($bodybg == '#ffffff' and $color_scheme != 'transparent'){
+              $final.= '.box-container {padding: 0px; }.box-container .box-container{  padding: 0; }';
+            }
+        }
         print '<style id="customcolorscss" type="text/css">'.$final.'</style>';
      }
      else{

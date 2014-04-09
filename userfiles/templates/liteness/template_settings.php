@@ -45,6 +45,21 @@
   <script>
     SELECTORS = { <?php print $selectors_js; ?> };
     CUSTOMBG = "<?php print $custom_bg ?>";
+    ExtraPad = function(){
+      var scheme = mw.$("#color-scheme-input").val();
+      if(scheme=='transparent'){
+        var final = '';
+      }
+      if(!!CSSJSON['third']){
+       if(CSSJSON['third'].toLowerCase() != '#ffffff' && CSSJSON['third'].toLowerCase() != '' && mwd.getElementById('color-scheme-input').value != 'transparent'){
+         var final = '.box-container{padding: 20px; }.box-container .box-container{  padding: 0; }';
+       }
+       if(CSSJSON['third'].toLowerCase() == '#ffffff'){
+         var final = '.box-container{padding: 0; }';
+       }
+      }
+      return final;
+    };
   </script>
 
 
@@ -84,6 +99,8 @@
                 var val = $(this).dataset('value');
                 setScheme(val);
                 mw.$("#color-scheme-input").val(val).trigger("change");
+
+                third(CSSJSON['third'].replace(/#/g, ''));
             }
           });
 
@@ -116,7 +133,7 @@
 
          mw.$(".pick-scheme[data-value='<?php print $color_scheme; ?>']").addClass("active");
          mw.$(".pick-image[data-value='<?php print $bgimage; ?>']").addClass("active");
-
+         mwd.getElementById('color-scheme-input').value = "<?php print $color_scheme; ?>";
 
         /**********************************************************************
 
@@ -138,7 +155,7 @@
 
         primary = function(a){
            var cTag = parent.mwd.getElementById('customcolorscss');
-           SetJSON('primary', '#'+a);
+            SetJSON('primary', '#'+a);
             mw.tools.createStyle(cTag, BuildCSS());
             mw.$('[data-func="primary"]').css('background', '#'+a);
         }
@@ -166,6 +183,9 @@
           final+= SELECTORS["secondary_color"] + '{color:' + CSSJSON['secondary'] + '}';
           final+= SELECTORS["third_bg"] + '{background-color:' + CSSJSON['third'] + '}';
           final+= SELECTORS["third_color"] + '{color:' + CSSJSON['third'] + '}';
+
+          final+= ExtraPad();
+
           return final;
         }
 
@@ -245,7 +265,7 @@
             parent.mw.tools.classNamespaceDelete(parent.mwd.body, 'bgimage');
             mw.$("#pick-image-custom-body").css("backgroundImage", 'url(' + b.src + ')').show();
             parent.$(parent.mwd.body).addClass('bgimagecustom');
-            parent.mw.$('#custom_bg').empty().html('body.bgimagecustom{background-image:url('+b.src+')}.box-container{padding:20px;}');
+            parent.mw.$('#custom_bg').empty().html('body.bgimagecustom{background-image:url('+b.src+')}' + ExtraPad());
         });
 
       });

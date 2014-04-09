@@ -18,6 +18,7 @@
                             .'.module-navigation-default li:hover a, .module-navigation-default li a:hover, .module-navigation-default li a:focus,'
                             .'.module-navigation-default li:hover a.active, .module-navigation-default a.active,.module-navigation-default a.active:hover,.module-navigation-default a.active:active,.module-navigation-default a.active:focus,'
                             .'#header .pagination > a.active, #footer .pagination > a.active, .pagination > .active > a, .pagination > .active > span,'
+                            .'.pages-nav-default li a:hover, .pages-nav-default li a:focus,'
                             .'.pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus',
 
       'primary_color'   => '.module-navigation-default li a, #header .module-navigation-default li a, #header .well a',

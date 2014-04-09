@@ -566,9 +566,12 @@ class Media
             $src = normalize_path($src, false);
 
         } else {
+            $src1 = MW_MEDIA_DIR . $src;
+            $src1 = normalize_path($src1, false);
 
-            $src = MW_ROOTPATH . $src;
-            $src = normalize_path($src, false);
+
+            $src2 = MW_ROOTPATH . $src;
+            $src2 = normalize_path($src2, false);
 
             /*  if (!is_file($src)) {
                   $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
@@ -586,8 +589,10 @@ class Media
               }*/
 
 
-            if (is_file($src)) {
-
+            if (is_file($src1)) {
+                $src = $src1;
+            } elseif (is_file($src2)) {
+                $src = $src2;
             } else {
                 return $this->pixum_img();
             }
@@ -780,6 +785,9 @@ class Media
         $cache_id['height'] = $height;
         $cache_id = 'tn-' . crc32(serialize($cache_id)) . '.' . $ext;
         $cache_path = $cd . $cache_id;
+
+
+
         if (file_exists($cache_path)) {
             // d($cache);
             $cache_path = $this->app->url->link_to_file($cache_path);

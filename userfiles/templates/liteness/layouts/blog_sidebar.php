@@ -1,7 +1,7 @@
 
 
 <?php if(is_post() == true){ ?>
-<div class="edit" field="blog_sidebar_1" rel="inherit">
+<div class="edit sidebar" field="blog_sidebar_1" rel="inherit">
   <h4 class="element sidebar-title">Recent posts</h4>
   <div class="sidebar-box">
   <?php
@@ -52,7 +52,7 @@
 
   <?php }  ?>
 
-<div class="edit"  field="blog_sidebar_2" rel="inherit">
+<div class="edit sidebar"  field="blog_sidebar_2" rel="inherit">
   <h4 class="element sidebar-title">Blog Categories</h4>
 
   <div class="sidebar-box">

@@ -12,10 +12,7 @@
 
 #header{ background: white; }
 
-.module-navigation-default li li a{
-  border-color: #EFEFEF;
-  background-color: white;
-}
+
 
 #main-menu{ border-color:#EFEFEF; }
 
@@ -42,6 +39,8 @@
 
 
 .module-navigation-default li:hover a.active,
+.module-navigation-default li a:hover,
+.module-navigation-default li:hover a,
 .module-navigation-default a.active,
 .module-navigation-default a.active:hover,
 .module-navigation-default a.active:active,

@@ -10,8 +10,6 @@ if(isset($batch['remaining'])){
 }
 
 
-
-
  
 ?>
 
