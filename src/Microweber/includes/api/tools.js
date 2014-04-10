@@ -2505,7 +2505,7 @@ mw.tools = {
            left: 'auto',
            top: mw.tools.TemplateSettingsModalDefaults.top,
            height:'auto',
-           zIndex:1000,
+           zIndex:1102,
         }).addClass('mw-template-settings-hidden');
 
         mw.$('.mw_modal_container', $(modal.main)[0]).height('auto');

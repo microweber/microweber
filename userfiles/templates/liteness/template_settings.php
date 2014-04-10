@@ -58,6 +58,7 @@
          var final = '.box-container{padding: 0; }';
        }
       }
+
       return final;
     };
   </script>
@@ -151,6 +152,8 @@
         mw.$('[data-func="primary"]').css('background', CSSJSON['primary']);
         mw.$('[data-func="secondary"]').css('background', CSSJSON['secondary']);
         mw.$('[data-func="third"]').css('background', CSSJSON['third']);
+        mw.$('[data-func="fourth"]').css('background', CSSJSON['fourth']);
+        mw.$('[data-func="fifth"]').css('background', CSSJSON['fifth']);
 
 
         Settings = {};
@@ -340,7 +343,7 @@
 <label class="template-setting-label ">Custom colors</label>
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="primary"></a>
-    <label class="desc">Main color <small class="muted">( Header, Footer &amp; buttons )</small></label>
+    <label class="desc">Main color <small class="muted">( Header, Footer )</small></label>
 </span>
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="secondary"></a>
@@ -354,7 +357,7 @@
 
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fifth"></a>
-    <label>Link color</label>
+    <label>Links &amp; buttons</label>
 </span>
 
 <hr>

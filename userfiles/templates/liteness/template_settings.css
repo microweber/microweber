@@ -39,7 +39,7 @@ body.loading:after{
     -o-transition: box-shadow 0.5s ease;
     -ms-transition: box-shadow 0.5s ease;
     transition: box-shadow 0.5s ease;
-    opacity: 0.2;
+    opacity: 0.4;
 }
 * > [class*='pick-']:last-child{
     margin-right: 0;

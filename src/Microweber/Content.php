@@ -1482,7 +1482,7 @@ class Content
         if (is_array($data)) {
             $to_print = "<div class='{$class}-holder' ><ul class='{$class}'>";
             $paging_items = array();
-            $active_item = 0;
+            $active_item = 1;
             foreach ($data as $key => $value) {
                $skip = false;
                $act_class = '';
@@ -1507,14 +1507,18 @@ class Content
 
                 foreach($paging_items as $key=>$paging_item){
                     if($key == $active_item){
-                        $steps = floor($limit/2);
+                        $steps = $steps2 = floor($limit/2);
                         for ($i = 1; $i <= $steps; $i++) {
                            if(isset($paging_items[$key-$i])){
                                $limited_paging_begin[$key-$i] = $paging_items[$key-$i] ;
+                              // $steps2--;
+                           } else {
+                               $steps2++;
                            }
                         }
+
                         $limited_paging[$key] = $paging_item ;
-                        for ($i = 1; $i <= $steps; $i++) {
+                        for ($i = 1; $i <= $steps2; $i++) {
                             if(isset($paging_items[$key+$i])){
                                 $limited_paging[$key+$i] = $paging_items[$key+$i] ;
                             }
@@ -4231,11 +4235,7 @@ class Content
 
                                 if ($is_no_save != true and $is_draft == false) {
                                     $json_print[] = $to_save;
-
-
                                     $saved = $this->save_content_admin($to_save);
-
-
                                 }
 
 

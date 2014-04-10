@@ -33,6 +33,11 @@ if($cur_template == false){
 	
 	if(isset($_GET['data-template'])){
 		$cur_template = $_GET['data-template'].'.php';
+	} elseif(isset($_GET['template'])){
+		$cur_template = $_GET['template'].'.php';
+	}
+	if($cur_template != false){
+		$cur_template = str_replace('..','',$cur_template);
 	}
 }
  

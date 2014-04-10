@@ -58,6 +58,7 @@ if(isset($params['content-id'])){
     				load_iframe_editor();
     			}
     			mw.reload_module('#'+module_id);
+				mw.reload_module_parent('pictures');
     			if(self !== top && typeof parent.mw === 'object'){
     				 parent.mw.reload_module('pictures');
     				 if(self !== top && typeof parent.mw === 'object'){

@@ -8,18 +8,7 @@
 
 
       'primary_bg'      =>  ''
-                            .'#header, #footer,'
-                            .'.pagination > a.active, .mw-search-autocomplete .module-posts-template-search > ul > li.active,'
-                            .'.btn-default, .btn-action, .product-price-holder .btn, .btn-action-default,'
-                            .'.btn-default:hover, .btn-action:hover, .product-price-holder .btn:hover, .btn-action-default:hover,'
-                            .'.btn-default:focus, .btn-action:focus, .product-price-holder .btn:focus, .btn-action-default:focus,'
-                            .'.module-navigation-default li:hover > a, .module-navigation-default a.active, .module-navigation-default a.active:hover,'
-                            .'.module-navigation-default a.active:active, .module-navigation-default a.active:focus,'
-                            .'.module-navigation-default li:hover a, .module-navigation-default li a:hover, .module-navigation-default li a:focus,'
-                            .'.module-navigation-default li:hover a.active, .module-navigation-default a.active,.module-navigation-default a.active:hover,.module-navigation-default a.active:active,.module-navigation-default a.active:focus,'
-                            .'#header .pagination > a.active, #footer .pagination > a.active, .pagination > .active > a, .pagination > .active > span,'
-                            .'.pages-nav-default li a:hover, .pages-nav-default li a:focus,'
-                            .'.pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus',
+                            .'#header, #footer',
 
       'primary_color'   => '.module-navigation-default li a, #header .module-navigation-default li a, #header .well a',
 
@@ -35,8 +24,20 @@
       'fourth_bg' => ".box-container, #main-menu",
       'fourth_color' => "#mwnoop",
 
-      'fifth_bg' => "",
-      'fifth_color' => ".box-container a, #main-menu a, .sidebar a, .sidebar-box .nav li a"
+      'fifth_bg' => ''
+                    .'.pagination > a.active, .mw-search-autocomplete .module-posts-template-search > ul > li.active,'
+                    .'.btn-default, .btn-action, .product-price-holder .btn, .btn-action-default,'
+                    .'.btn-default:hover, .btn-action:hover, .product-price-holder .btn:hover, .btn-action-default:hover,'
+                    .'.btn-default:focus, .btn-action:focus, .product-price-holder .btn:focus, .btn-action-default:focus,'
+                    .'.module-navigation-default li:hover > a, .module-navigation-default a.active, .module-navigation-default a.active:hover,'
+                    .'.module-navigation-default a.active:active, .module-navigation-default a.active:focus,'
+                    .'.module-navigation-default li:hover a, .module-navigation-default li a:hover, .module-navigation-default li a:focus,'
+                    .'.module-navigation-default li:hover a.active, .module-navigation-default a.active,.module-navigation-default a.active:hover,.module-navigation-default a.active:active,.module-navigation-default a.active:focus,'
+                    .'#header .pagination > a.active, #footer .pagination > a.active, .pagination > .active > a, .pagination > .active > span,'
+                    .'.pages-nav-default li a:hover, .pages-nav-default li a:focus,'
+                    .'.pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus',
+      'fifth_color' => '.box-container a, #main-menu a, .sidebar a, .sidebar-box .nav li a'
+
     );
   }
 

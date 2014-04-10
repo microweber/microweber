@@ -20,7 +20,7 @@
 
 
 #footer{ background: white; }
-#footer .mw-ui-row, .mw-cart-action-holder{ border-top-color: #eee;}
+#footer .mw-ui-row, .mw-cart-action-holder, hr{ border-top-color: rgba(194, 194, 194, 0.38) }
 #powered, #powered a, #copyright{ color: #ADADAD; }
 
 

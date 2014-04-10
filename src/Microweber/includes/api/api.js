@@ -2,9 +2,7 @@
 if(typeof mw === 'undefined'){
 
 
-mw = function(){
-  /* mw_todo */
-}
+mw = {}
 
 
 
