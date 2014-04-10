@@ -458,8 +458,12 @@ function mw_make_pages_tree_sortable(){
 
 	$("#pages_tree_toolbar .pages_tree .have_category").sortable({
       axis:'y',
-	  items: '.category_tree',
-	   containment: "parent",
+	  items: '.category_element',
+	   //containment: ".category_tree",
+	   
+	   
+	   xxitems: '.category_tree',
+	   xxcontainment: "parent",
 	    distance: 35,
       update:function(){
 		   var obj = {ids:[]}

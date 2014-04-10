@@ -2,7 +2,8 @@
 
 .module-posts-template-masonry .masonry-item{
   cursor: default;
-  width: 300px;
+  min-width: 300px;
+  width: 33%;
   margin-bottom: 5px;
   box-shadow: 0 0px 2px -1px #999;
   border:1px solid #E0E0E0;

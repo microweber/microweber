@@ -1970,7 +1970,7 @@ class Content
                         //$content_type_li_class .=' ' .$item ['layout_file'];
 
                         if (isset($item ['layout_file']) and stristr($item ['layout_file'], 'blog')) {
-                            $content_type_li_class = ' is_blog';
+                            $content_type_li_class .= ' is_blog';
 
                         }
 

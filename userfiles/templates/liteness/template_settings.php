@@ -58,6 +58,11 @@
          var final = '.box-container{padding: 0; }';
        }
       }
+      if(!!CSSJSON['fourth']){
+          if(CSSJSON['fourth'].toLowerCase() != '#ffffff'){
+              var final = '.box-container{padding: 20px; }.box-container .box-container{  padding: 0; }';
+          }
+      }
 
       return final;
     };
@@ -100,11 +105,19 @@
                 var val = $(this).dataset('value');
                 setScheme(val);
                 mw.$("#color-scheme-input").val(val).trigger("change");
-                primary('');
-               // CleanCSSandJSON();
-                /*if(!!CSSJSON['third']){
-                   third(CSSJSON['third'].replace(/#/g, ''));
-                }   */
+
+                /****************************************************
+                 Simple Functions to reset one or more custom colors
+
+                    primary('');
+
+                    CleanCSSandJSON();
+
+                    if(!!CSSJSON['third']){
+                        third(CSSJSON['third'].replace(/#/g, ''));
+                    }
+
+                ****************************************************/
             }
           });
 
@@ -339,7 +352,7 @@
 </div>
 
 <hr>
-<span class="mw-ui-btn mw-ui-btn-medium right" onclick="CleanCSSandJSON();">Reset</span>
+<span class="mw-ui-btn mw-ui-btn-medium right" onclick="CleanCSSandJSON();" style="margin-top: 4px;">Reset</span>
 <label class="template-setting-label ">Custom colors</label>
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="primary"></a>

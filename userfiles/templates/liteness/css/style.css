@@ -131,12 +131,11 @@ a, a:hover, a:focus, a:active{
 }
 
 .btn-default{
-  background-color: #87879B;
+  background-color: #555566;
   border-color: transparent;
 }
 [class*='btn-'], .box-container [class*='btn-']{
   color: white;
-
 }
 
 #main-container [class*='btn-']{
@@ -863,7 +862,7 @@ img{
 
 .module-posts-template-masonry .masonry-item,
 .module-products-template-masonry .masonry-item{
-  background-color: rgba(123, 123, 123, 0.48);
+
 }
 
 .content-gallery-slider{
