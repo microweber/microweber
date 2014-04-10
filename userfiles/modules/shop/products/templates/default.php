@@ -54,14 +54,16 @@ if(!isset($tn[1])){
 
     $count++;
 
+
+
     ?>
-    <?php if($count == 1 or $count % 4 == 0) { ?>
+    <?php if($count == 1 or ($count-1) % 3 == 0) { ?>
 
        <div class="mw-ui-row">
 
     <?php } ?>
     <div class="mw-ui-col">
-    <div class="mw-ui-col-container">
+    <div class="mw-ui-col-container">   <?php   print $count;  ?>
       <?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>"> <span class="valign"> <span class="valign-cell"> <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  /> </span> </span> </a>
       <?php endif; ?>

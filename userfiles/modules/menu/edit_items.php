@@ -52,10 +52,7 @@ if( $id != 0){
     }
  
 mw.menu_item_after_save = function(){
-	 if( self !== parent && typeof parent.mw === 'object'){
-    		      parent.mw.reload_module('menu');
-    }
-	
+	mw.reload_module_parent('menu')
 }
 mw.menu_item_delete = function($item_id){
     mw.tools.confirm(mw.msg.del, function(){

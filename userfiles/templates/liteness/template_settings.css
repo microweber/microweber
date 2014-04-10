@@ -126,3 +126,11 @@ body.loading:after{
 .muted{
   color: #7F7F94;
 }
+
+#upload_custom_body_image, #image-upload-progress{
+  margin-top: 12px;
+}
+
+#font_family.mw_dropdown_type_navigation li a{
+  font-size: 13px;
+}

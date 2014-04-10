@@ -6718,8 +6718,9 @@ class Content
     public function menu_items_reorder($data)
     {
 
+        $return_res = false;
         $adm = $this->app->user->is_admin();
-        if ($adm == false) {
+        if (defined("MW_API_CALL") and $adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = $this->tables['menus'];
@@ -6760,12 +6761,13 @@ class Content
 
                 $this->app->db->update_position_field($table, $indx);
                 //return true;
+                $return_res = $indx;
             }
         }
         $this->app->cache->delete('menus/global');
 
         $this->app->cache->delete('menus');
-        return false;
+        return $return_res;
     }
 
     public function is_in_menu($menu_id = false, $content_id = false)

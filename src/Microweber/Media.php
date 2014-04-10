@@ -120,24 +120,82 @@ class Media
         $params['table'] = $table;
         $params['cache_group'] = 'media/' . $id;
 
-        if ($this->no_cache == true) {
-            $q = $this->app->db->query($q);
-        } else {
-            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
-        }
-
+//        if ($this->no_cache == true) {
+//            $q = $this->app->db->query($q);
+//        } else {
+//            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+//        }
+        $q = $this->get($params);
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];
-            if (isset($content['title'])) {
-                $content['title'] = html_entity_decode($content['title']);
-                $content['title'] = strip_tags($content['title']);
-                $content['title'] = $this->app->format->clean_html($content['title']);
-            }
+
         } else {
             return false;
         }
 
         return $content;
+    }
+
+    public function get($params)
+    {
+
+        $table = $this->tables['media'];
+
+        if ($params != false and !is_array($params) and intval($params) > 0) {
+            $params2 = array();
+            $params2['rel'] = 'content';
+            $params2['rel_id'] = intval($params);
+            $params = $params2;
+        } else {
+            $params = parse_params($params);
+        }
+
+
+        /*
+         // if (is_string($params)) {
+         // $params = parse_str($params, $params2);
+         // $params = $params2;
+         // }*/
+
+        if (isset($params['for'])) {
+            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
+        }
+
+        // $params['debug'] = $table;
+        if (!isset($params['limit'])) {
+            $params['limit'] = 1000;
+        }
+        $params['table'] = $table;
+        $params['orderby'] = 'position ASC';
+        $data = $this->app->db->get($params);
+
+        if (defined('MW_MEDIA_URL')) {
+            if (!empty($data)) {
+                $return = array();
+                foreach ($data as $item) {
+                    if (isset($item['filename']) and $item['filename'] != false) {
+                        if (!stristr($item['filename'], '{SITE_URL}')
+                            and !stristr($item['filename'], '{MEDIA_URL}')
+                                and !stristr($item['filename'], '://')
+                                    and !stristr($item['filename'], MW_MEDIA_URL)
+                        ) {
+                            $item['filename'] = MW_MEDIA_URL . $item['filename'];
+
+                        }
+                    }
+
+
+                    if (isset($item['title']) and $item['title'] != '') {
+                        $item['title'] = html_entity_decode($item['title']);
+                        $item['title'] = strip_tags($item['title']);
+                        $item['title'] = $this->app->format->clean_html($item['title']);
+                    }
+                    $return[] = $item;
+                }
+                $data = $return;
+            }
+        }
+        return $data;
     }
 
     public function upload_progress_check()
@@ -351,40 +409,6 @@ class Media
             }
             $this->app->db->delete_by_id('media', $c_id);
         }
-    }
-
-    public function get($params)
-    {
-
-        $table = $this->tables['media'];
-
-        if ($params != false and !is_array($params) and intval($params) > 0) {
-            $params2 = array();
-            $params2['rel'] = 'content';
-            $params2['rel_id'] = intval($params);
-            $params = $params2;
-        } else {
-            $params = parse_params($params);
-        }
-
-
-        /*
-         // if (is_string($params)) {
-         // $params = parse_str($params, $params2);
-         // $params = $params2;
-         // }*/
-
-        if (isset($params['for'])) {
-            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
-        }
-
-        // $params['debug'] = $table;
-        $params['limit'] = 1000;
-        $params['table'] = $table;
-        $params['orderby'] = 'position ASC';
-        $data = $this->app->db->get($params);
-
-        return $data;
     }
 
     public function save($data)
@@ -684,6 +708,11 @@ class Media
 
     }
 
+    public function pixum($width, $height)
+    {
+        return $this->app->url->site('api/pixum_img') . "?width=" . $width . "&height=" . $height;
+    }
+
     public function pixum_img()
     {
         $mime_type = "image/jpg";
@@ -743,6 +772,45 @@ class Media
         }
     }
 
+    private function svgScaleHack($svg, $minWidth, $minHeight)
+    {
+        $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
+        $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
+        preg_match($reW, $svg, $mw);
+        preg_match($reH, $svg, $mh);
+
+        if (!isset($mw[2]) and isset($mh[2])) {
+            $mw[2] = $mh[2];
+        }
+
+        if (empty($mw)) {
+            $width = floatval($minWidth);
+            $height = floatval($minHeight);
+        } else {
+            $width = floatval($mw[2]);
+            $height = floatval($mh[2]);
+        }
+
+        if (!$width || !$height) return false;
+
+        // scale to make width and height big enough
+        $scale = 1;
+        if ($width < $minWidth) {
+            $scale = $minWidth / $width;
+        }
+        if ($height < $minHeight) {
+            $scale = max($scale, ($minHeight / $height));
+        }
+        $scale = 1;
+        //$width *= $scale*2;
+        //$height *= $scale*2;
+
+        $svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
+        $svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
+
+        return $svg;
+    }
+
     public function thumbnail($src, $width = 200, $height = 200)
     {
 
@@ -785,7 +853,6 @@ class Media
         $cache_id['height'] = $height;
         $cache_id = 'tn-' . crc32(serialize($cache_id)) . '.' . $ext;
         $cache_path = $cd . $cache_id;
-
 
 
         if (file_exists($cache_path)) {
@@ -890,50 +957,6 @@ class Media
         }
         return false;
         //d($src);
-    }
-
-    public function pixum($width, $height)
-    {
-        return $this->app->url->site('api/pixum_img') . "?width=" . $width . "&height=" . $height;
-    }
-
-    private function svgScaleHack($svg, $minWidth, $minHeight)
-    {
-        $reW = '/(.*<svg[^>]* width=")([\d.]+px)(.*)/si';
-        $reH = '/(.*<svg[^>]* height=")([\d.]+px)(.*)/si';
-        preg_match($reW, $svg, $mw);
-        preg_match($reH, $svg, $mh);
-
-        if (!isset($mw[2]) and isset($mh[2])) {
-            $mw[2] = $mh[2];
-        }
-
-        if (empty($mw)) {
-            $width = floatval($minWidth);
-            $height = floatval($minHeight);
-        } else {
-            $width = floatval($mw[2]);
-            $height = floatval($mh[2]);
-        }
-
-        if (!$width || !$height) return false;
-
-        // scale to make width and height big enough
-        $scale = 1;
-        if ($width < $minWidth) {
-            $scale = $minWidth / $width;
-        }
-        if ($height < $minHeight) {
-            $scale = max($scale, ($minHeight / $height));
-        }
-        $scale = 1;
-        //$width *= $scale*2;
-        //$height *= $scale*2;
-
-        $svg = preg_replace($reW, "\${1}{$width}px\${3}", $svg);
-        $svg = preg_replace($reH, "\${1}{$height}px\${3}", $svg);
-
-        return $svg;
     }
 
     public function create_media_dir($params)

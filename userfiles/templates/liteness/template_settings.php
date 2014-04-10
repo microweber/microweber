@@ -99,8 +99,9 @@
                 var val = $(this).dataset('value');
                 setScheme(val);
                 mw.$("#color-scheme-input").val(val).trigger("change");
-
-                third(CSSJSON['third'].replace(/#/g, ''));
+                if(!!CSSJSON['third']){
+                   third(CSSJSON['third'].replace(/#/g, ''));
+                }
             }
           });
 
@@ -253,13 +254,17 @@
         var uploader = mw.uploader({filetypes:'images', multiple:false});
         mw.$("#upload_custom_body_image").append(uploader);
 
-        $(uploader).bind('FileAdded', function(){
-
+        $(uploader).bind('FilesAdded', function(){
+            mw.$("#image-upload-progress").show();
+            mw.$("#upload_custom_body_image").hide();
         });
-        $(uploader).bind('progress', function(){
-
+        $(uploader).bind('progress', function(a,b){
+            mw.$("#image-upload-progress .mw-ui-progress-bar").width(b.percent + '%');
         });
         $(uploader).bind('FileUploaded', function(a,b){
+          mw.$("#image-upload-progress").hide();
+          mw.$("#upload_custom_body_image").show();
+          mw.$("#image-upload-progress .mw-ui-progress-bar").width(0);
             mw.$('#custom_bg').val(b.src).trigger('change');
             mw.$('#bgimage').val('bgimagecustom').trigger('change');
             parent.mw.tools.classNamespaceDelete(parent.mwd.body, 'bgimage');
@@ -281,7 +286,7 @@
 
   <label class="template-setting-label">Font</label>
   <div title="Template Font" id="font_family" class="mw_dropdown mw_dropdown_type_navigation body-class"> <span class="mw_dropdown_val_holder">
-    <span class="mw_dropdown_val" style="width: 130px;">Select</span> </span>
+    <span class="mw_dropdown_val" style="width: 150px;">Select</span> </span>
     <div class="mw_dropdown_fields" style="left: 0px;">
       <ul>
         <li value="font-arial" ><a style="font-family: Arial" href="#">Arial</a></li>
@@ -319,9 +324,6 @@
     <label>Text color</label>
 </span>
 
-
-
-
 <hr>
 
 <label class="template-setting-label">Site Background</label>
@@ -335,11 +337,12 @@
 
 <label class="template-setting-label">Backgroud image</label>
 
-<div>
+<div class="body-bgs-holder">
   <a href="javascript:;" class="pick-image scheme-transparent" data-value='bgimage0'></a>
-  <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage1.jpg)" data-value='bgimage1'></a>
+  <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage1.png)" data-value='bgimage1'></a>
   <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage2.jpg)" data-value='bgimage2'></a>
   <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage3.jpg)" data-value='bgimage3'></a>
+  <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage4.jpg)" data-value='bgimage4'></a>
   <a href="javascript:;"
      class="pick-image pick-image-custom"
      id="pick-image-custom-body"
@@ -347,6 +350,10 @@
      data-value="bgimagecustom">
   </a>
   <span class="mw-ui-btn mw-ui-btn-medium" id="upload_custom_body_image">Upload your image</span>
+</div>
+
+<div class="mw-ui-progress-small" id="image-upload-progress" style="display: none">
+    <div style="width: 0%;" class="mw-ui-progress-bar"></div>
 </div>
 
 

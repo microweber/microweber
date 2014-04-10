@@ -3100,7 +3100,7 @@ class Db
 
                                     $custom_field_to_save['custom_field_value'] = array_pop( $cf_v['value']);
                                 } elseif ($cftype == 'price' and isset($cf_v['value']) and is_string($cf_v['value'])) {
- 
+
                                     $custom_field_to_save['custom_field_value'] = trim( $cf_v['value']);
                                 }else {
                                     $custom_field_to_save['custom_field_value'] = 'Array';

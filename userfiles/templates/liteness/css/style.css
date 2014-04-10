@@ -209,16 +209,22 @@ a, a:hover, a:focus, a:active{
 **********************/
 
 body.bgimage0{ background-image: none; }
-body.bgimage1{ background-image: url(../img/bgimage1.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
+body.bgimage1{ background-image: url(../img/bgimage1.png);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
 body.bgimage2{ background-image: url(../img/bgimage2.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
-body.bgimage3{ background-image: url(../img/bgimage3.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
+body.bgimage3{ background-image: url(../img/bgimage3.jpg);background-size: cover;background-repeat: no-repeat; background-attachment: fixed; }
+body.bgimage4{ background-image: url(../img/bgimage4.jpg);background-size: cover;background-repeat: no-repeat; background-attachment: fixed; }
 body.bgimagecustom{ background-size: cover; background-repeat: no-repeat; background-attachment: fixed; }
 
 body.bgimage1 .box-container,
 body.bgimage2 .box-container,
 body.bgimage3 .box-container,
+body.bgimage4 .box-container,
 body.bgimagecustom .box-container{
   padding: 20px;
+}
+
+body .box-container .box-container{
+  padding: 0;
 }
 
 /***********************
