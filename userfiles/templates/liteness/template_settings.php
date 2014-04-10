@@ -99,9 +99,11 @@
                 var val = $(this).dataset('value');
                 setScheme(val);
                 mw.$("#color-scheme-input").val(val).trigger("change");
-                if(!!CSSJSON['third']){
+                primary('');
+               // CleanCSSandJSON();
+                /*if(!!CSSJSON['third']){
                    third(CSSJSON['third'].replace(/#/g, ''));
-                }
+                }   */
             }
           });
 
@@ -172,6 +174,19 @@
             mw.tools.createStyle(cTag, BuildCSS());
             mw.$('[data-func="third"]').css('background', '#'+a);
         }
+        fourth = function(a){
+            var cTag = parent.mwd.getElementById('customcolorscss');
+            SetJSON('fourth', '#'+a);
+            mw.tools.createStyle(cTag, BuildCSS());
+            mw.$('[data-func="fourth"]').css('background', '#'+a);
+        }
+
+        fifth = function(a){
+            var cTag = parent.mwd.getElementById('customcolorscss');
+            SetJSON('fifth', '#'+a);
+            mw.tools.createStyle(cTag, BuildCSS());
+            mw.$('[data-func="fifth"]').css('background', '#'+a);
+        }
         UpdateCSS = function(property, value){
             var css = parent.window.mwd.getElementById('customcolorscss');
             SetJSON(property, value);
@@ -182,8 +197,15 @@
           final+= SELECTORS["primary_color"] + '{color:' + CSSJSON['primary'] + '}';
           final+= SELECTORS["secondary_bg"] + '{background-color:' + CSSJSON['secondary'] + '}';
           final+= SELECTORS["secondary_color"] + '{color:' + CSSJSON['secondary'] + '}';
+
           final+= SELECTORS["third_bg"] + '{background-color:' + CSSJSON['third'] + '}';
           final+= SELECTORS["third_color"] + '{color:' + CSSJSON['third'] + '}';
+
+          final+= SELECTORS["fourth_bg"] + '{background-color:' + CSSJSON['fourth'] + '}';
+          final+= SELECTORS["fourth_color"] + '{color:' + CSSJSON['fourth'] + '}';
+
+          final+= SELECTORS["fifth_bg"] + '{background-color:' + CSSJSON['fifth'] + '}';
+          final+= SELECTORS["fifth_color"] + '{color:' + CSSJSON['fifth'] + '}';
 
           final+= ExtraPad();
 
@@ -204,6 +226,7 @@
            var cTag = parent.mw.$('#customcolorscss').empty();
            mw.$('.pick-custom').removeAttr('style');
         }
+
 
 
         $(Settings.tip).addClass('settings-colorpick').hide();
@@ -324,6 +347,16 @@
     <label>Text color</label>
 </span>
 
+<span class="picklabel">
+    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fourth"></a>
+    <label>Box color</label>
+</span>
+
+<span class="picklabel">
+    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fifth"></a>
+    <label>Link color</label>
+</span>
+
 <hr>
 
 <label class="template-setting-label">Site Background</label>
@@ -335,7 +368,7 @@
 
 <hr>
 
-<label class="template-setting-label">Backgroud image</label>
+<label class="template-setting-label">Background image</label>
 
 <div class="body-bgs-holder">
   <a href="javascript:;" class="pick-image scheme-transparent" data-value='bgimage0'></a>

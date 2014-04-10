@@ -134,3 +134,7 @@ body.loading:after{
 #font_family.mw_dropdown_type_navigation li a{
   font-size: 13px;
 }
+
+#mw-notifications-holder, body.loading:after, body.loading:before{
+  display: none !important;
+}

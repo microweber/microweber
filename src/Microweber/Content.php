@@ -1456,6 +1456,11 @@ class Content
         if (isset($params['num'])) {
             $pages_count = $params['num'];
         }
+        $limit =false;
+        if (isset($params['limit'])) {
+            $limit = intval($params['limit']);
+        }
+
 
         if (isset($params['class'])) {
             $class = $params['class'];
@@ -1476,17 +1481,74 @@ class Content
         $data = $this->paging_links($base_url, $pages_count, $paging_param, $keyword_param);
         if (is_array($data)) {
             $to_print = "<div class='{$class}-holder' ><ul class='{$class}'>";
+            $paging_items = array();
+            $active_item = 0;
             foreach ($data as $key => $value) {
-                $act_class = '';
+               $skip = false;
+               $act_class = '';
                 if ($current_page_from_url != false) {
                     if (intval($current_page_from_url) == intval($key)) {
                         $act_class = ' class="active" ';
+                        $active_item = $key;
                     }
                 }
-                $to_print .= "<li {$act_class} data-page-number=\"$key\">";
-                $to_print .= "<a {$act_class} href=\"$value\" data-page-number=\"$key\">$key</a> ";
-                $to_print .= "</li>";
+
+                $item_to_print = '';
+                $item_to_print .= "<li {$act_class} data-page-number=\"$key\">";
+                $item_to_print .= "<a {$act_class} href=\"$value\" data-page-number=\"$key\">$key</a> ";
+                $item_to_print .= "</li>";
+                $paging_items[$key] = $item_to_print;
             }
+
+            if($limit != false and count($paging_items) > $limit){
+                $limited_paging = array();
+
+                $limited_paging_begin = array();
+
+                foreach($paging_items as $key=>$paging_item){
+                    if($key == $active_item){
+                        $steps = floor($limit/2);
+                        for ($i = 1; $i <= $steps; $i++) {
+                           if(isset($paging_items[$key-$i])){
+                               $limited_paging_begin[$key-$i] = $paging_items[$key-$i] ;
+                           }
+                        }
+                        $limited_paging[$key] = $paging_item ;
+                        for ($i = 1; $i <= $steps; $i++) {
+                            if(isset($paging_items[$key+$i])){
+                                $limited_paging[$key+$i] = $paging_items[$key+$i] ;
+                            }
+                        }
+
+
+                    }
+
+                }
+                $prev_link = '#';
+                $next_link = '#';
+                if(isset($data[$active_item-1])){
+                    $prev_link = $data[$active_item-1];
+                    $limited_paging_begin[] = '<li class="mw-previous-page-item"><a data-page-number="'.($active_item-1).'" href="'.$prev_link.'">&laquo;</a></li>';
+
+                }
+
+                $limited_paging_begin = array_reverse($limited_paging_begin);
+
+                 $limited_paging = array_merge($limited_paging_begin,$limited_paging);
+
+                if(isset($data[$active_item+1])){
+                    $next_link = $data[$active_item+1];
+                    $limited_paging[] = '<li class="mw-next-page-item"><a data-page-number="'.($active_item+1).'" href="'.$next_link.'">&raquo;</a></li>';
+
+                }
+                if(count($limited_paging)>2){
+                    $paging_items = $limited_paging;
+                }
+            }
+
+            $to_print .= implode("\n",$paging_items);
+
+
             $to_print .= "</ul></div>";
             return $to_print;
         }

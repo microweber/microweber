@@ -23,14 +23,20 @@
 
       'primary_color'   => '.module-navigation-default li a, #header .module-navigation-default li a, #header .well a',
 
-      'secondary_bg'    => "#main-menu",
+      'secondary_bg'    => "#mwnoop",
       'secondary_color' => '.box-container, .box-container h1,.box-container h2,.box-container h3,.box-container h4,.box-container h5,.box-container h6,'
                            .'.box-container .h1,.box-container .h2,.box-container .h3,.box-container .h4,.box-container .h5,.box-container .h6,'
                            .'.box-container h1 > a,.box-container h2 > a,.box-container h3 > a,h4 > a,.box-container h5 > a,.box-container h6 > a,'
                            .'.box-container .h1 > a,.box-container .h2 > a,.box-container .h3 > a,.box-container .h4 > a,.box-container .h5 > a,.box-container .h6 > a',
 
       'third_bg' => "body",
-      'third_color' => ""
+      'third_color' => "#mwnoop",
+
+      'fourth_bg' => ".box-container, #main-menu",
+      'fourth_color' => "#mwnoop",
+
+      'fifth_bg' => "",
+      'fifth_color' => ".box-container a, #main-menu a, .sidebar a, .sidebar-box .nav li a"
     );
   }
 

@@ -123,6 +123,13 @@ a, a:hover, a:focus, a:active{
     color: white !important;
 }
 
+.pagination > li > a, .pagination > li > span,
+.pagination > li > a:hover, .pagination > li > span:hover,
+.pagination > li > a:focus, .pagination > li > span:focus{
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.2)
+}
+
 .btn-default{
   background-color: #87879B;
   border-color: transparent;
@@ -263,7 +270,7 @@ img{
   }
 
   .well{
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.5);
     border-color:#EEEEEE;
     box-shadow: none;
   }
@@ -506,7 +513,7 @@ img{
   border-style: solid none solid;
   border-color: transparent;
   margin: 30px 0 0;
-  background:white !important;
+  background:white ;
 
 }
 #main-menu:after{
@@ -715,9 +722,10 @@ img{
   font-size: 11px;
 }
 
-.sidebar-box .well{
+.sidebar .well{
   padding: 0;
   border: none;
+  background: none;
 }
 
 

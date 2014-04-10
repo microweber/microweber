@@ -18,7 +18,7 @@ description: Columns
 		<?php $count = 0; foreach ($data as $item): ?>
         <?php
             $count++;
-            if($count == 1 or ($count%4)==0){
+            if($count == 1 or  ($count-1) % 3 == 0){
               print '<div class="row">';
 			 }
         ?>
