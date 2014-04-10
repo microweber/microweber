@@ -38,7 +38,7 @@
 <body class="<?php print $font . ' ' . $bgimage; ?>">
 <div id="main-container">
     <div id="header">
-       <div class="container">
+       <div class="container edit" field="liteness-header" rel="global">
         <div class="row">
             <div class="col-md-9">
                <h1 class="edit nodrop element" id="logo" field="logo-top" rel="global">
@@ -49,7 +49,7 @@
                </h1>
             </div>
             <div class="col-md-3">
-              <div class="edit header-cart" field="header-cart" rel="global"><module type="shop/cart" template="small"></div>
+              <div class="header-cart"><module type="shop/cart" template="small"></div>
             </div>
        </div>
        </div>
