@@ -22,6 +22,30 @@
  * @version 1.0
  */
 mw.options = {
+    saveOption:function(o, c, err){
+      if(typeof o !== 'object'){ return false;}
+      if((!o.group && !o.option_group)  || (!o.key && !o.option_key) || (!o.value && !o.option_value)){ return false; }
+      var data = {
+        option_group: o.group || o.option_group,
+        option_key: o.key || o.option_key,
+        option_value: o.value || o.option_value
+      }
+      $.ajax({
+          type: "POST",
+          url: mw.settings.site_url+"api/save_option",
+          data: data,
+          success:function(a){
+            if(typeof c === 'function'){
+              c.call(a);
+            }
+          },
+          error:function(a){
+            if(typeof err === 'function'){
+              err.call(a);
+            }
+          }
+      });
+    },
     save:function(el, callback){
 
            //    mw.extend(el);
@@ -115,11 +139,6 @@ var also_reload = el.attr('data-reload');
 				}
 
 
-
-
-
-
-
 				if(for_m_id !== undefined){
 					o_data.for_module_id = for_m_id;
 				}
@@ -153,12 +172,13 @@ var also_reload = el.attr('data-reload');
 
 				}
 
+
                 $.ajax({
                     type: "POST",
                     url: mw.settings.site_url+"api/save_option",
                     data: o_data,
                     success: function (data) {
-						
+
 						
 						if(reaload_in_parent != undefined && reaload_in_parent !== null){
 						// window.parent.mw.reload_module("#"+refresh_modules11);
@@ -168,11 +188,11 @@ var also_reload = el.attr('data-reload');
 						
 						
 						if(also_reload != undefined){
-							
+
 							
 							 
 						 
-							
+
 							if (window.mw != undefined && reaload_in_parent !== true) {
                                 if (window.mw.reload_module !== undefined) {
  

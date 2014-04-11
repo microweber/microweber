@@ -107,7 +107,9 @@ a, a:hover, a:focus, a:active{
 }
 
 
-
+.table td, .mw-wysiwyg-table-zebra > tbody > tr > td{
+  background-color: rgba(255, 255, 255, 0.25);
+}
 
 
 #header .pagination > a.active,
@@ -862,7 +864,7 @@ img{
 
 .module-posts-template-masonry .masonry-item,
 .module-products-template-masonry .masonry-item{
-
+    background-color: transparent;
 }
 
 .content-gallery-slider{
@@ -922,7 +924,6 @@ label.mw-price{
 }
 
 .mw-rotator-template-inner a.rotator-paging-item-thumbnail{
-  width: auto;
   max-height: 135px;
   border: none;
   box-shadow: none;
