@@ -1,10 +1,10 @@
 .well{
   background: transparent;
 }
-.module-navigation-default li a.active, #header .module-navigation-default li a.active,
+.module-navigation-default li a.active,
 .module-navigation-default li a:hover, .module-navigation-default li:hover a,
-.module-navigation-default li a:hover, #header .module-navigation-default li:hover a,
-.module-navigation-default li a:focus, #header .module-navigation-default li a:focus{
-  background: #555566
+.module-navigation-default li a:hover,
+.module-navigation-default li a:focus{
+  background-color: #555566
 }
-.mw-cart-action-holder, hr{ border-top-color: rgba(238, 238, 238, 0.38);}   
+.mw-cart-action-holder, hr{ border-top-color: rgba(238, 238, 238, 0.38);}

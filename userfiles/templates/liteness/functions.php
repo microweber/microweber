@@ -10,7 +10,7 @@
       'primary_bg'      =>  ''
                             .'#header, #footer',
 
-      'primary_color'   => '.module-navigation-default li a, #header .module-navigation-default li a, #header .well a',
+      'primary_color'   => '',
 
       'secondary_bg'    => "#mwnoop",
       'secondary_color' => '.box-container, .box-container h1,.box-container h2,.box-container h3,.box-container h4,.box-container h5,.box-container h6,'
@@ -32,14 +32,14 @@
                     .'.btn-default, .btn-action, .product-price-holder .btn, .btn-action-default,'
                     .'.btn-default:hover, .btn-action:hover, .product-price-holder .btn:hover, .btn-action-default:hover,'
                     .'.btn-default:focus, .btn-action:focus, .product-price-holder .btn:focus, .btn-action-default:focus,'
-                    .'.module-navigation-default li:hover > a, .module-navigation-default a.active, .module-navigation-default a.active:hover,'
+                    .'.module-navigation-default li:hover > a, .module-navigation-default li a.active, .module-navigation-default li a.active:hover,'
                     .'.module-navigation-default a.active:active, .module-navigation-default a.active:focus,'
                     .'.module-navigation-default li:hover a, .module-navigation-default li a:hover, .module-navigation-default li a:focus,'
                     .'.module-navigation-default li:hover a.active, .module-navigation-default a.active,.module-navigation-default a.active:hover,.module-navigation-default a.active:active,.module-navigation-default a.active:focus,'
                     .'#header .pagination > a.active, #footer .pagination > a.active, .pagination > .active > a, .pagination > .active > span,'
                     .'.pages-nav-default li a:hover, .pages-nav-default li a:focus,'
                     .'.pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus',
-      'fifth_color' => '.box-container a, #main-menu a, .sidebar a, .sidebar-box .nav li a'
+      'fifth_color' => '.cart-small-checkout-link, .cart-small, .cart-small-checkout-link:hover, .cart-small-checkout-link:focus, .cart-small-checkout-link:active, .box-container a, #main-menu a, .sidebar a, .sidebar-box .nav li a'
 
     );
   }

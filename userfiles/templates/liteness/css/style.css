@@ -68,6 +68,16 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+  font-family: 'fontello';
+  src: url('icons/fontello.eot?61700038');
+  src: url('icons/fontello.eot?61700038#iefix') format('embedded-opentype'),
+       url('icons/fontello.woff?61700038') format('woff'),
+       url('icons/fontello.ttf?61700038') format('truetype'),
+       url('icons/fontello.svg?61700038#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 
 .symbol, a.symbol:before {
     font-family: 'Mono Social Icons Font';
@@ -106,9 +116,17 @@ a, a:hover, a:focus, a:active{
     color:#556;
 }
 
+[class*='mw-wysiwyg-table'] > tbody > tr > td{
+  border-color: rgba(255, 255, 255, 0.12);
+}
 
-.table td, .mw-wysiwyg-table-zebra > tbody > tr > td{
+.table td,
+.mw-wysiwyg-table-zebra > tbody > tr > td, .mw-wysiwyg-table-simple-zebra > tbody > tr > td{
   background-color: rgba(255, 255, 255, 0.25);
+}
+
+.mw-wysiwyg-table-zebra > tbody > tr:nth-child(2n+1) > td, .mw-wysiwyg-table-simple-zebra > tbody > tr:nth-child(2n+1) > td{
+  background-color: rgba(128, 128, 128, 0.24);
 }
 
 
@@ -129,7 +147,7 @@ a, a:hover, a:focus, a:active{
 .pagination > li > a:hover, .pagination > li > span:hover,
 .pagination > li > a:focus, .pagination > li > span:focus{
   border-color: transparent !important;
-  background: rgba(255, 255, 255, 0.2)
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .btn-default{
@@ -241,7 +259,9 @@ body.bgimage1{ background-image: url(../img/bgimage1.png);background-size: auto;
 body.bgimage2{ background-image: url(../img/bgimage2.jpg);background-size: auto;background-repeat: repeat; background-attachment: scroll; }
 body.bgimage3{ background-image: url(../img/bgimage3.jpg);background-size: cover;background-repeat: no-repeat; background-attachment: fixed; }
 body.bgimage4{ background-image: url(../img/bgimage4.jpg);background-size: cover;background-repeat: no-repeat; background-attachment: fixed; }
+
 body.bgimagecustom{ background-size: cover; background-repeat: no-repeat; background-attachment: fixed; }
+
 
 body.bgimage1 .box-container,
 body.bgimage2 .box-container,
@@ -499,9 +519,7 @@ img{
 #header .header-cart *{
   vertical-align: middle;
 }
-#header .header-cart .no-items{
-  padding-left: 10px;
-}
+
 
 #header-search .mw-search{
   margin-top: 14px;
@@ -519,6 +537,7 @@ img{
   font-size: 40px;
   font-weight: 100;
   display: inline-block;
+  max-width: 100%; /* IE */
 }
 #logo a{
   text-decoration: none;
@@ -804,6 +823,25 @@ img{
 
 /* Local Modules and Module overwriting */
 
+
+
+.icon-shopping-cart-holder, .mw-cart-small-icon-shopping-cart{
+  width: 20px;
+}
+.cart-small .no-items{
+  margin-left: 0;
+}
+
+.mw-cart-small-icon-shopping-cart{
+    background: none;
+    vertical-align: middle;
+    top: 0;
+}
+.mw-cart-small-icon-shopping-cart:before{
+    content:'\e802';
+    font-family: 'fontello';
+    font-size: 20px;
+}
 
 .mwcommentsmodule .comments-template-stylish .comment .comment-content, .mwcommentsmodule .comment-author{
   color: inherit

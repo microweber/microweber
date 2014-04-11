@@ -26,7 +26,7 @@ body.loading:after{
     display: inline-block;
     width: 28px;
     height: 28px;
-    margin-right:11px;
+    margin-right:8px;
     margin-bottom:7px;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -121,10 +121,13 @@ body.loading:after{
 }
 
 .pick-image-custom{
-  display: none;
+  visibility:hidden;
 }
 .muted{
   color: #7F7F94;
+}
+#upload_custom_body_image{
+  width: 100%;
 }
 
 #upload_custom_body_image, #image-upload-progress{
@@ -138,3 +141,24 @@ body.loading:after{
 #mw-notifications-holder, body.loading:after, body.loading:before{
   display: none !important;
 }
+
+#background-options{
+  display: none;
+  padding: 12px 0;
+}
+#background-options .mw_dropdown_type_wysiwyg{
+  border-color: #DEDEDE;
+  width: 90%;
+}
+#background-options .mw_dropdown_type_wysiwyg ul{
+  width: 100%;
+}
+
+
+#ts_bg_size{
+  float: right;
+}
+.square_map_value{
+  text-transform: capitalize;
+}
+
