@@ -33,22 +33,22 @@
         $json = json_decode($custom_css_json, true);
         $final = '';
         foreach($json as $item => $value){
-          $final .= $selectors[$item.'_bg'].'{background-color:'.$value.'}';
-          $final .= $selectors[$item.'_color'].'{color:'.$value.'}';
+          $final .= $selectors[$item.'_bg'].'{background-color:'.$value.'}' . "\n";
+          $final .= $selectors[$item.'_color'].'{color:'.$value.'}' . "\n";
         }
 
          /*************************************************************************************
-            Add some extra space inside the content boxes when body background is onot white.
+            Add some extra space inside the content boxes when body background is not white.
          *************************************************************************************/
 
 
         if(isset($json['third'])){
             $bodybg = strtolower($json['third']);
             if($bodybg != '#ffffff' and $bodybg != '' and $bodybg != 'transparent' and  $color_scheme != 'transparent'){
-               $final.= '.box-container {padding: 20px; }.box-container .box-container{  padding: 0; }';
+               $final.= '.box-container {padding: 20px; }.box-container .box-container{  padding: 0; }'. "\n";
             }
             if($bodybg == '#ffffff' and $color_scheme != 'transparent'){
-              $final.= '.box-container {padding: 0px; }.box-container .box-container{  padding: 0; }';
+              $final.= '.box-container {padding: 0px; }.box-container .box-container{  padding: 0; }'. "\n";
             }
         }
         print '<style id="customcolorscss" type="text/css">'.$final.'</style>';
@@ -79,12 +79,12 @@
 
 
 <style type="text/css">
-    .module-navigation-default li a.active,
+  /*  .module-navigation-default li a.active,
     #header .module-navigation-default li a.active,
     .module-navigation-default li a:hover,
     .module-navigation-default li:hover a,
     #header .module-navigation-default li a:hover,
     #header .module-navigation-default li:hover a,
     .module-navigation-default li a:focus,
-    #header .module-navigation-default li a:focus{ color: white; }
+    #header .module-navigation-default li a:focus{ color: white; }*/
 </style>

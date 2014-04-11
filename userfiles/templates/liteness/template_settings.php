@@ -18,7 +18,8 @@
     $custom_css_json = get_option('custom_css_json', 'mw-template-liteness');
 
     $custom_bg =  get_option('custom_bg', 'mw-template-liteness');
-
+    $custom_bg_position = get_option('custom_bg_position', 'mw-template-liteness');
+    $custom_bg_size     = get_option('custom_bg_size', 'mw-template-liteness');
 
   ?>
 
@@ -47,6 +48,7 @@
     CUSTOMBG = "<?php print $custom_bg ?>";
     ExtraPad = function(){
       var scheme = mw.$("#color-scheme-input").val();
+      var final = '';
       if(scheme=='transparent'){
         var final = '';
       }
@@ -126,9 +128,15 @@
                 mw.$(".pick-image").removeClass('active');
                 $(this).addClass('active');
                 var val = $(this).dataset('value');
-                removeBGImage(val);
+                removeBGImage();
                 $(_body).addClass(val)
                 mw.$("#bgimage").val(val).trigger("change");
+                if(val=='bgimagecustom'){
+                  mw.$("#background-options").show();
+                }
+                else{
+                   mw.$("#background-options").hide();
+                }
             }
           });
 
@@ -137,7 +145,6 @@
             var val = $(this).getDropdownValue();
             _body.className+=' '+val;
             mw.$("#font-input").val(val).trigger("change");
-
           });
 
 
@@ -151,6 +158,12 @@
          mw.$(".pick-scheme[data-value='<?php print $color_scheme; ?>']").addClass("active");
          mw.$(".pick-image[data-value='<?php print $bgimage; ?>']").addClass("active");
          mwd.getElementById('color-scheme-input').value = "<?php print $color_scheme; ?>";
+
+         mw.$('#custom_bg').val("<?php print $custom_bg; ?>");
+         mw.$('#bgimage').val("<?php print $bgimage; ?>");
+         mw.$('#custom_bg_position').val("<?php print $custom_bg_position; ?>");
+         mw.$('#custom_bg_size').val("<?php print $custom_bg_size; ?>");
+         mw.$("#ts_bg_position .square_map_item[data-value='<?php print $custom_bg_position; ?>']").addClass("active");
 
         /**********************************************************************
 
@@ -262,15 +275,18 @@
         }
 
         $(Settings.colorPicker).width(235).height(125);
-
+        pickerElement = undefined;
+        $(window).bind('scroll', function(){
+           mw.tools.tooltip.setPosition(Settings.tip, pickerElement, 'top-left');
+        });
         mw.$(".picklabel").click(function(){
-           var _this = mw.$('.custom-color', this)[0];
-           if(!$(_this).hasClass('active')){
+           pickerElement = mw.$('.custom-color', this)[0];
+           if(!$(pickerElement).hasClass('active')){
                mw.$('.custom-color').removeClass('active');
-               $(_this).addClass('active');
-               Settings.colorPickerCallback($(_this).dataset('func'));
-               mw.tools.tooltip.setPosition(Settings.tip, _this, 'top-left');
-               mw.$('iframe', Settings.tip)[0].contentWindow.setColor($(_this).css('backgroundColor'));
+               $(pickerElement).addClass('active');
+               Settings.colorPickerCallback($(pickerElement).dataset('func'));
+               mw.tools.tooltip.setPosition(Settings.tip, pickerElement, 'top-left');
+               mw.$('iframe', Settings.tip)[0].contentWindow.setColor($(pickerElement).css('backgroundColor'));
                $(Settings.tip).show();
            }
            else{
@@ -303,13 +319,39 @@
         $(uploader).bind('FileUploaded', function(a,b){
           mw.$("#image-upload-progress").hide();
           mw.$("#upload_custom_body_image").show();
+          mw.$("#background-options").show();
+          mw.$(".pick-image.active").removeClass("active");
+          mw.$("#pick-image-custom-body").addClass("active");
           mw.$("#image-upload-progress .mw-ui-progress-bar").width(0);
             mw.$('#custom_bg').val(b.src).trigger('change');
             mw.$('#bgimage').val('bgimagecustom').trigger('change');
             parent.mw.tools.classNamespaceDelete(parent.mwd.body, 'bgimage');
-            mw.$("#pick-image-custom-body").css("backgroundImage", 'url(' + b.src + ')').show();
+            mw.$("#pick-image-custom-body").css("backgroundImage", 'url(' + b.src + ')').css('visibility', 'visible');
             parent.$(parent.mwd.body).addClass('bgimagecustom');
             parent.mw.$('#custom_bg').empty().html('body.bgimagecustom{background-image:url('+b.src+')}' + ExtraPad());
+        });
+
+        mw.$("#ts_bg_position .square_map_item").hover(function(){
+          mw.$("#ts_bg_position .square_map_value").html($(this).html());
+        });
+        mw.$("#ts_bg_position .square_map_item").bind("click", function(){
+            if(!$(this).hasClass("active")){
+                mw.$("#ts_bg_position .square_map_item").removeClass("active");
+                mw.$(this).addClass("active");
+                var val = $(this).dataset("value");
+                mw.$("#custom_bg_position").val(val).trigger("change");
+                if(mw.$('#bgimage').val() == 'bgimagecustom'){
+                    var css = 'body.bgimagecustom{background-image:url('+mw.$('#custom_bg').val()+')}body.bgimagecustom{background-position:'+val+';background-size:'+mw.$("#custom_bg_size").val()+';}' + ExtraPad();
+                    parent.mw.$('#custom_bg').empty().html(css);
+                }
+            }
+        });
+
+        mw.$("#ts_bg_size").bind("change", function(){
+            var val = $(this).getDropdownValue();
+            mw.$("#custom_bg_size").val(val).trigger("change");
+            var css = 'body.bgimagecustom{background-image:url('+mw.$('#custom_bg').val()+')}body.bgimagecustom{background-size:'+val+';background-position:'+mw.$("#custom_bg_position").val()+';}' + ExtraPad();
+            parent.mw.$('#custom_bg').empty().html(css);
         });
 
       });
@@ -359,19 +401,21 @@
     <label class="desc">Main color <small class="muted">( Header, Footer )</small></label>
 </span>
 <span class="picklabel">
-    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="secondary"></a>
-    <label>Text color</label>
+    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fifth"></a>
+    <label>Buttons &amp; Links</label>
 </span>
-
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fourth"></a>
     <label>Box color</label>
 </span>
-
 <span class="picklabel">
-    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fifth"></a>
-    <label>Links &amp; buttons</label>
+    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="secondary"></a>
+    <label>Text color</label>
 </span>
+
+
+
+
 
 <hr>
 
@@ -393,18 +437,78 @@
   <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage3.jpg)" data-value='bgimage3'></a>
   <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage4.jpg)" data-value='bgimage4'></a>
   <a href="javascript:;"
-     class="pick-image pick-image-custom"
+     class="pick-image pick-image-custom<?php if($bgimage=='bgimagecustom'){ print ' active'; } ?>"
      id="pick-image-custom-body"
-     style="background-image: url(<?php print $custom_bg; ?>);<?php if($custom_bg!=''){ print 'display:inline-block;'; } ?>"
+     style="background-image: url(<?php print $custom_bg; ?>);<?php if($custom_bg!=''){ print 'visibility:visible;'; } ?>"
      data-value="bgimagecustom">
   </a>
-  <span class="mw-ui-btn mw-ui-btn-medium" id="upload_custom_body_image">Upload your image</span>
+
+
+
+
+
+<div id="background-options" style="<?php if($bgimage=='bgimagecustom'){ print 'display:block;'; } ?>">
+
+
+  <div class="mw-ui-row-nodrop">
+    <div class="mw-ui-col">
+        <div id="ts_bg_position" class="mw_dropdown mw_dropdown_type_wysiwyg">
+          <span class="mw_dropdown_val_holder">
+              <span class="dd_rte_arr"></span>
+              <span style="width: auto;display: block" class="mw_dropdown_val">Position</span>
+          </span>
+          <div class="mw_dropdown_fields">
+            <ul style="width: 100%">
+              <li value="true">
+                <div class="square_map">
+                    <table align="center" cellspacing="0" cellpadding="2">
+                        <tbody>
+                            <tr>
+                                <td><span data-value="left top" class="square_map_item square_map_item_default">Left Top</span></td>
+                                <td><span data-value="center top" class="square_map_item">Center Top</span></td>
+                                <td><span data-value="right top" class="square_map_item">Right Top</span></td>
+                            </tr>
+                            <tr>
+                                <td><span data-value="left center" class="square_map_item">Left Center</span></td>
+                                <td><span data-value="center" class="square_map_item">Center</span></td>
+                                <td><span data-value="right center" class="square_map_item">Right Center</span></td>
+                            </tr>
+                            <tr>
+                                <td><span data-value="left bottom" class="square_map_item">Left Bottom</span></td>
+                                <td><span data-value="center bottom" class="square_map_item">Center Bottom</span></td>
+                                <td><span data-value="right bottom" class="square_map_item">Right Bottom</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <span class="square_map_value">Left Top</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+      </div>
+
+    </div>
+    <div class="mw-ui-col">
+        <div title="Background Size" id="ts_bg_size" class="mw_dropdown mw_dropdown_type_wysiwyg"> <span class="mw_dropdown_val_holder">
+            <span class="dd_rte_arr"></span> <span class="mw_dropdown_val" style="width: auto;display: block">Size</span> </span>
+            <div class="mw_dropdown_fields" style="display: none;">
+                <ul>
+                    <li value="auto"><a href="javascript:;">Auto</a></li>
+                    <li value="contain"><a href="javascript:;">Fit</a></li>
+                    <li value="cover"><a href="javascript:;">Cover</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+  </div>
 </div>
 
-<div class="mw-ui-progress-small" id="image-upload-progress" style="display: none">
-    <div style="width: 0%;" class="mw-ui-progress-bar"></div>
-</div>
+    <span class="mw-ui-btn mw-ui-btn-medium" id="upload_custom_body_image">Upload your image</span>
+  <div class="mw-ui-progress-small" id="image-upload-progress" style="display: none">
+      <div style="width: 0%;" class="mw-ui-progress-bar"></div>
+  </div>
 
+</div>
 
 
 
@@ -412,7 +516,14 @@
 <input type="hidden" class="mw_option_field" id="font-input" name="font" data-option-group="mw-template-liteness"  />
 <input type="hidden" class="mw_option_field" id="bgimage" name="bgimage" data-option-group="mw-template-liteness"  />
 <input type="hidden" class="mw_option_field" id="custom_css_json" name="custom_css_json" data-option-group="mw-template-liteness"  />
+
 <input type="hidden" class="mw_option_field" id="custom_bg" name="custom_bg" data-option-group="mw-template-liteness"  />
+
+<input type="hidden" class="mw_option_field" id="custom_bg_position" name="custom_bg_position" data-option-group="mw-template-liteness"  />
+<input type="hidden" class="mw_option_field" id="custom_bg_size" name="custom_bg_size" data-option-group="mw-template-liteness"  />
+
+
+<input type="hidden" class="mw_option_field" id="kuler_colors" name="kuler_colors" data-option-group="mw-template-liteness"  />
 
 
 

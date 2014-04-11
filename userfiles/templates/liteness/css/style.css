@@ -121,7 +121,9 @@ a, a:hover, a:focus, a:active{
 }
 
 .table td,
-.mw-wysiwyg-table-zebra > tbody > tr > td, .mw-wysiwyg-table-simple-zebra > tbody > tr > td{
+.mw-wysiwyg-table-zebra > tbody > tr > td,
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th,
+.mw-wysiwyg-table-simple-zebra > tbody > tr > td{
   background-color: rgba(255, 255, 255, 0.25);
 }
 
@@ -215,15 +217,12 @@ a, a:hover, a:focus, a:active{
 
 .sidebar-box .nav li a.active{ color: #555566; }
 
-#cart_checkout th,
-#cart_checkout td, .table-bordered, .table-bordered td{
-  background-color:white;
-}
+
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td{
-  border-color: #EBEBEB;
+  border-color: rgba(235, 235, 235, 0.3);
 }
 
-.table{ background-color: white; }
+
 
 
 .mwcommentsmodule .comment .comment-image,
@@ -1177,7 +1176,7 @@ label.mw-price{
 
 #cart_checkout .well{
   border: none;
-  padding: 0;
+  padding: 15px;
 }
 
 .shipping_cost,
