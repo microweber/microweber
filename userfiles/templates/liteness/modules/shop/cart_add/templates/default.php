@@ -36,12 +36,12 @@ else{
           var modal_html = ''
         + '<section> '
           + '<h5>' + title + '</h5>'
-          + '<p><?php _e("has been added to your cart"); ?></p><br><br>'
+          + '<p><?php _e("has been added to your cart"); ?></p>'
           + '<a href="javascript:;" onclick="mw.tools.modal.remove(\'#AddToCartModal\')" class="btn btn-default"><?php _e("Continue shopping"); ?></a>'
           + '<a href="<?php print checkout_url(); ?>" class="btn btn-action-default"><?php _e("Checkout"); ?></a>'
         + ' </section>';
  
-		
+
          return modal_html;   
     }
     _AddToCart = window._AddToCart || function(selector, id, title){

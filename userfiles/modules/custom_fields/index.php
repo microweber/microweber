@@ -89,6 +89,7 @@ print  mw('fields')->make($field);
 <?php endif; ?>
 <?php else: ?>
 <?php endif; ?>
+
 <?php if($prined_items_count == 0): ?>
 <?php print lnotif("Click on settings to edit your custom fields."); ?>
 <?php endif; ?>

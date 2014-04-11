@@ -422,6 +422,7 @@ class User
             $id = user_id();
         }
 
+
         if ($id == 0) {
             return false;
         }

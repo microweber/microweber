@@ -23,7 +23,7 @@ if (!defined('MW_ROOTPATH')) {
 
 
 if (!defined('MW_VERSION')) {
-    define('MW_VERSION', 0.9342);
+    define('MW_VERSION', 0.9343);
 }
 
 if (version_compare(phpversion(), "5.3.0", "<=")) {
@@ -146,6 +146,16 @@ $loader->addNamespace('Microweber', MW_MODULES_DIR);
 //$loader->addNamespace('', MW_APP_PATH . 'libs');
 $loader->register();
 
+
+
+/**
+ * Constructor function
+ *
+ * @param null $class
+ * @param bool $constructor_params
+ * @return \Microweber\Application Microweber Application object
+
+ */
 function mw($class = null, $constructor_params = false)
 {
 

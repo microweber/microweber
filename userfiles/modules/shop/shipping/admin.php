@@ -53,7 +53,7 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 				: </label>
 		</div>
 		<div style="padding: 15px;">
-			<div class="mw-set-shipping-gw-options" >
+			<div class="mw-set-shipping-gw-options">
 				<module type="<?php print $shipping_module['module'] ?>" view="admin" />
 			</div>
 		</div>

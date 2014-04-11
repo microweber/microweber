@@ -52,10 +52,7 @@ if( $id != 0){
     }
  
 mw.menu_item_after_save = function(){
-	 if( self !== parent && typeof parent.mw === 'object'){
-    		      parent.mw.reload_module('menu');
-    }
-	
+	mw.reload_module_parent('menu')
 }
 mw.menu_item_delete = function($item_id){
     mw.tools.confirm(mw.msg.del, function(){
@@ -112,8 +109,9 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
   if(!mw.$("#mw_admin_menu_items_sort_<?php print $rand; ?>").hasClass("ui-sortable")){
     $("#mw_admin_menu_items_sort_<?php print $rand; ?> ul:first").nestedSortable({
        items: 'li',
-	   listType: 'ul',
-	   handle: '.iMove',
+	   listType: 'ul',  
+	   handle: '.iMove,a.menu_element_link',
+	   old_handle: '.iMove',
 	   attribute : 'data-item-id',
        update:function(){
          var obj = {ids:[], ids_parents:{}}

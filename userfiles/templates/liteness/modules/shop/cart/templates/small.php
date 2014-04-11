@@ -60,9 +60,8 @@ description: Small cart template
     <?php else : ?>
     <div class="mw-ui-row-nodrop">
     <span class="mw-ui-col icon-shopping-cart-holder"><span class="mw-cart-small-icon-shopping-cart"></span></span>
-    <div class="mw-ui-col"><h5 class="no-items">
-    <?php   _e('Your cart is empty') ?>
-    </h5></div>
+    <div class="mw-ui-col">
+    <span class="mw-cart-small-order-info"><span class="mw-cart-small-order-info-total no-items"><?php   _e('Your cart is empty') ?></span></span></div>
      </div>
     <?php endif ; ?>
 

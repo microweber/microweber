@@ -101,7 +101,7 @@
 .ifullscreen{background-position: -798px -20px;}
 .no-fullscreen{background-position: -820px -20px;}
 .ismall_warn{background-position: -929px -86px;}
-.irefresh{background-position:-929px -119px; cursor: pointer;}
+.irefresh{background:url(../img/reload.svg) no-repeat scroll center center / 65%; cursor: pointer;}
 .ipage_arr_up{background-position: -1282px -95px}
 .iMove{
   background-position: -1090px 2px;
@@ -477,6 +477,9 @@
 
 .mw-ui-select{
   display: inline-block;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   width: auto;
   min-width: 160px;
   position: relative;
@@ -646,6 +649,61 @@ input.mw-ui-field{
     font-family: inherit;
     line-height: normal;
 }
+
+
+.mw-ui-progress{
+  position: relative;
+  height: 19px;
+  min-width: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.mw-ui-progress-bar{
+  max-width: 100%;
+  height: 100%;
+  background: #D7FFC3;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mw-ui-progress-info{
+    color: #AAAAAA;
+    font-size: 9px;
+    position: relative;
+    display: inline-block;
+    max-width: 92%;
+    max-width: calc(100% - 33px);
+    max-width: -webkit-calc(100% - 33px);
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    padding-left: 10px;
+    z-index: 2;
+    line-height: 16px;
+}
+.mw-ui-progress-percent{
+    font-weight: bold;
+    color: #618D0D;
+    margin-left: 5px;
+    font-size: 9px;
+    position: relative;
+    display: inline-block;
+    z-index: 2;
+}
+
+
+/* Small progressbar */
+
+.mw-ui-progress-small, .mw-ui-progress-small .mw-ui-progress-bar{
+  height: 8px;
+  overflow: hidden;
+  position: relative;
+  border-radius:5px;
+  max-width: 100%;
+}
+.mw-ui-progress-small{ background-color: #EEEEEE; }
+
+.mw-ui-progress-small .mw-ui-progress-bar{ background-color: #575757; }
 
 
 /* /Forms */
@@ -1833,6 +1891,19 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
 
 
 /* /Tooltip default skin  */
+
+
+/* External Tools */
+
+.mw-external-tool{
+  position: absolute;
+  z-index: 1101;
+  top: 100px;
+  left: 100px;
+
+}
+
+/* /External Tools */
 
 
 

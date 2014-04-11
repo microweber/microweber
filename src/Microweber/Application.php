@@ -3,37 +3,54 @@
 namespace Microweber;
 
 
+    /**
+     * Application class
+     *
+     * Class that loads other classes from the Microweber namespace
+     *
+     * @package Application
+     * @category Application
+     * @desc
+     * General-purpose class that loads other classes from the Microweber namespace
+     * it holds the application config and its used as dependency injection provider
+     * loaded classes are registered as "provides" and are used in the whole application
+     *
+     *
+     *
+     *
+     * FOR ADVANCED USERS
+     *
+     * You can override any class on the fly for the whole application
+     *  ex. you can use your own cache provider
+     *  mw('application')->cache = new \MyNamespace\Cache;
+     *  or your own content provider
+     *  mw('application')->content = new \MyNamespace\Content;
+     *
+     *
+     * You can also create whole new applications based on microweber
+     * by extending the basic class and override/extend every "provider" class
+     * @file MyApp.php See example
+     * $my_application = new \Microweber\MyApp(MW_CONFIG_FILE);
+     *
+     *
+     *
+     */
+
 /**
- * Application class
- *
- * Class that loads other classes from the Microweber namespace
- *
- * @package Application
- * @category Application
- * @desc
- * General-purpose class that loads other classes from the Microweber namespace
- * it holds the application config and its used as dependency injection provider
- * loaded classes are registered as "provides" and are used in the whole application
- *
- *
- *
- *
- * FOR ADVANCED USERS
- *
- * You can override any class on the fly for the whole application
- *  ex. you can use your own cache provider
- *  mw('application')->cache = new \MyNamespace\Cache;
- *  or your own content provider
- *  mw('application')->content = new \MyNamespace\Content;
- *
- *
- * You can also create whole new applications based on microweber
- * by extending the basic class and override/extend every "provider" class
- * @file MyApp.php See example
- * $my_application = new \Microweber\MyApp(MW_CONFIG_FILE);
- *
- *
- *
+ * @property \Microweber\Url $url
+ * @property \Microweber\Content $content
+ * @property \Microweber\Category $category
+ * @property \Microweber\Media $media
+ * @property \Microweber\Shop $shop
+ * @property \Microweber\Option $option
+ * @property \Microweber\Cache $cache
+ * @property \Microweber\User $user
+ * @property \Microweber\Module $module
+ * @property \Microweber\Db $db
+ * @property \Microweber\Notifications $notifications
+ * @property \Microweber\Layouts $layouts
+ * @property \Microweber\Log $log
+ * @property \Microweber\Parser $parser
  */
 class Application
 {
@@ -152,12 +169,7 @@ class Application
 
         return $this->config($key, $no_cache);
     }
-    public function set_config($config)
-    {
 
-
-        $this->config = $config;
-    }
     /**
      * Gets a value from the config file
      *
@@ -210,6 +222,13 @@ class Application
         }
 
 
+    }
+
+    public function set_config($config)
+    {
+
+
+        $this->config = $config;
     }
 
     /**
@@ -273,7 +292,7 @@ class Application
 
     public function get($provider, $args = null)
     {
-       return $this->call($provider, $args);
+        return $this->call($provider, $args);
     }
 
     public function call($provider, $args = null)
@@ -341,16 +360,17 @@ class Application
 
     }
 
-    function error( $e, $f = false, $l = false ) {
+    function error($e, $f = false, $l = false)
+    {
 
 
-        if(!$this->url->is_ajax()){
-            $err = "Error: ".$e;
-            if($f != false){
-                $err= $err.  "\nFile: ".$f;
+        if (!$this->url->is_ajax()) {
+            $err = "Error: " . $e;
+            if ($f != false) {
+                $err = $err . "\nFile: " . $f;
             }
-            if($f != false){
-                $err= $err.  "\nLine: ".$l;
+            if ($f != false) {
+                $err = $err . "\nLine: " . $l;
             }
             throw new \Exception($err);
 

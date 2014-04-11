@@ -114,7 +114,7 @@ class Import
     function move_uploaded_file_to_import($params)
     {
         only_admin_access();
-         if (!isset($params['src'])) {
+        if (!isset($params['src'])) {
 
             return array('error' => "You have not provided src to the file.");
 
@@ -138,59 +138,6 @@ class Import
 
         }
 
-    }
-
-    function get_import_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            return false;
-        }
-
-        $loc = $this->imports_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "import" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('import_location', 'admin/import');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->imports_folder = $loc;
-        return $here;
     }
 
     function delete($params)
@@ -284,6 +231,64 @@ class Import
         }
     }
 
+    function get_bakup_location()
+    {
+        return $this->get_import_location();
+    }
+
+    function get_import_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            return false;
+        }
+
+        $loc = $this->imports_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_USERFILES . "import" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('import_location', 'admin/import');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->imports_folder = $loc;
+        return $here;
+    }
+
     function readfile_chunked($filename, $retbytes = TRUE)
     {
 
@@ -350,11 +355,6 @@ class Import
         return $params;
     }
 
-    function get_bakup_location()
-    {
-        return $this->get_import_location();
-    }
-
     public function import_file($filename)
     {
         only_admin_access();
@@ -364,7 +364,7 @@ class Import
         }
 
         $ext = get_file_extension($filename);
-        $import_method = strtolower('import_' . $ext);
+        $import_method = strtolower('queue_import_' . $ext);
         if (method_exists($this, $import_method)) {
             ini_set('memory_limit', '512M');
             set_time_limit(900);
@@ -375,7 +375,27 @@ class Import
         }
     }
 
-    public function import_csv($filename)
+    public function queue_import_json($filename)
+    {
+        only_admin_access();
+        if (!is_file($filename)) {
+            return array('error' => "You have not provided a existing backup to restore.");
+        }
+
+
+        $json = file_get_contents($filename);
+
+        $rows = json_decode($json, true);
+        $content_items = $rows;
+        $content_items = $this->map_array($rows);
+
+
+        return $this->batch_save($content_items);
+
+
+    }
+
+    public function queue_import_csv($filename)
     {
         only_admin_access();
         if (!is_file($filename)) {
@@ -424,250 +444,6 @@ class Import
         return $this->batch_save($content_items);
 
 
-    }
-
-    function map_array($content_items)
-    {
-
-
-        $res = array();
-        $map_keys = array();
-
-        //title keys
-        $map_keys['name'] = 'title';
-        $map_keys['product_name'] = 'title';
-        $map_keys['productname'] = 'title';
-
-
-        //description keys
-        $map_keys['introtext'] = 'description';
-        $map_keys['short_description'] = 'description';
-        $map_keys['summary'] = 'description';
-
-        $map_keys['encoded'] = 'content';
-        $map_keys['fulltext'] = 'content';
-
-
-        $map_keys['post_type'] = 'content_type';
-
-
-        //url keys
-        $map_keys['url_rewritten'] = 'url';
-        $map_keys['alias'] = 'url';
-        //  $map_keys['link'] = 'url';
-
-
-        //image keys
-        $map_keys['image_urls_xyz'] = 'insert_content_image';
-        $map_keys['picture_url'] = 'insert_content_image';
-
-
-        //categories keys
-        $map_keys['categories_xyz'] = 'categories';
-        $map_keys['categorysubcategory'] = 'categories';
-
-
-        //custom fields
-        $map_keys['wholesale_price'] = 'custom_field_price';
-        $map_keys['price'] = 'custom_field_price';
-
-        //data fields
-        $map_keys['manufacturer'] = 'data_manufacturer';
-        $map_keys['supplier'] = 'data_supplier';
-        $map_keys['ean13'] = 'data_ean13';
-        $map_keys['weight'] = 'data_weight';
-        $map_keys['quantity'] = 'data_qty';
-        $map_keys['qty'] = 'data_qty';
-        $map_keys['reference'] = 'data_reference';
-
-
-        //meta fields
-        $map_keys['meta_title'] = 'content_meta_title';
-        $map_keys['meta_keywords'] = 'content_meta_keywords';
-        $map_keys['meta_keyword'] = 'content_meta_keywords';
-        $map_keys['meta_description'] = 'content_meta_description';
-
-        //date fields
-        $map_keys['product_creation_date'] = 'created_on';
-        $map_keys['product_available_date'] = 'updated_on';
-        $map_keys['created'] = 'created_on';
-        $map_keys['modified'] = 'updated_on';
-        $map_keys['published'] = 'created_on';
-        $map_keys['updated'] = 'updated_on';
-        $map_keys['pubDate'] = 'created_on';
-
-
-        foreach ($content_items as $item) {
-            if (isset($item['id'])) {
-                unset($item['id']);
-            }
-            $skip = false;
-            $new_item = array();
-            foreach ($map_keys as $map_key => $map_val) {
-                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
-                    $new_val = $item[$map_key];
-                    if ($map_key == 'categorysubcategory') {
-                        $new_val = explode('/', $new_val);
-                    }
-
-                    if ($map_key == 'category') {
-
-                    }
-
-
-                    $item[$map_val] = $new_val;
-                    $new_item[$map_val] = $new_val;
-                }
-
-            }
-
-
-            if (isset($item["category"]) and isset($item["category"]["@attributes"])) {
-                $attrs = $item["category"]["@attributes"];
-                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')) {
-                    if (stristr($attrs['term'], 'kind#post')) {
-                        $skip = false;
-                    } else {
-                        $skip = 1;
-                    }
-                }
-            } elseif (isset($item["category"]) and is_array($item["category"])) {
-                $cats = array();
-                foreach ($item["category"] as $cat) {
-                    if (is_array($cat) and isset($cat["@attributes"])) {
-
-                        $attrs = $cat["@attributes"];
-
-                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')) {
-                            $cats[] = $attrs['nicename'];
-                        }
-                    }
-                }
-                if (!empty($cats)) {
-                    $item["category"] = $cats;
-                }
-
-
-            }
-
-
-            if ($skip == false and isset($item['title'])) {
-                //$res[] = $new_item;
-                $res[] = $item;
-            }
-
-        }
-        //   d($res);
-        return $res;
-    }
-
-    function batch_save($content_items)
-    {
-        $chunk_size = $this->batch_size;
-        $content_items = $this->map_array($content_items);
-
-        $chunks_folder = $this->get_chunks_location();
-        $index_file = $chunks_folder . 'index.php';
-
-        if (!is_dir($chunks_folder)) {
-            mkdir_recursive($chunks_folder);
-            @touch($index_file);
-        }
-
-        if (!is_writable($chunks_folder)) {
-            return array('error' => "Import folder is not writable!");
-        }
-
-
-        $chunks = (array_chunk($content_items, $chunk_size, true));
-
-        if (!empty($chunks)) {
-            foreach ($chunks as $chunk) {
-                $chunk_data = serialize($chunk);
-                $file_name = 'import_chunk_' . md5($chunk_data);
-                $file_location = $chunks_folder . $file_name;
-                if (!is_file($file_location)) {
-                    file_put_contents($file_location, $chunk_data);
-                }
-
-            }
-        }
-
-//        $i = 0;
-//        $dir = $chunks_folder;
-//        if ($handle = opendir($dir)) {
-//            while (($file = readdir($handle)) !== false) {
-//                if (!in_array($file, array('.', '..')) && !is_dir($dir . $file))
-//                    $i++;
-//            }
-//        }
-//        file_put_contents($index_file, '0');
-
-
-        return array('success' => count($content_items) . " items are scheduled for import");
-        return;
-
-        if (!empty($content_items)) {
-            $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
-            if ($parent == false) {
-                return array('error' => "No parent page found");
-            }
-
-
-            $content_items = $this->map_array($content_items);
-
-
-            $parent_id = $parent['id'];
-            $restored_items = array();
-            foreach ($content_items as $content) {
-                if (isset($content['title'])) {
-                    $is_saved = get_content('one=true&title=' . $content['title']);
-
-
-                    if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
-                        $content['content'] = $content['description'];
-                    }
-
-
-                    $content['parent'] = $parent_id;
-                    $content['content_type'] = 'post';
-                    $content['subtype'] = 'post';
-                    $content['is_active'] = 'y';
-                    //  $content['debug'] = 'y';
-                    $content['download_remote_images'] = true;
-
-                    if ($is_saved != false) {
-                        $content['id'] = $is_saved['id'];
-                        $content['content_type'] = $is_saved['content_type'];
-                        $content['subtype'] = $is_saved['subtype'];
-                    }
-
-                    $import = save_content($content);
-                    $restored_items[] = $import;
-                }
-            }
-            cache_clear('categories');
-            cache_clear('content');
-            return array('success' => count($restored_items) . " items restored");
-
-
-        }
-
-    }
-
-    function get_chunks_location()
-    {
-
-        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
-        $index_file = $chunks_folder . 'index.php';
-
-        if (!is_dir($chunks_folder)) {
-            mkdir_recursive($chunks_folder);
-            @touch($index_file);
-        }
-
-
-        return $chunks_folder;
     }
 
     function batch_process($content_items = false)
@@ -728,7 +504,6 @@ class Import
                                 //}
 
 
-                                //d($content_from_xml);
                             } else {
                                 $content_items_from_file = @unserialize($batch_file_content);
                                 if (!empty($content_items_from_file)) {
@@ -738,11 +513,11 @@ class Import
                                 }
 
                             }
+
                             if ($batch_file != false and is_file($batch_file)) {
                                 unlink($batch_file);
                             }
                         }
-                        // $rem_counter++;
                         $i++;
                     }
                 }
@@ -758,9 +533,11 @@ class Import
             if (!empty($content_items)) {
                 $parent = get_content('one=true&subtype=dynamic&is_deleted=n&is_active=y');
                 if ($parent == false) {
+                    $parent = get_content('one=true&content_type=page&is_deleted=n&is_active=y');
+                }
+                if ($parent == false) {
                     return array('error' => "No parent page found");
                 }
-
 
                 $content_items = $this->map_array($content_items);
 
@@ -778,9 +555,19 @@ class Import
 
 
                         $content['parent'] = $parent_id;
-                        $content['content_type'] = 'post';
-                        $content['subtype'] = 'post';
+                        if (!isset($content['content_type'])) {
+                            $content['content_type'] = 'post';
+                        }
+                        if (!isset($content['subtype'])) {
+                            $content['subtype'] = 'post';
+                        }
+                       // $content['subtype'] = 'post';
                         $content['is_active'] = 'y';
+                        if (isset($content['debug'])) {
+                          unset($content['debug']);
+                        }
+
+
                         //  $content['debug'] = 'y';
                         $content['download_remote_images'] = true;
 
@@ -847,12 +634,12 @@ class Import
         if (count($items) == 0) {
             $items = qp($xml_string, 'item');
         }
-        // d($items);
+
         foreach ($items as $item) {
             $content_item = array();
 
             //$arr = $item->eq(0)->contents();
-            // d($arr);
+
             //  print $item->text();
             // $el = qp($item, 'channel>item>title');
             $el = $item->find('title');
@@ -890,11 +677,12 @@ class Import
             //$c= ($item->find('content')->text());
 
 
-            // d($c);
             //$itm = $item->eq(0)->html();
-            // d($itm);
+
+
             // print $item->tag() . PHP_EOL;
-            // d($content_item['content']);
+
+
             //$el = qp($item, 'channel>item>post_type');
             $el = $item->find('post_type');
 
@@ -906,14 +694,13 @@ class Import
             }
             $content_items[] = $content_item;
         }
-        // d($content_items);
 
         return $content_items;
 
 
     }
 
-    public function import_xml($filename)
+    public function queue_import_xml($filename)
     {
         only_admin_access();
 
@@ -978,8 +765,8 @@ class Import
         if (!is_file($file_location)) {
             file_put_contents($file_location, $content_batch);
         }
-        //$this->batch_save($content_items);
-        //$content_items = array();
+
+
         return array('success' => ($i) . " xml items will be imported");
 
 
@@ -1024,7 +811,6 @@ class Import
             echo "Couldn't find root node";
         }
 
-        d($filename);
         return;
         $xml = new \XMLReader();
         $xml->open($filename);
@@ -1080,10 +866,8 @@ class Import
 
         $list = new \XMLElementXpathFilter($it, '.');
         $test = $list->toArray();
-        d($it);
         foreach ($list as $message) {
             $chunk_data = $message->readOuterXml();
-            d($chunk_data);
             if ($chunk_data != '') {
                 $file_name = 'import_chunk_xml_' . md5($chunk_data);
                 $file_location = $chunks_folder . $file_name;
@@ -1094,8 +878,7 @@ class Import
                 $i++;
             }
         }
-        d($i);
-        d($filename);
+
 
         return;
 
@@ -1113,7 +896,6 @@ class Import
             }
 
         }
-        d($filename);
 
         // $test = $reader->toArray();
 
@@ -1123,7 +905,6 @@ class Import
         foreach ($xml_paths as $xml_key => $xml_path) {
 
             //  $it = new \XMLElementIterator($reader,$xml_path);
-            d($xml_path);
 
 
             //$it = new \XMLElementIterator($reader,$xml_path);
@@ -1160,7 +941,7 @@ class Import
             // $list = new \XMLElementXpathFilter($it, '//'.$xml_key.'/*');
 
             //$list = new \XMLElementXpathFilter($it, '//*');
-            //  d($it);
+
             //  $list = new \XMLElementXpathFilter($it, '//'.$xml_key.'//'.$xml_path);
 
             //
@@ -1175,8 +956,6 @@ class Import
 
                 if ($chunk_data != '') {
                     // $array = \XML2Array::createArray($chunk_data);
-                    d($chunk_data);
-
 
 //                $file_name = 'import_chunk_xml_' . md5($chunk_data);
 //                $file_location = $chunks_folder . $file_name;
@@ -1194,7 +973,7 @@ class Import
                     if (!is_file($file_location)) {
                         file_put_contents($file_location, $content_batch);
                     }
-                    // d($content_batch);
+
                     $content_batch = "";
                 }
             }
@@ -1307,6 +1086,205 @@ class Import
         // }
         // return $content_items;
         return $this->batch_save($content_items);
+    }
+
+    function get_chunks_location()
+    {
+
+        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
+        $index_file = $chunks_folder . 'index.php';
+
+        if (!is_dir($chunks_folder)) {
+            mkdir_recursive($chunks_folder);
+            @touch($index_file);
+        }
+
+
+        return $chunks_folder;
+    }
+
+    function batch_save($content_items)
+    {
+        $chunk_size = $this->batch_size;
+        $content_items = $this->map_array($content_items);
+
+        $chunks_folder = $this->get_chunks_location();
+        $index_file = $chunks_folder . 'index.php';
+
+        if (!is_dir($chunks_folder)) {
+            mkdir_recursive($chunks_folder);
+            @touch($index_file);
+        }
+
+        if (!is_writable($chunks_folder)) {
+            return array('error' => "Import folder is not writable!");
+        }
+
+
+        $chunks = (array_chunk($content_items, $chunk_size, true));
+
+        if (!empty($chunks)) {
+            foreach ($chunks as $chunk) {
+                $chunk_data = serialize($chunk);
+                $file_name = 'import_chunk_' . md5($chunk_data);
+                $file_location = $chunks_folder . $file_name;
+                if (!is_file($file_location)) {
+                    file_put_contents($file_location, $chunk_data);
+                }
+
+            }
+        }
+
+
+        return array('success' => count($content_items) . " items are scheduled for import");
+
+
+    }
+
+    function map_array($content_items)
+    {
+
+
+        $res = array();
+        $map_keys = array();
+
+        //title keys
+        $map_keys['name'] = 'title';
+        $map_keys['product_name'] = 'title';
+        $map_keys['productname'] = 'title';
+        $map_keys['content_title'] = 'title';
+
+        //description keys
+        $map_keys['introtext'] = 'description';
+        $map_keys['short_description'] = 'description';
+        $map_keys['summary'] = 'description';
+        $map_keys['excerpt'] = 'description';
+
+        $map_keys['encoded'] = 'content';
+        $map_keys['fulltext'] = 'content';
+
+
+        $map_keys['post_type'] = 'content_type';
+
+
+        //url keys
+        $map_keys['url_rewritten'] = 'url';
+        $map_keys['content_url'] = 'url';
+
+        $map_keys['alias'] = 'url';
+        //  $map_keys['link'] = 'url';
+
+        //parent
+        $map_keys['content_parent'] = 'parent';
+
+
+        //content type
+        $map_keys['content_subtype'] = 'subtype';
+        $map_keys['type'] = 'content_type';
+
+
+        //image keys
+        $map_keys['image_urls_xyz'] = 'insert_content_image';
+        $map_keys['picture_url'] = 'insert_content_image';
+
+
+        //categories keys
+        $map_keys['categories_xyz'] = 'categories';
+        $map_keys['categorysubcategory'] = 'categories';
+
+
+        //custom fields
+        $map_keys['wholesale_price'] = 'custom_field_price';
+        $map_keys['price'] = 'custom_field_price';
+
+        //data fields
+        $map_keys['manufacturer'] = 'data_manufacturer';
+        $map_keys['supplier'] = 'data_supplier';
+        $map_keys['ean13'] = 'data_ean13';
+        $map_keys['weight'] = 'data_weight';
+        $map_keys['quantity'] = 'data_qty';
+        $map_keys['qty'] = 'data_qty';
+        $map_keys['reference'] = 'data_reference';
+
+
+        //meta fields
+        $map_keys['meta_title'] = 'content_meta_title';
+        $map_keys['meta_keywords'] = 'content_meta_keywords';
+        $map_keys['meta_keyword'] = 'content_meta_keywords';
+        $map_keys['meta_description'] = 'content_meta_description';
+
+        //date fields
+        $map_keys['product_creation_date'] = 'created_on';
+        $map_keys['product_available_date'] = 'updated_on';
+        $map_keys['created'] = 'created_on';
+        $map_keys['modified'] = 'updated_on';
+        $map_keys['published'] = 'created_on';
+        $map_keys['updated'] = 'updated_on';
+        $map_keys['pubDate'] = 'created_on';
+
+
+        foreach ($content_items as $item) {
+            if (isset($item['id'])) {
+                unset($item['id']);
+            }
+            $skip = false;
+            $new_item = array();
+            foreach ($map_keys as $map_key => $map_val) {
+                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
+                    $new_val = $item[$map_key];
+                    if ($map_key == 'categorysubcategory') {
+                        $new_val = explode('/', $new_val);
+                    }
+
+                    if ($map_key == 'category') {
+
+                    }
+
+
+                    $item[$map_val] = $new_val;
+                    $new_item[$map_val] = $new_val;
+                }
+
+            }
+
+
+            if (isset($item["category"]) and isset($item["category"]["@attributes"])) {
+                $attrs = $item["category"]["@attributes"];
+                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')) {
+                    if (stristr($attrs['term'], 'kind#post')) {
+                        $skip = false;
+                    } else {
+                        $skip = 1;
+                    }
+                }
+            } elseif (isset($item["category"]) and is_array($item["category"])) {
+                $cats = array();
+                foreach ($item["category"] as $cat) {
+                    if (is_array($cat) and isset($cat["@attributes"])) {
+
+                        $attrs = $cat["@attributes"];
+
+                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')) {
+                            $cats[] = $attrs['nicename'];
+                        }
+                    }
+                }
+                if (!empty($cats)) {
+                    $item["category"] = $cats;
+                }
+
+
+            }
+
+
+            if ($skip == false and isset($item['title'])) {
+                //$res[] = $new_item;
+                $res[] = $item;
+            }
+
+        }
+
+        return $res;
     }
 
     public function export()

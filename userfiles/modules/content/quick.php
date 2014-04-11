@@ -104,6 +104,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	$parent_content_params['limit'] = 1;
 	$parent_content_params['one'] = 1;
 	$parent_content_params['fields'] = 'id';
+//	$parent_content_params['is_active'] = 'y';
 	$parent_content_params['order_by'] = 'posted_on desc, updated_on desc';
 	 
 	if(isset($params['subtype']) and $params['subtype'] == 'post'){
@@ -218,6 +219,10 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
   <div class="mw-ui-field-holder" style="padding-bottom: 25px;">
     <textarea class="semi_hidden" name="content" id="quick_content_<?php print $rand ?>"></textarea>
   </div>
+  
+  
+  
+  
   <?php endif; ?>
   <?php if($data['content_type'] == 'page'):  ?>
   <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
@@ -425,8 +430,8 @@ mw.edit_content.after_save = function(saved_id){
 			mw.reload_module_parent('shop/products');
 			mw.reload_module_parent('shop/cart_add');
 			mw.reload_module_parent('pages');
-			 mw.reload_module_parent('content');
-			  mw.reload_module_parent('custom_fields');
+			mw.reload_module_parent('content');
+			mw.reload_module_parent('custom_fields');
 		    mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
 			mw.reload_module('pages');
 		
@@ -521,6 +526,24 @@ mw.edit_content.handle_form_submit = function(go_live){
 
         var data = mw.serializeFields(el);
         module.addClass('loading');
+		
+		
+		if(typeof(data.content) != "undefined" && typeof(data.id) != "undefined" && data.id != 0){
+			var inner_edits = mw.collect_inner_edit_fields(data.content);
+			
+				 
+			if(inner_edits != undefined && inner_edits != false){
+				save_inner_edit_data = inner_edits;
+				
+				 
+				save_inner_edit_data.id = data.id;
+				mw.save_inner_editable_fields(save_inner_edit_data);
+			}
+		}
+		
+		
+ 
+		
         mw.content.save(data, {
           onSuccess:function(a){
               mw.$('.mw-admin-go-live-now-btn').attr('content-id',this);
@@ -595,6 +618,83 @@ mw.edit_content.handle_form_submit = function(go_live){
           }
         });
 }
+
+
+
+mw.collect_inner_edit_fields = function(data) {
+ 
+ 		var el = mwd.getElementById('quick_content_<?php print $rand ?>');
+		if(el === null){
+		    return;
+		}
+		
+ 	var doc = mw.tools.parseHtml($(el).val());
+ 	var edits = $(doc).find('.edit');
+    var master = {};
+    if (edits.length > 0) {
+        edits.each(function (j) {
+            j++;
+            var _el = $(this);
+            if (($(this).attr("rel") == undefined || $(this).attr("rel") == '') && $(this).dataset('rel') == '') {
+                mw.tools.foreachParents(this, function (loop) {
+                    var cls = this.className;
+                    if (mw.tools.hasClass(cls, 'edit') && mw.tools.hasClass(cls, 'changed') && (typeof this.attributes['rel'] !== 'undefined' || $(this).dataset('rel') != '')) {
+                        _el = $(this);
+                        mw.tools.stopLoop(loop);
+                    }
+                });
+            }
+            if ((typeof _el.attr("rel") != 'undefined' && _el.attr("rel") != '') || _el.dataset('rel') != '') {
+                var content = _el.html();
+                var attr_obj = {};
+                var attrs = _el.get(0).attributes;
+                if (attrs.length > 0) {
+                    for (var i = 0; i < attrs.length; i++) {
+                        temp1 = attrs[i].nodeName;
+                        temp2 = attrs[i].nodeValue;
+                        attr_obj[temp1] = temp2;
+                    }
+                }
+                var obj = {
+                    attributes: attr_obj,
+                    html: content
+                }
+                var objX = "field_data_" + j;
+                var arr1 = [{
+                    "attributes": attr_obj
+                }, {
+                    "html": (content)
+                }];
+                master[objX] = obj;
+            } else {}
+        });
+    }
+	
+	var  len = mw.tools.objLenght(master)  ;
+   
+
+	 if(len > 0){
+	return master;
+	 }
+
+
+}
+
+mw.save_inner_editable_fields = function(data){
+
+	$.ajax({
+	type: 'POST',
+	url: mw.settings.site_url + 'api/save_edit',
+	data: data,
+	datatype: "json",
+	async: true,
+	beforeSend: function() {
+	}
+	});
+	
+}
+
+
 /* END OF FUNCTIONS */	
 
 </script> 

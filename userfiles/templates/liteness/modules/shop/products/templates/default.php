@@ -110,5 +110,5 @@ if(!isset($tn[1])){
 </div>
 <?php endif; ?>
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
-<?php print paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") ?>
+<?php print paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}&limit=7") ?>
 <?php endif; ?>

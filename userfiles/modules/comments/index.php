@@ -1,4 +1,7 @@
 <?php
+
+
+
 require_once(dirname(__FILE__) . DS . 'functions.php');
 if (get_option('enable_comments', 'comments') == 'y') {
 
@@ -6,13 +9,17 @@ if (get_option('enable_comments', 'comments') == 'y') {
     $from_related_posts = false;
     $paging_param = $params['id'] . '_page';
     $curent_page_from_url = url_param($paging_param);
-    if (isset($params['content-id'])) {
-        $data['rel'] = 'content';
-        $data['rel_id'] = $params['content-id'];
-    }
+
 
 
     $data = $params;
+    if (isset($params['content-id'])) {
+        $data['rel'] = 'content';
+        $data['rel_id'] = $params['content-id'];
+    } elseif (isset($params['content_id'])) {
+        $data['rel'] = 'content';
+        $data['rel_id'] = $params['content_id'];
+    }
     if (!isset($params['rel'])) {
 
         $data['rel'] = 'content';

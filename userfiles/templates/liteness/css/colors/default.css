@@ -1,172 +1,35 @@
-/* Colors */
-
 /***************************************************
 
-    Default Scheme
+                Default Scheme
 
- ***************************************************/
+***************************************************/
 
 
-body, .box-container,
-a, a:hover, a:focus, a:active{
-    color:#556;
-}
 .box-container{  background-color: white; }
-
-/* Commons */
-
-.well{
-  background-color: white;
-  border-color:#EEEEEE;
-  box-shadow: none;
-}
-
-.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
-    background-color: #555566;
-    border-color: #555566;
-}
-
-.btn-default{
-  background-color: #F0F0F0;
-  border-color: transparent;
-}
-
-.btn-default:hover,
-.btn-default:focus{
-  background-color: #EBEBEB;
-  border-color: transparent;
-}
-.btn-warning{
-  background: #ED8D00;
-}
-
-.nav-pills > li > a, .nav-pills > li > a:hover, .nav-pills > li > a:focus,
-.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{
-  background-color: transparent;
-  color: #555566;
-}
-
-.form-control{
-  background-color: #F8F8F8;
-  border-color: #EEEEEE;
-  box-shadow:none;
-}
-
-.form-control:focus{
-  box-shadow: none;
-  background-color: white;
-  border-color: #D6D6D6;
-}
-
-.date, .muted{
-  color: rgba(142, 142, 142, 1);
-}
-
-::selection{color:#fff;background:#777}
-::-moz-selection{color:#fff;background:#777}
-::-webkit-selection{color:#fff;background:#777}
-
-/* /Commons */
 
 
 /* Header */
 
-#header{
-  background: white;
-}
+#header{ background: white; }
 
-.module-navigation-default li li a{
-  border-color: #EFEFEF;
-  background-color: white;
-}
 
-#main-menu{
-  border-color:#EFEFEF;
-}
+
+#main-menu{ border-color:#EFEFEF; }
 
 /* /Header */
 
 
-/* Sidebar */
-.module-posts-template-sidebar .date{
-  color: #ABABAB;
-}
-.module-posts-template-sidebar p, .module-posts-template-sidebar .btn-link{
-  color: #808080;
-}
+#footer{ background: white; }
+#footer .mw-ui-row, .mw-cart-action-holder, hr{ border-top-color: rgba(194, 194, 194, 0.38) }
+#powered, #powered a, #copyright{ color: #ADADAD; }
 
-.mw-cart-small{
-  background: white;
-}
-
-/* /Sidebar */
-
-
-#footer{
-  background: white;
-}
-
-#footer .mw-ui-row, .mw-cart-action-holder{ border-top-color: #eee;}
-
-#powered,
-#copyright{
-    color: #ADADAD;
-}
-.inner-bottom-box{
-  background: #F3F3F2;
-}
-.inner-bottom-box .box-container{
-  padding: 20px;
-}
-
-.btn-action, .product-price-holder .btn, .btn-action-default{
-  color: white;
-  background: #555566;
-}
-.mw-defaults .btn-action,
-.mw-defaults .btn-action-default{
-  color: white;
-}
-
-.btn-action:hover,
-.btn-action-default:hover,
-.btn-action-default:focus,
-.product-price-holder .btn:hover,
-.product-price-holder .btn:focus,
-.btn-action:focus{
-  background: #41414E;
-}
-.btn-action:active, .btn-action-default:active{
-  box-shadow: inset 0 0 6px #000;
-}
-
-.sidebar-title, .border-title{
-  border-color: #EFEFEF;
-}
-.sidebar-box .nav li a{
-  color: #8F8F8F;
-}
-
-.sidebar-box .nav li a.active{
-  color: #555566;
-}
-
-
-#cart_checkout th,
-#cart_checkout td{
-  background-color:white;
-  border-color: #EBEBEB;
-}
 
 /* Modules */
 
-.contact-form-template-dream .contact-form,
-.contact-form-template-dream .contact-form-title,
-.mwcommentsmodule .comment .comment-image,
-.mw-captcha-image-holder,
-.mw_modal{
-  border-color:#EFEFEF
-}
+.module-posts-template-sidebar .date{ color: #ABABAB; }
+.module-posts-template-sidebar p, .module-posts-template-sidebar .btn-link{ color: #808080; }
+
+.mw-cart-small{ background: white; }
 
 .mwcommentsmodule input[type="email"], .mwcommentsmodule textarea, .mwcommentsmodule input[type="text"],
 .mwcommentsmodule .comments-template-stylish .comment .comment-content {
@@ -176,36 +39,17 @@ a, a:hover, a:focus, a:active{
 
 
 .module-navigation-default li:hover a.active,
+.module-navigation-default li a:hover,
+.module-navigation-default li:hover a,
 .module-navigation-default a.active,
 .module-navigation-default a.active:hover,
 .module-navigation-default a.active:active,
 .module-navigation-default a.active:focus{
-  background: #8E8E8E;
   background: #555566;
   color: white;
 }
 
-.comments-user-profile{
-  color: #8E8E8E;
+#header .module-navigation-default a.active,
+#footer .module-navigation-default a.active{
+  color: white;
 }
-
-
-
-/* /Modules */
-
-
-
-
-
-/***************************************************
-
-    Black Scheme
-
-***************************************************/
-
-
-
-
-
-
-/* /Colors */

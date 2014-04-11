@@ -61,7 +61,12 @@ mw.files = {
         frame.style.backgroundColor = "transparent";
         frame.setAttribute('frameborder', 0);
         frame.setAttribute('allowtransparency', 'true');
-        var params = "?type="+obj.type+"&filters="+mw.files.normalize_filetypes(obj.filetypes)+'&multiple='+obj.multiple +'&autostart='+obj.autostart + '&mwv=' + mw.version;
+        var params = "?type="+obj.type+"&filters="+mw.files.normalize_filetypes(obj.filetypes)+'&multiple='+obj.multiple +'&autostart='+obj.autostart;
+        if(typeof obj.path !== 'undefined'){
+          params += '&path=' + encodeURIComponent(obj.path);
+        }
+        params+= '&mwv=' + mw.version;
+
         frame.src = mw.external_tool('plupload'+params);
         frame.name = obj.name || 'mw-uploader-frame-'+mw.random();
         frame.style.background = "transparent";
@@ -71,17 +76,5 @@ mw.files = {
         frame.setAttribute('allowTransparency', 'true');
         return frame;
     }
-}
-
-mw.uploader = function(o){
-  return mw.files.uploader(o);
-}
-
-$.fn.uploader = function(o){
-  var uploader = mw.uploader(o);
-  $(this).empty().append(uploader);
-  this.uploader = uploader;
-  this[0].uploader = uploader;
-  return this;
 }
 

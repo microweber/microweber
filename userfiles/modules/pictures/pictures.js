@@ -33,8 +33,10 @@ mw.module_pictures = {
      $.post(mw.settings.api_url+'delete_media', { id: $id  }, function(data) {
 		 $('.admin-thumb-item-'+$id).fadeOut(); 
         mw.reload_module('pictures');
+		
 			    if(window.parent != undefined && window.parent.mw != undefined){
 					 window.parent.mw.reload_module('pictures');
+					 window.parent.mw.reload_module('shop/products');  
 				 }
      });
    }
@@ -59,16 +61,17 @@ mw.module_pictures = {
 			 
 			 
 			  if(window.parent != undefined && window.parent.mw != undefined){
-				
+				 
 				 window.parent.mw.reload_module('pictures');
 				   setTimeout(function(){
-					 window.parent.mw.reload_module('posts');    
+					 window.parent.mw.reload_module('posts');   
+					  window.parent.mw.reload_module('shop/products');     
 				  },100)
 				
 			}
 			 setTimeout(function(){
 		  mw.reload_module('pictures')
-		      },300)
+ 		      },300)
 		
  
 	

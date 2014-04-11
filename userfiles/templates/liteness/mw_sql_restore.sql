@@ -210,3 +210,7 @@ REPLACE INTO `/* MW_PREFIX_PLACEHOLDER */menus` (`id`, `title`, `item_type`, `pa
 REPLACE INTO `/* MW_PREFIX_PLACEHOLDER */menus` (`id`, `title`, `item_type`, `parent_id`, `content_id`, `categories_id`, `position`, `updated_on`, `created_on`, `is_active`, `description`, `url`) VALUES(18, '', 'menu_item', 2, 14, NULL, 99999, '2014-03-31 14:14:48', '2014-03-31 14:14:48', 'y', NULL, '');
 REPLACE INTO `/* MW_PREFIX_PLACEHOLDER */menus` (`id`, `title`, `item_type`, `parent_id`, `content_id`, `categories_id`, `position`, `updated_on`, `created_on`, `is_active`, `description`, `url`) VALUES(19, '', 'menu_item', 2, 4, NULL, 99999, '2014-03-31 14:14:52', '2014-03-31 14:14:52', 'y', NULL, '');
 REPLACE INTO `/* MW_PREFIX_PLACEHOLDER */menus` (`id`, `title`, `item_type`, `parent_id`, `content_id`, `categories_id`, `position`, `updated_on`, `created_on`, `is_active`, `description`, `url`) VALUES(20, '', 'menu_item', 2, 13, NULL, 99999, '2014-03-31 14:14:55', '2014-03-31 14:14:55', 'y', NULL, '');
+
+
+
+ 

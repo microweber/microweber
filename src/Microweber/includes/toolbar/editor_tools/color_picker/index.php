@@ -3,7 +3,6 @@
 #my-colors{
   width: 235px;
   max-height: 90px;
-  border: 1px solid #ccc;
   overflow-x:hidden;
   overflow-y:auto;
 }
@@ -27,8 +26,6 @@
   margin: 0 10px 10px;
   background: white;
   overflow: hidden;
-  box-shadow: 0px 0px 6px #CCCCCC;
-  box-shadow: 0 0 6px -4px #111;
 }
 
 #mwpicker{
@@ -36,19 +33,37 @@
   position: relative;
   width: 240px; height: 130px;
 }
-
+#mwpicker > div{
+  background: none !important;
+  border: none !important;
+}
 
 .transparent{
   background: url(<?php print mw('url')->link_to_file(dirname(__FILE__)); ?>/ico.transparentbg.png) no-repeat 1px 1px;
 }
 
 
+<?php if(isset($_GET['onlypicker'])){ ?>
+  #main_holder > *{
+    display: none;
+  }
 
+  #main_holder #mwpicker{
+    display: block;
+  }
+
+  #main_holder{
+    padding: 0;
+    margin: 0;
+  }
+
+
+<?php  } ?>
 
 </style>
 
 
-	<script type="text/javascript" src="<?php print mw('url')->link_to_file(dirname(__FILE__)); ?>/jscolor.js?v=<?php print uniqid(); ?>"></script>
+	<script type="text/javascript" src="<?php print mw('url')->link_to_file(dirname(__FILE__)); ?>/jscolor.js"></script>
     <script>
         parent.mw.require('external_callbacks.js');
         mw.require('color.js');
@@ -60,10 +75,23 @@
 
         _hide_selection = ['fontColor', 'fontbg'];
 
-
+        setColor = function(color){
+           if(!!window.picker){
+             var color = color.contains('rgb') ? mw.color.rgbToHex(color) : color;
+             var color = color.replace("#", "");
+             picker.fromString(color);
+           }
+           else{
+               setColor(color);
+           }
+        }
 
         $(document).ready(function(){
 
+
+        $(window).bind('haschange', function(){
+            _command = window.location.hash.replace("#", "");
+        });
 
         if(_hide_selection.indexOf(_command)!=-1){
           $(parent.mwd.body).addClass('hide_selection');
@@ -121,12 +149,15 @@
         });
 
         _do = function(val){
+
           if(typeof parent.mw.iframecallbacks[_command] === 'function'){
             parent.mw.iframecallbacks[_command](val);
           }
           else if(typeof parent[_command] === 'function'){
-             parent[_command](val)
+             parent[_command](val);
           }
+
+          RegisterChange(val);
 
         }
 
@@ -146,7 +177,7 @@
 
     <input type="hidden" id="colorpicker" onchange="_do(this.value);" />
     <div class="vSpace"></div>
-<label class="mw-ui-label"><?php _e("Custom color"); ?></label>
+    <label class="mw-ui-label"><?php _e("Custom color"); ?></label>
 
 
 

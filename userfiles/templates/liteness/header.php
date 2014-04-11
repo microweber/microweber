@@ -20,23 +20,15 @@
         mw.require(mw.settings.template_url + "js/functions.js");
     </script>
     <link rel="stylesheet" href="<?php print template_url(); ?>css/style.css" type="text/css" />
-    <?php
-        $color_scheme = get_option('color-scheme', 'mw-template-liteness');
-        if($color_scheme==''){
-          $color_scheme = 'default';
-        }
-        $font = get_option('font', 'mw-template-liteness');
-        $bgimage = get_option('bgimage', 'mw-template-liteness');
-    ?>
-    <link rel="stylesheet" id="colorscss" href="<?php print template_url(); ?>css/colors/<?php print $color_scheme; ?>.css" type="text/css" />
+    <?php include THIS_TEMPLATE_DIR . 'header_options.php'; ?>
 </head>
 <body class="<?php print $font . ' ' . $bgimage; ?>">
 <div id="main-container">
     <div id="header">
-       <div class="container">
+       <div class="container edit" field="liteness-header" rel="global">
         <div class="row">
             <div class="col-md-9">
-              <h1 class="edit nodrop element" id="logo" field="logo-top" rel="global">
+               <h1 class="edit element" id="logo" field="logo-top" rel="global">
                   <a href="<?php print site_url(); ?>">
                     <span>Liteness</span>
                     <small>Define your own Space</small>
@@ -44,7 +36,7 @@
                </h1>
             </div>
             <div class="col-md-3">
-              <div class="edit header-cart" field="header-cart" rel="global"><module type="shop/cart" template="small"></div>
+              <div class="header-cart"><module type="shop/cart" template="small"></div>
             </div>
        </div>
        </div>

@@ -4,7 +4,7 @@
 </script>
 <script type="text/javascript">
 		var uploader = mw.files.uploader({
-			filetypes:"*",
+			filetypes:"all",
 			multiple:false
 		});
 

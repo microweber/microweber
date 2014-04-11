@@ -78,6 +78,7 @@ if($module_template != false and $module_template != 'none'){
 } else {
 	print lnotif( 'No default template for '.$config['module'].' is found');
 }  ?>
+ <?php else: ?>
  
   <?php endif; ?>
 </div>

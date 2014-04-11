@@ -4,6 +4,8 @@ if(typeof mw === 'undefined'){
 
 mw = {}
 
+
+
 mw.version = "<?php print MW_VERSION; ?>";
 
 mw.pauseSave = false;
@@ -83,7 +85,7 @@ mw.askusertostay = false;
       var t = url.split('.').pop();
       var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
       var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
-      if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && !!window.CanvasRenderingContext2D) {
+      if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && !!window.CanvasRenderingContext2D && self === parent) {
          mwd.write(string);
       }
       else {
@@ -174,7 +176,7 @@ mw.askusertostay = false;
     session_expired:"<?php _e("Your session has expired"); ?>",
     login_to_continue:"<?php _e("Please login to continue"); ?>",
     more:"<?php _e("More"); ?>",
-    templateSettingsHidden:"<?php _e("Template settings will be here"); ?>",
+    templateSettingsHidden:"<?php _e("Template settings"); ?>",
     less:"<?php _e("Less"); ?>"
   }
 
@@ -678,6 +680,7 @@ mw._response = {
   mw.require("session.js");
 }
 
+
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/jquery.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/tools.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/files.js");
@@ -686,9 +689,7 @@ mw.required.push("<?php print MW_INCLUDES_URL; ?>api/url.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/events.js");
 
 
-
 <?php  include "jquery.js";  ?>
-
 <?php  include "tools.js"; ?>
 <?php  include "files.js"; ?>
 <?php  include "forms.js"; ?>

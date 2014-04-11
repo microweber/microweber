@@ -42,6 +42,11 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
   Name = this.name;
   mwd.body.className +=' ' + Name;
   Params = mw.url.getUrlParams(window.location.href);
+
+  urlparams = '';
+
+  if(!!Params.path){ urlparams += 'path='+ Params.path;}
+
  $(document).ready(function(){
         $(mwd.body).mousedown(function(e){
           e.preventDefault();
@@ -55,7 +60,7 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
           debug : 1,
           container: 'container',
        chunk_size : '500kb',
-          url : '<?php print site_url('plupload'); ?>',
+          url : '<?php print site_url('plupload'); ?>?' + urlparams ,
           filters:filters,
           multi_selection:multi
       });

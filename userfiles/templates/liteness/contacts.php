@@ -38,7 +38,7 @@ position: 7
                 <div class="mw-col" style="width: 50%;">
                      <div class="mw-col-container">
                         <div class="well contacts-info">
-                          <div class="edit">
+                          <div class="edit" field="content_body" rel="content">
       						<h3 class="border-title">Address</h3>
                             <div class="contacts-icons">
         					  <p>

@@ -121,7 +121,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 
 
    if($ext == 'jpg' or $ext == 'png'  or $ext == 'gif'  or $ext == 'jpeg'  or $ext == 'bmp'): ?>
-        <img src="<?php print thumbnail(mw('url')->link_to_file($item), 48, 48); ?>" />
+        <img data-src="<?php print thumbnail(mw('url')->link_to_file($item), 48, 48); ?>" class="image-item image-item-not-ready" />
         <?php else: ?>
         <span class="mw-fileico mw-fileico-<?php print $ext ; ?>"><?php print $ext ; ?></span>
         <?php endif; ?>
@@ -138,6 +138,22 @@ $path_nav_pop = $path_nav_pop.DS.$item;
         </li>
       <?php endforeach ; ?>
     </ul>
+    <script>
+        rendImages = window.rendImages || function(){
+          var all = mwd.querySelectorAll('.image-item-not-ready'), l = all.length, i = 0;
+          for( ; i<l; i++){
+            var item = all[i];
+            var datasrc = item.getAttribute("data-src");
+            if(mw.tools.inview(item) && datasrc !== null){
+               $(item).attr('src', datasrc).removeClass('image-item-not-ready');
+            }
+          }
+        }
+        $(window).bind('load scroll ajaxStop', function(){
+           rendImages();
+        });
+
+    </script>
     <?php endif; ?>
   </div>
 </div>

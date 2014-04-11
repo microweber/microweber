@@ -1851,9 +1851,9 @@ class Db
     /**
      * Escapes a string from sql injection
      *
-     * @param string $value to escape
-     *
-     * @return mixed
+     * @param string|array $value to escape
+     * @return string|array Escaped string
+     * @return mixed Es
      * @example
      * <code>
      * //escape sql string
@@ -1865,7 +1865,6 @@ class Db
      * @package Database
      * @subpackage Advanced
      */
-
     public function escape_string($value)
     {
 
@@ -3063,12 +3062,19 @@ class Db
                                 }
                                 if (isset($custom_field_to_save['type'])) {
                                     $cftype = $custom_field_to_save['type'];
+                                } elseif (isset($cf_v['type'])) {
+                                    $cftype = $custom_field_to_save['type'] = $cf_v['type'];
                                 }
+
                                 if (isset($custom_field_to_save['title'])) {
                                     $cftitle = $custom_field_to_save['title'];
+                                }elseif (isset($cf_v['title'])) {
+                                    $cftitle = $custom_field_to_save['title'] = $cf_v['title'];
                                 }
                                 if (isset($custom_field_to_save['name'])) {
                                     $cftitle = $custom_field_to_save['name'];
+                                }elseif (isset($cf_v['name'])) {
+                                    $cftitle = $custom_field_to_save['name'] = $cf_v['name'];
                                 }
                                 if ($cftitle != false) {
                                     $custom_field_to_save['custom_field_name'] = $cftitle;
@@ -3080,12 +3086,27 @@ class Db
                                 $temp = array_values($val_to_serilize);
                                 $temp = array_pop($temp);
                                 $custom_field_to_save['custom_field_values_plain'] = $this->escape_string($temp);
+                                if(is_array($custom_field_to_save['custom_field_values_plain'])){
+                                    $custom_field_to_save['custom_field_values_plain'] = implode(',',$custom_field_to_save['custom_field_values_plain']);
+                                }
+
                                 $cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
+                               // d($custom_field_to_save['custom_field_values_plain']);
                                 $cfvq .= "custom_field_values_plain =\"" . $custom_field_to_save['custom_field_values_plain'] . "\",";
                                 $cfvq .= "custom_field_name_plain =\"" . $cf_k_plain . "\",";
 
-                                $custom_field_to_save['custom_field_value'] = 'Array';
-                                //d($custom_field_to_save);
+
+                                if ($cftype == 'price' and isset($cf_v['value']) and is_array($cf_v['value'])) {
+
+                                    $custom_field_to_save['custom_field_value'] = array_pop( $cf_v['value']);
+                                } elseif ($cftype == 'price' and isset($cf_v['value']) and is_string($cf_v['value'])) {
+
+                                    $custom_field_to_save['custom_field_value'] = trim( $cf_v['value']);
+                                }else {
+                                    $custom_field_to_save['custom_field_value'] = 'Array';
+
+                                }
+
 
                             } else {
                                 $cf_v = $this->escape_string($cf_v);

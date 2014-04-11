@@ -2,10 +2,14 @@
   width: 95px;
 }
 
-.captcha-row{
+.mwcommentsmodule  .captcha-row{
   float: left;
   overflow: hidden;
   background: white;
+  max-width: 300px;
+}
+.mwcommentsmodule  .captcha-row .ico{
+  margin-left: 5px;
 }
 
 .comment-textarea{
@@ -15,7 +19,6 @@
 .mwcommentsmodule textarea,
 .mwcommentsmodule input[type='text']{
   border: 1px solid #CCCCCC;
-  padding: 10px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
