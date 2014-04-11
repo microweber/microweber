@@ -25,6 +25,9 @@
       'fourth_color' => "#mwnoop",
 
       'fifth_bg' => ''
+                    .'.contact-form-template-dream .cft-submit, .contact-form-template-dark .cft-submit,'
+                    .'.contact-form-template-dream .cft-submit:hover, .contact-form-template-dark .cft-submit:hover,'
+                    .'.contact-form-template-dream .cft-submit:focus, .contact-form-template-dark .cft-submit:focus,'
                     .'.pagination > a.active, .mw-search-autocomplete .module-posts-template-search > ul > li.active,'
                     .'.btn-default, .btn-action, .product-price-holder .btn, .btn-action-default,'
                     .'.btn-default:hover, .btn-action:hover, .product-price-holder .btn:hover, .btn-action-default:hover,'
