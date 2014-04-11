@@ -79,12 +79,12 @@
 
 
 <style type="text/css">
-  /*  .module-navigation-default li a.active,
+   .module-navigation-default li a.active,
     #header .module-navigation-default li a.active,
     .module-navigation-default li a:hover,
     .module-navigation-default li:hover a,
     #header .module-navigation-default li a:hover,
     #header .module-navigation-default li:hover a,
     .module-navigation-default li a:focus,
-    #header .module-navigation-default li a:focus{ color: white; }*/
+    #header .module-navigation-default li a:focus{ color: white; } 
 </style>
