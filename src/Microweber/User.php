@@ -853,6 +853,16 @@ class User
                 }
             }
         }
+		
+		
+		if (defined("MW_API_CALL") and isset($params['is_admin'])) {
+			if($this->is_admin() == false){
+           	unset($params['is_admin']);
+			}
+		}
+		
+		
+		
 //    if (!isset($params['password'])) {
 //        return array('error' => 'Please set password!');
 //    } else {
