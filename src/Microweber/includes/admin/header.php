@@ -3,7 +3,6 @@
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>default.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" >
 
@@ -23,12 +22,13 @@
         mwAdmin = true;
         admin_url  = '<?php print admin_url(); ?>';
     </script>
-    <script type="text/javascript" src="<?php print MW_INCLUDES_URL; ?>js/jquery-1.9.1.js"></script>
+     <script type="text/javascript" src="<?php print MW_INCLUDES_URL; ?>js/jquery-1.9.1.js"></script>
      <script type="text/javascript" src="<?php print site_url(); ?>apijs"></script>
      <script type="text/javascript">
       mw.require("liveadmin.js");
       mw.require("jquery-ui.js");
       mw.require("<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css");
+      mw.require("<?php print MW_INCLUDES_URL; ?>css/mw_framework.css");
       mw.require("<?php print MW_INCLUDES_URL; ?>css/admin.css");
       mw.require("wysiwyg.js");
       mw.require("tools.js");
@@ -41,6 +41,7 @@
       mw.require("css_parser.js");
       mw.require("custom_fields.js");
       mw.require("session.js");
+      mw.require("<?php print MW_INCLUDES_URL; ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
    <?php /*  mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css");
       mw.require("helpinfo.js");*/ ?>
 
@@ -60,11 +61,11 @@
 			   if(mw.helpinfo != undefined){
 				    mw.cookie.set('helpinfo',false, 4380);
 				   $(".helpinfo_helper").fadeOut();
-			     
+
 			   }
 		  });  
 	 
-			
+
 			
 			
 			
@@ -76,11 +77,11 @@
     <?php endif; ?>
 
      <?php event_trigger('admin_head'); ?>
-    
+
 
     
     </head>
-    <body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print mw('url')->param('view')  ?> action-<?php print mw('url')->param('action')  ?>">
+    <body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print mw('url')->param('view');  ?> action-<?php print mw('url')->param('action');  ?>">
 
 
 
@@ -88,9 +89,21 @@
 
 
 <div id="mw-admin-container">
+    <div class="mw-ui-row main-admi-row">
+      <div class="mw-ui-col main-bar-column">
+          <div id="main-bar">
+              <ul id="main-menu">
+                  <li><a href="javascript:;" title=""><span class="mw-icon-live"></span></a></li>
+                  <li><a href="javascript:;" title=""><span class="mw-icon-website"></span></a></li>
+                  <li><a href="javascript:;" title=""><span class="mw-icon-shop"></span></a></li>
+                  <li><a href="javascript:;" title=""><span class="mw-icon-module"></span></a></li>
+                  <li><a href="javascript:;" title=""><span class="mw-icon-gear"></span></a></li>
+              </ul>
+          </div>
+      </div>
 
-    <div id="main-menu" >
-        aaaaaaaa
-    </div>
+
+
+
 
 

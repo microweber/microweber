@@ -346,30 +346,6 @@ function mw_select_post_for_editing($p_id, $subtype){
 					var active_item_is_page = active_item_parent_page.getAttribute('data-page-id');
 					
 			   }  
-				 
- 
-
-/*
- 			if(active_item_is_page == undefined){
-			  var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('.is_page').first();
-				 
-				   if(active_item_parent_page != undefined){
-						var active_item_is_page = active_item_parent_page.attr('data-page-id');
-				   } else {
-					   var  active_item_parent_page = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').parents('[data-page-id]').first();
-					 
-
-				   }
-				   
-			}
-			
-			
-				*/
-			
-			
-			 
-				   
-				   
 
 	 } else {
 	    mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
@@ -394,313 +370,97 @@ function mw_select_post_for_editing($p_id, $subtype){
 		 if($subtype == 'product'){
 			  mw.$('#pages_edit_container').attr('is_shop', 'y');
 		 }
-
-
-	 mw.$('#pages_edit_container').attr('data-subtype', $subtype);
+	     mw.$('#pages_edit_container').attr('data-subtype', $subtype);
 	 } else {
 		mw.$('#pages_edit_container').attr('data-subtype', 'post');
 	 }
-
-
-
-
     mw.$(".mw_edit_page_right").css("overflow", "hidden");
-
     edit_load('content/edit_post');
-
-
-
-
-
-
-  	// mw.load_module('content/edit_post','#pages_edit_container');
 }
 
 function mw_add_product(){
-
-	 mw_select_post_for_editing(0,   'product')
-
-
-
+    mw_select_post_for_editing(0,   'product')
 }
 
 function mw_make_pages_tree_sortable(){
-	
-	
-	
-	
-	
-	 
-
 	$("#pages_tree_toolbar .pages_tree").sortable({
-      axis:'y',
+       axis:'y',
 	   items: '>.pages_tree_item',
 	   distance: 35,
 	   containment: "parent",
-      update:function(){
-		   var obj = {ids:[]}
-		   $(this).find('.pages_tree_item').each(function(){
-			var id = this.attributes['data-page-id'].nodeValue;
-			obj.ids.push(id);
-		  });
-
-		   $.post("<?php print api_link('content/reorder'); ?>", obj, function(){
-			   
+       update:function(){
+		    var obj = {ids:[]}
+            $(this).find('.pages_tree_item').each(function(){
+              var id = this.attributes['data-page-id'].nodeValue;
+              obj.ids.push(id);
+            });
+		    $.post("<?php print api_link('content/reorder'); ?>", obj, function(){
 			   mw.reload_module('#mw_page_layout_preview');
-			   
-			   });
+		    });
 		 },
 		 start:function(a,ui){
-		 
+
 		},
          scroll:false
      });
 
-	$("#pages_tree_toolbar .pages_tree .have_category").sortable({
-      axis:'y',
-	  items: '.category_element',
-	   //containment: ".category_tree",
-	   
-	   
-	   xxitems: '.category_tree',
-	   xxcontainment: "parent",
-	    distance: 35,
-      update:function(){
-		   var obj = {ids:[]}
-		   $(this).find('.category_element').each(function(){
-			var id = this.attributes['data-category-id'].nodeValue;
-			obj.ids.push(id);
-		  });
+      $("#pages_tree_toolbar .pages_tree .have_category").sortable({
+          axis:'y',
+          items: '.category_element',
+          distance: 35,
+          update:function(){
+              var obj = {ids:[]}
+              mw.$('.category_element', this).each(function(){
+                  var id = this.attributes['data-category-id'].nodeValue;
+                  obj.ids.push(id);
+              });
+              $.post("<?php print api_link('category/reorder'); ?>", obj, function(){
+                mw.reload_module('#mw_page_layout_preview');
+              });
+          },
+          start:function(a,ui){
 
-		   $.post("<?php print api_link('category/reorder'); ?>", obj, function(){
-			   
-			   mw.reload_module('#mw_page_layout_preview');
-			   
-			   });
-		 },
-		 start:function(a,ui){
-		   
-		},
-         scroll:false
-     });
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
+          },
+          scroll:false
+      });
 }
-
-
-
-
 
 
 
 </script>
 
-<div id="mw_edit_pages">
-  <div id="mw_edit_pages_content">   
-    <div class="mw_edit_page_left" id="mw_edit_page_left">
-
-
-
-
-
-
- 
-
-
-
-      <div class="mw_edit_pages_nav">
-        <?php
-		
-		
-            $view = mw('url')->param('view');
-            if($view=='shop'){
-				
-				$is_in_shop = true;
-				
-        ?>
-        <a href="<?php print admin_url(); ?>view:shop" class="mw_tree_title mw_tree_title_shop">
-        <?php _e("My Online Shop"); ?>
-        </a>
-
-         <div class="mw_clear"></div>
-
-
-        <?php } else { ?>
-        
-        <?php $site_name = $site_url = site_url();
-		 
-		  $site_name = str_ireplace('www.','',$site_name);
-		  $site_name = (parse_url($site_name));
-		  if($site_name != false and isset($site_name['host'])){
-			   $site_name = explode('.',$site_name['host']);
-			   $site_name =  $site_name[0];
-			   
-		  }  
-		 if($site_name != false and is_string($site_name)){
-			 if(strlen( $site_name) > 15){
-				 $site_name = substr($site_name, 0, 15).'...'; 
-			 } 
-			 $site_nav_url = $site_url;
-			 
-		 } else {
-			$site_name = _e("Website  Navigation", 1);
-			$site_nav_url = admin_url().'view:content';
-		 }
-		 
-		   ?>
-
-
-        <a href="<?php print admin_url().'view:content'; ?>" class="mw_tree_title"><?php print $site_name ?></a>
-        <?php } ?>
-
-
-		<?php if($is_in_shop == false): ?>
-        
-        <?php event_trigger('admin_content_side_menu_start', $params); ?>
-        
-        <?php else: ?>
-    
-    
-        <?php event_trigger('admin_shop_side_menu_start', $params); ?>
-
-        <?php endif; ?>
-
-
-
-
-
-        <a href="#action=new:post" class="mw_action_nav mw_action_post" onclick="mw.url.windowHashParam('action','new:post');return false;">
-          <label><?php _e("Post"); ?></label>
-          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipost"></span></span>
-        </a>
-        
-        
-        
-        
-        
-        
-        
- 
-
-
-
-
-        <a href="#action=new:page" class="mw_action_nav mw_action_page" id="action_new_page" onclick="mw.url.windowHashParam('action','new:page');mw.url.windowDeleteHashParam('parent-page');return false;">
-          <label><?php _e("Page"); ?></label>
-          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipage"></span></span>
-        </a>
-
-        <a href="#action=new:page" class="mw_action_nav mw_action_sub_page"  id="action_new_sub_page" onclick="mw.url.windowHashParam('action','new:page');return false;">
-          <label><?php _e("Sub Page"); ?></label>
-          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico ipage"></span></span>
-        </a>
-
-        <a href="#action=new:category" class="mw_action_nav mw_action_category" onclick="mw.url.windowHashParam('action','new:category');return false;">
-          <label><?php _e("Category"); ?></label>
-          <span class="mw-ui-btn"><span class="ico iplus"></span><span class="ico icategory"></span></span>
-        </a>
-        
-        
-        <?php if($is_in_shop == false): ?>
-        
-        <?php event_trigger('admin_content_side_menu',$params); ?>
-        
-        <?php else: ?>
-    
-    
-        <?php event_trigger('admin_shop_side_menu',$params); ?>
-
-        <?php endif; ?>
- 
-      </div>
-
-
-
-
-
-
-
-
+<div class="mw-ui-row" id="edit-content-row">
+    <div class="mw-ui-col tree-column">
+    <div class="tree-column-holder">
+    <div class="fixed-side-column">
       <div class="mw_pages_posts_tree mw-tree"  id="pages_tree_container_<?php print $my_tree_id; ?>">
         <?php
-		 $is_shop_str = " is_shop='n' "   ;
-		 		 $is_shop_str = "   "   ;
-
+		 $is_shop_str = " is_shop='n' ";
+		 $is_shop_str = "   ";
 	   if(isset($is_shop)){
-		 $is_shop_str = " is_shop='{$is_shop}' "   ;
-	   }elseif(isset($params['is_shop'])){
-		 $is_shop_str = " is_shop='".$params['is_shop']."' "   ;
+		 $is_shop_str = " is_shop='{$is_shop}' ";
+	   }
+       elseif(isset($params['is_shop'])){
+		 $is_shop_str = " is_shop='".$params['is_shop']."' ";
 	   }
 	   ?>
         <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
-        <div class="mw-clear"></div>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
              <?php event_trigger('admin_content_after_website_tree',$params); ?>
-   
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
       </div>
       <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
     </div>
-    <div class="mw_edit_page_right">
+    </div>
+    </div>
+    <div class="mw-ui-col">
 
       <div style="padding-left: 0;">
         <div class="top_label">
-
-    <?php /*    <?php if(is_module('help')): ?>
-        <a href="<?php print admin_url(); ?>view:help"><?php _e("See the tutorials here"); ?></a>
-        <?php endif; ?>*/ ?>
        </div>
         <div class="vSpace"></div>
       </div>
       <?php
-$ed_content = false;
- $content_id = '';
+        $ed_content = false;
+        $content_id = '';
 
 		if(isset($_GET['edit_content'])){
 			 $content_id = ' data-content-id='.intval($_GET['edit_content']).' ';
@@ -731,7 +491,7 @@ $ed_content = false;
         <?php endif; ?>
       </div>
     </div>
-  </div>
+
 </div>
 
 

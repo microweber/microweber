@@ -14,16 +14,19 @@
   }
   ?>
 
-<div class="admin-main-wrapper <?php print  $holder_cls ?>">
+
+<div class="mw-ui-col admin-content-column <?php print  $holder_cls ?>">
+
+
   <?php if($v1 != false): ?>
   <?php
-        
+
         $v_mod = module_name_decode($v1);
-        
+
          if(is_module($v_mod)){
 			  include_once (MW_ADMIN_VIEWS_DIR . 'module_nav.php'); 
            //  $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
-		   
+
 		   $mod = '<module type="'.$v_mod.'" view="admin"  backend="true" id="mw-main-module-backend" />';
 		   
              print $mod ;
@@ -34,15 +37,15 @@
         
          ?>
   <?php else : ?>
-  <?php include_once (MW_ADMIN_VIEWS_DIR . 'header_nav.php'); ?>
+  <?php //include_once (MW_ADMIN_VIEWS_DIR . 'header_nav.php'); ?>
   <?php 
-        
+
         
         
         $vf = MW_ADMIN_VIEWS_DIR . $v. '.php';
         $vf = str_replace('..', '', $vf);
         if(is_file($vf)){
-        //d($vf);	
+        //d($vf);
         
         include ($vf);
         

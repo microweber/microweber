@@ -1,24 +1,37 @@
-set_main_height = function(){
-   mw.$("#mw_edit_page_left").css("minHeight", $(window).height());
-  var h = Math.max($(mwd.body).height(), $(window).height());
-  mw.$("#mw_edit_page_left").css("minHeight", h-41)
+mw.admin = {
+    initSettings:function(){
+      mw.admin.globals = {
+          mainBar: mw.$('#main-bar'),
+          fixedSideColumns:mwd.querySelectorAll('.fixed-side-column')
+      }
+    },
+    setFixedSideColumns:function(){
+        var i = 0, c = mw.admin.globals.fixedSideColumns, l = c.length;
+        for( ; i<l ; i++){
+            var parent = c[i].parentNode;
+            c[i].style.width = parent.offsetWidth + 'px';
+            c[i].style.height = $(window).height() + 'px';
+        }
+
+    }
 }
 
-mw.admin = {
-  scale:function(obj, to){
-    if(obj === null) return false;
-    var css = mw.CSSParser(obj);
-    var win = $(window).width();
-    var sum = win - css.get.padding(true).left - css.get.padding(true).right - css.get.margin(true).right - css.get.margin(true).left;
-    if(!to){
-      obj.style.width = sum + 'px';
-    }
-    else{
-      obj.style.width = (sum-$(to).outerWidth(true)) + 'px';
-    }
-  }
-}
-urlParams = mw.url.mwParams(window.location.href);
-$(window).bind('load resize ajaxStop', function(){
-    set_main_height();
+
+$(mwd).ready(function(){
+
+    mw.admin.initSettings();
+
+});
+
+$(mww).bind('load', function(){
+
+       mw.$(".fixed-side-column").slimScroll({
+            height:$(window).height(),
+            size:5
+        });
+
+});
+
+$(mww).bind('load resize', function(){
+    mw.admin.setFixedSideColumns();
 });

@@ -367,80 +367,10 @@ body.loaded #live_edit_toolbar{
   border-bottom: 1px solid #DDDDDD;
 }
 
-.mw_action_nav{
-  display: block;
-  width: 65px;
-  float: left;
-  text-align: center;
-  cursor: pointer;
-  margin: 0 5px;
-}
-.mw_action_nav.not-active{
-  opacity: 0.5;
-}
-
-.mw_action_nav label{
-  font-size: 10px;
-  cursor: pointer;
-  display: block;
-  text-align: center;
-}
-
-.mw_action_nav button{
-  width: 48px;
-  height: 24px;
-  background: url(../img/mw_content_actions.png) no-repeat;
-  border: none;
-  cursor: pointer;
-  display: inline-block;
-  border-radius:2px;
-}
-.mw_action_nav:hover button{
-  box-shadow:0 1px 10px -6px #212121;
-}
-
-.mw_action_nav.not-active button{
-  opacity:0.3;
-}
-.mw_action_nav.not-active:hover button{
-  opacity:0.6;
-}
-
-.mw_action_post button{background-position: -64px 0}
-.mw_action_sub_page button{background-position: -262px 0}
-.mw_action_category button{background-position: -130px 0}
-.mw_action_product button{background-position: -196px 0;}
 
 
-#action_new_sub_page{
-  display: none;
-}
 
 
-body.view-shop .mw_action_post{
-  display: none;
-}
-
-.mw_edit_pages_nav{
-  height: 100px;
-  border-bottom: 1px solid #E2E2E2;
-  background: white;
-  padding:14px 0 0 13px;
-  position: relative;
-}
-
-.mw_edit_pages_nav .mw-ui-btn{
-  padding: 3px 4px;
-  background: #f5f5f5;
-  height: 27px;
-}
-
-.mw_edit_pages_nav .mw-ui-btn .iplus{
-  margin-left: 5px;
-}
-.mw_action_nav button:active{
-  box-shadow:0 0 5px #CCCCCC inset
-}
 .mw-tree{
   padding: 10px 0;
 }
@@ -626,7 +556,7 @@ li li li li .pages_tree_link_text{
 }
 
 .mw-tree ul.depth-2{
-  margin-left:82px;
+  margin-left:55px;
 }
 .mw-tree ul.depth-2 ul{
   margin-left:30px;
@@ -677,30 +607,9 @@ html.mw_pages, html.mw_pages body{
 }
 
 
-#mw_edit_page_left{
-  min-height: 100%;
-  width: 333px;
-  float: left;
-  background: #f4f4f4;
-  border-right: 1px solid #E2E2E2;
-  -webkit-transition: width 0.4s;
-  -moz-transition: width 0.4s;
-  -o-transition: width 0.4s;
-  transition: width 0.4s;
-}
 
 
-.mw_edit_page_right{
-  padding-bottom: 50px;
-  width: 685px;
-  padding: 20px;
-  float: left;
-  position: relative;
-}
 
-#mw_edit_page_left + .mw_edit_page_right{
-  padding: 0;
-}
 
 .mw_del_tree_content{
   background:  url(../img/admin_tree_icons.png) no-repeat -45px 6px;
@@ -1323,7 +1232,6 @@ textarea.mw-ui-field{
 
 
 #pages_edit_container{
-  padding-bottom: 300px;
   position: relative;
   width: 680px;
   -webkit-transition: left 0.4s;
