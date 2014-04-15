@@ -55,7 +55,7 @@
     		    mw.cookie.set('back_to_admin', window.location.href);
     		}
 			
-			
+
 		  mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function(){
 			   if(mw.helpinfo != undefined){
 				    mw.cookie.set('helpinfo',false, 4380);
@@ -69,12 +69,15 @@
 			
 			
 		});
+
+
+        mw.require("<?php print MW_INCLUDES_URL; ?>css/ui.css");
     </script>
     <?php endif; ?>
-    
+
      <?php event_trigger('admin_head'); ?>
     
-    
+
     
     </head>
     <body  contextmenu="mw-context-menu" class="is_admin loading view-<?php print mw('url')->param('view')  ?> action-<?php print mw('url')->param('action')  ?>">
@@ -85,3 +88,9 @@
 
 
 <div id="mw-admin-container">
+
+    <div id="main-menu" >
+        aaaaaaaa
+    </div>
+
+

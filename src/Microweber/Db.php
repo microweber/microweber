@@ -1467,6 +1467,7 @@ class Db
 
                 if ($add_to_seachq_q == true) {
                     $to_search = $this->escape_string($to_search);
+
                     if (in_array($v, $to_search_in_those_fields) or ($v != '_username' && $v != '_password')) {
                         switch ($v) {
                             case 'title' :
@@ -1474,6 +1475,7 @@ class Db
                             case 'name' :
                             case 'help' :
                             case 'content' :
+                            case 'content_body' :
                             case 'content_meta_title' :
                             case in_array($v, $to_search_in_those_fields) :
                                 //  $where_q .= " $v REGEXP '$to_search' " . $where_post;
@@ -1483,9 +1485,13 @@ class Db
                             case 'id' :
                                 $to_search1 = intval($to_search);
                                 //$where_q .= " $v='$to_search1' " . $where_post;
+
+
+
                                 $where_q .= " $table.$v='$to_search1' " . $where_post;
                                 break;
                             default :
+
                                 break;
                         }
 
@@ -1501,7 +1507,6 @@ class Db
 			 				field_value REGEXP '$to_search' ) OR ";
                     $where_q .= $where_q1;
                 }
-
             }
 
 
