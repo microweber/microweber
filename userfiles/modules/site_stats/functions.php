@@ -101,8 +101,12 @@ function stats_image() {
 }
 
 function stats_insert() {
-
-	$function_cache_id = false;
+	
+	if(!isset($_SERVER['HTTP_USER_AGENT']) or stristr($_SERVER['HTTP_USER_AGENT'], 'bot')){
+		
+		return;
+	}
+ 	$function_cache_id = false;
 	$uip = $_SERVER['REMOTE_ADDR'];
 	$function_cache_id = $function_cache_id . $uip . MW_USER_IP;
 
@@ -131,7 +135,7 @@ $few_mins_ago_visit_date = date("Y-m-d H:i:s");
 		$data['visit_time'] = date("H:i:s");
 		 
 		$table = MODULE_DB_USERS_ONLINE;
-		$check = get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+		$check = get("table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
 		if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
 			$data['id'] = $check['id'];
 			$vc = 0;

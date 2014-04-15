@@ -51,6 +51,7 @@ namespace Microweber;
  * @property \Microweber\Layouts $layouts
  * @property \Microweber\Log $log
  * @property \Microweber\Parser $parser
+ * @property \Microweber\Format $format
  */
 class Application
 {
