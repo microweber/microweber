@@ -160,5 +160,74 @@ body.loading:after{
 }
 .square_map_value{
   text-transform: capitalize;
+  padding: 1px 0 0 ;
 }
+
+/***********************  KULER  ************************/
+
+.kuler-search-master{
+  position: relative;
+  z-index: 99;
+  height: 35px;
+  margin: 8px 0 20px;
+}
+#kuler_color_search{
+  width: 100%;
+  background: url(img/magn.png) no-repeat 95% center;
+  opacity:0.5;
+}
+
+#kuler_color_search:hover,
+#kuler_color_search:focus{
+  opacity:1;
+}
+
+#kuler_color_search.loading{
+    background: url(img/tpl.preload.gif) no-repeat 95% center;
+}
+
+.mw-kuler-list{
+  list-style: none;
+  position: absolute;
+  top: 100%;
+  margin: 3px 0 0;
+  left: 0;
+  width: 100%;
+  padding: 5px;
+  background: white;
+  box-shadow: 0px 1px 2px -1px rgba(85, 85, 102, 0.9);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;  /
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow: auto;
+  max-height: 240px;
+}
+.mw-kuler-list-empty li{
+  padding: 8px;
+}
+
+.mw-kuler-list table{
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid transparent
+}
+.mw-kuler-list table td{
+  height: 20px;
+  opacity: 0.2;
+  margin: 0;
+  padding: 0;
+}
+
+.mw-kuler-list table:hover{
+  border-color: rgba(85, 85, 102, 0.4);
+}
+
+.mw-kuler-list table tr:hover td{
+  opacity: 1;
+}
+
+
+
+/***********************  /KULER  ************************/
 

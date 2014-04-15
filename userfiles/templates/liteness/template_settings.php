@@ -277,7 +277,9 @@
         $(Settings.colorPicker).width(235).height(125);
         pickerElement = undefined;
         $(window).bind('scroll', function(){
-           mw.tools.tooltip.setPosition(Settings.tip, pickerElement, 'top-left');
+          if(!!pickerElement){
+             mw.tools.tooltip.setPosition(Settings.tip, pickerElement, 'top-left');
+          }
         });
         mw.$(".picklabel").click(function(){
            pickerElement = mw.$('.custom-color', this)[0];
@@ -354,12 +356,17 @@
             parent.mw.$('#custom_bg').empty().html(css);
         });
 
+
+        mw.$("#ts_bg_position, #ts_bg_size").bind("click", function(){
+            window.scrollTo(0,document.body.scrollHeight);
+        });
       });
   </script>
   <script>
     mw.require("files.js");
     mw.require("<?php print INCLUDES_URL; ?>css/wysiwyg.css");
   </script>
+
 
 
   <h1>TEMPLATE SETTINGS</h1>
@@ -391,9 +398,12 @@
   <a href="javascript:;" class="pick-scheme" style="background-color: #8718BD" data-value='purple'></a>
   <a href="javascript:;" class="pick-scheme" style="background-color: #FFA4D5" data-value='pink'></a>
   <a href="javascript:;" class="pick-scheme scheme-transparent" data-value='transparent'></a>
+
+  <?php include "kuler.php"; ?>
+
 </div>
 
-<hr>
+
 <span class="mw-ui-btn mw-ui-btn-medium right" onclick="CleanCSSandJSON();" style="margin-top: 4px;">Reset</span>
 <label class="template-setting-label ">Custom colors</label>
 <span class="picklabel">
