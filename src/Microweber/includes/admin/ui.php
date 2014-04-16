@@ -13,10 +13,46 @@
       padding: 20px;
     }
 
+    #info-icon-list li{
+      list-style: none;
+      float: left;
+      text-align: center;
+      padding: 20px;
+      vertical-align: middle;
+      cursor: default;
+    }
+
+    #info-icon-list li em{
+      display: block;
+      text-align: center;
+      font-style: normal;
+      padding: 3px 0 10px 0;
+    }
+    #info-icon-list li span{
+      font-size: 35px;
+    }
+
 </style>
 
 
+<script>
 
+
+$(window).load(function(){
+  var uicss = mwd.querySelector('link[href*="/ui.css"]').sheet.cssRules, l = uicss.length, i = 0, html='';
+  for( ;i<l;i++){
+    var sel = uicss[i].selectorText;
+    if(!!sel && sel.contains('.mw-icon-')){
+        var cls = sel.replace(".", '').split(':')[0];
+        html +='<li><span class="'+cls+'"></span><em>.'+cls+'</em></li>';
+    }
+  }
+  mw.$('#info-icon-list').html('<ul>'+html+'</ul>');
+
+});
+
+
+</script>
 
 
 <table width="800" id="ui-info-table">
@@ -24,12 +60,67 @@
   <col width="40%" />
   <tbody>
 
-
     <tr>
-      <td><div class="mw-ui-box">
-          <div class="mw-ui-box-header"><span class="ico ireport"></span><span>Hi I'm 'O' Box</span></div>
-          Lorem Ipsum</div></td>
-      <td>The 'O' Box</td>
+      <td colspan="2">
+            <h2>Icons</h2>
+
+
+             <div id="info-icon-list"></div>
+
+
+       </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+            <h2>Buttons</h2>
+
+
+    <h3>Default</h3>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small">Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium">Medium</a>
+    <a href="javascript:;" class="mw-ui-btn">Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big">Big</a>
+
+    <h3>Blue</h3>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue">Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue">Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-blue">Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-blue">Big</a>
+
+    <h3>Green</h3>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green">Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green">Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-green">Big</a>
+
+    <h3>Red</h3>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-red">Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red">Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-red">Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-red">Big</a>
+
+    <h3>Button with icon</h3>
+    <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-website"></span>Normal</a>
+    <h3>Button Navigations</h3>
+    <div class="mw-ui-btn-nav">
+        <a href="javascript:;" class="mw-ui-btn">Home</a>
+        <a href="javascript:;" class="mw-ui-btn active">About</a>
+        <a href="javascript:;" class="mw-ui-btn">Contact</a>
+    </div>
+
+
+
+
+       </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="mw-ui-box">
+          <div class="mw-ui-box-header"><span class="mw-icon-gear"></span><span>Box</span></div>
+          <div class="mw-ui-box-content">Lorem Ipsum </div>
+          </div>
+       </td>
+      <td>Box</td>
     </tr>
     <tr>
         <td colspan="2">

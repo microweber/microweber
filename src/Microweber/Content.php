@@ -6233,7 +6233,11 @@ class Content
 
                         if (!empty($to_download)) {
                             foreach ($to_download as $src) {
-                                $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
+                                $dl_dir = MW_MEDIA_DIR . 'downloaded' . DS;
+                                if(!is_dir($dl_dir)){
+                                    mkdir_recursive($dl_dir);
+                                }
+                                $dl_file =  $dl_dir. md5($src) . basename($src);
                                 if (!is_file($dl_file)) {
                                     $is_dl = $this->app->url->download($src, false, $dl_file);
                                 }

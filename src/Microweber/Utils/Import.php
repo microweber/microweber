@@ -29,6 +29,7 @@ api_expose('Utils\Import\export');
 class Import
 {
 
+    public $import_to_page_id = false;
     public $imports_folder = false;
     public $import_file = false;
     public $app;
@@ -339,6 +340,11 @@ class Import
         $here = $this->get_bakup_location();
         $filename = $here . $id;
 
+
+        if(isset($_POST['import_to_page_id'])){
+           $this->import_to_page_id = intval($_POST['import_to_page_id']);
+        }
+
         if (!is_file($filename)) {
             return array('error' => "You have not provided a existing backup to restore.");
 
@@ -358,11 +364,9 @@ class Import
     public function import_file($filename)
     {
         only_admin_access();
-
         if (!is_file($filename)) {
             return array('error' => "You have not provided a existing backup to restore.");
         }
-
         $ext = get_file_extension($filename);
         $import_method = strtolower('queue_import_' . $ext);
         if (method_exists($this, $import_method)) {
@@ -371,7 +375,6 @@ class Import
             return $this->$import_method($filename);
         } else {
             return array('error' => "Cannot find method for importing $ext files.");
-
         }
     }
 
@@ -553,8 +556,22 @@ class Import
                             $content['content'] = $content['description'];
                         }
 
-
+                        if(!isset($content['parent'])){
                         $content['parent'] = $parent_id;
+                        }
+                        if(isset($content['parent'])){
+                            $par= get_content_by_id($content['parent']);
+
+                            if($par!=false){
+                                if(isset($par['is_shop']) and $par['is_shop'] == 'y'){
+                                    $content['content_type'] = 'post';
+                                    $content['subtype'] = 'product';
+                                }
+                            }
+                        }
+
+
+
                         if (!isset($content['content_type'])) {
                             $content['content_type'] = 'post';
                         }
@@ -566,17 +583,15 @@ class Import
                         if (isset($content['debug'])) {
                             unset($content['debug']);
                         }
-
-
                         //  $content['debug'] = 'y';
                         $content['download_remote_images'] = true;
-
                         if ($is_saved != false) {
                             $content['id'] = $is_saved['id'];
+                            if (!isset($content['content_type'])) {
                             $content['content_type'] = $is_saved['content_type'];
-                            $content['subtype'] = $is_saved['subtype'];
+                             $content['subtype'] = $is_saved['subtype'];
+                            }
                         }
-
                         $import = save_content($content);
                         $restored_items[] = $import;
                     }
@@ -921,7 +936,6 @@ class Import
     public function queue_import_xlsx($filename)
     {
        return $this->queue_import_xls($filename);
-
     }
     public function queue_import_xls($filename)
     {
@@ -1306,8 +1320,27 @@ class Import
 
     function batch_save($content_items)
     {
+
+
+
+
         $chunk_size = $this->batch_size;
         $content_items = $this->map_array($content_items);
+
+        if(!empty($content_items)){
+            $copy = array();
+            foreach($content_items as $content_item){
+                if(!isset($content_item['parent'])){
+                    if($this->import_to_page_id != false){
+                        $content_item['parent'] = $this->import_to_page_id;
+                    }
+                }
+                $copy[] = $content_item;
+            }
+            $content_items = $copy;
+        }
+
+
 
         $chunks_folder = $this->get_chunks_location();
         $index_file = $chunks_folder . 'index.php';

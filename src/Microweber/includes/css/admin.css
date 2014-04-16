@@ -27,6 +27,8 @@ img{
 
 h1, h2, h3, h4, h5, h6{
   font-weight: normal;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 h1{
@@ -34,12 +36,15 @@ h1{
 }
 h2{
   font-size: 170%;
+  line-height: 170%;
 }
 h3{
   font-size: 140%;
+  line-height: 140%;
 }
 h4{
   font-size: 130%;
+  line-height: 130%;
 }
 h5{
   font-size: 120%;
@@ -97,10 +102,14 @@ h6{
 
 #main-menu a{
   color: #666666;
-  font-size: 41px;
+  font-size: 13px;
   display: block;
   text-align: center;
   padding: 10px 0;
+}
+
+#main-menu a [class*='mw-icon-']{
+  font-size: 41px;
 }
 
 #main-menu a:hover,

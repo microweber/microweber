@@ -27,9 +27,19 @@ mw.admin_import = {
 
 	},
 
+	restore_to_page : function(src,page_id){
+		data = {}
+		data.id=src;
+		data.import_to_page_id=page_id;
+		$.post(mw.settings.api_url+'Utils/Import/restore', data ,
+			function(msg) {
+				mw.reload_module('admin/import/manage');
+				mw.notification.msg(msg, 5000);
+				mw.reload_module('admin/import/process');
+			});
+	},
 
 	restore : function(src){
-
 		data = {}
 		data.id=src;
 		$.post(mw.settings.api_url+'Utils/Import/restore', data ,
@@ -37,9 +47,7 @@ mw.admin_import = {
 				mw.reload_module('admin/import/manage');
 				mw.notification.msg(msg, 5000);
 				mw.reload_module('admin/import/process');
-
 			});
-
 	},
 
 	move_uploaded_file_to_import : function(src){
