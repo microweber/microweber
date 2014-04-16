@@ -77,29 +77,28 @@ class Format
         return $date;
     }
 
-    function add_slashes_recursive( $variable )
+    function add_slashes_recursive($variable)
     {
-        if ( is_string( $variable ) )
-            return addslashes( $variable ) ;
+        if (is_string($variable))
+            return addslashes($variable);
 
-        elseif ( is_array( $variable ) )
-            foreach( $variable as $i => $value )
-                $variable[ $i ] = $this->add_slashes_recursive( $value ) ;
+        elseif (is_array($variable))
+            foreach ($variable as $i => $value)
+                $variable[$i] = $this->add_slashes_recursive($value);
 
-        return $variable ;
+        return $variable;
     }
 
-    function strip_slashes_recursive( $variable )
+    function strip_slashes_recursive($variable)
     {
-        if ( is_string( $variable ) )
-            return stripslashes( $variable ) ;
-        if ( is_array( $variable ) )
-            foreach( $variable as $i => $value )
-                $variable[ $i ] = $this->strip_slashes_recursive( $value ) ;
+        if (is_string($variable))
+            return stripslashes($variable);
+        if (is_array($variable))
+            foreach ($variable as $i => $value)
+                $variable[$i] = $this->strip_slashes_recursive($value);
 
-        return $variable ;
+        return $variable;
     }
-
 
     public function autolink($string)
     {
@@ -140,6 +139,41 @@ class Format
         }
 
         return '' . $retval . ' ago';
+    }
+
+    public function clean_xss($var, $do_not_strip_tags = false)
+    {
+        if (is_array($var)) {
+            foreach ($var as $key => $val) {
+                $output[$key] = $this->clean_xss($val, $do_not_strip_tags);
+            }
+        } else {
+
+            $var = $this->strip_unsafe($var);
+            $var = htmlentities($var, ENT_QUOTES, "UTF-8");
+            $var = str_ireplace("<script>", '', $var);
+            $var = str_ireplace("</script>", '', $var);
+
+            $var = str_replace('<?', '&lt;?', $var);
+            $var = str_replace('?>', '?&gt;', $var);
+            $var = str_ireplace("<module", '&lt;module', $var);
+            $var = str_ireplace("<microweber", '&lt;microweber', $var);
+
+            $var = str_ireplace("javascript:", '', $var);
+            $var = str_ireplace("vbscript:", '', $var);
+            $var = str_ireplace("livescript:", '', $var);
+            $var = str_ireplace("HTTP-EQUIV=", '', $var);
+            $var = str_ireplace("\0075\0072\\", '', $var);
+
+            if ($do_not_strip_tags == false) {
+                $var = strip_tags(trim($var));
+            }
+
+            $output = $var;
+            return $output;
+        }
+        return $output;
+
     }
 
     public function clean_html($var, $do_not_strip_tags = false)

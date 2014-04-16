@@ -12,6 +12,6 @@
   <small  class="mw-custom-field-help"><?php print $data['help'] ?></small>
   <?php endif; ?>
   <div class="mw-custom-field-form-controls">
-    <textarea  <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>" ><?php print $data["custom_field_value"]; ?></textarea>
+  <textarea  <?php if (trim($data['custom_field_required']) == 'y'): ?> required="true"  <?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>" placeholder="<?php print $data["custom_field_value"]; ?>" ></textarea>
   </div>
 </div>

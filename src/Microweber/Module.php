@@ -326,6 +326,7 @@ class Module
             $mw_restore_get = mw_var('mw_restore_get');
             if ($mw_restore_get != false and is_array($mw_restore_get)) {
                 //d($mw_restore_get);
+
                 $l1->_GET = $mw_restore_get;
                 $_GET = $mw_restore_get;
             }
@@ -337,7 +338,8 @@ class Module
                 }
 
             }
-
+          //  d($attrs);
+          //  $attrs = $this->app->format->clean_html($attrs);
             $l1->params = $attrs;
             if (isset($attrs['view']) && (trim($attrs['view']) == 'empty')) {
 

@@ -1467,6 +1467,7 @@ class Db
 
                 if ($add_to_seachq_q == true) {
                     $to_search = $this->escape_string($to_search);
+
                     if (in_array($v, $to_search_in_those_fields) or ($v != '_username' && $v != '_password')) {
                         switch ($v) {
                             case 'title' :
@@ -1474,18 +1475,80 @@ class Db
                             case 'name' :
                             case 'help' :
                             case 'content' :
+                            case 'content_body' :
                             case 'content_meta_title' :
                             case in_array($v, $to_search_in_those_fields) :
                                 //  $where_q .= " $v REGEXP '$to_search' " . $where_post;
-                                $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
+
+                           // $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
+                              //  $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
+                            $lower_func = 'strtolower';
+                            if(function_exists('mb_strtolower')){
+                                $lower_func = 'mb_strtolower';
+                            }
+
+
+                            $upper_func = 'strtolower';
+                            $to_search_uc3 = ucfirst($to_search);
+                            if(function_exists('mb_convert_case')){
+                                $to_search_uc3 = mb_convert_case($to_search, MB_CASE_TITLE, 'UTF-8');
+
+                            }
+                            $to_search_uc = ucfirst($to_search);
+                            $to_search_uc2 = strtoupper($to_search);
+
+
+                            $where_q .= " (  $table.$v REGEXP '$to_search'
+                             OR
+                             $table.$v REGEXP '$to_search_uc3'
+                             OR
+                             $table.$v LIKE '%$to_search%'
+
+
+                             ) " . $where_post;
+
+
+
+
+
+
+
+//                            $where_q .= " (  $table.$v REGEXP '$to_search'
+//                             OR
+//                             UPPER($table.$v) REGEXP UPPER('$to_search')
+//                             OR
+//                             $table.$v LIKE '%$to_search%'
+//
+//
+//                             ) " . $where_post;
+
+                        //    $where_q .= " $table.$v COLLATE utf8_general_ci REGEXP '$to_search' " . $where_post;
+
+
+                           // $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
+
+                           // $where_q .= "  $table.$v REGEXP '^[$to_search]' " . $where_post;
+
+
+
+
+                           // $where_q .= "  $table.$v REGEXP '^($to_search)*$' " . $where_post;
+ //$debug = 1;
+                            // $where_q .= "  $table.$v REGEXP '^($to_search)' " . $where_post;
+                            //$original_cache_group = false;
+
                                 // $where_q .= " $v LIKE '%$to_search%' " . $where_post;
                                 break;
                             case 'id' :
                                 $to_search1 = intval($to_search);
                                 //$where_q .= " $v='$to_search1' " . $where_post;
+
+
+
                                 $where_q .= " $table.$v='$to_search1' " . $where_post;
                                 break;
                             default :
+
                                 break;
                         }
 
@@ -1501,7 +1564,6 @@ class Db
 			 				field_value REGEXP '$to_search' ) OR ";
                     $where_q .= $where_q1;
                 }
-
             }
 
 

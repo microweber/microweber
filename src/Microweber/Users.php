@@ -188,7 +188,9 @@ class Users extends \Microweber\User
                     if ($is_logged == false or $is_logged == 0) {
                         return array('error' => 'You must be logged to save user');
                     } elseif (intval($is_logged) == intval($params['id']) and intval($params['id']) != 0) {
-
+                           if(isset($params['is_admin'])){
+                               unset($params['is_admin']);
+                           }
                     } else {
                         return array('error' => 'You must be logged to as admin save this user');
 
