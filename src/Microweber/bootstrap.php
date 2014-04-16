@@ -23,7 +23,7 @@ if (!defined('MW_ROOTPATH')) {
 
 
 if (!defined('MW_VERSION')) {
-    define('MW_VERSION', 0.9345);
+    define('MW_VERSION', 0.9345); 
 }
 
 if (version_compare(phpversion(), "5.3.0", "<=")) {
@@ -210,7 +210,7 @@ function mw_autoload($className)
         $fileName = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
     }
     if ($className != '') {
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+        $fileName .= str_replace('__', DIRECTORY_SEPARATOR, $className) . '.php';
         // if(is_file($fileName)){
         include_once($fileName);
         // }
