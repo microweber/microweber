@@ -137,7 +137,7 @@
  <div class="mw-help-item" data-for="#users_admin_panel" id="mwhelpinfouser1" data-pos="topcenter" data-onnext="viewuser()">
      <p>View and manage your users information. </p>
  </div>
- <div class="mw-help-item" data-for=".mw-o-box-header" data-pos="topcenter">
+ <div class="mw-help-item" data-for=".mw-ui-box-header" data-pos="topcenter">
      <p>View and manage your users information.</p>
  </div>
 

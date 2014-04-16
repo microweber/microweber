@@ -43,8 +43,8 @@ save:function(){
      </script>
 
      <div class="mw-admin-wrap" style="padding: 0;width: 960px">
-      <div class="mw-o-box">
-        <div class="mw-o-box-header"> <span class="ico iusers"></span> <span><?php _e("Client Information"); ?></span> </div>
+      <div class="mw-ui-box">
+        <div class="mw-ui-box-header"> <span class="ico iusers"></span> <span><?php _e("Client Information"); ?></span> </div>
         <div class="mw-client-image left">
           <div class="mw-client-image-holder">
           
@@ -67,7 +67,7 @@ save:function(){
           </center>
         </div>
         <div class="right" style="width: 805px;padding-right: 12px;">
-          <table border="0" cellpadding="0" cellspacing="0" width="805" class="mw-o-box-table mw-client-information nonactive">
+          <table border="0" cellpadding="0" cellspacing="0" width="805" class="mw-ui-box-table mw-client-information nonactive">
             <thead>
               <tr>
                 <th scope="col"><?php _e("Names"); ?></th>
@@ -104,7 +104,7 @@ save:function(){
                         </table>
                         <div class="vSpace"></div>
                         <div class="vSpace"></div>
-                        <table border="0" cellpadding="0" cellspacing="0" width="805" class="mw-o-box-table mw-client-information nonactive">
+                        <table border="0" cellpadding="0" cellspacing="0" width="805" class="mw-ui-box-table mw-client-information nonactive">
                           <thead>
                             <tr>
                               <th scope="col"><?php _e("Address"); ?></th>
@@ -132,8 +132,8 @@ save:function(){
                       <h2><?php _e("Orders from"); ?> <?php print $client['first_name'] ?> <?php print $client['last_name'] ?></h2>
                       <?php if(is_array($orders )): ?>
                       <?php foreach($orders  as $item): ?>
-                      <div class="mw-o-box mw-o-box-accordion mw-accordion-active">
-                        <div class="mw-o-box-header"> <span class="ico iorder"></span>
+                      <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active">
+                        <div class="mw-ui-box-header"> <span class="ico iorder"></span>
                           <div class="left">
                             <h2><span style="color: #0D5C98"><?php print $item['id'] ?> |</span><span class="font-12 relative" style="top: -2px;left: 6px;"><?php print $item['created_on'] ?></span> </h2>
                           </div>
@@ -141,10 +141,10 @@ save:function(){
 						  
 						  
                           <span class="mw-ui-btn mw-ui-btn-small unselectable right" onmousedown="mw.tools.accordion(this.parentNode.parentNode);"><?php _e("Show Order"); ?> <span class="mw-ui-arr"></span></span> <span class="hSpace right"></span> <a href="<?php print  admin_url() ?>view:shop/action:orders#vieworder=<?php print $item['id'] ?>" class="mw-ui-btn mw-ui-btn-blue mw-ui-btn-small unselectable right"><span class="mw-ui-arr mw-ui-arr-left mw-ui-arr-blue "></span> <?php _e("Go to this order"); ?></a> </div>
-                          <div class="mw-o-box-content mw-accordion-content">
+                          <div class="mw-ui-box-content mw-accordion-content">
                             <?php $cart_items = get_cart('order_completed=any&order_id='.$item['id'].'&no_session_id=1'); 	?>
                             <?php if(is_array($cart_items)): ?>
-                            <table cellspacing="0" cellpadding="0" class="mw-o-box-table" width="935">
+                            <table cellspacing="0" cellpadding="0" class="mw-ui-box-table" width="935">
                               <thead>
                                 <tr>
                                   <th><?php _e("Product Name"); ?></th>

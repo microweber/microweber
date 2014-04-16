@@ -214,10 +214,10 @@ class Forms
             } else {
                 $cap = mw('user')->session_get('captcha');
 
-                if($for_id != false){
-                    $captcha_sid = 'captcha_'.$for_id;
+                if ($for_id != false) {
+                    $captcha_sid = 'captcha_' . $for_id;
                     $cap_sid = mw('user')->session_get($captcha_sid);
-                    if($cap_sid != false){
+                    if ($cap_sid != false) {
                         $cap = $cap_sid;
                     }
                 }
@@ -261,15 +261,15 @@ class Forms
                     $cfn2 = str_replace(' ', '_', $cfn);
                     $fffound = false;
 
-                    if (isset($params[$cfn2])) {
+                    if (isset($params[$cfn2]) and $params[$cfn2] != false) {
                         $fields_data[$cfn2] = $params[$cfn2];
-                        $item['custom_field_value'] = $params[$cfn2];
+                        $item['custom_field_value'] = $item['value'] = $params[$cfn2];
                         $fffound = 1;
-                        $cf_to_save[] = $item;
-                    } elseif (isset($params[$cfn])) {
+                        $cf_to_save[$cfn] = $item;
+                    } elseif (isset($params[$cfn]) and $params[$cfn] != false) {
                         $fields_data[$cfn] = $params[$cfn];
-                        $item['custom_field_value'] = $params[$cfn2];
-                        $cf_to_save[] = $item;
+                        $item['custom_field_value'] = $item['value'] = $params[$cfn2];
+                        $cf_to_save[$cfn] = $item;
                         $fffound = 1;
                     }
 
@@ -294,21 +294,20 @@ class Forms
 
         if (!empty($cf_to_save)) {
             $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
-
-            foreach ($cf_to_save as $value) {
-
-                $value['copy_of_field'] = $value['id'];
-
-                $value['id'] = 0;
+            foreach ($cf_to_save as $key => $value) {
+                $new_field = array();
+                $new_field['copy_of_field'] = $value['id'];
+                $new_field['id'] = 0;
                 if (isset($value['session_id'])) {
                     unset($value['session_id']);
                 }
-                $value['rel_id'] = $save;
-                $value['rel'] = 'forms_data';
-                $value['allow_html'] = 1;
+                $new_field['rel_id'] = $save;
+                $new_field['rel'] = 'forms_data';
+                $new_field['allow_html'] = 1;
+                $new_field['custom_field_value'] = $value['custom_field_value'];
+                $new_field['custom_field_name'] = $key;
                 // $value['debug'] = 1;
-                $cf_save = $this->app->db->save($table_custom_field, $value);
-                //d($cf_save);
+                $cf_save = $this->app->db->save($table_custom_field, $new_field);
             }
         }
 
@@ -365,7 +364,7 @@ class Forms
 
             if ($email_to != false) {
                 $mail_sj = "Thank you!";
-                $mail_autoresp = "Thank you for your submition! <br/>";
+                $mail_autoresp = "Thank you for your request!";
 
                 if ($email_autorespond_subject != false) {
                     $mail_sj = $email_autorespond_subject;
@@ -389,17 +388,14 @@ class Forms
 
                 if (isset($cf_to_save) and !empty($cf_to_save)) {
                     foreach ($cf_to_save as $value) {
-                        //	d($value);
                         $to = $value['custom_field_value'];
                         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                            //	d($to);
                             $user_mails[] = $to;
                         }
                     }
                 }
                 $scheduler = new \Microweber\Utils\Events();
-                // schedule a global scope function:
-                 if (!empty($user_mails)) {
+                if (!empty($user_mails)) {
                     array_unique($user_mails);
                     foreach ($user_mails as $value) {
                         \Microweber\email\Sender::send($value, $mail_sj, $mail_autoresp);
@@ -409,7 +405,6 @@ class Forms
 
             }
         }
-
         return ($save);
 
     }
@@ -592,11 +587,11 @@ class Forms
                         foreach ($item['custom_fields'] as $item1) {
 
                             $output_val = false;
-                            if(isset($item1['custom_field_values_plain']) and $item1['custom_field_values_plain'] !=''){
+                            if (isset($item1['custom_field_values_plain']) and $item1['custom_field_values_plain'] != '') {
                                 $output_val = $item1['custom_field_values_plain'];
-                            }elseif(isset($item1['custom_field_values']) and $item1['custom_field_values'] !=''){
+                            } elseif (isset($item1['custom_field_values']) and $item1['custom_field_values'] != '') {
                                 $output_val = $item1['custom_field_values'];
-                            }elseif(isset($item1['custom_field_value']) and $item1['custom_field_value'] !=''){
+                            } elseif (isset($item1['custom_field_value']) and $item1['custom_field_value'] != '') {
                                 $output_val = $item1['custom_field_value'];
                             }
 

@@ -937,7 +937,7 @@ mw.drag = {
                   }
                }
             }
-            if(tofocus.querySelector('.element') !== null){
+            if(!!tofocus && tofocus.querySelector('.element') !== null){
                 var arr = tofocus.querySelectorAll('.element'), l = arr.length;
                 var tofocus = arr[l-1];
             }

@@ -111,6 +111,59 @@ class Import
 
     }
 
+    function get_import_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            return false;
+        }
+
+        $loc = $this->imports_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_USERFILES . "import" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('import_location', 'admin/import');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->imports_folder = $loc;
+        return $here;
+    }
+
     function move_uploaded_file_to_import($params)
     {
         only_admin_access();
@@ -231,64 +284,6 @@ class Import
         }
     }
 
-    function get_bakup_location()
-    {
-        return $this->get_import_location();
-    }
-
-    function get_import_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            return false;
-        }
-
-        $loc = $this->imports_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "import" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('import_location', 'admin/import');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->imports_folder = $loc;
-        return $here;
-    }
-
     function readfile_chunked($filename, $retbytes = TRUE)
     {
 
@@ -353,6 +348,11 @@ class Import
 
 
         return $params;
+    }
+
+    function get_bakup_location()
+    {
+        return $this->get_import_location();
     }
 
     public function import_file($filename)
@@ -561,10 +561,10 @@ class Import
                         if (!isset($content['subtype'])) {
                             $content['subtype'] = 'post';
                         }
-                       // $content['subtype'] = 'post';
+                        // $content['subtype'] = 'post';
                         $content['is_active'] = 'y';
                         if (isset($content['debug'])) {
-                          unset($content['debug']);
+                            unset($content['debug']);
                         }
 
 
@@ -700,6 +700,152 @@ class Import
 
     }
 
+    function map_array($content_items)
+    {
+
+
+        $res = array();
+        $map_keys = array();
+
+        //title keys
+        $map_keys['name'] = 'title';
+        $map_keys['product_name'] = 'title';
+        $map_keys['productname'] = 'title';
+        $map_keys['content_title'] = 'title';
+
+        //description keys
+        $map_keys['introtext'] = 'description';
+        $map_keys['short_description'] = 'description';
+        $map_keys['summary'] = 'description';
+        $map_keys['excerpt'] = 'description';
+
+        $map_keys['encoded'] = 'content';
+        $map_keys['fulltext'] = 'content';
+
+
+        $map_keys['post_type'] = 'content_type';
+
+
+        //url keys
+        $map_keys['url_rewritten'] = 'url';
+        $map_keys['content_url'] = 'url';
+
+        $map_keys['alias'] = 'url';
+        //  $map_keys['link'] = 'url';
+
+        //parent
+        $map_keys['content_parent'] = 'parent';
+
+
+        //content type
+        $map_keys['content_subtype'] = 'subtype';
+        $map_keys['type'] = 'content_type';
+
+
+        //image keys
+        $map_keys['image_urls_xyz'] = 'insert_content_image';
+        $map_keys['picture_url'] = 'insert_content_image';
+
+
+        //categories keys
+        $map_keys['categories_xyz'] = 'categories';
+        $map_keys['categorysubcategory'] = 'categories';
+
+
+        //custom fields
+        $map_keys['wholesale_price'] = 'custom_field_price';
+        $map_keys['price'] = 'custom_field_price';
+
+        //data fields
+        $map_keys['manufacturer'] = 'data_manufacturer';
+        $map_keys['supplier'] = 'data_supplier';
+        $map_keys['ean13'] = 'data_ean13';
+        $map_keys['weight'] = 'data_weight';
+        $map_keys['quantity'] = 'data_qty';
+        $map_keys['qty'] = 'data_qty';
+        $map_keys['reference'] = 'data_reference';
+
+
+        //meta fields
+        $map_keys['meta_title'] = 'content_meta_title';
+        $map_keys['meta_keywords'] = 'content_meta_keywords';
+        $map_keys['meta_keyword'] = 'content_meta_keywords';
+        $map_keys['meta_description'] = 'content_meta_description';
+
+        //date fields
+        $map_keys['product_creation_date'] = 'created_on';
+        $map_keys['product_available_date'] = 'updated_on';
+        $map_keys['created'] = 'created_on';
+        $map_keys['modified'] = 'updated_on';
+        $map_keys['published'] = 'created_on';
+        $map_keys['updated'] = 'updated_on';
+        $map_keys['pubDate'] = 'created_on';
+
+
+        foreach ($content_items as $item) {
+            if (isset($item['id'])) {
+                unset($item['id']);
+            }
+            $skip = false;
+            $new_item = array();
+            foreach ($map_keys as $map_key => $map_val) {
+                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
+                    $new_val = $item[$map_key];
+                    if ($map_key == 'categorysubcategory') {
+                        $new_val = explode('/', $new_val);
+                    }
+
+                    if ($map_key == 'category') {
+
+                    }
+
+
+                    $item[$map_val] = $new_val;
+                    $new_item[$map_val] = $new_val;
+                }
+
+            }
+
+
+            if (isset($item["category"]) and isset($item["category"]["@attributes"])) {
+                $attrs = $item["category"]["@attributes"];
+                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')) {
+                    if (stristr($attrs['term'], 'kind#post')) {
+                        $skip = false;
+                    } else {
+                        $skip = 1;
+                    }
+                }
+            } elseif (isset($item["category"]) and is_array($item["category"])) {
+                $cats = array();
+                foreach ($item["category"] as $cat) {
+                    if (is_array($cat) and isset($cat["@attributes"])) {
+
+                        $attrs = $cat["@attributes"];
+
+                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')) {
+                            $cats[] = $attrs['nicename'];
+                        }
+                    }
+                }
+                if (!empty($cats)) {
+                    $item["category"] = $cats;
+                }
+
+
+            }
+
+
+            if ($skip == false and isset($item['title'])) {
+                //$res[] = $new_item;
+                $res[] = $item;
+            }
+
+        }
+
+        return $res;
+    }
+
     public function queue_import_xml($filename)
     {
         only_admin_access();
@@ -772,6 +918,61 @@ class Import
 
     }
 
+    public function queue_import_xlsx($filename)
+    {
+       return $this->queue_import_xls($filename);
+
+    }
+    public function queue_import_xls($filename)
+    {
+        only_admin_access();
+        $target_url = 'http://api.microweber.com/service/xls2csv/index.php';
+        $file_name_with_full_path = realpath($filename);
+        $post = array('test' => '123456','file_contents'=>'@'.$file_name_with_full_path);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$target_url);
+        curl_setopt($ch, CURLOPT_POST,1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        $result=curl_exec ($ch);
+        curl_close ($ch);
+        $err = false;
+        if($result != false){
+            $result = json_decode($result,true);
+            if(!isset($result['result'])){
+                $err = true;
+            }
+        } else {
+            $err = true;
+        }
+        if($err == true){
+            return array('error' => "Could not contact the Microweber remote server to parse the Excel file. Please try uploading a CSV file.");
+        } else {
+            if(isset($result['result'])){
+                $url = $result['result'];
+                $target_dir = MW_CACHE_DIR . 'backup_restore' . DS . 'excel' . DS;
+                if (!is_dir($target_dir)) {
+                    mkdir_recursive($target_dir);
+                }
+                $local_target_file = basename($url);
+                $local_target_file = (str_ireplace(".xlsx",".csv",$local_target_file));
+                $local_target_file = (str_ireplace(".xls",".csv",$local_target_file));
+                $local_save_path = $target_dir . $local_target_file;
+                $fp = fopen ($local_save_path, 'w+');//This is the file where we save the    information
+                $ch = curl_init(str_replace(" ","%20",$url));//Here is the file we are downloading, replace spaces with %20
+                curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+                curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_exec($ch); // get curl response
+                curl_close($ch);
+                fclose($fp);
+                return $this->queue_import_csv($local_save_path);
+
+            }
+        }
+
+
+    }
     public function OLD_____import_xml($filename)
     {
         only_admin_access();
@@ -1139,152 +1340,6 @@ class Import
         return array('success' => count($content_items) . " items are scheduled for import");
 
 
-    }
-
-    function map_array($content_items)
-    {
-
-
-        $res = array();
-        $map_keys = array();
-
-        //title keys
-        $map_keys['name'] = 'title';
-        $map_keys['product_name'] = 'title';
-        $map_keys['productname'] = 'title';
-        $map_keys['content_title'] = 'title';
-
-        //description keys
-        $map_keys['introtext'] = 'description';
-        $map_keys['short_description'] = 'description';
-        $map_keys['summary'] = 'description';
-        $map_keys['excerpt'] = 'description';
-
-        $map_keys['encoded'] = 'content';
-        $map_keys['fulltext'] = 'content';
-
-
-        $map_keys['post_type'] = 'content_type';
-
-
-        //url keys
-        $map_keys['url_rewritten'] = 'url';
-        $map_keys['content_url'] = 'url';
-
-        $map_keys['alias'] = 'url';
-        //  $map_keys['link'] = 'url';
-
-        //parent
-        $map_keys['content_parent'] = 'parent';
-
-
-        //content type
-        $map_keys['content_subtype'] = 'subtype';
-        $map_keys['type'] = 'content_type';
-
-
-        //image keys
-        $map_keys['image_urls_xyz'] = 'insert_content_image';
-        $map_keys['picture_url'] = 'insert_content_image';
-
-
-        //categories keys
-        $map_keys['categories_xyz'] = 'categories';
-        $map_keys['categorysubcategory'] = 'categories';
-
-
-        //custom fields
-        $map_keys['wholesale_price'] = 'custom_field_price';
-        $map_keys['price'] = 'custom_field_price';
-
-        //data fields
-        $map_keys['manufacturer'] = 'data_manufacturer';
-        $map_keys['supplier'] = 'data_supplier';
-        $map_keys['ean13'] = 'data_ean13';
-        $map_keys['weight'] = 'data_weight';
-        $map_keys['quantity'] = 'data_qty';
-        $map_keys['qty'] = 'data_qty';
-        $map_keys['reference'] = 'data_reference';
-
-
-        //meta fields
-        $map_keys['meta_title'] = 'content_meta_title';
-        $map_keys['meta_keywords'] = 'content_meta_keywords';
-        $map_keys['meta_keyword'] = 'content_meta_keywords';
-        $map_keys['meta_description'] = 'content_meta_description';
-
-        //date fields
-        $map_keys['product_creation_date'] = 'created_on';
-        $map_keys['product_available_date'] = 'updated_on';
-        $map_keys['created'] = 'created_on';
-        $map_keys['modified'] = 'updated_on';
-        $map_keys['published'] = 'created_on';
-        $map_keys['updated'] = 'updated_on';
-        $map_keys['pubDate'] = 'created_on';
-
-
-        foreach ($content_items as $item) {
-            if (isset($item['id'])) {
-                unset($item['id']);
-            }
-            $skip = false;
-            $new_item = array();
-            foreach ($map_keys as $map_key => $map_val) {
-                if ((isset($item[$map_key]) and $item[$map_key] != false) and (!isset($item[$map_val]) or $item[$map_val] == false)) {
-                    $new_val = $item[$map_key];
-                    if ($map_key == 'categorysubcategory') {
-                        $new_val = explode('/', $new_val);
-                    }
-
-                    if ($map_key == 'category') {
-
-                    }
-
-
-                    $item[$map_val] = $new_val;
-                    $new_item[$map_val] = $new_val;
-                }
-
-            }
-
-
-            if (isset($item["category"]) and isset($item["category"]["@attributes"])) {
-                $attrs = $item["category"]["@attributes"];
-                if (isset($attrs['term']) and stristr($attrs['term'], 'kind#')) {
-                    if (stristr($attrs['term'], 'kind#post')) {
-                        $skip = false;
-                    } else {
-                        $skip = 1;
-                    }
-                }
-            } elseif (isset($item["category"]) and is_array($item["category"])) {
-                $cats = array();
-                foreach ($item["category"] as $cat) {
-                    if (is_array($cat) and isset($cat["@attributes"])) {
-
-                        $attrs = $cat["@attributes"];
-
-                        if (isset($attrs['nicename']) and isset($attrs['domain']) and stristr($attrs['domain'], 'category')) {
-                            $cats[] = $attrs['nicename'];
-                        }
-                    }
-                }
-                if (!empty($cats)) {
-                    $item["category"] = $cats;
-                }
-
-
-            }
-
-
-            if ($skip == false and isset($item['title'])) {
-                //$res[] = $new_item;
-                $res[] = $item;
-            }
-
-        }
-
-        return $res;
     }
 
     public function export()

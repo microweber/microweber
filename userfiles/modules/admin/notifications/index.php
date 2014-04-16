@@ -194,13 +194,13 @@ mw.notif_mark_all_as_read = function(){
 </div>
 <?php else : ?>
 <?php if($is_quick == false): ?>
-<div class="mw-o-box" style="width: 500px;text-align: center;margin: 60px auto;">
-	<div class="mw-o-box-header">
+<div class="mw-ui-box" style="width: 500px;text-align: center;margin: 60px auto;">
+	<div class="mw-ui-box-header">
 		<h2>
 			<?php _e("No new notifications available"); ?>
 			!</h2>
 	</div>
-	<div class="mw-o-box-content">
+	<div class="mw-ui-box-content">
 		<p>
 			<?php _e("Choose your Action"); ?>
 		</p>

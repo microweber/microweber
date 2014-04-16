@@ -29,8 +29,8 @@ if (is_array($ord)) {
 <h2><span style="color: #0D5C98"><?php print $ord['id'] ?> |</span> <span
         class="font-12"><?php print $ord['created_on'] ?></span></h2>
 
-<div class="mw-o-box mw-o-box-order-info">
-    <div class="mw-o-box-header"><span class="ico iorder"></span><span>
+<div class="mw-ui-box mw-ui-box-order-info">
+    <div class="mw-ui-box-header"><span class="ico iorder"></span><span>
 			<?php _e("Order Information"); ?>
 			</span></div>
     <?php if (is_array($cart_items)) : ?>
@@ -46,7 +46,7 @@ if (is_array($ord)) {
                 <?php endif; ?>
             <?php } ?>
         </div>
-        <table class="mw-o-box-table" cellspacing="0" cellpadding="0" width="100%">
+        <table class="mw-ui-box-table" cellspacing="0" cellpadding="0" width="100%">
             <thead>
             <tr>
                 <th><?php _e("Product Name"); ?></th>
@@ -86,27 +86,27 @@ if (is_array($ord)) {
                         width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
                 </tr>
             <?php endforeach; ?>
-            <tr class="mw-o-box-table-footer">
+            <tr class="mw-ui-box-table-footer">
                 <td colspan="3">&nbsp;</td>
                 <td><?php _e("Subtotal"); ?></td>
-                <td class="mw-o-box-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
+                <td class="mw-ui-box-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
             </tr>
-            <?php /* <tr class="mw-o-box-table-footer">
+            <?php /* <tr class="mw-ui-box-table-footer">
           <td colspan="3">&nbsp;</td>
           <td>Promo Codes</td>
-          <td class="mw-o-box-table-green">- $35,00</td>
+          <td class="mw-ui-box-table-green">- $35,00</td>
         </tr> */ ?>
-            <tr class="mw-o-box-table-footer">
+            <tr class="mw-ui-box-table-footer">
                 <td colspan="3">&nbsp;</td>
                 <td><?php _e("Shipping price"); ?></td>
-                <td class="mw-o-box-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
+                <td class="mw-ui-box-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
             </tr>
-            <tr class="mw-o-box-table-footer last">
+            <tr class="mw-ui-box-table-footer last">
                 <td colspan="3">&nbsp;</td>
-                <td class="mw-o-box-table-green"><b>
+                <td class="mw-ui-box-table-green"><b>
                         <?php _e("Total:"); ?>
                     </b></td>
-                <td class="mw-o-box-table-green"><b><?php print  currency_format($grandtotal, $ord['currency']); ?></b>
+                <td class="mw-ui-box-table-green"><b><?php print  currency_format($grandtotal, $ord['currency']); ?></b>
                 </td>
             </tr>
             </tbody>
@@ -117,7 +117,7 @@ if (is_array($ord)) {
         </h2>
     <?php endif;?>
     <div class="vSpace"></div>
-    <div class="mw-o-box-header" style="background: none;margin-bottom: 0;padding-bottom: 1px;"><span
+    <div class="mw-ui-box-header" style="background: none;margin-bottom: 0;padding-bottom: 1px;"><span
             class="ico iorder"></span><span>
 			<?php _e("Order Status"); ?>
 			</span></div>
@@ -211,8 +211,8 @@ if (is_array($ord)) {
         </div>
     </div>
 </div>
-<div class="mw-o-box mw-o-box-client-info">
-<div class="mw-o-box-header">
+<div class="mw-ui-box mw-ui-box-client-info">
+<div class="mw-ui-box-header">
 
 
     <a href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>"
@@ -245,7 +245,7 @@ if (is_array($ord)) {
         </tr>
     </table>
 </div>
-<div class="mw-o-box-hr"></div>
+<div class="mw-ui-box-hr"></div>
 <div class="mw-o-client-table">
     <table cellspacing="0" cellpadding="0" class="right" style="width:400px">
         <col width="150"/>
@@ -321,7 +321,7 @@ if (is_array($ord)) {
     </table>
 </div>
 <?php if (isset($ord['custom_fields']) and $ord['custom_fields'] != ''): ?>
-    <div class="mw-o-box-hr"></div>
+    <div class="mw-ui-box-hr"></div>
     <div class="mw-o-client-table">
         <table class="right" cellspacing="0" cellpadding="0" style="width: 400px;">
             <col width="150"/>
@@ -335,7 +335,7 @@ if (is_array($ord)) {
     </div>
     <div class="vSpace"></div>
 <?php endif; ?>
-<div class="mw-o-box-hr"></div>
+<div class="mw-ui-box-hr"></div>
 <div class="mw-o-client-table">
     <table class="right" cellspacing="0" cellpadding="0" style="width: 400px;">
         <col width="150"/>
@@ -365,7 +365,7 @@ if (is_array($ord)) {
         </tr>
     </table>
 </div>
-<div class="mw-o-box-hr"></div>
+<div class="mw-ui-box-hr"></div>
 <div class="mw-o-client-table">
     <table cellspacing="0" cellpadding="0">
         <tr>

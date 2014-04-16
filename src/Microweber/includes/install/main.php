@@ -144,10 +144,10 @@ h1, h2, h3, h4, h5 {
 	width: 590px;
 	margin: 80px auto 40px;
 }
-.mw-o-box {
+.mw-ui-box {
 	background: white;
 }
-.mw-o-box-header, .mw-o-box-content {
+.mw-ui-box-header, .mw-ui-box-content {
 	padding-left: 20px;
 	padding-right: 20px;
 }
@@ -163,7 +163,7 @@ input[type='text'], input[type='password'] {
 .mw_install_progress {
 	display: none;
 }
-.mw-o-box ol {
+.mw-ui-box ol {
 	padding-left: 20px;
 }
 .error {
@@ -172,11 +172,11 @@ input[type='text'], input[type='password'] {
 .error a {
 	color: red;
 }
-.mw-o-box ol.error {
+.mw-ui-box ol.error {
 	color: red;
 	padding-top: 10px;
 }
-.mw-o-box ol.error li {
+.mw-ui-box ol.error li {
 	padding: 5px 0;
 }
 #logo {
@@ -207,8 +207,8 @@ input[type='text'], input[type='password'] {
 <div class="wrapper">
   <div class="installholder"> <a href="http://microweber.net" target="_blank" id="logo"> <img src="//microweber.net/webinstall/logo.png" alt="Microweber" /> <small class="version">v. <?php print MW_VERSION ?></small> </a> <span class="Beta">Beta Version</span>
     <div class="vSpace"></div>
-    <div class="mw-o-box" >
-      <div class="mw-o-box-header">
+    <div class="mw-ui-box" >
+      <div class="mw-ui-box-header">
         <h2>
           <?php _e("Setup"); ?>
         </h2>
@@ -217,11 +217,11 @@ input[type='text'], input[type='password'] {
         </p>
         <div class="custom-nav"></div>
       </div>
-      <div class="mw-o-box-content">
+      <div class="mw-ui-box-content">
         <div class="sep"><span class="left-arrow arrow"></span><span class="right-arrow arrow"></span></div>
         <div class="demo" id="demo-one">
           <div class="description">
-            <div id="mw_log" class="error mw-o-box mw-o-box-content" style="display: none"></div>
+            <div id="mw_log" class="error mw-ui-box mw-ui-box-content" style="display: none"></div>
             <div class="mw_install_progress">
               <progress max="5000" value="1" id="mw_install_progress_bar"></progress>
               <br />

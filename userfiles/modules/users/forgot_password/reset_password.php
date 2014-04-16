@@ -1,4 +1,4 @@
-<div class="mw-o-box">
+<div class="mw-ui-box">
 
 <?php $form_btn_title =  get_option('form_btn_title', $params['id']);
 		if($form_btn_title == false) { 
@@ -37,10 +37,10 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="box-head mw-o-box-header">
+<div class="box-head mw-ui-box-header">
   <h2><?php _e("Reset your password"); ?></h2>
 </div>
-<div class="mw-o-box-content" id="form-holder<?php print $params['id'];  ?>">
+<div class="mw-ui-box-content" id="form-holder<?php print $params['id'];  ?>">
   <?php if(isset($_GET['reset_password_link']) == true): ?>
   <?php
 $reset = mw('db')->escape_string($_GET['reset_password_link']);

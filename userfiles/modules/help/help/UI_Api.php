@@ -498,7 +498,7 @@
 
     <tr>
         <td>
-            <div class="mw-o-box"><div class="mw-o-box-header"><span class="ico ireport"></span><span>Hi I'm 'O' Box</span></div>Lorem Ipsum</div>
+            <div class="mw-ui-box"><div class="mw-ui-box-header"><span class="ico ireport"></span><span>Hi I'm 'O' Box</span></div>Lorem Ipsum</div>
 
         </td>
         <td>The 'O' Box</td>
@@ -558,11 +558,11 @@
       <tr>
         <td>
            <h2>Accordion applied to a box</h2>
-            <div class="mw-o-box mw-o-box-accordion">
-                <div class="mw-o-box-header" onclick="mw.tools.accordion(this.parentNode);">
+            <div class="mw-ui-box mw-ui-box-accordion">
+                <div class="mw-ui-box-header" onclick="mw.tools.accordion(this.parentNode);">
                     <span class="ico iTime"></span><span>Accordion</span>
                 </div>
-                <div class="mw-o-box-content mw-accordion-content">
+                <div class="mw-ui-box-content mw-accordion-content">
                     Accordion content
                 </div>
             </div>

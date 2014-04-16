@@ -58,9 +58,9 @@ PreviousFolder = [];
 
 </script>
 
-<div class="mw-o-box mw-file-browser">
+<div class="mw-ui-box mw-file-browser">
   <?php //if(in_array('breadcrumb', $_GET) and $_GET['breadcrumb'] == 'true'){ ?>
-  <div class="mw-o-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right" style="float: right;"><span class="backico"></span>
+  <div class="mw-ui-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right" style="float: right;"><span class="backico"></span>
     <?php _e("Back"); ?>
     </a>  <span class="mw-browser-uploader-path">
     <?php if(is_array($path_nav )): ?>
@@ -89,7 +89,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     PreviousFolder.length > 1 ? PreviousFolder.pop() : '';
     PreviousFolder = PreviousFolder.length > 1 ? PreviousFolder[PreviousFolder.length-1] : PreviousFolder[0];
  </script>
-  <div class="mw-o-box-content" id="mw-browser-list-holder">
+  <div class="mw-ui-box-content" id="mw-browser-list-holder">
 
 
     <?php if(isset($data['dirs'] )): ?>
@@ -105,7 +105,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     <?php else: ?>
     <?php endif; ?>
     <div class="vSpace"></div>
-    <div class="mw-o-box-hr"></div>
+    <div class="mw-ui-box-hr"></div>
     <div class="vSpace"></div>
     <?php if(isset($data['files'] )): ?>
     <ul class="mw-browser-list">

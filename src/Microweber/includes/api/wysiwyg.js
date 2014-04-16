@@ -440,7 +440,9 @@ mw.wysiwyg = {
                  mw.$(".element-current").removeClass("element-current");
                  var el = mwd.querySelectorAll('.edit .element'), l = el.length, i = 0;
                  for( ; i<l; i++){
-                     el[i].id =  'row_' + mw.random();
+                    if( el[i].id == ''){
+                        el[i].id = 'row_' + mw.random();
+                    }
                  }
                  e.preventDefault();
                  if(!e.shiftKey){

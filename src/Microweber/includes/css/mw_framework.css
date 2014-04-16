@@ -371,9 +371,7 @@ body.loaded #live_edit_toolbar{
 
 
 
-.mw-tree{
-  padding: 10px 0;
-}
+
 
 .mw-tree *{
   margin: 0;
@@ -1508,19 +1506,19 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   text-decoration: underline;
 }
 
-.mw-file-browser  .mw-o-box-header a{
+.mw-file-browser  .mw-ui-box-header a{
   margin: 0 3px;
 }
 
-.mw-file-browser .mw-o-box-content{
+.mw-file-browser .mw-ui-box-content{
   overflow-x:hidden;
   overflow: auto;
 }
-.mw-file-browser .mw-o-box-header{
+.mw-file-browser .mw-ui-box-header{
   margin-bottom: 0;
 }
 
-.mw-file-browser  .mw-o-box-header a:hover{
+.mw-file-browser  .mw-ui-box-header a:hover{
   text-decoration: underline;
 }
 

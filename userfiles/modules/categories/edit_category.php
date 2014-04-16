@@ -264,12 +264,12 @@ $(document).ready(function(){
 			<li><span><span class="ico itabpic"></span><span>Picture Gallery</span></span></li>
 			<li><span><span class="ico itabadvanced"></span><span>Advanced</span></span></li>
 		</ul>
-		<div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+		<div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
 			<div class="pictures-editor-holder">
 				<module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"  id="mw-cat-pics-admin" />
 			</div>
 		</div>
-		<div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+		<div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
 			<div class="mw-ui-field-holder">
 				<label class="mw-ui-label">
 					<?php _e("Description"); ?>

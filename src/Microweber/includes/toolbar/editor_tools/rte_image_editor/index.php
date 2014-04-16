@@ -371,7 +371,7 @@ mw.embed = {
 
 <style type="text/css">
 
-.mw-o-box-content{
+.mw-ui-box-content{
   height: 138px;
 }
 

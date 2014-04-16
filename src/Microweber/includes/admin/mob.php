@@ -25,11 +25,11 @@ if(array_key_exists('post', $_GET)){     ?>
 <?php } else {   ?>
 
 <div id="content" style="padding-top: 120px;">
-  <div class="mw-o-box" style="width: 800px;max-width: 80%;margin: auto;">
-  <div class="mw-o-box-header">
+  <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
+  <div class="mw-ui-box-header">
        <h2>Add Content</h2>
   </div>
-  <div class="mw-o-box-content">
+  <div class="mw-ui-box-content">
 
 
   <label>Select content type</label>
@@ -73,11 +73,11 @@ if(array_key_exists('post', $_GET)){     ?>
 
   <!-- Content -->
        <div class="vSpace"></div>
-   <div class="mw-o-box" style="width: 800px;max-width: 80%;margin: auto;">
-  <div class="mw-o-box-header">
+   <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
+  <div class="mw-ui-box-header">
        <h2>Posts</h2>
   </div>
-  <div class="mw-o-box-content">
+  <div class="mw-ui-box-content">
         <?php
 
         $params = array();
@@ -113,11 +113,11 @@ if (!empty($content)) {
   </div>
   </div>
       <div class="vSpace"></div>
-  <div class="mw-o-box" style="width: 800px;max-width: 80%;margin: auto;">
-  <div class="mw-o-box-header">
+  <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
+  <div class="mw-ui-box-header">
        <h2>Orders</h2>
   </div>
-  <div class="mw-o-box-content">
+  <div class="mw-ui-box-content">
        <?php
 
        $orders = get_orders();

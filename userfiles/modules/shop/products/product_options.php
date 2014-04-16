@@ -13,8 +13,8 @@ $data_fields = content_data($cont_id);
 $out_of_stock = false;
 ?>
 
-<div class="mw-o-box">
-	<div class="mw-o-box-content">
+<div class="mw-ui-box">
+	<div class="mw-ui-box-content">
 		<div class="mw-ui-field-holder" style="width: 175px;">
 			<label class="mw-ui-label">Items in stock <span class="mw-help" data-help="How many items of this product you have in stock?">?</span></label>
 			<span class="mwsico-instock mw-help" data-help="How many items of this product you have in stock?"></span>

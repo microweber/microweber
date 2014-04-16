@@ -144,8 +144,8 @@ reset_password = function(y){
 
 </style>
 
-<div class="mw-o-box <?php print $config['module_class'] ?> user-id-<?php  print $data['id']; ?>" id="users_edit_{rand}">
-  <div class="mw-o-box-header" style="margin-bottom: 0;"> <span class="ico iusers"></span>
+<div class="mw-ui-box <?php print $config['module_class'] ?> user-id-<?php  print $data['id']; ?>" id="users_edit_{rand}">
+  <div class="mw-ui-box-header" style="margin-bottom: 0;"> <span class="ico iusers"></span>
     <?php if($data['id'] != 0): ?>
     <span>
     <?php _e("Edit user"); ?>

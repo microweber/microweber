@@ -280,21 +280,21 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
       
       
   </ul>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-gallery-items">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item" id="quick-add-gallery-items">
     <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
     <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
             <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
 
   </div>
   <?php if($data['content_type'] == 'page'): ?>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
     <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
     <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
                 <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
 
   </div>
   <?php endif; ?>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
     <module
                     type="custom_fields/admin"
                     <?php if( trim($data['subtype']) == 'product' ): ?> default-fields="price" <?php endif; ?>
@@ -310,11 +310,11 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
                   
   </div>
   <?php  if(trim($data['subtype']) == 'product'): ?>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
     <?php event_trigger('mw_edit_product_admin', $data); ?>
   </div>
   <?php endif; ?>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
   
    <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
 

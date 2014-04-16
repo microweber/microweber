@@ -54,7 +54,7 @@ body.browser-liveedit #files_ctrl_holder{
   display: none;
 }
 
-body.browser-liveedit .mw-o-box-content{
+body.browser-liveedit .mw-ui-box-content{
   height: auto;
 }
 
@@ -398,7 +398,7 @@ Progress =  mw.$('#mw-upload-progress');
         <div id="mw_uploader" class="mw-ui-btn mw-ui-btn-green left"><?php _e("Upload File"); ?></div>
         <span class="mw-ui-btn mw-ui-btn-red delete_item disabled"><?php _e("Delete selected files"); ?></span>
         <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()"><?php _e("Create folder"); ?></span>
-        <div class="mw-o-box inline-block left">
+        <div class="mw-ui-box inline-block left">
             <span class="posts-selector left" style="padding: 6px 14px;">
             <span onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');">Select All</span>/<span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');">Unselect All</span></span>
         </div>

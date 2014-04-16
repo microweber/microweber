@@ -29,11 +29,11 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 ?>
 
 <div class="mw-set-shipping-options mw-admin-wrap">
-	<div class="mw-o-box" style="background: #F8F8F8;">
+	<div class="mw-ui-box" style="background: #F8F8F8;">
 		<?php if(is_array($shipping_modules )): ?>
 		<?php foreach($shipping_modules  as $shipping_module): ?>
 		<?php if(mw('module')->is_installed( $shipping_module['module'] )): ?>
-		<div class="mw-o-box-header mw-set-shipping-options-swticher"> <span class="ico itruck"></span><span><strong><?php print $shipping_module['name'] ?></strong>
+		<div class="mw-ui-box-header mw-set-shipping-options-swticher"> <span class="ico itruck"></span><span><strong><?php print $shipping_module['name'] ?></strong>
 		
 		
 		<?php if(get_option('shipping_gw_'.$shipping_module['module'], 'shipping') != 'y'): ?> &nbsp;<small class="mw-ui-label-help" style="display:inline;"><em>(inactive)</em></small><?php endif; ?>

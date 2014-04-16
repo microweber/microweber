@@ -86,18 +86,41 @@
 
 
 
+<?php
+   $last_page_front =   session_get('last_content_id');
+   if( $last_page_front == false){
+  	  if(isset($_COOKIE['last_page'])){
+  		  $last_page_front = $_COOKIE['last_page'];
+  	  }
+   }
+  if( $last_page_front  != false){
+     $cont_by_url = mw('content')->get_by_id($last_page_front , true);
+     if(isset($cont_by_url) and $cont_by_url == false){
+        $past_page=get_content("order_by=updated_on desc&limit=1");
+        $past_page = mw('content')->link($past_page[0]['id']);
+     } else {
+		 $past_page = mw('content')->link($last_page_front);
+	 }
+  }
+  else {
+      $past_page=get_content("order_by=updated_on desc&limit=1");
+      $past_page = mw('content')->link($past_page[0]['id']);
+  }
 
+ ?>
 
 <div id="mw-admin-container">
     <div class="mw-ui-row main-admi-row">
       <div class="mw-ui-col main-bar-column">
           <div id="main-bar">
+
+
               <ul id="main-menu">
-                  <li><a href="javascript:;" title=""><span class="mw-icon-live"></span></a></li>
-                  <li><a href="javascript:;" title=""><span class="mw-icon-website"></span></a></li>
-                  <li><a href="javascript:;" title=""><span class="mw-icon-shop"></span></a></li>
-                  <li><a href="javascript:;" title=""><span class="mw-icon-module"></span></a></li>
-                  <li><a href="javascript:;" title=""><span class="mw-icon-gear"></span></a></li>
+                  <li><a href="<?php print $past_page; ?>?editmode=y" title=""><span class="mw-icon-live"></span></a></li>
+                  <li><a href="<?php print admin_url(); ?>view:content" title=""><span class="mw-icon-website"></span></a></li>
+                  <li><a href="<?php print admin_url(); ?>view:shop" title=""><span class="mw-icon-shop"></span></a></li>
+                  <li><a href="<?php print admin_url(); ?>view:modules" title=""><span class="mw-icon-module"></span></a></li>
+                  <li><a href="<?php print admin_url(); ?>view:settings" title=""><span class="mw-icon-gear"></span></a></li>
               </ul>
           </div>
       </div>

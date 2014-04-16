@@ -66,17 +66,17 @@ $(email_ed).css('height',"450px");
 
 
 mw.$("#available_providers").sortable({
-  items:".mw-o-box",
+  items:".mw-ui-box",
   handle:".iMove",
   axis:"y",
   placeholder: "available_providers_placeholder",
   start:function(a,b){
 
-    $(this).find(".mw-o-box").each(function(){
+    $(this).find(".mw-ui-box").each(function(){
       $(this).height("auto");
       $(this).removeClass("mw-accordion-active");
       $(this).removeClass("active");
-      $(this).find(".mw-o-box-content").hide();
+      $(this).find(".mw-ui-box-content").hide();
     });
     $(this).sortable("refreshPositions");
 
@@ -176,10 +176,10 @@ mw.$("#available_providers").sortable({
 	width: 530px;
 	padding-top: 10px;
 }
-.mw-o-box-header .iMove {
+.mw-ui-box-header .iMove {
 	visibility: hidden;
 }
-.mw-o-box-header:hover .iMove {
+.mw-ui-box-header:hover .iMove {
 	visibility: visible;
 }
 .available_providers_placeholder {
@@ -209,12 +209,12 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 
 <div class="vSpace"></div>
  <div class="mw-admin-wrap">
-	<div class="mw-o-box has-options-bar">
-		<div class="mw-o-box-header" style="margin-bottom: 0;"> <span class="ico ioptions"></span> <span>
+	<div class="mw-ui-box has-options-bar">
+		<div class="mw-ui-box-header" style="margin-bottom: 0;"> <span class="ico ioptions"></span> <span>
 			<?php _e("Options"); ?>
 			</span>
         </div>
-		<div class="mw-o-box-content" style="padding: 0;">
+		<div class="mw-ui-box-content" style="padding: 0;">
 			<div class="options-bar" style="margin-right: 0;">
 				<div class="mw-admin-side-nav">
 					<ul>
@@ -244,17 +244,17 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                                 	$module_info['id'] = 0;
                                  }
 			                ?>
-						<div class="mw-o-box mw-o-box-accordion mw-accordion-active" id="module-db-id-<?php print $module_info['id'] ?>">
+						<div class="mw-ui-box mw-ui-box-accordion mw-accordion-active" id="module-db-id-<?php print $module_info['id'] ?>">
 						
-							<div class="mw-o-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
+							<div class="mw-ui-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
 								<div class="gateway-icon-title"> <span class="ico iMove"></span> <img src="<?php print $payment_module['icon']; ?>" alt="" /> <span class="gateway-title"><?php print $payment_module['name'] ?> <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> <small class="mw-small">(disabled)</small><?php endif; ?></span></div>
 								<!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> --> 
 								
 							</div>
-							<div class="mw-o-box-content mw-accordion-content">
+							<div class="mw-ui-box-content mw-accordion-content">
 								<label class="mw-ui-label">
 								<h3><?php print $payment_module['name'] ?>:</h3>
-								<div class="mw-o-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
+								<div class="mw-ui-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
                                  <div class="mw-ui-check-selector">
                                 <label class="mw-ui-check">
 										<input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >

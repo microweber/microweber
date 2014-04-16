@@ -330,7 +330,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 </div>
 <div id="image_settings_modal_holder" style="display: none">
   <div class='image_settings_modal'>
-    <div class="mw-o-box mw-o-box-content">
+    <div class="mw-ui-box mw-ui-box-content">
       <hr style="border-bottom: none">
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Alignment</label>

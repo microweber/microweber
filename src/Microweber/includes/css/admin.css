@@ -63,18 +63,14 @@ h6{
   overflow: hidden;
 }
 
-.fixed-side-column:hover{
-  overflow: auto;
+.tree-column, .fixed-side-column{
+  width: 210px;
 }
 
-.tree-column{
-  width: 20%;
-  min-width: 210px;
+.main-content-column > .mw-ui-col-container{
+  padding-left: 35px;
 }
-.tree-column-holder{
-  width: 100%;
-  min-width: 210px;
-}
+
 
 
 /************************************
@@ -84,6 +80,63 @@ h6{
 .slimScrollBar{
   max-height: 150px;
 }
+
+/************************************
+              Main Menu
+*************************************/
+
+#main-bar{
+  width:100px;
+  height: 100%;
+  background: #000000;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#main-menu a{
+  color: #666666;
+  font-size: 41px;
+  display: block;
+  text-align: center;
+  padding: 10px 0;
+}
+
+#main-menu a:hover,
+#main-menu a:focus{
+  color: white;
+  background: #3B3B3B;
+}
+
+#main-menu > li > a:active{
+  box-shadow: inset 0 0 6px -3px #000;
+}
+
+
+.create-content{
+  padding: 30px 0;
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -429,11 +429,19 @@ function mw_make_pages_tree_sortable(){
 
 </script>
 
+
+
 <div class="mw-ui-row" id="edit-content-row">
     <div class="mw-ui-col tree-column">
     <div class="tree-column-holder">
-    <div class="fixed-side-column">
-      <div class="mw_pages_posts_tree mw-tree"  id="pages_tree_container_<?php print $my_tree_id; ?>">
+    <div class="fixed-side-column scroll-height-exception-master">
+      <div class="create-content scroll-height-exception">
+
+        <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-plus"></span>Create New</a>
+
+
+      </div>
+      <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
         <?php
 		 $is_shop_str = " is_shop='n' ";
 		 $is_shop_str = "   ";
@@ -447,17 +455,14 @@ function mw_make_pages_tree_sortable(){
         <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
              <?php event_trigger('admin_content_after_website_tree',$params); ?>
       </div>
-      <div class="tree-show-hide-nav"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
+      <div class="tree-show-hide-nav scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
     </div>
     </div>
     </div>
-    <div class="mw-ui-col">
+    <div class="mw-ui-col main-content-column">
+    <div class="mw-ui-col-container">
 
-      <div style="padding-left: 0;">
-        <div class="top_label">
-       </div>
-        <div class="vSpace"></div>
-      </div>
+
       <?php
         $ed_content = false;
         $content_id = '';
@@ -490,6 +495,7 @@ function mw_make_pages_tree_sortable(){
         <div id="edit_content_admin"   <?php print  $content_id ?> /></div>
         <?php endif; ?>
       </div>
+    </div>
     </div>
 
 </div>

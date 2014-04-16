@@ -1,37 +1,50 @@
 mw.admin = {
-    initSettings:function(){
-      mw.admin.globals = {
-          mainBar: mw.$('#main-bar'),
-          fixedSideColumns:mwd.querySelectorAll('.fixed-side-column')
-      }
+    scrollBoxSettings:{
+        height:'auto',
+        size:5,
+        distance:5
     },
-    setFixedSideColumns:function(){
-        var i = 0, c = mw.admin.globals.fixedSideColumns, l = c.length;
-        for( ; i<l ; i++){
-            var parent = c[i].parentNode;
-            c[i].style.width = parent.offsetWidth + 'px';
-            c[i].style.height = $(window).height() + 'px';
-        }
-
+    scrollBox:function(selector, settings){
+        var settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
+        mw.$(selector).slimScroll(settings);
+    },
+    contentScrollBoxHeightFix:function(node){
+      var minus = 0, exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
+      if( !exceptor ) {  return $(window).height(); }
+      mw.$('.scroll-height-exception', exceptor).each(function(){
+        d(minus)
+        var minus = minus + $(this).outerHeight();
+      });
+      d(minus)
+      return $(window).height() - minus;
+    },
+    contentScrollBox:function(selector, settings){
+       var el = mw.$(selector)[0];
+       if(typeof el === 'undefined'){ return false; }
+       mw.admin.scrollBox(el, settings);
+       el.style.height = mw.admin.contentScrollBoxHeightFix(el) + 'px';
+       $(window).bind('resize', function(){
+            var newheight =  mw.admin.contentScrollBoxHeightFix(el)
+            el.style.height = newheight + 'px';
+            el.parentNode.style.height = newheight + 'px';
+            $(el).slimscroll();
+       });
     }
 }
 
 
 $(mwd).ready(function(){
 
-    mw.admin.initSettings();
 
 });
 
 $(mww).bind('load', function(){
 
-       mw.$(".fixed-side-column").slimScroll({
-            height:$(window).height(),
-            size:5
-        });
+
+    mw.admin.contentScrollBox('.fixed-side-column-container');
+    mw.admin.contentScrollBox('#main-menu', {color:'white'});
+
 
 });
 
-$(mww).bind('load resize', function(){
-    mw.admin.setFixedSideColumns();
-});
+

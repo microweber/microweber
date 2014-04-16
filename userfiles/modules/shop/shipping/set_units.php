@@ -25,12 +25,12 @@ $(document).ready(function(){
 </script>
 
 
-<div id="shipping-units-setup" class="mw-o-box-content">
+<div id="shipping-units-setup" class="mw-ui-box-content">
 	<h2>
 		<?php _e("Shipping units"); ?>
 	</h2>
      <div class="vSpace"></div>
-    <div class="mw-o-box mw-o-box-content">
+    <div class="mw-ui-box mw-ui-box-content">
 
 	<label class="mw-ui-label">
 		<?php _e("Units for weight"); ?>

@@ -95,8 +95,8 @@
   </table>
   <?php elseif($ordert_type == 'carts' and isset($orders) and is_array($orders)) :?>
   <label class="mw-ui-label"> Abandoned Carts Section helps you analyze why some customers aren't checking out. </label>
-  <div class="mw-o-box" style="width: 960px;">
-    <div class="mw-o-box-content">
+  <div class="mw-ui-box" style="width: 960px;">
+    <div class="mw-ui-box-content">
       <div id="orders_stat" style="height: 250px;"></div>
     </div>
   </div>
@@ -157,7 +157,7 @@
             <?php endif; ?>
             <?php } ?>
           </div>
-          <table class="mw-o-box-table" cellspacing="0" cellpadding="0" width="100%">
+          <table class="mw-ui-box-table" cellspacing="0" cellpadding="0" width="100%">
             <thead>
               <tr>
                 <th><?php _e("Product Name"); ?></th>
@@ -189,12 +189,12 @@
                 <td class="mw-order-item-count" width="100"><?php print  currency_format($item_total); ?></td>
               </tr>
               <?php endforeach; ?>
-              <tr class="mw-o-box-table-footer last">
+              <tr class="mw-ui-box-table-footer last">
                 <td colspan="3">&nbsp;</td>
-                <td class="mw-o-box-table-green"><b>
+                <td class="mw-ui-box-table-green"><b>
                   <?php _e("Total:"); ?>
                   </b></td>
-                <td class="mw-o-box-table-green"><b><?php print  currency_format($grandtotal); ?></b></td>
+                <td class="mw-ui-box-table-green"><b><?php print  currency_format($grandtotal); ?></b></td>
               </tr>
             </tbody>
           </table>
@@ -204,7 +204,7 @@
           </h2>
           <?php endif;?></td>
         <td><label class="mw-ui-label"> Last activity: <span class="mw-ui-label-small" style="font-weight: 100" data-help="<?php print $item['updated_on'] ?>"><?php print mw('format')->ago($item['updated_on']); ?></span> </label>
-          <div class="mw-o-box" style="margin-bottom: 20px;border-bottom: none">
+          <div class="mw-ui-box" style="margin-bottom: 20px;border-bottom: none">
             <?php event_trigger('mw_admin_quick_stats_by_session',$item['session_id']); ?>
           </div>
           <div class="mw-ui-field-holder">

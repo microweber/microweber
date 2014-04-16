@@ -4131,7 +4131,7 @@ mw.image = {
           width:600,
           height:"80%"
         });
-        mw.$(".mw-o-box", modal.container).prepend("<img id='mwimagecurrent' src='"+src+"' />");
+        mw.$(".mw-ui-box", modal.container).prepend("<img id='mwimagecurrent' src='"+src+"' />");
         mw.image.current = modal.container.querySelector("#mwimagecurrent");
 
         mw.$("textarea", modal.container).val(title);

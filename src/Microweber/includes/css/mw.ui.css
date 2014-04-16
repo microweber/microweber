@@ -197,27 +197,7 @@
 /* Buttons */
 
 
-.mw-ui-btn{
-  display: inline-block;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box ;
-  box-sizing: border-box;
-  padding: 8px 10px;
-  height: 33px;
-  cursor: pointer;
-  background: #F5F5F5;
-  border-width: 1px;
-  border-style: solid;
-  border-color:#ddd;
-  color: #434343;
-  font-size: 11px;
-  line-height:normal;
-  text-align: center;
-  position: relative;
-  border-radius: 1px;
-  box-shadow:inset 0 1px 0px 0px #fff;
-  text-decoration: none ;
-}
+
 .mw-defaults .mw-ui-btn{
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box ;
@@ -329,9 +309,6 @@
     box-shadow:none;
 }
 
-.mw-ui-btn:hover, .mw-ui-btn2:hover{
- background: #F2F2F2;
-}
 
 .mw-ui-btn-blue{ background:#CDE1FB; border-color: #BAD7F6;border-bottom-color: #89B6D9;}
 .mw-ui-btn-blue:hover{ background:#CDE1FB; }
@@ -1534,16 +1511,16 @@ div.mw-date{
 
 /* O-box */
 
-.mw-o-box{
+.mw-ui-box{
   border: 1px solid #E5E5E5;
   border-radius:2px;
 }
-.mw-o-box-accordion{
+.mw-ui-box-accordion{
   overflow: hidden;
   margin-bottom: 12px;
 }
 
-.mw-o-box-header{
+.mw-ui-box-header{
   background: #E9E9E9;
   overflow: hidden;
   padding: 10px;
@@ -1553,33 +1530,33 @@ div.mw-date{
   border-top-right-radius: 2px;
 }
 
-.mw-o-box-header a{
+.mw-ui-box-header a{
   text-decoration: none;
 }
 
-.mw-o-box-accordion .mw-o-box-header{
+.mw-ui-box-accordion .mw-ui-box-header{
   margin-bottom: 0;
   cursor: pointer;
 }
 
-.mw-o-box-header .mw-ui-btn-small{
+.mw-ui-box-header .mw-ui-btn-small{
   margin-top: 2px;
 }
 
-.mw-o-box-header h2{
+.mw-ui-box-header h2{
   padding: 0;
 }
 
-.mw-o-box-content{
+.mw-ui-box-content{
   padding: 12px;
   position: relative;
 }
 
-.mw-o-box-header + .mw-o-box-content{
+.mw-ui-box-header + .mw-ui-box-content{
   padding-top: 0;
 }
 
-.mw-o-box:after, .mw-o-box-content:after{
+.mw-ui-box:after, .mw-ui-box-content:after{
   content: ".";
   display: block;
   clear: both;
@@ -1588,24 +1565,24 @@ div.mw-date{
   height: 0;
 }
 
-.mw-o-box-accordion-content{
+.mw-ui-box-accordion-content{
    overflow: hidden;
    background: #F7F7F7;
 }
 
-.mw-o-box-accordion > .mw-o-box-content{
+.mw-ui-box-accordion > .mw-ui-box-content{
   display: none;
 }
 
-.mw-accordion-active > .mw-o-box-content{
+.mw-accordion-active > .mw-ui-box-content{
   display: none;
 }
 
-.mw-o-box-header > .ico{
+.mw-ui-box-header > .ico{
   margin-right: 10px;
 }
 
-.mw-o-box-header > .ico + span{
+.mw-ui-box-header > .ico + span{
     display: block;
     float: left;
     overflow: hidden;
@@ -1616,27 +1593,27 @@ div.mw-date{
 
 }
 
-.mw-file-browser .mw-o-box-header > .ico + span{
+.mw-file-browser .mw-ui-box-header > .ico + span{
     max-width: calc(100% - 115px);
     max-width: -webkit-calc(100% - 115px);
 }
 
-.mw-o-box-header > .ico + span > a{
+.mw-ui-box-header > .ico + span > a{
   color: #343434;
   text-decoration: none;
 }
 
-.mw-o-box-order-info{
+.mw-ui-box-order-info{
   float: left;
   width:495px;
 }
 
-.mw-o-box-client-info{
+.mw-ui-box-client-info{
   float: right;
   width: 440px;
 }
 
-.mw-o-box-table{
+.mw-ui-box-table{
     border-top:1px solid #ECECEC;
     border-bottom:1px solid #ECECEC;
     clear: both;
@@ -1644,23 +1621,23 @@ div.mw-date{
     text-align: left;
 }
 
-.mw-o-box-table td{
+.mw-ui-box-table td{
   padding: 10px;
   border-right:1px solid #ECECEC;
   border-bottom:1px solid #ECECEC;
 }
 
 
-.mw-o-box-table tr > td:first-child,
-.mw-o-box-table tr > th:first-child{
+.mw-ui-box-table tr > td:first-child,
+.mw-ui-box-table tr > th:first-child{
   padding-left: 15px;
 }
 
-.mw-o-box-table tr td:last-child{
+.mw-ui-box-table tr td:last-child{
   border-right: none;
 }
 
-.mw-o-box-table th{
+.mw-ui-box-table th{
   padding: 10px;
   border-right:1px solid #ECECEC;
   border-bottom:1px solid #ECECEC;
@@ -1671,15 +1648,15 @@ div.mw-date{
   color: #666;
 }
 
-tr.mw-o-box-table-footer td:first-child{
+tr.mw-ui-box-table-footer td:first-child{
   border: none;
 }
 
-.mw-o-box tr.last td{
+.mw-ui-box tr.last td{
   border-bottom: none !important;
 }
 
-.mw-o-box-table-green{
+.mw-ui-box-table-green{
   background-color:#D8FFC3;
   box-shadow:inset 1px 1px 0px #fff, inset -1px -1px 0px #fff;
 }
@@ -1900,7 +1877,6 @@ tr.active > td > .mw-ui-admin-table-show-on-hover{
   z-index: 1101;
   top: 100px;
   left: 100px;
-
 }
 
 /* /External Tools */

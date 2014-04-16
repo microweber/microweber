@@ -1,5 +1,5 @@
 
 
-<div class="mw-o-box">
+<div class="mw-ui-box">
     <module type="shop/payments" view="admin" />
 </div>

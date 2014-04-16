@@ -25,8 +25,8 @@ mw.email_send_test = function(){
 }
 </script>
 
-<div class="<?php print $config['module_class'] ?> mw-o-box">
-	<div class="mw-o-box-content">
+<div class="<?php print $config['module_class'] ?> mw-ui-box">
+	<div class="mw-ui-box-content">
 		<div class="mw-ui-field-holder">
 			<label class="mw-ui-label">
 				<?php _e("Your email address"); ?>
@@ -52,9 +52,9 @@ mw.email_send_test = function(){
 		<div class="vSpace"></div>
 		<hr>
 		<div class="vSpace"></div>
-		<div class="mw-o-box">
-			<div class="mw-o-box-header" style="margin: 0;">Mail Send Settings</div>
-			<div class="mw-o-box-content" style="background: #FBFBFB">
+		<div class="mw-ui-box">
+			<div class="mw-ui-box-header" style="margin: 0;">Mail Send Settings</div>
+			<div class="mw-ui-box-content" style="background: #FBFBFB">
 				<label class="mw-ui-label">
 					<?php _e("Send email function"); ?>
 				</label>
@@ -152,7 +152,7 @@ mw.email_send_test = function(){
 				</div>
 				<?php endif; ?>
 				<div class="vSpace"></div>
-				<table width=" 100%" border="0" id="test_eml_toggle"  class="mw-o-box mw-o-box-content" style="display:none;background: white;">
+				<table width=" 100%" border="0" id="test_eml_toggle"  class="mw-ui-box mw-ui-box-content" style="display:none;background: white;">
 					<tr>
 						<td><label class="mw-ui-label">
 								<?php _e("Send test email to"); ?>

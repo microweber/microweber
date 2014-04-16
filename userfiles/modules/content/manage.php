@@ -59,47 +59,28 @@ $posts = array();
 <?php  if(isset($params['page-id'])):  ?>
 <?php
 
-if($params['page-id'] == 'global'){
- if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
-   $page_info = get_content('limit=1&one=1&content_type=page&is_shop=y');
- }
- else {
-   $page_info = false;
- }
-
-}
-else {
- $page_info = get_content_by_id($params['page-id']);
-}
+    if($params['page-id'] == 'global'){
+       if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
+         $page_info = get_content('limit=1&one=1&content_type=page&is_shop=y');
+       }
+       else {
+         $page_info = false;
+       }
+    }
+    else {
+        $page_info = get_content_by_id($params['page-id']);
+    }
 
 ?>
 
 <script type="text/javascript">
-
-
-
-
-
-$(document).ready(function(){
-
-
+    $(document).ready(function(){
 		var prev_frame_attrs = {};
-
-$('#mw_page_layout_preview').attr('data-page-id',"<?php print ($page_info['id'])?>");
-//$('#mw_page_layout_preview').attr('inherit_from',"<?php print ($page_info['id'])?>");
- $('#mw_page_layout_preview').attr('edit_page_id',"<?php print ($page_info['id'])?>");
-
-$('#mw_page_layout_preview').attr('autoload',"1");
-
-$('#mw_page_layout_preview').attr('data-small',"1");
-
-
- mw.load_module("content/layout_selector", '#mw_page_layout_preview', false);
-
-
-
-
-
+        mw.$('#mw_page_layout_preview').attr('data-page-id',"<?php print ($page_info['id'])?>");
+        mw.$('#mw_page_layout_preview').attr('edit_page_id',"<?php print ($page_info['id'])?>");
+        mw.$('#mw_page_layout_preview').attr('autoload',"1");
+        mw.$('#mw_page_layout_preview').attr('data-small',"1");
+        mw.load_module("content/layout_selector", '#mw_page_layout_preview', false);
     });
 </script>
 <?php if(isset($page_info) and is_array($page_info)): ?>
