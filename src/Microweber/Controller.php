@@ -1823,7 +1823,7 @@ class Controller
             }
 
             if (defined('MW_VERSION')) {
-                $generator_tag = "\n" . '<meta name="generator" content="Microweber ' . MW_VERSION . '" />' . "\n";
+                $generator_tag = "\n" . '<meta name="generator" content="Microweber" />' . "\n";
                 $l = str_ireplace('</head>', $generator_tag . '</head>', $l, $rep_count);
             }
 

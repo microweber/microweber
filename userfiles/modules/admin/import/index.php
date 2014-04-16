@@ -47,12 +47,12 @@
 
 mw.confirm_import_file = function($filename){
 	
-	var params = {};
-	params.content = ModalContent;
-	mw.modal(params)
-	$(".mw_import_file").val($filename);	
-	 
 	
+	
+	Alert(ModalContent);
+	$(".mw_import_file").val($filename);	
+	
+	mw.$('#mw_alert .mw-cancel').hide();
 }
 
 
@@ -63,33 +63,31 @@ mw.ok_import_file = function(){
   var file = $('#mw_import_file').val()
   var page_id = $('#mw_import_to_page_selector').val()
   mw.admin_import.restore_to_page(file,page_id);
+  
+   $('.mw_modal').remove()
+  
+  
+  
 }
 </script>
 
 <div id="mw_import_to_page_holder">
   <?php $all_pages = get_pages(); ?>
   <?php if(!empty($all_pages)): ?>
-  <h3>Select a page to import the content to:</h3>
-  <select name="import_to_page" id="mw_import_to_page_selector">
+  <h5>Select a page to import the content to:</h5> 
+  <div class="vSpace"></div>
+  <div class="mw-ui-select">
+  <select name="import_to_page" id="mw_import_to_page_selector" style="height:auto">
     <?php foreach($all_pages as $page): ?>
     <option value="<?php print $page['id']  ?>"><?php print $page['title']; ?></option>
     <?php endforeach; ?>
   </select>
+  </div> 
   <?php endif; ?>
-  <input type="text" name="filename" id="mw_import_file" class="mw_import_file" />
-  
-  
-   <button onclick="mw.ok_import_file()">OK</button>
-
- 
+  <input type="hidden" name="filename" id="mw_import_file" class="mw_import_file" />
+  <div class="vSpace"></div>
+  <button onclick="mw.ok_import_file()" class="mw-ui-btn">Start import</button>
 </div>
-
-
- <button onclick="mw.confirm_import_file()">test</button>
-
-
-
-
 <div> <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span><span>Upload file<span id="upload_backup_info"></span></span></span> </div>
 <div class="vSpace"></div>
 <module type="admin/import/process" />
