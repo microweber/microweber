@@ -86,7 +86,9 @@ $(document).ready(function(){
    
    
     
-   mw_make_pages_tree_sortable()
+   mw_make_pages_tree_sortable();
+
+
    
 });
 
@@ -426,10 +428,31 @@ function mw_make_pages_tree_sortable(){
 }
 
 
+$(window).load(function(){
+   mw.$("#create-content-btn").hover(function(){
+
+     this.mwtooltip = mw.tooltip({
+       position:'bottom-center',
+       content:mw.$('#create-content-menu').html(),
+       element:this
+     });
+   }, function(){
+          //$(this.mwtooltip).remove()
+   });
+})
 
 </script>
 
+<div id="create-content-menu">
 
+  <div class="create-content-menu">
+      <a href="javascript:;"><span class="mw-icon-post"></span><strong>Post</strong></a>
+      <a href="javascript:;"><span class="mw-icon-page"></span><strong>Page</strong></a>
+      <a href="javascript:;"><span class="mw-icon-category"></span><strong>Category</strong></a>
+      <a href="javascript:;"><span class="mw-icon-product"></span><strong>Product</strong></a>
+  </div>
+
+</div>
 
 <div class="mw-ui-row" id="edit-content-row">
     <div class="mw-ui-col tree-column">
@@ -437,7 +460,7 @@ function mw_make_pages_tree_sortable(){
     <div class="fixed-side-column scroll-height-exception-master">
       <div class="create-content scroll-height-exception">
 
-        <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-plus"></span>Create New</a>
+        <a href="javascript:;" class="mw-ui-btn" id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a>
 
 
       </div>

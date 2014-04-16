@@ -114,7 +114,15 @@ body{
 body, .box-container,
 a, a:hover, a:focus, a:active{
     color:#556;
+	
 }
+.box-container a, .box-container a:hover, .box-container a:focus, .box-container a:active{
+	
+}
+
+.edit[field='content'][rel='content'] a{    }
+
+
 
 [class*='mw-wysiwyg-table'] > tbody > tr > td{
   border-color: rgba(255, 255, 255, 0.12);
@@ -390,6 +398,11 @@ img{
 
 .edit[rel='content'][field='content']  .module + .module{
   margin-top: 20px;
+}
+
+.edit[field='content'][rel='content'] ul,
+.edit[field='content'][rel='content'] ol{
+	padding-left: 16px;	
 }
 
 /**********************

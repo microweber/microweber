@@ -22,6 +22,11 @@
       cursor: default;
     }
 
+    #info-icon-list li:hover{
+      color: white;
+      background: #495074
+    }
+
     #info-icon-list li em{
       display: block;
       text-align: center;

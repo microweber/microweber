@@ -8,21 +8,22 @@ mw.admin = {
         var settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
         mw.$(selector).slimScroll(settings);
     },
+    contentScrollBoxHeightMinus:0,
     contentScrollBoxHeightFix:function(node){
-      var minus = 0, exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
+      mw.admin.contentScrollBoxHeightMinus = 0, exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
       if( !exceptor ) {  return $(window).height(); }
       mw.$('.scroll-height-exception', exceptor).each(function(){
-        d(minus)
-        var minus = minus + $(this).outerHeight();
+        mw.admin.contentScrollBoxHeightMinus = mw.admin.contentScrollBoxHeightMinus + $(this).outerHeight();
       });
-      d(minus)
-      return $(window).height() - minus;
+      return $(window).height() - mw.admin.contentScrollBoxHeightMinus;
     },
     contentScrollBox:function(selector, settings){
        var el = mw.$(selector)[0];
        if(typeof el === 'undefined'){ return false; }
        mw.admin.scrollBox(el, settings);
-       el.style.height = mw.admin.contentScrollBoxHeightFix(el) + 'px';
+       var newheight = mw.admin.contentScrollBoxHeightFix(el)
+       el.style.height = newheight + 'px';
+       el.parentNode.style.height = newheight  + 'px'
        $(window).bind('resize', function(){
             var newheight =  mw.admin.contentScrollBoxHeightFix(el)
             el.style.height = newheight + 'px';

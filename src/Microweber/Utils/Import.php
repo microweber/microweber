@@ -575,7 +575,7 @@ class Import
                         if (!isset($content['content_type'])) {
                             $content['content_type'] = 'post';
                         }
-                        if (!isset($content['subtype'])) {
+                         if (!isset($content['subtype'])) {
                             $content['subtype'] = 'post';
                         }
                         // $content['subtype'] = 'post';

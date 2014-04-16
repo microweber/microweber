@@ -129,8 +129,39 @@ h6{
 }
 
 
+/**/
+#create-content-menu{
+  display: none;
+}
+
+.create-content-menu{
+  width: 175px;
+}
 
 
+.create-content-menu a{
+  display: block;
+  float: left;
+  text-align: center;
+  width: 50%;
+  border-radius: 3px;
+}
+.create-content-menu a:hover{
+  background-color: #3F3F3F;
+  color: white;
+}
+.create-content-menu a span{
+  font-size: 50px;
+  height: 40px;
+  display: block;
+}
+.create-content-menu a strong{
+  font-weight: normal;
+  font-size:11px;
+   display: block;
+   padding-top:6px;
+   padding-bottom:12px;
+}
 
 
 

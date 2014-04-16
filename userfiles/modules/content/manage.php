@@ -325,7 +325,7 @@ mw.manage_content_sort = function(){
 
 
 
-</script> 
+</script>
 <div class="page_posts_list_tree" data-sortable="true" style="display:none;">
   <?php  if(isset($params['page-id'])):  ?>
   <?php
