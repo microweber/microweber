@@ -123,7 +123,7 @@ mw.on.stopWriting(this, function(){
             start:function(a,ui){
                 $(ui.placeholder).height($(ui.item).outerHeight())
             },
-            scroll:false,
+            //scroll:false,
             update:function(){
               __save();
             }
