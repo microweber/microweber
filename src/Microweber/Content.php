@@ -6386,7 +6386,9 @@ class Content
 
             }
         }
-
+        if (!isset($data_to_save['images']) and isset($data_to_save['pictures'])) {
+            $data_to_save['images'] = $data_to_save['pictures'];
+        }
         if (isset($data_to_save['images']) and is_string($data_to_save['images'])) {
             $data_to_save['images'] = explode(',', $data_to_save['images']);
         }
