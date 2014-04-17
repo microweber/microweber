@@ -13,7 +13,7 @@ function mw_print_admin_dashboard_comments_btn()
         $cls = ' class="active" ';
     }
     $notif_html = '';
-    $notif_count = mw('Microweber\Notifications')->get('module=comments&is_read=n&count=1');
+    $notif_count = mw()->notifications->get('module=comments&is_read=n&count=1');
     if ($notif_count > 0) {
         $notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
     }
@@ -59,8 +59,8 @@ function mark_comments_as_old($data)
 
                 $upd['id'] = $get_com['id'];
                 $upd['rel'] = 'content';
-                $upd['rel_id'] = mw('db')->escape_string($data['content_id']);
-                mw('db')->save($table, $upd);
+                $upd['rel_id'] = mw()->db->escape_string($data['content_id']);
+                mw()->db->save($table, $upd);
             }
         }
         return $get_comm;
@@ -110,7 +110,7 @@ function post_comment($data)
                     break;
 
                 case 'delete' :
-                    $del = mw('db')->delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
+                    $del = mw()->db->delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
                     return array('success' => 'Deleted comment with id:' . $id);
                     return $del;
                     break;
@@ -138,19 +138,15 @@ function post_comment($data)
         } else {
             $cap = mw('user')->session_get('captcha');
 
-	 if (isset($data['module_id'])) {
-				 
-						$captcha_sid = 'captcha_'.$data['module_id'];
-						$cap_sid = mw('user')->session_get($captcha_sid);
-						if($cap_sid != false){
-							$cap = $cap_sid;
-						}
-					 
-			}
+            if (isset($data['module_id'])) {
 
+                $captcha_sid = 'captcha_' . $data['module_id'];
+                $cap_sid = mw('user')->session_get($captcha_sid);
+                if ($cap_sid != false) {
+                    $cap = $cap_sid;
+                }
 
-
-
+            }
             if ($cap == false) {
                 return array('error' => 'You must load a captcha first!');
             }
@@ -166,9 +162,10 @@ function post_comment($data)
         if (!isset($data['comment_email']) and user_id() == 0) {
             return array('error' => 'You must type your email or be logged in order to comment.');
         }
-
-        $data['from_url'] = mw('url')->current(1);
-
+        $ref = mw('url')->current(1);
+        if ($ref != false and $ref != '') {
+            $data['from_url'] = htmlentities(strip_tags(mw('url')->current(1)));
+        }
     }
 
     if ($adm == true and !isset($data['id']) and !isset($data['is_moderated'])) {
@@ -180,11 +177,20 @@ function post_comment($data)
         }
     }
 
-    if (isset($data['comment_body'])) {
-        $comment_body = ($data['comment_body']);
+    if (isset($data['comment_website'])) {
+        $data['comment_website'] = mw()->format->clean_xss($data['comment_website']);
+    }
+    if (isset($data['comment_email'])) {
+        $data['comment_email'] = mw()->format->clean_xss($data['comment_email']);
+    }
+    if (isset($data['comment_name'])) {
+        $data['comment_name'] = mw()->format->clean_xss($data['comment_name']);
+    }
+    if (isset($data['from_url'])) {
+        $data['from_url'] = mw()->format->clean_xss($data['from_url']);
     }
 
-    $saved_data = mw('db')->save($table, $data);
+    $saved_data = mw()->db->save($table, $data);
 
 
     if (!isset($data['id']) and isset($data['comment_body'])) {
@@ -196,12 +202,9 @@ function post_comment($data)
         $notif['rel_id'] = $data['rel_id'];
         $notif['title'] = "You have new comment";
         $notif['description'] = "New comment is posted on " . mw('url')->current(1);
-        $notif['content'] = mw('format')->limit($data['comment_body'], 800);
-
-
-        $notf_id = mw('Microweber\Notifications')->save($notif);
+        $notif['content'] = mw()->format->limit($data['comment_body'], 800);
+        $notf_id = mw()->notifications->save($notif);
         $data['moderate'] = admin_url('view:modules/load_module:comments/mw_notif:' . $notf_id);
-
         $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
         $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
 
@@ -223,7 +226,7 @@ function post_comment($data)
 
             $message = "Hi, <br/> You have new comment posted on " . mw('url')->current(1) . ' <br /> ';
             $message .= "IP:" . MW_USER_IP . ' <br /> ';
-            $message .= mw('format')->array_to_ul($data3);
+            $message .= mw()->format->array_to_ul($data3);
             \Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
         }
 
@@ -244,7 +247,7 @@ function get_comments($params)
     }
     if (isset($params['content_id'])) {
         $params['rel'] = 'content';
-        $params['rel_id'] = mw('db')->escape_string($params['content_id']);
+        $params['rel_id'] = mw()->db->escape_string($params['content_id']);
 
     }
 
@@ -274,7 +277,7 @@ function get_comments($params)
             order by $table.id desc
             $limit ";
 
-        $comments = mw('db')->query($sql, 'comments_in_category_' . crc32($sql), 'comments/global');
+        $comments = mw()->db->query($sql, 'comments_in_category_' . crc32($sql), 'comments/global');
 
         unset($params['category']);
     } else {
@@ -307,7 +310,7 @@ function get_comments($params)
                 $comments[$i]['updated_on'] = date($date_format, strtotime($item['updated_on']));
             }
             if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
-                $comments[$i]['comment_body'] = mw('format')->autolink($item['comment_body']);
+                $comments[$i]['comment_body'] = mw()->format->autolink($item['comment_body']);
             }
 
             if (isset($params['single'])) {
@@ -325,19 +328,18 @@ function get_comments($params)
 }
 
 
-
 event_bind('db_query_comments', '_modify_comments_query');
 
 function _modify_comments_query($criteria)
 {
-   $add_sql = false;
-   // if we have 'posts_category' param in the query
-   // we will get comments from a category
-   if (isset($criteria['posts_category'])) {
+    $add_sql = false;
+    // if we have 'posts_category' param in the query
+    // we will get comments from a category
+    if (isset($criteria['posts_category'])) {
         if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
             define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
         }
-		$table = MODULE_DB_COMMENTS;
+        $table = MODULE_DB_COMMENTS;
         $table_cat_items = MW_DB_TABLE_TAXONOMY_ITEMS;
         $cat = intval($criteria['posts_category']);
         $add_sql = $add_sql . "
@@ -347,11 +349,10 @@ function _modify_comments_query($criteria)
             and $table_cat_items.rel_id =$table.rel_id
              and $table.is_moderated = 'y'
              ";
-			
+
     }
-	
-	
-	
-	 return $add_sql;
- 
+
+
+    return $add_sql;
+
 }
