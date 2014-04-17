@@ -148,8 +148,10 @@ mw.on.hashParam('installed', function(){
 
 </script>
 
-<div id="mw_index_modules">
-  <div class="mw_edit_page_left mw_edit_page_default" id="mw_edit_page_left">
+<div class="mw-ui-row" id="edit-content-row">
+  <div class="mw-ui-col tree-column">
+  <div class="tree-column-holder">
+  <div class="fixed-side-column scroll-height-exception-master">
     <div class="mw-admin-sidebar"><h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span><?php _e("Modules"); ?></span></h2></div>
     <div class="mw-admin-side-nav" id="modules_categories_tree_<?php print $params['id']; ?>" >
 
@@ -177,7 +179,10 @@ mw.on.hashParam('installed', function(){
          </div>
     </div>
   </div>
-  <div class="mw_edit_page_right" style="padding: 20px;">
+  </div>
+  </div>
+  <div class="mw-ui-col main-content-column">
+  <div class="mw-ui-col-container">
 
 
 
@@ -220,6 +225,7 @@ mw.on.hashParam('installed', function(){
     </div>
     <div class="vSpace"></div>
     <div id="modules_admin_<?php print $params['id']; ?>" ></div>
+  </div>
   </div>
 </div>
 

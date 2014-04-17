@@ -817,6 +817,21 @@ function mw_print_admin_backup_settings_link()
         print "<li><a class=\"item-" . $mname . "\" href=\"#option_group=" . $mname . "\">Backup</a></li>";
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }
+
+
+    if (mw('module')->is_installed('admin/import')) {
+
+        $active = mw('url')->param('view');
+        $cls = '';
+        $mname = module_name_encode('admin/import');
+        if ($active == $mname) {
+            $cls = ' class="active" ';
+        }
+        $notif_html = '';
+        $url = admin_url('view:modules/load_module:' . $mname);
+        print "<li><a class=\"item-" . $mname . "\" href=\"#option_group=" . $mname . "\">Import</a></li>";
+        //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
+    }
 }
 
 

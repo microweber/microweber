@@ -127,7 +127,7 @@ $posts = array();
         <li> <a href="#action=editpage:<?php print $params["page-id"]; ?>"> <span class="ico ieditpage"></span><span>
           <?php _e("Edit Page"); ?>
           </span> </a> </li>
-        </a>
+
         <?php event_trigger('admin_content_right_sidebar_menu_list_end',$params); ?>
       </ul>
       <?php 

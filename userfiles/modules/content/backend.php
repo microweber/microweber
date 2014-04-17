@@ -429,19 +429,44 @@ function mw_make_pages_tree_sortable(){
 
 
 $(window).load(function(){
-   mw.$("#create-content-btn").hover(function(){
 
-     this.mwtooltip = mw.tooltip({
+   var create_content_btn = mwd.getElementById('create-content-btn');
+   if(create_content_btn !== null){
+     create_content_btn.mwtooltip = mw.tooltip({
        position:'bottom-center',
        content:mw.$('#create-content-menu').html(),
-       element:this
+       element:create_content_btn,
+       skin:'dark'
      });
+     create_content_btn.mwtooltip.style.display = 'none';
+   }
+
+
+   $(create_content_btn).timeoutHover(function(){
+     $(this.mwtooltip).show();
    }, function(){
-          //$(this.mwtooltip).remove()
+      if(create_content_btn.mwtooltip.originalOver === false){
+        $(this.mwtooltip).hide();
+      }
    });
+
+
+   $(create_content_btn.mwtooltip).timeoutHover(function(){
+     $(this).show();
+   }, function(){
+      if(create_content_btn.originalOver === false){
+        $(this).hide();
+      }
+   });
+
+
+
+
 })
 
 </script>
+
+
 
 <div id="create-content-menu">
 
@@ -449,8 +474,10 @@ $(window).load(function(){
       <a href="javascript:;"><span class="mw-icon-post"></span><strong>Post</strong></a>
       <a href="javascript:;"><span class="mw-icon-page"></span><strong>Page</strong></a>
       <a href="javascript:;"><span class="mw-icon-category"></span><strong>Category</strong></a>
-      <a href="javascript:;"><span class="mw-icon-product"></span><strong>Product</strong></a>
+      <a href="javascript:;"><span class="product-icon"><span class="product-icon-1"></span><span class="product-icon-2"></span><span class="product-icon-3"></span></span><strong>Product</strong></a>
   </div>
+
+
 
 </div>
 

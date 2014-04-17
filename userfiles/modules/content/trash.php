@@ -135,7 +135,7 @@ $paging_links = false;
       <label class="mw-ui-check left">
         <input name="select_delete_forever" class="select_delete_forever" type="checkbox" value="<?php print ($item['id']) ?>">
         <span></span></label>
-        <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
+        <span class="mw-icon-drag mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
         <?php
         $pic  = get_picture(  $item['id']);
 

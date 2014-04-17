@@ -202,7 +202,7 @@ function post_comment($data)
         $notif['rel_id'] = $data['rel_id'];
         $notif['title'] = "You have new comment";
         $notif['description'] = "New comment is posted on " . mw('url')->current(1);
-        $notif['content'] = mw('format')->limit($data['comment_body'], 800);
+        $notif['content'] = mw()->format->limit($data['comment_body'], 800);
         $notf_id = mw()->notifications->save($notif);
         $data['moderate'] = admin_url('view:modules/load_module:comments/mw_notif:' . $notf_id);
         $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
@@ -226,7 +226,7 @@ function post_comment($data)
 
             $message = "Hi, <br/> You have new comment posted on " . mw('url')->current(1) . ' <br /> ';
             $message .= "IP:" . MW_USER_IP . ' <br /> ';
-            $message .= mw('format')->array_to_ul($data3);
+            $message .= mw()->format->array_to_ul($data3);
             \Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
         }
 
@@ -310,7 +310,7 @@ function get_comments($params)
                 $comments[$i]['updated_on'] = date($date_format, strtotime($item['updated_on']));
             }
             if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
-                $comments[$i]['comment_body'] = mw('format')->autolink($item['comment_body']);
+                $comments[$i]['comment_body'] = mw()->format->autolink($item['comment_body']);
             }
 
             if (isset($params['single'])) {

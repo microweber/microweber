@@ -334,13 +334,24 @@ class Fields
 
                         // $it ['value'] = $it ['custom_field_value'];
                         $it['value'] = $it['custom_field_value'];
-
                         if (isset($it['custom_field_value']) and strtolower($it['custom_field_value']) == 'array') {
                             if (isset($it['custom_field_values']) and is_string($it['custom_field_values'])) {
                                 $try = base64_decode($it['custom_field_values']);
-
                                 if ($try != false and strlen($try) > 5) {
                                     $it['custom_field_values'] = unserialize($try);
+                                }
+                                if(isset($it['custom_field_values']['value'])){
+                                    $temp = $it['custom_field_values']['value'];
+                                    if(is_array($it['custom_field_values']['value'])){
+                                        $temp = array();
+                                        foreach($it['custom_field_values']['value'] as $item1){
+                                            if($item1 != false){
+                                                $item1 = explode(',',$item1);
+                                                $temp = array_merge($temp,$item1);
+                                            }
+                                        }
+                                    }
+                                    $it['custom_field_values'] = $temp;
                                 }
                             }
                         }

@@ -1031,18 +1031,19 @@ float: left;
   padding: 5px 10px;
   width: 190px;
 }
-.is_admin .mw-custom-field-form-controls{
+.mw-custom-field-form-controls{
   clear: both;
   padding: 8px 0;
+  position: relative;
 }
-.is_admin div .mw-custom-field-form-controls:first-child{
+.mw-custom-field-form-controls:first-child{
   padding-top: 0;
 }
-.is_admin div .mw-custom-field-form-controls:last-child{
+ .mw-custom-field-form-controls:last-child{
   padding-bottom: 0;
 }
 
-.is_admin .mw-custom-field-form-controls:after{
+.mw-custom-field-form-controls:after{
   content: ".";
   display: block;
   clear: both;
@@ -1051,7 +1052,7 @@ float: left;
   height: 0;
 }
 
-.is_admin .mw-custom-field-group .mw-custom-field-form-controls:first-child .mw-removefield{
+ .mw-custom-field-group .mw-custom-field-form-controls:first-child .mw-removefield{
   display: none;
 }
 
@@ -1776,18 +1777,18 @@ body.still-loading:before{
   width:100px;
   text-align: center;
 }
-.admin-modules-list-image .iMove{
+.admin-modules-list-image .mw-icon-drag{
   position: absolute;
   top: 6px;
   left: 2px;
   opacity: 0.4;
   visibility: hidden;
 }
-.admin-modules-list-image .iMove:hover{
+.admin-modules-list-image .mw-icon-drag:hover{
   opacity:1;
 }
 
-.mw-modules-admin li > .module:hover .iMove{
+.mw-modules-admin li > .module:hover .mw-icon-drag{
   visibility: visible;
 }
 

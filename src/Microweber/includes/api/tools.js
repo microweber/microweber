@@ -167,6 +167,7 @@ mw.tools = {
   },
   tooltip:{
     source:function(content, skin, position){
+        if(skin == 'dark'){var skin = 'mw-tooltip-dark'; }
         if(typeof content === 'object'){
           var content = mw.$(content).html();
         }
@@ -4214,5 +4215,36 @@ mw.image = {
       }
       return modal;
     }
-	
-	
+
+    $.fn.timeoutHover = function(ce,cl,time1,time2){
+        var time1 = time1 || 350;
+        var time2 = time2 || 350;
+        return this.each(function(){
+          var el = this;
+          el.timeoutOver = null;
+          el.timeoutLeave = null;
+          el.originalOver = false;
+          $(el).hover(function(){
+            el.originalOver = true;
+            clearTimeout(el.timeoutOver);
+            clearTimeout(el.timeoutLeave);
+            el.timeoutOver = setTimeout(function(){
+              if(typeof ce === 'function'){
+                ce.call(el);
+              }
+            }, time1);
+          }, function(){
+              el.originalOver = false;
+              clearTimeout(el.timeoutOver);
+              el.timeoutLeave = setTimeout(function(){
+                if(typeof cl === 'function'){
+                  cl.call(el);
+                }
+              }, time2);
+          });
+        });
+    }
+
+
+
+

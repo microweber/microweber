@@ -99,12 +99,62 @@ class Format
 
         return $variable;
     }
-
-    public function autolink($string)
+    public function auto_link($text)
     {
-        $string = preg_replace("#http://([\S]+?)#Uis", '<a href="http://\\1">\\1</a>', $string);
-        return $string;
+       return $this->autolink($text);
     }
+
+    //http://stackoverflow.com/a/1971451/731166
+    function autolink($text) {
+        $pattern  = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
+        return preg_replace_callback($pattern,array($this, 'auto_link_text_callback'), $text);
+    }
+
+    function auto_link_text_callback($matches) {
+        $max_url_length = 150;
+        $max_depth_if_over_length = 2;
+        $ellipsis = '&hellip;';
+
+        $url_full = $matches[0];
+        $url_short = '';
+
+        if (strlen($url_full) > $max_url_length) {
+            $parts = parse_url($url_full);
+            $url_short = $parts['scheme'] . '://' . preg_replace('/^www\./', '', $parts['host']) . '/';
+
+            $path_components = explode('/', trim($parts['path'], '/'));
+            foreach ($path_components as $dir) {
+                $url_string_components[] = $dir . '/';
+            }
+
+            if (!empty($parts['query'])) {
+                $url_string_components[] = '?' . $parts['query'];
+            }
+
+            if (!empty($parts['fragment'])) {
+                $url_string_components[] = '#' . $parts['fragment'];
+            }
+
+            for ($k = 0; $k < count($url_string_components); $k++) {
+                $curr_component = $url_string_components[$k];
+                if ($k >= $max_depth_if_over_length || strlen($url_short) + strlen($curr_component) > $max_url_length) {
+                    if ($k == 0 && strlen($url_short) < $max_url_length) {
+                        // Always show a portion of first directory
+                        $url_short .= substr($curr_component, 0, $max_url_length - strlen($url_short));
+                    }
+                    $url_short .= $ellipsis;
+                    break;
+                }
+                $url_short .= $curr_component;
+            }
+
+        } else {
+            $url_short = $url_full;
+        }
+      // return "<a rel=\"nofollow\" href=\"$url_full\" target='_blank'>$url_short</a>";
+        return "<a href=\"$url_full\" target='_blank'>$url_short</a>";
+    }
+
 
     public function ago($time, $granularity = 2)
     {
@@ -358,13 +408,7 @@ class Format
         return substr_replace($haystack, $replace, $pos, strlen($needle));
     }
 
-    public function auto_link($text)
-    {
-        $url_re = '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@';
-        $url_replacement = "<a href='$1' target='_blank'>$1</a>";
-        $text = preg_replace($url_re, $url_replacement, $text);
-        return $text;
-    }
+
 
     function prep_url($str = '')
     {
@@ -392,7 +436,7 @@ class Format
         $count1 = $num_amount / $num_total;
         $count2 = $count1 * 100;
         $count = number_format($count2, 0);
-        echo $count;
+        return $count;
     }
 
     /**

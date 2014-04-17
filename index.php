@@ -104,15 +104,20 @@ $router = new \Microweber\Router();
 // Starting Controller
 $controller = new \Microweber\Controller($application);
 
-
-// Automatically map the Router to all controller functions
-$router->map($controller);
-
-
 // Extend and override the Controller
 $controller->heldlo_world = function () {
     echo "Hello world!";
 };
+
+$controller->my_contoller =  '\Microweber\ExampleController';
+
+$router->my_contoller =  '\Microweber\ExampleController';
+
+$router->my_contoller2 =  '\Microweber\TestController';
+// Automatically map the Router to all controller functions
+$router->map($controller);
+
+
 
 // Map more complex routes with regex, the Router is using preg_match
 $controller->functions['test/route/*'] = function () {

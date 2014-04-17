@@ -45,13 +45,19 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
   <select <?php if(isset($data['options']) and is_array($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<?php endif; ?> <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>  name="<?php print $data["custom_field_name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
     <?php
 	foreach($data['custom_field_values'] as $k=>$v): ?>
-    <?php if(is_string( $k)){
+    <?php if(is_string($k)){
 	$kv =  $k;
 	} else {
 	$kv =  $v;
 	}
+	
+	 
+	
 	?>
-    <option  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $kv; ?>" <?php if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> selected="selected" <?php endif; ?> ><?php print ($v); ?></option>
+    <option  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $kv; ?>" 
+	<?php if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> selected="selected" <?php endif; ?> >
+ 
+	<?php print ($v); ?></option>
     <?php endforeach; ?>
   </select>
   

@@ -177,7 +177,8 @@ mw.askusertostay = false;
     login_to_continue:"<?php _e("Please login to continue"); ?>",
     more:"<?php _e("More"); ?>",
     templateSettingsHidden:"<?php _e("Template settings"); ?>",
-    less:"<?php _e("Less"); ?>"
+    less:"<?php _e("Less"); ?>",
+    product_added:"<?php _e("Your product is added to cart"); ?>"
   }
 
   mw.lib = {

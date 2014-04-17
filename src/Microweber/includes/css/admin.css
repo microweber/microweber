@@ -74,9 +74,12 @@ h6{
 
 .main-content-column > .mw-ui-col-container{
   padding-left: 35px;
+  background-color: white;
 }
 
-
+.main-bar-column{
+  width:100px;
+}
 
 /************************************
        Scrollbar styles
@@ -98,6 +101,11 @@ h6{
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1;
+}
+
+#main-menu li{
+  list-style: none;
 }
 
 #main-menu a{
@@ -143,18 +151,35 @@ h6{
   display: block;
   float: left;
   text-align: center;
-  width: 50%;
-  border-radius: 3px;
+  width: 47%;
+  width: calc(50% - 4px);
+  width: -webkit-calc(50% - 4px);
+  border-radius: 2px;
+  color: #B3B3B3;
+  background-color: #191919;
+  margin: 7px 7px 0 0;
 }
+.create-content-menu a:nth-child(2), .create-content-menu a:first-child{
+    margin-top: 0;
+}
+.create-content-menu a:nth-child(2n){
+  margin-right: 0;
+}
+
 .create-content-menu a:hover{
   background-color: #3F3F3F;
-  color: white;
 }
-.create-content-menu a span{
+.create-content-menu a [class*='mw-icon-']{
   font-size: 50px;
+  line-height: 50px;
   height: 40px;
   display: block;
+  color: #F5F5F5;
 }
+.create-content-menu a .product-icon{
+  margin: 10px auto 0px;
+}
+
 .create-content-menu a strong{
   font-weight: normal;
   font-size:11px;
@@ -164,14 +189,12 @@ h6{
 }
 
 
+/**/
 
-
-
-
-
-
-
-
+.manage-post-item  .mw-icon-drag{
+  cursor: move;
+  z-index:1;
+}
 
 
 
@@ -191,4 +214,21 @@ h6{
     #pages_edit_container{
       margin-left: 120px;
     }
+    body{
+      padding-top: 60px;
+    }
+    #main-bar{
+      width: 100%;
+      height: 60px;
+    }
+
+    #main-menu li{
+      float: left;
+      width: 60px;
+      height: 60px;
+    }
+    #main-menu a{
+      height: 60px;
+    }
+
 }

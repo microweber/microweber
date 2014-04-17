@@ -3113,6 +3113,11 @@ class Db
                             $cftype = 'content';
                             $cftitle = false;
                             $custom_field_to_save['custom_field_name'] = $cf_k;
+                            if(is_string($cf_k) and strtolower(trim($cf_k)) == 'price'){
+                                $cftype = $custom_field_to_save['type'] = 'price';
+                            }
+
+
                             if (is_array($cf_v)) {
                                 $cf_k_plain = $this->app->url->slug($cf_k);
                                 $cf_k_plain = $this->escape_string($cf_k_plain);

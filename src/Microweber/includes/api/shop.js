@@ -4,7 +4,7 @@ mw.require('forms.js');
 
 mw.cart = {
   add : function(selector, price, c){
-	 data = mw.form.serialize(selector);
+	 var data = mw.form.serialize(selector);
 	 if(price != undefined && data != undefined){
 		data.price= price
 	 }
@@ -13,12 +13,20 @@ mw.cart = {
 		 mw.reload_module('shop/cart');
          if(typeof c === 'function'){
            c.call(data);
-         }
+         } else {
+		  $(window).trigger('productAdded',data);	 
+		 }
+		 
+		 
+		
+		 
+		 
+		 
      });
   },
 
   remove : function($id){
-	 data = {}
+	 var data = {}
 	 data.id=$id;
      $.post(mw.settings.api_url+'remove_cart_item', data ,
      function(data) {
@@ -34,7 +42,7 @@ mw.cart = {
 
 
   qty : function($id, $qty){
-	 data = {}
+	 var data = {}
 	 data.id=$id;
 	 data.qty= $qty;
      $.post(mw.settings.api_url+'update_cart_item_qty', data ,

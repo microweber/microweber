@@ -17,9 +17,16 @@
   <div class="box-container">
     <div class="row">
       <div class="col-md-9">
+      
+      
+      
         <div class="content-header">
           <h2 class="edit page-title" field="title" rel="page">Page Title</h2>
         </div>
+        
+        <div class="edit" field="content" rel="page"></div>
+        
+        
         <div class="masonry-gallery">
           <module content-id="<?php print PAGE_ID; ?>" type="posts" />
         </div>

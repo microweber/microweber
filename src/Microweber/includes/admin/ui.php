@@ -37,6 +37,13 @@
       font-size: 35px;
     }
 
+    .demobox{
+      position: relative;
+      overflow: hidden;
+      padding: 20px 0;
+      max-width: 600px;
+    }
+
 </style>
 
 
@@ -105,13 +112,13 @@ $(window).load(function(){
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-red">Big</a>
 
     <h3>Button with icon</h3>
-    <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-website"></span>Normal</a>
+    <div class="demobox"><a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-website"></span>Normal</a></div>
     <h3>Button Navigations</h3>
-    <div class="mw-ui-btn-nav">
+<div class="demobox">    <div class="mw-ui-btn-nav">
         <a href="javascript:;" class="mw-ui-btn">Home</a>
         <a href="javascript:;" class="mw-ui-btn active">About</a>
         <a href="javascript:;" class="mw-ui-btn">Contact</a>
-    </div>
+    </div></div>
 
 
 
@@ -119,13 +126,21 @@ $(window).load(function(){
        </td>
     </tr>
     <tr>
-      <td>
+      <td colspan="2">
+         <h2>Boxes</h2>
+         <div class="demobox">
         <div class="mw-ui-box">
-          <div class="mw-ui-box-header"><span class="mw-icon-gear"></span><span>Box</span></div>
+          <div class="mw-ui-box-content">Lorem Ipsum </div>
+        </div>
+        </div>
+        <div class="demobox">
+        <div class="mw-ui-box">
+          <div class="mw-ui-box-header"><span class="mw-icon-gear"></span><span>Box with header and icon</span></div>
           <div class="mw-ui-box-content">Lorem Ipsum </div>
           </div>
+          </div>
        </td>
-      <td>Box</td>
+
     </tr>
     <tr>
         <td colspan="2">
@@ -160,14 +175,73 @@ $(window).load(function(){
       <td>Amet</td>
       <td>Dolor</td>
       <td>987987</td>
-      <td><a href="javascript:;" class="mw-ui-admin-table-show-on-hover mw-ui-btn">View on hover</a></td>
+      <td><a href="javascript:;" class="show-on-hover mw-ui-btn">View on hover</a></td>
     </tr>
   </tbody>
 </table>
         </td>
+
+
+        <tr>
+      <td colspan="2">
+            <h2>Progress Bars</h2>
+
+
+              <div class="demobox">
+              <div class="mw-ui-progress">
+                  <div style="width: 33%;" class="mw-ui-progress-bar"></div>
+                  <div class="mw-ui-progress-info">Uploading</div>
+                  <span class="mw-ui-progress-percent">33%</span>
+              </div>
+       </div>
+       <div class="demobox">
+              <div class="mw-ui-progress-small">
+                <div class="mw-ui-progress-bar" style="width: 40%">
+
+                </div>
+              </div>
+           </div>
+
+       </td>
+
+    </tr>
+
+    <tr>
+      <td colspan="2">
+         <h2>Form elements</h2>
+
+        <div class="demobox">
+            <label class="mw-ui-label">Field</label>
+            <input type="text" class="mw-ui-field" />
+        </div>
+        <div class="demobox">
+            <label class="mw-ui-label">Textarea</label>
+            <textarea class="mw-ui-field"></textarea>
+        </div>
+        <h2>Field sizes and fields with buttons</h2>
+        <div class="demobox">
+            <label class="mw-ui-label">Normal</label>
+            <input type="text" class="mw-ui-field" />
+            <span class="mw-ui-btn"><span class="mw-icon-magnify"></span>Button</span>
+        </div>
+        <div class="demobox">
+            <label class="mw-ui-label">Big</label>
+            <input type="text" class="mw-ui-field mw-ui-field-big" />
+            <span class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-magnify"></span>Button</span>
+        </div>
+        <div class="demobox">
+            <label class="mw-ui-label">Medium</label>
+            <input type="text" class="mw-ui-field mw-ui-field-medium" />
+            <span class="mw-ui-btn mw-ui-btn-medium"><span class="mw-icon-magnify"></span>Button</span>
+        </div>
+       </td>
+
+    </tr>
+
     </tr>
   </tbody>
 </table>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <div class="hr">&nbsp;</div>
 
  

@@ -192,7 +192,16 @@ if(is_array( $diff) and is_array($more) ){
     <?php foreach( $more as $field): ?>
     <tr>
       <td ondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);"><?php print $field['custom_field_name']; ?></td>
-      <td ondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);"><?php  print $field['custom_field_values_plain']; ?></td>
+      <td ondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);">
+	  <?php if($field['custom_field_values_plain'] != ''): ?>
+      
+	  <?php  print $field['custom_field_values_plain']; ?>
+      <?php elseif(is_string($field['custom_field_value']) and $field['custom_field_value'] != ''): ?>
+       <?php  print $field['custom_field_value']; ?>
+      <?php else: ?>
+      <?php // d($field); ?>
+       <?php endif; ?>
+      </td>
     </tr>
     <?php endforeach; ?>
   </tbody>

@@ -208,8 +208,8 @@ $pages_count = intval($pages);
       <label class="mw-ui-check left">
         <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<?php print ($item['id']) ?>">
         <span></span></label>
-      <span class="ico iMove mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
-	  
+      <span class="mw-icon-drag mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
+
 
 
      <?php  	$pic  = get_picture(  $item['id']);    		 ?>
