@@ -254,7 +254,7 @@ mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
   mw.$(".mw_option_field").addClass('mw-options-form-binded');
  mw.$(".mw_option_field").bind("change", function (e) {
              if(mw.notification != undefined){
-                mw.notification.success('Settings saved!');
+                mw.notification.success('<?php print _e("settings-are-saved", true) ?>');
               }
 
 
