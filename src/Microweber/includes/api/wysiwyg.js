@@ -355,7 +355,7 @@ mw.wysiwyg = {
              return true;
            }
            var sel = window.getSelection();
-           if(event.keyCode == 13) {
+           if(event.keyCode == 13) {    /*
               mw.wysiwyg.checkForTextOnlyElements(event);
               if(event.target.isContentEditable && !mw.tools.isField(event.target)){
                 var commonName = mw.wysiwyg.validateCommonAncestorContainer(sel.getRangeAt(0).commonAncestorContainer).nodeName;
@@ -369,7 +369,7 @@ mw.wysiwyg = {
                   event.preventDefault();
                   return false;
                 }
-              }
+              }  */
            }
            if(sel.rangeCount > 0){
            var r = sel.getRangeAt(0);

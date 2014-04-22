@@ -529,6 +529,25 @@ mw.askusertostay = false;
 
   }
 
+
+  api = function(action, params, callback){
+    var url = mw.settings.api_url + action;
+    var type = typeof params;
+    if(type === 'string'){
+        var obj = mw.serializeFields(params);
+    }
+    else if(type === 'object' && !jQuery.isArray(params)){
+        var obj = params;
+    }
+    else{
+      obj = {};
+    }
+    $.post(url, obj)
+        .success(function(data) { return typeof callback === 'function' ? callback.call(data) : data; })
+      //.complete(function(data) { return typeof callback === 'function' ? callback.call(data) : data; })
+        .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data; });
+  }
+
   mw.log = d = function(what) {
     if (window.console && mw.settings.debug) {
       console.log(what);
