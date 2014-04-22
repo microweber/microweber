@@ -54,7 +54,29 @@ $.fn.dataset = function(dataset, val){
   }
 }
 
+String.prototype._exec = function(a,b,c){
+  var a = a || "";
+  var b = b || "";
+  var c = c || "";
+  if(!this.contains(".")){
+    return window[this](a,b,c);
+  }
+  else{
+    var arr = this.split(".");
+    var temp = window[arr[0]];
 
+    var len = arr.length-1;
+    for(var i=1; i<=len; i++){
+        var temp = temp[arr[i]];
+        mw.log(temp);
+    }
+    return mw.is.func(temp) ? temp(a,b,c) : temp;
+  }
+}
+
+mw.exec = function(str, a,b,c){
+    return str._exec(a,b,c);
+}
 
 
 
@@ -167,6 +189,7 @@ mw.tools = {
   },
   tooltip:{
     source:function(content, skin, position){
+        if(skin == 'dark'){var skin = 'mw-tooltip-dark'; }
         if(typeof content === 'object'){
           var content = mw.$(content).html();
         }
@@ -2078,8 +2101,24 @@ mw.tools = {
                     }
                 }
           },
-          toggle:function(){
-
+          unset:function(i){
+               if(typeof i === 'number'){
+                    if($(obj.nav).eq(i).hasClass(active)){
+                        $(obj.nav).eq(i).removeClass(active);
+                        mw.$(obj.tabs).hide().eq(i).hide();
+                    }
+                }
+          },
+          toggle:function(i){
+              if(typeof i === 'number'){
+                  if($(obj.nav).eq(i).hasClass(active)){
+                    d(this)
+                      this.unset(i);
+                  }
+                  else{
+                     this.set(i);
+                  }
+              }
           }
       }
     }
@@ -4131,7 +4170,7 @@ mw.image = {
           width:600,
           height:"80%"
         });
-        mw.$(".mw-o-box", modal.container).prepend("<img id='mwimagecurrent' src='"+src+"' />");
+        mw.$(".mw-ui-box", modal.container).prepend("<img id='mwimagecurrent' src='"+src+"' />");
         mw.image.current = modal.container.querySelector("#mwimagecurrent");
 
         mw.$("textarea", modal.container).val(title);
@@ -4214,5 +4253,36 @@ mw.image = {
       }
       return modal;
     }
-	
-	
+
+    $.fn.timeoutHover = function(ce,cl,time1,time2){
+        var time1 = time1 || 350;
+        var time2 = time2 || 350;
+        return this.each(function(){
+          var el = this;
+          el.timeoutOver = null;
+          el.timeoutLeave = null;
+          el.originalOver = false;
+          $(el).hover(function(){
+            el.originalOver = true;
+            clearTimeout(el.timeoutOver);
+            clearTimeout(el.timeoutLeave);
+            el.timeoutOver = setTimeout(function(){
+              if(typeof ce === 'function'){
+                ce.call(el);
+              }
+            }, time1);
+          }, function(){
+              el.originalOver = false;
+              clearTimeout(el.timeoutOver);
+              el.timeoutLeave = setTimeout(function(){
+                if(typeof cl === 'function'){
+                  cl.call(el);
+                }
+              }, time2);
+          });
+        });
+    }
+
+
+
+

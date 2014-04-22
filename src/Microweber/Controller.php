@@ -2134,6 +2134,16 @@ class Controller
         $l = $l->__toString();
 
 
+
+        if(function_exists('get_language_file_content')){
+            $lang = get_language_file_content();
+            $out = 'mw.lang = '.json_encode($lang);
+            $l = $l . "\n".$out;
+            //d($out);
+          // print count($lang);
+        }
+
+
         /*     $api_files = array('tools.js', 'url.js','forms.js','files.js','events.js' );
              $api_files_output = '';
              foreach ($api_files as $api_file) {
@@ -2150,6 +2160,9 @@ class Controller
         $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
         $l = str_replace('{MW_SITE_URL}', $this->app->url->site(), $l);
         $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
+
+
+
         //  $l = $l.$api_files_output;
         //$l = $this->app->parser->process($l, $options = array('parse_only_vars' => 1));
         print $l;
