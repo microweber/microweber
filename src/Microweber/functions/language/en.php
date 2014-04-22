@@ -181,7 +181,6 @@ $language["edit"] = 'Edit';
 $language["soft"] = 'Soft';
 $language["go-live-edit"] = 'Go Live edit.';
 $language["select-the-menu-you-want-to-edit"] = 'Select the Menu you want to edit';
-$language["SELECT-FROM"] = 'SELECT FROM';
 $language["add-new-link"] = 'Add New Link';
 $language["add-custom-link"] = 'Add Custom Link';
 $language["url"] = 'URL';
