@@ -1231,11 +1231,11 @@ textarea.mw-ui-field{
 
 #pages_edit_container{
   position: relative;
-  width: 680px;
   -webkit-transition: left 0.4s;
   -moz-transition: left 0.4s;
   -o-transition: left 0.4s;
   transition: left 0.4s;
+  padding-right:20px;
 }
 
 #pages_edit_container > form{

@@ -332,8 +332,8 @@ $menu_name = get_option('menu_name', $params['id']);
     <small class="right" ><a href="javascript:add_new_menu();" class="mw-ui-label-help mw-ui-small">
     <?php _e("Create new nenu"); ?>
     </a> </small> </label>
-  <div class="mw-ui-select" style="width:100%">
-    <select  id="menu_selector_<?php  print $params['id'] ?>" name="menu_name" class="mw_option_field"   type="radio"  onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
+
+    <select  id="menu_selector_<?php  print $params['id'] ?>" name="menu_name" class="mw-ui-field mw_option_field"   type="radio"  onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
       <?php foreach($menus  as $item): ?>
       <?php if($active_menu == false){
 		$active_menu =   $item['title'];
@@ -341,7 +341,7 @@ $menu_name = get_option('menu_name', $params['id']);
       <option <?php  if($menu_name == $item['title'] or $menu_id == $item['id']): ?> <?php  $active_menu = $item['title'] ?> selected="selected" <?php endif; ?> value="<?php print $item['title'] ?>"><?php print ucwords(str_replace('_', ' ', $item['title'])) ?></option>
       <?php endforeach ; ?>
     </select>
-  </div>
+
   <hr>
   <label class="mw-ui-label">
     <?php _e("Select from"); ?>

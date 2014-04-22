@@ -31,7 +31,7 @@
 
 <div id="mw-order-table-holder">
   <?php if($ordert_type == 'completed' and isset($orders) and is_array($orders)) :?>
-  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
+  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
         <th><?php _e("Order ID"); ?></th>
@@ -95,7 +95,7 @@
   </table>
   <?php elseif($ordert_type == 'carts' and isset($orders) and is_array($orders)) :?>
   <label class="mw-ui-label"> Abandoned Carts Section helps you analyze why some customers aren't checking out. </label>
-  <div class="mw-ui-box" style="width: 960px;">
+  <div class="mw-ui-box">
     <div class="mw-ui-box-content">
       <div id="orders_stat" style="height: 250px;"></div>
     </div>
@@ -121,7 +121,7 @@
       }
 
       </style>
-  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960" style="table-layout: fixed">
+  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" style="table-layout: fixed">
     <thead>
       <tr>
         <td><?php _e("Cart"); ?></td>

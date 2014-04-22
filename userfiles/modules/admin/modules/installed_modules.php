@@ -9,7 +9,8 @@ $(document).ready(function(){
    
 
 
-    mw.$('#modules_categories_tree_<?php print $params['id']; ?>').prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>')
+    mw.$('#modules_categories_tree_<?php print $params['id']; ?> .fixed-side-column-container .well')
+        .prepend('<ul class="category_tree"><li><a href="#?category=0" data-category-id="0" onclick="mw.url.windowHashParam(\'category\', 0);return false;"><?php _e("All"); ?></a></li></ul>');
 
     mw.$('#modules_categories_tree_<?php print $params['id']; ?> li a').each(function(){
         var el = this;
@@ -148,16 +149,16 @@ mw.on.hashParam('installed', function(){
 
 </script>
 
-<div class="mw-ui-row" id="edit-content-row">
+<div  id="edit-content-row" class="mw-ui-row">
   <div class="mw-ui-col tree-column">
   <div class="tree-column-holder">
   <div class="fixed-side-column scroll-height-exception-master">
-    <div class="mw-admin-sidebar"><h2 class="mw-side-main-title"><span class="ico imanage-module"></span><span><?php _e("Modules"); ?></span></h2></div>
+ <h2 class="mw-side-main-title scroll-height-exception"><span class="ico imanage-module"></span><span><?php _e("Modules"); ?></span></h2>
     <div class="mw-admin-side-nav" id="modules_categories_tree_<?php print $params['id']; ?>" >
 
-      <module type="categories" data-for="modules" id="modules_admin_categories_<?php print $params['id']; ?>" />
-      <div style="padding-left: 46px">
-        <div class="vSpace"></div>
+      <div class="fixed-side-column-container"><module type="categories" data-for="modules" class="mw-ui-sidenav" id="modules_admin_categories_<?php print $params['id']; ?>" /> </div>
+
+      <div class="text-center scroll-height-exception">
         <label class="mw-ui-label"><?php _e("Show"); ?>: </label>
         <div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable installed_switcher"> <span class="mw-switch-handle"></span>
           <label><?php _e("Installed"); ?>
@@ -168,15 +169,12 @@ mw.on.hashParam('installed', function(){
           </label>
         </div>
         <div class="vSpace">&nbsp;</div>
-        <a href="javascript:mw.url.windowHashParam('install_new', 1);" class="mw-ui-btn" style="width: 147px;margin-left: -47px;"><span class="ico iplus"></span><span><?php _e("Add new modules"); ?></span></a>
+        <a href="javascript:mw.url.windowHashParam('install_new', 1);" class="mw-ui-btn"><span class="mw-icon-plus"></span><span><?php _e("Add new modules"); ?></span></a>
    <div class="vSpace">&nbsp;</div>
 
-<small  onclick="mw_reload_all_modules()" class="mw-ui-link-small"><?php _e("Reload modules"); ?></small>
+<small  onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-small"><?php _e("Reload modules"); ?></small>
 
-
-
-
-         </div>
+</div>
     </div>
   </div>
   </div>

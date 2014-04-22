@@ -131,9 +131,7 @@ mw.$("#available_providers").sortable({
 .mw-set-payment-options input[type='text'], .mw-set-payment-options textarea {
 	width:300px;
 }
-.mw-set-payment-options .mw-ui-select {
-	width: 320px;
-}
+
 .mw-set-payment-options .mw-ui-label {
 	padding-bottom: 5px;
 	padding-top: 10px;
@@ -215,22 +213,29 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 			</span>
         </div>
 		<div class="mw-ui-box-content" style="padding: 0;">
-			<div class="options-bar" style="margin-right: 0;">
-				<div class="mw-admin-side-nav">
-					<ul>
-						<li><a class="payment-tab active" href="javascript:;" style="padding: 6px;">
-							<?php _e("Payments"); ?>
-							</a></li>
-						<li><a class="payment-tab" href="javascript:;" style="padding: 6px;">
-							<?php _e("Emails for order"); ?>
-							</a></li>
-						<li><a class="payment-tab" href="javascript:;" style="padding: 6px;">
-							<?php _e("Shipping Units"); ?>
-							</a></li>
-					</ul>
-				</div>
-			</div>
-			<div style="float: right;width: 745px;" class="mw-set-payment-options">
+			<div class="mw-ui-row">
+    			<div class="mw-ui-col" style="width: 200px;">
+        			<div class="mw-ui-col-container">
+                        <div class="options-bar" style="margin-right: 0;">
+            				<div class="mw-ui-sidenav">
+            					<ul>
+            						<li><a class="payment-tab active" href="javascript:;">
+            							<?php _e("Payments"); ?>
+            							</a></li>
+            						<li><a class="payment-tab" href="javascript:;">
+            							<?php _e("Emails for order"); ?>
+            							</a></li>
+            						<li><a class="payment-tab" href="javascript:;">
+            							<?php _e("Shipping Units"); ?>
+            							</a></li>
+            					</ul>
+            				</div>
+    			        </div>
+                    </div>
+                </div>
+                <div class="mw-ui-col">
+                <div class="mw-ui-col-container">
+                    <div class="mw-set-payment-options">
 				<div class="otab" style="display: block">
 					<h2>
 						<?php _e("Payment providers"); ?>
@@ -238,18 +243,18 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 					<?php if(is_array($payment_modules )): ?>
 					<div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
 						<?php foreach($payment_modules  as $payment_module): ?>
-							<?php 
+							<?php
     			                 $module_info = (module_info($payment_module['module']));
                                  if(!isset($module_info['id']) or $module_info['id'] == false){
                                 	$module_info['id'] = 0;
                                  }
 			                ?>
 						<div class="mw-ui-box mw-ui-box-accordion mw-accordion-active" id="module-db-id-<?php print $module_info['id'] ?>">
-						
+
 							<div class="mw-ui-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
 								<div class="gateway-icon-title"> <span class="mw-icon-drag"></span> <img src="<?php print $payment_module['icon']; ?>" alt="" /> <span class="gateway-title"><?php print $payment_module['name'] ?> <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> <small class="mw-small">(disabled)</small><?php endif; ?></span></div>
-								<!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> --> 
-								
+								<!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
+
 							</div>
 							<div class="mw-ui-box-content mw-accordion-content">
 								<label class="mw-ui-label">
@@ -288,33 +293,33 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 					<?php ?>
 					<?php $cur = get_option('currency', 'payments');  ?>
 					<?php $curencies = mw('shop')->currency_get();  ?>
-					<?php if(is_array($curencies )): ?> 
-					<div class="mw-ui-select">
+					<?php if(is_array($curencies )): ?>
+					
 						<select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
 							<?php foreach($curencies  as $item): ?>
 							<option  value="<?php print $item[1] ?>" <?php if($cur == $item[1]): ?> selected="selected" <?php endif; ?>><?php print $item[1] ?> <?php print $item[3] ?> (<?php print $item[2] ?>)</option>
 							<?php endforeach ; ?>
 						</select>
-					</div>
+					
 					<?php endif; ?>
 					<module type="shop/payments/currency_render" id="mw_curr_rend" />
-                    
+
                     <div class="vSpace"></div>
-                    
-                    
-                    
+
+
+
                     <h2>Checkout URL</h2>
 					<?php ?>
 					<?php $checkout_url = get_option('checkout_url', 'shop');  ?>
-				 
+
 				 	<input name="checkout_url"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('checkout_url','shop'); ?>" placeholder="Use default"  />
 
                      <div class="vSpace"></div>
                     <h4>
 						<?php _e("Disable online shop"); ?>
 					</h4>
-					
-                    
+
+
                     <label class="mw-ui-check">
 						<input name="shop_disabled" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_disabled', 'website') != 'y'): ?> checked="checked" <?php endif; ?> >
 						<span></span><span>
@@ -325,12 +330,12 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 						<span></span><span>
 						<?php _e("Yes"); ?>
 						</span></label>
-					
+
 					<br />
 					<small>
 					<?php _e("You can aways enable it"); ?> <a class="mw-ui-link"   href="<?php  print admin_url('view:settings#option_group=shop__payments__admin'); ?>" ><?php _e("here"); ?></a></small>
-                    
-                    
+
+
 				</div>
 				<div class="otab">
 					<h2>
@@ -398,6 +403,10 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 					<module type="shop/shipping/set_units" id="mw_set_shipping_units" />
 				</div>
 			</div>
+                </div>
+                </div>
+            </div>
+
 		</div>
 	</div>
 </div>

@@ -15,8 +15,8 @@
     <label class="mw-ui-label">
       <?php _e("Show"); ?>  <?php _e("Login link"); ?>
     </label>
-    <div class="mw-ui-select" style="width: 290px;">
-      <select name="show-login-link"  class="mw_option_field">
+
+      <select name="show-login-link"  class="mw-ui-field mw_option_field">
         <option value="y" <?php if ($show_login_link != 'n'): ?> selected="selected" <?php endif ?>>
         <?php _e("Yes"); ?>
         </option>
@@ -24,6 +24,6 @@
         <?php _e("No"); ?>
         </option>
       </select>
-    </div>
+
   </div>
 </div>

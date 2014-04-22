@@ -76,13 +76,13 @@ mw.ok_import_file = function(){
   <?php if(!empty($all_pages)): ?>
   <h5>Select a page to import the content to:</h5> 
   <div class="vSpace"></div>
-  <div class="mw-ui-select">
-  <select name="import_to_page" id="mw_import_to_page_selector" style="height:auto">
+
+  <select name="import_to_page" id="mw_import_to_page_selector" class="mw-ui-field">
     <?php foreach($all_pages as $page): ?>
     <option value="<?php print $page['id']  ?>"><?php print $page['title']; ?></option>
     <?php endforeach; ?>
   </select>
-  </div> 
+
   <?php endif; ?>
   <input type="hidden" name="filename" id="mw_import_file" class="mw_import_file" />
   <div class="vSpace"></div>

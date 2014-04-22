@@ -10,6 +10,7 @@
 
 body, textarea{
   font-family: Verdana, Geneva, Arial, sans-serif;
+  font-family: Segoe UI, sans-serif;
   font-size: 13px;
 }
 
@@ -60,6 +61,20 @@ h6{
         Primary Admin Grid
 *************************************/
 
+.main-admin-row, .mw-simple-rotator{
+  max-width: 999px;
+}
+
+.mw-simple-rotator{
+  overflow: hidden;
+  position: relative;
+  padding: 20px;
+  clear: both;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box ;
+  box-sizing: border-box;
+}
+
 .fixed-side-column{
   position: fixed;
   top: 0;
@@ -80,6 +95,9 @@ h6{
 .main-bar-column{
   width:100px;
 }
+
+
+
 
 /************************************
        Scrollbar styles
@@ -108,20 +126,65 @@ h6{
   list-style: none;
 }
 
-#main-menu a{
+#main-menu > li > a{
   color: #666666;
   font-size: 13px;
   display: block;
   text-align: center;
   padding: 10px 0;
 }
+#main-menu > li{
+  margin-bottom: 10px;
+}
+
+#main-menu > li > ul > li > a{
+    color: #888;
+    text-align: center;
+    display: block;
+    padding: 5px 0;
+}
+#main-menu > li > ul > li:first-child > a{
+  padding-top: 0px;
+}
+#main-menu > li > ul > li:last-child > a{
+  padding-bottom: 10px;
+}
+
+#main-menu > li > ul > li > a:hover,
+#main-menu > li > ul > li > a:focus,
+#main-menu > li > ul > li.active{
+  color: white
+}
+
+#main-menu a strong{
+  display: block;
+  padding-top: 4px;
+  visibility: hidden;
+  color: white;
+  font-weight: normal;
+}
+#main-menu li.active{
+  background-color:#3B3B3B
+}
+
+#main-menu li:hover a strong, #main-menu li.active a strong{
+  visibility: visible;
+}
+
+#main-menu li ul{
+  display: none;
+}
+#main-menu li.active ul{
+  display: block;
+}
 
 #main-menu a [class*='mw-icon-']{
   font-size: 41px;
 }
 
-#main-menu a:hover,
-#main-menu a:focus{
+#main-menu > li.active > a,
+#main-menu > li > a:hover,
+#main-menu > li > a:focus{
   color: white;
   background: #3B3B3B;
 }
@@ -131,10 +194,6 @@ h6{
 }
 
 
-.create-content{
-  padding: 30px 0;
-  text-align: center;
-}
 
 
 /**/
@@ -144,6 +203,11 @@ h6{
 
 .create-content-menu{
   width: 175px;
+}
+
+.create-content{
+  padding: 30px 0;
+  text-align: center;
 }
 
 
@@ -203,6 +267,8 @@ h6{
 
 
 
+
+
 /************************************
         Media queries
 *************************************/
@@ -211,9 +277,10 @@ h6{
     .fixed-side-column{
       display: none;
     }
-    #pages_edit_container{
-      margin-left: 120px;
+    .admin-content-column{
+      padding: 20px;
     }
+
     body{
       padding-top: 60px;
     }

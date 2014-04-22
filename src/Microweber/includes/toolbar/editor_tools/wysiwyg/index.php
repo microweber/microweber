@@ -21,7 +21,27 @@ scaleHeight = function(){
   var pt = parseFloat(mw.$("#mw-iframe-editor-area").css("paddingTop"));
   var pb = parseFloat(mw.$("#mw-iframe-editor-area").css("paddingBottom"));
   var h = $(window).height() - mw.$("#mw-admin-text-editor").outerHeight() - pt - pb - 4;
-  mw.$("#mw-iframe-editor-area").height(h)
+  mw.$("#mw-iframe-editor-area").height(h);
+
+}
+
+_test = function(){
+  scaleHeight = function(){};
+  mw.$("#mw-iframe-editor-area").height('auto');
+  parent.mw.$('iframe[name="'+window.name+'"]')[0].style.height =  $(document.body)[0].scrollHeight  + 'px';
+  mw.$("#mw-admin-text-editor").hide();
+  mw.$("#mw-iframe-editor-area,#the_admin_editor").css({border:'none',padding:0});
+
+  var sel = window.getSelection();
+  var ed = mw.$('#mw-admin-text-editor');
+  if(!sel.isCollapsed){
+    var off = sel.getRangeAt(0).getBoundingClientRect();
+    ed.width(335).show().css({position:'absolute', top:off.top - ed.height() - 7, left:off.left,border:'1px solid #ccc','boxShadow':'none'});
+  }
+  else{
+     //ed.show().width('100%').css({position:'fixed', top:0, left:0,border:'','boxShadow':''});
+     ed.hide();
+  }
 }
 
 PrepareEditor = function(){
@@ -29,6 +49,8 @@ PrepareEditor = function(){
      HOLD = false;
      edmwdoc = mw.tools.parseHtml('');
      mw.on.DOMChange(mwd.getElementById('mw-iframe-editor-area'), function(){
+         _test()
+
           el = $(this);
           typeof HOLD === 'number' ? clearTimeout(HOLD) : '';
           HOLD = setTimeout(function(){
@@ -47,6 +69,7 @@ $(window).load(function(){
 
 
 scaleHeight();
+_test();
     __area = mwd.getElementById('mw-iframe-editor-area');
    $(window).resize(function(){
    scaleHeight()
@@ -77,6 +100,7 @@ $(".module").attr("contentEditable", false);
 $(".edit").attr("contentEditable", true);
 
 $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectstart', function(e){
+  _test()
   var el= $(e.target);
   if(mw.tools.hasClass(e.target.className, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
     e.preventDefault();

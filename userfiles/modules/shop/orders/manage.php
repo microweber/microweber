@@ -71,7 +71,7 @@
 
             ?>
 
-<div class="mw-table-sorting-controller" style="width: 960px;">
+<div class="mw-table-sorting-controller">
 	<h2 class="mw-side-main-title left" style="padding-top: 0;margin-right: 20px;"><span class="ico iorder-big"></span><span>
 		<?php _e("Orders List"); ?>
 		</span></h2>

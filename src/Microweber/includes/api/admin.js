@@ -13,7 +13,7 @@ mw.admin = {
       mw.admin.contentScrollBoxHeightMinus = 0, exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
       if( !exceptor ) {  return $(window).height(); }
       mw.$('.scroll-height-exception', exceptor).each(function(){
-        mw.admin.contentScrollBoxHeightMinus = mw.admin.contentScrollBoxHeightMinus + $(this).outerHeight();
+        mw.admin.contentScrollBoxHeightMinus = mw.admin.contentScrollBoxHeightMinus + $(this).outerHeight(true);
       });
       return $(window).height() - mw.admin.contentScrollBoxHeightMinus;
     },

@@ -47,8 +47,8 @@ mw.load_quick_cat_edit = function($id){
 		<label class="mw-ui-label">
 			<?php _e("Show Categories From"); ?>
 		</label>
-		<div class="mw-ui-select" style="width: 100%">
-			<select name="data-content-id" class="mw_option_field">
+		
+			<select name="data-content-id" class="mw-ui-field mw_option_field">
 				<option value="0"   <?php if((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?> title="<?php _e("None"); ?>">
 				<?php _e("None"); ?>
 				</option>
@@ -71,7 +71,7 @@ $pt_opts['include_categories'] =true;
 
           ?>
 			</select>
-		</div>
+		
 	</div>
 	<div class="tab semi_hidden">
 		<module type="admin/modules/templates"  />

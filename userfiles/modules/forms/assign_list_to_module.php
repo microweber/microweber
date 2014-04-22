@@ -49,8 +49,8 @@ $data = get_form_lists('order_by=created_on desc&module_name='.$params['for-modu
 
 <div id="form_dropdown_lists">
   <label class="mw-ui-label"><?php _e("Save form entires to existing list"); ?></label>
-  <div class="mw-ui-select left" style="width: 250px;">
-    <select name="list_id"   class="mw_option_field" option-group="<?php print $params['for-module-id'] ?>"  >
+
+    <select name="list_id"   class="mw-ui-field mw_option_field" option-group="<?php print $params['for-module-id'] ?>"  >
 
 <option value="" <?php if(intval($selected_list) == 0): ?>   selected="selected"  <?php endif; ?>><?php _e("Default list"); ?></option>
 
@@ -58,7 +58,7 @@ $data = get_form_lists('order_by=created_on desc&module_name='.$params['for-modu
       <option    value="<?php print $item['id'] ?>"  <?php if((intval($selected_list) == intval($item['id']))): ?>   selected="selected"  <?php endif; ?>><?php print $item['title'] ?></option>
       <?php endforeach ; ?>
     </select>
-  </div>
+ 
   <div class="left">&nbsp;&nbsp;&nbsp;<strong><?php _e("or"); ?></strong>&nbsp;&nbsp;&nbsp;
     <button class="mw-ui-btn" onclick="mw.$('.mw_create_new_forms_list<?php print $rand; ?>, #form_dropdown_lists').toggle()"><?php _e("Create New"); ?></button>
   </div>

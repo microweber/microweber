@@ -27,12 +27,12 @@ $(document).ready(function(){
 </script>
 
 
-<div class="mw-simple-rotator" style="width: 960px;padding: 20px;">
+<div class="mw-simple-rotator">
     <div class="mw-simple-rotator-container" id="clients-rotator">
 
 <module id="mw-clients-orders" type="shop/orders/clients" />
 
-<div id="mw-clientorder" style="width: 960px;"></div>
+<div id="mw-clientorder"></div>
 
     </div>
 </div>

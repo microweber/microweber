@@ -500,9 +500,9 @@ $global_template = get_option('current_template', 'template');
 		<label class="mw-ui-label">
 			<?php _e("Template");   ?>
 		</label>
-		<div class="mw-ui-select" style="width: 200px">
+		
 			<?php if($templates != false and !empty($templates)): ?>
-			<select name="active_site_template" id="active_site_template_<?php print $rand; ?>">
+			<select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="mw-ui-field">
 				<?php foreach($templates as $item): ?>
 				<?php
 				 if($global_template != 'default' and $item['dir_name'] == 'default'){
@@ -522,7 +522,7 @@ $global_template = get_option('current_template', 'template');
 				<?php endforeach; ?>
 			</select>
 			<?php endif; ?>
-		</div>
+	
 	</div>
 	<?php endif; ?>
 	<?php 

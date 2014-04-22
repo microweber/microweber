@@ -2,7 +2,7 @@
 
 <style scoped="scoped">
     #ui-info-table{
-      width: 80%;
+      width: 100%;
       border: 1px solid #eee;
       margin: auto;
       border-collapse: collapse
@@ -34,7 +34,7 @@
       padding: 3px 0 10px 0;
     }
     #info-icon-list li span{
-      font-size: 35px;
+      font-size: 41px;
     }
 
     .demobox{
@@ -42,6 +42,11 @@
       overflow: hidden;
       padding: 20px 0;
       max-width: 600px;
+    }
+
+    .demof1 .demobox .mw-ui-field{
+      float: left;
+      margin-right: 6px;
     }
 
 </style>
@@ -121,7 +126,28 @@ $(window).load(function(){
     </div></div>
 
 
+        <h3>Button Tabs Navigations</h3>
+        <div class="demobox" id="demotabsnav">
+            <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+                <a href="javascript:;" class="mw-ui-btn active">Home</a>
+                <a href="javascript:;" class="mw-ui-btn">About</a>
+                <a href="javascript:;" class="mw-ui-btn">Contact</a>
+            </div>
+            <div class="mw-ui-box">
+              <div class="mw-ui-box-content">Home - Lorem Ipsum </div>
+              <div class="mw-ui-box-content" style="display: none">About - Lorem Ipsum </div>
+              <div class="mw-ui-box-content" style="display: none">Contact - Lorem Ipsum </div>
+        </div>
 
+
+        <script>
+            $(document).ready(function(){
+               mw.tabs({
+                  nav:'#demotabsnav .mw-ui-btn-nav-tabs a',
+                  tabs:'#demotabsnav .mw-ui-box-content'
+               });
+            });
+        </script>
 
        </td>
     </tr>
@@ -213,27 +239,48 @@ $(window).load(function(){
         <div class="demobox">
             <label class="mw-ui-label">Field</label>
             <input type="text" class="mw-ui-field" />
+
         </div>
         <div class="demobox">
             <label class="mw-ui-label">Textarea</label>
             <textarea class="mw-ui-field"></textarea>
         </div>
+        <div class="demobox">
+            <label class="mw-ui-check"><input type="checkbox" checked="checked" /><span></span><span>Checkbox</span></label>
+            <label class="mw-ui-check"><input type="checkbox" /><span></span><span>Checkbox</span></label>
+        </div>
+        <div class="demobox">
+            <label class="mw-ui-check"><input type="radio" checked="checked" name="demonameradio" /><span></span><span>Radio</span></label>
+            <label class="mw-ui-check"><input type="radio" name="demonameradio" /><span></span><span>Radio</span></label>
+        </div>
         <h2>Field sizes and fields with buttons</h2>
+        <div class="demof1">
+        <div class="demobox">
+            <label class="mw-ui-label">Small</label>
+            <input type="text" class="mw-ui-field mw-ui-field-small" />
+            <select class="mw-ui-field mw-ui-field-small"><option>Option 1</option><option>Option 2</option></select>
+            <span class="mw-ui-btn mw-ui-btn-small"><span class="mw-icon-magnify"></span>Button</span>
+        </div>
+        <div class="demobox">
+            <label class="mw-ui-label">Medium</label>
+            <input type="text" class="mw-ui-field mw-ui-field-medium" />
+            <select class="mw-ui-field mw-ui-field-medium"><option>Option 1</option><option>Option 2</option></select>
+            <span class="mw-ui-btn mw-ui-btn-medium"><span class="mw-icon-magnify"></span>Button</span>
+        </div>
         <div class="demobox">
             <label class="mw-ui-label">Normal</label>
             <input type="text" class="mw-ui-field" />
+            <select class="mw-ui-field"><option>Option 1</option><option>Option 2</option></select>
             <span class="mw-ui-btn"><span class="mw-icon-magnify"></span>Button</span>
         </div>
         <div class="demobox">
             <label class="mw-ui-label">Big</label>
             <input type="text" class="mw-ui-field mw-ui-field-big" />
+            <select class="mw-ui-field mw-ui-field-big"><option>Option 1</option><option>Option 2</option></select>
             <span class="mw-ui-btn mw-ui-btn-big"><span class="mw-icon-magnify"></span>Button</span>
         </div>
-        <div class="demobox">
-            <label class="mw-ui-label">Medium</label>
-            <input type="text" class="mw-ui-field mw-ui-field-medium" />
-            <span class="mw-ui-btn mw-ui-btn-medium"><span class="mw-icon-magnify"></span>Button</span>
         </div>
+
        </td>
 
     </tr>

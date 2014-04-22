@@ -117,7 +117,7 @@ if(isset($_COOKIE['recommend']) and isset($modules) and is_array($modules)){
 <script type="text/javascript">
 
     Modules_List_<?php print $mod_obj_str ?> = {}
-
+     
 </script>
 
 <ul class="modules-list list-<?php print $mod_obj_str ?>">

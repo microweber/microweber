@@ -54,7 +54,29 @@ $.fn.dataset = function(dataset, val){
   }
 }
 
+String.prototype._exec = function(a,b,c){
+  var a = a || "";
+  var b = b || "";
+  var c = c || "";
+  if(!this.contains(".")){
+    return window[this](a,b,c);
+  }
+  else{
+    var arr = this.split(".");
+    var temp = window[arr[0]];
 
+    var len = arr.length-1;
+    for(var i=1; i<=len; i++){
+        var temp = temp[arr[i]];
+        mw.log(temp);
+    }
+    return mw.is.func(temp) ? temp(a,b,c) : temp;
+  }
+}
+
+mw.exec = function(str, a,b,c){
+    return str._exec(a,b,c);
+}
 
 
 
@@ -2079,8 +2101,24 @@ mw.tools = {
                     }
                 }
           },
-          toggle:function(){
-
+          unset:function(i){
+               if(typeof i === 'number'){
+                    if($(obj.nav).eq(i).hasClass(active)){
+                        $(obj.nav).eq(i).removeClass(active);
+                        mw.$(obj.tabs).hide().eq(i).hide();
+                    }
+                }
+          },
+          toggle:function(i){
+              if(typeof i === 'number'){
+                  if($(obj.nav).eq(i).hasClass(active)){
+                    d(this)
+                      this.unset(i);
+                  }
+                  else{
+                     this.set(i);
+                  }
+              }
           }
       }
     }

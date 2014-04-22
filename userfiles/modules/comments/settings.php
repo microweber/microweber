@@ -196,8 +196,8 @@
               <?php if(get_option('set_paging', 'comments')=='y'): ?>   checked="checked"  <?php endif; ?>
             />
                     <span></span><span><?php _e("Set paging in the comments"); ?></span> </label>
-                  <div option-group="comments" name="comments_per_page" parent-reload="true" class="mw-ui-select right" style="min-width: 70px;">
-                    <select name="paging" parent-reload="true" option-group="comments" parent-reload="true" class="mw_option_field">
+                  <div option-group="comments" name="comments_per_page" parent-reload="true" class="right" style="min-width: 70px;">
+                    <select name="paging" parent-reload="true" option-group="comments" parent-reload="true" class="mw-ui-field mw_option_field">
                     
                       <?php
         $per_page = get_option('paging', 'comments');

@@ -22,7 +22,7 @@ $(document).ready(function(){
     <small>
     <?php _e("You can set the default language for your website."); ?>
     </small> </label>
-  <div class="mw-ui-select">
+
     <?php
         $def_language = get_option('language','website');
 
@@ -30,7 +30,7 @@ if($def_language == false){
   $def_language = 'en';
 }
     ?>
-    <select id="user_lang" name="language" class="mw_option_field"    option-group="website" data-also-reload="settings/group/language_edit">
+    <select id="user_lang" name="language" class="mw-ui-field mw_option_field"    option-group="website" data-also-reload="settings/group/language_edit">
       <option disabled="disabled">Select Language...</option>
       <option value="en" <?php if($def_language == 'en' or $def_language == false or $def_language == ''): ?> selected="" <?php endif; ?>>English</option>
       <option value="ar" <?php if($def_language == 'ar' or $def_language == false): ?> selected="" <?php endif; ?> >Arabic - العربية</option>
@@ -71,7 +71,7 @@ if($def_language == false){
       <option value="ur" <?php if($def_language == 'ur' or $def_language == false): ?> selected="" <?php endif; ?>>Urdu - اردو</option>
       <option value="ps" <?php if($def_language == 'ps' or $def_language == false): ?> selected="" <?php endif; ?>>Pashto - پښتو</option>
     </select>
-  </div>
+
   <?php
 
 

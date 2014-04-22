@@ -25,13 +25,13 @@ if($payment_currency_rate != false){
 <h2>
 	<?php _e("Accept payments in currency"); ?>
 </h2>
-<div class="mw-ui-select">
+
 	<select name="payment_currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
 		<?php foreach($curencies  as $item): ?>
 		<option  value="<?php print $item ?>" <?php if($payment_currency == $item): ?> selected="selected" <?php endif; ?>><?php print $item ?></option>
 		<?php endforeach ; ?>
 	</select>
-</div>
+
 <br />
 <small>
 <?php _e("You must use one of the above currencies to accept payments"); ?>

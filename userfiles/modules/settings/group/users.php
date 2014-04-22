@@ -96,12 +96,12 @@ mw.tools.tabGroup({
 <div class="<?php print $config['module_class'] ?>">
   <?php  $curent_val = get_option('enable_user_registration','users'); ?>
   <label class="mw-ui-label"><?php _e("Enable User Registration"); ?></label>
-  <div class="mw-ui-select">
-    <select name="enable_user_registration" class="mw_option_field"   type="text" option-group="users">
+
+    <select name="enable_user_registration" class="mw-ui-field mw_option_field"   type="text" option-group="users">
       <option value="y" <?php if($curent_val == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
       <option value="n" <?php if($curent_val == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
     </select>
-  </div>
+
 
  <div class="vSpace"></div>
 
@@ -307,12 +307,12 @@ mw.tools.tabGroup({
   $enable_user_yahoo_registration = 'n';
  }
   ?>
-  <div class="mw-ui-select">
-    <select name="enable_user_yahoo_registration" class="mw_option_field"   type="text" option-group="users" data-refresh="settings/group/users">
+
+    <select name="enable_user_yahoo_registration" class="mw-ui-field mw_option_field"   type="text" option-group="users" data-refresh="settings/group/users">
       <option value="y" <?php if($enable_user_yahoo_registration == 'y'): ?> selected="selected" <?php endif; ?>>Yes</option>
       <option value="n" <?php if($enable_user_yahoo_registration == 'n'): ?> selected="selected" <?php endif; ?>>No</option>
     </select>
-  </div>
+
   <div class="vSpace"></div>
   <div class="vSpace"></div>
   <?php if($enable_user_yahoo_registration == 'y'): ?>

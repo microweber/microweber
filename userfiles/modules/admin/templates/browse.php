@@ -77,8 +77,8 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
 <?php  if(is_array( $templates)): ?>
 
 <label class="mw-ui-label"><?php _e("Set default skin for the whole website"); ?></label>
-<div class="mw-ui-select left" style="width: 30%;margin-right:20px;">
-  <select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
+
+  <select name="data-template"     class="mw-ui-field mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
     <option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
     <?php  foreach($templates as $item):	 ?>
     <?php if((strtolower($item['name']) != 'default')): ?>
@@ -86,7 +86,7 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
     <?php endif; ?>
     <?php endforeach; ?>
   </select>
-</div>
+
 <a class="mw-ui-btn mw-ui-btn-green" href="javascript:;"><?php _e("Get more templates"); ?></a>
 <div class="mw-admin-templates-browse-holder">
   <?php if(is_array($templates )): ?>

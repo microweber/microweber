@@ -109,8 +109,8 @@ if (isset($params['backend']) == true): ?>
                        type="radio" <?php if ($display_comments_from == 'current'): ?>  checked="checked" <?php endif ?> />
                 <span></span> </label>
 
-            <div class="mw-ui-select" style="width: 290px;">
-                <select name="display_comments_from_which_post" id="post_select" class="mw_option_field">
+ 
+                <select name="display_comments_from_which_post" id="post_select" class="mw-ui-field mw_option_field">
                     <option
                         value="current_post" <?php if ($display_comments_from_which_post == 'current_post'): ?> selected="selected" <?php endif ?>>
                         <?php _e("Current Post"); ?>
@@ -127,7 +127,7 @@ if (isset($params['backend']) == true): ?>
                     print $html;
                     ?>
                 </select>
-            </div>
+          
         </div>
         <div class="mw-ui-field-holder">
             <label class="mw-ui-check">

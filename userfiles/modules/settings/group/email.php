@@ -64,8 +64,8 @@ mw.email_send_test = function(){
 	$email_transport = 'php';
  }
   ?>
-				<div class="mw-ui-select">
-					<select name="email_transport" class="mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
+
+					<select name="email_transport" class="mw-ui-field mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
 						<option value="php" <?php if($email_transport == 'php'): ?> selected="selected" <?php endif; ?>>
 						<?php _e("PHP mail function"); ?>
 						</option>
@@ -82,7 +82,7 @@ mw.email_send_test = function(){
 						<?php _e("SMTP server"); ?>
 						</option>
 					</select>
-				</div>
+
 				<div class="vSpace"></div>
 				<?php if($email_transport == 'smtp' or $email_transport == 'gmail' or $email_transport == 'yahoo' or $email_transport == 'hotmail' or $email_transport == 'smtp'): ?>
 				<label class="mw-ui-label"><?php print ucfirst($email_transport); ?>
@@ -122,8 +122,8 @@ mw.email_send_test = function(){
 					<?php _e("Enable SMTP authentication"); ?>
 				</label>
 				<?php  $email_smtp_auth = get_option('smtp_auth','email'); ?>
-				<div class="mw-ui-select">
-					<select name="smtp_auth" class="mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
+				
+					<select name="smtp_auth" class="mw-ui-field mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
 						<option value="n" <?php if($email_smtp_auth == 'n'): ?> selected="selected" <?php endif; ?>>
 						<?php _e("No"); ?>
 						</option>
@@ -131,14 +131,14 @@ mw.email_send_test = function(){
 						<?php _e("Yes"); ?>
 						</option>
 					</select>
-				</div>
+				
 				<div class="vSpace"></div>
 				<label class="mw-ui-label">
 					<?php _e("Enable SMTP Secure Method"); ?>
 				</label>
 				<?php  $email_smtp_secure = get_option('smtp_secure','email'); ?>
-				<div class="mw-ui-select">
-					<select name="smtp_secure" class="mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
+
+					<select name="smtp_secure" class="mw-ui-field mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
 						<option value="0" <?php if($email_smtp_secure == ''): ?> selected="selected" <?php endif; ?>>
 						<?php _e("None"); ?>
 						</option>
@@ -149,7 +149,7 @@ mw.email_send_test = function(){
 						<?php _e("TLS"); ?>
 						</option>
 					</select>
-				</div>
+
 				<?php endif; ?>
 				<div class="vSpace"></div>
 				<table width=" 100%" border="0" id="test_eml_toggle"  class="mw-ui-box mw-ui-box-content" style="display:none;background: white;">

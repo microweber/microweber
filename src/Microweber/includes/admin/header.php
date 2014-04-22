@@ -110,17 +110,47 @@
  ?>
 
 <div id="mw-admin-container">
-    <div class="mw-ui-row main-admi-row">
+    <div class="mw-ui-row main-admin-row">
       <div class="mw-ui-col main-bar-column">
           <div id="main-bar">
 
 
               <ul id="main-menu">
-                  <li><a href="<?php print $past_page; ?>?editmode=y" title=""><span class="mw-icon-live"></span></a></li>
-                  <li><a href="<?php print admin_url(); ?>view:content" title=""><span class="mw-icon-website"></span></a></li>
-                  <li><a href="<?php print admin_url(); ?>view:shop" title=""><span class="mw-icon-shop"></span></a></li>
-                  <li><a href="<?php print admin_url(); ?>view:modules" title=""><span class="mw-icon-module"></span></a></li>
-                  <li><a href="<?php print admin_url(); ?>view:settings" title=""><span class="mw-icon-gear"></span></a></li>
+                  <li>
+                    <a href="<?php print $past_page; ?>?editmode=y" title="">
+                        <span class="mw-icon-live"></span>
+                        <strong>Live Edit</strong>
+                    </a>
+                  </li>
+                  <li class="active">
+                    <a href="<?php print admin_url(); ?>view:content" title="">
+                        <span class="mw-icon-website"></span>
+                        <strong>Website</strong>
+                    </a>
+                    <ul>
+                      <li><a href="javascript:;">Pages</a></li>
+                      <li><a href="javascript:;">Post</a></li>
+                      <li><a href="javascript:;">Categories</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="<?php print admin_url(); ?>view:shop" title="">
+                      <span class="mw-icon-shop"></span>
+                      <strong>My Shop</strong>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="<?php print admin_url(); ?>view:modules" title="">
+                        <span class="mw-icon-module"></span>
+                        <strong>Modules</strong>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="<?php print admin_url(); ?>view:settings" title="">
+                        <span class="mw-icon-gear"></span>
+                        <strong>Settings</strong>
+                    </a>
+                  </li>
               </ul>
           </div>
       </div>

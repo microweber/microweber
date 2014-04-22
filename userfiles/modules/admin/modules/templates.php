@@ -55,9 +55,11 @@ if($cur_template == false){
  
  
  
- 
+
 <label class="mw-ui-label"><?php _e("Current Skin / Template"); ?></label>
-<div class="mw-ui-select" style="width: 100%"><select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
+
+
+<select name="data-template" class="mw-ui-field mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
 
 <option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
 
@@ -108,7 +110,7 @@ $possible_dir = $template_dir . DS . 'modules' . DS .$mod_name .DS;
  <?php endforeach; ?>
 <?php endif; ?>
 
-</select></div>
+</select>
 
 
 <label class="mw-ui-label">

@@ -110,17 +110,17 @@
 
     <tr>
       <td>
-        <div class="mw-ui-select">
-          <select >
+
+          <select class="mw-ui-field">
             <option value="dropdown" selected="selected">Dropdown</option>
           </select>
-       </div>
+ 
     </td>
-      <td><textarea><div class="mw-ui-select">
-          <select>
+      <td><textarea>
+          <select class="mw-ui-field">
             <option value="dropdown" selected="selected">Dropdown</option>
           </select>
-       </div></textarea></td>
+       </textarea></td>
     </tr>
     <tr>
     <td>

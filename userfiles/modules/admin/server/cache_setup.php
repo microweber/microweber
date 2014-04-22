@@ -10,15 +10,15 @@
 $memcache_enabled = extension_loaded('memcache');
  
   ?>
-<div class="mw-ui-select">
-  <select name="enable_server_cache_storage" class="mw_option_field"   type="text" option-group="server" option-type="static" data-refresh="<?php print $params['module'] ?>">
+
+  <select name="enable_server_cache_storage" class="mw-ui-field mw_option_field"   type="text" option-group="server" option-type="static" data-refresh="<?php print $params['module'] ?>">
     <option value="default" <?php if($enable_server_cache_storage == 'default'): ?> selected="selected" <?php endif; ?>><?php _e("Files Cache"); ?></option>
      <option value="apc" <?php if($enable_server_cache_storage == 'apc'): ?> selected="selected" <?php endif; ?>><?php _e("APC Cache"); ?></option>
     <?php if($memcache_enabled): ?>
     <option value="memcache" <?php if($enable_server_cache_storage == 'memcache'): ?> selected="selected" <?php endif; ?>><?php _e("Memcache Server"); ?></option>
     <?php endif ?>
   </select>
-</div>
+
 <div class="vSpace"></div>
 <?php if($memcache_enabled and $enable_server_cache_storage == 'memcache'): ?>
 <label class="mw-ui-label-inline"><?php _e("Memcache servers"); ?></label>

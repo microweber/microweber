@@ -47,21 +47,21 @@ $rand = uniqid(); ?>
 
 
 <label class="mw-ui-label"><?php _e("Content type"); ?></label>
-<div class="mw-ui-select" style="width: 100%;">
-  <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"  class="mw_option_field"  onchange="mw_reload_content_mod_window()"  >
+
+  <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"  class="mw-ui-field mw_option_field"  onchange="mw_reload_content_mod_window()"  >
     <option  <?php if(('' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Choose content type"); ?></option>
     <option  value="page"    <?php if(('page' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Pages"); ?></option>
     <option  value="post"    <?php if(('post' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Posts"); ?></option>
     <option  value="product"    <?php if(('product' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Product"); ?></option>
     <option  value="none"   <?php if(('none' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("None"); ?></option>
   </select>
-</div>
+
 <?php endif; ?>
 <?php if(!isset($set_content_type) or $set_content_type != 'none') :  ?>
 <div class="mw-ui-field-holder">
 <label class="mw-ui-label"><?php _e("Display"); ?> <?php print ($set_content_type) ?>  <?php _e("from page"); ?></label>
-<div class="mw-ui-select" style="width: 100%;">
-  <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field" onchange="mw_reload_content_mod_window()"   >
+
+  <select name="data-page-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw-ui-field mw_option_field" onchange="mw_reload_content_mod_window()"   >
     <option  value="current_page"    <?php if(('current_page' == ($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>--<?php _e("Current page"); ?></option>
 
     <option  value="0"    <?php if($posts_parent_page != 'current_page' and (0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>><?php _e("All pages"); ?></option>
@@ -87,7 +87,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
   ?>
   </select>
-</div>
+
 </div>
 
 <?php if($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
@@ -95,8 +95,8 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
 
 <div class="mw-ui-field-holder">
 <label class="mw-ui-label"><?php _e("Show only from category"); ?></label>
-<div class="mw-ui-select" style="width: 100%;">
-  <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw_option_field"   data-also-reload="<?php print  $config['the_module'] ?>"    >
+
+  <select name="data-category-id" id="the_post_data-page-id<?php print  $rand ?>"  class="mw-ui-field mw_option_field"   data-also-reload="<?php print  $config['the_module'] ?>"    >
 
     <option  value=''  <?php if((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>><?php _e("Select a category"); ?></option>
 
@@ -114,7 +114,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
   	      <option  value='0'  <?php if((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>--<?php _e("None"); ?></option>
 
   </select>
-</div>
+
 </div>
 <?php endif; ?>
 <?php $show_fields =  get_option('data-show', $params['id']);
@@ -230,8 +230,8 @@ $show_fields = array();
       <?php $ord_by = get_option('data-order-by', $params['id']); ?>
       <span></span><span><?php _e("Order by"); ?></span></label>
     <div class="left">
-      <div class="mw-ui-select" >
-        <select name="data-order-by"   class="mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"   >
+      
+        <select name="data-order-by"   class="mw-ui-field mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>"   >
           <option  value=""    <?php if((0 == intval($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?> (ASC)</option>
           <option  value="position asc"    <?php if(('position asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Position"); ?> (DESC)</option>
           <option  value="created_on desc"    <?php if(('created_on desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Date"); ?> (ASC)</option>
@@ -239,7 +239,7 @@ $show_fields = array();
           <option  value="title asc"    <?php if(('title asc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Title"); ?> (ASC)</option>
           <option  value="title desc"    <?php if(('title desc' == trim($ord_by))): ?>   selected="selected"  <?php endif; ?>><?php _e("Title"); ?> (DESC)</option>
         </select>
-      </div>
+     
     </div>
   </li>
 </ul>

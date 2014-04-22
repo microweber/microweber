@@ -72,8 +72,8 @@ btn_action = function(){
     <label class="mw-ui-label">
       <?php _e("Action"); ?>
     </label>
-    <div class="mw-ui-select">
-      <select class="mw_option_field" id="action"  name="button_action">
+   
+      <select class="mw-ui-field mw_option_field" id="action"  name="button_action">
         <option <?php if($action==''){ print 'selected'; } ?> value="">
         <?php _e("None"); ?>
         </option>
@@ -84,7 +84,7 @@ btn_action = function(){
         <?php _e("Open a pop-up window"); ?>
         </option>
       </select>
-    </div>
+   
   </div>
   <div id="editor_holder">
     <textarea  class="mw_option_field"  name="popupcontent" style="height: 400px;"><?php print $popupcontent; ?></textarea>
@@ -107,8 +107,8 @@ btn_action = function(){
     <label class="mw-ui-label">
       <?php _e("Color"); ?>
     </label>
-    <div class="mw-ui-select">
-      <select  class="mw_option_field"  name="button_style">
+    
+      <select  class="mw-ui-field mw_option_field"  name="button_style">
         <option <?php if($style==''){ print 'selected'; } ?> value="">
         <?php _e("Default"); ?>
         </option>
@@ -131,14 +131,14 @@ btn_action = function(){
         <?php _e("Simple"); ?>
         </option>
       </select>
-    </div>
+
   </div>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
       <?php _e("Size"); ?>
     </label>
-    <div class="mw-ui-select">
-      <select  class="mw_option_field"  name="button_size">
+    
+      <select  class="mw-ui-field mw_option_field"  name="button_size">
         <option <?php if($size==''){ print 'selected'; } ?> value="">
         <?php _e("Default"); ?>
         </option>
@@ -152,6 +152,6 @@ btn_action = function(){
         <?php _e("Mini"); ?>
         </option>
       </select>
-    </div>
+
   </div>
 </div>

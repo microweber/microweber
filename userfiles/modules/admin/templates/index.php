@@ -19,7 +19,7 @@ error('parent-module-id is required');
 $cur_template = get_option('data-template', $params['parent-module-id']);
  ?><?php  if(is_array( $templates)): ?>
 <label class="mw-ui-label"><?php _e("Current Skin / Template"); ?></label>
-<div class="mw-ui-select" style="width: 100%"><select name="data-template"     class="mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
+<select name="data-template"     class="mw-ui-field mw_option_field" option_group="<?php print $params['parent-module-id'] ?>"  data-refresh="<?php print $params['parent-module-id'] ?>"  >
 
 <option  value="default"   <?php if(('default' == $cur_template)): ?>   selected="selected"  <?php endif; ?>><?php _e("Default"); ?></option>
 
@@ -28,7 +28,7 @@ $cur_template = get_option('data-template', $params['parent-module-id']);
   <option value="<?php print $item['layout_file'] ?>"   <?php if(($item['layout_file'] == $cur_template)): ?>   selected="selected"  <?php endif; ?>     > <?php print $item['name'] ?> </option>
   <?php endif; ?>
   <?php endforeach; ?>
-</select></div>
+</select>
 
 
 <label class="mw-ui-label">

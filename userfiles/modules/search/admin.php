@@ -7,8 +7,8 @@
     </ul>
     <div class="tab">
         <label class="mw-ui-label">Search in page</label>
-        <div class="mw-ui-select" style="width: 100%">
-            <select name="data-content-id" class="mw_option_field">
+  
+            <select name="data-content-id" class="mw-ui-field mw_option_field">
                 <option
                     value="0"   <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>
                     title="<?php _e("None"); ?>">All pages
@@ -23,7 +23,7 @@
                 pages_tree($pt_opts);
                 ?>
             </select>
-        </div>
+
     </div>
     <div class="tab semi_hidden">
         <module type="admin/modules/templates"/>

@@ -55,8 +55,8 @@
 		<label class="right mw-ui-label">
 			<?php _e("Show Categories from page"); ?>
 		</label>
-		<div class="left mw-ui-select" style="width: 205px;">
-			<select name="data-parent" class="mw_option_field">
+	
+			<select name="data-parent" class="mw-ui-field mw_option_field">
 				<option
                     valie="0"   <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>
 				<?php _e("None"); ?>
@@ -79,10 +79,10 @@
 				<option value="<?php print PAGE_ID; ?>">[use current page]</option>
 				<?php endif; ?>
 			</select>
-		</div>
+	
 		<span class="left label-arrow" style="margin-left: 45px;"></span>
-		<div class="right mw-ui-select" style="width: 75px; min-width: 0;">
-			<select name="include_categories" class="mw_option_field">
+	
+			<select name="include_categories" class="mw-ui-field mw_option_field">
 				<option value="y"  <?php if ('y' == $include_categories): ?>   selected="selected"  <?php endif; ?> >
 				<?php _e("Yes"); ?>
 				</option>
@@ -90,14 +90,13 @@
 				<?php _e("No"); ?>
 				</option>
 			</select>
-			<br/>
-		</div>
+
 		<div class="mw_clear vSpace"></div>
 		<label class="mw-ui-label">
 			<?php _e("Max depth"); ?>
 		</label>
-		<div class="left mw-ui-select" style="width: 100px; min-width: 0;">
-			<select name="maxdepth" class="mw_option_field">
+	
+			<select name="maxdepth" class="mw-ui-field mw_option_field">
 				<option value="none" selected>
 				<?php _e("Default"); ?>
 				</option>
@@ -106,10 +105,7 @@
                         value="<?php print $i ?>" <?php if (($i == $posts_maxdepth)): ?>   selected="selected"  <?php endif; ?>> <?php print $i ?></option>
 				<?php endfor; ?>
 			</select>
-			<br/>
-		</div>
-		<br/>
-		<br/>
+
 	</div>
 	<div class="tab semi_hidden">
 		<module type="admin/modules/templates"/>
