@@ -838,7 +838,6 @@ function mw_print_admin_backup_settings_link()
 api_expose('mw_post_update');
 function mw_post_update()
 {
-
     $a = is_admin();
     if ($a != false) {
         mw('cache')->delete('db');
@@ -852,9 +851,7 @@ function mw_post_update()
         event_trigger('mw_db_init_default');
         event_trigger('mw_db_init_modules');
         event_trigger('mw_db_init');
-
     }
-
 }
 
 

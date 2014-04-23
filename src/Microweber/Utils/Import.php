@@ -387,8 +387,9 @@ class Import
 
 
         $json = file_get_contents($filename);
-
+ 
         $rows = json_decode($json, true);
+		 
         $content_items = $rows;
         $content_items = $this->map_array($rows);
 
@@ -518,7 +519,7 @@ class Import
                             }
 
                             if ($batch_file != false and is_file($batch_file)) {
-                                unlink($batch_file);
+                                @unlink($batch_file);
                             }
                         }
                         $i++;
@@ -719,7 +720,11 @@ class Import
     {
 
 
-        $res = array();
+        if(empty($content_items)){
+		return false;	
+		}
+		
+		$res = array();
         $map_keys = array();
 
         //title keys

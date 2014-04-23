@@ -50,7 +50,7 @@ mw.cart = {
 	    mw.reload_module('shop/cart');
      });
   },
-  checkout : function(selector){
+  checkout : function(selector,callback){
        var form = mw.$(selector);
        var state = form.dataset("loading");
        if(state == 'true') return false;
@@ -76,6 +76,9 @@ mw.cart = {
                                 mw.reload_module('shop/cart');
                                 mw.$(selector+' .mw-cart-data-holder').hide();
                                 mw.response(selector,data2);
+                                if(typeof callback === 'function'){
+                                     callback.call(data2.success)
+                                }
 
 					    }  else if(parseInt(data) > 0){
 							 mw.$('[data-type="shop/checkout"]').attr('view', 'completed');
