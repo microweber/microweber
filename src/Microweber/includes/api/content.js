@@ -1,11 +1,13 @@
-mw.content = mw.content || {
+
+ mw.content = mw.content || {
       publish : function($id) {
-            master = {};
+		 
+            var master = {};
             master.id= $id;
             $(mwd.body).addClass("loading");
             mw.drag.save(mwd.getElementById('main-save-btn'), function(){
             	  $.ajax({
-                    type: 'POST',
+                    type: 'POST', 
                     url: mw.settings.site_url + 'api/content/set_published',
                     data: master,
                     datatype: "json",
@@ -30,7 +32,7 @@ mw.content = mw.content || {
             });
       },
       unpublish : function($id) {
-      	master = {};
+      	var master = {};
       	master.id= $id;
         $(mwd.body).addClass("loading");
 
