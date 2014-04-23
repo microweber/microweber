@@ -22,6 +22,7 @@ if (isset($params['module'])): ?>
     mw.require("events.js");
     mw.require("url.js");
     mw.require("tools.js");
+    mw.require("liveadmin.js");
     mw.require("forms.js");
     mw.require('wysiwyg.js');
     mw.require('options.js');

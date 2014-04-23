@@ -23,7 +23,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 }
 </script>
 <script type="text/javascript">
-
+ 
 
   if(mw.cookie.get("helpinfoliveedit") != 'false'){
      mw.helpinfo.cookie = "helpinfoliveedit";

@@ -96,8 +96,8 @@
 
 
 
-        <li><a href="<?php print admin_url('view:settings'); ?>"><span class="ico imanage-website"></span><span><?php _e("Manage Website"); ?></span></a></li>
-        <li><a href="<?php print admin_url('view:modules'); ?>"><span class="ico imanage-module"></span><span><?php _e("Manage Modules"); ?></span></a></li>
+        <li><a href="<?php print admin_url('view:settings'); ?>"><span class="mw-icon-gear"></span><span><?php _e("Manage Website"); ?></span></a></li>
+        <li><a href="<?php print admin_url('view:modules'); ?>"><span class="mw-icon-module"></span><span><?php _e("Manage Modules"); ?></span></a></li>
       </ul>
     </div>
     <div class="quick-links-case">

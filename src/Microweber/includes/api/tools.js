@@ -67,8 +67,11 @@ String.prototype._exec = function(a,b,c){
 
     var len = arr.length-1;
     for(var i=1; i<=len; i++){
+        if(typeof temp === 'undefined'){
+          break;
+          return false;
+        }
         var temp = temp[arr[i]];
-        mw.log(temp);
     }
     return mw.is.func(temp) ? temp(a,b,c) : temp;
   }
@@ -83,43 +86,7 @@ mw.exec = function(str, a,b,c){
 mw.controllers = {}
 
 
-mw.simpletabs = function(root){
-  var root = root || mwd;
-  mw.$(".mw_simple_tabs_nav", root).each(function(){
-    if(!$(this).hasClass('activated')){
-        $(this).addClass('activated')
-        if(!$(this).hasClass('by-hash')){
-            var parent = $(mw.tools.firstParentWithClass(this, 'mw_simple_tabs'));
-            parent.children(".tab").addClass("semi_hidden");
-            parent.children(".tab").eq(0).removeClass("semi_hidden");
-            $(this).find("a").eq(0).addClass("active");
-            $(this).find("a").click(function(){
-                mw.simpletab.set(this);
-                return false;
-            });
-        }
-        else{
 
-        }
-    }
-  });
-}
-
-mw.simpletab = {
-  set:function(el){
-      if(!$(el).hasClass('active')){
-        var ul = mw.tools.firstParentWithClass(el, 'mw_simple_tabs_nav');
-
-        if(ul===null || typeof ul === 'undefined' || !ul){ return false; }
-        var master = mw.tools.firstParentWithClass(ul, 'mw_simple_tabs');
-        $(ul.querySelector('.active')).removeClass('active');
-        $(el).addClass('active');
-        var index = mw.tools.index(el, ul);
-        $(master).children('.tab').addClass('semi_hidden');
-        $(master).children('.tab').eq(index).removeClass('semi_hidden');
-      }
-  }
-}
 
 mw.external_tool = function(url){
   return !url.contains("/") ? mw.settings.site_url  +  "editor_tools/" + url : url;
@@ -1145,15 +1112,12 @@ mw.tools = {
     },
     del : function(id){
         mw.tools.confirm(mw.msg.del, function(){
-
-			 if(mw.notification != undefined){
-        			 mw.notification.success('Content deleted');
-						}
-			
+		   if(mw.notification != undefined){
+               mw.notification.success('Content deleted');
+		   }
            $.post(mw.settings.site_url + "api/content/delete", {id:id}, function(data) {
               var todelete =  mw.$(".item_" + id);
                todelete.fadeOut(function(){
-				   
                    todelete.remove();
                    mw.reload_module('content/trash');
                });
@@ -1163,15 +1127,15 @@ mw.tools = {
 	del_category : function(id){
       mw.tools.confirm('Are you sure you want to delete this?', function(){
          $.post(mw.settings.site_url + "api/category/delete", {id:id}, function(data) {
-            var todelete =  mw.$(".item_" + id);
+             var todelete =  mw.$(".item_" + id);
              todelete.fadeOut(function(){
-				 
-				     	 if(mw.notification != undefined){
-        			 mw.notification.success('Category deleted');
-						}
-				 
+                 if(mw.notification != undefined){
+                    mw.notification.success('Category deleted');
+                 }
                  todelete.remove();
+                 'mw.admin.treeboxwidth'._exec();
              });
+
 		 });
       })
     },
@@ -2112,7 +2076,6 @@ mw.tools = {
           toggle:function(i){
               if(typeof i === 'number'){
                   if($(obj.nav).eq(i).hasClass(active)){
-                    d(this)
                       this.unset(i);
                   }
                   else{

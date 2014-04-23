@@ -2134,11 +2134,11 @@ class Controller
         $l = $l->__toString();
 
 
-
+ 
         if(function_exists('get_language_file_content')){
-            $lang = get_language_file_content();
-            $out = 'mw.lang = '.json_encode($lang);
-            $l = $l . "\n".$out;
+           // $lang = get_language_file_content();
+           // $out = 'mw.lang = '.json_encode($lang);
+            //$l = $l . "\n".$out;
             //d($out);
           // print count($lang);
         }

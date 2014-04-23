@@ -67,7 +67,7 @@ mw.notification.msg(this);
     }
 
     .send-your-lang a{
-      width: 165px;
+      width: 175px;
       margin: auto
     }
 

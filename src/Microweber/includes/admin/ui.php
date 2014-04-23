@@ -20,6 +20,7 @@
       padding: 20px;
       vertical-align: middle;
       cursor: default;
+      width: 150px;
     }
 
     #info-icon-list li:hover{
@@ -98,23 +99,29 @@ $(window).load(function(){
     <a href="javascript:;" class="mw-ui-btn">Normal</a>
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big">Big</a>
 
-    <h3>Blue</h3>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-blue">Small</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue">Medium</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-blue">Normal</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-blue">Big</a>
+    <h3>Invert</h3>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-invert">Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert">Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-invert">Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-invert">Big</a>
 
-    <h3>Green</h3>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green">Small</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green">Medium</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green">Normal</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-green">Big</a>
+    <h3>Info</h3>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info">Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-info">Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info">Big</a>
 
-    <h3>Red</h3>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-red">Small</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red">Medium</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-red">Normal</a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-red">Big</a>
+    <h3>Important</h3>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important">Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important">Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-important">Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-important">Big</a>
+
+    <h3>Notification</h3>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification">Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification">Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-notification">Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-notification">Big</a>
 
     <h3>Button with icon</h3>
     <div class="demobox"><a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-website"></span>Normal</a></div>
@@ -137,7 +144,8 @@ $(window).load(function(){
               <div class="mw-ui-box-content">Home - Lorem Ipsum </div>
               <div class="mw-ui-box-content" style="display: none">About - Lorem Ipsum </div>
               <div class="mw-ui-box-content" style="display: none">Contact - Lorem Ipsum </div>
-        </div>
+            </div>
+            </div>
 
 
         <script>

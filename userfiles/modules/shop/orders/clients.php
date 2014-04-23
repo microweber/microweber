@@ -1,4 +1,4 @@
-<?php 
+<?php
 only_admin_access();
 
 ?><script  type="text/javascript">
@@ -27,7 +27,7 @@ if (r1==true){
 
 ?>
 <div class="mw-table-sorting-controller">
-  <h2 class="mw-side-main-title" style="padding-top: 0"><span class="ico iusers-big"></span><span><?php _e("Clients List"); ?></span></h2>
+  <h2 class="mw-side-main-title" style="padding-top: 0"><span class="mw-icon-users"></span><span><?php _e("Clients List"); ?></span></h2>
 </div>
 
 <?php if($is_orders != 0){   ?>

@@ -30,21 +30,30 @@ mw.admin = {
             el.parentNode.style.height = newheight + 'px';
             $(el).slimscroll();
        });
+    },
+    treeboxwidth:function(){
+      var w = mw.$('.fixed-side-column').width();
+      mw.$('.tree-column').width(w);
     }
 }
 
 
 $(mwd).ready(function(){
-
-
+   mw.admin.treeboxwidth();
 });
 
 $(mww).bind('load', function(){
 
-
     mw.admin.contentScrollBox('.fixed-side-column-container');
     mw.admin.contentScrollBox('#main-menu', {color:'white'});
+    mw.admin.treeboxwidth();
 
+    mw.on.moduleReload('pages_tree_toolbar', function(){
+       mw.admin.treeboxwidth();
+       setTimeout(function(){
+           mw.admin.treeboxwidth();
+       }, 90);
+    });
 
 });
 

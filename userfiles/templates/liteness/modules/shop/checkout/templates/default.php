@@ -12,6 +12,19 @@ description: Default cart template
 
 ?>
 
+<script>
+
+complete_order = window.complete_order || function(){
+
+  mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>', function(){
+      mw.$('.mw-checkout-form').hide();
+      Alert(this);
+  });
+
+}
+
+</script>
+
 <?php if ($payment_success == false): ?>
     <div class="vSpace"></div>
     <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post"
@@ -91,7 +104,7 @@ description: Default cart template
             <?php endif; ?>
 
                 <button class="btn btn-warning mw-checkout-btn"
-                        onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
+                        onclick="complete_order();"
                         type="button"><?php _e("Complete order"); ?></button>
 
         </div>

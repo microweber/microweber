@@ -1,27 +1,32 @@
 mw.require('url.js');
 
 mw.on = mw.on || {
-  _onmodules : [],
-  _onmodules_funcs : [],
+  onmodules : {},
   moduleReload : function(id, c, trigger){
-
      if(trigger){
-          var index = mw.on._onmodules.indexOf(id);
-          if(index != -1){
-            mw.on._onmodules_funcs[index].call(mwd.getElementById(id));
+          var exists = typeof mw.on.onmodules[id] !== 'undefined';
+          if(exists){
+            var i = 0, l = mw.on.onmodules[id].length;
+            for( ; i < l; i++){
+               mw.on.onmodules[id][i].call(mwd.getElementById(id));
+            }
           }
-          return false;
+        return false;
      }
      if(mw.is.func(c)){
-       mw.on._onmodules.push(id);
-       mw.on._onmodules_funcs.push(c);
+       var exists = typeof mw.on.onmodules[id] !== 'undefined';
+       if(exists){
+          mw.on.onmodules[id].push(c);
+       }
+       else{
+         mw.on.onmodules[id] = [c];
+       }
      }
      else if(c==='off'){
-       var index = mw.on._onmodules.indexOf(id);
-       if(index != -1){
-        mw.on._onmodules.splice(index, 1);
-        mw.on._onmodules_funcs.splice(index, 1);
-       }
+        var exists = typeof mw.on.onmodules[id] !== 'undefined';
+        if(exists){
+          mw.on.onmodules[id] = [];
+        }
      }
   },
   _hashrec : {},
