@@ -3590,33 +3590,37 @@ mw.$(".mw-pin").each(function(){
 
   mw.ui.btn = {
     radionav : function(nav, btn_selector){
+
         if( mw.tools.hasClass(nav.className, 'activated') ) { return false; }
+        mw.tools.addClass(nav, 'activated');
         var btn_selector = btn_selector || ".mw-ui-btn";
         var all = nav.querySelectorAll(btn_selector), i = 0, l = all.length, el;
         for( ; i<l; i++){
+           d(all[i])
             var el = all[i];
-            el.onclick = function(){
+            $(el).bind('click', function(){
               if(!mw.tools.hasClass(this.className, 'active')){
                 var active = nav.querySelector(btn_selector + ".active");
                 if( active !== null) { mw.tools.removeClass(active, 'active'); }
                 this.className += ' active';
               }
-            }
+            });
         }
     },
     checkboxnav : function(nav){
       if( mw.tools.hasClass(nav.className, 'activated') ) { return false; }
+      mw.tools.addClass(nav, 'activated');
       var all = nav.querySelectorAll(".mw-ui-btn"), i = 0, l = all.length;
         for( ; i<l; i++){
            var el = all[i];
-            el.onclick = function(){
+            $(el).bind('click', function(){
               if(!mw.tools.hasClass(this.className, 'active')){
                 this.className += ' active';
               }
               else{
                 mw.tools.removeClass(this, 'active');
               }
-            }
+            });
         }
     }
   }

@@ -59,46 +59,28 @@ $posts = array();
 <?php  if(isset($params['page-id'])):  ?>
 <?php
 
-if($params['page-id'] == 'global'){
- if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
-   $page_info = get_content('limit=1&one=1&content_type=page&is_shop=y');
- }
- else {
-   $page_info = false;
- }
-
-}
-else {
- $page_info = get_content_by_id($params['page-id']);
-}
+    if($params['page-id'] == 'global'){
+       if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
+         $page_info = get_content('limit=1&one=1&content_type=page&is_shop=y');
+       }
+       else {
+         $page_info = false;
+       }
+    }
+    else {
+        $page_info = get_content_by_id($params['page-id']);
+    }
 
 ?>
+
 <script type="text/javascript">
-
-
-
-
-
-$(document).ready(function(){
-
-
+    $(document).ready(function(){
 		var prev_frame_attrs = {};
-
-$('#mw_page_layout_preview').attr('data-page-id',"<?php print ($page_info['id'])?>");
-//$('#mw_page_layout_preview').attr('inherit_from',"<?php print ($page_info['id'])?>");
- $('#mw_page_layout_preview').attr('edit_page_id',"<?php print ($page_info['id'])?>");
-
-$('#mw_page_layout_preview').attr('autoload',"1");
-
-$('#mw_page_layout_preview').attr('data-small',"1");
-
-
- mw.load_module("content/layout_selector", '#mw_page_layout_preview', false);
-
-
-
-
-
+        mw.$('#mw_page_layout_preview').attr('data-page-id',"<?php print ($page_info['id'])?>");
+        mw.$('#mw_page_layout_preview').attr('edit_page_id',"<?php print ($page_info['id'])?>");
+        mw.$('#mw_page_layout_preview').attr('autoload',"1");
+        mw.$('#mw_page_layout_preview').attr('data-small',"1");
+        mw.load_module("content/layout_selector", '#mw_page_layout_preview', false);
     });
 </script>
 <?php if(isset($page_info) and is_array($page_info)): ?>
@@ -145,7 +127,7 @@ $('#mw_page_layout_preview').attr('data-small',"1");
         <li> <a href="#action=editpage:<?php print $params["page-id"]; ?>"> <span class="ico ieditpage"></span><span>
           <?php _e("Edit Page"); ?>
           </span> </a> </li>
-        </a>
+
         <?php event_trigger('admin_content_right_sidebar_menu_list_end',$params); ?>
       </ul>
       <?php 
@@ -231,7 +213,7 @@ mw.post = {
   del:function(a, callback){
     var arr = $.isArray(a) ? a : [a];
     var obj = {ids:arr}
-    $.post(mw.settings.site_url + "api/content/delete", obj, function(data){
+    $.post(mw.settings.api_url + "content/delete", obj, function(data){
       typeof callback === 'function' ? callback.call(data) : '';
     });
   },
@@ -239,7 +221,7 @@ mw.post = {
     var obj = {
       id:id
     }
-    $.post(mw.settings.api_url + 'api/content/set_published', obj, function(data){
+    $.post(mw.settings.api_url + 'content/set_published', obj, function(data){
         if(typeof c === 'function'){
           c.call(id, data);
         }
@@ -343,7 +325,7 @@ mw.manage_content_sort = function(){
 
 
 
-</script> 
+</script>
 <div class="page_posts_list_tree" data-sortable="true" style="display:none;">
   <?php  if(isset($params['page-id'])):  ?>
   <?php
