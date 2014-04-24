@@ -435,8 +435,6 @@ body.loaded #live_edit_toolbar{
 
 .mw-tree label.highlighted, .mw-tree label.active{
   background-color:white;
-  border-bottom-color: #EDEDED;
-  border-top-color: #EDEDED;
   color: #235F99;
 }
 
@@ -495,6 +493,9 @@ body.loaded #live_edit_toolbar{
   text-overflow:ellipsis;
   margin-left:3px;
   resize: none;
+  width: 76%;
+  width: calc(100% - 50px);
+  width: -webkit-calc(100% - 50px);
 }
 #mw_edit_page_left .mw-tree .module a{
   height: 18px;
@@ -559,14 +560,10 @@ body.loaded #live_edit_toolbar{
   margin-left:30px;
 }
 .mw-tree ul.depth-2 ul{
-  margin-left:30px;
+  margin-left:14px;
 }
 
-.mw-tree ul.depth-2 ul ul{
-  margin-left: 10px;
-}
 
-.mw-tree-selector ul.depth-2{ margin-left: 10px; }
 
 .mw-tree ul.depth-2 li{
     padding-left: 10px;
@@ -605,8 +602,8 @@ body.loaded #live_edit_toolbar{
   padding-left: 26px;
 }
 
-.mw-tree ul.depth-2 li.depth-3  a{
-  padding-left: 22px;
+.mw-tree ul.depth-2 li.depth-3 a{
+  padding-left: 24px;
 }
 
 .mw-tree ul.depth-2 li.depth-2 a:hover, .mw-tree ul.depth-2 li.active-bg a{

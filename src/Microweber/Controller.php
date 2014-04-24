@@ -209,6 +209,8 @@ class Controller
         if ($api_function == false) {
             $api_function_full = $this->app->url->string();
             $api_function_full = $this->app->format->replace_once('api_html', '', $api_function_full);
+            $api_function_full = $this->app->format->replace_once('api/api', 'api', $api_function_full);
+
             $api_function_full = $this->app->format->replace_once('api', '', $api_function_full);
             //$api_function_full = substr($api_function_full, 4);
         } else {

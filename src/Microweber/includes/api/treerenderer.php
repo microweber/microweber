@@ -189,7 +189,7 @@ mw.treeRenderer = {
 			 el.innerHTML = '<span class="pages_tree_link_text">'+html+'</span>' + mw.treeRenderer.edit_buttons('page', pageid, sort_content) + toggle + show_posts + sub_page;
              el.setAttribute("onclick", "mw.tools.tree.openit(this,event,"+pageid+")");
              if( $(el).hasClass("content-unpublished") ) {
-                $(el).append("<span class='mw_ed_tree_publish' onclick='mw.post.set(" + id + ", \"publish\", event);' title='<?php _e("Publish"); ?>'></span>");
+                //$(el).append("<span class='mw_ed_tree_publish' onclick='mw.post.set(" + id + ", \"publish\", event);' title='<?php _e("Publish"); ?>'></span>");
              }
 
           }

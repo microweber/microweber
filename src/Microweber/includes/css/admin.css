@@ -91,7 +91,7 @@ h6{
 
 .tree-column, .fixed-side-column{
   min-width: 210px;
-  max-width: 400px;
+  max-width: 310px;
 }
 
 .main-content-column > .mw-ui-col-container{
@@ -129,6 +129,23 @@ h6{
   z-index: 1;
 }
 
+#main-bar-mw-icon{
+  height: 20px;
+  display: block;
+  overflow: hidden;
+}
+
+#main-bar .mw-icon-microweber{
+  display: block;
+  text-align: center;
+  padding: 3px 0 0;
+}
+
+#main-bar .mw-icon-microweber:before{
+  font-size: 130px;
+  color: #666;
+}
+
 #main-menu li{
   list-style: none;
 }
@@ -139,9 +156,6 @@ h6{
   display: block;
   text-align: center;
   padding: 10px 0;
-}
-#main-menu > li{
-  margin-bottom: 10px;
 }
 
 #main-menu > li > ul > li > a{
@@ -189,11 +203,13 @@ h6{
   font-size: 41px;
 }
 
-#main-menu > li.active > a,
+#main-menu > li.active > a{
+  color: white;
+  background: #3B3B3B;
+}
 #main-menu > li > a:hover,
 #main-menu > li > a:focus{
   color: white;
-  background: #3B3B3B;
 }
 
 #main-menu > li > a:active{
@@ -294,6 +310,7 @@ h6{
     #main-bar{
       width: 100%;
       height: 60px;
+      display: none;
     }
 
     #main-menu li{

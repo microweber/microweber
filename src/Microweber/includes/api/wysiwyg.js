@@ -368,7 +368,7 @@ mw.wysiwyg = {
                   mw.wysiwyg.cursorToElement(br, 'after');
                   event.preventDefault();
                   return false;
-                }
+                }                                    &nbsp;
               }  */
            }
            if(sel.rangeCount > 0){

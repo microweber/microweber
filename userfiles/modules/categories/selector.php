@@ -97,70 +97,10 @@ if(is_array($is_ex)){
 
 ?>
 
- <script>
-/*
-  $(document).ready(function(){
-
-
-    mw.tools.tag({
-      tagholder:'#mw-post-added-<?php print $rand; ?>',
-      items: ".mw-ui-check",
-      itemsWrapper: mwd.querySelector('#mw-category-selector-<?php print $rand; ?>'),
-      method:'parse',
-      onTag:function(){
-        var curr_content = mwd.getElementById('mw-editor<?php print $rand; ?>').value;
-        if(curr_content != undefined){
-			  if(typeof load_iframe_editor === 'function'){
-         	//load_iframe_editor(curr_content);
-			 }
-       }
-       else{
-		     if(typeof load_iframe_editor === 'function'){
-         	//load_iframe_editor();
-			}
-       }
-     },
-     onUntag:function(){
-      var curr_content = mwd.getElementById('mw-editor<?php print $rand; ?>').value;
-      if(curr_content != undefined){
-		 if(typeof load_iframe_editor === 'function'){
-       		//load_iframe_editor(curr_content);
-		  }
-     }
-     else{
-		 if(typeof load_iframe_editor === 'function'){
-       			//load_iframe_editor();
-		 }
-     }
-   }
- });
 
 
 
 
-
-  });*/
-
-  </script>
-
-
-<script  type="text/javascript">
-
-$(document).ready(function(){
-
-	mw.$('#<?php print $params['id'] ?> .mw-ui-check').bind('click', function(e){
-			if(typeof mw_set_categories_from_tree === 'function'){
-		 		//mw_set_categories_from_tree()
-			}
-  	});
-	
-	
-	
-
-});
-
-
-</script>
 <?php
 
 

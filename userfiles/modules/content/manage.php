@@ -213,7 +213,7 @@ mw.post = {
   del:function(a, callback){
     var arr = $.isArray(a) ? a : [a];
     var obj = {ids:arr}
-    $.post(mw.settings.site_url + "api/content/delete", obj, function(data){
+    $.post(mw.settings.api_url + "content/delete", obj, function(data){
       typeof callback === 'function' ? callback.call(data) : '';
     });
   },
@@ -221,7 +221,7 @@ mw.post = {
     var obj = {
       id:id
     }
-    $.post(mw.settings.api_url + 'api/content/set_published', obj, function(data){
+    $.post(mw.settings.api_url + 'content/set_published', obj, function(data){
         if(typeof c === 'function'){
           c.call(id, data);
         }

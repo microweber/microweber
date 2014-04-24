@@ -1099,6 +1099,7 @@ mw.tools = {
       $(el.parentNode).toggleClass('active');
        var master = mw.tools.firstParentWithClass(el,'mw-tree');
        mw.tools.tree.remember(master);
+       "mw.admin.treeboxwidth"._exec();
         if(event.type==='click'){
           event.stopPropagation();
           event.preventDefault();
@@ -1174,13 +1175,7 @@ mw.tools = {
       }
     },
     toggleit : function(el, event, pageid){
-       event.stopPropagation();   /*
-       if(el.attributes['data-page-id'] !== undefined){
-          mw.url.windowHashParam('action', 'showposts:'+pageid);
-       }
-       else if(el.attributes['data-category-id'] !== undefined){
-          mw.url.windowHashParam('action', 'showpostscat:'+pageid);
-       }   */
+       event.stopPropagation();
        mw.tools.tree.toggle(el, event);
     },
     openit : function(el, event, pageid){
@@ -1192,14 +1187,17 @@ mw.tools = {
           mw.url.windowHashParam('action', 'showpostscat:'+pageid);
        }
        mw.tools.tree.open(el, event);
+       'mw.admin.treeboxwidth'._exec(); 
     },
     closeAll : function(tree){
         $(tree.querySelectorAll('li')).removeClass('active').removeClass('active-bg');
         mw.tools.tree.remember(tree);
+        'mw.admin.treeboxwidth'._exec();
     },
     openAll : function(tree){
        $(tree.querySelectorAll('li')).addClass('active');
        mw.tools.tree.remember(tree);
+       'mw.admin.treeboxwidth'._exec();
     },
 	checker:function(el){
 
@@ -1918,24 +1916,27 @@ mw.tools = {
       else if(el.mozRequestFullScreen){
         el.mozRequestFullScreen();
       }
-      $(el).addClass("fullscreen-mode");
+      else if(el.msRequestFullscreen){
+        el.msRequestFullscreen();
+      }
   },
   isFullscreenAvailable:function(){
     var b = mwd.body;
-    return 'requestFullScreen' in b || 'webkitRequestFullScreen' in b || 'mozRequestFullScreen' in b || false;
+    return 'requestFullScreen' in b || 'webkitRequestFullScreen' in b || 'mozRequestFullScreen' in b || 'msRequestFullscreen' in b || false;
   },
   cancelFullscreen:function(){
-
-    if(mwd.cancelFullScreen) {
-        mwd.cancelFullScreen();
+    if(mwd.exitFullscreen) {
+        mwd.exitFullscreen();
     }
     else if(mwd.mozCancelFullScreen) {
         mwd.mozCancelFullScreen();
     }
-    else if(mwd.webkitCancelFullScreen) {
-        mwd.webkitCancelFullScreen();
+    else if(mwd.webkitExitFullscreen) {
+        mwd.webkitExitFullscreen();
     }
-    mw.$(".fullscreen-mode").removeClass("fullscreen-mode");
+    else if(mwd.msExitFullscreen) {
+        mwd.msExitFullscreen();
+    }
   },
   toggleFullscreen:function(el){
     var infullscreen = mwd.fullScreen || mwd.webkitIsFullScreen || mwd.mozFullScreen || false;

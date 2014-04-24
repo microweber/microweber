@@ -413,7 +413,7 @@ mw.edit_content.after_save = function(saved_id){
 	
 	if(content_id == 0){
 			if(saved_id !== undefined){
- 		    mw.$('#mw-content-id-value-<?php print $rand; ?>').val(saved_id);
+ 		        mw.$('#mw-content-id-value-<?php print $rand; ?>').val(saved_id);
  			}
 			<?php if($is_quick!=false) : ?>
 			 mw.$('#quickform-<?php print $rand; ?>').hide();
@@ -593,7 +593,7 @@ mw.edit_content.handle_form_submit = function(go_live){
               module.removeClass('loading');
               if(typeof this.title !== 'undefined'){
                 mw.notification.error('Please enter title');
-				
+
 				$('.mw-title-field').animate({
 				paddingLeft: "+=5px",
 				 
