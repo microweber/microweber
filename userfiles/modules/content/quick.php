@@ -280,21 +280,21 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
       
       
   </ul>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-gallery-items">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item" id="quick-add-gallery-items">
     <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
     <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
             <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
 
   </div>
   <?php if($data['content_type'] == 'page'): ?>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
     <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
     <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
                 <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
 
   </div>
   <?php endif; ?>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
     <module
                     type="custom_fields/admin"
                     <?php if( trim($data['subtype']) == 'product' ): ?> default-fields="price" <?php endif; ?>
@@ -310,11 +310,11 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
                   
   </div>
   <?php  if(trim($data['subtype']) == 'product'): ?>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
     <?php event_trigger('mw_edit_product_admin', $data); ?>
   </div>
   <?php endif; ?>
-  <div class="mw-o-box mw-o-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
+  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
   
    <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
 
@@ -413,7 +413,7 @@ mw.edit_content.after_save = function(saved_id){
 	
 	if(content_id == 0){
 			if(saved_id !== undefined){
- 		    mw.$('#mw-content-id-value-<?php print $rand; ?>').val(saved_id);
+ 		        mw.$('#mw-content-id-value-<?php print $rand; ?>').val(saved_id);
  			}
 			<?php if($is_quick!=false) : ?>
 			 mw.$('#quickform-<?php print $rand; ?>').hide();
@@ -433,6 +433,13 @@ mw.edit_content.after_save = function(saved_id){
 			mw.reload_module_parent('content');
 			mw.reload_module_parent('custom_fields');
 		    mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
+			
+			
+			
+			
+			
+			
+			
 			mw.reload_module('pages');
 		
     	parent.mw.askusertostay=false;
@@ -552,6 +559,28 @@ mw.edit_content.handle_form_submit = function(go_live){
               }
               if(parent !== self && !!window.parent.mw){
                  window.parent.mw.askusertostay=false;
+				 
+				 if(typeof(data.is_active) !== 'undefined'){
+				
+					 
+					  if((data.is_active) == 'n'){
+						
+  						 window.parent.mw.$('.mw-set-content-unpublish').hide();
+
+						 window.parent.mw.$('.mw-set-content-publish').show();
+					  } else if((data.is_active) == 'y'){
+						 	  
+						  window.parent.mw.$('.mw-set-content-publish').hide();
+						  window.parent.mw.$('.mw-set-content-unpublish').show();
+						
+						  
+					  }
+					 
+					 
+				 }
+				 
+				 
+				 
               }
               if(go_live_edit != false){
     		    if(parent !== self && !!window.parent.mw){
@@ -593,7 +622,7 @@ mw.edit_content.handle_form_submit = function(go_live){
               module.removeClass('loading');
               if(typeof this.title !== 'undefined'){
                 mw.notification.error('Please enter title');
-				
+
 				$('.mw-title-field').animate({
 				paddingLeft: "+=5px",
 				 
