@@ -1,13 +1,12 @@
- 
+  
  mw.content = mw.content || {
       publish : function($id) {
-		 
             var master = {};
             master.id= $id;
             $(mwd.body).addClass("loading");
-            mw.drag.save(mwd.getElementById('main-save-btn'), function(){
-            	  $.ajax({
-                    type: 'POST', 
+            mw.drag.save(mwd.getElementById('main-save-btn'));
+            $.ajax({
+                    type: 'POST',
                     url: mw.settings.site_url + 'api/content/set_published',
                     data: master,
                     datatype: "json",
@@ -28,7 +27,6 @@
                     complete:function(){
                       $(mwd.body).removeClass("loading");
                     }
-                  });
             });
       },
       unpublish : function($id) {
@@ -36,8 +34,8 @@
       	master.id= $id;
         $(mwd.body).addClass("loading");
 
-        mw.drag.save(mwd.getElementById('main-save-btn'), function(){
-      	  $.ajax({
+        mw.drag.save(mwd.getElementById('main-save-btn'));
+      	$.ajax({
               type: 'POST',
               url: mw.settings.site_url + 'api/content/set_unpublished',
               data: master,
@@ -59,8 +57,8 @@
               complete:function(){
                 $(mwd.body).removeClass("loading");
               }
-            });
-        });
+          });
+
       },
       save:function(data, e){
           var master = {};
