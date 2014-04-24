@@ -1,4 +1,4 @@
-
+ 
  mw.content = mw.content || {
       publish : function($id) {
 		 

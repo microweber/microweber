@@ -14,7 +14,7 @@
         mw.require("content.js", true);
         mw.require("session.js");
         mw.require("liveedit.js");
-
+  
     </script>
 <script type="text/javascript">
 if(mw.cookie.get("helpinfoliveedit") != 'false'){
@@ -23,7 +23,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 }
 </script>
 <script type="text/javascript">
-
+ 
 
   if(mw.cookie.get("helpinfoliveedit") != 'false'){
      mw.helpinfo.cookie = "helpinfoliveedit";
@@ -330,7 +330,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 </div>
 <div id="image_settings_modal_holder" style="display: none">
   <div class='image_settings_modal'>
-    <div class="mw-o-box mw-o-box-content">
+    <div class="mw-ui-box mw-ui-box-content">
       <hr style="border-bottom: none">
       <div class="mw-ui-field-holder">
         <label class="mw-ui-label">Alignment</label>
