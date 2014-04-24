@@ -55,8 +55,10 @@ if (isset($params['for-id'])) {
 if (!isset($params['rel_id']) or $params['rel_id'] == false) {
     $params['rel_id'] = 0;
 }
-$for_id = $params['rel_id'];
+
+ 
 if (isset($params['rel_id']) == true) {
+	$for_id = $params['rel_id'];
     $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
     if (!is_array($data)) {
         if (is_array($default_images) and !empty($default_images)) {
