@@ -1958,17 +1958,18 @@ class Controller
                 } else {
                     $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
                 }
-                $meta = $this->app->format->clean_html($meta, true);
+ 			 	$meta = $this->app->format->clean_html($meta, true);
                 if (is_array($meta)) {
                     foreach ($meta as $key => $item) {
-                        $item = addslashes($item);
+						$item = html_entity_decode($item);
                         $item = strip_tags($item);
+						$item = addslashes($item);
                         $item = str_replace('&amp;zwnj;', ' ', $item);
                         $item = str_replace('&amp;quot;', ' ', $item);
                         $item = str_replace('&amp;', ' ', $item);
                         $item = str_replace('amp;', ' ', $item);
 						$item = str_replace('nbsp;', ' ', $item);
-
+ 
                         $item = str_replace('#039;', ' ', $item);
                         $item = str_replace('&amp;nbsp;', ' ', $item);
 						

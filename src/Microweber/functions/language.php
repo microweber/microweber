@@ -3,7 +3,7 @@
 
 $mw_language_content_saved = false;
 $mw_new_language_entires = array();
- 
+
 
 /**
  * Saves the language file after page load
@@ -34,16 +34,16 @@ function __store_lang_file()
     $mw_language_content2 = array();
     if (is_array($mw_language_content) and is_array($mw_new_language_entires) and !empty($mw_new_language_entires)) {
 
-            $mw_language_content2 = $mw_new_language_entires;
+        $mw_language_content2 = $mw_new_language_entires;
 
-            if (!empty($mw_language_content2)) {
-                foreach ($mw_language_content2 as $key => $value) {
+        if (!empty($mw_language_content2)) {
+            foreach ($mw_language_content2 as $key => $value) {
 
-                    if (!isset($mw_language_content[$key])) {
+                if (!isset($mw_language_content[$key])) {
 
-                        $mw_language_content[$key] = $value;
-                    }
+                    $mw_language_content[$key] = $value;
                 }
+            }
 
 
         }
@@ -67,17 +67,17 @@ function __store_lang_file()
 
 
             if ($c1 > $c2) {
-				if(isset($lang_file) and $lang_file != false and isset($lang_file_str) and $lang_file_str != false){
+                if (isset($lang_file) and $lang_file != false and isset($lang_file_str) and $lang_file_str != false) {
                     $dn = dirname($lang_file);
-                    if(!is_dir($dn)){
+                    if (!is_dir($dn)) {
                         @mkdir($dn);
                     }
-                    if(is_writable($lang_file)){
+                    if (is_writable($lang_file)) {
                         file_put_contents($lang_file, $lang_file_str);
                     }
 
-				}
-               
+                }
+
             }
         }
     }
@@ -126,6 +126,9 @@ function current_lang()
     if (!isset($lang) or $lang == false) {
         $lang = 'en';
     }
+    $lang = str_replace('..', '', $lang);
+    $lang = str_replace('.', '', $lang);
+    $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
 
     if (!defined('MW_LANG') and isset($lang)) {
         define('MW_LANG', $lang);
@@ -171,13 +174,13 @@ function _e($k, $to_return = false)
             $k2 = ($k);
             $mw_new_language_entires[$k1] = $k2;
             $mw_language_content[$k1] = $k2;
-			if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
-				define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
-				 $scheduler = new \Microweber\Utils\Events();
-					// schedule a global scope function:
-					$scheduler->registerShutdownEvent("__store_lang_file");
-			}
-          
+            if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
+                define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
+                $scheduler = new \Microweber\Utils\Events();
+                // schedule a global scope function:
+                $scheduler->registerShutdownEvent("__store_lang_file");
+            }
+
 
         }
         if ($to_return == true) {
@@ -190,8 +193,8 @@ function _e($k, $to_return = false)
         }
         print $mw_language_content[$k1];
     }
-	
-	
+
+
 }
 
 
