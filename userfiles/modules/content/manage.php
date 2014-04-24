@@ -1,5 +1,8 @@
 <?php
 
+
+
+
 $posts_mod = array();
 $posts_mod['type'] = 'content/admin_posts_list';
  // $posts_mod['display'] = 'custom';
@@ -358,7 +361,7 @@ else {
 $pt_opts['include_categories'] = 'yes';
 
 
-pages_tree($pt_opts);
+//pages_tree($pt_opts);
 ?>
   <?php else : ?>
   <?php  if(isset($params['category-id'])):  ?>
@@ -370,7 +373,7 @@ $pt_opts['max_level'] = 2;
 
 
 
-category_tree($pt_opts);
+//category_tree($pt_opts);
 ?>
   <?php endif; ?>
   <?php endif; ?>

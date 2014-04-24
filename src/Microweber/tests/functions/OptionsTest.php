@@ -27,5 +27,15 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testfileExt()
+    {
+        $fn = 'somefile.jpg.php.gif';
+        $is_ext = get_file_extension($fn);
+
+        $this->assertEquals($is_ext, 'gif');
+
+
+    }
+
 
 }

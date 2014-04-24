@@ -856,7 +856,7 @@ class Media
 
 
         if (file_exists($cache_path)) {
-            // d($cache);
+            
             $cache_path = $this->app->url->link_to_file($cache_path);
             return $cache_path;
         } else {
@@ -864,7 +864,15 @@ class Media
                 return $this->pixum($width, $height);
             }
 
-            return $this->app->url->site('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height . '&cache_id=' . $cache_id;
+ 
+
+           $tn_img_url = $this->app->url->site('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height . '&cache_id=' . $cache_id;
+		    $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
+			$tn_img_url = str_replace(')', '&#41;', $tn_img_url);
+
+
+
+		   return $tn_img_url ;
         }
 
         //require_once ();

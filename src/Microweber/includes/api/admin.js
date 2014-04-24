@@ -34,6 +34,22 @@ mw.admin = {
     treeboxwidth:function(){
       var w = mw.$('.fixed-side-column').width();
       mw.$('.tree-column').width(w);
+    },
+    treeboxwidth:function(){
+        var i = 0, all = mwd.querySelectorAll('#pages_tree_toolbar li.active-bg > a .pages_tree_link_text'), l = all.length, max = 0;
+        for( ; i<l; i++){
+          var ch = all[i].textContent.length;
+          if(ch > 15){
+            var max = 15;
+          }
+        }
+        if(max === 15){
+            var w = mw.$('.fixed-side-column').width();
+            mw.$('.tree-column, .fixed-side-column').width(310);
+        }
+        else{
+            mw.$('.tree-column, .fixed-side-column').width(210);
+        }
     }
 }
 
@@ -55,6 +71,10 @@ $(mww).bind('load', function(){
        }, 90);
     });
 
+});
+
+$(mww).bind('hashchange', function(){
+    mw.admin.treeboxwidth();
 });
 
 

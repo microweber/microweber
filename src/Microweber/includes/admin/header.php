@@ -100,25 +100,35 @@ if ($last_page_front != false) {
 <div id="mw-admin-container">
     <div class="mw-ui-row main-admin-row">
         <div class="mw-ui-col main-bar-column">
-            <div id="main-bar"><a href="javascript:;" id="main-bar-mw-icon"><span class="mw-icon-microweber"></span></a>
+            <div id="main-bar"><!--<a href="javascript:;" id="main-bar-mw-icon"><span class="mw-icon-microweber"></span></a>-->
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
                 <ul id="main-menu">
+                    <li id="main-menu-back">
+                        <a href="javascript:;"><span class="mw-icon-back"></span></a>
+                    </li>
                     <li><a href="<?php print $past_page; ?>?editmode=y" title=""> <span class="mw-icon-live"></span>
-                            <strong>Live Edit</strong> </a></li>
-                    <li <?php if ($view == 'content'): ?> class="active" <?php endif; ?>><a
+                            <strong>Live Edit</strong> </a></li> 
+                    <li 
+					<?php if ($view == 'content' and $action==false): ?> 
+                    class="active" 
+					<?php elseif ($view == 'content' and $action!=false): ?> 
+                    class="active-parent"  
+					<?php endif; ?>
+                    ><a
                             href="<?php print admin_url(); ?>view:content" title=""> <span
                                 class="mw-icon-website"></span> <strong>Website</strong> </a>
                         <ul>
                             <li  <?php if ($action == 'pages'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:content/action:pages">Pages</a></li>
-                            <li <?php if ($action == 'pages'): ?> class="active" <?php endif; ?>><a
+                            <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:content/action:posts">Posts</a></li>
                             <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:content/action:categories">Categories</a></li>
                         </ul>
-                    </li>
-                    <li <?php if ($view == 'shop'): ?> class="active" <?php endif; ?>><a
+                    </li> 
+                    <li <?php if ($view == 'shop' and $action==false): ?> class="active"
+                    <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent"   <?php endif; ?>><a
                             href="<?php print admin_url(); ?>view:shop" title=""> <span class="mw-icon-shop"></span>
                             <strong>My Shop</strong> </a>
                         <ul>
@@ -136,6 +146,9 @@ if ($last_page_front != false) {
                             <strong>Modules</strong> </a></li>
                     <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:settings" title=""> <span class="mw-icon-gear"></span>
                             <strong>Settings</strong> </a></li>
+                    <li id="main-menu-toggle">
+                        <a href="javascript:;"><span class="mw-icon-menu"></span></a>
+                    </li>
                 </ul>
             </div>
         </div>

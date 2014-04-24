@@ -1,6 +1,5 @@
 <?php
- include('edit.php');
- return;
+ 
   only_admin_access();
 
   $rand = uniqid();
@@ -182,6 +181,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
               class="mw-ui-field mw-title-field left mw-title-field-<?php print $data['content_type']; ?>"
               value="<?php print $data['title']; ?>" />
     <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
+     <div class="mw_clear"></div>
     <div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published"> <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>
       <?php _e("Unpublished"); ?>
       </span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>
@@ -228,7 +228,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
     </div>
   </div>
   <?php endif; ?>
-  <?php if($data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
+  <?php if(1 or $data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
   <div class="mw-ui-field-holder" style="padding-bottom: 25px;">
     <textarea class="semi_hidden" name="content" id="quick_content_<?php print $rand ?>"></textarea>
   </div>
@@ -394,13 +394,16 @@ mw.edit_content.load_editor  = function(element_id){
 		params.subtype=subtype
 		params.parent_page=parent_page
 		params.inherit_template_from=parent_page
+		params.isolate_content_field=true
+		params.live_edit=true
+	 
 		if(typeof editor !== "undefined" && editor !== null){
 			 $(editor).remove();
 			 delete window.editor
 		}
-		editor =  mw.tools.wysiwyg(area,params ,true);
+		editor =  mw.tools.iframe_live_edit(area,params ,true);
         editor.style.width = "100%";
-        editor.style.height = "300px";
+        editor.style.height = "3000px";
 	 }
 	 var layout_selector =  mw.$('#mw-quick-add-choose-layout');
      if(layout_selector !== null){

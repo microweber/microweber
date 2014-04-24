@@ -1,6 +1,6 @@
 <?php
 only_admin_access();
-
+$action = url_param('action');
 $is_in_shop = false;
 $rand = uniqid(); ?>
 <?php $my_tree_id = crc32(mw('url')->string()); ?>
@@ -466,33 +466,16 @@ $(window).load(function(){
 
 </script>
 
-
-
 <div id="create-content-menu">
-
-  <div class="create-content-menu">
-      <a href="<?php print admin_url('view:content'); ?>#action=new:post"><span class="mw-icon-post"></span><strong>Post</strong></a>
-      <a href="<?php print admin_url('view:content'); ?>#action=new:page"><span class="mw-icon-page"></span><strong>Page</strong></a>
-      <a href="<?php print admin_url('view:content'); ?>#action=new:category"><span class="mw-icon-category"></span><strong>Category</strong></a>
-      <a href="<?php print admin_url('view:content'); ?>#action=new:product"><span class="product-icon"><span class="product-icon-1"></span><span class="product-icon-2"></span><span class="product-icon-3"></span></span><strong>Product</strong></a>
-  </div>
-
-
-
+  <div class="create-content-menu"> <a href="<?php print admin_url('view:content'); ?>#action=new:post"><span class="mw-icon-post"></span><strong>Post</strong></a> <a href="<?php print admin_url('view:content'); ?>#action=new:page"><span class="mw-icon-page"></span><strong>Page</strong></a> <a href="<?php print admin_url('view:content'); ?>#action=new:category"><span class="mw-icon-category"></span><strong>Category</strong></a> <a href="<?php print admin_url('view:content'); ?>#action=new:product"><span class="product-icon"><span class="product-icon-1"></span><span class="product-icon-2"></span><span class="product-icon-3"></span></span><strong>Product</strong></a> </div>
 </div>
-
 <div class="mw-ui-row" id="edit-content-row">
-    <div class="mw-ui-col tree-column">
+  <div class="mw-ui-col tree-column" <?php if($action=='posts'): ?> style="display:none" <?php endif ?>>
     <div class="tree-column-holder">
-    <div class="fixed-side-column scroll-height-exception-master">
-      <div class="create-content scroll-height-exception">
-
-        <a href="javascript:;" class="mw-ui-btn" id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a>
-
-
-      </div>
-      <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
-        <?php
+      <div class="fixed-side-column scroll-height-exception-master">
+        <div class="create-content scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn" id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a> </div>
+        <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
+          <?php
 		 $is_shop_str = " is_shop='n' ";
 		 $is_shop_str = "   ";
 	   if(isset($is_shop)){
@@ -502,17 +485,21 @@ $(window).load(function(){
 		 $is_shop_str = " is_shop='".$params['is_shop']."' ";
 	   }
 	   ?>
-        <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
-             <?php event_trigger('admin_content_after_website_tree',$params); ?>
+          <?php if($action=='pages'): ?>
+          <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"   id="pages_tree_toolbar"  view="admin_tree" home_first="true"  />
+          <?php elseif($action=='categories'): ?>
+          <module data-type="categories"   active_class="active-bg"   id="pages_tree_toolbar"  view="admin_tree"    />
+          <?php else: ?>
+          <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
+          <?php endif ?>
+          <?php event_trigger('admin_content_after_website_tree',$params); ?>
+        </div>
+        <div class="tree-show-hide-nav scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
       </div>
-      <div class="tree-show-hide-nav scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
     </div>
-    </div>
-    </div>
-    <div class="mw-ui-col main-content-column">
+  </div>
+  <div class="mw-ui-col main-content-column">
     <div class="mw-ui-col-container">
-
-
       <?php
         $ed_content = false;
         $content_id = '';
@@ -542,37 +529,16 @@ $(window).load(function(){
         <?php if( $ed_content=== false): ?>
         <module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> <?php print $is_shop_str ?> />
         <?php else: ?>
-        <div id="edit_content_admin"   <?php print  $content_id ?> /></div>
-        <?php endif; ?>
+        <div id="edit_content_admin"   <?php print  $content_id ?> />
       </div>
+      <?php endif; ?>
     </div>
-    </div>
-
+  </div>
 </div>
-
-
-
-
-
-
-
-        <?php $view = mw('url')->param('view'); ?>
-
-        <?php if( $view == 'content'){  ?>
-
-
-          <?php  show_help('content');  ?>
-
-
-         <?php } elseif($view == 'shop'){  ?>
-
-              <?php  show_help('shop');  ?>
-
-         <?php  } ?>
-
-
-
-
-
-
-
+</div>
+<?php $view = mw('url')->param('view'); ?>
+<?php if( $view == 'content'){  ?>
+<?php  show_help('content');  ?>
+<?php } elseif($view == 'shop'){  ?>
+<?php  show_help('shop');  ?>
+<?php  } ?>

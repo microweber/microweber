@@ -1,5 +1,7 @@
 <?php
- 
+if(!defined('MW_APP_PATH')){
+return;	
+}
 
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'db.php');

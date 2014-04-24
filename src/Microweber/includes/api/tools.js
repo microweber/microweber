@@ -1187,7 +1187,7 @@ mw.tools = {
           mw.url.windowHashParam('action', 'showpostscat:'+pageid);
        }
        mw.tools.tree.open(el, event);
-       'mw.admin.treeboxwidth'._exec(); 
+       'mw.admin.treeboxwidth'._exec();
     },
     closeAll : function(tree){
         $(tree.querySelectorAll('li')).removeClass('active').removeClass('active-bg');
@@ -2264,6 +2264,61 @@ mw.tools = {
        $(el).dataset(a, b);
     }
   },
+  
+  iframe_live_edit:function(area, params, k){
+    var params = params || {};
+    var k = k || false;
+
+    var params = typeof params === 'object' ? json2url(params) : params;
+
+    var area = mw.$(area);
+    var frame = mwd.createElement('iframe');
+    frame.src = mw.settings.site_url+('?live_edit&'+params);
+    frame.className = 'mw-iframe-editor';
+        frame.scrolling = 'no';
+        var name =  'mweditor'+mw.random();
+        frame.id = name;
+        frame.name = name;
+        frame.style.backgroundColor = "transparent";
+        frame.setAttribute('frameborder', 0);
+        frame.setAttribute('allowtransparency', 'true');
+        area.hide().after(frame);
+
+    $(frame).load(function(){
+        frame.contentWindow.thisframe = frame;
+        var cont = $(frame).contents().find("#mw-iframe-editor-area");
+         cont[0].contentEditable = true;
+        if(!k) {
+            if(area[0].tagName === 'TEXTAREA'){
+              cont.html(area[0].value);
+              this.value = area[0].value;
+            }
+            else{
+              cont.html(area.html());
+              this.value = area.html();
+            }
+        }
+        if(typeof frame.contentWindow.PrepareEditor === 'function'){
+          frame.contentWindow.PrepareEditor();
+        }
+
+    });
+    $(frame).bind('change', function(e, val){
+      if(area[0].tagName === 'TEXTAREA'){
+       area.val(val);
+      }
+      else{
+        area.html(val);
+      }
+      if(area.hasClass("mw_option_field")){
+         area.trigger("change");
+      }
+      this.value = val;
+    });
+    return frame;
+  },
+  
+  
   iframe_editor:function(area, params, k){
     var params = params || {};
     var k = k || false;
@@ -3554,33 +3609,36 @@ mw.$(".mw-pin").each(function(){
 
   mw.ui.btn = {
     radionav : function(nav, btn_selector){
+      
         if( mw.tools.hasClass(nav.className, 'activated') ) { return false; }
+        mw.tools.addClass(nav, 'activated');
         var btn_selector = btn_selector || ".mw-ui-btn";
         var all = nav.querySelectorAll(btn_selector), i = 0, l = all.length, el;
         for( ; i<l; i++){
             var el = all[i];
-            el.onclick = function(){
+            $(el).bind('click', function(){
               if(!mw.tools.hasClass(this.className, 'active')){
                 var active = nav.querySelector(btn_selector + ".active");
                 if( active !== null) { mw.tools.removeClass(active, 'active'); }
                 this.className += ' active';
               }
-            }
+            });
         }
     },
     checkboxnav : function(nav){
       if( mw.tools.hasClass(nav.className, 'activated') ) { return false; }
+      mw.tools.addClass(nav, 'activated');
       var all = nav.querySelectorAll(".mw-ui-btn"), i = 0, l = all.length;
         for( ; i<l; i++){
            var el = all[i];
-            el.onclick = function(){
+             $(el).bind('click', function(){
               if(!mw.tools.hasClass(this.className, 'active')){
                 this.className += ' active';
               }
               else{
                 mw.tools.removeClass(this, 'active');
               }
-            }
+            });
         }
     }
   }

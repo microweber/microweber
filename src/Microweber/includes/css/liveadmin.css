@@ -3014,6 +3014,9 @@ a.module-icon-title{
 #quick-add-post-options{
   background:#F7F7F7;
   height: 37px;
+  position: fixed;
+  top: auto;
+  bottom: 0;
 }
 
 a#backtoadminindropdown{

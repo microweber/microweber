@@ -116,7 +116,7 @@ if(trim($for_id)  != '' and trim($for_id)  != '0'){
   <?php foreach( $media as $item): ?>
   <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>" id="admin-thumb-item-<?php print $item['id'] ?>">
     <?php $tn = thumbnail($item['filename'], 131, 131); ?>
-    <span class="mw-post-media-img" style="background-image: url(<?php print $tn; ?>);"></span>
+    <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span> 
     <div class="mw-post-media-img-edit">
       <input
             placeholder="<?php _e("Image Description"); ?>"

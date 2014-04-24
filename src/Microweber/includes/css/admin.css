@@ -143,15 +143,20 @@ h6{
 
 #main-bar .mw-icon-microweber:before{
   font-size: 130px;
-  color: #666;
+  color: #999;
 }
+
 
 #main-menu li{
   list-style: none;
 }
+#main-menu li a{
+  list-style: none;
+  position: relative;
+}
 
 #main-menu > li > a{
-  color: #666666;
+  color: #999;
   font-size: 13px;
   display: block;
   text-align: center;
@@ -159,7 +164,7 @@ h6{
 }
 
 #main-menu > li > ul > li > a{
-    color: #888;
+    color: #999;
     text-align: center;
     display: block;
     padding: 5px 0;
@@ -173,37 +178,46 @@ h6{
 
 #main-menu > li > ul > li > a:hover,
 #main-menu > li > ul > li > a:focus,
-#main-menu > li > ul > li.active{
+#main-menu > li > ul > li.active,
+#main-menu li.active-parent > a{
   color: white
 }
 
 #main-menu a strong{
   display: block;
+  position: relative;
   padding-top: 4px;
   visibility: hidden;
   color: white;
   font-weight: normal;
 }
-#main-menu li.active{
+#main-menu li.active, #main-menu li.active-parent{
   background-color:#3B3B3B
 }
 
-#main-menu li:hover a strong, #main-menu li.active a strong{
+#main-menu li:hover a strong, #main-menu li.active a strong, #main-menu li.active-parent a strong{
   visibility: visible;
 }
+
+#main-menu li.active-parent a strong{
+  color: #888;
+}
+#main-menu li.active-parent a:hover strong{
+  color: white;
+}
+
 
 #main-menu li ul{
   display: none;
 }
-#main-menu li.active ul{
+#main-menu li.active ul, #main-menu li.active-parent ul{
   display: block;
 }
 
-#main-menu a [class*='mw-icon-']{
-  font-size: 41px;
-}
+#main-menu a [class*='mw-icon-']{ font-size: 36px; }
+#main-menu a .mw-icon-menu{ font-size: 30px; }
 
-#main-menu > li.active > a{
+#main-menu li.active > a{
   color: white;
   background: #3B3B3B;
 }
@@ -216,6 +230,53 @@ h6{
   box-shadow: inset 0 0 6px -3px #000;
 }
 
+#main-menu-back, #main-menu-toggle{
+  display: none;
+}
+
+
+
+#main-menu li li.active > a:after, #main-menu li.active strong:after{
+    display: block;
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    margin-top: -5px;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    background:#F5F5F5;
+    content:"";
+    transform: rotate(45deg) ;
+    -webkit-transform: rotate(45deg) ;
+    -moz-transform: rotate(45deg) ;
+    -o-transform: rotate(45deg) ;
+    -ms-transform: rotate(45deg) ;
+}
+#main-menu li.active strong:after{
+  margin-top: -1px;
+}
+
+.main-menu-active{
+    display: block;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    right: -5px;
+}
+.main-menu-active:after{
+    display: block;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    background: white;
+    content:"";
+    transform: rotate(45deg) ;
+    -webkit-transform: rotate(45deg) ;
+    -moz-transform: rotate(45deg) ;
+    -o-transform: rotate(45deg) ;
+    -ms-transform: rotate(45deg) ;
+}
 
 
 
@@ -304,22 +365,84 @@ h6{
       padding: 20px;
     }
 
+    /* Main Menu */
     body.is_admin{
       padding-top: 60px;
     }
     #main-bar{
       width: 100%;
       height: 60px;
+      max-height: 60px;
+      overflow: hidden;
+    }
+    #main-bar-mw-icon{
       display: none;
+    }
+    #main-menu > li,  #main-menu > li strong{
+      display: none;
+    }
+    #main-menu > li#main-menu-back,
+    #main-menu > li#main-menu-toggle,
+    #main-menu > li.active,
+    #main-menu > li.active-parent{
+      display: list-item;
+    }
+    #main-menu li.active, #main-menu li.active-parent{
+      background-color: transparent;
+    }
+
+    #main-menu > li.active > a, #main-menu > li.active-parent > a{
+      display: block;
+      float: left;
+    }
+
+    #main-menu li ul{
+      float: left;
+    }
+
+    #main-menu > li.active > a{
+      background-color: #3B3B3B;
+    }
+    #main-menu li.active-parent > a{
+      color: #999;
+    }
+    #main-menu li.active-parent > a:hover,
+    #main-menu li.active-parent > a:focus{
+      color: white;
     }
 
     #main-menu li{
       float: left;
-      width: 60px;
-      height: 60px;
     }
-    #main-menu a{
-      height: 60px;
+    #main-menu li#main-menu-toggle{
+      float: right;
     }
+
+    #main-menu li a, #main-menu > li > ul > li > a, #main-menu > li > ul > li:first-child > a, #main-menu > li > ul > li:last-child > a{
+      padding: 21px;
+      height: 60px;
+      overflow: hidden;
+    }
+    #main-menu > li.active > a,
+    #main-menu > li.active-parent > a{
+      padding: 12px;
+    }
+
+    #main-menu li#main-menu-back a{
+      padding: 10px 21px;
+    }
+    #main-menu li#main-menu-toggle a{
+      padding: 16px 21px;
+    }
+
+    #main-menu li li.active > a:after, #main-menu li.active strong:after{
+      bottom: -5px;
+      top: auto;
+      left: 50%;
+      margin-top: 0;
+      margin-left: -5px;
+    }
+
+    /* Main menu */
 
 }
