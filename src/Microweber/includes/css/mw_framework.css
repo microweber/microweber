@@ -565,6 +565,7 @@ body.loaded #live_edit_toolbar{
 
 
 
+
 .mw-tree ul.depth-2 li{
     padding-left: 10px;
 
@@ -577,7 +578,7 @@ body.loaded #live_edit_toolbar{
 .mw-tree-selector ul.depth-2 li{background-position: 52px -3px;}
 
 
-.mw-tree * > ul:last-child > li:last-child{
+.mw-tree li > ul:last-child > li:last-child{
     background: url(../img/treelisub_last.gif) no-repeat 0 -3px;
 }
 
@@ -1247,7 +1248,6 @@ textarea.mw-ui-field{
   -moz-transition: left 0.4s;
   -o-transition: left 0.4s;
   transition: left 0.4s;
-  padding-right:20px;
 }
 
 #pages_edit_container > form{
@@ -1747,32 +1747,6 @@ body.mw-external-loading:after{
   font-size: 12px;
 
 }
-
-.comment-notification, .comments_number{
-  display: block;
-  text-align: center;
-  padding: 1px 0 0;
-  width: 27px;
-  height: 25px;
-  font-size: 11px;
-  color: #434343;
-  background: url(../img/comments_numb_number.png) no-repeat;
-}
-
-.manage-post-item .comment-notification{
-  float: right;
-}
-
-.comments_number{
-  top:  -7px;
-  right: -12px;
-  position: absolute;
-}
-
-.comment-notification-silver{
-  background-image: url(../img/cmnts.png);
-}
-
 
 
 #module-modal-settings-menu-holder .mw-dropdown-content{

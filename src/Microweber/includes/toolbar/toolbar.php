@@ -62,6 +62,27 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
   });
 
 </script>
+
+<?php    
+$is_quick_edit = false;
+if (defined('QUICK_EDIT')) {
+$is_quick_edit = QUICK_EDIT;
+}
+
+
+
+?>
+<?php if($is_quick_edit == true): ?>
+<script type="text/javascript">
+        $(document).ready(function () {
+          $(mwd.body).addClass("mw-admin-view")
+        });
+</script>
+<?php endif; ?>
+
+
+
+
 <link href="<?php print(MW_INCLUDES_URL); ?>api/api.css" rel="stylesheet" type="text/css"/>
 <link href="<?php print(MW_INCLUDES_URL); ?>css/mw_framework.css" rel="stylesheet" type="text/css"/>
 <link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
@@ -107,12 +128,13 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
     </div>
   </div>
 </div>
+<?php if($is_quick_edit == false): ?>
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div id="live_edit_toolbar">
     <div id="mw-text-editor" class="mw-defaults mw_editor">
       <div class="toolbar-sections-tabs">
 
-        <ul>
+        <ul> 
           <li class="create-content-dropdown"> <a href="javascript:;" class="tst-logo" title="Microweber"> <span>Microweber</span> <i class=" dd_rte_arr right"></i> </a>
             <div class="mw-dropdown-list create-content-dropdown-list"
                          style="box-shadow: 2px 2px 10px -10px #111;width: 225px;">
@@ -328,6 +350,10 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
     <div id="mw-saving-loader"></div>
   </div>
 </div>
+
+<?php endif; ?>
+
+
 <div id="image_settings_modal_holder" style="display: none">
   <div class='image_settings_modal'>
     <div class="mw-ui-box mw-ui-box-content">
@@ -365,6 +391,9 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             denied: false,
             buttons: function () {
                 var b = mw.tools.calc.SliderButtonsNeeded(mw.liveEditWYSIWYG.ed);
+				if(b == null){
+				return;	
+				}
                 if (b.left) {
                     mw.liveEditWYSIWYG.prevBTNS.show();
                 }
@@ -449,7 +478,9 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             var tab_layouts = mwd.getElementById('tab_layouts');
             var modules_switcher = mwd.getElementById('modules_switcher');
             // var modules_switch = mwd.getElementById('modules_switch');
-
+			if(modules_switcher == null){
+			return;	
+			}
             modules_switcher.searchIn = 'Modules_List_modules';
 
 

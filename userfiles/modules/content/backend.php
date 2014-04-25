@@ -428,52 +428,16 @@ function mw_make_pages_tree_sortable(){
 }
 
 
-$(window).load(function(){
 
-   var create_content_btn = mwd.getElementById('create-content-btn');
-   if(create_content_btn !== null){
-     create_content_btn.mwtooltip = mw.tooltip({
-       position:'bottom-center',
-       content:mw.$('#create-content-menu').html(),
-       element:create_content_btn,
-       skin:'dark'
-     });
-     create_content_btn.mwtooltip.style.display = 'none';
-   }
-
-
-   $(create_content_btn).timeoutHover(function(){
-     $(this.mwtooltip).show();
-   }, function(){
-      if(create_content_btn.mwtooltip.originalOver === false){
-        $(this.mwtooltip).hide();
-      }
-   });
-
-
-   $(create_content_btn.mwtooltip).timeoutHover(function(){
-     $(this).show();
-   }, function(){
-      if(create_content_btn.originalOver === false){
-        $(this).hide();
-      }
-   });
-
-
-
-
-})
 
 </script>
 
-<div id="create-content-menu">
-  <div class="create-content-menu"> <a href="<?php print admin_url('view:content'); ?>#action=new:post"><span class="mw-icon-post"></span><strong>Post</strong></a> <a href="<?php print admin_url('view:content'); ?>#action=new:page"><span class="mw-icon-page"></span><strong>Page</strong></a> <a href="<?php print admin_url('view:content'); ?>#action=new:category"><span class="mw-icon-category"></span><strong>Category</strong></a> <a href="<?php print admin_url('view:content'); ?>#action=new:product"><span class="product-icon"><span class="product-icon-1"></span><span class="product-icon-2"></span><span class="product-icon-3"></span></span><strong>Product</strong></a> </div>
-</div>
+
 <div class="mw-ui-row" id="edit-content-row">
   <div class="mw-ui-col tree-column" <?php if($action=='posts'): ?> style="display:none" <?php endif ?>>
     <div class="tree-column-holder">
       <div class="fixed-side-column scroll-height-exception-master">
-        <div class="create-content scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn" id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a> </div>
+        <div class="create-content scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn create-content-btn" id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a> </div>
         <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
           <?php
 		 $is_shop_str = " is_shop='n' ";

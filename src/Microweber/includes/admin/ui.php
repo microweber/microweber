@@ -21,6 +21,7 @@
       vertical-align: middle;
       cursor: default;
       width: 150px;
+      height: 115px;
     }
 
     #info-icon-list li:hover{

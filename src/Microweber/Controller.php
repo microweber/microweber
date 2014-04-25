@@ -1127,7 +1127,7 @@ class Controller
         } else {
             $is_custom_view = $this->app->url->param('view');
             if ($is_custom_view and $is_custom_view != false) {
-
+                $is_custom_view = str_replace('..','',$is_custom_view);
                 $page_url = $this->app->url->param_unset('view', $page_url);
 
             }
@@ -1137,8 +1137,11 @@ class Controller
 
         $is_editmode = $this->app->url->param('editmode');
         $is_no_editmode = $this->app->url->param('no_editmode');
+        $is_quick_edit = $this->app->url->param('mw_quick_edit');
 
-
+        if ($is_quick_edit != false) {
+        $page_url = $this->app->url->param_unset('mw_quick_edit', $page_url);
+        }
         $is_preview_template = $this->app->url->param('preview_template');
         if (!$is_preview_template) {
             $is_preview_template = false;
@@ -1147,30 +1150,25 @@ class Controller
                     define('MW_FRONTEND', true);
                 }
             }
+
             if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
 
                 if ($is_editmode == 'n') {
                     $is_editmode = false;
                     $page_url = $this->app->url->param_unset('editmode', $page_url);
-
                     $this->app->user->session_set('back_to_editmode', true);
                     $this->app->user->session_set('editmode', false);
-                    //sleep(1);
-
 
                     //$this->app->url->redirect($this->app->url->site_url($page_url));
                     //exit();
                 } else {
-
                     $editmode_sess = $this->app->user->session_get('editmode');
-
                     $page_url = $this->app->url->param_unset('editmode', $page_url);
                     if ($is_admin == true) {
                         if ($editmode_sess == false) {
                             $this->app->user->session_set('editmode', true);
                             $this->app->user->session_set('back_to_editmode', false);
                             $is_editmode = false;
-
                         }
                         $this->app->url->redirect($this->app->url->site_url($page_url));
                         exit();
@@ -1178,9 +1176,9 @@ class Controller
                         $is_editmode = false;
                     }
                 }
-            } else {
-
             }
+
+
             if (isset($_SESSION) and !$is_no_editmode) {
                 $is_editmode = $this->app->user->session_get('editmode');
 
@@ -1195,7 +1193,9 @@ class Controller
             $is_editmode = false;
             $page_url = $this->app->url->param_unset('preview_template', $page_url);
         }
-
+        if($is_quick_edit == true){
+            $is_editmode = true;
+        }
         $preview_module = false;
         $preview_module_template = false;
         $preview_module_id = false;
@@ -1232,7 +1232,7 @@ class Controller
 
         }
 
-        if ($is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
+        if ($is_quick_edit or $is_preview_template == true or isset($_REQUEST['isolate_content_field']) or $this->create_new_page == true) {
 
             if (isset($_REQUEST['content_id']) and intval($_REQUEST['content_id']) != 0) {
                 $page = $this->app->content->get_by_id($_REQUEST['content_id']);
@@ -1733,6 +1733,12 @@ class Controller
                 define('IN_EDIT', true);
             }
 
+
+
+            if (isset($is_quick_edit) and $is_quick_edit == true and !defined('QUICK_EDIT')) {
+                define('QUICK_EDIT', true);
+
+            }
 
             $l = $this->app->parser->process($l, $options = false);
 

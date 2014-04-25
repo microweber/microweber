@@ -1362,4 +1362,11 @@ label.mw-price{
 
 
 
+.mw-admin-view #header,.mw-admin-view #footer,.mw-admin-view .sidebar {
+	 display: none;	
+}
+
+
+
+
 

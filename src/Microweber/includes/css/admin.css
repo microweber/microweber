@@ -126,7 +126,7 @@ h6{
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 9;
 }
 
 #main-bar-mw-icon{
@@ -337,19 +337,180 @@ h6{
 }
 
 
-/**/
 
-.manage-post-item  .mw-icon-drag{
-  cursor: move;
-  z-index:1;
+/************************************
+            Posts
+*************************************/
+.manage-post-item{
+  background: white;
+}
+
+.manage-post-item-links a{
+  margin-right: 7px;
+}
+.manage-post-item-links a:hover{
+  text-decoration: underline
+}
+
+.manage-post-item:hover .manage-post-item-links a{
+  color: #2C82DD;
 }
 
 
+.manage-post-item-col-1{
+  width: 40px;
+}
+.manage-post-item-col-2{
+  width: 120px;
+}
+.manage-post-item-col-3{
+  width: auto;
+}
+.manage-posts-holder .manage-post-item-col-4{
+  width:110px;
+  text-align: center;
+  vertical-align: middle;
+}
+.manage-post-item-author{
+  max-width: 70px;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+}
+.manage-item-main-top{
+  min-height: 60px;
+}
+
+.manage-posts-holder .manage-post-item-col-5{
+  width: 40px;
+  vertical-align: middle;
+}
+
+.manage-post-item .manage-post-item-title [class*='mw-icon-']{
+  font-size: 22px;
+  top: -2px;
+}
+
+.manage-post-item .mw-icon-drag{
+  cursor: move;
+  z-index:1;
+  visibility: hidden;
+  left: 0;
+  top: 15px;
+  color: #ccc;
+  display: block;
+  font-size: 20px;
+}
+
+.manage-post-item .mw-icon-drag:hover{
+  color: black;
+}
+
+.manage-post-item:hover .mw-icon-drag{
+  visibility: visible;
+}
+
+.manage-post-item .product-icon{
+  width: 25px;
+  height: 25px;
+}
+
+.manage-post-item-title{
+  margin-top: 0;
+}
+
+.comments-bubble{
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+.comments-bubble .mw-icon-comment{
+  font-size: 32px;
+  color: #3B3B3B;
+}
+
+.comments-bubble .comment-number{
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  top: 25%;
+  left: 0;
+  z-index: 1;
+  white-space: nowrap;
+  color: white;
+}
 
 
+/* Toolbar */
 
+.manage-toobar{
+  clear: both;
+  overflow: hidden;
+  position: relative;
+  height: 40px;
+  z-index: 10;
+}
+.manage-toobar-content{
+  position: fixed;
+  top: 0;
+  max-width: 870px;
+  background: white;
+  padding: 10px 0;
 
+}
+.manage-toobar-content *{
+  vertical-align: middle;
+}
 
+.manage-toolbar-top{
+    margin-bottom:20px;
+}
+
+.manage-post-item{
+  padding: 10px 0 0;
+  margin: 10px 0 0;
+  border-top: 1px solid #eee;
+  position: relative;
+  overflow: hidden;
+}
+.mw-ui-box-content .manage-post-item:first-child{
+  border-top: none
+}
+.manage-post-image{
+  display: block;
+  float: left;
+  position: relative;
+  width: 100px;
+  height: 75px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: #f5f5f5;
+}
+.manage-post-image-no-image:after{
+    color: #CCCCCC;
+    content: "\0109";
+    display: block;
+    font-family: Microweber;
+    font-size: 31px;
+    line-height: 31px;
+    margin-top: -15px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+}
+
+.manage-post-item.ui-sortable-helper{
+  border-color: transparent;
+  background: #FBF9D0;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
 
 
 
@@ -445,4 +606,31 @@ h6{
 
     /* Main menu */
 
+    .manage-toobar{
+      display: none !important;
+    }
+
+}
+@media (max-width: 640px) {
+  .mw-ui-row-nodrop .manage-post-item-col-4,
+  .mw-ui-row-nodrop .manage-post-item-col-5{
+      display: none;
+  }
+}
+@media (max-width: 480px) {
+.mw-ui-row-nodrop .manage-post-item-title{
+  font-size: 14px;
+}
+.mw-ui-row-nodrop .manage-post-item-col-2{
+    display: none;
+}
+.manage-post-item-link-small{
+  display: none;
+}
+
+}
+@media (max-width: 320px) {
+.mw-ui-row-nodrop .manage-post-item-col-1{
+    display: none;
+}
 }

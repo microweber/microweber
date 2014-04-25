@@ -2268,12 +2268,16 @@ mw.tools = {
   iframe_live_edit:function(area, params, k){
     var params = params || {};
     var k = k || false;
-
+	if(typeof params === 'object' ){
+		if(typeof params.src != 'undefined'){
+		  delete(params.src);
+		}
+	}
     var params = typeof params === 'object' ? json2url(params) : params;
 
     var area = mw.$(area);
     var frame = mwd.createElement('iframe');
-    frame.src = mw.settings.site_url+('?live_edit&'+params);
+    frame.src = mw.settings.site_url+('?mw_quick_edit=true&'+params);
     frame.className = 'mw-iframe-editor';
         frame.scrolling = 'no';
         var name =  'mweditor'+mw.random();
@@ -2286,8 +2290,8 @@ mw.tools = {
 
     $(frame).load(function(){
         frame.contentWindow.thisframe = frame;
-        var cont = $(frame).contents().find("#mw-iframe-editor-area");
-         cont[0].contentEditable = true;
+      //  var cont = $(frame).contents().find(".edit").attr('contenteditable',true);
+        // cont[0].contentEditable = true;
         if(!k) {
             if(area[0].tagName === 'TEXTAREA'){
               cont.html(area[0].value);
@@ -2719,7 +2723,22 @@ mw.tools = {
   },
   calc:{
     SliderButtonsNeeded:function(parent){
+	
+		
+		
+		
         var t  = {left:false,right:false};
+		
+		
+		 
+		if(parent == null){
+		 return;
+		}
+		
+		
+		
+		
+		
         var el = parent.firstElementChild;
         if( $(parent).width() > $(el).width() ) return t;
         var a  = $(parent).offset().left + $(parent).width();

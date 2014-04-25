@@ -228,7 +228,8 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
     </div>
   </div>
   <?php endif; ?>
-  <?php if(1 or $data['content_type'] == 'post' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
+  
+  <?php if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
   <div class="mw-ui-field-holder" style="padding-bottom: 25px;">
     <textarea class="semi_hidden" name="content" id="quick_content_<?php print $rand ?>"></textarea>
   </div>
@@ -386,7 +387,10 @@ mw.edit_content.load_editor  = function(element_id){
 	 var content_id =  $('#mw-content-id-value-<?php print $rand; ?>').val();
 	 var content_type =  $('#mw-content-type-value-<?php print $rand; ?>').val();
 	 var subtype =  $('#mw-content-subtype-value-<?php print $rand; ?>').val();
-      
+     var active_site_template =  $('.mw-edit-page-template-selector').val();
+	 var active_site_layout =  $('.mw-edit-page-layout-selector').val();
+
+	 
 	 if(area !== null){
 		var params = {};
 		params.content_id=content_id
@@ -394,8 +398,14 @@ mw.edit_content.load_editor  = function(element_id){
 		params.subtype=subtype
 		params.parent_page=parent_page
 		params.inherit_template_from=parent_page
-		params.isolate_content_field=true
-		params.live_edit=true
+		if(active_site_template != undefined){
+			params.preview_template=active_site_template
+		}
+		if(active_site_layout != undefined){
+			params.preview_layout=active_site_layout
+		}
+		// params.isolate_content_field=true
+		//params.live_edit=true
 	 
 		if(typeof editor !== "undefined" && editor !== null){
 			 $(editor).remove();
@@ -403,7 +413,8 @@ mw.edit_content.load_editor  = function(element_id){
 		}
 		editor =  mw.tools.iframe_live_edit(area,params ,true);
         editor.style.width = "100%";
-        editor.style.height = "3000px";
+		editor.style.width = "1000px";
+        editor.style.height = "2000px";
 	 }
 	 var layout_selector =  mw.$('#mw-quick-add-choose-layout');
      if(layout_selector !== null){
@@ -736,6 +747,22 @@ mw.save_inner_editable_fields = function(data){
 			  mw.edit_content.load_editor();
 		 }
        });
+	   
+	   
+	   
+	    $(window).bind('templateChanged', function(e){
+		  
+		  var iframe_ed = $('.mw-iframe-editor')
+	     var changed =  iframe_ed.contents().find('.changed').size();
+		 if(changed == 0){
+			  mw.edit_content.load_editor();
+			 
+		 }
+		 
+		 
+       });
+	   
+	   
        mww.QTABS = mw.tools.tabGroup({
           nav: mw.$("#quick-add-post-options li"),
           tabs: mw.$(".quick-add-post-options-item"),

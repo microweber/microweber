@@ -72,8 +72,13 @@ function __store_lang_file()
                     if (!is_dir($dn)) {
                         @mkdir($dn);
                     }
-                    if (is_writable($lang_file)) {
-                        file_put_contents($lang_file, $lang_file_str);
+                    if (isset($lang_file_str) and $lang_file_str != false) {
+                        if(!is_file($lang_file)){
+                            touch($lang_file);
+                        }
+                        if (is_writable($lang_file)) {
+                            file_put_contents($lang_file, $lang_file_str);
+                        }
                     }
 
                 }
@@ -103,7 +108,6 @@ function current_lang()
         $lang = MW_LANG;
         return MW_LANG;
     }
-
 
 
     if (!isset($lang) or $lang == false) {

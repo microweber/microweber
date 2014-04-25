@@ -845,7 +845,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-           return $cache_content;
+          return $cache_content;
         }
 
         $render_file = false;
@@ -1165,19 +1165,38 @@ class Content
             }
         }
 
-        if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and $render_file == false and !isset($page['layout_file'])) {
-            $layouts_list = $this->app->layouts->scan('site_template=' . $page['active_site_template']);
-            if (is_array($layouts_list)) {
-                foreach ($layouts_list as $layout_item) {
-                    if ($render_file == false and isset($layout_item['content_type']) and isset($layout_item['layout_file']) and $page['content_type'] == $layout_item['content_type']) {
-                        $page['layout_file'] = $layout_item['layout_file'];
-                        $render_file = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
-                    }
-                }
-            }
-        }
+        if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and isset($page['layout_file'])) {
+            $page['active_site_template'] = trim(str_replace('..', '', $page['active_site_template']));
+            $page['layout_file'] = trim(urldecode(str_replace('..', '', $page['layout_file'])));
+            $page['layout_file'] = (str_replace('\\', '/', $page['layout_file']));
 
+            $render_file_test = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+            $render_file_test = normalize_path($render_file_test,false);
+
+            if (is_file($render_file_test)) {
+                $render_file = $render_file_test;
+            }
+
+
+//            $layouts_list = $this->app->layouts->scan('site_template=' . $page['active_site_template']);
+//            if (is_array($layouts_list)) {
+//                foreach ($layouts_list as $layout_item) {
+//                    if ($render_file == false and isset($layout_item['content_type']) and isset($layout_item['layout_file']) and $page['content_type'] == $layout_item['content_type']) {
+//                        $page['layout_file'] = $layout_item['layout_file'];
+//                        $render_file = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+//                    }
+//                }
+//            }
+
+
+
+        }
+       // d($render_file);
         if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
+
+           if(isset($page['content_type']) and $page['content_type'] == 'page'){
+               $look_for_post = false;
+           }
             if ($look_for_post != false) {
                 $f1 = $page['layout_file'];
                 $stringA = $f1;
@@ -1238,6 +1257,7 @@ class Content
                 }
             }
         }
+
         if ($render_file == false and ((!isset($page['layout_file'])) or $page['layout_file'] == false) and isset($page['url']) and $page['url'] != '') {
             $page['url'] = trim(str_replace('..', '', $page['url']));
             $template_view = ACTIVE_TEMPLATE_DIR . strtolower($page['url']) . '.php';
@@ -1245,6 +1265,22 @@ class Content
                 $render_file = $template_view;
             }
 
+        }
+
+        if ($render_file == false and isset($page['subtype']) and $page['subtype'] != '') {
+            $page['subtype'] = trim(str_replace('..', '', $page['subtype']));
+            $template_view = ACTIVE_TEMPLATE_DIR . strtolower($page['subtype']) . '.php';
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
+        }
+
+        if ($render_file == false and isset($page['content_type']) and $page['content_type'] != '') {
+            $page['content_type'] = trim(str_replace('..', '', $page['content_type']));
+            $template_view = ACTIVE_TEMPLATE_DIR . strtolower($page['content_type']) . '.php';
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
         }
 
         if (isset($page['active_site_template']) and $render_file == false and (strtolower($page['active_site_template']) == 'default' or $page['active_site_template'] == $site_template_settings)) {
@@ -1266,6 +1302,7 @@ class Content
                         $template_view = ACTIVE_TEMPLATE_DIR . 'inner.php';
                         if ($render_file == false and is_file($template_view) == true) {
                             $render_file = $template_view;
+
                         }
                     }
                 }
@@ -1286,6 +1323,9 @@ class Content
                 $render_file = $template_view;
             }
         }
+
+
+
 
         if ($render_file == false and  isset($page['active_site_template']) and strtolower($page['active_site_template']) != 'default') {
             $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
@@ -3956,6 +3996,10 @@ class Content
 
                 if ($is_admin == true and is_array($pd)) {
                     $save_page = $pd;
+
+
+                    if(!isset($_GET['quick_edit'])){
+
                     if (isset($ref_page_url) and $ref_page_url != false) {
                         $save_page['url'] = $ref_page_url;
                     } else {
@@ -3964,6 +4008,8 @@ class Content
                     }
                     $title = str_replace('%20', ' ', ($this->app->url->string(1)));
                     $save_page['title'] = $title;
+
+
                     if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url->site()) {
                         $save_page['url'] = 'home';
                         $home_exists = $this->homepage();
@@ -3971,6 +4017,9 @@ class Content
                             $save_page['is_home'] = 'y';
                         }
                     }
+                    }
+
+
                     if ($save_page['title'] == '') {
                         $save_page['title'] = 'Home';
                     }
