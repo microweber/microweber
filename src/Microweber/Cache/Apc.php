@@ -121,11 +121,14 @@ class Apc
 
                     foreach ($hits["cache_list"] as $cache_list_value) {
                         if (isset($cache_list_value['info'])) {
-                            if (stristr($cache_group, $cache_group)) {
+                            if (stristr($cache_list_value['info'], $cache_group)) {
                                //  d($cache_list_value['info']);
-                                apc_delete($cache_list_value['info']);
+
+                               // print '<br><br>ddelete: '. ($cache_group) . "\n ";
+
+                                @apc_delete($cache_list_value['info']);
                             }
-                           // print '<br><br>ddelete: '. ($cache_group) . "\n ";
+                           //
 
                             //d($cache_list_value['info']);
                         }
