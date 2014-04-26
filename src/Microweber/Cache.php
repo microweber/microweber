@@ -12,56 +12,86 @@ namespace Microweber;
  */
 
 
-
-
-
 class Cache
 {
 
+    /**
+     * An instance of the Microweber Application class
+     *
+     * @var $app
+     */
+    public $app;
+    /**
+     * An instance of the cache adapter to use
+     *
+     * @var $adapter
+     */
+    public $adapter;
+
+    function __construct($app = null)
+    {
+        if (!is_object($this->app)) {
+            if (is_object($app)) {
+
+                $this->app = $app;
+
+                if (isset($app->cache->adapter) and is_object($app->cache->adapter)) {
+                    $this->adapter = $app->cache->adapter;
+                }
+
+            } else {
+
+            }
+        }
+        $apc_exists = false;
+        if (!defined('MW_USE_APC_CACHE')) {
+            $apc_exists = function_exists('apc_fetch');
+            define("MW_USE_APC_CACHE", $apc_exists);
+        } else {
+            $apc_exists = MW_USE_APC_CACHE;
+        }
+
+
+        if (!is_object($this->adapter)) {
+            if ($apc_exists == false) {
+                $this->adapter = new \Microweber\Cache\Files();
+            } else {
+                $this->adapter = new \Microweber\Cache\Apc();
+
+            }
+
+        }
+
+    }
 
     /**
-     * Deletes cache for given $cache_group recursively.
+     * Stores your data in the cache.
+     * It can store any value that can be serialized, such as strings, array, etc.
      *
-     * @param string $cache_group
-     *            (default is 'global') - this is the subfolder in the cache dir.
-     * @param bool $cache_storage_type
-     * @return boolean
-     *
-     * @package Cache
      * @example
      * <code>
-     * //delete the cache for the content
-     *  mw('cache')->delete("content");
-     *
-     * //delete the cache for the content with id 1
-     *  mw('cache')->delete("content/1");
-     *
-     * //delete the cache for users
-     *  mw('cache')->delete("users");
-     *
-     * //delete the cache for your custom table eg. my_table
-     * mw('cache')->delete("my_table");
+     * //store custom data in cache
+     * $data = array('something' => 'some_value');
+     * $cache_id = 'my_cache_id';
+     * $cache_content = mw('cache')->save($data, $cache_id, 'my_cache_group');
      * </code>
      *
+     * @param mixed $data_to_cache
+     *            your data, anything that can be serialized
+     * @param string $cache_id
+     *            id of the cache, you must define it because you will use it later to
+     *            retrieve the cached content.
+     * @param string $cache_group
+     *            (default is 'global') - this is the subfolder in the cache dir.
+     *
+     * @param bool $cache_storage_type
+     * @return boolean
+     * @package Cache
      */
-    public function delete($cache_group = 'global', $cache_storage_type = false)
+    public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
-        if ($cache_storage_type == false  or $cache_storage_type == 'files') {
-            global $_mw_cache_obj;
-            $local_obj = $_mw_cache_obj;
-        } else {
-            $cache_storage_type = "Cache\\" . $cache_storage_type;
-            $local_obj = new $cache_storage_type;
+        return $this->adapter->save($data_to_cache, $cache_id, $cache_group);
 
-        }
-
-        if (!is_object($local_obj)) {
-            $local_obj = new Cache\Files();
-        }
-
-        //d($cache_group);
-
-        $local_obj->delete($cache_group);
     }
 
     /**
@@ -89,90 +119,40 @@ class Cache
      * @package Cache
      *
      */
-    public function get($cache_id, $cache_group = 'global', $timeout = false, $cache_storage_type = false)
+    public function get($cache_id, $cache_group = 'global', $timeout = false)
     {
-        static $cache_default;
-        global $_mw_cache_obj;
 
-        if ($cache_storage_type == false or $cache_storage_type == 'files') {
-            $local_obj = $_mw_cache_obj;
-
-        } else {
-            if (!is_object($cache_storage_type)) {
-                 $local_obj = new $cache_storage_type;
-            }
-
-        }
-
-        if (!is_object($local_obj)) {
-            if (!is_object($cache_default)) {
-                $local_obj = $cache_default = new Cache\Files();
-
-            } else {
-                $local_obj = $cache_default;
-
-            }
-        }
-
-        return $local_obj->get($cache_id, $cache_group,$timeout);
+        return $this->adapter->get($cache_id, $cache_group, $timeout);
     }
 
     /**
-     * Stores your data in the cache.
-     * It can store any value that can be serialized, such as strings, array, etc.
+     * Deletes cache for given $cache_group recursively.
      *
-     * @example
-     * <code>
-     * //store custom data in cache
-     * $data = array('something' => 'some_value');
-     * $cache_id = 'my_cache_id';
-     * $cache_content = mw('cache')->save($data, $cache_id, 'my_cache_group');
-     * </code>
-     *
-     * @param mixed $data_to_cache
-     *            your data, anything that can be serialized
-     * @param string $cache_id
-     *            id of the cache, you must define it because you will use it later to
-     *            retrieve the cached content.
      * @param string $cache_group
      *            (default is 'global') - this is the subfolder in the cache dir.
-     *
      * @param bool $cache_storage_type
      * @return boolean
+     *
      * @package Cache
+     * @example
+     * <code>
+     * //delete the cache for the content
+     *  mw('cache')->delete("content");
+     *
+     * //delete the cache for the content with id 1
+     *  mw('cache')->delete("content/1");
+     *
+     * //delete the cache for users
+     *  mw('cache')->delete("users");
+     *
+     * //delete the cache for your custom table eg. my_table
+     * mw('cache')->delete("my_table");
+     * </code>
+     *
      */
-    public function save($data_to_cache, $cache_id, $cache_group = 'global', $cache_storage_type = false)
+    public function delete($cache_group = 'global')
     {
-
-        if ($cache_storage_type == false  or $cache_storage_type == 'files') {
-            global $_mw_cache_obj;
-            $local_obj = $_mw_cache_obj;
-
-        } else {
-
-            if (!is_object($cache_storage_type)) {
-                $local_obj = new $cache_storage_type;
-            }
-
-
-        }
-        if (!is_object($local_obj)) {
-            $local_obj = new Cache\Files();
-        }
-
-
-        // d($data_to_cache);
-        return $local_obj->save($data_to_cache, $cache_id, $cache_group);
-
-    }
-
-    public function clear()
-    {
-        return  $this->purge();
-    }
-    public function flush()
-    {
-        return  $this->purge();
+        $this->adapter->delete($cache_group);
     }
 
     /**
@@ -180,28 +160,15 @@ class Cache
      * @example
      * <code>
      * //delete all cache
-     *  $this->app->cache->flush();
+     *  $this->app->cache->clear();
      * </code>
      * @return boolean
      * @package Cache
      */
-    public function purge($cache_storage_type = false)
+
+    public function clear()
     {
-        if ($cache_storage_type == false or trim($cache_storage_type) == ''  or $cache_storage_type == 'files') {
-            global $_mw_cache_obj;
-            $local_obj = $_mw_cache_obj;
-        } else {
-            $cache_storage_type = "Cache\\" . $cache_storage_type;
-            $local_obj = new $cache_storage_type;
-
-        }
-
-        if (!is_object($local_obj)) {
-            $local_obj = new Cache\Files();
-        }
-
-
-        return $local_obj->purge();
+        return $this->adapter->clear();
     }
 
     /**
@@ -218,13 +185,7 @@ class Cache
      */
     public function debug()
     {
-        global $_mw_cache_obj;
-        if (!is_object($_mw_cache_obj)) {
-            $_mw_cache_obj = new Cache\Files();
-        }
-
-
-        return $_mw_cache_obj->debug();
+        return $this->adapter->debug();
     }
 
 }

@@ -5756,7 +5756,7 @@ class Content
 
                     //$new_shop = $this->save_content($add_page);
                     //$this->app->cache->delete('content');
-                    //$this->app->cache->flush();
+                    //$this->app->cache->clear();
                 }
 
 

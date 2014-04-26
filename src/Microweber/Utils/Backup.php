@@ -842,10 +842,10 @@ class Backup
 
         ob_start();
         $api = new \Microweber\Utils\Backup();
-        $this->app->cache->flush();
+        $this->app->cache->clear();
         $rest = $api->exec_restore($params);
 
-        $this->app->cache->flush();
+        $this->app->cache->clear();
 
         ob_end_clean();
         return array('success' => "Backup was restored!");

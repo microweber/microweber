@@ -2,9 +2,15 @@
 namespace Microweber\Cache;
 $mw_cache_get_content_memory = array();
 $mw_skip_memory = array();
-
+if (!defined('MW_CACHE_CONTENT_PREPEND')) {
+    define('MW_CACHE_CONTENT_PREPEND', '<?php exit(); ?>');
+}
 class Apc
 {
+
+    public $ttl = 300; //ttl in seconds
+
+
     public $mw_cache_mem = array();
 
 
@@ -15,37 +21,71 @@ class Apc
             $this->group_prefix  = 'apc-'.($_SERVER["SERVER_NAME"]);
         }
     }
+    public function hash_id($cache_group,$cache_id){
+        $new_id = $this->hash_group($cache_group).crc32($this->group_prefix.$cache_group.$cache_id);
+        return $new_id;
+    }
+    public function hash_group($cache_group){
+        $cache_group = $this->group_prefix.'_'.$cache_group;
+        $cache_group = str_replace('.','-',$cache_group);
+        $cache_group = str_replace('/','-',$cache_group);
+        $cache_group = str_replace('\\','-',$cache_group);
+
+        return $cache_group;
+    }
 
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
 
-        $cache_group = $this->group_prefix.$cache_group;
+        $cache_group = $this->hash_group($cache_group);
 
+        global $mw_cache_get_content_memory;
 
-        $cache_id = $cache_group . $cache_id;
+         $cache_id = $this->hash_id($cache_group,$cache_id);
         static $apc_apc_delete;
         if ($apc_apc_delete == false) {
             $apc_apc_delete = function_exists('apc_delete');
         }
-        if ($apc_apc_delete == true) {
-            @apc_delete($cache_id);
+        if ($apc_apc_delete == true and $data_to_cache == false) {
+
+           //
+           // @apc_delete($cache_id);
         }
+        if (isset($mw_cache_get_content_memory[$cache_id])) {
+          //  return ($mw_cache_get_content_memory[$cache_id]);
+        }
+        $mw_cache_get_content_memory[$cache_id] = $data_to_cache;
+        // print '<br><br>save: '. ($cache_id) . "\n ";
 
-        $data_to_cache = serialize($data_to_cache);
 
-        $cache = MW_CACHE_CONTENT_PREPEND . $data_to_cache;
+
+
+
+        $cache = $data_to_cache = serialize($data_to_cache);
+
+       // $cache = MW_CACHE_CONTENT_PREPEND . $data_to_cache;
         //@apc_delete($cache_id);
+//d($cache);
+       // d($cache_id);
+        $ttl = $this->ttl;
+
+
         try {
-            @apc_store($cache_id, $cache, APC_EXPIRES);
+            //
+
+            @apc_store($cache_id, $cache, $ttl);
         } catch (Exception $e) {
 
         }
 
 
     }
-
+    public function clear(){
+        return $this->purge();
+    }
     public function delete($cache_group = 'global')
     {
+        $cache_group = $this->hash_group($cache_group);
 
 
         global $mw_cache_deleted_groups;
@@ -56,7 +96,10 @@ class Apc
         if (!in_array($cache_group, $mw_cache_deleted_groups)) {
 
             $mw_cache_deleted_groups[]= $cache_group;
+        } else {
+            return;
         }
+     //   print '<br><br>ddelete: '. ($cache_group) . "\n ";
 
 
 
@@ -68,24 +111,26 @@ class Apc
         if ($apc_no_clear == false) {
             $apc_exists = function_exists('apc_clear_cache');
             if ($apc_exists == true) {
-                return apc_clear_cache('user');
+             //   return apc_clear_cache('user');
 
                 //apc_clear_cache('user');
-                // d('apc_clear_cache');
-                 apc_clear_cache('user');
-                //$hits = apc_cache_info('user');
-//                if (isset($hits["cache_list"]) and is_array($hits["cache_list"])) {
-//
-//                    foreach ($hits["cache_list"] as $cache_list_value) {
-//                        if (isset($cache_list_value['info'])) {
-//                            if (stristr($cache_group, $cache_group)) {
-//                                // d($cache_list_value['info']);
-//                                apc_delete($cache_list_value['info']);
-//                            }
-//                            //d($cache_list_value['info']);
-//                        }
-//                    }
-//                }
+
+               //  apc_clear_cache('user');
+                $hits = apc_cache_info('user');
+                if (isset($hits["cache_list"]) and is_array($hits["cache_list"])) {
+
+                    foreach ($hits["cache_list"] as $cache_list_value) {
+                        if (isset($cache_list_value['info'])) {
+                            if (stristr($cache_group, $cache_group)) {
+                               //  d($cache_list_value['info']);
+                                apc_delete($cache_list_value['info']);
+                            }
+                           // print '<br><br>ddelete: '. ($cache_group) . "\n ";
+
+                            //d($cache_list_value['info']);
+                        }
+                    }
+                }
 
             }
         } else {
@@ -114,16 +159,18 @@ class Apc
         if (in_array($cache_group, $mw_cache_deleted_groups)) {
             return false;
         }
-        $cache_group = $this->group_prefix.$cache_group;
+        $cache_group = $this->hash_group($cache_group);
 
 
-        $cache_id_apc = $cache_group . $cache_id;
+        $cache_id_apc = $this->hash_id($cache_group,$cache_id);
+     //   $cache_id_apc = $cache_id;
         global $mw_cache_get_content_memory;
         if (isset($mw_cache_get_content_memory[$cache_id_apc])) {
             return ($mw_cache_get_content_memory[$cache_id_apc]);
         }
 
         $cache = apc_fetch($cache_id_apc);
+       // print 'get: '. ($cache_id_apc) . "\n";
 
         if ($cache) {
             if (isset($cache) and strval($cache) != '') {
@@ -134,11 +181,11 @@ class Apc
 
                 $count = 1;
 
-                $cache = str_replace($search, $replace, $cache, $count);
+               // $cache = str_replace($search, $replace, $cache, $count);
                 $cache = unserialize($cache);
             }
             $mw_cache_get_content_memory[$cache_id_apc] = $cache;
-            //d($cache_id_apc);
+
             return $cache;
         }
         $mw_cache_get_content_memory[$cache_id_apc] = false;

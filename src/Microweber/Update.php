@@ -319,7 +319,7 @@ class Update
 
         $this->post_update();
         //$this->app->cache->delete('update/global');
-        //$this->app->cache->flush();
+        //$this->app->cache->clear();
         return $unzipped;
     }
 

@@ -4,9 +4,6 @@
 namespace Microweber;
 
 
-if (!defined('DB_IS_SQLITE')) {
-    define('DB_IS_SQLITE', false);
-}
 
 if (!defined('MW_USER_IP')) {
     if (isset($_SERVER["REMOTE_ADDR"])) {
@@ -185,8 +182,8 @@ class Db
         $prefix = $this->app->config('table_prefix');
         $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id . $prefix);
 
-
-        $cache_content = $this->app->cache->get($function_cache_id, 'db/' . $table_name, false);
+        $cache_group = 'db/' . $table_name;
+        $cache_content = $this->app->cache->get($function_cache_id, 'db/' . $cache_group);
 
         if (($cache_content) != false) {
 
@@ -309,7 +306,7 @@ class Db
 
         $this->app->cache->delete('db' . DIRECTORY_SEPARATOR . 'fields');
 
-        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name, false);
+        $this->app->cache->save('--true--', $function_cache_id, $cache_group);
         return true;
     }
 
@@ -1266,7 +1263,8 @@ class Db
             }
             $original_cache_id = $cache_id;
 
-            //  $cache_content = $this->app->cache->get($original_cache_id, $original_cache_group);
+          //     $cache_content = $this->app->cache->get($original_cache_id, $original_cache_group);
+           // d($cache_content);
             $cache_content = false;
             if (($cache_content) != false) {
                 if ($cache_content == '---empty---') {
@@ -2364,12 +2362,8 @@ class Db
         $table = $this->real_table_name($table);
         $table = $this->escape_string($table);
 
-        if (DB_IS_SQLITE != false) {
-            $sql = "PRAGMA table_info('{$table}');";
-        } else {
-            $sql = " show columns from $table ";
-        }
 
+            $sql = " show columns from $table ";
 
         $query = $this->query($sql);
 
@@ -3494,6 +3488,9 @@ class Db
         $db = $db['dbname'];
 
         $q = $this->query("SHOW TABLES FROM $db", __FUNCTION__, 'db');
+
+
+
         if (isset($q['error'])) {
             return false;
         } else {

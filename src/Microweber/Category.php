@@ -276,7 +276,7 @@ class Category
         if (isset($params['rel']) and $params['rel'] != false and isset($params['rel_id'])) {
             $table_assoc_name = $this->app->db->assoc_table_name($params['rel']);
             $skip123 = true;
-            $str0 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
+            $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
             $fors = $this->app->db->get($str0);
 
         }
@@ -853,6 +853,7 @@ class Category
 
     public function get_page($category_id)
     {
+
         $category_id = intval($category_id);
         if ($category_id == 0) {
             return false;
@@ -1023,6 +1024,7 @@ class Category
 
             return false;
         }
+
         $get_category_items = $this->get_items('rel=content&rel_id=' . ($content_id));
         $include_parents = array();
         $include_parents_str = '';

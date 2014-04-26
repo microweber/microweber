@@ -1120,7 +1120,7 @@ class Module
             $glob_patern = 'config.php';
         }
 
-        //$this->app->cache->flush();
+        //$this->app->cache->clear();
         //clearstatcache();
         $dir_name_mods = MW_MODULES_DIR;
         $modules_remove_old = false;

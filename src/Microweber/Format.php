@@ -658,4 +658,14 @@ class Format
         return unserialize($serialized);
     }
 
+
+    function is_base64($data)
+    {
+        $decoded = base64_decode($data, true);
+        if (false === $decoded || base64_encode($decoded) != $data) {
+            return false;
+        }
+        return true;
+    }
+
 }

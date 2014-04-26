@@ -477,7 +477,7 @@ class Parser
             if ($no_cache == false) {
                 $cache = $this->app->cache->get($parser_mem_crc, 'content_fields/global/parser');
                 if ($cache != false) {
-                    // return $cache;
+                  //    return $cache;
                 }
 
             }

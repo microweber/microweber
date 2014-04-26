@@ -13,9 +13,7 @@ if (!defined('MW_USE_APC_CACHE')) {
     define("MW_USE_APC_CACHE", $apc_exists);
 
 }
-if (!defined('APC_EXPIRES')) {
-    define("APC_EXPIRES", 60);
-}
+
 if (!defined('MW_CACHE_FILES_EXTENSION')) {
     define('MW_CACHE_FILES_EXTENSION', '.php');
 }
@@ -700,13 +698,15 @@ class Files
                 break;
         }
     }
-
+    public function clear(){
+        return $this->purge();
+    }
     public function purge()
     {
         $apc_obj = false;
         if (defined('MW_USE_APC_CACHE') and MW_USE_APC_CACHE == true) {
             $apc_obj = new \Microweber\Cache\Apc();
-            $apc_obj->purge();
+            $apc_obj->clear();
         }
 
         return $this->clearcache();

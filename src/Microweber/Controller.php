@@ -2042,7 +2042,7 @@ class Controller
 
             print 'Error! Page is not found? Please login in the admin and make a page.';
 
-            $this->app->cache->purge();
+            $this->app->cache->clear();
             exit();
         }
 
