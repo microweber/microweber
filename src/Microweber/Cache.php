@@ -35,7 +35,7 @@ class Cache
 
                 $this->app = $app;
 
-                if (isset($app->cache->adapter) and is_object($app->cache->adapter)) {
+                if (isset($app->cache) and isset($app->cache->adapter) and is_object($app->cache->adapter)) {
                     $this->adapter = $app->cache->adapter;
                 }
 

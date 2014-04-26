@@ -239,6 +239,7 @@ class Content
 
         $fields_to_add[] = array('require_login', "char(1) default 'n'");
 
+        $fields_to_add[] = array('status', 'TEXT default NULL');
 
         $fields_to_add[] = array('subtype', 'TEXT default NULL');
         $fields_to_add[] = array('subtype_value', 'TEXT default NULL');
