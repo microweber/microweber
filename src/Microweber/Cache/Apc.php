@@ -28,6 +28,7 @@ class Apc
     public function hash_group($cache_group){
         $cache_group = $this->group_prefix.'_'.$cache_group;
         $cache_group = str_replace('.','-',$cache_group);
+        $cache_group = str_replace('_','-',$cache_group);
         $cache_group = str_replace('/','-',$cache_group);
         $cache_group = str_replace('\\','-',$cache_group);
 
