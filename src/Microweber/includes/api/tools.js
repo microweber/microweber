@@ -2264,65 +2264,7 @@ mw.tools = {
        $(el).dataset(a, b);
     }
   },
-  
-  iframe_live_edit:function(area, params, k){
-    var params = params || {};
-    var k = k || false;
-	if(typeof params === 'object' ){
-		if(typeof params.src != 'undefined'){
-		  delete(params.src);
-		}
-	}
-    var params = typeof params === 'object' ? json2url(params) : params;
 
-    var area = mw.$(area);
-    var frame = mwd.createElement('iframe');
-    frame.src = mw.settings.site_url+('?mw_quick_edit=true&'+params);
-    frame.className = 'mw-iframe-editor';
-        frame.scrolling = 'no';
-        var name =  'mweditor'+mw.random();
-        frame.id = name;
-        frame.name = name;
-        frame.style.backgroundColor = "transparent";
-        frame.setAttribute('frameborder', 0);
-        frame.setAttribute('allowtransparency', 'true');
-        area.hide().after(frame);
-
-    $(frame).load(function(){
-        frame.contentWindow.thisframe = frame;
-      //  var cont = $(frame).contents().find(".edit").attr('contenteditable',true);
-        // cont[0].contentEditable = true;
-        if(!k) {
-            if(area[0].tagName === 'TEXTAREA'){
-              cont.html(area[0].value);
-              this.value = area[0].value;
-            }
-            else{
-              cont.html(area.html());
-              this.value = area.html();
-            }
-        }
-        if(typeof frame.contentWindow.PrepareEditor === 'function'){
-          frame.contentWindow.PrepareEditor();
-        }
-
-    });
-    $(frame).bind('change', function(e, val){
-      if(area[0].tagName === 'TEXTAREA'){
-       area.val(val);
-      }
-      else{
-        area.html(val);
-      }
-      if(area.hasClass("mw_option_field")){
-         area.trigger("change");
-      }
-      this.value = val;
-    });
-    return frame;
-  },
-  
-  
   iframe_editor:function(area, params, k){
     var params = params || {};
     var k = k || false;
@@ -2683,7 +2625,7 @@ mw.tools = {
 	    data1.from_url = window.top.location;
 	}
     var src = mw.settings.site_url + "api/module?"+json2url(data1);
-    var modal = mw.tools.modal.frame({
+    var modal = top.mw.tools.modal.frame({
       url:src,
       width:532,
       height:150,
@@ -2723,22 +2665,10 @@ mw.tools = {
   },
   calc:{
     SliderButtonsNeeded:function(parent){
-	
-		
-		
-		
         var t  = {left:false,right:false};
-		
-		
-		 
-		if(parent == null){
+		if(parent == null || !parent){
 		 return;
 		}
-		
-		
-		
-		
-		
         var el = parent.firstElementChild;
         if( $(parent).width() > $(el).width() ) return t;
         var a  = $(parent).offset().left + $(parent).width();
@@ -2752,6 +2682,7 @@ mw.tools = {
         return t;
     },
     SliderNormalize:function(parent){
+        if(parent === null || !parent){return false;}
         var el = parent.firstElementChild;
         var a = $(parent).offset().left + $(parent).width();
         var b = $(el).offset().left + $(el).width();
@@ -2761,6 +2692,7 @@ mw.tools = {
         return false;
     },
     SliderNext:function(parent, step){
+       if(parent === null || !parent){return false;}
        var el = parent.firstElementChild;
        if( $(parent).width() > $(el).width() ) return 0;
        var a = $(parent).offset().left + $(parent).width();
@@ -2780,6 +2712,7 @@ mw.tools = {
        }
     },
     SliderPrev:function(parent, step){
+       if(parent === null || !parent){return false;}
        var el = parent.firstElementChild;
        var step = step || $(parent).width();
        var curr = parseFloat(window.getComputedStyle(el, null).left);

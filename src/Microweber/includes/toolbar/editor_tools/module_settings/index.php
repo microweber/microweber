@@ -320,21 +320,21 @@ if (isset($_GET['type'])) {
 
                         if (window.parent.mw != undefined) {
                             if (window.parent.mw.reload_module != undefined) {
-                                // window.parent.mw.reload_module(refresh_modules11);
-                                window.parent.mw.reload_module('#<?php print $params['id'] ?>');
-                            }
-
-                        } else if (window.mw != undefined) {
-
-                            if (reaload_in_parent != true) {
-                                if (window.mw.reload_module != undefined) {
-                                    //	window.mw.reload_module(refresh_modules11);
-                                    //	window.mw.reload_module('#'+refresh_modules11);
+                                if(!!mw.admin){
+                                  window.parent.mw.reload_module('#<?php print $params['id'] ?>');
                                 }
+                                else{
+                                    window.parent.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>', function(){
+
+                                      setTimeout(function(){
+                                         window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                      }, 333);
+                                    });
+
+                                }
+
                             }
                         }
-
-
                         if (also_reload != undefined) {
 
                             var curm = "";

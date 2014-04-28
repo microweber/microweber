@@ -168,42 +168,118 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 <?php if($just_saved!=false) : ?>
 <?php endif; ?>
 
+<div id="post-states-tip" style="display: none">
+<div class="mw-ui-btn-vertical-nav">
+            <span data-val="n" class="mw-ui-btn <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
+            <?php _e("Unpublished"); ?>
+            </span><span data-val="y" class="mw-ui-btn<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
+            <?php _e("Published"); ?>
+            </span>
+            <span class="mw-ui-btn mw-uibtn-important">Move to trash</span>
+</div>
+</div>
+
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-<?php print $rand; ?>">
   <input type="hidden" name="id" id="mw-content-id-value-<?php print $rand; ?>"  value="<?php print $data['id']; ?>" />
   <input type="hidden" name="subtype" id="mw-content-subtype-value-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" />
   <input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>"   value="<?php print $data['content_type']; ?>" />
   <input type="hidden" name="parent"  id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class="" />
-  <div class="mw-ui-field-holder"  style="padding-bottom: 5px;"> <span class="mw-title-field-label mw-title-field-label-<?php print $data['subtype']; ?>"></span>
-    <input
-              type="text"
-              name="title"
-              placeholder="<?php print $title_placeholder; ?>"
-              class="mw-ui-field mw-title-field left mw-title-field-<?php print $data['content_type']; ?>"
-              value="<?php print $data['title']; ?>" />
-    <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
-     <div class="mw_clear"></div>
-    <div class="mw-ui-btn-nav mw-ui-btn-nav-post-state" id="un-or-published"> <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="ico iRemove"></span>
-      <?php _e("Unpublished"); ?>
-      </span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="ico itabpublished"></span>
-      <?php _e("Published"); ?>
-      </span> </div>
+  <div class="mw-ui-field-holder">
+<div class="mw-ui-btn-nav pull-right" id="un-or-published">
+
+<?php /*            <span data-val="n" class="mw-ui-btn <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
+            <?php _e("Unpublished"); ?>
+            </span><span data-val="y" class="mw-ui-btn<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
+            <?php _e("Published"); ?>
+            </span>
+*/ ?>
+
+            <?php if($data['is_active'] == 'n'){ ?>
+            <span
+             onmouseenter="mw.tooltip({position:'top-center',content:mwd.getElementById('post-states-tip').innerHTML, element:this})"
+            data-val="n" class="mw-ui-btn <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
+             <?php _e("Unpublished"); ?>
+            </span>
+            <?php } else{  ?>
+
+            <span
+             onmouseenter="mw.tooltip({position:'top-center',content:mwd.getElementById('post-states-tip').innerHTML, element:this})"
+            data-val="y" class="mw-ui-btn<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check" ></span>
+            <?php _e("Published"); ?>
+            </span>
+
+        <?php    } ?>
+
+            <?php if($is_live_edit == false) : ?>
+
+                    <button type="button" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
+                    <span class="mw-icon-live"></span><?php _e("Go Live Edit"); ?>
+                    </button>
+                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification ">
+                    <?php _e("Save"); ?>
+                    </button>
+                    <?php else: ?>
+                    <?php if($data['id'] == 0): ?>
+                    <button type="submit" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
+                    <span class="mw-icon-live"></span><?php _e("Go Live Edit"); ?>
+                    </button>
+                    <?php else: ?>
+                    <button type="button" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
+                    <span class="mw-icon-live"></span><?php _e("Go Live Edit"); ?>
+                    </button>
+                    <?php endif; ?>
+                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification ">
+                    <?php _e("Save"); ?>
+                    </button>
+            <?php endif; ?>
+        </div>
+
+      <input
+            type="text"
+            id="content-title-field"
+            name="title"
+            onkeyup="slugFromTitle();"
+            placeholder="<?php print $title_placeholder; ?>"
+            class="mw-ui-field w100 mw-title-field-<?php print $data['content_type']; ?>"
+            value="<?php print $data['title']; ?>" />
+      <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
+<div class="edit-post-url">
+
+        <div class="mw-ui-row">
+            <div class="mw-ui-col" id="slug-base-url-column">
+                <span class="view-post-site-url" id="slug-base-url"><?php print site_url(); ?></span>
+                <script>$(mwd).ready(function(){mwd.getElementById('slug-base-url-column').style.width = mwd.getElementById('slug-base-url').offsetWidth + 'px';});</script>
+            </div>
+            <div class="mw-ui-col">
+               <span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
+               <input name="content_url" id="edit-content-url" class="mw-ui-invisible-field mw-ui-field-small w100 edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url'])?>" />
+            </div>
+        </div>
+
+    </div>
       <script>
-
-       var piblished_nav = mwd.querySelectorAll('#un-or-published');
-       var piblished_nav = piblished_nav[piblished_nav.length-1];
-       mw.ui.btn.radionav(piblished_nav, 'span[data-val]');
-       $(piblished_nav.getElementsByTagName('span')).bind("click", function(){
-            if($(this).hasClass("active")){
-                mw.$("#is_post_active").val($(this).dataset("val"));
+         var piblished_nav = mwd.querySelectorAll('#un-or-published');
+         var piblished_nav = piblished_nav[piblished_nav.length-1];
+         mw.ui.btn.radionav(piblished_nav, 'span[data-val]');
+         $(piblished_nav.getElementsByTagName('span')).bind("click", function(){
+              if($(this).hasClass("active")){
+                  mw.$("#is_post_active").val($(this).dataset("val"));
+              }
+         });
+         slugEdited = false;
+         slugFromTitle = function(){
+            var slugField = mwd.getElementById('edit-content-url');
+            var titlefield = mwd.getElementById('content-title-field');
+            if(slugEdited === false){
+                var slug = mw.slug.create(titlefield.value)
+                mw.$('.view-post-slug').html(slug);
+                mw.$('#edit-content-url').val(slug);
             }
-       });
-
+         }
       </script>
   </div>
-  <div class="mw-ui-field-holder" style="padding: 0 0 1px;">
-    <div class="edit-post-url"><span class="view-post-site-url"><?php print site_url(); ?></span><span  style="max-width: 160px; overflow: hidden; text-overflow: ellipsis; " class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
-      <input  style="width: 160px;" name="content_url" id="edit-content-url" class="edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);" type="text" value="<?php print ($data['url'])?>" />
-      <span class="edit-url-ico" onclick="mw.slug.toggleEdit()"></span> </div>
+  <div class="mw-ui-field-holder">
+
     <?php if($data['content_type'] == 'page'){ ?>
     <div class="quick-parent-selector">
       <module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
@@ -230,70 +306,51 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
   <?php endif; ?>
   
   <?php if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
-  <div class="mw-ui-field-holder" style="padding-bottom: 25px;">
-    <textarea class="semi_hidden" name="content" id="quick_content_<?php print $rand ?>"></textarea>
+  <div class="mw-ui-field-holder">
+    <div id="quick_content_<?php print $rand ?>"></div>
   </div>
   
-  
+
   
   
   <?php endif; ?>
   <?php if($data['content_type'] == 'page'):  ?>
   <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
   <?php endif; ?>
-  <div class="post-save-and-go-live">
-    <?php if($is_live_edit == false) : ?>
-    <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
-    <?php _e("Go Live Edit"); ?>
-    </button>
-    <button type="submit" class="mw-ui-btn ">
-    <?php _e("Save"); ?>
-    </button>
-    <?php else: ?>
-    <?php if($data['id'] == 0): ?>
-    <button type="submit" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
-    <?php _e("Go Live Edit"); ?>
-    </button>
-    <?php else: ?>
-    <button type="button" class="mw-ui-btn go-live mw-ui-btn-green right" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
-    <?php _e("Go Live Edit"); ?>
-    </button>
-    <?php endif; ?>
-    <button type="submit" class="mw-ui-btn ">
-    <?php _e("Save"); ?>
-    </button>
-    <?php endif; ?>
-  </div>
-  <ul class="quick-add-nav" id="quick-add-post-options">
-    <li><span><span class="ico itabpic"></span><span>
+
+
+  <hr class="hr2">
+
+  <div class="mw-ui-btn-nav" id="quick-add-post-options">
+    <span class="mw-ui-btn"><span class="ico itabpic"></span><span>
       <?php _e("Picture Gallery"); ?>
-      </span></span></li>
+      </span></span>
     <?php if($data['content_type'] == 'page'): ?>
-    <li><span><span class="ico itabaddtonav"></span><span>
+    <span class="mw-ui-btn"><span class="ico itabaddtonav"></span><span>
       <?php _e('Add to navigation menu'); ?>
-      </span> </span></li>
+      </span> </span>
     <?php endif; ?>
     <?php  if(trim($data['subtype']) == 'product'): ?>
-    <li><span><span class="ico itabprice"></span><span>
+    <span class="mw-ui-btn"><span class="ico itabprice"></span><span>
       <?php _e("Price & Fields"); ?>
-      </span></span></li>
-    <li><span><span class="ico itabtruck"></span><span>
+      </span></span>
+    <span class="mw-ui-btn"><span class="ico itabtruck"></span><span>
       <?php _e("Shipping & Options"); ?>
-      </span></span></li>
+      </span></span>
     <?php else: ?>
-    <li><span><span class="ico itabcustoms"></span><span>
+    <span class="mw-ui-btn"><span class="ico itabcustoms"></span><span>
       <?php _e("Custom Fields"); ?>
-      </span></span></li>
+      </span></span>
     <?php endif; ?>
-    <li><span><span class="ico itabadvanced"></span><span>
+    <span class="mw-ui-btn"><span class="ico itabadvanced"></span><span>
       <?php _e("Advanced"); ?>
-      </span></span></li>
+      </span></span>
       
         <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
   
       
       
-  </ul>
+  </div>
   <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item" id="quick-add-gallery-items">
     <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
     <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
@@ -321,7 +378,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
                     
                     
               <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
-                  
+
   </div>
   <?php  if(trim($data['subtype']) == 'product'): ?>
   <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
@@ -329,7 +386,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
   </div>
   <?php endif; ?>
   <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
-  
+
    <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
 
   
@@ -383,38 +440,32 @@ mw.edit_content.close_alert = function(){
 mw.edit_content.load_editor  = function(element_id){
 	 var element_id =  element_id || 'quick_content_<?php print $rand ?>';
 	 var area = mwd.getElementById(element_id);
-	 var parent_page =  $('#mw-parent-page-value-<?php print $rand; ?>').val();
-	 var content_id =  $('#mw-content-id-value-<?php print $rand; ?>').val();
-	 var content_type =  $('#mw-content-type-value-<?php print $rand; ?>').val();
-	 var subtype =  $('#mw-content-subtype-value-<?php print $rand; ?>').val();
-     var active_site_template =  $('.mw-edit-page-template-selector').val();
-	 var active_site_layout =  $('.mw-edit-page-layout-selector').val();
+	 var parent_page =  mw.$('#mw-parent-page-value-<?php print $rand; ?>').val();
+	 var content_id =  mw.$('#mw-content-id-value-<?php print $rand; ?>').val();
+	 var content_type =  mw.$('#mw-content-type-value-<?php print $rand; ?>').val();
+	 var subtype =  mw.$('#mw-content-subtype-value-<?php print $rand; ?>').val();
+     var active_site_template =  mw.$('.mw-edit-page-template-selector').val();
+	 var active_site_layout =  mw.$('.mw-edit-page-layout-selector').val();
 
 	 
 	 if(area !== null){
 		var params = {};
-		params.content_id=content_id
-		params.content_type=content_type
-		params.subtype=subtype
-		params.parent_page=parent_page
-		params.inherit_template_from=parent_page
+		params.content_id=content_id;
+		params.content_type=content_type;
+		params.subtype=subtype;
+		params.parent_page=parent_page;
+		params.inherit_template_from=parent_page;
 		if(active_site_template != undefined){
 			params.preview_template=active_site_template
 		}
 		if(active_site_layout != undefined){
 			params.preview_layout=active_site_layout
 		}
-		// params.isolate_content_field=true
-		//params.live_edit=true
-	 
-		if(typeof editor !== "undefined" && editor !== null){
-			 $(editor).remove();
-			 delete window.editor
+		if(typeof window.mweditor !== 'undefined'){
+			 $(mweditor).remove();
+			 delete window.mweditor;
 		}
-		editor =  mw.tools.iframe_live_edit(area,params ,true);
-        editor.style.width = "100%";
-		editor.style.width = "1000px";
-        editor.style.height = "2000px";
+		mweditor = mw.admin.editor.init(area, params);
 	 }
 	 var layout_selector =  mw.$('#mw-quick-add-choose-layout');
      if(layout_selector !== null){
@@ -431,13 +482,10 @@ mw.edit_content.before_save = function(){
 mw.edit_content.after_save = function(saved_id){
 	mw.askusertostay=false;
 	var content_id =  mw.$('#mw-content-id-value-<?php print $rand; ?>').val();
-	
 	var quick_add_holder = mwd.getElementById('mw-quick-content');
  	if(quick_add_holder != null){
- 	mw.tools.removeClass(quick_add_holder, 'loading');
+ 	    mw.tools.removeClass(quick_add_holder, 'loading');
 	}
-
-	
 	if(content_id == 0){
 			if(saved_id !== undefined){
  		        mw.$('#mw-content-id-value-<?php print $rand; ?>').val(saved_id);
@@ -446,13 +494,9 @@ mw.edit_content.after_save = function(saved_id){
 			 mw.$('#quickform-<?php print $rand; ?>').hide();
 			 mw.$('#post-added-alert-<?php print $rand; ?>').show();
 			<?php endif; ?>
-			
-			
- 	   // mw.reload_module('#<?php print $module_id ?>');
   	}
-	 
+
 	if(parent !== self && !!parent.mw){
-     //   mw.reload_module_parent(['posts', 'shop/products', 'pages','content']);
 		    mw.reload_module_parent('posts');
 			mw.reload_module_parent('shop/products');
 			mw.reload_module_parent('shop/cart_add');
@@ -460,23 +504,13 @@ mw.edit_content.after_save = function(saved_id){
 			mw.reload_module_parent('content');
 			mw.reload_module_parent('custom_fields');
 		    mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
-			
-			
-			
-			
-			
-			
-			
 			mw.reload_module('pages');
-		
-    	parent.mw.askusertostay=false;
+    	    parent.mw.askusertostay = false;
     	<?php if($is_current!=false) :  ?>
     	if(window.parent.mw.history != undefined){
  			setTimeout(function(){
  				window.parent.mw.history.load('latest_content_edit');
-				},200);
-
-    		
+			},200);
     	}
     	<?php endif; ?>
 	} else {
@@ -485,8 +519,6 @@ mw.edit_content.after_save = function(saved_id){
 				mw.$("#pages_tree_toolbar").removeClass("activated");
 				mw.treeRenderer.appendUI('#pages_tree_toolbar');
 				mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
-
-
 			}
 			mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
 		 });
@@ -558,8 +590,19 @@ mw.edit_content.handle_form_submit = function(go_live){
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
         var data = mw.serializeFields(el);
         module.addClass('loading');
+		
+		
+		
 		if(typeof(data.content) != "undefined" && typeof(data.id) != "undefined" && data.id != 0){
 			var inner_edits = mw.collect_inner_edit_fields(data.content);
+			if(inner_edits != undefined && inner_edits != false){
+				save_inner_edit_data = inner_edits;
+				save_inner_edit_data.id = data.id;
+				mw.save_inner_editable_fields(save_inner_edit_data);
+			}
+		} else if(typeof(data.content) == "undefined" && typeof(data.id) != "undefined" && data.id != 0){
+			var inner_edits = mw.collect_inner_edit_fields();
+			d(inner_edits);
 			if(inner_edits != undefined && inner_edits != false){
 				save_inner_edit_data = inner_edits;
 				save_inner_edit_data.id = data.id;
@@ -652,12 +695,28 @@ mw.edit_content.handle_form_submit = function(go_live){
 
 
 mw.collect_inner_edit_fields = function(data) {
+   
+   
+   
     var el = mwd.getElementById('quick_content_<?php print $rand ?>');
+	
     if(el === null){
         return;
     }
- 	var doc = mw.tools.parseHtml($(el).val());
+	if(data != undefined){
+		
+	} else {
+		var ifame_el = el.querySelector('iframe');
+		if(ifame_el != null){
+	     data = 	ifame_el.contentWindow.document.body.innerHTML
+		}
+	
+ 
+	}
+	
+ 	var doc = mw.tools.parseHtml(data);
  	var edits = $(doc).find('.edit');
+	 
     var master = {};
     if (edits.length > 0) {
         edits.each(function (j) {
@@ -705,7 +764,7 @@ mw.collect_inner_edit_fields = function(data) {
 }
 
 mw.save_inner_editable_fields = function(data){
-
+ 
 	$.ajax({
     	type: 'POST',
     	url: mw.settings.site_url + 'api/save_edit',
@@ -758,15 +817,18 @@ mw.save_inner_editable_fields = function(data){
 			  mw.edit_content.load_editor();
 			 
 		 }
-		 
+
 		 
        });
 	   
 	   
        mww.QTABS = mw.tools.tabGroup({
-          nav: mw.$("#quick-add-post-options li"),
+          nav: mw.$("#quick-add-post-options .mw-ui-btn"),
           tabs: mw.$(".quick-add-post-options-item"),
-          toggle:true
+          toggle:true,
+          onclick:function(){
+            mw.tools.scrollTo(".quick-add-post-options-item:visible:last")
+          }
        });
        if(mwd.querySelector("#quick-add-gallery-items .admin-thumb-item") !== null){
            QTABS.set(0);

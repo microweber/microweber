@@ -50,7 +50,84 @@ mw.admin = {
         else{
             mw.$('.tree-column, .fixed-side-column').width(210);
         }
+    },
+    createContentBtns:function(){
+         var create_content_btn = mwd.querySelectorAll('.create-content-btn');
+         if(create_content_btn.length !== 0){
+           $(create_content_btn).each(function(){
+               if(!this.mwtooltip){
+                   this.mwtooltip = mw.tooltip({
+                     position:$(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center',
+                     content:mw.$('#create-content-menu').html(),
+                     element:this,
+                     skin:'dark'
+                   });
+                   this.mwtooltip.style.display = 'none';
+                   $(this).timeoutHover(function(){
+                     $(this.mwtooltip).show();
+                   }, function(){
+                      if(this.mwtooltip.originalOver === false){
+                        $(this.mwtooltip).hide();
+                      }
+                   });
+                   $(this.mwtooltip).timeoutHover(function(){
+                      $(this).show();
+                   }, function(){
+                      if(this.originalOver === false){
+                        $(this).hide();
+                      }
+                   });
+               }
+           });
+         }
+    },
+    editor:{
+      set:function(frame){
+        if(!!frame && frame !== null && !!frame.contentWindow){
+            var width_mbar = mw.$('#main-bar').width(), width_tbar = mw.$('.tree-column').width(), ww = $(window).width();
+            $(frame).width(ww - width_tbar - width_mbar - 35).height(frame.contentWindow.document.body.offsetHeight);
+        }
+      },
+      init:function(area, params){
+          var params = params || {};
+          if(typeof params === 'object' ){
+            if(typeof params.src != 'undefined'){
+                delete(params.src);
+            }
+          }
+          var params = typeof params === 'object' ? json2url(params) : params;
+          var area = mw.$(area);
+          var frame = mwd.createElement('iframe');
+          frame.src = mw.settings.site_url+('?mw_quick_edit=true&'+params);
+          frame.className = 'mw-iframe-editor';
+          frame.scrolling = 'no';
+          var name =  'mweditor'+mw.random();
+          frame.id = name;
+          frame.name = name;
+          frame.style.backgroundColor = "transparent";
+          frame.setAttribute('frameborder', 0);
+          frame.setAttribute('allowtransparency', 'true');
+          area.empty().append(frame);
+          $(frame).load(function(){
+              frame.contentWindow.thisframe = frame;
+              if(typeof frame.contentWindow.PrepareEditor === 'function'){
+                frame.contentWindow.PrepareEditor();
+              }
+              mw.admin.editor.set(frame);
+              $(frame.contentWindow.document.body).bind('keyup paste', function(){
+                   mw.admin.editor.set(frame);
+              });
+          });
+          mw.admin.editor.set(frame);
+
+          $(window).bind('resize', function(){
+            mw.admin.editor.set(frame);
+          });
+
+          return frame;
+      }
     }
+
 }
 
 
@@ -59,61 +136,25 @@ $(mwd).ready(function(){
 });
 
 $(mww).bind('load', function(){
-
     mw.admin.contentScrollBox('.fixed-side-column-container');
     mw.admin.contentScrollBox('#main-menu', {color:'white'});
     mw.admin.treeboxwidth();
-
     mw.on.moduleReload('pages_tree_toolbar', function(){
        mw.admin.treeboxwidth();
        setTimeout(function(){
            mw.admin.treeboxwidth();
        }, 90);
     });
-
-   var create_content_btn = mwd.querySelectorAll('.create-content-btn');
-
-   if(create_content_btn.length !== 0){
-     $(create_content_btn).each(function(){
-       this.mwtooltip = mw.tooltip({
-         position:$(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center',
-         content:mw.$('#create-content-menu').html(),
-         element:this,
-         skin:'dark'
-       });
-       this.mwtooltip.style.display = 'none';
-
-       $(this).timeoutHover(function(){
-         $(this.mwtooltip).show();
-       }, function(){
-          if(this.mwtooltip.originalOver === false){
-            $(this.mwtooltip).hide();
-          }
-       });
-
-
-       $(this.mwtooltip).timeoutHover(function(){
-          $(this).show();
-       }, function(){
-          if(this.originalOver === false){
-
-            $(this).hide();
-          }
-       });
-
-
-     });
-
-
-
-   }
-
-
+   mw.admin.createContentBtns();
 });
 
 $(mww).bind('hashchange', function(){
     mw.admin.treeboxwidth();
 });
+
+mw.on.moduleReload('pages_edit_container', function(){
+   mw.admin.createContentBtns();
+})
 
 
 

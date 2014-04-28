@@ -8,7 +8,7 @@
        Main Styles
 **************************/
 
-body, textarea{
+body, textarea,input{
   font-family: Verdana, Geneva, Arial, sans-serif;
   font-family: Segoe UI, sans-serif;
   font-size: 13px;
@@ -55,8 +55,18 @@ h6{
   font-size: 110%;
 }
 
-
-
+hr, .hr{
+  height: 1px;
+  border: none;
+  position: relative;
+  clear: both;
+  display: block;
+  background: #E5E5E5;
+  overflow: hidden;
+  margin: 22px 0;
+}
+.hr1{ margin: 12px 0;}
+.hr2{ margin: 32px 0;}
 
 /************************************
         Primary Admin Grid
@@ -64,6 +74,9 @@ h6{
 
 .main-admin-row, .mw-simple-rotator{
   max-width: 999px;
+}
+.mw-iframe-editor{
+  max-width: 1200px !important;
 }
 
 .fixed-side-column-container{
@@ -348,6 +361,14 @@ h6{
 .manage-post-item-links a{
   margin-right: 7px;
 }
+.manage-post-item-link-small{
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .manage-post-item-links a:hover{
   text-decoration: underline
 }
@@ -443,6 +464,70 @@ h6{
   white-space: nowrap;
   color: white;
 }
+#quick-add-post-options-item-advanced input.mw-ui-field,
+#quick-add-post-options-item-advanced textarea.mw-ui-field{
+  width: 100%;
+}
+#quick-add-post-options{
+  position: fixed;
+  z-index: 12;
+  bottom: 0;
+  box-shadow:0 -3px 4px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  background: white;
+  padding:12px;
+}
+
+/* Content title */
+
+
+#un-or-published{
+  width: 220px;
+  width: auto;
+  position: fixed;
+  bottom: 12px;
+  right: 10px;
+  z-index: 99;
+}
+
+.pulished-state-column{
+  width: 220px;
+  width: 0;
+}
+
+input#edit-content-url{
+  display: none;
+}
+input#edit-content-url:focus, input#edit-content-url.active{
+  display: block;
+}
+.view-post-slug{
+  display: none;
+}
+
+.view-post-slug.active{
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#slug-base-url{
+
+}
+.edit-post-url, #edit-content-url, .edit-post-url .mw-ui-invisible-field{
+  font-size: 11px;
+  color: #888888;
+}
+.edit-post-url .mw-ui-invisible-field{
+  top: -3px;
+  padding-left: 0;
+}
+
+.edit-post-url{
+  clear: both;
+  padding-top: 5px;
+}
+
 
 
 /* Toolbar */

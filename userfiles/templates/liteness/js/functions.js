@@ -5,6 +5,7 @@ TempateFunctions = {
     /**************************************
      Minimum height for the Main Container
     **************************************/
+  if(self !== top){ return false; }
 
     var content = document.getElementById('content-holder'),
         footer = document.getElementById('footer'),

@@ -236,6 +236,7 @@ var also_reload = el.attr('data-reload');
 							 
 								if(reaload_in_parent !== true){
                                 if (window.mw.reload_module !== undefined) {
+
 									 mw.reload_module_parent(refresh_modules11);
 									   mw.reload_module_parent("#"+refresh_modules11);
 

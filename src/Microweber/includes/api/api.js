@@ -372,8 +372,19 @@ mw.askusertostay = false;
 
   mw.reload_module_parent = function(module, callback) {
     if(self !== parent && !!parent.mw){
+		 
        parent.mw.reload_module(module, callback)
-    }
+	   
+	   
+	   if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
+		 top.mweditor.contentWindow.mw.reload_module(module, callback)
+		}
+	   
+    } else {
+		if(typeof(mweditor) != 'undefined'  && typeof(mweditor) == 'object'   && typeof(mweditor.contentWindow) != 'undefined'){
+		 mweditor.contentWindow.mw.reload_module(module, callback)
+		}
+	}
   }
   mw.reload_module = function(module, callback) {
     if(module.constructor === [].constructor){

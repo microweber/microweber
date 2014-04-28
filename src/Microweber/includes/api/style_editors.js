@@ -168,7 +168,10 @@ $.fn.canvasCTRL = function(options){
 
 
 width_slider_onstart = function(){
-  mwd.getElementById('ed_auto_width').checked=false;
+	var el =  mwd.getElementById('ed_auto_width');
+ 	if(el != null){
+		el.checked=false;
+	}
 }
 
 generateJSON4StaticElements = function(){

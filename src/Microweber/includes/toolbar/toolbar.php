@@ -1,3 +1,15 @@
+<?php    
+$is_quick_edit = false;
+if (defined('QUICK_EDIT')) {
+$is_quick_edit = QUICK_EDIT;
+}
+
+if($is_quick_edit == true){
+	return include(__DIR__.DS.'toolbar_quick.php');
+}
+
+
+?>
 <?php if (!isset($_GET['preview'])){ ?>
 <script type="text/javascript">
         mw.settings.liveEdit = true;
@@ -62,27 +74,6 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
   });
 
 </script>
-
-<?php    
-$is_quick_edit = false;
-if (defined('QUICK_EDIT')) {
-$is_quick_edit = QUICK_EDIT;
-}
-
-
-
-?>
-<?php if($is_quick_edit == true): ?>
-<script type="text/javascript">
-        $(document).ready(function () {
-          $(mwd.body).addClass("mw-admin-view")
-        });
-</script>
-<?php endif; ?>
-
-
-
-
 <link href="<?php print(MW_INCLUDES_URL); ?>api/api.css" rel="stylesheet" type="text/css"/>
 <link href="<?php print(MW_INCLUDES_URL); ?>css/mw_framework.css" rel="stylesheet" type="text/css"/>
 <link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
@@ -128,13 +119,11 @@ $is_quick_edit = QUICK_EDIT;
     </div>
   </div>
 </div>
-<?php if($is_quick_edit == false): ?>
 <div class="mw-defaults" id="live_edit_toolbar_holder">
   <div id="live_edit_toolbar">
     <div id="mw-text-editor" class="mw-defaults mw_editor">
       <div class="toolbar-sections-tabs">
-
-        <ul> 
+        <ul>
           <li class="create-content-dropdown"> <a href="javascript:;" class="tst-logo" title="Microweber"> <span>Microweber</span> <i class=" dd_rte_arr right"></i> </a>
             <div class="mw-dropdown-list create-content-dropdown-list"
                          style="box-shadow: 2px 2px 10px -10px #111;width: 225px;">
@@ -155,9 +144,8 @@ $is_quick_edit = QUICK_EDIT;
                         ?>
               <a id="backtoadminindropdown" href="<?php print $back_url; ?>" title="Back to Admin"> <span class="ico ibackarr"></span><span>Back to Admin</span> </a> </div>
           </li>
-              <?php event_trigger('live_edit_toolbar_menu_start'); ?>
+          <?php event_trigger('live_edit_toolbar_menu_start'); ?>
           <li class="create-content-dropdown mw-toolbar-btn-menu"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Create or manage your content" style=""> <span class="ico iplus"></span> Add New </a>
-        
             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                         style="width: 170px; text-transform:uppercase;">
               <?php event_trigger('live_edit_quick_add_menu_start'); ?>
@@ -192,34 +180,14 @@ $is_quick_edit = QUICK_EDIT;
                         id="liveedit_wysiwyg_main_prev"
                         title="<?php _e("Previous"); ?>"
                         onclick="mw.liveEditWYSIWYG.slideLeft();"> </span> </li>
-                        
-         <?php event_trigger('live_edit_toolbar_menu_end'); ?>
-
+          <?php event_trigger('live_edit_toolbar_menu_end'); ?>
         </ul>
-        
-    
-
-        
-        
       </div>
       <div id="mw-toolbar-right" class="mw-defaults"> <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next" title="<?php _e("Next"); ?>"
                           onclick="mw.liveEditWYSIWYG.slideRight();"></span>
-                          
-                          
-                          
-
-                          
-                          
-                          
-                          
-        <div class="right" style="padding: 5px 0;"> 
-        
-        
-                <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
-
-        
-        
-        <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right"
+        <div class="right" style="padding: 5px 0;">
+          <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
+          <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right"
                               onclick="mw.drag.save(this)" id="main-save-btn">
           <?php _e("Save"); ?>
           </span>
@@ -229,12 +197,7 @@ $is_quick_edit = QUICK_EDIT;
             </a>
             <div class="mw-dropdown-content" style="width: 155px;">
               <ul class="mw-dropdown-list mw-dropdown-list-icons">
-              
-              
-               <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
-              
-              
-              
+                <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
                 <li> <a title="Back to Admin" href="<?php print $back_url; ?>"><span
                                         class="ico ibackarr"></span><span>
                   <?php _e("Back to Admin"); ?>
@@ -262,13 +225,7 @@ $is_quick_edit = QUICK_EDIT;
                                         class="ico iviewsite"></span><span>
                   <?php _e("View Website"); ?>
                   </span></a> </li>
-                  
-                  
-                 <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
- 
-                  
-                  
-                  
+                <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
                 <?php /*<li><a href="#" onclick="mw.preview();void(0);"><span class="ico ibackarr"></span><span><?php _e("Preview"); ?></span></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
                 <?php $pub_or_inpub = mw('content')->get_by_id(CONTENT_ID); ?>
@@ -281,18 +238,12 @@ $is_quick_edit = QUICK_EDIT;
                   <?php _e("Publish"); ?>
                   </span></a> </li>
                 <?php endif; ?>
-
                 <li><a  href="#design_bnav" class="mw_ex_tools"><span class="ico itabadvanced"></span>Tools</a></li>
                 <li><a href="<?php print mw('url')->api_link('logout'); ?>"><span
                                         class="ico ilogout"></span><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
-                  
-                  
-                 <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
-  
-                  
-                  
+                <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
               </ul>
             </div>
           </div>
@@ -306,12 +257,10 @@ $is_quick_edit = QUICK_EDIT;
             <div style="text-align: center"> <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-green" onclick="mw.setMode('advanced');">Switch</span> <span class="mw-ui-btn mw-ui-btn-small" onclick="$(this.parentNode.parentNode).hide();mw.doNotBindSwitcher=true;">Cancel</span> </div>
           </div>
         </div>
-         
       </div>
       <?php include MW_INCLUDES_DIR . 'toolbar' . DS . 'wysiwyg.php'; ?>
     </div>
     <?php event_trigger('live_edit_toolbar_controls'); ?>
-
     <div id="modules-and-layouts" style="" class="modules-and-layouts-holder">
       <div class="toolbars-search">
         <div class="mw-autocomplete left">
@@ -350,10 +299,6 @@ $is_quick_edit = QUICK_EDIT;
     <div id="mw-saving-loader"></div>
   </div>
 </div>
-
-<?php endif; ?>
-
-
 <div id="image_settings_modal_holder" style="display: none">
   <div class='image_settings_modal'>
     <div class="mw-ui-box mw-ui-box-content">

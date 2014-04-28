@@ -227,11 +227,8 @@ mw.custom_fields.save = function(id, callback){
 		   }
         });
 
-		if(window.parent != undefined && window.parent.mw != undefined){
-				 window.parent.mw.reload_module('custom_fields');
+					 mw.reload_module_parent('custom_fields');
 
-			 }
-			 
 			 
 			 
 			  if(typeof load_iframe_editor === 'function'){
@@ -264,10 +261,8 @@ mw.custom_fields.del = function(id, toremove){
             $(window).trigger('customFieldSaved', id);
 
 
-                if(window.parent != undefined && window.parent.mw != undefined){
-         window.parent.mw.reload_module('custom_fields');
+      		mw.reload_module_parent('custom_fields');
 
-       }
 	   
 	    if(typeof load_iframe_editor === 'function'){
 				load_iframe_editor();
@@ -293,9 +288,7 @@ mw.custom_fields.del = function(id, toremove){
                     obj.ids.push(id);
                 });
                 $.post(mw.settings.api_url+"fields/reorder", obj, function(){
-            if(window.parent != undefined && window.parent.mw != undefined){
-         window.parent.mw.reload_module('custom_fields');
-       }
+        mw.reload_module_parent('custom_fields');
 	   
 	    if(typeof load_iframe_editor === 'function'){
 				load_iframe_editor();

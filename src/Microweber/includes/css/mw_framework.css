@@ -970,10 +970,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
 }
 
 
-.mw-ui-invisible-field{
-  background: transparent;
-  border: none;
-}
+
 
 .mw-tag-selector .mw-ui-invisible-field{
    color: #868686;
@@ -1042,15 +1039,7 @@ textarea.mw-ui-field{
   font-weight: normal;
 }
 
-.edit-url-ico{
-  display: block;
-  float: left;
-  margin: 2px 0 0 15px;
-  width: 10px;
-  height: 10px;
-  background: url(../img/editurlicon.png) no-repeat;
-  cursor: pointer;
-}
+
 
 .mw-text-checker{
   display: inline !important;
@@ -1250,9 +1239,7 @@ textarea.mw-ui-field{
   transition: left 0.4s;
 }
 
-#pages_edit_container > form{
-  padding: 1px 20px 20px;
-}
+
 
 
 #pages_edit_container .page_posts_list_tree li{
