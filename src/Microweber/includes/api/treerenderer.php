@@ -4,11 +4,9 @@ mw.treeRenderer = {
   edit_buttons:function(type, id, sort_button){
       if(type==='page'){
         var $str  = "\
-        <span class='mw_del_tree_content'  onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Delete"); ?>'>\
-              <?php _e("Delete"); ?>\
+        <span class='mw-icon-bin'  onclick='event.stopPropagation();mw.tools.tree.del("+id+");' title='<?php _e("Move to trash"); ?>'>\
           </span>\
-        <span class='mw_ed_tree_content' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editpage:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
-              <?php _e("Edit"); ?>\
+        <span class='mw-icon-pen' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editpage:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
           </span>\
           ";
 
@@ -21,11 +19,9 @@ mw.treeRenderer = {
       }
       else if(type==='category'){
            var $str  = "\
-            <span class='mw_del_tree_content' onclick='event.stopPropagation();mw.tools.tree.del_category("+id+");' title='<?php _e("Delete"); ?>'>\
-                  <?php _e("Delete"); ?>\
+            <span class='mw-icon-bin' onclick='event.stopPropagation();mw.tools.tree.del_category("+id+");' title='<?php _e("Move to trash"); ?>'>\
               </span>\
-            <span class='mw_ed_tree_content' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editcategory:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
-                  <?php _e("Edit"); ?>\
+            <span class='mw-icon-pen' onclick='event.stopPropagation();mw.url.windowHashParam(\"action\", \"editcategory:"+id+"\");return false;' title='<?php _e("Edit"); ?>'>\
               </span>\
           ";
 

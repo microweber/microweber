@@ -124,6 +124,47 @@ h2 > [class*="mw-icon-"]:first-child{
   width:100px;
 }
 
+#pages_tree_toolbar [class*='mw-icon-']{
+  font-size: 12px;
+  display: block;
+  visibility: hidden;
+  position: absolute;
+  height: 21px;
+  width: 20px;
+  top: 7px;
+  padding: 3px;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box ;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  color: #3B3B3B;
+  opacity: 0.5;
+}
+#pages_tree_toolbar a:hover > [class*='mw-icon-']{
+  visibility: visible;
+}
+#pages_tree_toolbar .mw-icon-pen{
+  right: 30px;
+}
+#pages_tree_toolbar .mw-icon-bin{
+  right: 10px;
+  font-size: 15px;
+  padding: 2px;
+}
+#pages_tree_toolbar [class*='mw-icon-']:hover{
+  background-color: #191919;
+  opacity: 1;
+  color: white;
+}
+#pages_tree_toolbar .mw-icon-bin:hover{
+  background-color: #999999;
+}
+
+.mw-tree .module a:hover, .mw-tree li.active-bg > a{
+  color:#4494C7 ;
+}
+
 
 
 
@@ -204,7 +245,7 @@ h2 > [class*="mw-icon-"]:first-child{
   color: white
 }
 
-#main-nav-live{
+#main-menu > li #main-nav-live{
   margin-top: 10px;
   padding-top: 0;
 }
@@ -395,8 +436,11 @@ h2 > [class*="mw-icon-"]:first-child{
   text-decoration: underline
 }
 
-.manage-post-item:hover .manage-post-item-links a{
+.manage-post-item:hover .manage-post-item-links a, .manage-post-item:hover .manage-post-item-title a{
   color: #2C82DD;
+}
+.manage-post-item:hover .manage-post-item-title a [class*='mw-icon-']{
+    color: #3b3b3b;
 }
 
 
