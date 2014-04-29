@@ -29,12 +29,13 @@ if (isset($params["template-selector-position"])) {
 
 
 $data = false;
-if (!isset($params["layout_file"]) and isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0) {
+if ((!isset($params["layout_file"]) or trim($params["layout_file"]) == '') and isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0) {
 
 
     $data = get_content_by_id($params["data-page-id"]);
+	//d($data);
 } else {
-
+// d($params);
 //	$data = $params;
 }
 
@@ -50,7 +51,7 @@ if (!isset($params["layout_file"]) and $data == false or empty($data)) {
 
 if (isset($data['active_site_template']) and $data['active_site_template'] == '') {
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
-}
+} else
 
 if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
     $data['layout_file'] = $params["layout_file"];
@@ -121,7 +122,7 @@ if (isset($data['active_site_template']) and ($data['active_site_template']) == 
     }
 }
 
-
+ 
 $templates = mw('content')->site_templates();
 
 $layout_options = array();
@@ -194,15 +195,19 @@ mw.templatePreview<?php print $rand; ?> = {
     set: function () {
         mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0, 0);
         mw.$('.preview_frame_wrapper').removeClass("loading");
+				mw_preview_frame_object = mw.$('.preview_frame_wrapper iframe')[0];
+
     },
     rend: function (url) {
         var holder = mw.$('.preview_frame_container');
         var wrapper = mw.$('.preview_frame_wrapper');
         var frame = '<iframe src="' + url + '" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview<?php print $rand; ?>.set();" frameborder="0"></iframe>';
-		d(frame);
+		 
 		
 		
         holder.html(frame);
+		
+		
 
     },
     next: function () {
@@ -226,7 +231,13 @@ mw.templatePreview<?php print $rand; ?> = {
         if (typeof a == 'undefined') {
             var holder = mw.$('.preview_frame_wrapper');
             holder.toggleClass('zoom');
-            holder[0].querySelector('iframe').contentWindow.scrollTo(0, 0);
+			if(holder[0] != null){
+				var iframe = holder[0].querySelector('iframe');
+				if(iframe != null){
+				  iframe.contentWindow.scrollTo(0, 0);
+				}
+
+			}
         }
         else if (a == 'out') {
             mw.$('.preview_frame_wrapper').removeClass('zoom');
@@ -358,7 +369,7 @@ mw.templatePreview<?php print $rand; ?> = {
         if (template != undefined) {
             var template = safe_chars_to_str(template);
             var template = template.replace('/', '___');
-            ;
+            
 
         } else {
 
@@ -385,11 +396,14 @@ mw.templatePreview<?php print $rand; ?> = {
         var preview_template_param = '';
         if (template != undefined) {
             preview_template_param = '&preview_template=' + template;
+			mw.$("#<?php print $params['id']?>").attr('active_site_template',template);
         }
 
         var preview_layout_param = '';
         if (layout != undefined) {
             preview_layout_param = '&preview_layout=' + layout;
+			mw.$("#<?php print $params['id']?>").attr('layout_file',layout);
+
         }
 
         var preview_layout_content_type_param = '';
@@ -408,7 +422,7 @@ mw.templatePreview<?php print $rand; ?> = {
 			 
 			
 			
-			  //mw.$("#<?php print $params['id']?>").removeAttr('autoload');
+			 //mw.$("#<?php print $params['id']?>").removeAttr('autoload');
 
 
         } else {
@@ -432,6 +446,7 @@ $(document).ready(function () {
         if (parent_module != undefined) {
             parent_module.attr('data-active-site-template', $(this).val());
             mw.reload_module('<?php print $params['type']?>', function () {
+				
                 mw.templatePreview<?php print $rand; ?>.view();
 			
             });
@@ -440,7 +455,7 @@ $(document).ready(function () {
     });
 
     mw.$('#active_site_layout_<?php print $rand; ?>').bind("change", function (e) {
-		 
+		 //  alert(1);
         mw.templatePreview<?php print $rand; ?>.generate();
 			 
     });
@@ -448,8 +463,6 @@ $(document).ready(function () {
 
     mw.templatePreview<?php print $rand; ?>.prepare();
     <?php if(isset($params["autoload"])) : ?>
-	
-	 
    mw.templatePreview<?php print $rand; ?>.generate();
     <?php endif; ?>
 
@@ -528,7 +541,7 @@ $(document).ready(function () {
         //d($data['layout_file']);
         ?>
   <?php endif; ?>
-  <div style="display: none;">
+  <div style="display: xxnone;">
     <select name="layout_file" class="mw-edit-page-layout-selector" id="active_site_layout_<?php print $rand; ?>"
                 autocomplete="off">
       <?php if (!empty($layouts)): ?>
@@ -560,10 +573,12 @@ $(document).ready(function () {
                     title="Inherit" <?php if (isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?>
                     value="inherit"  <?php if ($is_chosen == false and (trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit')): ?>   selected="selected"  <?php endif; ?>>
       
+      
 
                     Inherit from parent
 
                 
+      
       </option>
       <?php endif; ?>
     </select>

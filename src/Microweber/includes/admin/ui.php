@@ -26,7 +26,7 @@
 
     #info-icon-list li:hover{
       color: white;
-      background: #495074
+      background: black
     }
 
     #info-icon-list li em{
@@ -302,7 +302,32 @@ $(window).load(function(){
        </td>
 
     </tr>
+   <tr>
+    <td>
+       <label class="mw-ui-check">
+            <input type="checkbox" checked="checked" />
+            <span></span>
+            <span>Checkbox 1</span>
+       </label>
+       <label class="mw-ui-check">
+            <input type="checkbox" />
+            <span></span>
+            <span>Checkbox 2</span>
+       </label>
+       </td>
+       <td>
+       <label class="mw-ui-check">
+            <input type="radio" name="demoradio1" checked="checked" />
+            <span></span>
+            <span>Radio 1</span>
+       </label>
+       <label class="mw-ui-check">
+            <input type="radio" name="demoradio1" />
+            <span></span>
+            <span>Radio 2</span>
+       </label>
 
+    </td>
     </tr>
   </tbody>
 </table>

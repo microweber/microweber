@@ -828,7 +828,7 @@ mw.save_inner_editable_fields = function(data){
 	   
 	    $(window).bind('templateChanged', function(e){
 		 
-		  var iframe_ed = $('.mw-iframe-editor')
+		 var iframe_ed = $('.mw-iframe-editor')
 	     var changed =  iframe_ed.contents().find('.changed').size();
 		 if(changed == 0){
 			  mw.edit_content.load_editor();

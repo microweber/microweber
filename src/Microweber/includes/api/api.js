@@ -374,8 +374,6 @@ mw.askusertostay = false;
     if(self !== parent && !!parent.mw){
 		 
        parent.mw.reload_module(module, callback)
-	   
-	   
 	   if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
 		 top.mweditor.contentWindow.mw.reload_module(module, callback)
 		}
@@ -385,6 +383,17 @@ mw.askusertostay = false;
 		 mweditor.contentWindow.mw.reload_module(module, callback)
 		}
 	}
+
+//      if(typeof(mw_preview_frame_object) != 'undefined'  && typeof(mw_preview_frame_object) == 'object'  && typeof(mw_preview_frame_object.contentWindow) != 'null' && typeof(mw_preview_frame_object.contentWindow) != 'undefined'&& typeof(mw_preview_frame_object.contentWindow.mw) == 'object'){
+//
+//
+//          mw_preview_frame_object.contentWindow.mw.reload_module(module, callback)
+//      }
+
+
+
+
+
   }
   mw.reload_module = function(module, callback) {
     if(module.constructor === [].constructor){

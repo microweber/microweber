@@ -713,6 +713,9 @@ input#edit-content-url:focus, input#edit-content-url.active{
     top: 50%;
     width: 100%;
 }
+.manage-post-image-page:after{ content: "\0071"; }
+.manage-post-image-post:after{ content: '\006f'; }
+.manage-post-image-shop:after{ content: 's'; }
 
 .manage-post-item.ui-sortable-helper{
   border-color: transparent;

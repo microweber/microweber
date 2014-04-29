@@ -80,7 +80,8 @@ __sort_fields = function(){
           if(window.parent != undefined && window.parent.mw != undefined){
            window.parent.mw.reload_module('custom_fields');
          }
-		 
+		                     mw.reload_module_parent('custom_fields');
+
 		 mw.reload_module('#mw_custom_fields_list_preview');
 		 
 		 
