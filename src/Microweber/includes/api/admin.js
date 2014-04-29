@@ -84,7 +84,11 @@ mw.admin = {
     editor:{
       set:function(frame){
         if(!!frame && frame !== null && !!frame.contentWindow){
-            var width_mbar = mw.$('#main-bar').width(), width_tbar = mw.$('.tree-column').width(), ww = $(window).width();
+            var width_mbar = mw.$('#main-bar').width(), tree = mwd.querySelector('.tree-column'), width_tbar = $(tree).width(), ww = $(window).width();
+
+            if(tree.style.display === 'none'){ width_tbar = 0; }
+            if(width_mbar > 200){ width_mbar = 0; }
+
             $(frame).width(ww - width_tbar - width_mbar - 35).height(frame.contentWindow.document.body.offsetHeight);
         }
       },

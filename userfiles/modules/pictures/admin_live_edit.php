@@ -71,14 +71,11 @@ __mw_pics_save_msg = function(){
 		 $("#mw-pics-list-live-ed").attr('for', 'modules');
 		 $("#mw-pics-list-live-ed").attr('for-id', '<?php print $mod_id ?>');
 	 }
-	 // mw.reload_module_parent("pictures");
+	  mw.reload_module_parent("pictures");
 	 //  mw.reload_module_parent("#<?php print $params['id'] ?>");
 	//  alert("");
 	
-	if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
-		//alert("<?php print $params['id'] ?>");
-	window.parent.mw.reload_module("#<?php print $params['id'] ?>");
-	 }
+	 
 										
 										
 										

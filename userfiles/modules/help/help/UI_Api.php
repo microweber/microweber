@@ -144,12 +144,12 @@
 
     <tr>
       <td>
-          <select class="mw-ui-simple-dropdown">
+          <select class="mw-ui-field">
             <option value="dropdown" selected="selected">Simple Dropdown</option>
           </select>
     </td>
       <td><textarea>
-          <select class="mw-ui-simple-dropdown">
+          <select class="mw-ui-field">
             <option value="dropdown" selected="selected">Simple Dropdown</option>
           </select>
       </textarea></td>

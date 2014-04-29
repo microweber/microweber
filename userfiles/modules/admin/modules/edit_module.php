@@ -104,12 +104,20 @@ $('#module_open_<?php print $params['id']; ?>').show();
 </script>
 
 <form class="admin-modules-list-form" id="module_admin_settings_form_<?php print $params['id']; ?>">
-	<div class="admin-modules-list-image"> <span class="ico iMove mw_admin_modules_sortable_handle"></span> <span class="mw_module_image_holder">
+
+<div class="mw-ui-row">
+    <div class="mw-ui-col" style="width: 70px;">
+      <div class="admin-modules-list-image"> <span class="mw-icon-drag"></span>
+
 		<?php if(isset($data['icon'])):  ?>
-		<img src="<?php print $data['icon'] ?>" alt="<?php if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." /> <s class="mw_module_image_shadow"></s>
+		<img src="<?php print $data['icon'] ?>" alt="<?php if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." />
 		<?php endif; ?>
-		</span> </div>
-	<div class="admin-modules-list-description">
+
+
+    </div>
+    </div>
+    <div class="mw-ui-col">
+     <div class="admin-modules-list-description">
 		<h2 title="<?php print $data['module'] ?>">
 			<?php if(isset($data['name'])):  ?>
 			<?php _e($data['name']); ?>
@@ -120,27 +128,41 @@ $('#module_open_<?php print $params['id']; ?>').show();
 		<?php endif; ?>
 		<p> </p>
 	</div>
- 
+    </div>
+    <div class="mw-ui-col">
 	<input type="hidden" name="id" value="<?php print $data['id'] ?>" />
 	<input type="hidden" name="installed" value="<?php print $data['installed'] ?>" />
 	<input type="hidden" name="ui" value="<?php print $data['ui'] ?>" />
 	<input type="hidden" name="ui_admin" value="<?php print $data['ui_admin'] ?>" />
 	<input type="hidden" name="position" value="<?php print $data['position'] ?>" />
-	<span class="admin-modules-list-buttons"> 
-    
-    
-    <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
-    <a id="module_open_<?php print $params['id']; ?>" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>" class="mw-ui-btn">
+	<span class="mw-ui-btn-nav admin-modules-list-buttons">
+
+
+            <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
+    <a id="module_open_<?php print $params['id']; ?>" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>" class="mw-ui-btn mw-ui-btn-info">
 	<?php _e("Open"); ?>
 	</a>
     <?php endif; ?>
-    
-    
+
+
 	<input <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?> style="display:none" <?php endif; ?> class="mw-ui-btn" name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" value="<?php _e("Install"); ?>" />
-	<input  <?php if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?> style="display:none" <?php endif; ?> class="mw-ui-btn" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Uninstall"); ?>" />
-	<?php if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
+
+    <input  <?php if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?> style="display:none" <?php endif; ?> class="mw-ui-btn" name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Uninstall"); ?>" />
+
+
+
+    <?php if(strval($data['installed']) != '' and intval($data['installed']) == 0): ?>
 	<?php else : ?>
 	<?php endif; ?>
+
+
+
 	</span>
+    </div>
+</div>
+
+
+ 
+
 </form>
 <?php endif; ?>

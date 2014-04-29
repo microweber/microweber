@@ -169,14 +169,14 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 <?php endif; ?>
 
 <div id="post-states-tip" style="display: none">
-<div class="mw-ui-btn-vertical-nav">
-            <span data-val="n" class="mw-ui-btn <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
-            <?php _e("Unpublished"); ?>
-            </span><span data-val="y" class="mw-ui-btn<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
-            <?php _e("Published"); ?>
-            </span>
-            <span class="mw-ui-btn mw-uibtn-important">Move to trash</span>
-</div>
+    <div>
+        <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
+        <?php _e("Unpublished"); ?>
+        </span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
+        <?php _e("Published"); ?>
+        </span>
+        <span class="mw-uibtn-important"><span class="mw-icon-bin"></span>Move to trash</span>
+    </div>
 </div>
 
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-<?php print $rand; ?>">
@@ -240,7 +240,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
             name="title"
             onkeyup="slugFromTitle();"
             placeholder="<?php print $title_placeholder; ?>"
-            class="mw-ui-field w100 mw-title-field-<?php print $data['content_type']; ?>"
+            class="mw-ui-field mw-ui-field-big w100 mw-title-field-<?php print $data['content_type']; ?>"
             value="<?php print $data['title']; ?>" />
       <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
 <div class="edit-post-url">
@@ -305,7 +305,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
   </div>
   <?php endif; ?>
   
-  <?php if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
+  <?php // if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
   <div class="mw-ui-field-holder">
     <div id="quick_content_<?php print $rand ?>"></div>
   </div>
@@ -313,10 +313,8 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 
   
   
-  <?php endif; ?>
-  <?php if($data['content_type'] == 'page'):  ?>
-  <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
-  <?php endif; ?>
+  <?php // endif; ?>
+  
 
 
   <hr class="hr2">
@@ -346,6 +344,11 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
       <?php _e("Advanced"); ?>
       </span></span>
       
+     <?php if($data['content_type'] == 'page'):  ?> 
+        <span class="mw-ui-btn"><span class="ico itabadvanced"></span><span>
+      <?php _e("Template"); ?>
+      </span></span>
+       <?php endif; ?>
         <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
   
       
@@ -392,6 +395,20 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
   
     <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
   </div>
+  
+  <?php if($data['content_type'] == 'page'):  ?>
+    <div class="mw-ui-box mw-ui-box-content quick-add-content-template" id="quick-add-post-options-item-template">
+
+  <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
+  
+  
+    </div>
+  <?php endif; ?>
+  
+
+  
+  
+  
      <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
 
   <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
@@ -593,22 +610,7 @@ mw.edit_content.handle_form_submit = function(go_live){
 		
 		
 		
-		if(typeof(data.content) != "undefined" && typeof(data.id) != "undefined" && data.id != 0){
-			var inner_edits = mw.collect_inner_edit_fields(data.content);
-			if(inner_edits != undefined && inner_edits != false){
-				save_inner_edit_data = inner_edits;
-				save_inner_edit_data.id = data.id;
-				mw.save_inner_editable_fields(save_inner_edit_data);
-			}
-		} else if(typeof(data.content) == "undefined" && typeof(data.id) != "undefined" && data.id != 0){
-			var inner_edits = mw.collect_inner_edit_fields();
-			d(inner_edits);
-			if(inner_edits != undefined && inner_edits != false){
-				save_inner_edit_data = inner_edits;
-				save_inner_edit_data.id = data.id;
-				mw.save_inner_editable_fields(save_inner_edit_data);
-			}
-		}
+		
         mw.content.save(data, {
           onSuccess:function(a){
               mw.$('.mw-admin-go-live-now-btn').attr('content-id',this);
@@ -631,6 +633,21 @@ mw.edit_content.handle_form_submit = function(go_live){
 					  
 				 }
               }
+			 
+			  if(typeof(this) != "undefined"){
+			var inner_edits = mw.collect_inner_edit_fields();
+			
+			if(inner_edits != undefined && inner_edits != false){
+				var save_inner_edit_data = inner_edits;
+				save_inner_edit_data.id = this;
+				 
+				mw.save_inner_editable_fields(save_inner_edit_data);
+			}
+		}
+			  
+			  
+			  
+			  
               if(go_live_edit != false){
     		    if(parent !== self && !!window.parent.mw){
     				 if(window.parent.mw.drag != undefined && window.parent.mw.drag.save != undefined){
@@ -715,7 +732,7 @@ mw.collect_inner_edit_fields = function(data) {
 	}
 	
  	var doc = mw.tools.parseHtml(data);
- 	var edits = $(doc).find('.edit');
+ 	var edits = $(doc).find('.edit.changed,.edit.orig_changed');
 	 
     var master = {};
     if (edits.length > 0) {

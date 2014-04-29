@@ -75,7 +75,7 @@
 	<h2 class="mw-side-main-title left" style="padding-top: 0;margin-right: 20px;"><span class="ico iorder-big"></span><span>
 		<?php _e("Orders List"); ?>
 		</span></h2>
-	<select name="order_type" id="mw-admin-order-type-filter" class="mw-ui-simple-dropdown" autocomplete="off">
+	<select name="order_type" id="mw-admin-order-type-filter" class="mw-ui-field" autocomplete="off">
 		<option value="completed">Completed orders</option>
 		<option value="carts">Abandoned carts</option>
 	</select>

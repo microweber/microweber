@@ -432,7 +432,6 @@ function mw_make_pages_tree_sortable(){
 
 </script>
 
-
 <div class="mw-ui-row" id="edit-content-row">
   <div class="mw-ui-col tree-column" <?php if($action=='posts'): ?> style="display:none" <?php endif ?>>
     <div class="tree-column-holder">
@@ -490,12 +489,18 @@ function mw_make_pages_tree_sortable(){
 
 	   ?>
       <div id="pages_edit_container"  <?php print $is_shop_str ?>>
-        <?php if( $ed_content=== false): ?>
-        <module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> <?php print $is_shop_str ?> />
-        <?php else: ?>
-        <div id="edit_content_admin"   <?php print  $content_id ?> />
+        <?php if( $action == false): ?>
+			<?php if( $ed_content=== false): ?>
+            	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> <?php print $is_shop_str ?> />
+            <?php else: ?>
+            	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> <?php print $is_shop_str ?> />
+            <?php endif; ?>
+        <?php elseif( $action!= false and $action=='pages'): ?>
+        	<module data-type="content/manage" page-id="global" id="edit_content_admin" content_type="page" <?php print  $content_id ?> <?php print $is_shop_str ?> />
+        <?php elseif( $action!= false and $action=='posts'): ?>
+        	<module data-type="content/manage" page-id="global" id="edit_content_admin" content_type="post" <?php print  $content_id ?> <?php print $is_shop_str ?> />
+        <?php endif; ?>
       </div>
-      <?php endif; ?>
     </div>
   </div>
 </div>

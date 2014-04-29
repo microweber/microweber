@@ -201,6 +201,7 @@ class Controller
         if (!defined('MW_API_CALL')) {
             //	define('MW_API_CALL', true);
         }
+
         if (!defined("MW_NO_SESSION")) {
             if (!isset($_SESSION)) {
 
@@ -283,6 +284,9 @@ class Controller
                     $action_test = intval($action_test);
                     if($action_test != 0){
                         $content_id = $action_test;
+
+                        $this->app->content->define_constants(array('id'=>$content_id));
+
                     }
                 }
 
@@ -318,6 +322,7 @@ class Controller
 
 
         $this->app->content->define_constants($page);
+ 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
             if (is_file($load_template_functions)) {
@@ -1573,12 +1578,11 @@ class Controller
             session_start();
         }
 
-
+        $set_constants = true;
         $mod_class_api = false;
         $mod_class_api_called = false;
         $mod_class_api_class_exist = false;
         $caller_commander = false;
-        $this->app->content->define_constants();
         if ($api_function == false) {
             $api_function_full = $this->app->url->string();
             $api_function_full = $this->app->format->replace_once('api_html', '', $api_function_full);
@@ -1589,6 +1593,16 @@ class Controller
         } else {
             $api_function_full = $api_function;
         }
+        if(isset($api_function_full) and $api_function_full != ''){
+            if(ltrim($api_function_full,'/') == 'module'){
+               $set_constants = false;
+            }
+        }
+        if($set_constants == true){
+        $this->app->content->define_constants();
+        }
+
+        // d($api_function_full);
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
 

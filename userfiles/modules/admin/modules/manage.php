@@ -80,7 +80,7 @@ $result = $update_api -> get_modules();
 </style>
 <?php if(isset($mods) and is_array($mods) == true): ?>
 
-<ul class="mw-modules-admin">
+<div class="mw-ui-box"><ul class="mw-modules-admin">
   <?php if(is_array($upds) == true): ?>
   <?php foreach($upds as  $upd_mod): ?>
   <?php if(isset($upd_mod['module'])): ?>
@@ -97,13 +97,10 @@ $result = $update_api -> get_modules();
   <?php if(!isset($item['id'])): ?>
   <li class="mw-admin-module-list-item mw-module-not-installed" id="module-remote-id-<?php print $item['id'] ?>" >
     <div class=" module module-admin-modules-edit-module ">
-      <?php 
-	 
-	 if(isset($item[0]) and is_array($item[0])){
-		$item = $item[0];
-	 }
-	 // print_r($item);
-	  
+      <?php
+      if(isset($item[0]) and is_array($item[0])){
+    		$item = $item[0];
+      }
 	  $data = $item; include($config["path"].'update_module.php'); ?>
     </div>
   </li>
@@ -113,7 +110,7 @@ $result = $update_api -> get_modules();
   </li>
   <?php endif; ?>
   <?php endforeach; ?>
-</ul>
+</ul></div>
 <?php else : ?>
 <?php _e("No modules found"); ?>
 .

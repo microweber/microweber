@@ -155,7 +155,7 @@ $(document).ready(function(){
 	?>
     
    <?php /* <label class="mw-ui-label">Color scheme</label>
-    <select id="mw_set_template_style" class="mw-ui-simple-dropdown">
+    <select id="mw_set_template_style" class="mw-ui-field">
       <option value="reset">None</option>
       <option <?php if(strstr($color_cheme,'spacelab')) : ?> selected="selected" <?php endif; ?> value="<?php print template_url(); ?>css/styles/spacelab.css">Spacelab</option>
       <option <?php if(strstr($color_cheme,'superhero')) : ?> selected="selected" <?php endif; ?> value="<?php print template_url(); ?>css/styles/superhero.css">Superhero</option>

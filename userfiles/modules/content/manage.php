@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 $posts_mod = array();
 $posts_mod['type'] = 'content/admin_posts_list';
 if(isset($params['page-id'])){
@@ -11,10 +9,19 @@ if(isset($params['page-id'])){
 if(isset($params['keyword'])){
  $posts_mod['search_by_keyword'] =$params['keyword'];
 }
+
+
+if(isset($params['content_type']) and $params['content_type']!=false){
+ $posts_mod['content_type'] = $params['content_type'];
+}
+
+if(isset($params['subtype']) and $params['subtype']!=false){
+ $posts_mod['subtype'] = $params['subtype'];
+}
 if(isset($params['is_shop']) and $params['is_shop']=='y'){
  $posts_mod['subtype'] = 'product';
 }
-
+ 
 if(!isset($params['category-id']) and isset($params['page-id']) and $params['page-id']!='global'){
   $check_if_excist = get_content_by_id($params['page-id']);
   if(is_array($check_if_excist)){
@@ -61,7 +68,6 @@ $posts = array();
     }
 
 ?>
-
 <script type="text/javascript">
     $(document).ready(function(){
 		var prev_frame_attrs = {};
@@ -76,11 +82,11 @@ $posts = array();
 
 <div class="mw-admin-page-preview-holder">
   <div class="mw-admin-page-preview-page">
-      <?php if(is_array($page_info) and isset($page_info['title'])): ?>
-      <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
-      <h2 class="hr"><span class="icotype icotype-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
-      <?php endif; ?>
-      <div id="mw_page_layout_preview"></div>
+    <?php if(is_array($page_info) and isset($page_info['title'])): ?>
+    <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
+    <h2><span class="mw-icon-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
+    <?php endif; ?>
+    <div id="mw_page_layout_preview"></div>
   </div>
   <div class="mw-admin-page-preview-page-info"></div>
 </div>
@@ -89,7 +95,9 @@ $posts = array();
 <?php elseif(isset($params["data-category-id"])):?>
 <?php  $cat_info = get_category_by_id($params["data-category-id"]); ?>
 <?php if(isset($cat_info['title']) and $cat_info['title'] != ''): ?>
-<h2><span class="mw-icon-category"></span><?php _e("Category"); ?></h2>
+<h2><span class="mw-icon-category"></span>
+  <?php _e("Category"); ?>
+</h2>
 <?php endif; ?>
 <?php endif; ?>
 <?php if(isset($page_info) and isset($page_info['title'])): ?>
@@ -203,39 +211,28 @@ mw.manage_content_sort = function(){
 }
 
 </script>
-<div class="manage-toobar manage-toolbar-top">
-<div class="manage-toobar-content">
+<?php /*<div class="manage-toobar manage-toolbar-top">
+  <div class="manage-toobar-content">
     <div class="mw-ui-row">
-        <div class="mw-ui-col">
-            <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left">
-                 <span class="mw-icon-plus"></span>
-                 Create
-            </span>
-            <span class="mw-ui-btn-nav">
-
-                <span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.check.all('#mw_admin_posts_manage')">
-                    <?php _e("Select All"); ?>
-               </span>
-               <span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.check.none('#mw_admin_posts_manage')">
-                    <?php _e("Unselect All"); ?>
-              </span>
-              <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important" onclick="delete_selected_posts();">
-                <?php _e("Delete"); ?>
-              </span>
-            </span>
-        </div>
-        <div class="mw-ui-col">
-          <input
+      <div class="mw-ui-col"> <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"> <span class="mw-icon-plus"></span> Create </span> <span class="mw-ui-btn-nav"> <span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.check.all('#mw_admin_posts_manage')">
+        <?php _e("Select All"); ?>
+        </span> <span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.check.none('#mw_admin_posts_manage')">
+        <?php _e("Unselect All"); ?>
+        </span> <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important" onclick="delete_selected_posts();">
+        <?php _e("Delete"); ?>
+        </span> </span> </div>
+      <div class="mw-ui-col">
+        <input
                 onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
                 value="<?php  if(isset($params['keyword']) and $params['keyword'] != false):  ?><?php print $params['keyword'] ?><?php endif; ?>"
                 placeholder="<?php _e("Search for posts"); ?>"
                 type="text"
                 class="mw-ui-field mw-ui-field-medium pull-right"
                 id="mw-search-field"   />
-        </div>
+      </div>
     </div>
-</div>
-</div>
+  </div>
+</div>*/ ?>
 <?php   print $posts = module( $posts_mod);  ?>
 <script  type="text/javascript">
 mw.on.hashParam("pg", function(){

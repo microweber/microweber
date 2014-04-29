@@ -127,11 +127,20 @@ $(window).load(function(){
     <h3>Button with icon</h3>
     <div class="demobox"><a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-website"></span>Normal</a></div>
     <h3>Button Navigations</h3>
-<div class="demobox">    <div class="mw-ui-btn-nav">
-        <a href="javascript:;" class="mw-ui-btn">Home</a>
-        <a href="javascript:;" class="mw-ui-btn active">About</a>
-        <a href="javascript:;" class="mw-ui-btn">Contact</a>
-    </div></div>
+    <div class="demobox">
+        <div class="mw-ui-btn-nav">
+            <a href="javascript:;" class="mw-ui-btn">Home</a>
+            <a href="javascript:;" class="mw-ui-btn active">About</a>
+            <a href="javascript:;" class="mw-ui-btn">Contact</a>
+        </div>
+    </div>
+    <div class="demobox">
+        <div class="mw-ui-btn-vertical-nav">
+            <a href="javascript:;" class="mw-ui-btn">Vertical</a>
+            <a href="javascript:;" class="mw-ui-btn active">Button</a>
+            <a href="javascript:;" class="mw-ui-btn">Navigation</a>
+        </div>
+    </div>
 
 
         <h3>Button Tabs Navigations</h3>

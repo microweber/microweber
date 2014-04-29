@@ -61,6 +61,7 @@ if(isset($params['content-id'])){
 				mw.reload_module_parent('pictures');
     			if(self !== top && typeof parent.mw === 'object'){
     				 parent.mw.reload_module('pictures');
+					  mw.reload_module_parent("pictures/admin");
     				 if(self !== top && typeof parent.mw === 'object'){
     				   parent.mw.reload_module('posts');
     				   parent.mw.reload_module('shop/products');

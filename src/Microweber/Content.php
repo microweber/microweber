@@ -1191,7 +1191,6 @@ class Content
 
 
         }
-        // d($render_file);
         if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
 
             if (isset($page['content_type']) and $page['content_type'] == 'page') {
@@ -2964,13 +2963,15 @@ class Content
      */
     public function define_constants($content = false)
     {
-
+//print_r(debug_backtrace());
         if ($content == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $ref_page = $_SERVER['HTTP_REFERER'];
+               //d($ref_page);
                 if ($ref_page != '') {
                     $ref_page = $this->get_by_url($ref_page);
-                    if (!empty($ref_page)) {
+
+                    if ($ref_page != false and !empty($ref_page)) {
                         $content = $ref_page;
                     }
                 }
@@ -3073,7 +3074,6 @@ class Content
                 }
 
                 //$root_parent = $this->get_inherited_parent($page['parent']);
-                //  d($root_parent);
 
                 //  $this->get_inherited_parent($page['id']);
                 // if ($par_page != false) {
@@ -3401,6 +3401,7 @@ class Content
     public function template_url()
     {
         if (!defined('TEMPLATE_URL')) {
+
             $this->define_constants();
         }
         if (defined('TEMPLATE_URL')) {
@@ -3983,7 +3984,7 @@ class Content
                     $page_url_ref = $this->app->url->param('content_id', $ref_page_url);
                     if ($page_url_ref !== false) {
                         if ($page_url_ref == 0) {
-                            $ref_page = false;
+                            return false;
                         }
                     }
                 }
@@ -4665,7 +4666,6 @@ class Content
 
                             if (is_array($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post') {
                                 $content_id_for_con_field = intval($ref_page['parent']);
-                                // d($content_id);
                             } else {
                                 $content_id_for_con_field = intval($ref_page['id']);
 
@@ -6511,7 +6511,6 @@ class Content
                             }
                         }
                     }
-                    //  d($add_page);
                     $new_shop = $this->app->db->save('content', $add_page);
                     $this->app->cache->delete('content');
                     $this->app->cache->delete('categories');
@@ -6859,7 +6858,6 @@ class Content
 				WHERE id=$value2 AND id!=$k
 				AND item_type='menu_item'
 				";
-                    // d($sql);
                     $q = $this->app->db->q($sql);
                     $this->app->cache->delete('menus/' . $k);
                     $this->app->cache->delete('menus/' . $value2);

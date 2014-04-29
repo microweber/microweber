@@ -100,20 +100,20 @@ if ($last_page_front != false) {
 <div id="mw-admin-container">
     <div class="mw-ui-row main-admin-row">
         <div class="mw-ui-col main-bar-column">
-            <div id="main-bar"> <a href="javascript:;" id="main-bar-mw-icon"><span class="mw-icon-microweber"></span></a> 
+            <div id="main-bar"> <a href="javascript:;" id="main-bar-mw-icon"><span class="mw-icon-microweber"></span></a>
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
                 <ul id="main-menu">
                     <li id="main-menu-back">
                         <a href="javascript:;"><span class="mw-icon-back"></span></a>
                     </li>
-                    <li><a href="<?php print $past_page; ?>?editmode=y" title=""> <span class="mw-icon-live"></span>
-                            <strong>Live Edit</strong> </a></li> 
+                    <li><a id="main-nav-live" href="<?php print $past_page; ?>?editmode=y" title=""> <span class="mw-icon-live"></span>
+                            <strong>Live Edit</strong> </a></li>
                     <li 
-					<?php if ($view == 'content' and $action==false): ?> 
-                    class="active" 
-					<?php elseif ($view == 'content' and $action!=false): ?> 
-                    class="active-parent"  
+					<?php if ($view == 'content' and $action==false): ?>
+                    class="active"
+					<?php elseif ($view == 'content' and $action!=false): ?>
+                    class="active-parent"
 					<?php endif; ?>
                     ><a
                             href="<?php print admin_url(); ?>view:content" title=""> <span

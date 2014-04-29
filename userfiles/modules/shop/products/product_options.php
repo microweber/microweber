@@ -18,7 +18,7 @@ $out_of_stock = false;
 		<div class="mw-ui-field-holder" style="width: 175px;">
 			<label class="mw-ui-label">Items in stock <span class="mw-help" data-help="How many items of this product you have in stock?">?</span></label>
 			<span class="mwsico-instock mw-help" data-help="How many items of this product you have in stock?"></span>
-			<select name="data_qty" class="mw-ui-simple-dropdown" style="width: 115px;position: relative;top: 3px;">
+			<select name="data_qty" class="mw-ui-field" style="width: 115px;position: relative;top: 3px;">
 				<option <?php if (!isset($data_fields['qty']) or ($data_fields['qty']) == 'nolimit'): ?> selected="selected" <?php endif; ?> value="nolimit">&infin; No Limit</option>
 				<option <?php if (isset($data_fields['qty']) and $data_fields['qty']  != 'nolimit' and (intval($data_fields['qty'])) == 0): ?>  selected="selected" <?php endif; ?> value="0" title="This item is out of stock and cannot be ordered.">Out of stock</option>
 				<?php for($i=1;$i<=100;$i++){ ?>

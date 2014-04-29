@@ -236,16 +236,12 @@ mw.templatePreview<?php print $rand; ?> = {
 
 
     prepare: function () {
-
-
         var $sel = mw.$('#active_site_layout_<?php print $rand; ?> option');
         var $layout_list_rend = mw.$('#layout_selector<?php print $rand; ?>');
         var $layout_list_rend_str = '<ul>';
         if ($sel.length > 0) {
             var indx = 0;
             $sel.each(function () {
-
-
                 var val = $(this).attr('value');
                 var selected = $(this).attr('selected');
                 var title = $(this).attr('title');
@@ -256,7 +252,6 @@ mw.templatePreview<?php print $rand; ?> = {
                 if (val != undefined) {
                     $layout_list_rend_str += 'value="' + val + '" ';
                 }
-
                 if (tag != undefined) {
                     $layout_list_rend_str += 'data-tag="' + tag + '" ';
                 }
@@ -266,13 +261,11 @@ mw.templatePreview<?php print $rand; ?> = {
                 if (selected != undefined) {
                     $layout_list_rend_str += ' class="active" ';
                 }
-                $layout_list_rend_str += '>';
+                $layout_list_rend_str += '><span>';
                 if (title != undefined) {
                     $layout_list_rend_str += title;
                 }
-                $layout_list_rend_str += ' </li>';
-
-
+                $layout_list_rend_str += '</span></li>';
                 indx++;
             });
             $layout_list_rend_str += '</ul>';
@@ -603,16 +596,19 @@ $(document).ready(function () {
             <?php else: ?>
                 <div class="mw-overlay mw-overlay-quick-link" onclick="mw.templatePreview<?php print $rand; ?>.zoom();"
                      ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
-                    <div id="preview-edit-links"><a class="mw-ui-btn"
-                                                    href="#action=editpage:<?php print $params["edit_page_id"]; ?>"
-                                                    onclick="mw.e.cancel(event);"> <span
-                                class="ico ieditpage"></span><span>
-					<?php _e("Edit Page"); ?>
-					</span> </a> <a class="mw-ui-btn mw-ui-btn-blue" target="_top"
-                                    href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"
-                                    onclick="mw.e.cancel(event);"><span class="ico ilive"></span>
-                            <?php _e("Go Live Edit"); ?>
-                        </a></div>
+                    <div id="preview-edit-links">
+                      <a class="mw-ui-btn mw-ui-btn-invert" href="#action=editpage:<?php print $params["edit_page_id"]; ?>" onclick="mw.e.cancel(event);">
+                          <span class="mw-icon-page"></span>
+                          <span>
+      					<?php _e("Edit Page"); ?>
+      					</span>
+                      </a>
+                      <a class="mw-ui-btn mw-ui-btn-info" target="_top"
+                                      href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"
+                                      onclick="mw.e.cancel(event);"><span class="mw-icon-live"></span>
+                              <?php _e("Live Edit"); ?>
+                      </a>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>
@@ -624,20 +620,7 @@ $(document).ready(function () {
         </label>
 
         <div class="layouts_box_container">
-            <div class="layouts_box" id="layout_selector<?php print $rand; ?>">
-                <?php
-                /*<ul>
-                  <li value="inherit"  onclick="mw.templatePreview<?php print $rand; ?>.view(0);"  <?php if(('' == trim($data['layout_file']))): ?>   selected="selected"  <?php endif; ?>>None</li>
-                  <?php if(!empty($layouts)): ?>
-                  <?php $i=0; foreach($layouts as $item): ?>
-                  <?php $i++; ?>
-                  <li value="<?php print $item['layout_file'] ?>"  onclick="mw.templatePreview<?php print $rand; ?>.view(<?php print $i; ?>);"   title="<?php print $item['layout_file'] ?>"   <?php if(($item['layout_file'] == $data['layout_file']) ): ?>   selected="selected"   class="active"  <?php endif; ?>   > <?php print $item['name'] ?> </li>
-                  <?php endforeach; ?>
-                  <?php endif; ?>
-                  </ul>*/
-
-                ?>
-            </div>
+            <div class="mw-ui-box layouts_box" id="layout_selector<?php print $rand; ?>"></div>
         </div>
         <?php if ($template_selector_position == 'bottom'): ?>
             <div class="mw-ui-field-holder mw-template-selector"
@@ -646,8 +629,7 @@ $(document).ready(function () {
                     <?php _e("Template");   ?>
                 </label>
                 <?php if ($templates != false and !empty($templates)): ?>
-                    <select name="active_site_template" class="mw-edit-page-template-selector mw-ui-simple-dropdown"
-                            style="width: 205px;font-size: 11px;" id="active_site_template_<?php print $rand; ?>">
+                    <select name="active_site_template" class="mw-ui-field mw-edit-page-template-selector" id="active_site_template_<?php print $rand; ?>">
                         <?php foreach ($templates as $item): ?>
                             <?php
                             if ($global_template != 'default' and $item['dir_name'] == 'default') {

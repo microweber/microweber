@@ -194,7 +194,7 @@ foreach ($datas as $data_key => $data): ?>
     <?php if (is_array($data) and !empty($data)): ?>
         <div class="mw-shipping-left-bar"><span
                 class="shipping-truck shipping-truck-<?php print $truck_class ?>"></span> <span class="mw-ui-btn"
-                                                                                                onclick="mw.$('.country-id-0').show().find('.mw-ui-simple-dropdown').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
+                                                                                                onclick="mw.$('.country-id-0').show().find('.mw-ui-field').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
 	<?php _e("Add Country"); ?>
 	
 	</span>
@@ -328,7 +328,7 @@ foreach ($datas as $data_key => $data): ?>
                                     <input type="hidden" name="id" value="<?php print $item['id']; ?>">
                                 <?php endif; ?>
                                 <span class="mw-help-field left">
-						<select name="shipping_country" class="mw-ui-simple-dropdown">
+						<select name="shipping_country" class="mw-ui-field">
                             <?php if ($new == true): ?>
                                 <option value="none">
                                     <?php _e("Choose country"); ?>
@@ -370,7 +370,7 @@ foreach ($datas as $data_key => $data): ?>
                         <tr class="shipping-country-row">
                             <td class="shipping-country-label">Shipping type</td>
                             <td class="shipping-country-setting"><span class="mw-help-field left">
-						<select name="shipping_type" class="mw-ui-simple-dropdown shipping_type_dropdown">
+						<select name="shipping_type" class="mw-ui-field shipping_type_dropdown">
                             <option
                                 value="fixed"  <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?> >
                                 Fixed

@@ -68,6 +68,11 @@ hr, .hr{
 .hr1{ margin: 12px 0;}
 .hr2{ margin: 32px 0;}
 
+
+h2 > [class*="mw-icon-"]:first-child{
+  margin-right: 10px;
+}
+
 /************************************
         Primary Admin Grid
 *************************************/
@@ -77,6 +82,9 @@ hr, .hr{
 }
 .mw-iframe-editor{
   max-width: 1200px !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box ;
+  box-sizing: border-box;
 }
 
 .fixed-side-column-container{
@@ -196,6 +204,16 @@ hr, .hr{
   color: white
 }
 
+#main-nav-live{
+  margin-top: 10px;
+  padding-top: 0;
+}
+
+#main-nav-live:hover,
+#main-nav-live:focus{
+  background: #4494C7;
+}
+
 #main-menu a strong{
   display: block;
   position: relative;
@@ -208,7 +226,7 @@ hr, .hr{
   background-color:#3B3B3B
 }
 
-#main-menu li:hover a strong, #main-menu li.active a strong, #main-menu li.active-parent a strong{
+#main-menu li:hover a strong, #main-menu li.active a strong, #main-menu li.active-parent a strong, #main-menu li a:focus strong{
   visibility: visible;
 }
 
@@ -241,6 +259,10 @@ hr, .hr{
 
 #main-menu > li > a:active{
   box-shadow: inset 0 0 6px -3px #000;
+}
+
+#main-menu > li > a#main-nav-live:active{
+  box-shadow: inset 0 0 6px -2px #000;
 }
 
 #main-menu-back, #main-menu-toggle{
@@ -478,6 +500,64 @@ hr, .hr{
   padding:12px;
 }
 
+.preview_frame_wrapper .mw-overlay{
+  z-index: 1;
+  cursor: pointer;
+  cursor: zoom-in;
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+}
+.mw-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+.preview_frame_wrapper{
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+}
+#preview-edit-links{
+  position: absolute;
+  text-align: center;
+  height: 36px;
+  top: 50%;
+  left: 50%;
+  margin-top: -18px;
+  margin-left: -110px;
+  visibility: hidden;
+}
+#preview-edit-links .mw-ui-btn{
+  width: 110px;
+}
+
+.mw-overlay-quick-link:hover{
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.preview_frame_wrapper:hover #preview-edit-links{
+  visibility: visible;
+}
+
+#mw-admin-container .preview_frame_small, .preview_frame_small {
+   height: 1000px;;
+   width: 200%;
+  -moz-transform: scale(0.5, 0.5);
+  -moz-transform-origin: 0 0;
+  -o-transform: scale(0.5, 0.5);
+  -o-transform-origin: 0 0;
+  -webkit-transform: scale(0.5, 0.5);
+  -webkit-transform-origin: 0 0;
+  -ms-transform: scale(0.5, 0.5);
+  -ms-transform-origin: 0 0;
+  transform: scale(0.5, 0.5);
+  transform-origin: 0 0;
+  overflow: hidden;
+}
+
 /* Content title */
 
 
@@ -596,7 +676,34 @@ input#edit-content-url:focus, input#edit-content-url.active{
   padding-left: 10px;
   padding-bottom: 10px;
 }
+.quick-add-post-options-item{
+  display: none;
+}
 
+#pages_edit_container{
+  padding-top: 45px;
+}
+
+/************************************
+        Modules section
+*************************************/
+
+
+.mw-modules-admin li{
+  list-style: none;
+  border-bottom:1px solid #eee;
+  padding: 12px;
+}
+.mw-modules-admin li:last-child{
+  border: none;
+}
+
+.admin-modules-list-buttons{
+  float: right;
+}
+.admin-modules-list-buttons .mw-ui-btn{
+  float: left;
+}
 
 
 /************************************
