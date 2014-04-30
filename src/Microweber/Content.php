@@ -1756,7 +1756,7 @@ class Content
                 } else {
                     print $cache_content;
                 }
-                return;
+               return;
             }
         }
 
@@ -1922,7 +1922,19 @@ class Content
         $params['is_deleted'] = 'n';
         $params['cache_group'] = false;
         $params['no_cache'] = true;
+
+        $skip_pages_with_no_categories = false;
+
         $skip_pages_from_tree = false;
+
+        if (isset($params['skip_sub_pages']) and $params['skip_sub_pages'] != '') {
+            $skip_pages_from_tree = $params['skip_sub_pages'];
+        }
+        if (isset($params['skip-static-pages']) and $params['skip-static-pages'] != false) {
+            $skip_pages_with_no_categories = 1;
+        }
+
+
         $params2 = $params;
 
         if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
@@ -1979,6 +1991,15 @@ class Content
                             $skip_me_cause_iam_removed = true;
                         }
                     }
+
+
+                    if($skip_pages_with_no_categories == true ){
+                        if(isset($item ['subtype']) and $item ['subtype'] != 'dynamic'){
+                            $skip_me_cause_iam_removed = true;
+                        }
+                    }
+
+
 
                     if ($skip_me_cause_iam_removed == false) {
 

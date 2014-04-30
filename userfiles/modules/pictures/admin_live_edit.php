@@ -51,6 +51,10 @@ if(isset($params['quick-add'])){
     $quick_add=$params['quick-add'];
 } 
   ?>
+  
+  
+ 
+  
  <script  type="text/javascript">
  mw.require('options.js');
  </script>

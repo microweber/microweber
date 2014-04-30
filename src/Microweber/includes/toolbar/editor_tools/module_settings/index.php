@@ -324,12 +324,22 @@ if (isset($_GET['type'])) {
                                   window.parent.mw.reload_module('#<?php print $params['id'] ?>');
                                 }
                                 else{
-                                    window.parent.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>', function(){
 
+                                    if (window.parent.mweditor != undefined) {
+                                    window.parent.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>', function(){
                                       setTimeout(function(){
                                          window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
                                       }, 333);
                                     });
+                                    }
+
+                                    if (window.parent.mw != undefined) {
+                                        window.parent.mw.reload_module('#<?php print $params['id'] ?>', function(){
+                                            setTimeout(function(){
+                                                window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                            }, 333);
+                                        });
+                                    }
 
                                 }
 

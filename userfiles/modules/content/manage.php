@@ -71,6 +71,8 @@ $posts = array();
 <script type="text/javascript">
     $(document).ready(function(){
 		var prev_frame_attrs = {};
+		mw.$('#mw_page_layout_preview').attr('show-page-id-layout',"<?php print ($page_info['id'])?>");
+
         mw.$('#mw_page_layout_preview').attr('data-page-id',"<?php print ($page_info['id'])?>");
         mw.$('#mw_page_layout_preview').attr('edit_page_id',"<?php print ($page_info['id'])?>");
         mw.$('#mw_page_layout_preview').attr('autoload',"1");

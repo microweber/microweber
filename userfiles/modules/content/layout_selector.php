@@ -1,16 +1,16 @@
 <?php
 
 
+$iframe_cont_id = false;
 
-
-
+$data = false;
 
 $rand = uniqid() . rand();
 if (!isset($params["data-page-id"]) and !isset($params["content-id"]) and defined('PAGE_ID')) {
-    $params["data-page-id"] = PAGE_ID;
+    $iframe_cont_id = $params["data-page-id"] = PAGE_ID;
 }
 if (!isset($params["data-page-id"]) and isset($params["content-id"])) {
-    $params["data-page-id"] = $params["content-id"];
+    $iframe_cont_id = $params["data-page-id"] = $params["content-id"];
 }
 
 
@@ -28,17 +28,19 @@ if (isset($params["template-selector-position"])) {
 
 
 
-$data = false;
+
 if ((!isset($params["layout_file"]) or trim($params["layout_file"]) == '') and isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0) {
 
 
     $data = get_content_by_id($params["data-page-id"]);
-	//d($data);
-} else {
+    //d($data);
+} elseif(isset($params["show-page-id-layout"])) {
+	    $data = get_content_by_id($params["show-page-id-layout"]);
+
 // d($params);
 //	$data = $params;
 }
-
+ 
 if (!isset($params["layout_file"]) and isset($params["layout-file"])) {
     $params["layout_file"] = $params["layout-file"];
 }
@@ -51,20 +53,26 @@ if (!isset($params["layout_file"]) and $data == false or empty($data)) {
 
 if (isset($data['active_site_template']) and $data['active_site_template'] == '') {
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
-} 
-
-if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
-	$params['layout_file'] = str_replace('..','',$params['layout_file']);
-	$params['layout_file'] = str_replace('____',DS,$params['layout_file']);
-	$params['layout_file'] = normalize_path($params['layout_file'], false);
+}
+if (isset($params["show-page-id-layout"]) and isset($params["data-page-id"])) {
+  
+} else if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
+    $params['layout_file'] = str_replace('..', '', $params['layout_file']);
+    $params['layout_file'] = str_replace('____', DS, $params['layout_file']);
+    $params['layout_file'] = normalize_path($params['layout_file'], false);
     $data['layout_file'] = $params["layout_file"];
 }
+
  
+
+
+
 $inherit_from = false;
 
 if (!isset($params["inherit_from"]) and isset($params["inherit-from"])) {
     $params["inherit_from"] = $params["inherit-from"];
 }
+
 if ((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data['layout_file'] == '' and (!isset($data['layout_name']) or $data['layout_name'] == '' or $data['layout_name'] == 'inherit'))) {
 
     if (isset($params["inherit_from"]) and (trim($params["inherit_from"]) != '' or trim($params["inherit_from"]) != '0')) {
@@ -72,6 +80,8 @@ if ((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data[
 
 
         $inherit_from_id = get_content_by_id($params["inherit_from"]);
+
+
         // $inherit_from_id = false;
         if ($inherit_from_id != false and isset($inherit_from_id['active_site_template']) and trim($inherit_from_id['active_site_template']) != 'inherit') {
             $data['active_site_template'] = $inherit_from_id['active_site_template'];
@@ -108,6 +118,9 @@ if (isset($params["active-site-template"])) {
 }
 
 if (isset($data["id"])) {
+	if(!isset($iframe_cont_id) or $iframe_cont_id == false){
+	$iframe_cont_id = $data["id"];
+	}
     if (!defined('ACTIVE_SITE_TEMPLATE')) {
         mw('content')->define_constants($data);
     }
@@ -125,7 +138,7 @@ if (isset($data['active_site_template']) and ($data['active_site_template']) == 
     }
 }
 
- 
+
 $templates = mw('content')->site_templates();
 
 $layout_options = array();
@@ -198,19 +211,17 @@ mw.templatePreview<?php print $rand; ?> = {
     set: function () {
         mw.$('.preview_frame_wrapper iframe')[0].contentWindow.scrollTo(0, 0);
         mw.$('.preview_frame_wrapper').removeClass("loading");
-				mw_preview_frame_object = mw.$('.preview_frame_wrapper iframe')[0];
+        mw_preview_frame_object = mw.$('.preview_frame_wrapper iframe')[0];
 
     },
     rend: function (url) {
         var holder = mw.$('.preview_frame_container');
         var wrapper = mw.$('.preview_frame_wrapper');
         var frame = '<iframe src="' + url + '" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview<?php print $rand; ?>.set();" frameborder="0"></iframe>';
-		 
-		
-		
+
+
         holder.html(frame);
-		
-		
+
 
     },
     next: function () {
@@ -234,13 +245,13 @@ mw.templatePreview<?php print $rand; ?> = {
         if (typeof a == 'undefined') {
             var holder = mw.$('.preview_frame_wrapper');
             holder.toggleClass('zoom');
-			if(holder[0] != null){
-				var iframe = holder[0].querySelector('iframe');
-				if(iframe != null){
-				  iframe.contentWindow.scrollTo(0, 0);
-				}
+            if (holder[0] != null) {
+                var iframe = holder[0].querySelector('iframe');
+                if (iframe != null) {
+                    iframe.contentWindow.scrollTo(0, 0);
+                }
 
-			}
+            }
         }
         else if (a == 'out') {
             mw.$('.preview_frame_wrapper').removeClass('zoom');
@@ -372,7 +383,7 @@ mw.templatePreview<?php print $rand; ?> = {
         if (template != undefined) {
             var template = safe_chars_to_str(template);
             var template = template.replace('/', '___');
-            
+
 
         } else {
 
@@ -383,13 +394,17 @@ mw.templatePreview<?php print $rand; ?> = {
         }
 
 
-        <?php if($data['id'] ==0){
+        <?php
+		 
+		
+		 if($iframe_cont_id  ==0){
             $iframe_start = site_url('home');
         } else {
-            $iframe_start = page_link($data['id']);
+            $iframe_start = page_link($iframe_cont_id );
         }
 
         ?>
+		
         var inherit_from_param = '';
         if (inherit_from != undefined) {
             inherit_from_param = '&inherit_template_from=' + inherit_from;
@@ -399,13 +414,13 @@ mw.templatePreview<?php print $rand; ?> = {
         var preview_template_param = '';
         if (template != undefined) {
             preview_template_param = '&preview_template=' + template;
-			mw.$("#<?php print $params['id']?>").attr('active_site_template',template);
+            mw.$("#<?php print $params['id']?>").attr('active_site_template', template);
         }
 
         var preview_layout_param = '';
         if (layout != undefined) {
             preview_layout_param = '&preview_layout=' + layout;
-			mw.$("#<?php print $params['id']?>").attr('layout_file',layout);
+            mw.$("#<?php print $params['id']?>").attr('layout_file', layout);
 
         }
 
@@ -415,17 +430,16 @@ mw.templatePreview<?php print $rand; ?> = {
 
         <?php endif; ?>
 
-        var iframe_url = '<?php print $iframe_start; ?>?no_editmode=true' + preview_template_param + preview_layout_param + '&content_id=<?php print  $data['id'] ?>' + inherit_from_param + preview_layout_content_type_param
+        var iframe_url = '<?php print $iframe_start; ?>?no_editmode=true' + preview_template_param + preview_layout_param + '&content_id=<?php print  $iframe_cont_id  ?>' + inherit_from_param + preview_layout_content_type_param
 
         if (return_url == undefined) {
-			 
+
             mw.templatePreview<?php print $rand; ?>.rend(iframe_url);
-			 
+
             $(window).trigger('templateChanged', iframe_url);
-			 
-			
-			
-			// mw.$("#<?php print $params['id']?>").removeAttr('autoload');
+
+
+            // mw.$("#<?php print $params['id']?>").removeAttr('autoload');
 
 
         } else {
@@ -449,18 +463,18 @@ $(document).ready(function () {
         if (parent_module != undefined) {
             parent_module.attr('active-site-template', $(this).val());
             mw.reload_module('<?php print $params['type']?>', function () {
-				
+
                 mw.templatePreview<?php print $rand; ?>.view();
-			
+
             });
 
         }
     });
 
     mw.$('#active_site_layout_<?php print $rand; ?>').bind("change", function (e) {
-		 //  alert(1);
+        //  alert(1);
         mw.templatePreview<?php print $rand; ?>.generate();
-			 
+
     });
 
 
@@ -475,210 +489,219 @@ $(document).ready(function () {
 </script>
 
 <div class="layout_selector_wrap">
-  <div class="vSpace"></div>
-  <?php
-    if (defined('ACTIVE_SITE_TEMPLATE')) {
+<div class="vSpace"></div>
+<?php
+if (defined('ACTIVE_SITE_TEMPLATE')) {
 
-        if (!isset($data['active_site_template']) or (isset($data['active_site_template']) and trim($data['active_site_template']) == ''and defined('ACTIVE_SITE_TEMPLATE'))) {
-            $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+    if (!isset($data['active_site_template']) or (isset($data['active_site_template']) and trim($data['active_site_template']) == ''and defined('ACTIVE_SITE_TEMPLATE'))) {
+        $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
+    }
+}
+
+$global_template = get_option('current_template', 'template');
+
+
+if ($global_template == false) {
+
+    $global_template = 'default';
+}
+
+
+
+
+?>
+<?php if ($template_selector_position == 'top'): ?>
+    <div class="mw-ui-field-holder mw-template-selector"
+         style="padding-top: 0;<?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
+        <label class="mw-ui-label">
+            <?php _e("Template");   ?>
+        </label>
+        <?php if ($templates != false and !empty($templates)): ?>
+            <select name="active_site_template" id="active_site_template_<?php print $rand; ?>"
+                    class="mw-edit-page-template-selector mw-ui-field">
+                <?php foreach ($templates as $item): ?>
+                    <?php
+                    if ($global_template != 'default' and $item['dir_name'] == 'default') {
+                        $item['dir_name'] = 'mw_default';
+
+                    }
+                    $selected = false;
+                    $attrs = '';
+                    foreach ($item as $k => $v): ?>
+                        <?php $attrs .= "data-$k='{$v}'"; ?>
+                    <?php endforeach ?>
+                    <?php if (trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
+                        <option
+                            value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template): ?>   selected="selected" <?php $selected = true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+                    <?php else: ?>
+                        <option
+                            value="<?php print $item['dir_name'] ?>"    <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+                    <?php endif ?>
+                <?php endforeach; ?>
+            </select>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+<?php
+$is_layout_file_set = false;
+
+
+
+
+if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
+    <?php
+
+    $is_layout_file_set = 1;
+    if ($data['layout_file'] == 'inherit') {
+        if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
+            $data['layout_file'] = $params["layout_file"];
+
+        } else {
+            $is_layout_file_set = 1;
         }
     }
 
-    $global_template = get_option('current_template', 'template');
-
-
-    if ($global_template == false) {
-
-        $global_template = 'default';
-    }
-
-   
+    $data['layout_file'] = normalize_path($data['layout_file'], false);
 
 
     ?>
-  <?php if ($template_selector_position == 'top'): ?>
-  <div class="mw-ui-field-holder mw-template-selector"
-             style="padding-top: 0;<?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
+<?php endif; ?>
+<div style="display: none;">
+    <select name="layout_file" class="mw-edit-page-layout-selector" id="active_site_layout_<?php print $rand; ?>"
+            autocomplete="off">
+        <?php if (!empty($layouts)): ?>
+            <?php $i = 0;
+            $is_chosen = false;
+            foreach ($layouts as $item): ?>
+                <?php $item['layout_file'] = normalize_path($item['layout_file'], false); ?>
+                <option value="<?php print $item['layout_file'] ?>"
+                        onclick="mw.templatePreview<?php print $rand; ?>.view('<?php print $i ?>');"
+                        data-index="<?php print $i ?>" data-layout_file="<?php print $item['layout_file'] ?>"
+
+                    <?php if (crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file']))): ?> <?php $is_chosen = 1; ?>  selected="selected"  <?php endif; ?>
+                    <?php if (isset($item['is_default']) and $item['is_default'] != false): ?>
+                    data-is-default="<?php print $item['is_default'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?>  <?php endif; ?> <?php endif; ?>
+                    <?php if (isset($item['is_recomended']) and $item['is_recomended'] != false): ?>   data-is-is_recomended="<?php print $item['is_recomended'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?> <?php endif; ?>  <?php endif; ?>
+                    <?php if (isset($item['content_type'])): ?>   data-content-type="<?php print $item['content_type'] ?>" <?php else: ?> data-content-type="static"  <?php endif; ?>
+
+                    <?php if (isset($item['is_shop'])): ?>   data-is-shop="<?php print $item['is_shop'] ?>"  <?php endif; ?>
+                    <?php if (isset($item['name'])): ?>   title="<?php print $item['name'] ?>"  <?php endif; ?>
+                    <?php if (isset($item['tag'])): ?>   data-tag="<?php print $item['tag'] ?>"  <?php endif; ?>
+
+                    >
+                    <?php   print $item['name'] ?>
+                </option>
+                <?php $i++; endforeach; ?>
+        <?php endif; ?>
+        <?php if (!isset($params['content-type'])): ?>
+            <option
+                title="Inherit" <?php if (isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?>
+                value="inherit"  <?php if ($is_chosen == false and (trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit')): ?>   selected="selected"  <?php endif; ?>>
+
+
+                Inherit from parent
+
+
+            </option>
+        <?php endif; ?>
+    </select>
+</div>
+<div class="left">
+    <div class="preview_frame_wrapper loading left">
+        <?php if (!isset($params['edit_page_id'])): ?>
+            <div class="preview_frame_ctrls">
+                <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview<?php print $rand; ?>.zoomIn();"></span> */ ?>
+                <h2 class="left" style="padding-top: 0;">
+                    <?php if ($data['title'] != false) { ?>
+                    <span
+                        class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?>
+                    <?php } ?>
+                </h2>
+        <span class="prev" title="<?php _e('Previous layout'); ?>"
+              onclick="mw.templatePreview<?php print $rand; ?>.prev();"></span> <span class="next"
+                                                                                      title="<?php _e('Next layout'); ?>"
+                                                                                      onclick="mw.templatePreview<?php print $rand; ?>.next();"></span> <span
+                    class="close" title="<?php _e('Close'); ?>"
+                    onclick="mw.templatePreview<?php print $rand; ?>.zoom();mw.$('.mw_overlay').remove();"></span></div>
+        <?php else : ?>
+            <div class="preview_frame_ctrls" style="display:none;">
+                <h2 class="left" style="padding-top: 0;"><span
+                        class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?>
+                </h2>
+                <a class="mw-ui-btn mw-ui-btn-medium" target="_top"
+                   href="#action=editpage:<?php print $params["edit_page_id"]; ?>">
+                    <?php _e("Edit Page"); ?>
+                </a> <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue" target="_top"
+                        href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y">
+                    <?php _e("Go Live Edit"); ?>
+                </a> <span class="close" title="<?php _e('Close'); ?>"
+                           onclick="mw.templatePreview<?php print $rand; ?>.zoom();mw.$('.mw_overlay').remove();"></span>
+            </div>
+        <?php endif; ?>
+        <div class="preview_frame_container"></div>
+        <?php if (!isset($params['edit_page_id'])): ?>
+            <div class="mw-overlay" onclick="mw.templatePreview<?php print $rand; ?>.zoom();">&nbsp;</div>
+        <?php else: ?>
+            <div class="mw-overlay mw-overlay-quick-link" onclick="mw.templatePreview<?php print $rand; ?>.zoom();"
+                 ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
+                <div id="preview-edit-links"><a class="mw-ui-btn mw-ui-btn-invert"
+                                                href="#action=editpage:<?php print $params["edit_page_id"]; ?>"
+                                                onclick="mw.e.cancel(event);"> <span class="mw-icon-page"></span> <span>
+          <?php _e("Edit Page"); ?>
+          </span> </a> <a class="mw-ui-btn mw-ui-btn-info" target="_top"
+                          href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"
+                          onclick="mw.e.cancel(event);"><span class="mw-icon-live"></span>
+                        <?php _e("Live Edit"); ?>
+                    </a></div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<div class="layouts_box_holder <?php if (isset($params['small'])): ?> semi_hidden  <?php endif; ?>"
+     style="margin-top: 10px;">
     <label class="mw-ui-label">
-      <?php _e("Template");   ?>
+        <?php _e("Choose Page Layout"); ?>
     </label>
-    <?php if ($templates != false and !empty($templates)): ?>
-    <select name="active_site_template" id="active_site_template_<?php print $rand; ?>" class="mw-edit-page-template-selector mw-ui-field">
-      <?php foreach ($templates as $item): ?>
-      <?php
+
+    <div class="layouts_box_container">
+        <div class="mw-ui-box layouts_box" id="layout_selector<?php print $rand; ?>"></div>
+    </div>
+    <?php if ($template_selector_position == 'bottom'): ?>
+        <div class="mw-ui-field-holder mw-template-selector"
+             style="padding-top: 10px;<?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
+            <label class="mw-ui-label">
+                <?php _e("Template");   ?>
+            </label>
+            <?php if ($templates != false and !empty($templates)): ?>
+                <select name="active_site_template" class="mw-ui-field mw-edit-page-template-selector"
+                        id="active_site_template_<?php print $rand; ?>">
+                    <?php foreach ($templates as $item): ?>
+                        <?php
                         if ($global_template != 'default' and $item['dir_name'] == 'default') {
                             $item['dir_name'] = 'mw_default';
-
                         }
                         $selected = false;
                         $attrs = '';
                         foreach ($item as $k => $v): ?>
-      <?php $attrs .= "data-$k='{$v}'"; ?>
-      <?php endforeach ?>
-      <?php if (trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
-      <option
+                            <?php $attrs .= "data-$k='{$v}'"; ?>
+                        <?php endforeach ?>
+                        <?php if (trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
+                            <option
                                 value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template): ?>   selected="selected" <?php $selected = true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
-      <?php else: ?>
-      <option
+                        <?php else: ?>
+                            <option
                                 value="<?php print $item['dir_name'] ?>"    <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
-      <?php endif ?>
-      <?php endforeach; ?>
-    </select>
+                        <?php endif ?>
+                    <?php endforeach; ?>
+                </select>
+            <?php endif; ?>
+        </div>
     <?php endif; ?>
-  </div>
-  <?php endif; ?>
-  <?php
-    $is_layout_file_set = false;
-	
-	
-	
-	
-    if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
-  <?php
-
-        $is_layout_file_set = 1;
-        if ($data['layout_file'] == 'inherit') {
-            $is_layout_file_set = 1;
-        }
-
-        $data['layout_file'] = normalize_path($data['layout_file'], false);
-
-      
-        ?>
-  <?php endif; ?>
-  
-  <div style="display: none;">
-  
-    <select name="layout_file" class="mw-edit-page-layout-selector" id="active_site_layout_<?php print $rand; ?>"
-                autocomplete="off">
-      <?php if (!empty($layouts)): ?>
-      <?php $i = 0;
-                $is_chosen = false;
-                foreach ($layouts as $item): ?>
-      <?php $item['layout_file'] = normalize_path($item['layout_file'], false); ?>
-      <option value="<?php print $item['layout_file'] ?>"
-                            onclick="mw.templatePreview<?php print $rand; ?>.view('<?php print $i ?>');"
-                            data-index="<?php print $i ?>" data-layout_file="<?php print $item['layout_file'] ?>"
-
-                        <?php if (crc32(trim($item['layout_file'])) == crc32(trim($data['layout_file']))): ?> <?php $is_chosen = 1; ?>  selected="selected"  <?php endif; ?>
-                        <?php if (isset($item['is_default']) and $item['is_default'] != false): ?>
-                        data-is-default="<?php print $item['is_default'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?>  <?php endif; ?> <?php endif; ?>
-                        <?php if (isset($item['is_recomended']) and $item['is_recomended'] != false): ?>   data-is-is_recomended="<?php print $item['is_recomended'] ?>" <?php if ($is_layout_file_set == false and $is_chosen == false): ?>   selected="selected" <?php $is_chosen = 1; ?> <?php endif; ?>  <?php endif; ?>
-                        <?php if (isset($item['content_type'])): ?>   data-content-type="<?php print $item['content_type'] ?>" <?php else: ?> data-content-type="static"  <?php endif; ?>
-
-                        <?php if (isset($item['is_shop'])): ?>   data-is-shop="<?php print $item['is_shop'] ?>"  <?php endif; ?>
-                        <?php if (isset($item['name'])): ?>   title="<?php print $item['name'] ?>"  <?php endif; ?>
-                        <?php if (isset($item['tag'])): ?>   data-tag="<?php print $item['tag'] ?>"  <?php endif; ?>
-
-                        >
-      <?php   print $item['name'] ?>
-      </option>
-      <?php $i++; endforeach; ?>
-      <?php endif; ?>
-      <?php if (!isset($params['content-type'])): ?>
-      <option
-                    title="Inherit" <?php if (isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?>
-                    value="inherit"  <?php if ($is_chosen == false and (trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit')): ?>   selected="selected"  <?php endif; ?>>
-      
-      
-
-                    Inherit from parent
-
-                
-      
-      </option>
-      <?php endif; ?>
-    </select>
-  </div>
-  <div class="left">
-    <div class="preview_frame_wrapper loading left">
-      <?php if (!isset($params['edit_page_id'])): ?>
-      <div class="preview_frame_ctrls">
-        <?php /* <span class="zoom" title="<?php _e('Zoom in/out'); ?>" onclick="mw.templatePreview<?php print $rand; ?>.zoomIn();"></span> */ ?>
-        <h2 class="left" style="padding-top: 0;">
-          <?php if ($data['title'] != false) { ?>
-          <span
-                            class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?>
-          <?php } ?>
-        </h2>
-        <span class="prev" title="<?php _e('Previous layout'); ?>"
-                          onclick="mw.templatePreview<?php print $rand; ?>.prev();"></span> <span class="next"
-                                                                                                  title="<?php _e('Next layout'); ?>"
-                                                                                                  onclick="mw.templatePreview<?php print $rand; ?>.next();"></span> <span class="close" title="<?php _e('Close'); ?>"
-                          onclick="mw.templatePreview<?php print $rand; ?>.zoom();mw.$('.mw_overlay').remove();"></span> </div>
-      <?php else : ?>
-      <div class="preview_frame_ctrls" style="display:none;">
-        <h2 class="left" style="padding-top: 0;"><span
-                            class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?> </h2>
-        <a class="mw-ui-btn mw-ui-btn-medium" target="_top"
-                       href="#action=editpage:<?php print $params["edit_page_id"]; ?>">
-        <?php _e("Edit Page"); ?>
-        </a> <a class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-blue" target="_top"
-                            href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y">
-        <?php _e("Go Live Edit"); ?>
-        </a> <span class="close" title="<?php _e('Close'); ?>"
-                               onclick="mw.templatePreview<?php print $rand; ?>.zoom();mw.$('.mw_overlay').remove();"></span> </div>
-      <?php endif; ?>
-      <div class="preview_frame_container"></div>
-      <?php if (!isset($params['edit_page_id'])): ?>
-      <div class="mw-overlay" onclick="mw.templatePreview<?php print $rand; ?>.zoom();">&nbsp;</div>
-      <?php else: ?>
-      <div class="mw-overlay mw-overlay-quick-link" onclick="mw.templatePreview<?php print $rand; ?>.zoom();"
-                     ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
-        <div id="preview-edit-links"> <a class="mw-ui-btn mw-ui-btn-invert" href="#action=editpage:<?php print $params["edit_page_id"]; ?>" onclick="mw.e.cancel(event);"> <span class="mw-icon-page"></span> <span>
-          <?php _e("Edit Page"); ?>
-          </span> </a> <a class="mw-ui-btn mw-ui-btn-info" target="_top"
-                                      href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"
-                                      onclick="mw.e.cancel(event);"><span class="mw-icon-live"></span>
-          <?php _e("Live Edit"); ?>
-          </a> </div>
-      </div>
-      <?php endif; ?>
-    </div>
-  </div>
-  <div class="layouts_box_holder <?php if (isset($params['small'])): ?> semi_hidden  <?php endif; ?>"
-         style="margin-top: 10px;">
-    <label class="mw-ui-label">
-      <?php _e("Choose Page Layout"); ?>
-    </label>
-    <div class="layouts_box_container">
-      <div class="mw-ui-box layouts_box" id="layout_selector<?php print $rand; ?>"></div>
-    </div>
-    <?php if ($template_selector_position == 'bottom'): ?>
-    <div class="mw-ui-field-holder mw-template-selector"
-                 style="padding-top: 10px;<?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
-      <label class="mw-ui-label">
-        <?php _e("Template");   ?>
-      </label>
-      <?php if ($templates != false and !empty($templates)): ?>
-      <select name="active_site_template" class="mw-ui-field mw-edit-page-template-selector" id="active_site_template_<?php print $rand; ?>">
-        <?php foreach ($templates as $item): ?>
-        <?php
-                            if ($global_template != 'default' and $item['dir_name'] == 'default') {
-                                $item['dir_name'] = 'mw_default';
-                            }
-                            $selected = false;
-                            $attrs = '';
-                            foreach ($item as $k => $v): ?>
-        <?php $attrs .= "data-$k='{$v}'"; ?>
-        <?php endforeach ?>
-        <?php if (trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
-        <option
-                                    value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template): ?>   selected="selected" <?php $selected = true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
-        <?php else: ?>
-        <option
-                                    value="<?php print $item['dir_name'] ?>"    <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
-        <?php endif ?>
-        <?php endforeach; ?>
-      </select>
-      <?php endif; ?>
-    </div>
-    <?php endif; ?>
-  </div>
-  <div class="mw_clear">&nbsp;</div>
-  <?php if ($live_edit_styles_check != false): ?>
-  <module type="content/layout_selector_custom_css" id="layout_custom_css_clean<?php print $rand; ?>"
-                template="<?php print $data['active_site_template'] ?>"/>
-  <?php endif; ?>
-  <div class="vSpace">&nbsp;</div>
+</div>
+<div class="mw_clear">&nbsp;</div>
+<?php if ($live_edit_styles_check != false): ?>
+    <module type="content/layout_selector_custom_css" id="layout_custom_css_clean<?php print $rand; ?>"
+            template="<?php print $data['active_site_template'] ?>"/>
+<?php endif; ?>
+<div class="vSpace">&nbsp;</div>
 </div>

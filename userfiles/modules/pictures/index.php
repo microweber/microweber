@@ -61,15 +61,16 @@ if (!isset($params['rel_id']) or $params['rel_id'] == false) {
 	if($for == 'content' and intval($for_id) == 0 and user_id()){
 		$get_for_session = true;
 	}
+	
 	if($get_for_session == false){
-		   
-//d($params);
+		  
+//
 	    $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
 	} else {
 		 $sid = session_id();
 		//$data = get_pictures('rel_id=0&for=' . $for. '&session_id=' . session_id());
-	$data = get_pictures("rel_id={$for_id}&rel={$for}&session_id={$sid}");
-
+	$data = get_pictures("rel_id=0&rel={$for}&session_id={$sid}");
+  //d($sid);
 	}
     if (!is_array($data)) {
         if (is_array($default_images) and !empty($default_images)) {

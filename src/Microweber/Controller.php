@@ -276,6 +276,7 @@ class Controller
             }
             if($content_id == false){
                 $action_test = $this->app->url->param('action',false, $from_url2);
+
                 if($action_test != false){
                     $action_test = str_ireplace('editpage:','',$action_test);
                     $action_test = str_ireplace('editpost:','',$action_test);
@@ -286,6 +287,7 @@ class Controller
                         $content_id = $action_test;
                         $this->app->content->define_constants(array('id'=>$content_id));
                     }
+
                 }
 
             }
@@ -320,7 +322,22 @@ class Controller
                     }
 
                 } else {
-                    $page = $this->app->content->get_by_url($url);
+                    if(!stristr($url, admin_url())){
+                        $page = $this->app->content->get_by_url($url);
+                    } else {
+                        $page = false;
+                        if(!defined('PAGE_ID')){
+                            define('PAGE_ID',false);
+                        }
+                        if(!defined('POST_ID')){
+                            define('POST_ID',false);
+                        }
+                        if(!defined('CONTENT_ID')){
+                            define('CONTENT_ID',false);
+                        }
+                    }
+
+
                 }
             }
         } else {

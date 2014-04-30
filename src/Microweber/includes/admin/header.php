@@ -123,6 +123,8 @@ if ($last_page_front != false) {
                                     href="<?php print admin_url(); ?>view:content/action:pages">Pages</a></li>
                             <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:content/action:posts">Posts</a></li>
+                                     <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>><a
+                                    href="<?php print admin_url(); ?>view:content/action:products">Products</a></li>
                             <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:content/action:categories">Categories</a></li>
                         </ul>

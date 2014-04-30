@@ -263,14 +263,6 @@ $(window).load(function(){
             <label class="mw-ui-label">Textarea</label>
             <textarea class="mw-ui-field"></textarea>
         </div>
-        <div class="demobox">
-            <label class="mw-ui-check"><input type="checkbox" checked="checked" /><span></span><span>Checkbox</span></label>
-            <label class="mw-ui-check"><input type="checkbox" /><span></span><span>Checkbox</span></label>
-        </div>
-        <div class="demobox">
-            <label class="mw-ui-check"><input type="radio" checked="checked" name="demonameradio" /><span></span><span>Radio</span></label>
-            <label class="mw-ui-check"><input type="radio" name="demonameradio" /><span></span><span>Radio</span></label>
-        </div>
         <h2>Field sizes and fields with buttons</h2>
         <div class="demof1">
         <div class="demobox">
@@ -303,7 +295,9 @@ $(window).load(function(){
 
     </tr>
    <tr>
-    <td>
+    <td colspan="2">
+    <h2>Pure CSS radio buttons and checkboxes </h2>
+       <div class="demobox">
        <label class="mw-ui-check">
             <input type="checkbox" checked="checked" />
             <span></span>
@@ -314,8 +308,8 @@ $(window).load(function(){
             <span></span>
             <span>Checkbox 2</span>
        </label>
-       </td>
-       <td>
+       </div>
+       <div class="demobox">
        <label class="mw-ui-check">
             <input type="radio" name="demoradio1" checked="checked" />
             <span></span>
@@ -326,7 +320,7 @@ $(window).load(function(){
             <span></span>
             <span>Radio 2</span>
        </label>
-
+       </div> 
     </td>
     </tr>
   </tbody>

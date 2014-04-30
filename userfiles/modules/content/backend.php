@@ -443,15 +443,22 @@ function mw_make_pages_tree_sortable(){
 		 $is_shop_str = "   ";
 	   if(isset($is_shop)){
 		 $is_shop_str = " is_shop='{$is_shop}' ";
-	   }
-       elseif(isset($params['is_shop'])){
+	   } elseif(isset($params['is_shop'])){
 		 $is_shop_str = " is_shop='".$params['is_shop']."' ";
+	   } elseif($action=='products'){
+		 $is_shop_str = " is_shop='y' ";
 	   }
+	   
 	   ?>
           <?php if($action=='pages'): ?>
           <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"   id="pages_tree_toolbar"  view="admin_tree" home_first="true"  />
           <?php elseif($action=='categories'): ?>
-          <module data-type="categories"   active_class="active-bg"   id="pages_tree_toolbar"  view="admin_tree"    />
+            
+                            <module skip-static-pages="true" data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
+
+          
+           
+          
           <?php else: ?>
           <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
           <?php endif ?>
@@ -493,11 +500,14 @@ function mw_make_pages_tree_sortable(){
 			<?php if( $ed_content=== false): ?>
             	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> <?php print $is_shop_str ?> />
             <?php else: ?>
-            	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> <?php print $is_shop_str ?> />
+            	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> is_shop='y' />
             <?php endif; ?>
         <?php elseif( $action!= false and $action=='pages'): ?>
         	<module data-type="content/manage" page-id="global" id="edit_content_admin" content_type="page" <?php print  $content_id ?> <?php print $is_shop_str ?> />
         <?php elseif( $action!= false and $action=='posts'): ?>
+        
+        	<module data-type="content/manage" page-id="global" id="edit_content_admin" content_type="post" <?php print  $content_id ?>  subtype="post"  />
+             <?php elseif( $action!= false and $action=='products'): ?>
         	<module data-type="content/manage" page-id="global" id="edit_content_admin" content_type="post" <?php print  $content_id ?> <?php print $is_shop_str ?> />
         <?php endif; ?>
       </div>
