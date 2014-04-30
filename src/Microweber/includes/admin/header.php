@@ -100,7 +100,7 @@ if ($last_page_front != false) {
 <div id="mw-admin-container">
     <div class="mw-ui-row main-admin-row">
         <div class="mw-ui-col main-bar-column">
-            <div id="main-bar"> <a href="javascript:;" id="main-bar-mw-icon"><span class="mw-icon-microweber"></span></a>
+            <div id="main-bar"> <a href="javascript:;" id="main-bar-mw-icon"><?php mw_logo_svg(); ?></a>
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
                 <ul id="main-menu">

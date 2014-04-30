@@ -259,15 +259,14 @@ class Controller
             $from_url = $_REQUEST['from_url'];
         } else if (isset($_SERVER["HTTP_REFERER"])) {
             $from_url = $_SERVER["HTTP_REFERER"];
-
         }
 
 
 
         if (isset($from_url) and $from_url != false) {
             $url = $from_url;
-
             $from_url2 = str_replace('#','/',$from_url);
+
              $content_id = $this->app->url->param('content_id',false, $from_url2);
             if($content_id == false){
                 $content_id = $this->app->url->param('editpage',false, $from_url2);
@@ -281,12 +280,11 @@ class Controller
                     $action_test = str_ireplace('editpage:','',$action_test);
                     $action_test = str_ireplace('editpost:','',$action_test);
                     $action_test = str_ireplace('edit:','',$action_test);
+
                     $action_test = intval($action_test);
                     if($action_test != 0){
                         $content_id = $action_test;
-
                         $this->app->content->define_constants(array('id'=>$content_id));
-
                     }
                 }
 
@@ -299,6 +297,7 @@ class Controller
             //$url = $_SERVER["HTTP_REFERER"];
             $url = explode('?', $url);
             $url = $url[0];
+
             if ($content_id != false) {
                 $page = array();
                 $page['id'] = $content_id;
@@ -309,9 +308,17 @@ class Controller
                 }
             } else {
                 if (trim($url) == '' or trim($url) == $this->app->url->site()) {
+                    //var_dump($from_url);
                     //$page = $this->app->content->get_by_url($url);
                     $page = $this->app->content->homepage();
-                    // var_dump($page);
+                    if(isset($from_url2)){
+                    $mw_quick_edit = $this->app->url->param('mw_quick_edit',false, $from_url2);
+
+                    if($mw_quick_edit){
+                        $page = false;
+                    }
+                    }
+
                 } else {
                     $page = $this->app->content->get_by_url($url);
                 }

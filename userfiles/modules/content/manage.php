@@ -211,28 +211,21 @@ mw.manage_content_sort = function(){
 }
 
 </script>
-<?php /*<div class="manage-toobar manage-toolbar-top">
+<div class="manage-toobar manage-toolbar-top">
   <div class="manage-toobar-content">
     <div class="mw-ui-row">
-      <div class="mw-ui-col"> <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"> <span class="mw-icon-plus"></span> Create </span> <span class="mw-ui-btn-nav"> <span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.check.all('#mw_admin_posts_manage')">
-        <?php _e("Select All"); ?>
-        </span> <span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.check.none('#mw_admin_posts_manage')">
-        <?php _e("Unselect All"); ?>
-        </span> <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important" onclick="delete_selected_posts();">
-        <?php _e("Delete"); ?>
-        </span> </span> </div>
-      <div class="mw-ui-col">
-        <input
-                onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
-                value="<?php  if(isset($params['keyword']) and $params['keyword'] != false):  ?><?php print $params['keyword'] ?><?php endif; ?>"
-                placeholder="<?php _e("Search for posts"); ?>"
-                type="text"
-                class="mw-ui-field mw-ui-field-medium pull-right"
-                id="mw-search-field"   />
-      </div>
+      <div class="mw-ui-col"> <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"> <span class="mw-icon-plus"></span> Create </span> </div>
+      <?php if(isset($params['page-id']) and intval($params['page-id']) != 0): ?>
+      <?php $edit_link = admin_url('view:content#action=editpost:'.$params['page-id']);  ?>
+      <div class="mw-ui-col"> <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-medium edit-content-btn" id="edit-content-btn" data-tip="bottom-left"> <span class="mw-icon-pen"></span> Edit page </a> </div>
+      <?php endif; ?>
+      <?php if(isset($params['category-id'])): ?>
+      <?php $edit_link = admin_url('view:content#action=editcategory:'.$params['category-id']);  ?>
+      <div class="mw-ui-col"> <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-medium edit-category-btn" id="edit-category-btn" data-tip="bottom-left"> <span class="mw-icon-pen"></span> Edit category </a> </div>
+      <?php endif; ?>
     </div>
   </div>
-</div>*/ ?>
+</div>
 <?php   print $posts = module( $posts_mod);  ?>
 <script  type="text/javascript">
 mw.on.hashParam("pg", function(){

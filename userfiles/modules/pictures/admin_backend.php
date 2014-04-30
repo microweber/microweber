@@ -48,7 +48,13 @@ if(isset($params['content-id'])){
     			 data['for'] = f;
     			 data.src = a;
     			 data.media_type = 'picture';
-    			 data.for_id = id;
+				 
+				 if(id == undefined || id == ''){
+					 data.for_id = 0; 
+				 } else {
+				 data.for_id = (id);
+
+				 }
     			 mw.module_pictures.after_upload(data);
     	}
     	if(e == 'done' ){
@@ -90,7 +96,7 @@ $(document).ready(function(){
 
 <input name="thumbnail"  type="hidden" value="<?php print ($data['thumbnail'])?>" />
 <?php
- 
+
 if(trim($for_id)  != '' and trim($for_id)  != '0'){
     $media = get_pictures("rel_id={$for_id}&rel={$for}");
 } else {
@@ -100,7 +106,7 @@ if(trim($for_id)  != '' and trim($for_id)  != '0'){
 		$sid = session_id();
 	 }
  
-	$media = get_pictures("rel_id={$for_id}&rel={$for}&session_id={$sid}");
+	$media = get_pictures("rel_id=0&rel={$for}&session_id={$sid}");
 }
 
 

@@ -188,8 +188,8 @@ $pages_count = intval($pages);
 <?php if (intval($pages_count) > 1): ?>
 <?php $paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
-
-<div class="manage-toobar manage-toolbar-top">
+<?php /*
+ <div class="manage-toobar manage-toolbar-top">
   <div class="manage-toobar-content">
     <div class="mw-ui-row">
       <div class="mw-ui-col"> <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"> <span class="mw-icon-plus"></span> Create </span> <span class="mw-ui-btn-nav"> <span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.check.all('#mw_admin_posts_manage')">
@@ -210,7 +210,7 @@ $pages_count = intval($pages);
       </div>
     </div>
   </div>
-</div>
+</div>*/ ?>
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <div class="">
     <?php if(is_array($data)): ?>

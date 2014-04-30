@@ -51,12 +51,15 @@ if (!isset($params["layout_file"]) and $data == false or empty($data)) {
 
 if (isset($data['active_site_template']) and $data['active_site_template'] == '') {
     $data['active_site_template'] = ACTIVE_SITE_TEMPLATE;
-} else
+} 
 
 if (isset($params["layout_file"]) and trim($params["layout_file"]) != '') {
+	$params['layout_file'] = str_replace('..','',$params['layout_file']);
+	$params['layout_file'] = str_replace('____',DS,$params['layout_file']);
+	$params['layout_file'] = normalize_path($params['layout_file'], false);
     $data['layout_file'] = $params["layout_file"];
 }
-
+ 
 $inherit_from = false;
 
 if (!isset($params["inherit_from"]) and isset($params["inherit-from"])) {
@@ -422,7 +425,7 @@ mw.templatePreview<?php print $rand; ?> = {
 			 
 			
 			
-			 //mw.$("#<?php print $params['id']?>").removeAttr('autoload');
+			// mw.$("#<?php print $params['id']?>").removeAttr('autoload');
 
 
         } else {
@@ -444,7 +447,7 @@ $(document).ready(function () {
 
         var parent_module = $(this).parents('.module').first();
         if (parent_module != undefined) {
-            parent_module.attr('data-active-site-template', $(this).val());
+            parent_module.attr('active-site-template', $(this).val());
             mw.reload_module('<?php print $params['type']?>', function () {
 				
                 mw.templatePreview<?php print $rand; ?>.view();
@@ -463,7 +466,7 @@ $(document).ready(function () {
 
     mw.templatePreview<?php print $rand; ?>.prepare();
     <?php if(isset($params["autoload"])) : ?>
-   mw.templatePreview<?php print $rand; ?>.generate();
+    mw.templatePreview<?php print $rand; ?>.generate();
     <?php endif; ?>
 
 
@@ -489,9 +492,7 @@ $(document).ready(function () {
         $global_template = 'default';
     }
 
-
-
-
+   
 
 
     ?>
@@ -528,6 +529,10 @@ $(document).ready(function () {
   <?php endif; ?>
   <?php
     $is_layout_file_set = false;
+	
+	
+	
+	
     if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
   <?php
 
@@ -538,10 +543,12 @@ $(document).ready(function () {
 
         $data['layout_file'] = normalize_path($data['layout_file'], false);
 
-        //d($data['layout_file']);
+      
         ?>
   <?php endif; ?>
-  <div style="display: xxnone;">
+  
+  <div style="display: none;">
+  
     <select name="layout_file" class="mw-edit-page-layout-selector" id="active_site_layout_<?php print $rand; ?>"
                 autocomplete="off">
       <?php if (!empty($layouts)): ?>
@@ -600,7 +607,7 @@ $(document).ready(function () {
                                                                                                   onclick="mw.templatePreview<?php print $rand; ?>.next();"></span> <span class="close" title="<?php _e('Close'); ?>"
                           onclick="mw.templatePreview<?php print $rand; ?>.zoom();mw.$('.mw_overlay').remove();"></span> </div>
       <?php else : ?>
-      <div class="preview_frame_ctrls">
+      <div class="preview_frame_ctrls" style="display:none;">
         <h2 class="left" style="padding-top: 0;"><span
                             class="icotype icotype-<?php print $item['content_type']; ?>"></span><?php print $data['title']; ?> </h2>
         <a class="mw-ui-btn mw-ui-btn-medium" target="_top"

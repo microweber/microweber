@@ -372,26 +372,26 @@ mw.askusertostay = false;
 
   mw.reload_module_parent = function(module, callback) {
     if(self !== parent && !!parent.mw){
-		 
+
        parent.mw.reload_module(module, callback)
 	   if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
 		 top.mweditor.contentWindow.mw.reload_module(module, callback)
 		}
-	   
+        if(typeof(parent.mw_preview_frame_object) != 'undefined'  && typeof(parent.mw_preview_frame_object) == 'object'   && typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined'){
+            if(typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined'){
+                parent.mw_preview_frame_object.contentWindow.mw.reload_module(module, callback)
+            }
+        }
     } else {
 		if(typeof(mweditor) != 'undefined'  && typeof(mweditor) == 'object'   && typeof(mweditor.contentWindow) != 'undefined'){
-		 mweditor.contentWindow.mw.reload_module(module, callback)
+		    mweditor.contentWindow.mw.reload_module(module, callback)
 		}
 	}
-
 //      if(typeof(mw_preview_frame_object) != 'undefined'  && typeof(mw_preview_frame_object) == 'object'  && typeof(mw_preview_frame_object.contentWindow) != 'null' && typeof(mw_preview_frame_object.contentWindow) != 'undefined'&& typeof(mw_preview_frame_object.contentWindow.mw) == 'object'){
 //
 //
 //          mw_preview_frame_object.contentWindow.mw.reload_module(module, callback)
 //      }
-
-
-
 
 
   }
@@ -465,7 +465,7 @@ mw.askusertostay = false;
         mw.session.checkPause = true;
       }
     var attrs = $(obj.selector)[0].attributes;
-	 
+
     if (sendSpecific) {
       attrs["class"] !== undefined ? to_send["class"] = attrs["class"].nodeValue : ""
       attrs["data-module-name"] !== undefined ? to_send["data-module-name"] = attrs["data-module-name"].nodeValue : "";

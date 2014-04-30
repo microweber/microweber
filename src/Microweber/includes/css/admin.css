@@ -197,15 +197,16 @@ h2 > [class*="mw-icon-"]:first-child{
   overflow: hidden;
 }
 
-#main-bar .mw-icon-microweber{
+#main-bar-mw-icon svg{
+  height: 20px;
+  width: 75px;
   display: block;
-  text-align: center;
-  padding: 3px 0 0;
+  margin: auto;
+  position: relative;
+  top: 5px;
 }
-
-#main-bar .mw-icon-microweber:before{
-  font-size: 130px;
-  color: #999;
+#main-bar-mw-icon .mwpolycolor{
+  fill:#999999;
 }
 
 

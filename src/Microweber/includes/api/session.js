@@ -31,6 +31,7 @@ mw.session = {
     });
   },
   checkInit:function(){
+    if(self !== top){ return false; }
     setInterval(function(){
       mw.session.check(function(is_logged){
         if(is_logged){
