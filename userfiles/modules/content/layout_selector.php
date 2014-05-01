@@ -494,7 +494,7 @@ $(document).ready(function () {
 </script>
 
 <div class="layout_selector_wrap">
-<div class="vSpace"></div>
+
 <?php
 if (defined('ACTIVE_SITE_TEMPLATE')) {
 
@@ -708,5 +708,5 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
     <module type="content/layout_selector_custom_css" id="layout_custom_css_clean<?php print $rand; ?>"
             template="<?php print $data['active_site_template'] ?>"/>
 <?php endif; ?>
-<div class="vSpace">&nbsp;</div>
+
 </div>

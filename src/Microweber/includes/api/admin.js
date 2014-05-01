@@ -92,7 +92,45 @@ mw.admin = {
             $(frame).width(ww - width_tbar - width_mbar - 35).height(frame.contentWindow.document.body.offsetHeight);
         }
       },
-      init:function(area, params){
+	  init:function(area, params){
+          var params = params || {};
+          if(typeof params === 'object' ){
+            if(typeof params.src != 'undefined'){
+                delete(params.src);
+            }
+          }
+          var params = typeof params === 'object' ? json2url(params) : params;
+          var area = mw.$(area);
+          var frame = mwd.createElement('iframe');
+        //  frame.src = mw.settings.site_url+('?mw_quick_edit=true&'+params);
+		      frame.src = mw.external_tool('wysiwyg?'+params);
+d(mw.external_tool('wysiwyg?'+params));
+          frame.className = 'mw-iframe-editor';
+          frame.scrolling = 'no';
+          var name =  'mweditor'+mw.random();
+          frame.id = name;
+          frame.name = name;
+          frame.style.backgroundColor = "transparent";
+          frame.setAttribute('frameborder', 0);
+          frame.setAttribute('allowtransparency', 'true');
+          area.empty().append(frame);
+          $(frame).load(function(){
+              frame.contentWindow.thisframe = frame;
+              if(typeof frame.contentWindow.PrepareEditor === 'function'){
+                frame.contentWindow.PrepareEditor();
+              }
+              mw.admin.editor.set(frame);
+              $(frame.contentWindow.document.body).bind('keyup paste', function(){
+                   mw.admin.editor.set(frame);
+              });
+          });
+          mw.admin.editor.set(frame);
+          $(window).bind('resize', function(){
+            mw.admin.editor.set(frame);
+          });
+          return frame;
+      },
+      OLDinit:function(area, params){
           var params = params || {};
           if(typeof params === 'object' ){
             if(typeof params.src != 'undefined'){
@@ -135,6 +173,7 @@ mw.admin = {
       var scrolltop = $(window).scrollTop();
       if(scrolltop > 0){
         mw.tools.addClass(toolbar, 'admin-manage-toolbar-scrolled');
+        toolbar.style.width = toolbar.parentNode.offsetWidth + 'px';
       }
       else{
          mw.tools.removeClass(toolbar, 'admin-manage-toolbar-scrolled');
@@ -165,6 +204,9 @@ $(mww).bind('hashchange', function(){
     mw.admin.treeboxwidth();
 });
 
+$(mww).bind('scroll resize', function(){
+    mw.admin.manageToolbarSet();
+});
 mw.on.moduleReload('pages_edit_container', function(){
    mw.admin.createContentBtns();
 })

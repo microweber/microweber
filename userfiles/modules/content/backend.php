@@ -433,7 +433,7 @@ function mw_make_pages_tree_sortable(){
 </script>
 
 <div class="mw-ui-row" id="edit-content-row">
-  <div class="mw-ui-col tree-column" <?php if($action=='posts'): ?> style="display:none" <?php endif ?>>
+  <div class="mw-ui-col tree-column" <?php if($action=='posts'): ?>  <?php endif ?>>
     <div class="tree-column-holder">
       <div class="fixed-side-column scroll-height-exception-master">
         <div class="create-content scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn create-content-btn" id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a> </div>
@@ -448,16 +448,15 @@ function mw_make_pages_tree_sortable(){
 	   } elseif($action=='products'){
 		 $is_shop_str = " is_shop='y' ";
 	   }
-	   
+	   if($action=='posts'){
+		   $is_shop_str = " is_shop='n'  skip-static-pages='true' "; 
+	   }
 	   ?>
           <?php if($action=='pages'): ?>
           <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"   id="pages_tree_toolbar"  view="admin_tree" home_first="true"  />
           <?php elseif($action=='categories'): ?>
             
-                            <module skip-static-pages="true" data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
-
-          
-           
+            <module skip-static-pages="true" data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
           
           <?php else: ?>
           <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />

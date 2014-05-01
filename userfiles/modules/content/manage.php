@@ -103,17 +103,21 @@ if(isset($page_info) and is_array($page_info)): ?>
 </div>
 <?php else: ?>  
 <?php include __DIR__ . DS . 'admin_toolbar.php'; ?>   
-
 <?php endif; ?>
-
 
 <?php elseif(isset($params["data-category-id"])):?>
 <?php  $cat_info = get_category_by_id($params["data-category-id"]); ?>
-<?php if(isset($cat_info['title']) and $cat_info['title'] != ''): ?>
-<h2><span class="mw-icon-category"></span>
-  <?php _e("Category"); ?>
-</h2>
-<?php endif; ?>
+	<?php if(isset($cat_info['title']) and $cat_info['title'] != ''): ?>
+        <h2><span class="mw-icon-category"></span>
+          <?php print $cat_info['title']; ?>
+        </h2>
+        
+        <?php else: ?>
+        <h2><span class="mw-icon-category"></span>
+          <?php _e("Category"); ?>
+        </h2>
+    <?php endif; ?>
+
 <?php endif; ?>
 <?php if(isset($page_info) and isset($page_info['title'])): ?>
 <?php if($page_info['is_shop'] == 'y'){ ?>
@@ -226,7 +230,7 @@ mw.manage_content_sort = function(){
 }
 
 </script>
-<div class="manage-toobar manage-toolbar-top">
+<?php /*<div class="manage-toobar manage-toolbar-top">
   <div class="manage-toobar-content">
       <div class="mw-ui-row">
         <div class="mw-ui-col"> <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"> <span class="mw-icon-plus"></span> Create </span> </div>
@@ -240,7 +244,7 @@ mw.manage_content_sort = function(){
         <?php endif; ?>
       </div>
   </div>
-</div>
+</div>*/ ?>
 <?php   print $posts = module( $posts_mod);  ?>
 <script  type="text/javascript">
 mw.on.hashParam("pg", function(){

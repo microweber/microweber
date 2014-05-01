@@ -166,7 +166,11 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
  
 ?>
 <?php if($just_saved!=false) : ?>
+
 <?php endif; ?>
+<?php  
+$edit_page_info = $data;;
+include __DIR__ . DS . 'admin_toolbar.php'; ?>   
 
 <div id="post-states-tip" style="display: none">
     <div>
@@ -240,12 +244,11 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
         </div>
 
       <input
-            type="text"
-            id="content-title-field"
+            type="hidden"
+            id="content-title-field-master"
             name="title"
             onkeyup="slugFromTitle();"
             placeholder="<?php print $title_placeholder; ?>"
-            class="mw-ui-invisible-field mw-ui-field-big w100 mw-title-field-<?php print $data['content_type']; ?>"
             value="<?php print $data['title']; ?>" />
       <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
 <div class="edit-post-url">
@@ -311,14 +314,15 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
   <?php endif; ?>
   
   <?php // if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
+    <?php  if(isset($data['subtype']) and $data['subtype'] != 'dynamic'): ?>
+
   <div class="mw-ui-field-holder">
     <div id="quick_content_<?php print $rand ?>"></div>
   </div>
   
 
-  
-  
-  <?php // endif; ?>
+    
+  <?php   endif; ?>
   
 
 
@@ -384,7 +388,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
                     
                     
                     
-                    
+
               <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
 
   </div>
@@ -494,7 +498,17 @@ mw.edit_content.load_editor  =  function(element_id){
 			 delete window.mweditor;
 		}
 		
-		mweditor = mw.admin.editor.init(area, params);
+		 mweditor = mw.admin.editor.init(area, params);
+		
+		
+		/* new editor !!! */
+		
+		//mweditor = mw.tools.wysiwyg(area, params);
+		//$(area).show();
+		
+		
+		
+		
 	 }
 	 var layout_selector =  mw.$('#mw-quick-add-choose-layout');
      if(layout_selector !== null){
