@@ -569,3 +569,5 @@ table[class*='mw-wysiwyg-table'].valign td{
 .element[class*='col-']{
   clear: none;
 }
+/* Title is hidden in admin panel */
+.mw-admin-view [rel='content'][field='title']{ display: none !important; }

@@ -33,14 +33,13 @@ if ((!isset($params["layout_file"]) or trim($params["layout_file"]) == '') and i
 
 
     $data = get_content_by_id($params["data-page-id"]);
-    //d($data);
+    //
 } elseif(isset($params["show-page-id-layout"])) {
 	    $data = get_content_by_id($params["show-page-id-layout"]);
-
-// d($params);
-//	$data = $params;
+}elseif(isset($params["content-id"])) {
+	    $data = get_content_by_id($params["content-id"]);
 }
- 
+
 if (!isset($params["layout_file"]) and isset($params["layout-file"])) {
     $params["layout_file"] = $params["layout-file"];
 }
@@ -65,7 +64,7 @@ if (isset($params["show-page-id-layout"]) and isset($params["data-page-id"])) {
 
  
 
-
+ 
 
 $inherit_from = false;
 
@@ -116,7 +115,7 @@ if (!isset($params["active-site-template"]) and isset($params["site-template"]))
 if (isset($params["active-site-template"])) {
     $data['active_site_template'] = $params["active-site-template"];
 }
-
+ 
 if (isset($data["id"])) {
 	if(!isset($iframe_cont_id) or $iframe_cont_id == false){
 	$iframe_cont_id = $data["id"];
@@ -137,7 +136,7 @@ if (isset($data['active_site_template']) and ($data['active_site_template']) == 
         $data['active_site_template'] = $site_template_settings;
     }
 }
-
+ 
 
 $templates = mw('content')->site_templates();
 
@@ -219,6 +218,7 @@ mw.templatePreview<?php print $rand; ?> = {
         var wrapper = mw.$('.preview_frame_wrapper');
         var frame = '<iframe src="' + url + '" class="preview_frame_small" tabindex="-1" onload="mw.templatePreview<?php print $rand; ?>.set();" frameborder="0"></iframe>';
 
+		
 
         holder.html(frame);
 
@@ -240,6 +240,7 @@ mw.templatePreview<?php print $rand; ?> = {
         mw.$("#layout_selector<?php print $rand; ?> li.active").removeClass('active');
         mw.$("#layout_selector<?php print $rand; ?> li").eq(which).addClass('active');
         $(mw.templatePreview<?php print $rand; ?>.selector).trigger('change');
+		
     },
     zoom: function (a) {
         if (typeof a == 'undefined') {
@@ -381,16 +382,20 @@ mw.templatePreview<?php print $rand; ?> = {
 
 
         if (template != undefined) {
+			 if (typeof(form) == 'object' && form.querySelector('input[name="active_site_template"]') != null) {
+			form.querySelector('input[name="active_site_template"]').value = template
+			 }
             var template = safe_chars_to_str(template);
             var template = template.replace('/', '___');
-
-
-        } else {
-
-        }
+        } 
         if (layout != undefined) {
+				 if (typeof(form) == 'object' && form.querySelector('input[name="layout_file"]') != null) {
+			form.querySelector('input[name="layout_file"]').value = layout
+				 }
             var layout = safe_chars_to_str(layout);
             var layout = layout.replace('/', '___');
+			
+
         }
 
 
@@ -436,8 +441,8 @@ mw.templatePreview<?php print $rand; ?> = {
 
             mw.templatePreview<?php print $rand; ?>.rend(iframe_url);
 
-            $(window).trigger('templateChanged', iframe_url);
-
+        
+  $(window).trigger('templateChanged');
 
             // mw.$("#<?php print $params['id']?>").removeAttr('autoload');
 
@@ -458,7 +463,7 @@ $(document).ready(function () {
 
     mw.$('#active_site_template_<?php print $rand; ?>').bind("change", function (e) {
 
-
+  
         var parent_module = $(this).parents('.module').first();
         if (parent_module != undefined) {
             parent_module.attr('active-site-template', $(this).val());
@@ -567,7 +572,7 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
     ?>
 <?php endif; ?>
 <div style="display: none;">
-    <select name="layout_file" class="mw-edit-page-layout-selector" id="active_site_layout_<?php print $rand; ?>"
+    <select name="preview_layout_file" class="mw-edit-page-layout-selector" id="active_site_layout_<?php print $rand; ?>"
             autocomplete="off">
         <?php if (!empty($layouts)): ?>
             <?php $i = 0;
@@ -673,7 +678,7 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
                 <?php _e("Template");   ?>
             </label>
             <?php if ($templates != false and !empty($templates)): ?>
-                <select name="active_site_template" class="mw-ui-field mw-edit-page-template-selector"
+                <select name="preview_active_site_template" class="mw-ui-field mw-edit-page-template-selector"
                         id="active_site_template_<?php print $rand; ?>">
                     <?php foreach ($templates as $item): ?>
                         <?php

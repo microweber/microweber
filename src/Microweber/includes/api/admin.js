@@ -123,15 +123,23 @@ mw.admin = {
               });
           });
           mw.admin.editor.set(frame);
-
           $(window).bind('resize', function(){
             mw.admin.editor.set(frame);
           });
-
           return frame;
       }
+    },
+    manageToolbarSet:function(){
+      var toolbar = mwd.querySelector('.admin-manage-toolbar');
+      if(toolbar === null){ return false; }
+      var scrolltop = $(window).scrollTop();
+      if(scrolltop > 0){
+        mw.tools.addClass(toolbar, 'admin-manage-toolbar-scrolled');
+      }
+      else{
+         mw.tools.removeClass(toolbar, 'admin-manage-toolbar-scrolled');
+      }
     }
-
 }
 
 
@@ -150,6 +158,7 @@ $(mww).bind('load', function(){
        }, 90);
     });
    mw.admin.createContentBtns();
+   mw.admin.manageToolbarSet();
 });
 
 $(mww).bind('hashchange', function(){

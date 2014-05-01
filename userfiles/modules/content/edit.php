@@ -184,7 +184,12 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
   <input type="hidden" name="subtype" id="mw-content-subtype-value-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" />
   <input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>"   value="<?php print $data['content_type']; ?>" />
   <input type="hidden" name="parent"  id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class="" />
-  <div class="mw-ui-field-holder">
+  
+  
+   <input type="hidden" name="layout_file"  id="mw-layout-file-value-<?php print $rand; ?>" value="<?php print $data['layout_file']; ?>"   />
+   <input type="hidden" name="active_site_template"  id="mw-active-template-value-<?php print $rand; ?>" value="<?php print $data['active_site_template']; ?>"   />
+  
+   <div class="mw-ui-field-holder">
 <div class="mw-ui-btn-nav pull-right" id="un-or-published">
 
 <?php /*            <span data-val="n" class="mw-ui-btn <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
@@ -240,7 +245,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
             name="title"
             onkeyup="slugFromTitle();"
             placeholder="<?php print $title_placeholder; ?>"
-            class="mw-ui-field mw-ui-field-big w100 mw-title-field-<?php print $data['content_type']; ?>"
+            class="mw-ui-invisible-field mw-ui-field-big w100 mw-title-field-<?php print $data['content_type']; ?>"
             value="<?php print $data['title']; ?>" />
       <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
 <div class="edit-post-url">
@@ -454,16 +459,22 @@ mw.edit_content.close_alert = function(){
 
  
 
-mw.edit_content.load_editor  = function(element_id){
+mw.edit_content.load_editor  =  function(element_id){
 	 var element_id =  element_id || 'quick_content_<?php print $rand ?>';
 	 var area = mwd.getElementById(element_id);
 	 var parent_page =  mw.$('#mw-parent-page-value-<?php print $rand; ?>').val();
 	 var content_id =  mw.$('#mw-content-id-value-<?php print $rand; ?>').val();
-	 var content_type =  mw.$('#mw-content-type-value-<?php print $rand; ?>').val();
+	 var content_type =  mw.$('#mw-content-type-value-<?php print $rand; ?>').val() 
 	 var subtype =  mw.$('#mw-content-subtype-value-<?php print $rand; ?>').val();
-     var active_site_template =  mw.$('.mw-edit-page-template-selector').val();
-	 var active_site_layout =  mw.$('.mw-edit-page-layout-selector').val();
-
+	 
+	 
+	 
+	 
+	 
+     var active_site_template =  $('#mw-active-template-value-<?php print $rand; ?>').val();
+	 	  
+ 	 var active_site_layout = $('#mw-layout-file-value-<?php print $rand; ?>').val();
+ 
 	 
 	 if(area !== null){
 		var params = {};
@@ -472,17 +483,17 @@ mw.edit_content.load_editor  = function(element_id){
 		params.subtype=subtype;
 		params.parent_page=parent_page;
 		params.inherit_template_from=parent_page;
-		if(active_site_template != undefined){
+		if(active_site_template != undefined && active_site_template != ''){
 			params.preview_template=active_site_template
 		}
-		if(active_site_layout != undefined){
+		if(active_site_layout != undefined && active_site_layout != ''){
 			params.preview_layout=active_site_layout
 		}
 		if(typeof window.mweditor !== 'undefined'){
 			 $(mweditor).remove();
 			 delete window.mweditor;
 		}
-		 d(params);
+		
 		mweditor = mw.admin.editor.init(area, params);
 	 }
 	 var layout_selector =  mw.$('#mw-quick-add-choose-layout');
@@ -804,7 +815,7 @@ mw.save_inner_editable_fields = function(data){
 <script>
     $(mwd).ready(function(){
 
-       mw.edit_content.load_editor();
+        mw.edit_content.load_editor();
        <?php if($just_saved!=false) : ?>
        mw.$("#<?php print $module_id ?>").removeAttr("just-saved");
        <?php endif; ?>
@@ -832,7 +843,7 @@ mw.save_inner_editable_fields = function(data){
 		 var iframe_ed = $('.mw-iframe-editor')
 	     var changed =  iframe_ed.contents().find('.changed').size();
 		 if(changed == 0){
-		//	  mw.edit_content.load_editor();
+			   mw.edit_content.load_editor();
 			 
 		 }
 

@@ -243,7 +243,7 @@ $pages_count = intval($pages);
       <div class="mw-ui-col manage-post-item-col-3 manage-post-main">
         <div class="manage-item-main-top">
           <h3 class="manage-post-item-title"> <a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
-            <?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
+<?php /*            <?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
             <?php if(isset($item['is_shop']) and $item['is_shop'] == 'y'): ?>
             <span class="mw-icon-shop"></span>
             <?php else : ?>
@@ -256,7 +256,7 @@ $pages_count = intval($pages);
             <span class="mw-icon-post"></span>
             <?php endif; ?>
             <?php else : ?>
-            <?php endif; ?>
+            <?php endif; ?>*/ ?>
             <?php print strip_tags($item['title']) ?> </a> </h3>
           <a  class="manage-post-item-link-small mw-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a>
           <div class="manage-post-item-description"> <?php print character_limiter(strip_tags($item['description']), 60); ?> </div>

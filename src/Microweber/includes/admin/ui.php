@@ -323,9 +323,52 @@ $(window).load(function(){
        </div>
     </td>
     </tr>
+    <tr>
+
+    <td colspan="2">
+        <h2>Hover Dropdown menus</h2>
+        <div class="mw-ui-row">
+            <div class="mw-ui-col" style="width: 120px;">
+            <div class="mw-ui-dropdown">
+                <span>No tyles</span>
+                <div class="mw-ui-dropdown-content">
+                    Some option
+                </div>
+            </div>
+
+            </div>
+            <div class="mw-ui-col">
+                <div class="mw-ui-dropdown">
+                <span class="mw-ui-btn">Button navigation</span>
+                <div class="mw-ui-dropdown-content">
+                    <div class="mw-ui-btn-vertical-nav">
+                         <span class="mw-ui-btn">Option 1</span>
+                         <span class="mw-ui-btn">Option 2</span>
+                         <span class="mw-ui-btn">Option 3</span>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="mw-ui-col">
+                <div class="mw-ui-dropdown">
+                <span class=" mw-ui-btn mw-ui-btn-big">Big Button navigation</span>
+                <div class="mw-ui-dropdown-content">
+                    <div class="mw-ui-btn-vertical-nav">
+                         <span class="mw-ui-btn mw-ui-btn-big">Option 1</span>
+                         <span class="mw-ui-btn mw-ui-btn-big">Option 2</span>
+                         <span class="mw-ui-btn mw-ui-btn-big">Option 3</span>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        </div>
+
+    </td>
+
+    </tr>
   </tbody>
 </table>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<div class="hr">&nbsp;</div>
+
 
  

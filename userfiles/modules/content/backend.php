@@ -500,7 +500,7 @@ function mw_make_pages_tree_sortable(){
 			<?php if( $ed_content=== false): ?>
             	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> <?php print $is_shop_str ?> />
             <?php else: ?>
-            	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> is_shop='y' />
+            	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?>   />
             <?php endif; ?>
         <?php elseif( $action!= false and $action=='pages'): ?>
         	<module data-type="content/manage" page-id="global" id="edit_content_admin" content_type="page" <?php print  $content_id ?> <?php print $is_shop_str ?> />
@@ -514,7 +514,7 @@ function mw_make_pages_tree_sortable(){
     </div>
   </div>
 </div>
-</div>
+
 <?php $view = mw('url')->param('view'); ?>
 <?php if( $view == 'content'){  ?>
 <?php  show_help('content');  ?>

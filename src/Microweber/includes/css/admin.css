@@ -72,6 +72,7 @@ hr, .hr{
 
 h2 > [class*="mw-icon-"]:first-child{
   margin-right: 10px;
+  vertical-align: baseline;
 }
 
 /************************************
@@ -606,6 +607,19 @@ h2 > [class*="mw-icon-"]:first-child{
 
 /* Content title */
 
+#content-title-field{
+  font-size: 24px;
+  height: 50px;
+}
+#content-title-field::-webkit-input-placeholder{ color:inherit; opacity: 1; }
+#content-title-field::-moz-placeholder{ color:inherit; opacity: 1; }
+#content-title-field:-ms-input-placeholder{ color:inherit; opacity: 1; }
+#content-title-field:-moz-placeholder{ color:inherit; opacity: 1; }
+
+#content-title-field:focus::-webkit-input-placeholder{ opacity:0.3; }
+#content-title-field:focus::-moz-placeholder{  opacity:0.3; }
+#content-title-field:focus:-ms-input-placeholder{  opacity:0.3; }
+#content-title-field:focus:-moz-placeholder{  opacity:0.3; }
 
 #un-or-published{
   width: 220px;
@@ -665,16 +679,10 @@ input#edit-content-url:focus, input#edit-content-url.active{
   height: 40px;
   z-index: 10;
 }
-.manage-toobar-content{
-  position: fixed;
-  top: 0;
-  max-width: 870px;
-  background: white;
-  padding: 10px 0;
-
-}
-.manage-toobar-content *{
-  vertical-align: middle;
+.admin-manage-toolbar{
+  position: relative;
+  height: 100px;
+  padding: 18px 0;
 }
 
 .manage-toolbar-top{
@@ -729,9 +737,6 @@ input#edit-content-url:focus, input#edit-content-url.active{
   display: none;
 }
 
-#pages_edit_container{
-  padding-top: 45px;
-}
 
 /************************************
         Modules section
