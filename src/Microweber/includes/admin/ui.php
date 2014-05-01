@@ -320,7 +320,7 @@ $(window).load(function(){
             <span></span>
             <span>Radio 2</span>
        </label>
-       </div> 
+       </div>
     </td>
     </tr>
   </tbody>

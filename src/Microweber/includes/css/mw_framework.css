@@ -220,34 +220,23 @@
 
 
 .mw_edit_settings{
-    background: white url(../img/module_setting.png) no-repeat 7px 4px;
+    background: black url(../img/module_setting.png) no-repeat 7px 4px;
     display: inline-block;
     line-break: normal;
     white-space: nowrap;
     font-size: 11px;
-    color: #3791E3;
+    color: white;
     padding: 2px 5px 1px 25px;
     line-height: 13px;
-    border-radius:0;
     height: 15px;
-    border: 1px solid #D8D8D8;
-
-
     margin-left: 30px;
     float: left;
 }
 
 .mw_edit_settings:hover{
-    background-color: #3792E3;
-    color: white;
+    background-color: white;
+    color: black;
     background-position: 7px -19px;
-    border-color: #2680D3;
-}
-
-.mw_edit_settings:hover{  /*
-    border-color:#2680D3;
-    color: white;
-    text-decoration: none;  */
 }
 
 .mw_col_delete{

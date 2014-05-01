@@ -360,7 +360,7 @@ mw.tools = {
         + '<div class="mw-defaults mw_modal mw_modal_maximized '+template+'" id="'+id+'">'
           + '<div class="mw_modal_toolbar">'
             + '<span class="mw_modal_title"></span>'
-            + '<span class="mw_modal_close" onmousedown="mw.tools.modal.remove(\''+id+'\')">Close</span>'
+            + '<span class="mw-icon-close" onmousedown="mw.tools.modal.remove(\''+id+'\')" title="'+mw.msg.close+'"></span>'
           + '</div>'
           + '<div class="mw_modal_container">'
           + '</div>'
@@ -395,12 +395,10 @@ mw.tools = {
         }
         if(!height.toString().contains("%")){
            modal_object.css("top", ($(doc.defaultView).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 );
-
-
         }
         else{
           modal_object.css("top", (100 - parseFloat(height))/2 + "%");
-              modal_object.css("overflow", "auto");
+          modal_object.css("overflow", "auto");
         }
         modal_object.show();
         var draggable = typeof draggable !== 'undefined' ? draggable : true;

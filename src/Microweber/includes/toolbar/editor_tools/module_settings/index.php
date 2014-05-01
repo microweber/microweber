@@ -126,8 +126,13 @@ if (isset($_GET['type'])) {
             dd.id = 'module-modal-settings-menu-holder';
             dd.className = 'mw-ui-dropdown mw-ui-dropdown-click';
 
+           /*******************************************************
+            Do not delete !!! Module template: list and 'Crete Module Template'
 
             $(toolbar).append(dd);
+           *******************************************************/
+
+
         }
 
 

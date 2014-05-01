@@ -169,6 +169,7 @@ mw.askusertostay = false;
     saved: "<?php _e('Saved');  ?>",
     cancel: "<?php _e('Cancel');  ?>",
     remove: "<?php _e('Remove');  ?>",
+    close: "<?php _e('Close');  ?>",
     to_delete_comment:"<?php _e('Are you sure you want to delete this comment'); ?>",
     del:"<?php _e('Are you sure you want to delete this?'); ?>",
     save_and_continue:"<?php _e('Save &amp; Continue'); ?>",
