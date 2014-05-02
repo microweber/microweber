@@ -47,7 +47,7 @@
 </script>
 
 <div class="mw_simple_tabs mw_tabs_layout_simple">
-	<ul class="mw_simple_tabs_nav">
+	<ul class="mw-ui-btn-nav">
 		<li><a href="javascript:;" class="active">
 			<?php _e("My menus"); ?>
 			</a></li>

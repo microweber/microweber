@@ -11,11 +11,7 @@
 *******************************************************/
 
 
-*,*:before,*:after{
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
+
 
 
 /****************************
@@ -444,20 +440,25 @@
 .mw-accordion-active > .mw-ui-box-content{
   display: none;
 }
-
+/****************************
+          Tables
+*****************************/
 .mw-ui-table{
   clear: both;
   border-bottom:1px solid #ECECEC;
   border-left:1px solid #ECECEC;
-  border-radius: 6px;
+  border-radius: 2px;
+  width: 100%;
 }
+.mw-ui-table-fixed{ table-layout: fixed; }
 
-.mw-ui-table > tbody:first-child > tr:first-child > td:first-child, .mw-ui-table > thead > tr:first-child > th:first-child{ border-radius: 6px 0 0 0;}
-.mw-ui-table > tbody:first-child > tr:first-child > td:last-child, .mw-ui-table > thead > tr:first-child > th:last-child{ border-radius: 0 6px 0 0; }
+.mw-ui-table > tbody:first-child > tr:first-child > td:first-child, .mw-ui-table > thead > tr:first-child > th:first-child{ border-radius: 2px 0 0 0;}
+.mw-ui-table > tbody:first-child > tr:first-child > td:last-child, .mw-ui-table > thead > tr:first-child > th:last-child{ border-radius: 0 2px 0 0; }
 
-.mw-ui-table > tbody:last-child > tr:last-child > td:first-child, .mw-ui-table > tfoot > tr:last-child > td:first-child{ border-radius: 0 0 0 6px;}
-.mw-ui-table > tbody:last-child > tr:last-child > td:last-child, .mw-ui-table > tfoot > tr:last-child > td:last-child{ border-radius: 0 0 6px 0;}
+.mw-ui-table > tbody > tr:last-child > td:first-child, .mw-ui-table > tfoot > tr:last-child > td:first-child{ border-radius: 0 0 0 2px;}
+.mw-ui-table > tbody > tr:last-child > td:last-child, .mw-ui-table > tfoot > tr:last-child > td:last-child{ border-radius: 0 0 2px 0;}
 
+.mw-ui-table > tfoot + tbody > tr:last-child > td:last-child{ border-radius: 0; }
 
 .mw-ui-table td, .mw-ui-table thead th, .mw-ui-table tfoot td{
   padding: 10px;
@@ -486,6 +487,8 @@
 .mw-ui-table tr.active > td > .show-on-hover{
   visibility: visible;
 }
+
+
 
 
 
