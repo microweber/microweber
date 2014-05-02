@@ -69,28 +69,28 @@ if(is_array($data)){
 
 ?>
 
-<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-admin-table">
+<table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-table">
   <col width="20">
   <thead>
     <tr>
-      <th class="mw-ui-admin-table-small"><?php _e("ID"); ?></th>
+      <th class="mw-ui-table-small"><?php _e("ID"); ?></th>
       <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as $k=>$item): ?>
       <th><?php print   mw('format')->no_dashes($k); ?></th>
       <?php endforeach ; ?>
       <?php endif; ?>
-      <th width="20" class="mw-ui-admin-table-small"><?php _e("Delete"); ?></th>
+      <th width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></th>
     </tr>
   </thead>
   <tfoot>
     <tr>
-      <th class="mw-ui-admin-table-small"><?php _e("ID & Date"); ?></th>
+      <th class="mw-ui-table-small"><?php _e("ID & Date"); ?></th>
       <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as $k=>$item): ?>
       <th><?php print   mw('format')->no_dashes($k); ?></th>
       <?php endforeach ; ?>
       <?php endif; ?>
-      <th width="20" class="mw-ui-admin-table-small"><?php _e("Delete"); ?></th>
+      <th width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></th>
     </tr>
   </tfoot>
   <tbody>
@@ -132,8 +132,8 @@ if(is_array($data)){
         <?php  endif; ?></td>
       <?php endforeach ; ?>
       <?php endif; ?>
-      <td class="mw-ui-admin-table-delete-item">
-        <a class="mw-ui-admin-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
+      <td class="mw-ui-table-delete-item">
+        <a class="mw-ui-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
     </tr>
     <?php endforeach; ?>
     <?php else: ?>

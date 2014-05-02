@@ -46,7 +46,7 @@ if (is_array($ord)) {
                 <?php endif; ?>
             <?php } ?>
         </div>
-        <table class="mw-ui-box-table" cellspacing="0" cellpadding="0" width="100%">
+        <table class="mw-ui-table" cellspacing="0" cellpadding="0" width="100%">
             <thead>
             <tr>
                 <th><?php _e("Product Name"); ?></th>
@@ -86,27 +86,27 @@ if (is_array($ord)) {
                         width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
                 </tr>
             <?php endforeach; ?>
-            <tr class="mw-ui-box-table-footer">
+            <tr class="mw-ui-table-footer">
                 <td colspan="3">&nbsp;</td>
                 <td><?php _e("Subtotal"); ?></td>
-                <td class="mw-ui-box-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
+                <td class="mw-ui-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
             </tr>
-            <?php /* <tr class="mw-ui-box-table-footer">
+            <?php /* <tr class="mw-ui-table-footer">
           <td colspan="3">&nbsp;</td>
           <td>Promo Codes</td>
-          <td class="mw-ui-box-table-green">- $35,00</td>
+          <td class="mw-ui-table-green">- $35,00</td>
         </tr> */ ?>
-            <tr class="mw-ui-box-table-footer">
+            <tr class="mw-ui-table-footer">
                 <td colspan="3">&nbsp;</td>
                 <td><?php _e("Shipping price"); ?></td>
-                <td class="mw-ui-box-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
+                <td class="mw-ui-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
             </tr>
-            <tr class="mw-ui-box-table-footer last">
+            <tr class="mw-ui-table-footer last">
                 <td colspan="3">&nbsp;</td>
-                <td class="mw-ui-box-table-green"><b>
+                <td class="mw-ui-table-green"><b>
                         <?php _e("Total:"); ?>
                     </b></td>
-                <td class="mw-ui-box-table-green"><b><?php print  currency_format($grandtotal, $ord['currency']); ?></b>
+                <td class="mw-ui-table-green"><b><?php print  currency_format($grandtotal, $ord['currency']); ?></b>
                 </td>
             </tr>
             </tbody>

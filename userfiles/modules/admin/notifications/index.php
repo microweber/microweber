@@ -105,7 +105,7 @@ mw.notif_mark_all_as_read = function(){
 			  ?>
 
 <div class="mw-admin-notifications-holder" id="<?php print $wrapper_id ?>">
-	<table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
+	<table cellspacing="0" cellpadding="0" class="mw-ui-table">
 		
 		<?php if($is_quick == false): ?>
 		<colgroup>
@@ -172,7 +172,7 @@ mw.notif_mark_all_as_read = function(){
 						
 						
 				<?php if($is_quick == false): ?>		
-				<td><a href="javascript:mw.notif_item_delete('<?php print $item['id'] ?>');" class="mw-ui-admin-table-show-on-hover mw-ui-btnclose"></a></td>
+				<td><a href="javascript:mw.notif_item_delete('<?php print $item['id'] ?>');" class="mw-ui-table-show-on-hover mw-ui-btnclose"></a></td>
 				<?php endif; ?>	
 			</tr>
 			<?php endforeach ; ?>

@@ -46,7 +46,7 @@ $(document).ready(function(){
 <?php $is_up_to_date = true; ?>
 
 <form class="mw-select-updates-list" name="form1" method="post">
-  <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table mw-ui-admin-table-large" id="mw-update-table"  width="100%">
+  <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-large" id="mw-update-table"  width="100%">
     <colgroup>
     <col width="40">
     <col width="140">
@@ -75,7 +75,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endif; ?>
     <?php if(isset($iudates["modules"]) and !empty($iudates["modules"])): ?>
@@ -99,7 +99,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
@@ -124,7 +124,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
@@ -156,7 +156,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
@@ -193,7 +193,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-admin-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>

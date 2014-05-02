@@ -47,7 +47,7 @@ $data = get_users($user_params);
  ?>
 <?php if(is_array($data )): ?>
 
-<table cellspacing="0" cellpadding="0" class="mw-ui-admin-table users-list-table" width="100%" style="table-layout: fixed">
+<table cellspacing="0" cellpadding="0" class="mw-ui-table users-list-table" width="100%" style="table-layout: fixed">
 	<col>
 	<col width="100">
 	<col>
@@ -101,9 +101,9 @@ $data = get_users($user_params);
 				<?php endif; ?>
 				</span></td>
 			<td><?php if($self_id != $item['id']): ?>
-				<span class="mw-ui-admin-table-show-on-hover del-row" title="<?php _e("Delete"); ?>"  onclick="mw_admin_delete_user_by_id('<?php  print $item['id']; ?>')"></span>
+				<span class="mw-ui-table-show-on-hover del-row" title="<?php _e("Delete"); ?>"  onclick="mw_admin_delete_user_by_id('<?php  print $item['id']; ?>')"></span>
 				<?php endif; ?>
-				<a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" onclick="mw.url.windowHashParam('edit-user', '<?php  print $item['id']; ?>');return false;" href="#edit-user=<?php  print $item['id']; ?>">Edit</a></td>
+				<a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-small" onclick="mw.url.windowHashParam('edit-user', '<?php  print $item['id']; ?>');return false;" href="#edit-user=<?php  print $item['id']; ?>">Edit</a></td>
 		</tr>
 		<?php endforeach ; ?>
 	</tbody>

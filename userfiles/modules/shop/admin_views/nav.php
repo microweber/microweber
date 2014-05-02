@@ -20,31 +20,7 @@
   <a href="<?php print $config['url']; ?>/action:orders" class="new-order-notification"> <strong><?php print intval( $orders); ?></strong>
   <?php _e("New Orders"); ?>
   </a>
-  <div id="mw-admin-shop-navigation">
-    <ul class="mw-ui-navigation mw-ui-navigation-horizontal">
-      <li <?php if($active_action == false): ?>class="active"<?php endif; ?>><a href="<?php print $config['url']; ?>"><span class=""></span><span>
-        <?php _e("Products"); ?>
-        </span></a></li>
-      <li <?php if($active_action == 'orders'): ?>class="active"<?php endif; ?>><a href="<?php print $config['url']; ?>/action:orders"><span class=""><?php print $notif_html ?></span><span>
-        <?php _e("Orders"); ?>
-        </span></a></li>
-      <li <?php if($active_action == 'clients'): ?>class="active"<?php endif; ?>><a href="<?php print $config['url']; ?>/action:clients"><span class="mw-icon-users"></span><span>
-        <?php _e("Clients"); ?>
-        </span></a></li>
-      <li <?php if($active_action == 'shipping'): ?>class="active"<?php endif; ?>><a href="<?php print $config['url']; ?>/action:shipping"><span class="mw-icon-truck"></span><span>
-        <?php _e("Shipping"); ?>
-        </span></a></li>
-      <!--      <li <?php if($active_action == 'promo_codes'): ?>class="active"<?php endif; ?>><a href="<?php print $config['url']; ?>/action:promo_codes"><span class="ico ipromo"></span><span><?php _e("Promo codes"); ?></span></a></li>
--->
-
-         <?php event_trigger('admin_shop_link'); ?>
-
-
-      <li <?php if($active_action == 'options'): ?>class="active"<?php endif; ?>><a href="<?php print $config['url']; ?>/action:options"><span class="mw-icon-gear"></span><span>
-        <?php _e("Options"); ?>
-        </span></a></li>
-    </ul>
-  </div>
+  
 </div>
 <script>
 

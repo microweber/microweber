@@ -67,7 +67,7 @@ save:function(){
           </center>
         </div>
         <div class="right" style="width: 805px;padding-right: 12px;">
-          <table border="0" cellpadding="0" cellspacing="0" width="805" class="mw-ui-box-table mw-client-information nonactive">
+          <table border="0" cellpadding="0" cellspacing="0" width="805" class="mw-ui-table mw-client-information nonactive">
             <thead>
               <tr>
                 <th scope="col"><?php _e("Names"); ?></th>
@@ -104,7 +104,7 @@ save:function(){
                         </table>
                         <div class="vSpace"></div>
                         <div class="vSpace"></div>
-                        <table border="0" cellpadding="0" cellspacing="0" width="805" class="mw-ui-box-table mw-client-information nonactive">
+                        <table border="0" cellpadding="0" cellspacing="0" width="805" class="mw-ui-table mw-client-information nonactive">
                           <thead>
                             <tr>
                               <th scope="col"><?php _e("Address"); ?></th>
@@ -144,7 +144,7 @@ save:function(){
                           <div class="mw-ui-box-content mw-accordion-content">
                             <?php $cart_items = get_cart('order_completed=any&order_id='.$item['id'].'&no_session_id=1'); 	?>
                             <?php if(is_array($cart_items)): ?>
-                            <table cellspacing="0" cellpadding="0" class="mw-ui-box-table" width="935">
+                            <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="935">
                               <thead>
                                 <tr>
                                   <th><?php _e("Product Name"); ?></th>

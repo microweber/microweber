@@ -445,67 +445,46 @@
   display: none;
 }
 
-.mw-ui-box-table{
-  border-top:1px solid #ECECEC;
-  border-bottom:1px solid #ECECEC;
+.mw-ui-table{
   clear: both;
-  font-size: 12px;
-  text-align: left;
-}
-
-.mw-ui-box-table td{
-  padding: 10px;
-  border-right: 1px solid #ECECEC;
-  border-bottom: 1px solid #ECECEC;
-}
-
-.mw-ui-box-table tr > td:first-child,
-.mw-ui-box-table tr > th:first-child{
-  padding-left: 15px;
-}
-
-.mw-ui-box-table tr td:last-child{
-  border-right: none;
-}
-
-.mw-ui-box-table th{
-  padding: 10px;
-  border-right:1px solid #ECECEC;
   border-bottom:1px solid #ECECEC;
-  background: #F4F4F4;
-  font-size: 11px;
+  border-left:1px solid #ECECEC;
+  border-radius: 6px;
+}
+
+.mw-ui-table > tbody:first-child > tr:first-child > td:first-child, .mw-ui-table > thead > tr:first-child > th:first-child{ border-radius: 6px 0 0 0;}
+.mw-ui-table > tbody:first-child > tr:first-child > td:last-child, .mw-ui-table > thead > tr:first-child > th:last-child{ border-radius: 0 6px 0 0; }
+
+.mw-ui-table > tbody:last-child > tr:last-child > td:first-child, .mw-ui-table > tfoot > tr:last-child > td:first-child{ border-radius: 0 0 0 6px;}
+.mw-ui-table > tbody:last-child > tr:last-child > td:last-child, .mw-ui-table > tfoot > tr:last-child > td:last-child{ border-radius: 0 0 6px 0;}
+
+
+.mw-ui-table td, .mw-ui-table thead th, .mw-ui-table tfoot td{
+  padding: 10px;
+  border-top:1px solid #ECECEC;
+  border-right:1px solid #ECECEC;
+}
+.mw-ui-table thead th, .mw-ui-table tfoot td{
   font-weight: normal;
-  white-space: nowrap;
-  color: #666;
+  font-size: inherit;
+  text-align: inherit;
+  background-color: #F5F5F5;
 }
 
-tr.mw-ui-box-table-footer td:first-child{
-  border: none;
-}
-
-.mw-ui-box tr.last td{
-  border-bottom: none !important;
-}
-
-.mw-ui-box-table-green{
-  background-color:#D8FFC3;
-  box-shadow:inset 1px 1px 0px #fff, inset -1px -1px 0px #fff;
+.mw-ui-table tr:last-child td{
+  border-bottom: none;
 }
 
 .show-on-hover{
   visibility: hidden;
 }
 
-tr:hover > td > .show-on-hover{
+.mw-ui-table tr:hover > td > .show-on-hover{
   visibility: visible;
 }
 
-tr.active > td > .show-on-hover{
+.mw-ui-table tr.active > td > .show-on-hover{
   visibility: visible;
-}
-
-.mw-ui-box-header [class*='mw-icon-']{
-  margin-right: 10px;
 }
 
 

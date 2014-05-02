@@ -76,8 +76,8 @@ function __store_lang_file()
                         if(!is_file($lang_file)){
                             touch($lang_file);
                         }
-                        if (is_writable($lang_file)) {
-                            file_put_contents($lang_file, $lang_file_str);
+                        if (is_writable($lang_file) and is_string($lang_file_str) and $lang_file_str != '') {
+                            @file_put_contents($lang_file, $lang_file_str);
                         }
                     }
 

@@ -71,14 +71,14 @@ mw.notification.msg(this);
       margin: auto
     }
 
-    .mw-ui-admin-table .mw-ui-field{
+    .mw-ui-table .mw-ui-field{
         background-color: transparent;
         border-color: transparent;
         width: 300px;
         height: 36px;
         resize: none;
     }
-    .mw-ui-admin-table .mw-ui-field:hover, .mw-ui-admin-table .mw-ui-field:focus{
+    .mw-ui-table .mw-ui-field:hover, .mw-ui-table .mw-ui-field:focus{
         background-color: white;
         border-color:#C6C6C6 #E6E6E6 #E6E6E6;
         resize: vertical;
@@ -97,7 +97,7 @@ $cont  = get_language_file_content();
  ?>
 <?php if(!empty($cont)): ?>
 <form id="language-form-<?php print $params['id'] ?>">
-  <table width="100%" border="0" class="mw-ui-admin-table" cellspacing="0" cellpadding="0">
+  <table width="100%" border="0" class="mw-ui-table" cellspacing="0" cellpadding="0">
     <thead>
       <tr>
         <th scope="col">Key</th>

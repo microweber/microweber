@@ -31,7 +31,7 @@ if (r1==true){
 </div>
 
 <?php if($is_orders != 0){   ?>
-  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
+  <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
     <thead>
       <tr>
         <th><?php _e("Name & Number"); ?></th>
@@ -67,8 +67,8 @@ if (r1==true){
           <?php print $total_ord; ?>
         </td>
         <td width="85">
-            <span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -8px -7px auto auto;" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
-            <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
+            <span class="mw-ui-table-show-on-hover del-row" style="margin: -8px -7px auto auto;" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
+            <a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
       </tr>
       <?php endforeach; endif; ?>

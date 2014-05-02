@@ -286,49 +286,9 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
          }
       </script>
   </div>
-  <div class="mw-ui-field-holder">
 
-    <?php if($data['content_type'] == 'page'){ ?>
-    <div class="quick-parent-selector">
-      <module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
-    </div>
-    <?php } ?>
-  </div>
-  <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-  <div class="mw-ui-field-holder" style="padding-top: 0">
-    <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
-      <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
-    </div>
-    <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
-      <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-      <module
-                    type="categories/selector"
-                    for="content"
-        			active_ids="<?php print $data['parent']; ?>"
-        			subtype="<?php print $data['subtype']; ?>"
-        			categories_active_ids="<?php print $categories_active_ids; ?>"
-        			for-id="<?php print $data['id']; ?>" />
-      <?php endif; ?>
-    </div>
-  </div>
-  <?php endif; ?>
   
-  <?php // if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
-    <?php  if(isset($data['subtype']) and $data['subtype'] != 'dynamic'): ?>
-
-  <div class="mw-ui-field-holder">
-    <div id="quick_content_<?php print $rand ?>"></div>
-  </div>
-  
-
-    
-  <?php   endif; ?>
-  
-
-
-  <hr class="hr2">
-
-  <div class="mw-ui-btn-nav" id="quick-add-post-options">
+   <div class="mw-ui-btn-nav" id="quick-add-post-options">
     <span class="mw-ui-btn"><span class="ico itabpic"></span><span>
       <?php _e("Picture Gallery"); ?>
       </span></span>
@@ -400,13 +360,42 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
 
    <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
+   
+   
+   
+     <div class="mw-ui-field-holder">
+
+    <?php if($data['content_type'] == 'page'){ ?>
+    <div class="quick-parent-selector">
+      <module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
+    </div>
+    <?php } ?>
+  </div>
+  <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+  <div class="mw-ui-field-holder" style="padding-top: 0">
+    <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
+      <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
+    </div>
+    <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
+      <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+      <module
+                    type="categories/selector"
+                    for="content"
+        			active_ids="<?php print $data['parent']; ?>"
+        			subtype="<?php print $data['subtype']; ?>"
+        			categories_active_ids="<?php print $categories_active_ids; ?>"
+        			for-id="<?php print $data['id']; ?>" />
+      <?php endif; ?>
+    </div>
+  </div>
+  <?php endif; ?>
 
   
     <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
   </div>
   
   <?php if($data['content_type'] == 'page'):  ?>
-    <div class="mw-ui-box mw-ui-box-content quick-add-content-template" id="quick-add-post-options-item-template">
+    <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
 
   <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
   
@@ -419,6 +408,26 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   
   
      <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
+  
+  
+  
+  
+  <?php // if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
+    <?php  if(isset($data['subtype']) and $data['subtype'] != 'dynamic'): ?>
+
+  <div class="mw-ui-field-holder">
+    <div id="quick_content_<?php print $rand ?>"></div>
+  </div>
+  
+
+    
+  <?php   endif; ?>
+  
+
+
+  <hr class="hr2">
+
+ 
 
   <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
 </form>

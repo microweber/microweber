@@ -188,7 +188,56 @@ $(window).load(function(){
     </tr>
     <tr>
         <td colspan="2">
-        <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table" width="100%">
+        <h2>Table</h2>
+<table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
+  <tbody>
+    <tr>
+      <td>Lorem</td>
+      <td>Ipsum</td>
+      <td>Sit</td>
+      <td>Amet</td>
+      <td>Dolor</td>
+      <td>987987</td>
+      <td><a href="javascript:;" class="show-on-hover mw-ui-btn">View on hover</a></td>
+    </tr>
+    <tr>
+      <td>Lorem</td>
+      <td>Ipsum</td>
+      <td>Sit</td>
+      <td>Amet</td>
+      <td>Dolor</td>
+      <td>987987</td>
+      <td><a href="javascript:;" class="show-on-hover mw-ui-btn">View on hover</a></td>
+    </tr>
+  </tbody>
+</table>
+<h2>Table with header</h2>
+<table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
+  <thead>
+    <tr>
+      <th>Table </th>
+      <th>Head</th>
+      <th>Client</th>
+      <th>Country</th>
+      <th>City</th>
+      <th>Orders</th>
+      <th>View</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lorem</td>
+      <td>Ipsum</td>
+      <td>Sit</td>
+      <td>Amet</td>
+      <td>Dolor</td>
+      <td>987987</td>
+      <td><a href="javascript:;" class="show-on-hover mw-ui-btn">View on hover</a></td>
+    </tr>
+  </tbody>
+</table>
+<h2>Table with header and footer</h2>
+<table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
   <thead>
     <tr>
       <th>Table </th>
@@ -226,6 +275,7 @@ $(window).load(function(){
         </td>
 
 
+        </tr>
         <tr>
       <td colspan="2">
             <h2>Progress Bars</h2>

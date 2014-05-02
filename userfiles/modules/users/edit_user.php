@@ -158,7 +158,7 @@ reset_password = function(y){
   </div>
   <input type="hidden" class="mw-ui-field" name="id" value="<?php  print $data['id']; ?>">
   <div>
-    <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-admin-table mw-edit-user-table" width="100%">
+    <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table mw-edit-user-table" width="100%">
       <col width="150px" />
       <tr>
         <td><label class="mw-ui-label"><?php _e("Avatar"); ?></label></td>

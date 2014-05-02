@@ -58,7 +58,7 @@ mw.syslog_log_reset_all = function(){
 <?php if(is_array($data )): ?>
 
 <div class="mw-admin-system_log-holder" id="admin_system_log">
-  <table cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
+  <table cellspacing="0" cellpadding="0" class="mw-ui-table">
     <colgroup>
     <col width="150">
     <col width="auto">
@@ -129,7 +129,7 @@ mw.syslog_log_reset_all = function(){
           
           </td>
   
-        <td><a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');" class="mw-ui-admin-table-show-on-hover mw-ui-btnclose"></a></td>
+        <td><a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');" class="mw-ui-table-show-on-hover mw-ui-btnclose"></a></td>
       </tr>
       <?php endforeach ; ?>
     </tbody>

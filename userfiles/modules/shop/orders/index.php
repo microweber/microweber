@@ -31,7 +31,7 @@
 
 <div id="mw-order-table-holder">
   <?php if($ordert_type == 'completed' and isset($orders) and is_array($orders)) :?>
-  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
+  <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
         <th><?php _e("Order ID"); ?></th>
@@ -86,7 +86,7 @@
         <td class="mw-order-item-email"><?php print $item['email'] ?></td>
         <td class="mw-order-item-phone"><?php print $item['phone'] ?></td>
         <td class="mw-order-item-country"><?php print $item['country'] ?></td>
-        <td class="mw-order-item-edit" width="90" align="center"><span class="mw-ui-admin-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span> <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-blue mw-ui-btn-small" href="#vieworder=<?php print ($item['id']) ?>">
+        <td class="mw-order-item-edit" width="90" align="center"><span class="mw-ui-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span> <a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-blue mw-ui-btn-small" href="#vieworder=<?php print ($item['id']) ?>">
           <?php _e("View order"); ?>
           </a></td>
       </tr>
@@ -121,7 +121,7 @@
       }
 
       </style>
-  <table class="mw-ui-admin-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" style="table-layout: fixed">
+  <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" style="table-layout: fixed">
     <thead>
       <tr>
         <td><?php _e("Cart"); ?></td>
@@ -157,7 +157,7 @@
             <?php endif; ?>
             <?php } ?>
           </div>
-          <table class="mw-ui-box-table" cellspacing="0" cellpadding="0" width="100%">
+          <table class="mw-ui-table" cellspacing="0" cellpadding="0" width="100%">
             <thead>
               <tr>
                 <th><?php _e("Product Name"); ?></th>
@@ -189,12 +189,12 @@
                 <td class="mw-order-item-count" width="100"><?php print  currency_format($item_total); ?></td>
               </tr>
               <?php endforeach; ?>
-              <tr class="mw-ui-box-table-footer last">
+              <tr class="mw-ui-table-footer last">
                 <td colspan="3">&nbsp;</td>
-                <td class="mw-ui-box-table-green"><b>
+                <td class="mw-ui-table-green"><b>
                   <?php _e("Total:"); ?>
                   </b></td>
-                <td class="mw-ui-box-table-green"><b><?php print  currency_format($grandtotal); ?></b></td>
+                <td class="mw-ui-table-green"><b><?php print  currency_format($grandtotal); ?></b></td>
               </tr>
             </tbody>
           </table>

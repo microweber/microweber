@@ -4,7 +4,7 @@
 <p>Microweber supports importing content from  <a href="<?php print $here; ?>samples/sample.csv">csv</a>, <a href="<?php print $here; ?>samples/sample.json">json</a>, <a href="<?php print $here; ?>samples/sample.xlsx">xls</a> and <a href="<?php print $here; ?>samples/other_cms.zip">other files</a>.</p>
 <div id="backups_list" >
   <h2>Avaiable import files</h2>
-  <table   cellspacing="0" cellpadding="0" class="mw-ui-admin-table">
+  <table   cellspacing="0" cellpadding="0" class="mw-ui-table">
     <thead>
       <tr>
         <th><?php _e("Filename"); ?> </th>
@@ -38,15 +38,15 @@
           <td><span class="mw-date"><?php print $item['date']  ?></span></td>
           <td><span class="mw-date"><?php print $item['time']  ?></span></td>
           <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
-          <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Utils/Import/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
+          <td><a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Utils/Import/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
         <td>
-        <!--<a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>-->
+        <!--<a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>-->
         
-        <a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.confirm_import_file('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>
+        <a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.confirm_import_file('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>
         
         
         </td>
-        <td><a class="mw-ui-admin-table-show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.admin_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
+        <td><a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.admin_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
       </tr>
       <?php $i++; endforeach ; ?>
       <?php endif; ?>
