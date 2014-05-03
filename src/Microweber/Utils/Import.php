@@ -554,7 +554,7 @@ class Import
 
 
                         if (isset($content['description']) and (!isset($content['content']) or $content['content'] == false)) {
-                            $content['content'] = $content['description'];
+                            //$content['content'] = $content['description'];
                         }
 
                         if(!isset($content['parent'])){
