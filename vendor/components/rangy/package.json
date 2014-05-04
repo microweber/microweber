@@ -1,0 +1,7 @@
+{
+  "name": "components-rangy",
+  "version": "1.2.3",
+  "description": "Rangy, a cross-browser JavaScript range and selection library",
+  "keywords": ["components"],
+  "main": "./uncompressed/rangy-core.js"
+}

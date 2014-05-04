@@ -1,0 +1,25 @@
+{
+  "name": "components-bootstrap-default",
+  "description": "Shim repository for the default theme for Bootstrap.",
+  "version": "3.1.1",
+  "keywords": [
+    "bootstrap",
+    "css"
+  ],
+  "homepage": "http://getbootstrap.com",
+  "author": "Twitter Inc.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/components/bootstrap.git"
+  },
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "dependencies": {
+    "twitter-bootstrap": "*"
+  },
+  "main": "css/bootstrap.css"
+}

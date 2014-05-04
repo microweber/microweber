@@ -14,13 +14,13 @@ class Composer
 
     public static function postInstall(Event $event)
     {
-        $composer = $event->getComposer();
+        //$composer = $event->getComposer();
         // do stuff
     }
 
     public static function postPackageInstall(Event $event)
     {
-        $installedPackage = $event->getOperation()->getPackage();
+        //$installedPackage = $event->getOperation()->getPackage();
         // do stuff
     }
 

@@ -1,6 +1,6 @@
 {
     "name": "microweber/microweber",
-    "type": "project",
+    "type": "application",
     "description": "New generation of CMS with drag and drop",
     "repositories": [
         {
@@ -33,16 +33,7 @@
         }
     },
 
-    "scripts": {
-        "post-update-cmd": "Microweber\\Composer::postUpdate",
-        "post-package-install": [
-            "Microweber\\Composer::postPackageInstall"
-        ],
-        "post-install-cmd": [
-            "Microweber\\Composer::warmCache"
 
-        ]
-    },
     "config": {
         "preferred-install": "dist"
     },

@@ -1,0 +1,19 @@
+{
+  "name": "components-bootstrap",
+  "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+  "version": "3.1.1",
+  "keywords": [
+    "bootstrap",
+    "css"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "jquery": ">=1.9.0"
+  },
+  "main": "js/bootstrap.js",
+  "ignore": [
+    "component.json",
+    "package.json",
+    "composer.json"
+  ]
+}
