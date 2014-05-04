@@ -708,8 +708,8 @@ class Controller
                             $this->app->user->session_set('back_to_editmode', false);
                             $is_editmode = false;
                         }
-                        $this->app->url->redirect($this->app->url->site_url($page_url));
-                        exit();
+                        //$this->app->url->redirect($this->app->url->site_url($page_url));
+                       // exit();
                     } else {
                         $is_editmode = false;
                     }
