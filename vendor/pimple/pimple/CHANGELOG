@@ -1,0 +1,10 @@
+* 2.0.0 (2013-XX-XX)
+
+ * changed extend to automatically re-assign the extended service and keep it as shared or factory
+   (to keep BC, extend still returns the extended service)
+ * changed services to be shared by default (use factory() for factory
+   services, share() is a noop now)
+
+* 1.0.0
+
+ * initial version
