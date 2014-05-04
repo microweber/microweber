@@ -12,17 +12,6 @@
 
 namespace Microweber;
 
-
-api_expose('content/reorder');
-api_expose('content/delete');
-api_expose('content/set_published');
-api_expose('content/set_unpublished');
-api_expose('content/menu_item_delete');
-api_expose('content/menu_items_reorder');
-api_expose('content/menu_create');
-api_expose('content/menu_delete');
-api_expose('content/menu_item_save');
-
 /**
  * Content class is used to get and save content in the database.
  *
@@ -63,7 +52,7 @@ class Content
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw('application');
+                $this->app = Application::getInstance();
             }
         }
         $this->set_table_names();
@@ -74,6 +63,18 @@ class Content
             $this->db_init();
             define('MW_DB_TABLE_CONTENT_INIT', 1);
         }
+
+
+
+        api_expose('content/reorder');
+        api_expose('content/delete');
+        api_expose('content/set_published');
+        api_expose('content/set_unpublished');
+        api_expose('content/menu_item_delete');
+        api_expose('content/menu_items_reorder');
+        api_expose('content/menu_create');
+        api_expose('content/menu_delete');
+        api_expose('content/menu_item_save');
     }
 
     /**

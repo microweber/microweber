@@ -748,10 +748,16 @@ function save_option($data)
 api_expose('save_form_list');
 function save_form_list($params)
 {
-    return mw('Forms')->save_list($params);
+    return mw('forms')->save_list($params);
 
 }
 
+
+function system_config_get($key = false)
+{
+    return mw()->config($key);
+
+}
 
 api_expose('delete_forms_list');
 

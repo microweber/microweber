@@ -39,7 +39,7 @@ class Db
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw('application');
+                $this->app = Application::getInstance();
             }
         }
 
@@ -1896,7 +1896,7 @@ class Db
         $return = array();
 
         if (!empty($result)) {
-            $result = $this->app->url->replace_site_url_back($result);
+            //$result = $this->app->url->replace_site_url_back($result);
             $return = $result;
 
         }

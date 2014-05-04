@@ -32,34 +32,18 @@ class Cache
     {
         if (!is_object($this->app)) {
             if (is_object($app)) {
-
                 $this->app = $app;
-
-                if (isset($app->cache) and isset($app->cache->adapter) and is_object($app->cache->adapter)) {
-                    $this->adapter = $app->cache->adapter;
-                }
-
             } else {
-
+                $this->app = Application::getInstance();
             }
         }
-        $apc_exists = false;
-        if (!defined('MW_USE_APC_CACHE')) {
-            $apc_exists = function_exists('apc_fetch');
-            define("MW_USE_APC_CACHE", $apc_exists);
-        } else {
-            $apc_exists = MW_USE_APC_CACHE;
-        }
-
-
         if (!is_object($this->adapter)) {
-            if ($apc_exists == false) {
-                $this->adapter = new \Microweber\Cache\Files();
-            } else {
-                $this->adapter = new \Microweber\Cache\Apc();
-
+            if (!isset($this->app->adapters->container['cache'])) {
+                $this->app->adapters->container['cache'] = function ($c) {
+                    return new Adapters\Cache\Files();
+                };
             }
-
+            $this->adapter = $this->app->adapters->container['cache'];
         }
 
     }

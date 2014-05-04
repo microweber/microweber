@@ -2,14 +2,22 @@
     "name": "microweber/microweber",
     "type": "project",
     "description": "New generation of CMS with drag and drop",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.microweber.com/"
+        }
+    ],
     "require": {
-        "php": ">=5.3.2"
+        "php": ">=5.3.2",
+		 "pimple/pimple": "*"
     },
     "autoload": {
         "psr-0": {
             "Microweber": "src/"
         }
     },
+
     "keywords": ["cms", "drag and drop", "shop", "blog"],
     "homepage": "http://microweber.com",
     "license": "Apache-2.0",

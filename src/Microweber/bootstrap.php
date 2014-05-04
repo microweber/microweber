@@ -19,6 +19,45 @@ if (!defined('DS')) {
 
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname(dirname(dirname(__FILE__))) . DS);
+
+
+
+    $bootstrap_file_for_site = false;
+    if (!isset($_SERVER["SERVER_NAME"])) {
+
+        $config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
+        $bootstrap_file_for_site = MW_ROOTPATH . 'bootstrap_localhost' . '.php';
+    } else {
+        $sever = str_ireplace('www.', '', strtolower($_SERVER["SERVER_NAME"]));
+        $sever = str_ireplace('..', '', ($_SERVER["SERVER_NAME"]));
+
+        $config_file_for_site = MW_ROOTPATH . 'config_' . $sever . '.php';
+        $bootstrap_file_for_site = MW_ROOTPATH . 'bootstrap_' . $sever . '.php';
+
+
+    }
+
+    if (!defined('MW_CONFIG_FILE')) {
+
+        if (is_file($config_file_for_site)) {
+
+            define('MW_CONFIG_FILE', $config_file_for_site);
+
+        } else {
+
+            define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
+
+        }
+
+        if ($bootstrap_file_for_site != false and is_file($bootstrap_file_for_site)) {
+
+            require_once ($bootstrap_file_for_site);
+
+        }
+
+    }
+
+
 }
 
 
@@ -44,6 +83,9 @@ if (!defined('MW_INCLUDES_DIR')) {
 }
 if (!defined('MW_INCLUDES_DIR')) {
     define('MW_INCLUDES_DIR', MW_APP_PATH . 'includes' . DS);
+}
+if (!defined('MW_ADAPTERS_DIR')) {
+    define('MW_ADAPTERS_DIR', MW_APP_PATH . 'Adapters' . DS);
 }
 if (!defined('MW_INCLUDES_URL')) {
     define('MW_INCLUDES_URL', mw_path_to_url(MW_INCLUDES_DIR));
@@ -193,7 +235,7 @@ set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     PATH_SEPARATOR . $libs_path .
     PATH_SEPARATOR . get_include_path());
 
-spl_autoload_register('mw_autoload');
+//spl_autoload_register('mw_autoload');
 
 
 // Basic system functions

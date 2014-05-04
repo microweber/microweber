@@ -3,38 +3,43 @@
 namespace Microweber;
 
 
-    /**
-     * Application class
-     *
-     * Class that loads other classes from the Microweber namespace
-     *
-     * @package Application
-     * @category Application
-     * @desc
-     * General-purpose class that loads other classes from the Microweber namespace
-     * it holds the application config and its used as dependency injection provider
-     * loaded classes are registered as "provides" and are used in the whole application
-     *
-     *
-     *
-     *
-     * FOR ADVANCED USERS
-     *
-     * You can override any class on the fly for the whole application
-     *  ex. you can use your own cache provider
-     *  mw('application')->cache = new \MyNamespace\Cache;
-     *  or your own content provider
-     *  mw('application')->content = new \MyNamespace\Content;
-     *
-     *
-     * You can also create whole new applications based on microweber
-     * by extending the basic class and override/extend every "provider" class
-     * @file MyApp.php See example
-     * $my_application = new \Microweber\MyApp(MW_CONFIG_FILE);
-     *
-     *
-     *
-     */
+if (!defined('MW_VERSION')) {
+    include_once(__DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php');
+}
+
+
+/**
+ * Application class
+ *
+ * Class that loads other classes from the Microweber namespace
+ *
+ * @package Application
+ * @category Application
+ * @desc
+ * General-purpose class that loads other classes from the Microweber namespace
+ * it holds the application config and its used as dependency injection provider
+ * loaded classes are registered as "provides" and are used in the whole application
+ *
+ *
+ *
+ *
+ * FOR ADVANCED USERS
+ *
+ * You can override any class on the fly for the whole application
+ *  ex. you can use your own cache provider
+ *  mw('application')->cache = new \MyNamespace\Cache;
+ *  or your own content provider
+ *  mw('application')->content = new \MyNamespace\Content;
+ *
+ *
+ * You can also create whole new applications based on microweber
+ * by extending the basic class and override/extend every "provider" class
+ * @file MyApp.php See example
+ * $my_application = new \Microweber\MyApp(MW_CONFIG_FILE);
+ *
+ *
+ *
+ */
 
 /**
  * @property \Microweber\Url $url
@@ -221,7 +226,7 @@ class Application
                 }
             }
         }
-
+       // return $this->config;
 
     }
 
@@ -256,8 +261,10 @@ class Application
             return $this->$property2;
         }
         if (property_exists($this, $property)) {
+
             return $this->$property;
         } else if (property_exists($this, $property2)) {
+
             return $this->$property2;
         } else {
             try {
@@ -269,8 +276,11 @@ class Application
                     $mw = $ns . '\\' . $property;
                     $mw = str_ireplace(array('/', '\\\\', $ns . '\\' . $ns), array('\\', '\\', $ns), $mw);
                 }
+
                 $prop = new $mw($this);
+
             } catch (Exception $e) {
+
                 $prop = new $property($this);
             }
             if (isset($prop)) {
@@ -293,6 +303,8 @@ class Application
 
     public function get($provider, $args = null)
     {
+
+
         return $this->call($provider, $args);
     }
 

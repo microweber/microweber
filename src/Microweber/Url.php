@@ -459,19 +459,22 @@ class Url
         }
     }
 
+    var $repaced_urls = array();
     public function replace_site_url_back($arr)
     {
+        if($arr == false){
+            return;
+        }
 
         if (is_string($arr)) {
             $parser_mem_crc = 'replace_site_vars_back_' . crc32($arr);
-            $ch = mw_var($parser_mem_crc);
-            if ($ch != false) {
-                $ret = $ch;
+            if (isset($this->repaced_urls[$parser_mem_crc])) {
+                $ret = $this->repaced_urls[$parser_mem_crc];
             } else {
                 $site = $this->site_url();
                 $ret = str_replace('{SITE_URL}', $site, $arr);
-                mw_var($parser_mem_crc, $ret);
-            }
+                $this->repaced_urls[$parser_mem_crc] = $ret;
+             }
             return $ret;
         }
 

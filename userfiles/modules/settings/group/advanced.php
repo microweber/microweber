@@ -23,14 +23,7 @@ $(document).ready(function(){
   <?php _e("Show system log"); ?>
   </a> <a class="mw-ui-btn" href="javascript:$('.mw_adm_cont_head_change_holder').toggle(); void(0);">
   <?php _e("Custom head tags"); ?>
-  </a> 
-   <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);">
-  robots.txt
-  </a> 
-  
-  
-  
-  </div>
+  </a> <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a> <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"> Internal settings </a> </div>
 <div id="mw-advanced-settings-module-load-holder"></div>
 <div class="mw_adm_cont_head_change_holder" style="display:none">
   <div class="mw-ui-field-holder">
@@ -47,10 +40,9 @@ $(document).ready(function(){
 </div>
 <div class="mw_adm_robots_txt_change_holder" style="display:none">
   <div class="mw-ui-field-holder">
-    <label class="mw-ui-label">Robots.txt 
+    <label class="mw-ui-label">Robots.txt
       <?php _e("file"); ?>
-       
-       </label>
+    </label>
     <textarea name="robots_txt" class="mw_option_field mw-ui-field"   type="text" option-group="website"><?php print get_option('robots_txt','website'); ?></textarea>
   </div>
 </div>
