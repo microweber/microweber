@@ -6,6 +6,17 @@
         {
             "type": "composer",
             "url": "http://packages.microweber.com/"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "microweber/microweber",
+                "version": "dev",
+                "source": {
+                    "url": "https://github.com/microweber/microweber/archive/dev.zip",
+                    "type": "zip"
+                }
+            }
         }
     ],
 
