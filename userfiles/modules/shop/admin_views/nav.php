@@ -20,7 +20,7 @@
   <a href="<?php print $config['url']; ?>/action:orders" class="new-order-notification"> <strong><?php print intval( $orders); ?></strong>
   <?php _e("New Orders"); ?>
   </a>
-  
+
 </div>
 <script>
 

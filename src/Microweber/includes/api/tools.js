@@ -830,8 +830,8 @@ mw.tools = {
     for( ; i<l; i++ ){
         var el = items[i];
         var cls = el.className;
-        if(mw.tools.hasClass(cls, 'mw_dropdown_activated')) { continue; }
-        mw.tools.addClass(el, 'mw_dropdown_activated');
+        if(!!el.mwDropdownActivated) { continue; }
+        el.mwDropdownActivated = true;
         el.hasInput = el.querySelector('input.mw_dd_field') !== null;
         if(el.hasInput){
             var input = el.querySelector('input.mw_dd_field');
@@ -843,17 +843,13 @@ mw.tools = {
                     mw.$('.mw_dropdown_fields', this.dropdown).hide();
                     $(this.dropdown).setDropdownValue(this.value, true, true);
                     return false;
-                    }
+              }
             }
             input.onkeyup = function(e){
-
                 if(e.keyCode == 13){
                     return false;
 
                 }
-             }
-             input.onfocus = function(){
-                  
              }
         }
 

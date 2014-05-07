@@ -414,16 +414,22 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   
   <?php // if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
     <?php  if(isset($data['subtype']) and $data['subtype'] != 'dynamic'): ?>
-
-  <div class="mw-ui-field-holder">
+ 
+  <div class="mw-ui-field-holder" id="mw-edit-page-editor-holder">
     <div id="quick_content_<?php print $rand ?>"></div>
   </div>
-  
-
-    
+ 
   <?php   endif; ?>
   
+<?php  if(isset($data['subtype']) and $data['subtype'] == 'dynamic'
+or ($data['id'] == 0 and isset($data['content_type']) and $data['content_type'] == 'page')
 
+): ?>
+ <script>
+     mw.$("#quick-add-post-options-item-template").show();
+	  mw.$("#mw-edit-page-editor-holder").hide();
+	  </script>
+  <?php   endif; ?>
 
   <hr class="hr2">
 
@@ -507,9 +513,10 @@ mw.edit_content.load_editor  =  function(element_id){
 			 delete window.mweditor;
 		}
 		
-		 mweditor = mw.admin.editor.init(area, params);
+		  mweditor = mw.admin.editor.init(area, params);
 		
-		
+			 //	 mweditor = mw.admin.editor.OLDinit(area, params);
+
 		/* new editor !!! */
 		
 		//mweditor = mw.tools.wysiwyg(area, params);
@@ -872,6 +879,13 @@ mw.save_inner_editable_fields = function(data){
 
 		 
        });
+	   
+	   
+	   
+	 
+	   
+	   
+	   
 	   
 	   
        mww.QTABS = mw.tools.tabGroup({

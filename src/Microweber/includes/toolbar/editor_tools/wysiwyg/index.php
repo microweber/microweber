@@ -34,7 +34,9 @@ _test = function(){
 
   var sel = window.getSelection();
   var ed = mw.$('#mw-admin-text-editor');
-  if(!sel.isCollapsed){
+  
+  
+  if(sel!= null && !sel.isCollapsed){
     var off = sel.getRangeAt(0).getBoundingClientRect();
     ed.width(335).show().css({position:'absolute', top:off.top - ed.height() - 7, left:off.left,border:'1px solid #ccc','boxShadow':'none'});
   }

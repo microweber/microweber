@@ -5,7 +5,8 @@
       width: 100%;
       border: 1px solid #eee;
       margin: auto;
-      border-collapse: collapse
+      border-collapse: collapse;
+      margin-bottom: 150px;
     }
     #ui-info-table > tbody > tr > td,
     #ui-info-table > thead > tr > th{
@@ -41,9 +42,16 @@
 
     .demobox{
       position: relative;
-      overflow: hidden;
       padding: 20px 0;
       max-width: 600px;
+    }
+    .demobox:after{
+      content: ".";
+        display: block;
+        clear: both;
+        visibility: hidden;
+        line-height: 0;
+        height: 0;
     }
 
     .demof1 .demobox .mw-ui-field{
@@ -419,8 +427,33 @@ $(window).load(function(){
     </td>
 
     </tr>
+
+    <tr>
+    <td colspan="2">
+    <h2>Dropdowns onclick</h2>
+       <div class="demobox">
+         <div class="mw_dropdown">
+            <span class="mw_dropdown_val_holder">
+            <span class="mw-ui-btn mw_dropdown_val">Dropdown on click</span></span>
+            <div class="mw_dropdown_fields">
+                <ul class="mw-ui-btn-vertical-nav" style="width: 100%;">
+                     <li value="1"><span class="mw-ui-btn">Option 1</span></li>
+                     <li value="2"><span class="mw-ui-btn">Option 2</span></li>
+                     <li value="3"><span class="mw-ui-btn">Option 3</span></li>
+                </ul>
+            </div>
+          </div>
+          <script>
+            mw.dropdown()
+          </script>
+       </div>
+
+    </td>
+    </tr>
+
   </tbody>
 </table>
+
 
 
  

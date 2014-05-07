@@ -77,7 +77,7 @@ $posts = array();
         mw.$('#mw_page_layout_preview').attr('edit_page_id',"<?php print ($page_info['id'])?>");
         mw.$('#mw_page_layout_preview').attr('autoload',"1");
         mw.$('#mw_page_layout_preview').attr('data-small',"1");
-        mw.load_module("content/layout_selector", '#mw_page_layout_preview', false);
+       // mw.load_module("content/layout_selector", '#mw_page_layout_preview', false);
     });
 </script>
 
@@ -230,6 +230,7 @@ mw.manage_content_sort = function(){
 }
 
 </script>
+
 <?php /*<div class="manage-toobar manage-toolbar-top">
   <div class="manage-toobar-content">
       <div class="mw-ui-row">

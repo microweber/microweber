@@ -198,6 +198,7 @@ $(mww).bind('load', function(){
     });
    mw.admin.createContentBtns();
    mw.admin.manageToolbarSet();
+
 });
 
 $(mww).bind('hashchange', function(){

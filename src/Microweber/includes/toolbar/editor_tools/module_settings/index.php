@@ -209,7 +209,9 @@ if (isset($_GET['type'])) {
                 }, 99);
 
                 $(window.parent.window).bind("resize", function () {
+					if(parent != null){
                     parent.mw.tools.modal.center("#" + thismodal.main[0].id);
+					}
                 });
             }
 

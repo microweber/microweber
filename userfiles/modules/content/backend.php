@@ -182,6 +182,19 @@ mw.on.hashParam("parent-page", function(){
 
 
 mw.on.hashParam("action", function(){
+
+    if((this != false) && (this.contains('edit') || this.contains('new'))){
+      mw.$('.tree-column').addClass('tree-column-active');
+      mw.$('.tree-column-active').hover(function(){
+         $(this).removeClass('tree-column-active');
+      }, function(){
+         $(this).addClass('tree-column-active');
+      });
+    }
+    else{
+      mw.$('.tree-column').removeClass('tree-column-active');
+    }
+
   $(mwd.body).addClass("loading");
   window.scrollTo(0, 0);
   mw.$("#pages_edit_container").stop();

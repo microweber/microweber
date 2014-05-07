@@ -10,13 +10,25 @@ $rand = uniqid(); ?>
 <script type="text/javascript">
 
     function mw_reload_content_mod_window(){
+			 setTimeout(function(){
+			
 		
-	
+		  // mw.reload_module('#<?php print $params['id'] ?>');
+		 
+		 },100)
+		 setTimeout(function(){
+			
+		mw.reload_module_parent('#<?php print $params['id'] ?>');
+		  window.location.reload()
+		 
+		 },100)
+	  
 	$(mwd.body).ajaxStop(function() {
 		
 		 setTimeout(function(){
-		 
-		 window.location.reload()
+			
+		
+		  window.location.reload()
 		 
 		 },100)
 		

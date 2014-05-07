@@ -39,48 +39,56 @@
 
         <div class="mw-ui-row">
             <div class="mw-ui-col">
-            
 
-             <?php  if(isset($edit_page_info['title']) and ($edit_page_info['title']) != ''): ?>
-               <span class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span>  <input type="text" class="mw-ui-invisible-field mw-ui-field-big"   value="<?php print $edit_page_info['title'] ?>" id="content-title-field">
+
+
+
+
+
+             <?php 
+			 if($edit_page_info['is_shop'] == 'y'){ $type='shop'; } elseif($edit_page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; 
+			  
+            	 $action_text =  _e("Creating new", true);
+            	 if(isset($edit_page_info['id']) and intval($edit_page_info['id']) != 0){
+            	    $action_text = _e("Editting", true);
+            	 }
+            	 $action_text2 = 'page';
+            	 if(isset($edit_page_info['content_type']) and $edit_page_info['content_type'] == 'post' and isset($edit_page_info['subtype'])){
+            	    $action_text2 = $edit_page_info['subtype'];
+            	 }
+            	 $action_text = $action_text. ' '. $action_text2;
+        	  
+			  
+			  
+			  if(isset($edit_page_info['title'])): ?>
+
+             <div class="mw-ui-row" id="content-title-field-row">
+                <div class="mw-ui-col" style="width: 25px;">
+                   <span class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span>
+                </div>
+                  <div class="mw-ui-col">
+                    <input type="text" class="mw-ui-invisible-field mw-ui-field-big" value="<?php print $edit_page_info['title'] ?>" id="content-title-field" <?php if($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
+                  </div>
+              </div>
               <script>mwd.getElementById('content-title-field').focus();</script>
               <?php else: ?>
-
-                    <?php if($edit_page_info['is_shop'] == 'y'){ $type='shop'; } elseif($edit_page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
-
-        <?php
-        	 $action_text =  _e("Creating new", true);
-        	 if(isset($edit_page_info['id']) and intval($edit_page_info['id']) != 0){
-        	 $action_text = _e("Editting", true);
-        	 }
-        	 $action_text2 = 'page';
-        	 if(isset($edit_page_info['content_type']) and $edit_page_info['content_type'] == 'post' and isset($edit_page_info['subtype'])){
-        	 $action_text2 = $edit_page_info['subtype'];
-        	  }
-        	 $action_text = $action_text. ' '. $action_text2;
-        	 ?>
-                  <h2>
-               <span class="mw-icon-<?php print $type; ?>"></span>  <?php print $action_text ?>
-        </h2>
+              <?php if($edit_page_info['is_shop'] == 'y'){ $type='shop'; } elseif($edit_page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
+               <h2>
+                     <span class="mw-icon-<?php print $type; ?>"></span><?php print $action_text ?>
+              </h2>
               <?php endif; ?>
 
-        
-        
+
+
         </div>
-            <div class="mw-ui-col" style="text-align: right">
-
-
-
-                    <a onclick="window.history.back()" href="javascript:;" title=" <?php _e("Back"); ?>"> <span class="mw-icon-back"></span></a>
-                    <a class="mw-ui-btn"><?php _e("Live Edit"); ?></a>
-                    <a class="mw-ui-btn"><?php _e("Save"); ?></a>
-
-
-
+            <div class="mw-ui-col" id="content-title-field-buttons">
+                <div class="mw-ui-btn-nav"><span class="mw-ui-btn"><span class="mw-icon-gear" title="<?php _e("Settings"); ?>" style="font-size: 19px;"></span></span>
+                <a class="mw-ui-btn"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
+                <a class="mw-ui-btn mw-ui-btn-invert"><?php _e("Save"); ?></a></div>
             </div>
         </div>
 
-      
+
 
 
       
