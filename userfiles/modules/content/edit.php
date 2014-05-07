@@ -287,6 +287,46 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
       </script>
   </div>
 
+
+
+<div class="mw-admin-edit-page-primary-settings">
+<div class="mw-ui-field-holder">
+
+    <?php if($data['content_type'] == 'page'){ ?>
+    <div class="quick-parent-selector">
+      <module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
+    </div>
+    <?php } ?>
+  </div>
+  
+  <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+  <div class="mw-ui-field-holder" style="padding-top: 0">
+    <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
+      <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
+    </div>
+    <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
+      <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+      <module
+                    type="categories/selector"
+                    for="content"
+        			active_ids="<?php print $data['parent']; ?>"
+        			subtype="<?php print $data['subtype']; ?>"
+        			categories_active_ids="<?php print $categories_active_ids; ?>"
+        			for-id="<?php print $data['id']; ?>" />
+      <?php endif; ?>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  <?php endif; ?>
+  
+  
+  </div>
+  
+  
   
    <div class="mw-ui-btn-nav" id="quick-add-post-options">
     <span class="mw-ui-btn"><span class="ico itabpic"></span><span>
@@ -363,32 +403,8 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
    
    
    
-     <div class="mw-ui-field-holder">
-
-    <?php if($data['content_type'] == 'page'){ ?>
-    <div class="quick-parent-selector">
-      <module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
-    </div>
-    <?php } ?>
-  </div>
-  <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-  <div class="mw-ui-field-holder" style="padding-top: 0">
-    <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
-      <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
-    </div>
-    <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
-      <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-      <module
-                    type="categories/selector"
-                    for="content"
-        			active_ids="<?php print $data['parent']; ?>"
-        			subtype="<?php print $data['subtype']; ?>"
-        			categories_active_ids="<?php print $categories_active_ids; ?>"
-        			for-id="<?php print $data['id']; ?>" />
-      <?php endif; ?>
-    </div>
-  </div>
-  <?php endif; ?>
+     
+  
 
   
     <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
@@ -882,7 +898,16 @@ mw.save_inner_editable_fields = function(data){
 	   
 	   
 	   
-	 
+	   var title_field_shanger = $('#content-title-field');
+	   if(title_field_shanger.length > 0){
+		  $( title_field_shanger ).unbind( "change");
+
+			$( title_field_shanger ).bind( "change", function() {
+				var newtitle =  $( this ).val();
+				d(newtitle);
+			   $('#content-title-field-master').val(newtitle);
+			});
+	   }
 	   
 	   
 	   
@@ -897,7 +922,7 @@ mw.save_inner_editable_fields = function(data){
           }
        });
        if(mwd.querySelector("#quick-add-gallery-items .admin-thumb-item") !== null){
-           QTABS.set(0);
+        //   QTABS.set(0);
        }
 
 

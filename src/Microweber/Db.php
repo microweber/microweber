@@ -1896,7 +1896,7 @@ class Db
         $return = array();
 
         if (!empty($result)) {
-            //$result = $this->app->url->replace_site_url_back($result);
+             $result = $this->app->url->replace_site_url_back($result);
             $return = $result;
 
         }

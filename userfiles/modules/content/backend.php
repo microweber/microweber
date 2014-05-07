@@ -185,10 +185,15 @@ mw.on.hashParam("action", function(){
 
     if((this != false) && (this.contains('edit') || this.contains('new'))){
       mw.$('.tree-column').addClass('tree-column-active');
-      mw.$('.tree-column-active').hover(function(){
-         $(this).removeClass('tree-column-active');
-      }, function(){
-         $(this).addClass('tree-column-active');
+      mw.$('.tree-column').css({width:25});
+      mw.$('.tree-column-active').click(function(){
+            $(this).removeClass('tree-column-active');
+            mw.admin.treeboxwidth();
+      });
+      $(mwd.body).bind('mousedown', function(e){
+        if(!mw.tools.hasParentsWithClass(e.target, 'tree-column')){
+          mw.$('.tree-column').addClass('tree-column-active').css({width:25});
+        }
       });
     }
     else{

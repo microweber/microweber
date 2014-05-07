@@ -18,6 +18,9 @@
               <?php endif; ?>
           </div>
           <div class="mw-ui-col" style="text-align: right">
+          
+          <input class="mw-ui-field mw-ui-field-search mw-ui-field-medium" type="text" name="search" placeholder="Search..." />
+          
               <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"><span class="mw-icon-plus"></span> Create </span>
               <?php if(isset($params['page-id']) and intval($params['page-id']) != 0): ?>
               <?php $edit_link = admin_url('view:content#action=editpost:'.$params['page-id']);  ?>
@@ -27,6 +30,7 @@
               <?php $edit_link = admin_url('view:content#action=editcategory:'.$params['category-id']);  ?>
               <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-medium edit-category-btn" id="edit-category-btn" data-tip="bottom-left"> <span class="mw-icon-pen"></span> Edit category </a>
               <?php endif; ?> 
+              
            </div>
            
     <?php else: ?>
