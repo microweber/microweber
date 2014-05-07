@@ -10,6 +10,8 @@
 }
 
 
+
+
 /*************************
        Main Styles
 **************************/
@@ -117,30 +119,50 @@ h2 > [class*="mw-icon-"]:first-child{
   overflow: hidden;
 }
 
-.tree-column, .fixed-side-column{
+.fixed-side-column{
   min-width: 210px;
   max-width: 310px;
 }
 .tree-column{
-    -webkit-transition: width 1.2s;
-    -moz-transition: width 1.2s;
-    -o-transition: width 1.2s;
-    transition: width 1.2s;
+  -webkit-transition: width 0.2s;
+  -moz-transition: width 0.2s;
+  -o-transition: width 0.2s;
+  transition: width 0.2s;
+}
+.tree-column-active .fixed-side-column:after{
+  display: block;
+  content: "";
+  background: #F5F5F5;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.tree-column-active {
-    background: none repeat scroll 0 0 #F5F5F5;
-    max-width: 19px;
+.tree-column-active{
+    background: #F5F5F5;
+    max-width: 9999;
     min-width: 0;
     overflow: hidden;
-    width: 19px !important;
+    cursor: pointer;
 }
+.tree-column-active .fixed-side-column{
+  width: 25px;
+  min-width: 0;
+}
+
+.tree-column-active:hover .fixed-side-column:after{
+    background: #EDEDED
+}
+
 .tree-column-active + .main-content-column{
   width: 100%;
 }
 
-.tree-column-active > *{
-  display: none !important;
+.tree-column-holder{
+    max-width: 100%;
 }
 
 .main-content-column > .mw-ui-col-container{

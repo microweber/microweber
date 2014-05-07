@@ -32,8 +32,10 @@ mw.admin = {
        });
     },
     treeboxwidth:function(){
-      var w = mw.$('.fixed-side-column').width();
-      mw.$('.tree-column').width(w);
+      if(mwd.querySelector('.tree-column-active') === null){
+        var w = mw.$('.fixed-side-column').width();
+        mw.$('.tree-column').width(w);
+      }
     },
     _treeboxwidth:function(){
         var i = 0, all = mwd.querySelectorAll('#pages_tree_toolbar li.active-bg > a .pages_tree_link_text'), l = all.length, max = 0;
@@ -83,6 +85,7 @@ mw.admin = {
     },
     editor:{
       set:function(frame){
+        return false;
         if(!!frame && frame !== null && !!frame.contentWindow){
             var width_mbar = mw.$('#main-bar').width(), tree = mwd.querySelector('.tree-column'), width_tbar = $(tree).width(), ww = $(window).width();
 
@@ -104,7 +107,6 @@ mw.admin = {
           var frame = mwd.createElement('iframe');
         //  frame.src = mw.settings.site_url+('?mw_quick_edit=true&'+params);
 		      frame.src = mw.external_tool('wysiwyg?'+params);
-d(mw.external_tool('wysiwyg?'+params));
           frame.className = 'mw-iframe-editor';
           frame.scrolling = 'no';
           var name =  'mweditor'+mw.random();

@@ -1,4 +1,4 @@
-<?php defined('T') OR die(); ?>
+<?php defined('MW_VERSION') OR die(); ?>
 
 <div style="margin: 5em 0;padding:2em;background:#ECF5FA;color:#000;clear:both;"> <b>Benchmarks</b>
   <pre>
@@ -19,7 +19,7 @@ $mtime = microtime();
 
 
 //print (round(microtime()-T,5)*1000); ?>  
-<?php print number_format(memory_get_usage()-M); ?> bytes
+<?php // print number_format(memory_get_usage()-M); ?> bytes
 <?php print number_format(memory_get_usage()); ?> bytes (process)
 <?php print number_format(memory_get_peak_usage(TRUE)); ?> bytes (process peak)
 </pre>
