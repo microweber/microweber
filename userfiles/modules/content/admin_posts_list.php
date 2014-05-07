@@ -322,8 +322,7 @@ if($new > 0){
   <h2 class="left">
     <?php _e("No Products Here"); ?>
   </h2>
-  <ul class="mw-quick-links mw-quick-links-green left">
-    <li class="active">
+
       <?php
         if(isset($post_params['category-id'])) {
          $url = "#action=new:product&amp;category_id=".$post_params['category-id'];
@@ -335,16 +334,18 @@ if($new > 0){
         }
 
      ?>
-      <a href="<?php print   $url ; ?>"> <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico iproduct"></span> <span>
+      <a href="<?php print   $url ; ?>" class="add-new-master">
+      <span class="add-new-master-icon"></span>
+
+      <span>
       <?php _e("Add New Product"); ?>
-      </span> </a> </li>
-  </ul>
+      </span> </a>
+
   <?php else: ?>
   <h2 class="left">
     <?php _e("No Posts Here"); ?>
   </h2>
-  <ul class="mw-quick-links mw-quick-links-green left">
-    <li class="active">
+
       <?php
 
 
@@ -358,12 +359,12 @@ if($new > 0){
 
      ?>
       <?php if(isset($url )): ?>
-      <a href="<?php print   $url ; ?>">
+      <a href="<?php print $url ; ?>"  class="add-new-master">
+      <span class="add-new-master-icon"></span>
       <?php endif; ?>
-      <span class="mw-ui-btn-plus">&nbsp;</span> <span class="ico ipost"></span> <span>
+        <span>
       <?php _e("Add New Post"); ?>
-      </span> </a> </li>
-  </ul>
+      </span> </a>
   <?php endif; ?>
 </div>
 <?php endif; ?>

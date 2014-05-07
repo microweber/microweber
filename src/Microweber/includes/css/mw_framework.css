@@ -618,23 +618,7 @@ html.mw_pages, html.mw_pages body{
   background: url(../img/admin_tree_icons.png) no-repeat -26px 6px;
 }
 
-.tree-show-hide-nav{
-  clear: both;
-  padding: 10px 0 10px 37px;
-}
-.tree-show-hide-nav a{
-  font-size: 10px;
-  margin:0 10px;
 
-}
-.tree-show-hide-nav a.mw-ui-btn{
-  padding: 3px 14px 5px;
-  height: 23px;
-}
-
-.tree-show-hide-nav span{
-  font-size: 10px;
-}
 
 .mw_toggle_tree{
   left: -30px;

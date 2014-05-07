@@ -181,23 +181,35 @@ mw.on.hashParam("parent-page", function(){
 });
 
 
-mw.on.hashParam("action", function(){
 
+
+
+mw.on.hashParam("action", function(){
+    AdminCategoryTree =  mwd.querySelector('.tree-column');
     if((this != false) && (this.contains('edit') || this.contains('new'))){
-      mw.$('.tree-column').addClass('tree-column-active');
-      mw.$('.tree-column').css({width:25});
-      mw.$('.tree-column-active').click(function(){
-            $(this).removeClass('tree-column-active');
-            mw.admin.treeboxwidth();
-      });
-      $(mwd.body).bind('mousedown', function(e){
-        if(!mw.tools.hasParentsWithClass(e.target, 'tree-column')){
-          mw.$('.tree-column').addClass('tree-column-active').css({width:25});
-        }
-      });
+
+      if(AdminCategoryTree !== null){
+        AdminCategoryTree.treewidthactivated = true;
+          mw.$(AdminCategoryTree).addClass('tree-column-active');
+          mw.$(AdminCategoryTree).css({width:25});
+          mw.$('.tree-column-active').click(function(){
+              if(AdminCategoryTree.treewidthactivated === true){
+                  $(this).removeClass('tree-column-active');
+                  mw.admin.treeboxwidth();
+              }
+          });
+          $(mwd.body).bind('mousedown', function(e){
+            if(AdminCategoryTree.treewidthactivated === true){
+              if(!mw.tools.hasParentsWithClass(e.target, 'tree-column')){
+                mw.$(AdminCategoryTree).addClass('tree-column-active').css({width:25});
+              }
+            }
+          });
+      }
     }
     else{
-      mw.$('.tree-column').removeClass('tree-column-active');
+      mw.$(AdminCategoryTree).removeClass('tree-column-active');
+      AdminCategoryTree.treewidthactivated = false;
     }
 
   $(mwd.body).addClass("loading");
@@ -481,7 +493,9 @@ function mw_make_pages_tree_sortable(){
           <?php endif ?>
           <?php event_trigger('admin_content_after_website_tree',$params); ?>
         </div>
-        <div class="tree-show-hide-nav scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a> <a class="mw-ui-btn" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
+        <div class="tree-show-hide-nav scroll-height-exception">
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small" onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open All</a>
+            <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;" onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close All</a> </div>
       </div>
     </div>
   </div>

@@ -119,7 +119,7 @@ if(isset($page_info) and is_array($page_info)): ?>
     <?php endif; ?>
 
 <?php endif; ?>
-<?php if(isset($page_info) and isset($page_info['title'])): ?>
+<?php /*<?php if(isset($page_info) and isset($page_info['title'])): ?>
 <?php if($page_info['is_shop'] == 'y'){ ?>
 <h2 >
   <?php _e("Products from"); ?>
@@ -129,7 +129,7 @@ if(isset($page_info) and is_array($page_info)): ?>
   <?php _e("Posts from"); ?>
   <?php print ($page_info['title']) ?></h2>
 <?php } ?>
-<?php endif; ?>
+<?php endif; ?>*/ ?>
 <script  type="text/javascript">
 mw.require('forms.js', true);
 mw.post = {

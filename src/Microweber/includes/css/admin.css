@@ -129,6 +129,26 @@ h2 > [class*="mw-icon-"]:first-child{
   -o-transition: width 0.2s;
   transition: width 0.2s;
 }
+.tree-column-active .fixed-side-column:before{
+  content:"\0108";
+  color: #aaa;
+  font-family: Microweber;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  font-size: 22px;
+  z-index: 2;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.tree-column-active:hover .fixed-side-column:before{
+  color: #444;
+}
+
 .tree-column-active .fixed-side-column:after{
   display: block;
   content: "";
@@ -172,6 +192,14 @@ h2 > [class*="mw-icon-"]:first-child{
 
 .main-bar-column{
   width:100px;
+}
+
+.tree-show-hide-nav{
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box ;
+  box-sizing: border-box;
+  padding: 15px;
 }
 
 #pages_tree_toolbar [class*='mw-icon-']{
@@ -462,12 +490,16 @@ h2 > [class*="mw-icon-"]:first-child{
   background-color: #3F3F3F;
 }
 .create-content-menu a [class*='mw-icon-']{
-  font-size: 50px;
+  font-size: 40px;
   line-height: 50px;
   height: 40px;
   display: block;
   color: #F5F5F5;
 }
+.create-content-menu a:hover [class*='mw-icon-']{
+  color: white;
+}
+
 .create-content-menu a .product-icon{
   margin: 10px auto 0px;
 }
@@ -668,6 +700,38 @@ h2 > [class*="mw-icon-"]:first-child{
   transform: scale(0.5, 0.5);
   transform-origin: 0 0;
   overflow: hidden;
+}
+
+.mw-no-posts-foot{
+  text-align: center;
+}
+
+.add-new-master{
+  display: inline-block;
+  position: fixed;
+  top: 50%;
+  margin-top: -60px;
+  font-size: 18px;
+  color: #D9D9D9;
+  text-align: center;
+}
+.add-new-master-icon{
+  width:130px;
+  height: 85px;
+  display: inline-block;
+  text-align: center;
+  border:1px solid #dedede;
+  border-radius: 4px;
+}
+.add-new-master-icon:after{
+  font-family: Microweber;
+  font-size:85px;
+  line-height: 85px;
+  content: "+";
+}
+.add-new-master-icon + span{
+  display: block;
+  padding-top: 10px;
 }
 
 /* Content title */

@@ -85,7 +85,8 @@ mw.admin = {
     },
     editor:{
       set:function(frame){
-        return false;
+        $(frame).width('100%');
+        return;
         if(!!frame && frame !== null && !!frame.contentWindow){
             var width_mbar = mw.$('#main-bar').width(), tree = mwd.querySelector('.tree-column'), width_tbar = $(tree).width(), ww = $(window).width();
 

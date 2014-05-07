@@ -185,7 +185,7 @@ $mw_src = (__DIR__) . DS;
 $loader->addNamespace('Microweber', $mw_src);
 $loader->addNamespace('Microweber', MW_APP_PATH . 'controllers');
 $loader->addNamespace('Microweber', MW_MODULES_DIR);
-//$loader->addNamespace('', MW_APP_PATH . 'libs');
+// $loader->addNamespace('\\', MW_APP_PATH . 'libs');
 $loader->register();
 
 

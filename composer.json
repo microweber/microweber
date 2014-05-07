@@ -6,17 +6,6 @@
         {
             "type": "composer",
             "url": "http://packages.microweber.com/"
-        },
-        {
-            "type": "package",
-            "package": {
-                "name": "microweber/microweber",
-                "version": "dev",
-                "source": {
-                    "url": "https://github.com/microweber/microweber/archive/dev.zip",
-                    "type": "zip"
-                }
-            }
         }
     ],
 
@@ -35,7 +24,8 @@
 
 
         "pimple/pimple": "*",
-        "guzzlehttp/guzzle": "~4.0"
+        "guzzlehttp/guzzle": "~4.0",
+        "prewk/xml-streamer": "dev-master"
 
     },
     "autoload": {

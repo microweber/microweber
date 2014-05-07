@@ -731,5 +731,44 @@
             "rest",
             "web service"
         ]
+    },
+    {
+        "name": "prewk/xml-streamer",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/prewk/XmlStreamer.git",
+            "reference": "39d511ed29f2e5c180b46236091b39f62bd30b87"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "http://packages.microweber.com/dist/prewk-xml-streamer-39d511ed29f2e5c180b46236091b39f62bd30b87-zip-7bc0c0.zip",
+            "reference": "39d511ed29f2e5c180b46236091b39f62bd30b87",
+            "shasum": "ccb343f5305996c072b44bec4e29e6d7a711353d"
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2014-05-01 19:23:32",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Prewk\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "prewk",
+                "email": "oskar.thornblad@gmail.com"
+            }
+        ],
+        "description": "Stream large XML files with low memory consumption.",
+        "homepage": "https://github.com/prewk/XmlStreamer"
     }
 ]
