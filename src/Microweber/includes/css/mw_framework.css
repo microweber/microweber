@@ -560,14 +560,14 @@ body.loaded #live_edit_toolbar{
     background: url(../img/treelisub.gif) no-repeat 0 -3px, url(../img/treelisub_single.gif) repeat-y;
 }
 
-.mw-tree-selector ul.depth-2 li{background-position: 52px -3px;}
+
 
 
 .mw-tree li > ul:last-child > li:last-child{
     background: url(../img/treelisub_last.gif) no-repeat 0 -3px;
 }
 
-.mw-tree-selector ul.depth-2 li:last-child{background-position: 40px -3px;}
+
 
 .mw-tree ul.depth-2 li.depth-2 a{
   border-left: 1px solid transparent;

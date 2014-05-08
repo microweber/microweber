@@ -770,5 +770,38 @@
         ],
         "description": "Stream large XML files with low memory consumption.",
         "homepage": "https://github.com/prewk/XmlStreamer"
+    },
+    {
+        "name": "keboola/csv",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/keboola/php-csv.git",
+            "reference": "d46da2e92bc44250a535bc2afc4c73a4be1d459a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/keboola/php-csv/zipball/d46da2e92bc44250a535bc2afc4c73a4be1d459a",
+            "reference": "d46da2e92bc44250a535bc2afc4c73a4be1d459a",
+            "shasum": ""
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~3.7"
+        },
+        "time": "2014-05-01 17:36:54",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Keboola\\Csv": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "Keboola CSV reader and writer",
+        "homepage": "http://keboola.com"
     }
 ]
