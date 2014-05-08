@@ -112,59 +112,6 @@ class Import
 
     }
 
-    function get_import_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            return false;
-        }
-
-        $loc = $this->imports_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "import" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('import_location', 'admin/import');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->imports_folder = $loc;
-        return $here;
-    }
-
     function move_uploaded_file_to_import($params)
     {
         only_admin_access();
@@ -285,6 +232,11 @@ class Import
         }
     }
 
+    function get_bakup_location()
+    {
+        return $this->get_import_location();
+    }
+
     function readfile_chunked($filename, $retbytes = TRUE)
     {
 
@@ -341,8 +293,8 @@ class Import
         $filename = $here . $id;
 
 
-        if(isset($_POST['import_to_page_id'])){
-           $this->import_to_page_id = intval($_POST['import_to_page_id']);
+        if (isset($_POST['import_to_page_id'])) {
+            $this->import_to_page_id = intval($_POST['import_to_page_id']);
         }
 
         if (!is_file($filename)) {
@@ -354,11 +306,6 @@ class Import
 
 
         return $params;
-    }
-
-    function get_bakup_location()
-    {
-        return $this->get_import_location();
     }
 
     public function import_file($filename)
@@ -387,64 +334,13 @@ class Import
 
 
         $json = file_get_contents($filename);
- 
+
         $rows = json_decode($json, true);
-		 
+
         $content_items = $rows;
         $content_items = $this->map_array($rows);
 
 
-        return $this->batch_save($content_items);
-
-
-    }
-
-    public function queue_import_csv($filename)
-    {
-        only_admin_access();
-        if (!is_file($filename)) {
-            return array('error' => "You have not provided a existing backup to restore.");
-        }
-
-
-        $csv = new \Keboola\Csv\CsvFile($filename);
-
-        $head = $csv->getHeader();
-        if (!isset($head[2])) {
-            $csv = new \Keboola\Csv\CsvFile($filename, ';');
-            $head = $csv->getHeader();
-        } else if (isset($head[0]) and stristr($head[0], ';')) {
-            $csv = new \Keboola\Csv\CsvFile($filename, ';');
-            $head = $csv->getHeader();
-        }
-
-        if (empty($head) or empty($csv)) {
-            return array('error' => "CSV file cannot be parsed properly.");
-        }
-        $rows = array();
-        $i = 0;
-        foreach ($csv as $row) {
-            if ($i > 0) {
-                $r = array();
-                if (is_array($row)) {
-                    foreach ($row as $k => $v) {
-                        if (isset($head[$k])) {
-                            $row[$head[$k]] = $v;
-                            $new_k = strtolower($head[$k]);
-                            $new_k = str_replace(' ', '_', $new_k);
-                            $new_k = str_replace('__', '_', $new_k);
-                            $new_k = preg_replace("/[^a-zA-Z0-9_]+/", "", $new_k);
-                            $new_k = rtrim($new_k, '_');
-                            $r[$new_k] = $v;
-                        }
-                    }
-                }
-                $rows[] = $r;
-            }
-            $i++;
-        }
-        $content_items = $rows;
-        $content_items = $this->map_array($rows);
         return $this->batch_save($content_items);
 
 
@@ -557,14 +453,14 @@ class Import
                             //$content['content'] = $content['description'];
                         }
 
-                        if(!isset($content['parent'])){
-                        $content['parent'] = $parent_id;
+                        if (!isset($content['parent'])) {
+                            $content['parent'] = $parent_id;
                         }
-                        if(isset($content['parent'])){
-                            $par= get_content_by_id($content['parent']);
+                        if (isset($content['parent'])) {
+                            $par = get_content_by_id($content['parent']);
 
-                            if($par!=false){
-                                if(isset($par['is_shop']) and $par['is_shop'] == 'y'){
+                            if ($par != false) {
+                                if (isset($par['is_shop']) and $par['is_shop'] == 'y') {
                                     $content['content_type'] = 'post';
                                     $content['subtype'] = 'product';
                                 }
@@ -572,11 +468,10 @@ class Import
                         }
 
 
-
                         if (!isset($content['content_type'])) {
                             $content['content_type'] = 'post';
                         }
-                         if (!isset($content['subtype'])) {
+                        if (!isset($content['subtype'])) {
                             $content['subtype'] = 'post';
                         }
                         // $content['subtype'] = 'post';
@@ -589,8 +484,8 @@ class Import
                         if ($is_saved != false) {
                             $content['id'] = $is_saved['id'];
                             if (!isset($content['content_type'])) {
-                            $content['content_type'] = $is_saved['content_type'];
-                             $content['subtype'] = $is_saved['subtype'];
+                                $content['content_type'] = $is_saved['content_type'];
+                                $content['subtype'] = $is_saved['subtype'];
                             }
                         }
                         $import = save_content($content);
@@ -716,15 +611,194 @@ class Import
 
     }
 
+    public function queue_import_xml($filename)
+    {
+        only_admin_access();
+
+        if (!is_file($filename)) {
+            return array('error' => "You have not provided a existing backup to restore.");
+        }
+        $chunk_size = $this->batch_size;
+
+        libxml_use_internal_errors(true);
+        $chunks_folder = $this->get_chunks_location();
+
+        $content_items = array();
+        $chunk_size = $this->batch_size;
+        $i = 0;
+
+
+        $xml_paths = $this->xml_paths;
+        $content_batch = "";
+        foreach ($xml_paths as $xml_key => $xml_path) {
+            $XMLReader = new \XMLReader;
+            $xml_file_path = $filename;
+            $XMLReader->open($xml_file_path);
+
+// Move to the first "[item name]" node in the file.
+            while ($XMLReader->read() && $XMLReader->name != $xml_path) {
+
+                //$xml_str = $XMLReader->readOuterXML();
+                // d($xml_str);
+            }
+// Now that we're at the right depth, hop to the next "[item name]" until the end of tree/file.
+            while ($XMLReader->name === $xml_path) {
+                $xml_str = $XMLReader->readOuterXML();
+                if ($xml_str != '') {
+                    //$content_batch = $content_batch . $xml_str . "\n";
+                    $content_batch = $xml_str;
+
+                    //if ($i % $chunk_size == 0) {
+                    $file_name = 'import_chunk_xml_' . md5($content_batch);
+                    $file_location = $chunks_folder . $file_name;
+                    if (!is_file($file_location)) {
+
+                        $content_batch = str_replace('content:encoded', 'content', $content_batch);
+                        $content_batch = str_replace('<' . $xml_path, '<item', $content_batch);
+                        $content_batch = str_replace('</' . $xml_path, '</item', $content_batch);
+
+
+                        $rss_stub = '<?xml version="1.0"?>' . "\n";
+                        file_put_contents($file_location, $rss_stub . $content_batch);
+                    }
+                    $content_batch = "";
+                    // }
+
+                    $i++;
+                    $XMLReader->next($xml_path);
+                }
+            }
+            //$XMLReader->close();
+
+        }
+        $file_name = 'import_chunk_xml_' . md5($content_batch);
+        $file_location = $chunks_folder . $file_name;
+        if (!is_file($file_location)) {
+            file_put_contents($file_location, $content_batch);
+        }
+
+
+        return array('success' => ($i) . " xml items will be imported");
+
+
+    }
+
+    public function queue_import_xlsx($filename)
+    {
+        return $this->queue_import_xls($filename);
+    }
+
+    public function queue_import_xls($filename)
+    {
+        only_admin_access();
+        $target_url = 'http://api.microweber.com/service/xls2csv/index.php';
+        $file_name_with_full_path = realpath($filename);
+        $post = array('test' => '123456', 'file_contents' => '@' . $file_name_with_full_path);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $target_url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $err = false;
+        if ($result != false) {
+            $result = json_decode($result, true);
+            if (!isset($result['result'])) {
+                $err = true;
+            }
+        } else {
+            $err = true;
+        }
+        if ($err == true) {
+            return array('error' => "Could not contact the Microweber remote server to parse the Excel file. Please try uploading a CSV file.");
+        } else {
+            if (isset($result['result'])) {
+                $url = $result['result'];
+                $target_dir = MW_CACHE_DIR . 'backup_restore' . DS . 'excel' . DS;
+                if (!is_dir($target_dir)) {
+                    mkdir_recursive($target_dir);
+                }
+                $local_target_file = basename($url);
+                $local_target_file = (str_ireplace(".xlsx", ".csv", $local_target_file));
+                $local_target_file = (str_ireplace(".xls", ".csv", $local_target_file));
+                $local_save_path = $target_dir . $local_target_file;
+                $fp = fopen($local_save_path, 'w+'); //This is the file where we save the    information
+                $ch = curl_init(str_replace(" ", "%20", $url)); //Here is the file we are downloading, replace spaces with %20
+                curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+                curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_exec($ch); // get curl response
+                curl_close($ch);
+                fclose($fp);
+                return $this->queue_import_csv($local_save_path);
+
+            }
+        }
+
+
+    }
+
+    public function queue_import_csv($filename)
+    {
+        only_admin_access();
+        if (!is_file($filename)) {
+            return array('error' => "You have not provided a existing backup to restore.");
+        }
+
+
+        $csv = new \Keboola\Csv\CsvFile($filename);
+
+        $head = $csv->getHeader();
+        if (!isset($head[2])) {
+            $csv = new \Keboola\Csv\CsvFile($filename, ';');
+            $head = $csv->getHeader();
+        } else if (isset($head[0]) and stristr($head[0], ';')) {
+            $csv = new \Keboola\Csv\CsvFile($filename, ';');
+            $head = $csv->getHeader();
+        }
+
+        if (empty($head) or empty($csv)) {
+            return array('error' => "CSV file cannot be parsed properly.");
+        }
+        $rows = array();
+        $i = 0;
+        foreach ($csv as $row) {
+            if ($i > 0) {
+                $r = array();
+                if (is_array($row)) {
+                    foreach ($row as $k => $v) {
+                        if (isset($head[$k])) {
+                            $row[$head[$k]] = $v;
+                            $new_k = strtolower($head[$k]);
+                            $new_k = str_replace(' ', '_', $new_k);
+                            $new_k = str_replace('__', '_', $new_k);
+                            $new_k = preg_replace("/[^a-zA-Z0-9_]+/", "", $new_k);
+                            $new_k = rtrim($new_k, '_');
+                            $r[$new_k] = $v;
+                        }
+                    }
+                }
+                $rows[] = $r;
+            }
+            $i++;
+        }
+        $content_items = $rows;
+        $content_items = $this->map_array($rows);
+        return $this->batch_save($content_items);
+
+
+    }
+
     function map_array($content_items)
     {
 
 
-        if(empty($content_items)){
-		return false;	
-		}
-		
-		$res = array();
+        if (empty($content_items)) {
+            return false;
+        }
+
+        $res = array();
         $map_keys = array();
 
         //title keys
@@ -866,132 +940,128 @@ class Import
         return $res;
     }
 
-    public function queue_import_xml($filename)
+    function batch_save($content_items)
     {
-        only_admin_access();
 
-        if (!is_file($filename)) {
-            return array('error' => "You have not provided a existing backup to restore.");
-        }
+
         $chunk_size = $this->batch_size;
+        $content_items = $this->map_array($content_items);
 
-        libxml_use_internal_errors(true);
-        $chunks_folder = $this->get_chunks_location();
-
-        $content_items = array();
-        $chunk_size = $this->batch_size;
-        $i = 0;
-
-
-        $xml_paths = $this->xml_paths;
-        $content_batch = "";
-        foreach ($xml_paths as $xml_key => $xml_path) {
-            $XMLReader = new \XMLReader;
-            $xml_file_path = $filename;
-            $XMLReader->open($xml_file_path);
-
-// Move to the first "[item name]" node in the file.
-            while ($XMLReader->read() && $XMLReader->name != $xml_path) {
-
-                //$xml_str = $XMLReader->readOuterXML();
-                // d($xml_str);
-            }
-// Now that we're at the right depth, hop to the next "[item name]" until the end of tree/file.
-            while ($XMLReader->name === $xml_path) {
-                $xml_str = $XMLReader->readOuterXML();
-                if ($xml_str != '') {
-                    //$content_batch = $content_batch . $xml_str . "\n";
-                    $content_batch = $xml_str;
-
-                    //if ($i % $chunk_size == 0) {
-                    $file_name = 'import_chunk_xml_' . md5($content_batch);
-                    $file_location = $chunks_folder . $file_name;
-                    if (!is_file($file_location)) {
-
-                        $content_batch = str_replace('content:encoded', 'content', $content_batch);
-                        $content_batch = str_replace('<' . $xml_path, '<item', $content_batch);
-                        $content_batch = str_replace('</' . $xml_path, '</item', $content_batch);
-
-
-                        $rss_stub = '<?xml version="1.0"?>' . "\n";
-                        file_put_contents($file_location, $rss_stub . $content_batch);
+        if (!empty($content_items)) {
+            $copy = array();
+            foreach ($content_items as $content_item) {
+                if (!isset($content_item['parent'])) {
+                    if ($this->import_to_page_id != false) {
+                        $content_item['parent'] = $this->import_to_page_id;
                     }
-                    $content_batch = "";
-                    // }
-
-                    $i++;
-                    $XMLReader->next($xml_path);
                 }
+                $copy[] = $content_item;
             }
-            //$XMLReader->close();
-
-        }
-        $file_name = 'import_chunk_xml_' . md5($content_batch);
-        $file_location = $chunks_folder . $file_name;
-        if (!is_file($file_location)) {
-            file_put_contents($file_location, $content_batch);
+            $content_items = $copy;
         }
 
 
-        return array('success' => ($i) . " xml items will be imported");
+        $chunks_folder = $this->get_chunks_location();
+        $index_file = $chunks_folder . 'index.php';
 
-
-    }
-
-    public function queue_import_xlsx($filename)
-    {
-       return $this->queue_import_xls($filename);
-    }
-    public function queue_import_xls($filename)
-    {
-        only_admin_access();
-        $target_url = 'http://api.microweber.com/service/xls2csv/index.php';
-        $file_name_with_full_path = realpath($filename);
-        $post = array('test' => '123456','file_contents'=>'@'.$file_name_with_full_path);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,$target_url);
-        curl_setopt($ch, CURLOPT_POST,1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-        $result=curl_exec ($ch);
-        curl_close ($ch);
-        $err = false;
-        if($result != false){
-            $result = json_decode($result,true);
-            if(!isset($result['result'])){
-                $err = true;
-            }
-        } else {
-            $err = true;
+        if (!is_dir($chunks_folder)) {
+            mkdir_recursive($chunks_folder);
+            @touch($index_file);
         }
-        if($err == true){
-            return array('error' => "Could not contact the Microweber remote server to parse the Excel file. Please try uploading a CSV file.");
-        } else {
-            if(isset($result['result'])){
-                $url = $result['result'];
-                $target_dir = MW_CACHE_DIR . 'backup_restore' . DS . 'excel' . DS;
-                if (!is_dir($target_dir)) {
-                    mkdir_recursive($target_dir);
+
+        if (!is_writable($chunks_folder)) {
+            return array('error' => "Import folder is not writable!");
+        }
+
+
+        $chunks = (array_chunk($content_items, $chunk_size, true));
+
+        if (!empty($chunks)) {
+            foreach ($chunks as $chunk) {
+                $chunk_data = serialize($chunk);
+                $file_name = 'import_chunk_' . md5($chunk_data);
+                $file_location = $chunks_folder . $file_name;
+                if (!is_file($file_location)) {
+                    file_put_contents($file_location, $chunk_data);
                 }
-                $local_target_file = basename($url);
-                $local_target_file = (str_ireplace(".xlsx",".csv",$local_target_file));
-                $local_target_file = (str_ireplace(".xls",".csv",$local_target_file));
-                $local_save_path = $target_dir . $local_target_file;
-                $fp = fopen ($local_save_path, 'w+');//This is the file where we save the    information
-                $ch = curl_init(str_replace(" ","%20",$url));//Here is the file we are downloading, replace spaces with %20
-                curl_setopt($ch, CURLOPT_TIMEOUT, 50);
-                curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                curl_exec($ch); // get curl response
-                curl_close($ch);
-                fclose($fp);
-                return $this->queue_import_csv($local_save_path);
 
             }
         }
 
 
+        return array('success' => count($content_items) . " items are scheduled for import");
+
+
     }
+
+    function get_chunks_location()
+    {
+
+        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
+        $index_file = $chunks_folder . 'index.php';
+
+        if (!is_dir($chunks_folder)) {
+            mkdir_recursive($chunks_folder);
+            @touch($index_file);
+        }
+
+
+        return $chunks_folder;
+    }
+
+    function get_import_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            return false;
+        }
+
+        $loc = $this->imports_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $here = MW_USERFILES . "import" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('import_location', 'admin/import');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->imports_folder = $loc;
+        return $here;
+    }
+
     public function OLD_____import_xml($filename)
     {
         only_admin_access();
@@ -1306,78 +1376,6 @@ class Import
         // }
         // return $content_items;
         return $this->batch_save($content_items);
-    }
-
-    function get_chunks_location()
-    {
-
-        $chunks_folder = $this->get_import_location() . '_process_import' . DS;
-        $index_file = $chunks_folder . 'index.php';
-
-        if (!is_dir($chunks_folder)) {
-            mkdir_recursive($chunks_folder);
-            @touch($index_file);
-        }
-
-
-        return $chunks_folder;
-    }
-
-    function batch_save($content_items)
-    {
-
-
-
-
-        $chunk_size = $this->batch_size;
-        $content_items = $this->map_array($content_items);
-
-        if(!empty($content_items)){
-            $copy = array();
-            foreach($content_items as $content_item){
-                if(!isset($content_item['parent'])){
-                    if($this->import_to_page_id != false){
-                        $content_item['parent'] = $this->import_to_page_id;
-                    }
-                }
-                $copy[] = $content_item;
-            }
-            $content_items = $copy;
-        }
-
-
-
-        $chunks_folder = $this->get_chunks_location();
-        $index_file = $chunks_folder . 'index.php';
-
-        if (!is_dir($chunks_folder)) {
-            mkdir_recursive($chunks_folder);
-            @touch($index_file);
-        }
-
-        if (!is_writable($chunks_folder)) {
-            return array('error' => "Import folder is not writable!");
-        }
-
-
-        $chunks = (array_chunk($content_items, $chunk_size, true));
-
-        if (!empty($chunks)) {
-            foreach ($chunks as $chunk) {
-                $chunk_data = serialize($chunk);
-                $file_name = 'import_chunk_' . md5($chunk_data);
-                $file_location = $chunks_folder . $file_name;
-                if (!is_file($file_location)) {
-                    file_put_contents($file_location, $chunk_data);
-                }
-
-            }
-        }
-
-
-        return array('success' => count($content_items) . " items are scheduled for import");
-
-
     }
 
     public function export()

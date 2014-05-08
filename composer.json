@@ -25,7 +25,8 @@
 
         "pimple/pimple": "*",
         "guzzlehttp/guzzle": "~4.0",
-        "prewk/xml-streamer": "dev-master"
+        "prewk/xml-streamer": "dev-master",
+        "keboola/csv": "dev-master"
 
     },
     "autoload": {

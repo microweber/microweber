@@ -1,6 +1,5 @@
 mw.require("files.js");
 mw.require(mw.settings.includes_url + "css/mw.ui.css");
-
 (function() {
     if(typeof jQuery.browser === 'undefined'){
         var matched, browser;
@@ -1219,7 +1218,7 @@ mw.tools = {
         else{
 			
 			
-			
+
 			
           var f = el.parentNode.getElementsByTagName('input'), i=0, len = f.length;
           for( ; i<len; i++){
@@ -1868,17 +1867,30 @@ mw.tools = {
            });
         }
     });
+    field[0].tagSettings = obj;
     field.keyup(function(){
-
       var val = $(this).val();
+      var el = this;
+      var foundlen = 0;
       mw.tools.search(val, items, function(found){
         if(found){
+            foundlen++;
             $(this).show();
         }
         else{
            $(this).hide();
         }
       });
+      if(foundlen === 0){
+        if(typeof el.tagSettings.onNotFound === 'function'){
+            el.tagSettings.onNotFound.call();
+        }
+      }
+      else{
+        if(typeof el.tagSettings.onFound === 'function'){
+            el.tagSettings.onFound.call();
+        }
+      }
     });
     field.focus(function(){
        this.value === def ? this.value = '' : '';

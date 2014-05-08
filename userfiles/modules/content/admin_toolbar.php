@@ -86,7 +86,7 @@
 
         </div>
             <div class="mw-ui-col" id="content-title-field-buttons">
-                <div class="mw-ui-btn-nav"><span class="mw-ui-btn"><span class="mw-icon-gear" title="<?php _e("Settings"); ?>" style="font-size: 19px;"></span></span>
+                <div class="mw-ui-btn-nav"><?php /*<span class="mw-ui-btn"><span class="mw-icon-gear" title="<?php _e("Settings"); ?>" style="font-size: 19px;"></span></span>*/ ?>
                 <a class="mw-ui-btn"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
                 <a class="mw-ui-btn mw-ui-btn-invert"><?php _e("Save"); ?></a></div>
             </div>

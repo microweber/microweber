@@ -5587,9 +5587,15 @@ class Content
                     $image_to_save = trim($image_to_save);
                     if ($image_to_save != '') {
                         $save_media = array();
+
+
                         $save_media['content_id'] = $id;
                         $save_media['src'] = $image_to_save;
-                        $this->app->media->save($save_media);
+                        $check = $this->app->media->get($save_media);
+
+                        if($check == false){
+                         $this->app->media->save($save_media);
+                        }
                     }
                 } elseif (is_array($image_to_save) and !empty($image_to_save)) {
                     $save_media = $image_to_save;

@@ -1700,7 +1700,7 @@ class Backup
         $filename = $here . $id;
         $filename = str_replace('..', '', $filename);
         if (!is_file($filename)) {
-            return array('error' => "You have not provided a existising filename to download.");
+            return array('error' => "You have not provided a existing filename to download.");
 
             die();
         }

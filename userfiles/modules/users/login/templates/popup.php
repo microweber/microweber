@@ -19,10 +19,10 @@ description: Login Popup
   <div id="user_login_holder_<?php print $params['id'] ?>">
   <form   method="post" id="pop-up-login"  class="clearfix" action="#"  >
     <div class="mw-ui-field-holder">
-      <input  class="mw-ui-field mw-ui-field-full" autofocus=""   name="username" type="text" placeholder="<?php _e("Email"); ?>"   />
+      <input  class="mw-ui-field mw-ui-field-big w100" autofocus=""   name="username" type="text" placeholder="<?php _e("Email"); ?>"   />
     </div>
     <div class="mw-ui-field-holder" style="margin-bottom: 0;">
-      <input  class="mw-ui-field mw-ui-field-full"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
+      <input  class="mw-ui-field mw-ui-field-big w100"  name="password" type="password" placeholder="<?php _e("Password"); ?>"   />
     </div>
 
 
@@ -32,7 +32,7 @@ description: Login Popup
 
 
 
-    <input class="mw-ui-btn right" type="submit" value="<?php _e("Login"); ?>" />
+    <input class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right" type="submit" value="<?php _e("Login"); ?>" />
 
   <div class="alert" style="margin: 0;display: none;"></div>
 

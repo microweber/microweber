@@ -6,7 +6,15 @@ mw.admin = {
     },
     scrollBox:function(selector, settings){
         var settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
-        mw.$(selector).slimScroll(settings);
+        var el = mw.$(selector);
+        el.slimScroll(settings);
+        var scroller =  mw.$('.slimScrollBar', el[0].parentNode);
+        scroller.bind('mousedown', function(){
+            $(this).addClass('scrollMouseDown');
+        });
+        $(mwd.body).bind('mouseup', function(){
+            mw.$('.scrollMouseDown').removeClass('scrollMouseDown');
+        });
     },
     contentScrollBoxHeightMinus:0,
     contentScrollBoxHeightFix:function(node){
@@ -176,10 +184,12 @@ mw.admin = {
       var scrolltop = $(window).scrollTop();
       if(scrolltop > 0){
         mw.tools.addClass(toolbar, 'admin-manage-toolbar-scrolled');
-        toolbar.style.width = toolbar.parentNode.offsetWidth + 'px';
+       // toolbar.style.width = toolbar.parentNode.offsetWidth + 'px';
+        toolbar.style.top = scrolltop + 'px';
       }
       else{
          mw.tools.removeClass(toolbar, 'admin-manage-toolbar-scrolled');
+         toolbar.style.top = 0;
       }
     }
 }

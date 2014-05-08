@@ -9,6 +9,7 @@ return array(
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
     'Microweber' => array($baseDir . '/src'),
+    'Keboola\\Csv' => array($vendorDir . '/keboola/csv/src'),
     'ComponentInstaller' => array($vendorDir . '/robloach/component-installer/src'),
     'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),
 );

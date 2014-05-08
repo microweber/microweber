@@ -866,6 +866,16 @@ div.mw-ui-field:after{
 .mw-ui-check input[type='radio'] + span:before{ content: "\0115" }
 .mw-ui-check input[type='radio']:checked + span:before{ content: "\0116" }
 
+.mw-disabled, .mw-ui-field:disabled, .mw-ui-field[disabled]{
+    opacity:0.6;
+    cursor: not-allowed;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+     user-select: none;
+}
+
 
 /* Sidebar navigation */
 
@@ -961,17 +971,18 @@ div.mw-ui-field:after{
 .mw_modal_simple .mw-icon-close, .mw_modal_basic .mw-icon-close{
   position: absolute;
   display: block;
-  width: 8px;
-  height: 8px;
-  background: url(../img/delete_item.png) no-repeat;
+  width: 14px;
+  height: 14px;
   right: 8px;
   top: 8px;
   cursor: pointer;
-  text-indent: -9999px;
+  font-size: 15px;
+  color: #444;
 }
 .mw_modal_simple .mw-icon-close:hover, .mw_modal_basic .mw-icon-close:hover{
-  background-position: 0 -16px;
+  color: black;
 }
+
 .mw_modal_title{
   display: inline-block;
   float: left;
@@ -1058,7 +1069,7 @@ div.mw-ui-field:after{
 }
 
 .mw_modal_simple .mw_modal_toolbar{
-  height: 20px;
+  height: 30px;
   width:100%;
   top: 0px;
   left: 0px;

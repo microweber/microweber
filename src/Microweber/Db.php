@@ -196,10 +196,12 @@ class Db
             $sql = "CREATE TABLE " . $table_name . " (
 			id int(11) NOT NULL auto_increment,
 			PRIMARY KEY (id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
             ";
+            // moving to InnoDB
+            // if you want you can set ENGINE=MyISAM ;
             $this->q($sql);
 
         }
@@ -3053,6 +3055,7 @@ class Db
                 }
             }
         }
+
         if (!isset($original_data['skip_custom_field_save']) and ((!empty($custom_field_to_save) or (isset($original_data['custom_fields'])) and $table_assoc_name != 'table_custom_fields' and $table_assoc_name != 'custom_fields'))) {
 
 
@@ -3106,28 +3109,59 @@ class Db
                             $cftype = 'default_content';
                             $cftype = 'content';
                             $cftitle = false;
-                            $custom_field_to_save['custom_field_name'] = $cf_k;
                             if(is_string($cf_k) and strtolower(trim($cf_k)) == 'price'){
                                 $cftype = $custom_field_to_save['type'] = 'price';
                             }
 
+                            if(is_string($cf_k) and strtolower(trim($cf_k)) != ''){
+                                $make_as_array = false;
+                                if(stristr($cf_k, '[radio]') !== FALSE) {
+                                    $cf_k = str_ireplace('[radio]','',$cf_k);
+                                    $cftype = 'radio';
+                                    $make_as_array = 1;
+                                }
+                                if(stristr($cf_k, '[dropdown]') !== FALSE) {
+                                    $cf_k = str_ireplace('[dropdown]','',$cf_k);
+                                    $cftype = 'dropdown';
+                                    $make_as_array = 1;
+                                }
+                                if(stristr($cf_k, '[select]') !== FALSE) {
+                                    $cf_k = str_ireplace('[select]','',$cf_k);
+                                    $cftype = 'dropdown';
+                                    $make_as_array = 1;
+                                }
+                                if(stristr($cf_k, '[checkbox]') !== FALSE) {
+                                    $cf_k = str_ireplace('[checkbox]','',$cf_k);
+                                    $cftype = 'checkbox';
+                                    $make_as_array = 1;
+                                }
 
-                            if (is_array($cf_v)) {
+                                if($make_as_array != false){
+                                    if(is_string($cf_v)){
+                                        $cf_v = explode(',',$cf_v);
+                                    }
+                                }
+                            }
+
+                            $custom_field_to_save['custom_field_name'] = $cf_k;
+                             if (is_array($cf_v)) {
                                 $cf_k_plain = $this->app->url->slug($cf_k);
                                 $cf_k_plain = $this->escape_string($cf_k_plain);
                                 $cf_k_plain = str_replace('-', '_', $cf_k_plain);
-
+                                $cftitle = false;
                                 $val_to_serilize = $cf_v;
                                 if (isset($custom_field_to_save['values'])) {
                                     $val_to_serilize = $custom_field_to_save['values'];
                                 }
+                                if($cftype == 'content'){
                                 if (isset($custom_field_to_save['type'])) {
                                     $cftype = $custom_field_to_save['type'];
                                 } elseif (isset($cf_v['type'])) {
                                     $cftype = $custom_field_to_save['type'] = $cf_v['type'];
                                 }
+                                }
 
-                                if (isset($custom_field_to_save['title'])) {
+                                 if (isset($custom_field_to_save['title'])) {
                                     $cftitle = $custom_field_to_save['title'];
                                 }elseif (isset($cf_v['title'])) {
                                     $cftitle = $custom_field_to_save['title'] = $cf_v['title'];
@@ -3137,6 +3171,7 @@ class Db
                                 }elseif (isset($cf_v['name'])) {
                                     $cftitle = $custom_field_to_save['name'] = $cf_v['name'];
                                 }
+
                                 if ($cftitle != false) {
                                     $custom_field_to_save['custom_field_name'] = $cftitle;
                                 }
@@ -3171,6 +3206,7 @@ class Db
 
                             } else {
                                 $cf_v = $this->escape_string($cf_v);
+
                                 $custom_field_to_save['custom_field_value'] = $cf_v;
                             }
 
@@ -3185,34 +3221,14 @@ class Db
 
                             $next_id = intval($this->last_id($custom_field_table) + 1);
 
-                            $add = " insert into $custom_field_table set
-						id =\"{$next_id}\",
-						custom_field_name =\"{$cf_k}\",
-						$cfvq
-						custom_field_value =\"" . $custom_field_to_save['custom_field_value'] . "\",
-						rel =\"" . $custom_field_to_save['rel'] . "\",
-						rel_id =\"" . $custom_field_to_save['rel_id'] . "\"
-						";
 
                             $add = " INSERT INTO $custom_field_table SET
-						id ='{$next_id}',
-						custom_field_name ='{$cf_k}',
-						$cfvq
-						custom_field_value ='{$custom_field_to_save['custom_field_value']}',
-						custom_field_type = 'content',
-						rel ='{$custom_field_to_save ['rel']}',
-						rel_id ='{$custom_field_to_save ['rel_id']}'
-						";
-
-                            $add = " INSERT INTO $custom_field_table SET
-
                             custom_field_name ='{$cf_k}',
                             $cfvq
                             custom_field_value ='{$custom_field_to_save['custom_field_value']}',
                             custom_field_type = '{$cftype}',
                             rel ='{$custom_field_to_save ['rel']}',
                             rel_id ='{$custom_field_to_save ['rel_id']}'
-
 						    ";
 
                             $cf_to_save = array();
@@ -3226,12 +3242,8 @@ class Db
                                 $cf_to_save['custom_field_values'] = $custom_field_to_save['custom_field_values'];
                             }
                             $cf_to_save['custom_field_name'] = $cf_k;
-                            $cf_to_save['custom_field_name'] = $cf_k;
 
-
-                           // d($cf_k);
                             if ($cftype != 'default_content') {
-
                                 $this->q($add);
                             }
 

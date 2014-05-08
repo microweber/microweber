@@ -393,7 +393,7 @@ body.loaded #live_edit_toolbar{
   display: inline-block;
   position: absolute;
   left: 23px;
-  top: 5px;
+  top: 7px;
   content:'q';
   opacity: 0.777;
 }
@@ -476,15 +476,11 @@ body.loaded #live_edit_toolbar{
 }
 
 .pages_tree_link_text{
-  float: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow:ellipsis;
   margin-left:3px;
   resize: none;
-  width: 76%;
-  width: calc(100% - 50px);
-  width: -webkit-calc(100% - 50px);
 }
 #mw_edit_page_left .mw-tree .module a{
   height: 18px;
@@ -584,7 +580,7 @@ body.loaded #live_edit_toolbar{
 }
 
 .mw-tree ul.depth-2 li.depth-2 label:before{
-  left: 55px;
+  left: 23px;
 }
 
 
@@ -633,11 +629,11 @@ html.mw_pages, html.mw_pages body{
 
 
 
-label .mw_toggle_tree{left: 37px;top: 7px;}
+label .mw_toggle_tree{left: 37px;top: 11px;}
 
 .mw-tree .mw-ui-check span span + span,
 .mw-tree .mw-ui-check label span + span{
-  margin-left: 58px;
+  margin-left: 27px;
   font-size: 11px;
   position: relative;
 }
@@ -816,31 +812,6 @@ a:hover .mw_ed_tree_content{
     border-color:#BDBBBB;
 }
 
-.mw-hr,
-.mw-module-live-edit-settings hr,
-.mw-module-live-edit-settings .hr,
-.module-settings-page .hr,
-.module-settings-page hr{
-  margin: 11px 0;
-  border: 0;
-  border-top: 1px solid #E6E6E6;
-  display: block;
-}
-
-
-
-.mw-title-field-label{
-  display: none !important;
-}
-
-.mw-title-field-label-post + input.mw-title-field,
-.mw-title-field-label-product + input.mw-title-field,
-.mw-title-field-label-page + input.mw-title-field{
-  width: 405px;
-  float: left;
-  height: 50px;
-
-}
 
 
 
@@ -853,19 +824,6 @@ a:hover .mw_ed_tree_content{
 .mw-tag-selector.mw-ui-field-full{
   width: 100%;
 }
-
-
-
-.disabled, :disabled, [disabled]{
-    opacity:0.6;
-    cursor: not-allowed;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;
-    -khtml-user-select: none;
-     user-select: none;
-}
-
 
 div.mw-ui-field.mw-custom-fields-tags{
   background: #EDEDED ;
@@ -1027,7 +985,6 @@ textarea.mw-ui-field{
 }
 
 .mw-ui-check-selector  .mw-ui-check span{
-  float: left;
   margin: 0 3px 3px;
 }
 

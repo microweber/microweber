@@ -183,25 +183,25 @@ mw.on.hashParam("parent-page", function(){
 
 
 
-
 mw.on.hashParam("action", function(){
     AdminCategoryTree =  mwd.querySelector('.tree-column');
-    if((this != false) && (this.contains('edit') || this.contains('new'))){
 
+    if((this != false) && (this.contains('edit') || this.contains('new'))){
       if(AdminCategoryTree !== null){
-        AdminCategoryTree.treewidthactivated = true;
+          AdminCategoryTree.treewidthactivated = true;
           mw.$(AdminCategoryTree).addClass('tree-column-active');
-          mw.$(AdminCategoryTree).css({width:25});
+          mw.$(AdminCategoryTree).css({ width:25 });
           mw.$('.tree-column-active').click(function(){
-              if(AdminCategoryTree.treewidthactivated === true){
+              if( AdminCategoryTree.treewidthactivated === true ){
                   $(this).removeClass('tree-column-active');
                   mw.admin.treeboxwidth();
               }
           });
-          $(mwd.body).bind('mousedown', function(e){
+          $(mwd.body).bind('click', function(e){
             if(AdminCategoryTree.treewidthactivated === true){
               if(!mw.tools.hasParentsWithClass(e.target, 'tree-column')){
                 mw.$(AdminCategoryTree).addClass('tree-column-active').css({width:25});
+                mw.admin.manageToolbarSet();
               }
             }
           });

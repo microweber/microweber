@@ -1,0 +1,12 @@
+{
+	"name": "keboola/csv",
+	"description": "Keboola CSV reader and writer",
+	"homepage": "http://keboola.com",
+	"license": "MIT",
+	"autoload": {
+        "psr-0": {"Keboola\\Csv": "src/"}
+    },
+	"require-dev": {
+		"phpunit/phpunit": "~3.7"
+	}
+}

@@ -203,7 +203,8 @@ class Controller
         }
 
         if (!defined("MW_NO_SESSION")) {
-            if (!isset($_SESSION)) {
+            $is_ajax = $this->app->url->is_ajax();
+            if (!isset($_SESSION) and $is_ajax == false) {
 
                 if (!defined('MW_SESS_STARTED')) {
                     define('MW_SESS_STARTED', true);

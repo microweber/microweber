@@ -1,0 +1,7 @@
+.idea
+.DS_Store
+cache.properties
+config.php
+composer.lock
+composer.phar
+vendor

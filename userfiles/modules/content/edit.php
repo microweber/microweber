@@ -192,9 +192,9 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   
    <input type="hidden" name="layout_file"  id="mw-layout-file-value-<?php print $rand; ?>" value="<?php print $data['layout_file']; ?>"   />
    <input type="hidden" name="active_site_template"  id="mw-active-template-value-<?php print $rand; ?>" value="<?php print $data['active_site_template']; ?>"   />
-  
-   <div class="mw-ui-field-holder">
-<div class="mw-ui-btn-nav pull-right" id="un-or-published">
+
+
+ <div class="mw-ui-btn-nav pull-right" id="un-or-published">
 
 <?php /*            <span data-val="n" class="mw-ui-btn <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
             <?php _e("Unpublished"); ?>
@@ -242,6 +242,11 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
                     </button>
             <?php endif; ?>
         </div>
+
+
+
+   <div class="mw-ui-field-holder" id="slug-field-holder">
+
 
       <input
             type="hidden"
@@ -642,11 +647,18 @@ mw.edit_content.render_category_tree = function(id){
     		  },
     		  onUntag:function(a){
     			 mw.edit_content.set_category('mw-category-selector-'+id);
-    		  }
-    	  })
+    		  },
+              onFound:function(){
+                mw.$("#category-tree-not-found-message").hide();
+              },
+              onNotFound:function(){
+                mw.$("#category-tree-not-found-message").show();
+              }
+    	  });
+          mw.$(".mw-ui-category-selector-abs .module:first").after('<div style="text-align:center;padding:30px;display:none;" id="category-tree-not-found-message"><h3>Category not found</h3><br><span class="mw-ui-btn"><em class="mw-icon-plus"></em>Create new</span></div>');
           $(mwd.querySelectorAll('#mw-category-selector-'+id+" .pages_tree_item")).bind("mouseup", function(e){
               if(!mw.tools.hasClass(e.target, 'mw_toggle_tree')){
-                $(this).toggleClass("active");
+                $(this).addClass("active");
               }
           });
     }
@@ -904,7 +916,6 @@ mw.save_inner_editable_fields = function(data){
 
 			$( title_field_shanger ).bind( "change", function() {
 				var newtitle =  $( this ).val();
-				d(newtitle);
 			   $('#content-title-field-master').val(newtitle);
 			});
 	   }
