@@ -30,7 +30,6 @@ _test = function(){
   mw.$("#mw-iframe-editor-area").height('auto');
   parent.mw.$('iframe[name="'+window.name+'"]')[0].style.height =  $(document.body)[0].scrollHeight  + 'px';
   mw.$("#mw-admin-text-editor").hide();
-  mw.$("#mw-iframe-editor-area,#the_admin_editor").css({border:'none',padding:0});
 
   var sel = window.getSelection();
   var ed = mw.$('#mw-admin-text-editor');
@@ -116,29 +115,6 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
   }
 });
 
- mw.$(".module").each(function(){
-    var curr = this;
-    if($(curr).next().length == 0){
-      _next = mwd.createElement('div');
-      _next.className = 'mw-wysiwyg-module-helper';
-      _next.innerHTML = '&nbsp;';
-    }
-    if($(curr).prev().length == 0){
-      _prev = mwd.createElement('div');
-      _prev.className = 'mw-wysiwyg-module-helper';
-      _prev.innerHTML = '&nbsp;';
-    }
-    if(mw.tools.hasParentsWithClass(curr,'edit')){
-        $(curr).append("<span class='mw-close' onclick='delete_module(this);'></span>");
-    }
-    else{
-      //  $(curr).addClass('disabled');
-    }
- });
-
-
-
-
 
 
 });
@@ -181,6 +157,18 @@ $(window).load(function(){
 
       });
 
+      mw.$("#mw-iframe-editor-area").bind("keyup", function(){
+        parent.mw.$('#'+window.name).trigger("editorKeyup");
+        $(mwd.body).addClass('editorKeyup');
+      });
+      mw.$("#mw-iframe-editor-area").bind("mousedown", function(e){
+        if(mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')){
+            mw.$('.mw-tooltip-insert-module').remove();
+        }
+      });
+
+      mw.drag.plus.init();
+
 });
 
 
@@ -200,35 +188,14 @@ delete_module = function(inner_node){
   padding: 0;
 }
 
-#mw-iframe-editor-area{
+.mw-admin-editor #mw-iframe-editor-area{
   line-height: 1.85;
+  padding: 15px 0;
 }
 
 
 
-.module {
-	display: block;
-	padding: 10px;
-	border: 1px solid #ccc;
-	background: #efecec;
-	text-align: center;
-	margin: 10px 5px;
-	font-size: 11px;
-    width: auto !important;
-    height: auto !important;
-    position: relative;
-}
 
-.module .mw-close{
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  visibility: hidden;
-}
-
-.module:hover .mw-close{
-  visibility: visible;
-}
 
 .mw-plain-module-name {
 	display: block;
@@ -256,11 +223,16 @@ img{
     background: #787878;
 }
 
-.mw-admin-editor .module{
-	 
-}
+
+
+
 
 </style>
+<script>
+
+mw.require("plus.js");
+
+</script>
 </head>
 <body style="padding: 0;margin: 0;">
 <?php mw_var('plain_modules', true);
@@ -276,5 +248,12 @@ img{
 </div>
 
 <?php mw_var('plain_modules', false); ?>
+
+<span class="mw-plus-top">+</span>
+<span class="mw-plus-bottom">+</span>
+<div style="display: none" id="modules-list">
+    <module type="admin/modules/list"/ class="modules-list-init">
+</div>
+
 </body>
 </html>

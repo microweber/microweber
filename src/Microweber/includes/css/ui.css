@@ -88,14 +88,15 @@
 .mw-icon-home:before {
   content: "\0105";
 }
-/*.mw-icon-microweber:before{ content: "\0106";  }    */
+/* .mw-icon-microweber:before{ content: "\0106";  }  */
 .mw-icon-back:before {
   content: "\0107";
 }
 .mw-icon-menu:before {
   content: "\0108";
 }
-.mw-icon-image:before {
+.mw-icon-image:before,
+.mw-icon-picture:before {
   content: "\0109";
 }
 .mw-icon-comment:before {
@@ -196,7 +197,7 @@
   border: solid 1px #DADADA;
   text-align: center;
   position: relative;
-  border-radius: 4px;
+  border-radius: 3px;
   text-decoration: none;
 }
 .mw-ui-btn-hover {
@@ -309,10 +310,10 @@
 }
 .mw-ui-btn-nav .mw-ui-btn:first-child {
   border-left-width: 1px;
-  border-radius: 4px 0 0 4px;
+  border-radius: 3px 0 0 3px;
 }
 .mw-ui-btn-nav .mw-ui-btn:last-child {
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 3px 3px 0;
 }
 .mw-ui-btn-vertical-nav .mw-ui-btn {
   border-width: 1px 1px 0px 1px;
@@ -320,10 +321,10 @@
   display: block;
 }
 .mw-ui-btn-vertical-nav .mw-ui-btn:first-child {
-  border-radius: 4px 4px 0 0;
+  border-radius: 3px 3px 0 0;
 }
 .mw-ui-btn-vertical-nav .mw-ui-btn:last-child {
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 3px 3px;
   border-bottom-width: 1px;
 }
 /* Tabs Navigation */
@@ -336,13 +337,13 @@
   border-radius: 0px;
 }
 .mw-ui-btn-nav-tabs .mw-ui-btn:first-child {
-  border-radius: 4px 0 0 0;
+  border-radius: 3px 0 0 0;
 }
 .mw-ui-btn-nav-tabs .mw-ui-btn:last-child {
-  border-radius: 0 4px 0 0;
+  border-radius: 0 3px 0 0;
 }
 .mw-ui-btn-nav-tabs + .mw-ui-box {
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 3px 3px;
 }
 /* /Tabs Navigation */
 .mw-ui-btn:disabled,
@@ -365,7 +366,7 @@
   padding: 9px 12px;
   height: 36px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 .mw-ui-navigation a:hover,
 .mw-ui-navigation a:focus,
@@ -405,7 +406,7 @@
 *****************************/
 .mw-ui-box {
   border: 1px solid #E5E5E5;
-  border-radius: 4px;
+  border-radius: 3px;
   clear: both;
 }
 .mw-ui-box-accordion {
@@ -417,8 +418,8 @@
   overflow: hidden;
   padding: 10px;
   margin-bottom: 12px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
 }
 .mw-ui-box-header a {
   text-decoration: none;
@@ -463,7 +464,7 @@
   clear: both;
   border-bottom: 1px solid #ECECEC;
   border-left: 1px solid #ECECEC;
-  border-radius: 4px;
+  border-radius: 3px;
   width: 100%;
 }
 .mw-ui-table-fixed {
@@ -471,19 +472,19 @@
 }
 .mw-ui-table > tbody:first-child > tr:first-child > td:first-child,
 .mw-ui-table > thead > tr:first-child > th:first-child {
-  border-radius: 4px 0 0 0;
+  border-radius: 3px 0 0 0;
 }
 .mw-ui-table > tbody:first-child > tr:first-child > td:last-child,
 .mw-ui-table > thead > tr:first-child > th:last-child {
-  border-radius: 0 4px 0 0;
+  border-radius: 0 3px 0 0;
 }
 .mw-ui-table > tbody > tr:last-child > td:first-child,
 .mw-ui-table > tfoot > tr:last-child > td:first-child {
-  border-radius: 0 0 0 4px;
+  border-radius: 0 0 0 3px;
 }
 .mw-ui-table > tbody > tr:last-child > td:last-child,
 .mw-ui-table > tfoot > tr:last-child > td:last-child {
-  border-radius: 0 0 4px 0;
+  border-radius: 0 0 3px 0;
 }
 .mw-ui-table > tfoot + tbody > tr:last-child > td:last-child {
   border-radius: 0;
@@ -533,7 +534,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 .mw-ui-progress-info {
   color: rgba(255, 255, 255, 0.43);
@@ -783,7 +784,7 @@
 .mw-ui-field {
   border: 1px solid #E6E6E6;
   padding: 8px;
-  border-radius: 4px;
+  border-radius: 3px;
   background-color: white;
   outline: none;
   cursor: text;

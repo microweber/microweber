@@ -416,30 +416,10 @@
 
 }
 
-.mw-admin-editor .mw-admin-editor-area{
-  height: 260px;
-  overflow: hidden;
-  overflow-y:auto;
-  padding: 10px;
-  clear: both;
-  resize: vertical;
-}
-.mw-admin-editor .mw-admin-editor-area ul,
-.mw-admin-editor .mw-admin-editor-area ol{
-  padding-left: 19px;
-}
+
 
 .mw-admin-editor{
-  padding: 1px;
-  clear: both;
   background: white;
-  border: 1px solid #D1D1D1;
-  border-radius:2px;
-
-  max-width: 100%;
-  min-width: 200px;
-
-
 }
 
 

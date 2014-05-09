@@ -236,22 +236,25 @@
 
 .mw-sorthandle-moveit{
   position: absolute;
+  z-index: 0;
   left: 0px;
   top: 0px;
   display: block;
-  width: 23px;
+  width: 100%;
   height: 18px;
-  background: white url(../img/move.png) no-repeat center 2px;
-  border: 1px solid #D8D8D8;
   text-indent: -9999px;
   cursor: move;
-
-
-} 
-
-.mw-sorthandle-moveit:hover{
-  background: #3792E3 url(../img/move.png) no-repeat center -29px;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
 }
+.dragStart .mw-sorthandle-moveit{
+  cursor: -webkit-grabbing;
+  cursor: -moz-grabbing;
+  cursor: grabbing;
+}
+
+
 
 
 .column_separator_title{

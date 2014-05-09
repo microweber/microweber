@@ -282,7 +282,7 @@ mw.tools = {
         }
         return {
           element:o.element,
-          skin:o.skin,
+          skin:o.template || o.skin,
           position:o.position,
           content:o.content
         }
@@ -307,7 +307,7 @@ mw.tools = {
     /*
     **********************************************
 
-      mw.tools.modal({
+      mw.tools.inlineModal({
         element: "#selector", Node or jQuery Object *: Required - The element in which the 'inlineModal' will be put.
         content: string, Node or jQuery Object *: content for the 'inlineModal'.
         template: string *: sets class for the 'inlineModal'. Default - ".mw-inline-modal-default"
@@ -1575,6 +1575,7 @@ mw.tools = {
   scrollTo:function(el, callback, minus){
     var minus = minus || 0;
     if( $(el).length === 0) { return false; }
+    if(typeof callback === 'number'){var minus = callback;}
     mw.$('html,body').animate({scrollTop:$(el).offset().top - minus}, function(){
         typeof callback === 'function' ? callback.call(el) : '';
     });

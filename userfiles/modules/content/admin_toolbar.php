@@ -20,7 +20,7 @@
           <div class="mw-ui-col" style="text-align: right">
           
           <input class="mw-ui-field mw-ui-field-search mw-ui-field-medium" type="text" name="search" placeholder="Search..." />
-          
+
               <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"><span class="mw-icon-plus"></span> Create </span>
               <?php if(isset($params['page-id']) and intval($params['page-id']) != 0): ?>
               <?php $edit_link = admin_url('view:content#action=editpost:'.$params['page-id']);  ?>
@@ -29,27 +29,14 @@
               <?php if(isset($params['category-id'])): ?>
               <?php $edit_link = admin_url('view:content#action=editcategory:'.$params['category-id']);  ?>
               <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-medium edit-category-btn" id="edit-category-btn" data-tip="bottom-left"> <span class="mw-icon-pen"></span> Edit category </a>
-              <?php endif; ?> 
-              
+              <?php endif; ?>
+
            </div>
            
     <?php else: ?>
-    
-    
-
-     
-     
-         
-
         <div class="mw-ui-row">
             <div class="mw-ui-col">
-
-
-
-
-
-
-             <?php 
+             <?php
 			 if($edit_page_info['is_shop'] == 'y'){ $type='shop'; } elseif($edit_page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; 
 			  
             	 $action_text =  _e("Creating new", true);
@@ -61,9 +48,6 @@
             	    $action_text2 = $edit_page_info['subtype'];
             	 }
             	 $action_text = $action_text. ' '. $action_text2;
-        	  
-			  
-			  
 			  if(isset($edit_page_info['title'])): ?>
 
              <div class="mw-ui-row" id="content-title-field-row">
@@ -86,9 +70,42 @@
 
         </div>
             <div class="mw-ui-col" id="content-title-field-buttons">
+
                 <div class="mw-ui-btn-nav"><?php /*<span class="mw-ui-btn"><span class="mw-icon-gear" title="<?php _e("Settings"); ?>" style="font-size: 19px;"></span></span>*/ ?>
-                <a class="mw-ui-btn"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
-                <a class="mw-ui-btn mw-ui-btn-invert"><?php _e("Save"); ?></a></div>
+
+
+                <?php if($data['is_active'] == 'n'){ ?>
+            <span data-val="n" class="mw-ui-btn btn-posts-state" title="<?php _e("Unpublished"); ?>"><span class="mw-icon-disabled"></span></span>
+            <?php } else{  ?>
+
+            <span data-val="y" class="mw-ui-btn btn-posts-state" title="<?php _e("Published"); ?>"><span class="mw-icon-check" ></span></span>
+
+        <?php    } ?>
+
+
+            <?php if($is_live_edit == false) : ?>
+
+                    <button type="button" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>">
+                    <span class="mw-icon-live"></span><?php _e("Live Edit"); ?>
+                    </button>
+                    <button type="submit" class="mw-ui-btn mw-ui-btn-invert" form="quickform-<?php print $rand; ?>">
+                    <?php _e("Save"); ?>
+                    </button>
+                    <?php else: ?>
+                    <?php if($data['id'] == 0): ?>
+                    <button type="submit" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-<?php print $rand; ?>">
+                    <span class="mw-icon-live"></span><?php _e("Live Edit"); ?>
+                    </button>
+                    <?php else: ?>
+                    <button type="button" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>">
+                    <span class="mw-icon-live"></span><?php _e("Live Edit"); ?>
+                    </button>
+                    <?php endif; ?>
+                    <button type="submit" class="mw-ui-btn mw-ui-btn-invert" form="quickform-<?php print $rand; ?>">
+                    <?php _e("Save"); ?>
+                    </button>
+            <?php endif; ?>
+
             </div>
         </div>
 
@@ -100,11 +117,16 @@
 	<?php endif; ?> 
 
     
-    
+
 
     
     
         </div>
+
+
+
+
+
     </div>
     </div>
 </div>

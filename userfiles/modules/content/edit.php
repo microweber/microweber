@@ -11,7 +11,7 @@
   if(!isset($is_quick)){
       $is_quick=false;
   }
-  
+
   if(isset($params['live_edit'])){
     $is_live_edit = $params['live_edit'];
   } elseif(isset($params['from_live_edit'])){
@@ -194,54 +194,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
    <input type="hidden" name="active_site_template"  id="mw-active-template-value-<?php print $rand; ?>" value="<?php print $data['active_site_template']; ?>"   />
 
 
- <div class="mw-ui-btn-nav pull-right" id="un-or-published">
 
-<?php /*            <span data-val="n" class="mw-ui-btn <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
-            <?php _e("Unpublished"); ?>
-            </span><span data-val="y" class="mw-ui-btn<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
-            <?php _e("Published"); ?>
-            </span>
-*/ ?>
-
-            <?php if($data['is_active'] == 'n'){ ?>
-            <span
-             onmouseenter="mw.tooltip({position:'top-center',content:mwd.getElementById('post-states-tip').innerHTML, element:this})"
-            data-val="n" class="mw-ui-btn <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
-             <?php _e("Unpublished"); ?>
-            </span>
-            <?php } else{  ?>
-
-            <span
-             onmouseenter="mw.tooltip({position:'top-center',content:mwd.getElementById('post-states-tip').innerHTML, element:this})"
-            data-val="y" class="mw-ui-btn<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check" ></span>
-            <?php _e("Published"); ?>
-            </span>
-
-        <?php    } ?>
-
-            <?php if($is_live_edit == false) : ?>
-
-                    <button type="button" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
-                    <span class="mw-icon-live"></span><?php _e("Go Live Edit"); ?>
-                    </button>
-                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification ">
-                    <?php _e("Save"); ?>
-                    </button>
-                    <?php else: ?>
-                    <?php if($data['id'] == 0): ?>
-                    <button type="submit" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
-                    <span class="mw-icon-live"></span><?php _e("Go Live Edit"); ?>
-                    </button>
-                    <?php else: ?>
-                    <button type="button" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Go Live Edit"); ?>">
-                    <span class="mw-icon-live"></span><?php _e("Go Live Edit"); ?>
-                    </button>
-                    <?php endif; ?>
-                    <button type="submit" class="mw-ui-btn mw-ui-btn-notification ">
-                    <?php _e("Save"); ?>
-                    </button>
-            <?php endif; ?>
-        </div>
 
 
 
@@ -271,14 +224,6 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
 
     </div>
       <script>
-         var piblished_nav = mwd.querySelectorAll('#un-or-published');
-         var piblished_nav = piblished_nav[piblished_nav.length-1];
-         mw.ui.btn.radionav(piblished_nav, 'span[data-val]');
-         $(piblished_nav.getElementsByTagName('span')).bind("click", function(){
-              if($(this).hasClass("active")){
-                  mw.$("#is_post_active").val($(this).dataset("val"));
-              }
-         });
          slugEdited = false;
          slugFromTitle = function(){
             var slugField = mwd.getElementById('edit-content-url');
@@ -331,58 +276,56 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   
   </div>
   
-  
-  
-   <div class="mw-ui-btn-nav" id="quick-add-post-options">
-    <span class="mw-ui-btn"><span class="ico itabpic"></span><span>
+<div id="quick-add-post-options-holder"><div class="mw-ui-btn-nav" id="quick-add-post-options">
+    <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span>
       <?php _e("Picture Gallery"); ?>
       </span></span>
     <?php if($data['content_type'] == 'page'): ?>
-    <span class="mw-ui-btn"><span class="ico itabaddtonav"></span><span>
+    <span class="mw-ui-btn"><span class="mw-icon-navigation"></span><span>
       <?php _e('Add to navigation menu'); ?>
       </span> </span>
     <?php endif; ?>
     <?php  if(trim($data['subtype']) == 'product'): ?>
-    <span class="mw-ui-btn"><span class="ico itabprice"></span><span>
+    <span class="mw-ui-btn"><span class="mw-icon-price"></span><span>
       <?php _e("Price & Fields"); ?>
       </span></span>
-    <span class="mw-ui-btn"><span class="ico itabtruck"></span><span>
+    <span class="mw-ui-btn"><span class="mw-icon-truck"></span><span>
       <?php _e("Shipping & Options"); ?>
       </span></span>
     <?php else: ?>
-    <span class="mw-ui-btn"><span class="ico itabcustoms"></span><span>
+    <span class="mw-ui-btn"><span class="mw-icon-fields"></span><span>
       <?php _e("Custom Fields"); ?>
       </span></span>
     <?php endif; ?>
-    <span class="mw-ui-btn"><span class="ico itabadvanced"></span><span>
+    <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>
       <?php _e("Advanced"); ?>
       </span></span>
-      
-     <?php if($data['content_type'] == 'page'):  ?> 
-        <span class="mw-ui-btn"><span class="ico itabadvanced"></span><span>
+
+     <?php if($data['content_type'] == 'page'):  ?>
+        <span class="mw-ui-btn"><span class="mw-icon-template"></span><span>
       <?php _e("Template"); ?>
       </span></span>
        <?php endif; ?>
         <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
+
+</div></div>
   
-      
-      
-  </div>
-  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item" id="quick-add-gallery-items">
+<div id="quick-add-post-options-items-holder" class="mw-ui-box mw-ui-box-content">
+  <div class="quick-add-post-options-item" id="quick-add-gallery-items">
     <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
     <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
             <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
 
   </div>
   <?php if($data['content_type'] == 'page'): ?>
-  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
+  <div class="quick-add-post-options-item">
     <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
     <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
                 <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
 
   </div>
   <?php endif; ?>
-  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
+  <div class="quick-add-post-options-item">
     <module
                     type="custom_fields/admin"
                     <?php if( trim($data['subtype']) == 'product' ): ?> default-fields="price" <?php endif; ?>
@@ -398,11 +341,11 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
 
   </div>
   <?php  if(trim($data['subtype']) == 'product'): ?>
-  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
+  <div class="quick-add-post-options-item">
     <?php event_trigger('mw_edit_product_admin', $data); ?>
   </div>
   <?php endif; ?>
-  <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item" id="quick-add-post-options-item-advanced">
+  <div class="quick-add-post-options-item" id="quick-add-post-options-item-advanced">
 
    <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
    
@@ -416,7 +359,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   </div>
   
   <?php if($data['content_type'] == 'page'):  ?>
-    <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
+    <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
 
   <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
   
@@ -430,7 +373,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   
      <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
   
-  
+</div>
   
   
   <?php // if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
@@ -655,7 +598,7 @@ mw.edit_content.render_category_tree = function(id){
                 mw.$("#category-tree-not-found-message").show();
               }
     	  });
-          mw.$(".mw-ui-category-selector-abs .module:first").after('<div style="text-align:center;padding:30px;display:none;" id="category-tree-not-found-message"><h3>Category not found</h3><br><span class="mw-ui-btn"><em class="mw-icon-plus"></em>Create new</span></div>');
+          mw.$(".mw-ui-category-selector-abs .module:first").after('<div style="text-align:center;padding:30px;display:none;" id="category-tree-not-found-message"><h3>Category not found</h3><br><span class="mw-ui-btn"><em class="mw-icon-plus"></em>Create it</span></div>');
           $(mwd.querySelectorAll('#mw-category-selector-'+id+" .pages_tree_item")).bind("mouseup", function(e){
               if(!mw.tools.hasClass(e.target, 'mw_toggle_tree')){
                 $(this).addClass("active");
@@ -887,7 +830,7 @@ mw.save_inner_editable_fields = function(data){
 		<?php endif; ?>
 		/* reloading the editor on parent change */
        mw.$('#mw-parent-page-value-<?php print $rand; ?>').bind('change', function(e){
-		 var iframe_ed = $('.mw-iframe-editor')
+		 var iframe_ed = $('.mw-iframe-editor');
 	     var changed =  iframe_ed.contents().find('.changed').size();
 		 if(changed == 0){
 			  mw.edit_content.load_editor();
@@ -920,7 +863,7 @@ mw.save_inner_editable_fields = function(data){
 			});
 	   }
 	   
-	   
+
 	   
 	   
 	   
@@ -929,13 +872,38 @@ mw.save_inner_editable_fields = function(data){
           tabs: mw.$(".quick-add-post-options-item"),
           toggle:true,
           onclick:function(){
-            mw.tools.scrollTo(".quick-add-post-options-item:visible:last")
+             var tabs = $(mwd.getElementById('quick-add-post-options-items-holder'));
+            if(mw.$("#quick-add-post-options .mw-ui-btn.active").length > 0){
+              //mw.tools.scrollTo("#quick-add-post-options", mw.$('.admin-manage-toolbar').height() + 5);
+              var tabsnav = $(mwd.getElementById('quick-add-post-options'));
+              var off = tabsnav.offset();
+              $(tabs).css({
+                //top:  off.top - $(window).scrollTop() + tabsnav.height()
+              }).show();
+            }
+            else{
+               $(tabs).hide();
+            }
           }
        });
        if(mwd.querySelector("#quick-add-gallery-items .admin-thumb-item") !== null){
         //   QTABS.set(0);
        }
+      mw.$(".mw-iframe-editor").bind("editorKeyup", function(){
+        mw.tools.addClass(mwd.body, 'editorediting');
+      });
+      $(mwd.body).bind("mousedown", function(){
+         mw.tools.removeClass(mwd.body, 'editorediting');
+      });
+      mw.$(".admin-manage-toolbar").bind("mousemove", function(){
+         mw.tools.removeClass(mwd.body, 'editorediting');
+      });
 
+      $(mwd.body).bind("dblclick", function(){
+         $(window).scrollTop(0);  
+        mw.tools.toggleFullscreen(mwd.getElementById('pages_edit_container'));
+
+      });
 
     });
 </script>

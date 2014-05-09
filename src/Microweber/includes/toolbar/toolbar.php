@@ -1,4 +1,4 @@
-<?php    
+<?php
 $is_quick_edit = false;
 if (defined('QUICK_EDIT')) {
 $is_quick_edit = QUICK_EDIT;
@@ -545,3 +545,18 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
         }
     </style>
 <?php } ?>
+
+<script>
+
+mw.require("plus.js");
+
+$(window).load(function(){
+    mw.drag.plus.init();
+});
+
+</script>
+<span class="mw-plus-top">+</span>
+<span class="mw-plus-bottom">+</span>
+<div style="display: none" id="modules-list">
+    <module type="admin/modules/list"/ class="modules-list-init">
+</div>

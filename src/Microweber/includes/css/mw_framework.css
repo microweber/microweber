@@ -1,7 +1,63 @@
 @import url("mw.ui.css");
 
 
+/****************************
+           Plus
+*****************************/
 
+[class*='mw-plus-']{
+  position: absolute;
+  z-index: 990;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 30px;
+  background-color: #434343;
+  cursor: pointer;
+  left: -9999px;
+  top: -9999px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  line-height: 16px;
+}
+.editorKeyup [class*='mw-plus-']{
+    opacity: 0;
+}
+[class*='mw-plus-']:hover{
+  opacity: 1 !important;
+}
+
+.modules-list-init{
+    overflow:auto;
+    max-height:250px
+}
+.modules-list-init li{
+  list-style: none;
+  clear: both;
+  cursor: pointer;
+  padding: 10px;
+  overflow: hidden;
+}
+.modules-list-init li:hover{
+  background: #F0F0F0;
+}
+
+.modules-list-init .mw_module_image{
+  float: left;
+}
+.modules-list-init .module_name{
+  float: left;
+  white-space: nowrap;
+  margin: 7px 0 0 7px;
+}
+
+/****************************
+           Plus end
+*****************************/
+
+
+/**/
 
 .mw-logo{
   position: relative;
@@ -14,7 +70,19 @@
 }
 
 
-
+.element-active.element-active-big.ui-draggable-dragging{
+  transform: scale(0.5, 0.5);
+  -moz-transform: scale(0.5, 0.5);
+  -ms-transform: scale(0.5, 0.5);
+  -webkit-transform: scale(0.5, 0.5);
+  -o-transform: scale(0.5, 0.5);
+  -moz-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  outline: none !important;
+}
 
 
 

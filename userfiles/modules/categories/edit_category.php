@@ -71,18 +71,18 @@ if(isset($params['quick_edit'])){
     }
 
   }
-  
+
     make_new_cat_after_save = function(el){
-		  $('#<?php print $params['id'] ?>').removeClass('loading');
-	   $('#<?php print $params['id'] ?>').removeAttr('just-saved');
-	    $('#<?php print $params['id'] ?>').removeAttr('selected-category-id');
-		  $('#<?php print $params['id'] ?>').removeAttr('data-category-id');
-		   $('#<?php print $params['id'] ?>').removeAttr('category-id');
-		   <?php if(isset($params['live_edit']) != false) : ?>
-  			window.location.reload();
-			 <?php else: ?>
-			  mw.reload_module('#<?php print $params['id'] ?>');
-		 <?php endif; ?>
+        $('#<?php print $params['id'] ?>').removeClass('loading');
+        $('#<?php print $params['id'] ?>').removeAttr('just-saved');
+        $('#<?php print $params['id'] ?>').removeAttr('selected-category-id');
+        $('#<?php print $params['id'] ?>').removeAttr('data-category-id');
+        $('#<?php print $params['id'] ?>').removeAttr('category-id');
+        <?php if(isset($params['live_edit']) != false) : ?>
+        window.location.reload();
+        <?php else: ?>
+        mw.reload_module('#<?php print $params['id'] ?>');
+        <?php endif; ?>
   }
   
       continue_editing_cat = function(){
@@ -222,7 +222,7 @@ $(document).ready(function(){
 		<?php else: ?>
 		<span class="mw-title-field-label mw-title-field-label-category"></span>
 		<?php endif; ?>
-		<input  class="mw-ui-field mw-title-field mw-title-field-category" name="title" type="text" <?php if($data['id'] == 0){ ?>placeholder<?php } else{ ?>value<?php } ?>="<?php print ($data['title']); ?>" />
+		<input  class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title" type="text" <?php if($data['id'] == 0){ ?>placeholder<?php } else{ ?>value<?php } ?>="<?php print ($data['title']); ?>" />
 		<?php endif; ?>
 	</div>
 	<div class="mw-ui-field-holder">
@@ -244,26 +244,12 @@ $(document).ready(function(){
     
     
     
-    
-    
-	<input type="submit" class="semi hidden" name="save" />
-	<div class="post-save-and-go-live">
-    
-    <?php if(intval($data['id']) != 0): ?>
-    
-    <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-medium left">Delete</a>
-     <?php endif; ?>
-    
-		<button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-green" id="mw-admin-cat-save">
-		<?php _e("Save"); ?>
-		</button>
-	</div>
-	<div class="vSpace"></div>
-	<div class="advanced_settings">
-		<ul id="quick-add-post-options" class="quick-add-nav">
-			<li><span><span class="ico itabpic"></span><span>Picture Gallery</span></span></li>
-			<li><span><span class="ico itabadvanced"></span><span>Advanced</span></span></li>
-		</ul>
+  <div class="advanced_settings pull-left">
+
+        <div class="mw-ui-btn-nav">
+            <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span>Picture Gallery</span></span>
+            <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>Advanced</span></span>
+        </div>
 		<div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
 			<div class="pictures-editor-holder">
 				<module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"  id="mw-cat-pics-admin" />
@@ -296,4 +282,19 @@ $(document).ready(function(){
 			</div>
 		</div>
 	</div>
+    
+
+	<div class="post-save-and-go-live pull-right">
+    
+    <?php if(intval($data['id']) != 0): ?>
+    
+    <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-medium left">Delete</a>
+     <?php endif; ?>
+    
+		<button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-invert" id="mw-admin-cat-save">
+		<?php _e("Save"); ?>
+		</button>
+	</div>
+
+
 </form>

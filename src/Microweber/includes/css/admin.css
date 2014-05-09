@@ -652,13 +652,32 @@ h2 > [class*="mw-icon-"]:first-child{
   width: 100%;
 }
 #quick-add-post-options{
-  position: fixed;
-  z-index: 12;
-  bottom: 0;
-  box-shadow:0 -3px 4px rgba(0, 0, 0, 0.12);
   width: 100%;
+  margin-top: 10px;
+  height: 37px;
+  position: relative;
+  z-index: 91;
+}
+#quick-add-post-options-holder{
+  height: 37px;
+  margin-bottom: 20px;
+}
+
+#quick-add-post-options.fixed{
+  position: fixed;
+  top: 82px;
+}
+
+#quick-add-post-options-items-holder{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 90;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: white;
-  padding:12px;
+  display: none;
 }
 
 .preview_frame_wrapper .mw-overlay{
@@ -751,6 +770,50 @@ h2 > [class*="mw-icon-"]:first-child{
   padding-top: 10px;
 }
 
+body.editorediting #content-title-field-row, body.editorediting #quick-add-post-options, body.editorediting .mw-admin-edit-page-primary-settings{
+  opacity: 0.22;
+}
+
+.mw_admin_edit_content_form{
+  position: relative;
+}
+
+#pages_edit_container:-webkit-full-screen {
+  background: white;
+  padding: 30px;
+  overflow: auto;
+}
+#pages_edit_container:-moz-full-screen {
+  background: white;
+  padding: 30px;
+  overflow: auto;
+}
+#pages_edit_container:-ms-fullscreen{
+  background: white;
+  padding: 30px;
+  overflow: auto;
+}
+#pages_edit_container:fullscreen{
+  background: white;
+  padding: 30px;
+  overflow: auto;
+}
+
+
+#pages_edit_container:-webkit-full-screen .mw-admin-edit-page-primary-settings{ display: none; }
+#pages_edit_container:-moz-full-screen .mw-admin-edit-page-primary-settings{ display: none; }
+#pages_edit_container:-ms-fullscreen .mw-admin-edit-page-primary-settings{ display: none; }
+#pages_edit_container:fullscreen .mw-admin-edit-page-primary-settings{ display: none; }
+
+#pages_edit_container:-webkit-full-screen .admin-manage-toolbar-holder, #pages_edit_container:-webkit-full-screen .mw_admin_edit_content_form{ max-width: 1200px; margin: auto; }
+#pages_edit_container:-moz-full-screen .admin-manage-toolbar-holder, #pages_edit_container:-moz-full-screen .mw_admin_edit_content_form{ max-width: 1200px; margin: auto; }
+#pages_edit_container:-ms-fullscreen .admin-manage-toolbar-holder, #pages_edit_container:-ms-fullscreen .mw_admin_edit_content_form{ max-width: 1200px; margin: auto; }
+#pages_edit_container:fullscreen .admin-manage-toolbar-holder, #pages_edit_container:fullscreen .mw_admin_edit_content_form{ max-width: 1200px; margin: auto; }
+
+#pages_edit_container:-webkit-full-screen #quick-add-post-options.fixed{ position: static; }
+#pages_edit_container:-moz-full-screen #quick-add-post-options.fixed{ position: static; }
+#pages_edit_container:-ms-fullscreen #quick-add-post-options.fixed{ position: static; }
+#pages_edit_container:fullscreen #quick-add-post-options.fixed{ position: static; }
 /* Content title */
 
 #content-title-field-row{
@@ -772,10 +835,14 @@ h2 > [class*="mw-icon-"]:first-child{
 }
 
 #content-title-field-buttons{
-    width: 215px;
+    width: 230px;
     text-align: right;
     vertical-align: bottom;
 }
+#content-title-field-buttons .btn-posts-state{
+  border-color: transparent
+}
+
 .admin-manage-toolbar-scrolled #content-title-field-buttons{
   vertical-align: middle;
 }
@@ -791,12 +858,10 @@ h2 > [class*="mw-icon-"]:first-child{
 #content-title-field:focus:-moz-placeholder{  opacity:0.3; }
 
 #un-or-published{
-  width: 220px;
   width: auto;
-  position: fixed;
-  bottom: 12px;
-  right: 10px;
-  z-index: 99;
+  position: absolute;
+  bottom: 42px;
+  right: 0;
 }
 
 .pulished-state-column{
@@ -881,6 +946,9 @@ input#edit-content-url:focus, input#edit-content-url.active{
 
 .admin-manage-toolbar .admin-manage-toolbar-title-icon{
   font-size: 24px;
+}
+.admin-manage-toolbar.fix-tabs .admin-manage-toolbar-content{
+  height: 150px;
 }
 
 .admin-manage-toolbar .mw-ui-row,

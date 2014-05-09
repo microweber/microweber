@@ -178,6 +178,7 @@ mw.admin = {
           return frame;
       }
     },
+    manageToolbarQuickNav:null,
     manageToolbarSet:function(){
       var toolbar = mwd.querySelector('.admin-manage-toolbar');
       if(toolbar === null){ return false; }
@@ -190,6 +191,19 @@ mw.admin = {
       else{
          mw.tools.removeClass(toolbar, 'admin-manage-toolbar-scrolled');
          toolbar.style.top = 0;
+      }
+      if( mw.admin.manageToolbarQuickNav === null){
+        mw.admin.manageToolbarQuickNav = mwd.getElementById('quick-add-post-options-holder');
+      }
+      if(mw.admin.manageToolbarQuickNav !== null){
+            if((scrolltop + 100) > mw.admin.manageToolbarQuickNav.offsetTop){
+              mw.$("#quick-add-post-options").addClass('fixed');
+              mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
+            }
+            else{
+              mw.$("#quick-add-post-options").removeClass('fixed');
+              mw.$(".admin-manage-toolbar-scrolled").removeClass('fix-tabs');
+            }
       }
     },
     CategoryTreeWidth:function(p){
@@ -218,6 +232,9 @@ mw.admin = {
             mw.$(AdminCategoryTree).removeClass('tree-column-active');
             AdminCategoryTree.treewidthactivated = false;
           }
+    },
+    insertModule:function(module){
+      mwd.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
     }
 }
 
