@@ -1,0 +1,10 @@
+col1,col2
+line without enclosure,second column
+enclosure " in column,hello \
+"line with enclosure","second column"
+"column with enclosure "", and comma inside text","second column enclosure in text """
+"columns with
+new line","columns with	tab"
+"Columns with WINDOWS
+new line", "second"
+"column with \n \t \\","second col"

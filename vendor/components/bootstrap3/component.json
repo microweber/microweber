@@ -1,0 +1,71 @@
+{
+  "name": "components-bootstrap",
+  "repo": "components/bootstrap",
+  "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+  "version": "3.1.1",
+  "keywords": [
+    "bootstrap",
+    "css"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "components/jquery": "*"
+  },
+  "main": "js/bootstrap.js",
+  "scripts": [
+    "js/bootstrap.js"
+  ],
+  "files": [
+    "css/bootstrap.min.css",
+    "css/bootstrap-theme.css",
+    "css/bootstrap-theme.min.css"
+  ],
+  "fonts": [
+    "fonts/glyphicons-halflings-regular.eot",
+    "fonts/glyphicons-halflings-regular.svg",
+    "fonts/glyphicons-halflings-regular.ttf",
+    "fonts/glyphicons-halflings-regular.woff"
+  ],
+  "less": [
+    "less/alerts.less",
+    "less/badges.less",
+    "less/bootstrap.less",
+    "less/breadcrumbs.less",
+    "less/button-groups.less",
+    "less/buttons.less",
+    "less/carousel.less",
+    "less/close.less",
+    "less/code.less",
+    "less/component-animations.less",
+    "less/dropdowns.less",
+    "less/forms.less",
+    "less/glyphicons.less",
+    "less/grid.less",
+    "less/input-groups.less",
+    "less/jumbotron.less",
+    "less/labels.less",
+    "less/list-group.less",
+    "less/media.less",
+    "less/mixins.less",
+    "less/modals.less",
+    "less/navbar.less",
+    "less/navs.less",
+    "less/normalize.less",
+    "less/pager.less",
+    "less/pagination.less",
+    "less/panels.less",
+    "less/popovers.less",
+    "less/print.less",
+    "less/progress-bars.less",
+    "less/responsive-utilities.less",
+    "less/scaffolding.less",
+    "less/tables.less",
+    "less/theme.less",
+    "less/thumbnails.less",
+    "less/tooltip.less",
+    "less/type.less",
+    "less/utilities.less",
+    "less/variables.less",
+    "less/wells.less"
+  ]
+}

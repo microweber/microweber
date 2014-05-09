@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<ruleset name="Keboola">
+ <description>Keboola's coding standard</description>
+ 
+ <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+ <rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>
+ <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+ <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+ <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+ <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+
+ <rule ref="Generic.Commenting.Todo"/>
+
+ <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+ <rule ref="Generic.Files.LineEndings"/>
+
+ <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+
+ <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+ <rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+ <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+ <rule ref="PEAR.NamingConventions.ValidClassName"/>
+
+ <rule ref="Generic.PHP.NoSilencedErrors"/>
+ <rule ref="Generic.PHP.LowerCaseConstant"/>
+
+ <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+
+ <!-- indent 1 tab. Tabs are forced by Keboola.WhiteSpace.DisallowSpaceIndent -->
+ <rule ref="Generic.WhiteSpace.ScopeIndent">
+  <properties>
+    <property name="indent" value="1"/>
+  </properties>
+ </rule>
+
+</ruleset>
+

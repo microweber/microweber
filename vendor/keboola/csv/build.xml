@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="api-tests" default="build">
+	<property name="storage-api-url" value="https://connection-devel.keboola.com"/>
+	<property name="storage-api-token" value="your_token"/>
+
+	<target name="build"
+			depends="prepare,lint,api-tests-ci,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,apigen,phpcb"/>
+
+	<target name="clean" description="Cleanup build artifacts">
+		<delete dir="${basedir}/build/results/api"/>
+		<delete dir="${basedir}/build/results/code-browser"/>
+		<delete dir="${basedir}/build/results/coverage"/>
+		<delete dir="${basedir}/build/results/logs"/>
+		<delete dir="${basedir}/build/results/pdepend"/>
+		<delete dir="${basedir}/build/results/apigen"/>
+	</target>
+
+	<target name="prepare" depends="clean"
+			description="Prepare for build">
+		<mkdir dir="${basedir}/build/results/api"/>
+		<mkdir dir="${basedir}/build/results/code-browser"/>
+		<mkdir dir="${basedir}/build/results/coverage"/>
+		<mkdir dir="${basedir}/build/results/logs"/>
+		<mkdir dir="${basedir}/build/results/pdepend"/>
+		<mkdir dir="${basedir}/build/results/apigen"/>
+	</target>
+
+	<target name="lint">
+		<apply executable="php" failonerror="true">
+			<arg value="-l"/>
+
+			<fileset dir="${basedir}/src">
+				<include name="**/*.php"/>
+				<modified/>
+			</fileset>
+
+			<fileset dir="${basedir}/tests">
+				<include name="**/*.php"/>
+				<modified/>
+			</fileset>
+		</apply>
+	</target>
+
+	<target name="phploc" description="Measure project size using PHPLOC">
+		<exec executable="phploc">
+			<arg value="--log-csv"/>
+			<arg value="${basedir}/build/results/logs/phploc.csv"/>
+			<arg path="${basedir}/src"/>
+		</exec>
+	</target>
+
+	<target name="pdepend"
+			description="Calculate software metrics using PHP_Depend">
+		<exec executable="pdepend">
+			<arg value="--jdepend-xml=${basedir}/build/results/logs/jdepend.xml"/>
+			<arg value="--jdepend-chart=${basedir}/build/results/pdepend/dependencies.svg"/>
+			<arg value="--overview-pyramid=${basedir}/build/results/pdepend/overview-pyramid.svg"/>
+			<arg path="${basedir}/src"/>
+		</exec>
+	</target>
+
+	<target name="phpmd"
+			description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+		<exec executable="phpmd">
+			<arg path="${basedir}/src"/>
+			<arg value="text"/>
+			<arg value="${basedir}/build/resources/phpmd.xml"/>
+		</exec>
+	</target>
+
+	<target name="phpmd-ci"
+			description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+		<exec executable="phpmd">
+			<arg path="${basedir}/src"/>
+			<arg value="xml"/>
+			<arg value="${basedir}/build/resources/phpmd.xml"/>
+			<arg value="--reportfile"/>
+			<arg value="${basedir}/build/results/logs/pmd.xml"/>
+		</exec>
+	</target>
+
+	<target name="phpcs"
+			description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+		<exec executable="phpcs">
+			<arg value="--standard=${basedir}/build/resources/coding-style/Keboola/ruleset.xml"/>
+			<arg path="${basedir}/src"/>
+		</exec>
+	</target>
+
+	<target name="phpcs-ci"
+			description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+		<exec executable="phpcs" output="/dev/null">
+			<arg value="--report=checkstyle"/>
+			<arg value="--report-file=${basedir}/build/results/logs/checkstyle.xml"/>
+			<arg value="--standard=${basedir}/build/resources/coding-style/Keboola/ruleset.xml"/>
+			<arg path="${basedir}/src"/>
+		</exec>
+	</target>
+
+	<target name="phpcpd" description="Find duplicate code using PHPCPD">
+		<exec executable="phpcpd">
+			<arg value="--log-pmd"/>
+			<arg path="${basedir}/build/results/logs/pmd-cpd.xml"/>
+			<arg value="--min-lines"/>
+			<arg value="3"/>
+			<arg value="--min-tokens"/>
+			<arg value="40"/>
+			<arg path="${basedir}/src"/>
+		</exec>
+	</target>
+
+	<target name="apigen" description="Generate API documentation using ApiGen">
+		<exec executable="apigen">
+			<arg value="--source"/>
+			<arg path="${basedir}/src"/>
+			<arg value="--destination"/>
+			<arg path="${basedir}/build/results/apigen"/>
+			<arg value="--title"/>
+			<arg value="Keboola Storage API PHP Client"/>
+			<arg value="--todo=yes"/>
+			<arg value="--progressbar=no"/>
+		</exec>
+	</target>
+
+	<target name="api-tests" depends="prepare" description="Run unit tests with PHPUnit">
+		<exec executable="phpunit" failonerror="true">
+			<env key="STORAGE_API_URL" value="${storage-api-url}"/>
+			<env key="STORAGE_API_TOKEN" value="${storage-api-token}"/>
+			<arg value="--configuration"/>
+			<arg path="phpunit.xml.dist"/>
+		</exec>
+	</target>
+
+	<target name="api-tests-ci" depends="prepare" description="Run unit tests with PHPUnit">
+		<exec executable="phpunit" failonerror="true">
+			<env key="STORAGE_API_URL" value="${storage-api-url}"/>
+			<env key="STORAGE_API_TOKEN" value="${storage-api-token}"/>
+			<arg value="--configuration"/>
+			<arg path="phpunit-ci.xml.dist"/>
+		</exec>
+	</target>
+
+	<target name="phpcb"
+			description="Aggregate tool output with PHP_CodeBrowser">
+		<exec executable="phpcb">
+			<arg value="--log"/>
+			<arg path="${basedir}/build/results/logs"/>
+			<arg value="--source"/>
+			<arg path="${basedir}/src"/>
+			<arg value="--output"/>
+			<arg path="${basedir}/build/results/code-browser"/>
+		</exec>
+	</target>
+
+</project>

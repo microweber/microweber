@@ -1,0 +1,16 @@
+{
+  "name": "rangy",
+  "version": "1.2.3",
+  "description": "Rangy, a cross-browser JavaScript range and selection library",
+  "keywords": [
+    "component"
+  ],
+  "main": "uncompressed/rangy-core.js",
+  "scripts": [
+    "uncompressed/rangy-core.js",
+    "uncompressed/rangy-cssclassapplier.js",
+    "uncompressed/rangy-selectionsaverestore.js",
+    "uncompressed/rangy-serializer.js"
+  ],
+  "license": "MIT"
+}

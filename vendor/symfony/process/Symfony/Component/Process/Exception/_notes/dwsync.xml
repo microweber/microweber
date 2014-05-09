@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="ExceptionInterface.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141752479103" remote="130437141750000000" />
+<file name="InvalidArgumentException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141752479103" remote="130437141750000000" />
+<file name="LogicException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141752499104" remote="130437141750000000" />
+<file name="ProcessFailedException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141752499104" remote="130437141750000000" />
+<file name="ProcessTimedOutException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141752509105" remote="130437141750000000" />
+<file name="RuntimeException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141752509105" remote="130437141750000000" />
+</dwsync>

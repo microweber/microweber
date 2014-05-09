@@ -1,0 +1,38 @@
+{
+  "name": "components/bootstrap3",
+  "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+  "type": "component",
+  "keywords": [
+    "bootstrap",
+    "css"
+  ],
+  "homepage": "http://twitter.github.com/bootstrap/",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Twitter, Inc"
+    }
+  ],
+  "require": {
+    "components/jquery": ">=1.9"
+  },
+  "suggest": {
+    "components/bootstrap-default": "Provide a theme for Bootstrap as components/bootstrap only provides the CSS as file assets"
+  },
+  "extra": {
+    "component": {
+      "scripts": [
+        "js/bootstrap.js"
+      ],
+      "files": [
+        "js/bootstrap.min.js",
+        "css/*.css",
+        "fonts/*",
+        "less/*"
+      ],
+      "shim": {
+        "deps": ["jquery"]
+      }
+    }
+  }
+}

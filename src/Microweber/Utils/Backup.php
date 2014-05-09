@@ -73,7 +73,7 @@ class Backup
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = mw('application');
+            $this->app = \Microweber\Application::getInstance();
         }
 
         // }
@@ -842,10 +842,10 @@ class Backup
 
         ob_start();
         $api = new \Microweber\Utils\Backup();
-        $this->app->cache->flush();
+        $this->app->cache->clear();
         $rest = $api->exec_restore($params);
 
-        $this->app->cache->flush();
+        $this->app->cache->clear();
 
         ob_end_clean();
         return array('success' => "Backup was restored!");
@@ -1700,7 +1700,7 @@ class Backup
         $filename = $here . $id;
         $filename = str_replace('..', '', $filename);
         if (!is_file($filename)) {
-            return array('error' => "You have not provided a existising filename to download.");
+            return array('error' => "You have not provided a existing filename to download.");
 
             die();
         }

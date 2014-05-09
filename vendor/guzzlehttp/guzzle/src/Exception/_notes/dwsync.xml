@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="AdapterException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141837233951" remote="130437141830000000" />
+<file name="BadResponseException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141837263953" remote="130437141830000000" />
+<file name="ClientException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141837263953" remote="130437141830000000" />
+<file name="CouldNotRewindStreamException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141837243951" remote="130437141830000000" />
+<file name="ParseException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141837273953" remote="130437141830000000" />
+<file name="RequestException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141837233951" remote="130437141830000000" />
+<file name="ServerException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141837253952" remote="130437141830000000" />
+<file name="TooManyRedirectsException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141837223950" remote="130437141830000000" />
+<file name="TransferException.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141837253952" remote="130437141830000000" />
+</dwsync>

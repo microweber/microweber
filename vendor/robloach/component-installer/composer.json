@@ -1,0 +1,36 @@
+{
+    "name": "robloach/component-installer",
+    "description": "Allows installation of Components via Composer.",
+    "type": "composer-installer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rob Loach",
+            "homepage": "http://robloach.net"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "ComponentInstaller": "src/"
+        }
+    },
+    "extra": {
+        "class": "ComponentInstaller\\Installer"
+    },
+    "require": {
+        "php": ">=5.3.2",
+        "kriswallsmith/assetic": "1.*"
+    },
+    "require-dev": {
+        "composer/composer": "1.*"
+    },
+    "minimum-stability": "alpha",
+    "archive": {
+        "exclude": [
+            "tests",
+            "phpunit.xml.dist",
+            ".travis.yml",
+            ".gitignore"
+        ]
+    }
+}

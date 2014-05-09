@@ -1,0 +1,34 @@
+{
+    "name": "components/rangy",
+    "description": "Rangy, a cross-browser JavaScript range and selection library",
+    "type": "component",
+    "homepage": "http://code.google.com/p/rangy/",
+    "license": "MIT",
+    "support": {
+        "irc": "irc://irc.freenode.org/jquery",
+        "issues": "https://code.google.com/p/rangy/issues/list",
+        "wiki": "https://code.google.com/p/rangy/w/list",
+        "source": "https://code.google.com/p/rangy/source/checkout"
+    },
+    "authors": [
+        {
+            "name": "Tim Down"
+        }
+    ],
+    "require": {
+        "robloach/component-installer": "*"
+    },
+    "extra": {
+        "component": {
+            "scripts": [
+                "uncompressed/rangy-core.js",
+                "uncompressed/rangy-cssclassapplier.js",
+                "uncompressed/rangy-selectionsaverestore.js",
+                "uncompressed/rangy-serializer.js"
+            ],
+            "shim": {
+                "exports": "rangy"
+            }
+        }
+    }
+}

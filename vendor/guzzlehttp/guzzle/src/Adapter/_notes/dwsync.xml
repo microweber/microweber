@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="AdapterInterface.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141836873930" remote="130437141830000000" />
+<file name="FakeParallelAdapter.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141836923933" remote="130437141830000000" />
+<file name="MockAdapter.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141836923933" remote="130437141830000000" />
+<file name="ParallelAdapterInterface.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141836873930" remote="130437141830000000" />
+<file name="StreamAdapter.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141836853929" remote="130437141830000000" />
+<file name="StreamingProxyAdapter.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141836853929" remote="130437141830000000" />
+<file name="Transaction.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141836913933" remote="130437141830000000" />
+<file name="TransactionInterface.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141836933934" remote="130437141830000000" />
+<file name="TransactionIterator.php" server="C:/xampp/htdocs/master/dev.master/" local="130437141836863930" remote="130437141830000000" />
+</dwsync>

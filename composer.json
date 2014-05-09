@@ -1,6 +1,6 @@
 {
     "name": "microweber/microweber",
-    "type": "project",
+    "type": "application",
     "description": "New generation of CMS with drag and drop",
     "repositories": [
         {
@@ -8,8 +8,26 @@
             "url": "http://packages.microweber.com/"
         }
     ],
+
+
     "require": {
-        "php": ">=5.3.2"
+        "php": ">=5.3.2",
+
+        "components/jquery": "1.9.*",
+        "components/jqueryui": "*",
+        "components/rangy": "*",
+
+        "components/bootstrap3": "dev-master",
+        "components/bootstrap-default": "dev-master",
+        "components/bootstrap": "dev-master",
+        "zeroclipboard/zeroclipboard": "dev-master",
+
+
+        "pimple/pimple": "*",
+        "guzzlehttp/guzzle": "~4.0",
+        "prewk/xml-streamer": "dev-master",
+        "keboola/csv": "dev-master"
+
     },
     "autoload": {
         "psr-0": {
@@ -17,6 +35,10 @@
         }
     },
 
+
+    "config": {
+        "preferred-install": "dist"
+    },
     "keywords": ["cms", "drag and drop", "shop", "blog"],
     "homepage": "http://microweber.com",
     "license": "Apache-2.0",
