@@ -167,6 +167,7 @@ h2 > [class*="mw-icon-"]:first-child{
     min-width: 0;
     overflow: hidden;
     cursor: pointer;
+    width: 25px !important;
 }
 .tree-column-active .fixed-side-column{
   width: 25px;
@@ -844,6 +845,16 @@ input#edit-content-url:focus, input#edit-content-url.active{
   clear: both;
   padding-top: 5px;
 }
+.edit-post-url .mw-ui-row{
+  table-layout: auto;
+}
+#slug-base-url-column{
+  white-space: nowrap;
+}
+
+#slug-base-url-column + .mw-ui-col{
+  width: 100%;
+}
 
 
 
@@ -880,6 +891,7 @@ input#edit-content-url:focus, input#edit-content-url.active{
 
 .admin-manage-toolbar-holder{
   overflow: hidden;
+  min-height: 85px;
 }
 .admin-manage-toolbar{
   position: relative;

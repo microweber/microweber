@@ -191,6 +191,33 @@ mw.admin = {
          mw.tools.removeClass(toolbar, 'admin-manage-toolbar-scrolled');
          toolbar.style.top = 0;
       }
+    },
+    CategoryTreeWidth:function(p){
+          AdminCategoryTree =  mwd.querySelector('.tree-column');
+          if((p != false) && (p.contains('edit') || p.contains('new'))){
+            if(AdminCategoryTree !== null){
+                AdminCategoryTree.treewidthactivated = true;
+                mw.$(AdminCategoryTree).addClass('tree-column-active');
+                mw.$('.tree-column-active').click(function(){
+                    if( AdminCategoryTree.treewidthactivated === true ){
+                        $(this).removeClass('tree-column-active');
+                        mw.admin.treeboxwidth();
+                    }
+                });
+                $(mwd.body).bind('click', function(e){
+                  if(AdminCategoryTree.treewidthactivated === true){
+                    if(!mw.tools.hasParentsWithClass(e.target, 'tree-column')){
+                      mw.$(AdminCategoryTree).addClass('tree-column-active');
+                      mw.admin.manageToolbarSet();
+                    }
+                  }
+                });
+            }
+          }
+          else{
+            mw.$(AdminCategoryTree).removeClass('tree-column-active');
+            AdminCategoryTree.treewidthactivated = false;
+          }
     }
 }
 

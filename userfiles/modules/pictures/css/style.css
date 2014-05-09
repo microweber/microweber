@@ -183,14 +183,33 @@ a.rotator-paging-item-thumbnail img{
   width: 27px;
   height: 40px;
   cursor: pointer;
-  background: url(../img/ico.png) no-repeat;
+  background-repeat: no-repeat;
   visibility: hidden;
 }
 .mw-rotator-template-slider .rotator-prev,
 .mw-rotator-template-default .rotator-prev{
-  background-position: -27px 0;
+  background-image: url(../img/inner_prev.png);
+  background-position: 5% center;
   left: 0;
 }
+.mw-rotator-template-slider .rotator-next,
+.mw-rotator-template-default .rotator-next{
+  background-image: url(../img/inner_next.png);
+  background-position: 95% center;
+}
+.mw-rotator-template-slider .rotator-prev, .mw-rotator-template-slider .rotator-next{
+  width: 50%;
+  height: 100%;
+  top: 0;
+  margin: 0;
+}
+.mw-rotator-template-slider .rotator-prev{
+  left: 0;
+}
+.mw-rotator-template-slider .rotator-next{
+  right: 0;
+}
+
 .rotator-index-control-mode-numbers{
     cursor: pointer;
     display: block;

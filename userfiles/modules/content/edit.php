@@ -261,7 +261,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
         <div class="mw-ui-row">
             <div class="mw-ui-col" id="slug-base-url-column">
                 <span class="view-post-site-url" id="slug-base-url"><?php print site_url(); ?></span>
-                <script>$(mwd).ready(function(){mwd.getElementById('slug-base-url-column').style.width = mwd.getElementById('slug-base-url').offsetWidth + 'px';});</script>
+
             </div>
             <div class="mw-ui-col">
                <span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>

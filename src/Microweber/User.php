@@ -1402,8 +1402,10 @@ class User
                     try {
                         $start = session_start();
                     } catch (ErrorExpression $e) {
+                        if($is_ajax == false){
                         session_regenerate_id();
                         $start = session_id();
+                        }
                     }
                     if ($start == false and $is_ajax == false) {
                         session_write_close(); //now close it,

@@ -237,6 +237,64 @@ class Import
         return $this->get_import_location();
     }
 
+    function get_import_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            return false;
+        }
+
+        $loc = $this->imports_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $folder_root = false;
+        if (defined('MW_USERFILES')) {
+            $folder_root = MW_USERFILES;
+        } elseif (defined('MW_CACHE_DIR')) {
+            $folder_root = MW_CACHE_DIR;
+        }
+
+        $here = $folder_root . "import" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = $folder_root . "import" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('import_location', 'admin/import');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->imports_folder = $loc;
+        return $here;
+    }
+
     function readfile_chunked($filename, $retbytes = TRUE)
     {
 
@@ -1007,59 +1065,6 @@ class Import
 
 
         return $chunks_folder;
-    }
-
-    function get_import_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            return false;
-        }
-
-        $loc = $this->imports_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $here = MW_USERFILES . "import" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = MW_USERFILES . "import" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('import_location', 'admin/import');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->imports_folder = $loc;
-        return $here;
     }
 
     public function OLD_____import_xml($filename)

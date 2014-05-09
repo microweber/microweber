@@ -185,7 +185,8 @@ $mw_src = (__DIR__) . DS;
 $loader->addNamespace('Microweber', $mw_src);
 $loader->addNamespace('Microweber', MW_APP_PATH . 'controllers');
 $loader->addNamespace('Microweber', MW_MODULES_DIR);
-// $loader->addNamespace('\\', MW_APP_PATH . 'libs');
+//$loader->addNamespace('\\', MW_APP_PATH . 'libs');
+
 $loader->register();
 
 
@@ -235,7 +236,7 @@ set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     PATH_SEPARATOR . $libs_path .
     PATH_SEPARATOR . get_include_path());
 
-//spl_autoload_register('mw_autoload');
+ spl_autoload_register('mw_autoload');
 
 
 // Basic system functions

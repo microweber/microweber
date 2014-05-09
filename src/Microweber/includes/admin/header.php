@@ -54,20 +54,13 @@
                     }
                     mw.cookie.set('back_to_admin', window.location.href);
                 }
-
-
                 mw.$("#mw-quick-content,#mw_edit_pages_content,#mw-admin-content").click(function () {
                     if (mw.helpinfo != undefined) {
                         mw.cookie.set('helpinfo', false, 4380);
                         $(".helpinfo_helper").fadeOut();
-
                     }
                 });
-
-
             });
-
-
             mw.require("<?php print MW_INCLUDES_URL; ?>css/ui.css");
         </script>
     <?php endif; ?>
@@ -130,7 +123,7 @@ if ($last_page_front != false) {
                             <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:content/action:categories">Categories</a></li>
                         </ul>
-                    </li> 
+                    </li>
                     <li <?php if ($view == 'shop' and $action==false): ?> class="active"
                     <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent"   <?php endif; ?>><a
                             href="<?php print admin_url(); ?>view:shop" title=""> <span class="mw-icon-shop"></span>
