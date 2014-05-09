@@ -2,85 +2,21 @@
 if (version_compare(phpversion(), "5.3.0", "<=")) {
     exit("Error: You must have PHP version 5.3 or greater to run Microweber");
 }
-
-
-
- 
+// error_reporting(E_ALL);
 
 date_default_timezone_set('UTC');
 
-if (!defined('M')) {
 
-    define('M', memory_get_usage());
+require_once ('vendor/autoload.php');
 
-}
-
-if (!defined('MW_CACHE_EXPIRES')) {
-    // you can set cache expiration time,
-    // by default cache is stored forever until its deleted by some internal function
-    //define("MW_CACHE_EXPIRES", 600); //10 min
-}
-if (!defined('MW_USE_APC_CACHE')) {
-
-    define('MW_USE_APC_CACHE', false); //if true mw will automatically use apc if its found, but you can turn it off
-
-}
-
-if (!defined('MW_ROOTPATH')) {
-
-    define('MW_ROOTPATH', dirname((__FILE__)) . DIRECTORY_SEPARATOR);
-
-}
-
-$bootstrap_file_for_site = false;
-if (!isset($_SERVER["SERVER_NAME"])) {
-
-    $config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
-    $bootstrap_file_for_site = MW_ROOTPATH . 'bootstrap_localhost' . '.php';
-} else {
-    $sever = str_ireplace('www.', '', strtolower($_SERVER["SERVER_NAME"]));
-    $config_file_for_site = MW_ROOTPATH . 'config_' . $sever . '.php';
-    $bootstrap_file_for_site = MW_ROOTPATH . 'bootstrap_' . $sever . '.php';
-
-
-}
-
-if (!defined('MW_CONFIG_FILE')) {
-
-    if (is_file($config_file_for_site)) {
-
-        define('MW_CONFIG_FILE', $config_file_for_site);
-
-    } else {
-
-        define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
-
-    }
-
-    if ($bootstrap_file_for_site != false and is_file($bootstrap_file_for_site)) {
-
-        require_once ($bootstrap_file_for_site);
-
-    }
-
-}
-
-
-require_once (MW_ROOTPATH . 'src/Microweber/bootstrap.php');
-//error_reporting(E_ALL);
-
-
-// Starting MW
-
-$application = new \Microweber\Application(MW_CONFIG_FILE);
+$application = new \Microweber\Application();
 
 /*
 
   You can extend every function of MW try this
   $application = new \Microweber\MyApp(MW_CONFIG_FILE);
 
-
- After start you can use the methods of your application trough
+ After creating new "Application" you can use the methods of your application trough
  the mw() function, which returns the latest application instance
 
  $temp = mw()->content->get("is_active=y");
@@ -92,34 +28,30 @@ $application = new \Microweber\Application(MW_CONFIG_FILE);
  $temp = $application->users->get();
  var_dump($temp);
 
-
-
 */
 
 
 // Starting Router
 $router = new \Microweber\Router();
 
-
 // Starting Controller
 $controller = new \Microweber\Controller($application);
-
 
 // Automatically map the Router to all controller functions
 $router->map($controller);
 
+$router->my_controller_url =  '\Microweber\TestController';
+/*
+$router->my_controller_url =  '\Microweber\TestController';
 
-// Extend and override the Controller
-$controller->heldlo_world = function () {
-    echo "Hello world!";
-};
+Add more controllers tp the roter
+open at http://localhost/my_controller_url
 
-// Map more complex routes with regex, the Router is using preg_match
-$controller->functions['test/route/*'] = function () {
-    echo "You can use wildcards!";
-};
+*/
+
 
 // Run the website
 $router->run();
 
-exit();
+
+ 
