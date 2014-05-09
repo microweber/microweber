@@ -182,7 +182,7 @@ class Layouts
                         $templ_dir = str_replace(MW_TEMPLATES_DIR, '', $here_dir);
                         if ($templ_dir != '') {
                             $templ_dir = explode(DS, $templ_dir);
-                             if (isset($templ_dir[0])) {
+                            if (isset($templ_dir[0])) {
                                 $to_return_temp['template_dir'] = $templ_dir[0];
 
                             }
@@ -228,7 +228,7 @@ class Layouts
                                 $result = $regs[0];
                                 $result = str_ireplace('visible:', '', $result);
                                 $to_return_temp['visible'] = trim($result);
-                             }
+                            }
 
                             if (preg_match('/icon:.+/', $fin, $regs)) {
                                 $result = $regs[0];
@@ -279,7 +279,7 @@ class Layouts
                             if (isset($template_dirs) and !empty($template_dirs)) {
                                 foreach ($template_dirs as $template_dir) {
                                     $layout_file = str_replace($template_dir, '', $layout_file);
-                                 }
+                                }
                             }
 
                             //   $layout_file = str_replace(MW_TEMPLATES_DIR, '', $layout_file);
@@ -688,6 +688,15 @@ class Layouts
             } else if (isset($save_page['active_site_template'])) {
                 $template = $save_page['active_site_template'];
             }
+
+
+            if ($template == 'default') {
+                $site_template_settings = $this->app->option->get('current_template', 'template');
+                if ($site_template_settings != false and $site_template_settings != 'default') {
+                    $template = $site_template_settings;
+                }
+            }
+
             $final_file_blocks = array();
 
             if ($template != false) {
