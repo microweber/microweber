@@ -312,7 +312,7 @@
 }
 
 
-.modules-list {
+#modules-and-layouts .modules-list {
 	list-style-position: inside;
 	list-style-image: none;
 	list-style-type: none;
@@ -322,12 +322,12 @@
     margin: 0;
     padding: 0;
 }
-.modules-list img {
+#modules-and-layouts .modules-list img {
 	border: 0 none;
 	max-width: none;
 	vertical-align: middle;
 }
-.modules-list li {
+#modules-and-layouts .modules-list li {
 	float:left;
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 11px;
@@ -337,18 +337,18 @@
     cursor: move;
     margin: 2px 5px 0 5px;
 }
- .mw_module_hold{
+#modules-and-layouts .mw_module_hold{
     padding: 6px 6px;
     display: inline-block;
     -webkit-touch-callout: none;
--webkit-user-select: none;
--khtml-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
  }
 
- .mw_module_hold:after{
+#modules-and-layouts .mw_module_hold:after{
     content: "";
     display: block;
     position: absolute;
@@ -361,11 +361,11 @@ user-select: none;
 
 
 
-.module-item:hover{
+#modules-and-layouts.module-item:hover{
    box-shadow:inset 0 0 6px #ddd;
 }
 
-.module-item span.mw_module_image, .module-item span.module_name, .module-item span.mw_module_hold{
+#modules-and-layouts .module-item span.mw_module_image, #modules-and-layouts.module-item span.module_name, #modules-and-layouts .module-item span.mw_module_hold{
   font-size: 11px;
   text-align:center;
   display: block;
@@ -375,25 +375,25 @@ user-select: none;
   max-width: 95px;
 }
 
-.list-elements .module-item span.module_name{
+#modules-and-layouts .list-elements .module-item span.module_name{
   display: none;
 }
 
-.list-elements .module-item img{
+#modules-and-layouts .list-elements .module-item img{
   margin-top: 16px;
 }
 
-.list-elements span.mw_module_hold,
-.list-elements span.mw_module_image{
+#modules-and-layouts .list-elements span.mw_module_hold,
+#modules-and-layouts .list-elements span.mw_module_image{
   height: 63px;
   padding: 0;
   min-width: 70px;
 }
-.list-elements .mw_module_image_shadow{
+#modules-and-layouts .list-elements .mw_module_image_shadow{
   height: 12px;
 }
 
-.module_name{
+#modules-and-layouts .module_name{
   white-space: nowrap;
   display: block;
   overflow: hidden;

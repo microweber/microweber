@@ -579,14 +579,7 @@ mw.wysiwyg = {
     fontFamily:function(font_name){
          mw.wysiwyg.execCommand('fontname', null, font_name);
     },
-    removeSimulations:function(node){
-      var node = node || mwd.body;
-      var a1 = node.querySelectorAll('.selection-simulation'), l1 = a1.length, i1 = 0;
-      for( ; i1<l1; i1++){
-        $(a1[i1]).removeClass("selection-simulation");
-      }
-      mw.wysiwyg.nestingFixes();
-    },
+
     nestingFixes:function(root){
         var root = root || mwd.body;
         var all = root.querySelectorAll('.mw-span-font-size'), l = all.length, i=0;
@@ -894,12 +887,6 @@ mw.wysiwyg = {
         mw.wysiwyg.selection.sel     = selection;
         mw.wysiwyg.selection.range   = range;
         mw.wysiwyg.selection.element = $(mw.wysiwyg.validateCommonAncestorContainer(range.commonAncestorContainer));
-        if(!!a){
-            mw.wysiwyg.selection.simulate = mw.wysiwyg.applier('span', 'selection-simulation');
-        }
-        else{
-          delete mw.wysiwyg.selection.simulate;
-        }
     },
     restore_selection:function(){
         if(!!mw.wysiwyg.selection){
@@ -907,10 +894,6 @@ mw.wysiwyg = {
             mw.wysiwyg.selection.element.focus();
             mw.wysiwyg.selection.sel.removeAllRanges();
             mw.wysiwyg.selection.sel.addRange(mw.wysiwyg.selection.range)
-            if(!!mw.wysiwyg.selection.simulate){
-                $(mw.wysiwyg.selection.simulate).removeClass('selection-simulation');
-                delete mw.wysiwyg.selection.simulate;
-            }
         }
     },
     select_all:function(el){
@@ -1165,7 +1148,6 @@ $(mwd).ready(function(){
   mw.$(".mw_dropdown_action_font_size").change(function(){
       var val = $(this).getDropdownValue();
       mw.wysiwyg.fontSize(val);
-      mw.wysiwyg.removeSimulations();
       mw.$('.mw_dropdown_val', this).append('px');
   });
   mw.$(".mw_dropdown_action_format").change(function(){

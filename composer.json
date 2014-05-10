@@ -18,6 +18,8 @@
         "components/rangy": "*",
 
         "components/bootstrap": "dev-master",
+        "components/bootstrap-default": "dev-master",
+
         "zeroclipboard/zeroclipboard": "dev-master",
 
 

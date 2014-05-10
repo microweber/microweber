@@ -657,5 +657,61 @@
             "paste",
             "zclip"
         ]
+    },
+    {
+        "name": "components/bootstrap-default",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/components/bootstrap-default.git",
+            "reference": "fc286c5194be8148ab9be170f52ac98ddb245c7f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "http://packages.microweber.com/dist/components-bootstrap-default-fc286c5194be8148ab9be170f52ac98ddb245c7f-zip-0dd3ea.zip",
+            "reference": "fc286c5194be8148ab9be170f52ac98ddb245c7f",
+            "shasum": "a0a2fd7e1d8c28198c0b61e929071573661f36c7"
+        },
+        "require": {
+            "components/bootstrap": "*",
+            "robloach/component-installer": "*"
+        },
+        "time": "2014-05-08 17:59:51",
+        "type": "component",
+        "extra": {
+            "component": {
+                "styles": [
+                    "css/bootstrap.css",
+                    "css/bootstrap-theme.css"
+                ],
+                "files": [
+                    "css/bootstrap.min.css",
+                    "css/bootstrap-theme.min.css",
+                    "fonts/*"
+                ],
+                "shim": {
+                    "deps": [
+                        "bootstrap"
+                    ]
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Twitter, Inc"
+            }
+        ],
+        "description": "Shim repository for the default theme for Bootstrap.",
+        "homepage": "http://getbootstrap.com",
+        "keywords": [
+            "bootstrap",
+            "css"
+        ]
     }
 ]

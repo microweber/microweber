@@ -377,7 +377,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   
   
   <?php // if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
-    <?php  if(isset($data['subtype']) and $data['subtype'] != 'dynamic'): ?>
+    <?php  if(isset($data['subtype']) and $data['subtype'] != 'notext'): ?>
  
   <div class="mw-ui-field-holder" id="mw-edit-page-editor-holder">
     <div id="quick_content_<?php print $rand ?>"></div>
@@ -466,6 +466,11 @@ mw.edit_content.load_editor  =  function(element_id){
 		params.subtype=subtype;
 		params.parent_page=parent_page;
 		params.inherit_template_from=parent_page;
+		 params.live_edit=true;
+		
+		 params.require='bootstrap';
+		
+		
 		if(active_site_template != undefined && active_site_template != ''){
 			params.preview_template=active_site_template
 		}
@@ -851,7 +856,26 @@ mw.save_inner_editable_fields = function(data){
 		 
        });
 	   
-	   
+	    if(mwd.querySelector('.mw-iframe-editor') !== null){
+    mwd.querySelector('.mw-iframe-editor').onload = function(){
+        $(window).bind('scroll', function(){
+       var scrolltop = $(window).scrollTop();
+       if(mwd.getElementById('mw-edit-page-editor-holder') !== null){
+           var otop = mwd.getElementById('mw-edit-page-editor-holder').offsetTop;
+           if( (scrolltop + 150) > otop){
+              var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
+              ewr.style.position = 'absolute';
+              ewr.style.top = $(window).scrollTop() - otop + 'px';
+           }
+           else{
+              var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
+              ewr.style.position = 'static';
+           }
+        }
+     });
+    }
+
+  } 
 	   
 	   var title_field_shanger = $('#content-title-field');
 	   if(title_field_shanger.length > 0){

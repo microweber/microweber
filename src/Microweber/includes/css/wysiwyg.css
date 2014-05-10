@@ -38,7 +38,7 @@
 #mw-admin-text-editor{
   width: 100%;
   min-height:35px;
-  background: #F5F5F5;
+  background: #fff;
 }
 
 .editor_wrapper:after{

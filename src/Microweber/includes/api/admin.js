@@ -205,6 +205,7 @@ mw.admin = {
               mw.$(".admin-manage-toolbar-scrolled").removeClass('fix-tabs');
             }
       }
+
     },
     CategoryTreeWidth:function(p){
           AdminCategoryTree =  mwd.querySelector('.tree-column');
@@ -241,6 +242,9 @@ mw.admin = {
 
 $(mwd).ready(function(){
    mw.admin.treeboxwidth();
+
+
+
 });
 
 $(mww).bind('load', function(){
@@ -255,6 +259,8 @@ $(mww).bind('load', function(){
     });
    mw.admin.createContentBtns();
    mw.admin.manageToolbarSet();
+
+
 
 });
 

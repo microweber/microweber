@@ -15,6 +15,38 @@
 <script>mw.require("url.js");</script>
 <script>mw.require("events.js");</script>
 <script>mw.require("wysiwyg.js");</script>
+
+
+  
+
+ 
+
+<?php if(isset($params['require']) and $params['require'] != false): ?>
+<?php $components = explode(',',$params['require']); ?>
+<?php if(!empty($components)): ?>
+ 
+<script>
+
+<?php $req_string = '';
+foreach($components as $component){
+	$component = trim($component);
+	$req_string .= '"'.$component.'",';
+}
+$req_string = trim($req_string,',');
+ ?>
+ 
+require([<?php print $req_string; ?>], function(app) {
+    
+});
+</script>
+<?php endif; ?>
+<?php endif; ?>
+
+ 
+
+
+ 
+
 <script>
 
 scaleHeight = function(){
@@ -26,15 +58,18 @@ scaleHeight = function(){
 }
 
 _test = function(){
-  scaleHeight = function(){};
-  mw.$("#mw-iframe-editor-area").height('auto');
-  parent.mw.$('iframe[name="'+window.name+'"]')[0].style.height =  $(document.body)[0].scrollHeight  + 'px';
-  mw.$("#mw-admin-text-editor").hide();
 
+  scaleHeight = function(){};
+  var par_frame = parent.mw.$('iframe[name="'+window.name+'"]')[0];
+  if(par_frame != undefined){
+    parent.mw.$('iframe[name="'+window.name+'"]')[0].style.height =  $(document.body)[0].scrollHeight  + 'px';
+    //mw.$("#mw-admin-text-editor").hide();
+  }
+  /*
   var sel = window.getSelection();
   var ed = mw.$('#mw-admin-text-editor');
-  
-  
+
+
   if(sel!= null && !sel.isCollapsed){
     var off = sel.getRangeAt(0).getBoundingClientRect();
     ed.width(335).show().css({position:'absolute', top:off.top - ed.height() - 7, left:off.left,border:'1px solid #ccc','boxShadow':'none'});
@@ -42,7 +77,7 @@ _test = function(){
   else{
      //ed.show().width('100%').css({position:'fixed', top:0, left:0,border:'','boxShadow':''});
      ed.hide();
-  }
+  }  */
 }
 
 PrepareEditor = function(){
@@ -121,27 +156,20 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
 
 
 $(window).load(function(){
-  var master = mwd.getElementById('the_admin_editor');
-  master.addEventListener("DOMAttrModified", function(e){
-      var attr = e.attrName;
-      if(attr == 'style'){
-        parent.mw.$("#" + window.name).css({
-          height:$(master).height() + 4
-        });
-      }
-  }, false);
-
-
-
-
       $(mwd.body).bind('mousedown', function(e){
         parent.mw.$(".mw-ui-category-selector").hide();
       });
 
 
-      mw.$("#mw-iframe-editor-area").bind("keyup", function(){
+      mw.$("#mw-iframe-editor-area").bind("keyup", function(e){
         parent.mw.$('#'+window.name).trigger("editorKeyup");
         $(mwd.body).addClass('editorKeyup');
+        if(e.ctrlKey){
+            if(e.keyCode === 65){
+                mw.wysiwyg.select_all(this);
+                return false;
+            }
+        }
       });
       mw.$("#mw-iframe-editor-area").bind("mousedown", function(e){
         if(mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')){
@@ -149,7 +177,7 @@ $(window).load(function(){
         }
       });
 
-      mw.drag.plus.init();
+      mw.drag.plus.init('#mw-iframe-editor-area');
 
 });
 
@@ -173,6 +201,11 @@ delete_module = function(inner_node){
 .mw-admin-editor #mw-iframe-editor-area{
   line-height: 1.85;
   padding: 15px 0;
+  min-height: 200px;
+}
+
+.mw-admin-editor #mw-iframe-editor-area:empty{
+  background-color: #efecec;
 }
 
 
@@ -186,6 +219,18 @@ delete_module = function(inner_node){
 
 .mw-admin-editor{
     background: none;
+}
+#mw-admin-text-editor{
+  opacity:0;
+  -webkit-transition: opacity 0.3s;
+  -moz-transition: opacity 0.3s;
+  -ms-transition: opacity 0.3s;
+  -o-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+#mw-admin-text-editor.show-editor{
+  opacity:1;
 }
 
 .mw-wysiwyg-module-helper{
@@ -210,9 +255,32 @@ img{
 
 
 </style>
-<script>
 
-mw.require("plus.js");
+<?php if(isset($params['live_edit'])){ ?>
+<link href="<?php print(MW_INCLUDES_URL); ?>api/api.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print(MW_INCLUDES_URL); ?>css/mw_framework.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print(MW_INCLUDES_URL); ?>css/toolbar.css" rel="stylesheet" type="text/css"/>
+<script>
+  mw.require("liveedit.js");
+  mw.require("plus.js");
+</script>
+
+<?php } ?>
+
+<script>
+window.onblur = function(){
+    var ed = document.getElementById('mw-admin-text-editor');
+    if(ed !== null){
+        mw.tools.removeClass(ed, 'show-editor');
+    }
+}
+window.onfocus = function(){
+    var ed = document.getElementById('mw-admin-text-editor');
+    if(ed !== null){
+        mw.tools.addClass(ed, 'show-editor');
+    }
+}
 
 </script>
 </head>
@@ -226,14 +294,14 @@ mw.require("plus.js");
 
 <div class="mw-admin-editor" id="the_admin_editor">
  <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
-  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus">{content}</div>
+  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus" contenteditable="true">{content}</div>
 </div>
 
 <?php mw_var('plain_modules', false); ?>
 
 <span class="mw-plus-top">+</span>
 <span class="mw-plus-bottom">+</span>
-<div style="display: none" id="modules-list">
+<div style="display: none" id="plus-modules-list">
     <module type="admin/modules/list"/ class="modules-list-init">
 </div>
 

@@ -130,10 +130,6 @@ body.mw-live-edit {
     cursor: move;
     box-shadow: 1px 0 1px #212121;
     opacity: 0.66;
-    -webkit-border-top-left-radius: 10px;
-    -webkit-border-bottom-left-radius: 10px;
-    -moz-border-radius-topleft: 10px;
-    -moz-border-radius-bottomleft: 10px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     width: 32px;
@@ -380,7 +376,6 @@ li.module-item.ui-draggable-dragging *:after {
 li.module-item.ui-draggable-dragging {
 
     border-radius: 1px;
-    box-shadow: 0 0 2px #7A7A7A;
     box-shadow: 0 0 6px -4px #111;
     background: white;
     padding: 5px !important;

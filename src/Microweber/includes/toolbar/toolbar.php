@@ -551,12 +551,12 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 mw.require("plus.js");
 
 $(window).load(function(){
-    mw.drag.plus.init();
+    mw.drag.plus.init('.edit');
 });
 
 </script>
 <span class="mw-plus-top">+</span>
 <span class="mw-plus-bottom">+</span>
-<div style="display: none" id="modules-list">
+<div style="display: none" id="plus-modules-list">
     <module type="admin/modules/list"/ class="modules-list-init">
 </div>
