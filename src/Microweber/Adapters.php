@@ -34,7 +34,7 @@ class Adapters
 
         if (!isset($this->app->container)) {
             $container = new Pimple;
-        } else {
+         } else {
             $container = $this->app->container;
 
         }
@@ -112,9 +112,9 @@ class Adapters
         ///get_config
         if (!empty($this->config_items)) {
             foreach ($this->config_items as $k => $v) {
-
-                $this->container[$k] = function ($c) use ($v) {
-                    return new $v();
+                $app = $this->app;
+                $this->container[$k] = function ($c) use ($v,$app) {
+                    return new $v($app);
                 };
             }
         }

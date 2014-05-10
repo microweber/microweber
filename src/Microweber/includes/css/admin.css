@@ -782,21 +782,29 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   background: white;
   padding: 30px;
   overflow: auto;
+  width: 100%;
+  height: 100%;
 }
 #pages_edit_container:-moz-full-screen {
   background: white;
   padding: 30px;
   overflow: auto;
+    width: 100%;
+  height: 100%;
 }
 #pages_edit_container:-ms-fullscreen{
   background: white;
   padding: 30px;
   overflow: auto;
+    width: 100%;
+  height: 100%;
 }
 #pages_edit_container:fullscreen{
   background: white;
   padding: 30px;
   overflow: auto;
+    width: 100%;
+  height: 100%;
 }
 
 
@@ -814,6 +822,13 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 #pages_edit_container:-moz-full-screen #quick-add-post-options.fixed{ position: static; }
 #pages_edit_container:-ms-fullscreen #quick-add-post-options.fixed{ position: static; }
 #pages_edit_container:fullscreen #quick-add-post-options.fixed{ position: static; }
+
+#pages_edit_container:-webkit-full-screen .admin-manage-toolbar-content{ height: auto !important; }
+#pages_edit_container:-moz-full-screen .admin-manage-toolbar-content{ height: auto !important; }
+#pages_edit_container:-ms-fullscreen .admin-manage-toolbar-content{ height: auto !important; }
+#pages_edit_container:fullscreen .admin-manage-toolbar-content{ height: auto !important; }
+
+
 /* Content title */
 
 #content-title-field-row{

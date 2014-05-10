@@ -2024,10 +2024,6 @@ var components = {
             "main": "bootstrap-built.js"
         },
         {
-            "name": "bootstrap3",
-            "main": "bootstrap3-built.js"
-        },
-        {
             "name": "jquery",
             "main": "jquery-built.js"
         },
@@ -2042,16 +2038,6 @@ var components = {
     ],
     "shim": {
         "bootstrap": {
-            "deps": [
-                "jquery"
-            ]
-        },
-        "bootstrap-default": {
-            "deps": [
-                "bootstrap"
-            ]
-        },
-        "bootstrap3": {
             "deps": [
                 "jquery"
             ]

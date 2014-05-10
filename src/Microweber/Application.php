@@ -42,6 +42,7 @@ if (!defined('MW_VERSION')) {
  */
 
 /**
+ * @property \Microweber\Adapters $adapters
  * @property \Microweber\Url $url
  * @property \Microweber\Content $content
  * @property \Microweber\Category $category

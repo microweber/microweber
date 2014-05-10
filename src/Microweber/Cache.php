@@ -39,8 +39,9 @@ class Cache
         }
         if (!is_object($this->adapter)) {
             if (!isset($this->app->adapters->container['cache'])) {
-                $this->app->adapters->container['cache'] = function ($c) {
-                    return new Adapters\Cache\Files();
+                $app = $this->app;
+                $this->app->adapters->container['cache'] = function ($c) use ($app) {
+                     return new Adapters\Cache\Files($app);
                 };
             }
             $this->adapter = $this->app->adapters->container['cache'];
