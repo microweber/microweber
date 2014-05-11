@@ -120,32 +120,8 @@ class Adapters
         }
     }
 
-    public function a__get($property)
-    {
-
-        $adapters = $this->get_config();
-        if (is_array($adapters) and !empty($adapters)) {
-            if (isset($adapters[$property]) and $adapters[$property] != false) {
-                if (!isset($this->$property)) {
-                    $prop = $adapters[$property];
-                    try {
-                        $this->$property = new $prop($this->app);
-
-                    } catch (Exception $e) {
-
-                    }
-
-                }
 
 
-            }
-        }
-    }
-
-    public function a__set($property, $val)
-    {
-        $this->$property = $val;
-    }
 
     public function save_config($params)
     {

@@ -862,10 +862,12 @@ mw.save_inner_editable_fields = function(data){
        var scrolltop = $(window).scrollTop();
        if(mwd.getElementById('mw-edit-page-editor-holder') !== null){
            var otop = mwd.getElementById('mw-edit-page-editor-holder').offsetTop;
-           if( (scrolltop + 150) > otop){
+           if( (scrolltop + 100) > otop){
               var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
               ewr.style.position = 'absolute';
-              ewr.style.top = $(window).scrollTop() - otop + 'px';
+              ewr.style.top = scrolltop + otop + 'px';
+              ewr.style.top = scrolltop - otop /*+ mwd.querySelector('.admin-manage-toolbar').offsetTop*/ + mwd.querySelector('.admin-manage-toolbar').offsetHeight - 100  + 'px';
+
            }
            else{
               var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
@@ -875,7 +877,7 @@ mw.save_inner_editable_fields = function(data){
      });
     }
 
-  } 
+  }
 	   
 	   var title_field_shanger = $('#content-title-field');
 	   if(title_field_shanger.length > 0){

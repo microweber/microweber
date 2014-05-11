@@ -152,17 +152,17 @@ class Mysql
                 $db_link = $this->db_links[$link_hash];
             }
         }
-
+        $is_mysql = false;
+        $is_mysqli = false;
         $failed_query = false;
         if (defined('\PDO::MYSQL_ATTR_LOCAL_INFILE')) {
             $is_pdo = true;
         } else {
             $is_pdo = false;
+            $is_mysqli = function_exists('mysqli_connect');
+            $is_mysql = function_exists('mysql_connect');
         }
-        $is_mysqli = function_exists('mysqli_connect');
-        $is_mysql = function_exists('mysql_connect');
-
-
+        
         if (!isset($db['pass'])) {
             $db['pass'] = '';
         }
@@ -180,10 +180,8 @@ class Mysql
 
 
         if ($is_pdo != false) {
-
             if ($db_link == false or $db_link == NULL) {
                 try {
-                    //  $db_link = new \PDO('mysql:host=' . $db['host'] . ';port=' . $port_num . ';dbname=' . $db['dbname']. ';charset=utf8', $db['user'], $db['pass']);
                     $db_link = new \PDO('mysql:host=' . $db['host'] . ';port=' . $port_num . ';dbname=' . $db['dbname'], $db['user'], $db['pass']);
 
                 } catch (\PDOException $e) {
@@ -197,33 +195,29 @@ class Mysql
             $sth->execute();
             $nwq = array();
             $arr = $sth->fetchAll(\PDO::FETCH_ASSOC);
-
             if (is_array($arr)) {
                 foreach ($arr as $row) {
-
                     $nwq[] = $row;
                 }
                 $q = $nwq;
             }
 
-
         } elseif ($is_mysqli != false) {
             if ($db_link == false or $db_link == NULL) {
                 if (isset($db['pass']) and $db['pass'] != '') {
                     if (isset($port_num) and $port_num != false) {
-                        $db_link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname'], $port_num);
+                        $db_link = new \mysqli($db['host'], $db['user'], $db['pass'], $db['dbname'], $port_num);
                     } else {
-                        $db_link = new mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
+                        $db_link = new \mysqli($db['host'], $db['user'], $db['pass'], $db['dbname']);
                     }
                 } else {
                     if (isset($port_num) and $port_num != false) {
-                        $db_link = new mysqli($db['host'], $db['user'], false, $db['dbname'], $port_num);
+                        $db_link = new \mysqli($db['host'], $db['user'], false, $db['dbname'], $port_num);
                     } else {
-                        $db_link = new mysqli($db['host'], $db['user'], false, $db['dbname']);
+                        $db_link = new \mysqli($db['host'], $db['user'], false, $db['dbname']);
                     }
                 }
             }
-
             if (mysqli_connect_errno()) {
                 $error['error'][] = ("Connect failed: " . mysqli_connect_error());
                 return $error;
@@ -248,9 +242,9 @@ class Mysql
 
             if ($db_link == false or $db_link == NULL) {
                 if (isset($db['pass']) and $db['pass'] != '') {
-                    $db_link = mysql_connect($db['host'], $db['user'], $db['pass']);
+                    $db_link = \mysql_connect($db['host'], $db['user'], $db['pass']);
                 } else {
-                    $db_link = mysql_connect($db['host'], $db['user']);
+                    $db_link = \mysql_connect($db['host'], $db['user']);
                 }
                 if (mysql_select_db($db['dbname']) == false) {
                     $error['error'][] = 'Could not select database ' . $db['dbname'];
@@ -258,14 +252,14 @@ class Mysql
                 }
             }
             if ($db_link == false) {
-                $error['error'][] = 'Could not connect: ' . mysql_error();
+                $error['error'][] = 'Could not connect: ' . \mysql_error();
                 return $error;
             }
 
             $query = $q;
-            $result = mysql_query($query);
+            $result = \mysql_query($query);
             if (!$result) {
-                $err = mysql_error();
+                $err = \mysql_error();
                 $failed_query = $err;
             }
             $nwq = array();
@@ -280,7 +274,7 @@ class Mysql
                 }
                 if (!empty($result)) {
 
-                    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                    while ($row = \mysql_fetch_array($result, MYSQL_ASSOC)) {
 
                         $nwq[] = $row;
                     }
@@ -290,14 +284,14 @@ class Mysql
 
             }
             if (is_array($result)) {
-                mysql_free_result($result);
+                \mysql_free_result($result);
             }
 
         } else {
             print 'Fatal error: Database connection function is not found';
             print "\n \PDO: " . var_dump($is_pdo);
             print "\n mysqli_connect: " . var_dump($is_mysqli);
-            print "\n mysql_connect: " . var_dump($is_mysql);
+            print "\n \mysql_connect: " . var_dump($is_mysql);
             print("\n Please install at least one of those functions");
             die();
         }

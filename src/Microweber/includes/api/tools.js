@@ -168,8 +168,9 @@ mw.tools = {
     },
     setPosition:function(tooltip, el, position){
         var time = time || 0;
-        var el =  mw.$(el),
-            w = el.outerWidth(),
+        var el =  mw.$(el);
+        if(el.length === 0){return false;}
+        var w = el.outerWidth(),
             tipwidth = $(tooltip).width(),
             h = el.outerHeight(),
             tipheight = $(tooltip).height(),
@@ -255,8 +256,9 @@ mw.tools = {
         var arr = mw.$('.mw-tooltip-arrow', tooltip);
         arr.css('left', '');
         var arr_left =  parseFloat(arr.css('left'));
-        var tt = $(tooltip),
-            w = tt.width(),
+        var tt = $(tooltip);
+        if(tt.length === 0){return false;}
+        var w = tt.width(),
             off = tt.offset(),
             ww = $(window).width();
         if((off.left + w) > (ww - max)){

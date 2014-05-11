@@ -2759,14 +2759,16 @@ if(typeof mw.hasDraft === 'object'){
 
      $(window).bind("mousemove", function(e){
        var isCollapsed = window.get
-       if(!mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")){
+       if(!!mw.smallEditor && !mw.isDrag && !mw.smallEditorCanceled && !mw.smallEditor.hasClass("editor_hover")){
          var off = mw.smallEditor.offset();
-         if(((e.pageX - mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY-mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX+mw.smallEditorOff) < (off.left)) || ((e.pageY+mw.smallEditorOff) < (off.top))){
-             mw.smallEditor.css("visibility", "hidden");
-             mw.smallEditorCanceled = true;
-         }
-         else{
-             //mw.smallEditor.css("visibility", "visible");
+         if(typeof off !== 'undefined'){
+             if(((e.pageX - mw.smallEditorOff) > (off.left + mw.smallEditor.width())) || ((e.pageY-mw.smallEditorOff) > (off.top + mw.smallEditor.height())) || ((e.pageX+mw.smallEditorOff) < (off.left)) || ((e.pageY+mw.smallEditorOff) < (off.top))){
+                 mw.smallEditor.css("visibility", "hidden");
+                 mw.smallEditorCanceled = true;
+             }
+             else{
+                 //mw.smallEditor.css("visibility", "visible");
+             }
          }
        }
     });

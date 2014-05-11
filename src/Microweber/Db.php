@@ -205,12 +205,25 @@ class Db
             $sql = "CREATE TABLE " . $table_name . " (
 			id int(11) NOT NULL auto_increment,
 			PRIMARY KEY (id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 
             ";
-            // moving to InnoDB
-            // if you want you can set ENGINE=MyISAM ;
+            // We use MyISAM engine for now, but it may happen we move to InnoDB, please advice!
+            // want to InnoDB? then set ENGINE=InnoDB
+            //
+            // http://stackoverflow.com/questions/10377334/the-storage-engine-for-the-table-doesnt-support-repair-innodb-or-myisam
+            // http://dba.stackexchange.com/questions/17431/which-is-faster-innodb-or-myisam
+            //
+            // Some comparison
+            // + MyISAM is used because supports full text search
+            // - MyISAM doesn't  not support transactions
+            //
+            // + InnoDB supports transactions
+            // - InnoDB doesn't support automated table repair
+            //
+
+
             $this->q($sql);
 
         }
