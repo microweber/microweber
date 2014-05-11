@@ -1,6 +1,6 @@
 <?php
 namespace Microweber\Adapters\Database;
-     
+
 
 class Mysql
 {
@@ -48,7 +48,6 @@ class Mysql
         }
 
         $this->setup();
-
 
 
         // $this->set_connection();
@@ -126,8 +125,8 @@ class Mysql
      * @example
      *  <code>
      *  //make plain query to the db
-     * $table = $this->table_prefix.'content';
-     *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
+     *  $table = 'my_full_table_name';
+     *  $sql = "SELECT id FROM $table WHERE id=1   ORDER BY id DESC LIMIT 0,1 ";
      *  $q = $this->query($sql);
      *
      * </code>
@@ -139,7 +138,7 @@ class Mysql
     public function query($q, $connection_settings = false)
     {
 
-
+        $return = false;
         $db_link = $this->db_link;
         if ($connection_settings == false and is_array($connection_settings) and isset($connection_settings['host'])) {
             $db = $connection_settings;
@@ -162,7 +161,7 @@ class Mysql
             $is_mysqli = function_exists('mysqli_connect');
             $is_mysql = function_exists('mysql_connect');
         }
-        
+
         if (!isset($db['pass'])) {
             $db['pass'] = '';
         }
@@ -193,13 +192,13 @@ class Mysql
             //  $db_link->exec("set names utf8");
             $sth = $db_link->prepare($q);
             $sth->execute();
-            $nwq = array();
+            $results_to_return = array();
             $arr = $sth->fetchAll(\PDO::FETCH_ASSOC);
             if (is_array($arr)) {
                 foreach ($arr as $row) {
-                    $nwq[] = $row;
+                    $results_to_return[] = $row;
                 }
-                $q = $nwq;
+                $return = $results_to_return;
             }
 
         } elseif ($is_mysqli != false) {
@@ -223,13 +222,13 @@ class Mysql
                 return $error;
             }
             if ($result = $db_link->query($q)) {
-                $nwq = array();
+                $results_to_return = array();
                 if (is_object($result)) {
                     while ($row = $result->fetch_assoc()) {
-                        $nwq[] = $row;
+                        $results_to_return[] = $row;
                     }
                     $result->free();
-                    $q = $nwq;
+                    $return = $results_to_return;
                 } else {
                     $q = $result;
                 }
@@ -262,7 +261,7 @@ class Mysql
                 $err = \mysql_error();
                 $failed_query = $err;
             }
-            $nwq = array();
+            $results_to_return = array();
 
             if (!$result) {
                 $error['error'][] = 'Can\'t connect to the database';
@@ -276,9 +275,9 @@ class Mysql
 
                     while ($row = \mysql_fetch_array($result, MYSQL_ASSOC)) {
 
-                        $nwq[] = $row;
+                        $results_to_return[] = $row;
                     }
-                    $q = $nwq;
+                    $return = $results_to_return;
 
                 }
 
@@ -289,13 +288,15 @@ class Mysql
 
         } else {
             print 'Fatal error: Database connection function is not found';
-            print "\n \PDO: " . var_dump($is_pdo);
+            print "\n PDO: " . var_dump($is_pdo);
             print "\n mysqli_connect: " . var_dump($is_mysqli);
-            print "\n \mysql_connect: " . var_dump($is_mysql);
+            print "\n mysql_connect: " . var_dump($is_mysql);
             print("\n Please install at least one of those functions");
             die();
         }
-
+        if (is_bool($return) or $return == false) {
+            return $return;
+        }
 
         if ($failed_query != false) {
             $error = array();
@@ -306,7 +307,10 @@ class Mysql
         if ($connection_settings != false) {
             $this->db_links[$link_hash] = $this->db_link;
         }
-        return $q;
+        return $return;
 
     }
+
+
+
 }
