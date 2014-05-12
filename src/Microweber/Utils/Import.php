@@ -831,7 +831,7 @@ class Import
                             $new_k = strtolower($head[$k]);
                             $new_k = str_replace(' ', '_', $new_k);
                             $new_k = str_replace('__', '_', $new_k);
-                            $new_k = preg_replace("/[^a-zA-Z0-9_]+/", "", $new_k);
+                          // $new_k = preg_replace("/[^a-zA-Z0-9_]+/", "", $new_k);
                             $new_k = rtrim($new_k, '_');
                             $r[$new_k] = $v;
                         }
