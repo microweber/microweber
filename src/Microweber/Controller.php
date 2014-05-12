@@ -27,7 +27,7 @@ if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
     $_POST    = stripslashes_magic_quotes_gpc($_POST);
     $_COOKIE  = stripslashes_magic_quotes_gpc($_COOKIE);
     $_REQUEST = stripslashes_magic_quotes_gpc($_REQUEST);
-} 
+}
 
 
 
