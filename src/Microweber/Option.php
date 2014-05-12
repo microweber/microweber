@@ -10,6 +10,7 @@ class Option
     public $options_memory = array(); //internal array to hold options in cache 
     public $tables = array();
     public $table_prefix = false;
+    public $adapters_dir = false;
 
     public function __construct($app = null)
     {
@@ -20,7 +21,7 @@ class Option
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw('application');
+                $this->app = Application::getInstance();
             }
 
         }
@@ -650,6 +651,89 @@ class Option
         } else {
             mw_var('static_option_disabled_' . $option_group, true);
         }
+
+    }
+
+
+
+    public function get_adapters($provider)
+    {
+        $adapters_dir = false;
+        if ($this->adapters_dir != false and is_string($this->adapters_dir)) {
+            $adapters_dir = $this->adapters_dir;
+        }
+
+        if ($adapters_dir == false) {
+            if (!defined('MW_ADAPTERS_DIR') and defined('MW_APP_PATH')) {
+                define('MW_ADAPTERS_DIR', MW_APP_PATH . 'Adapters' . DS);
+            }
+            if (!defined('MW_ADAPTERS_DIR')) {
+                return;
+            }
+            $adapters_dir = MW_ADAPTERS_DIR;
+        }
+
+        if ($adapters_dir == false) {
+            return;
+        }
+        $adapters_dir = str_replace('..', '', $adapters_dir);
+        $provider = str_replace('..', '', $provider);
+        $provider = str_replace(' ', '_', $provider);
+
+        $providers_dir = normalize_path($adapters_dir . DS . $provider, true);
+        if (!is_dir($providers_dir)) {
+            $providers_dir = normalize_path($adapters_dir . DS . ucfirst($provider), true);
+            if (!is_dir($providers_dir)) {
+                $providers_dir = normalize_path($adapters_dir . DS . strtolower($provider), true);
+            }
+        }
+        if (!is_dir($providers_dir)) {
+            return;
+        }
+
+        $files = glob("$providers_dir{*.php,*.PHP}", GLOB_BRACE);
+
+
+        $providers = array();
+        if (!empty($files)) {
+            foreach ($files as $file) {
+
+                if (stripos($file, '.php', 1)) {
+                    $mtime = filemtime($file);
+                    // Get time and date from filename
+                    $date = date("F d Y", $mtime);
+                    $time = date("H:i:s", $mtime);
+                    // Remove the sql extension part in the filename
+                    //	$filenameboth = str_replace('.sql', '', $file);
+                    $bak = array();
+                    $basename = basename($file);
+                    $basename = str_ireplace('.php', '', $basename);
+                    $bak['title'] = $basename;
+
+                    $adapter = str_replace(MW_APP_PATH, '', $file);
+                    $adapter = str_ireplace('.php', '', $adapter);
+                    $adapter = str_ireplace('/', '\\', $adapter);
+
+                    $bak['adapter'] = $adapter;
+                    $title = str_ireplace('.php', '', $basename);
+                    $title = str_ireplace('-', ' ', $title);
+                    $title = str_ireplace('_', ' ', $title);
+
+                    $bak['title'] = $title;
+
+                    $bak['date'] = $date;
+                    $bak['time'] = str_replace('_', ':', $time);
+
+                    $bak['size'] = filesize($file);
+
+                    $providers[] = $bak;
+                }
+
+            }
+            return $providers;
+
+        }
+
 
     }
 

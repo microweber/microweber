@@ -24,7 +24,7 @@ class Module
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw('application');
+                $this->app = Application::getInstance();
             }
 
         }
@@ -1120,7 +1120,7 @@ class Module
             $glob_patern = 'config.php';
         }
 
-        //$this->app->cache->flush();
+        //$this->app->cache->clear();
         //clearstatcache();
         $dir_name_mods = MW_MODULES_DIR;
         $modules_remove_old = false;

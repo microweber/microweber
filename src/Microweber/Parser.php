@@ -21,7 +21,7 @@ class Parser
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw('application');
+                $this->app = Application::getInstance();
             }
         }
 
@@ -363,18 +363,39 @@ class Parser
                                 $mod_content = $this->app->module->load($module_name, $attrs);
                                 $plain_modules = mw_var('plain_modules');
 
-                                //if($module_name != 'pictures'){
                                 if ($plain_modules != false) {
-                                    $module_db_data = $this->app->module->get('one=1&ui=any&module=' . $module_name);
-                                    $mod_content = '';
-                                    if (is_array($module_db_data)) {
-                                        if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
-                                        } else {
-                                            $mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
-                                        }
+                                    if (!defined('MW_PLAIN_MODULES')) {
+                                        define('MW_PLAIN_MODULES', true);
                                     }
-
                                 }
+
+
+//                                if ($plain_modules != false) {
+//                                    if ($module_name != 'pictures') {
+//                                        $module_db_data = $this->app->module->get('one=1&ui=any&module=' . $module_name);
+//                                        $mod_content = '';
+//                                        if (is_array($module_db_data)) {
+//                                            if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
+//                                            } else {
+//                                                $mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
+//                                            }
+//                                        }
+//                                    }
+//                                }
+
+//if($module_name != 'pictures'){
+                                $plain_modules = false;
+//                                if ($plain_modules != false) {
+//                                    $module_db_data = $this->app->module->get('one=1&ui=any&module=' . $module_name);
+//                                    $mod_content = '';
+//                                    if (is_array($module_db_data)) {
+//                                        if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
+//                                        } else {
+//                                            $mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
+//                                        }
+//                                    }
+//
+//                                }
                                 //}
 
                                 preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $mod_content, $modinner);
@@ -470,7 +491,7 @@ class Parser
             if ($no_cache == false) {
                 $cache = $this->app->cache->get($parser_mem_crc, 'content_fields/global/parser');
                 if ($cache != false) {
-                    // return $cache;
+                    //    return $cache;
                 }
 
             }

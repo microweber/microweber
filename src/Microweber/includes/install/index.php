@@ -135,7 +135,7 @@ if (isset($to_save['is_installed'])) {
         //var_dump( $cfg);
 
         /*  file_put_contents($cfg, $save_config);
-         mw('cache')->flush();
+         mw('cache')->clear();
          clearstatcache();
          sleep(2);*/
 
@@ -220,7 +220,7 @@ if (isset($to_save['is_installed'])) {
 
                 __mw_install_log('Clearing cache');
 
-                mw('cache')->flush();
+                mw('cache')->clear();
 
                 $save_config = $save_config_orig;
                 $to_save['is_installed'] = 'no';
@@ -314,7 +314,7 @@ if (isset($to_save['is_installed'])) {
                 clearstatcache();
 
 
-                mw('cache')->flush();
+                mw('cache')->clear();
                 // _reload_c();
 
                 $local_config = mw('application')->loadConfigFromFile($cfg, true);
@@ -459,7 +459,7 @@ if (isset($to_save['is_installed'])) {
 
                 __mw_install_log('Clearing cache after install');
 
-                mw('cache')->flush();
+                mw('cache')->clear();
 
                 // mw('content')->create_default_content('install');
                 if ($auto_install != false) {

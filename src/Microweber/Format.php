@@ -15,7 +15,7 @@ class Format
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw('application');
+                $this->app = Application::getInstance();
             }
 
         }
@@ -656,6 +656,16 @@ class Format
         );
 
         return unserialize($serialized);
+    }
+
+
+    function is_base64($data)
+    {
+        $decoded = base64_decode($data, true);
+        if (false === $decoded || base64_encode($decoded) != $data) {
+            return false;
+        }
+        return true;
     }
 
 }

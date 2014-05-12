@@ -20,7 +20,7 @@ class Update
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw('application');
+                $this->app = Application::getInstance();
             }
 
         }
@@ -319,7 +319,7 @@ class Update
 
         $this->post_update();
         //$this->app->cache->delete('update/global');
-        //$this->app->cache->flush();
+        //$this->app->cache->clear();
         return $unzipped;
     }
 
