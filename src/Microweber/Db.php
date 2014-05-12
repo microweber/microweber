@@ -4,7 +4,6 @@
 namespace Microweber;
 
 
-
 if (!defined('MW_USER_IP')) {
     if (isset($_SERVER["REMOTE_ADDR"])) {
         define("MW_USER_IP", $_SERVER["REMOTE_ADDR"]);
@@ -29,6 +28,12 @@ class Db
     public $connection_settings = array();
     public $db_link; //holds the connected db object
     public $table_prefix = false;
+    /**
+     * An instance of the db adapter to use
+     *
+     * @var $adapter
+     */
+    public $adapter;
     private $mw_escaped_strings = array();
     private $table_fields = array();
     private $results_map = array();
@@ -41,14 +46,18 @@ class Db
             } else {
                 $this->app = Application::getInstance();
             }
+
         }
 
 
-        $this->table_prefix = $this->app->config('table_prefix');
-
-
-        if ($this->table_prefix == false and defined("MW_TABLE_PREFIX")) {
-            $this->table_prefix = MW_TABLE_PREFIX;
+        if (!is_object($this->adapter)) {
+            if (!isset($this->app->adapters->container['database'])) {
+                $app = $this->app;
+                $this->app->adapters->container['database'] = function ($c) use (&$app) {
+                    return new Adapters\Database\Mysql($app);
+                };
+            }
+            $this->adapter = $this->app->adapters->container['database'];
         }
 
 
@@ -196,12 +205,25 @@ class Db
             $sql = "CREATE TABLE " . $table_name . " (
 			id int(11) NOT NULL auto_increment,
 			PRIMARY KEY (id)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+            ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 
 
             ";
-            // moving to InnoDB
-            // if you want you can set ENGINE=MyISAM ;
+            // We use MyISAM engine for now, but it may happen we move to InnoDB, please advice!
+            // want to InnoDB? then set ENGINE=InnoDB
+            //
+            // http://stackoverflow.com/questions/10377334/the-storage-engine-for-the-table-doesnt-support-repair-innodb-or-myisam
+            // http://dba.stackexchange.com/questions/17431/which-is-faster-innodb-or-myisam
+            //
+            // Some comparison
+            // + MyISAM is used because supports full text search
+            // - MyISAM doesn't  not support transactions
+            //
+            // + InnoDB supports transactions
+            // - InnoDB doesn't support automated table repair
+            //
+
+
             $this->q($sql);
 
         }
@@ -699,63 +721,6 @@ class Db
         }
 
         return $for;
-    }
-
-    public function assoc_table_name($assoc_name)
-    {
-
-        global $_mw_assoc_table_names;
-
-        if (isset($_mw_assoc_table_names[$assoc_name])) {
-
-            return $_mw_assoc_table_names[$assoc_name];
-        }
-
-
-        $assoc_name_o = $assoc_name;
-        $assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
-        $assoc_name = str_ireplace('table_', '', $assoc_name);
-        $assoc_name = str_replace($this->table_prefix, '', $assoc_name);
-
-        $is_assoc = substr($assoc_name, 0, 5);
-        if ($is_assoc != 'table_') {
-            //	$assoc_name = 'table_' . $assoc_name;
-        }
-
-
-        $assoc_name = str_replace('table_table_', 'table_', $assoc_name);
-        //	d($is_assoc);
-        $_mw_assoc_table_names[$assoc_name_o] = $assoc_name;
-        return $assoc_name;
-    }
-
-    public function real_table_name($assoc_name)
-    {
-
-        $assoc_name_new = $assoc_name;
-
-
-        if ($this->table_prefix == false) {
-            $this->table_prefix = $this->app->config('table_prefix');
-        }
-
-
-        if ($this->table_prefix != false) {
-            $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
-        } else if (defined('MW_TABLE_PREFIX')) {
-            $assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name_new);
-        }
-
-        $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
-        $assoc_name_new = str_ireplace($this->table_prefix . $this->table_prefix, $this->table_prefix, $assoc_name_new);
-
-        if ($this->table_prefix and $this->table_prefix != '' and stristr($assoc_name_new, $this->table_prefix) == false) {
-            $assoc_name_new = $this->table_prefix . $assoc_name_new;
-        } else if ($this->table_prefix == false and defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
-            $assoc_name_new = MW_TABLE_PREFIX . $assoc_name_new;
-        }
-
-        return $assoc_name_new;
     }
 
     /**
@@ -1265,8 +1230,8 @@ class Db
             }
             $original_cache_id = $cache_id;
 
-          //     $cache_content = $this->app->cache->get($original_cache_id, $original_cache_group);
-           // d($cache_content);
+            //     $cache_content = $this->app->cache->get($original_cache_id, $original_cache_group);
+            // d($cache_content);
             $cache_content = false;
             if (($cache_content) != false) {
                 if ($cache_content == '---empty---') {
@@ -1480,25 +1445,25 @@ class Db
                             case in_array($v, $to_search_in_those_fields) :
                                 //  $where_q .= " $v REGEXP '$to_search' " . $where_post;
 
-                           // $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
-                              //  $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
-                            $lower_func = 'strtolower';
-                            if(function_exists('mb_strtolower')){
-                                $lower_func = 'mb_strtolower';
-                            }
+                                // $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
+                                //  $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
+                                $lower_func = 'strtolower';
+                                if (function_exists('mb_strtolower')) {
+                                    $lower_func = 'mb_strtolower';
+                                }
 
 
-                            $upper_func = 'strtolower';
-                            $to_search_uc3 = ucfirst($to_search);
-                            if(function_exists('mb_convert_case')){
-                                $to_search_uc3 = mb_convert_case($to_search, MB_CASE_TITLE, 'UTF-8');
+                                $upper_func = 'strtolower';
+                                $to_search_uc3 = ucfirst($to_search);
+                                if (function_exists('mb_convert_case')) {
+                                    $to_search_uc3 = mb_convert_case($to_search, MB_CASE_TITLE, 'UTF-8');
 
-                            }
-                            $to_search_uc = ucfirst($to_search);
-                            $to_search_uc2 = strtoupper($to_search);
+                                }
+                                $to_search_uc = ucfirst($to_search);
+                                $to_search_uc2 = strtoupper($to_search);
 
 
-                            $where_q .= " (  $table.$v REGEXP '$to_search'
+                                $where_q .= " (  $table.$v REGEXP '$to_search'
                              OR
                              $table.$v REGEXP '$to_search_uc3'
                              OR
@@ -1506,11 +1471,6 @@ class Db
 
 
                              ) " . $where_post;
-
-
-
-
-
 
 
 //                            $where_q .= " (  $table.$v REGEXP '$to_search'
@@ -1522,27 +1482,24 @@ class Db
 //
 //                             ) " . $where_post;
 
-                        //    $where_q .= " $table.$v COLLATE utf8_general_ci REGEXP '$to_search' " . $where_post;
+                                //    $where_q .= " $table.$v COLLATE utf8_general_ci REGEXP '$to_search' " . $where_post;
 
 
-                           // $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
+                                // $where_q .= "  $table.$v REGEXP '$to_search' " . $where_post;
 
-                           // $where_q .= "  $table.$v REGEXP '^[$to_search]' " . $where_post;
-
-
+                                // $where_q .= "  $table.$v REGEXP '^[$to_search]' " . $where_post;
 
 
-                           // $where_q .= "  $table.$v REGEXP '^($to_search)*$' " . $where_post;
- //$debug = 1;
-                            // $where_q .= "  $table.$v REGEXP '^($to_search)' " . $where_post;
-                            //$original_cache_group = false;
+                                // $where_q .= "  $table.$v REGEXP '^($to_search)*$' " . $where_post;
+                                //$debug = 1;
+                                // $where_q .= "  $table.$v REGEXP '^($to_search)' " . $where_post;
+                                //$original_cache_group = false;
 
                                 // $where_q .= " $v LIKE '%$to_search%' " . $where_post;
                                 break;
                             case 'id' :
                                 $to_search1 = intval($to_search);
                                 //$where_q .= " $v='$to_search1' " . $where_post;
-
 
 
                                 $where_q .= " $table.$v='$to_search1' " . $where_post;
@@ -1898,7 +1855,7 @@ class Db
         $return = array();
 
         if (!empty($result)) {
-             $result = $this->app->url->replace_site_url_back($result);
+            $result = $this->app->url->replace_site_url_back($result);
             $return = $result;
 
         }
@@ -1908,50 +1865,6 @@ class Db
         }
 
         return $return;
-    }
-
-    /**
-     * Escapes a string from sql injection
-     *
-     * @param string|array $value to escape
-     * @return string|array Escaped string
-     * @return mixed Es
-     * @example
-     * <code>
-     * //escape sql string
-     *  $results = $this->escape_string($_POST['email']);
-     * </code>
-     *
-     *
-     *
-     * @package Database
-     * @subpackage Advanced
-     */
-    public function escape_string($value)
-    {
-
-        if (is_array($value)) {
-            foreach ($value as $k => $v) {
-                $value[$k] = $this->escape_string($v);
-            }
-            return $value;
-        } else {
-
-
-            if (!is_string($value)) {
-                return $value;
-            }
-            $str_crc = 'esc' . crc32($value);
-            if (isset($this->mw_escaped_strings[$str_crc])) {
-                return $this->mw_escaped_strings[$str_crc];
-            }
-
-            $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
-            $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
-            $new = str_replace($search, $replace, $value);
-            $this->mw_escaped_strings[$str_crc] = $new;
-            return $new;
-        }
     }
 
     private function _value_query_sign($v)
@@ -2085,38 +1998,7 @@ class Db
 
     }
 
-    /**
-     * Executes plain query in the database.
-     *
-     * You can use this function to make queries in the db by writing your own sql
-     * The results are returned as array or `false` if nothing is found
-     *
-     *
-     * @note Please ensure your variables are escaped before calling this function.
-     * @package Database
-     * @function $this->query
-     * @desc Executes plain query in the database.
-     *
-     * @param string $q Your SQL query
-     * @param string|bool $cache_id It will save the query result in the cache. Set to false to disable
-     * @param string|bool $cache_group Stores the result in certain cache group. Set to false to disable
-     * @param bool $only_query If set to true, will perform only a query without returning a result
-     * @param array|bool $connection_settings
-     * @return array|bool|mixed
-     *
-     * @example
-     *  <code>
-     *  //make plain query to the db
-     * $table = $this->table_prefix.'content';
-     *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
-     *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
-     *
-     * </code>
-     *
-     *
-     *
-     */
-    public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settings = false)
+    public function old_query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settings = false)
     {
         if (trim($q) == '') {
             return false;
@@ -2214,234 +2096,126 @@ class Db
     }
 
     /**
-     * Keep a database query log
+     * Copy entire database row
      *
-     * @param string $q If its string it will add query to the log, its its bool true it will return the log entries as array;
+     * @param string $table Your table
+     * @param int|string $id The id to copy
+     * @param string $field_name You can set custom column to copy by it, default is id
      *
-     * @return array
+     *
+     * @return bool|int
      * @example
      * <code>
-     * //add query to the db log
-     * $this->query_log("select * from my_table");
-     *
-     * //get the query log
-     * $queries = $this->query_log(true);
-     * var_dump($queries );
+     * //copy content with id 5
+     *  \mw('db')->copy_row_by_id('content', $id=5);
      * </code>
+     *
      * @package Database
      * @subpackage Advanced
-     */
-    public function query_log($q)
-    {
-        static $index = array();
-        if (is_bool($q)) {
-            $index = array_unique($index);
-            return $index;
-        } else {
-
-            $index[] = $q;
-
-        }
-    }
-
-    /**
-     * Returns an array that contains only keys that has the same names as the table fields from the database
      *
-     * @param string
-     * @param  array
-     * @return array
-     * @package Database
-     * @subpackage Advanced
-     * @example
-     * <code>
-     * $table = $this->table_prefix.'content';
-     * $data = array();
-     * $data['id'] = 1;
-     * $data['non_ex'] = 'i do not exist and will be removed';
-     * $criteria = $this->map_array_to_table($table, $array);
-     * var_dump($criteria);
-     * </code>
      */
-    public function map_array_to_table($table, $array)
+    public function copy_row_by_id($table, $id = 0, $field_name = 'id')
     {
 
-
-        $arr_key = crc32($table) + crc32(serialize($array));
-        if (isset($this->table_fields[$arr_key])) {
-            return $this->table_fields[$arr_key];
-        }
-
-        if (empty($array)) {
-
-            return false;
-        }
-        // $table = $this->real_table_name($table);
-
-        if (isset($this->table_fields[$table])) {
-            $fields = $this->table_fields[$table];
-        } else {
-            $fields = $this->get_fields($table);
-            $this->table_fields[$table] = $fields;
-        }
-        if (is_array($fields)) {
-            foreach ($fields as $field) {
-
-                $field = strtolower($field);
-
-                //if (array_key_exists($field, $array)) {
-                if (isset($array[$field])) {
-                    if ($array[$field] != false) {
-
-                        // print ' ' . $field. ' <br>';
-                        $array_to_return[$field] = $array[$field];
-                    }
-
-                    if ($array[$field] == 0) {
-
-                        $array_to_return[$field] = $array[$field];
-                    }
-                }
+        $q = $this->get_by_id($table, $id, $field_name);
+        if (isset($q[$field_name])) {
+            $data = $q;
+            if (isset($data[$field_name])) {
+                unset($data[$field_name]);
             }
+
+            $s = $this->save($table, $data);
+            return $s;
         }
-        if (!isset($array_to_return)) {
-            return false;
-        } else {
-            $this->table_fields[$arr_key] = $array_to_return;
-        }
-        return $array_to_return;
+
     }
 
     /**
-     * Gets all field names from a DB table
+     * Get table row by id
      *
-     * @param $table string
-     *            - table name
-     * @param $exclude_fields array
-     *            - fields to exclude
-     * @return array
-     * @author Peter Ivanov
-     * @version 1.0
-     * @since Version 1.0
+     * It returns full db row from a db table
+     *
+     * @param string $table Your table
+     * @param int|string $id The id to get
+     * @param string $field_name You can set custom column to get by it, default is id
+     *
+     * @return array|bool|mixed
+     * @example
+     * <code>
+     * //get content with id 5
+     * $cont = $this->get_by_id('content', $id=5);
+     * </code>
+     *
+     * @package Database
+     * @subpackage Advanced
      */
-
-    public function get_fields($table, $exclude_fields = false)
+    public function get_by_id($table, $id = 0, $field_name = 'id')
     {
-
-        global $ex_fields_static;
-        if (isset($ex_fields_static[$table])) {
-            return $ex_fields_static[$table];
-
-        }
-        $cache_group = 'db/fields';
-        $db_get_table_fields = array();
-        if (!$table) {
-
-            return false;
-        }
-        if (!$table) {
-
+        $id = intval($id);
+        if ($id == 0) {
             return false;
         }
 
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        if ($field_name == false) {
+            $field_name = "id";
         }
-        $table = $this->escape_string($table);
-        $function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
-
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-            $ex_fields_static[$table] = $cache_content;
-            return $cache_content;
-        }
-
         $table = $this->real_table_name($table);
-        $table = $this->escape_string($table);
+        $field_name = $this->escape_string($field_name);
 
+        $q = "SELECT * FROM $table WHERE {$field_name}='$id' LIMIT 1";
 
-            $sql = " show columns from $table ";
-
-        $query = $this->query($sql);
-
-        $fields = $query;
-
-
-        $exisiting_fields = array();
-        if ($fields == false or $fields == NULL) {
-            $ex_fields_static[$table] = false;
+        $q = $this->query($q);
+        if (isset($q[0])) {
+            $q = $q[0];
+        }
+        if (count($q) > 0) {
+            return $q;
+        } else {
             return false;
         }
-
-        if (!is_array($fields)) {
-
-            return false;
-        }
-        foreach ($fields as $fivesdraft) {
-            if ($fivesdraft != NULL and is_array($fivesdraft)) {
-                $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
-                if (isset($fivesdraft['name'])) {
-                    $fivesdraft['field'] = $fivesdraft['name'];
-                    $exisiting_fields[strtolower($fivesdraft['field'])] = true;
-                } else {
-                    if (isset($fivesdraft['field'])) {
-
-                        $exisiting_fields[strtolower($fivesdraft['field'])] = true;
-                    }
-                }
-            }
-        }
-
-
-        $fields = array();
-
-        foreach ($exisiting_fields as $k => $v) {
-
-            if (!empty($exclude_fields)) {
-
-                if (in_array($k, $exclude_fields) == false) {
-
-                    $fields[] = $k;
-                }
-            } else {
-
-                $fields[] = $k;
-            }
-        }
-        $ex_fields_static[$table] = $fields;
-        $this->app->cache->save($fields, $function_cache_id, $cache_group);
-        return $fields;
     }
 
-    public function addslashes_array($arr)
+    /**
+     * Escapes a string from sql injection
+     *
+     * @param string|array $value to escape
+     * @return string|array Escaped string
+     * @return mixed Es
+     * @example
+     * <code>
+     * //escape sql string
+     *  $results = $this->escape_string($_POST['email']);
+     * </code>
+     *
+     *
+     *
+     * @package Database
+     * @subpackage Advanced
+     */
+    public function escape_string($value)
     {
-        if (!empty($arr)) {
-            $ret = array();
 
-            foreach ($arr as $k => $v) {
-                if (is_array($v)) {
-                    $v = $this->addslashes_array($v);
-                } else {
-                    if ($k == 'id') {
-                        $v = intval($v);
-                    } else {
-                        $v = addslashes($v);
-                        // $v = htmlentities($v, ENT_QUOTES, "UTF-8");
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $value[$k] = $this->escape_string($v);
+            }
+            return $value;
+        } else {
 
-                        // $v = htmlspecialchars($v);
-                    }
 
-                }
-
-                $ret[$k] = ($v);
+            if (!is_string($value)) {
+                return $value;
+            }
+            $str_crc = 'esc' . crc32($value);
+            if (isset($this->mw_escaped_strings[$str_crc])) {
+                return $this->mw_escaped_strings[$str_crc];
             }
 
-            return $ret;
+            $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
+            $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
+            $new = str_replace($search, $replace, $value);
+            $this->mw_escaped_strings[$str_crc] = $new;
+            return $new;
         }
     }
 
@@ -2772,71 +2546,205 @@ class Db
         return intval($result['the_id']);
     }
 
-    function clean_input($input)
+    /**
+     * Returns an array that contains only keys that has the same names as the table fields from the database
+     *
+     * @param string
+     * @param  array
+     * @return array
+     * @package Database
+     * @subpackage Advanced
+     * @example
+     * <code>
+     * $table = $this->table_prefix.'content';
+     * $data = array();
+     * $data['id'] = 1;
+     * $data['non_ex'] = 'i do not exist and will be removed';
+     * $criteria = $this->map_array_to_table($table, $array);
+     * var_dump($criteria);
+     * </code>
+     */
+    public function map_array_to_table($table, $array)
     {
 
 
-        if (is_array($input)) {
-            $output = array();
-            foreach ($input as $var => $val) {
-                $output[$var] = $this->clean_input($val);
-            }
-        } elseif (is_string($input)) {
-            $search = array(
-                '@<script[^>]*?>.*?</script>@si', // Strip out javascript
-
-                '@<![\s\S]*?--[ \t\n\r]*>@' // Strip multi-line comments
-            );
-
-            $output = preg_replace($search, '', $input);
-        } else {
-            return $input;
+        $arr_key = crc32($table) + crc32(serialize($array));
+        if (isset($this->table_fields[$arr_key])) {
+            return $this->table_fields[$arr_key];
         }
 
+        if (empty($array)) {
 
-        return $output;
+            return false;
+        }
+        // $table = $this->real_table_name($table);
+
+        if (isset($this->table_fields[$table])) {
+            $fields = $this->table_fields[$table];
+        } else {
+            $fields = $this->get_fields($table);
+            $this->table_fields[$table] = $fields;
+        }
+        if (is_array($fields)) {
+            foreach ($fields as $field) {
+
+                $field = strtolower($field);
+
+                //if (array_key_exists($field, $array)) {
+                if (isset($array[$field])) {
+                    if ($array[$field] != false) {
+
+                        // print ' ' . $field. ' <br>';
+                        $array_to_return[$field] = $array[$field];
+                    }
+
+                    if ($array[$field] == 0) {
+
+                        $array_to_return[$field] = $array[$field];
+                    }
+                }
+            }
+        }
+        if (!isset($array_to_return)) {
+            return false;
+        } else {
+            $this->table_fields[$arr_key] = $array_to_return;
+        }
+        return $array_to_return;
     }
 
     /**
-     * Performs a query without returning a result
+     * Gets all field names from a DB table
      *
-     * Useful if you want to preform table updates or deletes without the need to see the result
-     *
-     *
-     * @param string $q Your SQL query
-     * @param bool|array $connection_settings
-     * @return array|bool|mixed
-     * @package Database
-     * @uses $this->query
-     *
-     *
-     * @example
-     *  <code>
-     *  //make plain query to the db.
-     *    $table = $this->table_prefix.'content';
-     *  $sql = "update $table set title='new' WHERE id=1 ";
-     *  $q = $this->q($sql);
-     * </code>
-     *
+     * @param $table string
+     *            - table name
+     * @param $exclude_fields array
+     *            - fields to exclude
+     * @return array
+     * @author Peter Ivanov
+     * @version 1.0
+     * @since Version 1.0
      */
-    public function q($q, $connection_settings = false)
+
+    public function get_fields($table, $exclude_fields = false)
     {
 
+        global $ex_fields_static;
+        if (isset($ex_fields_static[$table])) {
+            return $ex_fields_static[$table];
 
-        if ($connection_settings == false) {
-            if (!empty($this->connection_settings)) {
-                $db = $this->connection_settings;
-            } else {
-                $db = $this->app->config('db');
+        }
+        $cache_group = 'db/fields';
+        $db_get_table_fields = array();
+        if (!$table) {
+
+            return false;
+        }
+        if (!$table) {
+
+            return false;
+        }
+
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+        $table = $this->escape_string($table);
+        $function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
+
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+            $ex_fields_static[$table] = $cache_content;
+            return $cache_content;
+        }
+
+        $table = $this->real_table_name($table);
+        $table = $this->escape_string($table);
+
+
+        $sql = " show columns from $table ";
+
+        $query = $this->query($sql);
+
+        $fields = $query;
+
+
+        $exisiting_fields = array();
+        if ($fields == false or $fields == NULL) {
+            $ex_fields_static[$table] = false;
+            return false;
+        }
+
+        if (!is_array($fields)) {
+
+            return false;
+        }
+        foreach ($fields as $fivesdraft) {
+            if ($fivesdraft != NULL and is_array($fivesdraft)) {
+                $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
+                if (isset($fivesdraft['name'])) {
+                    $fivesdraft['field'] = $fivesdraft['name'];
+                    $exisiting_fields[strtolower($fivesdraft['field'])] = true;
+                } else {
+                    if (isset($fivesdraft['field'])) {
+
+                        $exisiting_fields[strtolower($fivesdraft['field'])] = true;
+                    }
+                }
             }
-        } else {
-            $db = $connection_settings;
         }
 
 
-        $q = $this->query($q, $cache_id = false, $cache_group = false, $only_query = true, $db);
+        $fields = array();
 
-        return $q;
+        foreach ($exisiting_fields as $k => $v) {
+
+            if (!empty($exclude_fields)) {
+
+                if (in_array($k, $exclude_fields) == false) {
+
+                    $fields[] = $k;
+                }
+            } else {
+
+                $fields[] = $k;
+            }
+        }
+        $ex_fields_static[$table] = $fields;
+        $this->app->cache->save($fields, $function_cache_id, $cache_group);
+        return $fields;
+    }
+
+    public function addslashes_array($arr)
+    {
+        if (!empty($arr)) {
+            $ret = array();
+
+            foreach ($arr as $k => $v) {
+                if (is_array($v)) {
+                    $v = $this->addslashes_array($v);
+                } else {
+                    if ($k == 'id') {
+                        $v = intval($v);
+                    } else {
+                        $v = addslashes($v);
+                        // $v = htmlentities($v, ENT_QUOTES, "UTF-8");
+
+                        // $v = htmlspecialchars($v);
+                    }
+
+                }
+
+                $ret[$k] = ($v);
+            }
+
+            return $ret;
+        }
     }
 
     public function save_extended_data($original_data)
@@ -3109,42 +3017,42 @@ class Db
                             $cftype = 'default_content';
                             $cftype = 'content';
                             $cftitle = false;
-                            if(is_string($cf_k) and strtolower(trim($cf_k)) == 'price'){
+                            if (is_string($cf_k) and strtolower(trim($cf_k)) == 'price') {
                                 $cftype = $custom_field_to_save['type'] = 'price';
                             }
 
-                            if(is_string($cf_k) and strtolower(trim($cf_k)) != ''){
+                            if (is_string($cf_k) and strtolower(trim($cf_k)) != '') {
                                 $make_as_array = false;
-                                if(stristr($cf_k, '[radio]') !== FALSE) {
-                                    $cf_k = str_ireplace('[radio]','',$cf_k);
+                                if (stristr($cf_k, '[radio]') !== FALSE) {
+                                    $cf_k = str_ireplace('[radio]', '', $cf_k);
                                     $cftype = 'radio';
                                     $make_as_array = 1;
                                 }
-                                if(stristr($cf_k, '[dropdown]') !== FALSE) {
-                                    $cf_k = str_ireplace('[dropdown]','',$cf_k);
+                                if (stristr($cf_k, '[dropdown]') !== FALSE) {
+                                    $cf_k = str_ireplace('[dropdown]', '', $cf_k);
                                     $cftype = 'dropdown';
                                     $make_as_array = 1;
                                 }
-                                if(stristr($cf_k, '[select]') !== FALSE) {
-                                    $cf_k = str_ireplace('[select]','',$cf_k);
+                                if (stristr($cf_k, '[select]') !== FALSE) {
+                                    $cf_k = str_ireplace('[select]', '', $cf_k);
                                     $cftype = 'dropdown';
                                     $make_as_array = 1;
                                 }
-                                if(stristr($cf_k, '[checkbox]') !== FALSE) {
-                                    $cf_k = str_ireplace('[checkbox]','',$cf_k);
+                                if (stristr($cf_k, '[checkbox]') !== FALSE) {
+                                    $cf_k = str_ireplace('[checkbox]', '', $cf_k);
                                     $cftype = 'checkbox';
                                     $make_as_array = 1;
                                 }
 
-                                if($make_as_array != false){
-                                    if(is_string($cf_v)){
-                                        $cf_v = explode(',',$cf_v);
+                                if ($make_as_array != false) {
+                                    if (is_string($cf_v)) {
+                                        $cf_v = explode(',', $cf_v);
                                     }
                                 }
                             }
 
                             $custom_field_to_save['custom_field_name'] = $cf_k;
-                             if (is_array($cf_v)) {
+                            if (is_array($cf_v)) {
                                 $cf_k_plain = $this->app->url->slug($cf_k);
                                 $cf_k_plain = $this->escape_string($cf_k_plain);
                                 $cf_k_plain = str_replace('-', '_', $cf_k_plain);
@@ -3153,22 +3061,22 @@ class Db
                                 if (isset($custom_field_to_save['values'])) {
                                     $val_to_serilize = $custom_field_to_save['values'];
                                 }
-                                if($cftype == 'content'){
-                                if (isset($custom_field_to_save['type'])) {
-                                    $cftype = $custom_field_to_save['type'];
-                                } elseif (isset($cf_v['type'])) {
-                                    $cftype = $custom_field_to_save['type'] = $cf_v['type'];
-                                }
+                                if ($cftype == 'content') {
+                                    if (isset($custom_field_to_save['type'])) {
+                                        $cftype = $custom_field_to_save['type'];
+                                    } elseif (isset($cf_v['type'])) {
+                                        $cftype = $custom_field_to_save['type'] = $cf_v['type'];
+                                    }
                                 }
 
-                                 if (isset($custom_field_to_save['title'])) {
+                                if (isset($custom_field_to_save['title'])) {
                                     $cftitle = $custom_field_to_save['title'];
-                                }elseif (isset($cf_v['title'])) {
+                                } elseif (isset($cf_v['title'])) {
                                     $cftitle = $custom_field_to_save['title'] = $cf_v['title'];
                                 }
                                 if (isset($custom_field_to_save['name'])) {
                                     $cftitle = $custom_field_to_save['name'];
-                                }elseif (isset($cf_v['name'])) {
+                                } elseif (isset($cf_v['name'])) {
                                     $cftitle = $custom_field_to_save['name'] = $cf_v['name'];
                                 }
 
@@ -3182,23 +3090,23 @@ class Db
                                 $temp = array_values($val_to_serilize);
                                 $temp = array_pop($temp);
                                 $custom_field_to_save['custom_field_values_plain'] = $this->escape_string($temp);
-                                if(is_array($custom_field_to_save['custom_field_values_plain'])){
-                                    $custom_field_to_save['custom_field_values_plain'] = implode(',',$custom_field_to_save['custom_field_values_plain']);
+                                if (is_array($custom_field_to_save['custom_field_values_plain'])) {
+                                    $custom_field_to_save['custom_field_values_plain'] = implode(',', $custom_field_to_save['custom_field_values_plain']);
                                 }
 
                                 $cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
-                               // d($custom_field_to_save['custom_field_values_plain']);
+                                // d($custom_field_to_save['custom_field_values_plain']);
                                 $cfvq .= "custom_field_values_plain =\"" . $custom_field_to_save['custom_field_values_plain'] . "\",";
                                 $cfvq .= "custom_field_name_plain =\"" . $cf_k_plain . "\",";
 
 
                                 if ($cftype == 'price' and isset($cf_v['value']) and is_array($cf_v['value'])) {
 
-                                    $custom_field_to_save['custom_field_value'] = array_pop( $cf_v['value']);
+                                    $custom_field_to_save['custom_field_value'] = array_pop($cf_v['value']);
                                 } elseif ($cftype == 'price' and isset($cf_v['value']) and is_string($cf_v['value'])) {
 
-                                    $custom_field_to_save['custom_field_value'] = trim( $cf_v['value']);
-                                }else {
+                                    $custom_field_to_save['custom_field_value'] = trim($cf_v['value']);
+                                } else {
                                     $custom_field_to_save['custom_field_value'] = 'Array';
 
                                 }
@@ -3278,86 +3186,6 @@ class Db
 
     }
 
-    /**
-     * Copy entire database row
-     *
-     * @param string $table Your table
-     * @param int|string $id The id to copy
-     * @param string $field_name You can set custom column to copy by it, default is id
-     *
-     *
-     * @return bool|int
-     * @example
-     * <code>
-     * //copy content with id 5
-     *  \mw('db')->copy_row_by_id('content', $id=5);
-     * </code>
-     *
-     * @package Database
-     * @subpackage Advanced
-     *
-     */
-    public function copy_row_by_id($table, $id = 0, $field_name = 'id')
-    {
-
-        $q = $this->get_by_id($table, $id, $field_name);
-        if (isset($q[$field_name])) {
-            $data = $q;
-            if (isset($data[$field_name])) {
-                unset($data[$field_name]);
-            }
-
-            $s = $this->save($table, $data);
-            return $s;
-        }
-
-    }
-
-    /**
-     * Get table row by id
-     *
-     * It returns full db row from a db table
-     *
-     * @param string $table Your table
-     * @param int|string $id The id to get
-     * @param string $field_name You can set custom column to get by it, default is id
-     *
-     * @return array|bool|mixed
-     * @example
-     * <code>
-     * //get content with id 5
-     * $cont = $this->get_by_id('content', $id=5);
-     * </code>
-     *
-     * @package Database
-     * @subpackage Advanced
-     */
-    public function get_by_id($table, $id = 0, $field_name = 'id')
-    {
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
-        }
-
-        if ($field_name == false) {
-            $field_name = "id";
-        }
-        $table = $this->real_table_name($table);
-        $field_name = $this->escape_string($field_name);
-
-        $q = "SELECT * FROM $table WHERE {$field_name}='$id' LIMIT 1";
-
-        $q = $this->query($q);
-        if (isset($q[0])) {
-            $q = $q[0];
-        }
-        if (count($q) > 0) {
-            return $q;
-        } else {
-            return false;
-        }
-    }
-
     public function update_position_field($table, $data = array())
     {
         $table_real = $this->real_table_name($table);
@@ -3376,6 +3204,265 @@ class Db
         $cache_group = $this->assoc_table_name($table);
 
         $this->app->cache->delete($cache_group);
+    }
+
+    public function real_table_name($assoc_name)
+    {
+
+        $assoc_name_new = $assoc_name;
+
+
+        if ($this->table_prefix == false) {
+            $this->table_prefix = $this->app->config('table_prefix');
+        }
+
+
+        if ($this->table_prefix != false) {
+            $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
+        } else if (defined('MW_TABLE_PREFIX')) {
+            $assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name_new);
+        }
+
+        $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
+        $assoc_name_new = str_ireplace($this->table_prefix . $this->table_prefix, $this->table_prefix, $assoc_name_new);
+
+        if ($this->table_prefix and $this->table_prefix != '' and stristr($assoc_name_new, $this->table_prefix) == false) {
+            $assoc_name_new = $this->table_prefix . $assoc_name_new;
+        } else if ($this->table_prefix == false and defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
+            $assoc_name_new = MW_TABLE_PREFIX . $assoc_name_new;
+        }
+
+        return $assoc_name_new;
+    }
+
+    /**
+     * Performs a query without returning a result
+     *
+     * Useful if you want to preform table updates or deletes without the need to see the result
+     *
+     *
+     * @param string $q Your SQL query
+     * @param bool|array $connection_settings
+     * @return array|bool|mixed
+     * @package Database
+     * @uses $this->query
+     *
+     *
+     * @example
+     *  <code>
+     *  //make plain query to the db.
+     *    $table = $this->table_prefix.'content';
+     *  $sql = "update $table set title='new' WHERE id=1 ";
+     *  $q = $this->q($sql);
+     * </code>
+     *
+     */
+    public function q($q, $connection_settings = false)
+    {
+
+
+        if ($connection_settings == false) {
+            if (!empty($this->connection_settings)) {
+                $db = $this->connection_settings;
+            } else {
+                $db = $this->app->config('db');
+            }
+        } else {
+            $db = $connection_settings;
+        }
+
+
+        $q = $this->query($q, $cache_id = false, $cache_group = false, $only_query = true, $db);
+
+        return $q;
+    }
+
+    /**
+     * Executes plain query in the database.
+     *
+     * You can use this function to make queries in the db by writing your own sql
+     * The results are returned as array or `false` if nothing is found
+     *
+     *
+     * @note Please ensure your variables are escaped before calling this function.
+     * @package Database
+     * @function $this->query
+     * @desc Executes plain query in the database.
+     *
+     * @param string $q Your SQL query
+     * @param string|bool $cache_id It will save the query result in the cache. Set to false to disable
+     * @param string|bool $cache_group Stores the result in certain cache group. Set to false to disable
+     * @param bool $only_query If set to true, will perform only a query without returning a result
+     * @param array|bool $connection_settings
+     * @return array|bool|mixed
+     *
+     * @example
+     *  <code>
+     *  //make plain query to the db
+     * $table = $this->table_prefix.'content';
+     *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
+     *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
+     *
+     * </code>
+     *
+     *
+     *
+     */
+    public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settings = false)
+    {
+        if (trim($q) == '') {
+            return false;
+        }
+
+
+        $error['error'] = array();
+        $results = false;
+
+        if ($cache_id != false and $cache_group != false) {
+
+            $cache_id = $cache_id . crc32($q);
+            $results = $this->app->cache->get($cache_id, $cache_group);
+            if ($results != false) {
+                if ($results == '---empty---' or (is_array($results) and empty($results))) {
+                    return false;
+                } else {
+                    return $results;
+                }
+            }
+        }
+
+
+        if (!defined("MW_DB_ADAPTER_DIR")) {
+            $adapter_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR;
+            define("MW_DB_ADAPTER_DIR", $adapter_dir);
+        }
+
+
+        $this->query_log($q);
+        if ($connection_settings != false and is_array($connection_settings) and !empty($connection_settings)) {
+            $db = $connection_settings;
+        } elseif (!empty($this->connection_settings)) {
+            $db = $this->connection_settings;
+        } else {
+            $db = $this->app->config('db');
+        }
+
+
+        $temp_db = mw_var('temp_db');
+        if ((!isset($db) or $db == false or $db == NULL) and $temp_db != false) {
+            $db = $temp_db;
+        }
+
+        // if we didnt set the connection settings will try to get them from global constants
+        if (!isset($db) or $db == false or $db == NULL) {
+            $db = array();
+            if (defined("DB_HOST")) {
+                $db['host'] = DB_HOST;
+            }
+            if (defined("DB_USER")) {
+                $db['user'] = DB_USER;
+            }
+            if (defined("DB_PASS")) {
+                $db['pass'] = DB_PASS;
+            }
+            if (defined("DB_NAME")) {
+                $db['dbname'] = DB_NAME;
+            }
+        }
+
+
+        if (!isset($db) or $db == false or $db == NULL or empty($db)) {
+            return false;
+        }
+
+        $q = $this->adapter->query($q, $db);
+        //   require (MW_DB_ADAPTER_DIR . 'mysql.php');
+
+
+        if ($only_query != false) {
+            return true;
+        }
+
+        if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
+            if ($cache_id != false) {
+
+                $this->app->cache->save('---empty---', $cache_id, $cache_group);
+            }
+            return false;
+        }
+        if ($only_query == false) {
+            if ($cache_id != false and $cache_group != false) {
+                if (is_array($q) and !empty($q)) {
+                    $this->app->cache->save($q, $cache_id, $cache_group);
+                } else {
+                    $this->app->cache->save('---empty---', $cache_id, $cache_group);
+                }
+            }
+        }
+        if ($cache_id != false) {
+            $this->app->cache->save($q, $cache_id, $cache_group);
+        }
+        return $q;
+
+    }
+
+    /**
+     * Keep a database query log
+     *
+     * @param string $q If its string it will add query to the log, its its bool true it will return the log entries as array;
+     *
+     * @return array
+     * @example
+     * <code>
+     * //add query to the db log
+     * $this->query_log("select * from my_table");
+     *
+     * //get the query log
+     * $queries = $this->query_log(true);
+     * var_dump($queries );
+     * </code>
+     * @package Database
+     * @subpackage Advanced
+     */
+    public function query_log($q)
+    {
+        static $index = array();
+        if (is_bool($q)) {
+            $index = array_unique($index);
+            return $index;
+        } else {
+
+            $index[] = $q;
+
+        }
+    }
+
+    public function assoc_table_name($assoc_name)
+    {
+
+        global $_mw_assoc_table_names;
+
+        if (isset($_mw_assoc_table_names[$assoc_name])) {
+
+            return $_mw_assoc_table_names[$assoc_name];
+        }
+
+
+        $assoc_name_o = $assoc_name;
+        $assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
+        $assoc_name = str_ireplace('table_', '', $assoc_name);
+        $assoc_name = str_replace($this->table_prefix, '', $assoc_name);
+
+        $is_assoc = substr($assoc_name, 0, 5);
+        if ($is_assoc != 'table_') {
+            //	$assoc_name = 'table_' . $assoc_name;
+        }
+
+
+        $assoc_name = str_replace('table_table_', 'table_', $assoc_name);
+        //	d($is_assoc);
+        $_mw_assoc_table_names[$assoc_name_o] = $assoc_name;
+        return $assoc_name;
     }
 
     /**
@@ -3417,11 +3504,6 @@ class Db
 
     }
 
-
-    //
-// remove_remarks will strip the sql comment lines out of an uploaded sql file
-//
-
     /**
      * Set table's engine
      *
@@ -3435,6 +3517,11 @@ class Db
     {
         $this->q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
     }
+
+
+    //
+// remove_remarks will strip the sql comment lines out of an uploaded sql file
+//
 
     /**
      * Create foreign key if not exists
@@ -3479,12 +3566,6 @@ class Db
 
     }
 
-
-//
-// split_sql_file will split an uploaded sql file into single sql statements.
-// Note: expects trim() to have already been run on $sql.
-//
-
     public function get_tables()
     {
 //        $db = c('db');
@@ -3500,7 +3581,6 @@ class Db
         $db = $db['dbname'];
 
         $q = $this->query("SHOW TABLES FROM $db", __FUNCTION__, 'db');
-
 
 
         if (isset($q['error'])) {
@@ -3522,6 +3602,12 @@ class Db
             return $ret;
         }
     }
+
+
+//
+// split_sql_file will split an uploaded sql file into single sql statements.
+// Note: expects trim() to have already been run on $sql.
+//
 
     public function import_sql_file($full_path_to_file)
     {
@@ -3715,6 +3801,31 @@ class Db
             }
 
         }
+        return $output;
+    }
+
+    function clean_input($input)
+    {
+
+
+        if (is_array($input)) {
+            $output = array();
+            foreach ($input as $var => $val) {
+                $output[$var] = $this->clean_input($val);
+            }
+        } elseif (is_string($input)) {
+            $search = array(
+                '@<script[^>]*?>.*?</script>@si', // Strip out javascript
+
+                '@<![\s\S]*?--[ \t\n\r]*>@' // Strip multi-line comments
+            );
+
+            $output = preg_replace($search, '', $input);
+        } else {
+            return $input;
+        }
+
+
         return $output;
     }
 

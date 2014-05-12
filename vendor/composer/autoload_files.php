@@ -7,6 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     $vendorDir . '/kriswallsmith/assetic/src/functions.php',
-    $vendorDir . '/guzzlehttp/streams/src/functions.php',
-    $vendorDir . '/guzzlehttp/guzzle/src/functions.php',
 );

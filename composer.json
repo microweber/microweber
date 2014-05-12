@@ -12,19 +12,19 @@
 
     "require": {
         "php": ">=5.3.2",
-
+        "microweber/installers": "1.0.*@dev",
         "components/jquery": "1.9.*",
         "components/jqueryui": "*",
         "components/rangy": "*",
 
-        "components/bootstrap3": "dev-master",
-        "components/bootstrap-default": "dev-master",
         "components/bootstrap": "dev-master",
+        "components/bootstrap-default": "dev-master",
+
         "zeroclipboard/zeroclipboard": "dev-master",
 
 
         "pimple/pimple": "*",
-        "guzzlehttp/guzzle": "~4.0",
+
         "prewk/xml-streamer": "dev-master",
         "keboola/csv": "dev-master"
 

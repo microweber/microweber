@@ -2172,9 +2172,17 @@ class Controller
 
         header("Content-type: text/javascript");
         $this->app->content->define_constants($ref_page);
+        $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js.php');
 
 
-        $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
+//        if(strstr(site_url(),'localhost')){
+//            $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js.php');
+//
+//        } else {
+//            $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
+//
+//        }
+
         $l = $l->__toString();
 
 
@@ -2277,7 +2285,7 @@ class Controller
                 include_once($load_template_functions);
             }
         }
-
+$params = $_REQUEST;
         $tool = str_replace('..', '', $tool);
 
         $p_index = MW_INCLUDES_DIR . 'toolbar/editor_tools/index.php';
@@ -2287,14 +2295,14 @@ class Controller
         $p = normalize_path($p, false);
 
         $l = new $this->app->view($p_index);
-
+        $l->params = $params;
         $layout = $l->__toString();
         // var_dump($l);
 
         if (isset($_REQUEST['plain'])) {
             if (is_file($p)) {
                 $p = new $this->app->view($p);
-
+                $p->params = $params;
                 $layout = $p->__toString();
                 print $layout;
                 exit();
@@ -2302,6 +2310,7 @@ class Controller
             }
         } else if (is_file($p)) {
             $p = new $this->app->view($p);
+            $p->params = $params;
             $layout_tool = $p->__toString();
             $layout = str_replace('{content}', $layout_tool, $layout);
 
@@ -2322,7 +2331,7 @@ class Controller
             $l->category_id = CATEGORY_ID;
             $l->content = $page;
             $l->category = $category;
-
+            $l->params = $params;
             $l->page = $page;
             $l->application = $this->app;
             $l = $l->__toString();
@@ -2340,7 +2349,7 @@ class Controller
             $page['render_file'] = $render_file;
             $l = new $this->app->view($page['render_file']);
 
-
+            $l->params = $params;
             $l->page_id = PAGE_ID;
             $l->content_id = CONTENT_ID;
             $l->post_id = POST_ID;

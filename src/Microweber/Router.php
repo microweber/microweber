@@ -5,10 +5,19 @@ namespace Microweber;
 class Router
 {
 
+    public static $_instance;
     public $functions = array();
     public $vars = array();
-
     public $controller;
+    public $routes = array();
+
+    public static function getInstance()
+    {
+        if (!(self::$_instance instanceof self)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
 
     function __get($name)
     {
@@ -33,6 +42,13 @@ class Router
         }
     }
 
+    function get($name, $data)
+    {
+
+        $this->routes[$name] = $data;
+
+
+    }
 
     function map($controller)
     {
@@ -57,6 +73,49 @@ class Router
         }
 
     }
+    function dispatch()
+    {
+        $method_full = mw('url')->string();
+        $m1 = mw('url')->segment(0);
+
+        if ($m1) {
+            $m1 = str_replace('.', '', $m1);
+            $method = $m1;
+        } else {
+            $method = 'index';
+        }
+       // print $method;
+        //print_r($this->functions);
+        if (is_array( $this->routes) and !empty( $this->routes)) {
+            $attached_routes =  $this->routes;
+            //routing wildcard urls
+
+            foreach ($attached_routes as $k => $v) {
+                 if (strstr($k, '*')) {
+                    $if_route_found = preg_match(sprintf('#%s\d*#', $k), $method_full);
+                    if ($if_route_found == true) {
+                        $is_custom_controller_called = true;
+                        if(is_string($v)){
+                            if(function_exists($v) == false){
+                                $v = new $v;
+                            }
+                        }
+                        return call_user_func($v);
+
+                        //   exit();
+                    }
+                }
+
+            }
+
+
+        }
+d($method);
+        if(isset($this->functions['/'])){
+
+        }
+
+    }
 
     function run()
     {
@@ -76,7 +135,7 @@ class Router
 
         //perform custom routing
 
-        $is_custom_controller_called = false;
+                $is_custom_controller_called = false;
         if (is_object($controller) and isset($controller->functions) and is_array($controller->functions)) {
             //$params_for_route = mw('url')->segment();
 
@@ -92,7 +151,7 @@ class Router
                 return call_user_func($controller->functions[$method_full]);
 
                 // exit();
-            }  elseif (is_array($controller->functions) and !empty($controller->functions)) {
+            } elseif (is_array($controller->functions) and !empty($controller->functions)) {
                 $attached_routes = $controller->functions;
                 //routing wildcard urls
                 foreach ($attached_routes as $k => $v) {
@@ -114,25 +173,25 @@ class Router
         }
 
 
-
         if ($is_custom_controller_called == false) {
 
             if (method_exists($controller, $method)) {
                 return $controller->$method();
             } else {
 
-            if (isset($this->vars[$method]) and is_string($this->vars[$method])) {
-                  if(class_exists($this->vars[$method],true)){
-                      $method2 = mw('url')->segment(1);
-                      $sub_contoller = new $this->vars[$method];
-                      if (method_exists($sub_contoller, $method)) {
-                          return $sub_contoller->$method();
-                      }if ($method2 != false and method_exists($sub_contoller, $method2)) {
-                          return $sub_contoller->$method2();
-                      }elseif (method_exists($sub_contoller, 'index')) {
-                          return $sub_contoller->index();
-                      }
-                  }
+                if (isset($this->vars[$method]) and is_string($this->vars[$method])) {
+                    if (class_exists($this->vars[$method], true)) {
+                        $method2 = mw('url')->segment(1);
+                        $sub_contoller = new $this->vars[$method];
+                        if (method_exists($sub_contoller, $method)) {
+                            return $sub_contoller->$method();
+                        }
+                        if ($method2 != false and method_exists($sub_contoller, $method2)) {
+                            return $sub_contoller->$method2();
+                        } elseif (method_exists($sub_contoller, 'index')) {
+                            return $sub_contoller->index();
+                        }
+                    }
                 }
                 return $controller->index();
             }
@@ -160,15 +219,5 @@ class Router
                 }
             }
         }
-    }
-
-
-    public static $_instance;
-
-    public static function getInstance() {
-        if ( !(self::$_instance instanceof self) ) {
-            self::$_instance = new self();
-        }
-        return self::$_instance;
     }
 }

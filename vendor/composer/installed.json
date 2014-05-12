@@ -263,64 +263,6 @@
         "homepage": "http://jquery.com"
     },
     {
-        "name": "components/bootstrap3",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/crash21/bootstrap3.git",
-            "reference": "89f276aa3e46e0fd5d94e3ea8363531e7fdf18cd"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/crash21/bootstrap3/zipball/89f276aa3e46e0fd5d94e3ea8363531e7fdf18cd",
-            "reference": "89f276aa3e46e0fd5d94e3ea8363531e7fdf18cd",
-            "shasum": ""
-        },
-        "require": {
-            "components/jquery": ">=1.9"
-        },
-        "suggest": {
-            "components/bootstrap-default": "Provide a theme for Bootstrap as components/bootstrap only provides the CSS as file assets"
-        },
-        "time": "2014-03-29 17:04:13",
-        "type": "component",
-        "extra": {
-            "component": {
-                "scripts": [
-                    "js/bootstrap.js"
-                ],
-                "files": [
-                    "js/bootstrap.min.js",
-                    "css/*.css",
-                    "fonts/*",
-                    "less/*"
-                ],
-                "shim": {
-                    "deps": [
-                        "jquery"
-                    ]
-                }
-            }
-        },
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "Twitter, Inc"
-            }
-        ],
-        "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
-        "homepage": "http://twitter.github.com/bootstrap/",
-        "keywords": [
-            "bootstrap",
-            "css"
-        ]
-    },
-    {
         "name": "components/bootstrap",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -372,62 +314,6 @@
             }
         ],
         "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
-        "homepage": "http://getbootstrap.com",
-        "keywords": [
-            "bootstrap",
-            "css"
-        ]
-    },
-    {
-        "name": "components/bootstrap-default",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/components/bootstrap-default.git",
-            "reference": "c81a0d1e56b58750ef8dcf6c69d0f6e4e79525f1"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/components/bootstrap-default/zipball/c81a0d1e56b58750ef8dcf6c69d0f6e4e79525f1",
-            "reference": "c81a0d1e56b58750ef8dcf6c69d0f6e4e79525f1",
-            "shasum": ""
-        },
-        "require": {
-            "components/bootstrap": "*",
-            "robloach/component-installer": "*"
-        },
-        "time": "2014-04-07 05:19:53",
-        "type": "component",
-        "extra": {
-            "component": {
-                "styles": [
-                    "css/bootstrap.css",
-                    "css/bootstrap-theme.css"
-                ],
-                "files": [
-                    "css/bootstrap.min.css",
-                    "css/bootstrap-theme.min.css",
-                    "fonts/*"
-                ],
-                "shim": {
-                    "deps": [
-                        "bootstrap"
-                    ]
-                }
-            }
-        },
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "Twitter, Inc"
-            }
-        ],
-        "description": "Shim repository for the default theme for Bootstrap.",
         "homepage": "http://getbootstrap.com",
         "keywords": [
             "bootstrap",
@@ -615,124 +501,6 @@
         ]
     },
     {
-        "name": "guzzlehttp/streams",
-        "version": "1.1.0",
-        "version_normalized": "1.1.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/guzzle/streams.git",
-            "reference": "cf0c8c33ca95cc147efba4c714f630ee44767180"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/guzzlehttp-streams-cf0c8c33ca95cc147efba4c714f630ee44767180-zip-f0ff4e.zip",
-            "reference": "cf0c8c33ca95cc147efba4c714f630ee44767180",
-            "shasum": "f29bc6e9b6187f9a99903a12884aa4b6eaf3d019"
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0"
-        },
-        "time": "2014-04-03 04:48:24",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "GuzzleHttp\\Stream\\": "src/"
-            },
-            "files": [
-                "src/functions.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-            }
-        ],
-        "description": "Provides a simple abstraction over streams of data (Guzzle 4+)",
-        "homepage": "http://guzzlephp.org/",
-        "keywords": [
-            "Guzzle",
-            "stream"
-        ]
-    },
-    {
-        "name": "guzzlehttp/guzzle",
-        "version": "4.0.2",
-        "version_normalized": "4.0.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/guzzle/guzzle.git",
-            "reference": "40db53833aaea528347994acd4578d7b9b2211ee"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/guzzlehttp-guzzle-40db53833aaea528347994acd4578d7b9b2211ee-zip-d79fd4.zip",
-            "reference": "40db53833aaea528347994acd4578d7b9b2211ee",
-            "shasum": "dc5a60723813f1ab8d1612b3bb33e56d35b64c3f"
-        },
-        "require": {
-            "guzzlehttp/streams": "~1.0",
-            "php": ">=5.4.0"
-        },
-        "require-dev": {
-            "ext-curl": "*",
-            "phpunit/phpunit": "~4.0",
-            "psr/log": "~1.0"
-        },
-        "time": "2014-04-16 17:33:22",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "4.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "GuzzleHttp\\": "src/"
-            },
-            "files": [
-                "src/functions.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-            }
-        ],
-        "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
-        "homepage": "http://guzzlephp.org/",
-        "keywords": [
-            "client",
-            "curl",
-            "framework",
-            "http",
-            "http client",
-            "rest",
-            "web service"
-        ]
-    },
-    {
         "name": "keboola/csv",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -803,5 +571,147 @@
         ],
         "description": "Stream large XML files with low memory consumption.",
         "homepage": "https://github.com/prewk/XmlStreamer"
+    },
+    {
+        "name": "microweber/installers",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/microweber/installers.git",
+            "reference": "8a7c645ae1b0e7d78d9d3282664a59b2bcfd4d5e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "http://packages.microweber.com/dist/microweber-installers-8a7c645ae1b0e7d78d9d3282664a59b2bcfd4d5e-zip-dbd46a.zip",
+            "reference": "8a7c645ae1b0e7d78d9d3282664a59b2bcfd4d5e",
+            "shasum": "8ab8679cdf2344801a5ce34060d06d096ba999ef"
+        },
+        "replace": {
+            "shama/baton": "*"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "3.7.*"
+        },
+        "time": "2014-05-04 09:29:52",
+        "type": "composer-installer",
+        "extra": {
+            "class": "Composer\\Installers\\Installer",
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Composer\\Installers\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kyle Robinson Young",
+                "email": "kyle@dontkry.com",
+                "homepage": "https://github.com/shama",
+                "role": "Developer"
+            }
+        ],
+        "description": "A multi-framework Composer library installer",
+        "homepage": "http://composer.github.com/installers/",
+        "keywords": [
+            "Craft",
+            "Hurad",
+            "MODX Evo",
+            "OXID",
+            "WolfCMS",
+            "agl",
+            "annotatecms",
+            "cakephp",
+            "codeigniter",
+            "concrete5",
+            "croogo",
+            "drupal",
+            "elgg",
+            "fuelphp",
+            "installer",
+            "joomla",
+            "kohana",
+            "laravel",
+            "lithium",
+            "magento",
+            "mako",
+            "mediawiki",
+            "modulework",
+            "phpbb",
+            "piwik",
+            "ppi",
+            "shopware",
+            "silverstripe",
+            "symfony",
+            "typo3",
+            "wordpress",
+            "zend",
+            "zikula"
+        ]
+    },
+    {
+        "name": "components/bootstrap-default",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/components/bootstrap-default.git",
+            "reference": "fc286c5194be8148ab9be170f52ac98ddb245c7f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "http://packages.microweber.com/dist/components-bootstrap-default-fc286c5194be8148ab9be170f52ac98ddb245c7f-zip-0dd3ea.zip",
+            "reference": "fc286c5194be8148ab9be170f52ac98ddb245c7f",
+            "shasum": "a0a2fd7e1d8c28198c0b61e929071573661f36c7"
+        },
+        "require": {
+            "components/bootstrap": "*",
+            "robloach/component-installer": "*"
+        },
+        "time": "2014-05-08 17:59:51",
+        "type": "component",
+        "extra": {
+            "component": {
+                "styles": [
+                    "css/bootstrap.css",
+                    "css/bootstrap-theme.css"
+                ],
+                "files": [
+                    "css/bootstrap.min.css",
+                    "css/bootstrap-theme.min.css",
+                    "fonts/*"
+                ],
+                "shim": {
+                    "deps": [
+                        "bootstrap"
+                    ]
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Twitter, Inc"
+            }
+        ],
+        "description": "Shim repository for the default theme for Bootstrap.",
+        "homepage": "http://getbootstrap.com",
+        "keywords": [
+            "bootstrap",
+            "css"
+        ]
     }
 ]

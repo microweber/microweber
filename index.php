@@ -5,7 +5,7 @@ if (version_compare(phpversion(), "5.3.0", "<=")) {
 // error_reporting(E_ALL);
 
 date_default_timezone_set('UTC');
-
+ 
 
 require_once ('vendor/autoload.php');
 
@@ -36,22 +36,22 @@ $router = new \Microweber\Router();
 
 // Starting Controller
 $controller = new \Microweber\Controller($application);
-
+$router->get('/',$controller);
 // Automatically map the Router to all controller functions
-$router->map($controller);
-
-$router->my_controller_url =  '\Microweber\TestController';
+ $router->map($controller);
+//$router->get('users/*','\Microweber\TestController');
+//$router->my_controller_url =  '\Microweber\TestController';
 /*
 $router->my_controller_url =  '\Microweber\TestController';
 
-Add more controllers tp the roter
+Add more controllers tp the router
 open at http://localhost/my_controller_url
 
 */
-
+ //$router->dispatch();
 
 // Run the website
-$router->run();
+  $router->run();
 
 
  

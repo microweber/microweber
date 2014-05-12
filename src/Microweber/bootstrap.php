@@ -87,6 +87,15 @@ if (!defined('MW_INCLUDES_DIR')) {
 if (!defined('MW_ADAPTERS_DIR')) {
     define('MW_ADAPTERS_DIR', MW_APP_PATH . 'Adapters' . DS);
 }
+
+if (!defined('MW_COMPONENTS_URL')) {
+    define('MW_COMPONENTS_URL', MW_SITE_URL.'components/');
+}
+if (!defined('MW_COMPONENTS_DIR')){
+    define('MW_COMPONENTS_DIR',MW_ROOTPATH . 'components'. DS );
+}
+
+
 if (!defined('MW_INCLUDES_URL')) {
     define('MW_INCLUDES_URL', mw_path_to_url(MW_INCLUDES_DIR));
 }
