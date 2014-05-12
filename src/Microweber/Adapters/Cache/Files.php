@@ -403,7 +403,8 @@ class Files
 
     public function clear()
     {
-        return $this->_purge();
+        $this->mw_cache_deleted_items = array();
+		return $this->_purge();
     }
 
     private function _purge()
