@@ -432,19 +432,60 @@ $(window).load(function(){
     <td colspan="2">
     <h2>Dropdowns onclick</h2>
        <div class="demobox">
-         <div class="mw_dropdown">
-            <span class="mw_dropdown_val_holder">
-            <span class="mw-ui-btn mw_dropdown_val">Dropdown on click</span></span>
-            <div class="mw_dropdown_fields">
+         <div class="mw-dropdown">
+            <span class="mw-dropdown-value">
+            <span class="mw-ui-btn mw-ui-btn-info mw-dropdown_val">Dropdown on click <span class="mw-icon-dropdown mw-icon-right"></span></span></span>
+            <div class="mw-dropdown-content">
                 <ul class="mw-ui-btn-vertical-nav" style="width: 100%;">
                      <li value="1"><span class="mw-ui-btn">Option 1</span></li>
-                     <li value="2"><span class="mw-ui-btn">Option 2</span></li>
+                     <li value="2"><span class="mw-ui-btn mw-ui-btn-important">Option 2 !!!</span></li>
                      <li value="3"><span class="mw-ui-btn">Option 3</span></li>
                 </ul>
             </div>
           </div>
           <script>
             mw.dropdown()
+          </script>
+       </div>
+
+    </td>
+    </tr>
+    <tr>
+    <td colspan="2">
+    <h2>TESTS</h2>
+       <div class="demobox" style="padding: 15px;border:1px solid #dedede;">
+           <div class="mw-ui-row" id="RRtest" style="table-layout: auto;">
+               <div class="mw-ui-col"><div class="mw-ui-col-container">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus turpis libero, sed ullamcorper ante vestibulum in. Mauris tempor nunc rhoncus enim accumsan viverra. Integer semper diam vitae fermentum dictum. Aliquam blandit venenatis nisl. In lobortis magna tincidunt varius eleifend. Etiam turpis velit, porttitor eget erat vel, accumsan pretium metus. Suspendisse venenatis elit eget est consequat dapibus. Proin pharetra turpis sit amet ante consectetur, eget facilisis purus hendrerit. Praesent id risus quis dolor volutpat dapibus sit amet id lorem.</div></div>
+               <div class="mw-ui-col"><div class="mw-ui-col-container">Nullam non porta augue, eu congue augue. Donec dapibus eros eget purus blandit adipiscing. Aliquam sit amet facilisis lorem, eget fermentum erat. Curabitur ultrices lectus mauris, mollis congue justo blandit in. In hac habitasse platea dictumst. Maecenas tempor ultrices dui eu euismod. Donec pulvinar lectus quis blandit posuere. Pellentesque vestibulum mattis aliquet. Vestibulum non tincidunt risus. Vestibulum tellus mauris, faucibus nec magna quis, placerat euismod enim. Fusce blandit at lacus vitae feugiat. Sed vel nisl elementum erat sollicitudin aliquet. Pellentesque diam quam, tempor et posuere id, condimentum non nulla. Proin dolor arcu, tincidunt feugiat magna sed, iaculis interdum mauris. Etiam fringilla dapibus libero, sed mollis velit laoreet eu.
+            </div></div>    <div class="mw-ui-col"><div class="mw-ui-col-container">Ut commodo sagittis sagittis. Suspendisse porta nibh at sapien adipiscing, non mollis nibh rutrum. Donec sagittis odio eu pharetra viverra. Integer aliquet adipiscing magna. Nam luctus, magna a volutpat laoreet, eros ante pharetra odio, sed eleifend ante purus sed nulla. Suspendisse gravida orci nisl, non congue orci mattis tristique. Mauris lorem justo, scelerisque eget tincidunt eget, consectetur non mauris. In sed nunc accumsan, vulputate nibh eget, rutrum magna. Suspendisse potenti. Vivamus facilisis nisl turpis, scelerisque congue felis tempor vitae. Suspendisse sed faucibus nunc. Nunc non feugiat nisi, in gravida odio. Aliquam erat volutpat. Vivamus cursus bibendum leo eu pulvinar. Nulla interdum neque hendrerit volutpat commodo. Fusce blandit est id risus laoreet, vitae mattis enim eleifend.
+
+</div></div>
+           </div>
+           <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+          <script>
+            $(document).ready(function(){
+
+                var all = mwd.querySelectorAll("#RRtest .mw-ui-col"), l = all.length, i = 0;
+                for( ; i<(l-1); i++){
+                  var item = all[i];
+                  var cont = item.querySelector('.mw-ui-col-container');
+                  var nextCont = all[i+1].querySelector('.mw-ui-col-container');
+                  item.style.maxWidth = ((100/l) * (l-1)) + '%';
+                  cont.style.maxWidth = "100%";
+                  $(cont).resizable({
+                    handles:'e',
+                    alsoResize:item,
+                    resize:function(){
+                       this.style.width = 'auto';
+                    },
+                    stop:function(){
+                       this.style.width = 'auto';
+                    }
+                  })
+                }
+
+           })
           </script>
        </div>
 

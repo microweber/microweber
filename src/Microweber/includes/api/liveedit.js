@@ -1984,6 +1984,7 @@ if($(window).width() < 768){
 					minWidth: 33,
 
 					resize: function (event, ui) {
+
 					  mw.global_resizes.next.width(Math.floor(mw.global_resizes.sum-ui.size.width-10));
                         if(mw.global_resizes.next.width()<33){
                            $(this).resizable("option", "maxWidth", ui.size.width);
@@ -2315,7 +2316,7 @@ mw.designTool = {
 $(window).bind("load",function(){
 
 
-mw.$(".mw_dropdown_type_navigation a").each(function(){
+mw.$(".mw-dropdown_type_navigation a").each(function(){
   var el = $(this);
   var li = el.parent();
   el.attr("href", "javascript:;");
@@ -2347,12 +2348,12 @@ mw.$("#elements_category_selector").change(function(){
 
 mw.$("#module_category_selector .dd_custom a").mousedown(function(e){
    mw.tools.toolbar_searh(Modules_List_modules, $(this).html());
-   mw.tools.firstParentWithClass(this, 'mw_dropdown').querySelector('.mw_dropdown_val').innerHTML = $(this).html();
+   mw.tools.firstParentWithClass(this, 'mw-dropdown').querySelector('.mw-dropdown_val').innerHTML = $(this).html();
    e.preventDefault();
 });
 mw.$("#elements_category_selector .dd_custom a").mousedown(function(e){
    mw.tools.toolbar_searh(Modules_List_elements, $(this).html());
-   mw.tools.firstParentWithClass(this, 'mw_dropdown').querySelector('.mw_dropdown_val').innerHTML = $(this).html();
+   mw.tools.firstParentWithClass(this, 'mw-dropdown').querySelector('.mw-dropdown_val').innerHTML = $(this).html();
    e.preventDefault();
 });
 

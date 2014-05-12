@@ -29,16 +29,13 @@
 
             <div class="mw-ui-field mw-ico-field" >
                 <span class="ico iplay"></span>
-                <input
-                    name="embed_url"
+                 
+                    
+                    <textarea  name="embed_url"
                     id="emebed_video_field"
                     style="width: 340px;"
-                    class="mw-ui-invisible-field mw_option_field"
-
-                    type="text"
-                    data-mod-name="<?php print $params['data-type'] ?>"
-                    value="<?php print htmlentities(get_option('embed_url', $params['id'])) ?>"
-                    />
+                    class="mw-ui-invisible-field mw_option_field"  data-mod-name="<?php print $params['data-type'] ?>"><?php print (get_option('embed_url', $params['id'])) ?></textarea>
+                    
             </div>
          </div>
     </div>

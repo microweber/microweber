@@ -269,6 +269,9 @@ $(document).ready(function(){
 <script  type="text/javascript">
     if(typeof mw.menu_save_new_item !== 'function'){
         mw.menu_save_new_item = function(selector,no_reload){
+			
+			 
+			
         	mw.form.post(selector, '<?php print api_link('content/menu_item_save'); ?>', function(){
 				
 				mw.$('#<?php print $params['id'] ?>').removeAttr('new-menu-id');
@@ -332,7 +335,7 @@ $menu_name = get_option('menu_name', $params['id']);
     <small class="right" ><a href="javascript:add_new_menu();" class="mw-ui-label-help mw-ui-small">
     <?php _e("Create new nenu"); ?>
     </a> </small> </label>
-
+ 
     <select  id="menu_selector_<?php  print $params['id'] ?>" name="menu_name" class="mw-ui-field mw_option_field"   type="radio"  onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
       <?php foreach($menus  as $item): ?>
       <?php if($active_menu == false){
@@ -342,6 +345,7 @@ $menu_name = get_option('menu_name', $params['id']);
       <?php endforeach ; ?>
     </select>
 
+<div class="vSpace"></div>
   <hr>
   <label class="mw-ui-label">
     <?php _e("Select from"); ?>
@@ -361,7 +365,7 @@ $menu_name = get_option('menu_name', $params['id']);
 if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   $menu_id = $menu_id['id'];
 }
-
+ 
  ?>
 <div id="menu-selector" class="mw-ui mw-ui-category-selector mw-tree">
   <microweber module="categories/selector"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio" input-name-categories="link_id" input-name="link_id"  />
@@ -387,7 +391,7 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
     <?php _e("Edit existing links/buttons"); ?>
   </label>
   <div class="vSpace"></div>
-  <module data-type="menu/edit_items"  id="items_list_<?php  print $rand ?>" menu-name="<?php  print $active_menu ?>"  />
+  <module data-type="menu/edit_items"  id="items_list_<?php  print $rand ?>" menu-name="<?php  print $active_menu ?>"  menu-id="<?php  print $menu_id ?>" />
   <?php endif; ?>
 </div>
 <div class="vSpace"></div>

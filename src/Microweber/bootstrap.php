@@ -60,7 +60,13 @@ if (!defined('MW_ROOTPATH')) {
 
 }
 
-
+if (defined('MW_ROOTPATH')) {
+	$autoload_vendors_dir= MW_ROOTPATH.'vendor'.DIRECTORY_SEPARATOR;
+	if(is_dir($autoload_vendors_dir)){
+		 include_once($autoload_vendors_dir. 'autoload.php');
+	}
+    
+} 
 if (!defined('MW_VERSION')) {
     define('MW_VERSION', 0.93462);
 }

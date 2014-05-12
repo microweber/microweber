@@ -134,7 +134,7 @@ body.loading:after{
   margin-top: 12px;
 }
 
-#font_family.mw_dropdown_type_navigation li a{
+#font_family.mw-dropdown_type_navigation li a{
   font-size: 13px;
 }
 
@@ -146,11 +146,11 @@ body.loading:after{
   display: none;
   padding: 12px 0;
 }
-#background-options .mw_dropdown_type_wysiwyg{
+#background-options .mw-dropdown_type_wysiwyg{
   border-color: #DEDEDE;
   width: 90%;
 }
-#background-options .mw_dropdown_type_wysiwyg ul{
+#background-options .mw-dropdown_type_wysiwyg ul{
   width: 100%;
 }
 

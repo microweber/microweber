@@ -148,6 +148,8 @@ class Cache
     {
         return $this->adapter->clear();
     }
+	
+	 
 
     /**
      * Prints cache debug information

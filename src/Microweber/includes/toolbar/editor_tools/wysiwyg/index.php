@@ -174,6 +174,7 @@ $(window).load(function(){
       mw.$("#mw-iframe-editor-area").bind("mousedown", function(e){
         if(mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')){
             mw.$('.mw-tooltip-insert-module').remove();
+            mw.drag.plus.locked = false;
         }
       });
 
@@ -207,10 +208,6 @@ delete_module = function(inner_node){
 .mw-admin-editor #mw-iframe-editor-area:empty{
   background-color: #efecec;
 }
-
-
-
-
 
 .mw-plain-module-name {
 	display: block;
@@ -251,7 +248,9 @@ img{
 }
 
 
-
+.editor_wrapper_fixed{
+  box-shadow:0 0 6px -2px #000000;
+}
 
 
 </style>

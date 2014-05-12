@@ -145,19 +145,7 @@ body#UnsupportedBrowser #download_browsers_holder{
   left: 250px;
 }
 
-.mw-defaults{
-  line-height: 1.5;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-}
 
-.mw-defaults * {
-  color: inherit;
-  -webkit-box-sizing:inherit;
-  -moz-box-sizing:inherit;
-  box-sizing:inherit;
-}
 
 .mw-defaults li{
   line-height: 22px;

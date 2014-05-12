@@ -32,7 +32,7 @@
               <?php endif; ?>
 
            </div>
-           
+
     <?php else: ?>
         <div class="mw-ui-row">
             <div class="mw-ui-col">
@@ -108,7 +108,7 @@
 
             </div>
         </div>
-
+        <script>mw.admin.titleColumnNavWidth();</script>
 
 
 

@@ -6,7 +6,9 @@
  if(isset($params['menu-id'])){
  $id = intval($params['menu-id']);
  }
-
+if(!isset($params['menu-name']) and isset($params['name'])){
+	$params['menu-name'] = $params['name'];
+}
 
  if(isset($params['menu-name'])){
  //$id = trim($params['menu-name']);

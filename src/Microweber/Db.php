@@ -14,6 +14,8 @@ if (!defined('MW_USER_IP')) {
 }
 
 
+
+
 $ex_fields_static = array();
 $_mw_real_table_names = array();
 $_mw_assoc_table_names = array();
@@ -2495,9 +2497,9 @@ class Db
 
         $original_data['table'] = $table;
         $original_data['id'] = $id_to_return;
-
+  
         $this->save_extended_data($original_data);
-
+ 
 
         $cache_group = $this->assoc_table_name($table);
 
@@ -2995,7 +2997,7 @@ class Db
                     $custom_field_to_save = $this->addslashes_array($custom_field_to_save);
 
                     foreach ($custom_field_to_save as $cf_k => $cf_v) {
-
+ 
                         if (($cf_v != '') and $table_assoc_name != 'custom_fields') {
                             //   $cf_v = replace_site_vars($cf_v);
                             //d($cf_v);
@@ -3038,6 +3040,26 @@ class Db
                                     $cftype = 'dropdown';
                                     $make_as_array = 1;
                                 }
+                                if (stristr($cf_k, '[radio]') !== FALSE) {
+                                    $cf_k = str_ireplace('[radio]', '', $cf_k);
+                                    $cftype = 'radio';
+                                    $make_as_array = 1;
+                                }
+                                if (stristr($cf_k, '[price]') !== FALSE) {
+                                    $cf_k = str_ireplace('[price]', '', $cf_k);
+                                    $cftype = 'price';
+                                    $make_as_array = 1;
+                                }
+                                if (stristr($cf_k, '[address]') !== FALSE) {
+                                    $cf_k = str_ireplace('[address]', '', $cf_k);
+                                    $cftype = 'address';
+                                    $make_as_array = 1;
+                                }
+                                if (stristr($cf_k, '[textarea]') !== FALSE) {
+                                    $cf_k = str_ireplace('[textarea]', '', $cf_k);
+                                    $cftype = 'textarea';
+                                    $make_as_array = 1;
+                                }
                                 if (stristr($cf_k, '[checkbox]') !== FALSE) {
                                     $cf_k = str_ireplace('[checkbox]', '', $cf_k);
                                     $cftype = 'checkbox';
@@ -3061,7 +3083,7 @@ class Db
                                 if (isset($custom_field_to_save['values'])) {
                                     $val_to_serilize = $custom_field_to_save['values'];
                                 }
-                                if ($cftype == 'content') {
+                                if ($cftype ==  false) {
                                     if (isset($custom_field_to_save['type'])) {
                                         $cftype = $custom_field_to_save['type'];
                                     } elseif (isset($cf_v['type'])) {
@@ -3138,7 +3160,7 @@ class Db
                             rel ='{$custom_field_to_save ['rel']}',
                             rel_id ='{$custom_field_to_save ['rel_id']}'
 						    ";
-
+ 
                             $cf_to_save = array();
                             $cf_to_save['id'] = $next_id;
                             $cf_to_save['custom_field_name'] = $cf_k;

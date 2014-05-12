@@ -295,11 +295,11 @@ init_square_maps = function(){
     if(!el.hasClass("active")){
         el.parents(".square_map").find(".active").removeClass("active");
         el.addClass("active");
-        el.parents(".mw_dropdown").setDropdownValue(el.attr("data-value"), true, true, false);
+        el.parents(".mw-dropdown").setDropdownValue(el.attr("data-value"), true, true, false);
     }
   });
 
-  mw.$(".mw_dropdown_func_slider").change(function(){
+  mw.$(".mw-dropdown_func_slider").change(function(){
     var val = $(this).getDropdownValue();
     var who = $(this).attr("data-for");
     mw.$("#"+who).attr("data-type", val);

@@ -22,9 +22,7 @@ if(isset($params['quick_edit'])){
  
 ?>
 <script  type="text/javascript">
-
     mw.require('forms.js');
-
 </script>
 <script  type="text/javascript">
  function set_category_parent_<?php print $form_rand_id ?>(){
@@ -42,8 +40,6 @@ if(isset($params['quick_edit'])){
      }
 
  }
-
-
   function onload_set_parent_<?php print $form_rand_id ?>(){
 	     var tti = mw.$('#rel_id_<?php print $form_rand_id ?>').val();
 		 var par_cat   = mw.$('#parent_id_<?php print $form_rand_id ?>').val();
@@ -69,10 +65,9 @@ if(isset($params['quick_edit'])){
     else{
       Alert('<?php _e("Please choose Page or Category"); ?>.');
     }
-
   }
 
-    make_new_cat_after_save = function(el){
+  make_new_cat_after_save = function(el){
         $('#<?php print $params['id'] ?>').removeClass('loading');
         $('#<?php print $params['id'] ?>').removeAttr('just-saved');
         $('#<?php print $params['id'] ?>').removeAttr('selected-category-id');
@@ -85,9 +80,9 @@ if(isset($params['quick_edit'])){
         <?php endif; ?>
   }
   
-      continue_editing_cat = function(){
-		 $('.add-edit-category-form').show();
-		  $('.mw-quick-cat-done').hide();
+  continue_editing_cat = function(){
+		 mw.$('.add-edit-category-form').show();
+		 mw.$('.mw-quick-cat-done').hide();
   }
    
  <?php if($just_saved != false) : ?>
@@ -96,8 +91,6 @@ if(isset($params['quick_edit'])){
 
 	 <?php endif; ?>
 $(document).ready(function(){
-	
-	
 
 	mw.category_is_saving = false;
 	<?php if(intval($data['id']) == 0): ?>
@@ -111,23 +104,15 @@ $(document).ready(function(){
 		 if(mw.category_is_saving){
 			 return false;
 		 }
-		   mw.notification.success("Saving...",6000);
+		 mw.notification.success("Saving...",6000);
 		 mw.category_is_saving = true;
 		 $('.mw-cat-save-submit').addClass('disabled');
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
          mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print api_link('category/save') ?>', function(val){
         	  mw.notification.success("Category changes are saved");
  			  var v = this.toString();
-			 
-			   $('#mw_admin_edit_cat_id').val(v);
-			   $('#mw-cat-pics-admin').attr("for-id",v);
-			  //   mw.reload_module('#mw-cat-pics-admin');
-			  
-			  
-			  
-			  
-			  
-			   
+			  mw.$('#mw_admin_edit_cat_id').val(v);
+			  mw.$('#mw-cat-pics-admin').attr("for-id",v);
         	  mw.reload_module('[data-type="categories"]');
         	   if(self !== parent && !!parent.mw){
                 parent.mw.reload_module('categories');
@@ -141,32 +126,16 @@ $(document).ready(function(){
         	  <?php if(intval($data['id']) == 0): ?>
         	  	mw.url.windowHashParam("new_content", "true");
         	  //	mw.url.windowHashParam("action", "editcategory:" + this);
-				
-				
-				
-				
-				
-				
-				
+
 				
              <?php endif; ?>
 
-
              var module = mw.tools.firstParentWithClass(form, 'module');
 				mw.tools.removeClass(module, 'loading');
-			 
 			    mw.category_is_saving = false;
-        		$('.mw-cat-save-submit').removeClass('disabled');
-				
-				
-			 
-				  $('.mw-quick-cat-done').show();
-				  $('.add-edit-category-form').hide();
-
-			 
-				
-				
-
+                mw.$('.mw-cat-save-submit').removeClass('disabled');
+                mw.$('.mw-quick-cat-done').show();
+                mw.$('.add-edit-category-form').hide();
 	    });
      
     return false;
@@ -202,8 +171,7 @@ $(document).ready(function(){
 	<label class="mw-ui-label"><small>Create new category again</small></label>
 	<div class="vSpace"></div>
     <a href="javascript:;" class="mw-ui-btn" onclick="continue_editing_cat()">Continue editing</a>
-    
-    
+
 	<a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="make_new_cat_after_save()">Create New</a> </div>
 <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
 	<input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
@@ -213,17 +181,36 @@ $(document).ready(function(){
 	<input name="data_type" type="hidden" value="<?php print ($data['data_type'])?>" />
 	<input name="parent_id" type="hidden" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
 	<div class="mw-ui-field-holder">
-		<?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
-		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
-		<input  class="mw-ui-field mw-title-field mw-title-field-category" name="title" type="text" placeholder="<?php _e("Sub-category Name"); ?>" />
-		<?php else: ?>
-		<?php if( isset($data['parent_id'] ) and $data['parent_id'] > 0): ?>
-		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
-		<?php else: ?>
-		<span class="mw-title-field-label mw-title-field-label-category"></span>
-		<?php endif; ?>
-		<input  class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title" type="text" <?php if($data['id'] == 0){ ?>placeholder<?php } else{ ?>value<?php } ?>="<?php print ($data['title']); ?>" />
-		<?php endif; ?>
+
+    <div class="mw-ui-row" id="content-title-field-row">
+        <div class="mw-ui-col">
+            <?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
+    		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
+    		<input  class="mw-ui-field mw-title-field mw-title-field-category" name="title" type="text" placeholder="<?php _e("Sub-category Name"); ?>" />
+    		<?php else: ?>
+    		<?php if( isset($data['parent_id'] ) and $data['parent_id'] > 0): ?>
+    		<span class="mw-title-field-label mw-title-field-label-subcat"></span>
+    		<?php else: ?>
+    		<span class="mw-title-field-label mw-title-field-label-category"></span>
+    		<?php endif; ?>
+    		<input  class="mw-ui-invisible-field mw-ui-field-big" id="content-title-field" name="title" type="text" <?php if($data['id'] == 0){ ?>placeholder<?php } else{ ?>value<?php } ?>="<?php print ($data['title']); ?>" />
+    		<?php endif; ?>
+        </div>
+        <div class="mw-ui-col" id="content-title-field-buttons">
+              <div class="mw-ui-btn-nav">
+                  <?php if(intval($data['id']) != 0): ?>
+                      <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn">Delete</a>
+                  <?php endif; ?>
+                <button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-invert" id="mw-admin-cat-save">
+                    <?php _e("Save"); ?>
+                </button>
+              </div>
+        </div>
+        <script>mw.admin.titleColumnNavWidth();</script>
+    </div>
+
+
+
 	</div>
 	<div class="mw-ui-field-holder">
 		<label class="mw-ui-label">
@@ -238,15 +225,18 @@ $(document).ready(function(){
     $(mwd).ready(function(){
         mw.treeRenderer.appendUI('#edit_category_set_par_<?php print $form_rand_id ?>');
         mw.tools.tree.openAll(mwd.getElementById('edit_category_set_par_<?php print $form_rand_id ?>'));
+
+        mw.tabs({
+            nav:"#tabsnav .mw-ui-btn",
+            tabs:".quick-add-post-options-item",
+            toggle:true
+        });
     });
   </script>
 	<input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
-    
-    
-    
-  <div class="advanced_settings pull-left">
+  <div class="advanced_settings">
 
-        <div class="mw-ui-btn-nav">
+        <div class="mw-ui-btn-nav" id="tabsnav">
             <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span>Picture Gallery</span></span>
             <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>Advanced</span></span>
         </div>
@@ -260,7 +250,7 @@ $(document).ready(function(){
 				<label class="mw-ui-label">
 					<?php _e("Description"); ?>
 				</label>
-				<textarea  class="mw-ui-field" name="description"><?php print ($data['description'])?></textarea>
+				<textarea  class="mw-ui-field w100" name="description"><?php print ($data['description'])?></textarea>
 			</div>
 			<div class="mw-ui-field-holder">
 				<?php if(!isset($data['users_can_create_content'])) { $data['users_can_create_content'] = 'n'; } 	?>
@@ -284,17 +274,7 @@ $(document).ready(function(){
 	</div>
     
 
-	<div class="post-save-and-go-live pull-right">
-    
-    <?php if(intval($data['id']) != 0): ?>
-    
-    <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-medium left">Delete</a>
-     <?php endif; ?>
-    
-		<button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-invert" id="mw-admin-cat-save">
-		<?php _e("Save"); ?>
-		</button>
-	</div>
+
 
 
 </form>

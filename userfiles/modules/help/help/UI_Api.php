@@ -638,9 +638,9 @@
         </script>
 
         <h2>Dropdowns</h2>
-        <div data-value=""  class="mw_dropdown mw_dropdown_type_navigation">
-            <span class="mw_dropdown_val" style="width: 200px;">Default</span>
-            <div class="mw_dropdown_fields">
+        <div data-value=""  class="mw-dropdown mw-dropdown_type_navigation">
+            <span class="mw-dropdown_val" style="width: 200px;">Default</span>
+            <div class="mw-dropdown-content">
                 <ul>
                     <li><a href="javascript:;">Value</a></li>
                     <li><a href="javascript:;">OtheValue</a></li>
@@ -648,10 +648,10 @@
             </div>
         </div>
          <hr />
-        <div data-value=""  class="mw_dropdown mw_dropdown_type_navigation mw_dropdown_autocomplete">
-            <span class="mw_dropdown_val" style="width: 200px;">With textfield</span>
+        <div data-value=""  class="mw-dropdown mw-dropdown_type_navigation mw-dropdown_autocomplete">
+            <span class="mw-dropdown_val" style="width: 200px;">With textfield</span>
             <input type="text" class="mw-ui-field dd_search" style="width: 208px;">
-            <div class="mw_dropdown_fields">
+            <div class="mw-dropdown-content">
                 <ul>
                     <li><a href="javascript:;">Value</a></li>
                     <li><a href="javascript:;">OtheValue</a></li>
@@ -663,12 +663,12 @@
 
      <hr />
 
-        <div data-value="" title="" class="mw_dropdown mw_dropdown_type_wysiwyg">
-                <span class="mw_dropdown_val_holder">
+        <div data-value="" title="" class="mw-dropdown mw-dropdown_type_wysiwyg">
+                <span class="mw-dropdown-value">
                     <span class="dd_rte_arr"></span>
-                    <span class="mw_dropdown_val">Simple</span>
+                    <span class="mw-dropdown_val">Simple</span>
                 </span>
-              <div class="mw_dropdown_fields" style="display: block;">
+              <div class="mw-dropdown-content" style="display: block;">
                 <ul>
                   <li value="Value1"><a href="#">Value 1</a></li>
                   <li value="Value2"><a href="#">Value 2</a></li>

@@ -12,10 +12,10 @@
     <div class="wysiwyg-cell">
       <div class="relative"> <span class="mw_editor_btn mw_editor_t wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1000"> <span class="dd_rte_arr"></span> <span class="ed-ico"></span> </span>
         <div class="wysiwyg-convertible wysiwyg-convertible-1000"> <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_strike" data-command="strikethrough" title="<?php _e("Strike Through"); ?>"><span class="ed-ico"></span></span>
-          <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;"> <span class="mw_dropdown_val_holder"> <span class="dd_rte_arr"></span> <span class="mw_dropdown_val" style="width: 65px;">
+          <div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: 65px;">
             <?php _e("Format"); ?>
             </span> </span>
-            <div class="mw_dropdown_fields">
+            <div class="mw-dropdown-content">
               <ul>
                 <li value="h1"><a href="#">
                   <h1>
@@ -60,20 +60,20 @@
               </ul>
             </div>
           </div>
-          <?php /*<div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_fontfx" id="textfx" title="Font Effects" data-value="">
-                        <span class="mw_dropdown_val_holder">
+          <?php /*<div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_action_fontfx" id="textfx" title="Font Effects" data-value="">
+                        <span class="mw-dropdown-value">
                             <span class="dd_rte_arr"></span>
-                            <span class="mw_dropdown_val">Font FX</span>
+                            <span class="mw-dropdown_val">Font FX</span>
                         </span>
-                      <div class="mw_dropdown_fields">
+                      <div class="mw-dropdown-content">
                         <ul>
                           <li value="mw-textfx-3d"><a href="#">3D</a></li>
                           <li value="mw-textfx-neon"><a href="#">Neon</a></li>
                         </ul>
                       </div>
                     </div>*/ ?>
-          <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial"> <span class="mw_dropdown_val_holder"> <span class="dd_rte_arr"></span> <span class="mw_dropdown_val">Arial</span> </span>
-            <div class="mw_dropdown_fields">
+          <div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val">Arial</span> </span>
+            <div class="mw-dropdown-content">
               <ul>
                 <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
                 <li value="Tahoma"><a href="#" style="font-family:Tahoma">Tahoma</a></li>
@@ -83,10 +83,10 @@
               </ul>
             </div>
           </div>
-          <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>"> <span class="mw_dropdown_val_holder">
+          <div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>"> <span class="mw-dropdown-value">
             <?php /*<input type="text" class="mw_dd_field"  />         */ ?>
-            <span class="dd_rte_arr"></span> <span class="mw_dropdown_val" >Size</span> </span>
-            <div class="mw_dropdown_fields">
+            <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" >Size</span> </span>
+            <div class="mw-dropdown-content">
                     <ul>
                           <li value="10"><a href="javascript:;">10</a></li>
                           <li value="11"><a href="javascript:;">11</a></li>
@@ -102,10 +102,10 @@
                     </ul>
             </div>
           </div>
-          <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>"> <span class="mw_dropdown_val_holder"> <span class="dd_rte_arr"></span> <span class="mw_dropdown_val">
+          <div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val">
             <?php _e("Insert"); ?>
             </span> </span>
-            <div class="mw_dropdown_fields">
+            <div class="mw-dropdown-content">
               <ul>
                 <li value="hr"><a href="javascript:;" style="font-size: 10px">
                   <?php _e("Horizontal Rule"); ?>

@@ -8,10 +8,10 @@ else {
   $for2 = 'module';
 }
 ?>
-<div class="mw_dropdown mw_dropdown_type_navigation left mw_dropdown_autocomplete" id="<?php print $for2 ?>_category_selector" data-value='all'>
-<span class="mw_dropdown_val"><?php _e("All"); ?></span>
+<div class="mw-dropdown mw-dropdown_type_navigation left mw-dropdown_autocomplete" id="<?php print $for2 ?>_category_selector" data-value='all'>
+<span class="mw-dropdown_val"><?php _e("All"); ?></span>
 <input style="width: 102px;" type="text" id="dd_<?php print $for2 ?>_search" class="mw-ui-field dd_search" />
-  <div class="mw_dropdown_fields">
+  <div class="mw-dropdown-content">
     <ul>
       <li data-category-id="all"><a href="#"><?php _e("All"); ?></a></li>
       <li class="dd_custom" style="display: none" value="-1"><a style="text-decoration: underline" href="#"></a></li>

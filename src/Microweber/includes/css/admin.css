@@ -658,12 +658,12 @@ h2 > [class*="mw-icon-"]:first-child{
   position: relative;
   z-index: 91;
 }
-#quick-add-post-options-holder{
+#content-edit-settings-tabs-holder{
   height: 37px;
   margin-bottom: 20px;
 }
 
-#quick-add-post-options.fixed{
+#content-edit-settings-tabs.fixed{
   position: fixed;
   top: 82px;
 }
@@ -854,6 +854,10 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
     text-align: right;
     vertical-align: bottom;
 }
+#content-title-field-buttons .mw-ui-btn-nav{
+  vertical-align: bottom;
+}
+
 #content-title-field-buttons .btn-posts-state{
   border-color: transparent
 }
@@ -1007,6 +1011,9 @@ input#edit-content-url:focus, input#edit-content-url.active{
     width: 100%;
     z-index: -1;
 }
+.admin-manage-toolbar-scrolled.admin-manage-toolbar-scrolled-wysiwyg .admin-manage-toolbar-content:after{
+  box-shadow: none;
+}
 
 .manage-toolbar-top{
     margin-bottom:20px;
@@ -1082,6 +1089,17 @@ input#edit-content-url:focus, input#edit-content-url.active{
 .admin-modules-list-buttons .mw-ui-btn{
   float: left;
 }
+
+
+
+
+/************************************
+        Miscellaneous
+*************************************/
+
+ .mw-menu-selector-list li{
+    list-style: none
+ }
 
 
 /************************************

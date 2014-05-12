@@ -1,4 +1,11 @@
 
+#live_edit_toolbar{
+  top: 0 !important;
+}
+#modules-and-layouts{
+  display: none !important;
+}
+
 html,body{
   min-height: 100%;
   -ms-overflow-style:scrollbar;

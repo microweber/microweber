@@ -77,11 +77,9 @@
 
         mw.dd_autocomplete('#dd_pages_search');
 
-        mw.simpletabs();
 
 
-
-    var frame = mw.files.uploader({name:'upload_file_link',filetypes:'all'});
+    var frame = mw.files.uploader({name:'upload_file_link',filetypes:'all',multiple:false});
 
     var frame_holder = mw.$("#upload_frame");
 
@@ -105,18 +103,21 @@
               ProgressPercent.html('');
               ProgressInfo.html(ProgressDoneHTML);
               parent.mw.tools.modal.remove('mw_rte_link');
+              Progress.hide()
         });
 
         $(frame).bind("error", function(frame, file){
               ProgressBar.width('0%');
               ProgressPercent.html('');
               ProgressInfo.html(ProgressErrorHTML(file.name));
+              Progress.hide()
         });
 
          $(frame).bind("FilesAdded", function(frame, files_array, runtime){
               if(runtime == 'html4'){
                 ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
               }
+              Progress.show()
           });
 
 
@@ -175,7 +176,10 @@
         return false;
     });
 
-
+     mw.tabs({
+       nav:".mw-ui-btn-nav-tabs a",
+       tabs:".tab"
+     });
 
     });
 
@@ -185,39 +189,7 @@
 
 <style type="text/css">
 
-#insert_link_list{
-  float: left;
-  margin-right: 10px;
 
-}
-#insert_link_list .mw_dropdown_val{
-  width: 220px;
-}
-
-#insert_link_list .mw-ui-field{
-  width: 228px;
-}
-
-.mw-dd-list-result {
-  border-bottom:1px solid #fff;
-}
-.mw-dd-list-result a{
-  border-bottom:1px solid #ddd;
-}
-
-ul li.mw-dd-list-result:last-child{
-  border-bottom: none;
-}
-ul li.mw-dd-list-result:last-child a{
-  border-bottom: none;
-}
-
-.mw_tabs_layout_simple .mw_simple_tabs_nav li{
-  margin: 0;
-}
-.mw_tabs_layout_simple .mw_simple_tabs_nav li a{
-  min-width: 35px;
-}
 
 #upload_frame{
   width: 100%;
@@ -228,67 +200,44 @@ ul li.mw-dd-list-result:last-child a{
   left: 0;
 }
 
-.media-search-holder{
-    margin: 0 auto;
-    padding-top: 45px;
-    width: 350px;
-    position: relative;
+
+#tabs .tab{
+  display: none;
 }
-
-.media-search-holder:after{
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
+#mw-popup-insertlink{
+  padding: 10px;
 }
-
-
-.mw-ui-check input[type="checkbox"] + span{
-  top: 6px;
-  left: 1px;
+.mw-ui-row-nodrop, .media-search-holder{
+  margin-bottom: 12px;
 }
-
-.mw-ui-check input + span + span{
-  font-size: 11px;
-}
-
-.mw_dropdown_type_navigation li a{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow:ellipsis;
-}
-
-
-.mw_dropdown_fields > ul{
-  height: 133px;
-}
-.mw_tabs_layout_simple .mw_simple_tabs_nav{
-  padding-top: 0;
+.mw-ui-box-content{
+  padding-top: 20px;
 }
 
 </style>
 
 
 <div id="mw-popup-insertlink">
-    <div class="mw_simple_tabs mw_tabs_layout_simple">
-        <ul class="mw_simple_tabs_nav">
-            <li><a class="active" href="javascript:;"><?php _e("Website URL"); ?></a></li>
-            <li><a href="javascript:;"><?php _e("Page from My Website"); ?></a></li>
-            <li><a href="javascript:;"><?php _e("File"); ?></a></li>
-            <li><a href="javascript:;"><?php _e("Email"); ?></a></li>
-        </ul>
+    <div class="">
+
+        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+           <a  class="mw-ui-btn active" href="javascript:;"><?php _e("Website URL"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;"><?php _e("Page from My Website"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;"><?php _e("File"); ?></a>
+            <a class="mw-ui-btn" href="javascript:;"><?php _e("Email"); ?></a>
+        </div>
+        <div class="mw-ui-box mw-ui-box-content" id="tabs">
         <!-- TAB 1 -->
-        <div class="tab">
+        <div class="tab" style="display: block">
 
             <div class="media-search-holder">
-              <div class="mw-ui-field left" style="width: 260px;float: left;margin-right: 10px;">
-                  <span id="" class="image_status link"></span>
-                  <input type="text" style="width: 200px;" class="mw-ui-invisible-field" id="customweburl" autofocus="" />
+              <div class="mw-ui-row-nodrop w100">
+                  <div class="mw-ui-col"><input type="text" class="mw-ui-field w100" id="customweburl" autofocus="" /></div>
+                  <div class="mw-ui-col" style="width: 90px;">
+                    <span class="mw-ui-btn pull-right" id="insert_url"><?php _e("Insert"); ?></span>
+                  </div>
               </div>
-              <span class="mw-ui-btn mw-ui-btn-blue right" id="insert_url"><?php _e("Insert"); ?></span>
-              <div class="mw_clear" style="padding-bottom: 5px;"></div>
+
               <label class="mw-ui-check"><input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span></label>
             </div>
 
@@ -297,10 +246,10 @@ ul li.mw-dd-list-result:last-child a{
         <!-- TAB 2 -->
         <div class="tab">
             <div class="media-search-holder">
-                <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw_dropdown mw_dropdown_type_navigation mw_dropdown_autocomplete left">
-                    <span class="mw_dropdown_val"><?php _e("Click here to select"); ?></span>
+                <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown_type_navigation mw-dropdown_autocomplete left">
+                    <span class="mw-dropdown_val"><?php _e("Click here to select"); ?></span>
                     <input type="text" class="mw-ui-field  pages_search dd_search inactive" id="dd_pages_search" />
-                    <div class="mw_dropdown_fields">
+                    <div class="mw-dropdown-content">
                       <ul class="">
                         <li class="other-action" value="-1"></li>
                       </ul>
@@ -313,14 +262,13 @@ ul li.mw-dd-list-result:last-child a{
         <!-- TAB 3 -->
         <div class="tab">
             <div class="media-search-holder">
-              <div class="mw-ui-field relative left" style="width: 328px;">
-                  <span class="image_status link"></span>
+              <div class="mw-ui-btn mw-ui-btn-big w100">
                   <div id="upload_frame"></div>
-                  <span class="mw-ui-btn mw-ui-btn-blue insert_the_link" id="insert_email" style="position: absolute; right: -1px; top: -1px;"><?php _e("Upload"); ?></span>
+                  <span class="mw-icon-upload"></span><?php _e("Upload"); ?>
               </div>
             </div>
 
-            <div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%">
+            <div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%;display: none">
                 <div class="mw-ui-progress-bar" style="width: 0%;"></div>
                 <div class="mw-ui-progress-info"></div>
                 <span class="mw-ui-progress-percent"></span>
@@ -331,14 +279,11 @@ ul li.mw-dd-list-result:last-child a{
         <!-- TAB 4 -->
         <div class="tab">
             <div class="media-search-holder">
-                <div class="mw-ui-field left" style="width: 260px;float: left;margin-right: 10px;">
-                    <span id="" class="image_status link"></span>
-                    <input type="text" style="width: 200px;" class="mw-ui-invisible-field" id="email_field" />
-                </div>
+                <input type="text" class="mw-ui-field" id="email_field" />
                 <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
             </div>
 
-        </div>
+        </div> </div>
     </div>
 </div>
 

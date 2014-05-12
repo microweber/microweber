@@ -1,11 +1,11 @@
 <div id="mw_small_editor" class="mw-defaults mw_editor mw_small_editor">
         <div class="mw_small_editor_top">
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_family" id="font_family_selector_small" title="<?php _e("Font"); ?>" data-value="Arial">
-              <span class="mw_dropdown_val_holder">
+            <div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_action_font_family" id="font_family_selector_small" title="<?php _e("Font"); ?>" data-value="Arial">
+              <span class="mw-dropdown-value">
                   <span class="dd_rte_arr"></span>
-                  <span class="mw_dropdown_val">Arial</span>
+                  <span class="mw-dropdown_val">Arial</span>
               </span>
-              <div class="mw_dropdown_fields">
+              <div class="mw-dropdown-content">
                 <ul>
                   <li value="Arial"><a href="javascript:;" style="font-family:Arial">Arial</a></li>
                   <li value="Tahoma"><a href="javascript:;" style="font-family:Tahoma">Tahoma</a></li>
@@ -16,13 +16,13 @@
               </div>
             </div>
             <span class="mw_dlm"></span>
-            <div class="mw_dropdown mw_dropdown_type_wysiwyg mw_dropdown_action_font_size" id="font_size_selector_small" title="<?php _e("Font Size"); ?>">
-                <span class="mw_dropdown_val_holder">
+            <div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_action_font_size" id="font_size_selector_small" title="<?php _e("Font Size"); ?>">
+                <span class="mw-dropdown-value">
                           <?php  /*  <input type="text" class="mw_dd_field"  />  */  ?>
                             <span class="dd_rte_arr"></span>
-                            <span class="mw_dropdown_val" >Size</span>
+                            <span class="mw-dropdown_val" >Size</span>
                         </span>
-              <div class="mw_dropdown_fields">
+              <div class="mw-dropdown-content">
                         <ul>
                           <li value="10"><a href="javascript:;">10</a></li>
                           <li value="11"><a href="javascript:;">11</a></li>

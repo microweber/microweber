@@ -111,7 +111,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 		$parent_content_params['is_shop'] = 'n';
 		$parent_content_params['is_home'] = 'n';
 	    $parent_content = get_content($parent_content_params);
-		 
+
 		 if(isset($parent_content['id'])){
 			 $data['parent'] = $parent_content['id'];
 		 } else {
@@ -273,55 +273,56 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   
   <?php endif; ?>
   
-  
+
   </div>
-  
-<div id="quick-add-post-options-holder"><div class="mw-ui-btn-nav" id="quick-add-post-options">
-    <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span>
-      <?php _e("Picture Gallery"); ?>
-      </span></span>
-    <?php if($data['content_type'] == 'page'): ?>
-    <span class="mw-ui-btn"><span class="mw-icon-navigation"></span><span>
-      <?php _e('Add to navigation menu'); ?>
-      </span> </span>
-    <?php endif; ?>
-    <?php  if(trim($data['subtype']) == 'product'): ?>
-    <span class="mw-ui-btn"><span class="mw-icon-price"></span><span>
-      <?php _e("Price & Fields"); ?>
-      </span></span>
-    <span class="mw-ui-btn"><span class="mw-icon-truck"></span><span>
-      <?php _e("Shipping & Options"); ?>
-      </span></span>
-    <?php else: ?>
-    <span class="mw-ui-btn"><span class="mw-icon-fields"></span><span>
-      <?php _e("Custom Fields"); ?>
-      </span></span>
-    <?php endif; ?>
-    <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>
-      <?php _e("Advanced"); ?>
-      </span></span>
+<div id="content-edit-settings-tabs-holder"><div id="content-edit-settings-tabs">
+  <div id="quick-add-post-options-holder">
+      <div class="mw-ui-btn-nav" id="quick-add-post-options">
+          <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span>
+            <?php _e("Picture Gallery"); ?>
+            </span></span>
+          <?php if($data['content_type'] == 'page'): ?>
+          <span class="mw-ui-btn"><span class="mw-icon-navigation"></span><span>
+            <?php _e('Add to navigation menu'); ?>
+            </span> </span>
+          <?php endif; ?>
+          <?php  if(trim($data['subtype']) == 'product'): ?>
+          <span class="mw-ui-btn"><span class="mw-icon-price"></span><span>
+            <?php _e("Price & Fields"); ?>
+            </span></span>
+          <span class="mw-ui-btn"><span class="mw-icon-truck"></span><span>
+            <?php _e("Shipping & Options"); ?>
+            </span></span>
+          <?php else: ?>
+          <span class="mw-ui-btn"><span class="mw-icon-fields"></span><span>
+            <?php _e("Custom Fields"); ?>
+            </span></span>
+          <?php endif; ?>
+          <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>
+            <?php _e("Advanced"); ?>
+            </span></span>
 
-     <?php if($data['content_type'] == 'page'):  ?>
-        <span class="mw-ui-btn"><span class="mw-icon-template"></span><span>
-      <?php _e("Template"); ?>
-      </span></span>
-       <?php endif; ?>
-        <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
+           <?php if($data['content_type'] == 'page'):  ?>
+              <span class="mw-ui-btn"><span class="mw-icon-template"></span><span>
+            <?php _e("Template"); ?>
+            </span></span>
+             <?php endif; ?>
+              <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
 
-</div></div>
-  
+      </div>
+  </div>
+
 <div id="quick-add-post-options-items-holder" class="mw-ui-box mw-ui-box-content">
   <div class="quick-add-post-options-item" id="quick-add-gallery-items">
     <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
     <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
-            <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
-
+    <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
   </div>
   <?php if($data['content_type'] == 'page'): ?>
   <div class="quick-add-post-options-item">
     <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
     <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
-                <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
+    <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
 
   </div>
   <?php endif; ?>
@@ -333,9 +334,9 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
                     suggest-from-related="true"
                     list-preview="true"
                     id="fields_for_post_<?php print $rand; ?>" 	 />
-                    
-                    
-                    
+
+
+
 
               <?php event_trigger('mw_admin_edit_page_tab_3', $data); ?>
 
@@ -348,34 +349,35 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   <div class="quick-add-post-options-item" id="quick-add-post-options-item-advanced">
 
    <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
-   
-   
-   
-     
-  
 
-  
+
+
+
+
+
+
     <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
   </div>
-  
+
   <?php if($data['content_type'] == 'page'):  ?>
     <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
 
   <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
-  
-  
+
+
     </div>
   <?php endif; ?>
-  
 
-  
-  
-  
+
+
+
+
      <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
-  
+
 </div>
-  
-  
+</div></div>
+
+
   <?php // if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
     <?php  if(isset($data['subtype']) and $data['subtype'] != 'notext'): ?>
  
@@ -866,12 +868,15 @@ mw.save_inner_editable_fields = function(data){
               var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
               ewr.style.position = 'absolute';
               ewr.style.top = scrolltop + otop + 'px';
-              ewr.style.top = scrolltop - otop /*+ mwd.querySelector('.admin-manage-toolbar').offsetTop*/ + mwd.querySelector('.admin-manage-toolbar').offsetHeight - 100  + 'px';
-
+              ewr.style.top = scrolltop - otop /*+ mwd.querySelector('.admin-manage-toolbar').offsetTop*/ + mwd.querySelector('.admin-manage-toolbar').offsetHeight - 98  + 'px';
+             mw.$('.admin-manage-toolbar-scrolled').addClass('admin-manage-toolbar-scrolled-wysiwyg');
+             mw.tools.addClass(ewr, 'editor_wrapper_fixed');
            }
            else{
               var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
               ewr.style.position = 'static';
+               mw.$('.admin-manage-toolbar-scrolled').removeClass('admin-manage-toolbar-scrolled-wysiwyg');
+               mw.tools.removeClass(ewr, 'editor_wrapper_fixed');
            }
         }
      });

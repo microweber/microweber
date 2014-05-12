@@ -9,35 +9,22 @@ if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_q
     @set_magic_quotes_runtime(0);
     @set_magic_quotes_runtime(0);
 }
-function params_stripslashes_array_walk($array)
-{
-    if (is_array($array)) {
-        foreach ($array as $k => $v) {
-            //$new_key =  stripslashes($array);
-            if (is_string($v)) {
-                $array[$k] = stripslashes($v);
-            } elseif (is_array($v)) {
-                $array[$k] = params_stripslashes_array_walk($v);
-            }
-        }
+function stripslashes_magic_quotes_gpc($array) {
+    foreach ($array as $key => $value) {
+        $array[$key] = is_array($value) ?
+            stripslashes_magic_quotes_gpc($value) :
+            stripslashes($value);
     }
     return $array;
 }
 
-function params_stripslashes_array($array)
-{
-    return is_array($array) ? array_map('Microweber\params_stripslashes_array_walk', $array) : stripslashes($array);
-}
-
 if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
-
-
-    $_GET = params_stripslashes_array($_GET);
-    $_POST = params_stripslashes_array($_POST);
-    $_COOKIE = params_stripslashes_array($_COOKIE);
-    $_REQUEST = params_stripslashes_array($_REQUEST);
-
+    $_GET     = stripslashes_magic_quotes_gpc($_GET);
+    $_POST    = stripslashes_magic_quotes_gpc($_POST);
+    $_COOKIE  = stripslashes_magic_quotes_gpc($_COOKIE);
+    $_REQUEST = stripslashes_magic_quotes_gpc($_REQUEST);
 }
+
 
 
 // Controller Class

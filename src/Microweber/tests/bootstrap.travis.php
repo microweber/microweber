@@ -5,10 +5,10 @@ if (!defined('MW_TABLE_PREFIX')) {
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+require_once(__DIR__.'/../../../vendor/autoload.php');
 
 require_once(__DIR__.'/../bootstrap.php');
-
-
+ 
 $config = array(
     // In development, debug mode unlocks extra error info
     'debug_mode' => true,

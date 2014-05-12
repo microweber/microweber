@@ -193,17 +193,18 @@ mw.admin = {
          toolbar.style.top = 0;
       }
       if( mw.admin.manageToolbarQuickNav === null){
-        mw.admin.manageToolbarQuickNav = mwd.getElementById('quick-add-post-options-holder');
+        mw.admin.manageToolbarQuickNav = mwd.getElementById('content-edit-settings-tabs');
       }
       if(mw.admin.manageToolbarQuickNav !== null){
-            if((scrolltop + 100) > mw.admin.manageToolbarQuickNav.offsetTop){
-              mw.$("#quick-add-post-options").addClass('fixed');
+            if((scrolltop) >100){ d(1)
+              mw.$("#content-edit-settings-tabs").addClass('fixed');
               mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
             }
             else{
-              mw.$("#quick-add-post-options").removeClass('fixed');
+              mw.$("#content-edit-settings-tabs").removeClass('fixed');
               mw.$(".admin-manage-toolbar-scrolled").removeClass('fix-tabs');
             }
+
       }
 
     },
@@ -236,6 +237,10 @@ mw.admin = {
     },
     insertModule:function(module){
       mwd.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
+    },
+    titleColumnNavWidth:function(){
+      var _n = mwd.getElementById('content-title-field-buttons');
+      _n.style.width=_n.querySelector('.mw-ui-btn-nav').offsetWidth+22+'px';
     }
 }
 

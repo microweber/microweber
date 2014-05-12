@@ -25,7 +25,7 @@ mw.askusertostay = false;
      mw.tools.confirm("<?php _e("You have unsaved changes! Are you sure"); ?>?");
   }
 
-  mw.module = {}
+
 
   mwd = document;
   mww = window;
@@ -330,7 +330,7 @@ mw.askusertostay = false;
     ]
   }
 
-  mw.load_module = function($module_name, $update_element, callback, attributes) {
+  mw.load_module = function($module_name, $update_element, callback, attributes, callbackOnError) {
    var attributes = attributes || {};
    attributes.module = $module_name;
       mw._({
@@ -341,6 +341,11 @@ mw.askusertostay = false;
           if (mw.is.func(callback)) {
             callback.call($($update_element)[0]);
           }
+        },
+        error:function(){
+            if(typeof callbackOnError === 'function'){
+              callbackOnError.call();
+            }
         }
       });
   }
@@ -544,6 +549,9 @@ mw.askusertostay = false;
        mw.tools.removeClass(mwd.body, 'loading');
     }).fail(function(){
        mw.pauseSave = false;
+       if(typeof obj.error === 'function'){
+             obj.error.call();
+       }
     }).always(function(){
         mw.pauseSave = false;
     });

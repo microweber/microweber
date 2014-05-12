@@ -2,13 +2,12 @@
 <?php  $rand = uniqid(); ?>
 
 <div class="mw-ui-field-holder">
+    
 	<label class="mw-ui-label">
 		<?php _e("Add to Navigation"); ?>
 	</label>
 	<div class="relative" id="menu-selector-item">
-		<div class="mw-ui-field mw-tag-selector mw-selected-menus mw-ui-field-dropdown" id="mw-selected-menus-<?php print $rand; ?>" >
-			<input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to navigation"); ?>" style="width: 190px;" />
-		</div>
+
 		<?php
 $content_id = false;
 $try_under_parent = false;
@@ -19,7 +18,7 @@ $add_to_menu = false;
 	 $content_id = $params['content_id'];
  }
  
- 
+
 
  
  
@@ -61,13 +60,8 @@ if(isset($params['parent'])){
 	<script>
 
           $(document).ready(function(){
-              mw.tools.tag({
-                  tagholder:'#mw-selected-menus-<?php print $rand; ?>',
-                  items: ".mw-ui-check",
-                  itemsWrapper: mwd.getElementById('mw-menu-selector-list-<?php print $rand; ?>'),
-                  method:'prepend'
-              });
+
           });
 
-  </script> 
+  </script>
 </div>
