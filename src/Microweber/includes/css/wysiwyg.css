@@ -264,7 +264,7 @@
   border-bottom: 1px solid #DCDCDC;
 }
 
-.mw-dropdown_type_wysiwyg {
+.mw-dropdown-type-wysiwyg {
     height:25px;
     width: 75px;
     float: left;
@@ -274,7 +274,7 @@
     white-space: nowrap;
 }
 
-.mw-dropdown_type_wysiwyg input.mw_dd_field{
+.mw-dropdown-type-wysiwyg input.mw_dd_field{
   border: none;
   padding: 5px;
   background: white;
@@ -292,37 +292,37 @@
   visibility: visible;
 }
 
-.mw-dropdown_type_wysiwyg input.mw_dd_field:focus{
+.mw-dropdown-type-wysiwyg input.mw_dd_field:focus{
   background: white;
   box-shadow: inset 0 0 6px #ccc;
 }
 
-.mw-dropdown_type_wysiwyg:hover, .mw-dropdown_type_wysiwyg.hovered, .mw-dropdown_type_wysiwyg.active{
+.mw-dropdown-type-wysiwyg:hover, .mw-dropdown-type-wysiwyg.hovered, .mw-dropdown-type-wysiwyg.active{
   border-color:#DADADA;
   background: #fff;
 }
 
-.mw-dropdown_type_wysiwyg:active{
+.mw-dropdown-type-wysiwyg:active{
   box-shadow: inset 0 0 6px #ccc;
 }
 
-.mw-dropdown_type_wysiwyg_blue{
+.mw-dropdown-type-wysiwyg_blue{
   border-color:#8EC4F0;
   background: #ABD3F4;
   color: #125287;
 }
 
-.mw-dropdown_type_wysiwyg_blue:hover, .mw-dropdown_type_wysiwyg_blue.hovered{
+.mw-dropdown-type-wysiwyg_blue:hover, .mw-dropdown-type-wysiwyg_blue.hovered{
   background:#81BDEF;
   border-color:#8EC4F0;
 }
 
-.mw-dropdown_type_wysiwyg ul{
+.mw-dropdown-type-wysiwyg ul{
   padding: 0;
   margin: 0;
 }
 
-.mw-dropdown_type_wysiwyg a{
+.mw-dropdown-type-wysiwyg a{
   color: #595959;
   text-decoration: none;
   font-size: 11px;
@@ -330,16 +330,16 @@
   padding: 2px 10px;
   line-height: normal;
 }
-.mw-dropdown_type_wysiwyg a:hover{
+.mw-dropdown-type-wysiwyg a:hover{
   background: #F0F0F0;
 }
 
-.mw-dropdown_type_wysiwyg .mw-dropdown_val{
+.mw-dropdown-type-wysiwyg .mw-dropdown_val{
   padding: 6px;
   width:47px;
 }
 
-.mw-dropdown_type_wysiwyg .mw-dropdown_val * {
+.mw-dropdown-type-wysiwyg .mw-dropdown_val * {
   font-size: 11px !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -357,13 +357,13 @@
 }
 
 
-.mw-dropdown_type_wysiwyg .mw-dropdown-content{
+.mw-dropdown-type-wysiwyg .mw-dropdown-content{
   top: 100%;
   padding: 0;
   margin-left: -1px;
 }
 
-.mw-dropdown_type_wysiwyg .mw-dropdown-content ul{
+.mw-dropdown-type-wysiwyg .mw-dropdown-content ul{
   width: 200px;
   padding: 5px 0;
   border:1px solid #D2D2D2;
@@ -390,12 +390,12 @@
   width: 245px;
 }
 
-.mw_editor_btn, .mw-dropdown_type_wysiwyg{
+.mw_editor_btn, .mw-dropdown-type-wysiwyg{
   margin-left: 1px;
   margin-right: 1px;
 }
 
-#mw_small_editor .mw_editor_btn, #mw_small_editor .mw-dropdown_type_wysiwyg{
+#mw_small_editor .mw_editor_btn, #mw_small_editor .mw-dropdown-type-wysiwyg{
   margin-bottom: 0;
 }
 

@@ -663,7 +663,7 @@
 
      <hr />
 
-        <div data-value="" title="" class="mw-dropdown mw-dropdown_type_wysiwyg">
+        <div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg">
                 <span class="mw-dropdown-value">
                     <span class="dd_rte_arr"></span>
                     <span class="mw-dropdown_val">Simple</span>

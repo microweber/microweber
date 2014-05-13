@@ -31,7 +31,7 @@
     <li class="ts_main_li"> <a class="ts_main_a dd_design_spacing" href="javascript:;"><?php _e("Spacing"); ?></a>
       <div class="ts_action" style="width: 200px;">
         <div class="ts_action_item mw-designtype-universal">
-          <div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_func_slider left" id="margin_selector" data-for="margin_slider"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val"><?php _e("Margin"); ?></span> </span>
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_func_slider left" id="margin_selector" data-for="margin_slider"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val"><?php _e("Margin"); ?></span> </span>
             <div class="mw-dropdown-content">
               <ul style="width: 100%">
                 <li value="true">
@@ -63,7 +63,7 @@
           <input type="text" name="margin_slider" value="" />
           <span class="slider_val_label">px</span> </span> </div>
         <div class="ts_action_item mw-designtype-element">
-          <div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_func_slider left" id="padding_selector" data-for="padding_slider"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val"><?php _e("Padding"); ?></span> </span>
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_func_slider left" id="padding_selector" data-for="padding_slider"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val"><?php _e("Padding"); ?></span> </span>
             <div class="mw-dropdown-content">
               <ul style="width: 100%">
                 <li value="true">
@@ -100,7 +100,7 @@
       <div class="ts_action" style="width: 185px;">
         <div class="ts_action_item ts_border_position_selector"> <a class="border-style none" data-val="none" title="<?php _e("Remove Borders"); ?>"></a> <span class="mw_dlm left"></span> <a class="border-style all active" data-val="border" title="<?php _e("All"); ?>"></a> <span class="mw_dlm left"></span> <a class="border-style bleft" data-val="borderLeft" title="<?php _e("Border Left"); ?>"></a> <span class="mw_dlm left"></span> <a class="border-style bright" data-val="borderRight" title="<?php _e("Border Right"); ?>"></a><span class="mw_dlm left"></span> <a class="border-style top" data-val="borderTop" title="<?php _e("Border Top"); ?>"></a> <span class="mw_dlm left"></span> <a class="border-style bottom" data-val="borderBottom" title="<?php _e("Border Bottom"); ?>"></a> </div>
         <div class="ts_action_item">
-          <div class="mw-dropdown mw-dropdown_type_wysiwyg dd_border_selector" style="margin: 0 8px 0 0;width: auto;"  title="<?php _e("Border Style"); ?>" data-value="solid"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: 62px;"><span class="border_selector" style="border-bottom-style: solid">Solid</span></span> </span>
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg dd_border_selector" style="margin: 0 8px 0 0;width: auto;"  title="<?php _e("Border Style"); ?>" data-value="solid"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: 62px;"><span class="border_selector" style="border-bottom-style: solid">Solid</span></span> </span>
             <div class="mw-dropdown-content">
               <ul style="width: auto">
                 <li value="solid"><a href="javascript:;"><span class="border_selector" style="border-bottom-style: solid"><?php _e("Solid"); ?></span></a></li>
@@ -109,7 +109,7 @@
               </ul>
             </div>
           </div>
-          <div class="mw-dropdown mw-dropdown_type_wysiwyg dd_borderwidth_Selector" style="margin-left: -5px;width: auto"  title="<?php _e("Border Width"); ?>" data-value="0"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: auto">0</span> </span>
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg dd_borderwidth_Selector" style="margin-left: -5px;width: auto"  title="<?php _e("Border Width"); ?>" data-value="0"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: auto">0</span> </span>
             <div class="mw-dropdown-content">
               <ul style="width: auto">
                 <li value="0px"><a href="javascript:;">0</a></li>
@@ -144,7 +144,7 @@
         </div>
         <div class="ts_action_item">
           <div class="ts_action_centerer"> <span class="ed_label left"><?php _e("Repeat"); ?></span>
-            <div class="mw-dropdown mw-dropdown_type_wysiwyg hovered" style="margin-left: -5px;margin-top: -3px;width: auto;" id="ts_bg_repeat" title="Background Repeat" data-value="none"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: auto"><?php _e("No-Repeat"); ?></span> </span>
+            <div class="mw-dropdown mw-dropdown-type-wysiwyg hovered" style="margin-left: -5px;margin-top: -3px;width: auto;" id="ts_bg_repeat" title="Background Repeat" data-value="none"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: auto"><?php _e("No-Repeat"); ?></span> </span>
               <div class="mw-dropdown-content">
                 <ul style="width: 100px;">
                   <li value="no-repeat"><a href="javascript:;"><?php _e("No-Repeat"); ?></a></li>
@@ -158,7 +158,7 @@
         </div>
         <div class="ts_action_item">
           <div class="ts_action_centerer">
-            <div class="mw-dropdown mw-dropdown_type_wysiwyg mw-dropdown_func_slider left hovered" style="width: auto;margin-left: -6px;" id="ts_bg_position"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: auto;"><?php _e("Background Position"); ?></span> </span>
+            <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_func_slider left hovered" style="width: auto;margin-left: -6px;" id="ts_bg_position"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: auto;"><?php _e("Background Position"); ?></span> </span>
               <div class="mw-dropdown-content">
                 <ul style="width: 100%">
                   <li value="true">

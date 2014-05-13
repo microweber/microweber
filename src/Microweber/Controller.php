@@ -2,28 +2,6 @@
 
 
 namespace Microweber;
-// magic quotes fix
-// http://php.net/manual/en/function.get-magic-quotes-gpc.php
-// http://stackoverflow.com/questions/3117512/prevent-automatic-add-slashes-while-using-parse-str
-if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_quotes_runtime') and get_magic_quotes_runtime()) {
-    @set_magic_quotes_runtime(0);
-    @set_magic_quotes_runtime(0);
-}
-function stripslashes_magic_quotes_gpc($array) {
-    foreach ($array as $key => $value) {
-        $array[$key] = is_array($value) ?
-            stripslashes_magic_quotes_gpc($value) :
-            stripslashes($value);
-    }
-    return $array;
-}
-
-if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
-    $_GET     = stripslashes_magic_quotes_gpc($_GET);
-    $_POST    = stripslashes_magic_quotes_gpc($_POST);
-    $_COOKIE  = stripslashes_magic_quotes_gpc($_COOKIE);
-    $_REQUEST = stripslashes_magic_quotes_gpc($_REQUEST);
-}
 
 
 

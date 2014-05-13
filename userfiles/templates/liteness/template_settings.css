@@ -146,11 +146,11 @@ body.loading:after{
   display: none;
   padding: 12px 0;
 }
-#background-options .mw-dropdown_type_wysiwyg{
+#background-options .mw-dropdown-type-wysiwyg{
   border-color: #DEDEDE;
   width: 90%;
 }
-#background-options .mw-dropdown_type_wysiwyg ul{
+#background-options .mw-dropdown-type-wysiwyg ul{
   width: 100%;
 }
 

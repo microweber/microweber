@@ -462,7 +462,7 @@
 
   <div class="mw-ui-row-nodrop">
     <div class="mw-ui-col">
-        <div id="ts_bg_position" class="mw-dropdown mw-dropdown_type_wysiwyg">
+        <div id="ts_bg_position" class="mw-dropdown mw-dropdown-type-wysiwyg">
           <span class="mw-dropdown-value">
               <span class="dd_rte_arr"></span>
               <span style="width: auto;display: block" class="mw-dropdown_val">Position</span>
@@ -499,7 +499,7 @@
 
     </div>
     <div class="mw-ui-col">
-        <div title="Background Size" id="ts_bg_size" class="mw-dropdown mw-dropdown_type_wysiwyg"> <span class="mw-dropdown-value">
+        <div title="Background Size" id="ts_bg_size" class="mw-dropdown mw-dropdown-type-wysiwyg"> <span class="mw-dropdown-value">
             <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: auto;display: block">Size</span> </span>
             <div class="mw-dropdown-content" style="display: none;">
                 <ul>

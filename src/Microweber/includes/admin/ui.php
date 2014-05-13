@@ -434,7 +434,8 @@ $(window).load(function(){
        <div class="demobox">
          <div class="mw-dropdown">
             <span class="mw-dropdown-value">
-            <span class="mw-ui-btn mw-ui-btn-info mw-dropdown_val">Dropdown on click <span class="mw-icon-dropdown mw-icon-right"></span></span></span>
+                <span class="mw-ui-btn mw-ui-btn-info mw_dropdown_val">Dropdown on click <span class="mw-icon-dropdown mw-icon-right"></span></span>
+            </span>
             <div class="mw-dropdown-content">
                 <ul class="mw-ui-btn-vertical-nav" style="width: 100%;">
                      <li value="1"><span class="mw-ui-btn">Option 1</span></li>
