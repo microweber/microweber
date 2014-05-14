@@ -58,6 +58,7 @@ if (!defined('MW_VERSION')) {
  * @property \Microweber\Log $log
  * @property \Microweber\Parser $parser
  * @property \Microweber\Format $format
+ * @property \Microweber\Http $http
  */
 class Application
 {
