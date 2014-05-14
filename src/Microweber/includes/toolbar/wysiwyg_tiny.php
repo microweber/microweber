@@ -1,6 +1,6 @@
 <div id="mw_small_editor" class="mw-defaults mw_editor mw_small_editor">
         <div class="mw_small_editor_top">
-            <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_action_font_family" id="font_family_selector_small" title="<?php _e("Font"); ?>" data-value="Arial">
+            <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family" id="font_family_selector_small" title="<?php _e("Font"); ?>" data-value="Arial">
               <span class="mw-dropdown-value">
                   <span class="dd_rte_arr"></span>
                   <span class="mw-dropdown_val">Arial</span>
@@ -16,7 +16,7 @@
               </div>
             </div>
             <span class="mw_dlm"></span>
-            <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_action_font_size" id="font_size_selector_small" title="<?php _e("Font Size"); ?>">
+            <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_small" title="<?php _e("Font Size"); ?>">
                 <span class="mw-dropdown-value">
                           <?php  /*  <input type="text" class="mw_dd_field"  />  */  ?>
                             <span class="dd_rte_arr"></span>

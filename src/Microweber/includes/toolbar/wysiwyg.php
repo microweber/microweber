@@ -12,7 +12,7 @@
     <div class="wysiwyg-cell">
       <div class="relative"> <span class="mw_editor_btn mw_editor_t wysiwyg-convertible-toggler wysiwyg-convertible-toggler-1000"> <span class="dd_rte_arr"></span> <span class="ed-ico"></span> </span>
         <div class="wysiwyg-convertible wysiwyg-convertible-1000"> <span class="mw_editor_btn mw_editor_bold" data-command="bold" title="<?php _e("Bold"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_italic" data-command="italic" title="<?php _e("Italic"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_underline" data-command="underline" title="<?php _e("Underline"); ?>"><span class="ed-ico"></span></span> <span class="mw_editor_btn mw_editor_strike" data-command="strikethrough" title="<?php _e("Strike Through"); ?>"><span class="ed-ico"></span></span>
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: 65px;">
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="Format" data-value="" style="width:85px;"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: 65px;">
             <?php _e("Format"); ?>
             </span> </span>
             <div class="mw-dropdown-content">
@@ -60,7 +60,7 @@
               </ul>
             </div>
           </div>
-          <?php /*<div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_action_fontfx" id="textfx" title="Font Effects" data-value="">
+          <?php /*<div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_fontfx" id="textfx" title="Font Effects" data-value="">
                         <span class="mw-dropdown-value">
                             <span class="dd_rte_arr"></span>
                             <span class="mw-dropdown_val">Font FX</span>
@@ -72,7 +72,7 @@
                         </ul>
                       </div>
                     </div>*/ ?>
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val">Arial</span> </span>
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val">Arial</span> </span>
             <div class="mw-dropdown-content">
               <ul>
                 <li value="Arial"><a href="#" style="font-family:Arial">Arial</a></li>
@@ -83,7 +83,7 @@
               </ul>
             </div>
           </div>
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>"> <span class="mw-dropdown-value">
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>"> <span class="mw-dropdown-value">
             <?php /*<input type="text" class="mw_dd_field"  />         */ ?>
             <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" >Size</span> </span>
             <div class="mw-dropdown-content">
@@ -102,7 +102,7 @@
                     </ul>
             </div>
           </div>
-          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val">
+          <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_insert" id="wysiwyg_insert" title="<?php _e("Insert"); ?>"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val">
             <?php _e("Insert"); ?>
             </span> </span>
             <div class="mw-dropdown-content">

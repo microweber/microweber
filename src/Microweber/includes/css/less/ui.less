@@ -1138,17 +1138,16 @@ div.mw-ui-field:after{
   z-index: 9;
   display: inline-block;
 }
-
-
-
-.mw-ui-dropdown .mw-dropdown-content, .mw-ui-dropdown .mw-ui-dropdown-content{
+.mw-dropdown-content{
+    position: absolute;
     left: 0px;
+    top:100%;
     min-width: 100%;
     padding-top: 0px;
-    position: absolute;
-    top:100%;
+}
+
+.mw-ui-dropdown .mw-dropdown-content, .mw-ui-dropdown .mw-ui-dropdown-content{
     visibility: hidden;
-    min-width: 100%;
     cursor: default;
 }
 

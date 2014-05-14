@@ -1,14 +1,22 @@
 <?php
+if (version_compare(phpversion(), "5.3.0", "<=")) {
+    exit("Error: You must have PHP version 5.3 or greater to run Microweber");
+}
+
+
+if (!defined('MW_VERSION')) {
+    define('MW_VERSION', 0.93462);
+}
 
 /**
  * This file will bootstrap Microweber by:
- *
+ *  - Loading vendor/autoload.php file if exists
  *  - Registering PSR-4 Autoloader
  *  - Defining constants if they are not set
  *  - Including common functions files
  *
- * If you need to customize the defaults, please create a bootstrap.php in
- * your site's root and define your constants there.
+ * If you need to customize the defaults,
+ * please create a custom bootstrap file and include it in index.php before loading this file
  *
  */
 
@@ -19,7 +27,6 @@ if (!defined('DS')) {
 
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname(dirname(dirname(__FILE__))) . DS);
-
 
 
     $bootstrap_file_for_site = false;
@@ -60,20 +67,8 @@ if (!defined('MW_ROOTPATH')) {
 
 }
 
-if (defined('MW_ROOTPATH')) {
-	$autoload_vendors_dir= MW_ROOTPATH.'vendor'.DIRECTORY_SEPARATOR;
-	if(is_dir($autoload_vendors_dir)){
-		 include_once($autoload_vendors_dir. 'autoload.php');
-	}
-    
-} 
-if (!defined('MW_VERSION')) {
-    define('MW_VERSION', 0.93462);
-}
 
-if (version_compare(phpversion(), "5.3.0", "<=")) {
-    exit("Error: You must have PHP version 5.3 or greater to run Microweber");
-}
+
 
 if (!defined('MW_SITE_URL')) {
     // please add backslash to the url if you define it
@@ -94,11 +89,46 @@ if (!defined('MW_ADAPTERS_DIR')) {
     define('MW_ADAPTERS_DIR', MW_APP_PATH . 'Adapters' . DS);
 }
 
-if (!defined('MW_COMPONENTS_URL')) {
-    define('MW_COMPONENTS_URL', MW_SITE_URL.'components/');
+
+if (!defined('MW_WEB_COMPONENTS_FOLDER_NAME')) {
+    define('MW_WEB_COMPONENTS_FOLDER_NAME', 'components');
 }
-if (!defined('MW_COMPONENTS_DIR')){
-    define('MW_COMPONENTS_DIR',MW_ROOTPATH . 'components'. DS );
+if (!defined('MW_WEB_COMPONENTS_SHARED_FOLDER_NAME')) {
+    define('MW_WEB_COMPONENTS_SHARED_FOLDER_NAME', 'components-shared');
+}
+if (!defined('MW_VENDOR_FOLDER_NAME')) {
+    define('MW_VENDOR_FOLDER_NAME', 'vendor');
+}
+if (!defined('MW_VENDOR_SHARED_FOLDER_NAME')) {
+    define('MW_VENDOR_SHARED_FOLDER_NAME', 'vendor-shared');
+}
+if (!defined('MW_WEB_COMPONENTS_URL')) {
+    define('MW_WEB_COMPONENTS_URL', MW_SITE_URL . MW_WEB_COMPONENTS_FOLDER_NAME . '/');
+}
+if (!defined('MW_WEB_COMPONENTS_DIR')) {
+    define('MW_WEB_COMPONENTS_DIR', MW_ROOTPATH . MW_WEB_COMPONENTS_FOLDER_NAME . DS);
+}
+$shared_web_components_dir_exists = false;
+if (!defined('MW_WEB_COMPONENTS_SHARED_DIR')) {
+    if (is_dir(MW_ROOTPATH . MW_WEB_COMPONENTS_SHARED_FOLDER_NAME)) {
+        $shared_web_components_dir_exists = true;
+        define('MW_WEB_COMPONENTS_SHARED_DIR', MW_ROOTPATH . MW_WEB_COMPONENTS_SHARED_FOLDER_NAME . DS);
+    } else {
+        $shared_web_components_dir_exists = false;
+        define('MW_WEB_COMPONENTS_SHARED_DIR', MW_ROOTPATH . MW_WEB_COMPONENTS_FOLDER_NAME . DS);
+    }
+}
+
+$autoload_vendors_dir = MW_ROOTPATH . MW_VENDOR_FOLDER_NAME . DIRECTORY_SEPARATOR;
+$autoload_vendors_shared_dir = MW_ROOTPATH . MW_VENDOR_SHARED_FOLDER_NAME . DIRECTORY_SEPARATOR;
+$autoload_vendors_file = $autoload_vendors_dir. 'autoload.php';
+$autoload_vendors_shared_file = $autoload_vendors_shared_dir. 'autoload.php';
+if (is_file($autoload_vendors_shared_file)) {
+    include_once($autoload_vendors_shared_file);
+}
+
+if (is_file($autoload_vendors_file)) {
+    include_once($autoload_vendors_file);
 }
 
 
@@ -200,7 +230,8 @@ if (function_exists('get_magic_quotes_runtime') and function_exists('set_magic_q
     @set_magic_quotes_runtime(0);
     @set_magic_quotes_runtime(0);
 }
-function stripslashes_magic_quotes_gpc($array) {
+function stripslashes_magic_quotes_gpc($array)
+{
     foreach ($array as $key => $value) {
         $array[$key] = is_array($value) ?
             stripslashes_magic_quotes_gpc($value) :
@@ -210,12 +241,11 @@ function stripslashes_magic_quotes_gpc($array) {
 }
 
 if (function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc()) {
-    $_GET     = stripslashes_magic_quotes_gpc($_GET);
-    $_POST    = stripslashes_magic_quotes_gpc($_POST);
-    $_COOKIE  = stripslashes_magic_quotes_gpc($_COOKIE);
+    $_GET = stripslashes_magic_quotes_gpc($_GET);
+    $_POST = stripslashes_magic_quotes_gpc($_POST);
+    $_COOKIE = stripslashes_magic_quotes_gpc($_COOKIE);
     $_REQUEST = stripslashes_magic_quotes_gpc($_REQUEST);
 }
-
 
 
 $loader = new Psr4AutoloaderClass;
@@ -229,14 +259,12 @@ $loader->addNamespace('Microweber', MW_MODULES_DIR);
 $loader->register();
 
 
-
 /**
  * Constructor function
  *
  * @param null $class
  * @param bool $constructor_params
  * @return \Microweber\Application Microweber Application object
-
  */
 function mw($class = null, $constructor_params = false)
 {
@@ -275,7 +303,7 @@ set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     PATH_SEPARATOR . $libs_path .
     PATH_SEPARATOR . get_include_path());
 
- spl_autoload_register('mw_autoload');
+spl_autoload_register('mw_autoload');
 
 
 // Basic system functions

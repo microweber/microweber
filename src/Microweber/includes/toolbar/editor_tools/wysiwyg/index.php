@@ -35,9 +35,11 @@ foreach($components as $component){
 $req_string = trim($req_string,',');
  ?>
  
+/*
 require([<?php print $req_string; ?>], function(app) {
     
 });
+*/
 </script>
 <?php endif; ?>
 <?php endif; ?>

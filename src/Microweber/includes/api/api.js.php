@@ -1,14 +1,13 @@
 <?php
 
-include_once(MW_COMPONENTS_DIR.'require.js');
-include_once(MW_COMPONENTS_DIR.'jquery'.DIRECTORY_SEPARATOR.'jquery.min.js');
+//include_once(MW_COMPONENTS_DIR.'require.js');
+
+print load_web_component_file('jquery/jquery.min.js');
 
 
 ?>
 
-    require.config({
-        baseUrl: "<?php print MW_COMPONENTS_URL; ?>"
-    });
+
 
 
 
