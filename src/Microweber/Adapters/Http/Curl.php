@@ -58,7 +58,10 @@ class Curl
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
             if ($this->timeout != false) {
-                @set_time_limit($this->timeout);
+                if(function_exists('set_time_limit')){
+                    @set_time_limit(0);
+                }
+
             }
 
             $save_to = $this->save_to_file;
@@ -81,7 +84,9 @@ class Curl
                 }
                 if (isset($fp) and $fp != false) {
                     $dl = true;
-                    @set_time_limit(0);
+                    if(function_exists('set_time_limit')){
+                        @set_time_limit(0);
+                    }
                     curl_setopt($ch, CURLOPT_TIMEOUT, 50);
                     curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);

@@ -214,7 +214,11 @@ class Packages
                         if (isset($match[0])) {
                             $url = $match[0];
                             $download_target = $this->temp_dir . basename($url);
+                            $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
+                            $expectd_item_size = $item['size'];
+
                             if (!is_file($download_target) or filesize($download_target) != $item['size']) {
+
                                 $dl = $this->app->http->url($url)->download($download_target);
                                 if ($dl == false) {
                                     if (is_file($download_target) and filesize($download_target) != $item['size']) {
@@ -223,7 +227,15 @@ class Packages
                                         return array('size' => $fs, 'expected_size' => $expected, 'try_again' => "true", 'warning' => "Only " . $fs . ' bytes downloaded of total ' . $expected);
                                     }
                                 }
-                                d($dl);
+                                // d($dl);
+                            } else if (!is_file($download_target_extract_lock) and is_file($download_target) or filesize($download_target) == $item['size']) {
+                                @touch($download_target_extract_lock);
+                                $unzip = new \Microweber\Utils\Unzip();
+                                $target_dir = MW_ROOTPATH;
+                                $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
+d($result);
+                                return array('sssstry_again' => "true", 'success' => "Patch is completed");
+
                             }
                             // your link generator
                         }
