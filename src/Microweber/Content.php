@@ -5588,11 +5588,11 @@ class Content
                     if ($image_to_save != '') {
                         $save_media = array();
 
-
+ 
                         $save_media['content_id'] = $id;
-                        $save_media['src'] = $image_to_save;
+                        $save_media['filename'] = $image_to_save;
                         $check = $this->app->media->get($save_media);
-
+   
                         if($check == false){
                          $this->app->media->save($save_media);
                         }

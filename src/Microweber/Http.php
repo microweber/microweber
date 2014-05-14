@@ -11,6 +11,14 @@ class Http
      */
     public $adapter;
 
+
+    /**
+     * An instance of the Microweber Application class
+     *
+     * @var $app
+     */
+    public $app;
+
     function __construct($app = null)
     {
         if (!is_object($this->app)) {
@@ -31,15 +39,20 @@ class Http
         }
 
     }
+    public function url($url){
+        return $this->set_url($url);
+    }
 
     public function set_url($url)
     {
         $this->adapter->url = $url;
+        return $this;
     }
 
     public function set_timeout($seconds)
     {
         $this->adapter->timeout = $seconds;
+        return $this;
     }
 
     public function get($params = false)

@@ -10,6 +10,7 @@ if (function_exists('api_expose')) {
 }
 if (function_exists('api_expose')) {
     api_expose('Packages/apply_patch');
+    api_expose('Packages/prepare_patch');
 }
 
 class Packages
@@ -17,6 +18,7 @@ class Packages
 
     public $app;
     public $config_file;
+    public $temp_dir;
     public $config_items = array();
     private $remote_api_url = 'http://api.microweber.com/service/deploy/';
 
@@ -38,6 +40,17 @@ class Packages
             }
         } else {
             $this->config_file = $this->app->config('composer_file');
+        }
+
+
+        if (defined('MW_CACHE_DIR')) {
+            $this->temp_dir = MW_CACHE_DIR . 'packages_temp' . DIRECTORY_SEPARATOR;
+        } else {
+            $this->temp_dir = __DIR__ . DIRECTORY_SEPARATOR . 'packages_temp' . DIRECTORY_SEPARATOR;
+        }
+
+        if (!is_dir($this->temp_dir)) {
+            mkdir($this->temp_dir);
         }
 
 
@@ -78,7 +91,7 @@ class Packages
 
                 $conf_items[$key] = $value;
             }*/
-            $conf_items = json_encode($conf_items,JSON_UNESCAPED_SLASHES);
+            $conf_items = json_encode($conf_items, JSON_UNESCAPED_SLASHES);
             $save = file_put_contents($patch_file, $conf_items);
             if ($save) {
                 return array('success' => "composer.patch is saved");
@@ -89,26 +102,8 @@ class Packages
 
     }
 
-    function get_patch_file_location()
+    function prepare_patch()
     {
-        $conf = $this->config_file;
-        $patch_file = false;
-        if ($conf != false) {
-            $patch_file = str_ireplace('.json', '.patch', $conf);
-        }
-
-        if ($patch_file != false) {
-            if (!is_file($patch_file)) {
-                @touch($patch_file);
-            }
-        }
-
-        return $patch_file;
-    }
-
-    function apply_patch()
-    {
-
         if (defined('MW_API_CALL')) {
             $is_admin = $this->app->user->is_admin();
             if ($is_admin == false) {
@@ -134,18 +129,119 @@ class Packages
         }
 
         if ($download == true) {
-            $curl = new \Microweber\Utils\Curl();
-            $curl->setUrl($requestUrl);
-             $curl->timeout = 20;
+
+
+            $http = $this->app->http();
+            $http->set_url($requestUrl);
+            $http->set_timeout(20);
+//            $curl = new \Microweber\Utils\Curl();
+//            $curl->setUrl($requestUrl);
+//             $curl->timeout = 20;
             $post_params = array();
             $post_params['site_url'] = $this->app->url->site();
-            $post_params['composer_json'] =  $composer_file_content;
-            $post_params['composer_patch'] =$patch_file_content;
-d($post_params);
-            $curl_result = $curl->post($post_params);
+            $post_params['composer_json'] = $composer_file_content;
+            $post_params['composer_patch'] = $patch_file_content;
+            $curl_result = $http->post($post_params);
+            if ($curl_result === false) {
+                $curl_result = $http->post($post_params);
+            }
+//d($curl_result);
+            if ($curl_result != false) {
+                $curl_result = json_decode($curl_result, true);
+                if ($curl_result != false and is_array($curl_result) and !empty($curl_result)) {
 
-            d($curl_result);
+                    foreach ($curl_result as $item) {
+                        if (isset($item['download']) and $item['download'] != false) {
+                            $link = json_encode($item);
+                            //$item['download'];
+                            file_put_contents($this->temp_dir . 'download.json', $link);
+                            return array('success' => "Patch is ready for download");
+                        } else if (isset($item['error']) and $item['error'] != false) {
+                            return array('error' => $item['error']);
+
+                        }
+
+
+                    }
+
+
+                }
+                return $curl_result;
+            }
         }
+    }
+
+    function get_patch_file_location()
+    {
+        $conf = $this->config_file;
+        $patch_file = false;
+        if ($conf != false) {
+            $patch_file = str_ireplace('.json', '.patch', $conf);
+        }
+
+        if ($patch_file != false) {
+            if (!is_file($patch_file)) {
+                @touch($patch_file);
+            }
+        }
+
+        return $patch_file;
+    }
+
+    function apply_patch()
+    {
+        $download = $this->temp_dir . 'download.json';
+        if (!is_file($download)) {
+            return array('error' => 'file not found at ' . $download);
+        }
+        $download_links = file_get_contents($download);
+        if ($download_links == false) {
+            return false;
+        }
+        $download_links = json_decode($download_links, true);
+        if (is_array($download_links)) {
+            //  d($key);
+            $item = $download_links;
+            if (isset($item['download']) and isset($item['size'])) {
+                $expected = intval($item['size']);
+
+                $download_link = $item['download'];
+                if ($download_link != false and $expected > 0) {
+                    $text = $download_link;
+                    $regex = '/\b((?:[\w\d]+\:\/\/)?(?:[\w\-\d]+\.)+[\w\-\d]+(?:\/[\w\-\d]+)*(?:\/|\.[\w\-\d]+)?(?:\?[\w\-\d]+\=[\w\-\d]+\&?)?(?:\#[\w\-\d]*)?)\b/';
+                    preg_match_all($regex, $text, $matches, PREG_SET_ORDER);
+                    foreach ($matches as $match) {
+                        if (isset($match[0])) {
+                            $url = $match[0];
+                            $download_target = $this->temp_dir . basename($url);
+                            if (!is_file($download_target) or filesize($download_target) != $item['size']) {
+                                $dl = $this->app->http->url($url)->download($download_target);
+                                if ($dl == false) {
+                                    if (is_file($download_target) and filesize($download_target) != $item['size']) {
+                                        $fs = filesize($download_target);
+
+                                        return array('size' => $fs, 'expected_size' => $expected, 'try_again' => "true", 'warning' => "Only " . $fs . ' bytes downloaded of total ' . $expected);
+                                    }
+                                }
+                                d($dl);
+                            }
+                            // your link generator
+                        }
+                    }
+
+                }
+
+
+            }
+
+
+        }
+
+
+    }
+
+    function download_patch_file($file)
+    {
 
     }
 
@@ -199,7 +295,7 @@ d($post_params);
 
                     $conf_items[$key] = $value;
                 }
-                $conf_items = json_encode($conf_items,JSON_UNESCAPED_SLASHES);
+                $conf_items = json_encode($conf_items, JSON_UNESCAPED_SLASHES);
                 $save = file_put_contents($conf, $conf_items);
                 if ($save) {
                     return array('success' => "composer.json is saved");
