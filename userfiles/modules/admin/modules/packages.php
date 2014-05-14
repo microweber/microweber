@@ -9,11 +9,27 @@
 $.ajax({
   url: "<?php print api_link('Packages/apply_patch'); ?>"
 }).done(function(msg) {
+	
+	
+	
+	
 	mw.notification.msg(msg);
+	if(typeof(msg.try_again) != 'undefined'){
+		apply_new_packages();
+	}
  });
   
  }
-
+ function prepare_new_packages(){
+$.ajax({
+  url: "<?php print api_link('Packages/prepare_patch'); ?>"
+}).done(function(msg) {
+	mw.notification.msg(msg,30000);
+ }).fail(function(msg) {
+	 prepare_new_packages()
+ });
+  
+ }
  function save_new_package_form(){
  mw.form.post('#add-package-form-<?php print $params['id'] ?>', '<?php print api_link('Packages/save_patch'); ?>',
 			function(msg) {
@@ -50,5 +66,7 @@ mw.notification.msg(this);
   <input type="text" class="mw-ui-field mw-ui-field-medium" name="require_name">
   <input type="text" class="mw-ui-field mw-ui-field-medium" name="require_version">
   <button class="mw-ui-btn mw-ui-btn-medium" type="submit">Save config</button>
+    <button type="button" onClick="prepare_new_packages()">prepare_new_packages</button>
+
   <button type="button" onClick="apply_new_packages()">apply_new_packages</button>
 </form>

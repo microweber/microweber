@@ -67,9 +67,7 @@ $cache_adapters = mw()->adapters->get_adapters('Cache');
  if($system_cache_adapter == false){
 $system_cache_adapter = 'default';	
 }
-  d($system_cache_adapter);
- 
- d($cache_adapters);
+  
 
  ?>
 <form id="sysconfig-form-<?php print $params['id'] ?>" onSubmit="return save_sysconf_form();">

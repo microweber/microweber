@@ -23,7 +23,11 @@ $(document).ready(function(){
   <?php _e("Show system log"); ?>
   </a> <a class="mw-ui-btn" href="javascript:$('.mw_adm_cont_head_change_holder').toggle(); void(0);">
   <?php _e("Custom head tags"); ?>
-  </a> <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a> <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"> Internal settings </a> </div>
+  </a> <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a> <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"> Internal settings </a> 
+  
+  <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-module-load-holder')"> Packages </a>
+  
+  </div>
 <div id="mw-advanced-settings-module-load-holder"></div>
 <div class="mw_adm_cont_head_change_holder" style="display:none">
   <div class="mw-ui-field-holder">
