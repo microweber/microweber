@@ -375,7 +375,7 @@
   <hr>
   <label class="template-setting-label">Color scheme</label>
   <div> <a href="javascript:;" class="pick-scheme" style="background-color: #ffffff" data-value='default'></a> <a href="javascript:;" class="pick-scheme" style="background-color: #1C659C" data-value='blue'></a> <a href="javascript:;" class="pick-scheme" style="background-color: #EB8100" data-value='orange'></a> <a href="javascript:;" class="pick-scheme" style="background-color: #8718BD" data-value='purple'></a> <a href="javascript:;" class="pick-scheme" style="background-color: #FFA4D5" data-value='pink'></a> <a href="javascript:;" class="pick-scheme scheme-transparent" data-value='transparent'></a>
-    <?php include "kuler.php"; ?>
+    <?php // include "kuler.php";  ?>
   </div>
   <span class="mw-ui-btn mw-ui-btn-medium right" onclick="CleanCSSandJSON();" style="margin-top: 4px;">Reset</span>
   <label class="template-setting-label ">Custom colors</label>

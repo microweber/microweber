@@ -1,6 +1,6 @@
 <?php
 
-  $rand = $params['id']; ?>
+  $rand = 'layouts_'.rand(); ?>
 <script  type="text/javascript">
 
 
@@ -23,7 +23,7 @@ $(document).ready(function(){
 
 
 
-mw.$('#modules_admin_categories_<?php print $rand; ?> .category_tree a[data-category-id]').live('click',function(e) {
+mw.$('#modules_admin_categories_<?php print $rand; ?> .category_tree a[data-category-id]').bind('click',function(e) {
 
 	$p_id = $(this).parent().attr('data-category-id');
 

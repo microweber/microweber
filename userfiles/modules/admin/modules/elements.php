@@ -7,9 +7,15 @@ if(isset($params['reload_modules'])){
 	$s = 'skip_cache=1';
 	if(isset($params['cleanup_db'])){
 		$s.= '&cleanup_db=1';
+		$mod_params['cleanup_db'] = 1;
+		$mod_params['skip_cache'] = 1;
+		
+		 $mods = mw('module')->get_layouts($mod_params); 
+		// d($mods);
 	}
 	
-	 $mods = get_elements($s); 
+	 
+	 //$mods = get_elements($s); 
 }
 if(isset($params['category'])){
 	
