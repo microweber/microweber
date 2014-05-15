@@ -359,8 +359,8 @@
   <h1>TEMPLATE SETTINGS</h1>
   <hr>
   <label class="template-setting-label">Font</label>
-  <div title="Template Font" id="font_family" class="mw-dropdown mw-dropdown_type_navigation body-class"> <span class="mw-dropdown-value"> <span class="mw-dropdown_val" style="width: 150px;">Select</span> </span>
-    <div class="mw-dropdown-content" style="left: 0px;">
+  <div title="Template Font" id="font_family" class="mw_dropdown mw_dropdown_type_navigation body-class"> <span class="mw_dropdown_value"> <span class="mw_dropdown_val" style="width: 150px;">Select</span> </span>
+    <div class="mw_dropdown_content" style="left: 0px;">
       <ul>
         <li value="font-arial" ><a style="font-family: Arial" href="#">Arial</a></li>
         <li value="font-verdana" ><a style="font-family: Verdana" href="#">Verdana</a></li>
@@ -403,8 +403,8 @@
     <div id="background-options" style="<?php if($bgimage=='bgimagecustom'){ print 'display:block;'; } ?>">
       <div class="mw-ui-row-nodrop">
         <div class="mw-ui-col">
-          <div id="ts_bg_position" class="mw-dropdown mw-dropdown-type-wysiwyg"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span style="width: auto;display: block" class="mw-dropdown_val">Position</span> </span>
-            <div class="mw-dropdown-content">
+          <div id="ts_bg_position" class="mw_dropdown mw_dropdown_type-wysiwyg"> <span class="mw_dropdown_value"> <span class="dd_rte_arr"></span> <span style="width: auto;display: block" class="mw_dropdown_val">Position</span> </span>
+            <div class="mw_dropdown_content">
               <ul style="width: 100%">
                 <li value="true">
                   <div class="square_map">
@@ -434,8 +434,8 @@
           </div>
         </div>
         <div class="mw-ui-col">
-          <div title="Background Size" id="ts_bg_size" class="mw-dropdown mw-dropdown-type-wysiwyg"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: auto;display: block">Size</span> </span>
-            <div class="mw-dropdown-content" style="display: none;">
+          <div title="Background Size" id="ts_bg_size" class="mw_dropdown mw_dropdown_type-wysiwyg"> <span class="mw_dropdown_value"> <span class="dd_rte_arr"></span> <span class="mw_dropdown_val" style="width: auto;display: block">Size</span> </span>
+            <div class="mw_dropdown_content" style="display: none;">
               <ul>
                 <li value="auto"><a href="javascript:;">Auto</a></li>
                 <li value="contain"><a href="javascript:;">Fit</a></li>
