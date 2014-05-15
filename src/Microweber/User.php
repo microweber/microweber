@@ -647,7 +647,7 @@ class User
                         $this->app->url->redirect($redirect_after);
                         exit();
                     } else {
-                        $user_session['success'] = _e("You are logged in!", true);
+                        $user_session['success'] = "You are logged in!";
                         if ($redirect_after != false) {
                             $user_session['redirect'] = $redirect_after;
                         }
@@ -656,7 +656,7 @@ class User
                         return $user_session;
                     }
                 } else if ($aj == true) {
-                    $user_session['success'] = _e("You are logged in!", true);
+                    $user_session['success'] = "You are logged in!";
                 }
 
                 return $user_session;
@@ -762,7 +762,7 @@ class User
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
                     $this->update_last_login_time();
-                    $user_session['success'] = _e("You are logged in!", true);
+                    $user_session['success'] = "You are logged in!";
                     return $user_session;
                 }
             }

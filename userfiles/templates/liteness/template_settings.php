@@ -1,4 +1,6 @@
 <div id="settings-holder">
+
+
   <?php
 
     $color_scheme = get_option('color-scheme', 'mw-template-liteness');
@@ -20,11 +22,14 @@
     $custom_bg_size     = get_option('custom_bg_size', 'mw-template-liteness');
 
   ?>
+
+
   <?php if($custom_css_json == ''){ ?>
   <script>CSSJSON = {}</script>
   <?php } else { ?>
   <script>CSSJSON = <?php print $custom_css_json; ?></script>
   <?php } ?>
+
   <?php
     $selectors = liteness_template_colors_selectors();
     $selectors_js = '';
@@ -35,6 +40,9 @@
     $selectors_js = substr_replace($selectors_js ,"",-1);
 
   ?>
+
+
+
   <script>
     SELECTORS = { <?php print $selectors_js; ?> };
     CUSTOMBG = "<?php print $custom_bg ?>";
@@ -61,6 +69,8 @@
       return final;
     };
   </script>
+
+
   <link href='//fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
   <link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,300&subset=latin,cyrillic,cyrillic-ext,greek,latin-ext' rel='stylesheet' type='text/css'>
   <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic&subset=latin,cyrillic,greek,latin-ext' rel='stylesheet' type='text/css'>
@@ -351,16 +361,21 @@
             window.scrollTo(0,document.body.scrollHeight);
         });
       });
-  </script> 
+  </script>
   <script>
     mw.require("files.js");
     mw.require("<?php print INCLUDES_URL; ?>css/wysiwyg.css");
   </script>
+
+
+
   <h1>TEMPLATE SETTINGS</h1>
   <hr>
+
   <label class="template-setting-label">Font</label>
-  <div title="Template Font" id="font_family" class="mw-dropdown mw-dropdown_type_navigation body-class"> <span class="mw-dropdown-value"> <span class="mw-dropdown_val" style="width: 150px;">Select</span> </span>
-    <div class="mw-dropdown-content" style="left: 0px;">
+  <div title="Template Font" id="font_family" class="mw_dropdown mw_dropdown_type_navigation body-class"> <span class="mw_dropdown_val_holder">
+    <span class="mw_dropdown_val" style="width: 150px;">Select</span> </span>
+    <div class="mw_dropdown_fields" style="left: 0px;">
       <ul>
         <li value="font-arial" ><a style="font-family: Arial" href="#">Arial</a></li>
         <li value="font-verdana" ><a style="font-family: Verdana" href="#">Verdana</a></li>
@@ -372,92 +387,155 @@
       </ul>
     </div>
   </div>
-  <hr>
-  <label class="template-setting-label">Color scheme</label>
-  <div> <a href="javascript:;" class="pick-scheme" style="background-color: #ffffff" data-value='default'></a> <a href="javascript:;" class="pick-scheme" style="background-color: #1C659C" data-value='blue'></a> <a href="javascript:;" class="pick-scheme" style="background-color: #EB8100" data-value='orange'></a> <a href="javascript:;" class="pick-scheme" style="background-color: #8718BD" data-value='purple'></a> <a href="javascript:;" class="pick-scheme" style="background-color: #FFA4D5" data-value='pink'></a> <a href="javascript:;" class="pick-scheme scheme-transparent" data-value='transparent'></a>
-    <?php include "kuler.php"; ?>
-  </div>
-  <span class="mw-ui-btn mw-ui-btn-medium right" onclick="CleanCSSandJSON();" style="margin-top: 4px;">Reset</span>
-  <label class="template-setting-label ">Custom colors</label>
-  <span class="picklabel"> <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="primary"></a>
-  <label class="desc">Main color <small class="muted">( Header, Footer )</small></label>
-  </span> <span class="picklabel"> <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fifth"></a>
-  <label>Buttons &amp; Links</label>
-  </span> <span class="picklabel"> <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fourth"></a>
-  <label>Box color</label>
-  </span> <span class="picklabel"> <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="secondary"></a>
-  <label>Text color</label>
-  </span>
-  <hr>
-  <label class="template-setting-label">Site Background</label>
-  <span class="picklabel"> <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="third"></a>
-  <label>Background color</label>
-  </span>
-  <hr>
-  <label class="template-setting-label">Background image</label>
-  <div class="body-bgs-holder"> <a href="javascript:;" class="pick-image scheme-transparent" data-value='bgimage0'></a> <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage1.png)" data-value='bgimage1'></a> <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage2.jpg)" data-value='bgimage2'></a> <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage3.jpg)" data-value='bgimage3'></a> <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage4.jpg)" data-value='bgimage4'></a> <a href="javascript:;"
+
+
+<hr>
+<label class="template-setting-label">Color scheme</label>
+<div>
+  <a href="javascript:;" class="pick-scheme" style="background-color: #ffffff" data-value='default'></a>
+  <a href="javascript:;" class="pick-scheme" style="background-color: #1C659C" data-value='blue'></a>
+  <a href="javascript:;" class="pick-scheme" style="background-color: #EB8100" data-value='orange'></a>
+  <a href="javascript:;" class="pick-scheme" style="background-color: #8718BD" data-value='purple'></a>
+  <a href="javascript:;" class="pick-scheme" style="background-color: #FFA4D5" data-value='pink'></a>
+  <a href="javascript:;" class="pick-scheme scheme-transparent" data-value='transparent'></a>
+
+  
+</div>
+
+
+<span class="mw-ui-btn mw-ui-btn-medium right" onclick="CleanCSSandJSON();" style="margin-top: 4px;">Reset</span>
+<label class="template-setting-label ">Custom colors</label>
+<span class="picklabel">
+    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="primary"></a>
+    <label class="desc">Main color <small class="muted">( Header, Footer )</small></label>
+</span>
+<span class="picklabel">
+    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fifth"></a>
+    <label>Buttons &amp; Links</label>
+</span>
+<span class="picklabel">
+    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fourth"></a>
+    <label>Box color</label>
+</span>
+<span class="picklabel">
+    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="secondary"></a>
+    <label>Text color</label>
+</span>
+
+
+
+
+
+<hr>
+
+<label class="template-setting-label">Site Background</label>
+
+<span class="picklabel">
+    <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="third"></a>
+    <label>Background color</label>
+</span>
+
+<hr>
+
+<label class="template-setting-label">Background image</label>
+
+<div class="body-bgs-holder">
+  <a href="javascript:;" class="pick-image scheme-transparent" data-value='bgimage0'></a>
+  <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage1.png)" data-value='bgimage1'></a>
+  <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage2.jpg)" data-value='bgimage2'></a>
+  <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage3.jpg)" data-value='bgimage3'></a>
+  <a href="javascript:;" class="pick-image" style="background-image: url(<?php print TEMPLATE_URL;  ?>img/bgimage4.jpg)" data-value='bgimage4'></a>
+  <a href="javascript:;"
      class="pick-image pick-image-custom<?php if($bgimage=='bgimagecustom'){ print ' active'; } ?>"
      id="pick-image-custom-body"
      style="background-image: url(<?php print $custom_bg; ?>);<?php if($custom_bg!=''){ print 'visibility:visible;'; } ?>"
-     data-value="bgimagecustom"> </a>
-    <div id="background-options" style="<?php if($bgimage=='bgimagecustom'){ print 'display:block;'; } ?>">
-      <div class="mw-ui-row-nodrop">
-        <div class="mw-ui-col">
-          <div id="ts_bg_position" class="mw-dropdown mw-dropdown-type-wysiwyg"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span style="width: auto;display: block" class="mw-dropdown_val">Position</span> </span>
-            <div class="mw-dropdown-content">
-              <ul style="width: 100%">
-                <li value="true">
-                  <div class="square_map">
+     data-value="bgimagecustom">
+  </a>
+
+
+
+
+
+<div id="background-options" style="<?php if($bgimage=='bgimagecustom'){ print 'display:block;'; } ?>">
+
+
+  <div class="mw-ui-row-nodrop">
+    <div class="mw-ui-col">
+        <div id="ts_bg_position" class="mw_dropdown mw_dropdown_type_wysiwyg">
+          <span class="mw_dropdown_val_holder">
+              <span class="dd_rte_arr"></span>
+              <span style="width: auto;display: block" class="mw_dropdown_val">Position</span>
+          </span>
+          <div class="mw_dropdown_fields">
+            <ul style="width: 100%">
+              <li value="true">
+                <div class="square_map">
                     <table align="center" cellspacing="0" cellpadding="2">
-                      <tbody>
-                        <tr>
-                          <td><span data-value="left top" class="square_map_item square_map_item_default">Left Top</span></td>
-                          <td><span data-value="center top" class="square_map_item">Center Top</span></td>
-                          <td><span data-value="right top" class="square_map_item">Right Top</span></td>
-                        </tr>
-                        <tr>
-                          <td><span data-value="left center" class="square_map_item">Left Center</span></td>
-                          <td><span data-value="center" class="square_map_item">Center</span></td>
-                          <td><span data-value="right center" class="square_map_item">Right Center</span></td>
-                        </tr>
-                        <tr>
-                          <td><span data-value="left bottom" class="square_map_item">Left Bottom</span></td>
-                          <td><span data-value="center bottom" class="square_map_item">Center Bottom</span></td>
-                          <td><span data-value="right bottom" class="square_map_item">Right Bottom</span></td>
-                        </tr>
-                      </tbody>
+                        <tbody>
+                            <tr>
+                                <td><span data-value="left top" class="square_map_item square_map_item_default">Left Top</span></td>
+                                <td><span data-value="center top" class="square_map_item">Center Top</span></td>
+                                <td><span data-value="right top" class="square_map_item">Right Top</span></td>
+                            </tr>
+                            <tr>
+                                <td><span data-value="left center" class="square_map_item">Left Center</span></td>
+                                <td><span data-value="center" class="square_map_item">Center</span></td>
+                                <td><span data-value="right center" class="square_map_item">Right Center</span></td>
+                            </tr>
+                            <tr>
+                                <td><span data-value="left bottom" class="square_map_item">Left Bottom</span></td>
+                                <td><span data-value="center bottom" class="square_map_item">Center Bottom</span></td>
+                                <td><span data-value="right bottom" class="square_map_item">Right Bottom</span></td>
+                            </tr>
+                        </tbody>
                     </table>
-                    <span class="square_map_value">Left Top</span> </div>
-                </li>
-              </ul>
-            </div>
+                    <span class="square_map_value">Left Top</span>
+                </div>
+              </li>
+            </ul>
           </div>
-        </div>
-        <div class="mw-ui-col">
-          <div title="Background Size" id="ts_bg_size" class="mw-dropdown mw-dropdown-type-wysiwyg"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span> <span class="mw-dropdown_val" style="width: auto;display: block">Size</span> </span>
-            <div class="mw-dropdown-content" style="display: none;">
-              <ul>
-                <li value="auto"><a href="javascript:;">Auto</a></li>
-                <li value="contain"><a href="javascript:;">Fit</a></li>
-                <li value="cover"><a href="javascript:;">Cover</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
       </div>
+
     </div>
-    <span class="mw-ui-btn mw-ui-btn-medium" id="upload_custom_body_image">Upload your image</span>
-    <div class="mw-ui-progress-small" id="image-upload-progress" style="display: none">
-      <div style="width: 0%;" class="mw-ui-progress-bar"></div>
+    <div class="mw-ui-col">
+        <div title="Background Size" id="ts_bg_size" class="mw_dropdown mw_dropdown_type_wysiwyg"> <span class="mw_dropdown_val_holder">
+            <span class="dd_rte_arr"></span> <span class="mw_dropdown_val" style="width: auto;display: block">Size</span> </span>
+            <div class="mw_dropdown_fields" style="display: none;">
+                <ul>
+                    <li value="auto"><a href="javascript:;">Auto</a></li>
+                    <li value="contain"><a href="javascript:;">Fit</a></li>
+                    <li value="cover"><a href="javascript:;">Cover</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
   </div>
-  <input type="hidden" class="mw_option_field" id="color-scheme-input" name="color-scheme" data-option-group="mw-template-liteness"  />
-  <input type="hidden" class="mw_option_field" id="font-input" name="font" data-option-group="mw-template-liteness"  />
-  <input type="hidden" class="mw_option_field" id="bgimage" name="bgimage" data-option-group="mw-template-liteness"  />
-  <input type="hidden" class="mw_option_field" id="custom_css_json" name="custom_css_json" data-option-group="mw-template-liteness"  />
-  <input type="hidden" class="mw_option_field" id="custom_bg" name="custom_bg" data-option-group="mw-template-liteness"  />
-  <input type="hidden" class="mw_option_field" id="custom_bg_position" name="custom_bg_position" data-option-group="mw-template-liteness"  />
-  <input type="hidden" class="mw_option_field" id="custom_bg_size" name="custom_bg_size" data-option-group="mw-template-liteness"  />
-  <input type="hidden" class="mw_option_field" id="kuler_colors" name="kuler_colors" data-option-group="mw-template-liteness"  />
 </div>
-<!-- /#settings-holder -->
+
+    <span class="mw-ui-btn mw-ui-btn-medium" id="upload_custom_body_image">Upload your image</span>
+  <div class="mw-ui-progress-small" id="image-upload-progress" style="display: none">
+      <div style="width: 0%;" class="mw-ui-progress-bar"></div>
+  </div>
+
+</div>
+
+
+
+<input type="hidden" class="mw_option_field" id="color-scheme-input" name="color-scheme" data-option-group="mw-template-liteness"  />
+<input type="hidden" class="mw_option_field" id="font-input" name="font" data-option-group="mw-template-liteness"  />
+<input type="hidden" class="mw_option_field" id="bgimage" name="bgimage" data-option-group="mw-template-liteness"  />
+<input type="hidden" class="mw_option_field" id="custom_css_json" name="custom_css_json" data-option-group="mw-template-liteness"  />
+
+<input type="hidden" class="mw_option_field" id="custom_bg" name="custom_bg" data-option-group="mw-template-liteness"  />
+
+<input type="hidden" class="mw_option_field" id="custom_bg_position" name="custom_bg_position" data-option-group="mw-template-liteness"  />
+<input type="hidden" class="mw_option_field" id="custom_bg_size" name="custom_bg_size" data-option-group="mw-template-liteness"  />
+
+
+<input type="hidden" class="mw_option_field" id="kuler_colors" name="kuler_colors" data-option-group="mw-template-liteness"  />
+
+
+
+
+
+</div>   <!-- /#settings-holder -->

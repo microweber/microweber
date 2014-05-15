@@ -39,20 +39,15 @@ class Http
         }
 
     }
-    public function url($url){
-        return $this->set_url($url);
-    }
 
     public function set_url($url)
     {
         $this->adapter->url = $url;
-        return $this;
     }
 
     public function set_timeout($seconds)
     {
         $this->adapter->timeout = $seconds;
-        return $this;
     }
 
     public function get($params = false)
