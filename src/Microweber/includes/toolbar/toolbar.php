@@ -549,9 +549,11 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 <script>
 
 mw.require("plus.js");
+mw.require("columns.js");
 
 $(window).load(function(){
     mw.drag.plus.init('.edit');
+    mw.drag.columns.init();
 });
 
 </script>

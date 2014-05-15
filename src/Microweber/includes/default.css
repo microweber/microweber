@@ -98,6 +98,10 @@ body.mw-preview{
 .mw-row{
   margin-top: 10px;
   margin-bottom: 10px;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  max-width: 100%;
   zoom:1;
 }
 
@@ -175,7 +179,7 @@ img.element{
 /*****************  Grids  *******************/
 
 .mw-col {
-    float: left;
+    display: table-cell;
     margin: 0;
     padding: 0;
     -webkit-box-sizing: content-box;
@@ -184,6 +188,7 @@ img.element{
 }
 .edit, .mw-col{
   position: relative;
+  vertical-align: top;
 }
 
 div.edit, div.mw-col{
@@ -213,6 +218,7 @@ div.edit, div.mw-col{
   max-width: 100%;
   min-height: 30px;
   position: relative;
+  vertical-align: top;
 }
 .mw-col-container:after{
   content: ".";

@@ -11,14 +11,6 @@ html,body{
   -ms-overflow-style:scrollbar;
 }
 
-body.mw-live-edit.dragStart .edit{
-    /*
-  padding-top: 20px;
-  padding-bottom: 20px;     */
-}
-
-
-
 #mw-saving-loader{
 	height:48px;
 	width:48px;
@@ -84,9 +76,21 @@ body.mw-live-edit.dragStart .edit{
 
 
 .empty-element-edit-area:hover,.empty-element-column:hover {
-	 
+
 	 visibility:visible;
 
+}
+
+.mw_dropable{
+    position: absolute !important;
+    height: 3px;
+    background:#4F4F4F;
+    z-index: 997;
+    display: none;
+}
+.mw_dropable_vertical{
+  height: auto;
+  width: 3px;
 }
 
 .element{ min-height: 14px; }
@@ -280,41 +284,6 @@ body .mw-col > .ui-resizable-e *{
 
 
 
-.mw_dropable:after{
-    display: block;
-    position: absolute;
-    top: 2px;
-    left: 0;
-    width: 100%;
-    height: 30px;
-    background: #FFFFB9;
-    content: "";
-    opacity:.8;
-    pointer-events:none;
-}
-
-.mw_dropable_arr_up:after{
-    top: auto;
-    bottom: 2px;
-}
-.mw_dropable_vertical:after{
-    top: 0;
-    width: 30px;
-    left: -30px;
-    height: 100%;
-}
-
-.mw_dropable_arr_rigt:after{
-    top: 0;
-    width: 30px;
-    left: 2px;
-    height: 100%;
-}
-
-.mw_dropable_arr{
-  z-index: 10;
-}
-
 
 #module-modal-settings-menu-holder{
   float: right;
@@ -414,27 +383,6 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 }
 
 
-#design_close{
-  background: url("../img/popup_ctrls.png") no-repeat  0 2px;
-    border-left: 1px solid #eaeaea;
-    cursor: pointer;
-    display: block;
-    height: 25px;
-    position: absolute;
-    right: 0;
-    text-indent: -9999px;
-    top: 0;
-    width: 27px;
-}
-
-
-.mwtb-search{
-
-}
-
-.mw-basic-mode{
-
-}
 
 .dragStart .disabledEDIT{
   opacity: 0.2;
@@ -541,14 +489,6 @@ img[_moz_resizing], table[_moz_resizing] { outline: 0px none; }
 #live_edit_toolbar #modules-and-layouts:hover{
   height: 21px;
   box-shadow:0 0 4px -4px #000;
-}
-
-
-
-
-
-#live_edit_toolbar:hover #modules-and-layouts{
-/*  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.46);        */
 }
 
 

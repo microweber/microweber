@@ -419,6 +419,8 @@
 
 
 
+
+
 .mw-admin-editor{
   background: white;
 }
@@ -704,13 +706,8 @@
 }
 
 
+/* When live editing is enabled inside the editor */
 
-
-
-/*
-body.toolbar-hover .edit ::selection{
-    background:rgba(204, 204, 204, 0.2);
+.admin-live-edit-editor{
+    padding-left: 35px;
 }
-body.toolbar-hover .edit ::-moz-selection{
-    background:rgba(204, 204, 204, 0.2);
-}  */

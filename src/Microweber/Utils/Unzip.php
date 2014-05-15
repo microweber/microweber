@@ -317,7 +317,7 @@ class Unzip
 
             if (is_resource($archive)) {
                 if(function_exists('set_time_limit')){
-                @set_time_limit(0);
+                @set_time_limit(600);
                 }
                 while ($entry = zip_read($archive)) {
                     $size = zip_entry_filesize($entry);

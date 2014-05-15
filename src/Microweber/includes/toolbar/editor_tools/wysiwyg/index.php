@@ -1,10 +1,5 @@
-<!DOCTYPE HTML>
-<html>
-<head>
 
-{head}
 
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/liveadmin.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css"/>
 <script>
@@ -47,7 +42,7 @@ require([<?php print $req_string; ?>], function(app) {
  
 
 
- 
+
 
 <script>
 
@@ -254,12 +249,19 @@ img{
   box-shadow:0 0 6px -2px #000000;
 }
 
+.mw_edit_btn.mw_edit_delete{
+  display: none;
+}
+
 
 </style>
 
+<?php $mainclass = ''; ?>
+
 <?php if(isset($params['live_edit'])){ ?>
-<link href="<?php print(MW_INCLUDES_URL); ?>api/api.css" rel="stylesheet" type="text/css"/>
-<link href="<?php print(MW_INCLUDES_URL); ?>css/mw_framework.css" rel="stylesheet" type="text/css"/>
+
+<?php $mainclass = 'admin-live-edit-editor'; ?>
+
 <link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
 <link href="<?php print(MW_INCLUDES_URL); ?>css/toolbar.css" rel="stylesheet" type="text/css"/>
 <script>
@@ -284,8 +286,7 @@ window.onfocus = function(){
 }
 
 </script>
-</head>
-<body style="padding: 0;margin: 0;">
+
 <?php mw_var('plain_modules', true);
   if(is_admin() == false){
     //exit('Must be admin');
@@ -293,7 +294,7 @@ window.onfocus = function(){
  ?>
  
 
-<div class="mw-admin-editor" id="the_admin_editor">
+<div class="mw-admin-editor <?php print $mainclass; ?>" id="the_admin_editor">
  <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
   <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus" contenteditable="true">{content}</div>
 </div>
@@ -306,5 +307,3 @@ window.onfocus = function(){
     <module type="admin/modules/list"/ class="modules-list-init">
 </div>
 
-</body>
-</html>

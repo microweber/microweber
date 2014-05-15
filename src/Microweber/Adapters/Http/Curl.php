@@ -59,7 +59,7 @@ class Curl
 
             if ($this->timeout != false) {
                 if(function_exists('set_time_limit')){
-                    @set_time_limit(0);
+                    @set_time_limit(600);
                 }
 
             }
@@ -85,7 +85,7 @@ class Curl
                 if (isset($fp) and $fp != false) {
                     $dl = true;
                     if(function_exists('set_time_limit')){
-                        @set_time_limit(0);
+                        @set_time_limit(600);
                     }
                     curl_setopt($ch, CURLOPT_TIMEOUT, 50);
                     curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file

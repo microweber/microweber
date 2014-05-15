@@ -290,7 +290,7 @@ class Module
                 $seg_clean = str_replace('.', '', $seg_clean);
 
                 $attrs1 = crc32(serialize($attrs) . $seg_clean . $mw_mod_counter);
-                 $attrs1 = str_replace('%20', '-', $attrs1);
+                $attrs1 = str_replace('%20', '-', $attrs1);
                 $attrs1 = str_replace(' ', '-', $attrs1);
 
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
@@ -338,8 +338,8 @@ class Module
                 }
 
             }
-          //  d($attrs);
-          //  $attrs = $this->app->format->clean_html($attrs);
+            //  d($attrs);
+            //  $attrs = $this->app->format->clean_html($attrs);
             $l1->params = $attrs;
             if (isset($attrs['view']) && (trim($attrs['view']) == 'empty')) {
 
@@ -672,39 +672,6 @@ class Module
         }
     }
 
-    public function get($params = false)
-    {
-
-        $table = $this->tables['modules'];
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $options = $params2;
-        }
-        $params['table'] = $table;
-        $params['group_by'] = 'module';
-        $params['order_by'] = 'position asc';
-        $params['cache_group'] = 'modules/global';
-        if (isset($params['id'])) {
-            $params['limit'] = 1;
-        } else {
-            $params['limit'] = 1000;
-        }
-        if (isset($params['module'])) {
-            $params['module'] = str_replace('/admin', '', $params['module']);
-        }
-        if (!isset($params['ui'])) {
-            //  $params['ui'] = 1;
-            //
-        }
-
-        if (isset($params['ui']) and $params['ui'] == 'any') {
-            // d($params);
-            unset($params['ui']);
-        }
-
-        return $this->app->db->get($params);
-    }
-
     public function license($module_name = false)
     {
         return true;
@@ -948,6 +915,39 @@ class Module
         $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
 
         // d($params);
+    }
+
+    public function get($params = false)
+    {
+
+        $table = $this->tables['modules'];
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $options = $params2;
+        }
+        $params['table'] = $table;
+        $params['group_by'] = 'module';
+        $params['order_by'] = 'position asc';
+        $params['cache_group'] = 'modules/global';
+        if (isset($params['id'])) {
+            $params['limit'] = 1;
+        } else {
+            $params['limit'] = 1000;
+        }
+        if (isset($params['module'])) {
+            $params['module'] = str_replace('/admin', '', $params['module']);
+        }
+        if (!isset($params['ui'])) {
+            //  $params['ui'] = 1;
+            //
+        }
+
+        if (isset($params['ui']) and $params['ui'] == 'any') {
+            // d($params);
+            unset($params['ui']);
+        }
+
+        return $this->app->db->get($params);
     }
 
     public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
@@ -1228,6 +1228,11 @@ class Module
 
         $options['is_elements'] = 1;
         $options['dir_name'] = normalize_path(MW_ELEMENTS_DIR);
+
+
+        if (isset($options['cleanup_db'])) {
+            $this->app->layouts->delete_all();
+        }
 
         return $this->scan_for_modules($options);
 

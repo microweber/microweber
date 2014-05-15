@@ -57,8 +57,8 @@ mw.dropables = {
       mw.dropable.css({
         top:offset.top-2,
         left:offset.left,
-        height:2,
-        width:width
+        width:width,
+        height:''
       });
       mw.dropable.data("position", "top");
       mw.dropable.addClass("mw_dropable_arr_up");
@@ -68,8 +68,8 @@ mw.dropables = {
         mw.dropable.css({
           top:offset.top+height+2,
           left:offset.left,
-          height:2,
-          width:width
+          width:width,
+          height:''
         });
         mw.dropable.data("position", "bottom");
         mw.dropable.removeClass("mw_dropable_arr_up");
@@ -80,8 +80,8 @@ mw.dropables = {
        mw.dropable.css({
             top:offset.top,
             height:height,
-            left:offset.left,
-            width:2
+            width:'',
+            left:offset.left
        });
     }
     else if(pos==='right'){
@@ -91,7 +91,7 @@ mw.dropables = {
           top:offset.top,
           left:offset.left+width,
           height:height,
-          width:2
+           width:''
      });
     }
   }
@@ -171,6 +171,12 @@ $(document).ready(function(){
        else{
           mw.tools.removeClass(mwd.body, 'state-element');
        }
+
+       if(!mw.tools.hasParentsWithClass(e.target, 'mw-tooltip-insert-module') && !mw.tools.hasAnyOfClasses(e.target, ['mw-plus-bottom', 'mw-plus-top'])){
+            mw.$('.mw-tooltip-insert-module').remove();
+            mw.drag.plus.locked = false;
+        }
+
      }
      else{
          mw.tools.removeClass(mwd.body, 'state-element');
@@ -299,12 +305,20 @@ mw.drag = {
                    if(mw.$mm_target.hasClass("mw-row")){
                      $(window).trigger("onRowOver", mw.mm_target);
                    }
-                   else if(mw.$mm_target.parents(".mw-row").length>0){
-                     $(window).trigger("onRowOver", mw.$mm_target.parents(".mw-row:first")[0]);
+                   else if(mw.tools.hasParentsWithClass(mw.mm_target, 'mw-row')){
+                     $(window).trigger("onRowOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-row'));
                    }
                    else if(mw.mm_target.id!='mw_handle_row' && mw.$mm_target.parents("#mw_handle_row").length==0){
                      $(window).trigger("onRowLeave", mw.mm_target);
+                   }
 
+
+                   //onColumn
+                   if(mw.drag.columns.resizing === false && mw.tools.hasClass(mw.mm_target, 'mw-col')){
+                        $(window).trigger("onColumnOver", mw.mm_target);
+                   }
+                   else if(mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'mw-col')){
+                        $(window).trigger("onColumnOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-col'));
                    }
 
                    //trigger on item
@@ -1863,28 +1877,6 @@ mw.px2pc = function(row){
 
 
 
-mw.scale_cols = function(){
-
-  $(".mw-row").each(function(){
-    var el = $(this);
-    var cols = el.children(".mw-col");
-    var len = cols.length;
-    var width = el.width();
-    var w = 0;
-    cols.each(function(){
-        w+=$(this).width();
-    });
-    var res = width-w;
-    if(res>6){
-        var each = res/len;
-        cols.each(function(){
-            $(this).width($(this).width()+each);
-        });
-        mw.px2pc(this);
-    }
-  });
-}
-
 
 mw.delete_column = function(which){
   if(confirm(mw.settings.sorthandle_delete_confirmation_text)){
@@ -1911,6 +1903,9 @@ mw.delete_column = function(which){
  * @example mw.resizable_columns()
  */
 mw.resizable_columns = function () {
+
+return false;
+
 if($(window).width() < 768){
   return false;
 }
@@ -2061,7 +2056,7 @@ if($(window).width() < 768){
 
 
 mw.drop_regions = {
-  enabled:false,
+  enabled:mw.settings.regions,
   ContainsDisabledSideClass:function(el){
     var cls = ['edit', 'mw-col', 'mw-row', 'mw-col-container'], i=0, l=cls.length;
     var elcls = el.className;
@@ -2280,7 +2275,7 @@ dropInside = function(el){
 /* Toolbar */
 
 
-mwd.body.className = mwd.body.className + " mw-live-edit";
+mw.tools.addClass(mwd.body, 'mw-live-edit')
 
 
 mw.designTool = {
@@ -2683,6 +2678,7 @@ if(typeof mw.hasDraft === 'object'){
 
 
     $(window).bind("mouseup", function(e){
+
                   var sel = window.getSelection();
                   if(sel.rangeCount > 0){
                           var range = sel.getRangeAt(0),

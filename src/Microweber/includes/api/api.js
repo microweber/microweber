@@ -238,6 +238,7 @@ mw.askusertostay = false;
 
   mw.settings = {
     liveEdit:false,
+    regions:false,
     debug: true,
 	basic_mode:false,
     site_url: '<?php print site_url(); ?>',
@@ -274,7 +275,7 @@ mw.askusertostay = false;
         </div>",
       row: "\
         <div contenteditable='false' class='mw-defaults mw_master_handle mw_handle_row' id='mw_handle_row'>\
-            <span title='<?php _e("Click to select this column"); ?>.' class='column_separator_title'><?php _e("Columns"); ?></span>\
+            //<span title='<?php _e("Click to select this column"); ?>.' class='column_separator_title'><?php _e("Columns"); ?></span>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,1);' class='mw-make-cols mw-make-cols-1 active' >1</a>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,2);' class='mw-make-cols mw-make-cols-2' >2</a>\
             <a href='javascript:;' onclick='event.preventDefault();mw.drag.create_columns(this,3);' class='mw-make-cols mw-make-cols-3' >3</a>\

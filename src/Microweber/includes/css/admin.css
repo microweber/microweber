@@ -90,6 +90,8 @@ h2 > [class*="mw-icon-"]:first-child{
   max-width: 999px;
 }
 .mw-iframe-editor{
+  position: relative;
+  left: -35px;
   max-width: 1200px !important;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box ;

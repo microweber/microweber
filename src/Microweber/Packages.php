@@ -20,6 +20,7 @@ class Packages
     public $config_file;
     public $temp_dir;
     public $config_items = array();
+    public $config_items_patch = array();
     private $remote_api_url = 'http://api.microweber.com/service/deploy/';
 
     function __construct($app = null)
@@ -85,8 +86,14 @@ class Packages
             if (!isset($conf_items['require'])) {
                 $conf_items['require'] = array();
             }
-            $conf_items['require'][$require_name] = $require_version;
 
+            if (trim($require_version) != 'delete') {
+                $conf_items['require'][$require_name] = $require_version;
+            } else {
+                if (isset($conf_items['require'][$require_name])) {
+                    unset($conf_items['require'][$require_name]);
+                }
+            }
             /*foreach ($params as $key => $value) {
 
                 $conf_items[$key] = $value;
@@ -141,11 +148,15 @@ class Packages
             $post_params['site_url'] = $this->app->url->site();
             $post_params['composer_json'] = $composer_file_content;
             $post_params['composer_patch'] = $patch_file_content;
+         //   $post_params['debug'] = $patch_file_content;
+
             $curl_result = $http->post($post_params);
             if ($curl_result === false) {
                 $curl_result = $http->post($post_params);
             }
-//d($curl_result);
+
+// d($curl_result);
+            //d($post_params);
             if ($curl_result != false) {
                 $curl_result = json_decode($curl_result, true);
                 if ($curl_result != false and is_array($curl_result) and !empty($curl_result)) {
@@ -158,17 +169,45 @@ class Packages
                             return array('success' => "Patch is ready for download");
                         } else if (isset($item['error']) and $item['error'] != false) {
                             return array('error' => $item['error']);
-
                         }
 
-
                     }
-
 
                 }
                 return $curl_result;
             }
         }
+    }
+
+    public function get_patch_require()
+    {
+        return $this->get_patch_config('require');
+    }
+
+    public function get_patch_config($key = false)
+    {
+
+        if (empty($this->config_items_patch)) {
+            $conf = $this->get_patch_file_location();
+            if ($conf != false and is_file($conf)) {
+                $existing = file_get_contents($conf);
+                $conf_items = array();
+                if ($existing != false) {
+                    $conf_items = json_decode($existing, true);
+                }
+                $this->config_items_patch = $conf_items;
+            }
+        }
+
+        if ($key == false) {
+            return $this->config_items_patch;
+        } else {
+            if (isset($this->config_items_patch[$key])) {
+                return $this->config_items_patch[$key];
+            }
+        }
+
+
     }
 
     function get_patch_file_location()
@@ -233,7 +272,7 @@ class Packages
                                 $unzip = new \Microweber\Utils\Unzip();
                                 $target_dir = MW_ROOTPATH;
                                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
-d($result);
+                                d($result);
                                 return array('sssstry_again' => "true", 'success' => "Patch is completed");
 
                             }

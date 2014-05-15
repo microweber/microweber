@@ -1261,6 +1261,11 @@ mw.tools = {
   removeClass: function(el, cls){
      if(el === null) { return false; }
      if(typeof el === 'undefined') { return false; }
+     if(el.constructor === [].constructor){
+       var i = 0, l = el.length;
+       for( ; i<l ; i++){ mw.tools.removeClass(el[i], cls);  }
+       return;
+     }
      if(cls == ' ') { return false; }
      var arr = cls.split(" "), l=arr.length, i=0;
       if(l > 1){
@@ -1343,6 +1348,16 @@ mw.tools = {
            var _tag = _curr.tagName;
        }
      }
+  },
+  firstChildWithClass:function(parent, cls){
+    var g = {toreturn:undefined}
+    mw.tools.foreachChildren(parent, function(loop){
+        if(this.nodeType === 1 && mw.tools.hasClass(this, cls)){
+            mw.tools.stopLoop(loop);
+            g.toreturn=this;
+        }
+    });
+    return g.toreturn;
   },
   hasChildrenWithClass:function(node, cls){
     var g = {}
@@ -3000,7 +3015,7 @@ mw.extend = function(el){
 
 $(window).load(function(){
     mw.loaded = true;
-    mwd.body.className+=' loaded';
+    mw.tools.addClass(mwd.body, 'loaded');
     mw.tools.removeClass(mwd.body, 'loading');
 
 

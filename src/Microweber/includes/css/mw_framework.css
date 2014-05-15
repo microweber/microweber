@@ -12,7 +12,7 @@
   width: 16px;
   height: 16px;
   border-radius: 30px;
-  background-color: #434343;
+  background-color: #CCCCCC;
   cursor: pointer;
   left: -9999px;
   top: -9999px;
@@ -20,7 +20,36 @@
   font-weight: bold;
   text-align: center;
   line-height: 16px;
+  margin-left:-15px;
 }
+.mw-plus-top{ margin-top: -10px; }
+.mw-plus-bottom{ margin-top: -10px; }
+
+[class*='mw-plus-']:after{
+  display: block;
+  position: absolute;
+  top: 50%;
+  margin-top: -5px;
+  right: -1px;
+  content:'';
+  width: 10px;
+  height:10px;
+  background-color: #CCCCCC;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  z-index: -1;
+}
+[class*='mw-plus-'].active,[class*='mw-plus-'].active:after,
+[class*='mw-plus-']:hover,
+[class*='mw-plus-']:hover:after{ background-color: #434343; }
+
+[class*='mw-plus-']:active{
+  box-shadow: inset 0 0 3px #000;
+}
+
 .editorKeyup [class*='mw-plus-']{
     opacity: 0;
 }
@@ -53,8 +82,32 @@
 }
 
 /****************************
-           Plus end
+         /  Plus end
 *****************************/
+
+
+/****************************
+         Columns Resizer
+*****************************/
+
+
+.mw-columns-resizer{
+    position: absolute;
+    width: 21px;
+    cursor: e-resize;
+    z-index: 990;
+}
+.mw-columns-resizer:after{
+  display: block;
+  content: "";
+  width: 2px;
+  height: 20%;
+  margin: auto;
+  position: absolute;
+  left: 10px;
+  top: 25%;
+  background: #488BCD;
+}
 
 
 /**/
@@ -85,8 +138,9 @@
 }
 
 .element-active.ui-draggable-dragging{
-  background-color: white;
-  box-shadow: 0 0 6px -4px #111;
+    z-index: 998;
+    max-height: 300px;
+    overflow: hidden;
 }
 
 
@@ -191,57 +245,8 @@
 
 
 
-.mw_dropable{
-    position: absolute !important;
-    height: 2px;
-    background:#56B2F3;
-    z-index: 997;
-    display: none;
-}
-
-.mw_dropable_vertical{
-  height: auto;
-  width: 2px;
-}
-
-.mw_dropable_arr{
-  position: absolute;
-  display: block;
-  left: 50%;
-  bottom: -8px;
-  margin-left: -4px;
-  width: 16px;
-  height: 8px;
-  background: url(../img/dopable_arrows.png) no-repeat 0 -9px;
-}
-.mw_dropable_arr_up .mw_dropable_arr{
-    background-position: 0 0;
-    top: -8px;
-}
 
 
-.mw_dropable_vertical .mw_dropable_arr{
-  width: 8px;
-  height: 16px;
-  background-position: -16px -18px;
-  left: -4px;
-  top: 50%;
-  margin-top: -8px;
-}
-
-.mw_dropable_arr_rigt  .mw_dropable_arr{
-  background-position: -25px -18px;
-  left: 6px;
-}
-
-
-
-.ui-draggable-dragging{
-  z-index: 999;
-}
-.ui-resizable-e{
-  z-index: 5 !important;
-}
 
 .mw_image_resizer{
   position: absolute !important;
@@ -989,63 +994,7 @@ select.mw-ui-invisible-field{
   opacity:0;
 }
 
-textarea.mw-ui-field{
-  resize:vertical;
-}
 
-.mw-ui-more{
-  color: #A1A0A0;
-  font-size: 18px;
-  font-weight: normal;
-  white-space: nowrap;
-  padding: 3px 20px 3px 0;
-  white-space: nowrap;
-  background: url(../img/acfle_title_arr_right.png) no-repeat 100% 11px;
-}
-
-.mw-ui-more.toggler-active{
-  background: url(../img/acfle_title_arr.png) no-repeat 100% 13px;
-   color: #3791E3;
-}
-
-
-
-
-.mw-ui-label-inline:before{
-  content: " ";
-  display: block;
-  height: 0px;
-  clear: both;
-  overflow: hidden;
-  position: relative;
-}
-
-.mw-ui-label-inline{
-  float: left;
-  clear: both;
-  display: block;
-  position: relative;
-  top: 5px;
-  width: 150px;
-  padding-right: 10px;
-  font-weight: bold;
-  color: #6C6C6C;
-}
-
-.mw-ui-label .ico, .mw-ui-label-inline .ico{
-  top:-1px;
-}
-
-.mw-ui-label-small{
-  font-size: 10px;
-  color: #212121;
-}
-
-.mw-ui-label small{
-  font-size: 11px;
-  color: #8E8E8E;
-  font-weight: normal;
-}
 
 
 
@@ -1065,11 +1014,6 @@ textarea.mw-ui-field{
   margin: 0 3px 3px;
 }
 
-.is_shop_label{
-  padding:5px 10px;
-  width: 350px;
-  background: #FFFDD1;
-}
 
 
 .post-thumb-uploader{
@@ -1713,35 +1657,6 @@ body.mw-external-loading:after{
 
 
 
-#UITU{
-   display: none !important;
-}
-
-#LAYERS{
-
-  display: none !important;
-  position: fixed;
-  top: 0;
-
-  right: 0;
-  background: rgba(33, 33, 33, 1);
-  color: white;
-  width: 220px;
-  height: 100%;
-  padding: 0 0 0 0;
-}
-
-#LAYERS .layer{
-  position: relative;
-  display: block;
-  padding: 8px 12px;
-  background:#2B2B2B;
-  border-bottom: 1px solid #363636;
-  cursor: default;
-  font-size: 12px;
-
-}
-
 
 #module-modal-settings-menu-holder .mw-dropdown-content{
   width: 220px;
@@ -1873,6 +1788,8 @@ body.dragStart div.edit:hover:after{
     font-size: 11px;
 }
    */
+
+
 body.dragStart .nodrop .edit:hover:before,
 body.dragStart .nodrop .edit:hover:after,
 body.dragStart .nodrop.edit:hover:before,

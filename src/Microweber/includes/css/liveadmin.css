@@ -2850,7 +2850,7 @@ a.module-icon-title{
 
 .quick-add-module{
   padding: 12px;
-    min-height: 365px;
+  min-height: 365px;
   background: white;
   border:1px solid #DFDFDF;
   clear: both;
@@ -2972,11 +2972,6 @@ a.module-icon-title{
 .mw-ui-btn-nav-post-state span.active > span{
   display: block;
 }
-#quick-add-post-options-item-advanced textarea{
-  width: 90%;
-  width: calc(100% - 22px);
-  width: -webkit-calc(100% - 22px);
-}
 
 
 .post-save-and-go-live{
@@ -3033,6 +3028,7 @@ a#backtoadminindropdown .ico + span{
 
 /* Template settings modal */
 .mw-template-settings{
+  left: auto !important;
   background: white;
   overflow: visible;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);

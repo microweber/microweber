@@ -248,7 +248,7 @@
   cursor: -moz-grab;
   cursor: grab;
 }
-.dragStart .mw-sorthandle-moveit{
+.dragStart .mw-sorthandle-moveit, body.dragStart * {
   cursor: -webkit-grabbing;
   cursor: -moz-grabbing;
   cursor: grabbing;
@@ -260,6 +260,7 @@
 .column_separator_title{
   line-height: normal;
   display: inline-block;
+  display: none;
   color: #484848;
   cursor: move;
   text-align: center;
@@ -268,7 +269,7 @@
   padding: 0px 4px;
   border:1px solid #D8D8D8;
   background: white;
-
+  display: none;
 }
 
 
