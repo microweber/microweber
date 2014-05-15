@@ -10,6 +10,7 @@ class Curl
     public $url = "";
     public $debug = false;
     public $timeout = 60;
+    public $save_to_file = false; // path to save
     private $headers = array(); //Headers are built in set_headers() and passed in execute()
     private $post_data = "";
     private $fields_string = "";
@@ -41,42 +42,6 @@ class Curl
         return $this->setHeaders()->execute();
     }
 
-    public function post($data = false)
-    {
-        if (is_array($data)) {
-            $this->post_data = $data;
-            $this->buildPostString();
-            return $this->setHeaders('post')->execute();
-        } else {
-            $this->fields_string = $data;
-            return $this->setHeaders()->execute();
-        }
-    }
-
-    //Set the headers and process curl via a GET
-
-    private function buildPostString()
-    {
-
-        if (function_exists("curl_init")) {
-            $this->fields_string = null;
-            foreach ($this->post_data as $key => $value) {
-                if (is_string($key) and is_string($value)) {
-                    $this->fields_string .= $key . '=' . $value . '&';
-                } elseif (is_array($value)) {
-
-                }
-            }
-            $this->fields_string = rtrim($this->fields_string, "&");
-
-
-            return $this;
-        }
-
-    }
-
-    //Set the headers and process curl via a POST
-
     public function execute()
     {
 
@@ -92,6 +57,46 @@ class Curl
             curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 
+            if ($this->timeout != false) {
+                if(function_exists('set_time_limit')){
+                    @set_time_limit(600);
+                }
+
+            }
+
+            $save_to = $this->save_to_file;
+            $dl = false;
+            if ($save_to != false) {
+                $save_to = trim($save_to);
+                $save_to = str_replace('..', '', $save_to);
+
+                $save_to = normalize_path($save_to, false);
+
+                if (file_exists($save_to)) {
+                    $dl = true;
+                    $from = filesize($save_to);
+                    curl_setopt($ch, CURLOPT_RANGE, $from . "-");
+                    $fp = fopen($save_to, "a");
+                } elseif ($save_to != false) {
+                    $dl = true;
+                    $fp = fopen($save_to, 'w+'); //This is the file where we save the    information
+
+                }
+                if (isset($fp) and $fp != false) {
+                    $dl = true;
+                    if(function_exists('set_time_limit')){
+                        @set_time_limit(600);
+                    }
+                    curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+                    curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                }
+
+
+            }
+            if ($dl == false) {
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            }
 
             curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
 
@@ -107,10 +112,11 @@ class Curl
             }
 
 
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             // grab URL
             $result = curl_exec($ch);
-
+            if ($dl != false) {
+                fclose($fp);
+            }
             curl_close($ch);
 
 
@@ -145,7 +151,7 @@ class Curl
         return $result;
     }
 
-    //Starts curl and sets headers and returns the data in a string
+    //Set the headers and process curl via a GET
 
     private function setHeaders($type = '')
     {
@@ -173,5 +179,67 @@ class Curl
             }
         }
         return $this;
+    }
+
+    //Set the headers and process curl via a POST
+
+    public function download($save_to_file, $post_data = false)
+    {
+        if ($save_to_file != false) {
+            $dn = dirname($save_to_file);
+            if (!is_dir($dn)) {
+                mkdir_recursive($dn);
+            }
+            if (is_dir($dn)) {
+                $this->save_to_file = $save_to_file;
+                if ($post_data != false) {
+                    $ex = $this->post($post_data);
+                    $this->save_to_file = false;
+
+                    return $ex;
+                } else {
+                    $ex = $this->execute($post_data);
+                    $this->save_to_file = false;
+
+                    return $ex;
+
+                }
+            }
+        }
+        $this->save_to_file = false;
+    }
+
+    public function post($data = false)
+    {
+        if (is_array($data)) {
+            $this->post_data = $data;
+            $this->buildPostString();
+            return $this->setHeaders('post')->execute();
+        } else {
+            $this->fields_string = $data;
+            return $this->setHeaders()->execute();
+        }
+    }
+
+    //Starts curl and sets headers and returns the data in a string
+
+    private function buildPostString()
+    {
+
+        if (function_exists("curl_init")) {
+            $this->fields_string = null;
+            foreach ($this->post_data as $key => $value) {
+                if (is_string($key) and is_string($value)) {
+                    $this->fields_string .= $key . '=' . $value . '&';
+                } elseif (is_array($value)) {
+
+                }
+            }
+            $this->fields_string = rtrim($this->fields_string, "&");
+
+
+            return $this;
+        }
+
     }
 }

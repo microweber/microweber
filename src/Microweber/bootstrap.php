@@ -68,8 +68,6 @@ if (!defined('MW_ROOTPATH')) {
 }
 
 
-
-
 if (!defined('MW_SITE_URL')) {
     // please add backslash to the url if you define it
     // like http://localhost/mw/
@@ -121,14 +119,41 @@ if (!defined('MW_WEB_COMPONENTS_SHARED_DIR')) {
 
 $autoload_vendors_dir = MW_ROOTPATH . MW_VENDOR_FOLDER_NAME . DIRECTORY_SEPARATOR;
 $autoload_vendors_shared_dir = MW_ROOTPATH . MW_VENDOR_SHARED_FOLDER_NAME . DIRECTORY_SEPARATOR;
-$autoload_vendors_file = $autoload_vendors_dir. 'autoload.php';
-$autoload_vendors_shared_file = $autoload_vendors_shared_dir. 'autoload.php';
+$autoload_vendors_file = $autoload_vendors_dir . 'autoload.php';
+$autoload_vendors_composer_dir = $autoload_vendors_dir . 'composer' . DS;
+$autoload_vendors_composer_autoload_real = $autoload_vendors_composer_dir . 'autoload_real.php';
+$autoload_vendors_composer_autoload_files = $autoload_vendors_composer_dir . 'autoload_files.php';
+
+
+$autoload_vendors_shared_file = $autoload_vendors_shared_dir . 'autoload.php';
 if (is_file($autoload_vendors_shared_file)) {
     include_once($autoload_vendors_shared_file);
 }
-
+$use_fallback_autoloader_config = false;
 if (is_file($autoload_vendors_file)) {
     include_once($autoload_vendors_file);
+} elseif (is_dir($autoload_vendors_composer_dir) and is_file($autoload_vendors_composer_autoload_real) and is_file($autoload_vendors_composer_autoload_files)) {
+    //setup for shared vendor folder env
+
+    include_once($autoload_vendors_composer_autoload_real);
+    $functions = get_defined_functions();
+    $functions_list = array();
+    foreach ($functions['user'] as $func) {
+        $search_for_composer_require = 'composerRequire';
+
+        if (stristr($func, $search_for_composer_require) !== false) {
+
+            $composer_class = str_ireplace($search_for_composer_require, '', $func);
+            $composer_class = 'ComposerAutoloaderInit' . $composer_class;
+            if (class_exists($composer_class)) {
+                //check for integrity
+                $required = include($autoload_vendors_composer_autoload_files);
+                //var_dump($required);
+                //$composer_class::getLoader();
+            }
+        }
+
+    }
 }
 
 
@@ -301,6 +326,7 @@ set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     MW_APP_PATH . 'controllers' . DS .
     PATH_SEPARATOR . MW_MODULES_DIR .
     PATH_SEPARATOR . $libs_path .
+    PATH_SEPARATOR . $autoload_vendors_shared_dir .
     PATH_SEPARATOR . get_include_path());
 
 spl_autoload_register('mw_autoload');

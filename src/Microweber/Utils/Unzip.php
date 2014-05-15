@@ -73,7 +73,7 @@ class Unzip
 
 
         if (function_exists('zip_open')) {
-			 
+
             $is_any = $this->native_unzip($zip_file, $target_dir, $preserve_filepath);
 
             if (!empty($is_any)) {
@@ -316,6 +316,9 @@ class Unzip
 
 
             if (is_resource($archive)) {
+                if(function_exists('set_time_limit')){
+                @set_time_limit(600);
+                }
                 while ($entry = zip_read($archive)) {
                     $size = zip_entry_filesize($entry);
                     $name = zip_entry_name($entry);
