@@ -3044,6 +3044,7 @@ a#backtoadminindropdown .ico + span{
 .mw-template-settings{
   background: white;
   overflow: visible;
+  left: auto !important;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
   border: none;
   -webkit-transition: right 0.5s ease;

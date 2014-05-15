@@ -368,7 +368,18 @@ class Parser
                                         define('MW_PLAIN_MODULES', true);
                                     }
                                 }
-
+                                if ($plain_modules != false) {
+                                                              if ($module_name != 'pictures') {
+                                                                  $module_db_data = $this->app->module->get('one=1&ui=any&module=' . $module_name);
+                                                                  $mod_content = '';
+                                                                  if (is_array($module_db_data)) {
+                                                                      if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
+                                                                      } else {
+                                                                          $mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
+                                                                      }
+                                                                  }
+                                                              }
+                                                          }
 
 //                                if ($plain_modules != false) {
 //                                    if ($module_name != 'pictures') {
