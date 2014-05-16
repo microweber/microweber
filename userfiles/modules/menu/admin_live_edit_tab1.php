@@ -81,9 +81,7 @@ body.module-settings-page #custom_link_controller {
 	position: relative;
 	top: 7px;
 }
-#custom_link_inline_controller .mw-ui-btn2 {
-	width: 70px;
-}
+
 .pages_tree_link_text {
 	max-width: none;
 }
@@ -375,7 +373,7 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   <div class="mw_clear"></div>
   <input type="text" class="mw-ui-field" placeholder="<?php _e("URL"); ?>" name="url"  />
   <input type="hidden" name="parent_id" id="add-custom-link-parent-id" value="<?php  print   $menu_id ?>" />
-  <button class="mw-ui-btn2 mw-ui-btn-blue right" onclick="mw.menu_save_new_item('#custom_link_controller');">
+  <button class="mw-ui-btn mw-ui-btn-info pull-right" onclick="mw.menu_save_new_item('#custom_link_controller');">
   <?php _e("Add to menu"); ?>
   </button>
 </div>

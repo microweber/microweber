@@ -94,12 +94,12 @@ if( $id != 0){
 	<?php else: ?>
  
     <?php endif; ?>
-    <button class="mw-ui-btn2" onclick="mw.$('#menu-selector-<?php  print $data['id'] ?>').toggle();">
+    <button class="mw-ui-btn" onclick="mw.$('#menu-selector-<?php  print $data['id'] ?>').toggle();">
     <?php _e("Select"); ?>
     </button>
     <div class="mw_clear vSpace"></div>
     <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field"  name="url" value="<?php  print $data['url'] ?>" onblur="mw.menu_save_new_item('#custom_link_inline_controller',true);" />
-    <button class="mw-ui-btn2 mw-ui-btn-green left" onclick="mw.menu_save_new_item('#custom_link_inline_controller');"><?php _e("Save"); ?></button>
+    <button class="mw-ui-btn pull-left" onclick="mw.menu_save_new_item('#custom_link_inline_controller');"><?php _e("Save"); ?></button>
     <div class="mw_clear vSpace"></div>
     <?php if($data['id'] != 0): ?>
     <div id="menu-selector-<?php  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">

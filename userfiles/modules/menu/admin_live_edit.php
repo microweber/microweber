@@ -71,7 +71,7 @@
 			<input name="menu_id"  type="hidden"  value="0"    />
 			<div style="overflow: hidden">
 				<input class="left mw-ui-field" style="width:300px" type="text" name="title" placeholder="<?php _e("Menu Name"); ?>" />
-				<button type="button" class="mw-ui-btn2 right" onclick="mw.menu_save('#add_new_menu')">
+				<button type="button" class="mw-ui-btn pull-right" onclick="mw.menu_save('#add_new_menu')">
 				<?php _e("Add"); ?>
 				</button>
 			</div>

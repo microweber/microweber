@@ -2071,23 +2071,6 @@ div > .mw-simple-rotator-item:last-child, .mw-simple-rotator-container > div:las
     left: 0;
 }
 
-.mw-dump-list {
-  color: #222222;
-  font-family: 'Courier New';
-  font-size: 15px;
-  font-weight: bold;
-  padding-left: 40px;
-}
-
-.mw-dump-list li:hover{
-  background: #EDEDED;
-}
-
-.mw-dump-list a{
-  text-decoration: underline;
-  color: #0D5D97;
-}
-
 .mw-side-nav-label{
   color: #212121;
   padding-bottom: 0;
@@ -2191,35 +2174,7 @@ ul.mw-menu-selector-list li{
 
 
 
-/***********************************
-             Tag viewer
-************************************/
 
-/*
-
-.edit *:before  , .edit *:after{
-  color: #235F99;
-  font-weight: bold;
-  font-size: 13px;
-  font-family: 'Courier New';
-}
-
-.edit p:before{content:'<p>'} .edit p:after{content:'</p>'}
-.edit b:before{content:'<b>'} .edit b:after{content:'</b>'}
-.edit strong:before{content:'<strong>'} .edit b:after{content:'</strong>'}
-.edit li:before{content:'<li>'} .edit li:after{content:'</li>'}
-.edit ul:before{content:'<ul>'} .edit ul:after{content:'</ul>'}
-.edit span:before{content:'<span>'} .edit span:after{content:'</span>'}
-.edit em:before{content:'<em>'} .edit em:after{content:'</em>'}
-.edit i:before{content:'<i>'} .edit i:after{content:'</i>'}
-.edit h1:before{content:'<h1>'} .edit h1:after{content:'</h1>'}
-.edit h2:before{content:'<h2>'} .edit h2:after{content:'</h2>'}
-.edit h3:before{content:'<h3>'} .edit h3:after{content:'</h3>'}
-.edit h4:before{content:'<h4>'} .edit h4:after{content:'</h4>'}
-.edit h5:before{content:'<h5>'} .edit h5:after{content:'</h5>'}
-.edit h6:before{content:'<h6>'} .edit h6:after{content:'</h6>'}
-
-*/
 
 .view_all_subs.active,
 .hide_all_subs.active{
