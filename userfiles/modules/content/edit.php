@@ -847,7 +847,7 @@ mw.save_inner_editable_fields = function(data){
 	   
 	   
 	    $(window).bind('templateChanged', function(e){
-		 
+
 		 var iframe_ed = $('.mw-iframe-editor')
 	     var changed =  iframe_ed.contents().find('.changed').size();
 		 if(changed == 0){
@@ -931,9 +931,12 @@ mw.save_inner_editable_fields = function(data){
       });
 
       $(mwd.body).bind("dblclick", function(){
-         $(window).scrollTop(0);  
-        mw.tools.toggleFullscreen(mwd.getElementById('pages_edit_container'));
+         /*
 
+           $(window).scrollTop(0);
+           mw.tools.toggleFullscreen(mwd.getElementById('pages_edit_container'));
+
+         */
       });
 
     });

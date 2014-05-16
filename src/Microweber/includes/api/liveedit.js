@@ -1602,7 +1602,7 @@ mw.drag = {
                             last_container.append(node.innerHTML);
                         }
 
-                        last_after_remove.resizable("destroy");
+                        //last_after_remove.resizable("destroy");
                         mw.$('#' + $el_id).children(".empty-element").remove();
                         mw.drag.fix_placeholders(true, '#' + $el_id);
 

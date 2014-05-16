@@ -2,7 +2,6 @@
 <html>
   <head>
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>api/api.css"/>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>default.css"/>
       <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
       <script type="text/javascript" src="<?php print(MW_SITE_URL ); ?>apijs"></script>

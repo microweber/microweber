@@ -251,5 +251,5 @@
       </div>
     </li>
   </ul>
-  <?php /* <div id="mw_design_disabler" class="mw_disabler"></div> */ ?>
+
 </div>

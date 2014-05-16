@@ -325,6 +325,7 @@ mw.tools = {
       o.content = "";
     }
     var m = mwd.createElement('div'), c = mwd.createElement('div');
+    m.contentEditable = false;
     m.className = 'mw-inline-modal ' + tpl;
     c.className = 'mw-inline-modal-container';
     c.innerHTML = '<span class="mw-inline-modal-container-close" onclick="$(mw.tools.firstParentWithClass(this, \'mw-inline-modal\')).remove();"></span>';
@@ -608,7 +609,6 @@ mw.tools = {
         else if(only == 'horizontal'){
           modal.css({left:($(window).width()/2)-(w/2)});
         }
-
     },
     overlay:function(for_who, is_over_modal){
         var doc = document;

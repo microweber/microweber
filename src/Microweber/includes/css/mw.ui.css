@@ -2,65 +2,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-.deactivated{
-  position: relative;
-  display:block;
-}
-.deactivated *{
-  pointer-events:none;
-}
-
-.deactivated:after{
-  content: ".";
-  display: block;
-  clear: both;
-  visibility: hidden;
-  line-height: 0;
-  height: 0;
-}
-
-.deactivated:before{
-  display: block;
-  position: absolute;
-  content: " ";
-  z-index: 9;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  opacity:0.5;
-}
-
-.mw-notif-bubble{
-  display: inline-block;
-  padding: 1px 2px;
-  color: white;
-  font-size: 9px;
-  font-weight: bold;
-  position: relative;
-  top: -1px;
-  background: #EF3D25;
-  box-shadow: 0px 1px 2px #363636;
-  border-radius: 2px;
-}
-
-.ico > .mw-notif-bubble{
-  position: absolute;
-  left: 75%;
-  top: -7px;
-}
-
 .ellipsis{
   overflow: hidden;
   white-space: nowrap;

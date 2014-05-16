@@ -248,6 +248,7 @@ div.edit, div.mw-col{
   .mw-col{
     width: auto !important;
     float: none;
+    display: block !important;
   }
   .mw-col > .ui-resizable-e{
     display: none;
@@ -444,7 +445,7 @@ body.Resizing .mwembed:after{
 /* Tables */
 
 table[class*='mw-wysiwyg-table']{
-
+    width: 100%;
     background-color: transparent;
     border-collapse: collapse;
     border-spacing: 0;

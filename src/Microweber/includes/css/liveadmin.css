@@ -23,18 +23,6 @@
   position: relative;
 }
 
-.inline{
-  display: inline !important;
-}
-
-.inline-block{
-  display: inline-block !important;
-}
-
-.center{
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .faded{
    opacity: 0.3;
@@ -70,19 +58,9 @@
 }
 
 
-
-
-
-.font-10{font-size: 10px !important;}
-.font-11{font-size: 11px !important;}
-.font-12{font-size: 12px !important;}
-.font-13{font-size: 13px !important;}
-.font-14{font-size: 14px !important;}
-.font-15{font-size: 15px !important;}
-.font-16{font-size: 16px !important;}
-
-
-
+/********************************************************
+                Unsuported Browser styles
+*********************************************************/
 
 body#UnsupportedBrowser div {
   display: none !important;
@@ -102,21 +80,17 @@ body#UnsupportedBrowser  #UnsupportedBrowserMSG{
   z-index: 9999;
   border-bottom: 1px solid #ccc;
 }
-
-
 body#UnsupportedBrowser #UnsupportedBrowserMSG h1{
   padding: 30px;
   font-weight: normal;
 }
-
-
 body#UnsupportedBrowser #download_browsers_holder{
   display: block !important;
   padding: 20px 0;
-    position: fixed;
-    top: 97px;
-    width: 100%;
-    text-align: center;
+  position: fixed;
+  top: 97px;
+  width: 100%;
+  text-align: center;
 }
 
 #choose_browsers{
@@ -134,22 +108,16 @@ body#UnsupportedBrowser #download_browsers_holder{
   position: absolute;
   top: 0;
 }
-
-#u__ff{
-  left: 80px;
-}
-#u__chr{
-  left: 160px;
-}
-#u__sf{
-  left: 250px;
-}
+#u__ff{ left: 80px; }
+#u__chr{ left: 160px;  }
+#u__sf{ left: 250px; }
 
 
+/********************************************************
+             /END Unsuported Browser styles
+*********************************************************/
 
-.mw-defaults li{
-  line-height: 22px;
-}
+
 
 .mw-defaults, .mw-defaults textarea, .mw-defaults input, .mw-defaults select{
   font: 12px Verdana,Arial,Helvetica,sans-serif;
@@ -168,64 +136,6 @@ body#UnsupportedBrowser #download_browsers_holder{
 }
 
 
-/*
-
-
-TEMP
-
-*/
-
-.vl, .hl{
-  position: fixed;
-  z-index: 99999;
-  overflow: hidden;
-  background: #FF0000;
-  display: none;
-  opacity:0.5;
-}
-
-.cross .vl, .cross .hl{
-  display: block;
-}
-
-.vl:hover, .hl:hover{
-  opacity:1;
-}
-
-body.cross{
-    cursor: crosshair;
-  cursor: none;
-}
-
-.vl{
-  width: 2px;
-  height: 100%;
-  cursor: crosshair;
-  cursor: none;
-  top: 0;
-  left: 100px;
-}
-.hl{
-  width:100% ;
-  height: 2px;
-  cursor: crosshair;
-  cursor: none;
-
-  top: 400px;
-  left: 0px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 .mw-overlay{
@@ -242,128 +152,7 @@ body.cross{
 /*******************************************/
 
 
-/* tabs navigation */
 
-#mw_toolbar_nav{
-    width: 100%;
-    min-width: 700px;
-    position: relative;
-    z-index: 12;
-}
-
-#mw_toolbar_nav.mw-small-toolbar{
-  height: 40px;
-}
-
-#mw-go_livebtn_admin{
-      margin:6px 6px 0;
-}
-
-#mw_toolbar_nav.mw-small-toolbar .mw-ui-btn{ margin-top: 3px;}
-
-#mw_toolbar_nav.mw-small-toolbar .mw-ui-btn.mw-btn-single-ico{ margin-top: 3px; }
-
-#mw_tabs{
-  float: left;
-  list-style: none;
-  height: 50px;
-}
-
-#mw_tabs li{
-  float: left;
-}
-
-#mw_tabs li.dropped{
-    visibility: hidden;
-}
-
-#mw_tabs li a{
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-right: 1px solid #EAEAEA;
-  padding: 17px 20px 10px;
-  text-align: center;
-  text-decoration: none;
-  outline: none;
-  color: #212121;
-  transition: box-shadow 0.09s linear;
-  -moz-transition: box-shadow 0.09s linear;
-  -webkit-transition: box-shadow 0.09s linear;
-  -o-transition: box-shadow 0.09s linear;
-  text-shadow:1px 1px 0px white;
-}
-#mw_tabs li:first-child a{
-  border-left: 1px solid #EAEAEA;
-}
-
-#mw_tabs li a:hover{
-  background-color: #fff;
-}
-
-#mw_tabs li a:active{ box-shadow: inset 0 0 5px #A6A6A6; box-shadow: inset 0 1px 16px -14px #000000; }
-
-
-
-
-#mw_tabs li.active a, #mw_tabs li.active a:hover{
-  background: white;
-}
-
-#mw_tabs li.active-prev{
-  border:none;
-}
-
-#mw_tabs li.active a:active{
-  box-shadow : none;
-}
-
-#mw_toolbar_logo{
-  display: block;
-  height: 29px;
-  text-indent: -999px;
-  width: 201px;
-  height: 52px;
-  background-position: center 12px;
-  background-repeat: no-repeat;
-}
-
-#mw_toolbar_logo:hover{
-    background-color: #fff;
-}
-
-#mw_logo_modules{
-  display: block;
-  float: left;
-  text-indent: -100%;
-  background-image: url(../img/logo_modules.png);
-  background-repeat: no-repeat, no-repeat;
-  background-position: left center, right bottom;
-  margin: 0 15px;
-  width: 210px;
-  height: 40px;
-}
-
-#mw-toolbar-right{
-    float: right;
-    background: #F5F5F5;
-    padding: 2px 10px 0px 0;
-    position: relative;
-    z-index: 12;
-}
-
-#main-save-btn{
-  margin: 0 0 0 12px;
-}
-
-html.mw_pages #mw_toolbar_nav{
-  height: 49px;
-}
-
-html.mw_pages #mw_tabs li.active a{
-  padding: 15px 20px 11px;
-}
 .mw_tree_title{
   background: url(../img/ico.tree.png) no-repeat 14px 0px;
   padding:5px 0 18px 55px;
@@ -3026,62 +2815,6 @@ a#backtoadminindropdown .ico + span{
   top: 0;
 }
 
-/* Template settings modal */
-.mw-template-settings{
-  left: auto !important;
-  background: white;
-  overflow: visible;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  border: none;
-  -webkit-transition: right 0.5s ease;
-  -moz-transition: right 0.5s ease;
-  -o-transition: right 0.5s ease;
-  -ms-transition: right 0.5s ease;
-  transition: right 0.5s ease;
-}
-#frame-template-settings{
-  margin-top: 30px;
-}
 
-.mw-template-settings .mw_modal_toolbar{
-  display: none;
-}
-.template-settings-icon{
-  display: block;
-  width: 42px;
-  height: 42px;
-  position: absolute;
-  left: -42px;
-  top: 22px;
-  z-index: 1;
-  background: white url(../img/settingswheel.svg) no-repeat center;
-  background-size: 47%;
-  box-shadow: -2px 0 2px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-}
-.template-settings-close{
-  display: block;
-  position: absolute;
-  right: 6px;
-  right: 6px;
-  top: 9px;
-  cursor: pointer;
-  color: #888;
-  font-size: 11px;
-}
-.template-settings-close-x{
-  width: 18px;
-  height: 18px;
-  background: url(../img/close.svg) no-repeat center;
-  background-size: cover;
-  display: block;
-  float: right;
-  margin-left: 3px;
-  margin-top: -1px;
-}
-
-
-
-/* /Template settings modal */
 
 

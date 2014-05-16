@@ -119,9 +119,7 @@ mw.askusertostay = false;
       mwhead.insertBefore(el, mwhead.firstChild);
     }
   }
-  mw.moduleJS = mw.module_js = function(url){
-    mw.require(url, true);
-  }
+  mw.moduleJS = mw.module_js = function(url){ mw.require(url, true); }
 
   mw.wait = function(a, b, max) {
     window[a] === undefined ? setTimeout(function() {

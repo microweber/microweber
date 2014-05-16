@@ -34,14 +34,26 @@ $.ajax({
  mw.form.post('#add-package-form-<?php print $params['id'] ?>', '<?php print api_link('Packages/save_patch'); ?>',
 			function(msg) {
 mw.notification.msg(this);
+ reload_changes();
  return false;
 			});
             return false;
  }
-
-
+function remove_patch_item($key){
+	$.post( "<?php print api_link('Packages/save_patch'); ?>", { require_name: $key, require_version: "delete" })
+  .done(function( msg ) {
+   mw.notification.msg(this);
+   reload_changes();
+  });
+	
+}
+function reload_changes(){
+	mw.reload_module('#<?php print $params['id'] ?>');
+	
+}
 </script>
 <?php $required_packages = mw()->packages->get_required(); ?>
+<?php $patch =  mw()->packages->get_patch_require(); ?>
 
 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
   <thead>
@@ -57,9 +69,30 @@ mw.notification.msg(this);
       <?php foreach($required_packages as $key=>$val): ?>
       <td><?php print $key; ?></td>
       <td><?php print $val; ?></td>
+       <td></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
+    
+      <?php if(!empty($patch)): ?>
+      <thead>
+    <tr>
+      <th>Update Patch </th>
+      <th>Version</th>
+      <th> </th>
+    </tr>
+  </thead>
+    <tr>
+      <?php foreach($patch as $key=>$val): ?>
+      <td><?php print $key; ?></td>
+      <td><?php print $val; ?></td>
+      <td><button type="button" onClick="remove_patch_item('<?php print $key; ?>')">x</button>
+</td>
+    </tr>
+    <?php endforeach; ?>
+    <?php endif; ?>
+    
+    
   </tbody>
 </table>
 <form  onSubmit="return save_new_package_form();" id="add-package-form-<?php print $params['id'] ?>">

@@ -1,5 +1,6 @@
 mw.drag = mw.drag || {}
 mw.drag.columns = {
+    step:0.5,
     resizing:false,
     prepare:function(){
         mw.drag.columns.resizer = mwd.createElement('div');
@@ -17,12 +18,12 @@ mw.drag.columns = {
         var next = mw.drag.columns.nextColumn(mw.drag.columns.resizer.curr);
         var w2 = parseFloat(next.style.width);
         if(mw.drag.columns.resizer.pos < e.pageX){
-            mw.drag.columns.resizer.curr.style.width = (w + 0.4) + '%';
-            next.style.width = (w2 - 0.4) + '%';
+            mw.drag.columns.resizer.curr.style.width = (w + mw.drag.columns.step) + '%';
+            next.style.width = (w2 - mw.drag.columns.step) + '%';
         }
         else{
-           mw.drag.columns.resizer.curr.style.width = (w - 0.4) + '%';
-           next.style.width = (w2 + 0.4) + '%';
+           mw.drag.columns.resizer.curr.style.width = (w - mw.drag.columns.step) + '%';
+           next.style.width = (w2 + mw.drag.columns.step) + '%';
         }
         mw.drag.columns.resizer.pos = e.pageX;
         mw.drag.columns.position(mw.drag.columns.resizer.curr);
@@ -59,9 +60,9 @@ $(mwd).ready(function(){
       mw.drag.columns.resizing = false;
    });
    $(mwd.body).bind('mousemove', function(e){
-     if(mw.drag.columns.resizing){
+     if(mw.drag.columns.resizing === true && mw.isDrag === false){
         mw.drag.columns.resize(e);
-        e.stopPropagation()
+        e.preventDefault();
      }
    });
 });

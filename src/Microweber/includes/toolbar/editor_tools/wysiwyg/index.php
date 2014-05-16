@@ -175,7 +175,7 @@ $(window).load(function(){
         }
       });
 
-      mw.drag.plus.init('#mw-iframe-editor-area');
+
 
 });
 
@@ -263,10 +263,15 @@ img{
 <?php $mainclass = 'admin-live-edit-editor'; ?>
 
 <link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
-<link href="<?php print(MW_INCLUDES_URL); ?>css/toolbar.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print(MW_INCLUDES_URL); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
 <script>
   mw.require("liveedit.js");
+  mw.require("columns.js");
   mw.require("plus.js");
+  $(window).bind('load', function(){
+      mw.drag.plus.init('#mw-iframe-editor-area');
+      mw.drag.columns.init();
+  });
 </script>
 
 <?php } ?>

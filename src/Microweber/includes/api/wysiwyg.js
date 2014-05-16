@@ -1211,9 +1211,9 @@ $(window).load(function(){
   			  }
           }
           else if( val === 'table' ){
-               var table = mw.wysiwyg.applier('table', 'mw-wysiwyg-table', {width:"100%"});
-               table.innerHTML = '<tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr>';
-               table.setAttribute('onclick', 'mw.inline.tableController(this, event);');
+               var el = mw.wysiwyg.applier('div', 'element', {width:"100%"});
+               el.innerHTML = '<table class="mw-wysiwyg-table"><tbody><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr><tr><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td><td onclick="mw.inline.setActiveCell(this, event);" onkeyup="mw.inline.setActiveCell(this, event);">Lorem Ipsum</td></tr></tbody></table>';
+               el.querySelector('table').setAttribute('onclick', 'mw.inline.tableController(this, event);');
           }
           else if( val === 'quote' ){
               var div = mw.wysiwyg.applier('blockquote', 'element');

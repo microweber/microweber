@@ -26,7 +26,6 @@ mw.require("events.js");
 
 
 </script>
-<link href="<?php   print( MW_INCLUDES_URL);  ?>api/api.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( MW_INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( MW_INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
  
