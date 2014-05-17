@@ -98,7 +98,17 @@ class Packages
 
                 $conf_items[$key] = $value;
             }*/
-            $conf_items = json_encode($conf_items, JSON_UNESCAPED_SLASHES);
+
+            if(defined('JSON_UNESCAPED_SLASHES')){
+                $conf_items = json_encode($conf_items, JSON_UNESCAPED_SLASHES);
+
+            } else {
+                $conf_items = str_replace('\/','/',json_encode($conf_items));
+
+            }
+
+
+
             $save = file_put_contents($patch_file, $conf_items);
             if ($save) {
                 return array('success' => "composer.patch is saved");
@@ -157,6 +167,7 @@ class Packages
 
 
             //d($post_params);
+            //d($curl_result);
             if ($curl_result != false) {
                 $curl_result = json_decode($curl_result, true);
                 if ($curl_result != false and is_array($curl_result) and !empty($curl_result)) {
@@ -166,9 +177,11 @@ class Packages
                             $link = json_encode($item);
                             //$item['download'];
                             file_put_contents($this->temp_dir . 'download.json', $link);
-                            return array('success' => "Patch is ready for download");
+                            return array('success' => "Patch is ready for download from ".$item['download']);
                         } else if (isset($item['error']) and $item['error'] != false) {
                             return array('error' => $item['error']);
+                        }else if (isset($item['message']) and $item['message'] != false) {
+                            return array('warning' => $item['message']);
                         }
 
                     //}
