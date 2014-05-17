@@ -21,7 +21,7 @@ class Packages
     public $temp_dir;
     public $config_items = array();
     public $config_items_patch = array();
-    private $remote_api_url = 'http://api.microweber.com/service/deploy/';
+    private $remote_api_url = 'http://patch.microweber.com/';
 
     function __construct($app = null)
     {
@@ -155,13 +155,13 @@ class Packages
                 $curl_result = $http->post($post_params);
             }
 
-// d($curl_result);
+
             //d($post_params);
             if ($curl_result != false) {
                 $curl_result = json_decode($curl_result, true);
                 if ($curl_result != false and is_array($curl_result) and !empty($curl_result)) {
-
-                    foreach ($curl_result as $item) {
+                    $item = $curl_result;
+                  //  foreach ($curl_result as $item) {
                         if (isset($item['download']) and $item['download'] != false) {
                             $link = json_encode($item);
                             //$item['download'];
@@ -171,7 +171,7 @@ class Packages
                             return array('error' => $item['error']);
                         }
 
-                    }
+                    //}
 
                 }
                 return $curl_result;
