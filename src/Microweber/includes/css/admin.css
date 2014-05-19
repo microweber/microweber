@@ -1006,6 +1006,24 @@ a:hover .mw_ed_tree_content{
   position: relative;
   z-index: 91;
 }
+#quick-add-post-options .mw-ui-btn.active{
+  background-color: #f5f5f5;
+}
+
+#quick-add-post-options .mw-ui-btn [class*='mw-icon-']{
+  font-size: 25px;
+}
+#content-edit-settings-tabs.fixed #quick-add-post-options .mw-ui-btn{
+  border: none
+}
+
+#content-edit-settings-tabs.fixed #quick-add-post-options .mw-ui-btn [class*='mw-icon-'] + span{
+  display: none;
+}
+#content-edit-settings-tabs.fixed #quick-add-post-options .mw-ui-btn [class*='mw-icon-']{
+  margin-left: 7px;
+}
+
 #content-edit-settings-tabs-holder{
   height: 37px;
   margin-bottom: 20px;
@@ -1206,9 +1224,46 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   vertical-align: bottom;
 }
 
-#content-title-field-buttons .btn-posts-state{
-  border-color: transparent
+.post-states-tip-nav .mw-ui-btn{
+  border: none;
+  display: block;
+  background-color: transparent;
 }
+
+.post-states-tip-nav .mw-ui-btn:hover{
+  background-color: white;
+}
+
+
+.post-states-tip-nav .btn-publish-unpublish.active{
+  display: none;
+}
+
+
+.btn-publish > *, .btn-posts-state .mw-icon-check{
+  color: #48AD79;
+}
+.btn-unpublish > *, .btn-posts-state .mw-icon-unpublish{
+  color: #EF924D;
+}
+.post-move-to-trash > *, .btn-posts-state .mw-icon-trash{
+  color: #888888;
+}
+
+.post-states-tip-nav hr{
+  margin: 11px 0;
+}
+
+.posts-states-tooltip .mw-tooltip-content{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.posts-states-tooltip, .posts-states-tooltip .mw-tooltip-content, .posts-states-tooltip .mw-tooltip-arrow:after{
+  background-color: #fafafa;
+}
+
+
 
 .admin-manage-toolbar-scrolled #content-title-field-buttons{
   vertical-align: middle;

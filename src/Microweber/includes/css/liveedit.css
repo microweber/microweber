@@ -1553,7 +1553,18 @@ body.dragStart .empty-element { display: block; }
   top: 0;
 }
 
+.edit li.module-item{
+  list-style: none;
+  background: white url(../img/img_check_loading.gif) no-repeat center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #BDBBBB;
+  border-radius: 3px;
+}
 
+.edit li.module-item * {
+  display: none;
+}
 
 /* Table controller */
 
@@ -2238,6 +2249,16 @@ div[id*='SSDIVEL'] {
   right: 3px;
 }
 
+
+
+/* External Tools */
+
+.mw-external-tool{
+  position: absolute;
+  z-index: 1101;
+  top: 100px;
+  left: 100px;
+}
 
 
 

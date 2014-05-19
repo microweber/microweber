@@ -1,5 +1,5 @@
 mw.require("files.js");
-mw.require(mw.settings.includes_url + "css/mw.ui.css");
+mw.require(mw.settings.includes_url + "css/ui.css");
 (function() {
     if(typeof jQuery.browser === 'undefined'){
         var matched, browser;

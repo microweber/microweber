@@ -17,7 +17,7 @@
     <script type="text/javascript">
         mw.require("url.js");
         mw.require("tools.js");
-        mw.require("<?php print( MW_INCLUDES_URL); ?>css/mw.ui.css");
+        mw.require("<?php print( MW_INCLUDES_URL); ?>css/ui.css");
         mw.lib.require("bootstrap3");
     </script>
 

@@ -14,8 +14,7 @@ if (isset($params['module'])): ?>
     liveEditSettings = true;
     mw.lib.require("jqueryui");
     mw.require('<?php print MW_INCLUDES_URL; ?>default.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>css/mw_framework.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>css/liveadmin.css');
+    mw.require('<?php print MW_INCLUDES_URL; ?>css/components.css');
     mw.require('<?php print MW_INCLUDES_URL; ?>css/admin.css');
     mw.require('<?php print MW_INCLUDES_URL; ?>css/popup.css');
     mw.require("events.js");

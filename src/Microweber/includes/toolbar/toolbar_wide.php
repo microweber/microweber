@@ -62,7 +62,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
   });
 
 </script>
-<link href="<?php print(MW_INCLUDES_URL); ?>css/mw_framework.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print(MW_INCLUDES_URL); ?>css/components.css" rel="stylesheet" type="text/css"/>
 <link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
         $(document).ready(function () {

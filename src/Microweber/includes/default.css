@@ -31,18 +31,13 @@
 }
 
 .mw-defaults{
-  font: 12px Verdana,Arial,Helvetica,sans-serif;
+  font-size: 12px;
   color: #212121;
 }
-.mw-defaults *{
+.mw-defaults > *{
   color: #212121;
 }
 
-.mw-defaults a{
-  color: #212121;
-  text-decoration: none;
-  outline: none;
-}
 
 .mw-defaults li, .mw-defaults ol, .mw-defaults ul{
   margin: 0;
@@ -245,6 +240,10 @@ div.edit, div.mw-col{
 
 
 @media (max-width: 767px) {
+  .mw-row{
+    display: block;
+  }
+
   .mw-col{
     width: auto !important;
     float: none;

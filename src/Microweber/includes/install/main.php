@@ -1,14 +1,10 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!DOCTYPE HTML>
 <head>
 <title>Microweber Configuration</title>
 <meta charset="utf-8">
-<META HTTP-EQUIV="Content-Language" Content="en">
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/liveadmin.css"/>
+<meta http-equiv="Content-Language" Content="en">
 <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/admin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/components.css"/>
 <script type="text/javascript" src="<?php print MW_INCLUDES_URL; ?>js/jquery.js"></script>
 <?php
 
@@ -126,81 +122,7 @@ function mw_start_progress(){
 
 }
 </script>
-<style>
-body {
-	background: #f4f4f4;
-}
-h1, h2, h3, h4, h5 {
-	font-weight: normal;
-}
-.vSpace {
-	clear: both;
-	height: 12px;
-	overflow: hidden;
-	position: relative;
-}
-.installholder {
-	width: 590px;
-	margin: 80px auto 40px;
-}
-.mw-ui-box {
-	background: white;
-}
-.mw-ui-box-header, .mw-ui-box-content {
-	padding-left: 20px;
-	padding-right: 20px;
-}
-input[type='text'], input[type='password'] {
-	width: 200px;
-}
-.mw-ui-label {
-	display: block;
-	float: left;
-	width: 155px;
-	padding:6px 12px 0 0;
-}
-.mw_install_progress {
-	display: none;
-}
-.mw-ui-box ol {
-	padding-left: 20px;
-}
-.error {
-	color: red;
-}
-.error a {
-	color: red;
-}
-.mw-ui-box ol.error {
-	color: red;
-	padding-top: 10px;
-}
-.mw-ui-box ol.error li {
-	padding: 5px 0;
-}
-#logo {
-	float: left;
-}
-.Beta {
-	float: right;
-}
-.version {
-	color: #757575;
-}
-#mw-install-done {
-	text-align: center;
-	padding-bottom: 40px;
-	clear: both;
-	overflow: hidden;
-}
-#mw-install-done .mw-ui-btn {
-	margin: 0 0 0 35px;
-	width: 220px;
-}
-#mw-install-done .mw-ui-btn-blue {
-	margin: 0 35px 0 0;
-}
-</style>
+
 </head>
 <body>
 <div class="wrapper">

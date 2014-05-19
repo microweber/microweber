@@ -115,43 +115,7 @@ mw.admin = {
           var area = mw.$(area);
           var frame = mwd.createElement('iframe');
         //  frame.src = mw.settings.site_url+('?mw_quick_edit=true&'+params);
-		      frame.src = mw.external_tool('wysiwyg?'+params);
-          frame.className = 'mw-iframe-editor';
-          frame.scrolling = 'no';
-          var name =  'mweditor'+mw.random();
-          frame.id = name;
-          frame.name = name;
-          frame.style.backgroundColor = "transparent";
-          frame.setAttribute('frameborder', 0);
-          frame.setAttribute('allowtransparency', 'true');
-          area.empty().append(frame);
-          $(frame).load(function(){
-              frame.contentWindow.thisframe = frame;
-              if(typeof frame.contentWindow.PrepareEditor === 'function'){
-                frame.contentWindow.PrepareEditor();
-              }
-              mw.admin.editor.set(frame);
-              $(frame.contentWindow.document.body).bind('keyup paste', function(){
-                   mw.admin.editor.set(frame);
-              });
-          });
-          mw.admin.editor.set(frame);
-          $(window).bind('resize', function(){
-            mw.admin.editor.set(frame);
-          });
-          return frame;
-      },
-      OLDinit:function(area, params){
-          var params = params || {};
-          if(typeof params === 'object' ){
-            if(typeof params.src != 'undefined'){
-                delete(params.src);
-            }
-          }
-          var params = typeof params === 'object' ? json2url(params) : params;
-          var area = mw.$(area);
-          var frame = mwd.createElement('iframe');
-          frame.src = mw.settings.site_url+('?mw_quick_edit=true&'+params);
+		  frame.src = mw.external_tool('wysiwyg?'+params);
           frame.className = 'mw-iframe-editor';
           frame.scrolling = 'no';
           var name =  'mweditor'+mw.random();
@@ -196,17 +160,15 @@ mw.admin = {
         mw.admin.manageToolbarQuickNav = mwd.getElementById('content-edit-settings-tabs');
       }
       if(mw.admin.manageToolbarQuickNav !== null){
-            if((scrolltop) >100){ d(1)
-              mw.$("#content-edit-settings-tabs").addClass('fixed');
-              mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
-            }
-            else{
-              mw.$("#content-edit-settings-tabs").removeClass('fixed');
-              mw.$(".admin-manage-toolbar-scrolled").removeClass('fix-tabs');
-            }
-
+          if((scrolltop) >100){
+            mw.$("#content-edit-settings-tabs").addClass('fixed');
+            mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
+          }
+          else{
+            mw.$("#content-edit-settings-tabs").removeClass('fixed');
+            mw.$(".admin-manage-toolbar-scrolled").removeClass('fix-tabs');
+          }
       }
-
     },
     CategoryTreeWidth:function(p){
           AdminCategoryTree =  mwd.querySelector('.tree-column');
@@ -240,15 +202,60 @@ mw.admin = {
     },
     titleColumnNavWidth:function(){
       var _n = mwd.getElementById('content-title-field-buttons');
-      _n.style.width=_n.querySelector('.mw-ui-btn-nav').offsetWidth+22+'px';
+      if(_n !== null){
+         _n.style.width=_n.querySelector('.mw-ui-btn-nav').offsetWidth+22+'px';
+      }
+    },
+    postStates:{
+      show:function(el, pos){
+        if(!mw.admin.postStatesTip){
+          mw.admin.postStates.build();
+        }
+        var el = el || mwd.querySelector('.btn-posts-state');
+        var pos = pos || 'bottom-left';
+        mw.tools.tooltip.setPosition(mw.admin.postStatesTip, el, pos);
+        mw.admin.postStatesTip.style.display = 'block';
+      },
+      hide:function(e){
+        if(!mw.admin.postStatesTip){
+          mw.admin.postStates.build();
+        }
+        setTimeout(function(){
+          if(mw.admin.postStatesTip._over == false){
+            mw.admin.postStatesTip.style.display = 'none';
+          }
+        }, 444);
+      },
+      build:function(){
+        mw.admin.postStatesTip = mw.tooltip({content:mwd.getElementById('post-states-tip').innerHTML, position:'bottom-left', element:'.btn-posts-state'});
+        $(mw.admin.postStatesTip).addClass('posts-states-tooltip');
+        mw.admin.postStatesTip.style.display = 'none';
+        mw.admin.postStatesTip._over = false;
+        $(mw.admin.postStatesTip).hover(function(){
+          this._over = true;
+        }, function(){
+          this._over = false;
+          mw.admin.postStatesTip.style.display = 'none';
+        });
+      },
+      set:function(a){
+        if(a == 'publish'){
+          mw.$('.btn-publish').addClass('active');
+          mw.$('.btn-unpublish').removeClass('active');
+          mw.$('.btn-posts-state > span').attr('class', 'mw-icon-check');
+        }
+        else if(a == 'unpublish'){
+          mw.$('.btn-publish').removeClass('active');
+          mw.$('.btn-unpublish').addClass('active');
+          mw.$('.btn-posts-state > span').attr('class', 'mw-icon-unpublish');
+        }
+      }
     }
 }
 
 
 $(mwd).ready(function(){
    mw.admin.treeboxwidth();
-
-
 
 });
 
@@ -265,8 +272,6 @@ $(mww).bind('load', function(){
    mw.admin.createContentBtns();
    mw.admin.manageToolbarSet();
 
-
-
 });
 
 $(mww).bind('hashchange', function(){
@@ -277,7 +282,7 @@ $(mww).bind('scroll resize', function(){
     mw.admin.manageToolbarSet();
 });
 mw.on.moduleReload('pages_edit_container', function(){
-   mw.admin.createContentBtns();
+    mw.admin.createContentBtns();
 })
 
 

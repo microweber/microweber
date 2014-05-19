@@ -74,18 +74,18 @@
                 <div class="mw-ui-btn-nav"><?php /*<span class="mw-ui-btn"><span class="mw-icon-gear" title="<?php _e("Settings"); ?>" style="font-size: 19px;"></span></span>*/ ?>
 
 
-                <?php if($data['is_active'] == 'n'){ ?>
-            <span data-val="n" class="mw-ui-btn btn-posts-state" title="<?php _e("Unpublished"); ?>"><span class="mw-icon-disabled"></span></span>
+            <?php if($data['is_active'] == 'n'){ ?>
+            <span onclick="mw.admin.postStates.show()"  data-val="n" class="mw-ui-btn mw-ui-btn-icon btn-posts-state" title="<?php _e("Unpublished"); ?>" ><span class="mw-icon-disabled"></span></span>
             <?php } else{  ?>
 
-            <span data-val="y" class="mw-ui-btn btn-posts-state" title="<?php _e("Published"); ?>"><span class="mw-icon-check" ></span></span>
+            <span onclick="mw.admin.postStates.show()"  data-val="y" class="mw-ui-btn mw-ui-btn-icon btn-posts-state" title="<?php _e("Published"); ?>"><span class="mw-icon-check" ></span></span>
 
         <?php    } ?>
 
 
             <?php if($is_live_edit == false) : ?>
 
-                    <button type="button" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>">
+                    <button type="button" class="mw-ui-btn" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>">
                     <span class="mw-icon-live"></span><?php _e("Live Edit"); ?>
                     </button>
                     <button type="submit" class="mw-ui-btn mw-ui-btn-invert" form="quickform-<?php print $rand; ?>">
@@ -93,11 +93,11 @@
                     </button>
                     <?php else: ?>
                     <?php if($data['id'] == 0): ?>
-                    <button type="submit" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-<?php print $rand; ?>">
+                    <button type="submit" class="mw-ui-btn" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>" form="quickform-<?php print $rand; ?>">
                     <span class="mw-icon-live"></span><?php _e("Live Edit"); ?>
                     </button>
                     <?php else: ?>
-                    <button type="button" class="mw-ui-btn mw-ui-btn-info" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>">
+                    <button type="button" class="mw-ui-btn" onclick="mw.edit_content.handle_form_submit(true);" data-text="<?php _e("Live Edit"); ?>">
                     <span class="mw-icon-live"></span><?php _e("Live Edit"); ?>
                     </button>
                     <?php endif; ?>

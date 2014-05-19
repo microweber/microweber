@@ -120,6 +120,12 @@ $(window).load(function(){
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-info">Normal</a>
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info">Big</a>
 
+    <h3>Warn</h3>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-warn">Small</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-warn">Medium</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-warn">Normal</a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-warn">Big</a>
+
     <h3>Important</h3>
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important">Small</a>
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important">Medium</a>

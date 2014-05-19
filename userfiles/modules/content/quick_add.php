@@ -1,4 +1,4 @@
-<?php exit('this is old file and will be removed'); ?><link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw.ui.css"/>
+<?php exit('this is old file and will be removed'); ?><link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/ui.css"/>
 <style type="text/css">
 #le_create_content_sidebar {
 	width: 10%;

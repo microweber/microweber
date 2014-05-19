@@ -1,6 +1,5 @@
 
 
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/liveadmin.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css"/>
 <script>
     mwAdmin = true;
@@ -262,7 +261,6 @@ img{
 
 <?php $mainclass = 'admin-live-edit-editor'; ?>
 
-<link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
 <link href="<?php print(MW_INCLUDES_URL); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
 <script>
   mw.require("liveedit.js");

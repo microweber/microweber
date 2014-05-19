@@ -17,7 +17,7 @@
     mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/sortable.js");
     mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/toolbar.js");
 </script>
-<link href="<?php   print( MW_INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( MW_INCLUDES_URL);  ?>css/components.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( MW_INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
 
 

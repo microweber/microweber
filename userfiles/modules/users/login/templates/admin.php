@@ -53,8 +53,8 @@ $(document).ready(function(){
    </style>
   <div id="sign_logo_version"> <a href="http://microweber.com" target="_blank"><img src="<?php print MW_INCLUDES_URL; ?>img/sign_logo.png" alt="" /></a> <span class="mw-sign-version">Beta v. <?php print MW_VERSION; ?></span> </div>
   <div class="vSpace"></div>
-  <div class="mw-box">
-    <div class="mw-box-content" id="admin_login">
+  <div class="mw-ui-box">
+    <div class="mw-ui-box-content" id="admin_login">
       <?php if($user != false): ?>
       <div>Welcome <?php print user_name(); ?> </div>
       <a href="<?php print site_url() ?>">

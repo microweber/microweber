@@ -26,7 +26,7 @@ if(user_id() == 0){
   mw.require("content.js", true);
   mw.require("liveedit.js");
   mw.require(mw.settings.includes_url + "css/liveedit.css");
-  mw.require(mw.settings.includes_url + "css/mw_framework.css");
+  mw.require(mw.settings.includes_url + "css/components.css");
   mw.require(mw.settings.includes_url + "css/wysiwyg.css");
 
 

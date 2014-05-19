@@ -167,7 +167,7 @@ class Packages
 
 
             //d($post_params);
-            //d($curl_result);
+            d($curl_result);
             if ($curl_result != false) {
                 $curl_result = json_decode($curl_result, true);
                 if ($curl_result != false and is_array($curl_result) and !empty($curl_result)) {

@@ -43,7 +43,7 @@ description: Product Gallery Multiline
         ];</script>
 
     <script type="text/javascript">
-        mw.moduleCSS("<?php print INCLUDES_URL ?>css/mw.ui.css");
+        mw.moduleCSS("<?php print INCLUDES_URL ?>css/ui.css");
         mw.moduleCSS("<?php print $config['url_to_module']; ?>css/style.css");
         mw.require("<?php print $config['url_to_module']; ?>js/api.js", true);
     </script>

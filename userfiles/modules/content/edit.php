@@ -162,7 +162,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 /* END OF SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
 
  $module_id = $params['id'];
- 
+
  
 ?>
 <?php if($just_saved!=false) : ?>
@@ -173,13 +173,14 @@ $edit_page_info = $data;;
 include __DIR__ . DS . 'admin_toolbar.php'; ?>   
 
 <div id="post-states-tip" style="display: none">
-    <div>
-        <span data-val="n" class="<?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-disabled"></span>
-        <?php _e("Unpublished"); ?>
-        </span><span data-val="y" class="<?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
-        <?php _e("Published"); ?>
+    <div class="mw-ui-btn-vertical-nav post-states-tip-nav">
+        <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-unpublish"></span>
+        <?php _e("Unpublish"); ?>
+        </span><span  onclick="mw.admin.postStates.set('publish')" data-val="y" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-publish <?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
+        <?php _e("Publish"); ?>
         </span>
-        <span class="mw-uibtn-important"><span class="mw-icon-bin"></span>Move to trash</span>
+        <hr>
+        <span class="mw-ui-btn mw-ui-btn-small post-move-to-trash"><span class="mw-icon-bin"></span>Move to trash</span>
     </div>
 </div>
 
@@ -244,11 +245,18 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
 
     <?php if($data['content_type'] == 'page'){ ?>
     <div class="quick-parent-selector">
-      <module type="content/selector" no-parent-title="No parent page" field-name="parent_id_selector" change-field="parent" selected-id="<?php print $data['parent']; ?>"  remove_ids="<?php print $data['id']; ?>" recommended-id="<?php print $recommended_parent; ?>"   />
+      <module
+            type="content/selector"
+            no-parent-title="No parent page"
+            field-name="parent_id_selector"
+            change-field="parent"
+            selected-id="<?php print $data['parent']; ?>"
+            remove_ids="<?php print $data['id']; ?>"
+            recommended-id="<?php print $recommended_parent; ?>"   />
     </div>
     <?php } ?>
   </div>
-  
+
   <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
   <div class="mw-ui-field-holder" style="padding-top: 0">
     <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
@@ -280,35 +288,33 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
       <div class="mw-ui-btn-nav" id="quick-add-post-options">
           <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span>
             <?php _e("Picture Gallery"); ?>
-            </span></span>
+          </span></span>
           <?php if($data['content_type'] == 'page'): ?>
           <span class="mw-ui-btn"><span class="mw-icon-navigation"></span><span>
             <?php _e('Add to navigation menu'); ?>
-            </span> </span>
+          </span> </span>
           <?php endif; ?>
           <?php  if(trim($data['subtype']) == 'product'): ?>
-          <span class="mw-ui-btn"><span class="mw-icon-price"></span><span>
+          <span class="mw-ui-btn"><span class="mw-icon-pricefields"></span><span>
             <?php _e("Price & Fields"); ?>
-            </span></span>
+          </span></span>
           <span class="mw-ui-btn"><span class="mw-icon-truck"></span><span>
             <?php _e("Shipping & Options"); ?>
-            </span></span>
+          </span></span>
           <?php else: ?>
           <span class="mw-ui-btn"><span class="mw-icon-fields"></span><span>
             <?php _e("Custom Fields"); ?>
-            </span></span>
+          </span></span>
           <?php endif; ?>
           <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>
             <?php _e("Advanced"); ?>
-            </span></span>
-
+          </span></span>
            <?php if($data['content_type'] == 'page'):  ?>
-              <span class="mw-ui-btn"><span class="mw-icon-template"></span><span>
+           <span class="mw-ui-btn"><span class="mw-icon-template"></span><span>
             <?php _e("Template"); ?>
-            </span></span>
-             <?php endif; ?>
-              <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
-
+           </span></span>
+           <?php endif; ?>
+           <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
       </div>
   </div>
 

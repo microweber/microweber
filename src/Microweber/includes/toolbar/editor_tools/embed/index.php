@@ -26,7 +26,7 @@ mw.require("events.js");
 
 
 </script>
-<link href="<?php   print( MW_INCLUDES_URL);  ?>css/mw_framework.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( MW_INCLUDES_URL);  ?>css/components.css" rel="stylesheet" type="text/css" />
 <link href="<?php   print( MW_INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
  
 <?php /* <script src="http://c9.io/ooyes/mw/workspace/sortable.js" type="text/javascript"></script>  */ ?>

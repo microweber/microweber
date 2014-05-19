@@ -28,7 +28,7 @@
      ?>
 <script>
   mw.require('tools.js', true);
-  mw.require('mw.ui.css', true);
+  mw.require('ui.css', true);
 </script> 
 <a href="javascript:;" id="btn<?php print $rand; ?>" class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
 <textarea id="area<?php print $rand; ?>" class="hide"><?php print $action_content; ?></textarea>
