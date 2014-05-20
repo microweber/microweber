@@ -16,6 +16,10 @@
        Main Styles
 **************************/
 
+html,body{
+  height:100%;
+}
+
 body, textarea,input{
   font-family: Verdana, Geneva, Arial, sans-serif;
   font-family: Segoe UI, sans-serif;
@@ -855,7 +859,7 @@ a:hover .mw_ed_tree_content{
   background-color: #3F3F3F;
 }
 .create-content-menu a [class*='mw-icon-']{
-  font-size: 40px;
+  font-size: 39px;
   line-height: 50px;
   height: 40px;
   display: block;
@@ -1028,10 +1032,13 @@ a:hover .mw_ed_tree_content{
   height: 37px;
   margin-bottom: 20px;
 }
+#quick-add-post-options-holder .mw-ui-btn{
+  border: none;
+}
 
 #content-edit-settings-tabs.fixed{
   position: fixed;
-  top: 82px;
+  top: 67px;
 }
 
 #quick-add-post-options-items-holder{
@@ -1228,10 +1235,12 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   border: none;
   display: block;
   background-color: transparent;
+  padding-left: 14px;
+  padding-right: 14px;
 }
 
 .post-states-tip-nav .mw-ui-btn:hover{
-  background-color: white;
+  background-color: #fafafa;
 }
 
 
@@ -1239,6 +1248,10 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   display: none;
 }
 
+
+.btn-posts-state{
+  width: 45px;
+}
 
 .btn-publish > *, .btn-posts-state .mw-icon-check{
   color: #48AD79;
@@ -1248,6 +1261,14 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 }
 .post-move-to-trash > *, .btn-posts-state .mw-icon-trash{
   color: #888888;
+}
+.post-move-to-trash{
+  font-size: 11px;
+}
+
+.post-states-tip-nav{
+  min-width: 147px;
+  float: left;
 }
 
 .post-states-tip-nav hr{
@@ -1260,7 +1281,11 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 }
 
 .posts-states-tooltip, .posts-states-tooltip .mw-tooltip-content, .posts-states-tooltip .mw-tooltip-arrow:after{
-  background-color: #fafafa;
+
+}
+
+.bottom-left.mw-tooltip-default.posts-states-tooltip .mw-tooltip-arrow{
+  margin-left: 3px;
 }
 
 
@@ -1370,7 +1395,7 @@ input#edit-content-url:focus, input#edit-content-url.active{
   font-size: 24px;
 }
 .admin-manage-toolbar.fix-tabs .admin-manage-toolbar-content{
-  height: 150px;
+  height: 120px;
 }
 
 .admin-manage-toolbar .mw-ui-row,
@@ -1470,7 +1495,32 @@ input#edit-content-url:focus, input#edit-content-url.active{
   display: none;
 }
 
+/************************************
+        Notification Count bubble
+*************************************/
 
+.mw-notification-count{
+  display: inline-block;
+  background-color: #DC0D17;
+  background: #fa3c45;
+  background: -moz-linear-gradient(top,  #fa3c45 0%, #dc0d17 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fa3c45), color-stop(100%,#dc0d17));
+  background: -webkit-linear-gradient(top,  #fa3c45 0%,#dc0d17 100%);
+  background: -o-linear-gradient(top,  #fa3c45 0%,#dc0d17 100%);
+  background: -ms-linear-gradient(top,  #fa3c45 0%,#dc0d17 100%);
+  background: linear-gradient(to bottom,  #fa3c45 0%,#dc0d17 100%);
+  color: #FFFFFF;
+  min-height: 13px;
+  padding: 1px 3px;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+  position: absolute;
+  top: -2px;
+  right: 0;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 11px;
+  line-height:normal;
+  border-radius:2px;
+}
 
 /************************************
         Modules section
@@ -1530,7 +1580,30 @@ input#edit-content-url:focus, input#edit-content-url.active{
   color: #8F8F8F;
 }
 
+/************************************
+       Admin tooltip
+*************************************/
 
+.admin-universal-tooltip .mw-tooltip-content{
+  color: white;
+  font-size: 11px;
+}
+
+
+
+/* Edit link tooltip */
+
+.mw-link-tip-link{
+  display: inline-block;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mw-link-tip-link,
+.mw-link-tip-edit{
+  color: #f2f2f2;
+}
 
 
 /************************************

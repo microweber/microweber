@@ -137,42 +137,35 @@
     frame_holder.append(frame);
 
 
-
-
-    mw.$("#insert_email, #insert_url").click(function(){
-
-        var target = '_self';
-
-         var val = this.parentNode.querySelector('input[type="text"]').value;
-
-         if(this.id == 'insert_email'){
+    mw.$("#insert_email").click(function(){
+         var val = mwd.getElementById('email_field').value;
+         if(!val.contains('mailto:')){
             var val = 'mailto:'+val;
          }
-
-         if(this.id == 'insert_url' && hash=='insert_link'){
-
+         parent.mw.iframecallbacks[hash](val);
+         parent.mw.tools.modal.remove('mw_rte_link');
+         RegisterChange(hash, val);
+         return false;
+    });
+    mw.$("#insert_url").click(function(){
+         var val = mwd.getElementById('customweburl').value;
+         var target = '_self';
+         if(hash=='insert_link'){
            if(mwd.getElementById('url_target').checked == true){
              var target = '_blank';
            }
-
-
          }
-
+         RegisterChange(hash, val, target);
          parent.mw.iframecallbacks[hash](val, target);
-
          parent.mw.tools.modal.remove('mw_rte_link');
 
          return false;
     });
 
     $("#insert_from_dropdown").click(function(){
-
          var val = mw.$("#insert_link_list").getDropdownValue();
-
          parent.mw.iframecallbacks[hash](val);
-
          parent.mw.tools.modal.remove('mw_rte_link');
-
         return false;
     });
 
@@ -181,7 +174,12 @@
        tabs:".tab"
      });
 
+
+
     });
+
+
+
 
 
 </script>

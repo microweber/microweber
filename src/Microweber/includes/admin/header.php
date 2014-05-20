@@ -40,9 +40,10 @@
         mw.require("css_parser.js");
         mw.require("custom_fields.js");
         mw.require("session.js");
+        mw.require("content.js");
         mw.require("<?php print MW_INCLUDES_URL; ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
         <?php /*  mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css");
-           mw.require("helpinfo.js");*/ ?>
+        mw.require("helpinfo.js");*/ ?>
 
     </script>
     <?php if (!isset($_REQUEST['no_toolbar'])): ?>
@@ -66,8 +67,7 @@
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
 </head>
-<body contextmenu="mw-context-menu"
-      class="is_admin loading view-<?php print mw('url')->param('view'); ?> action-<?php print mw('url')->param('action'); ?>">
+<body  class="is_admin loading view-<?php print mw('url')->param('view'); ?> action-<?php print mw('url')->param('action'); ?>">
 <?php
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
@@ -126,8 +126,24 @@ if ($last_page_front != false) {
                     </li>
                     <li <?php if ($view == 'shop' and $action==false): ?> class="active"
                     <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent"   <?php endif; ?>><a
-                            href="<?php print admin_url(); ?>view:shop" title=""> <span class="mw-icon-shop"></span>
-                            <strong>My Shop</strong> </a>
+                            href="<?php print admin_url(); ?>view:shop" title="">
+
+                            <span class="mw-icon-shop">
+
+ <?php
+	 $notif_html = '';
+	$notif_count = mw('Microweber\Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
+ 	if( $notif_count > -1){
+    $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
+       print $notif_html;
+    ?>
+
+   <?php }  ?>
+                            </span>
+                            <strong>My Shop</strong>
+
+
+                    </a>
                         <ul>
                             <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:shop/action:orders">Orders</a></li>

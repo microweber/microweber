@@ -1308,6 +1308,7 @@ mw.drag = {
 	 * @example mw.drag.fix_placeholders(isHard , selector)
 	 */
     fix_placeholders:function(isHard, selector){
+            return false;
           if($(window).width() < 768){
             return false;
           }
@@ -1316,10 +1317,10 @@ mw.drag = {
            $(selector).each(function(){
               var el = $(this);
               el.children("div.mw-col").each(function(){
-                var the_empty_child = $(this).children("div.empty-element");
-                if(the_empty_child.length==0){
+                var empty_child = $(this).children("div.empty-element");
+                if(empty_child.length==0){
                   $(this).append('<div contenteditable="false" class="empty-element" id="mw-placeholder-'+mw.random()+'"><a class="delete_column" href="javascript:;" onclick="mw.delete_column(this);">Delete</a></div>');
-                  var the_empty_child = $(this).children("div.empty-element");
+                  var empty_child = $(this).children("div.empty-element");
                 }
               });
             });
@@ -2712,24 +2713,34 @@ if(typeof mw.hasDraft === 'object'){
                     } */
 
                      var sel = window.getSelection();
-                    if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit')) && !sel.getRangeAt(0).collapsed){
+
+
+
+                    if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit') ||  mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')) && !sel.getRangeAt(0).collapsed){
+
                       if(sel.rangeCount > 0){
                       var r = sel.getRangeAt(0);
-                      if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && r.cloneContents().textContent.length > 0){
-                        mw.smallEditorCanceled = false;
-                        mw.smallEditor.css({
-                          visibility:"visible",
-                          opacity:0.5,
-                          top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height,
-                          left:e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width()-5 )
-                        });
-                      }
-                      else{
-                           mw.smallEditorCanceled = true;
-                           mw.smallEditor.css({
-                              visibility:"hidden"
-                           });
-                      }
+
+                      setTimeout(function(){
+                        if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && !sel.isCollapsed){
+                          mw.smallEditorCanceled = false;
+                            mw.smallEditor.css({
+                              visibility:"visible",
+                              opacity:0.7,
+                              top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height,
+                              left:e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width()-5 )
+                            });
+
+                          }
+                          else{
+                               mw.smallEditorCanceled = true;
+                               mw.smallEditor.css({
+                                  visibility:"hidden"
+                               });
+                          }
+
+                       }, 33);
+
                     }
                     }
                     else{

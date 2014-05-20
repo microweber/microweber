@@ -177,6 +177,10 @@ mw.askusertostay = false;
 
   mw.msg = {
     ok: "<?php _e('OK');  ?>",
+    published: "<?php _e('Published');  ?>",
+    unpublished: "<?php _e('Unpublished');  ?>",
+    contentunpublished:"<?php _e("Content is unpublished"); ?>",
+    contentpublished:"<?php _e("Content is published"); ?>",
     save: "<?php _e('Save');  ?>",
     saved: "<?php _e('Saved');  ?>",
     cancel: "<?php _e('Cancel');  ?>",

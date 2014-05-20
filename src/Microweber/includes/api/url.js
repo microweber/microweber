@@ -117,6 +117,7 @@ mw.url = {
         }
     },
     mwParams:function(url){
+        var url = url || window.location.pathname;
         var url = mw.url.removeHash(url);
         var arr = url.split('/');
         var obj = {};

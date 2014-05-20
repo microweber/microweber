@@ -1180,15 +1180,10 @@ mw.tools = {
           });
         }
         else{
-			
-			
-
-			
           var f = el.parentNode.getElementsByTagName('input'), i=0, len = f.length;
           for( ; i<len; i++){
             f[i].checked=false;
           }
-			  
         }
     },
     old_checker:function(el){
@@ -1220,12 +1215,13 @@ mw.tools = {
         }
     }
   },
-  hasClass: function(classname, whattosearch){   /*for strings*/
+  hasClass: function(classname, whattosearch){
     if(classname === null){return false;}
     if(typeof classname === 'string'){
       return classname.split(' ').indexOf(whattosearch) > -1;
     }
     else if(typeof classname === 'object'){
+
       return mw.tools.hasClass(classname.className, whattosearch);
     }
     else{
@@ -1288,10 +1284,11 @@ mw.tools = {
     return d.toreturn;
   },
   hasParentsWithTag:function(el, tag){
+    var tag = tag.toLowerCase();
     var d = {};
     d.toreturn = false;
     mw.tools.foreachParents(el, function(loop){
-        if(this.nodeName === tag){
+        if(this.nodeName.toLowerCase() === tag){
             d.toreturn = true;
             mw.tools.stopLoop(loop);
         }

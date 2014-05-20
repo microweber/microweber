@@ -9,7 +9,7 @@
 
 @font-face {
     font-family: 'Microweber';
-    src: url('fonts/font.ttf?mwv=88asd8dfgdfsdfsdfdsfdasdsdfsdf8') format('truetype');
+    src: url('fonts/font.ttf?mwv=88asd8dfgdfsdfsdfasdasasddfasdasdasdasdddsfdasdsdfsdf8') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -204,12 +204,9 @@
 .mw-ui-btn-important:hover, .mw-ui-btn-important:focus{ background-color:#B6253D; }
 .mw-ui-btn-info:hover, .mw-ui-btn-info:focus{ background-color:#3684B5; }
 .mw-ui-btn-notification:hover, .mw-ui-btn-notification:focus{ background-color:#419B6C; }
+.mw-ui-btn-warn:hover, .mw-ui-btn-warn:focus{ background-color:#ED8231; }
 
-
-
-.mw-ui-btn.active, .mw-ui-btn.active:hover, .mw-ui-btn.active:focus{
-  box-shadow:inset 0 0 3px rgba(0, 0, 0, 0.2);
-}
+.mw-ui-btn:active, .mw-ui-btn.active, .mw-ui-btn.active:hover, .mw-ui-btn.active:focus{ box-shadow:inset 0 0 3px rgba(0, 0, 0, 0.2); }
 
 /*  Button with icon  */
 .mw-ui-btn > [class*='mw-icon-']{
@@ -377,6 +374,12 @@
   border-radius:@radius;
   clear: both;
 }
+.mw-ui-box, .mw-ui-box-content{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .mw-ui-box-accordion{
   overflow: hidden;
   margin-bottom: 12px;
@@ -655,10 +658,9 @@
 
 .mw-tooltip-dark{
   background-color: #000000;
-  color: #B3B3B3;
+  color: #F2F2F2;
   border-radius: 3px;
 }
-
 .mw-tooltip-dark .mw-tooltip-content{
     padding: 7px;
     position: relative;

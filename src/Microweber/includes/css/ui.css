@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=88asd8dfgdfsdfsdfdsfdasdsdfsdf8') format('truetype');
+  src: url('fonts/font.ttf?mwv=88asd8dfgdfsdfsdfasdasasddfasdasdasdasdddsfdasdsdfsdf8') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -251,6 +251,11 @@
 .mw-ui-btn-notification:focus {
   background-color: #419B6C;
 }
+.mw-ui-btn-warn:hover,
+.mw-ui-btn-warn:focus {
+  background-color: #ED8231;
+}
+.mw-ui-btn:active,
 .mw-ui-btn.active,
 .mw-ui-btn.active:hover,
 .mw-ui-btn.active:focus {
@@ -401,6 +406,12 @@
   border: 1px solid #E5E5E5;
   border-radius: 3px;
   clear: both;
+}
+.mw-ui-box,
+.mw-ui-box-content {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .mw-ui-box-accordion {
   overflow: hidden;
@@ -674,7 +685,7 @@
 /* Tooltip Dark  */
 .mw-tooltip-dark {
   background-color: #000000;
-  color: #B3B3B3;
+  color: #F2F2F2;
   border-radius: 3px;
 }
 .mw-tooltip-dark .mw-tooltip-content {

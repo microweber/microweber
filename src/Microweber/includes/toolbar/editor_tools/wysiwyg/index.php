@@ -1,5 +1,7 @@
 
 
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/ui.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/admin.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css"/>
 <script>
     mwAdmin = true;
@@ -9,6 +11,7 @@
 <script>mw.require("url.js");</script>
 <script>mw.require("events.js");</script>
 <script>mw.require("wysiwyg.js");</script>
+<script>mw.require("external_callbacks.js");</script>
 
 
   
@@ -53,7 +56,7 @@ scaleHeight = function(){
 
 }
 
-_test = function(){
+ScaleFrame = function(){
 
   scaleHeight = function(){};
   var par_frame = parent.mw.$('iframe[name="'+window.name+'"]')[0];
@@ -81,7 +84,7 @@ PrepareEditor = function(){
      HOLD = false;
      edmwdoc = mw.tools.parseHtml('');
      mw.on.DOMChange(mwd.getElementById('mw-iframe-editor-area'), function(){
-         _test()
+         ScaleFrame()
 
           el = $(this);
           typeof HOLD === 'number' ? clearTimeout(HOLD) : '';
@@ -100,8 +103,11 @@ PrepareEditor = function(){
 $(window).load(function(){
 
 
+  mw.linkTip.init(mwd.getElementById('mw-iframe-editor-area'));
+
+
 scaleHeight();
-_test();
+ScaleFrame();
     __area = mwd.getElementById('mw-iframe-editor-area');
    $(window).resize(function(){
    scaleHeight()
@@ -132,7 +138,7 @@ $(".module").attr("contentEditable", false);
 $(".edit").attr("contentEditable", true);
 
 $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectstart', function(e){
-  _test()
+  ScaleFrame()
   var el= $(e.target);
   if(mw.tools.hasClass(e.target.className, 'module') || mw.tools.hasParentsWithClass(e.target, 'module')){
     e.preventDefault();
@@ -154,6 +160,13 @@ $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectsta
 $(window).load(function(){
       $(mwd.body).bind('mousedown', function(e){
         parent.mw.$(".mw-ui-category-selector").hide();
+        parent.$(parent.mwd.body).trigger('mousedown');
+      });
+      $(mwd.body).bind('mouseup', function(e){
+        parent.$(parent.mwd.body).trigger('mouseup');
+      });
+      $(mwd.body).bind('click', function(e){
+        parent.$(parent.mwd.body).trigger('click');
       });
 
 
@@ -298,7 +311,8 @@ window.onfocus = function(){
  
 
 <div class="mw-admin-editor <?php print $mainclass; ?>" id="the_admin_editor">
- <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
+ <?php //include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
+ <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_tiny.php"; ?>
   <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus" contenteditable="true">{content}</div>
 </div>
 

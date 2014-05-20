@@ -72,16 +72,22 @@ mw.admin = {
                      element:this,
                      skin:'dark'
                    });
+                   var tip = this.mwtooltip;
+                   mw.$('.create-content-menu', this.mwtooltip).click(function(){
+                       $(tip).hide();
+                   });
                    this.mwtooltip.style.display = 'none';
                    $(this).timeoutHover(function(){
+                     mw.tools.tooltip.setPosition(this.mwtooltip, this, ($(this).dataset('tip') != '' ? $(this).dataset('tip') : 'bottom-center'))
                      $(this.mwtooltip).show();
+
                    }, function(){
                       if(this.mwtooltip.originalOver === false){
                         $(this.mwtooltip).hide();
                       }
                    });
                    $(this.mwtooltip).timeoutHover(function(){
-                      $(this).show();
+
                    }, function(){
                       if(this.originalOver === false){
                         $(this).hide();
@@ -215,8 +221,19 @@ mw.admin = {
         var pos = pos || 'bottom-left';
         mw.tools.tooltip.setPosition(mw.admin.postStatesTip, el, pos);
         mw.admin.postStatesTip.style.display = 'block';
+        mw.$('.btn-posts-state.tip').addClass('tip-disabled');
+        $(mw.admin._titleTip).hide();
       },
-      hide:function(e){
+      hide:function(e,d){
+        if(!mw.admin.postStatesTip){
+          mw.admin.postStates.build();
+        }
+        if(mw.admin.postStatesTip._over == false){
+          mw.admin.postStatesTip.style.display = 'none';
+        }
+        mw.$('.btn-posts-state.tip').removeClass('tip-disabled');
+      },
+      timeoutHide:function(){
         if(!mw.admin.postStatesTip){
           mw.admin.postStates.build();
         }
@@ -235,23 +252,68 @@ mw.admin = {
           this._over = true;
         }, function(){
           this._over = false;
-          mw.admin.postStatesTip.style.display = 'none';
+          //mw.admin.postStatesTip.style.display = 'none';
+        });
+        $(mwd.body).bind('mousedown', function(e){
+            if(mw.admin.postStatesTip._over === false && mw.admin.postStatesTip.style.display == 'block' && !mw.tools.hasClass(e.target, 'btn-posts-state') && !mw.tools.hasParentsWithClass(e.target, 'btn-posts-state')){
+                mw.admin.postStatesTip.style.display = 'none';
+            }
         });
       },
       set:function(a){
         if(a == 'publish'){
           mw.$('.btn-publish').addClass('active');
           mw.$('.btn-unpublish').removeClass('active');
-          mw.$('.btn-posts-state > span').attr('class', 'mw-icon-check');
+          mw.$('.btn-posts-state > span').attr('class', 'mw-icon-check').parent().dataset("tip", mw.msg.published);
+          mw.$('#is_post_active').val('y');
+          mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
+          mw.admin.postStatesTip.style.display = 'none';
         }
         else if(a == 'unpublish'){
           mw.$('.btn-publish').removeClass('active');
           mw.$('.btn-unpublish').addClass('active');
-          mw.$('.btn-posts-state > span').attr('class', 'mw-icon-unpublish');
+          mw.$('.btn-posts-state > span').attr('class', 'mw-icon-unpublish').parent().dataset("tip", mw.msg.unpublished);
+          mw.$('#is_post_active').val('n');
+          mw.$('.btn-posts-state.tip-disabled').removeClass('tip-disabled');
+          mw.admin.postStatesTip.style.display = 'none';
+        }
+      },
+      toggle:function(){
+        if(!mw.admin.postStatesTip || mw.admin.postStatesTip.style.display == 'none'){
+           mw.admin.postStates.show();
+        }
+        else{
+             mw.admin.postStates.hide();
         }
       }
+    },
+    titleTip:function(el){
+        if(mw.tools.hasClass(el, 'tip-disabled')){
+            $(mw.admin._titleTip).hide();
+            return false;
+        }
+        var pos = $(el).dataset('tipposition');
+        if(pos == ''){var pos = 'bottom-center';}
+        var text = $(el).dataset('tip');
+
+        if(text.indexOf('.') === 0 || text.indexOf('#') === 0 ){
+            var text = mw.$(text).html();
+        }
+        if(!mw.admin._titleTip){
+            mw.admin._titleTip = mw.tooltip({skin:'dark', element:el, position:pos, content:text});
+            $(mw.admin._titleTip).addClass('admin-universal-tooltip');
+        }
+        else{
+           mw.$('.mw-tooltip-content', mw.admin._titleTip).html(text);
+           mw.tools.tooltip.setPosition(mw.admin._titleTip, el, pos);
+        }
+        $(mw.admin._titleTip).show();
     }
 }
+
+
+
+
 
 
 $(mwd).ready(function(){
@@ -271,6 +333,19 @@ $(mww).bind('load', function(){
     });
    mw.admin.createContentBtns();
    mw.admin.manageToolbarSet();
+
+   $(mwd.body).bind('mousemove', function(event){
+        if(mw.tools.hasClass(event.target, 'tip')){
+            mw.admin.titleTip(event.target);
+        }
+        else if(mw.tools.hasParentsWithClass(event.target, 'tip')){
+            mw.admin.titleTip(mw.tools.firstParentWithClass(event.target, 'tip'))
+        }
+        else{
+           $(mw.admin._titleTip).hide();
+        }
+
+   });
 
 });
 

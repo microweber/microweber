@@ -873,6 +873,14 @@ body.loaded #live_edit_toolbar{
 }
 
 
+#live_edit_toolbar{
+  top: 0;
+}
+#modules-and-layouts{
+  display: none;
+}
+
+
 #modules-and-layouts{
   position: fixed !important;
   top: 0 ;

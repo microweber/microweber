@@ -1,4 +1,4 @@
-  
+
  mw.content = mw.content || {
       publish : function($id) {
             var master = {};
@@ -127,3 +127,55 @@
             });
       }
 };
+
+
+mw.post = mw.post || {
+  del:function(a, callback){
+    var arr = $.isArray(a) ? a : [a];
+    var obj = {ids:arr}
+    $.post(mw.settings.api_url + "content/delete", obj, function(data){
+      typeof callback === 'function' ? callback.call(data) : '';
+    });
+  },
+  publish:function(id, c){
+    var obj = {
+      id:id
+    }
+    $.post(mw.settings.api_url + 'content/set_published', obj, function(data){
+        if(typeof c === 'function'){
+          c.call(id, data);
+        }
+    });
+  },
+  unpublish:function(id, c){
+    var obj = {
+      id:id
+    }
+    $.post(mw.settings.api_url + 'content_set_unpublished', obj, function(data){
+        if(typeof c === 'function'){
+          c.call(id, data);
+        }
+    })
+  },
+  set:function(id, state, e){
+    if(typeof e !== 'undefined'){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if(state == 'unpublish'){
+       mw.post.unpublish(id, function(data){
+         mw.notification.warning(mw.msg.contentunpublished);
+       });
+    }
+    else if(state == 'publish'){
+        mw.post.publish(id, function(data){
+            mw.notification.success(mw.msg.contentpublished);
+            mw.$(".manage-post-item-" + id).removeClass("content-unpublished").find(".post-un-publish").remove();
+            if(typeof e !== 'undefined'){
+              $(e.target.parentNode).removeClass("content-unpublished");
+              $(e.target).remove();
+            }
+       });
+    }
+  }
+}
