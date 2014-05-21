@@ -403,6 +403,54 @@
         "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice."
     },
     {
+        "name": "zeroclipboard/zeroclipboard",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/zeroclipboard/zeroclipboard.git",
+            "reference": "7702ca7eb098cde59c2bcc9a05000f05968d2d31"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "http://packages.microweber.com/dist/zeroclipboard-zeroclipboard-7702ca7eb098cde59c2bcc9a05000f05968d2d31-zip-5ec195.zip",
+            "reference": "7702ca7eb098cde59c2bcc9a05000f05968d2d31",
+            "shasum": "4e90b0fd873df3adc7433283d52656012ad5d92e"
+        },
+        "time": "2014-05-02 13:45:31",
+        "type": "library",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jon Rohan",
+                "homepage": "http://jonrohan.me/",
+                "role": "Developer"
+            },
+            {
+                "name": "James M. Greene",
+                "email": "james.m.greene@gmail.com",
+                "homepage": "http://jamesgreene.net/",
+                "role": "Developer"
+            }
+        ],
+        "description": "The ZeroClipboard library provides an easy way to copy text to the clipboard using an invisible Adobe Flash movie and a JavaScript interface.",
+        "homepage": "http://zeroclipboard.org/",
+        "keywords": [
+            "clip",
+            "clipboard",
+            "clippy",
+            "copy",
+            "cut",
+            "flash",
+            "paste",
+            "zclip"
+        ]
+    },
+    {
         "name": "pimple/pimple",
         "version": "v2.0.0",
         "version_normalized": "2.0.0.0",
@@ -608,6 +656,62 @@
             "wordpress",
             "zend",
             "zikula"
+        ]
+    },
+    {
+        "name": "components/bootstrap-default",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/components/bootstrap-default.git",
+            "reference": "fc286c5194be8148ab9be170f52ac98ddb245c7f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "http://packages.microweber.com/dist/components-bootstrap-default-fc286c5194be8148ab9be170f52ac98ddb245c7f-zip-0dd3ea.zip",
+            "reference": "fc286c5194be8148ab9be170f52ac98ddb245c7f",
+            "shasum": "a0a2fd7e1d8c28198c0b61e929071573661f36c7"
+        },
+        "require": {
+            "components/bootstrap": "*",
+            "robloach/component-installer": "*"
+        },
+        "time": "2014-05-08 17:59:51",
+        "type": "component",
+        "extra": {
+            "component": {
+                "styles": [
+                    "css/bootstrap.css",
+                    "css/bootstrap-theme.css"
+                ],
+                "files": [
+                    "css/bootstrap.min.css",
+                    "css/bootstrap-theme.min.css",
+                    "fonts/*"
+                ],
+                "shim": {
+                    "deps": [
+                        "bootstrap"
+                    ]
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Twitter, Inc"
+            }
+        ],
+        "description": "Shim repository for the default theme for Bootstrap.",
+        "homepage": "http://getbootstrap.com",
+        "keywords": [
+            "bootstrap",
+            "css"
         ]
     }
 ]

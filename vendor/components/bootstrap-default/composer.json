@@ -1,0 +1,36 @@
+{
+  "name": "components/bootstrap-default",
+  "description": "Shim repository for the default theme for Bootstrap.",
+  "type": "component",
+  "keywords": [
+    "bootstrap",
+    "css"
+  ],
+  "homepage": "http://getbootstrap.com",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Twitter, Inc"
+    }
+  ],
+  "require": {
+    "robloach/component-installer": "*",
+    "components/bootstrap": "*"
+  },
+  "extra": {
+    "component": {
+      "styles": [
+        "css/bootstrap.css",
+        "css/bootstrap-theme.css"
+      ],
+      "files": [
+        "css/bootstrap.min.css",
+        "css/bootstrap-theme.min.css",
+        "fonts/*"
+      ],
+      "shim": {
+        "deps": ["bootstrap"]
+      }
+    }
+  }
+}
