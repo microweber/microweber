@@ -120,7 +120,7 @@ else{
 <?php } ?>
 </div>
 <?php endif; ?>
-
+ 
 <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price"  id="cart_fields_<?php print $params['id'] ?>"  />
 
 
