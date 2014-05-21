@@ -176,11 +176,12 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
     <div class="mw-ui-btn-vertical-nav post-states-tip-nav">
         <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-unpublish"></span>
         <?php _e("Unpublish"); ?>
-        </span><span  onclick="mw.admin.postStates.set('publish')" data-val="y" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-publish <?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
+        </span>
+        <span onclick="mw.admin.postStates.set('publish')" data-val="y" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-publish <?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
         <?php _e("Publish"); ?>
         </span>
         <hr>
-        <span class="mw-ui-btn mw-ui-btn-small post-move-to-trash"><span class="mw-icon-bin"></span>Move to trash</span>
+        <span class="mw-ui-btn mw-ui-btn-medium post-move-to-trash" onclick=""><span class="mw-icon-bin"></span>Move to trash</span>
     </div>
 </div>
 
@@ -189,17 +190,9 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   <input type="hidden" name="subtype" id="mw-content-subtype-value-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" />
   <input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>"   value="<?php print $data['content_type']; ?>" />
   <input type="hidden" name="parent"  id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class="" />
-  
-  
-   <input type="hidden" name="layout_file"  id="mw-layout-file-value-<?php print $rand; ?>" value="<?php print $data['layout_file']; ?>"   />
-   <input type="hidden" name="active_site_template"  id="mw-active-template-value-<?php print $rand; ?>" value="<?php print $data['active_site_template']; ?>"   />
-
-
-
-
-
-
-   <div class="mw-ui-field-holder" id="slug-field-holder">
+  <input type="hidden" name="layout_file"  id="mw-layout-file-value-<?php print $rand; ?>" value="<?php print $data['layout_file']; ?>"   />
+  <input type="hidden" name="active_site_template"  id="mw-active-template-value-<?php print $rand; ?>" value="<?php print $data['active_site_template']; ?>"   />
+  <div class="mw-ui-field-holder" id="slug-field-holder">
 
 
       <input
@@ -209,6 +202,8 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
             onkeyup="slugFromTitle();"
             placeholder="<?php print $title_placeholder; ?>"
             value="<?php print $data['title']; ?>" />
+
+
       <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
 <div class="edit-post-url">
 
@@ -230,7 +225,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
             var slugField = mwd.getElementById('edit-content-url');
             var titlefield = mwd.getElementById('content-title-field');
             if(slugEdited === false){
-                var slug = mw.slug.create(titlefield.value)
+                var slug = mw.slug.create(titlefield.value);
                 mw.$('.view-post-slug').html(slug);
                 mw.$('#edit-content-url').val(slug);
             }
@@ -241,22 +236,21 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
 
 
 <div class="mw-admin-edit-page-primary-settings">
-<div class="mw-ui-field-holder">
-
     <?php if($data['content_type'] == 'page'){ ?>
-    <div class="quick-parent-selector">
-      <module
-            type="content/selector"
-            no-parent-title="No parent page"
-            field-name="parent_id_selector"
-            change-field="parent"
-            selected-id="<?php print $data['parent']; ?>"
-            remove_ids="<?php print $data['id']; ?>"
-            recommended-id="<?php print $recommended_parent; ?>"   />
-    </div>
-    <?php } ?>
-  </div>
+    <div class="mw-ui-field-holder">
+      <div class="quick-parent-selector">
+        <module
+              type="content/selector"
+              no-parent-title="No parent page"
+              field-name="parent_id_selector"
+              change-field="parent"
+              selected-id="<?php print $data['parent']; ?>"
+              remove_ids="<?php print $data['id']; ?>"
+              recommended-id="<?php print $recommended_parent; ?>"   />
+      </div>
 
+     </div>
+    <?php } ?>
   <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
   <div class="mw-ui-field-holder" style="padding-top: 0">
     <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
@@ -265,24 +259,17 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
     <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
       <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
       <module
-                    type="categories/selector"
-                    for="content"
-        			active_ids="<?php print $data['parent']; ?>"
-        			subtype="<?php print $data['subtype']; ?>"
-        			categories_active_ids="<?php print $categories_active_ids; ?>"
-        			for-id="<?php print $data['id']; ?>" />
+                type="categories/selector"
+                for="content"
+      			active_ids="<?php print $data['parent']; ?>"
+      			subtype="<?php print $data['subtype']; ?>"
+      			categories_active_ids="<?php print $categories_active_ids; ?>"
+      			for-id="<?php print $data['id']; ?>" />
       <?php endif; ?>
     </div>
   </div>
-  
-  
-  
-  
-  
-  <?php endif; ?>
-  
-
-  </div>
+ <?php endif; ?>
+   </div>
 <div id="content-edit-settings-tabs-holder"><div id="content-edit-settings-tabs">
   <div id="quick-add-post-options-holder">
       <div class="mw-ui-btn-nav" id="quick-add-post-options">
@@ -318,7 +305,10 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
       </div>
   </div>
 
-<div id="quick-add-post-options-items-holder" class="mw-ui-box mw-ui-box-content">
+<div id="quick-add-post-options-items-holder" class="tip-box">
+<span class="mw-tooltip-arrow"></span>
+<div id="quick-add-post-options-items-holder-container">
+
   <div class="quick-add-post-options-item" id="quick-add-gallery-items">
     <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
     <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
@@ -368,7 +358,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   <?php if($data['content_type'] == 'page'):  ?>
     <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
 
-  <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
+    <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
 
 
     </div>
@@ -380,6 +370,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
 
      <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
 
+</div>
 </div>
 </div></div>
 
@@ -858,7 +849,7 @@ mw.save_inner_editable_fields = function(data){
 	     var changed =  iframe_ed.contents().find('.changed').size();
 		 if(changed == 0){
 			   mw.edit_content.load_editor();
-			 
+
 		 }
 
 		 
@@ -872,6 +863,7 @@ mw.save_inner_editable_fields = function(data){
            var otop = mwd.getElementById('mw-edit-page-editor-holder').offsetTop;
            if( (scrolltop + 100) > otop){
               var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
+              if(ewr === null){return false;}
               ewr.style.position = 'absolute';
               ewr.style.top = scrolltop + otop + 'px';
               ewr.style.top = scrolltop - otop /*+ mwd.querySelector('.admin-manage-toolbar').offsetTop*/ + mwd.querySelector('.admin-manage-toolbar').offsetHeight - 98  + 'px';
@@ -880,6 +872,7 @@ mw.save_inner_editable_fields = function(data){
            }
            else{
               var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
+              if(ewr === null){return false;}
               ewr.style.position = 'static';
                mw.$('.admin-manage-toolbar-scrolled').removeClass('admin-manage-toolbar-scrolled-wysiwyg');
                mw.tools.removeClass(ewr, 'editor_wrapper_fixed');
@@ -917,12 +910,29 @@ mw.save_inner_editable_fields = function(data){
               $(tabs).css({
                 //top:  off.top - $(window).scrollTop() + tabsnav.height()
               }).show();
+             QTABSArrow(this);
+             mw.$('#quick-add-post-options-items-holder-container').css('maxHeight', $(window).height() - 140);
             }
             else{
                $(tabs).hide();
             }
           }
        });
+
+      QTABSArrow = function(el){
+          var el = $(el);
+          var left = el.offset().left - el.parent().offset().left + (el.width()/2);
+          mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
+      }
+
+       $(mww).bind('mousedown', function(e){
+          if(!mwd.getElementById('content-edit-settings-tabs-holder').contains(e.target)){
+             mww.QTABS.unset()
+             mw.$(".quick-add-post-options-item, #quick-add-post-options-items-holder").hide();
+             mw.$("#quick-add-post-options .active").removeClass('active');
+          }
+       });
+
        if(mwd.querySelector("#quick-add-gallery-items .admin-thumb-item") !== null){
         //   QTABS.set(0);
        }
@@ -944,6 +954,9 @@ mw.save_inner_editable_fields = function(data){
 
          */
       });
+
+
+
 
     });
 </script>

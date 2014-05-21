@@ -112,7 +112,7 @@ if(trim($for_id)  != '' and trim($for_id)  != '0'){
 
 
  ?>
-<div class="vSpace">&nbsp;</div>
+
 <label class="mw-ui-label"><?php _e("Add Images"); ?> <small>(<?php _e("The first image will be cover photo"); ?>)</small></label>
 <div class="admin-thumbs-holder left" id="admin-thumbs-holder-sort-<?php print $rand; ?>">
 

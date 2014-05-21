@@ -37,7 +37,7 @@
         <div class="mw-ui-row">
             <div class="mw-ui-col">
              <?php
-			 if($edit_page_info['is_shop'] == 'y'){ $type='shop'; } elseif($edit_page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; 
+			 if($edit_page_info['is_shop'] == 'y'){ $type='shop'; } elseif($edit_page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  };
 			  
             	 $action_text =  _e("Creating new", true);
             	 if(isset($edit_page_info['id']) and intval($edit_page_info['id']) != 0){
@@ -75,10 +75,20 @@
 
 
             <?php if($data['is_active'] == 'n'){ ?>
-            <span onclick="mw.admin.postStates.show()"  data-val="n" class="mw-ui-btn mw-ui-btn-icon btn-posts-state" title="<?php _e("Unpublished"); ?>" ><span class="mw-icon-disabled"></span></span>
+            <span
+                onclick="mw.admin.postStates.toggle()"
+                data-val="n"
+                class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
+                data-tip="<?php _e("Unpublished"); ?>"
+                data-tipposition="left-center"><span class="mw-icon-unpublish"></span></span>
             <?php } else{  ?>
 
-            <span onclick="mw.admin.postStates.show()"  data-val="y" class="mw-ui-btn mw-ui-btn-icon btn-posts-state" title="<?php _e("Published"); ?>"><span class="mw-icon-check" ></span></span>
+            <span
+                onclick="mw.admin.postStates.toggle()"
+                data-val="y"
+                class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
+                data-tip="<?php _e("Published"); ?>"
+                data-tipposition="left-center"><span class="mw-icon-check"></span></span>
 
         <?php    } ?>
 

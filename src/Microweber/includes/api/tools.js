@@ -2144,33 +2144,63 @@ mw.tools = {
         }
         return diff;
   },
-  liveEdit:function(el, textonly, callback){
+  liveEdit:function(el, textonly, callback, fieldClass){
     if(el.getElementsByTagName('input').length===0){
       var textonly = textonly || true;
       var input = mwd.createElement('input');
       input.type = "text";
-      input.className = "mw-ui-field";
+      input.className = (fieldClass || "mw-ui-field") + ' mw-liveedit-field';
       input.style.width = $(el).width()+'px';
       if(textonly===true){
          input.value = el.textContent;
          input.onblur = function(){
-            $(el).text(input.value)
+            var val = this.value;
+            var ischanged = this.changed === true;
+            $(el).text(val);
+            if(typeof callback === 'function' && ischanged){
+                callback.call(val, el);
+            }
          }
+        input.onkeydown = function(e){
+           if(e.keyCode === 13){
+              var val = this.value;
+              $(el).text(val);
+              if(typeof callback === 'function'){
+                 callback.call(val, el);
+              }
+              return false;
+           }
+        }
       }
       else{
          input.value = el.innerHTML;
          input.onblur = function(){
-            el.innerHTML = input.value;
+            var val = this.value;
+            var ischanged = this.changed === true;
+            el.innerHTML = val;
+            if(typeof callback === 'function' && ischanged){
+                callback.call(val, el);
+            }
          }
+        input.onkeydown = function(e){
+           if(e.keyCode === 13){
+             var val = this.value
+             el.innerHTML = val;
+             if(typeof callback === 'function'){
+                callback.call(val, el);
+             }
+             return false;
+           }
+        }
       }
       $(el).empty().append(input);
       $(input).focus();
-      if(typeof callback === 'function'){
-        $(input).change(function(){
-            callback.call(this.value);
-        });
-      }
+      input.changed = false;
+      $(input).change(function(){
+          this.changed = true;
+      });
     }
+    return input;
   },
   objectExtend:function(str, value){
     var arr = str.split("."), l=arr.length, i = 1;

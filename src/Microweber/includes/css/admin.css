@@ -444,25 +444,17 @@ h2 > [class*="mw-icon-"]:first-child{
 }
 
 
-
-
 .mw-tree ul.depth-2 li{
     padding-left: 10px;
-
 }
 
 .mw-tree li li{
-    background: url(../img/treelisub.gif) no-repeat 0 -3px, url(../img/treelisub_single.gif) repeat-y;
+  background: url(../img/treelisub.gif) no-repeat 0 -3px, url(../img/treelisub_single.gif) repeat-y;
 }
-
-
-
 
 .mw-tree li > ul:last-child > li:last-child{
     background: url(../img/treelisub_last.gif) no-repeat 0 -3px;
 }
-
-
 
 .mw-tree ul.depth-2 li.depth-2 a{
   border-left: 1px solid transparent;
@@ -1034,11 +1026,13 @@ a:hover .mw_ed_tree_content{
 }
 #quick-add-post-options-holder .mw-ui-btn{
   border: none;
+  border-radius: 3px !important
 }
 
 #content-edit-settings-tabs.fixed{
-  position: fixed;
+  position: absolute;
   top: 67px;
+  width: 100%;
 }
 
 #quick-add-post-options-items-holder{
@@ -1046,11 +1040,82 @@ a:hover .mw_ed_tree_content{
   left: 0;
   width: 100%;
   z-index: 90;
-  max-height: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
   background: white;
   display: none;
+}
+#quick-add-post-options-items-holder-container{
+  /*max-height: 300px;*/
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  background: white;
+  padding: 20px;
+}
+#custom-fields-post-table .mw-liveedit-field{
+  min-width: 25px;
+  font-size: 13px;
+}
+
+.mw-admin-custom-field-value-edit-inline, .mw-admin-custom-field-name-edit-inline{
+  padding: 0 3px;
+  border-radius:3px;
+
+
+}
+.mw-admin-custom-field-value-edit-inline:hover, .mw-admin-custom-field-name-edit-inline:hover{
+   background: #EDEDED;
+}
+
+.tip-box{
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  background: white;
+}
+.tip-box .mw-tooltip-arrow:after {
+  background: none repeat scroll 0 0 #FFFFFF;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  content: "";
+  display: block;
+  height: 10px;
+  overflow: hidden;
+  width: 10px;
+    transform: rotate(45deg) ;
+  -webkit-transform: rotate(45deg) ;
+  -moz-transform: rotate(45deg) ;
+  -o-transform: rotate(45deg) ;
+  -ms-transform: rotate(45deg) ;
+}
+.tip-box .mw-tooltip-arrow{
+  left: 20px;
+  top: -5px;
+}
+
+
+#dropdown-custom-fields .mw-ui-btn-vertical-nav{
+  width: 200px;
+  max-height: 180px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#custom-fields-box table{
+  border-collapse: collapse;
+
+}
+
+#custom-fields-box td, #custom-fields-box th{
+     text-align: left;
+     font-weight: normal;
+     padding: 10px;
+     border-right: 1px solid #eee;
+     border-bottom: 1px solid #eee;
+}
+#custom-fields-box tr td:last-child, #custom-fields-box tr th:last-child{
+  border-right: none
+}
+#custom-fields-box tr:last-child td{
+  border-bottom: none
 }
 
 .preview_frame_wrapper .mw-overlay{
@@ -1209,7 +1274,7 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 }
 
 #content-title-field{
-  font-size: 24px;
+  font-size: 26px;
   height: auto;
   width: 100%;
   border-bottom: 1px solid #DADADA;
@@ -1473,9 +1538,9 @@ input#edit-content-url:focus, input#edit-content-url.active{
     content: "\0109";
     display: block;
     font-family: Microweber;
-    font-size: 31px;
+    font-size: 36px;
     line-height: 31px;
-    margin-top: -15px;
+    margin-top: -18px;
     position: absolute;
     text-align: center;
     top: 50%;
@@ -1493,6 +1558,10 @@ input#edit-content-url:focus, input#edit-content-url.active{
 }
 .quick-add-post-options-item{
   display: none;
+}
+.module-product-options-settings > .mw-ui-row,
+.module-product-options-settings > .mw-ui-row *{
+  vertical-align: bottom;
 }
 
 /************************************

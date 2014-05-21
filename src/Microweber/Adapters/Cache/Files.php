@@ -28,6 +28,10 @@ if (!defined('MW_CACHE_COMPILE')) {
     define("MW_CACHE_COMPILE", true);
 }
 
+if (function_exists('event_bind')) {
+    event_bind('mw_robot_url_hit', '\Microweber\Adapters\Cache\Files::purge_old');
+}
+
 
 class Files
 {
@@ -39,6 +43,30 @@ class Files
     private $mw_cache_mem = array();
     private $mw_cache_mem_hits = array();
     private $apc = false;
+
+    static function purge_old()
+    {
+
+        $purge_cache_time = 86400; //one day
+
+        if (defined('MW_CACHE_DIR')) {
+            $dir = MW_CACHE_DIR . DIRECTORY_SEPARATOR;
+
+            if (is_dir($dir)) {
+                $purge_lock = $dir . 'purge.lock';
+                $purge_lock = normalize_path($purge_lock, false);
+                if (!is_file($purge_lock) or (time() - filemtime($purge_lock)) > $purge_cache_time) {
+                    if (touch($purge_lock)) {
+                        $cl = __CLASS__;
+                        $files = new $cl;
+                        $clear = $files->clear();
+                        @touch($purge_lock);
+                    }
+                }
+            }
+
+        }
+    }
 
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
@@ -101,6 +129,154 @@ class Files
 
             return true;
         }
+    }
+
+    private function _cache_get_file_path($cache_id, $cache_group = 'global')
+    {
+        //  $cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
+
+        $cache_group = str_replace(array('/', ';', ':', '.'), array(DIRECTORY_SEPARATOR, '_', '_', '_'), $cache_group);
+
+        $cache_id = str_replace(array('/', ';', ':', '.'), array(DIRECTORY_SEPARATOR, '_', '_', '_'), $cache_id);
+
+        $f = $this->_cache_get_dir($cache_group) . DIRECTORY_SEPARATOR . $cache_id . MW_CACHE_FILES_EXTENSION;
+
+        return $f;
+    }
+
+    /**
+     *
+     *
+     * Gets the full path cache directory for cache group
+     * Also seperates the group in subfolders for each 1000 cache files
+     * for performance reasons on huge sites.
+     *
+     * @param string $cache_group
+     *            (default is 'global') - this is the subfolder in the cache dir.
+     * @param bool $deleted_cache_dir
+     * @return string
+     * @author Peter Ivanov
+     * @since Version 1.0
+     */
+    private function _cache_get_dir($cache_group = 'global', $deleted_cache_dir = false)
+    {
+        $function_cache_id = false;
+        $args = func_get_args();
+        foreach ($args as $k => $v) {
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $cache_content = '$this->cache_get_dir_' . $function_cache_id;
+        if (!defined($cache_content)) {
+        } else {
+            return (constant($cache_content));
+        }
+        if (strval($cache_group) != '') {
+            $cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
+            // we will seperate the dirs by 1000s
+            $cache_group_explode = explode(DIRECTORY_SEPARATOR, $cache_group);
+            $cache_group_new = array();
+            foreach ($cache_group_explode as $item) {
+                if (intval($item) != 0) {
+                    $item_temp = intval($item) / 1000;
+                    $item_temp = ceil($item_temp);
+                    $item_temp = $item_temp . '000';
+                    $cache_group_new[] = $item_temp;
+                    $cache_group_new[] = $item;
+                } else {
+                    $cache_group_new[] = $item;
+                }
+            }
+            $cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
+            $cacheDir = MW_CACHE_DIR . $cache_group;
+            if (!defined($cache_content)) {
+                define($cache_content, $cacheDir);
+            }
+            return $cacheDir;
+        } else {
+            if (!defined($cache_content)) {
+                define($cache_content, $cache_group);
+            }
+            return $cache_group;
+        }
+    }
+
+    private function _cache_write_to_file($cache_id, $content, $cache_group = 'global')
+    {
+
+        $is_cleaning = mw_var('is_cleaning_now');
+
+        if (strval(trim($cache_id)) == '') {
+
+            return false;
+        }
+
+        $cache_file = $this->_cache_get_file_path($cache_id, $cache_group);
+        $cache_file = normalize_path($cache_file, false);
+
+        if (strval(trim($content)) == '') {
+
+            return false;
+        } else {
+            $cache_index = MW_CACHE_DIR . 'index.php';
+            $purge_lock = MW_CACHE_DIR . 'purge.lock';
+            $cache_content1 = MW_CACHE_CONTENT_PREPEND;
+            if ($cache_content1) {
+                if (is_file($cache_index) == false) {
+                    $this->_mkdirs(dirname($cache_index));
+                    @touch($cache_index);
+                    @touch($purge_lock);
+                }
+
+            }
+
+            $see_if_dir_is_there = dirname($cache_file);
+
+            $content1 = MW_CACHE_CONTENT_PREPEND . $content;
+            if (is_dir($see_if_dir_is_there) == false) {
+                $this->_mkdirs($see_if_dir_is_there);
+            }
+            try {
+                $is_cleaning_now = mw_var('is_cleaning_now');
+
+                // if ($is_cleaning_now == false) {
+                $cache_file_temp = MW_CACHE_DIR . DS . 'tmp' . uniqid() . '.php';
+
+                $cacheDir_temp = dirname($cache_file_temp);
+                if (!is_dir($cacheDir_temp)) {
+                    $this->_mkdirs($cacheDir_temp);
+                }
+
+                $cache = @file_put_contents($cache_file, $content1);
+
+
+            } catch (Exception $e) {
+                // $this->cache_storage[$cache_id] = $content;
+                $cache = false;
+            }
+        }
+
+        return $content;
+    }
+
+    /**
+     * Makes directory recursive, returns TRUE if exists or made and false on error
+     *
+     * @param string $pathname
+     *            The directory path.
+     * @return boolean
+     *          returns TRUE if exists or made or FALSE on failure.
+     *
+     * @package Utils
+     * @category Files
+     */
+    private function _mkdirs($pathname)
+    {
+        if ($pathname == '') {
+            return false;
+        }
+        is_dir(dirname($pathname)) || $this->_mkdirs(dirname($pathname));
+        return is_dir($pathname) || @mkdir($pathname);
     }
 
     public function get($cache_id, $cache_group = 'global', $time = false)
@@ -404,7 +580,7 @@ class Files
     public function clear()
     {
         $this->mw_cache_deleted_items = array();
-		return $this->_purge();
+        return $this->_purge();
     }
 
     private function _purge()
@@ -518,155 +694,6 @@ class Files
     private function _cache_write($data_to_cache, $cache_id, $cache_group = 'global')
     {
         return $this->_cache_write_to_file($cache_id, $data_to_cache, $cache_group);
-    }
-
-    private function _cache_write_to_file($cache_id, $content, $cache_group = 'global')
-    {
-
-        $is_cleaning = mw_var('is_cleaning_now');
-
-        if (strval(trim($cache_id)) == '') {
-
-            return false;
-        }
-
-        $cache_file = $this->_cache_get_file_path($cache_id, $cache_group);
-        $cache_file = normalize_path($cache_file, false);
-
-        if (strval(trim($content)) == '') {
-
-            return false;
-        } else {
-            $cache_index = MW_CACHE_DIR . 'index.php';
-
-            $cache_content1 = MW_CACHE_CONTENT_PREPEND;
-
-            if ($cache_content1) {
-
-                if (is_file($cache_index) == false) {
-                    $this->_mkdirs(dirname($cache_index));
-                    @touch($cache_index);
-                }
-
-            }
-
-            $see_if_dir_is_there = dirname($cache_file);
-
-            $content1 = MW_CACHE_CONTENT_PREPEND . $content;
-            if (is_dir($see_if_dir_is_there) == false) {
-                $this->_mkdirs($see_if_dir_is_there);
-            }
-            try {
-                $is_cleaning_now = mw_var('is_cleaning_now');
-
-                // if ($is_cleaning_now == false) {
-                $cache_file_temp = MW_CACHE_DIR . DS . 'tmp' . uniqid() . '.php';
-
-                $cacheDir_temp = dirname($cache_file_temp);
-                if (!is_dir($cacheDir_temp)) {
-                    $this->_mkdirs($cacheDir_temp);
-                }
-
-                $cache = @file_put_contents($cache_file, $content1);
-
-
-            } catch (Exception $e) {
-                // $this->cache_storage[$cache_id] = $content;
-                $cache = false;
-            }
-        }
-
-        return $content;
-    }
-
-    private function _cache_get_file_path($cache_id, $cache_group = 'global')
-    {
-        //  $cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
-
-        $cache_group = str_replace(array('/', ';', ':', '.'), array(DIRECTORY_SEPARATOR, '_', '_', '_'), $cache_group);
-
-        $cache_id = str_replace(array('/', ';', ':', '.'), array(DIRECTORY_SEPARATOR, '_', '_', '_'), $cache_id);
-
-        $f = $this->_cache_get_dir($cache_group) . DIRECTORY_SEPARATOR . $cache_id . MW_CACHE_FILES_EXTENSION;
-
-        return $f;
-    }
-
-    /**
-     *
-     *
-     * Gets the full path cache directory for cache group
-     * Also seperates the group in subfolders for each 1000 cache files
-     * for performance reasons on huge sites.
-     *
-     * @param string $cache_group
-     *            (default is 'global') - this is the subfolder in the cache dir.
-     * @param bool $deleted_cache_dir
-     * @return string
-     * @author Peter Ivanov
-     * @since Version 1.0
-     */
-    private function _cache_get_dir($cache_group = 'global', $deleted_cache_dir = false)
-    {
-        $function_cache_id = false;
-        $args = func_get_args();
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_content = '$this->cache_get_dir_' . $function_cache_id;
-        if (!defined($cache_content)) {
-        } else {
-            return (constant($cache_content));
-        }
-        if (strval($cache_group) != '') {
-            $cache_group = str_replace('/', DIRECTORY_SEPARATOR, $cache_group);
-            // we will seperate the dirs by 1000s
-            $cache_group_explode = explode(DIRECTORY_SEPARATOR, $cache_group);
-            $cache_group_new = array();
-            foreach ($cache_group_explode as $item) {
-                if (intval($item) != 0) {
-                    $item_temp = intval($item) / 1000;
-                    $item_temp = ceil($item_temp);
-                    $item_temp = $item_temp . '000';
-                    $cache_group_new[] = $item_temp;
-                    $cache_group_new[] = $item;
-                } else {
-                    $cache_group_new[] = $item;
-                }
-            }
-            $cache_group = implode(DIRECTORY_SEPARATOR, $cache_group_new);
-            $cacheDir = MW_CACHE_DIR . $cache_group;
-            if (!defined($cache_content)) {
-                define($cache_content, $cacheDir);
-            }
-            return $cacheDir;
-        } else {
-            if (!defined($cache_content)) {
-                define($cache_content, $cache_group);
-            }
-            return $cache_group;
-        }
-    }
-
-    /**
-     * Makes directory recursive, returns TRUE if exists or made and false on error
-     *
-     * @param string $pathname
-     *            The directory path.
-     * @return boolean
-     *          returns TRUE if exists or made or FALSE on failure.
-     *
-     * @package Utils
-     * @category Files
-     */
-    private function _mkdirs($pathname)
-    {
-        if ($pathname == '') {
-            return false;
-        }
-        is_dir(dirname($pathname)) || $this->_mkdirs(dirname($pathname));
-        return is_dir($pathname) || @mkdir($pathname);
     }
 
 }

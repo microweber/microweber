@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=88asd8dfgdfsdfsdfasdasasddfasdasdasdasdddsfdasdsdfsdf8') format('truetype');
+  src: url('fonts/font.ttf?mwv=88asd8dfgdfsdfsdfasdasasddfasdasdasdasdddsfdasdasdasdsadasdsadasdsdfsdfasdsdfsdf8') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -271,6 +271,16 @@
 .mw-ui-btn-icon > [class*='mw-icon-'] {
   margin-right: 0;
   margin-left: 0;
+}
+.mw-ui-btn-icon-right > [class*='mw-icon-'] {
+  margin-right: 0;
+  margin-left: 7px;
+}
+.mw-ui-btn > .mw-icon-dropdown {
+  font-size: 12px;
+  margin-top: -7px;
+  margin-right: 0;
+  margin-left: 7px;
 }
 .mw-ui-btn > .mw-icon-right {
   margin: -2px 0 0 7px;
@@ -1325,10 +1335,15 @@ div.mw-ui-field:after {
 }
 .mw-dropdown-content {
   position: absolute;
+  display: none;
   left: 0px;
   top: 100%;
   min-width: 100%;
   padding-top: 0px;
+}
+.mw-dropdown-pop > .mw-dropdown-content {
+  max-height: 200px;
+  overflow: auto;
 }
 .mw-ui-dropdown .mw-dropdown-content,
 .mw-ui-dropdown .mw-ui-dropdown-content {
@@ -1486,6 +1501,17 @@ div.mw-ui-field:after {
 [data-help-right]:before {
   left: auto;
   right: -8px;
+}
+.mw-help-right-top:before,
+[data-help-right-top]:before {
+  left: 100%;
+  top: 0;
+  bottom: auto;
+}
+.mw-help-right-bottom:before,
+[data-help-right-bottom]:before {
+  left: 100%;
+  bottom: 0;
 }
 .mw-help:hover:before,
 [data-help]:hover:before {

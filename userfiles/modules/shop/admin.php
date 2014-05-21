@@ -32,8 +32,7 @@ window.location.href = '<?php print admin_url() ?>view:shop/action:orders/#viewo
 $here = dirname(__FILE__);
 $here = $here.DS.'admin_views'.DS;
   $active_action = url_param('action'); ?>
-<?php //mw('content')->create_default_content('shop'); ?>
-<?php include($here .'nav.php'); ?>
+
 <?php $is_shop = 'y'; ?>
 <?php
  

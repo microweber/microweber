@@ -166,7 +166,7 @@ function mw_select_page_for_editing($p_id){
 	 mw.$('#pages_edit_container').removeAttr('content-id');
  
 	 
-	 
+
 	 
 	 
      mw.$(".mw_edit_page_right").css("overflow", "hidden");
@@ -278,26 +278,25 @@ function mw_select_category_for_editing($p_id){
 
 function mw_set_edit_posts(in_page, is_cat, c){
       var is_cat = typeof is_cat === 'function' ? undefined : is_cat;
-      var c =
-      mw.$('#pages_edit_container').removeAttr('data-content-id');
-      mw.$('#pages_edit_container').removeAttr('data-page-id');
-      mw.$('#pages_edit_container').removeAttr('data-category-id');
-      mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
-	    mw.$('#pages_edit_container').removeAttr('subtype');
-	    mw.$('#pages_edit_container').removeAttr('data-subtype');
-     mw.$('#pages_edit_container').removeAttr('data-content-id');
-	 
-	      mw.$('#pages_edit_container').removeAttr('is_shop');
-
-	  	  mw.$('.mw-admin-go-live-now-btn').attr('content-id',in_page);
+      var cont = mw.$('#pages_edit_container');
+      cont
+      .removeAttr('data-content-id')
+      .removeAttr('data-page-id')
+      .removeAttr('data-category-id')
+      .removeAttr('data-selected-category-id')
+	  .removeAttr('subtype')
+	  .removeAttr('data-subtype')
+      .removeAttr('data-content-id')
+	  .removeAttr('is_shop')
+      .attr('content-id',in_page);
 	  
 	  
       if(in_page != undefined && is_cat == undefined){
-         mw.$('#pages_edit_container').attr('data-page-id',in_page);
+         cont.attr('data-page-id',in_page);
       }
       if(in_page != undefined && is_cat != undefined){
-         mw.$('#pages_edit_container').attr('data-category-id',in_page);
-         mw.$('#pages_edit_container').attr('data-selected-category-id',in_page);
+         cont.attr('data-category-id',in_page);
+         cont.attr('data-selected-category-id',in_page);
       }
 	  mw.load_module('content/manage','#pages_edit_container');
 }
@@ -476,46 +475,19 @@ function mw_make_pages_tree_sortable(){
   </div>
   <div class="mw-ui-col main-content-column">
     <div class="mw-ui-col-container">
-      <?php
-        $ed_content = false;
-        $content_id = '';
 
-		if(isset($_GET['edit_content'])){
-			 $content_id = ' data-content-id='.intval($_GET['edit_content']).' ';
-			 $ed_content = true;
-		} else {
-
-				if(defined('CONTENT_ID')== true and CONTENT_ID != false and CONTENT_ID != 0){
-					 $ed_content = true;
-				 $content_id = ' data-content-id='.intval(CONTENT_ID).' ';
-
-			  } else   if(defined('POST_ID')== true and POST_ID != false and POST_ID != 0){
-				   $ed_content = true;
-				 $content_id = ' data-content-id='.intval(POST_ID).' ';
-
-			  } else if(defined('PAGE_ID') == true and PAGE_ID != false and PAGE_ID != 0 ){
-				   $ed_content = true;
-				  $content_id = ' data-content-id='.intval(PAGE_ID).' ';
-
-			  }
-		}
-
-	   ?>
       <div id="pages_edit_container"  <?php print $is_shop_str ?>>
-        <?php if( $action == false): ?>
-			<?php if( $ed_content=== false): ?>
-            	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?> <?php print $is_shop_str ?> />
-            <?php else: ?>
-            	<module data-type="content/manage" page-id="global" id="edit_content_admin" <?php print  $content_id ?>   />
-            <?php endif; ?>
-        <?php elseif( $action!= false and $action=='pages'): ?>
-        	<module data-type="content/manage" page-id="global" id="edit_content_admin" content_type="page" <?php print  $content_id ?> <?php print $is_shop_str ?> />
-        <?php elseif( $action!= false and $action=='posts'): ?>
-        
-        	<module data-type="content/manage" page-id="global" id="edit_content_admin" content_type="post" <?php print  $content_id ?>  subtype="post"  />
-             <?php elseif( $action!= false and $action=='products'): ?>
-        	<module data-type="content/manage" page-id="global" id="edit_content_admin" content_type="post" <?php print  $content_id ?> <?php print $is_shop_str ?> />
-        <?php endif; ?>
+            <script>
+                $(window).bind('load', function(){
+                    if(!mw.url.windowHashParam("action")){
+                      //var params = mw.url.mwParams();
+                      edit_load('content/manage');
+                    }
+                    mw.on.hashParam('view', function(){
+                        edit_load('content/manage'); 
+                    })
+                });
+            </script>
       </div>
     </div>
   </div>

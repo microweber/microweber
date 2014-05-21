@@ -37,6 +37,9 @@ $list_preview = false;
 
 
 	 if(isset($params['data-id'])){
+
+
+
 		 $params['for_module_id'] = $params['data-id'];
 	 }
  }
@@ -130,22 +133,7 @@ if(is_array( $diff) and is_array($more) ){
 		 $i++;
 	 }
 
-// foreach($diff as $item1){
-//	 $i=0;
-//	 $custom_custom_field_names_for_content[] = $item1['custom_field_name'];
-//	  foreach($more as $item2){
-//
-//	 if(in_array($item2['custom_field_name'], $custom_custom_field_names_for_content) or intval($item2['copy_of_field']) == intval($item1['id']) or $item1['custom_field_name'] == $item2['custom_field_name']){
-////d($item2['custom_field_name']);
-//		 unset($more[$i]);
-//	 } else {
-//		$data[] =  $item2;
-//	 }
-//	 //	 $custom_custom_field_names_for_content[] = $item2['custom_field_name'];
-//
-//	 $i++;
-// 		}
-// }
+
 }
  if(!empty($data)){
 	//$more = $data;
@@ -178,10 +166,8 @@ if(is_array( $diff) and is_array($more) ){
 </div>
 <?php else : ?>
 <?php if(isset($more) and !empty($more)): ?>
-<br />
-<label class="mw-ui-label">Preview of custom fields</label>
 <?php endif; ?>
-<table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
+<table width="100%" cellspacing="0" cellpadding="0" id="custom-fields-post-table">
   <thead>
     <tr>
       <th width="20%">Name</th>
@@ -191,19 +177,88 @@ if(is_array( $diff) and is_array($more) ){
   <tbody>
     <?php foreach( $more as $field): ?>
     <tr>
-      <td ondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);"><?php print $field['custom_field_name']; ?></td>
-      <td ondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);">
-	  <?php if($field['custom_field_values_plain'] != ''): ?>
-      
-	  <?php  print $field['custom_field_values_plain']; ?>
-      <?php elseif(is_string($field['custom_field_value']) and $field['custom_field_value'] != ''): ?>
-       <?php  print $field['custom_field_value']; ?>
-      <?php else: ?>
-      <?php // d($field); ?>
-       <?php endif; ?>
-      </td>
+      <td  data-id="<?php print $field['id']; ?>" xondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);"><span class="mw-admin-custom-field-name-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $field['custom_field_name']; ?></span></td>
+      <td  data-id="<?php print $field['id']; ?>" xondblclick="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false);"><?php if(isset($field['custom_field_type']) and ( $field['custom_field_type'] == 'select' or $field['custom_field_type'] == 'dropdown' or $field['custom_field_type'] == 'radio')): ?>
+        <?php if(isset($field['custom_field_values']) and is_array($field['custom_field_values'])): ?>
+        <?php $vals =  $field['custom_field_values']; ?>
+        <?php elseif(isset($field['custom_field_value']) and is_array($field['custom_field_value'])): ?>
+        <?php $vals =  $field['custom_field_values']; ?>
+        <?php endif; ?>
+        <?php $i=0; foreach($vals as $val): ?>
+        <?php $i++; ?>
+        <span class="mw-admin-custom-field-value-edit-inline"><?php print $val; ?></span>
+        <?php if(isset($vals[$i])) : ?>,<?php endif; ?>
+        <?php endforeach; ?>
+        <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-icon btn-create-custom-field-value"><span class="mw-icon-plus"></span></span>
+        <?php else: ?>
+        <?php if($field['custom_field_values_plain'] != ''): ?>
+        <?php  print $field['custom_field_values_plain']; ?>
+        <?php elseif(is_string($field['custom_field_value']) and $field['custom_field_value'] != ''): ?>
+        <?php  print $field['custom_field_value']; ?>
+        <?php else: ?>
+        <?php endif; ?>
+        <?php endif; ?></td>
     </tr>
     <?php endforeach; ?>
+    <script>
+
+
+
+
+        initValues = function(all){
+            var all = all || mwd.getElementById('custom-fields-post-table').querySelectorAll('.mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-value-edit-inline'),
+                l = all.length,
+                i = 0;
+                for( ; i<l; i++){
+                  if(!!all[i].fieldBinded){ continue }
+                  initValue(all[i]);
+                }
+        }
+        initValue = function(node){
+           node.fieldBinded = true;
+           node.onclick = function(){
+            valueLiveEdit(this);
+           }
+        }
+        valueLiveEdit = function(span){
+            var input = mw.tools.liveEdit(span, true, function(el){
+                       if(mw.tools.hasClass(el, 'mw-admin-custom-field-value-edit-inline')){
+                           var vals = [],
+                               all = el.parentNode.querySelectorAll('.mw-admin-custom-field-value-edit-inline'),
+                               l = all.length,
+                               i = 0;
+                           for( ; i<l; i++){
+                              vals.push(all[i].textContent);
+                           }
+                           var data = {
+                              id:$(el.parentNode).dataset('id'),
+                              custom_field_value:vals
+                           }
+                       }
+                       else{
+                           var data = {
+                              id:$(el.parentNode).dataset('id'),
+                              custom_field_name:$(el).text()
+                           }
+                       }
+                     $.post(mw.settings.api_url + 'fields/save', data, function(){
+
+                     });
+            }, 'mw-ui-field mw-ui-field-small');
+        }
+
+        initValues();
+
+        mw.$(".btn-create-custom-field-value").bind('click', function(){
+          var span = mwd.createElement('span');
+          span.className = 'mw-admin-custom-field-value-edit-inline';
+          initValue(span);
+          $(this).before(span);
+          $(span).before(',');
+          valueLiveEdit(span);
+        });
+
+    </script>
   </tbody>
 </table>
 <?php endif; ?>

@@ -169,11 +169,13 @@ mw.admin = {
           if((scrolltop) >100){
             mw.$("#content-edit-settings-tabs").addClass('fixed');
             mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
+            mwd.getElementById('content-edit-settings-tabs').style.top = scrolltop - 15 + 'px';
           }
           else{
             mw.$("#content-edit-settings-tabs").removeClass('fixed');
             mw.$(".admin-manage-toolbar-scrolled").removeClass('fix-tabs');
           }
+          QTABSArrow('#quick-add-post-options .active');
       }
     },
     CategoryTreeWidth:function(p){
@@ -344,8 +346,9 @@ $(mww).bind('load', function(){
         else{
            $(mw.admin._titleTip).hide();
         }
-
    });
+
+
 
 });
 

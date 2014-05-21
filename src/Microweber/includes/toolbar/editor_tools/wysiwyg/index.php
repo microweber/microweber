@@ -83,9 +83,16 @@ PrepareEditor = function(){
   if(window.name.contains("mweditor")){
      HOLD = false;
      edmwdoc = mw.tools.parseHtml('');
-     mw.on.DOMChange(mwd.getElementById('mw-iframe-editor-area'), function(){
-         ScaleFrame()
+     var WYSIWYGArea = mwd.getElementById('mw-iframe-editor-area');
 
+     mw.tools.foreachChildren(WYSIWYGArea, function(){
+        if(this.nodeName === 'P'){
+            mw.tools.addClass(this, 'element');
+        }
+     });
+
+     mw.on.DOMChange(WYSIWYGArea, function(){
+         ScaleFrame()
           el = $(this);
           typeof HOLD === 'number' ? clearTimeout(HOLD) : '';
           HOLD = setTimeout(function(){

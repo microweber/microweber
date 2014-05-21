@@ -32,7 +32,7 @@ $show_page_settings = 1;
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label">
     <?php _e("Description"); ?>
-    <small class="mw-help" data-help="Short description for yor content.">(?)</small></label>
+    <small class="mw-help mw-help-right-bottom" data-help="Short description for yor content.">(?)</small></label>
   <textarea
 				class="mw-ui-field" name="description"   placeholder="<?php _e("Describe your page in short"); ?>"><?php if($data['description']!='') print ($data['description'])?>
 </textarea>
