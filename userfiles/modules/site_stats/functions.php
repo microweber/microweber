@@ -107,7 +107,7 @@ function stats_insert() {
 	$function_cache_id = $function_cache_id . $uip . MW_USER_IP;
 
 	$function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-$few_mins_ago_visit_date = date("Y-m-d H:i:s");
+	$few_mins_ago_visit_date = date("Y-m-d H:i:s");
 	 
 	$cookie_name = 'mw-stats' . crc32($function_cache_id);
 	$cookie_name_time = 'mw-time' . crc32($function_cache_id);
@@ -131,7 +131,7 @@ $few_mins_ago_visit_date = date("Y-m-d H:i:s");
 		$data['visit_time'] = date("H:i:s");
 		 
 		$table = MODULE_DB_USERS_ONLINE;
-		$check = get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+		$check = get("table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
 		if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
 			$data['id'] = $check['id'];
 			$vc = 0;

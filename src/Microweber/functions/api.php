@@ -52,6 +52,7 @@ function event_trigger($api_function, $data = false)
                             if ($data != false) {
                                 $return[$hook_value] = call_user_func($hook_value, $data); // As of PHP 5.3.0
                             } else {
+
                                 if (is_string($hook_value) and is_callable($hook_value)) {
                                     $return[$hook_value] = call_user_func($hook_value, function () {
                                         return true;
@@ -60,6 +61,15 @@ function event_trigger($api_function, $data = false)
                                     $return[$hook_value] = call_user_func($hook_value, function () {
                                         return true;
                                     });
+                                } elseif (is_string($hook_value)) {
+
+                                    $try_class = explode('::', $hook_value);
+                                    if (class_exists($try_class[0])) {
+                                        $return[$hook_value] = call_user_func($hook_value, function () {
+                                            return true;
+                                        });
+                                    }
+
                                 }
 
                             }
@@ -272,13 +282,13 @@ function mw_cron()
 
     $time = time();
     if (!is_file($file_loc_hour)) {
-        touch($file_loc_hour);
+        @touch($file_loc_hour);
     } else {
 
 
         if ((filemtime($file_loc_hour)) > $time - 4) {
 
-            touch($file_loc_hour);
+            @touch($file_loc_hour);
             return true;
         }
     }

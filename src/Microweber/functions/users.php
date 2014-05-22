@@ -193,8 +193,7 @@ function is_logged()
         }
 
         if ($res != false) {
-            // $res = $sess->get ( 'user_id' );
-            define("USER_ID", $res);
+           define("USER_ID", $res);
         }
 
         return $res;
@@ -232,6 +231,18 @@ function is_admin()
 {
 
     return mw('user')->is_admin();
+}
+
+
+function is_live_edit()
+{
+
+    $editmode_sess = mw()->user->session_get('editmode');
+    if ($editmode_sess == true and !defined('IN_EDIT')) {
+        define('IN_EDIT', true);
+        return true;
+    }
+    return $editmode_sess;
 }
 
 

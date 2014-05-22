@@ -269,6 +269,10 @@ body.cross{
 
 #mw-go_livebtn_admin{
       margin:6px 6px 0;
+	  max-width: 150px;
+	  overflow: hidden;
+	  white-space: nowrap;
+	  text-overflow: elipsis;
 }
 
 #mw_toolbar_nav.mw-small-toolbar .mw-ui-btn{ margin-top: 3px;}
