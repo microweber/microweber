@@ -282,13 +282,13 @@ function mw_cron()
 
     $time = time();
     if (!is_file($file_loc_hour)) {
-        touch($file_loc_hour);
+        @touch($file_loc_hour);
     } else {
 
 
         if ((filemtime($file_loc_hour)) > $time - 4) {
 
-            touch($file_loc_hour);
+            @touch($file_loc_hour);
             return true;
         }
     }

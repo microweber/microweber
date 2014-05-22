@@ -237,7 +237,10 @@ div.edit, div.mw-col{
   max-width: 100%;
 }
 
-
+.free-element{
+  position: relative;
+  min-height: 300px;
+}
 
 @media (max-width: 767px) {
   .mw-row{
