@@ -46,7 +46,7 @@
         <div id="main-menu">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-9"><module type="menu" /></div>
+                    <div class="col-md-9"><module type="menu" name="header_menu" id="main-navigation" /></div>
                     <div class="col-md-3" id="header-search"><module type="search" template="autocomplete" /></div>
                 </div>
             </div>

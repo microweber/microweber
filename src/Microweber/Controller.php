@@ -1973,8 +1973,10 @@ class Controller
                             $item = html_entity_decode($item);
                             $item = strip_tags($item);
                             $item = addslashes($item);
+
                             $item = str_replace('&amp;zwnj;', ' ', $item);
                             $item = str_replace('&amp;quot;', ' ', $item);
+                            $item = str_replace('quot;', ' ', $item);
                             $item = str_replace('&amp;', ' ', $item);
                             $item = str_replace('amp;', ' ', $item);
                             $item = str_replace('nbsp;', ' ', $item);
@@ -2371,7 +2373,10 @@ class Controller
         $robots = get_option('robots_txt', 'website');
 
         if ($robots == false) {
-            $robots = "User-agent: *\nAllow: / ";
+            $robots = "User-agent: *\nAllow: /"."\n";
+            $robots .= "Disallow: /cache/"."\n";
+            $robots .= "Disallow: /userfiles/modules/"."\n";
+            $robots .= "Disallow: /userfiles/templates/"."\n";
         }
         event_trigger('mw_robot_url_hit');
         print $robots;
