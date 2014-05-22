@@ -49,7 +49,8 @@ class Mysql
 
         $this->setup();
 
-
+        $this->callbacks = array();
+        register_shutdown_function(array($this, 'disconnect'));
         // $this->set_connection();
     }
 
@@ -311,6 +312,29 @@ class Mysql
 
     }
 
+    public function disconnect()
+    {
 
+        $links = $this->db_links;
+        if (is_array($links) and !empty($links)) {
+            foreach ($links as $key => $link) {
+                if (is_object($link)) {
+                    $inst = get_class($link);
+                    if ($inst == 'PDO') {
+                        $this->db_links[$key] = null;
+                        unset($this->db_links[$key]);
+                    } elseif ($inst == 'mysqli') {
+                        @mysqli_close($link);
+                    }
+                } elseif (is_resource($link)) {
+                    $inst = get_resource_type($link);
+                    if ($inst == 'mysql link') {
+                        @mysql_close($link);
+                    }
+                }
+            }
+
+        }
+    }
 
 }
