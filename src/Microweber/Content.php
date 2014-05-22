@@ -2385,6 +2385,8 @@ class Content
         $menu = $this->get_menus($params);
         if (isset($menu[0])) {
             return $menu[0];
+        } else {
+            return $menu;
         }
 
     }
