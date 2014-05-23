@@ -39,7 +39,7 @@ class Db
     private $mw_escaped_strings = array();
     private $table_fields = array();
     private $results_map = array();
-
+	private $array_to_json_prefix = '(json_encoded)';
     function __construct($app = null)
     {
         if (!is_object($this->app)) {
@@ -2409,7 +2409,10 @@ class Db
             $q = "INSERT INTO  " . $table . " set ";
 
             foreach ($data as $k => $v) {
-                if (strtolower($k) != $data_to_save_options['use_this_field_for_id']) {
+				 if(is_array($v)){
+					 $v = implode(',',$v); 
+				 }
+                if (is_string($k) and strtolower($k) != $data_to_save_options['use_this_field_for_id']) {
                     if (strtolower($k) != 'id') {
                         $q .= "$k='$v',";
                     }
@@ -2434,12 +2437,15 @@ class Db
         } else {
 
             // update
-            $data = $criteria;
+            $data = $criteria; 
 
             $q = "UPDATE  " . $table . " set ";
 
             foreach ($data as $k => $v) {
-
+				 if(is_array($v)){
+					 $v = implode(',',$v);    
+				 }  
+if (is_string($k)){
                 if (isset($data['session_id'])) {
                     if ($k != 'id' and $k != 'edited_by') {
                         $q .= "$k='$v',";
@@ -2449,6 +2455,7 @@ class Db
                         $q .= "$k='$v',";
                     }
                 }
+}
             }
             $user_session_q = '';
             $q = rtrim($q, ',');
@@ -3348,7 +3355,7 @@ class Db
                 if ($results == '---empty---' or (is_array($results) and empty($results))) {
                     return false;
                 } else {
-                    return $results;
+                       return $results;
                 }
             }
         }
@@ -3396,9 +3403,27 @@ class Db
         if (!isset($db) or $db == false or $db == NULL or empty($db)) {
             return false;
         }
-
+ 
         $q = $this->adapter->query($q, $db);
         //   require (MW_DB_ADAPTER_DIR . 'mysql.php');
+	//	$json_2_array_prefix = $this->array_to_json_prefix;
+//		$json_2_array_prefix_l = strlen($json_2_array_prefix);
+//		if(is_array($q) and !empty($q)){
+//			foreach($q as $k=>$v){
+//				if(is_string($v) and $v != false){
+//					$substr = substr($v,0,$json_2_array_prefix_l);
+//				//	 print $substr;  
+//					if($substr == $json_2_array_prefix){
+//						 $lft = substr($v, $json_2_array_prefix_l);  
+//						 $q[$k] = json_decode($lft,true); 
+//						// print $lft;  
+//
+//					}
+//				}
+//				//'(json)'
+//			}
+//		}
+		
 
 
         if ($only_query != false) {

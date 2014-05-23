@@ -205,6 +205,11 @@ class Forms
         if (isset($params['rel_id'])) {
             $for_id = $params['rel_id'];
         }
+		
+		if(!isset($for_id)){
+		 return array('error' => 'Please provide for_id parameter with module id');	
+		}
+		 
 
         $dis_cap = $this->app->option->get('disable_captcha', $for_id) == 'y';
 
