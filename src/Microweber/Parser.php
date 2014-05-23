@@ -3,8 +3,10 @@ namespace Microweber;
 
 $parser_cache_object = false; //global cache storage
 $mw_replaced_modules = array();
+$mw_replaced_edit_fields_vals = array();
 
 $mw_replaced_modules_values = array();
+$mw_parser_nest_counter_level = 0;
 
 class Parser
 {
@@ -468,6 +470,9 @@ class Parser
     {
         if ($layout != '') {
             global $mw_replaced_modules;
+            global $mw_replaced_edit_fields_vals;
+            global $mw_parser_nest_counter_level;
+            $mw_parser_nest_counter_level++;
             $replaced_code_tags = array();
             if ($this->_mw_parser_passed_replaces == NULL) {
                 $this->_mw_parser_passed_replaces = array();
@@ -486,16 +491,10 @@ class Parser
             if (isset($this->_mw_parser_passed_replaces[$parser_mem_crc])) {
                 return $this->_mw_parser_passed_replaces[$parser_mem_crc];
             }
-
-            $no_cache = 1;
-            if ($no_cache == false) {
-                $cache = $this->app->cache->get($parser_mem_crc, 'content_fields/global/parser');
-                if ($cache != false) {
-                    //    return $cache;
-                }
-
+            if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc])) {
+                return false;
+                return $mw_replaced_edit_fields_vals[$parser_mem_crc];
             }
-
 
             $script_pattern = "/<pre[^>]*>(.*)<\/pre>/Uis";
             preg_match_all($script_pattern, $layout, $mw_script_matches);
@@ -651,6 +650,8 @@ class Parser
                     $orig_rel = $rel;
                     if (isset($data[$field])) {
                         if (isset($data[$field])) {
+
+
                             $field_content = $data[$field];
                         }
                     } else {
@@ -688,11 +689,10 @@ class Parser
                         if ($cont_field != false) {
                             $field_content = $cont_field;
                         }
+                        $mw_replaced_edit_fields_vals[$parser_mem_crc] = $field_content;
+
                     }
-//                    if ($field == 'title') {
-//                        $field_content = false;
-//                        $get_global = 1;
-//                    }
+
                     if ($rel == 'global') {
                         $field_content = false;
                         $get_global = 1;
@@ -760,7 +760,9 @@ class Parser
                         $ch2 = mw_var($parser_mem_crc);
                         if ($ch2 == false) {
                             $this->_mw_parser_passed_hashes[] = $parser_mem_crc2;
-                            if ($field_content != false and $field_content != '') {
+                            if (!isset($mw_replaced_edit_fields_vals[$parser_mem_crc2]) and $field_content != false and $field_content != '') {
+                                $mw_replaced_edit_fields_vals[$parser_mem_crc2] = $ch2;
+
                                 $mw_found_elems = ',' . $parser_mem_crc2;
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
                                 pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
@@ -769,8 +771,12 @@ class Parser
                         mw_var($parser_mem_crc2, 1);
 
                     }
+
                 }
+
+
                 $layout = $pq->htmlOuter();
+
                 $pq->__destruct();
                 $pq = null;
 
@@ -792,20 +798,32 @@ class Parser
                 $c = 1;
                 foreach ($reps as $elk => $value) {
                     $elk_crc = crc32($elk);
-                    if (!in_array($elk_crc, $this->_mw_parser_passed_replaces)) {
+
+                    $global_holder_hash = 'replaced' . $elk_crc;
+
+
+                    if (!isset($mw_replaced_edit_fields_vals[$global_holder_hash])) {
                         $this->_mw_parser_passed_replaces[] = $elk_crc;
+                        $mw_replaced_edit_fields_vals[$global_holder_hash] = $modified_layout;
+
                         if ($value != '') {
                             $val_rep = $value;
+
                             $val_rep = $this->_replace_editable_fields($val_rep, true);
                             $rep = 'mw_replace_back_this_editable_' . $elk . '';
                             $modified_layout = str_replace($rep, $val_rep, $modified_layout);
+
+
                         }
                     } else {
                         $rep = 'mw_replace_back_this_editable_' . $elk . '';
                         $modified_layout = str_replace($rep, $value, $modified_layout);
                     }
                 }
+
                 $layout = $modified_layout;
+                $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
+
             }
 
             if (!empty($replaced_code_tags)) {
@@ -818,11 +836,12 @@ class Parser
             }
 
             if ($no_cache == false) {
-                $this->app->cache->save($layout, $parser_mem_crc, 'content_fields/global/parser');
+                //    $this->app->cache->save($layout, $parser_mem_crc, 'content_fields/global/parser');
             }
 
         }
         $this->_mw_parser_passed_replaces[$parser_mem_crc] = $layout;
+        $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
         return $layout;
 
 

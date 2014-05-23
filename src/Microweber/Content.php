@@ -5418,11 +5418,11 @@ class Content
                     }
 
         if (!isset($data['rel_id']) and !isset($data['is_draft'])) {
-            $data['rel_id'] = 0;
+          //  $data['rel_id'] = 0;
                 }
 
         if ((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
-            mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+           // mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
 
         if ((isset($data['rel']) and isset($data['rel_id']))) {
@@ -5434,7 +5434,7 @@ class Content
             }
         if (!isset($data['all'])) {
             $data['one'] = 1;
-            $data['limit'] = 200;
+            $data['limit'] = 1;
         }
 
         $data['table'] = $table;
