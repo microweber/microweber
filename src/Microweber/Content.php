@@ -65,6 +65,7 @@ class Content
         }
 
 
+
         api_expose('content/reorder');
         api_expose('content/delete');
         api_expose('content/set_published');
@@ -846,7 +847,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-              return $cache_content;
+            return $cache_content;
         }
 
         $render_file = false;
@@ -893,7 +894,6 @@ class Content
         if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
             $get_layout_from_parent = false;
             $par = $this->get_by_id($page['parent']);
-
             if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != ''  and $par['layout_file'] != 'inherit') {
                 $get_layout_from_parent = $par;
             } elseif (isset($par['is_home']) and isset($par['active_site_template']) and (!isset($par['layout_file']) or $par['layout_file'] == '')  and $par['is_home'] == 'y') {
@@ -928,18 +928,18 @@ class Content
                 $render_use_default = normalize_path($render_use_default,false);
 
                 //if (!isset($page['content_type']) or $page['content_type'] == 'page') {
-                    if (is_file($render_file_temp)) {
+                if (is_file($render_file_temp)) {
 //d($render_file_temp);
+                    $render_file = $render_file_temp;
+                } elseif (is_file($render_use_default)) {
+                    $render_file_temp = DEFAULT_TEMPLATE_DIR . $get_layout_from_parent['layout_file'];
+                    if (is_file($render_file_temp)) {
                         $render_file = $render_file_temp;
-                    } elseif (is_file($render_use_default)) {
-                        $render_file_temp = DEFAULT_TEMPLATE_DIR . $get_layout_from_parent['layout_file'];
-                        if (is_file($render_file_temp)) {
-                            $render_file = $render_file_temp;
-                        }
                     }
                 }
+            }
 
-           // }
+            // }
         }
 
 
@@ -2003,11 +2003,12 @@ class Content
                     }
 
 
-                    if ($skip_pages_with_no_categories == true) {
-                        if (isset($item ['subtype']) and $item ['subtype'] != 'dynamic') {
+                    if($skip_pages_with_no_categories == true ){
+                        if(isset($item ['subtype']) and $item ['subtype'] != 'dynamic'){
                             $skip_me_cause_iam_removed = true;
                         }
                     }
+
 
 
                     if ($skip_me_cause_iam_removed == false) {
@@ -4246,7 +4247,7 @@ class Content
 
                         $save_layout = false;
 
-                        if (isset($post_data['id'])) {
+                        if(isset($post_data['id'])){
                             $content_id_for_con_field = $post_data['id'];
                         } elseif ($inh == false and !isset($content_id_for_con_field)) {
                             if (is_array($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post') {
@@ -5417,11 +5418,11 @@ class Content
         }
 
         if (!isset($data['rel_id']) and !isset($data['is_draft'])) {
-            $data['rel_id'] = 0;
+            //  $data['rel_id'] = 0;
         }
 
         if ((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
-            mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+            // mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
 
         if ((isset($data['rel']) and isset($data['rel_id']))) {
@@ -5671,8 +5672,6 @@ class Content
                 $save_data = $this->save_content($save);
                 return ($save_data);
             }
-
-
         }
 
     }
@@ -5763,8 +5762,8 @@ class Content
                         return array('error' => 'You dont have permission to edit this content');
                     } else if (isset($page_data_to_check_author['created_by']) and ($page_data_to_check_author['created_by'] == $author_id)) {
                         $stop = false;
-                    }
-                }
+        }
+        }
                 if ($stop == true) {
                     if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
 
@@ -5774,7 +5773,7 @@ class Content
                             } else {
                                 return array('error' => 'Please enter a captcha answer!');
 
-                            }
+                    }
                         } else {
                             $cap = $this->app->user->session_get('captcha');
                             if ($cap == false) {
@@ -5782,10 +5781,10 @@ class Content
                             }
                             if ($data['captcha'] != $cap) {
                                 return array('error' => 'Invalid captcha answer!');
-                            }
-                        }
-                    }
                 }
+            }
+        }
+    }
 
 
                 if (isset($data['categories'])) {
