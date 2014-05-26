@@ -3040,7 +3040,9 @@ class Content
 
                     $current_categorys = $this->app->category->get_for_content($page['id']);
                     if (!empty($current_categorys)) {
-                        $current_category = array_shift($current_categorys);
+						//d($current_categorys); 
+                        $current_category = end($current_categorys);
+						 
                         if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
                             define('CATEGORY_ID', $current_category['id']);
                         }

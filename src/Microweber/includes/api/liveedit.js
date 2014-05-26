@@ -2546,6 +2546,9 @@ mw.toolbar = {
   center_icons:function(){
     mw.$(".list-modules .mw_module_image img").each(function(){
       var Istyle = window.getComputedStyle(this, null);
+	  if(Istyle == null){
+		return;  
+	  }
       var img_height = parseFloat(Istyle.height);
       img_height < 32 ? $(this).css("marginTop", 16 - img_height/2) : '';
     });

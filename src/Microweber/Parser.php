@@ -4,6 +4,7 @@ namespace Microweber;
 $parser_cache_object = false; //global cache storage
 $mw_replaced_modules = array();
 $mw_replaced_edit_fields_vals = array();
+$mw_replaced_edit_fields_vals_inner = array();
 
 $mw_replaced_modules_values = array();
 $mw_parser_nest_counter_level = 0;
@@ -31,6 +32,18 @@ class Parser
 
     public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false)
     {
+        global $mw_replaced_edit_fields_vals;
+
+        if (!isset($parser_mem_crc)) {
+            $parser_mem_crc = 'parser_' . crc32($layout) . CONTENT_ID;
+            $parser_modules_crc = 'parser_modules' . crc32($layout) . CONTENT_ID;
+        }
+
+
+        if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc])) {
+            return $mw_replaced_edit_fields_vals[$parser_mem_crc];
+        }
+
 
         global $mw_replaced_modules;
         global $mw_replaced_modules_values;
@@ -421,6 +434,8 @@ class Parser
                                     }
                                 }
                                 unset($mw_replaced_modules[$key]);
+
+
                                 if ($proceed_with_parse == true) {
                                     $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1);
                                 }
@@ -462,16 +477,18 @@ class Parser
         $layout = str_replace('{SITE_URL}', $this->app->url->site(), $layout);
         $layout = str_replace('{MW_SITE_URL}', $this->app->url->site(), $layout);
         $layout = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $layout);
-
+        $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
         return $layout;
     }
 
     private function _replace_editable_fields($layout, $no_cache = false)
     {
+
         if ($layout != '') {
             global $mw_replaced_modules;
             global $mw_replaced_edit_fields_vals;
             global $mw_parser_nest_counter_level;
+            global $mw_replaced_edit_fields_vals_inner;
             $mw_parser_nest_counter_level++;
             $replaced_code_tags = array();
             if ($this->_mw_parser_passed_replaces == NULL) {
@@ -492,7 +509,7 @@ class Parser
                 return $this->_mw_parser_passed_replaces[$parser_mem_crc];
             }
             if (isset($mw_replaced_edit_fields_vals[$parser_mem_crc])) {
-                return false;
+                // return false;
                 return $mw_replaced_edit_fields_vals[$parser_mem_crc];
             }
 
@@ -762,10 +779,43 @@ class Parser
                             $this->_mw_parser_passed_hashes[] = $parser_mem_crc2;
                             if (!isset($mw_replaced_edit_fields_vals[$parser_mem_crc2]) and $field_content != false and $field_content != '') {
                                 $mw_replaced_edit_fields_vals[$parser_mem_crc2] = $ch2;
+                                $parser_mem_crc3 = 'mw_replace_back_this_editable_' . $parser_mem_crc2 . '';
 
                                 $mw_found_elems = ',' . $parser_mem_crc2;
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
-                                pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+                                //  $this->setInnerHTML($elem,$elem,$field_content);
+                                $rep = pq($elem)->html();
+                                $mw_replaced_edit_fields_vals_inner[$parser_mem_crc3] = array('s' => $rep, 'r' => $field_content);
+                                // $elem->nodeValue = 1;
+                                //echo $elem->nodeValue;
+                                // $this->setInnerHTML($rep->document,$elem,$field_content);
+                                //  $this->setInnerHTML($rep->document,$elem,'mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+//print_r($parser_mem_crc2);
+//print $field_content;
+
+
+                                //$elem->parentNode->replaceChild($elem->cloneNode(true), $element);
+
+
+                                // print '-------------------------------------';
+// error 500
+                                // $rep->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+                                //$rep->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+
+
+                                // $rep->xml('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+
+
+                                //d($rep);
+                                //$rep->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+                                // d($field_content);
+                                // $elem->innerHTML = 'mw_replace_back_this_editable_' . $parser_mem_crc2 . '';
+                                //$elem->nodeValue = '';
+                                // pq($elem)->html('mw_replace_back_this_editable_' . $parser_mem_crc2 . '');
+                                //pq($elem)->html($field_content);
+                                //print_r($elem);
+                                //pq($elem)->html('aaa');
+
                             }
                         }
                         mw_var($parser_mem_crc2, 1);
@@ -781,6 +831,23 @@ class Parser
                 $pq = null;
 
                 unset($pq);
+                if (!empty($mw_replaced_edit_fields_vals_inner)) {
+                    $reps_arr = array();
+                    $reps_arr2 = array();
+                    foreach ($mw_replaced_edit_fields_vals_inner as $k => $v) {
+
+                        if (isset($v['s'])) {
+                            $reps_arr[] = $v['s'];
+                            $reps_arr2[] = $v['r'];
+                            //$layout = str_replace($v['s'], $v['r'], $layout);
+                            unset($mw_replaced_edit_fields_vals_inner[$k]);
+                        }
+
+                    }
+                    $layout = str_replace($reps_arr, $reps_arr2, $layout);
+                }
+
+
                 mw_var($parser_mem_crc, $layout);
                 if ($mw_found_elems != '') {
                     $mw_elements_array['new'] = $layout;
@@ -795,6 +862,7 @@ class Parser
             if (isset($mw_elements_array['elems']) and isset($mw_elements_array['to_replace']) and isset($mw_elements_array['new'])) {
                 $modified_layout = $mw_elements_array['new'];
                 $reps = $mw_elements_array['elems'];
+
                 $c = 1;
                 foreach ($reps as $elk => $value) {
                     $elk_crc = crc32($elk);
@@ -1015,5 +1083,32 @@ class Parser
             $l = pq($elem)->htmlOuter();
         }
         return $l;
+    }
+
+    function setInnerHTML($DOM, $element, $content)
+    {
+        $DOMInnerHTML = new \DOMDocument();
+        $DOMInnerHTML->loadHTML('<?xml encoding="UTF-8">' . $content);
+        $contentNode = $DOMInnerHTML->getElementsByTagName('body')->item(0)->firstChild;
+
+        $contentNode = $DOM->importNode($contentNode, true);
+        //$element->appendChild($contentNode);
+        //  $element->parentNode->appendChild($contentNode);
+        $fragment = $DOM->createDocumentFragment();
+        $fragment->appendChild($contentNode);
+        $element->replaceChild($fragment, $element->cloneNode(true));
+
+
+        //$fragment = $DOM->createDocumentFragment();
+        //$fragment->appendChild($contentNode);
+
+        // $element->parentNode->replaceChild($element, $contentNode);
+
+
+        //$element->appendChild($contentNode);
+        //  $element->replaceChild($contentNode, $DOMInnerHTML);
+        // $contentNode->innerHTML = ($content);
+        // $DOMInnerHTML->saveXML();
+        return $contentNode;
     }
 }

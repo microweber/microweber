@@ -1323,6 +1323,15 @@ class Controller
         }
 
         $the_active_site_template = $this->app->option->get('current_template', 'template');
+		
+		
+		
+		$date_format = $this->app->option->get('date_format', 'website');
+		if ($date_format == false) {
+			$date_format = "Y-m-d H:i:s";
+		}
+ 	 
+		
         if ($page == false) {
             if (trim($page_url) == '' and $preview_module == false) {
                 $page = $this->app->content->homepage();
@@ -1548,6 +1557,14 @@ class Controller
             }
         } else {
             $content = $page;
+        }
+		
+		 if (isset($content['created_on']) and  trim($content['created_on']) != '') {
+            $content['created_on'] = date($date_format, strtotime($content['created_on']));
+        }
+
+        if (isset($content['updated_on']) and  trim($content['updated_on']) != '') {
+            $content['updated_on'] = date($date_format, strtotime($content['updated_on']));
         }
 
 
