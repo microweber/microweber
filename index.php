@@ -30,13 +30,13 @@ $application = new \Microweber\Application();
 
 */
 
-
+ 
 // Starting Router
 $router = new \Microweber\Router();
 
 // Starting Controller
 $controller = new \Microweber\Controller($application);
-$router->get('/', $controller);
+ 
 // Automatically map the Router to all controller functions
 $router->map($controller);
 /*

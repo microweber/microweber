@@ -172,7 +172,7 @@ width_slider_onstart = function(){
 }
 
 validateJSON4StaticElements = function(obj){
-  if(!mw.tools.isEmptyObject(obj)){
+  if(!mw.tools.isEmptyObject(obj) && mwd.querySelector('[href*="live_edit.css"]') !== null){
       var sheet = mwd.querySelector('[href*="live_edit.css"]').sheet;
       var rules = sheet.cssRules, l = rules.length, i = 0;
       for ( ; i<l ; i++){
