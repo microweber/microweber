@@ -939,7 +939,7 @@ class Content
                 }
             }
 
-            // }
+           // }
         }
 
 
@@ -1766,7 +1766,7 @@ class Content
                 } else {
                     print $cache_content;
                 }
-                return;
+               return;
             }
         }
 
@@ -3000,7 +3000,7 @@ class Content
         if ($content == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $ref_page = $_SERVER['HTTP_REFERER'];
-                //d($ref_page);
+               //d($ref_page);
                 if ($ref_page != '') {
                     $ref_page = $this->get_by_url($ref_page);
 
@@ -3040,7 +3040,9 @@ class Content
 
                     $current_categorys = $this->app->category->get_for_content($page['id']);
                     if (!empty($current_categorys)) {
-                        $current_category = array_shift($current_categorys);
+						//d($current_categorys); 
+                        $current_category = end($current_categorys);
+						 
                         if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
                             define('CATEGORY_ID', $current_category['id']);
                         }
@@ -4500,7 +4502,7 @@ class Content
                         }
                     }
                     if ($save_page['title'] == '') {
-                        // ..
+                      // ..
                     }
 
                     if (isset($save_page['content_type']) and $save_page['content_type'] == 'page') {
@@ -4510,7 +4512,7 @@ class Content
                     }
 
                     if (isset($save_page['title']) and $save_page['title'] == '') {
-                        $page_id = $this->save_content_admin($save_page);
+                    $page_id = $this->save_content_admin($save_page);
                     }
 
                 }
@@ -4980,19 +4982,19 @@ class Content
         //$checks = mw_var('FORCE_SAVE_CONTENT');
 
 
-        if ($adm == false) {
+            if ($adm == false) {
             return false;
-        }
+                    }
 
         if (!is_array($data)) {
             $data = array();
-        }
+                }
 
         if (isset($data['is_draft'])) {
             $table = $table_drafts;
 
 
-        }
+                            }
         if (isset($data['is_draft']) and isset($data['url'])) {
 
             $draft_url = $this->app->db->escape_string($data['url']);
@@ -5021,22 +5023,22 @@ class Content
             // $history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=1&url=' . $draft_url . '&created_on=[mt]' . $last_saved_date . '');
             if (is_array($history_files)) {
                 $history_files_ids = $this->app->format->array_values($history_files);
-            }
+                    }
 
             if (isset($history_files_ids) and is_array($history_files_ids) and !empty($history_files_ids)) {
                 $history_files_ids_impopl = implode(',', $history_files_ids);
                 $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
 
                 $this->app->db->q($del_q);
-            }
+                }
 
 
-        }
+                }
 
 
         if (!isset($data['rel']) or !isset($data['rel_id'])) {
             mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
-        }
+                            }
         //if($data['rel'] == 'global'){
         if (isset($data['field']) and !isset($data['is_draft'])) {
             $fld = $this->app->db->escape_string($data['field']);
@@ -5046,16 +5048,16 @@ class Content
                 $i = $this->app->db->escape_string($data['rel_id']);
                 $del_q .= " and  rel_id='$i' ";
 
-            } else {
+                        } else {
                 $data['rel_id'] = 0;
-            }
+                    }
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
             $this->app->db->q($del_q);
             $this->app->cache->delete($cache_group);
 
             //
 
-        }
+                }
         if (isset($fld)) {
 
             $this->app->cache->delete('content_fields/' . $fld);
@@ -5071,14 +5073,14 @@ class Content
 
             $this->app->cache->delete('content/' . $data['rel_id']);
 
-        }
+                }
         if (isset($data['rel'])) {
             $this->app->cache->delete('content_fields/' . $data['rel']);
-        }
+                }
         if (isset($data['rel']) and isset($data['rel_id'])) {
             $this->app->cache->delete('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
             $this->app->cache->delete('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
-        }
+            }
         if (isset($data['field'])) {
             $this->app->cache->delete('content_fields/' . $data['field']);
         }
@@ -5114,13 +5116,13 @@ class Content
             $del_data['id'] = intval($data);
             $data = $del_data;
             $to_trash = false;
-        }
+                }
 
 
         if (isset($data['forever']) or isset($data['delete_forever'])) {
 
             $to_trash = false;
-        }
+            }
         if (isset($data['undelete'])) {
             $to_trash = true;
             $to_untrash = true;
@@ -5133,7 +5135,7 @@ class Content
             if ($to_trash == false) {
                 $this->app->db->delete_by_id('content', $c_id);
             }
-        }
+                }
 
         if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
@@ -5144,7 +5146,7 @@ class Content
                 }
             }
 
-        }
+            }
 
 
         if (!empty($del_ids)) {
@@ -5163,7 +5165,7 @@ class Content
                         $table1 = $this->tables['categories'];
                         $q = "UPDATE $table1 SET is_deleted='n' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='y' ";
                         $q = $this->app->db->query($q);
-                    }
+        }
 
                 } else if ($to_trash == false) {
                     $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
@@ -5175,7 +5177,7 @@ class Content
                         $table1 = $this->tables['media'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                         $q = $this->app->db->query($q);
-                    }
+        }
 
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
@@ -5194,7 +5196,7 @@ class Content
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
 
                         $q = $this->app->db->query($q);
-                    }
+            }
 
                     if (isset($this->tables['content_data'])) {
                         $table1 = $this->tables['content_data'];
@@ -5213,7 +5215,7 @@ class Content
                         $table1 = $this->tables['categories'];
                         $q = "UPDATE $table1 SET is_deleted='y' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='n' ";
 
-                        $q = $this->app->db->query($q);
+            $q = $this->app->db->query($q);
                     }
 
 
@@ -5227,9 +5229,9 @@ class Content
             $this->app->cache->delete('categories/global');
 
 
-        }
+                }
         return ($del_ids);
-    }
+            }
 
     public function edit_field_draft($data)
     {
@@ -5251,7 +5253,7 @@ class Content
             }
         } else {
             $url = $this->app->url->string();
-        }
+            }
 
         $this->define_constants($page);
 
@@ -5277,14 +5279,14 @@ class Content
                             'field' => 'title',
                             'value' => $page_data['title']);
                         $results[] = $arr;
-                    }
+            }
                     if (isset($page_data['subtype'])) {
                         $arr = array('rel' => $page_data['subtype'],
                             'field' => 'title',
                             'value' => $page_data['title']);
                         $results[] = $arr;
-                    }
-                }
+        }
+            }
                 if (isset($page_data['content']) and $page_data['content'] != '') {
                     $arr = array('rel' => 'content',
                         'field' => 'content',
@@ -5301,8 +5303,8 @@ class Content
                             'field' => 'content',
                             'value' => $page_data['content']);
                         $results[] = $arr;
-                    }
                 }
+            }
                 //$results[]
 
             }
@@ -5321,7 +5323,7 @@ class Content
 
         if ($results == false) {
             return;
-        }
+                }
 
         $i = 0;
         foreach ($results as $item) {
@@ -5332,18 +5334,18 @@ class Content
                 $field_content = $this->_decode_entities($field_content);
                 $item['value'] = mw('parser')->process($field_content, $options = false);
 
-            }
+                }
 
             $ret[$i] = $item;
             $i++;
 
-        }
+            }
 
 
         return $ret;
 
 
-    }
+        }
 
     /**
      * Returns the homepage as array
@@ -5368,17 +5370,17 @@ class Content
             $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
             $result = $q;
 
-        }
+                    }
 
 
         if ($result != false) {
             $content = $result[0];
-        }
+                            }
 
         if (isset($content)) {
             return $content;
-        }
-    }
+                        }
+                    }
 
     public function edit_field($data, $debug = false)
     {
@@ -5390,39 +5392,39 @@ class Content
 
         if (is_string($data)) {
             $data = parse_params($data);
-        }
+                            }
 
         if (!is_array($data)) {
             $data = array();
-        }
+                    }
 
 
         if (isset($data['is_draft'])) {
             $table = $table_drafts;
-        }
+                                }
 
         if (!isset($data['rel'])) {
             if (isset($data['rel'])) {
                 if ($data['rel'] == 'content' or $data['rel'] == 'page' or $data['rel'] == 'post') {
                     $data['rel'] = 'content';
-                }
+                                }
                 $data['rel'] = $data['rel'];
-            }
-        }
+                                }
+                            }
         if (!isset($data['rel_id'])) {
             if (isset($data['data-id'])) {
                 $data['rel_id'] = $data['data-id'];
             } else {
 
-            }
-        }
+                        }
+                    }
 
         if (!isset($data['rel_id']) and !isset($data['is_draft'])) {
-            //  $data['rel_id'] = 0;
-        }
+          //  $data['rel_id'] = 0;
+                }
 
         if ((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
-            // mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+           // mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
 
         if ((isset($data['rel']) and isset($data['rel_id']))) {
@@ -5431,10 +5433,10 @@ class Content
         } else {
             $data['cache_group'] = guess_cache_group('content_fields/global');
 
-        }
+            }
         if (!isset($data['all'])) {
             $data['one'] = 1;
-            $data['limit'] = 200;
+            $data['limit'] = 1;
         }
 
         $data['table'] = $table;
@@ -5444,9 +5446,9 @@ class Content
 
         if (!isset($data['full']) and isset($get['value'])) {
             return $get['value'];
-        } else {
+                    } else {
             return $get;
-        }
+                    }
 
 
         return false;
@@ -5461,13 +5463,13 @@ class Content
         $text = preg_replace('/&#(\d+);/me', "chr(\\1)", $text); #decimal notation
         $text = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $text); #hex notation
         return $text;
-    }
+                            }
 
     public function prev_content($content_id = false)
     {
         return $this->next_content($content_id, $mode = 'prev');
 
-    }
+                            }
 
     public function next_content($content_id = false, $mode = 'next')
     {
@@ -5478,17 +5480,17 @@ class Content
                 $content_id = PAGE_ID;
             } else if (defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0) {
                 $content_id = MAIN_PAGE_ID;
-            }
-        }
+                        }
+                    }
         $category_id = false;
         if (defined('CATEGORY_ID') and CATEGORY_ID != 0) {
             $category_id = CATEGORY_ID;
-        }
+                }
         if ($content_id == false) {
             return false;
         } else {
             $content_id = intval($content_id);
-        }
+            }
         $cont_data = $this->get_by_id($content_id);
         if ($cont_data == false) {
             return false;
@@ -5534,11 +5536,11 @@ class Content
         } else {
             if (isset($cont_data['position']) and $cont_data['position'] > 0) {
                 $params['position'] = $compare_q . $cont_data['position'];
-            }
+        }
             $params['order_by'] = 'created_on asc';
             if (trim($mode) == 'prev') {
                 $params['order_by'] = 'created_on desc';
-            }
+        }
         }
 
         if (!empty($categories)) {
@@ -5556,7 +5558,7 @@ class Content
         } else {
             if (isset($params['created_on'])) {
                 unset($params['created_on']);
-            }
+        }
             $q = $this->get($params);
             if (!is_array($q)) {
                 if (isset($params['category'])) {
@@ -5569,7 +5571,7 @@ class Content
             }
             return false;
         }
-    }
+        }
 
     public function reorder($params)
     {
@@ -5616,13 +5618,13 @@ class Content
             //    var_dump($q);
             $q = $this->app->db->q($q);
             $i++;
-        }
+                    }
         //
         // var_dump($q);
         $this->app->cache->delete('content/global');
         $this->app->cache->delete('categories/global');
         return true;
-    }
+                }
 
     /**
      * Set content to be unpublished
@@ -5660,7 +5662,7 @@ class Content
         if ($adm == false) {
             return array('error' => 'You must be admin to unpublish content!');
         }
-
+ 
         if (!isset($params['id'])) {
             return array('error' => 'You must provide id parameter!');
         } else {
@@ -5668,13 +5670,13 @@ class Content
                 $save = array();
                 $save['id'] = intval($params['id']);
                 $save['is_active'] = 'n';
-
+   
                 $save_data = $this->save_content($save);
                 return ($save_data);
-            }
-        }
+                        }
+                    }
 
-    }
+                }
 
     /**
      * Set content to be published
@@ -5726,8 +5728,8 @@ class Content
                 return ($save_data);
             }
 
+            }
         }
-    }
 
     public function save_content($data, $delete_the_cache = true)
     {
@@ -5837,19 +5839,19 @@ class Content
                 if (isset($data['subtype']) and !isset($data['content_type'])) {
                     $data['subtype'] = 'post';
                     $data['content_type'] = 'post';
-                }
+        }
                 if (!isset($data['subtype'])) {
                     $data['subtype'] = 'post';
-                }
+            }
                 if (!isset($data['content_type'])) {
                     $data['content_type'] = 'post';
-                }
+            }
             }
         }
 
         if (isset($data['content_url']) and !isset($data['url'])) {
             $data['url'] = $data['content_url'];
-        }
+            }
 
         if (!isset($data['parent']) and isset($data['content_parent'])) {
             $data['parent'] = $data['content_parent'];
@@ -5882,7 +5884,7 @@ class Content
                 $theurl = $data['title'];
             }
             $thetitle = $data['title'];
-        }
+    }
 
 
         if (isset($data['id']) and intval($data['id']) == 0) {
@@ -5894,7 +5896,7 @@ class Content
                     if (isset($data['subtype']) and ($data['subtype']) != 'page' and ($data['subtype']) != 'post' and ($data['subtype']) != 'static' and ($data['subtype']) != 'dynamic') {
                         $data['title'] = "New " . $data['subtype'];
                     }
-                }
+        }
                 $data_to_save['title'] = $data['title'];
 
             }
@@ -5936,7 +5938,7 @@ class Content
             $newstr = str_replace('--', '-', $newstr);
             if ($newstr == '-' or $newstr == '--') {
                 $newstr = 'post-' . date('YmdH');
-            }
+    }
             $data['url'] = $newstr;
 
             $url_changed = true;
@@ -5947,7 +5949,7 @@ class Content
 
         if (isset($data['category']) or isset($data['categories'])) {
             $cats_modified = true;
-        }
+    }
         $table_cats = $this->tables['categories'];
 
         if (isset($data_to_save['title']) and ($data_to_save['title'] != '') and (!isset($data['url']) or trim($data['url']) == '')) {
@@ -5960,7 +5962,7 @@ class Content
             if (trim($data['url']) == '') {
 
                 $data['url'] = $this->app->url->slug($data['title']);
-            }
+        }
 
             $data['url'] = $this->app->db->escape_string($data['url']);
 
@@ -5986,7 +5988,7 @@ class Content
             if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {
 
                 $data_to_save['url'] = $data_to_save['url'] . '-' . $date123;
-            }
+        }
 
             if (isset($data_to_save['title']) and strval($data_to_save['title']) == '' and (isset($data_to_save['quick_save']) == false)) {
 
@@ -5994,9 +5996,9 @@ class Content
             }
             if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {
                 $data_to_save['url'] = strtolower(reduce_double_slashes($data['url']));
-            }
-
         }
+
+            }
 
 
         if (isset($data_to_save['url']) and is_string($data_to_save['url'])) {
@@ -6028,17 +6030,17 @@ class Content
             if (isset($data_to_save['subtype_value']) and trim($data_to_save['subtype_value']) != '' and intval(($data_to_save['subtype_value'])) > 0) {
 
                 $check_ex = $this->app->category->get_by_id(intval($data_to_save['subtype_value']));
-            }
+        }
             if ($check_ex == false) {
                 if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
                     $test2 = $this->app->category->get('data_type=category&rel=content&rel_id=' . intval(($data_to_save['id'])));
                     if (isset($test2[0])) {
                         $check_ex = $test2[0];
                         $data_to_save['subtype_value'] = $test2[0]['id'];
-                    }
-                }
+        }
+        }
                 unset($data_to_save['subtype_value']);
-            }
+        }
 
 
             if (isset($check_ex) and $check_ex == false) {
@@ -6050,7 +6052,7 @@ class Content
                     }
                 }
             }
-        }
+    }
 
 
         $par_page = false;
@@ -6064,7 +6066,7 @@ class Content
                 $change_to_dynamic = true;
                 if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
                     $change_to_dynamic = false;
-                }
+        }
                 if ($change_to_dynamic == true and $par_page['subtype'] == 'static') {
                     $par_page_new = array();
                     $par_page_new['id'] = $par_page['id'];
@@ -6072,10 +6074,10 @@ class Content
 
                     $par_page_new = $this->app->db->save($table, $par_page_new);
                     $cats_modified = true;
-                }
+        }
                 if (!isset($data_to_save['categories'])) {
                     $data_to_save['categories'] = '';
-                }
+        }
                 if (is_string($data_to_save['categories']) and isset($par_page['subtype_value']) and $par_page['subtype_value'] != '') {
                     $data_to_save['categories'] = $data_to_save['categories'] . ', ' . $par_page['subtype_value'];
                 }
@@ -6083,7 +6085,7 @@ class Content
             $c1 = false;
             if (isset($data_to_save['category']) and !isset($data_to_save['categories'])) {
                 $data_to_save['categories'] = $data_to_save['category'];
-            }
+        }
             if (isset($data_to_save['categories']) and $par_page == false) {
                 if (is_string($data_to_save['categories'])) {
                     $c1 = explode(',', $data_to_save['categories']);
@@ -6101,17 +6103,17 @@ class Content
                                         break;
                                     }
                                 }
-                            }
-                        }
-                    }
-                }
             }
+        }
+        }
+        }
+        }
         }
 
         if (isset($data_to_save['content'])) {
             if (trim($data_to_save['content']) == '' or $data_to_save['content'] == false) {
                 $data_to_save['content'] = null;
-            } else {
+        } else {
 
                 if (isset($data['download_remote_images']) and $data['download_remote_images'] != false and $adm == true) {
 
@@ -6124,7 +6126,7 @@ class Content
 
                     if (isset($data['insert_content_image']) and $data['insert_content_image'] != false and isset($data['content'])) {
                         $data['content'] = "<img src='{$data['insert_content_image']}' /> " . $data['content'];
-                    }
+    }
 
 
                     if (!empty($images)) {
@@ -6133,9 +6135,9 @@ class Content
                             preg_match('/src="([^"]*)"/i', $image, $srcs);
                             if (!empty($srcs) and isset($srcs[1]) and $srcs[1] != false) {
                                 $possible_sources[] = $srcs[1];
-                            }
-                        }
-                    }
+            }
+        }
+        }
 
                     if (!empty($possible_sources)) {
                         foreach ($possible_sources as $image_src) {
@@ -6153,11 +6155,11 @@ class Content
                                         break;
                                     default:
                                         break;
-                                }
+        }
 
                             }
-                        }
-                    }
+            }
+        }
 
                     if (!empty($to_download)) {
                         $to_download = array_unique($to_download);
@@ -6167,24 +6169,24 @@ class Content
                                 $dl_dir = MW_MEDIA_DIR . 'downloaded' . DS;
                                 if (!is_dir($dl_dir)) {
                                     mkdir_recursive($dl_dir);
-                                }
+                }
                                 $dl_file = $dl_dir . md5($src) . basename($src);
                                 if (!is_file($dl_file)) {
                                     $is_dl = $this->app->url->download($src, false, $dl_file);
-                                }
+            }
                                 if (is_file($dl_file)) {
                                     $url_local = dir2url($dl_file);
                                     $data_to_save['content'] = str_ireplace($src, $url_local, $data_to_save['content']);
-                                }
-                            }
-                        }
+        }
                     }
-                }
+                    }
+                    }
+                    }
 
 
                 $data_to_save['content'] = mw('parser')->make_tags($data_to_save['content']);
             }
-        }
+                    }
 
         $data_to_save['updated_on'] = date("Y-m-d H:i:s");
         if (isset($data_to_save['id']) and intval($data_to_save['id']) == 0) {
@@ -6201,7 +6203,7 @@ class Content
                     } else {
                         $data_to_save['position'] = intval($get_max_pos[0]['maxpos']) + 1;
 
-                    }
+                }
 
             }
             $data_to_save['posted_on'] = $data_to_save['updated_on'];
@@ -6222,7 +6224,7 @@ class Content
                     if (is_array($data_to_save['categories'])) {
                         $temp = $data_to_save['categories'];
                         $first = array_shift($temp);
-                    } else {
+        } else {
                         $first = intval($data_to_save['categories']);
                     }
                     if ($first != false) {
@@ -6231,7 +6233,7 @@ class Content
                             $data_to_save['parent'] = $first_par_for_cat['id'];
                             if (!isset($data_to_save['content_type'])) {
                                 $data_to_save['content_type'] = 'post';
-                            }
+        }
 
                             if (!isset($data_to_save['subtype'])) {
                                 $data_to_save['subtype'] = 'post';
@@ -6257,25 +6259,25 @@ class Content
         if (isset($data_to_save['custom_field_type']) and isset($data_to_save['custom_field_value'])) {
             unset($data_to_save['custom_field_type']);
             unset($data_to_save['custom_field_value']);
-        }
+                    }
         if (isset($data_to_save['custom_field_help_text'])) {
             unset($data_to_save['custom_field_help_text']);
-        }
+                    }
         if (isset($data_to_save['custom_field_is_active'])) {
             unset($data_to_save['custom_field_is_active']);
-        }
+                }
         if (isset($data_to_save['custom_field_name'])) {
             unset($data_to_save['custom_field_name']);
-        }
+                    }
         if (isset($data_to_save['custom_field_values'])) {
             unset($data_to_save['custom_field_values']);
-        }
+                    }
         if (isset($data_to_save['custom_field_value'])) {
             unset($data_to_save['custom_field_value']);
-        }
+                }
         if (isset($data_to_save['title'])) {
             $url_changed = true;
-        }
+            }
 
         $save = $this->app->db->save($table, $data_to_save);
         $id = $save;
@@ -6312,8 +6314,8 @@ class Content
                         $data_field["field_value"] = $v;
                         $data_field = $this->save_content_data_field($data_field);
 
-                    }
-                }
+            }
+        }
 
             }
         }
@@ -6344,11 +6346,11 @@ class Content
                     $save_media = $image_to_save;
                     $save_media['content_id'] = $id;
                     $this->app->media->save($save_media);
-                }
+    }
 
 
             }
-        }
+    }
 
 
         if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
@@ -6366,7 +6368,7 @@ class Content
                 $new_category["parent_id"] = "0";
                 $cats_modified = true;
                 // $new_category = $this->app->category->save($new_category);
-            }
+        }
         }
         $custom_field_table = $this->tables['custom_fields'];
 
@@ -6402,7 +6404,7 @@ class Content
 
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
             $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
-        }
+            }
         if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
             $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
         }
@@ -6420,8 +6422,8 @@ class Content
                     $item = intval($item);
                     if ($item > 0) {
                         $this->app->cache->delete('categories/' . $item);
-                    }
                 }
+            }
             }
         }
         event_trigger('mw_save_content', $save);
@@ -6444,7 +6446,7 @@ class Content
 
         if (!is_array($data)) {
             $data = parse_params($data);
-        }
+    }
 
         if (!isset($data['id'])) {
 
@@ -6457,7 +6459,7 @@ class Content
 
             if (!isset($data['content_id'])) {
                 return array('error' => "You must set 'content_id' parameter");
-            }
+        }
         }
 
 
