@@ -2,8 +2,8 @@
 <span class="mw_dlm"></span>
 <div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values">
     <span class="mw-dropdown-value">
-        <span class="dd_rte_arr"></span>
-        <span class="mw-dropdown_val" style="width: 80px;"><?php _e("E-mail Values"); ?></span>
+        <span class="mw-dropdown-arrow"></span>
+        <span class="mw-dropdown-val" style="width: 80px;"><?php _e("E-mail Values"); ?></span>
     </span>
   <div class="mw-dropdown-content">
       <ul style="position: absolute;right: 0;width: 140px;">

@@ -2344,12 +2344,12 @@ mw.$("#elements_category_selector").change(function(){
 
 mw.$("#module_category_selector .dd_custom a").mousedown(function(e){
    mw.tools.toolbar_searh(Modules_List_modules, $(this).html());
-   mw.tools.firstParentWithClass(this, 'mw-dropdown').querySelector('.mw-dropdown_val').innerHTML = $(this).html();
+   mw.tools.firstParentWithClass(this, 'mw-dropdown').querySelector('.mw-dropdown-val').innerHTML = $(this).html();
    e.preventDefault();
 });
 mw.$("#elements_category_selector .dd_custom a").mousedown(function(e){
    mw.tools.toolbar_searh(Modules_List_elements, $(this).html());
-   mw.tools.firstParentWithClass(this, 'mw-dropdown').querySelector('.mw-dropdown_val').innerHTML = $(this).html();
+   mw.tools.firstParentWithClass(this, 'mw-dropdown').querySelector('.mw-dropdown-val').innerHTML = $(this).html();
    e.preventDefault();
 });
 

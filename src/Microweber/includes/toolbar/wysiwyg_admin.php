@@ -47,8 +47,8 @@ $(document).ready(function(){
 
             <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_format" id="format_main" title="<?php _e("Format"); ?>" data-value="">
                 <span class="mw-dropdown-value">
-                    <span class="dd_rte_arr"></span>
-                    <span class="mw-dropdown_val"><?php _e("Format"); ?></span>
+                    <span class="mw-dropdown-arrow"></span>
+                    <span class="mw-dropdown-val"><?php _e("Format"); ?></span>
                 </span>
               <div class="mw-dropdown-content">
                 <ul>
@@ -68,8 +68,8 @@ $(document).ready(function(){
 
             <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_family" id="font_family_selector_main" title="<?php _e("Font"); ?>" data-value="Arial">
               <span class="mw-dropdown-value">
-                  <span class="dd_rte_arr"></span>
-                  <span class="mw-dropdown_val">Arial</span>
+                  <span class="mw-dropdown-arrow"></span>
+                  <span class="mw-dropdown-val">Arial</span>
               </span>
               <div class="mw-dropdown-content">
                 <ul>
@@ -87,9 +87,9 @@ $(document).ready(function(){
 
             <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
                 <span class="mw-dropdown-value">
-                  <input type="text" class="mw_dd_field"  />
-                  <span class="dd_rte_arr"></span>
-                  <span class="mw-dropdown_val" >Size</span>
+                  <input type="text" class="mw-dropdown-field"  />
+                  <span class="mw-dropdown-arrow"></span>
+                  <span class="mw-dropdown-val" >Size</span>
                 </span>
                 <div class="mw-dropdown-content">
                     <ul>

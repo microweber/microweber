@@ -1373,7 +1373,7 @@ div.mw-ui-field:after{
   margin:-1px -9px -12px 1px;
 }
 
-.mw-ui-dropdown .dd_rte_arr{
+.mw-ui-dropdown .mw-dropdown-arrow{
   margin-right: 0;
   margin-top: 7px;
   margin-left: 8px;
@@ -1397,6 +1397,42 @@ div.mw-ui-field:after{
     background-color: #EEEEEE;
 }
 
+
+/************************************
+        Dropdowns Skins
+*************************************/
+
+  /* Default styles */
+
+  .mw-dropdown-content{
+    overflow-x:hidden;
+    overflow-y:auto;
+    background-color: white;
+    border-radius: 0 0 @radius @radius;
+    border: 1px solid #EEEEEE;
+  }
+
+  /* Default skin */
+  .mw-dropdown-default li{
+    border-top: 1px solid rgba(218, 218, 218, 0.35);
+    cursor: pointer;
+    display: block;
+    min-height: 36px;
+    padding: 9px 12px;
+    position: relative;
+    text-decoration: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  .mw-dropdown-default li:hover{ background-color: #EEEEEE; }
+
+  .mw-dropdown-default > ul > li:first-child{ border-top: none;  }
+  .mw-dropdown-default .mw-dropdown-value.mw-ui-btn:after{
+    content: "\0118";
+    font-family: Microweber;
+    float: right;
+  }
 
 
 /************************************

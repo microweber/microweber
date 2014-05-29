@@ -9,13 +9,16 @@ if(isset($params['global']) and $params['global'] != false){
 $rand = uniqid(); ?>
 <script type="text/javascript">
 
-    function mw_reload_content_mod_window(){
+    function mw_reload_content_mod_window(curr_mod){
+			if(curr_mod != undefined){
 			 setTimeout(function(){
 			
 		
 		  // mw.reload_module('#<?php print $params['id'] ?>');
 		 
 		 },100)
+			}
+		 
 		 setTimeout(function(){
 			
 		mw.reload_module_parent('#<?php print $params['id'] ?>');
@@ -60,7 +63,7 @@ $rand = uniqid(); ?>
 
 <label class="mw-ui-label"><?php _e("Content type"); ?></label>
 
-  <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"  class="mw-ui-field w100 mw_option_field"  onchange="mw_reload_content_mod_window()"  >
+  <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"  class="mw-ui-field w100 mw_option_field"  onchange="mw_reload_content_mod_window(1)"  >
     <option  <?php if(('' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Choose content type"); ?></option>
     <option  value="page"    <?php if(('page' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Pages"); ?></option>
     <option  value="post"    <?php if(('post' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Posts"); ?></option>
@@ -124,6 +127,7 @@ $pt_opts['active_code_tag'] = '   selected="selected"  ';
         category_tree($pt_opts);
   ?>
   	      <option  value='0'  <?php if((0 == intval($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>--<?php _e("None"); ?></option>
+  	      <option  value='related'  <?php if(('related' == trim($posts_parent_category))): ?>   selected="selected"  <?php endif; ?>>--<?php _e("Related"); ?></option>
 
   </select>
 

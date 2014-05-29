@@ -9,7 +9,13 @@
   box-sizing: border-box;
 }
 
+::-ms-clear {
+    display: none;
+}
 
+::-ms-reveal {
+   display: none;
+}
 
 
 /*************************
@@ -1056,16 +1062,60 @@ a:hover .mw_ed_tree_content{
 #custom-fields-post-table .mw-liveedit-field{
   min-width: 25px;
   font-size: 13px;
+  height: auto;
+}
+.btn-create-custom-field-value{
+  width: 20px;
+  padding: 2px 0;
+  margin-left: 12px;
 }
 
 .mw-admin-custom-field-value-edit-inline, .mw-admin-custom-field-name-edit-inline{
-  padding: 0 3px;
-  border-radius:3px;
-
-
+    border-radius: 3px;
+    display: inline-block;
+    min-height: 14px;
+    min-width: 40px;
+    padding: 0 3px;
+    position: relative;
 }
-.mw-admin-custom-field-value-edit-inline:hover, .mw-admin-custom-field-name-edit-inline:hover{
+.delete-custom-fields{
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 11px;
+  visibility: hidden;
+  background: #D9D9D9;
+  cursor: pointer;
+  border-radius:0 3px 3px 0
+}
+.delete-custom-fields:hover{
+  background: #3F3F3F;
+  color: white;
+}
+.mw-admin-custom-field-value-edit-inline-holder{
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.mw-admin-custom-field-value-edit-inline-holder:hover .delete-custom-fields, .mw-admin-custom-field-value-edit-inline-holder.active .delete-custom-fields{
+  visibility: visible;
+}
+
+.delete-custom-fields:after{
+  font-family: Microweber;
+  content:'\0111';
+  vertical-align: middle;
+}
+
+.mw-admin-custom-field-value-edit-inline-holder:hover{
    background: #EDEDED;
+   z-index: 2;
 }
 
 .tip-box{
@@ -1080,7 +1130,7 @@ a:hover .mw_ed_tree_content{
   height: 10px;
   overflow: hidden;
   width: 10px;
-    transform: rotate(45deg) ;
+  transform: rotate(45deg) ;
   -webkit-transform: rotate(45deg) ;
   -moz-transform: rotate(45deg) ;
   -o-transform: rotate(45deg) ;
@@ -1092,11 +1142,14 @@ a:hover .mw_ed_tree_content{
 }
 
 
-#dropdown-custom-fields .mw-ui-btn-vertical-nav{
+#dropdown-custom-fields .mw-dropdown-content{
   width: 200px;
   max-height: 180px;
-  overflow-x: hidden;
-  overflow-y: auto;
+}
+
+#dropdown-custom-fields .mw-dropdown-val{
+  width: 200px;
+  text-align: left;
 }
 
 #custom-fields-box table{

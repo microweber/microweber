@@ -111,7 +111,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
       <div class="toolbar-sections-tabs">
 
         <ul>
-          <li class="create-content-dropdown"> <a href="javascript:;" class="tst-logo" title="Microweber"> <span>Microweber</span> <i class=" dd_rte_arr right"></i> </a>
+          <li class="create-content-dropdown"> <a href="javascript:;" class="tst-logo" title="Microweber"> <span>Microweber</span> <i class=" mw-dropdown-arrow right"></i> </a>
             <div class="mw-dropdown-list create-content-dropdown-list"
                          style="box-shadow: 2px 2px 10px -10px #111;width: 225px;">
               <div class="mw-dropdown-list-search">
@@ -200,7 +200,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
           <?php _e("Save"); ?>
           </span>
           <div class="toolbar-sections-tabs mw-ui-dropdown right" id="toolbar-dropdown-actions"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><span
-                            class="dd_rte_arr right"></span>
+                            class="mw-dropdown-arrow right"></span>
             <?php _e("Actions"); ?>
             </a>
             <div class="mw-dropdown-content" style="width: 155px;">

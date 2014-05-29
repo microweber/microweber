@@ -639,7 +639,7 @@
 
         <h2>Dropdowns</h2>
         <div data-value=""  class="mw-dropdown mw-dropdown_type_navigation">
-            <span class="mw-dropdown_val" style="width: 200px;">Default</span>
+            <span class="mw-dropdown-val" style="width: 200px;">Default</span>
             <div class="mw-dropdown-content">
                 <ul>
                     <li><a href="javascript:;">Value</a></li>
@@ -649,7 +649,7 @@
         </div>
          <hr />
         <div data-value=""  class="mw-dropdown mw-dropdown_type_navigation mw-dropdown_autocomplete">
-            <span class="mw-dropdown_val" style="width: 200px;">With textfield</span>
+            <span class="mw-dropdown-val" style="width: 200px;">With textfield</span>
             <input type="text" class="mw-ui-field dd_search" style="width: 208px;">
             <div class="mw-dropdown-content">
                 <ul>
@@ -665,8 +665,8 @@
 
         <div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg">
                 <span class="mw-dropdown-value">
-                    <span class="dd_rte_arr"></span>
-                    <span class="mw-dropdown_val">Simple</span>
+                    <span class="mw-dropdown-arrow"></span>
+                    <span class="mw-dropdown-val">Simple</span>
                 </span>
               <div class="mw-dropdown-content" style="display: block;">
                 <ul>

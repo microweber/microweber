@@ -286,23 +286,16 @@ class Module
                 $seg_clean = $this->app->url->segment(0);
                 $seg_clean = str_replace('%20', '-', $seg_clean);
                 $seg_clean = str_replace(' ', '-', $seg_clean);
-
                 $seg_clean = str_replace('.', '', $seg_clean);
-
                 $attrs1 = crc32(serialize($attrs) . $seg_clean . $mw_mod_counter);
                 $attrs1 = str_replace('%20', '-', $attrs1);
                 $attrs1 = str_replace(' ', '-', $attrs1);
-
                 $attrs['id'] = ($config['module_class'] . '-' . $attrs1);
-
             }
             if (isset($attrs['id']) and strstr($attrs['id'], '__MODULE_CLASS_NAME__')) {
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
-
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
-
-
             $l1 = new \Microweber\View($try_file1);
             $l1->config = $config;
             $l1->app = $this->app;
@@ -325,21 +318,15 @@ class Module
             }
             $mw_restore_get = mw_var('mw_restore_get');
             if ($mw_restore_get != false and is_array($mw_restore_get)) {
-                //d($mw_restore_get);
-
                 $l1->_GET = $mw_restore_get;
                 $_GET = $mw_restore_get;
             }
-
-
             if (defined('MW_MODULE_ONDROP')) {
                 if (!isset($attrs['ondrop'])) {
                     $attrs['ondrop'] = true;
                 }
 
             }
-            //  d($attrs);
-            //  $attrs = $this->app->format->clean_html($attrs);
             $l1->params = $attrs;
             if (isset($attrs['view']) && (trim($attrs['view']) == 'empty')) {
 
@@ -370,12 +357,9 @@ class Module
                 $lic_l1->params = $attrs;
 
                 $lic_l1e_file = $lic_l1->__toString();
-
-                //$lic_l1 = null;
                 unset($lic_l1);
                 $module_file = $lic_l1e_file . $module_file;
             }
-            // d($module_file);
             // $mw_loaded_mod_memory[$function_cache_id] = $module_file;
             return $module_file;
         } else {

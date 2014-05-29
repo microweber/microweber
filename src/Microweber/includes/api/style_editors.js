@@ -174,6 +174,22 @@ width_slider_onstart = function(){
 	}
 }
 
+
+validateJSON4StaticElements = function(obj){
+  if(!mw.tools.isEmptyObject(obj) && mwd.querySelector('[href*="live_edit.css"]') !== null){
+      var sheet = mwd.querySelector('[href*="live_edit.css"]').sheet;
+      var rules = sheet.cssRules, l = rules.length, i = 0;
+      for ( ; i<l ; i++){
+        var selector = rules[i].selectorText;
+        if(!!obj[selector]){
+             var css = rules[i].cssText.split(selector)[1].split('{')[1].split('}')[0];
+             obj[selector].css = css + obj[selector].css;
+        }
+      }
+  }
+  return obj;
+}
+
 generateJSON4StaticElements = function(){
   var all = mwd.querySelectorAll("[staticdesign]"), l=all.length,i=0,obj={};
   if(l>0){
@@ -181,21 +197,21 @@ generateJSON4StaticElements = function(){
         var el = all[i];
         var selector = mw.tools.generateSelectorForNode(el);
         var css = el.getAttribute("style");
-		
+
 		if(selector != undefined && (selector =='body' || selector =='BODY')){
 			if(css != undefined){
 				var css=css.replace("padding-top","mw-pad-top");
 			}
 		}
         if(el!==null){
-          obj[i] = {
+          obj[selector] = {
              selector:selector,
              css:css
           }
         }
     }
   }
-  return obj;
+  return validateJSON4StaticElements(obj);
 }
 
 saveStaticElementsStyles = function(callback){

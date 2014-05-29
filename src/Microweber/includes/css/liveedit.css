@@ -567,6 +567,7 @@ html.mw_pages #items_handle {
   font-family: Verdana, sans-serif;
   left: 167px;
   top: 77px;
+  margin-top: 25px;
   z-index: 998;
   transform:scale(0,0);
   -ms-transform:scale(0,0);
@@ -765,7 +766,7 @@ li .ts_action_item:last-child{
   border-bottom-color: #000;
 }
 
-.mw-dropdown_val .border_selector{
+.mw-dropdown-val .border_selector{
   margin-top: 6px;
 }
 
@@ -1696,7 +1697,7 @@ body.dragStart .empty-element { display: block; }
 }
 
 .tst-logo span{ left: -6px; top: 9px; }
-[class*='tst-'] .dd_rte_arr{ margin-right: 10px; margin-top: -3px; }
+[class*='tst-'] .mw-dropdown-arrow{ margin-right: 10px; margin-top: -3px; }
 .tst-modules span{ top: 16px; background-position: -99px 0; }
 .tst-add span{ top: 16px; background-position: -46px 0; }
 .tst-design span{ top: 16px; background-position: -149px 0; }

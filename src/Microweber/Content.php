@@ -4957,7 +4957,7 @@ class Content
 
 
         if ($stop == true) {
-            return array('error' => 'You are dont have permissions to save content!');
+            return array('error' => 'You don\'t have permissions to save content here!');
         }
 
         return $this->save_content($data, $delete_the_cache);

@@ -146,6 +146,7 @@ class Category
             $remove_ids = false;
         }
 
+
         if (isset($params['removed_ids_code'])) {
             $removed_ids_code = $params['removed_ids_code'];
         } else {
@@ -168,7 +169,11 @@ class Category
 
             $li_class_name = $params['li_class'];
         }
-
+        if (isset($params['users_can_create_content'])) {
+            $users_can_create_content = $params['users_can_create_content'];
+        } else {
+            $users_can_create_content = false;
+        }
         if (isset($params['li_class_name'])) {
 
             $li_class_name = $params['li_class_name'];
@@ -237,7 +242,25 @@ class Category
                 $table_assoc_name = $this->app->db->assoc_table_name($params['for']);
                 $skip123 = true;
                 $str0 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
-                $fors = $this->app->db->get($str0);
+                $cat_get_params = array();
+                $cat_get_params['is_deleted'] = 'n';
+                $cat_get_params['orderby'] = 'position asc';
+                $cat_get_params['limit'] = '1000';
+                $cat_get_params['data_type'] = 'category';
+                $cat_get_params['no_cache'] = 1;
+                $cat_get_params['parent_id'] = '0';
+                $cat_get_params['table'] = $table;
+                $cat_get_params['rel'] = $table_assoc_name;
+                if ($users_can_create_content != false) {
+                    $cat_get_params['users_can_create_content'] = $users_can_create_content;
+                    $str0 = $str0 . '&users_can_create_content=' . $users_can_create_content;
+                    // unset( $cat_get_params['parent_id']);
+                }
+                $fors = $this->app->db->get($cat_get_params);
+                // $fors = $this->app->db->get($cat_get_params);
+                //  d($fors);
+                // exit;
+
             }
 
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
@@ -276,8 +299,21 @@ class Category
         if (isset($params['rel']) and $params['rel'] != false and isset($params['rel_id'])) {
             $table_assoc_name = $this->app->db->assoc_table_name($params['rel']);
             $skip123 = true;
-            $str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
-            $fors = $this->app->db->get($str0);
+            $users_can_create_content_q = false;
+            $cat_get_params = array();
+            $cat_get_params['is_deleted'] = 'n';
+            $cat_get_params['orderby'] = 'position asc';
+            $cat_get_params['limit'] = '1000';
+            $cat_get_params['data_type'] = 'category';
+            $cat_get_params['what'] = 'categories';
+            $cat_get_params['rel_id'] = intval($params['rel_id']);
+            $cat_get_params['table'] = $table;
+            $cat_get_params['rel'] = $table_assoc_name;
+            if ($users_can_create_content != false) {
+                $cat_get_params['users_can_create_content'] = $users_can_create_content;
+            }
+            //$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
+            $fors = $this->app->db->get($cat_get_params);
 
         }
 
@@ -851,6 +887,65 @@ class Category
 
     }
 
+    /**
+     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
+     * @param int
+     * @return array
+     * @author      Peter Ivanov
+     * @version 1.0
+     * @since Version 1.0
+     */
+    public function get_by_id($id = 0)
+    {
+
+        if ($id == 0) {
+            return false;
+        }
+
+        $id = intval($id);
+
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+        $categories_id = intval($id);
+        $cache_group = 'categories/' . $categories_id;
+        $cache_content = false;
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table = $this->tables['categories'];
+
+        $id = intval($id);
+
+        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
+
+        $q = $this->app->db->query($q);
+
+        $q = $q[0];
+
+        if (!empty($q)) {
+
+            $this->app->cache->save($q, $function_cache_id, $cache_group);
+
+            return $q;
+        } else {
+
+            return false;
+        }
+    }
+
     public function get_page($category_id)
     {
 
@@ -1340,65 +1435,6 @@ class Category
         }
 
         return $save;
-    }
-
-    /**
-     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
-     * @param int
-     * @return array
-     * @author      Peter Ivanov
-     * @version 1.0
-     * @since Version 1.0
-     */
-    public function get_by_id($id = 0)
-    {
-
-        if ($id == 0) {
-            return false;
-        }
-
-        $id = intval($id);
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-        $cache_content = false;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table = $this->tables['categories'];
-
-        $id = intval($id);
-
-        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
-
-        $q = $this->app->db->query($q);
-
-        $q = $q[0];
-
-        if (!empty($q)) {
-
-            $this->app->cache->save($q, $function_cache_id, $cache_group);
-
-            return $q;
-        } else {
-
-            return false;
-        }
     }
 
     public function delete($data)

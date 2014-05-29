@@ -40,7 +40,7 @@
                   if(typeof obj === 'object'){
                     var title = obj.title;
                     var url = obj.url;
-                    lis+= "<li class='mw-dd-list-result' value='"+url+"'><a onclick='mw.tools.dd_sub_set(this)' href='javascript:;'>"+title+"</a>";
+                    lis+= "<li class='mw-dd-list-result' value='"+url+"' onclick='$(\"#insert_link_list\").setDropdownValue(\""+url+"\")'>"+title+"</a>";
                   }
               }
               var ul = el.parent().find("ul");
@@ -245,7 +245,7 @@
         <div class="tab">
             <div class="media-search-holder">
                 <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown_type_navigation mw-dropdown_autocomplete left">
-                    <span class="mw-dropdown_val"><?php _e("Click here to select"); ?></span>
+                    <span class="mw-dropdown-val"><?php _e("Click here to select"); ?></span>
                     <input type="text" class="mw-ui-field  pages_search dd_search inactive" id="dd_pages_search" />
                     <div class="mw-dropdown-content">
                       <ul class="">

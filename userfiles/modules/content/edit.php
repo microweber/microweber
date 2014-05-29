@@ -895,7 +895,19 @@ mw.save_inner_editable_fields = function(data){
 	   
 
 	   
-	   
+	   QTABSArrow = function(el){
+		  //
+          var el = $(el);
+		  if(el == null){
+			return;  
+		  }
+		  if(el.length == 0){
+			  return;  
+		  }
+		  		  
+          var left = el.offset().left - el.parent().offset().left + (el.width()/2);
+          mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
+      }
 	   
        mww.QTABS = mw.tools.tabGroup({
           nav: mw.$("#quick-add-post-options .mw-ui-btn"),
@@ -919,11 +931,7 @@ mw.save_inner_editable_fields = function(data){
           }
        });
 
-      QTABSArrow = function(el){
-          var el = $(el);
-          var left = el.offset().left - el.parent().offset().left + (el.width()/2);
-          mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
-      }
+      
 
        $(mww).bind('mousedown', function(e){
           if(!mwd.getElementById('content-edit-settings-tabs-holder').contains(e.target)){

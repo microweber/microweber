@@ -833,9 +833,9 @@ mw.tools = {
         var cls = el.className;
         if(!!el.mwDropdownActivated) { continue; }
         el.mwDropdownActivated = true;
-        el.hasInput = el.querySelector('input.mw_dd_field') !== null;
+        el.hasInput = el.querySelector('input.mw-dropdown-field') !== null;
         if(el.hasInput){
-            var input = el.querySelector('input.mw_dd_field');
+            var input = el.querySelector('input.mw-dropdown-field');
             input.dropdown = el;
             input.onkeydown = function(e){
               if(e.keyCode == 13){
@@ -860,10 +860,9 @@ mw.tools = {
           }
           if(!mw.tools.hasClass(event.target.className, 'mw-dropdown-content') && !mw.tools.hasClass(event.target.className, 'dd_search')){
 
-            if(this.querySelector('input.mw_dd_field') !== null && !mw.tools.hasClass(this, 'active') && mw.tools.hasParentsWithClass(event.target, 'mw-dropdown-value')){
+            if(this.querySelector('input.mw-dropdown-field') !== null && !mw.tools.hasClass(this, 'active') && mw.tools.hasParentsWithClass(event.target, 'mw-dropdown-value')){
                if(this.hasInput){
-                 var input = this.querySelector('input.mw_dd_field');
-
+                 var input = this.querySelector('input.mw-dropdown-field');
                  input.value = $(this).getDropdownValue();
                  mw.wysiwyg.save_selection(true);
                  $(input).focus();
@@ -899,8 +898,8 @@ mw.tools = {
             $(this).removeClass("hover");
             $(this).removeClass('other-action');
         });
-        mw.$("a", el).mousedown(function(event){
-          mw.tools.dd_sub_set(this);
+        mw.$("[value]", el).mousedown(function(event){
+          $(el).setDropdownValue($(this).attr('value'), true);
           return false;
         });
 
@@ -908,8 +907,8 @@ mw.tools = {
 
     } /* end For loop */
 
-    if(typeof __dd_activated === 'undefined'){
-      __dd_activated = true;
+    if(typeof mw.tools.dropdownActivated === 'undefined'){
+      mw.tools.dropdownActivated = true;
       $(mwd.body).mousedown(function(e){
         if(mw.$('.mw-dropdown.hover').length==0){
            mw.$(".mw-dropdown").removeClass("active");
@@ -917,12 +916,6 @@ mw.tools = {
         }
       });
     }
-  },
-  dd_sub_set:function(item){
-
-      var html = $(item).html();
-      var value = item.parentNode.getAttribute("value");
-      $(mw.tools.firstParentWithClass(item, 'mw-dropdown')).setDropdownValue(value, true);
   },
   module_slider:{
     scale:function(){
@@ -2199,6 +2192,20 @@ mw.tools = {
       $(input).change(function(){
           this.changed = true;
       });
+      $(input).bind('keydown paste', function(e){
+         var el = this;
+         el.style.width = 0 + 'px';
+         el.style.width = el.scrollWidth + 6 + 'px';
+         if(e.type === 'paste'){
+           setTimeout(function(){
+            el.style.width = 0 + 'px';
+            el.style.width = el.scrollWidth + 6 + 'px';
+           }, 70);
+         }
+         if(mw.is.ie){
+            el.style.width = (el.value.length*5.9)+'px';
+         }
+      });
     }
     return input;
   },
@@ -2769,11 +2776,17 @@ mw.wait('jQuery', function(){
         }
      }
      else{
-       mw.$("li", el).each(function(){
+       mw.$("[value]", el).each(function(){
+         if(triggerChange){
+
+         }
+
            if(this.getAttribute('value') == val){
+
               el.dataset("value", val);
               var isValidOption = true;
-              el.find(".mw-dropdown-val").html(this.getElementsByTagName('a')[0].innerHTML);
+              var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerHTML : this.innerHTML;
+              mw.$(".mw-dropdown-val", el[0]).html(html);
               triggerChange ? el.trigger("change") : '';
               return false;
            }
@@ -4142,7 +4155,7 @@ mw.image = {
         mw.image.current_need_resize = false;
         if($(mw.current_element).dataset("original") == ""){
             mw.image.current_original = mw.current_element.src;
-            $(mw.current_element).dataset("original", mw.current_element.src)
+            $(mw.current_element).dataset("original", mw.current_element.src);
         }
         else{
             mw.image.current_original = $(mw.current_element).dataset("original");
@@ -4242,6 +4255,16 @@ mw.image = {
 
     mw.modal = function(o){
       var modal = mw.tools.modal.init(o);
+      if(!!modal){
+        modal.main = modal.main[0];
+      }
+      else{
+        var modal = undefined;
+      }
+      return modal;
+    }
+    mw.modalFrame = function(o){
+      var modal = mw.tools.modal.frame(o);
       if(!!modal){
         modal.main = modal.main[0];
       }

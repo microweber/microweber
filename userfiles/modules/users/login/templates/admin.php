@@ -73,11 +73,11 @@ $(document).ready(function(){
         <div class="mw-ui-field-holder" style="margin: auto; width: 286px;"> <span class="left" id="login_laguage_select"><span class="left">
           <?php _e("Language"); ?>
           </span>
-          <div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg" id="lang_selector"> <span class="mw-dropdown-value"> <span class="dd_rte_arr"></span>
+          <div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg" id="lang_selector"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span>
             <?php if(defined('MW_LANG') and MW_LANG != '' and MW_LANG != 'en'): ?>
-            <span class="mw-dropdown_val"><?php print strtoupper(MW_LANG); ?></span>
+            <span class="mw-dropdown-val"><?php print strtoupper(MW_LANG); ?></span>
             <?php else:  ?>
-            <span class="mw-dropdown_val">EN</span>
+            <span class="mw-dropdown-val">EN</span>
             <?php endif;  ?>
             </span>
             <div class="mw-dropdown-content">

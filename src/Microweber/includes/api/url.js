@@ -1,12 +1,6 @@
 // URL Strings - Manipulations
 
-// Do not change the encoding of this file
-
-json2url = function(obj){
-  var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false')};
-
-
-
+json2url = function(obj){ var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
 
 
 mw.url = {
@@ -176,79 +170,11 @@ mw.slug = {
     }
     else{
        edit.focus();
-       //mw.slug.fieldAutoWidthGrow(edit[0]);
     }
-  },
-  fieldAutoWidthGrow:function(field){
-    var element = mw.$(".view-post-slug");
-    element[0].innerHTML = field.value;
-    $(field).width(element.width() + 10)
   },
   setVal:function(el){
-    var val = mw.slug.create(el.value)
-    el.value=val;
-    mw.$(".view-post-slug").html(val)
+    var val = mw.slug.create(el.value);
+    el.value = val;
+    mw.$(".view-post-slug").html(val);
   }
-}
-
-
-/*
-__p = 0;
-__old = {}
-mw.url.windowHashParam=function(a,b){
-  __p++;
-      if(b !== undefined){
-        history.pushState({page:__p }, "title "+__p, mw.url.set_param(a,b));
-        var params =  mw.url.getUrlParams(window.location.href);
-        for(var x in params){
-            if(typeof mw.on._hashparam_funcs[mw.on._hashparams.indexOf(x)] =='function'){
-                 mw.on._hashparam_funcs[mw.on._hashparams.indexOf(x)].call(params[x]);
-            }
-        }
-      }
-      else{
-        return mw.url.getHashParams(mw.hash())[a];
-      }
-    }
-
-    window.onpopstate = function(){
-       var params =  mw.url.getUrlParams(window.location.href);
-        for(var x in params){
-            if(typeof mw.on._hashparam_funcs[mw.on._hashparams.indexOf(x)] =='function'){
-                 mw.on._hashparam_funcs[mw.on._hashparams.indexOf(x)].call(params[x]);
-            }
-        }
-    }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+};

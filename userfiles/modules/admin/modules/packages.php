@@ -24,7 +24,10 @@ $.ajax({
 $.ajax({
   url: "<?php print api_link('Packages/prepare_patch'); ?>"
 }).done(function(msg) {
-	mw.notification.msg(msg,30000);
+	//mw.notification.msg(msg,30000);
+		if(typeof(msg.message) != undefined){
+					$('#remote_patch_log').html(msg.message);
+				}
  }).fail(function(msg) {
 	 prepare_new_packages()
  });
@@ -33,7 +36,9 @@ $.ajax({
  function save_new_package_form(){
  mw.form.post('#add-package-form-<?php print $params['id'] ?>', '<?php print api_link('Packages/save_patch'); ?>',
 			function(msg) {
-mw.notification.msg(this);
+			
+				
+ mw.notification.msg(this);
  reload_changes();
  return false;
 			});
@@ -42,7 +47,7 @@ mw.notification.msg(this);
 function remove_patch_item($key){
 	$.post( "<?php print api_link('Packages/save_patch'); ?>", { require_name: $key, require_version: "delete" })
   .done(function( msg ) {
-   mw.notification.msg(this);
+  // mw.notification.msg(this);
    reload_changes();
   });
 	
@@ -54,7 +59,7 @@ function reload_changes(){
 </script>
 <?php $required_packages = mw()->packages->get_required(); ?>
 <?php $patch =  mw()->packages->get_patch_require(); ?>
-
+<pre id="remote_patch_log"></pre>
 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table">
   <thead>
     <tr>

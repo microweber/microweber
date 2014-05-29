@@ -21,7 +21,13 @@ $for = 'content';
 
 }
 
-
+if(isset($params['content_id'])){
+	 $for = $params['for'] = 'content';
+	  $for_id = $for_module_id = $params['content_id'];
+} elseif(isset($params['content-id'])){
+	$for_id = $for_module_id = $params['content-id'];
+	 $for = 'content';
+}
 
 $for =  mw('db')->assoc_table_name($for);
 
@@ -34,10 +40,7 @@ if(isset($params['for-id'])){
 }
 
 
-if(isset($params['content-id'])){
-	$for_id = $for_module_id = $params['content-id'];
-	 $for = 'content';
-}
+
  
  ?>
 <?php  $rand = uniqid(); ?>

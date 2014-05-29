@@ -1,10 +1,11 @@
 <?php only_admin_access(); ?>
-<div class="settings-wrapper">
-<script type="text/javascript">
+
+<div class="settings-wrapper"> 
+  <script type="text/javascript">
     mw.require("custom_fields.js", true);
     mw.require("options.js", true);
 </script>
-<?php
+  <?php
 $for = 'module';
 
 $copy_from = false;
@@ -13,7 +14,7 @@ $list_preview = false;
 if(isset($params['for'])){
 	$for = $params['for'];
 }
-
+ 
 if(isset($params['copy_from'])){
 	$copy_from = $params['copy_from'];
 }
@@ -56,7 +57,15 @@ $module_id = $for_id;
 //$rand = rand();
 
 ?>
-<script type="text/javascript">
+  <script type="text/javascript">
+
+
+
+/* OLD CODE  */
+
+/* OLD CODE 
+
+
 __sort_fields = function(){
   var sortable_holder = mw.$(".mw-custom-fields-tags").eq(0);
   if(!sortable_holder.hasClass('ui-sortable') && sortable_holder.find('a.mw-ui-btn-small').length>1){
@@ -120,80 +129,112 @@ mw_cf_close_edit_window = function(el){
 	  mw.$("#smart_field_opener").show();
 	
 }
+ */
+
+   
+/* END OF OLD CODE  */
+/* END OF OLD CODE  */
+
+
+
+
+
  
+</script> 
+
+<style>
+.ico {
+ width:10px;	
+ height:10px;
+ background-color:red;
+ display:block;
+}
+</style>
+  <script type="text/javascript">
+$(document).ready(function(){
+	  mw.dropdown();
+	  mw.$('#dropdown-custom-fields').bind('change', function(){
+			var val = $(this).getDropdownValue();
+			var make_field = {}
+			make_field.rel='<?php print $for; ?>';
+			make_field.rel_id='<?php print $for_id; ?>';
+			make_field.custom_field_type=val;
+			mw.custom_fields.create(make_field,mw_custom_fileds_changed_callback);
+	
+		});
+	});
+	
+mw_custom_fileds_changed_callback = function(el){
+	 mw.reload_module('#mw_custom_fields_list_preview');
+	 mw.reload_module_parent('custom_fields');
+
+}	
+	
 </script>
-
-
-
-
-<div id="custom-field-editor" class="mw-ui-box mw-ui-box-content" style="display: none">
-	<label class="mw-ui-label"><small>
-		<?php _e("Edit"); ?>
-		<b id="which_field"></b>
-		<?php _e("Field"); ?>
-		</small></label>
-	<div class="custom-field-edit">
-		<div  class="custom-field-edit-header">
-			<span class="custom-field-edit-title"></span>
-            <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;">close
-           <span  class="mw-ui-arr mw-ui-arr-down " style="opacity:0.6;"></span> 
-           </span>
-		</div>
-		<div class="mw-admin-custom-field-edit-item-wrapper">
-			<div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?> "></div>
-		</div>
-	</div>
-</div>
-
-
-<div class="mw-dropdown mw-dropdown-pop" id="dropdown-custom-fields">
-  <span class="mw-dropdown-value">
-      <span class="mw-ui-btn mw-ui-btn-info mw-dropdown-val">
-          <?php _e("Add New"); ?><span class="mw-icon-dropdown mw-icon-right"></span>
-      </span>
-  </span>
-  <div class="mw-dropdown-content">
-      <ul class="mw-ui-btn-vertical-nav">
-  		<li value="text"><span class="mw-ui-btn"><?php _e("Text Field"); ?></span></li>
-  		<li value="number"><span class="mw-ui-btn"><?php _e("Number"); ?></span></li>
-  		<li value="price"><span class="mw-ui-btn"><?php _e("Price"); ?></span></li>
-  		<li value="phone"><span class="mw-ui-btn"><?php _e("Phone"); ?></span></li>
-  		<li value="site"><span class="mw-ui-btn"><?php _e("Web Site"); ?></span></li>
-  		<li value="email"><span class="mw-ui-btn"><?php _e("E-mail"); ?></span></li>
-  		<li value="address"><span class="mw-ui-btn"><?php _e("Address"); ?></span></li>
-  		<li value="date"><span class="mw-ui-btn"><?php _e("Date"); ?></span></li>
-  		<li value="upload"><span class="mw-ui-btn"><?php _e("File Upload"); ?></span></li>
-  		<li value="radio"><span class="mw-ui-btn"><?php _e("Single Choice"); ?></span></li>
-  		<li value="dropdown"><span class="mw-ui-btn"><?php _e("Dropdown"); ?></span></li>
-  		<li value="checkbox"><span class="mw-ui-btn"><?php _e("Multiple choices"); ?></span></li>
-  	</ul>
+  <div id="custom-field-editor" class="mw-ui-box mw-ui-box-content" style="display: none">
+    <label class="mw-ui-label"><small>
+      <?php _e("Edit"); ?>
+      <b id="which_field"></b>
+      <?php _e("Field"); ?>
+      </small></label>
+    <div class="custom-field-edit">
+      <div  class="custom-field-edit-header"> <span class="custom-field-edit-title"></span> <span onmousedown="mw_cf_close_edit_window()" class="custom-field-edit-title-head right" style="cursor:pointer;">close <span  class="mw-ui-arr mw-ui-arr-down " style="opacity:0.6;"></span> </span> </div>
+      <div class="mw-admin-custom-field-edit-item-wrapper">
+        <div class="mw-admin-custom-field-edit-item mw-admin-custom-field-edit-<?php print $params['id']; ?> "></div>
+      </div>
+    </div>
   </div>
-</div>
-
-
-<script>mw.dropdown()</script>
-
-
-
-
-
-
-<?php if( $list_preview != false ): ?>
- <hr>
-<div class="mw-ui-box" id="custom-fields-box">
-
-      <module
+  <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="site"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-info mw-dropdown-val">
+    <?php _e("Add New"); ?>
+    </span>
+    <div class="mw-dropdown-content">
+      <ul>
+        <li value="text">
+          <?php _e("Text Field"); ?>
+        </li>
+        <li value="number">
+          <?php _e("Number"); ?>
+        </li>
+        <li value="price">
+          <?php _e("Price"); ?>
+        </li>
+        <li value="phone">
+          <?php _e("Phone"); ?>
+        </li>
+        <li value="site">
+          <?php _e("Web Site"); ?>
+        </li>
+        <li value="email">
+          <?php _e("E-mail"); ?>
+        </li>
+        <li value="address">
+          <?php _e("Address"); ?>
+        </li>
+        <li value="date">
+          <?php _e("Date"); ?>
+        </li>
+        <li value="upload">
+          <?php _e("File Upload"); ?>
+        </li>
+        <li value="radio">
+          <?php _e("Single Choice"); ?>
+        </li>
+        <li value="dropdown">
+          <?php _e("Dropdown"); ?>
+        </li>
+        <li value="checkbox">
+          <?php _e("Multiple choices"); ?>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr>
+  <div class="mw-ui-box" id="custom-fields-box">
+    <module
           data-type="custom_fields/list"
           for="<?php print $for  ?>"
-          <?php if(isset($params['rel_id'])): ?> rel_id="<?php print $params['rel_id'] ?>"  <?php endif; ?>
+          <?php if(isset($for_id)): ?> rel_id="<?php print $for_id; ?>"  <?php endif; ?>
           list-preview="true"
           id="mw_custom_fields_list_preview"  />
-
-</div>
-     <?php endif; ?>
-
-
-
-
-
+  </div>
 </div>

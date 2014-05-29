@@ -9,7 +9,7 @@ else {
 }
 ?>
 <div class="mw-dropdown mw-dropdown_type_navigation left mw-dropdown_autocomplete" id="<?php print $for2 ?>_category_selector" data-value='all'>
-<span class="mw-dropdown_val"><?php _e("All"); ?></span>
+<span class="mw-dropdown-val"><?php _e("All"); ?></span>
 <input style="width: 102px;" type="text" id="dd_<?php print $for2 ?>_search" class="mw-ui-field dd_search" />
   <div class="mw-dropdown-content">
     <ul>

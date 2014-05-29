@@ -1,3 +1,5 @@
+mw.require("customfields.js");
+
 mw.admin = {
     scrollBoxSettings:{
         height:'auto',

@@ -301,7 +301,7 @@ class Fields
 		$sidq
 		ORDER BY position ASC
 		   ";
-
+//d($q);
             if ($debug != false) {
                 //
 
@@ -695,9 +695,17 @@ class Fields
         if (!isset($data_to_save['custom_field_type']) and isset($data_to_save['field_type']) and $data_to_save['field_type'] != '') {
             $data_to_save['custom_field_type'] = $data_to_save['field_type'];
         }
+
         if (!isset($data_to_save['custom_field_name']) and isset($data_to_save['field_name']) and $data_to_save['field_type'] != '') {
             $data_to_save['custom_field_name'] = $data_to_save['field_name'];
         }
+
+        if (isset($data_to_save['custom_field_type']) and !isset($data_to_save['custom_field_name'])){
+            $data_to_save['custom_field_name'] = $data_to_save['custom_field_type'];
+        }
+
+
+
         if (!isset($data_to_save['custom_field_value']) and isset($data_to_save['field_value']) and $data_to_save['field_value'] != '') {
             $data_to_save['custom_field_value'] = $data_to_save['field_value'];
         }
@@ -708,6 +716,12 @@ class Fields
         if (!isset($data_to_save['cf_id']) and isset($data_to_save['id'])) {
             $data_to_save['cf_id'] = $data_to_save['id'];
         }
+
+        if(!isset($data_to_save['custom_field_is_active']) and isset($data_to_save['cf_id']) and $data_to_save['cf_id'] == 0){
+            $data_to_save['custom_field_is_active'] = 'y';
+
+        }
+
 
         if (isset($data_to_save['cf_id'])) {
             $data_to_save['id'] = intval($data_to_save['cf_id']);

@@ -629,7 +629,7 @@ mw.wysiwyg = {
         var size = Math.round(parseFloat(mw.CSSParser(node).get.font().size));
 		var ddval = mw.$(".mw_dropdown_action_font_size");
 		if(ddval.length !=0 && ddval.setDropdownValue != undefined){
-            mw.$(".mw_dropdown_action_font_size .mw-dropdown_val").html(size+'px')
+            mw.$(".mw_dropdown_action_font_size .mw-dropdown-val").html(size+'px')
 		}
     },
     isFormatElement:function(obj){
@@ -1152,7 +1152,7 @@ $(mwd).ready(function(){
   mw.$(".mw_dropdown_action_font_size").change(function(){
       var val = $(this).getDropdownValue();
       mw.wysiwyg.fontSize(val);
-      mw.$('.mw-dropdown_val', this).append('px');
+      mw.$('.mw-dropdown-val', this).append('px');
   });
   mw.$(".mw_dropdown_action_format").change(function(){
       var val = $(this).getDropdownValue();
