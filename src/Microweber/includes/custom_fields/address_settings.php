@@ -46,7 +46,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
   
           ?>
 
-  <div class="custom-field-col-left">
+  <div class="custom-field-settings-name">
     <div class="mw-custom-field-group ">
       <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
         <?php _e('Title'); ?>
@@ -79,7 +79,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
       </div>
     </div>
   </div>
-  <div class="custom-field-col-right">
+  <div class="custom-field-settings-values">
     <div class="mw-custom-field-group">
       <?php foreach($opt as $key => $val){ ?>
       <div class="mw-ui-field-holder mw-custom-fields-address-fields-<?php print $key; ?>">

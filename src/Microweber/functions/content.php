@@ -144,7 +144,11 @@ function content_link($id = false)
 
     return mw('content')->link($id);
 }
+function content_title($id = false)
+{
 
+    return mw('content')->title($id);
+}
 
 api_expose('delete_content');
 

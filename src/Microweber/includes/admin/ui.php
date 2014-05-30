@@ -82,6 +82,18 @@ $(window).load(function(){
 </script>
 
 
+<div style="position: fixed;right:0;top:20px;padding:20px;border:1px solid #eee">
+<h2>Admin apis</h2>
+
+<h3>Tooltip</h3>
+
+<pre class="tip" data-tip="Some help" data-tipposition="top-center">&lt;div class="tip" data-tip="Some help" data-tipposition="top-center">&lt;/div></pre>
+</div>
+
+
+
+
+
 <table width="800" id="ui-info-table">
   <col width="60%" />
   <col width="40%" />

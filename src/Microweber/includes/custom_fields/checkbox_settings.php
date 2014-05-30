@@ -11,7 +11,7 @@
    ?>
 
 
- <div class="custom-field-col-left">
+ <div class="custom-field-settings-name">
 
 
   <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
@@ -25,7 +25,7 @@
 
 
 
-   <div class="custom-field-col-right">
+   <div class="custom-field-settings-values">
 
       <label class="mw-ui-label"><?php _e("Values"); ?></label>
       <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">

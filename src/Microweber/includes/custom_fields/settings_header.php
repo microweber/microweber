@@ -7,12 +7,12 @@
 //$rand = round($rand);
  
 $add_remove_controls = ''.
-'<span class="ico iAdd2 mw-addfield" onclick="mw.custom_fields.add(this);" title="'. _e("Add", true). '"></span>'.
-'<span class="ico iRemove2 mw-removefield" onclick="mw.custom_fields.remove(this);mw.custom_fields.save(\'custom_fields_edit'.$rand.'\');" title="'. _e("Remove", true). '"></span>'.
-'<span class="ico iMove custom-fields-handle-field" title="'. _e("Move", true). '"></span>';
+'<span class="mw-icon-plus" onclick="mw.custom_fields.add(this);" title="'. _e("Add", true). '"></span>'.
+'<span class="mw-icon-close" onclick="mw.custom_fields.remove(this);mw.custom_fields.save(\'custom_fields_edit'.$rand.'\');" title="'. _e("Remove", true). '"></span>'.
+'<span class="mw-icon-drag custom-fields-handle-field" title="'. _e("Move", true). '"></span>';
 
 
-$savebtn = '<button type="button" class="mw-ui-btn mw-ui-btn-blue mw-custom-fields-save" onclick="__save();">'. _e('Save', true). '</button>';
+$savebtn = '<button type="button" class="mw-ui-btn" onclick="__save();">'. _e('Save', true). '</button>';
 $savebtn = '';
 
 
@@ -259,4 +259,4 @@ if( typeof is_body_click_binded === 'undefined' ){
 });
 
 </script>
-
+</div>

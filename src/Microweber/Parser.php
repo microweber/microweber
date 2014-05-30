@@ -466,13 +466,20 @@ class Parser
             }
         }
         if (!empty($mw_replaced_modules_values)) {
+
+
+            $reps_arr = array();
+            $reps_arr2 = array();
             foreach ($mw_replaced_modules_values as $key => $value) {
+                // d($mw_replaced_modules_values);
                 if ($value != '') {
-                    $layout = str_replace($key, $value, $layout);
+                    $reps_arr[] = $key;
+                    $reps_arr2[] = $value;
+                    // $layout = str_replace($key, $value, $layout);
                 }
             }
+            $layout = str_replace($reps_arr, $reps_arr2, $layout);
         }
-
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
         $layout = str_replace('{SITE_URL}', $this->app->url->site(), $layout);
         $layout = str_replace('{MW_SITE_URL}', $this->app->url->site(), $layout);
@@ -839,6 +846,7 @@ class Parser
                         if (isset($v['s'])) {
                             $reps_arr[] = $v['s'];
                             $reps_arr2[] = $v['r'];
+                            //$reps_arr2[] = $k;
                             //$layout = str_replace($v['s'], $v['r'], $layout);
                             unset($mw_replaced_edit_fields_vals_inner[$k]);
                         }

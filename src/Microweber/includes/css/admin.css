@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'mwadmin';
+    src: url('fonts/fontadmin.ttf?mwv=1asdfaaafggfsdassdsdss') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 *{
   margin: 0;
   padding: 0;
@@ -1050,7 +1057,7 @@ a:hover .mw_ed_tree_content{
   display: none;
 }
 #quick-add-post-options-items-holder-container{
-  /*max-height: 300px;*/
+  min-height: 260px;
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
@@ -1064,6 +1071,28 @@ a:hover .mw_ed_tree_content{
   font-size: 13px;
   height: auto;
 }
+
+#custom-fields-post-table .mw-icon-gear{ font-size: 20px;}
+#custom-fields-post-table .mw-icon-close{ font-size: 15px;}
+
+#custom-fields-post-table .custom-fields-cell-delete .mw-icon-gear,
+#custom-fields-post-table .custom-fields-cell-delete .mw-icon-close{
+  color: #C6C6C6;
+}
+
+#custom-fields-post-table .custom-fields-cell-delete a:hover .mw-icon-gear,
+#custom-fields-post-table .custom-fields-cell-delete a:focus .mw-icon-gear{
+  color: #3F3F3F;
+}
+#custom-fields-post-table .custom-fields-cell-delete a:hover .mw-icon-close,
+#custom-fields-post-table .custom-fields-cell-delete a:focus .mw-icon-close{
+  color: #DC0D17;
+}
+
+.custom-fields-cell-settings, .custom-fields-cell-delete{
+  text-align: center;
+}
+
 .btn-create-custom-field-value{
   width: 20px;
   padding: 2px 0;
@@ -1077,6 +1106,56 @@ a:hover .mw_ed_tree_content{
     min-width: 40px;
     padding: 0 3px;
     position: relative;
+    white-space: pre;
+}
+.mw-custom-field-form-controls{
+  margin-bottom: 10px;
+}
+
+.mw-custom-field-group {
+  margin-bottom:10px;
+}
+
+.mw-custom-fields-list-preview{
+    position: relative;
+}
+
+.mw-custom-field-form-controls [class*='mw-icon-']{
+  font-size: 18px;
+  margin: 0 4px;
+  visibility: hidden;
+  cursor: pointer;
+  width: 3%;
+}
+
+.mw-custom-field-form-controls:hover [class*='mw-icon-']{
+  opacity:0.3;
+  visibility: visible;
+}
+.mw-custom-field-form-controls [class*='mw-icon-']:hover{
+  opacity:1;
+}
+
+.mw-custom-field-form-controls .custom-fields-handle-field{
+  cursor:move;
+  cursor:grab;
+  cursor:-moz-grab;
+  cursor:-webkit-grab;
+}
+.mw-custom-field-form-controls.ui-sortable-helper .custom-fields-handle-field{
+  cursor:grabbing;
+  cursor:-moz-grabbing;
+  cursor:-webkit-grabbing;
+}
+
+
+.mw-custom-field-form-controls .mw-icon-close{
+  font-size: 11px;
+  color: #DC0D17;
+}
+
+.mw-admin-custom-field-name-edit-inline{
+  white-space: nowrap;
 }
 .delete-custom-fields{
   position: absolute;
@@ -1087,7 +1166,7 @@ a:hover .mw_ed_tree_content{
   height: 100%;
   vertical-align: middle;
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   visibility: hidden;
   background: #D9D9D9;
   cursor: pointer;
@@ -1102,6 +1181,9 @@ a:hover .mw_ed_tree_content{
   display: inline-block;
   vertical-align: middle;
 }
+.custom-fields-values-holder .mw-admin-custom-field-value-edit-inline-holder:last-child .custom-field-comma{
+  display: none;
+}
 
 .mw-admin-custom-field-value-edit-inline-holder:hover .delete-custom-fields, .mw-admin-custom-field-value-edit-inline-holder.active .delete-custom-fields{
   visibility: visible;
@@ -1111,6 +1193,15 @@ a:hover .mw_ed_tree_content{
   font-family: Microweber;
   content:'\0111';
   vertical-align: middle;
+  display: inline-block;
+  height: 7px;
+  line-height: 7px;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  margin-top: -3px;
 }
 
 .mw-admin-custom-field-value-edit-inline-holder:hover{
@@ -1152,23 +1243,10 @@ a:hover .mw_ed_tree_content{
   text-align: left;
 }
 
-#custom-fields-box table{
-  border-collapse: collapse;
 
-}
-
-#custom-fields-box td, #custom-fields-box th{
-     text-align: left;
-     font-weight: normal;
-     padding: 10px;
-     border-right: 1px solid #eee;
-     border-bottom: 1px solid #eee;
-}
-#custom-fields-box tr td:last-child, #custom-fields-box tr th:last-child{
-  border-right: none
-}
-#custom-fields-box tr:last-child td{
-  border-bottom: none
+td.custom-field-icon, td.custom-field-icon > *{
+  text-align: center;
+  cursor: default;
 }
 
 .preview_frame_wrapper .mw-overlay{
@@ -1725,6 +1803,43 @@ input#edit-content-url:focus, input#edit-content-url.active{
 .mw-link-tip-link,
 .mw-link-tip-edit{
   color: #f2f2f2;
+}
+
+
+
+/************************************
+        Custom Fields Icons
+*************************************/
+
+[class*='mw-custom-field-icon-']{
+  display: inline-block;
+  position: relative;
+  font-family: mwadmin;
+  font-size: 20px;
+  text-align: center;
+}
+.mw-custom-field-icon-phone:before{ content: '\0101'; }
+.mw-custom-field-icon-text:before{ content: '\0102'; }
+.mw-custom-field-icon-address:before{ content: '\0103'; }
+.mw-custom-field-icon-site:before{ content: '\0104'; }
+.mw-custom-field-icon-date:before{ content: '\0105'; }
+.mw-custom-field-icon-email:before{ content: '\0106'; }
+.mw-custom-field-icon-upload:before{ content: '\0107'; }
+.mw-custom-field-icon-price:before{ content: '\0108'; }
+
+
+.mw-ui-btn > [class*="mw-custom-field-icon-"] {
+    font-size: 132%;
+    margin: -2px 7px 0 0;
+    text-align: center;
+    float: left;
+}
+
+.mw-dropdown-content li [class*="mw-custom-field-icon-"]{
+    margin: -3px 5px 0 0;
+    position: relative;
+    width: 17px;
+    float: left;
 }
 
 

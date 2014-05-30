@@ -1,4 +1,4 @@
-mw.require("customfields.js");
+
 
 mw.admin = {
     scrollBoxSettings:{
@@ -308,6 +308,8 @@ mw.admin = {
             $(mw.admin._titleTip).addClass('admin-universal-tooltip');
         }
         else{
+
+          mw.admin._titleTip.className = 'mw-tooltip '+pos+' mw-tooltip-dark admin-universal-tooltip';
            mw.$('.mw-tooltip-content', mw.admin._titleTip).html(text);
            mw.tools.tooltip.setPosition(mw.admin._titleTip, el, pos);
         }
@@ -363,7 +365,21 @@ $(mww).bind('scroll resize', function(){
 });
 mw.on.moduleReload('pages_edit_container', function(){
     mw.admin.createContentBtns();
-})
+});
+
+QTABSArrow = function(el){
+		  //
+          var el = $(el);
+		  if(el == null){
+			return;
+		  }
+		  if(el.length == 0){
+			  return;
+		  }
+
+          var left = el.offset().left - el.parent().offset().left + (el.width()/2);
+          mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
+      }
 
 
 

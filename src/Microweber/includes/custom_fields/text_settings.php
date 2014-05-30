@@ -29,7 +29,7 @@
     }
 
 </style>
- <div class="custom-field-col-left">
+ <div class="custom-field-settings-name">
                
 
   <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
@@ -50,7 +50,7 @@
 
 
 
-   <div class="custom-field-col-right">
+   <div class="custom-field-settings-values">
     <div class="mw-custom-field-group">
       <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>"><?php _e("Value"); ?></label>
         <div id="mw-custom-fields-text-holder">

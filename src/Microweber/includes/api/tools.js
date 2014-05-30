@@ -454,6 +454,16 @@ mw.tools = {
             modal_object[0].remove();
         }
 
+        modal_return.hide = function(){
+            modal_object.hide()
+        }
+        modal_return.show = function(){
+            modal_object.show()
+        }
+        modal_return.remove = function(){
+            modal_object.remove()
+        }
+
         return modal_return;
     },
     get:function(selector){
@@ -470,7 +480,7 @@ mw.tools = {
       var o = $.extend({}, mw.tools.modal.settings, o);
       if(typeof o.content !== 'undefined' && typeof o.html === 'undefined') { o.html = o.content; }
       if(typeof o.id !== 'undefined' && typeof o.name === 'undefined') { o.name = o.id; }
-      return  mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable);
+      return new mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable);
     },
     minimize:function(id){
         var doc = mwd;
@@ -2149,10 +2159,12 @@ mw.tools = {
          input.onblur = function(){
             var val = this.value;
             var ischanged = this.changed === true;
-            $(el).text(val);
-            if(typeof callback === 'function' && ischanged){
-                callback.call(val, el);
-            }
+            setTimeout(function(){
+                $(el).text(val);
+                if(typeof callback === 'function' && ischanged){
+                    callback.call(val, el);
+                }
+            }, 3);
          }
         input.onkeydown = function(e){
            if(e.keyCode === 13){
@@ -2170,10 +2182,12 @@ mw.tools = {
          input.onblur = function(){
             var val = this.value;
             var ischanged = this.changed === true;
+              setTimeout(function(){
             el.innerHTML = val;
             if(typeof callback === 'function' && ischanged){
                 callback.call(val, el);
             }
+            }, 3)
          }
         input.onkeydown = function(e){
            if(e.keyCode === 13){
@@ -2192,7 +2206,7 @@ mw.tools = {
       $(input).change(function(){
           this.changed = true;
       });
-      $(input).bind('keydown paste', function(e){
+      $(input).bind('keydown keyup paste', function(e){
          var el = this;
          el.style.width = 0 + 'px';
          el.style.width = el.scrollWidth + 6 + 'px';
@@ -4218,7 +4232,6 @@ mw.image = {
     /* Exposing  */
 
 
-      mw.modal_iframe = mw.tools.modal.frame;
       mw.gallery      = mw.tools.gallery.init;
       mw.tooltip      = mw.tools.tip;
       mw.uploader = function(o){
@@ -4239,10 +4252,10 @@ mw.image = {
     /***********************************************
 
       mw.modal({
-        content:   Required: String or Node Element or jquery Object
+        content:   Required: String or Node Element or jQuery Object
         width:     Optional: ex: 400 or "85%", default 600
         height:    Optional: ex: 400 or "85%", default 500
-        draggable: Optional: Boolean, default true
+        draggable: Optional: Boolean, default true (Requires jQuery UI )
         overlay:   Optional: Boolean, default false
         title:     Optional: String for the title of the modal
         template:  Optional: String

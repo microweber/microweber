@@ -117,15 +117,18 @@ class Category
         } else {
             $depth_level_counter = 0;
         }
-        $nest_level_orig = $depth_level_counter;
-        if ($nest_level_orig == 0) {
-            $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-            if (($cache_content) != false) {
-                print $cache_content;
-                return;
-            }
 
+        if (!isset($params['no_cache'])) {
+            $nest_level_orig = $depth_level_counter;
+            if ($nest_level_orig == 0) {
+                $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+                if (($cache_content) != false) {
+                    print $cache_content;
+                    return;
+                }
+            }
         }
+
 
         $link = isset($params['link']) ? $params['link'] : false;
         if ($link == false) {
@@ -214,9 +217,17 @@ class Category
 
         }
 
+
         if (isset($params['for_page']) and $params['for_page'] != false) {
             $page = $this->app->content->get_by_id($params['for_page']);
-            $parent = $page['subtype_value'];
+            if ($page['subtype_value']) {
+                $parent = $page['subtype_value'];
+            } else {
+                $params['rel'] = 'content';
+                $params['rel_id'] = $params['for_page'];
+                $parent = 0;
+            }
+
         }
         $active_code_tag = false;
         if (isset($params['active_code_tag']) and $params['active_code_tag'] != false) {
@@ -305,13 +316,14 @@ class Category
             $cat_get_params['orderby'] = 'position asc';
             $cat_get_params['limit'] = '1000';
             $cat_get_params['data_type'] = 'category';
-            $cat_get_params['what'] = 'categories';
+           // $cat_get_params['what'] = 'categories';
             $cat_get_params['rel_id'] = intval($params['rel_id']);
             $cat_get_params['table'] = $table;
             $cat_get_params['rel'] = $table_assoc_name;
             if ($users_can_create_content != false) {
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
+
             //$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
             $fors = $this->app->db->get($cat_get_params);
 
@@ -887,65 +899,6 @@ class Category
 
     }
 
-    /**
-     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
-     * @param int
-     * @return array
-     * @author      Peter Ivanov
-     * @version 1.0
-     * @since Version 1.0
-     */
-    public function get_by_id($id = 0)
-    {
-
-        if ($id == 0) {
-            return false;
-        }
-
-        $id = intval($id);
-
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-        $cache_content = false;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table = $this->tables['categories'];
-
-        $id = intval($id);
-
-        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
-
-        $q = $this->app->db->query($q);
-
-        $q = $q[0];
-
-        if (!empty($q)) {
-
-            $this->app->cache->save($q, $function_cache_id, $cache_group);
-
-            return $q;
-        } else {
-
-            return false;
-        }
-    }
-
     public function get_page($category_id)
     {
 
@@ -1435,6 +1388,65 @@ class Category
         }
 
         return $save;
+    }
+
+    /**
+     * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
+     * @param int
+     * @return array
+     * @author      Peter Ivanov
+     * @version 1.0
+     * @since Version 1.0
+     */
+    public function get_by_id($id = 0)
+    {
+
+        if ($id == 0) {
+            return false;
+        }
+
+        $id = intval($id);
+
+        $function_cache_id = false;
+
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+
+        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+
+        $categories_id = intval($id);
+        $cache_group = 'categories/' . $categories_id;
+        $cache_content = false;
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+
+            return $cache_content;
+        }
+
+        $table = $this->tables['categories'];
+
+        $id = intval($id);
+
+        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
+
+        $q = $this->app->db->query($q);
+
+        $q = $q[0];
+
+        if (!empty($q)) {
+
+            $this->app->cache->save($q, $function_cache_id, $cache_group);
+
+            return $q;
+        } else {
+
+            return false;
+        }
     }
 
     public function delete($data)

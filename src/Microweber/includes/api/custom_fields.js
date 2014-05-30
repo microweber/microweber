@@ -10,7 +10,7 @@ mw.custom_fields = {
     },
     edit: function (obj, callback, error) {
         var obj = $.extend(this.settings, obj, {});
-        $.post(this.saveurl, obj, function (data) {
+        $.post(mw.custom_fields.saveurl, obj, function (data) {
             if (typeof callback === 'function') {
                 if (!!data.error) {
                     if (typeof error === 'function') {
@@ -22,14 +22,17 @@ mw.custom_fields = {
                 }
             }
         })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                if (typeof error === 'function') {
-                    error.call(textStatus);
-                }
-            });
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            if (typeof error === 'function') {
+                error.call(textStatus);
+            }
+        });
     },
     sort: function (group) {
         var group = mwd.getElementById(group);
+		if(group == null){
+		return;	
+		}
         if (group.querySelectorAll('.mw-custom-field-form-controls').length > 0) {
             $(group).sortable({
                 handle: '.custom-fields-handle-field',
@@ -42,7 +45,10 @@ mw.custom_fields = {
                 },
                 //scroll:false,
                 update: function () {
-                    alert('must finish sotrable');
+					var par = mw.tools.firstParentWithClass(group,'mw-admin-custom-field-edit-item-wrapper');
+					if(par != null && par != false){
+                    mw.custom_fields.save(par);
+					}
                 }
             });
         }
@@ -53,7 +59,7 @@ mw.custom_fields = {
             var obj = {
                 id: id
             }
-            $.post(this.saveurl, obj, function (data) {
+            $.post(mw.settings.api_url + "fields/delete", obj, function (data) {
                 mw.reload_module_parent('custom_fields');
                 mw.reload_module('custom_fields/list', function () {
                     if (!!toremove) {
@@ -74,7 +80,7 @@ mw.custom_fields = {
     },
     save_form: function (id, callback) {
         var obj = mw.custom_fields.serialize(id);
-        $.post(this.saveurl, obj, function (data) {
+        $.post(mw.custom_fields.saveurl, obj, function (data) {
             if (data.error != undefined) {
                 return false;
             }
@@ -93,6 +99,12 @@ mw.custom_fields = {
             if (typeof load_iframe_editor === 'function') {
                 load_iframe_editor();
             }
+			
+			 mw.reload_module('#mw-admin-custom-field-edit-item-preview-'+data);
+
+			
+			
+			
             mw.reload_module_parent('custom_fields/list', function () {
                 if (!!callback) callback.call(data);
                 $(window).trigger('customFieldSaved', [id, data]);
