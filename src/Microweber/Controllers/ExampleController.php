@@ -1,6 +1,6 @@
 <?php
 
-
+namespace Microweber\Controllers;
 
 class ExampleController
 {
@@ -13,8 +13,8 @@ class ExampleController
     {
 
         $cont = get_content('one=1');
-d($cont);
-        return $cont;
+
+        print_r($cont);
     }
 
     function index()
