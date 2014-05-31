@@ -1,4 +1,13 @@
 <?php
+function router($constructor_params = null)
+{
+    global $_mw_global_router_object;
+
+    if (!is_object($_mw_global_router_object)) {
+        $_mw_global_router_object = \Microweber\Router::getInstance($constructor_params);
+    }
+    return $_mw_global_router_object;
+}
 
 function api($function_name, $params = false)
 {

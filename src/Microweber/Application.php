@@ -316,6 +316,7 @@ class Application
             if (!isset($this->providers[$provider])) {
                 if (!is_object($provider)) {
                     if ($args != null) {
+
                         $this->providers[$provider] = new $provider($args);
                     } else {
                         $this->providers[$provider] = new $provider;

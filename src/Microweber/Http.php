@@ -5,7 +5,7 @@ namespace Microweber;
 class Http
 {
     /**
-     * An instance of the cache adapter to use
+     * An instance of the HTTP adapter to use
      *
      * @var $adapter
      */

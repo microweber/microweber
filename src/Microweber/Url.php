@@ -139,7 +139,44 @@ class Url
         }
         return $all_params;
     }
+    function param_set($param,$value=false, $url = false)
+    {
+        if ($url == false) {
+            $url = $this->string();
+        }
+        $site = $this->site_url();
+        $url = str_ireplace($site, '', $url);
+        $segs = explode('/', $url);
+        $segs_clean = array();
+        $found = false;
+        foreach ($segs as $segment) {
+            $origsegment = ($segment);
+            $segment = explode(':', $segment);
+            if ($segment[0] == $param) {
+                $segment[1] = $value;
+                $origsegment = impode(':', $segment);
+                $found = true;
+                $segs_clean[] = $origsegment;
 
+            } else {
+                $segs_clean[] = $origsegment;
+            }
+        }
+
+        if($found == false){
+            $segment = array();
+            $segment[] = $param;
+            $segment[] = $value;
+            $origsegment = impode(':', $segment);
+            $segs_clean[] = $origsegment;
+
+        }
+
+
+        $segs_clean = implode('/', $segs_clean);
+        $site = ($segs_clean);
+        return $site;
+    }
     function param_unset($param, $url = false)
     {
         if ($url == false) {
