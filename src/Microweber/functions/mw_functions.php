@@ -1,6 +1,6 @@
 <?php
-if(!defined('MW_APP_PATH')){
-return;	
+if (!defined('MW_APP_PATH')) {
+    return;
 }
 
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'api.php');
@@ -9,7 +9,7 @@ include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'users.php');
 
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'common.php');
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'content.php');
- 
+
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'categories.php');
 include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'shop.php');
 
@@ -43,10 +43,10 @@ if (!defined('MW_IS_INSTALLED')) {
 
                         if (isset($autoinstall['table_prefix'])) {
                             $prefix = trim($autoinstall['table_prefix']);
-                            if($prefix != ''){
+                            if ($prefix != '') {
                                 $last_char = substr($prefix, -1);
-                                if($last_char != '_'){
-                                    $prefix = $prefix.'_';
+                                if ($last_char != '_') {
+                                    $prefix = $prefix . '_';
                                     $autoinstall['table_prefix'] = $prefix;
                                 }
                             }
@@ -58,10 +58,10 @@ if (!defined('MW_IS_INSTALLED')) {
 
                         if (isset($_REQUEST['table_prefix'])) {
                             $prefix = trim($_REQUEST['table_prefix']);
-                            if($prefix != ''){
+                            if ($prefix != '') {
                                 $last_char = substr($prefix, -1);
-                                if($last_char != '_'){
-                                    $prefix = $prefix.'_';
+                                if ($last_char != '_') {
+                                    $prefix = $prefix . '_';
                                     $_REQUEST['table_prefix'] = $prefix;
                                 }
                             }
@@ -118,8 +118,6 @@ if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
 }
 
 
-
-
 if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
     if ($cache_content_init != 'yes') {
         event_trigger('mw_db_init_modules');
@@ -136,18 +134,25 @@ include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
 /**
  *  Loading modules function files
  */
-if (function_exists('get_all_functions_files_for_modules')) {
-    $module_functions = get_all_functions_files_for_modules();
-    if ($module_functions != false) {
-        if (is_array($module_functions)) {
-            foreach ($module_functions as $item) {
-                if (is_file($item)) {
-                    include_once ($item);
+
+function mw_load_all_modules_functions()
+{
+    if (function_exists('get_all_functions_files_for_modules')) {
+        $module_functions = get_all_functions_files_for_modules();
+        if ($module_functions != false) {
+            if (is_array($module_functions)) {
+                foreach ($module_functions as $item) {
+                    if (is_file($item)) {
+                        include_once ($item);
+                    }
                 }
             }
         }
     }
 }
+mw_load_all_modules_functions();
+
+
 
 
 

@@ -2,6 +2,8 @@
 
 namespace Microweber\Adapters\Router;
 
+
+
 class Generic
 {
     public static $_instance;

@@ -7,23 +7,19 @@ class Router
 {
 
     public static $_instance;
-    public $functions = array();
-    public $vars = array();
-    public $controller;
-    public $routes = array();
     /**
      * An instance of the Router adapter to use
      *
      * @var $adapter
      */
-    public $adapter;
+    public static $adapter;
 
     function __construct($adapter = null)
     {
-        if (!is_object($adapter)) {
-            $this->adapter = new Adapters\Router\Generic();
-        } else {
-            $this->adapter = $adapter;
+        if (!is_object($adapter) and !is_object(self::$adapter)) {
+            self::$adapter = new Adapters\Router\Generic();
+        } elseif (is_object($adapter) and !is_object(self::$adapter)) {
+            self::$adapter = $adapter;
         }
     }
 
@@ -35,28 +31,23 @@ class Router
         return self::$_instance;
     }
 
-    function get($url,$callback)
+    public static function get($url, $callback)
     {
-        return $this->adapter->get($url,$callback);
-
-
-    }
-    function post($url,$callback)
-    {
-        return $this->adapter->post($url,$callback);
-
-
-    }
-    function map($controller)
-    {
-        return $this->adapter->map($controller);
-
-
+        return self::$adapter->get($url, $callback);
     }
 
-    function run()
+    public static function post($url, $callback)
     {
-        return $this->adapter->run();
+        return self::$adapter->post($url, $callback);
+    }
 
+    public static function map($controller)
+    {
+        return self::$adapter->map($controller);
+    }
+
+    public static function run()
+    {
+        return self::$adapter->run();
     }
 }
