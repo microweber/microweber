@@ -205,11 +205,11 @@ class Forms
         if (isset($params['rel_id'])) {
             $for_id = $params['rel_id'];
         }
-		
-		if(!isset($for_id)){
-		 return array('error' => 'Please provide for_id parameter with module id');	
-		}
-		 
+
+        if (!isset($for_id)) {
+            return array('error' => 'Please provide for_id parameter with module id');
+        }
+
 
         $dis_cap = $this->app->option->get('disable_captcha', $for_id) == 'y';
 
@@ -419,7 +419,6 @@ class Forms
         $params = parse_params($params);
         $table = MW_DB_TABLE_FORMS_LISTS;
         $params['table'] = $table;
-
         return $this->app->db->get($params);
     }
 
@@ -427,45 +426,31 @@ class Forms
     {
 
         $function_cache_id = false;
-
         $args = func_get_args();
-
         foreach ($args as $k => $v) {
-
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
-
         $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
-
         $cache_content = $this->app->cache->get($function_cache_id, 'forms');
-
         if ($force == false and ($cache_content) != false) {
 
             return $cache_content;
         }
 
-
         $table = MW_DB_TABLE_COUNTRIES;
-
 
         if (!$this->app->db->table_exist($table)) {
             $this->db_init();
-            // return false;
         }
 
-
         $sql = "SELECT name AS country_name FROM $table   ";
-
-
         $q = $this->app->db->query($sql, 'get_countries_list' . crc32($sql), 'forms');
-
         $res = array();
         if (is_array($q) and !empty($q)) {
             foreach ($q as $value) {
                 $res[] = $value['country_name'];
             }
             $this->app->cache->save($res, $function_cache_id, $cache_group = 'forms');
-
             return $res;
         } else {
             $this->db_init();
@@ -486,32 +471,19 @@ class Forms
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
 
-
             $fields = mw('fields')->get('forms_data', $data['id'], 1);
 
             if (is_array($fields)) {
-
                 foreach ($fields as $key => $value) {
-
                     if (isset($value['id'])) {
-
                         $remid = $value['id'];
                         $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
                         $q = "DELETE FROM $custom_field_table WHERE id='$remid'";
-
                         $this->app->db->q($q);
-
-
                     }
-
-
                 }
-
-
                 $this->app->cache->delete('custom_fields');
-
             }
-
 
             $this->app->db->delete_by_id('forms_data', $c_id);
         }
@@ -559,13 +531,6 @@ class Forms
                 }
             }
 
-            if (!isset($item['custom_fields'])) {
-
-                //$cust_fields = mw('fields')->get($table, $id, $return_full, $field_for, $debug, $field_type, $for_session);
-
-            }
-
-
             $csv_output = '';
             if (isset($custom_fields) and is_array($custom_fields)) {
                 $csv_output = 'id,';
@@ -575,12 +540,10 @@ class Forms
                     $csv_output .= $this->app->format->no_dashes($k) . ",";
                     $csv_output .= "\t";
                 }
+
                 $csv_output .= "\n";
 
-
                 foreach ($data as $item) {
-
-
                     if (isset($item['custom_fields'])) {
                         $csv_output .= $item['id'] . ",";
                         $csv_output .= "\t";
@@ -618,235 +581,6 @@ class Forms
             return array('success' => 'Your file has been exported!', 'download' => $download);
 
         }
-
-
     }
 
-    /**
-     * Creates database table from array
-     *
-     * You can pass an array of database fields and this function will set up the same db table from it
-     *
-     * @example
-     * <pre>
-     * To create custom table use
-     *
-     *
-     * $table_name = MW_TABLE_PREFIX . 'my_new_table'
-     *
-     * $fields_to_add = array();
-     * $fields_to_add[] = array('updated_on', 'datetime default NULL');
-     * $fields_to_add[] = array('created_by', 'int(11) default NULL');
-     * $fields_to_add[] = array('content_type', 'TEXT default NULL');
-     * $fields_to_add[] = array('url', 'longtext default NULL');
-     * $fields_to_add[] = array('content_filename', 'TEXT default NULL');
-     * $fields_to_add[] = array('title', 'longtext default NULL');
-     * $fields_to_add[] = array('is_active', "char(1) default 'y'");
-     * $fields_to_add[] = array('is_deleted', "char(1) default 'n'");
-     *   $this->app->db->build_table($table_name, $fields_to_add);
-     * </pre>
-     *
-     * @desc refresh tables in DB
-     * @access        public
-     * @category Database
-     * @package    Database
-     * @subpackage Advanced
-     * @param        string $table_name to alter table
-     * @param        array $fields_to_add to add new columns
-     * @param        array $column_for_not_drop for not drop
-     * @return bool|mixed
-     */
-    public function build_table($table_name, $fields_to_add, $column_for_not_drop = array())
-    {
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id);
-
-        $cache_content = $this->app->cache->get($function_cache_id, 'db/' . $table_name);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $query = $this->app->db->query("show tables like '$table_name'");
-
-        if (!is_array($query)) {
-            $sql = "CREATE TABLE " . $table_name . " (
-			id int(11) NOT NULL auto_increment,
-			PRIMARY KEY (id)
-
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
-
-";
-            //
-            //if (isset($_GET['debug'])) {
-            //	d($sql);
-            $this->app->db->q($sql);
-            //}
-        }
-
-        if ($table_name != 'firecms_sessions') {
-            if (empty($column_for_not_drop))
-                $column_for_not_drop = array('id');
-
-            $sql = "show columns from $table_name";
-
-            $columns = $this->app->db->query($sql);
-
-            $exisiting_fields = array();
-            $no_exisiting_fields = array();
-
-            foreach ($columns as $fivesdraft) {
-                $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
-                $exisiting_fields[strtolower($fivesdraft['field'])] = true;
-            }
-
-            for ($i = 0; $i < count($columns); $i++) {
-                $column_to_move = true;
-                for ($j = 0; $j < count($fields_to_add); $j++) {
-                    if (in_array($columns[$i]['Field'], $fields_to_add[$j])) {
-                        $column_to_move = false;
-                    }
-                }
-                $sql = false;
-                if ($column_to_move) {
-                    if (!empty($column_for_not_drop)) {
-                        if (!in_array($columns[$i]['Field'], $column_for_not_drop)) {
-                            $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
-                        }
-                    } else {
-                        $sql = "ALTER TABLE $table_name DROP COLUMN {$columns[$i]['Field']} ";
-                    }
-                    if ($sql) {
-                        $this->app->db->q($sql);
-
-                    }
-                }
-            }
-
-            foreach ($fields_to_add as $the_field) {
-                $the_field[0] = strtolower($the_field[0]);
-
-                $sql = false;
-                if (isset($exisiting_fields[$the_field[0]]) != true) {
-                    $sql = "alter table $table_name add column " . $the_field[0] . " " . $the_field[1] . "";
-                    $this->app->db->q($sql);
-                } else {
-                    //$sql = "alter table $table_name modify {$the_field[0]} {$the_field[1]} ";
-
-                }
-
-            }
-
-        }
-
-        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db/' . $table_name);
-        // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
-        return true;
-        //set_db_tables
-    }
-
-    /**
-     * Add new table index if not exists
-     *
-     * @example
-     * <pre>
-     *  $this->app->db->add_table_index('title', $table_name, array('title'));
-     * </pre>
-     *
-     * @category Database
-     * @package    Database
-     * @subpackage Advanced
-     * @param string $aIndexName Index name
-     * @param string $aTable Table name
-     * @param string $aOnColumns Involved columns
-     * @param bool $indexType
-     */
-    public function add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = false)
-    {
-        $columns = implode(',', $aOnColumns);
-
-        $query = $this->app->db->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
-
-        if ($indexType != false) {
-
-            $index = $indexType;
-        } else {
-            $index = " INDEX ";
-
-            //FULLTEXT
-        }
-
-        if ($query == false) {
-            $q = "ALTER TABLE " . $aTable . " ADD $index `" . $aIndexName . "` (" . $columns . ");";
-            // var_dump($q);
-            $this->app->db->q($q);
-        }
-
-    }
-
-    /**
-     * Set table's engine
-     *
-     * @category Database
-     * @package    Database
-     * @subpackage Advanced
-     * @param string $aTable
-     * @param string $aEngine
-     */
-    public function set_table_engine($aTable, $aEngine = 'MyISAM')
-    {
-        $this->app->db->q("ALTER TABLE {$aTable} ENGINE={$aEngine};");
-    }
-
-    /**
-     * Create foreign key if not exists
-     *
-     * @category Database
-     * @package    Database
-     * @subpackage Advanced
-     * @param string $aFKName Foreign key name
-     * @param string $aTable Source table name
-     * @param array $aColumns Source columns
-     * @param string $aForeignTable Foreign table name
-     * @param array $aForeignColumns Foreign columns
-     * @param array $aOptions On update and on delete options
-     */
-    public function add_foreign_key($aFKName, $aTable, $aColumns, $aForeignTable, $aForeignColumns, $aOptions = array())
-    {
-        $query = $this->app->db->query("
-		SELECT
-		*
-		FROM
-		INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-		WHERE
-		CONSTRAINT_TYPE = 'FOREIGN KEY'
-		AND
-		constraint_name = '{$aFKName}'
-		;");
-
-        if ($query == false) {
-
-            $columns = implode(',', $aColumns);
-            $fColumns = implode(',', $aForeignColumns);
-            ;
-            $onDelete = 'ON DELETE ' . (isset($aOptions['delete']) ? $aOptions['delete'] : 'NO ACTION');
-            $onUpdate = 'ON UPDATE ' . (isset($aOptions['update']) ? $aOptions['update'] : 'NO ACTION');
-            $q = "ALTER TABLE " . $aTable;
-            $q .= " ADD CONSTRAINT `" . $aFKName . "` ";
-            $q .= " FOREIGN KEY(" . $columns . ") ";
-            $q .= " {$onDelete} ";
-            $q .= " {$onUpdate} ";
-            $this->app->db->q($q);
-        }
-
-    }
 }

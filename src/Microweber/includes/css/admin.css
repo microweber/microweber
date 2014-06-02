@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'mwadmin';
-    src: url('fonts/fontadmin.ttf?mwv=1asdfaaafggfsdassdsdss') format('truetype');
+    src: url('fonts/fontadmin.ttf?mwv=1asdfaaafggfsdaasdasdssdsdss') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -1072,6 +1072,17 @@ a:hover .mw_ed_tree_content{
   height: auto;
 }
 
+
+#custom-fields-post-table tbody tr:hover > td,
+#custom-fields-post-table tbody tr.active > td{
+  background-color: #FAFAFA;
+}
+
+
+#custom-fields-post-table .mw-ui-field{
+  width: 80%;
+}
+
 #custom-fields-post-table .mw-icon-gear{ font-size: 20px;}
 #custom-fields-post-table .mw-icon-close{ font-size: 15px;}
 
@@ -1112,8 +1123,11 @@ a:hover .mw_ed_tree_content{
   margin-bottom: 10px;
 }
 
-.mw-custom-field-group {
+.mw-custom-field-group, .custom-field-settings-name {
   margin-bottom:10px;
+}
+.custom-field-settings-name{
+  display: none;
 }
 
 .mw-custom-fields-list-preview{
@@ -1826,6 +1840,7 @@ input#edit-content-url:focus, input#edit-content-url.active{
 .mw-custom-field-icon-email:before{ content: '\0106'; }
 .mw-custom-field-icon-upload:before{ content: '\0107'; }
 .mw-custom-field-icon-price:before{ content: '\0108'; }
+.mw-custom-field-icon-checkbox:before{ content: '\0109'; }
 
 
 .mw-ui-btn > [class*="mw-custom-field-icon-"] {

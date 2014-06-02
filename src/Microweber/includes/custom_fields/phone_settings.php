@@ -1,15 +1,4 @@
 <?php include('settings_header.php'); ?>
-  <?php // p ($data['custom_field_value']) ?>
-  <?php
-   if(empty($data['custom_field_values'])){
-	//$data['custom_field_values'] = array(0);
-   }
-   
-  // d($data);
-   // p ($data['custom_field_values'])
-
-   ?>
-
 
  <div class="custom-field-settings-name">
 
@@ -33,9 +22,7 @@
 
     <input
         class="mw-ui-field" type="text"
-        data-default="ex.: 001-8892345678"
-        onfocus="mw.form.dstatic(event)"
-        onblur="mw.form.dstatic(event)"
+        placeholder="ex.: 001-8892345678"
         name="custom_field_value"
         value="<?php if($data['custom_field_value']==''): ?>ex.: 001-8892345678<?php else : print $data['custom_field_value'];endif; ?>" />
 

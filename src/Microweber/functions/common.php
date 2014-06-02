@@ -443,7 +443,7 @@ function module_templates($module_name, $template_name = false)
 function site_templates($options = false)
 {
 
-    return mw('content')->site_templates($options);
+    return mw('template')->site_templates($options);
 }
 
 

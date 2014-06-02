@@ -124,7 +124,7 @@ function current_lang()
     if (!isset($lang) or $lang == false) {
         $lang = 'en';
     }
-    $lang = str_replace('..', '', $lang);
+    //$lang = str_replace('..', '', $lang);
     $lang = str_replace('.', '', $lang);
     $lang = str_replace(DIRECTORY_SEPARATOR, '', $lang);
 

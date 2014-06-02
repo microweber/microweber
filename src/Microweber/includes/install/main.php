@@ -304,7 +304,7 @@ $hide_db_setup = 1;
 
 
                     <?php
-                    $templates= mw('content')->site_templates();
+                    $templates= mw('template')->site_templates();
  
 
                     ?>

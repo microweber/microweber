@@ -57,7 +57,7 @@ class Update
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = $this->app->url->site();
 
-        $t = mw('content')->site_templates();
+        $t = mw('template')->site_templates();
         $data['templates'] = $t;
         //$t = $this->app->module->scan_for_modules("skip_cache=1");
        $t = $this->app->module->get("ui=any");

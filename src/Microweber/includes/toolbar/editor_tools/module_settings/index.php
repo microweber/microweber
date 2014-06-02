@@ -277,16 +277,16 @@ if (isset($_GET['type'])) {
             }
 
 
-            var og = $(this).attr('option-group');
+
+		    var og = $(this).attr('data-option-group');
+            if (og == undefined || og == null) {
+                  var og = $(this).attr('option-group');
+            }
+          
             if (og == undefined || og == null) {
                 var og = '<?php print $params['id'] ?>';
             }
-
-
-            var og = $(this).attr('data-option-group');
-            if (og == undefined || og == null) {
-                var og = '<?php print $params['id'] ?>';
-            }
+           
 
             if (this.type === 'checkbox') {
                 var val = '';

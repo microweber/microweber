@@ -53,28 +53,21 @@ mw.custom_fields = {
             });
         }
     },
-    del: function (id, toremove) {
-        var q = "Are you sure you want to delete this field?";
-        mw.tools.confirm(q, function () {
-            var obj = {
-                id: id
-            }
-            $.post(mw.settings.api_url + "fields/delete", obj, function (data) {
-                mw.reload_module_parent('custom_fields');
-                mw.reload_module('custom_fields/list', function () {
-                    if (!!toremove) {
-                        $(toremove).remove();
-                    }
-                    mw.$("#custom-field-editor").removeClass('mw-custom-field-created').hide();
-                    $(window).trigger('customFieldSaved', id);
-                    if (typeof load_iframe_editor === 'function') {
-                        load_iframe_editor();
-                    }
-                });
-            });
-        });
-
+    remove:function(id, callback, err){
+      var obj = {
+         id: id
+      }
+      $.post(mw.settings.api_url + "fields/delete", obj, function (data) {
+        if(typeof callback === 'function'){
+          callback.call(data);
+        }
+      }).fail(function(){
+        if(typeof err === 'function'){
+          err.call();
+        }
+      });
     },
+
     save: function (id, callback) {
         return this.save_form(id, callback);
     },
@@ -128,7 +121,7 @@ mw.custom_fields = {
 
         var clone = parent.clone(true);
         parent.after(clone);
-        clone.find("input").val("");
+        clone.find("input").val("").focus();
 
     },
     remove: function (el) {
