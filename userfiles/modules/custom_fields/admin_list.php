@@ -114,7 +114,7 @@ if(is_array( $diff) and is_array($more) ){
 
 
     <span class="ico ico-<?php print $field['custom_field_type'] ?>"></span>
-    <span onclick="mw.custom_fields.del(<?php print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span>
+    <span onclick="mw.admin.custom_fields.del(<?php print $field['id'] ?>, this.parentNode);" class="mw-ui-btnclose"></span>
 
     <?php print ($field['title']); ?>
 

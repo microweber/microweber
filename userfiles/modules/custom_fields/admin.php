@@ -30,18 +30,19 @@ if(isset($params['list-preview']) and $params['list-preview'] != 'false'){
   $list_preview = true;
 }
 
-
-if(isset($params['for_id'])){
+if(isset($params['content-id'])){
+	$for_id = $params['content-id'];
+	 $for = 'content';
+ } elseif(isset($params['content_id'])){
+	$for_id = $params['content_id'];
+	 $for = 'content';
+ }elseif(isset($params['for_id'])){
 	$for_id = $params['for_id'];
 } elseif (isset($params['data-id'])){
   $for_id = $params['data-id'];
-}
-else  if(isset($params['id'])){
+} elseif(isset($params['id'])){
 	$for_id = $params['id'];
-}
-
-  //$for_id =$params['id'];
-if(isset($params['rel_id'])){
+}elseif(isset($params['rel_id'])){
   $for_id =$module_id = $params['rel_id'];
 
 }
@@ -131,7 +132,7 @@ mw_cf_close_edit_window = function(el){
 }
  */
 
-   
+
 /* END OF OLD CODE  */
 /* END OF OLD CODE  */
 
@@ -140,16 +141,7 @@ mw_cf_close_edit_window = function(el){
 
 
  
-</script> 
-
-<style>
-.ico {
- width:10px;	
- height:10px;
- background-color:red;
- display:block;
-}
-</style>
+</script>
   <script type="text/javascript">
 $(document).ready(function(){
 	  mw.dropdown();
@@ -160,16 +152,18 @@ $(document).ready(function(){
 			make_field.rel_id='<?php print $for_id; ?>';
 			make_field.custom_field_type=val;
 			mw.custom_fields.create(make_field,mw_custom_fileds_changed_callback);
-	
+
 		});
 	});
 	
 mw_custom_fileds_changed_callback = function(el){
-	 mw.reload_module('#mw_custom_fields_list_preview');
+	 mw.reload_module('#mw_custom_fields_list_preview', function(){
+	   mw.admin.custom_fields.initValues();
+	 });
 	 mw.reload_module_parent('custom_fields');
 
 }	
-	
+
 </script>
   <div id="custom-field-editor" class="mw-ui-box mw-ui-box-content" style="display: none">
     <label class="mw-ui-label"><small>
@@ -189,47 +183,23 @@ mw_custom_fileds_changed_callback = function(el){
     </span>
     <div class="mw-dropdown-content">
       <ul>
-        <li value="text">
-          <?php _e("Text Field"); ?>
-        </li>
-        <li value="number">
-          <?php _e("Number"); ?>
-        </li>
-        <li value="price">
-          <?php _e("Price"); ?>
-        </li>
-        <li value="phone">
-          <?php _e("Phone"); ?>
-        </li>
-        <li value="site">
-          <?php _e("Web Site"); ?>
-        </li>
-        <li value="email">
-          <?php _e("E-mail"); ?>
-        </li>
-        <li value="address">
-          <?php _e("Address"); ?>
-        </li>
-        <li value="date">
-          <?php _e("Date"); ?>
-        </li>
-        <li value="upload">
-          <?php _e("File Upload"); ?>
-        </li>
-        <li value="radio">
-          <?php _e("Single Choice"); ?>
-        </li>
-        <li value="dropdown">
-          <?php _e("Dropdown"); ?>
-        </li>
-        <li value="checkbox">
-          <?php _e("Multiple choices"); ?>
-        </li>
+
+    <?php
+
+        $fields = mw('ui')->custom_fields();
+
+        foreach($fields as $field=>$value){  ?>
+
+        <li value="<?php print $field; ?>"><span class="mw-custom-field-icon-<?php print $field; ?>"></span><span><?php print $value; ?></span></li>
+        <?php } ?>
+
+
+
       </ul>
     </div>
   </div>
   <hr>
-  <div class="mw-ui-box" id="custom-fields-box">
+  <div id="custom-fields-box">
     <module
           data-type="custom_fields/list"
           for="<?php print $for  ?>"
@@ -238,3 +208,6 @@ mw_custom_fileds_changed_callback = function(el){
           id="mw_custom_fields_list_preview"  />
   </div>
 </div>
+
+
+

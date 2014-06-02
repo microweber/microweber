@@ -18,7 +18,10 @@
   if(isset($params['content-id'])){
 	$for_id = $params['content-id'];
 	 $for = 'content';
- }   else {
+ } elseif(isset($params['content_id'])){
+	$for_id = $params['content_id'];
+	 $for = 'content';
+ }    else {
  	 
 	 if(isset($params['for_id'])){
 		$for_id = $params['for_id'];
@@ -34,10 +37,6 @@
 	}
  }
  
-if(isset($params['content-id'])){
-	$for_id = $params['content-id']; 
-	 $for = 'content';
-}
 if(((!isset($for_id)) and isset($params['data-id']))){
 	$for_id = $params['data-id']; 
  
@@ -47,8 +46,17 @@ if(isset($params['default-fields']) and isset($params['parent-module-id'])){
 	 
 	mw()->fields->make_default($for,$for_id,$params['default-fields']);
 }
+
+
+
+
+
+
  $more = mw()->fields->get($for ,$for_id,1); 
  $prined_items_count = 0;
+ 
+ 
+ 
  ?>
 
 <input type="hidden" name="for_id" value="<?php print $for_id?>" />

@@ -356,6 +356,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
   </div>
 
   <?php if($data['content_type'] == 'page'):  ?>
+
     <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
 
     <module type="content/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
@@ -882,7 +883,7 @@ mw.save_inner_editable_fields = function(data){
     }
 
   }
-	   
+
 	   var title_field_shanger = $('#content-title-field');
 	   if(title_field_shanger.length > 0){
 		  $( title_field_shanger ).unbind( "change");
@@ -895,23 +896,11 @@ mw.save_inner_editable_fields = function(data){
 	   
 
 	   
-	   QTABSArrow = function(el){
-		  //
-          var el = $(el);
-		  if(el == null){
-			return;  
-		  }
-		  if(el.length == 0){
-			  return;  
-		  }
-		  		  
-          var left = el.offset().left - el.parent().offset().left + (el.width()/2);
-          mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
-      }
+
 	   
        mww.QTABS = mw.tools.tabGroup({
           nav: mw.$("#quick-add-post-options .mw-ui-btn"),
-          tabs: mw.$(".quick-add-post-options-item"),
+          tabs: mw.$("#quick-add-post-options-items-holder .quick-add-post-options-item"),
           toggle:true,
           onclick:function(){
              var tabs = $(mwd.getElementById('quick-add-post-options-items-holder'));
@@ -919,10 +908,8 @@ mw.save_inner_editable_fields = function(data){
               //mw.tools.scrollTo("#quick-add-post-options", mw.$('.admin-manage-toolbar').height() + 5);
               var tabsnav = $(mwd.getElementById('quick-add-post-options'));
               var off = tabsnav.offset();
-              $(tabs).css({
-                //top:  off.top - $(window).scrollTop() + tabsnav.height()
-              }).show();
-             QTABSArrow(this);
+              $(tabs).show();
+              QTABSArrow(this);
              mw.$('#quick-add-post-options-items-holder-container').css('maxHeight', $(window).height() - 140);
             }
             else{
@@ -934,7 +921,8 @@ mw.save_inner_editable_fields = function(data){
       
 
        $(mww).bind('mousedown', function(e){
-          if(!mwd.getElementById('content-edit-settings-tabs-holder').contains(e.target)){
+		   var el = mwd.getElementById('content-edit-settings-tabs-holder');
+          if(el != null && !el.contains(e.target)){
              mww.QTABS.unset()
              mw.$(".quick-add-post-options-item, #quick-add-post-options-items-holder").hide();
              mw.$("#quick-add-post-options .active").removeClass('active');

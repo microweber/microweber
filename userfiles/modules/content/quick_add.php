@@ -202,7 +202,7 @@
 		<div class="mw-ui-col-container">
 			<h1>Add page</h1>
 			<?php
-$templates= mw('content')->site_templates();
+$templates= mw('template')->site_templates();
 
 
 
