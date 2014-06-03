@@ -1570,13 +1570,13 @@ function get_all_functions_files_for_modules($options = false)
 
 function template_dir()
 {
-    return mw('content')->template_dir();
+    return mw('template')->dir();
 }
 
 
 function template_url()
 {
-    return mw('content')->template_url();
+    return mw('template')->url();
 
 }
 
@@ -1584,18 +1584,18 @@ function template_url()
 function template_name()
 {
 
-    return mw('content')->template_name();
+    return mw('template')->name();
 }
 
 
 function template_header($script_src)
 {
-    return mw('content')->template_header($script_src);
+    return mw('template')->header($script_src);
 }
 
 function template_headers_src()
 {
-    return mw('content')->template_header(true);
+    return mw('template')->header(true);
 
 }
 

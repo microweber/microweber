@@ -916,6 +916,7 @@ div.mw-ui-field:after {
 .mw-ui-check input + span:before {
   font-family: Microweber;
   font-size: 18px;
+  line-height: 0.9;
 }
 .mw-ui-check input[type='checkbox'] + span:before {
   content: "\0113";

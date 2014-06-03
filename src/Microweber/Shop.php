@@ -1964,7 +1964,7 @@ class Shop
     {
 
 
-        $template_dir = $this->app->content->template_dir();
+        $template_dir = $this->app->template->dir();
         $file = $template_dir . 'checkout.php';
         $default_url = false;
         if (is_file($file)) {

@@ -12,6 +12,20 @@
 
 namespace Microweber;
 
+
+if (function_exists('api_expose')) {
+    api_expose('content/reorder');
+    api_expose('content/delete');
+    api_expose('content/set_published');
+    api_expose('content/set_unpublished');
+    api_expose('content/menu_item_delete');
+    api_expose('content/menu_items_reorder');
+    api_expose('content/menu_create');
+    api_expose('content/menu_delete');
+    api_expose('content/menu_item_save');
+}
+
+
 /**
  * Content class is used to get and save content in the database.
  *
@@ -65,15 +79,6 @@ class Content
         }
 
 
-        api_expose('content/reorder');
-        api_expose('content/delete');
-        api_expose('content/set_published');
-        api_expose('content/set_unpublished');
-        api_expose('content/menu_item_delete');
-        api_expose('content/menu_items_reorder');
-        api_expose('content/menu_create');
-        api_expose('content/menu_delete');
-        api_expose('content/menu_item_save');
     }
 
     /**
@@ -1071,6 +1076,388 @@ class Content
         return $render_file;
     }
 
+    /**
+     * Defines all constants that are needed to parse the page layout
+     *
+     * It accepts array or $content that must have  $content['id'] set
+     *
+     * @example
+     * <code>
+     *  Define constants for some page
+     *  $ref_page = $this->get_by_id(1);
+     *  $this->define_constants($ref_page);
+     *  print PAGE_ID;
+     *  print POST_ID;
+     *  print CATEGORY_ID;
+     *  print MAIN_PAGE_ID;
+     *  print DEFAULT_TEMPLATE_DIR;
+     *  print DEFAULT_TEMPLATE_URL;
+     * </code>
+     *
+     * @package Content
+     * @subpackage Advanced
+     * @const  PAGE_ID Defines the current page id
+     * @const  POST_ID Defines the current post id
+     * @const  CATEGORY_ID Defines the current category id if any
+     * @const  ACTIVE_PAGE_ID Same as PAGE_ID
+     * @const  CONTENT_ID current post or page id
+     * @const  MAIN_PAGE_ID the parent page id
+     * @const DEFAULT_TEMPLATE_DIR the directory of the site's default template
+     * @const DEFAULT_TEMPLATE_URL the url of the site's default template
+     *
+     *
+     *
+     * @param array|bool $content
+     * @option integer  "id"   [description]
+     * @option  string "content_type" [description]
+     * @return void
+     */
+    public function define_constants($content = false)
+    {
+
+        if ($content == false) {
+            if (isset($_SERVER['HTTP_REFERER'])) {
+                $ref_page = $_SERVER['HTTP_REFERER'];
+                //d($ref_page);
+                if ($ref_page != '') {
+                    $ref_page = $this->get_by_url($ref_page);
+
+                    if ($ref_page != false and !empty($ref_page)) {
+                        $content = $ref_page;
+                    }
+                }
+            }
+        }
+
+
+        $page = false;
+        if (is_array($content)) {
+            if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
+                $content = $this->get_by_id($content['id']);
+                $page = $content;
+
+            } else if (isset($content['id']) and $content['id'] == 0) {
+                $page = $content;
+            } else if (isset($content['active_site_template'])) {
+                $page = $content;
+            }
+
+            if ($page == false) {
+                $page = $content;
+            }
+
+        }
+
+        if (is_array($page)) {
+            if (isset($page['content_type']) and $page['content_type'] == "post") {
+
+
+                if (isset($page['id']) and $page['id'] != 0) {
+                    $content = $page;
+
+
+                    $current_categorys = $this->app->category->get_for_content($page['id']);
+                    if (!empty($current_categorys)) {
+                        //d($current_categorys);
+                        $current_category = end($current_categorys);
+
+                        if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
+                            define('CATEGORY_ID', $current_category['id']);
+                        }
+
+
+                    }
+
+                    $page = $this->get_by_id($page['parent']);
+
+                    if (defined('POST_ID') == false) {
+                        define('POST_ID', $content['id']);
+                    }
+
+                }
+
+
+            } else {
+                $content = $page;
+                if (defined('POST_ID') == false) {
+                    define('POST_ID', false);
+                }
+            }
+
+            if (defined('ACTIVE_PAGE_ID') == false) {
+
+                define('ACTIVE_PAGE_ID', $page['id']);
+            }
+
+
+            if (!defined('CATEGORY_ID')) {
+                //define('CATEGORY_ID', $current_category['id']);
+            }
+
+            if (defined('CATEGORY_ID') == false) {
+                $cat_url = $this->app->url->param('category', $skip_ajax = true);
+                if ($cat_url != false) {
+                    define('CATEGORY_ID', intval($cat_url));
+                }
+            }
+            if (!defined('CATEGORY_ID')) {
+                define('CATEGORY_ID', false);
+            }
+
+            if (defined('CONTENT_ID') == false) {
+                define('CONTENT_ID', $content['id']);
+            }
+
+            if (defined('PAGE_ID') == false) {
+                define('PAGE_ID', $page['id']);
+            }
+            if (isset($page['parent'])) {
+
+
+                $parent_page_check_if_inherited = $this->get_by_id($page['parent']);
+
+                if (isset($parent_page_check_if_inherited["layout_file"]) and $parent_page_check_if_inherited["layout_file"] == 'inherit') {
+
+                    $inherit_from_id = $this->get_inherited_parent($parent_page_check_if_inherited["id"]);
+
+                    if (defined('MAIN_PAGE_ID') == false) {
+                        define('MAIN_PAGE_ID', $inherit_from_id);
+                    }
+
+                }
+
+                //$root_parent = $this->get_inherited_parent($page['parent']);
+
+                //  $this->get_inherited_parent($page['id']);
+                // if ($par_page != false) {
+                //  $par_page = $this->get_by_id($page['parent']);
+                //  }
+                if (defined('ROOT_PAGE_ID') == false) {
+
+                    $root_page = $this->get_parents($page['id']);
+                    if (!empty($root_page) and isset($root_page[0])) {
+                        $root_page[0] = end($root_page);
+                    } else {
+                        $root_page[0] = $page['parent'];
+                    }
+
+                    define('ROOT_PAGE_ID', $root_page[0]);
+                }
+
+                if (defined('MAIN_PAGE_ID') == false) {
+                    if ($page['parent'] == 0) {
+                        define('MAIN_PAGE_ID', $page['id']);
+                    } else {
+                        define('MAIN_PAGE_ID', $page['parent']);
+                    }
+
+                }
+
+                if (defined('PARENT_PAGE_ID') == false) {
+                    define('PARENT_PAGE_ID', $page['parent']);
+                }
+            }
+        }
+
+        if (defined('ACTIVE_PAGE_ID') == false) {
+
+            define('ACTIVE_PAGE_ID', false);
+        }
+
+        if (defined('CATEGORY_ID') == false) {
+            define('CATEGORY_ID', false);
+        }
+
+        if (defined('CONTENT_ID') == false) {
+            define('CONTENT_ID', false);
+        }
+
+        if (defined('POST_ID') == false) {
+            define('POST_ID', false);
+        }
+        if (defined('PAGE_ID') == false) {
+            define('PAGE_ID', false);
+        }
+
+        if (defined('MAIN_PAGE_ID') == false) {
+            define('MAIN_PAGE_ID', false);
+        }
+
+        if (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
+
+            $the_active_site_template = $content['active_site_template'];
+        } else if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
+
+            $the_active_site_template = $page['active_site_template'];
+        } else if (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($content['active_site_template']) != 'default') {
+
+            $the_active_site_template = $content['active_site_template'];
+        } else {
+            $the_active_site_template = $this->app->option->get('current_template', 'template');
+            //
+        }
+
+        if (isset($the_active_site_template) and $the_active_site_template != 'default' and $the_active_site_template == 'mw_default') {
+            $the_active_site_template = 'default';
+        }
+
+
+        if ($the_active_site_template == false) {
+            $the_active_site_template = 'default';
+        }
+
+        if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
+
+            define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
+
+        }
+
+        if (defined('THIS_TEMPLATE_FOLDER_NAME') == false and $the_active_site_template != false) {
+
+            define('THIS_TEMPLATE_FOLDER_NAME', $the_active_site_template);
+
+        }
+
+        $the_active_site_template_dir = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template . DS);
+
+        if (defined('DEFAULT_TEMPLATE_DIR') == false) {
+
+            define('DEFAULT_TEMPLATE_DIR', MW_TEMPLATES_DIR . 'default' . DS);
+        }
+
+        if (defined('DEFAULT_TEMPLATE_URL') == false) {
+
+            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/default/');
+        }
+
+
+        if (trim($the_active_site_template) != 'default') {
+
+            if ((!strstr($the_active_site_template, DEFAULT_TEMPLATE_DIR))) {
+                $use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';
+                if (is_file($use_default_layouts)) {
+                    //$render_file = ($use_default_layouts);
+                    //if()
+                    //
+                    //
+
+                    if (isset($page['layout_file'])) {
+                        $template_view = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
+                    } else {
+                        $template_view = DEFAULT_TEMPLATE_DIR;
+                    }
+                    if (isset($page)) {
+                        if (!isset($page['layout_file']) or (isset($page['layout_file']) and $page['layout_file'] == 'inherit' or $page['layout_file'] == '')) {
+                            $par_page = $this->get_inherited_parent($page['id']);
+                            if ($par_page != false) {
+                                $par_page = $this->get_by_id($par_page);
+                            }
+                            if (isset($par_page['layout_file'])) {
+                                $the_active_site_template = $par_page['active_site_template'];
+                                $page['layout_file'] = $par_page['layout_file'];
+                                $page['active_site_template'] = $par_page['active_site_template'];
+                                $template_view = MW_TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+
+
+                            }
+
+                        }
+                    }
+
+                    if (is_file($template_view) == true) {
+
+                        if (defined('THIS_TEMPLATE_DIR') == false) {
+                            define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
+                        }
+
+                        if (defined('THIS_TEMPLATE_URL') == false) {
+                            $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+                            $the_template_url = $the_template_url . '/';
+                            if (defined('THIS_TEMPLATE_URL') == false) {
+                                define("THIS_TEMPLATE_URL", $the_template_url);
+                            }
+                            if (defined('TEMPLATE_URL') == false) {
+                                define("TEMPLATE_URL", $the_template_url);
+                            }
+                        }
+                        $the_active_site_template = 'default';
+                        $the_active_site_template_dir = DEFAULT_TEMPLATE_DIR;
+                    }
+
+
+                }
+            }
+
+        }
+
+        if (defined('ACTIVE_TEMPLATE_DIR') == false) {
+
+            define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
+        }
+
+        if (defined('THIS_TEMPLATE_DIR') == false) {
+
+            define('THIS_TEMPLATE_DIR', $the_active_site_template_dir);
+        }
+
+        if (defined('THIS_TEMPLATE_URL') == false) {
+            $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+
+            $the_template_url = $the_template_url . '/';
+            if (defined('THIS_TEMPLATE_URL') == false) {
+                define("THIS_TEMPLATE_URL", $the_template_url);
+            }
+        }
+        if (defined('TEMPLATE_NAME') == false) {
+
+            define('TEMPLATE_NAME', $the_active_site_template);
+        }
+
+
+        if (defined('TEMPLATE_DIR') == false) {
+
+            define('TEMPLATE_DIR', $the_active_site_template_dir);
+        }
+
+        if (defined('ACTIVE_SITE_TEMPLATE') == false) {
+
+            define('ACTIVE_SITE_TEMPLATE', $the_active_site_template);
+        }
+
+        if (defined('TEMPLATES_DIR') == false) {
+
+            define('TEMPLATES_DIR', MW_TEMPLATES_DIR);
+        }
+
+        $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+
+        $the_template_url = $the_template_url . '/';
+        if (defined('TEMPLATE_URL') == false) {
+            define("TEMPLATE_URL", $the_template_url);
+        }
+
+
+        if (defined('LAYOUTS_DIR') == false) {
+
+            $layouts_dir = TEMPLATE_DIR . 'layouts/';
+
+            define("LAYOUTS_DIR", $layouts_dir);
+        } else {
+
+            $layouts_dir = LAYOUTS_DIR;
+        }
+
+        if (defined('LAYOUTS_URL') == false) {
+
+            $layouts_url = reduce_double_slashes($this->app->url->link_to_file($layouts_dir) . '/');
+
+            define("LAYOUTS_URL", $layouts_url);
+        }
+
+
+        return true;
+    }
+
     public function get_children($id = 0, $without_main_parrent = false)
     {
 
@@ -1971,578 +2358,6 @@ class Content
         return false;
     }
 
-    /**
-     * Defines all constants that are needed to parse the page layout
-     *
-     * It accepts array or $content that must have  $content['id'] set
-     *
-     * @example
-     * <code>
-     *  Define constants for some page
-     *  $ref_page = $this->get_by_id(1);
-     *  $this->define_constants($ref_page);
-     *  print PAGE_ID;
-     *  print POST_ID;
-     *  print CATEGORY_ID;
-     *  print MAIN_PAGE_ID;
-     *  print DEFAULT_TEMPLATE_DIR;
-     *  print DEFAULT_TEMPLATE_URL;
-     * </code>
-     *
-     * @package Content
-     * @subpackage Advanced
-     * @const  PAGE_ID Defines the current page id
-     * @const  POST_ID Defines the current post id
-     * @const  CATEGORY_ID Defines the current category id if any
-     * @const  ACTIVE_PAGE_ID Same as PAGE_ID
-     * @const  CONTENT_ID current post or page id
-     * @const  MAIN_PAGE_ID the parent page id
-     * @const DEFAULT_TEMPLATE_DIR the directory of the site's default template
-     * @const DEFAULT_TEMPLATE_URL the url of the site's default template
-     *
-     *
-     *
-     * @param array|bool $content
-     * @option integer  "id"   [description]
-     * @option  string "content_type" [description]
-     * @return void
-     */
-    public function define_constants($content = false)
-    {
-
-        if ($content == false) {
-            if (isset($_SERVER['HTTP_REFERER'])) {
-                $ref_page = $_SERVER['HTTP_REFERER'];
-                //d($ref_page);
-                if ($ref_page != '') {
-                    $ref_page = $this->get_by_url($ref_page);
-
-                    if ($ref_page != false and !empty($ref_page)) {
-                        $content = $ref_page;
-                    }
-                }
-            }
-        }
-
-
-        $page = false;
-        if (is_array($content)) {
-            if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
-                $content = $this->get_by_id($content['id']);
-                $page = $content;
-
-            } else if (isset($content['id']) and $content['id'] == 0) {
-                $page = $content;
-            } else if (isset($content['active_site_template'])) {
-                $page = $content;
-            }
-
-            if ($page == false) {
-                $page = $content;
-            }
-
-        }
-
-        if (is_array($page)) {
-            if (isset($page['content_type']) and $page['content_type'] == "post") {
-
-
-                if (isset($page['id']) and $page['id'] != 0) {
-                    $content = $page;
-
-
-                    $current_categorys = $this->app->category->get_for_content($page['id']);
-                    if (!empty($current_categorys)) {
-                        //d($current_categorys);
-                        $current_category = end($current_categorys);
-
-                        if (defined('CATEGORY_ID') == false and isset($current_category['id'])) {
-                            define('CATEGORY_ID', $current_category['id']);
-                        }
-
-
-                    }
-
-                    $page = $this->get_by_id($page['parent']);
-
-                    if (defined('POST_ID') == false) {
-                        define('POST_ID', $content['id']);
-                    }
-
-                }
-
-
-            } else {
-                $content = $page;
-                if (defined('POST_ID') == false) {
-                    define('POST_ID', false);
-                }
-            }
-
-            if (defined('ACTIVE_PAGE_ID') == false) {
-
-                define('ACTIVE_PAGE_ID', $page['id']);
-            }
-
-
-            if (!defined('CATEGORY_ID')) {
-                //define('CATEGORY_ID', $current_category['id']);
-            }
-
-            if (defined('CATEGORY_ID') == false) {
-                $cat_url = $this->app->url->param('category', $skip_ajax = true);
-                if ($cat_url != false) {
-                    define('CATEGORY_ID', intval($cat_url));
-                }
-            }
-            if (!defined('CATEGORY_ID')) {
-                define('CATEGORY_ID', false);
-            }
-
-            if (defined('CONTENT_ID') == false) {
-                define('CONTENT_ID', $content['id']);
-            }
-
-            if (defined('PAGE_ID') == false) {
-                define('PAGE_ID', $page['id']);
-            }
-            if (isset($page['parent'])) {
-
-
-                $parent_page_check_if_inherited = $this->get_by_id($page['parent']);
-
-                if (isset($parent_page_check_if_inherited["layout_file"]) and $parent_page_check_if_inherited["layout_file"] == 'inherit') {
-
-                    $inherit_from_id = $this->get_inherited_parent($parent_page_check_if_inherited["id"]);
-
-                    if (defined('MAIN_PAGE_ID') == false) {
-                        define('MAIN_PAGE_ID', $inherit_from_id);
-                    }
-
-                }
-
-                //$root_parent = $this->get_inherited_parent($page['parent']);
-
-                //  $this->get_inherited_parent($page['id']);
-                // if ($par_page != false) {
-                //  $par_page = $this->get_by_id($page['parent']);
-                //  }
-                if (defined('ROOT_PAGE_ID') == false) {
-
-                    $root_page = $this->get_parents($page['id']);
-                    if (!empty($root_page) and isset($root_page[0])) {
-                        $root_page[0] = end($root_page);
-                    } else {
-                        $root_page[0] = $page['parent'];
-                    }
-
-                    define('ROOT_PAGE_ID', $root_page[0]);
-                }
-
-                if (defined('MAIN_PAGE_ID') == false) {
-                    if ($page['parent'] == 0) {
-                        define('MAIN_PAGE_ID', $page['id']);
-                    } else {
-                        define('MAIN_PAGE_ID', $page['parent']);
-                    }
-
-                }
-
-                if (defined('PARENT_PAGE_ID') == false) {
-                    define('PARENT_PAGE_ID', $page['parent']);
-                }
-            }
-        }
-
-        if (defined('ACTIVE_PAGE_ID') == false) {
-
-            define('ACTIVE_PAGE_ID', false);
-        }
-
-        if (defined('CATEGORY_ID') == false) {
-            define('CATEGORY_ID', false);
-        }
-
-        if (defined('CONTENT_ID') == false) {
-            define('CONTENT_ID', false);
-        }
-
-        if (defined('POST_ID') == false) {
-            define('POST_ID', false);
-        }
-        if (defined('PAGE_ID') == false) {
-            define('PAGE_ID', false);
-        }
-
-        if (defined('MAIN_PAGE_ID') == false) {
-            define('MAIN_PAGE_ID', false);
-        }
-
-        if (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
-
-            $the_active_site_template = $content['active_site_template'];
-        } else if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
-
-            $the_active_site_template = $page['active_site_template'];
-        } else if (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($content['active_site_template']) != 'default') {
-
-            $the_active_site_template = $content['active_site_template'];
-        } else {
-            $the_active_site_template = $this->app->option->get('current_template', 'template');
-            //
-        }
-
-        if (isset($the_active_site_template) and $the_active_site_template != 'default' and $the_active_site_template == 'mw_default') {
-            $the_active_site_template = 'default';
-        }
-
-
-        if ($the_active_site_template == false) {
-            $the_active_site_template = 'default';
-        }
-
-        if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
-
-            define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
-
-        }
-
-        if (defined('THIS_TEMPLATE_FOLDER_NAME') == false and $the_active_site_template != false) {
-
-            define('THIS_TEMPLATE_FOLDER_NAME', $the_active_site_template);
-
-        }
-
-        $the_active_site_template_dir = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template . DS);
-
-        if (defined('DEFAULT_TEMPLATE_DIR') == false) {
-
-            define('DEFAULT_TEMPLATE_DIR', MW_TEMPLATES_DIR . 'default' . DS);
-        }
-
-        if (defined('DEFAULT_TEMPLATE_URL') == false) {
-
-            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/default/');
-        }
-
-
-        if (trim($the_active_site_template) != 'default') {
-
-            if ((!strstr($the_active_site_template, DEFAULT_TEMPLATE_DIR))) {
-                $use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';
-                if (is_file($use_default_layouts)) {
-                    //$render_file = ($use_default_layouts);
-                    //if()
-                    //
-                    //
-
-                    if (isset($page['layout_file'])) {
-                        $template_view = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
-                    } else {
-                        $template_view = DEFAULT_TEMPLATE_DIR;
-                    }
-                    if (isset($page)) {
-                        if (!isset($page['layout_file']) or (isset($page['layout_file']) and $page['layout_file'] == 'inherit' or $page['layout_file'] == '')) {
-                            $par_page = $this->get_inherited_parent($page['id']);
-                            if ($par_page != false) {
-                                $par_page = $this->get_by_id($par_page);
-                            }
-                            if (isset($par_page['layout_file'])) {
-                                $the_active_site_template = $par_page['active_site_template'];
-                                $page['layout_file'] = $par_page['layout_file'];
-                                $page['active_site_template'] = $par_page['active_site_template'];
-                                $template_view = MW_TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
-
-
-                            }
-
-                        }
-                    }
-
-                    if (is_file($template_view) == true) {
-
-                        if (defined('THIS_TEMPLATE_DIR') == false) {
-                            define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
-                        }
-
-                        if (defined('THIS_TEMPLATE_URL') == false) {
-                            $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
-                            $the_template_url = $the_template_url . '/';
-                            if (defined('THIS_TEMPLATE_URL') == false) {
-                                define("THIS_TEMPLATE_URL", $the_template_url);
-                            }
-                            if (defined('TEMPLATE_URL') == false) {
-                                define("TEMPLATE_URL", $the_template_url);
-                            }
-                        }
-                        $the_active_site_template = 'default';
-                        $the_active_site_template_dir = DEFAULT_TEMPLATE_DIR;
-                    }
-
-
-                }
-            }
-
-        }
-
-        if (defined('ACTIVE_TEMPLATE_DIR') == false) {
-
-            define('ACTIVE_TEMPLATE_DIR', $the_active_site_template_dir);
-        }
-
-        if (defined('THIS_TEMPLATE_DIR') == false) {
-
-            define('THIS_TEMPLATE_DIR', $the_active_site_template_dir);
-        }
-
-        if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
-
-            $the_template_url = $the_template_url . '/';
-            if (defined('THIS_TEMPLATE_URL') == false) {
-                define("THIS_TEMPLATE_URL", $the_template_url);
-            }
-        }
-        if (defined('TEMPLATE_NAME') == false) {
-
-            define('TEMPLATE_NAME', $the_active_site_template);
-        }
-
-
-        if (defined('TEMPLATE_DIR') == false) {
-
-            define('TEMPLATE_DIR', $the_active_site_template_dir);
-        }
-
-        if (defined('ACTIVE_SITE_TEMPLATE') == false) {
-
-            define('ACTIVE_SITE_TEMPLATE', $the_active_site_template);
-        }
-
-        if (defined('TEMPLATES_DIR') == false) {
-
-            define('TEMPLATES_DIR', MW_TEMPLATES_DIR);
-        }
-
-        $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
-
-        $the_template_url = $the_template_url . '/';
-        if (defined('TEMPLATE_URL') == false) {
-            define("TEMPLATE_URL", $the_template_url);
-        }
-
-
-        if (defined('LAYOUTS_DIR') == false) {
-
-            $layouts_dir = TEMPLATE_DIR . 'layouts/';
-
-            define("LAYOUTS_DIR", $layouts_dir);
-        } else {
-
-            $layouts_dir = LAYOUTS_DIR;
-        }
-
-        if (defined('LAYOUTS_URL') == false) {
-
-            $layouts_url = reduce_double_slashes($this->app->url->link_to_file($layouts_dir) . '/');
-
-            define("LAYOUTS_URL", $layouts_url);
-        }
-
-
-        return true;
-    }
-
-    public function get_by_url($url = '', $no_recursive = false)
-    {
-        if (strval($url) == '') {
-            $url = $this->app->url->string();
-        }
-
-
-        $u1 = $url;
-        $u2 = $this->app->url->site();
-
-        $u1 = rtrim($u1, '\\');
-        $u1 = rtrim($u1, '/');
-
-        $u2 = rtrim($u2, '\\');
-        $u2 = rtrim($u2, '/');
-
-        $u1 = str_replace($u2, '', $u1);
-        $u1 = ltrim($u1, '/');
-        $url = $u1;
-
-        $table = $this->tables['content'];
-        $url = $this->app->db->escape_string($url);
-        $url = addslashes($url);
-        $url12 = parse_url($url);
-        if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
-            $u1 = $this->app->url->site();
-            $u2 = str_replace($u1, '', $url);
-            $current_url = explode('?', $u2);
-            $u2 = $current_url[0];
-            $url = ($u2);
-        } else {
-            $current_url = explode('?', $url);
-            $u2 = $current_url[0];
-            $url = ($u2);
-        }
-
-        $url = rtrim($url, '?');
-        $url = rtrim($url, '#');
-
-        global $mw_skip_pages_starting_with_url;
-
-
-        if (defined('MW_BACKEND')) {
-            //   return false;
-        }
-        if (is_array($mw_skip_pages_starting_with_url)) {
-            $segs = explode('/', $url);
-            foreach ($mw_skip_pages_starting_with_url as $skip_page_url) {
-                if (in_array($skip_page_url, $segs)) {
-                    return false;
-                }
-            }
-        }
-
-
-        global $mw_precached_links;
-        $link_hash = 'link' . crc32($url);
-
-        if (isset($mw_precached_links[$link_hash])) {
-            return $mw_precached_links[$link_hash];
-        }
-
-        $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
-        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-        $result = $q;
-        $content = $result[0];
-
-        if (!empty($content)) {
-            $mw_precached_links[$link_hash] = $content;
-            return $content;
-        }
-
-
-        if ($no_recursive == false) {
-            if (empty($content) == true) {
-                $segs = explode('/', $url);
-                $segs_qty = count($segs);
-                for ($counter = 0; $counter <= $segs_qty; $counter += 1) {
-
-                    $test = array_slice($segs, 0, $segs_qty - $counter);
-                    $test = array_reverse($test);
-
-                    if (isset($test[0])) {
-                        $url = $this->get_by_url($test[0], true);
-                    }
-                    if (!empty($url)) {
-                        $mw_precached_links[$link_hash] = $url;
-                        return $url;
-                    }
-                }
-            }
-        } else {
-
-            if (isset($content['id']) and intval($content['id']) != 0) {
-                $content['id'] = ((int)$content['id']);
-            }
-
-            $mw_precached_links[$link_hash] = $content;
-            return $content;
-        }
-        $mw_precached_links[$link_hash] = false;
-        return false;
-    }
-
-    /**
-     *  Get the first parent that has layout
-     *
-     * @category Content
-     * @package Content
-     * @subpackage Advanced
-     * @uses $this->get_parents()
-     * @uses $this->get_by_id()
-     */
-    public function get_inherited_parent($content_id)
-    {
-        $inherit_from = $this->get_parents($content_id);
-        $found = 0;
-        if (!empty($inherit_from)) {
-            foreach ($inherit_from as $value) {
-                if ($found == 0) {
-                    $par_c = $this->get_by_id($value);
-                    if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
-                        return $par_c['id'];
-                    }
-                }
-            }
-        }
-    }
-
-    public function get_parents($id = 0, $without_main_parrent = false)
-    {
-
-        if (intval($id) == 0) {
-            return FALSE;
-        }
-
-        $table = $this->tables['content'];
-
-        $ids = array();
-
-        $data = array();
-
-        if (isset($without_main_parrent) and $without_main_parrent == true) {
-
-            $with_main_parrent_q = " and parent<>0 ";
-        } else {
-
-            $with_main_parrent_q = false;
-        }
-        $id = intval($id);
-        $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
-
-        $content_parents = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
-
-        if (!empty($content_parents)) {
-
-            foreach ($content_parents as $item) {
-
-                if (intval($item['id']) != 0) {
-
-                    $ids[] = $item['parent'];
-                }
-                if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {
-                    $next = $this->get_parents($item['parent'], $without_main_parrent);
-
-                    if (!empty($next)) {
-
-                        foreach ($next as $n) {
-
-                            if ($n != '' and $n != 0) {
-
-                                $ids[] = $n;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!empty($ids)) {
-
-            $ids = array_unique($ids);
-
-            return $ids;
-        } else {
-
-            return false;
-        }
-    }
-
     public function get_menu($params = false)
     {
         $params2 = array();
@@ -2563,8 +2378,7 @@ class Content
 
     }
 
-    public function get_menus($params = false)
-    {
+    public function get_menus($params = false){
 
         $table = $this->tables['menus'];
 
@@ -3108,218 +2922,6 @@ class Content
         return $link;
     }
 
-    public function template_dir()
-    {
-        if (!defined('TEMPLATE_DIR')) {
-            $this->define_constants();
-        }
-        if (defined('TEMPLATE_DIR')) {
-            return TEMPLATE_DIR;
-        }
-    }
-
-    public function template_url()
-    {
-        if (!defined('TEMPLATE_URL')) {
-
-            $this->define_constants();
-        }
-        if (defined('TEMPLATE_URL')) {
-            return TEMPLATE_URL;
-        }
-
-    }
-
-    public function template_name()
-    {
-
-        if (!defined('TEMPLATE_NAME')) {
-            $this->define_constants();
-        }
-        if (defined('TEMPLATE_NAME')) {
-            return TEMPLATE_NAME;
-        }
-    }
-
-    public function template_header($script_src)
-    {
-        static $mw_template_headers;
-        if ($mw_template_headers == null) {
-            $mw_template_headers = array();
-        }
-
-        if (is_string($script_src)) {
-            if (!in_array($script_src, $mw_template_headers)) {
-                $mw_template_headers[] = $script_src;
-                return $mw_template_headers;
-            }
-        } else if (is_bool($script_src)) {
-            //   return $mw_template_headers;
-            $src = '';
-            if (is_array($mw_template_headers)) {
-                foreach ($mw_template_headers as $header) {
-                    $ext = get_file_extension($header);
-                    switch (strtolower($ext)) {
-
-
-                        case 'css':
-                            $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
-                            break;
-
-                        case 'js':
-                            $src .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
-                            break;
-
-
-                        default:
-                            $src .= $header . "\n";
-                            break;
-                    }
-                }
-            }
-            return $src;
-        }
-    }
-
-    /**
-     * @desc  Get the template layouts info under the layouts subdir on your active template
-     * @param $options
-     * $options ['type'] - 'layout' is the default type if you dont define any. You can define your own types as post/form, etc in the layout.txt file
-     * @return array
-     * @author    Microweber Dev Team
-     * @since Version 1.0
-     */
-    public function site_templates($options = false)
-    {
-
-        $args = func_get_args();
-        $function_cache_id = '';
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $cache_group = 'templates';
-
-        $cache_content = $this->app->cache->get($cache_id, $cache_group, 'files');
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-        if (!isset($options['path'])) {
-            $path = MW_TEMPLATES_DIR;
-        } else {
-            $path = $options['path'];
-        }
-
-
-        $path_to_layouts = $path;
-        $layout_path = $path;
-        $map = $this->directory_map($path, TRUE, TRUE);
-
-        $to_return = array();
-        if (!is_array($map) or empty($map)) {
-            return false;
-        }
-        foreach ($map as $dir) {
-
-            //$filename = $path . $dir . DIRECTORY_SEPARATOR . 'layout.php';
-            $filename = $path . DIRECTORY_SEPARATOR . $dir;
-            $filename_location = false;
-            $filename_dir = false;
-            $filename = normalize_path($filename);
-            $filename = rtrim($filename, '\\');
-
-
-            $filename = (substr($filename, 0, 1) === '.' ? substr($filename, 1) : $filename);
-
-            if (is_dir($filename)) {
-                //
-
-
-                $fn1 = normalize_path($filename, true) . 'config.php';
-                $fn2 = normalize_path($filename);
-
-
-                if (is_file($fn1)) {
-                    $config = false;
-
-                    include ($fn1);
-                    if (!empty($config)) {
-                        $c = $config;
-                        $c['dir_name'] = $dir;
-
-                        $screensshot_file = $fn2 . '/screenshot.png';
-                        $screensshot_file = normalize_path($screensshot_file, false);
-                        if (is_file($screensshot_file)) {
-                            $c['screenshot'] = $this->app->url->link_to_file($screensshot_file);
-                        }
-
-                        $to_return[] = $c;
-                    }
-                } else {
-                    $filename_dir = false;
-                }
-
-                //	$path = $filename;
-            }
-
-        }
-        $this->app->cache->save($to_return, $function_cache_id, $cache_group, 'files');
-
-        return $to_return;
-    }
-
-    /**
-     * Create a Directory Map
-     *
-     *
-     * Reads the specified directory and builds an array
-     * representation of it.  Sub-folders contained with the
-     * directory will be mapped as well.
-     *
-     * @author        ExpressionEngine Dev Team
-     * @link        http://codeigniter.com/user_guide/helpers/directory_helper.html
-     * @access    public
-     * @param    string    path to source
-     * @param    int        depth of directories to traverse (0 = fully recursive, 1 = current dir, etc)
-     * @return    array
-     */
-    function directory_map($source_dir, $directory_depth = 0, $hidden = FALSE, $full_path = false)
-    {
-        if ($fp = @opendir($source_dir)) {
-            $filedata = array();
-            $new_depth = $directory_depth - 1;
-            $source_dir = rtrim($source_dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-
-            while (FALSE !== ($file = readdir($fp))) {
-                // Remove '.', '..', and hidden files [optional]
-                if (!trim($file, '.') OR ($hidden == FALSE && $file[0] == '.')) {
-                    continue;
-                }
-
-                if (($directory_depth < 1 OR $new_depth > 0) && @is_dir($source_dir . $file)) {
-                    $filedata[$file] = $this->directory_map($source_dir . $file . DIRECTORY_SEPARATOR, $new_depth, $hidden, $full_path);
-                } else {
-                    if ($full_path == false) {
-                        $filedata[] = $file;
-                    } else {
-                        $filedata[] = $source_dir . $file;
-                    }
-
-                }
-            }
-
-            closedir($fp);
-            return $filedata;
-        }
-
-        return FALSE;
-    }
-
     function debug_info()
     {
         //if (c('debug_mode')) {
@@ -3365,7 +2967,7 @@ class Content
         if (!isset($lang) or $lang == false) {
             $lang = 'en';
         }
-        $lang = str_replace('..','',$lang);
+        $lang = str_replace('..', '', $lang);
         if (!defined('MW_LANG') and isset($lang)) {
             define('MW_LANG', $lang);
         }
@@ -3387,6 +2989,7 @@ class Content
      */
     function lang_set($lang = 'en')
     {
+        $lang = str_replace('..', '', $lang);
         setcookie("lang", $lang);
         return $lang;
     }
@@ -3492,8 +3095,7 @@ class Content
 
                     $this->app->cache->delete('menus');
                     $q = $this->app->db->q($sql);
-                    // return;
-                }
+                 }
 
                 $value = intval($value);
                 if ($value > 0) {
@@ -3596,7 +3198,8 @@ class Content
         if (isset($_POST) and !empty($_POST)) {
             $data = $_POST;
         }
-        if (is_admin() == true) {
+        $is_admin = $this->app->user->is_admin();
+        if ($is_admin == true) {
             if (isset($data['unicode_temp_remove'])) {
                 unset($data['unicode_temp_remove']);
             }
@@ -4102,6 +3705,145 @@ class Content
         return $json_print;
     }
 
+    public function get_by_url($url = '', $no_recursive = false)
+    {
+        if (strval($url) == '') {
+            $url = $this->app->url->string();
+        }
+
+
+        $u1 = $url;
+        $u2 = $this->app->url->site();
+
+        $u1 = rtrim($u1, '\\');
+        $u1 = rtrim($u1, '/');
+
+        $u2 = rtrim($u2, '\\');
+        $u2 = rtrim($u2, '/');
+
+        $u1 = str_replace($u2, '', $u1);
+        $u1 = ltrim($u1, '/');
+        $url = $u1;
+
+        $table = $this->tables['content'];
+        $url = $this->app->db->escape_string($url);
+        $url = addslashes($url);
+        $url12 = parse_url($url);
+        if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
+            $u1 = $this->app->url->site();
+            $u2 = str_replace($u1, '', $url);
+            $current_url = explode('?', $u2);
+            $u2 = $current_url[0];
+            $url = ($u2);
+        } else {
+            $current_url = explode('?', $url);
+            $u2 = $current_url[0];
+            $url = ($u2);
+        }
+
+        $url = rtrim($url, '?');
+        $url = rtrim($url, '#');
+
+        global $mw_skip_pages_starting_with_url;
+
+
+        if (defined('MW_BACKEND')) {
+            //   return false;
+        }
+        if (is_array($mw_skip_pages_starting_with_url)) {
+            $segs = explode('/', $url);
+            foreach ($mw_skip_pages_starting_with_url as $skip_page_url) {
+                if (in_array($skip_page_url, $segs)) {
+                    return false;
+                }
+            }
+        }
+
+
+        global $mw_precached_links;
+        $link_hash = 'link' . crc32($url);
+
+        if (isset($mw_precached_links[$link_hash])) {
+            return $mw_precached_links[$link_hash];
+        }
+
+        $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
+        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        $result = $q;
+        $content = $result[0];
+
+        if (!empty($content)) {
+            $mw_precached_links[$link_hash] = $content;
+            return $content;
+        }
+
+
+        if ($no_recursive == false) {
+            if (empty($content) == true) {
+                $segs = explode('/', $url);
+                $segs_qty = count($segs);
+                for ($counter = 0; $counter <= $segs_qty; $counter += 1) {
+
+                    $test = array_slice($segs, 0, $segs_qty - $counter);
+                    $test = array_reverse($test);
+
+                    if (isset($test[0])) {
+                        $url = $this->get_by_url($test[0], true);
+                    }
+                    if (!empty($url)) {
+                        $mw_precached_links[$link_hash] = $url;
+                        return $url;
+                    }
+                }
+            }
+        } else {
+
+            if (isset($content['id']) and intval($content['id']) != 0) {
+                $content['id'] = ((int)$content['id']);
+            }
+
+            $mw_precached_links[$link_hash] = $content;
+            return $content;
+        }
+        $mw_precached_links[$link_hash] = false;
+        return false;
+    }
+
+    /**
+     * Returns the homepage as array
+     *
+     * @category Content
+     * @package Content
+     */
+    public function homepage()
+    {
+
+
+        $table = $this->tables['content'];
+
+
+        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
+
+        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        //
+        $result = $q;
+        if ($result == false) {
+            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted='n' AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
+            $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+            $result = $q;
+
+        }
+
+
+        if ($result != false) {
+            $content = $result[0];
+        }
+
+        if (isset($content)) {
+            return $content;
+        }
+    }
+
     public function save_content_admin($data, $delete_the_cache = true)
     {
 
@@ -4199,927 +3941,60 @@ class Content
 
     }
 
-    public function custom_fields($content_id, $full = true, $field_type = false)
-    {
-
-        return $this->app->fields->get('content', $content_id, $full, false, false, $field_type);
-
-
-    }
-
-
-// ------------------------------------------------------------------------
-
-    public function  save_content_field($data, $delete_the_cache = true)
-    {
-
-        $adm = $this->app->user->is_admin();
-        $table = $this->tables['content_fields'];
-        $table_drafts = $this->tables['content_fields_drafts'];
-
-        //$checks = mw_var('FORCE_SAVE_CONTENT');
-
-
-        if ($adm == false) {
-            return false;
-        }
-
-        if (!is_array($data)) {
-            $data = array();
-        }
-
-        if (isset($data['is_draft'])) {
-            $table = $table_drafts;
-
-
-        }
-        if (isset($data['is_draft']) and isset($data['url'])) {
-
-            $draft_url = $this->app->db->escape_string($data['url']);
-            $last_saved_date = date("Y-m-d H:i:s", strtotime("-5 minutes"));
-            $last_saved_date = date("Y-m-d H:i:s", strtotime("-1 week"));
-
-            $history_files_params = array();
-            $history_files_params['order_by'] = 'id desc';
-            $history_files_params['fields'] = 'id';
-            $history_files_params['field'] = $data['field'];
-            $history_files_params['rel'] = $data['rel'];
-            $history_files_params['rel_id'] = $data['rel_id'];
-            //$history_files_params['page'] = 2;
-
-            // $history_files_params['debug'] = 1;
-            $history_files_params['is_draft'] = 1;
-            $history_files_params['limit'] = 20;
-            $history_files_params['url'] = $draft_url;
-            $history_files_params['current_page'] = 2;
-            $history_files_params['created_on'] = '[lt]' . $last_saved_date;
-
-
-            // $history_files_params['created_on'] = '[mt]' . $last_saved_date;
-            $history_files = $this->edit_field($history_files_params);
-            //
-            // $history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=1&url=' . $draft_url . '&created_on=[mt]' . $last_saved_date . '');
-            if (is_array($history_files)) {
-                $history_files_ids = $this->app->format->array_values($history_files);
-            }
-
-            if (isset($history_files_ids) and is_array($history_files_ids) and !empty($history_files_ids)) {
-                $history_files_ids_impopl = implode(',', $history_files_ids);
-                $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
-
-                $this->app->db->q($del_q);
-            }
-
-
-        }
-
-
-        if (!isset($data['rel']) or !isset($data['rel_id'])) {
-            mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
-        }
-        //if($data['rel'] == 'global'){
-        if (isset($data['field']) and !isset($data['is_draft'])) {
-            $fld = $this->app->db->escape_string($data['field']);
-            $fld_rel = $this->app->db->escape_string($data['rel']);
-            $del_q = "DELETE FROM {$table} WHERE rel='$fld_rel' AND  field='$fld' ";
-            if (isset($data['rel_id'])) {
-                $i = $this->app->db->escape_string($data['rel_id']);
-                $del_q .= " and  rel_id='$i' ";
-
-            } else {
-                $data['rel_id'] = 0;
-            }
-            $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->db->q($del_q);
-            $this->app->cache->delete($cache_group);
-
-            //
-
-        }
-        if (isset($fld)) {
-
-            $this->app->cache->delete('content_fields/' . $fld);
-            $this->app->cache->delete('content_fields/global/' . $fld);
-
-
-        }
-        $this->app->cache->delete('content_fields/global');
-        if (isset($data['rel']) and isset($data['rel_id'])) {
-            $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->cache->delete($cache_group);
-
-
-            $this->app->cache->delete('content/' . $data['rel_id']);
-
-        }
-        if (isset($data['rel'])) {
-            $this->app->cache->delete('content_fields/' . $data['rel']);
-        }
-        if (isset($data['rel']) and isset($data['rel_id'])) {
-            $this->app->cache->delete('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->cache->delete('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
-        }
-        if (isset($data['field'])) {
-            $this->app->cache->delete('content_fields/' . $data['field']);
-        }
-
-        $this->app->cache->delete('content_fields/global');
-        //}
-        $data['allow_html'] = true;
-
-        $save = $this->app->db->save($table, $data);
-
-        $this->app->cache->delete('content_fields');
-
-        return $save;
-
-
-    }
-
-    public function delete($data)
-    {
-        $to_trash = false;
-        $to_untrash = false;
-
-        if (defined('MW_API_CALL')) {
-            $to_trash = true;
-            $adm = $this->app->user->is_admin();
-            if ($adm == false) {
-                return array('error' => 'You must be admin to delete content!');
-            }
-        }
-
-        if (!is_array($data)) {
-            $del_data = array();
-            $del_data['id'] = intval($data);
-            $data = $del_data;
-            $to_trash = false;
-        }
-
-
-        if (isset($data['forever']) or isset($data['delete_forever'])) {
-
-            $to_trash = false;
-        }
-        if (isset($data['undelete'])) {
-            $to_trash = true;
-            $to_untrash = true;
-        }
-
-        $del_ids = array();
-        if (isset($data['id'])) {
-            $c_id = intval($data['id']);
-            $del_ids[] = $c_id;
-            if ($to_trash == false) {
-                $this->app->db->delete_by_id('content', $c_id);
-            }
-        }
-
-        if (isset($data['ids']) and is_array($data['ids'])) {
-            foreach ($data['ids'] as $value) {
-                $c_id = intval($value);
-                $del_ids[] = $c_id;
-                if ($to_trash == false) {
-                    $this->app->db->delete_by_id('content', $c_id);
-                }
-            }
-
-        }
-
-
-        if (!empty($del_ids)) {
-            $table = $this->tables['content'];
-
-            foreach ($del_ids as $value) {
-                $c_id = intval($value);
-                //$q = "update $table set parent=0 where parent=$c_id ";
-
-                if ($to_untrash == true) {
-                    $q = "UPDATE $table SET is_deleted='n' WHERE id=$c_id AND  is_deleted='y' ";
-                    $q = $this->app->db->query($q);
-                    $q = "UPDATE $table SET is_deleted='n' WHERE parent=$c_id   AND  is_deleted='y' ";
-                    $q = $this->app->db->query($q);
-                    if (isset($this->tables['categories'])) {
-                        $table1 = $this->tables['categories'];
-                        $q = "UPDATE $table1 SET is_deleted='n' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='y' ";
-                        $q = $this->app->db->query($q);
-                    }
-
-                } else if ($to_trash == false) {
-                    $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
-                    $q = $this->app->db->query($q);
-
-                    $this->app->db->delete_by_id('menus', $c_id, 'content_id');
-
-                    if (isset($this->tables['media'])) {
-                        $table1 = $this->tables['media'];
-                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = $this->app->db->query($q);
-                    }
-
-                    if (isset($this->tables['categories'])) {
-                        $table1 = $this->tables['categories'];
-                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = $this->app->db->query($q);
-                    }
-
-
-                    if (isset($this->tables['categories_items'])) {
-                        $table1 = $this->tables['categories_items'];
-                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = $this->app->db->query($q);
-                    }
-                    if (isset($this->tables['custom_fields'])) {
-                        $table1 = $this->tables['custom_fields'];
-                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-
-                        $q = $this->app->db->query($q);
-                    }
-
-                    if (isset($this->tables['content_data'])) {
-                        $table1 = $this->tables['content_data'];
-                        $q = "DELETE FROM $table1 WHERE content_id=$c_id    ";
-                        $q = $this->app->db->query($q);
-                    }
-
-
-                } else {
-                    $q = "UPDATE $table SET is_deleted='y' WHERE id=$c_id ";
-
-                    $q = $this->app->db->query($q);
-                    $q = "UPDATE $table SET is_deleted='y' WHERE parent=$c_id ";
-                    $q = $this->app->db->query($q);
-                    if (isset($this->tables['categories'])) {
-                        $table1 = $this->tables['categories'];
-                        $q = "UPDATE $table1 SET is_deleted='y' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='n' ";
-
-                        $q = $this->app->db->query($q);
-                    }
-
-
-                }
-
-
-                $this->app->cache->delete('content/' . $c_id);
-            }
-            $this->app->cache->delete('menus');
-            $this->app->cache->delete('content');
-            $this->app->cache->delete('categories/global');
-
-
-        }
-        return ($del_ids);
-    }
-
-    public function edit_field_draft($data)
-    {
-        only_admin_access();
-
-        $page = false;
-        if (isset($_SERVER["HTTP_REFERER"])) {
-            $url = $_SERVER["HTTP_REFERER"];
-            $url = explode('?', $url);
-            $url = $url[0];
-
-            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
-                //$page = $this->get_by_url($url);
-                $page = $this->homepage();
-                // var_dump($page);
-            } else {
-
-                $page = $this->get_by_url($url);
-            }
-        } else {
-            $url = $this->app->url->string();
-        }
-
-        $this->define_constants($page);
-
-
-        $table_drafts = $this->tables['content_fields_drafts'];
-
-
-        $data = parse_params($data);
-
-        if (isset($data['id']) and $data['id'] == 'latest_content_edit') {
-
-            if (isset($page['id'])) {
-                $page_data = $this->get_by_id($page['id']);
-
-                $results = array();
-                if (isset($page_data['title'])) {
-                    $arr = array('rel' => 'content',
-                        'field' => 'title',
-                        'value' => $page_data['title']);
-                    $results[] = $arr;
-                    if (isset($page_data['content_type'])) {
-                        $arr = array('rel' => $page_data['content_type'],
-                            'field' => 'title',
-                            'value' => $page_data['title']);
-                        $results[] = $arr;
-                    }
-                    if (isset($page_data['subtype'])) {
-                        $arr = array('rel' => $page_data['subtype'],
-                            'field' => 'title',
-                            'value' => $page_data['title']);
-                        $results[] = $arr;
-                    }
-                }
-                if (isset($page_data['content']) and $page_data['content'] != '') {
-                    $arr = array('rel' => 'content',
-                        'field' => 'content',
-                        'value' => $page_data['content']);
-                    $results[] = $arr;
-                    if (isset($page_data['content_type'])) {
-                        $arr = array('rel' => $page_data['content_type'],
-                            'field' => 'content',
-                            'value' => $page_data['content']);
-                        $results[] = $arr;
-                    }
-                    if (isset($page_data['subtype'])) {
-                        $arr = array('rel' => $page_data['subtype'],
-                            'field' => 'content',
-                            'value' => $page_data['content']);
-                        $results[] = $arr;
-                    }
-                }
-                //$results[]
-
-            }
-
-
-        } else {
-            $data['is_draft'] = 1;
-            $data['full'] = 1;
-            $data['all'] = 1;
-            $results = $this->edit_field($data);
-        }
-
-
-        $ret = array();
-
-
-        if ($results == false) {
-            return;
-        }
-
-        $i = 0;
-        foreach ($results as $item) {
-
-
-            if (isset($item['value'])) {
-                $field_content = htmlspecialchars_decode($item['value']);
-                $field_content = $this->_decode_entities($field_content);
-                $item['value'] = mw('parser')->process($field_content, $options = false);
-
-            }
-
-            $ret[$i] = $item;
-            $i++;
-
-        }
-
-
-        return $ret;
-
-
-    }
-
     /**
-     * Returns the homepage as array
+     * Get single content item by id from the content_table
      *
+     * @param int $id The id of the content item
+     * @return array
      * @category Content
-     * @package Content
+     * @function  get_content_by_id
+     *
+     * @example
+     * <pre>
+     * $content = $this->get_by_id(1);
+     * var_dump($content);
+     * </pre>
+     *
      */
-    public function homepage()
+    public function get_by_id($id)
     {
 
-
-        $table = $this->tables['content'];
-
-
-        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
-
-        $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-        //
-        $result = $q;
-        if ($result == false) {
-            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted='n' AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
-            $q = $this->app->db->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-            $result = $q;
-
-        }
-
-
-        if ($result != false) {
-            $content = $result[0];
-        }
-
-        if (isset($content)) {
-            return $content;
-        }
-    }
-
-    public function edit_field($data, $debug = false)
-    {
-
-
-        $table = $this->tables['content_fields'];
-
-        $table_drafts = $this->tables['content_fields_drafts'];
-
-        if (is_string($data)) {
-            $data = parse_params($data);
-        }
-
-        if (!is_array($data)) {
-            $data = array();
-        }
-
-
-        if (isset($data['is_draft'])) {
-            $table = $table_drafts;
-        }
-
-        if (!isset($data['rel'])) {
-            if (isset($data['rel'])) {
-                if ($data['rel'] == 'content' or $data['rel'] == 'page' or $data['rel'] == 'post') {
-                    $data['rel'] = 'content';
-                }
-                $data['rel'] = $data['rel'];
-            }
-        }
-        if (!isset($data['rel_id'])) {
-            if (isset($data['data-id'])) {
-                $data['rel_id'] = $data['data-id'];
-            } else {
-
-            }
-        }
-
-        if (!isset($data['rel_id']) and !isset($data['is_draft'])) {
-            //  $data['rel_id'] = 0;
-        }
-
-        if ((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
-            // mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
-        }
-
-        if ((isset($data['rel']) and isset($data['rel_id']))) {
-
-            $data['cache_group'] = guess_cache_group('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
-        } else {
-            $data['cache_group'] = guess_cache_group('content_fields/global');
-
-        }
-        if (!isset($data['all'])) {
-            $data['one'] = 1;
-            $data['limit'] = 1;
-        }
-
-        $data['table'] = $table;
-
-        $get = $this->app->db->get($data);
-
-
-        if (!isset($data['full']) and isset($get['value'])) {
-            return $get['value'];
-        } else {
-            return $get;
-        }
-
-
-        return false;
-
-
-    }
-
-    public function _decode_entities($text)
-    {
-
-        $text = html_entity_decode($text, ENT_QUOTES, "ISO-8859-1"); #NOTE: UTF-8 does not work!
-        $text = preg_replace('/&#(\d+);/me', "chr(\\1)", $text); #decimal notation
-        $text = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $text); #hex notation
-        return $text;
-    }
-
-    public function prev_content($content_id = false)
-    {
-        return $this->next_content($content_id, $mode = 'prev');
-
-    }
-
-    public function next_content($content_id = false, $mode = 'next')
-    {
-        if ($content_id == false) {
-            if (defined('POST_ID') and POST_ID != 0) {
-                $content_id = POST_ID;
-            } else if (defined('PAGE_ID') and PAGE_ID != 0) {
-                $content_id = PAGE_ID;
-            } else if (defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0) {
-                $content_id = MAIN_PAGE_ID;
-            }
-        }
-        $category_id = false;
-        if (defined('CATEGORY_ID') and CATEGORY_ID != 0) {
-            $category_id = CATEGORY_ID;
-        }
-        if ($content_id == false) {
-            return false;
-        } else {
-            $content_id = intval($content_id);
-        }
-        $cont_data = $this->get_by_id($content_id);
-        if ($cont_data == false) {
-            return false;
-        }
-        $categories = array();
-        $params = array();
-
-        if (isset($cont_data['parent']) and $cont_data['parent'] > 0) {
-            $params['parent'] = $cont_data['parent'];
-        }
-
-        $compare_q = '[lt]';
-        if (trim($mode) == 'prev') {
-            $compare_q = '[mt]';
-        }
-        if (isset($cont_data['content_type'])) {
-            $params['content_type'] = $cont_data['content_type'];
-        }
-
-        if (isset($cont_data['content_type']) and $cont_data['content_type'] != 'page') {
-            $compare_q = '[mt]';
-            $params['order_by'] = 'created_on asc';
-            $params['order_by'] = 'position asc, created_on asc';
-            $params['order_by'] = 'position asc';
-            if (trim($mode) == 'prev') {
-                $compare_q = '[lt]';
-                $params['order_by'] = 'position desc, created_on desc';
-                $params['order_by'] = 'position desc';
-            }
-            $cats = $this->app->category->get_for_content($content_id);
-            if (!empty($cats)) {
-                foreach ($cats as $cat) {
-                    $categories[] = $cat['id'];
-                }
-            } else {
-                if ($category_id != false) {
-                    //$categories[] = $category_id;
-                }
-            }
-            $params['position'] = $compare_q . $cont_data['position'];
-
-            //  $params['created_on'] = $compare_q . $cont_data['created_on'];
-        } else {
-            if (isset($cont_data['position']) and $cont_data['position'] > 0) {
-                $params['position'] = $compare_q . $cont_data['position'];
-            }
-            $params['order_by'] = 'created_on asc';
-            if (trim($mode) == 'prev') {
-                $params['order_by'] = 'created_on desc';
-            }
-        }
-
-        if (!empty($categories)) {
-            $params['category'] = $categories;
-        }
-
-        $params['limit'] = 1;
-        $params['exclude_ids'] = array($content_id);
-        $params['is_active'] = 'y';
-        $params['is_deleted'] = 'n';
-        $params['single'] = true;
-        $q = $this->get($params);
-        if (is_array($q)) {
-            return $q;
-        } else {
-            if (isset($params['created_on'])) {
-                unset($params['created_on']);
-            }
-            $q = $this->get($params);
-            if (!is_array($q)) {
-                if (isset($params['category'])) {
-                    unset($params['category']);
-                    $q = $this->get($params);
-                }
-            }
-            if (is_array($q)) {
-                return $q;
-            }
-            return false;
-        }
-    }
-
-    public function reorder($params)
-    {
-        $id = $this->app->user->is_admin();
         if ($id == false) {
-            return ('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
-        $ids = $params['ids'];
-        if (empty($ids)) {
-            $ids = $_POST[0];
-        }
-        if (empty($ids)) {
             return false;
         }
-        $ids = array_unique($ids);
-
-        $ids_implode = implode(',', $ids);
-        $ids_implode = $this->app->db->escape_string($ids_implode);
-
 
         $table = $this->tables['content'];
-        $maxpos = 0;
-        $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
-        $get_max_pos = $this->app->db->query($get_max_pos);
-        if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
-
-            $maxpos = intval($get_max_pos[0]['maxpos']) + 1;
-
+        $id = intval($id);
+        if ($id == 0) {
+            return false;
         }
 
-        // $q = " SELECT id, created_on, position from $table where id IN ($ids_implode)  order by position desc  ";
-        // $q = $this->app->db->query($q);
-        // $max_date = $q[0]['created_on'];
-        // $max_date_str = strtotime($max_date);
-        $i = 1;
-        foreach ($ids as $id) {
-            $id = intval($id);
-            $this->app->cache->delete('content/' . $id);
-            //$max_date_str = $max_date_str - $i;
-            //	$nw_date = date('Y-m-d H:i:s', $max_date_str);
-            //$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
-            $pox = $maxpos - $i;
-            $q = " UPDATE $table SET position=$pox WHERE id=$id   ";
-            //    var_dump($q);
-            $q = $this->app->db->q($q);
-            $i++;
-        }
-        //
-        // var_dump($q);
-        $this->app->cache->delete('content/global');
-        $this->app->cache->delete('categories/global');
-        return true;
-    }
+        $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
 
-    /**
-     * Set content to be unpublished
-     *
-     * Set is_active flag 'n'
-     *
-     * @param string|array|bool $params
-     * @return string The url of the content
-     * @package Content
-     * @subpackage Advanced
-     *
-     * @uses $this->save_content()
-     * @see content_set_unpublished()
-     * @example
-     * <code>
-     * //set published the content with id 5
-     * content_set_unpublished(5);
-     *
-     * //alternative way
-     * content_set_unpublished(array('id' => 5));
-     * </code>
-     *
-     */
-    public function set_unpublished($params)
-    {
+        $params = array();
+        $params['id'] = $id;
+        $params['limit'] = 1;
+        $params['table'] = $table;
+        $params['cache_group'] = 'content/' . $id;
 
-        if (intval($params) > 0 and !isset($params['id'])) {
-            if (!is_array($params)) {
-                $id = $params;
-                $params = array();
-                $params['id'] = $id;
-            }
-        }
-        $adm = $this->app->user->is_admin();
-        if ($adm == false) {
-            return array('error' => 'You must be admin to unpublish content!');
-        }
-
-        if (!isset($params['id'])) {
-            return array('error' => 'You must provide id parameter!');
+        if ($this->no_cache == true) {
+            $q = $this->app->db->query($q);
         } else {
-            if (intval($params['id'] != 0)) {
-                $save = array();
-                $save['id'] = intval($params['id']);
-                $save['is_active'] = 'n';
+            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+        }
 
-                $save_data = $this->save_content($save);
-                return ($save_data);
+        if (is_array($q) and isset($q[0])) {
+            $content = $q[0];
+            if (isset($content['title'])) {
+                $content['title'] = html_entity_decode($content['title']);
+                $content['title'] = strip_tags($content['title']);
+                $content['title'] = $this->app->format->clean_html($content['title']);
             }
-        }
-
-    }
-
-    /**
-     * Set content to be published
-     *
-     * Set is_active flag 'y'
-     *
-     * @param string|array|bool $params
-     * @return string The url of the content
-     * @package Content
-     * @subpackage Advanced
-     *
-     * @uses $this->save_content()
-     * @example
-     * <code>
-     * //set published the content with id 5
-     * api/content/set_published(5);
-     *
-     * //alternative way
-     * api/content/set_published(array('id' => 5));
-     * </code>
-     *
-     */
-    public function set_published($params)
-    {
-
-        if (intval($params) > 0 and !isset($params['id'])) {
-            if (!is_array($params)) {
-                $id = $params;
-                $params = array();
-                $params['id'] = $id;
-            }
-        }
-        $adm = $this->app->user->is_admin();
-        if ($adm == false) {
-            return array('error' => 'You must be admin to publish content!');
-        }
-
-
-        if (!isset($params['id'])) {
-            return array('error' => 'You must provide id parameter!');
         } else {
-            if (intval($params['id'] != 0)) {
-
-                $save = array();
-                $save['id'] = intval($params['id']);
-                $save['is_active'] = 'y';
-
-                $save_data = $this->save_content($save);
-                return ($save_data);
-            }
-
-        }
-    }
-
-    function create_default_content($what)
-    {
-
-        if (defined("MW_NO_DEFAULT_CONTENT")) {
-            return true;
+            return false;
         }
 
-
-        switch ($what) {
-            case 'shop' :
-                $is_shop = $this->get('content_type=page&is_shop=y');
-                //$is_shop = false;
-                $new_shop = false;
-                if ($is_shop == false) {
-                    $add_page = array();
-                    $add_page['id'] = 0;
-                    $add_page['parent'] = 0;
-
-                    $add_page['title'] = "Online shop";
-                    $add_page['url'] = "shop";
-                    $add_page['content_type'] = "page";
-                    $add_page['subtype'] = 'dynamic';
-                    $add_page['is_shop'] = 'y';
-                    $add_page['active_site_template'] = 'default';
-                    $find_layout = $this->app->layouts->scan();
-                    if (is_array($find_layout)) {
-                        foreach ($find_layout as $item) {
-                            if (isset($item['layout_file']) and isset($item['is_shop'])) {
-                                $add_page['layout_file'] = $item['layout_file'];
-                                if (isset($item['name'])) {
-                                    $add_page['title'] = $item['name'];
-                                }
-                            }
-                        }
-                    }
-                    $new_shop = $this->app->db->save('content', $add_page);
-                    $this->app->cache->delete('content');
-                    $this->app->cache->delete('categories');
-                    $this->app->cache->delete('custom_fields');
-
-                    //
-                } else {
-
-                    if (isset($is_shop[0])) {
-                        $new_shop = $is_shop[0]['id'];
-                    }
-                }
-
-                $posts = $this->get('content_type=post&parent=' . $new_shop);
-                if ($posts == false and $new_shop != false) {
-                    $add_page = array();
-                    $add_page['id'] = 0;
-                    $add_page['parent'] = $new_shop;
-                    $add_page['title'] = "My product";
-                    $add_page['url'] = "my-product";
-                    $add_page['content_type'] = "post";
-                    $add_page['subtype'] = "product";
-
-                    //$new_shop = $this->save_content($add_page);
-                    //$this->app->cache->delete('content');
-                    //$this->app->cache->clear();
-                }
-
-
-                break;
-
-
-            case 'blog' :
-                $is_shop = $this->get('is_deleted=n&content_type=page&subtype=dynamic&is_shop=n&limit=1');
-                //$is_shop = false;
-                $new_shop = false;
-                if ($is_shop == false) {
-                    $add_page = array();
-                    $add_page['id'] = 0;
-                    $add_page['parent'] = 0;
-
-                    $add_page['title'] = "Blog";
-                    $add_page['url'] = "blog";
-                    $add_page['content_type'] = "page";
-                    $add_page['subtype'] = 'dynamic';
-                    $add_page['is_shop'] = 'n';
-                    $add_page['active_site_template'] = 'default';
-                    $find_layout = $this->app->layouts->scan();
-                    if (is_array($find_layout)) {
-                        foreach ($find_layout as $item) {
-                            if (!isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) == 'dynamic') {
-                                $add_page['layout_file'] = $item['layout_file'];
-                                if (isset($item['name'])) {
-                                    $add_page['title'] = $item['name'];
-                                }
-                            }
-                        }
-
-                        foreach ($find_layout as $item) {
-                            if (isset($item['name']) and stristr($item['name'], 'blog') and !isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) == 'dynamic') {
-                                $add_page['layout_file'] = $item['layout_file'];
-                                if (isset($item['name'])) {
-                                    $add_page['title'] = $item['name'];
-                                }
-                            }
-                        }
-
-
-                    }
-
-                    $new_shop = $this->app->db->save('content', $add_page);
-                    $this->app->cache->delete('content');
-                    $this->app->cache->delete('categories');
-                    $this->app->cache->delete('content_fields');
-
-
-                    //
-                } else {
-
-                    if (isset($is_shop[0])) {
-                        $new_shop = $is_shop[0]['id'];
-                    }
-                }
-
-
-                break;
-
-            case 'default' :
-            case 'install' :
-                $any = $this->get('count=1&content_type=page&limit=1');
-                if (intval($any) == 0) {
-
-
-                    $table = $this->tables['content'];
-                    mw_var('FORCE_SAVE_CONTENT', $table);
-                    mw_var('FORCE_SAVE', $table);
-
-                    $add_page = array();
-                    $add_page['id'] = 0;
-                    $add_page['parent'] = 0;
-                    $add_page['title'] = "Home";
-                    $add_page['url'] = "home";
-                    $add_page['content_type'] = "page";
-                    $add_page['subtype'] = 'static';
-                    $add_page['is_shop'] = 'n';
-                    //$add_page['debug'] = 1;
-                    $add_page['is_home'] = 'y';
-                    $add_page['active_site_template'] = 'default';
-                    $new_shop = $this->save_content($add_page);
-                }
-
-                break;
-
-            default :
-                break;
-        }
+        return $content;
     }
 
     /**
@@ -5286,6 +4161,9 @@ class Content
         }
 
     }
+
+
+// ------------------------------------------------------------------------
 
     public function save_content($data, $delete_the_cache = true)
     {
@@ -6071,6 +4949,977 @@ class Content
 
     }
 
+    public function custom_fields($content_id, $full = true, $field_type = false)
+    {
+
+        return $this->app->fields->get('content', $content_id, $full, false, false, $field_type);
+
+
+    }
+
+    /**
+     *  Get the first parent that has layout
+     *
+     * @category Content
+     * @package Content
+     * @subpackage Advanced
+     * @uses $this->get_parents()
+     * @uses $this->get_by_id()
+     */
+    public function get_inherited_parent($content_id)
+    {
+        $inherit_from = $this->get_parents($content_id);
+        $found = 0;
+        if (!empty($inherit_from)) {
+            foreach ($inherit_from as $value) {
+                if ($found == 0) {
+                    $par_c = $this->get_by_id($value);
+                    if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
+                        return $par_c['id'];
+                    }
+                }
+            }
+        }
+    }
+
+    public function get_parents($id = 0, $without_main_parrent = false)
+    {
+
+        if (intval($id) == 0) {
+            return FALSE;
+        }
+
+        $table = $this->tables['content'];
+
+        $ids = array();
+
+        $data = array();
+
+        if (isset($without_main_parrent) and $without_main_parrent == true) {
+
+            $with_main_parrent_q = " and parent<>0 ";
+        } else {
+
+            $with_main_parrent_q = false;
+        }
+        $id = intval($id);
+        $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
+
+        $content_parents = $this->app->db->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+
+        if (!empty($content_parents)) {
+
+            foreach ($content_parents as $item) {
+
+                if (intval($item['id']) != 0) {
+
+                    $ids[] = $item['parent'];
+                }
+                if ($item['parent'] != $item['id'] and intval($item['parent'] != 0)) {
+                    $next = $this->get_parents($item['parent'], $without_main_parrent);
+
+                    if (!empty($next)) {
+
+                        foreach ($next as $n) {
+
+                            if ($n != '' and $n != 0) {
+
+                                $ids[] = $n;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!empty($ids)) {
+
+            $ids = array_unique($ids);
+
+            return $ids;
+        } else {
+
+            return false;
+        }
+    }
+
+    public function  save_content_field($data, $delete_the_cache = true)
+    {
+
+        $adm = $this->app->user->is_admin();
+        $table = $this->tables['content_fields'];
+        $table_drafts = $this->tables['content_fields_drafts'];
+
+        //$checks = mw_var('FORCE_SAVE_CONTENT');
+
+
+        if ($adm == false) {
+            return false;
+        }
+
+        if (!is_array($data)) {
+            $data = array();
+        }
+
+        if (isset($data['is_draft'])) {
+            $table = $table_drafts;
+
+
+        }
+        if (isset($data['is_draft']) and isset($data['url'])) {
+
+            $draft_url = $this->app->db->escape_string($data['url']);
+            $last_saved_date = date("Y-m-d H:i:s", strtotime("-5 minutes"));
+            $last_saved_date = date("Y-m-d H:i:s", strtotime("-1 week"));
+
+            $history_files_params = array();
+            $history_files_params['order_by'] = 'id desc';
+            $history_files_params['fields'] = 'id';
+            $history_files_params['field'] = $data['field'];
+            $history_files_params['rel'] = $data['rel'];
+            $history_files_params['rel_id'] = $data['rel_id'];
+            //$history_files_params['page'] = 2;
+
+            // $history_files_params['debug'] = 1;
+            $history_files_params['is_draft'] = 1;
+            $history_files_params['limit'] = 20;
+            $history_files_params['url'] = $draft_url;
+            $history_files_params['current_page'] = 2;
+            $history_files_params['created_on'] = '[lt]' . $last_saved_date;
+
+
+            // $history_files_params['created_on'] = '[mt]' . $last_saved_date;
+            $history_files = $this->edit_field($history_files_params);
+            //
+            // $history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=1&url=' . $draft_url . '&created_on=[mt]' . $last_saved_date . '');
+            if (is_array($history_files)) {
+                $history_files_ids = $this->app->format->array_values($history_files);
+            }
+
+            if (isset($history_files_ids) and is_array($history_files_ids) and !empty($history_files_ids)) {
+                $history_files_ids_impopl = implode(',', $history_files_ids);
+                $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
+
+                $this->app->db->q($del_q);
+            }
+
+
+        }
+
+
+        if (!isset($data['rel']) or !isset($data['rel_id'])) {
+            mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+        }
+        //if($data['rel'] == 'global'){
+        if (isset($data['field']) and !isset($data['is_draft'])) {
+            $fld = $this->app->db->escape_string($data['field']);
+            $fld_rel = $this->app->db->escape_string($data['rel']);
+            $del_q = "DELETE FROM {$table} WHERE rel='$fld_rel' AND  field='$fld' ";
+            if (isset($data['rel_id'])) {
+                $i = $this->app->db->escape_string($data['rel_id']);
+                $del_q .= " and  rel_id='$i' ";
+
+            } else {
+                $data['rel_id'] = 0;
+            }
+            $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
+            $this->app->db->q($del_q);
+            $this->app->cache->delete($cache_group);
+
+            //
+
+        }
+        if (isset($fld)) {
+
+            $this->app->cache->delete('content_fields/' . $fld);
+            $this->app->cache->delete('content_fields/global/' . $fld);
+
+
+        }
+        $this->app->cache->delete('content_fields/global');
+        if (isset($data['rel']) and isset($data['rel_id'])) {
+            $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
+            $this->app->cache->delete($cache_group);
+
+
+            $this->app->cache->delete('content/' . $data['rel_id']);
+
+        }
+        if (isset($data['rel'])) {
+            $this->app->cache->delete('content_fields/' . $data['rel']);
+        }
+        if (isset($data['rel']) and isset($data['rel_id'])) {
+            $this->app->cache->delete('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
+            $this->app->cache->delete('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
+        }
+        if (isset($data['field'])) {
+            $this->app->cache->delete('content_fields/' . $data['field']);
+        }
+
+        $this->app->cache->delete('content_fields/global');
+        //}
+        $data['allow_html'] = true;
+
+        $save = $this->app->db->save($table, $data);
+
+        $this->app->cache->delete('content_fields');
+
+        return $save;
+
+
+    }
+
+    public function edit_field($data, $debug = false)
+    {
+
+
+        $table = $this->tables['content_fields'];
+
+        $table_drafts = $this->tables['content_fields_drafts'];
+
+        if (is_string($data)) {
+            $data = parse_params($data);
+        }
+
+        if (!is_array($data)) {
+            $data = array();
+        }
+
+
+        if (isset($data['is_draft'])) {
+            $table = $table_drafts;
+        }
+
+        if (!isset($data['rel'])) {
+            if (isset($data['rel'])) {
+                if ($data['rel'] == 'content' or $data['rel'] == 'page' or $data['rel'] == 'post') {
+                    $data['rel'] = 'content';
+                }
+                $data['rel'] = $data['rel'];
+            }
+        }
+        if (!isset($data['rel_id'])) {
+            if (isset($data['data-id'])) {
+                $data['rel_id'] = $data['data-id'];
+            } else {
+
+            }
+        }
+
+        if (!isset($data['rel_id']) and !isset($data['is_draft'])) {
+            //  $data['rel_id'] = 0;
+        }
+
+        if ((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
+            // mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+        }
+
+        if ((isset($data['rel']) and isset($data['rel_id']))) {
+
+            $data['cache_group'] = guess_cache_group('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
+        } else {
+            $data['cache_group'] = guess_cache_group('content_fields/global');
+
+        }
+        if (!isset($data['all'])) {
+            $data['one'] = 1;
+            $data['limit'] = 1;
+        }
+
+        $data['table'] = $table;
+
+        $get = $this->app->db->get($data);
+
+
+        if (!isset($data['full']) and isset($get['value'])) {
+            return $get['value'];
+        } else {
+            return $get;
+        }
+
+
+        return false;
+
+
+    }
+
+    public function delete($data)
+    {
+        $to_trash = false;
+        $to_untrash = false;
+
+        if (defined('MW_API_CALL')) {
+            $to_trash = true;
+            $adm = $this->app->user->is_admin();
+            if ($adm == false) {
+                return array('error' => 'You must be admin to delete content!');
+            }
+        }
+
+        if (!is_array($data)) {
+            $del_data = array();
+            $del_data['id'] = intval($data);
+            $data = $del_data;
+            $to_trash = false;
+        }
+
+
+        if (isset($data['forever']) or isset($data['delete_forever'])) {
+
+            $to_trash = false;
+        }
+        if (isset($data['undelete'])) {
+            $to_trash = true;
+            $to_untrash = true;
+        }
+
+        $del_ids = array();
+        if (isset($data['id'])) {
+            $c_id = intval($data['id']);
+            $del_ids[] = $c_id;
+            if ($to_trash == false) {
+                $this->app->db->delete_by_id('content', $c_id);
+            }
+        }
+
+        if (isset($data['ids']) and is_array($data['ids'])) {
+            foreach ($data['ids'] as $value) {
+                $c_id = intval($value);
+                $del_ids[] = $c_id;
+                if ($to_trash == false) {
+                    $this->app->db->delete_by_id('content', $c_id);
+                }
+            }
+
+        }
+
+
+        if (!empty($del_ids)) {
+            $table = $this->tables['content'];
+
+            foreach ($del_ids as $value) {
+                $c_id = intval($value);
+                //$q = "update $table set parent=0 where parent=$c_id ";
+
+                if ($to_untrash == true) {
+                    $q = "UPDATE $table SET is_deleted='n' WHERE id=$c_id AND  is_deleted='y' ";
+                    $q = $this->app->db->query($q);
+                    $q = "UPDATE $table SET is_deleted='n' WHERE parent=$c_id   AND  is_deleted='y' ";
+                    $q = $this->app->db->query($q);
+                    if (isset($this->tables['categories'])) {
+                        $table1 = $this->tables['categories'];
+                        $q = "UPDATE $table1 SET is_deleted='n' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='y' ";
+                        $q = $this->app->db->query($q);
+                    }
+
+                } else if ($to_trash == false) {
+                    $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
+                    $q = $this->app->db->query($q);
+
+                    $this->app->db->delete_by_id('menus', $c_id, 'content_id');
+
+                    if (isset($this->tables['media'])) {
+                        $table1 = $this->tables['media'];
+                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
+                        $q = $this->app->db->query($q);
+                    }
+
+                    if (isset($this->tables['categories'])) {
+                        $table1 = $this->tables['categories'];
+                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
+                        $q = $this->app->db->query($q);
+                    }
+
+
+                    if (isset($this->tables['categories_items'])) {
+                        $table1 = $this->tables['categories_items'];
+                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
+                        $q = $this->app->db->query($q);
+                    }
+                    if (isset($this->tables['custom_fields'])) {
+                        $table1 = $this->tables['custom_fields'];
+                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
+
+                        $q = $this->app->db->query($q);
+                    }
+
+                    if (isset($this->tables['content_data'])) {
+                        $table1 = $this->tables['content_data'];
+                        $q = "DELETE FROM $table1 WHERE content_id=$c_id    ";
+                        $q = $this->app->db->query($q);
+                    }
+
+
+                } else {
+                    $q = "UPDATE $table SET is_deleted='y' WHERE id=$c_id ";
+
+                    $q = $this->app->db->query($q);
+                    $q = "UPDATE $table SET is_deleted='y' WHERE parent=$c_id ";
+                    $q = $this->app->db->query($q);
+                    if (isset($this->tables['categories'])) {
+                        $table1 = $this->tables['categories'];
+                        $q = "UPDATE $table1 SET is_deleted='y' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='n' ";
+
+                        $q = $this->app->db->query($q);
+                    }
+
+
+                }
+
+
+                $this->app->cache->delete('content/' . $c_id);
+            }
+            $this->app->cache->delete('menus');
+            $this->app->cache->delete('content');
+            $this->app->cache->delete('categories/global');
+
+
+        }
+        return ($del_ids);
+    }
+
+    public function edit_field_draft($data)
+    {
+        only_admin_access();
+
+        $page = false;
+        if (isset($_SERVER["HTTP_REFERER"])) {
+            $url = $_SERVER["HTTP_REFERER"];
+            $url = explode('?', $url);
+            $url = $url[0];
+
+            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
+                //$page = $this->get_by_url($url);
+                $page = $this->homepage();
+                // var_dump($page);
+            } else {
+
+                $page = $this->get_by_url($url);
+            }
+        } else {
+            $url = $this->app->url->string();
+        }
+
+        $this->define_constants($page);
+
+
+        $table_drafts = $this->tables['content_fields_drafts'];
+
+
+        $data = parse_params($data);
+
+        if (isset($data['id']) and $data['id'] == 'latest_content_edit') {
+
+            if (isset($page['id'])) {
+                $page_data = $this->get_by_id($page['id']);
+
+                $results = array();
+                if (isset($page_data['title'])) {
+                    $arr = array('rel' => 'content',
+                        'field' => 'title',
+                        'value' => $page_data['title']);
+                    $results[] = $arr;
+                    if (isset($page_data['content_type'])) {
+                        $arr = array('rel' => $page_data['content_type'],
+                            'field' => 'title',
+                            'value' => $page_data['title']);
+                        $results[] = $arr;
+                    }
+                    if (isset($page_data['subtype'])) {
+                        $arr = array('rel' => $page_data['subtype'],
+                            'field' => 'title',
+                            'value' => $page_data['title']);
+                        $results[] = $arr;
+                    }
+                }
+                if (isset($page_data['content']) and $page_data['content'] != '') {
+                    $arr = array('rel' => 'content',
+                        'field' => 'content',
+                        'value' => $page_data['content']);
+                    $results[] = $arr;
+                    if (isset($page_data['content_type'])) {
+                        $arr = array('rel' => $page_data['content_type'],
+                            'field' => 'content',
+                            'value' => $page_data['content']);
+                        $results[] = $arr;
+                    }
+                    if (isset($page_data['subtype'])) {
+                        $arr = array('rel' => $page_data['subtype'],
+                            'field' => 'content',
+                            'value' => $page_data['content']);
+                        $results[] = $arr;
+                    }
+                }
+                //$results[]
+
+            }
+
+
+        } else {
+            $data['is_draft'] = 1;
+            $data['full'] = 1;
+            $data['all'] = 1;
+            $results = $this->edit_field($data);
+        }
+
+
+        $ret = array();
+
+
+        if ($results == false) {
+            return;
+        }
+
+        $i = 0;
+        foreach ($results as $item) {
+
+
+            if (isset($item['value'])) {
+                $field_content = htmlspecialchars_decode($item['value']);
+                $field_content = $this->_decode_entities($field_content);
+                $item['value'] = mw('parser')->process($field_content, $options = false);
+
+            }
+
+            $ret[$i] = $item;
+            $i++;
+
+        }
+
+
+        return $ret;
+
+
+    }
+
+    public function _decode_entities($text)
+    {
+
+        $text = html_entity_decode($text, ENT_QUOTES, "ISO-8859-1"); #NOTE: UTF-8 does not work!
+        $text = preg_replace('/&#(\d+);/me', "chr(\\1)", $text); #decimal notation
+        $text = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $text); #hex notation
+        return $text;
+    }
+
+    public function prev_content($content_id = false)
+    {
+        return $this->next_content($content_id, $mode = 'prev');
+
+    }
+
+    public function next_content($content_id = false, $mode = 'next')
+    {
+        if ($content_id == false) {
+            if (defined('POST_ID') and POST_ID != 0) {
+                $content_id = POST_ID;
+            } else if (defined('PAGE_ID') and PAGE_ID != 0) {
+                $content_id = PAGE_ID;
+            } else if (defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0) {
+                $content_id = MAIN_PAGE_ID;
+            }
+        }
+        $category_id = false;
+        if (defined('CATEGORY_ID') and CATEGORY_ID != 0) {
+            $category_id = CATEGORY_ID;
+        }
+        if ($content_id == false) {
+            return false;
+        } else {
+            $content_id = intval($content_id);
+        }
+        $cont_data = $this->get_by_id($content_id);
+        if ($cont_data == false) {
+            return false;
+        }
+        $categories = array();
+        $params = array();
+
+        if (isset($cont_data['parent']) and $cont_data['parent'] > 0) {
+            $params['parent'] = $cont_data['parent'];
+        }
+
+        $compare_q = '[lt]';
+        if (trim($mode) == 'prev') {
+            $compare_q = '[mt]';
+        }
+        if (isset($cont_data['content_type'])) {
+            $params['content_type'] = $cont_data['content_type'];
+        }
+
+        if (isset($cont_data['content_type']) and $cont_data['content_type'] != 'page') {
+            $compare_q = '[mt]';
+            $params['order_by'] = 'created_on asc';
+            $params['order_by'] = 'position asc, created_on asc';
+            $params['order_by'] = 'position asc';
+            if (trim($mode) == 'prev') {
+                $compare_q = '[lt]';
+                $params['order_by'] = 'position desc, created_on desc';
+                $params['order_by'] = 'position desc';
+            }
+            $cats = $this->app->category->get_for_content($content_id);
+            if (!empty($cats)) {
+                foreach ($cats as $cat) {
+                    $categories[] = $cat['id'];
+                }
+            } else {
+                if ($category_id != false) {
+                    //$categories[] = $category_id;
+                }
+            }
+            $params['position'] = $compare_q . $cont_data['position'];
+
+            //  $params['created_on'] = $compare_q . $cont_data['created_on'];
+        } else {
+            if (isset($cont_data['position']) and $cont_data['position'] > 0) {
+                $params['position'] = $compare_q . $cont_data['position'];
+            }
+            $params['order_by'] = 'created_on asc';
+            if (trim($mode) == 'prev') {
+                $params['order_by'] = 'created_on desc';
+            }
+        }
+
+        if (!empty($categories)) {
+            $params['category'] = $categories;
+        }
+
+        $params['limit'] = 1;
+        $params['exclude_ids'] = array($content_id);
+        $params['is_active'] = 'y';
+        $params['is_deleted'] = 'n';
+        $params['single'] = true;
+        $q = $this->get($params);
+        if (is_array($q)) {
+            return $q;
+        } else {
+            if (isset($params['created_on'])) {
+                unset($params['created_on']);
+            }
+            $q = $this->get($params);
+            if (!is_array($q)) {
+                if (isset($params['category'])) {
+                    unset($params['category']);
+                    $q = $this->get($params);
+                }
+            }
+            if (is_array($q)) {
+                return $q;
+            }
+            return false;
+        }
+    }
+
+    public function reorder($params)
+    {
+        $id = $this->app->user->is_admin();
+        if ($id == false) {
+            return ('Error: not logged in as admin.' . __FILE__ . __LINE__);
+        }
+        $ids = $params['ids'];
+        if (empty($ids)) {
+            $ids = $_POST[0];
+        }
+        if (empty($ids)) {
+            return false;
+        }
+        $ids = array_unique($ids);
+
+        $ids_implode = implode(',', $ids);
+        $ids_implode = $this->app->db->escape_string($ids_implode);
+
+
+        $table = $this->tables['content'];
+        $maxpos = 0;
+        $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
+        $get_max_pos = $this->app->db->query($get_max_pos);
+        if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
+
+            $maxpos = intval($get_max_pos[0]['maxpos']) + 1;
+
+        }
+
+        // $q = " SELECT id, created_on, position from $table where id IN ($ids_implode)  order by position desc  ";
+        // $q = $this->app->db->query($q);
+        // $max_date = $q[0]['created_on'];
+        // $max_date_str = strtotime($max_date);
+        $i = 1;
+        foreach ($ids as $id) {
+            $id = intval($id);
+            $this->app->cache->delete('content/' . $id);
+            //$max_date_str = $max_date_str - $i;
+            //	$nw_date = date('Y-m-d H:i:s', $max_date_str);
+            //$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
+            $pox = $maxpos - $i;
+            $q = " UPDATE $table SET position=$pox WHERE id=$id   ";
+            //    var_dump($q);
+            $q = $this->app->db->q($q);
+            $i++;
+        }
+        //
+        // var_dump($q);
+        $this->app->cache->delete('content/global');
+        $this->app->cache->delete('categories/global');
+        return true;
+    }
+
+    /**
+     * Set content to be unpublished
+     *
+     * Set is_active flag 'n'
+     *
+     * @param string|array|bool $params
+     * @return string The url of the content
+     * @package Content
+     * @subpackage Advanced
+     *
+     * @uses $this->save_content()
+     * @see content_set_unpublished()
+     * @example
+     * <code>
+     * //set published the content with id 5
+     * content_set_unpublished(5);
+     *
+     * //alternative way
+     * content_set_unpublished(array('id' => 5));
+     * </code>
+     *
+     */
+    public function set_unpublished($params)
+    {
+
+        if (intval($params) > 0 and !isset($params['id'])) {
+            if (!is_array($params)) {
+                $id = $params;
+                $params = array();
+                $params['id'] = $id;
+            }
+        }
+        $adm = $this->app->user->is_admin();
+        if ($adm == false) {
+            return array('error' => 'You must be admin to unpublish content!');
+        }
+
+        if (!isset($params['id'])) {
+            return array('error' => 'You must provide id parameter!');
+        } else {
+            if (intval($params['id'] != 0)) {
+                $save = array();
+                $save['id'] = intval($params['id']);
+                $save['is_active'] = 'n';
+
+                $save_data = $this->save_content($save);
+                return ($save_data);
+            }
+        }
+
+    }
+
+    /**
+     * Set content to be published
+     *
+     * Set is_active flag 'y'
+     *
+     * @param string|array|bool $params
+     * @return string The url of the content
+     * @package Content
+     * @subpackage Advanced
+     *
+     * @uses $this->save_content()
+     * @example
+     * <code>
+     * //set published the content with id 5
+     * api/content/set_published(5);
+     *
+     * //alternative way
+     * api/content/set_published(array('id' => 5));
+     * </code>
+     *
+     */
+    public function set_published($params)
+    {
+
+        if (intval($params) > 0 and !isset($params['id'])) {
+            if (!is_array($params)) {
+                $id = $params;
+                $params = array();
+                $params['id'] = $id;
+            }
+        }
+        $adm = $this->app->user->is_admin();
+        if ($adm == false) {
+            return array('error' => 'You must be admin to publish content!');
+        }
+
+
+        if (!isset($params['id'])) {
+            return array('error' => 'You must provide id parameter!');
+        } else {
+            if (intval($params['id'] != 0)) {
+
+                $save = array();
+                $save['id'] = intval($params['id']);
+                $save['is_active'] = 'y';
+
+                $save_data = $this->save_content($save);
+                return ($save_data);
+            }
+
+        }
+    }
+
+    function create_default_content($what)
+    {
+
+        if (defined("MW_NO_DEFAULT_CONTENT")) {
+            return true;
+        }
+
+
+        switch ($what) {
+            case 'shop' :
+                $is_shop = $this->get('content_type=page&is_shop=y');
+                //$is_shop = false;
+                $new_shop = false;
+                if ($is_shop == false) {
+                    $add_page = array();
+                    $add_page['id'] = 0;
+                    $add_page['parent'] = 0;
+
+                    $add_page['title'] = "Online shop";
+                    $add_page['url'] = "shop";
+                    $add_page['content_type'] = "page";
+                    $add_page['subtype'] = 'dynamic';
+                    $add_page['is_shop'] = 'y';
+                    $add_page['active_site_template'] = 'default';
+                    $find_layout = $this->app->layouts->scan();
+                    if (is_array($find_layout)) {
+                        foreach ($find_layout as $item) {
+                            if (isset($item['layout_file']) and isset($item['is_shop'])) {
+                                $add_page['layout_file'] = $item['layout_file'];
+                                if (isset($item['name'])) {
+                                    $add_page['title'] = $item['name'];
+                                }
+                            }
+                        }
+                    }
+                    $new_shop = $this->app->db->save('content', $add_page);
+                    $this->app->cache->delete('content');
+                    $this->app->cache->delete('categories');
+                    $this->app->cache->delete('custom_fields');
+
+                    //
+                } else {
+
+                    if (isset($is_shop[0])) {
+                        $new_shop = $is_shop[0]['id'];
+                    }
+                }
+
+                $posts = $this->get('content_type=post&parent=' . $new_shop);
+                if ($posts == false and $new_shop != false) {
+                    $add_page = array();
+                    $add_page['id'] = 0;
+                    $add_page['parent'] = $new_shop;
+                    $add_page['title'] = "My product";
+                    $add_page['url'] = "my-product";
+                    $add_page['content_type'] = "post";
+                    $add_page['subtype'] = "product";
+
+                    //$new_shop = $this->save_content($add_page);
+                    //$this->app->cache->delete('content');
+                    //$this->app->cache->clear();
+                }
+
+
+                break;
+
+
+            case 'blog' :
+                $is_shop = $this->get('is_deleted=n&content_type=page&subtype=dynamic&is_shop=n&limit=1');
+                //$is_shop = false;
+                $new_shop = false;
+                if ($is_shop == false) {
+                    $add_page = array();
+                    $add_page['id'] = 0;
+                    $add_page['parent'] = 0;
+
+                    $add_page['title'] = "Blog";
+                    $add_page['url'] = "blog";
+                    $add_page['content_type'] = "page";
+                    $add_page['subtype'] = 'dynamic';
+                    $add_page['is_shop'] = 'n';
+                    $add_page['active_site_template'] = 'default';
+                    $find_layout = $this->app->layouts->scan();
+                    if (is_array($find_layout)) {
+                        foreach ($find_layout as $item) {
+                            if (!isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) == 'dynamic') {
+                                $add_page['layout_file'] = $item['layout_file'];
+                                if (isset($item['name'])) {
+                                    $add_page['title'] = $item['name'];
+                                }
+                            }
+                        }
+
+                        foreach ($find_layout as $item) {
+                            if (isset($item['name']) and stristr($item['name'], 'blog') and !isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) == 'dynamic') {
+                                $add_page['layout_file'] = $item['layout_file'];
+                                if (isset($item['name'])) {
+                                    $add_page['title'] = $item['name'];
+                                }
+                            }
+                        }
+
+
+                    }
+
+                    $new_shop = $this->app->db->save('content', $add_page);
+                    $this->app->cache->delete('content');
+                    $this->app->cache->delete('categories');
+                    $this->app->cache->delete('content_fields');
+
+
+                    //
+                } else {
+
+                    if (isset($is_shop[0])) {
+                        $new_shop = $is_shop[0]['id'];
+                    }
+                }
+
+
+                break;
+
+            case 'default' :
+            case 'install' :
+                $any = $this->get('count=1&content_type=page&limit=1');
+                if (intval($any) == 0) {
+
+
+                    $table = $this->tables['content'];
+                    mw_var('FORCE_SAVE_CONTENT', $table);
+                    mw_var('FORCE_SAVE', $table);
+
+                    $add_page = array();
+                    $add_page['id'] = 0;
+                    $add_page['parent'] = 0;
+                    $add_page['title'] = "Home";
+                    $add_page['url'] = "home";
+                    $add_page['content_type'] = "page";
+                    $add_page['subtype'] = 'static';
+                    $add_page['is_shop'] = 'n';
+                    //$add_page['debug'] = 1;
+                    $add_page['is_home'] = 'y';
+                    $add_page['active_site_template'] = 'default';
+                    $new_shop = $this->save_content($add_page);
+                }
+
+                break;
+
+            default :
+                break;
+        }
+    }
+
     public function get_pages($params = false)
     {
         $params2 = array();
@@ -6344,62 +6193,6 @@ class Content
         if (isset($content['title'])) {
             return $content['title'];
         }
-    }
-
-    /**
-     * Get single content item by id from the content_table
-     *
-     * @param int $id The id of the content item
-     * @return array
-     * @category Content
-     * @function  get_content_by_id
-     *
-     * @example
-     * <pre>
-     * $content = $this->get_by_id(1);
-     * var_dump($content);
-     * </pre>
-     *
-     */
-    public function get_by_id($id)
-    {
-
-        if ($id == false) {
-            return false;
-        }
-
-        $table = $this->tables['content'];
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
-        }
-
-        $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
-
-        $params = array();
-        $params['id'] = $id;
-        $params['limit'] = 1;
-        $params['table'] = $table;
-        $params['cache_group'] = 'content/' . $id;
-
-        if ($this->no_cache == true) {
-            $q = $this->app->db->query($q);
-        } else {
-            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
-        }
-
-        if (is_array($q) and isset($q[0])) {
-            $content = $q[0];
-            if (isset($content['title'])) {
-                $content['title'] = html_entity_decode($content['title']);
-                $content['title'] = strip_tags($content['title']);
-                $content['title'] = $this->app->format->clean_html($content['title']);
-            }
-        } else {
-            return false;
-        }
-
-        return $content;
     }
 
     public function is_in_menu($menu_id = false, $content_id = false)

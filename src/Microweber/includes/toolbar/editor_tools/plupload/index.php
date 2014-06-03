@@ -33,9 +33,6 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
     <div id="pickfiles_<?php print $uid  ?>" href="javascript:;">&nbsp;</div>
 </div>
 <script type="text/javascript">
-    mw.require('archive.js?v=1');
-</script>
-<script type="text/javascript">
     mw.require('files.js');
 </script>
 <script type="text/javascript">
@@ -44,13 +41,12 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
   Params = mw.url.getUrlParams(window.location.href);
 
   urlparams = '';
-
   if(!!Params.path){ urlparams += 'path='+ Params.path;}
 
- $(document).ready(function(){
-        $(mwd.body).mousedown(function(e){
+     $(document).ready(function(){
+      $(mwd.body).mousedown(function(e){
           e.preventDefault();
-        });
+      });
       var multi =  (Params.multiple == 'true');
       var filters = [ {title:"", extensions : Params.filters} ]
       this_frame = parent.mw.$("iframe[name='"+Name+"']");
@@ -59,7 +55,7 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
           browse_button : 'pickfiles_<?php print $uid  ?>',
           debug : 1,
           container: 'container',
-       chunk_size : '500kb',
+          chunk_size : '500kb',
           url : '<?php print site_url('plupload'); ?>?' + urlparams ,
           filters:filters,
           multi_selection:multi
@@ -101,7 +97,7 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
          $(mwd.body).removeClass("loading");
      });
         $(document.body).click(function(){
-               this_frame.trigger("click");
+            this_frame.trigger("click");
         });
     });
  </script>

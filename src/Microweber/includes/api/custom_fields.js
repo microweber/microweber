@@ -124,12 +124,6 @@ mw.custom_fields = {
         clone.find("input").val("").focus();
 
     },
-    remove: function (el) {
-        var q = "Are you sure you want to remove this field?";
-        //mw.tools.confirm(q, function(){
-        $(mw.tools.firstParentWithClass(el, 'mw-custom-field-form-controls')).remove();
-        //});
-    },
     serialize: function (id) {
         var el = mw.$(id);
         fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";

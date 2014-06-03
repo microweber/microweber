@@ -1708,7 +1708,7 @@ class User
     {
 
 
-        $template_dir = $this->app->content->template_dir();
+        $template_dir = $this->app->template->dir();
         $file = $template_dir . 'register.php';
         $default_url = false;
         if (is_file($file)) {
@@ -1736,7 +1736,7 @@ class User
     {
 
 
-        $template_dir = $this->app->content->template_dir();
+        $template_dir = $this->app->template->dir();
         $file = $template_dir . 'login.php';
         $default_url = false;
         if (is_file($file)) {
@@ -1764,7 +1764,7 @@ class User
     {
 
 
-        $template_dir = $this->app->content->template_dir();
+        $template_dir = $this->app->template->dir();
         $file = $template_dir . 'forgot_password.php';
         $default_url = false;
         if (is_file($file)) {

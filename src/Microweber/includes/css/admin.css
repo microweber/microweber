@@ -107,8 +107,6 @@ h2 > [class*="mw-icon-"]:first-child{
   max-width: 999px;
 }
 .mw-iframe-editor{
-  position: relative;
-  left: -35px;
   max-width: 1200px !important;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box ;
@@ -1119,6 +1117,10 @@ a:hover .mw_ed_tree_content{
     position: relative;
     white-space: pre;
 }
+.mw-admin-custom-field-value-edit-inline:empty:after {
+    content: "Click to edit";
+    color: #B3B3B3;
+}
 .mw-custom-field-form-controls{
   margin-bottom: 10px;
 }
@@ -1190,6 +1192,22 @@ a:hover .mw_ed_tree_content{
   background: #3F3F3F;
   color: white;
 }
+
+
+
+#custom-fields-post-table > tbody > tr.scale-out{
+  -webkit-transition: all 300ms ease-out;
+  -moz-transition: all 300ms ease-out;
+  -o-transition:all 300ms ease-out;
+  transition: all 300ms ease-out;
+  -webkit-transform: scale(0.01);
+  -moz-transform:scale(0.01);
+  -ms-transform: scale(0.01);
+  -o-transform:scale(0.01);
+  transform: scale(0.01);
+  opacity: 0;
+}
+
 .mw-admin-custom-field-value-edit-inline-holder{
   position: relative;
   display: inline-block;

@@ -150,7 +150,7 @@ function mw_load_all_modules_functions()
         }
     }
 }
-mw_load_all_modules_functions();
+//mw_load_all_modules_functions();
 
 
 
