@@ -373,10 +373,14 @@ mw.askusertostay = false;
     }, false, true);
   }
 
+  mw.reload_module_intervals = {};
   mw.reload_module_interval = function(module_name, interval) {
     var interval =  interval || 1000;
     var obj = {pause:false};
-    var int = setInterval(function(){
+    if(!!mw.reload_module_intervals[module_name]){
+        clearInterval(mw.reload_module_intervals[module_name]);
+    }
+    mw.reload_module_intervals[module_name] = setInterval(function(){
         if(!obj.pause){
             obj.pause = true;
             mw.reload_module(module_name, function(){
@@ -384,7 +388,7 @@ mw.askusertostay = false;
             });
         }
     }, interval);
-    return int;
+    return mw.reload_module_intervals['module_name'];
   }
 
   mw.reload_module_parent = function(module, callback) {

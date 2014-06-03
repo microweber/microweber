@@ -1883,6 +1883,33 @@ input#edit-content-url:focus, input#edit-content-url.active{
 }
 
 
+
+/************************************
+        Backup section
+*************************************/
+
+.mw-backup-download,
+.mw-backup-restore,
+.mw-backup-delete{
+  text-align: center;
+  color: #AAAAAA;
+}
+
+.mw-backup-download > [class*='mw-icon-'],
+.mw-backup-restore > [class*='mw-icon-'],
+.mw-backup-delete > [class*='mw-icon-']{
+  color: #AAAAAA;
+  cursor: pointer;
+}
+
+.mw-backup-download > [class*='mw-icon-']:hover,
+.mw-backup-restore > [class*='mw-icon-']:hover{
+  color: #444444;
+}
+.mw-backup-delete > [class*='mw-icon-']:hover{
+  color: #DC0D17;
+}
+
 /************************************
         Media queries
 *************************************/
