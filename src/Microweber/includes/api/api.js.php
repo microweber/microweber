@@ -527,12 +527,14 @@ mw.askusertostay = false;
           mw.tools.removeClass(mwd.body, 'loading');
           return false;
       }
-      if($(selector).hasClass('module')){
-      $(selector).replaceWith(data);
-      } else {
-      $(selector).after(data);
-      }
+      // if($(selector).hasClass('module') && ($(selector).attr('type') || $(selector).attr('data-type'))){
+      // $(selector).replaceWith(data);
+      // } else {
       // $(selector).after(data);
+      // }
+      // d($(to_send));
+      // d($(selector));
+       $(selector).after(data);
 
       if(typeof to_send.id  !== 'undefined'){
          var id = to_send.id;
