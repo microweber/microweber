@@ -51,6 +51,6 @@ if(isset($params['field-id'])){
         <?php elseif(is_string($field['custom_field_value'])): ?>
         <?php $vals = $field['custom_field_value'];?>
         <?php endif; ?>
-        <span class="mw-admin-custom-field-value-edit-inline-holder"> <span class="mw-admin-custom-field-value-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $vals; ?></span></span>
+        <span class="custom-fields-values-holder"><span class="mw-admin-custom-field-value-edit-inline-holder"><span class="mw-admin-custom-field-value-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $vals; ?></span></span></span>
         <?php endif; ?>
  

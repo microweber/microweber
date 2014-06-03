@@ -204,20 +204,17 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
             value="<?php print $data['title']; ?>" />
 
 
-      <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
-<div class="edit-post-url">
-
+    <input type="hidden" name="is_active" id="is_post_active" value="<?php print $data['is_active']; ?>" />
+    <div class="edit-post-url">
         <div class="mw-ui-row">
             <div class="mw-ui-col" id="slug-base-url-column">
                 <span class="view-post-site-url" id="slug-base-url"><?php print site_url(); ?></span>
-
             </div>
             <div class="mw-ui-col">
                <span class="view-post-slug active" onclick="mw.slug.toggleEdit()"><?php print ($data['url'])?></span>
                <input name="content_url" id="edit-content-url" class="mw-ui-invisible-field mw-ui-field-small w100 edit-post-slug"  onblur="mw.slug.toggleEdit();mw.slug.setVal(this);slugEdited=true;" type="text" value="<?php print ($data['url'])?>" />
             </div>
         </div>
-
     </div>
       <script>
          slugEdited = false;
@@ -233,6 +230,16 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
       </script>
   </div>
 
+
+<?php  if($data['subtype']== 'product'): ?>
+
+<div class="mw-ui-field mw-ui-field-big" id="product-price-holder">
+  <label class="mw-ui-label-inline">Price</label>
+  <small class="tip" data-tipposition="bottom-right" data-tip="You can change the currency settings in 'Settings/Shop'"><strong><?php print get_option('payment_currency', 'payments'); ?></strong></small>
+  <input type="text" class="mw-ui-invisible-field" id="product-price" placeholder="00.00" value="<?php print custom_field_value($data['id'], 'price'); ?>" />
+</div>
+
+<?php endif; ?>
 
 
 <div class="mw-admin-edit-page-primary-settings">
@@ -281,7 +288,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
             <?php _e('Add to navigation menu'); ?>
           </span> </span>
           <?php endif; ?>
-          <?php  if(trim($data['subtype']) == 'product'): ?>
+          <?php  if($data['subtype']== 'product'): ?>
           <span class="mw-ui-btn"><span class="mw-icon-pricefields"></span><span>
             <?php _e("Price & Fields"); ?>
           </span></span>
@@ -376,8 +383,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
 </div></div>
 
 
-  <?php // if($data['subtype'] == 'static' or $data['subtype'] == 'post' or $data['subtype'] == 'product'): ?>
-    <?php  if(isset($data['subtype']) and $data['subtype'] != 'notext'): ?>
+   <?php  if(isset($data['subtype']) and $data['subtype'] != 'notext'): ?>
  
   <div class="mw-ui-field-holder" id="mw-edit-page-editor-holder">
     <div id="quick_content_<?php print $rand ?>"></div>
@@ -910,7 +916,7 @@ mw.save_inner_editable_fields = function(data){
               var off = tabsnav.offset();
               $(tabs).show();
               QTABSArrow(this);
-             mw.$('#quick-add-post-options-items-holder-container').css('maxHeight', $(window).height() - 140);
+              QTABMaxHeight();
             }
             else{
                $(tabs).hide();
@@ -918,7 +924,12 @@ mw.save_inner_editable_fields = function(data){
           }
        });
 
-      
+       QTABMaxHeight = function(){
+            var qt = mw.$('#quick-add-post-options-items-holder-container'),
+                wh = $(window).height(),
+                st = $(window).scrollTop();
+            qt.css('maxHeight', (wh - (qt.offset().top - st + 20)));
+       }
 
        $(mww).bind('mousedown', function(e){
 		   var el = mwd.getElementById('content-edit-settings-tabs-holder');
@@ -942,7 +953,9 @@ mw.save_inner_editable_fields = function(data){
          mw.tools.removeClass(mwd.body, 'editorediting');
       });
 
-      $(mwd.body).bind("dblclick", function(){
+      $(window).bind("resize scroll", function(){
+
+      QTABMaxHeight();
          /*
 
            $(window).scrollTop(0);

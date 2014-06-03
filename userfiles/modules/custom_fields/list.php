@@ -48,7 +48,7 @@ if(isset($params['list-preview']) and $params['list-preview'] != 'false'){
 
 		  }
 		  
-		  
+
 	$suggest_from_rel = false;
  
 	if(isset($params['suggest-from-related']) and $params['suggest-from-related'] != 'false'){
@@ -101,32 +101,22 @@ if(isset($params['default-fields'])){
  }
  $custom_custom_field_names_for_content = array();
 if(is_array( $diff) and is_array($more) ){
-    $i=0;
+     $i=0;
 	 foreach($more as $item2){
-
-	 foreach($diff as $item1){
+	      foreach($diff as $item1){
 			  if(isset($more[$i]) and isset($item1['copy_of_field'])){
 				  if($item1['copy_of_field'] == $item2['id']){
-				//print $item1['copy_of_field'];
-				 unset($more[$i]);
+				    unset($more[$i]);
 				  }
 			  }
-			    if(isset($more[$i]) and isset($item1['custom_field_name'])){
-				  if($item1['custom_field_name'] == $item2['custom_field_name']){
-				//print $item1['copy_of_field'];
-				 unset($more[$i]);
-				  }
-			  }
-			  
-			  
-			  
-			  
-
+              if(isset($more[$i]) and isset($item1['custom_field_name'])){
+                if($item1['custom_field_name'] == $item2['custom_field_name']){
+                  unset($more[$i]);
+                }
+              }
 		  }
-		 $i++;
+		  $i++;
 	 }
-
-
 }
  if(!empty($data)){
 	//$more = $data;
@@ -191,7 +181,7 @@ if(is_array( $diff) and is_array($more) ){
       <td class="custom-fields-cell-settings">
         <a class="show-on-hover" href="javascript:mw.admin.custom_fields.edit_custom_field_item('#mw-custom-fields-list-settings-<?php print $field['id']; ?>',<?php print $field['id']; ?>);"><span class="mw-icon-gear"></span></a></td>
       <td class="custom-fields-cell-delete">
-        <a class="show-on-hover" href="javascript:mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');"><span class="mw-icon-close"></span></a>
+        <a class="show-on-hover" href="javascript:;" onclick="mw.admin.custom_fields.del(<?php print $field['id']; ?>,'#mw-custom-list-element-<?php print $field['id']; ?>');"><span class="mw-icon-close"></span></a>
      </td>
     </tr>
     <?php endforeach; ?>

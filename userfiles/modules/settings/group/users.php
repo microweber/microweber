@@ -60,20 +60,6 @@ mw.tools.tabGroup({
        border-color: #E0E0E0;
      }
 
-     .group-logins{
-       padding: 14px;
-       border: 1px solid #E0E0E0;
-       border-radius:2px;
-       background: #F4F4F4;
-     }
-     .group-logins:after{
-       content: ".";
-       display: block;
-       clear: both;
-       visibility: hidden;
-       line-height: 0;
-       height: 0;
-     }
 
      .group-logins ul{
        padding: 0 0 20px 14px;
@@ -167,21 +153,21 @@ mw.tools.tabGroup({
 
 
 
-<div class="group-logins" style="display: block">
+<div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
   <ul class="mw-small-help">
     <li><?php _e("Api access"); ?> <a class="mw-ui-link" target="_blank" href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a></li>
     <li><?php _e("In"); ?> <em><?php _e("Website with Facebook Login"); ?></em> <?php _e("please enter"); ?> <em><?php print site_url(); ?></em></li>
     <li><?php _e("If asked for callback url - use"); ?> <em><?php print api_link('social_login_process?hauth.done=Facebook') ?></em></li>
   </ul>
-  <label class="mw-ui-label-inline"><?php _e("App ID/API Key"); ?></label>
+  <label class="mw-ui-label"><?php _e("App ID/API Key"); ?></label>
   <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field "   type="text" option-group="users"  value="<?php print get_option('fb_app_id','users'); ?>" />
   <div class="vSpace"></div>
-  <label class="mw-ui-label-inline"><?php _e("App Secret"); ?></label>
+  <label class="mw-ui-label"><?php _e("App Secret"); ?></label>
   <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field"   type="text" option-group="users"  value="<?php print get_option('fb_app_secret','users'); ?>" />
 </div>
 
 
-  <div class="group-logins">
+  <div class="mw-ui-box mw-ui-box-content group-logins">
 
   <ul class="mw-small-help">
     <li><?php _e("Set your"); ?> <em><?php _e("Api access"); ?></em> <a class="mw-ui-link" target="_blank" href="https://code.google.com/apis/console/">https://code.google.com/apis/console/</a></li>
@@ -196,7 +182,7 @@ mw.tools.tabGroup({
  </div>
 
 
-  <div class="group-logins">
+  <div class="mw-ui-box mw-ui-box-content group-logins">
 
   <ul class="mw-small-help">
     <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://github.com/settings/applications/new">https://github.com/settings/applications/new</a></li>
@@ -216,7 +202,7 @@ mw.tools.tabGroup({
 
 
 
-  <div class="group-logins">
+  <div class="mw-ui-box mw-ui-box-content group-logins">
   <ul class="mw-small-help">
     <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a></li>
     <li><?php _e("In"); ?> <em><?php _e("Website"); ?></em> <?php _e("enter"); ?> <em><?php print site_url(); ?></em></li>
@@ -229,7 +215,7 @@ mw.tools.tabGroup({
   <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('twitter_app_secret','users'); ?>" />
 
  </div>
-   <div class="group-logins">
+   <div class="mw-ui-box mw-ui-box-content group-logins">
   <ul class="mw-small-help">
     <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://manage.dev.live.com/ApplicationOverview.aspx">https://manage.dev.live.com/ApplicationOverview.asp</a></li>
     <li><?php _e("In"); ?> <em><?php _e("Redirect Domain"); ?></em> <?php _e("enter"); ?> <em><?php print site_url() ?></em></li>
@@ -244,9 +230,10 @@ mw.tools.tabGroup({
 
 
 
+ <hr>
 
-                     <div class="vSpace"></div>
-   <a href="javascript:;" onclick="$('#user-login-urls-set').toggle()" class="mw-ui-link">Users URL settings</a>
+   <a href="javascript:;" onclick="$('#user-login-urls-set').toggle()" class="mw-ui-btn">Users URL settings</a>
+
               <div id="user-login-urls-set" style="display:none;">
               
                     <h3>Register URL</h3>

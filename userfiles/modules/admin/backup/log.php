@@ -33,9 +33,34 @@ if (isset($check['value'])) {
     }
 } else {
     if (is_array($job) and !empty($job)) {
-        print count($job) . '  items remaining. ';
+
+ 
+    $total = $remaining = count($job);
+	if($total > 0){
+		if(!isset($_COOKIE['mw_backup_total_files'])){
+			setcookie('mw_backup_total_files',$total);
+		} else {
+			$total = $_COOKIE['mw_backup_total_files'];
+		}
 		
-		?> 
+	} else {
+	  setcookie('mw_backup_total_files',false);
+
+	}
+ $perc =   100 - mw()->format->percent($remaining, $total);
+ 
+    ?>
+
+
+             <div class="mw-ui-progress" id="resore-progress">
+                  <div class="mw-ui-progress-bar" style="width: <?php print  $perc; ?>%;min-width:100px;"></div>
+                  <div class="mw-ui-progress-info"><?php _e("Backup progress"); ?></div>
+                  <span class="mw-ui-progress-percent"><?php print  $perc; ?>%</span>
+              </div>
+
+
+
+ 
 		
 		<script type="text/javascript">
 
