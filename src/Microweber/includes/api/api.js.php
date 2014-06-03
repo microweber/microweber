@@ -527,7 +527,12 @@ mw.askusertostay = false;
           mw.tools.removeClass(mwd.body, 'loading');
           return false;
       }
+      if($(selector).hasClass('module')){
+      $(selector).replaceWith(data);
+      } else {
       $(selector).after(data);
+      }
+      // $(selector).after(data);
 
       if(typeof to_send.id  !== 'undefined'){
          var id = to_send.id;
