@@ -20,7 +20,7 @@
  */
 function save($table, $data)
 {
-    return mw('db')->save($table, $data);
+    return mw()->db->save($table, $data);
 
 }
 
@@ -39,14 +39,14 @@ function save($table, $data)
  */
 function get($params)
 {
-    return mw('db')->get($params);
+    return mw()->db->get($params);
 
 }
 
 function db_build_table($table_name, $fields_to_add, $column_for_not_drop = array())
 {
 
-    return mw('db')->build_table($table_name, $fields_to_add, $column_for_not_drop);
+    return mw()->db->build_table($table_name, $fields_to_add, $column_for_not_drop);
 
 }
 
@@ -60,7 +60,7 @@ function db_get_table_name($assoc_name)
 
 function db_get_real_table_name($assoc_name)
 {
-    return mw('db')->real_table_name($assoc_name);
+    return mw()->db->real_table_name($assoc_name);
 
 }
 
@@ -82,7 +82,7 @@ function db_get_real_table_name($assoc_name)
  */
 function guess_table_name($for, $guess_cache_group = false)
 {
-    return mw('db')->guess_table_name($for, $guess_cache_group);
+    return mw()->db->guess_table_name($for, $guess_cache_group);
 
 
 }

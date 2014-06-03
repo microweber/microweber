@@ -1380,8 +1380,7 @@ class Db
             $to_search = str_replace(']', '', $to_search);
             $to_search = str_replace('*', '', $to_search);
             $to_search = str_replace(';', '', $to_search);
-            $to_search = str_replace('{', '', $to_search);
-            $to_search = str_replace('}', '', $to_search);
+
             $to_search = str_replace('\077', '', $to_search);
             $to_search = str_replace('<?', '', $to_search);
         }
@@ -1522,13 +1521,10 @@ class Db
                     if (strstr($k, $table) == false) {
                         $k = $table . '.' . $k;
                     }
-
                 }
 
                 if (is_string($v) != false) {
                     $v = $this->escape_string(strip_tags($v));
-                    $v = str_replace('{', '', $v);
-                    $v = str_replace('}', '', $v);
                     $v = str_replace('*', '', $v);
                     $v = str_replace(';', '', $v);
                     $v = str_replace('\077', '', $v);

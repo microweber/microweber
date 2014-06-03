@@ -9,7 +9,7 @@
 
 @font-face {
     font-family: 'Microweber';
-    src: url('fonts/font.ttf?mwv=88asd8dfgdfsdfsdfasdasasasdddfasdasdasdasdddsfdasdasdasdsadasdsadasdsdfsdfasdsdfsdf8') format('truetype');
+    src: url('fonts/font.ttf?mwv=88asd8dfgdfsdfsdfasdasasasdddfasdasdasdasdddasdsadsfdasdasdasdsadasdsadasdsdfsdfasdsdfsdf8') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -69,6 +69,8 @@
 .mw-icon-dropdown:before{ content: "\0118";  }
 .mw-icon-pricefields:before{ content: "\0119";  }
 .mw-icon-unpublish:before{ content: "\0120";  }
+.mw-icon-download:before{ content: "\0121";  }
+.mw-icon-reload:before{ content: "\0122";  }
 
 
 /* Product Icon */
@@ -494,6 +496,10 @@
 
 .mw-ui-table tr.active > td > .show-on-hover{
   visibility: visible;
+}
+
+.mw-ui-table td > [class*='mw-icon-']{
+  font-size: 17px;
 }
 
 
@@ -1396,6 +1402,11 @@ div.mw-ui-field:after{
 
 .mw-dropdown-list > li a:hover{
     background-color: #EEEEEE;
+}
+
+.mw-dropdown > .mw-ui-btn.mw-dropdown-val{
+  width: 100%;
+  text-align: left;
 }
 
 

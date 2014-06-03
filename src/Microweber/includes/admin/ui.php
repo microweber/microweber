@@ -430,7 +430,7 @@ $(window).load(function(){
             </div>
             <div class="mw-ui-col">
                 <div class="mw-ui-dropdown">
-                <span class=" mw-ui-btn mw-ui-btn-big">Big Button navigation</span>
+                <span class=" mw-ui-btn mw-ui-btn-big mw-ui-btn-info">Big Button navigation</span>
                 <div class="mw-ui-dropdown-content">
                     <div class="mw-ui-btn-vertical-nav">
                          <span class="mw-ui-btn mw-ui-btn-big">Option 1</span>
@@ -451,20 +451,66 @@ $(window).load(function(){
     <td colspan="2">
     <h2>Dropdowns onclick</h2>
        <div class="demobox">
-         <div class="mw-dropdown">
-            <span class="mw-dropdown-value">
-                <span class="mw-ui-btn mw-ui-btn-info mw-dropdown-val">Dropdown on click <span class="mw-icon-dropdown mw-icon-right"></span></span>
-            </span>
+
+        <style scoped="scoped">
+
+        .mw-dropdown{
+          width: 120px;
+          margin-right: 20px;
+        }
+
+
+
+        </style>
+
+          <div class="mw-dropdown mw-dropdown-default">
+            <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-warn mw-ui-btn-big mw-dropdown-val">Choose</span>
             <div class="mw-dropdown-content">
-                <ul class="mw-ui-btn-vertical-nav" style="width: 100%;">
-                     <li value="1"><span class="mw-ui-btn">Option 1</span></li>
-                     <li value="2"><span class="mw-ui-btn mw-ui-btn-important">Option 2 !!!</span></li>
-                     <li value="3"><span class="mw-ui-btn">Option 3</span></li>
+                <ul>
+                     <li value="1">Option 1</li>
+                     <li value="2">Option 2 !!!</li>
+                     <li value="3">Option 3</li>
                 </ul>
             </div>
           </div>
+          <div class="mw-dropdown mw-dropdown-default">
+            <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-info mw-dropdown-val">Choose</span>
+            <div class="mw-dropdown-content">
+                <ul>
+                     <li value="1">Option 1</li>
+                     <li value="2">Option 2 !!!</li>
+                     <li value="3">Option 3</li>
+                </ul>
+            </div>
+          </div>
+          <div class="mw-dropdown mw-dropdown-default">
+            <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val">Choose</span>
+            <div class="mw-dropdown-content">
+                <ul>
+                     <li value="1">Option 1</li>
+                     <li value="2">Option 2 !!!</li>
+                     <li value="3">Option 3</li>
+                </ul>
+            </div>
+          </div>
+
+          <div class="mw-dropdown mw-dropdown-default" data-value="2">
+            <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-ui-btn-invert mw-dropdown-val">Choose</span>
+          <div class="mw-dropdown-content">
+            <ul>
+              <li value="1"><a href="javascript:;">Option 1</a></li>
+              <li value="2"><a href="javascript:;">Option 2</a></li>
+              <li value="3"><a href="javascript:;">Option 3</a></li>
+            </ul>
+          </div>
+          </div>
+
+
+
+
+
           <script>
-            mw.dropdown()
+            mw.dropdown();
           </script>
        </div>
 

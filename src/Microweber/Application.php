@@ -73,6 +73,11 @@ class Application
     public function __construct($config = false)
     {
 
+//        if(isset($_REQUEST['d'])){
+//           print_r(debug_backtrace());
+//
+//        }
+ //
         if (empty($this->config)) {
             if ($config != false) {
                 if (is_string($config)) {
@@ -114,8 +119,12 @@ class Application
         //registering the global object to be the last instance
         global $_mw_global_object;
         $_mw_global_object = $this;
+        static $is_init = false;
 
-
+        if ($is_init == false) {
+            $is_init = true;
+            event_trigger('app_init', $this);
+        }
     }
 
     /**

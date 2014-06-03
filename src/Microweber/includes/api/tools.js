@@ -2791,9 +2791,7 @@ mw.wait('jQuery', function(){
          if(triggerChange){
 
          }
-
            if(this.getAttribute('value') == val){
-
               el.dataset("value", val);
               var isValidOption = true;
               var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerHTML : this.innerHTML;
