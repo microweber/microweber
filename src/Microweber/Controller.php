@@ -41,9 +41,7 @@ class Controller
                 define('MW_IS_INSTALLED', true);
             }
         }
-        if (function_exists('mw_load_all_modules_functions')) {
-            mw_load_all_modules_functions();
-        }
+
 
     }
 

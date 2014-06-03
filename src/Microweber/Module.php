@@ -35,6 +35,7 @@ class Module
             define('MW_DB_TABLE_MODULES_INIT', 1);
             $this->db_init();
         }
+
     }
 
     public function set_table_names($tables = false)

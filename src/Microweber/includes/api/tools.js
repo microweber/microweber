@@ -908,13 +908,10 @@ mw.tools = {
             $(this).removeClass("hover");
             $(this).removeClass('other-action');
         });
-        mw.$("[value]", el).mousedown(function(event){
-          $(el).setDropdownValue($(this).attr('value'), true);
+        mw.$("[value]", el).bind('mousedown', function(event){
+          $(mw.tools.firstParentWithClass(this,'mw-dropdown')).setDropdownValue(this.getAttribute('value'), true);
           return false;
         });
-
-
-
     } /* end For loop */
 
     if(typeof mw.tools.dropdownActivated === 'undefined'){

@@ -470,6 +470,21 @@ class Fields
         return $it;
     }
 
+    function get_value($content_id, $field_name, $return_full = false, $table = 'content')
+    {
+        $val = false;
+        $data = $this->get($table, $id = $content_id, $return_full, $field_for = false, $debug = false, $field_type = false, $for_session = false);
+        foreach ($data as $item) {
+            if (isset($item['custom_field_name']) and
+                ((strtolower($item['custom_field_name']) == strtolower($field_name))
+                    or (strtolower($item['custom_field_type']) == strtolower($item['custom_field_type'])))
+            ) {
+                $val = $item['custom_field_value'];
+            }
+        }
+        return $val;
+    }
+
     public function reorder($data)
     {
 

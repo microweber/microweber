@@ -114,6 +114,8 @@ class Application
         //registering the global object to be the last instance
         global $_mw_global_object;
         $_mw_global_object = $this;
+
+
     }
 
     /**

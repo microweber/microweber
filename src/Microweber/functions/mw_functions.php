@@ -137,7 +137,9 @@ include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'updates.php');
 
 function mw_load_all_modules_functions()
 {
-    if (function_exists('get_all_functions_files_for_modules')) {
+    static $is_loaded = false;
+
+    if ($is_loaded == false and function_exists('get_all_functions_files_for_modules')) {
         $module_functions = get_all_functions_files_for_modules();
         if ($module_functions != false) {
             if (is_array($module_functions)) {
@@ -148,9 +150,15 @@ function mw_load_all_modules_functions()
                 }
             }
         }
+
     }
+    $is_loaded = true;
 }
-//mw_load_all_modules_functions();
+
+//event_bind('mw_init', 'mw_load_all_modules_functions');
+//event_trigger('mw_init');
+
+ mw_load_all_modules_functions();
 
 
 

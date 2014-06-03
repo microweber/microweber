@@ -12,10 +12,13 @@ class Generic
     public $controller;
     public $routes = array();
     public $routes_post = array();
-
+    public $url = null; //url class
     function __construct()
     {
         self::$_instance = $this;
+        
+        $this->url = new \Microweber\Url();
+
     }
 
     public static function getInstance()
@@ -79,9 +82,9 @@ class Generic
 
     function run()
     {
-        $url_full_string = mw('url')->string();
-        $url_first_segment = mw('url')->segment(0);
-        $url_second_segment = mw('url')->segment(1);
+        $url_full_string = $this->url->string();
+        $url_first_segment = $this->url->segment(0);
+        $url_second_segment = $this->url->segment(1);
         if ($url_first_segment) {
             $url_first_segment = str_replace('.', '', $url_first_segment);
             $method = $url_first_segment;
@@ -128,7 +131,7 @@ class Generic
         //perform custom routing
         $is_custom_controller_called = false;
         if (is_object($controller) and isset($controller->functions) and is_array($controller->functions)) {
-            //$params_for_route = mw('url')->segment();
+            //$params_for_route = $this->url->segment();
             if (isset($controller->functions[$method])  and is_callable($controller->functions[$method])) {
                 $is_custom_controller_called = true;
                 return call_user_func($controller->functions[$method]);

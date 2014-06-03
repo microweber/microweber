@@ -291,6 +291,12 @@ function prev_content($content_id = false)
     return mw('content')->prev_content($content_id);
 }
 
+function custom_field_value($content_id,$field_name,$table='content')
+{
+   return mw('fields')->get_value($content_id,$field_name,$table);
+}
+
+
 function get_custom_fields($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
 {
     if (isset($table) and intval($table) > 0) {

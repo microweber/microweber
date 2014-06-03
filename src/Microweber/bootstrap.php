@@ -174,7 +174,7 @@ class Psr4AutoloaderClass
 
             // retain the base directory for the namespace prefix
 
-           set_include_path(get_include_path(). PATH_SEPARATOR . $base_dir);
+            set_include_path(get_include_path() . PATH_SEPARATOR . $base_dir);
 
             if ($prepend) {
                 array_unshift($this->prefixes[$prefix], $base_dir);
@@ -278,6 +278,7 @@ class Psr4AutoloaderClass
         return false;
     }
 }
+
 $loader = new Psr4AutoloaderClass;
 $mw_src = (__DIR__) . DS;
 
@@ -325,7 +326,7 @@ if (is_file($autoload_vendors_file)) {
     if (is_array($required) and !empty($required)) {
         foreach ($required as $k => $v) {
 
-            $loader->addNamespace($k, $v,true);
+            $loader->addNamespace($k, $v, true);
 
 
         }
@@ -466,14 +467,19 @@ $loader->register();
  */
 function mw($class = null, $constructor_params = false)
 {
-
+    static $is_init = false;
     global $_mw_global_object;
     global $application;
     if (is_object($application)) {
         $_mw_global_object = $application;
     }
     if (!is_object($_mw_global_object)) {
+
         $_mw_global_object = \Microweber\Application::getInstance($constructor_params);
+    }
+    if ($is_init == false) {
+        $is_init = true;
+        event_trigger('mw_init', $_mw_global_object);
     }
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $_mw_global_object;

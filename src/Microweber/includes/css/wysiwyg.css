@@ -678,7 +678,7 @@
     display: block;
   }
   .wysiwyg-convertible-1000{
-        display: none;
+        display: block;
         padding: 4px;
         left: -4px;
         z-index: 3;
