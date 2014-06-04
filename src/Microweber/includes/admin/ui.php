@@ -87,8 +87,12 @@ $(window).load(function(){
 <h2>Admin apis</h2>
 
 <h3>Tooltip</h3>
-
+<h4>Data - tip text</h4>
 <pre class="tip" data-tip="Some help" data-tipposition="top-center">&lt;div class="tip" data-tip="Some help" data-tipposition="top-center">&lt;/div></pre>
+<h4>Data - tip Selector - '.' and '#' are available</h4>
+<pre class="tip" data-tip=".demobox" data-tipposition="top-left">&lt;div class="tip" data-tip=".demobox" data-tipposition="top-center">&lt;/div></pre>
+
+
 </div>
 
 
@@ -454,9 +458,13 @@ $(window).load(function(){
 
         <style scoped="scoped">
 
+        .demobox{
+          max-width: none;
+        }
+
         .mw-dropdown{
-          width: 120px;
-          margin-right: 20px;
+          width: 150px;
+          margin-right: 10px;
         }
 
 

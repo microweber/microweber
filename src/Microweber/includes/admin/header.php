@@ -163,6 +163,11 @@ if ($last_page_front != false) {
                         <a href="javascript:;"><span class="mw-icon-menu"></span></a>
                     </li>
                     <li><a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="back-to-admin-cookie mw-admin-go-live-now-btn" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>Live edit</a></li>
+                    
+                       
+                <?php // d(mw()->ui->admin_menu); ?>
                 </ul>
+             
+                
             </div>
         </div>

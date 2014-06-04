@@ -4221,7 +4221,7 @@ mw.image = {
       },
       loadData:function(){
 
-      },
+      }
     }
 
     /* Exposing  */

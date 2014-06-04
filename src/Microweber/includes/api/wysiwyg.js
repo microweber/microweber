@@ -1303,12 +1303,13 @@ mw.linkTip = {
     },
     tip:function(node){
         if(!mw.linkTip._tip){
-           var content = '<a href="'+node.href+'" class="mw-link-tip-link">'+node.href+'</a> - <a href="javascript:;" class="mw-link-tip-edit">Edit</a>';
+           var content = '<a href="'+node.href+'" class="mw-link-tip-link">'+node.href+'</a><span>-</span><a href="javascript:;" class="mw-link-tip-edit">Edit</a>';
            mw.linkTip._tip = mw.tooltip({content:content, position:'bottom-center', skin:'dark',element:node});
            $(mw.linkTip._tip).addClass('mw-link-tip');
-           mw.$('.mw-link-tip-edit').click(function(){
+           mw.$('.mw-link-tip-edit, .mw-link-tip-link').click(function(){
              mw.wysiwyg.link();
              mw.$('.mw-link-tip').hide();
+             return false;
            });
         }
         else{

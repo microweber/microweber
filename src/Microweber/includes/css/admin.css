@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'mwadmin';
-    src: url('fonts/fontadmin.ttf?mwv=1asdfaaafggfsdaasdasdssdsdss') format('truetype');
+    src: url('fonts/fontadmin.ttf?mwv=1asdfaaafggfasdsdaasdasdssdsddfsdfsdss') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -1819,9 +1819,22 @@ input#edit-content-url:focus, input#edit-content-url.active{
   color: #8F8F8F;
 }
 
+
+body.grabbing, body.grabbing *{
+  cursor:move;
+  cursor:grabbing;
+  cursor:-moz-grabbing;
+  cursor:-webkit-grabbing;
+}
+
+
 /************************************
        Admin tooltip
 *************************************/
+
+.admin-universal-tooltip {
+  max-width: 350px;
+}
 
 .admin-universal-tooltip .mw-tooltip-content{
   color: white;
@@ -1832,10 +1845,15 @@ input#edit-content-url:focus, input#edit-content-url.active{
 
 /* Edit link tooltip */
 
-.mw-link-tip-link{
+.mw-link-tip-link,
+.mw-link-tip-edit,
+.mw-link-tip .mw-tooltip-content span{
   display: inline-block;
-  max-width: 300px;
   overflow: hidden;
+}
+
+.mw-link-tip-link{
+  max-width: 300px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1843,6 +1861,15 @@ input#edit-content-url:focus, input#edit-content-url.active{
 .mw-link-tip-edit{
   color: #f2f2f2;
 }
+
+.mw-link-tip-edit{
+  text-decoration: underline;
+}
+
+.mw-link-tip .mw-tooltip-content span{
+  margin: 0 3px;
+}
+
 
 
 
@@ -1866,6 +1893,11 @@ input#edit-content-url:focus, input#edit-content-url.active{
 .mw-custom-field-icon-upload:before{ content: '\0107'; }
 .mw-custom-field-icon-price:before{ content: '\0108'; }
 .mw-custom-field-icon-checkbox:before{ content: '\0109'; }
+.mw-custom-field-icon-number:before{ content: '\0110'; }
+.mw-custom-field-icon-radio:before{ content: '\0111'; }
+.mw-custom-field-icon-checkbox:before{ content: '\0112'; }
+.mw-custom-field-icon-dropdown:before{ content: '\0113'; }
+
 
 
 .mw-ui-btn > [class*="mw-custom-field-icon-"] {
@@ -1880,6 +1912,39 @@ input#edit-content-url:focus, input#edit-content-url.active{
     position: relative;
     width: 17px;
     float: left;
+}
+
+
+
+
+
+
+/************************************
+        Settings Components
+*************************************/
+
+
+.layouts_box_holder li{
+  list-style: none;
+  display: block;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.layouts_box_holder li:hover{
+  background-color: #EDEDED;
+}
+
+.layouts_box_holder ul li:first-child{
+  border-radius: 2px 2px 0 0;
+}
+.layouts_box_holder ul li:last-child{
+  border-radius: 0 0 2px 2px ;
+}
+
+.layouts_box_holder li.active, .layouts_box_holder li.active:hover{
+  background-color: #4D4D4D;
+  color: white;
 }
 
 

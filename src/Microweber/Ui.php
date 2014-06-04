@@ -42,6 +42,17 @@ class Ui
 
     }
 
+    public function admin_menu()
+    {
+        return $this->admin_menu;
+    }
+
+    function add_admin_menu($arr)
+    {
+        $this->admin_menu = array_merge($this->admin_menu, $arr);
+        return $this->admin_menu;
+    }
+
     function custom_fields()
     {
         return $this->custom_fields;

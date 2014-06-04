@@ -2165,7 +2165,7 @@ class Controller
 
         header("Content-type: text/javascript");
         $this->app->content->define_constants($ref_page);
-        $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js.php');
+        $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
 
 
 //        if(strstr(site_url(),'localhost')){

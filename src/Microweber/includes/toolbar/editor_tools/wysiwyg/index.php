@@ -328,6 +328,6 @@ window.onfocus = function(){
 <span class="mw-plus-top">+</span>
 <span class="mw-plus-bottom">+</span>
 <div style="display: none" id="plus-modules-list">
-    <module type="admin/modules/list"/ class="modules-list-init">
+    <module type="admin/modules/list"/ class="modules-list-init module-as-element">
 </div>
 

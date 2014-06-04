@@ -3335,6 +3335,7 @@ class Content
                     if ($this->app->module->is_installed($ustr)) {
                         $is_module = true;
                         $save_page['layout_file'] = 'clean.php';
+                        $save_page['subtype'] = 'module';
                     }
 
 

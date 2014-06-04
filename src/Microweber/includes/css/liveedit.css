@@ -30,6 +30,7 @@ html,body{
   text-align: center;
   line-height: 16px;
   margin-left:-15px;
+  font-family: Arial, sans-serif;
 }
 .mw-plus-top{ margin-top: -10px; }
 .mw-plus-bottom{ margin-top: -10px; }
@@ -328,7 +329,9 @@ a.mw-make-cols, #mw_handle_module .mw_edit_settings {
   text-decoration: none;
   display: inline-block;
   padding:2px 7px;
-  outline: none
+  outline: none;
+  position: relative;
+  z-index: 1;
 }
 
 #mw_handle_module .mw_edit_settings:hover, #mw_handle_module .mw_edit_settings:hover span{
