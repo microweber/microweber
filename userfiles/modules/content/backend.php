@@ -10,54 +10,7 @@ if(isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0){
 }
 
  ?>
-<script type="text/javascript">
 
-
-
-
-
-
-  if(typeof toggle_cats_and_pages === 'undefined'){
-              toggle_cats_and_pages = function(){
-                  mw.cookie.ui('ToggleCatsAndPages', this.value);
-                  _toggle_cats_and_pages();
-              }
-              _toggle_cats_and_pages = function(callback){
-                  var state =  mw.cookie.ui('ToggleCatsAndPages');
-                  if(state == 'on'){
-                       mw.$(".page_posts_list_tree").show();
-                  }
-                  else{
-                      mw.$(".page_posts_list_tree").hide();
-                  }
-                  typeof callback === 'function' ? callback.call(state) : '';
-              }
-    }
-
-
-              $(document).ready(function(){
-                _toggle_cats_and_pages(function(){
-                  if(this=='on'){
-                    mw.switcher.on(mwd.getElementById('toggle_cats_and_pages'));
-                  }
-                  else{
-                    mw.switcher.off(mwd.getElementById('toggle_cats_and_pages'));
-                  }
-                });
-              });
-              $(document.body).ajaxStop(function(){
-                _toggle_cats_and_pages(function(){
-                  if(this=='on'){
-                    mw.switcher.on(mwd.getElementById('toggle_cats_and_pages'));
-                  }
-                  else{
-                    mw.switcher.off(mwd.getElementById('toggle_cats_and_pages'));
-                  }
-                });
-              });
-
-
-            </script>
 <script type="text/javascript">
 
 

@@ -137,10 +137,7 @@ mw.$("#available_providers").sortable({
 	padding-top: 10px;
     clear: both
 }
-.mw-set-payment-options .mw-ui-inline-selector li label.mw-ui-label {
-	width: 75px;
-	padding: 5px 0;
-}
+
 .payment-state-status {
 	padding: 12px 12px 5px;
 	display: inline-block;
@@ -276,9 +273,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 								</div>
 								<div class="mw_clear"></div>
 								<div class="vSpace"></div>
-								<!-- <div onmousedown="mw.switcher._switch(this);" class="mw-switcher mw-switcher-green unselectable <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>mw-switcher-on<?php endif; ?>"> <span class="mw-switch-handle"></span>
-
-                </div>-->
+			
 								</label>
 								<div class="mw-set-payment-gw-options" >
  									<module type="<?php print $payment_module['module'] ?>" view="admin" />

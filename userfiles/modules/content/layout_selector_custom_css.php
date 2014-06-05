@@ -104,11 +104,19 @@ if (r==true)
 <?php
 if(mw('layouts')->template_check_for_custom_css($template) != false): ?>
 
+<a
+    class="mw-ui-btn layout_selector_custom_css_clear_custom_style tip"
+    data-tip="<?php _e("This template has custom styles, applied from the 'design' tool in live edit. Click here to clean them and return this template to its defalt design."); ?>"
+    data-tipposition="top-center"
+    href="javascript:layout_selector_custom_css_clear_custom_style('<?php print $template ?>')"><?php _e("Clear custom style"); ?></a>
 
-<small><a class="mw-ui-btn layout_selector_custom_css_clear_custom_style" title="This template have custom styles, applied from the 'design' tool in live edit. Click here to clean them and return this template to its defalt design." href="javascript:layout_selector_custom_css_clear_custom_style('<?php print $template ?>')">Clear custom style</a></small>
 <?php elseif(mw('layouts')->template_check_for_custom_css($template,true) != false): ?>
 
 
-<small><a class="mw-ui-btn layout_selector_custom_css_clear_custom_style" title="You hae removed the custom styles. Click here to return them." href="javascript:layout_selector_custom_css_return_custom_style('<?php print $template ?>')">Return custom style</a></small>
+<a
+    class="mw-ui-btn layout_selector_custom_css_clear_custom_style tip"
+    data-tip="<?php _e("You hae removed the custom styles. Click here to return them."); ?>"
+    data-tipposition="top-center"
+    href="javascript:layout_selector_custom_css_return_custom_style('<?php print $template ?>')"><?php _e("Return custom style"); ?></a>
 
 <?php endif; ?>

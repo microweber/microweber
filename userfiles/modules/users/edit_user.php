@@ -203,7 +203,7 @@ reset_password = function(y){
     <?php if (is_admin()){ ?>
       <tr>
         <td><label class="mw-ui-label"><?php _e("Is Active"); ?></label></td>
-        <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<?php if($data['is_active'] == 'n'): ?> mw-switcher-off<?php endif; ?>"> <span class="mw-switch-handle"></span>
+        <td><div>
             <label><?php _e("Yes"); ?>
               <input type="radio" value="y" name="is_active" <?php if($data['is_active'] == 'y'): ?> checked="checked" <?php endif; ?>>
             </label>
@@ -214,7 +214,7 @@ reset_password = function(y){
       </tr>
       <tr>
         <td><label class="mw-ui-label"><?php _e("Is Admin"); ?>?</label></td>
-        <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<?php if($data['is_admin'] == 'n'): ?> mw-switcher-off<?php endif; ?>"> <span class="mw-switch-handle"></span>
+        <td><div>
             <label><?php _e("Yes"); ?>
               <input type="radio" value="y" name="is_admin" <?php if($data['is_admin'] == 'y'): ?> checked="checked" <?php endif; ?>>
             </label>
@@ -226,7 +226,7 @@ reset_password = function(y){
       
       <tr>
         <td><label class="mw-ui-label"><?php _e("Basic mode"); ?></label></td>
-        <td><div onmousedown="mw.switcher._switch(this);" class="mw-switcher unselectable<?php if($data['basic_mode'] == 'n'): ?> mw-switcher-off<?php endif; ?>"> <span class="mw-switch-handle"></span>
+        <td><div>
             <label><?php _e("Yes"); ?>
               <input type="radio" value="y" name="basic_mode" <?php if($data['basic_mode'] == 'y'): ?> checked="checked" <?php endif; ?>>
             </label>

@@ -9,17 +9,18 @@ mw.require('options.js', true);
 <script  type="text/javascript">
 $(document).ready(function(){
 
-  mw.options.form('.<?php print $config['module_class'] ?>', function(){
+    mw.options.form('.<?php print $config['module_class'] ?>', function(){
       mw.notification.success("<?php _e("User settings updated"); ?>.");
     });
 
 
-mw.tools.tabGroup({
+mw.tabs({
    tabs:'.group-logins',
    nav:'.login-tab-group',
-   toggle:true,
+   nav:'.social-providers-list li',
+   toggle:false,
    onclick:function(){
-     mw.$(".social-providers-list li").removeClass("active");
+     mw.$(".mw-icon- li").removeClass("active");
      if($(this).hasClass("active")){
        $(this.parentNode).addClass("active")
      }
@@ -46,37 +47,21 @@ mw.tools.tabGroup({
        overflow: hidden;
      }
 
-     .social-providers-list li{
-       list-style: none;
-       float: left;
-       margin-right: 10px;
-       padding: 5px;
-       border: 1px solid transparent;
-       border-radius:2px;
+     .social-providers-list [class*='mw-icon-']{
+       font-size: 25px;
      }
 
-     .social-providers-list li:hover, .social-providers-list li.active{
-       background-color: #F4F4F4;
-       border-color: #E0E0E0;
+     .social-providers-list .mw-icon-twitter{
+       color:#55acee
+     }
+     .social-providers-list .mw-icon-facebook{
+       color: #3B5999;
+     }
+     .social-providers-list .mw-icon-googleplus{
+       color: #dd4b39;
      }
 
 
-     .group-logins ul{
-       padding: 0 0 20px 14px;
-     }
-
-     .social-providers-list .mw-ui-check {
-          cursor: pointer;
-          display: inline-block;
-          float: left;
-          margin-right: 2px;
-          margin-top: 11px;
-          white-space: nowrap;
-      }
-
-      .group-logins .mw-title-field{
-        width: 380px;
-      }
 
  </style>
 <div class="<?php print $config['module_class'] ?>">
@@ -127,26 +112,26 @@ mw.tools.tabGroup({
   ?>
 
 
-<ul class="social-providers-list">
-    <li class="active">
+<ul class="social-providers-list mw-ui-btn-nav">
+    <li class="mw-ui-btn active">
       <label class="mw-ui-check"><input type="checkbox" value="y" <?php if($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users" <?php /*data-refresh="settings/group/users"*/ ?>><span></span></label>
-      <span class="mw-social-ico-facebook login-tab-group active"></span>
+      <span class="mw-icon-facebook login-tab-group active"></span>
     </li>
-    <li>
+    <li class="mw-ui-btn">
       <label class="mw-ui-check"><input type="checkbox" value="y" <?php if($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_google_registration" class="mw_option_field" option-group="users"><span></span></label>
-      <span class="mw-social-ico-google login-tab-group"></span>
+      <span class="mw-icon-googleplus login-tab-group"></span>
     </li>
-    <li>
+    <li class="mw-ui-btn">
       <label class="mw-ui-check"><input type="checkbox" value="y" <?php if($enable_user_github_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_github_registration" class="mw_option_field" option-group="users"><span></span></label>
-      <span class="mw-social-ico-github login-tab-group"></span>
+      <span class="mw-icon-github login-tab-group"></span>
     </li>
-    <li>
+    <li class="mw-ui-btn">
       <label class="mw-ui-check"><input type="checkbox" value="y" <?php if($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users"><span></span></label>
-      <span class="mw-social-ico-twitter login-tab-group"></span>
+      <span class="mw-icon-twitter login-tab-group"></span>
     </li>
-    <li>
+    <li class="mw-ui-btn">
       <label class="mw-ui-check"><input type="checkbox" value="y" <?php if($enable_user_windows_live_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_windows_live_registration" class="mw_option_field" option-group="users" ><span></span></label>
-      <span class="mw-social-ico-live login-tab-group"></span>
+      <span class="mw-icon-windowslive login-tab-group"></span>
     </li>
 </ul>
 

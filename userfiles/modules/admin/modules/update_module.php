@@ -43,11 +43,11 @@ $(document).ready(function(){
 </script>
 
 <form class="admin-modules-list-form" id="module_admin_settings_form_{rand}">
-  <div class="admin-modules-list-image"> <span class="ico iMove mw_admin_modules_sortable_handle"></span> 
+  <div class="admin-modules-list-image">
     <?php if(isset($data['icon'])):  ?>
     <img src="<?php print $data['icon'] ?>" alt="<?php if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." />
     <?php endif; ?>
-    <s class="mw_module_image_shadow"></s>  <!--<strong class="mw_module_new">new</strong>--> </div>
+    </div>
   <div class="admin-modules-list-description">
     <h2>
       <?php if(isset($data['name'])):  ?>

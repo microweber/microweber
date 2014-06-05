@@ -40,13 +40,17 @@ mw.on.hashParam('option_group', function(){
     mw.$("#settings_admin_categories_<?php print $rand; ?> a.item-" + this).addClass("active");
    }
    else{
-     mw.$(".mw-admin-side-nav a").removeClass("active");
-     mw.$(".mw-admin-side-nav .item-website").addClass("active");
+     mw.url.windowHashParam('option_group', 'website');
    }
 
    _settingsSort()
 
 });
+if(!mw.url.windowHashParam('option_group') ){
+  mw.url.windowHashParam('option_group', 'website');
+}
+
+
 mw.on.hashParam('installed', function(){
 
    _settingsSort();
@@ -102,7 +106,14 @@ $(document).ready(function(){
   <div class="mw_edit_page_right" style="padding: 20px;">
     <div class="vSpace"></div>
     <div id="settings_admin_<?php print $rand; ?>" >
-      <module type="settings/system_settings" option_group="website" is_system="1" id="options_list_<?php print $rand; ?>">
+        <?php
+        /*
+
+         <module type="settings/system_settings" option_group="website" is_system="1" id="options_list_<?php print $rand; ?>">
+
+        */
+
+        ?>
     </div>
   </div>
 </div>

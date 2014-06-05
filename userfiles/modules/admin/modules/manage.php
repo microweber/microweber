@@ -80,7 +80,7 @@ $result = $update_api -> get_modules();
 </style>
 <?php if(isset($mods) and is_array($mods) == true): ?>
 
-<div class="mw-ui-box"><ul class="mw-modules-admin">
+<div class="mw-modules-box"><ul class="mw-modules-admin">
   <?php if(is_array($upds) == true): ?>
   <?php foreach($upds as  $upd_mod): ?>
   <?php if(isset($upd_mod['module'])): ?>

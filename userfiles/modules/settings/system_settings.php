@@ -8,7 +8,7 @@
   <?php $here_file = $here.DS.'group'.DS.trim($params['option_group']).'.php' ; ?>
   <?php if(is_file($here_file)): ?>
   <module="settings/group/<?php print $params['option_group'] ?>" />
-  
+
    <?php  else: ?>
   <module="<?php print module_name_decode($params['option_group']); ?>" />
   <?php endif; ?>

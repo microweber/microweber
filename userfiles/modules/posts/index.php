@@ -296,6 +296,9 @@ if (!isset($params['order_by']) and isset($params['order-by'])) {
 if (!isset($params['order_by'])) {
     $post_params['orderby'] = 'position desc';
 }
+if (isset($params['subtype_value'])) {
+    $post_params['subtype_value'] = $params['subtype_value'];
+ }
 
 
 $schema_org_item_type = false;

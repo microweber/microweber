@@ -2,7 +2,7 @@
   <div> <?php _e("Unfortunately, Paypal Website Payments Pro will not work for countries other than the United Kingdom, United States and Canada"); ?>. </div>
 </div>
 <img src="<?php print $config['url_to_module'] ?>paypal_pro_inner.png" />
-<ul class="mw-ui-inline-selector">
+<ul class="mw-ui-inline-list">
   <li>
     <label class="mw-ui-label"><?php _e("Test mode"); ?>:</label>
   </li>

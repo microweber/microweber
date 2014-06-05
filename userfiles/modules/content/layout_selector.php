@@ -25,19 +25,12 @@ if (isset($params["template-selector-position"])) {
 
 
 
-
-
-
-
 if ((!isset($params["layout_file"]) or trim($params["layout_file"]) == '') and isset($params["data-page-id"]) and intval($params["data-page-id"]) != 0) {
-
-
-    $data = get_content_by_id($params["data-page-id"]);
-    //
+   $data = get_content_by_id($params["data-page-id"]);
 } elseif(isset($params["show-page-id-layout"])) {
-	    $data = get_content_by_id($params["show-page-id-layout"]);
+	$data = get_content_by_id($params["show-page-id-layout"]);
 }elseif(isset($params["content-id"])) {
-	    $data = get_content_by_id($params["content-id"]);
+	$data = get_content_by_id($params["content-id"]);
 }
 
 if (!isset($params["layout_file"]) and isset($params["layout-file"])) {
@@ -235,6 +228,7 @@ mw.templatePreview<?php print $rand; ?> = {
         mw.templatePreview<?php print $rand; ?>.view(prev);
     },
     view: function (which) {
+       // mw.$("#<?php print $params['id']?>").attr('autoload','true');
 
         mw.templatePreview<?php print $rand; ?>.selector.selectedIndex = which;
         mw.$("#layout_selector<?php print $rand; ?> li.active").removeClass('active');
@@ -442,10 +436,10 @@ mw.templatePreview<?php print $rand; ?> = {
             mw.templatePreview<?php print $rand; ?>.rend(iframe_url);
 
         
-  $(window).trigger('templateChanged');
+  //$(window).trigger('templateChanged'); 
 
-            // mw.$("#<?php print $params['id']?>").removeAttr('autoload');
-
+      //  mw.$("#<?php print $params['id']?>").removeAttr('autoload');
+ 
 
         } else {
             return(iframe_url);
@@ -457,7 +451,7 @@ mw.templatePreview<?php print $rand; ?> = {
 
 
 $(document).ready(function () {
-
+  mw.$("#<?php print $params['id']?>").removeAttr('autoload');
 
     mw.templatePreview<?php print $rand; ?>.selector = mwd.getElementById('active_site_layout_<?php print $rand; ?>');
 
@@ -477,24 +471,25 @@ $(document).ready(function () {
     });
 
     mw.$('#active_site_layout_<?php print $rand; ?>').bind("change", function (e) {
-        //  alert(1);
-        mw.templatePreview<?php print $rand; ?>.generate();
+          
+		
 
+        mw.templatePreview<?php print $rand; ?>.generate();
     });
 
 
     mw.templatePreview<?php print $rand; ?>.prepare();
     <?php if(isset($params["autoload"])) : ?>
-    mw.templatePreview<?php print $rand; ?>.generate();
+     // mw.templatePreview<?php print $rand; ?>.generate();
     <?php endif; ?>
-
+ mw.templatePreview<?php print $rand; ?>.generate();
 
 });
 
 </script>
 
 <div class="layout_selector_wrap">
-
+ 
 <?php
 if (defined('ACTIVE_SITE_TEMPLATE')) {
 
@@ -603,13 +598,12 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
                 title="Inherit" <?php if (isset($inherit_from) and isset($inherit_from['id'])): ?>   inherit_from="<?php print $inherit_from['id'] ?>"  <?php endif; ?>
                 value="inherit"  <?php if ($is_chosen == false and (trim($data['layout_file']) == '' or trim($data['layout_file']) == 'inherit')): ?>   selected="selected"  <?php endif; ?>>
 
-
                 Inherit from parent
 
 
             </option>
         <?php endif; ?>
-    </select>
+    </select> 
 </div>
 <div class="left">
     <div class="preview_frame_wrapper loading left">
@@ -662,18 +656,22 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
         <?php endif; ?>
     </div>
 </div>
-<div class="layouts_box_holder <?php if (isset($params['small'])): ?> semi_hidden  <?php endif; ?>"
-     style="margin-top: 10px;">
-    <label class="mw-ui-label">
-        <?php _e("Choose Page Layout"); ?>
-    </label>
+<div class="layouts_box_holder <?php if (isset($params['small'])): ?> semi_hidden  <?php endif; ?>" >
 
-    <div class="layouts_box_container">
-        <div class="mw-ui-box layouts_box" id="layout_selector<?php print $rand; ?>"></div>
+
+<div class="mw-ui-row">
+    <div class="mw-ui-col">
+      <label class="mw-ui-label"><?php _e("Choose Page Layout"); ?></label>
+      <div class="layouts_box_container">
+          <div class="mw-ui-box layouts_box" id="layout_selector<?php print $rand; ?>"></div>
+      </div>
     </div>
+    <div class="mw-ui-col">
+
+
     <?php if ($template_selector_position == 'bottom'): ?>
         <div class="mw-ui-field-holder mw-template-selector"
-             style="padding-top: 10px;<?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
+             style="<?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
             <label class="mw-ui-label">
                 <?php _e("Template");   ?>
             </label>
@@ -703,7 +701,9 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
         </div>
     <?php endif; ?>
 </div>
-<div class="mw_clear">&nbsp;</div>
+    </div>
+</div>
+
 <?php if ($live_edit_styles_check != false): ?>
     <module type="content/layout_selector_custom_css" id="layout_custom_css_clean<?php print $rand; ?>"
             template="<?php print $data['active_site_template'] ?>"/>

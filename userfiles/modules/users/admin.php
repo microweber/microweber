@@ -221,7 +221,7 @@ mw('Microweber\Notifications')->mark_as_read('users');
                    onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"/>
 
             <div class="mw_clear"></div>
-            <ul class="mw-ui-inline-selector">
+            <ul class="mw-ui-inline-list">
                 <li>
                     <label class="mw-ui-check">
                         <input name="sortby" class="mw_users_filter_show" type="radio" value="created_on desc"

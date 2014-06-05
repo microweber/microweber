@@ -1,5 +1,5 @@
 <?php only_admin_access(); ?>
-<ul class="mw-ui-inline-selector">
+<ul class="mw-ui-inline-list">
 <li><label class="mw-ui-label"><?php _e("Test mode"); ?>:</label></li>
  
 
