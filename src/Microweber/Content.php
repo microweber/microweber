@@ -526,7 +526,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+           return $cache_content;
         }
 
         $render_file = false;
@@ -569,8 +569,8 @@ class Content
         if (isset($page['subtype'])) {
             $page['subtype'] = str_replace('..', '', $page['subtype']);
         }
-
         if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
+
             $get_layout_from_parent = false;
             $par = $this->get_by_id($page['parent']);
             if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != ''  and $par['layout_file'] != 'inherit') {
@@ -606,6 +606,9 @@ class Content
                 $render_file_temp = normalize_path($render_file_temp, false);
                 $render_use_default = normalize_path($render_use_default, false);
 
+                $render_file_module_temp = MW_MODULES_DIR. DS . $get_layout_from_parent['layout_file'];
+                $render_file_module_temp = normalize_path($render_file_module_temp, false);
+
                 //if (!isset($page['content_type']) or $page['content_type'] == 'page') {
                 if (is_file($render_file_temp)) {
 //d($render_file_temp);
@@ -615,6 +618,9 @@ class Content
                     if (is_file($render_file_temp)) {
                         $render_file = $render_file_temp;
                     }
+                }elseif (is_file($render_file_module_temp)) {
+                         $render_file = $render_file_module_temp;
+
                 }
             }
 
@@ -707,9 +713,17 @@ class Content
 
         if ($render_file == false and isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
             $test_file = str_replace('___', DS, $page['layout_file']);
+            $test_file = str_replace('..', '', $test_file);
+
             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $test_file;
+            $render_file_module_temp = MW_MODULES_DIR. DS . $test_file;
+            $render_file_module_temp = normalize_path($render_file_module_temp, false);
+
             if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp;
+            } elseif (is_file($render_file_module_temp)) {
+
+                $render_file = $render_file_module_temp;
             }
         }
 

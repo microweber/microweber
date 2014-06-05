@@ -1761,26 +1761,6 @@ input#edit-content-url:focus, input#edit-content-url.active{
   border-radius:2px;
 }
 
-/************************************
-        Modules section
-*************************************/
-
-
-.mw-modules-admin li{
-  list-style: none;
-  border-bottom:1px solid #eee;
-  padding: 12px;
-}
-.mw-modules-admin li:last-child{
-  border: none;
-}
-
-.admin-modules-list-buttons{
-  float: right;
-}
-.admin-modules-list-buttons .mw-ui-btn{
-  float: left;
-}
 
 
 
@@ -1834,6 +1814,53 @@ body.grabbing, body.grabbing *{
   font-size:30px;
   margin: 0;
 }
+
+.mw-ui-searchfield{
+  background: #FFFFFF url(../images/magnifier.svg) no-repeat left center;
+  width: 1px;
+  border: 1px solid #E6E6E6;
+  border-radius: 3px;
+  box-sizing: border-box;
+  cursor: text;
+  outline: medium none;
+  padding: 8px 8px 8px 33px;
+  opacity:0.5;
+  -webkit-transition: width 0.2s, opacity 0.2s;
+  -moz-transition: width 0.2s, opacity 0.2s;
+  -o-transition: width 0.2s, opacity 0.2s;
+  transition: width 0.2s, opacity 0.2s;
+}
+
+
+.mw-ui-searchfield::-webkit-input-placeholder { color:transparent; }
+.mw-ui-searchfield:-moz-placeholder { color:transparent; }
+.mw-ui-searchfield::-moz-placeholder { color:transparent; }
+.mw-ui-searchfield:-ms-input-placeholder { color:transparent; }
+
+.mw-ui-searchfield:focus::-webkit-input-placeholder { color:inherit; }
+.mw-ui-searchfield:focus:-moz-placeholder { color:inherit; }
+.mw-ui-searchfield:focus::-moz-placeholder { color:inherit; }
+.mw-ui-searchfield:focus:-ms-input-placeholder { color:inherit; }
+
+.mw-ui-searchfield:hover::-webkit-input-placeholder { color:inherit; }
+.mw-ui-searchfield:hover:-moz-placeholder { color:inherit; }
+.mw-ui-searchfield:hover::-moz-placeholder { color:inherit; }
+.mw-ui-searchfield:hover:-ms-input-placeholder { color:inherit; }
+
+
+.mw-ui-searchfield:focus,
+.mw-ui-searchfield:focus:hover{
+  border-color: #c6c6c6;
+  width: 200px;
+  opacity: 1;
+}
+
+.mw-ui-searchfield:hover{
+    border-color: #E6E6E6;
+    width: 200px;
+    opacity: 1;
+}
+
 
 /************************************
        Admin tooltip
@@ -1993,6 +2020,64 @@ body.grabbing, body.grabbing *{
 /************************************
         Modules section
 *************************************/
+
+
+.mw-modules-admin li{
+  list-style: none;
+  border:1px solid transparent;
+  float: left;
+  width: 25%;
+  text-align: center;
+  height: 145px;
+  background: #FFFFFF;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+}
+.admin-modules-list-form, .admin-modules-list-form *{
+  vertical-align: middle;
+}
+
+.admin-modules-list-image{
+  height: 66px;
+  vertical-align: middle;
+  text-align: center;
+  padding: 12px;
+}
+.admin-modules-list-image img{
+  vertical-align: middle;
+}
+
+
+.mw-modules-admin li .admin-modules-list-buttons{
+  visibility: hidden;
+}
+
+.mw-modules-admin li:hover {
+  border-color: #D9D9D9;
+}
+
+.mw-modules-admin li:hover .admin-modules-list-buttons{
+  visibility: visible;
+}
+
+.mw-modules-admin li h2{
+  font-size: 15px;
+}
+
+.mw-modules-admin li:last-child{
+  border: none;
+}
+
+
+#modules-title-and-search{
+  padding: 17px 0;
+}
+
+#modules-title-and-search .mw-ui-searchfield{
+  margin-top: 12px;
+}
+
 .admin-modules-list-form .mw-icon-drag{
   font-size: 17px;
   color: #C6C6C6;
@@ -2004,6 +2089,8 @@ body.grabbing, body.grabbing *{
 .admin-modules-list-image{
   vertical-align: middle;
 }
+
+
 
 /************************************
         Media queries

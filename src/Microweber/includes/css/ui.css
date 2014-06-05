@@ -334,10 +334,12 @@
 }
 .mw-ui-btn-nav .mw-ui-btn:first-child {
   border-left-width: 1px;
-  border-radius: 3px 0 0 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 .mw-ui-btn-nav .mw-ui-btn:last-child {
-  border-radius: 0 3px 3px 0;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 .mw-ui-btn-vertical-nav .mw-ui-btn {
   border-width: 1px 1px 0px 1px;

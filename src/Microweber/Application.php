@@ -289,7 +289,7 @@ class Application
                     $mw = $ns . '\\' . $property;
                     $mw = str_ireplace(array('/', '\\\\', $ns . '\\' . $ns), array('\\', '\\', $ns), $mw);
                 }
-
+               // var_dump($mw);
                 $prop = new $mw($this);
 
             } catch (Exception $e) {

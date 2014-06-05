@@ -275,10 +275,13 @@
 }
 .mw-ui-btn-nav .mw-ui-btn:first-child{
   border-left-width: 1px;
-  border-radius: @radius 0 0 @radius;
+  border-top-left-radius: @radius;
+  border-bottom-left-radius: @radius;
 }
 .mw-ui-btn-nav .mw-ui-btn:last-child{
-  border-radius: 0 @radius @radius 0;
+
+  border-top-right-radius: @radius;
+border-bottom-right-radius: @radius;
 }
 
 .mw-ui-btn-vertical-nav .mw-ui-btn{
