@@ -1861,6 +1861,16 @@ body.grabbing, body.grabbing *{
     opacity: 1;
 }
 
+.nested-dropdown li a{
+  display: block;
+  padding: 12px;
+}
+
+.nested-dropdown li a:hover,
+.nested-dropdown li a:focus{
+  background-color: #EDEDED;
+}
+
 
 /************************************
        Admin tooltip
@@ -2067,6 +2077,14 @@ body.grabbing, body.grabbing *{
 
 .mw-modules-admin li:last-child{
   border: none;
+}
+
+.modules-index-bar .mw-dropdown{
+  width: 150px;
+}
+
+.modules-index-bar .mw-dropdown li a{
+  text-transform: capitalize;
 }
 
 

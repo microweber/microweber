@@ -275,6 +275,8 @@
     color: #595959;
     border-radius: 0px;
     white-space: nowrap;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
 .mw-dropdown-type-wysiwyg input.mw-dropdown-field{
@@ -290,6 +292,7 @@
   box-sizing:border-box;
   cursor:pointer;
 }
+
 
 .mw-dropdown.active > .mw-dropdown-value > input.mw-dropdown-field{
   visibility: visible;
@@ -338,8 +341,8 @@
 }
 
 .mw-dropdown-type-wysiwyg .mw-dropdown-val{
-  padding: 6px;
-  width:47px;
+  display: inline-block;
+  padding: 3px 7px;
 }
 
 .mw-dropdown-type-wysiwyg .mw-dropdown-val * {

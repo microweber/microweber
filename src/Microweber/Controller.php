@@ -1364,6 +1364,8 @@ class Controller
             $l->page = $page;
             $l->application = $this->app;
             $l = $l->__toString();
+            $l = $this->app->parser->process($l, $options = false);
+
             $page['content'] = $this->app->parser->isolate_content_field($l);
 
 
@@ -1388,6 +1390,7 @@ class Controller
             $l->page = $page;
             $l->application = $this->app;
             $l = $l->__toString();
+            $l = $this->app->parser->process($l, $options = false);
 
 
             $page['content'] = $this->app->parser->isolate_content_field($l);

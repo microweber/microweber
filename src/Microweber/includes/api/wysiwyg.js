@@ -51,6 +51,8 @@ if(typeof Range.prototype.querySelectorAll === 'undefined'){
 }
 
 
+
+
 mw.wysiwyg = {
     globalTarget: mwd.body,
     allStatements:function(c,f){
@@ -340,7 +342,7 @@ mw.wysiwyg = {
       }, function(){
         $(this).removeClass("mw_editor_btn_hover");
       });
-      $(mwd.body).bind('mouseup keyup keydown', function(event){
+      $(mwd.body).bind('', function(event){
         if(event.target.isContentEditable){
           mw.wysiwyg.check_selection(event.target);
         }

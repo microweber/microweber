@@ -1457,7 +1457,8 @@ div.mw-ui-field:after {
 .mw-dropdown-default > ul > li:first-child {
   border-top: none;
 }
-.mw-dropdown-default .mw-dropdown-value.mw-ui-btn:after {
+.mw-dropdown-default .mw-dropdown-value.mw-ui-btn:after,
+.mw-dropdown-button:after {
   content: "\0118";
   font-family: Microweber;
   float: right;

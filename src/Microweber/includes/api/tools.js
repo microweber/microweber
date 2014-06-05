@@ -4284,7 +4284,13 @@ mw.image = {
     }
 
 
+$(mww).bind('load', function(){
+   mw.dropdown();
+});
 
+$(mwd).ready(function(){
+   mw.dropdown();
+});
 
 
 

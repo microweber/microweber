@@ -526,7 +526,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-           return $cache_content;
+     //   return $cache_content;
         }
 
         $render_file = false;
@@ -769,7 +769,7 @@ class Content
                             $page['layout_file'] = $par_c['layout_file'];
                             $page['active_site_template'] = $par_c['active_site_template'];
 
-
+                            $page['active_site_template'] = str_replace('..','', $page['active_site_template']);
                             if ($page['active_site_template'] == 'default') {
                                 $page['active_site_template'] = $site_template_settings;
                             }
@@ -781,9 +781,14 @@ class Content
 
                             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
                             $render_file_temp = normalize_path($render_file_temp, false);
+                            $render_file_module_temp = MW_MODULES_DIR. DS . $page['layout_file'];
+                            $render_file_module_temp = normalize_path($render_file_module_temp, false);
+
                             if (is_file($render_file_temp)) {
                                 $render_file = $render_file_temp;
-                            } else {
+                            }  elseif (is_file($render_file_module_temp)) {
+                                $render_file = $render_file_module_temp;
+                            }else {
                                 $render_file_temp = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
                                 if (is_file($render_file_temp)) {
                                     $render_file = $render_file_temp;
@@ -796,6 +801,7 @@ class Content
                 }
             }
         }
+
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] != 'inherit')) {
 
 

@@ -211,7 +211,7 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 .column_separator_title{
   line-height: normal;
   display: inline-block;
-  color: #484848;
+  color: rgba(255, 255, 255, 0.77);
   cursor: move;
   cursor: -webkit-grab;
   cursor: -moz-grab;
@@ -301,18 +301,9 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
   margin-top: -10px;
   margin-top: 7px;
   color:#666666;
-  border:1px solid #CCCCCC;
   border-radius: 2px;
   width: auto !important;
-  box-shadow: inset 0 0 1px #fff;
-  box-shadow: 1px 1px 0 #FFFFFF inset, -1px -1px 0 #FFFFFF inset;
-  background: #fcfcfc;
-  background: -moz-linear-gradient(top,  #fcfcfc 0%, #eeeeee 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfcfc), color-stop(100%,#eeeeee));
-  background: -webkit-linear-gradient(top,  #fcfcfc 0%,#eeeeee 100%);
-  background: -o-linear-gradient(top,  #fcfcfc 0%,#eeeeee 100%);
-  background: -ms-linear-gradient(top,  #fcfcfc 0%,#eeeeee 100%);
-  background: linear-gradient(to bottom,  #fcfcfc 0%,#eeeeee 100%);
+  background: black;
   height: auto;
 }
 
@@ -324,7 +315,7 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 }
 
 a.mw-make-cols, #mw_handle_module .mw_edit_settings {
-  color: #666666;
+  color: rgba(255, 255, 255, 0.77);
   background: none;
   text-decoration: none;
   display: inline-block;
@@ -339,8 +330,15 @@ a.mw-make-cols, #mw_handle_module .mw_edit_settings {
   background: black;
 }
 
-a.mw-make-cols:hover, a.mw-make-cols.active{
-    box-shadow: inset 0 0 3px rgba(119, 119, 119, 0.7);
+a.mw-make-cols:hover{
+  background: #EBEBEB;
+  color: black;
+}
+
+a.mw-make-cols.active{
+   box-shadow: inset 0 0 4px -2px #000;
+   background: white;
+   color: black;
 }
 
 #items_handle {

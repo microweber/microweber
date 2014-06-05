@@ -1087,9 +1087,19 @@ class Parser
     {
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
         $pq = \phpQuery::newDocument($l);
+        $found = false;
         foreach ($pq ['[field=content]'] as $elem) {
             $l = pq($elem)->htmlOuter();
+            $found = true;
         }
+
+        if($found == false){
+            foreach ($pq ['[field=content_body]'] as $elem) {
+                $l = pq($elem)->htmlOuter();
+                $found = true;
+            }
+        }
+       // var_dump($found);
         return $l;
     }
 
