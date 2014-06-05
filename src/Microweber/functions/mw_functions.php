@@ -155,7 +155,7 @@ function mw_load_all_modules_functions()
     $is_loaded = true;
 }
 
- event_bind('app_init', 'mw_load_all_modules_functions');
+event_bind('app_init', 'mw_load_all_modules_functions');
 //event_trigger('mw_init');
 
 // mw_load_all_modules_functions();

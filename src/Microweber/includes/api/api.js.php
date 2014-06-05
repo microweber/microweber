@@ -348,9 +348,9 @@ mw.askusertostay = false;
 
   mw.load_module = function($module_name, $update_element, callback, attributes) {
    
-      if($($update_element).length>0){
-            $($update_element).removeClass('module')
-        }
+      // if($($update_element).length>0){
+      //       $($update_element).removeClass('module')
+      //   }
 
    var attributes = attributes || {};
    attributes.module = $module_name;

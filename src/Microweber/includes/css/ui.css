@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=333asdsdfasdasdasdasas897sdd969695dsfdsasdasdas') format('truetype');
+  src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdasasdad') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -125,6 +125,15 @@
 }
 .mw-icon-reload:before {
   content: "\0122";
+}
+.mw-icon-facebook:before {
+  content: "\0123";
+}
+.mw-icon-twitter:before {
+  content: "\0124";
+}
+.mw-icon-googleplus:before {
+  content: "\0125";
 }
 /* Product Icon */
 .product-icon {

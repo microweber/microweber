@@ -80,6 +80,7 @@ class Controller
                 include_once($load_template_functions);
             }
         }
+        event_trigger('mw_backend');
 
 
         $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');

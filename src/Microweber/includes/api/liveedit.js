@@ -1671,7 +1671,7 @@ if(typeof el === 'object' && el !== null){
 }
 
   var doc = mw.tools.parseHtml(mwd.body.innerHTML);
-  mw.$('.edit .module', doc).empty();
+  //mw.$('.edit .module', doc).empty();
   mw.$('.element-current', doc).removeClass('element-current');
   mw.$('.element-active', doc).removeClass('element-active');
   mw.$('.disable-resize', doc).removeClass('disable-resize');

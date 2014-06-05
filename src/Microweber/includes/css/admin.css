@@ -1827,6 +1827,13 @@ body.grabbing, body.grabbing *{
   cursor:-webkit-grabbing;
 }
 
+.admin-side-box{
+  padding: 14px;
+}
+.mw-side-main-title > [class*='mw-icon-']{
+  font-size:30px;
+  margin: 0;
+}
 
 /************************************
        Admin tooltip
@@ -1892,7 +1899,6 @@ body.grabbing, body.grabbing *{
 .mw-custom-field-icon-email:before{ content: '\0106'; }
 .mw-custom-field-icon-upload:before{ content: '\0107'; }
 .mw-custom-field-icon-price:before{ content: '\0108'; }
-.mw-custom-field-icon-checkbox:before{ content: '\0109'; }
 .mw-custom-field-icon-number:before{ content: '\0110'; }
 .mw-custom-field-icon-radio:before{ content: '\0111'; }
 .mw-custom-field-icon-checkbox:before{ content: '\0112'; }
@@ -1948,9 +1954,18 @@ body.grabbing, body.grabbing *{
 }
 
 
+/************************************
+        Settings: Email section
+*************************************/
+
+.module-settings-group-email .mw-ui-field{
+  width: 100%;
+}
+
+
 
 /************************************
-        Backup section
+        Settings: Backup section
 *************************************/
 
 .mw-backup-download,
@@ -1973,6 +1988,21 @@ body.grabbing, body.grabbing *{
 }
 .mw-backup-delete > [class*='mw-icon-']:hover{
   color: #DC0D17;
+}
+
+/************************************
+        Modules section
+*************************************/
+.admin-modules-list-form .mw-icon-drag{
+  font-size: 17px;
+  color: #C6C6C6;
+  cursor:move;
+  cursor:grab;
+  cursor:-moz-grab;
+  cursor:-webkit-grab;
+}
+.admin-modules-list-image{
+  vertical-align: middle;
 }
 
 /************************************

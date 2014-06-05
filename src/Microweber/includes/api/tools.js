@@ -1,3 +1,6 @@
+
+
+
 mw.require("files.js");
 mw.require(mw.settings.includes_url + "css/ui.css");
 (function() {
@@ -2937,38 +2940,7 @@ $.fn.datas = function(){
     return toreturn;
 }
 
-mw.switcher = {
-  _switch:function(el, callback){
-    if($(el).hasClass("mw-switcher-off")){
-       mw.switcher.on(el);
-       var checked = el.getElementsByTagName('input')[0];
-    }
-    else{
-       mw.switcher.off(el);
-       var checked = el.getElementsByTagName('input')[1];
-    }
-    $(checked).trigger('change', checked);
-    if(typeof callback==='function'){
-      callback.call(checked);
-    }
-  },
-  on:function(el){
-    if(el){
-     var _el = $(el);
-     _el.removeClass('mw-switcher-off');
-     _el.addClass('mw-switcher-on');
-     el.getElementsByTagName('input')[0].checked = true;
-    }
-  },
-  off:function(el){
-     if(el){
-     var _el = $(el);
-     _el.addClass('mw-switcher-off');
-     _el.removeClass('mw-switcher-on');
-     el.getElementsByTagName('input')[1].checked = true;
-     }
-  }
-}
+
 
 
 mw.check = {
