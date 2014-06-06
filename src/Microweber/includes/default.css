@@ -20,7 +20,6 @@
 }
 
 .mw-defaults * {
-  color: inherit;
   -webkit-box-sizing:border-box;
   -moz-box-sizing:border-box;
   box-sizing:border-box;
@@ -34,14 +33,21 @@
   font-size: 12px;
   color: #212121;
 }
-.mw-defaults > *{
-  color: #212121;
-}
+
 
 
 .mw-defaults li, .mw-defaults ol, .mw-defaults ul{
   margin: 0;
   padding: 0;
+}
+
+#mw_toolbar_back_to_live_edit{
+  position: fixed;
+  top: 0;
+  left: 50%;
+  margin-left:-75px;
+  z-index: 999;
+  border-radius: 0 0 3px 3px;
 }
 
 

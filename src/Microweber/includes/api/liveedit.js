@@ -111,12 +111,17 @@ $(document).ready(function(){
        left:"",
        top:""
      });
+     mw.on.stopWriting(e.target, function(){
+       if(mw.tools.hasClass(e.target, 'edit') || mw.tools.hasParentsWithClass(this, 'edit')){
+         mw.drag.save(mwd.getElementById('main-save-btn') );
+       }
+     });
    });
 
    $(mwd.body).bind("keydown",function(e){
 
      if(e.keyCode == 83 && e.ctrlKey){
-        mw.e.cancel(e, true);
+        mw.event.cancel(e, true);
         mw.drag.save(mwd.getElementById('main-save-btn'));
      }
    })
@@ -216,7 +221,7 @@ mw.drag = {
 	create: function () {
          mw.top_half = false;
          var edits = mwd.body.querySelectorAll(".edit"), elen = edits.length, ei = 0;
-         for(;ei < elen;ei++){
+         for( ; ei < elen; ei++ ){
            var els = edits[ei].querySelectorAll('p,div,h1,h2,h3,h4,h5,h6'), i = 0, l = els.length;
             for( ; i<l; i++){
                var el = els[i];
@@ -1631,6 +1636,7 @@ mw.drag = {
   draftSaving:false,
   save: function(el, callback, is_draft) {
   var is_draft = is_draft || false;
+  if(is_draft == true){return false;}
   if(mw.wysiwyg.undoredo){
       mw.$(".edit").addClass("orig_changed");
       mw.wysiwyg.undoredo = false;

@@ -3,6 +3,11 @@
 *****************************/
 
 @radius: 3px;
+@linkColor: #212121;
+@textColor: #212121;
+
+@buttonColor: #ffffff;
+
 
 
 
@@ -146,6 +151,7 @@
   position: relative;
   border-radius: @radius;
   text-decoration: none;
+  color: @linkColor;
 }
 
 .mw-ui-btn-hover{
@@ -156,31 +162,31 @@
 /* Colors */
 
 .mw-ui-btn-invert{
-  color: white;
+  color: @buttonColor;
   background-color: #262626;
   border-color: transparent;
 }
 
 .mw-ui-btn-important{
-  color: white;
+  color: @buttonColor;
   background-color: #C72943;
   border-color: transparent;
 }
 
 .mw-ui-btn-info{
-  color: white;
+  color: @buttonColor;
   background-color: #4494C7;
   border-color: transparent;
 }
 
 .mw-ui-btn-notification{
-  color: white;
+  color: @buttonColor;
   background-color: #48AD79;
   border-color: transparent;
 }
 
 .mw-ui-btn-warn{
-  color: white;
+  color: @buttonColor;
   background-color: #EF924D;
   border-color: transparent;
 }
@@ -926,7 +932,7 @@ div.mw-ui-field:after{
 .mw-ui-sidenav a.active:hover,
 .mw-ui-sidenav a.active:focus{
   border-color: #111;
-  background-color: #8B8B8B; 
+  background-color: #8B8B8B;
   color: white;
   box-shadow: 0 1px 5px -2px #000000 inset;
 }
@@ -1362,6 +1368,10 @@ div.mw-ui-field:after{
 .mw-ui-dropdown .mw-dropdown-content, .mw-ui-dropdown .mw-ui-dropdown-content{
     visibility: hidden;
     cursor: default;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 100%;
 }
 
 .mw-ui-dropdown-content > .mw-ui-btn-vertical-nav{ margin-top: -1px; min-width: 100%; }
@@ -1450,6 +1460,10 @@ div.mw-ui-field:after{
     content: "\0118";
     font-family: Microweber;
     float: right;
+  }
+  .mw-dropdown-button{
+    width:100%;
+    text-align: left;
   }
 
 

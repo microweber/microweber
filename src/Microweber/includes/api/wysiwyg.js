@@ -309,7 +309,7 @@ mw.wysiwyg = {
           var f = mw.tools.hasClass(f, 'edit') ? f : mw.tools.firstParentWithClass(f, 'edit');
           if(f.attributes != undefined && !!f.attributes.field && f.attributes.field.nodeValue == 'title'){
             if(!!e){
-              mw.e.cancel(e, true);
+              mw.event.cancel(e, true);
             }
             return false;
           }

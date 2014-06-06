@@ -196,6 +196,7 @@
   position: relative;
   border-radius: 3px;
   text-decoration: none;
+  color: #212121;
 }
 .mw-ui-btn-hover {
   border-color: transparent;
@@ -203,27 +204,27 @@
 }
 /* Colors */
 .mw-ui-btn-invert {
-  color: white;
+  color: #ffffff;
   background-color: #262626;
   border-color: transparent;
 }
 .mw-ui-btn-important {
-  color: white;
+  color: #ffffff;
   background-color: #C72943;
   border-color: transparent;
 }
 .mw-ui-btn-info {
-  color: white;
+  color: #ffffff;
   background-color: #4494C7;
   border-color: transparent;
 }
 .mw-ui-btn-notification {
-  color: white;
+  color: #ffffff;
   background-color: #48AD79;
   border-color: transparent;
 }
 .mw-ui-btn-warn {
-  color: white;
+  color: #ffffff;
   background-color: #EF924D;
   border-color: transparent;
 }
@@ -1371,6 +1372,10 @@ div.mw-ui-field:after {
 .mw-ui-dropdown .mw-ui-dropdown-content {
   visibility: hidden;
   cursor: default;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 100%;
 }
 .mw-ui-dropdown-content > .mw-ui-btn-vertical-nav {
   margin-top: -1px;
@@ -1462,6 +1467,10 @@ div.mw-ui-field:after {
   content: "\0118";
   font-family: Microweber;
   float: right;
+}
+.mw-dropdown-button {
+  width: 100%;
+  text-align: left;
 }
 /************************************
         Miscellaneous

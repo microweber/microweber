@@ -6,9 +6,19 @@ class Ui
 
     var $admin_menu = array();
     var $custom_fields = array();
+    var $admin_logo = '';
+    var $logo_live_edit = '';
+    var $brand_name = 'Microweber';
 
+    var $powered_by = 'Create a website';
+    var $powered_by_link = 'http://microweber.com/';
     function __construct()
     {
+
+        //set admin logo
+        $this->admin_logo = MW_INCLUDES_URL . 'img/logo_admin.png';
+        $this->logo_live_edit = MW_INCLUDES_URL . 'img/logo_admin.png';
+
         $this->set_default_custom_fields();
     }
 
@@ -40,6 +50,19 @@ class Ui
     {
 
 
+    }
+    public function brand_name()
+    {
+        return $this->brand_name;
+    }
+    public function live_edit_logo()
+    {
+        return $this->logo_live_edit;
+    }
+
+    public function admin_logo()
+    {
+        return $this->admin_logo;
     }
 
     public function admin_menu()

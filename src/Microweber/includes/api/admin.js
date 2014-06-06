@@ -324,7 +324,12 @@ mw.admin = {
 
 $(mwd).ready(function(){
    mw.admin.treeboxwidth();
-
+   $(mwd.body).bind('keydown', function(e){
+      if(mw.event.key(e,8) && (e.target.nodeName === 'DIV' || e.target === mwd.body)){
+        mw.event.cancel(e);
+        return false;
+      }
+   });
 });
 
 $(mww).bind('load', function(){
@@ -345,7 +350,7 @@ $(mww).bind('load', function(){
             mw.admin.titleTip(event.target);
         }
         else if(mw.tools.hasParentsWithClass(event.target, 'tip')){
-            mw.admin.titleTip(mw.tools.firstParentWithClass(event.target, 'tip'))
+            mw.admin.titleTip(mw.tools.firstParentWithClass(event.target, 'tip'));
         }
         else{
            $(mw.admin._titleTip).hide();
@@ -368,18 +373,16 @@ mw.on.moduleReload('pages_edit_container', function(){
 });
 
 QTABSArrow = function(el){
-		  //
-          var el = $(el);
-		  if(el == null){
-			return;
-		  }
-		  if(el.length == 0){
-			  return;
-		  }
-
-          var left = el.offset().left - el.parent().offset().left + (el.width()/2);
-          mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
-      }
+  var el = $(el);
+  if(el == null){
+    return;
+  }
+  if(el.length == 0){
+    return;
+  }
+  var left = el.offset().left - el.parent().offset().left + (el.width()/2);
+  mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
+}
 
 
 

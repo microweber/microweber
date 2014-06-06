@@ -183,64 +183,51 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
           <?php event_trigger('live_edit_toolbar_menu_end'); ?>
         </ul>
       </div>
-      <div id="mw-toolbar-right" class="mw-defaults"> <span class="liveedit_wysiwyg_next" id="liveedit_wysiwyg_main_next" title="<?php _e("Next"); ?>"
-                          onclick="mw.liveEditWYSIWYG.slideRight();"></span>
-        <div class="right" style="padding: 5px 0;">
+      <div id="mw-toolbar-right" class="mw-defaults">
+        <span
+            class="liveedit_wysiwyg_next"
+            id="liveedit_wysiwyg_main_next"
+            title="<?php _e("Next"); ?>"
+            onclick="mw.liveEditWYSIWYG.slideRight();"></span>
+        <div class="mw-toolbar-right-content">
           <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
-          <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green mw-ui-btn right"
-                              onclick="mw.drag.save(this)" id="main-save-btn">
+          <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save(this)" id="main-save-btn">
           <?php _e("Save"); ?>
           </span>
-          <div class="toolbar-sections-tabs mw-ui-dropdown right" id="toolbar-dropdown-actions"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><span
-                            class="mw-dropdown-arrow right"></span>
-            <?php _e("Actions"); ?>
+          <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions">
+            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button">
+                <?php _e("Actions"); ?>
             </a>
-            <div class="mw-dropdown-content" style="width: 155px;">
-              <ul class="mw-dropdown-list mw-dropdown-list-icons">
+            <div class="mw-ui-dropdown-content">
+              <ul class="mw-ui-btn-vertical-nav">
                 <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
-                <li> <a title="Back to Admin" href="<?php print $back_url; ?>"><span
-                                        class="ico ibackarr"></span><span>
-                  <?php _e("Back to Admin"); ?>
-                  </span></a> </li>
-                <li> 
-                  <script>
-
-                                        mw.userCanSwitchMode = false;
-
-                                    </script>
+                <li>
+                    <a class="mw-ui-btn" title="Back to Admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
+                <li>
+                  <script>mw.userCanSwitchMode = false;</script>
                   <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
-                  <script>
-
-                                        mw.userCanSwitchMode = true;
-
-                                    </script>
+                  <script>mw.userCanSwitchMode = true;</script>
                   <?php if (isset($_COOKIE['advancedmode']) and $_COOKIE['advancedmode'] == 'true') { ?>
-                  <a href="javascript:;" onclick="mw.setMode('simple');" style="display:none">Simple Mode</a>
+                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('simple');" style="display:none">Simple Mode</a>
                   <?php } else { ?>
-                  <a href="javascript:;" onclick="mw.setMode('advanced')" style="display:none">Advanced Mode</a>
+                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('advanced')" style="display:none">Advanced Mode</a>
                   <?php } ?>
                   <?php }  ?>
                 </li>
-                <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><span
-                                        class="ico iviewsite"></span><span>
-                  <?php _e("View Website"); ?>
-                  </span></a> </li>
+                <li><a class="mw-ui-btn" href="<?php print mw('url')->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
                 <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
-                <?php /*<li><a href="#" onclick="mw.preview();void(0);"><span class="ico ibackarr"></span><span><?php _e("Preview"); ?></span></a></li>*/ ?>
+                <?php /*<li><a class="mw-ui-btn" href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
                 <?php $pub_or_inpub = mw('content')->get_by_id(CONTENT_ID); ?>
-                <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>> <a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span
-                                            class="ico iUnpublish"></span><span>
+                <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span>
                   <?php _e("Unpublish"); ?>
                   </span></a> </li>
-                <li class="mw-set-content-publish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>> <a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span
-                                            class="ico iPublish"></span><span>
+                <li class="mw-set-content-publish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><span>
                   <?php _e("Publish"); ?>
                   </span></a> </li>
                 <?php endif; ?>
-                <li><a  href="#design_bnav" class="mw_ex_tools"><span class="ico itabadvanced"></span>Tools</a></li>
-                <li><a href="<?php print mw('url')->api_link('logout'); ?>"><span
-                                        class="ico ilogout"></span><span>
+                <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn">Tools</a></li>
+                <li><a href="<?php print mw('url')->api_link('logout'); ?>" class="mw-ui-btn"><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
                 <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>

@@ -30,11 +30,10 @@
 **************************/
 
 html,body{
-  height:100%;
+  min-height:100%;
 }
 
-body, textarea,input{
-  font-family: Verdana, Geneva, Arial, sans-serif;
+body, textarea, input{
   font-family: Segoe UI, sans-serif;
   font-size: 13px;
   line-height: 1.3;
@@ -1563,15 +1562,7 @@ input#edit-content-url:focus, input#edit-content-url.active{
   text-overflow: ellipsis;
 }
 
-#product-price{
-   font-size: 21px;
-    padding: 0;
-    width: 110px;
-}
-#product-price-holder{
-    float: right;
-  margin-bottom: 12px;
-}
+
 
 .edit-post-url, .edit-post-url .mw-ui-invisible-field{
   font-size: 11px;

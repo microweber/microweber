@@ -94,7 +94,7 @@
     			 }
 				 window.top.location.href = data+'/editmode:y';
     		 });
-			mw.e.cancel(e,true);
+			mw.event.cancel(e,true);
 		}
 		
 

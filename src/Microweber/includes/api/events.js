@@ -271,11 +271,14 @@ $.fn.bindMultiple = function(event, callback){
 }
 
 
-mw.e = {
+mw.event = {
   cancel:function(e, prevent){
     prevent===true?e.preventDefault():'';
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
+  },
+  key:function(e,key){
+    return (e.keyCode === parseFloat(key));
   }
 }
 

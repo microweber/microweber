@@ -165,7 +165,7 @@ mw.treeRenderer = {
           var toggle ='';
 
 
-          var sub_page = '<span title="Add Sub-page" class="ico iplus mw_tree_sub_page" onclick="mw.url.windowHashParam(\'action\', \'new:page\');mw.url.windowHashParam(\'parent-page\', $(this.parentNode).dataset(\'page-id\'));mw.e.cancel(event);"></span>';
+          var sub_page = '<span title="Add Sub-page" class="ico iplus mw_tree_sub_page" onclick="mw.url.windowHashParam(\'action\', \'new:page\');mw.url.windowHashParam(\'parent-page\', $(this.parentNode).dataset(\'page-id\'));mw.event.cancel(event);"></span>';
           var sub_page = '';
 
           // type: page or category

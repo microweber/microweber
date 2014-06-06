@@ -3524,7 +3524,7 @@ $(mwd.body).bind("keydown", function(e){
          mw.tools.gallery.next(  mw.$(".mw_modal_gallery")[0].modal )
       }
       else if(e.keyCode === 122){/* F11 */
-        mw.e.cancel(e,true);
+        mw.event.cancel(e,true);
         mw.tools.toggleFullscreen(mw.$(".mw_modal_gallery")[0]);
         return false;
       }

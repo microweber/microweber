@@ -1078,41 +1078,31 @@ class Controller
 
                 $hooks = api_hook(true);
                 if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
-
                     foreach ($hooks[$api_function] as $hook_key => $hook_value) {
                         if ($hook_value != false and $hook_value != null) {
                             $hook_value($res);
 
                         }
                     }
-
                 } else {
                     //error('The api function ' . $api_function . ' does not exist', __FILE__, __LINE__);
                 }
-
                 // print $api_function;
             } else {
-
                 mw_error('The api function ' . $api_function . ' is not defined in the allowed functions list');
-
             }
             if (isset($res)) {
                 if (!defined('MW_API_HTML_OUTPUT')) {
-
-
                     if (!headers_sent()) {
                         header('Content-Type: application/json');
-
                         print json_encode($res);
                     }
                 } else {
-
                     if (is_array($res)) {
                         print_r($res);
                     } else {
                         print($res);
                     }
-
                 }
             }
             exit();

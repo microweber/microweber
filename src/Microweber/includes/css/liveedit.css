@@ -180,11 +180,16 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
     z-index: 9;
     height: 17px;
 	width:100%;
-    /*visibility: hidden;*/
 	position:absolute;
 	left: 0px;
     top: 0;
 	border: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
 .mw-sorthandle-moveit{
@@ -302,9 +307,11 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
   margin-top: 7px;
   color:#666666;
   border-radius: 2px;
-  width: auto !important;
   background: black;
   height: auto;
+}
+#mw_handle_row{
+  width: auto !important;
 }
 
 #mw_handle_module{
@@ -862,6 +869,7 @@ li .ts_action_item:last-child{
   -webkit-transition: opacity 1s;
   -o-transition: opacity 1s;
 }
+
 
 body.loaded #live_edit_toolbar{
   opacity: 1;
@@ -1960,6 +1968,57 @@ body.design_hover .element-current{
   position: relative;
   z-index: 12;
 }
+.mw-toolbar-right-content{
+  float: right;
+  width: 200px;
+  padding: 3px 0;
+}
+
+#toolbar-dropdown-actions{
+  float: right;
+  width: 120px;
+}
+
+.mw_edit_delete{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: white;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color: rgba(245, 245, 245, 0.5);
+  cursor: pointer;
+  font-size: 11px;
+  text-align: center;
+  background: black;
+  position: relative;
+  z-index: 9;
+  border-radius: 3px;
+  padding: 2px;
+  text-decoration: none;
+  position: absolute;
+  right: -20px;
+  top: 0;
+}
+
+.mw_edit_delete:after{
+  content: "\111";
+  font-family: Microweber;
+}
+
+.mw_edit_delete:hover {
+    background-color: #DDDDDD;
+    border-bottom-color: #000000;
+    color: #000000;
+    text-decoration: none;
+}
+
+
+
+
+
+
 
 #main-save-btn{
   margin: 0 0 0 12px;
