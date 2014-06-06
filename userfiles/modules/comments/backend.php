@@ -94,7 +94,7 @@ mw.on.hashParam("comments_for_content", function(){
         }
       },
       display:function(e, el, what){
-            mw.e.cancel(e);
+            mw.event.cancel(e);
             var _new = mw.tools.firstParentWithClass(el, 'comment-post').querySelector('.new-comments');
             var _old = mw.tools.firstParentWithClass(el, 'comment-post').querySelector('.old-comments');
             if(what=='all'){
@@ -111,7 +111,7 @@ mw.on.hashParam("comments_for_content", function(){
 		    return false;
 		  }
 		  if(e != undefined){
-                mw.e.cancel(e);
+                mw.event.cancel(e);
 		  }
           var _new = master.parentNode.querySelector('.new-comments');
           var _old = master.parentNode.querySelector('.old-comments');

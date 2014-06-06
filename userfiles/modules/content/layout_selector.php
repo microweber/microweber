@@ -645,11 +645,11 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
                  ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
                 <div id="preview-edit-links"><a class="mw-ui-btn mw-ui-btn-invert"
                                                 href="#action=editpage:<?php print $params["edit_page_id"]; ?>"
-                                                onclick="mw.e.cancel(event);"> <span class="mw-icon-page"></span> <span>
+                                                onclick="mw.event.cancel(event);"> <span class="mw-icon-page"></span> <span>
           <?php _e("Edit Page"); ?>
           </span> </a> <a class="mw-ui-btn mw-ui-btn-info" target="_top"
                           href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"
-                          onclick="mw.e.cancel(event);"><span class="mw-icon-live"></span>
+                          onclick="mw.event.cancel(event);"><span class="mw-icon-live"></span>
                         <?php _e("Live Edit"); ?>
                     </a></div>
             </div>

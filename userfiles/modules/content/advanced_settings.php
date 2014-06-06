@@ -213,9 +213,7 @@ $show_page_settings = 1;
 			
 			
 		</script> 
-<small><a href="javascript:mw.del_curent_page('<?php print ($data['id'])?>');"  class="mw-ui-link">
-<?php _e('Delete'); ?>
-</a></small>
+
 <?php endif; ?>
 <?php if(isset($data['created_on'])): ?>
 <br />
