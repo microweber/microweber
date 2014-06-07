@@ -2,12 +2,12 @@
 if (version_compare(phpversion(), "5.3.0", "<=")) {
     exit("Error: You must have PHP version 5.3 or greater to run Microweber");
 }
-// error_reporting(E_ALL);
+//error_reporting(E_ALL);
 
 date_default_timezone_set('UTC');
 
 
-require_once ('vendor/autoload.php');
+require_once ('src/Microweber/bootstrap.php');
 
 $application = new \Microweber\Application();
 
@@ -32,21 +32,18 @@ $application = new \Microweber\Application();
 
 
 // Starting Router
-$router = new \Microweber\Router();
+$router =  new \Microweber\Router();
 
 // Starting Controller
 $controller = new \Microweber\Controller($application);
-$router->get('/', $controller);
+
 // Automatically map the Router to all controller functions
 $router->map($controller);
-/*
-$rou
-ter->my_controller_url =  '\Microweber\TestController';
 
-Add more controllers tp the router
-open at http://localhost/my_controller_url
 
-*/
+// add routes by class names or closures
+// $router->get('anything','Microweber\Controllers\ExampleController');
+
 // Run the website
 $router->run();
 

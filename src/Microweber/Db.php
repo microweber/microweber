@@ -37,6 +37,7 @@ class Db
     private $mw_escaped_strings = array();
     private $table_fields = array();
     private $results_map = array();
+    private $build_tables = array();
 
     function __construct($app = null)
     {
@@ -183,8 +184,20 @@ class Db
 
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
+
+        if(isset($this->build_tables[$function_cache_id])){
+            return true;
+        } else {
+            $this->build_tables[$function_cache_id] = true;
+        }
+
+
         $prefix = $this->app->config('table_prefix');
         $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id . $prefix);
+
+
+
+        $table_name = $this->real_table_name($table_name);
 
         $cache_group = 'db/' . $table_name;
         $cache_content = $this->app->cache->get($function_cache_id, 'db/' . $cache_group);
@@ -1158,6 +1171,11 @@ class Db
             $is_in_table = $this->escape_string($criteria['in_table']);
 
         }
+        $sum = false;
+        if (isset($criteria['sum'])) {
+            $sum = $this->escape_string($criteria['sum']);
+
+        }
         if (isset($criteria['keyword'])) {
             $criteria['search_by_keyword'] = $criteria['keyword'];
         }
@@ -1263,6 +1281,8 @@ class Db
 
         if ($count_only == true) {
             $q = "SELECT count(*) AS qty FROM $table ";
+        }else if ($sum != false) {
+            $q = "SELECT SUM($sum) as $sum FROM $table ";
         }
 
         $precise_select = false;

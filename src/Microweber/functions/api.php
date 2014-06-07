@@ -45,7 +45,7 @@ function event_trigger($api_function, $data = false)
 
             if ($hook_value != false) {
 
-                if (function_exists($hook_value)) {
+               if (is_string($hook_value) and function_exists($hook_value)) {
                     if ($data != false) {
                         $return[$hook_value] = $hook_value($data);
                     } else {
@@ -59,7 +59,13 @@ function event_trigger($api_function, $data = false)
                     if (is_string($hook_value) or is_object($hook_value)) {
                         try {
                             if ($data != false) {
-                                $return[$hook_value] = call_user_func($hook_value, $data); // As of PHP 5.3.0
+                                if(is_string($hook_value)){
+                                    $return[$hook_value] = call_user_func($hook_value, $data);
+
+                                } else {
+                                    call_user_func($hook_value, $data);
+
+                                }
                             } else {
 
                                 if (is_string($hook_value) and is_callable($hook_value)) {
