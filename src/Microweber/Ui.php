@@ -7,18 +7,17 @@ class Ui
     var $admin_menu = array();
     var $custom_fields = array();
     var $admin_logo = '';
+    var $admin_logo_login = '';
     var $logo_live_edit = '';
     var $brand_name = 'Microweber';
+    var $powered_by_link = false;
 
-    var $powered_by = 'Create a website';
-    var $powered_by_link = 'http://microweber.com/';
     function __construct()
     {
 
-        //set admin logo
         $this->admin_logo = MW_INCLUDES_URL . 'img/logo_admin.png';
         $this->logo_live_edit = MW_INCLUDES_URL . 'img/logo_admin.png';
-
+        $this->admin_logo_login = MW_INCLUDES_URL . 'img/sign_logo.png';
         $this->set_default_custom_fields();
     }
 
@@ -45,7 +44,6 @@ class Ui
 //            $this->add_custom_field($item);
 //        }
     }
-
     public function admin($menu_array)
     {
 
@@ -58,6 +56,11 @@ class Ui
     public function live_edit_logo()
     {
         return $this->logo_live_edit;
+    }
+
+    public function admin_logo_login()
+    {
+        return $this->admin_logo_login;
     }
 
     public function admin_logo()
@@ -87,5 +90,13 @@ class Ui
         return $this->custom_fields;
     }
 
+    function powered_by_link()
+    {
+        $link = '<a href="https://microweber.com/" title="Create free Website &amp; Online Shop">Create Website</a> with <a href="https://microweber.com" target="_blank" title="Microweber CMS">Microweber</a>';
+        if ($this->powered_by_link != false) {
+            $link = $this->powered_by_link;
+        }
+        return $link;
+    }
 
 }

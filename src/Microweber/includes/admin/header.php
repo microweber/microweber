@@ -89,11 +89,32 @@ if ($last_page_front != false) {
 }
 
 ?>
+<div id="admin-user-nav">
+
+
+
+
+<div class="mw-ui-dropdown">
+    <a href="#" class="mw-ui-btn mw-dropdown-button" style="width: auto"><span class="mw-icon-user"></span><?php print user_name(false, $mode = 'first'); ?></a>
+    <div class="mw-ui-dropdown-content">
+        <div class="mw-ui-btn-vertical-nav">
+             <a class="mw-ui-btn">Your profile</a>
+             <a class="mw-ui-btn">Users</a>
+             <a class="mw-ui-btn">Log Out</a>
+        </div>
+    </div>
+</div>
+
+
+
+<a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
+
+</div>
 <div id="mw-admin-container">
     <div class="mw-ui-row main-admin-row">
         <div class="mw-ui-col main-bar-column">
             <div id="main-bar">
-                <a href="javascript:;" id="main-bar-mw-icon">
+                <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon">
                 <span class="mw-icon-mw"></span>
                 <?php mw_logo_svg(); ?>
                 </a>
@@ -162,10 +183,10 @@ if ($last_page_front != false) {
                     <li id="main-menu-toggle">
                         <a href="javascript:;"><span class="mw-icon-menu"></span></a>
                     </li>
-                    <li><a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="back-to-admin-cookie mw-admin-go-live-now-btn" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>Live edit</a></li>
-                    
+
+
                        
-                <?php // d(mw()->ui->admin_menu); ?>
+
                 </ul>
              
                 

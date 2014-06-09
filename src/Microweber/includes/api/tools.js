@@ -1596,6 +1596,7 @@ mw.tools = {
     }
   },
   simpleRotator:function(rotator){
+    if(rotator === null){ return undefined; }
     if(typeof rotator !== 'undefined'){
       if(!$(rotator).hasClass('activated')){
         $(rotator).addClass('activated')
@@ -1626,7 +1627,7 @@ mw.tools = {
   highlight:function(el, color, speed1, speed2){
     if(typeof el === 'undefined') return false;
     $(el).stop();
-    var color = color || '#D8FFC4';
+    var color = color || '#48AD79';
     var speed1 = speed1 || 777;
     var speed2 = speed2 || 777;
     var curr = window.getComputedStyle(el, null).backgroundColor;

@@ -2099,6 +2099,83 @@ body.grabbing, body.grabbing *{
   vertical-align: middle;
 }
 
+#mw-modules-toolbar{
+  padding-left: 35px;
+  padding-top: 10px;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+#mw-modules-toolbar *{
+  vertical-align: middle;
+}
+
+#mw-modules-toolbar .mw-ui-row{
+  width: 100%;
+}
+.mw-modules-toolbar-back-icon{
+  font-size: 28px;
+    line-height: 10px;
+}
+.mw-modules-toolbar-back-button{
+  text-align: right;
+}
+#mw-modules-toolbar .mw-ui-row img{
+  margin-right: 10px;
+}
+#mw-main-module-backend{
+  padding-left: 35px;
+}
+
+
+/************************************
+        Dashboard
+*************************************/
+
+#dashboard-navigation,
+#dashboard-navigation .mw-ui-btn{
+  width: 100%;
+}
+
+#stats{
+  padding: 20px 0;
+}
+
+#admin-user-nav{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+#stat-table{
+  table-layout: fixed;
+  border-left: none;
+  border-bottom: none
+}
+#stat-table td, #stat-table thead th, #stat-table tfoot td{
+  border-right: none;
+}
+
+#stat-table thead th{
+  border-top: none
+}
+
+#stat-table th{
+  background-color: white;
+}
+
+#stat-table .tip, .statwrapper{
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stat-time{
+  font-size: 12px;
+}
+
+
+
 
 
 /************************************
