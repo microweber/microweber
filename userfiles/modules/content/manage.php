@@ -119,17 +119,7 @@ if(isset($page_info) and is_array($page_info)): ?>
     <?php endif; ?>
 
 <?php endif; ?>
-<?php /*<?php if(isset($page_info) and isset($page_info['title'])): ?>
-<?php if($page_info['is_shop'] == 'y'){ ?>
-<h2 >
-  <?php _e("Products from"); ?>
-  <?php print ($page_info['title']) ?></h2>
-<?php } else{  ?>
-<h2>
-  <?php _e("Posts from"); ?>
-  <?php print ($page_info['title']) ?></h2>
-<?php } ?>
-<?php endif; ?>*/ ?>
+
 <script  type="text/javascript">
 mw.require('forms.js', true);
 
@@ -182,7 +172,7 @@ mw.manage_content_sort = function(){
 
 </script>
 
-<?php /*<div class="manage-toobar manage-toolbar-top">
+<div class="manage-toobar manage-toolbar-top">
   <div class="manage-toobar-content">
       <div class="mw-ui-row">
         <div class="mw-ui-col"> <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"> <span class="mw-icon-plus"></span> Create </span> </div>
@@ -196,7 +186,7 @@ mw.manage_content_sort = function(){
         <?php endif; ?>
       </div>
   </div>
-</div>*/ ?>
+</div>
 <?php   print $posts = module( $posts_mod);  ?>
 <script  type="text/javascript">
 mw.on.hashParam("pg", function(){

@@ -19,14 +19,16 @@ $v_monthly = get_visits('monthly');
 
 <div id="stats">
   <h2><?php _e("Traffic Statistic"); ?></h2>
-  <ul id="stats_nav">
-    <li><a href="javascript:;" data-stat='day' class="active"><?php _e("Daily"); ?></a></li>
-    <li><a href="javascript:;" data-stat='week'><?php _e("Weekly"); ?></a></li>
-    <li><a href="javascript:;" data-stat='month'><?php _e("Monthly"); ?></a></li>
-  </ul>
-  <div class="dashboard_stats" id="stats_{rand}"></div>
+  <div id="stats_nav" class="mw-ui-btn-nav">
+    <a href="javascript:;" data-stat='day' class="mw-ui-btn active"><?php _e("Daily"); ?></a>
+    <a href="javascript:;" data-stat='week' class="mw-ui-btn"><?php _e("Weekly"); ?></a>
+    <a href="javascript:;" data-stat='month' class="mw-ui-btn"><?php _e("Monthly"); ?></a>
+  </div>
+
+    <div class="dashboard_stats" id="stats_{rand}"></div>
+
 </div>
-<div class="vSpace">&nbsp;</div>
+
 
 
 <script  type="text/javascript">
@@ -119,10 +121,19 @@ $(document).ready(function(){
 </script>
 <?php  } else if(isset($params['user-sid']) and $params['subtype'] == 'quick'){ ?>
 <?php $users_last5 = get_visits_for_sid($params['user-sid']);
- 
+
  ?>
   <?php if(!empty($users_last5)): ?>
-  <table border="0" cellspacing="0" cellpadding="0" class="stats_table">
+  <table border="0" cellspacing="0" cellpadding="0" class="mw-ui-table" id="stat-table">
+    <colgroup>
+      <col>
+      <col>
+      <?php if(function_exists('ip2country')): ?>
+          <th scope="col"><?php _e("Country"); ?></th>
+      <?php endif; ?>
+      <col width="50%">
+      <col width="10%">
+    </colgroup>
     <thead>
       <tr>
         <th scope="col"><?php _e("Date"); ?></th>
@@ -137,11 +148,11 @@ $(document).ready(function(){
     <tbody>
       <?php $i=0; foreach($users_last5 as $item) : ?>
       <tr>
-        <td><?php print $item['visit_date'] ?><br><?php print $item['visit_time'] ?></td>
+        <td class="stat-time"><?php print $item['visit_date'] ?><br><?php print $item['visit_time'] ?></td>
         <?php if(function_exists('ip2country')): ?>
-        <td><?php   print ip2country($item['user_ip']); ?></td>
+        <td class="stat-ip"><?php   print ip2country($item['user_ip']); ?></td>
         <?php endif; ?>
-        <td><?php print $item['user_ip'] ?></td>
+        <td class="stat-ip"><?php print $item['user_ip'] ?></td>
         <?php
             $last = explode('/',$item['last_page']);
             $size = count($last);
@@ -152,17 +163,17 @@ $(document).ready(function(){
                $last = $last[$size-1];
             }
         ?>
-        <td><a href="<?php print $item['last_page'] ?>" class="mw-ui-link last-page-link" title="<?php print $item['last_page'] ?>">/<?php print $last; ?></a></td>
-        <td><?php print $item['view_count'] ?></td>
+        <td class="stat-page"><a href="<?php print $item['last_page'] ?>" class="tip" data-tip="<?php print $item['last_page'] ?>" data-tipposition="top-center"><?php print $item['last_page']; ?></a></td>
+        <td class="stat-views"><?php print $item['view_count'] ?></td>
       </tr>
       <?php $i++; endforeach; ?>
     </tbody>
   </table>
   <?php endif; ?>
-<?php  } else {?>
+<?php  } else { ?>
 
 
 <module="site_stats/dashboard_last" id="stats_dashboard_last" />
 
 
-<?php }?>
+<?php } ?>

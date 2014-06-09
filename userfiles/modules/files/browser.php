@@ -20,8 +20,9 @@ only_admin_access();
 	  $path   =   $params['path']; // the path the script should access
 
  }
-
- $path = urldecode($path);
+$path = str_replace('./','',$path); 
+$path = str_replace('..','',$path); 
+$path = urldecode($path);
 
 
  $path = str_replace($path_restirct,'',$path);
@@ -62,7 +63,7 @@ PreviousFolder = [];
   <?php //if(in_array('breadcrumb', $_GET) and $_GET['breadcrumb'] == 'true'){ ?>
   <div class="mw-ui-box-header"> <a href="javascript:;" onclick="mw.url.windowHashParam('path', PreviousFolder);" class="mw-ui-btn mw-ui-btn-small right" style="float: right;"><span class="backico"></span>
     <?php _e("Back"); ?>
-    </a>  <span class="mw-browser-uploader-path">
+    </a> <span class="mw-browser-uploader-path">
     <?php if(is_array($path_nav )): ?>
     <?php
 
@@ -79,7 +80,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 }
  if(strlen($item)>0):
  ?>
-    <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script>
+    <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script> 
     <a href="#path=<?php print urlencode($path_nav_pop) ?>" style="color: #212121;"><span class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a>&raquo;
     <?php endif; endforeach ; ?>
     <?php endif; ?>
@@ -90,16 +91,11 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     PreviousFolder = PreviousFolder.length > 1 ? PreviousFolder[PreviousFolder.length-1] : PreviousFolder[0];
  </script>
   <div class="mw-ui-box-content" id="mw-browser-list-holder">
-
-
     <?php if(isset($data['dirs'] )): ?>
     <ul class="mw-browser-list">
       <?php foreach($data['dirs']  as $item): ?>
       <?php  $dir_link = str_replace($path_restirct,'',$item); ?>
-      <li>
-        <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" href="#path=<?php print urlencode($dir_link); ?>"><span class="ico icategory"></span><span><?php print basename($item); ?></span></a>
-        <span class="mw-close" onclick="deleteItem('<?php print urlencode($dir_link); ?>', '<?php print basename($item); ?>');"></span>
-      </li>
+      <li> <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" href="#path=<?php print urlencode($dir_link); ?>"><span class="ico icategory"></span><span><?php print basename($item); ?></span></a> <span class="mw-close" onclick="deleteItem('<?php print urlencode($dir_link); ?>', '<?php print basename($item); ?>');"></span> </li>
       <?php endforeach ; ?>
     </ul>
     <?php else: ?>
@@ -110,13 +106,8 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     <?php if(isset($data['files'] )): ?>
     <ul class="mw-browser-list">
       <?php foreach($data['files']  as $item): ?>
-      <li>
-
-
-
-      <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print mw('url')->link_to_file($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print mw('url')->link_to_file($item) ?>'); return false;">
+      <li> <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print mw('url')->link_to_file($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print mw('url')->link_to_file($item) ?>'); return false;">
         <?php $ext = strtolower(get_file_extension($item)); ?>
-
         <?php
 
 
@@ -126,16 +117,13 @@ $path_nav_pop = $path_nav_pop.DS.$item;
         <span class="mw-fileico mw-fileico-<?php print $ext ; ?>"><?php print $ext ; ?></span>
         <?php endif; ?>
         <span><?php print basename($item) ?></span> </a>
-
         <?php $rand = uniqid(); ?>
-
-         <div class="mw-file-item-check">
-            <label class="mw-ui-check left">
-                <input type="checkbox" onchange="gchecked()" name="fileitem" id="v<?php print $rand; ?>" value="<?php print $item;  ?>" /><span></span>
-            </label>
-            <span class="mw-close right" onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span>
-         </div>
-        </li>
+        <div class="mw-file-item-check">
+          <label class="mw-ui-check left">
+            <input type="checkbox" onchange="gchecked()" name="fileitem" id="v<?php print $rand; ?>" value="<?php print $item;  ?>" />
+            <span></span> </label>
+          <span class="mw-close right" onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span> </div>
+      </li>
       <?php endforeach ; ?>
     </ul>
     <script>

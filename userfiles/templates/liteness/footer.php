@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="mw-ui-col" id="powered">
-        <div><a href="https://microweber.com/" title="Create free Website &amp; Online Shop">Create Website</a> with <a href="https://microweber.com" target="_blank" title="Microweber CMS">Microweber</a></div>
+        <div><?php print powered_by_link(); ?></div>
       </div>
     </div>
   </div>

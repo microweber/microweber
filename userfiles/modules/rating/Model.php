@@ -6,11 +6,7 @@ namespace Microweber\rating;
 
 class Model
 {
-    /**
-     * An instance of the Microweber Application class
-     *
-     * @var $app
-     */
+
     public $app;
     protected $table = 'rating';
     protected $fields = array(
@@ -45,7 +41,6 @@ class Model
     public function get($params)
     {
         $params['table'] = $this->table;
-      //  $params['debug'] = $this->table;
         return $this->app->db->get($params);
 
     }

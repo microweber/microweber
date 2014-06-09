@@ -343,7 +343,7 @@ $menu_name = get_option('menu_name', $params['id']);
       <?php endforeach ; ?>
     </select>
 
-<div class="vSpace"></div>
+
   <hr>
   <label class="mw-ui-label">
     <?php _e("Select from"); ?>

@@ -60,13 +60,9 @@ class Controller
 
     function save($item)
     {
-
-
         if (!isset($item['rel_id']) and !isset($item['rel']) and !isset($item['rating'])) {
             return false;
         }
-
-
         $save = $this->model->save($item);
         return $save;
     }
@@ -74,7 +70,5 @@ class Controller
     function show_rating($item)
     {
         $ratings = $this->model->get($item);
-        d($ratings);
-        d($item);
     }
 }
