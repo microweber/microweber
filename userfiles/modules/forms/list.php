@@ -152,6 +152,6 @@ if(is_array($data)){
 <?php endif; ?>
 <div id="start-email-campaign">
     <span><?php _e("Get more from your mailing lists, send email to your users"); ?></span>
-    <a class="mw-ui-btn" href="javascript:;" onclick="Alert('Comming Soon!');" ><?php _e("Start an Email Campaign"); ?></a>
+    <a class="mw-ui-btn" href="javascript:;" onclick="Alert('Coming Soon!');" ><?php _e("Start an Email Campaign"); ?></a>
 </div>
 

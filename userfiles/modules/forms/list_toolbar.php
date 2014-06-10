@@ -34,9 +34,20 @@ if(trim($load_list) == 'default'){
   padding: 15px 0px 4px;
 }
 
-</style>
+.form-list-toolbar h2{
+  margin-top: 0;
+}
 
-<h2 class="left to-edit"  <?php  if(trim($load_list) != 'default'): ?>id="form_field_title" <?php endif; ?> style="max-width: 360px" ><?php print ($data['title']); ?></h2>
+</style>
+<div class="mw-ui-row form-list-toolbar">
+    <div class="mw-ui-col" style="width: 30%;">
+<h2  <?php  if(trim($load_list) != 'default'): ?>id="form_field_title" <?php endif; ?>><?php print ($data['title']); ?></h2>
+</div>
+    <div class="mw-ui-col" >
+
+
+<div class="contact-form-export-search">
+
 
 <div class="export-label pull-right">
     <span><?php _e("Export data"); ?>:</span>
@@ -54,3 +65,7 @@ if(trim($load_list) == 'default'){
       />
 
 
+</div>
+
+    </div>
+</div>

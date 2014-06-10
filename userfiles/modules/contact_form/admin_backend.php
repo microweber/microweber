@@ -1,6 +1,18 @@
-<div id="mw_edit_pages_content" style="width: auto">
+<div>
+    <style scoped="scoped">
+
+    .contact-form-export-search{
+      overflow: hidden;
+      padding: 0 0 20px 0;
+
+    }
+    .contact-form-export-search .export-label{
+      margin: 8px 0 0 12px
+    }
+
+    </style>
   <div id="mw_index_contact_form">
-    <div id="mw_edit_page_left" class="mw-content-sidebar" style="width: 224px;">
+    <div>
       <?php
           $mw_notif =  (url_param('mw_notif'));
           if( $mw_notif != false){
@@ -34,8 +46,8 @@
           	}
           }
       ?>
-      <div class="mw-admin-sidebar">
-        <div class="mw-admin-side-nav side-nav-max">
+
+        <div class="mw-ui-btn-nav">
            <a class="mw-ui-btn <?php if($load_list == 'default'){ ?>active<?php } ?>" href="<?php print $config['url']; ?>/load_list:default" >Default list</a>
             <?php $data = get_form_lists('module_name=contact_form'); ?>
             <?php if(is_array($data )): ?>
@@ -44,9 +56,11 @@
             <?php endforeach ; ?>
             <?php endif; ?>
         </div>
-        <h2><?php _e("Templates"); ?></h2>
-        <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn mw-ui-btn-hover">My templates</a> <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn mw-ui-btn-green"><?php _e("Get more templates"); ?></a>
-      </div>
+
+        <?php /*<div class="mw-ui-btn-nav">
+          <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn"><?php _e("My templates"); ?></a>
+          <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn" onclick="Alert(<?php _e("Coming soon"); ?>)"><?php _e("Get more templates"); ?></a>
+        </div>*/ ?>
     </div>
     <div class="mw-content-container" >
     <div class="mw-ui-box mw-ui-box-content">

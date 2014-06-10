@@ -62,6 +62,8 @@ mw.contentAction = {
       }
       else if(type==='product'){
         mw_add_product(id);
+      }else if(type!==''){
+      mw_select_post_for_editing(0,   type)
       }
       mw.$(".mw_action_nav").addClass("not-active");
       mw.$(".mw_action_"+type).removeClass("not-active");

@@ -1,4 +1,4 @@
-<?php if(is_admin()==false) { 
+<?php if(is_admin()==false) {
 
 
                 return  false;
@@ -48,20 +48,28 @@ $data = get_form_lists('order_by=created_on desc&module_name='.$params['for-modu
 <?php if(is_array($data )): ?>
 
 <div id="form_dropdown_lists">
-  <label class="mw-ui-label"><?php _e("Save form entires to existing list"); ?></label>
+    <div class="mw-ui-row-nodrop valign">
+        <div class="mw-ui-col" style="width: 205px;"><label><?php _e("Save form entires to existing list"); ?></label></div>
+        <div class="mw-ui-col">
+           <select name="list_id"class="mw-ui-field mw_option_field" option-group="<?php print $params['for-module-id'] ?>" style="width:100px;"  >
 
-    <select name="list_id"   class="mw-ui-field mw_option_field" option-group="<?php print $params['for-module-id'] ?>"  >
-
-<option value="" <?php if(intval($selected_list) == 0): ?>   selected="selected"  <?php endif; ?>><?php _e("Default list"); ?></option>
+        <option value="" <?php if(intval($selected_list) == 0): ?>   selected="selected"  <?php endif; ?>><?php _e("Default list"); ?></option>
 
       <?php foreach($data  as $item): ?>
       <option    value="<?php print $item['id'] ?>"  <?php if((intval($selected_list) == intval($item['id']))): ?>   selected="selected"  <?php endif; ?>><?php print $item['title'] ?></option>
       <?php endforeach ; ?>
     </select>
- 
-  <div class="left">&nbsp;&nbsp;&nbsp;<strong><?php _e("or"); ?></strong>&nbsp;&nbsp;&nbsp;
-    <button class="mw-ui-btn" onclick="mw.$('.mw_create_new_forms_list<?php print $rand; ?>, #form_dropdown_lists').toggle()"><?php _e("Create New"); ?></button>
-  </div>
+        </div>
+        <div class="mw-ui-col text-center" style="width: 30px;text-align: center"><strong><?php _e("or"); ?></strong></div>
+        <div class="mw-ui-col">
+
+             <button class="mw-ui-btn pull-right" onclick="mw.$('.mw_create_new_forms_list<?php print $rand; ?>, #form_dropdown_lists').toggle()"><?php _e("Create New"); ?></button>
+        </div>
+    </div>
+
+
+
+
 </div>
 <div class="mw_create_new_forms_list<?php print $rand; ?>" style="display: none;">
   <div class="vSpace"></div>
