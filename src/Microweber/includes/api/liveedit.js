@@ -1636,7 +1636,6 @@ mw.drag = {
   draftSaving:false,
   save: function(el, callback, is_draft) {
   var is_draft = is_draft || false;
-  if(is_draft == true){return false;}
   if(mw.wysiwyg.undoredo){
       mw.$(".edit").addClass("orig_changed");
       mw.wysiwyg.undoredo = false;
@@ -1695,7 +1694,7 @@ if(typeof el === 'object' && el !== null){
 
 
 
-
+                     
   if(is_draft){
     var edits = mw.$(".edit.changed", doc);
   }

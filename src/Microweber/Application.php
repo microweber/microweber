@@ -59,6 +59,8 @@ if (!defined('MW_VERSION')) {
  * @property \Microweber\Parser $parser
  * @property \Microweber\Format $format
  * @property \Microweber\Http $http
+ * @property \Microweber\Template $template
+ * @property \Microweber\Ui $ui
  */
 class Application
 {

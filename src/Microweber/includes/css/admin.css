@@ -120,7 +120,6 @@ h2 > [class*="mw-icon-"]:first-child{
 .mw-simple-rotator{
   overflow: hidden;
   position: relative;
-  padding: 20px;
   clear: both;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box ;
@@ -2101,29 +2100,45 @@ body.grabbing, body.grabbing *{
 
 #mw-modules-toolbar{
   padding-left: 35px;
-  padding-top: 10px;
+  padding-top: 30px;
   vertical-align: middle;
-  margin-bottom: 10px;
+  margin-bottom: 35px;
 }
 #mw-modules-toolbar *{
   vertical-align: middle;
 }
 
-#mw-modules-toolbar .mw-ui-row{
+#mw-modules-toolbar .mw-ui-row-nodrop{
   width: 100%;
 }
-.mw-modules-toolbar-back-icon{
+.mw-modules-toolbar-back-icon .mw-icon-back{
   font-size: 28px;
-    line-height: 10px;
+  line-height: 10px;
 }
 .mw-modules-toolbar-back-button{
   text-align: right;
 }
-#mw-modules-toolbar .mw-ui-row img{
+#mw-modules-toolbar .mw-ui-row-nodrop img{
   margin-right: 10px;
 }
 #mw-main-module-backend{
   padding-left: 35px;
+}
+
+
+
+/* users */
+
+#mw-users-manage-edit-rotattor{
+  position: relative;
+}
+
+#users_admin_panel{
+  float: left;
+  margin-right: 20px;
+}
+#user_edit_admin_panel{
+  float: left;
 }
 
 
@@ -2144,6 +2159,11 @@ body.grabbing, body.grabbing *{
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+#admin-user-nav .mw-ui-dropdown-content{
+  width: 100px;
+  min-width: 100%;
 }
 
 #stat-table{

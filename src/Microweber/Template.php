@@ -39,6 +39,7 @@ class Template
             }
         }
     }
+
     public function dir()
     {
         if (!defined('TEMPLATE_DIR')) {
@@ -48,6 +49,7 @@ class Template
             return TEMPLATE_DIR;
         }
     }
+
     public function url()
     {
         if (!defined('TEMPLATE_URL')) {
@@ -67,6 +69,46 @@ class Template
         }
         if (defined('TEMPLATE_NAME')) {
             return TEMPLATE_NAME;
+        }
+    }
+
+    public function admin_header($script_src)
+    {
+        static $mw_template_headers;
+        if ($mw_template_headers == null) {
+            $mw_template_headers = array();
+        }
+
+        if (is_string($script_src)) {
+            if (!in_array($script_src, $mw_template_headers)) {
+                $mw_template_headers[] = $script_src;
+                return $mw_template_headers;
+            }
+        } else if (is_bool($script_src)) {
+            //   return $mw_template_headers;
+            $src = '';
+            if (is_array($mw_template_headers)) {
+                foreach ($mw_template_headers as $header) {
+                    $ext = get_file_extension($header);
+                    switch (strtolower($ext)) {
+
+
+                        case 'css':
+                            $src .= '<link rel="stylesheet" href="' . $header . '" type="text/css" media="all">' . "\n";
+                            break;
+
+                        case 'js':
+                            $src .= '<script type="text/javascript" src="' . $header . '"></script>' . "\n";
+                            break;
+
+
+                        default:
+                            $src .= $header . "\n";
+                            break;
+                    }
+                }
+            }
+            return $src;
         }
     }
 

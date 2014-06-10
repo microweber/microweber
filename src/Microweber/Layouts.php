@@ -39,7 +39,6 @@ class Layouts
         //   print_r(debug_backtrace());
 
 
-
     }
 
     /**
@@ -61,7 +60,7 @@ class Layouts
     {
         $layouts_from_template = $this->scan($options);
         $external_layouts = $this->external_layouts;
-         $res = array_merge($layouts_from_template, $external_layouts);
+        $res = array_merge($layouts_from_template, $external_layouts);
 
         return $res;
     }
@@ -848,7 +847,7 @@ class Layouts
     function add_external($arr)
     {
         $this->external_layouts[] = ($arr);
-          return $this->external_layouts;
+        return $this->external_layouts;
     }
 
 

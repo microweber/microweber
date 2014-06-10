@@ -400,7 +400,7 @@ api_expose('reorder_modules');
 function reorder_modules($data)
 {
 
-    return mw('module')->reorder_modules($data);
+    return mw()->module->reorder_modules($data);
 }
 
 
@@ -428,7 +428,7 @@ if (!defined('EMPTY_MOD_STR')) {
 
 function module_templates($module_name, $template_name = false)
 {
-    return mw('module')->templates($module_name, $template_name);
+    return mw()->module->templates($module_name, $template_name);
 
 }
 
@@ -444,7 +444,7 @@ function module_templates($module_name, $template_name = false)
 function site_templates($options = false)
 {
 
-    return mw('template')->site_templates($options);
+    return mw()->template->site_templates($options);
 }
 
 
@@ -507,7 +507,7 @@ function module($params)
 
     //$tags = "<div class='module' {$tags} data-type='{$module_name}'  data-view='empty'>" . $em . "</div>";
 
-    $res = mw('module')->load($module_name, $params);
+    $res = mw()->module->load($module_name, $params);
     if (is_array($res)) {
         // $res['edit'] = $tags;
     }
@@ -523,32 +523,33 @@ function module($params)
 
 function module_info($module_name)
 {
-    return mw('module')->info($module_name);
+    return mw()->module->info($module_name);
 
 }
 
 function is_module($module_name)
 {
-    return mw('module')->exists($module_name);
+    return mw()->module->exists($module_name);
 }
 
 
+
+function module_url($module_name=false)
+{
+    return mw()->module->url($module_name);
+
+}
 function module_dir($module_name)
 {
-    return mw('module')->dir($module_name);
+    return mw()->module->dir($module_name);
 
 }
 
-function module_url($module_name)
-{
-    return mw('module')->url($module_name);
-
-}
 
 function locate_module($module_name, $custom_view = false, $no_fallback_to_view = false)
 {
 
-    return mw('module')->locate($module_name, $custom_view, $no_fallback_to_view);
+    return mw()->module->locate($module_name, $custom_view, $no_fallback_to_view);
 }
 
 api_expose('uninstall_module');
@@ -559,7 +560,7 @@ function uninstall_module($params)
     if (is_admin() == false) {
         return false;
     }
-    return mw('module')->uninstall($params);
+    return mw()->module->uninstall($params);
 
 }
 
@@ -568,7 +569,7 @@ event_bind('mw_db_init_modules', 're_init_modules_db');
 function re_init_modules_db()
 {
 
-    //return mw('module')->update_db();
+    //return mw()->module->update_db();
 
 }
 
@@ -586,26 +587,26 @@ function install_module($params)
         }
     }
 
-    return mw('module')->install($params);
+    return mw()->module->install($params);
 
 }
 
 function save_module_to_db($data_to_save)
 {
-    return mw('module')->save($data_to_save);
+    return mw()->module->save($data_to_save);
 
 }
 
 function get_saved_modules_as_template($params)
 {
-    return mw('module')->get_saved_modules_as_template($params);
+    return mw()->module->get_saved_modules_as_template($params);
 }
 
 api_expose('delete_module_as_template');
 function delete_module_as_template($data)
 {
 
-    return mw('module')->delete_module_as_template($data);
+    return mw()->module->delete_module_as_template($data);
 
 
 }
@@ -626,21 +627,21 @@ function get_layouts_from_db($options = false)
 function get_modules_from_db($options = false)
 {
 
-    return mw('module')->get($options);
+    return mw()->module->get($options);
 }
 
 
 function get_modules($options = false)
 {
 
-    return mw('module')->get($options);
+    return mw()->module->get($options);
 }
 
 api_expose('save_module_as_template');
 function save_module_as_template($data_to_save)
 {
 
-    return mw('module')->save_module_as_template($data_to_save);
+    return mw()->module->save_module_as_template($data_to_save);
 }
 
 /**
@@ -668,7 +669,7 @@ $data = scan_for_modules($params);
 event_bind('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false)
 {
-    return mw('module')->scan_for_modules($options);
+    return mw()->module->scan_for_modules($options);
 
 }
 
@@ -676,7 +677,7 @@ event_bind('mw_scan_for_modules', 'get_elements');
 
 function get_elements($options = array())
 {
-    return mw('module')->get_layouts($options);
+    return mw()->module->get_layouts($options);
 
 
 }
@@ -684,21 +685,21 @@ function get_elements($options = array())
 
 function load_module_lic($module_name = false)
 {
-    mw('module')->license($module_name);
+    mw()->module->license($module_name);
 }
 
 
 function load_module($module_name, $attrs = array())
 {
 
-    return mw('module')->load($module_name, $attrs);
+    return mw()->module->load($module_name, $attrs);
 
 }
 
 
 function module_css_class($module_name)
 {
-    mw('module')->css_class($module_name);
+    mw()->module->css_class($module_name);
 }
 
 
@@ -811,7 +812,7 @@ event_bind('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
 function mw_print_admin_backup_settings_link()
 {
 
-    if (mw('module')->is_installed('admin/backup')) {
+    if (mw()->module->is_installed('admin/backup')) {
 
         $active = mw('url')->param('view');
         $cls = '';
@@ -826,7 +827,7 @@ function mw_print_admin_backup_settings_link()
     }
 
 
-    if (mw('module')->is_installed('admin/import')) {
+    if (mw()->module->is_installed('admin/import')) {
 
         $active = mw('url')->param('view');
         $cls = '';
@@ -1537,7 +1538,7 @@ function get_all_functions_files_for_modules($options = false)
 
     $disabled_files = array();
 
-    $uninstall_lock = mw('module')->get('ui=any&installed=[int]0');
+    $uninstall_lock = mw()->module->get('ui=any&installed=[int]0');
 
     if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
         foreach ($uninstall_lock as $value) {
@@ -1579,13 +1580,13 @@ function get_all_functions_files_for_modules($options = false)
 
 function template_dir()
 {
-    return mw('template')->dir();
+    return mw()->template->dir();
 }
 
 
 function template_url()
 {
-    return mw('template')->url();
+    return mw()->template->url();
 
 }
 
@@ -1593,18 +1594,18 @@ function template_url()
 function template_name()
 {
 
-    return mw('template')->name();
+    return mw()->template->name();
 }
 
 
 function template_header($script_src)
 {
-    return mw('template')->header($script_src);
+    return mw()->template->header($script_src);
 }
 
 function template_headers_src()
 {
-    return mw('template')->header(true);
+    return mw()->template->header(true);
 
 }
 

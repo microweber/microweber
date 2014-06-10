@@ -2986,6 +2986,11 @@ class Content
 
                         }
                         $title = str_replace('%20', ' ', ($this->app->url->string(1)));
+
+                        if($title == 'editor_tools/wysiwyg' or $title == 'admin/view:content'){
+                            return false;
+                        }
+
                         $save_page['title'] = $title;
                         if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url->site()) {
                             $save_page['url'] = 'home';

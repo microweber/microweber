@@ -8,9 +8,12 @@
 <div id="mw-modules-toolbar">
 
   <?php if(is_admin()): ?>
-  <div class="mw-ui-row">
+  <div class="mw-ui-row-nodrop">
       <div class="mw-ui-col mw-modules-toolbar-back-icon">
-         <a title="<?php _e("Back"); ?>" href="<?php print admin_url(); ?>view:modules" class="mw-icon-back"></a>
+         <a title="<?php _e("Back"); ?>" href="<?php print admin_url(); ?>view:modules">
+            <span class="mw-icon-back"></span>
+            <span><?php _e("Back"); ?></span>
+         </a>
       </div>
       <div class="mw-ui-col">
         <?php if(isset($module['icon'])):  ?>
@@ -19,9 +22,7 @@
 
         <span class="module-toolbar-info-description"><?php if(isset($module['name'])){ print $module['name']; }; ?></span>
       </div>
-      <div class="mw-ui-col mw-modules-toolbar-back-button">
-          <a href="<?php print admin_url(); ?>view:modules" class="mw-ui-btn"><?php _e("Back"); ?></a>
-      </div>
+
   </div>
 
   <?php  $active = mw('url')->param('view'); ?>

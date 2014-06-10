@@ -814,7 +814,7 @@ mw.tools = {
         + '<td align="center" valign="middle"><div class="mw_alert_holder">'+text+'</div></td>'
         + '</tr>'
         + '<tr>'
-        + '<td align="center" height="25"><span class="mw-cancel" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>'+mw.msg.ok+'</b></span></td>'
+        + '<td align="center" height="25"><span class="mw-ui-btn" onclick="mw.tools.modal.remove(\'mw_alert\');"><b>'+mw.msg.ok+'</b></span></td>'
         + '</tr>'
     + '</table>';
 

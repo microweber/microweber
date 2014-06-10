@@ -73,7 +73,8 @@ function event_trigger($api_function, $data = false)
                                         return true;
                                     });
                                 } elseif (is_callable($hook_value)) {
-                                    $return[$hook_value] = call_user_func($hook_value, function () {
+
+                                    $return[] = call_user_func($hook_value, function () {
                                         return true;
                                     });
                                 } elseif (is_string($hook_value)) {

@@ -5,6 +5,11 @@ class Ui
 
 
     var $admin_menu = array();
+    var $create_content_menu = array(
+        "post" => "Post",
+        "page" => "Page",
+        "category" => "Category"
+    );
     var $custom_fields = array();
     var $admin_logo = '';
     var $admin_logo_login = '';
@@ -18,6 +23,7 @@ class Ui
         $this->admin_logo = MW_INCLUDES_URL . 'img/logo_admin.png';
         $this->logo_live_edit = MW_INCLUDES_URL . 'img/logo_admin.png';
         $this->admin_logo_login = MW_INCLUDES_URL . 'img/sign_logo.png';
+        $this->set_default_custom_fields();
         $this->set_default_custom_fields();
     }
 
@@ -44,15 +50,18 @@ class Ui
 //            $this->add_custom_field($item);
 //        }
     }
+
     public function admin($menu_array)
     {
 
 
     }
+
     public function brand_name()
     {
         return $this->brand_name;
     }
+
     public function live_edit_logo()
     {
         return $this->logo_live_edit;
@@ -77,6 +86,17 @@ class Ui
     {
         $this->admin_menu = array_merge($this->admin_menu, $arr);
         return $this->admin_menu;
+    }
+
+    function create_content_menu()
+    {
+        return $this->create_content_menu;
+    }
+
+    function add_create_content_menu($arr)
+    {
+        $this->create_content_menu = array_merge($this->create_content_menu, $arr);
+        return $this->create_content_menu;
     }
 
     function custom_fields()

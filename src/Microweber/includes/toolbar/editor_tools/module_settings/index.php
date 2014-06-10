@@ -233,13 +233,19 @@ if (isset($_GET['type'])) {
 
 
 </script>
+
+<?php
+
+var_dump($params);
+
+?>
 <script type="text/javascript">
 
 
     $(document).ready(function () {
 
 
-        mw.simpletabs(mwd.getElementById('<?php print $params['id'] ?>'));
+
 
         mw.$(".mw_option_field").addClass('mw-options-form-binded');
         mw.$(".mw_option_field").bind("change", function (e) {
