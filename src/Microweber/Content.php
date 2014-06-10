@@ -3410,7 +3410,7 @@ class Content
             if (isset($data['categories'])) {
                 $data['category'] = $data['categories'];
             }
-            if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
+            //if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
                 if (isset($data['category'])) {
                     $cats_check = array();
                     if (is_array($data['category'])) {
@@ -3429,6 +3429,7 @@ class Content
                                 $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item["id"]);
                             }
                         }
+
                         if (!empty($user_cats)) {
                             $stop = false;
                             $data['categories'] = $user_cats;
@@ -3436,7 +3437,7 @@ class Content
                     }
                 }
             }
-        }
+       // }
 
 
         if ($stop == true) {

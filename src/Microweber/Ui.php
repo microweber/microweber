@@ -16,6 +16,8 @@ class Ui
     var $logo_live_edit = '';
     var $brand_name = 'Microweber';
     var $powered_by_link = false;
+    var $admin_content_edit = array();
+    var $admin_content_edit_text = array();
 
     function __construct()
     {
@@ -86,6 +88,22 @@ class Ui
     {
         $this->admin_menu = array_merge($this->admin_menu, $arr);
         return $this->admin_menu;
+    }
+
+    function admin_content_edit($arr = false)
+    {
+        if ($arr != false) {
+            array_push($this->admin_content_edit, $arr);
+        }
+        return $this->admin_content_edit;
+    }
+
+    function admin_content_edit_text($arr = false)
+    {
+        if ($arr != false) {
+            array_push($this->admin_content_edit_text, $arr);
+        }
+        return $this->admin_content_edit_text;
     }
 
     function create_content_menu()

@@ -1861,6 +1861,12 @@ body.grabbing, body.grabbing *{
   background-color: #EDEDED;
 }
 
+.valign .mw-ui-col,
+.valign,
+.valign *{
+  vertical-align: middle;
+}
+
 
 /************************************
        Admin tooltip
