@@ -32,7 +32,7 @@ $user_params['curent_page'] = 1;
  //$user_params['debug'] = 1;
 
 $user_params['limit'] =   $users_per_page; 
- 
+
 $data = get_users($user_params);
 
 
@@ -41,18 +41,18 @@ $data = get_users($user_params);
 		 $paging_data['page_count']  = true;
  		 $paging = get_users( $paging_data);
 		 
-		 
+
  $self_id = user_id();
  
  ?>
 <?php if(is_array($data )): ?>
 
-<table cellspacing="0" cellpadding="0" class="mw-ui-table users-list-table" width="100%" style="table-layout: fixed">
+<table cellspacing="0" cellpadding="0" class="mw-ui-table users-list-table mw-ui-row-fixed" width="100%">
 	<col>
 	<col width="100">
 	<col>
 	<col width="60">
-	<col width="60">
+	<col width="80">
 	<col width="65">
 	<thead>
 		<tr>
@@ -71,9 +71,8 @@ $data = get_users($user_params);
 			<td><?php _e("Username"); ?></td>
 			<td><?php _e("Email"); ?></td>
 			<td><?php _e("Role"); ?></td>
-			<th><?php _e("Is Active"); ?></th>
-			<th><?php _e("Edit"); ?>
-			</th>
+			<td><?php _e("Is Active"); ?></td>
+			<td><?php _e("Edit"); ?></td>
 		</tr>
 	</tfoot>
 	<tbody>
@@ -95,9 +94,9 @@ $data = get_users($user_params);
 			<td title="<?php  print $item['email']; ?>" style="overflow: hidden;text-overflow: ellipsis"><?php  print $item['email']; ?></td>
 			<td align="center"><?php  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
 			<td align="center"><?php if($item['is_active']=='y'): ?>
-				<span class="ico icheck" style="float: none"></span>
+				<span class="mw-icon-check" style="float: none"></span>
 				<?php else:  ?>
-				<span class="ico iRemove" style="float: none; ">
+				<span class="mw-icon-unpublish" style="float: none; ">
 				<?php endif; ?>
 				</span></td>
 			<td><?php if($self_id != $item['id']): ?>

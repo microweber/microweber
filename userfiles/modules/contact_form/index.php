@@ -32,7 +32,7 @@ if(typeof  processContactForm !== 'object'){
           setTimeout(function(){
 			  var cap = mwd.getElementById('captcha-<?php print $form_id; ?>');
 			  if(cap !== null){
-			  mw.tools.refresh_image(cap);
+			    mw.tools.refresh_image(cap);
 			  }
 			  
               mw.$(selector).css("top", "-100%");

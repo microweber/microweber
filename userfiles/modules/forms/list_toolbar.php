@@ -1,5 +1,5 @@
-<?php if(is_admin()==false) { 
-return array('error' => 'Not logged in as admin');
+<?php if(is_admin()==false) {
+    return array('error' => 'Not logged in as admin');
  }
 
 
@@ -12,7 +12,7 @@ if(!isset($params['load_list'])){
   mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
 
   </script>
-<?php $def =  _e("Search for data", true); 
+<?php $def =  _e("Search for data", true);
 
 $load_list = $params['load_list'];
  ?>
@@ -28,16 +28,29 @@ if(trim($load_list) == 'default'){
 
 ?>
 
+<style>
+
+#start-email-campaign{
+  padding: 15px 0px 4px;
+}
+
+</style>
+
 <h2 class="left to-edit"  <?php  if(trim($load_list) != 'default'): ?>id="form_field_title" <?php endif; ?> style="max-width: 360px" ><?php print ($data['title']); ?></h2>
+
+<div class="export-label pull-right">
+    <span><?php _e("Export data"); ?>:</span>
+    <span class="mw-ui-btn mw-ui-btn-small" onclick="javascript:mw.forms_data_manager.export_to_excel('<?php print $data['id'] ?>');"><?php _e("Excel"); ?></span>
+</div>
+
 <input
         name="forms_data_keyword"
         id="forms_data_keyword"
         autocomplete="off"
-        class="right mw-ui-searchfield"
+        class="pull-right mw-ui-searchfield"
         type="search"
-
         placeholder='<?php print $def; ?>'
         onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
       />
-<div class="export-label"> <span><?php _e("Export data"); ?>:</span> <a href="javascript:;" onclick="javascript:mw.forms_data_manager.export_to_excel('<?php print $data['id'] ?>');"><span class="ico iexcell"></span><?php _e("Excel"); ?></a> </div>
-<div class="mw_clear"></div>
+
+

@@ -19,7 +19,7 @@
 .comments-admin-header{
   padding: 10px 0;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border-bottom: 1px solid #E2E2E2;
 }
 
@@ -40,7 +40,6 @@
 }
 
 .comments-admin-header input[type='search']{
-  width: 120px;
   margin: 24px 0 0;
   float: right;
 }
@@ -110,16 +109,20 @@
 }
 
 .edit-comment textarea{
-  width: 520px;
+  width: 80%;
   height: 50px;
   resize: vertical;
   float: left;
 }
 
+.edit-comment textarea + .mw-ui-btn{
+  float: right;
+}
+
 .manage-bar .edit-comment{
   display: none;
   padding: 10px 0 15px;
-    overflow: hidden;
+  overflow: hidden;
   position: relative;
   min-height: 50px;
 }

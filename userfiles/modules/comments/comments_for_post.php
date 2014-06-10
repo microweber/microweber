@@ -15,7 +15,9 @@
 ?>
 
 <div class="comment-post">
-  <div class="comment-info-holder" content-id="<?php print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)"> <span class="img"> <img src="<?php print thumbnail(get_picture($content_id),67,67); ?>" alt="" />
+  <div class="comment-info-holder" content-id="<?php print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)">
+    <span class="img">
+        <img src="<?php print thumbnail(get_picture($content_id),67,67); ?>" alt="" />
     <?php // $new = get_comments('count=1&is_moderated=n&rel=content&rel_id='.$content_id);
 
 	 $new = get_comments('count=1&is_new=y&rel=content&rel_id='.$content_id);
@@ -27,7 +29,7 @@
     <div class="comment-post-content-side">
       <h3><a href="javascript:;" class="mw-ui-link"><?php print $item['title'] ?></a></h3>
       <a class="comment-post-url" href="<?php print content_link($item['id']) ?>?editmode=y"> <?php print content_link($item['id']) ?></a> <br>
-    <!--  <a class="mw-ui-link" href="<?php print $item['url'] ?>/editmode:y">Live edit</a>--> </div>
+    </div>
   </div>
   <div class="comments-holder">
 

@@ -1,11 +1,14 @@
-<?php if(is_admin()==false) { 
- return array('error' => 'Not logged in as admin');
-  } ?>
-<script  type="text/javascript">
+<?php if(is_admin()==false) {
+    return array('error' => 'Not logged in as admin');
+} ?>
+ <script  type="text/javascript">
+
   mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
 
   </script>
 <script  type="text/javascript">
+
+
 toggle_show_less = function(el){
     var el = $(el);
     el.prev().toggleClass('semi_hidden');
@@ -38,8 +41,6 @@ if(isset($params['keyword'])){
 
 if(isset($data['list_id'])){
 
- //$custom_fields = get_custom_fields('forms_data',$data['list_id']);
-//d($custom_fields );
 
 } else {
  $custom_fields = get_custom_fields('forms_data','all');
@@ -47,8 +48,7 @@ if(isset($data['list_id'])){
 }
 $data_paging = $data;
 $data_paging['page_count'] = 1;
-//
-//$data['debug'] = 1;
+
 
  $data_paging = get_form_entires($data_paging);
 if((url_param('curent_page') != false)){
@@ -84,13 +84,13 @@ if(is_array($data)){
   </thead>
   <tfoot>
     <tr>
-      <th class="mw-ui-table-small"><?php _e("ID & Date"); ?></th>
+      <td class="mw-ui-table-small"><?php _e("ID & Date"); ?></td>
       <?php if(is_array($custom_fields )): ?>
       <?php foreach($custom_fields   as $k=>$item): ?>
-      <th><?php print   mw('format')->no_dashes($k); ?></th>
+      <td><?php print   mw('format')->no_dashes($k); ?></td>
       <?php endforeach ; ?>
       <?php endif; ?>
-      <th width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></th>
+      <td width="20" class="mw-ui-table-small"><?php _e("Delete"); ?></td>
     </tr>
   </tfoot>
   <tbody>
@@ -150,6 +150,8 @@ if(is_array($data)){
 <?php if(isset($params['export_to_excel'])) : ?>
 <?php endif; ?>
 <?php endif; ?>
-<div id="start-email-campaign"> <span><?php _e("Get more from your mailing lists, send email to your users"); ?></span> <a class="g-btn disabled" href="javascript:;" onclick="Alert('Comming Soon!');"><?php _e("Start an Email Campaign"); ?></a> </div>
-<div class="mw_clear"></div>
-<div class="vSpace"></div>
+<div id="start-email-campaign">
+    <span><?php _e("Get more from your mailing lists, send email to your users"); ?></span>
+    <a class="mw-ui-btn" href="javascript:;" onclick="Alert('Comming Soon!');" ><?php _e("Start an Email Campaign"); ?></a>
+</div>
+

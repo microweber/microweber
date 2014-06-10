@@ -291,6 +291,8 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <span></span><span>
                   <?php _e("Yes"); ?>
                   </span></label>
+                                  <div class="vSpace"></div>
+
                 <hr>
                 <h2>Currency settings</h2>
                 <?php ?>
@@ -323,7 +325,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <span></span><span>
                   <?php _e("Yes"); ?>
                   </span></label>
-                <br />
+                <br /> 
                 <small>
                 <?php _e("You can aways enable it"); ?>
                 <a class="mw-ui-link"   href="<?php  print admin_url('view:settings#option_group=shop__payments__admin'); ?>" >

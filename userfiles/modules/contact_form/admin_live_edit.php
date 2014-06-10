@@ -19,7 +19,7 @@
     <li><a href="javascript:;"><?php _e("Options"); ?></a></li>
   </ul>
   <div class="tab">
-    <module type="forms/assign_list_to_module"  data-for-module="<?php print $config['module_name'] ?>"  data-for-module-id="<?php print $params['id'] ?>" />
+    <module type="forms/assign_list_to_module"  data-for-module="<?php print $config['module_name'] ?>" data-for-module-id="<?php print $params['id'] ?>" />
     <label class="mw-ui-label"><small><?php _e("Contact Form Fields"); ?></small></label>
     <module type="custom_fields"  view="admin" data-for="module" data-id="<?php print $params['id'] ?>" />
   </div>
@@ -27,7 +27,7 @@
     <module type="admin/modules/templates"  />
   </div>
   <div class="tab">
-    <microweber module="settings/list"     for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >
+    <module type="settings/list" for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >
     <div class="vSpace"></div>
     <hr>
     <div id="form_email_options">
@@ -66,10 +66,10 @@
       />
       <span></span> <span><?php _e("Disable Code Verification ex"); ?>.:</span> </label>
     <img src="<?php print MW_INCLUDES_URL; ?>img/code_verification_example.jpg" class="relative" style="top: 7px;left:10px;" alt="" />
-    <div class="vSpace"></div>
+    
     <hr>
-    <div class="vSpace"></div>
+
     <button class="mw-ui-btn mw-ui-btn-blue right" style="width: 90px;"><?php _e("Save"); ?></button>
-    <div class="vSpace"></div>
+
   </div>
 </div>

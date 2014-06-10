@@ -1,4 +1,6 @@
 <?php
+   
+
 $curent_page = $current_page = 1;
 $post_params = $params;
 if (isset($post_params['id'])) {

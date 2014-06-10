@@ -2,6 +2,7 @@
 <script type="text/javascript">
     mw.require('<?php print $config['url_to_module'] ?>style.css', true);
     mw.require('color.js', true);
+
 </script>
 <script type="text/javascript">
 mw.on.hashParam("search", function(){
@@ -12,24 +13,24 @@ mw.on.hashParam("search", function(){
     }
 	$('#mw_admin_posts_with_comments').removeAttr('content_id');
     mw.reload_module('#mw_admin_posts_with_comments', function(){
-          mw.$(".mw-ui-searchfield, input[type='search']").removeClass('loading');
+        mw.$(".mw-ui-searchfield, input[type='search']").removeClass('loading');
     });
 });
 mw.on.hashParam("content_id", function(){
         mw.$("a.comments-group").removeClass("active");
         mw.$("a[href*='content_id="+this+"']").addClass("active");
 		if(this == 'settings'){
-			$('.comments-settings').show();
-			$('.comments-items').hide();
-			$('.comments-templates').hide();
+			mw.$('.comments-settings').show();
+			mw.$('.comments-items').hide();
+			mw.$('.comments-templates').hide();
 		} else if(this == 'templates'){
-			$('.comments-settings').hide();
-			$('.comments-items').hide();
-			$('.comments-templates').show();
+			mw.$('.comments-settings').hide();
+			mw.$('.comments-items').hide();
+			mw.$('.comments-templates').show();
 		} else {
-			$('.comments-settings').hide();
-			$('.comments-items').show();
-			$('.comments-templates').hide();
+			mw.$('.comments-settings').hide();
+			mw.$('.comments-items').show();
+			mw.$('.comments-templates').hide();
 		}
     if(this  !== '' && this  != '0'){
 		$('#mw_comments_admin_dashboard').hide();
@@ -48,15 +49,15 @@ mw.on.hashParam("content_id", function(){
 
 mw.on.hashParam("rel_id", function(){   
     if(this  !== '' && this  != '0'){
-		$('#mw_comments_admin_dashboard').hide();
-		$('#mw_admin_posts_with_comments').show();
-    	$('#mw_admin_posts_with_comments').attr('rel_id',this);
-		 mw.reload_module('#mw_admin_posts_with_comments', function(){
-		 mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
+		mw.$('#mw_comments_admin_dashboard').hide();
+		mw.$('#mw_admin_posts_with_comments').show();
+    	mw.$('#mw_admin_posts_with_comments').attr('rel_id',this);
+		mw.reload_module('#mw_admin_posts_with_comments', function(){
+		mw.adminComments.toggleMaster(mwd.querySelector('.comment-info-holder'));
     });
     } else {
-    	$('#mw_admin_posts_with_comments').removeAttr('rel_id');
-		  mw.reload_module('#mw_admin_posts_with_comments');
+    	mw.$('#mw_admin_posts_with_comments').removeAttr('rel_id');
+		mw.reload_module('#mw_admin_posts_with_comments');
     }
 });
 
@@ -152,38 +153,30 @@ $(document).ready(function(){
 });
 </script>
 <?php endif; ?>
-<div id="mw_edit_pages_content">
-<div id="mw_edit_page_left" class="mw_edit_page_default">
-	<?php $info = module_info($config['module']); ?>
-	<div class="mw-admin-sidebar">
-		<?php mw('module')->icon_with_title($info['module']); ?>
-		<a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0">
-		<?php _e("My Comments"); ?>
-		</a> <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="#content_id=settings">
+
+
+
+		<div class="mw-ui-btn-nav"><a class="mw-ui-btn comments-group active" href="#content_id=0">
+		<?php _e("Comments"); ?>
+		</a> <a class="mw-ui-btn comments-group mw-ui-btn " href="#content_id=settings">
 		<?php _e("Settings"); ?>
 		</a>
-		<h2>Templates</h2>
-		<a href="#content_id=templates" class="comments-group mw-ui-btn mw-ui-btn-hover">
+		<?php /*<a href="#content_id=templates" class="comments-group mw-ui-btn ">
 		<?php _e("My templates"); ?>
-		</a>
-		<div class="vSpace"></div>
-		<a href="javascript:Alert('Coming soon');" class="mw-ui-btn mw-ui-btn-green">
-		<?php _e("Get more templates"); ?>
-		</a>
-    </div>
-</div>
-<div class="mw_edit_page_right" style="padding: 20px;width: 710px;">
-	<div class="comments-tabs mw_simple_tabs mw_tabs_layout_stylish active">
+		</a>*/ ?>
+        </div>
+
+
+	<div class="comments-tabs active">
 		<div class="comments-tab comments-items" id="the_comments">
 			<div id="comments-admin-side">
 				<div class="comments-admin-header">
 					<div class="comments-admin-header-info">
-						<h2>
-							<?php _e("My Comments"); ?>
-						</h2>
+						<h2><?php _e("Comments"); ?></h2>
 						<small>
 						<?php _e("Read, moderate & publish comments"); ?>
-						</small> </div>
+						</small>
+                    </div>
 					<input
                           autocomplete="off"
                           type="search"
@@ -194,25 +187,16 @@ $(document).ready(function(){
 				</div>
 				<module type="comments/search_content" id="mw_admin_posts_with_comments"  />
 			</div>
-			<?php  /*
-
-          <div class="<?php print $config['module_class'] ?> mw_comments_admin_dashboard" id="mw_comments_admin_dashboard">
-            <div class="new-comments"><module type="comments/manage" is_moderated="n" /></div>
-            <div class="old-comments"><module type="comments/manage"  is_moderated="y" /></div>
-          </div>
-          <div class="<?php print $config['module_class'] ?> mw_comments_admin_for_post" id="mw_admin_posts_with_comments_edit"> </div>
-
-          */ ?>
 		</div>
 		<div class="comments-tab comments-settings" style="display: none">
 			<module type="comments/settings" id="mw_admin_comments_settings"  />
 		</div>
-		<div class="comments-tab comments-templates" style="display: none">
+		<?php /*<div class="comments-tab comments-templates" style="display: none">
 			<div class="comments-admin-header">
 				<div class="comments-admin-header-info">
 					<module type="admin/templates/browse" for="<?php print $config["the_module"] ?>"  />
 				</div>
 			</div>
-		</div>
+		</div>*/ ?>
 	</div>
-</div>
+

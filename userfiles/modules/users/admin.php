@@ -1,3 +1,22 @@
+<div id="users-admin">
+
+<style scoped="scoped">
+
+#sort-users .mw-ui-row,
+#sort-users .mw-ui-row *{
+  vertical-align: middle;
+}
+.mw-ui-inline-list{
+  margin-top: 19px;
+}
+
+#sort-users{
+  padding-bottom: 35px;
+}
+
+</style>
+
+
 <?php only_admin_access(); ?>
 <script type="text/javascript">
 
@@ -9,7 +28,9 @@
 
 
 UsersRotatorSet = function(){
-  mw.$('#users_admin_panel, #user_edit_admin_panel').width(mw.$('.mw-simple-rotator').width());
+  var w = mw.$('.mw-simple-rotator').width();
+  mw.$('#users_admin_panel, #user_edit_admin_panel').width(w);
+  mw.$('#mw-users-manage-edit-rotattor').width((2 * w) + 20)
 }
 
     $(document).ready(function () {
@@ -144,11 +165,11 @@ UsersRotatorSet = function(){
         if (this == false) {
             _mw_admin_users_manage();
             UsersRotator.go(0);
-            mw.$('.modules-index-bar, .manage-items').visible();
+            mw.$('.modules-index-bar, .manage-items').fadeIn();
         }
         else if (this != false && TableLoadded) {
             _mw_admin_user_edit();
-            mw.$('.modules-index-bar, .manage-items').invisible();
+            mw.$('.modules-index-bar, .manage-items').fadeOut();
         }
     });
 
@@ -188,13 +209,21 @@ mw('Microweber\Notifications')->mark_as_read('users');
 
 
 
-            <a href="javascript:mw.url.windowHashParam('edit-user', 0)" class="mw-ui-btn mw-ui-btn-notification">
-            <span class="mw-icon-plus"></span><span><?php _e("Add new user"); ?></span> </a>
 
+
+
+            <a href="javascript:mw.url.windowHashParam('edit-user',0)" class="mw-ui-btn mw-ui-btn-notification">
+                <span class="mw-icon-plus"></span><span><?php _e("Add new user"); ?></span>
+            </a>
+                          <input
+                      name="module_keyword"
+                      class="mw-ui-searchfield pull-right" type="search"
+                      placeholder="<?php _e("Search for users"); ?>"
+                      onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
             <hr>
 
 
-            <div class="manage-items">
+            <div class="manage-items" id="sort-users">
                   <div class="mw-ui-row">
                       <div class="mw-ui-col" style="width: 200px;">
                           <label class="mw-ui-label"><?php _e("Sort Users by Roles"); ?></label>
@@ -247,11 +276,9 @@ mw('Microweber\Notifications')->mark_as_read('users');
 
                   </div>
 
-         <br>
 
-       <input name="module_keyword" class="mw-ui-searchfield pull-right" type="search" style="width: 100%"
-                                   placeholder="<?php _e("Search for users"); ?>"
-                                   onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"/>
+
+
 
 
 
@@ -274,4 +301,4 @@ mw('Microweber\Notifications')->mark_as_read('users');
 
 
 <?php show_help('users'); ?>
-
+</div>
