@@ -60,7 +60,12 @@ class Layouts
     {
         $layouts_from_template = $this->scan($options);
         $external_layouts = $this->external_layouts;
-        $res = array_merge($layouts_from_template, $external_layouts);
+        if(is_array($layouts_from_template)){
+            $res = array_merge($layouts_from_template, $external_layouts);
+
+        } else {
+            $res = $external_layouts;
+        }
 
         return $res;
     }

@@ -1628,6 +1628,12 @@ class Db
                 }
 
 
+
+
+
+
+
+
                 if (($k == 'updated_on') or ($k == 'created_on')) {
 
                     $v = strtotime($v);
@@ -3056,6 +3062,7 @@ class Db
                                 if (is_array($custom_field_to_save['custom_field_values_plain'])) {
                                     $custom_field_to_save['custom_field_values_plain'] = implode(',', $custom_field_to_save['custom_field_values_plain']);
                                 }
+                                $custom_field_to_save['num_value'] = floatval($temp);
 
                                 $cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
                                 // d($custom_field_to_save['custom_field_values_plain']);
@@ -3064,10 +3071,11 @@ class Db
 
 
                                 if ($cftype == 'price' and isset($cf_v['value']) and is_array($cf_v['value'])) {
+                                    $custom_field_to_save['num_value'] = floatval($cf_v['value']);
 
                                     $custom_field_to_save['custom_field_value'] = array_pop($cf_v['value']);
                                 } elseif ($cftype == 'price' and isset($cf_v['value']) and is_string($cf_v['value'])) {
-
+                                    $custom_field_to_save['num_value'] = floatval($cf_v['value']);
                                     $custom_field_to_save['custom_field_value'] = trim($cf_v['value']);
                                 } else {
                                     $custom_field_to_save['custom_field_value'] = 'Array';
@@ -3079,6 +3087,7 @@ class Db
                                 $cf_v = $this->escape_string($cf_v);
 
                                 $custom_field_to_save['custom_field_value'] = $cf_v;
+                                $custom_field_to_save['num_value'] = floatval($cf_v);
                             }
 
 
@@ -3090,6 +3099,7 @@ class Db
                             custom_field_name ='{$cf_k}',
                             $cfvq
                             custom_field_value ='{$custom_field_to_save['custom_field_value']}',
+                            num_value ='{$custom_field_to_save['num_value']}',
                             custom_field_type = '{$cftype}',
                             rel ='{$custom_field_to_save ['rel']}',
                             rel_id ='{$custom_field_to_save ['rel_id']}'

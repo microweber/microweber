@@ -142,6 +142,21 @@ class Fields
 
     }
 
+    function get_value($content_id, $field_name, $return_full = false, $table = 'content')
+    {
+        $val = false;
+        $data = $this->get($table, $id = $content_id, $return_full, $field_for = false, $debug = false, $field_type = false, $for_session = false);
+        foreach ($data as $item) {
+            if (isset($item['custom_field_name']) and
+                ((strtolower($item['custom_field_name']) == strtolower($field_name))
+                    or (strtolower($item['custom_field_type']) == strtolower($item['custom_field_type'])))
+            ) {
+                $val = $item['custom_field_value'];
+            }
+        }
+        return $val;
+    }
+
     public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
     {
         //defined in common.php
@@ -468,21 +483,6 @@ class Fields
             $it['options'] = $this->app->format->base64_to_array($it['options']);
         }
         return $it;
-    }
-
-    function get_value($content_id, $field_name, $return_full = false, $table = 'content')
-    {
-        $val = false;
-        $data = $this->get($table, $id = $content_id, $return_full, $field_for = false, $debug = false, $field_type = false, $for_session = false);
-        foreach ($data as $item) {
-            if (isset($item['custom_field_name']) and
-                ((strtolower($item['custom_field_name']) == strtolower($field_name))
-                    or (strtolower($item['custom_field_type']) == strtolower($item['custom_field_type'])))
-            ) {
-                $val = $item['custom_field_value'];
-            }
-        }
-        return $val;
     }
 
     public function reorder($data)
@@ -830,12 +830,21 @@ class Fields
                 return array('error' => 'You must set custom_field_name');
             }
             $cf_k = $data_to_save['custom_field_name'];
-
+            if ($cf_k != false and !isset($data_to_save['custom_field_name_plain'])) {
+                $data_to_save['custom_field_name_plain'] = strtolower($cf_k);
+            }
             if (isset($data_to_save['custom_field_value'])) {
                 // return array('error' => 'You must set custom_field_value');
                 //  $data_to_save['custom_field_value'] = '';
                 $cf_v = $data_to_save['custom_field_value'];
+
+
                 if (is_array($cf_v)) {
+                    $single_val = false;
+                    if (count($cf_v) == 1) {
+                        $single_val = end($cf_v);
+                    }
+
                     $cf_k_plain = $this->app->url->slug($cf_k);
                     $cf_k_plain = $this->app->db->escape_string($cf_k_plain);
                     $cf_k_plain = str_replace('-', '_', $cf_k_plain);
@@ -844,20 +853,31 @@ class Fields
                     //   $val1_a = array_pop($val1_a);
                     if (is_array($val1_a)) {
                         $val1_a = implode(', ', $val1_a);
-
                     }
 
+                    if ($single_val != false) {
 
-                    if ($val1_a != 'Array') {
                         $data_to_save['custom_field_values_plain'] = $val1_a;
-                        $data_to_save['custom_field_value'] = 'Array';
+                        $data_to_save['custom_field_value'] = $single_val;
+                        $data_to_save['num_value'] = floatval($single_val);
+
+                    } else {
+                        if ($val1_a != 'Array') {
+                            $data_to_save['custom_field_values_plain'] = $val1_a;
+                            $data_to_save['num_value'] = floatval(end($cf_k_plain));
+
+                            $data_to_save['custom_field_value'] = 'Array';
+                        }
                     }
+
 
                 } else {
                     if (strval($cf_v) != 'Array') {
                         $val1_a = nl2br($cf_v, 1);
 
                         $data_to_save['custom_field_values_plain'] = ($val1_a);
+                        $data_to_save['num_value'] = floatval($val1_a);
+
                     }
                 }
             }

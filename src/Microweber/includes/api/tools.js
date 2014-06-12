@@ -458,13 +458,24 @@ mw.tools = {
         }
 
         modal_return.hide = function(){
-            modal_object.hide()
+            modal_object.hide();
+            return modal_return;
         }
         modal_return.show = function(){
-            modal_object.show()
+            modal_object.show();
+            return modal_return;
         }
         modal_return.remove = function(){
             modal_object.remove()
+        }
+        modal_return.center = function(a){
+          mw.tools.modal.center(modal_object, a);
+          return modal_return;
+        }
+
+        modal_return.resize = function(w,h){
+          mw.tools.modal.resize(modal_object, w, h, false);
+          return modal_return;
         }
 
         return modal_return;
@@ -531,8 +542,7 @@ mw.tools = {
     },
     frame:function(obj){
         var obj = $.extend({}, mw.tools.modal.settings, obj);
-        var span = "<span class='mw-ui-btn mw-ui-btn-small' style='line-height:21px;padding:0 10px;position:absolute;right:33px;top: -30px;' onclick='i=this.nextSibling.src;this.nextSibling.src=i;'>reload</span>";
-        var frame = "<iframe name='frame-"+obj.name+"' id='frame-"+obj.name+"' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame'  width='"+obj.width+"' height='"+(obj.height-35)+"' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
+        var frame = "<iframe name='frame-"+obj.name+"' id='frame-"+obj.name+"' style='overflow-x:hidden;overflow-y:auto;' class='mw-modal-frame' src='" + mw.external_tool(obj.url) + "'  frameBorder='0' allowfullscreen></iframe>";
         var modal = mw.tools.modal.init({
           html:frame,
           width:obj.width,
@@ -547,10 +557,19 @@ mw.tools = {
             $(modal.main).addClass("mw_modal_type_iframe");
             $(modal.container).css("overflow", "hidden");
             modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
-            $(modal.main).find("iframe").eq(0).height(mw.$(".mw_modal_container", modal.main[0]).height() - mw.$(".mw_modal_toolbar", modal.main[0]).height());
             modal.main[0].querySelector('iframe').onload = function(){
                 typeof obj.callback === 'function' ? obj.callback.call(modal, this) : '';
+                typeof obj.onload === 'function' ? obj.onload.call(modal, this) : '';
             }
+        }
+        modal.iframe = modal.container.querySelector('iframe');
+        modal.iframe.style.width = '100%';
+        modal.iframe.style.height = ( obj.height - mw.$('.mw_modal_toolbar', modal.main[0]).height() )+ 'px';
+
+        modal.resize = function(w,h){
+          mw.tools.modal.resize(modal.main, w, h, false);
+          modal.iframe.style.height = ($(modal.main).height() - mw.$('.mw_modal_toolbar', modal.main).height() ) + 'px';
+          return modal;
         }
         return modal;
     },
@@ -585,7 +604,8 @@ mw.tools = {
       var w = w<maxw?w:maxw;
       var h = h<maxh?h:maxh;
 
-      var center = typeof center == 'undefined' ? true : center;
+      var center = typeof center !== 'undefined' ? center : true;
+
       var modal = $(modal);
       var container = modal.find(".mw_modal_container").eq(0);
 
@@ -606,7 +626,7 @@ mw.tools = {
         frame.height(h-padding);
       }
 
-      if(center == true){mw.tools.modal.center(modal)};
+      if(center === true){mw.tools.modal.center(modal)};
     },
     center:function(modal, only, w,h){
         var only = only || 'all';
@@ -1496,53 +1516,7 @@ mw.tools = {
       });
     }
   },
-  sort:function(obj){
-    var group = mw.tools.firstParentWithClass(obj.el, 'mw-table-sorting');
-	/* var parent_mod = mw.tools.firstParentWithClass(obj.el, 'module')*/;
 
-
-    var table = mwd.getElementById(obj.id);
-
-	var parent_mod = mw.tools.firstParentWithClass(table, 'module');
-
-    var others = group.querySelectorAll('li span'), i=0, len = others.length;
-    for( ; i<len; i++ ){
-        var curr = others[i];
-        if(curr !== obj.el){
-
-           $(curr).removeClass('ASC').removeClass('DESC');
-        }
-    }
-    obj.el.attributes['data-state'] === undefined ? obj.el.setAttribute('data-state', 0) : '';
-    var state = obj.el.attributes['data-state'].nodeValue;
-    var tosend = {}
-    tosend.type = obj.el.attributes['data-sort-type'].nodeValue;
-    if(state === '0'){
-        tosend.state = 'ASC';
-        obj.el.className = 'ASC';
-        obj.el.setAttribute('data-state', 'ASC');
-    }
-    else if(state==='ASC'){
-        tosend.state = 'DESC';
-        obj.el.className = 'DESC';
-        obj.el.setAttribute('data-state', 'DESC');
-    }
-    else if(state==='DESC'){
-         tosend.state = 'ASC';
-         obj.el.className = 'ASC';
-         obj.el.setAttribute('data-state', 'ASC');
-    }
-    else{
-       tosend.state = 'ASC';
-       obj.el.className = 'ASC';
-       obj.el.setAttribute('data-state', 'ASC');
-    }
-
-	if(parent_mod !== undefined){
-		 parent_mod.setAttribute('data-order', tosend.type +' '+ tosend.state);
-	     mw.reload_module(parent_mod);
-	}
-  },
   focus_on:function(el){
     if(!$(el).hasClass('mw-focus')){
       mw.$(".mw-focus").each(function(){
@@ -1600,23 +1574,42 @@ mw.tools = {
     if(typeof rotator !== 'undefined'){
       if(!$(rotator).hasClass('activated')){
         $(rotator).addClass('activated')
-        var all = mw.$('> *', rotator);
+        var all = rotator.children;
         var l = all.length;
         var w = 2 * (l * ($(all[0]).outerWidth(true)));
         $(all).addClass('mw-simple-rotator-item');
+        $(all).width($(rotator).width()).css('overflow', 'hidden');
         $(rotator).width(w);
-        rotator.go = function(where, callback){
+        rotator.go = function(where, callback, method){
+            var method = method || 'animate';
             $(rotator).dataset('state', where);
             var item = $(rotator).children()[where];
             var item_left = $(item).offset().left;
             var rleft =  $(rotator).offset().left;
-            $(rotator).animate({left:-(item_left-rleft)}, function(){
+            $(rotator).stop()[method]({left:-(item_left-rleft)}, function(){
               if(typeof callback === 'function'){
                 callback.call(rotator);
               }
             });
+            if(rotator.ongoes.length > 0){
+              var l = rotator.ongoes.length; i = 0;
+              for( ; i<l ; i++){
+                  rotator.ongoes[i].call(rotator);
+              }
+            }
+        }
+        rotator.ongoes = [];
+        rotator.ongo = function(c){
+            if(typeof c === 'function'){ rotator.ongoes.push(c) };
         }
         rotator.state = function(){return parseFloat($(rotator).dataset('state'))}
+        rotator.childrenSet = function(){
+            $(rotator.children).width($(rotator.parentNode).width());
+        }
+        $(window).bind('resize', function(){
+           rotator.childrenSet();
+           rotator.go(rotator.state(), undefined, 'css');
+        });
       }
     }
     return rotator;
@@ -2300,15 +2293,16 @@ mw.tools = {
     }
   },
 
-  iframe_editor:function(area, params, k){
+  iframe_editor:function(area, params, k, type){
     var params = params || {};
     var k = k || false;
+    var type = type || 'wysiwyg';
 
     var params = typeof params === 'object' ? json2url(params) : params;
 
     var area = mw.$(area);
     var frame = mwd.createElement('iframe');
-    frame.src = mw.external_tool('wysiwyg?'+params);
+    frame.src = mw.external_tool(type + '?' + params);
     frame.className = 'mw-iframe-editor';
         frame.scrolling = 'no';
         var name =  'mweditor'+mw.random();
@@ -4210,7 +4204,6 @@ mw.image = {
           }
           return uploader;
       }
-      mw.editor       = mw.tools.wysiwyg;
       mw.dropdown     = mw.tools.dropdown;
       mw.tabs         = mw.tools.tabGroup;
       mw.inlineModal  = mw.tools.inlineModal;
@@ -4255,6 +4248,19 @@ mw.image = {
       return modal;
     }
 
+    mw.editor = function(area, params){
+      if(area === null || typeof area === 'undefined'){ return false; }
+      var frame = mw.tools.iframe_editor(area, params, false, 'richtext');
+      frame.className = 'mw-ui-richtext-editor';
+      $(frame).width('100%').height($(area).height());
+      return frame;
+    };
+
+    mw.accordion = function(el, callback){
+      return mw.tools.accordion(mw.$(el)[0], callback)
+    }
+
+
     $.fn.timeoutHover = function(ce,cl,time1,time2){
         var time1 = time1 || 350;
         var time2 = time2 || 350;
@@ -4291,6 +4297,13 @@ $(mww).bind('load', function(){
 
 $(mwd).ready(function(){
    mw.dropdown();
+});
+
+$(mwd.body).ajaxStop(function(){
+  setTimeout(function(){
+      mw.dropdown();
+  },222)
+
 });
 
 

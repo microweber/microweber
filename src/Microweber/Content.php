@@ -368,6 +368,7 @@ class Content
         $fields_to_add[] = array('custom_field_type', 'TEXT default NULL');
         $fields_to_add[] = array('custom_field_values', 'longtext default NULL');
         $fields_to_add[] = array('custom_field_values_plain', 'longtext default NULL');
+        $fields_to_add[] = array('num_value', 'float(11) default NULL');
 
         $fields_to_add[] = array('field_for', 'TEXT default NULL');
         $fields_to_add[] = array('custom_field_field_for', 'TEXT default NULL');

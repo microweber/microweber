@@ -2172,24 +2172,8 @@ body.grabbing, body.grabbing *{
   min-width: 100%;
 }
 
-#stat-table{
-  table-layout: fixed;
-  border-left: none;
-  border-bottom: none
-}
-#stat-table td, #stat-table thead th, #stat-table tfoot td{
-  border-right: none;
-}
 
-#stat-table thead th{
-  border-top: none
-}
-
-#stat-table th{
-  background-color: white;
-}
-
-#stat-table .tip, .statwrapper{
+.mw-ui-table-basic .tip, .statwrapper{
   display: inline-block;
   max-width: 100%;
   overflow: hidden;
@@ -2200,9 +2184,129 @@ body.grabbing, body.grabbing *{
   font-size: 12px;
 }
 
+/************************************
+        Richtext editor
+*************************************/
+#mw-richtext-content{
+  overflow: auto;
+  padding: 15px;
+}
 
 
+/************************************
+        Content Rotator
+*************************************/
 
+.mw-simple-rotator-item{
+  float: left;
+  margin-right: 20px;
+}
+.mw-simple-rotator-container{
+  position: relative;
+}
+
+
+/************************************
+        Shop Section
+*************************************/
+
+#mw-order-table-holder td > .mw-icon-close, #shop-orders  td > .mw-icon-close{
+  float: right;
+  font-size: 13px;
+  margin: 2px 0 0;
+  cursor: pointer;
+}
+
+#shop-orders td,
+#shop-orders th{
+  text-align: center;
+}
+
+#mw-order-table-holder th,
+#mw-order-table-holder tfoot td{
+  white-space: nowrap;
+}
+
+#mw-admin-edit-order .mw-ui-table{
+  margin: 15px 0;
+  max-width: 100%;
+  width: 100%;
+  table-layout: fixed;
+}
+
+tr.mw-order-item.hovered,
+tr.mw-order-item:hover{
+  background-color: #FAFAFA;
+}
+
+.order-table-info-list li{
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+#order-status{
+  margin-bottom: 15px;
+}
+#mw_order_status{
+  margin-top: 15px;
+}
+.map-shipping-address{
+  display: block;
+  margin: 0 auto 15px;
+  max-width: 100%;
+}
+
+.mw-ui-btn.DESC:after, .mw-ui-btn.ASC:after{
+    content: "\0118";
+    font-size: 12px;
+    color: #C6C6C6;
+    font-family: Microweber;
+    display: inline-block;
+    position: relative;
+}
+
+.mw-ui-btn.ASC:after{
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+  top: 2px;
+}
+
+.mw-client-information.nonactive .mw-ui-field{
+  display: none;
+}
+.mw-client-information .val{
+  display: none;
+}
+.mw-client-information.nonactive .val{
+  display: inline;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+
+#orders-info-row > .mw-ui-col:first-child{
+  padding-right: 10px;
+}
+#orders-info-row > .mw-ui-col:last-child{
+  padding-left: 10px;
+}
+
+.order-status-selector > span{
+  margin-right: 10px;
+}
+
+.section-header{
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+.section-header h2,
+.section-header h3{
+  margin-top: 0;
+}
 
 /************************************
         Media queries

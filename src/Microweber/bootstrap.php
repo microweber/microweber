@@ -488,7 +488,71 @@ function mw($class = null, $constructor_params = false)
     }
 }
 
+/**
+ *  Application Facade class
+ *
+ * Class that returns instance of the Application class
+ *
+ * @package Application
+ * @property \Microweber\Adapters $adapters
+ * @property \Microweber\Url $url
+ * @property \Microweber\Content $content
+ * @property \Microweber\Category $category
+ * @property \Microweber\Media $media
+ * @property \Microweber\Shop $shop
+ * @property \Microweber\Option $option
+ * @property \Microweber\Cache $cache
+ * @property \Microweber\User $user
+ * @property \Microweber\Module $module
+ * @property \Microweber\Db $db
+ * @property \Microweber\Notifications $notifications
+ * @property \Microweber\Layouts $layouts
+ * @property \Microweber\Log $log
+ * @property \Microweber\Parser $parser
+ * @property \Microweber\Format $format
+ * @property \Microweber\Http $http
+ * @property \Microweber\Template $template
+ * @property \Microweber\Ui $ui
+ */
+class mw {
 
+    /**
+     * Handle static calls to the object.
+     *
+     * // got this from laravel - https://github.com/illuminate/support/blob/master/Facades/Facade.php
+     * @param  string  $method
+     * @param  array   $args
+     * @return mixed
+     * @return \Microweber\Application
+     * @property \Microweber\Application $application
+     */
+    public static function __callStatic($method, $args)
+    {
+        $instance = mw();
+
+        switch (count($args))
+        {
+            case 0:
+                return $instance->$method();
+
+            case 1:
+                return $instance->$method($args[0]);
+
+            case 2:
+                return $instance->$method($args[0], $args[1]);
+
+            case 3:
+                return $instance->$method($args[0], $args[1], $args[2]);
+
+            case 4:
+                return $instance->$method($args[0], $args[1], $args[2], $args[3]);
+
+            default:
+                return call_user_func_array(array($instance, $method), $args);
+        }
+    }
+
+}
 /*
 * Microweber autoloader
 * Loads up classes with namespaces
