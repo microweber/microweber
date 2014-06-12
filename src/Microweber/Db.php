@@ -1002,6 +1002,7 @@ class Db
 
             $only_custom_fields_ids = array();
             foreach ($criteria ['custom_fields_criteria'] as $k => $v) {
+
                 if (is_array($v) == false) {
                     $v = addslashes($v);
                     $v = html_entity_decode($v);
@@ -2520,6 +2521,7 @@ class Db
             foreach ($data as $k => $v) {
                 if (is_array($v)) {
                     $v = implode(',', $v);
+                    $v = ltrim($v,'0,');
                 }
                 if (is_string($k) and strtolower($k) != $data_to_save_options['use_this_field_for_id']) {
                     if (strtolower($k) != 'id') {
@@ -2935,12 +2937,90 @@ class Db
                 } elseif ($table_assoc_name == $this->table_prefix . 'custom_fields') {
                     return false;
                 }
+                if (isset($original_data['skip_custom_field_save']) == false) {
+                foreach ($custom_field_to_save as $cf_k => $cf_v) {
+                    $new_custom_field_to_save = array();
+                    $new_custom_field_to_save['name'] = $cf_k;
+                    $new_custom_field_to_save['value'] = $cf_v;
+
+                    $cftype = 'content';
+
+
+                    $new_custom_field_to_save['rel'] = $table_assoc_name;
+                    $new_custom_field_to_save['rel_id'] = $id_to_return;
+                    $new_custom_field_to_save['skip_custom_field_save'] = true;
+
+                    if (is_string($cf_k) and strtolower(trim($cf_k)) == 'price') {
+                        $cftype = $custom_field_to_save['type'] = 'price';
+                    }
+
+                    if (is_string($cf_k) and strtolower(trim($cf_k)) != '') {
+                        $make_as_array = false;
+                        if (stristr($cf_k, '[radio]') !== FALSE) {
+                            $cf_k = str_ireplace('[radio]', '', $cf_k);
+                            $cftype = 'radio';
+                            $make_as_array = 1;
+                        }
+                        if (stristr($cf_k, '[dropdown]') !== FALSE) {
+                            $cf_k = str_ireplace('[dropdown]', '', $cf_k);
+                            $cftype = 'dropdown';
+                            $make_as_array = 1;
+                        }
+                        if (stristr($cf_k, '[select]') !== FALSE) {
+                            $cf_k = str_ireplace('[select]', '', $cf_k);
+                            $cftype = 'dropdown';
+                            $make_as_array = 1;
+                        }
+                        if (stristr($cf_k, '[radio]') !== FALSE) {
+                            $cf_k = str_ireplace('[radio]', '', $cf_k);
+                            $cftype = 'radio';
+                            $make_as_array = 1;
+                        }
+                        if (stristr($cf_k, '[price]') !== FALSE) {
+                            $cf_k = str_ireplace('[price]', '', $cf_k);
+                            $cftype = 'price';
+                            $make_as_array = 1;
+                        }
+                        if (stristr($cf_k, '[address]') !== FALSE) {
+                            $cf_k = str_ireplace('[address]', '', $cf_k);
+                            $cftype = 'address';
+                            $make_as_array = 1;
+                        }
+                        if (stristr($cf_k, '[textarea]') !== FALSE) {
+                            $cf_k = str_ireplace('[textarea]', '', $cf_k);
+                            $cftype = 'textarea';
+                            $make_as_array = 1;
+                        }
+                        if (stristr($cf_k, '[checkbox]') !== FALSE) {
+                            $cf_k = str_ireplace('[checkbox]', '', $cf_k);
+                            $cftype = 'checkbox';
+                            $make_as_array = 1;
+                        }
+
+                        if ($make_as_array != false) {
+                            if (is_string($cf_v)) {
+                                $cf_v = explode(',', $cf_v);
+                                if($cftype == 'content'){
+                                    $cftype = 'dropdown';
+                                }
+                            }
+                        }
+                    }
+                    $new_custom_field_to_save['type'] = $cftype;
+
+
+
+                   //  d($custom_field_to_save);
+                    $this->app->fields->save($new_custom_field_to_save);
+                }
+                }
 
                 $custom_field_to_delete['rel'] = $table_assoc_name;
 
                 $custom_field_to_delete['rel_id'] = $id_to_return;
 
-                if (isset($original_data['skip_custom_field_save']) == false) {
+                //if (isset($original_data['skip_custom_field_save']) == false) {
+                if (isset($original_data['skip_custom_field_ssssave']) == true) {
 
                     $custom_field_to_save = $this->app->url->replace_site_url($custom_field_to_save);
                     $custom_field_to_save = $this->addslashes_array($custom_field_to_save);
@@ -3055,14 +3135,15 @@ class Db
                                 $temp = serialize($val_to_serilize);
                                 $custom_field_to_save['custom_field_values'] = base64_encode($temp);
 
+                                $temp2 = array_pop($val_to_serilize);
+                                $temp = implode(',',$val_to_serilize);
+                                $temp = ltrim($temp,'0,');
 
-                                $temp = array_values($val_to_serilize);
-                                $temp = array_pop($temp);
                                 $custom_field_to_save['custom_field_values_plain'] = $this->escape_string($temp);
                                 if (is_array($custom_field_to_save['custom_field_values_plain'])) {
                                     $custom_field_to_save['custom_field_values_plain'] = implode(',', $custom_field_to_save['custom_field_values_plain']);
                                 }
-                                $custom_field_to_save['num_value'] = floatval($temp);
+                                $custom_field_to_save['num_value'] = floatval($temp2);
 
                                 $cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
                                 // d($custom_field_to_save['custom_field_values_plain']);
@@ -3087,7 +3168,10 @@ class Db
                                 $cf_v = $this->escape_string($cf_v);
 
                                 $custom_field_to_save['custom_field_value'] = $cf_v;
-                                $custom_field_to_save['num_value'] = floatval($cf_v);
+                                $flval = floatval($cf_v);
+                                if($flval != 0){
+                                $custom_field_to_save['num_value'] =$flval;
+                                }
                             }
 
 
@@ -3099,11 +3183,17 @@ class Db
                             custom_field_name ='{$cf_k}',
                             $cfvq
                             custom_field_value ='{$custom_field_to_save['custom_field_value']}',
-                            num_value ='{$custom_field_to_save['num_value']}',
                             custom_field_type = '{$cftype}',
-                            rel ='{$custom_field_to_save ['rel']}',
-                            rel_id ='{$custom_field_to_save ['rel_id']}'
+
 						    ";
+                            if(isset($custom_field_to_save['num_value'])){
+                                $add .= "num_value ='{$custom_field_to_save['num_value']}',";
+                            }
+
+
+                            $add .= "rel ='{$custom_field_to_save ['rel']}',
+                            rel_id ='{$custom_field_to_save ['rel_id']}'";
+
 
                             $cf_to_save = array();
                             $cf_to_save['id'] = $next_id;

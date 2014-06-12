@@ -48,6 +48,7 @@ class Orm
         return $this->adapter->$method($arg);
 
     }
+
     function with($table,$params = false)
     {
         return $this->adapter->with($table,$params);

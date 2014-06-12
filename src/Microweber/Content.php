@@ -347,16 +347,23 @@ class Content
 
         $fields_to_add = array();
         $fields_to_add[] = array('rel', 'TEXT default NULL');
-
         $fields_to_add[] = array('rel_id', 'TEXT default NULL');
-        $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
         $fields_to_add[] = array('position', 'int(11) default NULL');
+        $fields_to_add[] = array('type', 'TEXT default NULL');
+        $fields_to_add[] = array('name', 'TEXT default NULL');
+        $fields_to_add[] = array('value', 'TEXT default NULL');
+        $fields_to_add[] = array('values', 'TEXT default NULL');
+        $fields_to_add[] = array('num_value', 'float(11) default NULL');
 
 
         $fields_to_add[] = array('updated_on', 'datetime default NULL');
         $fields_to_add[] = array('created_on', 'datetime default NULL');
         $fields_to_add[] = array('created_by', 'int(11) default NULL');
         $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+        $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
+
+
+
 
         $fields_to_add[] = array('custom_field_name', 'TEXT default NULL');
         $fields_to_add[] = array('custom_field_name_plain', 'longtext default NULL');
@@ -368,7 +375,6 @@ class Content
         $fields_to_add[] = array('custom_field_type', 'TEXT default NULL');
         $fields_to_add[] = array('custom_field_values', 'longtext default NULL');
         $fields_to_add[] = array('custom_field_values_plain', 'longtext default NULL');
-        $fields_to_add[] = array('num_value', 'float(11) default NULL');
 
         $fields_to_add[] = array('field_for', 'TEXT default NULL');
         $fields_to_add[] = array('custom_field_field_for', 'TEXT default NULL');
@@ -4502,6 +4508,7 @@ class Content
 
 
         }
+        //$this->no_cache = true;
         return ($del_ids);
     }
 

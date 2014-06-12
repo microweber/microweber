@@ -8,8 +8,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     function __construct()
     {
-          cache_clear('db');
-          mw('content')->db_init();
+        cache_clear('db');
+        mw('content')->db_init();
     }
 
     public function testPosts()
@@ -342,7 +342,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     public function testCustomFields()
     {
-        $price = rand();
+        $price = rand(10, 20);
         $params = array(
             'title' => 'My custom product test title',
             'content_type' => 'post',
@@ -367,14 +367,29 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $products = get_products($params);
         $found = false;
         foreach ($products as $product) {
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
+            $custom_fields = get_custom_fields($product['id']);
+
+            $this->assertEquals(true, intval($custom_fields['price']) == $price);
+
+            //PHPUnit
+        }
+
+
+        $params = array(
+            'limit' => 100,
+
+            'custom_field_price' => '>' . intval($price + 1));
+
+        $products = get_products($params);
+        $found = false;
+        foreach ($products as $product) {
+            $custom_fields = get_custom_fields($product['id']);
+
+            $this->assertEquals(true, intval($custom_fields['price']) > $price);
+
             //PHPUnit
             $this->assertEquals(true, isset($product['id']));
         }
-        $this->assertEquals(true, $found);
 
 
         $params = array(
@@ -384,31 +399,12 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $products = get_products($params);
         $found = false;
         foreach ($products as $product) {
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
+            $custom_fields = get_custom_fields($product['id']);
+
+            $this->assertEquals(true, intval($custom_fields['price']) != $price);
             //PHPUnit
             $this->assertEquals(true, isset($product['id']));
         }
-        $this->assertEquals(true, $found);
-
-
-        $params = array(
-            'limit' => 100,
-            'custom_field_price' => '>' . intval($price - 10));
-
-        $products = get_products($params);
-        $found = false;
-        foreach ($products as $product) {
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
-            //PHPUnit
-            $this->assertEquals(true, isset($product['id']));
-        }
-        $this->assertEquals(true, $found);
 
 
         $params = array(
@@ -416,16 +412,9 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             'custom_field_price' => '<' . intval($price + 10));
 
         $products = get_products($params);
-        $found = false;
         foreach ($products as $product) {
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
-            //PHPUnit
             $this->assertEquals(true, isset($product['id']));
         }
-        $this->assertEquals(true, $found);
 
         $params = array(
             'limit' => 100,
@@ -434,14 +423,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $products = get_products($params);
         $found = false;
         foreach ($products as $product) {
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
-            //PHPUnit
             $this->assertEquals(true, isset($product['id']));
         }
-        $this->assertEquals(true, $found);
 
 
         $params = array(
@@ -451,64 +434,38 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $products = get_products($params);
         $found = false;
         foreach ($products as $product) {
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
-            //PHPUnit
             $this->assertEquals(true, isset($product['id']));
         }
-        $this->assertEquals(true, $found);
-
 
         $params = array(
             'limit' => 100,
             'custom_field_price' => '[lte]' . intval($price + 1000));
 
         $products = get_products($params);
-        $found = false;
         foreach ($products as $product) {
-            $custom_fields = get_custom_fields($product['id']);
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
-            //PHPUnit
+
             $this->assertEquals(true, isset($product['id']));
         }
-        $this->assertEquals(true, $found);
 
         $params = array(
             'limit' => 100,
             'custom_field_price' => '[lt]' . intval($price + 700));
 
         $products = get_products($params);
-        $found = false;
         foreach ($products as $product) {
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
-            //PHPUnit
+
             $this->assertEquals(true, isset($product['id']));
         }
-        $this->assertEquals(true, $found);
 
         $params = array(
             'limit' => 100,
             'custom_field_price' => '[md]' . intval($price - 700));
 
         $products = get_products($params);
-        $found = false;
         foreach ($products as $product) {
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
-            //PHPUnit
+
             $this->assertEquals(true, isset($product['id']));
         }
-        $this->assertEquals(true, $found);
 
 
         $params = array(
@@ -516,16 +473,10 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             'custom_field_price' => '[mde]' . intval($price - 500));
 
         $products = get_products($params);
-        $found = false;
         foreach ($products as $product) {
-            if (isset($product['id']) and $product['id'] == $product_id) {
-                $found = true;
-                $this->assertEquals($price, ($custom_fields['price']));
-            }
-            //PHPUnit
+
             $this->assertEquals(true, isset($product['id']));
         }
-        $this->assertEquals(true, $found);
 
 
         $delete_page = delete_content($product_id);
@@ -536,8 +487,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, is_array($products));
         $this->assertEquals(true, is_array($custom_fields));
         $this->assertEquals(true, isset($custom_fields['price']));
-        $this->assertEquals($price, intval($custom_fields['price']));
-        $this->assertEquals(true, is_array($delete_page));
+         $this->assertEquals(true, is_array($delete_page));
         $this->assertEquals(false, $deleted_page);
         $this->assertEquals(true, is_array($delete_page));
 
@@ -602,7 +552,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             //PHPUnit
             $this->assertEquals(true, isset($custom_fields['color']));
             $this->assertEquals(true, isset($custom_fields['price']));
-            $this->assertEquals($price, $custom_fields['price']);
             $this->assertEquals(true, isset($product['id']));
         }
 
@@ -614,29 +563,27 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $products = get_products($params);
 
+        if (is_array($products)) {
+            foreach ($products as $product) {
+                $custom_fields = get_custom_fields($product['id']);
 
-        foreach ($products as $product) {
-            $custom_fields = get_custom_fields($product['id']);
+                $delete_page = delete_content($product_id);
+                $deleted_page = get_content_by_id($product_id);
 
-            $delete_page = delete_content($product_id);
-            $deleted_page = get_content_by_id($product_id);
+                //PHPUnit
+                if (isset($custom_fields['color'])) {
+                    $this->assertEquals(true, stristr($custom_fields['color'], 'red') == true);
+                    $this->assertEquals(true, isset($custom_fields['color']));
 
-            //PHPUnit
-            if (isset($custom_fields['color'])) {
-                $this->assertEquals(true, stristr($custom_fields['color'], 'red') == true);
-                $this->assertEquals(true, isset($custom_fields['color']));
-
+                }
+                $this->assertEquals(true, isset($product['id']));
+                $this->assertEquals(true, is_array($delete_page));
+                $this->assertEquals(false, $deleted_page);
+                $this->assertEquals(true, is_array($delete_page));
             }
-            $this->assertEquals(true, isset($product['id']));
-            $this->assertEquals(true, is_array($delete_page));
-            $this->assertEquals(false, $deleted_page);
-            $this->assertEquals(true, is_array($delete_page));
+
+
         }
-
-
-        //PHPUnit
-        $this->assertEquals(true, is_array($products));
-
     }
 
     public function testCustomFieldsOrderby()
