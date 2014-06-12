@@ -26,9 +26,10 @@ if (r1==true){
    $is_orders = get_orders('count=1');
 
 ?>
-<div class="mw-table-sorting-controller">
-  <h2 class="mw-side-main-title" style="padding-top: 0"><span class="mw-icon-users"></span><span><?php _e("Clients List"); ?></span></h2>
-</div>
+
+<div class="section-header"><h2><span class="mw-icon-users"></span><?php _e("Clients List"); ?></h2></div>
+
+
 
 <?php if($is_orders != 0){   ?>
   <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
@@ -66,9 +67,9 @@ if (r1==true){
           <?php $total_ord = get_orders('count=1&email='.$order['email'].'&is_completed=y'); ?>
           <?php print $total_ord; ?>
         </td>
-        <td width="85">
-            <span class="mw-ui-table-show-on-hover del-row" style="margin: -8px -7px auto auto;" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
-            <a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
+        <td width="115">
+            <span class="show-on-hover mw-icon-close" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
+            <a class="show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
       </tr>
       <?php endforeach; endif; ?>

@@ -1,38 +1,51 @@
 <?php
+
 only_admin_access();
 
 $ord = mw('shop')->get_order_by_id($params['order-id']);
 
 $cart_items = array();
 if (is_array($ord)) {
-
-    //$cart_items = get_cart('order_completed=any&session_id='.$ord['session_id'].'&order_id='.$ord['id'].'');
     $cart_items = false;
-
-
     if (empty($cart_items)) {
         $cart_items = get_cart('no_session_id=true&order_completed=any&session_id=' . $ord['session_id'] . '&order_id=' . $ord['id'] . '');
     }
-
-} else {
-
+}
+else {
     mw_error("Invalid order id");
 }
 
 
 ?>
 
-<div id="mw-order-table-holder"><a class="mw-ui-btn right" href="#vieworder=0"><span class="backico"></span>
+
+
+
+<div id="mw-order-table-holder">
+
+<div class="section-header">
+<a class="mw-ui-btn pull-right" href="#vieworder=0"><span class="mw-icon-back"></span>
     <?php _e("Back to Orders"); ?>
 </a>
 
-<h2><span style="color: #0D5C98"><?php print $ord['id'] ?> |</span> <span
-        class="font-12"><?php print $ord['created_on'] ?></span></h2>
+<h2><?php _e("Order"); ?> #<?php print $ord['id'] ?> </h2>
+
+</div>
+
+
+
+
+<div class="mw-ui-row" id="orders-info-row">
+
+
+<div class="mw-ui-col">
 
 <div class="mw-ui-box mw-ui-box-order-info">
-    <div class="mw-ui-box-header"><span class="ico iorder"></span><span>
-			<?php _e("Order Information"); ?>
-			</span></div>
+    <div class="mw-ui-box-header">
+        <span><?php _e("Order Information"); ?></span>
+    </div>
+
+    <div class="mw-ui-box-content">
     <?php if (is_array($cart_items)) : ?>
         <div class="mw-order-images">
             <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
@@ -53,7 +66,6 @@ if (is_array($ord)) {
                 <th><?php _e("Custom fields"); ?></th>
                 <th><?php _e("Price"); ?></th>
                 <th><?php _e("QTY"); ?></th>
-                <?php /* <th><?php _e("Promo Code"); ?></th> */ ?>
                 <th><?php _e("Total"); ?></th>
             </tr>
             </thead>
@@ -91,11 +103,6 @@ if (is_array($ord)) {
                 <td><?php _e("Subtotal"); ?></td>
                 <td class="mw-ui-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
             </tr>
-            <?php /* <tr class="mw-ui-table-footer">
-          <td colspan="3">&nbsp;</td>
-          <td>Promo Codes</td>
-          <td class="mw-ui-table-green">- $35,00</td>
-        </tr> */ ?>
             <tr class="mw-ui-table-footer">
                 <td colspan="3">&nbsp;</td>
                 <td><?php _e("Shipping price"); ?></td>
@@ -116,29 +123,31 @@ if (is_array($ord)) {
             <?php _e("The cart is empty"); ?>
         </h2>
     <?php endif;?>
-    <div class="vSpace"></div>
-    <div class="mw-ui-box-header" style="background: none;margin-bottom: 0;padding-bottom: 1px;"><span
-            class="ico iorder"></span><span>
+    <div class="mw-ui-box" id="order-status">
+    <div class="mw-ui-box-header" ><span>
 			<?php _e("Order Status"); ?>
 			</span></div>
-    <div class="order-status-selector"> <span class="font-11">
-			<?php _e("What is the status of this order"); ?>
-            ?</span>
-        <label class="mw-ui-check">
-            <input
-                <?php if ($ord['order_status'] == 'completed' or $ord['order_status'] == ''): ?>checked="checked"<?php endif; ?>
-                type="radio" name="order_status" value="completed"/>
-            <span></span> <span>
-				<?php _e("Completed Order"); ?>
-				</span> </label>
-        <label class="mw-ui-check">
-            <input <?php if ($ord['order_status'] == 'pending'): ?>checked="checked"<?php endif; ?> type="radio"
-                   name="order_status" value="pending"/>
-            <span></span> <span>
-				<?php _e("Pending"); ?>
-				</span> </label>
+            <div class="mw-ui-box-content">
+    <div class="order-status-selector">
+        <ul class="mw-ui-inline-list">
+          <li><span><?php _e("What is the status of this order"); ?>?</span></li>
+          <li>
+            <label class="mw-ui-check">
+                <input <?php if ($ord['order_status'] == 'pending'): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="pending"/>
+                <span></span><span><?php _e("Pending"); ?></span>
+            </label>
+          </li>
+          <li>
+            <label class="mw-ui-check">
+                <input <?php if ($ord['order_status'] == 'completed' or $ord['order_status'] == ''): ?>checked="checked"<?php endif; ?> type="radio" name="order_status" value="completed"/>
+                <span></span><span><?php _e("Completed Order"); ?></span>
+            </label>
+          </li>
+        </ul>
+
+
     </div>
-    <div class="vSpace" style="padding: 0 0 1px;"></div>
+
     <script type="text/javascript">
 
 
@@ -165,9 +174,9 @@ if (is_array($ord)) {
                 $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
 
 
-                    var upd_msg = "Order is marked as un-paid"
+                    var upd_msg = "<?php _e("Order is marked as un-paid"); ?>"
                     if (obj.is_paid == 'y') {
-                        var upd_msg = "Order is marked as paid"
+                        var upd_msg = "<?php _e("Order is marked as paid"); ?>"
 
                     }
 
@@ -205,28 +214,89 @@ if (is_array($ord)) {
         </div>
         <div style="margin-right: 10px;width: 238px;"
              class="mw-notification mw-success right <?php if ($ord['order_status'] != 'completed'): ?>semi_hidden<?php endif; ?>">
-            <div style="height: 55px;"><span class="ico icheck"></span> <span>
+            <div style="height: 55px;"> <span>
 					<?php _e("Successfully Completed"); ?>
 					</span></div>
         </div>
     </div>
+    </div>
+    </div>
+
+
+
+    <div class="mw-ui-box"><div class="mw-ui-box-header"><?php _e("Payment Information"); ?> <span class="tip" data-tip="<?php _e("Payment Information that we have from the payment provider"); ?>" data-tipposition="top-center">(?)</span></div>
+
+                <div class="mw-ui-box-content"><ul class="order-table-info-list">
+                    <li><?php _e("Payment Method"); ?>: <strong><?php print $ord['payment_gw']; ?></strong></li>
+                    <li>
+                        <?php _e("Is Paid"); ?>:
+                        <select name="is_paid" class="mw-ui-field mw-ui-field-medium">
+                            <option value="y" <?php if (isset($ord['is_paid']) and $ord['is_paid'] == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
+                            <option value="n" <?php if (isset($ord['is_paid']) and $ord['is_paid'] != 'y'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
+                        </select>
+                    </li>
+
+
+                    <?php if (isset($ord['transaction_id']) and $ord['transaction_id'] != ''): ?>
+                        <li>
+                            <?php _e("Transaction ID"); ?>
+                            : <?php print $ord['transaction_id']; ?></li>
+                    <?php endif; ?>
+                    <?php if (isset($ord['payment_amount']) and $ord['payment_amount'] != ''): ?>
+                        <li>
+                            <?php _e("Payment Amount"); ?>
+                            : <?php print $ord['payment_amount']; ?>
+                            <?php if (isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?>
+                                <span>+ <?php print $ord['payment_shipping']; ?>
+                                    <?php _e("for shipping"); ?>
+								</span>
+                            <?php endif; ?>
+                            <span class="mw-help" data-help="<?php _e("Amount paid by the user"); ?>">(?)</span></li>
+                    <?php endif; ?>
+                    <?php if (isset($ord['payment_currency']) and $ord['payment_currency'] != ''): ?>
+                        <li>
+                            <?php _e("Payment currency"); ?>
+                            : <?php print $ord['payment_currency']; ?></li>
+                    <?php endif; ?>
+                    <?php if (isset($ord['payer_id']) and $ord['payer_id'] != ''): ?>
+                        <li>
+                            <?php _e("Payer ID"); ?>
+                            : <?php print $ord['payer_id']; ?></li>
+                    <?php endif; ?>
+                    <?php if (isset($ord['payment_status']) and $ord['payment_status'] != ''): ?>
+                        <li>
+                            <?php _e("Payment Status"); ?>
+                            : <?php print $ord['payment_status']; ?></li>
+                    <?php endif; ?>
+                </ul></div></div>
+
+
+
+    </div>
 </div>
-<div class="mw-ui-box mw-ui-box-client-info">
+
+
+
+
+    </div>
+    <div class="mw-ui-col"><div class="mw-ui-box">
 <div class="mw-ui-box-header">
 
 
     <a href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>"
        class="mw-ui-btn mw-ui-btn-medium right">
         <?php _e("Edit"); ?>
-    </a> <span class="ico iusers"></span><span>
+    </a> <span>
 			<?php _e("Client Information"); ?>
-			</span></div>
-<div class="mw-o-client-table" style="padding-top: 0;">
-    <table cellspacing="0" cellpadding="0">
+			</span>
+</div>
+
+    <div class="mw-ui-box-content">
+    <table cellspacing="0" cellpadding="0" class="mw-ui-table">
         <col width="150"/>
         <tr>
             <td><?php _e("Customer Name"); ?></td>
-            <td><a href="#"><?php print $ord['first_name'] . ' ' . $ord['last_name']; ?></a></td>
+            <td><?php print $ord['first_name'] . ' ' . $ord['last_name']; ?></td>
         </tr>
         <tr>
             <td><?php _e("Email"); ?></td>
@@ -244,22 +314,11 @@ if (is_array($ord)) {
                 <?php endif; ?></td>
         </tr>
     </table>
-</div>
-<div class="mw-ui-box-hr"></div>
-<div class="mw-o-client-table">
-    <table cellspacing="0" cellpadding="0" class="right" style="width:400px">
+    <table cellspacing="0" cellpadding="0" class="mw-ui-table">
         <col width="150"/>
         <tr>
-            <td valign="top"><p><b>
+            <td valign="top">
                         <?php _e("Shipping Address"); ?>
-                    </b></p>
-
-
-
-
-
-
-
                 <?php
                 $map_click_str = false;
                 $map_click = array();?>
@@ -305,25 +364,21 @@ if (is_array($ord)) {
                 ?>
 
                 <a target="_blank"
-                   href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off"> <img
-                        src="http://maps.googleapis.com/maps/api/staticmap?size=220x140&zoom=17&markers=icon:http://microweber.com/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>"/>
+                   href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
+                   <img class="map-shipping-address"
+                        src="http://maps.googleapis.com/maps/api/staticmap?size=640x150&zoom=17&markers=icon:http://microweber.com/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>"/>
                 </a>
-
-                <div class="vSpace"></div>
-                <center>
-                    <a target="_blank"
-                       href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
+                <a target="_blank" class="mw-ui-btn" href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
                         <?php _e("See Location on map"); ?>
-                    </a>
-                </center>
+                </a>
             </td>
         </tr>
     </table>
-</div>
+
 <?php if (isset($ord['custom_fields']) and $ord['custom_fields'] != ''): ?>
-    <div class="mw-ui-box-hr"></div>
-    <div class="mw-o-client-table">
-        <table class="right" cellspacing="0" cellpadding="0" style="width: 400px;">
+
+
+        <table class="mw-ui-table" cellspacing="0" cellpadding="0">
             <col width="150"/>
             <tr>
                 <td valign="top"><p><b>
@@ -332,17 +387,17 @@ if (is_array($ord)) {
                     <?php print $ord['custom_fields'] ?></td>
             </tr>
         </table>
-    </div>
-    <div class="vSpace"></div>
+
+
 <?php endif; ?>
-<div class="mw-ui-box-hr"></div>
-<div class="mw-o-client-table">
-    <table class="right" cellspacing="0" cellpadding="0" style="width: 400px;">
+
+
+    <table  cellspacing="0" cellpadding="0" class="mw-ui-table">
         <col width="150"/>
         <tr>
-            <td valign="top"><p><b>
+            <td valign="top">
                         <?php _e("Billing Details"); ?>
-                    </b></p>
+
                 <ul class="order-table-info-list">
                     <li><?php print $ord['payment_name'] ?></li>
                     <li><?php print $ord['payment_country'] ?></li>
@@ -353,87 +408,29 @@ if (is_array($ord)) {
                     <li><?php print $ord['payment_address'] ?></li>
                 </ul>
             </td>
-            <td valign="top"><img
-                    src="http://maps.googleapis.com/maps/api/staticmap?size=220x140&zoom=17&markers=icon:http://microweber.com/user.png|<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&sensor=true&center=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>"/>
-                <center>
-                    <a target="_blank"
+            <td valign="top">
+            <a target="_blank"
+                       href="https://maps.google.com/maps?q=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&safe=off">
+                <img class="map-shipping-address"
+                    src="https://maps.googleapis.com/maps/api/staticmap?size=640x150&zoom=17&markers=icon:https://microweber.com/user.png|<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&sensor=true&center=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>"/>
+            </a>
+                    <a target="_blank" class="mw-ui-btn"
                        href="https://maps.google.com/maps?q=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&safe=off">
                         <?php _e("See Location on map"); ?>
                     </a>
-                </center>
+
             </td>
         </tr>
     </table>
+
+
+
+
+
+
 </div>
-<div class="mw-ui-box-hr"></div>
-<div class="mw-o-client-table">
-    <table cellspacing="0" cellpadding="0">
-        <tr>
-            <td><p><b>
-                        <?php _e("Payment Information"); ?>
-                    </b><span class="mw-help"
-                              data-help="Payment Information that we have from the payment provider">(?)</span></p>
-                <ul class="order-table-info-list">
-                    <li>
-                        <?php _e("Payment Method"); ?>
-                        : <?php print $ord['payment_gw']; ?></li>
+</div></div>
 
-
-                    <li>
-                        <?php _e("Is Paid"); ?>
-                        :
-                        <select name="is_paid" class="mw-ui-simple-select mw-order-is-paid-change">
-
-                            <option
-                                value="y" <?php if (isset($ord['is_paid']) and $ord['is_paid'] == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
-
-                            <option
-                                value="n" <?php if (isset($ord['is_paid']) and $ord['is_paid'] != 'y'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
-
-
-                        </select>
-
-
-                    </li>
-
-
-                    <?php if (isset($ord['transaction_id']) and $ord['transaction_id'] != ''): ?>
-                        <li>
-                            <?php _e("Transaction ID"); ?>
-                            : <?php print $ord['transaction_id']; ?></li>
-                    <?php endif; ?>
-                    <?php if (isset($ord['payment_amount']) and $ord['payment_amount'] != ''): ?>
-                        <li>
-                            <?php _e("Payment Amount"); ?>
-                            : <?php print $ord['payment_amount']; ?>
-                            <?php if (isset($ord['payment_shipping']) and $ord['payment_shipping'] != ''): ?>
-                                <span>+ <?php print $ord['payment_shipping']; ?>
-                                    <?php _e("for shipping"); ?>
-								</span>
-                            <?php endif; ?>
-                            <span class="mw-help" data-help="<?php _e("Amount paid by the user"); ?>">(?)</span></li>
-                    <?php endif; ?>
-                    <?php if (isset($ord['payment_currency']) and $ord['payment_currency'] != ''): ?>
-                        <li>
-                            <?php _e("Payment currency"); ?>
-                            : <?php print $ord['payment_currency']; ?></li>
-                    <?php endif; ?>
-                    <?php if (isset($ord['payer_id']) and $ord['payer_id'] != ''): ?>
-                        <li>
-                            <?php _e("Payer ID"); ?>
-                            : <?php print $ord['payer_id']; ?></li>
-                    <?php endif; ?>
-                    <?php if (isset($ord['payment_status']) and $ord['payment_status'] != ''): ?>
-                        <li>
-                            <?php _e("Payment Status"); ?>
-                            : <?php print $ord['payment_status']; ?></li>
-                    <?php endif; ?>
-                </ul>
-            </td>
-            <td>&nbsp;</td>
-        </tr>
-    </table>
 </div>
-</div>
-<div class="mw_clear"></div>
+
 </div>

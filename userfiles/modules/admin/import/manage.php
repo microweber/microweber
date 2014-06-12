@@ -38,15 +38,15 @@
           <td><span class="mw-date"><?php print $item['date']  ?></span></td>
           <td><span class="mw-date"><?php print $item['time']  ?></span></td>
           <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
-          <td><a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Utils/Import/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
+          <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Utils/Import/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
         <td>
-        <!--<a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>-->
+        <!--<a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>-->
         
-        <a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.confirm_import_file('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>
+        <a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.confirm_import_file('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>
         
         
         </td>
-        <td><a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.admin_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
+        <td><a class="show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.admin_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
       </tr>
       <?php $i++; endforeach ; ?>
       <?php endif; ?>

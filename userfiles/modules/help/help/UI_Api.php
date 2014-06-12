@@ -537,7 +537,7 @@
         <td>Amet</td>
         <td>Dolor</td>
         <td>987987</td>
-        <td><a href="javascript:;" class="mw-ui-table-show-on-hover mw-ui-btn">View on hover</a></td>
+        <td><a href="javascript:;" class="show-on-hover mw-ui-btn">View on hover</a></td>
     </tr>
   </tbody>
 </table></td>

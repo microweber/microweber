@@ -102,26 +102,34 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	$parent_content_params['subtype'] = 'dynamic';
 	$parent_content_params['content_type'] = 'page';
 	$parent_content_params['limit'] = 1;
-	$parent_content_params['one'] = 1;
+	$parent_content_params['one'] = 1; 
+	$parent_content_params['parent'] = 0;
 	$parent_content_params['fields'] = 'id';
 //	$parent_content_params['is_active'] = 'y';
 	$parent_content_params['order_by'] = 'posted_on desc, updated_on desc';
-	 
+	  
 	if(isset($params['subtype']) and $params['subtype'] == 'post'){
 		$parent_content_params['is_shop'] = 'n';
 		$parent_content_params['is_home'] = 'n';
 	    $parent_content = get_content($parent_content_params);
+ 
+		 if(!isset($parent_content['id'])){
+			 unset($parent_content_params['parent']);
+			 $parent_content = get_content($parent_content_params);
 
+		 }
 		 if(isset($parent_content['id'])){
 			 $data['parent'] = $parent_content['id'];
 		 } else {
 			  mw('content')->create_default_content('blog');
 			  $parent_content_params['no_cache'] = true;
 			  $parent_content = get_content($parent_content_params);
+			  
 		 }
 	} elseif(isset($params['subtype']) and $params['subtype'] == 'product'){
 		$parent_content_params['is_shop'] = 'y';
 	    $parent_content = get_content($parent_content_params);
+		
 		 if(isset($parent_content['id'])){
 			 $data['parent'] = $parent_content['id'];
 		 } else {
@@ -133,6 +141,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	if(isset($parent_content) and isset($parent_content['id'])){
 			 $data['parent'] = $parent_content['id'];
 	 } 
+	
 
 } elseif($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'product'){
 	 
@@ -162,7 +171,6 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 /* END OF SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
 
  $module_id = $params['id'];
-
  
 ?>
 <?php if($just_saved!=false) : ?>
@@ -184,7 +192,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
     }
 	$modules = array_unique($modules);
 }
- 
+  
 ?>
 <?php if(!empty($modules)): ?>
 <?php foreach($modules as $module) : ?>

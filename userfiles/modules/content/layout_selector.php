@@ -307,7 +307,8 @@ mw.templatePreview<?php print $rand; ?> = {
 
         var is_shop = mw.$('#active_site_layout_<?php print $rand; ?> option:selected').attr('data-is-shop');
         var ctype = mw.$('#active_site_layout_<?php print $rand; ?> option:selected').attr('data-content-type');
-
+ var stype = mw.$('#active_site_layout_<?php print $rand; ?> option:selected').attr('data-subtype');
+  var stype_val = mw.$('#active_site_layout_<?php print $rand; ?> option:selected').attr('data-subtype-value');
         var inherit_from = mw.$('#active_site_layout_<?php print $rand; ?> option:selected').attr('inherit_from');
 
 
@@ -357,14 +358,23 @@ mw.templatePreview<?php print $rand; ?> = {
                 // ctype = 'static';
             }
 
-
-            if (ctype == 'static' || ctype == 'dynamic') {
+ 
+             if (ctype == 'static' || ctype == 'dynamic' ) {
                 if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
                     form.querySelector('input[name="subtype"]').value = ctype
                 }
-            }
-
-
+             }  
+			 
+			 if (stype) {
+				   if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
+                    form.querySelector('input[name="subtype"]').value = stype
+                }
+			}
+ 			if (stype_val) {
+				   if (form != undefined && form.querySelector('input[name="subtype_value"]') != null) {
+                    form.querySelector('input[name="subtype_value"]').value = stype_val
+                }
+			}
             /*mw.$("select[name='subtype']", form).val(ctype);
              mw.$("input:hidden[name='subtype']", form).val(ctype);
              mw.$("input:text[name='subtype']", form).val(ctype);
@@ -436,7 +446,7 @@ mw.templatePreview<?php print $rand; ?> = {
             mw.templatePreview<?php print $rand; ?>.rend(iframe_url);
 
         
-  //$(window).trigger('templateChanged'); 
+   $(window).trigger('templateSelected'); 
 
       //  mw.$("#<?php print $params['id']?>").removeAttr('autoload');
  
@@ -586,8 +596,10 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
 
                     <?php if (isset($item['is_shop'])): ?>   data-is-shop="<?php print $item['is_shop'] ?>"  <?php endif; ?>
                     <?php if (isset($item['name'])): ?>   title="<?php print $item['name'] ?>"  <?php endif; ?>
-                    <?php if (isset($item['tag'])): ?>   data-tag="<?php print $item['tag'] ?>"  <?php endif; ?>
-
+                    <?php if (isset($item['tag'])): ?>   data-tag="<?php print $item['tag'] ?>"  <?php endif; ?> 
+                    
+                      <?php if (isset($item['subtype'])): ?>   data-subtype="<?php print $item['subtype'] ?>"  <?php endif; ?>
+    <?php if (isset($item['subtype_value'])): ?>   data-subtype-value="<?php print $item['subtype_value'] ?>"  <?php endif; ?>
                     >
                     <?php   print $item['name'] ?>
                 </option>

@@ -31,39 +31,51 @@
 
 <div id="mw-order-table-holder">
   <?php if($ordert_type == 'completed' and isset($orders) and is_array($orders)) :?>
-  <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
+  <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="100%">
+    <colgroup>
+        <col>
+        <col>
+        <col>
+        <col width="100">
+        <col>
+        <col>
+        <col>
+
+        <col width="120">
+    </colgroup>
     <thead>
       <tr>
-        <th><?php _e("Order ID"); ?></th>
+        <th><?php _e("ID"); ?></th>
+        <th><?php _e("Date"); ?></th>
         <th><?php _e("Status"); ?></th>
         <th><?php _e("Amount"); ?></th>
         <th><?php _e("Paid"); ?></th>
         <th><?php _e("Names"); ?></th>
         <th><?php _e("Email"); ?></th>
-        <th><?php _e("Client Phone"); ?></th>
-        <th><?php _e("Country"); ?></th>
+
         <th><?php _e("View & Delete"); ?></th>
       </tr>
     </thead>
     <tfoot>
       <tr>
-        <td><?php _e("Order ID"); ?></td>
-        <th><?php _e("Status"); ?></th>
+        <td><?php _e("ID"); ?></td>
+        <td><?php _e("Date"); ?></td>
+        <td><?php _e("Status"); ?></td>
         <td><?php _e("Amount"); ?></td>
-        <th><?php _e("Paid"); ?></th>
+        <td><?php _e("Paid"); ?></td>
         <td><?php _e("Names"); ?></td>
         <td><?php _e("Email"); ?></td>
-        <td><?php _e("Client Phone"); ?></td>
-        <td><?php _e("Country"); ?></td>
+
         <td><?php _e("View & Delete"); ?></td>
       </tr>
     </tfoot>
     <tbody>
       <?php foreach ($orders as $item) : ?>
       <tr class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-status-<?php print $item['order_status'] ?>">
-        <td class="mw-order-item-id"><a href="#vieworder=<?php print ($item['id']) ?>"><span><?php print $item['items_count'] . ' ' . _e("items", true); ?></span>&nbsp;<span class="mw-items-rate mw-items-rate-<?php print $item['items_count']; ?>"></span> <br />
-          <span class="mw-ord-id">ORD-<?php print $item['id'] ?></span></a>
-          <div class="mw-date" title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></div></td>
+        <td class="mw-order-item-id"> <span class="mw-ord-id"><?php print $item['id'] ?></span>
+
+          </td>
+          <td title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></td>
         <td class="mw-order-item-status"><?php
 		 if($item['order_status'] == false): ?>
           New
@@ -84,9 +96,8 @@
           <?php endif; ?></td>
         <td class="mw-order-item-names"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></td>
         <td class="mw-order-item-email"><?php print $item['email'] ?></td>
-        <td class="mw-order-item-phone"><?php print $item['phone'] ?></td>
-        <td class="mw-order-item-country"><?php print $item['country'] ?></td>
-        <td class="mw-order-item-edit" width="90" align="center"><span class="mw-ui-table-show-on-hover del-row" style="margin: -12px -7px auto auto;" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span> <a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-blue mw-ui-btn-small" href="#vieworder=<?php print ($item['id']) ?>">
+
+        <td class="mw-order-item-edit" width="90" align="center"><span class="mw-icon-close show-on-hover" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span> <a class="show-on-hover mw-ui-btn mw-ui-btn-small" href="#vieworder=<?php print ($item['id']) ?>">
           <?php _e("View order"); ?>
           </a></td>
       </tr>
@@ -100,28 +111,9 @@
       <div id="orders_stat" style="height: 250px;"></div>
     </div>
   </div>
-  <div class="vSpace"></div>
-  <style>
-      .stats_table{
-        font-size: 11px;
-        width: 100%;
-      }
 
-      .stats_table tr td:nth-child(3){
-        text-align: left;
-      }
 
-      .last-page-link{
-        max-width: 100px;
-        display: inline-block;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-
-      }
-
-      </style>
-  <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" style="table-layout: fixed">
+  <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
         <td><?php _e("Cart"); ?></td>

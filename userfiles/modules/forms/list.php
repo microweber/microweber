@@ -133,7 +133,7 @@ if(is_array($data)){
       <?php endforeach ; ?>
       <?php endif; ?>
       <td class="mw-ui-table-delete-item">
-        <a class="mw-ui-table-show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
+        <a class="show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
     </tr>
     <?php endforeach; ?>
     <?php else: ?>

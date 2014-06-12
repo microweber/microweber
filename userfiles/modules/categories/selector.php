@@ -195,7 +195,7 @@ if(isset($params['subtype']) and $params['subtype'] == 'product'){
 	$tree['is_shop'] = 'y';
 }
 if(isset($params['subtype']) and $params['subtype'] == 'post'){
- //  $tree['subtype'] = 'dynamic';
+   $tree['subtype'] = 'dynamic';
    if(isset($tree['is_shop'] )){
 
 	unset($tree['is_shop'] );
@@ -217,9 +217,6 @@ pages_tree($tree);
 <?php endif; ?>
 <?php  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
 
-
-
-
 	$str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
 	$fors = get($str0);
 
@@ -233,13 +230,6 @@ pages_tree($tree);
 			$pt_opts['include_first'] = 1;
 		}
 	}
-
-
-
-
-
-
-
 
 }
 

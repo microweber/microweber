@@ -388,7 +388,7 @@ Progress =  mw.$('#mw-upload-progress');
 
  ?>
 
-<div style="padding: 20px;max-width: 960px;" class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
+<div class="mw-file-browser mw-file-browser-<?php print $ui_order_control; ?>">
   <h2><a href="<?php print $config["url_main"]; ?>"><span class="ico iupload"></span>&nbsp;<?php _e("File Manager"); ?></a></h2>
   <div id="files_ctrl_holder">
     <div class="modules-index-bar">

@@ -100,9 +100,9 @@ $data = get_users($user_params);
 				<?php endif; ?>
 				</span></td>
 			<td><?php if($self_id != $item['id']): ?>
-				<span class="mw-ui-table-show-on-hover del-row" title="<?php _e("Delete"); ?>"  onclick="mw_admin_delete_user_by_id('<?php  print $item['id']; ?>')"></span>
+				<span class="show-on-hover del-row" title="<?php _e("Delete"); ?>"  onclick="mw_admin_delete_user_by_id('<?php  print $item['id']; ?>')"></span>
 				<?php endif; ?>
-				<a class="mw-ui-table-show-on-hover mw-ui-btn mw-ui-btn-small" onclick="mw.url.windowHashParam('edit-user', '<?php  print $item['id']; ?>');return false;" href="#edit-user=<?php  print $item['id']; ?>">Edit</a></td>
+				<a class="show-on-hover mw-ui-btn mw-ui-btn-small" onclick="mw.url.windowHashParam('edit-user', '<?php  print $item['id']; ?>');return false;" href="#edit-user=<?php  print $item['id']; ?>">Edit</a></td>
 		</tr>
 		<?php endforeach ; ?>
 	</tbody>

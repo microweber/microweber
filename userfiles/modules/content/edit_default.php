@@ -74,6 +74,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
       </div>
       <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
         <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+        
         <module
                 type="categories/selector"
                 for="content"

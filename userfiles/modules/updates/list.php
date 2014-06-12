@@ -75,7 +75,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endif; ?>
     <?php if(isset($iudates["modules"]) and !empty($iudates["modules"])): ?>
@@ -99,7 +99,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
@@ -124,7 +124,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
@@ -156,7 +156,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
@@ -193,7 +193,7 @@ $(document).ready(function(){
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
         </h2>
-        <span class="mw-ui-btn mw-ui-btn-blue mw-ui-table-show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
+        <span class="mw-ui-btn mw-ui-btn-blue show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>
     <?php endif; ?>
