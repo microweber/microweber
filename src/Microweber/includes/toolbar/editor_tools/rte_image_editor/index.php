@@ -136,7 +136,7 @@ else{
         });
 
 
-        mw.simpletabs(document.getElementById('image_tabs'));
+   
 
 
 

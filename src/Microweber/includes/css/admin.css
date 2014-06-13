@@ -2308,6 +2308,18 @@ tr.mw-order-item:hover{
   margin-top: 0;
 }
 
+/* Shipping */
+
+.shipping-country-holder{
+    padding: 15px;
+}
+
+.price-field{
+  width: 65px;
+  text-align: center;
+}
+
+
 /************************************
         Media queries
 *************************************/

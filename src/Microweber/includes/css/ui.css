@@ -339,9 +339,16 @@
 /****************************
         Navigations
 *****************************/
+.mw-ui-navigation {
+  position: relative;
+}
+.mw-ui-navigation:hover {
+  z-index: 9;
+}
 .mw-ui-navigation li {
   list-style: none;
   margin-bottom: 10px;
+  position: relative;
 }
 .mw-ui-navigation > li:last-child {
   margin-bottom: 0;
@@ -356,6 +363,11 @@
   height: 36px;
   border: 1px solid transparent;
   border-radius: 3px;
+  white-space: nowrap;
+}
+.mw-ui-navigation .mw-icon-dropdown {
+  font-size: 12px;
+  line-height: 12px;
 }
 .mw-ui-navigation a:hover,
 .mw-ui-navigation a:focus,
@@ -379,10 +391,21 @@
   float: left;
   margin-right: 12px;
   margin-bottom: 0;
-  position: relative;
 }
 .mw-ui-navigation-horizontal > li:last-child {
   margin-right: 0;
+}
+.mw-ui-navigation-horizontal > li > ul ul,
+.mw-ui-navigation li ul {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 100%;
+  min-width: 100%;
+  border-radius: 3px;
+  border: 1px;
+  background: white;
+  border: 1px solid #e5e5e5;
 }
 .mw-ui-navigation-horizontal > li > ul {
   position: absolute;
@@ -392,15 +415,21 @@
   min-width: 100%;
   border-radius: 0 0 3px 3px;
   border: 1px;
+  background: white;
+  border: 1px solid #e5e5e5;
 }
-.mw-ui-box.mw-ui-navigation > li > a {
+.mw-ui-navigation-horizontal > li:first-child > ul {
+  left: -1px;
+}
+.mw-ui-box.mw-ui-navigation a,
+.mw-ui-navigation li ul a {
   border-width: 0;
   border-radius: 0;
 }
 .mw-ui-box.mw-ui-navigation > li:first-child > a {
   border-top-width: 0;
 }
-.mw-ui-navigation-horizontal > li:hover > ul {
+.mw-ui-navigation li:hover > ul {
   display: block;
 }
 /****************************
@@ -462,6 +491,7 @@
   border-left: 1px solid #e5e5e5;
   border-radius: 3px;
   width: 100%;
+  border-spacing: 0;
 }
 .mw-ui-table-fixed {
   table-layout: fixed;

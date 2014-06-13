@@ -601,7 +601,21 @@ $(window).load(function(){
 
          <ul class="mw-ui-navigation" style="width: 150px;">
            <li><a href="javascript:;" class="active">Home</a></li>
-           <li><a href="javascript:;">About</a></li>
+           <li><a href="javascript:;">About</a><ul>
+                       <li><a href="javascript:;">Lorem Ipsum</a></li>
+                       <li><a href="javascript:;">Etiam condimentum</a><ul>
+                       <li><a href="javascript:;">Lorem Ipsum</a></li>
+                       <li><a href="javascript:;">Etiam condimentum</a></li>
+                       <li><a href="javascript:;" class="active">Sed aliquam erat id mauri</a></li>
+                       <li><a href="javascript:;">Nullam luctus ut libero sit</a></li>
+                       <li><a href="javascript:;">Cras interdum enim dolor</a></li>
+                       <li><a href="javascript:;">Vestibulum porta eros purus</a></li>
+                     </ul></li>
+                       <li><a href="javascript:;" class="active">Sed aliquam erat id mauri</a></li>
+                       <li><a href="javascript:;">Nullam luctus ut libero sit</a></li>
+                       <li><a href="javascript:;">Cras interdum enim dolor</a></li>
+                       <li><a href="javascript:;">Vestibulum porta eros purus</a></li>
+                     </ul></li>
            <li><a href="javascript:;">Blog</a></li>
            <li><a href="javascript:;">Forum</a></li>
            <li><a href="javascript:;">Help</a></li>
@@ -610,7 +624,29 @@ $(window).load(function(){
          <br><br>
          <ul class="mw-ui-box mw-ui-navigation" style="width: 150px;">
            <li><a href="javascript:;" class="active">Home</a></li>
-           <li><a href="javascript:;">About</a></li>
+           <li>
+                <a href="javascript:;">About</a>
+                <ul>
+                   <li><a href="javascript:;">Lorem Ipsum</a></li>
+                   <li><a href="javascript:;">Etiam condimentum</a>
+                    <ul>
+                       <li><a href="javascript:;">Lorem Ipsum</a></li>
+                       <li><a href="javascript:;">Etiam condimentum</a></li>
+                       <li><a href="javascript:;" class="active">Sed aliquam erat id mauri</a></li>
+                       <li><a href="javascript:;">Nullam luctus ut libero sit</a></li>
+                       <li><a href="javascript:;">Cras interdum enim dolor</a></li>
+                       <li><a href="javascript:;">Vestibulum porta eros purus</a></li>
+                     </ul>
+                   </li>
+                   <li><a href="javascript:;" class="active">Sed aliquam erat id mauri</a></li>
+                   <li><a href="javascript:;">Nullam luctus ut libero sit</a></li>
+                   <li><a href="javascript:;">Cras interdum enim dolor</a></li>
+                   <li>
+                        <a href="javascript:;">Vestibulum porta eros purus</a>
+
+                   </li>
+                 </ul>
+           </li>
            <li><a href="javascript:;">Blog</a></li>
            <li><a href="javascript:;">Forum</a></li>
            <li><a href="javascript:;">Help</a></li>
@@ -618,8 +654,28 @@ $(window).load(function(){
          </ul>
          <br><br>
          <ul class="mw-ui-navigation mw-ui-navigation-horizontal">
-           <li><a href="javascript:;" class="active">Home</a></li>
-           <li><a href="javascript:;">About</a></li>
+           <li><a href="javascript:;" class="active">Home<span class="mw-icon-gear"></span></a></li>
+           <li>
+                <a href="javascript:;">About <span class="mw-icon-dropdown"></span></a>
+                <ul>
+                 <li><a href="javascript:;">Lorem Ipsum</a></li>
+                 <li>
+                    <a href="javascript:;">Etiam condimentum</a>
+                     <ul>
+                       <li><a href="javascript:;">Lorem Ipsum</a></li>
+                       <li><a href="javascript:;">Etiam condimentum</a></li>
+                       <li><a href="javascript:;" class="active">Sed aliquam erat id mauri</a></li>
+                       <li><a href="javascript:;">Nullam luctus ut libero sit</a></li>
+                       <li><a href="javascript:;">Cras interdum enim dolor</a></li>
+                       <li><a href="javascript:;">Vestibulum porta eros purus</a></li>
+                     </ul>
+                 </li>
+                 <li><a href="javascript:;" class="active"><span class="mw-icon-gear"></span> Sed aliquam erat id mauri</a></li>
+                 <li><a href="javascript:;">Nullam luctus ut libero sit</a></li>
+                 <li><a href="javascript:;">Cras interdum enim dolor</a></li>
+                 <li><a href="javascript:;">Vestibulum porta eros purus</a></li>
+               </ul>
+           </li>
            <li><a href="javascript:;">Blog</a></li>
            <li><a href="javascript:;">Forum</a></li>
            <li><a href="javascript:;">Help</a></li>
@@ -630,20 +686,40 @@ $(window).load(function(){
            <li>
               <a href="javascript:;" class="active">Home</a>
               <ul>
-               <li><a href="javascript:;" class="active">Home</a></li>
-               <li><a href="javascript:;">About</a></li>
-               <li><a href="javascript:;">Blog</a></li>
-               <li><a href="javascript:;">Forum</a></li>
-               <li><a href="javascript:;">Help</a></li>
-               <li><a href="javascript:;">Contacts</a></li>
+               <li><a href="javascript:;">Lorem Ipsum</a></li>
+               <li>
+                <a href="javascript:;">Etiam condimentum</a>
+                <ul>
+                 <li><a href="javascript:;">Lorem Ipsum</a></li>
+                 <li><a href="javascript:;">Etiam condimentum</a></li>
+                 <li><a href="javascript:;" class="active">Sed aliquam erat id mauri</a></li>
+                 <li><a href="javascript:;">Nullam luctus ut libero sit</a></li>
+                 <li><a href="javascript:;">Cras interdum enim dolor</a></li>
+                 <li><a href="javascript:;">Vestibulum porta eros purus</a></li>
+               </ul>
+               </li>
+               <li><a href="javascript:;" class="active">Sed aliquam erat id mauri</a></li>
+               <li><a href="javascript:;">Nullam luctus ut libero sit</a></li>
+               <li><a href="javascript:;">Cras interdum enim dolor</a></li>
+               <li><a href="javascript:;">Vestibulum porta eros purus</a></li>
              </ul>
            </li>
            <li><a href="javascript:;">About</a></li>
            <li><a href="javascript:;">Blog</a></li>
            <li><a href="javascript:;">Forum</a></li>
-           <li><a href="javascript:;">Help</a></li>
+           <li>
+            <a href="javascript:;">Help</a>
+            <ul>
+               <li><a href="javascript:;" class="active">Lorem Ipsum</a></li>
+               <li><a href="javascript:;">Etiam condimentum</a></li>
+               <li><a href="javascript:;">Sed aliquam erat id mauri</a></li>
+               <li><a href="javascript:;">Nullam luctus ut libero sit</a></li>
+               <li><a href="javascript:;">Cras interdum enim dolor</a></li>
+               <li><a href="javascript:;">Vestibulum porta eros purus</a></li>
+             </ul>
+           </li>
            <li><a href="javascript:;">Contacts</a></li>
-           <li class="pull-right"><input type="text" class="mw-ui-searchfield pull-right" /></li>
+
          </ul>
     </td>
     </tr>
