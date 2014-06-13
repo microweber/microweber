@@ -4252,7 +4252,8 @@ mw.image = {
       if(area === null || typeof area === 'undefined'){ return false; }
       var frame = mw.tools.iframe_editor(area, params, false, 'richtext');
       frame.className = 'mw-ui-richtext-editor';
-      $(frame).width('100%').height($(area).height());
+     $(frame).height($(area).height());
+     frame.style.width = '100%';
       return frame;
     };
 

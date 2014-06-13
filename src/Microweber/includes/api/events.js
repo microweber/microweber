@@ -130,12 +130,15 @@ DOMChange:function(element, callback, attr, a){
       }, false);
     }
  },
- _stopWriting:null,
- stopWriting:function(el,callback){
-    typeof mw.on._stopWriting === 'number' ? clearTimeout(mw.on._stopWriting) : '';
-     mw.on._stopWriting = setTimeout(function(){
-       callback.call(el);
-     }, 600);
+ stopWriting:function(el, c){
+    if(el === null || typeof el === 'undefined'){ return false; }
+    if(!el.onstopWriting){
+      el.onstopWriting = null;
+    }
+    clearTimeout(el.onstopWriting);
+    el.onstopWriting = setTimeout(function(){
+        c.call(el);
+    }, 600);
  },
  scrollBarOnBottom : function(obj, distance, callback){
     if(typeof obj === 'function'){

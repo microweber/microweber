@@ -9,6 +9,7 @@
  * @since 0.94
  * @uses Microweber/Application
  * @author (of Idiorm) Jamie Matthews
+ * @collaborator  (of Idiorm)  Simon Holywell https://github.com/treffynnon
  * @link https://github.com/j4mie/idiorm
  *
  */
@@ -54,7 +55,6 @@ class IdiOrm
         ORM::configure('mysql:host=' . $host . ';dbname=' . $dbname);
         ORM::configure('username', $username);
         ORM::configure('password', $password);
-        ORM::configure('table_prefix', $table_prefix);
         ORM::configure('caching', true);
         ORM::configure('logging', true);
 
@@ -67,7 +67,6 @@ class IdiOrm
 
     function get($table, $params = false, $get_method = false, $return_method = false)
     {
-        ORM::configure('for_table', $table);
 
         $table_real = $this->app->db->real_table_name($table);
         $orm = ORM::for_table($table_real)->table_alias($table);

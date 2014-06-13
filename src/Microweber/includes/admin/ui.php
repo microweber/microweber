@@ -813,7 +813,21 @@ $(window).load(function(){
 
        </td>
      </tr>
+     <tr>
+        <td colspan="2">
+            <h2>TESTS</h2>
 
+
+
+            <input type="" onkeyup="" />
+
+
+
+
+
+
+       </td>
+     </tr>
 
   </tbody>
 </table>

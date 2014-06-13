@@ -2319,6 +2319,21 @@ tr.mw-order-item:hover{
   text-align: center;
 }
 
+.shipping_per_item,
+.shipping_dimensions{
+  margin-top: 15px;
+  padding-top: 2px;
+  border-top: 1px solid #EDEDED;
+}
+.shipping-country-row .mw-ui-inline-list{
+  padding-top: 10px;
+}
+
+.save_shipping_btn{
+  float: right;
+  margin-top: 15px;
+}
+
 
 /************************************
         Media queries
