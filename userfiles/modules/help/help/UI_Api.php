@@ -606,7 +606,7 @@
         <td id="qwewqeqw" style="padding: 20px 0;">
           <script>
           $(document).ready(function(){
-            mw.simpletabs();
+          
           });
           </script>
           <h2>Tabs</h2>

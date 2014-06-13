@@ -32,7 +32,6 @@ description: Autocomplete Search template
 
 <script>
 
-
 mw.autocompleteSearch = function(parent, el, e, holder_id){
       var parent = $(parent);
       if(e.type == 'keyup'){
@@ -52,8 +51,12 @@ mw.autocompleteSearch = function(parent, el, e, holder_id){
 
           }
           else{
+
               parent.addClass("loading");
-              mw.on.stopWriting(el,function(){
+
+              el.timeo = el.timeo || null;
+              clearTimeout(el.timeo);
+              el.timeo = setTimeout(function(){
                   if(el.value == ''){
                     $(mwd.getElementById(holder_id)).hide();
                     parent.removeClass("loading");
@@ -66,7 +69,8 @@ mw.autocompleteSearch = function(parent, el, e, holder_id){
                          parent.removeClass("loading");
                        }
                     });
-              });
+
+              }, 600);
           }
       }
 }

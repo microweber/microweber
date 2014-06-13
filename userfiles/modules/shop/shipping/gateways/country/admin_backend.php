@@ -2,7 +2,7 @@
 <?php $rand1 = 'shipping_to_country_holder' . uniqid(); ?>
 
 
-<span class="mw-ui-btn right" onclick="mw.tools.module_settings('shop/shipping/set_units');">Set shipping units</span>
+
 <?php
 
 
@@ -24,28 +24,20 @@ $countries = mw('forms')->countries_list();
 
 if (is_array($countries)) {
     asort($countries);
-
 }
-
 if (!is_array($countries)) {
-
     $countries = mw('forms')->countries_list(1);
-} else {
-
+}
+else {
     array_unshift($countries, "Worldwide");
 }
-
-// $countries[] = 'Worldwide';
 ?>
 <script type="text/javascript">
     if (mw.shipping_country == undefined) {
         mw.shipping_country = {};
     }
     mw.require('forms.js');
-
     mw.require('<?php print $config['url_to_module'] ?>country.js');
-
-
     if (typeof thismodal !== 'undefined') {
         thismodal.main.width(1000);
         $(thismodal.main[0].getElementsByTagName('iframe')).width(985);
@@ -128,30 +120,16 @@ if (!is_array($countries)) {
             }
         });
 
-        mw.$(".mw-onoff").each(function () {
-          if(!$(this).hasClass('activated')){
 
-$(this).addClass('activated');
-        mw.$(this).mousedown(function () {
-            var el = this;
-            if (mw.tools.hasClass(el, 'active')) {
-                mw.tools.removeClass(el, 'active');
-                el.querySelector('.is_active_n').checked = true;
-            }
-            else {
-                mw.tools.addClass(el, 'active');
-                el.querySelector('.is_active_y').checked = true;
-            }
-        });
-
-        }
-        });
 
 
     });
 
 
 </script>
+
+
+<span class="mw-ui-btn" onclick="mw.tools.module_settings('shop/shipping/set_units');">Set shipping units</span>
 <?php
 $data_active = array();
 $data_disabled = array();
@@ -176,14 +154,11 @@ $datas['data_active'] = $data_active;
 $datas['data_disabled'] = $data_disabled;
 
 ?>
-<div class="vSpace"></div>
-<div class="vSpace"></div>
 <?php
 $data_active = array();
 $data_disabled = array();
 foreach ($datas as $data_key => $data): ?>
-    <?php if (empty($data)): ?>
-    <?php endif; ?>
+
     <?php
     if ($data_key == 'data_disabled') {
         $truck_class = 'red';
@@ -192,31 +167,27 @@ foreach ($datas as $data_key => $data): ?>
     }
     ?>
     <?php if (is_array($data) and !empty($data)): ?>
-        <div class="mw-shipping-left-bar"><span
-                class="shipping-truck shipping-truck-<?php print $truck_class ?>"></span> <span class="mw-ui-btn"
-                                                                                                onclick="mw.$('.country-id-0').show().find('.mw-ui-field').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
+
+
+<span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-field').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
 	<?php _e("Add Country"); ?>
-	
-	</span>
-            <br/><br/>
+</span>
+
             <?php if ($truck_class == 'green'): ?>
-                <small class="mw-ui-label-help">Shipping to those countries is enabled. <br/><br/>
-                    To disable it set <br/>"<em>is active</em>" to "No".
+                <small class="mw-ui-label-help"><?php _e("Shipping to those countries is enabled"); ?>. <br/><br/>
+                    <?php _e('To disable it set is active to No'); ?>.
                 </small>
             <?php else: ?>
 
-                <small class="mw-ui-label-help">Shipping to those countries is disabled. <br/><br/>
-                    To enable it set <br/>"<em>is active</em>" to "Yes".
+                <small class="mw-ui-label-help"><?php _e("Shipping to those countries is disabled"); ?>. <br/><br/>
+                    <?php _e('To enable it set is active to Yes'); ?>.
                 </small>
             <?php endif ?>
-        </div>
+
         <div class="mw-shipping-items <?php print $rand1 ?>" id="<?php print $rand1 ?>">
         <script type="text/javascript">
-
             SaveShipping = function (form, dataType) {
                 mw.form.post($(form), '<?php print $config['module_api']; ?>/shipping_to_country/save', function () {
-
-
                         if (dataType == 'new') {
                             mw.reload_module('<?php print $config['the_module']; ?>', function () {
                                 mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
@@ -227,26 +198,16 @@ foreach ($datas as $data_key => $data): ?>
                                 mw.notification.success("<?php _e("Shipping changes are saved"); ?>");
                             });
                         }
-
-
                         if (window.parent != undefined && window.parent.mw != undefined) {
                             window.parent.mw.reload_module('shop/shipping/gateways/country');
                         }
-
-
                     }
-
-
                 );
-
             }
 
         </script>
         <?php foreach ($data as $item): ?>
             <?php
-
-
-
             $new = false;
             if (!isset($item['id'])) {
                 if ($data_key == 'data_active') {
@@ -307,7 +268,6 @@ foreach ($datas as $data_key => $data): ?>
                 $weight_units = 'kg';
             }
             ?>
-            <?php //$rand = 'shipping_to_country_'.uniqid().$item['id']; ?>
             <div data-field-id="<?php print $item['id']; ?>" onmousedown="mw.tools.focus_on(this);"
                  class="shipping-country-holder country-id-<?php print $item['id']; ?>">
                 <form onsubmit="SaveShipping(this, '<?php if ($new == false) {
@@ -316,18 +276,17 @@ foreach ($datas as $data_key => $data): ?>
                     print 'new';
                 } ?>');return false;" action="<?php print $config['module_api']; ?>/shipping_add_to_country"
                       data-field-id="<?php print $item['id']; ?>">
-                    <table class="admin-shipping-table">
+                    <table class="mw-ui-table admin-shipping-table">
                         <tr class="shipping-country-row">
                             <td class="shipping-country-label"><?php if ($new == true): ?>
                                     <?php _e("Add new"); ?>
                                 <?php else : ?>
                                     <?php _e("Shipping to"); ?>
-                                    <?php /* print ucfirst($item['shipping_country']); */ ?>
                                 <?php endif; ?></td>
                             <td class="shipping-country-setting"><?php if ($new == false): ?>
                                     <input type="hidden" name="id" value="<?php print $item['id']; ?>">
                                 <?php endif; ?>
-                                <span class="mw-help-field left">
+                         <label class="mw-ui-label"><?php _e("Select country"); ?></label>
 						<select name="shipping_country" class="mw-ui-field">
                             <?php if ($new == true): ?>
                                 <option value="none">
@@ -343,125 +302,115 @@ foreach ($datas as $data_key => $data): ?>
                                     }
                                 endforeach;
                                 ?>
-                                <option
-                                    value="<?php print $item1 ?>"   <?php if (isset($item['shipping_country']) and $item1 == $item['shipping_country']): ?> selected="selected" <?php else : ?> <?php print $disabled ?> <?php endif; ?>  ><?php print $item1 ?></option>
+                                <option value="<?php print $item1 ?>" <?php if (isset($item['shipping_country']) and $item1 == $item['shipping_country']): ?> selected="selected" <?php else : ?> <?php print $disabled ?> <?php endif; ?>  ><?php print $item1 ?></option>
                             <?php endforeach; ?>
                         </select>
-						<span class="mw-ui-label-help">
-						<?php _e("Select country"); ?>
-						</span> </span> <span class="shipping-arrow"></span>
-
-                                <div class="left" style=" margin-right: 10px;margin-top: 3px;">
-                                    <?php _e("Is active?"); ?>
-                                </div>
-                                <div
-                                    class="mw-onoff<?php if ('y' == trim($item['is_active'])): ?> active<?php endif; ?>">
-                                    <label>No
-                                        <input name="is_active" type="radio" class="semi_hidden is_active_n"
-                                               value="n" <?php if (isset($item['is_active']) and '' == trim($item['is_active']) or 'n' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
-                                    </label>
-                                    <label>Yes
-                                        <input name="is_active" type="radio" class="semi_hidden is_active_y"
-                                               value="y" <?php if (isset($item['is_active']) and 'y' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
-                                    </label>
-                                </div>
+						  <span class="shipping-arrow"></span>
+                                    <ul class="mw-ui-inline-list">
+                                      <li><?php _e("Is active?"); ?></li>
+                                      <li>
+                                            <label class="mw-ui-check">
+                                          <input
+                                                  name="is_active" type="radio" class="semi_hidden is_active_n"
+                                                  value="n" <?php if (isset($item['is_active']) and '' == trim($item['is_active']) or 'n' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
+                                                 <span></span>
+                                                 <span><?php _e("No"); ?></span>
+                                            </label>
+                                    </li>
+                                    <li>
+                                        <label class="mw-ui-check">
+                                          <input name="is_active" type="radio" class="semi_hidden is_active_y" value="y" <?php if (isset($item['is_active']) and 'y' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
+                                          <span></span>
+                                          <span><?php _e("Yes"); ?></span>
+                                        </label>
+                                    </li>
+                                </ul>
                             </td>
                         </tr>
                         <tr class="shipping-country-row">
-                            <td class="shipping-country-label">Shipping type</td>
-                            <td class="shipping-country-setting"><span class="mw-help-field left">
-						<select name="shipping_type" class="mw-ui-field shipping_type_dropdown">
-                            <option
-                                value="fixed"  <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?> >
-                                Fixed
-                            </option>
-                            <option
-                                value="dimensions" <?php if (isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?>>
-                                Dimensions or Weight
-                            </option>
-                            <option
-                                value="per_item" <?php if (isset($item['shipping_type']) and 'per_item' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?>>
-                                Per item
-                            </option>
-                        </select>
-						</span> <span class="shipping-arrow"></span>
-                                <label>
-                                    <?php _e("Shipping cost"); ?>
-                                    &nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
-						<span class="mw-help-field">
-						<input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);"
-                               onblur="mw.form.fixPrice(this);" name="shipping_cost"
-                               value="<?php print $item['shipping_cost']; ?>"
-                               onfocus="if(this.value==='0')this.value='';"/>
-						<span class="mw-ui-label-help">
-						<?php _e("Price per order"); ?>
-						</span> </span>
-
+                            <td class="shipping-country-label"><?php _e("Shipping type"); ?></td>
+                            <td class="shipping-country-setting">
+                                <div class="mw-ui-row" style="width: auto">
+                                    <div class="mw-ui-col"><div class="mw-ui-col-container"><span class="mw-ui-label"><?php _e("Price per order"); ?></span>
+        						<select name="shipping_type" class="mw-ui-field shipping_type_dropdown">
+                                    <option value="fixed"  <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?> ><?php _e("Fixed"); ?></option>
+                                    <option value="dimensions" <?php if (isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?>><?php _e("Dimensions or Weight"); ?></option>
+                                    <option value="per_item" <?php if (isset($item['shipping_type']) and 'per_item' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?>><?php _e("Per item"); ?></option>
+                                </select>
+                                </div>
+                                </div>
+                                    <div class="mw-ui-col"><div class="mw-ui-col-container">
+                                       <label class="mw-ui-label"><?php _e("Shipping cost"); ?> <?php print mw('shop')->currency_symbol() ?></label>
+                                       <input class="mw-ui-field shipping-price-field price-field" type="text" onkeyup="mw.form.typeNumber(this);"
+                                         placeholder="0"
+                                         value="<?php print $item['shipping_cost']; ?>" />
+                                    </div>
+                                    </div>
+                                </div>
                                 <div class="shipping_dimensions" style="display: none">
                                     <div class="mw-ui-field-holder">
-                                        <label class="mw-ui-label">Additional cost for <em>1
-                                                cubic <?php print $size_units ?></em>
+                                        <label class="mw-ui-label"><?php _e("Additional cost for"); ?> <em>1
+                                                <?php _e("cubic"); ?> <?php print $size_units ?></em>
                                             &nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
                                         <span class="mwsico-width"></span>
                                         <input type="text" name="shipping_price_per_size"
                                                value="<?php print  floatval($item['shipping_price_per_size']); ?>"
-                                               class="mw-ui-field"/>
+                                               class="mw-ui-field price-field"/>
                                     </div>
                                     <div class="mw-ui-field-holder">
-                                        <label class="mw-ui-label">Additional cost for
+                                        <label class="mw-ui-label"><?php _e("Additional cost for"); ?>
                                             <em>1 <?php print $weight_units ?></em>
                                             &nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
                                         <span class="mwsico-usd"></span>
                                         <input type="text" name="shipping_price_per_weight"
                                                value="<?php print floatval($item['shipping_price_per_weight']); ?>"
-                                               class="mw-ui-field"/>
+                                               class="mw-ui-field price-field"/>
                                     </div>
                                 </div>
-
                                 <div class="shipping_per_item" style="display: none">
                                     <div class="mw-ui-field-holder">
-                                        <label class="mw-ui-label">Cost for shipping <em>each item in the shopping
-                                                cart</em> &nbsp;</label>
+                                        <label class="mw-ui-label"><?php _e("Cost for shipping"); ?> <em><?php _e("each item in the shopping cart"); ?></em> &nbsp;</label>
                                         <span><b><?php print mw('shop')->currency_symbol() ?></b></span>
                                         <input type="text" name="shipping_price_per_item"
                                                value="<?php print  floatval($item['shipping_price_per_item']); ?>"
-                                               class="mw-ui-field"/>
+                                               class="mw-ui-field price-field"/>
                                     </div>
-
                                 </div>
-
                             </td>
                         </tr>
                         <tr class="shipping-country-row">
                             <td class="shipping-country-label"><?php _e("Shipping Discount"); ?></td>
                             <td class="shipping-country-setting">
-                                <div class="same-as-country-selector"> <span class="mw-help-field left"
-                                                                             style="margin-right:12px;">
-							<label>
-                                <?php _e("For orders above:"); ?>
-                            </label>
-							<span class="mw-ui-label-help">example <?php print currency_format(100) ?></span> </span>
-                                    <input class="mw-ui-field shipping-price-field right" type="text"
-                                           onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);"
-                                           name="shipping_cost_above"
-                                           value="<?php print $item['shipping_cost_above']; ?>"
-                                           onfocus="if(this.value=='0')this.value='';">
-                                    <label class="right"></label>
-                                </div>
-                                <span class="shipping-arrow"></span>
-                                <label>
-                                    <?php _e("Shipping cost"); ?>
-                                    <b><?php print mw('shop')->currency_symbol() ?></b></label>
-						<span class="mw-help-field">
-						<input class="mw-ui-field shipping-price-field" type="text" onkeyup="mw.form.typeNumber(this);"
-                               onblur="mw.form.fixPrice(this);" name="shipping_cost_max"
-                               value="<?php print $item['shipping_cost_max']; ?>"
-                               onfocus="if(this.value=='0')this.value='';"/>
-						<span class="mw-ui-label-help">
-						<?php _e("Price per order"); ?>
-						</span> </span>
+                              <div class="mw-ui-row" style="width: auto">
+                              <div class="mw-ui-col">
+                                <div class="mw-ui-col-container"><div class="same-as-country-selector">
+                              <label class="mw-ui-label"><?php _e("For orders above:"); ?></label>
 
-                                <div class="mw_clear vSpace">&nbsp;</div>
+                              <input
+                                class="mw-ui-field shipping-price-field price-field"
+                                type="text"
+                                onkeyup="mw.form.typeNumber(this);" onblur="mw.form.fixPrice(this);"
+                                name="shipping_cost_above"
+                                value="<?php print $item['shipping_cost_above']; ?>"
+                                placeholder="0">
+                                <span class="mw-ui-label-help"><?php _e("example"); ?> <?php print currency_format(100) ?></span>
+
+                              </div></div></div>
+                                  <div class="mw-ui-col">
+                                  <div class="mw-ui-col-container">
+                                   <label class="mw-ui-label">
+                            <?php _e("Shipping cost"); ?>
+                            <?php print mw('shop')->currency_symbol() ?>
+                            </label>
+                                <input  class="mw-ui-field price-field shipping-price-field"
+                                      type="text" onkeyup="mw.form.typeNumber(this);"
+                                      onblur="mw.form.fixPrice(this);"
+                                      name="shipping_cost_max"
+                                      value="<?php print $item['shipping_cost_max']; ?>"
+                                      placeholder="0"/>
+                                <span class="mw-ui-label-help"><?php _e("Price per order"); ?></span>
+                                  </div></div>
+                              </div>
                             </td>
                         </tr>
                     </table>

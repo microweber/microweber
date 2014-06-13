@@ -36,6 +36,9 @@ $(document).ready(function(){
 		<?php endforeach; ?>
 	</ul>
 	<?php endif;?>
+
+
+
 	<div id="mw-payment-gateway-selected-<?php print $params['id']; ?>">
         <?php //var_dump($payment_options); ?>
         <?php if(isset( $payment_options[0])): ?>

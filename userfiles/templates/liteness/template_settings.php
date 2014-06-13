@@ -98,7 +98,7 @@
         });
       }
       $(document).ready(function(){
-          mw.simpletabs();
+        
           mw.dropdown();
           mw.$(".pick-scheme").click(function(){
             if(!$(this).hasClass('active')){

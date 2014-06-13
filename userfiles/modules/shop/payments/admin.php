@@ -1,7 +1,7 @@
 <?php
 
 if(!is_admin()){
-return;	
+    return;
 }
 
 ?>
@@ -28,17 +28,17 @@ setActiveProvider = function(el){
     $(thismodal.main[0].getElementsByTagName('iframe')).width(985);
   }
 
-	
+
   mw.options.form('.mw-set-payment-options', function(){
     mw.notification.success("<?php _e("Shop settings are saved"); ?>.");
-	
+
 	 mw.reload_module_parent("shop/payments");
 
-	
-	
+
+
   });
 
-	
+
 
 
 $('.mw-admin-wrap').click(function(){
@@ -56,13 +56,7 @@ $('.mw-admin-wrap').click(function(){
 
 
 
-var email_ed =  mw.tools.iframe_editor("#order_email_content" , {modules:'shop/orders/editor_dynamic_values'})
-$(email_ed).css('width',"100%");
-$(email_ed).css('height',"450px");
-
-
-
-
+var email_ed =  mw.editor("#order_email_content" , {modules:'shop/orders/editor_dynamic_values'});
 
 
 mw.$("#available_providers").sortable({
@@ -92,32 +86,32 @@ mw.$("#available_providers").sortable({
   stop:function(){
   //  Alert("<?php _e("Saving"); ?> ... ");
   }
-  
-  
-  
+
+
+
 })
 
 
   });
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
   mw.checkout_confirm_email_test = function(){
 
- 
+
 	var email_to = {}
 	email_to.to = $('#test_email_to').val();;
 	//email_to.subject = $('#test_email_subject').val();;
-	
+
 	 $.post("<?php print site_url('api_html/checkout_confirm_email_test'); ?>", email_to,  function(msg){
 //Alert("<pre>"+msg+"</pre>")
 
 		mw.tools.modal.init({
-			html:"<pre>"+msg+"</pre>",	
+			html:"<pre>"+msg+"</pre>",
 			title:"Email send results..."
 		});
 			// $('#email_send_test_btn_output').html(msg);
@@ -150,25 +144,7 @@ mw.$("#available_providers").sortable({
 	background: #D7FFC3;
 	color: #6C6C6C;
 }
-.payment-state-status .mw-ui-check:first-child {
-	margin-right: 12px;
-}
-.gateway-icon-title {
-	font-weight: normal;
-	font-size: 16px;
-}
-.gateway-icon-title img {
-	margin: 10px 22px 0 0;
-	max-height: 40px;
-	max-width: 130px;
-	float: left;
-}
-.gateway-icon-title .gateway-title {
-	display: block;
-	float: right;
-	width: 530px;
-	padding-top: 10px;
-}
+
 .mw-ui-box-header .mw-icon-drag {
 	visibility: hidden;
 }
@@ -178,10 +154,51 @@ mw.$("#available_providers").sortable({
 .available_providers_placeholder {
 	border: 2px dashed #ccc;
 	background:transparent;
-	height: 70px;
+	height: 50px;
 	margin: 10px 0;
 	position: relative;
 }
+.gateway-icon-title > .mw-ui-row{
+  width: auto;
+}
+.gateway-icon-title > .mw-ui-row *{
+  vertical-align: middle;
+}
+
+.gateway-icon-title > .mw-ui-row img{
+  max-width: 100px;
+  max-height: 30px;
+}
+.gateway-icon-title > .mw-ui-row .mw-ui-col{
+    padding-right: 15px;
+}
+
+.gateway-icon-title > .mw-ui-row .mw-icon-drag{
+  font-size: 19px;
+  color:#808080 ;
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-moz-grab;
+}
+.otab{
+  padding-right: 10px;
+}
+
+#available_providers .mw-ui-box-header{
+  cursor: pointer;
+}
+
+#available_providers > .mw-ui-box{
+  margin-bottom: 15px;
+}
+
+@media (max-width: 767px) {
+.otab{
+  padding-left: 10px;
+}
+}
+
 </style>
 <?php
 $here = dirname(__FILE__).DS.'gateways'.DS;
@@ -190,24 +207,22 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 $payment_modules = get_modules('type=payment_gateway');
 if($payment_modules == false){
 $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}");
-	
+
 }
 
 
 ?>
 
-<div class="vSpace"></div>
+
 <div class="mw-admin-wrap">
-  <div class="mw-ui-box has-options-bar">
-    <div class="mw-ui-box-header" style="margin-bottom: 0;"> <span class="ico ioptions"></span> <span>
-      <?php _e("Options"); ?>
-      </span> </div>
+  <div class="mhas-options-bar">
+
     <div class="mw-ui-box-content" style="padding: 0;">
       <div class="mw-ui-row">
         <div class="mw-ui-col" style="width: 200px;">
           <div class="mw-ui-col-container">
             <div class="options-bar" style="margin-right: 0;">
-              <div class="mw-ui-sidenav">
+              <div class="mw-ui-sidenav" style="margin-top: 15px;">
                 <ul>
                   <li><a class="payment-tab active" href="javascript:;">
                     <?php _e("Payments"); ?>
@@ -241,13 +256,23 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 			                ?>
                   <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active" id="module-db-id-<?php print $module_info['id'] ?>">
                     <div class="mw-ui-box-header"  onmousedown="mw.tools.accordion(this.parentNode);">
-                      <div class="gateway-icon-title"> <span class="mw-icon-drag"></span> <img src="<?php print $payment_module['icon']; ?>" alt="" /> <span class="gateway-title"><?php print $payment_module['name'] ?>
+                      <div class="gateway-icon-title">
+                        <div class="mw-ui-row">
+                            <div class="mw-ui-col"><span class="mw-icon-drag"></span></div>
+                            <div class="mw-ui-col">
+                               <img src="<?php print $payment_module['icon']; ?>" alt="" />
+                            </div>
+                            <div class="mw-ui-col">
+                               <span class="gateway-title"><?php print $payment_module['name'] ?>
                         <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?>
                         <small class="mw-small">(disabled)</small>
                         <?php endif; ?>
-                        </span></div>
-                      <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> --> 
-                      
+                        </span>
+                            </div>
+                        </div>
+                        </div>
+                      <!--  <span class="ico ireport"></span><span><?php print $payment_module['name'] ?></span> -->
+
                     </div>
                     <div class="mw-ui-box-content mw-accordion-content">
                       <label class="mw-ui-label">
@@ -266,8 +291,6 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                             </span> </label>
                         </div>
                       </div>
-                      <div class="mw_clear"></div>
-                      <div class="vSpace"></div>
                       </label>
                       <div class="mw-set-payment-gw-options" >
                         <module type="<?php print $payment_module['module'] ?>" view="admin" />
@@ -277,7 +300,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <?php endforeach ; ?>
                   <?php endif; ?>
                 </div>
-                <div class="vSpace"></div>
+
                 <h4>
                  Purchasing requires registration
                 </h4>
@@ -291,7 +314,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <span></span><span>
                   <?php _e("Yes"); ?>
                   </span></label>
-                                  <div class="vSpace"></div>
+                                  
 
                 <hr>
                 <h2>Currency settings</h2>
@@ -306,12 +329,12 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                 </select>
                 <?php endif; ?>
                 <module type="shop/payments/currency_render" id="mw_curr_rend" />
-                <div class="vSpace"></div>
+                
                 <h2>Checkout URL</h2>
                 <?php ?>
                 <?php $checkout_url = get_option('checkout_url', 'shop');  ?>
                 <input name="checkout_url"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('checkout_url','shop'); ?>" placeholder="Use default"  />
-                <div class="vSpace"></div>
+                
                 <h4>
                   <?php _e("Disable online shop"); ?>
                 </h4>
@@ -325,7 +348,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <span></span><span>
                   <?php _e("Yes"); ?>
                   </span></label>
-                <br /> 
+                <br />
                 <small>
                 <?php _e("You can aways enable it"); ?>
                 <a class="mw-ui-link"   href="<?php  print admin_url('view:settings#option_group=shop__payments__admin'); ?>" >
@@ -369,7 +392,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                     </div>
                   </div>
                 </div>
-                <div class="vSpace"></div>
+                
                 <a class="mw-ui-btn mw-ui-btn-link" href="javascript:void(0);" onclick="$('#test_ord_eml_toggle').show();$(this).hide();">
                 <?php _e("Test"); ?>
                 </a>
@@ -379,7 +402,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                         <?php _e("Send test email to"); ?>
                       </label>
                       <input name="test_email_to" id="test_email_to" class="mw_option_field mw-ui-field"   type="text" option-group="email"   value="<?php print get_option('test_email_to','email'); ?>"  />
-                      <div class="vSpace"></div>
+
                       <span onclick="mw.checkout_confirm_email_test();" class="mw-ui-btn mw-ui-btn-green" id="email_send_test_btn">
                       <?php _e("Send test email"); ?>
                       </span></td>
@@ -389,7 +412,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                 <label class="mw-ui-label">
                   <?php _e("Email content"); ?>
                 </label>
-                <textarea class="mw-ui-field mw_option_field"   data-option-group="orders" id="order_email_content" name="order_email_content"><?php print get_option('order_email_content', 'orders') ?></textarea>
+                <textarea class="mw-ui-field mw_option_field"   data-option-group="orders" id="order_email_content" name="order_email_content" style="width:100%;height:450px;"><?php print get_option('order_email_content', 'orders') ?></textarea>
               </div>
               <div class="otab">
                 <module type="shop/shipping/set_units" id="mw_set_shipping_units" />
@@ -401,4 +424,4 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
     </div>
   </div>
 </div>
-<div class="vSpace"></div>
+
