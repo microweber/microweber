@@ -2738,7 +2738,7 @@ if (is_string($k)){
                 if (is_array($v)) {
                     $v = $this->addslashes_array($v);
                 } else {
-                    if ($k == 'id') {
+                    if ($k === 'id') {
                         $v = intval($v);
                     } else {
                         $v = addslashes($v);
