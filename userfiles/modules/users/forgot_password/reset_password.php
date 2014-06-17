@@ -90,7 +90,7 @@ $data = get_users("single=true&password_reset_hash=".$reset); ?>
 
 
 
-     <div class="vSpace"></div>
+     
 
 
 

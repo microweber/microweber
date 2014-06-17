@@ -39,7 +39,7 @@ $(document).ready(function(){
       </div>
       <div class="tab">
         <module type="settings/list" for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >
-        <div class="vSpace"></div>
+        
         <hr>
         <div id="form_email_options">
           <label class="mw-ui-label" style="padding-bottom: 0;"><span class="ico ismall_warn"></span><small><?php _e("Type your e-mail where you will receive the email from this form"); ?></small></label>

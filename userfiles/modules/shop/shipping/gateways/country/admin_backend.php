@@ -129,7 +129,7 @@ else {
 </script>
 
 
-<span class="mw-ui-btn" onclick="mw.tools.module_settings('shop/shipping/set_units');">Set shipping units</span>
+<div class="mw-ui-box-content"><span class="mw-ui-btn" onclick="mw.tools.module_settings('shop/shipping/set_units');">Set shipping units</span></div>
 <?php
 $data_active = array();
 $data_disabled = array();
@@ -169,9 +169,9 @@ foreach ($datas as $data_key => $data): ?>
     <?php if (is_array($data) and !empty($data)): ?>
 
 
-<span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-field').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
+<div class="mw-ui-box-content"><span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-field').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
 	<?php _e("Add Country"); ?>
-</span>
+</span></div>
 
             <?php if ($truck_class == 'green'): ?>
                 <small class="mw-ui-label-help"><?php _e("Shipping to those countries is enabled"); ?>. <br/><br/>
@@ -417,7 +417,7 @@ foreach ($datas as $data_key => $data): ?>
                     <button class="mw-ui-btn save_shipping_btn" type="submit">
                         <?php _e("Save"); ?>
                     </button>
-                    <div class="vSpace"></div>
+                    
                     <?php if ($new == false): ?>
                         <span title="Move" class="ico iMove shipping-handle-field"></span> <span
                             onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');"

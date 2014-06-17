@@ -13,7 +13,7 @@ description: Default cart template
 ?>
 
 <?php if ($payment_success == false): ?>
-    <div class="vSpace"></div>
+    
     <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post"
           action="<?php print api_link('checkout') ?>">
 

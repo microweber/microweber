@@ -102,7 +102,7 @@ $data = $arr = array();
          <div id="mw-template-settings">
           <?php include($tpl_settings_for_theme); ?>
 
-          <div class="vSpace"></div>
+          
           
 
           <?php /*<button onclick="mw.tpl.save();" class="mw-ui-btn right">Save</button>*/ ?>

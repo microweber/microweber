@@ -5,7 +5,7 @@
 
 Import
 <div class="back-up-nav-btns">
-  <div class="vSpace"></div>
+  
   <script type="text/javascript">
     		var uploader = mw.files.uploader({
     			filetypes:"zip,sql",

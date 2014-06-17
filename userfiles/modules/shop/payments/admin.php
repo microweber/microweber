@@ -122,9 +122,16 @@ mw.$("#available_providers").sortable({
 .otab {
 	display: none;
 }
-.mw-set-payment-options input[type='text'], .mw-set-payment-options textarea {
-	width:300px;
+#order_email_subject,
+#test_email_to,
+#order_email_cc{
+	width:100%;
 }
+#mail-test-btn{
+  float: right;
+  margin-top: 15px;
+}
+
 .mw-set-payment-options .mw-ui-label {
 	padding-bottom: 5px;
 	padding-top: 10px;
@@ -192,6 +199,9 @@ mw.$("#available_providers").sortable({
 #available_providers > .mw-ui-box{
   margin-bottom: 15px;
 }
+#test_ord_eml_toggle{
+  padding-bottom: 20px;
+}
 
 @media (max-width: 767px) {
 .otab{
@@ -217,7 +227,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 <div class="mw-admin-wrap">
   <div class="mhas-options-bar">
 
-    <div class="mw-ui-box-content" style="padding: 0;">
+    <div class="mw-ui-box-content" style="padding: 0 0 15px;">
       <div class="mw-ui-row">
         <div class="mw-ui-col" style="width: 200px;">
           <div class="mw-ui-col-container">
@@ -351,9 +361,9 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                 <br />
                 <small>
                 <?php _e("You can aways enable it"); ?>
-                <a class="mw-ui-link"   href="<?php  print admin_url('view:settings#option_group=shop__payments__admin'); ?>" >
+                <a class="mw-ui-btn mw-ui-btn-small"   href="<?php  print admin_url('view:settings#option_group=shop__payments__admin'); ?>" >
                 <?php _e("here"); ?>
-                </a></small> </div>
+                </a></small></div>
               <div class="otab">
                 <h2>
                   <?php _e("Send email to the client on new order"); ?>
@@ -369,9 +379,9 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <?php _e("No"); ?>
                   </span></label>
                 <br />
-                <small>
+                <small class="mw-ui-label-help">
                 <?php _e("You must have a working email setup in order to send emails"); ?>
-                . <a class="mw-ui-link" target="_blank"  href="<?php  print admin_url('view:settings#option_group=email'); ?>" style="padding: 6px;">
+                . <a class="mw-ui-btn mw-ui-btn-small" target="_blank"  href="<?php  print admin_url('view:settings#option_group=email'); ?>">
                 <?php _e("Setup email here"); ?>
                 .</a></small>
                 <div class="mw-ui-row">
@@ -392,27 +402,35 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                     </div>
                   </div>
                 </div>
-                
-                <a class="mw-ui-btn mw-ui-btn-link" href="javascript:void(0);" onclick="$('#test_ord_eml_toggle').show();$(this).hide();">
+
+                <a class="mw-ui-btn pull-right" id="mail-test-btn" href="javascript:void(0);" onclick="$('#test_ord_eml_toggle').show();$(this).hide();">
                 <?php _e("Test"); ?>
                 </a>
-                <table width=" 100%" border="0" id="test_ord_eml_toggle" style="display:none">
-                  <tr>
-                    <td><label class="mw-ui-label">
+                <div id="test_ord_eml_toggle" style="display:none"><div class="mw-ui-row valign-bottom">
+                  <div class="mw-ui-col">
+                  <div class="mw-ui-col-container">
+                      <label class="mw-ui-label">
                         <?php _e("Send test email to"); ?>
                       </label>
                       <input name="test_email_to" id="test_email_to" class="mw_option_field mw-ui-field"   type="text" option-group="email"   value="<?php print get_option('test_email_to','email'); ?>"  />
 
-                      <span onclick="mw.checkout_confirm_email_test();" class="mw-ui-btn mw-ui-btn-green" id="email_send_test_btn">
+                      </div>
+                      </div>
+                    <div class="mw-ui-col">
+                    <div class="mw-ui-col-container">
+                    <span onclick="mw.checkout_confirm_email_test();" class="mw-ui-btn mw-ui-btn-green pull-left" id="email_send_test_btn">
                       <?php _e("Send test email"); ?>
-                      </span></td>
-                    <td><pre id="email_send_test_btn_output"></pre></td>
-                  </tr>
-                </table>
+                      </span>
+                    <pre id="email_send_test_btn_output">
+                    </pre>
+                  </div>
+                  </div>
+                </div>
+                </div>
                 <label class="mw-ui-label">
                   <?php _e("Email content"); ?>
                 </label>
-                <textarea class="mw-ui-field mw_option_field"   data-option-group="orders" id="order_email_content" name="order_email_content" style="width:100%;height:450px;"><?php print get_option('order_email_content', 'orders') ?></textarea>
+                <textarea class="mw-ui-field mw_option_field"  data-option-group="orders" id="order_email_content" name="order_email_content" style="width:100%;height:450px;"><?php print get_option('order_email_content', 'orders') ?></textarea>
               </div>
               <div class="otab">
                 <module type="shop/shipping/set_units" id="mw_set_shipping_units" />

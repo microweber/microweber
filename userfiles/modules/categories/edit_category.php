@@ -167,9 +167,9 @@ $(document).ready(function(){
 
 <div class="mw-quick-cat-done quick_done_alert" style="display:none">
 	<h2>Well done, you have saved your category. </h2>
-	<div class="vSpace"></div>
+	
 	<label class="mw-ui-label"><small>Create new category again</small></label>
-	<div class="vSpace"></div>
+
     <a href="javascript:;" class="mw-ui-btn" onclick="continue_editing_cat()">Continue editing</a>
 
 	<a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="make_new_cat_after_save()">Create New</a> </div>
@@ -182,7 +182,10 @@ $(document).ready(function(){
 	<input name="parent_id" type="hidden" value="<?php print ($data['parent_id'])?>" id="parent_id_<?php print $form_rand_id ?>" />
 	<div class="mw-ui-field-holder">
 
-    <div class="mw-ui-row" id="content-title-field-row">
+    <div class="mw-ui-row valign" id="content-title-field-row">
+        <div class="mw-ui-col" style="width: 30px;">
+           <span class="mw-icon-category admin-manage-toolbar-title-icon"></span>
+        </div>
         <div class="mw-ui-col">
             <?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
     		<span class="mw-title-field-label mw-title-field-label-subcat"></span>

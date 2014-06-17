@@ -28,7 +28,7 @@ $show_page_settings = 1;
 
 ?>
 
-<div class="vSpace"></div>
+
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label">
     <?php _e("Description"); ?>
@@ -51,8 +51,8 @@ $show_page_settings = 1;
   <textarea class="mw-ui-field" name="content_meta_keywords"  placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if(isset($data['content_meta_keywords']) and $data['content_meta_keywords']!='') print ($data['content_meta_keywords'])?>
 </textarea>
 </div>
-<div class="vSpace"></div>
-<div class="vSpace"></div>
+
+
 <div class="mw_clear vSpace"></div>
 <?php if($show_page_settings != false): ?>
 <div class="mw-ui-check-selector">

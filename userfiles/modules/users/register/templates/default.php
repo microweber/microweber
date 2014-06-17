@@ -59,7 +59,7 @@ description: Default register template
                  <input type="text" placeholder="<?php _e("Enter the text"); ?>" class="form-control mw-captcha-input" name="captcha">
               </div>
             </div>
-             <div class="vSpace"></div>
+             
             <div class="alert" style="margin: 0;display: none;"></div>
 			<div class="social-login">
 

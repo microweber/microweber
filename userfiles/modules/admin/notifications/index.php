@@ -172,14 +172,14 @@ mw.notif_mark_all_as_read = function(){
 						
 						
 				<?php if($is_quick == false): ?>		
-				<td><a href="javascript:mw.notif_item_delete('<?php print $item['id'] ?>');" class="show-on-hover mw-ui-btnclose"></a></td>
+				<td><a href="javascript:mw.notif_item_delete('<?php print $item['id'] ?>');" class="show-on-hover mw-icon-close"></a></td>
 				<?php endif; ?>	
 			</tr>
 			<?php endforeach ; ?>
 		</tbody>
 	</table>
 	<?php if($is_quick == false): ?>
-	<div class="vSpace"></div>
+	
 	<div class="left">
 	<a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link">Read all</a>&nbsp;&nbsp;| 
 	<a href="javascript:mw.notif_reset_all();" class="mw-ui-link">Unread all</a>&nbsp;&nbsp;| 

@@ -188,12 +188,7 @@ $paging_links = false;
 </div>
 <?php endforeach; ?>
 </div>
-<div class="manage-toobar manage-toolbar-bottom">
-  <span class="mn-tb-arr-bottom"></span> <span class="posts-selector">
-  <span onclick="mw.check.all('#pages_delete_container')"><?php _e("Select All"); ?></span>/<span onclick="mw.check.none('#pages_delete_container')"><?php _e("Unselect All"); ?></span>
-</span>
-<span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red"><?php _e("Delete forever"); ?></span>
-<span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Restore selected"); ?></span></div>
+
 
 <script  type="text/javascript">
     mw.require('forms.js', true);

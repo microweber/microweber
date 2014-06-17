@@ -63,7 +63,7 @@ $module_id = $for_id;
     <span class="mw-ui-btn mw-ui-btn-blue" onclick="mw.tools.toggle('.custom_fields_selector', this);" style="min-height: 15px;">
         <span class="ico iAdd"></span><span><?php _e("Add  New Custom Field"); ?></span>
     </span>
-  <div class="vSpace"></div>
+  
   <div class="custom_fields_selector" style="display: none;">
     <ul class="mw-quick-links mw-quick-links-cols">
       <li><a href="javascript:;" data-type="text"><span class="ico iSingleText"></span><span><?php _e("Text Field"); ?></span></a></li>

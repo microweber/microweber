@@ -91,7 +91,7 @@ btn_action = function(){
   </div>
   <div id="btn btn-default_url_holder">
     <input type="text" name="url" id="btn btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>"  class="mw_option_field mw-ui-field" />
-    <div class="vSpace"></div>
+    
     <label class="mw-ui-check">
       <input type="checkbox" 
     		name="url_blank" 

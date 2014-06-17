@@ -26,7 +26,7 @@ description: Login Popup
     </div>
 
 
-    <div class="vSpace"></div>
+    
 
 
 

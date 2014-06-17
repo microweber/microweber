@@ -50,7 +50,7 @@
         </div>
 
         <div class="mw_clear"></div>
-        <div class="vSpace"></div>
+        
 
         <div class="mw-ui-progress" id="upload_status" style="display: none">
             <div style="width: 0%" class="mw-ui-progress-bar"></div>

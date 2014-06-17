@@ -27,7 +27,7 @@ mw.notification.msg(this);
 
 Internal settings
 <div class="mw_clear"></div>
-<div class="vSpace"></div>
+
 <style>
     .send-your-sysconf{
       float: right;

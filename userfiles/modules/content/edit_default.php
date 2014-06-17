@@ -4,6 +4,13 @@ only_admin_access();
 $edit_page_info = $data;;
 include __DIR__ . DS . 'admin_toolbar.php'; ?>
 
+<style>
+#admin-user-nav {
+display: none;	
+}
+
+</style>
+
 <div id="post-states-tip" style="display: none">
   <div class="mw-ui-btn-vertical-nav post-states-tip-nav"> <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-unpublish"></span>
     <?php _e("Unpublish"); ?>
@@ -123,11 +130,11 @@ or ($data['id'] == 0 and isset($data['content_type']) and $data['content_type'] 
   <div class="quick-post-done">
     <h2>Well done, you have saved your changes. </h2>
     <label class="mw-ui-label"><small>Go to see them at this link</small></label>
-    <div class="vSpace"></div>
+    
     <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
-    <div class="vSpace"></div>
+    
     <label class="mw-ui-label"><small>Or choose an action below</small></label>
-    <div class="vSpace"></div>
+    
     <a href="javascript:;" class="mw-ui-btn" onclick="mw.edit_content.close_alert();">Continue editing</a> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a> </div>
 </div>
 <script>

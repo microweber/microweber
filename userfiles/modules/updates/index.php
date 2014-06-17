@@ -144,8 +144,8 @@ $(document).ready(function(){
     </div>
 </div>
 
-<div class="vSpace"></div>
-<div class="vSpace"></div>
+
+
 
 
 

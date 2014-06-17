@@ -203,7 +203,7 @@
             <label class="mw-ui-label mw-ui-label-inline" style="width: 120px;">Recover URL <span class="mw-help" data-help="Use this if you need to send it to your clients. They'll be able to restore their Shopping Cart">(?)</span></label>
             <input type="text" class="mw-ui-field right" style="width: 330px;font-size: 11px;" readonly="readonly" onfocus="$(this).select()" value="<?php print $recart_base.'?recart='.$item['session_id'] ?>">
           </div>
-          <div class="vSpace"></div>
+          
           <a class="mw-ui-btn mw-ui-btn-green right" style="margin-left: 12px;" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank">Recover</a> <a class="mw-ui-btn right" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);">Delete cart</a></td>
       </tr>
       <?php endforeach; ?>

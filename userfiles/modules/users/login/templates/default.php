@@ -36,9 +36,9 @@ description: Login default
     </div>
     <a class="reset-password-link" href="<?php print forgot_password_url(); ?>"><?php _e("Forgot password"); ?>?</a>
 
-    <div class="vSpace"></div>
+    
     <div class="alert" style="margin: 0;display: none;"></div>
-    <div class="vSpace"></div>
+    
 
     <div class="social-login">
 

@@ -129,7 +129,7 @@ mw.syslog_log_reset_all = function(){
           
           </td>
   
-        <td><a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');" class="show-on-hover mw-ui-btnclose"></a></td>
+        <td><a href="javascript:mw.log_item_delete('<?php print $item['id'] ?>');" class="show-on-hover mw-icon-close"></a></td>
       </tr>
       <?php endforeach ; ?>
     </tbody>

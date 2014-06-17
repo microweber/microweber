@@ -18,7 +18,7 @@
         <span class="mw-ui-btn relative" id="upload"><?php _e("Upload"); ?></span>
     </div>
 
-    <div class="vSpace"></div>
+    
 
 
 <div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%">

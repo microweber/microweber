@@ -181,30 +181,34 @@ mw.on.hashParam('installed', function(){
 
     </div>
     <div class="text-center scroll-height-exception">
-        <label class="mw-ui-label"><?php _e("Show"); ?>: </label>
+    <div class="mw-ui-box-content">
+        <label class="mw-ui-label"><?php _e("Show"); ?>:</label>
+          <ul class="mw-ui-inline-list" style="padding-bottom: 12px;">
+            <li>
+                <label class="mw-ui-check">
+                  <input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" />
+                  <span></span>
+                  <span><?php _e("Installed"); ?></span>
+                </label>
+            </li>
+            <li>
+              <label class="mw-ui-check">
+                <input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  />
+                <span></span>
+                <span><?php _e("Uninstalled"); ?></span>
+              </label>
+            </li>
+          </ul>
 
-          <label><?php _e("Installed"); ?>
-            <input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" />
-          </label>
-          <label><?php _e("Uninstalled"); ?>
-            <input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  />
-          </label>
 
-
-            <small  onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-small"><?php _e("Reload modules"); ?></small>
-
+          <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-small"><?php _e("Reload modules"); ?></span>
+    </div>
     </div>
   </div>
   </div>
   </div>
   <div class="mw-ui-col main-content-column">
   <div class="mw-ui-col-container">
-
-
-
-
-
-
 
     <div class="modules-index-bar">
 
@@ -256,7 +260,7 @@ mw.on.hashParam('installed', function(){
       </div>
 
     </div>
-    <div class="vSpace"></div>
+    
     <div id="modules_admin_<?php print $params['id']; ?>" ></div>
   </div>
   </div>

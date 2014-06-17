@@ -74,7 +74,7 @@ mw.tabs({
     </select>
 
 
- <div class="vSpace"></div>
+ 
 
 <label class="mw-ui-label"><?php _e("Allow Social Login with"); ?></label>
 
@@ -146,7 +146,7 @@ mw.tabs({
   </ul>
   <label class="mw-ui-label"><?php _e("App ID/API Key"); ?></label>
   <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field "   type="text" option-group="users"  value="<?php print get_option('fb_app_id','users'); ?>" />
-  <div class="vSpace"></div>
+  
   <label class="mw-ui-label"><?php _e("App Secret"); ?></label>
   <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field"   type="text" option-group="users"  value="<?php print get_option('fb_app_secret','users'); ?>" />
 </div>
@@ -160,7 +160,7 @@ mw.tabs({
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
   <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('google_app_id','users'); ?>" />
-  <div class="vSpace"></div>
+  
   <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
   <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('google_app_secret','users'); ?>" />
 
@@ -176,7 +176,7 @@ mw.tabs({
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
   <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('github_app_id','users'); ?>" />
-  <div class="vSpace"></div>
+  
   <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
   <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('github_app_secret','users'); ?>" />
 
@@ -195,7 +195,7 @@ mw.tabs({
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Consumer key"); ?></label>
   <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('twitter_app_id','users'); ?>" />
-  <div class="vSpace"></div>
+  
   <label class="mw-ui-label-inline"><?php _e("Consumer secret"); ?></label>
   <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('twitter_app_secret','users'); ?>" />
 
@@ -208,7 +208,7 @@ mw.tabs({
   </ul>
   <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
   <input name="windows_live_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('windows_live_app_id','users'); ?>" />
-  <div class="vSpace"></div>
+  
   <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
   <input name="windows_live_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('windows_live_app_secret','users'); ?>" />
  </div>
@@ -230,7 +230,7 @@ mw.tabs({
 				 
 				 	<input name="register_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('register_url','users'); ?>" placeholder="Use default"  />
 
-                     <div class="vSpace"></div>
+                     
                      
                      
                         <h3>Login URL</h3>
@@ -242,7 +242,7 @@ mw.tabs({
 				 
 				 	<input name="login_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('login_url','users'); ?>" placeholder="Use default"  />
 
-                     <div class="vSpace"></div>
+                     
                      
                      
                            <h3>Forgot password  URL</h3>
@@ -254,7 +254,7 @@ mw.tabs({
 				 
 				 	<input name="forgot_password_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('forgot_password_url','users'); ?>" placeholder="Use default"  />
 
-                     <div class="vSpace"></div>
+                     
                      
               
               
@@ -285,8 +285,8 @@ mw.tabs({
       <option value="n" <?php if($enable_user_yahoo_registration == 'n'): ?> selected="selected" <?php endif; ?>>No</option>
     </select>
 
-  <div class="vSpace"></div>
-  <div class="vSpace"></div>
+  
+  
   <?php if($enable_user_yahoo_registration == 'y'): ?>
   <ul class="mw-small-help">
     <li>Go here to register your application <a target="_blank" href="https://developer.apps.yahoo.com/dashboard/createKey.html">https://developer.apps.yahoo.com/dashboard/createKey.html</a></li>
@@ -295,12 +295,12 @@ mw.tabs({
   </ul>
   <label class="mw-ui-label-inline">Consumer key</label>
   <input name="yahoo_app_id" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="users"  value="<?php print get_option('yahoo_app_id','users'); ?>" />
-  <div class="vSpace"></div>
+  
   <label class="mw-ui-label-inline">Consumer secret</label>
   <input name="yahoo_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style="width: 380px;"  type="text" option-group="users"  value="<?php print get_option('yahoo_app_secret','users'); ?>" />
   <?php endif; ?>
-  <div class="vSpace"></div>
-  <div class="vSpace"></div>
+  
+  
 
 
   */

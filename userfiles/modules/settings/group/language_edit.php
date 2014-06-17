@@ -7,7 +7,7 @@
   <?php _e("Edit your language file"); ?>
 </label>
 <div class="mw_clear"></div>
-<div class="vSpace"></div>
+
 <script  type="text/javascript">
     mw.require('forms.js', true);
 </script> 

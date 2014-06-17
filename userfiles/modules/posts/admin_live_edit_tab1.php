@@ -163,7 +163,7 @@ $show_fields = array();
      }
 
     </style>
-<div class="vSpace"></div>
+
 <label class="mw-ui-label"><?php _e("Display on"); ?> <?php print ($set_content_type) ?>: </label>
 <div class="mw-ui-box"><ul id="post_fields_sort_<?php print  $rand ?>" class="fields-controlls">
   <div class="mw-ui-row-nodrop">

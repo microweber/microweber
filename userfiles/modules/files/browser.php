@@ -100,9 +100,9 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     </ul>
     <?php else: ?>
     <?php endif; ?>
-    <div class="vSpace"></div>
+    
     <div class="mw-ui-box-hr"></div>
-    <div class="vSpace"></div>
+    
     <?php if(isset($data['files'] )): ?>
     <ul class="mw-browser-list">
       <?php foreach($data['files']  as $item): ?>

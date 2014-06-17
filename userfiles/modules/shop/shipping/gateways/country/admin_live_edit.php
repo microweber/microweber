@@ -16,5 +16,5 @@
 		<module type="admin/modules/templates" id="shipping_list_templ"  for-module="<?php print($params['data-type']); ?>"  />
 	</div>
 	<div class="mw_clear"></div>
-	<div class="vSpace"></div>
+	
 </div>

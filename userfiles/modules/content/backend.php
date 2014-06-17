@@ -275,8 +275,10 @@ function mw_select_post_for_editing($p_id, $subtype){
         mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
         mw.$('#pages_edit_container').removeAttr('data-category-id');
         mw.$('#pages_edit_container').removeAttr('category_id');
-		
-		        mw.$('#pages_edit_container').removeAttr('page-id');
+		        mw.$('#pages_edit_container').removeAttr('category_id');
+		        mw.$('#pages_edit_container').removeAttr('content-id'); 
+
+		        mw.$('#pages_edit_container').removeAttr('data-page-id');
 
 		
 			  mw.$('.mw-admin-go-live-now-btn').attr('content-id',$p_id);

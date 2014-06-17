@@ -95,14 +95,13 @@ if(isset($page_info) and is_array($page_info)): ?>
   <div class="mw-admin-page-preview-page">
     <?php if(is_array($page_info) and isset($page_info['title'])): ?>
     <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>
-<?php    /* <h2><span class="mw-icon-<?php print $type; ?>"></span><?php print ($page_info['title']) ?></h2>
-*/ ?>    <?php endif; ?>
+  <?php endif; ?>
     <div id="mw_page_layout_preview"></div>
   </div>
   <div class="mw-admin-page-preview-page-info"></div>
 </div>
-<?php else: ?>  
-<?php include __DIR__ . DS . 'admin_toolbar.php'; ?>   
+<?php else: ?>
+<?php include __DIR__ . DS . 'admin_toolbar.php'; ?>
 <?php endif; ?>
 
 <?php elseif(isset($params["data-category-id"])):?>
@@ -111,14 +110,17 @@ if(isset($page_info) and is_array($page_info)): ?>
         <h2><span class="mw-icon-category"></span>
           <?php print $cat_info['title']; ?>
         </h2>
-        
         <?php else: ?>
         <h2><span class="mw-icon-category"></span>
           <?php _e("Category"); ?>
         </h2>
     <?php endif; ?>
-
+<?php else: ?>
+<?php include __DIR__ . DS . 'admin_toolbar.php'; ?>
 <?php endif; ?>
+
+
+
 
 <script  type="text/javascript">
 mw.require('forms.js', true);
@@ -172,23 +174,9 @@ mw.manage_content_sort = function(){
 
 </script>
 
-<div class="manage-toobar manage-toolbar-top">
-  <div class="manage-toobar-content">
-      <div class="mw-ui-row">
-        <div class="mw-ui-col"> <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"> <span class="mw-icon-plus"></span> Create </span> </div>
-        <?php if(isset($params['page-id']) and intval($params['page-id']) != 0): ?>
-        <?php $edit_link = admin_url('view:content#action=editpost:'.$params['page-id']);  ?>
-        <div class="mw-ui-col"> <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-medium edit-content-btn" id="edit-content-btn" data-tip="bottom-left"> <span class="mw-icon-pen"></span> Edit page </a> </div>
-        <?php endif; ?>
-        <?php if(isset($params['category-id'])): ?>
-        <?php $edit_link = admin_url('view:content#action=editcategory:'.$params['category-id']);  ?>
-        <div class="mw-ui-col"> <a href="<?php print $edit_link; ?>" class="mw-ui-btn mw-ui-btn-medium edit-category-btn" id="edit-category-btn" data-tip="bottom-left"> <span class="mw-icon-pen"></span> Edit category </a> </div>
-        <?php endif; ?>
-      </div>
-  </div>
-</div>
+
 <?php   print $posts = module( $posts_mod);  ?>
-<script  type="text/javascript">
+<script type="text/javascript">
 mw.on.hashParam("pg", function(){
       var dis = $p_id = this;
       mw.$('#mw_admin_posts_manage').attr("paging_param", 'pg');
@@ -203,7 +191,6 @@ mw.on.hashParam("pg", function(){
       mw.$('#mw_admin_posts_manage').removeAttr('data-content-id');
       mw.reload_module('#mw_admin_posts_manage');
 });
-
 mw.on.hashParam("search", function(){
    mw.$('#mw_admin_posts_manage').attr("data-type",'content/admin_posts_list');
    var dis = this;

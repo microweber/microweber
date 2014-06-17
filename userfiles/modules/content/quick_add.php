@@ -224,7 +224,7 @@ $templates= mw('template')->site_templates();
 				<?php $c++; ?>
 				<div class="acfle_layouts_browser_template<?php if($c==1){print " active";} ?>">
 					<h2 class="<?php if($c==1){print "active";} ?>"><?php print $template['name'] ?></h2>
-					<div class="vSpace"></div>
+					
 					<?php
 	$layout_options = array();
 	$layout_options ['site_template'] = $template['dir_name'];

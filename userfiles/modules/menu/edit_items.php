@@ -28,8 +28,8 @@ if(!isset($params['menu-name']) and isset($params['name'])){
 if( $id != 0){
 	$menu_params = array();
 	$menu_params['menu_id'] =  $id;
-	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><a class="mw-ui-x" href="javascript:;" onclick="mw.menu_item_delete({id});">Delete</a>
-	 <span class="ico iMove mw_admin_modules_sortable_handle"></span><a data-item-id="{id}" class="menu_element_link {active_class}" href="javascript:;" onclick="mw.menu_items_set_edit({id}, this);">{title}</a> </div>';
+	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span class="mw-icon-close show-on-hover pull-right" onclick="mw.menu_item_delete({id});"></span>
+	<span class="mw-icon-drag mw_admin_modules_sortable_handle"></span><span data-item-id="{id}" class="menu_element_link {active_class}" onclick="mw.menu_items_set_edit({id}, this);">{title}</span> </div>';
 
     $data = menu_tree( $menu_params);
 }
@@ -112,7 +112,7 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
     $("#mw_admin_menu_items_sort_<?php print $rand; ?> ul:first").nestedSortable({
        items: 'li',
 	   listType: 'ul',  
-	   handle: '.iMove,a.menu_element_link',
+	   handle: '.mw_admin_modules_sortable_handle',
 	   old_handle: '.iMove',
 	   attribute : 'data-item-id',
        update:function(){
@@ -137,13 +137,9 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
 			 mw.notification.success('Menu changes are saved');
 			 }
  			mw.menu_item_after_save();
-			 
+
 			 });
-             
-		
-			
-			
-			
+
        },
        start:function(a,ui){
               $(this).height($(this).outerHeight());
@@ -162,14 +158,20 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
  });
  </script>
 
-<div class="mw-modules-admin" id="mw_admin_menu_items_sort_<?php print $rand; ?>"> <?php print $data; ?> </div>
+<div class="mw-ui-box mw-ui-box-content manage-menus">
+    <style type="text/css" scoped="scoped">#mw_admin_menu_items_sort_<?php print $rand; ?> > ul{
+      height: auto !important;
+    }
+</style>
+    <div class="mw-modules-admin" id="mw_admin_menu_items_sort_<?php print $rand; ?>"> <?php print $data; ?></div>
+</div>
 <?php else: ?>
 <?php _e("This menu is empty, please add items."); ?>
 <?php endif; ?>
 <script  type="text/javascript">
 $(document).ready(function(){
    $("#add-custom-link-parent-id").val('<?php print $id ?>');
-	
+
 
  });
 
@@ -177,13 +179,13 @@ $(document).ready(function(){
 <div>
 	<module id="ed_menu_holder" data-type="menu/edit_item" item-id="0" menu-id="<?php print $id ?>" />
 </div>
-<div class="vSpace"></div>
 <?php
 if(isset($params['menu-name'])): ?>
-<?php $menu = get_menus('one=1&limit=1&title='.$params['menu-name']);
-	if(isset($menu['id'])) : ?>
-<small><a class="mw-ui-btn mw-ui-btn-hover right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');">
-<?php _e("Delete"); ?>&nbsp;
-<?php print $menu['title']; ?></a></small>
+<?php
+    $menu = get_menus('one=1&limit=1&title='.$params['menu-name']);
+	if(isset($menu['id'])) :
+?>
+    <a class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important pull-right" href="javascript:mw.menu_delete('<?php print $menu['id']; ?>');"><?php _e("Delete"); ?> <strong><?php print $menu['title']; ?></strong></a>
+
 <?php endif ?>
 <?php endif ?>

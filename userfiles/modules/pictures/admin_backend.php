@@ -139,7 +139,7 @@ if(trim($for_id)  != '' and trim($for_id)  != '0'){
             onblur="$(this.parentNode).removeClass('active');"
             name="media-description-<?php print $tn; ?>"
       />
-      <a title="<?php _e("Delete"); ?>" class="admin-thumb-delete" href="javascript:;" onclick="mw.module_pictures.del('<?php print $item['id'] ?>');">
+      <a title="<?php _e("Delete"); ?>" class="mw-icon-close" href="javascript:;" onclick="mw.module_pictures.del('<?php print $item['id'] ?>');">
       <?php _e("Delete"); ?>
       </a> </div>
   </div>

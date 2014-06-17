@@ -63,5 +63,5 @@ mw.$("#<?php print $params['id'] ?>").sortable({
 </script>
 <hr>
 <a href='javascript:mw.load_quick_cat_edit(0)' class="mw-ui-btn"><span class="ico iplus"></span>Add new category</a>
-<div class="vSpace"></div>
+
 

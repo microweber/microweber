@@ -19,7 +19,7 @@ $memcache_enabled = extension_loaded('memcache');
     <?php endif ?>
   </select>
 
-<div class="vSpace"></div>
+
 <?php if($memcache_enabled and $enable_server_cache_storage == 'memcache'): ?>
 <label class="mw-ui-label-inline"><?php _e("Memcache servers"); ?></label>
 <input name="memcache_servers" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="server"  data-refresh="<?php print $params['module'] ?>" option-type="static"  value="<?php print mw('option')->get_static('memcache_servers','server'); ?>" />

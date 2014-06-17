@@ -784,9 +784,9 @@ $(".my-dropdown").bind("change", function(){
       <td>
              <h2>Modals</h2>
   <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.modal.init({html:'Test <span onclick=\'parent.mw.tools.modal.overlay()\' class=\'mw-ui-btn\'>add overlay</span>'})">Default</a>
-  <div class="vSpace"></div>
+  
   <a href="javascript:;" class="mw-ui-btn" onclick="mw.tools.modal.init({html:'Test', template:'mw_modal_simple'})">Custom Template</a>
-  <div class="vSpace"></div>
+  
   <a href="javascript:;" class="mw-ui-btn" onclick="testMedia()">Media upload with callback</a>
   <script>
 
@@ -810,9 +810,9 @@ mw.tools.modal.frame({
   </script>
 
 
-    <div class="vSpace"></div>
+    
 
-      <div class="vSpace"></div>
+      
   <a href="javascript:;" class="mw-ui-btn" onclick="testlink()">Link management</a>
   <script>
 
@@ -835,7 +835,7 @@ mw.tools.modal.frame({
   </script>
 
 
-    <div class="vSpace"></div>
+    
 
 
   <h2>API</h2>

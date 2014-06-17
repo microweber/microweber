@@ -104,7 +104,7 @@ $(document).ready(function(){
     </div>
   </div>
   <div class="mw_edit_page_right" style="padding: 20px;">
-    <div class="vSpace"></div>
+    
     <div id="settings_admin_<?php print $rand; ?>" >
         <?php
         /*

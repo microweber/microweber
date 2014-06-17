@@ -5,7 +5,7 @@ mw.require('options.js');
 </script>
 <script  type="text/javascript">
 $(document).ready(function(){
-	
+
   mw.options.form('#shipping-units-setup', function(){
       mw.notification.success("<?php _e("Shipping units are saved!"); ?>");
     });
@@ -16,9 +16,9 @@ $(document).ready(function(){
       if(self !== parent && typeof _binded === 'undefined'){
           _binded = true;
           $(mwd.body).ajaxStop(function(){
-  	if(parent != undefined && parent.mw != undefined){
-                parent.mw.reload_module("shop/shipping/gateways/country");
-	}
+              	if(parent != undefined && parent.mw != undefined){
+                    parent.mw.reload_module("shop/shipping/gateways/country");
+            	}
           });
       }
    });
@@ -29,7 +29,7 @@ $(document).ready(function(){
 	<h2>
 		<?php _e("Shipping units"); ?>
 	</h2>
-     <div class="vSpace"></div>
+
     <div class="mw-ui-box mw-ui-box-content">
 
 	<label class="mw-ui-label">
@@ -73,5 +73,5 @@ $(document).ready(function(){
     		</span>
         </label>
     </div>
-    </div> <div class="vSpace"></div>
+    </div>
 </div>

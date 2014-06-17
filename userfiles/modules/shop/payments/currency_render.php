@@ -39,7 +39,7 @@ if($payment_currency_rate != false){
 <label class="mw-ui-label">
 	<?php _e("Convert rate to from default currency to payment currency"); ?>
 </label>
-<input  name="payment_currency_rate" value="<?php print $payment_currency_rate; ?>"  id="payment_currency_rate_val_sugg"   type="text" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend" />
+<input  name="payment_currency_rate" value="<?php print $payment_currency_rate; ?>"  id="payment_currency_rate_val_sugg"   type="text" class="mw-ui-field price-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend" />
 <?php $sugg  = mw('shop')->currency_convert_rate($cur,$payment_currency); ?>
 <?php  if($sugg  != false): ?>
 <br />
@@ -51,7 +51,7 @@ if($payment_currency_rate != false){
 <?php endif; ?>
 <?php endif; ?>
 <?php endif; ?>
-<div class="vSpace"></div>
+
 <label class="mw-ui-label"><?php _e("Example of how the price will be shown"); ?></label>
 <input  value="<?php print ( currency_format($num, $cur)); ?>" disabled  type="text" class="mw-ui-invisible-field" />
 <?php if (isset($payment_currency) and !in_array(strtoupper($cur), $curencies) ): ?>
@@ -62,4 +62,4 @@ if($payment_currency_rate != false){
 	<?php print ( currency_format(100, $cur)); ?>=<?php print ( currency_format(100*$payment_currency_rate, $payment_currency)); ?> )</label>
 <input  value="<?php print ( currency_format($num*$payment_currency_rate, $payment_currency)); ?>" disabled  type="text" class="mw-ui-invisible-field" />
 <?php endif; ?>
-<div class="vSpace"></div>
+

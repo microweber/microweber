@@ -55,8 +55,8 @@ if (isset($params['backend']) == true): ?>
             </a></li>
     </ul>
     <div class="tab semi_hidden">
-        <div class="vSpace"></div>
-        <div class="vSpace"></div>
+        
+        
         <?php
 
         $get_comments_params['count'] = '1';

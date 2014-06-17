@@ -405,7 +405,7 @@ Progress =  mw.$('#mw-upload-progress');
 
     </div>
 
- <div class="vSpace"></div>
+ 
 <div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%">
     <div class="mw-ui-progress-bar" style="width: 0%;"></div>
     <div class="mw-ui-progress-info"></div>
@@ -417,15 +417,15 @@ Progress =  mw.$('#mw-upload-progress');
        <div class="mw_clear"></div>
     </div>
   </div>
-  <div class="vSpace"></div>
+  
   <div id="files_admin_{rand}" ></div>
   <div id="user_edit_admin_{rand}" ></div>
-  <div class="vSpace"></div>
+  
 
   <span class="mw-ui-btn right disabled delete_item"><?php _e("Delete Selected"); ?></span>
 
   <div class="mw_clear"></div>
-  <div class="vSpace"></div>
+  
 
 </div>
 <div class="mw_clear"></div>

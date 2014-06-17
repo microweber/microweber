@@ -119,5 +119,5 @@ $(document).ready(function(){
    <?php endif; ?>
 </div>
 <div class="mw_clear"></div>
-<div class="vSpace"></div>
-<div class="vSpace"></div>
+
+

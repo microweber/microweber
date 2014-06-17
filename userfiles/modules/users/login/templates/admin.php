@@ -52,7 +52,7 @@ $(document).ready(function(){
 
    </style>
   <div id="sign_logo_version"> <a href="http://microweber.com" target="_blank"><img src="<?php print MW_INCLUDES_URL; ?>img/sign_logo.png" alt="" /></a> <span class="mw-sign-version">Beta v. <?php print MW_VERSION; ?></span> </div>
-  <div class="vSpace"></div>
+  
   <div class="mw-ui-box">
     <div class="mw-ui-box-content" id="admin_login">
       <?php if($user != false): ?>
@@ -98,7 +98,7 @@ $(document).ready(function(){
       </form>
     </div>
   </div>
-  <div class="vSpace"></div>
+  
   <div id="login_foot"> <a href="<?php print site_url() ?>" class="left"><span class="ico backico2"></span>
     <?php _e("Back to My WebSite"); ?>
     </a> <a href="javascript:mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="mw-ui-link right">

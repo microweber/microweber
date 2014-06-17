@@ -188,29 +188,16 @@ $pages_count = intval($pages);
 <?php if (intval($pages_count) > 1): ?>
 <?php $paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
-<?php /*
- <div class="manage-toobar manage-toolbar-top">
-  <div class="manage-toobar-content">
-    <div class="mw-ui-row">
-      <div class="mw-ui-col"> <span class="mw-ui-btn mw-ui-btn-medium create-content-btn" id="create-content-btn" data-tip="bottom-left"> <span class="mw-icon-plus"></span> Create </span> <span class="mw-ui-btn-nav"> <span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.check.all('#mw_admin_posts_manage')">
-        <?php _e("Select All"); ?>
-        </span> <span class="mw-ui-btn mw-ui-btn-medium" onclick="mw.check.none('#mw_admin_posts_manage')">
-        <?php _e("Unselect All"); ?>
-        </span> <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important" onclick="delete_selected_posts();">
-        <?php _e("Delete"); ?>
-        </span> </span> </div>
-      <div class="mw-ui-col">
-        <input
-                onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
-                value="<?php  if(isset($params['keyword']) and $params['keyword'] != false):  ?><?php print $params['keyword'] ?><?php endif; ?>"
-                placeholder="<?php _e("Search for posts"); ?>"
-                type="text"
-                class="mw-ui-field mw-ui-field-medium pull-right"
-                id="mw-search-field"   />
-      </div>
-    </div>
-  </div>
-</div>*/ ?>
+
+
+
+
+
+
+
+
+
+
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <div class="">
     <?php if(is_array($data)): ?>
@@ -226,8 +213,9 @@ $pages_count = intval($pages);
     <div class="mw-ui-row-nodrop manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
       <div class="mw-ui-col manage-post-item-col-1">
         <label class="mw-ui-check">
-          <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<?php print ($item['id']) ?>">
-          <span></span> </label>
+          <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<?php print ($item['id']) ?>" onclick="mw.admin.showLinkNav();">
+          <span></span>
+        </label>
         <span class="mw-icon-drag mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span> </div>
       <div class="mw-ui-col manage-post-item-col-2">
         <?php  $pic  = get_picture($item['id']); ?>
@@ -243,7 +231,7 @@ $pages_count = intval($pages);
       <div class="mw-ui-col manage-post-item-col-3 manage-post-main">
         <div class="manage-item-main-top">
           <h3 class="manage-post-item-title"> <a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
-<?php /*            <?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
+         <?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
             <?php if(isset($item['is_shop']) and $item['is_shop'] == 'y'): ?>
             <span class="mw-icon-shop"></span>
             <?php else : ?>
@@ -256,7 +244,7 @@ $pages_count = intval($pages);
             <span class="mw-icon-post"></span>
             <?php endif; ?>
             <?php else : ?>
-            <?php endif; ?>*/ ?>
+            <?php endif; ?>
             <?php print strip_tags($item['title']) ?> </a> </h3>
           <a  class="manage-post-item-link-small mw-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a>
           <div class="manage-post-item-description"> <?php print character_limiter(strip_tags($item['description']), 60); ?> </div>
@@ -291,14 +279,8 @@ if($new > 0){
     <?php endforeach; ?>
   </div>
 </div>
-<div class="manage-toobar manage-toolbar-bottom"><span class="mn-tb-arr-bottom"></span> <span class="posts-selector"> <span onclick="mw.check.all('#pages_edit_container')">
-  <?php _e("Select All"); ?>
-  </span>/<span onclick="mw.check.none('#pages_edit_container')">
-  <?php _e("Unselect All"); ?>
-  </span> </span> <a href="javascript:delete_selected_posts();" class="mw-ui-btn">
-  <?php _e("Delete"); ?>
-  </a> </div>
-<div class="mw-paging">
+
+
 <?php
 
         $numactive = 1;
@@ -310,11 +292,12 @@ if($new > 0){
               }
 
 
-
-     if(isset($paging_links) and is_array($paging_links)):  ?>
+if(isset($paging_links) and is_array($paging_links)):  ?>
+ <div class="mw-paging">
 <?php $i=1; foreach ($paging_links as $item): ?>
 <a  class="page-<?php print $i; ?> <?php if($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onClick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
 <?php $i++; endforeach; ?>
+</div>
 <?php endif; ?>
 <?php else: ?>
 <div class="mw-no-posts-foot">
