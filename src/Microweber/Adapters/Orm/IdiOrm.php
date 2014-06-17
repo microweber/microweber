@@ -59,7 +59,10 @@ class IdiOrm
         ORM::configure('logging', true);
 
     }
-
+    function configure($key, $val = false)
+    {
+        return ORM::configure($key, $val);
+    }
     function one($table, $params = false)
     {
         return $this->get($table, $params, 'findOne');
@@ -205,11 +208,13 @@ class IdiOrm
         if ($order_by != false) {
             $orm->order_by_expr($order_by);
         }
+
+        // convert to int http://idiorm.readthedocs.org/en/latest/querying.html#limits-and-offsets
         if ($limit != false) {
-            $orm->limit($limit);
+            $orm->limit(intval($limit));
         }
         if ($offset != false) {
-            $orm->offset($offset);
+            $orm->offset(intval($offset));
         }
 
         if ($count != false) {
@@ -229,15 +234,16 @@ class IdiOrm
 
     }
 
+    function with($table)
+    {
+        return $this->for_table($table);
+    }
+
     function for_table($table)
     {
         $table_real = $this->app->db->real_table_name($table);
         $orm = ORM::for_table($table_real)->table_alias($table);
         return $orm;
-    }
-    function with($table)
-    {
-         return $this->for_table($table);
     }
 
     function getLastQuery()

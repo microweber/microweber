@@ -44,7 +44,6 @@
         mw.require("<?php print MW_INCLUDES_URL; ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
         <?php /*  mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
-
     </script>
     <?php if (!isset($_REQUEST['no_toolbar'])): ?>
         <script type="text/javascript">
@@ -83,31 +82,17 @@ if ($last_page_front != false) {
     } else {
         $past_page = mw('content')->link($last_page_front);
     }
-} else {
+}
+else {
     $past_page = get_content("order_by=updated_on desc&limit=1");
     $past_page = mw('content')->link($past_page[0]['id']);
 }
-
 ?>
 <div id="admin-user-nav">
+<a href="javascript:;" class="mw-icon-off pull-right"></a>
+<a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert pull-right"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
 
 
-
-
-<div class="mw-ui-dropdown">
-    <a href="#" class="mw-ui-btn mw-dropdown-button" style="width: auto"><span class="mw-icon-user"></span><?php print user_name(false, $mode = 'first'); ?></a>
-    <div class="mw-ui-dropdown-content">
-        <div class="mw-ui-btn-vertical-nav">
-             <a class="mw-ui-btn">Your profile</a>
-             <a class="mw-ui-btn">Users</a>
-             <a class="mw-ui-btn">Log Out</a>
-        </div>
-    </div>
-</div>
-
-
-
-<a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
 
 </div>
 <div id="mw-admin-container">
@@ -146,25 +131,20 @@ if ($last_page_front != false) {
                         </ul>
                     </li>
                     <li <?php if ($view == 'shop' and $action==false): ?> class="active"
-                    <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent"   <?php endif; ?>><a
-                            href="<?php print admin_url(); ?>view:shop" title="">
-
+                    <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent" <?php endif; ?>>
+                        <a href="<?php print admin_url(); ?>view:shop" title="">
                             <span class="mw-icon-shop">
-
- <?php
-	 $notif_html = '';
-	$notif_count = mw('Microweber\Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
- 	if( $notif_count > -1){
-    $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
-       print $notif_html;
-    ?>
-
-   <?php }  ?>
+                             <?php
+                            	$notif_html = '';
+                            	$notif_count = mw('Microweber\Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
+                             	if( $notif_count > -1){
+                                $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
+                                   print $notif_html;
+                                ?>
+                               <?php }  ?>
                             </span>
                             <strong>My Shop</strong>
-
-
-                    </a>
+                        </a>
                         <ul>
                             <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:shop/action:orders">Orders</a></li>
@@ -183,12 +163,6 @@ if ($last_page_front != false) {
                     <li id="main-menu-toggle">
                         <a href="javascript:;"><span class="mw-icon-menu"></span></a>
                     </li>
-
-
-                       
-
                 </ul>
-             
-                
             </div>
         </div>

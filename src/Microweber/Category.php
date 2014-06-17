@@ -156,6 +156,7 @@ class Category
             $removed_ids_code = false;
         }
         $ul_class_name = '';
+        $ul_class_name_deep = '';
         if (isset($params['class'])) {
             $ul_class_name = $params['class'];
         }
@@ -167,6 +168,9 @@ class Category
         if (isset($params['ul_class_name'])) {
 
             $ul_class_name = $params['ul_class_name'];
+        } if (isset($params['ul_class_name_deep'])) {
+
+        $ul_class_name_deep = $params['ul_class_name_deep'];
         }
         if (isset($params['li_class'])) {
 
@@ -216,18 +220,20 @@ class Category
 
 
         }
+        if (isset($params['content_id'])) {
 
+            $params['for_page'] = $params['content_id'];
+        }
 
         if (isset($params['for_page']) and $params['for_page'] != false) {
             $page = $this->app->content->get_by_id($params['for_page']);
-            if ($page['subtype_value']) {
+            if ($page['subtype'] == 'dynamic' and intval($page['subtype_value']) > 0) {
                 $parent = $page['subtype_value'];
             } else {
                 $params['rel'] = 'content';
                 $params['rel_id'] = $params['for_page'];
                 $parent = 0;
             }
-
         }
         $active_code_tag = false;
         if (isset($params['active_code_tag']) and $params['active_code_tag'] != false) {
@@ -332,12 +338,12 @@ class Category
 
         ob_start();
         if ($skip123 == false) {
-            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag,$ul_class_name_deep);
         } else {
 
             if ($fors != false and is_array($fors) and !empty($fors)) {
                 foreach ($fors as $cat) {
-                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag,$ul_class_name_deep);
                 }
             }
         }
@@ -370,7 +376,7 @@ class Category
      * @since Version 1.0
      *
      */
-    public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false)
+    public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false,$ul_class_deep = false)
     {
 
         $db_t_content = $this->tables['content'];
@@ -518,8 +524,13 @@ class Category
 
                         $print1 = "<{$list_tag}  class='{active_class} category_tree depth-{$depth_level_counter}'>";
                     } else {
+                        $cl_name = $ul_class_name;
+                            if($depth_level_counter > 1){
 
-                        $print1 = "<{$list_tag} class='{active_class} $ul_class_name depth-{$depth_level_counter}'>";
+                                $cl_name = $ul_class_deep;
+
+                            }
+                        $print1 = "<{$list_tag} class='{active_class} $cl_name depth-{$depth_level_counter}'>";
                     }
                 }
 
@@ -712,7 +723,7 @@ class Category
                         $remove_ids[] = $item['id'];
 
 
-                        $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag);
+                        $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag,$ul_class_deep);
 
                         print "</{$list_item_tag}>";
                     }

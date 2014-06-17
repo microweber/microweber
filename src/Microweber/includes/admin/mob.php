@@ -72,7 +72,7 @@ if(array_key_exists('post', $_GET)){     ?>
 
 
   <!-- Content -->
-       <div class="vSpace"></div>
+       
    <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
   <div class="mw-ui-box-header">
        <h2>Posts</h2>
@@ -112,7 +112,7 @@ if (!empty($content)) {
 
   </div>
   </div>
-      <div class="vSpace"></div>
+      
   <div class="mw-ui-box" style="width: 800px;max-width: 80%;margin: auto;">
   <div class="mw-ui-box-header">
        <h2>Orders</h2>

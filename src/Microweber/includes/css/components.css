@@ -278,17 +278,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   margin-left: 0;
 }
 
-.admin-thumb-delete, .mw-ui-x{
-  display: block;
-  background: url(../img/delete_item.png) no-repeat 2px 2px;
-  width: 12px;
-  height: 12px;
-  text-indent: -9999px;
-  cursor: pointer;
-  float: right;
-  margin-top: 3px;
-  opacity:0.6;
-}
+
 
 .uimprogress{
   position: absolute;
@@ -339,7 +329,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   border-color: #BDBDBD
 }
 
-.admin-thumb-delete:hover{
+.mw-icon-close:hover{
   opacity:1;
 }
 
@@ -547,23 +537,7 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   text-align: center;
   padding: 5px 0;
 }
-.mw-ui-btnclose{
-  display: inline-block;
-  width: 13px;
-  height: 12px;
-  background: url(../img/uiclose.png) no-repeat;
-  cursor: pointer;
-}
 
-.mw-ui-btnclose:hover{
-  background-position: -13px 0;
-}
-
-.mw-ui-btn .mw-ui-btnclose{
-  position: absolute;
-  top: 0;
-  right: 0;
-}
 
 
 

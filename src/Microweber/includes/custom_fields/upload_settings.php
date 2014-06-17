@@ -15,8 +15,8 @@
 
     </div>
 
-   <div class="vSpace"></div>
-   <div class="vSpace"></div>
+   
+   
 
 
 
@@ -33,21 +33,21 @@
           <span></span>
           <span><?php _e("Images Files"); ?></span>
       </label>
-      <div class="vSpace"></div>
+      
       <label class="mw-ui-check">
           <input type="checkbox"  name="options[file_types]" <?php if(isset($data['options']) and isset($data['options']['file_types']) and in_array('documents',$data['options']['file_types'])) : ?> checked <?php endif; ?>  value="documents" />
           <span></span>
           <span><?php _e("Document Files"); ?></span>
       </label>
-       <div class="vSpace"></div>
+       
       <label class="mw-ui-check">
           <input type="checkbox"  name="options[file_types]" <?php if(isset($data['options']) and isset($data['options']['file_types']) and in_array('archives',$data['options']['file_types'])) : ?> checked <?php endif; ?>  value="archives" />
           <span></span>
           <span><?php _e("Archive Files"); ?></span>
       </label>
-      <div class="vSpace"></div>
+      
 
-      <div class="vSpace"></div>
+      
 
       <label class="mw-ui-label"><?php _e("Custom File Types"); ?></label>
 
@@ -60,7 +60,7 @@
       print implode(',', $oresult); ?><?php endif; ?>" placeholder='psd,html,css' />
 
     </div>
-    <div class="vSpace"></div>
+    
     <label class="mw-ui-check">
     <input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
 

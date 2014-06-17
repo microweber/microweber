@@ -225,7 +225,7 @@ mw.custom_fields = {
  if (!!event) {
  var curr = event.target;
 
- if (mw.tools.hasClass(curr.className, 'mw-ui-btnclose')) {
+ if (mw.tools.hasClass(curr.className, 'mw-icon-close')) {
  return false;
  }
 

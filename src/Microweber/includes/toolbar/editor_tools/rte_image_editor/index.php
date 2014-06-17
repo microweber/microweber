@@ -506,7 +506,7 @@ mw.embed = {
 
 </div>
 
-<div class="vSpace"></div>
+
 
 
 <div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%">

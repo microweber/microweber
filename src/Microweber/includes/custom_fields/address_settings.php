@@ -52,7 +52,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
         <?php _e('Title'); ?>
       </label>
       <input type="text" class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">
-      <div class="vSpace"></div>
+      
       <?php
 
      $opt = array(

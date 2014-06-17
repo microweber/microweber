@@ -127,7 +127,7 @@ function mw_start_progress(){
 <body>
 <div class="wrapper">
   <div class="installholder"> <a href="http://microweber.net" target="_blank" id="logo"> <img src="//microweber.net/webinstall/logo.png" alt="Microweber" /> <small class="version">v. <?php print MW_VERSION ?></small> </a> <span class="Beta">Beta Version</span>
-    <div class="vSpace"></div>
+    
     <div class="mw-ui-box" >
       <div class="mw-ui-box-header">
         <h2>
@@ -396,7 +396,7 @@ $hide_db_setup = 1;
                   </small> </div>
                 <div class="mw-ui-field-holder">
                   <input type="submit" name="submit" class="mw-ui-btn-action right"  value="Install">
-                  <div class="vSpace"></div>
+                  
                 </div>
                 <div class="mw_clear"></div>
                 <input name="IS_INSTALLED" type="hidden" value="no" id="is_installed_<?php print $rand; ?>">
@@ -411,7 +411,7 @@ $hide_db_setup = 1;
               </a> <a href="<?php print site_url() ?>" class="mw-ui-btn left" style="margin-left: 20px;">
               <?php _e("Click here visit your site"); ?>
               </a> 
-              <div class="vSpace"></div>
+              
               <?php endif; ?>
             </div>
             <div id="mw-install-done" style="display:none">

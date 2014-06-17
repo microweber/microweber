@@ -20,7 +20,8 @@ mw.admin = {
     },
     contentScrollBoxHeightMinus:0,
     contentScrollBoxHeightFix:function(node){
-      mw.admin.contentScrollBoxHeightMinus = 0, exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
+      mw.admin.contentScrollBoxHeightMinus = 0,
+      exceptor = mw.tools.firstParentWithClass(node, 'scroll-height-exception-master');
       if( !exceptor ) {  return $(window).height(); }
       mw.$('.scroll-height-exception', exceptor).each(function(){
         mw.admin.contentScrollBoxHeightMinus = mw.admin.contentScrollBoxHeightMinus + $(this).outerHeight(true);
@@ -46,6 +47,7 @@ mw.admin = {
         var w = mw.$('.fixed-side-column').width();
         mw.$('.tree-column').width(w);
       }
+
     },
     _treeboxwidth:function(){
         var i = 0, all = mwd.querySelectorAll('#pages_tree_toolbar li.active-bg > a .pages_tree_link_text'), l = all.length, max = 0;
@@ -151,6 +153,7 @@ mw.admin = {
       }
     },
     manageToolbarQuickNav:null,
+    manageToolbarInt:null,
     manageToolbarSet:function(){
       var toolbar = mwd.querySelector('.admin-manage-toolbar');
       if(toolbar === null){ return false; }
@@ -158,11 +161,12 @@ mw.admin = {
       if(scrolltop > 0){
         mw.tools.addClass(toolbar, 'admin-manage-toolbar-scrolled');
        // toolbar.style.width = toolbar.parentNode.offsetWidth + 'px';
-        toolbar.style.top = scrolltop + 'px';
+        //toolbar.style.top = scrolltop + 'px';
+        toolbar.style.width = ($(toolbar.parentNode).width() + 35) +  'px';
       }
       else{
          mw.tools.removeClass(toolbar, 'admin-manage-toolbar-scrolled');
-         toolbar.style.top = 0;
+         toolbar.style.width = $(toolbar.parentNode).width()  +  'px';
       }
       if( mw.admin.manageToolbarQuickNav === null){
         mw.admin.manageToolbarQuickNav = mwd.getElementById('content-edit-settings-tabs');
@@ -190,6 +194,9 @@ mw.admin = {
                     if( AdminCategoryTree.treewidthactivated === true ){
                         $(this).removeClass('tree-column-active');
                         mw.admin.treeboxwidth();
+                        clearInterval(mw.admin.manageToolbarInt);
+        mw.admin.manageToolbarInt = setInterval(function(){ mw.admin.manageToolbarSet(); }, 5);
+        setTimeout(function(){ clearInterval(mw.admin.manageToolbarInt); }, 205);
                     }
                 });
                 $(mwd.body).bind('click', function(e){
@@ -197,6 +204,9 @@ mw.admin = {
                     if(!mw.tools.hasParentsWithClass(e.target, 'tree-column')){
                       mw.$(AdminCategoryTree).addClass('tree-column-active');
                       mw.admin.manageToolbarSet();
+                      clearInterval(mw.admin.manageToolbarInt);
+        mw.admin.manageToolbarInt = setInterval(function(){ mw.admin.manageToolbarSet(); }, 5);
+        setTimeout(function(){ clearInterval(mw.admin.manageToolbarInt); }, 205);
                     }
                   }
                 });
@@ -206,6 +216,11 @@ mw.admin = {
             mw.$(AdminCategoryTree).removeClass('tree-column-active');
             AdminCategoryTree.treewidthactivated = false;
           }
+
+        clearInterval(mw.admin.manageToolbarInt);
+        mw.admin.manageToolbarInt = setInterval(function(){ mw.admin.manageToolbarSet(); }, 5);
+        setTimeout(function(){ clearInterval(mw.admin.manageToolbarInt); }, 205);
+
     },
     insertModule:function(module){
       mwd.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
@@ -299,7 +314,6 @@ mw.admin = {
         var pos = $(el).dataset('tipposition');
         if(pos == ''){var pos = 'bottom-center';}
         var text = $(el).dataset('tip');
-
         if(text.indexOf('.') === 0 || text.indexOf('#') === 0 ){
             var text = mw.$(text).html();
         }
@@ -308,24 +322,29 @@ mw.admin = {
             $(mw.admin._titleTip).addClass('admin-universal-tooltip');
         }
         else{
-
-          mw.admin._titleTip.className = 'mw-tooltip '+pos+' mw-tooltip-dark admin-universal-tooltip';
+           mw.admin._titleTip.className = 'mw-tooltip '+pos+' mw-tooltip-dark admin-universal-tooltip';
            mw.$('.mw-tooltip-content', mw.admin._titleTip).html(text);
            mw.tools.tooltip.setPosition(mw.admin._titleTip, el, pos);
         }
         $(mw.admin._titleTip).show();
+    },
+    showLinkNav:function(){
+      var all = mwd.querySelector('.select_posts_for_action:checked');
+      if(all === null){
+        mw.$('.mw-ui-link-nav').hide();
+      }
+      else{
+        mw.$('.mw-ui-link-nav').show();
+      }
     }
 }
-
-
-
 
 
 
 $(mwd).ready(function(){
    mw.admin.treeboxwidth();
    $(mwd.body).bind('keydown', function(e){
-      if(mw.event.key(e,8) && (e.target.nodeName === 'DIV' || e.target === mwd.body)){
+      if(mw.event.key(e, 8) && (e.target.nodeName === 'DIV' || e.target === mwd.body)){
         mw.event.cancel(e);
         return false;
       }
@@ -356,10 +375,9 @@ $(mww).bind('load', function(){
            $(mw.admin._titleTip).hide();
         }
    });
-
-
-
 });
+
+
 
 $(mww).bind('hashchange', function(){
     mw.admin.treeboxwidth();
@@ -383,7 +401,3 @@ QTABSArrow = function(el){
   var left = el.offset().left - el.parent().offset().left + (el.width()/2);
   mw.$('#quick-add-post-options-items-holder .mw-tooltip-arrow').css({left: left});
 }
-
-
-
-

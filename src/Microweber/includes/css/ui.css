@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdfasdsdfasdsadsasdsdasasdad') format('truetype');
+  src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdfasdsdfasdasasdasddfasdasdsasdfsdgasasddsadsasdsdasasdad') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -11,7 +11,6 @@
            Icons
 *****************************/
 [class*='mw-icon-'] {
-  font-family: Microweber;
   vertical-align: middle;
   font-style: normal;
   font-weight: 400;
@@ -24,6 +23,7 @@
 }
 [class*='mw-icon-']:before {
   display: inline-block;
+  font-family: Microweber;
 }
 .mw-icon-mw:before {
   content: 'm';
@@ -138,9 +138,44 @@
 .mw-icon-user:before {
   content: "\0126";
 }
+.mw-icon-off:before {
+  content: "\0127";
+}
 /****************************
  Buttons & button navigation
 *****************************/
+.mw-ui-link {
+  text-decoration: underline;
+  color: #212121;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+}
+.mw-ui-link-nav > *:after {
+  display: inline;
+  position: absolute;
+  color: #212121;
+  font-size: 80%;
+  content: "/";
+  margin: 3px 5px;
+  text-decoration: none !important;
+  pointer-events: none;
+}
+.mw-ui-link-nav > *:last-child:after {
+  display: none;
+}
+.mw-ui-link-nav > * {
+  position: relative;
+  margin-right: 11px;
+  text-decoration: none;
+}
+.mw-ui-link:hover,
+.mw-ui-link:focus {
+  text-decoration: none;
+}
+.mw-ui-link:active {
+  opacity: 0.80;
+}
 .mw-ui-btn {
   display: inline-block;
   -webkit-box-sizing: border-box;
@@ -432,6 +467,38 @@
 .mw-ui-navigation li:hover > ul {
   display: block;
 }
+.mw-paging > * {
+  list-style: none;
+  display: inline-block;
+  float: left;
+}
+.mw-paging a {
+  display: inline-block;
+  color: white;
+  padding: 9px 15px;
+  height: 36px;
+  background: #262626;
+}
+.mw-paging a:hover,
+.mw-paging a:focus {
+  background: #404040;
+}
+.mw-paging > :first-child a,
+.mw-paging > a:first-child {
+  border-radius: 3px 0 0 3px;
+}
+.mw-paging > :last-child a,
+.mw-paging > a:last-child {
+  border-radius: 0 3px 3px 0;
+}
+.mw-paging a.active,
+.mw-paging a:active,
+.mw-paging a.active:hover,
+.mw-paging a.active:focus {
+  background: white;
+  color: #262626;
+  box-shadow: inset 0 0 4px -1px #262626;
+}
 /****************************
             Boxes
 *****************************/
@@ -537,7 +604,9 @@
 .show-on-hover {
   visibility: hidden;
 }
-.mw-ui-table tr:hover > td > .show-on-hover {
+.mw-ui-table tr:hover > td > .show-on-hover,
+div:hover > .show-on-hover,
+li:hover > .show-on-hover {
   visibility: visible;
 }
 .mw-ui-table tr.active > td > .show-on-hover {

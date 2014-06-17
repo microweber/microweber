@@ -1716,7 +1716,7 @@ mw.tools = {
 
         span_holder.onclick = function(e){
 
-            if(e.target.className != 'mw-ui-btnclose'){
+            if(e.target.className != 'mw-icon-close'){
                 mw.tools.highlight(mw.$('item_'+el.value)[0],'green');
 
                 var input = itemsWrapper.querySelector(".item_"+el.value + " input");
@@ -1745,7 +1745,7 @@ mw.tools = {
                 }
             }
         }
-        span_x.className = 'mw-ui-btnclose';
+        span_x.className = 'mw-icon-close';
         span_x.onclick = function(){
             o.untag(this.parentNode, el);
         }
@@ -4205,6 +4205,7 @@ mw.image = {
           return uploader;
       }
       mw.dropdown     = mw.tools.dropdown;
+      mw.confirm      = mw.tools.confirm;
       mw.tabs         = mw.tools.tabGroup;
       mw.inlineModal  = mw.tools.inlineModal;
       mw.external     = function( o ){ return mw.tools._external( o ) };

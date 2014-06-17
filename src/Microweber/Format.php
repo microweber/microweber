@@ -412,6 +412,11 @@ class Format
 
     public function  percent($num_amount, $num_total)
     {
+
+        if($num_amount == 0 or $num_total == 0){
+            return 0;
+        }
+
         $count1 = $num_amount / $num_total;
         $count2 = $count1 * 100;
         $count = number_format($count2, 0);
@@ -645,6 +650,10 @@ class Format
             return false;
         }
         return true;
+    }
+
+    function is_fqdn($FQDN) {
+        return (!empty($FQDN) && preg_match('/(?=^.{1,254}$)(^(?:(?!\d|-)[a-z0-9\-]{1,63}(?<!-)\.)+(?:[a-z]{2,})$)/i', $FQDN) > 0);
     }
 
 }

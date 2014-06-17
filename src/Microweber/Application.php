@@ -61,6 +61,7 @@ if (!defined('MW_VERSION')) {
  * @property \Microweber\Http $http
  * @property \Microweber\Template $template
  * @property \Microweber\Ui $ui
+ * @property \Microweber\Orm $orm
  */
 class Application
 {
@@ -316,7 +317,7 @@ class Application
         }
     }
 
-    public function get($provider, $args = null)
+    public function get($provider=null, $args = null)
     {
 
 

@@ -176,7 +176,7 @@
 
 
     <input type="hidden" id="colorpicker" onchange="_do(this.value);" />
-    <div class="vSpace"></div>
+    
     <label class="mw-ui-label"><?php _e("Custom color"); ?></label>
 
 
