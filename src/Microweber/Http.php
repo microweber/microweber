@@ -10,8 +10,6 @@ class Http
      * @var $adapter
      */
     public $adapter;
-
-
     /**
      * An instance of the Microweber Application class
      *
@@ -39,7 +37,9 @@ class Http
         }
 
     }
-    public function url($url){
+
+    public function url($url)
+    {
         return $this->set_url($url);
     }
 

@@ -237,64 +237,6 @@ class Import
         return $this->get_import_location();
     }
 
-    function get_import_location()
-    {
-
-        if (defined('MW_CRON_EXEC')) {
-
-        } else if (!is_admin()) {
-            return false;
-        }
-
-        $loc = $this->imports_folder;
-
-        if ($loc != false) {
-            return $loc;
-        }
-        $folder_root = false;
-        if (defined('MW_USERFILES')) {
-            $folder_root = MW_USERFILES;
-        } elseif (defined('MW_CACHE_DIR')) {
-            $folder_root = MW_CACHE_DIR;
-        }
-
-        $here = $folder_root . "import" . DS;
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-            $hta = $here . '.htaccess';
-            if (!is_file($hta)) {
-                touch($hta);
-                file_put_contents($hta, 'Deny from all');
-            }
-        }
-
-        $here = $folder_root . "import" . DS . MW_TABLE_PREFIX . DS;
-
-        $here2 = mw('option')->get('import_location', 'admin/import');
-        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
-            $here2 = normalize_path($here2, true);
-            if (!is_dir($here2)) {
-                mkdir_recursive($here2);
-            }
-            if (is_dir($here2)) {
-                $here = $here2;
-            }
-        }
-
-
-        if (!is_dir($here)) {
-            mkdir_recursive($here);
-        }
-
-
-        $loc = $here;
-
-
-        $this->imports_folder = $loc;
-        return $here;
-    }
-
     function readfile_chunked($filename, $retbytes = TRUE)
     {
 
@@ -752,13 +694,8 @@ class Import
         $target_url = 'http://api.microweber.com/service/xls2csv/index.php';
         $file_name_with_full_path = realpath($filename);
         $post = array('test' => '123456', 'file_contents' => '@' . $file_name_with_full_path);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $target_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $result = curl_exec($ch);
-        curl_close($ch);
+        $result = $this->app->http->url($target_url)->post($post);
+
         $err = false;
         if ($result != false) {
             $result = json_decode($result, true);
@@ -831,7 +768,7 @@ class Import
                             $new_k = strtolower($head[$k]);
                             $new_k = str_replace(' ', '_', $new_k);
                             $new_k = str_replace('__', '_', $new_k);
-                          // $new_k = preg_replace("/[^a-zA-Z0-9_]+/", "", $new_k);
+                            // $new_k = preg_replace("/[^a-zA-Z0-9_]+/", "", $new_k);
                             $new_k = rtrim($new_k, '_');
                             $r[$new_k] = $v;
                         }
@@ -1065,6 +1002,64 @@ class Import
 
 
         return $chunks_folder;
+    }
+
+    function get_import_location()
+    {
+
+        if (defined('MW_CRON_EXEC')) {
+
+        } else if (!is_admin()) {
+            return false;
+        }
+
+        $loc = $this->imports_folder;
+
+        if ($loc != false) {
+            return $loc;
+        }
+        $folder_root = false;
+        if (defined('MW_USERFILES')) {
+            $folder_root = MW_USERFILES;
+        } elseif (defined('MW_CACHE_DIR')) {
+            $folder_root = MW_CACHE_DIR;
+        }
+
+        $here = $folder_root . "import" . DS;
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+            $hta = $here . '.htaccess';
+            if (!is_file($hta)) {
+                touch($hta);
+                file_put_contents($hta, 'Deny from all');
+            }
+        }
+
+        $here = $folder_root . "import" . DS . MW_TABLE_PREFIX . DS;
+
+        $here2 = mw('option')->get('import_location', 'admin/import');
+        if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
+            $here2 = normalize_path($here2, true);
+            if (!is_dir($here2)) {
+                mkdir_recursive($here2);
+            }
+            if (is_dir($here2)) {
+                $here = $here2;
+            }
+        }
+
+
+        if (!is_dir($here)) {
+            mkdir_recursive($here);
+        }
+
+
+        $loc = $here;
+
+
+        $this->imports_folder = $loc;
+        return $here;
     }
 
     public function OLD_____import_xml($filename)
