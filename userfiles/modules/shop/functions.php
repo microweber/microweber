@@ -5,7 +5,7 @@
 
 
 event_bind('mw.admin', 'mw_add_admin_menu_buttons');
-
+event_bind('mw.live_edit', 'mw_add_admin_menu_buttons');
 function mw_add_admin_menu_buttons($params = false)
 {
 
@@ -105,7 +105,7 @@ function mw_print_admin_menu_shop_right_sidebar_btn($params = false)
 
 }
 
-event_bind('live_edit_quick_add_menu_end', 'mw_print_admin_menu_quck_add_live_edit_btn');
+//event_bind('live_edit_quick_add_menu_end', 'mw_print_admin_menu_quck_add_live_edit_btn');
 
 function mw_print_admin_menu_quck_add_live_edit_btn($params = false)
 {

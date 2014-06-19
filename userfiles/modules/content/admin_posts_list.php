@@ -189,15 +189,6 @@ $pages_count = intval($pages);
 <?php $paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
 
-
-
-
-
-
-
-
-
-
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
   <div class="">
     <?php if(is_array($data)): ?>
@@ -214,8 +205,7 @@ $pages_count = intval($pages);
       <div class="mw-ui-col manage-post-item-col-1">
         <label class="mw-ui-check">
           <input name="select_posts_for_action" class="select_posts_for_action" type="checkbox" value="<?php print ($item['id']) ?>" onclick="mw.admin.showLinkNav();">
-          <span></span>
-        </label>
+          <span></span> </label>
         <span class="mw-icon-drag mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span> </div>
       <div class="mw-ui-col manage-post-item-col-2">
         <?php  $pic  = get_picture($item['id']); ?>
@@ -230,9 +220,8 @@ $pages_count = intval($pages);
       </div>
       <div class="mw-ui-col manage-post-item-col-3 manage-post-main">
         <div class="manage-item-main-top">
-          <h3 class="manage-post-item-title">
-          <a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
-         <?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
+          <h3 class="manage-post-item-title"> <a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
+            <?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
             <?php if(isset($item['is_shop']) and $item['is_shop'] == 'y'): ?>
             <span class="mw-icon-shop"></span>
             <?php else : ?>
@@ -247,9 +236,7 @@ $pages_count = intval($pages);
             <?php else : ?>
             <?php endif; ?>
             <?php print strip_tags($item['title']) ?> </a> </h3>
-          <a  class="manage-post-item-link-small mw-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a>
-          <div class="manage-post-item-description"> <?php print character_limiter(strip_tags($item['description']), 60); ?> </div>
-        </div>
+          <a  class="manage-post-item-link-small mw-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a> </div>
         <div class="manage-post-item-links"> <a target="_top" href="<?php print $edit_link ?>" onclick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;">
           <?php _e("Edit"); ?>
           </a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');;">
@@ -260,14 +247,14 @@ $pages_count = intval($pages);
       <?php if($is_momodule_comments == true and function_exists('get_comments')): ?>
       <?php $new = get_comments('count=1&is_moderated=n&content_id='.$item['id']); ?>
       <?php
-
-if($new > 0){
-  $have_new = 1;
-} else {
-  $have_new = 0;
-  $new = get_comments('count=1&content_id='.$item['id']);
-}
- ?>
+		
+		if($new > 0){
+		  $have_new = 1;
+		} else {
+		  $have_new = 0;
+		  $new = get_comments('count=1&content_id='.$item['id']);
+		}
+		 ?>
       <div class="mw-ui-col manage-post-item-col-5">
         <?php if($have_new): ?>
         <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print $item['id'] ?>" class="comments-bubble"><span class="mw-icon-comment"></span><span class="comment-number"><?php print($new); ?></span></a>
@@ -280,8 +267,6 @@ if($new > 0){
     <?php endforeach; ?>
   </div>
 </div>
-
-
 <?php
 
         $numactive = 1;
@@ -294,10 +279,10 @@ if($new > 0){
 
 
 if(isset($paging_links) and is_array($paging_links)):  ?>
- <div class="mw-paging">
-<?php $i=1; foreach ($paging_links as $item): ?>
-<a  class="page-<?php print $i; ?> <?php if($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onClick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
-<?php $i++; endforeach; ?>
+<div class="mw-paging">
+  <?php $i=1; foreach ($paging_links as $item): ?>
+  <a  class="page-<?php print $i; ?> <?php if($numactive == $i): ?> active <?php endif; ?>" href="#<?php print $paging_param ?>=<?php print $i ?>" onClick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+  <?php $i++; endforeach; ?>
 </div>
 <?php endif; ?>
 <?php else: ?>
@@ -306,8 +291,7 @@ if(isset($paging_links) and is_array($paging_links)):  ?>
   <h2 class="left">
     <?php _e("No Products Here"); ?>
   </h2>
-
-      <?php
+  <?php
         if(isset($post_params['category-id'])) {
          $url = "#action=new:product&amp;category_id=".$post_params['category-id'];
 
@@ -318,19 +302,14 @@ if(isset($paging_links) and is_array($paging_links)):  ?>
         }
 
      ?>
-      <a href="<?php print   $url ; ?>" class="add-new-master">
-      <span class="add-new-master-icon"></span>
-
-      <span>
-      <?php _e("Add New Product"); ?>
-      </span> </a>
-
+  <a href="<?php print   $url ; ?>" class="add-new-master"> <span class="add-new-master-icon"></span> <span>
+  <?php _e("Add New Product"); ?>
+  </span> </a>
   <?php else: ?>
   <h2 class="left">
     <?php _e("No Posts Here"); ?>
   </h2>
-
-      <?php
+  <?php
 
 
     if(isset($post_params['category-id'])) {
@@ -342,13 +321,12 @@ if(isset($paging_links) and is_array($paging_links)):  ?>
     }
 
      ?>
-      <?php if(isset($url )): ?>
-      <a href="<?php print $url ; ?>"  class="add-new-master">
-      <span class="add-new-master-icon"></span>
-      <?php endif; ?>
-        <span>
-      <?php _e("Add New Post"); ?>
-      </span> </a>
+  <?php if(isset($url )): ?>
+  <a href="<?php print $url ; ?>"  class="add-new-master"> <span class="add-new-master-icon"></span>
+  <?php endif; ?>
+  <span>
+  <?php _e("Add New Post"); ?>
+  </span> </a>
   <?php endif; ?>
 </div>
 <?php endif; ?>

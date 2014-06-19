@@ -92,17 +92,28 @@ __mw_pics_save_msg = function(){
 
 $(document).ready(function(){
     mw.options.form('#mw-pic-scope', __mw_pics_save_msg);
+    mw.tabs({
+       tabs:'.tab',
+       nav:'.mw-ui-btn-nav a'
+    });
 });
  </script>
-<div class="mw_simple_tabs mw_tabs_layout_simple">
+<div class="mw-ui-box-content">
+<style scoped="scoped">
+
+.tab{
+  display: none;
+}
+
+</style>
 
  <?php if($quick_add == false): ?>
-  <ul class="mw_simple_tabs_nav">
-    <li><a href="javascript:;" class="active"><?php _e("My pictures"); ?></a></li>
-    <li><a href="javascript:;"><?php _e("Skin/Template"); ?></a></li>
-  </ul>
+  <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+    <a href="javascript:;" class="mw-ui-btn active"><?php _e("My pictures"); ?></a>
+    <a href="javascript:;" class="mw-ui-btn"><?php _e("Skin/Template"); ?></a>
+  </div>
    <?php endif; ?>
-  <div class="tab">
+  <div class="tab mw-ui-box mw-ui-box-content" style="display: block">
  
  <?php if($quick_add == false and $use_from_post_forced == false): ?>
   <label class="mw-ui-check" id="mw-pic-scope">
@@ -112,12 +123,12 @@ $(document).ready(function(){
      <module type="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" id="mw-pics-list-live-ed" />
   </div>
   <?php if($quick_add == false): ?>
-  <div class="tab"> <strong><?php _e("Skin/Template"); ?></strong>
+  <div class="tab mw-ui-box mw-ui-box-content"> <strong><?php _e("Skin/Template"); ?></strong>
     <module type="admin/modules/templates"  />
     <module type="settings/list"  for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >
   </div>
    <?php endif; ?>
 </div>
-<div class="mw_clear"></div>
+
 
 
