@@ -1646,20 +1646,17 @@ mw.drag = {
     mw.drag.saveOnce = true;
     if( mw.$(".edit.changed").length == 0){
       $(mwd.body).removeClass("loading");
-      //mw.askusertostay = false;
       return false;
     }
     if(mw.drag.draftSaving){
       return false;
     }
-
   }
   else{
 
 	if(typeof saveStaticElementsStyles === 'function'){
         saveStaticElementsStyles();
 	}
-
   }
 
 
@@ -1694,7 +1691,7 @@ if(typeof el === 'object' && el !== null){
 
 
 
-                     
+
   if(is_draft){
     var edits = mw.$(".edit.changed", doc);
   }
@@ -1793,13 +1790,10 @@ if(typeof el === 'object' && el !== null){
                 $(el).removeClass('disabled').html(html);
               }
               if(is_draft){
-               mw.$(".edit.changed").addClass('orig_changed').removeClass("changed");
-
+                mw.$(".edit.changed").addClass('orig_changed').removeClass("changed");
               }
               else {
                  mw.notification.success("All changes are saved.");
-
-
               }
               if(typeof callback === 'function'){
                    callback.call();

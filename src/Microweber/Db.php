@@ -1099,9 +1099,7 @@ class Db
             $criteria['category'] = $criteria['category-id'];
         }
 
-
         if (isset($criteria['category'])) {
-
             $search_n_cats = $criteria['category'];
             if (is_string($search_n_cats)) {
                 $search_n_cats = explode(',', $search_n_cats);
@@ -1119,7 +1117,7 @@ class Db
                     $cat_name_or_id1 = intval($cat_name_or_id);
                     $str1_items = 'fields=rel_id&limit=10000&what=category_items' . '&rel=' . $table_alias . '&parent_id=' . $cat_name_or_id;
 
- 
+
                     $is_in_category_items = $this->get($str1_items);
                     if (!empty($is_in_category_items)) {
                         foreach ($is_in_category_items as $is_in_category_items_tt) {

@@ -15,7 +15,7 @@ class Files
      */
     public function copy_directory($source, $destination)
     {
-       static $copies;
+        static $copies;
         if (is_dir($source)) {
             @mkdir($destination);
             $directory = dir($source);
@@ -41,7 +41,6 @@ class Files
         return $copies;
     }
 
-
     /**
      * Returns a human readable filesize
      * @package Utils
@@ -64,7 +63,6 @@ class Files
 
         return round($size, 2) . ' ' . $units[$i];
     }
-
 
     public function rmdir($directory, $empty = true)
     {
@@ -129,56 +127,6 @@ class Files
             return TRUE;
         }
     }
-
-
-    /**
-     *
-     *
-     * Recursive glob()
-     *
-     * @access public
-     * @package Utils
-     * @category Files
-     *
-     * @uses is_array()
-     * @param int|string $pattern
-     * the pattern passed to glob()
-     * @param int $flags
-     * the flags passed to glob()
-     * @param string $path
-     * the path to scan
-     * @return mixed
-     * an array of files in the given path matching the pattern.
-     */
-    public function rglob($pattern = '*', $flags = 0, $path = '')
-    {
-        if (!$path && ($dir = dirname($pattern)) != '.') {
-            if ($dir == '\\' || $dir == '/')
-                $dir = '';
-            return $this->rglob(basename($pattern), $flags, $dir . DS);
-        }
-
-
-        $paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
-        $files = glob($path . $pattern, $flags);
-
-
-        if (is_array($paths)) {
-            foreach ($paths as $p) {
-                $temp = $this->rglob($pattern, false, $p . DS);
-
-                if (is_array($temp) and is_array($files)) {
-                    $files = array_merge($files, $temp);
-                } else if (is_array($temp)) {
-                    $files = $temp;
-                }
-            }
-        }
-        return $files;
-
-
-    }
-
 
     public function dir_tree($path = '.', $params = false)
     {
@@ -321,6 +269,63 @@ class Files
         return $arrayItems;
     }
 
+    /**
+     *
+     *
+     * Recursive glob()
+     *
+     * @access public
+     * @package Utils
+     * @category Files
+     *
+     * @uses is_array()
+     * @param int|string $pattern
+     * the pattern passed to glob()
+     * @param int $flags
+     * the flags passed to glob()
+     * @param string $path
+     * the path to scan
+     * @return mixed
+     * an array of files in the given path matching the pattern.
+     */
+    public function rglob($pattern = '*', $flags = 0, $path = '')
+    {
+
+        if (!$path && ($dir = dirname($pattern)) != '.') {
+            if ($dir == '\\' || $dir == '/')
+                $dir = '';
+            return $this->rglob(basename($pattern), $flags, $dir . DS);
+        }
+
+
+        if (stristr($path, '_notes') or stristr($path, '.git') or stristr($path, '.svn')) {
+            return false;
+        }
+
+
+        $paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
+        $files = glob($path . $pattern, $flags);
+
+
+        if (is_array($paths)) {
+            foreach ($paths as $p) {
+                $temp = array();
+                if (is_dir($p) and is_readable($p)) {
+                    $temp = $this->rglob($pattern, false, $p . DS);
+
+                }
+
+                if (is_array($temp) and is_array($files)) {
+                    $files = array_merge($files, $temp);
+                } else if (is_array($temp)) {
+                    $files = $temp;
+                }
+            }
+        }
+        return $files;
+
+
+    }
 
     public function dir_tree_build($dir, $params = false)
     {
