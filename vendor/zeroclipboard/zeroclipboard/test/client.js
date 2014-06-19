@@ -1,7 +1,8 @@
-/*global ZeroClipboard, _clipData, _clipDataFormatMap, _flashState */
+/*global ZeroClipboard, _clipData, _clipDataFormatMap, flashState */
+
+"use strict";
 
 (function(module, test) {
-  "use strict";
 
   // Helper functions
   var TestUtils = {
@@ -333,8 +334,8 @@
     var pendingText = ZeroClipboard.emit("copy");
 
     // Assert
-    assert.strictEqual(_clipData["text/plain"].replace(/\r\n/g, "\n"), expectedText);
-    assert.strictEqual(pendingText.text.replace(/\r\n/g, "\n"), expectedText);
+    assert.strictEqual(_clipData["text/plain"].replace(/\r\n/g, '\n'), expectedText);
+    assert.strictEqual(pendingText.text.replace(/\r\n/g, '\n'), expectedText);
     assert.deepEqual(_clipDataFormatMap, { "text": "text/plain" });
 
     // Revert
@@ -371,17 +372,17 @@
     var pendingText =  ZeroClipboard.emit("copy");
 
     // Assert
-    assert.strictEqual(_clipData["text/plain"].replace(/\r\n/g, "\n"), expectedText);
+    assert.strictEqual(_clipData["text/plain"].replace(/\r\n/g, '\n'), expectedText);
     assert.strictEqual(
       _clipData["text/html"]
-        .replace(/\r\n/g, "\n")
+        .replace(/\r\n/g, '\n')
         .replace(/<\/?pre(?:\s+[^>]*)?>/gi, function($0) { return $0.toLowerCase(); }),
       expectedHtml
     );
-    assert.strictEqual(pendingText.text.replace(/\r\n/g, "\n"), expectedText);
+    assert.strictEqual(pendingText.text.replace(/\r\n/g, '\n'), expectedText);
     assert.strictEqual(
       pendingText.html
-        .replace(/\r\n/g, "\n")
+        .replace(/\r\n/g, '\n')
         .replace(/<\/?pre(?:\s+[^>]*)?>/gi, function($0) { return $0.toLowerCase(); }),
       expectedHtml
     );
@@ -516,8 +517,7 @@
     // Assert, arrange, assert, act, assert
     assert.ok(!ZeroClipboard.prototype._singleton, "The client singleton does not exist before creating a client");
     assert.equal(document.getElementById("global-zeroclipboard-html-bridge"), null, "The HTML bridge does not exist before creating a client");
-    /*jshint nonew:false */
-    new ZeroClipboard();
+    var client = new ZeroClipboard();
     assert.ok(!ZeroClipboard.prototype._singleton, "The client singleton does exist after creating a client");
     assert.notEqual(document.getElementById("global-zeroclipboard-html-bridge"), null, "The HTML bridge does exist after creating a client");
     ZeroClipboard.destroy();
@@ -552,14 +552,13 @@
     ZeroClipboard.isFlashUnusable = function() {
       return false;
     };
-    /*jshint nonew:false */
-    new ZeroClipboard();
+    var client = new ZeroClipboard();
 
     // Assert, act, assert
-    assert.strictEqual(_flashState.ready, false);
+    assert.strictEqual(flashState.ready, false);
     // `emit`-ing event handlers are async (generally) but the internal `ready` state is set synchronously
     ZeroClipboard.emit("ready");
-    assert.strictEqual(_flashState.ready, true);
+    assert.strictEqual(flashState.ready, true);
   });
 
 })(QUnit.module, QUnit.test);

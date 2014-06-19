@@ -3,7 +3,7 @@
 /*
  * This file is part of the Assetic package, an OpenSky project.
  *
- * (c) 2010-2013 OpenSky Project Inc
+ * (c) 2010-2014 OpenSky Project Inc
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -25,6 +25,7 @@ class AssetCollectionIterator implements \RecursiveIterator
 {
     private $assets;
     private $filters;
+    private $vars;
     private $output;
     private $clones;
 
@@ -32,6 +33,7 @@ class AssetCollectionIterator implements \RecursiveIterator
     {
         $this->assets  = $coll->all();
         $this->filters = $coll->getFilters();
+        $this->vars    = $coll->getVars();
         $this->output  = $coll->getTargetPath();
         $this->clones  = $clones;
 
@@ -62,6 +64,9 @@ class AssetCollectionIterator implements \RecursiveIterator
 
             // generate a target path based on asset name
             $name = sprintf('%s_%d', pathinfo($asset->getSourcePath(), PATHINFO_FILENAME) ?: 'part', $this->key() + 1);
+
+            $name = $this->removeDuplicateVar($name);
+
             $clone->setTargetPath(str_replace('*', $name, $this->output));
         } else {
             $clone = $this->clones[$asset];
@@ -106,5 +111,17 @@ class AssetCollectionIterator implements \RecursiveIterator
     public function getChildren()
     {
         return new self($this->current(), $this->clones);
+    }
+
+    private function removeDuplicateVar($name)
+    {
+        foreach ($this->vars as $var) {
+            $var = '{'.$var.'}';
+            if (false !== strpos($name, $var) && false !== strpos($this->output, $var)) {
+                $name = str_replace($var, '', $name);
+            }
+        }
+
+        return $name;
     }
 }

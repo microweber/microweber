@@ -1,277 +1,18 @@
 [
     {
-        "name": "keboola/csv",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/keboola/php-csv.git",
-            "reference": "d46da2e92bc44250a535bc2afc4c73a4be1d459a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/keboola/php-csv/zipball/d46da2e92bc44250a535bc2afc4c73a4be1d459a",
-            "reference": "d46da2e92bc44250a535bc2afc4c73a4be1d459a",
-            "shasum": ""
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~3.7"
-        },
-        "time": "2014-05-01 17:36:54",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Keboola\\Csv": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "description": "Keboola CSV reader and writer",
-        "homepage": "http://keboola.com"
-    },
-    {
-        "name": "prewk/xml-streamer",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/prewk/XmlStreamer.git",
-            "reference": "39d511ed29f2e5c180b46236091b39f62bd30b87"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/prewk-xml-streamer-39d511ed29f2e5c180b46236091b39f62bd30b87-zip-7bc0c0.zip",
-            "reference": "39d511ed29f2e5c180b46236091b39f62bd30b87",
-            "shasum": "ccb343f5305996c072b44bec4e29e6d7a711353d"
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2014-05-01 19:23:32",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Prewk\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "prewk",
-                "email": "oskar.thornblad@gmail.com"
-            }
-        ],
-        "description": "Stream large XML files with low memory consumption.",
-        "homepage": "https://github.com/prewk/XmlStreamer"
-    },
-    {
-        "name": "pimple/pimple",
-        "version": "v2.0.0",
-        "version_normalized": "2.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fabpot/Pimple.git",
-            "reference": "f99b3df12991c22463927aa6a18fd9b2212917f2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fabpot/Pimple/zipball/f99b3df12991c22463927aa6a18fd9b2212917f2",
-            "reference": "f99b3df12991c22463927aa6a18fd9b2212917f2",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2014-02-10 08:05:32",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Pimple": "lib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            }
-        ],
-        "description": "Pimple is a simple Dependency Injection Container for PHP 5.3",
-        "homepage": "http://pimple.sensiolabs.org",
-        "keywords": [
-            "container",
-            "dependency injection"
-        ]
-    },
-    {
-        "name": "microweber/installers",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/microweber/installers.git",
-            "reference": "8a7c645ae1b0e7d78d9d3282664a59b2bcfd4d5e"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/microweber-installers-8a7c645ae1b0e7d78d9d3282664a59b2bcfd4d5e-zip-dbd46a.zip",
-            "reference": "8a7c645ae1b0e7d78d9d3282664a59b2bcfd4d5e",
-            "shasum": "8ab8679cdf2344801a5ce34060d06d096ba999ef"
-        },
-        "replace": {
-            "shama/baton": "*"
-        },
-        "require-dev": {
-            "composer/composer": "1.0.*@dev",
-            "phpunit/phpunit": "3.7.*"
-        },
-        "time": "2014-05-04 09:29:52",
-        "type": "composer-installer",
-        "extra": {
-            "class": "Composer\\Installers\\Installer",
-            "branch-alias": {
-                "dev-master": "1.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Composer\\Installers\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Kyle Robinson Young",
-                "email": "kyle@dontkry.com",
-                "homepage": "https://github.com/shama",
-                "role": "Developer"
-            }
-        ],
-        "description": "A multi-framework Composer library installer",
-        "homepage": "http://composer.github.com/installers/",
-        "keywords": [
-            "Craft",
-            "Hurad",
-            "MODX Evo",
-            "OXID",
-            "WolfCMS",
-            "agl",
-            "annotatecms",
-            "cakephp",
-            "codeigniter",
-            "concrete5",
-            "croogo",
-            "drupal",
-            "elgg",
-            "fuelphp",
-            "installer",
-            "joomla",
-            "kohana",
-            "laravel",
-            "lithium",
-            "magento",
-            "mako",
-            "mediawiki",
-            "modulework",
-            "phpbb",
-            "piwik",
-            "ppi",
-            "shopware",
-            "silverstripe",
-            "symfony",
-            "typo3",
-            "wordpress",
-            "zend",
-            "zikula"
-        ]
-    },
-    {
-        "name": "symfony/process",
-        "version": "v2.4.4",
-        "version_normalized": "2.4.4.0",
-        "target-dir": "Symfony/Component/Process",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/Process.git",
-            "reference": "8721f1476d5d38a43c7d6ccb6435b351cf8f3bb7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Process/zipball/8721f1476d5d38a43c7d6ccb6435b351cf8f3bb7",
-            "reference": "8721f1476d5d38a43c7d6ccb6435b351cf8f3bb7",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2014-04-27 13:34:57",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.4-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\Process\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Process Component",
-        "homepage": "http://symfony.com"
-    },
-    {
         "name": "kriswallsmith/assetic",
-        "version": "v1.1.2",
-        "version_normalized": "1.1.2.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/kriswallsmith/assetic.git",
-            "reference": "735cffd3982c6e8cdebe292d5db39d077f65890f"
+            "reference": "964340e69361802eddf51e8eaa85acbd1c621edf"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/735cffd3982c6e8cdebe292d5db39d077f65890f",
-            "reference": "735cffd3982c6e8cdebe292d5db39d077f65890f",
-            "shasum": ""
+            "url": "http://packages.microweber.com/dist/kriswallsmith-assetic-964340e69361802eddf51e8eaa85acbd1c621edf-zip-16e484.zip",
+            "reference": "964340e69361802eddf51e8eaa85acbd1c621edf",
+            "shasum": "bfa87676e516e0363fcb7a011a6f348c6864eb5a"
         },
         "require": {
             "php": ">=5.3.1",
@@ -285,7 +26,9 @@
             "leafo/scssphp": "*",
             "leafo/scssphp-compass": "*",
             "mrclay/minify": "*",
+            "patchwork/jsqueeze": "*",
             "phpunit/phpunit": "~3.7",
+            "psr/log": "~1.0",
             "ptachoire/cssembed": "*",
             "twig/twig": "~1.6"
         },
@@ -293,14 +36,15 @@
             "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
             "leafo/scssphp": "Assetic provides the integration with the scssphp SCSS compiler",
             "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin",
+            "patchwork/jsqueeze": "Assetic provides the integration with the JSqueeze JavaScript compressor",
             "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
             "twig/twig": "Assetic provides the integration with the Twig templating engine"
         },
-        "time": "2013-07-19 00:03:27",
+        "time": "2014-05-05 12:59:42",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.1-dev"
+                "dev-master": "1.2-dev"
             }
         },
         "installation-source": "dist",
@@ -333,27 +77,28 @@
     },
     {
         "name": "robloach/component-installer",
-        "version": "0.0.12",
-        "version_normalized": "0.0.12.0",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/RobLoach/component-installer.git",
-            "reference": "1864f25db21fc173e02a359f646acd596c1b0460"
+            "reference": "c2e456e7644885f786169e52f590719aa5a8a7d8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/RobLoach/component-installer/zipball/1864f25db21fc173e02a359f646acd596c1b0460",
-            "reference": "1864f25db21fc173e02a359f646acd596c1b0460",
-            "shasum": ""
+            "url": "http://packages.microweber.com/dist/robloach-component-installer-c2e456e7644885f786169e52f590719aa5a8a7d8-zip-00f8db.zip",
+            "reference": "c2e456e7644885f786169e52f590719aa5a8a7d8",
+            "shasum": "1f3e5ac0ccc354088e90fa1935c3bc6b999ea87f"
         },
         "require": {
+            "composer-plugin-api": "1.0.0",
             "kriswallsmith/assetic": "1.*",
             "php": ">=5.3.2"
         },
         "require-dev": {
             "composer/composer": "1.*"
         },
-        "time": "2013-08-31 23:46:48",
+        "time": "2013-09-08 14:10:00",
         "type": "composer-installer",
         "extra": {
             "class": "ComponentInstaller\\Installer"
@@ -379,8 +124,8 @@
     },
     {
         "name": "components/jquery",
-        "version": "1.9.1",
-        "version_normalized": "1.9.1.0",
+        "version": "1.9.x-dev",
+        "version_normalized": "1.9.9999999.9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/components/jquery.git",
@@ -554,18 +299,18 @@
     },
     {
         "name": "components/bootstrap",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "3.1.1",
+        "version_normalized": "3.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/components/bootstrap.git",
-            "reference": "32034b461f8186ace7dd2b08f07b549f831fde96"
+            "reference": "839953cfb830aa27e8fd94404a4a6e02fb38a51a"
         },
         "dist": {
             "type": "zip",
-            "url": "http://packages.microweber.com/dist/components-bootstrap-32034b461f8186ace7dd2b08f07b549f831fde96-zip-663d0e.zip",
-            "reference": "32034b461f8186ace7dd2b08f07b549f831fde96",
-            "shasum": "31ba84747261ee429ba7afde7c2d7701f4365220"
+            "url": "http://packages.microweber.com/dist/components-bootstrap-839953cfb830aa27e8fd94404a4a6e02fb38a51a-zip-8d4e92.zip",
+            "reference": "839953cfb830aa27e8fd94404a4a6e02fb38a51a",
+            "shasum": "2a74de2b6c460627789813db8a8b4fac1c6e28bb"
         },
         "require": {
             "components/jquery": ">=1.9"
@@ -573,7 +318,7 @@
         "suggest": {
             "components/bootstrap-default": "Provide a theme for Bootstrap as components/bootstrap only provides the CSS as file assets"
         },
-        "time": "2014-04-17 12:33:39",
+        "time": "2014-02-25 09:50:56",
         "type": "component",
         "extra": {
             "component": {
@@ -604,7 +349,63 @@
             }
         ],
         "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
-        "homepage": "http://getbootstrap.com",
+        "homepage": "http://twitter.github.com/bootstrap/",
+        "keywords": [
+            "bootstrap",
+            "css"
+        ]
+    },
+    {
+        "name": "components/bootstrap-default",
+        "version": "3.1.1",
+        "version_normalized": "3.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/components/bootstrap-default.git",
+            "reference": "bce255dfe1a9cb0ce96659fc3785b4ce6a0ff695"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "http://packages.microweber.com/dist/components-bootstrap-default-bce255dfe1a9cb0ce96659fc3785b4ce6a0ff695-zip-8d2bd5.zip",
+            "reference": "bce255dfe1a9cb0ce96659fc3785b4ce6a0ff695",
+            "shasum": "2b1c505fa5b5b1a8f9a11f3ebad4747b0be25d6f"
+        },
+        "require": {
+            "components/bootstrap": "*",
+            "robloach/component-installer": "*"
+        },
+        "time": "2014-04-04 21:07:20",
+        "type": "component",
+        "extra": {
+            "component": {
+                "styles": [
+                    "css/bootstrap.css",
+                    "css/bootstrap-theme.css"
+                ],
+                "files": [
+                    "css/bootstrap.min.css",
+                    "css/bootstrap-theme.min.css",
+                    "fonts/*"
+                ],
+                "shim": {
+                    "deps": [
+                        "bootstrap"
+                    ]
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Twitter, Inc"
+            }
+        ],
+        "description": "Shim repository for the default theme for Bootstrap.",
+        "homepage": "http://twitter.github.com/bootstrap/",
         "keywords": [
             "bootstrap",
             "css"
@@ -612,20 +413,20 @@
     },
     {
         "name": "zeroclipboard/zeroclipboard",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "2.0.0-beta.5",
+        "version_normalized": "2.0.0.0-beta5",
         "source": {
             "type": "git",
             "url": "https://github.com/zeroclipboard/zeroclipboard.git",
-            "reference": "7702ca7eb098cde59c2bcc9a05000f05968d2d31"
+            "reference": "5859f1bf454f4666197fbb9f0b9fd8350ab41f27"
         },
         "dist": {
             "type": "zip",
-            "url": "http://packages.microweber.com/dist/zeroclipboard-zeroclipboard-7702ca7eb098cde59c2bcc9a05000f05968d2d31-zip-5ec195.zip",
-            "reference": "7702ca7eb098cde59c2bcc9a05000f05968d2d31",
-            "shasum": "4e90b0fd873df3adc7433283d52656012ad5d92e"
+            "url": "http://packages.microweber.com/dist/zeroclipboard-zeroclipboard-5859f1bf454f4666197fbb9f0b9fd8350ab41f27-zip-c43d98.zip",
+            "reference": "5859f1bf454f4666197fbb9f0b9fd8350ab41f27",
+            "shasum": "89b55323011f4dd1ec5cfad018ca3b82b2bcd624"
         },
-        "time": "2014-05-02 13:45:31",
+        "time": "2014-04-29 13:39:33",
         "type": "library",
         "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
@@ -659,59 +460,298 @@
         ]
     },
     {
-        "name": "components/bootstrap-default",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "name": "pimple/pimple",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/components/bootstrap-default.git",
-            "reference": "fc286c5194be8148ab9be170f52ac98ddb245c7f"
+            "url": "https://github.com/fabpot/Pimple.git",
+            "reference": "f99b3df12991c22463927aa6a18fd9b2212917f2"
         },
         "dist": {
             "type": "zip",
-            "url": "http://packages.microweber.com/dist/components-bootstrap-default-fc286c5194be8148ab9be170f52ac98ddb245c7f-zip-0dd3ea.zip",
-            "reference": "fc286c5194be8148ab9be170f52ac98ddb245c7f",
-            "shasum": "a0a2fd7e1d8c28198c0b61e929071573661f36c7"
+            "url": "http://packages.microweber.com/dist/pimple-pimple-f99b3df12991c22463927aa6a18fd9b2212917f2-zip-68c3fa.zip",
+            "reference": "f99b3df12991c22463927aa6a18fd9b2212917f2",
+            "shasum": "7058a50d86eb842b4caf50c2a7563f736fa4219a"
         },
         "require": {
-            "components/bootstrap": "*",
-            "robloach/component-installer": "*"
+            "php": ">=5.3.0"
         },
-        "time": "2014-05-08 17:59:51",
-        "type": "component",
+        "time": "2014-02-10 08:05:32",
+        "type": "library",
         "extra": {
-            "component": {
-                "styles": [
-                    "css/bootstrap.css",
-                    "css/bootstrap-theme.css"
-                ],
-                "files": [
-                    "css/bootstrap.min.css",
-                    "css/bootstrap-theme.min.css",
-                    "fonts/*"
-                ],
-                "shim": {
-                    "deps": [
-                        "bootstrap"
-                    ]
-                }
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
             }
         },
         "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Pimple": "lib/"
+            }
+        },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "Apache-2.0"
+            "MIT"
         ],
         "authors": [
             {
-                "name": "Twitter, Inc"
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
             }
         ],
-        "description": "Shim repository for the default theme for Bootstrap.",
-        "homepage": "http://getbootstrap.com",
+        "description": "Pimple is a simple Dependency Injection Container for PHP 5.3",
+        "homepage": "http://pimple.sensiolabs.org",
         "keywords": [
-            "bootstrap",
-            "css"
+            "container",
+            "dependency injection"
+        ]
+    },
+    {
+        "name": "prewk/xml-streamer",
+        "version": "0.4.2",
+        "version_normalized": "0.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/prewk/XmlStreamer.git",
+            "reference": "0efcec38aad91aeb2051d5b604b58dbd9a4ac81c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "http://packages.microweber.com/dist/prewk-xml-streamer-0efcec38aad91aeb2051d5b604b58dbd9a4ac81c-zip-608334.zip",
+            "reference": "0efcec38aad91aeb2051d5b604b58dbd9a4ac81c",
+            "shasum": "b4f45119789f78dc8ea384c6b57c9b232319c171"
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2014-04-26 12:26:43",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Prewk\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "prewk",
+                "email": "oskar.thornblad@gmail.com"
+            }
+        ],
+        "description": "Stream large XML files with low memory consumption.",
+        "homepage": "https://github.com/prewk/XmlStreamer"
+    },
+    {
+        "name": "keboola/csv",
+        "version": "1.1.3",
+        "version_normalized": "1.1.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/keboola/php-csv.git",
+            "reference": "113735ad9f4f7e0ef5545ebfb5fcd62528035841"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "http://packages.microweber.com/dist/keboola-csv-113735ad9f4f7e0ef5545ebfb5fcd62528035841-zip-cdd9a2.zip",
+            "reference": "113735ad9f4f7e0ef5545ebfb5fcd62528035841",
+            "shasum": "135a6129341341276baff0d17f248ace4c8a1cda"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~3.7"
+        },
+        "time": "2014-01-31 14:10:34",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Keboola\\Csv": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "Keboola CSV reader and writer",
+        "homepage": "http://keboola.com"
+    },
+    {
+        "name": "j4mie/idiorm",
+        "version": "v1.4.1",
+        "version_normalized": "1.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/j4mie/idiorm.git",
+            "reference": "11e964157a6a2c6128a0546673ad5e99ac1a62cd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/j4mie/idiorm/zipball/11e964157a6a2c6128a0546673ad5e99ac1a62cd",
+            "reference": "11e964157a6a2c6128a0546673ad5e99ac1a62cd",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2013-12-12 10:25:27",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "idiorm.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause",
+            "BSD-3-Clause",
+            "BSD-4-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Simon Holywell",
+                "email": "treffynnon@php.net",
+                "homepage": "http://simonholywell.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Jamie Matthews",
+                "email": "jamie.matthews@gmail.com",
+                "homepage": "http://j4mie.org",
+                "role": "Developer"
+            },
+            {
+                "name": "Durham Hale",
+                "email": "me@durhamhale.com",
+                "homepage": "http://durhamhale.com",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "A lightweight nearly-zero-configuration object-relational mapper and fluent query builder for PHP5",
+        "homepage": "http://j4mie.github.com/idiormandparis",
+        "keywords": [
+            "idiorm",
+            "orm",
+            "query builder"
+        ]
+    },
+    {
+        "name": "symfony/process",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Symfony/Component/Process",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Process.git",
+            "reference": "0c367d63ab161bfc757e5e882a1d9dde8d344be3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Process/zipball/0c367d63ab161bfc757e5e882a1d9dde8d344be3",
+            "reference": "0c367d63ab161bfc757e5e882a1d9dde8d344be3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2014-06-18 11:43:36",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.6-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Process\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Process Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "j4mie/paris",
+        "version": "v1.4.2",
+        "version_normalized": "1.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/j4mie/paris.git",
+            "reference": "dd1a87544127874dce367f0252dcc81246dfc83b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/j4mie/paris/zipball/dd1a87544127874dce367f0252dcc81246dfc83b",
+            "reference": "dd1a87544127874dce367f0252dcc81246dfc83b",
+            "shasum": ""
+        },
+        "require": {
+            "j4mie/idiorm": "1.4.*",
+            "php": ">=5.2.0"
+        },
+        "time": "2013-12-12 10:47:44",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "paris.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause",
+            "BSD-3-Clause",
+            "BSD-4-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Simon Holywell",
+                "email": "treffynnon@php.net",
+                "homepage": "http://simonholywell.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Jamie Matthews",
+                "email": "jamie.matthews@gmail.com",
+                "homepage": "http://j4mie.org",
+                "role": "Developer"
+            },
+            {
+                "name": "Durham Hale",
+                "email": "me@durhamhale.com",
+                "homepage": "http://durhamhale.com",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "A lightweight Active Record implementation for PHP5, built on top of Idiorm",
+        "homepage": "http://j4mie.github.com/idiormandparis",
+        "keywords": [
+            "Active Record",
+            "model",
+            "orm",
+            "paris"
         ]
     }
 ]

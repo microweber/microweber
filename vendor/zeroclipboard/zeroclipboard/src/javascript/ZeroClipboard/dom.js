@@ -19,7 +19,15 @@ var _bridge = function () {
     var swfUrl = _globalConfig.swfPath + _cacheBust(_globalConfig.swfPath, _globalConfig);
 
     // Create the outer container
-    container = _createHtmlBridge();
+    container = document.createElement("div");
+    container.id = "global-zeroclipboard-html-bridge";
+    container.className = "global-zeroclipboard-container";
+    container.style.position = "absolute";
+    container.style.left = "0px";
+    container.style.top = "-9999px";
+    container.style.width = "1px";
+    container.style.height = "1px";
+    container.style.zIndex = "" + _getSafeZIndex(_globalConfig.zIndex);
 
     // Create a to-be-replaced child node
     var divToBeReplaced = document.createElement("div");
@@ -36,8 +44,7 @@ var _bridge = function () {
     // Hybrid of Flash Satay markup is from Ambience:
     //  - Flash Satay version:  http://alistapart.com/article/flashsatay
     //  - Ambience version:     http://www.ambience.sk/flash-valid.htm
-    var oldIE = _flashState.pluginType === "activex";
-    /*jshint quotmark:single */
+    var oldIE = flashState.pluginType === "activex";
     tmpDiv.innerHTML =
       '<object id="global-zeroclipboard-flash-bridge" name="global-zeroclipboard-flash-bridge" ' +
         'width="100%" height="100%" ' +
@@ -50,7 +57,6 @@ var _bridge = function () {
         '<param name="wmode" value="transparent"/>' +
         '<param name="flashvars" value="' + flashvars + '"/>' +
       '</object>';
-    /*jshint quotmark:double */
     flashBridge = tmpDiv.firstChild;
     tmpDiv = null;
 
@@ -76,25 +82,7 @@ var _bridge = function () {
     }
   }
 
-  _flashState.bridge = flashBridge || null;
-};
-
-
-/*
- * Create the HTML bridge element to embed the Flash object into.
- * @private
- */
-var _createHtmlBridge = function() {
-  var container = document.createElement("div");
-  container.id = "global-zeroclipboard-html-bridge";
-  container.className = "global-zeroclipboard-container";
-  container.style.position = "absolute";
-  container.style.left = "0px";
-  container.style.top = "-9999px";
-  container.style.width = "1px";
-  container.style.height = "1px";
-  container.style.zIndex = "" + _getSafeZIndex(_globalConfig.zIndex);
-  return container;
+  flashState.bridge = flashBridge || null;
 };
 
 
@@ -104,7 +92,7 @@ var _createHtmlBridge = function() {
  */
 var _getHtmlBridge = function(flashBridge) {
   var htmlBridge = flashBridge && flashBridge.parentNode;
-  while (htmlBridge && htmlBridge.nodeName === "OBJECT" && htmlBridge.parentNode) {
+  while (htmlBridge && htmlBridge.nodeName === 'OBJECT' && htmlBridge.parentNode) {
     htmlBridge = htmlBridge.parentNode;
   }
   return htmlBridge || null;
@@ -118,12 +106,12 @@ var _getHtmlBridge = function(flashBridge) {
  */
 var _reposition = function () {
 
-  // If there is no `_currentElement`, skip it
-  if (_currentElement) {
-    var pos = _getDOMObjectPosition(_currentElement, _globalConfig.zIndex);
+  // If there is no `currentElement`, skip it
+  if (currentElement) {
+    var pos = _getDOMObjectPosition(currentElement, _globalConfig.zIndex);
 
     // new css
-    var htmlBridge = _getHtmlBridge(_flashState.bridge);
+    var htmlBridge = _getHtmlBridge(flashState.bridge);
     if (htmlBridge) {
       htmlBridge.style.top    = pos.top + "px";
       htmlBridge.style.left   = pos.left + "px";
@@ -143,7 +131,7 @@ var _reposition = function () {
  * returns nothing
  */
 var _setSize = function (width, height) {
-  var htmlBridge = _getHtmlBridge(_flashState.bridge);
+  var htmlBridge = _getHtmlBridge(flashState.bridge);
   if (htmlBridge) {
     htmlBridge.style.width = width + "px";
     htmlBridge.style.height = height + "px";

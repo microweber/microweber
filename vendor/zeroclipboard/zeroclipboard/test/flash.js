@@ -1,7 +1,8 @@
-/*global _flashState, _detectFlashSupport */
+/*global flashState, _detectFlashSupport */
+
+"use strict";
 
 (function(module, test) {
-  "use strict";
 
   var mimeType, ax;
 
@@ -27,7 +28,7 @@
     _detectFlashSupport();
 
     // Assert
-    assert.strictEqual(_flashState.disabled, true);
+    assert.strictEqual(flashState.disabled, true);
   });
 
   test("Detecting has Flash mimetype", function(assert) {
@@ -41,7 +42,7 @@
     _detectFlashSupport();
 
     // Assert
-    assert.strictEqual(_flashState.disabled, false);
+    assert.strictEqual(flashState.disabled, false);
   });
 
 })(QUnit.module, QUnit.test);

@@ -1,8 +1,6 @@
 XmlStreamer [![Build Status](https://travis-ci.org/prewk/XmlStreamer.svg?branch=master)](https://travis-ci.org/prewk/XmlStreamer)
 ==========
 
-__This project is no longer updated, please check out its successor [xml-string-streamer](https://github.com/prewk/xml-string-streamer) instead. It's slower but might work better if your XML has unusual stuff in it (comments, unicode, etc).__
-
 # About
 
 Written by oskar.thornblad@gmail.com.

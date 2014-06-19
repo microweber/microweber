@@ -226,7 +226,7 @@ define use of [html5shiv](https://github.com/aFarkas/html5shiv):
                         "scripts": [
                             "dist/html5shiv.js"
                         ]
-                    },
+                    }
                 },
                 "require": {
                     "robloach/component-installer": "*"
@@ -234,6 +234,26 @@ define use of [html5shiv](https://github.com/aFarkas/html5shiv):
             }
         }
     ]
+}
+```
+
+### Backwards Compatibility
+
+Newer versions of composer made backwards incompatible changes to the way
+plugins work. In order for `components-installer` to work on newer versions of
+composer, a backwards incompatibile fix had to be made. If you are using an
+older version of composer, please make sure to explicitly require version
+`0.0.12` in your root `composer.json` file. Example:
+
+``` json
+{
+    "require": {
+	"robloach/component-installer": "0.0.12",
+        "components/jquery": "*"
+    },
+    "config": {
+        "component-dir": "public"
+    }
 }
 ```
 

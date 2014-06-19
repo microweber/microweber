@@ -3,7 +3,7 @@
 /*
  * This file is part of the Assetic package, an OpenSky project.
  *
- * (c) 2010-2013 OpenSky Project Inc
+ * (c) 2010-2014 OpenSky Project Inc
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -115,18 +115,15 @@ class SassFilter extends BaseProcessFilter implements DependencyExtractorInterfa
 
         $pb = $this->createProcessBuilder($sassProcessArgs);
 
-        $root = $asset->getSourceRoot();
-        $path = $asset->getSourcePath();
-
-        if ($root && $path) {
-            $pb->add('--load-path')->add(dirname($root.'/'.$path));
+        if ($dir = $asset->getSourceDirectory()) {
+            $pb->add('--load-path')->add($dir);
         }
 
         if ($this->unixNewlines) {
             $pb->add('--unix-newlines');
         }
 
-        if (true === $this->scss || (null === $this->scss && 'scss' == pathinfo($path, PATHINFO_EXTENSION))) {
+        if (true === $this->scss || (null === $this->scss && 'scss' == pathinfo($asset->getSourcePath(), PATHINFO_EXTENSION))) {
             $pb->add('--scss');
         }
 

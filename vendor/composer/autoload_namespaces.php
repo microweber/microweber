@@ -10,7 +10,6 @@ return array(
     'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
     'Microweber' => array($baseDir . '/src'),
     'Keboola\\Csv' => array($vendorDir . '/keboola/csv/src'),
-    'Composer\\Installers\\' => array($vendorDir . '/microweber/installers/src'),
     'ComponentInstaller' => array($vendorDir . '/robloach/component-installer/src'),
     'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),
 );

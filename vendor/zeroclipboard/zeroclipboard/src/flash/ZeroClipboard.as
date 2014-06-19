@@ -10,22 +10,21 @@ package {
   import flash.system.Security;
 
 
-  /**
-   * The ZeroClipboard class creates a simple Sprite button that will put
-   * text in the user's clipboard when clicked.
-   */
+  // ZeroClipboard
+  //
+  // The ZeroClipboard class creates a simple sprite button that will put
+  // text in your clipboard when clicked
+  //
+  // returns nothing
   [SWF(widthPercent="100%", heightPercent="100%", backgroundColor="#FFFFFF")]
   public class ZeroClipboard extends Sprite {
 
-    /**
-     * Expected Flash object ID.
-     */
+    // CONSTANTS
+    // Expected Flash object ID
     private static const SWF_OBJECT_ID:String = "global-zeroclipboard-flash-bridge";
 
-    /**
-     * Function through which JavaScript events are emitted. Accounts for scenarios
-     * in which ZeroClipboard is used via AMD/CommonJS module loaders, too.
-     */
+    // Function through which JavaScript events are emitted.
+    // Acccounts for scenarios in which ZeroClipboard is used via AMD/CommonJS module loaders, too.
     private static const JS_EMITTER:String =
       "(function(eventObj) {\n" +
       "  var objectId = '" + ZeroClipboard.SWF_OBJECT_ID + "',\n" +
@@ -48,14 +47,10 @@ package {
       "})";
 
 
-    /**
-     * JavaScript proxy object.
-     */
+    // JavaScript proxy object
     private var jsProxy:JsProxy = null;
 
-    /**
-     * Clipboard proxy object.
-     */
+    // Clipboard proxy object
     private var clipboard:ClipboardInjector = null;
 
 
@@ -68,11 +63,10 @@ package {
       this.ctor();
     }
 
-
     /**
      * The real constructor.
      *
-     * @return `undefined`
+     * @return void
      */
     private function ctor(): void {
       // If the `stage` is available, begin!
@@ -85,19 +79,17 @@ package {
       }
     }
 
-
     /**
      * Initialize the class when the Stage is ready.
      *
-     * @return `undefined`
+     * @return void
      */
     private function init(): void {
       // Remove the event listener, if any
       this.removeEventListener(Event.ADDED_TO_STAGE, this.init);
 
       // Get the flashvars
-      var flashvars:Object;  // NOPMD
-      flashvars = XssUtils.filterToFlashVars(this.loaderInfo.parameters);
+      var flashvars:Object = XssUtils.filterToFlashVars(this.loaderInfo.parameters);
 
       // Allow the SWF object to communicate with a page on a different origin than its own (e.g. SWF served from CDN)
       if (flashvars.trustedOrigins && typeof flashvars.trustedOrigins === "string") {
@@ -111,51 +103,6 @@ package {
         forceEnhancedClipboard = true;
       }
 
-      // Create an invisible "button" and transparently fill the entire Stage
-      var button:Sprite = this.prepareUI();
-
-      // Configure the clipboard injector
-      this.clipboard = new ClipboardInjector(forceEnhancedClipboard);
-
-      // Establish a communication line with JavaScript
-      this.jsProxy = new JsProxy(ZeroClipboard.SWF_OBJECT_ID);
-
-      // Only proceed if this SWF is hosted in the browser as expected
-      if (this.jsProxy.isComplete()) {
-
-        // Add the MouseEvent listeners
-        button.addEventListener(MouseEvent.MOUSE_OVER, mouseOver);
-        button.addEventListener(MouseEvent.MOUSE_OUT, mouseOut);
-        button.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
-        button.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
-        button.addEventListener(MouseEvent.CLICK, onClick);
-
-        // Expose the external functions
-        this.jsProxy.addCallback(
-          "setHandCursor",
-          function(enabled:Boolean) {
-            button.useHandCursor = enabled === true;
-          }
-        );
-
-        // Signal to the browser that we are ready
-        this.emit("ready");
-      }
-      else {
-        // Signal to the browser that something is wrong
-        this.emit("error", {
-          name: "flash-unavailable"
-        });
-      }
-    }
-
-
-    /**
-     * Prepare the Stage and Button.
-     *
-     * @return Button
-     */
-    private function prepareUI(): Sprite {
       // Set the stage!
       stage.align = StageAlign.TOP_LEFT;
       stage.scaleMode = StageScaleMode.EXACT_FIT;
@@ -180,19 +127,52 @@ package {
       // Add the invisible "button" to the stage!
       this.addChild(button);
 
-      // Return the button for adding event listeners
-      return button;
+
+      // Configure the clipboard injector
+      this.clipboard = new ClipboardInjector(forceEnhancedClipboard);
+
+      // Establish a communication line with JavaScript
+      this.jsProxy = new JsProxy(ZeroClipboard.SWF_OBJECT_ID);
+
+      // Only proceed if this SWF is hosted in the browser as expected
+      if (this.jsProxy.isComplete()) {
+
+        // Add the MouseEvent listeners
+        button.addEventListener(MouseEvent.CLICK, mouseClick);
+        button.addEventListener(MouseEvent.MOUSE_OVER, mouseOver);
+        button.addEventListener(MouseEvent.MOUSE_OUT, mouseOut);
+        button.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+        button.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+
+        // Expose the external functions
+        this.jsProxy.addCallback(
+          "setHandCursor",
+          function(enabled:Boolean) {
+            button.useHandCursor = enabled === true;
+          }
+        );
+
+        // Signal to the browser that we are ready
+        this.emit("ready");
+      }
+      else {
+        // Signal to the browser that something is wrong
+        this.emit("error", {
+          name: "flash-unavailable"
+        });
+      }
     }
 
 
-    /**
-     * Clears the clipboard and sets new clipboard text. It gets this from the "_clipData"
-     * variable on the JavaScript side. Once the text has been placed in the clipboard, it
-     * then signals to the JavaScript that it is done.
-     *
-     * @return `undefined`
-     */
-    private function onClick(event:MouseEvent): void {
+    // mouseClick
+    //
+    // The mouseClick private function handles clearing the clipboard, and
+    // setting new clip text. It gets this from the clipData private variable.
+    // Once the text has been placed in the clipboard, It then signals to the
+    // Javascript that it is done.
+    //
+    // returns nothing
+    private function mouseClick(event:MouseEvent): void {
       var clipData:Object;  // NOPMD
       var clipInjectSuccess:Object = {};  // NOPMD
 
@@ -215,29 +195,8 @@ package {
       );
     }
 
-
-    /**
-     * Emit events to JavaScript.
-     *
-     * @return `undefined`, or the new "_clipData" object
-     */
-    private function emit(
-      eventType:String,
-      eventObj:Object = null  // NOPMD
-    ): Object {  // NOPMD
-      if (eventObj == null) {
-        eventObj = {};
-      }
-      eventObj.type = eventType;
-
-      var result:Object = undefined;  // NOPMD
-      if (this.jsProxy.isComplete()) {
-        result = this.jsProxy.call(ZeroClipboard.JS_EMITTER, [eventObj]);
-      }
-      else {
-        this.jsProxy.send(ZeroClipboard.JS_EMITTER, [eventObj]);
-      }
-      return result;
+    private function _log(msg:String, data:String): void {
+      this.jsProxy.call("console.log", [msg + ": " + data]);
     }
 
     // mouseOver
@@ -274,6 +233,30 @@ package {
     // returns nothing
     private function mouseUp(event:MouseEvent): void {
       this.emit("mouseup", ZeroClipboard.metaData(event));
+    }
+
+    // emit
+    //
+    // Function through which JavaScript events are emitted
+    //
+    // returns nothing, or the new "clipData" object
+    private function emit(
+      eventType:String,
+      eventObj:Object = null  // NOPMD
+    ): Object {  // NOPMD
+      if (eventObj == null) {
+        eventObj = {};
+      }
+      eventObj.type = eventType;
+
+      var result:Object = undefined;  // NOPMD
+      if (this.jsProxy.isComplete()) {
+        result = this.jsProxy.call(ZeroClipboard.JS_EMITTER, [eventObj]);
+      }
+      else {
+        this.jsProxy.send(ZeroClipboard.JS_EMITTER, [eventObj]);
+      }
+      return result;
     }
 
     // metaData

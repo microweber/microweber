@@ -1,7 +1,6 @@
 {
   "name": "components-bootstrap",
   "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
-  "homepage": "http://getbootstrap.com",
   "version": "3.1.1",
   "keywords": [
     "bootstrap",
