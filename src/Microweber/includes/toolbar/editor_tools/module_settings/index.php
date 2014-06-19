@@ -236,7 +236,7 @@ if (isset($_GET['type'])) {
 
 <?php
 
-var_dump($params);
+//var_dump($params);
 
 ?>
 <script type="text/javascript">

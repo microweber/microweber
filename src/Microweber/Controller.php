@@ -2195,7 +2195,7 @@ class Controller
                         $layout_toolbar->assign('basic_mode', false);
 
                     }
-
+                    event_trigger('mw.live_edit');
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
                         $layout_toolbar = $this->app->parser->process($layout_toolbar, $options = array('no_apc' => 1));

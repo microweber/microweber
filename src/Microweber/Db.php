@@ -34,6 +34,23 @@ class Db
      * @var $adapter
      */
     public $adapter;
+    /**
+     * Add new table index if not exists
+     *
+     * @example
+     * <pre>
+     * \mw('db')->add_table_index('title', $table_name, array('title'));
+     * </pre>
+     *
+     * @category Database
+     * @package    Database
+     * @subpackage Advanced
+     * @param string $aIndexName Index name
+     * @param string $aTable Table name
+     * @param string $aOnColumns Involved columns
+     * @param bool $indexType
+     */
+    var $add_table_index_cache = array();
     private $mw_escaped_strings = array();
     private $table_fields = array();
     private $results_map = array();
@@ -185,7 +202,7 @@ class Db
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        if(isset($this->build_tables[$function_cache_id])){
+        if (isset($this->build_tables[$function_cache_id])) {
             return true;
         } else {
             $this->build_tables[$function_cache_id] = true;
@@ -196,11 +213,10 @@ class Db
         $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id . $prefix);
 
 
-
         $table_name = $this->real_table_name($table_name);
 
         $cache_group = 'db/' . $table_name;
-        $cache_content = $this->app->cache->get($function_cache_id,$cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -528,36 +544,29 @@ class Db
             if (!isset($table) and $k == 'what' and !isset($params['rel'])) {
                 $table = $this->guess_table_name($v);
             }
-
             if ($k == 'for' and !isset($params['rel'])) {
                 $v = $this->assoc_table_name($v);
                 $k = 'rel';
             }
-
             if ($k == 'debug') {
                 $debug = ($v);
             }
-
             if ($k == 'cache_group') {
                 if ($no_cache == false) {
                     $cache_group = $v;
                 }
             }
-
             if ($k == 'no_cache') {
                 $cache_group = false;
                 $no_cache = true;
             }
-
             if ($k == 'single') {
                 $getone = true;
             } else if ($k == 'one') {
                 $getone = true;
             } else {
-
                 $criteria[$k] = $v;
             }
-
             if ('orderby' == $k) {
                 $orderby = $v;
             }
@@ -569,9 +578,7 @@ class Db
 
         if (!isset($table)) {
             print "error no table found in params";
-
             return false;
-
         }
 
         if (isset($params['return_criteria'])) {
@@ -1286,8 +1293,8 @@ class Db
 
         if ($count_only == true) {
             $q = "SELECT count(*) AS qty FROM $table ";
-        }else if ($sum != false) {
-            $q = "SELECT SUM($sum) as $sum FROM $table ";
+        } else if ($sum != false) {
+            $q = "SELECT SUM($sum) AS $sum FROM $table ";
         }
 
         $precise_select = false;
@@ -1631,12 +1638,6 @@ class Db
 
                     $v = str_replace('[is_not]', '', $v);
                 }
-
-
-
-
-
-
 
 
                 if (($k == 'updated_on') or ($k == 'created_on')) {
@@ -2525,7 +2526,7 @@ class Db
             foreach ($data as $k => $v) {
                 if (is_array($v)) {
                     $v = implode(',', $v);
-                    $v = ltrim($v,'0,');
+                    $v = ltrim($v, '0,');
                 }
                 if (is_string($k) and strtolower($k) != $data_to_save_options['use_this_field_for_id']) {
                     if (strtolower($k) != 'id') {
@@ -2777,7 +2778,7 @@ class Db
             $from_save_cats = $original_data['categories'];
             if ($is_a == true and $table_assoc_name != 'categories' and $table_assoc_name != 'categories_items') {
                 if (is_string($original_data['categories']) and $original_data['categories'] == '__EMPTY_CATEGORIES__') {
-                        $clean_q = "DELETE
+                    $clean_q = "DELETE
 				FROM $categories_items_table WHERE
 				data_type='category_item' AND
 				rel='{$table_assoc_name}' AND
@@ -2942,88 +2943,84 @@ class Db
                     return false;
                 }
                 if (isset($original_data['skip_custom_field_save']) == false) {
-                foreach ($custom_field_to_save as $cf_k => $cf_v) {
-                    $new_custom_field_to_save = array();
-                    $new_custom_field_to_save['name'] = $cf_k;
-                    $new_custom_field_to_save['value'] = $cf_v;
+                    foreach ($custom_field_to_save as $cf_k => $cf_v) {
+                        $new_custom_field_to_save = array();
+                        $new_custom_field_to_save['name'] = $cf_k;
+                        $new_custom_field_to_save['value'] = $cf_v;
 
-                    $cftype = 'content';
+                        $cftype = 'content';
 
 
-                    $new_custom_field_to_save['rel'] = $table_assoc_name;
-                    $new_custom_field_to_save['rel_id'] = $id_to_return;
-                    $new_custom_field_to_save['skip_custom_field_save'] = true;
+                        $new_custom_field_to_save['rel'] = $table_assoc_name;
+                        $new_custom_field_to_save['rel_id'] = $id_to_return;
+                        $new_custom_field_to_save['skip_custom_field_save'] = true;
 
-                    if (is_string($cf_k) and strtolower(trim($cf_k)) == 'price') {
-                        $cftype = $custom_field_to_save['type'] = 'price';
-                    }
-
-                    if (is_string($cf_k) and strtolower(trim($cf_k)) != '') {
-                        $make_as_array = false;
-                        if (stristr($cf_k, '[radio]') !== FALSE) {
-                            $cf_k = str_ireplace('[radio]', '', $cf_k);
-                            $cftype = 'radio';
-                            $make_as_array = 1;
-                        }
-                        if (stristr($cf_k, '[dropdown]') !== FALSE) {
-                            $cf_k = str_ireplace('[dropdown]', '', $cf_k);
-                            $cftype = 'dropdown';
-                            $make_as_array = 1;
-                        }
-                        if (stristr($cf_k, '[select]') !== FALSE) {
-                            $cf_k = str_ireplace('[select]', '', $cf_k);
-                            $cftype = 'dropdown';
-                            $make_as_array = 1;
-                        }
-                        if (stristr($cf_k, '[radio]') !== FALSE) {
-                            $cf_k = str_ireplace('[radio]', '', $cf_k);
-                            $cftype = 'radio';
-                            $make_as_array = 1;
-                        }
-                        if (stristr($cf_k, '[price]') !== FALSE) {
-                            $cf_k = str_ireplace('[price]', '', $cf_k);
-                            $cftype = 'price';
-                            $make_as_array = 1;
-                        }
-                        if (stristr($cf_k, '[address]') !== FALSE) {
-                            $cf_k = str_ireplace('[address]', '', $cf_k);
-                            $cftype = 'address';
-                            $make_as_array = 1;
-                        }
-                        if (stristr($cf_k, '[textarea]') !== FALSE) {
-                            $cf_k = str_ireplace('[textarea]', '', $cf_k);
-                            $cftype = 'textarea';
-                            $make_as_array = 1;
-                        }
-                        if (stristr($cf_k, '[checkbox]') !== FALSE) {
-                            $cf_k = str_ireplace('[checkbox]', '', $cf_k);
-                            $cftype = 'checkbox';
-                            $make_as_array = 1;
+                        if (is_string($cf_k) and strtolower(trim($cf_k)) == 'price') {
+                            $cftype = $custom_field_to_save['type'] = 'price';
                         }
 
-                        if ($make_as_array != false) {
-                            if (is_string($cf_v)) {
-                                $cf_v = explode(',', $cf_v);
-                                if($cftype == 'content'){
-                                    $cftype = 'dropdown';
+                        if (is_string($cf_k) and strtolower(trim($cf_k)) != '') {
+                            $make_as_array = false;
+                            if (stristr($cf_k, '[radio]') !== FALSE) {
+                                $cf_k = str_ireplace('[radio]', '', $cf_k);
+                                $cftype = 'radio';
+                                $make_as_array = 1;
+                            }
+                            if (stristr($cf_k, '[dropdown]') !== FALSE) {
+                                $cf_k = str_ireplace('[dropdown]', '', $cf_k);
+                                $cftype = 'dropdown';
+                                $make_as_array = 1;
+                            }
+                            if (stristr($cf_k, '[select]') !== FALSE) {
+                                $cf_k = str_ireplace('[select]', '', $cf_k);
+                                $cftype = 'dropdown';
+                                $make_as_array = 1;
+                            }
+                            if (stristr($cf_k, '[radio]') !== FALSE) {
+                                $cf_k = str_ireplace('[radio]', '', $cf_k);
+                                $cftype = 'radio';
+                                $make_as_array = 1;
+                            }
+                            if (stristr($cf_k, '[price]') !== FALSE) {
+                                $cf_k = str_ireplace('[price]', '', $cf_k);
+                                $cftype = 'price';
+                                $make_as_array = 1;
+                            }
+                            if (stristr($cf_k, '[address]') !== FALSE) {
+                                $cf_k = str_ireplace('[address]', '', $cf_k);
+                                $cftype = 'address';
+                                $make_as_array = 1;
+                            }
+                            if (stristr($cf_k, '[textarea]') !== FALSE) {
+                                $cf_k = str_ireplace('[textarea]', '', $cf_k);
+                                $cftype = 'textarea';
+                                $make_as_array = 1;
+                            }
+                            if (stristr($cf_k, '[checkbox]') !== FALSE) {
+                                $cf_k = str_ireplace('[checkbox]', '', $cf_k);
+                                $cftype = 'checkbox';
+                                $make_as_array = 1;
+                            }
+
+                            if ($make_as_array != false) {
+                                if (is_string($cf_v)) {
+                                    $cf_v = explode(',', $cf_v);
+                                    if ($cftype == 'content') {
+                                        $cftype = 'dropdown';
+                                    }
                                 }
                             }
                         }
+                        $new_custom_field_to_save['type'] = $cftype;
+
+                        $this->app->fields->save($new_custom_field_to_save);
                     }
-                    $new_custom_field_to_save['type'] = $cftype;
-
-
-
-                   //  d($custom_field_to_save);
-                    $this->app->fields->save($new_custom_field_to_save);
-                }
                 }
 
                 $custom_field_to_delete['rel'] = $table_assoc_name;
 
                 $custom_field_to_delete['rel_id'] = $id_to_return;
 
-                //if (isset($original_data['skip_custom_field_save']) == false) {
                 if (isset($original_data['skip_custom_field_ssssave']) == true) {
 
                     $custom_field_to_save = $this->app->url->replace_site_url($custom_field_to_save);
@@ -3032,8 +3029,7 @@ class Db
                     foreach ($custom_field_to_save as $cf_k => $cf_v) {
 
                         if (($cf_v != '') and $table_assoc_name != 'custom_fields') {
-                            //   $cf_v = replace_site_vars($cf_v);
-                            //d($cf_v);
+
                             if ($cf_k != '') {
                                 $clean = " DELETE FROM $custom_field_table WHERE
 							rel =\"{$table_assoc_name}\"
@@ -3041,7 +3037,6 @@ class Db
 							rel_id =\"{$id_to_return}\"
 							AND
 							custom_field_name =\"{$cf_k}\"
-
 
 							";
                                 $this->q($clean);
@@ -3140,8 +3135,8 @@ class Db
                                 $custom_field_to_save['custom_field_values'] = base64_encode($temp);
 
                                 $temp2 = array_pop($val_to_serilize);
-                                $temp = implode(',',$val_to_serilize);
-                                $temp = ltrim($temp,'0,');
+                                $temp = implode(',', $val_to_serilize);
+                                $temp = ltrim($temp, '0,');
 
                                 $custom_field_to_save['custom_field_values_plain'] = $this->escape_string($temp);
                                 if (is_array($custom_field_to_save['custom_field_values_plain'])) {
@@ -3150,7 +3145,6 @@ class Db
                                 $custom_field_to_save['num_value'] = floatval($temp2);
 
                                 $cfvq = "custom_field_values =\"" . $custom_field_to_save['custom_field_values'] . "\",";
-                                // d($custom_field_to_save['custom_field_values_plain']);
                                 $cfvq .= "custom_field_values_plain =\"" . $custom_field_to_save['custom_field_values_plain'] . "\",";
                                 $cfvq .= "custom_field_name_plain =\"" . $cf_k_plain . "\",";
 
@@ -3173,8 +3167,8 @@ class Db
 
                                 $custom_field_to_save['custom_field_value'] = $cf_v;
                                 $flval = floatval($cf_v);
-                                if($flval != 0){
-                                $custom_field_to_save['num_value'] =$flval;
+                                if ($flval != 0) {
+                                    $custom_field_to_save['num_value'] = $flval;
                                 }
                             }
 
@@ -3190,7 +3184,7 @@ class Db
                             custom_field_type = '{$cftype}',
 
 						    ";
-                            if(isset($custom_field_to_save['num_value'])){
+                            if (isset($custom_field_to_save['num_value'])) {
                                 $add .= "num_value ='{$custom_field_to_save['num_value']}',";
                             }
 
@@ -3244,7 +3238,6 @@ class Db
         }
 
     }
-
 
     /**
      * Copy entire database row
@@ -3346,23 +3339,6 @@ class Db
         $this->app->cache->delete($cache_group);
     }
 
-    /**
-     * Add new table index if not exists
-     *
-     * @example
-     * <pre>
-     * \mw('db')->add_table_index('title', $table_name, array('title'));
-     * </pre>
-     *
-     * @category Database
-     * @package    Database
-     * @subpackage Advanced
-     * @param string $aIndexName Index name
-     * @param string $aTable Table name
-     * @param string $aOnColumns Involved columns
-     * @param bool $indexType
-     */
-    var $add_table_index_cache = array();
     public function add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = false)
     {
 
@@ -3372,10 +3348,10 @@ class Db
 
         foreach ($args as $k => $v) {
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-            $function_cache_id = 'add_table_index'.crc32($function_cache_id);
+            $function_cache_id = 'add_table_index' . crc32($function_cache_id);
         }
 
-        if(isset($this->add_table_index_cache[$function_cache_id])){
+        if (isset($this->add_table_index_cache[$function_cache_id])) {
             return true;
         } else {
             $this->add_table_index_cache[$function_cache_id] = true;
@@ -3384,15 +3360,12 @@ class Db
 
         $table_name = $function_cache_id;
         $cache_group = 'db/' . $table_name;
-        $cache_content = $this->app->cache->get($function_cache_id,$cache_group);
+        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
             return $cache_content;
         }
-
-
-
 
 
         $columns = implode(',', $aOnColumns);

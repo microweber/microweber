@@ -24,6 +24,7 @@
 [class*='mw-icon-']:before {
   display: inline-block;
   font-family: Microweber !important;
+  text-transform: none !important;
 }
 .mw-icon-mw:before {
   content: 'm';

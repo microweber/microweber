@@ -141,34 +141,36 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                         $pt_opts['active_code_tag'] = 'class="active"';
                         mw('content')->pages_tree($pt_opts);
                         ?>
-              <a id="backtoadminindropdown" href="<?php print $back_url; ?>" title="Back to Admin"> <span class="ico ibackarr"></span><span>Back to Admin</span> </a> </div>
+              <a id="backtoadminindropdown" href="<?php print $back_url; ?>" title="Back to Admin"> <span class="ico ibackarr"></span><span><?php _e("Back to Admin"); ?></span> </a> </div>
           </li>
           <?php event_trigger('live_edit_toolbar_menu_start'); ?>
-          <li class="create-content-dropdown mw-toolbar-btn-menu"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Create or manage your content" style=""> <span class="ico iplus"></span> Add New </a>
+          <li class="create-content-dropdown mw-toolbar-btn-menu">
+
+
+          <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button" title="Create or manage your content" style="">  <?php _e("Add New"); ?> </a>
             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
                         style="width: 170px; text-transform:uppercase;">
               <?php event_trigger('live_edit_quick_add_menu_start'); ?>
-              <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span
-                                    class="mw-icon-page"></span><span>
-                <?php _e("Edit current"); ?>
-                </span></a> </li>
-              <li><a href="javascript:;" onclick="mw.quick.post();">
-              <span class="mw-ui-btn-plus left"></span><span
-                                    class="mw-icon-post"></span>
-                <?php _e("Post"); ?>
-                </a></li>
-              <li><a href="javascript:;" onclick="mw.quick.page();"><span
-                                    class="mw-ui-btn-plus left"></span><span
-                                    class="mw-icon-page"></span>
-                <?php _e("Page"); ?>
-                </a></li>
-              <li><a href="javascript:;" onclick="mw.quick.category();"><span
-                                    class="mw-ui-btn-plus left"></span><span
-                                    class="mw-icon-category"></span>
-                <?php _e("Category"); ?>
-                </a></li>
+              <li>
+                <a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="mw-icon-page"></span><span>
+                    <?php _e("Edit current"); ?>
+                </span>
+                </a>
+              </li>
+              <?php $create_content_menu = mw()->ui->create_content_menu(); ?>
+                <?php if (!empty($create_content_menu)): ?>
+                <?php foreach ($create_content_menu as $type => $item): ?>
+                 <li>
+                    <a href="javascript:;" onclick="mw.quick.<?php print $type; ?>();"><span class="mw-icon-<?php print $type; ?>"></span>
+                        <?php _e($item); ?>
+                    </a>
+                </li>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
               <?php event_trigger('live_edit_quick_add_menu_end'); ?>
             </ul>
+
           </li>
           <?php /*    <li><a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" title="Browse Modules" style="margin: 12px 12px 12px 0;background-color: #fff">Modules</a></li>  */ ?>
           <?php /*<li><a href="#design_bnav" class="tst-design mw_ex_tools" title="Design & Settings"><span>Design & Settings</span></a>
@@ -206,9 +208,9 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                   <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
                   <script>mw.userCanSwitchMode = true;</script>
                   <?php if (isset($_COOKIE['advancedmode']) and $_COOKIE['advancedmode'] == 'true') { ?>
-                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('simple');" style="display:none">Simple Mode</a>
+                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('simple');" style="display:none"><?php _e("Simple Mode"); ?></a>
                   <?php } else { ?>
-                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('advanced')" style="display:none">Advanced Mode</a>
+                  <a class="mw-ui-btn" href="javascript:;" onclick="mw.setMode('advanced')" style="display:none"><?php _e("Advanced Mode"); ?></a>
                   <?php } ?>
                   <?php }  ?>
                 </li>

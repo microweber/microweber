@@ -877,7 +877,7 @@ body.loaded #live_edit_toolbar{
 
 #live_edit_toolbar{
   position: fixed;
-  top: 19px;
+  top: 18px;
   left: 0;
   border-bottom: 1px solid #DDDDDD;
 }
@@ -1165,10 +1165,7 @@ body.loaded #live_edit_toolbar{
   padding-left: 35px;
 }
 
-.toolbar-sections-tabs .mw-dropdown-list a .ico + span{
-  position: relative;
-  top: 2px;
-}
+
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list {
   background: white;
@@ -1194,12 +1191,10 @@ body.loaded #live_edit_toolbar{
   display: none;
 }
 
-.create-content-dropdown-list li.is_page > a, .create-content-dropdown-list li.page > a{ background-image: url(../img/tree.pageico.png); }
-.create-content-dropdown-list li.post > a{ background-image: url(../img/tree.post.png); }
-.create-content-dropdown-list li.product > a{ background-image: url(../img/tree.shopico.png); }
-.create-content-dropdown-list li.is_category > a{ background-image: url(../img/tree.cat.png); }
-.create-content-dropdown-list li.is_blog > a{ background-image: url(../img/tree.blog.png); }
-.create-content-dropdown-list li.have_category > a, .create-content-dropdown-list li.page.dynamic > a{ background-image: url(../img/tree.dynamic.png); }
+.mw-dropdown-list [class*='mw-icon-']{
+  font-size: 20px;
+  width: 25px;
+}
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list li a{ padding-left: 35px;  }
 
