@@ -8,7 +8,9 @@ $data = $params;
   <div id="content-edit-settings-tabs-holder">
     <div id="content-edit-settings-tabs">
       <div id="quick-add-post-options-holder">
-        <div class="mw-ui-btn-nav" id="quick-add-post-options">
+
+      <div id="quick-add-post-options">
+        <div class="mw-ui-btn-nav" >
             <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>">
                 <span class="mw-icon-picture"></span>
                 <span><?php _e("Add Images"); ?></span>
@@ -34,7 +36,11 @@ $data = $params;
             <span><?php _e("Custom Fields"); ?></span>
           </span>
           <?php endif; ?>
-          <span class="mw-ui-btn tip" data-tip="<?php _e("Advanced"); ?>">
+
+          <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
+        </div>
+         <div class="mw-ui-btn-nav">
+                  <span class="mw-ui-btn tip" data-tip="<?php _e("Advanced"); ?>">
             <span class="mw-icon-gear"></span>
             <span><?php _e("Advanced"); ?></span>
           </span>
@@ -44,8 +50,9 @@ $data = $params;
             <span><?php _e("Template"); ?></span>
           </span>
           <?php endif; ?>
-          <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
         </div>
+         </div>
+
       </div>
       <div id="quick-add-post-options-items-holder" class="tip-box"> <span class="mw-tooltip-arrow"></span>
         <div id="quick-add-post-options-items-holder-container">

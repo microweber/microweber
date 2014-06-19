@@ -56,7 +56,7 @@ $show_page_settings = 1;
 <div class="mw_clear vSpace"></div>
 <?php if($show_page_settings != false): ?>
 <div class="mw-ui-check-selector">
-  <div class="mw-ui-label left" style="width: 130px"> <span class="ico ihome" style="top: -6px;margin-right: 15px;"></span>
+  <div class="mw-ui-label">
     <?php _e("Is Home"); ?>
     <small class="mw-help" data-help="<?php _e("If yes this page will be your Home"); ?>">(?)</small></div>
   <label class="mw-ui-check">
@@ -72,7 +72,7 @@ $show_page_settings = 1;
 </div>
 <div class="mw_clear vSpace"></div>
 <div class="mw-ui-check-selector">
-  <div class="mw-ui-label left" style="width: 130px"> <span class="ico inavshop" style="top: -6px;margin-right: 15px;"></span>
+  <div class="mw-ui-label">
     <?php _e("Is Shop"); ?>
     <small class="mw-help" data-help="<?php _e("If yes this page will accept products to be added to it"); ?>">(?)</small></div>
   <label class="mw-ui-check">
@@ -89,7 +89,7 @@ $show_page_settings = 1;
 <div class="mw_clear vSpace"></div>
 <?php endif; ?>
 <div class="mw-ui-check-selector">
-  <div class="mw-ui-label left" style="width: 130px">
+  <div class="mw-ui-label">
     <?php _e("Require login"); ?>
     <small class="mw-help" data-help="<?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?>">(?)</small></div>
   <label class="mw-ui-check">
@@ -147,72 +147,32 @@ $show_page_settings = 1;
 				});
 			});
 		}
-		
-		
-		
-		
-	 
-    $(document).ready(function(){
-		
-				
-		    });
-			
-			
-			
-			
-			
-			
-			
-				mw.adm_cont_type_change_holder_event = function(el){
-					
-				 
-					
-			mw.tools.confirm("<?php _e("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function(){
-				 
-		  var root = mwd.querySelector('#<?php print $params['id']; ?>');
 
-		
-		  var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
-
-		var ctype = $(el).val()
- 
-		if(form != undefined && form.querySelector('input[name="content_type"]') != null){
-		 form.querySelector('input[name="content_type"]').value = ctype
- 		}
-				 
-			});
-		}
-		
+        mw.adm_cont_type_change_holder_event = function(el){
+            mw.tools.confirm("<?php _e("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function(){
+              var root = mwd.querySelector('#<?php print $params['id']; ?>');
+              var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+              var ctype = $(el).val()
+              if(form != undefined && form.querySelector('input[name="content_type"]') != null){
+                form.querySelector('input[name="content_type"]').value = ctype;
+              }
+            });
+        }
+        mw.adm_cont_subtype_change_holder_event = function(el){
+              mw.tools.confirm("<?php _e("Are you sure you want to change the content subtype"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function(){
+                var root = mwd.querySelector('#<?php print $params['id']; ?>');
+                var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+                var ctype = $(el).val();
+                if(form != undefined && form.querySelector('input[name="subtype"]') != null){
+                      form.querySelector('input[name="subtype"]').value = ctype
+                }
+              });
+          }
 			
 			
 			
 			
-			
-			
-			mw.adm_cont_subtype_change_holder_event = function(el){
-					
-				 
-					
-			mw.tools.confirm("<?php _e("Are you sure you want to change the content subtype"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function(){
-				 
-		  var root = mwd.querySelector('#<?php print $params['id']; ?>');
-
-		
-		  var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
-
-		var ctype = $(el).val()
- 
-		if(form != undefined && form.querySelector('input[name="subtype"]') != null){
-		 form.querySelector('input[name="subtype"]').value = ctype
- 		}
-				 
-			});
-		}
-			
-			
-			
-			
-		</script> 
+</script> 
 
 <?php endif; ?>
 <?php if(isset($data['created_on'])): ?>

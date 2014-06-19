@@ -230,7 +230,8 @@ $pages_count = intval($pages);
       </div>
       <div class="mw-ui-col manage-post-item-col-3 manage-post-main">
         <div class="manage-item-main-top">
-          <h3 class="manage-post-item-title"> <a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
+          <h3 class="manage-post-item-title">
+          <a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
          <?php if(isset($item['content_type']) and $item['content_type'] == 'page'): ?>
             <?php if(isset($item['is_shop']) and $item['is_shop'] == 'y'): ?>
             <span class="mw-icon-shop"></span>
@@ -239,7 +240,7 @@ $pages_count = intval($pages);
             <?php endif; ?>
             <?php elseif(isset($item['content_type']) and $item['content_type'] == 'post'):  ?>
             <?php if(isset($item['subtype']) and $item['subtype'] == 'product'): ?>
-            <span class="product-icon"><span class="product-icon-1"></span><span class="product-icon-2"></span><span class="product-icon-3"></span></span>
+            <span class="mw-icon-product"></span>
             <?php else : ?>
             <span class="mw-icon-post"></span>
             <?php endif; ?>

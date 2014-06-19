@@ -89,7 +89,7 @@ else {
                 </div>
               </div>
             </div>
-            <div class="mw-ui-col col-bar-live-edit"> <a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn tip" data-tip="<?php _e("Go Live Edit"); ?>" data-tipposition="bottom-center"><span class="mw-icon-live"></span></a> </div>
+            <div class="mw-ui-col col-bar-live-edit"> <a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn default-invert tip" data-tip="<?php _e("Go Live Edit"); ?>" data-tipposition="bottom-center"><span class="mw-icon-live"></span></a> </div>
           </div>
           <?php else: ?>
           <div class="mw-ui-row">
