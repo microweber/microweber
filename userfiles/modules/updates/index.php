@@ -137,10 +137,10 @@ $(document).ready(function(){
         <h2 class="mw-side-main-title"><span class="ico iupdate_big"></span><span><?php _e("Updates"); ?></span><?php if($notif_count !=0) : ?>&nbsp;<sup class="mw-notif-bubble" id="number_of_updates"><?php print $notif_count  ?></sup><?php endif; ?></h2>
         <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium" title="Current version <?php print MW_VERSION ?>"><?php _e("Check for updates"); ?></span>
     </div>
-    <div class="mw-side-left" id="updates-list-info" style="font-size: 12px;">
+    <div class="mw-side-left" id="updates-list-info" >
         <span style="font-size: 18px;"><?php print user_name(); ?></span>, <?php _e("we are constantly trying to improve Microweber"); ?>. <br>
         <?php _e("Our team and many contributors around the world are working hard every day to provide you with a stable system and new updates"); ?>.
-        <?php _e("Please excuse us in case you find any problems and"); ?> <a href="http://api.microweber.net/service/frames/suggest.php?user=<?php print user_name(); ?>" onclick="mw.contact.report(this.href);return false;" class="mw-ui-link"><?php _e("write us a message"); ?></a> <?php _e("for all things you wish to see in Microweber or in any"); ?> <?php _e("Module"); ?>.
+        <?php _e("Please excuse us in case you find any problems and"); ?> <a href="http://microweber.com/contact-us?user=<?php print user_name(); ?>" class="mw-ui-link"><?php _e("write us a message"); ?></a> <?php _e("for all things you wish to see in Microweber or in any"); ?> <?php _e("Module"); ?>.
     </div>
 </div>
 

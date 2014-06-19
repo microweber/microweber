@@ -124,7 +124,7 @@ $(document).ready(function(){
 
  ?>
   <?php if(!empty($users_last5)): ?>
-  <table border="0" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
+  <table border="0" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic mw-ui-table-fixed">
     <colgroup>
       <col>
       <col>

@@ -397,7 +397,10 @@ function mw_make_pages_tree_sortable(){
   <div class="mw-ui-col tree-column" <?php if($action=='posts'): ?>  <?php endif ?>>
     <div class="tree-column-holder">
       <div class="fixed-side-column scroll-height-exception-master">
-        <div class="create-content scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn create-content-btn" id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a> </div>
+        <div class="create-content scroll-height-exception">
+            <a href="javascript:;" class="mw-ui-btn default-invert create-content-btn" id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a>
+            <span class="mw-icon-lock tip" id="pin-sidebar" data-tip="<?php _e("Lock the sidebar"); ?>" data-tipposition="bottom-center"></span>
+        </div>
         <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
           <?php
 		 $is_shop_str = " is_shop='n' ";
@@ -410,7 +413,7 @@ function mw_make_pages_tree_sortable(){
 		 $is_shop_str = " is_shop='y' ";
 	   }
 	   if($action=='posts'){
-		   $is_shop_str = " is_shop='n'  skip-static-pages='true' "; 
+		   $is_shop_str = " is_shop='n'  skip-static-pages='true' ";
 	   }
 	   ?>
           <?php if($action=='pages'): ?>

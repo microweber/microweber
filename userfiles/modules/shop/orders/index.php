@@ -97,7 +97,7 @@
         <td class="mw-order-item-names"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></td>
         <td class="mw-order-item-email"><?php print $item['email'] ?></td>
 
-        <td class="mw-order-item-edit" width="90" align="center"><span class="mw-icon-close show-on-hover" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span> <a class="show-on-hover mw-ui-btn mw-ui-btn-small" href="#vieworder=<?php print ($item['id']) ?>">
+        <td class="mw-order-item-edit" width="90" align="center"><span class="mw-icon-close show-on-hover" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span> <a class="show-on-hover mw-ui-btn-invert mw-ui-btn mw-ui-btn-small" href="#vieworder=<?php print ($item['id']) ?>">
           <?php _e("View order"); ?>
           </a></td>
       </tr>

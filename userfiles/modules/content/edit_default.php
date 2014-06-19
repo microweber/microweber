@@ -3,12 +3,10 @@ only_admin_access();
  
 $edit_page_info = $data;;
 include __DIR__ . DS . 'admin_toolbar.php'; ?>
-
 <style>
 #admin-user-nav {
-display: none;	
+	display: none;
 }
-
 </style>
 
 <div id="post-states-tip" style="display: none">
@@ -22,9 +20,8 @@ display: none;
 </div>
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-<?php print $rand; ?>">
   <input type="hidden" name="id" id="mw-content-id-value-<?php print $rand; ?>"  value="<?php print $data['id']; ?>" />
-  <input type="hidden" name="subtype" id="mw-content-subtype-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" /> 
-  
-   <input type="hidden" name="subtype_value" id="mw-content-subtype-value-<?php print $rand; ?>"   value="<?php print $data['subtype_value']; ?>" />
+  <input type="hidden" name="subtype" id="mw-content-subtype-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" />
+  <input type="hidden" name="subtype_value" id="mw-content-subtype-value-<?php print $rand; ?>"   value="<?php print $data['subtype_value']; ?>" />
   <input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>"   value="<?php print $data['content_type']; ?>" />
   <input type="hidden" name="parent"  id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class="" />
   <input type="hidden" name="layout_file"  id="mw-layout-file-value-<?php print $rand; ?>" value="<?php print $data['layout_file']; ?>"   />
@@ -81,7 +78,6 @@ display: none;
       </div>
       <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
         <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-        
         <module
                 type="categories/selector"
                 for="content"
@@ -95,25 +91,20 @@ display: none;
     <?php endif; ?>
   </div>
   <div class="mw-admin-edit-content-holder">
-     <?php 
+    <?php 
 	 $data['recommended_parent'] = $recommended_parent;
 	 $data['active_categories'] = $categories_active_ids; 
 	 print load_module('content/edit_tabs',$data); ?>
   </div>
-   
-  
-  <?php  if(isset($data['subtype']) and $data['subtype'] != 'notext'): ?>
-  <div id="mw-admin-edit-content-main-area">
-  
-  </div>
-   <?php 
+  <?php  if(isset($data['subtype']) and isset($data['content_type']) and ($data['content_type'] == 'page') and $data['subtype'] == 'dynamic'): ?>
+  <module type="content/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
+  <?php 
 	 $data['recommended_parent'] = $recommended_parent;
 	 $data['active_categories'] = $categories_active_ids; 
 	 //print load_module('content/edit_default',$data); ?>
-  
-  
+  <?php  else: ?>
+  <div id="mw-admin-edit-content-main-area"> </div>
   <?php  endif; ?>
-  
   <?php  if(isset($data['subtype']) and $data['subtype'] == 'dynamic'
 or ($data['id'] == 0 and isset($data['content_type']) and $data['content_type'] == 'page')
 
@@ -130,11 +121,8 @@ or ($data['id'] == 0 and isset($data['content_type']) and $data['content_type'] 
   <div class="quick-post-done">
     <h2>Well done, you have saved your changes. </h2>
     <label class="mw-ui-label"><small>Go to see them at this link</small></label>
-    
     <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
-    
     <label class="mw-ui-label"><small>Or choose an action below</small></label>
-    
     <a href="javascript:;" class="mw-ui-btn" onclick="mw.edit_content.close_alert();">Continue editing</a> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a> </div>
 </div>
 <script>
@@ -217,7 +205,7 @@ mw.edit_content.load_editor  =  function(element_id){
 		params.subtype=subtype;
 		params.parent_page=parent_page;
 		params.inherit_template_from=parent_page;
-		 params.live_edit=true;
+		params.live_edit=true;
  
 		
 		

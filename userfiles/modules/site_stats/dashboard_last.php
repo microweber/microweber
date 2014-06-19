@@ -3,12 +3,14 @@
 $requests_num = false;
 ?>
   <div id="visits_info_table">
-  <h2><?php _e("User Info"); ?><?php if($requests_num != false): ?> <small>(<?php print $requests_num ?> <?php _e("req/s"); ?>)</small><?php endif; ?></h2>
+  <h2><?php _e("Basic statistics"); ?>
+  <span class="mw-ui-btn mw-ui-btn-small tip default-invert request-stats-btn" data-tip="<?php _e("Upgrade your real-time statistics"); ?>" data-tipposition="top-center"><?php _e("Upgrade"); ?></span>
+    </h2>
   <?php
 
     ?>
   <?php if(!empty($users_last5)): ?>
-  <table border="0" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
+  <table border="0" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic mw-ui-table-fixed">
   <colgroup>
     <col width="15%">
     <col>
@@ -32,7 +34,7 @@ $requests_num = false;
     <tbody>
       <?php $i=0; foreach($users_last5 as $item) : ?>
       <tr>
-        <td class="stat-time"><?php print $item['visit_date'] ?><br><?php print $item['visit_time'] ?></td>
+        <td class="stat-time"><?php print mw()->format->date($item['visit_date']); ?>, <?php print date('H:m', strtotime($item['visit_time'])); ?></td>
         <?php if(function_exists('ip2country')): ?>
         <td class="stat-ip"><span class="<?php if(strlen(ip2country($item['user_ip'])) > 15){ ?>tip<?php } ?>" data-tip="<?php print ip2country($item['user_ip']); ?>" data-tipposition="top-center"><?php print ip2country($item['user_ip']); ?></span></td>
         <?php endif; ?>
@@ -44,4 +46,7 @@ $requests_num = false;
     </tbody>
   </table>
   <?php endif; ?>
+
+
+
 </div>

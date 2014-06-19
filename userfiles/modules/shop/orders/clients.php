@@ -69,7 +69,7 @@ if (r1==true){
         </td>
         <td width="115">
             <span class="show-on-hover mw-icon-close" onclick="mw_delete_shop_client('<?php print ($order['email']) ?>');"></span>
-            <a class="show-on-hover mw-ui-btn mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
+            <a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" href="#?clientorder=<?php print $order['id']; ?>"><?php _e("View client"); ?></a>
         </td>
       </tr>
       <?php endforeach; endif; ?>
