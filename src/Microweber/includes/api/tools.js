@@ -2819,7 +2819,7 @@ mw.wait('jQuery', function(){
 
 mw.cookie = {
   get:function(name){
-      var cookies=document.cookie.split(";"), i=0, l = cookies.length;
+      var cookies = mwd.cookie.split(";"), i=0, l = cookies.length;
       for ( ; i<l; i++){
         var x=cookies[i].substr(0,cookies[i].indexOf("="));
         var y=cookies[i].substr(cookies[i].indexOf("=")+1);
@@ -2842,8 +2842,8 @@ mw.cookie = {
   ui:function(a,b){
     var mwui = mw.cookie.get("mwui");
     var mwui = (!mwui || mwui=='') ? {} : $.parseJSON(mwui);
-    if(typeof a === 'undefined'){return mwui}
-    if(typeof b === 'undefined'){return mwui[a]!==undefined?mwui[a]:""}
+    if(typeof a === 'undefined'){ return mwui; }
+    if(typeof b === 'undefined'){ return mwui[a]!==undefined?mwui[a]:""; }
     else{
         mwui[a] = b;
         var tostring = JSON.stringify(mwui);
@@ -2851,7 +2851,8 @@ mw.cookie = {
         if(typeof mw.cookie.uievents[a] !== 'undefined'){
           var funcs = mw.cookie.uievents[a], l=funcs.length, i=0;
           for(; i<l; i++){
-              mw.cookie.uievents[a][i].call(b);
+              mw.cookie.uievents[a][i].call(b.toString());
+
           }
         }
     }
@@ -2910,15 +2911,9 @@ mw.recommend = {
 }
 
 
-
-
 String.prototype.toCamelCase = function() {
     return  mw.tools.toCamelCase(this);
 };
-
-
-
-
 
 
 $.fn.datas = function(){
@@ -2934,7 +2929,6 @@ $.fn.datas = function(){
     }
     return toreturn;
 }
-
 
 
 
@@ -3403,24 +3397,6 @@ mw.beforeleave = function(url){
 mw.postMsg = function(w, obj){
   w.postMessage(JSON.stringify(obj), window.location.href);
 }
-
-
-mw.contact = {
-    report:function(url){
-      mw.tools.modal.frame({
-            url:url,
-            overlay:true,
-            template:'mw_modal_basic',
-            width:500,
-            height:410,
-            callback:function(){
-
-                mw.postMsg(this.container.getElementsByTagName('iframe')[0].contentWindow, {user:mw.settings.user});
-            }
-      })
-    }
-}
-
 
 
 

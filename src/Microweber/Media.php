@@ -136,68 +136,6 @@ class Media
         return $content;
     }
 
-    public function get($params)
-    {
-
-        $table = $this->tables['media'];
-
-        if ($params != false and !is_array($params) and intval($params) > 0) {
-            $params2 = array();
-            $params2['rel'] = 'content';
-            $params2['rel_id'] = intval($params);
-            $params = $params2;
-        } else {
-            $params = parse_params($params);
-        }
-
-
-        /*
-         // if (is_string($params)) {
-         // $params = parse_str($params, $params2);
-         // $params = $params2;
-         // }*/
-
-        if (isset($params['for'])) {
-            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
-        }
-
-        // $params['debug'] = $table;
-        if (!isset($params['limit'])) {
-            $params['limit'] = 1000;
-        }
-        $params['table'] = $table;
-        $params['orderby'] = 'position ASC';
-        $data = $this->app->db->get($params);
-
-        if (defined('MW_MEDIA_URL')) {
-            if (!empty($data)) {
-                $return = array();
-                foreach ($data as $item) {
-                    if (isset($item['filename']) and $item['filename'] != false) {
-                        if (!stristr($item['filename'], '{SITE_URL}')
-                            and !stristr($item['filename'], '{MEDIA_URL}')
-                                and !stristr($item['filename'], '://')
-                                    and !stristr($item['filename'], MW_MEDIA_URL)
-                        ) {
-                            $item['filename'] = MW_MEDIA_URL . $item['filename'];
-
-                        }
-                    }
-
-
-                    if (isset($item['title']) and $item['title'] != '') {
-                        $item['title'] = html_entity_decode($item['title']);
-                        $item['title'] = strip_tags($item['title']);
-                        $item['title'] = $this->app->format->clean_html($item['title']);
-                    }
-                    $return[] = $item;
-                }
-                $data = $return;
-            }
-        }
-        return $data;
-    }
-
     public function upload_progress_check()
     {
         if ($this->app->user->is_admin() == false) {
@@ -411,6 +349,68 @@ class Media
         }
     }
 
+    public function get($params)
+    {
+
+        $table = $this->tables['media'];
+
+        if ($params != false and !is_array($params) and intval($params) > 0) {
+            $params2 = array();
+            $params2['rel'] = 'content';
+            $params2['rel_id'] = intval($params);
+            $params = $params2;
+        } else {
+            $params = parse_params($params);
+        }
+
+
+        /*
+         // if (is_string($params)) {
+         // $params = parse_str($params, $params2);
+         // $params = $params2;
+         // }*/
+
+        if (isset($params['for'])) {
+            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
+        }
+
+        // $params['debug'] = $table;
+        if (!isset($params['limit'])) {
+            $params['limit'] = 1000;
+        }
+        $params['table'] = $table;
+        $params['orderby'] = 'position ASC';
+        $data = $this->app->db->get($params);
+
+        if (defined('MW_MEDIA_URL')) {
+            if (!empty($data)) {
+                $return = array();
+                foreach ($data as $item) {
+                    if (isset($item['filename']) and $item['filename'] != false) {
+                        if (!stristr($item['filename'], '{SITE_URL}')
+                            and !stristr($item['filename'], '{MEDIA_URL}')
+                                and !stristr($item['filename'], '://')
+                                    and !stristr($item['filename'], MW_MEDIA_URL)
+                        ) {
+                            $item['filename'] = MW_MEDIA_URL . $item['filename'];
+
+                        }
+                    }
+
+
+                    if (isset($item['title']) and $item['title'] != '') {
+                        $item['title'] = html_entity_decode($item['title']);
+                        $item['title'] = strip_tags($item['title']);
+                        $item['title'] = $this->app->format->clean_html($item['title']);
+                    }
+                    $return[] = $item;
+                }
+                $data = $return;
+            }
+        }
+        return $data;
+    }
+
     public function save($data)
     {
 
@@ -512,6 +512,32 @@ class Media
         if (isset($data['for_id'])) {
             $t = trim($data['for_id']);
             $s['rel_id'] = $t;
+        }
+        if (!isset($s['id']) and isset($s['filename']) and !isset($data['media_type'])) {
+            $ext = get_file_extension($s['filename']);
+            switch ($ext) {
+                case 'jpeg':
+                case 'jpg':
+                case 'png':
+                case 'gif':
+                case 'bpm':
+                case 'svg':
+                    $data['media_type'] = 'picture';
+                    break;
+                case 'avi':
+                case 'ogg':
+                case 'flv':
+                case 'mp4':
+                case 'qt':
+                case 'mpeg':
+                    $data['media_type'] = 'video';
+                    break;
+                case 'mp3':
+                case 'wav':
+                case 'flac':
+                    $data['media_type'] = 'audio';
+                    break;
+            }
         }
 
         if (isset($data['media_type'])) {
@@ -856,7 +882,7 @@ class Media
 
 
         if (file_exists($cache_path)) {
-            
+
             $cache_path = $this->app->url->link_to_file($cache_path);
             return $cache_path;
         } else {
@@ -864,15 +890,13 @@ class Media
                 return $this->pixum($width, $height);
             }
 
- 
 
-           $tn_img_url = $this->app->url->site('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height . '&cache_id=' . $cache_id;
-		    $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
-			$tn_img_url = str_replace(')', '&#41;', $tn_img_url);
-
+            $tn_img_url = $this->app->url->site('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height . '&cache_id=' . $cache_id;
+            $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
+            $tn_img_url = str_replace(')', '&#41;', $tn_img_url);
 
 
-		   return $tn_img_url ;
+            return $tn_img_url;
         }
 
         //require_once ();

@@ -88,23 +88,26 @@ else {
     $past_page = mw('content')->link($past_page[0]['id']);
 }
 ?>
-<div id="admin-user-nav">
+<?php /*<div id="admin-user-nav">
+
+
 <a href="javascript:;" class="mw-icon-off pull-right"></a>
 <a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert pull-right"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
 
+</div>*/ ?>
 
-
-</div>
 <div id="mw-admin-container">
     <div class="mw-ui-row main-admin-row">
         <div class="mw-ui-col main-bar-column">
             <div id="main-bar">
-                <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon">
-                <span class="mw-icon-mw"></span>
-                <?php mw_logo_svg(); ?>
-                </a>
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
+
+                <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="<?php if($view == 'dashboard' or (url_current() == admin_url())){ print 'active'; } ?>">
+                    <span class="mw-icon-mw"></span>
+                    <strong><?php _e("Dashboard"); ?></strong>
+                </a>
+
                 <ul id="main-menu">
                     <li id="main-menu-back">
                         <a href="javascript:;"><span class="mw-icon-back"></span></a>
@@ -118,16 +121,16 @@ else {
 					<?php endif; ?>
                     ><a
                             href="<?php print admin_url(); ?>view:content" title=""> <span
-                                class="mw-icon-website"></span> <strong>Website</strong> </a>
+                                class="mw-icon-website"></span> <strong><?php _e("Website"); ?></strong> </a>
                         <ul>
                             <li  <?php if ($action == 'pages'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:pages">Pages</a></li>
+                                    href="<?php print admin_url(); ?>view:content/action:pages"><?php _e("Pages"); ?></a></li>
                             <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:posts">Posts</a></li>
+                                    href="<?php print admin_url(); ?>view:content/action:posts"><?php _e("Posts"); ?></a></li>
                                      <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:products">Products</a></li>
+                                    href="<?php print admin_url(); ?>view:content/action:products"><?php _e("Products"); ?></a></li>
                             <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:categories">Categories</a></li>
+                                    href="<?php print admin_url(); ?>view:content/action:categories"><?php _e("Categories"); ?></a></li>
                         </ul>
                     </li>
                     <li <?php if ($view == 'shop' and $action==false): ?> class="active"
@@ -143,26 +146,66 @@ else {
                                 ?>
                                <?php }  ?>
                             </span>
-                            <strong>My Shop</strong>
+                            <strong><?php _e("My Shop"); ?></strong>
                         </a>
                         <ul>
                             <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:orders">Orders</a></li>
+                                    href="<?php print admin_url(); ?>view:shop/action:orders"><?php _e("Orders"); ?></a></li>
                             <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:clients">Clients</a></li>
+                                    href="<?php print admin_url(); ?>view:shop/action:clients"><?php _e("Clients"); ?></a></li>
                             <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:shipping">Shipping</a></li>
+                                    href="<?php print admin_url(); ?>view:shop/action:shipping"><?php _e("Shipping"); ?></a></li>
                             <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:options">Options</a></li>
+                                    href="<?php print admin_url(); ?>view:shop/action:options"><?php _e("Settings"); ?></a></li>
                         </ul>
                     </li>
                     <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:modules" title=""> <span class="mw-icon-module"></span>
-                            <strong>Modules</strong> </a></li>
+                            <strong><?php _e("Modules"); ?></strong> </a></li>
                     <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:settings" title=""> <span class="mw-icon-gear"></span>
-                            <strong>Settings</strong> </a></li>
+                            <strong><?php _e("Settings"); ?></strong> </a></li>
                     <li id="main-menu-toggle">
                         <a href="javascript:;"><span class="mw-icon-menu"></span></a>
                     </li>
                 </ul>
+
+
+
+
+
+                <div id="user-menu">
+
+
+                            <?php $user_id = user_id(); $user = get_user_by_id($user_id);
+
+                            if(!empty($user)){
+                              $img = $user['thumbnail'];
+                              if($img != ''){  ?>
+
+                              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-has-image"><span id="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span><span class="mw-icon-dropdown"></span></a>
+
+                           <?php } else { ?>
+
+                              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image"><span class="mw-icon-user" id="main-bar-profile-icon"></span><span class="mw-icon-dropdown"></span></a>
+
+                            <?php } }  ?>
+
+
+
+
+
+                      <div id="main-bar-user-tip" style="display: none">
+                        <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation">
+
+                        <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn"><?php _e("My Profile"); ?></a>
+                        <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="mw-ui-btn"><?php _e("Manage Users"); ?></a>
+                        <a href="<?php print 1; ?>" class="mw-ui-btn"><?php _e("Support"); ?></a>
+                        <a href="<?php print api_url('logout'); ?>" class="mw-ui-btn"><?php _e("Log out"); ?></a>
+
+
+                        </div>
+                      </div>
+
+                </div>
+
             </div>
         </div>

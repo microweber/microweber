@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'mwadmin';
-    src: url('fonts/fontadmin.ttf?mwv=1asdfaaafggfasdsdaasdasdssdsddfsdfsdss') format('truetype');
+    src: url('fonts/fontadmin.ttf?mwv=1asdfaaafggfasdsdaasdaasdsdssdsddfsdfsdss') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -31,6 +31,7 @@
 
 html,body{
   min-height:100%;
+  height:100%;
 }
 
 body, textarea, input{
@@ -648,13 +649,35 @@ a:hover .mw_ed_tree_content{
   display: block;
   overflow: hidden;
   text-align: center;
-  margin-bottom: 29px;
-  margin-top: 30px;
+  padding-top: 30px;
+  margin-bottom: 5px;
+  padding-bottom: 2px;
+}
+
+#main-bar-mw-icon.active{
+  padding-bottom: 10px;
 }
 
 #main-bar-mw-icon .mw-icon-mw{
   font-size: 38px;
   color: #999999;
+}
+
+#main-bar-mw-icon:hover strong,
+#main-bar-mw-icon:hover .mw-icon-mw,
+#main-bar-mw-icon:focus .mw-icon-mw,
+#main-bar-mw-icon.active .mw-icon-mw{
+  color: white;
+}
+
+#main-bar-mw-icon.active{
+  background-color:#3b3b3b;
+}
+
+#main-bar-mw-icon:hover strong,
+#main-bar-mw-icon:focus strong,
+#main-bar-mw-icon.active strong{
+  visibility: visible;
 }
 
 #main-bar-mw-icon svg{
@@ -670,9 +693,7 @@ a:hover .mw_ed_tree_content{
 #main-bar-mw-icon:hover svg{
   visibility: visible;
 }
-#main-bar-mw-icon:hover  .mw-icon-mw{
-  color: white;
-}
+
 
 #main-bar-mw-icon .mwpolycolor{
   fill:#999999;
@@ -726,7 +747,7 @@ a:hover .mw_ed_tree_content{
   background: #4494C7;
 }
 
-#main-menu a strong{
+#main-menu a strong, #main-bar-mw-icon strong{
   display: block;
   position: relative;
   padding-top: 4px;
@@ -781,9 +802,7 @@ a:hover .mw_ed_tree_content{
   display: none;
 }
 
-
-
-#main-menu li li.active > a:after, #main-menu li.active strong:after{
+#main-menu li li.active > a:after, #main-menu li.active strong:after, #main-bar-mw-icon.active strong:after{
     display: block;
     position: absolute;
     right: -5px;
@@ -825,6 +844,106 @@ a:hover .mw_ed_tree_content{
     -ms-transform: rotate(45deg) ;
 }
 
+#user-menu{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+
+#main-bar-user-menu-tooltip{
+  margin-left: 12px;
+}
+#main-bar-user-menu-tooltip.top-left .mw-tooltip-arrow:after{
+  margin-left: 0px;
+}
+#main-bar-profile-img{
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+}
+
+#main-bar-profile-icon{
+  font-size: 42px;
+}
+
+#main-bar-user-menu-link{
+  display: block;
+  position: relative;
+  padding: 10px 0;
+  color: #999;
+}
+#main-bar-user-menu-link:hover,
+#main-bar-user-menu-link:focus{
+  color: white;
+}
+#main-bar-user-menu-link:focus{
+    background-color: #3b3b3b;
+}
+
+#main-bar-user-menu-link .mw-icon-dropdown{
+  font-size: 15px;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  margin-top: -7px;
+  opacity: 0.7;
+}
+#main-bar-user-menu-link.main-bar-user-menu-link-no-image .mw-icon-dropdown{
+  right: 20px;
+}
+
+
+#main-bar-user-menu-tooltip{
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.4, 1.5, 0.5, 1), opacity, 0.2s;
+  -moz-transition: -moz-transform 0.2s cubic-bezier(0.4, 1.5, 0.5, 1), opacity, 0.2s;
+  -o-transition: -o-transform 0.2s cubic-bezier(0.4, 1.5, 0.5, 1), opacity, 0.2s;
+  -ms-transition:-ms-transform 0.2s cubic-bezier(0.4, 1.5, 0.5, 1), opacity, 0.2s;
+  transition: transform 0.2s cubic-bezier(0.4, 1.5, 0.5, 1), opacity, 0.2s;
+  -webkit-transform:scale(0,0);
+  -moz-transform:scale(0,0);
+  -ms-transform:scale(0,0);
+  transform:scale(0,0);
+  transform-origin: left bottom;
+  -moz-transform-origin: left bottom;
+  -ms-transform-origin: left bottom;
+  -o-transform-origin: left bottom;
+  -webkit-transform-origin: left bottom;
+  opacity:0;
+}
+
+#main-bar-user-menu-tooltip.main-bar-user-menu-tooltip-active{
+  -webkit-transform:scale(1,1);
+  -moz-transform:scale(1,1);
+  -ms-transform:scale(1,1);
+  transform:scale(1,1);
+  opacity:1;
+}
+
+#main-bar-user-menu-tooltip .mw-ui-btn-vertical-nav{
+  display: block;
+  border-radius: 3px;
+}
+
+#main-bar-user-menu-tooltip .mw-ui-btn-vertical-nav a{
+  text-align: left;
+  border-width: 0 0 1px 0;
+}
+#main-bar-user-menu-tooltip .mw-ui-btn-vertical-nav a:last-child{
+  border-bottom-width: 0;
+}
+
+#main-bar-user-menu-tooltip  .mw-tooltip-content{
+  padding: 0;
+  width: 115px;
+  display: block;
+}
 
 
 /**/
@@ -841,6 +960,18 @@ a:hover .mw_ed_tree_content{
   text-align: center;
 }
 
+#pin-sidebar{
+  position: absolute;
+  color: #CCCCCC;
+  font-size: 19px;
+  right: 8px;
+  top: 2px;;
+  cursor: pointer;
+}
+
+#pin-sidebar.active{
+  color: #4D4D4D;
+}
 
 .create-content-menu a{
   display: block;
@@ -1022,9 +1153,16 @@ a:hover .mw_ed_tree_content{
   background-color: #f5f5f5;
 }
 
+
+
+
 #quick-add-post-options .mw-ui-btn [class*='mw-icon-']{
-  font-size: 25px;
+  font-size: 27px;
 }
+#quick-add-post-options .mw-ui-btn [class*='mw-icon-'] + span{
+  display: none;
+}
+
 #content-edit-settings-tabs.fixed #quick-add-post-options .mw-ui-btn{
   border: none
 }
@@ -1042,7 +1180,11 @@ a:hover .mw_ed_tree_content{
 }
 #quick-add-post-options-holder .mw-ui-btn{
   border: none;
-  border-radius: 3px !important
+  border-radius: 3px !important;
+  margin-right: 30px;
+}
+.quick-parent-selector select{
+  width: 215px;
 }
 
 #content-edit-settings-tabs.fixed{
@@ -1380,6 +1522,13 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   opacity: 0.22;
 }
 
+.mw-admin-edit-page-primary-settings{
+  float: right;
+}
+.mw-admin-edit-content-holder{
+  float: left;
+}
+
 .mw_admin_edit_content_form{
   position: relative;
 }
@@ -1526,8 +1675,6 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   margin-left: 3px;
 }
 
-
-
 .admin-manage-toolbar-scrolled #content-title-field-buttons{
   vertical-align: middle;
 }
@@ -1616,14 +1763,12 @@ input#edit-content-url:focus, input#edit-content-url.active{
   z-index: 10;
 }
 
-
 .admin-manage-toolbar  h2{
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 
 .admin-manage-toolbar-title-icon{
   font-size: 28px;
@@ -1667,17 +1812,26 @@ input#edit-content-url:focus, input#edit-content-url.active{
 }
 
 
+
+
 .admin-manage-toolbar-scrolled .admin-manage-toolbar-content:after{
-    bottom: 0;
-    box-shadow: 0 0 6px -2px #000000;
+    bottom:-30px;
+    box-shadow: none;
     content: "";
     display: block;
-    height: 6px;
+    height: 30px;
     left: 0;
     position: absolute;
     width: 100%;
     z-index: -1;
+    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 38%, rgba(255,255,255,1) 39%, rgba(255,255,255,0) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(38%,rgba(255,255,255,1)), color-stop(39%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0)));
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 38%,rgba(255,255,255,1) 39%,rgba(255,255,255,0) 100%);
+    background: -o-linear-gradient(top,  rgba(255,255,255,1) 38%,rgba(255,255,255,1) 39%,rgba(255,255,255,0) 100%);
+    background: -ms-linear-gradient(top,  rgba(255,255,255,1) 38%,rgba(255,255,255,1) 39%,rgba(255,255,255,0) 100%);
+    background: linear-gradient(to bottom,  rgba(255,255,255,1) 38%,rgba(255,255,255,1) 39%,rgba(255,255,255,0) 100%);
 }
+
 .admin-manage-toolbar-scrolled.admin-manage-toolbar-scrolled-wysiwyg .admin-manage-toolbar-content:after{
   box-shadow: none;
 }
@@ -1776,7 +1930,11 @@ input#edit-content-url:focus, input#edit-content-url.active{
   border-radius:2px;
 }
 
-
+.mw-ui-navigation a .relative .mw-notification-count{
+    top: -2px;
+    left: 103%;
+    right: auto;
+}
 
 
 
@@ -1899,6 +2057,23 @@ body.grabbing, body.grabbing *{
 }
 
 
+.col-bar-live-edit{
+  text-align: right;
+  width: 55px;
+}
+
+.col-bar-live-edit .mw-ui-btn {
+
+  width: 50px;
+  background-color: rgba(245, 245, 245, 1);
+}
+
+.col-bar-live-edit .mw-ui-btn .mw-icon-live{
+  font-size: 25px;
+  margin: -6px -2px 0;
+}
+
+
 
 /************************************
        Admin tooltip
@@ -1949,7 +2124,7 @@ body.grabbing, body.grabbing *{
         Custom Fields Icons
 *************************************/
 
-[class*='mw-custom-field-icon-']{
+[class*='mw-custom-field-icon-'], [class*='mw-admin-icon-']{
   display: inline-block;
   position: relative;
   font-family: mwadmin;
@@ -2145,6 +2320,10 @@ body.grabbing, body.grabbing *{
   padding-top: 30px;
   vertical-align: middle;
   margin-bottom: 35px;
+
+  background: none repeat scroll 0 0 #f5f5f5;
+  padding: 36px 33px 30px 35px;
+
 }
 #mw-modules-toolbar *{
   vertical-align: middle;
@@ -2282,10 +2461,6 @@ body.grabbing, body.grabbing *{
         Dashboard
 *************************************/
 
-#dashboard-navigation,
-#dashboard-navigation .mw-ui-btn{
-  width: 100%;
-}
 
 #stats{
   padding: 20px 0;
@@ -2313,6 +2488,23 @@ body.grabbing, body.grabbing *{
 .stat-time{
   font-size: 12px;
 }
+#visits_info_table > table{
+  margin-bottom: 20px;
+}
+.request-stats-btn{
+    position: relative;
+    top:-2px;
+    left: 10px;
+}
+.quick-lists .mw-ui-navigation{
+  margin-right: 30px;
+}
+
+#stats_nav{
+  margin-top: 12px;
+}
+
+
 
 /************************************
         Richtext editor

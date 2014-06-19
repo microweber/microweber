@@ -1106,6 +1106,10 @@ class Db
             if (is_string($search_n_cats)) {
                 $search_n_cats = explode(',', $search_n_cats);
             }
+            if (is_string($search_n_cats) or is_int($search_n_cats)) {
+                $search_n_cats = array($search_n_cats);
+            }
+
             $is_in_category_items = false;
             if (is_array($search_n_cats) and !empty($search_n_cats)) {
                 foreach ($search_n_cats as $cat_name_or_id) {
@@ -1114,6 +1118,8 @@ class Db
                     $str1 = 'fields=id&limit=10000&table=categories&' . 'id=' . $cat_name_or_id;
                     $cat_name_or_id1 = intval($cat_name_or_id);
                     $str1_items = 'fields=rel_id&limit=10000&what=category_items' . '&rel=' . $table_alias . '&parent_id=' . $cat_name_or_id;
+
+ 
                     $is_in_category_items = $this->get($str1_items);
                     if (!empty($is_in_category_items)) {
                         foreach ($is_in_category_items as $is_in_category_items_tt) {

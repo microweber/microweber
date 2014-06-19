@@ -263,7 +263,7 @@ $(window).load(function(){
       <td>Amet</td>
       <td>Dolor</td>
       <td>987987</td>
-      <td><a href="javascript:;" class="show-on-hover mw-ui-btn mw-ui-btn-medium">View on hover</a></td>
+      <td><a href="javascript:;" class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium">View on hover</a></td>
     </tr>
   </tbody>
 </table>
@@ -814,6 +814,20 @@ $(window).load(function(){
        </td>
      </tr>
      <tr>
+        <td colspan="2">
+            <h2>SINGLE icon btn</h2>
+
+
+
+            <span class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-icon"><span class="mw-icon-gear"></span></span>
+
+
+
+
+
+
+       </td>
+     </tr><tr>
         <td colspan="2">
             <h2>TESTS</h2>
 

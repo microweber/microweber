@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdfasdsdfasdasasdasddfasdasdsasdfsdgasasddsadsasdsdasasdad') format('truetype');
+  src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdfasdsdfasdasasdasasdasdasddasdsadasdsadasddfasdasdsaasdsdfsdgasasddsadsasdsdasasdad') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -141,6 +141,15 @@
 .mw-icon-off:before {
   content: "\0127";
 }
+.mw-icon-lock:before {
+  content: "\0128";
+}
+.mw-icon-menuadd:before {
+  content: "\0129";
+}
+.mw-icon-template:before {
+  content: "\0130";
+}
 /****************************
  Buttons & button navigation
 *****************************/
@@ -183,6 +192,7 @@
   box-sizing: border-box;
   padding: 9px 12px;
   height: 36px;
+  line-height: normal;
   cursor: pointer;
   background-color: #FFFFFF;
   border: solid 1px #e5e5e5;
@@ -221,6 +231,13 @@
   color: #ffffff;
   background-color: #ef924d;
   border-color: transparent;
+}
+.mw-ui-btn.default-invert.active,
+.mw-ui-btn.default-invert:hover,
+.mw-ui-btn.default-invert:focus {
+  background-color: #262626;
+  border-color: transparent;
+  color: white;
 }
 /* Sizes */
 .mw-ui-btn-large,
@@ -295,6 +312,7 @@
 .mw-ui-btn > .mw-icon-right {
   margin: -2px 0 0 7px;
 }
+.mw-ui-btn.active > [class*='mw-icon-'],
 .mw-ui-btn:hover > [class*='mw-icon-'],
 .mw-ui-btn:focus > [class*='mw-icon-'] {
   opacity: 1;
@@ -394,11 +412,15 @@
 }
 .mw-ui-navigation a {
   display: block;
+  position: relative;
   padding: 9px 12px;
   height: 36px;
   border: 1px solid transparent;
   border-radius: 3px;
   white-space: nowrap;
+}
+.mw-ui-navigation a > [class*='mw-icon-'] {
+  margin: -5px 8px 0 0;
 }
 .mw-ui-navigation .mw-icon-dropdown {
   font-size: 12px;
@@ -722,12 +744,14 @@ li:hover > .show-on-hover {
   background-color: white;
   color: #434343;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
 }
 .mw-tooltip-default .mw-tooltip-content {
   padding: 10px;
   position: relative;
   background: white;
   z-index: 1;
+  border-radius: 3px;
 }
 .mw-tooltip-default .mw-tooltip-arrow {
   display: block;

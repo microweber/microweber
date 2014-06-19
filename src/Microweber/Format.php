@@ -5,7 +5,6 @@ class Format
 {
 
 
-
     /**
      * Prints an array in unordered list - <ul>
      *
@@ -60,11 +59,9 @@ class Format
     {
         if (is_string($variable))
             return addslashes($variable);
-
         elseif (is_array($variable))
             foreach ($variable as $i => $value)
                 $variable[$i] = $this->add_slashes_recursive($value);
-
         return $variable;
     }
 
@@ -75,21 +72,24 @@ class Format
         if (is_array($variable))
             foreach ($variable as $i => $value)
                 $variable[$i] = $this->strip_slashes_recursive($value);
-
         return $variable;
     }
+
     public function auto_link($text)
     {
-       return $this->autolink($text);
+        return $this->autolink($text);
     }
 
     //http://stackoverflow.com/a/1971451/731166
-    function autolink($text) {
-        $pattern  = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
-        return preg_replace_callback($pattern,array($this, 'auto_link_text_callback'), $text);
+
+    function autolink($text)
+    {
+        $pattern = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
+        return preg_replace_callback($pattern, array($this, 'auto_link_text_callback'), $text);
     }
 
-    function auto_link_text_callback($matches) {
+    function auto_link_text_callback($matches)
+    {
         $max_url_length = 150;
         $max_depth_if_over_length = 2;
         $ellipsis = '&hellip;';
@@ -130,10 +130,9 @@ class Format
         } else {
             $url_short = $url_full;
         }
-      // return "<a rel=\"nofollow\" href=\"$url_full\" target='_blank'>$url_short</a>";
+        // return "<a rel=\"nofollow\" href=\"$url_full\" target='_blank'>$url_short</a>";
         return "<a href=\"$url_full\" target='_blank'>$url_short</a>";
     }
-
 
     public function ago($time, $granularity = 2)
     {
@@ -377,7 +376,7 @@ class Format
 
     public function replace_once($needle, $replace, $haystack)
     {
-        // Looks for the first occurence of $needle in $haystack
+        // Looks for the first occurrence of $needle in $haystack
         // and replaces it with $replace.
         $pos = strpos($haystack, $needle);
         if ($pos === false) {
@@ -386,8 +385,6 @@ class Format
         }
         return substr_replace($haystack, $replace, $pos, strlen($needle));
     }
-
-
 
     function prep_url($str = '')
     {
@@ -413,7 +410,7 @@ class Format
     public function  percent($num_amount, $num_total)
     {
 
-        if($num_amount == 0 or $num_total == 0){
+        if ($num_amount == 0 or $num_total == 0) {
             return 0;
         }
 
@@ -642,7 +639,6 @@ class Format
         return unserialize($serialized);
     }
 
-
     function is_base64($data)
     {
         $decoded = base64_decode($data, true);
@@ -652,7 +648,8 @@ class Format
         return true;
     }
 
-    function is_fqdn($FQDN) {
+    function is_fqdn($FQDN)
+    {
         return (!empty($FQDN) && preg_match('/(?=^.{1,254}$)(^(?:(?!\d|-)[a-z0-9\-]{1,63}(?<!-)\.)+(?:[a-z]{2,})$)/i', $FQDN) > 0);
     }
 

@@ -42,24 +42,31 @@ class Orm
         return $this->adapter;
     }
 
-    function __call($method, $arg=null)
+    function __call($method, $arg = null)
     {
 
         return $this->adapter->$method($arg);
 
     }
 
-    function with($table,$params = false)
+    function configure($key, $val = false, $connection_name = 'default')
     {
-        return $this->adapter->with($table,$params);
+        return $this->adapter->configure($key, $val, $connection_name);
     }
-    function one($table,$params = false)
+
+    function with($table, $params = false, $connection = 'default')
     {
-        return $this->adapter->one($table,$params);
+        return $this->adapter->with($table, $params, $connection);
     }
-    function get($table,$params = false)
+
+    function one($table, $params = false)
     {
-        return $this->adapter->get($table,$params);
+        return $this->adapter->one($table, $params);
+    }
+
+    function get($table, $params = false)
+    {
+        return $this->adapter->get($table, $params);
     }
 
 }

@@ -59,10 +59,12 @@ class IdiOrm
         ORM::configure('logging', true);
 
     }
-    function configure($key, $val = false)
+
+    function configure($key, $val = false, $connection_name = 'default')
     {
-        return ORM::configure($key, $val);
+        return ORM::configure($key, $val, $connection_name);
     }
+
     function one($table, $params = false)
     {
         return $this->get($table, $params, 'findOne');

@@ -25,7 +25,7 @@
 
 @font-face {
     font-family: 'Microweber';
-    src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdfasdsdfasdasasdasddfasdasdsasdfsdgasasddsadsasdsdasasdad') format('truetype');
+    src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdfasdsdfasdasasdasasdasdasddasdsadasdsadasddfasdasdsaasdsdfsdgasasddsadsasdsdasasdad') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -93,6 +93,9 @@
 .mw-icon-googleplus:before{ content: "\0125";  }
 .mw-icon-user:before{ content: "\0126";  }
 .mw-icon-off:before{ content: "\0127";  }
+.mw-icon-lock:before{ content: "\0128";  }
+.mw-icon-menuadd:before{ content: "\0129";  }
+.mw-icon-template:before{ content: "\0130";  }
 
 
 
@@ -148,6 +151,7 @@
   box-sizing: border-box;
   padding: 9px 12px;
   height: 36px;
+  line-height: normal;
   cursor: pointer;
   background-color: #FFFFFF;
   border: solid 1px @borderColor;
@@ -193,6 +197,14 @@
   color: @buttonColor;
   background-color: @warn;
   border-color: transparent;
+}
+
+.mw-ui-btn.default-invert.active,
+.mw-ui-btn.default-invert:hover,
+.mw-ui-btn.default-invert:focus{
+   background-color: @invert;
+   border-color: transparent;
+   color: white;
 }
 
 
@@ -241,14 +253,15 @@
 }
 
 .mw-ui-btn > .mw-icon-dropdown{
-    font-size: 12px;
-    margin-top: -7px;
-    margin-right: 0;
-    margin-left: 7px;
+  font-size: 12px;
+  margin-top: -7px;
+  margin-right: 0;
+  margin-left: 7px;
 }
 
 .mw-ui-btn > .mw-icon-right{ margin: -2px 0 0 7px; }
 
+.mw-ui-btn.active > [class*='mw-icon-'],
 .mw-ui-btn:hover > [class*='mw-icon-'],
 .mw-ui-btn:focus > [class*='mw-icon-']{
   opacity:1;
@@ -260,6 +273,7 @@
   position: relative;
   display: inline-block;
 }
+
 .mw-ui-btn-nav:after, .mw-ui-btn-vertical-nav:after{
   content: ".";
   display: block;
@@ -270,8 +284,8 @@
 }
 
 .mw-ui-btn-nav li{
-    list-style: none;
-    float: left;
+  list-style: none;
+  float: left;
 }
 .mw-ui-btn-vertical-nav li{
   float: none;
@@ -365,11 +379,16 @@
 
 .mw-ui-navigation a{
   display: block;
+  position: relative;
   padding: 9px 12px;
   height: 36px;
   border: 1px solid transparent;
   border-radius: @radius;
   white-space: nowrap;
+}
+
+.mw-ui-navigation a > [class*='mw-icon-']{
+  margin: -5px 8px 0 0;
 }
 
 .mw-ui-navigation .mw-icon-dropdown{
@@ -712,6 +731,7 @@
   background-color: white;
   color: #434343;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  border-radius: @radius;
 }
 
 .mw-tooltip-default .mw-tooltip-content{
@@ -719,6 +739,7 @@
     position: relative;
     background: white;
     z-index: 1;
+    border-radius: @radius;
 }
 
 .mw-tooltip-default .mw-tooltip-arrow{
