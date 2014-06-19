@@ -9,3 +9,6 @@ event_bind('module.comments.item.info', function ($params) {
     return mw('rating/controller')->comment_rating($params);
 });
 
+event_bind('module.rating.simple', function ($params) {
+	return mw('rating/controller')->simple_rating($params);
+});

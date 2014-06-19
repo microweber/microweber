@@ -127,7 +127,6 @@
     background-image: -moz-linear-gradient( center bottom, rgb(243, 243, 243) 60%, rgba(243,243,243,0) 75%);
     background-image: -o-linear-gradient( rgba(243,243,243,0) 25%, rgb(243,243,243) 40%);
     background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.60, rgb(243,243,243)), color-stop(0.75, rgba(243,243,243,0)));
-    filter: progid:DXImageTransform.Microsoft.Gradient( gradientType=0, startColor=0, EndColorStr=#f3f3f3);
 }
 
 .mw-rotator-thumbnail-scroller{
@@ -296,7 +295,6 @@ a.rotator-paging-item-digit.active{
   cursor: pointer;
   background-color: #F3F3F3;
   background-color: rgba(243,243,243,0.1);
-  filter:alpha(opacity=50);
   background-image: url(../img/inner_next.png);
   background-repeat: no-repeat;
   background-position: center;

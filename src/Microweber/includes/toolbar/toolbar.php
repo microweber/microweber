@@ -125,8 +125,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
       <div class="toolbar-sections-tabs">
         <ul>
           <li class="create-content-dropdown"> <a href="javascript:;" class="tst-logo" title="Microweber"> <span>Microweber</span> <i class=" mw-dropdown-arrow right"></i> </a>
-            <div class="mw-dropdown-list create-content-dropdown-list"
-                         style="box-shadow: 2px 2px 10px -10px #111;width: 225px;">
+            <div class="mw-dropdown-list create-content-dropdown-list">
               <div class="mw-dropdown-list-search">
                 <input type="mwautocomplete" class="mwtb-search mw-dropdown-search"
                                    placeholder="Search content"/>
@@ -150,23 +149,22 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                         style="width: 170px; text-transform:uppercase;">
               <?php event_trigger('live_edit_quick_add_menu_start'); ?>
               <li><a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span
-                                    class="ico ieditpage"
-                                    style="margin-right: 12px;"></span><span>
+                                    class="mw-icon-page"></span><span>
                 <?php _e("Edit current"); ?>
                 </span></a> </li>
-              <li><a href="javascript:;" onclick="mw.quick.post();"><span
-                                    class="mw-ui-btn-plus left"></span><span
-                                    class="ico ipost"></span>
+              <li><a href="javascript:;" onclick="mw.quick.post();">
+              <span class="mw-ui-btn-plus left"></span><span
+                                    class="mw-icon-post"></span>
                 <?php _e("Post"); ?>
                 </a></li>
               <li><a href="javascript:;" onclick="mw.quick.page();"><span
                                     class="mw-ui-btn-plus left"></span><span
-                                    class="ico ipage"></span>
+                                    class="mw-icon-page"></span>
                 <?php _e("Page"); ?>
                 </a></li>
               <li><a href="javascript:;" onclick="mw.quick.category();"><span
                                     class="mw-ui-btn-plus left"></span><span
-                                    class="ico icategory"></span>
+                                    class="mw-icon-category"></span>
                 <?php _e("Category"); ?>
                 </a></li>
               <?php event_trigger('live_edit_quick_add_menu_end'); ?>

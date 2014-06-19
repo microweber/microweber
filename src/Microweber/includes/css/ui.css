@@ -23,7 +23,7 @@
 }
 [class*='mw-icon-']:before {
   display: inline-block;
-  font-family: Microweber;
+  font-family: Microweber !important;
 }
 .mw-icon-mw:before {
   content: 'm';
