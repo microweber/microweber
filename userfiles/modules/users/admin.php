@@ -6,9 +6,6 @@
 #sort-users .mw-ui-row *{
   vertical-align: middle;
 }
-.mw-ui-inline-list{
-  margin-top: 19px;
-}
 
 #sort-users{
   padding-bottom: 35px;
@@ -26,54 +23,45 @@
 
 <script type="text/javascript">
 
-
-UsersRotatorSet = function(){
-  var w = mw.$('.mw-simple-rotator').width();
-  mw.$('#users_admin_panel, #user_edit_admin_panel').width(w);
-  mw.$('#mw-users-manage-edit-rotattor').width((2 * w) + 20)
-}
-
     $(document).ready(function () {
         if (typeof UsersRotator === 'undefined') {
-            UsersRotator = mw.tools.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
-            UsersRotatorSet();
+            UsersRotator = mw.admin.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
         }
     });
 
     function mw_show_users_list() {
-
         var ui = mw.url.getHashParams(window.location.hash).ui;
 
-
-        if (ui == undefined) {
-            ui = mw.$('#mw_index_users input.mw_users_filter_show:checked').first().val();
+        if (typeof ui == 'undefined') {
+            var ui = mwd.querySelector('#mw_index_users input.mw_users_filter_show:checked').value;
         }
-        if (ui !== undefined) {
+        if (typeof ui !== 'undefined') {
             mw.$('#users_admin_panel').attr('data-show-ui', ui);
         }
         else {
             mw.$('#users_admin_panel').removeAttr('data-show-ui');
         }
 
-
         var search = mw.url.getHashParams(window.location.hash).search;
-        if (search !== undefined) {
+        if (typeof search !== 'undefined') {
             mw.$('#users_admin_panel').attr('data-search-keyword', search);
-        } else {
+        }
+        else {
             mw.$('#users_admin_panel').removeAttr('data-search-keyword');
         }
 
-
         var is_admin = mw.url.getHashParams(window.location.hash).is_admin;
-        if (is_admin !== undefined && parseInt(is_admin) !== 0) {
+        if (typeof is_admin !== 'undefined' && parseInt(is_admin) !== 0) {
             mw.$('#users_admin_panel').attr('data-is_admin', is_admin);
-        } else {
+        }
+        else {
             mw.$('#users_admin_panel').removeAttr('data-is_admin');
         }
         var installed = mw.url.getHashParams(window.location.hash).installed;
-        if (installed !== undefined) {
+        if (typeof installed !== 'undefined') {
             mw.$('#users_admin_panel').attr('data-installed', installed);
-        } else {
+        }
+        else {
             mw.$('#users_admin_panel').removeAttr('data-installed');
         }
         mw.load_module('users/edit_user', '#user_edit_admin_panel');
@@ -81,16 +69,13 @@ UsersRotatorSet = function(){
 
 
     _mw_admin_users_manage = function () {
-
         var attrs = mw.url.getHashParams(window.location.hash);
-
         var holder = mw.$('#users_admin_panel');
-
-        var arr = ['data-show-ui', 'data-search-keyword', 'data-category', 'data-installed', 'is_admin', 'is_active'], i = 0, l = arr.length;
-
+        var arr = ['data-show-ui', 'data-search-keyword', 'data-category', 'data-installed', 'is_admin', 'is_active'],
+            i = 0,
+            l = arr.length;
         var sync = ['ui', 'search', 'category', 'installed', 'mw-users-is-admin', 'mw-users-is-active'];
-
-        for (; i < l; i++) {
+        for ( ;i < l; i++) {
             holder.removeAttr(arr[i]);
         }
         for (var x in attrs) {
@@ -107,22 +92,14 @@ UsersRotatorSet = function(){
     }
 
     TableLoadded = false;
-
     $(window).bind("load", function () {
         var hash = mw.url.getHashParams(window.location.hash);
-        if (typeof hash['edit-user'] === 'undefined') {
+        if (typeof hash['edit-user'] == 'undefined') {
             if (hash.sortby === undefined) {
                 mw.url.windowHashParam('sortby', 'created_on desc');
             }
         }
-        UsersRotatorSet();
-
     });
-
-    $(window).bind('resize', function(){
-      UsersRotatorSet();
-    })
-
 
     _mw_admin_user_edit = function () {
         var attrs = mw.url.getHashParams(window.location.hash);
@@ -131,16 +108,14 @@ UsersRotatorSet = function(){
             holder.attr('edit-user', attrs['edit-user']);
             mw.load_module('users/edit_user', '#user_edit_admin_panel', function () {
                 if (typeof UsersRotator === 'undefined') {
-                    UsersRotator = mw.tools.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
+                    UsersRotator = mw.admin.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
                 }
                 UsersRotator.go(1, function () {
                     mw.tools.scrollTo(mwd.querySelector('#mw_toolbar_nav'));
                 });
-                UsersRotatorSet();
             });
         }
     }
-
 
     mw.on.hashParam('is_admin', function () {
         mw.url.windowDeleteHashParam('edit-user');
@@ -167,9 +142,12 @@ UsersRotatorSet = function(){
             UsersRotator.go(0);
             mw.$('.modules-index-bar, .manage-items').fadeIn();
         }
-        else if (this != false && TableLoadded) {
+        else if (this != false ) {
             _mw_admin_user_edit();
             mw.$('.modules-index-bar, .manage-items').fadeOut();
+        }
+        if(this != false){
+         // mw.url.windowDeleteHashParam('sortby');
         }
     });
 
@@ -188,12 +166,11 @@ UsersRotatorSet = function(){
 
 <?php
 
-$mw_notif = (url_param('mw_notif'));
-
-if ($mw_notif != false) {
-    $mw_notif = mw('Microweber\Notifications')->read($mw_notif);
-}
-mw('Microweber\Notifications')->mark_as_read('users');
+  $mw_notif = (url_param('mw_notif'));
+  if ($mw_notif != false) {
+      $mw_notif = mw('Microweber\Notifications')->read($mw_notif);
+  }
+  mw('Microweber\Notifications')->mark_as_read('users');
 
 ?>
 <?php if (is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
@@ -203,102 +180,64 @@ mw('Microweber\Notifications')->mark_as_read('users');
             _mw_admin_user_edit();
         });
     </script>
-
 <?php endif; ?>
-
-
-
-
-
-
-
             <a href="javascript:mw.url.windowHashParam('edit-user',0)" class="mw-ui-btn mw-ui-btn-notification">
                 <span class="mw-icon-plus"></span><span><?php _e("Add new user"); ?></span>
             </a>
-                          <input
-                      name="module_keyword"
-                      class="mw-ui-searchfield pull-right" type="search"
-                      placeholder="<?php _e("Search for users"); ?>"
-                      onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
+            <input
+                  name="module_keyword"
+                  class="mw-ui-searchfield pull-right" type="search"
+                  placeholder="<?php _e("Search for users"); ?>"
+                  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
             <hr>
-
-
             <div class="manage-items" id="sort-users">
                   <div class="mw-ui-row">
                       <div class="mw-ui-col" style="width: 200px;">
                           <label class="mw-ui-label"><?php _e("Sort Users by Roles"); ?></label>
                           <div class="mw-ui-btn-nav">
-                              <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-none active" href="javascript:;"
-                                     onclick="mw.url.windowDeleteHashParam('is_admin');"><?php _e("All"); ?></a>
-                              <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-n" href="javascript:;"
-                                     onclick="mw.url.windowHashParam('is_admin', 'n');"><?php _e("User"); ?></a>
-                              <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-y" href="javascript:;"
-                                     onclick="mw.url.windowHashParam('is_admin', 'y');"><?php _e("Admin"); ?></a>
+                              <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');"><?php _e("All"); ?></a>
+                              <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-n" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'n');"><?php _e("User"); ?></a>
+                              <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-y" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'y');"><?php _e("Admin"); ?></a>
                           </div>
-
-
-
                       </div>
                       <div class="mw-ui-col">
                           <label class="mw-ui-label">Sort Users by Status</label>
                           <div class="mw-ui-btn-nav">
-                              <a class="mw-ui-btn mw-users-is-active mw-users-is-active-none" href="javascript:;"
-                                     onclick="mw.url.windowDeleteHashParam('is_active');"><?php _e("All users"); ?></a>
-                              <a class="mw-ui-btn mw-users-is-active mw-users-is-active-y" href="javascript:;"
-                                     onclick="mw.url.windowHashParam('is_active', 'y');"><?php _e("Active users"); ?></a>
-                              <a class="mw-ui-btn mw-users-is-active mw-users-is-active-n" href="javascript:;"
-                                     onclick="mw.url.windowHashParam('is_active', 'n');"><?php _e("Disabled users"); ?></a>
+                              <a class="mw-ui-btn mw-users-is-active mw-users-is-active-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');"><?php _e("All users"); ?></a>
+                              <a class="mw-ui-btn mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'y');"><?php _e("Active users"); ?></a>
+                              <a class="mw-ui-btn mw-users-is-active mw-users-is-active-n" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'n');"><?php _e("Disabled users"); ?></a>
                           </div>
                       </div>
                       <div class="mw-ui-col">
                           <ul class="mw-ui-inline-list" >
                             <li>
                                 <label class="mw-ui-check">
-                                    <input name="sortby" class="mw_users_filter_show" type="radio" value="created_on desc"
-                                           checked="checked" onchange="mw.url.windowHashParam('sortby', this.value)"/>
-                                    <span></span><span><?php _e("Date created"); ?></span></label>
+                                    <input name="sortby" class="mw_users_filter_show" type="radio" value="created_on desc" checked="checked" onchange="mw.url.windowHashParam('sortby', this.value)" />
+                                    <span></span><span><?php _e("Date created"); ?></span>
+                                </label>
                             </li>
                             <li>
                                 <label class="mw-ui-check">
-                                    <input name="sortby" class="mw_users_filter_show" type="radio" value="last_login desc"
-                                           onchange="mw.url.windowHashParam('sortby', this.value)"/>
-                                    <span></span><span><?php _e("Last login"); ?></span></label>
+                                    <input name="sortby" class="mw_users_filter_show" type="radio" value="last_login desc" onchange="mw.url.windowHashParam('sortby', this.value)" />
+                                    <span></span><span><?php _e("Last login"); ?></span>
+                                </label>
                             </li>
                             <li>
                                 <label class="mw-ui-check">
-                                    <input name="sortby" class="mw_users_filter_show" type="radio" value="username asc"
-                                           onchange="mw.url.windowHashParam('sortby', this.value)"/>
-                                    <span></span><span><?php _e("Username"); ?></span></label>
+                                    <input name="sortby" class="mw_users_filter_show" type="radio" value="username asc" onchange="mw.url.windowHashParam('sortby', this.value)"/>
+                                    <span></span><span><?php _e("Username"); ?></span>
+                                </label>
                             </li>
                         </ul>
-
                       </div>
-
                   </div>
-
-
-
-
-
-
-
-
-
             </div>
-
-
-
-
-
-
-        <div class="mw-simple-rotator">
-            <div class='mw-simple-rotator-container' id="mw-users-manage-edit-rotattor">
-                <div id="users_admin_panel"></div>
-                <div id="user_edit_admin_panel"></div>
+            <div class="mw-simple-rotator">
+                <div class='mw-simple-rotator-container' id="mw-users-manage-edit-rotattor">
+                    <div id="users_admin_panel"></div>
+                    <div id="user_edit_admin_panel"></div>
+                </div>
             </div>
-        </div>
-
-
 
 <?php show_help('users'); ?>
 </div>

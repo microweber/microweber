@@ -8,7 +8,7 @@ $(document).ready(function(){
          $(Rotator).stop()[0].go(1);
       })
 
-      mw.tools.simpleRotator(Rotator);
+      mw.admin.simpleRotator(Rotator);
 
       mw.on.hashParam("vieworder", function(){
           if(this!=false){

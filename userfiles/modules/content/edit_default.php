@@ -1,4 +1,4 @@
-<?php 
+<?php
 only_admin_access();
  
 $edit_page_info = $data;;
@@ -56,8 +56,9 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
          }
       </script> 
   </div>
-  <div class="mw-admin-edit-page-primary-settings">
+
     <?php if($data['content_type'] == 'page'){ ?>
+    <div class="mw-admin-edit-page-primary-settings parent-selector ">
     <div class="mw-ui-field-holder">
       <div class="quick-parent-selector">
         <module
@@ -70,8 +71,10 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
               recommended-id="<?php print $recommended_parent; ?>"   />
       </div>
     </div>
+    </div>
     <?php } ?>
     <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+    <div class="mw-admin-edit-page-primary-settings content-category-selector">
     <div class="mw-ui-field-holder" style="padding-top: 0">
       <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
         <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
@@ -88,8 +91,9 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
         <?php endif; ?>
       </div>
     </div>
+    </div>
     <?php endif; ?>
-  </div>
+
   <div class="mw-admin-edit-content-holder">
     <?php 
 	 $data['recommended_parent'] = $recommended_parent;
@@ -313,7 +317,7 @@ mw.edit_content.set_category = function(id){
 mw.edit_content.render_category_tree = function(id){
     if(mw.treeRenderer != undefined){
     	   mw.treeRenderer.appendUI('#mw-category-selector-'+id);
-    	   mw.tools.tag({
+    	   mw.admin.tag({
     		  tagholder:'#mw-post-added-'+id,
     		  items: ".mw-ui-check",
     		  itemsWrapper: mwd.querySelector('#mw-category-selector-'+id),
@@ -547,12 +551,11 @@ mw.save_inner_editable_fields = function(data){
 </script> 
 <script>
     $(mwd).ready(function(){
-
         mw.edit_content.load_editor();
        <?php if($just_saved!=false) : ?>
        mw.$("#<?php print $module_id ?>").removeAttr("just-saved");
        <?php endif; ?>
-       mw.edit_content.render_category_tree("<?php print $rand; ?>");
+        mw.edit_content.render_category_tree("<?php print $rand; ?>");
         mw.$("#quickform-<?php print $rand; ?>").submit(function(){
           mw.edit_content.handle_form_submit();
           return false;
@@ -560,38 +563,22 @@ mw.save_inner_editable_fields = function(data){
 		<?php if($data['id']!=0) : ?>
 		    mw.$(".mw-admin-go-live-now-btn").attr('content-id',<?php print $data['id']; ?>);
 		<?php endif; ?>
-		/* reloading the editor on parent change */
        mw.$('#mw-parent-page-value-<?php print $rand; ?>').bind('change', function(e){
-		 var iframe_ed = $('.mw-iframe-editor');
-	     var changed =  iframe_ed.contents().find('.changed').size();
-		 
-		  
-		 
-		 
-		 if(changed == 0){
-			   mw.edit_content.load_editor();
-		 } else {
-			 
-			 //  mw.edit_content.load_editor();
-		 }
-		 
-		  
-		 
-		 
+    		 var iframe_ed = $('.mw-iframe-editor');
+    	     var changed =  iframe_ed.contents().find('.changed').size();
+    		 if(changed == 0){
+    		    mw.edit_content.load_editor();
+    		 }
        });
 	   
 	   
-	   
-	    $(window).bind('templateChanged', function(e){
 
+	    $(window).bind('templateChanged', function(e){
 		 var iframe_ed = $('.mw-iframe-editor')
 	     var changed =  iframe_ed.contents().find('.changed').size();
 		 if(changed == 0){
-			   mw.edit_content.load_editor();
-
+		    mw.edit_content.load_editor();
 		 }
-
-		 
        });
 	   
 	    if(mwd.querySelector('.mw-iframe-editor') !== null){
@@ -601,20 +588,20 @@ mw.save_inner_editable_fields = function(data){
        if(mwd.getElementById('mw-edit-page-editor-holder') !== null){
            var otop = mwd.getElementById('mw-edit-page-editor-holder').offsetTop;
            if( (scrolltop + 100) > otop){
-              var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
-              if(ewr === null){return false;}
-              ewr.style.position = 'absolute';
-              ewr.style.top = scrolltop + otop + 'px';
-              ewr.style.top = scrolltop - otop /*+ mwd.querySelector('.admin-manage-toolbar').offsetTop*/ + mwd.querySelector('.admin-manage-toolbar').offsetHeight - 98  + 'px';
-             mw.$('.admin-manage-toolbar-scrolled').addClass('admin-manage-toolbar-scrolled-wysiwyg');
-             mw.tools.addClass(ewr, 'editor_wrapper_fixed');
+                var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
+                if(ewr === null){return false;}
+                ewr.style.position = 'absolute';
+                ewr.style.top = scrolltop + otop + 'px';
+                ewr.style.top = scrolltop - otop /*+ mwd.querySelector('.admin-manage-toolbar').offsetTop*/ + mwd.querySelector('.admin-manage-toolbar').offsetHeight - 98  + 'px';
+                mw.$('.admin-manage-toolbar-scrolled').addClass('admin-manage-toolbar-scrolled-wysiwyg');
+                mw.tools.addClass(ewr, 'editor_wrapper_fixed');
            }
            else{
-              var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
-              if(ewr === null){return false;}
-              ewr.style.position = 'static';
-               mw.$('.admin-manage-toolbar-scrolled').removeClass('admin-manage-toolbar-scrolled-wysiwyg');
-               mw.tools.removeClass(ewr, 'editor_wrapper_fixed');
+                var ewr = mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.editor_wrapper');
+                if(ewr === null){return false;}
+                ewr.style.position = 'static';
+                mw.$('.admin-manage-toolbar-scrolled').removeClass('admin-manage-toolbar-scrolled-wysiwyg');
+                mw.tools.removeClass(ewr, 'editor_wrapper_fixed');
            }
         }
      });

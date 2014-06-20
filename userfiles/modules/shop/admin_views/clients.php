@@ -5,7 +5,7 @@
 
 $(document).ready(function(){
   Rotator = mwd.getElementById('clients-rotator');
-  mw.tools.simpleRotator(Rotator);
+  mw.admin.simpleRotator(Rotator);
 
 })
 

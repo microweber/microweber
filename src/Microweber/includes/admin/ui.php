@@ -829,6 +829,24 @@ $(window).load(function(){
        </td>
      </tr><tr>
         <td colspan="2">
+            <h2>Notification Bubbles</h2>
+
+
+
+            <span class="mw-ui-btn" onclick="mw.notification.success('Awesome');">Success</span>
+            <span class="mw-ui-btn" onclick="mw.notification.error('Critical');">Error</span>
+            <span class="mw-ui-btn" onclick="mw.notification.warning('Awesome');">Warning</span>
+
+
+
+
+
+
+
+       </td>
+     </tr>
+     <tr>
+        <td colspan="2">
             <h2>TESTS</h2>
 
 

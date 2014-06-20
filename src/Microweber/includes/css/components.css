@@ -95,26 +95,28 @@
   width: 100%;
 }
 
-div.mw-ui-field.mw-custom-fields-tags{
-  background: #EDEDED ;
-  margin-bottom: 14px;
-  display: block;
-  cursor: pointer;
-  padding-right: 46px;
-  position: relative;
-  float: none;
+
+.mw-tag-selector > span > i{
+  font-size: 16px;
+  color: #8C8C8C;
+  margin-right: 7px;
+  float: left;
 }
-div.mw-custom-fields-tags a:last-child:after{
-    background: url("../img/tag_plus.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-    content: "";
-    display: inline-block;
-    height: 24px;
-    position: absolute;
-    right: -35px;
-    top: -2px;
-    width: 28px;
-    pointer-events:none;
+
+.mw-tag-selector > span > i:after{
+  font-family: Microweber;
+  font-style: normal;
 }
+
+.mw-tag-selector > span > i.have_category:after{ content:'\0071' }
+
+.mw-tag-selector > span > i.is_page:after{ content:'\0071';}
+.mw-tag-selector > span > i.category_element:after{ content:'\0063'; }
+.mw-tag-selector > span > i.is_shop:after{content:'s';}
+.mw-tag-selector > span > i.is_blog:after{ content:'\0062'; }
+.mw-tag-selector > span > i.is_home:after{ content:'\0105' }
+
+
 div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   display: none !important;
 }
@@ -133,53 +135,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   height: 24px;
   line-height:16px;
 }
-.mw-tag-selector > span > i{
-    display: inline-block;
-    width: 15px;
-    height: 18px;
-    margin-right: 3px;
-    background-repeat: no-repeat;
-    float: left;
-}
+
 .tag-label-content{
   position: relative;
   top: 1px;
 }
-
-.mw-tag-selector > span > i.have_category{ background-image: url(../img/tree.dynamic.png); }
-.mw-tag-selector > span > i.is_page{ background-image: url(../img/context.page.png); background-position: 2px 1px; }
-.mw-tag-selector > span > i.category_element{ background-image: url(../img/context.category.png); }
-.mw-tag-selector > span > i.is_shop{ background-image: url(../img/tree.shopico.png); }
-.mw-tag-selector > span > i.is_blog{ background-image: url(../img/tree.blog.png); background-position: 0 -1px; }
-
-.mw-custom-fields-tags .mw-ui-btn-small{
-  padding-left: 2px;
-  padding-bottom: 0;
-}
-
-.mw-custom-fields-tags .mw-ui-btn-small .ico{
-    margin-right: 1px;
-}
-
-.custom_fields_selector  .mw-quick-links .ico{
-  margin-right: 3px;
-}
-
-
-.mw-captcha-img{
-  cursor: pointer;
-}
-
-
-
-
-.mw-tag-selector .mw-ui-invisible-field{
-   color: #868686;
-   font-size: 11px;
-}
-
-
-
 
 
 

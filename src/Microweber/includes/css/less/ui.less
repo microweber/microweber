@@ -879,6 +879,10 @@
   padding-bottom: 10px;
 }
 
+.mw-ui-label small{
+  font-weight: normal;
+}
+
 .mw-ui-invisible-field{
   background: transparent;
   border-color: transparent;
@@ -1703,12 +1707,15 @@ div.mw-ui-field:after{
   padding: 0;
 }
 
-.mw-ui-inline-list li{
-  list-style: none;
-  display: inline-block; /* Important for vertical-align */
+.mw-ui-inline-list > *{
+  display: inline-block;
   margin-right: 10px;
   vertical-align: middle;
 }
+.mw-ui-inline-list li{
+  list-style: none;
+}
+
 .mw-ui-inline-list li:last-child{
   margin-right: 0;
 }
@@ -1750,9 +1757,9 @@ div.mw-ui-field:after{
 }
 
 
-.mw-success{background-color:@notification;color: contrast(@notification);}
-.mw-warning{background-color:@warn; color:contrast(@warn);}
-.mw-error{background-color:@important;color: contrast(@important); }
+.mw-success{background-color:@notification;color: contrast(@notification, #fff, #fff, 70%);}
+.mw-warning{background-color:@warn; color:contrast(@warn, #fff, #fff, 70%);}
+.mw-error{background-color:@important;color: contrast(@important, #fff, #fff, 70%); }
 
 
 

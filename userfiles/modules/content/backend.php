@@ -399,7 +399,7 @@ function mw_make_pages_tree_sortable(){
       <div class="fixed-side-column scroll-height-exception-master">
         <div class="create-content scroll-height-exception">
             <a href="javascript:;" class="mw-ui-btn default-invert create-content-btn" id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a>
-            <span class="mw-icon-lock tip" id="pin-sidebar" data-tip="<?php _e("Lock the sidebar"); ?>" data-tipposition="bottom-center"></span>
+            <span class="mw-icon-lock tip" id="pin-sidebar" data-tip="<?php _e("Lock/Unlock the sidebar"); ?>" data-tipposition="bottom-center"></span>
         </div>
         <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
           <?php

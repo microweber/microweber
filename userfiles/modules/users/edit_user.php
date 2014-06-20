@@ -36,8 +36,8 @@ $data = $data[0];
  ?>
 <?php if(is_array($data )): ?>
 <script  type="text/javascript">
-mw.require('forms.js');
-mw.require('files.js');
+  mw.require('forms.js');
+  mw.require('files.js');
 </script>
 <script  type="text/javascript">
 
@@ -48,26 +48,16 @@ _mw_admin_save_user_form<?php  print $data['id']; ?> = function(){
     }
 
  mw.form.post(mw.$('#users_edit_{rand}') , '<?php print api_link('save_user') ?>', function(){
-	 
       UserId = this;
-	  // mw.reload_module('[data-type="categories"]');
 	  mw.reload_module('[data-type="users/manage"]', function(){
-
 	    mw.url.windowDeleteHashParam('edit-user');
-
         mw.notification.success('<?php _e("All changes saved"); ?>');
         setTimeout(function(){
             mw.tools.highlight(mwd.getElementById('mw-admin-user-'+UserId));
         }, 300);
 	  });
 	 });
-
-
- 
- 
 }
-
-
 uploader = mw.files.uploader({
   filetypes:"images"
 });
@@ -142,6 +132,11 @@ reset_password = function(y){
   margin-right: 12px;
 }
 
+
+.mw-edit-user-table .mw-ui-btn.pull-right{
+  margin-left: 12px;
+}
+
 </style>
 
 <div class="mw-ui-box <?php print $config['module_class'] ?> user-id-<?php  print $data['id']; ?>" id="users_edit_{rand}">
@@ -158,7 +153,7 @@ reset_password = function(y){
   </div>
   <input type="hidden" class="mw-ui-field" name="id" value="<?php  print $data['id']; ?>">
   <div>
-    <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table mw-edit-user-table" width="100%">
+    <table border="0" cellpadding="0" cellspacing="0" class="mw-ui-table mw-ui-table-basic mw-edit-user-table" width="100%">
       <col width="150px" />
       <tr>
         <td><label class="mw-ui-label"><?php _e("Avatar"); ?></label></td>
@@ -180,10 +175,9 @@ reset_password = function(y){
         <td><input type="text" class="mw-ui-field" name="username" value="<?php  print $data['username']; ?>"></td>
       </tr>
       <tr>
-        <td><label class="mw-ui-label" style="padding-bottom: 0;"><?php _e("Password"); ?></label></td>
+        <td><label class="mw-ui-label"><?php _e("Password"); ?></label></td>
         <td>
             <span class="mw-ui-link" onclick="reset_password();$(this).hide()"><?php _e("Change Password"); ?></span>
-
             <input type="password" disabled="disabled" name="password" class="mw-ui-field semi_hidden" id="reset_password" />
       </td>
       </tr>
@@ -203,35 +197,47 @@ reset_password = function(y){
     <?php if (is_admin()){ ?>
       <tr>
         <td><label class="mw-ui-label"><?php _e("Is Active"); ?></label></td>
-        <td><div>
-            <label><?php _e("Yes"); ?>
+        <td><div class="mw-ui-inline-list">
+            <label class="mw-ui-check">
               <input type="radio" value="y" name="is_active" <?php if($data['is_active'] == 'y'): ?> checked="checked" <?php endif; ?>>
+              <span></span>
+              <span><?php _e("Yes"); ?></span>
             </label>
-            <label><?php _e("No"); ?>
+            <label class="mw-ui-check">
               <input type="radio" value="n" name="is_active" <?php if($data['is_active'] == 'n'): ?> checked="checked" <?php endif; ?>>
+              <span></span>
+              <span><?php _e("No"); ?></span>
             </label>
           </div></td>
       </tr>
       <tr>
         <td><label class="mw-ui-label"><?php _e("Is Admin"); ?>?</label></td>
-        <td><div>
-            <label><?php _e("Yes"); ?>
+        <td><div class="mw-ui-inline-list">
+            <label class="mw-ui-check">
               <input type="radio" value="y" name="is_admin" <?php if($data['is_admin'] == 'y'): ?> checked="checked" <?php endif; ?>>
+              <span></span>
+              <span><?php _e("Yes"); ?></span>
             </label>
-            <label><?php _e("No"); ?>
+            <label class="mw-ui-check">
               <input type="radio" value="n" name="is_admin" <?php if($data['is_admin'] == 'n'): ?> checked="checked" <?php endif; ?>>
+              <span></span>
+              <span><?php _e("No"); ?></span>
             </label>
           </div></td>
       </tr>
       
       <tr>
         <td><label class="mw-ui-label"><?php _e("Basic mode"); ?></label></td>
-        <td><div>
-            <label><?php _e("Yes"); ?>
+        <td><div class="mw-ui-inline-list">
+            <label class="mw-ui-check">
               <input type="radio" value="y" name="basic_mode" <?php if($data['basic_mode'] == 'y'): ?> checked="checked" <?php endif; ?>>
+              <span></span>
+              <span><?php _e("Yes"); ?></span>
             </label>
-            <label><?php _e("No"); ?>
+            <label class="mw-ui-check">
               <input type="radio" value="n" name="basic_mode" <?php if($data['basic_mode'] == 'n'): ?> checked="checked" <?php endif; ?>>
+              <span></span>
+              <span><?php _e("No"); ?></span>
             </label>
           </div></td>
       </tr>
@@ -243,9 +249,9 @@ reset_password = function(y){
       </tr>
       <tr class="no-hover">
         <td>&nbsp;</td>
-        <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green right" onclick="_mw_admin_save_user_form<?php  print $data['id']; ?>()">
+        <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="_mw_admin_save_user_form<?php  print $data['id']; ?>()">
           <?php _e("Save"); ?>
-          </span> <span class="mw-ui-btn mw-ui-btn-medium right" style="margin-right: 10px;" onclick="mw.url.windowDeleteHashParam('edit-user');">
+          </span> <span class="mw-ui-btn mw-ui-btn-medium pull-right"  onclick="mw.url.windowDeleteHashParam('edit-user');">
           <?php _e("Cancel"); ?>
           </span></td>
       </tr>

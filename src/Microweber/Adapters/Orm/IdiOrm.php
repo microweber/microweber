@@ -57,6 +57,17 @@ class IdiOrm
         ORM::configure('password', $password);
         ORM::configure('caching', true);
         ORM::configure('logging', true);
+        ORM::configure('cache_query_result', function ($hash) {
+            return false;
+        });
+
+        ORM::configure('check_query_cache', function ($hash) {
+            return false;
+        });
+        ORM::configure('clear_cache', function ($hash) {
+            return false;
+        });
+
 
     }
 

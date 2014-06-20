@@ -11,6 +11,12 @@
     </div>
 </div>
 
+<div id="mobile-message">
+
+<span class="mw-icon-mw"></span>
+
+</div>
+
 
 </body>
 </html>

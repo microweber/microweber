@@ -904,6 +904,9 @@ li:hover > .show-on-hover {
   font-weight: bold;
   padding-bottom: 10px;
 }
+.mw-ui-label small {
+  font-weight: normal;
+}
 .mw-ui-invisible-field {
   background: transparent;
   border-color: transparent;
@@ -1699,12 +1702,13 @@ div.mw-ui-field:after {
   margin: 0;
   padding: 0;
 }
-.mw-ui-inline-list li {
-  list-style: none;
+.mw-ui-inline-list > * {
   display: inline-block;
-  /* Important for vertical-align */
   margin-right: 10px;
   vertical-align: middle;
+}
+.mw-ui-inline-list li {
+  list-style: none;
 }
 .mw-ui-inline-list li:last-child {
   margin-right: 0;
@@ -1738,11 +1742,11 @@ div.mw-ui-field:after {
 }
 .mw-success {
   background-color: #48ad79;
-  color: #000000;
+  color: #ffffff;
 }
 .mw-warning {
   background-color: #ef924d;
-  color: #000000;
+  color: #ffffff;
 }
 .mw-error {
   background-color: #c72943;
