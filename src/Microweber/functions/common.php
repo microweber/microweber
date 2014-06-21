@@ -533,12 +533,12 @@ function is_module($module_name)
 }
 
 
-
-function module_url($module_name=false)
+function module_url($module_name = false)
 {
     return mw()->module->url($module_name);
 
 }
+
 function module_dir($module_name)
 {
     return mw()->module->dir($module_name);
@@ -1295,14 +1295,14 @@ function rglob($pattern = '*', $flags = 0, $path = '')
     if (is_array($paths)) {
         foreach ($paths as $p) {
             $temp = rglob($pattern, false, $p . DS);
-
-            if (is_array($temp) and is_array($files)) {
+            if (is_array($temp) and is_array($files) and !empty($files)) {
                 $files = array_merge($files, $temp);
-            } else if (is_array($temp)) {
+            } else if (is_array($temp) and !empty($temp)) {
                 $files = $temp;
             }
         }
     }
+
     return $files;
 
 
@@ -1523,7 +1523,6 @@ function get_all_functions_files_for_modules($options = false)
 
         return $cache_content;
     }
-
     if (isset($options['glob'])) {
         $glob_patern = $options['glob'];
     } else {
@@ -1535,46 +1534,23 @@ function get_all_functions_files_for_modules($options = false)
     } else {
         $dir_name = normalize_path(MW_MODULES_DIR);
     }
-
-    $disabled_files = array();
-
-    $uninstall_lock = mw()->module->get('ui=any&installed=[int]0');
-
-    if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
-        foreach ($uninstall_lock as $value) {
-            $value1 = normalize_path($dir_name . $value['module'] . DS . 'functions.php', false);
-            $disabled_files[] = $value1;
-        }
-    }
-
-    $dir = mw('Utils\Files')->rglob($glob_patern, 0, $dir_name);
-
-    if (!empty($dir)) {
+    $installed = mw()->module->get('ui=any&installed=[int]1');
+    $configs = false;
+    if (is_array($installed) and !empty($installed)) {
         $configs = array();
-        foreach ($dir as $key => $value) {
-
-            if (is_string($value)) {
-                $value = normalize_path($value, false);
-
-                $found = false;
-                foreach ($disabled_files as $disabled_file) {
-                    if (strtolower($value) == strtolower($disabled_file)) {
-                        $found = 1;
-                    }
-                }
-                if ($found == false) {
-                    $configs[] = $value;
+        foreach ($installed as $module) {
+            if(isset($module['module'])){
+            $file = normalize_path($dir_name . $module['module'] . DS . 'functions.php', false);
+                if(is_file($file)){
+                    $configs[] = $file;
                 }
             }
-
         }
-
-        mw('cache')->save($configs, $function_cache_id, $cache_group, 'files');
-
-        return $configs;
-    } else {
-        return false;
     }
+
+    mw('cache')->save($configs, $function_cache_id, $cache_group);
+    return $configs;
+
 }
 
 

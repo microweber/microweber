@@ -57,15 +57,49 @@ class IdiOrm
         ORM::configure('password', $password);
         ORM::configure('caching', true);
         ORM::configure('logging', true);
-        ORM::configure('cache_query_result', function ($hash) {
-            return false;
+        ORM::configure('caching_auto_clear', true);
+
+        ORM::configure('cache_query_result', function ($cache_key, $value, $table_name, $connection_name) use ($app) {
+            $cache_group = $app->db->guess_cache_group($table_name);
+
+            return $app->cache->save($value, $cache_key, $cache_group);
+        });
+        ORM::configure('check_query_cache', function ($cache_key, $table_name, $connection_name) use ($app) {
+
+            $cache_group = $app->db->guess_cache_group($table_name);
+            $cached = $app->cache->get($cache_key, $cache_group);
+            if ($cached != false) {
+                return $cached;
+            } else {
+                return false;
+            }
+        });
+        ORM::configure('clear_cache', function ($table_name, $connection_name) use ($app) {
+            $cache_group = $app->db->guess_cache_group($table_name);
+            return $app->cache->delete($cache_group);
         });
 
-        ORM::configure('check_query_cache', function ($hash) {
-            return false;
-        });
-        ORM::configure('clear_cache', function ($hash) {
-            return false;
+        ORM::configure('create_cache_key', function ($query, $parameters, $table_name, $connection_name) use ($app) {
+            $is_int = false;
+            if (is_array($parameters)) {
+                asort($parameters);
+                $is_first_int = reset($parameters);
+                if (intval(($is_first_int)) > 0) {
+                    $is_int = intval($is_first_int);
+                }
+
+            }
+
+            $cache_group = $app->db->guess_cache_group($table_name);
+            if ($is_int == false) {
+                $cache_group = 'global';
+            } else {
+                $cache_group = '' . $is_int;
+            }
+            $my_key = $cache_group . '/orm-' . (crc32($query));
+            // $my_key = 'orm-' . (crc32($query));
+
+            return $my_key;
         });
 
 
@@ -131,10 +165,14 @@ class IdiOrm
                 $avg = $params['avg'];
                 unset($params['avg']);
             }
+
+
         }
 
+        $params_to_fields = $this->app->db->map_array_to_table($table,$params);
 
         if (is_array($params) and !empty($params)) {
+
             $joined_tables = array();
             foreach ($params as $k => $v) {
                 $joins = explode('.', $k);
@@ -148,13 +186,20 @@ class IdiOrm
                     $orm->join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);
                 }
                 if (!isset($joins[1])) {
-                    $field_name = $k;
-                    $field_value = $v;
-                    $table_alias = $table;
+                    if(isset($params_to_fields[$k])){
+                        $field_name = $k;
+                        $field_value = $v;
+                        $table_alias = $table;
+                    } else {
+                        $field_name = false;
+                        $field_value = false;
+                    }
+
                 } else if (isset($joins[1])) {
                     $field_name = $joins[1];
                     $field_value = $v;
                 }
+
                 if ($field_value and $field_name) {
                     if (is_array($field_value)) {
                         $items = array();

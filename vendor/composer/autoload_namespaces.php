@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
+    'Phroute' => array($vendorDir . '/phroute/phroute/src'),
     'Microweber' => array($baseDir . '/src'),
     'Keboola\\Csv' => array($vendorDir . '/keboola/csv/src'),
     'ComponentInstaller' => array($vendorDir . '/robloach/component-installer/src'),

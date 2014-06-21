@@ -503,15 +503,19 @@ class Files
 
     public function delete($cache_group = 'global')
     {
+        global $mw_cache_get_content_memory;
         global $mw_cache_deleted_groups;
         if ($this->mw_cache_deleted_groups == null) {
             $this->mw_cache_deleted_groups = array();
+
         }
+
+        //$this->mw_cache_mem = array();
         if (!is_array($mw_cache_deleted_groups)) {
             $mw_cache_deleted_groups = array();
         }
 
-
+        $mw_cache_get_content_memory[$cache_group] = false;
         if (!in_array($cache_group, $mw_cache_deleted_groups)) {
             $mw_cache_deleted_groups[] = $cache_group;
         } else {

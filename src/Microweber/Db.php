@@ -598,9 +598,11 @@ class Db
         }
 
         $mode = 1;
+
         if (isset($no_cache) and $no_cache == true) {
             $mode = 2;
         }
+        $mode = 3;
         //$mode = 2;
         switch ($mode) {
             case 1 :
@@ -618,6 +620,15 @@ class Db
             case 2 :
             default :
                 $get_db_items = $this->get_long($table, $criteria, $limit = false, $offset = false, $orderby, $cache_group, $debug = false, $ids = false, $count_only = false, $only_those_fields = false, $exclude_ids = false, $force_cache_id = false, $get_only_whats_requested_without_additional_stuff = false);
+                break;
+
+
+            case 3 :
+            default :
+
+                $get_db_items = $this->app->orm->get($table,$criteria);
+               // print_r(mw()->orm->getLastQuery());
+
                 break;
         }
 

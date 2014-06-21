@@ -1,0 +1,27 @@
+{
+  "name": "phroute/phroute",
+  "description": "Fast request router for PHP",
+  "keywords": ["routing", "router"],
+  "license": "BSD-3-Clause",
+  "authors": [
+      {
+      "name": "Joe Green",
+      "email": "joe.green.0991@gmail.com"
+    },
+    {
+      "name": "Nikita Popov",
+      "email": "nikic@php.net"
+    }
+  ],
+  "autoload": {
+        "psr-0": { 
+            "Phroute": "src"
+         }
+    },
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "require-dev": {
+      "satooshi/php-coveralls": "dev-master"
+  }
+}
