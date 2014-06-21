@@ -87,7 +87,7 @@ if(isset($post_params['category'])){
 			if($posts_parent_category != false ){
 			$page_categories = false;
 			if(intval($cfg_page_id) != 0){
-						$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=[int]0&rel_id=' . $cfg_page_id;
+						$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
 					$page_categories = get($str0);
 					// d($page_categories);
 						if(is_array($page_categories)){
@@ -168,7 +168,7 @@ if(isset($post_params['type'])){
 unset($post_params['type']);
 }
 //d($post_params['page-id']);
- 
+  $post_params['debug'] = 1;
  
 $content   =$data = get_content($post_params);
 ?>

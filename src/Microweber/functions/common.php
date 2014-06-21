@@ -1534,7 +1534,7 @@ function get_all_functions_files_for_modules($options = false)
     } else {
         $dir_name = normalize_path(MW_MODULES_DIR);
     }
-    $installed = mw()->module->get('ui=any&installed=[int]1');
+    $installed = mw()->module->get('ui=any&installed=1');
     $configs = false;
     if (is_array($installed) and !empty($installed)) {
         $configs = array();

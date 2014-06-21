@@ -115,7 +115,7 @@ foreach ($cats__parents as $item1) {
 }
 $tree = array();
 $tree['include_categories'] = 1;
-$tree['parent'] = '[int]0';
+$tree['parent'] = '0';
 
 
 

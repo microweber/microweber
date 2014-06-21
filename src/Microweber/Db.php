@@ -55,6 +55,7 @@ class Db
     private $table_fields = array();
     private $results_map = array();
     private $build_tables = array();
+    public $filter = array();
 
     function __construct($app = null)
     {
@@ -157,6 +158,9 @@ class Db
         return $c_id;
     }
 
+    public function filter($name,$callback){
+        $this->filter[$name] = $callback;
+    }
     /**
      * Creates database table from array
      *
@@ -542,11 +546,14 @@ class Db
             }
 
             if (!isset($table) and $k == 'what' and !isset($params['rel'])) {
-                $table = $this->guess_table_name($v);
+              //  $table = $this->guess_table_name($v);
             }
             if ($k == 'for' and !isset($params['rel'])) {
                 $v = $this->assoc_table_name($v);
                 $k = 'rel';
+            }
+            if ($k == 'rel') {
+                $v = $this->assoc_table_name($v);
             }
             if ($k == 'debug') {
                 $debug = ($v);
@@ -570,9 +577,24 @@ class Db
             if ('orderby' == $k) {
                 $orderby = $v;
             }
+
+
+            if(isset($this->filter[$k])){
+                if(isset($this->filter[$k]) and is_callable($this->filter[$k])){
+                  $new_criteria = call_user_func($this->filter[$k], $criteria);
+                }
+                if($criteria != $new_criteria){
+                    $criteria = $new_criteria;
+                }
+
+            }
+          // d($criteria);
+            if(isset($params['debug'])){
+            // print_r(mw()->orm->getLastQuery());
+            }
         }
         if (!isset($table) and isset($params['what'])) {
-            $table = $this->real_table_name($this->guess_table_name($params['what']));
+         //   $table = $this->real_table_name($this->guess_table_name($params['what']));
 
         }
 

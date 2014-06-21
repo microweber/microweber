@@ -227,6 +227,7 @@ class Category
 
         if (isset($params['for_page']) and $params['for_page'] != false) {
             $page = $this->app->content->get_by_id($params['for_page']);
+
             if ($page['subtype'] == 'dynamic' and intval($page['subtype_value']) > 0) {
                 $parent = $page['subtype_value'];
             } else {
@@ -261,7 +262,7 @@ class Category
                 $str0 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
                 $cat_get_params = array();
                 $cat_get_params['is_deleted'] = 'n';
-                $cat_get_params['orderby'] = 'position asc';
+                $cat_get_params['order_by'] = 'position asc';
                 $cat_get_params['limit'] = '1000';
                 $cat_get_params['data_type'] = 'category';
                 $cat_get_params['no_cache'] = 1;
@@ -274,6 +275,12 @@ class Category
                     // unset( $cat_get_params['parent_id']);
                 }
                 $fors = $this->app->db->get($cat_get_params);
+
+              //
+
+            //    d($table);
+               // print_r(mw()->orm->getLastQuery());
+               // d($cat_get_params);
                 // $fors = $this->app->db->get($cat_get_params);
                 //  d($fors);
                 // exit;
@@ -286,6 +293,7 @@ class Category
                 $fors1 = $this->app->db->get($str1);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
+
                 }
             }
         }
@@ -319,11 +327,11 @@ class Category
             $users_can_create_content_q = false;
             $cat_get_params = array();
             $cat_get_params['is_deleted'] = 'n';
-            $cat_get_params['orderby'] = 'position asc';
+            $cat_get_params['order_by'] = 'position asc';
             $cat_get_params['limit'] = '1000';
             $cat_get_params['data_type'] = 'category';
            // $cat_get_params['what'] = 'categories';
-            $cat_get_params['rel_id'] = intval($params['rel_id']);
+            $cat_get_params['rel_id'] = ($params['rel_id']);
             $cat_get_params['table'] = $table;
             $cat_get_params['rel'] = $table_assoc_name;
             if ($users_can_create_content != false) {
@@ -332,6 +340,7 @@ class Category
 
             //$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
             $fors = $this->app->db->get($cat_get_params);
+          //  d($fors);
 
         }
 

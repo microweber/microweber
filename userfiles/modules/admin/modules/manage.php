@@ -52,7 +52,7 @@ if(isset($params['show-ui'])){
 
 if(isset($params['installed'])){
 	
-	  $mod_params['installed'] = '[int]'.$params['installed'];
+	  $mod_params['installed'] = ''.$params['installed'];
 }
   
   if(isset($params['install_new'])){

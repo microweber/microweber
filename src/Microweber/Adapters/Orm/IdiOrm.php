@@ -132,6 +132,7 @@ class IdiOrm
         $min = false;
         $max = false;
         $avg = false;
+
         if (is_array($params)) {
             if (isset($params['group_by'])) {
                 $group_by = $params['group_by'];
@@ -182,7 +183,9 @@ class IdiOrm
                 }
                 if (isset($joins[1]) and !in_array($joins[0], $joined_tables) and $joins[0] != $table) {
                     $joined_tables[] = $table_alias;
-                    $orm->where_equal($table_alias . '.rel', $table);
+                    $table_assoc = $this->app->db->assoc_table_name($table);
+
+                    $orm->where_equal($table_alias . '.rel', $table_assoc);
                     $orm->join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);
                 }
                 if (!isset($joins[1])) {
