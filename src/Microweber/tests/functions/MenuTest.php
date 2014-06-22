@@ -24,14 +24,10 @@ class MenusTest extends \PHPUnit_Framework_TestCase
         //saving
         $parent_page = save_content($params);
 
-        $pages = get_pages();
+        $pages = get_pages($params);
 
-        foreach ($pages as $page) {
-            $add = add_content_to_menu($page['id'], $my_menu['id']);
+        $add = add_content_to_menu($parent_page, $my_menu['id']);
 
-            $this->assertEquals(true, isset($page['id']));
-            $this->assertEquals(true, isset($my_menu['id']));
-        }
 
 
         $params = array();

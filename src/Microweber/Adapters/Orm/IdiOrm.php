@@ -60,7 +60,9 @@ class IdiOrm
         ORM::configure('logging', true);
         ORM::configure('caching_auto_clear', true);
         //ORM::configure('return_result_sets', true); // returns result sets
-
+        ORM::configure('logger', function($log_string, $query_time) {
+            mw('db')->query_log($log_string) ;
+        });
         ORM::configure('cache_query_result', function ($cache_key, $value, $table_name, $connection_name) use ($app) {
             $cache_group = $app->db->guess_cache_group($table_name);
 
@@ -147,6 +149,8 @@ class IdiOrm
         $ids = false;
         $current_page = false;
         $count_paging = false;
+        $to_search_in_fields = false;
+        $to_search_keyword = false;
 
         if (is_array($params)) {
             if (isset($params['group_by'])) {
@@ -206,6 +210,12 @@ class IdiOrm
             if (isset($params['page'])) {
                 $current_page = $params['page'];
                 unset($params['page']);
+            }
+            if (isset($params['search_in_fields'])) {
+                $to_search_in_fields = $params['search_in_fields'];
+            }
+            if (isset($params['keyword'])) {
+                $to_search_keyword = $params['keyword'];
             }
 
 
@@ -414,6 +424,33 @@ class IdiOrm
                 }
             }
         }
+
+        if($to_search_in_fields != false and $to_search_keyword != false){
+            if (is_string($to_search_in_fields)) {
+                $to_search_in_fields = explode(',', $to_search_in_fields);
+            }
+            $raw_search_query = false;
+            if(!empty($to_search_in_fields)){
+
+                $raw_search_query = '';
+                $search_vals = array();
+                $search_qs = array();
+                foreach($to_search_in_fields as $to_search_in_field){
+                    $search_qs[] = " `{$to_search_in_field}` REGEXP ? " ;
+                    $search_vals[] = $to_search_keyword;
+                }
+                if(!empty($search_qs)){
+                    $raw_search_query = implode($search_qs,' OR ');
+
+
+                    $orm->where_raw('('.$raw_search_query.')', $search_vals);
+                }
+            }
+
+            //
+        }
+
+
         if ($ids != false) {
             if (is_string($ids)) {
                 $ids = explode(',', $ids);

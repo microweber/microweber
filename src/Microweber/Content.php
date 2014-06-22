@@ -6002,7 +6002,7 @@ class Content
         }
 
         if (isset($params['keyword'])) {
-            $params['search_in_content_data_fields'] = true;
+            $params['search_in_fields'] = array('title','content_body','content','description','content_meta_keywords','content_meta_title','url');
         }
 
 
