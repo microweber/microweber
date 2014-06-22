@@ -2565,6 +2565,7 @@ class Content
         if (is_array($id)) {
             extract($id);
         }
+
         if ($id == false or $id == 0) {
             if (defined('PAGE_ID') == true) {
                 $id = PAGE_ID;

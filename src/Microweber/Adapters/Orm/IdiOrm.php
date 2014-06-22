@@ -23,7 +23,7 @@ use ORM;
 class IdiOrm
 {
     public $default_limit = 30;
-    protected $app;
+    public $app;
 
     public function __construct($app = null)
     {
@@ -237,6 +237,7 @@ class IdiOrm
                         $field_name = $k;
                         $field_value = $v;
                         $table_alias = $table;
+
                     } else {
                         $field_name = false;
                         $field_value = false;
@@ -249,11 +250,29 @@ class IdiOrm
 
                 if ($field_value and $field_name) {
                     if (is_array($field_value)) {
+
                         $items = array();
                         foreach ($field_value as $field) {
                             $items[] = $field;
                         }
-                        $orm->where_raw($items[0], $items[1]);
+                        if(!empty($items)){
+                              if(count($items) == 1){
+
+                                  $orm->where_equal($table_alias . '.' . $field_name, reset($items));
+
+                              } else {
+
+                                  $orm->where_in(  $table_alias . '.' .$field_name, $items);
+
+                              }
+                        } else {
+                            if(is_string($field_value)){
+                                $orm->where_equal($table_alias . '.' . $field_name, $field_value);
+
+                            }
+                        }
+
+
                     } elseif (is_string($field_value)) {
                         $field_value = trim($field_value);
                         $field_value_len = strlen($field_value);
@@ -406,7 +425,7 @@ class IdiOrm
 
 
         if ($count == false) {
-            if ($current_page != false) {
+            if ($current_page != false and $current_page > 1) {
                 if ($limit != false) {
                     $page_start = ($current_page - 1) * $limit;
                     $page_end = ($page_start) + $limit;
@@ -414,16 +433,13 @@ class IdiOrm
                 }
             }
         }
-
         // convert to int http://idiorm.readthedocs.org/en/latest/querying.html#limits-and-offsets
-
         if ($count == false) {
             if ($limit != false) {
                 $orm->limit(intval($limit));
             }
             if ($offset != false) {
                 $orm->offset(intval($offset));
-
             }
         }
         if ($count != false) {
@@ -437,7 +453,9 @@ class IdiOrm
         } else if ($get_method != false) {
             return $orm->$get_method();
         } else {
-            return $orm->find_array();
+            $return = $orm->find_array();
+
+            return $return;
             // return $orm->find_many();
         }
 
