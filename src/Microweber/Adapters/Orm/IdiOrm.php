@@ -22,6 +22,7 @@ use ORM;
 
 class IdiOrm
 {
+    public $default_limit = 30;
     protected $app;
 
     public function __construct($app = null)
@@ -55,7 +56,7 @@ class IdiOrm
         ORM::configure('mysql:host=' . $host . ';dbname=' . $dbname);
         ORM::configure('username', $username);
         ORM::configure('password', $password);
-        ORM::configure('caching', true);
+        ORM::configure('caching', false);
         ORM::configure('logging', true);
         ORM::configure('caching_auto_clear', true);
 
@@ -102,6 +103,14 @@ class IdiOrm
             return $my_key;
         });
 
+        if (defined("MW_IS_INSTALLED") and MW_IS_INSTALLED == true) {
+            $limit = $this->app->option->get('items_per_page ', 'website');
+            if($limit != false){
+            $this->default_limit =$limit;
+                }
+
+        }
+
 
     }
 
@@ -127,16 +136,25 @@ class IdiOrm
         $group_by = false;
         $order_by = false;
         $count = false;
-        $limit = false;
+        $limit = $this->default_limit;
+        $limit = 30;
+        //$limit =  $this->app->option->get('items_per_page ', 'website');
         $offset = false;
         $min = false;
         $max = false;
         $avg = false;
+        $ids = false;
+        $current_page = false;
+        $count_paging = false;
 
         if (is_array($params)) {
             if (isset($params['group_by'])) {
                 $group_by = $params['group_by'];
                 unset($params['group_by']);
+            }
+            if (isset($params['ids'])) {
+                $ids = $params['ids'];
+                unset($params['ids']);
             }
             if (isset($params['order_by'])) {
                 $order_by = $params['order_by'];
@@ -146,8 +164,9 @@ class IdiOrm
                 $count = $params['count'];
                 unset($params['count']);
             }
-            if (isset($params['limit'])) {
+            if (isset($params['limit']) and $params['limit'] != false) {
                 $limit = $params['limit'];
+
                 unset($params['limit']);
             }
             if (isset($params['offset'])) {
@@ -167,10 +186,35 @@ class IdiOrm
                 unset($params['avg']);
             }
 
+            if (isset($params['current_page'])) {
+                $current_page = $params['current_page'];
+                unset($params['current_page']);
+            }
+
+            if (isset($params['paging_param'])) {
+                $paging_param = $params['paging_param'];
+                if (isset($params[$paging_param])) {
+                    $current_page = $params[$paging_param];
+                    unset($params[$paging_param]);
+                }
+                unset($params['paging_param']);
+            }
+            if (isset($params['page'])) {
+                $current_page = $params['page'];
+                unset($params['page']);
+            }
+
+
+            if (isset($params['page_count'])) {
+                $count = true;
+                $count_paging = true;
+                unset($params['page_count']);
+            }
+
 
         }
 
-        $params_to_fields = $this->app->db->map_array_to_table($table,$params);
+        $params_to_fields = $this->app->db->map_array_to_table($table, $params);
 
         if (is_array($params) and !empty($params)) {
 
@@ -189,7 +233,7 @@ class IdiOrm
                     $orm->join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);
                 }
                 if (!isset($joins[1])) {
-                    if(isset($params_to_fields[$k])){
+                    if (isset($params_to_fields[$k])) {
                         $field_name = $k;
                         $field_value = $v;
                         $table_alias = $table;
@@ -219,6 +263,79 @@ class IdiOrm
                         $compare_sign = false;
                         if ($field_value_len > 0) {
                             $where_method = false;
+
+                            if (is_string($field_value)) {
+                                if (stristr($field_value, '[lt]')) {
+                                    $one_char = '<';
+                                    $field_value = str_replace('[lt]', '', $field_value);
+                                }
+                                if (stristr($field_value, '[lte]')) {
+                                    $two_chars = '<=';
+                                    $field_value = str_replace('[lte]', '', $field_value);
+                                }
+                                if (stristr($field_value, '[st]')) {
+                                    $one_char = '<';
+                                    $field_value = str_replace('[st]', '', $field_value);
+                                }
+                                if (stristr($field_value, '[ste]')) {
+                                    $two_chars = '<=';
+                                    $field_value = str_replace('[ste]', '', $field_value);
+                                }
+                                if (stristr($field_value, '[gt]')) {
+                                    $one_char = '>';
+                                    $field_value = str_replace('[gt]', '', $field_value);
+                                }
+                                if (stristr($field_value, '[gte]')) {
+                                    $two_chars = '>=';
+                                    $field_value = str_replace('[gte]', '', $field_value);
+                                }
+                                if (stristr($field_value, '[mt]')) {
+                                    $two_chars = '>';
+                                    $field_value = str_replace('[mt]', '', $field_value);
+                                }
+                                if (stristr($field_value, '[mte]')) {
+                                    $two_chars = '>=';
+                                    $field_value = str_replace('[mte]', '', $field_value);
+                                }
+
+                                if (stristr($field_value, '[neq]')) {
+                                    $two_chars = '!=';
+                                    $field_value = str_replace('[neq]', '', $field_value);
+                                }
+
+                                if (stristr($field_value, '[eq]')) {
+                                    $one_char = '=';
+                                    $field_value = str_replace('[eq]', '', $field_value);
+                                }
+
+
+                                if (stristr($field_value, '[int]')) {
+                                    $field_value = str_replace('[int]', '', $field_value);
+                                }
+
+                                if (stristr($field_value, '[is]')) {
+                                    $one_char = '=';
+                                    $field_value = str_replace('[is]', '', $field_value);
+                                }
+
+                                if (stristr($field_value, '[like]')) {
+                                    $two_chars = '%';
+                                    $field_value = str_replace('[like]', '', $field_value);
+                                }
+                                if (stristr($field_value, '[null]')) {
+                                    $field_value = 'is_null';
+                                }
+
+                                if (stristr($field_value, '[not_null]')) {
+                                    $field_value = 'is_not_null';
+                                }
+                                if (stristr($field_value, '[is_not]')) {
+                                    $two_chars = '!%';
+                                    $field_value = str_replace('[is_not]', '', $field_value);
+                                }
+                            }
+
+
                             if ($field_value == 'is_null') {
                                 $where_method = 'where_null';
                                 $field_value = $field_name;
@@ -231,7 +348,6 @@ class IdiOrm
                             } elseif ($two_chars == '>=' or $two_chars == '=>') {
                                 $where_method = 'where_gte';
                                 $field_value = substr($field_value, 2, $field_value_len);
-
                             } elseif ($two_chars == '!=' or $two_chars == '=!') {
                                 $where_method = 'where_not_equal';
                                 $field_value = substr($field_value, 2, $field_value_len);
@@ -246,6 +362,9 @@ class IdiOrm
                             } elseif ($one_char == '<') {
                                 $where_method = 'where_lt';
                                 $field_value = substr($field_value, 1, $field_value_len);
+                            } elseif ($one_char == '=') {
+                                $where_method = 'where_equal';
+                                $field_value = substr($field_value, 1, $field_value_len);
                             }
                             if ($where_method == false) {
                                 $orm->where_equal($table_alias . '.' . $field_name, $field_value);
@@ -257,10 +376,15 @@ class IdiOrm
                 }
             }
         }
-
+        if ($ids != false) {
+            if (is_string($ids)) {
+                $ids = explode(',', $ids);
+            }
+            $orm->where_in($table . '.id', ($ids));
+        }
 
         if ($group_by == false) {
-            if ($min == false and $max == false and $avg == false) {
+            if ($count_paging == false and $min == false and $max == false and $avg == false) {
                 $orm->group_by($table . '.id');
             }
         } else {
@@ -270,14 +394,38 @@ class IdiOrm
             $orm->order_by_expr($order_by);
         }
 
-        // convert to int http://idiorm.readthedocs.org/en/latest/querying.html#limits-and-offsets
-        if ($limit != false) {
-            $orm->limit(intval($limit));
-        }
-        if ($offset != false) {
-            $orm->offset(intval($offset));
+
+        if ($count_paging == true) {
+             $ret = $orm->count();
+            $plimit = $limit;
+            if ($plimit != false and $ret != false) {
+                $pages_qty = ceil($ret / $plimit);
+                return $pages_qty;
+            }
         }
 
+
+        if ($count == false) {
+            if ($current_page != false) {
+                if ($limit != false) {
+                    $page_start = ($current_page - 1) * $limit;
+                    $page_end = ($page_start) + $limit;
+                    $offset = $page_start;
+                }
+            }
+        }
+
+        // convert to int http://idiorm.readthedocs.org/en/latest/querying.html#limits-and-offsets
+
+        if ($count == false) {
+            if ($limit != false) {
+                $orm->limit(intval($limit));
+            }
+            if ($offset != false) {
+                $orm->offset(intval($offset));
+
+            }
+        }
         if ($count != false) {
             return $orm->count();
         } else if ($min != false) {

@@ -553,7 +553,7 @@ class User
                     $data['search_in_fields'] = 'password,email';
 
                     $data = $this->get_all($data);
-
+                   // print_r(mw()->orm->getLastQuery());
                     if (isset($data[0])) {
 
                         $data = $data[0];
@@ -1177,6 +1177,7 @@ class User
                 mw_var('save_user_no_pass_hash', false);
             }
         }
+
         $table = $this->tables['users'];
         $save = $this->app->db->save($table, $data_to_save);
         $id = $save;

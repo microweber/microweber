@@ -8,7 +8,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
     $login_required = get_option('user_must_be_logged', 'comments') == 'y';
     $from_related_posts = false;
     $paging_param = $params['id'] . '_page';
-    $curent_page_from_url = url_param($paging_param);
+    $current_page_from_url = url_param($paging_param);
 
 
 
@@ -151,9 +151,9 @@ if (get_option('enable_comments', 'comments') == 'y') {
     }
 
 
-    if ($curent_page_from_url != false) {
-        if (intval($curent_page_from_url) > 0) {
-            $comments_data['curent_page'] = intval($curent_page_from_url);
+    if ($current_page_from_url != false) {
+        if (intval($current_page_from_url) > 0) {
+            $comments_data['current_page'] = intval($current_page_from_url);
 
         }
     }

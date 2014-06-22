@@ -1,14 +1,16 @@
 Idiorm
 ======
 
-[![Build Status](https://travis-ci.org/j4mie/idiorm.png?branch=master)](https://travis-ci.org/j4mie/idiorm)
+[![Build Status](https://travis-ci.org/j4mie/idiorm.png?branch=master)](https://travis-ci.org/j4mie/idiorm) [![Latest Stable Version](https://poser.pugx.org/j4mie/idiorm/v/stable.png)](https://packagist.org/packages/j4mie/idiorm) [![Total Downloads](https://poser.pugx.org/j4mie/idiorm/downloads.png)](https://packagist.org/packages/j4mie/idiorm)
 
 [http://j4mie.github.com/idiormandparis/](http://j4mie.github.com/idiormandparis/)
 
 ---
 ### Feature complete
 
-Idiorm is now considered to be feature complete as of version 1.4.0. Whilst it will continue to be maintained with bug fixes there will be no further new features added.
+Idiorm is now considered to be feature complete as of version 1.5.0. Whilst it will continue to be maintained with bug fixes there will be no further new features added from this point on.
+
+**Please do not submit feature requests or pull requests adding new features as they will be closed without ceremony.**
 
 ---
 
@@ -73,6 +75,26 @@ foreach ($tweets as $tweet) {
 
 Changelog
 ---------
+
+#### 1.5.0 - release 2014-06-22
+
+* Multiple OR'ed conditions support [[lrlopez](https://github.com/lrlopez)] - [issue #201](https://github.com/j4mie/idiorm/issues/201)
+* `where_id_in()` for selecting multiple records by primary key [[lrlopez](https://github.com/lrlopez)] - [issue #202](https://github.com/j4mie/idiorm/issues/202)
+* Add compound primary key support [[lrlopez](https://github.com/lrlopez)] - [issue #171](https://github.com/j4mie/idiorm/issues/171)
+* Add a RAW JOIN source to the query [[moiseevigor](https://github.com/moiseevigor)] - [issue #163](https://github.com/j4mie/idiorm/issues/163)
+* offsetExists() should return true for null values, resolves [#181](https://github.com/j4mie/idiorm/issues/181) [[cainmi](https://github.com/cainmi)] - [issue #214](https://github.com/j4mie/idiorm/pull/214)
+* Custom cache callback functions [[peter-mw](https://github.com/peter-mw)] - [issue #216](https://github.com/j4mie/idiorm/pull/216)
+* Restrict null primary keys on update/delete, resolves [#203](https://github.com/j4mie/idiorm/issues/203) [[cainmi](https://github.com/cainmi)] - [issue #205](https://github.com/j4mie/idiorm/issues/205) 
+* Ensure parameters treated by type correctly [[charsleysa](https://github.com/charsleysa)] & [[SneakyBobito](https://github.com/SneakyBobito)] - [issue #206](https://github.com/j4mie/idiorm/issues/206) & [issue #208](https://github.com/j4mie/idiorm/issues/208)
+* Reduce the type casting on aggregate functions to allow characters [[herroffizier](https://github.com/herroffizier)] - [issue #150](https://github.com/j4mie/idiorm/issues/150)
+* Prevent invalid method calls from triggering infinite recursion [[michaelward82](https://github.com/michaelward82)] - [issue #152](https://github.com/j4mie/idiorm/issues/152)
+* Add time to query logging - adds query time parameter to external logger callback function [[AgelxNash](https://github.com/AgelxNash)] - [issue #180](https://github.com/j4mie/idiorm/issues/180)
+* Changed database array access to ensure it's always properly setup [[falmp](https://github.com/falmp)] - [issue #159](https://github.com/j4mie/idiorm/issues/159)
+* Allow unsetting the db (`ORM::set_db(null)`) to make the test work again [[borrel](https://github.com/borrel)] - [issue #160](https://github.com/j4mie/idiorm/issues/160)
+* Correct [issue #176](https://github.com/j4mie/idiorm/issues/176): Ensure database setup before building select [[kendru](https://github.com/kendru)] - [issue #197](https://github.com/j4mie/idiorm/issues/197)
+* Add HHVM to travis-ci build matrix [[ptarjan](https://github.com/ptarjan)] - [issue #168](https://github.com/j4mie/idiorm/issues/168)
+* Improve where statement precendence documentation [[thomasahle](https://github.com/thomasahle)] - [issue #190](https://github.com/j4mie/idiorm/issues/190)
+* Improve testing checks [[charsleysa](https://github.com/charsleysa)] - [issue #173](https://github.com/j4mie/idiorm/issues/173)
 
 #### 1.4.1 - release 2013-12-12
 

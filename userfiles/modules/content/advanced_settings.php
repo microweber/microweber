@@ -137,7 +137,7 @@ $show_page_settings = 1;
 <script  type="text/javascript">
 		 
 		
-		mw.del_curent_page = function(a, callback){
+		mw.del_current_page = function(a, callback){
 			mw.tools.confirm("<?php _e("Are you sure you want to delete this"); ?>?", function(){
 				var arr = (a.constructor === [].constructor) ? a : [a];
 				var obj = {ids:arr}

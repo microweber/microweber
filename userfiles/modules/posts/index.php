@@ -1,7 +1,7 @@
 <?php
    
 
-$curent_page = $current_page = 1;
+$current_page = $current_page = 1;
 $post_params = $params;
 if (isset($post_params['id'])) {
     $paging_param = 'current_page' . crc32($post_params['id']);
@@ -9,9 +9,9 @@ if (isset($post_params['id'])) {
 }
 $cat_from_url = url_param('category');
 $posts_parent_related = false;
-//$paging_param = 'curent_page';
-if (isset($params['curent_page'])) {
-    $params['current_page'] = $params['curent_page'];
+//$paging_param = 'current_page';
+if (isset($params['current_page'])) {
+    $params['current_page'] = $params['current_page'];
 } elseif (isset($params['curent-page'])) {
     $params['current_page'] = $params['curent-page'];
 } elseif (isset($params['current-page'])) {
@@ -22,7 +22,7 @@ if (isset($params['curent_page'])) {
 
 if (isset($params['paging_param'])) {
     if (isset($params[$params['paging_param']])) {
-        $current_page = $curent_page = $params['current_page'] = $params[$params['paging_param']];
+        $current_page = $current_page = $params['current_page'] = $params[$params['paging_param']];
         $paging_param = $params['paging_param'];
     }
 
@@ -30,17 +30,17 @@ if (isset($params['paging_param'])) {
 
 
 if (isset($params['current_page'])) {
-    $curent_page = $params['curent_page'] = $params['current_page'];
+    $current_page = $params['current_page'] = $params['current_page'];
 } else {
-    $curent_page_from_url = url_param($paging_param);
-    if ($curent_page_from_url != false) {
-        $curent_page = $curent_page_from_url;
+    $current_page_from_url = url_param($paging_param);
+    if ($current_page_from_url != false) {
+        $current_page = $current_page_from_url;
     }
 }
 
 
 if (isset($post_params['data-page-number'])) {
-    $post_params['curent_page'] = $post_params['data-page-number'];
+    $post_params['current_page'] = $post_params['data-page-number'];
     unset($post_params['data-page-number']);
 }
 
@@ -264,8 +264,8 @@ if (is_array($show_fields)) {
     $show_fields = array_trim($show_fields);
 }
 
-if (isset($curent_page) and intval($curent_page) > 0) {
-    $post_params['curent_page'] = intval($curent_page);
+if (isset($current_page) and intval($current_page) > 0) {
+    $post_params['current_page'] = intval($current_page);
 }
 
 // $post_params['debug'] = 'posts';

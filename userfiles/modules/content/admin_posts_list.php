@@ -5,10 +5,10 @@ $is_momodule_comments = is_module('comments');
 $post_params = $params;
 
 if (isset($post_params['id'])) {
-    $paging_param = 'curent_page' . crc32($post_params['id']);
+    $paging_param = 'current_page' . crc32($post_params['id']);
     unset($post_params['id']);
 } else {
-    $paging_param = 'curent_page';
+    $paging_param = 'current_page';
 }
 
 if (isset($post_params['paging_param'])) {
@@ -16,13 +16,13 @@ if (isset($post_params['paging_param'])) {
 }
 
 
-if (isset($params['curent_page'])) {
-	$curent_page = $params['curent_page'];
+if (isset($params['current_page'])) {
+	$current_page = $params['current_page'];
 }
 
 if (isset($post_params['data-page-number'])) {
 
-    $post_params['curent_page'] = $post_params['data-page-number'];
+    $post_params['current_page'] = $post_params['data-page-number'];
     unset($post_params['data-page-number']);
 }
 
@@ -168,9 +168,11 @@ if(isset($post_params['type'])){
 unset($post_params['type']);
 }
 //d($post_params['page-id']);
-  $post_params['debug'] = 1;
+  //$post_params['debug'] = 1;
  
 $content   =$data = get_content($post_params);
+ 
+
 ?>
 <?php
 $post_params_paging = $post_params;
@@ -273,8 +275,8 @@ $pages_count = intval($pages);
 
      if(isset($params['data-page-number'])){
                 $numactive   = intval($params['data-page-number']);
-              } else if(isset($params['curent_page'])){
-                $numactive   = intval($params['curent_page']);
+              } else if(isset($params['current_page'])){
+                $numactive   = intval($params['current_page']);
               }
 
 

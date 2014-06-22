@@ -41,5 +41,5 @@ description: sidebar
   <?php endif; ?>
 </div>
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
-<?php print paging("num={$pages_count}&paging_param={$paging_param}&curent_page={$curent_page}") ?>
+<?php print paging("num={$pages_count}&paging_param={$paging_param}&current_page={$current_page}") ?>
 <?php endif; ?>

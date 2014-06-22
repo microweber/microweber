@@ -77,7 +77,7 @@
              * title-length
                 - number: Number of symbols you want to show from title. Default: 120
 
-             * curent_page - usage is for paging
+             * current_page - usage is for paging
                 - number: The number of the page where the posts will appear. Default: 1
 
              * hide-paging
@@ -139,7 +139,7 @@
              * title-length
                 - number: Number of symbols you want to show from title. Default: 120
 
-             * curent_page - usage is for paging
+             * current_page - usage is for paging
                 - number: The number of the page where the posts will appear. Default: 1
 
              * hide-paging

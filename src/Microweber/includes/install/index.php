@@ -56,7 +56,7 @@ $auto_install = false;
 $cfg = MW_CONFIG_FILE;
 if (is_file($cfg) and is_readable($cfg)) {
     require ($cfg);
-    if (is_array($config) and isset($config['db']) and is_array($config['db'])) {
+    if (isset($config) and is_array($config) and isset($config['db']) and is_array($config['db'])) {
         if (!isset($config['is_installed']) or (trim($config['is_installed'])) == 'no') {
             if (isset($config['autoinstall']) and (trim($config['autoinstall'])) == 'yes') {
                 $autoinstall = $config;
@@ -182,7 +182,7 @@ if (isset($to_save['is_installed'])) {
                 $temp_db = array('type' => $to_save['db_type'], 'host' => $to_save['db_host'], 'dbname' => $to_save['dbname'], 'user' => $to_save['db_user'], 'pass' => $to_save['db_pass']);
             }
 
-
+            mw('cache')->clear();
             // if($to_save['db_user'] == 'root'){
 
             //              $new_db = $to_save['dbname'];
@@ -361,15 +361,6 @@ if (isset($to_save['is_installed'])) {
 
                     define('MW_FORCE_SAVE_EXTENDED', 1);
                 }
-
-                event_trigger('mw_db_init_modules');
-                __mw_install_log('Scanning for modules');
-
-                mw('module')->scan_for_modules("skip_cache=1&cleanup_db=1");
-                __mw_install_log('Installing modules');
-                mw('module')->update_db();
-
-
                 if (MW_IS_INSTALLED != true) {
                     if (isset($to_save['admin_username']) and isset($to_save['admin_password']) and $to_save['admin_username'] != '') {
                         if ($to_save['admin_username'] != '{admin_username}') {
@@ -387,10 +378,6 @@ if (isset($to_save['is_installed'])) {
                         }
                     }
                 }
-
-
-                __mw_install_log('Loading modules');
-                event_trigger('mw_scan_for_modules');
                 $save_config = $save_config_orig;
                 $to_save['is_installed'] = 'yes';
                 foreach ($to_save as $k => $v) {
@@ -398,11 +385,27 @@ if (isset($to_save['is_installed'])) {
                         $save_config = str_ireplace('{' . $k . '}', $v, $save_config);
                     }
                 }
-
                 file_put_contents($cfg, $save_config);
+                __mw_install_log('Finalizing config file');
+
+                event_trigger('mw_db_init_modules');
+                __mw_install_log('Scanning for modules');
+
+                mw('module')->scan_for_modules("skip_cache=1&cleanup_db=1");
+                __mw_install_log('Installing modules');
+                mw('module')->update_db();
+
+
+
+
+
+                __mw_install_log('Loading modules');
+                event_trigger('mw_scan_for_modules');
+
+
+
                 clearstatcache();
                 _reload_c();
-                __mw_install_log('Finalizing config file');
 
 
                 if (isset($to_save['with_default_content'])) {

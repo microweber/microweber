@@ -197,6 +197,16 @@ all tables. If your ID column is called ``primary_key``, use:
     <?php
     ORM::configure('id_column', 'primary_key');
 
+You can specify a compound primary key using an array:
+
+.. code-block:: php
+
+    <?php
+    ORM::configure('id_column', array('pk_1', 'pk_2'));
+
+Note: If you use a auto-increment column in the compound primary key then it
+should be the first one defined into the array.
+
 Setting: ``id_column_overrides``
 
 This setting is used to specify the primary key column name for each
@@ -211,6 +221,9 @@ the table, you can use the following configuration:
         'person' => 'person_id',
         'role' => 'role_id',
     ));
+
+As with ``id_column`` setting, you can specify a compound primary key
+using an array.
 
 Limit clause style
 ^^^^^^^^^^^^^^^^^^
@@ -261,8 +274,8 @@ allows you too whatever you would like from inside the callback function.
 .. code-block:: php
 
     <?php
-    ORM::configure('logger', function($log_string) {
-        echo $log_string;
+    ORM::configure('logger', function($log_string, $query_time) {
+        echo $log_string . ' in ' . $query_time;
     });
 
 Query caching
@@ -273,6 +286,21 @@ Setting: ``caching``
 Idiorm can cache the queries it executes during a request. To enable
 query caching, set the ``caching`` option to ``true`` (it is ``false``
 by default).
+
+.. code-block:: php
+
+    <?php
+    ORM::configure('caching', true);
+    
+    
+Setting: ``caching_auto_clear``
+
+Idiorm's cache is never cleared by default. If you wish to automatically clear it on save, set ``caching_auto_clear`` to ``true``
+
+.. code-block:: php
+
+    <?php
+    ORM::configure('caching_auto_clear', true);
 
 When query caching is enabled, Idiorm will cache the results of every
 ``SELECT`` query it executes. If Idiorm encounters a query that has
@@ -300,6 +328,37 @@ Warnings and gotchas
    application, as all database rows that are fetched during each
    request are held in memory. If you are working with large quantities
    of data, you may wish to disable the cache.
+
+Custom caching
+''''''''''''''
+
+If you wish to use custom caching functions, you can set them from the configure options. 
+
+.. code-block:: php
+
+    <?php
+    $my_cache = array();
+    ORM::configure('cache_query_result', function ($cache_key, $value, $table_name, $connection_name) use (&$my_cache) {
+        $my_cache[$cache_key] = $value;
+    });
+    ORM::configure('check_query_cache', function ($cache_key, $table_name, $connection_name) use (&$my_cache) {
+        if(isset($my_cache[$cache_key])){
+           return $my_cache[$cache_key];
+        } else {
+        return false;
+        }
+    });
+    ORM::configure('clear_cache', function ($table_name, $connection_name) use (&$my_cache) {
+         $my_cache = array();
+    });
+
+    ORM::configure('create_cache_key', function ($query, $parameters, $table_name, $connection_name) {
+        $parameter_string = join(',', $parameters);
+        $key = $query . ':' . $parameter_string;
+        $my_key = 'my-prefix'.crc32($key);
+        return $my_key;
+    });
+
 
 .. _PDO documentation: http://php.net/manual/en/pdo.construct.php
 .. _the PDO documentation: http://www.php.net/manual/en/pdo.construct.php

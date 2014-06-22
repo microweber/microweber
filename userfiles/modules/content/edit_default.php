@@ -16,7 +16,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
     <?php _e("Publish"); ?>
     </span>
     <hr>
-    <span class="mw-ui-btn mw-ui-btn-medium post-move-to-trash" onclick="mw.del_curent_page('<?php print ($data['id'])?>');"><span class="mw-icon-bin"></span>Move to trash</span> </div>
+    <span class="mw-ui-btn mw-ui-btn-medium post-move-to-trash" onclick="mw.del_current_page('<?php print ($data['id'])?>');"><span class="mw-icon-bin"></span>Move to trash</span> </div>
 </div>
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-<?php print $rand; ?>">
   <input type="hidden" name="id" id="mw-content-id-value-<?php print $rand; ?>"  value="<?php print $data['id']; ?>" />

@@ -10,9 +10,9 @@ if (isset($post_params['paging_param'])) {
   $paging_param = $post_params['paging_param'];
 }
 
-  $curent_page  =1;
-if (isset($params['curent_page'])) {
-  $curent_page = $params['curent_page'];
+  $current_page  =1;
+if (isset($params['current_page'])) {
+  $current_page = $params['current_page'];
 }
 
 
@@ -308,8 +308,8 @@ restore_single_post_from_deletion = function(id){
 
   if(isset($params['data-page-number'])){
     $numactive   = intval($params['data-page-number']);
-  } else if(isset($params['curent_page'])){
-    $numactive   = intval($params['curent_page']);
+  } else if(isset($params['current_page'])){
+    $numactive   = intval($params['current_page']);
   }
   if(isset($paging_links) and is_array($paging_links)):  ?>
   <?php $i=1; foreach ($paging_links as $item): ?>

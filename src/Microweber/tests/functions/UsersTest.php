@@ -22,7 +22,7 @@ class UsersTest extends \PHPUnit_Framework_TestCase
     {
 
         $rand = uniqid();
-        $expected_username = "unit_test_user_" . $rand;
+        $expected_username = "unit_test_user" ;
         $expected_email = "me@domain-" . $rand . '.com';
         $expected_pass = uniqid() . rand() . uniqid();
 
@@ -45,7 +45,7 @@ class UsersTest extends \PHPUnit_Framework_TestCase
     public function testDeleteUser()
     {
         $data = array();
-        $data['keyword'] = 'unit_test_user_';
+        $data['username'] = 'unit_test_user';
 
         $users = get_users($data);
         if (is_array($users)) {

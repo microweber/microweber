@@ -127,7 +127,7 @@ class Curl
     public function post($data = false)
     {
 
-        $is_new_curl = class_exists('CurlFile');
+        $is_new_curl = class_exists('CurlFile',false);
 
         if (is_array($data)) {
 
@@ -181,7 +181,7 @@ class Curl
 
     private function buildPostString()
     {
-        $is_new_curl = class_exists('CurlFile');
+        $is_new_curl = class_exists('CurlFile',false);
         if (function_exists("curl_init")) {
             $this->fields_string = null;
             foreach ($this->post_data as $key => $value) {
@@ -195,7 +195,7 @@ class Curl
             $this->fields_string = rtrim($this->fields_string, "&");
 
 
-            return $this;
+            return $this->fields_string;
         }
 
     }
@@ -210,6 +210,7 @@ class Curl
             $ch = curl_init();
             if (is_array($this->headers) != false) {
             }
+
             curl_setopt($ch, CURLOPT_VERBOSE, $this->debug);
             curl_setopt($ch, CURLOPT_URL, $this->url);
             curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
@@ -257,12 +258,13 @@ class Curl
             }
 
             curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
-            $is_new_curl = class_exists('CurlFile');
+            $is_new_curl = class_exists('CurlFile',false);
+
             if ($this->fields_string != false) {
                 curl_setopt($ch, CURLOPT_POST, 1);
                 if (isset($this->post_data) and is_array($this->post_data) and !empty($this->post_data)) {
                     if ($is_new_curl == false) {
-                        $str = http_build_query($this->post_data);
+                        $str = ($this->post_data);
                     } else {
                         $str = array_merge($this->post_data, $this->uploads);
                     }
@@ -270,15 +272,14 @@ class Curl
                 } else {
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $this->fields_string);
                 }
-
             }
-
 
             // grab URL
             $result = curl_exec($ch);
             if ($dl != false) {
                 fclose($fp);
             }
+
             curl_close($ch);
 
 
