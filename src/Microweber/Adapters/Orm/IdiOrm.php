@@ -56,7 +56,7 @@ class IdiOrm
         ORM::configure('mysql:host=' . $host . ';dbname=' . $dbname);
         ORM::configure('username', $username);
         ORM::configure('password', $password);
-        ORM::configure('caching', false);
+        ORM::configure('caching', true);
         ORM::configure('logging', true);
         ORM::configure('caching_auto_clear', true);
         //ORM::configure('return_result_sets', true); // returns result sets
@@ -72,7 +72,8 @@ class IdiOrm
 
             $cache_group = $app->db->guess_cache_group($table_name);
             $cached = $app->cache->get($cache_key, $cache_group);
-            if ($cached != false) {
+
+            if ($cached !== false) {
                 return $cached;
             } else {
                 return false;

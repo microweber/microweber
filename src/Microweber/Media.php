@@ -47,7 +47,7 @@ class Media
 
     }
 
-    public function get_picture($content_id, $for = 'post', $full = false)
+    public function get_picture($content_id, $for = 'content', $full = false)
     {
 
         $arr = array();
