@@ -1,7 +1,7 @@
 <?php
 
 namespace Microweber;
-
+use Microweber\Orm;
 
 if (!defined('MW_VERSION')) {
     include_once(__DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php');
@@ -293,10 +293,14 @@ class Application
                     $mw = str_ireplace(array('/', '\\\\', $ns . '\\' . $ns), array('\\', '\\', $ns), $mw);
                 }
                // var_dump($mw);
-                $prop = new $mw($this);
-
+                if(strtolower($mw) == 'orm'){
+                    $ns = __NAMESPACE__;
+                    $cl = $ns . '\\' . $mw;
+                    $prop = new $cl($this);
+                } else {
+                    $prop = new $mw($this);
+                }
             } catch (Exception $e) {
-
                 $prop = new $property($this);
             }
             if (isset($prop)) {

@@ -160,6 +160,9 @@ class IdiOrm
             if (isset($params['order_by'])) {
                 $order_by = $params['order_by'];
                 unset($params['order_by']);
+            }  if (isset($params['orderby'])) {
+                $order_by = $params['orderby'];
+                unset($params['orderby']);
             }
             if (isset($params['count'])) {
                 $count = $params['count'];
