@@ -399,8 +399,9 @@ if (defined('POST_ID') and isset($posts_parent_category) and $posts_parent_categ
 
  
 $content = get_content($post_params);
-$data = array();
 
+$data = array();
+  
 if (!empty($content)) {
 // $data = $content;
 //  if(!empty($show_fields)){
@@ -425,8 +426,9 @@ if (!empty($content)) {
         }
 
         $item['link'] = content_link($item['id']);
-
-
+ 
+ 
+ 
         if (!isset($item['description']) or $item['description'] == '') {
             if (isset($item['content']) and $item['content'] != '') {
                 $item['full_description'] = strip_tags($item['content']);

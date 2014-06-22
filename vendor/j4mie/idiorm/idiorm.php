@@ -1851,7 +1851,7 @@
                 return $this->_data;
             }
             $args = func_get_args();
-            return array_intersect_key($this->_data, array_flip($args));
+            return array_merge($this->_data, array_flip($args));
         }
 
         /**

@@ -2577,6 +2577,7 @@ class Content
         }
 
         $link = $this->get_by_id($id);
+
         if (!isset($link['url']) or strval($link['url']) == '') {
             $link = $this->get_by_url($id);
         }
@@ -4420,13 +4421,10 @@ class Content
         $params['id'] = $id;
         $params['limit'] = 1;
         $params['table'] = $table;
-        $params['cache_group'] = 'content/' . $id;
+        //$params['is_deleted'] = 'n';
 
-        if ($this->no_cache == true) {
-            $q = $this->app->db->query($q);
-        } else {
-            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
-        }
+        $q = $this->app->db->get($params);
+
 
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];

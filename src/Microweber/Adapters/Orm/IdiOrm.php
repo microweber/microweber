@@ -59,6 +59,7 @@ class IdiOrm
         ORM::configure('caching', false);
         ORM::configure('logging', true);
         ORM::configure('caching_auto_clear', true);
+        //ORM::configure('return_result_sets', true); // returns result sets
 
         ORM::configure('cache_query_result', function ($cache_key, $value, $table_name, $connection_name) use ($app) {
             $cache_group = $app->db->guess_cache_group($table_name);
@@ -105,9 +106,9 @@ class IdiOrm
 
         if (defined("MW_IS_INSTALLED") and MW_IS_INSTALLED == true) {
             $limit = $this->app->option->get('items_per_page ', 'website');
-            if($limit != false){
-            $this->default_limit =$limit;
-                }
+            if ($limit != false) {
+                $this->default_limit = $limit;
+            }
 
         }
 
@@ -220,175 +221,190 @@ class IdiOrm
 
             $joined_tables = array();
             foreach ($params as $k => $v) {
-                $joins = explode('.', $k);
-                if (isset($joins[1])) {
-                    $table_alias = $joins[0];
-                    $table_real = $this->app->db->real_table_name($table_alias);
-                }
-                if (isset($joins[1]) and !in_array($joins[0], $joined_tables) and $joins[0] != $table) {
-                    $joined_tables[] = $table_alias;
-                    $table_assoc = $this->app->db->assoc_table_name($table);
-
-                    $orm->where_equal($table_alias . '.rel', $table_assoc);
-                    $orm->join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);
-                }
-                if (!isset($joins[1])) {
-                    if (isset($params_to_fields[$k])) {
-                        $field_name = $k;
-                        $field_value = $v;
-                        $table_alias = $table;
-
-                    } else {
-                        $field_name = false;
-                        $field_value = false;
+                if ($k == 'id') {
+                    $orm->where_id_is($v);
+                } else {
+                    $joins = explode('.', $k);
+                    if (isset($joins[1])) {
+                        $table_alias = $joins[0];
+                        $table_real = $this->app->db->real_table_name($table_alias);
+                    }
+                    if (isset($joins[1]) and !in_array($joins[0], $joined_tables) and $joins[0] != $table) {
+                        $joined_tables[] = $table_alias;
+                        $table_assoc = $this->app->db->assoc_table_name($table);
+                        $orm->select($table . '.*');
+                        $orm->where_equal($table_alias . '.rel', $table_assoc);
+                        $orm->left_outer_join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);
+                        //$orm->left_outer_join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);
                     }
 
-                } else if (isset($joins[1])) {
-                    $field_name = $joins[1];
-                    $field_value = $v;
-                }
+                    if (!isset($joins[1])) {
+                        if (isset($params_to_fields[$k])) {
+                            $field_name = $k;
+                            $field_value = $v;
+                            $table_alias = $table;
 
-                if ($field_value and $field_name) {
-                    if (is_array($field_value)) {
-
-                        $items = array();
-                        foreach ($field_value as $field) {
-                            $items[] = $field;
-                        }
-                        if(!empty($items)){
-                              if(count($items) == 1){
-
-                                  $orm->where_equal($table_alias . '.' . $field_name, reset($items));
-
-                              } else {
-
-                                  $orm->where_in(  $table_alias . '.' .$field_name, $items);
-
-                              }
                         } else {
-                            if(is_string($field_value)){
-                                $orm->where_equal($table_alias . '.' . $field_name, $field_value);
-
-                            }
+                            $field_name = false;
+                            $field_value = false;
                         }
 
+                    } else if (isset($joins[1])) {
+                        $field_name = $joins[1];
+                        $field_value = $v;
+                    } else {
 
-                    } elseif (is_string($field_value)) {
-                        $field_value = trim($field_value);
-                        $field_value_len = strlen($field_value);
+                        if (isset($params_to_fields[$k])) {
+                            $field_name = $k;
+                            $field_value = $v;
+                            $table_alias = $table;
 
-                        $two_chars = substr($field_value, 0, 2);
-                        $one_char = substr($field_value, 0, 1);
-                        $compare_sign = false;
-                        if ($field_value_len > 0) {
-                            $where_method = false;
+                        }
+                    }
 
-                            if (is_string($field_value)) {
-                                if (stristr($field_value, '[lt]')) {
-                                    $one_char = '<';
-                                    $field_value = str_replace('[lt]', '', $field_value);
-                                }
-                                if (stristr($field_value, '[lte]')) {
-                                    $two_chars = '<=';
-                                    $field_value = str_replace('[lte]', '', $field_value);
-                                }
-                                if (stristr($field_value, '[st]')) {
-                                    $one_char = '<';
-                                    $field_value = str_replace('[st]', '', $field_value);
-                                }
-                                if (stristr($field_value, '[ste]')) {
-                                    $two_chars = '<=';
-                                    $field_value = str_replace('[ste]', '', $field_value);
-                                }
-                                if (stristr($field_value, '[gt]')) {
-                                    $one_char = '>';
-                                    $field_value = str_replace('[gt]', '', $field_value);
-                                }
-                                if (stristr($field_value, '[gte]')) {
-                                    $two_chars = '>=';
-                                    $field_value = str_replace('[gte]', '', $field_value);
-                                }
-                                if (stristr($field_value, '[mt]')) {
-                                    $two_chars = '>';
-                                    $field_value = str_replace('[mt]', '', $field_value);
-                                }
-                                if (stristr($field_value, '[mte]')) {
-                                    $two_chars = '>=';
-                                    $field_value = str_replace('[mte]', '', $field_value);
-                                }
+                    if ($field_value and $field_name) {
+                        if (is_array($field_value)) {
 
-                                if (stristr($field_value, '[neq]')) {
-                                    $two_chars = '!=';
-                                    $field_value = str_replace('[neq]', '', $field_value);
-                                }
-
-                                if (stristr($field_value, '[eq]')) {
-                                    $one_char = '=';
-                                    $field_value = str_replace('[eq]', '', $field_value);
-                                }
-
-
-                                if (stristr($field_value, '[int]')) {
-                                    $field_value = str_replace('[int]', '', $field_value);
-                                }
-
-                                if (stristr($field_value, '[is]')) {
-                                    $one_char = '=';
-                                    $field_value = str_replace('[is]', '', $field_value);
-                                }
-
-                                if (stristr($field_value, '[like]')) {
-                                    $two_chars = '%';
-                                    $field_value = str_replace('[like]', '', $field_value);
-                                }
-                                if (stristr($field_value, '[null]')) {
-                                    $field_value = 'is_null';
-                                }
-
-                                if (stristr($field_value, '[not_null]')) {
-                                    $field_value = 'is_not_null';
-                                }
-                                if (stristr($field_value, '[is_not]')) {
-                                    $two_chars = '!%';
-                                    $field_value = str_replace('[is_not]', '', $field_value);
-                                }
+                            $items = array();
+                            foreach ($field_value as $field) {
+                                $items[] = $field;
                             }
+                            if (!empty($items)) {
+                                if (count($items) == 1) {
 
+                                    $orm->where_equal($table_alias . '.' . $field_name, reset($items));
 
-                            if ($field_value == 'is_null') {
-                                $where_method = 'where_null';
-                                $field_value = $field_name;
-                            } elseif ($field_value == 'is_not_null') {
-                                $where_method = 'where_not_null';
-                                $field_value = $field_name;
-                            } else if ($two_chars == '<=' or $two_chars == '=<') {
-                                $where_method = 'where_lte';
-                                $field_value = substr($field_value, 2, $field_value_len);
-                            } elseif ($two_chars == '>=' or $two_chars == '=>') {
-                                $where_method = 'where_gte';
-                                $field_value = substr($field_value, 2, $field_value_len);
-                            } elseif ($two_chars == '!=' or $two_chars == '=!') {
-                                $where_method = 'where_not_equal';
-                                $field_value = substr($field_value, 2, $field_value_len);
-                            } elseif ($two_chars == '!%' or $two_chars == '%!') {
-                                $where_method = 'where_not_like';
-                                $field_value = '%' . substr($field_value, 2, $field_value_len);
-                            } elseif ($one_char == '%') {
-                                $where_method = 'where_like';
-                            } elseif ($one_char == '>') {
-                                $where_method = 'where_gt';
-                                $field_value = substr($field_value, 1, $field_value_len);
-                            } elseif ($one_char == '<') {
-                                $where_method = 'where_lt';
-                                $field_value = substr($field_value, 1, $field_value_len);
-                            } elseif ($one_char == '=') {
-                                $where_method = 'where_equal';
-                                $field_value = substr($field_value, 1, $field_value_len);
-                            }
-                            if ($where_method == false) {
-                                $orm->where_equal($table_alias . '.' . $field_name, $field_value);
+                                } else {
+
+                                    $orm->where_in($table_alias . '.' . $field_name, $items);
+
+                                }
                             } else {
-                                $orm->$where_method($table_alias . '.' . $field_name, $field_value);
+                                if (is_string($field_value)) {
+                                    $orm->where_equal($table_alias . '.' . $field_name, $field_value);
+
+                                }
+                            }
+
+
+                        } elseif (is_string($field_value)) {
+                            $field_value = trim($field_value);
+                            $field_value_len = strlen($field_value);
+
+                            $two_chars = substr($field_value, 0, 2);
+                            $one_char = substr($field_value, 0, 1);
+                            $compare_sign = false;
+                            if ($field_value_len > 0) {
+                                $where_method = false;
+
+                                if (is_string($field_value)) {
+                                    if (stristr($field_value, '[lt]')) {
+                                        $one_char = '<';
+                                        $field_value = str_replace('[lt]', '', $field_value);
+                                    }
+                                    if (stristr($field_value, '[lte]')) {
+                                        $two_chars = '<=';
+                                        $field_value = str_replace('[lte]', '', $field_value);
+                                    }
+                                    if (stristr($field_value, '[st]')) {
+                                        $one_char = '<';
+                                        $field_value = str_replace('[st]', '', $field_value);
+                                    }
+                                    if (stristr($field_value, '[ste]')) {
+                                        $two_chars = '<=';
+                                        $field_value = str_replace('[ste]', '', $field_value);
+                                    }
+                                    if (stristr($field_value, '[gt]')) {
+                                        $one_char = '>';
+                                        $field_value = str_replace('[gt]', '', $field_value);
+                                    }
+                                    if (stristr($field_value, '[gte]')) {
+                                        $two_chars = '>=';
+                                        $field_value = str_replace('[gte]', '', $field_value);
+                                    }
+                                    if (stristr($field_value, '[mt]')) {
+                                        $two_chars = '>';
+                                        $field_value = str_replace('[mt]', '', $field_value);
+                                    }
+                                    if (stristr($field_value, '[mte]')) {
+                                        $two_chars = '>=';
+                                        $field_value = str_replace('[mte]', '', $field_value);
+                                    }
+
+                                    if (stristr($field_value, '[neq]')) {
+                                        $two_chars = '!=';
+                                        $field_value = str_replace('[neq]', '', $field_value);
+                                    }
+
+                                    if (stristr($field_value, '[eq]')) {
+                                        $one_char = '=';
+                                        $field_value = str_replace('[eq]', '', $field_value);
+                                    }
+
+
+                                    if (stristr($field_value, '[int]')) {
+                                        $field_value = str_replace('[int]', '', $field_value);
+                                    }
+
+                                    if (stristr($field_value, '[is]')) {
+                                        $one_char = '=';
+                                        $field_value = str_replace('[is]', '', $field_value);
+                                    }
+
+                                    if (stristr($field_value, '[like]')) {
+                                        $two_chars = '%';
+                                        $field_value = str_replace('[like]', '', $field_value);
+                                    }
+                                    if (stristr($field_value, '[null]')) {
+                                        $field_value = 'is_null';
+                                    }
+
+                                    if (stristr($field_value, '[not_null]')) {
+                                        $field_value = 'is_not_null';
+                                    }
+                                    if (stristr($field_value, '[is_not]')) {
+                                        $two_chars = '!%';
+                                        $field_value = str_replace('[is_not]', '', $field_value);
+                                    }
+                                }
+
+
+                                if ($field_value == 'is_null') {
+                                    $where_method = 'where_null';
+                                    $field_value = $field_name;
+                                } elseif ($field_value == 'is_not_null') {
+                                    $where_method = 'where_not_null';
+                                    $field_value = $field_name;
+                                } else if ($two_chars == '<=' or $two_chars == '=<') {
+                                    $where_method = 'where_lte';
+                                    $field_value = substr($field_value, 2, $field_value_len);
+                                } elseif ($two_chars == '>=' or $two_chars == '=>') {
+                                    $where_method = 'where_gte';
+                                    $field_value = substr($field_value, 2, $field_value_len);
+                                } elseif ($two_chars == '!=' or $two_chars == '=!') {
+                                    $where_method = 'where_not_equal';
+                                    $field_value = substr($field_value, 2, $field_value_len);
+                                } elseif ($two_chars == '!%' or $two_chars == '%!') {
+                                    $where_method = 'where_not_like';
+                                    $field_value = '%' . substr($field_value, 2, $field_value_len);
+                                } elseif ($one_char == '%') {
+                                    $where_method = 'where_like';
+                                } elseif ($one_char == '>') {
+                                    $where_method = 'where_gt';
+                                    $field_value = substr($field_value, 1, $field_value_len);
+                                } elseif ($one_char == '<') {
+                                    $where_method = 'where_lt';
+                                    $field_value = substr($field_value, 1, $field_value_len);
+                                } elseif ($one_char == '=') {
+                                    $where_method = 'where_equal';
+                                    $field_value = substr($field_value, 1, $field_value_len);
+                                }
+
+                                if ($where_method == false) {
+                                    $orm->where_equal($table_alias . '.' . $field_name, $field_value);
+                                } else {
+                                    $orm->$where_method($table_alias . '.' . $field_name, $field_value);
+                                }
                             }
                         }
                     }
@@ -415,7 +431,7 @@ class IdiOrm
 
 
         if ($count_paging == true) {
-             $ret = $orm->count();
+            $ret = $orm->count();
             $plimit = $limit;
             if ($plimit != false and $ret != false) {
                 $pages_qty = ceil($ret / $plimit);
