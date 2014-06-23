@@ -252,7 +252,7 @@ The API for this method works as follows:
 Overriding defaults
 '''''''''''''''''''
 
-The ``has_many_through`` method takes up to four arguments, which allow
+The ``has_many_through`` method takes up to six arguments, which allow
 us to progressively override default assumptions made by the method.
 
 **First argument: associated model name** - this is mandatory and should

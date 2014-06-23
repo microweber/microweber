@@ -76,6 +76,10 @@ foreach ($tweets as $tweet) {
 Changelog
 ---------
 
+#### 1.5.1 - release 2014-06-23
+
+* Binding of named parameters was broken [[cainmi](https://github.com/cainmi)] - [issue #221](https://github.com/j4mie/idiorm/pull/221)
+
 #### 1.5.0 - release 2014-06-22
 
 * Multiple OR'ed conditions support [[lrlopez](https://github.com/lrlopez)] - [issue #201](https://github.com/j4mie/idiorm/issues/201)

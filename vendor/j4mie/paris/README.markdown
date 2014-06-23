@@ -1,14 +1,16 @@
 Paris
 =====
 
-[![Build Status](https://travis-ci.org/j4mie/paris.png?branch=master)](https://travis-ci.org/j4mie/paris)
+[![Build Status](https://travis-ci.org/j4mie/paris.png?branch=master)](https://travis-ci.org/j4mie/paris) [![Latest Stable Version](https://poser.pugx.org/j4mie/paris/v/stable.png)](https://packagist.org/packages/j4mie/paris) [![Total Downloads](https://poser.pugx.org/j4mie/paris/downloads.png)](https://packagist.org/packages/j4mie/paris)
 
 [http://j4mie.github.com/idiormandparis/](http://j4mie.github.com/idiormandparis/)
 
 ---
 ### Feature complete
 
-Paris is now considered to be feature complete as of version 1.4.0. Whilst it will continue to be maintained with bug fixes there will be no further new features added.
+Paris is now considered to be feature complete as of version 1.5.0. Whilst it will continue to be maintained with bug fixes there will be no further new features added from this point on.
+
+**Please do not submit feature requests or pull requests adding new features as they will be closed without ceremony.**
 
 ---
 
@@ -71,6 +73,25 @@ foreach ($tweets as $tweet) {
 
 Changelog
 ---------
+
+#### 1.5.2 - released 2014-06-23
+
+* Paris incorrectly relying on old Idiorm version in the composer.json [[ilsenem](https://github.com/ilsenem)] - [issue #96](https://github.com/j4mie/paris/pull/96)
+
+#### 1.5.1 - released 2014-06-22
+
+* Remove HHVM build target from travis-ci as there is a bug in HHVM
+
+#### 1.5.0 - released 2014-06-22
+
+* Allows static calling of Model subclasses, ignoring namespace info during table name generation [[michaelward82](https://github.com/michaelward82)] - [issue #90](https://github.com/j4mie/paris/issues/90)
+* Prevent invalid method calls from triggering infinite recursion [[michaelward82](https://github.com/michaelward82)] - [issue #75](https://github.com/j4mie/idiorm/issues/75)
+* Allow chaining of the `set()` and `set_expr()` methods [[naga3](https://github.com/naga3)] - [issue #94](https://github.com/j4mie/paris/issues/94)
+* Add HHVM to travis-ci build matrix [[ptarjan](https://github.com/ptarjan)] - [issue #81](https://github.com/j4mie/idiorm/issues/81)
+* Improve join documentation [[rhynodesigns](https://github.com/rhynodesigns)] - [issue #92](https://github.com/j4mie/paris/issues/92)
+* Improve code docblock [[michaelward82](https://github.com/michaelward82)] - [issue #91](https://github.com/j4mie/paris/issues/91)
+* Improve code docblocks and whitespace [[michaelward82](https://github.com/michaelward82)] - [issue #93](https://github.com/j4mie/paris/issues/93)
+* Improve connections documentation [[kkeiper1103](https://github.com/kkeiper1103)] - [issue #79](https://github.com/j4mie/paris/issues/79)
 
 #### 1.4.2 - released 2013-12-12
 

@@ -1085,18 +1085,47 @@ class Parser
 
     public function isolate_content_field($l)
     {
-        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
-//d($l);
-     //   exit;
+        $field =  qp($l, '[field="content"]')->innerHTML();
+        if($field == null){
+            $field =  qp($l, '[field="content_body"]')->innerHTML();
+
+        }
+        return $field;
+       // $field =  qp($l, '[field="content"]')->innerHTML();
+        //d($field);
+//exit;
         $pq = \phpQuery::newDocument($l);
         $found = false;
         foreach ($pq ['[field=content][rel=content]:last'] as $elem) {
             $l = pq($elem)->htmlOuter();
-          //
+
             $found = true;
         }
 
-        if($found == false){
+        if ($found == false) {
+            foreach ($pq ['[field=content_body][rel=content]:last'] as $elem) {
+                $l = pq($elem)->htmlOuter();
+                $found = true;
+
+            }
+        }
+
+        return $l;
+    }
+
+    public function isolate_content_field_old($l)
+    {
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
+        $pq = \phpQuery::newDocument($l);
+        $found = false;
+        foreach ($pq ['[field=content][rel=content]:last'] as $elem) {
+            $l = pq($elem)->htmlOuter();
+
+            $found = true;
+        }
+
+        if ($found == false) {
             foreach ($pq ['[field=content_body][rel=content]:last'] as $elem) {
                 $l = pq($elem)->htmlOuter();
                 $found = true;

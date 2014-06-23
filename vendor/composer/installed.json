@@ -582,179 +582,6 @@
         "homepage": "http://keboola.com"
     },
     {
-        "name": "j4mie/idiorm",
-        "version": "v1.4.1",
-        "version_normalized": "1.4.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/j4mie/idiorm.git",
-            "reference": "11e964157a6a2c6128a0546673ad5e99ac1a62cd"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/j4mie/idiorm/zipball/11e964157a6a2c6128a0546673ad5e99ac1a62cd",
-            "reference": "11e964157a6a2c6128a0546673ad5e99ac1a62cd",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "time": "2013-12-12 10:25:27",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "idiorm.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-2-Clause",
-            "BSD-3-Clause",
-            "BSD-4-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Simon Holywell",
-                "email": "treffynnon@php.net",
-                "homepage": "http://simonholywell.com",
-                "role": "Maintainer"
-            },
-            {
-                "name": "Jamie Matthews",
-                "email": "jamie.matthews@gmail.com",
-                "homepage": "http://j4mie.org",
-                "role": "Developer"
-            },
-            {
-                "name": "Durham Hale",
-                "email": "me@durhamhale.com",
-                "homepage": "http://durhamhale.com",
-                "role": "Maintainer"
-            }
-        ],
-        "description": "A lightweight nearly-zero-configuration object-relational mapper and fluent query builder for PHP5",
-        "homepage": "http://j4mie.github.com/idiormandparis",
-        "keywords": [
-            "idiorm",
-            "orm",
-            "query builder"
-        ]
-    },
-    {
-        "name": "symfony/process",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "target-dir": "Symfony/Component/Process",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/Process.git",
-            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/symfony-process-8a3edace8e8aabed8992b993bfc13df3b1e836f2-zip-b5107c.zip",
-            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2",
-            "shasum": "ae566f1f43c0bda65e61dd1e62f4fc7189e59ebf"
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2014-04-28 05:15:04",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.5-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\Process\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Process Component",
-        "homepage": "http://symfony.com"
-    },
-    {
-        "name": "j4mie/paris",
-        "version": "v1.4.2",
-        "version_normalized": "1.4.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/j4mie/paris.git",
-            "reference": "dd1a87544127874dce367f0252dcc81246dfc83b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/j4mie/paris/zipball/dd1a87544127874dce367f0252dcc81246dfc83b",
-            "reference": "dd1a87544127874dce367f0252dcc81246dfc83b",
-            "shasum": ""
-        },
-        "require": {
-            "j4mie/idiorm": "1.4.*",
-            "php": ">=5.2.0"
-        },
-        "time": "2013-12-12 10:47:44",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "paris.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-2-Clause",
-            "BSD-3-Clause",
-            "BSD-4-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Simon Holywell",
-                "email": "treffynnon@php.net",
-                "homepage": "http://simonholywell.com",
-                "role": "Maintainer"
-            },
-            {
-                "name": "Jamie Matthews",
-                "email": "jamie.matthews@gmail.com",
-                "homepage": "http://j4mie.org",
-                "role": "Developer"
-            },
-            {
-                "name": "Durham Hale",
-                "email": "me@durhamhale.com",
-                "homepage": "http://durhamhale.com",
-                "role": "Maintainer"
-            }
-        ],
-        "description": "A lightweight Active Record implementation for PHP5, built on top of Idiorm",
-        "homepage": "http://j4mie.github.com/idiormandparis",
-        "keywords": [
-            "Active Record",
-            "model",
-            "orm",
-            "paris"
-        ]
-    },
-    {
         "name": "phroute/phroute",
         "version": "v1.0.5",
         "version_normalized": "1.0.5.0",
@@ -801,6 +628,287 @@
         "keywords": [
             "router",
             "routing"
+        ]
+    },
+    {
+        "name": "j4mie/idiorm",
+        "version": "v1.5.1",
+        "version_normalized": "1.5.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/j4mie/idiorm.git",
+            "reference": "b0922d8719a94e3a0e0e4a0ca3876f4f91475dcf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/j4mie/idiorm/zipball/b0922d8719a94e3a0e0e4a0ca3876f4f91475dcf",
+            "reference": "b0922d8719a94e3a0e0e4a0ca3876f4f91475dcf",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2014-06-23 13:08:57",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "idiorm.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause",
+            "BSD-3-Clause",
+            "BSD-4-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Simon Holywell",
+                "email": "treffynnon@php.net",
+                "homepage": "http://simonholywell.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Jamie Matthews",
+                "email": "jamie.matthews@gmail.com",
+                "homepage": "http://j4mie.org",
+                "role": "Developer"
+            },
+            {
+                "name": "Durham Hale",
+                "email": "me@durhamhale.com",
+                "homepage": "http://durhamhale.com",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "A lightweight nearly-zero-configuration object-relational mapper and fluent query builder for PHP5",
+        "homepage": "http://j4mie.github.com/idiormandparis",
+        "keywords": [
+            "idiorm",
+            "orm",
+            "query builder"
+        ]
+    },
+    {
+        "name": "j4mie/paris",
+        "version": "v1.5.2",
+        "version_normalized": "1.5.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/j4mie/paris.git",
+            "reference": "1f7ec8a220f312a5282606910c22ec2c03cc1280"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/j4mie/paris/zipball/1f7ec8a220f312a5282606910c22ec2c03cc1280",
+            "reference": "1f7ec8a220f312a5282606910c22ec2c03cc1280",
+            "shasum": ""
+        },
+        "require": {
+            "j4mie/idiorm": "1.5.*",
+            "php": ">=5.2.0"
+        },
+        "time": "2014-06-23 11:03:10",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "paris.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause",
+            "BSD-3-Clause",
+            "BSD-4-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Simon Holywell",
+                "email": "treffynnon@php.net",
+                "homepage": "http://simonholywell.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Jamie Matthews",
+                "email": "jamie.matthews@gmail.com",
+                "homepage": "http://j4mie.org",
+                "role": "Developer"
+            },
+            {
+                "name": "Durham Hale",
+                "email": "me@durhamhale.com",
+                "homepage": "http://durhamhale.com",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "A lightweight Active Record implementation for PHP5, built on top of Idiorm",
+        "homepage": "http://j4mie.github.com/idiormandparis",
+        "keywords": [
+            "Active Record",
+            "model",
+            "orm",
+            "paris"
+        ]
+    },
+    {
+        "name": "symfony/process",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Symfony/Component/Process",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Process.git",
+            "reference": "0c367d63ab161bfc757e5e882a1d9dde8d344be3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Process/zipball/0c367d63ab161bfc757e5e882a1d9dde8d344be3",
+            "reference": "0c367d63ab161bfc757e5e882a1d9dde8d344be3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2014-06-18 11:43:36",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.6-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Process\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Process Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "masterminds/html5",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Masterminds/html5-php.git",
+            "reference": "3959083837c7d2bfa6e922980b4a58faa68e5176"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/3959083837c7d2bfa6e922980b4a58faa68e5176",
+            "reference": "3959083837c7d2bfa6e922980b4a58faa68e5176",
+            "shasum": ""
+        },
+        "require": {
+            "ext-libxml": "*",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phpunit/phpunit": "4.*",
+            "satooshi/php-coveralls": "0.6.*"
+        },
+        "time": "2014-06-17 07:46:08",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Masterminds\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Matt Farina",
+                "email": "matt@mattfarina.com",
+                "homepage": "http://mattfarina.com"
+            },
+            {
+                "name": "Matt Butcher",
+                "email": "technosophos@gmail.com"
+            }
+        ],
+        "description": "An HTML5 parser and serializer.",
+        "homepage": "http://masterminds.github.io/html5-php",
+        "keywords": [
+            "HTML5",
+            "dom",
+            "html",
+            "parser",
+            "querypath",
+            "serializer",
+            "xml"
+        ]
+    },
+    {
+        "name": "querypath/querypath",
+        "version": "3.x-dev",
+        "version_normalized": "3.9999999.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/technosophos/querypath.git",
+            "reference": "9d4a1d31e3b4821d9987b67a5bfb372690e10acf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/technosophos/querypath/zipball/9d4a1d31e3b4821d9987b67a5bfb372690e10acf",
+            "reference": "9d4a1d31e3b4821d9987b67a5bfb372690e10acf",
+            "shasum": ""
+        },
+        "require": {
+            "masterminds/html5": "dev-master",
+            "php": ">=5.3.0"
+        },
+        "time": "2013-07-03 21:48:50",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "QueryPath": "src/"
+            },
+            "files": [
+                "src/qp_functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "HTML/XML querying (CSS 4 or XPath) and processing (like jQuery)",
+        "homepage": "https://github.com/technosophos/querypath",
+        "keywords": [
+            "css",
+            "html",
+            "jquery",
+            "xml",
+            "xslt"
         ]
     }
 ]

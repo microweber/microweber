@@ -24,7 +24,7 @@ class ProcessBuilder
     private $arguments;
     private $cwd;
     private $env = array();
-    private $stdin;
+    private $input;
     private $timeout = 60;
     private $options = array();
     private $inheritEnv = true;
@@ -156,13 +156,17 @@ class ProcessBuilder
     /**
      * Sets the input of the process.
      *
-     * @param string $stdin The input as a string
+     * Deprecation: As of Symfony 2.5, this method only accepts string values.
+     *
+     * @param string|null $input The input as a string
      *
      * @return ProcessBuilder
+     *
+     * @throws InvalidArgumentException In case the argument is invalid
      */
-    public function setInput($stdin)
+    public function setInput($input)
     {
-        $this->stdin = $stdin;
+        $this->input = ProcessUtils::validateInput(sprintf('%s::%s', __CLASS__, __FUNCTION__), $input);
 
         return $this;
     }
@@ -261,7 +265,7 @@ class ProcessBuilder
             $env = $this->env;
         }
 
-        $process = new Process($script, $this->cwd, $env, $this->stdin, $this->timeout, $options);
+        $process = new Process($script, $this->cwd, $env, $this->input, $this->timeout, $options);
 
         if ($this->outputDisabled) {
             $process->disableOutput();

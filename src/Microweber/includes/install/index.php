@@ -345,6 +345,7 @@ if (isset($to_save['is_installed'])) {
 
 
                 __mw_install_log('Creating default database tables');
+                mw('cache')->clear('db');
                 event_trigger('mw_db_init_default');
                 event_trigger('mw_db_init');
                 mw('content')->db_init();

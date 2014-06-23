@@ -37,8 +37,19 @@ in a similar way. For example ``\Models\CarTyre`` would be converted to
 ``models_car_tyre``. Note here that backslashes are replaced with underscores
 in addition to the *CapWords* replacement discussed in the previous paragraph.
 
-To override this default behaviour, add a **public static** property to
-your class called ``$_table``:
+To disregard namespace information when calculating the table name, set a
+**public static** property named ``$_table_use_short_name`` on your class.
+This would result in ``\Models\CarTyre`` being converted to ``car_tyre``.
+
+.. code-block:: php
+
+    <?php
+    class User extends Model {
+        public static $_table_use_short_name = true;
+    }
+
+To override the default naming behaviour and directly specify a table name,
+add a **public static** property to your class called ``$_table``:
 
 .. code-block:: php
 

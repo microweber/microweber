@@ -669,7 +669,7 @@ class Files
                             }
                         }
                     }
-                      $this->mw_cache_deleted_items[] = $item;
+                    //  $this->mw_cache_deleted_items[] = $item;
                 }
 
             }

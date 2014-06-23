@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
+    'QueryPath' => array($vendorDir . '/querypath/querypath/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
     'Phroute' => array($vendorDir . '/phroute/phroute/src'),
     'Microweber' => array($baseDir . '/src'),

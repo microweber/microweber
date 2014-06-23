@@ -1,4 +1,4 @@
-Mulitple Connections
+Multiple Connections
 ====================
 
 Paris now works with multiple database conections (and necessarily relies on an updated version of Idiorm that also supports multiple connections). Database connections are identified by a string name, and default to ``OrmWrapper::DEFAULT_CONNECTION`` (which is really ``ORM::DEFAULT_CONNECTION``).

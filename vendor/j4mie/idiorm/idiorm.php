@@ -412,13 +412,18 @@
             self::$_last_statement = $statement;
             $time = microtime(true);
 
-            $count = count($parameters);
-            for ($i = 0; $i < $count; $i++) {
-                $type = PDO::PARAM_STR;
-                if (is_null($parameters[$i])) $type = PDO::PARAM_NULL;
-                if (is_bool($parameters[$i])) $type = PDO::PARAM_BOOL;
-                if (is_int($parameters[$i])) $type = PDO::PARAM_INT;
-                $statement->bindParam($i + 1, $parameters[$i], $type);
+            foreach ($parameters as $key => &$param) {
+                if (is_null($param)) {
+                    $type = PDO::PARAM_NULL;
+                } else if (is_bool($param)) {
+                    $type = PDO::PARAM_BOOL;
+                } else if (is_int($param)) {
+                    $type = PDO::PARAM_INT;
+                } else {
+                    $type = PDO::PARAM_STR;
+                }
+
+                $statement->bindParam(is_int($key) ? ++$key : $key, $param, $type);
             }
 
             $q = $statement->execute();
@@ -1851,7 +1856,7 @@
                 return $this->_data;
             }
             $args = func_get_args();
-            return array_merge($this->_data, array_flip($args));
+            return array_intersect_key($this->_data, array_flip($args));
         }
 
         /**

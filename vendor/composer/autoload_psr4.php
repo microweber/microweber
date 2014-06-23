@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Prewk\\' => array($vendorDir . '/prewk/xml-streamer/src'),
+    'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
 );
