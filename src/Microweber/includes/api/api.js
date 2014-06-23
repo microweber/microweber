@@ -195,7 +195,8 @@ mw.askusertostay = false;
     more:"<?php _e("More"); ?>",
     templateSettingsHidden:"<?php _e("Template settings"); ?>",
     less:"<?php _e("Less"); ?>",
-    product_added:"<?php _e("Your product is added to cart"); ?>"
+    product_added:"<?php _e("Your product is added to cart"); ?>",
+    no_results_for:"<?php _e("No results for"); ?>"
   }
 
   mw.lib = {

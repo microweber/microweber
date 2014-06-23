@@ -4,20 +4,21 @@ class Ui
 {
 
 
-    var $admin_menu = array();
-    var $create_content_menu = array(
+    public $admin_menu = array();
+    public $create_content_menu = array(
         "post" => "Post",
         "page" => "Page",
         "category" => "Category"
     );
-    var $custom_fields = array();
-    var $admin_logo = '';
-    var $admin_logo_login = '';
-    var $logo_live_edit = '';
-    var $brand_name = 'Microweber';
-    var $powered_by_link = false;
-    var $admin_content_edit = array();
-    var $admin_content_edit_text = array();
+    public $admin_dashboard_menu = array();
+    public $custom_fields = array();
+    public $admin_logo = '';
+    public $admin_logo_login = '';
+    public $logo_live_edit = '';
+    public $brand_name = 'Microweber';
+    public $powered_by_link = false;
+    public $admin_content_edit = array();
+    public $admin_content_edit_text = array();
 
     function __construct()
     {
@@ -25,11 +26,11 @@ class Ui
         $this->admin_logo = MW_INCLUDES_URL . 'img/logo_admin.png';
         $this->logo_live_edit = MW_INCLUDES_URL . 'img/logo_admin.png';
         $this->admin_logo_login = MW_INCLUDES_URL . 'img/sign_logo.png';
-        $this->set_default_custom_fields();
-        $this->set_default_custom_fields();
+
+        $this->set_default();
     }
 
-    function set_default_custom_fields()
+    function set_default()
     {
 
         $fields = array(
@@ -48,9 +49,37 @@ class Ui
         );
 
         $this->custom_fields = $fields;
-//        foreach ($fields as $item) {
-//            $this->add_custom_field($item);
-//        }
+
+
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'content';
+        $admin_dashboard_btn['text'] = _e("Manage Website", true);
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-website';
+        $this->admin_dashboard_menu($admin_dashboard_btn);
+
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'modules';
+        $admin_dashboard_btn['text'] = _e("Manage Modules", true);
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-module';
+        $this->admin_dashboard_menu($admin_dashboard_btn);
+
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'files';
+        $admin_dashboard_btn['text'] = _e("File Manager", true);
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-upload';
+        $this->admin_dashboard_menu($admin_dashboard_btn);
+
+
+
+    }
+
+    function admin_dashboard_menu($arr = false)
+    {
+
+        if ($arr != false) {
+            array_push($this->admin_dashboard_menu, $arr);
+        }
+        return $this->admin_dashboard_menu;
     }
 
     public function admin($menu_array)
@@ -86,7 +115,10 @@ class Ui
 
     function add_admin_menu($arr)
     {
-        $this->admin_menu = array_merge($this->admin_menu, $arr);
+        if ($arr != false) {
+            $this->admin_menu = array_merge($this->admin_menu, $arr);
+        }
+
         return $this->admin_menu;
     }
 

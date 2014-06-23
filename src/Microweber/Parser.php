@@ -1086,20 +1086,24 @@ class Parser
     public function isolate_content_field($l)
     {
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+//d($l);
+     //   exit;
         $pq = \phpQuery::newDocument($l);
         $found = false;
-        foreach ($pq ['[field=content]'] as $elem) {
+        foreach ($pq ['[field=content][rel=content]:last'] as $elem) {
             $l = pq($elem)->htmlOuter();
+          //
             $found = true;
         }
 
         if($found == false){
-            foreach ($pq ['[field=content_body]'] as $elem) {
+            foreach ($pq ['[field=content_body][rel=content]:last'] as $elem) {
                 $l = pq($elem)->htmlOuter();
                 $found = true;
+
             }
         }
-       // var_dump($found);
+
         return $l;
     }
 

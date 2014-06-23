@@ -27,6 +27,7 @@ mw.drag.columns = {
         }
         mw.drag.columns.resizer.pos = e.pageX;
         mw.drag.columns.position(mw.drag.columns.resizer.curr);
+        $(window).trigger('columnResize', mw.drag.columns.resizer.curr)
     },
     position:function(el){
         if(!!mw.drag.columns.nextColumn(el)){

@@ -3,21 +3,24 @@ if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', MW_TABLE_PREFIX . 'comments');
 }
 
-event_bind('admin_dashboard_quick_link', 'mw_print_admin_dashboard_comments_btn');
+event_bind('mw.admin.dashboard.links', 'mw_print_admin_dashboard_comments_btn');
 
 function mw_print_admin_dashboard_comments_btn()
 {
-    $active = url_param('view');
-    $cls = '';
-    if ($active == 'comments') {
-        $cls = ' class="active" ';
-    }
+    $admin_dashboard_btn = array();
+    $admin_dashboard_btn['view'] = 'comments';
+
+    $admin_dashboard_btn['icon_class'] = 'mw-icon-comment';
     $notif_html = '';
     $notif_count = mw()->notifications->get('module=comments&is_read=n&count=1');
+    
     if ($notif_count > 0) {
-        $notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
+        $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
     }
-    print '<li' . $cls . '><a href="' . admin_url() . 'view:comments"><span class="ico icomment">' . $notif_html . '</span><span>Comments</span></a></li>';
+    $admin_dashboard_btn['text'] = _e("Comments", true) . $notif_html;
+    mw()->ui->admin_dashboard_menu($admin_dashboard_btn);
+
+
 }
 
 //event_bind('mw_admin_settings_menu', 'mw_print_admin_comments_settings_link');
@@ -327,32 +330,3 @@ function get_comments($params)
     return $comments;
 }
 
-
-event_bind('db_query_comments', '_modify_comments_query');
-
-function _modify_comments_query($criteria)
-{
-    $add_sql = false;
-    // if we have 'posts_category' param in the query
-    // we will get comments from a category
-    if (isset($criteria['posts_category'])) {
-        if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
-            define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
-        }
-        $table = MODULE_DB_COMMENTS;
-        $table_cat_items = MW_DB_TABLE_TAXONOMY_ITEMS;
-        $cat = intval($criteria['posts_category']);
-        $add_sql = $add_sql . "
-        LEFT JOIN $table_cat_items ON
-            $table_cat_items.rel = $table.rel
-            where $table_cat_items.parent_id=$cat
-            and $table_cat_items.rel_id =$table.rel_id
-             and $table.is_moderated = 'y'
-             ";
-
-    }
-
-
-    return $add_sql;
-
-}

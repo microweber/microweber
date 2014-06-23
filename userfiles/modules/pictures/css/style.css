@@ -138,8 +138,6 @@ a.rotator-paging-item-thumbnail img{
   width: auto;
   height: auto;
   max-width: 100%;
-  margin: 0 !important;
-  padding: 0 !important;
   image-rendering:-moz-crisp-edges;
   image-rendering: -o-crisp-edges;
   image-rendering:-webkit-optimize-contrast;
@@ -326,14 +324,15 @@ a.rotator-paging-item-digit.active{
   display: inline-block;
   position: relative;
   overflow: hidden;
-  width: 66px;
-  margin: 6px 9px;
+  width: 25%;
+  margin: 0;
   transition: all  0.2s;
   -webkit-transition: all  0.5s;
 }
 
 .mw-rotator-template-inner a.rotator-paging-item-thumbnail img{
-  height: 66px;
+    max-width: 100%;
+    margin: 6px 9px;
 }
 
 .mw-rotator-template-inner span.rotator-reflection-original,
@@ -341,7 +340,7 @@ a.rotator-paging-item-digit.active{
 .mw-rotator-template-inner span.mw-rotator-reflection{
   position: relative;
   overflow: hidden;
-  width: 66px;
+  width: 25%;
   max-height: 66px;
 }
 

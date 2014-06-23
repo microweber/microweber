@@ -328,6 +328,16 @@ window.onfocus = function(){
 <span class="mw-plus-top">+</span>
 <span class="mw-plus-bottom">+</span>
 <div style="display: none" id="plus-modules-list">
-    <module type="admin/modules/list"/ class="modules-list-init module-as-element">
+<input type="text" class="mw-ui-searchfield" />
+    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-left">
+        <span class="mw-ui-btn active"><?php _e("Modules"); ?></span>
+        <span class="mw-ui-btn"><?php _e("Layouts"); ?></span>
+    </div>
+
+    <div class="mw-ui-box">
+        <div class="module-bubble-tab" style="display: block"><module type="admin/modules/list" class="modules-list-init module-as-element"></div>
+        <div class="module-bubble-tab"><module type="admin/modules/list_layouts" class="modules-list-init module-as-element"></div>
+        <div class="module-bubble-tab-not-found-message"></div>
+    </div>
 </div>
 

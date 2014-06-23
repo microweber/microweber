@@ -29,7 +29,7 @@ else {
       <?php if(!isset($edit_page_info)): ?>
       <div class="mw-ui-row" style="width: 100%;">
         <div class="mw-ui-col">
-          <div class="mw-ui-row" style="width: 100%;">
+          <div class="mw-ui-row" style="width: 100%;padding-top: 19px;">
             <div class="mw-ui-col">
               <?php if(isset($page_info) and is_array($page_info)): ?>
               <?php if($page_info['is_shop'] == 'y'){ $type='shop'; } elseif($page_info['subtype'] == 'dynamic'){ $type='dynamicpage'; } else{ $type='page';  }; ?>

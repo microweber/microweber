@@ -99,6 +99,7 @@ mw.mouse = mw.mouse || {
 
 
 mw.helpinfo = {
+    disable:true,
     cookie:"helpinfo",
     pauseInit:false,
     helper : function(){
@@ -226,6 +227,9 @@ mw.helpinfo = {
       }
     },
     init:function(activate){
+      if(mw.helpinfo.disabled === true){
+        return false;
+      }
        var activate = activate || false;
 
        //alert(mw.cookie.get("helpinfo"))

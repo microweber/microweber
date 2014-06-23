@@ -2268,7 +2268,7 @@ mw.tools = {
     }
     mw.$('.mw-template-settings').css('right', 0).removeClass('mw-template-settings-hidden');
     mw.$("#toolbar-template-settings").addClass("mw_editor_btn_active");
-    mw.cookie.set("remove_template_settings", "false"); 
+    mw.cookie.set("remove_template_settings", "false");
   },
   toggle_template_settings:function(){
      if(mw.$('.mw-template-settings').hasClass('mw-template-settings-hidden') || mw.$('.mw-template-settings').length===0){
@@ -2590,7 +2590,7 @@ mw.cookie = {
   },
   set:function( name, value, expires, path, domain, secure ){
     var now = new Date();
-    var expires = expires
+    var expires = expires || 365;
     now.setTime( now.getTime() );
     if ( expires ){
         var expires = expires * 1000 * 60 * 60 * 24;

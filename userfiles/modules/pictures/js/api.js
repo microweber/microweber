@@ -179,6 +179,14 @@ if(typeof mw.rotator === 'undefined'){
           $(this).css("marginTop", -$(this).height()/2);
           $(this).css("marginLeft", -$(this).width()/2);
         });
+        $(window).bind("columnResize", function(e, el){
+            if($.contains(el, rotator)){
+               rotator.normalize()
+            }
+            if($.contains(el.nextElementSibling, rotator)){
+               rotator.normalize()
+            }
+        });
         $(window).bind("resize", function(){
            rotator.normalize(rotator);
         });

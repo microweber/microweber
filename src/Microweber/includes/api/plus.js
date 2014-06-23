@@ -62,7 +62,6 @@ mw.drag.plus = {
     mw.tools.removeClass([mw.drag.plusTop, mw.drag.plusBottom], 'active');
   },
   tipPosition:function(node){
-
       var off = $(node).offset();
       if(off.top > 130){
           if((off.top + node.offsetHeight) < ($(mwd.body).height() - 130)){
@@ -92,12 +91,45 @@ mw.drag.plus = {
             position:mw.drag.plus.tipPosition(this.currentNode),
             template:'mw-tooltip-default mw-tooltip-insert-module'
           });
+          mw.tabs({
+            nav:tip.querySelectorAll('.mw-ui-btn'),
+            tabs:tip.querySelectorAll('.module-bubble-tab'),
+          });
+
+          mw.$('.mw-ui-searchfield', tip).bind('keyup paste', function(){
+            var resultsLength = mw.drag.plus.search(this.value, mw.$('.module-bubble-tab:visible', tip)[0]);
+            if(resultsLength === 0){
+              mw.$('.module-bubble-tab-not-found-message').html(mw.msg.no_results_for + ': <em>' + this.value + '</em>').show();
+            }
+            else{
+              mw.$(".module-bubble-tab-not-found-message").hide();
+            }
+          });
       }
     });
     mw.$('#plus-modules-list li').each(function(){
       var name = $(this).attr('data-module-name');
       $(this).attr('onclick', 'InsertModule("'+name+'", {class:this.className})');
     });
+  },
+  search:function(val, root){
+    var all = root.querySelectorAll('.module_name'),
+        l = all.length,
+        i = 0,
+        val = val.toLowerCase(),
+        found = 0;
+        isEmpty = val.replace(/\s+/g, '') == '';
+    for( ; i<l; i++){
+      var text = all[i].textContent.toLowerCase();
+      if(text.contains(val) || isEmpty){
+        mw.tools.firstParentWithTag(all[i], 'li').style.display = 'list-item';
+        if(text.contains(val)) found++;
+      }
+      else{
+        mw.tools.firstParentWithTag(all[i], 'li').style.display = 'none';
+      }
+    }
+    return found;
   }
 }
 

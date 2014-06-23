@@ -138,28 +138,7 @@ function mw_shop_recover_shopping_cart($sid = false)
 }
 
 
-event_bind('admin_dashboard_quick_link', 'mw_print_admin_dashboard_orders_btn');
 
-function mw_print_admin_dashboard_orders_btn()
-{
-    $active = mw('url')->param('view');
-    $cls = '';
-    if ($active == 'shop') {
-        $cls = ' class="active" ';
-    }
-    $notif_html = '';
-    $notif_count = mw('Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
-    if ($notif_count > 0) {
-        $notif_html = '<sup class="mw-notif-bubble">' . $notif_count . '</sup>';
-    }
-
-    $ord_pending = get_orders('count=1&order_status=[null]&is_completed=y');
-    $neword = '';
-    if ($ord_pending > 0) {
-        $neword = '<span class="icounter">' . $ord_pending . ' new</span>';
-    }
-    print '<li' . $cls . '><a href="' . admin_url() . 'view:shop/action:orders"><span class="ico iorder">' . $notif_html . '</span>' . $neword . '<span>' . _e("View Orders", true) . '</span></a></li>';
-}
 
 
 event_bind('mw_db_init_options', 'create_mw_shop_default_options');

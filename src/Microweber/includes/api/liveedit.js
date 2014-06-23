@@ -549,14 +549,14 @@ mw.drag = {
 
             mw.mouseDownStarted = false;
         	if(mw.isDrag && mw.dropable.is(":hidden")){
-        		$(".ui-draggable-dragging").css({top:0,left:0});
+        		mw.$(".ui-draggable-dragging").css({top:0,left:0});
         	}
             $(this).removeClass("not-allowed");
 
 
-            if($(".toolbar_bnav_hover").length==0 && $(".ts_main_ul").length!=0){
-            $(".ts_main_ul .ts_action").invisible();
-            $(".ts_main_ul .ts_action").css({left:"100%", top:0});
+            if(mw.$(".toolbar_bnav_hover").length==0 && $(".ts_main_ul").length!=0){
+            mw.$(".ts_main_ul .ts_action").invisible();
+            mw.$(".ts_main_ul .ts_action").css({left:"100%", top:0});
           }
 
 
@@ -1622,206 +1622,63 @@ mw.drag = {
 			}
         }
 	},
-
     collect:function(html){
 
     },
-
-  /**
-   * Saves the page
-   *
-   * @method mw.drag.save()
-   */
-  saveOnce:false,
-  draftSaving:false,
-  save: function(el, callback, is_draft) {
-  var is_draft = is_draft || false;
-  if(mw.wysiwyg.undoredo){
-      mw.$(".edit").addClass("orig_changed");
-      mw.wysiwyg.undoredo = false;
-  }
-  if( mw.isDrag || mw.pauseSave ) return false;
-
-  if(is_draft){
-    mw.drag.saveOnce = true;
-    if( mw.$(".edit.changed").length == 0){
-      $(mwd.body).removeClass("loading");
-      return false;
-    }
-    if(mw.drag.draftSaving){
-      return false;
-    }
-  }
-  else{
-
-	if(typeof saveStaticElementsStyles === 'function'){
-        saveStaticElementsStyles();
-	}
-  }
-
-
-if(typeof el === 'object' && el !== null){
-  if($(el).hasClass('disabled')){
-    return false;
-  }
-  var html = el.innerHTML;
-    if(is_draft){
-		  $(el).addClass('disabled').html('Draft...').dataset("html", html);
-	} else {
-		  $(el).addClass('disabled').html('Saving...').dataset("html", html);
-	}
-}
-
-  var doc = mw.tools.parseHtml(mwd.body.innerHTML);
-  //mw.$('.edit .module', doc).empty();
-  mw.$('.element-current', doc).removeClass('element-current');
-  mw.$('.element-active', doc).removeClass('element-active');
-  mw.$('.disable-resize', doc).removeClass('disable-resize');
-  mw.$('.empty-element', doc).remove();
-  mw.$('.empty-element', doc).remove();
-  mw.$('.edit .ui-resizable-handle', doc).remove();
-  mw.tools.classNamespaceDelete('all', 'ui-', doc);
-  mw.$("[contenteditable]", doc).removeAttr("contenteditable");
-
-  var all = doc.querySelectorAll('[contenteditable]'), l=all.length, i=0;
-
-  for( ; i<l; i++ ){
-    all[i].removeAttribute('contenteditable');
-  }
-
-
-
-
-  if(is_draft){
-    var edits = mw.$(".edit.changed", doc);
-  }
-  else {
-    var edits = $(".edit.changed", doc);
-	if(edits.length == 0){
-        var edits = $(".edit.orig_changed", doc);
-    }
-}
-
-   var master = {};
-
-
-
-   if(edits.length > 0){
-            edits.each(function(j) {
-        		 j++;
-                var _el = $(this);
-        		if(($(this).attr("rel")==undefined || $(this).attr("rel")=='') && $(this).dataset('rel') == ''){
-
-                mw.tools.foreachParents(this, function(loop){
-                    var cls = this.className;
-                    if(mw.tools.hasClass(cls, 'edit') && mw.tools.hasClass(cls, 'changed') && (typeof this.attributes['rel'] !== 'undefined' || $(this).dataset('rel') != '')){
-                      _el = $(this);
-                      mw.tools.stopLoop(loop);
-                    }
-                });
-
-        }
-
-        if((typeof _el.attr("rel") != 'undefined' && _el.attr("rel")!='') || _el.dataset('rel') != ''){
-
-            var content = _el.html();
-
-
-            var attr_obj = {};
-            var attrs = _el.get(0).attributes;
-            if(attrs.length>0){
-              for (var i = 0; i < attrs.length; i++) {
-                temp1 = attrs[i].nodeName;
-                temp2 = attrs[i].nodeValue;
-                attr_obj[temp1] = temp2;
-              }
-            }
-            var obj = {
-              attributes: attr_obj,
-              html: content
-            }
-            var objX = "field_data_" + j;
-            var arr1 = [{
-              "attributes": attr_obj
-            }, {
-              "html": (content)
-            }];
-            master[objX] = obj;
-
-
-
-          } else {
-
-    	  }
-
-        });
-  }
-
-    if(!mw.tools.isEmptyObject(master)){
-            if(is_draft){
-             master['is_draft']  = true;
-			       //mw.askusertostay = true;
-            }
-
-         mw.drag.draftSaving = true;
-          $.ajax({
+    saving:false,
+    coreSave:function(data, w){
+         return false;
+        mw.drag.saving = true;
+        var w = w || mww;
+        var xhr = $.ajax({
             type: 'POST',
-            url: mw.settings.site_url + 'api/save_edit',
-            data: master,
-            datatype: "json",
-            async: true,
-            beforeSend: function() {
+            url: mw.settings.api_url + 'save_edit',
+            data: data,
+            dataType: "json"
+        });
+        xhr.always(function(){
+           mw.drag.saving = false;
+        });
+        return xhr;
+    },
+    document2Save:function(w){
 
-            },
-            success: function(data) {
-                mw.drag.draftSaving = false;
-                if(is_draft){
-                    //mw.askusertostay = true;
-                }
-                else{
-                  mw.askusertostay = false;
-                }
+        var w = w || mww;
+        var doc = mw.tools.parseHtml(w.document.body.innerHTML);
+        mw.$('.element-current', doc).removeClass('element-current');
+        mw.$('.element-active', doc).removeClass('element-active');
+        mw.$('.disable-resize', doc).removeClass('disable-resize');
+        mw.$('.empty-element', doc).remove();
+        mw.$('.empty-element', doc).remove();
+        mw.$('.edit .ui-resizable-handle', doc).remove();
+        mw.tools.classNamespaceDelete('all', 'ui-', doc);
+        mw.$("[contenteditable]", doc).removeAttr("contenteditable");
+        var all = doc.querySelectorAll('[contenteditable]'), l=all.length, i=0;
+        for( ; i<l; i++ ){
+          all[i].removeAttribute('contenteditable');
+        }
+        var all = doc.querySelectorAll('.module'), l=all.length, i=0;
+        for( ; i<l; i++ ){
+          if(all[i].querySelector('.edit') === null){
+            all[i].innerHTML = '';
+          }
+        }
+        return doc;
+    },
+    save:function(){  return false;
+        var body = mw.drag.document2Save().body;
+        var edits = body.querySelectorAll('.edit.changed'),
+            l = edits.length,
+            i = 0;
+        if( l > 0) {
+            for( ; i<l; i++){
 
-                if($('#mw-history-panel').is(":visible") == false){
-                   mw.history.init();
-                }
-              if(typeof el === 'object'){
-                var html  = $(el).dataset("html");
-                $(el).removeClass('disabled').html(html);
-              }
-              if(is_draft){
-                mw.$(".edit.changed").addClass('orig_changed').removeClass("changed");
-              }
-              else {
-                 mw.notification.success("All changes are saved.");
-              }
-              if(typeof callback === 'function'){
-                   callback.call();
-              }
-            },
-            error:function(){
-              mw.drag.draftSaving = false;
-              mw.$(".edit.changed").removeClass("changed orig_changed");
-               if(typeof el === 'object'){
-
-                $(el).removeClass('disabled').html(mw.msg.save);
-              }
-            },
-            complete:function(){
-                if(typeof el === 'object'){
-                mw.drag.draftSaving = false;
-                $(el).removeClass('disabled').html(mw.msg.save);
-              }
             }
-          });
-    }  else{
-            //mw.askusertostay = false;
-            if(typeof el === 'object'){
-                var html  = $(el).dataset("html");
-                $(el).removeClass('disabled').html(html);
-            }
+        }
+        var xhr = mw.drag.coreSave();
+        xhr.success(function(){});
+        xhr.fail(function(){});
     }
-  }
 }
 
 
@@ -2726,10 +2583,11 @@ if(typeof mw.hasDraft === 'object'){
                       setTimeout(function(){
                         if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && !sel.isCollapsed){
                           mw.smallEditorCanceled = false;
+                            var top = e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height;
                             mw.smallEditor.css({
                               visibility:"visible",
                               opacity:0.7,
-                              top: e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height,
+                              top: (top > 10 ? top : 10),
                               left:e.pageX + mw.smallEditor.width() < $(window).width() ? e.pageX : ($(window).width() - mw.smallEditor.width()-5 )
                             });
 
