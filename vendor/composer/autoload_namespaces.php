@@ -10,6 +10,7 @@ return array(
     'QueryPath' => array($vendorDir . '/querypath/querypath/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
     'Phroute' => array($vendorDir . '/phroute/phroute/src'),
+    'PhpRbac' => array($vendorDir . '/owasp/phprbac/PhpRbac/src'),
     'Microweber' => array($baseDir . '/src'),
     'Keboola\\Csv' => array($vendorDir . '/keboola/csv/src'),
     'ComponentInstaller' => array($vendorDir . '/robloach/component-installer/src'),

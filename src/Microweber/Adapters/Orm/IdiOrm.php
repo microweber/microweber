@@ -60,11 +60,14 @@ class IdiOrm
         ORM::configure('logging', true);
         ORM::configure('caching_auto_clear', true);
         //ORM::configure('return_result_sets', true); // returns result sets
-        ORM::configure('logger', function($log_string, $query_time) {
-            mw('db')->query_log($log_string) ;
+        ORM::configure('logger', function ($log_string, $query_time) {
+            mw('db')->query_log($log_string);
         });
         ORM::configure('cache_query_result', function ($cache_key, $value, $table_name, $connection_name) use ($app) {
             $cache_group = $app->db->guess_cache_group($table_name);
+            if (empty($value)) {
+                $value = '--empty--';
+            }
 
             return $app->cache->save($value, $cache_key, $cache_group);
         });
@@ -72,7 +75,9 @@ class IdiOrm
 
             $cache_group = $app->db->guess_cache_group($table_name);
             $cached = $app->cache->get($cache_key, $cache_group);
-
+            if (is_string($cached) and $cached == '--empty--') {
+                return array();
+            }
             if ($cached !== false) {
                 return $cached;
             } else {
@@ -165,7 +170,8 @@ class IdiOrm
             if (isset($params['order_by'])) {
                 $order_by = $params['order_by'];
                 unset($params['order_by']);
-            }  if (isset($params['orderby'])) {
+            }
+            if (isset($params['orderby'])) {
                 $order_by = $params['orderby'];
                 unset($params['orderby']);
             }
@@ -426,25 +432,25 @@ class IdiOrm
             }
         }
 
-        if($to_search_in_fields != false and $to_search_keyword != false){
+        if ($to_search_in_fields != false and $to_search_keyword != false) {
             if (is_string($to_search_in_fields)) {
                 $to_search_in_fields = explode(',', $to_search_in_fields);
             }
             $raw_search_query = false;
-            if(!empty($to_search_in_fields)){
+            if (!empty($to_search_in_fields)) {
 
                 $raw_search_query = '';
                 $search_vals = array();
                 $search_qs = array();
-                foreach($to_search_in_fields as $to_search_in_field){
-                    $search_qs[] = " `{$to_search_in_field}` REGEXP ? " ;
+                foreach ($to_search_in_fields as $to_search_in_field) {
+                    $search_qs[] = " `{$to_search_in_field}` REGEXP ? ";
                     $search_vals[] = $to_search_keyword;
                 }
-                if(!empty($search_qs)){
-                    $raw_search_query = implode($search_qs,' OR ');
+                if (!empty($search_qs)) {
+                    $raw_search_query = implode($search_qs, ' OR ');
 
 
-                    $orm->where_raw('('.$raw_search_query.')', $search_vals);
+                    $orm->where_raw('(' . $raw_search_query . ')', $search_vals);
                 }
             }
 

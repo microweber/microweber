@@ -168,9 +168,10 @@ class Category
         if (isset($params['ul_class_name'])) {
 
             $ul_class_name = $params['ul_class_name'];
-        } if (isset($params['ul_class_name_deep'])) {
+        }
+        if (isset($params['ul_class_name_deep'])) {
 
-        $ul_class_name_deep = $params['ul_class_name_deep'];
+            $ul_class_name_deep = $params['ul_class_name_deep'];
         }
         if (isset($params['li_class'])) {
 
@@ -276,11 +277,11 @@ class Category
                 }
                 $fors = $this->app->db->get($cat_get_params);
 
-              //
+                //
 
-            //    d($table);
-               // print_r(mw()->orm->getLastQuery());
-               // d($cat_get_params);
+                //    d($table);
+                // print_r(mw()->orm->getLastQuery());
+                // d($cat_get_params);
                 // $fors = $this->app->db->get($cat_get_params);
                 //  d($fors);
                 // exit;
@@ -330,7 +331,7 @@ class Category
             $cat_get_params['order_by'] = 'position asc';
             $cat_get_params['limit'] = '1000';
             $cat_get_params['data_type'] = 'category';
-           // $cat_get_params['what'] = 'categories';
+            // $cat_get_params['what'] = 'categories';
             $cat_get_params['rel_id'] = ($params['rel_id']);
             $cat_get_params['table'] = $table;
             $cat_get_params['rel'] = $table_assoc_name;
@@ -340,19 +341,19 @@ class Category
 
             //$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
             $fors = $this->app->db->get($cat_get_params);
-          //  d($fors);
+            //  d($fors);
 
         }
 
 
         ob_start();
         if ($skip123 == false) {
-            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag,$ul_class_name_deep);
+            $this->html_tree($parent, $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
         } else {
 
             if ($fors != false and is_array($fors) and !empty($fors)) {
                 foreach ($fors as $cat) {
-                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag,$ul_class_name_deep);
+                    $this->html_tree($cat['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, $include_first = true, $content_type, $li_class_name, $add_ids, $orderby, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_name_deep);
                 }
             }
         }
@@ -385,7 +386,7 @@ class Category
      * @since Version 1.0
      *
      */
-    public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false,$ul_class_deep = false)
+    public function html_tree($parent, $link = false, $active_ids = false, $active_code = false, $remove_ids = false, $removed_ids_code = false, $ul_class_name = false, $include_first = false, $content_type = false, $li_class_name = false, $add_ids = false, $orderby = false, $only_with_content = false, $visible_on_frontend = false, $depth_level_counter = 0, $max_level = false, $list_tag = false, $list_item_tag = false, $active_code_tag = false, $ul_class_deep = false)
     {
 
         $db_t_content = $this->tables['content'];
@@ -534,11 +535,11 @@ class Category
                         $print1 = "<{$list_tag}  class='{active_class} category_tree depth-{$depth_level_counter}'>";
                     } else {
                         $cl_name = $ul_class_name;
-                            if($depth_level_counter > 1){
+                        if ($depth_level_counter > 1) {
 
-                                $cl_name = $ul_class_deep;
+                            $cl_name = $ul_class_deep;
 
-                            }
+                        }
                         $print1 = "<{$list_tag} class='{active_class} $cl_name depth-{$depth_level_counter}'>";
                     }
                 }
@@ -732,7 +733,7 @@ class Category
                         $remove_ids[] = $item['id'];
 
 
-                        $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag,$ul_class_deep);
+                        $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_deep);
 
                         print "</{$list_item_tag}>";
                     }
@@ -1256,9 +1257,13 @@ class Category
         $table_items = $this->tables['categories_items'];
 
         $content_ids = false;
+        $simple_save = false;
 
         if (isset($data['rel']) and ($data['rel'] == '') or !isset($data['rel'])) {
             $data['rel'] = 'content';
+        }
+        if (isset($data['simple_save'])) {
+            $simple_save = $data['simple_save'];
         }
         if (isset($data['content_id'])) {
 
@@ -1314,6 +1319,9 @@ class Category
         }
 
         $save = $this->app->db->save($table, $data);
+        if($simple_save == true){
+            return $save;
+        }
 
         //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
         if (isset($data['id'])) {

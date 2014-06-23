@@ -760,22 +760,22 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Process.git",
-            "reference": "0c367d63ab161bfc757e5e882a1d9dde8d344be3"
+            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Process/zipball/0c367d63ab161bfc757e5e882a1d9dde8d344be3",
-            "reference": "0c367d63ab161bfc757e5e882a1d9dde8d344be3",
-            "shasum": ""
+            "url": "http://packages.microweber.com/dist/symfony-process-8a3edace8e8aabed8992b993bfc13df3b1e836f2-zip-b5107c.zip",
+            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2",
+            "shasum": "ae566f1f43c0bda65e61dd1e62f4fc7189e59ebf"
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2014-06-18 11:43:36",
+        "time": "2014-04-28 05:15:04",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.6-dev"
+                "dev-master": "2.5-dev"
             }
         },
         "installation-source": "dist",
@@ -909,6 +909,55 @@
             "jquery",
             "xml",
             "xslt"
+        ]
+    },
+    {
+        "name": "owasp/phprbac",
+        "version": "2.0.x-dev",
+        "version_normalized": "2.0.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/OWASP/rbac.git",
+            "reference": "82ba74cf823a8c5a9225a56d51f58f9f60b20c54"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/OWASP/rbac/zipball/82ba74cf823a8c5a9225a56d51f58f9f60b20c54",
+            "reference": "82ba74cf823a8c5a9225a56d51f58f9f60b20c54",
+            "shasum": ""
+        },
+        "time": "2014-03-14 13:16:56",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PhpRbac": "PhpRbac/src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "CC-BY-SA-3.0"
+        ],
+        "authors": [
+            {
+                "name": "AbiusX",
+                "email": "me@abiusx.com",
+                "homepage": "http://abiusx.com/",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Jesse Burns",
+                "email": "jesse.burns@alliancecms.com",
+                "homepage": "http://www.jbwebware.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "PHP-RBAC is the de-facto authorization library for PHP. It provides developers with NIST Level 2 Standard Role Based Access Control and more, in the fastest implementation yet.",
+        "homepage": "http://phprbac.net/",
+        "keywords": [
+            "owasp",
+            "rbac",
+            "security"
         ]
     }
 ]
