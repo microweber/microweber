@@ -270,6 +270,90 @@ h2 > [class*="mw-icon-"]:first-child{
 
 
 
+/************************************
+              Login
+*************************************/
+
+
+#mw-login{
+  width: 345px;
+  max-width: 100%;
+  margin: auto;
+  padding-top: 100px;
+  text-align: center;
+}
+
+#admin_login .mw-ui-field-holder:first-child{
+  padding-top: 0;
+}
+#admin_login .mw-ui-field-holder:last-child{
+  padding-bottom: 0;
+}
+
+#mw-login .mw-ui-box{
+  background-color: #FAFAFA;
+  min-width: 300px;
+  text-align: left;
+}
+#mw-login .mw-icon-back{
+  font-size: 20px;
+  position:relative;
+  top: -1px;
+  margin-right: 5px;
+}
+
+#login-logo .mw-icon-mw{
+    font-size: 60px;
+    float: left;
+}
+#login-logo{
+  display: inline-block;
+  position: relative;
+  padding-bottom: 30px;
+  color: #444444;
+  text-decoration: none;
+  width: 290px;
+  max-width: 100%;
+  text-align: center;
+}
+
+#login-logo img{
+  max-width: 100%;
+}
+
+.mw-sign-version{
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    font-size: 11px;
+}
+
+
+
+#admin_login{
+  padding: 25px;
+}
+
+#admin_login .mw-ui-field-big{
+  width: 100%;
+  font-size: 16px;
+}
+#admin_login .mw-ui-btn-big{
+  font-size: 16px;
+}
+
+#login_foot{
+  padding: 20px;
+}
+
+#lang_selector{
+  background: #fff;
+  border-color: #dadada;
+  top: 2px;
+}
+#admin_login .mw-ui-inline-list{
+  margin-top: 8px;
+}
 
 /************************************
        Categories Trees
@@ -394,7 +478,13 @@ h2 > [class*="mw-icon-"]:first-child{
   text-overflow:ellipsis;
   margin-left:3px;
   resize: none;
+  display: inline-block;
 }
+.pages-nav a:hover > .pages_tree_link_text,
+.pages-nav a:focus > .pages_tree_link_text{
+  max-width: 68%;
+}
+
 #mw_edit_page_left .mw-tree .module a{
   height: 18px;
 }
@@ -2063,6 +2153,15 @@ body.grabbing, body.grabbing *{
 
 
 
+.alert {
+    display: block;
+    clear: both;
+}
+.alert-error{
+  color: #DC0D17;
+}
+
+
 /************************************
        Admin tooltip
 *************************************/
@@ -2483,8 +2582,31 @@ body.grabbing, body.grabbing *{
     top:-2px;
     left: 10px;
 }
+
+#quick-links-row .mw-ui-col .mw-ui-navigation{
+  display: inline-block;
+}
+
+#quick-links-row .mw-ui-col{
+  width: 33.333%;
+}
+
+#quick-links-row .mw-ui-col:last-child .mw-ui-navigation{
+  float: right;
+}
+#quick-links-row .mw-ui-col:nth-child(2n){
+  text-align: center;
+}
+
+#quick-links-row .mw-ui-col:nth-child(2n) .mw-ui-navigation{
+  text-align: left;
+}
+
+.quick-lists .mw-ui-navigation a{
+    margin-top: 5px;
+}
 .quick-lists .mw-ui-navigation{
-  margin-right: 30px;
+  margin-bottom: 20px;
 }
 .quick-lists .mw-ui-navigation a span .mw-notification-count{
   top:0;
@@ -2496,8 +2618,30 @@ body.grabbing, body.grabbing *{
   position: relative;
 }
 
+.quick-lists .mw-ui-navigation a [class*="mw-icon-"]{
+    font-size: 27px;
+    opacity: 1;
+    color: black;
+    width: 22px;
+    text-align: center;
+}
+
 #stats_nav{
   margin-top: 12px;
+}
+
+.users-online{
+  float: left;
+  display: block;
+  width: 130px;
+  height: 130px;
+  border-radius:200px;
+  background: black;
+  color:white;
+  font-size: 28px;
+  text-align: center;
+  padding-top: 46px;
+  font-weight: bold;
 }
 
 

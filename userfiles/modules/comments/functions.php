@@ -13,7 +13,7 @@ function mw_print_admin_dashboard_comments_btn()
     $admin_dashboard_btn['icon_class'] = 'mw-icon-comment';
     $notif_html = '';
     $notif_count = mw()->notifications->get('module=comments&is_read=n&count=1');
-    
+
     if ($notif_count > 0) {
         $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
     }
@@ -232,18 +232,13 @@ function post_comment($data)
             $message .= mw()->format->array_to_ul($data3);
             \Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
         }
-
-
     }
-
-
     return $saved_data;
 }
 
 function get_comments($params)
 {
     $params2 = array();
-
     if (is_string($params)) {
         $params = parse_str($params, $params2);
         $params = $params2;
@@ -293,7 +288,6 @@ function get_comments($params)
         $date_format = "Y-m-d H:i:s";
     }
     $aj = mw('url')->is_ajax();
-
     if (is_array($comments)) {
         $i = 0;
         foreach ($comments as $item) {
@@ -302,7 +296,6 @@ function get_comments($params)
                     return $item['qty'];
                 }
             }
-
             if (isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')) {
                 $comments[$i]['comment_name'] = user_name($item['created_by']);
             }
@@ -325,8 +318,6 @@ function get_comments($params)
             $i++;
         }
     }
-
-
     return $comments;
 }
 

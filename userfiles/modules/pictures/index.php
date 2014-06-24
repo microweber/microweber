@@ -1,7 +1,6 @@
 <?php
 
 $no_img = false;
-
 if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'post' and defined('POST_ID')) {
     $params['rel_id'] = POST_ID;
     $params['for'] = 'content';
@@ -55,23 +54,19 @@ if (isset($params['for-id'])) {
 if (!isset($params['rel_id']) or $params['rel_id'] == false) {
     $params['rel_id'] = 0;
 }
- if (isset($params['rel_id']) == true) {
-	$for_id = $params['rel_id'];
-	$get_for_session = false;
-	if($for == 'content' and intval($for_id) == 0 and user_id()){
-		$get_for_session = true;
-	}
-	
-	if($get_for_session == false){
-		  
-//
-	    $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
-	} else {
-		 $sid = session_id();
-		//$data = get_pictures('rel_id=0&for=' . $for. '&session_id=' . session_id());
-	$data = get_pictures("rel_id=0&rel={$for}&session_id={$sid}");
-  //d($sid);
-	}
+if (isset($params['rel_id']) == true) {
+    $for_id = $params['rel_id'];
+    $get_for_session = false;
+    if ($for == 'content' and intval($for_id) == 0 and user_id()) {
+        $get_for_session = true;
+    }
+    if ($get_for_session == false) {
+        $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
+    } else {
+        $sid = session_id();
+        $data = get_pictures("rel_id=0&rel={$for}&session_id={$sid}");
+
+    }
     if (!is_array($data)) {
         if (is_array($default_images) and !empty($default_images)) {
             $data = array();

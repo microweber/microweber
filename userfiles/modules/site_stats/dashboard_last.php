@@ -5,11 +5,24 @@ $requests_num = false;
   <div id="visits_info_table">
   <h2><?php _e("Basic statistics"); ?>
   <span class="mw-ui-btn mw-ui-btn-small tip default-invert request-stats-btn" data-tip="<?php _e("Upgrade your real-time statistics"); ?>" data-tipposition="top-center"><?php _e("Upgrade"); ?></span>
-    </h2>
-  <?php
+  </h2>
 
-    ?>
-  <?php if(!empty($users_last5)): ?>
+
+<div class="mw-ui-row valign">
+    <div class="mw-ui-col" style="width: 150px;">
+
+    <div class="users-online">
+
+
+        <?php $users_online = get_visits('users_online'); print intval($users_online); ?>
+
+    </div>
+</div>
+    <div class="mw-ui-col">
+          <?php if(!empty($users_last5)): ?>
+
+
+
   <table border="0" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic mw-ui-table-fixed">
   <colgroup>
     <col width="15%">
@@ -34,11 +47,21 @@ $requests_num = false;
     <tbody>
       <?php $i=0; foreach($users_last5 as $item) : ?>
       <tr>
-        <td class="stat-time"><?php print mw()->format->date($item['visit_date']); ?>, <?php print date('H:m', strtotime($item['visit_time'])); ?></td>
+        <td class="stat-time"><?php print date("d M, Y", strtotime($item['visit_date'])); ?> - <?php print date('H:m', strtotime($item['visit_time'])); ?></td>
         <?php if(function_exists('ip2country')): ?>
-        <td class="stat-ip"><span class="<?php if(strlen(ip2country($item['user_ip'])) > 15){ ?>tip<?php } ?>" data-tip="<?php print ip2country($item['user_ip']); ?>" data-tipposition="top-center"><?php print ip2country($item['user_ip']); ?></span></td>
+        <td class="stat-ip">
+            <span class="<?php if(strlen(ip2country($item['user_ip'])) > 15){ ?>tip<?php } ?>" data-tip="<?php print ip2country($item['user_ip']); ?>" data-tipposition="top-center">
+                <?php print ip2country($item['user_ip']); ?>
+
+            </span>
+        </td>
         <?php endif; ?>
-        <td class="stat-ip"><span class="<?php if(strlen(($item['user_ip'])) > 15){ ?>tip<?php } ?>" data-tip="<?php print ($item['user_ip']); ?>" data-tipposition="top-center"><?php print $item['user_ip'] ?></span></td>
+        <td class="stat-ip">
+            <span class="<?php if(strlen(($item['user_ip'])) > 15){ ?>tip<?php } ?>" data-tip="<?php print ($item['user_ip']); ?>" data-tipposition="top-center">
+                <?php //print $item['user_ip'] ?>
+                <img src="//api.hostip.info/flag.php?ip=<?php print $item['user_ip']; ?>" alt="" width="20" />
+            </span>
+        </td>
         <td class="stat-page"><a href="<?php print $item['last_page'] ?>" class="<?php if(strlen($item['last_page']) > 40){ ?>tip<?php } ?>" data-tip="<?php print $item['last_page'] ?>" data-tipposition="top-center"><?php print $item['last_page']; ?></a></td>
         <td class="stat-views"><?php print $item['view_count'] ?></td>
       </tr>
@@ -46,6 +69,11 @@ $requests_num = false;
     </tbody>
   </table>
   <?php endif; ?>
+    </div>
+</div>
+
+
+
 
 
 

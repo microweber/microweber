@@ -104,7 +104,7 @@ class Update
     {
         $a = $this->app->user->is_admin();
         if ($a == false) {
-            mw_error('Must be admin!');
+            return false;
         }
 
         if (!ini_get('safe_mode')) {

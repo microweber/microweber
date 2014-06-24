@@ -136,6 +136,7 @@ class IdiOrm
     function get($table, $params = false, $get_method = false, $return_method = false)
     {
 
+
         $table_real = $this->app->db->real_table_name($table);
         $orm = ORM::for_table($table_real)->table_alias($table);
         if (is_string($params)) {
@@ -235,8 +236,14 @@ class IdiOrm
 
         }
 
+        // d($params);
+        //return;
         $params_to_fields = $this->app->db->map_array_to_table($table, $params);
+        //
+        if (isset($params['parent'])) {
 
+            //d($params_to_fields);
+        }
         if (is_array($params) and !empty($params)) {
 
             $joined_tables = array();
@@ -244,6 +251,7 @@ class IdiOrm
                 if ($k == 'id') {
                     $orm->where_id_is($v);
                 } else {
+
                     $joins = explode('.', $k);
                     if (isset($joins[1])) {
                         $table_alias = $joins[0];
@@ -272,17 +280,20 @@ class IdiOrm
                     } else if (isset($joins[1])) {
                         $field_name = $joins[1];
                         $field_value = $v;
-                    } else {
-
-                        if (isset($params_to_fields[$k])) {
-                            $field_name = $k;
-                            $field_value = $v;
-                            $table_alias = $table;
-
-                        }
                     }
 
-                    if ($field_value and $field_name) {
+
+                    if (isset($params_to_fields[$k])) {
+                        if (is_int($v)) {
+                            $v = strval($v);
+                        }
+                        $field_name = $k;
+                        $field_value = $v;
+                        $table_alias = $table;
+                    }
+                    $where_method = false;
+                    if ($field_value !== false and $field_name) {
+
                         if (is_array($field_value)) {
 
                             $items = array();
@@ -300,14 +311,14 @@ class IdiOrm
 
                                 }
                             } else {
-                                if (is_string($field_value)) {
+                                if (is_string($field_value) or is_int($field_value)) {
                                     $orm->where_equal($table_alias . '.' . $field_name, $field_value);
-
                                 }
                             }
 
 
                         } elseif (is_string($field_value)) {
+                           // d($field_value);
                             $field_value = trim($field_value);
                             $field_value_len = strlen($field_value);
 
@@ -315,7 +326,7 @@ class IdiOrm
                             $one_char = substr($field_value, 0, 1);
                             $compare_sign = false;
                             if ($field_value_len > 0) {
-                                $where_method = false;
+
 
                                 if (is_string($field_value)) {
                                     if (stristr($field_value, '[lt]')) {
@@ -421,6 +432,7 @@ class IdiOrm
                                 }
 
                                 if ($where_method == false) {
+
                                     $orm->where_equal($table_alias . '.' . $field_name, $field_value);
                                 } else {
                                     $orm->$where_method($table_alias . '.' . $field_name, $field_value);
@@ -470,7 +482,14 @@ class IdiOrm
                 $orm->group_by($table . '.id');
             }
         } else {
-            $orm->group_by($group_by);
+            if (is_string($group_by)) {
+                $group_by = explode(',', $group_by);
+            }
+            if(is_array($group_by)){
+                foreach($group_by as $group){
+                    $orm->group_by($group);
+                }
+            }
         }
         if ($order_by != false) {
             $orm->order_by_expr($order_by);

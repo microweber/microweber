@@ -148,6 +148,7 @@ $(document).ready(function(){
     <tbody>
       <?php $i=0; foreach($users_last5 as $item) : ?>
       <tr>
+
         <td class="stat-time"><?php print $item['visit_date'] ?><br><?php print $item['visit_time'] ?></td>
         <?php if(function_exists('ip2country')): ?>
         <td class="stat-ip"><?php   print ip2country($item['user_ip']); ?></td>

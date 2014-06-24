@@ -1085,25 +1085,25 @@ class Parser
 
     public function isolate_content_field($l)
     {
-        $field =  qp($l, '[field="content"]')->innerHTML();
-        if($field == null){
-            $field =  qp($l, '[field="content_body"]')->innerHTML();
-
-        }
-        return $field;
-       // $field =  qp($l, '[field="content"]')->innerHTML();
+//        $field =  qp($l, '[field="content"]')->innerHTML();
+//        if($field == null){
+//            $field =  qp($l, '[field="content_body"]')->innerHTML();
+//
+//        }
+//        return $field;
+        // $field =  qp($l, '[field="content"]')->innerHTML();
         //d($field);
 //exit;
         $pq = \phpQuery::newDocument($l);
         $found = false;
-        foreach ($pq ['[field=content][rel=content]:last'] as $elem) {
+        foreach ($pq ['[field=content]'] as $elem) {
             $l = pq($elem)->htmlOuter();
 
             $found = true;
         }
 
         if ($found == false) {
-            foreach ($pq ['[field=content_body][rel=content]:last'] as $elem) {
+            foreach ($pq ['[field=content_body]'] as $elem) {
                 $l = pq($elem)->htmlOuter();
                 $found = true;
 

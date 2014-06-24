@@ -5994,17 +5994,15 @@ class Content
         $params['table'] = $table;
         $params['cache_group'] = $cache_group;
 
-        if ($this->no_cache == true) {
+        if ($this->no_cache == true or isset($params['no_cache'])) {
             $params['cache_group'] = false;
             $params['no_cache'] = true;
             $mw_global_content_memory = array();
-
         }
 
         if (isset($params['keyword'])) {
             $params['search_in_fields'] = array('title','content_body','content','description','content_meta_keywords','content_meta_title','url');
         }
-
 
         $get = $this->app->db->get($params);
 

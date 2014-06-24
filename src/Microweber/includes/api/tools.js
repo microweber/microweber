@@ -252,6 +252,9 @@ mw.tools = {
              left:off.left + w + arrheight
          });
         }
+        if(parseFloat($(tooltip).css('top')) < 0){
+            $(tooltip).css('top', 0);
+        }
     },
     fixPosition:function(tooltip){
         /* mw_todo */
@@ -268,6 +271,9 @@ mw.tools = {
            var diff = off.left - (ww - w -max);
            tt.css('left', ww - w - max);
            arr.css('left', arr_left + diff);
+        }
+        if(parseFloat(tt.css('top')) < 0){
+            tt.css('top', 0);
         }
     },
     prepare:function(o){

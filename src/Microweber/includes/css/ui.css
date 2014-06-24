@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdfasdsdfasdasasdasasdasdasddasdsadasdasdsadaasdasdasdsdasdsadasddfasdasdsaasdsdfsdgasasddsadsasdsdasasdad') format('truetype');
+  src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdfasdsdfasdasasdasasdasdasddaasdsadsdsadasdasdsadaasdasdasdsdasdsadasddfasdasdsaasdsdfsdgasasddsadsasdsdasasdad') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -89,7 +89,9 @@
 .mw-icon-home:before {
   content: "\0105";
 }
-/* .mw-icon-microweber:before{ content: "\0106";  }  */
+.mw-icon-microweber:before {
+  content: "\0106";
+}
 .mw-icon-back:before {
   content: "\0107";
 }
@@ -150,6 +152,21 @@
 }
 .mw-icon-template:before {
   content: "\0130";
+}
+.mw-icon-market:before {
+  content: "\0131";
+}
+.mw-icon-suggest:before {
+  content: "\0132";
+}
+.mw-icon-notification:before {
+  content: "\0133";
+}
+.mw-icon-updates:before {
+  content: "\0134";
+}
+.mw-icon-comments:before {
+  content: "\0135";
 }
 /****************************
  Buttons & button navigation

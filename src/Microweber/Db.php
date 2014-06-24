@@ -588,7 +588,7 @@ class Db
                 }
 
             }
-          // d($criteria);
+            //d($criteria);
             if(isset($params['debug'])){
             // print_r(mw()->orm->getLastQuery());
             }
@@ -648,8 +648,27 @@ class Db
             case 3 :
             default :
 
+            if (isset($criteria['no_cache'])) {
+                $this->app->orm->configure('caching',false);
+
+            }
+
+
                 $get_db_items = $this->app->orm->get($table,$criteria);
                // print_r(mw()->orm->getLastQuery());
+
+                if (isset($criteria['debug'])) {
+
+                    if (isset($this->app->config['debug_mode'])) {
+                        $debug = $this->app->config['debug_mode'];
+
+                        if (($debug)!=false) {
+                            print_r(mw()->orm->getLastQuery());
+                        } else {
+                            unset($criteria['debug']);
+                        }
+                    }
+                }
 
                 break;
         }

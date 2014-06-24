@@ -164,17 +164,23 @@ if(!isset($post_params['content_type']) and isset($post_params['page-id']) and $
 	 $post_params['orderby'] = 'updated_on desc';
 }
 if(isset($post_params['type'])){
-
 unset($post_params['type']);
 }
+
+
+if(!isset($post_params['subtype'])){
+$post_params['subtype'] = 'post';
+}
 //d($post_params['page-id']);
-  //$post_params['debug'] = 1;
- 
+// $post_params['debug'] = 1;
+  // $post_params['no_cache'] = 1;
+// d($post_params['subtype']);
+// d($post_params['content_type']);
+
 $content   =$data = get_content($post_params);
  
 
-?>
-<?php
+ 
 $post_params_paging = $post_params;
 //$post_params_paging['count'] = true;
 

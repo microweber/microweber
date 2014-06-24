@@ -216,7 +216,9 @@ hasAbilityToDropElementsInside = function(target){
   return true;
 }
 
+
 mw.drag = {
+    columnout:false,
     noop:mwd.createElement('div'),
 	create: function () {
          mw.top_half = false;
@@ -320,10 +322,18 @@ mw.drag = {
 
                    //onColumn
                    if(mw.drag.columns.resizing === false && mw.tools.hasClass(mw.mm_target, 'mw-col')){
+                        mw.drag.columnout = false;
                         $(window).trigger("onColumnOver", mw.mm_target);
                    }
                    else if(mw.drag.columns.resizing === false && mw.tools.hasParentsWithClass(mw.mm_target, 'mw-col')){
+                        mw.drag.columnout = false;
                         $(window).trigger("onColumnOver", mw.tools.firstParentWithClass(mw.mm_target, 'mw-col'));
+                   }
+                   else{
+                      if(!mw.drag.columnout && !mw.tools.hasClass(mw.mm_target, 'mw-columns-resizer')) {
+                            mw.drag.columnout = true;
+                            $(window).trigger("onColumnOut", mw.mm_target)
+                      };
                    }
 
                    //trigger on item
@@ -351,7 +361,6 @@ mw.drag = {
              mw.mm_target = mw.drag.noop;
              mw.$mm_target = $(mw.drag.noop);
              mw.dropable.hide();
-
              return false;
            }
 
@@ -363,7 +372,7 @@ mw.drag = {
            }
            else if($(mw.mm_target.parentNode).hasClass("mw-empty")){
                 $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
-           }
+           }                              
            else if($(mw.mm_target).hasClass("mw-empty")){
                 $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
            }

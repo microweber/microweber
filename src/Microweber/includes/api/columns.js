@@ -31,13 +31,13 @@ mw.drag.columns = {
     },
     position:function(el){
         if(!!mw.drag.columns.nextColumn(el)){
-        mw.drag.columns.resizer.curr = el;
-        var off = $(el).offset();
-        $(mw.drag.columns.resizer).css({
-            top:off.top,
-            left:off.left+el.offsetWidth - 21,
-            height:el.offsetHeight
-        });
+          mw.drag.columns.resizer.curr = el;
+          var off = $(el).offset();
+          $(mw.drag.columns.resizer).css({
+              top:off.top,
+              left:off.left + el.offsetWidth - 10,
+              height:el.offsetHeight
+          }).show();
         }
     },
     init:function(){
@@ -46,6 +46,10 @@ mw.drag.columns = {
             mw.drag.columns.resizer.pos = 0;
             mw.drag.columns.position(col);
         });
+        $(window).bind("onColumnOut", function(e, col){
+            $(mw.drag.columns.resizer).hide();
+        });
+
     },
     nextColumn:function(col){
       var next = col.nextElementSibling;

@@ -11,6 +11,8 @@ class Ui
         "category" => "Category"
     );
     public $admin_dashboard_menu = array();
+    public $admin_dashboard_menu_second = array();
+    public $admin_dashboard_menu_third = array();
     public $custom_fields = array();
     public $admin_logo = '';
     public $admin_logo_login = '';
@@ -25,9 +27,10 @@ class Ui
 
         $this->admin_logo = MW_INCLUDES_URL . 'img/logo_admin.png';
         $this->logo_live_edit = MW_INCLUDES_URL . 'img/logo_admin.png';
-        $this->admin_logo_login = MW_INCLUDES_URL . 'img/sign_logo.png';
+        $this->admin_logo_login = MW_INCLUDES_URL . 'images/logo-login.svg';
 
         $this->set_default();
+
     }
 
     function set_default()
@@ -51,25 +54,63 @@ class Ui
         $this->custom_fields = $fields;
 
 
-        $admin_dashboard_btn = array();
-        $admin_dashboard_btn['view'] = 'content';
-        $admin_dashboard_btn['text'] = _e("Manage Website", true);
-        $admin_dashboard_btn['icon_class'] = 'mw-icon-website';
-        $this->admin_dashboard_menu($admin_dashboard_btn);
-
-        $admin_dashboard_btn = array();
-        $admin_dashboard_btn['view'] = 'modules';
-        $admin_dashboard_btn['text'] = _e("Manage Modules", true);
-        $admin_dashboard_btn['icon_class'] = 'mw-icon-module';
-        $this->admin_dashboard_menu($admin_dashboard_btn);
-
-        $admin_dashboard_btn = array();
-        $admin_dashboard_btn['view'] = 'files';
-        $admin_dashboard_btn['text'] = _e("File Manager", true);
-        $admin_dashboard_btn['icon_class'] = 'mw-icon-upload';
-        $this->admin_dashboard_menu($admin_dashboard_btn);
+        if (defined('MW_BACKEND')) {
+            $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1');
+            $notif_count_html = false;
+            if (intval($notif_count) > 0) {
+                $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
+            }
+            $admin_dashboard_btn = array();
+            $admin_dashboard_btn['view'] = 'admin__notifications';
+            $admin_dashboard_btn['text'] = _e("Notifications", true) . $notif_count_html;
+            $admin_dashboard_btn['icon_class'] = 'mw-icon-notification';
+            $this->admin_dashboard_menu($admin_dashboard_btn);
 
 
+            $admin_dashboard_btn = array();
+            $admin_dashboard_btn['view'] = 'content';
+            $admin_dashboard_btn['text'] = _e("Manage Website", true);
+            $admin_dashboard_btn['icon_class'] = 'mw-icon-website';
+            $this->admin_dashboard_menu_second($admin_dashboard_btn);
+
+            $admin_dashboard_btn = array();
+            $admin_dashboard_btn['view'] = 'modules';
+            $admin_dashboard_btn['text'] = _e("Manage Modules", true);
+            $admin_dashboard_btn['icon_class'] = 'mw-icon-module';
+            $this->admin_dashboard_menu_second($admin_dashboard_btn);
+
+            $admin_dashboard_btn = array();
+            $admin_dashboard_btn['view'] = 'files';
+            $admin_dashboard_btn['text'] = _e("File Manager", true);
+            $admin_dashboard_btn['icon_class'] = 'mw-icon-upload';
+            $this->admin_dashboard_menu_second($admin_dashboard_btn);
+
+
+            $admin_dashboard_btn = array();
+            $admin_dashboard_btn['view'] = 'upgrades';
+            $admin_dashboard_btn['text'] = _e("Upgrades", true);
+            $admin_dashboard_btn['icon_class'] = 'mw-icon-market';
+            $this->admin_dashboard_menu_third($admin_dashboard_btn);
+
+
+            $notif_count = mw_updates_count();
+            $notif_count_html = false;
+            if (intval($notif_count) > 0) {
+                $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
+            }
+            $admin_dashboard_btn = array();
+            $admin_dashboard_btn['view'] = 'updates';
+            $admin_dashboard_btn['text'] = _e("Updates", true) . $notif_count_html;
+            $admin_dashboard_btn['icon_class'] = 'mw-icon-updates';
+            $this->admin_dashboard_menu_third($admin_dashboard_btn);
+
+
+            $admin_dashboard_btn = array();
+            $admin_dashboard_btn['link'] = 'https://microweber.com/contact-us';
+            $admin_dashboard_btn['text'] = _e("Suggest a feature", true);
+            $admin_dashboard_btn['icon_class'] = 'mw-icon-suggest';
+            $this->admin_dashboard_menu_third($admin_dashboard_btn);
+        }
 
     }
 
@@ -80,6 +121,24 @@ class Ui
             array_push($this->admin_dashboard_menu, $arr);
         }
         return $this->admin_dashboard_menu;
+    }
+
+    function admin_dashboard_menu_second($arr = false)
+    {
+
+        if ($arr != false) {
+            array_push($this->admin_dashboard_menu_second, $arr);
+        }
+        return $this->admin_dashboard_menu_second;
+    }
+
+    function admin_dashboard_menu_third($arr = false)
+    {
+
+        if ($arr != false) {
+            array_push($this->admin_dashboard_menu_third, $arr);
+        }
+        return $this->admin_dashboard_menu_third;
     }
 
     public function admin($menu_array)

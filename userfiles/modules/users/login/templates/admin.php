@@ -13,7 +13,7 @@ description: Admin login style
 ?>
 <?php $user = user_id(); ?>
 
-<div id="mw-login"> 
+<div id="mw-login">
   <script>mw.require("tools.js");</script> 
   <script>mw.require("session.js");</script> 
   <script>
@@ -24,10 +24,6 @@ $(document).ready(function(){
   mw.tools.dropdown();
 
    mw.session.checkPause = true;
-
-
-  /* var lang = (navigator.language|| navigator.userLanguage).split("-")[0];
-  mw.$("#lang_selector").setDropdownValue(lang+"asdasdsa") */
 
   mw.$("#lang_selector").bind("change", function(){
     mw.cookie.set("lang", $(this).getDropdownValue());
@@ -43,20 +39,29 @@ $(document).ready(function(){
      background: #F4F4F4;
    }
 
-   .mw-sign-version{
-     font-size: 11px;
-     color:#306587;
-     white-space: nowrap;
-     clear: both;
+   .mw-ui-col.main-bar-column{
+     display: none;
+   }
+   .main-admin-row{
+     max-width: none;
    }
 
    </style>
-  <div id="sign_logo_version"> <a href="http://microweber.com" target="_blank"><img src="<?php print MW_INCLUDES_URL; ?>img/sign_logo.png" alt="" /></a> <span class="mw-sign-version">Beta v. <?php print MW_VERSION; ?></span> </div>
+
+  <a href="http://microweber.com" target="_blank" id="login-logo">
+
+   <img src="<?php  print mw()->ui->admin_logo_login(); ?>" alt="Logo">
+
+   <span class="mw-sign-version">v. <?php print MW_VERSION; ?></span>
+
+  </a>
+
+
   
   <div class="mw-ui-box">
     <div class="mw-ui-box-content" id="admin_login">
       <?php if($user != false): ?>
-      <div>Welcome <?php print user_name(); ?> </div>
+      <div><?php _e("Welcome"); ?> <?php print user_name(); ?> </div>
       <a href="<?php print site_url() ?>">
       <?php _e("Go to"); ?>
       <?php print site_url() ?></a> <a href="<?php print api_link('logout') ?>" >
@@ -65,15 +70,15 @@ $(document).ready(function(){
       <?php else:  ?>
       <form autocomplete="on" method="post" id="user_login_<?php print $params['id'] ?>"  action="<?php print api_link('user_login') ?>"  >
         <div class="mw-ui-field-holder">
-          <input  class="mw-ui-field" autofocus="" tabindex="1" required  name="username" type="text" placeholder="<?php _e("Username or Email"); ?>" <?php if(isset($_REQUEST['username']) != false): ?> value="<?php print $_REQUEST['username'] ?>"  <?php endif;  ?>  />
+          <input  class="mw-ui-field mw-ui-field-big" autofocus="" tabindex="1" required  name="username" type="text" placeholder="<?php _e("Username or Email"); ?>" <?php if(isset($_REQUEST['username']) != false): ?> value="<?php print $_REQUEST['username'] ?>"  <?php endif;  ?>  />
         </div>
         <div class="mw-ui-field-holder">
-          <input  class="mw-ui-field"  name="password" tabindex="2" required type="password" <?php if(isset($_REQUEST['password']) != false): ?> value="<?php print $_REQUEST['password'] ?>"  <?php endif;  ?> placeholder="<?php _e("Password"); ?>"   />
+          <input  class="mw-ui-field mw-ui-field-big"  name="password" tabindex="2" required type="password" <?php if(isset($_REQUEST['password']) != false): ?> value="<?php print $_REQUEST['password'] ?>"  <?php endif;  ?> placeholder="<?php _e("Password"); ?>"   />
         </div>
-        <div class="mw-ui-field-holder" style="margin: auto; width: 286px;"> <span class="left" id="login_laguage_select"><span class="left">
-          <?php _e("Language"); ?>
-          </span>
-          <div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg" id="lang_selector"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span>
+        <div class="mw-ui-field-holder">
+          <ul  class="mw-ui-inline-list pull-left">
+            <li><span><?php _e("Language"); ?></span></li>
+          <li><div data-value="" title="" class="mw-dropdown mw-dropdown-type-wysiwyg" id="lang_selector"> <span class="mw-dropdown-value"> <span class="mw-dropdown-arrow"></span>
             <?php if(defined('MW_LANG') and MW_LANG != '' and MW_LANG != 'en'): ?>
             <span class="mw-dropdown-val"><?php print strtoupper(MW_LANG); ?></span>
             <?php else:  ?>
@@ -88,20 +93,18 @@ $(document).ready(function(){
                 <?php endforeach; ?>
               </ul>
             </div>
-          </div>
-          </span>        
-          
+          </div></li>
+          </ul>
             <input  type="hidden" name="where_to" value="admin_content" />
-
-          <input class="mw-ui-btn right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
+            <input class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
         </div>
       </form>
     </div>
   </div>
-  
-  <div id="login_foot"> <a href="<?php print site_url() ?>" class="left"><span class="ico backico2"></span>
+
+  <div id="login_foot"> <a href="<?php print site_url() ?>" class="pull-left"><span class="mw-icon-back"></span>
     <?php _e("Back to My WebSite"); ?>
-    </a> <a href="javascript:mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="mw-ui-link right">
+    </a> <a href="javascript:mw.load_module('users/forgot_password', '#admin_login', false, {template:'admin'});" class="mw-ui-link pull-right">
     <?php _e("Forgot my password"); ?>
     ?</a> </div>
   <?php endif;  ?>
