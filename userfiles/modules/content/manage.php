@@ -72,12 +72,10 @@ $posts = array();
     $(document).ready(function(){
 		var prev_frame_attrs = {};
 		mw.$('#mw_page_layout_preview').attr('show-page-id-layout',"<?php print ($page_info['id'])?>");
-
         mw.$('#mw_page_layout_preview').attr('data-page-id',"<?php print ($page_info['id'])?>");
         mw.$('#mw_page_layout_preview').attr('edit_page_id',"<?php print ($page_info['id'])?>");
         mw.$('#mw_page_layout_preview').attr('autoload',"1");
         mw.$('#mw_page_layout_preview').attr('data-small',"1");
-       // mw.load_module("content/layout_selector", '#mw_page_layout_preview', false);
     });
 </script>
 
@@ -85,10 +83,10 @@ $posts = array();
 
 
 <?php 
- 
+
 if(isset($page_info) and is_array($page_info)): ?>
 
-<?php include __DIR__ . DS . 'admin_toolbar.php'; ?>   
+<?php include __DIR__ . DS . 'admin_toolbar.php'; ?>
 
 
 <div class="mw-admin-page-preview-holder">
@@ -107,11 +105,11 @@ if(isset($page_info) and is_array($page_info)): ?>
 <?php elseif(isset($params["data-category-id"])):?>
 <?php  $cat_info = get_category_by_id($params["data-category-id"]); ?>
 	<?php if(isset($cat_info['title']) and $cat_info['title'] != ''): ?>
-        <h2><span class="mw-icon-category"></span>
+        <h2 class="section-title"><span class="mw-icon-category"></span>
           <?php print $cat_info['title']; ?>
         </h2>
         <?php else: ?>
-        <h2><span class="mw-icon-category"></span>
+        <h2 class="section-title"><span class="mw-icon-category"></span>
           <?php _e("Category"); ?>
         </h2>
     <?php endif; ?>
@@ -169,7 +167,7 @@ mw.manage_content_sort = function(){
             },
             scroll:false
         });
- }
+   }
 }
 
 </script>

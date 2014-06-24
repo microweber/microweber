@@ -1593,6 +1593,7 @@ td.custom-field-icon, td.custom-field-icon > *{
   position: fixed;
   top: 50%;
   margin-top: -60px;
+  margin-left: -65px;
   font-size: 18px;
   color: #D9D9D9;
   text-align: center;
@@ -1874,7 +1875,9 @@ input#edit-content-url:focus, input#edit-content-url.active{
   width: 100%;
 }
 
-
+.section-title{
+  padding-top: 20px;
+}
 
 /* Toolbar */
 
@@ -1921,7 +1924,7 @@ input#edit-content-url:focus, input#edit-content-url.active{
   top: 0;
 }
 .admin-manage-toolbar-scrolled{
-  position: fixed; /* Must be absolute and not fixed. */
+  position: fixed;
   margin-left: -35px;
 }
 .admin-manage-toolbar-scrolled .admin-manage-toolbar-content{

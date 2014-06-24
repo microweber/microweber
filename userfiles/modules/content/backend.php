@@ -403,27 +403,31 @@ function mw_make_pages_tree_sortable(){
         </div>
         <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
           <?php
-		 $is_shop_str = " is_shop='n' ";
-		 $is_shop_str = "   ";
+		 $pages_container_params_str = " is_shop='n' ";
+		 $pages_container_params_str = "   ";
 	   if(isset($is_shop)){
-		 $is_shop_str = " is_shop='{$is_shop}' ";
+		 $pages_container_params_str = " is_shop='{$is_shop}' ";
 	   } elseif(isset($params['is_shop'])){
-		 $is_shop_str = " is_shop='".$params['is_shop']."' ";
+		 $pages_container_params_str = " is_shop='".$params['is_shop']."' ";
 	   } elseif($action=='products'){
-		 $is_shop_str = " is_shop='y' ";
+		 $pages_container_params_str = " is_shop='y' ";
 	   }
-	   if($action=='posts'){
-		   $is_shop_str = " is_shop='n'  skip-static-pages='true' ";
-	   }
+            if($action=='posts'){
+                $pages_container_params_str = " is_shop='n'  skip-static-pages='true' ";
+            } elseif($action=='pages'){
+                $pages_container_params_str = " content_type='page'  subtype='[not_null]'   ";
+            }elseif($action=='categories'){
+                $pages_container_params_str = " manage_categories='true'    ";
+            }
 	   ?>
           <?php if($action=='pages'): ?>
           <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"   id="pages_tree_toolbar"  view="admin_tree" home_first="true"  />
           <?php elseif($action=='categories'): ?>
             
-            <module skip-static-pages="true" data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
+            <module skip-static-pages="true" data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $pages_container_params_str ?>  view="admin_tree" home_first="true"  />
           
           <?php else: ?>
-          <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $is_shop_str ?>  view="admin_tree" home_first="true"  />
+          <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>" active_class="active-bg"  include_categories="true" include_global_categories="true" id="pages_tree_toolbar" <?php print $pages_container_params_str ?>  view="admin_tree" home_first="true"  />
           <?php endif ?>
           <?php event_trigger('admin_content_after_website_tree',$params); ?>
         </div>
@@ -436,7 +440,7 @@ function mw_make_pages_tree_sortable(){
   <div class="mw-ui-col main-content-column">
     <div class="mw-ui-col-container">
 
-      <div id="pages_edit_container"  <?php print $is_shop_str ?>>
+      <div id="pages_edit_container"  <?php print $pages_container_params_str; ?>>
             <script>
                 $(window).bind('load', function(){
                     if(!mw.url.windowHashParam("action")){
