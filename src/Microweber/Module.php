@@ -687,7 +687,12 @@ class Module
         $params['module'] = $module_name;
         $params['ui'] = 'any';
         $params['limit'] = 1;
+//
+     //  $params['debug'] = 1;
+        //$params['no_cache'] = 1;
+
         $data = $this->get($params);
+       // d($data);
         if (isset($data[0])) {
             $_mw_modules_info_register[$module_name] = $data[0];
             return $data[0];
@@ -896,6 +901,7 @@ class Module
         $params['module'] = $module_name;
         $params['ui'] = 'any';
         $params['limit'] = 1;
+
         $data = $this->get($params);
         $info = false;
         if (isset($data[0])) {

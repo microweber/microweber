@@ -551,11 +551,15 @@ class Media
             $table = $this->tables['media'];
             //$s['debug'] = $t;
             $s = $this->app->db->save($table, $s);
+            $this->app->cache->delete('media');
+
             return ($s);
         } elseif (isset($s['id']) and isset($s['title'])) {
             $table = $this->tables['media'];
             //$s['debug'] = $t;
             $s = $this->app->db->save($table, $s);
+            $this->app->cache->delete('media');
+
             return ($s);
         } else {
             mw_error('Invalid data');

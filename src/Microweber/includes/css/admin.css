@@ -2582,6 +2582,9 @@ body.grabbing, body.grabbing *{
     top:-2px;
     left: 10px;
 }
+.stat-views{
+  text-align: right;
+}
 
 #quick-links-row .mw-ui-col .mw-ui-navigation{
   display: inline-block;
@@ -2619,11 +2622,11 @@ body.grabbing, body.grabbing *{
 }
 
 .quick-lists .mw-ui-navigation a [class*="mw-icon-"]{
-    font-size: 27px;
-    opacity: 1;
-    color: black;
-    width: 22px;
-    text-align: center;
+  font-size: 27px;
+  opacity: 1;
+  color: black;
+  width: 22px;
+  text-align: center;
 }
 
 #stats_nav{
@@ -2633,15 +2636,22 @@ body.grabbing, body.grabbing *{
 .users-online{
   float: left;
   display: block;
-  width: 130px;
-  height: 130px;
+  width: 150px;
+  height: 150px;
   border-radius:200px;
   background: black;
   color:white;
-  font-size: 28px;
+  font-size: 44px;
   text-align: center;
   padding-top: 46px;
   font-weight: bold;
+}
+.users-online-label{
+  display: block;
+  vertical-align: top;
+  position: absolute;
+  color: #a1a1a1;
+  margin-top: -33px;
 }
 
 

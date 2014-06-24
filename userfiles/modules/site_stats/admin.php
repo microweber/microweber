@@ -150,9 +150,6 @@ $(document).ready(function(){
       <tr>
 
         <td class="stat-time"><?php print $item['visit_date'] ?><br><?php print $item['visit_time'] ?></td>
-        <?php if(function_exists('ip2country')): ?>
-        <td class="stat-ip"><?php   print ip2country($item['user_ip']); ?></td>
-        <?php endif; ?>
         <td class="stat-ip"><?php print $item['user_ip'] ?></td>
         <?php
             $last = explode('/',$item['last_page']);

@@ -99,14 +99,14 @@ class IdiOrm
                 }
 
             }
-
+            $query_hash = $query.join(',',$parameters);
             $cache_group = $app->db->guess_cache_group($table_name);
             if ($is_int == false) {
                 $cache_group = 'global';
             } else {
                 $cache_group = '' . $is_int;
             }
-            $my_key = $cache_group . '/orm-' . (crc32($query));
+            $my_key = $cache_group . '/orm-' . (crc32($query_hash));
             // $my_key = 'orm-' . (crc32($query));
 
             return $my_key;
