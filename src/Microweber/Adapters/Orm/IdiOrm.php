@@ -107,8 +107,6 @@ class IdiOrm
                 $cache_group = '' . $is_int;
             }
             $my_key = $cache_group . '/orm-' . (crc32($query_hash));
-            // $my_key = 'orm-' . (crc32($query));
-
             return $my_key;
         });
 
@@ -482,6 +480,7 @@ class IdiOrm
                 $orm->group_by($table . '.id');
             }
         } else {
+            if ($count_paging == false){
             if (is_string($group_by)) {
                 $group_by = explode(',', $group_by);
             }
@@ -490,6 +489,7 @@ class IdiOrm
                     $orm->group_by($group);
                 }
             }
+            }
         }
         if ($order_by != false) {
             $orm->order_by_expr($order_by);
@@ -497,12 +497,16 @@ class IdiOrm
 
 
         if ($count_paging == true) {
-            $ret = $orm->count();
+        // d($params);
+            $ret = $orm->count('*');
             $plimit = $limit;
             if ($plimit != false and $ret != false) {
                 $pages_qty = ceil($ret / $plimit);
                 return $pages_qty;
+            } else {
+                return ;
             }
+
         }
 
 

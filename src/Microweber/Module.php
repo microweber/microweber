@@ -656,22 +656,15 @@ class Module
                 $ch = dirname($ch);
                 $ch = $this->app->url->link_to_file($ch);
                 $ch = $ch . '/';
-                //	$ch = trim($ch,'\//');
-
                 $checked[$module_name] = $ch;
             } else {
                 $checked[$module_name] = false;
             }
         }
-
         $this->app->cache->save($checked[$module_name], $function_cache_id, $cache_group);
-
-
         if ($secure_connection == true) {
             $checked[$module_name] = str_ireplace('http://', 'https://', $checked[$module_name]);
         }
-
-
         return $checked[$module_name];
 
     }
@@ -682,17 +675,11 @@ class Module
         if (isset($_mw_modules_info_register[$module_name])) {
             return $_mw_modules_info_register[$module_name];
         }
-
         $params = array();
         $params['module'] = $module_name;
         $params['ui'] = 'any';
         $params['limit'] = 1;
-//
-     //  $params['debug'] = 1;
-        //$params['no_cache'] = 1;
-
         $data = $this->get($params);
-       // d($data);
         if (isset($data[0])) {
             $_mw_modules_info_register[$module_name] = $data[0];
             return $data[0];
