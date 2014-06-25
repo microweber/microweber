@@ -177,10 +177,10 @@ mw.admin = {
         mw.admin.manageToolbarQuickNav = mwd.getElementById('content-edit-settings-tabs');
       }
       if(mw.admin.manageToolbarQuickNav !== null){
-          if((scrolltop) >100){
+          if((scrolltop) > 0){
             mw.$("#content-edit-settings-tabs").addClass('fixed');
             mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
-            mwd.getElementById('content-edit-settings-tabs').style.top = scrolltop - 15 + 'px';
+            mwd.getElementById('content-edit-settings-tabs').style.top = scrolltop - 25 + 'px';
           }
           else{
             mw.$("#content-edit-settings-tabs").removeClass('fixed');
@@ -643,10 +643,13 @@ $(mww).bind('load', function(){
        element:mwd.getElementById('main-bar-user-menu-link')
     });
     mainbarusermenulink.id = 'main-bar-user-menu-tooltip';
+
     mw.tools.addClass(mainbarusermenulink, 'main-bar-user-menu-tooltip');
     mw.tools.tooltip.setPosition(mainbarusermenulink, mwd.getElementById('main-bar-user-menu-link'), 'top-left');
+    mainbarusermenulink.style.display = 'none';
 
     $(mwd.body).bind('click', function(e){
+      mainbarusermenulink.style.display = 'block';
         if(e.target !== mwd.getElementById('main-bar-user-menu-link') && e.target.parentNode !== mwd.getElementById('main-bar-user-menu-link')){
            mw.$('.main-bar-user-menu-tooltip').removeClass('main-bar-user-menu-tooltip-active');
         }

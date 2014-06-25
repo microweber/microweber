@@ -1,6 +1,15 @@
 <?php
 
 
+if(isset($params['manage_categories'])){
+
+include __DIR__ . DS . '../categories/manage.php'; 
+return;
+	
+}
+
+
+
 $posts_mod = array();
 $posts_mod['type'] = 'content/admin_posts_list';
 if(isset($params['page-id'])){

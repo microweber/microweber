@@ -1,7 +1,4 @@
 
-
-
-
 $(document).ready(function(){
    mw.css3fx.init_css();
 });
@@ -10,17 +7,11 @@ $(document).ready(function(){
 mw.onLive(function(){
 
 
-
-
 mw.current_element_styles = {}
 
 Registered_Sliders = ['margin', 'opacity', 'padding'];
 
 mw.border_which = 'border';
-
-
-
-
 
 
 canvasCTRL_draw = function(context, type, color, x, y, w, h){
@@ -160,13 +151,6 @@ $.fn.canvasCTRL = function(options){
 }
 
 
-
-
-
-
-
-
-
 width_slider_onstart = function(){
 	var el =  mwd.getElementById('ed_auto_width');
  	if(el != null){
@@ -214,18 +198,25 @@ generateJSON4StaticElements = function(){
   return validateJSON4StaticElements(obj);
 }
 
-saveStaticElementsStyles = function(callback){
+saveStaticElementsStyles = function(callback, error){
     var obj = generateJSON4StaticElements();
     if(!mw.tools.isEmptyObject(obj)){
       $.post(mw.settings.api_url + "current_template_save_custom_css", obj, function(data){
             if(typeof callback === 'function'){
               callback.call();
             }
-      })
+      }).fail(function(){
+           if(typeof error === 'function'){
+              error.call();
+            }
+      });
+    }
+    else{
+       if(typeof callback === 'function'){
+          callback.call();
+       }
     }
 }
-
-
 
 
 mw.sliders_settings = function(el){
@@ -234,10 +225,7 @@ mw.sliders_settings = function(el){
 	if(typeof jQuery.fn.dataset !== 'function'){
 		return;	
 	}
- 
-	
-	
-	
+
     var step = parseFloat(el.dataset('step'));
     var step = !isNaN(step)?step:1;
     var min = parseFloat(el.dataset('min'));

@@ -835,13 +835,107 @@ $(window).load(function(){
 
             <span class="mw-ui-btn" onclick="mw.notification.success('Awesome');">Success</span>
             <span class="mw-ui-btn" onclick="mw.notification.error('Critical');">Error</span>
-            <span class="mw-ui-btn" onclick="mw.notification.warning('Awesome');">Warning</span>
+            <span class="mw-ui-btn" onclick="mw.notification.warning('Beware');">Warning</span>
 
 
 
 
 
 
+
+       </td>
+     </tr>
+     <tr>
+        <td colspan="2">
+        <style scoped="scoped">
+
+            .mw-paging{
+              float: left;
+              margin: 10px;
+            }
+            .mw-paging-small{
+              clear: both;
+            }
+
+        </style>
+            <h2>Paging</h2>
+
+
+            <div class="mw-paging mw-paging-small">
+                <a href="javascript:;">1</a>
+                <a href="javascript:;">2</a>
+                <a href="javascript:;" class="active">3</a>
+                <a href="javascript:;">4</a>
+                <a href="javascript:;">5</a>
+            </div>
+
+            <div class="mw-paging mw-paging-medium">
+                <a href="javascript:;">1</a>
+                <a href="javascript:;">2</a>
+                <a href="javascript:;" class="active">3</a>
+                <a href="javascript:;">4</a>
+                <a href="javascript:;">5</a>
+            </div>
+
+            <div class="mw-paging">
+                <a href="javascript:;">1</a>
+                <a href="javascript:;">2</a>
+                <a href="javascript:;" class="active">3</a>
+                <a href="javascript:;">4</a>
+                <a href="javascript:;">5</a>
+            </div>
+
+            <div class="mw-paging mw-paging-big">
+                <a href="javascript:;">1</a>
+                <a href="javascript:;">2</a>
+                <a href="javascript:;" class="active">3</a>
+                <a href="javascript:;">4</a>
+                <a href="javascript:;">5</a>
+            </div>
+
+
+
+           <?php
+
+           $types = array('invert', 'info', 'warn', 'important', 'notification');
+
+           foreach($types as $type){
+           ?>
+
+
+           <div class="mw-paging mw-paging-small mw-paging-<?php print $type; ?>">
+                <a href="javascript:;">1</a>
+                <a href="javascript:;">2</a>
+                <a href="javascript:;" class="active">3</a>
+                <a href="javascript:;">4</a>
+                <a href="javascript:;">5</a>
+            </div>
+
+            <div class="mw-paging mw-paging-medium mw-paging-<?php print $type; ?>">
+                <a href="javascript:;">1</a>
+                <a href="javascript:;">2</a>
+                <a href="javascript:;" class="active">3</a>
+                <a href="javascript:;">4</a>
+                <a href="javascript:;">5</a>
+            </div>
+
+            <div class="mw-paging mw-paging-<?php print $type; ?>">
+                <a href="javascript:;">1</a>
+                <a href="javascript:;">2</a>
+                <a href="javascript:;" class="active">3</a>
+                <a href="javascript:;">4</a>
+                <a href="javascript:;">5</a>
+            </div>
+
+            <div class="mw-paging mw-paging-big mw-paging-<?php print $type; ?>">
+                <a href="javascript:;">1</a>
+                <a href="javascript:;">2</a>
+                <a href="javascript:;" class="active">3</a>
+                <a href="javascript:;">4</a>
+                <a href="javascript:;">5</a>
+            </div>
+
+          <?php } ?>
 
        </td>
      </tr>

@@ -35,22 +35,6 @@ class Update
         return $result;
     }
 
-    function get_modules()
-    {
-        $data = $this->collect_local_data();
-        $data['add_new'] = true;
-        $result = $this->call('get_modules', $data);
-        return $result;
-    }
-
-    function get_templates()
-    {
-        $data = $this->collect_local_data();
-
-        $result = $this->call('get_templates', $data);
-        return $result;
-    }
-
     private function collect_local_data()
     {
         $data = array();
@@ -60,7 +44,7 @@ class Update
         $t = mw('template')->site_templates();
         $data['templates'] = $t;
         //$t = $this->app->module->scan_for_modules("skip_cache=1");
-       $t = $this->app->module->get("ui=any");
+        $t = $this->app->module->get("ui=any");
         $data['modules'] = $t;
         $data['module_templates'] = array();
         if (is_array($t)) {
@@ -98,6 +82,22 @@ class Update
 
 
         return $data;
+    }
+
+    function get_modules()
+    {
+        $data = $this->collect_local_data();
+        $data['add_new'] = true;
+        $result = $this->call('get_modules', $data);
+        return $result;
+    }
+
+    function get_templates()
+    {
+        $data = $this->collect_local_data();
+
+        $result = $this->call('get_templates', $data);
+        return $result;
     }
 
     function check($skip_cache = false)
@@ -207,6 +207,20 @@ class Update
 
         }
 
+    }
+
+    function post_update()
+    {
+        if (!ini_get('safe_mode')) {
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+
+                ini_set("set_time_limit", 0);
+            }
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+                set_time_limit(0);
+            }
+        }
+        mw_post_update();
     }
 
     function apply_updates($updates)
@@ -323,20 +337,6 @@ class Update
         return $unzipped;
     }
 
-    function post_update()
-    {
-        if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-
-                ini_set("set_time_limit", 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
-        }
-        mw_post_update();
-    }
-
     public function install_module_template($module, $layout)
     {
 
@@ -345,21 +345,17 @@ class Update
         $skin_file = $this->app->module->templates($module, $layout);
 
         if (is_file($skin_file)) {
-
             $options = array();
             $options['no_cache'] = 1;
             $options['for_modules'] = 1;
             $options['filename'] = $skin_file;
             $skin_data = $this->app->layouts->scan($options);
-
             if ($skin_data != false) {
                 $skin_data['module_template'] = $module;
                 $skin_data['layout_file'] = $layout;
                 $result = $this->call('get_download_link', $skin_data);
                 if (isset($result["module_templates"])) {
                     foreach ($result["module_templates"] as $mod_k => $value) {
-
-
                         $fname = basename($value);
                         $dir_c = MW_CACHE_DIR . 'downloads' . DS;
                         if (!is_dir($dir_c)) {
@@ -372,19 +368,51 @@ class Update
                         if (is_file($dl_file)) {
                             $unzip = new \Microweber\Utils\Unzip();
                             $target_dir = MW_ROOTPATH;
-                            //d($dl_file);
                             $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
-                            // skip_cache
                         }
-
-
                     }
-
                 }
             }
         }
         return $result;
 
+    }
+
+    function call($method = false, $post_params = false)
+    {
+        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        if (!is_dir($cookie)) {
+            mkdir($cookie);
+        }
+        $cookie_file = $cookie . 'cookie.txt';
+        $requestUrl = $this->remote_api_url;
+        if ($method != false) {
+            $requestUrl = $requestUrl . '?api_function=' . $method;
+        }
+
+        $curl = new \Microweber\Utils\Curl();
+        $curl->setUrl($requestUrl);
+        $curl->url = $requestUrl;
+        $curl->timeout = 10;
+
+
+        $post_params['site_url'] = $this->app->url->site();
+        $post_params['api_function'] = $method;
+
+        if ($post_params != false and is_array($post_params)) {
+            $curl_result = $curl->post($post_params);
+            //  print $curl_result;
+        } else {
+            $curl_result = false;
+        }
+        if ($curl_result == '' or $curl_result == false) {
+            return false;
+        }
+        $result = false;
+        if ($curl_result != false) {
+            $result = json_decode($curl_result, 1);
+        }
+        return $result;
     }
 
     function install_template($template_name)
@@ -524,43 +552,6 @@ class Update
 
 
         $result = $this->call('send_anonymous_server_data', $params);
-        return $result;
-    }
-
-    function call($method = false, $post_params = false)
-    {
-        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
-        if (!is_dir($cookie)) {
-            mkdir($cookie);
-        }
-        $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_api_url;
-        if ($method != false) {
-            $requestUrl = $requestUrl . '?api_function=' . $method;
-        }
-
-        $curl = new \Microweber\Utils\Curl();
-        $curl->setUrl($requestUrl);
-        $curl->url = $requestUrl;
-        $curl->timeout = 10;
-
-
-        $post_params['site_url'] = $this->app->url->site();
-        $post_params['api_function'] = $method;
-
-        if ($post_params != false and is_array($post_params)) {
-            $curl_result = $curl->post($post_params);
-            //  print $curl_result;
-        } else {
-            $curl_result = false;
-        }
-        if ($curl_result == '' or $curl_result == false) {
-            return false;
-        }
-        $result = false;
-        if ($curl_result != false) {
-            $result = json_decode($curl_result, 1);
-        }
         return $result;
     }
 

@@ -3143,7 +3143,7 @@ mw.beforeleave = function(url){
             $(save).click(function(){
               $(mwd.body).addClass("loading");
               mw.tools.modal.remove(modal);
-              mw.drag.save(mwd.getElementById('main-save-btn'), function(){
+              mw.drag.save(undefined, function(){
                 mw.askusertostay = false;
                 window.location.href = url;
               });

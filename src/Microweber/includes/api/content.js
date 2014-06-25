@@ -4,7 +4,7 @@
             var master = {};
             master.id= $id;
             $(mwd.body).addClass("loading");
-            mw.drag.save(mwd.getElementById('main-save-btn'));
+            mw.drag.save();
             $.ajax({
                     type: 'POST',
                     url: mw.settings.site_url + 'api/content/set_published',
@@ -34,7 +34,7 @@
       	master.id= $id;
         $(mwd.body).addClass("loading");
 
-        mw.drag.save(mwd.getElementById('main-save-btn'));
+        mw.drag.save();
       	$.ajax({
               type: 'POST',
               url: mw.settings.site_url + 'api/content/set_unpublished',

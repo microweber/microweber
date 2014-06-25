@@ -14,6 +14,7 @@ mw.drag.columns = {
         mwd.body.appendChild(mw.drag.columns.resizer);
     },
     resize:function(e){
+        if( !mw.drag.columns.resizer.curr ) return false; 
         var w = parseFloat(mw.drag.columns.resizer.curr.style.width);
         var next = mw.drag.columns.nextColumn(mw.drag.columns.resizer.curr);
         var w2 = parseFloat(next.style.width);
@@ -27,7 +28,7 @@ mw.drag.columns = {
         }
         mw.drag.columns.resizer.pos = e.pageX;
         mw.drag.columns.position(mw.drag.columns.resizer.curr);
-        $(window).trigger('columnResize', mw.drag.columns.resizer.curr)
+        $(window).trigger('columnResize', mw.drag.columns.resizer.curr);
     },
     position:function(el){
         if(!!mw.drag.columns.nextColumn(el)){

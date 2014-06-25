@@ -107,6 +107,7 @@ html,body{
   cursor: e-resize;
   cursor: col-resize;
   z-index: 990;
+  display: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
@@ -1424,6 +1425,16 @@ div.mw_drag_started, li.module-item.ui-draggable-dragging{
 
 .mw-empty{
   display: none;
+}
+
+.mw-col-container:empty{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+
+}
+.mw-col-container:empty:hover{
+  background: #FFFFB9;
 }
 
 .mw-col-container .mw-empty:first-child:empty{

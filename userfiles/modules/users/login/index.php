@@ -24,7 +24,7 @@ $(document).ready(function(){
              mw.tools.disable(subm, '<?php _e("Signing in..."); ?>');
              mw.form.post(mw.$('#user_login_<?php print $params['id'] ?>') , '<?php print api_link('user_login'); ?>', function(a, b){
 
-           		 mw.response('#user_login_<?php print $params['id'] ?>',this);
+           		// mw.response('#user_login_<?php print $params['id'] ?>',this);
       			 if(typeof this.success === 'string'){
       			      var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
 					  if(c == undefined || c == ''){

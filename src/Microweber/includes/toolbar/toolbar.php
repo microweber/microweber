@@ -88,7 +88,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             mw.tools.dropdown();
             mw.tools.toolbar_slider.init();
             mw_save_draft_int = self.setInterval(function () {
-                mw.drag.save(mwd.getElementById('main-save-btn'), false, true);
+                mw.drag.saveDraft();
                 if (mw.askusertostay) {
                     mw.tools.removeClass(mwd.getElementById('main-save-btn'), 'disabled');
                 }
@@ -191,7 +191,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             onclick="mw.liveEditWYSIWYG.slideRight();"></span>
         <div class="mw-toolbar-right-content">
           <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
-          <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save(this)" id="main-save-btn">
+          <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn">
           <?php _e("Save"); ?>
           </span>
           <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions">

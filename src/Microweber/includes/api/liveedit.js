@@ -113,7 +113,7 @@ $(document).ready(function(){
      });
      mw.on.stopWriting(e.target, function(){
        if(mw.tools.hasClass(e.target, 'edit') || mw.tools.hasParentsWithClass(this, 'edit')){
-         mw.drag.save(mwd.getElementById('main-save-btn') );
+         mw.drag.save();
        }
      });
    });
@@ -122,7 +122,7 @@ $(document).ready(function(){
 
      if(e.keyCode == 83 && e.ctrlKey){
         mw.event.cancel(e, true);
-        mw.drag.save(mwd.getElementById('main-save-btn'));
+        mw.drag.save();
      }
    })
 
@@ -372,7 +372,7 @@ mw.drag = {
            }
            else if($(mw.mm_target.parentNode).hasClass("mw-empty")){
                 $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
-           }                              
+           }
            else if($(mw.mm_target).hasClass("mw-empty")){
                 $(window).trigger("onDragHoverOnEmpty", mw.mm_target.parentNode);
            }
@@ -462,7 +462,10 @@ mw.drag = {
              }
              }
 
+             if( mw.tools.hasClass(mw.mm_target, 'mw-col-container')){
+              mw.currentDragMouseOver = mw.mm_target;
 
+          }
 
            }
 
@@ -1103,6 +1106,8 @@ mw.drag = {
                 mw.$(".mw_dropable").hide();
 
 				setTimeout(function () {
+
+
 				        mw.$("#modules-and-layouts.hovered").removeClass("hovered");
                         $(mw.dragCurrent).visibilityDefault().removeClass("mw_drag_current");
                         if(mw.currentDragMouseOver === null){
@@ -1114,6 +1119,15 @@ mw.drag = {
 
                         var position = mw.dropable.data("position");
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
+
+                        if(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')){
+
+                               mw.currentDragMouseOver.appendChild(mw.dragCurrent)
+
+                            return false;
+                        }
+
+
                         if($(mw.currentDragMouseOver).hasClass("mw-empty")){
                             $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             return false;
@@ -1129,24 +1143,24 @@ mw.drag = {
                          }
                         if($(mw.currentDragMouseOver).hasClass("edit")){
 
-                        if(hasAbilityToDropElementsInside(mw.currentDragMouseOver)){
-                           if(position=='top'){
-                               $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
-                           }
-                           else if(position=='bottom'){
-                               $(mw.currentDragMouseOver).append(mw.dragCurrent);
-                           }
-                        }
-                        else{
-                           if(position=='top'){
-                               $(mw.currentDragMouseOver).before(mw.dragCurrent);
-                           }
-                           else if(position=='bottom'){
-                               $(mw.currentDragMouseOver).after(mw.dragCurrent);
-                           }
-                        }
+                            if(hasAbilityToDropElementsInside(mw.currentDragMouseOver)){
+                               if(position=='top'){
+                                   $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
+                               }
+                               else if(position=='bottom'){
+                                   $(mw.currentDragMouseOver).append(mw.dragCurrent);
+                               }
+                            }
+                            else{
+                               if(position=='top'){
+                                   $(mw.currentDragMouseOver).before(mw.dragCurrent);
+                               }
+                               else if(position=='bottom'){
+                                   $(mw.currentDragMouseOver).after(mw.dragCurrent);
+                               }
+                            }
 
-                          return false;
+                            return false;
                         }
 
                         if($(mw.currentDragMouseOver).hasClass("module")){
@@ -1631,14 +1645,10 @@ mw.drag = {
 			}
         }
 	},
-    collect:function(html){
-
-    },
     saving:false,
-    coreSave:function(data, w){
-         return false;
+    coreSave:function(data){
+        if(!data) return false;
         mw.drag.saving = true;
-        var w = w || mww;
         var xhr = $.ajax({
             type: 'POST',
             url: mw.settings.api_url + 'save_edit',
@@ -1650,10 +1660,8 @@ mw.drag = {
         });
         return xhr;
     },
-    document2Save:function(w){
-
-        var w = w || mww;
-        var doc = mw.tools.parseHtml(w.document.body.innerHTML);
+    parseContent:function(){
+        var doc = mw.tools.parseHtml(mwd.body.innerHTML);
         mw.$('.element-current', doc).removeClass('element-current');
         mw.$('.element-active', doc).removeClass('element-active');
         mw.$('.disable-resize', doc).removeClass('disable-resize');
@@ -1666,7 +1674,9 @@ mw.drag = {
         for( ; i<l; i++ ){
           all[i].removeAttribute('contenteditable');
         }
-        var all = doc.querySelectorAll('.module'), l=all.length, i=0;
+        var all = doc.querySelectorAll('.module'),
+            l=all.length,
+            i=0;
         for( ; i<l; i++ ){
           if(all[i].querySelector('.edit') === null){
             all[i].innerHTML = '';
@@ -1674,19 +1684,80 @@ mw.drag = {
         }
         return doc;
     },
-    save:function(){  return false;
-        var body = mw.drag.document2Save().body;
-        var edits = body.querySelectorAll('.edit.changed'),
-            l = edits.length,
-            i = 0;
+    collectData:function(edits){
+        var l = edits.length,
+            i = 0,
+            helper = {},
+            master = {};
         if( l > 0) {
             for( ; i<l; i++){
-
+                helper.item = edits[i];
+                var rel = mw.tools.mwattr(helper.item, 'rel');
+                if(!rel){
+                    mw.tools.foreachParents(helper.item, function(loop){
+                        var cls = this.className;
+                        var rel =  mw.tools.mwattr(this, 'rel');
+                        if(mw.tools.hasClass(cls, 'edit') && mw.tools.hasClass(cls, 'changed') && (!!rel)){
+                          helper.item = this;
+                          mw.tools.stopLoop(loop);
+                        }
+                    });
+                }
+                var rel = mw.tools.mwattr(helper.item, 'rel');
+                if(!rel) continue;
+                $(helper.item).removeClass('changed orig_changed');
+                var content = helper.item.innerHTML;
+                var attr_obj = {};
+                var attrs = helper.item.attributes;
+                if(attrs.length > 0){
+                  var i = 0, l = attrs.length
+                  for ( ; i < l; i++) {
+                    attr_obj[attrs[i].nodeName] = attrs[i].nodeValue;
+                  }
+                }
+                var obj = {
+                  attributes: attr_obj,
+                  html: content
+                }
+                var objdata = "field_data_" + i;
+                master[objdata] = obj;
             }
         }
-        var xhr = mw.drag.coreSave();
-        xhr.success(function(){});
-        xhr.fail(function(){});
+        return master;
+    },
+    save:function(){    return false;
+        var body = mw.drag.parseContent().body,
+            edits = body.querySelectorAll('.edit.changed'),
+            data = mw.drag.collectData(edits);
+
+        if(mw.tools.isEmptyObject(data)) return false;
+
+        $(window).trigger('saveStart', data);
+        if(typeof saveStaticElementsStyles === 'function'){
+            saveStaticElementsStyles();
+    	}
+        var xhr = mw.drag.coreSave(data);
+        xhr.success(function(sdata){
+           mw.$('.edit.changed').removeClass('changed');
+           mw.$('.orig_changed').removeClass('orig_changed');
+           mw.askusertostay = false;
+           $(window).trigger('saveEnd', sdata);
+        });
+        xhr.fail(function(jqXHR, textStatus, errorThrown){
+           $(window).trigger('saveFailed', textStatus, errorThrown);
+        });
+    },
+    saveDraftOld:'',
+    saveDraft:function(){
+        if(mwd.body.textContent != mw.drag.saveDraftOld){
+            mw.drag.saveDraftOld = mwd.body.textContent;
+            var body = mw.drag.parseContent().body,
+                edits = body.querySelectorAll('.edit.changed'),
+                data = mw.drag.collectData(edits);
+            if(mw.tools.isEmptyObject(data)) return false;
+            data['is_draft'] = true;
+            var xhr = mw.drag.coreSave(data);
+        }
     }
 }
 

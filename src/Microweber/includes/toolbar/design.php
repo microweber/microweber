@@ -218,30 +218,12 @@
               <span class="slider_val_label">px</span></span> </div>
           </div>
         </div>
-        <div class="ts_action_item mw-designtype-universal"><span class="ed_label"><?php _e("Rotation"); ?></span>
-          <div class="ts_action" style="width: 120px;">
-            <div class="ts_action_item">
-              <div class="ed_slider rotate-slider es_item left"  data-min="-3.14" data-max="3.14" data-step="0.001" data-custom="mw.css3fx.rotate" id="rotate_slider"></div>
-              <span class="slider_val">
-              <input type="text" value="" name="rotate_slider">
-              <span class="slider_val_label">&deg;</span></span> </div>
-          </div>
-        </div>
-        <div class="ts_action_item mw-designtype-universal"><span class="ed_label"><?php _e("Pespective"); ?></span>
-          <div class="ts_action" style="width: 120px;">
-            <div class="ts_action_item">
-              <div class="ed_slider perspective-slider left" data-min="-55" data-max="55" data-value="0" data-custom="mw.css3fx.perspective" id="perspective_slider"></div>
-              <span class="slider_val">
-              <input type="text" value="" name="perspective_slider">
-              <span class="slider_val_label">%</span></span> </div>
-          </div>
-        </div>
       </div>
     </li>
     <li class="ts_main_li mw-designtype-image"> <a class="ts_main_a dd_design_img" href="javascript:;"><?php _e("Image"); ?></a>
       <div class="ts_action ts_image_action" style="width: 200px;" contenteditable="false">
         <div class="ts_action_item">
-          <div class="ts_action_centerer"> <?php /*<span class="ed_item ed_nobg ed_item_image_text left" onclick="mw.image.enterText();"> <span></span> </span>*/ ?> <span class="ed_item ed_nobg ed_item_image_gray left"  onclick="mw.image.vintage();" title="Vintage Effect"> <span></span> </span><span class="ed_item ed_nobg ed_item_image_gray left"  onclick="mw.image.grayscale();" title="Convert to Grayscale"> <span></span> </span><span class="mw_dlm left" style="margin: 2px 6px"></span> <span class="ed_item ed_nobg ed_item_image_rotate left"  onclick="mw.image.rotate();"> <span></span> </span> <span class="mw_dlm left" style="margin: 2px 6px"></span> <?php /*<span class="ed_item ed_nobg ed_item_image_link left" onclick="mw.image.linkIt();"> <span></span> </span>*/ ?> </div>
+          <div class="ts_action_centerer"> <span class="ed_item ed_nobg ed_item_image_gray left"  onclick="mw.image.vintage();" title="Vintage Effect"> <span></span> </span><span class="ed_item ed_nobg ed_item_image_gray left"  onclick="mw.image.grayscale();" title="Convert to Grayscale"> <span></span> </span><span class="mw_dlm left" style="margin: 2px 6px"></span> <span class="ed_item ed_nobg ed_item_image_rotate left"  onclick="mw.image.rotate();"> <span></span> </span> <span class="mw_dlm left" style="margin: 2px 6px"></span> <?php /*<span class="ed_item ed_nobg ed_item_image_link left" onclick="mw.image.linkIt();"> <span></span> </span>*/ ?> </div>
         </div>
         <div class="ts_action_item">
           <div class="ts_action_centerer"> <a href="javascript:;" class="ed_btn" onclick="mw.image.description.init('#ts_image_description');"><?php _e("Add Description"); ?></a>

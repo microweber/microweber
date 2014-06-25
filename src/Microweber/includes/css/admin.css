@@ -291,9 +291,10 @@ h2 > [class*="mw-icon-"]:first-child{
 }
 
 #mw-login .mw-ui-box{
-  background-color: #FAFAFA;
+  background-color: #fff;
   min-width: 300px;
   text-align: left;
+  box-shadow: 0 0 12px -10px #000;
 }
 #mw-login .mw-icon-back{
   font-size: 20px;
@@ -1900,7 +1901,7 @@ input#edit-content-url:focus, input#edit-content-url.active{
   margin-top: 6px;
 }
 
-.admin-manage-toolbar.fix-tabs .admin-manage-toolbar-content{
+.admin-manage-toolbar.fix-tabs.admin-manage-toolbar-scrolled .admin-manage-toolbar-content{
   height: 120px;
 }
 
@@ -1956,6 +1957,16 @@ input#edit-content-url:focus, input#edit-content-url.active{
     background: -o-linear-gradient(top,  rgba(255,255,255,1) 38%,rgba(255,255,255,1) 39%,rgba(255,255,255,0) 100%);
     background: -ms-linear-gradient(top,  rgba(255,255,255,1) 38%,rgba(255,255,255,1) 39%,rgba(255,255,255,0) 100%);
     background: linear-gradient(to bottom,  rgba(255,255,255,1) 38%,rgba(255,255,255,1) 39%,rgba(255,255,255,0) 100%);
+
+
+    background: white;
+    bottom: -16px;
+    height: 20px;
+    box-shadow: 0 0 16px -9px #000;
+}
+
+#mw-quick-add-choose-layout-middle-pos{
+  clear: both;
 }
 
 .admin-manage-toolbar-scrolled.admin-manage-toolbar-scrolled-wysiwyg .admin-manage-toolbar-content:after{
@@ -2627,7 +2638,6 @@ body.grabbing, body.grabbing *{
 .quick-lists .mw-ui-navigation a [class*="mw-icon-"]{
   font-size: 27px;
   opacity: 1;
-  color: black;
   width: 22px;
   text-align: center;
 }

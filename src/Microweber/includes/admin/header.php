@@ -103,7 +103,7 @@ else {
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
 
-                <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="<?php if($view == 'dashboard' or (url_current() == admin_url())){ print 'active'; } ?>">
+                <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="<?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
                     <span class="mw-icon-mw"></span>
                     <strong><?php _e("Dashboard"); ?></strong>
                 </a>
