@@ -84,28 +84,9 @@ if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($
                    
                 }
                 if(!empty($re_sorted_modules)){
-                $modules = $re_sorted_modules; 
+                    $modules = $re_sorted_modules;
                 }
-				
-               // $modules = $re_sorted_modules;
-
             }
-
-
-
-
-
-
-
-
-
-
-
-             
-        //$modules = array_merge($sorted_modules,$modules);
-        
-
-
         }
     }
 }
@@ -119,7 +100,8 @@ if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($
 </script>
 
 <ul class="modules-list list-<?php print $mod_obj_str ?>">
-  <?php $def_icon = MW_MODULES_DIR . 'default.png';
+  <?php
+    $def_icon = MW_MODULES_DIR . 'default.png';
     $def_icon = mw('url')->link_to_file($def_icon);
     ?>
   <?php if (isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
@@ -138,7 +120,7 @@ if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($
                                     class="module_draggable"
                                     data-module-name-enc="layout_<?php print date("YmdHis") ?>"
                                     src="<?php print $dynamic_layout['icon'] ?>"
-                                    /> <s class="mw_module_image_shadow"></s></span></span> <span class="module_name"
+                                    /> </span></span> <span class="module_name"
                                                                                                   alt="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>">
     <?php _e($dynamic_layout['name']); ?>
     </span> </span></li>
@@ -175,35 +157,37 @@ if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($
 
             ?>
   <?php $module_id = $module_item['name_clean'] . '_' . uniqid(); ?>
-  <li id="<?php print $module_id; ?>" data-module-name="<?php print $module_item['module'] ?>"
+  <li <?php if(!isset($params['unique'])){ ?> id="<?php print $module_id; ?>" <?php } ?> data-module-name="<?php print $module_item['module'] ?>"
                 data-filter="<?php print $module_item['name'] ?>"
                 ondrop="true"
                 data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
                 class="module-item <?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span
                     unselectable="on" class="mw_module_hold"
-                    title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?> - Drag and drop in your page"> 
-    <script type="text/javascript">
+                    title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
+  <?php if(!isset($params['unique'])){ ?>
+  <script type="text/javascript">
             Modules_List_<?php print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
                 id: '<?php print($module_id); ?>',
                 name: '<?php print $module_item["module"] ?>',
                 title: '<?php print $module_item["name"] ?>',
                 description: '<?php print addslashes($module_item["description"]) ?>'
-
             }
-
-
         </script>
+
+  <?php } ?>
     <?php if ($module_item['icon']): ?>
-    <span class="mw_module_image"> <span class="mw_module_image_holder"><img
-                                    alt="<?php print $module_item['name'] ?>"
-                                    title="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
-                                    class="module_draggable"
-                                    data-module-name-enc="<?php print $module_item['module_clean'] ?>|<?php print $module_item['name_clean'] ?>_<?php print date("YmdHis") ?>"
-                                    src="<?php print $module_item['icon'] ?>"
-                                    /> <s class="mw_module_image_shadow"></s></span></span>
+    <span class="mw_module_image">
+        <span class="mw_module_image_holder">
+            <img
+                alt="<?php print $module_item['name'] ?>"
+                title="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>"
+                class="module_draggable"
+                data-module-name-enc="<?php print $module_item['module_clean'] ?>|<?php print $module_item['name_clean'] ?>_<?php print date("YmdHis") ?>"
+                src="<?php print $module_item['icon']; ?>" />
+        </span>
+    </span>
     <?php endif; ?>
-    <span class="module_name"
-                          alt="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>">
+    <span class="module_name" alt="<?php isset($module_item['description']) ? print addslashes($module_item['description']) : ''; ?>">
     <?php _e($module_item['name']); ?>
     </span> </span></li>
   <?php endif; ?>

@@ -2278,18 +2278,6 @@ mw.$("#elements_category_selector").change(function(){
 
 
 
-mw.$("#module_category_selector .dd_custom a").mousedown(function(e){
-   mw.tools.toolbar_searh(Modules_List_modules, $(this).html());
-   mw.tools.firstParentWithClass(this, 'mw-dropdown').querySelector('.mw-dropdown-val').innerHTML = $(this).html();
-   e.preventDefault();
-});
-mw.$("#elements_category_selector .dd_custom a").mousedown(function(e){
-   mw.tools.toolbar_searh(Modules_List_elements, $(this).html());
-   mw.tools.firstParentWithClass(this, 'mw-dropdown').querySelector('.mw-dropdown-val').innerHTML = $(this).html();
-   e.preventDefault();
-});
-
-
 
 
 mw.$("#design_bnav, .mw_ex_tools").addClass(mw.cookie.ui("designtool"));
@@ -2479,19 +2467,65 @@ $(document).ready(function(){
 });
 
 mw.toolbar = {
-  center_icons:function(){
-    mw.$(".list-modules .mw_module_image img").each(function(){
-      var Istyle = window.getComputedStyle(this, null);
-	  if(Istyle == null){
-		return;  
-	  }
-      var img_height = parseFloat(Istyle.height);
-      img_height < 32 ? $(this).css("marginTop", 16 - img_height/2) : '';
-    });
-  },
   fixPad : function(){
-   mwd.body.style.paddingTop = mw.toolbar.minTop + mw.$("#live_edit_toolbar").height() + mw.$("#modules-and-layouts").height() +  'px';
-  }
+        mwd.body.style.paddingTop = mw.toolbar.minTop + mw.$("#live_edit_toolbar").height() /*+ mw.$("#modules-and-layouts").height()*/ +  'px';
+  },
+  setComponents: function(a){
+          mw.$("#modules-and-layouts, .tst-modules").addClass("active");
+          modules_switcher.value = '';
+          mw.$("#modules-and-layouts .module-item").show();
+          mw.$(".modules_bar_slide_left").hide();
+          mw.$(".modules_bar").scrollLeft(0);
+          mw.cookie.ui("#modules-and-layouts,#tab_modules,.tst-modules", "true");
+          mw.$(".modules-layouts-menu .create-content-dropdown-list").hide();
+          if (a == 'layouts') {
+              mw.$(modules_switcher).dataset("for", "layouts");
+              mw.$(modules_switcher).attr("placeholder", "Layouts");
+              $(modules_switcher).focus();
+              modules_switcher.searchIn = 'Modules_List_elements';
+              mw.tools.addClass(tab_layouts, 'active');
+              mw.tools.removeClass(tab_modules, 'active');
+          }
+          else if (a == 'modules') {
+              mw.$(modules_switcher).dataset("for", "modules");
+              mw.$(modules_switcher).attr("placeholder", "Modules");
+              $(modules_switcher).focus();
+              modules_switcher.searchIn = 'Modules_List_modules';
+              mw.tools.addClass(tab_modules, 'active');
+              mw.tools.removeClass(tab_layouts, 'active');
+          }
+    },
+    ComponentsShow: function(what){
+           mw.toolbar.setComponents(what);
+           var mod_switch = mwd.getElementById('mod_switch');
+           if (what == 'layouts') {
+                mod_switch.innerHTML = mw.msg.switch_to_modules;
+                $(mod_switch).dataset("action", 'modules');
+            }
+            else {
+                mod_switch.innerHTML = mw.msg.switch_to_layouts;
+                $(mod_switch).dataset("action", 'layouts');
+            }
+            $(mwd.getElementById('modules-and-layouts')).addClass('hovered');
+
+    },
+    toolbar_searh : function(obj, value){
+        var value = value.toLowerCase();
+        mw.$(".modules_bar").scrollLeft(0);
+          for (var item in obj){
+              var child_object = obj[item];
+              var id = child_object.id;
+              var title = child_object.title.toLowerCase();
+              var description = child_object.description || false;
+              var item = $(document.getElementById(id));
+              if (title.contains(value) || (!!description && description.toLowerCase().contains(value))){
+                 item.show();
+              }
+              else{
+                item.hide();
+              }
+          }
+    },
 }
 
 
@@ -2517,7 +2551,6 @@ $(window).bind("load", function(){
      $(this).removeClass("hover");
   });
 
-  mw.toolbar.center_icons();
 
   mw.image.resize.init(".element-image");
     $(mwd.body).mousedown(function(event){

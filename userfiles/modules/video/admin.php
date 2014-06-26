@@ -7,50 +7,57 @@
     value="<?php print get_option('prior', $params['id']) ?>"
     />
 
-
-<style>
-
-    .mw-ui-label-inline {
-        width: 60px;
+<div class="mw-ui-box-content">
+<style scoped="scoped">
+    .tab{
+      display: none;
     }
 
 </style>
+<script>
+$(mwd).ready(function(){
+  mw.tabs({
+    nav:'.mw-ui-btn-nav-tabs a',
+    tabs:'.tab'
+  })
+})
+
+</script>
 
 
-<div class="mw_simple_tabs mw_tabs_layout_simple">
-    <ul style="margin: 0;" class="mw_simple_tabs_nav">
-        <li><a class="active" href="javascript:;"><?php _e("Embed Video"); ?></a></li>
-        <li><a href="javascript:;"><?php _e("Upload Video"); ?></a></li>
-        <li><a href="javascript:;"><?php _e("Settings"); ?></a></li>
-    </ul>
-    <div class="tab">
+
+    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+        <a class="mw-ui-btn active" href="javascript:;"><?php _e("Embed Video"); ?></a>
+        <a class="mw-ui-btn" href="javascript:;"><?php _e("Upload Video"); ?></a>
+        <a class="mw-ui-btn" href="javascript:;"><?php _e("Settings"); ?></a>
+    </div>
+<div class="mw-ui-box mw-ui-box-content">    <div class="tab" style="display: block">
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Paste video URL or Embed Code"); ?></label>
 
             <div class="mw-ui-field mw-ico-field" >
                 <span class="ico iplay"></span>
-                 
-                    
+
+
                     <textarea  name="embed_url"
                     id="emebed_video_field"
                     style="width: 340px;"
                     class="mw-ui-invisible-field mw_option_field"  data-mod-name="<?php print $params['data-type'] ?>"><?php print (get_option('embed_url', $params['id'])) ?></textarea>
-                    
+
             </div>
          </div>
     </div>
-    <div class="tab semi_hidden">
+    <div class="tab">
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Upload Video from your computer"); ?></label>
-            <input onchange="setprior(2);" name="upload" id="upload_field" class="mw-ui-field mw_option_field left"
+            <input onchange="setprior(2);" name="upload" id="upload_field" class="mw-ui-field mw_option_field semi_hidden"
                    type="text" data-mod-name="<?php print $params['data-type'] ?>"
-                   value="<?php print get_option('upload', $params['id']) ?>" style="width:270px;"/>
-            <span class="mw-ui-btn left" id="upload_btn"
-                  style="width: 60px;margin-left:-1px;"><?php _e("Browse"); ?></span>
+                   value="<?php print get_option('upload', $params['id']) ?>" />
+            <span class="mw-ui-btn" id="upload_btn"><span class="mw-icon-upload"></span><?php _e("Browse"); ?></span>
         </div>
 
-        <div class="mw_clear"></div>
-        
+
+
 
         <div class="mw-ui-progress" id="upload_status" style="display: none">
             <div style="width: 0%" class="mw-ui-progress-bar"></div>
@@ -58,14 +65,15 @@
         </div>
     </div>
     <div class="tab">
-        <label class="mw-ui-label">
-            <small><?php _e("Options for your video. Not available for embed codes"); ?>.</small>
-        </label>
+
+            <?php _e("Options for your video. Not available for embed codes"); ?>.
+
 
         <hr>
 
 
-        <div class="mw-ui-field-holder">
+        <div class="mw-ui-row-nodrop mw-ui-row-fixed" style="width: auto">
+            <div class="mw-ui-col"><div class="mw-ui-col-container"><div class="mw-ui-field-holder">
             <label class="mw-ui-label-inline"><?php _e("Width"); ?></label>
             <input
                 name="width"
@@ -75,8 +83,10 @@
                 type="text" data-mod-name="<?php print $params['data-type'] ?>"
                 value="<?php print get_option('width', $params['id']) ?>"
                 />
-        </div>
-        <div class="mw-ui-field-holder">
+        </div></div> </div>
+            <div class="mw-ui-col">
+            <div class="mw-ui-col-container">
+                 <div class="mw-ui-field-holder">
             <label class="mw-ui-label-inline"><?php _e("Height"); ?></label>
             <input
                 name="height"
@@ -88,6 +98,10 @@
                 />
 
         </div>
+        </div>
+            </div>
+        </div>
+
 
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label-inline"><?php _e("Autoplay"); ?></label>
@@ -103,8 +117,8 @@
         </div>
 
 
-    </div>
-</div>
+    </div></div>
+
 
 <script>
     mw.require("files.js");
@@ -159,3 +173,4 @@
     })
 
 </script>
+</div>

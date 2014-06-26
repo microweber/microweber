@@ -196,8 +196,12 @@ mw.askusertostay = false;
     templateSettingsHidden:"<?php _e("Template settings"); ?>",
     less:"<?php _e("Less"); ?>",
     product_added:"<?php _e("Your product is added to cart"); ?>",
-    no_results_for:"<?php _e("No results for"); ?>"
+    no_results_for:"<?php _e("No results for"); ?>",
+    switch_to_modules:'<?php _e("Switch to Modules"); ?>',
+    switch_to_layouts:'<?php _e("Switch to Layouts"); ?>'
   }
+
+
 
   mw.lib = {
     _required:[],
@@ -254,6 +258,7 @@ mw.askusertostay = false;
   }
 
   mw.settings = {
+    regions:false,
     liveEdit:false,
     debug: true,
 	basic_mode:false,

@@ -513,7 +513,7 @@
 
 .wysiwyg-table{
   display: table;
-  padding-top: 4px;
+  padding-top: 11px;
   position: relative;
   left: 0;
 }
@@ -537,6 +537,10 @@
 .wysiwyg-table > .wysiwyg-cell > *, .wysiwyg-table .wysiwyg-cell-limitter > *{
   float: none;
 }
+
+ .wysiwyg-table,  .wysiwyg-table * {
+   vertical-align: middle;
+ }
 
 
 

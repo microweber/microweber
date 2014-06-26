@@ -1048,23 +1048,7 @@ mw.tools = {
         }
     }
   },
-  toolbar_searh : function(obj, value){
-    var value = value.toLowerCase();
-    mw.$(".modules_bar").scrollLeft(0);
-      for (var item in obj){
-          var child_object = obj[item];
-          var id = child_object.id;
-          var title = child_object.title.toLowerCase();
-          var description = child_object.description || false;
-          var item = $(document.getElementById(id))
-          if (title.contains(value) || (!!description && description.toLowerCase().contains(value))){
-             item.show();
-          }
-          else{
-            item.hide();
-          }
-      }
-  },
+
   classNamespaceDelete:function(el_obj, namespace, parent){
     var parent = parent || mwd;
     if(el_obj ==='all'){
