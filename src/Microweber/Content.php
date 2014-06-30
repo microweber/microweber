@@ -5655,6 +5655,7 @@ class Content
         $data['cache_group'] = 'content_data';
 
 
+
         $get = $this->app->db->get($data);
 
         return $get;

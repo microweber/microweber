@@ -182,6 +182,7 @@ mw.askusertostay = false;
     contentunpublished:"<?php _e("Content is unpublished"); ?>",
     contentpublished:"<?php _e("Content is published"); ?>",
     save: "<?php _e('Save');  ?>",
+    saving: "<?php _e('Saving');  ?>",
     saved: "<?php _e('Saved');  ?>",
     cancel: "<?php _e('Cancel');  ?>",
     remove: "<?php _e('Remove');  ?>",
@@ -292,7 +293,7 @@ mw.askusertostay = false;
                 <a class='mw_edit_btn mw_edit_delete right' href='javascript:void(0);' onclick='mw.drag.delete_element(mw.handle_module);return false;' draggable='false'><span></span></a>\
             </div>\
             <a title='Click to edit this module.' class='mw_edit_settings' href='javascript:void(0);' onclick='mw.drag.module_settings();return false;' draggable='false'><span class='mw-element-name-handle' draggable='false'></span></a>\
-            <span title='Click to select this module.' class='mw-sorthandle-moveit' draggable='false'><?php _e("Move"); ?></span>\
+            <span title='Click to select this module.' class='mw-sorthandle-moveit' draggable='false' title='<?php _e("Move"); ?>'></span>\
         </div>",
       row: "\
         <div contenteditable='false' class='mw-defaults mw_master_handle mw_handle_row' id='mw_handle_row' draggable='false'>\
@@ -309,7 +310,7 @@ mw.askusertostay = false;
             <div contenteditable='false' draggable='false' class='mw_col_delete mw_edit_delete_element'>\
                 <a contenteditable='false' draggable='false' class='mw_edit_btn mw_edit_delete'  onclick='mw.drag.delete_element(mw.handle_element);'><span></span></a>\
             </div>\
-            <span title='<?php _e("Click to select this element"); ?>.' contenteditable='false' draggable='false' class='mw-sorthandle-moveit'><?php _e("Move"); ?></span>\
+            <span contenteditable='false' draggable='false' class='mw-sorthandle-moveit' title='<?php _e("Move"); ?>'></span>\
         </div>",
       item: "<div title='<?php _e("Click to select this item"); ?>.' class='mw_master_handle' id='items_handle'></div>"
     },
@@ -754,6 +755,7 @@ mw.required.push("<?php print MW_INCLUDES_URL; ?>api/files.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/forms.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/url.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/events.js");
+mw.required.push("<?php print MW_INCLUDES_URL; ?>api/upgrades.js");
 
 
 
@@ -763,3 +765,4 @@ mw.required.push("<?php print MW_INCLUDES_URL; ?>api/events.js");
 <?php  include "forms.js"; ?>
 <?php  include "url.js"; ?>
 <?php  include "events.js"; ?>
+<?php  include "upgrades.js"; ?>

@@ -862,7 +862,15 @@ function mw_post_update()
     }
 }
 
+api_expose('mw_install_market_item');
 
+function mw_install_market_item($params)
+{
+    $a = is_admin();
+    if ($a != false) {
+        return  mw('update')->install_market_item($params);
+    }
+}
 api_expose('mw_apply_updates');
 
 function mw_apply_updates($params)

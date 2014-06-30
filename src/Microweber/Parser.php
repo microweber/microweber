@@ -716,8 +716,7 @@ class Parser
                         $mw_replaced_edit_fields_vals[$parser_mem_crc] = $field_content;
 
                     }
-
-                    if ($rel == 'global') {
+                     if ($rel == 'global') {
                         $field_content = false;
                         $get_global = 1;
                     }

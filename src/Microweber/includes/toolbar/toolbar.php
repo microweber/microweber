@@ -35,14 +35,13 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 }
 </script>
 <script type="text/javascript">
- 
+
 
   if(mw.cookie.get("helpinfoliveedit") != 'false'){
      mw.helpinfo.cookie = "helpinfoliveedit";
      mw.helpinfo.pauseInit = true;
      $(window).bind("load", function(){
-        mw.mouse.gotoAndClick("#modules-and-layouts",
-          {
+        mw.mouse.gotoAndClick("#modules-and-layouts", {
               left:mw.$("#modules-and-layouts").width()/2,
               top:0
           });
@@ -71,11 +70,19 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
           mw.tools.template_settings(true);
         }
      <?php  } ?>
+
+     $(window).bind('saveStart', function(){
+       mw.$("#main-save-btn").html('<?php _e("Saving"); ?>...');
+     });
+     $(window).bind('saveEnd', function(){
+       mw.$("#main-save-btn").html('<?php _e("Save"); ?>');
+     });
+
+
   });
 
 </script>
 <link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
-<?php /*<link href="<?php print(MW_INCLUDES_URL); ?>css/liveadmin.css" rel="stylesheet" type="text/css"/>*/ ?>
 <link href="<?php print(MW_INCLUDES_URL); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
 
 <script type="text/javascript">
@@ -89,9 +96,6 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             mw.tools.toolbar_slider.init();
             mw_save_draft_int = self.setInterval(function () {
                 mw.drag.saveDraft();
-                if (mw.askusertostay) {
-                    mw.tools.removeClass(mwd.getElementById('main-save-btn'), 'disabled');
-                }
             }, 1000);
         });
     </script>
@@ -152,10 +156,10 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
           <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button" title="Create or manage your content" style="">  <?php _e("Add New"); ?> </a>
             <ul class="mw-dropdown-list create-content-dropdown-list liveeditcreatecontentmenu"
-                        style="width: 170px; text-transform:uppercase;">
+                        style="width: 170px; text-transform:uppercase;top: 51px;">
               <?php event_trigger('live_edit_quick_add_menu_start'); ?>
               <li>
-                <a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="mw-icon-page"></span><span>
+                <a href="javascript:;" onclick="mw.quick.edit(<?php print CONTENT_ID; ?>);"><span class="mw-icon-pen"></span><span>
                     <?php _e("Edit current"); ?>
                 </span>
                 </a>
@@ -177,8 +181,8 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
           </li>
           <li>
             <span class="mw-ui-btn-nav">
-                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" onclick="mw.toolbar.ComponentsShow('modules');"><span class="mw-icon-module"></span><?php _e("Modules"); ?></a>
-                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium" onclick="mw.toolbar.ComponentsShow('layouts');"><span class="mw-icon-template"></span><?php _e("Layouts"); ?></a>
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert" onclick="mw.toolbar.ComponentsShow('modules');"><span class="mw-icon-module"></span><?php _e("Modules"); ?></a>
+                <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium default-invert" onclick="mw.toolbar.ComponentsShow('layouts');"><span class="mw-icon-template"></span><?php _e("Layouts"); ?></a>
             </span>
           </li>
 
@@ -267,7 +271,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 class="mwtb-search mwtb-search-modules mw-ui-searchfield"
                 placeholder="<?php _e("Search Modules"); ?>"/>
 
-          <span class="mw-ui-btn mw-ui-btn-info mw-ui-btn-small" id="mod_switch" data-action="layouts">
+          <span class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-small" id="mod_switch" data-action="layouts">
           <?php _e("Switch to Layouts"); ?>
           </span>
           <?php /*<button class="mw-ui-btn mw-ui-btn-medium" id="modules_switch">Layouts</button>*/ ?>
@@ -468,6 +472,10 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 var h = $(this).dataset("action");
                 mw.toolbar.ComponentsShow(h);
             });
+
+            $(mwd.querySelectorAll('.edit')).each(function(){
+              mw.linkTip.init(this);
+            })
         });
 
 
@@ -517,7 +525,7 @@ $(window).load(function(){
 <input type="text" class="mw-ui-searchfield" />
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-left">
         <span class="mw-ui-btn active"><?php _e("Modules"); ?></span>
-        <span class="mw-ui-btn"><?php _e("Layouts"); ?></span>
+        <span class="mw-ui-btn "><?php _e("Layouts"); ?></span>
     </div>
 
     <div class="mw-ui-box">

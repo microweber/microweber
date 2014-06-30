@@ -220,18 +220,7 @@
         </div>
       </div>
     </li>
-    <li class="ts_main_li mw-designtype-image"> <a class="ts_main_a dd_design_img" href="javascript:;"><?php _e("Image"); ?></a>
-      <div class="ts_action ts_image_action" style="width: 200px;" contenteditable="false">
-        <div class="ts_action_item">
-          <div class="ts_action_centerer"> <span class="ed_item ed_nobg ed_item_image_gray left"  onclick="mw.image.vintage();" title="Vintage Effect"> <span></span> </span><span class="ed_item ed_nobg ed_item_image_gray left"  onclick="mw.image.grayscale();" title="Convert to Grayscale"> <span></span> </span><span class="mw_dlm left" style="margin: 2px 6px"></span> <span class="ed_item ed_nobg ed_item_image_rotate left"  onclick="mw.image.rotate();"> <span></span> </span> <span class="mw_dlm left" style="margin: 2px 6px"></span> <?php /*<span class="ed_item ed_nobg ed_item_image_link left" onclick="mw.image.linkIt();"> <span></span> </span>*/ ?> </div>
-        </div>
-        <div class="ts_action_item">
-          <div class="ts_action_centerer"> <a href="javascript:;" class="ed_btn" onclick="mw.image.description.init('#ts_image_description');"><?php _e("Add Description"); ?></a>
-            <textarea class="desc_area" id="ts_image_description"></textarea>
-          </div>
-        </div>
-      </div>
-    </li>
+
   </ul>
 
 </div>

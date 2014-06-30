@@ -10,9 +10,7 @@ mw.iframecallbacks = {
 
          var range = window.getSelection().getRangeAt(0);
 
-         mw.tools.addClass(mw.tools.firstParentWithClass(range.startContainer, 'edit'), 'changed orig_changed');
-
-         mw.askusertostay = true;
+         mw.wysiwyg.change(range.startContainer);
 
          if(!!mw.current_element && mw.current_element.nodeName === 'IMG'){
             if( mw.current_element.parentNode.nodeName !== 'A'){
@@ -73,8 +71,7 @@ mw.iframecallbacks = {
 
         mw.image.currentResizing.attr("src", url);
         mw.image.currentResizing.css('height', 'auto');
-        mw.tools.addClass(mw.tools.firstParentWithClass(mw.image.currentResizing[0], 'edit'), 'changed orig_changed');
-        mw.askusertostay = true;
+        mw.wysiwyg.change(mw.image.currentResizing[0]);
         parent.mw.image.currentResizing.load(function(){
           parent.mw.image.resize.resizerSet(this);
         });
@@ -88,8 +85,8 @@ mw.iframecallbacks = {
       var link = mw.wysiwyg.findTagAcrossSelection('a');
       link.href = a;
 
-      mw.tools.addClass(mw.tools.firstParentWithClass(link, 'edit'), 'changed orig_changed');
-       mw.askusertostay = true;
+       mw.wysiwyg.change(link);
+
     }
 
 }

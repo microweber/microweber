@@ -205,19 +205,41 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 }
 
 .mw-sorthandle-moveit{
-  position: absolute;
-  z-index: 0;
-  left: 0px;
-  top: 0px;
-  display: block;
-  width: 100%;
-  height: 18px;
-  text-indent: -9999px;
-  cursor: move;
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-  cursor: grab;
+    position: absolute;
+    z-index: 0;
+    left: 0px;
+    top: 0px;
+    display: block;
+    width: 100%;
+    height: 19px;
+    cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+    text-align: center;
 }
+
+.mw-sorthandle-moveit:before{
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top:0;
+  background-color: #E1E1E1;
+  width: 20px;
+  height: 20px;
+  content: "\0100";
+  font-family: Microweber;
+  border-radius: 3px 0 0 3px;
+  color: black;
+  font-size: 19px;
+  line-height: 19px;
+}
+
+.mw-sorthandle-moveit:hover:before{
+  background-color: #000;
+  color: white;
+}
+
 .dragStart .mw-sorthandle-moveit, body.dragStart *,  body.dragStart .column_separator_title {
   cursor: -webkit-grabbing;
   cursor: -moz-grabbing;
@@ -236,7 +258,10 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
   text-align: center;
   font-size: 11px;
   line-height: 17px;
-  padding: 0px 4px;
+  padding: 2px 4px;
+  float: left;
+  height: 20px;
+  border-radius: 3px 0 0 3px;
 }
 
 
@@ -319,11 +344,11 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
   margin-top: 7px;
   color:#666666;
   border-radius: 2px;
-  background: black;
+
   height: auto;
 }
-#mw_handle_row{
-  width: auto !important;
+.column_separator_title{
+  background: #000;
 }
 
 #mw_handle_module{
@@ -335,13 +360,27 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 
 a.mw-make-cols, #mw_handle_module .mw_edit_settings {
   color: rgba(255, 255, 255, 0.77);
-  background: none;
+  background: #000;
   text-decoration: none;
   display: inline-block;
   padding:2px 7px;
   outline: none;
   position: relative;
   z-index: 1;
+}
+
+a.mw-make-cols{
+  position: absolute;
+  visibility: hidden;
+  float: left;
+}
+a.mw-make-cols.active{
+  visibility: visible;
+  position: static;
+}
+#mw_handle_row:hover a.mw-make-cols{
+  visibility: visible;
+  position: static;
 }
 
 #mw_handle_module .mw_edit_settings:hover, #mw_handle_module .mw_edit_settings:hover span{
@@ -928,7 +967,7 @@ body.loaded #live_edit_toolbar{
 
 .toolbars-search {
   float: left;
-  width: 165px;
+  width: 145px;
 }
 
 #modules-and-layouts.hovered{
@@ -1183,9 +1222,6 @@ body.loaded #live_edit_toolbar{
   border-bottom-color: white;
 }
 
-
-
-
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list {
   background: white;
 }
@@ -1231,7 +1267,6 @@ body.loaded #live_edit_toolbar{
 
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list ul{ background: white url(../img/deeparr.png) no-repeat 21px 9px; }
 .toolbar-sections-tabs > ul > li > .mw-dropdown-list a:hover{
-     text-decoration: underline;
      background-color: #f5f5f5;
 }
 
@@ -1251,6 +1286,16 @@ body.loaded #live_edit_toolbar{
 
 .toolbar-sections-tabs > ul > li > ul > li > a .mw-ui-btn-plus{
   top: 9px;
+}
+
+.toolbar-sections-tabs .default-invert:hover,
+.toolbar-sections-tabs .default-invert:focus{
+  background-color: #555;
+}
+.toolbar-sections-tabs a,
+.toolbar-sections-tabs a:hover,
+.toolbar-sections-tabs a:focus{
+  text-decoration: none
 }
 
 /* // Section Tabs and Dropdowns */
@@ -1641,7 +1686,7 @@ body.dragStart .empty-element { display: block; }
   float: left;
   cursor: pointer;
   width: 25px;
-  height: 40px;
+  height: 48px;
   position: relative;
   background-image: url("../img/editor.png");
   background-repeat: no-repeat;
@@ -1658,7 +1703,7 @@ body.dragStart .empty-element { display: block; }
 
 
 #liveedit_wysiwyg_main_prev{
-  background-position: -11px 11px;
+  background-position: -11px 50%;
 }
 
 #liveedit_wysiwyg_main_prev:after,
@@ -1984,12 +2029,17 @@ body.design_hover .element-current{
   background: black;
   position: relative;
   z-index: 9;
-  border-radius: 3px;
+  border-radius:  0 3px 3px 0;
   padding: 2px;
   text-decoration: none;
   position: absolute;
   right: -20px;
   top: 0;
+}
+
+.mw-make-cols + .mw_edit_delete{
+  border-radius: 0 3px 3px 0;
+  right: auto;
 }
 
 .mw_edit_delete:after{

@@ -51,7 +51,8 @@ else{
               parent.mw.image.currentResizing.attr("src", url);
               parent.mw.image.currentResizing.css('height', 'auto');
 
-              parent.mw.tools.addClass(parent.mw.tools.firstParentWithClass(parent.mw.image.currentResizing[0], 'edit'), 'changed orig_changed');
+
+               parent.mw.wysiwyg.change(parent.mw.image.currentResizing[0])
 
               parent.mw.image.resize.resizerSet(parent.mw.image.currentResizing[0]);
 
@@ -59,7 +60,7 @@ else{
             }
             else if(hash=='set_bg_image'){
               parent.mw.wysiwyg.set_bg_image(url);
-              parent.mw.tools.addClass(parent.mw.tools.firstParentWithClass(parent.mw.current_element, 'edit'), 'changed orig_changed');
+              parent.mw.wysiwyg.change(parent.mw.current_element);
               parent.mw.askusertostay = true;
             }
             else{

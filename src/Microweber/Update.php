@@ -209,6 +209,11 @@ class Update
 
     }
 
+    function install_market_item($params){
+d($params);
+    }
+
+
     function post_update()
     {
         if (!ini_get('safe_mode')) {

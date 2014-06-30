@@ -685,7 +685,14 @@ $(mww).bind('load', function(){
          mw.$('#pin-sidebar').addClass('active');
     }
 
-
+   $(window).bind('adminSaveStart', function(){
+        var btn = mwd.querySelector('#content-title-field-buttons .mw-ui-btn[type="submit"]');
+        btn.innerHTML = mw.msg.saving + '...';
+   });
+   $(window).bind('adminSaveEnd', function(){
+        var btn = mwd.querySelector('#content-title-field-buttons .mw-ui-btn[type="submit"]');
+        btn.innerHTML = mw.msg.save;
+   });
 
 });
 

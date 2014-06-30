@@ -154,6 +154,21 @@ img.element{
   margin-bottom: 12px;
 }
 
+.mw-col-container > h1:first-child,
+.mw-col-container > h2:first-child,
+.mw-col-container > h3:first-child,
+.mw-col-container > h4:first-child,
+.mw-col-container > h5:first-child,
+.mw-col-container > p:first-child,
+.mw-ui-col-container > h1:first-child,
+.mw-ui-col-container > h2:first-child,
+.mw-ui-col-container > h3:first-child,
+.mw-ui-col-container > h4:first-child,
+.mw-ui-col-container > h5:first-child,
+.mw-ui-col-container > p:first-child{
+  margin-top: 0;
+}
+
 .mw-col-container img.element:first-child,
 .mw-col-container .picture:first-child img.element{
   margin-top: 0;

@@ -92,18 +92,20 @@ if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($
 }
 
 
-?>
+?>  <?php if(!isset($params['clean'])){ ?>
 <script type="text/javascript">
 
     Modules_List_<?php print $mod_obj_str ?> = {}
      
 </script>
 
+<?php } ?>
+
 <ul class="modules-list list-<?php print $mod_obj_str ?>">
   <?php
     $def_icon = MW_MODULES_DIR . 'default.png';
     $def_icon = mw('url')->link_to_file($def_icon);
-    ?>
+  ?>
   <?php if (isset($dynamic_layouts) and is_array($dynamic_layouts)): ?>
   <?php foreach ($dynamic_layouts as $dynamic_layout): ?>
   <?php if (isset($dynamic_layout['template_dir']) and isset($dynamic_layout['layout_file'])): ?>
@@ -114,7 +116,8 @@ if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($
     <?php if (!isset($dynamic_layout['icon'])): ?>
     <?php $dynamic_layout['icon'] = $def_icon; ?>
     <?php endif; ?>
-    <span class="mw_module_image"> <span class="mw_module_image_holder"><img
+    <span class="mw_module_image"> <span class="mw_module_image_holder">
+    <img
                                     alt="<?php print $dynamic_layout['name'] ?>"
                                     title="<?php isset($dynamic_layout['description']) ? print addslashes($dynamic_layout['description']) : ''; ?>"
                                     class="module_draggable"
@@ -157,14 +160,14 @@ if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($
 
             ?>
   <?php $module_id = $module_item['name_clean'] . '_' . uniqid(); ?>
-  <li <?php if(!isset($params['unique'])){ ?> id="<?php print $module_id; ?>" <?php } ?> data-module-name="<?php print $module_item['module'] ?>"
+  <li <?php if(!isset($params['clean'])){ ?> id="<?php print $module_id; ?>" <?php } ?> data-module-name="<?php print $module_item['module'] ?>"
                 data-filter="<?php print $module_item['name'] ?>"
                 ondrop="true"
                 data-category="<?php isset($module_item['categories']) ? print addslashes($module_item['categories']) : ''; ?>"
                 class="module-item <?php if (isset($module_item['as_element']) and intval($module_item['as_element'] == 1) or (isset($is_elements) and $is_elements == true)) : ?> module-as-element<?php endif; ?>"> <span
                     unselectable="on" class="mw_module_hold"
                     title="<?php print addslashes($module_item["name"]); ?>. <?php print addslashes($module_item["description"]) ?>">
-  <?php if(!isset($params['unique'])){ ?>
+  <?php if(!isset($params['clean'])){ ?>
   <script type="text/javascript">
             Modules_List_<?php print $mod_obj_str ?>['<?php print($module_id); ?>'] = {
                 id: '<?php print($module_id); ?>',

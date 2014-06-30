@@ -295,6 +295,7 @@ h2 > [class*="mw-icon-"]:first-child{
   min-width: 300px;
   text-align: left;
   box-shadow: 0 0 12px -10px #000;
+  -webkit-box-shadow: 0 0 12px -7px #000;
 }
 #mw-login .mw-icon-back{
   font-size: 20px;

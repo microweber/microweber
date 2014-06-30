@@ -113,7 +113,7 @@ $(document).ready(function(){
      });
      mw.on.stopWriting(e.target, function(){
        if(mw.tools.hasClass(e.target, 'edit') || mw.tools.hasParentsWithClass(this, 'edit')){
-         mw.drag.save();
+         mw.drag.saveDraft();
        }
      });
    });
@@ -878,7 +878,7 @@ mw.drag = {
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
-                  $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
+                  mw.wysiwyg.change(mw.dragCurrent);
                   mw.smallEditor.css("visibility", "hidden");
                   mw.smallEditorCanceled = true;
                },
@@ -899,7 +899,8 @@ mw.drag = {
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
-                  $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
+                  mw.wysiwyg.change(mw.dragCurrent);
+
                   mw.smallEditor.css("visibility", "hidden");
                   mw.smallEditorCanceled = true;
                },
@@ -920,7 +921,7 @@ mw.drag = {
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
-                   $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
+                    mw.wysiwyg.change(mw.dragCurrent);
                    mw.smallEditor.css("visibility", "hidden");
                   mw.smallEditorCanceled = true;
                },
@@ -939,7 +940,7 @@ mw.drag = {
                   mw.drag.fix_placeholders();
                   $(mwd.body).addClass("dragStart");
                   $(mw.image_resizer).removeClass("active");
-                   $(mw.tools.firstParentWithClass(mw.dragCurrent, 'edit')).addClass('changed');
+                   mw.wysiwyg.change(mw.dragCurrent);
                },
                stop:function(){$(mwd.body).removeClass("dragStart");}
             });
@@ -1084,13 +1085,8 @@ mw.drag = {
             }
 			if (mw.isDrag) {
 			  mw.isDrag = false;
-              if(!mw.tools.hasClass(mw.currentDragMouseOver, 'edit')){
-                mw.tools.addClass(mw.tools.firstParentWithClass(mw.currentDragMouseOver, 'edit'), 'changed orig_changed');
-              }
-              else{
-                 mw.tools.addClass(mw.currentDragMouseOver, 'changed orig_changed');
-              }
-              mw.askusertostay = true;
+
+              mw.wysiwyg.change(mw.currentDragMouseOver);
               $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
 			  /*  var history_id = 'history_'+mw.random();
 
@@ -1541,8 +1537,9 @@ mw.drag = {
         if (id == "") {
           id = mw.settings.element_id;
         }
-        $(mw.tools.firstParentWithClass(mw.$('#' + id)[0], 'edit')).addClass("changed orig_changed");
-        mw.askusertostay = true;
+
+
+        mw.wysiwyg.change(mw.$('#' + id)[0])
 
         mw.$('#' + id).addClass("mwfadeout");
         setTimeout(function(){
@@ -1648,6 +1645,7 @@ mw.drag = {
     saving:false,
     coreSave:function(data){
         if(!data) return false;
+
         mw.drag.saving = true;
         var xhr = $.ajax({
             type: 'POST',
@@ -1660,8 +1658,9 @@ mw.drag = {
         });
         return xhr;
     },
-    parseContent:function(){
-        var doc = mw.tools.parseHtml(mwd.body.innerHTML);
+    parseContent:function(root){
+        var root = root || mwd.body;
+        var doc = mw.tools.parseHtml(root.innerHTML);
         mw.$('.element-current', doc).removeClass('element-current');
         mw.$('.element-active', doc).removeClass('element-active');
         mw.$('.disable-resize', doc).removeClass('disable-resize');
@@ -1694,6 +1693,7 @@ mw.drag = {
                 helper.item = edits[i];
                 var rel = mw.tools.mwattr(helper.item, 'rel');
                 if(!rel){
+                    mw.$(helper.item).removeClass('changed');
                     mw.tools.foreachParents(helper.item, function(loop){
                         var cls = this.className;
                         var rel =  mw.tools.mwattr(this, 'rel');
@@ -1710,9 +1710,9 @@ mw.drag = {
                 var attr_obj = {};
                 var attrs = helper.item.attributes;
                 if(attrs.length > 0){
-                  var i = 0, l = attrs.length
-                  for ( ; i < l; i++) {
-                    attr_obj[attrs[i].nodeName] = attrs[i].nodeValue;
+                  var ai = 0, al = attrs.length
+                  for ( ; ai < al; ai++) {
+                    attr_obj[attrs[ai].nodeName] = attrs[ai].nodeValue;
                   }
                 }
                 var obj = {
@@ -1720,12 +1720,22 @@ mw.drag = {
                   html: content
                 }
                 var objdata = "field_data_" + i;
+
                 master[objdata] = obj;
             }
         }
         return master;
     },
-    save:function(){    return false;
+    getData:function(root){
+        var body = mw.drag.parseContent(root).body,
+            edits = body.querySelectorAll('.edit.changed'),
+            data = mw.drag.collectData(edits);
+        return data;
+    },
+    saveDisabled:false,
+    draftDisabled:false,
+    save:function(){
+        if(mw.drag.saveDisabled) return false;
         var body = mw.drag.parseContent().body,
             edits = body.querySelectorAll('.edit.changed'),
             data = mw.drag.collectData(edits);
@@ -1740,15 +1750,26 @@ mw.drag = {
         xhr.success(function(sdata){
            mw.$('.edit.changed').removeClass('changed');
            mw.$('.orig_changed').removeClass('orig_changed');
-           mw.askusertostay = false;
-           $(window).trigger('saveEnd', sdata);
+           if(mwd.querySelector('.edit.changed') !== null){
+              mw.drag.save();
+           }
+           else{
+             mw.askusertostay = false;
+             $(window).trigger('saveEnd', sdata);
+           }
         });
         xhr.fail(function(jqXHR, textStatus, errorThrown){
            $(window).trigger('saveFailed', textStatus, errorThrown);
         });
+        return xhr;
     },
     saveDraftOld:'',
+    DraftSaving:false,
+    initDraft:false,
     saveDraft:function(){
+        if(mw.drag.draftDisabled) return false;
+        if(mw.drag.DraftSaving) return false;
+        if(!mw.drag.initDraft) return false;
         if(mwd.body.textContent != mw.drag.saveDraftOld){
             mw.drag.saveDraftOld = mwd.body.textContent;
             var body = mw.drag.parseContent().body,
@@ -1756,7 +1777,12 @@ mw.drag = {
                 data = mw.drag.collectData(edits);
             if(mw.tools.isEmptyObject(data)) return false;
             data['is_draft'] = true;
+            mw.drag.DraftSaving = true;
             var xhr = mw.drag.coreSave(data);
+            xhr.always(function(){
+                mw.drag.DraftSaving = false;
+                mw.drag.initDraft = false;
+            });
         }
     }
 }
@@ -1778,9 +1804,7 @@ mw.pcWidthExtend = function(selector, howMuch, cache, final, len){
      if(final<100){
        mw.pcWidthExtend(selector, howMuch, cache, final, len);
      }
-
   }
-
 }
 
 
@@ -1975,8 +1999,10 @@ if($(window).width() < 768){
 
                         mw.px2pc($(this).parents(".mw-row")[0]);
 
-                        $(mw.tools.firstParentWithClass(this, 'edit')).addClass("changed orig_changed");
-                        mw.askusertostay = true;
+
+
+                        mw.wysiwyg.change(this)
+
                         $(mwd.body).removeClass('Resizing');
                        //mw.scale_cols();
 					}
@@ -2526,6 +2552,13 @@ mw.toolbar = {
               }
           }
     },
+    tip:function(el, txt){
+        if(!mw.toolbar.tooltip){
+           mw.toolbar.tooltip = mw.tooltip({
+
+           });
+        }
+    }
 }
 
 
