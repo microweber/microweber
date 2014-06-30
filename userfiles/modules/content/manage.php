@@ -7,7 +7,7 @@ include __DIR__ . DS . '../categories/manage.php';
 return;
 	
 }
-
+//d($params);
 
 
 $posts_mod = array();
@@ -92,8 +92,14 @@ $posts = array();
 
 
 <?php 
-
+//d($page_info);
 if(isset($page_info) and is_array($page_info)): ?>
+
+<?php if(isset($page_info['subtype']) and $page_info['subtype'] =='static'): ?>
+<?php return include __DIR__ . DS . 'edit.php'; 
+ 
+	 ?>
+<?php endif; ?>
 
 <?php include __DIR__ . DS . 'admin_toolbar.php'; ?>
 

@@ -369,10 +369,13 @@ mw.wysiwyg = {
       }, function(){
         $(this).removeClass("mw_editor_btn_hover");
       });
-      $(mwd.body).bind('', function(event){
+      $(mwd.body).bind('mouseup', function(event){
         if(event.target.isContentEditable){
           mw.wysiwyg.check_selection(event.target);
         }
+      });
+      $(mwd.body).bind('noop', function(event){
+
         if( event.keyCode == 46  && event.type=='keydown'){
             mw.tools.removeClass(mw.image_resizer, 'active');
             mw.wysiwyg.change('.element-current');

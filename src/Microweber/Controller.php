@@ -1320,11 +1320,57 @@ class Controller
         $p_index = normalize_path($p_index, false);
 
         $p = MW_INCLUDES_DIR . 'toolbar/editor_tools/' . $tool . '/index.php';
+
+        if($tool == 'wysiwyg'){
+             $ed_file_from_template =  TEMPLATE_DIR . 'editor.php';
+            if(is_file($ed_file_from_template)){
+                $p_index = $ed_file_from_template;
+            }
+        }
         $p = normalize_path($p, false);
 
         $l = new $this->app->view($p_index);
         $l->params = $params;
         $layout = $l->__toString();
+
+
+
+        if($layout != false){
+            $apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
+
+            $is_admin = $this->app->user->is_admin();
+            $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
+            $headers = event_trigger('site_header', TEMPLATE_NAME);
+            $template_headers_append = '';
+            $one = 1;
+            if (is_array($headers)) {
+                foreach ($headers as $modify) {
+                    if ($modify != false and is_string($modify) and $modify != '') {
+                        $template_headers_append = $template_headers_append . $modify;
+                    }
+                }
+                if ($template_headers_append != false and $template_headers_append != '') {
+                    $layout = str_ireplace('</head>', $template_headers_append . '</head>', $l, $one);
+                }
+            }
+            if (function_exists('template_headers_src')) {
+                $template_headers_src = template_headers_src();
+                if ($template_headers_src != false and $template_headers_src != '') {
+                    $layout = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
+                }
+            }
+            if (!stristr($layout, $apijs_loaded)) {
+
+                $default_css = $default_css. "\r\n".'<script src="' . $apijs_loaded . '"></script>' . "\r\n";
+                $layout = str_ireplace('<head>', '<head>' . $default_css, $layout);
+            }
+           // print $layout;
+           // exit();
+        }
+
+
+
+
         // var_dump($l);
 
         if (isset($_REQUEST['plain'])) {

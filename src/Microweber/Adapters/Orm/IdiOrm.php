@@ -99,7 +99,7 @@ class IdiOrm
 //                }
 //
 //            }
-            $query_hash = $query.join(',',$parameters);
+            $query_hash = $query . join(',', $parameters);
             $cache_group = $app->db->guess_cache_group($table_name);
             if ($is_int == false) {
                 $cache_group = 'global';
@@ -145,8 +145,9 @@ class IdiOrm
         $order_by = false;
         $count = false;
         $limit = $this->default_limit;
-        $limit = 30;
-        //$limit =  $this->app->option->get('items_per_page ', 'website');
+        if ($limit == false) {
+            $limit = 30;
+        }
         $offset = false;
         $min = false;
         $max = false;
@@ -234,14 +235,8 @@ class IdiOrm
 
         }
 
-        // d($params);
-        //return;
         $params_to_fields = $this->app->db->map_array_to_table($table, $params);
-        //
-        if (isset($params['parent'])) {
 
-            //d($params_to_fields);
-        }
         if (is_array($params) and !empty($params)) {
 
             $joined_tables = array();
@@ -249,7 +244,6 @@ class IdiOrm
                 if ($k == 'id') {
                     $orm->where_id_is($v);
                 } else {
-
                     $joins = explode('.', $k);
                     if (isset($joins[1])) {
                         $table_alias = $joins[0];
@@ -269,18 +263,14 @@ class IdiOrm
                             $field_name = $k;
                             $field_value = $v;
                             $table_alias = $table;
-
                         } else {
                             $field_name = false;
                             $field_value = false;
                         }
-
                     } else if (isset($joins[1])) {
                         $field_name = $joins[1];
                         $field_value = $v;
                     }
-
-
                     if (isset($params_to_fields[$k])) {
                         if (is_int($v)) {
                             $v = strval($v);
@@ -316,16 +306,14 @@ class IdiOrm
 
 
                         } elseif (is_string($field_value)) {
-                           // d($field_value);
                             $field_value = trim($field_value);
                             $field_value_len = strlen($field_value);
 
                             $two_chars = substr($field_value, 0, 2);
                             $one_char = substr($field_value, 0, 1);
                             $compare_sign = false;
+
                             if ($field_value_len > 0) {
-
-
                                 if (is_string($field_value)) {
                                     if (stristr($field_value, '[lt]')) {
                                         $one_char = '<';
@@ -448,7 +436,6 @@ class IdiOrm
             }
             $raw_search_query = false;
             if (!empty($to_search_in_fields)) {
-
                 $raw_search_query = '';
                 $search_vals = array();
                 $search_qs = array();
@@ -458,13 +445,10 @@ class IdiOrm
                 }
                 if (!empty($search_qs)) {
                     $raw_search_query = implode($search_qs, ' OR ');
-
-
                     $orm->where_raw('(' . $raw_search_query . ')', $search_vals);
                 }
             }
 
-            //
         }
 
 
@@ -480,15 +464,15 @@ class IdiOrm
                 $orm->group_by($table . '.id');
             }
         } else {
-            if ($count_paging == false){
-            if (is_string($group_by)) {
-                $group_by = explode(',', $group_by);
-            }
-            if(is_array($group_by)){
-                foreach($group_by as $group){
-                    $orm->group_by($group);
+            if ($count_paging == false) {
+                if (is_string($group_by)) {
+                    $group_by = explode(',', $group_by);
                 }
-            }
+                if (is_array($group_by)) {
+                    foreach ($group_by as $group) {
+                        $orm->group_by($group);
+                    }
+                }
             }
         }
         if ($order_by != false) {
@@ -497,14 +481,13 @@ class IdiOrm
 
 
         if ($count_paging == true) {
-        // d($params);
             $ret = $orm->count('*');
             $plimit = $limit;
             if ($plimit != false and $ret != false) {
                 $pages_qty = ceil($ret / $plimit);
                 return $pages_qty;
             } else {
-                return ;
+                return;
             }
 
         }
@@ -539,9 +522,7 @@ class IdiOrm
         } else if ($get_method != false) {
             return $orm->$get_method();
         } else {
-            $return = $orm->find_array();
-
-            return $return;
+            return $orm->find_array();
             // return $orm->find_many();
         }
 
@@ -561,9 +542,6 @@ class IdiOrm
 
     function getLastQuery()
     {
-
         return ORM::get_last_query();
     }
-
-
 }

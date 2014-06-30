@@ -5,18 +5,12 @@ window.onmessage = function (e) {
 //    }
 
     if (typeof e.data != 'undefined') {
-       // alert(e.origin + e.data.download);
+        // alert(e.origin + e.data.download);
 
-        $.post( mw.settings.api_url+"mw_install_market_item", e.data)
-            .done(function( data ) {
-                alert( "Data Loaded: " + data );
+        $.post(mw.settings.api_url + "mw_install_market_item", e.data)
+            .done(function (data) {
+                alert("Data Loaded: " + data);
             });
-
-
-
-
-
-
 
 
     }
