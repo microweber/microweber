@@ -317,7 +317,13 @@ if (isset($_GET['type'])) {
                 data: o_data,
                 success: function () {
                     if (refresh_modules11 != undefined && refresh_modules11 != '') {
-                        refresh_modules11 = refresh_modules11.toString()
+                        refresh_modules11 = refresh_modules11.toString();
+						 if(!!mw.admin){
+						 if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
+		 top.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>')
+		}
+						 
+						 }
                         if (window.parent.mw != undefined) {
                             if (window.parent.mw.reload_module != undefined) {
                                 if(!!mw.admin){
