@@ -17,12 +17,12 @@
  mw.add_new_page_to_menu = function(id){
 	 
 		 if(id == undefined){
-			var id = 0; 
+			var id = 0;
 		 }
 	 
-	 	   mw.simpletab.set(mwd.getElementById('add_new_content_tab'));
+	 	   MenuTabs.set(4);
 
-
+   
 	     $('#mw_page_create_live_edit').removeAttr('data-content-id');
 
  	 	 $('#mw_page_create_live_edit').attr('from_live_edit',1);
@@ -41,7 +41,14 @@
         parent.mw.tools.modal.resize("#"+thismodal.main[0].id, 710, mw.$('#settings-container').height()+25, false);
       });
  	}
-	
+
+    $(mwd).ready(function(){
+       MenuTabs = mw.tabs({
+          nav:'#menu-tabs a',
+          tabs:'.tab'
+       });
+    });
+
 </script>
 
 
@@ -51,7 +58,7 @@
 			</a>
 		<a href="javascript:;" class="mw-ui-btn">
 			<?php _e("Skin/Template"); ?>
-			</a>
+		</a>
 		<span style="display:none"><a href="javascript:;" id="add_new_menu_tab"></a></span>
 		<span style="display:none"><a href="javascript:;" id="add_new_content_tab"></a></span>
 	</div>

@@ -16,19 +16,30 @@ $(document).ready(function(){
 
 mw.tabs({
    tabs:'.group-logins',
-   nav:'.login-tab-group',
    nav:'.social-providers-list li',
    toggle:false,
-   onclick:function(){
-     mw.$(".mw-icon- li").removeClass("active");
-     if($(this).hasClass("active")){
-       $(this.parentNode).addClass("active")
+   onclick:function(tab, e){
+     if(mw.tools.hasClass(e.target, 'mw-ui-check') || mw.tools.hasClass(e.target.parentNode, 'mw-ui-check')){
+
      }
      else{
-        $(this.parentNode).removeClass("active")
+       mw.$(".mw-icon- li").removeClass("active");
+       if($(this).hasClass("active")){
+         $(this.parentNode).addClass("active");
+       }
+       else{
+
+       }
+       $(this.parentNode).removeClass("active");
      }
    }
 });
+
+
+mw.$('.mw-ui-check').bind('mousedown', function(){
+    mw.tools.toggleCheckbox(this.querySelector('input'));
+});
+
 
 });
 </script>
@@ -61,22 +72,27 @@ mw.tabs({
        color: #dd4b39;
      }
 
+     .group-logins .mw-ui-label{
+       padding-top: 20px;
+     }
+
 
 
  </style>
 <div class="<?php print $config['module_class'] ?>">
   <?php  $curent_val = get_option('enable_user_registration','users'); ?>
-  <label class="mw-ui-label"><?php _e("Enable User Registration"); ?></label>
+
+<div class="mw-ui-field-holder">  <label class="mw-ui-label"><?php _e("Enable User Registration"); ?></label>
 
     <select name="enable_user_registration" class="mw-ui-field mw_option_field"   type="text" option-group="users">
       <option value="y" <?php if($curent_val == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
       <option value="n" <?php if($curent_val == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
-    </select>
+    </select></div>
 
 
  
 
-<label class="mw-ui-label"><?php _e("Allow Social Login with"); ?></label>
+<div class="mw-ui-field-holder"><label class="mw-ui-label"><?php _e("Allow Social Login with"); ?></label></div>
 
 
   <?php
@@ -139,45 +155,47 @@ mw.tabs({
 
 
 <div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
-  <ul class="mw-small-help">
+  <ol class="ol">
     <li><?php _e("Api access"); ?> <a class="mw-ui-link" target="_blank" href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a></li>
     <li><?php _e("In"); ?> <em><?php _e("Website with Facebook Login"); ?></em> <?php _e("please enter"); ?> <em><?php print site_url(); ?></em></li>
     <li><?php _e("If asked for callback url - use"); ?> <em><?php print api_link('social_login_process?hauth.done=Facebook') ?></em></li>
-  </ul>
-  <label class="mw-ui-label"><?php _e("App ID/API Key"); ?></label>
-  <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field "   type="text" option-group="users"  value="<?php print get_option('fb_app_id','users'); ?>" />
-  
-  <label class="mw-ui-label"><?php _e("App Secret"); ?></label>
-  <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field"   type="text" option-group="users"  value="<?php print get_option('fb_app_secret','users'); ?>" />
+  </ol>
+  <div class="mw-ui-field-holder">
+    <label class="mw-ui-label"><?php _e("App ID/API Key"); ?></label>
+    <input name="fb_app_id" class="mw_option_field mw-ui-field mw-title-field "   type="text" option-group="users"  value="<?php print get_option('fb_app_id','users'); ?>" />
+    <label class="mw-ui-label"><?php _e("App Secret"); ?></label>
+    <input name="fb_app_secret" class="mw_option_field mw-ui-field mw-title-field"   type="text" option-group="users"  value="<?php print get_option('fb_app_secret','users'); ?>" />
+  </div>
 </div>
 
 
   <div class="mw-ui-box mw-ui-box-content group-logins">
 
-  <ul class="mw-small-help">
+  <ol class="ol">
     <li><?php _e("Set your"); ?> <em><?php _e("Api access"); ?></em> <a class="mw-ui-link" target="_blank" href="https://code.google.com/apis/console/">https://code.google.com/apis/console/</a></li>
     <li><?php _e("In redirect URI  please enter"); ?> <em><?php print api_link('social_login_process?hauth.done=Google') ?></em></li>
-  </ul>
-  <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
-  <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('google_app_id','users'); ?>" />
-  
-  <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
-  <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('google_app_secret','users'); ?>" />
+  </ol>
 
+  <div class="mw-ui-field-holder">
+    <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
+    <input name="google_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('google_app_id','users'); ?>" />
+    <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
+    <input name="google_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('google_app_secret','users'); ?>" />
+  </div>
  </div>
 
 
   <div class="mw-ui-box mw-ui-box-content group-logins">
 
-  <ul class="mw-small-help">
+  <ol class="ol">
     <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://github.com/settings/applications/new">https://github.com/settings/applications/new</a></li>
     <li><?php _e("In"); ?> <em><?php _e("Main URL"); ?></em> <?php _e("enter"); ?> <em><?php print site_url() ?></em></li>
     <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print api_link('social_login_process?hauth.done=Github') ?></em></li>
-  </ul>
-  <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
+  </ol>
+  <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
   <input name="github_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('github_app_id','users'); ?>" />
   
-  <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
+  <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
   <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('github_app_secret','users'); ?>" />
 
   </div>
@@ -188,28 +206,28 @@ mw.tabs({
 
 
   <div class="mw-ui-box mw-ui-box-content group-logins">
-  <ul class="mw-small-help">
+  <ol class="ol">
     <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://dev.twitter.com/apps">https://dev.twitter.com/apps</a></li>
     <li><?php _e("In"); ?> <em><?php _e("Website"); ?></em> <?php _e("enter"); ?> <em><?php print site_url(); ?></em></li>
     <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print api_link('social_login_process?hauth.done=Twitter') ?></em></li>
-  </ul>
-  <label class="mw-ui-label-inline"><?php _e("Consumer key"); ?></label>
+  </ol>
+  <label class="mw-ui-label"><?php _e("Consumer key"); ?></label>
   <input name="twitter_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('twitter_app_id','users'); ?>" />
   
-  <label class="mw-ui-label-inline"><?php _e("Consumer secret"); ?></label>
+  <label class="mw-ui-label"><?php _e("Consumer secret"); ?></label>
   <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('twitter_app_secret','users'); ?>" />
 
  </div>
    <div class="mw-ui-box mw-ui-box-content group-logins">
-  <ul class="mw-small-help">
+  <ol class="ol">
     <li><?php _e("Register your application"); ?> <a class="mw-ui-link" target="_blank" href="https://manage.dev.live.com/ApplicationOverview.aspx">https://manage.dev.live.com/ApplicationOverview.asp</a></li>
     <li><?php _e("In"); ?> <em><?php _e("Redirect Domain"); ?></em> <?php _e("enter"); ?> <em><?php print site_url() ?></em></li>
     <li><?php _e("In"); ?> <em><?php _e("Callback URL"); ?></em> <?php _e("enter"); ?> <em><?php print api_link('social_login_process?hauth.done=Live') ?></em></li>
-  </ul>
-  <label class="mw-ui-label-inline"><?php _e("Client ID"); ?></label>
+  </ol>
+  <label class="mw-ui-label"><?php _e("Client ID"); ?></label>
   <input name="windows_live_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('windows_live_app_id','users'); ?>" />
   
-  <label class="mw-ui-label-inline"><?php _e("Client secret"); ?></label>
+  <label class="mw-ui-label"><?php _e("Client secret"); ?></label>
   <input name="windows_live_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('windows_live_app_secret','users'); ?>" />
  </div>
 
@@ -217,42 +235,42 @@ mw.tabs({
 
  <hr>
 
-   <a href="javascript:;" onclick="$('#user-login-urls-set').toggle()" class="mw-ui-btn">Users URL settings</a>
+   <a href="javascript:;" onclick="$('#user-login-urls-set').toggle()" class="mw-ui-btn"><?php _e("Users URL settings"); ?></a>
 
               <div id="user-login-urls-set" style="display:none;">
               
-                    <h3>Register URL</h3>
-                    <p>You can set a custom url for the register page</p>
+                    <h3><?php _e("Register URL"); ?></h3>
+                    <p><?php _e("You can set a custom url for the register page"); ?></p>
 					 
-                       
+
 
 					<?php $checkout_url = get_option('register_url', 'users');  ?>
-				 
-				 	<input name="register_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('register_url','users'); ?>" placeholder="Use default"  />
+
+				 	<input name="register_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('register_url','users'); ?>" placeholder="<?php _e("Use default"); ?>"  />
 
                      
                      
                      
-                        <h3>Login URL</h3>
-                    <p>You can set a custom url for the login page</p>
+                    <h3><?php _e("Login URL"); ?></h3>
+                    <p><?php _e("You can set a custom url for the login page"); ?></p>
 					 
                        
 
 					<?php $checkout_url = get_option('login_url', 'users');  ?>
 				 
-				 	<input name="login_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('login_url','users'); ?>" placeholder="Use default"  />
+				 	<input name="login_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('login_url','users'); ?>" placeholder="<?php _e("Use default"); ?>"  />
 
                      
                      
                      
-                           <h3>Forgot password  URL</h3>
-                    <p>You can set a custom url for the forgot password page</p>
+                    <h3><?php _e("Forgot password URL"); ?></h3>
+                    <p><?php _e("You can set a custom url for the forgot password page"); ?></p>
 					 
                        
 
 					<?php $checkout_url = get_option('forgot_password_url', 'users');  ?>
-				 
-				 	<input name="forgot_password_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('forgot_password_url','users'); ?>" placeholder="Use default"  />
+
+				 	<input name="forgot_password_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('forgot_password_url','users'); ?>" placeholder="<?php _e("Use default"); ?>"  />
 
                      
                      
@@ -265,45 +283,5 @@ mw.tabs({
                      
 
 
-  <?php
 
-
-  /*
-  ..
-
-   <h2>Yahoo</h2>
-  <label class="mw-ui-label">Enable Yahoo Login </label>
-  <?php   $enable_user_yahoo_registration = get_option('enable_user_yahoo_registration','users');
-
- if($enable_user_yahoo_registration == false){
-  $enable_user_yahoo_registration = 'n';
- }
-  ?>
-
-    <select name="enable_user_yahoo_registration" class="mw-ui-field mw_option_field"   type="text" option-group="users" data-refresh="settings/group/users">
-      <option value="y" <?php if($enable_user_yahoo_registration == 'y'): ?> selected="selected" <?php endif; ?>>Yes</option>
-      <option value="n" <?php if($enable_user_yahoo_registration == 'n'): ?> selected="selected" <?php endif; ?>>No</option>
-    </select>
-
-  
-  
-  <?php if($enable_user_yahoo_registration == 'y'): ?>
-  <ul class="mw-small-help">
-    <li>Go here to register your application <a target="_blank" href="https://developer.apps.yahoo.com/dashboard/createKey.html">https://developer.apps.yahoo.com/dashboard/createKey.html</a></li>
-    <li>In Website please enter <em><?php print site_url() ?></em></li>
-    <li>In Callback URL please enter <em><?php print api_link('social_login_process?hauth.done=Yahoo') ?></em></li>
-  </ul>
-  <label class="mw-ui-label-inline">Consumer key</label>
-  <input name="yahoo_app_id" class="mw_option_field mw-ui-field mw-title-field" style="width: 380px;"   type="text" option-group="users"  value="<?php print get_option('yahoo_app_id','users'); ?>" />
-  
-  <label class="mw-ui-label-inline">Consumer secret</label>
-  <input name="yahoo_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style="width: 380px;"  type="text" option-group="users"  value="<?php print get_option('yahoo_app_secret','users'); ?>" />
-  <?php endif; ?>
-  
-  
-
-
-  */
-
-  ?>
 </div>

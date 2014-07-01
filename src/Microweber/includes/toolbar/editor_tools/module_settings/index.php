@@ -24,6 +24,7 @@ if (isset($params['module'])): ?>
     mw.require("forms.js");
     mw.require('wysiwyg.js');
     mw.require('options.js');
+    mw.require('admin.js');
 </script>
 
 <style>

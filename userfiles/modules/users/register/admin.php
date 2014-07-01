@@ -12,6 +12,6 @@
 
     </style>
 
-<div class="module-live-edit" id="live">
+<div class="module-live-edit-settings" id="live">
     <module type="settings/group/users" />
 </div>

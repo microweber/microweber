@@ -439,18 +439,11 @@ mw.templatePreview<?php print $rand; ?> = {
         <?php endif; ?>
 
         var iframe_url = '<?php print $iframe_start; ?>?no_editmode=true' + preview_template_param + preview_layout_param + '&content_id=<?php print  $iframe_cont_id  ?>' + inherit_from_param + preview_layout_content_type_param
-
         if (return_url == undefined) {
-
             mw.templatePreview<?php print $rand; ?>.rend(iframe_url);
-
-        
-   $(window).trigger('templateSelected'); 
-
-      //  mw.$("#<?php print $params['id']?>").removeAttr('autoload');
- 
-
-        } else {
+            $(window).trigger('templateSelected');
+        }
+        else {
             return(iframe_url);
         }
 
@@ -465,17 +458,12 @@ $(document).ready(function () {
     mw.templatePreview<?php print $rand; ?>.selector = mwd.getElementById('active_site_layout_<?php print $rand; ?>');
 
     mw.$('#active_site_template_<?php print $rand; ?>').bind("change", function (e) {
-
-  
         var parent_module = $(this).parents('.module').first();
         if (parent_module != undefined) {
             parent_module.attr('active-site-template', $(this).val());
             mw.reload_module('<?php print $params['type']?>', function () {
-
                 mw.templatePreview<?php print $rand; ?>.view();
-
             });
-
         }
     });
 
@@ -520,8 +508,7 @@ if ($global_template == false) {
 
 ?>
 <?php if ($template_selector_position == 'top'): ?>
-    <div class="mw-ui-field-holder mw-template-selector"
-         style="padding-top: 0;<?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
+    <div class="mw-ui-field-holder mw-template-selector" <?php if (isset($params['small'])): ?>display:none;<?php endif; ?>">
         <label class="mw-ui-label">
             <?php _e("Template");   ?>
         </label>

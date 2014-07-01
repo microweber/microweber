@@ -637,6 +637,8 @@ $(mww).bind('load', function(){
         }
    });
 
+
+   if(mwd.getElementById('main-bar-user-menu-link') !== null){
     mainbarusermenulink = mw.tooltip({
        content:mw.$('#main-bar-user-tip').html(),
        position:'top-left',
@@ -656,9 +658,8 @@ $(mww).bind('load', function(){
         else{
            mw.$('.main-bar-user-menu-tooltip').toggleClass('main-bar-user-menu-tooltip-active');
         }
-
     });
-
+   }
 
     mw.$('#pin-sidebar').click(function(){
       var locked = mw.cookie.ui('adminsidebarpin');

@@ -164,11 +164,11 @@ a, a:hover, a:focus, a:active{
   background-color: #555566;
   border-color: transparent;
 }
-[class^='btn-'], .box-container [class*='btn-']{
+[class^='btn-'], .box-container [class^='btn-']{
   color: white;
 }
 
-#main-container [class*='btn-']{
+#main-container [class^='btn-']{
   text-transform: uppercase;
 }
 

@@ -654,9 +654,9 @@ mw.drag = {
           mw.dropable.removeClass("mw_dropable_onleaveedit");
         });
         $(window).bind("onModuleOver", function(a, element){
+                                              d(mw.tools.hasParentsWithClass(element, 'module'))
 
-
-          if(mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop')){
+          if(mw.tools.hasParentsWithClass(element, 'nodrop') || mw.tools.hasClass(element, 'nodrop') || mw.tools.hasParentsWithClass(element, 'module')){
             mw.$(".mw_edit_delete, .mw_edit_delete_element, .mw-sorthandle-moveit, .column_separator_title").hide();
             //return false;
           }
@@ -705,8 +705,12 @@ mw.drag = {
             var o = el.offset();
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
+            var top = o.top - 35;
+            if(top < 55){
+              var top = 55;
+            }
             $(mw.handle_row).css({
-              top: o.top - 35,
+              top: top,
               left: o.left,
               width: width
             });

@@ -1,6 +1,6 @@
 <?php only_admin_access(); ?>
 <?php $show_login_link=get_option('show-login-link', $params['id']); ?>
-<div class="module-live-edit">
+<div class="module-live-edit-settings">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
       <?php _e("Form title"); ?>

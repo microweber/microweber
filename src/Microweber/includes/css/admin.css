@@ -99,6 +99,7 @@ hr, .hr{
 h2 > [class*="mw-icon-"]:first-child{
   margin-right: 10px;
   vertical-align: baseline;
+  top: 3px;
 }
 
 /************************************
@@ -1535,6 +1536,29 @@ td.custom-field-icon, td.custom-field-icon > *{
   cursor: -webkit-zoom-in;
   cursor: -moz-zoom-in;
 }
+.preview_frame_wrapper.zoom .mw-overlay{
+  cursor: zoom-out;
+  cursor: -webkit-zoom-out;
+  cursor: -moz-zoom-out;
+}
+.preview_frame_ctrls .prev,
+.preview_frame_ctrls .next{
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 10%;
+  background:#DADADA;
+  opacity: 0.6
+}
+.preview_frame_ctrls .prev{
+  left: 0;
+}
+
+.preview_frame_ctrls .next{
+  right: 0;
+}
+
 .mw-overlay{
   position: absolute;
   top: 0;
@@ -1586,14 +1610,29 @@ td.custom-field-icon, td.custom-field-icon > *{
   overflow: hidden;
 }
 
-#mw-admin-container .zoom .preview_frame_small, .zoom .preview_frame_small{
-   height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    transform: scale(1, 1);
-    width: 100%;
-    z-index: 999;
+#mw-admin-container .zoom.preview_frame_wrapper,
+.zoom.preview_frame_wrapper{
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+#mw-admin-container .zoom .preview_frame_small,
+.zoom .preview_frame_small{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  -moz-transform: scale(1, 1);
+  -o-transform: scale(1, 1);
+  -webkit-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  transform: scale(1, 1);
 }
 
 .mw-no-posts-foot{
@@ -1729,7 +1768,7 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   cursor: default;
 }
 
-.mw-template-selector{
+#pages_edit_container .mw-template-selector{ /* Only for "Page Edit" section */
   padding-left: 20px;
 }
 
@@ -2212,6 +2251,31 @@ body.grabbing, body.grabbing *{
 }
 .alert-error{
   color: #DC0D17;
+}
+
+.ol{
+  list-style-type: decimal;
+  padding-left: 16px;
+  padding-bottom: 10px;
+}
+
+.ol li{
+  padding-bottom: 5px;
+}
+.ol li:last-child{
+  padding-bottom: 0;
+}
+
+.module-live-edit-settings{
+  padding: 15px;
+}
+.module-live-edit-settings:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 
 

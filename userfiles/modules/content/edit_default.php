@@ -335,21 +335,21 @@ mw.edit_content.handle_form_submit = function(go_live){
               }
 
 			  if(typeof(this) != "undefined"){
-			var inner_edits = mw.collect_inner_edit_fields();
+    			var inner_edits = mw.collect_inner_edit_fields();
 
-			if(inner_edits != undefined && inner_edits != false){
-				var save_inner_edit_data = inner_edits;
-				save_inner_edit_data.id = this;
-				 
-				var xhr = mw.save_inner_editable_fields(save_inner_edit_data);
-                xhr.success(function(){
-                  $(window).trigger('adminSaveEnd');
-                });
-                xhr.fail(function(){
-                   $(window).trigger('adminSaveFailed');
-                });
+    			if(inner_edits !== false){
+    				var save_inner_edit_data = inner_edits;
+    				save_inner_edit_data.id = this;
 
-			}
+    				var xhr = mw.save_inner_editable_fields(save_inner_edit_data);
+                    xhr.success(function(){
+                      $(window).trigger('adminSaveEnd');
+                    });
+                    xhr.fail(function(){
+                       $(window).trigger('adminSaveFailed');
+                    });
+
+    			}
 		}
               if(go_live_edit != false){
     		    if(parent !== self && !!window.parent.mw){
@@ -414,10 +414,11 @@ mw.edit_content.handle_form_submit = function(go_live){
 }
 
 mw.collect_inner_edit_fields = function(data) {
-     var frameWindow = mwd.querySelector('#mw-admin-content-iframe-editor iframe').contentWindow;
+     var frame =  mwd.querySelector('#mw-admin-content-iframe-editor iframe');
+     if( frame === null ) return false;
+     var frameWindow = frame.contentWindow;
      var root = frameWindow.mwd.getElementById('mw-iframe-editor-area');
      var data = frameWindow.mw.drag.getData(root);
-     d(data)
      return data;
 }
 

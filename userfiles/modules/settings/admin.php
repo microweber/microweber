@@ -78,9 +78,9 @@ $(document).ready(function(){
     <div class="mw-admin-sidebar">
     <div class="fixed-side-column scroll-height-exception-master">
 
-            <h2 class="scroll-height-exception"><span class="mw-icon-gear"></span>&nbsp;
-              <?php _e("Settings"); ?>
-            </h2>
+            <div class="admin-side-box">
+                <h2 class="mw-side-main-title scroll-height-exception"><span class="mw-icon-gear"></span><?php _e("Settings"); ?></h2>
+            </div>
               <div class="fixed-side-column-container">
               <div class="mw-admin-side-nav" id="settings_categories_tree_<?php print $rand; ?>" >
                 <div id="settings_admin_categories_<?php print $rand; ?>">

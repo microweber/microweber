@@ -13,7 +13,7 @@
 }
 </style>
 
-<div class="module-live-edit">
+<div class="module-live-edit-settings">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
       <?php _e("Address"); ?>

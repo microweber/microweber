@@ -222,7 +222,7 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
 .mw-sorthandle-moveit:before{
   display: inline-block;
   position: absolute;
-  right: 0;
+  right: 20px;
   top:0;
   background-color: #E1E1E1;
   width: 20px;
@@ -2033,7 +2033,7 @@ body.design_hover .element-current{
   padding: 2px;
   text-decoration: none;
   position: absolute;
-  right: -20px;
+  right: 0;
   top: 0;
 }
 

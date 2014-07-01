@@ -280,7 +280,6 @@ mw.wysiwyg = {
    },
    paste:function(e){
         var clipboard = e.clipboardData || mww.clipboardData;
-        d(clipboard)
         if(typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)){
 
             if(!mw.is.ie){
@@ -289,7 +288,6 @@ mw.wysiwyg = {
             else{
               var html = clipboard.getData('text');
             }
-
             /*var body = mw.tools.parseHtml(html).body;
             mw.wysiwyg.cleanHTML(body);
             mw.wysiwyg.insert_html(body.innerHTML);*/

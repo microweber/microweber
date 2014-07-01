@@ -979,12 +979,23 @@
 
 .mw-ui-label{
   display: block;
-  font-weight: bold;
   padding-bottom: 10px;
 }
 
-.mw-ui-label small{
+.mw-ui-label, .mw-ui-inline-label {
+ font-weight: 400;
+}
+
+.mw-ui-label small, .mw-ui-inline-label small{
   font-weight: normal;
+  font-size: 80%;
+}
+
+.mw-ui-inline-label{
+  display: inline-block;
+  padding:8px;
+  margin-right: 8px;
+  height: 36px;
 }
 
 .mw-ui-invisible-field{
@@ -1190,14 +1201,12 @@ div.mw-ui-field:after{
 
 .mw-ui-sidenav a{
   display: block;
-  border-left: 3px solid transparent;
   padding: 12px 40px 14px 14px;
   border-radius: 0 2px 2px 0;
 }
 
 .mw-ui-sidenav a:hover,
 .mw-ui-sidenav a:focus{
-  border-color: @info;
   background-color:rgba(139, 139, 139, 0.1)
 }
 .mw-ui-sidenav a:active{
@@ -1208,7 +1217,6 @@ div.mw-ui-field:after{
 .mw-ui-sidenav a.active:active,
 .mw-ui-sidenav a.active:hover,
 .mw-ui-sidenav a.active:focus{
-  border-color: #111;
   background-color: #8B8B8B;
   color: white;
   box-shadow: 0 1px 5px -2px #000000 inset;
