@@ -16,6 +16,7 @@ namespace Microweber;
 if (function_exists('api_expose')) {
     api_expose('content/reorder');
     api_expose('content/delete');
+    api_expose('content/copy');
     api_expose('content/set_published');
     api_expose('content/set_unpublished');
     api_expose('content/menu_item_delete');
@@ -466,7 +467,7 @@ class Content
         $app = $this->app;
 
         $filters = function ($params) use ($app) {
-            if(isset($params['category'])){
+            if (isset($params['category'])) {
                 $params['categories_items.parent_id'] = $params['category'];
             }
             return $params;
@@ -1484,7 +1485,7 @@ class Content
             if (isset($params['no_cache'])) {
                 $cache_content = false;
             }
-           // $cache_content = false;
+            // $cache_content = false;
             if (($cache_content) != false) {
                 if (isset($params['return_data'])) {
                     return $cache_content;
@@ -2910,11 +2911,6 @@ class Content
 
     }
 
-    public function save($data, $delete_the_cache = true)
-    {
-        return $this->save_content($data, $delete_the_cache);
-    }
-
     public function save_edit($post_data)
     {
         $is_admin = $this->app->user->is_admin();
@@ -3611,6 +3607,58 @@ class Content
         return $save;
 
 
+    }
+
+    public function copy($data)
+    {
+        $to_trash = false;
+        $to_untrash = false;
+
+        if (defined('MW_API_CALL')) {
+            $to_trash = true;
+            $adm = $this->app->user->is_admin();
+            if ($adm == false) {
+                return array('error' => 'You must be admin to copy content!');
+            }
+        }
+        if (isset($data['id'])) {
+            $cont = get_content_by_id($data['id']);
+            if ($cont != false and isset($cont['id'])) {
+                $new_cont = $cont;
+                $new_cont['id'] = 0;
+                $new_cont_id = $this->save($new_cont);
+
+
+                $cust_fields = get_custom_fields('content', $data['id'], true);
+                if (!empty($cust_fields)) {
+                    foreach ($cust_fields as $cust_field) {
+                        $new = $cust_field;
+                        $new['id'] = 0;
+                        $new['rel_id'] = $new_cont_id;
+                        $new_item = save_custom_field($new);
+                    }
+                }
+                $images = get_pictures($data['id']);
+                if (!empty($images)) {
+                    foreach ($images as $image) {
+                        $new = $image;
+                        $new['id'] = 0;
+                        $new['rel_id'] = $new_cont_id;
+                        $new_item = save_media($new);
+
+                    }
+                }
+
+
+            }
+        }
+
+
+    }
+
+    public function save($data, $delete_the_cache = true)
+    {
+        return $this->save_content($data, $delete_the_cache);
     }
 
     public function delete($data)
@@ -4822,59 +4870,6 @@ class Content
 
     }
 
-    /**
-     * Set content to be published
-     *
-     * Set is_active flag 'y'
-     *
-     * @param string|array|bool $params
-     * @return string The url of the content
-     * @package Content
-     * @subpackage Advanced
-     *
-     * @uses $this->save_content()
-     * @example
-     * <code>
-     * //set published the content with id 5
-     * api/content/set_published(5);
-     *
-     * //alternative way
-     * api/content/set_published(array('id' => 5));
-     * </code>
-     *
-     */
-    public function set_published($params)
-    {
-
-        if (intval($params) > 0 and !isset($params['id'])) {
-            if (!is_array($params)) {
-                $id = $params;
-                $params = array();
-                $params['id'] = $id;
-            }
-        }
-        $adm = $this->app->user->is_admin();
-        if ($adm == false) {
-            return array('error' => 'You must be admin to publish content!');
-        }
-
-
-        if (!isset($params['id'])) {
-            return array('error' => 'You must provide id parameter!');
-        } else {
-            if (intval($params['id'] != 0)) {
-
-                $save = array();
-                $save['id'] = intval($params['id']);
-                $save['is_active'] = 'y';
-
-                $save_data = $this->save_content($save);
-                return ($save_data);
-            }
-
-        }
-    }
-
     public function save_content($data, $delete_the_cache = true)
     {
 
@@ -5655,11 +5650,63 @@ class Content
         $data['cache_group'] = 'content_data';
 
 
-
         $get = $this->app->db->get($data);
 
         return $get;
 
+    }
+
+    /**
+     * Set content to be published
+     *
+     * Set is_active flag 'y'
+     *
+     * @param string|array|bool $params
+     * @return string The url of the content
+     * @package Content
+     * @subpackage Advanced
+     *
+     * @uses $this->save_content()
+     * @example
+     * <code>
+     * //set published the content with id 5
+     * api/content/set_published(5);
+     *
+     * //alternative way
+     * api/content/set_published(array('id' => 5));
+     * </code>
+     *
+     */
+    public function set_published($params)
+    {
+
+        if (intval($params) > 0 and !isset($params['id'])) {
+            if (!is_array($params)) {
+                $id = $params;
+                $params = array();
+                $params['id'] = $id;
+            }
+        }
+        $adm = $this->app->user->is_admin();
+        if ($adm == false) {
+            return array('error' => 'You must be admin to publish content!');
+        }
+
+
+        if (!isset($params['id'])) {
+            return array('error' => 'You must provide id parameter!');
+        } else {
+            if (intval($params['id'] != 0)) {
+
+                $save = array();
+                $save['id'] = intval($params['id']);
+                $save['is_active'] = 'y';
+
+                $save_data = $this->save_content($save);
+                return ($save_data);
+            }
+
+        }
     }
 
     function create_default_content($what)
@@ -5834,48 +5881,6 @@ class Content
         return $this->get($params);
     }
 
-    public function get_posts($params = false)
-    {
-        $params2 = array();
-
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-
-        if (!is_array($params)) {
-            $params = array();
-        }
-        if (!isset($params['content_type'])) {
-            $params['content_type'] = 'post';
-        }
-        if (!isset($params['subtype'])) {
-            $params['subtype'] = 'post';
-        }
-        return $this->get($params);
-    }
-
-    public function get_products($params = false)
-    {
-        $params2 = array();
-
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-
-        if (!is_array($params)) {
-            $params = array();
-        }
-        if (!isset($params['content_type'])) {
-            $params['content_type'] = 'post';
-        }
-        if (!isset($params['subtype'])) {
-            $params['subtype'] = 'product';
-        }
-        return $this->get($params);
-    }
-
     /**
      * Get array of content items from the database
      *
@@ -6002,7 +6007,7 @@ class Content
         }
 
         if (isset($params['keyword'])) {
-            $params['search_in_fields'] = array('title','content_body','content','description','content_meta_keywords','content_meta_title','url');
+            $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');
         }
 
         $get = $this->app->db->get($params);
@@ -6037,6 +6042,48 @@ class Content
             return $get;
         }
 
+    }
+
+    public function get_posts($params = false)
+    {
+        $params2 = array();
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+
+        if (!is_array($params)) {
+            $params = array();
+        }
+        if (!isset($params['content_type'])) {
+            $params['content_type'] = 'post';
+        }
+        if (!isset($params['subtype'])) {
+            $params['subtype'] = 'post';
+        }
+        return $this->get($params);
+    }
+
+    public function get_products($params = false)
+    {
+        $params2 = array();
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+
+        if (!is_array($params)) {
+            $params = array();
+        }
+        if (!isset($params['content_type'])) {
+            $params['content_type'] = 'post';
+        }
+        if (!isset($params['subtype'])) {
+            $params['subtype'] = 'product';
+        }
+        return $this->get($params);
     }
 
     public function menu_delete($id = false)

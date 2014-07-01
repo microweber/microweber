@@ -320,8 +320,8 @@ if (isset($_GET['type'])) {
                         refresh_modules11 = refresh_modules11.toString();
 						 if(!!mw.admin){
 						 if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
-		 top.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>')
-		}
+							 top.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>')
+							}
 						 
 						 }
                         if (window.parent.mw != undefined) {

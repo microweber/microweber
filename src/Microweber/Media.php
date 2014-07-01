@@ -554,7 +554,7 @@ class Media
             $this->app->cache->delete('media');
 
             return ($s);
-        } elseif (isset($s['id']) and isset($s['title'])) {
+        } elseif (isset($s['id'])) {
             $table = $this->tables['media'];
             //$s['debug'] = $t;
             $s = $this->app->db->save($table, $s);

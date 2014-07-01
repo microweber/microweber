@@ -134,11 +134,20 @@ $show_page_settings = 1;
 <small>
 <?php _e("Id"); ?>
 : <?php print ($data['id'])?></small> 
+<a class="mw-ui-btn mw-ui-btn-small" href="javascript:mw.copy_current_page('<?php print ($data['id'])?>');">Copy</a><a class="mw-ui-btn mw-ui-btn-small" href="javascript:mw.del_current_page('<?php print ($data['id'])?>');">Delete</a>
 <script  type="text/javascript">
 		 
-		
+		mw.copy_current_page = function(a, callback){
+			mw.tools.confirm("<?php _e("Are you sure you want to copy this page?"); ?>", function(){
+ 				var obj = {id:a}
+				$.post(mw.settings.site_url + "api/content/copy", obj, function(data){
+				   mw.notification.success("<?php _e('Content was copied'); ?>.");
+				   typeof callback === 'function' ? callback.call(data) : '';
+				});
+			});
+		}
 		mw.del_current_page = function(a, callback){
-			mw.tools.confirm("<?php _e("Are you sure you want to delete this"); ?>?", function(){
+			mw.tools.confirm("<?php _e("Are you sure you want to delete this"); ?>", function(){
 				var arr = (a.constructor === [].constructor) ? a : [a];
 				var obj = {ids:arr}
 				$.post(mw.settings.site_url + "api/content/delete", obj, function(data){
