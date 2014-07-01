@@ -276,32 +276,23 @@ if (isset($_GET['type'])) {
 
             }
 
-
             var also_reload = $(this).attr('data-also-reload');
-
             if (og == also_reload || also_reload == null) {
                 var also_reload = $(this).attr('data-reload');
             }
-
-
-
 		    var og = $(this).attr('data-option-group');
             if (og == undefined || og == null) {
                   var og = $(this).attr('option-group');
             }
-          
             if (og == undefined || og == null) {
                 var og = '<?php print $params['id'] ?>';
             }
-           
-
             if (this.type === 'checkbox') {
                 var val = '';
                 var items = mw.$('input[name="' + this.name + '"]');
                 for (var i = 0; i < items.length; i++) {
                     var _val = items[i].value;
                     var val = items[i].checked == true ? (val === '' ? _val : val + ", " + _val) : val;
-
                 }
             }
             else {
@@ -321,30 +312,25 @@ if (isset($_GET['type'])) {
 
 
             $.ajax({
-
                 type: "POST",
                 url: mw.settings.site_url + "api/save_option",
                 data: o_data,
                 success: function () {
                     if (refresh_modules11 != undefined && refresh_modules11 != '') {
                         refresh_modules11 = refresh_modules11.toString()
-
-
                         if (window.parent.mw != undefined) {
                             if (window.parent.mw.reload_module != undefined) {
                                 if(!!mw.admin){
                                   window.parent.mw.reload_module('#<?php print $params['id'] ?>');
                                 }
                                 else{
-
                                     if (window.parent.mweditor != undefined) {
-                                    window.parent.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>', function(){
-                                      setTimeout(function(){
-                                         window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
-                                      }, 333);
-                                    });
+                                      window.parent.mweditor.contentWindow.mw.reload_module('#<?php print $params['id'] ?>', function(){
+                                        setTimeout(function(){
+                                           window.parent.mw.exec("mw.admin.editor.set", window.parent.mweditor);
+                                        }, 333);
+                                      });
                                     }
-
                                     if (window.parent.mw != undefined) {
                                         window.parent.mw.reload_module('#<?php print $params['id'] ?>', function(){
                                             setTimeout(function(){
@@ -352,7 +338,6 @@ if (isset($_GET['type'])) {
                                             }, 333);
                                         });
                                     }
-
                                 }
 
                             }
@@ -378,17 +363,12 @@ if (isset($_GET['type'])) {
                                 }
                             }
                         }
-
-
                     }
-
                     if (typeof liveEditSettings === 'boolean') {
                         if (liveEditSettings) {
                             $(mwd.body).removeClass('loading');
                         }
                     }
-
-                    //  $(this).addClass("done");
                 }
             });
 
@@ -427,7 +407,7 @@ if (isset($_GET['type'])) {
             <input type="text" name="<?php print $k ?>" value="<?php print $item ?>"/>
 
         <?php endforeach; ?>
-        <input type="submit"/>
+        <input type="submit" />
     <?php endif; ?>
 </form>
 <script type="text/javascript">

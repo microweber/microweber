@@ -22,19 +22,19 @@
 	 
 	 	   MenuTabs.set(4);
 
-   
-	     $('#mw_page_create_live_edit').removeAttr('data-content-id');
 
- 	 	 $('#mw_page_create_live_edit').attr('from_live_edit',1);
-	 	 $('#mw_page_create_live_edit').attr('content_type', 'page');
-	     $('#mw_page_create_live_edit').attr('content-id', id); 
-		 $('#mw_page_create_live_edit').attr('quick_edit',1);
-		 $('#mw_page_create_live_edit').removeAttr('live_edit');
-		 $('#mw_page_create_live_edit').attr('add-to-menu', '<?php print $menu_name ?>');
+	     mw.$('#mw_page_create_live_edit').removeAttr('data-content-id');
 
-		var v = $('#menu_selector_<?php  print $params['id'] ?>').val();
+ 	 	 mw.$('#mw_page_create_live_edit').attr('from_live_edit',1);
+	 	 mw.$('#mw_page_create_live_edit').attr('content_type', 'page');
+	     mw.$('#mw_page_create_live_edit').attr('content-id', id);
+		 mw.$('#mw_page_create_live_edit').attr('quick_edit',1);
+		 mw.$('#mw_page_create_live_edit').removeAttr('live_edit');
+		 mw.$('#mw_page_create_live_edit').attr('add-to-menu', '<?php print $menu_name ?>');
+
+		var v = mw.$('#menu_selector_<?php  print $params['id'] ?>').val();
 		if(v != undefined){
-		 $('#mw_page_create_live_edit').attr('add-to-menu', v);
+		 mw.$('#mw_page_create_live_edit').attr('add-to-menu', v);
 
 		}
       mw.load_module('content/edit_page', '#mw_page_create_live_edit', function(){
