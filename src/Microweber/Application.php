@@ -62,6 +62,7 @@ if (!defined('MW_VERSION')) {
  * @property \Microweber\Template $template
  * @property \Microweber\Ui $ui
  * @property \Microweber\Orm $orm
+ * @property \Microweber\Event $event
  */
 class Application
 {

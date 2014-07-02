@@ -113,7 +113,7 @@ else{
 
 
             var type = mw.url.type(this);
-            GlobalEmbed = __generateEmbed(type, this);
+            GlobalEmbed = mw.embed.generate(type, this);
             if(typeof parent.mw.iframecallbacks[hash] === 'function'){
               if(hash == 'editimage'){
                 parent.mw.iframecallbacks[hash](this);
@@ -132,14 +132,7 @@ else{
 
             parent.mw.tools.modal.remove('mw_rte_image');
 
-
-
         });
-
-
-   
-
-
 
         Progress =  mw.$('#mw-upload-progress');
         ProgressBar = Progress.find('.mw-ui-progress-bar');
@@ -247,14 +240,14 @@ else{
                  else{
                    status.html('<img class="image_status_preview_image" src="'+val+'" />');
                  }
-                 GlobalEmbed = __generateEmbed(type, val);
+                 GlobalEmbed = mw.embed.generate(type, val);
                });
              }
              else{
                  setTimeout(function(){
                    var val = urlSearcher.val();
                    var type = mw.url.type(val);
-                   GlobalEmbed = __generateEmbed(type, val);
+                   GlobalEmbed = mw.embed.generate(type, val);
                    if(type!='link'){
                      if(typeof parent.mw.iframecallbacks[hash] === 'function'){
                         if(hash.contains("edit")){
@@ -306,28 +299,25 @@ else{
 
 
 
-    __generateEmbed = function(type, url){
-       switch(type){
-         case 'link':
-           return mw.embed.link(url);
-           break;
-         case 'image':
-           return mw.embed.image(url);
-           break;
-         case 'youtube':
-            return mw.embed.youtube(url);
-           break;
-         case 'vimeo':
-         return  mw.embed.vimeo(url);
-         break;
-         default:
-         return false;
-       }
-    }
-
-
-
 mw.embed = {
+  generate:function(type, url){
+     switch(type){
+       case 'link':
+         return mw.embed.link(url);
+         break;
+       case 'image':
+         return mw.embed.image(url);
+         break;
+       case 'youtube':
+          return mw.embed.youtube(url);
+         break;
+       case 'vimeo':
+       return  mw.embed.vimeo(url);
+       break;
+       default:
+       return false;
+     }
+  },
   link:function(url, text){
     if(!!text){
       return '<a href="'+url+'" title="'+text+'">'+text+'</a>';
@@ -427,35 +417,19 @@ mw.embed = {
   padding-top: 0;
 }
 
-#media_search_field{
-  float: right;
-  width: 180px;
-}
-
-#media-search-holder{
-  margin: 0 auto;
-  padding-top: 45px;
-  width: 350px;
-}
-.image_status_preview_image{
-  max-width:100%;
-  max-height: 100%;
-}
-#media_search{
-  float: left;
-  margin-right: 10px;
-}
 
 </style>
 
-<div class="mw_simple_tabs mw_tabs_layout_simple" id="image_tabs">
-  <ul class="mw_simple_tabs_nav">
-    <li><a href="javascript:;">My Computer</a></li>
-    <li><a href="javascript:;"><?php _e("URL"); ?></a></li>
+<div id="image_tabs">
+    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+    <a href="javascript:;" class="mw-ui-btn active"><?php _e("My Computer"); ?></a>
+    <a href="javascript:;" class="mw-ui-btn"><?php _e("URL"); ?></a>
 	<?php if(is_admin()): ?>
-    <li><a href="javascript:;">Uploaded</a></li>
+    <a href="javascript:;" class="mw-ui-btn"><?php _e("Uploaded"); ?></a>
 	<?php endif; ?>
-  </ul>
+    </div>
+
+
 
   <div class="tab" id="drag_files_here">
     <center style="padding-top: 25px;">
@@ -501,7 +475,7 @@ mw.embed = {
   </div>
   <div class="tab">
 
-    <?php  event_trigger('live_edit_toolbar_image_search'); ?>
+    <?php  //event_trigger('live_edit_toolbar_image_search'); ?>
 
   </div>
 

@@ -2,6 +2,31 @@
 if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', MW_TABLE_PREFIX . 'comments');
 }
+event_bind('module.content.manager.item', 'mw_print_admin_post_list_comments_counter');
+
+function mw_print_admin_post_list_comments_counter($item)
+{
+    if (isset($item['id'])) {
+        $new = get_comments('count=1&is_moderated=n&content_id=' . $item['id']);
+        if ($new > 0) {
+            $have_new = 1;
+        } else {
+            $have_new = 0;
+            $new = get_comments('count=1&content_id=' . $item['id']);
+        }
+        $comments_link = admin_url('view:comments') . '/#content_id=' . $item['id'];
+
+        if ($have_new) {
+
+        }
+        $link = "<a class='comments-bubble' href='{$comments_link}'  title='{$new}'>";
+        $link .= "<span class='mw-icon-comment'></span><span class='comment-number'>{$new}</span>";
+        $link .= "</a>";
+        print $link;
+    }
+
+
+}
 
 event_bind('mw.admin.dashboard.links', 'mw_print_admin_dashboard_comments_btn');
 

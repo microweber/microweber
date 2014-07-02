@@ -106,9 +106,14 @@ h2 > [class*="mw-icon-"]:first-child{
         Primary Admin Grid
 *************************************/
 
-.main-admin-row, .mw-simple-rotator{
+.mw-simple-rotator{
   max-width: 1200px;
 }
+.main-admin-row{
+  padding-right: 20px;
+  max-width: 1220px;
+}
+
 .mw-iframe-editor{
   max-width: 1200px !important;
   min-height: 320px;
@@ -1244,7 +1249,7 @@ a:hover .mw_ed_tree_content{
   margin-top: 10px;
   height: 37px;
   position: relative;
-  z-index: 91;
+  z-index: 84;
 }
 
 #quick-add-post-options .mw-ui-btn-nav:first-child{
@@ -1529,6 +1534,25 @@ td.custom-field-icon, td.custom-field-icon > *{
   cursor: default;
 }
 
+
+.preview_frame_container,
+.preview_frame_wrapper,
+.preview_frame_container iframe{
+  background-color: white;
+}
+
+
+.preview_frame_wrapper.loading:after{
+  display: block;
+  position: absolute;
+  top:50%;
+  left: 50%;
+  width:20px;
+  height: 20px;
+  content: "";
+  background: url(../images/img_check_loading.gif) no-repeat center;
+}
+
 .preview_frame_wrapper .mw-overlay{
   z-index: 1;
   cursor: pointer;
@@ -1541,21 +1565,35 @@ td.custom-field-icon, td.custom-field-icon > *{
   cursor: -webkit-zoom-out;
   cursor: -moz-zoom-out;
 }
-.preview_frame_ctrls .prev,
-.preview_frame_ctrls .next{
+
+
+.previewctrl{
   display: block;
   position: absolute;
-  top: 0;
-  height: 100%;
-  width: 10%;
-  background:#DADADA;
-  opacity: 0.6
+  top: 50%;
+  margin-top: -25px;
+  height: 50px;
+  width: 50px;
+  background:#fff;
+  z-index: 5;
+  font-family: Microweber;
+  text-align: center;
+  font-size: 22px;
+  cursor: pointer;
+  padding-top: 11px;
 }
-.preview_frame_ctrls .prev{
+.previewctrl.prev:after{
+  content:"\0137"
+}
+.previewctrl.next:after{
+  content:"\0138"
+}
+
+.previewctrl.prev{
   left: 0;
 }
 
-.preview_frame_ctrls .next{
+.previewctrl.next{
   right: 0;
 }
 
@@ -2394,6 +2432,41 @@ body.grabbing, body.grabbing *{
 .layouts_box_holder li.active, .layouts_box_holder li.active:hover{
   background-color: #4D4D4D;
   color: white;
+}
+
+
+/************************************
+        Settings: Template
+*************************************/
+
+.mw-site-theme-selector{
+  position: relative;
+}
+
+.mw-site-theme-selector, .layouts_box_holder {
+  padding-bottom: 20px;
+}
+.module-settings-group-template .layout_selector_wrap{
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px -5px #000;
+}
+
+
+
+.module-settings-group-template:after, .mw-site-theme-selector:after{
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+
+.mw-site-theme-selector .layout_selector_custom_css_clear_custom_style{
+  position: absolute;
+  bottom: 20px;
+  left: 0;
 }
 
 

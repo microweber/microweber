@@ -691,183 +691,6 @@
         ]
     },
     {
-        "name": "j4mie/paris",
-        "version": "v1.5.2",
-        "version_normalized": "1.5.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/j4mie/paris.git",
-            "reference": "1f7ec8a220f312a5282606910c22ec2c03cc1280"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/j4mie/paris/zipball/1f7ec8a220f312a5282606910c22ec2c03cc1280",
-            "reference": "1f7ec8a220f312a5282606910c22ec2c03cc1280",
-            "shasum": ""
-        },
-        "require": {
-            "j4mie/idiorm": "1.5.*",
-            "php": ">=5.2.0"
-        },
-        "time": "2014-06-23 11:03:10",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "paris.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-2-Clause",
-            "BSD-3-Clause",
-            "BSD-4-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Simon Holywell",
-                "email": "treffynnon@php.net",
-                "homepage": "http://simonholywell.com",
-                "role": "Maintainer"
-            },
-            {
-                "name": "Jamie Matthews",
-                "email": "jamie.matthews@gmail.com",
-                "homepage": "http://j4mie.org",
-                "role": "Developer"
-            },
-            {
-                "name": "Durham Hale",
-                "email": "me@durhamhale.com",
-                "homepage": "http://durhamhale.com",
-                "role": "Maintainer"
-            }
-        ],
-        "description": "A lightweight Active Record implementation for PHP5, built on top of Idiorm",
-        "homepage": "http://j4mie.github.com/idiormandparis",
-        "keywords": [
-            "Active Record",
-            "model",
-            "orm",
-            "paris"
-        ]
-    },
-    {
-        "name": "symfony/process",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "target-dir": "Symfony/Component/Process",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/Process.git",
-            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/symfony-process-8a3edace8e8aabed8992b993bfc13df3b1e836f2-zip-b5107c.zip",
-            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2",
-            "shasum": "ae566f1f43c0bda65e61dd1e62f4fc7189e59ebf"
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2014-04-28 05:15:04",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.5-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\Process\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Process Component",
-        "homepage": "http://symfony.com"
-    },
-    {
-        "name": "masterminds/html5",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Masterminds/html5-php.git",
-            "reference": "3959083837c7d2bfa6e922980b4a58faa68e5176"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/3959083837c7d2bfa6e922980b4a58faa68e5176",
-            "reference": "3959083837c7d2bfa6e922980b4a58faa68e5176",
-            "shasum": ""
-        },
-        "require": {
-            "ext-libxml": "*",
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "phpdocumentor/phpdocumentor": "2.*",
-            "phpunit/phpunit": "4.*",
-            "satooshi/php-coveralls": "0.6.*"
-        },
-        "time": "2014-06-17 07:46:08",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Masterminds\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Matt Farina",
-                "email": "matt@mattfarina.com",
-                "homepage": "http://mattfarina.com"
-            },
-            {
-                "name": "Matt Butcher",
-                "email": "technosophos@gmail.com"
-            }
-        ],
-        "description": "An HTML5 parser and serializer.",
-        "homepage": "http://masterminds.github.io/html5-php",
-        "keywords": [
-            "HTML5",
-            "dom",
-            "html",
-            "parser",
-            "querypath",
-            "serializer",
-            "xml"
-        ]
-    },
-    {
         "name": "querypath/querypath",
         "version": "3.x-dev",
         "version_normalized": "3.9999999.9999999.9999999-dev",
@@ -958,6 +781,230 @@
             "owasp",
             "rbac",
             "security"
+        ]
+    },
+    {
+        "name": "j4mie/paris",
+        "version": "v1.5.3",
+        "version_normalized": "1.5.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/j4mie/paris.git",
+            "reference": "8d94afe0b39e29f2a84bf9ce7e06088d5b93bb5b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/j4mie/paris/zipball/8d94afe0b39e29f2a84bf9ce7e06088d5b93bb5b",
+            "reference": "8d94afe0b39e29f2a84bf9ce7e06088d5b93bb5b",
+            "shasum": ""
+        },
+        "require": {
+            "j4mie/idiorm": "1.5.*",
+            "php": ">=5.2.0"
+        },
+        "time": "2014-06-25 10:01:46",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "paris.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause",
+            "BSD-3-Clause",
+            "BSD-4-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Simon Holywell",
+                "email": "treffynnon@php.net",
+                "homepage": "http://simonholywell.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Jamie Matthews",
+                "email": "jamie.matthews@gmail.com",
+                "homepage": "http://j4mie.org",
+                "role": "Developer"
+            },
+            {
+                "name": "Durham Hale",
+                "email": "me@durhamhale.com",
+                "homepage": "http://durhamhale.com",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "A lightweight Active Record implementation for PHP5, built on top of Idiorm",
+        "homepage": "http://j4mie.github.com/idiormandparis",
+        "keywords": [
+            "Active Record",
+            "model",
+            "orm",
+            "paris"
+        ]
+    },
+    {
+        "name": "symfony/process",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Symfony/Component/Process",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Process.git",
+            "reference": "6ce30e850357c844696411d49c4cfe7f19446f6e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Process/zipball/6ce30e850357c844696411d49c4cfe7f19446f6e",
+            "reference": "6ce30e850357c844696411d49c4cfe7f19446f6e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2014-07-01 06:41:10",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.6-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Process\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Process Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "evenement/evenement",
+        "version": "1.0.x-dev",
+        "version_normalized": "1.0.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/igorw/evenement.git",
+            "reference": "8b0918f8374327dfed4408fe467980ab41d556dd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/igorw/evenement/zipball/8b0918f8374327dfed4408fe467980ab41d556dd",
+            "reference": "8b0918f8374327dfed4408fe467980ab41d556dd",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2012-12-29 17:04:52",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Evenement": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Igor Wiedler",
+                "email": "igor@wiedler.ch",
+                "homepage": "http://wiedler.ch/igor/"
+            }
+        ],
+        "description": "Événement is a very simple event dispatching library for PHP 5.3",
+        "keywords": [
+            "event-dispatcher"
+        ]
+    },
+    {
+        "name": "masterminds/html5",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Masterminds/html5-php.git",
+            "reference": "7c176539423d7e1acd0e5191855bdee8f0ed1a37"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/7c176539423d7e1acd0e5191855bdee8f0ed1a37",
+            "reference": "7c176539423d7e1acd0e5191855bdee8f0ed1a37",
+            "shasum": ""
+        },
+        "require": {
+            "ext-libxml": "*",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phpunit/phpunit": "4.*",
+            "satooshi/php-coveralls": "0.6.*"
+        },
+        "time": "2014-06-30 10:10:44",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Masterminds\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Matt Farina",
+                "email": "matt@mattfarina.com",
+                "homepage": "http://mattfarina.com"
+            },
+            {
+                "name": "Matt Butcher",
+                "email": "technosophos@gmail.com"
+            }
+        ],
+        "description": "An HTML5 parser and serializer.",
+        "homepage": "http://masterminds.github.io/html5-php",
+        "keywords": [
+            "HTML5",
+            "dom",
+            "html",
+            "parser",
+            "querypath",
+            "serializer",
+            "xml"
         ]
     }
 ]

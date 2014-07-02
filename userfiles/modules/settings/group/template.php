@@ -25,7 +25,7 @@ $(document).ready(function(){
  ?>
  <?php
 if(!isset($data['id'])){
-$data['id'] = 0;	
+$data['id'] = 0;
 }
 if(!isset($data['option_value'])){
 $data['option_value'] = 'default';	
@@ -59,6 +59,6 @@ $data['option_key'] = 'current_template';
 <div class="mw-site-theme-selector">
   <input id="mw_curr_theme_val" name="current_template"   class="mw_option_field mw-ui-field"   type="hidden" option-group="template"  value="<?php print  $data['option_value']; ?>" data-id="<?php print  $data['id']; ?>" />
   <module type="content/layout_selector" data-active-site-template="<?php print $data['option_value'] ?>" autoload="1" live_edit_styles_check="1" />
-  <button class="mw-ui-btn mw-action-change-template" onClick="mw_set_default_template()"><?php _e("Apply Template"); ?></button>
+  <button class="mw-ui-btn mw-ui-btn-invert mw-action-change-template pull-right" onClick="mw_set_default_template()"><?php _e("Apply Template"); ?></button>
 </div>
 </div>

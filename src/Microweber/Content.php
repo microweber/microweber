@@ -4091,22 +4091,17 @@ class Content
      */
     public function define_constants($content = false)
     {
-
         if ($content == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $ref_page = $_SERVER['HTTP_REFERER'];
-                //d($ref_page);
                 if ($ref_page != '') {
                     $ref_page = $this->get_by_url($ref_page);
-
                     if ($ref_page != false and !empty($ref_page)) {
                         $content = $ref_page;
                     }
                 }
             }
         }
-
-
         $page = false;
         if (is_array($content)) {
             if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {

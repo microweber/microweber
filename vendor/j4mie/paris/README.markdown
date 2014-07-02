@@ -74,6 +74,10 @@ foreach ($tweets as $tweet) {
 Changelog
 ---------
 
+#### 1.5.3 - released 2014-06-25
+
+* Remove erroneously committed git merge backup file
+
 #### 1.5.2 - released 2014-06-23
 
 * Paris incorrectly relying on old Idiorm version in the composer.json [[ilsenem](https://github.com/ilsenem)] - [issue #96](https://github.com/j4mie/paris/pull/96)

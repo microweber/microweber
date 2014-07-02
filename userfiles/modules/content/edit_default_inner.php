@@ -38,6 +38,12 @@
                 delete window.mweditor;
             }
             mweditor = mw.admin.editor.init(area, params);
+			
+ //
+//			 mweditor.onbeforeunload = function(e) {
+//			//  alert( 'Dialog text here.');
+//			};
+			
 
         }
 
@@ -46,8 +52,13 @@
 </script>
 <script>
     $(mwd).ready(function () {
-        mw.load_editor_internal();
+
+
+
+
+    mw.load_editor_internal();
     });
+
 </script>
 <?php $content_edit_modules = mw('ui')->admin_content_edit_text(); ?>
 <?php $modules = array(); ?>

@@ -13,6 +13,7 @@ return array(
     'PhpRbac' => array($vendorDir . '/owasp/phprbac/PhpRbac/src'),
     'Microweber' => array($baseDir . '/src'),
     'Keboola\\Csv' => array($vendorDir . '/keboola/csv/src'),
+    'Evenement' => array($vendorDir . '/evenement/evenement/src'),
     'ComponentInstaller' => array($vendorDir . '/robloach/component-installer/src'),
     'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),
 );

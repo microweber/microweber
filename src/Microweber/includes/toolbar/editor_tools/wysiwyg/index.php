@@ -310,6 +310,25 @@ window.onfocus = function(){
     }
 }
 
+    $(document).ready(function(){
+        $(mwd).bind('mousedown', function(e){
+            if(!e.target.isContentEditable){
+                var target = null;
+                if(e.target.nodeName === 'A'){
+                  var target = e.target;
+                }
+                else if(mw.tools.hasParentsWithTag(e.target, 'a')){
+                  var target = mw.tools.firstParentWithTag(e.target, 'a');
+                }
+                if(target !== null){
+                    if(target.target == '' || target.target == '_self'){
+                         target.target = '_top';
+                    }
+                }
+            }
+        });
+        });
+
 </script>
 
 <?php mw_var('plain_modules', true);

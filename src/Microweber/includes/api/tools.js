@@ -3017,7 +3017,7 @@ document.isHidden = function(){
 }
 
 
-
+mw.require("lab.js")
 
 mw.storage = {
         init:function(){

@@ -12,10 +12,11 @@
     "components/bootstrap-default": "3.1.1",
     "zeroclipboard/zeroclipboard": "2.0.0-beta.5",
     "pimple/pimple": "v2.0.0",
-    "phroute/phroute": "1.*",
+
     "j4mie/idiorm": "1.*",
     "j4mie/paris": "1.*",
-    "owasp/phprbac": "2.*",
+
+
 
 
     "prewk/xml-streamer": "0.4.2",

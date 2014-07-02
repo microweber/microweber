@@ -590,7 +590,7 @@ class Db
             }
             //d($criteria);
             if(isset($params['debug'])){
-            // print_r(mw()->orm->getLastQuery());
+           //  print_r(mw()->orm->getLastQuery());
             }
         }
         if (!isset($table) and isset($params['what'])) {

@@ -129,7 +129,7 @@ $('#module_open_<?php print $params['id']; ?>').show();
     <?php _e("Open"); ?>
     </a>
     <?php endif; ?>
-    <div class="mw-module-install-uninstall-controll">
+    <div class="mw-module-install-uninstall-controll" style="display:none">
       <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
       <input    class="mw-ui-btn mw-ui-btn-small " name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" value="<?php _e("Uninstall"); ?>" />
       <?php else:  ?>

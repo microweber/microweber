@@ -781,7 +781,7 @@ mw.wysiwyg = {
     },
     link:function(){
          mw.wysiwyg.save_selection();
-         var modal = parent.mw.tools.modal.frame({
+         var modal = mw.tools.modal.frame({
           url:"rte_link_editor",
           title:"",
           name:"mw_rte_link",
@@ -1269,10 +1269,10 @@ $(window).load(function(){
               var div = mw.wysiwyg.applier('code', '');
           }else if( val == 'insert_html' ){
 
-  			var new_insert_html=prompt("Paste your html code in the box");
+  			var new_insert_html = prompt("Paste your html code in the box");
   			if (new_insert_html!=null){
   				 var div = mw.wysiwyg.applier('div');
-  				 div.innerHTML =new_insert_html;
+  				 div.innerHTML = new_insert_html;
   			  }
           }
           else if( val === 'table' ){
@@ -1345,7 +1345,7 @@ mw.linkTip = {
       mw.$(root).bind('mousedown', function(e){
          var node = mw.linkTip.find(e.target);
          if(!!node){
-             mw.linkTip.tip(e.target);
+             mw.linkTip.tip(node);
          }
          else{
            mw.$('.mw-link-tip').hide();
@@ -1362,7 +1362,7 @@ mw.linkTip = {
         else if(mw.tools.hasParentsWithTag(target, 'a')){
           return mw.tools.firstParentWithTag(target, 'a');
         }
-        else{ return undefined; }
+        else { return undefined; }
     },
     tip:function(node){
         if(!mw.linkTip._tip){
