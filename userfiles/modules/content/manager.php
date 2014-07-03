@@ -80,7 +80,9 @@ class Manager
 
         if (isset($params['category-id']) and $params['category-id'] != 'global') {
             $check_if_excist = get_page_for_category($params['category-id']);
+
             if (is_array($check_if_excist)) {
+                $page_info = $check_if_excist;
                 if (isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y') {
                     $posts_mod['subtype'] = 'product';
                 }
@@ -132,10 +134,12 @@ class Manager
         $view = new View($post_list_view);
 
         $view->assign('params', $params);
+        $view->assign('page_info', $page_info);
         $view->assign('toolbar', $toolbar);
         $view->assign('data', $data);
         $view->assign('pages', $pages);
         $view->assign('keyword', $keyword);
+        $view->assign('post_params', $posts_mod);
         $view->assign('paging_param', $posts_mod['paging_param']);
 
 

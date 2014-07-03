@@ -114,7 +114,8 @@ if (isset($params['data-page-number'])) {
     <?php endif; ?>
 <?php else: ?>
     <div class="mw-no-posts-foot">
-        <?php if (isset($params['subtype']) and $params['subtype'] == 'product') : ?>
+ 
+        <?php if (isset($page_info['is_shop']) and $page_info['is_shop'] == 'y') : ?>
             <h2 class="left">
                 <?php _e("No Products Here"); ?>
             </h2>
@@ -128,7 +129,7 @@ if (isset($params['data-page-number'])) {
                 $url = "#action=new:product";
             }
 
-            ?>
+            ?>  
             <a href="<?php print   $url; ?>" class="add-new-master"> <span class="add-new-master-icon"></span> <span>
   <?php _e("Add New Product"); ?>
   </span> </a>

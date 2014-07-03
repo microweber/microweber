@@ -696,7 +696,7 @@ mw.drag = {
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
             var top = o.top - 35;
-            if(top < 55){
+            if(top < 55 && mw.getElementById('live_edit_toolbar') !== null){
               var top = 55;
             }
             $(mw.handle_row).css({
