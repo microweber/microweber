@@ -1848,7 +1848,7 @@ mw.tools = {
         $(this).addClass(active);
         mw.$(obj.tabs).hide().eq(i).show();
         if(typeof obj.onclick == 'function'){
-            obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], e);
+            obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], e, i);
         }
       }
       else{
@@ -1857,7 +1857,7 @@ mw.tools = {
             mw.$(obj.tabs).hide();
             if(typeof obj.onclick == 'function'){
                 var i = mw.tools.index(this, master, obj.nav);
-                obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], e);
+                obj.onclick.call(this, mw.$(obj.tabs).eq(i)[0], e, i);
             }
         }
       }

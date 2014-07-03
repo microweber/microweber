@@ -57,7 +57,10 @@ $path = urldecode($path);
 
 PreviousFolder = [];
 
+
 </script>
+
+
 
 <div class="mw-ui-box mw-file-browser">
   <?php //if(in_array('breadcrumb', $_GET) and $_GET['breadcrumb'] == 'true'){ ?>
@@ -80,7 +83,7 @@ $path_nav_pop = $path_nav_pop.DS.$item;
 }
  if(strlen($item)>0):
  ?>
-    <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script> 
+    <script>PreviousFolder.push('<?php print urlencode($path_nav_pop) ?>');</script>
     <a href="#path=<?php print urlencode($path_nav_pop) ?>" style="color: #212121;"><span class="<?php print $config['module_class']; ?> path-item"><?php print ($item) ?></span></a>&raquo;
     <?php endif; endforeach ; ?>
     <?php endif; ?>
@@ -105,8 +108,13 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     
     <?php if(isset($data['files'] )): ?>
     <ul class="mw-browser-list">
+
       <?php foreach($data['files']  as $item): ?>
-      <li> <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print mw('url')->link_to_file($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print mw('url')->link_to_file($item) ?>'); return false;">
+
+
+      <li>
+
+      <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print mw('url')->link_to_file($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print mw('url')->link_to_file($item) ?>'); return false;">
         <?php $ext = strtolower(get_file_extension($item)); ?>
         <?php
 
@@ -118,17 +126,25 @@ $path_nav_pop = $path_nav_pop.DS.$item;
         <?php endif; ?>
         <span><?php print basename($item) ?></span> </a>
         <?php $rand = uniqid(); ?>
+
         <div class="mw-file-item-check">
           <label class="mw-ui-check left">
             <input type="checkbox" onchange="gchecked()" name="fileitem" id="v<?php print $rand; ?>" value="<?php print $item;  ?>" />
             <span></span> </label>
           <span class="mw-close right" onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span> </div>
+
+
       </li>
-      <?php endforeach ; ?>
+
+
+
+      <?php  endforeach ; ?>
     </ul>
     <script>
         rendImages = window.rendImages || function(){
-          var all = mwd.querySelectorAll('.image-item-not-ready'), l = all.length, i = 0;
+          var all = mwd.querySelectorAll('.image-item-not-ready'),
+              l = all.length,
+              i = 0;
           for( ; i<l; i++){
             var item = all[i];
             var datasrc = item.getAttribute("data-src");

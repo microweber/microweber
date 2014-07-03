@@ -2,9 +2,9 @@
 
 mw.iframecallbacks = {
     insert_link:function(url, target){
-
-      var url = url.indexOf("http") === 0 ? url : "http://" + url;
-
+      if(!url.contains('mailto:')){
+        var url = url.indexOf("http") === 0 ? url : "http://" + url;
+      }
       var target = target || '_self';
       mw.wysiwyg.restore_selection();
 

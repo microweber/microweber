@@ -295,6 +295,25 @@ else{
               parent.mw.tools.modal.remove('mw_rte_image');
           });
 
+
+          MediaTabs = mw.tabs({
+            nav:'#image_tabs .mw-ui-btn-nav a',
+            tabs:'.tab',
+            onclick:function(tab){
+                if(tab.id == 'tabfilebrowser'){
+                   var height = mw.$('#tabfilebrowser').height() + 135;
+                   var wh =  $(parent.window).height() - 100;
+                   if(height > wh){
+                     var height = wh;
+                   }
+                   parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 430, height, true);
+                }
+                else{
+                   parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 430, 230, true);
+                }
+            }
+          })
+
     });  /* end document ready  */
 
 
@@ -371,10 +390,11 @@ mw.embed = {
   overflow: hidden;
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 
 .mw-upload-filetypes li{
-  margin: 0 20px;
+  margin: 0 15px;
   font-size:11px;
   display: inline-block;
   position: relative;
@@ -388,18 +408,19 @@ mw.embed = {
   -o-transition: opacity 0.12s;
 }
 
-.mw-upload-filetypes .mw-upload-frame{
-  display: block;
-  width: 80px;
-  height: 66px;
-  background: url(<?php print $path; ?>buttons.png) no-repeat;
 
-}
+
 .mw-upload-filetypes li.disabled, .mw-upload-filetypes li.hovered{ opacity:0.4; }
 
 
-.mw-upload-filetypes li.mw-upload-filetype-video .mw-upload-frame{ background-position: -143px 0; }
-.mw-upload-filetypes li.mw-upload-filetype-file .mw-upload-frame{ background-position: -273px 0; }
+.mw-upload-filetypes .mw-upload-frame{
+  color: #333333;
+}
+
+.mw-upload-filetypes [class*='mw-icon-']{
+  font-size: 40px;
+}
+
 
 .mw-upload-filetypes li span{
   display: block;
@@ -416,38 +437,50 @@ mw.embed = {
 .mw_tabs_layout_simple .mw_simple_tabs_nav{
   padding-top: 0;
 }
+.tab{
+  display: none;
+}
+#media_search_field{
+  float: left;
+  width: 275px;
+  margin-right: 15px;
+}
 
 
 </style>
-
+<div class="module-live-edit-settings">
 <div id="image_tabs">
-    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-    <a href="javascript:;" class="mw-ui-btn active"><?php _e("My Computer"); ?></a>
-    <a href="javascript:;" class="mw-ui-btn"><?php _e("URL"); ?></a>
-	<?php if(is_admin()): ?>
-    <a href="javascript:;" class="mw-ui-btn"><?php _e("Uploaded"); ?></a>
-	<?php endif; ?>
+
+
+
+      <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+      <a href="javascript:;" class="mw-ui-btn active"><?php _e("My Computer"); ?></a>
+      <a href="javascript:;" class="mw-ui-btn"><?php _e("URL"); ?></a>
+  	<?php if(is_admin()): ?>
+      <a href="javascript:;" class="mw-ui-btn"><?php _e("Uploaded"); ?></a>
+  	<?php endif; ?>
     </div>
 
 
 
-  <div class="tab" id="drag_files_here">
-    <center style="padding-top: 25px;">
+<div class="mw-ui-box mw-ui-box-content">
+    <div class="tab" id="drag_files_here" style="display: block">
+    <div class="text-center" style="padding-top: 25px;">
 
 
         <ul class="mw-upload-filetypes" id="">
             <?php  if(in_array('images', $types)){  ?>
             <li class="mw-upload-filetype-image" data-type="images">
-                <div class="mw-upload-frame"></div>
+                <div class="mw-icon-image"></div>
                 <span><?php _e("Image"); ?></span>
             </li>
             <?php }  if(in_array('videos', $types)){  ?>
             <li class="mw-upload-filetype-video" data-type="videos">
-                <div class="mw-upload-frame"></div>
+                <div class="mw-icon-video"></div>
                 <span><?php _e("Video"); ?></span></li>
             <?php } if(in_array('files', $types)){  ?>
             <li class="mw-upload-filetype-file" data-type="files">
-                <div class="mw-upload-frame"></div>
+                <div class="mw-icon-file"></div>
                 <span><?php _e("Files"); ?></span>
             </li>
             <?php } ?>
@@ -457,35 +490,34 @@ mw.embed = {
 
 
       <div class="drag_files_label" style="display: none;"><?php _e("Drag your files here"); ?></div>
-    </center>
+    </div>
   </div>
   <div class="tab" id="get_image_from_url">
 
 
-    <div id="media-search-holder">
-    <div class="mw-ui-field left" style="width: 230px;" id="media_search">
-        <span id="image_status"></span>
-        <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-invisible-field" name="get_image_by_url" onfocus="event.preventDefault()" />
-     </div>
-    <button type="button" class="mw-ui-btn mw-ui-btn-blue right" id="btn_insert" style="font-size: 12px;width:80px;"><?php _e("Insert"); ?></button>
+    <div id="media-search-holder" style="margin-top: 35px;">
+    <input type="text" id="media_search_field" placeholder="<?php _e("URL"); ?>" class="mw-ui-field" name="get_image_by_url" onfocus="event.preventDefault()" />
+    <button type="button" class="mw-ui-btn" id="btn_insert"><?php _e("Insert"); ?></button>
 
 
    </div>
 
   </div>
-  <div class="tab">
+  <div class="tab" id="tabfilebrowser">
 
-    <?php  //event_trigger('live_edit_toolbar_image_search'); ?>
+    <?php  event_trigger('live_edit_toolbar_image_search'); ?>
 
-  </div>
+  </div></div>
 
 </div>
 
 
 
 
-<div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%">
+<div class="mw-ui-progress" id="mw-upload-progress" style="display: none" >
     <div class="mw-ui-progress-bar" style="width: 0%;"></div>
     <div class="mw-ui-progress-info"></div>
     <span class="mw-ui-progress-percent"></span>
+</div>
+
 </div>

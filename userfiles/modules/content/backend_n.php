@@ -472,6 +472,9 @@ function mw_make_pages_tree_sortable() {
                         })
                     });
                 </script>
+                
+                 
+                
       <div id="pages_edit_container"  <?php print $pages_container_params_str; ?>> </div>
     </div>
   </div>

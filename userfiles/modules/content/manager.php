@@ -41,8 +41,8 @@ class Manager
         }
         $posts_mod = array();
         // $posts_mod['type'] = 'content/admin_posts_list';
-        if (isset($params['page-id'])) {
-            $posts_mod['data-page-id'] = $params['page-id'];
+        if (isset($params['data-page-id'])) {
+            $posts_mod['page-id'] = $params['data-page-id'];
         }
         if (isset($params['keyword'])) {
             $posts_mod['search_by_keyword'] = $params['keyword'];
@@ -63,6 +63,18 @@ class Manager
                 if (isset($check_if_excist['is_shop']) and trim($check_if_excist['is_shop']) == 'y') {
                     $posts_mod['subtype'] = 'product';
                 }
+            }
+        }
+        $page_info = false;
+        if (isset($params['page-id'])) {
+            if ($params['page-id'] == 'global') {
+                if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
+                    $page_info = get_content('limit=1&one=1&content_type=page&is_shop=y');
+                } else {
+
+                }
+            } else {
+                $page_info = get_content_by_id($params['page-id']);
             }
         }
 
@@ -91,6 +103,10 @@ class Manager
         if (isset($params['category-id'])) {
             $posts_mod['category'] = $params['category-id'];
         }
+        $keyword = false;
+        if (isset($posts_mod['search_by_keyword'])) {
+            $keyword = strip_tags($posts_mod['search_by_keyword']);
+        }
 
         $data = $this->provider->get($posts_mod);
         if (empty($data) and isset($posts_mod['page'])) {
@@ -103,12 +119,23 @@ class Manager
         $post_params_paging = $posts_mod;
         $post_params_paging['page_count'] = true;
         $pages = $this->provider->get($post_params_paging);
+
+
+        $post_toolbar_view = $this->views_dir . 'toolbar.php';
+
+        $toolbar = new View($post_toolbar_view);
+        $toolbar->assign('page_info', $page_info);
+        $toolbar->assign('keyword', $keyword);
+        $toolbar->assign('params', $params);
+
         $post_list_view = $this->views_dir . 'manager.php';
         $view = new View($post_list_view);
 
         $view->assign('params', $params);
+        $view->assign('toolbar', $toolbar);
         $view->assign('data', $data);
         $view->assign('pages', $pages);
+        $view->assign('keyword', $keyword);
         $view->assign('paging_param', $posts_mod['paging_param']);
 
 

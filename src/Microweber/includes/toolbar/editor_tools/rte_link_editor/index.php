@@ -40,7 +40,7 @@
                   if(typeof obj === 'object'){
                     var title = obj.title;
                     var url = obj.url;
-                    lis+= "<li class='mw-dd-list-result' value='"+url+"' onclick='$(\"#insert_link_list\").setDropdownValue(\""+url+"\")'>"+title+"</a>";
+                    lis+= "<li class='mw-dd-list-result' value='"+url+"' onclick='setACValue(\""+url+"\")'>"+title+"</a>";
                   }
               }
               var ul = el.parent().find("ul");
@@ -54,6 +54,12 @@
 
 
 
+
+setACValue = function(val){
+    RegisterChange(hash, val);
+    parent.mw.iframecallbacks[hash](val);
+    parent.mw.tools.modal.remove('mw_rte_link');
+}
 
 
 
@@ -70,9 +76,6 @@
         ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;<?php _e("Done! All files have been uploaded"); ?>.';
         ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "'+filename+'" - <?php _e("Invalid filetype"); ?>.';}
 
-
-
-
         mw.tools.dropdown();
 
         mw.dd_autocomplete('#dd_pages_search');
@@ -87,46 +90,36 @@
 
     frame.height = frame_holder.height();
 
+    frame.className += ' mw_upload_frame';
+    $(frame).bind("progress", function(frame, file){
+          ProgressBar.width(file.percent+'%');
+          ProgressInfo.html(file.name);
+          ProgressPercent.html(file.percent+'%');
+    });
+    $(frame).bind("done", function(frame, item){
+          ProgressBar.width('0%');
+          ProgressPercent.html('');
+          ProgressInfo.html(ProgressDoneHTML);
+          parent.mw.tools.modal.remove('mw_rte_link');
+          Progress.hide();
+    });
 
+    $(frame).bind("error", function(frame, file){
+          ProgressBar.width('0%');
+          ProgressPercent.html('');
+          ProgressInfo.html(ProgressErrorHTML(file.name));
+          Progress.hide();
+    });
 
-
-        frame.className += ' mw_upload_frame';
-
-        $(frame).bind("progress", function(frame, file){
-              ProgressBar.width(file.percent+'%');
-              ProgressInfo.html(file.name);
-              ProgressPercent.html(file.percent+'%');
-
-        });
-        $(frame).bind("done", function(frame, item){
-              ProgressBar.width('0%');
-              ProgressPercent.html('');
-              ProgressInfo.html(ProgressDoneHTML);
-              parent.mw.tools.modal.remove('mw_rte_link');
-              Progress.hide()
-        });
-
-        $(frame).bind("error", function(frame, file){
-              ProgressBar.width('0%');
-              ProgressPercent.html('');
-              ProgressInfo.html(ProgressErrorHTML(file.name));
-              Progress.hide()
-        });
-
-         $(frame).bind("FilesAdded", function(frame, files_array, runtime){
-              if(runtime == 'html4'){
-                ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
-              }
-              Progress.show()
-          });
-
-
-
-          $(frame).bind("FileUploaded", function(frame, item){
-
-              parent.mw.iframecallbacks[hash](item.src);
-
-          });
+    $(frame).bind("FilesAdded", function(frame, files_array, runtime){
+        if(runtime == 'html4'){
+          ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
+        }
+        Progress.show()
+    });
+    $(frame).bind("FileUploaded", function(frame, item){
+        parent.mw.iframecallbacks[hash](item.src);
+    });
 
 
 
@@ -169,15 +162,8 @@
         return false;
     });
 
-    mw.$('#insert_link_list').bind('change', function(){
-       var val = mw.$("#insert_link_list").getDropdownValue();
-       d(val)
-       RegisterChange(hash, val);
-       parent.mw.iframecallbacks[hash](val);
-       parent.mw.tools.modal.remove('mw_rte_link');
-    });
 
-     mw.tabs({
+     LinkTabs = mw.tabs({
        nav:".mw-ui-btn-nav-tabs a",
        tabs:".tab"
      });

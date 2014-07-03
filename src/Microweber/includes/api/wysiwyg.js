@@ -851,7 +851,7 @@ mw.wysiwyg = {
           name:"mw_rte_image",
           width:430,
           height:230,
-          template:'mw_modal_simple'
+          template:'mw_modal_basic'
         });
     },
     media:function(hash){

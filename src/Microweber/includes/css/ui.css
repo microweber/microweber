@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=1sdfdsfsdfasdfasdsdfasdasasdasasdasdasddaasdsadsdsadasdasdsadaasdasdasd9987987sdasdsadasddfasdasdsaasdsdfsdgasasddsadsasdsdasasdad') format('truetype');
+  src: url('fonts/font.ttf?mwv=asd996874121') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -179,6 +179,12 @@
 }
 .mw-icon-arrowright:before {
   content: "\0138";
+}
+.mw-icon-video:before {
+  content: "\0140";
+}
+.mw-icon-file:before {
+  content: "\0141";
 }
 /****************************
  Buttons & button navigation

@@ -6000,6 +6000,9 @@ class Content
             $params['no_cache'] = true;
             $mw_global_content_memory = array();
         }
+        if (isset($params['search_by_keyword'])) {
+            $params['keyword'] = $params['search_by_keyword'];
+        }
 
         if (isset($params['keyword'])) {
             $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');

@@ -414,7 +414,7 @@ Progress =  mw.$('#mw-upload-progress');
 
 
 
-       <div class="mw_clear"></div>
+       <div class="mw-clear"></div>
     </div>
   </div>
   
@@ -424,8 +424,8 @@ Progress =  mw.$('#mw-upload-progress');
 
   <span class="mw-ui-btn right disabled delete_item"><?php _e("Delete Selected"); ?></span>
 
-  <div class="mw_clear"></div>
+  <div class="mw-clear"></div>
   
 
 </div>
-<div class="mw_clear"></div>
+<div class="mw-clear"></div>
