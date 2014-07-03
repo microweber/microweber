@@ -101,7 +101,7 @@ include __DIR__ . DS . 'admin_toolbar.php'; ?>
 	 print load_module('content/edit_tabs',$data); ?>
   </div>
   <?php  if(isset($data['subtype']) and isset($data['content_type']) and ($data['content_type'] == 'page') and $data['subtype'] == 'dynamic'): ?>
-  <module type="content/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
+  <module type="content/views/layout_selector" id="mw-quick-add-choose-layout-middle-pos" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
   <?php 
 	 $data['recommended_parent'] = $recommended_parent;
 	 $data['active_categories'] = $categories_active_ids; 
