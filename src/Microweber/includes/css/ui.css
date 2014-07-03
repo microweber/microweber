@@ -829,6 +829,10 @@ li:hover > .show-on-hover {
 .mw-ui-progress-small .mw-ui-progress-bar {
   background-color: #575757;
 }
+.mw-ui-progress-small .mw-ui-progress-info,
+.mw-ui-progress-small .mw-ui-progress-percent {
+  display: none;
+}
 /*********************************************
     Tooltip Basic Styles & Default Skin
 *********************************************/
@@ -1670,6 +1674,15 @@ div.mw-ui-field:after {
   max-height: 200px;
   overflow: auto;
 }
+.mw-dropdown > .mw-ui-field {
+  width: 100%;
+}
+.mw-dropdown > .mw-ui-field + .mw-icon-dropdown {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -7px;
+}
 .mw-ui-dropdown .mw-dropdown-content,
 .mw-ui-dropdown .mw-ui-dropdown-content {
   visibility: hidden;
@@ -1907,6 +1920,18 @@ div.mw-ui-field:after {
 }
 .mw-ui-inline-list li * {
   vertical-align: middle;
+}
+.mw-clear {
+  clear: both;
+}
+.mw-clear:after,
+.mw-clear:before {
+  content: ".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
 }
 /************************************
         Notifications

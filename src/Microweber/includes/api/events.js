@@ -175,22 +175,6 @@ DOMChange:function(element, callback, attr, a){
               callback.call(el, e.target)
           }
       });
-  },
-  css: {
-    transitionStart: function(el, callback){
-       if( el === null || typeof el==='undefined' ) { return false; }
-       if( typeof callback !== 'function') { return el; }
-       $(el).bind("transitionstart webkitTransitionStart oTransitionStart MSTransitionStart mozTransitionStart MozTransitionStart", function(e){
-            callback.call(this, e);
-       });
-    },
-    animationStart: function(el, callback){
-       if( el === null || typeof el==='undefined' ) { return false; }
-       if( typeof callback !== 'function') { return el; }
-       $(el).bind("animationstart webkitAnimationStart oAnimationStart MSAnimationStart mozAnimationStart MozAnimationStart", function(e){
-            callback.call(this, e);
-       });
-    }
   }
 }
 
@@ -200,7 +184,7 @@ mw.hashHistory = [window.location.hash]
 
 mw.prevHash = function(){
   var prev = mw.hashHistory[mw.hashHistory.length - 2];
-  return prev!==undefined ? prev : '' ;
+  return prev !== undefined ? prev : '';
 }
 
 $(window).bind("hashchange load", function(event){

@@ -21,7 +21,7 @@
       mw.dd_autocomplete = function(id){
       var el = $(id);
 
-      el.bind("change keyup focus", function(event){
+      el.bind("change keyup paste focus", function(event){
         if(!is_searching){
             var val = el.val();
             if(event.type=='focus'){
@@ -32,7 +32,7 @@
                 return false;
               }
             }
-            mw.tools.ajaxSearch({keyword:val, limit:10}, function(){
+            mw.tools.ajaxSearch({keyword:val, limit:4}, function(){
               var lis = "";
               var json = this;
               for(var item in json){
@@ -169,6 +169,14 @@
         return false;
     });
 
+    mw.$('#insert_link_list').bind('change', function(){
+       var val = mw.$("#insert_link_list").getDropdownValue();
+       d(val)
+       RegisterChange(hash, val);
+       parent.mw.iframecallbacks[hash](val);
+       parent.mw.tools.modal.remove('mw_rte_link');
+    });
+
      mw.tabs({
        nav:".mw-ui-btn-nav-tabs a",
        tabs:".tab"
@@ -183,7 +191,7 @@
 
 
 </script>
- 
+
 
 <style type="text/css">
 
@@ -212,119 +220,68 @@
   padding-top: 20px;
 }
 
+#insert_link_list{
+  width: 100%;
+}
+
+#email_field, #customweburl{
+  float: left;
+  width: 275px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
 </style>
 
 
 <div id="mw-popup-insertlink">
     <div class="">
-
         <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-           <a  class="mw-ui-btn active" href="javascript:;"><?php _e("Website URL"); ?></a>
+            <a class="mw-ui-btn active" href="javascript:;"><?php _e("Website URL"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Page from My Website"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("File"); ?></a>
             <a class="mw-ui-btn" href="javascript:;"><?php _e("Email"); ?></a>
         </div>
         <div class="mw-ui-box mw-ui-box-content" id="tabs">
-        <!-- TAB 1 -->
-        <div class="tab" style="display: block">
-
-            <div class="media-search-holder">
-              <div class="mw-ui-row-nodrop w100">
-                  <div class="mw-ui-col"><input type="text" class="mw-ui-field w100" id="customweburl" autofocus="" /></div>
-                  <div class="mw-ui-col" style="width: 90px;">
-                    <span class="mw-ui-btn pull-right" id="insert_url"><?php _e("Insert"); ?></span>
-                  </div>
-              </div>
-
-              <label class="mw-ui-check"><input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span></label>
+            <div class="tab" style="display: block">
+                <div class="media-search-holder">
+                      <input type="text" class="mw-ui-field" id="customweburl" autofocus="" />
+                      <span class="mw-ui-btn" id="insert_url"><?php _e("Insert"); ?></span>
+                      <label class="mw-ui-check mw-clear"><input type="checkbox" id="url_target"><span></span><span><?php _e("Open link in new window"); ?></span></label>
+                </div>
             </div>
-
-        </div>
-
-        <!-- TAB 2 -->
-        <div class="tab">
-            <div class="media-search-holder">
-                <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown_type_navigation mw-dropdown_autocomplete left">
-                    <span class="mw-dropdown-val"><?php _e("Click here to select"); ?></span>
-                    <input type="text" class="mw-ui-field  pages_search dd_search inactive" id="dd_pages_search" />
-                    <div class="mw-dropdown-content">
-                      <ul class="">
-                        <li class="other-action" value="-1"></li>
-                      </ul>
+            <div class="tab">
+                <div class="media-search-holder">
+                    <div data-value="<?php print site_url(); ?>" id="insert_link_list" class="mw-dropdown mw-dropdown-default active">
+                        <input type="text" class="mw-ui-field inactive" id="dd_pages_search" placeholder="<?php _e("Click to select"); ?>" />
+                        <span class="mw-icon-dropdown"></span>
+                        <div class="mw-dropdown-content">
+                          <ul class="">
+                            <li class="other-action" value="-1" style="display: none;"></li>
+                          </ul>
+                        </div>
                     </div>
                 </div>
-                <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_from_dropdown" style="padding: 7px 10px;"><?php _e("Insert"); ?></span>
+            </div>
+            <div class="tab">
+                <div class="media-search-holder">
+                  <div class="mw-ui-btn mw-ui-btn-big w100">
+                      <div id="upload_frame"></div>
+                      <span class="mw-icon-upload"></span><?php _e("Upload"); ?>
+                  </div>
+                </div>
+                <div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%;display: none">
+                    <div class="mw-ui-progress-bar" style="width: 0%;"></div>
+                    <div class="mw-ui-progress-info"></div>
+                    <span class="mw-ui-progress-percent"></span>
+                </div>
+            </div>
+            <div class="tab">
+                <div class="media-search-holder">
+                    <input type="text" class="mw-ui-field" id="email_field" placeholder="mail@example.com" />
+                    <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
+                </div>
             </div>
         </div>
-
-        <!-- TAB 3 -->
-        <div class="tab">
-            <div class="media-search-holder">
-              <div class="mw-ui-btn mw-ui-btn-big w100">
-                  <div id="upload_frame"></div>
-                  <span class="mw-icon-upload"></span><?php _e("Upload"); ?>
-              </div>
-            </div>
-
-            <div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%;display: none">
-                <div class="mw-ui-progress-bar" style="width: 0%;"></div>
-                <div class="mw-ui-progress-info"></div>
-                <span class="mw-ui-progress-percent"></span>
-            </div>
-
-        </div>
-
-        <!-- TAB 4 -->
-        <div class="tab">
-            <div class="media-search-holder">
-                <input type="text" class="mw-ui-field" id="email_field" />
-                <span class="mw-ui-btn mw-ui-btn-blue right insert_the_link" id="insert_email"><?php _e("Insert"); ?></span>
-            </div>
-
-        </div> </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

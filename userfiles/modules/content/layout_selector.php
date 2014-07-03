@@ -599,15 +599,16 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
         <?php else: ?>
             <div class="mw-overlay mw-overlay-quick-link" onclick="mw.templatePreview<?php print $rand; ?>.zoom();"
                  ondblclick="mw.url.windowHashParam('action', 'editpage:<?php print $params["edit_page_id"]; ?>')">
-                <div id="preview-edit-links"><a class="mw-ui-btn mw-ui-btn-invert"
-                                                href="#action=editpage:<?php print $params["edit_page_id"]; ?>"
-                                                onclick="mw.event.cancel(event);"> <span class="mw-icon-page"></span> <span>
-          <?php _e("Edit Page"); ?>
-          </span> </a> <a class="mw-ui-btn mw-ui-btn-info" target="_top"
-                          href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y"
-                          onclick="mw.event.cancel(event);"><span class="mw-icon-live"></span>
+                <div id="preview-edit-links">
+                    <a class="mw-ui-btn mw-ui-btn-invert" href="#action=editpage:<?php print $params["edit_page_id"]; ?>" onclick="mw.event.cancel(event);">
+                        <span class="mw-icon-page"></span>
+                        <span><?php _e("Edit Page"); ?></span>
+                    </a>
+                    <a class="mw-ui-btn mw-ui-btn-info" target="_top" href="<?php print content_link($params["edit_page_id"]); ?>/editmode:y" onclick="mw.event.cancel(event);">
+                        <span class="mw-icon-live"></span>
                         <?php _e("Live Edit"); ?>
-                    </a></div>
+                    </a>
+                </div>
             </div>
         <?php endif; ?>
     </div>

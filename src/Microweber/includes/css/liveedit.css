@@ -94,7 +94,36 @@ html,body{
 /****************************
          /  Plus end
 *****************************/
+/* Edit link tooltip */
 
+.mw-link-tip-link,
+.mw-link-tip-edit,
+.mw-link-tip .mw-tooltip-content span{
+  display: inline-block;
+  overflow: hidden;
+}
+
+.mw-link-tip-link{
+  max-width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mw-link-tip-link,
+.mw-link-tip-edit,
+.mw-link-tip-link:hover,
+.mw-link-tip-edit:hover,
+.mw-link-tip-link:focus,
+.mw-link-tip-edit:focus{
+  color: #f2f2f2;
+}
+
+.mw-link-tip-edit{
+  text-decoration: underline;
+}
+
+.mw-link-tip .mw-tooltip-content span{
+  margin: 0 3px;
+}
 
 /****************************
          Columns Resizer

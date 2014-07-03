@@ -864,6 +864,20 @@ mw.tools = {
     var fields = /^(input|textarea|select)$/i;
     return fields.test(t);
   },
+  equals:function(a,b){
+    var ai, bi;
+    for(ai in a){
+      if(!b[ai] || a[ai] != b[ai]){
+        return false;
+      }
+    }
+    for(bi in b){
+      if(!a[bi] || b[bi] != a[bi]){
+        return false;
+      }
+    }
+    return true;
+  },
   dropdown:function(root){
     var root = root || mwd.body;
     var items = root.querySelectorAll(".mw-dropdown"), l = items.length, i=0;
@@ -1630,10 +1644,11 @@ mw.tools = {
   ajaxSearch:function(o, callback){
     if(!mw.tools.ajaxIsSearching){
         mw.tools.ajaxIsSearching = true;
-        var obj = $.extend(mw.tools.ajaxSearcSetting, o, {});
+        var obj = $.extend({}, mw.tools.ajaxSearcSetting, o);
         $.post(mw.settings.site_url + "api/get_content_admin", obj, function(data){
           callback.call(data);
-          mw.tools.ajaxIsSearching = false;
+        }).always(function(){
+          mw.tools.ajaxIsSearching = false
         });
      }
   },
@@ -2516,6 +2531,51 @@ mw.tools = {
          return 0;
        }
     }
+  },
+  progressDefaults: {
+    skin:'mw-ui-progress',
+    action:mw.msg.loading + '...',
+  },
+  progress:function(obj){
+    if(typeof obj.element === 'string'){
+      obj.element = mw.$(obj.element)[0];
+    }
+    if(obj.element === null || !obj.element ) return false;
+    if(!!obj.element.progressOptions){
+        return obj.element.progressOptions;
+    }
+    var obj = $.extend({}, mw.tools.progressDefaults, obj);
+    var progress =  mwd.createElement('div');
+    progress.className = obj.skin;
+    progress.innerHTML = '<div class="mw-ui-progress-bar" style="width: 0%;"></div><div class="mw-ui-progress-info">'+mw.tools.progressDefaults.action+'</div><span class="mw-ui-progress-percent">0%</span>';
+    progress.progressInfo = obj;
+    var options =  {
+      progress:progress,
+      show:function(){
+        this.progress.style.display = 'none';
+      },
+      hide:function(){
+        this.progress.style.display = 'block'
+      },
+      remove:function(){
+          progress.progressInfo.element.progressOptions = undefined;
+          $(this.progress).remove();
+      },
+      set:function(v, action){
+        if( v > 100 ){
+          var v = 100;
+        }
+        if( v < 0 ){
+          var v = 0;
+        }
+        var action = action || this.progress.progressInfo.action;
+        mw.$('.mw-ui-progress-bar', this.progress).css('width', v+'%');
+        mw.$('.mw-ui-progress-percent', this.progress).html(v+'%');
+      }
+    };
+    progress.progressOptions = obj.element.progressOptions = options;
+    obj.element.appendChild(progress);
+    return options;
   }
 }
 
@@ -2548,14 +2608,14 @@ mw.wait('jQuery', function(){
          if(triggerChange){
 
          }
-           if(this.getAttribute('value') == val){
-              el.dataset("value", val);
-              var isValidOption = true;
-              var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerHTML : this.innerHTML;
-              mw.$(".mw-dropdown-val", el[0]).html(html);
-              triggerChange ? el.trigger("change") : '';
-              return false;
-           }
+         if(this.getAttribute('value') == val){
+            el.dataset("value", val);
+            var isValidOption = true;
+            var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerHTML : this.innerHTML;
+            mw.$(".mw-dropdown-val", el[0]).html(html);
+            triggerChange ? el.trigger("change") : '';
+            return false;
+         }
        });
      }
      this.dataset("value", val);
@@ -3016,8 +3076,6 @@ document.isHidden = function(){
   }
 }
 
-
-mw.require("lab.js")
 
 mw.storage = {
         init:function(){
@@ -3943,6 +4001,7 @@ mw.image = {
       mw.confirm      = mw.tools.confirm;
       mw.tabs         = mw.tools.tabGroup;
       mw.inlineModal  = mw.tools.inlineModal;
+      mw.progress     = mw.tools.progress;
       mw.external     = function( o ){ return mw.tools._external( o ) };
 
 

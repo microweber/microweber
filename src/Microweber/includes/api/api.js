@@ -199,7 +199,8 @@ mw.askusertostay = false;
     product_added:"<?php _e("Your product is added to cart"); ?>",
     no_results_for:"<?php _e("No results for"); ?>",
     switch_to_modules:'<?php _e("Switch to Modules"); ?>',
-    switch_to_layouts:'<?php _e("Switch to Layouts"); ?>'
+    switch_to_layouts:'<?php _e("Switch to Layouts"); ?>',
+    loading:'<?php _e("Loading"); ?>'
   }
 
 

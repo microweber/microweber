@@ -383,6 +383,33 @@ $(window).load(function(){
               </div>
            </div>
 
+
+           <div class="demobox">
+            <div id="progressdemo"></div>
+            <span class="mw-ui-btn" onclick="progressdemo()">Run progress demo</span>
+              <script>
+
+                 progressdemo = function(){
+                   var pd = mwd.getElementById('progressdemo');
+                   var prg = mw.progress({
+                        action:'Loading',
+                        element:pd
+                   });
+                   var k = 0;
+                   for( var i = 0; i <=100; i++){
+                     setTimeout(function(){
+                        prg.set(k++);
+                        if(k === 100){
+                           prg.remove();
+                        }
+                     }, i*20)
+
+                   }
+                 }
+
+              </script>
+           </div>
+
        </td>
 
     </tr>
