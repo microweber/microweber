@@ -45,7 +45,7 @@ if ($last_page_front != false) {
         <div class="mw-ui-col">
           <div class="mw-ui-row" style="width: 100%;padding-top: 19px;">
             <div class="mw-ui-col">
-              <?php if (isset($page_info) and is_array($page_info)): ?>
+              <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
               <?php if ($page_info['is_shop'] == 'y') {
                         $type = 'shop';
                     } elseif ($page_info['subtype'] == 'dynamic') {
@@ -53,7 +53,9 @@ if ($last_page_front != false) {
                     } else {
                         $type = 'page';
                     }
+					
                     ?>
+                    
               <h2><span
                             class="mw-icon-<?php print $type; ?>"></span><?php print ($page_info['title']) ?> </h2>
               <?php elseif ($act == 'pages'): ?>
@@ -78,6 +80,7 @@ if ($last_page_front != false) {
                 <?php _e("Website"); ?>
               </h2>
               <?php endif; ?>
+               
             </div>
             <div class="mw-ui-col">
               <div class="manage-toobar ">

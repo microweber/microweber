@@ -99,7 +99,7 @@ mw.contentAction = {
 }
 function mw_delete_content($p_id) {
     mw.$('#pages_edit_container').attr('data-content-id', $p_id);
-    mw.load_module('content/edit_post', '#pages_edit_container');
+    mw.load_module('content/edit', '#pages_edit_container');
 }
 
 function mw_select_page_for_editing($p_id) {
@@ -138,14 +138,14 @@ function mw_select_page_for_editing($p_id) {
         mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
     }
     mw.$('#pages_edit_container').attr('data-page-id', $p_id);
-    mw.$('#pages_edit_container').attr('data-type', 'content/edit_page');
+    mw.$('#pages_edit_container').attr('data-type', 'content/edit');
     mw.$('#pages_edit_container').removeAttr('data-subtype');
     mw.$('#pages_edit_container').removeAttr('data-content-id');
     mw.$('#pages_edit_container').removeAttr('content-id');
 
 
     mw.$(".mw_edit_page_right").css("overflow", "hidden");
-    edit_load('content/edit_page');
+    edit_load('content/edit');
 }
 
 mw.on.hashParam("parent-page", function () {
@@ -352,7 +352,7 @@ function mw_select_post_for_editing($p_id, $subtype) {
         mw.$('#pages_edit_container').attr('data-subtype', 'post');
     }
     mw.$(".mw_edit_page_right").css("overflow", "hidden");
-    edit_load('content/edit_post');
+    edit_load('content/edit');
 }
 
 function mw_add_product() {
