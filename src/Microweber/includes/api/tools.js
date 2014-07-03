@@ -2090,7 +2090,7 @@ mw.tools = {
     $(frame).load(function(){
         frame.contentWindow.thisframe = frame;
         var cont = $(frame).contents().find("#mw-iframe-editor-area");
-         cont[0].contentEditable = true;
+        cont[0].contentEditable = true;
         if(!k) {
             if(area[0].tagName === 'TEXTAREA'){
               cont.html(area[0].value);
@@ -2120,6 +2120,7 @@ mw.tools = {
     });
     return frame;
   },
+
   wysiwyg:function(area, params, k){
     var k = k || false;
     return mw.tools.iframe_editor(area, params, k);
@@ -4047,19 +4048,19 @@ mw.image = {
       if(area === null || typeof area === 'undefined'){ return false; }
       var frame = mw.tools.iframe_editor(area, params, false, 'richtext');
       frame.className = 'mw-ui-richtext-editor';
-     $(frame).height($(area).height());
-     frame.style.width = '100%';
+      $(frame).height($(area).height());
+      frame.style.width = '100%';
       return frame;
     };
 
     mw.accordion = function(el, callback){
-      return mw.tools.accordion(mw.$(el)[0], callback)
+      return mw.tools.accordion(mw.$(el)[0], callback);
     }
 
 
     $.fn.timeoutHover = function(ce,cl,time1,time2){
         var time1 = time1 || 350;
-        var time2 = time2 || 350;
+        var time2 = time2 || time1;
         return this.each(function(){
           var el = this;
           el.timeoutOver = null;

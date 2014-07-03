@@ -546,7 +546,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+          return $cache_content;
         }
 
         $render_file = false;
@@ -858,7 +858,7 @@ class Content
                     $par_page = $this->get_by_id($page['parent']);
                 }
                 if (is_array($par_page)) {
-                    $page = $par_page;
+                   // $page = $par_page;
                 } else {
                     $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
                     $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
@@ -929,11 +929,16 @@ class Content
 
 
         }
+
         if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
 
             if (isset($page['content_type']) and $page['content_type'] == 'page') {
                 $look_for_post = false;
             }
+
+
+
+
             if ($look_for_post != false) {
                 $f1 = $page['layout_file'];
                 $stringA = $f1;

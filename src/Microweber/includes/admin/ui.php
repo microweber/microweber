@@ -77,13 +77,23 @@ $(window).load(function(){
   }
   mw.$('#info-icon-list').html('<ul>'+html+'</ul>');
 
+  mw.$("#ui-info-table h2").each(function(){
+        var el = this;
+        var li = mwd.createElement('li');
+        li.innerHTML = "<a href='javascript:;'>"+this.innerHTML+"</a>";
+        li.onclick = function(){
+            mw.tools.scrollTo(el)
+        }
+        $("#apinav").append(li)
+  });
+
 });
 
 
 </script>
 
 
-<div style="position: fixed;right:0;top:20px;padding:20px;border:1px solid #eee">
+<div style="position: fixed;right:0;top:20px;padding:20px;border:1px solid #eee" id="adminapis">
 <h2>Admin apis</h2>
 
 <h3>Tooltip</h3>
@@ -92,6 +102,8 @@ $(window).load(function(){
 <h4>Data - tip Selector - '.' and '#' are available</h4>
 <pre class="tip" data-tip=".demobox" data-tipposition="top-left">&lt;div class="tip" data-tip=".demobox" data-tipposition="top-center">&lt;/div></pre>
 
+
+<ul class="mw-ui-navigation" id="apinav" style="height: 300px;overflow-y: auto"></ul>
 
 </div>
 
@@ -610,11 +622,48 @@ $(window).load(function(){
        <h2>Rich-text Editor</h2>
 
        <div id="editor-demo" style="width: 500px;height: 300px;"></div>
+       <div id="editor-demo2" style="width: 500px;height: 300px;"></div>
 
 
        <script>
 
-       mw.editor(mwd.getElementById('editor-demo'));
+       mw.tools.richtextEditorSettings = {
+
+       }
+       mw.tools.richtextEditor = function(obj){
+        if(!obj.element || obj.element === null) return false;
+        var frame = mwd.createElement('iframe');
+        frame.className = 'mw-iframe-editor';
+        frame.scrolling = 'no';
+        var name =  'mw-editor'+mw.random();
+        frame.id = name;
+        frame.name = name;
+        frame.style.backgroundColor = "transparent";
+        frame.setAttribute('frameborder', 0);
+        frame.setAttribute('allowtransparency', 'true');
+        obj.element.appendChild(frame);
+        var fw = frame.contentWindow,
+            doc = fw.document;
+
+           d(doc.body)
+
+        $(doc.body).load(mw.external_tool('editor_toolbar'));
+
+        return frame;
+
+       }
+
+
+       $(document).ready(function(){
+          mw.tools.richtextEditor({
+            element: mwd.getElementById('editor-demo')
+       });
+
+
+       })
+
+
+
 
        </script>
 
@@ -987,4 +1036,3 @@ $(window).load(function(){
 
 
 
- 
