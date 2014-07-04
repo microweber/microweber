@@ -2,7 +2,7 @@
 $data = $params;	
 }
 
-$custom_tabs = mw()->module->ui('module.content.edit.tabs');
+$custom_tabs = mw()->module->ui('content.edit.tabs');
  
 ?>
 

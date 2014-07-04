@@ -44,13 +44,7 @@ class Module
 
     function ui($name,$arr = false)
     {
-        if(!isset($this->ui[$name])){
-            $this->ui[$name] = array();
-        }
-        if ($arr != false) {
-            array_push($this->ui[$name], $arr);
-        }
-        return $this->ui[$name];
+        return $this->app->ui->module($name,$arr);
     }
 
     public function set_table_names($tables = false)

@@ -1,4 +1,4 @@
-<?php $content_edit_modules = mw()->module->ui('module.content.edit.main'); ?>
+<?php $content_edit_modules = mw()->module->ui('content.edit.main'); ?>
 <?php $modules = array(); ?>
 <?php 
 

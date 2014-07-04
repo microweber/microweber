@@ -21,6 +21,7 @@ class Ui
     public $powered_by_link = false;
     public $admin_content_edit = array();
     public $admin_content_edit_text = array();
+    public $modules_ui = array();
 
     function __construct()
     {
@@ -33,26 +34,7 @@ class Ui
 
 
     }
-    public function set_admin_menus()
-    {
-        $btn = array();
-        $btn['content_type'] = 'page';
-        $btn['title'] = _e("Page", true);
-        $btn['class'] = 'mw-icon-page';
-        mw()->module->ui('module.content.create.menu', $btn);
 
-        $btn = array();
-        $btn['content_type'] = 'post';
-        $btn['title'] = _e("Post", true);
-        $btn['class'] = 'mw-icon-post';
-        mw()->module->ui('module.content.create.menu', $btn);
-
-        $btn = array();
-        $btn['content_type'] = 'category';
-        $btn['title'] = _e("Category", true);
-        $btn['class'] = 'mw-icon-category';
-        mw()->module->ui('module.content.create.menu', $btn);
-    }
     function set_default()
     {
 
@@ -72,12 +54,25 @@ class Ui
         );
 
         $this->custom_fields = $fields;
+        if (defined('MW_BACKEND')) {
+            $btn = array();
+            $btn['content_type'] = 'page';
+            $btn['title'] = _e("Page", true);
+            $btn['class'] = 'mw-icon-page';
+            $this->module('content.create.menu', $btn);
 
+            $btn = array();
+            $btn['content_type'] = 'post';
+            $btn['title'] = _e("Post", true);
+            $btn['class'] = 'mw-icon-post';
+            $this->module('content.create.menu', $btn);
 
-
-
-
-
+            $btn = array();
+            $btn['content_type'] = 'category';
+            $btn['title'] = _e("Category", true);
+            $btn['class'] = 'mw-icon-category';
+            $this->module('content.create.menu', $btn);
+        }
 
 
         if (defined('MW_BACKEND')) {
@@ -138,6 +133,17 @@ class Ui
             $this->admin_dashboard_menu_third($admin_dashboard_btn);
         }
 
+    }
+
+    public function module($name, $arr = false)
+    {
+        if (!isset($this->modules_ui[$name])) {
+            $this->modules_ui[$name] = array();
+        }
+        if ($arr != false) {
+            array_push($this->modules_ui[$name], $arr);
+        }
+        return $this->modules_ui[$name];
     }
 
     function admin_dashboard_menu($arr = false)
@@ -227,8 +233,6 @@ class Ui
     {
         return $this->create_content_menu;
     }
-
-
 
     function custom_fields()
     {
