@@ -56,7 +56,17 @@ $('.mw-admin-wrap').click(function(){
 
 
 
-var email_ed =  mw.editor("#order_email_content" , {modules:'shop/orders/editor_dynamic_values'});
+
+MailEditor = mw.editor({
+    element:"#order_email_content",
+    addControls:mwd.getElementById('editorctrls').innerHTML,
+    ready:function(content){
+      content.defaultView.mw.dropdown();
+      mw.$("#dynamic_vals li", content).bind('click', function(){
+          MailEditor.api.insert_html($(this).attr('value'));
+      });
+    }
+});
 
 
 mw.$("#available_providers").sortable({
@@ -118,6 +128,41 @@ mw.$("#available_providers").sortable({
 	  });
 }
 </script>
+
+
+<div id="editorctrls" style="display: none">
+
+<span class="mw_dlm"></span>
+<div style="width: 112px;" data-value="" title="<?php _e("These values will be replaced with the actual content"); ?>" id="dynamic_vals" class="mw-dropdown mw-dropdown-type-wysiwyg mw-dropdown-type-wysiwyg_blue mw_dropdown_action_dynamic_values">
+    <span class="mw-dropdown-value">
+        <span class="mw-dropdown-arrow"></span>
+        <span class="mw-dropdown-val"><?php _e("E-mail Values"); ?></span>
+    </span>
+  <div class="mw-dropdown-content">
+      <ul>
+        <li value="{id}"><a href="javascript:;"><?php _e("Order ID"); ?></a></li>
+        <li value="{cart_items}"><a href="javascript:;"><?php _e("Cart items"); ?></a></li>
+        <li value="{amount}"><a href="javascript:;"><?php _e("Amount"); ?></a></li>
+        <li value="{order_status}"><a href="javascript:;"><?php _e("Order Status"); ?></a></li>
+        <li value="{email}"><a href="javascript:;"><?php _e("Email"); ?></a></li>
+        <li value="{currency}"><a href="javascript:;"><?php _e("Currency Code"); ?></a></li>
+        <li value="{first_name}"><a href="javascript:;"><?php _e("First Name"); ?></a></li>
+        <li value="{last_name}"><a href="javascript:;"><?php _e("Last Name"); ?></a></li>
+        <li value="{email}"><a href="javascript:;"><?php _e("Email"); ?></a></li>
+        <li value="{country}"><a href="javascript:;"><?php _e("Country"); ?></a></li>
+
+        <li value="{city}"><a href="javascript:;"><?php _e("City"); ?></a></li>
+        <li value="{state}"><a href="javascript:;"><?php _e("State"); ?></a></li>
+        <li value="{zip}"><a href="javascript:;"><?php _e("ZIP/Post Code"); ?></a></li>
+        <li value="{address}"><a href="javascript:;"><?php _e("Address"); ?></a></li>
+        <li value="{phone}"><a href="javascript:;"><?php _e("Phone"); ?></a></li>
+      </ul>
+    </div>
+</div>
+
+</div>
+
+
 <style>
 .otab {
 	display: none;

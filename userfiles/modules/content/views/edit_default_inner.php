@@ -79,6 +79,7 @@
 	$modules = array_unique($modules);
 }
 
+ 
 ?>
 <div class="mw-ui-field-holder" id="mw-edit-page-editor-holder">
   <?php if(empty($modules)): ?>

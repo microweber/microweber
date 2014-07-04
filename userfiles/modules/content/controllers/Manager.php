@@ -32,6 +32,8 @@ class Manager
     function index($params)
     {
 
+
+
         $posts_mod = array();
         // $posts_mod['type'] = 'content/admin_posts_list';
         if (isset($params['data-page-id'])) {
@@ -112,7 +114,7 @@ class Manager
         $post_params_paging = $posts_mod;
         $post_params_paging['page_count'] = true;
         $pages = $this->provider->get($post_params_paging);
-
+        $this->event->emit('module.content.manager', $posts_mod);
 
         $post_toolbar_view = $this->views_dir . 'toolbar.php';
 
@@ -120,6 +122,12 @@ class Manager
         $toolbar->assign('page_info', $page_info);
         $toolbar->assign('keyword', $keyword);
         $toolbar->assign('params', $params);
+
+
+
+
+
+
 
         $post_list_view = $this->views_dir . 'manager.php';
 

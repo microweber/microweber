@@ -2,57 +2,54 @@
 $data = $params;	
 }
 
+$custom_tabs = mw()->module->ui('module.content.edit.tabs');
+ 
 ?>
 
 <div class="mw-admin-edit-content-holder-default">
   <div id="content-edit-settings-tabs-holder">
     <div id="content-edit-settings-tabs">
       <div id="quick-add-post-options-holder">
-
-      <div id="quick-add-post-options">
-        <div class="mw-ui-btn-nav" >
-            <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>">
-                <span class="mw-icon-picture"></span>
-                <span><?php _e("Add Images"); ?></span>
-            </span>
-          <?php if($data['content_type'] == 'page'): ?>
-          <span class="mw-ui-btn tip" data-tip="<?php _e('Add to navigation'); ?>" >
-            <span class="mw-icon-menuadd"></span>
-            <span><?php _e('Add to navigation'); ?></span>
-          </span>
-          <?php endif; ?>
-          <?php  if($data['subtype']== 'product'): ?>
-          <span class="mw-ui-btn tip" data-tip="<?php _e("Price & Fields"); ?>">
-            <span class="mw-icon-pricefields"></span>
-            <span><?php _e("Price & Fields"); ?></span>
-          </span>
-          <span class="mw-ui-btn tip" data-tip="<?php _e("Shipping & Options"); ?>">
-            <span class="mw-icon-truck"></span>
-            <span><?php _e("Shipping & Options"); ?></span>
-          </span>
-          <?php else: ?>
-          <span class="mw-ui-btn tip" data-tip="<?php _e("Custom Fields"); ?>">
-            <span class="mw-icon-pricefields"></span>
-            <span><?php _e("Custom Fields"); ?></span>
-          </span>
-          <?php endif; ?>
-
-          <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
-        </div>
-         <div class="mw-ui-btn-nav">
-                  <span class="mw-ui-btn tip" data-tip="<?php _e("Advanced"); ?>">
-            <span class="mw-icon-gear"></span>
-            <span><?php _e("Advanced"); ?></span>
-          </span>
-          <?php if($data['content_type'] == 'page'):  ?>
-          <span class="mw-ui-btn tip" data-tip="<?php _e("Template"); ?>">
-            <span class="mw-icon-template"></span>
-            <span><?php _e("Template"); ?></span>
-          </span>
+        <div id="quick-add-post-options">
+          <div class="mw-ui-btn-nav" > <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>"> <span class="mw-icon-picture"></span> <span>
+            <?php _e("Add Images"); ?>
+            </span> </span>
+            <?php if($data['content_type'] == 'page'): ?>
+            <span class="mw-ui-btn tip" data-tip="<?php _e('Add to navigation'); ?>" > <span class="mw-icon-menuadd"></span> <span>
+            <?php _e('Add to navigation'); ?>
+            </span> </span>
+            <?php endif; ?>
+            <?php  if($data['subtype']== 'product'): ?>
+            <span class="mw-ui-btn tip" data-tip="<?php _e("Price & Fields"); ?>"> <span class="mw-icon-pricefields"></span> <span>
+            <?php _e("Price & Fields"); ?>
+            </span> </span> <span class="mw-ui-btn tip" data-tip="<?php _e("Shipping & Options"); ?>"> <span class="mw-icon-truck"></span> <span>
+            <?php _e("Shipping & Options"); ?>
+            </span> </span>
+            <?php else: ?>
+            <span class="mw-ui-btn tip" data-tip="<?php _e("Custom Fields"); ?>"> <span class="mw-icon-pricefields"></span> <span>
+            <?php _e("Custom Fields"); ?>
+            </span> </span>
+            <?php endif; ?>
+            <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
+          </div>
+          <div class="mw-ui-btn-nav"> <span class="mw-ui-btn tip" data-tip="<?php _e("Advanced"); ?>"> <span class="mw-icon-gear"></span> <span>
+            <?php _e("Advanced"); ?>
+            </span> </span>
+            <?php if($data['content_type'] == 'page'):  ?>
+            <span class="mw-ui-btn tip" data-tip="<?php _e("Template"); ?>"> <span class="mw-icon-template"></span> <span>
+            <?php _e("Template"); ?>
+            </span> </span>
+            <?php endif; ?>
+          </div>
+          <?php if(!empty($custom_tabs)): ?>
+          <?php foreach($custom_tabs as $item): ?>
+          <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+          <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+          <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
+          <div class="mw-ui-btn-nav"> <span class="mw-ui-btn tip" data-tip="<?php print $title; ?>"> <span class="<?php print $class; ?>"></span> <span> <?php print $title; ?> </span> </span> </div>
+          <?php endforeach; ?>
           <?php endif; ?>
         </div>
-         </div>
-
       </div>
       <div id="quick-add-post-options-items-holder" class="tip-box"> <span class="mw-tooltip-arrow"></span>
         <div id="quick-add-post-options-items-holder-container">
@@ -91,6 +88,14 @@ $data = $params;
           <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
             <module type="content/views/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
           </div>
+          <?php endif; ?>
+          <?php if(!empty($custom_tabs)): ?>
+          <?php foreach($custom_tabs as $item): ?>
+          <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+          <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+          <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
+          <div class="quick-add-post-options-item"><?php print $html; ?></div>
+          <?php endforeach; ?>
           <?php endif; ?>
           <?php event_trigger('mw_admin_edit_page_tabs_end', $data); ?>
         </div>

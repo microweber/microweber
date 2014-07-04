@@ -1455,6 +1455,13 @@ class Shop
             mw_var('FORCE_SAVE', $table);
             //   $cart['debug'] = 1;
             $cart_saved_id = $this->app->db->save($table, $cart);
+
+            $this->app->cache->delete('cart');
+
+            $this->app->cache->delete('cart_orders/global');
+
+
+
             return ($cart_saved_id);
         } else {
             $this->app->error('Invalid cart items');

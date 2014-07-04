@@ -2,13 +2,116 @@
 only_admin_access();
  
 $edit_page_info = $data;;
-include __DIR__ . DS . 'toolbar.php'; ?>
+ ?>
 <style>
 #admin-user-nav {
 	display: none;
 }
 </style>
 
+<div class="admin-manage-toolbar-holder">
+<div class="admin-manage-toolbar">
+  <div class="admin-manage-toolbar-content">
+    <div class="mw-ui-row">
+      <div class="mw-ui-col">
+        <?php
+                if ($edit_page_info['is_shop'] == 'y') {
+                    $type = 'shop';
+                } elseif ($edit_page_info['subtype'] == 'dynamic') {
+                    $type = 'dynamicpage';
+                } elseif ($edit_page_info['subtype'] == 'post') {
+                    $type = 'post';
+                } elseif ($edit_page_info['subtype'] == 'product') {
+                    $type = 'product';
+                } else {
+                    $type = 'page';
+                };
+                $action_text = _e("Creating new", true);
+                if (isset($edit_page_info['id']) and intval($edit_page_info['id']) != 0) {
+                    $action_text = _e("Editting", true);
+                }
+                $action_text2 = 'page';
+                if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] == 'post' and isset($edit_page_info['subtype'])) {
+                    $action_text2 = $edit_page_info['subtype'];
+                }
+                $action_text = $action_text . ' ' . $action_text2;
+                if (isset($edit_page_info['title'])): ?>
+        <div class="mw-ui-row" id="content-title-field-row">
+          <div class="mw-ui-col" style="width: 30px;"><span
+                                class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span> </div>
+          <div class="mw-ui-col">
+            <input type="text" class="mw-ui-invisible-field mw-ui-field-big"
+                                   value="<?php print $edit_page_info['title'] ?>"
+                                   id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
+          </div>
+        </div>
+        <script>mwd.getElementById('content-title-field').focus();</script>
+        <?php else: ?>
+        <?php if ($edit_page_info['is_shop'] == 'y') {
+                        $type = 'shop';
+                    } elseif ($edit_page_info['subtype'] == 'dynamic') {
+                        $type = 'dynamicpage';
+                    } else {
+                        $type = 'page';
+                    }
+                    ; ?>
+        <h2><span class="mw-icon-<?php print $type; ?>"></span><?php print $action_text ?> </h2>
+        <?php endif; ?>
+      </div>
+      <div class="mw-ui-col" id="content-title-field-buttons">
+        <div class="mw-ui-btn-nav">
+          <?php if ($data['is_active'] == 'n') { ?>
+          <span
+                            onclick="mw.admin.postStates.toggle()"
+                            data-val="n"
+                            class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
+                            data-tip="<?php _e("Unpublished"); ?>"
+                            data-tipposition="left-center"><span class="mw-icon-unpublish"></span> </span>
+          <?php } else { ?>
+          <span
+                            onclick="mw.admin.postStates.toggle()"
+                            data-val="y"
+                            class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
+                            data-tip="<?php _e("Published"); ?>"
+                            data-tipposition="left-center"><span class="mw-icon-check"></span> </span>
+          <?php } ?>
+          <?php if ($is_live_edit == false) : ?>
+          <button type="button" class="mw-ui-btn"
+                                onclick="mw.edit_content.handle_form_submit(true);"
+                                data-text="<?php _e("Live Edit"); ?>"><span class="mw-icon-live"></span>
+          <?php _e("Live Edit"); ?>
+          </button>
+          <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
+                                form="quickform-<?php print $rand; ?>">
+          <?php _e("Save"); ?>
+          </button>
+          <?php else: ?>
+          <?php if ($data['id'] == 0): ?>
+          <button type="submit" class="mw-ui-btn"
+                                    onclick="mw.edit_content.handle_form_submit(true);"
+                                    data-text="<?php _e("Live Edit"); ?>"
+                                    form="quickform-<?php print $rand; ?>"><span
+                                    class="mw-icon-live"></span>
+          <?php _e("Live Edit"); ?>
+          </button>
+          <?php else: ?>
+          <button type="button" class="mw-ui-btn"
+                                    onclick="mw.edit_content.handle_form_submit(true);"
+                                    data-text="<?php _e("Live Edit"); ?>"><span class="mw-icon-live"></span>
+          <?php _e("Live Edit"); ?>
+          </button>
+          <?php endif; ?>
+          <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
+                                form="quickform-<?php print $rand; ?>">
+          <?php _e("Save"); ?>
+          </button>
+          <?php endif; ?>
+        </div>
+      </div>
+      <script>mw.admin.titleColumnNavWidth();</script> 
+    </div>
+  </div>
+</div>
 <div id="post-states-tip" style="display: none">
   <div class="mw-ui-btn-vertical-nav post-states-tip-nav"> <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-unpublish"></span>
     <?php _e("Unpublish"); ?>
@@ -56,9 +159,8 @@ include __DIR__ . DS . 'toolbar.php'; ?>
          }
       </script> 
   </div>
-
-    <?php if($data['content_type'] == 'page'){ ?>
-    <div class="mw-admin-edit-page-primary-settings parent-selector ">
+  <?php if($data['content_type'] == 'page'){ ?>
+  <div class="mw-admin-edit-page-primary-settings parent-selector ">
     <div class="mw-ui-field-holder">
       <div class="quick-parent-selector">
         <module
@@ -71,10 +173,10 @@ include __DIR__ . DS . 'toolbar.php'; ?>
               recommended-id="<?php print $recommended_parent; ?>"   />
       </div>
     </div>
-    </div>
-    <?php } ?>
-    <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
-    <div class="mw-admin-edit-page-primary-settings content-category-selector">
+  </div>
+  <?php } ?>
+  <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+  <div class="mw-admin-edit-page-primary-settings content-category-selector">
     <div class="mw-ui-field-holder" style="padding-top: 0">
       <div class="mw-ui-field mw-tag-selector mw-ui-field-dropdown mw-ui-field-full" id="mw-post-added-<?php print $rand; ?>">
         <input type="text" class="mw-ui-invisible-field" placeholder="<?php _e("Click here to add to categories and pages"); ?>." style="width: 280px;" id="quick-tag-field" />
@@ -91,9 +193,8 @@ include __DIR__ . DS . 'toolbar.php'; ?>
         <?php endif; ?>
       </div>
     </div>
-    </div>
-    <?php endif; ?>
-
+  </div>
+  <?php endif; ?>
   <div class="mw-admin-edit-content-holder">
     <?php 
 	 $data['recommended_parent'] = $recommended_parent;

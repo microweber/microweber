@@ -59,6 +59,16 @@
       margin-right: 6px;
     }
 
+    #apinav a{
+      display: block;
+      padding: 2px;
+    }
+    #apinav a:hover{
+      background: #F0F0F0
+    }
+
+
+
 </style>
 
 
@@ -103,7 +113,7 @@ $(window).load(function(){
 <pre class="tip" data-tip=".demobox" data-tipposition="top-left">&lt;div class="tip" data-tip=".demobox" data-tipposition="top-center">&lt;/div></pre>
 
 
-<ul class="mw-ui-navigation" id="apinav" style="height: 300px;overflow-y: auto"></ul>
+<ol class="" id="apinav" style="height: 300px;overflow-y: auto;padding-left: 25px;"></ol>
 
 </div>
 
@@ -620,52 +630,32 @@ $(window).load(function(){
     <tr>
     <td colspan="2">
        <h2>Rich-text Editor</h2>
+       <div id="editor-demo">
 
-       <div id="editor-demo" style="width: 500px;height: 300px;"></div>
-       <div id="editor-demo2" style="width: 500px;height: 300px;"></div>
+            <p>Lorem ipsu<em>m dolor sit amet, conse</em>ctetur adipiscing elit. <strong>Sed quis <u>orci pla</u>cer</strong>at, tristique nibh nec, rhoncus libero.</p>
 
-
+       </div>
        <script>
-
-       mw.tools.richtextEditorSettings = {
-
-       }
-       mw.tools.richtextEditor = function(obj){
-        if(!obj.element || obj.element === null) return false;
-        var frame = mwd.createElement('iframe');
-        frame.className = 'mw-iframe-editor';
-        frame.scrolling = 'no';
-        var name =  'mw-editor'+mw.random();
-        frame.id = name;
-        frame.name = name;
-        frame.style.backgroundColor = "transparent";
-        frame.setAttribute('frameborder', 0);
-        frame.setAttribute('allowtransparency', 'true');
-        obj.element.appendChild(frame);
-        var fw = frame.contentWindow,
-            doc = fw.document;
-
-           d(doc.body)
-
-        $(doc.body).load(mw.external_tool('editor_toolbar'));
-
-        return frame;
-
-       }
-
-
        $(document).ready(function(){
-          mw.tools.richtextEditor({
-            element: mwd.getElementById('editor-demo')
-       });
+
+          DemoEditor = mw.editor({
+            element: mwd.getElementById('editor-demo'),
+            height:'auto'
+          });
+
 
 
        })
 
 
-
+       DemoEditorRandomIMG = function(){
+         DemoEditor.api.insert_html('<p><img src="//lorempixel.com/400/200/nature/?'+mw.random()+'" /></p>');
+       }
 
        </script>
+
+
+       <span class="mw-ui-btn mw-ui-btn-info" onclick="DemoEditorRandomIMG();event.preventDefault();">Insert Random Image</span>
 
     </td>
     </tr>

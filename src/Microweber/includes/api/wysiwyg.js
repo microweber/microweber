@@ -1246,7 +1246,7 @@ $(mwd).ready(function(){
 
 $(window).load(function(){
 
-  mw.wysiwyg.init_editables();
+
 
   mw.$("#wysiwyg_insert").bind("change", function(){
      if(mw.wysiwyg.isSelectionEditable()){

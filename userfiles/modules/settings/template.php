@@ -132,7 +132,7 @@ mw.tpl = {
       if(self !== parent){
         var css = parent.mw.$("#mw-template-settings")[0];
 		
-		mw.reload_module('content/layout_selector_custom_css');
+		mw.reload_module('content/views/layout_selector_custom_css');
 		
 		if((css === undefined || css === null) && (msg.url !== undefined)){
 			  var l = parent.mwd.createElement('link');

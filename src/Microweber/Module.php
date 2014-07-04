@@ -9,6 +9,7 @@ class Module
 {
     public $app;
     public $tables = array();
+    public $ui = array();
     public $table_prefix = false;
     public $current_module = false;
     public $current_module_params = false;
@@ -38,6 +39,18 @@ class Module
             $this->db_init();
         }
 
+    }
+
+
+    function ui($name,$arr = false)
+    {
+        if(!isset($this->ui[$name])){
+            $this->ui[$name] = array();
+        }
+        if ($arr != false) {
+            array_push($this->ui[$name], $arr);
+        }
+        return $this->ui[$name];
     }
 
     public function set_table_names($tables = false)

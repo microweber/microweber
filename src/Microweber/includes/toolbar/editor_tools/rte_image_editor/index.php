@@ -303,9 +303,10 @@ else{
                 if(tab.id == 'tabfilebrowser'){
                    var height = mw.$('#tabfilebrowser').height() + 135;
                    var wh =  $(parent.window).height() - 100;
-                   if(height > wh){
+                   if(height > wh ){
                      var height = wh;
                    }
+                   if(height < 230 ){var height = 230;}
                    parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 430, height, true);
                 }
                 else{

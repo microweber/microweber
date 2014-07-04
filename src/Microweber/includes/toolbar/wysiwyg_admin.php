@@ -87,7 +87,6 @@ $(document).ready(function(){
 
             <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_main" title="<?php _e("Font Size"); ?>">
                 <span class="mw-dropdown-value">
-                  <input type="text" class="mw-dropdown-field"  />
                   <span class="mw-dropdown-arrow"></span>
                   <span class="mw-dropdown-val" >Size</span>
                 </span>

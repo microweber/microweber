@@ -23,7 +23,6 @@
             <span class="mw_dlm"></span>
             <div class="mw-dropdown mw-dropdown-type-wysiwyg mw_dropdown_action_font_size" id="font_size_selector_small" title="<?php _e("Font Size"); ?>">
                 <span class="mw-dropdown-value">
-                          <?php  /*  <input type="text" class="mw-dropdown-field"  />  */  ?>
                             <span class="mw-dropdown-arrow"></span>
                             <span class="mw-dropdown-val" >Size</span>
                         </span>

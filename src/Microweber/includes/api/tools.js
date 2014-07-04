@@ -2125,7 +2125,69 @@ mw.tools = {
     var k = k || false;
     return mw.tools.iframe_editor(area, params, k);
   },
+  richtextEditorSettings : {
+      width:'100%',
+      height:320,
+      addControls:false,
+      hideControls:false,
+      ready:false
+  },
+  richtextEditor : function(obj){
+      if(typeof obj.element === 'string'){ obj.element = mw.$(obj.element)[0]; }
+      if(!obj.element || obj.element === null) return false;
+      var o = $.extend({}, mw.tools.richtextEditorSettings, obj);
+      var frame = mwd.createElement('iframe');
+      frame.richtextEditorSettings = o;
+      frame.className = 'mw-fullscreen mw-iframe-editor';
+      frame.scrolling = 'no';
+      var name =  'mw-editor'+mw.random();
+      frame.id = name;
+      frame.name = name;
+      frame.style.backgroundColor = "white";
+      frame.setAttribute('frameborder', 0);
+      frame.setAttribute('allowtransparency', 'true');
+      $(o.element).after(frame);
+      $(o.element).hide();
+      $.get(mw.external_tool('editor_toolbar'), function(a){
+          frame.contentWindow.document.open('text/html', 'replace');
+          frame.contentWindow.document.write(a);
+          frame.contentWindow.document.close();
+          frame.contentWindow.editorArea = o.element;
+          frame.contentWindow.thisFrame = frame;
+          frame.contentWindow.richtextEditorSettings = o;
+          frame.onload = function(){
 
+            var val = o.element.nodeName !== 'TEXTAREA' ? o.element.innerHTML : o.element.value
+            frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
+            if(!!o.hideControls && o.hideControls.constructor === [].constructor){
+                var l = o.hideControls.length, i = 0;
+                for( ; i<l ; i++){
+                   mw.$('.mw_editor_' + o.hideControls[i], frame.contentWindow.document).hide();
+                }
+            }
+            if(!!o.addControls && typeof o.addControls === 'string'){
+               mw.$('.editor_wrapper', frame.contentWindow.document).append(o.addControls);
+            }
+            frame.api = frame.contentWindow.mw.wysiwyg;
+            if(typeof o.ready === 'function'){
+              o.ready.call(frame, frame.contentWindow.document);
+            }
+          }
+      });
+      o.width = o.width != 'auto' ? o.width : '100%';
+      $(frame).css({width:o.width, height:o.height});
+      frame.setValue = function(val){
+         frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
+         if(frame.richtextEditorSettings.element.nodeName !== 'TEXTAREA') {
+             frame.richtextEditorSettings.element.innerHTML = val
+         }
+         else{
+           frame.richtextEditorSettings.element.value = val;
+         }
+         frame.value = val;
+      }
+      return frame;
+  },
   disable : function(el, text, global){
     var text = text || 'Loading...';
     var global = global || false;
@@ -2588,6 +2650,8 @@ mw.wait('jQuery', function(){
     return this.dataset("value");
   };
   jQuery.fn.setDropdownValue = function(val, triggerChange, isCustom, customValueToDisplay) {
+
+
      var isCustom = isCustom || false;
      var triggerChange = triggerChange || false;
      var isValidOption = false;
@@ -2606,15 +2670,14 @@ mw.wait('jQuery', function(){
      }
      else{
        mw.$("[value]", el).each(function(){
-         if(triggerChange){
-
-         }
          if(this.getAttribute('value') == val){
             el.dataset("value", val);
             var isValidOption = true;
             var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].innerHTML : this.innerHTML;
             mw.$(".mw-dropdown-val", el[0]).html(html);
-            triggerChange ? el.trigger("change") : '';
+            if(triggerChange === true){
+               el.trigger("change")
+            }
             return false;
          }
        });
@@ -3080,7 +3143,7 @@ document.isHidden = function(){
 
 mw.storage = {
         init:function(){
-          if(!('localStorage' in mww) ||  /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
+          if(window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) ||  /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
           var lsmw = localStorage.getItem("mw");
           if(typeof lsmw === 'undefined' || lsmw === null){
               var lsmw = localStorage.setItem("mw", "{}")
@@ -4052,6 +4115,8 @@ mw.image = {
       frame.style.width = '100%';
       return frame;
     };
+
+    mw.editor = mw.tools.richtextEditor;
 
     mw.accordion = function(el, callback){
       return mw.tools.accordion(mw.$(el)[0], callback);

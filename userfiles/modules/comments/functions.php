@@ -28,6 +28,24 @@ function mw_print_admin_post_list_comments_counter($item)
 
 }
 
+
+event_bind('module.content.edit', 'mw_print_admin_post_comments_counter_quick_list');
+
+function mw_print_admin_post_comments_counter_quick_list($item)
+{
+    if (isset($item['id'])) {
+        $new = get_comments('count=1&is_new=y&rel=content&rel_id=' . $item['id']);
+        if ($new > 0) {
+            $btn = array();
+            $btn['title'] = 'Comments';
+            $btn['class'] = 'mw-icon-comment';
+            $btn['html'] = '<module type="comments/comments_for_post" no_post_head="true" content_id=' . $item['id'] . '  />';
+            mw()->module->ui('module.content.edit.tabs', $btn);
+        }
+    }
+ }
+
+
 event_bind('mw.admin.dashboard.links', 'mw_print_admin_dashboard_comments_btn');
 
 function mw_print_admin_dashboard_comments_btn()

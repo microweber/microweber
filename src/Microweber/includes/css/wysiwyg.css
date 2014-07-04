@@ -416,7 +416,7 @@
 }
 
 #mw-admin-text-editor .editor_wrapper{
-    padding: 4px 0 4px 5px;
+    padding: 4px;
     background: white;
     z-index: 10;
    width: 100%;

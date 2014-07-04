@@ -15,9 +15,8 @@
 ?>
 
 <div class="comment-post">
-  <div class="comment-info-holder" content-id="<?php print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)">
-    <span class="img">
-        <img src="<?php print thumbnail(get_picture($content_id),67,67); ?>" alt="" />
+<?php if(!isset($params['no_post_head'])): ?>
+  <div class="comment-info-holder" content-id="<?php print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)"> <span class="img"> <img src="<?php print thumbnail(get_picture($content_id),67,67); ?>" alt="" />
     <?php // $new = get_comments('count=1&is_moderated=n&rel=content&rel_id='.$content_id);
 
 	 $new = get_comments('count=1&is_new=y&rel=content&rel_id='.$content_id);
@@ -31,20 +30,17 @@
       <a class="comment-post-url" href="<?php print content_link($item['id']) ?>?editmode=y"> <?php print content_link($item['id']) ?></a> <br>
     </div>
   </div>
+  <?php endif; ?>
   <div class="comments-holder">
-
-  <?php include($config["path_to_module"].'admin_items.php'); ?>
+    <?php include($config["path_to_module"].'admin_items.php'); ?>
   </div>
-
-<?php if(!empty($comments)): ?>
+  <?php if(!empty($comments)): ?>
   <div class="comments-show-btns"> <span class="mw-ui-btn comments-show-all" onclick="mw.adminComments.display(event,this, 'all');"><?php print ($count_old+$count_new); ?> All</span>
-  <?php if( $count_new > 0 ): ?>
- 
-   <span class="mw-ui-btn mw-ui-btn-green comments-show-new" onclick="mw.adminComments.display(event,this, 'new');"><?php print $count_new; ?> <?php _e("New"); ?></span> 
-   <?php endif; ?>
-   
-   </div>
-
-<?php endif; ?>
-
+    <?php if( $count_new > 0 ): ?>
+    <span class="mw-ui-btn mw-ui-btn-green comments-show-new" onclick="mw.adminComments.display(event,this, 'new');"><?php print $count_new; ?>
+    <?php _e("New"); ?>
+    </span>
+    <?php endif; ?>
+  </div>
+  <?php endif; ?>
 </div>

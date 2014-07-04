@@ -238,5 +238,5 @@ $(document).ready(function(){
              />*/ ?>
 <div class="mw_clear"></div>
 <br />
-<module type="content/layout_selector_custom_css" template="<?php print template_name(); ?>" />
+<module type="content/views/layout_selector_custom_css" template="<?php print template_name(); ?>" />
  

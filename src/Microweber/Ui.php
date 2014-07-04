@@ -31,8 +31,28 @@ class Ui
 
         $this->set_default();
 
-    }
 
+    }
+    public function set_admin_menus()
+    {
+        $btn = array();
+        $btn['content_type'] = 'page';
+        $btn['title'] = _e("Page", true);
+        $btn['class'] = 'mw-icon-page';
+        mw()->module->ui('module.content.create.menu', $btn);
+
+        $btn = array();
+        $btn['content_type'] = 'post';
+        $btn['title'] = _e("Post", true);
+        $btn['class'] = 'mw-icon-post';
+        mw()->module->ui('module.content.create.menu', $btn);
+
+        $btn = array();
+        $btn['content_type'] = 'category';
+        $btn['title'] = _e("Category", true);
+        $btn['class'] = 'mw-icon-category';
+        mw()->module->ui('module.content.create.menu', $btn);
+    }
     function set_default()
     {
 
@@ -52,6 +72,12 @@ class Ui
         );
 
         $this->custom_fields = $fields;
+
+
+
+
+
+
 
 
         if (defined('MW_BACKEND')) {
@@ -202,11 +228,7 @@ class Ui
         return $this->create_content_menu;
     }
 
-    function add_create_content_menu($arr)
-    {
-        $this->create_content_menu = array_merge($this->create_content_menu, $arr);
-        return $this->create_content_menu;
-    }
+
 
     function custom_fields()
     {

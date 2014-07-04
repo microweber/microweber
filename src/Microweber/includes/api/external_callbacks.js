@@ -37,7 +37,7 @@ mw.iframecallbacks = {
             $(link).attr("target", target);
          }
          else{
-          if(mw.wysiwyg.selection_length()>0){
+          if(!window.getSelection().isCollapsed){
              var a = mwd.createElement('a');
              a.href = url;
              a.target = target;

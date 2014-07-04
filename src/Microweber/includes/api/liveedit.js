@@ -2473,7 +2473,7 @@ $(document).ready(function(){
            $(this).addClass("hovered");
        }
   });
-
+  mw.wysiwyg.init_editables();
 
 });
 

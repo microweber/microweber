@@ -52,6 +52,7 @@ class Edit
     function index($params)
     {
 
+
         $data = false;
         $just_saved = false;
         $is_new_content = false;
@@ -231,7 +232,7 @@ class Edit
         $module_id = $params['id'];
 
         $post_list_view = $this->views_dir . 'edit.php';
-
+        $this->event->emit('module.content.edit', $data);
         $view = new View($post_list_view);
         $view->assign('params', $params);
         $view->assign('module_id', $module_id);
@@ -245,10 +246,6 @@ class Edit
         $view->assign('rand', rand());
         $view->assign('data', $data);
         $view->assign('is_quick', $is_quick);
-
-
-
-
 
 
         return $view->display();

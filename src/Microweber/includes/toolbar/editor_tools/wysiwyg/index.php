@@ -311,6 +311,12 @@ window.onfocus = function(){
 }
 
     $(document).ready(function(){
+		
+		
+		/*autofocus="autofocus" contenteditable="true"*/
+		$('#the_admin_editor').find('.edit').attr('contenteditable',true);;
+		
+		
         $(mwd).bind('mousedown', function(e){
             if(!e.target.isContentEditable){
                 var target = null;
@@ -341,7 +347,7 @@ window.onfocus = function(){
 <div class="mw-admin-editor <?php print $mainclass; ?>" id="the_admin_editor">
  <?php //include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
  <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_tiny.php"; ?>
-  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" autofocus="autofocus" contenteditable="true">{content}</div>
+  <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" >{content}</div>
 </div>
 
 <?php mw_var('plain_modules', false); ?>
