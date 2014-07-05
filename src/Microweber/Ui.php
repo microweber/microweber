@@ -5,11 +5,6 @@ class Ui
 
 
     public $admin_menu = array();
-    public $create_content_menu = array(
-        "post" => "Post",
-        "page" => "Page",
-        "category" => "Category"
-    );
     public $admin_dashboard_menu = array();
     public $admin_dashboard_menu_second = array();
     public $admin_dashboard_menu_third = array();
@@ -26,10 +21,11 @@ class Ui
     function __construct()
     {
 
-        $this->admin_logo = MW_INCLUDES_URL . 'img/logo_admin.png';
-        $this->logo_live_edit = MW_INCLUDES_URL . 'img/logo_admin.png';
-        $this->admin_logo_login = MW_INCLUDES_URL . 'images/logo-login.svg';
-
+        if (defined('MW_INCLUDES_URL')) {
+            $this->admin_logo = MW_INCLUDES_URL . 'img/logo_admin.png';
+            $this->logo_live_edit = MW_INCLUDES_URL . 'img/logo_admin.png';
+            $this->admin_logo_login = MW_INCLUDES_URL . 'images/logo-login.svg';
+        }
         $this->set_default();
 
 
@@ -72,10 +68,8 @@ class Ui
             $btn['title'] = _e("Category", true);
             $btn['class'] = 'mw-icon-category';
             $this->module('content.create.menu', $btn);
-        }
 
 
-        if (defined('MW_BACKEND')) {
             $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1');
             $notif_count_html = false;
             if (intval($notif_count) > 0) {

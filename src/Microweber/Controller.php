@@ -72,7 +72,6 @@ class Controller
 
         //create_mw_default_options();
         $this->app->content->define_constants();
-     //   $this->app->ui->set_admin_menus();
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
