@@ -11,7 +11,7 @@
     <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
     <?php $type = ( isset( $item['content_type']))? ($item['content_type']) : false ; ?>
     <?php $subtype = ( isset( $item['subtype']))? ($item['subtype']) : false ; ?>
-    <a href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>&amp;subtype=<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a>
+    <a href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a>
     <?php endforeach; ?>
     <?php endif; ?>
   </div>

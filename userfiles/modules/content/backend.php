@@ -1,11 +1,4 @@
 <?php
- 
-if($_SERVER['REMOTE_ADDR'] == "fe80::1058:77fe:80b6:de9f"){
-	  return include 'backend_n.php';
-
-}
-
-
 only_admin_access();
 $action = url_param('action');
 $is_in_shop = false;
@@ -17,7 +10,38 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 }
 
 ?>
+<script type="text/javascript">
+mw.on.hashParam("pg", function(){
+      var dis = $p_id = this;
+      mw.$('#pages_edit_container').attr("paging_param", 'pg');
+      if(dis!==''){
+         mw.$('#pages_edit_container').attr("pg", dis);
+         mw.$('#pages_edit_container').attr("data-page-number", dis);
+      }
+      var $p_id = $(this).attr('data-page-number');
+      var $p_param = $(this).attr('data-paging-param');
+      mw.$('#pages_edit_container').attr('data-page-number',$p_id);
+      mw.$('#pages_edit_container').attr('data-page-param',$p_param);
+      mw.$('#pages_edit_container').removeAttr('data-content-id');
+      mw.reload_module('#pages_edit_container');
+});
+mw.on.hashParam("search", function(){
+   mw.$('#pages_edit_container').attr("data-type",'content/manager');
+   var dis = this;
+   if( dis!=='' ){
+     mw.$('#pages_edit_container').attr("data-keyword", dis);
+     mw.url.windowDeleteHashParam('pg')
+  	   mw.$('#pages_edit_container').attr("data-page-number", 1);
+     }
+     else{
+      mw.$('#pages_edit_container').removeAttr("data-keyword");
+      mw.url.windowDeleteHashParam('search')
+    }
+    mw.reload_module('#pages_edit_container');
+});
+mw.on.moduleReload('#<?php print $params['id'] ?>');
 
+</script>
 <script type="text/javascript">
 
 
@@ -51,6 +75,9 @@ $(document).ready(function () {
 
 mw.contentAction = {
     manage: function (type, id) {
+		
+		 
+		
         var id = id || 0;
         if (type === 'page') {
             mw_select_page_for_editing(id);
@@ -64,7 +91,7 @@ mw.contentAction = {
         else if (type === 'product') {
             mw_add_product(id);
         } else if (type !== '') {
-            mw_select_post_for_editing(0, type)
+            mw_select_custom_content_for_editing(0, type)
         }
         mw.$(".mw_action_nav").addClass("not-active");
         mw.$(".mw_action_" + type).removeClass("not-active");
@@ -75,7 +102,7 @@ mw.contentAction = {
 }
 function mw_delete_content($p_id) {
     mw.$('#pages_edit_container').attr('data-content-id', $p_id);
-    mw.load_module('content/edit_post', '#pages_edit_container');
+    mw.load_module('content/edit', '#pages_edit_container');
 }
 
 function mw_select_page_for_editing($p_id) {
@@ -114,14 +141,14 @@ function mw_select_page_for_editing($p_id) {
         mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
     }
     mw.$('#pages_edit_container').attr('data-page-id', $p_id);
-    mw.$('#pages_edit_container').attr('data-type', 'content/edit_page');
+    mw.$('#pages_edit_container').attr('data-type', 'content/edit');
     mw.$('#pages_edit_container').removeAttr('data-subtype');
     mw.$('#pages_edit_container').removeAttr('data-content-id');
     mw.$('#pages_edit_container').removeAttr('content-id');
 
 
     mw.$(".mw_edit_page_right").css("overflow", "hidden");
-    edit_load('content/edit_page');
+    edit_load('content/edit');
 }
 
 mw.on.hashParam("parent-page", function () {
@@ -143,7 +170,7 @@ mw.on.hashParam("action", function () {
     mw.$(".mw_edit_page_right").css("overflow", "hidden");
     if (this == false) {
         mw.$(".mw_edit_page_right").css("overflow", "hidden");
-        edit_load('content/manage');
+        edit_load('content/manager');
         return false;
     }
     var arr = this.split(":");
@@ -166,7 +193,7 @@ mw.on.hashParam("action", function () {
             var active_item = mw.$(".pages_tree_item.item_" + arr[1]);
         }
         else if (arr[0] == 'showpostscat') {
-            var active_item = mw.$(".category_element.item_" + arr[1]);
+            var active_item = mw.$(".category_element.item_" + arr[1]); 
         }
         active_item.addClass('active-bg');
         active_item.parents("li").addClass('active');
@@ -235,7 +262,8 @@ function mw_set_edit_posts(in_page, is_cat, c) {
         .removeAttr('data-content-id')
         .removeAttr('is_shop')
         .attr('content-id', in_page);
-
+ mw.$('#pages_edit_container').removeAttr('content_type');
+  mw.$('#pages_edit_container').removeAttr('subtype');
 
     if (in_page != undefined && is_cat == undefined) {
         cont.attr('data-page-id', in_page);
@@ -243,10 +271,23 @@ function mw_set_edit_posts(in_page, is_cat, c) {
     if (in_page != undefined && is_cat != undefined) {
         cont.attr('data-category-id', in_page);
         cont.attr('data-selected-category-id', in_page);
+		 
     }
-    mw.load_module('content/manage', '#pages_edit_container');
+    mw.load_module('content/manager', '#pages_edit_container');
 }
 
+
+function mw_clear_edit_module_attrs(){
+  mw.$('#pages_edit_container').removeAttr('content_type');
+  mw.$('#pages_edit_container').removeAttr('subtype');
+   mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
+    mw.$('#pages_edit_container').removeAttr('data-category-id');
+    mw.$('#pages_edit_container').removeAttr('category_id');
+    mw.$('#pages_edit_container').removeAttr('category_id');
+    mw.$('#pages_edit_container').removeAttr('content-id');
+	 mw.$('#pages_edit_container').removeAttr('data-page-id');
+  	
+}
 
 function mw_select_trash(c) {
     mw.$('#pages_edit_container').removeAttr('data-content-id');
@@ -254,11 +295,88 @@ function mw_select_trash(c) {
     mw.$('#pages_edit_container').removeAttr('data-category-id');
     mw.$('#pages_edit_container').removeAttr('data-selected-category-id');
     mw.$('#pages_edit_container').removeAttr('data-keyword');
+	  
+
     mw.load_module('content/trash', '#pages_edit_container', function () {
         typeof c === 'function' ? c.call() : '';
     });
 }
+function mw_select_custom_content_for_editing($p_id, $type) {
 
+    var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
+    var active_item_is_page = active_item.attr('data-page-id');
+   
+	
+   
+	$subtype = '';
+	var res = $type.split(".");
+	 
+	if(typeof(res[1]) == 'string'){
+		
+		$type = res[0];
+		$subtype = res[1];
+		
+	}
+
+    mw.$('.mw-admin-go-live-now-btn').attr('content-id', $p_id);
+
+
+    var active_item_is_category = active_item.attr('data-category-id');
+    if (active_item_is_category != undefined) {
+
+        mw.$('#pages_edit_container').attr('data-parent-category-id', active_item_is_category);
+
+        var active_bg = mwd.querySelector('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg');
+
+        var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'have_category');
+
+        if (active_item_parent_page == false) {
+            var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'is_page');
+
+        }
+
+        if (active_item_parent_page == false) {
+            var active_item_parent_page = mw.tools.firstParentWithClass(active_bg, 'pages_tree_item');
+
+        }
+
+
+        if (active_item_parent_page != false) {
+            var active_item_is_page = active_item_parent_page.getAttribute('data-page-id');
+
+        }
+
+    } else {
+        mw.$('#pages_edit_container').removeAttr('data-parent-category-id');
+
+    }
+mw_clear_edit_module_attrs()
+
+    if (active_item_is_page != undefined) {
+        mw.$('#pages_edit_container').attr('data-parent-page-id', active_item_is_page);
+
+    } else {
+        mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
+
+    }
+    mw.$('#pages_edit_container').removeAttr('data-subtype');
+    mw.$('#pages_edit_container').removeAttr('is_shop');
+    mw.$('#pages_edit_container').attr('data-content-id', $p_id);
+    if ($subtype != undefined) {
+        if ($subtype == 'product') {
+            mw.$('#pages_edit_container').attr('is_shop', 'y');
+        }
+		 
+        mw.$('#pages_edit_container').attr('subtype', $subtype);
+    } else {
+        mw.$('#pages_edit_container').attr('subtype', 'post');
+    }
+	 mw.$('#pages_edit_container').attr('content_type', $type);
+	 
+	  
+    mw.$(".mw_edit_page_right").css("overflow", "hidden");
+    edit_load('content/edit');
+}
 function mw_select_post_for_editing($p_id, $subtype) {
 
     var active_item = $('#pages_tree_container_<?php print $my_tree_id; ?> .active-bg').first();
@@ -268,9 +386,11 @@ function mw_select_post_for_editing($p_id, $subtype) {
     mw.$('#pages_edit_container').removeAttr('category_id');
     mw.$('#pages_edit_container').removeAttr('category_id');
     mw.$('#pages_edit_container').removeAttr('content-id');
+mw.$('#pages_edit_container').removeAttr('content-id');
+mw.$('#pages_edit_container').removeAttr('content-id');
 
     mw.$('#pages_edit_container').removeAttr('data-page-id');
-
+     
 
     mw.$('.mw-admin-go-live-now-btn').attr('content-id', $p_id);
 
@@ -313,8 +433,6 @@ function mw_select_post_for_editing($p_id, $subtype) {
         mw.$('#pages_edit_container').removeAttr('data-parent-page-id');
 
     }
-
-
     mw.$('#pages_edit_container').removeAttr('data-subtype');
     mw.$('#pages_edit_container').removeAttr('is_shop');
     mw.$('#pages_edit_container').attr('data-content-id', $p_id);
@@ -322,12 +440,13 @@ function mw_select_post_for_editing($p_id, $subtype) {
         if ($subtype == 'product') {
             mw.$('#pages_edit_container').attr('is_shop', 'y');
         }
-        mw.$('#pages_edit_container').attr('data-subtype', $subtype);
+		 
+        mw.$('#pages_edit_container').attr('subtype', $subtype);
     } else {
-        mw.$('#pages_edit_container').attr('data-subtype', 'post');
+        mw.$('#pages_edit_container').attr('subtype', 'post');
     }
     mw.$(".mw_edit_page_right").css("overflow", "hidden");
-    edit_load('content/edit_post');
+    edit_load('content/edit');
 }
 
 function mw_add_product() {
@@ -398,73 +517,65 @@ function mw_make_pages_tree_sortable() {
                     }
 				 
                     ?>
+
 <div class="mw-ui-row" id="edit-content-row">
- <?php if ($action != 'categories'): ?>
-    <div class="mw-ui-col tree-column" <?php if ($action == 'posts'): ?>  <?php endif ?>>
-        <div class="tree-column-holder">
-            <div class="fixed-side-column scroll-height-exception-master">
-                <div class="create-content scroll-height-exception">
-                    <a href="javascript:;" class="mw-ui-btn default-invert create-content-btn"
-                       id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a>
-                    <span class="mw-icon-lock tip" id="pin-sidebar" data-tip="<?php _e("Lock/Unlock the sidebar"); ?>"
-                          data-tipposition="bottom-center"></span>
-                </div>
-                <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
-                    
-                    <?php if ($action == 'pages'): ?>
-                        <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
+  <?php if ($action != 'categories'): ?>
+  <div class="mw-ui-col tree-column" <?php if ($action == 'posts'): ?>  <?php endif ?>>
+    <div class="tree-column-holder">
+      <div class="fixed-side-column scroll-height-exception-master">
+        <div class="create-content scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn default-invert create-content-btn"
+                       id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a> <span class="mw-icon-lock tip" id="pin-sidebar" data-tip="<?php _e("Lock/Unlock the sidebar"); ?>"
+                          data-tipposition="bottom-center"></span> </div>
+        <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
+          <?php if ($action == 'pages'): ?>
+          <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
                                 active_class="active-bg" id="pages_tree_toolbar" view="admin_tree" home_first="true"/>
-                    <?php elseif ($action == 'categories'): ?>
-                        <module skip-static-pages="true" data-type="pages" template="admin"
+          <?php elseif ($action == 'categories'): ?>
+          <module skip-static-pages="true" data-type="pages" template="admin"
                                 active_ids="<?php print $active_content_id; ?>" active_class="active-bg"
                                 include_categories="true" include_global_categories="true"
                                 id="pages_tree_toolbar" <?php print $pages_container_params_str ?>  view="admin_tree"
                                 home_first="true"/>
-                    <?php else: ?>
-                        <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
+          <?php else: ?>
+          <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
                                 active_class="active-bg" include_categories="true" include_global_categories="true"
                                 id="pages_tree_toolbar" <?php print $pages_container_params_str ?>  view="admin_tree"
                                 home_first="true"/>
-                    <?php endif ?>
-                    <?php event_trigger('admin_content_after_website_tree', $params); ?>
-                </div>
-                <div class="tree-show-hide-nav scroll-height-exception">
-                    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"
-                       onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open
-                        All</a>
-                    <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
-                       onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close
-                        All</a></div>
-            </div>
+          <?php endif ?>
+          <?php event_trigger('admin_content_after_website_tree', $params); ?>
         </div>
-         
+        <div class="tree-show-hide-nav scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"
+                       onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open
+          All</a> <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
+                       onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close
+          All</a></div>
+      </div>
     </div>
-    
-    <?php endif ?>
-    
-    <div class="mw-ui-col main-content-column">
-        <div class="mw-ui-col-container">
-
-            <div id="pages_edit_container"  <?php print $pages_container_params_str; ?>>
-                <script>
+  </div>
+  <?php endif ?>
+  <div class="mw-ui-col main-content-column">
+    <div class="mw-ui-col-container"> 
+      <script>
                     $(window).bind('load', function () {
                         if (!mw.url.windowHashParam("action")) {
                             //var params = mw.url.mwParams();
-                            edit_load('content/manage');
+                            edit_load('content/manager');
                         }
                         mw.on.hashParam('view', function () {
-                            edit_load('content/manage');
+                            edit_load('content/manager');
                         })
                     });
                 </script>
-            </div>
-        </div>
+                
+                 
+                
+      <div id="pages_edit_container"  <?php print $pages_container_params_str; ?>> </div>
     </div>
+  </div>
 </div>
-
 <?php $view = mw('url')->param('view'); ?>
 <?php if ($view == 'content') { ?>
-    <?php show_help('content'); ?>
+<?php show_help('content'); ?>
 <?php } elseif ($view == 'shop') { ?>
-    <?php show_help('shop'); ?>
+<?php show_help('shop'); ?>
 <?php } ?>

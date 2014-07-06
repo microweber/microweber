@@ -2303,7 +2303,8 @@ class Controller
             if (is_file($ed_file_from_template)) {
                 $p_index = $ed_file_from_template;
             }
-            if (isset($page['content_type']) and $page['content_type'] == 'post') {
+
+            if (isset($page['content_type']) and $page['content_type'] != 'post' and $page['content_type'] != 'page' and $page['content_type'] != 'product') {
                 if (isset($page['subtype']) and ($page['subtype'] != 'post' and $page['subtype'] != 'product')) {
                     $standalone_edit = true;
                     if ($standalone_edit) {
@@ -2311,8 +2312,10 @@ class Controller
                             $page['content_body'] = '';
                         }
                         $page['content'] = '<div class="edit" field="content_body" rel="content" contenteditable="true">' . $page['content_body'] . '</div>';
+                        $page['render_file'] = false;
                     }
                 }
+
             }
 
 

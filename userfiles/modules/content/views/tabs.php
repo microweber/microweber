@@ -82,7 +82,7 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
           <?php endif; ?>
           <div class="quick-add-post-options-item" id="quick-add-post-options-item-advanced">
             <?php event_trigger('mw_admin_edit_page_tab_4', $data); ?>
-            <module type="content/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
+            <module type="content/views/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
           </div>
           <?php if($data['content_type'] == 'page'):  ?>
           <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
