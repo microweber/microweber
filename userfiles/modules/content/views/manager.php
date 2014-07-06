@@ -36,7 +36,7 @@ $pages_count = intval($pages);
                         <?php if ($pic == true): ?>
                             <a class="manage-post-image"
                                style="background-image: url('<?php print thumbnail($pic, 108) ?>');"
-                               onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"></a>
+                               onClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;"></a>
                         <?php else : ?>
                             <a
                                 class="manage-post-image manage-post-image-no-image <?php if (isset($item['content_type'])) {
@@ -46,14 +46,14 @@ $pages_count = intval($pages);
                                 } ?><?php if (isset($item['subtype']) and $item['subtype'] == 'product') {
                                     print ' manage-post-image-product';
                                 } ?>"
-                                onclick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"></a>
+                                onclick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;"></a>
                         <?php endif; ?>
-                        <?php $edit_link = admin_url('view:content#action=editpost:' . $item['id']);  ?>
+                        <?php $edit_link = admin_url('view:content#action=editpage:' . $item['id']);  ?>
                     </div>
                     <div class="mw-ui-col manage-post-item-col-3 manage-post-main">
                         <div class="manage-item-main-top">
                             <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>"
-                                                                  onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;">
+                                                                  onClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
                                     <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
                                         <?php if (isset($item['is_shop']) and $item['is_shop'] == 'y'): ?>
                                             <span class="mw-icon-shop"></span>
@@ -75,7 +75,7 @@ $pages_count = intval($pages);
                                href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a>
                         </div>
                         <div class="manage-post-item-links"><a target="_top" href="<?php print $edit_link ?>"
-                                                               onclick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;">
+                                                               onclick="javascript:mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>'); return false;">
                                 <?php _e("Edit"); ?>
                             </a> <a href="javascript:mw.delete_single_post('<?php print ($item['id']) ?>');">
                                 <?php _e("Delete"); ?>

@@ -2306,6 +2306,12 @@ class Controller
             if (isset($page['content_type']) and $page['content_type'] == 'post') {
                 if (isset($page['subtype']) and ($page['subtype'] != 'post' and $page['subtype'] != 'product')) {
                     $standalone_edit = true;
+                    if ($standalone_edit) {
+                        if(!isset($page['content_body'])){
+                            $page['content_body'] = '';
+                        }
+                        $page['content'] = '<div class="edit" field="content_body" rel="content" contenteditable="true">' . $page['content_body'] . '</div>';
+                    }
                 }
             }
 
@@ -2431,10 +2437,7 @@ class Controller
         }
 
         //d($page);
-        if ($standalone_edit) {
 
-           // $page['content'] = '<div class="edit" field="content" rel="content">' . $page['content'] . '</div>';
-        }
         if (isset($page['content'])) {
 
 
