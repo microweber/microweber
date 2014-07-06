@@ -872,7 +872,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+          return $cache_content;
         }
 
         $render_file = false;
@@ -898,9 +898,12 @@ class Content
 
         if (isset($page['active_site_template']) and isset($page['layout_file'])) {
             $page['layout_file'] = str_replace('___', DS, $page['layout_file']);
+            $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
             $page['layout_file'] = str_replace('..', '', $page['layout_file']);
-            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
-            $render_use_default = TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php';
+            $render_file_temp = normalize_path(TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'],false);
+             $render_use_default = TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php';
+
+
             if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp;
             } elseif (is_file($render_use_default)) {

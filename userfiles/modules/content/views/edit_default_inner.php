@@ -1,7 +1,7 @@
 <?php if (!isset($data)) {
     $data = $params;
 }
-
+ 
 ?>
 <script>
     mw.load_editor_internal = function (element_id) {
@@ -31,7 +31,7 @@
             params.preview_template = '<?php print $data['active_site_template'] ?>'
             <?php endif; ?>
             <?php if(isset($data['active_site_layout'])): ?>
-            params.preview_layout = '<?php print $data['active_site_layout'] ?>'
+            params.preview_layout = '<?php print module_name_encode($data['active_site_layout']) ?>'
             <?php endif; ?>
             if (typeof window.mweditor !== 'undefined') {
                 $(mweditor).remove();

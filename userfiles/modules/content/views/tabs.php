@@ -36,7 +36,7 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
             <?php _e("Advanced"); ?>
             </span> </span>
             <?php if($data['content_type'] == 'page'):  ?>
-            <span class="mw-ui-btn tip" data-tip="<?php _e("Template"); ?>"> <span class="mw-icon-template"></span> <span>
+            <span id="quick-add-post-options-item-template-btn" class="mw-ui-btn tip" data-tip="<?php _e("Template"); ?>"> <span class="mw-icon-template"></span> <span>
             <?php _e("Template"); ?>
             </span> </span>
             <?php endif; ?>

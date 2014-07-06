@@ -6,7 +6,10 @@ mw.session = {
         mw.session.checkPause = true;
         if(mw.session.checkPauseExplicitly){ return false; }
         $.post(mw.settings.api_url + "is_logged", function(data){
-          if(data != false){
+          if(data===null){
+              return;
+          }
+           if(data != false){
             if(typeof callback === 'function'){callback.call(undefined, true)};
           }
           else{
@@ -36,14 +39,16 @@ mw.session = {
       mw.session.check(function(is_logged){
         if(is_logged){
           var m = mw.tools.modal.get("#session_modal")
-          mw.$(m.overlay).remove();
-          mw.$(m.main).remove();
+            if(m){
+              mw.$(m.overlay).remove();
+              mw.$(m.main).remove();
+            }
         }
         else{
           mw.session.logRequest();
         }
       });
-    }, 30000);
+    }, 45000);
   }
 }
 

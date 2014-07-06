@@ -1084,6 +1084,8 @@ class Parser
 
     public function isolate_content_field($l)
     {
+        require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+
 //        $field =  qp($l, '[field="content"]')->innerHTML();
 //        if($field == null){
 //            $field =  qp($l, '[field="content_body"]')->innerHTML();

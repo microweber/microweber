@@ -102,11 +102,11 @@ if ((!isset($data['layout_file']) or $data['layout_file'] == NULL) and isset($da
     $data['layout_file'] = 'index.php';
 }
 
-if (!isset($params["active-site-template"]) and isset($params["site-template"])) {
-    $params["active-site-template"] = $params["site-template"];
+if (!isset($params["active_site_template"]) and isset($params["site-template"])) {
+    $params["active_site_template"] = $params["site-template"];
 }
-if (isset($params["active-site-template"])) {
-    $data['active_site_template'] = $params["active-site-template"];
+if (isset($params["active_site_template"])) {
+    $data['active_site_template'] = $params["active_site_template"];
 }
  
 if (isset($data["id"])) {
@@ -331,6 +331,12 @@ mw.templatePreview<?php print $rand; ?> = {
         if (template != undefined) {
             preview_template_param = '&preview_template=' + template;
             mw.$("#<?php print $params['id']?>").attr('active_site_template', template);
+			if(template != 'default'){
+			mw.$("#selected-template-span-val").html(template);
+			}
+
+			
+			
         }
 
         var preview_layout_param = '';
@@ -350,8 +356,11 @@ mw.templatePreview<?php print $rand; ?> = {
         if (return_url == undefined) {
             mw.templatePreview<?php print $rand; ?>.rend(iframe_url);
             $(window).trigger('templateSelected');
+			// 
+			 
         }
         else {
+			
             return(iframe_url);
         }
 
@@ -368,23 +377,26 @@ $(document).ready(function () {
     mw.$('#active_site_template_<?php print $rand; ?>').bind("change", function (e) {
         var parent_module = $(this).parents('.module').first();
         if (parent_module != undefined) {
-            parent_module.attr('active-site-template', $(this).val());
+            parent_module.attr('active_site_template', $(this).val());
             mw.reload_module('<?php print $params['type']?>', function () {
                 mw.templatePreview<?php print $rand; ?>.view();
+				//
             });
         }
+		//$(window).trigger('templateChanged');
     });
 
     mw.$('#active_site_layout_<?php print $rand; ?>').bind("change", function (e) {
         mw.templatePreview<?php print $rand; ?>.generate();
+		$(window).trigger('templateChanged');
     });
 
  mw.templatePreview<?php print $rand; ?>.generate();
 
 });
-
+ 
 </script>
-
+ 
 <div class="layout_selector_wrap">
  
 <?php
@@ -429,7 +441,7 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
 
 
 
-
+ 
 
 <div class="layouts_box_holder <?php if (isset($params['small'])): ?> semi_hidden  <?php endif; ?>" >
 
@@ -533,7 +545,7 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
             <?php if ($templates != false and !empty($templates)): ?>
 
             <span class="page-template-config">
-                <?php print $global_template; ?>
+                <span id="selected-template-span-val"><?php print $global_template; ?></span>
                 <span class="mw-icon-gear tip" data-tip="<?php _e("Click to change"); ?>" data-tipposition="top-center">
 
                 <select name="preview_active_site_template" class="mw-ui-field mw-edit-page-template-selector"

@@ -72,6 +72,7 @@ class Controller
 
         //create_mw_default_options();
         $this->app->content->define_constants();
+     //   $this->app->ui->set_admin_menus();
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
@@ -2274,7 +2275,12 @@ class Controller
             $url = $this->app->url->string();
         }
 
-
+        if (isset($_GET['preview_template'])) {
+            $page['active_site_template'] = $_GET['preview_template'];
+        }
+        if (isset($_GET['preview_layout'])) {
+            $page['layout_file'] = $_GET['preview_layout'];
+        }
         $this->app->content->define_constants($page);
 
 
@@ -2305,6 +2311,7 @@ class Controller
 
 
         }
+
         $p = normalize_path($p, false);
 
         $l = new $this->app->view($p_index);
@@ -2397,10 +2404,12 @@ class Controller
                 $page['content'] = '<div class="edit"></div>';
             } elseif (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
 
+
                 //if (isset($page['content_type']) and $page['content_type'] != 'page') {
                 $render_file = $this->app->content->get_layout($page);
 
                 $page['render_file'] = $render_file;
+
                 $l = new $this->app->view($page['render_file']);
                 $l->params = $params;
                 $l->page_id = PAGE_ID;
@@ -2420,10 +2429,11 @@ class Controller
 
             }
         }
+
         //d($page);
         if ($standalone_edit) {
 
-            $page['content'] = '<div class="edit" field="content" rel="content">' . $page['content'] . '</div>';
+           // $page['content'] = '<div class="edit" field="content" rel="content">' . $page['content'] . '</div>';
         }
         if (isset($page['content'])) {
 

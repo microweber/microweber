@@ -208,15 +208,19 @@ $edit_page_info = $data;;
 	 $data['active_categories'] = $categories_active_ids; 
 	 //print load_module('content/edit_default',$data); ?>
   <?php  else: ?>
-  <div id="mw-admin-edit-content-main-area"> </div>
+ 
+  <div id="mw-admin-edit-content-main-area"></div>
+  
   <?php  endif; ?>
   <?php  if(isset($data['subtype']) and $data['subtype'] == 'dynamic'
 or ($data['id'] == 0 and isset($data['content_type']) and $data['content_type'] == 'page')
 
 ): ?>
+ 
   <script>
-     mw.$("#quick-add-post-options-item-template").show();
-	 mw.$("#mw-edit-page-editor-holder").hide();
+    // mw.$("#quick-add-post-options-item-template").show();
+	 
+	// mw.$("#quick-add-post-options-item-template-btn").hide();
 </script>
   <?php   endif; ?>
   <hr class="hr2">
@@ -555,15 +559,16 @@ mw.save_inner_editable_fields = function(data){
     		 var iframe_ed = $('.mw-iframe-editor');
     	     var changed =  iframe_ed.contents().find('.changed').size();
     		 if(changed == 0){
-    		    mw.edit_content.load_editor();
+    		   // mw.edit_content.load_editor();
     		 }
        });
 	    $(window).bind('templateChanged', function(e){
 		 var iframe_ed = $('.mw-iframe-editor')
 	     var changed =  iframe_ed.contents().find('.changed').size();
 		 if(changed == 0){
-		    mw.edit_content.load_editor();
+		   
 		 }
+		  mw.edit_content.load_editor();
        });
 	    if(mwd.querySelector('.mw-iframe-editor') !== null){
           mwd.querySelector('.mw-iframe-editor').onload = function(){
