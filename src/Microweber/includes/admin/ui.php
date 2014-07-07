@@ -112,6 +112,10 @@ $(window).load(function(){
 <h4>Data - tip Selector - '.' and '#' are available</h4>
 <pre class="tip" data-tip=".demobox" data-tipposition="top-left">&lt;div class="tip" data-tip=".demobox" data-tipposition="top-center">&lt;/div></pre>
 
+.module-live-edit-settings
+
+
+<br><br>
 
 <ol class="" id="apinav" style="height: 300px;overflow-y: auto;padding-left: 25px;"></ol>
 

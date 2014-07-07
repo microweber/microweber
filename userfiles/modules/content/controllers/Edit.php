@@ -100,6 +100,7 @@ class Edit
             $data = $this->empty_data;
             if (isset($params['content_type'])) {
                 $data['content_type'] = $params['content_type'];
+
             }
             if (isset($params['subtype'])) {
                 $data['subtype'] = $params['subtype'];
@@ -107,6 +108,14 @@ class Edit
                     $data['content_type'] = 'post';
                 }
             }
+            if (isset($data['content_type']) and $data['content_type'] == 'post' and ($data['subtype']) == 'static') {
+                $data['subtype'] = 'post';
+            } else if (isset($data['content_type']) and $data['content_type'] == 'product' and ($data['subtype']) == 'static') {
+                $data['content_type'] = 'post';
+                $data['subtype'] = 'product';
+            }
+ 
+
         }
         if (isset($data['subtype'])) {
             if ($data['subtype'] == 'post' or $data['subtype'] == 'product') {

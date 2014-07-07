@@ -120,7 +120,7 @@ $edit_page_info = $data;;
     </span>
     <hr>
     <span class="mw-ui-btn mw-ui-btn-medium post-move-to-trash" onclick="mw.del_current_page('<?php print ($data['id'])?>');"><span class="mw-icon-bin"></span>Move to trash</span> </div>
-</div>
+</div></div>
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-<?php print $rand; ?>">
   <input type="hidden" name="id" id="mw-content-id-value-<?php print $rand; ?>"  value="<?php print $data['id']; ?>" />
   <input type="hidden" name="subtype" id="mw-content-subtype-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" />
@@ -159,6 +159,20 @@ $edit_page_info = $data;;
          }
       </script> 
   </div>
+  
+  
+  <?php if(isset($data['url']) and $data['id'] > 0): ?>
+ <script>
+        $(function () {
+            $('.go-live-edit-href-set').attr('href','<?php print content_link($data['id']); ?>');
+        });
+    </script>
+<?php endif; ?>
+
+
+
+
+
   <?php if($data['content_type'] == 'page'){ ?>
   <div class="mw-admin-edit-page-primary-settings parent-selector ">
     <div class="mw-ui-field-holder">

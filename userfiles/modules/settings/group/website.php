@@ -15,9 +15,7 @@ $(document).ready(function(){
       <br>
       <small>
       <?php _e("This is very important for search engines"); ?>.
-      <?php _e("Your website will be categorized by many criteria and its name is one of them"); ?>. <a href="javascript:;" class="mw-ui-link" onclick="mw.help('website_name');">
-      <?php _e("See the example"); ?>
-      </a> </small> </label>
+      <?php _e("Your website will be categorized by many criteria and its name is one of them"); ?>.  </small> </label>
     <input name="website_title" class="mw_option_field mw-ui-field"   type="text" option-group="website"  value="<?php print get_option('website_title','website'); ?>" />
   </div>
   <div class="mw-ui-field-holder">
@@ -60,7 +58,8 @@ $(document).ready(function(){
       <br>
       <small>
       <?php _e("Ex.: Cat, Videos of Cats, Funny Cats, Cat Pictures, Cat for Sale, Cat Products and Food"); ?>
-      </small> </label>
+      </small>
+    </label>
     <input name="website_keywords" class="mw_option_field mw-ui-field"   type="text" option-group="website"  value="<?php print get_option('website_keywords','website'); ?>" />
   </div>
   <div class="mw-ui-field-holder">
@@ -68,7 +67,7 @@ $(document).ready(function(){
     <?php $date_formats = array("Y-m-d H:i:s","m/d/y", "m/d/Y","F j, Y g:i a", "F j, Y", "F, Y", "l, F jS, Y", "M j, Y @ G:i", "Y/m/d \a\t g:i A", "Y/m/d \a\t g:ia", "Y/m/d g:i:s A", "Y/m/d", "g:i a", "g:i:s a" );  ?>
     <?php   $curent_val = get_option('date_format','website'); ?>
 
-      <select name="date_format" class="mw-ui-field mw_option_field"     option-group="website">
+      <select name="date_format" class="mw-ui-field mw_option_field" option-group="website" style="width:300px;">
         <?php if(is_array($date_formats )): ?>
         <?php foreach($date_formats  as $item): ?>
         <option value="<?php print $item ?>" <?php if($curent_val == $item): ?> selected="selected" <?php endif; ?>><?php print date($item, time())?> - (<?php print $item ?>)</option>
@@ -91,7 +90,7 @@ $(document).ready(function(){
  
   $timezones = timezone_identifiers_list(); ?>
 
-      <select name="time_zone" class="mw-ui-field mw_option_field" option-group="website">
+      <select name="time_zone" class="mw-ui-field mw_option_field" option-group="website" style="width:300px;">
         <?php foreach ($timezones as $timezone) {
   echo '<option';
   if ( $timezone == $curent_time_zone ) echo ' selected="selected"';

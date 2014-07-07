@@ -220,7 +220,7 @@ $add_post_q .= '  ';
            onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.add_new_content_live_edit('post');"><span class="mw-icon-post"></span><?php _e("New Post"); ?>
 		</a>
 		<?php } ?>
-	<ul class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+	<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
 		<a href="javascript:;" class="mw-ui-btn " onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');"><?php _e("Manage"); ?></a>
 		<a href="javascript:;" class="mw-ui-btn">
 			<?php _e("Settings"); ?>
@@ -228,24 +228,26 @@ $add_post_q .= '  ';
 		<a href="javascript:;" class="mw-ui-btn">
 			<?php _e("Skin/Template"); ?>
 		</a>
-	</ul>
-	<div class="mw-ui-box tab" style="display: block">
+	</div>
+    <div class="mw-ui-box mw-ui-box-content">
+	<div class="tab" style="display: block">
 		<module type="content/manage_live_edit"  <?php print $add_post_q ?> id="mw_posts_manage_live_edit"/>
 	</div>
-	<div class="mw-ui-box tab">
+	<div class="tab">
 		<?php include_once($posts_mod); ?>
 	</div>
-	<div class="mw-ui-box tab">
+	<div class="tab">
 		<?php if (isset($params['global'])) : ?>
 		<module type="admin/modules/templates" id="posts_list_templ" for-module="posts"/>
 		<?php else: ?>
 		<module type="admin/modules/templates" id="posts_list_templ"/>
 		<?php endif;  ?>
 	</div>
-	<div class="mw-ui-box tab">
+	<div class="tab">
 		<div <?php print $add_post_q ?> id="mw_posts_create_live_edit"></div>
 	</div>
-	<div class="mw-ui-box tab">
+	<div class="tab">
 		<div id="mw_posts_edit_live_edit" class="mw_posts_edit_live_edit"></div>
 	</div>
+    </div> 
 </div>

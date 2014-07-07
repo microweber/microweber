@@ -368,11 +368,11 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <?php endforeach ; ?>
                   <?php endif; ?>
                 </div>
-
+                 <hr>
                 <h4>
-                 Purchasing requires registration
+                 <?php _e("Purchasing requires registration"); ?>
                 </h4>
-                <label class="mw-ui-check">
+                <label class="mw-ui-check" style="margin-right: 15px;">
                   <input name="shop_require_registration" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_require_registration', 'website') != 'y'): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("No"); ?>
@@ -385,7 +385,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                                   
 
                 <hr>
-                <h2>Currency settings</h2>
+                <h2><?php _e("Currency settings"); ?></h2>
                 <?php ?>
                 <?php $cur = get_option('currency', 'payments');  ?>
                 <?php $curencies = mw('shop')->currency_get();  ?>
@@ -398,35 +398,33 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                 <?php endif; ?>
                 <module type="shop/payments/currency_render" id="mw_curr_rend" />
                 
-                <h2>Checkout URL</h2>
+                <h2><?php _e("Checkout URL"); ?></h2>
                 <?php ?>
                 <?php $checkout_url = get_option('checkout_url', 'shop');  ?>
                 <input name="checkout_url"  class="mw_option_field mw-ui-field"   type="text" option-group="shop"   value="<?php print get_option('checkout_url','shop'); ?>" placeholder="Use default"  />
-                
                 <h4>
                   <?php _e("Disable online shop"); ?>
                 </h4>
-                <label class="mw-ui-check">
+                <label class="mw-ui-check" style="margin-right: 15px;">
                   <input name="shop_disabled" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_disabled', 'website') != 'y'): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("No"); ?>
-                  </span></label>
+                  </span>
+                </label>
                 <label class="mw-ui-check">
                   <input name="shop_disabled" class="mw_option_field"    data-option-group="website"  value="y"  type="radio"  <?php if(get_option('shop_disabled', 'website') == 'y'): ?> checked="checked" <?php endif; ?> >
-                  <span></span><span>
+                  <span></span>
+                  <span>
                   <?php _e("Yes"); ?>
-                  </span></label>
+                  </span>
+                </label>
                 <br />
-                <small>
-                <?php _e("You can aways enable it"); ?>
-                <a class="mw-ui-btn mw-ui-btn-small"   href="<?php  print admin_url('view:settings#option_group=shop__payments__admin'); ?>" >
-                <?php _e("here"); ?>
-                </a></small></div>
+                </div>
               <div class="otab">
                 <h2>
                   <?php _e("Send email to the client on new order"); ?>
                 </h2>
-                <label class="mw-ui-check">
+                <label class="mw-ui-check" style="margin-right: 15px;">
                   <input name="order_email_enabled" class="mw_option_field"    data-option-group="orders"  value="y"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') == 'y'): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("Yes"); ?>
@@ -488,7 +486,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                 <label class="mw-ui-label">
                   <?php _e("Email content"); ?>
                 </label>
-                <textarea class="mw-ui-field mw_option_field"  data-option-group="orders" id="order_email_content" name="order_email_content" style="width:100%;height:450px;"><?php print get_option('order_email_content', 'orders') ?></textarea>
+                <textarea class="mw-ui-field mw_option_field"  data-option-group="orders" id="order_email_content" name="order_email_content"><?php print get_option('order_email_content', 'orders') ?></textarea>
               </div>
               <div class="otab">
                 <module type="shop/shipping/set_units" id="mw_set_shipping_units" />

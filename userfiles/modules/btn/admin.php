@@ -14,23 +14,32 @@ select {
 }
 #editor_holder {
 	display: none;
-	width: 392px;
 }
 .mw-iframe-editor {
 	width: 100%;
 	height: 300px;
 }
-input[type='text'] {
-	width: 370px;
-}
+
 </style>
 <script>
 
 
 
+launchEditor = function(){
+  if(!window.editorLaunched){
+    editorLaunched = true;
+    PopUpEditor = mw.editor({
+      element:document.getElementById('popupcontent'),
+      hideControls:['format', 'fontsize']
+    });
+  }
+
+}
+
+
 $(document).ready(function(){
 
-var editor = mw.tools.iframe_editor("textarea");
+
 
 
 btn_action = function(){
@@ -42,6 +51,7 @@ btn_action = function(){
   else if(el.val()=='popup'){
      $("#editor_holder").show();
      mw.$("#btn_url_holder").hide();
+     launchEditor();
   }
   else{
     $("#editor_holder").hide();
@@ -61,19 +71,19 @@ btn_action = function(){
 
 </script>
 
-<div style="padding: 0 20px 20px;">
+<div class="module-live-edit-settings">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
       <?php _e("Text"); ?>
     </label>
-    <input type="text" name="text" class="mw_option_field mw-ui-field" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>" />
+    <input type="text" name="text" class="mw_option_field mw-ui-field w100" value="<?php print $text; ?>" placeholder="<?php _e("Button"); ?>" />
   </div>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
       <?php _e("Action"); ?>
     </label>
    
-      <select class="mw-ui-field mw_option_field" id="action"  name="button_action">
+      <select class="mw-ui-field mw_option_field w100" id="action"  name="button_action">
         <option <?php if($action==''){ print 'selected'; } ?> value="">
         <?php _e("None"); ?>
         </option>
@@ -87,15 +97,18 @@ btn_action = function(){
    
   </div>
   <div id="editor_holder">
-    <textarea  class="mw_option_field"  name="popupcontent" style="height: 400px;"><?php print $popupcontent; ?></textarea>
+  <label class="mw-ui-label"><?php _e("Popup content"); ?></label>
+    <textarea  class="mw_option_field"  name="popupcontent" id="popupcontent"><?php print $popupcontent; ?></textarea>
   </div>
-  <div id="btn btn-default_url_holder">
-    <input type="text" name="url" id="btn btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>"  class="mw_option_field mw-ui-field" />
-    
+  <div id="btn_url_holder">
+
+
+    <div class="mw-ui-field-holder"><input type="text" name="url" id="btn btn-default_url" value="<?php print $url; ?>" placeholder="<?php _e("Enter URL"); ?>"  class="mw_option_field mw-ui-field w100" /></div>
+    <div class="mw-ui-field-holder" style="padding-top: 0">
     <label class="mw-ui-check">
-      <input type="checkbox" 
-    		name="url_blank" 
-    		value="y" 
+      <input type="checkbox"
+    		name="url_blank"
+    		value="y"
     		class="mw_option_field"
     		<?php if( $url_blank == 'y'): ?> checked="checked" <?php endif; ?>
     	>
@@ -103,11 +116,19 @@ btn_action = function(){
       <?php _e("Open in new window"); ?>
       </span> </label>
   </div>
-  <div class="mw-ui-field-holder">
+  </div>
+
+
+
+
+
+  <div class="mw-ui-row-nodrop">
+      <div class="mw-ui-col">
+      <div class="mw-ui-col-container">
     <label class="mw-ui-label">
       <?php _e("Color"); ?>
     </label>
-    
+
       <select  class="mw-ui-field mw_option_field"  name="button_style">
         <option <?php if($style==''){ print 'selected'; } ?> value="">
         <?php _e("Default"); ?>
@@ -133,11 +154,14 @@ btn_action = function(){
       </select>
 
   </div>
-  <div class="mw-ui-field-holder">
+  </div>
+      <div class="mw-ui-col">
+      <div class="mw-ui-col-container">
+
     <label class="mw-ui-label">
       <?php _e("Size"); ?>
     </label>
-    
+
       <select  class="mw-ui-field mw_option_field"  name="button_size">
         <option <?php if($size==''){ print 'selected'; } ?> value="">
         <?php _e("Default"); ?>
@@ -153,5 +177,9 @@ btn_action = function(){
         </option>
       </select>
 
+
+      </div>
+      </div>
   </div>
+
 </div>

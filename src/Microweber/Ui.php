@@ -30,7 +30,6 @@ class Ui
 
 
     }
-
     function set_default()
     {
 
@@ -50,84 +49,98 @@ class Ui
         );
 
         $this->custom_fields = $fields;
-        if (defined('MW_BACKEND')) {
-            $btn = array();
-            $btn['content_type'] = 'page';
-            $btn['title'] = _e("Page", true);
-            $btn['class'] = 'mw-icon-page';
-            $this->module('content.create.menu', $btn);
-
-            $btn = array();
-            $btn['content_type'] = 'post';
-            $btn['title'] = _e("Post", true);
-            $btn['class'] = 'mw-icon-post';
-            $this->module('content.create.menu', $btn);
-
-            $btn = array();
-            $btn['content_type'] = 'category';
-            $btn['title'] = _e("Category", true);
-            $btn['class'] = 'mw-icon-category';
-            $this->module('content.create.menu', $btn);
+        $this->defaults();
 
 
-            $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1');
-            $notif_count_html = false;
-            if (intval($notif_count) > 0) {
-                $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
-            }
-            $admin_dashboard_btn = array();
-            $admin_dashboard_btn['view'] = 'admin__notifications';
-            $admin_dashboard_btn['text'] = _e("Notifications", true) . $notif_count_html;
-            $admin_dashboard_btn['icon_class'] = 'mw-icon-notification';
-            $this->admin_dashboard_menu($admin_dashboard_btn);
 
+        //event_bind('mw.admin',$this->defaults());
+      //  event_bind('mw.live_edit',$this->defaults());
 
-            $admin_dashboard_btn = array();
-            $admin_dashboard_btn['view'] = 'content';
-            $admin_dashboard_btn['text'] = _e("Manage Website", true);
-            $admin_dashboard_btn['icon_class'] = 'mw-icon-website';
-            $this->admin_dashboard_menu_second($admin_dashboard_btn);
-
-            $admin_dashboard_btn = array();
-            $admin_dashboard_btn['view'] = 'modules';
-            $admin_dashboard_btn['text'] = _e("Manage Modules", true);
-            $admin_dashboard_btn['icon_class'] = 'mw-icon-module';
-            $this->admin_dashboard_menu_second($admin_dashboard_btn);
-
-            $admin_dashboard_btn = array();
-            $admin_dashboard_btn['view'] = 'files';
-            $admin_dashboard_btn['text'] = _e("File Manager", true);
-            $admin_dashboard_btn['icon_class'] = 'mw-icon-upload';
-            $this->admin_dashboard_menu_second($admin_dashboard_btn);
-
-
-            $admin_dashboard_btn = array();
-            $admin_dashboard_btn['view'] = 'upgrades';
-            $admin_dashboard_btn['text'] = _e("Upgrades", true);
-            $admin_dashboard_btn['icon_class'] = 'mw-icon-market';
-            $this->admin_dashboard_menu_third($admin_dashboard_btn);
-
-
-            $notif_count = mw_updates_count();
-            $notif_count_html = false;
-            if (intval($notif_count) > 0) {
-                $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
-            }
-            $admin_dashboard_btn = array();
-            $admin_dashboard_btn['view'] = 'updates';
-            $admin_dashboard_btn['text'] = _e("Updates", true) . $notif_count_html;
-            $admin_dashboard_btn['icon_class'] = 'mw-icon-updates';
-            $this->admin_dashboard_menu_third($admin_dashboard_btn);
-
-
-            $admin_dashboard_btn = array();
-            $admin_dashboard_btn['link'] = 'https://microweber.com/contact-us';
-            $admin_dashboard_btn['text'] = _e("Suggest a feature", true);
-            $admin_dashboard_btn['icon_class'] = 'mw-icon-suggest';
-            $this->admin_dashboard_menu_third($admin_dashboard_btn);
-        }
+//        if (defined('MW_BACKEND')) {
+//$this->defaults();
+//        }
 
     }
+    function defaults()
+    {
+        $btn = array();
+        $btn['content_type'] = 'page';
+        $btn['title'] = _e("Page", true);
+        $btn['class'] = 'mw-icon-page';
+        $this->module('content.create.menu', $btn);
+
+        $btn = array();
+        $btn['content_type'] = 'post';
+        $btn['title'] = _e("Post", true);
+        $btn['class'] = 'mw-icon-post';
+        $this->module('content.create.menu', $btn);
+
+        $btn = array();
+        $btn['content_type'] = 'category';
+        $btn['title'] = _e("Category", true);
+        $btn['class'] = 'mw-icon-category';
+        $this->module('content.create.menu', $btn);
+
+
+        $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1');
+        $notif_count_html = false;
+        if (intval($notif_count) > 0) {
+            $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
+        }
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'admin__notifications';
+        $admin_dashboard_btn['text'] = _e("Notifications", true) . $notif_count_html;
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-notification';
+        $this->admin_dashboard_menu($admin_dashboard_btn);
+
+
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'content';
+        $admin_dashboard_btn['text'] = _e("Manage Website", true);
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-website';
+        $this->admin_dashboard_menu_second($admin_dashboard_btn);
+
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'modules';
+        $admin_dashboard_btn['text'] = _e("Manage Modules", true);
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-module';
+        $this->admin_dashboard_menu_second($admin_dashboard_btn);
+
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'files';
+        $admin_dashboard_btn['text'] = _e("File Manager", true);
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-upload';
+        $this->admin_dashboard_menu_second($admin_dashboard_btn);
+
+
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'upgrades';
+        $admin_dashboard_btn['text'] = _e("Upgrades", true);
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-market';
+        $this->admin_dashboard_menu_third($admin_dashboard_btn);
+
+
+        $notif_count = mw_updates_count();
+        $notif_count_html = false;
+        if (intval($notif_count) > 0) {
+            $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
+        }
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['view'] = 'updates';
+        $admin_dashboard_btn['text'] = _e("Updates", true) . $notif_count_html;
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-updates';
+        $this->admin_dashboard_menu_third($admin_dashboard_btn);
+
+
+        $admin_dashboard_btn = array();
+        $admin_dashboard_btn['link'] = 'https://microweber.com/contact-us';
+        $admin_dashboard_btn['text'] = _e("Suggest a feature", true);
+        $admin_dashboard_btn['icon_class'] = 'mw-icon-suggest';
+        $this->admin_dashboard_menu_third($admin_dashboard_btn);
+
+    }
+
+
 
     public function module($name, $arr = false)
     {

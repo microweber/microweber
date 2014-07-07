@@ -2848,9 +2848,17 @@ mw.quick = {
            });
            modal.overlay.style.backgroundColor = "white";
         },
-        edit : function(id){
+        edit : function(id,content_type,subtype){
+            var str = '';
+            if(content_type != undefined && content_type != ''){
+                str = str + '&content_type='+content_type;
+            }
+            if(subtype != undefined && subtype != ''){
+                str = str + '&subtype='+subtype;
+            }
            var modal = mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id="+id,
+
+              url:mw.settings.api_url + "module/?type=content/edit&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id="+id+str,
               //template:'mw_modal_simple',
               width:mw.quick.w,
               height:mw.quick.h,

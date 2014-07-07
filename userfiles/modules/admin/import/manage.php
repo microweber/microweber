@@ -1,9 +1,14 @@
 <?php if(!is_admin()){error("must be admin");}; ?>
  <?php $here = $config['url_to_module']; ?>
  
-<p>Microweber supports importing content from  <a href="<?php print $here; ?>samples/sample.csv">csv</a>, <a href="<?php print $here; ?>samples/sample.json">json</a>, <a href="<?php print $here; ?>samples/sample.xlsx">xls</a> and <a href="<?php print $here; ?>samples/other_cms.zip">other files</a>.</p>
+<p><?php _e("Microweber supports importing content from"); ?>
+    <a href="<?php print $here; ?>samples/sample.csv" class="mw-ui-link">csv</a>,
+    <a href="<?php print $here; ?>samples/sample.json" class="mw-ui-link">json</a>,
+    <a href="<?php print $here; ?>samples/sample.xlsx" class="mw-ui-link">xls</a>,
+    <a href="<?php print $here; ?>samples/other_cms.zip" class="mw-ui-link">other files</a>.
+</p>
 <div id="backups_list" >
-  <h2>Avaiable import files</h2>
+  <h2><?php _e("Avaiable import files"); ?></h2>
   <table   cellspacing="0" cellpadding="0" class="mw-ui-table">
     <thead>
       <tr>

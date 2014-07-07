@@ -41,7 +41,7 @@ Import
             	});
 
                 $(uploader).bind('error', function(up, file) {
-                   mw.notification.error("The file must be xml, sql, csv or zip.");
+                   mw.notification.error("<?php _e("The file must be"); ?> xml, sql, csv or zip.");
 
             	});
 
@@ -51,8 +51,8 @@ Import
 		});
 
 
-		</script> 
-  <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span><span>
+		</script>
+  <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span>
   <?php _e("Upload backup"); ?>
   <span id="upload_backup_info"></span></span></span> </div>
 <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;">

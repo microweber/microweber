@@ -164,16 +164,19 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 </span>
                 </a>
               </li>
-              <?php $create_content_menu = mw()->ui->create_content_menu(); ?>
-                <?php if (!empty($create_content_menu)): ?>
-                <?php foreach ($create_content_menu as $type => $item): ?>
-                 <li>
-                    <a href="javascript:;" onclick="mw.quick.<?php print $type; ?>();"><span class="mw-icon-<?php print $type; ?>"></span>
-                        <?php _e($item); ?>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-        <?php endif; ?>
+              <?php $create_content_menu =  mw()->module->ui('content.create.menu');  ?>
+              <?php if (!empty($create_content_menu)): ?>
+    <?php foreach ($create_content_menu as $type => $item): ?>
+    <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+    <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+    <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
+    <?php $type = ( isset( $item['content_type']))? ($item['content_type']) : false ; ?>
+    <?php $subtype = ( isset( $item['subtype']))? ($item['subtype']) : false ; ?>
+    <li><a onclick="mw.quick.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>'); return false;" href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a></li>
+    <?php endforeach; ?>
+    <?php endif; ?>
+               
+    
 
               <?php event_trigger('live_edit_quick_add_menu_end'); ?>
             </ul>

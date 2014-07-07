@@ -72,7 +72,7 @@ class Controller
 
         //create_mw_default_options();
         $this->app->content->define_constants();
-     //   $this->app->ui->set_admin_menus();
+        $this->app->ui();
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
@@ -92,6 +92,7 @@ class Controller
         $l = $l->__toString();
         // var_dump($l);
         event_trigger('on_load');
+
         $layout = $this->app->parser->process($l, $options = false);
         // $layout = $this->app->parser->process($l, $options = false);
         $layout = execute_document_ready($layout);
@@ -1032,13 +1033,18 @@ class Controller
         if ($_REQUEST) {
             $opts = $_REQUEST;
         }
+        if( isset($_REQUEST['live_edit'])){
+            event_trigger('mw.live_edit');
+        }
         $opts['admin'] = $admin;
         if ($admin == 'admin') {
             event_trigger('mw_backend');
+            event_trigger('mw.admin');
         } else {
             event_trigger('mw_frontend');
 
         }
+
         //
 
         if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
@@ -1071,6 +1077,7 @@ class Controller
         $aj = $this->app->url->is_ajax();
 
         if (isset($_REQUEST['live_edit']) and $aj == false) {
+
 
 
             $p_index = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
@@ -2309,9 +2316,9 @@ class Controller
                     $standalone_edit = true;
                     if ($standalone_edit) {
                         if(!isset($page['content'])){
-                            $page['content'] = '';
+                            $page['content'] = '<div class="element"></div>';
                         }
-                        $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
+                        //$page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
                         $page['render_file'] = false;
                     }
                 }

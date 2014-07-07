@@ -166,14 +166,61 @@ else {
                     <li id="main-menu-toggle">
                         <a href="javascript:;"><span class="mw-icon-menu"></span></a>
                     </li>
+                 
                 </ul>
 
 
+<?php 
+$past_page  = site_url().'?editmode=y';
+$last_page_front = session_get('last_content_id');
+if ($last_page_front == false) {
+    if (isset($_COOKIE['last_page'])) {
+        $last_page_front = $_COOKIE['last_page'];
+    }
+}
+
+if ($last_page_front != false) {
+    $cont_by_url = mw('content')->get_by_id($last_page_front, true);
+    if (isset($cont_by_url) and $cont_by_url == false) {
+        $past_page = mw('content')->get("order_by=updated_on desc&limit=1");
+        $past_page = mw('content')->link($past_page[0]['id']);
+    } else {
+        $past_page = mw('content')->link($last_page_front);
+    }
+} else {
+    $past_page = mw('content')->get("order_by=updated_on desc&limit=1");
+	if(isset($past_page[0])){
+    $past_page = mw('content')->link($past_page[0]['id']);
+	}
+}
 
 
+
+
+ ?><script>
+        $(function () {
+
+           $( '.go-live-edit-href-set' ).click(function() {
+			   var url_to_go =  $(this).attr('href');;
+  					
+					var n = url_to_go.indexOf("editmode");
+					if(n == -1){
+						url_to_go = url_to_go+'/editmode:y';
+					}
+ 				window.location.href=url_to_go;
+  				return false;
+}); 
+           
+
+
+        });
+    </script> 
 
                 <div id="user-menu">
-
+   <div class="user-menu-go-live-btn">
+<a title="<?php _e("Live Edit"); ?>" class="go-live-edit-btn-admin-sidebar go-live-edit-href-set" href="<?php print $past_page  ?>"><span class="mw-icon-live">
+			<?php _e("Live Edit"); ?></span>
+			</a></div>
 
                             <?php $user_id = user_id(); $user = get_user_by_id($user_id);
 

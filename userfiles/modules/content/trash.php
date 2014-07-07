@@ -223,7 +223,7 @@ delete_selected_posts_forever = function(){
       arr.forever = true;
       mw.post_del_forever(arr, function(){
        mw.reload_module('#<?php print $params['id'] ?>', function(){
-         toggle_cats_and_pages()
+          
        });
      });
   });

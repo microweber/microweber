@@ -27,7 +27,65 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
 
 
 ?>
+<script type="text/javascript">
 
+    mw.copy_current_page = function (a, callback) {
+        mw.tools.confirm("<?php _e("Are you sure you want to copy this page?"); ?>", function () {
+            var obj = {id: a}
+            $.post(mw.settings.site_url + "api/content/copy", obj, function (data) {
+                mw.notification.success("<?php _e('Content was copied'); ?>.");
+				
+				if(data != null){
+				
+					var r = confirm("Go to the new page?");
+					if (r == true) {
+						mw.url.windowHashParam('action','editpage:'+data);
+					} else {
+						 
+					}
+				}
+				
+				
+				//
+				
+                typeof callback === 'function' ? callback.call(data) : '';
+            });
+        });
+    }
+    mw.del_current_page = function (a, callback) {
+        mw.tools.confirm("<?php _e("Are you sure you want to delete this"); ?>", function () {
+            var arr = (a.constructor === [].constructor) ? a : [a];
+            var obj = {ids: arr}
+            $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
+                mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
+                typeof callback === 'function' ? callback.call(data) : '';
+            });
+        });
+    }
+
+    mw.adm_cont_type_change_holder_event = function (el) {
+        mw.tools.confirm("<?php _e("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function () {
+            var root = mwd.querySelector('#<?php print $params['id']; ?>');
+            var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+            var ctype = $(el).val()
+            if (form != undefined && form.querySelector('input[name="content_type"]') != null) {
+                form.querySelector('input[name="content_type"]').value = ctype;
+            }
+        });
+    }
+    mw.adm_cont_subtype_change_holder_event = function (el) {
+        mw.tools.confirm("<?php _e("Are you sure you want to change the content subtype"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function () {
+            var root = mwd.querySelector('#<?php print $params['id']; ?>');
+            var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
+            var ctype = $(el).val();
+            if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
+                form.querySelector('input[name="subtype"]').value = ctype
+            }
+        });
+    }
+
+
+</script>
 
 <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -36,8 +94,7 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
     </label>
     <textarea
         class="mw-ui-field" name="description"
-        placeholder="<?php _e("Describe your page in short"); ?>"><?php if ($data['description'] != '') print ($data['description'])?>
-    </textarea>
+        placeholder="<?php _e("Describe your page in short"); ?>"><?php if ($data['description'] != '') print ($data['description'])?></textarea>
 </div>
 <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -48,8 +105,7 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
         </small>
     </label>
     <textarea class="mw-ui-field" name="content_meta_title"
-              placeholder="<?php _e("Title to appear on the search engines results page"); ?>."><?php if (isset($data['content_meta_title']) and $data['content_meta_title'] != '') print ($data['content_meta_title'])?>
-    </textarea>
+              placeholder="<?php _e("Title to appear on the search engines results page"); ?>."><?php if (isset($data['content_meta_title']) and $data['content_meta_title'] != '') print ($data['content_meta_title'])?></textarea>
 </div>
 <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -60,11 +116,8 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
         </small>
     </label>
     <textarea class="mw-ui-field" name="content_meta_keywords"
-              placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords'])?>
-    </textarea>
+              placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords'])?></textarea>
 </div>
-
-
 <div class="mw_clear vSpace"></div>
 <?php if ($show_page_settings != false): ?>
     <div class="mw-ui-check-selector">
@@ -157,90 +210,46 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
 <?php if (isset($data['position'])): ?>
     <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 <?php endif; ?>
-
-
-
 <?php /* PAGES ONLY  */ ?>
 <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
-
-<?php //d($data); ?>
-
 <?php if (isset($data['id']) and $data['id'] > 0): ?>
-    <br/>
-    <small>
-        <?php _e("Id"); ?>
-        : <?php print ($data['id'])?></small>
-    <a class="mw-ui-btn mw-ui-btn-small"
-       href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');">Copy</a><a
-        class="mw-ui-btn mw-ui-btn-small"
-        href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');">Delete</a>
-    <script type="text/javascript">
-
-        mw.copy_current_page = function (a, callback) {
-            mw.tools.confirm("<?php _e("Are you sure you want to copy this page?"); ?>", function () {
-                var obj = {id: a}
-                $.post(mw.settings.site_url + "api/content/copy", obj, function (data) {
-                    mw.notification.success("<?php _e('Content was copied'); ?>.");
-                    typeof callback === 'function' ? callback.call(data) : '';
-                });
-            });
-        }
-        mw.del_current_page = function (a, callback) {
-            mw.tools.confirm("<?php _e("Are you sure you want to delete this"); ?>", function () {
-                var arr = (a.constructor === [].constructor) ? a : [a];
-                var obj = {ids: arr}
-                $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
-                    mw.notification.warning("<?php _e('Content was sent to Trash'); ?>.");
-                    typeof callback === 'function' ? callback.call(data) : '';
-                });
-            });
-        }
-
-        mw.adm_cont_type_change_holder_event = function (el) {
-            mw.tools.confirm("<?php _e("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function () {
-                var root = mwd.querySelector('#<?php print $params['id']; ?>');
-                var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
-                var ctype = $(el).val()
-                if (form != undefined && form.querySelector('input[name="content_type"]') != null) {
-                    form.querySelector('input[name="content_type"]').value = ctype;
-                }
-            });
-        }
-        mw.adm_cont_subtype_change_holder_event = function (el) {
-            mw.tools.confirm("<?php _e("Are you sure you want to change the content subtype"); ?>? <?php _e("Please consider the documentation for more info"); ?>.", function () {
-                var root = mwd.querySelector('#<?php print $params['id']; ?>');
-                var form = mw.tools.firstParentWithClass(root, 'mw_admin_edit_content_form');
-                var ctype = $(el).val();
-                if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
-                    form.querySelector('input[name="subtype"]').value = ctype
-                }
-            });
-        }
-
-
-    </script>
-
+    <div class="mw-ui-field-holder"><br/>
+        <small>
+            <?php _e("Id"); ?>
+            : <?php print ($data['id'])?></small>
+        <a class="mw-ui-btn mw-ui-btn-small"
+           href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');">Copy</a><a
+            class="mw-ui-btn mw-ui-btn-small"
+            href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');">Delete</a></div>
 <?php endif; ?>
-
 <?php if (isset($data['created_on'])): ?>
-    <br/>
-    <small>
-        <?php _e("Created on"); ?>
-        : <?php print mw('format')->date($data['created_on'])?></small>
-<?php endif; ?>
-
-<?php if (isset($data['created_on'])): ?>
-    <br/>
-    <small>
-        <?php _e("Updated on"); ?>
-        : <?php print mw('format')->date($data['updated_on'])?></small>
-    <?php if (is_array($available_content_types) and !empty($available_content_types)): ?>
+    <div class="mw-ui-field-holder">
         <br/>
         <small>
+            <?php _e("Created on"); ?>
+            : <?php print mw('format')->date($data['created_on'])?></small>
+        <?php if (isset($data['updated_on'])): ?>
+            <br/>
+            <small>
+                <?php _e("Updated on"); ?>
+                : <?php print mw('format')->date($data['updated_on'])?></small>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+
+
+<?php if (is_array($available_content_types) and !empty($available_content_types)): ?>
+    <div class="mw-ui-field-holder"><br/>
+        <small>
             <?php _e("Content type"); ?>
-            : <?php print($data['content_type'])?></small> <a
-            href="javascript:$('.mw_adm_cont_type_change_holder').toggle(); void(0);"> <span
+            :
+        </small>
+        <a
+            href="javascript:$('.mw_adm_cont_type_change_holder').toggle(); void(0);"> <?php print($data['content_type'])?>
+            <span
                 class="mw-ui-arr mw-ui-arr-down" style="opacity:0.3"></span> </a>
+
         <div class="mw_adm_cont_type_change_holder" style="display:none"><em>Warning! Advanced action!<br/>
                 Do not change these settings unless you know what you are doing.</em>
             <label class="mw-ui-label">
@@ -272,6 +281,6 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
                 <?php endforeach; ?>
             </select>
         </div>
-    <?php endif; ?>
+    </div>
 <?php endif; ?>
 <?php /* PRODUCTS ONLY  */ ?>

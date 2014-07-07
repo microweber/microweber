@@ -1,13 +1,22 @@
 <?php
+
+
+ 
 $type = 'page';
 $act = url_param('action', 1);
 ?>
 <?php
+
+if(isset($params['page-id'])){
+	$last_page_front = $params['page-id'];
+} else {
+
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
     if (isset($_COOKIE['last_page'])) {
         $last_page_front = $_COOKIE['last_page'];
     }
+}
 }
 if ($last_page_front != false) {
     $cont_by_url = mw('content')->get_by_id($last_page_front, true);
@@ -22,6 +31,20 @@ if ($last_page_front != false) {
     $past_page = mw('content')->link($past_page[0]['id']);
 }
 ?>
+
+<?php if(isset($past_page) and $past_page != false): ?>
+ <script>
+        $(function () {
+
+            
+            $('.go-live-edit-href-set').attr('href','<?php print $past_page; ?>');
+
+
+        });
+    </script>
+<?php endif; ?>
+
+
 <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>
     <script>
         $(function () {

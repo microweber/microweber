@@ -292,135 +292,100 @@ function mw_cron()
 
 
 
-
-
-
-function event_trigger($api_function, $data = false)
-{
-
-
-
-
-
-
-    global $mw_action_hook_index;
-    $hooks = $mw_action_hook_index;
-
-    $return = array();
-
-    if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
-
-        foreach ($hooks[$api_function] as $hook_key => $hook_value) {
-
-            if ($hook_value != false) {
-
-                if (is_string($hook_value) and function_exists($hook_value)) {
-                    if ($data != false) {
-                        $return[$hook_value] = $hook_value($data);
-                    } else {
-
-                        $return[$hook_value] = $hook_value();
-                    }
-                    unset($hooks[$api_function][$hook_key]);
-
-                } else {
-
-                    if (is_string($hook_value) or is_object($hook_value)) {
-                        try {
-                            if ($data != false) {
-                                if(is_string($hook_value)){
-                                    $return[$hook_value] = call_user_func($hook_value, $data);
-
-                                } else {
-                                    call_user_func($hook_value, $data);
-
-                                }
-                            } else {
-
-                                if (is_string($hook_value) and is_callable($hook_value)) {
-                                    $return[$hook_value] = call_user_func($hook_value, function () {
-                                        return true;
-                                    });
-                                } elseif (is_callable($hook_value)) {
-
-                                    $return[] = call_user_func($hook_value, function () {
-                                        return true;
-                                    });
-                                } elseif (is_string($hook_value)) {
-
-                                    $try_class = explode('::', $hook_value);
-                                    if (class_exists($try_class[0])) {
-                                        $return[$hook_value] = call_user_func($hook_value, function () {
-                                            return true;
-                                        });
-                                    }
-
-                                }
-
-                            }
-                        } catch (Exception $e) {
-
-                        }
-                    }
-
-                }
-
-            }
-
-        }
-
-        $show_hooks = isset($_REQUEST['mw_show_system_hooks']);
-        if ($show_hooks != false and isset($api_function) and $api_function != 'on_load') {
-
-            if (is_admin()) {
-                print $api_function;
-            }
-        }
-        if (!empty($return)) {
-
-
-            return $return;
-        }
-    }
-}
-
-$mw_action_hook_index = array();
-function action_hook($function_name, $next_function_name = false)
-{
-    return event_bind($function_name, $next_function_name);
-
-
-}
-
-function event_bind($function_name, $next_function_name = false)
-{
-    global $mw_action_hook_index;
-
-    if (is_bool($function_name)) {
-        $mw_action_hook_index = ($mw_action_hook_index);
-        return $mw_action_hook_index;
-    } else {
-        if (!isset($mw_action_hook_index[$function_name])) {
-            $mw_action_hook_index[$function_name] = array();
-        }
-
-        $mw_action_hook_index[$function_name][] = $next_function_name;
-
-        //  $index .= ' ' . $function_name;
-    }
-}
-
-
-
+//
+//$mw_action_hook_index = array();
+//
 //
 //function event_trigger($api_function, $data = false)
 //{
 //
-//    return mw()->event->emit($api_function, $data);
 //
 //
+//
+//
+//
+//    global $mw_action_hook_index;
+//    $hooks = $mw_action_hook_index;
+//
+//    $return = array();
+//
+//    if (isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
+//
+//        foreach ($hooks[$api_function] as $hook_key => $hook_value) {
+//
+//            if ($hook_value != false) {
+//
+//                if (is_string($hook_value) and function_exists($hook_value)) {
+//                    if ($data != false) {
+//                        $return[$hook_value] = $hook_value($data);
+//                    } else {
+//
+//                        $return[$hook_value] = $hook_value();
+//                    }
+//                    unset($hooks[$api_function][$hook_key]);
+//
+//                } else {
+//
+//                    if (is_string($hook_value) or is_object($hook_value)) {
+//                        try {
+//                            if ($data != false) {
+//                                if(is_string($hook_value)){
+//                                    $return[$hook_value] = call_user_func($hook_value, $data);
+//
+//                                } else {
+//                                    call_user_func($hook_value, $data);
+//
+//                                }
+//                            } else {
+//
+//                                if (is_string($hook_value) and is_callable($hook_value)) {
+//                                    $return[$hook_value] = call_user_func($hook_value, function () {
+//                                        return true;
+//                                    });
+//                                } elseif (is_callable($hook_value)) {
+//
+//                                    $return[] = call_user_func($hook_value, function () {
+//                                        return true;
+//                                    });
+//                                } elseif (is_string($hook_value)) {
+//
+//                                    $try_class = explode('::', $hook_value);
+//                                    if (class_exists($try_class[0])) {
+//                                        $return[$hook_value] = call_user_func($hook_value, function () {
+//                                            return true;
+//                                        });
+//                                    }
+//
+//                                }
+//
+//                            }
+//                        } catch (Exception $e) {
+//
+//                        }
+//                    }
+//
+//                }
+//
+//            }
+//
+//        }
+//
+//        $show_hooks = isset($_REQUEST['mw_show_system_hooks']);
+//        if ($show_hooks != false and isset($api_function) and $api_function != 'on_load') {
+//
+//            if (is_admin()) {
+//                print $api_function;
+//            }
+//        }
+//        if (!empty($return)) {
+//
+//
+//            return $return;
+//        }
+//    }
 //}
 //
+//$mw_action_hook_index = array();
 //function action_hook($function_name, $next_function_name = false)
 //{
 //    return event_bind($function_name, $next_function_name);
@@ -430,7 +395,44 @@ function event_bind($function_name, $next_function_name = false)
 //
 //function event_bind($function_name, $next_function_name = false)
 //{
-//    return mw()->event->on($function_name, $next_function_name);
+//    global $mw_action_hook_index;
 //
+//    if (is_bool($function_name)) {
+//        $mw_action_hook_index = ($mw_action_hook_index);
+//        return $mw_action_hook_index;
+//    } else {
+//        if (!isset($mw_action_hook_index[$function_name])) {
+//            $mw_action_hook_index[$function_name] = array();
+//        }
 //
+//        $mw_action_hook_index[$function_name][] = $next_function_name;
+//
+//        //  $index .= ' ' . $function_name;
+//    }
 //}
+
+
+
+
+function event_trigger($api_function, $data = false)
+{
+
+    return mw()->event->emit($api_function, $data);
+
+
+}
+
+function action_hook($function_name, $next_function_name = false)
+{
+    return event_bind($function_name, $next_function_name);
+
+
+}
+
+function event_bind($function_name, $next_function_name = false)
+{
+
+    return mw()->event->on($function_name, $next_function_name);
+
+
+}

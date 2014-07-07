@@ -2438,6 +2438,13 @@ div[id*='SSDIVEL'] {
   font-weight: bold;
 }
 
+body.mw-live-edit .module > .mw-open-module-settings{
+  padding: 15px;
+  text-align: center;
+  background-color: #E8E8E8;
+  cursor: pointer;
+}
+
 
 
 

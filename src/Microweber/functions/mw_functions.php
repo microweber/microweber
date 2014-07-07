@@ -157,7 +157,7 @@ function mw_load_all_modules_functions()
 
 event_bind('app_init', 'mw_load_all_modules_functions');
 //event_trigger('mw_init');
-
+event_trigger('app_init',false);
 // mw_load_all_modules_functions();
 
 

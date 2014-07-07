@@ -83,7 +83,9 @@ mw.exec = function(str, a,b,c){
     return str._exec(a,b,c);
 }
 
-
+String.prototype.endsWith = function(str) {
+    return this.indexOf(str, this.length - str.length) !== -1;
+};
 
 mw.controllers = {}
 
@@ -355,6 +357,23 @@ mw.tools = {
     c.style.top = h1/2 - h2/2 + "px";
     return m;
   },
+  cssNumber:function(val){
+    var units = ["px", "%", "in", "cm", "mm", "em", "ex", "pt", "pc"];
+    if(typeof val === 'number'){
+      return val + 'px';
+    }
+    else if(typeof val === 'string' && parseFloat(val).toString() == val){
+        return val + 'px';
+    }
+    else {
+        if(isNaN(parseFloat(val))){
+            return '0px';
+        }
+        else{
+          return val;
+        }
+    };
+  },
   modal:{
     settings:{
       width:600,
@@ -389,23 +408,32 @@ mw.tools = {
         var _modal = doc.getElementById(modal.id);
         if(!_modal.remove){
           _modal.remove = function(){
-            mw.tools.modal.remove(modal.id)
+            mw.tools.modal.remove(modal.id);
           }
         }
         var modal_object = $(_modal);
         var container = $(modal_object[0].querySelector(".mw_modal_container"));
-        modal_object.width(width).height(height);
+
+        _modal.style.width = mw.tools.cssNumber(width);
+        _modal.style.height = mw.tools.cssNumber(height);
+
         var padding = parseFloat(container.css("paddingTop")) + parseFloat(container.css("paddingBottom"));
         var padding = container.offset().top - modal_object.offset().top;
-        container.append(html).height(height-padding);
+
+
+        container.append(html);
+        container[0].style.height = mw.tools.cssNumber(height - mw.$('.mw_modal_toolbar', _modal).height());
+
+
+
         if(!width.toString().contains("%")){
-           modal_object.css("left", ($(doc.defaultView).width()/2)-(width/2));
+           modal_object.css("left", ($(window).width()/2)-(width/2));
         }
         else{
           modal_object.css("left", (100 - parseFloat(width))/2 + "%");
         }
         if(!height.toString().contains("%")){
-           modal_object.css("top", ($(doc.defaultView).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 );
+           modal_object.css("top", ($(window).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 );
         }
         else{
           modal_object.css("top", (100 - parseFloat(height))/2 + "%");
@@ -423,7 +451,7 @@ mw.tools = {
                 $(this).find(".iframe_fix").show();
                 if($(".mw_modal").length>1){
                   mw_m_max = parseFloat($(this).css("zIndex"));
-                  $(".mw_modal").not(this).each(function(){
+                  mw.$(".mw_modal").not(this).each(function(){
                        var z = parseFloat($(this).css("zIndex"));
                        mw_m_max = z>=mw_m_max?z+1:mw_m_max;
                   });
@@ -448,11 +476,10 @@ mw.tools = {
 
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
         typeof callback==='function'?callback.call(modal_return):'';
-        typeof title==='string'?$(modal_object).find(".mw_modal_title").html(title):'';
-        typeof name==='string'?$(modal_object).attr("name", name):'';
+        typeof title==='string' ? $(modal_object).find(".mw_modal_title").html(title):'';
+        typeof name==='string' ? $(modal_object).attr("name", name):'';
 
         if(overlay==true){
-
            var ol = mw.tools.modal.overlay(modal_object);
            modal_object[0].overlay = ol;
            modal_return.overlay = ol;
@@ -607,8 +634,8 @@ mw.tools = {
       var maxw = $(doc.defaultView).width() - 60;
 
 
-      var w = w<maxw?w:maxw;
-      var h = h<maxh?h:maxh;
+      var w = w < maxw ? w : maxw;
+      var h = h < maxh ? h : maxh;
 
       var center = typeof center !== 'undefined' ? center : true;
 
@@ -619,18 +646,17 @@ mw.tools = {
 
       var frame = modal.find(".mw-modal-frame").eq(0);
 
-      var padding = parseFloat(container.css("paddingTop")) + parseFloat(container.css("paddingBottom")) + container.offset().top - modal.offset().top;
 
-      if(!!w){
+
         modal.width(w);
         container.width(w);
         frame.width(w);
-      }
-      if(!!h){
+
+
         modal.height(h);
-        container.height(h-padding);
-        frame.height(h-padding);
-      }
+        container.height(h);
+        frame.height(h);
+
 
       if(center === true){mw.tools.modal.center(modal)};
     },
@@ -2642,8 +2668,40 @@ mw.tools = {
     progress.progressOptions = obj.element.progressOptions = options;
     obj.element.appendChild(progress);
     return options;
+  },
+  matches:function(node, what){
+    if(node === 'init'){
+        if(!!mwd.documentElement.matchesSelector) mw.tools.matchesMethod = 'matchesSelector';
+        else if(!!mwd.documentElement.mozMatchesSelector) mw.tools.matchesMethod = 'mozMatchesSelector';
+        else if(!!mwd.documentElement.webkitMatchesSelector) mw.tools.matchesMethod = 'webkitMatchesSelector';
+        else if(!!mwd.documentElement.msMatchesSelector) mw.tools.matchesMethod = 'msMatchesSelector';
+        else if(!!mwd.documentElement.oMatchesSelector) mw.tools.matchesMethod = 'oMatchesSelector';
+        else mw.tools.matchesMethod = undefined;
+    }
+    else{
+      if(node === null){ return false; }
+      if(typeof node === 'undefined'){ return false; }
+      if(node.nodeType !== 1){ return false; }
+      if(!!mw.tools.matchesMethod){return node[mw.tools.matchesMethod](what)}
+      else{
+        var doc = mwd.implementation.createHTMLDocument("");
+        var node = node.cloneNode(true);
+        doc.body.appendChild(node);
+        var all = doc.body.querySelectorAll(what),
+            l = all.length,
+            i = 0;
+        for( ; i<l ; i++){
+            if(all[i] === node) {
+              return true;
+            }
+        }
+        return false;
+      }
+    }
   }
 }
+
+mw.tools.matches('init');
 
 
 Alert = mw.tools.alert;

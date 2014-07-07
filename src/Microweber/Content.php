@@ -4502,8 +4502,7 @@ class Content
 
     public function copy($data)
     {
-        $to_trash = false;
-        $to_untrash = false;
+         $new_cont_id = false;
 
         if (defined('MW_API_CALL')) {
             $to_trash = true;
@@ -4543,7 +4542,7 @@ class Content
 
             }
         }
-
+return $new_cont_id;
 
     }
 

@@ -82,17 +82,20 @@ mw.$('.mw-ui-check').bind('mousedown', function(){
 <div class="<?php print $config['module_class'] ?>">
   <?php  $curent_val = get_option('enable_user_registration','users'); ?>
 
-<div class="mw-ui-field-holder">  <label class="mw-ui-label"><?php _e("Enable User Registration"); ?></label>
+<div class="mw-ui-field-holder">
+    <label class="mw-ui-label"><?php _e("Enable User Registration"); ?></label>
 
     <select name="enable_user_registration" class="mw-ui-field mw_option_field"   type="text" option-group="users">
       <option value="y" <?php if($curent_val == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
       <option value="n" <?php if($curent_val == 'n'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
-    </select></div>
+    </select>
+</div>
 
 
  
 
-<div class="mw-ui-field-holder"><label class="mw-ui-label"><?php _e("Allow Social Login with"); ?></label></div>
+<div class="mw-ui-field-holder">
+    <label class="mw-ui-label"><?php _e("Allow Social Login with"); ?></label></div>
 
 
   <?php

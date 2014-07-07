@@ -36,10 +36,10 @@
 
 $(document).ready(function(){
   mw.$("#btn<?php print $rand; ?>").click(function(){
-      mw.tools.modal.init({
+      mw.modal({
         name:'frame<?php print $rand; ?>',
         html:mwd.getElementById('area<?php print $rand; ?>').value,
-        template:'mw_modal_simple',
+        template:'basic',
         title:"<?php print $text; ?>"
       });
   })

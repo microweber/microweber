@@ -244,12 +244,15 @@ class IdiOrm
         $params_to_fields = $this->app->db->map_array_to_table($table, $params);
 
         if (is_array($params) and !empty($params)) {
-            if($fields != false and is_string($fields)){
-                $fields = explode(',',$fields);
+            if ($fields != false and is_string($fields)) {
+                $fields = explode(',', $fields);
             }
-            if(is_array($fields) and !empty($fields)){
-                foreach($fields as $field){
-                    $orm->select($table . '.'.$field,$field);
+            if (is_array($fields) and !empty($fields)) {
+                foreach ($fields as $field) {
+                    $field = trim($field);
+                    if ($field != '') {
+                        $orm->select($table . '.' . $field, $field);
+                    }
                 }
             }
             $joined_tables = array();
@@ -267,12 +270,7 @@ class IdiOrm
                         $table_assoc = $this->app->db->assoc_table_name($table);
 
 
-
                         $orm->select($table . '.*');
-
-
-
-
 
 
                         $orm->where_equal($table_alias . '.rel', $table_assoc);

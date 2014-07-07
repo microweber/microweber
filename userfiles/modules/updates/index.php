@@ -121,9 +121,7 @@ $(document).ready(function(){
 }
 
 #updates-list-info{
-  width:60%;
-  width: calc(100% - 185px);
-  width: -webkit-calc(100% - 185px);
+    padding: 15px 0;
 }
 
 
@@ -134,8 +132,8 @@ $(document).ready(function(){
 
 <div class="mw-sided">
     <div class="mw-side-left" style="width: 150px;">
-        <h2 class="mw-side-main-title"><span class="ico iupdate_big"></span><span><?php _e("Updates"); ?></span><?php if($notif_count !=0) : ?>&nbsp;<sup class="mw-notif-bubble" id="number_of_updates"><?php print $notif_count  ?></sup><?php endif; ?></h2>
-        <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium" title="Current version <?php print MW_VERSION ?>"><?php _e("Check for updates"); ?></span>
+        <h2 class="mw-side-main-title relative"><span class="mw-icon-updates"></span><span><?php _e("Updates"); ?></span><?php if($notif_count !=0) : ?>&nbsp;<sup class="mw-notification-count" id="number_of_updates"><?php print $notif_count  ?></sup><?php endif; ?></h2>
+        <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium" title="<?php _e("Current version"); ?> <?php print MW_VERSION ?>"><?php _e("Check for updates"); ?></span>
     </div>
     <div class="mw-side-left" id="updates-list-info" >
         <span style="font-size: 18px;"><?php print user_name(); ?></span>, <?php _e("we are constantly trying to improve Microweber"); ?>. <br>
