@@ -157,6 +157,7 @@ class IdiOrm
         $count_paging = false;
         $to_search_in_fields = false;
         $to_search_keyword = false;
+        $fields = false;
 
         if (is_array($params)) {
             if (isset($params['group_by'])) {
@@ -166,6 +167,11 @@ class IdiOrm
             if (isset($params['ids'])) {
                 $ids = $params['ids'];
                 unset($params['ids']);
+            }
+
+            if (isset($params['fields'])) {
+                $fields = $params['fields'];
+                unset($params['fields']);
             }
             if (isset($params['order_by'])) {
                 $order_by = $params['order_by'];
@@ -238,7 +244,14 @@ class IdiOrm
         $params_to_fields = $this->app->db->map_array_to_table($table, $params);
 
         if (is_array($params) and !empty($params)) {
-
+            if($fields != false and is_string($fields)){
+                $fields = explode(',',$fields);
+            }
+            if(is_array($fields) and !empty($fields)){
+                foreach($fields as $field){
+                    $orm->select($table . '.'.$field,$field);
+                }
+            }
             $joined_tables = array();
             foreach ($params as $k => $v) {
                 if ($k == 'id') {
@@ -252,7 +265,16 @@ class IdiOrm
                     if (isset($joins[1]) and !in_array($joins[0], $joined_tables) and $joins[0] != $table) {
                         $joined_tables[] = $table_alias;
                         $table_assoc = $this->app->db->assoc_table_name($table);
+
+
+
                         $orm->select($table . '.*');
+
+
+
+
+
+
                         $orm->where_equal($table_alias . '.rel', $table_assoc);
                         $orm->left_outer_join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);
                         //$orm->left_outer_join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);

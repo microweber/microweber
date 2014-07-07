@@ -901,7 +901,7 @@ class Content
             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
             $page['layout_file'] = str_replace('..', '', $page['layout_file']);
             $render_file_temp = normalize_path(TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'],false);
-             $render_use_default = TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php';
+            $render_use_default = normalize_path(TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php',false);
 
 
             if (is_file($render_file_temp)) {

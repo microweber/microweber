@@ -49,24 +49,37 @@ $('.mw-admin-wrap').click(function(){
     mw.tools.tabGroup({
        nav:'.payment-tab',
        tabs:'.otab',
-       master: mwd.querySelector('.mw-admin-side-nav')
+       master: mwd.querySelector('.mw-admin-side-nav'),
+       onclick:function(){
+         if(this.id == 'payment-tab-email' && !window.MailEditor){
+             runMailEditor();
+         }
+       }
     });
 
 
 
+runMailEditor = function(){
+    if(!window.MailEditor){
+        MailEditor = mw.editor({
+            element:"#order_email_content",
+            addControls:mwd.getElementById('editorctrls').innerHTML,
+            ready:function(content){
+              content.defaultView.mw.dropdown();
+              mw.$("#dynamic_vals li", content).bind('click', function(){
+                  MailEditor.api.insert_html($(this).attr('value'));
+              });
+            }
+        });
 
-
-
-MailEditor = mw.editor({
-    element:"#order_email_content",
-    addControls:mwd.getElementById('editorctrls').innerHTML,
-    ready:function(content){
-      content.defaultView.mw.dropdown();
-      mw.$("#dynamic_vals li", content).bind('click', function(){
-          MailEditor.api.insert_html($(this).attr('value'));
-      });
+        $(MailEditor).bind('change', function(){
+          d(this.value)
+        })
     }
-});
+}
+
+
+
 
 
 mw.$("#available_providers").sortable({
@@ -282,7 +295,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <li><a class="payment-tab active" href="javascript:;">
                     <?php _e("Payments"); ?>
                     </a></li>
-                  <li><a class="payment-tab" href="javascript:;">
+                  <li><a class="payment-tab" id="payment-tab-email" href="javascript:;">
                     <?php _e("Emails for order"); ?>
                     </a></li>
                   <li><a class="payment-tab" href="javascript:;">

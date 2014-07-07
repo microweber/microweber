@@ -233,11 +233,11 @@ mw.wysiwyg = {
     isSelectionEditable:function(){
         var node = window.getSelection().focusNode;
         if(node===null){ return false;}
-        if(node.nodeType !== 3){
-           return (node.isContentEditable) ? true : false;
+        if(node.nodeType === 1){
+           return node.isContentEditable;
         }
         else{
-           return (node.parentNode.isContentEditable) ? true : false;
+           return node.parentNode.isContentEditable;
         }
     },
     execCommand:function(a,b,c){
@@ -246,9 +246,14 @@ mw.wysiwyg = {
                 var b = b || false;
                 var c = c || false;
                 if(window.getSelection().rangeCount>0){
-                   ($.browser.mozilla && !mw.is.ie)?mwd.designMode = 'on':'';  // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
+                   if($.browser.mozilla && !mw.is.ie){
+                      mwd.designMode = 'on';
+                      // For Firefox (NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMHTMLDocument.execCommand])
+                   }
                    mwd.execCommand(a,b,c);
-                   ($.browser.mozilla && !mw.is.ie)?mwd.designMode = 'off':'';
+                   if($.browser.mozilla && !mw.is.ie){
+                      mwd.designMode = 'off'
+                   }
                 }
                 var node = window.getSelection().focusNode;
                 if(node!==null && mw.loaded){
@@ -272,11 +277,12 @@ mw.wysiwyg = {
         mw.$("#mw-text-editor").removeClass("editor_hover");
     },
     nceui:function(){  //remove defaults for browser's content editable tools
-        if(mw.settings.liveEdit){
+
+       if(mw.settings.liveEdit){
             mw.wysiwyg.execCommand('enableObjectResizing', false, 'false');
             mw.wysiwyg.execCommand('2D-Position', false, false);
             mw.wysiwyg.execCommand("enableInlineTableEditing", null, false);
-        }
+       }
    },
    paste:function(e){
         var clipboard = e.clipboardData || mww.clipboardData;

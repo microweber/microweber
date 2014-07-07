@@ -2134,7 +2134,7 @@ mw.tools = {
   },
   richtextEditor : function(obj){
       if(typeof obj.element === 'string'){ obj.element = mw.$(obj.element)[0]; }
-      if(!obj.element || obj.element === null) return false;
+      if(!obj.element || obj.element === undefined) return false;
       var o = $.extend({}, mw.tools.richtextEditorSettings, obj);
       var frame = mwd.createElement('iframe');
       frame.richtextEditorSettings = o;
@@ -2154,9 +2154,9 @@ mw.tools = {
           frame.contentWindow.document.close();
           frame.contentWindow.editorArea = o.element;
           frame.contentWindow.thisFrame = frame;
+          frame.contentWindow.pauseChange = true;
           frame.contentWindow.richtextEditorSettings = o;
           frame.onload = function(){
-
             var val = o.element.nodeName !== 'TEXTAREA' ? o.element.innerHTML : o.element.value
             frame.contentWindow.document.getElementById('editor-area').innerHTML = val;
             if(!!o.hideControls && o.hideControls.constructor === [].constructor){
@@ -2165,13 +2165,16 @@ mw.tools = {
                    mw.$('.mw_editor_' + o.hideControls[i], frame.contentWindow.document).hide();
                 }
             }
-            if(!!o.addControls && typeof o.addControls === 'string'){
+            if(!!o.addControls && (typeof o.addControls === 'string' || typeof o.addControls === 'function' || !!o.addControls.nodeType)){
                mw.$('.editor_wrapper', frame.contentWindow.document).append(o.addControls);
             }
             frame.api = frame.contentWindow.mw.wysiwyg;
             if(typeof o.ready === 'function'){
               o.ready.call(frame, frame.contentWindow.document);
             }
+            setTimeout(function(){
+                frame.contentWindow.pauseChange = false;
+            },frame.contentWindow.SetValueTime );
           }
       });
       o.width = o.width != 'auto' ? o.width : '100%';

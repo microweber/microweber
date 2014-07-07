@@ -157,6 +157,9 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
 <?php if (isset($data['position'])): ?>
     <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 <?php endif; ?>
+
+
+
 <?php /* PAGES ONLY  */ ?>
 <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
 
@@ -218,6 +221,7 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
     </script>
 
 <?php endif; ?>
+
 <?php if (isset($data['created_on'])): ?>
     <br/>
     <small>

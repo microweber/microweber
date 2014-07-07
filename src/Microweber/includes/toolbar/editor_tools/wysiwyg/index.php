@@ -140,10 +140,10 @@ ScaleFrame();
 $(document).ready(function(){
 
 
+
+
+$(".edit").attr("contenteditable", true);
 $(".module").attr("contenteditable", false);
-
-$(".edit[contenteditable!=true]").attr("contenteditable", true);
-
 $(mwd.body).bind('keydown keyup keypress mouseup mousedown click paste selectstart', function(e){
   ScaleFrame()
   var el= $(e.target);

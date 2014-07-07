@@ -635,12 +635,82 @@ $(window).load(function(){
             <p>Lorem ipsu<em>m dolor sit amet, conse</em>ctetur adipiscing elit. <strong>Sed quis <u>orci pla</u>cer</strong>at, tristique nibh nec, rhoncus libero.</p>
 
        </div>
+
+
+
+       <h3>Editor options and methods</h3>
+
+       <pre>
+
+       Note: the editor must NOT be inside a hidden (display:'none') element.
+
+       mw.editor({
+            element:''         - Required: Node element or String (Selector)
+            height:320,        - Optional Number or String in CSS Syntax - Default: 320
+            width:'100%',      - Optional Number or String in CSS Syntax - Default: '100%'
+            addControls: false - Optional. Represents Element/s that will be appended to the editor's control bar. String or Node or function that returns node - Default: false
+            hideControls:[],   - Optional. Controls to hide.  Example ['bold', 'italic', 'format', 'ol', 'ul'] - Default false
+            ready:             - Optional. Function to be executed after editor is loaded. Dedault: false
+       })
+
+
+
+       </pre>
+
+
+       <h3>Editor API</h3>
+       <p>The function
+       <pre>mw.editor </pre>
+        returns an iframe node that represents the editor. It has 'atached' one event, one function and a API object.
+       </p>
+       <h4>Example:</h4>
+       <pre>
+            myEditor = mw.editor({ element: '#some-div-or-textarea' });
+
+            // 'change' event
+            $(myEditor).bind('change', function(){
+               console.log( this.value )
+            });
+
+            // function setValue, must be used after editor is ready
+            // Sets value of the editor nd triggers the change event
+            myEditor.setValue('Some &lt;b>value&lt;/b>');
+
+            // API myEditor.api - The 'API' object is a refference to mw.wysiwyg object that is inside the editor
+
+            Examples:
+
+            myEditor.api.insert_html('some text or html') - inserts html
+            myEditor.api.link()                           - opens link popup
+            myEditor.api.unlink()                         - removes link from selection
+            myEditor.api.fontSize(16)                     - sets font size in pixels
+            myEditor.api.fontColor('#efecec')             - sets font color
+            myEditor.api.fontbg('#efecec')                - sets font background color
+
+             ...
+
+            Complete Example:
+
+            The function 'EditorRandomIMG' will insert random image in the selection inside the editor (If selection exists)
+
+             EditorRandomIMG = function(){
+               myEditor.api.insert_html('&lt;p>&lt;img src="//lorempixel.com/400/200/nature/" />&lt;/p>');
+             }
+
+
+       </pre>
        <script>
        $(document).ready(function(){
 
           DemoEditor = mw.editor({
-            element: mwd.getElementById('editor-demo'),
-            height:'auto'
+            element: '#editor-demo',
+            height:250,
+            width:'650',
+            addControls:false,
+            hideControls:false,
+            ready:function(){
+              mw.log('Editor is ready');
+            }
           });
 
 

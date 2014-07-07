@@ -2308,15 +2308,16 @@ class Controller
                 if (isset($page['subtype']) and ($page['subtype'] != 'post' and $page['subtype'] != 'product')) {
                     $standalone_edit = true;
                     if ($standalone_edit) {
-                        if(!isset($page['content_body'])){
-                            $page['content_body'] = '';
+                        if(!isset($page['content'])){
+                            $page['content'] = '';
                         }
-                        $page['content'] = '<div class="edit" field="content_body" rel="content" contenteditable="true">' . $page['content_body'] . '</div>';
+                        $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
                         $page['render_file'] = false;
                     }
                 }
-
             }
+            //d($page);
+          //  $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
 
 
         }
@@ -2403,10 +2404,9 @@ class Controller
                 $l->application = $this->app;
                 $l = $l->__toString();
                 $l = $this->app->parser->process($l, $options = false);
-                $page['content'] = $this->app->parser->isolate_content_field($l);
+               $page['content'] = $this->app->parser->isolate_content_field($l);
 
             }
-
             $standalone_edit = 1;
 
             if (isset($_REQUEST['empty_content'])) {
@@ -2439,10 +2439,12 @@ class Controller
             }
         }
 
-        //d($page);
+
 
         if (isset($page['content'])) {
-
+            if(!isset($render_file)){
+                $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
+            }
 
             $layout = str_replace('{content}', $page['content'], $layout);
 

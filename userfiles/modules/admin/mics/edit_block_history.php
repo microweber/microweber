@@ -21,10 +21,10 @@ $url = mw('url')->string(true);
 		//d($last_saved);
 		$last_saved_date = $last_saved['updated_on'];
 		//d($last_saved_date );
-		$latest_drafs = get_content_field('limit=30&order_by=id desc&fields=id&created_on=[mt]'.$last_saved_date.'&is_draft=1&all=1&url='.$url.'&rel_id='.$cont_id);
+		$latest_drafs = get_content_field('debug=1&no_cache=1&limit=30&order_by=id desc&fields=id&created_on=[mt]'.$last_saved_date.'&is_draft=1&all=1&url='.$url.'&rel_id='.$cont_id);
 		
-		
-		
+	 
+ 		
 		$history_files_fields = get_content_field('group_by=field&order_by=id desc&fields=field,id,created_on&is_draft=1&all=1&url='.$url);
 	 
 
