@@ -861,7 +861,7 @@ li .ts_action_item:last-child{
   display: block;
   height: 1px;
   text-indent: -9999px;
-  width: 60px;
+  width: 45px;
   border-bottom-width: 1px;
   border-bottom-color: #000;
 }

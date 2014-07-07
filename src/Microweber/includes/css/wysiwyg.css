@@ -279,6 +279,10 @@
     cursor: pointer;
 }
 
+.mw-dropdown-type-wysiwyg.active{
+  border-radius: 3px 3px 0 0;
+}
+
 .mw-dropdown-type-wysiwyg input.mw-dropdown-field{
   border: none;
   padding: 5px;
@@ -371,8 +375,6 @@
 
 .mw-dropdown-type-wysiwyg .mw-dropdown-content ul{
   padding: 5px 0;
-  border:1px solid #D2D2D2;
-  box-shadow:inset -2px -2px 2px #F6F6F6;
   border-radius: 0px;
   background: white;
   max-height: 230px;
