@@ -31,9 +31,8 @@ if ($last_page_front != false) {
     $past_page = mw('content')->link($past_page[0]['id']);
 }
 ?>
-
 <?php if(isset($past_page) and $past_page != false): ?>
- <script>
+<script>
         $(function () {
 
             
@@ -43,10 +42,8 @@ if ($last_page_front != false) {
         });
     </script>
 <?php endif; ?>
-
-
 <?php if (isset($params['keyword']) and $params['keyword'] != false): ?>
-    <script>
+<script>
         $(function () {
 
             $('[autofocus]').focus(function () {
@@ -61,15 +58,16 @@ if ($last_page_front != false) {
 <?php endif; ?>
 
 <div class="admin-manage-toolbar-holder">
-    <div class="admin-manage-toolbar">
-        <div class="admin-manage-toolbar-content">
-            <?php if(!isset($edit_page_info)): ?>
-            <div class="mw-ui-row" style="width: 100%;">
-                <div class="mw-ui-col">
-                    <div class="mw-ui-row" style="width: 100%;padding-top: 19px;">
-                        <div class="mw-ui-col">
-                            <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
-                                <?php if ($page_info['is_shop'] == 'y') {
+  <div class="admin-manage-toolbar">
+    <div class="admin-manage-toolbar-content">
+      <?php if(!isset($edit_page_info)): ?>
+      <?php mw()->event->emit('module.content.manager.toolbar.start', $page_info) ?>
+      <div class="mw-ui-row" style="width: 100%;">
+        <div class="mw-ui-col">
+          <div class="mw-ui-row" style="width: 100%;padding-top: 19px;">
+            <div class="mw-ui-col">
+              <?php if (!isset($params['category-id']) and isset($page_info) and is_array($page_info)): ?>
+              <?php if ($page_info['is_shop'] == 'y') {
                                     $type = 'shop';
                                 } elseif ($page_info['subtype'] == 'dynamic') {
                                     $type = 'dynamicpage';
@@ -78,62 +76,60 @@ if ($last_page_front != false) {
                                 }
 
                                 ?>
-                                <h2><span
-                                        class="mw-icon-<?php print $type; ?>"></span><?php print ($page_info['title']) ?>
-                                </h2>
-                            <?php elseif (isset($params['category-id'])): ?>
-                                <?php $cat = get_category_by_id($params['category-id']); ?>
-                                <?php if (isset($cat['title'])): ?>
-                                    <h2><span class="mw-icon-category"></span> <?php print $cat['title'] ?> </h2>
-                                <?php endif; ?>
-                            <?php elseif ($act == 'pages'): ?>
-                                <h2><span class="mw-icon-website"></span>
-                                    <?php _e("Pages"); ?>
-                                </h2>
-                            <?php elseif ($act == 'posts'): ?>
-                                <h2><span class="mw-icon-website"></span>
-                                    <?php _e("Posts"); ?>
-                                </h2>
-                            <?php elseif ($act == 'products'): ?>
-                                <h2><span class="mw-icon-website"></span>
-                                    <?php _e("Products"); ?>
-                                </h2>
-
-                            <?php else: ?>
-                                <h2><span class="mw-icon-website"></span>
-                                    <?php _e("Website"); ?>
-                                </h2>
-                            <?php endif; ?>
-                        </div>
-                        <div class="mw-ui-col">
-                            <div class="manage-toobar ">
-                                <div class="manage-toobar-content">
-                                    <div class="mw-ui-btn-nav pull-right">
-                                        <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
-                                            <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
-                                        <?php endif; ?>
-                                        <?php if (isset($params['category-id'])): ?>
-                                            <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
-                                        <?php endif; ?>
-                                        <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
-                                            <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
-                                            <a href="<?php print $edit_link; ?>" class="mw-ui-btn edit-content-btn"
+              <h2><span
+                                        class="mw-icon-<?php print $type; ?>"></span><?php print ($page_info['title']) ?> </h2>
+              <?php elseif (isset($params['category-id'])): ?>
+              <?php $cat = get_category_by_id($params['category-id']); ?>
+              <?php if (isset($cat['title'])): ?>
+              <h2><span class="mw-icon-category"></span> <?php print $cat['title'] ?> </h2>
+              <?php endif; ?>
+              <?php elseif ($act == 'pages'): ?>
+              <h2><span class="mw-icon-website"></span>
+                <?php _e("Pages"); ?>
+              </h2>
+              <?php elseif ($act == 'posts'): ?>
+              <h2><span class="mw-icon-website"></span>
+                <?php _e("Posts"); ?>
+              </h2>
+              <?php elseif ($act == 'products'): ?>
+              <h2><span class="mw-icon-website"></span>
+                <?php _e("Products"); ?>
+              </h2>
+              <?php else: ?>
+              <h2><span class="mw-icon-website"></span>
+                <?php _e("Website"); ?>
+              </h2>
+              <?php endif; ?>
+            </div>
+            <div class="mw-ui-col">
+              <div class="manage-toobar ">
+                <div class="manage-toobar-content">
+                  <div class="mw-ui-btn-nav pull-right">
+                    <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
+                    <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
+                    <?php endif; ?>
+                    <?php if (isset($params['category-id'])): ?>
+                    <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
+                    <?php endif; ?>
+                    <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
+                    <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
+                    <a href="<?php print $edit_link; ?>" class="mw-ui-btn edit-content-btn"
                                                id="edit-content-btn" data-tip="bottom-left"><span
                                                     class="mw-icon-pen"></span>
-                                                <?php _e("Edit page"); ?>
-                                            </a>
-                                        <?php endif; ?>
-                                        <?php if (isset($params['category-id'])): ?>
-                                            <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
-                                            <a href="<?php print $edit_link; ?>" class="mw-ui-btn edit-category-btn"
+                    <?php _e("Edit page"); ?>
+                    </a>
+                    <?php endif; ?>
+                    <?php if (isset($params['category-id'])): ?>
+                    <?php $edit_link = admin_url('view:content#action=editcategory:' . $params['category-id']); ?>
+                    <a href="<?php print $edit_link; ?>" class="mw-ui-btn edit-category-btn"
                                                id="edit-category-btn" data-tip="bottom-left"> <span
                                                     class="mw-icon-pen"></span>
-                                                <?php _e("Edit category"); ?>
-                                            </a>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="pull-right">
-                                        <input
+                    <?php _e("Edit category"); ?>
+                    </a>
+                    <?php endif; ?>
+                  </div>
+                  <div class="pull-right">
+                    <input
                                             onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
                                             value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
                                             <?php  if (isset($params['keyword']) and $params['keyword'] != false): ?>
@@ -144,24 +140,40 @@ if ($last_page_front != false) {
                                             style="margin-right: 10px;max-width: 145px; <?php if (isset($params['keyword']) and $params['keyword'] != false): ?> min-width: 145px; <?php endif; ?>"
                                             class="mw-ui-searchfield pull-right"
                                             id="mw-search-field"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mw-ui-col col-bar-live-edit"><a href="<?php print $past_page; ?>?editmode=y"
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php mw()->event->emit('module.content.manager.toolbar', $page_info) ?>
+            
+            <?php $custom_tabs = mw()->module->ui('content.manager.toolbar'); ?>
+            
+            <?php if(!empty($custom_tabs)): ?>
+          <?php foreach($custom_tabs as $item): ?>
+          
+          <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+          <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+          <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
+            <div class="mw-ui-col">
+          <div class="mw-ui-btn-nav"> <span class="mw-ui-btn tip" data-tip="<?php print $title; ?>"> <span class="<?php print $class; ?>"></span> <span> <?php print $title; ?> </span> </span> </div></div>
+          <?php endforeach; ?>
+          <?php endif; ?>
+            
+            <div class="mw-ui-col col-bar-live-edit"><a href="<?php print $past_page; ?>?editmode=y"
                                                                     class="mw-ui-btn default-invert tip"
                                                                     data-tip="<?php _e("Go Live Edit"); ?>"
                                                                     data-tipposition="bottom-center"><span
                                     class="mw-icon-live"></span></a></div>
-                    </div>
-                    <?php else: ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <?php if (!isset($edit_page_info)): ?>
-                <div class="manage-toobar manage-toolbar-top">
-                    <div class="manage-toobar-content">
-                        <div class="mw-ui-link-nav"> <span class="mw-ui-link"
+            <?php mw()->event->emit('module.content.manager.toolbar.end', $page_info); ?>
+          </div>
+          <?php else: ?>
+          <?php endif; ?>
+        </div>
+      </div>
+      <?php if (!isset($edit_page_info)): ?>
+      <div class="manage-toobar manage-toolbar-top">
+        <div class="manage-toobar-content">
+          <div class="mw-ui-link-nav"> <span class="mw-ui-link"
                                                            onclick="mw.check.all('#pages_edit_container')">
             <?php _e("Select All"); ?>
             </span> <span class="mw-ui-link" onclick="mw.check.none('#pages_edit_container')">
@@ -169,10 +181,9 @@ if ($last_page_front != false) {
             </span> <span class="mw-ui-link" onclick="delete_selected_posts();">
             <?php _e("Delete"); ?>
             </span></div>
-                    </div>
-                </div>
-            <?php endif; ?>
         </div>
+      </div>
+      <?php endif; ?>
     </div>
+  </div>
 </div>
- 

@@ -103,21 +103,19 @@ $(window).load(function(){
 </script>
 
 
-<div style="position: fixed;right:0;top:20px;padding:20px;border:1px solid #eee" id="adminapis">
+<div style="position: fixed;right:0;top:20px;padding:20px;border:1px solid #eee;width: 300px;" id="adminapis">
 <h2>Admin apis</h2>
 
 <h3>Tooltip</h3>
 <h4>Data - tip text</h4>
 <pre class="tip" data-tip="Some help" data-tipposition="top-center">&lt;div class="tip" data-tip="Some help" data-tipposition="top-center">&lt;/div></pre>
 <h4>Data - tip Selector - '.' and '#' are available</h4>
-<pre class="tip" data-tip=".demobox" data-tipposition="top-left">&lt;div class="tip" data-tip=".demobox" data-tipposition="top-center">&lt;/div></pre>
-
-.module-live-edit-settings
+<pre class="tip" data-tip=".demobox" data-tipposition="top-left">&lt;div class="tip" data-tip=".demobox" data-tipposition="top-left">&lt;/div></pre>
 
 
 <br><br>
 
-<ol class="" id="apinav" style="height: 300px;overflow-y: auto;padding-left: 25px;"></ol>
+<ol class="mw-ui-box" id="apinav" style="height: 300px;overflow-y: auto;padding-left: 25px;"></ol>
 
 </div>
 
@@ -245,7 +243,7 @@ $(window).load(function(){
     </tr>
     <tr>
         <td colspan="2">
-        <h2>Table</h2>
+        <h2>Tables</h2>
 <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
   <tbody>
     <tr>
@@ -268,7 +266,7 @@ $(window).load(function(){
     </tr>
   </tbody>
 </table>
-<h2>Table with header</h2>
+<h3>Table with header</h3>
 <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
   <thead>
     <tr>
@@ -295,7 +293,7 @@ $(window).load(function(){
 </table>
 
 
-<h2>Table with header and footer</h2>
+<h3>Table with header and footer</h3>
 <table cellspacing="0" cellpadding="0" class="mw-ui-table" width="100%">
   <thead>
     <tr>
@@ -340,7 +338,7 @@ $(window).load(function(){
             <td colspan="2">
 
 
-            <h2>Simple clean table</h2>
+            <h3>Simple clean table</h3>
 <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic" width="100%">
   <thead>
     <tr>
@@ -453,7 +451,7 @@ $(window).load(function(){
             <label class="mw-ui-label">Textarea</label>
             <textarea class="mw-ui-field"></textarea>
         </div>
-        <h2>Field sizes and fields with buttons</h2>
+        <h3>Field sizes and fields with buttons</h3>
         <div class="demof1">
         <div class="demobox">
             <label class="mw-ui-label">Small</label>
@@ -486,7 +484,7 @@ $(window).load(function(){
     </tr>
    <tr>
     <td colspan="2">
-    <h2>Pure CSS radio buttons and checkboxes </h2>
+    <h3>Pure CSS radio buttons and checkboxes </h3>
        <div class="demobox">
        <label class="mw-ui-check">
             <input type="checkbox" checked="checked" />

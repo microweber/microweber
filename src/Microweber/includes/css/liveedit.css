@@ -2438,11 +2438,22 @@ div[id*='SSDIVEL'] {
   font-weight: bold;
 }
 
+
+.mw-open-module-settings{
+  cursor: pointer;
+  text-align: center;
+}
+
+.video-module-default-view{
+  padding: 50px 0;
+  background-color: #111111;
+}
+
 body.mw-live-edit .module > .mw-open-module-settings{
   padding: 15px;
-  text-align: center;
+
   background-color: #E8E8E8;
-  cursor: pointer;
+
 }
 
 

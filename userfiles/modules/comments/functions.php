@@ -33,8 +33,9 @@ event_bind('module.content.edit', 'mw_print_admin_post_comments_counter_quick_li
 
 function mw_print_admin_post_comments_counter_quick_list($item)
 {
+
     if (isset($item['id'])) {
-        $new = get_comments('count=1&is_new=y&rel=content&rel_id=' . $item['id']);
+        $new = get_comments('count=1&rel=content&rel_id=' . $item['id']);
         if ($new > 0) {
             $btn = array();
             $btn['title'] = 'Comments';

@@ -422,9 +422,9 @@ mw.tools = {
 
 
         container.append(html);
-        container[0].style.height = mw.tools.cssNumber(height - mw.$('.mw_modal_toolbar', _modal).height());
-
-
+        if(!height.toString().contains("%")){
+            container[0].style.height = mw.tools.cssNumber(height - mw.$('.mw_modal_toolbar', _modal).height());
+        }
 
         if(!width.toString().contains("%")){
            modal_object.css("left", ($(window).width()/2)-(width/2));
@@ -514,7 +514,7 @@ mw.tools = {
         return modal_return;
     },
     get:function(selector){
-      if(mw.$(selector).find(".mw_modal_container").length>0){
+      if(mw.$(selector).find(".mw_modal_container").length > 0){
         return {
           main:mw.$(selector),
           container: mw.$(selector).find(".mw_modal_container")[0],
@@ -646,19 +646,19 @@ mw.tools = {
 
       var frame = modal.find(".mw-modal-frame").eq(0);
 
+     if(!!w){
+        modal[0].style.width = mw.tools.cssNumber(w);
+        container[0].style.width = '100%';
+        frame[0].style.width = '100%';
+     }
 
+     if(!!h){
+        modal[0].style.height =  mw.tools.cssNumber(h)
+        container[0].style.height =  mw.tools.cssNumber(h - mw.$('.mw_modal_toolbar', modal[0]).height());
+        frame[0].style.height =  mw.tools.cssNumber(h - mw.$('.mw_modal_toolbar', modal[0]).height());
+     }
 
-        modal.width(w);
-        container.width(w);
-        frame.width(w);
-
-
-        modal.height(h);
-        container.height(h);
-        frame.height(h);
-
-
-      if(center === true){mw.tools.modal.center(modal)};
+     if(center === true){mw.tools.modal.center(modal)};
     },
     center:function(modal, only, w,h){
         var only = only || 'all';

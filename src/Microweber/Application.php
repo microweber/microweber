@@ -293,7 +293,7 @@ class Application
                     $mw = $ns . '\\' . $property;
                     $mw = str_ireplace(array('/', '\\\\', $ns . '\\' . $ns), array('\\', '\\', $ns), $mw);
                 }
-               // var_dump($mw);
+                //var_dump($mw);
                 if(strtolower($mw) == 'orm'){
                     $ns = __NAMESPACE__;
                     $cl = $ns . '\\' . $mw;

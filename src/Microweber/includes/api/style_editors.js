@@ -556,7 +556,8 @@ if(typeof(shadow_pos.bind) != 'function'){
        mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
     mw.$("#ts_bg_position").bind("change", function(e){
-       mw.$('.element-current').css('backgroundPosition', $(this).getDropdownValue());
+       var val = $(this).getDropdownValue();
+       mw.$('.element-current').css('backgroundPosition', val);
        mw.wysiwyg.change(mwd.querySelector(".element-current"));
     });
 

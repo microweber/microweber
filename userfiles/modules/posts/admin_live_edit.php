@@ -128,7 +128,8 @@ $add_post_q .= '  ';
 <script type="text/javascript">
 
     mw.add_new_content_live_edit = function ($cont_type) {
-        mw.simpletab.set(mwd.getElementById('add_new_post'));
+
+        Tabs.set(3);
 
         $('#mw_posts_create_live_edit').removeAttr('data-content-id');
         $('#mw_posts_create_live_edit').attr('from_live_edit', 1);
@@ -155,7 +156,7 @@ $add_post_q .= '  ';
         });
     }
     mw.manage_live_edit_content = function ($id) {
-        mw.simpletab.set(mwd.getElementById('manage_posts'));
+           Tabs.set(3);
         if ($id != undefined) {
             $('#mw_posts_manage_live_edit').attr('module-id', $id);
         }
@@ -204,20 +205,20 @@ $add_post_q .= '  ';
 	<?php   if (isset($params['global'])) { ?>
 		<a href="javascript:;"
            class="mw-ui-btn"
-           onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.add_new_content_live_edit('<?php print addslashes($set_content_type_mod); ?>');"
-           style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span class="ico iplus"></span><span
-                class="ico i<?php print trim($set_content_type_mod); ?>"></span>
+           onclick="mw.add_new_content_live_edit('<?php print addslashes($set_content_type_mod); ?>');"
+           style="position: absolute;top: 12px;right: 12px;z-index: 2;"><span
+                class="mw-icon-<?php print trim($set_content_type_mod); ?>"></span>
 		<?php _e("Add new"); ?>
 		<?php print ucwords($set_content_type_mod); ?></a>
 		<?php } else if ($is_shop) { ?>
 		<a href="javascript:;"
            class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium pull-right"
-           onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.add_new_content_live_edit('product');"><span class="mw-icon-product"></span><?php _e("New Product"); ?>
+           onclick="mw.add_new_content_live_edit('product');"><span class="mw-icon-product"></span><?php _e("New Product"); ?>
 		</a>
 		<?php } else { ?>
 		<a href="javascript:;"
            class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-medium pull-right"
-           onclick="mw.simpletab.set(mwd.getElementById('add_new_post'));mw.add_new_content_live_edit('post');"><span class="mw-icon-post"></span><?php _e("New Post"); ?>
+           onclick="mw.add_new_content_live_edit('post');"><span class="mw-icon-post"></span><?php _e("New Post"); ?>
 		</a>
 		<?php } ?>
 	<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
@@ -249,5 +250,5 @@ $add_post_q .= '  ';
 	<div class="tab">
 		<div id="mw_posts_edit_live_edit" class="mw_posts_edit_live_edit"></div>
 	</div>
-    </div> 
+    </div>
 </div>
