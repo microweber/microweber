@@ -1531,7 +1531,10 @@ a:hover .mw_ed_tree_content{
 
 td.custom-field-icon, td.custom-field-icon > *{
   text-align: center;
-  cursor: default;
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
 }
 
 
@@ -1828,6 +1831,8 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 }
 
 
+
+
 /* Content title */
 
 #content-title-field-row{
@@ -2028,7 +2033,6 @@ input#edit-content-url:focus, input#edit-content-url.active{
 }
 
 .admin-manage-toolbar-holder{
-  overflow: hidden;
   min-height: 85px;
 }
 .admin-manage-toolbar{
@@ -2054,7 +2058,12 @@ input#edit-content-url:focus, input#edit-content-url.active{
   padding: 10px 0 10px;
 }
 
-
+#mw-search-field {
+  position: absolute;
+  right: 100%;
+  margin-right: 10px;
+  max-width: 145px;
+}
 
 
 .admin-manage-toolbar-scrolled .admin-manage-toolbar-content:after{

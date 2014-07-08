@@ -160,11 +160,11 @@ if(is_array( $diff) and is_array($more) ){
   </colgroup>
   <thead>
     <tr>
-      <th>Type</th>
-      <th>Name</th>
-      <th>Value</th>
-      <th>Settings</th>
-      <th>Delete</th>
+      <th><?php _e("Type"); ?></th>
+      <th><?php _e("Name"); ?></th>
+      <th><?php _e("Value"); ?></th>
+      <th><?php _e("Settings"); ?></th>
+      <th><?php _e("Delete"); ?></th>
     </tr>
   </thead>
   <tbody>
@@ -187,10 +187,29 @@ if(is_array( $diff) and is_array($more) ){
     <?php endforeach; ?>
   </tbody>
 </table>
+
+
+
 <script>
       mw.require('admin_custom_fields.js');
       $(document).ready(function(){
         mw.admin.custom_fields.initValues();
+
+        mw.$("#custom-fields-post-table tbody").sortable({
+          handle:"td.custom-field-icon",
+          axis:'y',
+          update:function(){
+                var _data = $(this).sortable('serialize');
+                var xhr = $.post(mw.settings.api_url + 'fields/reorder', _data);
+                xhr.success(function(){
+                   <?php if(isset( $params['for_module_id'])){ ?>
+                   mw.reload_module_parent('#<?php print $params['for_module_id']; ?>');
+                   <?php } else { ?>
+                   mw.reload_module_parent('#<?php print $params['id']; ?>');
+                   <?php } ?>
+                });
+          }
+        })
       });
 </script>
 <?php endif; ?>

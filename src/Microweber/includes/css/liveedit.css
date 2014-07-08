@@ -608,11 +608,8 @@ html.mw_pages #items_handle {
     position: relative;
     width: 20px;
     height: 20px;
-    border: 1px solid #C7C7C7;
     overflow: hidden;
     background-color: #F5F5F5;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
     border-radius: 2px;
 }
 
@@ -692,12 +689,25 @@ html.mw_pages #items_handle {
 #design_bnav_handle{
   height: 25px;
   width: 100%;
-  background: #fff url(../img/handle_bg.gif) no-repeat center center;
   cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
   position: absolute;
   top: -25px;
   left: 0;
   border: 1px solid #eaeaea;
+  border-bottom: 0;
+  text-align: center;
+  background-color: white;
+}
+#design_bnav_handle:after{
+  font-family: Microweber;
+  font-size: 17px;
+  display: inline-block;
+  padding: 2px;
+  color: #C7C7C7;
+  content:'\0108';
 }
 
 html.mw_pages #design_bnav{
@@ -722,7 +732,7 @@ html.mw_pages #design_bnav{
   color:#595959;
   font-size: 10px;
   padding: 9px 0 11px 42px;
-  background: url(../img/toobar_dropdown_design_icons.png) no-repeat;
+  background: url(../images/toobar_dropdown_design_icons.png) no-repeat;
 }
 
 .dd_design_size{background-position: 14px 8px;}
@@ -740,7 +750,7 @@ html.mw_pages #design_bnav{
 
 .ts_main_li{
   position: relative;
-  border-bottom: 1px solid #EAEAEA;
+  border-bottom: 1px solid #fff;
 }
 .ts_main_li.hovered{
   z-index: 2;
@@ -894,7 +904,7 @@ li .ts_action_item:last-child{
 }
 
 .border-style.active{
-  box-shadow:0 0 2px #111;
+  box-shadow:0 0 6px -1px #000 inset;
 }
 
 .ed_item_image_text span{background:url(../img/image_edit.png) no-repeat 2px 0;}

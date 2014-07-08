@@ -2644,10 +2644,10 @@ mw.tools = {
     var options =  {
       progress:progress,
       show:function(){
-        this.progress.style.display = 'none';
+        this.progress.style.display = 'block';
       },
       hide:function(){
-        this.progress.style.display = 'block'
+        this.progress.style.display = 'none'
       },
       remove:function(){
           progress.progressInfo.element.progressOptions = undefined;

@@ -1,6 +1,6 @@
 <?php
 
-
+$custom_tabs = false;
  
 $type = 'page';
 $act = url_param('action', 1);
@@ -34,7 +34,7 @@ if ($last_page_front != false) {
 <?php if(isset($past_page) and $past_page != false): ?>
 <script>
         $(function () {
-
+			mw.tabs({nav:"#manage-content-toolbar-tabs-nav a",tabs:'#manage-content-toolbar-tabs .mw-ui-box-content'});
             
             $('.go-live-edit-href-set').attr('href','<?php print $past_page; ?>');
 
@@ -128,7 +128,7 @@ if ($last_page_front != false) {
                     </a>
                     <?php endif; ?>
                   </div>
-                  <div class="pull-right">
+                  <div class="pull-right relative">
                     <input
                                             onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
                                             value="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?><?php print $params['keyword'] ?><?php endif; ?>"
@@ -137,28 +137,13 @@ if ($last_page_front != false) {
                                         <?php endif; ?>
                                             placeholder="<?php _e("Search for posts"); ?>"
                                             type="text"
-                                            style="margin-right: 10px;max-width: 145px; <?php if (isset($params['keyword']) and $params['keyword'] != false): ?> min-width: 145px; <?php endif; ?>"
+                                            style="<?php if (isset($params['keyword']) and $params['keyword'] != false): ?> min-width: 145px; <?php endif; ?>"
                                             class="mw-ui-searchfield pull-right"
                                             id="mw-search-field"/>
                   </div>
                 </div>
               </div>
             </div>
-            <?php mw()->event->emit('module.content.manager.toolbar', $page_info) ?>
-            
-            <?php $custom_tabs = mw()->module->ui('content.manager.toolbar'); ?>
-            
-            <?php if(!empty($custom_tabs)): ?>
-          <?php foreach($custom_tabs as $item): ?>
-          
-          <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
-          <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
-          <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
-            <div class="mw-ui-col">
-          <div class="mw-ui-btn-nav"> <span class="mw-ui-btn tip" data-tip="<?php print $title; ?>"> <span class="<?php print $class; ?>"></span> <span> <?php print $title; ?> </span> </span> </div></div>
-          <?php endforeach; ?>
-          <?php endif; ?>
-            
             <div class="mw-ui-col col-bar-live-edit"><a href="<?php print $past_page; ?>?editmode=y"
                                                                     class="mw-ui-btn default-invert tip"
                                                                     data-tip="<?php _e("Go Live Edit"); ?>"
@@ -170,6 +155,30 @@ if ($last_page_front != false) {
           <?php endif; ?>
         </div>
       </div>
+      <?php if($page_info): ?>
+      <?php mw()->event->emit('module.content.manager.toolbar', $page_info) ?>
+      <?php endif; ?>
+      <?php $custom_tabs = mw()->module->ui('content.manager.toolbar'); ?>
+      <?php if(!empty($custom_tabs)): ?>
+      <div id="manage-content-toolbar-tabs">
+        <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="manage-content-toolbar-tabs-nav">
+          <?php foreach($custom_tabs as $item): ?>
+          <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+          <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+          <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
+          <a class="mw-ui-btn tip" data-tip="<?php print $title; ?>"> <span class="<?php print $class; ?>"></span> <span> <?php print $title; ?> </span> </a>
+          <?php endforeach; ?>
+        </div>
+        <div class="mw-ui-box">
+          <?php foreach($custom_tabs as $item): ?>
+          <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+          <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+          <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
+          <div class="mw-ui-box-content" style="display: none;"><?php print $html; ?></div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <?php endif; ?>
       <?php if (!isset($edit_page_info)): ?>
       <div class="manage-toobar manage-toolbar-top">
         <div class="manage-toobar-content">

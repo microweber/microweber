@@ -35,16 +35,14 @@ $(mwd).ready(function(){
         <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Paste video URL or Embed Code"); ?></label>
 
-            <div class="mw-ui-field mw-ico-field" >
-                <span class="ico iplay"></span>
+
 
 
                     <textarea  name="embed_url"
                     id="emebed_video_field"
-                    style="width: 340px;"
-                    class="mw-ui-invisible-field mw_option_field"  data-mod-name="<?php print $params['data-type'] ?>"><?php print (get_option('embed_url', $params['id'])) ?></textarea>
+                    class="mw-ui-field mw_option_field w100"  data-mod-name="<?php print $params['data-type'] ?>"><?php print (get_option('embed_url', $params['id'])) ?></textarea>
 
-            </div>
+
          </div>
     </div>
     <div class="tab">
@@ -74,7 +72,7 @@ $(mwd).ready(function(){
 
         <div class="mw-ui-row-nodrop mw-ui-row-fixed" style="width: auto">
             <div class="mw-ui-col"><div class="mw-ui-col-container"><div class="mw-ui-field-holder">
-            <label class="mw-ui-label-inline"><?php _e("Width"); ?></label>
+            <label class="mw-ui-inline-label"><?php _e("Width"); ?></label>
             <input
                 name="width"
                 style="width:50px;"
@@ -87,7 +85,7 @@ $(mwd).ready(function(){
             <div class="mw-ui-col">
             <div class="mw-ui-col-container">
                  <div class="mw-ui-field-holder">
-            <label class="mw-ui-label-inline"><?php _e("Height"); ?></label>
+            <label class="mw-ui-inline-label"><?php _e("Height"); ?></label>
             <input
                 name="height"
                 placeholder="350"
@@ -104,7 +102,7 @@ $(mwd).ready(function(){
 
 
         <div class="mw-ui-field-holder">
-            <label class="mw-ui-label-inline"><?php _e("Autoplay"); ?></label>
+            <label class="mw-ui-inline-label"><?php _e("Autoplay"); ?></label>
             <label class="mw-ui-check">
                 <input
                     name="autoplay"

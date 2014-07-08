@@ -123,7 +123,7 @@ $(document).ready(function(){
      <module type="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" id="mw-pics-list-live-ed" />
   </div>
   <?php if($quick_add == false): ?>
-  <div class="tab mw-ui-box mw-ui-box-content"> <strong><?php _e("Skin/Template"); ?></strong>
+  <div class="tab mw-ui-box mw-ui-box-content">
     <module type="admin/modules/templates"  />
     <module type="settings/list"  for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >
   </div>

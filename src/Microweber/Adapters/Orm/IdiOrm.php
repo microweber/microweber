@@ -136,6 +136,7 @@ class IdiOrm
 
 
         $table_real = $this->app->db->real_table_name($table);
+
         $orm = ORM::for_table($table_real)->table_alias($table);
         if (is_string($params)) {
             parse_str($params, $params2);
@@ -480,7 +481,7 @@ class IdiOrm
         }
 
         if ($group_by == false) {
-            if ($count_paging == false and $min == false and $max == false and $avg == false) {
+            if ($count == false and $count_paging == false and $min == false and $max == false and $avg == false) {
                 $orm->group_by($table . '.id');
             }
         } else {

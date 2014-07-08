@@ -13,10 +13,25 @@
 
 <script>
 
+initEditor = function(){
+  if(!window.editorLaunced){
+    editorLaunced = true;
+      mw.editor({
+        element:mwd.getElementById('editorAM'),
+        hideControls:['format', 'fontsize', 'justifyfull']
+      });
+  }
+}
+
 $(document).ready(function(){
    mw.tabs({
       nav:".mw-ui-btn-nav-tabs a",
       tabs:".tab",
+      onclick:function(){
+        if(this.id === 'form_options'){
+          initEditor()
+        }
+      }
    });
 });
 
@@ -26,7 +41,7 @@ $(document).ready(function(){
  <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
     <a href="javascript:;" class="mw-ui-btn active"><?php _e("Fields"); ?></a>
     <a href="javascript:;" class="mw-ui-btn"><?php _e("Skin/Template"); ?></a>
-    <a href="javascript:;" class="mw-ui-btn"><?php _e("Options"); ?></a>
+    <a href="javascript:;" class="mw-ui-btn" id="form_options"><?php _e("Options"); ?></a>
   </div>
   <div class="mw-ui-box mw-ui-box-content">
     <div class="tab" style="display: block">
@@ -42,27 +57,27 @@ $(document).ready(function(){
         
         <hr>
         <div id="form_email_options">
-          <label class="mw-ui-label" style="padding-bottom: 0;"><span class="ico ismall_warn"></span><small><?php _e("Type your e-mail where you will receive the email from this form"); ?></small></label>
+          <label class="mw-ui-label" style="padding-bottom: 0;"><small><?php _e("Type your e-mail where you will receive the email from this form"); ?></small></label>
           <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Email To"); ?></label>
-            <input placeholder="Your Email"  name="email_to"     value="<?php print get_option('email_to', $params['id']); ?>"     class="mw-ui-field mw_option_field" type="text" />
+            <input   name="email_to"     value="<?php print get_option('email_to', $params['id']); ?>"     class="mw-ui-field w100 mw_option_field" type="text" />
           </div>
           <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("BCC Email To"); ?></label>
-            <input placeholder="Your Email"  name="email_bcc"    value="<?php print get_option('email_bcc', $params['id']); ?>"     class="mw-ui-field mw_option_field"  type="text" />
+            <input name="email_bcc"    value="<?php print get_option('email_bcc', $params['id']); ?>"     class="mw-ui-field w100 mw_option_field"  type="text" />
           </div>
 
           <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Autorespond Subject"); ?></label>
-            <input placeholder="Thank you for your message!"  name="email_autorespond_subject"    value="<?php print get_option('email_autorespond_subject', $params['id']); ?>"     class="mw-ui-field mw_option_field"  type="text" />
+            <input name="email_autorespond_subject"    value="<?php print get_option('email_autorespond_subject', $params['id']); ?>"     class="mw-ui-field w100 mw_option_field"  type="text" />
           </div>
 
           <div class="mw-ui-field-holder">
             <label class="mw-ui-label"><?php _e("Autorespond Message"); ?></label>
-    		<textarea id="editorDEMO" name="email_autorespond" class="mw_option_field">
+    		<textarea id="editorAM" name="email_autorespond" class="mw_option_field">
     			<?php print get_option('email_autorespond', $params['id']); ?>
     		</textarea>
-            <script>var editor = mw.tools.iframe_editor(mwd.getElementById('editorDEMO')); editor.style.width = '100%';</script>
+
             <label class="mw-ui-label"><span class="ico ismall_warn"></span><small><?php _e("Autorespond e-mail sent back to the user"); ?></small></label>
           </div>
         </div>
