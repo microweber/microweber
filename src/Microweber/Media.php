@@ -432,6 +432,13 @@ class Media
             $t = $this->app->db->assoc_table_name($t);
             $s['rel'] = $t;
         }
+        if (isset($data['rel_id'])) {
+            $t = $data['rel_id'];
+            $s['rel_id'] = $t;
+        } if (isset($data['rel'])) {
+            $t = $data['rel'];
+            $s['rel'] = $t;
+        }
 
         if (isset($data['for-id'])) {
             $t = trim($data['for-id']);
@@ -550,6 +557,7 @@ class Media
             $s['rel_id'] = trim($s['rel_id']);
             $table = $this->tables['media'];
             //$s['debug'] = $t;
+
             $s = $this->app->db->save($table, $s);
             $this->app->cache->delete('media');
 
@@ -557,6 +565,7 @@ class Media
         } elseif (isset($s['id'])) {
             $table = $this->tables['media'];
             //$s['debug'] = $t;
+
             $s = $this->app->db->save($table, $s);
             $this->app->cache->delete('media');
 

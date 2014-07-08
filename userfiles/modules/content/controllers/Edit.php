@@ -97,6 +97,7 @@ class Edit
         $recommended_parent = false;
         if (isset($params['recommended_parent']) and $params['recommended_parent'] != false) {
             $recommended_parent = $params['recommended_parent'];
+
         }
         $categories_active_ids = false;
         $title_placeholder = false;
@@ -173,7 +174,7 @@ class Edit
 
 
         /* SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
-        if (intval($data['id']) == 0 and intval($data['parent']) == 0) {
+        if ($recommended_parent == false and intval($data['id']) == 0 and intval($data['parent']) == 0) {
             $parent_content_params = array();
             $parent_content_params['subtype'] = 'dynamic';
             $parent_content_params['content_type'] = 'page';

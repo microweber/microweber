@@ -2842,8 +2842,8 @@ mw.quick = {
        $(modal.main).addClass('mw-add-content-modal');
        modal.overlay.style.backgroundColor = "white";
     },
-    edit : function(id,content_type,subtype){     
-        var str = '';
+    edit : function(id,content_type,subtype){
+        var str = "&recommended_parent=" + mw.settings.page_id;
         if(content_type != undefined && content_type != ''){
             str = str + '&content_type='+content_type;
         }
@@ -2860,11 +2860,6 @@ mw.quick = {
        });
        $(modal.main).addClass('mw-add-content-modal');
        modal.overlay.style.backgroundColor = "white";
-
-
-
-
-
     },
     page_2 : function(){
        var modal = mw.tools.modal.frame({

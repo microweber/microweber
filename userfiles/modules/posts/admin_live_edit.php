@@ -232,7 +232,7 @@ $add_post_q .= '  ';
 	</div>
     <div class="mw-ui-box mw-ui-box-content">
 	<div class="tab" style="display: block">
-		<module type="content/manage_live_edit"  <?php print $add_post_q ?> id="mw_posts_manage_live_edit"/>
+		<module type="content/manager"  <?php print $add_post_q ?> id="mw_posts_manage_live_edit" no_toolbar="true" />
 	</div>
 	<div class="tab">
 		<?php include_once($posts_mod); ?>

@@ -16,7 +16,7 @@ html,body{
 
 [class*='mw-plus-']{
   position: absolute;
-  z-index: 1105;
+  z-index: 1101;
   display: inline-block;
   width: 16px;
   height: 16px;

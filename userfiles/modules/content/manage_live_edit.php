@@ -1,4 +1,9 @@
 <?php
+
+
+return include('manager.php');
+
+
  
 //$params['global'] = 1;
 $params['return'] = 1;

@@ -1,10 +1,87 @@
 <?php
 $paging_links = false;
 $pages_count = intval($pages);
+
+
+ 
+
 ?>
-<?php if (isset($toolbar)): ?>
+<script  type="text/javascript">
+mw.require('forms.js', true);
+mw.require('content.js', true);
+
+</script>
+<script  type="text/javascript">
+delete_selected_posts = function(){
+  mw.tools.confirm("<?php _e("Are you sure you want to delete the selected posts"); ?>?", function(){
+    var master = mwd.getElementById('<?php print $params['id']; ?>');
+    var arr = mw.check.collectChecked(master);
+    mw.post.del(arr, function(){
+     mw.reload_module('#<?php print $params['id']; ?>', function(){
+         $.each(arr,function( index ) {
+			var fade = this;
+			 mw.$(".manage-post-item-"+fade).fadeOut();
+			});
+     });
+   });
+  });
+}
+
+mw.delete_single_post = function(id){
+   mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function(){
+      var arr = id;
+       mw.post.del(arr, function(){
+        mw.$(".manage-post-item-"+id).fadeOut();
+      });
+   });
+}
+
+mw.manage_content_sort = function(){
+  if(!mw.$("#mw_admin_posts_sortable").hasClass("ui-sortable")){
+        mw.$("#mw_admin_posts_sortable").sortable({
+             items: '.manage-post-item',
+             axis:'y',
+             handle:'.mw_admin_posts_sortable_handle',
+             update:function(){
+               var obj = {ids:[]}
+               $(this).find('.select_posts_for_action').each(function(){
+                var id = this.attributes['value'].nodeValue;
+                obj.ids.push(id);
+              });
+              $.post("<?php print api_link('content/reorder'); ?>", obj, function(){
+        		   mw.reload_module('#mw_page_layout_preview');
+        	  });
+             },
+             start:function(a,ui){
+              $(this).height($(this).outerHeight());
+              $(ui.placeholder).height($(ui.item).outerHeight())
+              $(ui.placeholder).width($(ui.item).outerWidth())
+            },
+            scroll:false
+        });
+   }
+}
+
+</script>
+<?php if (!isset($params['no_toolbar']) and isset($toolbar)): ?>
     <?php print $toolbar; ?>
+<?php else: ?>
+
+
+ 
+        <div class="manage-toobar-content">
+          <div class="mw-ui-link-nav"> <span class="mw-ui-link"
+                                                           onclick="mw.check.all('#<?php print $params['id']; ?>')">
+            <?php _e("Select All"); ?>
+            </span> <span class="mw-ui-link" onclick="mw.check.none('#<?php print $params['id']; ?>')">
+            <?php _e("Unselect All"); ?>
+            </span> <span class="mw-ui-link" onclick="delete_selected_posts();">
+            <?php _e("Delete"); ?>
+            </span></div>
+        </div>
+       
 <?php endif; ?>
+      
 <?php if (intval($pages_count) > 1): ?>
     <?php $paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>

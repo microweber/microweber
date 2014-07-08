@@ -1,4 +1,3 @@
-<div class="settings-wrapper">
-  <strong><?php _e("Skin/Template"); ?></strong>
+<div class="module-live-edit-settings">
   <module type="admin/modules/templates"  />
 </div>
