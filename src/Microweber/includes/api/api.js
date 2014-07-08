@@ -415,9 +415,13 @@ mw.askusertostay = false;
        parent.mw.reload_module(module, callback)
 	   if(typeof(top.mweditor) != 'undefined'  && typeof(top.mweditor) == 'object'   && typeof(top.mweditor.contentWindow) != 'undefined'){
 		 top.mweditor.contentWindow.mw.reload_module(module, callback)
+		} else if(typeof(window.top.iframe_editor_window) != 'undefined'  && typeof(window.top.iframe_editor_window) == 'object'   && typeof(window.top.iframe_editor_window.mw) != 'undefined'){
+
+		window.top.iframe_editor_window.mw.reload_module(module, callback)
 		}
+
         if(typeof(parent.mw_preview_frame_object) != 'undefined'  && typeof(parent.mw_preview_frame_object) == 'object'   && typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined'){
-            if(typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined'){
+            if(typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined' && typeof(parent.mw_preview_frame_object.contentWindow.mw) != 'undefined'){
                 parent.mw_preview_frame_object.contentWindow.mw.reload_module(module, callback)
             }
         }
@@ -425,6 +429,7 @@ mw.askusertostay = false;
 		if(typeof(mweditor) != 'undefined'  && typeof(mweditor) == 'object'   && typeof(mweditor.contentWindow) != 'undefined'){
 		    mweditor.contentWindow.mw.reload_module(module, callback)
 		}
+
 	}
   }
   mw.reload_module = function(module, callback) {

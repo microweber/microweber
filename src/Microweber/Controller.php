@@ -739,6 +739,8 @@ class Controller
             }
             if ($content_id == false) {
                 $content_id = $this->app->url->param('editpost', false, $from_url2);
+            }if ($content_id == false) {
+                $content_id = $this->app->url->param('content-id', false, $from_url2);
             }
             if ($content_id == false) {
                 $action_test = $this->app->url->param('action', false, $from_url2);
@@ -810,9 +812,11 @@ class Controller
             $url = $this->app->url->string();
         }
 
-
+        if ($page == false) {
+             $this->app->content->define_constants(array('id' => $content_id));
+        } else {
         $this->app->content->define_constants($page);
-
+        }
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
             if (is_file($load_template_functions)) {

@@ -161,6 +161,7 @@ mw_custom_fileds_changed_callback = function(el){
 	   mw.admin.custom_fields.initValues();
 	 });
 	 mw.reload_module_parent('custom_fields');
+	 mw.reload_module_parent('custom_fields/list');
 
 }	
 

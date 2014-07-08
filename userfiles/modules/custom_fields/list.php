@@ -208,6 +208,8 @@ if(is_array( $diff) and is_array($more) ){
                    mw.reload_module_parent('#<?php print $params['id']; ?>');
                    <?php } ?>
                 });
+				mw.reload_module_parent('custom_fields');
+				mw.reload_module_parent('custom_fields/list');
           }
         })
       });

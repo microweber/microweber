@@ -68,6 +68,10 @@ mw.admin.custom_fields = mw.admin.custom_fields || {}
                         if( rstr != '' && !!data.custom_field_value){
                           mw.reload_module('#mw-custom-fields-list-settings-'+data.id);
                         }
+                         mw.reload_module_parent('custom_fields');
+                         mw.reload_module_parent('custom_fields/list');
+
+
                      });
                      $(el.parentNode).removeClass('active');
                      mw.tools.removeClass(mw.tools.firstParentWithTag(el, 'tr'), 'active');

@@ -690,12 +690,20 @@ mw.drag = {
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
             var top = o.top - 35;
+            var left = o.left;
+
             if(top < 55 && mwd.getElementById('live_edit_toolbar') !== null){
               var top = 55;
+              var left = 30;
             }
+            if(top < 0 && mwd.getElementById('live_edit_toolbar') === null){
+              var top = 0;
+              var left = 30;
+            }
+
             $(mw.handle_row).css({
               top: top,
-              left: o.left,
+              left: left,
               width: width
             });
             $(mw.handle_row).data("curr", element);

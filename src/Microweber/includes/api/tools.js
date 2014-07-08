@@ -2458,6 +2458,8 @@ mw.tools = {
   },
   module_settings:function(a, view){
 
+
+
   if(typeof a === 'string'){
       var src = mw.settings.site_url + "api/module?id="+a+"&live_edit=true&module_settings=true&type="+a;
       return mw.tools.modal.frame({
@@ -2517,7 +2519,9 @@ mw.tools = {
 	    data1.view = 'admin';
 	}
 	if(data1.from_url == undefined){
-	    data1.from_url = window.top.location;
+	    //data1.from_url = window.top.location;
+		  data1.from_url = window.parent.location;
+		//alert(data1.from_url);
 	}
     var src = mw.settings.site_url + "api/module?"+json2url(data1);
     var modal = top.mw.tools.modal.frame({

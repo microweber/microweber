@@ -230,6 +230,7 @@ mw.admin = {
         setTimeout(function(){ clearInterval(mw.admin.manageToolbarInt); }, 205);
     },
     insertModule:function(module){
+
       mwd.querySelector('.mw-iframe-editor').contentWindow.InsertModule(module);
     },
     titleColumnNavWidth:function(){

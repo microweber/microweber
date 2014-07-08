@@ -70,7 +70,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
           mw.tools.template_settings(true);
         }
      <?php  } ?>
-
+            
      $(window).bind('saveStart', function(){
        mw.$("#main-save-btn").html('<?php _e("Saving"); ?>...');
      });

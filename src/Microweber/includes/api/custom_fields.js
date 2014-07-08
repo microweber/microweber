@@ -77,6 +77,7 @@ mw.custom_fields = {
             if (data.error != undefined) {
                 return false;
             }
+
             var $cfadm_reload = false;
             if (obj.cf_id === undefined) {
                 //      mw.reload_module('.edit [data-parent-module="custom_fields"]');
@@ -88,6 +89,7 @@ mw.custom_fields = {
                     var $cfadm_reload = true;
                 }
             });
+
             mw.reload_module_parent('custom_fields');
             if (typeof load_iframe_editor === 'function') {
                 load_iframe_editor();
@@ -118,11 +120,9 @@ mw.custom_fields = {
 
     add: function (el) {
         var parent = $(mw.tools.firstParentWithClass(el, 'mw-custom-field-form-controls'));
-
         var clone = parent.clone(true);
         parent.after(clone);
         clone.find("input").val("").focus();
-
     },
     serialize: function (id) {
         var el = mw.$(id);

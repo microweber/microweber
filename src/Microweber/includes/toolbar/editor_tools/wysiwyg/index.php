@@ -13,37 +13,7 @@
 <script>mw.require("wysiwyg.js");</script>
 <script>mw.require("external_callbacks.js");</script>
 
-
-  
-
  
-
-<?php if(isset($params['require']) and $params['require'] != false): ?>
-<?php $components = explode(',',$params['require']); ?>
-<?php if(!empty($components)): ?>
- 
-<script>
-
-<?php $req_string = '';
-foreach($components as $component){
-	$component = trim($component);
-	$req_string .= '"'.$component.'",';
-}
-$req_string = trim($req_string,',');
- ?>
- 
-/*
-require([<?php print $req_string; ?>], function(app) {
-    
-});
-*/
-</script>
-<?php endif; ?>
-<?php endif; ?>
-
- 
-
-
 
 
 <script>

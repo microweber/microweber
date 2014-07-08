@@ -39,6 +39,12 @@
             }
             mweditor = mw.admin.editor.init(area, params);
 			
+			 mw_preview_frame_object = window.top.mw_preview_frame_object = mweditor;
+			 
+			 
+			 
+			 
+			
  //
 //			 mweditor.onbeforeunload = function(e) {
 //			//  alert( 'Dialog text here.');

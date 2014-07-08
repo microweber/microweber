@@ -255,8 +255,10 @@ or ($data['id'] == 0 and isset($data['content_type']) and $data['content_type'] 
 <script>
 /* FUNCTIONS */
 
+ if(self !== parent && !!parent.mw){
 
-
+	window.top.iframe_editor_window = window.self;
+ }
 
 
 mw.edit_content = {};
