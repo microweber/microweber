@@ -1111,6 +1111,12 @@ mw.tools = {
     }
     el_obj.className = clas.join(" ").replace(/MWDeleteNameSpace/g, "").replace(/\s\s+/g, ' ');
   },
+  jQueryFields : function(root){
+    if(typeof root === 'string'){ var root = mwd.querySelector(root); }
+    if(typeof root === 'undefined' || root === null) return false;
+    var allFields = "textarea, select, input[type='checkbox'], input[type='color'], input[type='date'], input[type='datetime'], input[type='datetime-local'], input[type='email'], input[type='file'], input[type='hidden'], input[type='month'], input[type='number'], input[type='password'], input[type='radio'], input[type='range'], input[type='search'], input[type='tel'], input[type='text'], input[type='time'], input[type='url'], input[type='week']";
+    return mw.$(allFields, fields).not(':disabled');
+  },
   tree:{
     toggle : function(el, event){
       $(el.parentNode).toggleClass('active');

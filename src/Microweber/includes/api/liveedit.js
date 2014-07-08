@@ -2855,6 +2855,11 @@ mw.quick = {
         if(content_type != undefined && content_type != ''){
             str = str + '&content_type='+content_type;
         }
+        if(mw.settings.category_id != 0){
+            str = str + '&category='+mw.settings.category_id;
+        }
+
+
         if(subtype != undefined && subtype != ''){
             str = str + '&subtype='+subtype;
         }
