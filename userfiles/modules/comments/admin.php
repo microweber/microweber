@@ -10,6 +10,13 @@
 
 
 </script>
+<style>
+
+.tab{
+  display: none;
+}
+
+</style>
 <?php
 
 
@@ -42,38 +49,40 @@ if (!isset($get_comments_params['rel_id'])) {
 if (isset($params['backend']) == true): ?>
     <?php include('backend.php'); ?>
 <?php else : ?>
-    <div class="mw_simple_tabs mw_tabs_layout_simple">
-    <ul class="mw_simple_tabs_nav">
-        <li><a class="active" href="javascript:;">
-                <?php _e("New Comments"); ?>
-            </a></li>
-        <li><a href="javascript:;">
-                <?php _e("Skin/Template"); ?>
-            </a></li>
-        <li><a href="javascript:;" class="">
-                <?php _e("Settings"); ?>
-            </a></li>
-    </ul>
-    <div class="tab semi_hidden">
-        
-        
-        <?php
+<script>
 
-        $get_comments_params['count'] = '1';
-        //$get_comments_params['is_moderated'] = 'n';
-        $get_comments_params['is_new'] = 'y';
+$(document).ready(function(){
+    mw.tabs({
+        nav: ".mw-ui-btn-nav-tabs a",
+        tabs: ".tab"
+    });
+});
+
+</script>
+
+    <div class="module-live-edit-settings">
+    <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
+        <a class="mw-ui-btn active" href="javascript:;"><?php _e("New Comments"); ?></a>
+        <a class="mw-ui-btn" href="javascript:;"><?php _e("Skin/Template"); ?></a>
+        <a class="mw-ui-btn" href="javascript:;" class=""><?php _e("Settings"); ?></a>
+    </div>
+
+    <div class="mw-ui-box mw-ui-box-content">
+    <div class="tab" style="display: block">
+        <?php
+          $get_comments_params['count'] = '1';
+          $get_comments_params['is_new'] = 'y';
         ?>
         <?php $new = get_comments($get_comments_params); ?>
         <?php if ($new > 0) { ?>
             <?php if ($new == 1) { ?>
-                <h2 class="relative inline-block left">
+                <h2 class="relative">
                     <?php _e("You have one new comment"); ?>
                     &nbsp;<span class="comments_number"><?php print $new; ?></span></h2>
             <?php } else { ?>
-                <h2 class="relative inline-block left">
+                <h2 class="relative">
                     <?php _e("You have"); ?>
-                    <?php print $new; ?> new comments &nbsp;<span
-                        class="comments_number"><?php print $new; ?></span></h2>
+                    <?php print $new; ?> <?php _e("new comments"); ?> &nbsp;<span class="comments_number"><?php print $new; ?></span></h2>
             <?php } ?>
             <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print  $get_comments_params['rel_id']; ?>"
                target="_top" class="mw-ui-btn mw-ui-btn-green right">
@@ -83,20 +92,20 @@ if (isset($params['backend']) == true): ?>
             <?php
             unset($get_comments_params['is_moderated']);
             $old = get_comments($get_comments_params); ?>
-            <h2 class="relative inline-block left">
+            <h2 class="relative inline-block pull-left">
                 <?php _e("You don't have new comments"); ?>
             </h2>
             <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print  $get_comments_params['rel_id']; ?>"
-               target="_top" class="mw-ui-btn right" style="top:6px;">
+               target="_top" class="mw-ui-btn pull-right" style="top:6px;">
                 <?php _e("See all"); ?>
                 <strong><?php print $old; ?></strong></a>
         <?php } ?>
-        <div class="mw_clear"></div>
+        
     </div>
-    <div class="tab semi_hidden">
+    <div class="tab">
         <module type="admin/modules/templates"/>
     </div>
-    <div class="tab semi_hidden">
+    <div class="tab">
         <?php $display_comments_from = get_option('display_comments_from', $params['id']); ?>
         <?php $display_comments_from_which_post = get_option('display_comments_from_which_post', $params['id']); ?>
         <label class="mw-ui-label">
@@ -146,7 +155,7 @@ if (isset($params['backend']) == true): ?>
 				</span></label>
             <a class="left ico iplus" href="javascript:$('#custom_comm_toggle').toggle(); void(0);"></a></div>
         <div class="mw-ui-field-holder" id="custom_comm_toggle" style="display:none; margin-top:5px;">
-            <label class="mw-ui-label-inline">
+            <label class="mw-ui-inline-label">
                 <?php _e("From module"); ?>
                 : </label>
             <?php
@@ -202,36 +211,39 @@ if (isset($params['backend']) == true): ?>
                        value="<?php print get_option('module_id', $params['id']) ?>"/>
             <?php endif; ?>
         </div>
-
-        <!--<div class="mw-ui-field-holder">
-      <label class="mw-ui-check">
-        <input name="display_comments_from" class="mw_option_field"   type="radio" value="popular" <?php if($display_comments_from == 'popular'): ?>  checked="checked" <?php endif ?> />
-        <span></span> <span>Most popular comments</span> </label>
-    </div>-->
-
-        <div class="mw_clear"></div>
+        
         <hr>
-        <label class="mw-ui-check">
+
+
+        <div class="mw-ui-row-nodrop">
+            <div class="mw-ui-col"><label class="mw-ui-check">
             <?php  $enable_comments_paging = get_option('enable_comments_paging', $params['id']) == 'y';  ?>
             <input type="checkbox"   <?php if ($enable_comments_paging): ?>   checked="checked"  <?php endif; ?>
                    value="y" name="enable_comments_paging" class="mw_option_field" parent-reload="true"/>
             <span></span> <span>
 			<?php _e("Show paging"); ?>
-			</span> </label>
+			</span>
+        </label></div>
+            <div class="mw-ui-col">
+              <label class="mw-ui-inline-label">
+                  <?php _e("Comments per page"); ?>
+              </label>
+              <input type="text" placeholder="10" style="width:32px;" class="mw-ui-field mw-ui-field-medium mw_option_field"
+                     name="comments_per_page" value="<?php print get_option('comments_per_page', $params['id']) ?>"
+                     parent-reload="true"/>
+            </div>
+        </div>
 
-        <div class="mw_clear vSpace"></div>
-        <label class="mw-ui-label-inline">
-            <?php _e("Comments per page"); ?>
-        </label>
-        <input type="text" placeholder="10" style="width:22px;" class="mw-ui-field mw_option_field left"
-               name="comments_per_page" value="<?php print get_option('comments_per_page', $params['id']) ?>"
-               parent-reload="true"/>
 
-        <div class="mw_clear vSpace"></div>
-        <label class="mw-ui-label-inline">
+
+
+
+
+
+        <label class="mw-ui-label">
             <?php _e("Form title"); ?>
         </label>
-        <input type="text" placeholder="Use default" class="mw-ui-field mw_option_field" name="form_title"
+        <input type="text" placeholder="<?php _e("Use default"); ?>" class="mw-ui-field w100 mw_option_field" name="form_title"
                value="<?php print get_option('form_title', $params['id']) ?>" parent-reload="true"/>
         <?php  $are_enabled = get_option('enable_comments', 'comments') == 'y';  ?>
         <?php if (!$are_enabled): ?>
@@ -243,13 +255,13 @@ if (isset($params['backend']) == true): ?>
                     value="y"
                     class="mw_option_field"
                     option-group="comments"
-                    <?php if ($are_enabled): ?>   checked="checked"  <?php endif; ?>
+                    <?php if ($are_enabled): ?>  checked="checked" <?php endif; ?>
                     />
-                <span></span> <span>Enable comments for the site?</span> </label>
+                <span></span> <span><?php _e("Enable comments"); ?>?</span> </label>
         <?php endif; ?>
         <?php  $are_disabled = get_option('disable_new_comments', $params['id']) == 'y';  ?>
 
-        <label class="mw-ui-check">
+        <div class="mw-ui-field-holder" ><label class="mw-ui-check">
             <input
                 type="checkbox"
                 name="disable_new_comments"
@@ -257,9 +269,16 @@ if (isset($params['backend']) == true): ?>
                 class="mw_option_field"
                 option-group="comments"
                 <?php if ($are_disabled): ?>   checked="checked"  <?php endif; ?>
-                />
-            <span></span> <span>Disable posting of new comments?</span> </label>
+             />
+            <span></span>
+            <span><?php _e("Disable posting of new comments"); ?>?</span>
+        </label></div>
 
     </div>
     </div>
+
+    </div>
 <?php endif; ?>
+
+
+

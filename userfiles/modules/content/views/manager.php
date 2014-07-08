@@ -85,6 +85,7 @@ $pages_count = intval($pages);
                                                                         title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'], 'username') ?></span>
                     </div>
                     <div class="mw-ui-col manage-post-item-col-5">
+                     
                         <?php mw()->event->emit('module.content.manager.item', $item) ?>
                         <?php print $append; ?> </div>
                 </div>

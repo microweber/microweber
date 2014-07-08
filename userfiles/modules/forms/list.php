@@ -105,28 +105,24 @@ if(is_array($data)){
         <?php  foreach ($item['custom_fields'] as $value) :  ?>
         <?php if(($value['custom_field_name']) == $cvk): ?>
         <?php
-		if($value['custom_field_values_plain'] == ''){
-			
-			$value['custom_field_values_plain'] = mw('format')->clean_html( $value['value']);;
-		}
-	 
-             $max = 150;
+      		if($value['custom_field_values_plain'] == ''){
+      		    $value['custom_field_values_plain'] = mw('format')->clean_html( $value['value']);;
+      		}
+            $max = 150;
              if(strlen($value['custom_field_values_plain']) > $max){
-                $first = substr($value['custom_field_values_plain'], 0, $max); 
+                $first = substr($value['custom_field_values_plain'], 0, $max);
                 $rest = substr($value['custom_field_values_plain'], $max);
                 print '<div>' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less"> ...more</a></div>';
              }
              else {
-
               if($value['custom_field_type'] == 'upload' or $value['custom_field_type'] == 'files' or $value['custom_field_type'] == 'file'){
                   print '<a target="_blank" class="mw-ui-link" href="'.$value['custom_field_values_plain'].'">'.basename($value['custom_field_values_plain']).'</a>';
-              } else{
+              }
+              else{
                   print $value['custom_field_values_plain'];
-               }
+              }
              }
-
-
-             ?>
+        ?>
         <?php  endif; ?>
         <?php endforeach ; ?>
         <?php  endif; ?></td>
@@ -134,7 +130,7 @@ if(is_array($data)){
       <?php endif; ?>
       <td class="mw-ui-table-delete-item">
         <a class="show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
-    </tr>
+      </tr>
     <?php endforeach; ?>
     <?php else: ?>
     <tr>
@@ -151,7 +147,7 @@ if(is_array($data)){
 <?php endif; ?>
 <?php endif; ?>
 <div id="start-email-campaign">
-    <span><?php _e("Get more from your mailing lists, send email to your users"); ?></span>
-    <a class="mw-ui-btn" href="javascript:;" onclick="Alert('Coming Soon!');" ><?php _e("Start an Email Campaign"); ?></a>
+    <a class="mw-ui-btn pull-right" href="javascript:;" onclick="Alert('<?php _e("Coming Soon"); ?>!');" ><?php _e("Start an Email Campaign"); ?></a>
+    <span class="pull-right" style="margin: 9px 20px 0 0;"><?php _e("Get more from your mailing lists, send email to your users"); ?></span>
 </div>
 

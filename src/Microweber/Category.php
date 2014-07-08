@@ -507,7 +507,8 @@ class Category
             $my_limit_q = false;
         }
         $output = '';
-        $q = $this->app->db->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
+        //$q = $this->app->db->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
+        $q = $this->app->db->query($sql, false);
 
         $result = $q;
 
@@ -1245,7 +1246,7 @@ class Category
 
     public function save($data, $preserve_cache = false)
     {
-
+        $sid = session_id();
         $adm = $this->app->user->is_admin();
         if ($adm == false) {
             if (defined('MW_API_CALL')) {
@@ -1327,12 +1328,7 @@ class Category
         if (isset($data['id'])) {
             //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
-        if ($old_parent != false) {
-            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
-        }
-        if (isset($data['parent_id'])) {
-            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));
-        }
+
         if (intval($save) == 0) {
 
             return false;
@@ -1340,7 +1336,7 @@ class Category
 
         $custom_field_table = $this->tables['custom_fields'];
 
-        $sid = session_id();
+
 
         $id = $save;
 
@@ -1355,7 +1351,7 @@ class Category
 
 
         $this->app->db->q($clean);
-        $this->app->cache->clear('custom_fields');
+        //$this->app->cache->clear('custom_fields');
 
         $media_table = $this->tables['media'];
 
@@ -1369,7 +1365,7 @@ class Category
 	";
 
 
-        $this->app->cache->clear('media');
+        //$this->app->cache->clear('media');
 
         $this->app->db->q($clean);
 
@@ -1403,17 +1399,22 @@ class Category
 
                 $item_save = $this->app->db->save($table_items, $item_save);
 
-                $this->app->cache->clear('content' . DIRECTORY_SEPARATOR . $id);
+                //$this->app->cache->clear('content' . DIRECTORY_SEPARATOR . $id);
             }
         }
-
-
-        if ($preserve_cache == false) {
-
-            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
-            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . '0');
-            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . 'global');
+        if ($old_parent != false) {
+           // $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
         }
+//        if (isset($data['parent_id'])) {
+//            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));
+//        }
+//
+//        if ($preserve_cache == false) {
+//
+//            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
+//            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . '0');
+//            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . 'global');
+//        }
 
         return $save;
     }

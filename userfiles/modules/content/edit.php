@@ -4,10 +4,7 @@
 
 namespace Microweber\Content;
 
-
-if ($_SERVER['REMOTE_ADDR'] != "fe80::1058:77fe:80b6:de9f") {
-    return include 'edit_old.php';
-}
+ 
 
 if (!isset($params)) {
     $params = array();

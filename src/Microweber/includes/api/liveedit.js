@@ -611,16 +611,10 @@ mw.drag = {
             //var id = mwd.tools.firstParentWithClass(event.target, 'module').id;
           }
 
-
-           if(!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')){
+          if(!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')){
              $(mw.inline.tableControl).hide();
              mw.$(".tc-activecell").removeClass('tc-activecell');
            }
-
-
-
-
-
         });
 
         $(window).bind("onElementOver", function(a, element){
@@ -696,7 +690,7 @@ mw.drag = {
             var width = el.width();
             var pleft = parseFloat(el.css("paddingLeft"));
             var top = o.top - 35;
-            if(top < 55 && mw.getElementById('live_edit_toolbar') !== null){
+            if(top < 55 && mwd.getElementById('live_edit_toolbar') !== null){
               var top = 55;
             }
             $(mw.handle_row).css({
@@ -2822,87 +2816,93 @@ mw.iphonePreview = function(){
 
 
 mw.quick = {
-          w : 700,
-          h : 500,
-          page : function(){
-           var modal = mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-page&recommended_parent=" + mw.settings.page_id,
-              //template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_page',
-              overlay:true,
-              title:'New Page'
-           });
-           modal.overlay.style.backgroundColor = "white";
-        },
-        category : function(){
-           var modal = mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=categories/edit_category&live_edit=true&quick_edit=false&id=mw-quick-category&recommended_parent=" + mw.settings.page_id,
-              //template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_page',
-              overlay:true,
-              title:'New Category'
-           });
-           modal.overlay.style.backgroundColor = "white";
-        },
-        edit : function(id,content_type,subtype){
-            var str = '';
-            if(content_type != undefined && content_type != ''){
-                str = str + '&content_type='+content_type;
-            }
-            if(subtype != undefined && subtype != ''){
-                str = str + '&subtype='+subtype;
-            }
-           var modal = mw.tools.modal.frame({
-
-              url:mw.settings.api_url + "module/?type=content/edit&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id="+id+str,
-              //template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_page',
-              overlay:true,
-              title:'Edit content'
-           });
-           modal.overlay.style.backgroundColor = "white";
-        },
-
-		 page_2 : function(){
-           var modal = mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",
-              //template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_page',
-              overlay:true,
-              title:'New Page'
-           });
-           modal.overlay.style.backgroundColor = "white";
-        },
-        post : function(){
-            var modal = mw.tools.modal.frame({
-			  url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-post&subtype=post&parent-page-id="+mw.settings.page_id+"&parent-category-id="+mw.settings.category_id,
-              //template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_post',
-              overlay:true,
-              title:'New Post'
-            });
-            modal.overlay.style.backgroundColor = "white";
-        },
-        product : function(){
-           var modal = mw.tools.modal.frame({
-              url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-product&subtype=product&parent-page-id="+mw.settings.page_id,
-              //template:'mw_modal_simple',
-              width:mw.quick.w,
-              height:mw.quick.h,
-              name:'quick_product',
-              overlay:true,
-              title:'New Product'
-           });
-           modal.overlay.style.backgroundColor = "white";
+      w : '80%',
+      h : '90%',
+      page : function(){
+       var modal = mw.tools.modal.frame({
+          url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-page&recommended_parent=" + mw.settings.page_id,
+          width:mw.quick.w,
+          height:mw.quick.h,
+          name:'quick_page',
+          overlay:true,
+          title:'New Page'
+       });
+       $(modal.main).addClass('mw-add-content-modal');
+       modal.overlay.style.backgroundColor = "white";
+    },
+    category : function(){
+       var modal = mw.tools.modal.frame({
+          url:mw.settings.api_url + "module/?type=categories/edit_category&live_edit=true&quick_edit=false&id=mw-quick-category&recommended_parent=" + mw.settings.page_id,
+          width:mw.quick.w,
+          height:mw.quick.h,
+          name:'quick_page',
+          overlay:true,
+          title:'New Category'
+       });
+       $(modal.main).addClass('mw-add-content-modal');
+       modal.overlay.style.backgroundColor = "white";
+    },
+    edit : function(id,content_type,subtype){     
+        var str = '';
+        if(content_type != undefined && content_type != ''){
+            str = str + '&content_type='+content_type;
         }
+        if(subtype != undefined && subtype != ''){
+            str = str + '&subtype='+subtype;
+        }
+       var modal = mw.tools.modal.frame({
+          url:mw.settings.api_url + "module/?type=content/edit&live_edit=true&quick_edit=false&is-current=true&id=mw-quick-page&content-id="+id+str,
+          width:mw.quick.w,
+          height:mw.quick.h,
+          name:'quick_page',
+          overlay:true,
+          title:'Edit content'
+       });
+       $(modal.main).addClass('mw-add-content-modal');
+       modal.overlay.style.backgroundColor = "white";
+
+
+
+
+
+    },
+    page_2 : function(){
+       var modal = mw.tools.modal.frame({
+          url:mw.settings.api_url + "module/?type=content/quick_add&live_edit=true&id=mw-new-content-add-ifame",
+          width:mw.quick.w,
+          height:mw.quick.h,
+          name:'quick_page',
+          overlay:true,
+          title:'New Page'
+       });
+       $(modal.main).addClass('mw-add-content-modal');
+       modal.overlay.style.backgroundColor = "white";
+    },
+    post : function(){
+        var modal = mw.tools.modal.frame({
+          url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-post&subtype=post&parent-page-id="+mw.settings.page_id+"&parent-category-id="+mw.settings.category_id,
+          width:mw.quick.w,
+          height:mw.quick.h,
+          name:'quick_post',
+          overlay:true,
+          title:'New Post'
+        });
+        $(modal.main).addClass('mw-add-content-modal');
+        modal.overlay.style.backgroundColor = "white";
+    },
+    product : function(){
+       var modal = mw.tools.modal.frame({
+          url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-product&subtype=product&parent-page-id="+mw.settings.page_id,
+          width:mw.quick.w,
+          height:mw.quick.h,
+          name:'quick_product',
+          overlay:true,
+          title:'New Product'
+       });
+       $(modal.main).addClass('mw-add-content-modal');
+       modal.overlay.style.backgroundColor = "white";
+
+
+
     }
+}

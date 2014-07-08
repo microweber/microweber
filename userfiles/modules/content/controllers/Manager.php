@@ -31,7 +31,13 @@ class Manager
 
     function index($params)
     {
+        if (isset($params['manage_categories'])) {
+              print load_module('categories/manage',$params);
 
+            return;
+
+
+        }
 
 
         $posts_mod = array();
@@ -122,11 +128,6 @@ class Manager
         $toolbar->assign('page_info', $page_info);
         $toolbar->assign('keyword', $keyword);
         $toolbar->assign('params', $params);
-
-
-
-
-
 
 
         $post_list_view = $this->views_dir . 'manager.php';

@@ -41,7 +41,7 @@ class Generic
                         } else {
                             $return[$hook_value] = $hook_value();
                         }
-                        unset(self::$hooks[$api_function][$hook_key]);
+                        //unset(self::$hooks[$api_function][$hook_key]);
                     } else {
                         if (is_string($hook_value) or is_object($hook_value)) {
                             try {

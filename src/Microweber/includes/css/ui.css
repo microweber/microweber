@@ -1214,6 +1214,7 @@ div.mw-ui-field:after {
 /* Checkboxes and radio buttons */
 .mw-ui-check {
   cursor: pointer;
+  vertical-align: middle;
 }
 .mw-ui-check,
 .mw-ui-check > *,

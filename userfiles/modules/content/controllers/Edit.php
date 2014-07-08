@@ -53,6 +53,13 @@ class Edit
     {
 
 
+        if (isset($params['content_type']) and $params['content_type'] == 'category') {
+            print load_module('categories/edit_category', $params);
+            return;
+
+        }
+
+
         $data = false;
         $just_saved = false;
         $is_new_content = false;
@@ -114,7 +121,7 @@ class Edit
                 $data['content_type'] = 'post';
                 $data['subtype'] = 'product';
             }
- 
+
 
         }
         if (isset($data['subtype'])) {

@@ -12,7 +12,7 @@
 			<div class="edit-comment">
                 <small  class="edit-comment-date"><?php print $comment['created_on']; ?> (<?php print mw('format')->ago($comment['created_on']) ?>)</small>
 				<textarea class="mw-ui-field" name="comment_body" onkeyup="mw.tools.addClass(this, 'comment-changed');" onpaste="mw.tools.addClass(this, 'comment-changed');"><?php print strip_tags($comment['comment_body']); ?></textarea>
-				<a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-green mw-ui-btn-small mw-ui-btn right update-comment-button">
+				<a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-small pull-right update-comment-button">
 				<?php _e("Update"); ?>
 				</a>
 

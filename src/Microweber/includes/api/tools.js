@@ -283,7 +283,7 @@ mw.tools = {
         if(typeof o.element === 'undefined') return false;
         if(o.element === null) return false;
         if(typeof o.element === 'string'){o.element = mw.$(o.element)};
-        if(o.element.constructor === [].constructor && o.element.length===0) return false;
+        if(o.element.constructor === [].constructor && o.element.length === 0) return false;
         if(typeof o.position === 'undefined'){
           o.position = 'top-center';
         }
@@ -437,7 +437,7 @@ mw.tools = {
         }
         else{
           modal_object.css("top", (100 - parseFloat(height))/2 + "%");
-          modal_object.css("overflow", "auto");
+          //modal_object.css("overflow", "auto");
         }
         modal_object.show();
         var draggable = typeof draggable !== 'undefined' ? draggable : true;

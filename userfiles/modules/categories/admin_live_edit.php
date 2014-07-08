@@ -10,12 +10,12 @@
         });
     }
     mw.load_quick_cat_edit = function ($id) {
-        CatTabs.set(3);
+        CatTabs.set(2);
         if ($id == undefined) {
             mw.$("#mw_select_cat_to_edit_dd").val();
         }
-        mw.$("#mw_quick_edit_category").attr("data-category-id", $id);
-        mw.load_module('categories/edit_category', '#mw_quick_edit_category', function () {
+        mw.$("#mw_add_cat_live_edit").attr("data-category-id", $id);
+        mw.load_module('categories/edit_category', '#mw_add_cat_live_edit', function () {
             $(mwd.body).removeClass("loading");
         });
     }
@@ -71,15 +71,9 @@
             $pt_opts['link'] = "{empty}{title}";
             $pt_opts['list_tag'] = " ";
             $pt_opts['list_item_tag'] = "option";
-
             $pt_opts['active_ids'] = $posts_parent_page;
-
-
             $pt_opts['include_categories'] = true;
             $pt_opts['active_code_tag'] = '   selected="selected"  ';
-
-
-
             pages_tree($pt_opts);
 
 
@@ -92,6 +86,5 @@
     </div>
     <div class="tab">
         <div id="mw_add_cat_live_edit"></div>
-        <div id="mw_quick_edit_category"></div>
-    </div></div>
+     </div></div>
 </div>

@@ -7,6 +7,7 @@ event_bind('module.content.manager.item', 'mw_print_admin_post_list_comments_cou
 function mw_print_admin_post_list_comments_counter($item)
 {
     if (isset($item['id'])) {
+
         $new = get_comments('count=1&is_moderated=n&content_id=' . $item['id']);
         if ($new > 0) {
             $have_new = 1;

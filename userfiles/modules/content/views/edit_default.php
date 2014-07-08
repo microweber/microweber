@@ -12,7 +12,7 @@ $edit_page_info = $data;;
 <div class="admin-manage-toolbar-holder">
 <div class="admin-manage-toolbar">
   <div class="admin-manage-toolbar-content">
-    <div class="mw-ui-row">
+    <div class="mw-ui-row-nodrop">
       <div class="mw-ui-col">
         <?php
                 if ($edit_page_info['is_shop'] == 'y') {
@@ -36,7 +36,7 @@ $edit_page_info = $data;;
                 }
                 $action_text = $action_text . ' ' . $action_text2;
                 if (isset($edit_page_info['title'])): ?>
-        <div class="mw-ui-row" id="content-title-field-row">
+        <div class="mw-ui-row-nodrop" id="content-title-field-row">
           <div class="mw-ui-col" style="width: 30px;"><span
                                 class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span> </div>
           <div class="mw-ui-col">

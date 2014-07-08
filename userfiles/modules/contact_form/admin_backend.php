@@ -1,4 +1,4 @@
-<div>
+<div style="padding: 20px;">
     <style scoped="scoped">
 
     .contact-form-export-search{

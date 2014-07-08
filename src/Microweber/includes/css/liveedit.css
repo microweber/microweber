@@ -2466,6 +2466,11 @@ body.mw-live-edit .module > .mw-open-module-settings{
 
 }
 
+.mw-add-content-modal{
+  max-width: 1250px;
+  min-width: 320px;
+}
+
 
 
 

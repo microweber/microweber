@@ -1,6 +1,21 @@
-<?php $content_edit_modules = mw()->module->ui('content.edit.main'); ?>
-<?php $modules = array(); ?>
-<?php 
+<?php
+ 
+ $wrapper_class = 'mw-edit-content-item-admin'; 
+ 
+  if(isset($params['live_edit'])){
+	$wrapper_class = 'module-live-edit-settings'; 
+	 
+ }?>
+
+<div class="<?php print $wrapper_class; ?>">
+
+
+
+
+
+  <?php $content_edit_modules = mw()->module->ui('content.edit.main'); ?>
+  <?php $modules = array(); ?>
+  <?php 
  
 if (!empty($content_edit_modules) and !empty($data)) {
     foreach ($content_edit_modules as $k1=>$content_edit_module) {
@@ -34,10 +49,11 @@ if (!empty($content_edit_modules) and !empty($data)) {
 }
 
 ?>
-<?php if(!empty($modules)): ?>
-<?php foreach($modules as $module) : ?>
-<?php print load_module($module,$data); ?>
-<?php endforeach; ?>
-<?php else:  ?>
-<?php include __DIR__ . DS . 'edit_default.php';  ?>
-<?php endif; ?>
+  <?php if(!empty($modules)): ?>
+  <?php foreach($modules as $module) : ?>
+  <?php print load_module($module,$data); ?>
+  <?php endforeach; ?>
+  <?php else:  ?>
+  <?php include __DIR__ . DS . 'edit_default.php';  ?>
+  <?php endif; ?>
+</div>
