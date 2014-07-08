@@ -50,6 +50,9 @@ mw.manage_content_sort = function(){
               });
               $.post("<?php print api_link('content/reorder'); ?>", obj, function(){
         		   mw.reload_module('#mw_page_layout_preview');
+				   mw.reload_module_parent('posts');
+				   mw.reload_module_parent('content');
+				   mw.reload_module_parent('shop/products');
         	  });
              },
              start:function(a,ui){

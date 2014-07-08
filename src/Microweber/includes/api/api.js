@@ -421,7 +421,7 @@ mw.askusertostay = false;
 		}
 
         if(typeof(parent.mw_preview_frame_object) != 'undefined'  && typeof(parent.mw_preview_frame_object) == 'object'   && typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined'){
-            if(typeof(parent.mw_preview_frame_object.contentWindow) != 'undefined' && typeof(parent.mw_preview_frame_object.contentWindow.mw) != 'undefined'){
+            if(parent.mw_preview_frame_object.contentWindow != null && typeof(parent.mw_preview_frame_object.contentWindow.mw) != 'undefined'){
                 parent.mw_preview_frame_object.contentWindow.mw.reload_module(module, callback)
             }
         }
