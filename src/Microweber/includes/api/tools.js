@@ -589,7 +589,7 @@ mw.tools = {
 
         modal.iframe = modal.container.querySelector('iframe');
         modal.resize = function(w,h){
-          
+
         }
         return modal;
     },
@@ -618,6 +618,7 @@ mw.tools = {
     setDimmensions:function(modal, w, h, trigger){
       if(typeof modal === 'string'){var modal = mw.$(modal)[0]}
         if(!modal || modal === null) return false;
+
         var trigger = trigger || true;
         var root = modal.constructor === {}.constructor ? $(modal.main)[0] : modal;
 
@@ -645,8 +646,9 @@ mw.tools = {
         return false;
       }
       var root = container.parentNode;
-      var toolbarHeight = mw.$('.mw_modal_toolbar', root).height();
 
+
+      var toolbarHeight = mw.$('.mw_modal_toolbar', root).height();
       container.style.height = ($(root).height() - toolbarHeight - mw.CSSParser(container).get.margin(true).top) + 'px' ;
       if(!container.modalContainerInt){
         container.modalContainerInt = setInterval(function(){
@@ -2420,8 +2422,9 @@ mw.tools = {
         var modal = mw.tools.modal.frame({
             url:src,
             width:mw.tools.TemplateSettingsModalDefaults.width,
+            height:$(window).height() - 240,
             name:'template-settings',
-            title:'Template Settings',
+            //title:'Template Settings',
             template:'mw-template-settings',
             center:false,
             resize:false,
@@ -2431,7 +2434,6 @@ mw.tools = {
            right:-mw.tools.TemplateSettingsModalDefaults.width - 115,
            left: 'auto',
            top: mw.tools.TemplateSettingsModalDefaults.top,
-           height:'auto',
            zIndex:1102,
         }).addClass('mw-template-settings-hidden');
 

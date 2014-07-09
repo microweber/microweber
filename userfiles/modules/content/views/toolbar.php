@@ -80,8 +80,7 @@ $have_custom_content_types_count = count($content_types);
 if($have_custom_content_types_count < 3){
 $content_types = false;	
 }
-
- //print ;
+ 
 ?>
 <?php if (isset($content_types) and !empty($content_types)): ?>
 <?php $content_type_filter = ( isset( $params['content_type_filter']))? ($params['content_type_filter']) : false ; ?>

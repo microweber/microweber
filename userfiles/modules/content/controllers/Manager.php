@@ -63,7 +63,7 @@ class Manager
         if (isset($params['subtype_filter']) and $params['subtype_filter'] != '') {
             $posts_mod['subtype'] = $params['subtype_filter'];
         }
-        
+
 
         if (!isset($params['category-id']) and isset($params['page-id']) and $params['page-id'] != 'global') {
             $check_if_exist = $this->provider->get_by_id($params['page-id']);
