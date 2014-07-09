@@ -1243,6 +1243,13 @@ $(mwd).ready(function(){
     else if($(target).parents(".edit").length>0){
       $(window).trigger("onEditMouseDown", [$(target).parents(".edit")[0], target]);
     }
+    var hp = mwd.getElementById('mw-history-panel');
+    if( hp !== null && hp.style.display != 'none'){
+        if(!hp.contains(target)){
+            hp.style.display = 'none';
+            mw.$("#history_panel_toggle").removeClass('mw_editor_btn_active');
+        }
+    }
   });
 
   mw.wysiwyg.editorFonts = [];

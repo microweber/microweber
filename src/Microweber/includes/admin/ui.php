@@ -647,12 +647,12 @@ $(window).load(function(){
        Note: the editor must NOT be inside a hidden (display:'none') element.
 
        mw.editor({
-            element:''         - Required: Node element or String (Selector)
-            height:320,        - Optional Number or String in CSS Syntax - Default: 320
-            width:'100%',      - Optional Number or String in CSS Syntax - Default: '100%'
-            addControls: false - Optional. Represents Element/s that will be appended to the editor's control bar. String or Node or function that returns node - Default: false
-            hideControls:[],   - Optional. Controls to hide.  Example ['bold', 'italic', 'format', 'ol', 'ul'] - Default false
-            ready:             - Optional. Function to be executed after editor is loaded. Dedault: false
+            element:''         - <strong>Required</strong>: represents the source element(for example: &lt;textarea>Some content&lt;/textarea>&lt;div>Some content&lt;/div>) - Node element or String (Selector)
+            height:320,        - <strong>Optional</strong> <strong>Number</strong> or <strong>String</strong> in CSS Syntax - Default: 320
+            width:'100%',      - <strong>Optional</strong> <strong>Number</strong> or <strong>String</strong> in CSS Syntax - Default: '100%'
+            addControls: false - <strong>Optional</strong>. Represents Element/s that will be appended to the editor's control bar. <strong>String</strong> or <strong>Node</strong> or <strong>function</strong> that returns node - Default: false
+            hideControls:[],   - <strong>Optional</strong>. <strong>Array</strong>. Controls to hide.  Example ['bold', 'italic', 'format', 'ol', 'ul'] - Default false
+            ready:             - <strong>Optional</strong>. <strong>Function</strong> to be executed after editor is loaded. Dedault: false
        })
 
 

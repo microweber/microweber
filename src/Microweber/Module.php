@@ -383,7 +383,7 @@ class Module
                 $config['license'] = $lic;
             }
 
-            if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
+            if (!isset( $attrs['id']) and isset($attrs['module-id']) and $attrs['module-id'] != false) {
                 $attrs['id'] = $attrs['module-id'];
             }
 

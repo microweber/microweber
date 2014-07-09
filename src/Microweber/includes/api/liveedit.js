@@ -344,6 +344,18 @@ mw.drag = {
 
                }
                mw.image._dragTxt(event);
+
+
+
+              if(event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element')){
+                $(mw.image_resizer).addClass("active");
+                 mw.image.resize.resizerSet(event.target);
+              }
+              else{
+                if(!event.target.mwImageResizerComponent){ mw.tools.removeClass(mw.image_resizer, 'active') }
+              }
+
+
            }
            else{
 

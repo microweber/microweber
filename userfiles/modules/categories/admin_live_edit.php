@@ -5,12 +5,15 @@
 
     mw.live_edit_load_cats_list = function () {
         CatTabs.set(3);
+        mw.$('.mw-module-category-manager').hide();
+        mw.$("#mw-live-edit-cats-tab").removeClass('active');
         mw.load_module('categories/manage', '#mw_add_cat_live_edit', function () {
 
         });
     }
     mw.load_quick_cat_edit = function ($id) {
         CatTabs.set(2);
+
         if ($id == undefined) {
             mw.$("#mw_select_cat_to_edit_dd").val();
         }
@@ -23,7 +26,10 @@
     $(mwd).ready(function(){
         CatTabs = mw.tabs({
           nav:'.mw-ui-btn-nav-tabs a',
-          tabs:'.tab'
+          tabs:'.tab',
+          onclick:function(){
+            mw.$('.mw-module-category-manager').show();
+          }
         });
     });
 </script>
@@ -51,9 +57,10 @@
                 <?php _e("Edit categories"); ?>
             </a>
     </div>
-    <a href="javascript:mw.load_quick_cat_edit(0);" class="mw-ui-btn"
-       style="position: absolute;right: 13px;top: 12px;z-index: 1"><span>
-	<?php _e("Add new category"); ?>
+    <a href="javascript:mw.load_quick_cat_edit(0);" class="mw-ui-btn mw-ui-btn-medium pull-right">
+    <span class="mw-icon-category"></span>
+    <span>
+	<?php _e("New category"); ?>
 	</span></a>
 
 <div class="mw-ui-box mw-ui-box-content">    <div class="tab" style="display: block">

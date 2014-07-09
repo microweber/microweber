@@ -19,7 +19,7 @@ description: Blog
 		<div class="row">
 			<div class="col-sm-8 " id="blog-main">
 				<div class="edit"  field="content" rel="page">
-					 <h2><?php print $page['title'] ?></h2>
+					 <h2>My blog</h2>
  
 					<p class="p0 element">This text is set by default and is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative, Make Web.</p>
 					<module data-type="posts"   data-page-id="<?php print CONTENT_ID ?>"  />

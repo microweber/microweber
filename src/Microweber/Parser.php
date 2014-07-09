@@ -310,6 +310,9 @@ class Parser
                             if (isset($module_name)) {
                                 $module_class = module_css_class($module_name);
                                 $module_title = module_info($module_name);
+
+
+
                                 if (!isset($attrs['id'])) {
                                     global $mw_mod_counter;
                                     $mw_mod_counter++;

@@ -1114,7 +1114,7 @@ mw.tools = {
   jQueryFields : function(root){
     if(typeof root === 'string'){ var root = mwd.querySelector(root); }
     if(typeof root === 'undefined' || root === null) return false;
-    var allFields = "textarea, select, input[type='checkbox'], input[type='color'], input[type='date'], input[type='datetime'], input[type='datetime-local'], input[type='email'], input[type='file'], input[type='hidden'], input[type='month'], input[type='number'], input[type='password'], input[type='radio'], input[type='range'], input[type='search'], input[type='tel'], input[type='text'], input[type='time'], input[type='url'], input[type='week']";
+    var allFields = "textarea, select, input[type='checkbox']:checked, input[type='color'], input[type='date'], input[type='datetime'], input[type='datetime-local'], input[type='email'], input[type='file'], input[type='hidden'], input[type='month'], input[type='number'], input[type='password'], input[type='radio']:checked, input[type='range'], input[type='search'], input[type='tel'], input[type='text'], input[type='time'], input[type='url'], input[type='week']";
     return mw.$(allFields, fields).not(':disabled');
   },
   tree:{
@@ -2258,6 +2258,7 @@ mw.tools = {
     return el;
   },
   loading:function(el, state){
+    if(el === null || !el) return false;
     var state = typeof state === 'undefined' ? true : state;
     if(state){
       $(el).addClass("mw-loading");
@@ -2290,7 +2291,21 @@ mw.tools = {
       }
     }
     im.src = u;
-
+  },
+  mapNodeValues:function(n1,n2, triggerChange){
+    if(!n1||!n2||n1===null||n2===null) return false;
+    var triggerChange = triggerChange || true;
+    var setValue1 = ((!!n1.type && n1.nodeName !== 'BUTTON') || n1.nodeName === 'TEXTAREA') ? 'value' :'innerHTML';
+    var setValue2 = ((!!n2.type && n2.nodeName !== 'BUTTON') || n2.nodeName === 'TEXTAREA') ? 'value' :'innerHTML';
+    var events = 'keyup paste';
+    $(n1).bind(events, function(){
+        n2[setValue2] = n1[setValue1];
+        $(n2).trigger('change');
+    });
+    $(n2).bind(events, function(){
+         n1[setValue1] = n2[setValue2];
+        $(n1).trigger('change');
+    });
   },
   copyEvents:function(from, to){
     if(typeof $._data(from, 'events') === 'undefined') { return false; }
@@ -3762,6 +3777,10 @@ mw.image = {
             },
             aspectRatio: 16 / 9
         });
+
+       mw.image_resizer.mwImageResizerComponent = true;
+       var all = mw.image_resizer.querySelectorAll('*'), l = all.length, i = 0;
+       for( ; i<l ; i++) all[i].mwImageResizerComponent = true
       },
       resizerSet:function(el){
              /*  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
@@ -3973,37 +3992,6 @@ mw.image = {
           mw.image._dragcurrent.style.left = x + 'px';
         }
       },
-      text_object:function(tag, text){
-        var el = mwd.createElement(tag);
-        el.className = "image_free_text";
-        el.innerHTML = text;
-        el.style.position = 'relative';
-        el.style.display = 'inline-block';
-        el.contenteditable = false;
-        el.style.top = '0px';
-        el.style.left = '40px';
-        el.style.color = 'white';
-        el.style.textShadow = '0 0 6px black';
-        el.style.cursor = 'move';
-        el.style.zIndex = '999';
-        el.style.height = 'auto';
-        el.ondblclick = function(e){
-          e.preventDefault();
-          mw.wysiwyg.select_all(this);
-        }
-        return el;
-      },
-      enterText:function(img_object){
-          var img_object = img_object || document.querySelector("img.element-current");
-          var image = $(img_object);
-          if(!img_object.is_activated){
-                img_object.is_activated = true;
-                image.removeClass("element");
-                image.wrap("<div class='element mw_image_txt'></div>");
-                var obj = mw.image.text_object('span', "Lorem ipsum");
-                image.before(obj);
-          }
-      },
       preload:function(url, callback){
         var img = mwd.createElement('img');
         if(typeof window.chrome === 'object'){
@@ -4138,6 +4126,8 @@ mw.image = {
       mw.inlineModal  = mw.tools.inlineModal;
       mw.progress     = mw.tools.progress;
       mw.external     = function( o ){ return mw.tools._external( o ) };
+
+      mw.dom = mw.tools;
 
 
     /***********************************************

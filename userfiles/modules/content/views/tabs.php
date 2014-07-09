@@ -11,7 +11,8 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
     <div id="content-edit-settings-tabs">
       <div id="quick-add-post-options-holder">
         <div id="quick-add-post-options">
-          <div class="mw-ui-btn-nav" > <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>"> <span class="mw-icon-picture"></span> <span>
+          <div class="mw-ui-btn-nav" >
+          <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>"> <span class="mw-icon-picture"></span> <span>
             <?php _e("Add Images"); ?>
             </span> </span>
             <?php if($data['content_type'] == 'page'): ?>

@@ -531,7 +531,7 @@ class Content
     public function get_layout($page = array())
     {
 
-
+ 
         $function_cache_id = '';
         if (is_array($page)) {
             ksort($page);
@@ -547,7 +547,7 @@ class Content
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+         return $cache_content;
         }
 
         $render_file = false;
@@ -557,6 +557,7 @@ class Content
         if (!isset($page['active_site_template'])) {
             $page['active_site_template'] = 'default';
         }
+
         if ($page['active_site_template']  and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default')) {
             if ($site_template_settings != 'default' and $page['active_site_template'] == 'mw_default') {
                 $page['active_site_template'] = 'default';
@@ -596,6 +597,7 @@ class Content
         if (isset($page['subtype'])) {
             $page['subtype'] = str_replace('..', '', $page['subtype']);
         }
+
         if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
 
             $get_layout_from_parent = false;
@@ -658,6 +660,126 @@ class Content
             }
 
             // }
+        }
+
+
+
+
+        if ($render_file == false and !isset($page['active_site_template']) and isset($page['layout_file'])) {
+            $test_file = str_replace('___', DS, $page['layout_file']);
+            $test_file = str_replace('..', '', $test_file);
+            $render_file_temp = $test_file;
+            $render_file_temp = normalize_path($render_file_temp, false);
+
+            if (is_file($render_file_temp)) {
+                $render_file = $render_file_temp;
+            }
+        }
+
+
+        if ($render_file == false and isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
+            $test_file = str_replace('___', DS, $page['layout_file']);
+            $test_file = str_replace('..', '', $test_file);
+
+            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $test_file;
+            $render_file_module_temp = MW_MODULES_DIR . DS . $test_file;
+            $render_file_module_temp = normalize_path($render_file_module_temp, false);
+
+            if (is_file($render_file_temp)) {
+                $render_file = $render_file_temp;
+            } elseif (is_file($render_file_module_temp)) {
+
+                $render_file = $render_file_module_temp;
+            }
+        }
+
+
+        if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
+            $url_file = $this->app->url->string(1, 1);
+            $test_file = str_replace('___', DS, $url_file);
+            $render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $test_file . '.php';
+            $render_file_temp2 = ACTIVE_TEMPLATE_DIR . DS . $url_file . '.php';
+            if (is_file($render_file_temp)) {
+                $render_file = $render_file_temp;
+            } elseif (is_file($render_file_temp2)) {
+                $render_file = $render_file_temp2;
+            }
+        }
+        if (isset($page['active_site_template']) and $page['active_site_template'] == 'default') {
+            $page['active_site_template'] = $site_template_settings;
+        }
+
+        if (isset($page['active_site_template']) and  $page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
+            $page['active_site_template'] = 'default';
+        }
+
+        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] != 'inherit')) {
+
+
+            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+            $render_file_temp = normalize_path($render_file_temp, false);
+            if (is_file($render_file_temp)) {
+                $render_file = $render_file_temp;
+            } else {
+                $render_file_temp = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
+                if (is_file($render_file_temp)) {
+                    $render_file = $render_file_temp;
+                }
+            }
+        }
+
+        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
+
+            /*   $inherit_from = array();
+               $inh = $this->get_inherited_parent($page['id']);
+               if($inh == false){
+
+               } else {
+                   $inherit_from[] =  $inh;
+               }*/
+            $inherit_from = $this->get_parents($page['id']);
+
+            $found = 0;
+
+            if (!empty($inherit_from)) {
+                foreach ($inherit_from as $value) {
+                    if ($found == 0 and $value != $page['id']) {
+                        $par_c = $this->get_by_id($value);
+                        if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
+                            $page['layout_file'] = $par_c['layout_file'];
+                            $page['active_site_template'] = $par_c['active_site_template'];
+
+                            $page['active_site_template'] = str_replace('..', '', $page['active_site_template']);
+                            if ($page['active_site_template'] == 'default') {
+                                $page['active_site_template'] = $site_template_settings;
+                            }
+
+                            if ($page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
+                                $page['active_site_template'] = 'default';
+                            }
+
+
+                            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+                            $render_file_temp = normalize_path($render_file_temp, false);
+                            $render_file_module_temp = MW_MODULES_DIR . DS . $page['layout_file'];
+                            $render_file_module_temp = normalize_path($render_file_module_temp, false);
+
+                            if (is_file($render_file_temp)) {
+                                $render_file = $render_file_temp;
+                            } elseif (is_file($render_file_module_temp)) {
+                                $render_file = $render_file_module_temp;
+                            } else {
+                                $render_file_temp = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
+                                if (is_file($render_file_temp)) {
+                                    $render_file = $render_file_temp;
+                                }
+                            }
+
+                            $found = 1;
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -731,125 +853,6 @@ class Content
                 }
             }
         }
-
-        if ($render_file == false and !isset($page['active_site_template']) and isset($page['layout_file'])) {
-            $test_file = str_replace('___', DS, $page['layout_file']);
-            $test_file = str_replace('..', '', $test_file);
-            $render_file_temp = $test_file;
-            $render_file_temp = normalize_path($render_file_temp, false);
-
-            if (is_file($render_file_temp)) {
-                $render_file = $render_file_temp;
-            }
-        }
-
-
-        if ($render_file == false and isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit'  and $page['layout_file'] != '') {
-            $test_file = str_replace('___', DS, $page['layout_file']);
-            $test_file = str_replace('..', '', $test_file);
-
-            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $test_file;
-            $render_file_module_temp = MW_MODULES_DIR . DS . $test_file;
-            $render_file_module_temp = normalize_path($render_file_module_temp, false);
-
-            if (is_file($render_file_temp)) {
-                $render_file = $render_file_temp;
-            } elseif (is_file($render_file_module_temp)) {
-
-                $render_file = $render_file_module_temp;
-            }
-        }
-
-
-        if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
-            $url_file = $this->app->url->string(1, 1);
-            $test_file = str_replace('___', DS, $url_file);
-            $render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $test_file . '.php';
-            $render_file_temp2 = ACTIVE_TEMPLATE_DIR . DS . $url_file . '.php';
-            if (is_file($render_file_temp)) {
-                $render_file = $render_file_temp;
-            } elseif (is_file($render_file_temp2)) {
-                $render_file = $render_file_temp2;
-            }
-        }
-        if (isset($page['active_site_template']) and $page['active_site_template'] == 'default') {
-            $page['active_site_template'] = $site_template_settings;
-        }
-
-        if (isset($page['active_site_template']) and  $page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
-            $page['active_site_template'] = 'default';
-        }
-
-
-        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
-
-            /*   $inherit_from = array();
-               $inh = $this->get_inherited_parent($page['id']);
-               if($inh == false){
-
-               } else {
-                   $inherit_from[] =  $inh;
-               }*/
-            $inherit_from = $this->get_parents($page['id']);
-
-            $found = 0;
-
-            if (!empty($inherit_from)) {
-                foreach ($inherit_from as $value) {
-                    if ($found == 0 and $value != $page['id']) {
-                        $par_c = $this->get_by_id($value);
-                        if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
-                            $page['layout_file'] = $par_c['layout_file'];
-                            $page['active_site_template'] = $par_c['active_site_template'];
-
-                            $page['active_site_template'] = str_replace('..', '', $page['active_site_template']);
-                            if ($page['active_site_template'] == 'default') {
-                                $page['active_site_template'] = $site_template_settings;
-                            }
-
-                            if ($page['active_site_template'] != 'default' and $page['active_site_template'] == 'mw_default') {
-                                $page['active_site_template'] = 'default';
-                            }
-
-
-                            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
-                            $render_file_temp = normalize_path($render_file_temp, false);
-                            $render_file_module_temp = MW_MODULES_DIR . DS . $page['layout_file'];
-                            $render_file_module_temp = normalize_path($render_file_module_temp, false);
-
-                            if (is_file($render_file_temp)) {
-                                $render_file = $render_file_temp;
-                            } elseif (is_file($render_file_module_temp)) {
-                                $render_file = $render_file_module_temp;
-                            } else {
-                                $render_file_temp = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
-                                if (is_file($render_file_temp)) {
-                                    $render_file = $render_file_temp;
-                                }
-                            }
-
-                            $found = 1;
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] != 'inherit')) {
-
-
-            $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
-            $render_file_temp = normalize_path($render_file_temp, false);
-            if (is_file($render_file_temp)) {
-                $render_file = $render_file_temp;
-            } else {
-                $render_file_temp = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
-                if (is_file($render_file_temp)) {
-                    $render_file = $render_file_temp;
-                }
-            }
-        }
-
 
         if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false and $page['content_type'] != '') {
             $look_for_post = $page;

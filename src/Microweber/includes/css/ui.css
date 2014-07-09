@@ -1980,6 +1980,13 @@ div.mw-ui-field:after {
   width: 100%;
   height: 100%;
 }
+.mw-loading:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
 /************************************
         Notifications
 *************************************/

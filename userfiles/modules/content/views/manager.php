@@ -2,7 +2,6 @@
 $paging_links = false;
 $pages_count = intval($pages);
 
-
  
 
 ?>
@@ -65,6 +64,27 @@ mw.manage_content_sort = function(){
    }
 }
 
+
+
+mw.on.hashParam("pg", function(){
+ 
+      var dis = $p_id = this;
+      mw.$('#<?php print $params['id']; ?>').attr("paging_param", 'pg');
+      if(dis!==''){
+         mw.$('#<?php print $params['id']; ?>').attr("pg", dis);
+         mw.$('#<?php print $params['id']; ?>').attr("data-page-number", dis);
+      }
+      var $p_id = $(this).attr('data-page-number');
+      var $p_param = $(this).attr('data-paging-param');
+      mw.$('#<?php print $params['id']; ?>').attr('data-page-number',$p_id);
+      mw.$('#<?php print $params['id']; ?>').attr('data-page-param',$p_param);
+      mw.$('#<?php print $params['id']; ?>').removeAttr('data-content-id');
+	  
+	 
+      mw.reload_module('#<?php print $params['id']; ?>');
+	  
+	  
+});
 </script>
 <?php if (!isset($params['no_toolbar']) and isset($toolbar)): ?>
     <?php print $toolbar; ?>

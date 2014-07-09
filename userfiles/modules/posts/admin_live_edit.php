@@ -1,4 +1,3 @@
-
 <?php
 only_admin_access();
 $is_shop = false;
@@ -127,6 +126,14 @@ $add_post_q .= '  ';
 </style>
 <script type="text/javascript">
 
+mw.on.hashParam("action", function () {
+	 var id = (this.split(':')[1]);
+	 mw.edit_content_live_edit(id);
+});	
+	
+	
+	
+
     mw.add_new_content_live_edit = function ($cont_type) {
 
         Tabs.set(3);
@@ -151,7 +158,7 @@ $add_post_q .= '  ';
         mw.$('#mw_posts_create_live_edit').attr('content-id', 0);
         mw.$('#mw_posts_create_live_edit').attr('quick_edit', 1);
         mw.$('#mw_posts_create_live_edit').removeAttr('live_edit');
-        mw.load_module('content/edit_page', '#mw_posts_create_live_edit', function () {
+        mw.load_module('content/edit', '#mw_posts_create_live_edit', function () {
             parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 710, mw.$('#settings-container').height() + 25, false);
         });
     }
@@ -166,12 +173,13 @@ $add_post_q .= '  ';
         })
     }
     mw.edit_content_live_edit = function ($cont_id) {
-       Tabs.set(5);
-        $('#mw_posts_edit_live_edit').attr('data-content-id', $cont_id);
+       Tabs.set(4);
+	   
+        $('#mw_posts_edit_live_edit').attr('page-id', $cont_id);
         $('#mw_posts_edit_live_edit').removeAttr('live_edit');
         $('#mw_posts_edit_live_edit').attr('quick_edit', 1);
 
-        mw.load_module('content/edit_page', '#mw_posts_edit_live_edit', function () {
+        mw.load_module('content/edit', '#mw_posts_edit_live_edit', function () {
             parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 710, mw.$('#settings-container').height() + 25, false);
         });
     }
@@ -234,10 +242,10 @@ $add_post_q .= '  ';
 	<div class="tab" style="display: block">
 		<module type="content/manager"  <?php print $add_post_q ?> id="mw_posts_manage_live_edit" no_toolbar="true" />
 	</div>
-	<div class="tab">
+	<div class="tab" style="display:none">
 		<?php include_once($posts_mod); ?>
 	</div>
-	<div class="tab">
+	<div class="tab"  style="display:none">
 		<?php if (isset($params['global'])) : ?>
 		<module type="admin/modules/templates" id="posts_list_templ" for-module="posts"/>
 		<?php else: ?>

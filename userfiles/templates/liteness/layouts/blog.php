@@ -24,7 +24,7 @@
           <h2 class="edit page-title" field="title" rel="page">Page Title</h2>
         </div>
         
-        <div class="edit" field="content" rel="page"></div>
+        <div class="edit" field="content" rel="page"><p class="element">My blog is awesome</p></div>
         
         
         <div class="masonry-gallery">

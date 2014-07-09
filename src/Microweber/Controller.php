@@ -2292,8 +2292,9 @@ class Controller
         if (isset($_GET['preview_layout'])) {
             $page['layout_file'] = $_GET['preview_layout'];
         }
-        $this->app->content->define_constants($page);
 
+        $this->app->content->define_constants($page);
+        $page['render_file'] = $this->app->content->get_layout($page);
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
@@ -2318,19 +2319,30 @@ class Controller
             if (isset($page['content_type']) and $page['content_type'] != 'post' and $page['content_type'] != 'page' and $page['content_type'] != 'product') {
                 if (isset($page['subtype']) and ($page['subtype'] != 'post' and $page['subtype'] != 'product')) {
                     $standalone_edit = true;
-                    if ($standalone_edit) {
-                        if(!isset($page['content'])){
-                            $page['content'] = '<div class="element"></div>';
-                        }
-                        //$page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
-                        $page['render_file'] = false;
-                    }
+
+
+                }
+            } else if (isset($page['content_type']) and $page['content_type'] == 'post') {
+                if (isset($page['subtype']) and ($page['subtype'] != 'post' and $page['subtype'] != 'product')) {
+                    $standalone_edit = true;
+
+
                 }
             }
-            //d($page);
+
+            if ($standalone_edit) {
+                if(!isset($page['content'])){
+                    $page['content'] = '<div class="element"></div>';
+                }
+                 $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
+                $page['render_file'] = false;
+
+            }
+
+
+
+            //
           //  $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
-
-
         }
 
         $p = normalize_path($p, false);
@@ -2399,7 +2411,9 @@ class Controller
             $category = $this->app->category->get_by_id(CATEGORY_ID);
         }
 
+       // $render_file = $this->app->content->get_layout($page);
 
+            //    $page['render_file'] = $render_file;
         if (!$standalone_edit) {
             if (isset($page['render_file'])) {
 
@@ -2414,47 +2428,65 @@ class Controller
                 $l->page = $page;
                 $l->application = $this->app;
                 $l = $l->__toString();
-                $l = $this->app->parser->process($l, $options = false);
-               $page['content'] = $this->app->parser->isolate_content_field($l);
 
-            }
-            $standalone_edit = 1;
-
-            if (isset($_REQUEST['empty_content'])) {
-                $page['content'] = '<div class="edit"></div>';
-            } elseif (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
-
-
-                //if (isset($page['content_type']) and $page['content_type'] != 'page') {
-                $render_file = $this->app->content->get_layout($page);
-
-                $page['render_file'] = $render_file;
-
-                $l = new $this->app->view($page['render_file']);
-                $l->params = $params;
-                $l->page_id = PAGE_ID;
-                $l->content_id = CONTENT_ID;
-                $l->post_id = POST_ID;
-                $l->category_id = CATEGORY_ID;
-                $l->content = $page;
-                $l->category = $category;
-                $l->page = $page;
-                $l->application = $this->app;
-                $l = $l->__toString();
-                $l = $this->app->parser->process($l, $options = false);
-
-
+                 $l = $this->app->parser->process($l, $options = false);
+//                if(isset($page['content']) and $page['content'] != false){
+//
+//                if($page['content'] == ''){
+//                    unset($page['content']);
+//                }
+//                } else {
+//                    $page['content'] = $l;
+//                }
                 $page['content'] = $this->app->parser->isolate_content_field($l);
-                //   }
+
 
             }
+
+          //
+
+
+           // $standalone_edit = 1;
+
+//            if (isset($_REQUEST['empty_content'])) {
+//                $page['content'] = '<div class="edit"></div>';
+//            } elseif (!isset($page['content']) or (isset($page['content']) and ($page['content'] == false or $page['content'] == null or $page['content'] == ''))) {
+//
+//
+//                //if (isset($page['content_type']) and $page['content_type'] != 'page') {
+//                $render_file = $this->app->content->get_layout($page);
+//
+//                $page['render_file'] = $render_file;
+//
+//                $l = new $this->app->view($page['render_file']);
+//                $l->params = $params;
+//                $l->page_id = PAGE_ID;
+//                $l->content_id = CONTENT_ID;
+//                $l->post_id = POST_ID;
+//                $l->category_id = CATEGORY_ID;
+//                $l->content = $page;
+//                $l->category = $category;
+//                $l->page = $page;
+//                $l->application = $this->app;
+//                $l = $l->__toString();
+//                $l = $this->app->parser->process($l, $options = false);
+//
+//
+//           //     $page['content'] = $this->app->parser->isolate_content_field($l);
+//                //   }
+//
+//            }
         }
 
 
 
         if (isset($page['content'])) {
+            if ($standalone_edit) {
             if(!isset($render_file)){
-                $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
+                if(stristr($page['content'],'field="content"') or stristr($page['content'],'field=\'content\'')){
+             $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
+                }
+            }
             }
 
             $layout = str_replace('{content}', $page['content'], $layout);

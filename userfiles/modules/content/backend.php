@@ -11,7 +11,7 @@ if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
 
 ?>
 <script type="text/javascript">
-mw.on.hashParam("pg", function(){
+/*mw.on.hashParam("pg", function(){
       var dis = $p_id = this;
       mw.$('#pages_edit_container').attr("paging_param", 'pg');
       if(dis!==''){
@@ -24,7 +24,7 @@ mw.on.hashParam("pg", function(){
       mw.$('#pages_edit_container').attr('data-page-param',$p_param);
       mw.$('#pages_edit_container').removeAttr('data-content-id');
       mw.reload_module('#pages_edit_container');
-});
+});*/
 mw.on.hashParam("search", function(){
    mw.$('#pages_edit_container').attr("data-type",'content/manager');
    var dis = this;
@@ -110,9 +110,10 @@ function mw_select_page_for_editing($p_id) {
     var active_item_is_page = $p_id;
     var active_item_is_parent = mw.url.windowHashParam("parent-page");
     var active_item_is_category = active_item.attr('data-category-id');
-
+ 
     mw.$('.mw-admin-go-live-now-btn').attr('content-id', active_item_is_parent);
-
+ mw.$('#pages_edit_container').attr('content_type','page');
+  mw.$('#pages_edit_container').removeAttr('subtype');
 
     if (active_item_is_category != undefined) {
         mw.$('#pages_edit_container').attr('data-parent-category-id', active_item_is_category);
@@ -264,6 +265,7 @@ function mw_set_edit_posts(in_page, is_cat, c) {
         .attr('content-id', in_page);
  mw.$('#pages_edit_container').removeAttr('content_type');
   mw.$('#pages_edit_container').removeAttr('subtype');
+mw.$('#pages_edit_container').removeAttr('subtype_value');
 
     if (in_page != undefined && is_cat == undefined) {
         cont.attr('data-page-id', in_page);
@@ -388,7 +390,8 @@ function mw_select_post_for_editing($p_id, $subtype) {
     mw.$('#pages_edit_container').removeAttr('content-id');
 mw.$('#pages_edit_container').removeAttr('content-id');
 mw.$('#pages_edit_container').removeAttr('content-id');
-
+  mw.$('#pages_edit_container').removeAttr('subtype');
+mw.$('#pages_edit_container').removeAttr('subtype_value');
     mw.$('#pages_edit_container').removeAttr('data-page-id');
      
 

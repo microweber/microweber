@@ -38,11 +38,26 @@
                 delete window.mweditor;
             }
             mweditor = mw.admin.editor.init(area, params);
-			
-			 mw_preview_frame_object = window.top.mw_preview_frame_object = mweditor;
+
+
+            if(mwd.getElementById('content-title-field') !== null){
+                 mweditor.onload = function(){
+                    var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
+                    if(titleel !== null){
+                        var rel = mw.tools.mwattr(titleel, 'rel');
+                        if(rel == 'post' || rel == 'page' || rel == 'content'){
+                            mw.tools.mapNodeValues(titleel, mwd.getElementById('content-title-field'))
+                        }
+                    }
+                 }
+
+            }
+
+
+		   mw_preview_frame_object = window.top.mw_preview_frame_object = mweditor;
+
 			 
-			 
-			 
+
 			 
 			
  //

@@ -10,7 +10,7 @@ $tree = array();
 $tree['ul_class'] = 'pages_tree cat_tree_live_edit';
 $tree['li_class'] = 'sub-nav';
 $tree['rel'] = 'content';
-$tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='ico icategory'></span>{title}</a>";
+$tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-icon-category'></span>&nbsp;{title}</a>";
  category_tree($tree);
 ?>
   </div>
@@ -18,17 +18,14 @@ $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='ico i
 
 
     mw.live_edit_load_cats_list = function () {
-       
         mw.load_module('categories/manage', '#mw_add_cat_live_edit', function () {
 
         });
     }
-    mw.quick_cat_edit = function ($id) {
-        
-        if ($id == undefined) {
-            mw.$("#mw_select_cat_to_edit_dd").val();
-        }
-        mw.$("#mw_edit_category_admin_holder").attr("data-category-id", $id);
+    mw.quick_cat_edit = function (id) {
+        mw.$("#mw_edit_category_admin_holder").attr("data-category-id", id);
+        mw.$(".mw-module-category-manager").hide();
+        mw.$("#mw-live-edit-cats-tab").removeClass('active');
         mw.load_module('categories/edit_category', '#mw_edit_category_admin_holder', function () {
             $(mwd.body).removeClass("loading");
         });
@@ -42,8 +39,6 @@ $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='ico i
 
 	mw.on.moduleReload("<?php print $params['id'] ?>", function(){
 		mw.manage_cat_sort();
-
-		
 	 });
 
 
@@ -84,5 +79,5 @@ mw.$("#<?php print $params['id'] ?>").sortable({
 
 </script>
   <hr>
-  <a href='javascript:mw.quick_cat_edit(0)' class="mw-ui-btn"><span class="ico iplus"></span>Add new category</a> </div>
+  <a href='javascript:mw.quick_cat_edit(0)' class="mw-ui-btn"><span class="mw-icon-category"></span><?php _e("New category"); ?></a> </div>
 <div id="mw_edit_category_admin_holder"></div>
