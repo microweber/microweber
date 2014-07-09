@@ -2207,35 +2207,11 @@ div[id*='SSDIVEL'] {
   position: absolute;
   right: 12px;
   bottom: 10px;
-  box-shadow:0 0 2px #454545;
-  /************************/
-    background: #F5F5F5;
-    border-color: #DDDDDD;
-    border-radius: 1px;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: 0 1px 0 0 #FFFFFF inset;
-    color: #434343;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 11px;
-    line-height: normal;
-    padding: 8px 10px;
-    text-align: center;
 
-  /************************/
 }
 
 .image_change + .image_change{
   right: 75px
-}
-
-.image_change:hover{
-    background: #EDEDED;
-}
-
-.image_change:active{
-  box-shadow: inset 0 0 3px #BDBBBB
 }
 
 

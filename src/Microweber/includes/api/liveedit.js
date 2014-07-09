@@ -307,7 +307,9 @@ mw.drag = {
                       }
                    }
 
-
+                   if(mw.mm_target === mw.image_resizer){
+                         $(window).trigger("onElementOver", mw.image.currentResizing[0]);
+                   }
                    //trigger on row
                    if(mw.$mm_target.hasClass("mw-row")){
                      $(window).trigger("onRowOver", mw.mm_target);
@@ -346,7 +348,7 @@ mw.drag = {
                mw.image._dragTxt(event);
 
 
-
+              if(!mw.image.isResizing){
               if(event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element')){
                 $(mw.image_resizer).addClass("active");
                  mw.image.resize.resizerSet(event.target);
@@ -355,7 +357,7 @@ mw.drag = {
                 if(!event.target.mwImageResizerComponent){ mw.tools.removeClass(mw.image_resizer, 'active') }
               }
 
-
+              }
            }
            else{
 

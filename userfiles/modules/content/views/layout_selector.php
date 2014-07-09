@@ -33,6 +33,8 @@ if ((!isset($params["layout_file"]) or trim($params["layout_file"]) == '') and i
 	$data = get_content_by_id($params["content-id"]);
 }
 
+
+
 if (!isset($params["layout_file"]) and isset($params["layout-file"])) {
     $params["layout_file"] = $params["layout-file"];
 }
@@ -55,7 +57,13 @@ if (isset($params["show-page-id-layout"]) and isset($params["data-page-id"])) {
     $data['layout_file'] = $params["layout_file"];
 }
 
- 
+
+if (!isset($params["layout_file"]) and isset($data["layout_file"])) {
+    $params["layout_file"] = $data["layout_file"];
+}
+if (!isset($params["active_site_template"]) and isset($data["active_site_template"])) {
+    $params["active_site_template"] = $data["active_site_template"];
+}
 
  
 
@@ -378,10 +386,11 @@ $(document).ready(function () {
         var parent_module = $(this).parents('.module').first();
         if (parent_module != undefined) {
             parent_module.attr('active_site_template', $(this).val());
-            mw.reload_module('<?php print $params['type']?>', function () {
-                mw.templatePreview<?php print $rand; ?>.view();
-				//
-            });
+			mw.templatePreview<?php print $rand; ?>.view();
+          //  mw.reload_module('<?php print $params['type']?>', function () {
+//                
+//				
+//            });
         }
 		//$(window).trigger('templateChanged');
     });

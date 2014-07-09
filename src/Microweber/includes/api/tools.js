@@ -3751,7 +3751,7 @@ mw.image = {
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
           resizer.className = 'mw-defaults mw_image_resizer';
-          resizer.innerHTML = '<span onclick="mw.wysiwyg.media(\'#editimage\');" class="image_change">Change</span>';
+          resizer.innerHTML = '<span class="mw-ui-btn image_change" onclick="mw.image.settings();"><span class="mw-icon-pen"></span>Edit</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-info image_change"><span class="mw-icon-image"></span>Change</span>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer
         }
@@ -4053,6 +4053,7 @@ mw.image = {
             mw.image.current_original = $(mw.current_element).dataset("original");
         }
         var src = mw.current_element.src;
+        var src = mw.image.currentResizing[0].src;
         var title = mw.current_element.title;
         var html = mwd.getElementById('image_settings_modal_holder').innerHTML;
         var modal = mw.tools.modal.init({
