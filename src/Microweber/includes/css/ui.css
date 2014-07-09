@@ -1403,6 +1403,7 @@ div.mw-ui-field:after {
 }
 .mw_modal_container {
   padding: 15px;
+  position: relative;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -1497,6 +1498,13 @@ div.mw-ui-field:after {
   z-index: 12;
   top: 0;
   right: 0;
+}
+.mw-modal-frame {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
 }
 /*********************************************
                Inline Modal

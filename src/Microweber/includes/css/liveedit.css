@@ -2249,6 +2249,7 @@ div[id*='SSDIVEL'] {
 }
 #frame-template-settings{
   margin-top: 30px;
+  position: static;
 }
 
 .mw-template-settings .mw_modal_toolbar{

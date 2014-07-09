@@ -56,6 +56,82 @@ if ($last_page_front != false) {
         });
     </script>
 <?php endif; ?>
+<?php if($page_info): ?>
+<?php   
+$content_types = array();
+$available_content_types = get_content('order_by=created_on asc&is_deleted=n&fields=content_type&group_by=content_type&parent='.$page_info['id']);
+$have_custom_content_types_count = 0;
+if(!empty($available_content_types)){
+	
+	foreach($available_content_types as $available_content_type){
+		if(isset($available_content_type['content_type'])){
+			$available_content_subtypes = get_content('order_by=created_on asc&is_deleted=n&fields=subtype&group_by=subtype&parent='.$page_info['id'].'&content_type='.$available_content_type['content_type']);
+			if(!empty($available_content_subtypes)){
+				
+				$content_types[$available_content_type['content_type']] = $available_content_subtypes;
+				
+			}
+			 
+		}
+	}
+}
+$have_custom_content_types_count = count($content_types);
+
+if($have_custom_content_types_count < 3){
+$content_types = false;	
+}
+
+ //print ;
+?>
+<?php if (isset($content_types) and !empty($content_types)): ?>
+<?php $content_type_filter = ( isset( $params['content_type_filter']))? ($params['content_type_filter']) : false ; ?>
+<?php $subtype_filter = ( isset( $params['subtype_filter']))? ($params['subtype_filter']) : false ; ?>
+<?php
+ 
+ 
+  $selected = $content_type_filter;
+ if($subtype_filter != false){
+	   $selected = $selected.'.'.$subtype_filter;
+
+ }
+ 
+ 
+  ?>
+<script>
+$(function () {
+$( "#content_type_filter_by_select" ).change(function() {
+	var val = $(this).val();
+	if(val != null){
+	vals  = val.split('.');	
+	if(vals[0] != null){
+		mw.$('#<?php print $params['id']; ?>').attr('content_type_filter',vals[0]);
+      
+	}else {
+			   mw.$('#<?php print $params['id']; ?>').removeAttr('content_type_filter');
+
+	}
+	if(vals[1] != null){
+	   mw.$('#<?php print $params['id']; ?>').attr('subtype_filter',vals[1]);
+
+	} else {
+			   mw.$('#<?php print $params['id']; ?>').removeAttr('subtype_filter');
+
+	}
+	
+	
+	
+	mw.reload_module('#<?php print $params['id']; ?>');
+	
+	}
+   
+});
+            
+
+
+        });
+    </script>
+<?php endif; ?>
+<?php endif; ?>
 
 <div class="admin-manage-toolbar-holder">
   <div class="admin-manage-toolbar">
@@ -128,6 +204,28 @@ if ($last_page_front != false) {
                     </a>
                     <?php endif; ?>
                   </div>
+                  <?php if(isset($content_types) and !empty($content_types)): ?>
+                  
+                  <div class="pull-right" style="margin-right:5px;">
+                
+                    <select id="content_type_filter_by_select" class="mw-ui-field" <?php if(!$selected): ?> style="display:none" <?php endif; ?>>
+                      <option value="">All</option>
+                      <?php foreach($content_types as $k=>$items): ?>
+                      <optgroup label="<?php print ucfirst($k); ?>">
+                      <option value="<?php print $k; ?>" <?php if($k == $selected): ?> selected="selected" <?php endif; ?>><?php print ucfirst($k); ?></option>
+                      <?php foreach($items as $item): ?>
+                      <?php if(isset($item['subtype']) and $item['subtype'] != $k): ?>
+                      <option value="<?php print $k; ?>.<?php print $item['subtype']; ?>"  <?php if($k.'.'.$item['subtype'] == $selected): ?> selected="selected" <?php endif; ?>><?php print ucfirst($item['subtype']); ?></option>
+                      <?php endif; ?>
+                      <?php endforeach; ?>
+                      </optgroup>
+                      <?php endforeach; ?>
+                    </select>
+                    <?php if(!$selected): ?>
+                      <span class="mw-ui-btn mw-icon-menu" onclick="$('#content_type_filter_by_select').toggle(); $(this).hide();"></span>
+                  <?php endif; ?>
+                  </div>
+                  <?php endif; ?>
                   <div class="pull-right relative">
                     <input
                                             onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"
@@ -141,6 +239,7 @@ if ($last_page_front != false) {
                                             class="mw-ui-searchfield pull-right"
                                             id="mw-search-field"/>
                   </div>
+                  
                 </div>
               </div>
             </div>

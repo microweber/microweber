@@ -398,33 +398,25 @@ mw.tools = {
         + '</div>';
         return {html:html, id:id}
     },
+
     _init:function(html, width, height, callback, title, name, template, overlay, draggable){
         if(typeof name==='string' && mw.$("#"+name).length>0){
             return false;
         }
         var modal = mw.tools.modal.source(name, template);
-        var doc = document;
-        $(doc.body).append(modal.html);
-        var _modal = doc.getElementById(modal.id);
+        $(mwd.body).append(modal.html);
+        var _modal = mwd.getElementById(modal.id);
         if(!_modal.remove){
           _modal.remove = function(){
             mw.tools.modal.remove(modal.id);
           }
         }
         var modal_object = $(_modal);
-        var container = $(modal_object[0].querySelector(".mw_modal_container"));
-
-        _modal.style.width = mw.tools.cssNumber(width);
-        _modal.style.height = mw.tools.cssNumber(height);
-
-        var padding = parseFloat(container.css("paddingTop")) + parseFloat(container.css("paddingBottom"));
-        var padding = container.offset().top - modal_object.offset().top;
 
 
-        container.append(html);
-        if(!height.toString().contains("%")){
-            container[0].style.height = mw.tools.cssNumber(height - mw.$('.mw_modal_toolbar', _modal).height());
-        }
+        mw.$('.mw_modal_container', _modal).append(html);
+
+        mw.tools.modal.setDimmensions(_modal, width, height, false);
 
         if(!width.toString().contains("%")){
            modal_object.css("left", ($(window).width()/2)-(width/2));
@@ -437,7 +429,6 @@ mw.tools = {
         }
         else{
           modal_object.css("top", (100 - parseFloat(height))/2 + "%");
-          //modal_object.css("overflow", "auto");
         }
         modal_object.show();
         var draggable = typeof draggable !== 'undefined' ? draggable : true;
@@ -471,7 +462,7 @@ mw.tools = {
             });
         }
         else{
-           mw.$(".mw_modal_toolbar", doc.getElementById(modal.id)).css("cursor", "default");
+           mw.$(".mw_modal_toolbar", mwd.getElementById(modal.id)).css("cursor", "default");
         }
 
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
@@ -484,7 +475,7 @@ mw.tools = {
            modal_object[0].overlay = ol;
            modal_return.overlay = ol;
         }
-        doc.getElementById(modal.id).modal = modal_return;
+        mwd.getElementById(modal.id).modal = modal_return;
 
         modal_return.remove = function(){
             modal_object[0].remove();
@@ -586,23 +577,19 @@ mw.tools = {
           draggable:obj.draggable,
           template:obj.template
         });
-        if(!!modal){
-            $(modal.main).addClass("mw_modal_type_iframe");
-            $(modal.container).css("overflow", "hidden");
-            modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
-            modal.main[0].querySelector('iframe').onload = function(){
-                typeof obj.callback === 'function' ? obj.callback.call(modal, this) : '';
-                typeof obj.onload === 'function' ? obj.onload.call(modal, this) : '';
-            }
-        }
-        modal.iframe = modal.container.querySelector('iframe');
-        modal.iframe.style.width = '100%';
-        modal.iframe.style.height = ( obj.height - mw.$('.mw_modal_toolbar', modal.main[0]).height() )+ 'px';
 
+
+        $(modal.main).addClass("mw_modal_type_iframe");
+        $(modal.container).css("overflow", "hidden");
+        modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
+        modal.main[0].querySelector('iframe').onload = function(){
+            typeof obj.callback === 'function' ? obj.callback.call(modal, this) : '';
+            typeof obj.onload === 'function' ? obj.onload.call(modal, this) : '';
+        }
+
+        modal.iframe = modal.container.querySelector('iframe');
         modal.resize = function(w,h){
-          mw.tools.modal.resize(modal.main, w, h, false);
-          modal.iframe.style.height = ($(modal.main).height() - mw.$('.mw_modal_toolbar', modal.main).height() ) + 'px';
-          return modal;
+          
         }
         return modal;
     },
@@ -628,6 +615,45 @@ mw.tools = {
         }
         $(el).remove();
     },
+    setDimmensions:function(modal, w, h, trigger){
+      if(typeof modal === 'string'){var modal = mw.$(modal)[0]}
+        if(!modal || modal === null) return false;
+        var trigger = trigger || true;
+        var root = modal.constructor === {}.constructor ? $(modal.main)[0] : modal;
+
+        if(!!w){
+           root.style.width = mw.tools.cssNumber(w);
+        }
+
+        if(!!h){
+            root.style.height = mw.tools.cssNumber(h);
+        }
+        var toolbarHeight = mw.$('.mw_modal_toolbar', root).height();
+
+        mw.tools.modal.containerHeight(mw.$('.mw_modal_container', root)[0])
+
+        if(trigger) {
+            $(root).trigger("resize");
+        }
+    },
+    containerHeight:function(container){
+      if(!container || container === null) return false;
+      if(container.parentNode.parentNode === null /* if modal is removed from DOM  */){
+        if(!!container.modalContainerInt){
+          clearInterval(container.modalContainerInt);
+        }
+        return false;
+      }
+      var root = container.parentNode;
+      var toolbarHeight = mw.$('.mw_modal_toolbar', root).height();
+
+      container.style.height = ($(root).height() - toolbarHeight - mw.CSSParser(container).get.margin(true).top) + 'px' ;
+      if(!container.modalContainerInt){
+        container.modalContainerInt = setInterval(function(){
+            mw.tools.modal.containerHeight(container);
+        }, 333);
+      }
+    },
     resize:function(modal, w, h, center, doc){
       var doc = doc || document;
       var maxh = $(doc.defaultView).height() - 60;
@@ -637,26 +663,7 @@ mw.tools = {
       var w = w < maxw ? w : maxw;
       var h = h < maxh ? h : maxh;
 
-      var center = typeof center !== 'undefined' ? center : true;
-
-      var modal = $(modal);
-      var container = modal.find(".mw_modal_container").eq(0);
-
-      if(container.length === 0) { return false; }
-
-      var frame = modal.find(".mw-modal-frame").eq(0);
-
-     if(!!w){
-        modal[0].style.width = mw.tools.cssNumber(w);
-        container[0].style.width = '100%';
-        frame[0].style.width = '100%';
-     }
-
-     if(!!h){
-        modal[0].style.height =  mw.tools.cssNumber(h)
-        container[0].style.height =  mw.tools.cssNumber(h - mw.$('.mw_modal_toolbar', modal[0]).height());
-        frame[0].style.height =  mw.tools.cssNumber(h - mw.$('.mw_modal_toolbar', modal[0]).height());
-     }
+      mw.tools.modal.setDimmensions(modal, w, h);
 
      if(center === true){mw.tools.modal.center(modal)};
     },
@@ -2428,8 +2435,7 @@ mw.tools = {
            zIndex:1102,
         }).addClass('mw-template-settings-hidden');
 
-        mw.$('.mw_modal_container', $(modal.main)[0]).height('auto');
-        mw.$('iframe', $(modal.main)[0]).height('auto').removeAttr('height').bind('load', function(){
+        mw.$('iframe', $(modal.main)[0]).bind('load', function(){
            if(justInit){
                mw.tools.hide_template_settings();
            }
@@ -3751,7 +3757,7 @@ mw.image = {
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
           resizer.className = 'mw-defaults mw_image_resizer';
-          resizer.innerHTML = '<span class="mw-ui-btn image_change" onclick="mw.image.settings();"><span class="mw-icon-pen"></span>Edit</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-info image_change"><span class="mw-icon-image"></span>Change</span>';
+          resizer.innerHTML = '<span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-info image_change"><span class="mw-icon-image"></span>Change</span><span class="mw-ui-btn image_change" onclick="mw.image.settings();"><span class="mw-icon-pen"></span>Edit</span>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer
         }
@@ -4044,54 +4050,15 @@ mw.image = {
         }
       },
       settings:function(){
-        mw.image.current_need_resize = false;
-        if($(mw.current_element).dataset("original") == ""){
-            mw.image.current_original = mw.current_element.src;
-            $(mw.current_element).dataset("original", mw.current_element.src);
-        }
-        else{
-            mw.image.current_original = $(mw.current_element).dataset("original");
-        }
-        var src = mw.current_element.src;
-        var src = mw.image.currentResizing[0].src;
-        var title = mw.current_element.title;
-        var html = mwd.getElementById('image_settings_modal_holder').innerHTML;
-        var modal = mw.tools.modal.init({
-          html:html,
+
+        var modal = mw.tools.modal.frame({
+          url:'imageeditor',
           template:"mw_modal_basic",
           overlay:true,
-          width:600,
-          height:"80%"
+          width:'90%',
+          height:"90%"
         });
-        mw.$(".mw-ui-box", modal.container).prepend("<img id='mwimagecurrent' src='"+src+"' />");
-        mw.image.current = modal.container.querySelector("#mwimagecurrent");
 
-        mw.$("textarea", modal.container).val(title);
-        mw.$(".mw-ui-btn-saveIMG", modal.container).click(function(){
-          mw.current_element.src = mw.image.current.src;
-          mw.current_element.align = mw.image.current_align;
-          mw.current_element.title = mw.$("textarea", modal.container).val();
-          if(mw.image.current_need_resize){
-              mw.image.preload(mw.image.current.src, function(w,h){
-                   mw.current_element.style.width = w+'px';
-                   mw.current_element.style.height = 'auto';
-              });
-          }
-          mw.tools.modal.remove(modal);
-        });
-        mw.$(".mw-img-align", modal.container).click(function(){
-          if(!$(this).hasClass("active")){
-               mw.$(".mw-img-align", modal.container).removeClass("active");
-               mw.$(this).addClass("active");
-               mw.image.current_align = $(this).dataset("align");
-          }
-        });
-        mw.$("#mw_image_reset").click(function(){
-          if(!$(this).hasClass("disabled")){
-            mw.image.current.src = mw.image.current_original;
-            mw.image.current_need_resize = true;
-          }
-        });
       }
     }
 

@@ -57,6 +57,13 @@ class Manager
         if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
             $posts_mod['subtype'] = 'product';
         }
+        if (isset($params['content_type_filter']) and $params['content_type_filter'] != '') {
+            $posts_mod['content_type'] = $params['content_type_filter'];
+        }
+        if (isset($params['subtype_filter']) and $params['subtype_filter'] != '') {
+            $posts_mod['subtype'] = $params['subtype_filter'];
+        }
+        
 
         if (!isset($params['category-id']) and isset($params['page-id']) and $params['page-id'] != 'global') {
             $check_if_exist = $this->provider->get_by_id($params['page-id']);
