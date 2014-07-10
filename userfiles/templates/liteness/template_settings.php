@@ -373,9 +373,12 @@
   <hr>
 
   <label class="template-setting-label">Font</label>
-  <div title="Template Font" id="font_family" class="mw_dropdown mw_dropdown_type_navigation body-class"> <span class="mw_dropdown_val_holder">
-    <span class="mw_dropdown_val" style="width: 150px;">Select</span> </span>
-    <div class="mw_dropdown_fields" style="left: 0px;">
+  <div title="Template Font" id="font_family" class="mw-dropdown mw-dropdown-default body-class w100">
+
+  <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">
+    <span class="mw-dropdown-val"><?php _e("Select"); ?></span>
+  </span>
+    <div class="mw-dropdown-content">
       <ul>
         <li value="font-arial" ><a style="font-family: Arial" href="#">Arial</a></li>
         <li value="font-verdana" ><a style="font-family: Verdana" href="#">Verdana</a></li>

@@ -2190,28 +2190,11 @@ div[id*='SSDIVEL'] {
   z-index: 2;
 }
 
-.image_close{
-  display: block;
-  position: absolute;
-  width:29px;
-  height: 22px;
-  background:url(../img/imgedit.jpg) no-repeat right top;
-  text-indent: -9999px;
-  cursor: pointer;
-  top: 0;
-  right: 0;
-}
 
-.image_change{
-  font-family: inherit;
+#image-edit-nav{
   position: absolute;
   right: 12px;
   bottom: 10px;
-
-}
-
-.image_change + .image_change{
-  right: 75px
 }
 
 
@@ -2247,6 +2230,10 @@ div[id*='SSDIVEL'] {
   -ms-transition: right 0.5s ease;
   transition: right 0.5s ease;
 }
+.mw-template-settings .mw_modal_container{
+  margin-top: 30px;
+}
+
 #frame-template-settings{
   position: static;
 }

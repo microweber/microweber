@@ -418,19 +418,12 @@ mw.tools = {
 
         mw.tools.modal.setDimmensions(_modal, width, height, false);
 
-        if(!width.toString().contains("%")){
-           modal_object.css("left", ($(window).width()/2)-(width/2));
-        }
-        else{
-          modal_object.css("left", (100 - parseFloat(width))/2 + "%");
-        }
-        if(!height.toString().contains("%")){
-           modal_object.css("top", ($(window).height()/2)-(height/2) - parseFloat(modal_object.css('paddingTop'))/2 );
-        }
-        else{
-          modal_object.css("top", (100 - parseFloat(height))/2 + "%");
-        }
+
         modal_object.show();
+
+        mw.tools.modal.center(_modal);
+
+
         var draggable = typeof draggable !== 'undefined' ? draggable : true;
         if(typeof $.fn.draggable === 'function' && draggable){
             modal_object.addClass("mw-modal-draggable")
@@ -616,23 +609,32 @@ mw.tools = {
         $(el).remove();
     },
     setDimmensions:function(modal, w, h, trigger){
-      if(typeof modal === 'string'){var modal = mw.$(modal)[0]}
+      if(typeof modal === 'string'){ var modal = mw.$(modal)[0]; }
         if(!modal || modal === null) return false;
 
         var trigger = trigger || true;
         var root = modal.constructor === {}.constructor ? $(modal.main)[0] : modal;
 
+        var win = $(window),
+            maxW = win.width() - 50,
+            maxH = win.height() - 50;
+
         if(!!w){
+           if(typeof w === 'number'){
+            var w = w < maxW ? w : maxW;
+           }
            root.style.width = mw.tools.cssNumber(w);
         }
 
         if(!!h){
+            if(typeof h === 'number'){
+                var h = h < maxH ? h : maxH;
+            }
             root.style.height = mw.tools.cssNumber(h);
         }
         var toolbarHeight = mw.$('.mw_modal_toolbar', root).height();
 
         mw.tools.modal.containerHeight(mw.$('.mw_modal_container', root)[0])
-
         if(trigger) {
             $(root).trigger("resize");
         }
@@ -646,42 +648,39 @@ mw.tools = {
         return false;
       }
       var root = container.parentNode;
-
-
       var toolbarHeight = mw.$('.mw_modal_toolbar', root).height();
-      container.style.height = ($(root).height() - toolbarHeight - mw.CSSParser(container).get.margin(true).top) + 'px' ;
+      var final = ($(root).height() - toolbarHeight - mw.CSSParser(container).get.margin(true).top) + 'px'
+      if(container.style.height != final){
+        container.style.height = final;
+      }
       if(!container.modalContainerInt){
         container.modalContainerInt = setInterval(function(){
             mw.tools.modal.containerHeight(container);
         }, 333);
       }
     },
-    resize:function(modal, w, h, center, doc){
-      var doc = doc || document;
-      var maxh = $(doc.defaultView).height() - 60;
-      var maxw = $(doc.defaultView).width() - 60;
-
-
-      var w = w < maxw ? w : maxw;
-      var h = h < maxh ? h : maxh;
-
+    resize:function(modal, w, h, center){
       mw.tools.modal.setDimmensions(modal, w, h);
 
      if(center === true){mw.tools.modal.center(modal)};
     },
-    center:function(modal, only, w,h){
+    center:function(modal, only){
         var only = only || 'all';
         var modal = $(modal);
-        var h = h||modal.height();
-        var w = w||modal.width();
+        var h = modal.height();
+        var w = modal.width();
+        var top = ($(window).height()/2)-(h/2);
+        var top = top > 0 ? top : 0;
+        var left = ($(window).width()/2)-(w/2);
+        var left = left > 0 ? left : 0;
         if(only == 'all'){
-          modal.css({top:($(window).height()/2)-(h/2),left:($(window).width()/2)-(w/2)});
+          modal.css({top:top,left:left});
         }
         else if(only == 'vertical'){
-          modal.css({top:($(window).height()/2)-(h/2)});
+          modal.css({top:top});
         }
         else if(only == 'horizontal'){
-          modal.css({left:($(window).width()/2)-(w/2)});
+          modal.css({left:left});
         }
     },
     overlay:function(for_who, is_over_modal){
@@ -1138,10 +1137,22 @@ mw.tools = {
           return false;
         }
     },
-    open:function(el, event){
+    open:function(el, parents){
+      var parents = parents || false;
       $(el.parentNode).addClass('active');
       var master = mw.tools.firstParentWithClass(el,'mw-tree');
       mw.tools.tree.remember(master);
+      if(!parents) return;
+      mw.tools.foreachParents(el, function(loop){
+        if(mw.tools.hasClass(this, 'mw-tree')){
+          mw.tools.stopLoop(loop);
+        }
+        else{
+            if(this.nodeName === 'LI'){
+                mw.tools.tree.open(this.querySelector('.pages_tree_link'), false)
+            }
+        }
+      });
     },
     del : function(id){
         mw.tools.confirm(mw.msg.del, function(){
@@ -2393,7 +2404,8 @@ mw.tools = {
   TemplateSettingsEventsBinded: false,
   TemplateSettingsModalDefaults: {
     top:100,
-    width:300
+    width:300,
+    timeout:null
   },
   hide_template_settings:function(){
      mw.$('.mw-template-settings').css('right', -mw.tools.TemplateSettingsModalDefaults.width - 5).addClass('mw-template-settings-hidden');
@@ -2422,7 +2434,7 @@ mw.tools = {
         var modal = mw.tools.modal.frame({
             url:src,
             width:mw.tools.TemplateSettingsModalDefaults.width,
-            height:$(window).height() - 240,
+            height:$(window).height() - (1.5 * mw.tools.TemplateSettingsModalDefaults.top),
             name:'template-settings',
             //title:'Template Settings',
             template:'mw-template-settings',
@@ -2436,6 +2448,13 @@ mw.tools = {
            top: mw.tools.TemplateSettingsModalDefaults.top,
            zIndex:1102,
         }).addClass('mw-template-settings-hidden');
+
+        $(window).bind('resize', function(){
+          clearTimeout(mw.tools.TemplateSettingsModalDefaults.timeout);
+          mw.tools.TemplateSettingsModalDefaults.timeout = setTimeout(function(){
+            mw.tools.modal.setDimmensions(modal, undefined, $(window).height() - (1.5 * mw.tools.TemplateSettingsModalDefaults.top), false);
+          }, 333);
+        });
 
         mw.$('iframe', $(modal.main)[0]).bind('load', function(){
            if(justInit){
@@ -3759,7 +3778,7 @@ mw.image = {
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
           resizer.className = 'mw-defaults mw_image_resizer';
-          resizer.innerHTML = '<span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-info image_change"><span class="mw-icon-image"></span>Change</span><span class="mw-ui-btn image_change" onclick="mw.image.settings();"><span class="mw-icon-pen"></span>Edit</span>';
+          resizer.innerHTML = '<div class="mw-ui-btn-nav" id="image-edit-nav"><span class="mw-ui-btn image_change" onclick="mw.image.settings();"><span class="mw-icon-pen"></span>Edit</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-info image_change"><span class="mw-icon-image"></span>Change</span></div>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer
         }
@@ -4057,8 +4076,8 @@ mw.image = {
           url:'imageeditor',
           template:"mw_modal_basic",
           overlay:true,
-          width:'90%',
-          height:"90%"
+          width:'80%',
+          height:"80%"
         });
 
       }

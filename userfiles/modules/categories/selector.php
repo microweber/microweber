@@ -131,7 +131,7 @@ if (isset($params['active_ids'])) {
 	$tree['active_ids'] = $params['active_ids'];
 
 }
-
+ 
 
 if (isset($params['categories_active_ids'])) {
 	$tree['categories_active_ids'] = $params['categories_active_ids'];
@@ -211,7 +211,7 @@ if (isset($params['categories_removed_ids'])) {
 
 }
   
- 
+  
 pages_tree($tree);
 ?>
 <?php endif; ?>
@@ -236,5 +236,5 @@ pages_tree($tree);
 
 ?>
 <?php $cats_str = implode(',', $active_cats); ?>
-
+ 
 <input type="hidden" name="categories" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />

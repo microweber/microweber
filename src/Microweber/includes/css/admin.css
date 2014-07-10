@@ -2048,6 +2048,9 @@ input#edit-content-url:focus, input#edit-content-url.active{
   position: fixed;
   margin-left: -35px;
 }
+#mw_posts_edit_live_edit .admin-manage-toolbar-scrolled{
+ margin-left: -16px;
+}
 .admin-manage-toolbar-scrolled .admin-manage-toolbar-content{
   padding-left: 35px;
 }

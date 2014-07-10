@@ -329,7 +329,9 @@ mw.edit_content.after_save = function(saved_id){
 			 mw.$('#post-added-alert-<?php print $rand; ?>').show();
 			<?php endif; ?>
   	}
-
+ 	if(mw.notification != undefined){
+     mw.notification.success('Content saved!');
+    }
 	if(parent !== self && !!parent.mw){
 		    mw.reload_module_parent('posts');
 			mw.reload_module_parent('shop/products');
@@ -409,6 +411,44 @@ mw.edit_content.render_category_tree = function(id){
                 mw.$("#category-tree-not-found-message").show();
               }
     	  });
+		  
+		   var tree_sidebar = mwd.getElementById('pages_tree_toolbar');
+		   if(tree_sidebar != null){
+		   
+				  var selected = $('#mw-category-selector-'+id).find('.mw-ui-check-input-sel:checked');
+				  var active_bg_set = false
+				  if(selected != null){
+					  var last = selected.last().val();
+					  $.each(selected, function(i,value){
+						 var cat_open = $(this).val();
+						 if(cat_open != null){			   
+							    var tree_selected = tree_sidebar.querySelector('.category_element.item_' + cat_open + ' > a.pages_tree_link');
+							   if(tree_selected != null){
+								   
+								  mw.tools.tree.open(tree_selected, true);
+								  
+							   }
+							    
+						 }
+					  })
+					  
+					  if(last != null && active_bg_set == false){
+					   var tree_selected = tree_sidebar.querySelector('.category_element.item_' + last + ' > a.pages_tree_link');
+						active_bg_set = true;
+					    $(tree_selected).parent().addClass('active-bg')
+					 }
+								   
+								   
+								   
+				  }
+		   }
+		  //
+		  
+		  //mw-content-backend
+		  
+		  
+		  
+		  
           mw.$(".mw-ui-category-selector-abs .module:first").after('<div style="text-align:center;padding:30px;display:none;" id="category-tree-not-found-message"><h3>Category not found</h3><br><span class="mw-ui-btn"><em class="mw-icon-plus"></em>Create it</span></div>');
           $(mwd.querySelectorAll('#mw-category-selector-'+id+" .pages_tree_item")).bind("mouseup", function(e){
               if(!mw.tools.hasClass(e.target, 'mw_toggle_tree')){
@@ -435,9 +475,7 @@ mw.edit_content.handle_form_submit = function(go_live){
         mw.content.save(data, {
           onSuccess:function(a){
               mw.$('.mw-admin-go-live-now-btn').attr('content-id',this);
-              if(mw.notification != undefined){
-                mw.notification.success('Content saved!');
-              }
+             
 
               if(parent !== self && !!window.parent.mw){
                  window.parent.mw.askusertostay=false;
