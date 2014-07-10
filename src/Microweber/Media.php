@@ -58,7 +58,10 @@ class Media
 
         if ($imgages != false and isset($imgages[0])) {
             if (isset($imgages[0]['filename']) and $full == false) {
-                return $imgages[0]['filename'];
+                $surl = $this->app->url->site();
+
+                $img = $this->app->format->replace_once('{SITE_URL}', $surl, $imgages[0]['filename']);
+                return $img;
             } else {
                 return $imgages[0];
             }

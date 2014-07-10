@@ -20,7 +20,7 @@
 			var id = 0;
 		 }
 	 
-	 	   MenuTabs.set(4);
+	 	   MenuTabs.set(3);
 
 
 	     mw.$('#mw_page_create_live_edit').removeAttr('data-content-id');
@@ -51,29 +51,38 @@
 
 </script>
 
+<style>
+.tab{
+  display: none;
+}
 
+</style>
+<div  class="module-live-edit-settings">
 	<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs" id="menu-tabs">
 		<a href="javascript:;" class="mw-ui-btn active">
-			<?php _e("My menus"); ?>
-			</a>
+		    <?php _e("My menus"); ?>
+		</a>
 		<a href="javascript:;" class="mw-ui-btn">
 			<?php _e("Skin/Template"); ?>
 		</a>
-		<span style="display:none"><a href="javascript:;" id="add_new_menu_tab"></a></span>
-		<span style="display:none"><a href="javascript:;" id="add_new_content_tab"></a></span>
+		<span style="display:none">
+            <a href="javascript:;" id="add_new_menu_tab"></a>
+        </span>
+		<span style="display:none">
+            <a href="javascript:;" id="add_new_content_tab"></a>
+        </span>
 	</div>
-	<a href="javascript:mw.add_new_page_to_menu();" class="mw-ui-btn" style="position: absolute;right: 13px;top: 12px;z-index: 1"><span>
-	<?php _e("Create new page"); ?>
-	</span></a>
-	<div class="tab">
+	<a href="javascript:mw.add_new_page_to_menu();" class="mw-ui-btn mw-ui-btn-medium pull-right"><?php _e("Create new page"); ?></a>
+    <div class="mw-ui-box mw-ui-box-content">
+    <div class="tab" style="display: block">
 		<?php include($config['path_to_module'].'admin_live_edit_tab1.php');   ?>
 	</div>
 	<div class="tab">
-		<module type="admin/modules/templates"  />
+		<module type="admin/modules/templates" />
 	</div>
 	<div class="tab">
 		<div id="add_new_menu" style="overflow: hidden">
-			<input name="menu_id"  type="hidden"  value="0"    />
+			<input name="menu_id"  type="hidden" value="0" />
 			<div style="overflow: hidden">
 				<input class="mw-ui-field w100" type="text" name="title" placeholder="<?php _e("Menu Name"); ?>" />
 				<button type="button" class="mw-ui-btn pull-right" onclick="mw.menu_save('#add_new_menu')">
@@ -84,6 +93,6 @@
 	</div>
 	<div class="tab" id="add_new_page">
 		<div id="mw_page_create_live_edit"></div>
-		
 	</div>
-
+    </div>
+    </div>

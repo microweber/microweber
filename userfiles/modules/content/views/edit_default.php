@@ -82,7 +82,7 @@ $edit_page_info = $data;;
           <?php _e("Live Edit"); ?>
           </button>
           <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
-                                form="quickform-<?php print $rand; ?>">
+                                form="quickform-edit-content">
           <?php _e("Save"); ?>
           </button>
           <?php else: ?>
@@ -90,7 +90,7 @@ $edit_page_info = $data;;
           <button type="submit" class="mw-ui-btn"
                                     onclick="mw.edit_content.handle_form_submit(true);"
                                     data-text="<?php _e("Live Edit"); ?>"
-                                    form="quickform-<?php print $rand; ?>"><span
+                                    form="quickform-edit-content"><span
                                     class="mw-icon-live"></span>
           <?php _e("Live Edit"); ?>
           </button>
@@ -102,7 +102,7 @@ $edit_page_info = $data;;
           </button>
           <?php endif; ?>
           <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
-                                form="quickform-<?php print $rand; ?>">
+                                form="quickform-edit-content">
           <?php _e("Save"); ?>
           </button>
           <?php endif; ?>
@@ -121,8 +121,8 @@ $edit_page_info = $data;;
     <hr>
     <span class="mw-ui-btn mw-ui-btn-medium post-move-to-trash" onclick="mw.del_current_page('<?php print ($data['id'])?>');"><span class="mw-icon-bin"></span>Move to trash</span> </div>
 </div></div>
-<form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-<?php print $rand; ?>">
-  <input type="hidden" name="id" id="mw-content-id-value-<?php print $rand; ?>"  value="<?php print $data['id']; ?>" />
+<form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-edit-content">
+  <input type="hidden" name="id" id="mw-content-id-value"  value="<?php print $data['id']; ?>" /> 
   <input type="hidden" name="subtype" id="mw-content-subtype-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" />
   <input type="hidden" name="subtype_value" id="mw-content-subtype-value-<?php print $rand; ?>"   value="<?php print $data['subtype_value']; ?>" />
   <input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>"   value="<?php print $data['content_type']; ?>" />
@@ -277,7 +277,7 @@ mw.edit_content.create_new = function(){
 };
 
 mw.edit_content.close_alert = function(){
-   	 mw.$('#quickform-<?php print $rand; ?>').show();
+   	 mw.$('#quickform-edit-content').show();
 	 mw.$('#post-added-alert-<?php print $rand; ?>').hide();
 
 };
@@ -288,7 +288,7 @@ mw.edit_content.load_editor  =  function(element_id){
       var element_id =  element_id || 'mw-admin-content-iframe-editor';
       var area = mwd.getElementById(element_id);
       var parent_page =  mw.$('#mw-parent-page-value-<?php print $rand; ?>').val();
-      var content_id =  mw.$('#mw-content-id-value-<?php print $rand; ?>').val();
+      var content_id =  mw.$('#mw-content-id-value').val();
       var content_type =  mw.$('#mw-content-type-value-<?php print $rand; ?>').val()
       var subtype =  mw.$('#mw-content-subtype-<?php print $rand; ?>').val();
       var subtype_value =  mw.$('#mw-content-subtype-value-<?php print $rand; ?>').val();
@@ -315,17 +315,17 @@ mw.edit_content.before_save = function(){
 }
 mw.edit_content.after_save = function(saved_id){
 	mw.askusertostay=false;
-	var content_id =  mw.$('#mw-content-id-value-<?php print $rand; ?>').val();
+	var content_id =  mw.$('#mw-content-id-value').val();
 	var quick_add_holder = mwd.getElementById('mw-quick-content');
  	if(quick_add_holder != null){
  	    mw.tools.removeClass(quick_add_holder, 'loading');
 	}
 	if(content_id == 0){
 			if(saved_id !== undefined){
- 		        mw.$('#mw-content-id-value-<?php print $rand; ?>').val(saved_id);
+ 		        mw.$('#mw-content-id-value').val(saved_id);
  			}
 			<?php if($is_quick!=false) : ?>
-			 mw.$('#quickform-<?php print $rand; ?>').hide();
+			 mw.$('#quickform-edit-content').hide();
 			 mw.$('#post-added-alert-<?php print $rand; ?>').show();
 			<?php endif; ?>
   	}
@@ -463,14 +463,16 @@ mw.edit_content.handle_form_submit = function(go_live){
         if(mw.edit_content.saving){ return false; }
         mw.edit_content.saving = true;
 		var go_live_edit = go_live || false;
-		var el = mwd.getElementById('quickform-<?php print $rand; ?>');
+		var el = mwd.getElementById('quickform-edit-content');
 		if(el === null){
 		    return;
 		}
         $(window).trigger('adminSaveStart');
 		mw.edit_content.before_save();
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
+		 
         var data = mw.serializeFields(el);
+		  data.id = mw.$('#mw-content-id-value').val();
         module.addClass('loading');
         mw.content.save(data, {
           onSuccess:function(a){
@@ -519,7 +521,7 @@ mw.edit_content.handle_form_submit = function(go_live){
                      window.parent.mw.askusertostay=false;
                 }
                 $.get('<?php print site_url('api_html/content_link/?id=') ?>'+this, function(data) {
-                  window.top.location.href = data+'/editmode:y';
+                  window.top.location.href = data+'?editmode=y';
                 });
               }
               else {
@@ -530,7 +532,7 @@ mw.edit_content.handle_form_submit = function(go_live){
 					  var slug = data.replace("<?php print site_url() ?>", "").replace("/", "");
 					  mw.$("#edit-content-url").val(slug);
 					  mw.$(".view-post-slug").html(slug);
-                   	  mw.$("a.quick-post-done-link").attr("href",data+'/editmode:y');
+                   	  mw.$("a.quick-post-done-link").attr("href",data+'?editmode=y');
 			 		  mw.$("a.quick-post-done-link").html(data);
                  });
                   mw.$("#<?php print $module_id ?>").attr("content-id",this);
@@ -603,7 +605,7 @@ mw.save_inner_editable_fields = function(data){
        mw.$("#<?php print $module_id ?>").removeAttr("just-saved");
        <?php endif; ?>
         mw.edit_content.render_category_tree("<?php print $rand; ?>");
-        mw.$("#quickform-<?php print $rand; ?>").submit(function(){
+        mw.$("#quickform-edit-content").submit(function(){
           mw.edit_content.handle_form_submit();
           return false;
         });

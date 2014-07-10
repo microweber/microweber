@@ -13,8 +13,8 @@
           <div class="mw-col" style="width:35%">
             <div class="mw-col-container">
               <div class="product-description">
-                <h2 class="edit product-title" field="title" rel="post">Product inner page</h2>
-                <div class="edit"  field="content_body" rel="post">
+                 <div class="edit"  field="content_body" rel="post">
+                <h2>Product inner page</h2>
                   <p class="element">This text is set by default and it is suitable for edit in real time. By default the drag and drop core feature will allow you to position it anywhere on the site. Get creative &amp; <strong style="font-weight: 600">Make Web</strong>.</p>
                 </div>
                 <module type="shop/cart_add" rel="post" />

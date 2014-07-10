@@ -480,7 +480,7 @@ function mw($class = null, $constructor_params = false)
     if ($is_init == false) {
         $is_init = true;
         event_trigger('mw_init', $_mw_global_object);
-    }
+     }
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $_mw_global_object;
     } else {

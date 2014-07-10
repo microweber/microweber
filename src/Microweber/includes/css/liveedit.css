@@ -374,6 +374,10 @@ li.module-item.ui-draggable-dragging .mw_module_hold, li.module-item.ui-draggabl
   border-radius: 2px;
   height: auto;
 }
+#mw_handle_row{
+  width: auto !important;
+}
+
 .column_separator_title{
   background: #E1E1E1;
 }

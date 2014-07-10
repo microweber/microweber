@@ -1,8 +1,17 @@
 <?php
-autoload_add(__DIR__);
-template_header(MW_MODULES_URL.'rating/lib.js');
-template_header(MW_MODULES_URL.'rating/rating.js');
 
+autoload_add(__DIR__);
+
+template_head(MW_MODULES_URL.'rating/lib.js');
+template_head(MW_MODULES_URL.'rating/rating.js');
+/*
+template_head(function($page){
+  $css = 'http://bootswatch.com/flatly/bootstrap.css';
+  $link = '<link rel="stylesheet" href="'.$css.'" type="text/css">';
+  return $link;
+
+});
+*/
 api_expose('rating/Controller/save');
 
 event_bind('module.comments.item.info', function ($params) {

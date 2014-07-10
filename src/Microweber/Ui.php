@@ -82,6 +82,12 @@ class Ui
         $this->module('content.create.menu', $btn);
 
 
+
+
+
+
+
+
         $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1');
         $notif_count_html = false;
         if (intval($notif_count) > 0) {

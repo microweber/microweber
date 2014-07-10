@@ -2244,7 +2244,7 @@ mw.tools = {
       return frame;
   },
   disable : function(el, text, global){
-    var text = text || 'Loading...';
+    var text = text || mw.msg.loading + '...';
     var global = global || false;
     var _el = $(el);
     if(_el.length == 0) { return false; }
@@ -2280,11 +2280,17 @@ mw.tools = {
   loading:function(el, state){
     if(el === null || !el) return false;
     var state = typeof state === 'undefined' ? true : state;
+    if(el !== mwd.body && el !== mwd.documentElement){
+      var pos = mw.CSSParser(el).get.position();
+      if(pos == 'static'){
+         $(el).addClass("mw-loading-defaults");
+      }
+    }
     if(state){
       $(el).addClass("mw-loading");
     }
     else{
-      $(el).removeClass("mw-loading");
+      $(el).removeClass("mw-loading mw-loading-defaults");
     }
   },
   inview:function(el){

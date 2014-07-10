@@ -258,40 +258,6 @@ function mw_cron()
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //
 //$mw_action_hook_index = array();
 //
@@ -412,12 +378,10 @@ function mw_cron()
 //}
 
 
-
-
 function event_trigger($api_function, $data = false)
 {
-
-    return mw()->event->emit($api_function, $data);
+    $event = new \Microweber\Event();
+    return $event->emit($api_function, $data);
 
 
 }
@@ -431,8 +395,8 @@ function action_hook($function_name, $next_function_name = false)
 
 function event_bind($function_name, $next_function_name = false)
 {
-
-    return mw()->event->on($function_name, $next_function_name);
+    $event = new \Microweber\Event();
+    return $event->on($function_name, $next_function_name);
 
 
 }

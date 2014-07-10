@@ -430,7 +430,8 @@
     opacity: 1;
 }
 
-.mw-ui-navigation-horizontal > li{
+.mw-ui-navigation-horizontal > li,
+.mw-ui-navigation-horizontal > ul > li{
   float: left;
   margin-right: 12px;
   margin-bottom: 0;
@@ -1993,11 +1994,19 @@ div.mw-ui-field:after{
 }
 
 .mw-loading:after{
-    content:'';
-    display: block;
-    position: absolute;
-    width: 20px;
-    height: 20px;
+  content:'';
+  display: block;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: default;
+}
+.mw-loading-defaults{
+  position: relative;
 }
 
 

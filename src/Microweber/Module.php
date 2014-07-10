@@ -17,7 +17,6 @@ class Module
     function __construct($app = null)
     {
 
-
         if (!defined('EMPTY_MOD_STR')) {
             define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
         }

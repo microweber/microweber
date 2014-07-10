@@ -2642,8 +2642,10 @@ body.grabbing, body.grabbing *{
 }
 
 .manage-menus li .mw-icon-close{
-  margin-top: 3px;
   cursor: pointer;
+  position: absolute;
+    right: 5px;
+    top: 4px;
 }
 
 .manage-menus li > div.module_item {
@@ -2664,8 +2666,12 @@ body.grabbing, body.grabbing *{
   display: none;
 }
 
+
+
 .manage-menus li > div.module_item.active + div.module{
   display: block;
+  position: relative;
+  background: white;
 }
 
 .manage-menus li > div.module_item.active{

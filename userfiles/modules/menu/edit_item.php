@@ -84,32 +84,45 @@ if( $id != 0){
 
   ?>
   <div id="custom_link_inline_controller" class="mw-ui-gbox" style="display: none;">
-    <span onclick="cancel_editing_menu(<?php  print $data['id'] ?>);" class="mw-icon-close"></span>
-    <h4>Edit menu item</h4>
-    <div class="custom_link_delete_header">
-        <span class="mw-ui-delete" onclick="mw.menu_item_delete(<?php  print $data['id'] ?>);"><?php _e("Delete"); ?></span>
-    </div>
+
+    <h4><?php _e("Edit menu item"); ?></h4>
+
     <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
 
-    <input type="text" placeholder="<?php _e("Title"); ?>" class="mw-ui-field" name="title" value="<?php  print $data['title'] ?>" onblur="mw.menu_save_new_item('#custom_link_inline_controller',true);" />
-
+    <div class="mw-ui-field-holder">
+        <input type="text" placeholder="<?php _e("Title"); ?>" class="mw-ui-field w100" name="title" value="<?php  print $data['title'] ?>"  />
+    </div>
 
 	<?php  if(isset($params['menu-id'])): ?>
     <input type="hidden" name="parent_id" value="<?php  print $params['menu-id'] ?>" />
 	<?php else: ?>
 
     <?php endif; ?>
+
+    <div class="mw-ui-field-holder">
+    <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field w100"  name="url" value="<?php  print $data['url'] ?>"  />
+    </div>
+
     <button class="mw-ui-btn" onclick="mw.$('#menu-selector-<?php  print $data['id'] ?>').toggle();">
-    <?php _e("Set page from your site"); ?>
+    <?php _e("Select page from your site"); ?>
     </button>
-    <input type="text" placeholder="<?php _e("URL"); ?>" class="mw-ui-field"  name="url" value="<?php  print $data['url'] ?>" onblur="mw.menu_save_new_item('#custom_link_inline_controller',true);" />
-    <button class="mw-ui-btn pull-left" onclick="mw.menu_save_new_item('#custom_link_inline_controller');"><?php _e("Save"); ?></button>
+
     <?php if($data['id'] != 0): ?>
-    <div id="menu-selector-<?php  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector">
+    <div id="menu-selector-<?php  print $data['id'] ?>" class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="top: 3px;">
       <microweber module="categories/selector" active_ids="<?php  print $data['content_id'] ?>" categories_active_ids="<?php  print $data['categories_id'] ?>"  for="content" rel_id="<?php print 0 ?>" input-type-categories="radio"  input-name-categories="link_id" input-name="link_id"  />
     </div>
     <script>mw.treeRenderer.appendUI('#menu-selector-<?php  print $data['id'] ?>');</script>
     <?php endif; ?>
+
+
+    <hr>
+
+    <div class="mw-clear pull-right mw-ui-btn-nav">
+        <span onclick="cancel_editing_menu(<?php  print $data['id'] ?>);" class="mw-ui-btn"><?php _e("Cancel"); ?></span>
+        <button class="mw-ui-btn mw-ui-btn-info" onclick="mw.menu_save_new_item('#custom_link_inline_controller');"><?php _e("Save"); ?></button>
+    </div>
+
+
   </div>
   <input type="hidden" name="id" value="<?php  print $data['id'] ?>" />
   <input type="hidden" name="content_id" value="<?php  print $data['content_id'] ?>" />

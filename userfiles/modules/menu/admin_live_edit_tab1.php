@@ -11,6 +11,15 @@
 <?php include MW_INCLUDES_DIR . 'api/treerenderer.php'; ?>
 
 
+  mw.menu_add_new = function(){
+      var obj = {};
+	 obj.title = $('#new_menu_name').val();
+	  
+      $.post("<?php print api_link('content/menu_create') ?>",  obj, function(data){
+	    window.location.href = window.location.href;
+      });
+ }
+
   mw.menu_save = function($selector){
       var obj = mw.form.serialize($selector);
       $.post("<?php print api_link('content/menu_create') ?>",  obj, function(data){
@@ -41,9 +50,11 @@
  }
 
  add_new_menu = function(){
-   var add_new_menu_tab = mwd.querySelector('#add_new_menu_tab');
-
-   $(add_new_menu_tab).show()
+   var quick_new_menu_holder = mwd.querySelector('#quick_new_menu_holder');
+ 
+	
+	
+   $(quick_new_menu_holder).show()
 
 
  }
@@ -53,8 +64,7 @@ var data = {}
 data.id = $id
     if (confirm("Are you sure you want to delete this menu?") === true){
        $.post("<?php print api_link('content/menu_delete') ?>",  data, function(resp){
-          mw.reload_module('#<?php print $params['id'] ?>');
-          menuSelectorInit();
+          window.location.href = window.location.href;
        });
     }
 }
@@ -209,8 +219,13 @@ $menu_name = get_option('menu_name', $params['id']);
  if(isset($menu_id['title'])){
 	 $active_menu =   $menu_id['title'];
  }
- 
+ $menu_id = get_menus('one=1&title='.$menu_name);
+ if($menu_id == false){
+	 $active_menu = $menu_name = 'header_menu';
+ }
  ?>
+ 
+<?php  print $active_menu ?>
 <?php if(is_array($menus) == true): ?>
 <?php if(is_array($menus )): ?>
 
@@ -220,7 +235,12 @@ $menu_name = get_option('menu_name', $params['id']);
     <small class="right" ><a href="javascript:add_new_menu();" class="mw-ui-label-help mw-ui-small">
     <?php _e("Create new nenu"); ?>
     </a> </small> </label>
- 
+  <div id="quick_new_menu_holder">
+  <input name="new_menu_name" id="new_menu_name" type="text"  />
+  <button type="button" onclick="mw.menu_add_new()">Save</button>
+  
+  
+  </div>
     <select  id="menu_selector_<?php  print $params['id'] ?>" name="menu_name" class="mw-ui-field mw_option_field"   type="radio"  onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
       <?php foreach($menus  as $item): ?>
       <?php if($active_menu == false){
@@ -257,7 +277,7 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
 </div>
 <div id="custom_link_controller" class="mw-ui-gbox">
 
-  <div class="mw-ui-row">
+  <div class="mw-ui-row-nodrop">
       <div class="mw-ui-col">
       <div class="mw-ui-col-container">
         <input type="text" class="mw-ui-field w100" placeholder="<?php _e("Title"); ?>" name="title" />
@@ -288,7 +308,7 @@ if(isset($menu_id) and is_array($menu_id) and isset($menu_id['id'])){
   <label class="mw-ui-label">
     <?php _e("Edit existing links/buttons"); ?>
   </label>
-
+ 
   <module data-type="menu/edit_items"  id="items_list_<?php  print $rand ?>" menu-name="<?php  print $active_menu ?>"  menu-id="<?php  print $menu_id ?>" />
   <?php endif; ?>
 </div>

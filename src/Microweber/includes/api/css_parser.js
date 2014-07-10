@@ -58,6 +58,9 @@ mw.CSSParser = function(el){
     f.width = function(){
         return css.width;
     }
+    f.position = function(){
+        return css.position;
+    }
     f.background = function(){
         return {
             image:css.backgroundImage,

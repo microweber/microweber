@@ -36,4 +36,16 @@ function mw_print_admin_dashboard_orders_btn()
     $admin_dashboard_btn['text'] = _e("View Orders", true) . $notif_html;
     mw()->ui->admin_dashboard_menu($admin_dashboard_btn);
 }
+event_bind('mw_edit_product_admin', 'mw_print_admin_edit_product_options');
+function mw_print_admin_edit_product_options($data)
+{
+    if(isset($data['id'])){
+	if (get_option('shop_disabled', 'website') == 'y') {
+        return;
+    }
+   print '<module type="shop/products/product_options" content-id="'.$data['id'].'" />';
+	}
+}
+
+
 

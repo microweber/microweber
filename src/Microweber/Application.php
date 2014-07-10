@@ -128,6 +128,8 @@ class Application
         if ($is_init == false) {
             $is_init = true;
 
+            event_trigger('app_init',false);
+
         }
     }
 

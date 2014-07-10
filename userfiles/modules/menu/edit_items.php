@@ -28,7 +28,7 @@ if(!isset($params['menu-name']) and isset($params['name'])){
 if( $id != 0){
 	$menu_params = array();
 	$menu_params['menu_id'] =  $id;
-	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span class="mw-icon-close show-on-hover pull-right" onclick="mw.menu_item_delete({id});"></span>
+	$menu_params['link'] = '<div id="menu-item-{id}" class="module_item"><span class="mw-ui-btn mw-ui-btn-small show-on-hover pull-right" onclick="mw.menu_item_delete({id});">Delete</span>
 	<span class="mw-icon-drag mw_admin_modules_sortable_handle"></span><span data-item-id="{id}" class="menu_element_link {active_class}" onclick="mw.menu_items_set_edit({id}, this);">{title}</span> </div>';
 
     $data = menu_tree( $menu_params);
@@ -69,6 +69,9 @@ mw.menu_item_delete = function($item_id){
 
 mw.menu_items_set_edit = function($item_id, node){
 
+
+
+
 if(typeof node === 'object'){
   var li = mw.tools.firstParentWithTag(node, 'li');
   var id = $(li).dataset('item-id');
@@ -94,11 +97,13 @@ var the_li = mw.$('#mw_admin_menu_items_sort_<?php print $rand; ?>').find('li[da
     the_li.find('.module_item').eq(0).after('<div id="edit-menu_item_edit_wrap-'+$item_id+'" item-id="'+$item_id+'"></div>');
        $('#edit-menu_item_edit_wrap-'+$item_id).attr('item-id',$item_id);
        $('#edit-menu_item_edit_wrap-'+$item_id).attr('menu-id','<?php print $id?>');
+       mw.tools.loading(the_li[0], true);
        mw.load_module('menu/edit_item','#edit-menu_item_edit_wrap-'+$item_id, function(){
            mw.$('#custom_link_inline_controller').show();
 
            menuSelectorInit("#menu-selector-"+$item_id);
            mwd.querySelector('#custom_link_inline_controller input[type="text"]').focus();
+           mw.tools.loading(the_li[0], false);
        });
       $('#ed_menu_holder').hide();
 }
@@ -158,11 +163,22 @@ mw.menu_items_sort_<?php print $rand; ?> = function(){
  });
  </script>
 
-<div class="mw-ui-box mw-ui-box-content manage-menus">
-    <style type="text/css" scoped="scoped">#mw_admin_menu_items_sort_<?php print $rand; ?> > ul{
+
+ <div class="menu-module-wrapper">
+
+ <style type="text/css" scoped="scoped">
+     #mw_admin_menu_items_sort_<?php print $rand; ?> > ul{
       height: auto !important;
-    }
+     }
+
+     .manage-menus{
+       max-width: 650px;
+     }
+
 </style>
+
+<div class="mw-ui-box mw-ui-box-content manage-menus">
+
     <div class="mw-modules-admin" id="mw_admin_menu_items_sort_<?php print $rand; ?>"> <?php print $data; ?></div>
 </div>
 <?php else: ?>
@@ -189,3 +205,6 @@ if(isset($params['menu-name'])): ?>
 
 <?php endif ?>
 <?php endif ?>
+
+
+</div>

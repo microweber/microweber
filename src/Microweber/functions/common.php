@@ -290,26 +290,7 @@ function cache_delete($cache_group = 'global', $cache_storage_type = false)
 }
 
 
-event_bind('mw_edit_page_admin_menus', 'mw_print_admin_menu_selector');
 
-function mw_print_admin_menu_selector($params = false)
-{
-    //d($params);
-    $add = '';
-    if (isset($params['id'])) {
-        $par = $params;
-
-        $par['content_id'] = $params['id'];
-        $par['type'] = 'menu';
-        $par['view'] = 'edit_page_menus';
-
-        unset($par['id']);
-        $add = '&content_id=' . $params['id'];
-
-        print module($par);
-
-    }
-}
 
 
 function get_user_by_id($params = false)
@@ -1580,16 +1561,19 @@ function template_name()
 
     return mw()->template->name();
 }
-
-
-function template_header($script_src)
+function admin_head($script_src)
 {
-    return mw()->template->header($script_src);
+    return mw()->template->admin_head($script_src);
+}
+
+function template_head($script_src)
+{
+    return mw()->template->head($script_src);
 }
 
 function template_headers_src()
 {
-    return mw()->template->header(true);
+    return mw()->template->head(true);
 
 }
 
