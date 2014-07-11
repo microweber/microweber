@@ -10,6 +10,12 @@
   font-family: Verdana, Geneva, sans-serif;
 }
 
+.isTyping .mw-plus-bottom,
+.isTyping .mw-columns-resizer,
+.isTyping .mw-plus-top{
+  visibility: hidden !important;
+}
+
 
 #mw-text-editor{
   width: 100%;

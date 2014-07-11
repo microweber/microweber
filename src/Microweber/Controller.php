@@ -2446,7 +2446,14 @@ class Controller
 //                } else {
 //                    $page['content'] = $l;
 //                }
-                $page['content'] = $this->app->parser->isolate_content_field($l);
+                $editable = $this->app->parser->isolate_content_field($l,true);
+
+                if($editable != false){
+                    $page['content'] = $editable;
+                } else {
+return false;
+                }
+
 
 
             }

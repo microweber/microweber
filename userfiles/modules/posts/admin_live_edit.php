@@ -159,7 +159,9 @@ mw.on.hashParam("action", function () {
         mw.$('#mw_posts_create_live_edit').attr('quick_edit', 1);
         mw.$('#mw_posts_create_live_edit').removeAttr('live_edit');
         mw.load_module('content/edit', '#mw_posts_create_live_edit', function () {
+			if(typeof(thismodal) != 'undefined'){
             parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 710, mw.$('#settings-container').height() + 25, false);
+			}
         });
     }
     mw.manage_live_edit_content = function ($id) {
@@ -169,7 +171,9 @@ mw.on.hashParam("action", function () {
         }
         $('#mw_posts_manage_live_edit').removeAttr('just-saved');
         mw.load_module('content/manage_live_edit', '#mw_posts_manage_live_edit', function () {
+			if(typeof(thismodal) != 'undefined'){
             parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 710, mw.$('#settings-container').height() + 25, false);
+			}
         })
     }
     mw.edit_content_live_edit = function ($cont_id) {
@@ -180,7 +184,9 @@ mw.on.hashParam("action", function () {
         $('#mw_posts_edit_live_edit').attr('quick_edit', 1);
 
         mw.load_module('content/edit', '#mw_posts_edit_live_edit', function () {
+			if(typeof(thismodal) != 'undefined'){
             parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 710, mw.$('#settings-container').height() + 25, false);
+			}
         });
     }
 

@@ -34,7 +34,7 @@ mw.drag.plus = {
       else if(mw.tools.hasClass(target, 'element')){
           return target;
       }
-      else if(target.nodeName === 'P'){
+      else if(target.nodeName === 'P' || target === mw.image_resizer){
           return target;
       }
       else if(mw.tools.hasParentsWithTag(target, 'p')){

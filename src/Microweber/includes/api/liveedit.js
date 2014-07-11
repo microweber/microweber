@@ -342,7 +342,7 @@ mw.drag = {
 
 
               if(!mw.image.isResizing){
-              if(event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element')){
+              if(event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false){
                 $(mw.image_resizer).addClass("active");
                  mw.image.resize.resizerSet(event.target);
               }
@@ -2715,7 +2715,7 @@ if(typeof mw.hasDraft === 'object'){
 
 
 
-                    if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit') ||  mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')) && !sel.getRangeAt(0).collapsed){
+                    if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit') ||  mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')) && (sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed)){
 
                       if(sel.rangeCount > 0){
                       var r = sel.getRangeAt(0);

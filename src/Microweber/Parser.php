@@ -312,7 +312,6 @@ class Parser
                                 $module_title = module_info($module_name);
 
 
-
                                 if (!isset($attrs['id'])) {
                                     global $mw_mod_counter;
                                     $mw_mod_counter++;
@@ -719,7 +718,7 @@ class Parser
                         $mw_replaced_edit_fields_vals[$parser_mem_crc] = $field_content;
 
                     }
-                     if ($rel == 'global') {
+                    if ($rel == 'global') {
                         $field_content = false;
                         $get_global = 1;
                     }
@@ -1085,8 +1084,10 @@ class Parser
         return false;
     }
 
-    public function isolate_content_field($l)
+    public function isolate_content_field($l, $strict = false)
     {
+
+
         require_once (MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 //        $field =  qp($l, '[field="content"]')->innerHTML();
@@ -1112,6 +1113,10 @@ class Parser
                 $found = true;
 
             }
+        }
+
+        if($strict == true and $found == false){
+            return false;
         }
 
         return $l;
