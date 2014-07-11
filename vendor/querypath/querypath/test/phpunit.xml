@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<phpunit>
+  <testsuites>
+    <testsuite name="test/Tests/QueryPath/DOMQueryTest">
+      <directory>test/Tests/QueryPath/</directory>
+      <directory>test/Tests/QueryPath/CSS/</directory>
+      <exclude>test/Tests/QueryPath/QueryPathExtensionTest.php</exclude>
+    </testsuite>
+  </testsuites>
+</phpunit>

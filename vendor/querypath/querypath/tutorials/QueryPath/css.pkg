@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>QueryPath CSS Reference</refname>
+  <refpurpose>Making the most of QueryPath CSS support</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Matt Butcher
+   <authorblurb>
+    {@link http://querypath.org Project Founder}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+  <title>About the QueryPath CSS Reference</title>
+  <para>
+    This document is a reference for the CSS Level 3 Selectors support as implemented
+    in QueryPath "quark" (2.0) and beyond.
+  </para>
+  <para>
+   For detailed API documentation, see {@link http://api.querypath.org}.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id selectors}">
+   <title>Selectors</title>
+  <para>
+   Selectors are composed of simple selectors combined with combinators. Simple
+   selectors may be composed of any combination of the following:
+   <itemizedlist>
+    <listitem>Element ID (<code>#elementID</code>)</listitem>
+    <listitem>Element name (<code>tagname</code>)</listitem>
+    <listitem>Class (.classname)</listitem>
+    <listitem>Attribute ([name="val"])</listitem>
+    <listitem>Pseudo-class (:class(value))</listitem>
+    <listitem>Pseudo-element (::element)</listitem>
+    <listitem>Any element (*)</listitem>
+   </itemizedlist>
+  </para>
+  <para>For a list of pseudo-classes, see {@tutorial QueryPath/csspseudo}.</para>
+ </refsect1>
+ <refsect1 id="{@id combinators}">
+    <title>Combinators</title>
+   <para>
+    Combinators join two simple selectors. The following combinators are supported
+    by QueryPath (this list includes ALL combinators defined in the CSS 3 Selectors
+    specification.):
+    <itemizedlist>
+     <listitem>Any descendant (' ' - a blank space between two selectors)</listitem>
+     <listitem>Direct descendant (&gt;)</listitem>
+     <listitem>Adjacent (+)</listitem>
+     <listitem>Another (,)</listitem>
+     <listitem>Sibling (~)</listitem>
+    </itemizedlist>
+   </para>
+  </refsect1>
+</refentry>

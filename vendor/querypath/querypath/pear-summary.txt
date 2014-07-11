@@ -1,0 +1,5 @@
+QueryPath: A library for working with XML, HTML, and web services.
+
+QueryPath implements much of the jQuery API in PHP, and supports CSS 
+selector queries, jQuery's traversal and manipulation APIs, and 
+adds many other useful methods. Learn more at http://querypath.org.

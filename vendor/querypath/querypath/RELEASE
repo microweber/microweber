@@ -1,0 +1,153 @@
+# RELEASE NOTES
+
+- Bug #119: qp.php autoloader bug. (via Faryshta)
+
+3.0.2
+
+- Bug #112: children() was not correctly restricting filters.
+- Bug #108: QueryPath\Query interface was too restrictive. (via mkalkbrenner)
+- Feature #106: :contains() is now case-insensitive. (via katzwebservices)
+
+3.0.1
+
+- Issue #100: qp.php divided into qp.php and qp_functions.php. Composer now includes qp(). (via hakre)
+- Issue #102: Added QueryPath.VERSION_MAJOR, changed QueryPath.VERSION
+- Issue #97: Rewrite children() and filter() to be a little more efficient.
+
+3.0.0
+
+** REALLY IMPORTANT CHANGE:** To match jQuery, and to correctly implement
+  a bottom-up parser, the following will no longer work:
+  $qp($html, 'li')->find(':root ul');
+  You can no longer use find() to ever, ever move UP the document true
+  (like back to the root from somewhere in the tree). You MUST use
+  top() to do this now. This is how jQuery works, and making this
+  minor change makes things much faster.
+
+** REALLY IMPORTANT CHANGE:** Many "destructive" operations now return a
+  new QueryPath object. This mirrors jQuery's behavior.
+
+  THAT MEANS: find() now works like jQuery find(), branch() is 
+  deprecated. findInPlace() does what find() used to do.
+
+1. removeAll() now works as it does in recent jQuery. Thanks to GDMac
+  (issues #77 #78) for the fix.
+2. Refactored to use namespaces.
+3. Refactored to be SPR-0 compliant.
+4. Now uses Composer.
+5. The traversal mechanism is now bottom-up, which means Querypath is
+  faster.
+6. Issue #83: Fixed broken forloop in techniques.php. Thanks to BillOrtell for
+  the fix.
+7. ID-based searches no longer guarantee that only one element will be returned.
+  This accomodates XML documents that may use 'id' in a way different than
+  HTML.
+8. The base CSS Traverser is now optimized for selectors that use ID or
+  class, but no element.
+9. Pseudo-element behavior has been rewritten to better conform to the
+  standard. Using a pseudo-element no longer changes the match. Rather,
+  it checks to see if the condition is met by the present element, and
+  returns TRUE if it does. This means we do not need special case logic
+  to deal with text fragments.
+10. :x-root, :x-reset, and :scope are now implemented using the
+  same algorithm (they are, in other words, aliases). Since
+  :scope is part of CSS 4, you should use that.
+11. Support for the following CSS 4 Selectors featues has been added:
+  - :matches() pseudoclass, which behaves the way :has() behaves.
+  - :any-link
+  - :local-link (with some restrictions, as it does not know what the real
+    URL of the document is).
+  - :scope (see above)
+12. Traversing UP the DOM tree with find() is no longer allowed. Use top().
+13. :first is an alias of :nth(1) instead of :first-of-type. This follows
+  jQuery now.
+14. eachLambda() is now deprecated. It WILL be removed in the future.
+15. **Extensions:** QPList, QPTPL, and QPDB have all been moved to the new 
+  project QueryPath-Ext.
+
+2.1.3
+
+1. QueryPath Templates have gotten an overhaul from TomorrowToday (Issue #59).
+   Templates now support attributes.
+
+2.1.2:
+
+1. Fixed the case where remove() caused an error when no items were found
+   to remove (issue #63). Thanks marktheunissen for the bug report and fix.
+
+2. New XML extensions to deal with adding namespaced elements (#64). Thanks to
+   theshadow for contributing an entire extension, and to farinspace for
+   detailed experiments with QP and XML namespaces.
+
+3. The adjacent CSS selector has been modified to ignore text elements. This
+   seems to be inline with the spec, but I am not 100% sure. Thanks to
+   fiveminuteargument for the patch.
+
+2.1.1:
+
+1. The xhtml() and writeXHTML() methods now correctly escape JS/CSS and also correctly
+   fold some tags into unaries will keeping other empty tags. See issues #10, #47. 
+   Thanks to Alex Lawrence for his input.
+
+2. The method document() has been added. Thanks to Alex Lawrence for suggesting this 
+   addition.
+
+3. The fetch_rss.php example created broken HREFs in some cases. Thanks to yaph for
+   the patch.
+
+4. The xpath() method now supports setting default namespaces. Thanks to Xavier Prud'homme
+   for a patch.
+
+5. The remove() method was fixed (issue #55) to now correctly return a QueryPath with 
+   just the removed nodes, while not altering the base QueryPath object. Thanks to MarcusX
+   for finding and reporting the problem.
+
+6. Added childrenText() convenience method. (Safe -- no changes to existing functions.)
+   Thanks to Xavatar for suggestion and proofing initial code.
+
+7. Fixed bad character stripping in htmlqp() (Issue #58, #52) so that meaningful whitespace
+   is no longer stripped prior to parsing. Thanks to NortherRaven for detailed report
+   and help testing and debugging.
+
+8. Fixed broken :nth-of-type pseudo-class (Issue #57). Thanks to NorthernRaven for the 
+   detailed report and help debugging.
+   
+9. Fixed broken an+b rule handling in the special case '-n+b'. Thanks to NorthernRaven for
+   reporting and helping out.
+   
+10. Xinclude support has been added via the xinclude() method on QueryPath. Thanks to Crell
+   for the suggestion and to sdboyer for help (Issue #50).
+
+11. QueryPath now implements Countable, which means you can do `count(qp($xml, 'div'))`. The
+   size() function has been marked deprecated.
+
+12. is() now takes both DOMNodes and Traversables (including QueryPath) as an argument. See
+   issue #53.
+   
+13. The dirty_html.php example (contributed by Emily Brand, thanks!) is now fixed. Thanks to
+   MartyIX for tracking down the issue (#59).
+
+2.1.0:
+Big Changes:
+
+1. There is now an `htmlqp()` function that parses crufty HTML in a far
+more reliable way than `qp()`. Use this instead of any variant of 
+the older `@qp()` setup.
+
+2. The API has been brought into alignment with jQuery 1.4. See 
+API-2.1.0 for details.
+
+3. This release was driven substantially by eabrand's GSOC 2010 
+contributions. Thanks, Emily!
+
+4. There are now Phar and PEAR packages available. Got to 
+http://pear.querypath.org for PEAR packages.
+
+5. The minimal QP distribution is no longer minified, as it reportedly
+causes XDebug to crash.
+
+7. Data URs are now supported. QueryPath can now embed images directly
+into HTML and XML this way.
+
+8. Documentation is now in Doxygen instead of PhpDocumentor. Thanks
+to Matt Farina and Kevin O'Brien for their input.

@@ -150,6 +150,7 @@ class Module
         $fields_to_add[] = array('position', 'int(11) default NULL');
         $fields_to_add[] = array('as_element', 'int(11) default 0');
         $fields_to_add[] = array('ui_admin', 'int(11) default 0');
+        $fields_to_add[] = array('ui_admin_iframe', 'int(11) default 0');
         $fields_to_add[] = array('is_system', 'int(11) default 0');
 
         $fields_to_add[] = array('version', 'varchar(11) default NULL');
@@ -1186,10 +1187,10 @@ class Module
 
         $table = MW_DB_TABLE_MODULE_TEMPLATES;
         $save = false;
-        // d($table);
 
         if (!empty($data_to_save)) {
             $s = $data_to_save;
+
             $save = $this->app->db->save($table, $s);
         }
 

@@ -11,23 +11,51 @@ Pimple
 Pimple is a small Dependency Injection Container for PHP that consists of just
 one file and one class (about 80 lines of code).
 
-`Download it`_, require it in your code, and you're good to go
+Installation
+------------
+
+To include Pimple in your project, add it to your ``composer.json`` file:
+
+.. code-block:: javascript
+
+    {
+        "require": {
+            "pimple/pimple": "~2.1"
+        }
+    }
+
+Pimple is also available as a PHP C extension:
+
+.. code-block:: bash
+
+    $ cd ext/pimple
+    $ phpize
+    $ ./configure
+    $ make
+    $ make install
+
+Usage
+-----
+
+Creating a container is a matter of instating the ``Container`` class
 
 .. code-block:: php
 
-    require_once '/path/to/Pimple.php';
+    use Pimple\Container;
 
-Creating a container is a matter of instating the ``Pimple`` class
+    $container = new Container();
 
-.. code-block:: php
+.. note::
 
-    $container = new Pimple();
+    In Pimple 2.0, the class ``Pimple\Container`` was named ``Pimple`` (a class
+    alias is automatically registered to keep backward compatibility, but you
+    should upgrade your code.)
 
 As many other dependency injection containers, Pimple is able to manage two
 different kind of data: *services* and *parameters*.
 
 Defining Parameters
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 Defining a parameter is as simple as using the Pimple instance as an array
 
@@ -38,7 +66,7 @@ Defining a parameter is as simple as using the Pimple instance as an array
     $container['session_storage_class'] = 'SessionStorage';
 
 Defining Services
------------------
+~~~~~~~~~~~~~~~~~
 
 A service is an object that does something as part of a larger system.
 Examples of services: Database connection, templating engine, mailer. Almost
@@ -76,7 +104,7 @@ Using the defined services is also very easy
     // $session = new Session($storage);
 
 Protecting Parameters
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 Because Pimple sees anonymous functions as service definitions, you need to
 wrap anonymous functions with the ``protect()`` method to store them as
@@ -86,8 +114,8 @@ parameter
 
     $container['random'] = $container->protect(function () { return rand(); });
 
-Modifying services after creation
----------------------------------
+Modifying Services after Definition
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In some cases you may want to modify a service definition after it has been
 defined. You can use the ``extend()`` method to define additional code to
@@ -108,8 +136,8 @@ be run on your service just after it is created
 The first argument is the name of the object, the second is a function that
 gets access to the object instance and the container.
 
-Fetching the service creation function
---------------------------------------
+Fetching the Service Creation Function
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When you access an object, Pimple automatically calls the anonymous function
 that you defined, which creates the service object for you. If you want to get
@@ -123,46 +151,38 @@ raw access to this function, you can use the ``raw()`` method
 
     $sessionFunction = $container->raw('session');
 
-Packaging a Container for reusability
--------------------------------------
+Extending a Container
+~~~~~~~~~~~~~~~~~~~~~
 
-If you use the same libraries over and over, you might want to create reusable
-containers. Creating a reusable container is as simple as creating a class
-that extends ``Pimple``, and configuring it in the constructor
+.. versionadded:: 2.1
+
+    Support for extending a container was introduced in Pimple 2.1.
+
+If you use the same libraries over and over, you might want to reuse some
+services from one project to the other; package your services into a
+**provider** by implementing ``Pimple\ServiceProviderInterface``:
 
 .. code-block:: php
 
-    class SomeContainer extends Pimple
-    {
-        public function __construct()
-        {
-            parent::__construct();
+    use Pimple\Container;
 
-            $this['parameter'] = 'foo';
-            $this['object'] = function () { return stdClass(); };
+    class FooProvider implements Pimple\ServiceProviderInterface
+    {
+        public function register(Container $pimple)
+        {
+            // register some services and parameters
+            // on $pimple
         }
     }
 
-Using this container from your own is as easy as it can get
+Then, the provider can be easily registered on a Container:
 
 .. code-block:: php
 
-    $container = new Pimple();
-
-    // define your project parameters and services
-    // ...
-
-    // embed the SomeContainer container
-    $container['embedded'] = function () { return new SomeContainer(); };
-
-    // configure it
-    $container['embedded']['parameter'] = 'bar';
-
-    // use it
-    $container['embedded']['object']->...;
+    $pimple->register(new FooProvider());
 
 Defining Factory Services
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default, each time you get a service, Pimple returns the **same instance**
 of it. If you want a different instance to be returned for all calls, wrap your
@@ -174,5 +194,4 @@ anonymous function with the ``factory()`` method
         return new Session($c['session_storage']);
     });
 
-.. _Download it:              https://raw2.github.com/fabpot/Pimple/master/lib/Pimple.php
 .. _Pimple 1.x documentation: https://github.com/fabpot/Pimple/tree/1.1

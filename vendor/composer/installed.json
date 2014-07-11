@@ -298,218 +298,6 @@
         "homepage": "http://code.google.com/p/rangy/"
     },
     {
-        "name": "components/bootstrap",
-        "version": "3.1.1",
-        "version_normalized": "3.1.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/components/bootstrap.git",
-            "reference": "839953cfb830aa27e8fd94404a4a6e02fb38a51a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/components-bootstrap-839953cfb830aa27e8fd94404a4a6e02fb38a51a-zip-8d4e92.zip",
-            "reference": "839953cfb830aa27e8fd94404a4a6e02fb38a51a",
-            "shasum": "2a74de2b6c460627789813db8a8b4fac1c6e28bb"
-        },
-        "require": {
-            "components/jquery": ">=1.9"
-        },
-        "suggest": {
-            "components/bootstrap-default": "Provide a theme for Bootstrap as components/bootstrap only provides the CSS as file assets"
-        },
-        "time": "2014-02-25 09:50:56",
-        "type": "component",
-        "extra": {
-            "component": {
-                "scripts": [
-                    "js/bootstrap.js"
-                ],
-                "files": [
-                    "js/bootstrap.min.js",
-                    "css/*.css",
-                    "fonts/*",
-                    "less/*"
-                ],
-                "shim": {
-                    "deps": [
-                        "jquery"
-                    ]
-                }
-            }
-        },
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "Twitter, Inc"
-            }
-        ],
-        "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
-        "homepage": "http://twitter.github.com/bootstrap/",
-        "keywords": [
-            "bootstrap",
-            "css"
-        ]
-    },
-    {
-        "name": "components/bootstrap-default",
-        "version": "3.1.1",
-        "version_normalized": "3.1.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/components/bootstrap-default.git",
-            "reference": "bce255dfe1a9cb0ce96659fc3785b4ce6a0ff695"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/components-bootstrap-default-bce255dfe1a9cb0ce96659fc3785b4ce6a0ff695-zip-8d2bd5.zip",
-            "reference": "bce255dfe1a9cb0ce96659fc3785b4ce6a0ff695",
-            "shasum": "2b1c505fa5b5b1a8f9a11f3ebad4747b0be25d6f"
-        },
-        "require": {
-            "components/bootstrap": "*",
-            "robloach/component-installer": "*"
-        },
-        "time": "2014-04-04 21:07:20",
-        "type": "component",
-        "extra": {
-            "component": {
-                "styles": [
-                    "css/bootstrap.css",
-                    "css/bootstrap-theme.css"
-                ],
-                "files": [
-                    "css/bootstrap.min.css",
-                    "css/bootstrap-theme.min.css",
-                    "fonts/*"
-                ],
-                "shim": {
-                    "deps": [
-                        "bootstrap"
-                    ]
-                }
-            }
-        },
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "Twitter, Inc"
-            }
-        ],
-        "description": "Shim repository for the default theme for Bootstrap.",
-        "homepage": "http://twitter.github.com/bootstrap/",
-        "keywords": [
-            "bootstrap",
-            "css"
-        ]
-    },
-    {
-        "name": "zeroclipboard/zeroclipboard",
-        "version": "2.0.0-beta.5",
-        "version_normalized": "2.0.0.0-beta5",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/zeroclipboard/zeroclipboard.git",
-            "reference": "5859f1bf454f4666197fbb9f0b9fd8350ab41f27"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/zeroclipboard-zeroclipboard-5859f1bf454f4666197fbb9f0b9fd8350ab41f27-zip-c43d98.zip",
-            "reference": "5859f1bf454f4666197fbb9f0b9fd8350ab41f27",
-            "shasum": "89b55323011f4dd1ec5cfad018ca3b82b2bcd624"
-        },
-        "time": "2014-04-29 13:39:33",
-        "type": "library",
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Jon Rohan",
-                "homepage": "http://jonrohan.me/",
-                "role": "Developer"
-            },
-            {
-                "name": "James M. Greene",
-                "email": "james.m.greene@gmail.com",
-                "homepage": "http://jamesgreene.net/",
-                "role": "Developer"
-            }
-        ],
-        "description": "The ZeroClipboard library provides an easy way to copy text to the clipboard using an invisible Adobe Flash movie and a JavaScript interface.",
-        "homepage": "http://zeroclipboard.org/",
-        "keywords": [
-            "clip",
-            "clipboard",
-            "clippy",
-            "copy",
-            "cut",
-            "flash",
-            "paste",
-            "zclip"
-        ]
-    },
-    {
-        "name": "pimple/pimple",
-        "version": "v2.0.0",
-        "version_normalized": "2.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fabpot/Pimple.git",
-            "reference": "f99b3df12991c22463927aa6a18fd9b2212917f2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/pimple-pimple-f99b3df12991c22463927aa6a18fd9b2212917f2-zip-68c3fa.zip",
-            "reference": "f99b3df12991c22463927aa6a18fd9b2212917f2",
-            "shasum": "7058a50d86eb842b4caf50c2a7563f736fa4219a"
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2014-02-10 08:05:32",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Pimple": "lib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            }
-        ],
-        "description": "Pimple is a simple Dependency Injection Container for PHP 5.3",
-        "homepage": "http://pimple.sensiolabs.org",
-        "keywords": [
-            "container",
-            "dependency injection"
-        ]
-    },
-    {
         "name": "prewk/xml-streamer",
         "version": "0.4.2",
         "version_normalized": "0.4.2.0",
@@ -580,55 +368,6 @@
         ],
         "description": "Keboola CSV reader and writer",
         "homepage": "http://keboola.com"
-    },
-    {
-        "name": "phroute/phroute",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/joegreen0991/phroute.git",
-            "reference": "ab3b0f2c65adb835389e190f7999c88c0d0655e1"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/joegreen0991/phroute/zipball/ab3b0f2c65adb835389e190f7999c88c0d0655e1",
-            "reference": "ab3b0f2c65adb835389e190f7999c88c0d0655e1",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "require-dev": {
-            "satooshi/php-coveralls": "dev-master"
-        },
-        "time": "2014-06-17 22:54:51",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Phroute": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD-3-Clause"
-        ],
-        "authors": [
-            {
-                "name": "Nikita Popov",
-                "email": "nikic@php.net"
-            },
-            {
-                "name": "Joe Green",
-                "email": "joe.green.0991@gmail.com"
-            }
-        ],
-        "description": "Fast request router for PHP",
-        "keywords": [
-            "router",
-            "routing"
-        ]
     },
     {
         "name": "j4mie/idiorm",
@@ -735,55 +474,6 @@
         ]
     },
     {
-        "name": "owasp/phprbac",
-        "version": "2.0.x-dev",
-        "version_normalized": "2.0.9999999.9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/OWASP/rbac.git",
-            "reference": "82ba74cf823a8c5a9225a56d51f58f9f60b20c54"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/OWASP/rbac/zipball/82ba74cf823a8c5a9225a56d51f58f9f60b20c54",
-            "reference": "82ba74cf823a8c5a9225a56d51f58f9f60b20c54",
-            "shasum": ""
-        },
-        "time": "2014-03-14 13:16:56",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "PhpRbac": "PhpRbac/src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "CC-BY-SA-3.0"
-        ],
-        "authors": [
-            {
-                "name": "AbiusX",
-                "email": "me@abiusx.com",
-                "homepage": "http://abiusx.com/",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Jesse Burns",
-                "email": "jesse.burns@alliancecms.com",
-                "homepage": "http://www.jbwebware.com",
-                "role": "Developer"
-            }
-        ],
-        "description": "PHP-RBAC is the de-facto authorization library for PHP. It provides developers with NIST Level 2 Standard Role Based Access Control and more, in the fastest implementation yet.",
-        "homepage": "http://phprbac.net/",
-        "keywords": [
-            "owasp",
-            "rbac",
-            "security"
-        ]
-    },
-    {
         "name": "j4mie/paris",
         "version": "v1.5.3",
         "version_normalized": "1.5.3.0",
@@ -853,22 +543,22 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Process.git",
-            "reference": "6ce30e850357c844696411d49c4cfe7f19446f6e"
+            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Process/zipball/6ce30e850357c844696411d49c4cfe7f19446f6e",
-            "reference": "6ce30e850357c844696411d49c4cfe7f19446f6e",
-            "shasum": ""
+            "url": "http://packages.microweber.com/dist/symfony-process-8a3edace8e8aabed8992b993bfc13df3b1e836f2-zip-b5107c.zip",
+            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2",
+            "shasum": "ae566f1f43c0bda65e61dd1e62f4fc7189e59ebf"
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2014-07-01 06:41:10",
+        "time": "2014-04-28 05:15:04",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.6-dev"
+                "dev-master": "2.5-dev"
             }
         },
         "installation-source": "dist",
@@ -895,53 +585,6 @@
         ],
         "description": "Symfony Process Component",
         "homepage": "http://symfony.com"
-    },
-    {
-        "name": "evenement/evenement",
-        "version": "1.0.x-dev",
-        "version_normalized": "1.0.9999999.9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/igorw/evenement.git",
-            "reference": "8b0918f8374327dfed4408fe467980ab41d556dd"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/igorw/evenement/zipball/8b0918f8374327dfed4408fe467980ab41d556dd",
-            "reference": "8b0918f8374327dfed4408fe467980ab41d556dd",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2012-12-29 17:04:52",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Evenement": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Igor Wiedler",
-                "email": "igor@wiedler.ch",
-                "homepage": "http://wiedler.ch/igor/"
-            }
-        ],
-        "description": "Événement is a very simple event dispatching library for PHP 5.3",
-        "keywords": [
-            "event-dispatcher"
-        ]
     },
     {
         "name": "masterminds/html5",
@@ -1005,6 +648,265 @@
             "querypath",
             "serializer",
             "xml"
+        ]
+    },
+    {
+        "name": "components/bootstrap",
+        "version": "3.2.0",
+        "version_normalized": "3.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/components/bootstrap.git",
+            "reference": "9c6cfef04cb74587cd610f7dca8c4352d77bfc32"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/components/bootstrap/zipball/9c6cfef04cb74587cd610f7dca8c4352d77bfc32",
+            "reference": "9c6cfef04cb74587cd610f7dca8c4352d77bfc32",
+            "shasum": ""
+        },
+        "require": {
+            "components/jquery": ">=1.9"
+        },
+        "suggest": {
+            "components/bootstrap-default": "Provide a theme for Bootstrap as components/bootstrap only provides the CSS as file assets"
+        },
+        "time": "2014-07-02 12:39:50",
+        "type": "component",
+        "extra": {
+            "component": {
+                "scripts": [
+                    "js/bootstrap.js"
+                ],
+                "files": [
+                    "js/bootstrap.min.js",
+                    "css/*.css",
+                    "fonts/*",
+                    "less/mixins/*.less",
+                    "less/*.less"
+                ],
+                "shim": {
+                    "deps": [
+                        "jquery"
+                    ]
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Twitter, Inc"
+            }
+        ],
+        "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+        "homepage": "http://getbootstrap.com",
+        "keywords": [
+            "bootstrap",
+            "css"
+        ]
+    },
+    {
+        "name": "components/bootstrap-default",
+        "version": "3.2.0",
+        "version_normalized": "3.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/components/bootstrap-default.git",
+            "reference": "874e810085ca1f49073dfea04b7a6048adcc8306"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/components/bootstrap-default/zipball/874e810085ca1f49073dfea04b7a6048adcc8306",
+            "reference": "874e810085ca1f49073dfea04b7a6048adcc8306",
+            "shasum": ""
+        },
+        "require": {
+            "components/bootstrap": "*",
+            "robloach/component-installer": "*"
+        },
+        "time": "2014-07-02 12:44:59",
+        "type": "component",
+        "extra": {
+            "component": {
+                "styles": [
+                    "css/bootstrap.css",
+                    "css/bootstrap-theme.css"
+                ],
+                "files": [
+                    "css/bootstrap.min.css",
+                    "css/bootstrap-theme.min.css",
+                    "fonts/*"
+                ],
+                "shim": {
+                    "deps": [
+                        "bootstrap"
+                    ]
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Twitter, Inc"
+            }
+        ],
+        "description": "Shim repository for the default theme for Bootstrap.",
+        "homepage": "http://getbootstrap.com",
+        "keywords": [
+            "bootstrap",
+            "css"
+        ]
+    },
+    {
+        "name": "zeroclipboard/zeroclipboard",
+        "version": "2.1.5",
+        "version_normalized": "2.1.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/zeroclipboard/zeroclipboard.git",
+            "reference": "ebb968eec07391dcc53c5934bde3a31c853c335d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/zeroclipboard/zeroclipboard/zipball/ebb968eec07391dcc53c5934bde3a31c853c335d",
+            "reference": "ebb968eec07391dcc53c5934bde3a31c853c335d",
+            "shasum": ""
+        },
+        "time": "2014-07-03 12:53:26",
+        "type": "library",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jon Rohan",
+                "homepage": "http://jonrohan.me/",
+                "role": "Developer"
+            },
+            {
+                "name": "James M. Greene",
+                "email": "james.m.greene@gmail.com",
+                "homepage": "http://jamesgreene.net/",
+                "role": "Developer"
+            }
+        ],
+        "description": "The ZeroClipboard library provides an easy way to copy text to the clipboard using an invisible Adobe Flash movie and a JavaScript interface.",
+        "homepage": "http://zeroclipboard.org/",
+        "keywords": [
+            "clip",
+            "clipboard",
+            "clippy",
+            "copy",
+            "cut",
+            "flash",
+            "paste",
+            "zclip"
+        ]
+    },
+    {
+        "name": "pimple/pimple",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fabpot/Pimple.git",
+            "reference": "6a18683f5f52c7eff442812b48122d21d44fbddb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fabpot/Pimple/zipball/6a18683f5f52c7eff442812b48122d21d44fbddb",
+            "reference": "6a18683f5f52c7eff442812b48122d21d44fbddb",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2014-06-26 14:39:39",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Pimple": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
+            }
+        ],
+        "description": "Pimple is a simple Dependency Injection Container for PHP 5.3",
+        "homepage": "http://pimple.sensiolabs.org",
+        "keywords": [
+            "container",
+            "dependency injection"
+        ]
+    },
+    {
+        "name": "vlucas/valitron",
+        "version": "1.1.7",
+        "version_normalized": "1.1.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/vlucas/valitron.git",
+            "reference": "c0ff8076d694a3c35f97dc34760107bb2bea6f20"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/vlucas/valitron/zipball/c0ff8076d694a3c35f97dc34760107bb2bea6f20",
+            "reference": "c0ff8076d694a3c35f97dc34760107bb2bea6f20",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "time": "2014-06-11 14:25:29",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Valitron": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD"
+        ],
+        "authors": [
+            {
+                "name": "Vance Lucas",
+                "email": "vance@vancelucas.com",
+                "homepage": "http://www.vancelucas.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Simple, elegant, stand-alone validation library with NO dependencies",
+        "homepage": "http://github.com/vlucas/valitron",
+        "keywords": [
+            "valid",
+            "validation",
+            "validator"
         ]
     }
 ]

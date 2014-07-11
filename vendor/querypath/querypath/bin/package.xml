@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<package packagerversion="1.6.1" version="2.0" 
+xmlns="http://pear.php.net/dtd/package-2.0" 
+xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 
+http://pear.php.net/dtd/tasks-1.0.xsd 
+http://pear.php.net/dtd/package-2.0 
+http://pear.php.net/dtd/package-2.0.xsd"> 
+ <name>QueryPath</name> 
+ <uri>http://www.example.com/tarballs/Package-1.0.0</uri>
+ <summary>An HTML/XML library</summary>
+ <description>
+   The QueryPath package contains the QueryPath base library, along with all
+   of the extensions included in the base library. To learn more about
+   QueryPath, go to http://querypath.org.
+ </description>
+ <lead>
+   <name>Matt Butcher</name>
+   <user>mbutcher</user>
+   <email>matt@aleph-null.tv</email>
+   <active>yes</active>
+ </lead>
+ <date>2009-06-25</date>
+ <version>
+   <release>2.0</release>
+   <api>2.0</api>
+ </version>
+ <stability>
+   <release>beta</release>
+   <api>stable</api>
+ </stability>
+ <license uri="http://opensource.org/licenses/lgpl-2.1.php">LGPL v. 2.1</license>
+ <notes>
+   QueryPath 2.0 introduces several new (minor) features. With a reworked
+   internal storage model, it should perform significantly faster than its 
+   precursor. Many bugs, mostly minor, have been fixed since QueryPath 1.2.
+   
+   QueryPath 2.0 offers many new features, as well as numerous bug fixes and
+   overall performance improvement. Major features:
+
+   * New functions, including textImplode().
+   * New arguments to existing functions, such as xml() and branch().
+   * A new QueryPathOptions configuration object, which allows request-wide
+     configuration.
+   * QueryPath now supports many more options, making it more configurable.
+   * The re-factoring of QueryPath.php to improve performance.
+   * The removal of the QueryPath interface, and the renaming of QueryPathImpl
+     to QueryPath. (No public-facing changes.)
+   * Better handling of broken HTML/XML entities
+   * Overall improvement on error handling. QueryPath now consistently throws
+     exceptions. It no longer generates errors.
+   * Improved performance. Internal data structures have been rewritten for 
+     optimization. Even instances on an opcode cache should see performance 
+     improvements.
+   * Numerous bugs fixed.
+   * Unused protected and private methods have been removed.
+   * Unit testing has been bumped up to provide 100% function coverage and
+     90%+ line coverage.
+ </notes>
+ <contents>
+   <dir name="/" baseinstalldir="QueryPath">
+    <dir name="QueryPath">
+      <file name="QueryPath.php" role="php"/>
+      <file name="QueryPathExtension.php" role="php"/>
+      <file name="CssParser.php" role="php"/>
+      <file name="CssEventHandler.php" role="php"/>
+      <dir name="Extension">
+        <file name="QPDB.php" role="php"/>
+        <file name="QPList.php" role="php"/>
+        <file name="QPTPL.php" role="php"/>
+        <file name="QPXML.php" role="php"/>
+        <file name="QPXSL.php" role="php"/>
+      </dir>
+    </dir>
+  </dir>
+</contents>
+<dependencies>
+  <required>
+    <php>
+      <min>5.1.0</min>
+    </php>
+    <pearinstaller>
+      <min>1.4.12</min>
+    </pearinstaller>
+  </required>
+</dependencies>
+<phprelease></phprelease>
+<changelog/></package>

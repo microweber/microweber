@@ -1,4 +1,14 @@
-* 2.0.0 (2013-XX-XX)
+* 2.1.1 (2014-XX-XX)
+
+ * n/a
+
+* 2.1.0 (2014-06-24)
+
+ * moved the Pimple to Pimple\Container (with a BC layer -- Pimple is now a
+   deprecated alias which will be removed in Pimple 3.0)
+ * added Pimple\ServiceProviderInterface (and Pimple::register())
+
+* 2.0.0 (2014-02-10)
 
  * changed extend to automatically re-assign the extended service and keep it as shared or factory
    (to keep BC, extend still returns the extended service)

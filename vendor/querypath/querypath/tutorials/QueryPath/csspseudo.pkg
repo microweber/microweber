@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Pseudo-classes and Pseudo-elements</refname>
+  <refpurpose>Reference for pseudo-classes and pseudo-elements supported in QueryPath</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Matt Butcher
+   <authorblurb>
+    {@link http://querypath.org Project Founder}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+  <title>About the QueryPath CSS Reference</title>
+  <para>
+    The CSS 3 Selector specification defines pseudo-classes and pseudo-elements. QueryPath implements as many of these as is possible.
+  </para>
+  <para>
+   For details on CSS 3 selectors, the canonical resource is the specification, currently in final draft form at {@link http://www.w3.org/TR/2009/WD-css3-selectors-20090310/}.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id supported}">
+   <title>Supported Pseudo-classes and Pseudo-elements</title>
+  <para>
+   There are three categories of supported pseudo-classes: Those from the CSS 3 Selector specification, those that are QueryPath-specific, and those that were defined in jQuery, and thus supported here for compatibility.
+  </para>
+  <refsect2 id="{@id supported-standard}">
+      <title>Supported standard pseudo-classes</title>
+      <para>
+       <itemizedlist mark="bullet">
+        <listitem>:lang(en-us) -- language code, matches lang or xml:lang attributes.</listitem>
+        <listitem>:link() -- HTML only</listitem>
+        <listitem>:root()</listitem>
+        <listitem>:nth-child(an + b) </listitem>
+        <listitem>:nth-last-child(an + b)</listitem>
+        <listitem>:nth-of-type(an + b) -- as of QuerPath 'quark' (2.0)</listitem>
+        <listitem>:nth-last-of-type(an + b)  -- as of QuerPath 'quark'</listitem>
+        <listitem>:first-child</listitem>
+        <listitem>:last-child</listitem>
+        <listitem>:first-of-type</listitem>
+        <listitem>:last-of-type</listitem>
+        <listitem>:only-child</listitem>
+        <listitem>:only-of-type</listitem>
+        <listitem>:empty</listitem>
+        <listitem>:not(filter) -- this can take a FULL CSS 3 selector, not just a simple selector.</listitem>
+     </itemizedlist>
+    </para>
+   </refsect2>
+   <refsect2 id="{@id supported-ext}">
+       <title>Supported QueryPath-specific pseudo-classes</title>
+       <para>
+        <itemizedlist mark="bullet">
+         <listitem>:x-root</listitem>
+         <listitem>:x-reset</listitem>
+      </itemizedlist>
+     </para>
+    </refsect2>
+    <refsect2 id="{@id supported-jquery}">
+         <title>Supported non-standard jQuery pseudo-classes</title>
+         <para>
+          <itemizedlist mark="bullet">
+           <listitem>:even -- like nth-child(even)</listitem>
+           <listitem>:odd -- like nth-child(odd)</listitem>
+           <listitem>:lt(int) -- index of element is less than given value</listitem>
+           <listitem>:gt(int) -- index of element is greater than given value</listitem>
+           <listitem>:nth(int) -- index of element is equal to given value</listitem>
+           <listitem>:eq(int) -- synonym for :nth()</listitem>
+           <listitem>:first -- element is first child of some parent</listitem>
+           <listitem>:last -- element is last child of some parent</listitem>
+           <listitem>:parent  -- element has at least one child</listitem>
+           <listitem>:enabled -- element is enabled form element (HTML only)</listitem>
+           <listitem>:disabled -- element is disabled form element (HTML only)</listitem>
+           <listitem>:checked -- element is checked, likely a form field (HTML only)</listitem>
+           <listitem>:text -- element is text field (HTML only)</listitem>
+           <listitem>:radio -- element is radio button (HTML only)</listitem>
+           <listitem>:checkbox -- element is checkbox (HTML only)</listitem>
+           <listitem>:file -- element is file upload field (HTML only)</listitem>
+           <listitem>:password -- element is password field (HTML only)</listitem>
+           <listitem>:submit -- element is submit button (HTML only)</listitem>
+           <listitem>:image</listitem>
+           <listitem>:button -- element is button (HTML only)</listitem>
+           <listitem>:reset -- element is reset button (HTML only)</listitem>
+           <listitem>:header -- elements that are HTML headers (h1 - hN)</listitem>
+           <listitem>:has(some filter) -- elements that have children that match the supplied filter</listitem>
+           <listitem>:contains(some text) -- elements that have text of which some substring matches the supplied value (Prior to QueryPath 2.1, this behaved identically to :contains-exactly)</listitem>
+           <listitem>:contains-exactly(some text) -- elements that have text which exactly matches the supplied value (QueryPath 2.1)</listitem>
+        </itemizedlist>
+       </para>
+      </refsect2>
+      <refsect2 id="{@id supported-ext}">
+           <title>Supported pseudo-elements</title>
+           <para>
+             pseudo-elements use the double-colon (::) notation. 
+             No other notation is supported in QueryPath. (Other CSS 3
+             implementations may support single-colon syntax of CSS 2.1. 
+             QueryPath does not.)
+           </para>
+           <para>
+            <itemizedlist mark="bullet">
+             <listitem>::first-letter</listitem>
+             <listitem>::first-line -- calculated by seeking for the first explicit line ending (\n).</listitem>
+          </itemizedlist>
+         </para>
+        </refsect2>
+ </refsect1>
+ <refsect1 id="{@id unsupported}">
+    <title>Unsupported Pseudo-classes and Pseudo-elements</title>
+    <para>
+      Several pseudo-classes and pseudo-elements require a visual user agent (UA)
+      before they can be used. QueryPath does not provide a visual representation 
+      of XML or HTML data, and thus cannot implement these pseudo-classes and
+      pseudo-elements.
+    </para>
+    <para>
+      <itemizedlist>
+        <listitem>:visited</listitem>
+        <listitem>:hover</listitem>
+        <listitem>:active</listitem>
+        <listitem>:focus</listitem>
+        <listitem>:target</listitem>
+        <listitem>:indeterminate</listitem>
+        <listitem>:animated (jQuery extension)</listitem>
+        <listitem>:visible (jQuery extension)</listitem>
+        <listitem>:hidden (jQuery extension)</listitem>
+        <listitem>::before</listitem>
+        <listitem>::after</listitem>
+        <listitem>::selected</listitem>
+      </itemizedlist>
+    </para>
+ </refsect1>
+</refentry>

@@ -1,0 +1,80 @@
+INSTALLING QUERYPATH
+==============================
+
+There are two distributions of QueryPath: 
+
+1. The full version, which includes source, documentation, unit tests, 
+and examples.
+
+2. The minimal version, which includes only the source code in 
+compacted form.
+
+INSTALLING THE MINIMAL VERSION
+==============================
+To install QueryPath-minimal:
+- Extract the contents of the archive:
+  
+  tar -zxvf QueryPath-2.0-minimal.tgz
+
+- Move the extracted directory to the desired location. Generally,
+  it is best to rename this folder 'QueryPath'. 
+
+  mv QueryPath-2.0-minimal myproject/QueryPath
+  
+  (Alternately, you may wish to install QueryPath in a location available on
+  you PHP library path for use in all applications on your system.)
+  
+- Include QueryPath in your scripts:
+
+  require 'QueryPath/QueryPath.php';
+  
+- The minimal package does not contain any documentation. To view
+  the documentation online, go to http://api.querypath.org.
+
+INSTALLING THE FULL VERSION
+==============================
+To install QueryPath:
+
+- Extract the contents of the archive.
+
+  tar -zxvf QueryPath-2.0.tgz
+
+- Copy the src/QueryPath directory to the desired location.
+
+  cp QueryPath-2.0/src/QueryPath myproject
+  
+- Include QueryPath/QueryPath.php in your PHP scripts
+
+  require 'QueryPath/QueryPath.php';
+  
+The structure of the full version:
+
+/ -- Base information about the library
+  src/ -- The source (PHP) code. Include the contents of this directory in your 
+    applications.
+  test/ -- Unit tests for QueryPath. You can run these with PHPUnit.
+  examples/ -- Examples scripts written with QueryPath.
+  docs/ -- Full API documentation in HTML format. You can regenerate this from
+    the source using PHPDocumentor.
+  tutorials/ -- DocBook additions to the QueryPath PHPDocumentor data. An HTML 
+    version of this is included in the docs/ directory. The files here are 
+    probably only useful when re-generating the API documentation.
+
+
+INSTALLING FROM GitHub
+==============================
+
+The complete source code and all utilities for QueryPath are located in a GitHub
+repository. If you plan on contributing back to QueryPath, you will be able to 
+achieve the most by working from the GitHub source. Here's how:
+
+1. Obtain the source code from here: http://github.com/technosophos/querypath
+
+2. Install PHPDocumentor, PHPUnit, and Phing. XDebug is strongly recommended for
+  doing coverage analysis. These tools are used to auto-generate
+  documentation, run unit tests, and manage project builds.
+  
+3. Run 'phing info' from the base QueryPath checkout. This will tell you how to 
+  perform various tasks with QueryPath.
+  
+For more information, visit http://querypath.org.

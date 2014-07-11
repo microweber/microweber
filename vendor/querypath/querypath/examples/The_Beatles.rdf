@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedBand xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Wings_%28band%29"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:filename xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Iwanttoholdyourhandsample.ogg</dbpprop:filename>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <foaf:depiction xmlns:foaf="http://xmlns.com/foaf/0.1/" rdf:resource="http://upload.wikimedia.org/wikipedia/commons/thumb/d/df/The_Fabs.JPG/200px-The_Fabs.JPG"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:label xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Polydor_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:img xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://upload.wikimedia.org/wikipedia/commons/d/df/The_Fabs.JPG"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="it">I Beatles sono stati un gruppo musicale britannico, originario di Liverpool e in attività dal 1962 al 1970. Hanno segnato un'epoca non solo nella musica ma anche nel costume, nella moda e nella moderna pop art. Considerati uno dei maggiori fenomeni della musica contemporanea, a distanza di vari decenni dal loro scioglimento ufficiale - e dopo la morte di due dei quattro componenti - i Beatles contano ancora su un vasto seguito. I loro lavori sono regolarmente commercializzati in versione digitale, ed arricchiti dal recupero di materiale inedito. Secondo la EMI, la casa discografica che tra il 1986 e il 1987 ne ha recuperato i diritti, le riedizioni dei loro dischi hanno venduto oltre un miliardo di copie. Per la rivista Rolling Stone, i Beatles rappresentano il gruppo musicale più importante ed influente del XX secolo Per il critico musicale Piero Scaruffi, i Beatles appartengono certamente alla storia del costume degli anni '60, ma i loro meriti musicali sono quantomeno dubbi . Numerosi sono i loro fan club, esistenti in ogni parte del mondo. Inoltre, l'aura - per molti versi non sempre codificabile secondo canoni comuni - che circonda lo sviluppo del loro successo a livello mediatico, e lo straordinario esito artistico raggiunto come musicisti-rock, sono tuttora oggetto di studio da parte di persone appassionate o estranee al mondo della musica.</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:last.fmProperty xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">The Beatles</dbpprop:last.fmProperty>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:UK_Music_Hall_of_Fame_inductees"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="fr">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedBand xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/The_Quarrymen"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:origin xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Liverpool"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedMusicalArtist xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/The_Dirty_Mac"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:title xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">"Strawberry Fields Forever"</dbpprop:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Musical_groups_disestablished_in_1970"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/1960sMusicGroups"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="pl">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="en">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/ontology/MusicalArtist"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:background xmlns:dbpedia-owl="http://dbpedia.org/ontology/">group_or_band</dbpedia-owl:background>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Best_Original_Music_Score_Academy_Award_winners"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedMusicalArtist xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/The_Quarrymen"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:title xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">"A Day in the Life"</dbpprop:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:label xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Parlophone_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:label xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Odeon_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:label xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Swan_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:currentMembers xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/George_Harrison"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">The Beatles were a pop and rock band from Liverpool, England formed in 1960. Primarily consisting of John Lennon (rhythm guitar, vocals), Paul McCartney, George Harrison and Ringo Starr throughout their career, The Beatles are recognised for leading the mid-1960s musical "British Invasion" into the United States. Although their initial musical style was rooted in 1950s rock and roll and homegrown skiffle, the group explored genres ranging from Tin Pan Alley to psychedelic rock. Their clothes, styles, and statements made them trend-setters, while their growing social awareness saw their influence extend into the social and cultural revolutions of the 1960s. After the band broke up in 1970, all four members embarked upon solo careers. The Beatles are one of the most commercially successful and critically acclaimed bands in the history of popular music, selling over a billion records internationally. In the United Kingdom, The Beatles released more than 40 different singles, albums, and EPs that reached number one, earning more number one albums than any other group in UK chart history. This commercial success was repeated in many other countries; their record company, EMI, estimated that by 1985 they had sold over one billion records worldwide. According to the Recording Industry Association of America, The Beatles have sold more albums in the United States than any other band. In 2004, Rolling Stone magazine ranked The Beatles number one on its list of 100 Greatest Artists of All Time. According to that same magazine, The Beatles' innovative music and cultural impact helped define the 1960s, and their influence on pop culture is still evident today. In 2008, Billboard magazine released a list of top-selling Hot 100 artists to celebrate the chart's fiftieth anniversary; The Beatles reached #1 again.</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Capitol_Records_artists"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:label xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Apple_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:musicalStyle xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Pop_music"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="nl">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="ja">ビートルズ</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wikiPageUsesTemplate xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Template:listen"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:associatedActs xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/The_Quarrymen"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:title xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">"Help!"</dbpprop:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:label xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/United_Artists_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:label xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Apple_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:currentMembers xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Ringo_Starr"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:BRIT_Award_winners"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:filename xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Getbacksample.ogg</dbpprop:filename>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedMusicalArtist xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Traveling_Wilburys"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:description xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Sample of "Help!".</dbpprop:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:imgSize xmlns:dbpprop="http://dbpedia.org/property/" rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">220</dbpprop:imgSize>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedMusicalArtist xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Ringo_Starr_All-Starr_Band"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedBand xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/The_Dirty_Mac"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:label xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Vee-Jay_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:currentMembers xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Paul_McCartney"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:format xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Ogg"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedBand xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Rory_Storm_and_the_Hurricanes"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:label xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Swan_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:label xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Capitol_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="pt">The Beatles foi uma banda de rock de Liverpool, Inglaterra com suas raízes no final da década de 1950. A banda é reconhecida por ter liderado a invasão do rock inglês nos Estados Unidos no início dos anos 1960. O grupo foi formado por John Lennon (guitarra, baixo, teclado, gaita, percussão, efeito sonoro e vocal), Paul McCartney, George Harrison e Ringo Starr .O grupo obteve uma fama, popularidade e notoriedade até hoje inéditas para uma banda musical, e tornou-se a banda de maior sucesso e de maior influência do século XX. Os "garotos de Liverpool", como eram chamados, não tiveram apenas impacto sobre a música, mas também influenciaram as vestimentas, os cortes de cabelo e a forma de ser dos jovens daquela geração. Foi esse estrondoso sucesso que inspirou a criação do termo beatlemania. Suas roupas, estilos, e declarações os fizeram líderes da moda para a juventude, enquanto a percepção social do conjunto que crescia viu sua influência se estender na revolução social e cultural dos anos 1960. Atingiram o primeiro lugar nas paradas de sucesso no mundo inteiro com composições próprias como "She Loves You", "Something", "I Want to Hold Your Hand", "Can't Buy Me Love", "Help!", "Yesterday", "Eleanor Rigby", "Hey Jude", "All You Need Is Love", "Let It Be" e "Strawberry Fields Forever", entre outras. Considerado o grupo musical mais bem-sucedido da história, sendo os seus membros aclamados por público e crítica, com mais de um 1,5 bilhão de álbuns vendidos em todo o mundo, e com vinte canções que atingiram o primeiro lugar nas paradas apenas nos Estados Unidos da América, além de conseguirem ocupar em determinado momento os cinco primeiros lugares em meados de 1964 - números recordes até os dias atuais. Pela inventiva criatividade, originalidade e magia de suas canções, John Lennon e Paul McCartney são considerados a maior dupla de compositores da música popular em todo o mundo. Também foram os precursores da música indiana e oriental no pop/rock ocidental, sobretudo pela influência de George Harrison nas composições e instrumentos do grupo, em canções como "Within You Without You", "Norwegian Wood" e "Love You Too".Além de toda a repercussão, os Beatles fizeram todo um modo de criar música que influenciou não só sua época, mas todas as épocas seguintes: foram a primeira banda do planeta a fazer vídeos musicais de suas canções, e o álbum Sgt. Pepper's Lonely Hearts Club Band foi o primeiro do mundo a conter um encarte com fotos e letras de suas canções . Em 2003, a revista especializada em música Rolling Stone classificou Sgt. Pepper's como o melhor álbum de todos os tempos .</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:associatedActs xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Rory_Storm_and_the_Hurricanes"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/BeatGroups"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Quartets"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <owl:sameAs xmlns:owl="http://www.w3.org/2002/07/owl#" rdf:resource="http://rdf.freebase.com/ns/guid.9202a8c04000641f800000000003ac10"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wikiPageUsesTemplate xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Template:last.fm"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Parlophone_artists"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedBand xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Ringo_Starr_All-Starr_Band"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wikiPageUsesTemplate xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Template:see"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:name xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">The Beatles</dbpprop:name>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:imgCapt xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/George_Harrison"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Apple_Records_artists"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:filename xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Beatles day life.ogg</dbpprop:filename>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wordnet_type xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://www.w3.org/2006/03/wn/wn20/instances/synset-musician-noun-1"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:pastMembers xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Stuart_Sutcliffe"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Beat_groups"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="fi">The Beatles on vuosina 1960–1970 toiminut kaikkien aikojen menestynein musiikkiyhtye. Sen äänitteiden myynti on ylittänyt miljardin kappaleen rajan.. Yhtye on Yhdysvaltojen myydyin. . The Beatles aloitti harmonisten vokaaliosuuksien leimaamalla perinteisellä "beat-musiikilla". Vuoteen 1967 mennessä yhtye oli siirtynyt psykedeelisen rockin ja kokeellisten sovitusten kautta huomattavasti monimutkaisempaan ilmaisuun. Beatlesistä tuli populaarimusiikin keskeisimpiä suunnannäyttäjiä. Se on säilyttänyt suuren suosionsa myös vuonna 1970 tapahtuneen hajoamisensa jälkeen. Ennen The Beatlesia laulusolistit olivat hallinneet pop-musiikkia, mutta The Beatlesin läpimurron jälkeen yhtyeet ja niiden jäsenet saivat laulusolisteja vastaavan suosion yleisön keskuudessa. The Beatlesilla oli myös suuri vaikutus siihen, että muusikot alkoivat enemmän itse tehdä musiikkiaan, ja että pop-musiikkia alettiin pitää taiteen lajina. Musiikin uudistamisen kannalta merkittävimpänä levynä on pidetty albumia Sgt. Pepper's Lonely Hearts Club Band (1967). Beatlesin parhaaksi levyksi on ehdotettu tämän ohella myös Rubber Soulia, Revolveria, Abbey Roadia tai The Beatlesia (tunnetaan myös nimellä "The White Album" tai "Valkoinen tupla").</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:imgCapt xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Ringo_Starr"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="da">The Beatles var en af de mest indflydelsesrige musikgrupper i 1960'erne. Udover at være en kommerciel kæmpesucces var gruppen også stilsættende hvad angår design, markedsføring og rent musikalsk. Gruppen var fire drenge fra Liverpool, der både var venner, men også konkurrenter, der bestandigt forsøgte at overgå hinanden. Kernen i gruppen var komponisterne Lennon &amp;amp; McCartney, der sammen og hver for sig skrev en lang stribe hitsange, som næsten alle blev indspillet af gruppen selv. Gang på gang op igennem deres karriere satte gruppen nye rekorder for, hvad der var opnåeligt indenfor populærmusikken. Gruppen blev i starten betragtet som et teenagefænomen med vildt hår og skrigende fans. Deres turnéer blev temmeligt kaotiske pga. horder af fans som blokerede lufthavne og gader, når gruppen besøgte en by. 1963 til 1966, hvor gruppen stoppede sin turnevirksomhed, var højdepunktet i Beatlemania (Beatlegalskaben), som medierne døbte fænomenet. The Beatles havde sit udgangspunkt i Mersey-beaten, med dens specielle rytme og lyd inspireret af sømændenes import af amerikanske soul-plader. Da gruppen flyttede til London for at indspille plader og derefter fik sit nationale og internationale gennembrud, blev de i høj grad eksponenter for British Invasion genren. Fra udkantsbyen Liverpool lykkedes det gruppen at erobre verden i bogstavelig forstand. Deres musik har gået sin sejrsgang verden over og influeret på, hvordan populærmusik fortolkes. Gruppen har leveret noget af den mest kopierede musik, der er skrevet. Heriblandt sangen "Yesterday", som er den mest kopierede sang nogensinde. Kategori:Kilder manglerGruppen var meget eksperimenterende i sit udtryk, men samtidig i stand til at gøre de mest rabiate nyskabelser acceptable inden for populærmusikken. Gruppen startede med rå beatmusik, for så at kombinere den hårde rock med bløde ballader, elektriske instrumenter med klassiske arrangementer, indiske instrumenter og båndklip spillet forlæns, baglæns og som tilfældigt sammenklippede lydfragmenter.</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:label xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Capitol_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:associatedActs xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/The_Dirty_Mac"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <foaf:img xmlns:foaf="http://xmlns.com/foaf/0.1/" rdf:resource="http://upload.wikimedia.org/wikipedia/commons/d/df/The_Fabs.JPG"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <foaf:name xmlns:foaf="http://xmlns.com/foaf/0.1/">The Beatles</foaf:name>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://sw.opencyc.org/2008/06/10/concept/Mx4rvViqQZwpEbGdrcN5Y29ycA"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:genre xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en"> Pop,  rock and various others</dbpprop:genre>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:origin xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/England"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Rock_and_Roll_Hall_of_Fame_inductees"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wikiPageUsesTemplate xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Template:ifdc"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="pt">The Beatles foi uma banda de rock de Liverpool, Inglaterra com suas raízes no final da década de 1950.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="no">The Beatles var et rockeband fra Liverpool som ble dannet i 1959. De debuterte på plate i 1962 med singelen «Love Me Do» som hadde moderat suksess.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/EnglishRockMusicGroups"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <foaf:page xmlns:foaf="http://xmlns.com/foaf/0.1/" rdf:resource="http://en.wikipedia.org/wiki/The_Beatles"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="de">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:associatedActs xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Plastic_Ono_Band"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:yearsActive xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">1960&amp;ndash;1970, 1994&amp;ndash;1995</dbpprop:yearsActive>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:label xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/United_Artists_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:background xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">group_or_band</dbpprop:background>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:seeProperty xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">The Beatles bootlegs</dbpprop:seeProperty>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="da">The Beatles var en af de mest indflydelsesrige musikgrupper i 1960'erne. Udover at være en kommerciel kæmpesucces var gruppen også stilsættende hvad angår design, markedsføring og rent musikalsk.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:genre xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Rock_music"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:label xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Parlophone_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:currentMembers xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Paul_McCartney"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:label xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Vee-Jay_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedMusicalArtist xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Plastic_Ono_Band"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="en">The Beatles were a pop and rock band from Liverpool, England formed in 1960. Primarily consisting of John Lennon (rhythm guitar, vocals), Paul McCartney, George Harrison and Ringo Starr throughout their career, The Beatles are recognised for leading the mid-1960s musical "British Invasion" into the United States. Although their initial musical style was rooted in 1950s rock and roll and homegrown skiffle, the group explored genres ranging from Tin Pan Alley to psychedelic rock. Their clothes, styles, and statements made them trend-setters, while their growing social awareness saw their influence extend into the social and cultural revolutions of the 1960s. After the band broke up in 1970, all four members embarked upon solo careers. </rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="sv">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:label xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Tollie_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:pastMembers xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Pete_Best"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:pastMembers xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Stuart_Sutcliffe"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="es">The Beatles fue un grupo musical inglés de pop rock de la década de los 60 que se formó en la ciudad de Liverpool, Inglaterra en 1957.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="it">I Beatles sono stati un gruppo musicale britannico, originario di Liverpool e in attivit� dal 1962 al 1970.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="da">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Music_from_Liverpool"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:description xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Sample of "Strawberry Fields Forever".</dbpprop:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:English_rock_music_groups"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="ru">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/MusicalGroupsEstablishedIn1960"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Ringo_Starr"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="no">The Beatles var et rockeband fra Liverpool som ble dannet i 1959. De debuterte på plate i 1962 med singelen «Love Me Do» som hadde moderat suksess. Det store gjennombruddet i Storbritannia kom i 1963 med gruppens andre singel, «Please Please Me», som gikk til topps på de engelske hitlistene. Gjennombruddet i De forente stater kom i februar 1964, med singelen «I Want to Hold Your Hand». Gruppen forble en av de fremste populærmusikkgruppene gjennom hele 1960-tallet, frem til den ble offisielt oppløst i 1970. De hadde da dominert hitlistene og musikkbransjen på begge sider av Atlanteren gjennom hele karrieren, og er fremdeles historiens mestselgende plateartister. Kategori:Artikler som trenger referanser De påvirket etterkrigstidens babyboom-generasjon i Storbritannia, De forente stater og mange andre land i 1960-årene. De er utvilsomt den mest populære gruppen i rockehistorien, med over 1,1 milliard solgte plater verden over. Kategori:Artikler som trenger referanser Selv om de helt i begynnelsen var kjent for en variant av lett popmusikk som ble kalt merseybeat, ble deres senere verker mottatt med en popularitet og kritisk hyllest som kanskje overgår alt i det 20. århundre. De ble mer enn kun plateartister, og påvirket moter og kultur, med ringvirkninger til film og politisk aktivisme. De oppnådde en ikonstatus som ga dem enorm påvirkningskraft.</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:The_Beatles"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:1960s_music_groups"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:label xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Polydor_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <owl:sameAs xmlns:owl="http://www.w3.org/2002/07/owl#" rdf:resource="http://zitgist.com/music/artist/b10bbbfc-cf9e-42e0-be17-e2c3e1d2600d"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:title xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">"Get Back"</dbpprop:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:currentMembers xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/John_Lennon"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedBand xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Plastic_Ono_Band"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:last.fmProperty xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">the+beatles</dbpprop:last.fmProperty>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:description xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Sample of "A Day in the Life", a track appearing on Sgt. Pepper.</dbpprop:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:description xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Sample of "I Want to Hold Your Hand".</dbpprop:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Paul_McCartney"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:currentMembers xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/George_Harrison"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wikiPageUsesTemplate xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Template:infobox_musical_artist"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/MusicalGroupsDisestablishedIn1970"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:imgCapt xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/John_Lennon"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="es">The Beatles fue un grupo musical inglés de pop rock de la década de los 60 que se formó en la ciudad de Liverpool, Inglaterra en 1957. Llamada anteriormente "The Quarrymen" y se disolvió en abril de 1970, que lideró la "Invasión británica" en los Estados Unidos.Es una de las bandas más exitosas y críticamente aclamadas de la historia de la música popular. En el Reino Unido lanzaron más de 40 diferentes singles, álbumes y EP que alcanzaron el número uno, éxito comercial que se repitió en muchos otros países. Se estima que han vendido más de mil millones de discos alrededor del mundo, según su casa de discos EMI, además de ser los artistas que más discos han vendido en la historia de los Estados Unidos, de acuerdo con la Recording Industry Association of America.Se caracterizaban en un principio por su rock and roll con raíces en los 50s, pero que con el transcurso de su carrera fueron experimentando con muchos otros géneros desde el Tin Pan Alley hasta el rock psicodélico. Su forma de vestirse, su estilo y sus declaraciones, tuvieron una inmensa influencia en la sociedad, revolucionando la cultura de la década de los 60s.En 1988, fueron los colocó en el #1 dentro de su lista de 100 Greatest Artists of All Time. De acuerdo con la misma publicación, ellos innovaron la música y su impacto cultural ayudó a definir los años 1960 y su influencia en la cultura pop aún es evidente en la actualidad, además de tener 4 álbumes entre los 10 mejores de la historia, incluyendo el 1º y el 3º. Unos años más tarde también fueron colocados en el puesto nº 1 entre Los Mejores Artistas de todos los tiempos por la página de internet de música Acclaimedmusic. net. Cite error: Invalid &amp;lt;ref&amp;gt; tag; refs with no name must have content</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:seeProperty xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">The Beatles record sales, worldwide charts</dbpprop:seeProperty>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://sw.opencyc.org/2008/06/10/concept/Mx4rwHg1oZwpEbGdrcN5Y29ycA"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:associatedActs xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Wings_%28band%29"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:title xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">"I Want to Hold Your Hand"</dbpprop:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="fi">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="no">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:url xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://www.beatles.com/"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <owl:sameAs xmlns:owl="http://www.w3.org/2002/07/owl#" rdf:resource="http://sw.opencyc.org/2008/06/10/concept/Mx4rvfRU9JwpEbGdrcN5Y29ycA"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://sw.opencyc.org/2008/06/10/concept/Mx4rwMjWjJwpEbGdrcN5Y29ycA"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:genre xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Pop_music"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="fi">The Beatles on vuosina 1960–1970 toiminut kaikkien aikojen menestynein musiikkiyhtye. Sen äänitteiden myynti on ylittänyt miljardin kappaleen rajan.. Yhtye on Yhdysvaltojen myydyin.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wikiPageUsesTemplate xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Template:convert"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:log xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">2008 October 2</dbpprop:log>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedMusicalArtist xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Rory_Storm_and_the_Hurricanes"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:currentMembers xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/John_Lennon"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:MTV_Video_Vanguard_Award_winners"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:currentMembers xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Ringo_Starr"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:homeTown xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Liverpool"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="sv">The Beatles var en stilbildande brittisk pop- och rockgrupp under 1960-talet. Gruppen bestod av fyra medlemmar: John Lennon (1940-1980), Paul McCartney, George Harrison och Ringo Starr (född 1940). Samtliga medlemmar kom från Liverpool i Storbritannien. The Beatles upplöstes 1970 men är fortfarande en av världens populäraste popgrupper. Deras skivor och låtar brukar toppa omröstningar när kritiker och lyssnare röstar om världens bästa skiva eller låt.</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="de">The Beatles waren die bekannteste englische Band der Beatmusik. Die Band formierte sich in Liverpool. Die Gruppe gilt mit bisher ca. 1,3 Milliarden verkauften Tonträgern als die erfolgreichste und einflussreichste Band des 20. Jahrhunderts. Die erste Schallplatte der Beatles erschien im Jahr 1962. Künstlerische und persönliche Differenzen führten 1970 zur Trennung der Gruppe.</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:pastMembers xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Pete_Best"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:English_musical_groups"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedBand xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Traveling_Wilburys"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/Quartets"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://sw.opencyc.org/2008/06/10/concept/Mx4rvVipUpwpEbGdrcN5Y29ycA"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="pt">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wikiquoteProperty xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">The Beatles</dbpprop:wikiquoteProperty>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/class/yago/EnglishMusicalGroups"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="es">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/ontology/Artist"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:associatedActs xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Ringo_Starr_All-Starr_Band"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/ontology/Person"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:homeTown xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/England"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:filename xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Strawberryfields.ogg</dbpprop:filename>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:George_Harrison"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abbr xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">on</dbpprop:abbr>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdf:type rdf:resource="http://dbpedia.org/ontology/Resource"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:associatedActs xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Traveling_Wilburys"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Apple_Corps"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:_1 xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://upload.wikimedia.org/wikipedia/en/6/6b/Beatlessullivantogether.jpg"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="it">The Beatles</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wikiquoteProperty xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Paul McCartney, John Lennon, George Harrison, Ringo Starr and The Beatles</dbpprop:wikiquoteProperty>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:wikiPageUsesTemplate xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Template:wikiquote"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:hasPhotoCollection xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://www4.wiwiss.fu-berlin.de/flickrwrappr/photos/The_Beatles"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Grammy_Award_winners"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:musicalStyle xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Rock_music"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="ru">The Beatles («Битлз»; отдельно участников ансамбля называют «битлами», также «битлзами») — британская рок-группа, внёсшая большой вклад в развитие рок-музыки. Aнсамбль не только изменил её, но и достиг беспрецедентной популярности, благодаря чему The Beatles стали одним из ярких феноменов мировой культуры 60-х гг. XX века.</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:description xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Sample of "Get Back".</dbpprop:description>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="ru">The Beatles («Битлз»; отдельно участников ансамбля называют «битлами», также «битлзами») — британская рок-группа, внёсшая большой вклад в развитие рок-музыки.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:associatedMusicalArtist xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Wings_%28band%29"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:label xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Odeon_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:John_Lennon"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:seeProperty xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">List of Beatles songs</dbpprop:seeProperty>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:1990s_music_groups"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:abstract xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="zh">披頭四樂隊（英文：The Beatles，Beatles的意思是「甲虫」，所以又譯「甲壳虫樂隊」）来自英国利物浦的著名四人樂隊組合。他們在1962年与EMI百代唱片公司签约录制唱片。1963年初，单曲唱片《Please Please Me》登上英国排行榜首位。1964年，披头四首次前往美国演出。1966年在东京的日本武道馆举行了大规模的音乐会，1966年8月29日晚在旧金山举行最后一场收费现场音乐会。1970年4月10日，保羅·麥卡尼个人专辑中的话被媒体視為宣布樂隊解散，1970年12月31日，保罗正式起诉乐队其他三位成员，要求结束乐队合作并指明管理并分配乐队财产的正式人选。 披頭四至今已在全球售出至少7億張唱片(EMI方面宣布已超過10億張)，是人類音樂史上前三暢銷的歌手。</dbpprop:abstract>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <skos:subject xmlns:skos="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://dbpedia.org/resource/Category:Musical_groups_established_in_1960"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="sv">The Beatles var en stilbildande brittisk pop- och rockgrupp under 1960-talet.</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:filename xmlns:dbpprop="http://dbpedia.org/property/" xml:lang="en">Help!.ogg</dbpprop:filename>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpedia-owl:label xmlns:dbpedia-owl="http://dbpedia.org/ontology/" rdf:resource="http://dbpedia.org/resource/Tollie_Records"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:label xml:lang="zh">披頭四樂隊</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <rdfs:comment xml:lang="zh">披� �四樂隊（英文：The Beatles，Beatles的意思是「甲虫」，所以又譯「甲壳虫樂隊」）来自英国利物浦的著名四人樂隊組合。他們在1962年与EMI百代唱片公司签约录制唱片。1963年初，单曲唱片《Please Please Me》登上英国排行榜首位。1964年，披头四首次前往美国演出。1966年在东京的日本武道馆举行了大规模的音乐会，1966年8月29日晚在旧金山举行最后一场收费现场音乐会。1970年4月10日，保羅·麥卡尼个人专辑中的话被媒体視為宣布樂隊解散，1970年12月31日，保罗正式起诉乐队其他三位成员，要求结束乐队合作并指明管理并分配乐队财产的正式人选。 披� �四至今已在全球售出至少7億張唱片(EMI方面宣布已超過10億張)，是人類音樂史上前三暢銷的歌手。</rdfs:comment>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://dbpedia.org/resource/The_Beatles">
+    <dbpprop:imgCapt xmlns:dbpprop="http://dbpedia.org/property/" rdf:resource="http://dbpedia.org/resource/Paul_McCartney"/>
+  </rdf:Description>
+</rdf:RDF>

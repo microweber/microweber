@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<root>
+  <first>
+    <![CDATA[This is a CDATA section.]]>
+  </first>
+  <second>
+    <inner/>
+    <inner/>
+  </second>
+  <third>
+    <?pi This is a processing instruction. ?>
+  </third>
+  <!-- This is a comment. -->
+</root>

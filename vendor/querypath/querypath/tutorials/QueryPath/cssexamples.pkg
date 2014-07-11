@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>CSS Examples</refname>
+  <refpurpose>Examples of CSS selectors</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Matt Butcher
+   <authorblurb>
+    {@link http://querypath.org Project Founder}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+  <title>About the Examples</title>
+  <para>
+    This document provides some examples of CSS 3 Selectors. While this is not a 
+    comprehensive compendium of features, it provides a set of frequently used
+    patterns that appear frequently in QueryPath code.
+  </para>
+  <para>
+   For detailed API documentation, see {@link http://api.querypath.org}.
+  </para>
+ </refsect1>
+</refentry>

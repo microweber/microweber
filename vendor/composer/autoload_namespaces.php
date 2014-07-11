@@ -6,14 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Valitron' => array($vendorDir . '/vlucas/valitron/src'),
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'QueryPath' => array($vendorDir . '/querypath/querypath/src'),
-    'Pimple' => array($vendorDir . '/pimple/pimple/lib'),
-    'Phroute' => array($vendorDir . '/phroute/phroute/src'),
-    'PhpRbac' => array($vendorDir . '/owasp/phprbac/PhpRbac/src'),
+    'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'Microweber' => array($baseDir . '/src'),
     'Keboola\\Csv' => array($vendorDir . '/keboola/csv/src'),
-    'Evenement' => array($vendorDir . '/evenement/evenement/src'),
     'ComponentInstaller' => array($vendorDir . '/robloach/component-installer/src'),
     'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),
 );

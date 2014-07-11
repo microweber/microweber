@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entries>
+  <entry name="add">
+    <desc>
+      Add constructs a new element at the specified location in the document.
+    </desc>
+    <jquery>
+      <code>
+        <ul>
+          <li>list item 1</li>
+          <li>list item 2</li>
+          <li>list item 3</li>
+        </ul>
+        <p>a paragraph</p>
+        
+        $('li').add('<p id="new">new paragraph</p>')
+        .css('background-color', 'red');
+      </code>
+    </jquery>
+    <querypath>
+      test.html
+      <code>
+        <html>
+          <head></head>
+          <body>
+            <p>Hello</p>
+            <span>Hello Again</span>
+          </body>
+        </html>
+      </code>
+
+      test.php
+      <code>
+      require_once 'QueryPath.php';
+
+      htmlqp('test.html')
+      $qp->append('<p id="new">new paragraph</p>')
+         ->find('p')
+         ->css('background-color', 'red')
+         ->top()
+         ->writeXHTML();
+      </code>
+    </querypath>
+  </entry>
+  <entry name="addClass">
+    <desc>
+      It's important to note that this method does not replace a class. It simply adds the class, appending it to any which may already be assigned to the elements.
+
+      More than one class may be added at a time, separated by a space, to the set of matched elements.
+    </desc>
+    <jquery>
+      This method is often used with .removeClass() to switch elements' classes from one to another.
+      <code>
+        $('p').addClass('myClass yourClass');
+
+        $('p').removeClass('myClass noClass').addClass('yourClass');
+
+        $('ul li:last').addClass(function() {
+          return 'item-' + $(this).index();
+        });
+      </code>
+      Given an unordered list with five li elements, this example adds the class "item-4" to the last li.
+    </jquery>
+    <querypath>
+      test.html
+      <code>
+        <html>
+          <head></head>
+          <body>
+            <p>Hello</p>
+            <span>Hello Again</span>
+          </body>
+        </html>
+      </code>
+
+      test.php
+      <code>
+      require_once 'QueryPath.php';
+
+      htmlqp('test.html')
+      $qp->append('<div></div>')
+         ->find('div')
+         ->addClass('testing one two three')
+         ->top()
+         ->writeXHTML();
+      </code>
+    </querypath>
+  </entry>
+  <entry name="after">
+    <desc>
+      The selector expression preceding the method is the container after which the content is inserted.
+    </desc>
+    <jquery>
+      This method is often used with .removeClass() to switch elements' classes from one to another.
+      <code>
+      <div class="container">
+        <h2>Greetings</h2>
+        <div class="inner">Hello</div>
+        <div class="inner">Goodbye</div>
+      </div>
+      We can create content and insert it after several elements at once:
+      $('.inner').after('<p>Test</p>');
+      We can also select an element on the page and insert it after another:
+      $('.container').after($('h2'));
+      .after() will also work on disconnected DOM nodes. For example, given the following code:
+      $('<div/>').after('<p></p>');
+      </code>
+    </jquery>
+    <querypath>
+      test.html
+      <code>
+        <html>
+          <head></head>
+          <body>
+            <p>Hello</p>
+            <span>Hello Again</span>
+          </body>
+        </html>
+      </code>
+
+      test.php
+      <code>
+      require_once 'QueryPath.php';
+
+      htmlqp('test.html')
+      $qp->append('<p>First P</p><p>Second P</p>')
+         ->children('p')
+         ->after('<p id="new">new paragraph</p>')
+         ->top()
+         ->writeHTML();
+      </code>
+    </querypath>
+  </entry>
+  <entry name="all">
+    <desc>
+      
+    </desc>
+    <jquery>
+      <code>
+      <div class="container">
+        <h2>Greetings</h2>
+        <div class="inner">Hello</div>
+        <div class="inner">Goodbye</div>
+      </div>
+      </code>
+    </jquery>
+    <querypath>
+      test.html
+      <code>
+        <html>
+          <head></head>
+          <body>
+            <p>Hello</p>
+            <span>Hello Again</span>
+          </body>
+        </html>
+      </code>
+
+      test.php
+      <code>
+      require_once 'QueryPath.php';
+
+      htmlqp('test.html')
+      $qp->append('<p>First P</p><p>Second P</p>')
+         ->children('p')
+         ->after('<p id="new">new paragraph</p>')
+         ->top()
+         ->writeHTML();
+      </code>
+    </querypath>
+  </entry>
+  <entry name="css">
+    <desc>
+      Add a yellow background to a span and to all of the children of an element.
+    </desc>
+    <jquery>
+      <code>
+        <html>
+          <head>
+            <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+            <script>
+              // Add yellow background to span.
+              $("p").add("span").css("background", "yellow");   
+              // Add yellow background to children.    
+              $('ul.level-2').children().css('background-color', 'yellow');
+            </script>
+          </head>
+          <body>
+            <p>Hello</p>
+            <span>Hello Again</span>
+            <ul class="level-1">
+              <li class="item-i">I</li>
+              <li class="item-ii">II
+                <ul class="level-2">
+                  <li class="item-a">A</li>
+                  <li class="item-b">B
+                    <ul class="level-3">
+                      <li class="item-1">1</li>
+                      <li class="item-2">2</li>
+                      <li class="item-3">3</li>
+                    </ul>
+                  </li>
+                  <li class="item-c">C</li>
+                </ul>
+              </li>
+              <li class="item-iii">III</li>
+            </ul>
+          </body>
+        </html>
+      </code>
+    </jquery>
+    <querypath>
+      test.html
+      <code>
+        <html>
+          <head></head>
+          <body>
+            <p>Hello</p>
+            <span>Hello Again</span>
+          </body>
+        </html>
+      </code>
+      
+      test.php
+      <code>
+      require_once 'QueryPath.php';
+
+      htmlqp('test.html')
+        ->find('span')                  // Point querypath to the span
+        ->css('background', 'yellow')   // Add the CSS
+        ->top()                         // Point QueryPath to the top of the page
+        ->writeXHTML();                  // Write HTML, notice it does not use print
+      </code>
+    </querypath>
+  </entry>
+</entries>

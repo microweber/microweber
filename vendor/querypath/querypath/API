@@ -1,0 +1,61 @@
+API Changes in 3.0.0
+
+This is a major update. See the main changes for details.
+
+API Changes in 2.1.1
+
+  * NEW METHOD: document() returns the DOMDocument
+  * BUG FIX: Issue #10 has been re-fixed to correctly collapse certain empty tags.
+  * BUG FIX: Issue #10 has been re-fixed to correctly escape JavaScript for browsers.
+  * BUG FIX: Issue #47 has been fixed to only remove XML declaration, but leave DOCTYPE.
+  * NEW ARGUMENT: xpath() now supports $options, which includes the ability to set a namespace.
+
+API Changes in 2.1
+
+All changes are documented in their respective doc blocks. So take a 
+look at http://api.querypath.org to learn more.
+
+New Functions
+  * The `htmlqp()` method has been added for parsing icky HTML. Use
+    this for web scraping.
+
+Altered Functions
+  * The qp() function now supports the following new options:
+    - convert_to_encoding
+    - convert_from_encoding
+    - strip_low_ascii
+    - use_parser
+
+New Methods
+  * attach()/detach()
+  * has()
+  * emptyElement()
+  * even()/odd()
+  * first()/last()
+  * firstChild()/lastChild()
+  * nextUntil()/prevUntil()
+  * parentsUntil()
+  * encodeDataURL()
+  * dataURL()
+  * filterPreg()
+  * textBefore()/textAfter()
+
+Altered Methods
+  * css() has been changed to allow subsequent calls
+    to modify the style attribute (issue #28)
+  * attr() has been changed. If it is called with no 
+    arguments, it now returns all attributes.
+
+New CSS Selectors Behavior
+
+  * :contains-exactly() performs as :contains() used to perform.
+
+Altered CSS Selectors Behavior
+
+  * The star operator (*) is now non-greedy, per spec. Before, the star would match
+    any descendants. Now it will only match children.
+  * :contains() now does substring matching instead of exact matching. This conforms
+    to jQuery's behavior.
+  * Quotes are now checked carefully before being stripped from pseudo-class values.
+  * Issue #40 identified a potential infinite looping problem on poorly formed selectors.
+    This was fixed.

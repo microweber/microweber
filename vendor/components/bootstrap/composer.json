@@ -6,7 +6,7 @@
     "bootstrap",
     "css"
   ],
-  "homepage": "http://twitter.github.com/bootstrap/",
+  "homepage": "http://getbootstrap.com",
   "license": "Apache-2.0",
   "authors": [
     {
@@ -28,7 +28,8 @@
         "js/bootstrap.min.js",
         "css/*.css",
         "fonts/*",
-        "less/*"
+        "less/mixins/*.less",
+        "less/*.less"
       ],
       "shim": {
         "deps": ["jquery"]

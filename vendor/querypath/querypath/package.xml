@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
+ <name>QueryPath</name>
+ <channel>pear.querypath.org</channel>
+ <summary>QueryPath: A library for working with XML, HTML, and web services.
+</summary>
+ <description>
+QueryPath implements much of the jQuery API in PHP, and supports CSS 
+selector queries, jQuery's traversal and manipulation APIs, and 
+adds many other useful methods. Learn more at http://querypath.org.</description>
+ <lead>
+  <name>Matt Butcher</name>
+  <user>technosophos</user>
+  <email>matt@aleph-null.tv</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Emily Brand</name>
+  <user>eabrand</user>
+  <email>emily@example.com</email>
+  <active>yes</active>
+ </developer>
+ <contributor>
+  <name>Woody Gilk</name>
+  <user>shadowhand</user>
+  <email>woody@wingsc.com</email>
+  <active>yes</active>
+ </contributor>
+ <date>2010-10-21</date>
+ <time>17:56:42</time>
+ <version>
+  <release>2.1.0dev2</release>
+  <api>2.1.0dev2</api>
+ </version>
+ <stability>
+  <release>devel</release>
+  <api>devel</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/lgpl-license.php">LGPL or MIT (Your Choice)</license>
+ <notes>RELEASE NOTES
+
+Big Changes:
+
+1. There is now an `htmlqp()` function that parses crufty HTML in a far
+more reliable way than `qp()`. Use this instead of any variant of 
+the older `@qp()` setup.
+
+2. The API has been brought into alignment with jQuery 1.4. See 
+API-2.1.0 for details.
+
+3. This release was driven substantially by eabrand's GSOC 2010 
+contributions. Thanks, Emily!
+
+4. There are now Phar and PEAR packages available. Got to 
+http://pear.querypath.org for PEAR packages.
+
+5. The minimal QP distribution is no longer minified, as it reportedly
+causes XDebug to crash.
+
+7. Data URs are now supported. QueryPath can now embed images directly
+into HTML and XML this way.
+
+8. Documentation is now in Doxygen instead of PhpDocumentor. Thanks
+to Matt Farina and Kevin O'Brien for their input.
+
+Changes in 2.1
+
+All changes are documented in their respective doc blocks. So take a 
+look at http://api.querypath.org to learn more.
+
+New Functions
+  * The `htmlqp()` method has been added for parsing icky HTML. Use
+    this for web scraping.
+
+Altered Functions
+  * The qp() function now supports the following new options:
+    - convert_to_encoding
+    - convert_from_encoding
+    - strip_low_ascii
+    - use_parser
+
+New Methods
+  * attach()/detach()
+  * has()
+  * emptyElement()
+  * even()/odd()
+  * first()/last()
+  * firstChild()/lastChild()
+  * nextUntil()/prevUntil()
+  * parentsUntil()
+  * encodeDataURL()
+  * dataURL()
+  * filterPreg()
+
+Altered Methods
+  * css() has been changed to allow subsequent calls
+    to modify the style attribute (issue #28)
+  * attr() has been changed. If it is called with no 
+    arguments, it now returns all attributes.
+
+New CSS Selectors Behavior
+
+  * :contains-exactly() performs as :contains() used to perform.
+
+Altered CSS Selectors Behavior
+
+  * The star operator (*) is now non-greedy, per spec. Before, the star would match
+    any descendants. Now it will only match children.
+  * :contains() now does substring matching instead of exact matching. This conforms
+    to jQuery's behavior.
+  * Quotes are now checked carefully before being stripped from pseudo-class values.
+  * Issue #40 identified a potential infinite looping problem on poorly formed selectors.
+    This was fixed.
+</notes>
+ <contents>
+  <dir name="/">
+   <dir name="doc" baseinstalldir="/">
+    <dir name="html">
+     <dir name="search">
+      <file role="doc" name="all_5f.html"/>
+      <file role="doc" name="all_6c.html"/>
+      <file role="doc" name="all_6d.html"/>
+      <file role="doc" name="all_6e.html"/>
+      <file role="doc" name="all_6f.html"/>
+      <file role="doc" name="all_24.html"/>
+      <file role="doc" name="all_61.html"/>
+      <file role="doc" name="all_62.html"/>
+      <file role="doc" name="all_63.html"/>
+      <file role="doc" name="all_64.html"/>
+      <file role="doc" name="all_65.html"/>
+      <file role="doc" name="all_66.html"/>
+      <file role="doc" name="all_67.html"/>
+      <file role="doc" name="all_68.html"/>
+      <file role="doc" name="all_69.html"/>
+      <file role="doc" name="all_70.html"/>
+      <file role="doc" name="all_71.html"/>
+      <file role="doc" name="all_72.html"/>
+      <file role="doc" name="all_73.html"/>
+      <file role="doc" name="all_74.html"/>
+      <file role="doc" name="all_75.html"/>
+      <file role="doc" name="all_76.html"/>
+      <file role="doc" name="all_77.html"/>
+      <file role="doc" name="all_78.html"/>
+      <file role="doc" name="classes_6e.html"/>
+      <file role="doc" name="classes_62.html"/>
+      <file role="doc" name="classes_63.html"/>
+      <file role="doc" name="classes_66.html"/>
+      <file role="doc" name="classes_69.html"/>
+      <file role="doc" name="classes_71.html"/>
+      <file role="doc" name="classes_73.html"/>
+      <file role="doc" name="classes_74.html"/>
+      <file role="doc" name="classes_78.html"/>
+      <file role="doc" name="close.png"/>
+      <file role="doc" name="enums_6d.html"/>
+      <file role="doc" name="enums_6e.html"/>
+      <file role="doc" name="enums_64.html"/>
+      <file role="doc" name="enums_68.html"/>
+      <file role="doc" name="files_6d.html"/>
+      <file role="doc" name="files_6f.html"/>
+      <file role="doc" name="files_62.html"/>
+      <file role="doc" name="files_63.html"/>
+      <file role="doc" name="files_64.html"/>
+      <file role="doc" name="files_66.html"/>
+      <file role="doc" name="files_68.html"/>
+      <file role="doc" name="files_70.html"/>
+      <file role="doc" name="files_71.html"/>
+      <file role="doc" name="files_72.html"/>
+      <file role="doc" name="files_73.html"/>
+      <file role="doc" name="files_74.html"/>
+      <file role="doc" name="files_78.html"/>
+      <file role="doc" name="functions_5f.html"/>
+      <file role="doc" name="functions_6c.html"/>
+      <file role="doc" name="functions_6d.html"/>
+      <file role="doc" name="functions_6e.html"/>
+      <file role="doc" name="functions_6f.html"/>
+      <file role="doc" name="functions_61.html"/>
+      <file role="doc" name="functions_62.html"/>
+      <file role="doc" name="functions_63.html"/>
+      <file role="doc" name="functions_64.html"/>
+      <file role="doc" name="functions_65.html"/>
+      <file role="doc" name="functions_66.html"/>
+      <file role="doc" name="functions_67.html"/>
+      <file role="doc" name="functions_68.html"/>
+      <file role="doc" name="functions_69.html"/>
+      <file role="doc" name="functions_70.html"/>
+      <file role="doc" name="functions_71.html"/>
+      <file role="doc" name="functions_72.html"/>
+      <file role="doc" name="functions_73.html"/>
+      <file role="doc" name="functions_74.html"/>
+      <file role="doc" name="functions_75.html"/>
+      <file role="doc" name="functions_76.html"/>
+      <file role="doc" name="functions_77.html"/>
+      <file role="doc" name="functions_78.html"/>
+      <file role="doc" name="mag_sel.png"/>
+      <file role="doc" name="nomatches.html"/>
+      <file role="doc" name="search.css"/>
+      <file role="doc" name="search.js"/>
+      <file role="doc" name="search_l.png"/>
+      <file role="doc" name="search_m.png"/>
+      <file role="doc" name="search_r.png"/>
+      <file role="doc" name="variables_6c.html"/>
+      <file role="doc" name="variables_6f.html"/>
+      <file role="doc" name="variables_24.html"/>
+      <file role="doc" name="variables_61.html"/>
+      <file role="doc" name="variables_62.html"/>
+      <file role="doc" name="variables_63.html"/>
+      <file role="doc" name="variables_64.html"/>
+      <file role="doc" name="variables_65.html"/>
+      <file role="doc" name="variables_68.html"/>
+      <file role="doc" name="variables_69.html"/>
+      <file role="doc" name="variables_70.html"/>
+      <file role="doc" name="variables_71.html"/>
+      <file role="doc" name="variables_72.html"/>
+      <file role="doc" name="variables_73.html"/>
+      <file role="doc" name="variables_74.html"/>
+      <file role="doc" name="variables_75.html"/>
+      <file role="doc" name="variables_76.html"/>
+      <file role="doc" name="variables_77.html"/>
+      <file role="doc" name="variables_78.html"/>
+     </dir>
+     <file role="doc" name="annotated.html"/>
+     <file role="doc" name="bc_s.png"/>
+     <file role="doc" name="classes.html"/>
+     <file role="doc" name="class_bottom_up_css_event_handler_tests-members.html"/>
+     <file role="doc" name="class_bottom_up_css_event_handler_tests.html"/>
+     <file role="doc" name="class_bottom_up_css_event_handler_tests.png"/>
+     <file role="doc" name="class_css_event_parser_tests-members.html"/>
+     <file role="doc" name="class_css_event_parser_tests.html"/>
+     <file role="doc" name="class_css_input_stream-members.html"/>
+     <file role="doc" name="class_css_input_stream.html"/>
+     <file role="doc" name="class_css_parser-members.html"/>
+     <file role="doc" name="class_css_parser.html"/>
+     <file role="doc" name="class_css_scanner-members.html"/>
+     <file role="doc" name="class_css_scanner.html"/>
+     <file role="doc" name="class_css_token-members.html"/>
+     <file role="doc" name="class_css_token.html"/>
+     <file role="doc" name="class_css_token_test-members.html"/>
+     <file role="doc" name="class_css_token_test.html"/>
+     <file role="doc" name="class_c_s_s_parse_exception.html"/>
+     <file role="doc" name="class_fixture_one-members.html"/>
+     <file role="doc" name="class_fixture_one.html"/>
+     <file role="doc" name="class_fixture_two-members.html"/>
+     <file role="doc" name="class_fixture_two.html"/>
+     <file role="doc" name="class_introspect_me-members.html"/>
+     <file role="doc" name="class_introspect_me.html"/>
+     <file role="doc" name="class_not_implemented_exception.html"/>
+     <file role="doc" name="class_query_path-members.html"/>
+     <file role="doc" name="class_query_path.html"/>
+     <file role="doc" name="class_query_path.png"/>
+     <file role="doc" name="class_query_path_css_event_handler-members.html"/>
+     <file role="doc" name="class_query_path_css_event_handler.html"/>
+     <file role="doc" name="class_query_path_css_event_handler.png"/>
+     <file role="doc" name="class_query_path_css_event_handler_tests-members.html"/>
+     <file role="doc" name="class_query_path_css_event_handler_tests.html"/>
+     <file role="doc" name="class_query_path_css_event_handler_tests.png"/>
+     <file role="doc" name="class_query_path_entities-members.html"/>
+     <file role="doc" name="class_query_path_entities.html"/>
+     <file role="doc" name="class_query_path_entities_test-members.html"/>
+     <file role="doc" name="class_query_path_entities_test.html"/>
+     <file role="doc" name="class_query_path_exception.html"/>
+     <file role="doc" name="class_query_path_exception.png"/>
+     <file role="doc" name="class_query_path_extended-members.html"/>
+     <file role="doc" name="class_query_path_extended.html"/>
+     <file role="doc" name="class_query_path_extended.png"/>
+     <file role="doc" name="class_query_path_extension_registry-members.html"/>
+     <file role="doc" name="class_query_path_extension_registry.html"/>
+     <file role="doc" name="class_query_path_extension_test-members.html"/>
+     <file role="doc" name="class_query_path_extension_test.html"/>
+     <file role="doc" name="class_query_path_extension_test.png"/>
+     <file role="doc" name="class_query_path_iterator-members.html"/>
+     <file role="doc" name="class_query_path_iterator.html"/>
+     <file role="doc" name="class_query_path_i_o_exception-members.html"/>
+     <file role="doc" name="class_query_path_i_o_exception.html"/>
+     <file role="doc" name="class_query_path_i_o_exception.png"/>
+     <file role="doc" name="class_query_path_options-members.html"/>
+     <file role="doc" name="class_query_path_options.html"/>
+     <file role="doc" name="class_query_path_options_test-members.html"/>
+     <file role="doc" name="class_query_path_options_test.html"/>
+     <file role="doc" name="class_query_path_parse_exception-members.html"/>
+     <file role="doc" name="class_query_path_parse_exception.html"/>
+     <file role="doc" name="class_query_path_parse_exception.png"/>
+     <file role="doc" name="class_query_path_test-members.html"/>
+     <file role="doc" name="class_query_path_test.html"/>
+     <file role="doc" name="class_query_path_test.png"/>
+     <file role="doc" name="class_q_p_d_b-members.html"/>
+     <file role="doc" name="class_q_p_d_b.html"/>
+     <file role="doc" name="class_q_p_d_b.png"/>
+     <file role="doc" name="class_q_p_d_b_test-members.html"/>
+     <file role="doc" name="class_q_p_d_b_test.html"/>
+     <file role="doc" name="class_q_p_list-members.html"/>
+     <file role="doc" name="class_q_p_list.html"/>
+     <file role="doc" name="class_q_p_list.png"/>
+     <file role="doc" name="class_q_p_list_tests-members.html"/>
+     <file role="doc" name="class_q_p_list_tests.html"/>
+     <file role="doc" name="class_q_p_table_data-members.html"/>
+     <file role="doc" name="class_q_p_table_data.html"/>
+     <file role="doc" name="class_q_p_table_data.png"/>
+     <file role="doc" name="class_q_p_table_text_data-members.html"/>
+     <file role="doc" name="class_q_p_table_text_data.html"/>
+     <file role="doc" name="class_q_p_table_text_data.png"/>
+     <file role="doc" name="class_q_p_t_p_l-members.html"/>
+     <file role="doc" name="class_q_p_t_p_l.html"/>
+     <file role="doc" name="class_q_p_t_p_l.png"/>
+     <file role="doc" name="class_q_p_t_p_l_test-members.html"/>
+     <file role="doc" name="class_q_p_t_p_l_test.html"/>
+     <file role="doc" name="class_q_p_x_m_l-members.html"/>
+     <file role="doc" name="class_q_p_x_m_l.html"/>
+     <file role="doc" name="class_q_p_x_m_l.png"/>
+     <file role="doc" name="class_q_p_x_m_l_tests-members.html"/>
+     <file role="doc" name="class_q_p_x_m_l_tests.html"/>
+     <file role="doc" name="class_q_p_x_s_l-members.html"/>
+     <file role="doc" name="class_q_p_x_s_l.html"/>
+     <file role="doc" name="class_q_p_x_s_l.png"/>
+     <file role="doc" name="class_q_p_x_s_l_tests-members.html"/>
+     <file role="doc" name="class_q_p_x_s_l_tests.html"/>
+     <file role="doc" name="class_simple_test_css_event_handler-members.html"/>
+     <file role="doc" name="class_simple_test_css_event_handler.html"/>
+     <file role="doc" name="class_simple_test_css_event_handler.png"/>
+     <file role="doc" name="class_stub_extension_one-members.html"/>
+     <file role="doc" name="class_stub_extension_one.html"/>
+     <file role="doc" name="class_stub_extension_one.png"/>
+     <file role="doc" name="class_stub_extension_three-members.html"/>
+     <file role="doc" name="class_stub_extension_three.html"/>
+     <file role="doc" name="class_stub_extension_three.png"/>
+     <file role="doc" name="class_stub_extension_two-members.html"/>
+     <file role="doc" name="class_stub_extension_two.html"/>
+     <file role="doc" name="class_stub_extension_two.png"/>
+     <file role="doc" name="class_test_css_event_handler-members.html"/>
+     <file role="doc" name="class_test_css_event_handler.html"/>
+     <file role="doc" name="class_test_css_event_handler.png"/>
+     <file role="doc" name="class_test_event-members.html"/>
+     <file role="doc" name="class_test_event.html"/>
+     <file role="doc" name="class_x_m_lish_mock-members.html"/>
+     <file role="doc" name="class_x_m_lish_mock.html"/>
+     <file role="doc" name="class_x_m_lish_mock.png"/>
+     <file role="doc" name="class_x_m_lish_test-members.html"/>
+     <file role="doc" name="class_x_m_lish_test.html"/>
+     <file role="doc" name="closed.png"/>
+     <file role="doc" name="database__import_8php.html"/>
+     <file role="doc" name="database__import_8php_source.html"/>
+     <file role="doc" name="dbpedia_8php.html"/>
+     <file role="doc" name="dbpedia_8php_source.html"/>
+     <file role="doc" name="deprecated.html"/>
+     <file role="doc" name="dirty__html_8php.html"/>
+     <file role="doc" name="dirty__html_8php_source.html"/>
+     <file role="doc" name="documentation_8php.html"/>
+     <file role="doc" name="documentation_8php_source.html"/>
+     <file role="doc" name="docx_8php.html"/>
+     <file role="doc" name="docx_8php_source.html"/>
+     <file role="doc" name="doc_8php.html"/>
+     <file role="doc" name="doc_8php_source.html"/>
+     <file role="doc" name="doxygen.css"/>
+     <file role="doc" name="doxygen.png"/>
+     <file role="doc" name="extensions.html"/>
+     <file role="doc" name="fetch__rss_8php.html"/>
+     <file role="doc" name="fetch__rss_8php_source.html"/>
+     <file role="doc" name="files.html"/>
+     <file role="doc" name="ftv2blank.png"/>
+     <file role="doc" name="ftv2doc.png"/>
+     <file role="doc" name="ftv2folderclosed.png"/>
+     <file role="doc" name="ftv2folderopen.png"/>
+     <file role="doc" name="ftv2lastnode.png"/>
+     <file role="doc" name="ftv2link.png"/>
+     <file role="doc" name="ftv2mlastnode.png"/>
+     <file role="doc" name="ftv2mnode.png"/>
+     <file role="doc" name="ftv2node.png"/>
+     <file role="doc" name="ftv2plastnode.png"/>
+     <file role="doc" name="ftv2pnode.png"/>
+     <file role="doc" name="ftv2vertline.png"/>
+     <file role="doc" name="functions.html"/>
+     <file role="doc" name="functions_0x5f.html"/>
+     <file role="doc" name="functions_0x6c.html"/>
+     <file role="doc" name="functions_0x6d.html"/>
+     <file role="doc" name="functions_0x6e.html"/>
+     <file role="doc" name="functions_0x6f.html"/>
+     <file role="doc" name="functions_0x61.html"/>
+     <file role="doc" name="functions_0x62.html"/>
+     <file role="doc" name="functions_0x63.html"/>
+     <file role="doc" name="functions_0x64.html"/>
+     <file role="doc" name="functions_0x65.html"/>
+     <file role="doc" name="functions_0x66.html"/>
+     <file role="doc" name="functions_0x67.html"/>
+     <file role="doc" name="functions_0x68.html"/>
+     <file role="doc" name="functions_0x69.html"/>
+     <file role="doc" name="functions_0x70.html"/>
+     <file role="doc" name="functions_0x71.html"/>
+     <file role="doc" name="functions_0x72.html"/>
+     <file role="doc" name="functions_0x73.html"/>
+     <file role="doc" name="functions_0x74.html"/>
+     <file role="doc" name="functions_0x75.html"/>
+     <file role="doc" name="functions_0x76.html"/>
+     <file role="doc" name="functions_0x77.html"/>
+     <file role="doc" name="functions_0x78.html"/>
+     <file role="doc" name="functions_func.html"/>
+     <file role="doc" name="functions_func_0x6c.html"/>
+     <file role="doc" name="functions_func_0x6d.html"/>
+     <file role="doc" name="functions_func_0x6e.html"/>
+     <file role="doc" name="functions_func_0x6f.html"/>
+     <file role="doc" name="functions_func_0x61.html"/>
+     <file role="doc" name="functions_func_0x62.html"/>
+     <file role="doc" name="functions_func_0x63.html"/>
+     <file role="doc" name="functions_func_0x64.html"/>
+     <file role="doc" name="functions_func_0x65.html"/>
+     <file role="doc" name="functions_func_0x66.html"/>
+     <file role="doc" name="functions_func_0x67.html"/>
+     <file role="doc" name="functions_func_0x68.html"/>
+     <file role="doc" name="functions_func_0x69.html"/>
+     <file role="doc" name="functions_func_0x70.html"/>
+     <file role="doc" name="functions_func_0x71.html"/>
+     <file role="doc" name="functions_func_0x72.html"/>
+     <file role="doc" name="functions_func_0x73.html"/>
+     <file role="doc" name="functions_func_0x74.html"/>
+     <file role="doc" name="functions_func_0x75.html"/>
+     <file role="doc" name="functions_func_0x76.html"/>
+     <file role="doc" name="functions_func_0x77.html"/>
+     <file role="doc" name="functions_func_0x78.html"/>
+     <file role="doc" name="functions_vars.html"/>
+     <file role="doc" name="globals.html"/>
+     <file role="doc" name="globals_enum.html"/>
+     <file role="doc" name="globals_func.html"/>
+     <file role="doc" name="globals_vars.html"/>
+     <file role="doc" name="group__querypath__core.html"/>
+     <file role="doc" name="group__querypath__css.html"/>
+     <file role="doc" name="group__querypath__extensions.html"/>
+     <file role="doc" name="group__querypath__tests.html"/>
+     <file role="doc" name="group__querypath__util.html"/>
+     <file role="doc" name="hierarchy.html"/>
+     <file role="doc" name="html_8php.html"/>
+     <file role="doc" name="html_8php_source.html"/>
+     <file role="doc" name="index.html"/>
+     <file role="doc" name="installdox"/>
+     <file role="doc" name="interface_css_event_handler-members.html"/>
+     <file role="doc" name="interface_css_event_handler.html"/>
+     <file role="doc" name="interface_css_event_handler.png"/>
+     <file role="doc" name="interface_query_path_extension-members.html"/>
+     <file role="doc" name="interface_query_path_extension.html"/>
+     <file role="doc" name="interface_query_path_extension.png"/>
+     <file role="doc" name="interface_table_able-members.html"/>
+     <file role="doc" name="interface_table_able.html"/>
+     <file role="doc" name="interface_table_able.png"/>
+     <file role="doc" name="main.html"/>
+     <file role="doc" name="matching__text__content_8php.html"/>
+     <file role="doc" name="matching__text__content_8php_source.html"/>
+     <file role="doc" name="modules.html"/>
+     <file role="doc" name="musicbrainz_8php.html"/>
+     <file role="doc" name="musicbrainz_8php_source.html"/>
+     <file role="doc" name="nav_f.png"/>
+     <file role="doc" name="nav_h.png"/>
+     <file role="doc" name="odt_8php.html"/>
+     <file role="doc" name="odt_8php_source.html"/>
+     <file role="doc" name="open.png"/>
+     <file role="doc" name="pages.html"/>
+     <file role="doc" name="parse__php_8php.html"/>
+     <file role="doc" name="parse__php_8php_source.html"/>
+     <file role="doc" name="rss_8php.html"/>
+     <file role="doc" name="rss_8php_source.html"/>
+     <file role="doc" name="simple__example_8php.html"/>
+     <file role="doc" name="simple__example_8php_source.html"/>
+     <file role="doc" name="sparql_8php.html"/>
+     <file role="doc" name="sparql_8php_source.html"/>
+     <file role="doc" name="svg_8php.html"/>
+     <file role="doc" name="svg_8php_source.html"/>
+     <file role="doc" name="tabs.css"/>
+     <file role="doc" name="tab_a.png"/>
+     <file role="doc" name="tab_b.png"/>
+     <file role="doc" name="tab_h.png"/>
+     <file role="doc" name="tab_s.png"/>
+     <file role="doc" name="techniques_8php.html"/>
+     <file role="doc" name="techniques_8php_source.html"/>
+     <file role="doc" name="test_8php.html"/>
+     <file role="doc" name="test_8php_source.html"/>
+     <file role="doc" name="todo.html"/>
+     <file role="doc" name="tree.html"/>
+     <file role="doc" name="xml_8php.html"/>
+     <file role="doc" name="xml_8php_source.html"/>
+     <file role="doc" name="_bottom_up_css_event_handler_tests_8php.html"/>
+     <file role="doc" name="_bottom_up_css_event_handler_tests_8php_source.html"/>
+     <file role="doc" name="_css_event_handler_8php.html"/>
+     <file role="doc" name="_css_event_handler_8php_source.html"/>
+     <file role="doc" name="_css_event_test_8php.html"/>
+     <file role="doc" name="_css_event_test_8php_source.html"/>
+     <file role="doc" name="_css_parser_8php.html"/>
+     <file role="doc" name="_css_parser_8php_source.html"/>
+     <file role="doc" name="_query_path_8php.html"/>
+     <file role="doc" name="_query_path_8php_source.html"/>
+     <file role="doc" name="_query_path_entities_test_8php.html"/>
+     <file role="doc" name="_query_path_entities_test_8php_source.html"/>
+     <file role="doc" name="_query_path_extension_8php.html"/>
+     <file role="doc" name="_query_path_extension_8php_source.html"/>
+     <file role="doc" name="_query_path_extension_test_8php.html"/>
+     <file role="doc" name="_query_path_extension_test_8php_source.html"/>
+     <file role="doc" name="_query_path_options_test_8php.html"/>
+     <file role="doc" name="_query_path_options_test_8php_source.html"/>
+     <file role="doc" name="_query_path_test_8php.html"/>
+     <file role="doc" name="_query_path_test_8php_source.html"/>
+     <file role="doc" name="_q_p_d_b_8php.html"/>
+     <file role="doc" name="_q_p_d_b_8php_source.html"/>
+     <file role="doc" name="_q_p_d_b_test_8php.html"/>
+     <file role="doc" name="_q_p_d_b_test_8php_source.html"/>
+     <file role="doc" name="_q_p_list_8php.html"/>
+     <file role="doc" name="_q_p_list_8php_source.html"/>
+     <file role="doc" name="_q_p_list_test_8php.html"/>
+     <file role="doc" name="_q_p_list_test_8php_source.html"/>
+     <file role="doc" name="_q_p_t_p_l_8php.html"/>
+     <file role="doc" name="_q_p_t_p_l_8php_source.html"/>
+     <file role="doc" name="_q_p_t_p_l_test_8php.html"/>
+     <file role="doc" name="_q_p_t_p_l_test_8php_source.html"/>
+     <file role="doc" name="_q_p_x_m_l_8php.html"/>
+     <file role="doc" name="_q_p_x_m_l_8php_source.html"/>
+     <file role="doc" name="_q_p_x_m_l_test_8php.html"/>
+     <file role="doc" name="_q_p_x_m_l_test_8php_source.html"/>
+     <file role="doc" name="_q_p_x_s_l_8php.html"/>
+     <file role="doc" name="_q_p_x_s_l_8php_source.html"/>
+     <file role="doc" name="_q_p_x_s_l_test_8php.html"/>
+     <file role="doc" name="_q_p_x_s_l_test_8php_source.html"/>
+    </dir>
+   </dir>
+   <dir name="src" baseinstalldir="/">
+    <dir name="QueryPath">
+     <dir name="Extension">
+      <file role="php" name="QPDB.php"/>
+      <file role="php" name="QPList.php"/>
+      <file role="php" name="QPTPL.php"/>
+      <file role="php" name="QPXML.php"/>
+      <file role="php" name="QPXSL.php"/>
+     </dir>
+     <file role="php" name="CssEventHandler.php"/>
+     <file role="php" name="CssParser.php"/>
+     <file role="php" name="QueryPath.php"/>
+     <file role="php" name="QueryPathExtension.php"/>
+    </dir>
+   </dir>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>2.0.0a1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease/>
+</package>

@@ -118,6 +118,7 @@ $('#module_open_<?php print $params['id']; ?>').show();
       </h2>
       <p> </p>
     </div>
+    
     <input type="hidden" name="id" value="<?php print $data['id'] ?>" />
     <input type="hidden" name="installed" value="<?php print $data['installed'] ?>" />
     <input type="hidden" name="ui" value="<?php print $data['ui'] ?>" />

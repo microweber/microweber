@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Using QueryPath @UNSTABLE@</refname>
+  <refpurpose>How to make the most of the QueryPath library.</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Matt Butcher
+   <authorblurb>
+    {@link http://querypath.org Project Founder} {@link http://queryPath.org} {@link http://technosophos.com}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+  <title>About QueryPath</title>
+  <para>
+    QueryPath is a library designed to help you quickly and efficiently search,
+    modify, and traverse XML and HTML documents. It implements many of the functions
+    found in  {@link http://jquery.com jQuery}. However,
+    it is optimized for server-side work.
+  </para>
+  <para>
+   Basic introductory documentation on QueryPath can be found at the
+   {@link http://querypath.org official QueryPath website}. 
+   That site is kept updated with all of the latest information. 
+   This suite of documentation
+   provides detailed information about the QueryPath API.
+  </para>
+  <para>
+    Ready to get going? Start with the <emphasis>{@link qp()}</emphasis> function. 
+    Along with the basic documentation, there are several examples linked from 
+    there.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id what_to_do}">
+   <title>What can you do with QueryPath?</title>
+   <para>QueryPath can handle many different XML/HTML processing functions. Here
+     are a few examples:
+     <itemizedlist mark="bullet">
+       <listitem>Work remote web services like Flickr, Google, Twitter, and YouTube</listitem>
+       <listitem>Import legacy HTML</listitem>
+       <listitem>Crawl and parse sites</listitem>
+       <listitem>Retrieve RDFa and Microformats from HTML</listitem>
+       <listitem>Parse XML configuration files</listitem>
+       <listitem>Access the semantic web</listitem>
+       <listitem>Maintain pure HTML templates and merge data with QueryPath</listitem>
+     </itemizedlist>
+   </para>
+   <para>QueryPath is a flexible library. We hope you find it useful.</para>
+ </refsect1>
+ <refsect1 id="{@id architecture}">
+   <title>The Structure of QueryPath</title>
+   <para>To successfully use QueryPath, you will need to be acquainted with only
+     one function ({@link qp()}) and one class ({@link QueryPath}).</para>
+   <refsect2 id="{@id qpfactory}">
+     <title>The qp() Function</title>
+     <para>The {@link qp()} function is a factory for creating new QueryPath 
+        objects. It should be used for constructing new {@link QueryPath}
+        objects. The principle job of the {@link qp()} function is to create a
+        QueryPath instance and <em>bind a document to that object.</em> Any 
+        QueryPath object can be attached to only <em>one</em> document.</para>
+      <para>QueryPath knows how to handle XML, HTML, DOMDocument, SimpleXMLElement
+        objects, and a few other document data structures. It can also load files 
+        and remote URLs and parse the contents.</para>
+      <para>When handling such documents, QueryPath may have to guess whether a 
+        document is XML or HTML. To read more about the rules, see the API 
+        documentation for {@link qp()}.</para>
+   </refsect2>
+   <refsect2 id="{@id qpclass}">
+     <title>The QueryPath Class</title>
+     <para>The QueryPath class provides all of the tools for working with a 
+       document. In addition to implementing all of the manipulation and traversal 
+       methods of jQuery, it provides many other tools that may be useful when
+      managing documents on the server side or in a desktop application.</para>
+    <para>To learn about the rich set of methods available on a QueryPath 
+      object, take a look at the {@link QueryPath} API documentation.</para>
+    <para><em>Note:</em> To construct a QueryPath object, you should use the 
+      {@link qp()} factory function. Rarely is there a reason to call 
+      QueryPath's constructor directly.</para>
+   </refsect2>
+   <refsect2 id="{@id extensions}">
+    <title>Extending QueryPath</title>
+    <para>While QueryPath provides many useful features, it does not 
+      (obviously) provide all features. It does, however, support a very simple
+      method of building extensions. Simple follow the extension pattern
+      exhibited in the {@link QPList.php} extension, and you can quickly add
+      your own methods to QueryPath in a maintainable and re-usable way.</para>
+    <para>On very, very rare occasions, you may need to extend the QueryPath 
+      object itself. As of QueryPath 2.0, you can now do this. You are encouraged
+      to do so, though, only in cases where extensions cannot provide the 
+      desired behavior.</para>
+   </refsect2>
+ </refsect1>
+ <refsect1 id="{@id example}">
+   <title>Tutorials</title>
+   <para>The best place to start on QueryPath is with the 
+     {@link http://www.ibm.com/developerworks/opensource/library/os-php-querypath/index.html?S_TACT=105AGX01&S_CMP=HP IBM DeveloperWorks intro}. It covers the basics of QueryPath,
+     and provides a simple 10-line twitter client.</para>
+   <para>A {@link http://technosophos.com/content/querypath-and-html-basics blog on QueryPath and HTML} introduces the basics of working with
+     HTML. Another three-part blog on QPDB ({@link http://technosophos.com/content/using-querypath-interact-sql-database-part-1 1}, 
+     {@link http://technosophos.com/content/using-querypath-interact-sql-database-part-2 2}, 
+     {@link http://technosophos.com/content/using-querypath-interact-sql-database-part-3 3})
+      introduces SQL programming with QueryPath.</para>
+   <para>The original
+     {@link https://fedorahosted.org/querypath/wiki/QueryPathTutorial Tutorial}
+     also remains accurate.
+     In that tutorial you will find a few simple examples, and lots of links to more 
+     sophisticated examples.
+   </para>
+ </refsect1>
+ <refsect1 id="{@id resources}">
+   <title>Resources</title>
+   <para>
+     The guide here contains detailed documentation of each method in the 
+     QueryPath library. But there are other sources of documentation.
+   </para>
+   <para>
+     The {@link http://querypath.org QueryPath.org} website is a hub of 
+     information about QueryPath. Check out screencasts, articles, and other
+     sources of information there.
+   </para>
+   <para>
+     Issue tracking and development of QueryPath are hosted on 
+     {@link http://github.com/technosophos/querypath GitHub}, 
+     a shared development platform.
+   </para>
+   <para>
+     There are two mailing lists for QueryPath: One for 
+     {@link http://groups.google.com/group/support-querypath support} and one for
+     {@link http://groups.google.com/group/devel-querypath developers}.
+   </para>
+   <para>
+    Matt Butcher regularly posts {@link http://technosophos.com/category/tags/querypath articles about QueryPath} on
+     {@link http://technosophos.com TechnoSophos}.
+   </para>
+ </refsect1>
+</refentry>

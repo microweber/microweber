@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Testing QueryPath</refname>
+  <refpurpose>How to set up a testing environment for QueryPath.</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Matt Butcher
+   <authorblurb>
+    {@link http://querypath.org Project Founder}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+  <title>About QueryPath's Testing'</title>
+  <para>
+    QueryPath is tested using unit tests written against the {@link PHPUnit} unit
+    testing framework. Every public function of QueryPath should have at least one
+    corresponding test. Most protected and private functions should also be   
+    exercised, though perhaps not directly.
+  </para>
+  <para>
+   The user guide for QueryPath is located in the 
+   {@link http://fedorahosted.org/querypath official wiki}. 
+   It is kept updated with all of the latest information.
+  </para>
+  <para>
+    Ready to get going? Start with the {@link qp()} function. Along with the 
+    basic documentation, there are several examples linked from that function.
+  </para>
+ </refsect1>
+</refentry>

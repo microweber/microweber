@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<root xmlns="urn:foo/bar" xmlns:test="urn:foo/bar/baz">
+  <outside level="1" id="first-outside" class="first">
+    <inside level="2" type="thing">
+      <bottom/>
+    </inside>
+    <inside level="2" type="thing">
+      <bottom level="3"/>
+    </inside>
+  </outside>
+  <outside level="1" id="second-outside">
+    <ul>
+      <li class="first">one</li>
+      <li>two</li>
+      <li>three</li>
+      <li>four</li>
+      <li>five</li>
+      <li class="last">six</li>
+    </ul>
+  </outside>
+  <outside level="1" id="third-outside">
+    <a class="a1"><a class="a2"><a class="a3">bottom</a></a></a>
+  </outside>
+  <crowded attr1="one" attr2="two" attr3="three" attr4="four"/>
+  <classtest class="one two three      four five six seven"/>
+  <idtest id="idtest-one"/>
+  <p author="T.S. Eliot">this is the way the world ends. Not with a bang, but a whimper.</p>
+  ==FOO==
+  <one><two><three><four>target</four></three></two></one>
+  <test:ns_test test:level="1">
+    <ns_attr test:myattr="foo">text</ns_attr>
+    <newns:my_element xmlns:newns="urn:new/ns">More text</newns:my_element>
+  </test:ns_test>
+  <ns_test/><ns_test xmlns:nuther="urn:nuther" ping="1" test:ping="2" nuther:ping="3"/>
+</root>

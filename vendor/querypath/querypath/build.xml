@@ -1,0 +1,590 @@
+<?xml version="1.0"?>
+<project 
+  name="QueryPath" 
+  description="A simple, powerful, robust tool for working with XML, HTML, and HTTP"
+  default="ftest">
+<!--
+This is the Phing build file for QueryPath.
+
+Phing is a build tool. Learn more about it at http://phing.info.
+
+Copyright (c) 2009, Matt Butcher, some rights reserved.
+
+License:
+QueryPath is released under the GNU LGPL 2.1 or, at your preference,
+an MIT license. See COPYING-LGPL.txt and COPYING-MIT.txt for details.
+-->
+  <target name="info" description="Information on using the QueryPath Phing build.">
+    <echo>
+To build QueryPath, run:
+
+  phing build
+  
+This will create a generic dev release of QueryPath and copy the releasable files to the dist/ directory. All documentation will be generated, and both a minimal and full version of the code will be generated. The non-compressed files will be available for inspection in bin/build/.
+
+IMPORTANT: The full version of the package does not include build scripts (including this file). The only way to obtain the entire QueryPath development environment is to check it out from http://github.com/technosophos/querypath.
+
+A numbered release can be built with:
+
+  phing build -Dversion=2.1-Alpha1
+
+These are the basic tasks we anticipate performing with phing. However, the build script supports the running of several other tasks which may help you when debugging or developing QueryPath. Important ones are listed below. A complete list can be obtained by running 'phing -l' in this directory.
+
+To generate docs, do:
+
+  phing doc
+
+Documentation will be stored in docs/. You can start with docs/index.html.
+
+To run unit tests, do:
+
+  phing test
+
+The above will generate HTML test results which will be placed in test/reports/. If you wish to run the test and print the results directly the the command line, you should run 'phing ftest' instead.
+
+To run coverage analysis, do:
+
+  phing coverage
+  
+This will create HTML pages describing code coverage. The coverage analysis will be available in test/coverage
+  
+To print this message, do:
+
+  phing info
+
+    </echo>
+  </target>
+  
+  <!-- This is used for Pirum tasks. -->
+  <includepath classpath="../Phing-Pirum/src"/>
+  <taskdef classname="PhingPirum.Task.PirumBuildTask" name="pirumbuild"/>
+  <taskdef classname="PhingPirum.Task.PirumAddTask" name="pirumadd"/>
+
+  <!-- Doxygen -->
+  <includepath classpath="../PhingDoxygen/src"/>
+  <taskdef classname="PhingDoxygen.Task.DoxygenTask" name="doxygen"/>
+
+  <!-- Pyrus tasks. -->
+  <includepath classpath="/Users/mattbutcher/Code"/> <!-- Pyrus is here. -->
+  <includepath classpath="../PhingPyrus/src"/>
+  <taskdef classname="PhingPyrus.Task.PyrusMakeTask" name="pyrusmake"/>
+  <taskdef classname="PhingPyrus.Task.PyrusPackageTask" name="pyruspackage"/>
+  <taskdef classname="PhingPyrus.Task.PyrusHelpTask" name="pyrushelp"/>
+  <taskdef classname="PhingPyrus.Task.PyrusExecTask" name="pyrusexec"/>
+  
+  <!--
+  <includepath classpath="../Phing-QueryPath/src"/>
+  <taskdef classname="PhingQueryPath.Task.QueryPathReplacementTask" name="qpreplace"/>
+  -->
+
+  <!-- Global properties -->
+  <property name="srcdir" value="./src"/>
+  <property name="testdir" value="./test"/>
+  <property name="builddir" value="./bin/build"/>
+  <property name="docsdir" value="./doc"/>
+  <property name="packagedir" value="./dist"/>
+  <property name="phardir" value="./phar"/>
+  <property name="pirum.channel.path" value="../pear.querypath.org/pear"/>
+  
+  <!-- ported from PhingPyrus -->
+  <property name="pear.channel" value="pear.querypath.org"/>
+  <property name="projectname" value="QueryPath"/>
+  
+  <!-- Too hard to link to, nav is very difficult. -->
+  <!-- property name="phpdoc.style" value="HTML:frames:phpedit"/ -->
+  
+  <property name="phpdoc.style" value="HTML:frames:earthli"/>
+  
+  
+  <!-- Files that must be included in the release -->
+  <fileset id="licensefiles" dir=".">
+    <include name="README"/>
+    <include name="INSTALL"/>
+    <include name="LGPL-2.1.txt"/>
+    <include name="COPYING-LGPL.txt"/>
+    <include name="COPYING-MIT.txt"/>
+    <include name="RELEASE"/>
+    <include name="API"/>
+    <include name="CREDITS"/>
+  </fileset>
+  
+  <!-- Files to be treated as source code -->
+  <fileset id="sourcecode" dir="${srcdir}">
+    <include name="**/*.php" />
+  </fileset>
+  
+  <!-- Unit tests and auxilliary files -->
+  <fileset id="unittests" dir="${testdir}/Tests">
+    <include name="**/*Test.php" />
+  </fileset>
+  
+  <!-- Examples -->
+  <fileset id="examplecode" dir="./examples">
+    <include name="**/*" />
+  </fileset>
+  
+  <!-- DocBook Tutorials -->
+  <fileset id="tutorials" dir="./tutorials">
+    <include name="**/*" />
+  </fileset>
+  
+  <!-- Documentation -->
+  <fileset id="docs" dir="${docsdir}">
+    <include name="**/*" />
+  </fileset>
+  
+  <!-- BUILD: The primary build target. -->
+  <target name="build" depends="lint, setup, prebuild, docBuild, minimalBuild, fullBuild, pharBuild, pearPkg"
+    description="Generate docs, minimal, and full builds and then creates packages."
+    ></target>
+  
+  <!-- Target that should be run always. -->
+  <target name="setup" description="Run required configuration for any build.">
+    <tstamp/>
+    <!-- Default version -->
+    <property name="version" value="dev-${DSTAMP}"/>
+  </target>
+  
+  <!-- tasks to do before any build. -->
+  <target name="prebuild">
+    <mkdir dir="./dist"/>
+  </target>
+  
+  <!-- Build just the minimal package -->
+  <target name="minimalBuild" description="Minimal QueryPath build." 
+    depends="setup,prebuild">
+    <property name="releasedir" value="${builddir}/QueryPath-${version}-minimal" override="true"/>
+    <echo>${releasedir}</echo>
+    <delete dir="${releasedir}" />
+    <mkdir dir="${releasedir}"/>
+    <copy todir="${releasedir}">
+      <filterchain>
+        <stripphpcomments/>
+        <!-- Removed per issue #20 -->
+        <!-- stripwhitespace/ -->
+        <replacetokens begintoken="-" endtoken="%">
+          <token key="UNSTABLE" value="${version}"/>
+        </replacetokens>
+      </filterchain>
+      <fileset dir="${srcdir}/QueryPath">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    <copy todir="${releasedir}">
+      <fileset refid="licensefiles"/>
+    </copy>
+    <tar destfile="${packagedir}/QueryPath-${version}-minimal.tgz" 
+      compression="gzip">
+      <fileset dir="${builddir}">
+        <include name="QueryPath-${version}-minimal/**/*"/>
+      </fileset>
+    </tar>
+    <zip destfile="${packagedir}/QueryPath-${version}-minimal.zip" basedir="${releasedir}"/>
+  </target>
+  
+  <!-- Build the full package -->
+  <target name="fullBuild" description="Full QueryPath build, including docs."
+    depends="setup,prebuild">
+    <property name="releasedir" value="${builddir}/QueryPath-${version}" override="true"/>
+    <delete dir="${releasedir}" />
+    
+    <!-- Make all necessary directories. -->
+    <mkdir dir="${releasedir}"/>
+    <mkdir dir="${releasedir}/src"/>
+    <mkdir dir="${releasedir}/examples"/>
+    <mkdir dir="${releasedir}/tests"/>
+    <mkdir dir="${releasedir}/tutorials"/>
+    <mkdir dir="${releasedir}/doc"/>
+    
+    <!-- Copy license files. -->
+    <copy todir="${releasedir}">
+      <fileset refid="licensefiles"/>
+    </copy>
+    
+    <!-- Copy source code, doing token replacement on version. -->
+    <copy todir="${releasedir}/src">
+      <filterchain>
+        <replacetokens begintoken="-" endtoken="%">
+          <token key="UNSTABLE" value="${version}"/>
+        </replacetokens>
+      </filterchain>
+      <fileset refid="sourcecode"/>
+    </copy>
+
+    <!-- Copy examples. -->
+    <copy todir="${releasedir}/examples">
+      <fileset refid="examplecode"/>
+    </copy>
+    
+    <!-- Copy tests. -->
+    <copy todir="${releasedir}/tests">
+      <fileset refid="unittests"/>
+    </copy>
+    
+    <!-- Copy tutorials -->
+    <copy todir="${releasedir}/tutorials">
+      <fileset refid="tutorials"/>
+    </copy>
+    
+    <!-- Copy documentation --> 
+    <copy todir="${releasedir}/doc">
+      <fileset refid="docs"/>
+    </copy>
+    
+    <!-- Create tgz and zip versions. -->
+    <tar destfile="${packagedir}/QueryPath-${version}.tgz" compression="gzip">
+      <fileset dir="${builddir}">
+        <include name="QueryPath-${version}/**/*"/>
+      </fileset>
+    </tar>
+    <zip destfile="${packagedir}/QueryPath-${version}.zip" basedir="${releasedir}"/>
+  </target>
+  
+  <!-- Check syntax -->
+  <target name="lint" description="Check syntax of source.">
+    <phplint>
+      <fileset refid="sourcecode" />
+    </phplint>
+  </target>
+  
+  <!-- Build documentation -->
+  <!--
+  output="HTML:Smarty:QueryPath" 
+  -->
+  
+  <target name="doc" depends="lint,setup" description="Generate API docs.">
+    <delete dir="${docsdir}"/>
+    <doxygen config="./config.doxy"/>
+    
+    <!-- Need to replace version information in generated documentation -->
+    <reflexive>
+      <fileset refid="docs"/>
+      <filterchain>
+        <replacetokens begintoken="-" endtoken="%">
+          <token key="UNSTABLE" value="${version}"/>
+        </replacetokens>
+      </filterchain>
+    </reflexive>
+  </target>
+  
+  <!-- tmtarget for textmate phing -->
+  <target name="tmtarget" depends="ftest" description="Target for textmate"/>
+  
+  <!-- Run a fast test and print the results to the console -->
+  <target name="ftest" description="Run a quick unit test." depends="pretest">
+    <!-- Fast test. -->
+    <phpunit>
+      <formatter type="summary" usefile="no"/>
+      <batchtest>
+        <fileset refid="unittests"/>
+      </batchtest>
+    </phpunit>    
+    <delete file="./test/db/qpTest.db" />
+    <delete file="./test/db/qpTest2.db" />
+  </target>
+  
+  <target name="pretest" description="tasks done before any unit testing.">
+    <mkdir dir="test/reports"/>
+    <mkdir dir="test/reports/html"/>
+    <mkdir dir="test/db"/>
+    <!-- touch file="./test/no-writing.xml" / -->
+    <chmod mode="444" file="./test/no-writing.xml"/>
+  </target>
+  
+  <!-- Run a fast test and print the results to the console -->
+  <target name="tmtest" description="Run test, optimized for TextMate output." depends="pretest">
+    
+    <!-- Fast test. -->
+    <phpunit>
+      <formatter todir="test/reports" type="xml" usefile="yes"/>
+      <batchtest>
+        <fileset refid="unittests"/>
+      </batchtest>
+    </phpunit>
+     <phpunitreport 
+        infile="test/reports/testsuites.xml" 
+        format="noframes" 
+        todir="test/reports/html" 
+        />
+    <delete file="./test/db/qpTest.db" />
+    <delete file="./test/db/qpTest2.db" />
+  </target>
+  
+  <!-- Run a coverage report -->
+  <target name="coverage" depends="lint" description="Run a coverage analysis.">
+    <coverage-setup database="./test/db/coverage.db">
+      <fileset dir="src">
+        <include name="QueryPath/*.php"/>
+      </fileset>
+    </coverage-setup>
+    <phpunit codecoverage="true" haltonfailure="true">
+      <formatter type="plain" todir="test/reports" outfile="coverage.xml"/>
+      <batchtest>
+        <fileset dir="test/Tests">
+          <include name="**/*Test.php"/>
+        </fileset>
+      </batchtest>
+    </phpunit>
+    <coverage-report outfile="test/reports/coverage.xml">
+      <report todir="test/coverage"/>
+    </coverage-report>
+  </target>
+  
+  <!-- Run a full test and format an HTML report -->
+  <target name="test" depends="lint,pretest" description="Run full tests">
+    <mkdir dir="test/reports/html"/>
+    <mkdir dir="test/db"/>
+    <phpunit>
+      <formatter todir="test/reports" type="xml"/>
+      <batchtest>
+        <fileset dir="test/Tests">
+          <include name="**/*Test.php"/>
+        </fileset>
+      </batchtest>
+    </phpunit>
+    <phpunitreport 
+      infile="test/reports/testsuites.xml" 
+      format="frames" 
+      todir="test/reports/html" 
+      />
+    <delete file="./test/db/qpTest.db" />
+    <delete file="./test/db/qpTest2.db" />
+  </target>
+  
+  <target name="docBuild" description="Build a package containing just docs." 
+    depends="setup,prebuild,doc">
+    <property name="releasedir" value="${builddir}/QueryPath-${version}-docs"/>
+    <delete dir="${releasedir}" />
+    
+    <!-- Make all necessary directories. -->
+    <mkdir dir="${releasedir}"/>
+    
+    <!-- Copy license files. -->
+    <copy todir="${releasedir}">
+      <fileset refid="licensefiles"/>
+    </copy>
+        
+    <!-- Copy documentation --> 
+    <copy todir="${releasedir}/doc">
+      <fileset refid="docs"/>
+    </copy>
+    
+    <!-- Create tgz and zip versions. -->
+    <tar destfile="${packagedir}/QueryPath-${version}-docs.tgz" compression="gzip">
+      <fileset dir="${builddir}">
+        <include name="QueryPath-${version}-docs/**/*"/>
+      </fileset>
+    </tar>
+    <zip destfile="${packagedir}/QueryPath-${version}-docs.zip" basedir="${releasedir}"/>
+  </target>
+  
+  <target name="pharBuild" depends="setup,prebuild">
+    
+    <property name="releasedir" value="${builddir}/QueryPath-${version}-phar" override="true"/>
+    <echo>${releasedir}</echo>
+    <delete dir="${releasedir}" />
+    <mkdir dir="${releasedir}"/>
+    <copy todir="${releasedir}">
+      <filterchain>
+        <stripphpcomments/>
+        <stripwhitespace/>
+        <replacetokens begintoken="-" endtoken="%">
+          <token key="UNSTABLE" value="${version}"/>
+          <token key="PHAR_FILENAME" value="QueryPath.phar"/>
+        </replacetokens>
+      </filterchain>
+      <fileset dir="${srcdir}/QueryPath">
+        <include name="**/*"/>
+      </fileset>
+      <fileset dir="${phardir}">
+        <include name="**/*.php"/>
+      </fileset>
+    </copy>
+    <copy todir="${releasedir}">
+      <fileset refid="licensefiles"/>
+    </copy>
+    
+    <pharpackage 
+      destfile="${packagedir}/QueryPath-${version}.phar" 
+      basedir="${releasedir}"
+      stub="${releasedir}/basic_loader.php"
+      alias="QueryPath.phar">
+      <fileset dir="${releasedir}">
+        <include name="**/**"/>
+      </fileset>
+      <metadata>
+          <element name="version" value="${version}" />
+          <element name="authors">
+            <element name="M Butcher">
+              <element name="e-mail" value="technosophos@gmail.com" />
+            </element>
+          </element>
+      </metadata>
+    </pharpackage>
+  </target>
+  
+  <!-- Use Pyrus to generate package.xml files. -->
+  <target name="pyrusMake" depends="setup,prebuild">
+    
+  </target>
+  
+  <!-- Use Pyrus to create a PEAR package. -->
+  <target name="pyrusPackage" depends="setup,prebuild">
+    
+  </target>
+  
+  <!-- Requires PEAR_PackageFileManager2 -->
+  <target name="pearBuild" depends="setup,prebuild,setPearStability">
+    <property name="stability" value="stable"/>
+    <!-- Follow the pear naming conventions for builds -->
+    <if>
+      <equals arg1="${version}" arg2="dev-${DSTAMP}"/>
+      <then>
+        <property name="stability" value="devel" override="true"/>
+        <property name="version" value="2.1dev${DSTAMP}" override="true"/>
+        <echo>Setting version string to ${version}.</echo>
+      </then>
+    </if>
+    
+    <!-- Create PEAR release directory -->
+    <property name="peardir" value="${builddir}/pear"/>
+    <property name="releasedir" value="${peardir}/QueryPath-${version}" override="true"/>
+    <echo>${releasedir}</echo>
+    <delete dir="${releasedir}" />
+    <mkdir dir="${releasedir}"/>
+    <mkdir dir="${releasedir}/doc"/>
+    <copy todir="${releasedir}/src">
+      <filterchain>
+        <!-- stripphpcomments/ -->
+        <!-- stripwhitespace/ -->
+        <replacetokens begintoken="-" endtoken="%">
+          <token key="UNSTABLE" value="${version}"/>
+        </replacetokens>
+      </filterchain>
+      <fileset dir="${srcdir}">
+        <include name="**/*"/>
+        <exclude name="**/documentation.php"/>
+      </fileset>
+    </copy>
+    <copy todir="${releasedir}">
+      <fileset refid="licensefiles"/>
+      <fileset dir=".">
+        <include name="package.xml"/>
+        <include name="package_compatible.xml"/>
+      </fileset>
+    </copy>
+    <!-- Pyrus seems incapable of dealing with docs in it's 2.0.0a1 state.
+    <copy todir="${releasedir}/doc">
+      <fileset dir="${docsdir}">
+        <include name="**/*"/>
+      </fileset>
+    </copy>
+    -->
+    
+    <copy file="./pear-summary.txt" tofile="${releasedir}/README"/>
+    <move file="${releasedir}/RELEASE" tofile="${releasedir}/RELEASE-${version}"/>
+    <move file="${releasedir}/API" tofile="${releasedir}/API-${version}"/>
+    
+    <!-- Generate PEAR package. -->
+    <pyrusmake dir="${releasedir}" packagename="${projectname}" channel="${pear.channel}"/>
+    <pyruspackage packagexml="${releasedir}/package.xml"/>
+    <move file="${projectname}-${version}.tgz" tofile="${packagedir}/${projectname}-${version}.tgz"/>
+
+    
+    <!--
+    <pearpkg2 name="QueryPath" dir="./">
+       <fileset dir="${releasedir}">
+         <include name="**/**"/>
+       </fileset>
+       <option name="uri" value="http://querypath.org"/>
+       <option name="packagefile" value="package2.xml"/>
+       <option name="channel" value="pear.querypath.org"/>
+       
+       <option name="baseinstalldir" value="QueryPath"/>
+
+       <option name="summary" value="The QueryPath XML/HTML library"/>
+       <option name="description" value="QueryPath is a simple, powerful, robust library for working with XML, HTML, and HTTP. It is like jQuery for PHP. http://querypath.org"/>
+       <option name="apiversion" value="${version}"/>
+       <option name="apistability" value="${stability}"/>
+       <option name="releaseversion" value="${version}"/>
+       <option name="releasestability" value="${stability}"/>
+       <option name="license" value="LGPL 2 or MIT"/>
+       <option name="phpdep" value="5.0.0"/>
+       <option name="pearinstallerdep" value="1.4.6"/>
+       <option name="packagetype" value="php"/>
+       <option name="notes" value="Latest info is available at http://github.com/technosophos/querypath"/>
+       <option name="outputdirectory" value="./${builddir}"/>
+       <option name="packagedirectory" value="./${releasedir}"/>
+       <mapping name="maintainers">
+        <element>
+         <element key="handle" value="technosophos"/>
+         <element key="name" value="M Butcher"/>
+         <element key="email" value="matt@aleph-null.tv"/>
+         <element key="role" value="lead"/>
+        </element>
+        <element>
+         <element key="handle" value="eabrand"/>
+         <element key="name" value="Emily Brand"/>
+         <element key="email" value="unknown@example.com"/>
+         <element key="role" value="developer"/>
+        </element>
+       </mapping>
+    </pearpkg2>
+    -->
+    
+    <!-- Copy the package.xml -->
+    <!-- move file="${builddir}/package2.xml" tofile="${peardir}/package.xml"/ -->
+    
+    <!--
+    <tar destfile="${packagedir}/QueryPath-${version}.tgz" compression="gzip">
+      <fileset dir="./${peardir}">
+        <include name="QueryPath-${version}/**/*"/>
+        <include name="package.xml"/>
+      </fileset>
+    </tar>
+    -->
+    
+  </target>
+  
+  <target name="pearPkg" depends="pearBuild">
+    <echo>${packagedir}/QueryPath-${version}.tgz</echo>
+    <!--property name="pirumdir" value="${testdir}/fakepear"/-->
+    <property name="pirumdir" value="${pirum.channel.path}"/>
+    <pirumbuild targetdir="${pirumdir}"/>
+    <pirumadd targetdir="${pirumdir}" packagefile="${packagedir}/QueryPath-${version}.tgz"/>
+  </target>
+  
+  <!--
+ This is an attempt to use the Pyrus builder to create a full package.
+ Let's see if it works.
+  -->
+  <!--
+  <target name="pyrusBuild" depends="setup,prebuild">
+    <property name="pyrusPath" value="~/Code/pyrus.phar"/>
+    <exec command="php ${pyrusPath}"/>
+  </target>
+  -->
+  
+  <target name="setPearStability" depends="setup">
+    <property name="stability">stable</property>
+    <if>
+      <contains string="${version}" substring="dev"/>
+      <then>
+        <property name="stability" override="true">snapshot</property>
+      </then>
+      <elseif>
+        <contains string="${version}" substring="alpha"/>
+        <then>
+          <property name="stability" override="true">alpha</property>
+        </then>
+      </elseif>
+      <elseif>
+        <contains string="${version}" substring="beta"/>
+        <then>
+          <property name="stability" override="true">beta</property>
+        </then>
+      </elseif>
+    </if>
+    <echo>${stability}</echo>
+  </target>
+</project>

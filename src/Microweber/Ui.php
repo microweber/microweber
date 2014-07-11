@@ -34,18 +34,20 @@ class Ui
     {
 
         $fields = array(
-            "text" => "Text Field",
-            "number" => "Number",
             "price" => "Price",
+            "text" => "Text Field",
+            "radio" => "Single Choice",
+            "dropdown" => "Dropdown",
+            "checkbox" => "Multiple choices",
+            "number" => "Number",
+
             "phone" => "Phone",
             "site" => "Web Site",
             "email" => "E-mail",
             "address" => "Address",
             "date" => "Date",
-            "upload" => "File Upload",
-            "radio" => "Single Choice",
-            "dropdown" => "Dropdown",
-            "checkbox" => "Multiple choices"
+            "upload" => "File Upload"
+
         );
 
         $this->custom_fields = $fields;

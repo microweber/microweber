@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.1" xmlns="http://pear.php.net/dtd/package-2.1" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.1     http://pear.php.net/dtd/package-2.1.xsd">
+ <name>QueryPath</name>
+ <channel>pear.querypath.org</channel>
+ <summary>QueryPath: A library for working with XML, HTML, and web services.
+</summary>
+ <description>
+QueryPath implements much of the jQuery API in PHP, and supports CSS 
+selector queries, jQuery's traversal and manipulation APIs, and 
+adds many other useful methods. Learn more at http://querypath.org.</description>
+ <lead>
+  <name>Matt Butcher</name>
+  <user>technosophos</user>
+  <email>matt@aleph-null.tv</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Emily Brand</name>
+  <user>eabrand</user>
+  <email>emily@example.com</email>
+  <active>yes</active>
+ </developer>
+ <contributor>
+  <name>Woody Gilk</name>
+  <user>shadowhand</user>
+  <email>woody@wingsc.com</email>
+  <active>yes</active>
+ </contributor>
+ <date>2010-10-20</date>
+ <time>12:15:12</time>
+ <version>
+  <release>2.1.0beta3</release>
+  <api>2.1.0beta3</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/lgpl-license.php">LGPL or MIT (your choice)</license>
+ <notes>
+</notes>
+ <contents>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.8</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease>
+ </phprelease>
+</package>

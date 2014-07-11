@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>QueryPath Examples</refname>
+  <refpurpose>Using QueryPath.</refpurpose>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Matt Butcher
+   <authorblurb>
+    {@link http://querypath.org Project Founder}
+   </authorblurb>
+  </author>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+  <title>About QueryPath Examples</title>
+  <para>
+    The scripts provided in this package are intended to illustrate how {@link 
+    QueryPath}
+    can work in various circumstances. Each example is self-contained, and makes
+    use only of QueryPath and the core extensions.
+  </para>
+  <para>
+   You will find much more information about these examples on the
+   {@link http://fedorahosted.org/querypath wiki}. There, each example is
+   explained in detail, and example output is also shown.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id intro}">
+   <title>Where to begin</title>
+  <para>
+   If you are new to QueryPath, you may wish to start with 
+   {@link simple_example.php}, and then move on to {@link xml.php} and 
+   {@link html.php}.
+  </para>
+  <para>
+    As you click on each page, check out the <b>"source code for this file"</b>
+    link. That will take you to a syntax-highlighted version of the source code.
+    In most cases, the source code is under 50 lines and includes many comments.
+  </para>
+ </refsect1>
+</refentry>

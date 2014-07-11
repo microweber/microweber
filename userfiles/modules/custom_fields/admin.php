@@ -179,7 +179,7 @@ mw_custom_fileds_changed_callback = function(el){
       </div>
     </div>
   </div>
-  <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="site"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-info mw-dropdown-val">
+  <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-info mw-dropdown-val">
     <?php _e("Add New"); ?>
     </span>
     <div class="mw-dropdown-content">
