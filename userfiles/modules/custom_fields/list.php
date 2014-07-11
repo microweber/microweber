@@ -148,8 +148,6 @@ if(is_array( $diff) and is_array($more) ){
   <?php endforeach; ?>
 </div>
 <?php else : ?>
-<?php if(isset($more) and !empty($more)): ?>
-<?php endif; ?>
 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table" id="custom-fields-post-table">
   <colgroup>
     <col width="40">

@@ -24,7 +24,7 @@
         $v_mod = module_name_decode($v1);
 
          if(is_module($v_mod)){
-			  include_once (MW_ADMIN_VIEWS_DIR . 'module_nav.php'); 
+			  //include_once (MW_ADMIN_VIEWS_DIR . 'module_nav.php'); 
            //  $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
 
 		   $mod = '<module type="'.$v_mod.'" view="admin"  backend="true" id="mw-main-module-backend" />';
@@ -44,6 +44,7 @@
         
         $vf = MW_ADMIN_VIEWS_DIR . $v. '.php';
         $vf = str_replace('..', '', $vf);
+	
         if(is_file($vf)){
         //d($vf);
         

@@ -277,7 +277,7 @@ mw.drag = {
            mw.$mm_target = $(mw.mm_target);
 
            if(!mw.isDrag){
-               if(mw.emouse.x % 2 === 0 ){
+               if(mw.emouse.x % 2 === 0 && mw.drag.columns.resizing === false){
                    if(mw.$mm_target.hasClass("element") && !mw.$mm_target.hasClass("module") && !mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
                      $(window).trigger("onElementOver", mw.mm_target);
                    }
@@ -298,14 +298,7 @@ mw.drag = {
                    }
 
 
-                   if(mw.mm_target.tagName === 'IMG'){
-                      var order = mw.tools.parentsOrder(mw.mm_target, ['edit', 'module']);
-                      if((order.module == -1) || (order.edit >-1 && order.edit < order.module) ){
-                        if(!mw.tools.hasParentsWithClass(mw.mm_target, 'mw-defaults')){
-                           $(window).trigger("onImageOver", mw.mm_target);
-                        }
-                      }
-                   }
+
 
                    if(mw.mm_target === mw.image_resizer){
                          $(window).trigger("onElementOver", mw.image.currentResizing[0]);

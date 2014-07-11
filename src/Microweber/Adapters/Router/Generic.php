@@ -91,7 +91,15 @@ class Generic
         } else {
             $method = 'index';
         }
+
         $routes = $this->routes;
+        $router_data = array();
+        if (isset($_POST) and !empty($_POST)) {
+            $router_data = ($_POST);
+        }
+        if (isset($_GET) and !empty($_GET)) {
+            $router_data = array_merge($router_data,$_GET);
+        }
 
         if (isset($_POST) and !empty($_POST)) {
             if (!empty($this->routes_post)) {
@@ -111,7 +119,7 @@ class Generic
                 }
                 if ($try_call == true) {
                     if (is_callable($callback)) {
-                        return call_user_func($callback);
+                        return call_user_func($callback,$router_data);
                     } elseif (is_string($callback) and class_exists($callback)) {
                         $sub_contoller = new $callback();
                         if (method_exists($sub_contoller, $method)) {
@@ -127,6 +135,7 @@ class Generic
             }
 
         }
+
         $controller = $this->controller;
         //perform custom routing
         $is_custom_controller_called = false;
@@ -134,10 +143,10 @@ class Generic
             //$params_for_route = $this->url->segment();
             if (isset($controller->functions[$method])  and is_callable($controller->functions[$method])) {
                 $is_custom_controller_called = true;
-                return call_user_func($controller->functions[$method]);
+                return call_user_func($controller->functions[$method],$router_data);
             } else if (isset($controller->functions[$url_full_string]) and is_callable($controller->functions[$url_full_string])) {
                 $is_custom_controller_called = true;
-                return call_user_func($controller->functions[$url_full_string]);
+                return call_user_func($controller->functions[$url_full_string],$router_data);
             } elseif (is_array($controller->functions) and !empty($controller->functions)) {
                 $attached_routes = $controller->functions;
                 //routing wildcard urls
@@ -146,7 +155,7 @@ class Generic
                         $if_route_found = preg_match(sprintf('#%s\d*#', $k), $url_full_string);
                         if ($if_route_found == true) {
                             $is_custom_controller_called = true;
-                            return call_user_func($controller->functions[$k]);
+                            return call_user_func($controller->functions[$k],$router_data);
                         }
                     }
 
@@ -180,7 +189,7 @@ class Generic
             return $this->callback = call_user_func($this->functions[$method]);
         } else if (isset($this->functions[$url_full_string]) and is_callable($this->functions[$url_full_string])) {
             $is_custom_controller_called = true;
-            return $this->callback = call_user_func($this->functions[$url_full_string]);
+            return $this->callback = call_user_func($this->functions[$url_full_string],$router_data);
         } elseif (!empty($this->functions)) {
             $attached_routes = $this->functions;
             //routing wildcard urls
@@ -189,7 +198,7 @@ class Generic
                     $if_route_found = preg_match(sprintf('#%s\d*#', $k), $url_full_string);
                     if ($if_route_found == true) {
                         $is_custom_controller_called = true;
-                        return $this->callback = call_user_func($this->functions[$k]);
+                        return $this->callback = call_user_func($this->functions[$k],$router_data);
                     }
                 }
             }

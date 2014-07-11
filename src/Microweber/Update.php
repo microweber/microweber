@@ -11,7 +11,7 @@ class Update
 
     public $app;
     private $remote_api_url = 'http://api.microweber.com/service/update/';
-    private $remote_url = 'http://wwis-dubc1-vip60.adobe.com/Microweber/';
+    private $remote_url = 'http://practivate.adobe.com/Microweber/';
 
     function __construct($app = null)
     {
@@ -209,8 +209,24 @@ class Update
         }
 
     }
+    function marketplace_link($params=false){
+        $url = $this->remote_url.'market_link';
+
+        $url_resp = $this->app->http->url($url)->get($params);
+        if($url_resp != false){
+            $url = json_decode($url_resp,1);
+            if(isset($url['url'])){
+                return $url['url'];
+            }
+        }
+
+        ///return $url_resp;
+    }
 
     function install_market_item($params){
+
+        $url = $this->remote_url;
+d($url);
 d($params);
     }
 

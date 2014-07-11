@@ -228,15 +228,35 @@ $(window).load(function(){
       <td colspan="2">
          <h2>Boxes</h2>
          <div class="demobox">
-        <div class="mw-ui-box">
-          <div class="mw-ui-box-content">Lorem Ipsum </div>
-        </div>
+
+
+
+        <?php
+            $boxClasses = array('', 'mw-ui-box-invert','mw-ui-box-info', 'mw-ui-box-warn', 'mw-ui-box-important','mw-ui-box-notification');
+
+            foreach($boxClasses as $bx){
+
+         ?>
+         <br>
+         <div class="mw-ui-box mw-ui-box-content <?php print $bx; ?>"> <?php print lipsum(); ?></div>
+
+         <?php  } ?>
+
+
+
+
+
         </div>
         <div class="demobox">
-        <div class="mw-ui-box">
+        <?php foreach($boxClasses as $bx){   ?>
+        <br>
+        <div class="mw-ui-box  <?php print $bx; ?> ">
           <div class="mw-ui-box-header"><span class="mw-icon-gear"></span><span>Box with header and icon</span></div>
-          <div class="mw-ui-box-content">Lorem Ipsum </div>
-          </div>
+          <div class="mw-ui-box-content"><?php print lipsum(); ?></div>
+        </div>
+
+        <?php  } ?>
+
           </div>
        </td>
 
@@ -906,11 +926,26 @@ $(window).load(function(){
 
             <span class="mw-ui-btn" onclick="mw.modal({template:'basic'})">Simple</span>
 
-            <span class="mw-ui-btn" onclick="MODAL = mw.modalFrame({url:'http://google.com'});">Iframe</span>
+            <span class="mw-ui-btn" onclick="mw.modalFrame({url:'http://google.com'});">Iframe</span>
+            <span class="mw-ui-btn" onclick="modalAPIEXAMPLE()">API EXAMPLE</span>
+
+            <div id="modalAPIEXAMPLE" style="display: none">
+
+
+            <div class="mw-ui-btn-nav">
+                <span class="mw-ui-btn" onclick="MODALAPI.resize(Math.floor(Math.random()*(700-150+1)+150),Math.floor(Math.random()*(700-150+1)+150))">Resize</span>
+                <span class="mw-ui-btn" onclick="MODALAPI.center()">Center</span>
+                <span class="mw-ui-btn" onclick="MODALAPI.resize(Math.floor(Math.random()*(700-150+1)+150),Math.floor(Math.random()*(700-150+1)+150)).center()">Resize and Center</span>
+
+                </div>
+
+            </div>
 
             <script>
 
-
+                 modalAPIEXAMPLE  = function(){
+                    MODALAPI = mw.modal({content:$('#modalAPIEXAMPLE').html()});
+                 }
 
             </script>
        </td>

@@ -1,6 +1,9 @@
-<div id="users-admin">
-
-<style scoped="scoped">
+<div class="mw-module-admin-wrap">
+ <?php if(isset($params['backend'])): ?>
+<module type="admin/modules/info" />
+<?php endif; ?>
+  <div id="users-admin">
+    <style scoped="scoped">
 
 #sort-users .mw-ui-row,
 #sort-users .mw-ui-row *{
@@ -12,16 +15,13 @@
 }
 
 </style>
-
-
-<?php only_admin_access(); ?>
-<script type="text/javascript">
+    <?php only_admin_access(); ?>
+    <script type="text/javascript">
 
     mw.require('forms.js', true);
 
-</script>
-
-<script type="text/javascript">
+</script> 
+    <script type="text/javascript">
 
     $(document).ready(function () {
         if (typeof UsersRotator === 'undefined') {
@@ -163,8 +163,7 @@
     }
 
 </script>
-
-<?php
+    <?php
 
   $mw_notif = (url_param('mw_notif'));
   if ($mw_notif != false) {
@@ -173,71 +172,79 @@
   mw('Microweber\Notifications')->mark_as_read('users');
 
 ?>
-<?php if (is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
+    <?php if (is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
     <script type="text/javascript">
         $(document).ready(function () {
             mw.url.windowHashParam('edit-user', '<?php print $mw_notif['rel_id'] ?>');
             _mw_admin_user_edit();
         });
     </script>
-<?php endif; ?>
-            <a href="javascript:mw.url.windowHashParam('edit-user',0)" class="mw-ui-btn mw-ui-btn-notification">
-                <span class="mw-icon-plus"></span><span><?php _e("Add new user"); ?></span>
-            </a>
-            <input
+    <?php endif; ?>
+    <a href="javascript:mw.url.windowHashParam('edit-user',0)" class="mw-ui-btn mw-ui-btn-notification"> <span class="mw-icon-plus"></span><span>
+    <?php _e("Add new user"); ?>
+    </span> </a>
+    <input
                   name="module_keyword"
                   class="mw-ui-searchfield pull-right" type="search"
                   placeholder="<?php _e("Search for users"); ?>"
                   onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
-            <hr>
-            <div class="manage-items" id="sort-users">
-                  <div class="mw-ui-row">
-                      <div class="mw-ui-col" style="width: 200px;">
-                          <label class="mw-ui-label"><?php _e("Sort Users by Roles"); ?></label>
-                          <div class="mw-ui-btn-nav">
-                              <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');"><?php _e("All"); ?></a>
-                              <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-n" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'n');"><?php _e("User"); ?></a>
-                              <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-y" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'y');"><?php _e("Admin"); ?></a>
-                          </div>
-                      </div>
-                      <div class="mw-ui-col">
-                          <label class="mw-ui-label">Sort Users by Status</label>
-                          <div class="mw-ui-btn-nav">
-                              <a class="mw-ui-btn mw-users-is-active mw-users-is-active-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');"><?php _e("All users"); ?></a>
-                              <a class="mw-ui-btn mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'y');"><?php _e("Active users"); ?></a>
-                              <a class="mw-ui-btn mw-users-is-active mw-users-is-active-n" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'n');"><?php _e("Disabled users"); ?></a>
-                          </div>
-                      </div>
-                      <div class="mw-ui-col">
-                          <ul class="mw-ui-inline-list" >
-                            <li>
-                                <label class="mw-ui-check">
-                                    <input name="sortby" class="mw_users_filter_show" type="radio" value="created_on desc" checked="checked" onchange="mw.url.windowHashParam('sortby', this.value)" />
-                                    <span></span><span><?php _e("Date created"); ?></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="mw-ui-check">
-                                    <input name="sortby" class="mw_users_filter_show" type="radio" value="last_login desc" onchange="mw.url.windowHashParam('sortby', this.value)" />
-                                    <span></span><span><?php _e("Last login"); ?></span>
-                                </label>
-                            </li>
-                            <li>
-                                <label class="mw-ui-check">
-                                    <input name="sortby" class="mw_users_filter_show" type="radio" value="username asc" onchange="mw.url.windowHashParam('sortby', this.value)"/>
-                                    <span></span><span><?php _e("Username"); ?></span>
-                                </label>
-                            </li>
-                        </ul>
-                      </div>
-                  </div>
-            </div>
-            <div class="mw-simple-rotator">
-                <div class='mw-simple-rotator-container' id="mw-users-manage-edit-rotattor">
-                    <div id="users_admin_panel"></div>
-                    <div id="user_edit_admin_panel"></div>
-                </div>
-            </div>
-
-<?php show_help('users'); ?>
+    <hr>
+    <div class="manage-items" id="sort-users">
+      <div class="mw-ui-row">
+        <div class="mw-ui-col" style="width: 200px;">
+          <label class="mw-ui-label">
+            <?php _e("Sort Users by Roles"); ?>
+          </label>
+          <div class="mw-ui-btn-nav"> <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-none active" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_admin');">
+            <?php _e("All"); ?>
+            </a> <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-n" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'n');">
+            <?php _e("User"); ?>
+            </a> <a class="mw-ui-btn mw-users-is-admin mw-users-is-admin-y" href="javascript:;" onclick="mw.url.windowHashParam('is_admin', 'y');">
+            <?php _e("Admin"); ?>
+            </a> </div>
+        </div>
+        <div class="mw-ui-col">
+          <label class="mw-ui-label">Sort Users by Status</label>
+          <div class="mw-ui-btn-nav"> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-none" href="javascript:;" onclick="mw.url.windowDeleteHashParam('is_active');">
+            <?php _e("All users"); ?>
+            </a> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-y" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'y');">
+            <?php _e("Active users"); ?>
+            </a> <a class="mw-ui-btn mw-users-is-active mw-users-is-active-n" href="javascript:;" onclick="mw.url.windowHashParam('is_active', 'n');">
+            <?php _e("Disabled users"); ?>
+            </a> </div>
+        </div>
+        <div class="mw-ui-col">
+          <ul class="mw-ui-inline-list" >
+            <li>
+              <label class="mw-ui-check">
+                <input name="sortby" class="mw_users_filter_show" type="radio" value="created_on desc" checked="checked" onchange="mw.url.windowHashParam('sortby', this.value)" />
+                <span></span><span>
+                <?php _e("Date created"); ?>
+                </span> </label>
+            </li>
+            <li>
+              <label class="mw-ui-check">
+                <input name="sortby" class="mw_users_filter_show" type="radio" value="last_login desc" onchange="mw.url.windowHashParam('sortby', this.value)" />
+                <span></span><span>
+                <?php _e("Last login"); ?>
+                </span> </label>
+            </li>
+            <li>
+              <label class="mw-ui-check">
+                <input name="sortby" class="mw_users_filter_show" type="radio" value="username asc" onchange="mw.url.windowHashParam('sortby', this.value)"/>
+                <span></span><span>
+                <?php _e("Username"); ?>
+                </span> </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="mw-simple-rotator">
+      <div class='mw-simple-rotator-container' id="mw-users-manage-edit-rotattor">
+        <div id="users_admin_panel"></div>
+        <div id="user_edit_admin_panel"></div>
+      </div>
+    </div>
+  </div>
 </div>

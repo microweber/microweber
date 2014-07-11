@@ -491,7 +491,6 @@ mw.tools = {
         }
 
         modal_return.resize = function(w,h){
-          d(modal_object[0])
           mw.tools.modal.setDimmensions(modal_object[0], w, h);
           return modal_return;
         }

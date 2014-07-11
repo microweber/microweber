@@ -71,4 +71,7 @@ $(mwd).ready(function(){
         e.preventDefault();
      }
    });
+   setInterval(function(){
+     d(mw.drag.columns.resizing)
+   }, 300);
 });

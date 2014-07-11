@@ -51,7 +51,12 @@
 
  add_new_menu = function(){
    mw.$("#create-menu-holder").toggle();
-   mw.$('#create-menu-btn').toggleClass('active');
+   var btn = mw.$('#create-menu-btn');
+   btn.toggleClass('active');
+   if(btn.hasClass('active')){
+     mw.$('#new_menu_name').focus()
+   }
+
  }
 
 mw.menu_delete = function($id){
@@ -236,10 +241,11 @@ $menu_name = get_option('menu_name', $params['id']);
   </a>
 
 
-  <div class="mw-ui-box mw-ui-box-content" id="create-menu-holder" style="display: none">
+  <div class="mw-ui-box mw-ui-box-content pull-right" id="create-menu-holder" style="display: none;margin: 5px 0 12px;">
 
-  <input name="new_menu_name" class="mw-ui-field" id="new_menu_name" type="text"  />
-  <button type="button" class="mw-ui-btn" onclick="mw.menu_add_new()"><?php _e("Save"); ?></button>
+  <input name="new_menu_name" class="mw-ui-field" id="new_menu_name" placeholder="<?php _e("Menu name"); ?>" type="text" style="margin-right: 12px;"  />
+
+  <button type="button" class="mw-ui-btn mw-ui-btn-invert" onclick="mw.menu_add_new()"><?php _e("Save"); ?></button>
 
   </div>
 

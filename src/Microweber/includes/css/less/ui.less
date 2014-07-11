@@ -638,6 +638,13 @@
   text-decoration: none;
 }
 
+.mw-ui-box-header [class*='mw-icon-']{
+  font-size: 20px;
+  line-height: 20px;
+  float: left;
+  margin-right:12px;
+}
+
 
 .mw-ui-box-header h2{
   padding: 0;
@@ -657,6 +664,19 @@
   line-height: 0;
   height: 0;
 }
+
+.mw-ui-box-invert{ background-color:@invert; color:white; border-color: transparent; }
+.mw-ui-box-info{ background-color:@info; color:white; border-color: transparent; }
+.mw-ui-box-warn{ background-color:@warn; color:white; border-color: transparent; }
+.mw-ui-box-important{ background-color:@important; color:white; border-color: transparent; }
+.mw-ui-box-notification{ background-color:@notification; color:white; border-color: transparent; }
+
+
+.mw-ui-box-invert > .mw-ui-box-header { background-color:lighten(@invert, 10%); color:white; }
+.mw-ui-box-info > .mw-ui-box-header { background-color:lighten(@info, 10%); color:white; }
+.mw-ui-box-warn > .mw-ui-box-header { background-color:lighten(@warn, 10%); color:white; }
+.mw-ui-box-important > .mw-ui-box-header { background-color:lighten(@important, 10%); color:white; }
+.mw-ui-box-notification > .mw-ui-box-header { background-color:lighten(@notification, 10%); color:white; }
 
 .mw-ui-box-accordion-content{
    overflow: hidden;

@@ -2,6 +2,15 @@
   outline: none;
 }
 
+
+/* FONTS */
+
+#editor-area,
+#mw-iframe-editor-area{
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+
 #mw-text-editor{
   width: 100%;
   min-height:35px;

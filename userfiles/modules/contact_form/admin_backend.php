@@ -1,5 +1,9 @@
-<div style="padding: 20px;">
-    <style scoped="scoped">
+
+<div class="mw-module-admin-wrap">
+  <?php if(isset($params['backend'])): ?>
+  <module type="admin/modules/info" />
+  <?php endif; ?>
+  <style scoped="scoped">
 
     .contact-form-export-search{
       overflow: hidden;
@@ -46,26 +50,23 @@
           	}
           }
       ?>
-
-        <div class="mw-ui-btn-nav">
-           <a class="mw-ui-btn <?php if($load_list == 'default'){ ?>active<?php } ?>" href="<?php print $config['url']; ?>/load_list:default" >Default list</a>
-            <?php $data = get_form_lists('module_name=contact_form'); ?>
-            <?php if(is_array($data )): ?>
-            <?php foreach($data  as $item): ?>
-            <a class="mw-ui-btn <?php if($load_list == $item['id']){ ?> active <?php } ?>" href="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>"><?php print $item['title']; ?></a>
-            <?php endforeach ; ?>
-            <?php endif; ?>
-        </div>
-
-        <?php /*<div class="mw-ui-btn-nav">
+      <div class="mw-ui-btn-nav"> <a class="mw-ui-btn <?php if($load_list == 'default'){ ?>active<?php } ?>" href="<?php print $config['url']; ?>/load_list:default" >Default list</a>
+        <?php $data = get_form_lists('module_name=contact_form'); ?>
+        <?php if(is_array($data )): ?>
+        <?php foreach($data  as $item): ?>
+        <a class="mw-ui-btn <?php if($load_list == $item['id']){ ?> active <?php } ?>" href="<?php print $config['url']; ?>/load_list:<?php print $item['id']; ?>"><?php print $item['title']; ?></a>
+        <?php endforeach ; ?>
+        <?php endif; ?>
+      </div>
+      <?php /*<div class="mw-ui-btn-nav">
           <a href="<?php print $config['url']; ?>/templates:browse" class="<?php if($templates == 'browse'){ ?> active <?php }?> mw-ui-btn"><?php _e("My templates"); ?></a>
           <a href="<?php print $config['url']; ?>/templates:add_new" class="<?php if($templates == 'add_new'){ ?> active <?php }?>mw-ui-btn" onclick="Alert(<?php _e("Coming soon"); ?>)"><?php _e("Get more templates"); ?></a>
         </div>*/ ?>
     </div>
     <div class="mw-content-container" >
-    <div class="mw-ui-box mw-ui-box-content">
-      <?php if($load_list): ?>
-      <script type="text/javascript">
+      <div class="mw-ui-box mw-ui-box-content">
+        <?php if($load_list): ?>
+        <script type="text/javascript">
           mw.on.hashParam('search', function(){
             var field = mwd.getElementById('forms_data_keyword');
             if(!field.focused){ field.value = this; }
@@ -90,17 +91,19 @@
           });
 
       </script>
-      <module type="forms/list_toolbar"  load_list="<?php print $load_list ?>"   />
-      <module type="forms/list" load_list="<?php print $load_list ?>"  for_module="<?php print $config["the_module"] ?>" id="forms_data_module" />
-      <?php if(strtolower(trim($load_list)) != 'default'): ?>
-      <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');"><?php _e("Delete list"); ?></span>
-      <?php endif; ?>
-      <?php endif; ?>
-      <?php if($load_templates == true): ?>
-      <module type="admin/templates/browse" for="<?php print $config["the_module"] ?>"  />
-      <?php else : ?>
-      <?php endif; ?>
-    </div>
+        <module type="forms/list_toolbar"  load_list="<?php print $load_list ?>"   />
+        <module type="forms/list" load_list="<?php print $load_list ?>"  for_module="<?php print $config["the_module"] ?>" id="forms_data_module" />
+        <?php if(strtolower(trim($load_list)) != 'default'): ?>
+        <span class="mw-ui-delete right" onclick="mw.forms_data_manager.delete_list('<?php print addslashes($load_list); ?>');">
+        <?php _e("Delete list"); ?>
+        </span>
+        <?php endif; ?>
+        <?php endif; ?>
+        <?php if($load_templates == true): ?>
+        <module type="admin/templates/browse" for="<?php print $config["the_module"] ?>"  />
+        <?php else : ?>
+        <?php endif; ?>
+      </div>
     </div>
   </div>
 </div>

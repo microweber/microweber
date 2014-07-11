@@ -597,12 +597,6 @@ mw.admin = {
     else{
         mw.$('#mobile-message').visibilityDefault();
     }
-  },
-  elementTip : function(el){
-    if(typeof el === 'undefined' || el === null) return false;
-    if(!el.elementTipBinded){
-
-    }
   }
 }
 

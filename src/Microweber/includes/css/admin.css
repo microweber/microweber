@@ -40,6 +40,7 @@ body, textarea, input{
   font-family: 'Open Sans', sans-serif;
   font-size: 13px;
   line-height: 1.3;
+
 }
 
 body, a{
@@ -216,7 +217,8 @@ h2 > [class*="mw-icon-"]:first-child{
   background-color: white;
 }
 
-#mw-modules-toolbar + #mw-main-module-backend{
+#mw-modules-toolbar + #mw-main-module-backend,
+.mw-module-admin-wrap{
   padding-left: 35px;
   padding-bottom: 35px;
 }
@@ -2522,6 +2524,14 @@ body.grabbing, body.grabbing *{
         Modules section
 *************************************/
 
+
+#modules_admin_mw_modules_admin_wrapper{
+  clear: both;
+  padding-top: 20px;
+}
+#modules_admin_categories_mw_modules_admin_wrapper{
+  max-height: 250px;
+}
 
 .mw-modules-admin li.mw-admin-module-list-item{
   list-style: none;

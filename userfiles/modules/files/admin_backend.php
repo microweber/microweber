@@ -1,4 +1,6 @@
-<?php
+<div class="mw-module-admin-wrap"> <?php if(isset($params['backend'])): ?>
+<module type="admin/modules/info" />
+<?php endif; ?> <?php
  if(is_admin() == false) {return; }
  //$rand = uniqid(); ?>
 <script type="text/javascript">
@@ -429,3 +431,4 @@ Progress =  mw.$('#mw-upload-progress');
 
 </div>
 <div class="mw-clear"></div>
+</div>
