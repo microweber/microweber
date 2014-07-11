@@ -2613,16 +2613,23 @@ class Db
                 if (is_array($v)) {
                     $v = implode(',', $v);
                 }
+
                 if (is_string($k)) {
-                    if (isset($data['session_id'])) {
-                        if ($k != 'id' and $k != 'edited_by') {
+                    if ($k != 'id' and $k != 'session_id' and $k != 'edited_by') {
+                        if($v == '[null]'){
+                            $q .= "$k=NULL,";
+                        } else {
                             $q .= "$k='$v',";
                         }
-                    } else {
-                        if ($k != 'id' and $k != 'session_id' and $k != 'edited_by') {
-                            $q .= "$k='$v',";
-                        }
+
                     }
+//                    if (isset($data['session_id'])) {
+//                        if ($k != 'id' and $k != 'edited_by') {
+//                            $q .= "$k='$v',";
+//                        }
+//                    } else {
+//
+//                    }
                 }
             }
             $user_session_q = '';
@@ -2656,7 +2663,9 @@ class Db
                     }
                 }
             }
-            $q .= " $edited_by_user_q WHERE id={$data['id']} {$idq} {$user_session_q}  {$created_by_user_q} limit 1";
+
+
+            $q .= " $edited_by_user_q WHERE id={$data['id']} {$idq} {$user_session_q}   limit 1";
             $id_to_return = $data['id'];
         }
 

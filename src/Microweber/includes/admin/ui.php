@@ -16,7 +16,7 @@
       padding: 20px;
     }
 
-    #ui-info-table tbody tr{
+    #ui-info-table > tbody > tr{
       display: none;
     }
 
@@ -110,7 +110,7 @@ $(window).load(function(){
         li.innerHTML = "<a href='javascript:;'>"+this.innerHTML+"</a>";
         li.onclick = function(){
             mw.tools.scrollTo(el);
-            mw.$("#ui-info-table tbody tr:visible:first").hide();
+            mw.$("#ui-info-table tbody > tr:visible:first").hide();
             $(mw.tools.firstParentWithTag(el, 'tr')).show();
             mw.$(".mw-tooltip-mwexample").remove()
         }
@@ -378,13 +378,6 @@ $(window).load(function(){
     </tr>
   </tbody>
 </table>
-        </td>
-
-
-        </tr>
-         <tr>
-
-            <td colspan="2">
 
 
             <h3>Simple clean table</h3>
@@ -433,8 +426,12 @@ $(window).load(function(){
   </tbody>
 </table>
 
-            </td>
-         </tr>
+
+        </td>
+
+
+        </tr>
+
 
         <tr>
       <td colspan="2">

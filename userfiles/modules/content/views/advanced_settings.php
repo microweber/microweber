@@ -28,7 +28,23 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
 
 ?>
 <script type="text/javascript">
-
+	mw.reset_current_page = function (a, callback) {
+        mw.tools.confirm("<?php _e("Are you sure you want to Reset the content of this page?  All your text will be lost forever!!"); ?>", function () {
+            var obj = {id: a}
+            $.post(mw.settings.site_url + "api/content/reset_edit", obj, function (data) {
+                mw.notification.success("<?php _e('Content was resetted!'); ?>.");
+				 
+				 if(typeof(mw.edit_content) == 'object'){
+ 					 mw.edit_content.load_editor()
+				 }
+				
+				
+				//
+				
+                typeof callback === 'function' ? callback.call(data) : '';
+            });
+        });
+    }
     mw.copy_current_page = function (a, callback) {
         mw.tools.confirm("<?php _e("Are you sure you want to copy this page?"); ?>", function () {
             var obj = {id: a}
@@ -220,7 +236,9 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
         <a class="mw-ui-btn mw-ui-btn-small"
            href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');">Copy</a><a
             class="mw-ui-btn mw-ui-btn-small"
-            href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');">Delete</a></div>
+            href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');">Delete</a><a
+            class="mw-ui-btn mw-ui-btn-small"
+            href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');">Reset content</a></div>
 <?php endif; ?>
 <?php if (isset($data['created_on'])): ?>
     <div class="mw-ui-field-holder">

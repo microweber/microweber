@@ -467,7 +467,7 @@ mw.edit_content.handle_form_submit = function(go_live){
 		if(el === null){
 		    return;
 		}
-        $(window).trigger('adminSaveStart');
+
 		mw.edit_content.before_save();
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
 		 
