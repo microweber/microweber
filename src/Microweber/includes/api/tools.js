@@ -4079,8 +4079,8 @@ mw.image = {
           url:'imageeditor',
           template:"mw_modal_basic",
           overlay:true,
-          width:'80%',
-          height:"80%"
+          width:'600',
+          height:"auto"
         });
 
       }

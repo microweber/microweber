@@ -65,8 +65,12 @@ mw.drag.columns = {
 }
 $(mwd).ready(function(){
    $(mwd.body).bind('mouseup', function(){
+      if(mw.drag.plus.locked){
+        mw.wysiwyg.change(mw.drag.columns.resizer.curr);
+      }
       mw.drag.columns.resizing = false;
       mw.drag.plus.locked = false;
+
    });
    $(mwd.body).bind('mousemove', function(e){
      if(mw.drag.columns.resizing === true && mw.isDrag === false){

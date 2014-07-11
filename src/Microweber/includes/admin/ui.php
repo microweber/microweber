@@ -3,8 +3,10 @@
 <style scoped="scoped">
     #ui-info-table{
       width: 100%;
+      max-width: 800px;
+      table-layout: fixed;
       border: 1px solid #eee;
-      margin: auto;
+      margin: 0;
       border-collapse: collapse;
       margin-bottom: 150px;
     }
@@ -12,6 +14,10 @@
     #ui-info-table > thead > tr > th{
       border: 1px solid #eee;
       padding: 20px;
+    }
+
+    #ui-info-table tbody tr{
+      display: none;
     }
 
     #info-icon-list li{
@@ -67,6 +73,17 @@
       background: #F0F0F0
     }
 
+    #texample-box,
+    #texample-box2,
+    #texample-box3{
+      width: 300px;
+      height: 200px;
+      background: rgba(102, 102, 102, 1) ;
+      margin:  20px auto;
+      padding: 80px;
+      text-align: center;
+    }
+
 
 
 </style>
@@ -92,7 +109,10 @@ $(window).load(function(){
         var li = mwd.createElement('li');
         li.innerHTML = "<a href='javascript:;'>"+this.innerHTML+"</a>";
         li.onclick = function(){
-            mw.tools.scrollTo(el)
+            mw.tools.scrollTo(el);
+            mw.$("#ui-info-table tbody tr:visible:first").hide();
+            $(mw.tools.firstParentWithTag(el, 'tr')).show();
+            mw.$(".mw-tooltip-mwexample").remove()
         }
         $("#apinav").append(li)
   });
@@ -180,7 +200,16 @@ $(window).load(function(){
     <a href="javascript:;" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-notification">Big</a>
 
     <h3>Button with icon</h3>
-    <div class="demobox"><a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-website"></span>Normal</a></div>
+    <div class="demobox">
+
+        <a href="javascript:;" class="mw-ui-btn"><span class="mw-icon-website"></span>Normal</a>
+        <span class="mw-ui-btn mw-ui-btn-icon"><span class="mw-icon-gear"></span></span>
+
+  </div>
+
+
+
+
     <h3>Button Navigations</h3>
     <div class="demobox">
         <div class="mw-ui-btn-nav">
@@ -662,22 +691,37 @@ $(window).load(function(){
 
        <h3>Editor options and methods</h3>
 
-       <pre>
+
 
        Note: the editor must NOT be inside a hidden (display:'none') element.
+<pre>
+    mw.editor({
+        element:''
+        height:320,
+        width:'100%',
+        addControls: false
+        hideControls:false,
+        ready: function(){
 
-       mw.editor({
-            element:''         - <strong>Required</strong>: represents the source element(for example: &lt;textarea>Some content&lt;/textarea>&lt;div>Some content&lt;/div>) - Node element or String (Selector)
-            height:320,        - <strong>Optional</strong> <strong>Number</strong> or <strong>String</strong> in CSS Syntax - Default: 320
-            width:'100%',      - <strong>Optional</strong> <strong>Number</strong> or <strong>String</strong> in CSS Syntax - Default: '100%'
-            addControls: false - <strong>Optional</strong>. Represents Element/s that will be appended to the editor's control bar. <strong>String</strong> or <strong>Node</strong> or <strong>function</strong> that returns node - Default: false
-            hideControls:[],   - <strong>Optional</strong>. <strong>Array</strong>. Controls to hide.  Example ['bold', 'italic', 'format', 'ol', 'ul'] - Default false
-            ready:             - <strong>Optional</strong>. <strong>Function</strong> to be executed after editor is loaded. Dedault: false
-       })
+        }
+     })
+</pre>
 
 
 
-       </pre>
+<ul>
+  <li><strong>element</strong>:         - <strong>Required</strong>: represents the source element(for example: &lt;textarea>Some content&lt;/textarea>&lt;div>Some content&lt;/div>) - Node element or String (Selector)</li>
+  <li><strong>height</strong>:        - <strong>Optional</strong> <strong>Number</strong> or <strong>String</strong> in CSS Syntax - Default: 320</li>
+  <li><strong>width</strong>:      - <strong>Optional</strong> <strong>Number</strong> or <strong>String</strong> in CSS Syntax - Default: '100%'</li>
+  <li><strong>addControls</strong>:  - <strong>Optional</strong>. Represents Element/s that will be appended to the editor's control bar. <strong>String</strong> or <strong>Node</strong> or <strong>function</strong> that returns node - Default: false</li>
+  <li><strong>hideControls</strong>   - <strong>Optional</strong>. <strong>Array</strong>. Controls to hide.  Example ['bold', 'italic', 'format', 'ol', 'ul'] - Default false</li>
+  <li><strong>ready</strong>:             - <strong>Optional</strong>. <strong>Function</strong> to be executed after editor is loaded. Dedault: false</li>
+</ul>
+
+
+
+<br><br>
+
 
 
        <h3>Editor API</h3>
@@ -686,20 +730,20 @@ $(window).load(function(){
         returns an iframe node that represents the editor. It has 'atached' one event, one function and a API object.
        </p>
        <h4>Example:</h4>
-       <pre>
-            myEditor = mw.editor({ element: '#some-div-or-textarea' });
+<pre>
+    myEditor = mw.editor({ element: '#some-div-or-textarea' });
 
-            // 'change' event
-            $(myEditor).bind('change', function(){
-               console.log( this.value )
-            });
+    // 'change' event
+    $(myEditor).bind('change', function(){
+       console.log( this.value )
+    });
 
-            // function setValue, must be used after editor is ready
-            // Sets value of the editor nd triggers the change event
-            myEditor.setValue('Some &lt;b>value&lt;/b>');
-
-            // API myEditor.api - The 'API' object is a refference to mw.wysiwyg object that is inside the editor
-
+    // function setValue, must be used after editor is ready
+    // Sets value of the editor nd triggers the change event
+    myEditor.setValue('Some &lt;b>value&lt;/b>');
+</pre>
+           <p> // API myEditor.api - The 'API' object is a refference to mw.wysiwyg object that is inside the editor   </p>
+         <pre>
             Examples:
 
             myEditor.api.insert_html('some text or html') - inserts html
@@ -710,11 +754,12 @@ $(window).load(function(){
             myEditor.api.fontbg('#efecec')                - sets font background color
 
              ...
+          </pre>
 
-            Complete Example:
+           <p> Complete Example:</p>
 
-            The function 'EditorRandomIMG' will insert random image in the selection inside the editor (If selection exists)
-
+           <p> The function 'EditorRandomIMG' will insert random image in the selection inside the editor (If selection exists) </p>
+        <pre>
              EditorRandomIMG = function(){
                myEditor.api.insert_html('&lt;p>&lt;img src="//lorempixel.com/400/200/nature/" />&lt;/p>');
              }
@@ -994,20 +1039,6 @@ $(window).load(function(){
      </tr>
      <tr>
         <td colspan="2">
-            <h2>SINGLE icon btn</h2>
-
-
-
-            <span class="mw-ui-btn mw-ui-btn-invert mw-ui-btn-icon"><span class="mw-icon-gear"></span></span>
-
-
-
-
-
-
-       </td>
-     </tr><tr>
-        <td colspan="2">
             <h2>Notification Bubbles</h2>
 
 
@@ -1040,92 +1071,205 @@ $(window).load(function(){
             <h2>Paging</h2>
 
 
-            <div class="mw-paging mw-paging-small">
-                <a href="javascript:;">1</a>
-                <a href="javascript:;">2</a>
-                <a href="javascript:;" class="active">3</a>
-                <a href="javascript:;">4</a>
-                <a href="javascript:;">5</a>
-            </div>
-
-            <div class="mw-paging mw-paging-medium">
-                <a href="javascript:;">1</a>
-                <a href="javascript:;">2</a>
-                <a href="javascript:;" class="active">3</a>
-                <a href="javascript:;">4</a>
-                <a href="javascript:;">5</a>
-            </div>
-
-            <div class="mw-paging">
-                <a href="javascript:;">1</a>
-                <a href="javascript:;">2</a>
-                <a href="javascript:;" class="active">3</a>
-                <a href="javascript:;">4</a>
-                <a href="javascript:;">5</a>
-            </div>
-
-            <div class="mw-paging mw-paging-big">
-                <a href="javascript:;">1</a>
-                <a href="javascript:;">2</a>
-                <a href="javascript:;" class="active">3</a>
-                <a href="javascript:;">4</a>
-                <a href="javascript:;">5</a>
-            </div>
-
 
 
            <?php
 
-           $types = array('invert', 'info', 'warn', 'important', 'notification');
+           $types = array('', 'invert', 'info', 'warn', 'important', 'notification');
 
            foreach($types as $type){
+
+
+                 $types2 = array('small', 'medium', '', 'big');
+
+                  foreach($types2 as $type2){
+
            ?>
 
 
-           <div class="mw-paging mw-paging-small mw-paging-<?php print $type; ?>">
+           <div class="mw-paging mw-paging-<?php print $type2;  ?> mw-paging-<?php print $type; ?>">
                 <a href="javascript:;">1</a>
-                <a href="javascript:;">2</a>
-                <a href="javascript:;" class="active">3</a>
-                <a href="javascript:;">4</a>
-                <a href="javascript:;">5</a>
+                <a href="javascript:;" class="active">2</a>
+                <a href="javascript:;">3</a>
+
             </div>
 
-            <div class="mw-paging mw-paging-medium mw-paging-<?php print $type; ?>">
-                <a href="javascript:;">1</a>
-                <a href="javascript:;">2</a>
-                <a href="javascript:;" class="active">3</a>
-                <a href="javascript:;">4</a>
-                <a href="javascript:;">5</a>
-            </div>
 
-            <div class="mw-paging mw-paging-<?php print $type; ?>">
-                <a href="javascript:;">1</a>
-                <a href="javascript:;">2</a>
-                <a href="javascript:;" class="active">3</a>
-                <a href="javascript:;">4</a>
-                <a href="javascript:;">5</a>
-            </div>
 
-            <div class="mw-paging mw-paging-big mw-paging-<?php print $type; ?>">
-                <a href="javascript:;">1</a>
-                <a href="javascript:;">2</a>
-                <a href="javascript:;" class="active">3</a>
-                <a href="javascript:;">4</a>
-                <a href="javascript:;">5</a>
-            </div>
-
+          <?php } ?>
           <?php } ?>
 
        </td>
      </tr>
      <tr>
         <td colspan="2">
-            <h2>TESTS</h2>
+            <h2>Tooltip</h2>
 
 
 
-            <input type="" onkeyup="" />
 
+<div id="exampleholder">
+
+
+
+
+
+
+<br><br>
+
+
+
+<h3>Default usage</h3>
+
+   <pre>
+
+    mw.tooltip({
+        content: 'Tooltip &lt;b>content&lt;/b>',
+        element: document.querySelector('#some-element')
+    });
+
+   </pre>
+
+<h3>Parameters</h3>
+
+<div class="op"><h4>content</h4>
+
+
+
+<p>Required - 'String' or Node element or jQuery object,  </p>
+
+</div>
+
+
+<div class="op"><h4>element</h4>
+
+
+
+<p>Required - String selector, Node element or jQuery object,  </p>
+<p>Element on which the tooltip will be applied</p>
+
+</div>
+
+<div class="op">
+      <h4>position</h4>
+
+      <p> Optional - 'String' - Position of the tooltip on the element. </p>
+                <p>Available options are:  </p>
+                  <ul>
+                    <li>'bottom-left'</li>
+                    <li>'bottom-center'</li>
+                    <li>'bottom-right'</li>
+                    <li>'top-left'</li>
+                    <li>'top-center'</li>
+                    <li>'top-right'</li>
+                    <li>'left-top'</li>
+                    <li>'left-bottom'</li>
+                    <li>'left-center'</li>
+                    <li>'right-top'</li>
+                    <li>'right-bottom'</li>
+                    <li>'right-center'</li>
+                  </ul></div>
+
+<div class="op"><h4>skin</h4>
+
+
+
+<p>Optional - String  </p>
+<p>Ads a class to the wrapper of the tooltip, so you can shape it easily. Default skin is 'mw-tooltip-default'</p>
+
+
+
+</div>
+
+
+
+<h3>Examples</h3>
+
+
+
+
+<div id="texample-box" >
+   <span class="mw-ui-btn mw-ui-btn-info" onclick="TooltipExample1()"> Example 1</span>
+</div>
+
+<br><hr><br>
+
+<div id="texample-box2" >
+     <span class="mw-ui-btn mw-ui-btn-info" onclick="TooltipExample2()"> Example 2</span>
+</div>
+
+<br><hr><br>
+
+<div id="texample-box3" >
+     <span class="mw-ui-btn mw-ui-btn-info" onclick="TooltipExample3()"> Example 3</span>
+</div>
+
+<br><hr><br>
+
+<div id="test-content" style="display: none" >
+
+  <div style="width:350px;"><iframe width="350" height="220" frameborder="0" allowfullscreen="" src="https://www.youtube.com/embed/4zjeKq1l5Wk"></iframe><h3>Kwon O Chen - Playing the Dragon</h3><p>First track from the compilation album - 'Asia Chill Out Lounge'</p></div>
+
+
+</div>
+
+<script>
+
+$(document).ready(function(){
+    var positions = ['bottom-left','bottom-center','bottom-right','top-right','top-left','top-center','left-top','left-bottom','left-center','right-top','right-bottom','right-center'],
+        texample = document.getElementById('texample-box'),
+        texample2 = document.getElementById('texample-box2');
+        texample3 = document.getElementById('texample-box3');
+
+   TooltipExample1 = function(){
+
+    $.each(positions, function(){
+
+          var tip = mw.tooltip({
+              content:this.toString(),
+              element:texample,
+              position:this
+          })
+
+          $(tip).addClass('mw-tooltip-mwexample');
+
+
+    });
+
+    }
+
+     TooltipExample2 = function(){
+    $.each(positions, function(){
+         var tip = mw.tooltip({
+              content:this.toString(),
+              element:texample2,
+              position:this,
+              skin:'dark'
+          });
+          $(tip).addClass('mw-tooltip-mwexample');
+          });
+
+    }
+
+    TooltipExample3 = function(){
+
+        var tip = mw.tooltip({
+              content: mw.$("#test-content").html(),
+              element:texample3,
+              position:'right-center'
+          });
+        $(tip).addClass('mw-tooltip-mwexample');
+
+    }
+
+
+
+
+})
+
+</script>
+
+</div>
 
 
 

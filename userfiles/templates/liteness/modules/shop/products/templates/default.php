@@ -52,21 +52,21 @@ if(!isset($tn[1])){
   <div class="mw-ui-row">
     <?php } ?>
     <div class="mw-ui-col">
-      <div class="mw-ui-col-container">
+      <div class="mw-ui-col-container" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
         <?php if($show_fields == false or in_array('thumbnail', $show_fields)): ?>
         <a class="img-polaroid img-rounded" href="<?php print $item['link'] ?>"> <span class="valign"> <span class="valign-cell"> <img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>" alt="<?php print $item['title'] ?>" title="<?php print $item['title'] ?>"  /> </span> </span> </a>
         <?php endif; ?>
         <?php if($show_fields == false or in_array('title', $show_fields)): ?>
-        <h3><a  class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
+        <h3 itemprop="name"><a  class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
         <?php endif; ?>
         <?php if($show_fields != false and in_array('created_on', $show_fields)): ?>
-        <span class="date"><?php print $item['created_on'] ?></span>
+        <span class="date" itemprop="dateCreated"><?php print $item['created_on'] ?></span>
         <?php endif; ?>
         <?php if($show_fields == false or ($show_fields != false and  is_array($show_fields) and  in_array('description', $show_fields))): ?>
-        <p class="description"> <?php print $item['description']; ?> </p>
+        <p class="description" itemprop="description"><?php print $item['description']; ?> </p>
         <?php endif; ?>
         <?php if($show_fields != false and ($show_fields != false and  in_array('read_more', $show_fields))): ?>
-        <a href="<?php print $item['link'] ?>" class="mw-more">
+        <a href="<?php print $item['link'] ?>" itemprop="url" class="mw-more">
         <?php $read_more_text ? print $read_more_text : print _e('Read More', true); ?>
         </a>
         <?php endif; ?>

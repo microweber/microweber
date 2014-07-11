@@ -29,6 +29,7 @@ if(isset($data[0]) == false){
   $data['is_admin'] = 'n';
   $data['basic_mode'] = 'n';
   $data['thumbnail'] = '';
+  $data['profile_url'] = '';
 } else {
 $data = $data[0];	
 }
@@ -247,6 +248,15 @@ reset_password = function(y){
         <td><label class="mw-ui-label"><?php _e("Api key"); ?></label></td>
         <td><input type="text" class="mw-ui-field" name="api_key" value="<?php  print $data['api_key']; ?>"></td>
       </tr>
+      
+      <tr>
+        <td><label class="mw-ui-label">Google Authorship</label>
+        <small>paste your Google+ profile link <a href="https://plus.google.com/authorship" target="_blank">[?]</a></small></td>
+        <td><input type="text" class="mw-ui-field" name="profile_url" value="<?php  print $data['profile_url']; ?>"></td>
+      </tr>
+
+      
+      
       <tr class="no-hover">
         <td>&nbsp;</td>
         <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="_mw_admin_save_user_form<?php  print $data['id']; ?>()">
