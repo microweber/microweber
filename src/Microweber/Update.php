@@ -11,6 +11,7 @@ class Update
 
     public $app;
     private $remote_api_url = 'http://api.microweber.com/service/update/';
+    private $remote_url = 'http://wwis-dubc1-vip60.adobe.com/Microweber/';
 
     function __construct($app = null)
     {

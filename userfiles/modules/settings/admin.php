@@ -68,7 +68,7 @@ $(document).ready(function(){
 </script>
 <script type="text/javascript">
 	mw.require("options.js");
-	mw.require("<?php print $config['url_to_module']; ?>settings.css");
+ mw.require("<?php print $config['url_to_module']; ?>settings.css");
 </script>
 
 <div id="edit-content-row" class="mw-ui-row">

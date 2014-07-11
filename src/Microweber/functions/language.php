@@ -3,7 +3,7 @@
 
 $mw_language_content_saved = false;
 $mw_new_language_entires = array();
-
+// from here http://stackoverflow.com/a/7709863/731166
 function ewchar_to_utf8($matches) {
     $ewchar = $matches[1];
     $binwchar = hexdec($ewchar);

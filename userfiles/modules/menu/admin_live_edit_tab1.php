@@ -24,7 +24,7 @@
       var obj = mw.form.serialize($selector);
       $.post("<?php print api_link('content/menu_create') ?>",  obj, function(data){
 	    window.location.href = window.location.href;
-		
+
 		 menuSelectorInit();
 
  	   /* mw.$('#<?php print $params['id'] ?>').attr('new-menu-id',data);
@@ -50,13 +50,8 @@
  }
 
  add_new_menu = function(){
-   var quick_new_menu_holder = mwd.querySelector('#quick_new_menu_holder');
- 
-	
-	
-   $(quick_new_menu_holder).show()
-
-
+   mw.$("#create-menu-holder").toggle();
+   mw.$('#create-menu-btn').toggleClass('active');
  }
 
 mw.menu_delete = function($id){
@@ -232,14 +227,24 @@ $menu_name = get_option('menu_name', $params['id']);
 <div class="control-group form-group">
   <label class="mw-ui-label">
     <?php _e("Select the Menu you want to edit"); ?>
-    <small class="right" ><a href="javascript:add_new_menu();" class="mw-ui-label-help mw-ui-small">
-    <?php _e("Create new nenu"); ?>
-    </a> </small> </label>
+
+   </label>
   <div id="quick_new_menu_holder">
-  <input name="new_menu_name" id="new_menu_name" type="text"  />
-  <button type="button" onclick="mw.menu_add_new()">Save</button>
-  
-  
+
+  <a href="javascript:add_new_menu();" class="mw-ui-btn pull-right" id="create-menu-btn">
+    <span class="mw-icon-plus"></span><?php _e("Create new nenu"); ?>
+  </a>
+
+
+  <div class="mw-ui-box mw-ui-box-content" id="create-menu-holder" style="display: none">
+
+  <input name="new_menu_name" class="mw-ui-field" id="new_menu_name" type="text"  />
+  <button type="button" class="mw-ui-btn" onclick="mw.menu_add_new()"><?php _e("Save"); ?></button>
+
+  </div>
+
+
+
   </div>
     <select  id="menu_selector_<?php  print $params['id'] ?>" name="menu_name" class="mw-ui-field mw_option_field"   type="radio"  onchange="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" onblur="mw.menu_edit_items(this.value, '#items_list_<?php  print $rand ?>');" >
       <?php foreach($menus  as $item): ?>

@@ -906,7 +906,13 @@ $(window).load(function(){
 
             <span class="mw-ui-btn" onclick="mw.modal({template:'basic'})">Simple</span>
 
-            <span class="mw-ui-btn" onclick="mw.modalFrame({url:'http://microweber.com'})">Iframe</span>
+            <span class="mw-ui-btn" onclick="MODAL = mw.modalFrame({url:'http://google.com'});">Iframe</span>
+
+            <script>
+
+
+
+            </script>
        </td>
      </tr>
 
