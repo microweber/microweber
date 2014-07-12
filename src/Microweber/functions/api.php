@@ -393,6 +393,13 @@ function action_hook($function_name, $next_function_name = false)
 
 }
 
+/**
+ * Adds event callback
+ *
+ * @param $function_name
+ * @param bool|mixed|callable $next_function_name
+ * @return array|mixed|false
+ */
 function event_bind($function_name, $next_function_name = false)
 {
     $event = new \Microweber\Event();

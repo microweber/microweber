@@ -2,7 +2,7 @@
     $data = $params;
 }
  
-?>
+?> 
 <script>
     mw.load_editor_internal = function (element_id) {
         var element_id = element_id || 'mw-admin-content-iframe-editor';
@@ -99,15 +99,34 @@
     }
 	$modules = array_unique($modules);
 }
-
+ 
  
 ?>
+
 <div class="mw-ui-field-holder" id="mw-edit-page-editor-holder">
-  <?php if(empty($modules)): ?>
-  <div id="mw-admin-content-iframe-editor"></div>
-  <?php else:  ?>
+  <?php event_trigger('content.edit.richtext',$data); ?>
+  <?php $content_edit_modules = mw()->ui->module('content.edit.richtext'); ?>
+  <?php $modules = array(); ?>
+  <?php 
+ 
+if (!empty($content_edit_modules) and !empty($data)) {
+    foreach ($content_edit_modules as $k1=>$content_edit_module) {
+		if(isset($content_edit_module['module'])){
+			 
+		  $modules[] = $content_edit_module['module'];
+						 
+					 
+		}
+     }
+	$modules = array_unique($modules);
+}
+
+?>
+  <?php if(!empty($modules)): ?>
   <?php foreach($modules as $module) : ?>
-    <?php print load_module($module,$data); ?>
+  <?php print load_module($module,$data); ?>
   <?php endforeach; ?>
+  <?php else:  ?>
+  <div id="mw-admin-content-iframe-editor"></div>
   <?php endif; ?>
 </div>

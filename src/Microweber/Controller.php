@@ -74,7 +74,7 @@ class Controller
 
         //create_mw_default_options();
         $this->app->content->define_constants();
-        $this->app->ui();
+     //   $this->app->ui();
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
@@ -2059,7 +2059,9 @@ class Controller
 
             }
 
-
+            if($page != false and empty($this->page)){
+                $this->page = $page;
+            }
             $l = execute_document_ready($l);
 
             event_trigger('frontend');

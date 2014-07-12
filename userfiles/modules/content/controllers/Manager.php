@@ -143,6 +143,22 @@ class Manager
             if (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and $page_info['subtype'] == 'static') {
                 $manager = new Edit();
                 return $manager->index($params);
+            }elseif (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and isset($page_info['subtype']) 
+			and isset($page_info['id']) 
+			and $page_info['subtype'] != false 
+			and $page_info['subtype'] != 'post' 
+			and $page_info['subtype'] != 'static'  
+			and $page_info['subtype'] != 'dynamic' 
+			and $page_info['subtype'] != 'product' 
+			and $page_info['subtype'] != 'page'
+			
+			 ) {
+				 //d($page_info);
+				//$check_child_content = $this->app->content->get('parent='.$page_info['id']); 
+				// d($check_child_content );
+				 
+                 $manager = new Edit();
+                 return $manager->index($params);
             }
         }
 

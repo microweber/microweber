@@ -123,7 +123,7 @@ $edit_page_info = $data;;
 </div></div>
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-edit-content">
   <input type="hidden" name="id" id="mw-content-id-value"  value="<?php print $data['id']; ?>" /> 
-  <input type="hidden" name="subtype" id="mw-content-subtype-<?php print $rand; ?>"   value="<?php print $data['subtype']; ?>" />
+  <input type="hidden" name="subtype" id="mw-content-subtype"   value="<?php print $data['subtype']; ?>" />  
   <input type="hidden" name="subtype_value" id="mw-content-subtype-value-<?php print $rand; ?>"   value="<?php print $data['subtype_value']; ?>" />
   <input type="hidden" name="content_type" id="mw-content-type-value-<?php print $rand; ?>"   value="<?php print $data['content_type']; ?>" />
   <input type="hidden" name="parent"  id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class="" />
@@ -222,8 +222,9 @@ $edit_page_info = $data;;
 	 $data['active_categories'] = $categories_active_ids; 
 	 //print load_module('content/edit_default',$data); ?>
   <?php  else: ?>
- 
-  <div id="mw-admin-edit-content-main-area"></div>
+
+    <div id="mw-admin-edit-content-main-area"></div>
+
   
   <?php  endif; ?>
    
@@ -290,13 +291,16 @@ mw.edit_content.load_editor  =  function(element_id){
       var parent_page =  mw.$('#mw-parent-page-value-<?php print $rand; ?>').val();
       var content_id =  mw.$('#mw-content-id-value').val();
       var content_type =  mw.$('#mw-content-type-value-<?php print $rand; ?>').val()
-      var subtype =  mw.$('#mw-content-subtype-<?php print $rand; ?>').val();
+      var subtype =  mw.$('#mw-content-subtype').val();
       var subtype_value =  mw.$('#mw-content-subtype-value-<?php print $rand; ?>').val();
       var active_site_template =  $('#mw-active-template-value-<?php print $rand; ?>').val();
       var active_site_layout = $('#mw-layout-file-value-<?php print $rand; ?>').val();
       var name = 'content/views/edit_default_inner';
       var selector = '#mw-admin-edit-content-main-area';
-      var callback = false;
+      
+	 
+	  
+	  var callback = false;
       var attributes = {}
       attributes.parent_page = parent_page;
       attributes.content_id = content_id;

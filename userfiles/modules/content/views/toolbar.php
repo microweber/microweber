@@ -180,6 +180,34 @@ $( "#content_type_filter_by_select" ).change(function() {
               <div class="manage-toobar ">
                 <div class="manage-toobar-content">
                   <div class="mw-ui-btn-nav pull-right">
+                  <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
+                  <div class="mw-ui-dropdown">
+                <span class="mw-ui-btn mw-icon-plus"><span class=""></span></span>
+                <div class="mw-ui-dropdown-content">
+                    <div class="mw-ui-btn-vertical-nav">
+                           <?php   event_trigger('content.create.menu'); ?>
+
+    <?php $create_content_menu = mw()->module->ui('content.create.menu'); ?>
+    <?php if (!empty($create_content_menu)): ?>
+    <?php foreach ($create_content_menu as $type => $item): ?>
+    <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
+    <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
+    <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
+    <?php $type = ( isset( $item['content_type']))? ($item['content_type']) : false ; ?>
+    <?php $subtype = ( isset( $item['subtype']))? ($item['subtype']) : false ; ?>
+    <span class="mw-ui-btn <?php print $class; ?>"><a href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>&amp;parent_page=<?php print $params['page-id'] ?>">  <?php print $title; ?> </a></span>
+    <?php endforeach; ?>
+    <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+   <?php endif; ?>
+   
+   
+ 
+                  
+                  
+                  
                     <?php if (isset($params['page-id']) and intval($params['page-id']) != 0): ?>
                     <?php $edit_link = admin_url('view:content#action=editpost:' . $params['page-id']); ?>
                     <?php endif; ?>
@@ -224,7 +252,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                       <span class="mw-ui-btn mw-icon-menu" onclick="$('#content_type_filter_by_select').toggle(); $(this).hide();"></span>
                   <?php endif; ?>
                   </div>
-                  <?php endif; ?>
+                  <?php endif; ?> 
                   <div class="pull-right relative">
                     <input
                                             onkeyup="mw.on.stopWriting(this,function(){mw.url.windowHashParam('search',this.value)})"

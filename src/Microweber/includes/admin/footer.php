@@ -3,6 +3,8 @@
 
 <div id="create-content-menu">
   <div class="create-content-menu">
+       <?php   event_trigger('content.create.menu'); ?>
+
     <?php $create_content_menu = mw()->module->ui('content.create.menu'); ?>
     <?php if (!empty($create_content_menu)): ?>
     <?php foreach ($create_content_menu as $type => $item): ?>

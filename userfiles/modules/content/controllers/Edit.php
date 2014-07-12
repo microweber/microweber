@@ -252,7 +252,7 @@ class Edit
         /* END OF SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
 
         $module_id = $params['id'];
-
+ 
         $post_list_view = $this->views_dir . 'edit.php';
         $this->event->emit('module.content.edit', $data);
         $view = new View($post_list_view);

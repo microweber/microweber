@@ -65,8 +65,7 @@ if (!isset($params["active_site_template"]) and isset($data["active_site_templat
     $params["active_site_template"] = $data["active_site_template"];
 }
 
- 
-
+  
 $inherit_from = false;
 
 if (!isset($params["inherit_from"]) and isset($params["inherit-from"])) {
@@ -186,7 +185,7 @@ if (!empty($recomended_layouts)) {
     $layouts = array_merge($recomended_layouts, $layouts);
 }
 
-
+ 
 ?>
 <script>
 
@@ -278,14 +277,20 @@ mw.templatePreview<?php print $rand; ?> = {
                 }
             }
             else {
+				<?php if(!isset($params['no_content_type_setup'])): ?>
+
+
                 if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
                     form.querySelector('input[name="is_shop"]').value = 'n'
                 }
                 if (form != undefined && form.querySelector('input[name="is_shop"][value="n"]') != null) {
                     form.querySelector('input[name="is_shop"][value="n"]').checked = true;
                 }
+				<?php endif; ?>
+				
             }
-             if (ctype == 'static' || ctype == 'dynamic' ) {
+            <?php if(!isset($params['no_content_type_setup'])): ?> 
+			 if (ctype == 'static' || ctype == 'dynamic' ) {
                 if (form != undefined && form.querySelector('input[name="subtype"]') != null) {
                     form.querySelector('input[name="subtype"]').value = ctype
                 }
@@ -300,6 +305,9 @@ mw.templatePreview<?php print $rand; ?> = {
                     form.querySelector('input[name="subtype_value"]').value = stype_val
                 }
 			}
+			<?php endif; ?>
+			
+			
         }
 
 

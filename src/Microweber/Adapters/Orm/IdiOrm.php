@@ -145,6 +145,7 @@ class IdiOrm
         $group_by = false;
         $order_by = false;
         $count = false;
+        $no_limit = false;
         $limit = $this->default_limit;
         if ($limit == false) {
             $limit = 30;
@@ -191,6 +192,11 @@ class IdiOrm
 
                 unset($params['limit']);
             }
+            if (isset($params['no_limit']) and $params['no_limit'] != false) {
+                $no_limit = $params['no_limit'];
+
+                unset($params['limit']);
+            }
             if (isset($params['offset'])) {
                 $offset = $params['offset'];
                 unset($params['offset']);
@@ -232,7 +238,11 @@ class IdiOrm
                 $to_search_keyword = $params['keyword'];
             }
 
-
+            if (isset($params['count_paging'])) {
+                $count = true;
+                $count_paging = true;
+                unset($params['count_paging']);
+            }
             if (isset($params['page_count'])) {
                 $count = true;
                 $count_paging = true;
@@ -524,12 +534,14 @@ class IdiOrm
             }
         }
         // convert to int http://idiorm.readthedocs.org/en/latest/querying.html#limits-and-offsets
-        if ($count == false) {
-            if ($limit != false) {
-                $orm->limit(intval($limit));
-            }
-            if ($offset != false) {
-                $orm->offset(intval($offset));
+        if ($no_limit == false) {
+            if ($count == false) {
+                if ($limit != false) {
+                    $orm->limit(intval($limit));
+                }
+                if ($offset != false) {
+                    $orm->offset(intval($offset));
+                }
             }
         }
         if ($count != false) {

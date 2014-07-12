@@ -3532,6 +3532,7 @@ class Content
             }
         }
         if (isset($data['id'])) {
+            $this->app->event->emit('content.before.copy',$data);
             $cont = get_content_by_id($data['id']);
             if ($cont != false and isset($cont['id'])) {
                 $new_cont = $cont;
@@ -3655,6 +3656,7 @@ class Content
                 $this->app->db->delete_by_id('content', $c_id);
             }
         }
+        $this->app->event->emit('content.before.delete',$data);
 
         if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
@@ -4575,6 +4577,7 @@ class Content
             if (!isset($data['id'])) {
                 $data['id'] = 0;
             }
+            $this->app->event->emit('content.before.save',$data);
             if (intval($data['id']) == 0) {
                 if (isset($data['subtype']) and $data['subtype'] == 'post' and !isset($data['content_type'])) {
                     $data['subtype'] = 'post';
@@ -5027,8 +5030,9 @@ class Content
             $upd_posted['id'] = $data_to_save['parent'];
             $save_posted = $this->app->db->save($table, $upd_posted);
         }
-
-
+        $after_save = $data_to_save;
+        $after_save['id'] = $id;
+        $this->app->event->emit('content.after.save',$after_save);
         $this->app->cache->delete('content/' . $save);
 
         $this->app->cache->delete('content_fields/global');

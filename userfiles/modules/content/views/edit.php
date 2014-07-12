@@ -11,9 +11,9 @@
 
 
 
+<?php event_trigger('content.edit.main',$params); ?>
 
-
-  <?php $content_edit_modules = mw()->module->ui('content.edit.main'); ?>
+  <?php $content_edit_modules = mw()->ui->module('content.edit.main'); ?>
   <?php $modules = array(); ?>
   <?php 
  
@@ -30,21 +30,7 @@ if (!empty($content_edit_modules) and !empty($data)) {
 				}
 			}
 		}
-		
-		
-		/*foreach ($data as $k=>$v) {
-			if(isset($content_edit_module[$k])){
-				$v1 = $content_edit_module[$k];
-				$v2 = $v;
-				if(trim($v1) == trim($v2)){
-					if(isset($content_edit_module['module'])){
-						 $modules[] = $content_edit_module['module'];
-					}
-				}
-			}
-			
-		}*/
-    }
+     }
 	$modules = array_unique($modules);
 }
 

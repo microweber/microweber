@@ -91,8 +91,27 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
             <module type="content/views/advanced_settings" content-id="<?php print $data['id']; ?>"  content-type="<?php print $data['content_type']; ?>" subtype="<?php print $data['subtype']; ?>"    />
           </div>
           <?php if($data['content_type'] == 'page'):  ?>
+          
+          <?php 
+		  $no_content_type_setup_from_layout = false;
+		  if($data['content_type'] != 'page' and $data['content_type'] != 'post' and $data['content_type'] != 'product'){
+			$no_content_type_setup_from_layout = true;  
+		  } else if(isset($data['subtype']) and $data['subtype'] != 'static'  and $data['subtype'] != 'dynamic' and $data['subtype'] != 'post' and $data['subtype'] != 'product'){
+			$no_content_type_setup_from_layout = true;  
+		  } 
+		  
+		  if($no_content_type_setup_from_layout  != false){
+			$no_content_type_setup_from_layout  = ' no_content_type_setup="true" '  ;
+		  }
+		  
+		  ?>
+          
+          
           <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
-            <module type="content/views/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" />
+            <module type="content/views/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" <?php print $no_content_type_setup_from_layout ?> />
+            
+             
+            
           </div>
           <?php endif; ?>
           <?php if(!empty($custom_tabs)): ?>
