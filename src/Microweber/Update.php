@@ -12,7 +12,8 @@ class Update
     public $app;
     private $remote_api_url = 'http://api.microweber.com/service/update/';
     private $remote_url = 'http://practivate.adobe.com/Microweber/';
-private $temp_dir = false;
+    private $temp_dir = false;
+
     function __construct($app = null)
     {
 
@@ -44,6 +45,22 @@ private $temp_dir = false;
 
 
         $result = $this->call('browse', $data);
+        return $result;
+    }
+
+    function get_modules()
+    {
+        $data = $this->collect_local_data();
+        $data['add_new'] = true;
+        $result = $this->call('get_modules', $data);
+        return $result;
+    }
+
+    function get_templates()
+    {
+        $data = $this->collect_local_data();
+
+        $result = $this->call('get_templates', $data);
         return $result;
     }
 
@@ -94,59 +111,6 @@ private $temp_dir = false;
 
 
         return $data;
-    }
-
-    function call($method = false, $post_params = false)
-    {
-        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
-        if (!is_dir($cookie)) {
-            mkdir($cookie);
-        }
-        $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_api_url;
-        if ($method != false) {
-            $requestUrl = $requestUrl . '?api_function=' . $method;
-        }
-
-        $curl = new \Microweber\Utils\Curl();
-        $curl->setUrl($requestUrl);
-        $curl->url = $requestUrl;
-        $curl->timeout = 10;
-
-
-        $post_params['site_url'] = $this->app->url->site();
-        $post_params['api_function'] = $method;
-
-        if ($post_params != false and is_array($post_params)) {
-            $curl_result = $curl->post($post_params);
-            //  print $curl_result;
-        } else {
-            $curl_result = false;
-        }
-        if ($curl_result == '' or $curl_result == false) {
-            return false;
-        }
-        $result = false;
-        if ($curl_result != false) {
-            $result = json_decode($curl_result, 1);
-        }
-        return $result;
-    }
-
-    function get_modules()
-    {
-        $data = $this->collect_local_data();
-        $data['add_new'] = true;
-        $result = $this->call('get_modules', $data);
-        return $result;
-    }
-
-    function get_templates()
-    {
-        $data = $this->collect_local_data();
-
-        $result = $this->call('get_templates', $data);
-        return $result;
     }
 
     function check($skip_cache = false)
@@ -258,6 +222,43 @@ private $temp_dir = false;
 
     }
 
+    function call($method = false, $post_params = false)
+    {
+        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        if (!is_dir($cookie)) {
+            mkdir($cookie);
+        }
+        $cookie_file = $cookie . 'cookie.txt';
+        $requestUrl = $this->remote_api_url;
+        if ($method != false) {
+            $requestUrl = $requestUrl . '?api_function=' . $method;
+        }
+
+        $curl = new \Microweber\Utils\Curl();
+        $curl->setUrl($requestUrl);
+        $curl->url = $requestUrl;
+        $curl->timeout = 10;
+
+
+        $post_params['site_url'] = $this->app->url->site();
+        $post_params['api_function'] = $method;
+
+        if ($post_params != false and is_array($post_params)) {
+            $curl_result = $curl->post($post_params);
+            //  print $curl_result;
+        } else {
+            $curl_result = false;
+        }
+        if ($curl_result == '' or $curl_result == false) {
+            return false;
+        }
+        $result = false;
+        if ($curl_result != false) {
+            $result = json_decode($curl_result, 1);
+        }
+        return $result;
+    }
+
     function post_update()
     {
         if (!ini_get('safe_mode')) {
@@ -317,8 +318,92 @@ private $temp_dir = false;
 
                 return $this->install_from_market($dl_get);
             }
-         }
+        }
 
+
+    }
+
+    private function install_from_market($item)
+    {
+        if (isset($item['url']) and !isset($item['download'])) {
+            $item['download'] = $item['url'];
+        }
+        $download_target = false;
+        if (isset($item['download']) and !isset($item['size'])) {
+            $url = $item['url'];
+            $download_target = $this->temp_dir . basename($url);
+            $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
+            if (!is_file($download_target)) {
+                $dl = $this->app->http->url($url)->download($download_target);
+            }
+        }
+        if (isset($item['download']) and isset($item['size'])) {
+            $expected = intval($item['size']);
+
+            $download_link = $item['download'];
+            if ($download_link != false and $expected > 0) {
+                $text = $download_link;
+                $regex = '/\b((?:[\w\d]+\:\/\/)?(?:[\w\-\d]+\.)+[\w\-\d]+(?:\/[\w\-\d]+)*(?:\/|\.[\w\-\d]+)?(?:\?[\w\-\d]+\=[\w\-\d]+\&?)?(?:\#[\w\-\d]*)?)\b/';
+                preg_match_all($regex, $text, $matches, PREG_SET_ORDER);
+                foreach ($matches as $match) {
+                    if (isset($match[0])) {
+                        $url = $match[0];
+                        $download_target = $this->temp_dir . basename($url);
+                        $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
+                        $expectd_item_size = $item['size'];
+
+                        if (!is_file($download_target) or filesize($download_target) != $item['size']) {
+
+                            $dl = $this->app->http->url($url)->download($download_target);
+                            if ($dl == false) {
+                                if (is_file($download_target) and filesize($download_target) != $item['size']) {
+                                    $fs = filesize($download_target);
+
+                                    return array('size' => $fs, 'expected_size' => $expected, 'try_again' => "true", 'warning' => "Only " . $fs . ' bytes downloaded of total ' . $expected);
+                                }
+                            }
+                            // d($dl);
+                        } else if (!is_file($download_target_extract_lock) and is_file($download_target) or filesize($download_target) == $item['size']) {
+
+
+                            // @touch($download_target_extract_lock);
+                            //$unzip = new \Microweber\Utils\Unzip();
+                            // $target_dir = MW_ROOTPATH;
+                            // $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
+                            //  return array('sssstry_again' => "true", 'success' => "Patch is completed");
+
+                        }
+                        // your link generator
+                    }
+                }
+
+            }
+
+
+        }
+
+        if ($download_target != false and is_file($download_target)) {
+            $where_to_unzip = MW_ROOTPATH;
+            if (isset($item['item_type'])) {
+                if ($item['item_type'] == 'module') {
+                    $where_to_unzip = MW_MODULES_DIR;
+                } elseif ($item['item_type'] == 'template') {
+                    $where_to_unzip = MW_TEMPLATES_DIR;
+                }
+
+                if (isset($item['install_path']) and $item['install_path'] != false) {
+                    $where_to_unzip = $where_to_unzip . DS . $item['install_path'];
+                }
+                $where_to_unzip = str_replace('..', '', $where_to_unzip);
+                $where_to_unzip = normalize_path($where_to_unzip, true);
+                $unzip = new \Microweber\Utils\Unzip();
+                $target_dir = $where_to_unzip;
+                $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
+                return array('files' => $result, 'success' => "Item is installed");
+
+            }
+
+        }
 
     }
 
@@ -494,108 +579,6 @@ private $temp_dir = false;
         return $result;
 
     }
-
-
-    private function install_from_market($item){
-        if (isset($item['url']) and !isset($item['download'])) {
-            $item['download'] = $item['url'];
-        }
-        $download_target = false;
-        if (isset($item['download']) and !isset($item['size'])) {
-            $url = $item['url'];
-            $download_target = $this->temp_dir . basename($url);
-            $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
-            if (!is_file($download_target)) {
-
-                $dl = $this->app->http->url($url)->download($download_target);
-
-            }
-
-        }
-        if (isset($item['download']) and isset($item['size'])) {
-            $expected = intval($item['size']);
-
-            $download_link = $item['download'];
-            if ($download_link != false and $expected > 0) {
-                $text = $download_link;
-                $regex = '/\b((?:[\w\d]+\:\/\/)?(?:[\w\-\d]+\.)+[\w\-\d]+(?:\/[\w\-\d]+)*(?:\/|\.[\w\-\d]+)?(?:\?[\w\-\d]+\=[\w\-\d]+\&?)?(?:\#[\w\-\d]*)?)\b/';
-                preg_match_all($regex, $text, $matches, PREG_SET_ORDER);
-                foreach ($matches as $match) {
-                    if (isset($match[0])) {
-                        $url = $match[0];
-                        $download_target = $this->temp_dir . basename($url);
-                        $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
-                        $expectd_item_size = $item['size'];
-
-                        if (!is_file($download_target) or filesize($download_target) != $item['size']) {
-
-                            $dl = $this->app->http->url($url)->download($download_target);
-                            if ($dl == false) {
-                                if (is_file($download_target) and filesize($download_target) != $item['size']) {
-                                    $fs = filesize($download_target);
-
-                                    return array('size' => $fs, 'expected_size' => $expected, 'try_again' => "true", 'warning' => "Only " . $fs . ' bytes downloaded of total ' . $expected);
-                                }
-                            }
-                            // d($dl);
-                        } else if (!is_file($download_target_extract_lock) and is_file($download_target) or filesize($download_target) == $item['size']) {
-
-
-
-
-                           // @touch($download_target_extract_lock);
-                            //$unzip = new \Microweber\Utils\Unzip();
-                           // $target_dir = MW_ROOTPATH;
-                           // $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
-                           //  return array('sssstry_again' => "true", 'success' => "Patch is completed");
-
-                        }
-                        // your link generator
-                    }
-                }
-
-            }
-
-
-        }
-
-        if($download_target != false and is_file($download_target)){
-
-            $where_to_unzip = MW_ROOTPATH;
-            if(isset($item['item_type'])){
-                if($item['item_type'] == 'module'){
-                    $where_to_unzip = MW_MODULES_DIR;
-                } elseif($item['item_type'] == 'template'){
-                    $where_to_unzip = MW_TEMPLATES_DIR;
-                }
-                if(isset($item['install_path']) and $item['install_path'] != false){
-
-                }
-                $where_to_unzip = $where_to_unzip.DS.$item['install_path'];
-                $where_to_unzip = str_replace('..','',$where_to_unzip);
-                $where_to_unzip = normalize_path($where_to_unzip,true);
-
-                $unzip = new \Microweber\Utils\Unzip();
-                 $target_dir = $where_to_unzip;
-                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
-                 return array('files'=>$result,'success' => "Item is installed");
-
-               // d($where_to_unzip);
-//                 @touch($download_target_extract_lock);
-//                $unzip = new \Microweber\Utils\Unzip();
-//                 $target_dir = $where_to_unzip;
-//                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
-//                  return array('sssstry_again' => "true", 'success' => "Patch is completed");
-               // d($item);
-               // d($where_to_unzip);
-                //d($download_target);
-
-            }
-
-        }
-
-    }
-
 
     private function install_from_remote($url)
     {

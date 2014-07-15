@@ -1277,12 +1277,17 @@ body.loaded #live_edit_toolbar{
 
 
 .toolbar-sections-tabs > ul > li .mw-ui-btn-nav{
-  margin: 0 15px 0px;
+  margin: 8px 15px 0px;
 }
+
+
+
+
 .toolbar-sections-tabs > ul > li{
   float: left;
   list-style: none;
   position: relative;
+  height: 50px;
 }
 
 .mw-dropdown-list{
@@ -2105,7 +2110,7 @@ body.design_hover .element-current{
 .mw-toolbar-right-content{
   float: right;
   width: 230px;
-  padding: 3px 40px 3px 0;
+  padding: 3px 0 3px 0;
 }
 
 #toolbar-dropdown-actions{

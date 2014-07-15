@@ -176,8 +176,8 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
     <li><a onclick="mw.quick.edit('0','<?php print $type; ?>', '<?php print $subtype; ?>'); return false;" href="<?php print admin_url('view:content'); ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a></li>
     <?php endforeach; ?>
     <?php endif; ?>
-               
-    
+
+
 
               <?php event_trigger('live_edit_quick_add_menu_end'); ?>
             </ul>
@@ -207,6 +207,9 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             onclick="mw.liveEditWYSIWYG.slideRight();"></span>
         <div class="mw-toolbar-right-content">
           <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
+
+
+
 
           <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" style="padding-left: 10px;">
             <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span class="mw-icon-dropdown"></span></span>
@@ -254,10 +257,10 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
           </span>
 
 
-          <?php /*  <a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a> */ ?>
 
 
-          <span id="toolbar-back-to-admin"><span class="mw-icon-arrowleft" style=" font-size: 19px;"></span></span>
+           <a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a>
+
 
 
 
