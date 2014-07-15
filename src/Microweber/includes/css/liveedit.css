@@ -1942,6 +1942,54 @@ body.design_hover .element-current{
 }
 
 
+
+.mw-single-arrow-dropdown{
+  display: inline-block;
+  height: 32px;
+  padding-left: 10px;
+  margin: 7px 0 0;
+  background: url(../img/mw_dlm.png) no-repeat;
+  cursor: pointer;
+}
+
+
+
+.mw-single-arrow-dropdown > *{
+  font-size: 15px;
+  top: 0px;
+  color: rgba(136, 136, 136, 1);
+
+}
+
+#toolbar-dropdown-actions:hover .mw-single-arrow-dropdown > *{
+  color: black;
+}
+
+#live-edit-dropdown-actions-content{
+  right: -20px;
+  left: auto;
+  top: 40px;
+  cursor: pointer;
+  width: 140px;
+}
+
+#toolbar-back-to-admin{
+  position: absolute;
+  width: 30px;
+  height: 100%;
+  right: 0;
+  top: 0;
+  display: block;
+  cursor: pointer;
+  background: black;
+  color: white;
+}
+
+
+
+
+
+
 /* tabs navigation */
 
 #mw_toolbar_nav{
@@ -2060,7 +2108,7 @@ body.design_hover .element-current{
 
 #toolbar-dropdown-actions{
   float: right;
-  width: 120px;
+  width: 30px;
 }
 
 .mw_edit_delete{
@@ -2278,6 +2326,8 @@ div[id*='SSDIVEL'] {
   margin-left: 3px;
   margin-top: -1px;
 }
+
+
 
 
 

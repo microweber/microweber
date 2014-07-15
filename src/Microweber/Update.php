@@ -12,7 +12,7 @@ class Update
     public $app;
     private $remote_api_url = 'http://api.microweber.com/service/update/';
     private $remote_url = 'http://practivate.adobe.com/Microweber/';
-
+private $temp_dir = false;
     function __construct($app = null)
     {
 
@@ -24,6 +24,17 @@ class Update
                 $this->app = Application::getInstance();
             }
 
+        }
+
+
+        if (defined('MW_CACHE_DIR')) {
+            $this->temp_dir = MW_CACHE_DIR . 'updates_temp' . DIRECTORY_SEPARATOR;
+        } else {
+            $this->temp_dir = __DIR__ . DIRECTORY_SEPARATOR . 'cache/updates_temp' . DIRECTORY_SEPARATOR;
+        }
+
+        if (!is_dir($this->temp_dir)) {
+            mkdir($this->temp_dir);
         }
     }
 
@@ -83,6 +94,43 @@ class Update
 
 
         return $data;
+    }
+
+    function call($method = false, $post_params = false)
+    {
+        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        if (!is_dir($cookie)) {
+            mkdir($cookie);
+        }
+        $cookie_file = $cookie . 'cookie.txt';
+        $requestUrl = $this->remote_api_url;
+        if ($method != false) {
+            $requestUrl = $requestUrl . '?api_function=' . $method;
+        }
+
+        $curl = new \Microweber\Utils\Curl();
+        $curl->setUrl($requestUrl);
+        $curl->url = $requestUrl;
+        $curl->timeout = 10;
+
+
+        $post_params['site_url'] = $this->app->url->site();
+        $post_params['api_function'] = $method;
+
+        if ($post_params != false and is_array($post_params)) {
+            $curl_result = $curl->post($post_params);
+            //  print $curl_result;
+        } else {
+            $curl_result = false;
+        }
+        if ($curl_result == '' or $curl_result == false) {
+            return false;
+        }
+        $result = false;
+        if ($curl_result != false) {
+            $result = json_decode($curl_result, 1);
+        }
+        return $result;
     }
 
     function get_modules()
@@ -209,27 +257,6 @@ class Update
         }
 
     }
-    function marketplace_link($params=false){
-        $url = $this->remote_url.'market_link';
-
-        $url_resp = $this->app->http->url($url)->get($params);
-        if($url_resp != false){
-            $url = json_decode($url_resp,1);
-            if(isset($url['url'])){
-                return $url['url'];
-            }
-        }
-
-        ///return $url_resp;
-    }
-
-    function install_market_item($params){
-
-        $url = $this->remote_url;
-d($url);
-d($params);
-    }
-
 
     function post_update()
     {
@@ -243,6 +270,55 @@ d($params);
             }
         }
         mw_post_update();
+    }
+
+    function marketplace_link($params = false)
+    {
+        $url = $this->remote_url . 'market_link';
+
+        $url_resp = $this->app->http->url($url)->get($params);
+        if ($url_resp != false) {
+            $url = json_decode($url_resp, 1);
+            if (isset($url['url'])) {
+                return $url['url'];
+            }
+        }
+
+        ///return $url_resp;
+    }
+
+    function install_market_item($params)
+    {
+        if (defined('MW_API_CALL')) {
+            $to_trash = true;
+            $adm = $this->app->user->is_admin();
+            if ($adm == false) {
+                return array('error' => 'You must be admin to install from Marketplace!');
+            }
+        }
+        if (!ini_get('safe_mode')) {
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+                ini_set("memory_limit", "160M");
+                ini_set("set_time_limit", 0);
+            }
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+                set_time_limit(0);
+            }
+        }
+
+        $url = $this->remote_url . 'api/dl_file_api';
+
+
+        $dl_get = $this->app->http->url($url)->post($params);
+        if ($dl_get != false) {
+            $dl_get = json_decode($dl_get, true);
+            if ($dl_get['url']) {
+
+                return $this->install_from_market($dl_get);
+            }
+         }
+
+
     }
 
     function apply_updates($updates)
@@ -400,43 +476,6 @@ d($params);
 
     }
 
-    function call($method = false, $post_params = false)
-    {
-        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
-        if (!is_dir($cookie)) {
-            mkdir($cookie);
-        }
-        $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_api_url;
-        if ($method != false) {
-            $requestUrl = $requestUrl . '?api_function=' . $method;
-        }
-
-        $curl = new \Microweber\Utils\Curl();
-        $curl->setUrl($requestUrl);
-        $curl->url = $requestUrl;
-        $curl->timeout = 10;
-
-
-        $post_params['site_url'] = $this->app->url->site();
-        $post_params['api_function'] = $method;
-
-        if ($post_params != false and is_array($post_params)) {
-            $curl_result = $curl->post($post_params);
-            //  print $curl_result;
-        } else {
-            $curl_result = false;
-        }
-        if ($curl_result == '' or $curl_result == false) {
-            return false;
-        }
-        $result = false;
-        if ($curl_result != false) {
-            $result = json_decode($curl_result, 1);
-        }
-        return $result;
-    }
-
     function install_template($template_name)
     {
 
@@ -454,6 +493,60 @@ d($params);
         return $result;
 
     }
+
+
+    private function install_from_market($item){
+        if (isset($item['url']) and !isset($item['download'])) {
+            $item['download'] = $item['url'];
+        }
+        if (isset($item['download']) and isset($item['size'])) {
+            $expected = intval($item['size']);
+
+            $download_link = $item['download'];
+            if ($download_link != false and $expected > 0) {
+                $text = $download_link;
+                $regex = '/\b((?:[\w\d]+\:\/\/)?(?:[\w\-\d]+\.)+[\w\-\d]+(?:\/[\w\-\d]+)*(?:\/|\.[\w\-\d]+)?(?:\?[\w\-\d]+\=[\w\-\d]+\&?)?(?:\#[\w\-\d]*)?)\b/';
+                preg_match_all($regex, $text, $matches, PREG_SET_ORDER);
+                foreach ($matches as $match) {
+                    if (isset($match[0])) {
+                        $url = $match[0];
+                        $download_target = $this->temp_dir . basename($url);
+                        $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
+                        $expectd_item_size = $item['size'];
+
+                        if (!is_file($download_target) or filesize($download_target) != $item['size']) {
+
+                            $dl = $this->app->http->url($url)->download($download_target);
+                            if ($dl == false) {
+                                if (is_file($download_target) and filesize($download_target) != $item['size']) {
+                                    $fs = filesize($download_target);
+
+                                    return array('size' => $fs, 'expected_size' => $expected, 'try_again' => "true", 'warning' => "Only " . $fs . ' bytes downloaded of total ' . $expected);
+                                }
+                            }
+                            // d($dl);
+                        } else if (!is_file($download_target_extract_lock) and is_file($download_target) or filesize($download_target) == $item['size']) {
+
+                           d($download_target_extract_lock);
+
+                           // @touch($download_target_extract_lock);
+                            //$unzip = new \Microweber\Utils\Unzip();
+                           // $target_dir = MW_ROOTPATH;
+                           // $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
+                           //  return array('sssstry_again' => "true", 'success' => "Patch is completed");
+
+                        }
+                        // your link generator
+                    }
+                }
+
+            }
+
+
+        }
+
+    }
+
 
     private function install_from_remote($url)
     {

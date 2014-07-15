@@ -208,15 +208,9 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
         <div class="mw-toolbar-right-content">
           <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
 
-          <a style="font-size: 29px; margin: 0px 0px 0px 10px;" class="mw-icon-back pull-right tip" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a>
-          <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn">
-          <?php _e("Save"); ?>
-          </span>
-          <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions">
-            <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium mw-dropdown-button">
-                <?php _e("Actions"); ?>
-            </a>
-            <div class="mw-ui-dropdown-content">
+          <div class="mw-ui-dropdown mw-dropdown-defaultright" id="toolbar-dropdown-actions" style="padding-left: 10px;">
+            <span class="mw-single-arrow-dropdown mw-single-arrow-dropdown-right"><span class="mw-icon-dropdown"></span></span>
+            <div class="mw-ui-dropdown-content" id="live-edit-dropdown-actions-content">
               <ul class="mw-ui-btn-vertical-nav">
                 <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
                 <li>
@@ -252,6 +246,23 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
               </ul>
             </div>
           </div>
+
+
+
+          <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn">
+          <?php _e("Save"); ?>
+          </span>
+
+
+          <?php /*<a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a> */ ?>
+
+
+          <span id="toolbar-back-to-admin"><span class="mw-icon-arrowleft" style=" font-size: 33px;"></span></span>
+
+
+
+
+
           <div class="Switch2AdvancedModeTip" style="display: none">
             <div class="Switch2AdvancedModeTip-tickContainer">
               <div class="Switch2AdvancedModeTip-tick"></div>

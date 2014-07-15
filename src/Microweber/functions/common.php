@@ -1012,17 +1012,17 @@ function array_trim($Input)
 }
 
 
-event_bind('live_edit_toolbar_image_search', 'mw_print_live_edit_toolbar_image_search');
-
-function mw_print_live_edit_toolbar_image_search()
-{
-    $active = mw('url')->param('view');
-    $cls = '';
-    if ($active == 'shop') {
-        $cls = ' class="active" ';
-    }
-    print '<module type="files/admin" />';
-}
+//event_bind('live_edit_toolbar_image_search', 'mw_print_live_edit_toolbar_image_search');
+//
+//function mw_print_live_edit_toolbar_image_search()
+//{
+//    $active = mw('url')->param('view');
+//    $cls = '';
+//    if ($active == 'shop') {
+//        $cls = ' class="active" ';
+//    }
+//    print '<module type="files/admin" />';
+//}
 
 
 /**

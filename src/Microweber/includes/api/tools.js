@@ -605,8 +605,25 @@ mw.tools = {
         }
         $(el).remove();
     },
+    modalCompletelyVisibleFromParent: function(modalMain){
+        if(!modalMain || modalMain === null || !modalMain.querySelector) return true;
+        var frame = mww.frameElement;
+        if( frame === null ) return true; // means it's the same window
+        if( !frame ) return true; // in case property does not exists
+
+        var _top = modalMain.offsetTop;
+        var wh = $(parent).height();
+        var ft = frame.offsetTop;
+
+        if((_top+ft) > $(parent).scrollTop()){
+          return true;
+        }
+        else{
+          modalMain.style.top = ((_top+ft) + $(parent).scrollTop()) + 'px';
+        }
+    },
     setDimmensions:function(modal, w, h, trigger){
-      if(typeof modal === 'string'){ var modal = mw.$(modal)[0]; }
+        if(typeof modal === 'string'){ var modal = mw.$(modal)[0]; }
         if(!modal || modal === null) return false;
 
         var trigger = trigger || true;
@@ -659,7 +676,7 @@ mw.tools = {
     resize:function(modal, w, h, center){
       mw.tools.modal.setDimmensions(modal, w, h);
 
-     if(center === true){mw.tools.modal.center(modal)};
+      if(center === true){mw.tools.modal.center(modal)};
     },
     center:function(modal, only){
         var only = only || 'all';
@@ -683,17 +700,16 @@ mw.tools = {
         else if(only == 'horizontal'){
           modal.css({left:left});
         }
-    },
-    overlay:function(for_who, is_over_modal){
-        var doc = document;
-        var overlay = doc.createElement('div');
-        overlay.className = 'mw_overlay';
-        var id = for_who ? $(for_who).attr("id") : 'none';
-        $(overlay).attr("rel",id);
-        doc.body.appendChild(overlay);
-        if(is_over_modal != undefined){
-
+        if(self !== parent){
+            mw.tools.modal.modalCompletelyVisibleFromParent(modal[0]);
         }
+    },
+    overlay:function(modal){
+        var overlay = mwd.createElement('div');
+        overlay.className = 'mw_overlay';
+        var id = !!modal ? $(modal).attr("id") : 'none';
+        $(overlay).attr("rel",id);
+        mwd.body.appendChild(overlay);
         return overlay;
     }
   },

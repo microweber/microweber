@@ -8,7 +8,8 @@
     if(self !== parent){
       document.body.className += ' browser-liveedit';
     }
-
+</script>
+<script type="text/javascript">
     mw.require("events.js");
 	mw.require("forms.js");
     mw.require("url.js");
@@ -94,7 +95,7 @@ body.browser-liveedit .mw-browser-list .mw-ui-check{
 
 
 _mw_admin_files_manage = function(param, value, callback){
-    var holder = mw.$('#files_admin_{rand}');
+    var holder = mw.$('#mw_files_admin');
     holder.removeAttr('search');
     holder.attr('sort_by', 'filemtime DESC');
 
@@ -120,7 +121,7 @@ _mw_admin_files_manage = function(param, value, callback){
        holder.attr(param, value);
     }
     $(mwd.body).addClass("loading")
-    mw.load_module('files/browser','#files_admin_{rand}', function(){
+    mw.load_module('files/browser','#mw_files_admin', function(){
        $(mwd.body).removeClass("loading");
        $(".mw-ui-searchfield").removeClass("loading");
        if(typeof callback === 'function'){callback.call()}
@@ -320,7 +321,7 @@ mw.on.hashParam('sort_order', function(){
 
 
 $(document).ready(function(){
-
+_mw_admin_files_manage('all');
 
 Progress =  mw.$('#mw-upload-progress');
         ProgressBar = Progress.find('.mw-ui-progress-bar');
@@ -382,6 +383,10 @@ Progress =  mw.$('#mw-upload-progress');
 });
 
 </script>
+
+ 
+
+
 <?php
     $ui_order_control = 'dropdown';
 
@@ -420,8 +425,8 @@ Progress =  mw.$('#mw-upload-progress');
     </div>
   </div>
   
-  <div id="files_admin_{rand}" ></div>
-  <div id="user_edit_admin_{rand}" ></div>
+  <div id="mw_files_admin" ></div>
+  <div id="mw_user_edit_admin" ></div>
   
 
   <span class="mw-ui-btn right disabled delete_item"><?php _e("Delete Selected"); ?></span>

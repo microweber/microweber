@@ -301,6 +301,10 @@ else{
             tabs:'.tab',
             onclick:function(tab){
                 if(tab.id == 'tabfilebrowser'){
+					 
+					
+					mw.load_module('files/admin', '#file_module_live_edit_adm');
+					
                    var height = mw.$('#tabfilebrowser').height() + 135;
                    var wh =  $(parent.window).height() - 100;
                    if(height > wh ){
@@ -505,7 +509,7 @@ mw.embed = {
 
   </div>
   <div class="tab" id="tabfilebrowser">
-
+<div id="file_module_live_edit_adm"></div>
     <?php  event_trigger('live_edit_toolbar_image_search'); ?>
 
   </div></div>
