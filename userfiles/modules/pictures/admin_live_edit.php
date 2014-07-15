@@ -13,8 +13,25 @@ if(defined('POST_ID') and  POST_ID != false){
 $for = $mod_name = $config['module'];
 $for_module_id = $mod_id = $params['id'];
 
- $use_from_post = get_option('data-use-from-post', $params['id']) =='y';
- 	  $use_from_post_forced = false;
+
+if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'post' and defined('POST_ID')) {
+    $params['rel_id'] = POST_ID;
+    $params['for'] = 'content';
+}
+if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'page' and defined('PAGE_ID')) {
+    $params['rel_id'] = PAGE_ID;
+    $params['for'] = 'content';
+}
+if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'content' and defined('CONTENT_ID')) {
+    $params['rel_id'] = CONTENT_ID;
+    $params['for'] = 'content';
+}
+
+
+
+
+$use_from_post = get_option('data-use-from-post', $params['id']) =='y';
+$use_from_post_forced = false;
  
  if(isset($params['rel'])){
 	 if((trim($params['rel']) == 'page') or(trim($params['rel']) == 'content') or ((trim($params['rel']) == 'post') or trim($params['rel']) == 'post') or trim($params['rel']) == 'post'){

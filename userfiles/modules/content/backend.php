@@ -165,7 +165,7 @@ mw.on.hashParam("action", function () {
 	
 	if(this == false){
 	    mw.$('#pages_edit_container').removeAttr('page-id');
-		mw_clear_edit_module_attrs();
+		 mw_clear_edit_module_attrs();
 		mw.$(".fix-tabs").removeClass('fix-tabs');
 	}
 	
