@@ -173,7 +173,7 @@ function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = 
 {
 
 
-    return mw('cache')->get($cache_id, $cache_group, $expiration_in_seconds);
+    return mw()->cache->get($cache_id, $cache_group, $expiration_in_seconds);
 
 
 }
@@ -204,7 +204,7 @@ function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = 
  */
 function cache_save($data_to_cache, $cache_id, $cache_group = 'global')
 {
-    return mw('cache')->save($data_to_cache, $cache_id, $cache_group);
+    return mw()->cache->save($data_to_cache, $cache_id, $cache_group);
 
 
 }
@@ -223,7 +223,7 @@ api_expose('clearcache');
  */
 function clearcache()
 {
-    return mw('cache')->clear();
+    return mw()->cache->clear();
 
 }
 
@@ -242,7 +242,7 @@ function clearcache()
  */
 function cache_debug()
 {
-    return mw('cache')->debug();
+    return mw()->cache->debug();
 
 }
 
@@ -275,7 +275,7 @@ function cache_debug()
 function cache_clear($cache_group = 'global', $cache_storage_type = false)
 {
 
-    return mw('cache')->delete($cache_group, $cache_storage_type);
+    return mw()->cache->delete($cache_group, $cache_storage_type);
 
 
 }
@@ -284,7 +284,7 @@ function cache_clear($cache_group = 'global', $cache_storage_type = false)
 function cache_delete($cache_group = 'global', $cache_storage_type = false)
 {
 
-    return mw('cache')->delete($cache_group, $cache_storage_type);
+    return mw()->cache->delete($cache_group, $cache_storage_type);
 
 
 }
@@ -596,13 +596,13 @@ function delete_module_as_template($data)
 function layouts_list($options = false)
 {
 
-    return mw('layouts')->scan($options);
+    return mw()->layouts->scan($options);
 }
 
 function get_layouts_from_db($options = false)
 {
 
-    return mw('layouts')->get($options);
+    return mw()->layouts->get($options);
 }
 
 function get_modules_from_db($options = false)
@@ -829,12 +829,12 @@ function mw_post_update()
 {
     $a = is_admin();
     if ($a != false) {
-        mw('cache')->delete('db');
-        mw('cache')->delete('update/global');
-        mw('cache')->delete('elements/global');
+        mw()->cache->delete('db');
+        mw()->cache->delete('update/global');
+        mw()->cache->delete('elements/global');
 
-        mw('cache')->delete('templates');
-        mw('cache')->delete('modules/global');
+        mw()->cache->delete('templates');
+        mw()->cache->delete('modules/global');
         scan_for_modules();
         get_elements();
         event_trigger('mw_db_init_default');
@@ -1497,6 +1497,10 @@ function get_all_functions_files_for_modules($options = false)
 {
 
 
+    if (!defined("MW_IS_INSTALLED") or MW_IS_INSTALLED == false) {
+        return false;
+    }
+
     $args = func_get_args();
     $function_cache_id = '';
 
@@ -1506,7 +1510,7 @@ function get_all_functions_files_for_modules($options = false)
 
     $cache_group = 'modules/global';
 
-    $cache_content = mw('cache')->get($cache_id, $cache_group);
+    $cache_content = mw()->cache->get($cache_id, $cache_group);
 
     if (($cache_content) != false) {
 
@@ -1537,7 +1541,7 @@ function get_all_functions_files_for_modules($options = false)
         }
     }
 
-    mw('cache')->save($configs, $function_cache_id, $cache_group);
+    mw()->cache->save($configs, $function_cache_id, $cache_group);
     return $configs;
 
 }
@@ -1581,7 +1585,7 @@ function template_headers_src()
 api_expose('current_template_save_custom_css');
 function current_template_save_custom_css($data)
 {
-    return mw('layouts')->template_save_css($data);
+    return mw()->layouts->template_save_css($data);
 
 }
 

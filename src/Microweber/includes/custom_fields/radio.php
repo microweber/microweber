@@ -26,9 +26,9 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 
 <?php
 
-
+//d($data['custom_field_values']);
 //print $data["custom_field_value"]; ?>
-<?php if(!empty($data['custom_field_values'])) : ?>
+<?php if(is_array($data['custom_field_values']) and !empty($data['custom_field_values'])) : ?>
 
  
 

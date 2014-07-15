@@ -297,6 +297,7 @@ mw.wysiwyg = {
             /*var body = mw.tools.parseHtml(html).body;
             mw.wysiwyg.cleanHTML(body);
             mw.wysiwyg.insert_html(body.innerHTML);*/
+
             if(!!html) {
               mw.wysiwyg.insert_html(html);
               e.preventDefault();
@@ -852,13 +853,15 @@ mw.wysiwyg = {
         var types = types || false;
         if( hash == '#editimage' ) { var types = 'images'; }
         var url = !!types?"rte_image_editor?types="+types+''+hash:"rte_image_editor"+hash;
-        mw.tools.modal.frame({
+        var modal = mw.tools.modal.frame({
           url:url,
           name:"mw_rte_image",
           width:430,
           height:230,
-          template:'mw_modal_basic'
+          template:'mw_modal_basic',
+          overlay:true
         });
+        modal.overlay.style.backgroundColor = 'white';
     },
     media:function(hash){
         if(mw.settings.liveEdit && typeof mw.target.item === 'undefined') return false;
@@ -870,6 +873,7 @@ mw.wysiwyg = {
           if(mw.wysiwyg.isSelectionEditable() || mw.$(mw.target.item).hasClass("image_change")){
               mw.wysiwyg.save_selection();
               mw.wysiwyg.request_media(hash);
+
           }
         }
     },
@@ -1344,7 +1348,7 @@ $(window).load(function(){
             selection.addRange(range);
           }
       }
-     node.addEventListener("paste", function(e){
+     nodes[i].addEventListener("paste", function(e){
        mw.wysiwyg.paste(e);
     });
   }

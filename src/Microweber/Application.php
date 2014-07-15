@@ -102,6 +102,10 @@ class Application
                     $table_prefix = str_replace(array(' ', '.', '*', ';'), '-', $table_prefix);
                     define('MW_TABLE_PREFIX', $table_prefix);
                 }
+            } elseif(isset($this->config['installed']) and trim($this->config['installed']) == 'yes') {
+                if (!defined('MW_IS_INSTALLED')) {
+                    define('MW_IS_INSTALLED', true);
+                }
             }
 
 

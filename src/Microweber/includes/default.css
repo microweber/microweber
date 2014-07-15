@@ -6,6 +6,7 @@
  *
  */
 
+@import url("css/layouts.css");
 
 * {
    margin: 0;
@@ -99,7 +100,7 @@ body.mw-preview{
 .mw-row{
   margin-top: 10px;
   margin-bottom: 10px;
-  display: table;
+  display: table !important;
   table-layout: fixed;
   width: 100%;
   max-width: 100%;

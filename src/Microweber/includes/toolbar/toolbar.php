@@ -207,6 +207,8 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
             onclick="mw.liveEditWYSIWYG.slideRight();"></span>
         <div class="mw-toolbar-right-content">
           <?php event_trigger('live_edit_toolbar_action_buttons'); ?>
+
+          <a style="font-size: 29px; margin: 0px 0px 0px 10px;" class="mw-icon-back pull-right tip" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a>
           <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="mw.drag.save()" id="main-save-btn">
           <?php _e("Save"); ?>
           </span>
@@ -218,7 +220,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
               <ul class="mw-ui-btn-vertical-nav">
                 <?php event_trigger('live_edit_toolbar_action_menu_start'); ?>
                 <li>
-                    <a class="mw-ui-btn" title="Back to Admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
+                    <a class="mw-ui-btn" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a></li>
                 <li>
                   <script>mw.userCanSwitchMode = false;</script>
                   <?php if (!isset($user['basic_mode']) or $user['basic_mode'] != 'y') { ?>
@@ -242,7 +244,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                   <?php _e("Publish"); ?>
                   </span></a> </li>
                 <?php endif; ?>
-                <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn">Tools</a></li>
+                <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a></li>
                 <li><a href="<?php print mw('url')->api_link('logout'); ?>" class="mw-ui-btn"><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>

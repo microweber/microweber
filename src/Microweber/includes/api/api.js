@@ -91,10 +91,10 @@ mw.askusertostay = false;
   mw.required = typeof mw.required === 'undefined'?[]:mw.required;
   mw.require = function(url, inHead) {
     var inHead = inHead || false;
-    var url = url.contains('//') ? url : "<?php print( MW_INCLUDES_URL ); ?>api/" + url;
+    var t = url.split('.').pop();
+    var url = url.contains('//') ? url : (t !== "css" ? "<?php print( MW_INCLUDES_URL ); ?>api/" + url  :  "<?php print( MW_INCLUDES_URL ); ?>css/" + url);
     if (!~mw.required.indexOf(url)) {
       mw.required.push(url);
-      var t = url.split('.').pop();
       var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
       var string = t !== "css" ? "<script type='text/javascript'  src='" + url + "'></script>" : "<link rel='stylesheet' type='text/css' href='" + url + "' />";
       if ((mwd.readyState === 'loading' || mwd.readyState === 'interactive') && !inHead && !!window.CanvasRenderingContext2D && self === parent) {

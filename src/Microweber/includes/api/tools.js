@@ -666,9 +666,13 @@ mw.tools = {
         var modal = $(modal);
         var h = modal.height();
         var w = modal.width();
-        var top = ($(window).height()/2)-(h/2);
+        var top = ($(mww).height()/2)-(h/2);
         var top = top > 0 ? top : 0;
-        var left = ($(window).width()/2)-(w/2);
+        if(self !== mww.parent && mww.parent === mww.top){
+            var top = ($(mww.top).height()/2)-(h/2);
+            var top = top > 0 ? top : 0;
+        }
+        var left = ($(mww).width()/2)-(w/2);
         var left = left > 0 ? left : 0;
         if(only == 'all'){
           modal.css({top:top,left:left});
@@ -2449,7 +2453,7 @@ mw.tools = {
            right:-mw.tools.TemplateSettingsModalDefaults.width - 115,
            left: 'auto',
            top: mw.tools.TemplateSettingsModalDefaults.top,
-           zIndex:1102,
+           zIndex:1099,
         }).addClass('mw-template-settings-hidden');
 
         $(window).bind('resize', function(){
@@ -3812,7 +3816,11 @@ mw.image = {
        var all = mw.image_resizer.querySelectorAll('*'), l = all.length, i = 0;
        for( ; i<l ; i++) all[i].mwImageResizerComponent = true
       },
-      resizerSet:function(el){
+      resizerSet:function(el, selectImage){
+
+            var selectImage = typeof selectImage === 'undefined' ? true : selectImage;
+
+
              /*  var order = mw.tools.parentsOrder(el, ['edit', 'module']);
 
            if(!(order.module > -1 && order.edit > order.module) && order.edit>-1){   */
@@ -3836,14 +3844,16 @@ mw.image = {
                mw.image.currentResizing = el;
                el[0].contentEditable = true ;
 
-               if(el[0].parentNode.tagName !== 'A'){
-                  mw.wysiwyg.select_element(el[0]);
-               }
-               else{
-                  mw.wysiwyg.select_element(el[0].parentNode);
 
-               }
+               if(selectImage) {
+                 if(el[0].parentNode.tagName !== 'A'){
+                    mw.wysiwyg.select_element(el[0]);
+                 }
+                 else{
+                    mw.wysiwyg.select_element(el[0].parentNode);
 
+                 }
+               }
 
         /* } */
       },
@@ -3884,6 +3894,7 @@ mw.image = {
         if(!mw.image.Rotator){
            mw.image.Rotator = mwd.createElement('canvas');
            mw.image.Rotator.style.top = '-9999px';
+           mw.image.Rotator.style.left = '-9999px';
            mw.image.Rotator.style.position = 'absolute';
            mw.image.RotatorContext = mw.image.Rotator.getContext('2d');
            document.body.appendChild(mw.image.Rotator);
@@ -4080,9 +4091,10 @@ mw.image = {
           template:"mw_modal_basic",
           overlay:true,
           width:'600',
-          height:"auto"
+          height:"80%"
         });
-
+        modal.overlay.style.backgroundColor = 'white';
+        $(modal.main).css('max-height', 600);
       }
     }
 
@@ -4160,14 +4172,6 @@ mw.image = {
       return modal;
     }
 
-    mw.editor = function(area, params){
-      if(area === null || typeof area === 'undefined'){ return false; }
-      var frame = mw.tools.iframe_editor(area, params, false, 'richtext');
-      frame.className = 'mw-ui-richtext-editor';
-      $(frame).height($(area).height());
-      frame.style.width = '100%';
-      return frame;
-    };
 
     mw.editor = mw.tools.richtextEditor;
 

@@ -38,7 +38,7 @@ class Manager
 
 
         }
-
+ 
 
         $posts_mod = array();
         // $posts_mod['type'] = 'content/admin_posts_list';

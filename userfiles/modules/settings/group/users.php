@@ -142,7 +142,7 @@ mw.$('.mw-ui-check').bind('mousedown', function(){
     </li>
     <li class="mw-ui-btn">
       <label class="mw-ui-check"><input type="checkbox" value="y" <?php if($enable_user_github_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_github_registration" class="mw_option_field" option-group="users"><span></span></label>
-      <span class="mw-icon-github login-tab-group"></span>
+      <span class="mw-icon-social-github login-tab-group"></span>
     </li>
     <li class="mw-ui-btn">
       <label class="mw-ui-check"><input type="checkbox" value="y" <?php if($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users"><span></span></label>
@@ -150,7 +150,7 @@ mw.$('.mw-ui-check').bind('mousedown', function(){
     </li>
     <li class="mw-ui-btn">
       <label class="mw-ui-check"><input type="checkbox" value="y" <?php if($enable_user_windows_live_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_windows_live_registration" class="mw_option_field" option-group="users" ><span></span></label>
-      <span class="mw-icon-windowslive login-tab-group"></span>
+      <span class="mw-icon-social-windows login-tab-group"></span>
     </li>
 </ul>
 
@@ -238,13 +238,26 @@ mw.$('.mw-ui-check').bind('mousedown', function(){
 
  <hr>
 
-   <a href="javascript:;" onclick="$('#user-login-urls-set').toggle()" class="mw-ui-btn"><?php _e("Users URL settings"); ?></a>
+ <script>
 
-              <div id="user-login-urls-set" style="display:none;">
-              
+ showLoginURLSettings  = function(){
+    var el = mwd.getElementById('user-login-urls-set');
+    $(el).toggle();
+
+    if(el.style.display == 'block'){
+      mw.tools.scrollTo(el);
+    }
+ }
+
+ </script>
+
+   <a href="javascript:;" onclick="showLoginURLSettings()" class="mw-ui-btn"><?php _e("Users URL settings"); ?></a>
+
+              <div id="user-login-urls-set" style="display:none;padding-top: 20px;">
+                     <div class="mw-ui-box mw-ui-box-content">
                     <h3><?php _e("Register URL"); ?></h3>
                     <p><?php _e("You can set a custom url for the register page"); ?></p>
-					 
+
 
 
 					<?php $checkout_url = get_option('register_url', 'users');  ?>
@@ -280,7 +293,8 @@ mw.$('.mw-ui-check').bind('mousedown', function(){
               
               
               </div>
-                     
+              </div>
+
                      
                      
                      

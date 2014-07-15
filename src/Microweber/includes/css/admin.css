@@ -2318,6 +2318,7 @@ body.grabbing, body.grabbing *{
   padding-bottom: 0;
 }
 
+
 .module-live-edit-settings{
   padding: 15px;
 }
@@ -2328,6 +2329,10 @@ body.grabbing, body.grabbing *{
   visibility: hidden;
   line-height: 0;
   height: 0;
+}
+
+.module-live-edit-settings .module-live-edit-settings {
+  padding: 0;
 }
 
 
@@ -2566,10 +2571,6 @@ body.grabbing, body.grabbing *{
 
 .mw-modules-admin li.mw-admin-module-list-item  .admin-modules-list-buttons{
   visibility: hidden;
-}
-
-.mw-modules-admin li.mw-admin-module-list-item :hover {
-  border-color: #D9D9D9;
 }
 
 .mw-modules-admin li.mw-admin-module-list-item :hover .admin-modules-list-buttons{

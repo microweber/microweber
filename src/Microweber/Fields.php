@@ -882,7 +882,7 @@ class Fields
 
         $data['custom_field_type'] = $field_type;
 
-        if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array') {
+       // if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array') {
             if (isset($data['custom_field_values']) and is_string($data['custom_field_values'])) {
 
                 $try = base64_decode($data['custom_field_values']);
@@ -891,10 +891,9 @@ class Fields
                     $data['custom_field_values'] = unserialize($try);
                 }
             }
-        }
+        //}
         if (isset($data['options']) and is_string($data['options'])) {
             $data['options'] = $this->app->format->base64_to_array($data['options']);
-
         }
 
         $data = $this->app->url->replace_site_url_back($data);

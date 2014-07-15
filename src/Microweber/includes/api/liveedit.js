@@ -344,7 +344,7 @@ mw.drag = {
               if(!mw.image.isResizing){
               if(event.target.nodeName === 'IMG' && mw.tools.hasClass(event.target, 'element') && mw.drag.columns.resizing === false){
                 $(mw.image_resizer).addClass("active");
-                 mw.image.resize.resizerSet(event.target);
+                 mw.image.resize.resizerSet(event.target, false);
               }
               else{
                 if(!event.target.mwImageResizerComponent){ mw.tools.removeClass(mw.image_resizer, 'active') }
@@ -621,6 +621,13 @@ mw.drag = {
           if(!mw.tools.hasParentsWithTag(event.target, 'TABLE') && !mw.tools.hasParentsWithClass(event.target, 'mw-inline-bar')){
              $(mw.inline.tableControl).hide();
              mw.$(".tc-activecell").removeClass('tc-activecell');
+           }
+           if(!mw.isDrag && mw.tools.hasClass(target, 'mw-empty')){
+            var p = mwd.createElement('p');
+            p.className = 'element';
+            p.innerHTML = 'test';
+            $(target).replaceWith(p);
+            mw.wysiwyg.select_all(p);
            }
         });
 
@@ -2644,7 +2651,8 @@ if(!mw.tools.hasClass(event.target, 'mw_handle_row')
          mw.SmallEditorIsDragging = false;
 
         if( !mw.image.isResizing &&
-             mw.target.tag!='img' &&
+             mw.target.tag != 'img' &&
+             event.target !== mw.image_resizer &&
              mw.target.item.className!='image_change' && $(mw.image_resizer).hasClass("active")){
            $(mw.image_resizer).removeClass("active");
         }

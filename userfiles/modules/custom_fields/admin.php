@@ -166,6 +166,8 @@ mw_custom_fileds_changed_callback = function(el){
 }	
 
 </script>
+
+<div class="module-live-edit-settings">
   <div id="custom-field-editor" class="mw-ui-box mw-ui-box-content" style="display: none">
     <label class="mw-ui-label"><small>
       <?php _e("Edit"); ?>
@@ -209,6 +211,6 @@ mw_custom_fileds_changed_callback = function(el){
           id="mw_custom_fields_list_preview"  />
   </div>
 </div>
-
+</div>
 
 

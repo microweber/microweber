@@ -1,6 +1,6 @@
 
 
-<div class="mw-ui-box-content">
+<div class="module-live-edit-settings">
 
 <a href="<?php print admin_url('view:').$params['module']  ?>" class="mw-ui-btn pull-right mw-ui-btn-medium mw-ui-btn-notification" target="_blank"><?php _e("See form entires"); ?></a>
 
