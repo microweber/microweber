@@ -625,7 +625,6 @@ mw.drag = {
            if(!mw.isDrag && mw.tools.hasClass(target, 'mw-empty')){
             var p = mwd.createElement('p');
             p.className = 'element';
-            p.innerHTML = 'test';
             $(target).replaceWith(p);
             mw.wysiwyg.select_all(p);
            }

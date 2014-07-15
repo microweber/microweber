@@ -986,6 +986,7 @@ body.loaded #live_edit_toolbar{
   top: 0;
   left: 0;
   border-bottom: 1px solid #DDDDDD;
+
 }
 
 
@@ -1287,7 +1288,6 @@ body.loaded #live_edit_toolbar{
   float: left;
   list-style: none;
   position: relative;
-  height: 50px;
 }
 
 .mw-dropdown-list{

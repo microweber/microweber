@@ -1139,6 +1139,8 @@ a:hover .mw_ed_tree_content{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: #B3B3B3;
+  font-size: 11px;
 }
 
 .manage-post-item-links a:hover{

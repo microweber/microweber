@@ -229,23 +229,25 @@ class Update
             mkdir($cookie);
         }
         $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_api_url;
+        $requestUrl = $this->remote_url;
+
         if ($method != false) {
-            $requestUrl = $requestUrl . '?api_function=' . $method;
+            $requestUrl = $requestUrl . 'api/mw_check?api_function=' . $method;
         }
 
-        $curl = new \Microweber\Utils\Curl();
-        $curl->setUrl($requestUrl);
-        $curl->url = $requestUrl;
-        $curl->timeout = 10;
+//        $curl = new \Microweber\Utils\Curl();
+//        $curl->setUrl($requestUrl);
+//        $curl->url = $requestUrl;
+//
+//        $curl->timeout = 10;
 
 
         $post_params['site_url'] = $this->app->url->site();
         $post_params['api_function'] = $method;
 
         if ($post_params != false and is_array($post_params)) {
-            $curl_result = $curl->post($post_params);
-            //  print $curl_result;
+            $curl_result =  $this->app->http->url($requestUrl)->post($post_params);
+
         } else {
             $curl_result = false;
         }
@@ -253,6 +255,7 @@ class Update
             return false;
         }
         $result = false;
+        //print $curl_result;
         if ($curl_result != false) {
             $result = json_decode($curl_result, 1);
         }
@@ -314,9 +317,11 @@ class Update
         if ($dl_get != false) {
             $dl_get = json_decode($dl_get, true);
 
-            if ($dl_get['url']) {
+            if (isset($dl_get['url'])) {
 
                 return $this->install_from_market($dl_get);
+            } else {
+                d($dl_get);
             }
         }
 

@@ -127,7 +127,7 @@ class Curl
     public function post($data = false)
     {
 
-        $is_new_curl = class_exists('CurlFile',false);
+        $is_new_curl = class_exists('CurlFile', false);
 
         if (is_array($data)) {
 
@@ -181,7 +181,7 @@ class Curl
 
     private function buildPostString()
     {
-        $is_new_curl = class_exists('CurlFile',false);
+        $is_new_curl = class_exists('CurlFile', false);
         if (function_exists("curl_init")) {
             $this->fields_string = null;
             foreach ($this->post_data as $key => $value) {
@@ -258,7 +258,7 @@ class Curl
             }
 
             curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
-            $is_new_curl = class_exists('CurlFile',false);
+            $is_new_curl = class_exists('CurlFile', false);
 
             if ($this->fields_string != false) {
                 curl_setopt($ch, CURLOPT_POST, 1);
@@ -268,7 +268,10 @@ class Curl
                     } else {
                         $str = array_merge($this->post_data, $this->uploads);
                     }
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, $str);
+                     if (is_array($str)) {
+                        $str = http_build_query($str);
+                    }
+                     curl_setopt($ch, CURLOPT_POSTFIELDS, $str);
                 } else {
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $this->fields_string);
                 }
@@ -314,8 +317,6 @@ class Curl
         return $result;
     }
 
-    //Starts curl and sets headers and returns the data in a string
-
     private function setHeaders($type = '')
     {
 
@@ -342,5 +343,19 @@ class Curl
             }
         }
         return $this;
+    }
+
+    //Starts curl and sets headers and returns the data in a string
+
+    private function is_multidim_array($myarray)
+    {
+        if (count($myarray) == count($myarray, COUNT_RECURSIVE))
+        {
+           return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 }

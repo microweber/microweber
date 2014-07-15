@@ -3,7 +3,7 @@
 $config = array();
 $config['name'] = "Settings";
 $config['author'] = "Microweber";
-$config['ui_admin'] = true;
+$config['ui_admin'] = false;
 $config['ui'] = false;
 $config['is_system'] = true;
 
