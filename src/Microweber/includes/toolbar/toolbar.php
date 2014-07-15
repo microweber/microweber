@@ -254,10 +254,10 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
           </span>
 
 
-          <?php /*<a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a> */ ?>
+          <?php /*  <a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a> */ ?>
 
 
-          <span id="toolbar-back-to-admin"><span class="mw-icon-arrowleft" style=" font-size: 33px;"></span></span>
+          <span id="toolbar-back-to-admin"><span class="mw-icon-arrowleft" style=" font-size: 19px;"></span></span>
 
 
 

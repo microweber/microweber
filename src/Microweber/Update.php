@@ -312,6 +312,7 @@ private $temp_dir = false;
         $dl_get = $this->app->http->url($url)->post($params);
         if ($dl_get != false) {
             $dl_get = json_decode($dl_get, true);
+
             if ($dl_get['url']) {
 
                 return $this->install_from_market($dl_get);
@@ -499,6 +500,18 @@ private $temp_dir = false;
         if (isset($item['url']) and !isset($item['download'])) {
             $item['download'] = $item['url'];
         }
+        $download_target = false;
+        if (isset($item['download']) and !isset($item['size'])) {
+            $url = $item['url'];
+            $download_target = $this->temp_dir . basename($url);
+            $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
+            if (!is_file($download_target)) {
+
+                $dl = $this->app->http->url($url)->download($download_target);
+
+            }
+
+        }
         if (isset($item['download']) and isset($item['size'])) {
             $expected = intval($item['size']);
 
@@ -527,7 +540,8 @@ private $temp_dir = false;
                             // d($dl);
                         } else if (!is_file($download_target_extract_lock) and is_file($download_target) or filesize($download_target) == $item['size']) {
 
-                           d($download_target_extract_lock);
+
+
 
                            // @touch($download_target_extract_lock);
                             //$unzip = new \Microweber\Utils\Unzip();
@@ -542,6 +556,41 @@ private $temp_dir = false;
 
             }
 
+
+        }
+
+        if($download_target != false and is_file($download_target)){
+
+            $where_to_unzip = MW_ROOTPATH;
+            if(isset($item['item_type'])){
+                if($item['item_type'] == 'module'){
+                    $where_to_unzip = MW_MODULES_DIR;
+                } elseif($item['item_type'] == 'template'){
+                    $where_to_unzip = MW_TEMPLATES_DIR;
+                }
+                if(isset($item['install_path']) and $item['install_path'] != false){
+
+                }
+                $where_to_unzip = $where_to_unzip.DS.$item['install_path'];
+                $where_to_unzip = str_replace('..','',$where_to_unzip);
+                $where_to_unzip = normalize_path($where_to_unzip,true);
+
+                $unzip = new \Microweber\Utils\Unzip();
+                 $target_dir = $where_to_unzip;
+                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
+                 return array('files'=>$result,'success' => "Item is installed");
+
+               // d($where_to_unzip);
+//                 @touch($download_target_extract_lock);
+//                $unzip = new \Microweber\Utils\Unzip();
+//                 $target_dir = $where_to_unzip;
+//                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
+//                  return array('sssstry_again' => "true", 'success' => "Patch is completed");
+               // d($item);
+               // d($where_to_unzip);
+                //d($download_target);
+
+            }
 
         }
 

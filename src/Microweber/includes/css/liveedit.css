@@ -1277,7 +1277,7 @@ body.loaded #live_edit_toolbar{
 
 
 .toolbar-sections-tabs > ul > li .mw-ui-btn-nav{
-  margin: 8px 15px 0px;
+  margin: 0 15px 0px;
 }
 .toolbar-sections-tabs > ul > li{
   float: left;
@@ -1975,7 +1975,7 @@ body.design_hover .element-current{
 
 #toolbar-back-to-admin{
   position: absolute;
-  width: 30px;
+  width: 40px;
   height: 100%;
   right: 0;
   top: 0;
@@ -1983,6 +1983,8 @@ body.design_hover .element-current{
   cursor: pointer;
   background: black;
   color: white;
+  text-align: center;
+  padding-top: 14px;
 }
 
 
@@ -2103,7 +2105,7 @@ body.design_hover .element-current{
 .mw-toolbar-right-content{
   float: right;
   width: 230px;
-  padding: 3px 0;
+  padding: 3px 40px 3px 0;
 }
 
 #toolbar-dropdown-actions{
