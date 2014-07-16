@@ -279,16 +279,13 @@ class Update
     function marketplace_link($params = false)
     {
         $url = $this->remote_url . 'market_link';
-
-        $url_resp = $this->app->http->url($url)->get($params);
+        $url_resp = $this->app->http->url($url)->post($params);
         if ($url_resp != false) {
             $url = json_decode($url_resp, 1);
             if (isset($url['url'])) {
                 return $url['url'];
             }
         }
-
-        ///return $url_resp;
     }
 
     function install_market_item($params)

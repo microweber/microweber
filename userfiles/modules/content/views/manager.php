@@ -30,7 +30,7 @@ mw.delete_single_post = function(id){
    mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function(){
       var arr = id;
        mw.post.del(arr, function(){
-        mw.$(".manage-post-item-"+id).fadeOut();
+        mw.$(".manage-post-item-"+id).fadeOut(function(){ $(this).remove() });
       });
    });
 }
