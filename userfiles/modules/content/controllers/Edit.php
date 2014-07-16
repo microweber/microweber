@@ -248,6 +248,28 @@ class Edit
             }
 
         }
+		
+//		 if (isset($data['subtype']) and $data['subtype'] == 'product') {
+//            $data['prices'] = $this->app->fields->get("no_cache=1&field_type=price&for=content&for_id=" . $data['id']);
+//			if($data['prices'] == false){
+//
+//
+//
+//
+//			$create_price_field = $this->app->fields->save("field_type=price&for=content&for_id=" . $data['id']);
+//
+//			} else {
+//			}
+//
+//			$data['prices'] = $this->app->fields->get("field_type=price&for=content&for_id=" . $data['id']);
+//
+//			  // d($data['prices']);
+//        } else {
+//           // $data['prices'] = false;
+//        }
+		
+		
+		
 
         /* END OF SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
 

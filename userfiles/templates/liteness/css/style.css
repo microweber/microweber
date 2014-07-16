@@ -402,7 +402,71 @@ img{
 
 .edit[field='content'][rel='content'] ul,
 .edit[field='content'][rel='content'] ol{
-	padding-left: 16px;	
+	padding-left: 16px;
+}
+
+.edit[rel='post'][field='content'] > .element,
+.edit[rel='post'][field='content'] .mw-col-container > .element,
+.edit[rel='post'][field='content'] .mw-col-container > .module,
+.edit[rel='post'][field='content'] > .module{
+  margin-bottom: 20px;
+}
+.edit[rel='post'][field='content'] > .element:last-child,
+.edit[rel='post'][field='content'] > .module:last-child{
+  margin-bottom: 0;
+}
+.edit[rel='post'][field='content'] > .element > .mw-row{
+  margin-top:0;
+  margin-bottom:0;
+}
+.edit[rel='post'][field='content'] > .element > img.element{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.edit[rel='post'][field='content']  .module + .module{
+  margin-top: 20px;
+}
+
+.edit[field='content'][rel='post'] ul,
+.edit[field='content'][rel='post'] ol{
+	padding-left: 16px;
+}
+
+
+.edit[rel='page'][field='content'] > .element,
+.edit[rel='page'][field='content'] .mw-col-container > .element,
+.edit[rel='page'][field='content'] .mw-col-container > .module,
+.edit[rel='page'][field='content'] > .module{
+  margin-bottom: 20px;
+}
+.edit[rel='page'][field='content'] > .element:last-child,
+.edit[rel='page'][field='content'] > .module:last-child{
+  margin-bottom: 0;
+}
+.edit[rel='page'][field='content'] > .element > .mw-row{
+  margin-top:0;
+  margin-bottom:0;
+}
+.edit[rel='page'][field='content'] > .element > img.element{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.edit[rel='page'][field='content']  .module + .module{
+  margin-top: 20px;
+}
+
+.edit[field='content'][rel='page'] ul,
+.edit[field='content'][rel='page'] ol{
+	padding-left: 16px;
+}
+
+.edit[rel='page'][field='content']  .element,
+.edit[rel='post'][field='content']  .element,
+.edit[rel='content'][field='content']  .element{
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 /**********************

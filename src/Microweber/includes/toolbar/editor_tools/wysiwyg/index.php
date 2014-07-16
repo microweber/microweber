@@ -13,7 +13,7 @@
 <script>mw.require("wysiwyg.js");</script>
 <script>mw.require("external_callbacks.js");</script>
 
- 
+
 
 
 <script>
@@ -69,10 +69,14 @@ PrepareEditor = function(){
                 var html = el.html();
                 edmwdoc.body.innerHTML = html;
                 $('[contenteditable]', edmwdoc.body).removeAttr('contenteditable');
-
                 var html = edmwdoc.body.innerHTML;
                 parent.mw.$("iframe#"+window.name).trigger("change", html);
           }, 600);
+
+       setTimeout(function(){
+         ScaleFrame()
+       }, 333)
+
      });
   }
 }
@@ -103,6 +107,7 @@ ScaleFrame();
         }
     }
   });
+
 
 });
 

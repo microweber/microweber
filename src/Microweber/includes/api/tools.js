@@ -3803,7 +3803,13 @@ mw.image = {
           resizer.className = 'mw-defaults mw_image_resizer';
           resizer.innerHTML = '<div class="mw-ui-btn-nav" id="image-edit-nav"><span class="mw-ui-btn image_change" onclick="mw.image.settings();"><span class="mw-icon-pen"></span>Edit</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-info image_change"><span class="mw-icon-image"></span>Change</span></div>';
           document.body.appendChild(resizer);
-          mw.image_resizer = resizer
+          mw.image_resizer = resizer;
+          $(resizer).bind("dblclick", function(e){
+            d(e.target)
+            if(e.target === mw.image_resizer){
+                mw.wysiwyg.media('#editimage');
+            }
+          });
         }
       },
       prepare:function(){

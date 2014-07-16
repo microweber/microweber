@@ -236,6 +236,8 @@ class Parser
                         $m_tag = rtrim($m_tag, "/>");
                         $m_tag = rtrim($m_tag);
                         $userclass = '';
+
+
                         $module_html = "<div class='__USER_DEFINED_CLASS__ __MODULE_CLASS__ __WRAP_NO_WRAP__' __MODULE_ID__ __MODULE_NAME__";
 
                         $module_has_class = false;

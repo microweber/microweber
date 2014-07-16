@@ -119,9 +119,7 @@ else {
 					<?php elseif ($view == 'content' and $action!=false): ?>
                     class="active-parent"
 					<?php endif; ?>
-                    ><a
-                            href="<?php print admin_url(); ?>view:content" title=""> <span
-                                class="mw-icon-website"></span> <strong><?php _e("Website"); ?></strong> </a>
+                    ><a href="<?php print admin_url(); ?>view:content" title=""> <span class="mw-icon-website"></span> <strong><?php _e("Website"); ?></strong> </a>
                         <ul>
                             <li  <?php if ($action == 'pages'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:content/action:pages"><?php _e("Pages"); ?></a></li>
@@ -159,12 +157,6 @@ else {
                                     href="<?php print admin_url(); ?>view:shop/action:options"><?php _e("Options"); ?></a></li>
                         </ul>
                     </li>
-
-                    <?php for($t=0;$t<0;$t++){ ?>
-
-                    <li><a href="javascript:;"><span class="mw-icon-android-alarm"></span><strong>Item</strong></a></li>
-
-                    <?php  } ?>
 
                       <li class="user-menu-sub">
                       <a href="<?php print $past_page  ?>?editmode=y">

@@ -44,10 +44,11 @@ $edit_page_info = $data;;
                                    id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
           </div>
 
-          
+
                  <?php if($edit_page_info['subtype'] == 'product'){  ?>
-                        <div class="mw-ui-col" style="width: 100px; padding-left: 12px; ">
-                            <input type="text" class="mw-ui-invisible-field mw-ui-field-big admin-imp-field w100" name="product_price" placeholder="0.00" />
+                        <div class="mw-ui-col" style="width: 150px; padding-left: 20px; ">
+                            <span id="product-price-field-label"><?php print mw('shop')->currency_symbol(); ?></span>
+                            <input type="text" class="mw-ui-invisible-field mw-ui-field-big admin-imp-field" name="product_price" id="product-price-field" placeholder="0.00" />
                         </div>
                  <?php } ?>
         </div>

@@ -232,7 +232,7 @@ class Update
         $requestUrl = $this->remote_url;
 
         if ($method != false) {
-            $requestUrl = $requestUrl . 'api/mw_check?api_function=' . $method;
+            $requestUrl = $requestUrl . 'api/mw_check';
         }
 
 //        $curl = new \Microweber\Utils\Curl();
@@ -313,12 +313,8 @@ class Update
         $dl_get = $this->app->http->url($url)->post($params);
         if ($dl_get != false) {
             $dl_get = json_decode($dl_get, true);
-
-            if (isset($dl_get['url'])) {
-
-                return $this->install_from_market($dl_get);
-            } else {
-
+             if (isset($dl_get['url'])) {
+                 return $this->install_from_market($dl_get);
             }
         }
 

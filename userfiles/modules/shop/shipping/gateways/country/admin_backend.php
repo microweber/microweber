@@ -297,8 +297,6 @@ foreach ($datas as $data_key => $data): ?>
                                   <span class="">
 
                                 <?php if ($new == true): ?>
-
-
                                     <?php _e("Add new"); ?>
                                 <?php else : ?>
                                     <?php _e("Shipping to"); ?>
@@ -367,7 +365,8 @@ foreach ($datas as $data_key => $data): ?>
                             </td>
                             <td class="shipping-country-setting">
                                 <div class="mw-ui-row" style="width: auto">
-                                    <div class="mw-ui-col"><div class="mw-ui-col-container"><span class="mw-ui-label"><?php _e("Price per order"); ?></span>
+                                    <div class="mw-ui-col">
+                                        <div class="mw-ui-col-container"><span class="mw-ui-label"><?php _e("Price per order"); ?></span>
         						<select name="shipping_type" class="mw-ui-field shipping_type_dropdown">
                                     <option value="fixed"  <?php if (isset($item['shipping_type']) and 'fixed' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?> ><?php _e("Fixed"); ?></option>
                                     <option value="dimensions" <?php if (isset($item['shipping_type']) and 'dimensions' == trim($item['shipping_type'])): ?>   selected="selected" <?php endif; ?>><?php _e("Dimensions or Weight"); ?></option>
@@ -430,7 +429,7 @@ foreach ($datas as $data_key => $data): ?>
                                 name="shipping_cost_above"
                                 value="<?php print $item['shipping_cost_above']; ?>"
                                 placeholder="0">
-                                <span class="mw-ui-label-help"><?php _e("example"); ?> <?php print currency_format(100) ?></span>
+                                <span class="mw-ui-label-help"><?php _e("example"); ?> <?php print currency_format(100); ?></span>
 
                               </div></div></div>
                                   <div class="mw-ui-col">
@@ -462,14 +461,13 @@ foreach ($datas as $data_key => $data): ?>
                     </button>
                     
                     <?php if ($new == false): ?>
-                        <span title="<?php _e("Reorder the countries"); ?>" class="mw-icon-drag iMove shipping-handle-field"></span> <span
-                            onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');"
-                            class="mw-ui-delete-x" title="<?php _e("Delete"); ?>"></span>
+                        <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag iMove shipping-handle-field"></span>
+                        <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-ui-delete-x" title="<?php _e("Delete"); ?>"></span>
                     <?php endif; ?>
                 </form>
             </div>
         <?php endforeach; ?>
         </div>
-        <div class="mw_clear"></div>
+
     <?php endif; ?>
 <?php endforeach; ?>

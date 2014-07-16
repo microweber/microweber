@@ -69,7 +69,7 @@ html,body{
 
 .modules-list-init{
     overflow:auto;
-    max-height:210px
+    max-height:260px;
 }
 .modules-list-init li{
   list-style: none;

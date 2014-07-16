@@ -540,12 +540,14 @@ h2 > [class*="mw-icon-"]:first-child{
 .publish-btn{
   visibility: hidden;
 }
-.post-un-publish, .post-un-publish .mw-ui-btn{
+.post-un-publish,
+.post-un-publish .mw-ui-btn{
   position: absolute;
   bottom: 3px;
   right: 3px;
   width: 100px;
-  color: #4D4D4D;
+  color: white;
+  background-color: #ef924d;
 }
 
 .post-un-publish:hover .publish-btn{
@@ -1902,6 +1904,20 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   background-position: right bottom;
   background-repeat: no-repeat;
 }
+#product-price-field{
+  height: auto;
+  width: 100px;
+
+}
+
+#product-price-field-label{
+  float: left;
+  font-size: 19px;
+  margin: 0 10px 0 0;
+  color: #8F8F8F;
+  margin: 13px 10px 0 0;
+}
+
 .admin-manage-toolbar-scrolled #content-title-field{
     border-bottom-color:transparent;
     background-image: none;
