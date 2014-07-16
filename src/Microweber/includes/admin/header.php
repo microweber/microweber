@@ -99,11 +99,11 @@ else {
 <div id="mw-admin-container">
     <div class="mw-ui-row main-admin-row">
         <div class="mw-ui-col main-bar-column">
-            <div id="main-bar">
+            <div id="main-bar" class="scroll-height-exception-master">
                 <?php $view = url_param('view'); ?>
                 <?php $action = url_param('action'); ?>
 
-                <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="<?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
+                <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
                     <span class="mw-icon-mw"></span>
                     <strong><?php _e("Dashboard"); ?></strong>
                 </a>
@@ -140,7 +140,7 @@ else {
                              <?php
                             	$notif_html = '';
                             	$notif_count = mw('Microweber\Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
-                             	if( $notif_count > -1){
+                             	if( $notif_count > 0){
                                 $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
                                    print $notif_html;
                                 ?>
@@ -159,10 +159,39 @@ else {
                                     href="<?php print admin_url(); ?>view:shop/action:options"><?php _e("Settings"); ?></a></li>
                         </ul>
                     </li>
-                    <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:modules" title=""> <span class="mw-icon-module"></span>
-                            <strong><?php _e("Modules"); ?></strong> </a></li>
-                    <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>><a href="<?php print admin_url(); ?>view:settings" title=""> <span class="mw-icon-gear"></span>
-                            <strong><?php _e("Settings"); ?></strong> </a></li>
+
+                    <?php for($t=0;$t<0;$t++){ ?>
+
+                    <li><a href="javascript:;"><span class="mw-icon-android-alarm"></span><strong>Item</strong></a></li>
+
+                    <?php  } ?>
+
+                      <li class="user-menu-sub">
+                      <a href="<?php print $past_page  ?>?editmode=y">
+                          <span class="mw-icon-live" style="font-size: 24px;"></span>
+                          <strong><?php _e("Live Edit"); ?></strong>
+                      </a>
+                      </li>
+                      <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>>
+                          <a href="<?php print admin_url(); ?>view:modules">
+                              <span class="mw-icon-module" style="font-size: 24px;"></span>
+                              <strong><?php _e("Extensions"); ?></strong>
+                          </a>
+                      </li>
+                      <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>>
+                          <a href="<?php print admin_url(); ?>view:settings">
+                              <span class="mw-icon-gear" style="font-size: 24px;"></span>
+                              <strong><?php _e("Settings"); ?></strong>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="javascript:;">
+                              <span class="mw-icon-upgrades" style="font-size: 24px;"></span>
+                              <strong><?php _e("Upgrades"); ?></strong>
+                          </a>
+                      </li>
+
+
                     <li id="main-menu-toggle">
                         <a href="javascript:;"><span class="mw-icon-menu"></span></a>
                     </li>
@@ -216,11 +245,38 @@ if ($last_page_front != false) {
         });
     </script> 
 
-                <div id="user-menu">
-   <div class="user-menu-go-live-btn">
-<a title="<?php _e("Live Edit"); ?>" class="go-live-edit-btn-admin-sidebar go-live-edit-href-set" href="<?php print $past_page  ?>"><span class="mw-icon-live">
-			<?php _e("Live Edit"); ?></span>
-			</a></div>
+                <div id="user-menu" class="scroll-height-exception">
+
+               <?php  /*
+
+               <ul class="bottom-user-menu" id="bottom-menu">
+                  <li>
+                      <a href="<?php print $past_page  ?>">
+                          <span class="mw-icon-live"></span>
+                          <span><?php _e("Live Edit"); ?></span>
+                      </a>
+                  </li>
+                  <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>>
+                      <a href="<?php print admin_url(); ?>view:modules">
+                          <span class="mw-icon-module"></span>
+                          <span><?php _e("Extensions"); ?></span>
+                      </a>
+                  </li>
+                  <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>>
+                      <a href="<?php print admin_url(); ?>view:settings">
+                          <span class="mw-icon-gear"></span>
+                          <span><?php _e("Settings"); ?></span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="javascript:;">
+                          <span class="mw-icon-upgrades"></span>
+                          <span><?php _e("Upgrades"); ?></span>
+                      </a>
+                  </li>
+               </ul>     */  ?>
+
+
 
                             <?php $user_id = user_id(); $user = get_user_by_id($user_id);
 

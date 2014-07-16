@@ -2469,7 +2469,7 @@ mw.tools = {
            right:-mw.tools.TemplateSettingsModalDefaults.width - 115,
            left: 'auto',
            top: mw.tools.TemplateSettingsModalDefaults.top,
-           zIndex:1099,
+           zIndex:1099
         }).addClass('mw-template-settings-hidden');
 
         $(window).bind('resize', function(){

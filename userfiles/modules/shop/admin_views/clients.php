@@ -6,12 +6,6 @@
 $(document).ready(function(){
   Rotator = mwd.getElementById('clients-rotator');
   mw.admin.simpleRotator(Rotator);
-
-})
-
-
-
-
   mw.on.hashParam("clientorder", function(){
     if(this!=false){
         mwd.getElementById('mw-clientorder').setAttribute('data-order-id', this);
@@ -21,21 +15,16 @@ $(document).ready(function(){
      }
      else{
        mw.reload_module('#mw-clients-orders');
-        Rotator.go(0)
+        Rotator.go(0);
      }
   });
+});
+
+
 </script>
-
-
-<div class="mw-simple-rotator">
+<div class="admin-section-container"><div class="mw-simple-rotator">
     <div class="mw-simple-rotator-container" id="clients-rotator">
-
-<module id="mw-clients-orders" type="shop/orders/clients" />
-
-<div id="mw-clientorder"></div>
-
+        <module id="mw-clients-orders" type="shop/orders/clients" />
+        <div id="mw-clientorder"></div>
     </div>
-</div>
-
-
-
+</div></div>

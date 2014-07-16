@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=asd996sdfssdfsdfsdfdsdfsdf874121') format('truetype');
+  src: url('fonts/font.ttf?mwv=asd996sdfssdfsdfsdfdsdfsdassdfdsfdsfdsfdsfdsdasdf874121') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -185,6 +185,12 @@
 }
 .mw-icon-file:before {
   content: "\0141";
+}
+.mw-icon-upgrades:before {
+  content: "\0142";
+}
+.mw-icon-shopcart:before {
+  content: "\0143";
 }
 .mw-icon-alert:before {
   content: "\f101";
@@ -888,10 +894,10 @@
 .mw-icon-ios7-camera-outline:before {
   content: "\f164";
 }
-.mw-icon-ios7-cart:before {
+.mw-icon-cart:before {
   content: "\f167";
 }
-.mw-icon-ios7-cart-outline:before {
+.mw-icon-cart-outline:before {
   content: "\f166";
 }
 .mw-icon-ios7-chatboxes:before {
@@ -1646,9 +1652,6 @@
 }
 .mw-icon-playstation:before {
   content: "\f30a";
-}
-.mw-icon-plus:before {
-  content: "\f218";
 }
 .mw-icon-plus-circled:before {
   content: "\f216";

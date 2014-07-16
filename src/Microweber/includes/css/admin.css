@@ -212,9 +212,18 @@ h2 > [class*="mw-icon-"]:first-child{
     max-width: 100%;
 }
 
-.main-content-column > .mw-ui-col-container{
+.main-content-column > .mw-ui-col-container, .admin-section-container{
   padding-left: 35px;
   background-color: white;
+}
+
+.admin-section-container:after{
+   content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 #mw-modules-toolbar + #mw-main-module-backend,
@@ -953,7 +962,7 @@ a:hover .mw_ed_tree_content{
   left: 0;
   width: 100%;
   text-align: center;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
 }
 
 
@@ -1046,6 +1055,46 @@ a:hover .mw_ed_tree_content{
   padding: 0;
   width: 115px;
   display: block;
+}
+
+
+
+.bottom-user-menu {
+  background: black;
+}
+
+.bottom-user-menu li{
+  list-style: none;
+}
+
+.bottom-user-menu li a{
+    color: #999;
+    display: block;
+    font-size: 13px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+
+.bottom-user-menu li a:hover{
+  color: white;
+}
+
+
+.bottom-user-menu  a [class*="mw-icon-"]{
+    font-size: 24px;
+}
+
+.bottom-user-menu a span{
+  display: block;
+}
+
+.bottom-user-menu a span + span{
+  visibility: hidden;
+}
+
+.bottom-user-menu a:hover span + span{
+  visibility: visible;
 }
 
 
@@ -3001,6 +3050,7 @@ tr.mw-order-item:hover{
 .section-header h3{
   margin-top: 0;
 }
+
 
 /* Shipping */
 

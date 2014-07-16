@@ -49,9 +49,11 @@ function mw_delete_shop_order($p_id,$is_cart){
 }
 </script>
 <?php  mw('Microweber\Notifications')->mark_as_read('shop');  ?>
-<div class="mw-simple-rotator">
-    <div class="mw-simple-rotator-container" id="orders-rotator">
-      <module type="shop/orders/manage"  id="mw-admin-manage-orders"  />
-      <div id="mw-admin-edit-order"></div>
-    </div>
+<div class="admin-section-container">
+  <div class="mw-simple-rotator">
+      <div class="mw-simple-rotator-container" id="orders-rotator">
+        <module type="shop/orders/manage"  id="mw-admin-manage-orders"  />
+        <div id="mw-admin-edit-order"></div>
+      </div>
+  </div>
 </div>

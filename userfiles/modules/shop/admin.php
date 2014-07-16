@@ -57,6 +57,3 @@ if($active_action != false){
 <module type="content/backend" id="mw-content-backend" is_shop="y" />
 <?php endif; ?>
 <?php endif; ?>
-
-
-

@@ -80,25 +80,25 @@ ordersSort = function(obj){
 </style>
 <?php $is_orders = get_orders('count=1'); ?>
 
+
+
+
+
 <div class="mw-table-sorting-controller">
-	<div class="section-header"><h2><?php _e("Orders List"); ?></h2> </div>
-
-
-
+	<div class="section-header"><h2><span class="mw-icon-shopcart"></span><?php _e("Orders List"); ?></h2> </div>
 	<div class="mw-ui-row" style="margin-bottom: 20px;">
         <div class="mw-ui-col">
             <select name="order_type" id="mw-admin-order-type-filter" class="mw-ui-field" autocomplete="off">
-        		<option value="completed">Completed orders</option>
-        		<option value="carts">Abandoned carts</option>
+        		<option value="completed"><?php _e("Completed orders"); ?></option>
+        		<option value="carts"><?php _e("Abandoned carts"); ?></option>
         	</select>
             <div class="mw-table-sorting right mw-admin-order-sort-carts" style="display:none">
-        	    <span class="mw-ui-btn" onclick="mw_admin_set_order_type_filter();">Refresh</span>
+        	    <span class="mw-ui-btn" onclick="mw_admin_set_order_type_filter();"><?php _e("Refresh"); ?></span>
         	</div>
         </div>
         <div class="mw-ui-col">
     	<?php  if($is_orders != 0){    ?>
         	<div class="mw-table-sorting right mw-admin-order-sort-completed">
-
                   <div class="mw-ui-btn-nav pull-right unselectable" style="margin-left: 10px;">
                   	<span class="mw-ui-btn" data-sort-type="created_on" onclick="ordersSort({id:'shop-orders', el:this});">
                   		<?php _e("Date"); ?>
@@ -111,7 +111,6 @@ ordersSort = function(obj){
                   	</span>
                   </div>
                   <label class="pull-right" style="margin-top: 10px;"><?php _e("Sort By"); ?>:</label>
-
         	</div>
     	<?php  } ?>
         </div>

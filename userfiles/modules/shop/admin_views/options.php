@@ -1,4 +1,1 @@
-
- 
-    <module type="shop/settings"   />
- 
+<div class="admin-section-container"><module type="shop/settings"   /></div>

@@ -5,6 +5,8 @@ $custom_tabs = false;
 $type = 'page';
 $act = url_param('action', 1);
 ?>
+
+ 
 <?php
 
 if(isset($params['page-id'])){
@@ -167,8 +169,12 @@ $( "#content_type_filter_by_select" ).change(function() {
                 <?php _e("Posts"); ?>
               </h2>
               <?php elseif ($act == 'products'): ?>
-              <h2><span class="mw-icon-website"></span>
+              <h2><span class="mw-icon-shop""></span>
                 <?php _e("Products"); ?>
+              </h2>
+              <?php elseif (isset($params['is_shop'])): ?>
+               <h2><span class="mw-icon-shop"></span>
+                <?php _e("My Shop"); ?>
               </h2>
               <?php else: ?>
               <h2><span class="mw-icon-website"></span>
@@ -185,7 +191,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                 <span class="mw-ui-btn mw-icon-plus"><span class=""></span></span>
                 <div class="mw-ui-dropdown-content">
                     <div class="mw-ui-btn-vertical-nav">
-                           <?php   event_trigger('content.create.menu'); ?>
+                           <?php event_trigger('content.create.menu'); ?>
 
     <?php $create_content_menu = mw()->module->ui('content.create.menu'); ?>
     <?php if (!empty($create_content_menu)): ?>
@@ -322,3 +328,6 @@ $( "#content_type_filter_by_select" ).change(function() {
     </div>
   </div>
 </div>
+
+
+

@@ -1,1 +1,1 @@
- <module type="shop/shipping" view="admin" />
+<div class="admin-section-container"><module type="shop/shipping" view="admin" /></div>

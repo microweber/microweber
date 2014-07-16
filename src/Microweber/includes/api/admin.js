@@ -356,10 +356,12 @@ mw.admin = {
             $(all).width($(rotator).width()).css('overflow', 'hidden');
             var _w = 0, i = 0;
             for( ; i<l; i++){
-              var css = mw.CSSParser(all[i]).get,
-                  margin = css.margin(true);
-                  width = all[i].offsetWidth;
-              _w += (width + margin.left + margin.right);
+              if(all[i].nodeName === 'DIV'){
+                  var css = mw.CSSParser(all[i]).get,
+                      margin = css.margin(true);
+                      width = all[i].offsetWidth;
+                  _w += (width + margin.left + margin.right);
+              }
             }
             $(rotator).width(_w);
             rotator.go = function(where, callback, method){
