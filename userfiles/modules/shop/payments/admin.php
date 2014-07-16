@@ -13,9 +13,13 @@ if(!is_admin()){
 
 setActiveProvider = function(el){
   if(el.checked == true){
-    el.value == 'y'? $(el.parentNode.parentNode).addClass("active") : $(el.parentNode.parentNode).removeClass("active");
+    if(el.value == 'y') {
+       $(mw.tools.firstParentWithClass(el, 'payment-state-status')).addClass("active");
+    }
+    else{
+       $(mw.tools.firstParentWithClass(el, 'payment-state-status')).removeClass("active");
+    }
   }
-
 }
 
 
@@ -177,6 +181,22 @@ mw.$("#available_providers").sortable({
 
 
 <style>
+.mw-set-payment-options{
+  padding-left: 30px;
+}
+
+.admin-side-box{
+  padding-top: 19px;
+}
+
+
+
+.mw-set-payment-options #shipping-units-setup{
+  padding: 20px 0 0;
+}
+
+
+
 .otab {
 	display: none;
 }
@@ -199,15 +219,18 @@ mw.$("#available_providers").sortable({
 	padding: 12px 12px 5px;
 	display: inline-block;
 	margin-top: 12px;
+	-webkit-transition: all 200ms;
+	-moz-transition: all 200ms;
+	-o-transition: all 200ms;
 	transition: all 200ms;
+    border:none;
 }
 .payment-state-status {
 	background: #F27E54;
 	color: white;
 }
 .payment-state-status.active {
-	background: #D7FFC3;
-	color: #6C6C6C;
+	background: #48ad79;
 }
 
 .mw-ui-box-header .mw-icon-drag {
@@ -282,14 +305,11 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 ?>
 
 
-<div class="mw-admin-wrap">
-  <div class="mhas-options-bar">
-
-    <div class="mw-ui-box-content" style="padding: 0 0 15px;">
-      <div class="mw-ui-row">
+<div class="mw-ui-row">
         <div class="mw-ui-col" style="width: 200px;">
           <div class="mw-ui-col-container">
-            <div class="options-bar" style="margin-right: 0;">
+            <div class="fixed-side-column" >
+               <div class="admin-side-box"><h2 class="mw-side-main-title"><span class="mw-icon-gear"></span><?php _e("Options"); ?></h2></div>
               <div class="mw-ui-sidenav" style="margin-top: 15px;">
                 <ul>
                   <li><a class="payment-tab active" href="javascript:;">
@@ -310,9 +330,11 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
           <div class="mw-ui-col-container">
             <div class="mw-set-payment-options">
               <div class="otab" style="display: block">
-                <h2>
-                  <?php _e("Payment providers"); ?>
-                </h2>
+                <div class="section-header">
+                    <h2>
+                      <?php _e("Payment providers"); ?>
+                    </h2>
+                </div>
                 <?php if(is_array($payment_modules )): ?>
                 <div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
                   <?php foreach($payment_modules  as $payment_module): ?>
@@ -343,9 +365,11 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 
                     </div>
                     <div class="mw-ui-box-content mw-accordion-content">
-                      <label class="mw-ui-label">
-                      <h3><?php print $payment_module['name'] ?>:</h3>
-                      <div class="mw-ui-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?>">
+
+                      <div class="mw-ui-row">
+                          <div class="mw-ui-col"><h3><?php print $payment_module['name'] ?>:</h3></div>
+                          <div class="mw-ui-col">
+                              <div class="mw-ui-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?> pull-right">
                         <div class="mw-ui-check-selector">
                           <label class="mw-ui-check">
                             <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
@@ -359,7 +383,10 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                             </span> </label>
                         </div>
                       </div>
-                      </label>
+                          </div>
+                      </div>
+
+
                       <div class="mw-set-payment-gw-options" >
                         <module type="<?php print $payment_module['module'] ?>" view="admin" />
                       </div>
@@ -382,22 +409,12 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <span></span><span>
                   <?php _e("Yes"); ?>
                   </span></label>
-                                  
+
 
                 <hr>
-                <h2><?php _e("Currency settings"); ?></h2>
-                <?php ?>
-                <?php $cur = get_option('currency', 'payments');  ?>
-                <?php $curencies = mw('shop')->currency_get();  ?>
-                <?php if(is_array($curencies )): ?>
-                <select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
-                  <?php foreach($curencies  as $item): ?>
-                  <option  value="<?php print $item[1] ?>" <?php if($cur == $item[1]): ?> selected="selected" <?php endif; ?>><?php print $item[1] ?> <?php print $item[3] ?> (<?php print $item[2] ?>)</option>
-                  <?php endforeach ; ?>
-                </select>
-                <?php endif; ?>
-                <module type="shop/payments/currency_render" id="mw_curr_rend" />
-                
+                <module type="shop/payments/currency" id="mw_curr_select" />
+
+
                 <h2><?php _e("Checkout URL"); ?></h2>
                 <?php ?>
                 <?php $checkout_url = get_option('checkout_url', 'shop');  ?>
@@ -421,9 +438,11 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                 <br />
                 </div>
               <div class="otab">
-                <h2>
-                  <?php _e("Send email to the client on new order"); ?>
-                </h2>
+                <div class="section-header">
+                  <h2>
+                    <?php _e("Send email to the client on new order"); ?>
+                  </h2>
+                </div>
                 <label class="mw-ui-check" style="margin-right: 15px;">
                   <input name="order_email_enabled" class="mw_option_field"    data-option-group="orders"  value="y"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') == 'y'): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
@@ -495,7 +514,4 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 

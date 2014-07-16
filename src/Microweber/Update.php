@@ -318,7 +318,7 @@ class Update
 
                 return $this->install_from_market($dl_get);
             } else {
-                d($dl_get);
+
             }
         }
 

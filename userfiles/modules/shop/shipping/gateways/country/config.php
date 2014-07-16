@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Shipping to country module";
+$config['name'] = "Shipping to country";
 $config['author'] = "Microweber";
 $config['ui'] = false;
 $config['categories'] = "online shop";

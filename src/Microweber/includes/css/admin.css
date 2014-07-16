@@ -1893,7 +1893,7 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   padding-top: 5px;
 }
 
-#content-title-field{
+#content-title-field, .admin-imp-field{
   font-size: 26px;
   height: auto;
   width: 100%;
@@ -2072,7 +2072,11 @@ input#edit-content-url:focus, input#edit-content-url.active{
 
 .admin-manage-toolbar-title-icon{
   font-size: 28px;
-  margin-top: 6px;
+  margin-top: 14px;
+}
+
+.mw-icon-category.admin-manage-toolbar-title-icon{
+  margin-top: 5px;
 }
 
 .admin-manage-toolbar.fix-tabs.admin-manage-toolbar-scrolled .admin-manage-toolbar-content{
@@ -2387,7 +2391,17 @@ body.grabbing, body.grabbing *{
 }
 
 
+.mwahi{
+  font-size: 18px !important;
+  margin-left: 5px;
+  top: -2px;
+  cursor: help;
+  color: #888888;
+}
 
+.mwahi:hover{
+  color: #111;
+}
 
 /************************************
        Admin tooltip
@@ -2399,6 +2413,23 @@ body.grabbing, body.grabbing *{
 
 .admin-universal-tooltip .mw-tooltip-content{
   color: white;
+}
+.admin-universal-tooltip .mw-tooltip-content > ol,
+.admin-universal-tooltip .mw-tooltip-content > ul{
+  padding-left: 16px;
+}
+
+.admin-universal-tooltip .mw-tooltip-content > ol li,
+.admin-universal-tooltip .mw-tooltip-content > ul li{
+  padding: 2px 0;
+}
+
+.admin-universal-tooltip .mw-tooltip-content > p{
+  padding-bottom: 10px;
+}
+
+.admin-universal-tooltip .mw-tooltip-content > p:last-child{
+  padding-bottom: 0;
 }
 
 
@@ -2836,7 +2867,7 @@ body.grabbing, body.grabbing *{
 }
 
 
-.mw-ui-table-basic .tip, .statwrapper{
+.statwrapper{
   display: inline-block;
   max-width: 100%;
   overflow: hidden;
@@ -3052,10 +3083,32 @@ tr.mw-order-item:hover{
 }
 
 
+
+
+
 /* Shipping */
 
 .shipping-country-holder{
     padding: 15px;
+}
+.save_shipping_btn{
+  visibility: hidden;
+}
+
+.shipping-country-holder:hover .save_shipping_btn{
+  visibility: visible;
+}
+
+
+
+
+.shipping-country-holder:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 .price-field{

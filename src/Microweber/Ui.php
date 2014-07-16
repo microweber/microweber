@@ -75,12 +75,14 @@ class Ui
         $btn['content_type'] = 'post';
         $btn['title'] = _e("Post", true);
         $btn['class'] = 'mw-icon-post';
+        //$btn['base_url'] = admin_url('view:content/action:posts');
         $this->module('content.create.menu', $btn);
 
         $btn = array();
         $btn['content_type'] = 'category';
         $btn['title'] = _e("Category", true);
         $btn['class'] = 'mw-icon-category';
+      //  $btn['base_url'] = admin_url('view:content/action:categories');
         $this->module('content.create.menu', $btn);
 
 

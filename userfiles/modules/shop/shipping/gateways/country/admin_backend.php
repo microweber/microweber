@@ -129,7 +129,28 @@ else {
 </script>
 
 
-<div class="mw-ui-box-content"><span class="mw-ui-btn" onclick="mw.tools.module_settings('shop/shipping/set_units');">Set shipping units</span></div>
+<div id="shipping-type-tooltip" style="display: none">
+
+<p><?php _e("Select how you want to charge your clients"); ?>:</p>
+
+<ol>
+  <li><strong><?php _e("Fixed"); ?></strong> - <?php _e("It means that the shipping price is for the whole order"); ?> </li>
+  <li><strong><?php _e("Dimensions or Weight"); ?></strong> - <?php _e("The cost depends on dimensions and weight "); ?> </li>
+  <li><strong><?php _e("Per item"); ?></strong> - <?php _e("Each product has price for delivering"); ?> </li>
+</ol>
+
+</div>
+
+
+<div class="mw-ui-box-content">
+
+<span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-field').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
+	<span class="mw-icon-plus"></span><?php _e("Add Country"); ?>
+</span>
+<span class="mw-ui-btn" onclick="mw.tools.module_settings('shop/shipping/set_units');"><span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?></span>
+
+</div>
+
 <?php
 $data_active = array();
 $data_disabled = array();
@@ -169,24 +190,18 @@ foreach ($datas as $data_key => $data): ?>
     <?php if (is_array($data) and !empty($data)): ?>
 
 
-<div class="mw-ui-box-content"><span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-field').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
-	<?php _e("Add Country"); ?>
-</span></div>
 
-            <?php if ($truck_class == 'green'): ?>
-                <small class="mw-ui-label-help"><?php _e("Shipping to those countries is enabled"); ?>. <br/><br/>
-                    <?php _e('To disable it set is active to No'); ?>.
-                </small>
-            <?php else: ?>
 
-                <small class="mw-ui-label-help"><?php _e("Shipping to those countries is disabled"); ?>. <br/><br/>
-                    <?php _e('To enable it set is active to Yes'); ?>.
-                </small>
-            <?php endif ?>
 
         <div class="mw-shipping-items <?php print $rand1 ?>" id="<?php print $rand1 ?>">
         <script type="text/javascript">
+
             SaveShipping = function (form, dataType) {
+                var country  = mw.$('[name="shipping_country"]', form).val();
+                if(country == 'none'){
+                    mw.notification.warning('<?php _e("Please choose country"); ?>')
+                    return false;
+                }
                 mw.form.post($(form), '<?php print $config['module_api']; ?>/shipping_to_country/save', function () {
                         if (dataType == 'new') {
                             mw.reload_module('<?php print $config['the_module']; ?>', function () {
@@ -276,13 +291,24 @@ foreach ($datas as $data_key => $data): ?>
                     print 'new';
                 } ?>');return false;" action="<?php print $config['module_api']; ?>/shipping_add_to_country"
                       data-field-id="<?php print $item['id']; ?>">
-                    <table class="mw-ui-table admin-shipping-table">
+                    <table class="mw-ui-table mw-ui-table-basic admin-shipping-table">
                         <tr class="shipping-country-row">
-                            <td class="shipping-country-label"><?php if ($new == true): ?>
+                            <td class="shipping-country-label">
+                                  <span class="">
+
+                                <?php if ($new == true): ?>
+
+
                                     <?php _e("Add new"); ?>
                                 <?php else : ?>
                                     <?php _e("Shipping to"); ?>
-                                <?php endif; ?></td>
+                                <?php endif; ?>
+
+                                <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Select a country where you are able to deliver your products"); ?>" data-tipposition="right-center"></span>
+
+                                </span>
+
+                            </td>
                             <td class="shipping-country-setting"><?php if ($new == false): ?>
                                     <input type="hidden" name="id" value="<?php print $item['id']; ?>">
                                 <?php endif; ?>
@@ -305,18 +331,22 @@ foreach ($datas as $data_key => $data): ?>
                                 <option value="<?php print $item1 ?>" <?php if (isset($item['shipping_country']) and $item1 == $item['shipping_country']): ?> selected="selected" <?php else : ?> <?php print $disabled ?> <?php endif; ?>  ><?php print $item1 ?></option>
                             <?php endforeach; ?>
                         </select>
-						  <span class="shipping-arrow"></span>
+
                                     <ul class="mw-ui-inline-list">
-                                      <li><?php _e("Is active?"); ?></li>
+                                      <li>
+                                        <span><?php _e("Allow shipping to this country"); ?>
+                                            <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("You are able to allow or disallow shipping to the selected country. For example if you ship worldwide you can disallow shipping to one or more countries."); ?>" data-tipposition="right-center"></span>
+                                        </span>
+                                      </li>
                                       <li>
                                             <label class="mw-ui-check">
-                                          <input
+                                                <input
                                                   name="is_active" type="radio" class="semi_hidden is_active_n"
                                                   value="n" <?php if (isset($item['is_active']) and '' == trim($item['is_active']) or 'n' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
                                                  <span></span>
                                                  <span><?php _e("No"); ?></span>
                                             </label>
-                                    </li>
+                                      </li>
                                     <li>
                                         <label class="mw-ui-check">
                                           <input name="is_active" type="radio" class="semi_hidden is_active_y" value="y" <?php if (isset($item['is_active']) and 'y' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
@@ -328,7 +358,13 @@ foreach ($datas as $data_key => $data): ?>
                             </td>
                         </tr>
                         <tr class="shipping-country-row">
-                            <td class="shipping-country-label"><?php _e("Shipping type"); ?></td>
+                            <td class="shipping-country-label">
+
+                                <?php _e("Shipping type"); ?>
+
+                                <span class="mw-icon-help-outline mwahi tip" data-tip="#shipping-type-tooltip" data-tipposition="right-center"></span>
+
+                            </td>
                             <td class="shipping-country-setting">
                                 <div class="mw-ui-row" style="width: auto">
                                     <div class="mw-ui-col"><div class="mw-ui-col-container"><span class="mw-ui-label"><?php _e("Price per order"); ?></span>
@@ -343,6 +379,7 @@ foreach ($datas as $data_key => $data): ?>
                                        <label class="mw-ui-label"><?php _e("Shipping cost"); ?> <?php print mw('shop')->currency_symbol() ?></label>
                                        <input class="mw-ui-field shipping-price-field price-field" type="text" onkeyup="mw.form.typeNumber(this);"
                                          placeholder="0"
+                                         name="shipping_cost"
                                          value="<?php print $item['shipping_cost']; ?>" />
                                     </div>
                                     </div>
@@ -379,7 +416,7 @@ foreach ($datas as $data_key => $data): ?>
                             </td>
                         </tr>
                         <tr class="shipping-country-row">
-                            <td class="shipping-country-label"><?php _e("Shipping Discount"); ?></td>
+                            <td class="shipping-country-label"><?php _e("Shipping Discount cost"); ?><span class="mw-icon-help-outline mwahi tip" data-tip="For example you can define, if a client makes an order that is above $100 the the shipping will cost $5 " data-tipposition="right-center"></span></td>
                             <td class="shipping-country-setting">
                               <div class="mw-ui-row" style="width: auto">
                               <div class="mw-ui-col">
@@ -414,12 +451,18 @@ foreach ($datas as $data_key => $data): ?>
                             </td>
                         </tr>
                     </table>
-                    <button class="mw-ui-btn save_shipping_btn" type="submit">
+                    <button class="mw-ui-btn mw-ui-btn-invert save_shipping_btn" type="submit">
+
+                    <?php if ($new == true): ?>
+                         <?php _e("Add"); ?>
+                    <?php else: ?>
                         <?php _e("Save"); ?>
+
+                    <?php endif; ?>
                     </button>
                     
                     <?php if ($new == false): ?>
-                        <span title="Move" class="ico iMove shipping-handle-field"></span> <span
+                        <span title="<?php _e("Reorder the countries"); ?>" class="mw-icon-drag iMove shipping-handle-field"></span> <span
                             onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');"
                             class="mw-ui-delete-x" title="<?php _e("Delete"); ?>"></span>
                     <?php endif; ?>

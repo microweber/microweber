@@ -37,13 +37,19 @@ $edit_page_info = $data;;
                 $action_text = $action_text . ' ' . $action_text2;
                 if (isset($edit_page_info['title'])): ?>
         <div class="mw-ui-row-nodrop" id="content-title-field-row">
-          <div class="mw-ui-col" style="width: 30px;"><span
-                                class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span> </div>
+          <div class="mw-ui-col" style="width: 30px;"><span class="mw-icon-<?php print $type; ?> admin-manage-toolbar-title-icon"></span> </div>
           <div class="mw-ui-col">
             <input type="text" class="mw-ui-invisible-field mw-ui-field-big"
                                    value="<?php print $edit_page_info['title'] ?>"
                                    id="content-title-field" <?php if ($edit_page_info['title'] == false): ?> placeholder="<?php print $action_text ?>"  <?php endif; ?> />
           </div>
+
+          
+                 <?php if($edit_page_info['subtype'] == 'product'){  ?>
+                        <div class="mw-ui-col" style="width: 100px; padding-left: 12px; ">
+                            <input type="text" class="mw-ui-invisible-field mw-ui-field-big admin-imp-field w100" name="product_price" placeholder="0.00" />
+                        </div>
+                 <?php } ?>
         </div>
         <script>mwd.getElementById('content-title-field').focus();</script>
         <?php else: ?>

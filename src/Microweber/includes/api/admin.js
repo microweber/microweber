@@ -367,7 +367,8 @@ mw.admin = {
             rotator.go = function(where, callback, method){
                 var method = method || 'animate';
                 $(rotator).dataset('state', where);
-                var item = $(rotator).children()[where];
+                var item = rotator.children[where];
+                if(typeof item === 'undefined' || item.innerHTML == '' || item.offsetHeight == 0) { return false };
                 var item_left = $(item).offset().left;
                 var rleft =  $(rotator).offset().left;
                 $(rotator).stop()[method]({left:-(item_left-rleft)}, function(){

@@ -3,11 +3,6 @@ $(document).ready(function(){
 
       Rotator = mwd.getElementById('orders-rotator');
 
-      $(window).bind('resize', function(){
-     //    mw.$('.mw-simple-rotator-item').width(mw.$('.mw-simple-rotator').width());
-         $(Rotator).stop()[0].go(1);
-      })
-
       mw.admin.simpleRotator(Rotator);
 
       mw.on.hashParam("vieworder", function(){
@@ -37,12 +32,10 @@ $(document).ready(function(){
 
 });
 
-function mw_delete_shop_order($p_id,$is_cart){
-    if($is_cart == undefined){
-      $is_cart = false;
-    }
+function mw_delete_shop_order(pid, iscart){
+     var iscart = iscart || false;
      mw.tools.confirm("<?php _e("Are you sure you want to delete this order"); ?>?", function(){
-        $.post("<?php print api_url('delete_order') ?>", { id: $p_id,is_cart:$is_cart} ,function(data) {
+        $.post("<?php print api_url('delete_order') ?>", { id: pid,is_cart:iscart}, function(data) {
             mw.reload_module('shop/orders');
         });
      });

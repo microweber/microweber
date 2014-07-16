@@ -156,7 +156,7 @@ else {
                             <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:shop/action:shipping"><?php _e("Shipping"); ?></a></li>
                             <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:options"><?php _e("Settings"); ?></a></li>
+                                    href="<?php print admin_url(); ?>view:shop/action:options"><?php _e("Options"); ?></a></li>
                         </ul>
                     </li>
 

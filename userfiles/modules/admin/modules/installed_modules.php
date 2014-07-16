@@ -168,7 +168,7 @@ function mw_show_my_modules(){
 
 </script>
 
-<div  id="edit-content-row" class="mw-ui-row">
+<div id="edit-content-row" class="mw-ui-row">
   <div class="mw-ui-col tree-column">
     <div class="tree-column-holder">
       <div class="fixed-side-column scroll-height-exception-master">
