@@ -1114,17 +1114,13 @@ mw.drag = {
 
                         if(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')){
                                if(position=='top'){
-                                  $(mw.currentDragMouseOver).prepend(mw.dragCurrent); 
+                                  $(mw.currentDragMouseOver).prepend(mw.dragCurrent);
                                }
                                else{
                                     mw.currentDragMouseOver.appendChild(mw.dragCurrent);
                                }
-
-
                             return false;
                         }
-
-
                         if($(mw.currentDragMouseOver).hasClass("mw-empty")){
                             $(mw.currentDragMouseOver).before(mw.dragCurrent);
                             return false;

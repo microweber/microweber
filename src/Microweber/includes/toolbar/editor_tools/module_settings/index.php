@@ -311,6 +311,11 @@ if (isset($_GET['type'])) {
 						 
 						 }
                         if (window.parent.mw != undefined) {
+							
+							if(self !== top){
+								mw.reload_module_parent('#<?php print $params['id'] ?>');
+							}
+							
                             if (window.parent.mw.reload_module != undefined) {
                                 if(!!mw.admin){
                                   window.parent.mw.reload_module('#<?php print $params['id'] ?>');
@@ -351,6 +356,11 @@ if (isset($_GET['type'])) {
 
 
                                     window.mw.reload_module(also_reload);
+									
+									
+									if(self !== top){
+										mw.reload_module_parent(also_reload);
+									}
 
                                 }
                             }

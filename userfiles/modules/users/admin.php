@@ -4,23 +4,16 @@
 <?php endif; ?>
   <div id="users-admin">
     <style scoped="scoped">
-
-#sort-users .mw-ui-row,
-#sort-users .mw-ui-row *{
-  vertical-align: middle;
-}
-
-#sort-users{
-  padding-bottom: 35px;
-}
-
-</style>
+        #sort-users .mw-ui-row,
+        #sort-users .mw-ui-row *{
+          vertical-align: middle;
+        }
+        #sort-users{
+          padding-bottom: 35px;
+        }
+    </style>
     <?php only_admin_access(); ?>
-    <script type="text/javascript">
-
-    mw.require('forms.js', true);
-
-</script> 
+    <script type="text/javascript"> mw.require('forms.js', true); </script>
     <script type="text/javascript">
 
     $(document).ready(function () {
@@ -152,10 +145,10 @@
     });
 
 
-    function mw_admin_delete_user_by_id($user_id) {
+    function mw_admin_delete_user_by_id(id) {
         mw.tools.confirm("<?php _e("Are you sure you want to delete this user?"); ?>", function () {
             data = {};
-            data.id = $user_id
+            data.id = id
             $.post("<?php print api_link() ?>delete_user", data, function () {
                 _mw_admin_users_manage();
             });
@@ -165,13 +158,13 @@
 </script>
     <?php
 
-  $mw_notif = (url_param('mw_notif'));
-  if ($mw_notif != false) {
-      $mw_notif = mw('Microweber\Notifications')->read($mw_notif);
-  }
-  mw('Microweber\Notifications')->mark_as_read('users');
+      $mw_notif = (url_param('mw_notif'));
+      if ($mw_notif != false) {
+          $mw_notif = mw('Microweber\Notifications')->read($mw_notif);
+      }
+      mw('Microweber\Notifications')->mark_as_read('users');
 
-?>
+    ?>
     <?php if (is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -180,14 +173,17 @@
         });
     </script>
     <?php endif; ?>
-    <a href="javascript:mw.url.windowHashParam('edit-user',0)" class="mw-ui-btn mw-ui-btn-notification"> <span class="mw-icon-plus"></span><span>
-    <?php _e("Add new user"); ?>
-    </span> </a>
+    <a href="javascript:mw.url.windowHashParam('edit-user',0)" class="mw-ui-btn mw-ui-btn-notification">
+      <span class="mw-icon-plus"></span>
+      <span>
+      <?php _e("Add new user"); ?>
+      </span>
+    </a>
     <input
-                  name="module_keyword"
-                  class="mw-ui-searchfield pull-right" type="search"
-                  placeholder="<?php _e("Search for users"); ?>"
-                  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
+          name="module_keyword"
+          class="mw-ui-searchfield pull-right" type="search"
+          placeholder="<?php _e("Search for users"); ?>"
+          onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
     <hr>
     <div class="manage-items" id="sort-users">
       <div class="mw-ui-row">

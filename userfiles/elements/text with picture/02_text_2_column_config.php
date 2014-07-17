@@ -1,7 +1,7 @@
 <?php
 
 $config = array();
-$config['name'] = "Two Coloms with Pictures";
+$config['name'] = "Two Columns with Pictures";
 $config['author'] = "Microweber";
 $config['description'] = "2 columns with text and picture";
 $config['website'] = "http://microweber.com";

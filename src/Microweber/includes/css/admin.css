@@ -2861,6 +2861,55 @@ body.grabbing, body.grabbing *{
   float: left;
 }
 
+#change_avatar {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+	float: left;
+	white-space: nowrap;
+	margin-top: 15px;
+}
+#avatar_holder {
+	width: 65px;
+	height: 65px;
+	float: left;
+	margin-right: 12px;
+	position: relative;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    text-align: center;
+}
+
+#avatar_holder .mw-icon-user {
+  font-size: 50px;
+  color: #999999;
+}
+#avatar_holder .mw-icon-user + .mw-icon-close {
+  display: none;
+}
+#avatar_holder .mw-icon-close {
+	position: absolute;
+	z-index: 1;
+	top: 3px;
+	right: 5px;
+	visibility: hidden;
+    font-size: 11px;
+    cursor: pointer;
+}
+#avatar_holder:hover .mw-icon-close {
+	visibility: visible;
+}
+#reset_password{
+  margin-right: 12px;
+}
+
+
+.mw-edit-user-table .mw-ui-btn.pull-right{
+  margin-left: 12px;
+}
+
+
 
 /************************************
         Dashboard

@@ -155,6 +155,7 @@ class IdiOrm
         $max = false;
         $avg = false;
         $ids = false;
+        $exclude_ids = false;
         $current_page = false;
         $count_paging = false;
         $to_search_in_fields = false;
@@ -169,6 +170,10 @@ class IdiOrm
             if (isset($params['ids'])) {
                 $ids = $params['ids'];
                 unset($params['ids']);
+            }
+            if (isset($params['exclude_ids'])) {
+                $exclude_ids = $params['exclude_ids'];
+                unset($params['exclude_ids']);
             }
 
             if (isset($params['fields'])) {
@@ -371,7 +376,7 @@ class IdiOrm
                                         $field_value = str_replace('[gte]', '', $field_value);
                                     }
                                     if (stristr($field_value, '[mt]')) {
-                                        $two_chars = '>';
+                                        $one_char = '>';
                                         $field_value = str_replace('[mt]', '', $field_value);
                                     }
                                     if (stristr($field_value, '[mte]')) {
@@ -416,7 +421,7 @@ class IdiOrm
                                     }
                                 }
 
-
+//d($one_char);
                                 if ($field_value == 'is_null') {
                                     $where_method = 'where_null';
                                     $field_value = $field_name;
@@ -425,31 +430,53 @@ class IdiOrm
                                     $field_value = $field_name;
                                 } else if ($two_chars == '<=' or $two_chars == '=<') {
                                     $where_method = 'where_lte';
-                                    $field_value = substr($field_value, 2, $field_value_len);
+                                    $two_char_left = substr($field_value, 0, 2);
+                                    if ($two_char_left === '<=' or $two_char_left === '=<') {
+                                        $field_value = substr($field_value, 2, $field_value_len);
+                                    }
                                 } elseif ($two_chars == '>=' or $two_chars == '=>') {
                                     $where_method = 'where_gte';
-                                    $field_value = substr($field_value, 2, $field_value_len);
+                                    $two_char_left = substr($field_value, 0, 2);
+                                    if ($two_char_left === '>=' or $two_char_left === '=>') {
+                                        $field_value = substr($field_value, 2, $field_value_len);
+                                    }
                                 } elseif ($two_chars == '!=' or $two_chars == '=!') {
                                     $where_method = 'where_not_equal';
-                                    $field_value = substr($field_value, 2, $field_value_len);
+                                    $two_char_left = substr($field_value, 0, 2);
+                                    if ($two_char_left === '!=' or $two_char_left === '=!') {
+                                        $field_value = substr($field_value, 2, $field_value_len);
+                                    }
                                 } elseif ($two_chars == '!%' or $two_chars == '%!') {
                                     $where_method = 'where_not_like';
-                                    $field_value = '%' . substr($field_value, 2, $field_value_len);
+                                    $two_char_left = substr($field_value, 0, 2);
+                                    if ($two_char_left === '!%' or $two_char_left === '%!') {
+                                        $field_value = '%' . substr($field_value, 2, $field_value_len);
+                                    } else {
+                                        $field_value = '%' . $field_value;
+                                    }
                                 } elseif ($one_char == '%') {
                                     $where_method = 'where_like';
                                 } elseif ($one_char == '>') {
                                     $where_method = 'where_gt';
-                                    $field_value = substr($field_value, 1, $field_value_len);
+                                    $one_char_left = substr($field_value, 0, 1);
+                                    if ($one_char_left == '>') {
+                                        $field_value = substr($field_value, 1, $field_value_len);
+                                    }
                                 } elseif ($one_char == '<') {
                                     $where_method = 'where_lt';
-                                    $field_value = substr($field_value, 1, $field_value_len);
+                                    $one_char_left = substr($field_value, 0, 1);
+                                    if ($one_char_left == '<') {
+                                        $field_value = substr($field_value, 1, $field_value_len);
+                                    }
+
                                 } elseif ($one_char == '=') {
                                     $where_method = 'where_equal';
-                                    $field_value = substr($field_value, 1, $field_value_len);
+                                    $one_char_left = substr($field_value, 0, 1);
+                                    if ($one_char_left == '=') {
+                                        $field_value = substr($field_value, 1, $field_value_len);
+                                    }
                                 }
-
                                 if ($where_method == false) {
-
                                     $orm->where_equal($table_alias . '.' . $field_name, $field_value);
                                 } else {
                                     $orm->$where_method($table_alias . '.' . $field_name, $field_value);
@@ -488,6 +515,12 @@ class IdiOrm
                 $ids = explode(',', $ids);
             }
             $orm->where_in($table . '.id', ($ids));
+        }
+        if ($exclude_ids != false) {
+            if (is_string($exclude_ids)) {
+                $exclude_ids = explode(',', $exclude_ids);
+            }
+            $orm->where_not_in($table . '.id', ($exclude_ids));
         }
 
         if ($group_by == false) {

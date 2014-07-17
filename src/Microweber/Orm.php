@@ -66,6 +66,8 @@ class Orm
 
     function get($table, $params = false)
     {
+
+
         return $this->adapter->get($table, $params);
     }
 

@@ -181,7 +181,9 @@ mw.tools = {
             tipheight = $(tooltip).height(),
             off = el.offset(),
             arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
-
+        if(off.top < 0 || off.left < 0){
+            return false;
+        }
         if(position == 'bottom-left'){
          $(tooltip).css({
              top:off.top + h + arrheight,
@@ -250,7 +252,7 @@ mw.tools = {
         }
         else if(position == 'right-center'){
          $(tooltip).css({
-             top:off.top -  tipheight/2 + h/2,
+             top:off.top - tipheight/2 + h/2,
              left:off.left + w + arrheight
          });
         }
@@ -2295,6 +2297,7 @@ mw.tools = {
     return el;
   },
   loading:function(el, state){
+    if(typeof el === 'string'){ var el = mwd.querySelector(el); }
     if(el === null || !el) return false;
     var state = typeof state === 'undefined' ? true : state;
     if(el !== mwd.body && el !== mwd.documentElement){

@@ -42,16 +42,15 @@ $data = $data[0];
 </script>
 <script  type="text/javascript">
 
-_mw_admin_save_user_form<?php  print $data['id']; ?> = function(){
-
+SaveAdminUserForm<?php  print $data['id']; ?> = function(){
     if(mwd.getElementById("reset_password").value == ''){
         mwd.getElementById("reset_password").disabled = true;
     }
-
- mw.form.post(mw.$('#users_edit_{rand}') , '<?php print api_link('save_user') ?>', function(){
+    mw.tools.loading('#mw-main-module-backend');
+    mw.form.post(mw.$('#users_edit_{rand}') , '<?php print api_link('save_user') ?>', function(){
       UserId = this;
 	  mw.reload_module('[data-type="users/manage"]', function(){
-	    mw.url.windowDeleteHashParam('edit-user');
+	   // mw.url.windowDeleteHashParam('edit-user');
         mw.notification.success('<?php _e("All changes saved"); ?>');
         setTimeout(function(){
             mw.tools.highlight(mwd.getElementById('mw-admin-user-'+UserId));
@@ -64,20 +63,27 @@ uploader = mw.files.uploader({
 });
 
 
-Pixum =  "<?php print pixum(67,67); ?>";
 
 $(document).ready(function(){
 
     mw.$("#change_avatar").append(uploader);
 
     $(uploader).bind("FileUploaded", function(a,b){
-          mw.$("#avatar_image").attr("src", b.src);
+          mw.$("#avatar_holder")
+            .css("backgroundImage", 'url(' + b.src + ')')
+            .find(".mw-icon-user")
+            .remove();
           mw.$("#user_thumbnail").val(b.src);
     });
 
-    mw.$("#avatar_holder .mw-close").click(function(){
-      mw.$("#avatar_image").attr("src", Pixum);
-      mw.$("#user_thumbnail").val("");
+    mw.$("#avatar_holder .mw-icon-close").click(function(){
+      if(mw.$("#avatar_holder .mw-icon-user").length === 0){
+          mw.$('#avatar_holder')
+            .css('backgroundImage', 'none')
+            .prepend('<span class="mw-icon-user"></span>');
+          mw.$("#user_thumbnail").val("");
+      }
+
     });
 
 });
@@ -98,47 +104,7 @@ reset_password = function(y){
 }
 
 </script>
-<style>
-#change_avatar {
-	position: relative;
-	overflow: hidden;
-	display: inline-block;
-	float: left;
-	white-space: nowrap;
-	margin-top: 15px;
-}
-#avatar_holder {
-	width: 67px;
-	max-height: 67px;
-	float: left;
-	margin-right: 12px;
-	position: relative;
-	border: 1px solid #ccc;
-}
-#avatar_holder img {
-	max-width: 67px;
-	max-height: 67px;
-}
-#avatar_holder .mw-close {
-	position: absolute;
-	z-index: 1;
-	top: 3px;
-	right: 3px;
-	visibility: hidden;
-}
-#avatar_holder:hover .mw-close {
-	visibility: visible;
-}
-#reset_password{
-  margin-right: 12px;
-}
 
-
-.mw-edit-user-table .mw-ui-btn.pull-right{
-  margin-left: 12px;
-}
-
-</style>
 
 <div class="mw-ui-box <?php print $config['module_class'] ?> user-id-<?php  print $data['id']; ?>" id="users_edit_{rand}">
   <div class="mw-ui-box-header" style="margin-bottom: 0;"> <span class="ico iusers"></span>
@@ -159,12 +125,12 @@ reset_password = function(y){
       <tr>
         <td><label class="mw-ui-label"><?php _e("Avatar"); ?></label></td>
         <td><?php if($data['thumbnail'] == ''){    ?>
-          <div id="avatar_holder"><img src="<?php print pixum(67,67); ?>" id="avatar_image" alt=""  /><span class="mw-close"></span></div>
+          <div id="avatar_holder"><span class="mw-icon-user"></span></div>
           <span class='mw-ui-link' id="change_avatar">
           <?php _e("Add Image"); ?>
           </span>
           <?php   } else {   ?>
-          <div id="avatar_holder"><img src="<?php print $data['thumbnail']; ?>" id="avatar_image" alt="" /><span class="mw-close"></span></div>
+          <div id="avatar_holder" style="background-image: url(<?php print $data['thumbnail']; ?>)"><span class="mw-icon-close"></span></div>
           <span class='mw-ui-link' id="change_avatar">
           <?php _e("Change Image"); ?>
           </span>
@@ -259,7 +225,7 @@ reset_password = function(y){
       
       <tr class="no-hover">
         <td>&nbsp;</td>
-        <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="_mw_admin_save_user_form<?php  print $data['id']; ?>()">
+        <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="SaveAdminUserForm<?php  print $data['id']; ?>()">
           <?php _e("Save"); ?>
           </span> <span class="mw-ui-btn mw-ui-btn-medium pull-right"  onclick="mw.url.windowDeleteHashParam('edit-user');">
           <?php _e("Cancel"); ?>

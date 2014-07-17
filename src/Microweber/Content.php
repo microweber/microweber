@@ -4058,6 +4058,7 @@ class Content
         } else {
             if (isset($cont_data['position']) and $cont_data['position'] > 0) {
                 $params['position'] = $compare_q . $cont_data['position'];
+
             }
             $params['order_by'] = 'created_on asc';
             if (trim($mode) == 'prev') {
