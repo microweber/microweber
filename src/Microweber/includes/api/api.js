@@ -184,6 +184,7 @@ mw.askusertostay = false;
     save: "<?php _e('Save');  ?>",
     saving: "<?php _e('Saving');  ?>",
     saved: "<?php _e('Saved');  ?>",
+    settings: "<?php _e('Settings');  ?>",
     cancel: "<?php _e('Cancel');  ?>",
     remove: "<?php _e('Remove');  ?>",
     close: "<?php _e('Close');  ?>",

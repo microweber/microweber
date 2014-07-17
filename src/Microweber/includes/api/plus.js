@@ -40,6 +40,9 @@ mw.drag.plus = {
       else if(mw.tools.hasParentsWithTag(target, 'p')){
           return mw.tools.firstParentWithTag(target, 'p');
       }
+      else if(mw.tools.hasClass(target, 'mw-empty')){
+          return target;
+      }
       else{
          mw.drag.plusTop.style.top = -9999 +'px';
          mw.drag.plusBottom.style.top = -9999 +'px';
@@ -53,6 +56,7 @@ mw.drag.plus = {
     if(left < 15){
       var left = 15;
     }
+
     mw.drag.plusTop.style.top = off.top + 'px';
     mw.drag.plusTop.style.left = left + 'px';
     mw.drag.plusTop.currentNode = node;
@@ -144,7 +148,7 @@ InsertModule = function(module, cls){
     mw.load_module(module, '#'+id, function(){
         mw.drag.plus.locked = false;
         mw.drag.fixes();
-        setTimeout(function(){mw.drag.fix_placeholders();}, 40)
+        setTimeout(function(){mw.drag.fix_placeholders();}, 40);
         mw.resizable_columns();
         mw.dropable.hide();
       }, cls);

@@ -623,10 +623,7 @@ mw.drag = {
              mw.$(".tc-activecell").removeClass('tc-activecell');
            }
            if(!mw.isDrag && mw.tools.hasClass(target, 'mw-empty')){
-            var p = mwd.createElement('p');
-            p.className = 'element';
-            $(target).replaceWith(p);
-            mw.wysiwyg.select_all(p);
+
            }
         });
 
@@ -677,10 +674,10 @@ mw.drag = {
 
 
           if(title != ''){
-             $(mw.handle_module).find(".mw-element-name-handle").html(title);
+             mw.$(".mw-element-name-handle", mw.handle_module).html(title);
           }
           else{
-             $(mw.handle_module).find(".mw-element-name-handle").html("Settings");
+             mw.$(".mw-element-name-handle", mw.handle_module).html(mw.msg.settings);
           }
 
           $(mw.handle_module).find(".mw_edit_delete").dataset("delete", element.id);
@@ -1034,7 +1031,6 @@ mw.drag = {
                  }
              }
         });
-
     },
     the_drop: function () {
         if(!$(mwd.body).hasClass("bup")){
@@ -1117,8 +1113,13 @@ mw.drag = {
                         mw.dropable.removeClass("mw_dropable_onleaveedit");
 
                         if(mw.tools.hasClass(mw.currentDragMouseOver, 'mw-col-container')){
+                               if(position=='top'){
+                                  $(mw.currentDragMouseOver).prepend(mw.dragCurrent); 
+                               }
+                               else{
+                                    mw.currentDragMouseOver.appendChild(mw.dragCurrent);
+                               }
 
-                               mw.currentDragMouseOver.appendChild(mw.dragCurrent)
 
                             return false;
                         }
@@ -1267,11 +1268,6 @@ mw.drag = {
                     mw.currentDragMouseOver = null;
 
                     $(mw.currentDragMouseOver).removeClass("currentDragMouseOver");
-
-
-
-
-
 				}, 77);
 			}
 		});
@@ -1430,7 +1426,7 @@ mw.drag = {
     },
     ModuleSettingsPopupLoaded : function(id){
 
-   mw.$("#"+id+" .mw_option_field").bind("change blur", function () {
+        mw.$("#"+id+" .mw_option_field").bind("change blur", function () {
 
                 var refresh_modules11 = $(this).attr('data-refresh');
 
@@ -1574,9 +1570,9 @@ mw.drag = {
 			var $exisintg_num = mw.$('#' + $el_id).children(".mw-col").length;
 
 			if ($numcols == 0) {
-				$numcols = 1;
+				var $numcols = 1;
 			}
-			$numcols = parseInt($numcols);
+			var $numcols = parseInt($numcols);
 			if ($exisintg_num == 0) {
 				$exisintg_num = 1;
 			}
