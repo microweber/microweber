@@ -155,7 +155,7 @@ $(document).ready(function(){
             mw.$('.mw-dropdown-value', this).html($(this).dataset('default'))
 		});
 	});
-	
+
 mw_custom_fileds_changed_callback = function(el){
     mw.tools.loading('#quick-add-post-options-items-holder-container');
 	 mw.reload_module('#mw_custom_fields_list_preview', function(){
@@ -183,7 +183,7 @@ mw_custom_fileds_changed_callback = function(el){
       </div>
     </div>
   </div>
-  <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-info mw-dropdown-val">
+  <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val">
     <?php _e("Add New Field"); ?>
     </span>
     <div class="mw-dropdown-content">

@@ -1574,16 +1574,34 @@ a:hover .mw_ed_tree_content{
 
 
 #dropdown-custom-fields .mw-dropdown-content{
-  width: 200px;
+  width: 550px;
   max-height: 180px;
+  box-shadow: 0 0 6px -4px #000;
+  -webkit-box-shadow: 0 0 6px -3px #000;
+}
+
+#dropdown-custom-fields li{
+  float: left;
+  border: none;
+  display: block;
+  text-align: center;
+  min-width: 75px;
+}
+#dropdown-custom-fields li [class*="mw-custom-field-icon-"]{
+  float: none;
+  display: block;
+  font-size: 32px;
+  position: relative;
+  width: auto;
 }
 
 #dropdown-custom-fields .mw-dropdown-val{
-  width: 200px;
   text-align: left;
 }
 #dropdown-custom-fields .mw-dropdown-val:after{
-  content: "+"
+  content: "+";
+    float: left;
+    margin-right: 10px;
 }
 
 
@@ -2491,7 +2509,7 @@ body.grabbing, body.grabbing *{
   display: inline-block;
   position: relative;
   font-family: mwadmin;
-  font-size: 20px;
+  font-size: 26px;
   text-align: center;
 }
 .mw-custom-field-icon-phone:before{ content: '\0101'; }

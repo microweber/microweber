@@ -342,27 +342,32 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
     public function testCustomFields()
     {
-        $price = rand(10, 20);
-        $params = array(
-            'title' => 'My custom product test title',
-            'content_type' => 'post',
-            'subtype' => 'product',
-            'custom_field_color' => 'red',
-            'custom_field_price' => $price,
-            // 'debug' => 1,
-            'is_active' => 'y');
 
 
-        //saving
-        $product_id = save_content($params);
+
+        for ($i = 1; $i <= 10; $i++) {
+            $price = rand(10, 2000);
+            $params = array(
+                'title' => 'My custom product test title',
+                'content_type' => 'post',
+                'subtype' => 'product',
+                'custom_field_color' => 'red',
+                'custom_field_price' => $price,
+                // 'debug' => 1,
+                'is_active' => 'y');
+            //saving
+
+            $product_id = save_content($params);
+        }
+
         $product_data = get_content_by_id($product_id);
         $custom_fields = get_custom_fields($product_id);
-
 
         //test get by custom fields
         $params = array(
             'limit' => 1,
-            'custom_field_price' => $price);
+            'custom_fields.type' => 'price',
+            'custom_fields.value' => $price);
 
         $products = get_products($params);
         $found = false;
@@ -377,69 +382,54 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
         $params = array(
             'limit' => 100,
+            'custom_fields.type' => 'price',
+            'custom_fields.value' => '>' . intval($price + 1));
 
-            'custom_field_price' => '>' . intval($price + 1));
 
         $products = get_products($params);
         $found = false;
         foreach ($products as $product) {
             $custom_fields = get_custom_fields($product['id']);
-
-            $this->assertEquals(true, intval($custom_fields['price']) > $price);
-
-            //PHPUnit
-            $this->assertEquals(true, isset($product['id']));
-        }
-
-
-        $params = array(
-            'limit' => 100,
-            'custom_field_price' => '>' . intval($price - 10));
-
-        $products = get_products($params);
-        $found = false;
-        foreach ($products as $product) {
-            $custom_fields = get_custom_fields($product['id']);
-
             $this->assertEquals(true, intval($custom_fields['price']) != $price);
             //PHPUnit
             $this->assertEquals(true, isset($product['id']));
         }
 
 
+
+
+
         $params = array(
             'limit' => 100,
-            'custom_field_price' => '<' . intval($price + 10));
+            'custom_fields.type' => 'price',
+            'custom_fields.value' => '<' . intval($price + 10));
 
         $products = get_products($params);
         foreach ($products as $product) {
             $this->assertEquals(true, isset($product['id']));
         }
 
-        $params = array(
-            'limit' => 100,
-            'custom_field_price' => '<=' . intval($price + 100));
-
-        $products = get_products($params);
-        $found = false;
-        foreach ($products as $product) {
-            $this->assertEquals(true, isset($product['id']));
-        }
-
 
         $params = array(
             'limit' => 100,
-            'custom_field_price' => '<' . intval($price + 1000));
-
+            'custom_fields.type' => 'price',
+            'custom_fields.value' => '<=' . intval($price + 100));
         $products = get_products($params);
         $found = false;
         foreach ($products as $product) {
             $this->assertEquals(true, isset($product['id']));
         }
 
+
+
+
+
+
+
         $params = array(
             'limit' => 100,
-            'custom_field_price' => '[lte]' . intval($price + 1000));
+            'custom_fields.type' => 'price',
+            'custom_fields.value' => '[lte]' . intval($price + 1000));
 
         $products = get_products($params);
         foreach ($products as $product) {
@@ -447,9 +437,14 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(true, isset($product['id']));
         }
 
+
+
+
         $params = array(
             'limit' => 100,
-            'custom_field_price' => '[lt]' . intval($price + 700));
+            'custom_fields.type' => 'price',
+            'custom_fields.value' => '[lt]' . intval($price + 700));
+
 
         $products = get_products($params);
         foreach ($products as $product) {
@@ -457,9 +452,11 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(true, isset($product['id']));
         }
 
+
         $params = array(
             'limit' => 100,
-            'custom_field_price' => '[md]' . intval($price - 700));
+            'custom_fields.type' => 'price',
+            'custom_fields.value' => '[md]' . intval(10));
 
         $products = get_products($params);
         foreach ($products as $product) {
@@ -539,8 +536,8 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $params = array(
             // 'title' => 'My custom product advanced test title',
             'limit' => 1000,
-            'custom_field_price' => $price,
-            'custom_field_color' => 'red');
+            'custom_fields.name' => 'color',
+            'custom_fields.value' => 'red');
 
         $products = get_products($params);
 
@@ -629,12 +626,10 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertEquals(true, $found);
 
-
         //PHPUnit
         $this->assertEquals(true, is_array($products));
         $this->assertEquals(true, is_array($custom_fields));
         $this->assertEquals(true, isset($custom_fields['price']));
-
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-if (defined("MW_UNIT_TEST")) {
+if (!defined("MW_UNIT_TEST")) {
    define('MW_UNIT_TEST',1);
 }
 

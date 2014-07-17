@@ -1,13 +1,9 @@
 <?php
 
-if (defined("MW_UNIT_TEST")) {
+if (!defined("MW_UNIT_TEST")) {
     define('MW_UNIT_TEST',1);
 }
 
-
-if (!defined('MW_TABLE_PREFIX')) {
-  //  define('MW_TABLE_PREFIX', $GLOBALS['db_table_prefix']);
-}
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
