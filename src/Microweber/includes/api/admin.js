@@ -600,6 +600,36 @@ mw.admin = {
     else{
         mw.$('#mobile-message').visibilityDefault();
     }
+  },
+  postImageUploader:function(){
+         if(mwd.querySelector('#images-manager') === null){  return false; }
+         if(mwd.querySelector('.mw-iframe-editor') === null){ return false; }
+         if(mwd.querySelector('.mw-iframe-editor').contentWindow.mwd.querySelector('.edit') === null){ return false; }
+         mw.$('#insert-image-uploader').css('display', 'block');
+            var uploader = mw.uploader({
+                  filetypes:"images",
+                  multiple:true,
+                  element:"#insert-image-uploader"
+            });
+            $(uploader).bind("FileUploaded", function(obj, data){
+                var frameWindow = mwd.querySelector('.mw-iframe-editor').contentWindow;
+                var hasRanges = frameWindow.getSelection().rangeCount > 0;
+                var img = '<img class="element" src="'+data.src+'" />';
+                if(hasRanges && frameWindow.mw.wysiwyg.isSelectionEditable()){
+                   frameWindow.mw.wysiwyg.insert_html(img);
+                }
+                else{
+                    frameWindow.mw.$(frameWindow.mwd.querySelector('.edit')).append(img);
+                }
+            });
+
+  },
+  listPostGalleries:function(){
+         if(mwd.querySelector('#images-manager') === null){  return false; }
+         if(mwd.querySelector('.mw-iframe-editor') === null){ return false; }
+         if(mwd.querySelector('.mw-iframe-editor').contentWindow.mwd.querySelector('.edit') === null){ return false; }
+
+
   }
 }
 

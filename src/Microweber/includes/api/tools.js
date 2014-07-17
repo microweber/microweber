@@ -621,7 +621,7 @@ mw.tools = {
           return true;
         }
         else{
-          modalMain.style.top = ((_top+ft) + $(parent).scrollTop()) + 'px';
+          modalMain.style.top = ((_top-ft) + $(parent).scrollTop() - modalMain.offsetHeight) + 'px';
         }
     },
     setDimmensions:function(modal, w, h, trigger){

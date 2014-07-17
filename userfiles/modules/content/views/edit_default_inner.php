@@ -49,6 +49,10 @@
                             mw.tools.mapNodeValues(titleel, mwd.getElementById('content-title-field'))
                         }
                     }
+
+
+                    mw.admin.postImageUploader();
+
                  }
 
             }

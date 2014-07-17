@@ -11,8 +11,10 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
     <div id="content-edit-settings-tabs">
       <div id="quick-add-post-options-holder">
         <div id="quick-add-post-options">
-          <div class="mw-ui-btn-nav" >
-          <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>"> <span class="mw-icon-picture"></span> <span>
+          <div class="mw-ui-btn-nav">
+          <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>">
+            <span class="mw-icon-picture"></span>
+            <span>
             <?php _e("Add Images"); ?>
             </span> </span>
             <?php if($data['content_type'] == 'page'): ?>
@@ -52,12 +54,29 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
           <?php endif; ?>
         </div>
       </div>
-      <div id="quick-add-post-options-items-holder" class="tip-box"> <span class="mw-tooltip-arrow"></span>
+      <div id="quick-add-post-options-items-holder" class="tip-box"><span class="mw-tooltip-arrow"></span>
         <div id="quick-add-post-options-items-holder-container">
           <div class="quick-add-post-options-item" id="quick-add-gallery-items">
-            <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
-            <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
-            <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
+            <div id="images-manager">
+
+
+
+              <span class="image-manage-item" id="insert-image-uploader">
+                  <span class="mw-icon-image-frame"></span>
+                  <span><?php _e("Insert Image"); ?></span>
+              </span>
+
+              <span class="image-manage-item">
+                  <span class="mw-icon-images-frame"></span>
+                  <span><?php _e("Create Gallery"); ?></span>
+              </span>
+
+            </div>
+            <div style="display: none" id="post-gallery-manager">
+              <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
+            </div>
+                <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
+                <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
           </div>
           <?php if($data['content_type'] == 'page'): ?>
           <div class="quick-add-post-options-item">

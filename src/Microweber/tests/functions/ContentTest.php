@@ -383,6 +383,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $params = array(
             'limit' => 100,
             'custom_fields.type' => 'price',
+            'custom_fields.name' => 'price',
             'custom_fields.value' => '>' . intval($price + 1));
 
 
@@ -390,7 +391,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $found = false;
         foreach ($products as $product) {
             $custom_fields = get_custom_fields($product['id']);
-            $this->assertEquals(true, intval($custom_fields['price']) != $price);
+             $this->assertEquals(true, intval($custom_fields['price']) != $price);
             //PHPUnit
             $this->assertEquals(true, isset($product['id']));
         }
@@ -537,7 +538,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             // 'title' => 'My custom product advanced test title',
             'limit' => 1000,
             'custom_fields.name' => 'color',
-            'custom_fields.value' => 'red');
+             'custom_fields.value' => 'red');
 
         $products = get_products($params);
 
@@ -548,8 +549,7 @@ class ContentTest extends \PHPUnit_Framework_TestCase
 
             //PHPUnit
             $this->assertEquals(true, isset($custom_fields['color']));
-            $this->assertEquals(true, isset($custom_fields['price']));
-            $this->assertEquals(true, isset($product['id']));
+             $this->assertEquals(true, isset($product['id']));
         }
 
 
@@ -625,7 +625,6 @@ class ContentTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(true, isset($product['id']));
         }
         $this->assertEquals(true, $found);
-
         //PHPUnit
         $this->assertEquals(true, is_array($products));
         $this->assertEquals(true, is_array($custom_fields));

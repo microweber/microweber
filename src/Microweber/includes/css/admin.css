@@ -2498,6 +2498,29 @@ body.grabbing, body.grabbing *{
   margin: 0 3px;
 }
 
+#images-manager{
+
+}
+#insert-image-uploader{
+  display: none;
+}
+
+.image-manage-item{
+  float: left;
+  width: 150px;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.image-manage-item [class*='mw-icon-']{
+ font-size: 32px;
+ display: block;
+ text-align: center;
+ padding-bottom: 20px;
+}
+
 
 
 
