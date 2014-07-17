@@ -411,7 +411,6 @@ class IdiOrm
                                     if (stristr($field_value, '[null]')) {
                                         $field_value = 'is_null';
                                     }
-
                                     if (stristr($field_value, '[not_null]')) {
                                         $field_value = 'is_not_null';
                                     }
@@ -420,8 +419,6 @@ class IdiOrm
                                         $field_value = str_replace('[is_not]', '', $field_value);
                                     }
                                 }
-
-//d($one_char);
                                 if ($field_value == 'is_null') {
                                     $where_method = 'where_null';
                                     $field_value = $field_name;

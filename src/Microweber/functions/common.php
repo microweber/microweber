@@ -370,6 +370,7 @@ api_hook('save_content_admin', 'add_content_to_menu');
 
 function add_content_to_menu($content_id, $menu_id = false)
 {
+
     return mw()->content->add_content_to_menu($content_id, $menu_id);
 
 

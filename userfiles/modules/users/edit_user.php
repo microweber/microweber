@@ -46,12 +46,14 @@ SaveAdminUserForm<?php  print $data['id']; ?> = function(){
     if(mwd.getElementById("reset_password").value == ''){
         mwd.getElementById("reset_password").disabled = true;
     }
-    mw.tools.loading('#mw-main-module-backend');
+    mw.tools.loading('.mw-module-admin-wrap');
     mw.form.post(mw.$('#users_edit_{rand}') , '<?php print api_link('save_user') ?>', function(){
       UserId = this;
+      mw.tools.loading('.mw-module-admin-wrap', false);
 	  mw.reload_module('[data-type="users/manage"]', function(){
 	   // mw.url.windowDeleteHashParam('edit-user');
         mw.notification.success('<?php _e("All changes saved"); ?>');
+
         setTimeout(function(){
             mw.tools.highlight(mwd.getElementById('mw-admin-user-'+UserId));
         }, 300);

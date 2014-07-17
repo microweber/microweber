@@ -1582,6 +1582,9 @@ a:hover .mw_ed_tree_content{
   width: 200px;
   text-align: left;
 }
+#dropdown-custom-fields .mw-dropdown-val:after{
+  content: "+"
+}
 
 
 td.custom-field-icon, td.custom-field-icon > *{

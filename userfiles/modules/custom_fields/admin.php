@@ -140,7 +140,7 @@ mw_cf_close_edit_window = function(el){
 
 
 
- 
+
 </script>
   <script type="text/javascript">
 $(document).ready(function(){
@@ -151,14 +151,16 @@ $(document).ready(function(){
 			make_field.rel='<?php print $for; ?>';
 			make_field.rel_id='<?php print $for_id; ?>';
 			make_field.custom_field_type=val;
-			mw.custom_fields.create(make_field,mw_custom_fileds_changed_callback);
-
+			mw.custom_fields.create(make_field, mw_custom_fileds_changed_callback);
+            mw.$('.mw-dropdown-value', this).html($(this).dataset('default'))
 		});
 	});
 	
 mw_custom_fileds_changed_callback = function(el){
+    mw.tools.loading('#quick-add-post-options-items-holder-container');
 	 mw.reload_module('#mw_custom_fields_list_preview', function(){
 	   mw.admin.custom_fields.initValues();
+       mw.tools.loading('#quick-add-post-options-items-holder-container', false);
 	 });
 	 mw.reload_module_parent('custom_fields');
 	 mw.reload_module_parent('custom_fields/list');
@@ -181,8 +183,8 @@ mw_custom_fileds_changed_callback = function(el){
       </div>
     </div>
   </div>
-  <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-info mw-dropdown-val">
-    <?php _e("Add New"); ?>
+  <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-info mw-dropdown-val">
+    <?php _e("Add New Field"); ?>
     </span>
     <div class="mw-dropdown-content">
       <ul>

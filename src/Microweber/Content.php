@@ -1909,8 +1909,11 @@ class Content
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-
+        $params['one'] = true;
+        $params['limit'] = 1;
+       // $params['debug'] = true;
         $menu = $this->get_menus($params);
+        return $menu;
         if (isset($menu[0])) {
             return $menu[0];
         } else {
@@ -2648,10 +2651,11 @@ class Content
 
         $id = $this->app->user->is_admin();
         if (defined("MW_API_CALL") and $id == false) {
-
             return;
         }
+
         $content_id = intval($content_id);
+
         if ($content_id == 0 or !isset($this->tables['menus'])) {
 
             return;
@@ -2726,6 +2730,7 @@ class Content
                     //	$save['debug'] = $menus;
                     $save['parent_id'] = $value;
                     $save['position'] = 999999;
+                  //  $save['debug'] = 999999;
                     if ($add_under_parent_page != false and is_array($content_data) and isset($content_data['parent'])) {
                         $parent_cont = $content_data['parent'];
                         $check_par = $this->get_menu_items("limit=1&one=1&content_id=$parent_cont");
@@ -2735,12 +2740,16 @@ class Content
                     }
 
                     $save['url'] = '';
+
                     $save['content_id'] = $content_id;
+
                     $new_item = $this->app->db->save($menus, $save);
+                    $this->app->cache->delete('menus/global');
                     $this->app->cache->delete('menus/' . $save['parent_id']);
                     //$this->app->cache->delete('menus/' . $save['parent_id']);
 
                     $this->app->cache->delete('menus/' . $value);
+
 
                 }
             }

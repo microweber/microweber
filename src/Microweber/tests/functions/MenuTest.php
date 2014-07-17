@@ -29,9 +29,8 @@ class MenusTest extends \PHPUnit_Framework_TestCase
         $add = add_content_to_menu($parent_page, $my_menu['id']);
 
 
-
         $params = array();
-        $params['menu_id'] = $my_menu;
+        $params['menu_id'] = $my_menu['id'];
         $params['ul_class'] = 'nav-small';
         $params['maxdepth'] = 1;
         $menu = menu_tree($params);
@@ -46,9 +45,21 @@ class MenusTest extends \PHPUnit_Framework_TestCase
 
     public function testMenu()
     {
+        $my_menu_name = 'my_other_test_menu';
+        $params = array(
+            'title' => $my_menu_name,
+            'make_on_not_found' => true
+        );
+        $my_menu = get_menu($params);
+        $pages = get_pages();
+        foreach($pages as $page){
+        $add = add_content_to_menu($page['id'], $my_menu['id']);
+        }
+
+
         $params = array();
-        $params['menu_id'] = 1;
-        $params['debug'] = 1;
+        $params['menu_id'] = $my_menu['id'];
+
 
         $params['ul_class'] = 'nav-small';
         $params['maxdepth'] = 1;
@@ -59,25 +70,26 @@ class MenusTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $find_string > 0);
     }
 
-    public function testMenuWithId()
-    {
-        $params = array();
-        $params['menu_id'] = 1;
-        $menu = menu_tree($params);
-        $find_string = stripos($menu, 'menu_1');
-
-        //PHPUnit
-        $this->assertEquals(true, $find_string > 0);
-    }
 
     public function testMenuClasses()
     {
+        $my_menu_name = 'my_other_test_menu';
+        $params = array(
+            'title' => $my_menu_name,
+            'make_on_not_found' => true
+        );
+        $my_menu = get_menu($params);
+        $pages = get_pages();
+        foreach($pages as $page){
+            $add = add_content_to_menu($page['id'], $my_menu['id']);
+        }
+
+
         $params = array();
-        $params['menu_id'] = 1;
+        $params['menu_id'] = $my_menu['id'];
         $params['ul_class'] = 'nav-holder';
         $params['li_class'] = 'nav-item';
         $menu = menu_tree($params);
-
 
         //PHPUnit
         $find_string = stripos($menu, 'nav-holder');
@@ -89,8 +101,22 @@ class MenusTest extends \PHPUnit_Framework_TestCase
 
     public function testMenuTags()
     {
+
+        $my_menu_name = 'my_other_test_menu';
+        $params = array(
+            'title' => $my_menu_name,
+            'make_on_not_found' => true
+        );
+        $my_menu = get_menu($params);
+        $pages = get_pages();
+        foreach($pages as $page){
+            $add = add_content_to_menu($page['id'], $my_menu['id']);
+        }
+
+
         $params = array();
-        $params['menu_id'] = 1;
+        $params['menu_id'] = $my_menu['id'];
+
         $params['ul_tag'] = 'div';
         $params['li_tag'] = 'span';
         $menu = menu_tree($params);
