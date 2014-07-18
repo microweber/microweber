@@ -159,7 +159,7 @@ else {
                     </li>
 
                       <li class="user-menu-sub">
-                      <a href="<?php print $past_page  ?>?editmode=y">
+                      <a href="<?php print $past_page  ?>?editmode=y" class="go-live-edit-href-set" target="_blank">
                           <span class="mw-icon-live" style="font-size: 24px;"></span>
                           <strong><?php _e("Live Edit"); ?></strong>
                       </a>
@@ -221,7 +221,7 @@ if ($last_page_front != false) {
  ?><script>
         $(function () {
 
-           $( '.go-live-edit-href-set' ).click(function() {
+           $( '.go-live-edit-href-set' ).bind('mousedown',function() {
 			   var url_to_go =  $(this).attr('href');;
   					
 					var n = url_to_go.indexOf("editmode");

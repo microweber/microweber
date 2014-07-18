@@ -240,7 +240,7 @@ class Edit
             //if we are adding product in a page that is not a shop
             $parent_shop_check = $this->app->content->get_by_id($data['parent']);
 
-            if (!isset($parent_shop_check['subtype']) or $parent_shop_check['subtype'] != 'dynamic') {
+            if (!isset($parent_shop_check['content_type']) or $parent_shop_check['content_type'] != 'page') {
                 $parent_content_shop = $this->app->content->get('order_by=updated_on desc&one=true&subtype=dynamic&is_shop=n');
                 if (isset($parent_content_shop['id'])) {
                     $data['parent'] = $parent_content_shop['id'];

@@ -606,8 +606,20 @@ mw.admin = {
          if(mwd.querySelector('#images-manager') === null){  return false; }
          if(mwd.querySelector('.mw-iframe-editor') === null){ return false; }
          if(mwd.querySelector('.mw-iframe-editor').contentWindow.mwd.querySelector('.edit') === null){ return false; }
+  },
+  treeSelector:function(){
+    var module = '<div class="mw-tree"><div data-type="categories/selector" id="categoryparent" input-name="categoryparent" input-name-categories="categoryparent" active_ids="4" input-type-categories="radio" class="module"></div></div>';
+    var modal = mw.modal({
+      content:module,
+    //  element:'#category-tree-not-found-message .mw-ui-btn-invert'
+    });
+    mw.reload_module('#categoryparent', function(){
+      d(mwd.querySelector('#categoryparent'))
+
+               mw.treeRenderer.appendUI('#categoryparent');
 
 
+    });
   }
 }
 

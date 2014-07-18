@@ -7,6 +7,7 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
 }
 
 $dir_name = normalize_path(MW_MODULES_DIR);
+ 
 $posts_mod = $dir_name . 'posts' . DS . 'admin_live_edit_tab1.php';;
 ?>
 <?php
@@ -57,7 +58,7 @@ if ($is_global == false) {
 
 $posts_parent_page = get_option('data-page-id', $params['id']);
 $posts_parent_category = get_option('data-category-id', $params['id']);
-
+ 
 if ($posts_parent_page != false and intval($posts_parent_page) > 0) {
     $add_post_q .= ' data-page-id=' . intval($posts_parent_page);
 	$parent_page = $posts_parent_page;
@@ -110,7 +111,7 @@ $add_post_q .= ' subtype="product" is_shop=y ';
 $add_post_q .= '  ';
 }
 
-?>
+?> 
 <style>
 .mw-ui-box.tab{
   display: none;
@@ -128,7 +129,15 @@ $add_post_q .= '  ';
 
 mw.on.hashParam("action", function () {
 	 var id = (this.split(':')[1]);
-	 mw.edit_content_live_edit(id);
+	 if(this == 'new:post' || this == 'new:page' || this == 'new:product'){
+		 mw.add_new_content_live_edit(id);
+	 } else {
+		 mw.edit_content_live_edit(id);
+	 }
+	 
+	  
+	 
+	 
 });	
 	
 	
@@ -178,7 +187,7 @@ mw.on.hashParam("action", function () {
     }
     mw.edit_content_live_edit = function ($cont_id) {
        Tabs.set(4);
-	   
+	 
         $('#mw_posts_edit_live_edit').attr('page-id', $cont_id);
         $('#mw_posts_edit_live_edit').removeAttr('live_edit');
         $('#mw_posts_edit_live_edit').attr('quick_edit', 1);
@@ -246,9 +255,11 @@ mw.on.hashParam("action", function () {
 	</div>
     <div class="mw-ui-box mw-ui-box-content">
 	<div class="tab" style="display: block">
-		<module type="content/manager"  <?php print $add_post_q ?> id="mw_posts_manage_live_edit" no_toolbar="true" />
+    
+		<module type="content/manager"  <?php print $add_post_q ?> no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true" />
 	</div>
 	<div class="tab" style="display:none">
+    
 		<?php include_once($posts_mod); ?>
 	</div>
 	<div class="tab"  style="display:none">
@@ -258,10 +269,13 @@ mw.on.hashParam("action", function () {
 		<module type="admin/modules/templates" id="posts_list_templ"/>
 		<?php endif;  ?>
 	</div>
-	<div class="tab">
+	<div class="tab">  
 		<div <?php print $add_post_q ?> id="mw_posts_create_live_edit"></div>
 	</div>
 	<div class="tab">
+    
+     
+    
 		<div id="mw_posts_edit_live_edit" class="mw_posts_edit_live_edit"></div>
 	</div>
     </div>

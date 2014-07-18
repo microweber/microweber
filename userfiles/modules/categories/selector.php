@@ -20,8 +20,6 @@ $selected = intval($params['selected-id']);
 
 $rand=uniqid();
 
- 
-
 $orig_params = ($params);
 
  //$rand =  $params['id'];;
@@ -93,14 +91,11 @@ if(is_array($is_ex)){
 		$cats__parents[] = $item['id'];
 	}
 }
-
-
+if(!isset($params['field-name'])){
+    $params['field-name'] = 'categories' ;
+ }
+ 
 ?>
-
-
-
-
-
 <?php
 
 
@@ -151,12 +146,10 @@ if (!empty($cats_ids)) {
 
 }
 
-
 $input_name = " name='parent' ";
 if(isset($params['input-name'])){
 	$input_name = " name='{$params['input-name']}' ";
 }
-
 
 $input_name_cats = "  ";
 if(isset($params['input-name-categories'])){
@@ -164,19 +157,13 @@ if(isset($params['input-name-categories'])){
 }
 
 
-
 $input_type_cats = "  type='checkbox'  ";
 if(isset($params['input-type-categories'])){
 	$input_type_cats = " type='{$params['input-type-categories']}' ";
 }
 
-
 $tree['active_code'] = 'checked="checked" ';
 $tree['active_code'] = 'checked="checked" ';
-
-
-
-
 
 $tree['link'] = "<label class='mw-ui-check'><input type='radio' {$input_name}  {active_code} value='{id}'   class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
 $tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
@@ -210,7 +197,10 @@ if (isset($params['categories_removed_ids'])) {
 	 $tree['categories_removed_ids'] = $params['categories_removed_ids'];
 
 }
-  
+ if (isset($tree['subtype'])) {
+	 
+unset($tree['subtype']);
+}
   
 pages_tree($tree);
 ?>
@@ -235,6 +225,6 @@ pages_tree($tree);
 
 
 ?>
-<?php $cats_str = implode(',', $active_cats); ?>
+<?php $cats_str = implode(',', $active_cats); ?> 
  
-<input type="hidden" name="categories" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />
+<input type="hidden" name="<?php print $params['field-name']; ?>" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />

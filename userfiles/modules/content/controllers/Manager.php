@@ -38,12 +38,16 @@ class Manager
 
 
         }
- 
 
+        $no_page_edit = false;
         $posts_mod = array();
         // $posts_mod['type'] = 'content/admin_posts_list';
         if (isset($params['data-page-id'])) {
             $posts_mod['page-id'] = $params['data-page-id'];
+        }
+
+        if (isset($params['no_page_edit'])) {
+        $no_page_edit = $params['no_page_edit'];
         }
         if (isset($params['keyword'])) {
             $posts_mod['search_by_keyword'] = $params['keyword'];
@@ -138,7 +142,7 @@ class Manager
 
 
         $post_list_view = $this->views_dir . 'manager.php';
-
+        if($no_page_edit == false){
         if ($data == false) {
             if (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and $page_info['subtype'] == 'static') {
                 $manager = new Edit();
@@ -151,15 +155,14 @@ class Manager
 			and $page_info['subtype'] != 'dynamic' 
 			and $page_info['subtype'] != 'product' 
 			and $page_info['subtype'] != 'page'
-			
+
 			 ) {
-				 //d($page_info);
-				//$check_child_content = $this->app->content->get('parent='.$page_info['id']); 
-				// d($check_child_content );
-				 
-                 $manager = new Edit();
-                 return $manager->index($params);
+                    $manager = new Edit();
+                    return $manager->index($params);
+
+
             }
+        }
         }
 
         $view = new View($post_list_view);

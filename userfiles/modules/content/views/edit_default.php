@@ -211,6 +211,9 @@ $edit_page_info = $data;;
       			subtype="<?php print $data['subtype']; ?>"
       			categories_active_ids="<?php print $categories_active_ids; ?>"
       			for-id="<?php print $data['id']; ?>" />
+
+
+        
         <?php endif; ?>
       </div>
     </div>
@@ -419,6 +422,7 @@ mw.edit_content.render_category_tree = function(id){
                 mw.$("#category-tree-not-found-message").hide();
               },
               onNotFound:function(){
+
                 mw.$("#category-tree-not-found-message").show();
                 mw.$("#category-not-found-name").html(mw.$('#quick-tag-field').val());
               }
@@ -455,15 +459,17 @@ mw.edit_content.render_category_tree = function(id){
 				  }
 		   }
 		  //
-		  
+
 		  //mw-content-backend
 
 
 		  
 
-          mw.$(".mw-ui-category-selector-abs .module:first")
+          var thetree = mwd.querySelector(".mw-ui-category-selector-abs .module")
 
-          .after('<div id="category-tree-not-found-message"><h3><?php _e("Category"); ?> "<span id="category-not-found-name"></span>" <?php _e("not found"); ?>.</h3><br><span class="mw-ui-btn mw-ui-btn-invert"><em class="mw-icon-plus"></em>Create it</span></div>');
+
+          $(thetree).after('<div id="category-tree-not-found-message"><h3><?php _e("Category"); ?> "<span id="category-not-found-name"></span>" <?php _e("not found"); ?>.</h3><br><span class="mw-ui-btn mw-ui-btn-invert" onclick="mw.admin.treeSelector()"><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span></div>');
+
 
 
           $(mwd.querySelectorAll('#mw-category-selector-'+id+" .pages_tree_item")).bind("mouseup", function(e){
@@ -704,6 +710,9 @@ mw.save_inner_editable_fields = function(data){
             var qt = mw.$('#quick-add-post-options-items-holder-container'),
                 wh = $(window).height(),
                 st = $(window).scrollTop();
+			if(qt.length == 0){
+			return false;	
+			}
             qt.css('maxHeight', (wh - (qt.offset().top - st + 20)));
        }
 
