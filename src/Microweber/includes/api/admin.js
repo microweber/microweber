@@ -249,7 +249,7 @@ mw.admin = {
         mw.tools.tooltip.setPosition(mw.admin.postStatesTip, el, pos);
         mw.admin.postStatesTip.style.display = 'block';
         mw.$('.btn-posts-state.tip').addClass('tip-disabled');
-        $(mw.admin._titleTip).hide();
+        $(mw.tools._titleTip).hide();
       },
       hide:function(e,d){
         if(!mw.admin.postStatesTip){
@@ -313,28 +313,6 @@ mw.admin = {
              mw.admin.postStates.hide();
         }
       }
-    },
-    titleTip:function(el){
-        if(mw.tools.hasClass(el, 'tip-disabled')){
-            $(mw.admin._titleTip).hide();
-            return false;
-        }
-        var pos = $(el).dataset('tipposition');
-        if(pos == ''){var pos = 'bottom-center';}
-        var text = $(el).dataset('tip');
-        if(text.indexOf('.') === 0 || text.indexOf('#') === 0 ){
-            var text = mw.$(text).html();
-        }
-        if(!mw.admin._titleTip){
-            mw.admin._titleTip = mw.tooltip({skin:'dark', element:el, position:pos, content:text});
-            $(mw.admin._titleTip).addClass('admin-universal-tooltip');
-        }
-        else{
-           mw.admin._titleTip.className = 'mw-tooltip '+pos+' mw-tooltip-dark admin-universal-tooltip';
-           mw.$('.mw-tooltip-content', mw.admin._titleTip).html(text);
-           mw.tools.tooltip.setPosition(mw.admin._titleTip, el, pos);
-        }
-        $(mw.admin._titleTip).show();
     },
     showLinkNav:function(){
       var all = mwd.querySelector('.select_posts_for_action:checked');
@@ -659,17 +637,7 @@ $(mww).bind('load', function(){
    mw.admin.createContentBtns();
    mw.admin.manageToolbarSet();
 
-   $(mwd.body).bind('mousemove', function(event){
-        if(mw.tools.hasClass(event.target, 'tip')){
-            mw.admin.titleTip(event.target);
-        }
-        else if(mw.tools.hasParentsWithClass(event.target, 'tip')){
-            mw.admin.titleTip(mw.tools.firstParentWithClass(event.target, 'tip'));
-        }
-        else{
-           $(mw.admin._titleTip).hide();
-        }
-   });
+
 
 
    if(mwd.getElementById('main-bar-user-menu-link') !== null){

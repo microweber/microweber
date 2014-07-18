@@ -520,7 +520,7 @@ class Url
             foreach ($arr as $k => $v) {
                 if (is_array($v)) {
                     $v = $this->replace_site_url_back($v);
-                } else if (is_string($v)) {
+                } else if (is_string($v) and $v !== '0') {
                     $v = $this->replace_site_url_back($v);
                 }
                 $ret[$k] = ($v);

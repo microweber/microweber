@@ -1175,7 +1175,7 @@ a:hover .mw_ed_tree_content{
 
 
 /************************************
-            Posts
+            Posts and content
 *************************************/
 .manage-post-item{
   background: white;
@@ -1598,10 +1598,15 @@ a:hover .mw_ed_tree_content{
 #dropdown-custom-fields .mw-dropdown-val{
   text-align: left;
 }
-#dropdown-custom-fields .mw-dropdown-val:after{
+#dropdown-custom-fields .mw-dropdown-val:before{
   content: "+";
     float: left;
     margin-right: 10px;
+    margin-top: 2px;
+    font-family: Microweber;
+}
+#dropdown-custom-fields .mw-dropdown-val:after{
+  display: none;
 }
 
 
@@ -1906,7 +1911,21 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   overflow: hidden;
 }
 
+#category-tree-not-found-message{
+  text-align:center;
+  padding:30px;
+  display:none;
+}
+#category-tree-not-found-message h3{
+  padding: 10px;
+}
+#category-tree-not-found-message .mw-ui-btn{
+  padding: 9px 12px;
+}
 
+#category-not-found-name{
+  font-weight: bold;
+}
 
 
 /* Content title */

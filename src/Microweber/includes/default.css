@@ -68,6 +68,10 @@ body.mw-preview{
   display: none;
 }
 
+img[src*=pixum_img]{
+  background: #e8e8e8;
+}
+
 
 .autoscale{
   min-width: 100%;

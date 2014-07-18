@@ -757,8 +757,8 @@ class Media
 
     public function pixum_img()
     {
-        $mime_type = "image/jpg";
-        $extension = ".jpg";
+        $mime_type = "image/png";
+        $extension = ".png";
         $cache_folder = MW_CACHE_DIR . 'pixum' . DS;
         if (!is_dir($cache_folder)) {
             mkdir_recursive($cache_folder);
@@ -787,18 +787,22 @@ class Media
         $hash = 'pixum-' . ($h) . 'x' . $w;
         $cachefile = $cache_folder . '/' . $hash . $extension;
 
-        header("Content-Type: image/jpg");
+        header("Content-Type: image/png");
 
         # Generate cachefile for image, if it doesn't exist
         if (!file_exists($cachefile)) {
 
             $img = imagecreatetruecolor($w, $h);
 
-            $bg = imagecolorallocate($img, 225, 226, 227);
-
-            imagefilledrectangle($img, 0, 0, $w, $h, $bg);
+          //  $bg = imagecolorallocate($img, 225, 226, 227);
+            //imagefill($img,0,0,0x7fff0000);
+            $white = imagecolorallocatealpha($img, 255, 255, 255, 127);
+            imagefill($img, 0, 0, $white);
+            imagealphablending( $img, false );
+            imagesavealpha( $img, true );
+            //imagefilledrectangle($img, 0, 0, $w, $h, $bg);
             //  header("Content-type: image/png");
-            imagejpeg($img, $cachefile);
+            imagepng($img, $cachefile);
             imagedestroy($img);
 
             $fp = fopen($cachefile, 'rb');

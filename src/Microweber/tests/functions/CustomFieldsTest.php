@@ -5,6 +5,41 @@ namespace FunctionsTest;
 
 class CustomFieldsTest extends \PHPUnit_Framework_TestCase
 {
+
+
+    function testMakeIfNotFound()
+    {
+
+        $params = array(
+
+            'content_type' => 'post',
+            'subtype' => 'product',
+
+            // 'debug' => 1,
+            'is_active' => 'y');
+        //adding a product to our shop page
+        $my_products = get_content($params);
+        foreach ($my_products as $data) {
+            if (isset($data['subtype']) and $data['subtype'] == 'product') {
+                $data['prices'] = mw()->fields->get("field_type=price&for=content&for_id=" . $data['id']);
+                if ($data['prices'] == false) {
+                    $create_price_field = mw()->fields->save("field_value=0&field_type=price&for=content&for_id=" . $data['id']);
+                    $this->assertEquals(true, is_int($create_price_field));
+                    $data['prices'] =  mw()->fields->get("field_type=price&for=content&for_id=" . $data['id']);
+
+                }
+                $this->assertEquals(true, is_array($data['prices']));
+                $this->assertEquals(true, !empty($data['prices']));
+
+
+            } else {
+                // $data['prices'] = false;
+            }
+        }
+
+
+    }
+
     public function testAddCustomFields()
     {
         $params = array(
@@ -79,37 +114,6 @@ class CustomFieldsTest extends \PHPUnit_Framework_TestCase
         $this->delete_content[] = $my_product;
     }
 
-    function testMakeIfNotFound()
-    {
-
-        $params = array(
-
-            'content_type' => 'post',
-            'subtype' => 'product',
-
-            // 'debug' => 1,
-            'is_active' => 'y');
-        //adding a product to our shop page
-        $my_products = get_content($params);
-
-        foreach ($my_products as $data) {
-            if (isset($data['subtype']) and $data['subtype'] == 'product') {
-                $data['prices'] = mw()->fields->get("field_type=price&for=content&for_id=" . $data['id']);
-                if ($data['prices'] == false) {
-                    $create_price_field = mw()->fields->save("field_value=0&field_type=price&for=content&for_id=" . $data['id']);
-                    $data['prices'] =  mw()->fields->get("field_type=price&for=content&for_id=" . $data['id']);
-                 }
-                $this->assertEquals(true, is_array($data['prices']));
-                $this->assertEquals(true, !empty($data['prices']));
-
-
-             } else {
-                // $data['prices'] = false;
-            }
-        }
-
-
-    }
 
     protected function tearDown()
     {

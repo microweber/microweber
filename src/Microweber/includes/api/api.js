@@ -201,7 +201,9 @@ mw.askusertostay = false;
     no_results_for:"<?php _e("No results for"); ?>",
     switch_to_modules:'<?php _e("Switch to Modules"); ?>',
     switch_to_layouts:'<?php _e("Switch to Layouts"); ?>',
-    loading:'<?php _e("Loading"); ?>'
+    loading:'<?php _e("Loading"); ?>',
+    edit:'<?php _e("Edit"); ?>',
+    change:'<?php _e("Change"); ?>'
   }
 
 

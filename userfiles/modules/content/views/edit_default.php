@@ -420,6 +420,7 @@ mw.edit_content.render_category_tree = function(id){
               },
               onNotFound:function(){
                 mw.$("#category-tree-not-found-message").show();
+                mw.$("#category-not-found-name").html(mw.$('#quick-tag-field').val());
               }
     	  });
 		  
@@ -456,11 +457,15 @@ mw.edit_content.render_category_tree = function(id){
 		  //
 		  
 		  //mw-content-backend
+
+
 		  
-		  
-		  
-		  
-          mw.$(".mw-ui-category-selector-abs .module:first").after('<div style="text-align:center;padding:30px;display:none;" id="category-tree-not-found-message"><h3>Category not found</h3><br><span class="mw-ui-btn"><em class="mw-icon-plus"></em>Create it</span></div>');
+
+          mw.$(".mw-ui-category-selector-abs .module:first")
+
+          .after('<div id="category-tree-not-found-message"><h3><?php _e("Category"); ?> "<span id="category-not-found-name"></span>" <?php _e("not found"); ?>.</h3><br><span class="mw-ui-btn mw-ui-btn-invert"><em class="mw-icon-plus"></em>Create it</span></div>');
+
+
           $(mwd.querySelectorAll('#mw-category-selector-'+id+" .pages_tree_item")).bind("mouseup", function(e){
               if(!mw.tools.hasClass(e.target, 'mw_toggle_tree')){
                 $(this).addClass("active");

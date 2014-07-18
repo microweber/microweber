@@ -49,15 +49,16 @@ class ShopTest extends \PHPUnit_Framework_TestCase
             'content_id' => $my_product);
         //adding a custom field "price" to product
         $field = save_custom_field($add_price_field);
+        $this->assertEquals(true, intval($field) > 0);
+
 
         $custom_fields = get_custom_fields('content', $my_product);
-
 
         //PHPUnit
         $this->assertEquals(true, is_array($product));
         $this->assertEquals(true, is_array($custom_fields));
-        $this->assertEquals(true, isset($custom_fields['My price']));
-        $this->assertEquals(true, intval($custom_fields['My price']) == $price);
+        $this->assertEquals(true, isset($custom_fields['my price']));
+        $this->assertEquals(true, intval($custom_fields['my price']) == $price);
         $this->assertEquals(true, intval($my_product) > 0);
         $this->assertEquals(true, intval($field) > 0);
         $this->assertEquals(true, intval($my_shop) > 0);
@@ -117,8 +118,8 @@ class ShopTest extends \PHPUnit_Framework_TestCase
         //PHPUnit
         $this->assertEquals(true, is_array($product));
         $this->assertEquals(true, is_array($custom_fields));
-        $this->assertEquals(true, isset($custom_fields['My price']));
-        $this->assertEquals(true, intval($custom_fields['My price']) == 10);
+        $this->assertEquals(true, isset($custom_fields['my price']));
+        $this->assertEquals(true, intval($custom_fields['my price']) == 10);
         $this->assertEquals(true, intval($my_product) > 0);
         $this->assertEquals(true, intval($field) > 0);
         $this->assertEquals(true, intval($my_shop) > 0);

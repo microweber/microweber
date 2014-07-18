@@ -2218,7 +2218,7 @@ div[id*='SSDIVEL'] {
   visibility: visible;
 }
 
-.mw_image_resizer .ui-resizable-handle { position: absolute;font-size: 0.1px; display: block; background-image: url(../img/resize.gif);opacity:0.4}
+.mw_image_resizer .ui-resizable-handle { position: absolute;font-size: 0.1px; display: block; opacity:0.4}
 .mw_image_resizer .ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
 
 .mw_image_resizer .ui-resizable-n { cursor: n-resize; height: 1px; width: 100%; top: -1px; left: 0; background-repeat: repeat-x;}
@@ -2233,8 +2233,8 @@ div[id*='SSDIVEL'] {
 
 .mw_image_resizer .ui-resizable-se, .mw_image_resizer .ui-resizable-sw, .mw_image_resizer .ui-resizable-nw, .mw_image_resizer .ui-resizable-ne{
     background: #333;
-    border: 1px solid #EEEEEE;
-    opacity:0.6;
+    opacity:0.7;
+    border-radius: 10px;
 }
 
 
@@ -2250,10 +2250,22 @@ div[id*='SSDIVEL'] {
 }
 
 
+
 #image-edit-nav{
   position: absolute;
   right: 12px;
-  bottom: 10px;
+  top: 10px;
+}
+
+
+
+#image-edit-nav .mw-ui-btn span{
+    line-height: 135%;
+    opacity: 1;
+}
+
+#image-edit-nav .mw-ui-btn{
+  margin-left: 10px;
 }
 
 

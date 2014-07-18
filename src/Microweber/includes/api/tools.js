@@ -2776,7 +2776,29 @@ mw.tools = {
         return false;
       }
     }
-  }
+  },
+  titleTip:function(el){
+        if(mw.tools.hasClass(el, 'tip-disabled')){
+            $(mw.tools._titleTip).hide();
+            return false;
+        }
+        var pos = $(el).dataset('tipposition');
+        if(pos == ''){var pos = 'bottom-center';}
+        var text = $(el).dataset('tip');
+        if(text.indexOf('.') === 0 || text.indexOf('#') === 0 ){
+            var text = mw.$(text).html();
+        }
+        if(!mw.tools._titleTip){
+            mw.tools._titleTip = mw.tooltip({skin:'dark', element:el, position:pos, content:text});
+            $(mw.tools._titleTip).addClass('mw-universal-tooltip');
+        }
+        else{
+           mw.tools._titleTip.className = 'mw-tooltip '+pos+' mw-tooltip-dark mw-universal-tooltip';
+           mw.$('.mw-tooltip-content', mw.tools._titleTip).html(text);
+           mw.tools.tooltip.setPosition(mw.tools._titleTip, el, pos);
+        }
+        $(mw.tools._titleTip).show();
+    },
 }
 
 mw.tools.matches('init');
@@ -3423,6 +3445,21 @@ mw.postMsg = function(w, obj){
 
 $(document).ready(function(){
 
+
+
+$(mwd.body).bind('mousemove', function(event){
+        if(mw.tools.hasClass(event.target, 'tip')){
+            mw.tools.titleTip(event.target);
+        }
+        else if(mw.tools.hasParentsWithClass(event.target, 'tip')){
+            mw.tools.titleTip(mw.tools.firstParentWithClass(event.target, 'tip'));
+        }
+        else{
+           $(mw.tools._titleTip).hide();
+        }
+   });
+
+
 mw.$(".mw-onoff").each(function () {
 if(!$(this).hasClass('activated')){
 
@@ -3804,7 +3841,7 @@ mw.image = {
         if(mw.image_resizer==undefined){
           var resizer = document.createElement('div');
           resizer.className = 'mw-defaults mw_image_resizer';
-          resizer.innerHTML = '<div class="mw-ui-btn-nav" id="image-edit-nav"><span class="mw-ui-btn image_change" onclick="mw.image.settings();"><span class="mw-icon-pen"></span>Edit</span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-info image_change"><span class="mw-icon-image"></span>Change</span></div>';
+          resizer.innerHTML = '<div id="image-edit-nav"><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon tip image_change" data-tip="'+mw.msg.edit+'" onclick="mw.image.settings();"><span class="mw-icon-wand"></span></span><span onclick="mw.wysiwyg.media(\'#editimage\');" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert mw-ui-btn-icon image_change tip" data-tip="'+mw.msg.change+'"><span class="mw-icon-image"></span></span></div>';
           document.body.appendChild(resizer);
           mw.image_resizer = resizer;
           $(resizer).bind("dblclick", function(e){

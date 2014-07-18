@@ -48,6 +48,7 @@ class UsersTest extends \PHPUnit_Framework_TestCase
         $data['username'] = 'unit_test_user';
 
         $users = get_users($data);
+
         if (is_array($users)) {
             foreach ($users as $user) {
                 $delete_user = delete_user($user['id']);
