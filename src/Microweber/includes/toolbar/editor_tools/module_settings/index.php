@@ -2,18 +2,15 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
 <?php  $module_info = false;
 if (isset($params['module'])): ?>
-    <?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']); ?>
+<?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']); ?>
 <?php endif; ?>
-<script type="text/javascript" src="<?php print(MW_INCLUDES_URL); ?>api/jquery.js"></script>
 <script type="text/javascript" src="<?php print(MW_SITE_URL); ?>apijs"></script>
-
+<script src="<?php print MW_INCLUDES_URL; ?>api/jquery-ui.js"></script>
 <script type="text/javascript">
     liveEditSettings = true;
-    mw.lib.require("jqueryui");
-    mw.require('<?php print MW_INCLUDES_URL; ?>default.css');
+     mw.require('<?php print MW_INCLUDES_URL; ?>default.css');
     mw.require('<?php print MW_INCLUDES_URL; ?>css/components.css');
     mw.require('<?php print MW_INCLUDES_URL; ?>css/admin.css');
     mw.require('<?php print MW_INCLUDES_URL; ?>css/popup.css');
@@ -26,35 +23,26 @@ if (isset($params['module'])): ?>
     mw.require('options.js');
     mw.require('admin.js');
 </script>
-
 <style>
-
-
-    #settings-main {
-        /* overflow-x:hidden;
+#settings-main {
+	/* overflow-x:hidden;
          overflow-y:auto; */
         min-height: 200px;
-
-    }
-
-    #settings-container {
-        overflow: hidden;
-        position: relative;
-        min-height: 200px;
-
-    }
-
-    #settings-container:after {
-        content: ".";
-        display: block;
-        clear: both;
-        visibility: hidden;
-        line-height: 0;
-        height: 0;
-    }
-
+}
+#settings-container {
+	overflow: hidden;
+	position: relative;
+	min-height: 200px;
+}
+#settings-container:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
 </style>
-
 <?php
 $autoSize = true;
 if (isset($_GET['autosize'])) {
@@ -220,7 +208,6 @@ if (isset($_GET['type'])) {
 
 
 </script>
-
 <?php
 
 //var_dump($params);
@@ -377,40 +364,27 @@ if (isset($_GET['type'])) {
         });
     });
 </script>
-
 </head>
 <body class="mw-external-loading loading">
-
 <div id="settings-main">
-    <div id="settings-container">
-
-
-        <div class="mw-module-live-edit-settings <?php print $params['id'] ?>"
-             id="module-id-<?php print $params['id'] ?>">{content}
-        </div>
-
-
-    </div>
-
+  <div id="settings-container">
+    <div class="mw-module-live-edit-settings <?php print $params['id'] ?>"
+             id="module-id-<?php print $params['id'] ?>">{content} </div>
+  </div>
 </div>
-
-
 <form method="get" id="mw_reload_this_module_popup_form" style="display:none">
-    <?php $mpar = $params;
+  <?php $mpar = $params;
     if (isset($mpar['module_settings'])) {
         unset($mpar['module_settings']);
     }
 
     ?>
-    <?php if (is_array($params)): ?>
-        <?php foreach ($params as $k => $item): ?>
-
-
-            <input type="text" name="<?php print $k ?>" value="<?php print $item ?>"/>
-
-        <?php endforeach; ?>
-        <input type="submit" />
-    <?php endif; ?>
+  <?php if (is_array($params)): ?>
+  <?php foreach ($params as $k => $item): ?>
+  <input type="text" name="<?php print $k ?>" value="<?php print $item ?>"/>
+  <?php endforeach; ?>
+  <input type="submit" />
+  <?php endif; ?>
 </form>
 <script type="text/javascript">
     $(document).ready(function () {

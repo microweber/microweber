@@ -23,6 +23,7 @@ else{
 
 ?>
 <script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>shop/cart_add/templates.css")</script>
+
 <script>
     _AddToCartModalContent = window._AddToCartModalContent || function(title){
         var html = ''
@@ -30,8 +31,7 @@ else{
           + '<h5>' + title + '</h5>'
           + '<p><?php _e("has been added to your cart"); ?></p>'
           + '<a href="javascript:;" onclick="mw.tools.modal.remove(\'#AddToCartModal\')" class="mw-ui-btn"><?php _e("Continue shopping"); ?></a>'
-          + '<a href="<?php print checkout_url(); ?>" class="mw-ui-btn mw-ui-btn-blue"><?php _e("Checkout"); ?></a>'
-        + '</div>';
+          + '<a href="<?php print checkout_url(); ?>" class="mw-ui-btn mw-ui-btn-blue"><?php _e("Checkout"); ?></a></div>';
         return html;
     }
     _AddToCart = window._AddToCart || function(selector, id, title){
