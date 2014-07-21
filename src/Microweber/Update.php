@@ -115,7 +115,7 @@ class Update
 
     function check($skip_cache = false)
     {
-       return;
+
         $a = $this->app->user->is_admin();
         if ($a == false) {
             return false;

@@ -238,8 +238,7 @@ class Edit
             }
 
         } elseif ($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'post') {
-            //if we are adding product in a page that is not a shop
-            $parent_shop_check = $this->app->content->get_by_id($data['parent']);
+             $parent_shop_check = $this->app->content->get_by_id($data['parent']);
             if (!isset($parent_shop_check['content_type']) or $parent_shop_check['content_type'] != 'page') {
                 $parent_content_shop = $this->app->content->get('order_by=updated_on desc&one=true&content_type=page&subtype=dynamic&is_shop=n');
                 if (isset($parent_content_shop['id'])) {

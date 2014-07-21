@@ -77,6 +77,9 @@ PrepareEditor = function(){
                 parent.mw.$("iframe#"+window.name).trigger("change", html);
           }, 600);
 
+          top.mw.askusertostay = true;
+          parent.mw.askusertostay = true;
+
        setTimeout(function(){
          ScaleFrame()
        }, 333)

@@ -20,7 +20,13 @@ mw.custom_fields = {
                 else {
                     callback.call(data);
                 }
-            }
+		    }
+			
+			
+			mw.reload_module_parent('custom_fields');
+			mw.reload_module_parent('custom_fields/list');
+			
+			
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             if (typeof error === 'function') {

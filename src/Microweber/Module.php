@@ -595,6 +595,7 @@ class Module
                 $tf_other_module = $template_name;
                 $tf_other_module = MW_MODULES_DIR . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
+
                 if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
                     return $tf_from_other_theme;
                 } else if (is_file($tf_theme)) {

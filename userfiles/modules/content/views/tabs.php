@@ -66,7 +66,7 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
                   <span><?php _e("Insert Image"); ?></span>
               </span>
 
-              <span class="image-manage-item">
+              <span class="image-manage-item" onclick="mw.admin.insertGallery();">
                   <span class="mw-icon-images-frame"></span>
                   <span><?php _e("Create Gallery"); ?></span>
               </span>

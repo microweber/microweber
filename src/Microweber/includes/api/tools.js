@@ -898,7 +898,7 @@ mw.tools = {
     + '</table>';
 
     if(mw.$("#mw_alert").length === 0){
-        mw.tools.modal.init({
+        return mw.modal({
             html:html,
             width:400,
             height:200,
@@ -909,6 +909,7 @@ mw.tools = {
     }
     else{
         mw.$("#mw_alert .mw_alert_holder").html(text);
+        return   mw.$("#mw_alert")[0].modal;
     }
 
   },
@@ -1580,6 +1581,9 @@ mw.tools = {
       callback.call(window);
     }
     return conf;
+  },
+  confirm:function(question, callback){
+    mw.tools.alert("asas")
   },
   el_switch:function(arr, type){
     if(type==='semi'){

@@ -777,5 +777,4 @@ mw.required.push("<?php print MW_INCLUDES_URL; ?>api/session.js");
 <?php  include "events.js"; ?>
 <?php  include "upgrades.js"; ?>
 
-
 <?php  include "session.js"; ?>
