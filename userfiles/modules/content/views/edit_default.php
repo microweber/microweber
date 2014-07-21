@@ -317,7 +317,6 @@ and (isset($data['content_type']) and $data['content_type'] == 'page')
 	  mw.$("#quick-add-post-options-item-template-btn").hide();
 </script>
   <?php   endif; ?>
-  <hr class="hr2">
   <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
 </form>
 <div class="quick_done_alert" style="display: none" id="post-added-alert-<?php print $rand; ?>">

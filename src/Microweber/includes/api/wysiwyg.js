@@ -291,6 +291,7 @@ mw.wysiwyg = {
             if(!mw.is.ie){
                var html = clipboard.getData('text/plain');
                var xhtml =  clipboard.getData('text/html');
+               alert(html)
                if(xhtml != ''){
                  var html = xhtml;
                }

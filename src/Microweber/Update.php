@@ -86,7 +86,7 @@ class Update
 
                             if (isset($value1['filename'])) {
                                 $options = array();
-                                $options['no_cache'] = 1;
+                                //$options['no_cache'] = 1;
                                 $options['for_modules'] = 1;
                                 $options['filename'] = $value1['filename'];
                                 $module_templates_for_this = $this->app->layouts->scan($options);
@@ -115,7 +115,7 @@ class Update
 
     function check($skip_cache = false)
     {
-
+return;
         $a = $this->app->user->is_admin();
         if ($a == false) {
             return false;
@@ -529,7 +529,7 @@ class Update
 
         if (is_file($skin_file)) {
             $options = array();
-            $options['no_cache'] = 1;
+            //$options['no_cache'] = 1;
             $options['for_modules'] = 1;
             $options['filename'] = $skin_file;
             $skin_data = $this->app->layouts->scan($options);

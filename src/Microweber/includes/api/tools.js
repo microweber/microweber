@@ -1243,6 +1243,9 @@ mw.tools = {
     },
     openit : function(el, event, pageid){
        event.stopPropagation();
+       if(mw.askusertostay === true){
+         return false;
+       }
        if(el.attributes['data-page-id'] !== undefined){
           mw.url.windowHashParam('action', 'showposts:'+pageid);
        }
@@ -1581,9 +1584,6 @@ mw.tools = {
       callback.call(window);
     }
     return conf;
-  },
-  confirm:function(question, callback){
-    mw.tools.alert("asas")
   },
   el_switch:function(arr, type){
     if(type==='semi'){

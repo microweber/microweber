@@ -529,8 +529,7 @@ class Module
         } else {
             if ($template_name == false) {
                 $options = array();
-               // $options['no_cache'] = 1;
-                $options['for_modules'] = 1;
+                 $options['for_modules'] = 1;
                 $options['path'] = $module_name_l;
                 $module_name_l = $this->app->layouts->scan($options);
                 //d($module_name_l_theme);
@@ -1039,7 +1038,7 @@ class Module
         $save = false;
         // d($table);
 
-        //d($data_to_save);
+       // d($data_to_save);
 
         if (!empty($data_to_save)) {
             $s = $data_to_save;
@@ -1051,7 +1050,7 @@ class Module
             if (!isset($s["id"]) and isset($s["module"])) {
                 $s["module"] = $data_to_save["module"];
                 if (!isset($s["module_id"])) {
-                    $save = $this->get('no_cache=1&ui=any&limit=1&module=' . $s["module"]);
+                    $save = $this->get('ui=any&limit=1&module=' . $s["module"]);
 
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);

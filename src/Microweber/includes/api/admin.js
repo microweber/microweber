@@ -627,9 +627,29 @@ mw.admin = {
         });
     }
   },
+  beforeLeaveLocker:function(){
+    var roots = '#pages_tree_toolbar, #main-bar',
+        all = mwd.querySelectorAll(roots),
+        l = all.length,
+        i = 0;
+    for ( ; i<l ; i++){
+        if(!!all[i].MWbeforeLeaveLocker) continue;
+        all[i].MWbeforeLeaveLocker = true;
+        var links = all[i].querySelectorAll('a'), ll = links.length, li = 0;
+        for( ; li<ll;li++){
+            $(links[li]).bind('mouseup', function(e){
+                if(mw.askusertostay === true){
+                  e.preventDefault();
+                  return false;
+
+                }
+            });
+        }
+    }
+  },
   insertGallery:function(){
         var id = 'mwemodule-'+mw.random(), framewindow = mwd.querySelector('.mw-iframe-editor').contentWindow;
-        var el = '<div data-type="pictures" id="'+id+'" class="module">9+9989879879872652</div>';
+        var el = '<div data-type="pictures" id="'+id+'" class="module">&nbsp;</div>';
         framewindow.mw.wysiwyg.insert_html(el);
         framewindow.mw.load_module('pictures', '#'+id, function(){
             framewindow.mw.drag.fixes();
@@ -639,6 +659,10 @@ mw.admin = {
           });
   }
 }
+
+
+
+
 
 
 
@@ -653,23 +677,8 @@ $(mwd).ready(function(){
    });
 
 
-mw.url.windowHashParam = function(a,b){
-  if(mw.askusertostay === false){
-      if(b !== undefined){
-        mw.hash(mw.url.setHashParam(a,b));
-      }
-      else{
-        return mw.url.getHashParams(mw.hash())[a];
-      }
-  }
-  else{
-    mw.confirm(mw.msg.before_leave, function(){
 
-    });
-  }
-
-}
-
+  mw.admin.beforeLeaveLocker()
 
 
 });
@@ -746,6 +755,12 @@ $(mww).bind('load', function(){
         var btn = mwd.querySelector('#content-title-field-buttons .mw-ui-btn[type="submit"]');
         btn.innerHTML = mw.msg.save;
    });
+
+   $("body").append('<div style="position:fixed;top:10px;right:10px;font-size:20px;font-weight:bold;color#3399FF" id="logger"></div>');
+   setInterval(function(){
+    $('#logger').html(mw.askusertostay.toString())
+   }, 333);
+
 
 });
 

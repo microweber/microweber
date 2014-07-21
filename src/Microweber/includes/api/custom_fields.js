@@ -22,12 +22,8 @@ mw.custom_fields = {
                 }
 		    }
 			
-			mw.reload_module('custom_fields/list');
 			
-		
-			mw.reload_module_parent('custom_fields/list');
-			 mw.reload_module_parent('custom_fields');
-			
+			mw.custom_fields.after_save();
 			
 			
         })
@@ -70,6 +66,7 @@ mw.custom_fields = {
         if(typeof callback === 'function'){
           callback.call(data);
         }
+		mw.custom_fields.after_save();
       }).fail(function(){
         if(typeof err === 'function'){
           err.call();
@@ -113,7 +110,16 @@ mw.custom_fields = {
                 if (!!callback) callback.call(data);
                 $(window).trigger('customFieldSaved', [id, data]);
             });
+			mw.custom_fields.after_save();
         });
+    },
+	
+    after_save: function () {
+        mw.reload_module('custom_fields/list');
+			 mw.reload_module('custom_fields');
+		
+			mw.reload_module_parent('custom_fields/list');
+			 mw.reload_module_parent('custom_fields');
     },
 
     autoSaveOnWriting: function (el, id) {

@@ -76,7 +76,7 @@ $(document).ready(function () {
 mw.contentAction = {
     manage: function (type, id) {
 		
-		 
+		
 		
         var id = id || 0;
         if (type === 'page') {
@@ -171,6 +171,7 @@ mw.on.hashParam("action", function () {
 		mw.$(".fix-tabs").removeClass('fix-tabs');
 	}
 	
+	 
 
     mw.admin.CategoryTreeWidth(this);
 
@@ -235,6 +236,9 @@ mw.on.hashParam("action", function () {
 
 
 edit_load = function (module) {
+
+
+
 
     var n = mw.url.getHashParams(window.location.hash)['new_content'];
 

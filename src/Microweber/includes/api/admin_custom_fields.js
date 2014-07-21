@@ -68,8 +68,7 @@ mw.admin.custom_fields = mw.admin.custom_fields || {}
                         if( rstr != '' && !!data.custom_field_value){
                           mw.reload_module('#mw-custom-fields-list-settings-'+data.id);
                         }
-                         mw.reload_module_parent('custom_fields');
-                         mw.reload_module_parent('custom_fields/list');
+                         mw.custom_fields.after_save();
 
 
                      });
@@ -117,8 +116,10 @@ mw.admin.custom_fields = mw.admin.custom_fields || {}
                     var id = $(this).dataset("id");
                     obj.ids.push(id);
                   });
+				 
+				  
                   $.post(mw.settings.api_url+"fields/reorder", obj, function(){
-           		    mw.reload_module_parent('custom_fields');
+           		   
                  });
                 }
               });

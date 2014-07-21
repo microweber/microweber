@@ -117,14 +117,16 @@ class Layouts
 
             $cache_group = 'templates';
 
-            $cache_content = $this->app->cache->get($cache_id, $cache_group, 60);
+            $cache_content = $this->app->cache->get($cache_id, $cache_group);
 
             if (($cache_content) != false) {
 
                 return $cache_content;
             }
         }
-
+        if(isset($_REQUEST['debug'])){
+            d($options);
+        }
         $glob_patern = "*.php";
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {
@@ -345,7 +347,7 @@ class Layouts
 
 
                 if (!isset($options['no_cache'])) {
-                    $this->app->cache->save($configs, $function_cache_id, $cache_group, 'files');
+                    $this->app->cache->save($configs, $function_cache_id, $cache_group);
                 }
                 return $configs;
             } else {

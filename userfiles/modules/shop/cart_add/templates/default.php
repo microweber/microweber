@@ -27,11 +27,11 @@ else{
 <script>
     _AddToCartModalContent = window._AddToCartModalContent || function(title){
         var html = ''
-        + '<div>'
+        + '<section>'
           + '<h5>' + title + '</h5>'
           + '<p><?php _e("has been added to your cart"); ?></p>'
           + '<a href="javascript:;" onclick="mw.tools.modal.remove(\'#AddToCartModal\')" class="mw-ui-btn"><?php _e("Continue shopping"); ?></a>'
-          + '<a href="<?php print checkout_url(); ?>" class="mw-ui-btn mw-ui-btn-blue"><?php _e("Checkout"); ?></a></div>';
+          + '<a href="<?php print checkout_url(); ?>" class="mw-ui-btn mw-ui-btn-blue"><?php _e("Checkout"); ?></a></section>';
         return html;
     }
     _AddToCart = window._AddToCart || function(selector, id, title){

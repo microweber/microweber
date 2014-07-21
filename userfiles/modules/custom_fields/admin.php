@@ -157,13 +157,15 @@ $(document).ready(function(){
 	});
 
 mw_custom_fileds_changed_callback = function(el){
+	
+	
+	
     mw.tools.loading('#quick-add-post-options-items-holder-container');
 	 mw.reload_module('#mw_custom_fields_list_preview', function(){
 	   mw.admin.custom_fields.initValues();
        mw.tools.loading('#quick-add-post-options-items-holder-container', false);
 	 });
-	 mw.reload_module_parent('custom_fields');
-	 mw.reload_module_parent('custom_fields/list');
+	mw.custom_fields.after_save();
 
 }	
 

@@ -429,7 +429,7 @@ mw.askusertostay = false;
             }
         }
     } else {
-		if(typeof(mweditor) != 'undefined'  && typeof(mweditor) == 'object'   && typeof(mweditor.contentWindow) != 'undefined'){
+		if(typeof(mweditor) != 'undefined'  && typeof(mweditor) == 'object'   && typeof(mweditor.contentWindow) != 'undefined' && typeof(mweditor.contentWindow.mw) != 'undefined'){
 		    mweditor.contentWindow.mw.reload_module(module, callback)
 		}
 

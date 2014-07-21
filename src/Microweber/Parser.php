@@ -110,7 +110,13 @@ class Parser
             $layout = str_replace('</microweber>', '', $layout);
             $layout = str_replace('></module>', '/>', $layout);
             $replaced_scripts = array();
+
+
+
             $script_pattern = "/<script[^>]*>(.*)<\/script>/Uis";
+
+
+
 
             preg_match_all($script_pattern, $layout, $mw_script_matches);
 
@@ -118,7 +124,8 @@ class Parser
                 foreach ($mw_script_matches [0] as $key => $value) {
                     if ($value != '') {
                         $v1 = crc32($value);
-                        $v1 = '<tag>mw_replace_back_this_script_' . $v1 . '</tag>';
+
+                        $v1 = '<x-tag> mw_replace_back_this_script_' . $v1 . ' </x-tag>';
                         $layout = str_replace($value, $v1, $layout);
                         if (!isset($replaced_scripts[$v1])) {
                             $replaced_scripts[$v1] = $value;
@@ -174,9 +181,12 @@ class Parser
 
 
             if (!empty($replaced_scripts)) {
+
+
+
                 foreach ($replaced_scripts as $key => $value) {
                     if ($value != '') {
-                        $layout = str_replace($key, $value, $layout);
+                         $layout = str_replace($key, $value, $layout);
                     }
                     unset($replaced_scripts[$key]);
                 }
@@ -458,6 +468,7 @@ class Parser
                                 } else {
                                     $module_html = $mod_content;
                                 }
+
 
                                 $mw_replaced_modules_values[$replace_key] = $module_html;
                                 $layout = str_replace($value, $module_html, $layout);
