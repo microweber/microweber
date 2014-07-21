@@ -213,9 +213,69 @@ $edit_page_info = $data;;
       			for-id="<?php print $data['id']; ?>" />
 
 
-        
+        <script>
+
+
+        var thetree = mwd.querySelector(".mw-ui-category-selector-abs .module")
+
+        $(mwd).ready(function(){
+           mw.admin.treeRadioSelector('#parent-category-selector-holder', function(){
+                CreateCategoryForPost(3)
+           });
+        });
+
+        CreateCategoryForPost = function(step){
+             mw.$("#category-not-found-name").html(mw.$('#quick-tag-field').val());
+            if(step === 0){
+                mw.$("#category-tree-not-found-message").hide();
+                mw.$("#parent-category-selector-block").hide();
+            }
+            if(step === 1){
+                mw.$(".mw-ui-category-selector-abs").scrollTop(0);
+                mw.$("#category-tree-not-found-message").show();
+                mw.$("#parent-category-selector-block").hide();
+            }
+            else if(step === 2){
+                if(mw.$(".mw-tag-selector .mw-ui-btn-small").length === 0){
+                  mw.$("#category-tree-not-found-message").hide();
+                  mw.$("#parent-category-selector-block").show();
+                }
+                else{
+                   CreateCategoryForPost(3);
+                }
+            }
+            else if(step === 3){
+                var checked = mwd.querySelector('#categoryparent input:checked');
+                var parent = mw.tools.firstParentWithTag(checked, 'li');
+                var parent = mw.tools.hasClass(parent, 'is_page') ? 'content_id' : 'parent_id';
+                var data = {
+                  title:mw.$('#quick-tag-field').val()
+                }
+                data[parent] = checked.value;
+                $.post(mw.settings.api_url + "category/save", data, function(){
+                    CreateCategoryForPost(0);
+                });
+            }
+        }
+
+        </script>
+
+        <div id="category-tree-not-found-message">
+          <h3><?php _e("Category"); ?> "<span id="category-not-found-name"></span>" <?php _e("not found"); ?>.</h3>
+          <br>
+          <span class="mw-ui-btn mw-ui-btn-invert" onclick="CreateCategoryForPost(2)" ><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span>
+        </div>
+        <div id="parent-category-selector-block">
+            <h3><?php _e("Select parent"); ?></h3>
+            <div id="parent-category-selector-holder"></div>
+        </div>
+
         <?php endif; ?>
       </div>
+
+
+
+
     </div>
   </div>
   <?php endif; ?>
@@ -419,12 +479,10 @@ mw.edit_content.render_category_tree = function(id){
     			 mw.edit_content.set_category('mw-category-selector-'+id);
     		  },
               onFound:function(){
-                mw.$("#category-tree-not-found-message").hide();
+                CreateCategoryForPost(0)
               },
               onNotFound:function(){
-
-                mw.$("#category-tree-not-found-message").show();
-                mw.$("#category-not-found-name").html(mw.$('#quick-tag-field').val());
+                CreateCategoryForPost(1)
               }
     	  });
 		  
@@ -465,11 +523,6 @@ mw.edit_content.render_category_tree = function(id){
 
 		  
 
-          var thetree = mwd.querySelector(".mw-ui-category-selector-abs .module")
-
-
-          $(thetree).after('<div id="category-tree-not-found-message"><h3><?php _e("Category"); ?> "<span id="category-not-found-name"></span>" <?php _e("not found"); ?>.</h3><br><span class="mw-ui-btn mw-ui-btn-invert" onclick="mw.admin.treeSelector()"><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span></div>');
-
 
 
           $(mwd.querySelectorAll('#mw-category-selector-'+id+" .pages_tree_item")).bind("mouseup", function(e){
@@ -499,10 +552,10 @@ mw.edit_content.handle_form_submit = function(go_live){
         mw.content.save(data, {
           onSuccess:function(a){
               mw.$('.mw-admin-go-live-now-btn').attr('content-id',this);
-             
+              mw.askusertostay = false;
 
               if(parent !== self && !!window.parent.mw){
-                 window.parent.mw.askusertostay=false;
+                 window.parent.mw.askusertostay = false;
 				 if(typeof(data.is_active) !== 'undefined' && typeof(data.id) !== 'undefined'){
 					   if((data.id) != 0){ 
 						  if((data.is_active) == 'n'){
@@ -674,6 +727,7 @@ mw.save_inner_editable_fields = function(data){
                  }
               }
            });
+           mw.admin.ChangeListener();
           }
         }
 
@@ -752,7 +806,7 @@ mw.save_inner_editable_fields = function(data){
 
 
 
-
+    mw.admin.ChangeListener();
 
 
 

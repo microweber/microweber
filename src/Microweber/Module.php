@@ -529,7 +529,7 @@ class Module
         } else {
             if ($template_name == false) {
                 $options = array();
-                $options['no_cache'] = 1;
+               // $options['no_cache'] = 1;
                 $options['for_modules'] = 1;
                 $options['path'] = $module_name_l;
                 $module_name_l = $this->app->layouts->scan($options);

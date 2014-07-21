@@ -160,6 +160,8 @@ mw.on.hashParam("parent-page", function () {
     }
 });
 
+ 
+
 
 mw.on.hashParam("action", function () {
 	

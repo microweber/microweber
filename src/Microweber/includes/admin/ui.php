@@ -997,7 +997,20 @@ $(window).load(function(){
         <td colspan="2">
             <h2>Gallery</h2>
 
-            <span class="mw-ui-btn" onclick="mw.gallery([{img:'http://lorempixel.com/1000/1000/nature/1',description:'Some description'},{img:'http://lorempixel.com/1000/1000/nature/2',description:'Some other description'}])"> Click to launch </span>
+            <script>
+
+            GArrayExample = [];
+
+            for(var i = 1; i<=10; i++ ){
+                GArrayExample.push({
+                    img:'http://lorempixel.com/1000/1000/nature/?'+mw.random(),
+                    description:'Some description for image <b>' + i + '</b>'
+                });
+            }
+
+            </script>
+
+            <span class="mw-ui-btn" onclick="mw.gallery(GArrayExample)"> Click to launch </span>
 
        </td>
      </tr>

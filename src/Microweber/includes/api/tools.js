@@ -727,10 +727,10 @@ mw.tools = {
           if(!!modal){ $(modal.container).addClass('mw_gallery_loading'); }
           mw.image.preload(img, function(w,h){
               if(typeof desc != 'undefined' && desc != ''){
-                callback.call("<div class='mwf-single-holder'><img src='"+img+"'  class='mwf-single'  width='"+w+"' data-width='"+w+"' data-height='"+h+"' height='"+h+"' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\')[0].modal)'  /><div class='mwf-gallery-description'><div class='mwf-gallery-description-holder'>"+desc+"</div></div></div>");
+                callback.call("<div class='mwf-single-holder'><img src='"+img+"'  class='mwf-single'  width='"+w+"' data-width='"+w+"' data-height='"+h+"' height='"+h+"' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);'  /><div class='mwf-gallery-description'><div class='mwf-gallery-description-holder'>"+desc+"</div></div></div>");
               }
               else{
-                callback.call("<div class='mwf-single-holder'><img src='"+img+"'  data-width='"+w+"' width='"+w+"' data-height='"+h+"' height='"+h+"' class='mwf-single' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal)' /></div>");
+                callback.call("<div class='mwf-single-holder'><img src='"+img+"'  data-width='"+w+"' width='"+w+"' data-height='"+h+"' height='"+h+"' class='mwf-single' onclick='mw.tools.gallery.next()' onload='mw.tools.gallery.normalize(mw.$(\"#mw_gallery\")[0].modal);' /></div>");
               }
               $(modal.container).removeClass('mw_gallery_loading');
           });
@@ -804,7 +804,7 @@ mw.tools = {
             +'</div>'
              +next
              +prev
-            + (mw.tools.isFullscreenAvailable() ? '<span class="mwf-fullscreen">Fullscreen</span>' : '')
+            + (mw.tools.isFullscreenAvailable() ? '<span class="mwf-fullscreen"></span>' : '')
         +'</div>';
 
         var modal = modal || mw.tools.modal.init({
@@ -4105,7 +4105,7 @@ mw.image = {
         img.onload = function(){
           setTimeout(function(){
             if(typeof callback === 'function'){
-              callback.call(img, $(img).width(), $(img).height());
+              callback.call(img, img.naturalWidth, img.naturalHeight);
             }
             $(img).remove();
           },33);

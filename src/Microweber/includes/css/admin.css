@@ -115,6 +115,13 @@ h2 > [class*="mw-icon-"]:first-child{
   max-width: 1220px;
 }
 
+
+#mw-edit-page-editor-holder{
+  border: 1px solid #DADADA;
+  border-radius:3px;
+  padding: 20px;
+}
+
 .mw-iframe-editor{
   max-width: 1200px !important;
   min-height: 320px;
@@ -1925,6 +1932,17 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 
 #category-not-found-name{
   font-weight: bold;
+}
+#parent-category-selector-holder{
+  text-align: left;
+  margin: 0 auto 20px;
+}
+#parent-category-selector-block{
+  display: none;
+}
+
+#parent-category-selector-block h3{
+  padding: 25px;
 }
 
 

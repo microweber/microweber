@@ -72,6 +72,13 @@ class Layouts
 
     public function scan($options = false)
     {
+
+      if($_SERVER['REMOTE_ADDR'] == 'fe80::1058:77fe:80b6:de9f'){
+         // d($_SERVER);
+        //  print_r( debug_backtrace());
+        //  exit;
+      }
+
         $options = parse_params($options);
         if (!isset($options['path'])) {
             if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
@@ -104,6 +111,7 @@ class Layouts
         }
 
         if (!isset($options['no_cache'])) {
+
             $args = func_get_args();
             $function_cache_id = '';
             foreach ($args as $k => $v) {

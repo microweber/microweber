@@ -2723,7 +2723,7 @@ class Content
             $q = $this->app->db->q($sql);
 
             foreach ($add_to_menus_int as $value) {
-                $check = $this->get_menu_items("no_cache=1&limit=1&count=1&parent_id={$value}&content_id=$content_id");
+                $check = $this->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
                 if ($check == 0) {
                     $save = array();
                     $save['item_type'] = 'menu_item';
@@ -4139,8 +4139,6 @@ class Content
         $params['id'] = $id;
         $params['limit'] = 1;
         $params['table'] = $table;
-        //  $params['no_cache'] = 'n';
-        // $params['debug'] = 'n';
 
         $q = $this->app->db->get($params);
 
@@ -4278,11 +4276,11 @@ class Content
         $params['table'] = $table;
         $params['cache_group'] = $cache_group;
 
-        if ($this->no_cache == true or isset($params['no_cache'])) {
-            $params['cache_group'] = false;
-            $params['no_cache'] = true;
-            $mw_global_content_memory = array();
-        }
+//        if ($this->no_cache == true or isset($params['no_cache'])) {
+//            $params['cache_group'] = false;
+//            $params['no_cache'] = true;
+//            $mw_global_content_memory = array();
+//        }
         if (isset($params['search_by_keyword'])) {
             $params['keyword'] = $params['search_by_keyword'];
         }

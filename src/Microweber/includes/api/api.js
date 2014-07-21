@@ -754,7 +754,8 @@ mw._response = {
     mw.$(holder).eq(0).show();
   }
 }
-  mw.require("session.js");
+ 
+ 
 }
 
 
@@ -765,7 +766,7 @@ mw.required.push("<?php print MW_INCLUDES_URL; ?>api/forms.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/url.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/events.js");
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/upgrades.js");
-
+mw.required.push("<?php print MW_INCLUDES_URL; ?>api/session.js");
 
 
 <?php  // include "jquery.js";  ?>
@@ -775,3 +776,6 @@ mw.required.push("<?php print MW_INCLUDES_URL; ?>api/upgrades.js");
 <?php  include "url.js"; ?>
 <?php  include "events.js"; ?>
 <?php  include "upgrades.js"; ?>
+
+
+<?php  include "session.js"; ?>

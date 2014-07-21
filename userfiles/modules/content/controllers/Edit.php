@@ -52,7 +52,9 @@ class Edit
     function index($params)
     {
 
-
+        if (is_admin() == false) {
+            return;
+        }
         if (isset($params['content_type']) and $params['content_type'] == 'category') {
             print load_module('categories/edit_category', $params);
             return;
@@ -173,7 +175,7 @@ class Edit
         }
         /* END OF SETTING PARENT AND ACTIVE CATEGORY  */
 
-        if($recommended_parent != false and $data['parent'] == 0){
+        if ($recommended_parent != false and $data['parent'] == 0) {
             $data['parent'] = $recommended_parent;
         }
 
@@ -229,52 +231,29 @@ class Edit
             //if we are adding product in a page that is not a shop
             $parent_shop_check = $this->app->content->get_by_id($data['parent']);
             if (!isset($parent_shop_check['is_shop']) or $parent_shop_check['is_shop'] != 'y') {
-                $parent_content_shop = $this->app->content->get('order_by=updated_on desc&one=true&is_shop=y');
+                $parent_content_shop = $this->app->content->get('content_type=page&order_by=updated_on desc&one=true&is_shop=y');
                 if (isset($parent_content_shop['id'])) {
                     $data['parent'] = $parent_content_shop['id'];
                 }
             }
 
         } elseif ($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'post') {
-
             //if we are adding product in a page that is not a shop
             $parent_shop_check = $this->app->content->get_by_id($data['parent']);
-
             if (!isset($parent_shop_check['content_type']) or $parent_shop_check['content_type'] != 'page') {
-                $parent_content_shop = $this->app->content->get('order_by=updated_on desc&one=true&subtype=dynamic&is_shop=n');
+                $parent_content_shop = $this->app->content->get('order_by=updated_on desc&one=true&content_type=page&subtype=dynamic&is_shop=n');
                 if (isset($parent_content_shop['id'])) {
                     $data['parent'] = $parent_content_shop['id'];
                 }
             }
-
         }
-		
-//		 if (isset($data['subtype']) and $data['subtype'] == 'product') {
-//            $data['prices'] = $this->app->fields->get("no_cache=1&field_type=price&for=content&for_id=" . $data['id']);
-//			if($data['prices'] == false){
-//
-//
-//
-//
-//			$create_price_field = $this->app->fields->save("field_type=price&for=content&for_id=" . $data['id']);
-//
-//			} else {
-//			}
-//
-//			$data['prices'] = $this->app->fields->get("field_type=price&for=content&for_id=" . $data['id']);
-//
-//			  // d($data['prices']);
-//        } else {
-//           // $data['prices'] = false;
-//        }
-		
-		
-		
+
+
 
         /* END OF SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
 
         $module_id = $params['id'];
- 
+
         $post_list_view = $this->views_dir . 'edit.php';
         $this->event->emit('module.content.edit', $data);
         $view = new View($post_list_view);

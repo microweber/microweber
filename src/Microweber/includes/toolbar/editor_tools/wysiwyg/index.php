@@ -3,10 +3,11 @@
 <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/ui.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/admin.css"/>
 <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css"/>
+<script src="<?php print MW_INCLUDES_URL; ?>api/jquery-ui.js"></script>
 <script>
-    mwAdmin = true;
+    mwAdmin = true; 
 </script>
-<script>mw.require("jquery-ui.js");</script>
+<script> //  mw.require("jquery-ui.js");</script>
 <script>mw.require("tools.js");</script>
 <script>mw.require("url.js");</script>
 <script>mw.require("events.js");</script>
@@ -17,6 +18,9 @@
 
 
 <script>
+
+
+ 
 
 scaleHeight = function(){
   var pt = parseFloat(mw.$("#mw-iframe-editor-area").css("paddingTop"));

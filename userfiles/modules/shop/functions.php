@@ -47,5 +47,26 @@ function mw_print_admin_edit_product_options($data)
 	}
 }
 
+event_bind('module.content.edit', function($data){
+    return;
+    if (isset($data['id']) and $data['id'] == 0) {
+        if (isset($data['subtype']) and $data['subtype'] == 'product') {
+            $data['prices'] = mw()->fields->get("field_type=price&for=content&for_id=" . $data['id']);
+            if ($data['prices'] == false) {
+                $create_price_field = mw()->fields->save("field_value=0&field_type=price&for=content&for_id=" . $data['id']);
+                $data['prices'] = mw()->fields->get("field_type=price&for=content&for_id=" . $data['id']);
+            }
+        } else {
+            $data['prices'] = false;
+        }
+    }
+    if(isset($data['prices'])){
+        $btn = array();
+        $btn['title'] = _e("Price", true);
+        $btn['html'] = 'dfsdfsdf s';
+        $btn['class'] = 'mw-icon-product';
+        mw()->module->ui('content.create.title.after', $btn);
+    }
 
+});
 

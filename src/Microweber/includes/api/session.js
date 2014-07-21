@@ -1,3 +1,5 @@
+
+
 mw.session = {
   checkPause:false,
   checkPauseExplicitly:false,
