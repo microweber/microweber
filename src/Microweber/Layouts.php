@@ -124,9 +124,7 @@ class Layouts
                 return $cache_content;
             }
         }
-        if(isset($_REQUEST['debug'])){
-            d($options);
-        }
+     
         $glob_patern = "*.php";
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {

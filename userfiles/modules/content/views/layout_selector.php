@@ -145,9 +145,9 @@ $layout_options = array();
 
 
 
-$layout_options  ['site_template'] = $data['active_site_template'];
-$layout_options  ['no_cache'] = true;
-
+$layout_options['site_template'] = $data['active_site_template'];
+$layout_options['no_cache'] = true;
+ 
 $layouts = mw('layouts')->get_all($layout_options);
 
 $recomended_layouts = array();
@@ -393,8 +393,13 @@ $(document).ready(function () {
     mw.$('#active_site_template_<?php print $rand; ?>').bind("change", function (e) {
         var parent_module = $(this).parents('.module').first();
         if (parent_module != undefined) {
-            parent_module.attr('active_site_template', $(this).val());
-			mw.templatePreview<?php print $rand; ?>.view();
+			var templ =  $(this).val();
+			//alert(templ);
+            parent_module.attr('active_site_template',templ);
+			
+			mw.$("#<?php print $params['id']?>").attr('active_site_template',templ);
+			mw.reload_module("#<?php print $params['id']?>")
+			//mw.templatePreview<?php print $rand; ?>.view();
           //  mw.reload_module('<?php print $params['type']?>', function () {
 //                
 //				
