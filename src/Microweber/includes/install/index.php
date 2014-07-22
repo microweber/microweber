@@ -317,7 +317,7 @@ if (isset($to_save['is_installed'])) {
                 mw('cache')->clear();
                 // _reload_c();
 
-                $local_config = mw('application')->loadConfigFromFile($cfg, true);
+                $local_config = mw()->loadConfigFromFile($cfg, true);
 
                 if (!defined('USER_ID')) {
 
@@ -340,15 +340,19 @@ if (isset($to_save['is_installed'])) {
                 __mw_install_log('Initializing users');
                 mw('user')->db_init();
 
+
                 event_trigger('mw_db_init_options');
                 event_trigger('mw_db_init_users');
 
 
                 __mw_install_log('Creating default database tables');
-                mw('cache')->clear('db');
+                mw('cache')->delete('db');
+
+
                 event_trigger('mw_db_init_default');
                 event_trigger('mw_db_init');
                 mw('content')->db_init();
+                mw('module')->db_init();
                 __mw_install_log('Creating log database tables');
                 mw('notifications')->db_init();
                 __mw_install_log('Creating online shop database tables');

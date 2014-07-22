@@ -3231,6 +3231,14 @@ body.grabbing, body.grabbing *{
   border-radius: 333px;
 }
 
+
+.order-details-box > .mw-ui-box-content > .mw-ui-table.mw-ui-table-basic > tbody > tr:first-child > td{
+  border-top: none;
+}
+.order-details-box > .mw-ui-box-content > .mw-ui-table.mw-ui-table-basic > tbody > tr:first-child > td:first-child{
+  border-right: 1px solid #e5e5e5;
+}
+
 .mw-ord-id{
   color: #2C82DD;
   font-size: 16px;
@@ -3240,13 +3248,7 @@ body.grabbing, body.grabbing *{
   text-decoration: underline;
 }
 
-.order-detail-title{
-  display: block;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid #EDEDED;
-  font-size: 15px;
-}
+
 
 #manage-orders-menus:after{
   content: ".";

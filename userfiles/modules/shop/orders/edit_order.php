@@ -314,11 +314,16 @@ else {
                 <?php endif; ?></td>
         </tr>
     </table>
-    <table cellspacing="0" cellpadding="0" class="mw-ui-table">
+
+
+    <div class="mw-ui-box order-details-box">
+        <div class="mw-ui-box-header"><?php _e("Shipping Address"); ?></div>
+        <div class="mw-ui-box-content">
+            <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic" style="margin-top: 0;">
         <col width="50%"/>
         <tr>
             <td valign="top">
-                        <span class="order-detail-title"><?php _e("Shipping Address"); ?></span>
+
                 <?php
                 $map_click_str = false;
                 $map_click = array();?>
@@ -368,12 +373,14 @@ else {
                    <img class="map-shipping-address"
                         src="http://maps.googleapis.com/maps/api/staticmap?size=320x320&zoom=17&markers=icon:http://microweber.com/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>"/>
                 </a>
-                <a target="_blank" class="mw-ui-btn" href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
-                        <?php _e("See Location on map"); ?>
-                </a>
+
             </td>
         </tr>
     </table>
+        </div>
+    </div>
+
+
 
 <?php if (isset($ord['custom_fields']) and $ord['custom_fields'] != ''): ?>
 
@@ -390,11 +397,17 @@ else {
 <?php endif; ?>
 
 
-    <table  cellspacing="0" cellpadding="0" class="mw-ui-table">
+<div class="mw-ui-box order-details-box" style="margin-top: 20px;">
+<div class="mw-ui-box-header">
+     <?php _e("Billing Details"); ?>
+</div>
+<div class="mw-ui-box-content">
+
+<table  cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic" style="margin-top:0">
         <col width="50%"/>
         <tr>
             <td valign="top">
-                        <span class="order-detail-title"><?php _e("Billing Details"); ?></span>
+
 
                 <ul class="order-table-info-list">
                     <li><?php print $ord['payment_name'] ?></li>
@@ -410,16 +423,17 @@ else {
             <a target="_blank"
                        href="https://maps.google.com/maps?q=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&safe=off">
                 <img class="map-shipping-address"
-                    src="https://maps.googleapis.com/maps/api/staticmap?size=640x320&zoom=17&markers=icon:https://microweber.com/user.png|<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&sensor=true&center=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>"/>
+                    src="https://maps.googleapis.com/maps/api/staticmap?size=320x320&zoom=17&markers=icon:https://microweber.com/user.png|<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&sensor=true&center=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>"/>
             </a>
-                    <a target="_blank" class="mw-ui-btn"
-                       href="https://maps.google.com/maps?q=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&safe=off">
-                        <?php _e("See Location on map"); ?>
-                    </a>
+
 
             </td>
         </tr>
     </table>
+</div>
+</div>
+
+
 
 
 

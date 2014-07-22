@@ -2400,7 +2400,6 @@ class Controller
         if (isset($_GET['preview_layout'])) {
             $page['layout_file'] = $_GET['preview_layout'];
         }
-       // $page['no_cache'] = 1;
         $this->app->content->define_constants($page);
         $page['render_file'] = $this->app->template->get_layout($page);
 //        if (!isset($page['render_file'])) {

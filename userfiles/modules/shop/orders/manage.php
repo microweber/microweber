@@ -139,7 +139,7 @@ ordersSort = function(obj){
                 </div>
 
             </div>
-            
+
             <div class="mw-ui-col" style="width: 80%">
                 <input type="text" class="mw-ui-searchfield active pull-right" id="orders-search-field"  placeholder="<?php _e("Search in orders"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
             </div>
