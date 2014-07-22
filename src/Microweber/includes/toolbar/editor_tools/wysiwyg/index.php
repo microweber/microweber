@@ -6,19 +6,34 @@
 <script src="<?php print MW_INCLUDES_URL; ?>api/jquery-ui.js"></script>
 <script>
     mwAdmin = true; 
+	 
 </script>
-<script> //  mw.require("jquery-ui.js");</script>
-<script>mw.require("tools.js");</script>
+<script src="<?php  print( INCLUDES_URL);  ?>api/libs/rangy/rangy-core.js"></script>
+<script src="<?php  print( INCLUDES_URL);  ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
+<script src="<?php  print( INCLUDES_URL);  ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
+<script src="<?php  print( INCLUDES_URL);  ?>api/libs/rangy/rangy-serializer.js"></script>
+<script src="<?php  print( INCLUDES_URL);  ?>api/tools.js"></script>
+<script src="<?php  print( INCLUDES_URL);  ?>api/url.js"></script>
+<script src="<?php  print( INCLUDES_URL);  ?>api/events.js"></script>
+<script src="<?php  print( INCLUDES_URL);  ?>api/wysiwyg.js"></script>
+<script src="<?php  print( INCLUDES_URL);  ?>api/external_callbacks.js"></script>
+ 
+
+<?php 
+
+/*<script>mw.require("tools.js");</script>
 <script>mw.require("url.js");</script>
 <script>mw.require("events.js");</script>
 <script>mw.require("wysiwyg.js");</script>
-<script>mw.require("external_callbacks.js");</script>
+<script>mw.require("external_callbacks.js");</script>*/
+
+ ?>
 
 
 
 
 <script>
-
+ 
 
  
 
@@ -264,10 +279,16 @@ img{
 <?php $mainclass = 'admin-live-edit-editor'; ?>
 
 <link href="<?php print(MW_INCLUDES_URL); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+<script src="<?php print MW_INCLUDES_URL; ?>api/liveedit.js"></script>
+<script src="<?php print MW_INCLUDES_URL; ?>api/columns.js"></script>
+<script src="<?php print MW_INCLUDES_URL; ?>api/plus.js"></script>
+
+
+
 <script>
-  mw.require("liveedit.js");
-  mw.require("columns.js");
-  mw.require("plus.js");
+  //mw.require("liveedit.js");
+//  mw.require("columns.js");
+//  mw.require("plus.js");
   $(window).bind('load', function(){
       mw.drag.plus.init('#mw-iframe-editor-area');
       mw.drag.columns.init();

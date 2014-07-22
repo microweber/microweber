@@ -59,7 +59,7 @@ else {
                 <?php endif; ?>
             <?php } ?>
         </div>
-        <table class="mw-ui-table" cellspacing="0" cellpadding="0" width="100%">
+        <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%">
             <thead>
             <tr>
                 <th><?php _e("Product Name"); ?></th>
@@ -292,7 +292,7 @@ else {
 </div>
 
     <div class="mw-ui-box-content">
-    <table cellspacing="0" cellpadding="0" class="mw-ui-table">
+    <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
         <col width="150"/>
         <tr>
             <td><?php _e("Customer Name"); ?></td>

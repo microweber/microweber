@@ -10,7 +10,7 @@ if(user_id() == 0){
 
 //mw.require("wysiwyg.js") ;
 
-
+ 
   mw.settings.liveEdit = true;
 
   mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");

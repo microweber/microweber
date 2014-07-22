@@ -3,7 +3,7 @@
 
 mw.require('css_parser.js');
 mw.require('events.js');
-mw.lib.require('rangy');
+//mw.lib.require('rangy');
 
 if(typeof Selection.prototype.containsNode === 'undefined'){
       Selection.prototype.containsNode = function(a){

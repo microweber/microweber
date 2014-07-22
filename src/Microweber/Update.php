@@ -117,7 +117,7 @@ class Update
     function check($skip_cache = false)
     {
 
-
+        return false;
        // d($_SERVER["REMOTE_ADDR"]);
 
 

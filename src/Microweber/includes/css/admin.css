@@ -102,6 +102,11 @@ h2 > [class*="mw-icon-"]:first-child{
   vertical-align: baseline;
   top: 3px;
 }
+h3 > [class*="mw-icon-"]:first-child{
+  margin-right: 10px;
+  vertical-align: baseline;
+  top: 0;
+}
 
 /************************************
         Primary Admin Grid
@@ -3013,6 +3018,28 @@ body.grabbing, body.grabbing *{
   margin-left: 12px;
 }
 
+.mw-user-thumb-small{
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-size: cover;
+  text-align: center;
+  font-size: 25px;
+}
+
+#users_admin_panel .mw-user-thumb-small{
+  margin-right: 10px;
+  font-size: 35px;
+  color: #B3B3B3;
+}
+
+
+#users_admin_panel, #users_admin_panel *{
+  vertical-align: middle;
+}
+
 
 
 /************************************
@@ -3165,9 +3192,57 @@ body.grabbing, body.grabbing *{
   text-align: center;
 }
 
+#manage-orders-menus .mw-ui-btn-nav .mw-ui-btn{
+  background-color: #f7f7f7;
+  font-size: 12px;
+}
+
+#manage-orders-menus .mw-ui-btn-nav .mw-ui-btn.active{
+  background-color: #fff;
+}
+
+#manage-orders-menus{
+  padding: 12px 0;
+  clear: both;
+  position: relative;
+  border-top: 1px solid #e5e5e5;
+}
+
+.ordersnum{
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border-radius: 200px;
+  color: white;
+  background-color: black;
+  text-align: center;
+  font-size: 35px;
+  padding: 25px 10px;
+  position: relative;
+}
+
+#manage-orders-menus:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
 #mw-order-table-holder th,
 #mw-order-table-holder tfoot td{
   white-space: nowrap;
+}
+
+.mw-custom-fields-cart-item{
+  font-size: 11px;
+  padding-left: 10px;
+}
+.mw-custom-fields-cart-item-key{
+  font-weight: bold;
+  display: block;
+  padding-top: 3px;
 }
 
 #mw-admin-edit-order .mw-ui-table{

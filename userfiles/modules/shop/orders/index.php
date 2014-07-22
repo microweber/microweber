@@ -71,9 +71,25 @@
     </tfoot>
     <tbody>
       <?php foreach ($orders as $item) : ?>
-      <tr class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-status-<?php print $item['order_status'] ?>">
+      <tr class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-status-<?php print $item['order_status'] ?> tip" data-tip="#product-tip-<?php print $item['id'] ?>" data-tipposition="top-left">
+          <?php  $cart_item = get_cart('no_session_id=true&order_completed=any&order_id=' . $item['id'] . '');      ?>
         <td class="mw-order-item-id"> <span class="mw-ord-id"><?php print $item['id'] ?></span>
+                     <?php if(isset($cart_item[0]) and isset($cart_item[0]['rel_id'])) { ?>
+                     <?php $p = get_picture($cart_item[0]['rel_id']); ?>
 
+        <?php
+
+
+        if ($p != false): ?>
+        <div id="product-tip-<?php print $item['id'] ?>" style="display: none">
+                    <img
+                        class="mw-order-item-image mw-order-item-image-<?php print $i; ?>"
+                        data-index="<?php print $i; ?>"
+                        src="<?php print thumbnail($p, 70, 70); ?>"
+                        />
+                        </div>
+                <?php endif; ?>
+                <?php } ?>
           </td>
           <td title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></td>
         <td class="mw-order-item-status"><?php
@@ -204,7 +220,9 @@
             <input type="text" class="mw-ui-field right" style="width: 330px;font-size: 11px;" readonly="readonly" onfocus="$(this).select()" value="<?php print $recart_base.'?recart='.$item['session_id'] ?>">
           </div>
           
-          <a class="mw-ui-btn mw-ui-btn-green right" style="margin-left: 12px;" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank">Recover</a> <a class="mw-ui-btn right" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);">Delete cart</a></td>
+          <a class="mw-ui-btn mw-ui-btn-green right" style="margin-left: 12px;" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank">Recover</a>
+
+          <a class="mw-ui-btn right" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);">Delete cart</a></td>
       </tr>
       <?php endforeach; ?>
     </tbody>

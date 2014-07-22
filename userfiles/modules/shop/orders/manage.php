@@ -2,10 +2,16 @@
 <script>
     mw.require('forms.js', true);
 
+
    $(mwd).ready(function(){
-      mw.$("#mw-admin-order-type-filter").change(function(){
+
+
+      mw.$("#mw-admin-order-type-filter").bind('change', function(){
           mw_admin_set_order_type_filter();
       });
+
+
+
    });
    function mw_admin_set_order_type_filter(){
     	var v = mw.$("#mw-admin-order-type-filter").val();
@@ -19,7 +25,9 @@
         mw.$('#mw-admin-manage-orders-list').attr('order-type', v);
         mw.$('#mw-admin-manage-orders-list').removeAttr('keyword');
         mw.$('#mw-admin-manage-orders-list').removeAttr('order');
-        mw.reload_module("#mw-admin-manage-orders-list");
+        mw.reload_module("#mw-admin-manage-orders-list", function(){
+
+        });
    }
 
 
@@ -34,7 +42,6 @@ ordersSort = function(obj){
     for( ; i<len; i++ ){
         var curr = others[i];
         if(curr !== obj.el){
-
            $(curr).removeClass('ASC DESC active');
         }
     }
@@ -44,22 +51,22 @@ ordersSort = function(obj){
     tosend.type = obj.el.attributes['data-sort-type'].nodeValue;
     if(state === '0'){
         tosend.state = 'ASC';
-        obj.el.className = 'mw-ui-btn active ASC';
+        obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
         obj.el.setAttribute('data-state', 'ASC');
     }
     else if(state==='ASC'){
         tosend.state = 'DESC';
-        obj.el.className = 'mw-ui-btn active DESC';
+        obj.el.className = 'mw-ui-btn mw-ui-btn-medium active DESC';
         obj.el.setAttribute('data-state', 'DESC');
     }
     else if(state==='DESC'){
          tosend.state = 'ASC';
-         obj.el.className = 'mw-ui-btn active ASC';
+         obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
          obj.el.setAttribute('data-state', 'ASC');
     }
     else{
        tosend.state = 'ASC';
-       obj.el.className = 'mw-ui-btn active ASC';
+       obj.el.className = 'mw-ui-btn mw-ui-btn-medium active ASC';
        obj.el.setAttribute('data-state', 'ASC');
     }
 
@@ -68,6 +75,30 @@ ordersSort = function(obj){
 	     mw.reload_module(parent_mod);
 	}
   }
+
+	 mw.on.hashParam('search', function(){
+
+
+  var field = mwd.getElementById('orders-search-field');
+  $(field).addClass('loading')
+
+  if(!field.focused){ field.value = this; }
+
+  if(this  != ''){
+    $('#mw-admin-manage-orders-list').attr('keyword',this);
+  } else {
+    $('#mw-admin-manage-orders-list').removeAttr('keyword' );
+  }
+
+  $('#mw-admin-manage-orders-list').removeAttr('export_to_excel');
+
+
+ mw.reload_module('#mw-admin-manage-orders-list', function(){
+    mw.$(field).removeClass('loading');
+ });
+
+
+});
 
 
 </script>
@@ -80,41 +111,85 @@ ordersSort = function(obj){
 </style>
 <?php $is_orders = get_orders('count=1'); ?>
 
-
+<?php $latest_orders = get_orders('count=1&status=pending'); ?>
 
 
 
 <div class="mw-table-sorting-controller">
-	<div class="section-header"><h2><span class="mw-icon-shopcart"></span><?php _e("Orders List"); ?></h2> </div>
-	<div class="mw-ui-row" style="margin-bottom: 20px;">
-        <div class="mw-ui-col">
-            <select name="order_type" id="mw-admin-order-type-filter" class="mw-ui-field" autocomplete="off">
-        		<option value="completed"><?php _e("Completed orders"); ?></option>
-        		<option value="carts"><?php _e("Abandoned carts"); ?></option>
-        	</select>
-            <div class="mw-table-sorting right mw-admin-order-sort-carts" style="display:none">
-        	    <span class="mw-ui-btn" onclick="mw_admin_set_order_type_filter();"><?php _e("Refresh"); ?></span>
-        	</div>
+	<div class="section-header">
+    	<div class="mw-ui-row valign" style="margin-bottom: 20px;">
+            <div class="mw-ui-col">
+                <div class="mw-ui-row" style=" width: auto">
+                    <div class="mw-ui-col">
+                        <div class="mw-ui-col-container">
+                            <div class="ordersnum"><?php print $latest_orders;  ?></div></div>  </div>
+                    <div class="mw-ui-col"><div class="mw-ui-col-container">
+                        <h2 style="margin: 0;white-space:nowrap">
+                            <?php if($latest_orders > 1){ ?>
+                                <?php _e("New orders"); ?>
+                            <?php } if($latest_orders == 1){ ?>
+                                <?php _e("New order"); ?>
+                            <?php } if($latest_orders == 0){   ?>
+                                <?php _e("No new orders"); ?>
+                            <?php } ?>
+
+                        </h2>
+                    </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mw-ui-col" style="display: none">
+                <select name="order_type" id="mw-admin-order-type-filter" class="mw-ui-field" autocomplete="off">
+            		<option value="completed"><?php _e("Completed orders"); ?></option>
+            		<option value="carts"><?php _e("Abandoned carts"); ?></option>
+            	</select>
+                <div class="mw-table-sorting right mw-admin-order-sort-carts" style="display:none">
+            	    <span class="mw-ui-btn" onclick="mw_admin_set_order_type_filter();"><?php _e("Refresh"); ?></span>
+            	</div>
+            </div>
+            <div class="mw-ui-col" style="width: 80%">
+                <input type="text" class="mw-ui-searchfield active pull-right" id="orders-search-field"  placeholder="<?php _e("Search in orders"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
+            </div>
         </div>
-        <div class="mw-ui-col">
-    	<?php  if($is_orders != 0){    ?>
-        	<div class="mw-table-sorting right mw-admin-order-sort-completed">
-                  <div class="mw-ui-btn-nav pull-right unselectable" style="margin-left: 10px;">
-                  	<span class="mw-ui-btn" data-sort-type="created_on" onclick="ordersSort({id:'shop-orders', el:this});">
-                  		<?php _e("Date"); ?>
-                  	</span>
-                  	<span class="mw-ui-btn" data-sort-type="first_name" onclick="ordersSort({id:'shop-orders', el:this});">
-                  		<?php _e("Name(A-Z)"); ?>
-                  	</span>
-                  	<span class="mw-ui-btn" data-sort-type="amount" onclick="ordersSort({id:'shop-orders', el:this});">
-                  		<?php _e("Ammout"); ?>
-                  	</span>
-                  </div>
-                  <label class="pull-right" style="margin-top: 10px;"><?php _e("Sort By"); ?>:</label>
-        	</div>
-    	<?php  } ?>
-        </div>
+    </div>
+</div>
+
+
+
+<div id="manage-orders-menus">
+
+<h3 class="pull-left" style="margin: 0 12px 0 14px;"><span class="mw-icon-shopcart"></span><?php _e("Orders List"); ?></h3>
+
+
+
+
+
+<?php  if($is_orders != 0){    ?>
+  	<div class="mw-table-sorting mw-admin-order-sort-completed pull-right" style="margin-left: 20px;">
+            <div class="mw-ui-btn-nav unselectable pull-right" style="margin-left: 10px;">
+            	<span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="created_on" onclick="ordersSort({id:'shop-orders', el:this});">
+            		<?php _e("Date"); ?>
+            	</span>
+            	<span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="first_name" onclick="ordersSort({id:'shop-orders', el:this});">
+            		<?php _e("Name(A-Z)"); ?>
+            	</span>
+            	<span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="amount" onclick="ordersSort({id:'shop-orders', el:this});">
+            		<?php _e("Ammout"); ?>
+            	</span>
+            </div>
+            <label class="pull-right" style="margin-top: 10px;"><?php _e("Sort By"); ?>:</label>
+  	</div>
+<?php  } ?>
+
+
+<div class="mw-ui-btn-nav unselectable pull-right">
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium active"><?php _e("Completed orders"); ?></a>
+    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium"><?php _e("Abandoned carts"); ?></a>
 </div>
 
 </div>
+
+
+
 <module type="shop/orders"  id="mw-admin-manage-orders-list"  />

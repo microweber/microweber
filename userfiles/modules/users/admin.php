@@ -16,6 +16,14 @@
     <script type="text/javascript"> mw.require('forms.js', true); </script>
     <script type="text/javascript">
 
+
+    userSections = {
+      create:'<?php _e("Add new user"); ?>',
+      edit:'<?php _e("Edit user"); ?>',
+      manage:'<?php _e("Manage users"); ?>'
+    }
+
+
     $(document).ready(function () {
         if (typeof UsersRotator === 'undefined') {
             UsersRotator = mw.admin.simpleRotator(mwd.getElementById('mw-users-manage-edit-rotattor'));
@@ -36,7 +44,6 @@
         }
 
         var search = mw.url.getHashParams(window.location.hash).search;
-        d(search)
         if (typeof search !== 'undefined') {
             mw.$('#users_admin_panel').attr('data-search-keyword', search);
 
@@ -147,6 +154,22 @@
             _mw_admin_user_edit();
             mw.$('.modules-index-bar, .manage-items').fadeOut();
         }
+
+        var val = this.toString();
+
+        if(val == 'false'){
+            mw.$("#user-section-title").html(userSections.manage);
+            mw.$("#add-new-user-btn").show();
+        }
+        else if(val == '0'){
+            mw.$("#user-section-title").html(userSections.create);
+            mw.$("#add-new-user-btn").hide();
+        }
+        else{
+            mw.$("#user-section-title").html(userSections.edit);
+            mw.$("#add-new-user-btn").hide();
+        }
+
     });
 
 
@@ -178,18 +201,34 @@
         });
     </script>
     <?php endif; ?>
-    <a href="#edit-user=0" class="mw-ui-btn mw-ui-btn-notification">
-      <span class="mw-icon-plus"></span>
-      <span>
-      <?php _e("Add new user"); ?>
-      </span>
-    </a>
+
+
+    <div class="mw-ui-row-nodrop pull-left" style="width: auto">
+        <div class="mw-ui-col"><div class="mw-col-container"><h2 id="user-section-title"><?php _e("Manage Users"); ?></h2></div></div>
+        <div class="mw-ui-col">
+            <div class="mw-col-container">
+          <a href="#edit-user=0" class="mw-ui-btn mw-ui-btn-notification" id="add-new-user-btn">
+            <span class="mw-icon-plus"></span>
+            <span>
+              <?php _e("Add new user"); ?>
+            </span>
+          </a>
+        </div>
+        </div>
+    </div>
+
+
+
+
     <input
           name="module_keyword"
           class="mw-ui-searchfield pull-right" type="search"
           placeholder="<?php _e("Search for users"); ?>"
           onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
-    <hr>
+    <div class="mw-clear">
+       <hr>
+    </div>
+
     <div class="manage-items" id="sort-users">
       <div class="mw-ui-row">
         <div class="mw-ui-col" style="width: 200px;">

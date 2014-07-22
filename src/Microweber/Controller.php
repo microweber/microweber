@@ -74,7 +74,7 @@ class Controller
 
         //create_mw_default_options();
         $this->app->content->define_constants();
-     //   $this->app->ui();
+        //   $this->app->ui();
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
@@ -99,6 +99,22 @@ class Controller
         // $layout = $this->app->parser->process($l, $options = false);
         $layout = execute_document_ready($layout);
         event_trigger('mw.admin.header');
+
+        $apijs_loaded = $this->app->url->site('apijs');
+        $apijs_settings_loaded = $this->app->url->site('apijs_settings'). '?id=' . CONTENT_ID;
+
+        // $is_admin = $this->app->user->is_admin();
+        $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
+        if (!stristr($layout, $apijs_loaded)) {
+            $rep = 0;
+
+
+            $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
+            $default_css = $default_css . "\r\n" . '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
+            $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
+        }
+
+
         $template_headers_src = mw()->template->admin_head(true);
         if ($template_headers_src != false and $template_headers_src != '') {
             $layout = str_ireplace('</head>', $template_headers_src . '</head>', $layout, $one);
@@ -1140,7 +1156,7 @@ class Controller
 
         $page = false;
 
-        if($page == false and !empty($this->page)){
+        if ($page == false and !empty($this->page)) {
             $page = $this->page;
         }
 
@@ -1723,8 +1739,8 @@ class Controller
             $l->page = $page;
             $l->application = $this->app;
 
-            if(!empty($this->params)){
-                foreach($this->params as $k=>$v){
+            if (!empty($this->params)) {
+                foreach ($this->params as $k => $v) {
                     $l->$k = $v;
                 }
             }
@@ -1799,7 +1815,7 @@ class Controller
             }
 
             $apijs_loaded = $this->app->url->site('apijs');
-            $apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
+            //$apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user->is_admin();
             $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
@@ -1827,10 +1843,10 @@ class Controller
                     }
                 }
             }
-            if(isset($page['created_by'])){
+            if (isset($page['created_by'])) {
                 $author = $this->app->user->get_by_id($page['created_by']);
-                if(is_array($author) and isset($author['profile_url']) and $author['profile_url'] != false){
-                    $template_headers_src = $template_headers_src . "\n" . '<link rel="author" href="'.trim($author['profile_url']).'" />' . "\n";
+                if (is_array($author) and isset($author['profile_url']) and $author['profile_url'] != false) {
+                    $template_headers_src = $template_headers_src . "\n" . '<link rel="author" href="' . trim($author['profile_url']) . '" />' . "\n";
                 }
             }
 
@@ -1841,6 +1857,9 @@ class Controller
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             if (!stristr($l, $apijs_loaded)) {
+                $apijs_settings_loaded = $this->app->url->site('apijs_settings'). '?id=' . CONTENT_ID;
+
+                $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
 
                 $default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
                 /*  $default_css .= '<script src="' . MW_INCLUDES_URL . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";*/
@@ -1891,8 +1910,6 @@ class Controller
             if ($website_head_tags != false) {
                 $l = str_ireplace('</head>', $website_head_tags . '</head>', $l, $rep_count);
             }
-
-
 
 
             if (defined('MW_VERSION')) {
@@ -2059,7 +2076,7 @@ class Controller
 
             }
 
-            if($page != false and empty($this->page)){
+            if ($page != false and empty($this->page)) {
                 $this->page = $page;
             }
             $l = execute_document_ready($l);
@@ -2183,12 +2200,72 @@ class Controller
 
 
     }
+    public function apijs_settings()
+    {
+        if (!defined('MW_NO_SESSION')) {
+            define("MW_NO_SESSION", 1);
+        }
+        $lastModified = time() - 120;
+        $etagFile = md5(serialize($_GET));
+        $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
+        //get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
+        $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
 
+        //set last-modified header
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
+        header('Cache-Control: public');
+        header("Etag: $etagFile");
+
+        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
+            header("HTTP/1.1 304 Not Modified");
+            exit;
+        }
+
+        $ref_page = false;
+
+        if (isset($_REQUEST['id'])) {
+            $ref_page = $this->app->content->get_by_id($_REQUEST['id']);
+        } else if (isset($_SERVER['HTTP_REFERER'])) {
+            $ref_page = $_SERVER['HTTP_REFERER'];
+            if ($ref_page != '') {
+                $ref_page = $this->app->content->get_by_url($ref_page);
+                $page_id = $ref_page['id'];
+            }
+
+
+        }
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $cat_url = mw('url')->param('category', true, $_SERVER['HTTP_REFERER']);
+            if ($cat_url != false) {
+                if (!defined('CATEGORY_ID')) {
+                    define('CATEGORY_ID', intval($cat_url));
+                }
+            }
+        }
+
+
+        header("Content-type: text/javascript");
+
+
+        $file = MW_INCLUDES_DIR . 'api' . DS . 'api_settings.js';
+
+        $this->app->content->define_constants($ref_page);
+        $l = new $this->app->view($file);
+
+
+        $l = $l->__toString();
+
+        print $l;
+        exit();
+
+    }
     public function apijs()
     {
 
-        define("MW_NO_SESSION", 1);
 
+        if (!defined('MW_NO_SESSION')) {
+            define("MW_NO_SESSION", 1);
+        }
 
         $ref_page = false;
 
@@ -2213,41 +2290,43 @@ class Controller
         }
 
         header("Content-type: text/javascript");
+
+
+        $file = MW_INCLUDES_DIR . 'api' . DS . 'api.js';
+        $lastModified =  filemtime($file);
+
+        // 2 mins hardcoded cache header
+
+        //get a unique hash of this file (etag)
+
+        //get the HTTP_IF_MODIFIED_SINCE header if set
+
+        $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
+        //get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
+
+        $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+
+        //set last-modified header
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s", $lastModified) . " GMT");
+        //set etag-header
+
+
         $this->app->content->define_constants($ref_page);
-        $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
+        $l = new $this->app->view($file);
 
-
-//        if(strstr(site_url(),'localhost')){
-//            $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js.php');
-//
-//        } else {
-//            $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
-//
-//        }
 
         $l = $l->__toString();
+        $etagFile = md5($l);
 
+        header("Etag: $etagFile");
+        //make sure caching is turned on
+        header('Cache-Control: public');
 
-        if (function_exists('get_language_file_content')) {
-            // $lang = get_language_file_content();
-            // $out = 'mw.lang = '.json_encode($lang);
-            //$l = $l . "\n".$out;
-            //d($out);
-            // print count($lang);
+        //check if page has changed. If not, send 304 and exit
+        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
+            header("HTTP/1.1 304 Not Modified");
+            exit;
         }
-
-
-        /*     $api_files = array('tools.js', 'url.js','forms.js','files.js','events.js' );
-             $api_files_output = '';
-             foreach ($api_files as $api_file) {
-                 $f = MW_INCLUDES_DIR . 'api' . DS . $api_file;
-                 if (is_file($f)) {
-                     $api_files_output = $api_files_output . "\n\n" . file_get_contents($f);
-                 }
-             }
-             foreach ($api_files as $api_file) {
-                 $api_files_output = str_replace('mw.require("'.$api_file.'");','',$api_files_output);
-             }*/
 
 
         $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
@@ -2255,8 +2334,6 @@ class Controller
         $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
 
 
-        //  $l = $l.$api_files_output;
-        //$l = $this->app->parser->process($l, $options = array('parse_only_vars' => 1));
         print $l;
         exit();
     }
@@ -2384,9 +2461,11 @@ class Controller
 
 
         if ($layout != false) {
-            $apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
+            //$apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
+            $apijs_loaded = $this->app->url->site('apijs');
+            $apijs_settings_loaded = $this->app->url->site('apijs_settings'). '?id=' . CONTENT_ID;
 
-            $is_admin = $this->app->user->is_admin();
+            // $is_admin = $this->app->user->is_admin();
             $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
@@ -2512,11 +2591,11 @@ class Controller
 
         if (!stristr($layout, $apijs_loaded)) {
             $rep = 0;
+
+
+            $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
             $default_css = $default_css . "\r\n" . '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-            $layout = str_ireplace('<head>', '<head>' . $default_css, $layout,$rep);
-
-
-
+            $layout = str_ireplace('<head>', '<head>' . $default_css, $layout, $rep);
         }
         if (isset($page['content'])) {
             if ($standalone_edit) {
@@ -2569,6 +2648,20 @@ class Controller
         header("HTTP/1.0 404 Not Found");
         $v = new $this->app->view(MW_ADMIN_VIEWS_DIR . '404.php');
         echo $v;
+    }
+
+    public function load_apijs($page = false)
+    {
+        $this->app->content->define_constants($page);
+        $l = new $this->app->view(MW_INCLUDES_DIR . 'api' . DS . 'api.js');
+
+        $l = $l->__toString();
+
+
+        $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
+        $l = str_replace('{MW_SITE_URL}', $this->app->url->site(), $l);
+        $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
+        return $l;
     }
 
     function __get($name)

@@ -1,20 +1,28 @@
 <?php
 
-//include_once(MW_COMPONENTS_DIR.'require.js');
 
-print load_web_component_file('jquery/jquery.min.js');
+    print load_web_component_file('jquery/jquery.min.js');
 
 
 ?>
 
 
 
+jQuery.cachedScript = function( url, options ) {
+    options = $.extend( options || {}, {
+    dataType: "script",
+    cache: true,
+    url: url
+});
+    return jQuery.ajax( options );
+};
+
 
 
 if(typeof mw === 'undefined'){
+    mw = {}
+}
 
-
-mw = {}
 
 
 
@@ -208,6 +216,9 @@ mw.askusertostay = false;
 
 
 
+
+
+
   mw.lib = {
     _required:[],
     require:function(name){
@@ -242,7 +253,7 @@ mw.askusertostay = false;
               i = 0,
               c = 1;
           for( ; i<l ; i++){
-            var xhr = $.getScript(path + arr[i]);
+            var xhr = $.cachedScript(path + arr[i]);
             xhr.done(function(){
               c++;
               if(c === l){
@@ -756,7 +767,7 @@ mw._response = {
 }
  
  
-}
+
 
 
 mw.required.push("<?php print MW_INCLUDES_URL; ?>api/jquery.js");

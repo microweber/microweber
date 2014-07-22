@@ -90,11 +90,14 @@ $data = get_users($user_params);
 	<tbody>
 		<?php foreach($data  as $item): ?>
 		<tr id="mw-admin-user-<?php  print $item['id']; ?>">
-			<td width="170"><span class="mw-user-thumb mw-user-thumb-small">
-				<?php if(isset($item['thumbnail']) and trim($item['thumbnail'])!=''): ?>
-				<img style="vertical-align:middle" src="<?php print $item['thumbnail'] ?>"  height="24" width="24" />
-				<?php endif; ?>
-				</span> <span class="mw-user-names">
+			<td width="170">
+
+                <?php if(isset($item['thumbnail']) and trim($item['thumbnail'])!=''): ?>
+                    <span class="mw-user-thumb mw-user-thumb-small" style="background-image: url(<?php print $item['thumbnail'] ?>);"></span>
+                <?php else: ?>
+                    <span class="mw-user-thumb mw-user-thumb-small mw-icon-user"></span>
+                <?php endif; ?>
+                <span class="mw-user-names">
 				<?php if(isset($item['oauth_provider']) and trim($item['oauth_provider'])!=''): ?>
 				<a href="<?php  print $item['profile_url']; ?>" target="_blank" title="<?php print ucwords($item['oauth_provider']) ?>" class="mw-icon-<?php print $item['oauth_provider'] ?>"></a>
 				<?php endif; ?>
@@ -104,7 +107,7 @@ $data = get_users($user_params);
 				</span></td>
 			<td><?php  print $item['username']; ?></td>
 			<td title="<?php  print $item['email']; ?>" style="overflow: hidden;text-overflow: ellipsis"><?php  print $item['email']; ?></td>
-			<td align="center"><?php  if( $item['is_admin'] == 'y'){_e("Admin");} else{_e("User");} ?></td>
+			<td align="center"><?php  if( $item['is_admin'] == 'y'){ _e("Admin"); } else{_e("User");} ?></td>
 			<td align="center"><?php if($item['is_active']=='y'): ?>
 				<span class="mw-icon-check" style="float: none"></span>
 				<?php else:  ?>
@@ -136,7 +139,6 @@ $data = get_users($user_params);
 
                         return false;
                     });
-
 
                 });
 
