@@ -1303,7 +1303,7 @@ a:hover .mw_ed_tree_content{
 }
 #quick-add-post-options-item-advanced input.mw-ui-field,
 #quick-add-post-options-item-advanced textarea.mw-ui-field{
-  width: 100%;
+  width: 500px;
 }
 
 #quick-add-post-options{
@@ -1353,9 +1353,9 @@ a:hover .mw_ed_tree_content{
 }
 
 #content-edit-settings-tabs.fixed{
-  position: absolute;
+  position: fixed;
+  z-index: 10;
   top: 67px;
-  width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -1363,14 +1363,12 @@ a:hover .mw_ed_tree_content{
 #quick-add-post-options-items-holder{
   position: absolute;
   left: 0;
-  width: 100%;
   z-index: 90;
   background: white;
   display: none;
   margin-top: 9px;
 }
 #quick-add-post-options-items-holder-container{
-  min-height: 260px;
   overflow-y: auto;
   overflow-x: hidden;
   width: 100%;
@@ -1438,6 +1436,7 @@ a:hover .mw_ed_tree_content{
 }
 .mw-custom-field-form-controls{
   margin-bottom: 10px;
+  white-space: nowrap;
 }
 
 .mw-custom-field-group, .custom-field-settings-name {
@@ -1583,8 +1582,14 @@ a:hover .mw_ed_tree_content{
 #dropdown-custom-fields .mw-dropdown-content{
   width: 550px;
   max-height: 180px;
+  position: relative;
   box-shadow: 0 0 6px -4px #000;
   -webkit-box-shadow: 0 0 6px -3px #000;
+}
+
+#dropdown-custom-fields.active > .mw-dropdown-value{
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 #dropdown-custom-fields li{
@@ -1659,7 +1664,7 @@ td.custom-field-icon, td.custom-field-icon > *{
 
 
 .previewctrl{
-  display: block;
+  display: none !important;
   position: absolute;
   top: 50%;
   margin-top: -25px;
@@ -1741,12 +1746,30 @@ td.custom-field-icon, td.custom-field-icon > *{
 
 #mw-admin-container .zoom.preview_frame_wrapper,
 .zoom.preview_frame_wrapper{
-  height: 100%;
+  height: 80%;
   left: 0;
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 80%;
   z-index: 999;
+  top: 10%;
+  left: 10%;
+  box-shadow: 0 0 9px -5px #000;
+}
+
+.preview_frame_wrapper.zoom:after{
+  content:"\0111";
+  font-family: Microweber;
+  display: block;
+  position: absolute;
+  font-size: 15px;
+  top: 0;
+  right:0;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  text-align: center;
+  background: white;
 }
 
 #mw-admin-container .zoom .preview_frame_small,

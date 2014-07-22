@@ -130,7 +130,8 @@ class Ui
         $this->admin_dashboard_menu_third($admin_dashboard_btn);
 
 
-        $notif_count = mw_updates_count();
+       // $notif_count = mw_updates_count();
+        $notif_count = 0;
         $notif_count_html = false;
         if (intval($notif_count) > 0) {
             $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';

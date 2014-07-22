@@ -218,7 +218,8 @@ if ($last_page_front != false) {
 
 
 
- ?><script>
+ ?>
+ <script>
         $(function () {
 
            $( '.go-live-edit-href-set' ).bind('mousedown',function() {
@@ -228,9 +229,11 @@ if ($last_page_front != false) {
 					if(n == -1){
 						url_to_go = url_to_go+'/editmode:y';
 					}
- 				window.location.href=url_to_go;
-  				return false;
-}); 
+ 				//window.location.href=url_to_go;
+				 $(this).attr('href' , url_to_go);;
+  				 return false;
+				 
+			}); 
            
 
 

@@ -262,10 +262,13 @@ mw.options.form = function($selector, callback, beforepost){
         var items = $($selector).find("input, select, textarea");
         items.each(function(){
           var item = $(this);
+
+          item.removeClass('mw-options-form-binded');
+
           if(item.hasClass('mw_option_field') && !item.hasClass('mw-options-form-binded')){
               item.addClass('mw-options-form-binded');
 			  //item.unbind("change");
-			 
+
               item.bind("change", function(e){
               	  if(typeof beforepost === 'function'){
               	  	beforepost.call(this);

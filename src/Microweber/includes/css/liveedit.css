@@ -26,11 +26,11 @@ html,body{
   left: -9999px;
   top: -9999px;
   color: white;
-  font-weight: bold;
+  font-weight: 100;
   text-align: center;
   line-height: 16px;
   margin-left:-10px;
-  font-family: Arial, sans-serif;
+  font-family: Microweber;
 }
 .mw-plus-top{ margin-top: -10px; }
 .mw-plus-bottom{ margin-top: -10px; }

@@ -88,6 +88,16 @@ $(document).ready(function(){
 
     });
 
+
+    mw.$("#profile_url_field").bind('keyup paste', function(){
+        if(this.value.length > 15){
+            mw.$("#google-verify-button").visibilityDefault()
+        }
+    });
+    if(mw.$("#profile_url_field").val().length > 15){
+           mw.$("#google-verify-button").visibilityDefault()
+    }
+
 });
 
 reset_password = function(y){
@@ -218,12 +228,16 @@ reset_password = function(y){
       </tr>
       
       <tr>
-        <td><label class="mw-ui-label">Google Authorship</label>
-        <small>paste your Google+ profile link <a href="https://plus.google.com/authorship" target="_blank">[?]</a></small></td>
-        <td><input type="text" class="mw-ui-field" name="profile_url" value="<?php  print $data['profile_url']; ?>"></td>
+        <td><label class="mw-ui-label"><?php _e("Google Authorship"); ?></label>
+        <small><?php _e("Paste your Google+ profile link"); ?> </small></td>
+        <td>
+
+            <input type="text" class="mw-ui-field pull-left" style="width: 350px;margin-right:12px;" name="profile_url" id="profile_url_field" value="<?php  print $data['profile_url']; ?>">
+            <a href="https://plus.google.com/authorship" target="_blank" class="mw-ui-btn mw-ui-btn-notification" style="visibility: hidden" id="google-verify-button"><?php _e("Verify"); ?></a>
+        </td>
       </tr>
 
-      
+
       
       <tr class="no-hover">
         <td>&nbsp;</td>

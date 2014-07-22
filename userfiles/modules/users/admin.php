@@ -130,7 +130,7 @@
         _mw_admin_users_manage();
     });
     mw.on.hashParam('edit-user', function () {
-        if (this == false) {
+        if (this == false && this != 0) {
             _mw_admin_users_manage();
             UsersRotator.go(0);
             mw.$('.modules-index-bar, .manage-items').fadeIn();
@@ -138,9 +138,6 @@
         else if (this != false ) {
             _mw_admin_user_edit();
             mw.$('.modules-index-bar, .manage-items').fadeOut();
-        }
-        if(this != false){
-         // mw.url.windowDeleteHashParam('sortby');
         }
     });
 

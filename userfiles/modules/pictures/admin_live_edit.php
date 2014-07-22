@@ -45,12 +45,12 @@ if(isset($params['content-id']) and $params['content-id'] != 0){
 	  $use_from_post_forced = 1;
 	
 }else if( $use_from_post == true){
- if(POST_ID != false){
-	$params['content-id'] = POST_ID;
- }
- else {
-	$params['content-id'] = PAGE_ID;
- }
+	 if(POST_ID != false){
+		$params['content-id'] = POST_ID;
+	 }
+	 else {
+		$params['content-id'] = intval(PAGE_ID);
+	 }
 }
  
 if(isset($params['content-id'])){
@@ -67,6 +67,11 @@ if(!isset($quick_add)){
 if(isset($params['quick-add'])){
     $quick_add=$params['quick-add'];
 } 
+
+ 
+
+
+
   ?>
   
   
@@ -79,6 +84,11 @@ if(isset($params['quick-add'])){
 
 
 __mw_pics_save_msg = function(){
+	
+	
+	 
+	
+	
 	 if(mw.notification != undefined){
 			 mw.notification.success('Picture settings are saved!');
 	 }
@@ -94,8 +104,6 @@ __mw_pics_save_msg = function(){
 	 }
 	  mw.reload_module_parent("pictures");
 	 //  mw.reload_module_parent("#<?php print $params['id'] ?>");
-	//  alert("");
-	
 	 
 										
 										
@@ -134,7 +142,7 @@ $(document).ready(function(){
  
  <?php if($quick_add == false and $use_from_post_forced == false): ?>
   <label class="mw-ui-check" id="mw-pic-scope">
-      <input type="checkbox" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field" <?php if( $use_from_post): ?>   checked="checked"  <?php endif; ?> />
+      <input type="checkbox" reload="#mw-pics-list-live-ed" id="mw-use-post-pics" name="data-use-from-post" value="y" class="mw_option_field" <?php if( $use_from_post): ?>   checked="checked"  <?php endif; ?> />
       <span></span><span><?php _e("Use pictures from post"); ?></span></label>
      <?php endif; ?>
      <module type="pictures/admin_backend" for="<?php print $for ?>" for-id="<?php print $for_id ?>" id="mw-pics-list-live-ed" />

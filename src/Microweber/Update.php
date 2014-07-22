@@ -105,7 +105,8 @@ class Update
             }
         }
 
-        $t = $this->app->module->get_layouts("skip_cache=1");
+       // $t = $this->app->module->get_layouts("skip_cache=1");
+        $t = $this->app->module->get_layouts();
 
         $data['elements'] = $t;
 
@@ -115,7 +116,16 @@ class Update
 
     function check($skip_cache = false)
     {
-return;
+
+
+       // d($_SERVER["REMOTE_ADDR"]);
+
+
+
+
+
+
+
         $a = $this->app->user->is_admin();
         if ($a == false) {
             return false;
@@ -142,6 +152,10 @@ return;
 
 
         $data = $this->collect_local_data();
+
+
+        //d($data);
+
         $result = $this->call('check_for_update', $data);
 
         $count = 0;

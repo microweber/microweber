@@ -942,6 +942,8 @@ function mw_updates_count()
 $mw_avail_updates = false;
 function mw_check_for_update()
 {
+
+
     global $mw_avail_updates;
     if ($mw_avail_updates == false) {
 
