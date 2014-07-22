@@ -700,6 +700,7 @@ mw.save_inner_editable_fields = function(data){
     		 if(changed == 0){
     		   // mw.edit_content.load_editor();
     		 }
+			// mw.edit_content.load_editor();
        });
 	    $(window).bind('templateChanged', function(e){
 			 

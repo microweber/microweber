@@ -454,9 +454,10 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
             $is_layout_file_set = 1;
         }
     }
+                 
 
     $data['layout_file'] = normalize_path($data['layout_file'], false);
-
+    $data['layout_file'] = module_name_encode($data['layout_file']);
 
     ?>
 <?php endif; ?>
@@ -524,6 +525,7 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
             $is_chosen = false;
             foreach ($layouts as $item): ?>
                 <?php $item['layout_file'] = normalize_path($item['layout_file'], false); ?>
+                 <?php $item['layout_file'] = module_name_encode($item['layout_file']); ?>
                 <option value="<?php print $item['layout_file'] ?>"
                         onclick="mw.templatePreview<?php print $rand; ?>.view('<?php print $i ?>');"
                         data-index="<?php print $i ?>" data-layout_file="<?php print $item['layout_file'] ?>"

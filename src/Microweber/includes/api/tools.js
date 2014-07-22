@@ -2787,10 +2787,17 @@ mw.tools = {
             return false;
         }
         var pos = $(el).dataset('tipposition');
+        var iscircle = $(el).dataset('tipcircle') == 'true';
+
         if(pos == ''){var pos = 'bottom-center';}
         var text = $(el).dataset('tip');
+
         if(text.indexOf('.') === 0 || text.indexOf('#') === 0 ){
             var text = mw.$(text).html();
+        }
+        var showon = $(el).dataset('showon');
+        if(showon != ''){
+            var el = mw.$(showon)[0];
         }
         if(!mw.tools._titleTip){
             mw.tools._titleTip = mw.tooltip({skin:'dark', element:el, position:pos, content:text});
@@ -2800,6 +2807,12 @@ mw.tools = {
            mw.tools._titleTip.className = 'mw-tooltip '+pos+' mw-tooltip-dark mw-universal-tooltip';
            mw.$('.mw-tooltip-content', mw.tools._titleTip).html(text);
            mw.tools.tooltip.setPosition(mw.tools._titleTip, el, pos);
+        }
+        if(iscircle){
+            $(mw.tools._titleTip).addClass('mw-tooltip-circle');
+        }
+        else{
+           $(mw.tools._titleTip).removeClass('mw-tooltip-circle');
         }
         $(mw.tools._titleTip).show();
     },

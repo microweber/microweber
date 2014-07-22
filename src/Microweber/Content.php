@@ -1559,11 +1559,11 @@ class Content
                 define('CATEGORY_ID', false);
             }
 
-            if (defined('CONTENT_ID') == false) {
+            if (defined('CONTENT_ID') == false and isset($content['id'])) {
                 define('CONTENT_ID', $content['id']);
             }
 
-            if (defined('PAGE_ID') == false) {
+            if (defined('PAGE_ID') == false and isset($content['id'])) {
                 define('PAGE_ID', $page['id']);
             }
             if (isset($page['parent'])) {

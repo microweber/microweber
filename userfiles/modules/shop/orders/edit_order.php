@@ -293,7 +293,7 @@ else {
 
     <div class="mw-ui-box-content">
     <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
-        <col width="150"/>
+        <col width="50%"/>
         <tr>
             <td><?php _e("Customer Name"); ?></td>
             <td><?php print $ord['first_name'] . ' ' . $ord['last_name']; ?></td>
@@ -315,10 +315,10 @@ else {
         </tr>
     </table>
     <table cellspacing="0" cellpadding="0" class="mw-ui-table">
-        <col width="150"/>
+        <col width="50%"/>
         <tr>
             <td valign="top">
-                        <?php _e("Shipping Address"); ?>
+                        <span class="order-detail-title"><?php _e("Shipping Address"); ?></span>
                 <?php
                 $map_click_str = false;
                 $map_click = array();?>
@@ -366,7 +366,7 @@ else {
                 <a target="_blank"
                    href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
                    <img class="map-shipping-address"
-                        src="http://maps.googleapis.com/maps/api/staticmap?size=640x150&zoom=17&markers=icon:http://microweber.com/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>"/>
+                        src="http://maps.googleapis.com/maps/api/staticmap?size=320x320&zoom=17&markers=icon:http://microweber.com/order.png|<?php print urlencode($map_click_str) ?>&sensor=true&center=<?php print urlencode($map_click_str) ?>"/>
                 </a>
                 <a target="_blank" class="mw-ui-btn" href="https://maps.google.com/maps?q=<?php print urlencode($map_click_str) ?>&safe=off">
                         <?php _e("See Location on map"); ?>
@@ -379,11 +379,9 @@ else {
 
 
         <table class="mw-ui-table" cellspacing="0" cellpadding="0">
-            <col width="150"/>
+            <col width="50%"/>
             <tr>
-                <td valign="top"><p><b>
-                            <?php _e("Additional Details"); ?>
-                        </b></p>
+                <td valign="top"><span class="order-detail-title"><?php _e("Additional Details"); ?></span>
                     <?php print $ord['custom_fields'] ?></td>
             </tr>
         </table>
@@ -393,10 +391,10 @@ else {
 
 
     <table  cellspacing="0" cellpadding="0" class="mw-ui-table">
-        <col width="150"/>
+        <col width="50%"/>
         <tr>
             <td valign="top">
-                        <?php _e("Billing Details"); ?>
+                        <span class="order-detail-title"><?php _e("Billing Details"); ?></span>
 
                 <ul class="order-table-info-list">
                     <li><?php print $ord['payment_name'] ?></li>
@@ -412,7 +410,7 @@ else {
             <a target="_blank"
                        href="https://maps.google.com/maps?q=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&safe=off">
                 <img class="map-shipping-address"
-                    src="https://maps.googleapis.com/maps/api/staticmap?size=640x150&zoom=17&markers=icon:https://microweber.com/user.png|<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&sensor=true&center=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>"/>
+                    src="https://maps.googleapis.com/maps/api/staticmap?size=640x320&zoom=17&markers=icon:https://microweber.com/user.png|<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&sensor=true&center=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>"/>
             </a>
                     <a target="_blank" class="mw-ui-btn"
                        href="https://maps.google.com/maps?q=<?php print urlencode($ord['payment_country'] . ',' . $ord['payment_city'] . ',' . $ord['payment_address']); ?>&safe=off">

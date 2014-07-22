@@ -2726,6 +2726,10 @@ li:hover > .show-on-hover {
   display: inline-block;
   z-index: 0;
 }
+.mw-tooltip-circle,
+.mw-tooltip-circle .mw-tooltip-content {
+  border-radius: 555px !important;
+}
 /* Tooltip default skin  */
 .mw-tooltip-default {
   background-color: white;

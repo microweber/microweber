@@ -29,6 +29,9 @@
 
 ?>
 
+
+
+
 <div id="mw-order-table-holder">
   <?php if($ordert_type == 'completed' and isset($orders) and is_array($orders)) :?>
   <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="100%">
@@ -71,25 +74,21 @@
     </tfoot>
     <tbody>
       <?php foreach ($orders as $item) : ?>
-      <tr class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-status-<?php print $item['order_status'] ?> tip" data-tip="#product-tip-<?php print $item['id'] ?>" data-tipposition="top-left">
+      <tr class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-status-<?php print $item['order_status'] ?> tip" data-showon="#vieorder-<?php print $item['id']; ?>"  data-tipposition="top-center" data-tipcircle="true" data-tip="#product-tip-<?php print $item['id'] ?>">
           <?php  $cart_item = get_cart('no_session_id=true&order_completed=any&order_id=' . $item['id'] . '');      ?>
-        <td class="mw-order-item-id"> <span class="mw-ord-id"><?php print $item['id'] ?></span>
-                     <?php if(isset($cart_item[0]) and isset($cart_item[0]['rel_id'])) { ?>
-                     <?php $p = get_picture($cart_item[0]['rel_id']); ?>
-
-        <?php
 
 
-        if ($p != false): ?>
-        <div id="product-tip-<?php print $item['id'] ?>" style="display: none">
-                    <img
-                        class="mw-order-item-image mw-order-item-image-<?php print $i; ?>"
-                        data-index="<?php print $i; ?>"
-                        src="<?php print thumbnail($p, 70, 70); ?>"
-                        />
-                        </div>
-                <?php endif; ?>
-                <?php } ?>
+          <?php if(isset($cart_item[0]) and isset($cart_item[0]['rel_id'])) { ?>
+          <?php $p = get_picture($cart_item[0]['rel_id']); ?>
+          <?php if ($p != false): ?>
+          <div id="product-tip-<?php print $item['id'] ?>" style="display: none">
+            <span class="product-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($p, 120, 120); ?>)"></span>
+          </div>
+          <?php endif; ?>
+          <?php } ?>
+
+          <td class="mw-order-item-id tip" data-tipposition="top-center" data-tipcircle="true" data-tip="#product-tip-<?php print $item['id'] ?>">
+                    <a class="mw-ord-id" href="#vieworder=<?php print ($item['id']) ?>"><?php print $item['id'] ?></a>
           </td>
           <td title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></td>
         <td class="mw-order-item-status"><?php
@@ -100,11 +99,7 @@
           <?php else : ?>
           Pending
           <?php endif; ?></td>
-        <td class="mw-order-item-amount"><?php
-		 
-		
-
-		 print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
+        <td class="mw-order-item-amount"><?php  print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
         <td class="mw-order-item-paid"><?php if($item['is_paid'] == 'y'): ?>
           <?php _e("Yes"); ?>
           <?php else : ?>
@@ -113,7 +108,9 @@
         <td class="mw-order-item-names"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></td>
         <td class="mw-order-item-email"><?php print $item['email'] ?></td>
 
-        <td class="mw-order-item-edit" width="90" align="center"><span class="mw-icon-close show-on-hover" onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span> <a class="show-on-hover mw-ui-btn-invert mw-ui-btn mw-ui-btn-small" href="#vieworder=<?php print ($item['id']) ?>">
+        <td class="mw-order-item-edit" width="90" align="center">
+            <span class="mw-icon-close show-on-hover tip" data-tip="<?php _e("Delete"); ?>" data-tipposition="top-center"  onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span>
+            <a class="show-on-hover mw-ui-btn-invert mw-ui-btn mw-ui-btn-small" id="vieorder-<?php print $item['id']; ?>" href="#vieworder=<?php print ($item['id']) ?>">
           <?php _e("View order"); ?>
           </a></td>
       </tr>

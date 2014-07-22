@@ -308,11 +308,14 @@ class Template
             }
         }
 
+
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-            return $cache_content;
+         return $cache_content;
         }
 
+
+       //
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
@@ -342,9 +345,13 @@ class Template
             $render_file_temp = normalize_path(TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'], false);
             $render_use_default = normalize_path(TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php', false);
 
-
+            $render_file_module_temp = MW_MODULES_DIR . DS . $page['layout_file'];
+            $render_file_module_temp = normalize_path($render_file_module_temp, false);
+           // d($page['layout_file']);
             if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp;
+            } elseif (is_file($render_file_module_temp)) {
+                $render_file = $render_file_module_temp;
             } elseif (is_file($render_use_default)) {
                 $render_file_temp = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
                 if (is_file($render_file_temp)) {
@@ -776,6 +783,9 @@ class Template
             }
         }
 
+
+
+
         if (isset($page['active_site_template']) and $render_file == false and (strtolower($page['active_site_template']) == 'default' or $page['active_site_template'] == $site_template_settings)) {
 
             if ($render_file == false and isset($page['active_site_template']) and isset($page['id'])) {
@@ -800,7 +810,26 @@ class Template
                     }
                 }
             }
+            if($render_file == false and isset($page['parent']) and $page['parent'] == 0){
+            if($render_file == false and isset($page['layout_file']) and $page['layout_file'] == 'inherit'){
 
+
+                $t_dir =  ACTIVE_TEMPLATE_DIR;
+                if(isset($page['active_site_template'])){
+                    $t_dir = MW_TEMPLATES_DIR. DS. $page['active_site_template'].DS;
+                    $t_dir = normalize_path($t_dir, 1);
+
+                }
+                $template_view_cl = $t_dir . 'clean.php';
+                $template_view_cl2 = $t_dir . 'layouts/clean.php';
+                if ($render_file == false and is_file($template_view_cl) == true) {
+                    $render_file = $template_view_cl;
+                }
+                if ($render_file == false and is_file($template_view_cl2) == true) {
+                    $render_file = $template_view_cl2;
+                }
+            }
+            }
             $template_view = ACTIVE_TEMPLATE_DIR . 'index.php';
             if ($render_file == false and is_file($template_view) == true) {
                 $render_file = $template_view;

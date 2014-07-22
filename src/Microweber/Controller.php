@@ -2400,11 +2400,13 @@ class Controller
         if (isset($_GET['preview_layout'])) {
             $page['layout_file'] = $_GET['preview_layout'];
         }
-
+       // $page['no_cache'] = 1;
         $this->app->content->define_constants($page);
-        if (!isset($page['render_file'])) {
-            $page['render_file'] = $this->app->template->get_layout($page);
-        }
+        $page['render_file'] = $this->app->template->get_layout($page);
+//        if (!isset($page['render_file'])) {
+//
+//        }
+        //d($page);
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
             if (is_file($load_template_functions)) {
@@ -2548,6 +2550,7 @@ class Controller
                 if ($editable != false) {
                     $page['content'] = $editable;
                 } else {
+
                     return false;
                 }
 

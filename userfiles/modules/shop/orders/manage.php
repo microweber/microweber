@@ -6,29 +6,29 @@
    $(mwd).ready(function(){
 
 
-      mw.$("#mw-admin-order-type-filter").bind('change', function(){
-          mw_admin_set_order_type_filter();
-      });
 
 
 
    });
-   function mw_admin_set_order_type_filter(){
-    	var v = mw.$("#mw-admin-order-type-filter").val();
-    	if(v == 'carts'){
+
+
+   mw.on.hashParam('orderstype', function(){
+        mw.$("#cartsnav a").removeClass('active');
+        mw.$("#cartsnav a[href='#orderstype="+this+"']").addClass('active');
+        if(this == 'carts'){
     		mw.$('.mw-admin-order-sort-carts').show();
     		mw.$('.mw-admin-order-sort-completed').hide();
     	} else {
     		mw.$('.mw-admin-order-sort-carts').hide();
     		mw.$('.mw-admin-order-sort-completed').show();
     	}
-        mw.$('#mw-admin-manage-orders-list').attr('order-type', v);
+        mw.$('#mw-admin-manage-orders-list').attr('order-type', this);
         mw.$('#mw-admin-manage-orders-list').removeAttr('keyword');
         mw.$('#mw-admin-manage-orders-list').removeAttr('order');
         mw.reload_module("#mw-admin-manage-orders-list", function(){
 
         });
-   }
+   });
 
 
 ordersSort = function(obj){
@@ -139,15 +139,7 @@ ordersSort = function(obj){
                 </div>
 
             </div>
-            <div class="mw-ui-col" style="display: none">
-                <select name="order_type" id="mw-admin-order-type-filter" class="mw-ui-field" autocomplete="off">
-            		<option value="completed"><?php _e("Completed orders"); ?></option>
-            		<option value="carts"><?php _e("Abandoned carts"); ?></option>
-            	</select>
-                <div class="mw-table-sorting right mw-admin-order-sort-carts" style="display:none">
-            	    <span class="mw-ui-btn" onclick="mw_admin_set_order_type_filter();"><?php _e("Refresh"); ?></span>
-            	</div>
-            </div>
+            
             <div class="mw-ui-col" style="width: 80%">
                 <input type="text" class="mw-ui-searchfield active pull-right" id="orders-search-field"  placeholder="<?php _e("Search in orders"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});" />
             </div>
@@ -183,9 +175,9 @@ ordersSort = function(obj){
 <?php  } ?>
 
 
-<div class="mw-ui-btn-nav unselectable pull-right">
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium active"><?php _e("Completed orders"); ?></a>
-    <a href="javascript:;" class="mw-ui-btn mw-ui-btn-medium"><?php _e("Abandoned carts"); ?></a>
+<div class="mw-ui-btn-nav unselectable pull-right" id="cartsnav">
+    <a href="#orderstype=completed" class="mw-ui-btn mw-ui-btn-medium active"><?php _e("Completed orders"); ?></a>
+    <a href="#orderstype=carts" class="mw-ui-btn mw-ui-btn-medium"><?php _e("Abandoned carts"); ?></a>
 </div>
 
 </div>

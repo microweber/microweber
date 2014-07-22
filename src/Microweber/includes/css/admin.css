@@ -3221,6 +3221,33 @@ body.grabbing, body.grabbing *{
   position: relative;
 }
 
+.product-thumbnail-tooltip{
+  display: block;
+  width: 70px;
+  height: 70px;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 333px;
+}
+
+.mw-ord-id{
+  color: #2C82DD;
+  font-size: 16px;
+}
+
+.mw-ord-id:hover{
+  text-decoration: underline;
+}
+
+.order-detail-title{
+  display: block;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #EDEDED;
+  font-size: 15px;
+}
+
 #manage-orders-menus:after{
   content: ".";
     display: block;
