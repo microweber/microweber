@@ -51,9 +51,8 @@ SaveAdminUserForm<?php  print $data['id']; ?> = function(){
       UserId = this;
       mw.tools.loading('.mw-module-admin-wrap', false);
 	  mw.reload_module('[data-type="users/manage"]', function(){
-	   // mw.url.windowDeleteHashParam('edit-user');
+	    mw.hash('#sortby=created_on desc');
         mw.notification.success('<?php _e("All changes saved"); ?>');
-
         setTimeout(function(){
             mw.tools.highlight(mwd.getElementById('mw-admin-user-'+UserId));
         }, 300);
@@ -243,9 +242,9 @@ reset_password = function(y){
         <td>&nbsp;</td>
         <td><span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right" onclick="SaveAdminUserForm<?php  print $data['id']; ?>()">
           <?php _e("Save"); ?>
-          </span> <span class="mw-ui-btn mw-ui-btn-medium pull-right"  onclick="mw.url.windowDeleteHashParam('edit-user');">
+          </span> <a class="mw-ui-btn mw-ui-btn-medium pull-right" href="#sortby=created_on desc">
           <?php _e("Cancel"); ?>
-          </span></td>
+          </a></td>
       </tr>
     </table>
   </div>

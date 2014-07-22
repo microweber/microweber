@@ -1,6 +1,8 @@
 <?php
 
-
+if(!isset($params['id'])){
+return;	
+}
 
 require_once(dirname(__FILE__) . DS . 'functions.php');
 if (get_option('enable_comments', 'comments') == 'y') {

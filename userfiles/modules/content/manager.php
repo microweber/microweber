@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Content;
+namespace Microweber\content;
 
 
 if (!isset($params)) {

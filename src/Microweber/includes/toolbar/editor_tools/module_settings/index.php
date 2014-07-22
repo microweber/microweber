@@ -394,9 +394,7 @@ if (isset($_GET['type'])) {
                 mw.notification.success('Settings are updated!');
             }
 
-
             if (window.parent.mw != undefined && window.parent.mw.reload_module != undefined) {
-
                 window.parent.mw.reload_module("#<?php print $params['id'] ?>");
             }
 

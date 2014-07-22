@@ -2407,11 +2407,7 @@ class Controller
                     $layout = str_ireplace('</head>', $template_headers_src . '</head>', $l, $one);
                 }
             }
-            if (!stristr($layout, $apijs_loaded)) {
 
-                $default_css = $default_css . "\r\n" . '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-                $layout = str_ireplace('<head>', '<head>' . $default_css, $layout);
-            }
 
         }
 
@@ -2514,7 +2510,14 @@ class Controller
 //            }
         }
 
+        if (!stristr($layout, $apijs_loaded)) {
+            $rep = 0;
+            $default_css = $default_css . "\r\n" . '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
+            $layout = str_ireplace('<head>', '<head>' . $default_css, $layout,$rep);
 
+
+
+        }
         if (isset($page['content'])) {
             if ($standalone_edit) {
                 if (!isset($render_file)) {

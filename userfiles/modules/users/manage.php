@@ -24,6 +24,18 @@ $paging_param = $params['id'].'_page';
 	}
  
 if(isset($params['search'])){
+	
+	    if (isset($params['search'])) {
+            $user_params['keyword'] = $params['search'];
+        }
+
+        if (isset($params['keyword'])) {
+            $user_params['search_in_fields'] = array('username', 'email', 'first_name', 'last_name');
+        }
+
+
+
+
 $user_params['search_by_keyword'] =$params['search'];
 $users_per_page = 1000;
 $user_params['current_page'] = 1;
@@ -102,7 +114,7 @@ $data = get_users($user_params);
 			<td><?php if($self_id != $item['id']): ?>
 				<span class="show-on-hover del-row" title="<?php _e("Delete"); ?>"  onclick="mw_admin_delete_user_by_id('<?php  print $item['id']; ?>')"></span>
 				<?php endif; ?>
-				<a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small"  href="#edit-user=<?php  print $item['id']; ?>">Edit</a></td>
+				<a class="show-on-hover mw-ui-btn mw-ui-btn-invert mw-ui-btn-small"  href="#edit-user=<?php  print $item['id']; ?>"><?php _e("Edit"); ?></a></td>
 		</tr>
 		<?php endforeach ; ?>
 	</tbody>

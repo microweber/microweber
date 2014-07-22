@@ -36,8 +36,10 @@
         }
 
         var search = mw.url.getHashParams(window.location.hash).search;
+        d(search)
         if (typeof search !== 'undefined') {
             mw.$('#users_admin_panel').attr('data-search-keyword', search);
+
         }
         else {
             mw.$('#users_admin_panel').removeAttr('data-search-keyword');
@@ -81,6 +83,9 @@
             if (params['edit-user'] !== undefined) {
                 _mw_admin_user_edit();
             }
+            else{
+               UsersRotator.go(0)
+            }
         });
     }
 
@@ -111,23 +116,26 @@
     }
 
     mw.on.hashParam('is_admin', function () {
+      if(this == false) return false;
         mw.url.windowDeleteHashParam('edit-user');
         _mw_admin_users_manage();
         mw.url.hashParamToActiveNode('is_admin', 'mw-users-is-admin');
     });
     mw.on.hashParam('search', function () {
-
+        if(this == false) return false;
         mw.url.windowDeleteHashParam('edit-user');
         _mw_admin_users_manage();
     });
     mw.on.hashParam('is_active', function () {
+      if(this == false) return false;
         mw.url.windowDeleteHashParam('edit-user');
         _mw_admin_users_manage();
         mw.url.hashParamToActiveNode('is_active', 'mw-users-is-active');
     });
     mw.on.hashParam('sortby', function () {
+      if(this == false) return false;
         mw.url.windowDeleteHashParam('edit-user');
-        _mw_admin_users_manage();
+       _mw_admin_users_manage();
     });
     mw.on.hashParam('edit-user', function () {
         if (this == false && this != 0) {
@@ -135,7 +143,7 @@
             UsersRotator.go(0);
             mw.$('.modules-index-bar, .manage-items').fadeIn();
         }
-        else if (this != false ) {
+        else {
             _mw_admin_user_edit();
             mw.$('.modules-index-bar, .manage-items').fadeOut();
         }
@@ -170,7 +178,7 @@
         });
     </script>
     <?php endif; ?>
-    <a href="javascript:mw.url.windowHashParam('edit-user',0)" class="mw-ui-btn mw-ui-btn-notification">
+    <a href="#edit-user=0" class="mw-ui-btn mw-ui-btn-notification">
       <span class="mw-icon-plus"></span>
       <span>
       <?php _e("Add new user"); ?>

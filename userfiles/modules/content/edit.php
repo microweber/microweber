@@ -2,7 +2,7 @@
 
 
 
-namespace Microweber\Content;
+namespace Microweber\content;
 
  
 
