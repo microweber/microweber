@@ -670,16 +670,24 @@ class Parser
                             $data_id = PAGE_ID;
                         }
                         $data_inh_check = $this->app->content->get_by_id($data_id);
+
+
+
+
+
                         if (isset($data_inh_check['id']) and isset($data_inh_check['layout_file']) and (trim($data_inh_check['layout_file']) != '') and $data_inh_check['layout_file'] != 'inherit') {
                             $inh = $data_inh_check['id'];
+
                         } else {
                             $inh = $this->app->content->get_inherited_parent($data_id);
+
                         }
                         if ($inh != false and intval($inh) != 0) {
                             $try_inherited = true;
                             $data_id = $inh;
                             $rel = 'content';
                             $data = $this->app->content->get_by_id($data_id);
+
                         } else {
                             $rel = 'content';
                             $data = $this->app->content->get_page($data_id);
@@ -689,13 +697,13 @@ class Parser
                         $cont_field = false;
                     } else if (isset($attr['post'])) {
                         $get_global = false;
-                        $data = get_post($attr['post']);
+                        $data = $this->app->content->get_by_id($attr['post']);
                         if ($data == false) {
                             $data = $this->app->content->get_page($attr['post']);
                         }
                     } else if (isset($attr['category'])) {
                         $get_global = false;
-                        $data = get_category($attr['category']);
+                        $data = $this->app->category->get_by_id($attr['category']);
                     } else if (isset($attr['global'])) {
                         $get_global = true;
                     }
@@ -714,9 +722,6 @@ class Parser
                             }
                         }
                     }
-
-
-
 
                     if (isset($data[$field])) {
                         if (isset($data[$field])) {
@@ -754,6 +759,7 @@ class Parser
                                 $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
                             }
                         }
+
                         if ($cont_field != false) {
                             $field_content = $cont_field;
                         }

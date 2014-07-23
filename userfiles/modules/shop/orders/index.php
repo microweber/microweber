@@ -92,8 +92,8 @@
             <a class="mw-ord-id" href="#vieworder=<?php print ($item['id']) ?>"><?php print $item['id'] ?></a>
           </td>
           <td title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></td>
-        <td class="mw-order-item-status";><?php
-		 if($item['order_status'] == false): ?>
+        <td class="mw-order-item-status">
+        <?php  if($item['order_status'] == false): ?>
           <?php _e("New"); ?>
           <?php elseif($item['order_status'] == 'completed'): ?>
          <span class="mw-order-item-status-completed"><?php _e("Completed"); ?></span>
@@ -125,7 +125,22 @@
 
 
     <?php foreach ($orders as $item) : ?>
-  <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
+  <table class="mw-ui-table mw-order-table abandoned-cart" id="abandoned-cart-table<?php print $item['id'] ?>" cellpadding="0" cellspacing="0">
+
+  <script>
+
+        $(document).ready(function () {
+            $("#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-image").bind("mouseenter mouseleave", function (e) {
+                var index = $(this).dataset('index');
+                mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-index-" + index);
+            });
+            $("#abandoned-cart-table<?php print $item['id'] ?> tr.mw-order-item").bind("mouseenter mouseleave", function (e) {
+                var index = $(this).dataset('index');
+                mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-image-" + index);
+            });
+            });
+
+    </script>
 
     <thead>
       <tr>
@@ -149,10 +164,8 @@
             <?php for($i=0; $i<sizeof($cart_items); $i++){ ?>
             <?php $p = get_picture($cart_items[$i]['rel_id']); ?>
             <?php if($p != false): ?>
-            <img class="mw-order-item-image mw-order-item-image-<?php print $i; ?>"
-                data-index="<?php print $i; ?>"
-                src="<?php print thumbnail($p, 70,70); ?>"
-            />
+
+            <span data-index="<?php print $i; ?>" class="bgimg mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width:70px;height:70px;background-image: url(<?php print thumbnail($p, 120,120); ?>);"></span>
             <?php endif; ?>
             <?php } ?>
           </div>
@@ -184,14 +197,14 @@
                   <?php  endif ?></td>
                 <td class="mw-order-item-amount"><?php print ($item['price']) ?></td>
                 <td class="mw-order-item-count"><?php print $item['qty'] ?></td>
-                <td class="mw-order-item-count" width="100"><?php print  currency_format($item_total); ?></td>
+                <td class="nowrap"><?php print  currency_format($item_total); ?></td>
               </tr>
               <?php endforeach; ?>
               <tr class="mw-ui-table-footer last">
                 <td colspan="3">&nbsp;</td>
-                <td class="mw-ui-table-green"><b>
+                <td class="mw-ui-table-green">
                   <?php _e("Total:"); ?>
-                  </b></td>
+                </td>
                 <td class="mw-ui-table-green"><b><?php print  currency_format($grandtotal); ?></b></td>
               </tr>
             </tbody>
@@ -201,22 +214,28 @@
             <?php _e("The cart is empty"); ?>
           </h2>
           <?php endif;?></td>
-        <td><label class="mw-ui-label"> Last activity: <span class="mw-ui-label-small" style="font-weight: 100" data-help="<?php print $item['updated_on'] ?>"><?php print mw('format')->ago($item['updated_on']); ?></span> </label>
-          <div class="mw-ui-box" style="margin-bottom: 20px;border-bottom: none">
-            <?php event_trigger('mw_admin_quick_stats_by_session',$item['session_id']); ?>
-          </div>
-          <div class="mw-ui-field-holder">
-            <label class="mw-ui-label mw-ui-label-inline" style="width: 120px;">Recover URL <span class="mw-help" data-help="Use this if you need to send it to your clients. They'll be able to restore their Shopping Cart">(?)</span></label>
-            <input type="text" class="mw-ui-field right" style="width: 330px;font-size: 11px;" readonly="readonly" onfocus="$(this).select()" value="<?php print $recart_base.'?recart='.$item['session_id'] ?>">
-          </div>
-          
-          <a class="mw-ui-btn mw-ui-btn-info pull-right" style="margin-left: 12px;" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank"><?php _e("Recover"); ?></a>
+        <td style="padding: 20px;"><label class="mw-ui-label"> <?php _e("Last activity"); ?>: <span class="mw-ui-label-small tip" data-tipposition="top-center"  data-tip="<?php print $item['updated_on'] ?>"><?php print mw('format')->ago($item['updated_on']); ?></span> </label>
+            <style scoped="scoped">
+                .mw-ui-table thead tr th:last-child{
+                  text-align:right
+                }
 
-          <a class="mw-ui-btn right" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);"><?php _e("Delete cart"); ?></a></td>
+            </style>
+            <?php event_trigger('mw_admin_quick_stats_by_session',$item['session_id']); ?>
+           <hr>
+          <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
+            <label class="mw-ui-label mw-ui-label-inline" style="width: 120px;"><?php _e("Recover URL"); ?> <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Use this if you need to send it to your clients. They'll be able to restore their Shopping Cart."); ?>"></span></label>
+            <input type="text" class="mw-ui-field w100"  readonly="readonly" onfocus="$(this).select()" value="<?php print $recart_base.'?recart='.$item['session_id']; ?>">
+          </div>
+            <div class="mw-ui-btn-nav pull-right">
+              <a class="mw-ui-btn" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);"><?php _e("Delete cart"); ?></a>
+              <a class="mw-ui-btn mw-ui-btn-invert" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank"><?php _e("Recover"); ?></a>
+            </div>
+          </td>
       </tr>
 
     </tbody>
-  </table> <br> <?php endforeach; ?>
+  </table><?php endforeach; ?>
     <?php
 		$abandoned_carts = get_cart('count=1&no_session_id=true&order_completed=n&group_by=session_id');
         $completed_carts = get_orders('count=1&order_completed=y');

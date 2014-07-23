@@ -132,7 +132,7 @@ $(document).ready(function(){
           <th scope="col"><?php _e("Country"); ?></th>
       <?php endif; ?>
       <col width="50%">
-      <col width="10%">
+      <col width="20%">
     </colgroup>
     <thead>
       <tr>

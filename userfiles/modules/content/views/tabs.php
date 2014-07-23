@@ -127,12 +127,10 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
           
 
           <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
+           
+       
           
-          
-          
-          
-          
-            <module type="content/views/layout_selector" id="mw-quick-add-choose-layout" autoload="yes" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" <?php print $no_content_type_setup_from_layout ?> />
+            <module type="content/views/layout_selector" id="mw-quick-add-choose-layout"   template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" <?php print $no_content_type_setup_from_layout ?> />
             
              
             

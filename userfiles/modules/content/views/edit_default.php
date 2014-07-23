@@ -698,7 +698,8 @@ mw.save_inner_editable_fields = function(data){
     		 var iframe_ed = $('.mw-iframe-editor');
     	     var changed =  iframe_ed.contents().find('.changed').size();
     		 if(changed == 0){
-    		   // mw.edit_content.load_editor();
+				//  alert(1);
+    		    mw.edit_content.load_editor();
     		 }
 			// mw.edit_content.load_editor();
        });

@@ -143,7 +143,6 @@ else {
         $(document).ready(function () {
             $(".mw-order-item-image").bind("mouseenter mouseleave", function (e) {
                 var index = $(this).dataset('index');
-
                 mw.tools.multihover(e, this, ".mw-order-item-index-" + index);
             });
             $("tr.mw-order-item").bind("mouseenter mouseleave", function (e) {

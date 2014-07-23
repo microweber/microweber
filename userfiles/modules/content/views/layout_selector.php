@@ -42,7 +42,7 @@ if (!isset($params["layout_file"]) and $data == false or empty($data)) {
     include('_empty_content_data.php');
 }
 
-
+ 
 
 
 if (isset($data['active_site_template']) and $data['active_site_template'] == '') {

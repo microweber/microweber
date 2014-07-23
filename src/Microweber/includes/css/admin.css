@@ -3292,8 +3292,15 @@ body.grabbing, body.grabbing *{
 
 .mw-custom-fields-cart-item-array{
    padding-left: 8px;
-    padding-top: 2px;
+   padding-top: 2px;
+}
 
+.abandoned-cart .stat-views{
+  width:70px;
+}
+
+.abandoned-cart{
+  margin-bottom: 30px;
 }
 
 .mw-order-item-status-completed{
