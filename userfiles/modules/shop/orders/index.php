@@ -118,7 +118,7 @@
     </tbody>
   </table>
   <?php elseif($ordert_type == 'carts' and isset($orders) and is_array($orders)) :?>
-  <label class="mw-ui-label"> Abandoned Carts Section helps you analyze why some customers aren't checking out. </label>
+  <label class="mw-ui-label"><?php _e("Abandoned Carts Section helps you analyze why some customers aren't checking out."); ?></label>
   <div class="mw-ui-box">
     <div class="mw-ui-box-content">
       <div id="orders_stat" style="height: 250px;"></div>
@@ -145,11 +145,11 @@
         <td  ><?php $cart_items = get_cart('order_completed=n&session_id='.$item['session_id']); ?>
           <?php if(is_array($cart_items) and !empty($cart_items)) :?>
           <?php
-        					$recart_base =  site_url();
-        					if(is_array($cart_items[0]) and isset($cart_items[0]['rel_id'])) {
-        						$recart_base =  content_link($cart_items[0]['rel_id']);
-        					}
-    					?>
+    			$recart_base =  site_url();
+    			if(is_array($cart_items[0]) and isset($cart_items[0]['rel_id'])) {
+    				$recart_base =  content_link($cart_items[0]['rel_id']);
+    			}
+    	  ?>
           <div class="mw-order-images">
             <?php for($i=0; $i<sizeof($cart_items); $i++){ ?>
             <?php $p = get_picture($cart_items[$i]['rel_id']); ?>
@@ -217,9 +217,9 @@
             <input type="text" class="mw-ui-field right" style="width: 330px;font-size: 11px;" readonly="readonly" onfocus="$(this).select()" value="<?php print $recart_base.'?recart='.$item['session_id'] ?>">
           </div>
           
-          <a class="mw-ui-btn mw-ui-btn-green right" style="margin-left: 12px;" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank">Recover</a>
+          <a class="mw-ui-btn mw-ui-btn-green right" style="margin-left: 12px;" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank"><?php _e("Recover"); ?></a>
 
-          <a class="mw-ui-btn right" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);">Delete cart</a></td>
+          <a class="mw-ui-btn right" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);"><?php _e("Delete cart"); ?></a></td>
       </tr>
       <?php endforeach; ?>
     </tbody>
@@ -248,8 +248,10 @@
       });
     </script>
   <?php else: ?>
-  <h2>
-    <?php _e("You don't have any orders"); ?>
-  </h2>
+  <div class="mw-ui-box mw-ui-box-content info-box" style="margin-top: 15px;">
+    <h2>
+        <?php _e("You don't have any orders"); ?>
+    </h2>
+  </div>
   <?php endif;?>
 </div>

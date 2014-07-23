@@ -3,7 +3,7 @@ only_admin_access();
 
 ?><script  type="text/javascript">
 function mw_delete_shop_client($email){
-	 var r=confirm("<?php _e("Are you sure you want to delete this client"); ?>?")
+	 var r=confirm("<?php _e("Are you sure you want to delete this client"); ?>?");
 if (r==true){
 
   var r1=confirm("<?php _e("ATTENTION"); ?>!!!!!!\n<?php _e("ALL ORDERS FROM THIS CLIENT WILL BE DELETED"); ?>!\n\n<?php _e("CLICK CANCEL NOW"); ?>\n<?php _e("OR"); ?>\n<?php _e("THERE IS NO TURNING BACK"); ?>!")
@@ -27,9 +27,12 @@ if (r1==true){
 
 ?>
 
-<div class="section-header"><h2><span class="mw-icon-users"></span><?php _e("Clients List"); ?></h2></div>
+<div class="section-header">
+    <h2 class="pull-left"><span class="mw-icon-users"></span><?php _e("Clients List"); ?></h2>
+    <input type="text" class="mw-ui-searchfield pull-right active" placeholder="<?php _e("Search in clients"); ?>" />
+</div>
 
-
+<hr>
 
 <?php if($is_orders != 0){   ?>
   <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0" width="960">
@@ -76,7 +79,7 @@ if (r1==true){
     </tbody>
   </table>
   <?php  }  else { ?>
-      <h2><?php _e("You don't have any clients"); ?></h2>
+      <div class="mw-ui-box mw-ui-box-content info-box"><h2><?php _e("You don't have any clients"); ?></h2> </div>
   <?php  }  ?>
 
 

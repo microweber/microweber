@@ -39,6 +39,12 @@ mw.client_edit = {
        mw.tools.modal.remove('mw_rte_image');
      }
 
+     previewOrder = function(e){
+        if(mw.tools.hasClass(e.target, 'mw-ui-btn')  || mw.tools.hasParentsWithClass(e.target, 'mw-ui-btn')) return false;
+        mw.tools.accordion(mw.tools.firstParentWithClass(e.target, 'mw-ui-box'));
+
+     }
+
      </script>
 
      <div class="mw-admin-wrap">
@@ -105,24 +111,24 @@ mw.client_edit = {
             <thead>
               <tr>
                 <th ><?php _e("Address"); ?></th>
-                <th ><?php _e("Address 2"); ?></th>
+
               </tr>
             </thead>
             <tbody>
-              <tr class="last">
-                <td width="50%"><input class="mw-ui-field w100" type="text" name="address" value="<?php print $client['address'] ?>" />
+              <tr>
+                <td><textarea class="mw-ui-field w100" name="address"><?php print $client['address'] ?></textarea>
                   <span class="val"><?php print $client['address'] ?></span></td>
-                  <td width="50%"><input   type="text" class="mw-ui-field w100" name="address2" value="<?php print $client['address2'] ?>" />
-                    <span class="val"><?php print $client['address2'] ?></span></td>
+
                   </tr>
                 </tbody>
               </table>
 
               <div class='mw-ui-btn-nav pull-right'>
                 <span class="mw-ui-btn" onclick="mw.client_edit.enable(this);">
-                <?php _e("Edit Information"); ?>
+                <span class="mw-icon-pen"></span>
+                <?php _e("Edit client information"); ?>
               </span>
-              <span class="mw-ui-btn mw-ui-btn-info" onclick="mw.client_edit.save();">
+              <span class="mw-ui-btn mw-ui-btn-invert" onclick="mw.client_edit.save();">
                   <?php _e("Save"); ?>
                 </span>
               </div>
@@ -132,12 +138,12 @@ mw.client_edit = {
                       <?php if(is_array($orders )): ?>
                       <?php foreach($orders  as $item): ?>
                       <div class="mw-ui-box mw-ui-box-accordion mw-accordion-active" style="margin-bottom: 15px;">
-                        <div class="mw-ui-box-header"> <span class="ico iorder"></span>
+                        <div class="mw-ui-box-header" onclick="previewOrder(event);"> <span class="mw-icon-order"></span>
 
-                            <h3 class="pull-left">Order #<?php print $item['id'] ?></h3>
-                            <div class="mw-ui-btn-nav pull-right">
-                              <span class="mw-ui-btn unselectable" onmousedown="mw.tools.accordion(mw.tools.firstParentWithClass(this, 'mw-ui-box'));"><?php _e("Show Order"); ?></span>
-                              <a href="<?php print  admin_url() ?>view:shop/action:orders#vieworder=<?php print $item['id'] ?>" class="mw-ui-btn unselectable"> <?php _e("Go to this order"); ?></a>
+                            <h3 class="pull-left"><?php _e("Order"); ?> #<?php print $item['id'] ?></h3>
+                            <div class="mw-ui-btn-nav pull-right show-on-hover">
+                              <span class="mw-ui-btn unselectable" onmousedown="mw.tools.accordion(mw.tools.firstParentWithClass(this, 'mw-ui-box'));"><?php _e("Preview Order"); ?></span>
+                              <a href="<?php print  admin_url() ?>view:shop/action:orders#vieworder=<?php print $item['id'] ?>" class="mw-ui-btn unselectable"><span class="mw-icon-cart"></span><?php _e("Go to order"); ?></a>
                             </div>
                         </div>
                           <div class="mw-ui-box-content mw-accordion-content">
@@ -146,6 +152,7 @@ mw.client_edit = {
                             <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic" width="100%">
                               <thead>
                                 <tr>
+                                  <th></th>
                                   <th><?php _e("Product Name"); ?></th>
                                   <th><?php _e("Price"); ?></th>
                                   <th><?php _e("QTY"); ?></th>
@@ -155,6 +162,19 @@ mw.client_edit = {
                               <tbody>
                                 <?php foreach($cart_items  as $cart_item): ?>
                                 <tr class="mw-order-item mw-order-item-1">
+                                  <td class="mw-order-item-image" width="35">
+
+
+                <?php $p = get_picture($cart_item['rel_id']); ?>
+                <?php if ($p != false): ?>
+                <span class="bgimg" style="width: 35px;height:35px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);"></span>
+
+                <?php endif; ?>
+
+
+
+
+                                  </td>
                                   <td class="mw-order-item-id"><?php print $cart_item['title'] ?></td>
                                   <td class="mw-order-item-amount"><?php print $cart_item['price'] ?></td>
                                   <td class="mw-order-item-amount"><?php print $cart_item['qty'] ?></td>

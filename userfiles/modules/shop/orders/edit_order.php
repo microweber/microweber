@@ -51,15 +51,11 @@ else {
             <?php for ($i = 0; $i < sizeof($cart_items); $i++) { ?>
                 <?php $p = get_picture($cart_items[$i]['rel_id']); ?>
                 <?php if ($p != false): ?>
-                    <img
-                        class="mw-order-item-image mw-order-item-image-<?php print $i; ?>"
-                        data-index="<?php print $i; ?>"
-                        src="<?php print thumbnail($p, 70, 70); ?>"
-                        />
+                   <span data-index="<?php print $i; ?>" class="bgimage mw-order-item-image mw-order-item-image-<?php print $i; ?>" style="width: 70px;height:70px;background-image:url(<?php print thumbnail($p, 120, 120); ?>);"></span>
                 <?php endif; ?>
             <?php } ?>
         </div>
-        <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%">
+        <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%" id="order-information-table">
             <thead>
             <tr>
                 <th><?php _e("Product Name"); ?></th>
@@ -85,17 +81,15 @@ else {
                         <?php if ($item['rel'] == 'content'): ?>
                             <?php $data_fields = mw('content')->data($item['rel_id']); ?>
                             <?php if (isset($data_fields['sku']) and $data_fields['sku'] != ''): ?>
-                                <small class="mw-ui-label-help">SKU: <?php print $data_fields['sku']; ?></small>
+                                <small class="mw-ui-label-help"><?php _e("SKU"); ?>: <?php print $data_fields['sku']; ?></small>
                             <?php endif; ?>
                         <?php endif; ?></td>
                     <td class="mw-order-item-fields"><?php    if (isset($item['custom_fields'])): ?>
                             <?php print $item['custom_fields'] ?>
                         <?php endif ?></td>
-                    <td class="mw-order-item-amount"><?php print ($item['price']) ?></td>
+                    <td class="mw-order-item-amount nowrap"><?php print  currency_format($item['price'], $ord['currency']); ?></td>
                     <td class="mw-order-item-count"><?php print $item['qty'] ?></td>
-                    <?php /* <td class="mw-order-item-amount"> promo ceode: Ne se znae </td> */ ?>
-                    <td class="mw-order-item-count"
-                        width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
+                    <td class="mw-order-item-count" width="100"><?php print  currency_format($item_total, $ord['currency']); ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr class="mw-ui-table-footer">
@@ -110,11 +104,8 @@ else {
             </tr>
             <tr class="mw-ui-table-footer last">
                 <td colspan="3">&nbsp;</td>
-                <td class="mw-ui-table-green"><b>
-                        <?php _e("Total:"); ?>
-                    </b></td>
-                <td class="mw-ui-table-green"><b><?php print  currency_format($grandtotal, $ord['currency']); ?></b>
-                </td>
+                <td class="mw-ui-table-green"><strong><?php _e("Total:"); ?></strong></td>
+                <td class="mw-ui-table-green"><strong><?php print  currency_format($grandtotal, $ord['currency']); ?></strong></td>
             </tr>
             </tbody>
         </table>
@@ -144,15 +135,13 @@ else {
             </label>
           </li>
         </ul>
-
-
     </div>
 
     <script type="text/javascript">
 
 
         $(document).ready(function () {
-            $(".mw-order-images img").bind("mouseenter mouseleave", function (e) {
+            $(".mw-order-item-image").bind("mouseenter mouseleave", function (e) {
                 var index = $(this).dataset('index');
 
                 mw.tools.multihover(e, this, ".mw-order-item-index-" + index);
@@ -168,30 +157,22 @@ else {
 
             mw.$(".mw-order-is-paid-change").change(function () {
                 var val = this.value;
-
-
                 obj.is_paid = val;
                 $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
-
-
                     var upd_msg = "<?php _e("Order is marked as un-paid"); ?>"
                     if (obj.is_paid == 'y') {
-                        var upd_msg = "<?php _e("Order is marked as paid"); ?>"
-
+                        var upd_msg = "<?php _e("Order is marked as paid"); ?>";
                     }
-
                     mw.notification.success(upd_msg);
                     mw.reload_module('shop/orders');
-
                 });
-
-
             });
 
 
             mw.$("input[name='order_status']").commuter(function () {
                 var val = this.value;
                 obj.order_status = val;
+				 
                 $.post(mw.settings.site_url + "api/shop/update_order", obj, function () {
                     mw.tools.el_switch(mwd.querySelectorAll('#mw_order_status .mw-notification'), 'semi');
                     var states = {
@@ -201,6 +182,7 @@ else {
                     mw.which(val, states, function () {
                         mw.$(".mw-order-item-<?php print $ord['id']; ?> .mw-order-item-status").html(this.toString());
                     });
+					mw.reload_module('shop/orders');
                 });
             });
         });
@@ -214,9 +196,7 @@ else {
         </div>
         <div style="margin-right: 10px;width: 238px;"
              class="mw-notification mw-success right <?php if ($ord['order_status'] != 'completed'): ?>semi_hidden<?php endif; ?>">
-            <div style="height: 55px;"> <span>
-					<?php _e("Successfully Completed"); ?>
-					</span></div>
+            <div style="height: 55px;"><span><?php _e("Successfully Completed"); ?></span></div>
         </div>
     </div>
     </div>
@@ -230,7 +210,7 @@ else {
                     <li><?php _e("Payment Method"); ?>: <strong><?php print $ord['payment_gw']; ?></strong></li>
                     <li>
                         <?php _e("Is Paid"); ?>:
-                        <select name="is_paid" class="mw-ui-field mw-ui-field-medium">
+                        <select name="is_paid" class="mw-ui-field mw-ui-field-medium mw-order-is-paid-change">
                             <option value="y" <?php if (isset($ord['is_paid']) and $ord['is_paid'] == 'y'): ?> selected="selected" <?php endif; ?>><?php _e("Yes"); ?></option>
                             <option value="n" <?php if (isset($ord['is_paid']) and $ord['is_paid'] != 'y'): ?> selected="selected" <?php endif; ?>><?php _e("No"); ?></option>
                         </select>
@@ -283,9 +263,8 @@ else {
 <div class="mw-ui-box-header">
 
 
-    <a href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>"
-       class="mw-ui-btn mw-ui-btn-medium right">
-        <?php _e("Edit"); ?>
+    <a href="<?php print $config['url_main']; ?>/../action:clients#?clientorder=<?php print $ord['id'] ?>" class="mw-ui-btn mw-ui-btn-medium pull-right">
+       <span class="mw-icon-pen"></span> <?php _e("Edit"); ?>
     </a> <span>
 			<?php _e("Client Information"); ?>
 			</span>

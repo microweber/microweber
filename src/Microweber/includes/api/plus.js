@@ -145,7 +145,10 @@ InsertModule = function(module, cls){
     else if(mw.drag.plusActive == 'bottom'){
         $(mw.drag.plusBottom.currentNode).after(el);
     }
+
     mw.load_module(module, '#'+id, function(){
+      d(document.getElementById(id))
+    mw.wysiwyg.change(document.getElementById(id));
         mw.drag.plus.locked = false;
         mw.drag.fixes();
         setTimeout(function(){mw.drag.fix_placeholders();}, 40);

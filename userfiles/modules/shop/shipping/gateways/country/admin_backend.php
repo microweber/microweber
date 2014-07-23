@@ -131,20 +131,23 @@ else {
 
 <div id="shipping-type-tooltip" style="display: none">
 
-<p><?php _e("Select how you want to charge your clients"); ?>:</p>
+<p><?php _e("Select a shipping type applicable to customer orders"); ?>:</p>
 
 <ol>
-  <li><strong><?php _e("Fixed"); ?></strong> - <?php _e("It means that the shipping price is for the whole order"); ?> </li>
-  <li><strong><?php _e("Dimensions or Weight"); ?></strong> - <?php _e("The cost depends on dimensions and weight "); ?> </li>
-  <li><strong><?php _e("Per item"); ?></strong> - <?php _e("Each product has price for delivering"); ?> </li>
+  <li><strong><?php _e("Fixed"); ?></strong> - <?php _e("Set a shipping price for the whole order"); ?> </li>
+  <li><strong><?php _e("Dimensions or Weight"); ?></strong> - <?php _e("Set a flexible shipping price depending on a product’s dimensions or weight"); ?> </li>
+  <li><strong><?php _e("Per item"); ?></strong> - <?php _e("Charge a set shipping price for each product a customer orders"); ?> </li>
 </ol>
 
 </div>
+<div id="shippingtip" style="display: none">
+<div style="width: 320px;"><?php _e("You are able to allow or disallow shipping to the selected country. For example if you ship worldwide you can disallow shipping to one or more countries."); ?></div>
+</div>
 
 
-<div class="mw-ui-box-content">
+<div class="mw-ui-box-content" style="padding-bottom: 0;">
 
-<span class="mw-ui-btn" onclick="mw.$('.country-id-0').show().find('.mw-ui-field').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
+<span class="mw-ui-btn mw-ui-btn-invert" onclick="mw.$('.country-id-0').show().find('.mw-ui-field').focus();mw.tools.scrollTo('.country-id-0');mw.$('.country-id-0').effect('highlight', {}, 3000)">
 	<span class="mw-icon-plus"></span><?php _e("Add Country"); ?>
 </span>
 <span class="mw-ui-btn" onclick="mw.tools.module_settings('shop/shipping/set_units');"><span class="mw-icon-gear"></span><?php _e("Set shipping units"); ?></span>
@@ -291,7 +294,8 @@ foreach ($datas as $data_key => $data): ?>
                     print 'new';
                 } ?>');return false;" action="<?php print $config['module_api']; ?>/shipping_add_to_country"
                       data-field-id="<?php print $item['id']; ?>">
-                    <table class="mw-ui-table mw-ui-table-basic admin-shipping-table">
+                    <div class="mw-ui-box mw-ui-box-content">
+                        <table class="mw-ui-table mw-ui-table-basic admin-shipping-table">
                         <tr class="shipping-country-row">
                             <td class="shipping-country-label">
                                   <span class="">
@@ -302,7 +306,7 @@ foreach ($datas as $data_key => $data): ?>
                                     <?php _e("Shipping to"); ?>
                                 <?php endif; ?>
 
-                                <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Select a country where you are able to deliver your products"); ?>" data-tipposition="right-center"></span>
+                                <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Select a country to deliver your products to"); ?>." data-tipposition="right-center"></span>
 
                                 </span>
 
@@ -333,7 +337,7 @@ foreach ($datas as $data_key => $data): ?>
                                     <ul class="mw-ui-inline-list">
                                       <li>
                                         <span><?php _e("Allow shipping to this country"); ?>
-                                            <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("You are able to allow or disallow shipping to the selected country. For example if you ship worldwide you can disallow shipping to one or more countries."); ?>" data-tipposition="right-center"></span>
+                                            <span class="mw-icon-help-outline mwahi tip" data-tip="#shippingtip" data-tipposition="right-center"></span>
                                         </span>
                                       </li>
                                       <li>
@@ -405,7 +409,8 @@ foreach ($datas as $data_key => $data): ?>
                                 </div>
                                 <div class="shipping_per_item" style="display: none">
                                     <div class="mw-ui-field-holder">
-                                        <label class="mw-ui-label"><?php _e("Cost for shipping"); ?> <em><?php _e("each item in the shopping cart"); ?></em> &nbsp;</label>
+                                        <label class="mw-ui-label"><?php _e("Cost for shipping"); ?> <em><?php _e("each item in the shopping cart"); ?></em> <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("This cost will be added to the shipping price for the whole order from the box above"); ?>"></span></label>
+
                                         <span><b><?php print mw('shop')->currency_symbol() ?></b></span>
                                         <input type="text" name="shipping_price_per_item"
                                                value="<?php print  floatval($item['shipping_price_per_item']); ?>"
@@ -415,7 +420,7 @@ foreach ($datas as $data_key => $data): ?>
                             </td>
                         </tr>
                         <tr class="shipping-country-row">
-                            <td class="shipping-country-label"><?php _e("Shipping Discount cost"); ?><span class="mw-icon-help-outline mwahi tip" data-tip="For example you can define, if a client makes an order that is above $100 the the shipping will cost $5 " data-tipposition="right-center"></span></td>
+                            <td class="shipping-country-label"><?php _e("Shipping Discount cost"); ?><span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Set a discount shipping price for orders exceeding certain value"); ?>." data-tipposition="right-center"></span></td>
                             <td class="shipping-country-setting">
                               <div class="mw-ui-row" style="width: auto">
                               <div class="mw-ui-col">
@@ -461,9 +466,11 @@ foreach ($datas as $data_key => $data): ?>
                     </button>
                     
                     <?php if ($new == false): ?>
-                        <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag iMove shipping-handle-field"></span>
+                        <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
                         <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-ui-delete-x" title="<?php _e("Delete"); ?>"></span>
                     <?php endif; ?>
+
+                    </div>
                 </form>
             </div>
         <?php endforeach; ?>

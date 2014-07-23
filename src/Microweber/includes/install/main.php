@@ -190,16 +190,21 @@
         $server_check_errors['json'] = _e("The json PHP extension must be loaded", true);
     }
 
-    $is_pdo_avaiable = false;
-    if (class_exists('PDO',false)) {
-        $is_pdo_avaiable = true;
+    $is_pdo_loaded = false;
+    if (class_exists('PDO', false)) {
+        $is_pdo_loaded = true;
     }
-    if($is_pdo_avaiable == false){
-        if (extension_loaded('pdo')){
-            $is_pdo_avaiable = true;
+    if ($is_pdo_loaded == false) {
+        if (extension_loaded('pdo')) {
+            $is_pdo_loaded = true;
         }
     }
-    if($is_pdo_avaiable == false){
+    if ($is_pdo_loaded == false) {
+        if (defined('PDO::ATTR_DRIVER_NAME')) {
+            $is_pdo_loaded = true;
+        }
+    }
+    if ($is_pdo_loaded == false) {
         $check_pass = false;
         $server_check_errors['pdo'] = "The PDO PHP extension must be loaded";
     }
