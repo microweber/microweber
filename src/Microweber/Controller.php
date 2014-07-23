@@ -2397,11 +2397,12 @@ class Controller
         if (isset($_GET['preview_template'])) {
             $page['active_site_template'] = $_GET['preview_template'];
         }
-        if (isset($_GET['preview_layout'])) {
+        if (isset($_GET['preview_layout']) and $_GET['preview_layout'] != 'inherit') {
             $page['layout_file'] = $_GET['preview_layout'];
         }
         $this->app->content->define_constants($page);
         $page['render_file'] = $this->app->template->get_layout($page);
+
 //        if (!isset($page['render_file'])) {
 //
 //        }

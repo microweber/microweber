@@ -462,7 +462,12 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
     ?>
 <?php endif; ?>
 
-
+<?php if(isset($data['layout_file'])  and $data['layout_file'] == false) {
+	$is_layout_file_set = 1;
+$data['layout_file'] = 'inherit';	
+}
+ 
+?>
 
  
 

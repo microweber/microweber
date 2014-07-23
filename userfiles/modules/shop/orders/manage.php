@@ -122,7 +122,9 @@ ordersSort = function(obj){
                 <div class="mw-ui-row" style=" width: auto">
                     <div class="mw-ui-col">
                         <div class="mw-ui-col-container">
-                            <div class="ordersnum"><?php print $latest_orders;  ?></div></div>  </div>
+                            <a class="ordersnum" href="#orderstype=completed"><?php print $latest_orders;  ?></a>
+                        </div>
+                    </div>
                     <div class="mw-ui-col"><div class="mw-ui-col-container">
                         <h2 style="margin: 0;white-space:nowrap">
                             <?php if($latest_orders > 1){ ?>

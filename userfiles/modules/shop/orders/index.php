@@ -125,6 +125,11 @@
 
 
     <?php foreach ($orders as $item) : ?>
+
+
+
+  <h2><?php _e("Abandoned Cart ID"); ?>: <?php print $item['id']; ?></h2>
+
   <table class="mw-ui-table mw-order-table abandoned-cart" id="abandoned-cart-table<?php print $item['id'] ?>" cellpadding="0" cellspacing="0">
 
   <script>
@@ -144,8 +149,8 @@
 
     <thead>
       <tr>
-        <td><?php _e("Cart"); ?></td>
-        <td><?php _e("User stats"); ?></td>
+        <th><?php _e("Cart"); ?></th>
+        <th><?php _e("User stats"); ?></th>
       </tr>
     </thead>
 
@@ -197,15 +202,15 @@
                   <?php  endif ?></td>
                 <td class="mw-order-item-amount"><?php print ($item['price']) ?></td>
                 <td class="mw-order-item-count"><?php print $item['qty'] ?></td>
-                <td class="nowrap"><?php print  currency_format($item_total); ?></td>
+                <td class="nowrap"><?php print currency_format($item_total); ?></td>
               </tr>
               <?php endforeach; ?>
-              <tr class="mw-ui-table-footer last">
-                <td colspan="3">&nbsp;</td>
+              <tr class="mw-ui-table-footer">
+                <td colspan="3" style="padding-top: 37px;">&nbsp;</td>
                 <td class="mw-ui-table-green">
-                  <?php _e("Total:"); ?>
+                  <strong><?php _e("Total"); ?>:</strong>
                 </td>
-                <td class="mw-ui-table-green"><b><?php print  currency_format($grandtotal); ?></b></td>
+                <td class="nowrap"><b><?php print  currency_format($grandtotal); ?></b></td>
               </tr>
             </tbody>
           </table>
@@ -214,7 +219,11 @@
             <?php _e("The cart is empty"); ?>
           </h2>
           <?php endif;?></td>
-        <td style="padding: 20px;"><label class="mw-ui-label"> <?php _e("Last activity"); ?>: <span class="mw-ui-label-small tip" data-tipposition="top-center"  data-tip="<?php print $item['updated_on'] ?>"><?php print mw('format')->ago($item['updated_on']); ?></span> </label>
+        <td style="padding: 20px;">
+            <label class="mw-ui-label pull-right">
+                <span class="mw-icon-lite-clock-outline" style="font-size: 16px;top:-1px;right:2px;"></span>
+                <span class="mw-ui-label-small tip" data-tipposition="top-center" data-tip="<?php _e("Last activity on"); ?>: <?php print $item['updated_on'] ?>"><?php print mw('format')->ago($item['updated_on']); ?></span>
+            </label>
             <style scoped="scoped">
                 .mw-ui-table thead tr th:last-child{
                   text-align:right
@@ -225,7 +234,9 @@
            <hr>
           <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
             <label class="mw-ui-label mw-ui-label-inline" style="width: 120px;"><?php _e("Recover URL"); ?> <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Use this if you need to send it to your clients. They'll be able to restore their Shopping Cart."); ?>"></span></label>
-            <input type="text" class="mw-ui-field w100"  readonly="readonly" onfocus="$(this).select()" value="<?php print $recart_base.'?recart='.$item['session_id']; ?>">
+
+            <div class="nowrap"  style="font-size: 11px;color:#bbb;" onclick="mw.wysiwyg.select_all(this);"><?php print $recart_base.'?recart='.$item['session_id']; ?></div>
+
           </div>
             <div class="mw-ui-btn-nav pull-right">
               <a class="mw-ui-btn" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);"><?php _e("Delete cart"); ?></a>

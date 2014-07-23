@@ -661,6 +661,7 @@ mw.collect_inner_edit_fields = function(data) {
      var frame =  mwd.querySelector('#mw-admin-content-iframe-editor iframe');
      if( frame === null ) return false;
      var frameWindow = frame.contentWindow;
+	 if( typeof(frameWindow.mwd) === 'undefined' ) return false;
      var root = frameWindow.mwd.getElementById('mw-iframe-editor-area');
      var data = frameWindow.mw.drag.getData(root);
      return data;
@@ -696,10 +697,12 @@ mw.save_inner_editable_fields = function(data){
 		<?php endif; ?>
        mw.$('#mw-parent-page-value-<?php print $rand; ?>').bind('change', function(e){
     		 var iframe_ed = $('.mw-iframe-editor');
+
+
     	     var changed =  iframe_ed.contents().find('.changed').size();
     		 if(changed == 0){
 				//  alert(1);
-    		    mw.edit_content.load_editor();
+    		      mw.edit_content.load_editor();
     		 }
 			// mw.edit_content.load_editor();
        });
