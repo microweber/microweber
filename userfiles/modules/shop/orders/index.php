@@ -25,12 +25,13 @@
 			
 	} else {
 		$orders = get_orders('order_completed=y&'.$ord.$kw);
-	}
+		// 
+ 	}
 
 ?>
 
 
-
+ 
 
 <div id="mw-order-table-holder">
   <?php if($ordert_type == 'completed' and isset($orders) and is_array($orders)) :?>
@@ -91,13 +92,13 @@
                     <a class="mw-ord-id" href="#vieworder=<?php print ($item['id']) ?>"><?php print $item['id'] ?></a>
           </td>
           <td title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></td>
-        <td class="mw-order-item-status"><?php
+        <td class="mw-order-item-status";><?php
 		 if($item['order_status'] == false): ?>
-          New
+          <?php _e("New"); ?>
           <?php elseif($item['order_status'] == 'completed'): ?>
-          Completed
+         <span class="mw-order-item-status-completed"><?php _e("Completed"); ?></span>
           <?php else : ?>
-          Pending
+          <span class="mw-order-item-status-pending"><?php _e("Pending"); ?> </span>
           <?php endif; ?></td>
         <td class="mw-order-item-amount"><?php  print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
         <td class="mw-order-item-paid"><?php if($item['is_paid'] == 'y'): ?>
@@ -119,11 +120,11 @@
   </table>
   <?php elseif($ordert_type == 'carts' and isset($orders) and is_array($orders)) :?>
   <label class="mw-ui-label"><?php _e("Abandoned Carts Section helps you analyze why some customers aren't checking out."); ?></label>
-  <div class="mw-ui-box">
+
     <div class="mw-ui-box-content">
       <div id="orders_stat" style="height: 250px;"></div>
     </div>
-  </div>
+
 
 
   <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
@@ -154,11 +155,10 @@
             <?php for($i=0; $i<sizeof($cart_items); $i++){ ?>
             <?php $p = get_picture($cart_items[$i]['rel_id']); ?>
             <?php if($p != false): ?>
-            <img
-                                class="mw-order-item-image mw-order-item-image-<?php print $i; ?>"
-                                data-index="<?php print $i; ?>"
-                                src="<?php print thumbnail($p, 70,70); ?>"
-                            />
+            <img class="mw-order-item-image mw-order-item-image-<?php print $i; ?>"
+                data-index="<?php print $i; ?>"
+                src="<?php print thumbnail($p, 70,70); ?>"
+            />
             <?php endif; ?>
             <?php } ?>
           </div>
@@ -226,11 +226,10 @@
   </table>
   <?php
       //  $abandoned_carts = get_cart('count=1&group_by=session_id&no_session_id=true&order_completed=n');
-		
-		
-		$abandoned_carts = get_cart('count=1&no_session_id=true&order_completed=n');
-
 		 
+		
+		$abandoned_carts = get_cart('count=1&no_session_id=true&order_completed=n&group_by=session_id');
+ 		 
         $completed_carts = get_orders('count=1&order_completed=y');
      ?>
   <script>mw.lib.require("morris");</script> 

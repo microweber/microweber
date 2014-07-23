@@ -99,6 +99,8 @@ class Edit
         $recommended_parent = false;
         if (isset($params['recommended_parent']) and $params['recommended_parent'] != false) {
             $recommended_parent = $params['recommended_parent'];
+        } elseif (isset($params['parent']) and $params['parent'] != false) {
+            $recommended_parent = $params['parent'];
         }
         $categories_active_ids = false;
         $title_placeholder = false;

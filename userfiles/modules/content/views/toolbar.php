@@ -256,7 +256,7 @@ $( "#content_type_filter_by_select" ).change(function() {
                     </select>
                     <?php if(!$selected): ?>
                       <span class="mw-ui-btn mw-icon-menu" onclick="$('#content_type_filter_by_select').toggle(); $(this).hide();"></span>
-                  <?php endif; ?>
+                    <?php endif; ?>
                   </div>
                   <?php endif; ?> 
                   <div class="pull-right relative">

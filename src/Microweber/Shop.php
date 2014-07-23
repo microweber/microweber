@@ -695,15 +695,33 @@ class Shop
                 $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
                 foreach ($item['custom_fields_data'] as $cfk => $cfv) {
                     if (is_array($cfv)) {
-                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $cfk . '</span>';
+                        $key_txt = $cfk;
+                        if(intval($cfk) > 0){
+                            $key_txt = '';
+                        }
+                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $key_txt . '</span>';
                         $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
                         foreach ($cfv as $cfk1 => $cfv1) {
-                            $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk1 . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+                            $key_txt = $cfk1;
+                            if(intval($cfk1) > 0 or $cfk1 ===0){
+                                $key_txt = '';
+                            }
+                            if($key_txt == ''){
+                                $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+
+                            } else {
+                                $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $key_txt . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+
+                            }
                         }
                         $tmp_val .= '</ul>';
                         $tmp_val .= '</li>';
                     } else {
-                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $cfk . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
+                        $key_txt = $cfk;
+                        if(intval($cfk) > 0){
+                            $key_txt = '';
+                        }
+                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $key_txt . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
                     }
                 }
                 $tmp_val .= '</ul>';

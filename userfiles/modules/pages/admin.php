@@ -12,10 +12,16 @@
 	   if(id == undefined){
 	    var id = 0;
 	   }
+	   
+	   var par_page = $("#mw_change_pages_parent_root").val();
+	   
        pTabs.set(3);
 	   mw.$('#mw_page_create_live_edit').removeAttr('data-content-id');
  	   mw.$('#mw_page_create_live_edit').attr('from_live_edit',1);
 	   mw.$('#mw_page_create_live_edit').attr('content_type', 'page');
+	   
+	   mw.$('#mw_page_create_live_edit').attr('parent', par_page);
+	   
 	   mw.$('#mw_page_create_live_edit').attr('content-id', id);
 	   mw.$('#mw_page_create_live_edit').attr('quick_edit',1);
 	   mw.$('#mw_page_create_live_edit').removeAttr('live_edit');
@@ -35,6 +41,16 @@
         tabs:".tab"
     });
  });
+ 
+  $(document).ready(function(){
+ 
+	   mw.$("#mw_change_pages_parent_root").change(function () {
+		  var val = this.value;
+		  mw.$('#mw_pages_list_tree_live_edit').attr('parent',val);
+			mw.reload_module('#mw_pages_list_tree_live_edit')
+		});
+ 
+  });
 
 </script>
 
@@ -74,7 +90,7 @@
                     <label class="mw-ui-label">
               			<?php _e("Pages & Sub-Pages From"); ?>
               		</label>
-        			<select name="data-parent" class="mw-ui-field mw_option_field">
+        			<select name="data-parent" id="mw_change_pages_parent_root" class="mw-ui-field mw_option_field">
         				<option
                             valie="0"   <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>>
         				<?php _e("None"); ?>
@@ -191,7 +207,7 @@
             mw.manage_pages_sort();
         });
     </script>
-	<div   class="tab">
+	<div class="tab">
 		<div class="mw-ui-category-selector mw-ui-manage-list" id="mw_pages_list_tree_live_edit_holder" style="visibility: visible;display: block">
 			<?php
         $pt_opts = array();
@@ -204,7 +220,7 @@ $pt_opts['li_class'] = 'sub-nav';
 
         ?>
 		
-		<module type="pages" link="javascript:mw.add_new_page({id})" ul-class="pages_tree cat_tree_live_edit"  li-class="sub-nav" id="mw_pages_list_tree_live_edit" />
+		<module type="pages" link="javascript:mw.add_new_page({id})" ul-class="pages_tree cat_tree_live_edit"  li-class="sub-nav" id="mw_pages_list_tree_live_edit" parent="<?php print $posts_parent_page ?>" />
 		
 		
 		

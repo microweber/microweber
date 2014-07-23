@@ -204,7 +204,7 @@ else {
 
 
 
-    <div class="mw-ui-box"><div class="mw-ui-box-header"><?php _e("Payment Information"); ?> <span class="tip" data-tip="<?php _e("Payment Information that we have from the payment provider"); ?>" data-tipposition="top-center">(?)</span></div>
+    <div class="mw-ui-box"><div class="mw-ui-box-header"><?php _e("Payment Information"); ?> <span class="mw-icon-help-outline mwahi tip" style="float: none" data-tip="<?php _e("Payment Information that we have from the payment provider"); ?>" data-tipposition="top-center"></span></div>
 
                 <div class="mw-ui-box-content"><ul class="order-table-info-list">
                     <li><?php _e("Payment Method"); ?>: <strong><?php print $ord['payment_gw']; ?></strong></li>
@@ -231,7 +231,7 @@ else {
                                     <?php _e("for shipping"); ?>
 								</span>
                             <?php endif; ?>
-                            <span class="mw-help" data-help="<?php _e("Amount paid by the user"); ?>">(?)</span></li>
+                            <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Amount paid by the user"); ?>"></span></li>
                     <?php endif; ?>
                     <?php if (isset($ord['payment_currency']) and $ord['payment_currency'] != ''): ?>
                         <li>

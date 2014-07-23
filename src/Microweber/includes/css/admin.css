@@ -3286,7 +3286,24 @@ body.grabbing, body.grabbing *{
   font-size: 11px;
   padding-left: 10px;
 }
-.mw-custom-fields-cart-item-key{
+.mw-custom-fields-cart-item li li{
+  list-style: none
+}
+
+.mw-custom-fields-cart-item-array{
+   padding-left: 8px;
+    padding-top: 2px;
+
+}
+
+.mw-order-item-status-completed{
+  color:#48ad79
+}
+.mw-order-item-status-pending{
+  color:#ef924d
+}
+
+.mw-custom-fields-cart-item-key, .mw-custom-fields-cart-item-key-array-key{
   font-weight: bold;
   display: block;
   padding-top: 3px;
@@ -3321,6 +3338,7 @@ tr.mw-order-item:hover{
 
 .mw-order-item-image{
   border: 1px solid transparent;
+  margin: 0 9px 9px 0;
 }
 .mw-order-item-image:hover,
 .mw-order-item-image.hovered{
