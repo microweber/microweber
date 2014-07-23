@@ -314,8 +314,6 @@ class Template
          return $cache_content;
         }
 
-
-       //
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
@@ -392,6 +390,9 @@ class Template
                     }
                 }
             }
+
+
+
 
             if (isset($get_layout_from_parent['layout_file'])) {
 
@@ -496,6 +497,11 @@ class Template
 
         if ($render_file == false and isset($page['id']) and isset($page['active_site_template']) and isset($page['layout_file']) and ($page['layout_file'] == 'inherit')) {
 
+
+
+
+
+
             /*   $inherit_from = array();
                $inh = $this->app->content->get_inherited_parent($page['id']);
                if($inh == false){
@@ -504,15 +510,37 @@ class Template
                    $inherit_from[] =  $inh;
                }*/
             $inherit_from = $this->app->content->get_parents($page['id']);
-
             $found = 0;
+            if($inherit_from == false){
+                if(isset($page['parent'])){
+
+                    $par_test = $this->app->content->get_by_id($page['parent']);
+
+                    if(is_array($par_test)){
+                        $inherit_from = array();
+                        if(isset($page['layout_file']) and ($page['layout_file'] != 'inherit')){
+
+                            $inherit_from[] = $page['parent'];
+                        } else {
+                            $inh = $this->app->content->get_inherited_parent($page['parent']);
+                            $inherit_from[] =  $inh;
+                        }
+
+                    }
+
+                }
+            }
 
             if (!empty($inherit_from)) {
                 foreach ($inherit_from as $value) {
                     if ($found == 0 and $value != $page['id']) {
                         $par_c = $this->app->content->get_by_id($value);
                         if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
+
+
+
                             $page['layout_file'] = $par_c['layout_file'];
+                            $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
                             $page['active_site_template'] = $par_c['active_site_template'];
 
                             $page['active_site_template'] = str_replace('..', '', $page['active_site_template']);
@@ -679,6 +707,8 @@ class Template
 
         if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and isset($page['layout_file'])) {
             $page['active_site_template'] = trim(str_replace('..', '', $page['active_site_template']));
+            $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
+
             $page['layout_file'] = trim(urldecode(str_replace('..', '', $page['layout_file'])));
             $page['layout_file'] = (str_replace('\\', '/', $page['layout_file']));
 
@@ -696,6 +726,7 @@ class Template
                 $look_for_post = false;
             }
 
+            $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 
             if ($look_for_post != false) {
                 $f1 = $page['layout_file'];
@@ -897,6 +928,8 @@ class Template
         }
 
         if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false) {
+            $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
+
             $template_view = ACTIVE_TEMPLATE_DIR . DS . $page['layout_file'];
             $template_view = normalize_path($template_view, false);
             if (is_file($template_view) == true) {

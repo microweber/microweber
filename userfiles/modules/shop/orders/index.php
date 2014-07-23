@@ -76,7 +76,7 @@
     <tbody>
       <?php foreach ($orders as $item) : ?>
       <tr class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-status-<?php print $item['order_status'] ?> tip" data-showon="#vieorder-<?php print $item['id']; ?>"  data-tipposition="top-center" data-tipcircle="true" data-tip="#product-tip-<?php print $item['id'] ?>">
-          <?php  $cart_item = get_cart('no_session_id=true&order_completed=any&order_id=' . $item['id'] . '');      ?>
+          <?php  $cart_item = get_cart('no_session_id=true&order_completed=any&order_id=' . $item['id'] . '');  ?>
 
 
           <?php if(isset($cart_item[0]) and isset($cart_item[0]['rel_id'])) { ?>
@@ -89,7 +89,7 @@
           <?php } ?>
 
           <td class="mw-order-item-id tip" data-tipposition="top-center" data-tipcircle="true" data-tip="#product-tip-<?php print $item['id'] ?>">
-                    <a class="mw-ord-id" href="#vieworder=<?php print ($item['id']) ?>"><?php print $item['id'] ?></a>
+            <a class="mw-ord-id" href="#vieworder=<?php print ($item['id']) ?>"><?php print $item['id'] ?></a>
           </td>
           <td title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></td>
         <td class="mw-order-item-status";><?php
@@ -108,7 +108,6 @@
           <?php endif; ?></td>
         <td class="mw-order-item-names"><?php print $item['first_name'] . ' ' . $item['last_name']; ?></td>
         <td class="mw-order-item-email"><?php print $item['email'] ?></td>
-
         <td class="mw-order-item-edit" width="90" align="center">
             <span class="mw-icon-close show-on-hover tip" data-tip="<?php _e("Delete"); ?>" data-tipposition="top-center"  onclick="mw_delete_shop_order('<?php print ($item['id']) ?>');"></span>
             <a class="show-on-hover mw-ui-btn-invert mw-ui-btn mw-ui-btn-small" id="vieorder-<?php print $item['id']; ?>" href="#vieworder=<?php print ($item['id']) ?>">
@@ -119,31 +118,26 @@
     </tbody>
   </table>
   <?php elseif($ordert_type == 'carts' and isset($orders) and is_array($orders)) :?>
-  <label class="mw-ui-label"><?php _e("Abandoned Carts Section helps you analyze why some customers aren't checking out."); ?></label>
-
+    <label class="mw-ui-label"><?php _e("Abandoned Carts Section helps you analyze why some customers aren't checking out."); ?></label>
     <div class="mw-ui-box-content">
       <div id="orders_stat" style="height: 250px;"></div>
     </div>
 
 
-
+    <?php foreach ($orders as $item) : ?>
   <table class="mw-ui-table mw-order-table" id="shop-orders" cellpadding="0" cellspacing="0">
+
     <thead>
       <tr>
         <td><?php _e("Cart"); ?></td>
         <td><?php _e("User stats"); ?></td>
       </tr>
     </thead>
-    <tfoot>
-      <tr>
-        <td><?php _e("Cart"); ?></td>
-        <td><?php _e("User stats"); ?></td>
-      </tr>
-    </tfoot>
+
     <tbody>
-      <?php foreach ($orders as $item) : ?>
+
       <tr class="mw-order-item-<?php print $item['id'] ?> no-hover" >
-        <td  ><?php $cart_items = get_cart('order_completed=n&session_id='.$item['session_id']); ?>
+        <td><?php $cart_items = get_cart('order_completed=n&session_id='.$item['session_id']); ?>
           <?php if(is_array($cart_items) and !empty($cart_items)) :?>
           <?php
     			$recart_base =  site_url();
@@ -162,14 +156,13 @@
             <?php endif; ?>
             <?php } ?>
           </div>
-          <table class="mw-ui-table" cellspacing="0" cellpadding="0" width="100%">
+          <table class="mw-ui-table mw-ui-table-basic" cellspacing="0" cellpadding="0" width="100%">
             <thead>
               <tr>
                 <th><?php _e("Product Name"); ?></th>
                 <th><?php _e("Custom fields"); ?></th>
                 <th><?php _e("Price"); ?></th>
                 <th><?php _e("QTY"); ?></th>
-                <?php /* <th><?php _e("Promo Code"); ?></th> */ ?>
                 <th><?php _e("Total"); ?></th>
               </tr>
             </thead>
@@ -177,11 +170,11 @@
               <?php $subtotal = 0; ?>
               <?php $index = -1; foreach ($cart_items as $item) : ?>
               <?php
-                                    $index++;
-                                    $item_total = floatval($item['qty']) * floatval($item['price']);
-                                    $subtotal = $subtotal + $item_total;
-                                    $grandtotal = $subtotal;
-                                ?>
+                  $index++;
+                  $item_total = floatval($item['qty']) * floatval($item['price']);
+                  $subtotal = $subtotal + $item_total;
+                  $grandtotal = $subtotal;
+              ?>
               <tr
                 data-index = "<?php print $index; ?>"
                 class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>" >
@@ -217,19 +210,15 @@
             <input type="text" class="mw-ui-field right" style="width: 330px;font-size: 11px;" readonly="readonly" onfocus="$(this).select()" value="<?php print $recart_base.'?recart='.$item['session_id'] ?>">
           </div>
           
-          <a class="mw-ui-btn mw-ui-btn-green right" style="margin-left: 12px;" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank"><?php _e("Recover"); ?></a>
+          <a class="mw-ui-btn mw-ui-btn-info pull-right" style="margin-left: 12px;" href="<?php print $recart_base.'?recart='.$item['session_id'] ?>" target="_blank"><?php _e("Recover"); ?></a>
 
           <a class="mw-ui-btn right" href="javascript:mw_delete_shop_order('<?php print ($item['session_id']) ?>',1);"><?php _e("Delete cart"); ?></a></td>
       </tr>
-      <?php endforeach; ?>
+
     </tbody>
-  </table>
-  <?php
-      //  $abandoned_carts = get_cart('count=1&group_by=session_id&no_session_id=true&order_completed=n');
-		 
-		
+  </table> <br> <?php endforeach; ?>
+    <?php
 		$abandoned_carts = get_cart('count=1&no_session_id=true&order_completed=n&group_by=session_id');
- 		 
         $completed_carts = get_orders('count=1&order_completed=y');
      ?>
   <script>mw.lib.require("morris");</script> 
