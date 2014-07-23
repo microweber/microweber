@@ -127,6 +127,7 @@ ordersSort = function(obj){
                     </div>
                     <div class="mw-ui-col"><div class="mw-ui-col-container">
                         <h2 style="margin: 0;white-space:nowrap">
+                        <a href="#orderstype=completed">
                             <?php if($latest_orders > 1){ ?>
                                 <?php _e("New orders"); ?>
                             <?php } if($latest_orders == 1){ ?>
@@ -134,7 +135,7 @@ ordersSort = function(obj){
                             <?php } if($latest_orders == 0){   ?>
                                 <?php _e("No new orders"); ?>
                             <?php } ?>
-
+                           </a>
                         </h2>
                     </div>
                     </div>

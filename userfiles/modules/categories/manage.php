@@ -10,6 +10,13 @@ $tree = array();
 $tree['ul_class'] = 'pages_tree cat_tree_live_edit';
 $tree['li_class'] = 'sub-nav';
 $tree['rel'] = 'content';
+
+if(isset($params['page-id']) and $params['page-id'] != false){
+	$tree['rel_id'] = intval($params['page-id']);
+}
+
+
+
 $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-icon-category'></span>&nbsp;{title}</a>";
  category_tree($tree);
 ?>

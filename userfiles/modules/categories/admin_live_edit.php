@@ -4,12 +4,19 @@
 
 
     mw.live_edit_load_cats_list = function () {
-        CatTabs.set(3);
+       
         mw.$('.mw-module-category-manager').hide();
         mw.$("#mw-live-edit-cats-tab").removeClass('active');
+		 
+		
+		var cont_id = 	 mw.$("#mw_set_categories_tree_root_page").val();	
+ 
+		
+		mw.$("#mw_add_cat_live_edit").attr("page-id",cont_id);
         mw.load_module('categories/manage', '#mw_add_cat_live_edit', function () {
 
         });
+		 CatTabs.set(3);
     }
     mw.load_quick_cat_edit = function ($id) {
         CatTabs.set(2);
@@ -18,6 +25,10 @@
             mw.$("#mw_select_cat_to_edit_dd").val();
         }
         mw.$("#mw_add_cat_live_edit").attr("data-category-id", $id);
+		mw.$("#mw_add_cat_live_edit").removeAttr("page-id");
+
+		
+		
         mw.load_module('categories/edit_category', '#mw_add_cat_live_edit', function () {
             $(mwd.body).removeClass("loading");
         });
@@ -32,6 +43,21 @@
           }
         });
     });
+	
+	
+	$(document).ready(function(){
+ 
+	   mw.$("#mw_set_categories_tree_root_page").change(function () {
+		  var val = this.value;
+		   
+		  mw.$('#mw_add_cat_live_edit').attr('page-id',val);
+			mw.reload_module('#mw_add_cat_live_edit')
+		});
+ 
+  });
+  
+  
+  
 </script>
 
 
@@ -68,7 +94,7 @@
             <?php _e("Show Categories From"); ?>
         </label>
 
-        <select name="data-content-id" class="mw-ui-field mw_option_field">
+        <select name="data-content-id" id="mw_set_categories_tree_root_page" class="mw-ui-field mw_option_field">
             <option value="0"   <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>
                     title="<?php _e("None"); ?>">
                 <?php _e("None"); ?>
