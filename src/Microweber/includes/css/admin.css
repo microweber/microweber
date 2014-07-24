@@ -1350,9 +1350,17 @@ a:hover .mw_ed_tree_content{
   margin-bottom: 20px;
 }
 #quick-add-post-options-holder .mw-ui-btn{
-     padding: 9px 22px;
+    padding: 9px 22px;
+    /*border-color: transparent; */
     background-color: #F7F7F7;
 }
+
+#quick-add-post-options-holder .mw-ui-btn:hover,
+#quick-add-post-options-holder .mw-ui-btn:focus{
+  /* background-color: #F7F7F7;
+   border-color: #e5e5e5;*/
+}
+
 .quick-parent-selector select{
   width: 215px;
 }
@@ -1442,6 +1450,7 @@ a:hover .mw_ed_tree_content{
 .mw-custom-field-form-controls{
   margin-bottom: 10px;
   white-space: nowrap;
+  width: 250px;
 }
 
 .mw-custom-field-group, .custom-field-settings-name {

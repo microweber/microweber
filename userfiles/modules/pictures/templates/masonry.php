@@ -48,7 +48,7 @@ description: Masonry
         <?php $count = -1; foreach ($data as $item): ?>
             <?php $count++; ?>
             <div class="masonry-item"
-                 onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>)">
+                 onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>)">
                 <img src="<?php print thumbnail($item['filename'], 300); ?>" width="100%"/>
                 <?php if ($item['title'] != '') { ?>
                     <div class="masonry-item-description"><?php print $item['title']; ?></div>

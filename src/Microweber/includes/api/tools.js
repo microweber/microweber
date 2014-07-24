@@ -619,13 +619,14 @@ mw.tools = {
         var wh = parent.innerHeight;
         var dt = $(parent.document).scrollTop();
         var ft = $(frame).offset().top;
-        var zero = dt-ft;
         modalMain.style.maxHeight = wh - 100 + 'px';
+        var zero = dt - ft;
         var mtop = zero + wh/2 - modalMain.offsetHeight/2;
+        if(mtop < zero) { var mtop = zero; }
+        if(mtop < 0) { var mtop = 0; }
         if(!!parentFixedElement){
             mtop += parentFixedElement.offsetHeight;
         }
-        top.console.log(frame)
         modalMain.style.top = mtop + 'px';
 
     },
@@ -4146,8 +4147,7 @@ mw.image = {
 
     /* Exposing  */
 
-
-      mw.gallery      = mw.tools.gallery.init;
+      mw.gallery      = function(arr, start, modal){  if( self === top ){ return mw.tools.gallery.init(arr, start, modal) }  };
       mw.tooltip      = mw.tools.tip;
       mw.uploader = function(o){
           var uploader = mw.files.uploader(o);

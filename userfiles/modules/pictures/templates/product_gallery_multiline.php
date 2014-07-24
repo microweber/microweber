@@ -29,7 +29,7 @@ description: Product Gallery Multiline
         <span class=" mw-slider-zoomholder">
             <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 700); ?>" alt=""/>
             <img src="<?php print $item['filename']; ?>" class="mw-slider-zoomimg" alt=""
-                 onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>)"/>
+                 onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>)"/>
         </span>
                     <?php if ($item['title'] != '') { ?><i class="mw-rotator-description"><i
                             class="mw-rotator-description-content"><?php print $item['title']; ?></i></i><?php } ?>

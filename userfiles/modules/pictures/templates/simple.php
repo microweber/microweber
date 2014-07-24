@@ -23,7 +23,7 @@ description: Simple Pictures List Template
                 <?php $count++; ?>
                 <div class="mw-pictures-item mw-pictures-item-<?php print $item['id']; ?>">
                     <div class="thumbnail"
-                         onclick="mw.tools.gallery.init(gallery<?php print $rand; ?>, <?php print $count; ?>)">
+                         onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>)">
                             <span class="pic-valign">
                               <span class="pic-valign-cell">
                                   <img src="<?php print thumbnail($item['filename'], 300); ?>"/>

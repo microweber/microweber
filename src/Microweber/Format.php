@@ -473,6 +473,15 @@ class Format
         return $var;
     }
 
+    function titlelize($string)
+    {
+
+        $slug = preg_replace('/-/', ' ', $string);
+        $slug = preg_replace('/_/', ' ', $slug);
+        $slug = ucwords($slug);
+        return $slug;
+    }
+
     function array_values($ary)
     {
         $lst = array();
