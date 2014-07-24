@@ -132,7 +132,7 @@ class Category
 
         $link = isset($params['link']) ? $params['link'] : false;
         if ($link == false) {
-            $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level}'  >{title}</a>";
+            $link = "<a href='{categories_url}' data-category-id='{id}'  {active_code} class='{active_class} {nest_level}'>{title}</a>";
         }
         $link = str_replace('data-page-id', 'data-category-id', $link);
 
