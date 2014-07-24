@@ -25,9 +25,12 @@
             mw.$("#mw_select_cat_to_edit_dd").val();
         }
         mw.$("#mw_add_cat_live_edit").attr("data-category-id", $id);
-		mw.$("#mw_add_cat_live_edit").removeAttr("page-id");
+		 
 
+			var cont_id = 	 mw.$("#mw_set_categories_tree_root_page").val();	
+ 
 		
+		mw.$("#mw_add_cat_live_edit").attr("page-id",cont_id);
 		
         mw.load_module('categories/edit_category', '#mw_add_cat_live_edit', function () {
             $(mwd.body).removeClass("loading");

@@ -3303,6 +3303,11 @@ body.grabbing, body.grabbing *{
   margin-bottom: 30px;
 }
 
+.abandoned-cart > tbody > tr > td{
+  width: 50%;
+  font-size: 12px;
+}
+
 .mw-order-item-status-completed{
   color:#48ad79
 }

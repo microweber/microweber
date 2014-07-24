@@ -1,4 +1,5 @@
 <?php
+only_admin_access();
 $form_rand_id  = uniqid().rand();
 if(!isset($params["data-category-id"])){
 	$params["data-category-id"] = CATEGORY_ID;

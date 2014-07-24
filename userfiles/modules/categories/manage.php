@@ -38,7 +38,18 @@ $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-ic
         });
     }
 
-    
+     mw.quick_cat_edit_create = function (id) {
+        mw.$("#mw_edit_category_admin_holder").attr("category-id", id);
+		<?php if(isset($params['page-id']) and $params['page-id'] != false): ?>
+        mw.$("#mw_edit_category_admin_holder").attr("page-id", '<?php print $params['page-id'] ?>');
+
+		<?php endif; ?>
+        mw.$(".mw-module-category-manager").hide();
+        mw.$("#mw-live-edit-cats-tab").removeClass('active');
+        mw.load_module('categories/edit_category', '#mw_edit_category_admin_holder', function () {
+            $(mwd.body).removeClass("loading");
+        });
+    }
 </script>
   <script type="text/javascript">
 
@@ -86,5 +97,5 @@ mw.$("#<?php print $params['id'] ?>").sortable({
 
 </script>
   <hr>
-  <a href='javascript:mw.quick_cat_edit(0)' class="mw-ui-btn"><span class="mw-icon-category"></span><?php _e("New category"); ?></a> </div>
+  <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn"><span class="mw-icon-category"></span><?php _e("New category"); ?></a> </div>
 <div id="mw_edit_category_admin_holder"></div>
