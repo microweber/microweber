@@ -1,13 +1,13 @@
 <?php
-namespace Microweber\Content;
+namespace Microweber\Adapters\Ping;
 
 
-class Ping
+class SearchEngines
 {
 
     public $app;
 
-    function __construct($app=null)
+    function __construct($app = null)
     {
 
         if (!is_object($this->app)) {
@@ -20,6 +20,12 @@ class Ping
 
         }
     }
+
+    public function ping()
+    {
+        return $this->content_ping_servers();
+    }
+
     /**
      * Async caller for content_ping_servers
      * @category Content
@@ -28,12 +34,11 @@ class Ping
      * @uses content_ping_servers()
      * @see content_ping_servers();
      */
-    public function content_ping_servers_async()
+    private function content_ping_servers_async()
     {
         $scheduler = new \Microweber\Utils\Events();
         $scheduler->registerShutdownEvent("content_ping_servers");
     }
-
 
     /**
      * Pings the bots with the new pages and posts
@@ -43,7 +48,7 @@ class Ping
      * @uses is_fqdn()
      * @uses get_content();
      */
-    public function content_ping_servers()
+    private function content_ping_servers()
     {
 
         if ($_SERVER ["SERVER_NAME"] == 'localhost') {
@@ -58,7 +63,7 @@ class Ping
 
 
         if ($fqdn != false) {
-            $q = \mw('content')->get('is_active=y&is_deleted=n&is_pinged=n&limit=5&cache_group=content/ping');
+            $q = $this->app->content->get('is_active=y&is_deleted=n&is_pinged=n&limit=5&cache_group=content/ping');
 
             //$q = get_content('is_active=y');
             $server = array(
@@ -81,7 +86,7 @@ class Ping
 
                             $pages = array();
                             $pages [] = $the_post ['title'];
-                            $pages [] = mw('content')->link($the_post ['id']);
+                            $pages [] = $this->app->content->link($the_post ['id']);
 
                             $save = array('id' => $the_post ['id'], 'is_pinged' => 'y', 'debug' => 'y');
                             mw_var('FORCE_SAVE_CONTENT', MW_DB_TABLE_CONTENT);
@@ -119,8 +124,7 @@ class Ping
         }
     }
 
-
-    function is_fqdn($FQDN)
+    private function is_fqdn($FQDN)
     {
         return (!empty($FQDN) && preg_match('/(?=^.{1,254}$)(^(?:(?!\d|-)[a-z0-9\-]{1,63}(?<!-)\.)+(?:[a-z]{2,})$)/i', $FQDN) > 0);
     }

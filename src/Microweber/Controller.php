@@ -133,6 +133,9 @@ class Controller
 
     public function rss()
     {
+
+
+
         if (MW_IS_INSTALLED == true) {
             event_trigger('mw_cron');
         }
@@ -170,7 +173,11 @@ class Controller
         event_trigger('mw_robot_url_hit');
 
 
+
+
+
         print $rssfeed;
+        $this->app->content->ping();
 
     }
 

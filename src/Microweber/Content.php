@@ -13,6 +13,8 @@
 namespace Microweber;
 
 
+use Symfony\Component\Yaml\Tests\A;
+
 if (function_exists('api_expose')) {
     api_expose('content/reorder');
     api_expose('content/delete');
@@ -5718,6 +5720,25 @@ class Content
     {
         //shim for old versions
         return $this->app->template->site_templates();
+    }
+
+
+    public $pinger;
+    public function ping(){
+
+        if (!is_object($this->pinger)) {
+            if (!isset($this->app->adapters->container['content_ping'])) {
+                $app = $this->app;
+                $this->app->adapters->container['content_ping'] = function ($c) use ($app) {
+                    return new Adapters\Ping\SearchEngines($app);
+                };
+            }
+            $this->pinger = $this->app->adapters->container['content_ping'];
+        }
+
+        return $this->pinger->ping();
+
+
     }
 
 
