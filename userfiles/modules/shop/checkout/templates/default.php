@@ -12,6 +12,18 @@ description: Default cart template
 
 ?>
 
+
+
+<?php if($requires_registration == 'y' and is_logged() == false): ?>
+<module type="users/register" />
+<?php else: ?>
+
+ 
+
+
+
+
+
 <?php if ($payment_success == false): ?>
     
     <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post"
@@ -95,4 +107,5 @@ description: Default cart template
     <div class="mw-checkout-responce"></div>
 <?php else: ?>
     <h2><?php _e("Your payment was successfull."); ?></h2>
+<?php endif; ?>
 <?php endif; ?>

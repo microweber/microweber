@@ -10,7 +10,7 @@ class User
     public $tables = array();
     public $table_prefix = false;
     public $session_provider = false;
-
+    private $force_save = false;
     function __construct($app = null)
     {
 
@@ -846,6 +846,8 @@ class User
         $user = isset($params['username']) ? $params['username'] : false;
         $pass = isset($params['password']) ? $params['password'] : false;
         $email = isset($params['email']) ? $params['email'] : false;
+        $first_name = isset($params['first_name']) ? $params['first_name'] : false;
+        $last_name = isset($params['last_name']) ? $params['last_name'] : false;
         $pass2 = $pass;
         $pass = $this->hash_pass($pass);
 
@@ -927,14 +929,31 @@ class User
                     //   $table = MW_TABLE_PREFIX . 'users';
                     $table = $this->tables['users'];
 
-                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-                    $next = $this->app->db->last_id($table);
-                    $next = intval($next) + 1;
-                    $q = "INSERT INTO $table (id,email, password, is_active)
-			VALUES ($next, '$email', '$pass', 'y')";
+
+                    $reg = array();
+                    $reg['username'] = $email;
+                    $reg['password'] = $pass2;
+                    $reg['is_active'] = 'y';
+                    $reg['first_name'] = $first_name;
+                    $reg['last_name'] = $first_name;
+
+                    $this->force_save = true;
+
+                    $next =  $this->save($reg);
+                    $this->force_save = false;
+                   // d($next);
+                 //   $reg['is_admin'] = 'n';
 
 
-                    $this->app->db->q($q);
+
+//                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
+//                    $next = $this->app->db->last_id($table);
+//                    $next = intval($next) + 1;
+//                    $q = "INSERT INTO $table (id,email, password, is_active)
+//			VALUES ($next, '$email', '$pass', 'y')";
+
+
+                   // $this->app->db->q($q);
                     $this->app->cache->delete('users/global');
                     //$data = save_user($data);
                     $this->session_del('captcha');
@@ -1132,6 +1151,11 @@ class User
 
         $force = mw_var('force_save_user');
         $no_hash = mw_var('save_user_no_pass_hash');
+        if ($force == false) {
+            if($this->force_save){
+                $force = $this->force_save;
+            }
+        }
         if (isset($params['id'])) {
             //error('COMLETE ME!!!! ');
 

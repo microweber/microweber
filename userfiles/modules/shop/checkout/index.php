@@ -6,7 +6,7 @@ if (isset($_SESSION['mw_payment_success'])) {
     $payment_success = true;
 }
 
-
+$requires_registration = get_option('shop_require_registration', 'website');
 
 $template = get_option('data-template', $params['id']);
 $template_file = false;

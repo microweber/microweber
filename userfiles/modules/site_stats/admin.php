@@ -124,23 +124,20 @@ $(document).ready(function(){
 
  ?>
   <?php if(!empty($users_last5)): ?>
+
+  <span class="ipicon">IP</span> <?php print($users_last5[0]['user_ip']); ?>
+
   <table border="0" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic mw-ui-table-fixed">
     <colgroup>
       <col>
-      <col>
-      <?php if(function_exists('ip2country')): ?>
-          <th scope="col"><?php _e("Country"); ?></th>
-      <?php endif; ?>
+
       <col width="50%">
       <col width="20%">
     </colgroup>
     <thead>
       <tr>
         <th scope="col"><?php _e("Date"); ?></th>
-        <?php if(function_exists('ip2country')): ?>
-        <th scope="col"><?php _e("Country"); ?></th>
-        <?php endif; ?>
-        <th scope="col"><?php _e("IP"); ?></th>
+
         <th scope="col"><?php _e("Last page"); ?></th>
         <th scope="col"><?php _e("Page views"); ?></th>
       </tr>
@@ -149,8 +146,10 @@ $(document).ready(function(){
       <?php $i=0; foreach($users_last5 as $item) : ?>
       <tr>
 
-        <td class="stat-time"><?php print $item['visit_date'] ?><br><?php print $item['visit_time'] ?></td>
-        <td class="stat-ip"><?php print $item['user_ip'] ?></td>
+        <td class="stat-time tip" data-tip="<?php print $item['visit_date'] ?><br><?php print $item['visit_time'] ?>" data-tipposition="top-center">
+           <div style="max-width: 60px;"><?php print mw('format')->ago($item['visit_date'].$item['visit_time']); ?></div>
+        </td>
+
         <?php
             $last = explode('/',$item['last_page']);
             $size = count($last);

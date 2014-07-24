@@ -1,6 +1,7 @@
-* 2.1.1 (2014-XX-XX)
+* 2.1.1 (2014-07-24)
 
- * n/a
+ * fixed compiler warnings for the C extension
+ * fixed code when dealing with circular references
 
 * 2.1.0 (2014-06-24)
 
@@ -13,7 +14,7 @@
  * changed extend to automatically re-assign the extended service and keep it as shared or factory
    (to keep BC, extend still returns the extended service)
  * changed services to be shared by default (use factory() for factory
-   services, share() is a noop now)
+   services)
 
 * 1.0.0
 

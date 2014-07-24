@@ -24,7 +24,10 @@ complete_order = window.complete_order || function(){
 }
 
 </script>
-
+        <?php if($requires_registration == 'y' and is_logged() == false): ?>
+<module type="users/register" />
+<?php else: ?>
+ 
 <?php if ($payment_success == false): ?>
     
     <form class="mw-checkout-form" id="checkout_form_<?php print $params['id'] ?>" method="post"
@@ -35,6 +38,8 @@ complete_order = window.complete_order || function(){
             <module type="shop/cart" template="big" id="cart_checkout_<?php print $params['id'] ?>"
                     data-checkout-link-enabled="n"/>
         <?php endif;?>
+        
+ 
         <div class="mw-ui-row shipping-and-payment">
             <div class="mw-ui-col" style="width: 33%;">
                 <div class="mw-ui-col-container">
@@ -113,3 +118,4 @@ complete_order = window.complete_order || function(){
 <?php else: ?>
     <h2><?php _e("Your payment was successfull."); ?></h2>
 <?php endif; ?>
+    <?php endif;?>  

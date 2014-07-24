@@ -150,7 +150,7 @@
     <thead>
       <tr>
         <th><?php _e("Cart"); ?></th>
-        <th><?php _e("User stats"); ?></th>
+        <th><?php _e("User statistics"); ?></th>
       </tr>
     </thead>
 
@@ -235,7 +235,7 @@
           <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
             <label class="mw-ui-label mw-ui-label-inline" style="width: 120px;"><?php _e("Recover URL"); ?> <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("Use this if you need to send it to your clients. They'll be able to restore their Shopping Cart."); ?>"></span></label>
 
-            <div class="nowrap"  style="font-size: 11px;color:#bbb;" onclick="mw.wysiwyg.select_all(this);"><?php print $recart_base.'?recart='.$item['session_id']; ?></div>
+            <div style="font-size: 11px;color:#bbb;" onclick="mw.wysiwyg.select_all(this);"><?php print $recart_base.'?recart='.$item['session_id']; ?></div>
 
           </div>
             <div class="mw-ui-btn-nav pull-right">

@@ -41,6 +41,15 @@ if($enable_user_fb_registration == true){
 	}
 }
 
+$form_show_first_name = get_option('form_show_first_name','users')=='y';
+
+$form_show_last_name = get_option('form_show_last_name','users')=='y';;
+
+$form_show_address = get_option('form_show_address','users')=='y';;
+
+
+
+
  
 $module_template = get_option('data-template',$params['id']);
 if($module_template == false and isset($params['template'])){

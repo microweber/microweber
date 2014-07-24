@@ -607,22 +607,27 @@ mw.tools = {
         }
         $(el).remove();
     },
-    modalCompletelyVisibleFromParent: function(modalMain){
+    modalCompletelyVisibleFromParent: function(modalMain, parentFixedElement){
         if(!modalMain || modalMain === null || !modalMain.querySelector) return true;
         var frame = mww.frameElement;
         if( frame === null ) return true; // means it's the same window
         if( !frame ) return true; // in case property does not exists
-
+        if(frame.offsetHeight < $(parent).height()) return true;
+            d(frame)
         var _top = modalMain.offsetTop;
         var wh = $(parent).height();
+        var dt = $(parent.document).scrollTop();
         var ft = frame.offsetTop;
+        var zero = dt - ft;
+        modalMain.style.maxHeight = wh - 100 + px;
 
-        if((_top+ft) > $(parent).scrollTop()){
-          return true;
+        var mtop = wh/2 - modalMain.offsetHeight/2 + zero;
+        if(!!parentFixedElement && parentFixedElement !== null){
+            mtop += parentFixedElement.offsetHeight;
         }
-        else{
-          modalMain.style.top = ((_top-ft) + $(parent).scrollTop() - modalMain.offsetHeight) + 'px';
-        }
+        d(mtop)
+        modalMain.style.top = mtop + 'px';
+
     },
     setDimmensions:function(modal, w, h, trigger){
         if(typeof modal === 'string'){ var modal = mw.$(modal)[0]; }
@@ -687,10 +692,7 @@ mw.tools = {
         var w = modal.width();
         var top = ($(mww).height()/2)-(h/2);
         var top = top > 0 ? top : 0;
-        if(self !== mww.parent && mww.parent === mww.top){
-            var top = ($(mww.top).height()/2)-(h/2);
-            var top = top > 0 ? top : 0;
-        }
+
         var left = ($(mww).width()/2)-(w/2);
         var left = left > 0 ? left : 0;
         if(only == 'all'){
@@ -4185,8 +4187,9 @@ mw.image = {
     mw.modal = function(o){
       var modal = mw.tools.modal.init(o);
       if(!!modal){
-
-        modal.main = modal.main[0];
+        if(mwodal.main.constructor === $.fn.constructor){
+            modal.main = modal.main[0];
+        }
       }
       else{
         var modal = undefined;

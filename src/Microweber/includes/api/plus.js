@@ -25,6 +25,11 @@ mw.drag.plus = {
     mw.drag.plus.action();
   },
   selectNode:function(target){
+      if(mw.tools.hasClass(target, 'nodrop') || mw.tools.hasClass(target, 'edit')){
+         mw.drag.plusTop.style.top = -9999 +'px';
+         mw.drag.plusBottom.style.top = -9999 +'px';
+         return undefined;
+      }
       if(mw.tools.hasClass(target, 'module')){
           return target;
       }

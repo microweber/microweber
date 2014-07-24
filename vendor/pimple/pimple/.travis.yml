@@ -21,7 +21,9 @@ before_script:
   - if [ "$PIMPLE_EXT" == "yes" ]; then echo "extension=pimple.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`; fi
 
 script:
-  - if [ "$PIMPLE_EXT" == "yes" ]; then sh -c "cd ext/pimple && yes n | make test"; fi
+  - cd ext/pimple
+  - if [ "$PIMPLE_EXT" == "yes" ]; then yes n | make test | tee output ; grep -E 'Tests failed +. +0' output; fi
+  - cd ../..
   - phpunit
 
 matrix:

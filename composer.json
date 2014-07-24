@@ -15,7 +15,7 @@
 
     "j4mie/idiorm": "1.*",
     "j4mie/paris": "1.*",
-
+    "omnipay/omnipay": "~2.0",
 
     "vlucas/valitron": "1.*",
 

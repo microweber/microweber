@@ -35,10 +35,9 @@
 #include "zend_interfaces.h"
 #include "zend.h"
 #include "ext/spl/spl_exceptions.h"
+#include "Zend/zend_exceptions.h"
 #include "main/php_output.h"
 #include "SAPI.h"
-
-static int le_pimple;
 
 static zend_class_entry *pimple_ce;
 static zend_object_handlers pimple_object_handlers;
@@ -664,7 +663,7 @@ PHP_METHOD(Pimple, keys)
 
 	while(zend_hash_get_current_data_ex(&pobj->values, (void **)&value, &pos) == SUCCESS) {
 		MAKE_STD_ZVAL(endval);
-		switch (zend_hash_get_current_key_ex(&pobj->values, &str_index, &str_len, &num_index, 0, &pos)) {
+		switch (zend_hash_get_current_key_ex(&pobj->values, &str_index, (uint *)&str_len, &num_index, 0, &pos)) {
 			case HASH_KEY_IS_STRING:
 				ZVAL_STRINGL(endval, str_index, str_len - 1, 1);
 				zend_hash_next_index_insert(Z_ARRVAL_P(return_value), &endval, sizeof(zval *), NULL);
@@ -758,7 +757,6 @@ PHP_METHOD(Pimple, offsetExists)
 PHP_METHOD(Pimple, register)
 {
 	zval *provider;
-	zval *arg1;
 	zval **data;
 	zval *retval = NULL;
 	zval key;

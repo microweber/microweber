@@ -22,6 +22,7 @@ description: Default register template
                 if(typeof this.success !== 'undefined'){
                    mw.form.post(mw.$('#user_registration_form_holder') , '<?php print site_url('api') ?>/user_login', function(){
                       mw.load_module('users/login', '#<?php print $params['id'] ?>');
+					  window.location.href = window.location.href;
                    });
                 }
         	 });
@@ -51,6 +52,32 @@ description: Default register template
 					<input type="password" class="large-field form-control" name="password" placeholder="<?php _e("Password"); ?>">
 				</div>
 			</div>
+            
+            
+            
+            <?php if($form_show_first_name): ?>
+<div class="control-group form-group">
+				<div class="controls">
+					<input type="text" class="large-field form-control" name="first_name" placeholder="<?php _e("First name"); ?>">
+				</div>
+			</div>
+            
+<?php endif; ?>
+
+     <?php if($form_show_last_name): ?>
+<div class="control-group form-group">
+				<div class="controls">
+					<input type="text" class="large-field form-control" name="last_name" placeholder="<?php _e("Last name"); ?>">
+				</div>
+			</div>
+            
+<?php endif; ?>
+
+ 
+            
+ 
+            
+            
             <div class="mw-ui-row vertical-middle captcha-row">
               <div class="mw-ui-col">
                  <div class="mw-captcha-image-holder"><img class="mw-captcha-img" src="<?php print api_link('captcha') ?>" onclick="mw.tools.refresh_image(this);" /></div>

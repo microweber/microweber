@@ -2523,6 +2523,20 @@ body.grabbing, body.grabbing *{
   vertical-align: middle;
 }
 
+
+.ipicon{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  text-align: center;
+  padding-top:1px;
+  border-radius:3px;
+  border: 2px solid #555555;
+  cursor: default;
+  margin-right: 5px;
+}
+
 /************************************
        Admin tooltip
 *************************************/
@@ -3301,11 +3315,13 @@ body.grabbing, body.grabbing *{
 
 .abandoned-cart{
   margin-bottom: 30px;
+  table-layout: fixed;
 }
 
 .abandoned-cart > tbody > tr > td{
   width: 50%;
   font-size: 12px;
+  vertical-align: top;
 }
 
 .mw-order-item-status-completed{

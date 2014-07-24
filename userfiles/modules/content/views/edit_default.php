@@ -701,8 +701,8 @@ mw.save_inner_editable_fields = function(data){
 
     	     var changed =  iframe_ed.contents().find('.changed').size();
     		 if(changed == 0){
-				//  alert(1);
-    		      mw.edit_content.load_editor();
+			 
+    		    //  mw.edit_content.load_editor();
     		 }
 			// mw.edit_content.load_editor();
        });
@@ -711,9 +711,9 @@ mw.save_inner_editable_fields = function(data){
 		 var iframe_ed = $('.mw-iframe-editor')
 	     var changed =  iframe_ed.contents().find('.changed').size();
 		 if(changed == 0){
-		   
+		    mw.edit_content.load_editor();
 		 }
-		  mw.edit_content.load_editor();
+		 
        });
 	    if(mwd.querySelector('.mw-iframe-editor') !== null){
           mwd.querySelector('.mw-iframe-editor').onload = function(){
