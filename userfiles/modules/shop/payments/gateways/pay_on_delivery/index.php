@@ -1,13 +1,13 @@
 <script type="text/javascript">
     function cod_checkout_callback(data,selector){
-    	//alert('cod_checkout_callback');
+    	 alert('cod_checkout_callback');
     	$(selector).empty().append(data);
     }
 </script>
 <?php
 
-$cod_is_test = (get_option('codexpress_testmode', 'payments')) == 'y';
-$kin = get_option('codexpress_username', 'payments');
+$pay_on_delivery_show_msg = (get_option('pay_on_delivery_show_msg', 'payments')) == 'y';
+$pay_on_delivery_msg = get_option('pay_on_delivery_msg', 'payments');
 ?>
 
 <div>
@@ -17,6 +17,6 @@ $kin = get_option('codexpress_username', 'payments');
 
 
 
-<?php if($cod_is_test == true and is_admin()): ?>
- <?php print notif("You are using cod Express in test mode!"); ?>
+<?php if($pay_on_delivery_show_msg == true): ?>
+ <?php print $pay_on_delivery_msg; ?>
 <?php endif; ?>

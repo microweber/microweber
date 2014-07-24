@@ -3993,7 +3993,7 @@ mw.image = {
            var data =  mw.image.Rotator.toDataURL("image/png");
            img_object.src = data;
            mw.image._isrotating = false;
-           mw.wysiwyg.normalizeBase64Image(img_object);
+           if(!!mw.wysiwyg) mw.wysiwyg.normalizeBase64Image(img_object);
         });
         }
       },
@@ -4018,7 +4018,7 @@ mw.image = {
         }
         ctx.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height);
         node.src = canvas.toDataURL();
-        mw.wysiwyg.normalizeBase64Image(node);
+        if(!!mw.wysiwyg) mw.wysiwyg.normalizeBase64Image(node);
 
         })
     },
@@ -4049,7 +4049,7 @@ mw.image = {
             }
             ctx.putImageData(imageData, 0, 0);
             node.src = canvas.toDataURL();
-            mw.wysiwyg.normalizeBase64Image(node);
+            if(!!mw.wysiwyg) mw.wysiwyg.normalizeBase64Image(node);
             $(canvas).remove()
         });
       },

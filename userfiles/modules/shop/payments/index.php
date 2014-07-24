@@ -11,7 +11,7 @@ $(document).ready(function(){
 });
 </script>
 
-
+ 
 
 <?php if(is_array($payment_options)) :?>
 
@@ -26,11 +26,12 @@ $(document).ready(function(){
 		<li>
 			<label title="<?php print  $payment_option['name']; ?>">
 				<input type="radio" <?php if($count == 1):  ?> checked="checked" <?php endif;?> value="<?php print  $payment_option['gw_file']; ?>" name="payment_gw" />
-				<?php if(isset($payment_option['icon'])) :?>
+				<?php if(isset($payment_option['icon']) and trim($payment_option['icon']) !='' and !stristr($payment_option['icon'],'default.png')) :?>
 				<img src="<?php print  $payment_option['icon']; ?>" alt="" />
 				<?php else : ?>
-				<?php print  $payment_option['name']; ?>
+				<?php print  _e($payment_option['name']); ?>
 				<?php endif;?>
+           
 			</label>
 		</li>
 		<?php endforeach; ?>
