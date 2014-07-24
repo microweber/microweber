@@ -931,7 +931,8 @@ class User
 
 
                     $reg = array();
-                    $reg['username'] = $email;
+                    $reg['username'] = $user;
+                    $reg['email'] = $email;
                     $reg['password'] = $pass2;
                     $reg['is_active'] = 'y';
                     $reg['first_name'] = $first_name;

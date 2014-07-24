@@ -2047,7 +2047,9 @@ class Controller
                 } else {
                     $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
                 }
-                $meta = $this->app->format->clean_html($meta, true);
+               // d($meta);
+             //   $meta = $this->app->format->clean_html($meta, true);
+
                 if (is_array($meta)) {
                     foreach ($meta as $key => $item) {
                         if (is_string($item)) {
@@ -2060,12 +2062,9 @@ class Controller
                             $item = str_replace('&amp;', ' ', $item);
                             $item = str_replace('amp;', ' ', $item);
                             $item = str_replace('nbsp;', ' ', $item);
-
                             $item = str_replace('#039;', ' ', $item);
                             $item = str_replace('&amp;nbsp;', ' ', $item);
                             $item = str_replace('&', ' ', $item);
-
-
                             $item = str_replace('  ', '', $item);
                             $item = str_replace(' ', ' ', $item);
                             $l = str_replace('{' . $key . '}', $item, $l);
@@ -2318,15 +2317,22 @@ class Controller
         $l = $l->__toString();
         $etagFile = md5($l);
 
-        header("Etag: $etagFile");
+       // header("Etag: $etagFile");
         //make sure caching is turned on
-        header('Cache-Control: public');
+     //   header('Cache-Control: public');
+
+
+        //caching
 
         //check if page has changed. If not, send 304 and exit
-        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-            header("HTTP/1.1 304 Not Modified");
-            exit;
-        }
+//        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
+//            header("HTTP/1.1 304 Not Modified");
+//            exit;
+//        }
+
+
+
+
 
 
         $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);

@@ -1,7 +1,7 @@
 
 
-
 mw.require("files.js");
+mw.require("css_parser.js");
 mw.require(mw.settings.includes_url + "css/ui.css");
 (function() {
     if(typeof jQuery.browser === 'undefined'){
@@ -611,21 +611,21 @@ mw.tools = {
         if(!modalMain || modalMain === null || !modalMain.querySelector) return true;
         var frame = mww.frameElement;
         if( frame === null ) return true; // means it's the same window
-        if( !frame ) return true; // in case property does not exists
-        if(frame.offsetHeight < $(parent).height()) return true;
-            d(frame)
-        var _top = modalMain.offsetTop;
-        var wh = $(parent).height();
-        var dt = $(parent.document).scrollTop();
-        var ft = frame.offsetTop;
-        var zero = dt - ft;
-        modalMain.style.maxHeight = wh - 100 + px;
 
-        var mtop = wh/2 - modalMain.offsetHeight/2 + zero;
-        if(!!parentFixedElement && parentFixedElement !== null){
+        if( !frame ) return true; // in case property does not exists
+
+        if(frame.offsetHeight < $(parent).height()) return true;
+        var _top = modalMain.offsetTop;
+        var wh = parent.innerHeight;
+        var dt = $(parent.document).scrollTop();
+        var ft = $(frame).offset().top;
+        var zero = dt-ft;
+        modalMain.style.maxHeight = wh - 100 + 'px';
+        var mtop = zero + wh/2 - modalMain.offsetHeight/2;
+        if(!!parentFixedElement){
             mtop += parentFixedElement.offsetHeight;
         }
-        d(mtop)
+        top.console.log(frame)
         modalMain.style.top = mtop + 'px';
 
     },
@@ -4187,7 +4187,7 @@ mw.image = {
     mw.modal = function(o){
       var modal = mw.tools.modal.init(o);
       if(!!modal){
-        if(mwodal.main.constructor === $.fn.constructor){
+        if(modal.main.constructor === $.fn.constructor){
             modal.main = modal.main[0];
         }
       }
@@ -4199,7 +4199,7 @@ mw.image = {
     mw.modalFrame = function(o){
       var modal = mw.tools.modal.frame(o);
       if(!!modal){
-        if(mwodal.main.constructor === $.fn.constructor){
+        if(modal.main.constructor === $.fn.constructor){
             modal.main = modal.main[0];
         }
       }

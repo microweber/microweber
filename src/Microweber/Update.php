@@ -11,7 +11,7 @@ class Update
 
     public $app;
     private $remote_api_url = 'http://api.microweber.com/service/update/';
-    private $remote_url = 'http://practivate.adobe.com/Microweber/';
+    private $remote_url = 'http://api.microweber.com/service/update/';
     private $temp_dir = false;
 
     function __construct($app = null)
