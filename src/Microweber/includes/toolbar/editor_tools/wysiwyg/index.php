@@ -6,7 +6,7 @@
 <script src="<?php print MW_INCLUDES_URL; ?>api/jquery-ui.js"></script>
 <script>
     mwAdmin = true; 
-	 
+
 </script>
 <script src="<?php  print( INCLUDES_URL);  ?>api/libs/rangy/rangy-core.js"></script>
 <script src="<?php  print( INCLUDES_URL);  ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
@@ -34,7 +34,40 @@
 
 <script>
  
-
+GalleriesRemote = function(){
+        if(parent.document.querySelector('#manage-galleries-holder') !== null){
+          parent.mw.$('#manage-galleries-holder').empty()
+            var galleries = document.querySelectorAll('.module[data-type="pictures"]'),
+                  l = galleries.length,
+                  i = 0;
+              for( ; i<l; i++){
+                  var gspan = parent.document.createElement('span');
+                  gspan.className = 'image-manage-item';
+                  gspan.forGallery = galleries[i];
+                  var html = '';
+                  var gallimgs = galleries[i].querySelectorAll('img'), gi = 0;
+                  for( ; gi < 3; gi++ ){
+                    if(!!gallimgs[gi]){
+                       html+='<em class="bgimg" style="background-image:url('+gallimgs[gi].src+');"></em>';
+                    }
+                    else{
+                        html+='<em class="mw-icon-image"></em>';
+                    }
+                  }
+                  gspan.onclick = function(){
+                    parent.mw.tools.scrollTo(this.forGallery, function(){
+                      parent.mw.tools.module_settings(this);
+                      if(!!parent.QTABS){
+                          parent.QTABS.unset(0);
+                          parent.mw.$(".tip-box .mw-tooltip-arrow").css('left', -9999);
+                      }
+                    });
+                  }
+                  gspan.innerHTML = '<span class="manage-gallery-btn-holder">' +html + '</span><span><?php _e("Manage this gallery"); ?></span>';
+                  parent.mw.$('#manage-galleries-holder').append(gspan);
+              }
+        }
+    }
  
 
 scaleHeight = function(){
@@ -192,32 +225,9 @@ $(window).load(function(){
       });
 
 
-      var galleries = document.querySelectorAll('.module[data-type="pictures"]'),
-                  l = galleries.length,
-                  i = 0;
-              for( ; i<l; i++){
-                  var gspan = parent.document.createElement('span');
-                  gspan.className = 'image-manage-item';
-                  gspan.forGallery = galleries[i];
-                  var html = '';
-                  var gallimgs = galleries[i].querySelectorAll('img'), gi = 0;
-                  for( ; gi < 3; gi++ ){
-                    if(!!gallimgs[gi]){
-                       html+='<em class="bgimg" style="background-image:url('+gallimgs[gi].src+');"></em>';
-                    }
-                    else{
-                        html+='<em class="mw-icon-image"></em>';
-                    }
-                  }
-                  gspan.onclick = function(){
-                    parent.mw.tools.scrollTo(this.forGallery, function(){
-                      parent.mw.tools.module_settings(this);
 
-                    });
-                  }
-                  gspan.innerHTML = '<span class="manage-gallery-btn-holder">' +html + '</span><span><?php _e("Manage this gallery"); ?></span>';
-                  parent.mw.$('#manage-galleries-holder').append(gspan);
-              }
+    GalleriesRemote();
+
 });
 
 

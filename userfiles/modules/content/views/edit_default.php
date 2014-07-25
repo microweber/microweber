@@ -764,6 +764,11 @@ mw.save_inner_editable_fields = function(data){
             if(qtab.id === 'post-gallery-manager'){
                 $(qtab).width(mw.$("#mw-edit-page-editor-holder").width())
             }
+
+            try{
+                mwd.querySelector('.mw-iframe-editor').contentWindow.GalleriesRemote()
+            }catch(err){}
+
           }
        });
 

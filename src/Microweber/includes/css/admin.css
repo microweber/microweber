@@ -2621,11 +2621,17 @@ body.grabbing, body.grabbing *{
 #images-manager{
    white-space: nowrap;
 }
+#images-manager,
+#images-manager *{
+  vertical-align: top;
+}
+
 #insert-image-uploader{
   display: inline-block;
 }
 #manage-galleries-holder{
   display: inline-block;
+  max-width:605px;
 }
 
 #manage-galleries-holder .bgimg + span{
@@ -2644,10 +2650,11 @@ body.grabbing, body.grabbing *{
   border: 1px solid #EAEAEA;
   font-size: 23px;
   padding-top: 4px;
+  margin-right: 5px;
   background-color: white;
 }
 
-#manage-galleries-holder .bgimg:last-child{
+#manage-galleries-holder .bgimg:last-child, #manage-galleries-holder .mw-icon-image:last-child{
   margin-right: 0;
 }
 

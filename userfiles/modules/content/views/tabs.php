@@ -74,27 +74,18 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
           <div class="quick-add-post-options-item" id="quick-add-gallery-items">
             <div id="images-manager">
 
-
-
               <span class="image-manage-item" id="insert-image-uploader">
                   <span class="mw-icon-image-frame"></span>
                   <span><?php _e("Single Image"); ?></span>
               </span>
-
-
-
-
-              <div id="manage-galleries-holder"></div>
-
-
-
-
               <span class="image-manage-item" onclick="mw.admin.insertGallery();">
                   <span class="mw-icon-images-frame"></span>
                   <span><?php _e("Insert Gallery"); ?></span>
               </span>
 
             </div>
+            <hr>
+            <div id="manage-galleries-holder"></div>
 
                 <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
                 <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
@@ -154,7 +145,7 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
           
 
           <div class="quick-add-post-options-item quick-add-content-template" id="quick-add-post-options-item-template">
-            <module type="content/views/layout_selector" id="mw-quick-add-choose-layout"   template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" <?php print $no_content_type_setup_from_layout ?> />
+            <module type="content/views/layout_selector" id="mw-quick-add-choose-layout" template-selector-position="bottom" content-id="<?php print $data['id']; ?>" inherit_from="<?php print $data['parent']; ?>" <?php print $no_content_type_setup_from_layout ?> />
           </div>
           <?php endif; ?>
           <?php if(!empty($custom_tabs)): ?>

@@ -2976,6 +2976,10 @@ class Content
             $cont = get_content_by_id($data['id']);
             if ($cont != false and isset($cont['id'])) {
                 $new_cont = $cont;
+                if(isset($new_cont['title'])){
+                    $new_cont['title'] = $new_cont['title']. ' copy';
+                }
+
                 $new_cont['id'] = 0;
                 $content_cats = array();
 

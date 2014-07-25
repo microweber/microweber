@@ -1,11 +1,11 @@
 
 
-$(window).bind("resize load", function(e){
+$(window).bind("resize load", function(e){  /*
   if(e.type=='resize' && mw.$(".mwcurrhelp").length === 0) { return false; }
 
   if(mw.cookie.get("helpinfo") != 'false' && !mw.helpinfo.pauseInit){
      mw.helpinfo.init();
-  }
+  }    */
 
 });
 

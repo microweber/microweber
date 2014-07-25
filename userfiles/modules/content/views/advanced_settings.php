@@ -50,9 +50,7 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
             var obj = {id: a}
             $.post(mw.settings.site_url + "api/content/copy", obj, function (data) {
                 mw.notification.success("<?php _e('Content was copied'); ?>.");
-				
 				if(data != null){
-				
 					var r = confirm("Go to the new page?");
 					if (r == true) {
 						mw.url.windowHashParam('action','editpage:'+data);
@@ -60,10 +58,6 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
 						 
 					}
 				}
-				
-				
-				//
-				
                 typeof callback === 'function' ? callback.call(data) : '';
             });
         });
@@ -99,8 +93,6 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
             }
         });
     }
-
-
 </script>
 
 <div class="mw-ui-row">
@@ -139,6 +131,14 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
 </div>
     <div class="mw-ui-col">
     <div class="mw-ui-col-container">
+        <?php if (isset($data['id']) and $data['id'] > 0): ?>
+    <div class="mw-ui-field-holder pull-right">
+        <div class="mw-ui-btn-nav">
+        <a class="mw-ui-btn" href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Duplicate"); ?></a>
+        <a class="mw-ui-btn" href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset Content"); ?></a></div>
+    </div>
+<?php endif; ?>
+          <div class="mw-clear" style="height: 12px;"></div>
          <?php if ($show_page_settings != false): ?>
     <div class="mw-ui-check-selector">
         <div class="mw-ui-label">
@@ -232,35 +232,8 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
 <?php endif; ?>
 <?php /* PAGES ONLY  */ ?>
 <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
-<?php if (isset($data['id']) and $data['id'] > 0): ?>
-    <div class="mw-ui-field-holder">        <small>
-            <?php _e("Id"); ?>
-            : <?php print ($data['id'])?></small>
 
 
-        <div class="mw-ui-btn-nav"><a class="mw-ui-btn mw-ui-btn-small"
-           href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Copy"); ?></a><a
-            class="mw-ui-btn mw-ui-btn-small"
-            href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete"); ?></a><a
-            class="mw-ui-btn mw-ui-btn-small"
-            href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset content"); ?></a></div>
-
-           </div>
-<?php endif; ?>
-<?php if (isset($data['created_on'])): ?>
-    <div class="mw-ui-field-holder">
-
-        <small>
-            <?php _e("Created on"); ?>
-            : <?php print mw('format')->date($data['created_on'])?></small>
-        <?php if (isset($data['updated_on'])): ?>
-
-            <small>
-                <?php _e("Updated on"); ?>
-                : <?php print mw('format')->date($data['updated_on'])?></small>
-        <?php endif; ?>
-    </div>
-<?php endif; ?>
 
 
     </div>
@@ -283,28 +256,41 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
             <?php _e("Content type"); ?>
             :
         </small>
-        <a
+        <a  class="mw-ui-btn mw-ui-btn-small"
             href="javascript:$('.mw_adm_cont_type_change_holder').toggle(); void(0);"> <?php print($data['content_type'])?>
             <span
                 class="mw-ui-arr mw-ui-arr-down" style="opacity:0.3"></span> </a>
 
-        <div class="mw_adm_cont_type_change_holder" style="display:none"><em>Warning! Advanced action!<br/>
-                Do not change these settings unless you know what you are doing.</em>
-            <label class="mw-ui-label">
+        <div class="mw_adm_cont_type_change_holder mw-ui-box mw-ui-box-content" style="display:none;margin-top: 12px;">
+
+
+           <div class="mw-ui-field-holder">     Warning! Advanced action!<br/>
+                Do not change these settings unless you know what you are doing.</div>
+
+
+            <div class="mw-ui-row">
+                <div class="mw-ui-col" style="width: 200px;">
+                <div class="mw-ui-col-container">
+                <label class="mw-ui-label">
                 <?php _e("Change content type"); ?>
                 <small class="mw-help"
                        data-help="Changing the content type to different than '<?php print $data['content_type'] ?>' is advanced action. Please read the documentation and consider not to change the content type">
                     (?)
                 </small>
             </label>
-            <select class="mw-ui-field" name="change_content_type"
+
+            <select class="mw-ui-field" name="change_content_type" style="width: 190px;"
                     onchange="mw.adm_cont_type_change_holder_event(this)">
                 <?php foreach ($available_content_types as $item): ?>
                     <option
                         value="<?php print $item['content_type']; ?>"  <?php if ($item['content_type'] == trim($data['content_type'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['content_type'];  ?></option>
                 <?php endforeach; ?>
             </select>
-            <label class="mw-ui-label">
+            </div>
+            </div>
+                <div class="mw-ui-col">
+                <div class="mw-ui-col-container">
+               <label class="mw-ui-label">
                 <?php _e("Change content sub type"); ?>
                 <small class="mw-help"
                        data-help="Changing the content subtype to different than '<?php print $data['subtype'] ?>' is advanced action. Please read the documentation and consider not to change the content type">
@@ -318,6 +304,10 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
                         value="<?php print $item['subtype']; ?>"  <?php if ($item['subtype'] == trim($data['subtype'])): ?>   selected="selected"  <?php endif; ?>><?php print $item['subtype'];  ?></option>
                 <?php endforeach; ?>
             </select>
+                </div>
+                </div>
+            </div>
+
         </div>
     </div>
 <?php endif; ?>

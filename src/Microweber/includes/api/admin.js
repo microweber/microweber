@@ -655,7 +655,11 @@ mw.admin = {
             setTimeout(function(){framewindow.mw.drag.fix_placeholders();}, 40);
             framewindow.mw.resizable_columns();
             framewindow.mw.dropable.hide();
+
+
           });
+          try{QTABS.unset(0);}catch(err){}
+          mw.$(".tip-box .mw-tooltip-arrow").css('left', -9999);
   }
 }
 
@@ -762,6 +766,10 @@ $(mww).bind('load', function(){
 
 
 });
+
+
+
+
 
 
 

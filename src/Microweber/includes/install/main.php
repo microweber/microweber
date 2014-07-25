@@ -204,11 +204,18 @@
             $is_pdo_loaded = true;
         }
     }
-    if ($is_pdo_loaded == false) {
+  
+	
+	
+	 if ($is_pdo_loaded != false) {
+	    if(!defined('PDO::MYSQL_ATTR_LOCAL_INFILE')){
+		 $is_pdo_loaded  = false;
+		}
+	 }
+  if ($is_pdo_loaded == false) {
         $check_pass = false;
-        $server_check_errors['pdo'] = "The PDO PHP extension must be loaded";
+        $server_check_errors['pdo'] = "The PDO MYSQL PHP extension must be loaded";
     }
-
     if (extension_loaded('gd') && function_exists('gd_info')) {
 
     } else {
@@ -288,7 +295,7 @@
                         <?php _e("MySQL hostname"); ?>
                         <span class="mw-help"
                               data-help="<?php _e("The address where your database is hosted."); ?>">?</span></label>
-                    <input type="text" class="mw-ui-field" required="true" autofocus=""
+                    <input type="text" class="mw-ui-field" required autofocus
                            name="DB_HOST" <?php if (isset($data['db']) == true and isset($data['db']['host']) == true and $data['db']['host'] != '{DB_HOST}'): ?> value="<?php print $data['db']['host'] ?>" <?php elseif (isset($data['db']) != true): ?> value="<?php print $defhost; ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
@@ -296,7 +303,7 @@
                         <?php _e("MySQL username"); ?>
                         <span class="mw-help"
                               data-help="<?php _e("The username of your database."); ?>">?</span></label>
-                    <input type="text" class="mw-ui-field" required="true"
+                    <input type="text" class="mw-ui-field" required
                            name="DB_USER" <?php if (isset($data['db']) == true and isset($data['db']['user']) == true and $data['db']['user'] != '{DB_USER}'): ?> value="<?php print $data['db']['user'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
@@ -310,7 +317,7 @@
                     <label class="mw-ui-label">
                         <?php _e("Database name"); ?>
                         <span class="mw-help" data-help="<?php _e("The name of your database."); ?>">?</span></label>
-                    <input type="text" class="mw-ui-field" required="true"
+                    <input type="text" class="mw-ui-field" required
                            name="dbname" <?php if (isset($data['db']) == true and isset($data['db']['dbname']) == true   and $data['db']['dbname'] != '{dbname}'): ?> value="<?php print $data['db']['dbname'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
@@ -375,28 +382,28 @@
                     <label class="mw-ui-label">
                         <?php _e("Admin username"); ?>
                     </label>
-                    <input type="text" class="mw-ui-field" required="true"
+                    <input type="text" class="mw-ui-field" required
                            name="admin_username" <?php if (isset($data['admin_username']) == true and isset($data['admin_username']) != ''): ?> value="<?php print $data['admin_username'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Admin email"); ?>
                     </label>
-                    <input type="text" class="mw-ui-field" required="true"
+                    <input type="text" class="mw-ui-field" required
                            name="admin_email" <?php if (isset($data['admin_email']) == true and isset($data['admin_email']) != ''): ?> value="<?php print $data['admin_email'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Admin password"); ?>
                     </label>
-                    <input type="password" required="true" class="mw-ui-field"
+                    <input type="password" required class="mw-ui-field"
                            name="admin_password" <?php if (isset($data['admin_password']) == true and isset($data['admin_password']) != ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Repeat password"); ?>
                     </label>
-                    <input type="password" required="true" class="mw-ui-field"
+                    <input type="password" required class="mw-ui-field"
                            name="admin_password2" <?php if (isset($data['admin_password']) == true and isset($data['admin_password']) != ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
                 </div>
             </div>
