@@ -35,6 +35,10 @@ if ($template != false and strtolower($template) != 'none') {
 <script type="text/javascript">
 
     function checkout_callback(data, selector) {
+		
+		
+	 
+		
         var z = typeof(data);
         if (z != 'object') {
             var dataObj;
@@ -48,6 +52,12 @@ if ($template != false and strtolower($template) != 'none') {
         } else {
             mw.$('.mw-checkout-responce').html(data);
         }
+		
+		
+		
+		
+		
+		
         mw.$('.mw-checkout-responce').removeClass('alert-error');
         mw.$('.mw-checkout-responce').removeClass('alert-success');
         if (data.success !== undefined) {

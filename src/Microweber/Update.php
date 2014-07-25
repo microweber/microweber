@@ -117,7 +117,10 @@ class Update
     function check($skip_cache = false)
     {
 
-        return false;
+
+//        d(debug_backtrace());
+//exit;
+     //   return false;
        // d($_SERVER["REMOTE_ADDR"]);
 
 
@@ -247,7 +250,7 @@ class Update
         $requestUrl = $this->remote_url;
 
         if ($method != false) {
-            $requestUrl = $requestUrl . 'api/mw_check';
+          //  $requestUrl = $requestUrl . 'api/mw_check';
         }
 
 //        $curl = new \Microweber\Utils\Curl();
@@ -270,7 +273,7 @@ class Update
             return false;
         }
         $result = false;
-        //print $curl_result;
+   //     print $curl_result;
         if ($curl_result != false) {
             $result = json_decode($curl_result, 1);
         }

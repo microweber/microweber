@@ -305,7 +305,7 @@ $edit_page_info = $data;;
 
   
   <?php  endif; ?>
-   
+
   <?php  if(isset($data['subtype']) and $data['subtype'] == 'dynamic'
 and (isset($data['content_type']) and $data['content_type'] == 'page')
 
@@ -319,14 +319,7 @@ and (isset($data['content_type']) and $data['content_type'] == 'page')
   <?php   endif; ?>
   <?php event_trigger('mw_admin_edit_page_footer', $data); ?>
 </form>
-<div class="quick_done_alert" style="display: none" id="post-added-alert-<?php print $rand; ?>">
-  <div class="quick-post-done">
-    <h2>Well done, you have saved your changes. </h2>
-    <label class="mw-ui-label"><small>Go to see them at this link</small></label>
-    <a target="_top" class="quick-post-done-link" href="<?php print content_link($data['id']); ?>?editmode=y"><?php print content_link($data['id']); ?></a>
-    <label class="mw-ui-label"><small>Or choose an action below</small></label>
-    <a href="javascript:;" class="mw-ui-btn" onclick="mw.edit_content.close_alert();">Continue editing</a> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="mw.edit_content.create_new();">Create New</a> </div>
-</div>
+
 <script>
     mw.require("content.js");
     mw.require("files.js");
@@ -818,6 +811,9 @@ mw.save_inner_editable_fields = function(data){
 
 
 
+
+
+                    
 
 
 

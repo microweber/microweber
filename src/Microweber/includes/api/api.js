@@ -618,7 +618,7 @@ mw.askusertostay = false;
 
   mw.log = d = function(what) {
     if (window.console && mw.settings.debug) {
-      console.log(what);
+      top.console.log(what);
     }
   }
 

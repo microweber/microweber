@@ -1388,7 +1388,7 @@ a:hover .mw_ed_tree_content{
   position: relative;
   z-index: 1;
   background: white;
-  padding: 20px;
+  padding: 0;
 }
 #custom-fields-post-table .mw-liveedit-field{
   min-width: 25px;
@@ -2605,10 +2605,35 @@ body.grabbing, body.grabbing *{
 }
 
 #images-manager{
-
+    max-width: 1
 }
 #insert-image-uploader{
   display: none;
+}
+#manage-galleries-holder{
+  float: left;
+}
+
+#manage-galleries-holder .bgimg + span{
+  display: block;
+}
+#manage-galleries-holder .bgimg{
+  margin-right: 5px;
+  width:44px;
+  height:35px;
+}
+#manage-galleries-holder .mw-icon-image{
+  display: inline-block;
+  color:#EAEAEA;
+  width:44px;
+  height:35px;
+  border: 1px solid #EAEAEA;
+  font-size: 23px;
+  padding-top: 4px;
+}
+
+#manage-galleries-holder .bgimg:last-child{
+  margin-right: 0;
 }
 
 .image-manage-item{
@@ -2618,6 +2643,11 @@ body.grabbing, body.grabbing *{
   text-align: center;
   cursor: pointer;
   position: relative;
+  margin: 0 10px 10px 0;
+}
+
+.image-manage-item:hover{
+  background-color: #fafafa;
 }
 
 .image-manage-item [class*='mw-icon-']{
@@ -2625,6 +2655,11 @@ body.grabbing, body.grabbing *{
  display: block;
  text-align: center;
  padding-bottom: 20px;
+ height: 50px;
+}
+.manage-gallery-btn-holder{
+  display: block;
+  height: 50px;
 }
 
 

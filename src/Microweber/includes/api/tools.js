@@ -810,7 +810,7 @@ mw.tools = {
             + (mw.tools.isFullscreenAvailable() ? '<span class="mwf-fullscreen"></span>' : '')
         +'</div>';
 
-        var modal = modal || mw.tools.modal.init({
+        var modal = modal || top.mw.tools.modal.init({
           width:"100%",
           height:"100%",
           html: '',
@@ -4147,7 +4147,7 @@ mw.image = {
 
     /* Exposing  */
 
-      mw.gallery      = function(arr, start, modal){  if( self === top ){ return mw.tools.gallery.init(arr, start, modal) }  };
+      mw.gallery      = function(arr, start, modal){  if( self === top || window==window ){ return mw.tools.gallery.init(arr, start, modal) }  };
       mw.tooltip      = mw.tools.tip;
       mw.uploader = function(o){
           var uploader = mw.files.uploader(o);
