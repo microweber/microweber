@@ -2426,6 +2426,9 @@ class Controller
                 include_once($load_template_functions);
             }
         }
+
+
+
         $params = $_REQUEST;
         $tool = str_replace('..', '', $tool);
 
@@ -2473,6 +2476,7 @@ class Controller
         $l = new $this->app->view($p_index);
         $l->params = $params;
         $layout = $l->__toString();
+
 
 
         if ($layout != false) {
@@ -2531,6 +2535,7 @@ class Controller
             $category = $this->app->category->get_by_id(CATEGORY_ID);
         }
 
+
         // $render_file = $this->app->template->get_layout($page);
 
         //    $page['render_file'] = $render_file;
@@ -2558,13 +2563,17 @@ class Controller
 //                } else {
 //                    $page['content'] = $l;
 //                }
+
+
+
                 $editable = $this->app->parser->isolate_content_field($l, true);
 
                 if ($editable != false) {
                     $page['content'] = $editable;
                 } else {
-
-                    return false;
+                    if ($tool == 'wysiwyg') {
+                        return false;
+                    }
                 }
 
 

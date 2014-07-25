@@ -1,0 +1,41 @@
+{
+    "name": "omnipay/sagepay",
+    "type": "library",
+    "description": "Sage Pay driver for the Omnipay PHP payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "purchase",
+        "sage pay",
+        "sagepay"
+    ],
+    "homepage": "https://github.com/omnipay/sagepay",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/sagepay/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\SagePay\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

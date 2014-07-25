@@ -15,9 +15,9 @@ template_head(function($page){
 api_expose('rating/Controller/save');
 
 event_bind('module.comments.item.info', function ($params) {
-    return mw('rating/controller')->comment_rating($params);
+    return mw('rating/Controller')->comment_rating($params);
 });
 
 event_bind('module.rating.simple', function ($params) {
-	return mw('rating/controller')->simple_rating($params);
+	return mw('rating/Controller')->simple_rating($params);
 });

@@ -192,32 +192,32 @@ $(window).load(function(){
       });
 
 
-    var galleries = document.querySelectorAll('.module[data-type="pictures"]'),
-                        l = galleries.length,
-                        i = 0;
-                    for( ; i<l; i++){
-                        var gspan = parent.document.createElement('span');
-                        gspan.className = 'image-manage-item';
-                        gspan.forGallery = galleries[i];
-                        var html = '';
-                        var gallimgs = galleries[i].querySelectorAll('img'), gi = 0;
-                        for( ; gi < 3; gi++ ){
-                          if(!!gallimgs[gi]){
-                             html+='<em class="bgimg" style="background-image:url('+gallimgs[gi].src+');"></em>';
-                          }
-                          else{
-                              html+='<em class="mw-icon-image"></em>';
-                          }
-                        }
-                        gspan.onclick = function(){
-                          parent.mw.tools.scrollTo(this.forGallery, function(){
-                            parent.mw.tools.module_settings(this);
-
-                          });
-                        }
-                        gspan.innerHTML = '<span class="manage-gallery-btn-holder">' +html + '</span><span><?php _e("Manage Gallery"); ?></span>';
-                        parent.mw.$('#manage-galleries-holder').append(gspan);
+      var galleries = document.querySelectorAll('.module[data-type="pictures"]'),
+                  l = galleries.length,
+                  i = 0;
+              for( ; i<l; i++){
+                  var gspan = parent.document.createElement('span');
+                  gspan.className = 'image-manage-item';
+                  gspan.forGallery = galleries[i];
+                  var html = '';
+                  var gallimgs = galleries[i].querySelectorAll('img'), gi = 0;
+                  for( ; gi < 3; gi++ ){
+                    if(!!gallimgs[gi]){
+                       html+='<em class="bgimg" style="background-image:url('+gallimgs[gi].src+');"></em>';
                     }
+                    else{
+                        html+='<em class="mw-icon-image"></em>';
+                    }
+                  }
+                  gspan.onclick = function(){
+                    parent.mw.tools.scrollTo(this.forGallery, function(){
+                      parent.mw.tools.module_settings(this);
+
+                    });
+                  }
+                  gspan.innerHTML = '<span class="manage-gallery-btn-holder">' +html + '</span><span><?php _e("Manage this gallery"); ?></span>';
+                  parent.mw.$('#manage-galleries-holder').append(gspan);
+              }
 });
 
 
@@ -343,7 +343,7 @@ window.onfocus = function(){
 		
 		/*autofocus="autofocus" contenteditable="true"*/
 		$('#the_admin_editor').find('.edit').attr('contenteditable',true);;
-		
+
 		
         $(mwd).bind('mousedown', function(e){
             if(!e.target.isContentEditable){

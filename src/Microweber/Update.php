@@ -296,14 +296,22 @@ class Update
 
     function marketplace_link($params = false)
     {
-        $url = $this->remote_url . 'market_link';
-        $url_resp = $this->app->http->url($url)->post($params);
+
+        $url_resp = $this->call('market_link',$params);
         if ($url_resp != false) {
             $url = json_decode($url_resp, 1);
             if (isset($url['url'])) {
                 return $url['url'];
             }
         }
+//        $url = $this->remote_url . 'market_link';
+//        $url_resp = $this->app->http->url($url)->post($params);
+//        if ($url_resp != false) {
+//            $url = json_decode($url_resp, 1);
+//            if (isset($url['url'])) {
+//                return $url['url'];
+//            }
+//        }
     }
 
     function install_market_item($params)
@@ -327,12 +335,16 @@ class Update
 
         $url = $this->remote_url . 'api/dl_file_api';
 
+        $dl_get = $this->call('get_market_dl_link',$params);
 
-        $dl_get = $this->app->http->url($url)->post($params);
-        if ($dl_get != false) {
+         if ($dl_get != false and is_string($dl_get)) {
             $dl_get = json_decode($dl_get, true);
              if (isset($dl_get['url'])) {
                  return $this->install_from_market($dl_get);
+            }
+        } else {
+            if (isset($dl_get['url'])) {
+                return $this->install_from_market($dl_get);
             }
         }
 

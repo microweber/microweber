@@ -1,0 +1,39 @@
+{
+    "name": "omnipay/payfast",
+    "type": "library",
+    "description": "PayFast driver for the Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payfast",
+        "payment"
+    ],
+    "homepage": "https://github.com/omnipay/payfast",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/payfast/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\PayFast\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

@@ -1462,7 +1462,9 @@ a:hover .mw_ed_tree_content{
 
 .mw-custom-fields-list-preview{
     position: relative;
+    width: 440px;
 }
+
 
 .mw-custom-field-form-controls [class*='mw-icon-']{
   font-size: 18px;
@@ -1490,6 +1492,12 @@ a:hover .mw_ed_tree_content{
   cursor:grabbing;
   cursor:-moz-grabbing;
   cursor:-webkit-grabbing;
+}
+
+
+#quick-add-post-options-item-template, #quick-add-post-options-item-advanced{
+  width: 805px;
+  max-width: 100%;
 }
 
 
@@ -2319,8 +2327,14 @@ input#edit-content-url:focus, input#edit-content-url.active{
   padding-left: 10px;
   padding-bottom: 10px;
 }
+
 .quick-add-post-options-item{
   display: none;
+  padding: 20px;
+  min-width: 310px;
+}
+#quick-add-gallery-items.quick-add-post-options-item{
+  padding:0;
 }
 .module-product-options-settings > .mw-ui-row,
 .module-product-options-settings > .mw-ui-row *{
@@ -2605,13 +2619,13 @@ body.grabbing, body.grabbing *{
 }
 
 #images-manager{
-    max-width: 1
+   white-space: nowrap;
 }
 #insert-image-uploader{
-  display: none;
+  display: inline-block;
 }
 #manage-galleries-holder{
-  float: left;
+  display: inline-block;
 }
 
 #manage-galleries-holder .bgimg + span{
@@ -2630,6 +2644,7 @@ body.grabbing, body.grabbing *{
   border: 1px solid #EAEAEA;
   font-size: 23px;
   padding-top: 4px;
+  background-color: white;
 }
 
 #manage-galleries-holder .bgimg:last-child{
@@ -2637,18 +2652,20 @@ body.grabbing, body.grabbing *{
 }
 
 .image-manage-item{
-  float: left;
-  width: 150px;
-  display: block;
+  width: 190px;
+  display: inline-block;
   text-align: center;
   cursor: pointer;
   position: relative;
-  margin: 0 10px 10px 0;
+  margin: 0 10px 0 0;
+  padding: 20px;
 }
 
 .image-manage-item:hover{
   background-color: #fafafa;
 }
+
+
 
 .image-manage-item [class*='mw-icon-']{
  font-size: 32px;

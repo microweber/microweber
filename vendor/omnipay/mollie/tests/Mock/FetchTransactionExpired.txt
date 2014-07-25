@@ -1,0 +1,28 @@
+HTTP/1.1 200 OK
+Server: nginx/1.4.4
+Date: Sun, 19 Jan 2014 13:00:23 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 326
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, DELETE
+Access-Control-Max-Age: 300
+Cache-Control: no-cache, no-store
+Strict-Transport-Security: max-age=31556926; includeSubDomains
+X-Whom: dc1-web-1
+
+{
+  "id":"tr_Qzin4iTWrU",
+  "mode":"test",
+  "createdDatetime":"2014-01-19T11:41:54.0Z",
+  "status":"expired",
+  "expiredDatetime":"2014-01-19T11:58:01.0Z",
+  "amount":"100.00",
+  "description":"Description",
+  "method":"ideal",
+  "metadata":"meta",
+  "details":null,
+  "links":{
+    "redirectUrl":"http://www.google.nl"
+  }
+}

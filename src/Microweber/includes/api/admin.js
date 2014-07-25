@@ -583,7 +583,6 @@ mw.admin = {
          if(mwd.querySelector('#images-manager') === null){  return false; }
          if(mwd.querySelector('.mw-iframe-editor') === null){ return false; }
          if(mwd.querySelector('.mw-iframe-editor').contentWindow.document.querySelector('.edit') === null){ return false; }
-         mw.$('#insert-image-uploader').css('display', 'block');
             var uploader = mw.uploader({
                   filetypes:"images",
                   multiple:true,

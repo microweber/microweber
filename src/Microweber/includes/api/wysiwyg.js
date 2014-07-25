@@ -921,6 +921,7 @@ mw.wysiwyg = {
         el.parentNode.contentEditable = false;
         $(el).replaceWith(frame);
       }
+      mw.wysiwyg.change(mw.wysiwyg.validateCommonAncestorContainer(window.getSelection().getRangeAt(0).commonAncestorContainer));
     },
     selection_length:function(){
       var n = window.getSelection().getRangeAt(0).cloneContents().childNodes,

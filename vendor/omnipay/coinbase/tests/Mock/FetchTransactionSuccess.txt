@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Server: cloudflare-nginx
+Date: Mon, 12 May 2014 00:32:14 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Set-Cookie: __cfduid=dd39ff662c7fcde30fd149dceb550afdb1399854734458; expires=Mon, 23-Dec-2019 23:50:00 GMT; path=/; domain=.coinbase.com; HttpOnly, request_method=GET; path=/; secure
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Etag: "d551971d78d873d05334f1cb97348400"
+Expires: -1
+Pragma: no-cache
+Status: 200 OK
+Strict-Transport-Security: max-age=31536000
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Rack-Cache: miss
+X-Request-Id: 538d444f-f9cf-48ea-b3f0-b6f46479cc46
+X-Runtime: 0.174142
+X-Ua-Compatible: IE=Edge,chrome=1
+CF-RAY: 1292849a5e6a0669-SJC
+
+{"order":{"id":"9XMWP4YG","created_at":"2014-05-11T15:46:54-07:00","status":"completed","total_btc":{"cents":100000,"currency_iso":"BTC"},"total_native":{"cents":100000,"currency_iso":"BTC"},"total_payout":{"cents":0,"currency_iso":"USD"},"custom":null,"receive_address":"1JUHoDocLWReabF1Qc3jL8bB6Zy6Z2xayV","button":{"type":"buy_now","name":"Socks","description":null,"id":"2016572d538165cb1e2a04f9942c9c54"},"refund_address":"1ArFhi7wsDCfZxk88RykW6BE7Cv7nsXmAk","transaction":{"id":"536ffdf55d905debc8000041","hash":null,"confirmations":0}}}

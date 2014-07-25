@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Server: cloudflare-nginx
+Date: Sun, 11 May 2014 21:16:47 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Set-Cookie: __cfduid=d7dcdb1d9bcf6956196803df5114745281399843007383; expires=Mon, 23-Dec-2019 23:50:00 GMT; path=/; domain=.coinbase.com; HttpOnly, request_method=POST; path=/; secure
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Etag: "11a8b7215eb13fb4b06266ac86b7bbf6"
+Expires: -1
+Pragma: no-cache
+Status: 200 OK
+Strict-Transport-Security: max-age=31536000
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Rack-Cache: invalidate, pass
+X-Request-Id: 0bfa5456-4866-417f-90cd-1d4583863a9f
+X-Runtime: 0.172405
+X-Ua-Compatible: IE=Edge,chrome=1
+CF-RAY: 1291664bc8790669-SJC
+
+{"success":false,"errors":["Name can't be blank"],"button":{"code":"c777f2ca6e01b8c116b267a053603e62","type":"buy_now","style":"buy_now_large","text":"Pay With Bitcoin","name":"","description":"","custom":"","callback_url":null,"success_url":null,"cancel_url":null,"info_url":null,"auto_redirect":false,"price":{"cents":1000,"currency_iso":"USD"},"variable_price":false,"choose_price":false,"include_address":false,"include_email":false}}

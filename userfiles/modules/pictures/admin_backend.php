@@ -1,9 +1,7 @@
-  
 
-<script type="text/javascript" src="<?php print $config['url_to_module'] ?>pictures.js"></script>
+
 <script  type="text/javascript">
     mw.require('<?php print $config['url_to_module'] ?>pictures.js', true);
-
 </script>
 <?php
 
@@ -127,8 +125,8 @@ if(trim($for_id)  != '' and trim($for_id)  != '0'){
   <?php $default_title = _e("Image title", true); ?>
   <?php foreach( $media as $item): ?>
   <div class="admin-thumb-item admin-thumb-item-<?php print $item['id'] ?>" id="admin-thumb-item-<?php print $item['id'] ?>">
-    <?php $tn = thumbnail($item['filename'], 131, 131); ?>
-    <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span> 
+    <?php $tn = thumbnail($item['filename'], 200, 200); ?>
+    <span class="mw-post-media-img" style="background-image: url('<?php print $tn; ?>');"></span>
     <div class="mw-post-media-img-edit">
       <input
             placeholder="<?php _e("Image Description"); ?>"

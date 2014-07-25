@@ -81,7 +81,7 @@ class Application
 //           print_r(debug_backtrace());
 //
 //        }
- //
+        //
         if (empty($this->config)) {
             if ($config != false) {
                 if (is_string($config)) {
@@ -102,7 +102,7 @@ class Application
                     $table_prefix = str_replace(array(' ', '.', '*', ';'), '-', $table_prefix);
                     define('MW_TABLE_PREFIX', $table_prefix);
                 }
-            } elseif(isset($this->config['installed']) and trim($this->config['installed']) == 'yes') {
+            } elseif (isset($this->config['installed']) and trim($this->config['installed']) == 'yes') {
                 if (!defined('MW_IS_INSTALLED')) {
                     define('MW_IS_INSTALLED', true);
                 }
@@ -132,7 +132,7 @@ class Application
         if ($is_init == false) {
             $is_init = true;
 
-            event_trigger('app_init',false);
+            event_trigger('app_init', false);
 
         }
     }
@@ -249,7 +249,6 @@ class Application
                 }
             }
         }
-       // return $this->config;
 
     }
 
@@ -270,7 +269,43 @@ class Application
     {
 
         $property_orig_case = $property;
-        $property = ucfirst($property);
+        $property_orig = ($property);
+
+        //hard coded internal deps
+        switch ($property) {
+            case 'adapters':
+            case 'application':
+            case 'cache':
+            case 'category':
+            case 'content':
+            case 'db':
+            case 'event':
+            case 'format':
+            case 'forms':
+            case 'fields':
+            case 'http':
+            case 'layouts':
+            case 'log':
+            case 'media':
+            case 'module':
+            case 'notifications':
+            case 'option':
+            case 'orm':
+            case 'parser':
+            case 'router':
+            case 'shop':
+            case 'template':
+            case 'ui':
+            case 'update':
+            case 'url':
+            case 'user':
+            case 'users':
+            case 'view':
+                $property = ucfirst($property);
+                break;
+        }
+
+
         $property2 = strtolower($property);
         if (isset($this->$property2)) {
             return $this->$property2;
@@ -292,7 +327,9 @@ class Application
         } else {
             try {
                 //autoload the class
-                if (class_exists($property, 1)) {
+                if (class_exists($property_orig, false)) {
+                    $mw = $property_orig;
+                } elseif (class_exists($property, 1)) {
                     $mw = $property;
                 } else {
                     $ns = __NAMESPACE__;
@@ -300,7 +337,7 @@ class Application
                     $mw = str_ireplace(array('/', '\\\\', $ns . '\\' . $ns), array('\\', '\\', $ns), $mw);
                 }
                 //var_dump($mw);
-                if(strtolower($mw) == 'orm'){
+                if (strtolower($mw) == 'orm') {
                     $ns = __NAMESPACE__;
                     $cl = $ns . '\\' . $mw;
                     $prop = new $cl($this);
@@ -326,79 +363,6 @@ class Application
             return $this->$property = $this->$property2 = $this->providers[$property] = $this->providers[$property2] = $value;
 
         }
-    }
-
-    public function get($provider=null, $args = null)
-    {
-
-
-        return $this->call($provider, $args);
-    }
-
-    public function call($provider, $args = null)
-    {
-        if (!method_exists($this, $provider)) {
-            if (!isset($this->providers[$provider])) {
-                if (!is_object($provider)) {
-                    if ($args != null) {
-
-                        $this->providers[$provider] = new $provider($args);
-                    } else {
-                        $this->providers[$provider] = new $provider;
-                    }
-                }
-                return $this->providers[$provider];
-            } else {
-                return $this->$provider($args);
-            }
-        }
-        if (isset($this->$provider)) {
-            return $this->$provider;
-        } elseif (isset($this->providers[$provider])) {
-            return $this->providers[$provider];
-        }
-    }
-
-    /**
-     * Constructs new MW class on request
-     *
-     * @param $class name of the class to construct
-     * @param $constructor_params Params for the class construction
-     * @return stdClass|null
-     */
-    public function __call($class, $constructor_params)
-    {
-        if (!method_exists($this, $class)) {
-            $class_name = strtolower($class);
-            $class = ucfirst($class);
-            $class = str_replace('/', '\\', $class);
-            $ns = __NAMESPACE__;
-            $mw = $ns . '\\' . $class;
-            $mw = str_ireplace(array('/', '\\\\', $ns . '\\' . $ns), array('\\', '\\', $ns), $mw);
-            if (!isset($this->providers[$class_name])) {
-                if ($constructor_params == false) {
-                    try {
-                        $prop = new $mw($constructor_params);
-                    } catch (Exception $e) {
-                        $prop = new $class($constructor_params);
-                    }
-                    if (isset($prop)) {
-                        $this->providers[$class_name] = $prop;
-                    }
-                } else {
-                    try {
-                        $prop = new $mw($constructor_params);
-                    } catch (Exception $e) {
-                        $prop = new $class($constructor_params);
-                    }
-                    if (isset($prop)) {
-                        $this->providers[$class_name] = $prop;
-                    }
-                }
-            }
-            return $this->providers[$class_name];
-        }
-
     }
 
     function error($e, $f = false, $l = false)

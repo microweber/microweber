@@ -1,0 +1,31 @@
+HTTP/1.1 200 OK
+Server: nginx/1.4.4
+Date: Sun, 19 Jan 2014 12:48:09 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 394
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, DELETE
+Access-Control-Max-Age: 300
+Cache-Control: no-cache, no-store
+Strict-Transport-Security: max-age=31556926; includeSubDomains
+X-Whom: dc1-web-2
+
+{
+  "id":"tr_Qzin4iTWrU",
+  "mode":"test",
+  "createdDatetime":"2014-01-19T11:41:55.0Z",
+  "status":"paid",
+  "paidDatetime":"2014-01-19T12:47:46.0Z",
+  "amount":"100.00",
+  "description":"Description",
+  "method":"ideal",
+  "metadata":"meta",
+  "details":{
+    "consumerName":"T. TEST",
+    "consumerAccount":"NL17RABO0213698412"
+  },
+  "links":{
+    "redirectUrl":"http://www.google.nl"
+  }
+}

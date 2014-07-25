@@ -40,6 +40,8 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
   mwd.body.className +=' ' + Name;
   Params = mw.url.getUrlParams(window.location.href);
 
+  
+
   urlparams = '';
   if(!!Params.path){ urlparams += 'path='+ Params.path;}
 

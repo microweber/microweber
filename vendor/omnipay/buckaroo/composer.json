@@ -1,0 +1,39 @@
+{
+    "name": "omnipay/buckaroo",
+    "type": "library",
+    "description": "Buckaroo driver for the Omnipay payment processing library",
+    "keywords": [
+        "buckaroo",
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment"
+    ],
+    "homepage": "https://github.com/omnipay/buckaroo",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/buckaroo/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\Buckaroo\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

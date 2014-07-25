@@ -11,12 +11,27 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
     <div id="content-edit-settings-tabs">
       <div id="quick-add-post-options-holder">
         <div id="quick-add-post-options">
-          <div class="mw-ui-btn-nav">
-          <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>">
-            <span class="mw-icon-picture"></span>
+
+
+
+        <div class="mw-ui-btn-nav" style="margin-right:20px;">
+        <span class="mw-ui-btn tip" data-tip="<?php _e("Add Images"); ?>">
+            <span class="mw-icon-plus"  style="font-size: 14px;"></span>
+            <span class="mw-icon-picture" style="display: inline-block"></span>
+
             <span>
             <?php _e("Add Images"); ?>
-            </span> </span>
+            </span>
+        </span>
+
+        <span class="mw-ui-btn tip" data-tip="<?php _e("Thumbnail (Main gallery)"); ?>">
+            <span class="mw-icon-image-frame"></span>
+
+        </span>
+        </div>
+
+          <div class="mw-ui-btn-nav" style="margin-right:20px;">
+
             <?php if($data['content_type'] == 'page'): ?>
             <span class="mw-ui-btn tip" data-tip="<?php _e('Add to navigation'); ?>" > <span class="mw-icon-menuadd"></span> <span>
             <?php _e('Add to navigation'); ?>
@@ -63,29 +78,33 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
 
               <span class="image-manage-item" id="insert-image-uploader">
                   <span class="mw-icon-image-frame"></span>
-                  <span><?php _e("Insert Image"); ?></span>
+                  <span><?php _e("Single Image"); ?></span>
               </span>
 
 
 
 
               <div id="manage-galleries-holder"></div>
-              
+
 
 
 
               <span class="image-manage-item" onclick="mw.admin.insertGallery();">
                   <span class="mw-icon-images-frame"></span>
-                  <span><?php _e("Create Gallery"); ?></span>
+                  <span><?php _e("Insert Gallery"); ?></span>
               </span>
 
             </div>
-            <div style="display: none" id="post-gallery-manager">
-              <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
-            </div>
+
                 <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
                 <?php event_trigger('mw_admin_edit_page_tab_1', $data); ?>
           </div>
+
+
+          <div  id="post-gallery-manager" class="quick-add-post-options-item">
+              <module type="pictures/admin" for="content" for-id=<?php print $data['id']; ?> />
+            </div>
+
           <?php if($data['content_type'] == 'page'): ?>
           <div class="quick-add-post-options-item">
             <?php event_trigger('mw_edit_page_admin_menus', $data); ?>

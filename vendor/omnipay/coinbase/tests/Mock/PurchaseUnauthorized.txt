@@ -1,0 +1,22 @@
+HTTP/1.1 401 Unauthorized
+Server: cloudflare-nginx
+Date: Sun, 11 May 2014 21:16:06 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Set-Cookie: __cfduid=d4655ff60ac6d25f4cf1b61d91a2f4c941399842965827; expires=Mon, 23-Dec-2019 23:50:00 GMT; path=/; domain=.coinbase.com; HttpOnly, request_method=POST; path=/; secure
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Expires: -1
+Pragma: no-cache
+Status: 401 Unauthorized
+Strict-Transport-Security: max-age=31536000
+Vary: Accept-Encoding
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Rack-Cache: invalidate, pass
+X-Request-Id: a67ce0e3-fa12-4238-91fd-aa3e82912c8a
+X-Runtime: 0.053423
+X-Ua-Compatible: IE=Edge,chrome=1
+CF-RAY: 1291654599e70669-SJC
+
+{"error":"ACCESS_SIGNATURE does not validate"}

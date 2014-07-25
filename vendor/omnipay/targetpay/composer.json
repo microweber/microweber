@@ -1,0 +1,39 @@
+{
+    "name": "omnipay/targetpay",
+    "type": "library",
+    "description": "TargetPay driver for the Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "targetpay"
+    ],
+    "homepage": "https://github.com/omnipay/targetpay",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/targetpay/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\TargetPay\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

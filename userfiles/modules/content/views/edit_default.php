@@ -732,7 +732,6 @@ mw.save_inner_editable_fields = function(data){
                  }
               }
            });
-
           }
         }
 
@@ -750,7 +749,7 @@ mw.save_inner_editable_fields = function(data){
           nav: mw.$("#quick-add-post-options .mw-ui-btn"),
           tabs: mw.$("#quick-add-post-options-items-holder .quick-add-post-options-item"),
           toggle:true,
-          onclick:function(){
+          onclick:function(qtab){
              var tabs = $(mwd.getElementById('quick-add-post-options-items-holder'));
             if(mw.$("#quick-add-post-options .mw-ui-btn.active").length > 0){
               var tabsnav = $(mwd.getElementById('quick-add-post-options'));
@@ -761,6 +760,9 @@ mw.save_inner_editable_fields = function(data){
             }
             else{
                $(tabs).hide();
+            }
+            if(qtab.id === 'post-gallery-manager'){
+                $(qtab).width(mw.$("#mw-edit-page-editor-holder").width())
             }
           }
        });
@@ -804,19 +806,6 @@ mw.save_inner_editable_fields = function(data){
 
          */
       });
-
-
-
-
-
-
-
-
-
-                    
-
-
-
 
 
     });

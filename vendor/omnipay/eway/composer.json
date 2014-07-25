@@ -1,0 +1,39 @@
+{
+    "name": "omnipay/eway",
+    "type": "library",
+    "description": "eWay driver for the Omnipay payment processing library",
+    "keywords": [
+        "eway",
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment"
+    ],
+    "homepage": "https://github.com/omnipay/eway",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/eway/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\Eway\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

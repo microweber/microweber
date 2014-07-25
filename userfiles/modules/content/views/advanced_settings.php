@@ -103,7 +103,8 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
 
 </script>
 
-<div class="mw-ui-field-holder">
+<div class="mw-ui-row">
+    <div class="mw-ui-col"><div class="mw-ui-col-container"><div class="mw-ui-field-holder">
     <label class="mw-ui-label">
         <?php _e("Description"); ?>
         <small class="mw-help mw-help-right-bottom" data-help="Short description for yor content.">(?)</small>
@@ -134,8 +135,11 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
     <textarea class="mw-ui-field" name="content_meta_keywords"
               placeholder="<?php _e("Type keywords that describe your content - Example: Blog, Online News, Phones for Sale etc"); ?>."><?php if (isset($data['content_meta_keywords']) and $data['content_meta_keywords'] != '') print ($data['content_meta_keywords'])?></textarea>
 </div>
-<div class="mw_clear vSpace"></div>
-<?php if ($show_page_settings != false): ?>
+</div>
+</div>
+    <div class="mw-ui-col">
+    <div class="mw-ui-col-container">
+         <?php if ($show_page_settings != false): ?>
     <div class="mw-ui-check-selector">
         <div class="mw-ui-label">
             <?php _e("Is Home"); ?>
@@ -222,38 +226,54 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
     </label>
     <input name="original_link" class="mw-ui-field" type="text" value="<?php print $data['original_link'] ?>">
 </div>
-<div class="mw_clear vSpace"></div>
+
 <?php if (isset($data['position'])): ?>
     <input name="position" type="hidden" value="<?php print ($data['position']) ?>"/>
 <?php endif; ?>
 <?php /* PAGES ONLY  */ ?>
 <?php event_trigger('mw_admin_edit_page_advanced_settings', $data); ?>
 <?php if (isset($data['id']) and $data['id'] > 0): ?>
-    <div class="mw-ui-field-holder"><br/>
-        <small>
+    <div class="mw-ui-field-holder">        <small>
             <?php _e("Id"); ?>
             : <?php print ($data['id'])?></small>
-        <a class="mw-ui-btn mw-ui-btn-small"
-           href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');">Copy</a><a
+
+
+        <div class="mw-ui-btn-nav"><a class="mw-ui-btn mw-ui-btn-small"
+           href="javascript:mw.copy_current_page('<?php print ($data['id']) ?>');"><?php _e("Copy"); ?></a><a
             class="mw-ui-btn mw-ui-btn-small"
-            href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');">Delete</a><a
+            href="javascript:mw.del_current_page('<?php print ($data['id']) ?>');"><?php _e("Delete"); ?></a><a
             class="mw-ui-btn mw-ui-btn-small"
-            href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');">Reset content</a></div>
+            href="javascript:mw.reset_current_page('<?php print ($data['id']) ?>');"><?php _e("Reset content"); ?></a></div>
+
+           </div>
 <?php endif; ?>
 <?php if (isset($data['created_on'])): ?>
     <div class="mw-ui-field-holder">
-        <br/>
+
         <small>
             <?php _e("Created on"); ?>
             : <?php print mw('format')->date($data['created_on'])?></small>
         <?php if (isset($data['updated_on'])): ?>
-            <br/>
+
             <small>
                 <?php _e("Updated on"); ?>
                 : <?php print mw('format')->date($data['updated_on'])?></small>
         <?php endif; ?>
     </div>
 <?php endif; ?>
+
+
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
 
 

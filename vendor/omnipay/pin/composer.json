@@ -1,0 +1,39 @@
+{
+    "name": "omnipay/pin",
+    "type": "library",
+    "description": "Pin Payments driver for the Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "pin"
+    ],
+    "homepage": "https://github.com/omnipay/pin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/pin/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\Pin\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

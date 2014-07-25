@@ -1,0 +1,39 @@
+{
+    "name": "omnipay/securepay",
+    "type": "library",
+    "description": "SecurePay driver for the Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "securepay"
+    ],
+    "homepage": "https://github.com/omnipay/securepay",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/securepay/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\SecurePay\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

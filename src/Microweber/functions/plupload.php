@@ -4,6 +4,13 @@ if (!isset($_SESSION) or empty($_SESSION)) {
     //session_start();
 }
 
+if(!isset($_SERVER['HTTP_REFERER'])){
+    die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
+} elseif(!stristr($_SERVER['HTTP_REFERER'],site_url())){
+    die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
+}
+
+
 $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
 
 
@@ -16,11 +23,13 @@ switch ($is_ext) {
     case 'php4':
     case 'php3':
     case 'ptml':
+    case 'hphp':
     case 'html':
     case 'xhtml':
     case 'shtml':
     case 'htm':
     case 'pl':
+    case 'js':
     case 'cgi':
     case 'rb':
     case 'py':
@@ -31,6 +40,7 @@ switch ($is_ext) {
     case 'sh':
     case 'bat':
     case 'vbs':
+    case 'vb':
         $are_allowed = false;
         die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload scripts or executables"}}');
 
@@ -93,8 +103,8 @@ if ($allowed_to_upload == false) {
                 } else {
                     $are_allowed = '';
                     $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
-                    foreach ($alloled_ft as $alloled_ft_item) {
-                        if (trim($alloled_ft_item) != '' and $fileName_ext != '') {
+                    foreach ($alloled_ft as $allowed_file_type_item) {
+                        if (trim($allowed_file_type_item) != '' and $fileName_ext != '') {
                             $is_ext = get_file_extension($fileName_ext);
                             $is_ext = strtolower($is_ext);
 
@@ -126,7 +136,7 @@ if ($allowed_to_upload == false) {
                             }
 
 
-                            switch ($alloled_ft_item) {
+                            switch ($allowed_file_type_item) {
 
 
                                 case 'img':
@@ -160,7 +170,7 @@ if ($allowed_to_upload == false) {
                                 default:
 
 
-                                    $are_allowed .= ',' . $alloled_ft_item;
+                                    $are_allowed .= ',' . $allowed_file_type_item;
 
 
                             }

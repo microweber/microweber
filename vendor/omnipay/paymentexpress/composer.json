@@ -1,0 +1,45 @@
+{
+    "name": "omnipay/paymentexpress",
+    "type": "library",
+    "description": "Payment Express (DPS) driver for the Omnipay payment processing library",
+    "keywords": [
+        "direct payment solutions",
+        "dps",
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment express",
+        "payment",
+        "paymentexpress",
+        "pxaccess",
+        "pxpay",
+        "pxpost"
+    ],
+    "homepage": "https://github.com/omnipay/paymentexpress",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/paymentexpress/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\PaymentExpress\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "name": "omnipay/payflow",
+    "type": "library",
+    "description": "Payflow driver for the Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payflow",
+        "payment"
+    ],
+    "homepage": "https://github.com/omnipay/payflow",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Macneil",
+            "email": "adrian@adrianmacneil.com"
+        },
+        {
+            "name": "Omnipay Contributors",
+            "homepage": "https://github.com/omnipay/payflow/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\Payflow\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

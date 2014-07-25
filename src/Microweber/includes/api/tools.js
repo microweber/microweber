@@ -1941,7 +1941,6 @@ mw.tools = {
       }
       return false;
     });
-
     return m;
   },
   has:function(el, what){
