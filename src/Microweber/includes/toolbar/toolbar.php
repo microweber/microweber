@@ -11,10 +11,15 @@ if($is_quick_edit == true){
 
 ?>
 <?php if (!isset($_GET['preview'])){ ?>
+<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-core.js"></script>
+<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
+<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
+<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-serializer.js"></script>
+<script src="<?php print(INCLUDES_URL); ?>api/jquery-ui.js"></script>
+
 <script type="text/javascript">
         mw.settings.liveEdit = true;
         mw.require("liveadmin.js");
-        mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
         mw.require("events.js");
         mw.require("url.js");
         mw.require("tools.js");

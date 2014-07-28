@@ -970,7 +970,7 @@ mw.drag = {
                 var arr = tofocus.querySelectorAll('.element'), l = arr.length;
                 var tofocus = arr[l-1];
             }
-           if(!!tofocus){
+           if(!!tofocus){   
               var range = document.createRange();
               var sel = window.getSelection();
               range.selectNodeContents(tofocus);

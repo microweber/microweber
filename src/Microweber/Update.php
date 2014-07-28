@@ -56,14 +56,6 @@ class Update
         return $result;
     }
 
-    function get_templates()
-    {
-        $data = $this->collect_local_data();
-
-        $result = $this->call('get_templates', $data);
-        return $result;
-    }
-
     private function collect_local_data()
     {
         $data = array();
@@ -105,7 +97,7 @@ class Update
             }
         }
 
-       // $t = $this->app->module->get_layouts("skip_cache=1");
+        // $t = $this->app->module->get_layouts("skip_cache=1");
         $t = $this->app->module->get_layouts();
 
         $data['elements'] = $t;
@@ -114,19 +106,147 @@ class Update
         return $data;
     }
 
+    function get_templates()
+    {
+        $data = $this->collect_local_data();
+
+        $result = $this->call('get_templates', $data);
+        return $result;
+    }
+
+    function marketplace_link($params = false)
+    {
+
+        $url_resp = $this->call('market_link', $params);
+        if ($url_resp != false) {
+            $url = json_decode($url_resp, 1);
+            if (isset($url['url'])) {
+                return $url['url'];
+            }
+        }
+//        $url = $this->remote_url . 'market_link';
+//        $url_resp = $this->app->http->url($url)->post($params);
+//        if ($url_resp != false) {
+//            $url = json_decode($url_resp, 1);
+//            if (isset($url['url'])) {
+//                return $url['url'];
+//            }
+//        }
+    }
+
+    function install_market_item($params)
+    {
+        if (defined('MW_API_CALL')) {
+            $to_trash = true;
+            $adm = $this->app->user->is_admin();
+            if ($adm == false) {
+                return array('error' => 'You must be admin to install from Marketplace!');
+            }
+        }
+        if (!ini_get('safe_mode')) {
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+                ini_set("memory_limit", "160M");
+                ini_set("set_time_limit", 0);
+            }
+            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+                set_time_limit(0);
+            }
+        }
+
+        $url = $this->remote_url . 'api/dl_file_api';
+
+        $dl_get = $this->call('get_market_dl_link', $params);
+
+        if ($dl_get != false and is_string($dl_get)) {
+            $dl_get = json_decode($dl_get, true);
+            if (isset($dl_get['url'])) {
+                return $this->install_from_market($dl_get);
+            }
+        } else {
+            if (isset($dl_get['url'])) {
+                return $this->install_from_market($dl_get);
+            }
+        }
+
+
+    }
+
+    function apply_updates($params)
+    {
+        error_reporting(E_ERROR);
+        $ret = array();
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+
+            ini_set("set_time_limit", 0);
+        }
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+            set_time_limit(0);
+        }
+
+        $to_be_unzipped = array();
+        $a = $this->app->user->is_admin();
+        if ($a == false) {
+            mw_error('Must be admin!');
+        }
+        only_admin_access();
+
+
+        $updates = $this->check();
+
+        $params = parse_params($params);
+
+        $update_api = $this;
+        $res = array();
+        $upd_params = array();
+        if (is_array($params)) {
+            foreach ($params as $param_k => $param) {
+                if (isset($upd_params['mw_version'])) {
+                    $res[] = $update_api->install_version($upd_params['mw_version']);
+                }
+                if (!empty($updates) and isset($updates['modules']) and !empty($updates['modules'])) {
+                    if (is_array($param) and !empty($param)) {
+                        if ($param_k == 'modules') {
+                            foreach ($param as $module) {
+                                foreach ($updates['modules'] as $update) {
+                                    if (isset($update['module']) or $update['item_type'] == 'module') {
+                                        $module_market = $update['module'];
+                                        $module = str_replace('\\', '/', $module);
+                                        $module_market = str_replace('\\', '/', $module_market);
+                                        if ($module == $module_market) {
+                                            $ret[] = $this->install_from_market($update);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //$this->app->cache->delete('update/global');
+            //$this->app->cache->clear();
+            //return $unzipped;
+        }
+
+
+
+        if (is_array($ret) and !empty($ret)) {
+            $this->post_update();
+            $this->app->notifications->delete_for_module('updates');
+        }
+
+
+
+    }
+
     function check($skip_cache = false)
     {
 
 
 //        d(debug_backtrace());
 //exit;
-     //   return false;
-       // d($_SERVER["REMOTE_ADDR"]);
-
-
-
-
-
+        //   return false;
+        // d($_SERVER["REMOTE_ADDR"]);
 
 
         $a = $this->app->user->is_admin();
@@ -157,14 +277,7 @@ class Update
         $data = $this->collect_local_data();
 
 
-        //d($data);
-
         $result = $this->call('check_for_update', $data);
-
-
-        //debug
-       // d($data);
-
 
 
         $count = 0;
@@ -246,46 +359,6 @@ class Update
 
     }
 
-    function call($method = false, $post_params = false)
-    {
-        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
-        if (!is_dir($cookie)) {
-            mkdir($cookie);
-        }
-        $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_url;
-
-        if ($method != false) {
-          //  $requestUrl = $requestUrl . 'api/mw_check';
-        }
-
-//        $curl = new \Microweber\Utils\Curl();
-//        $curl->setUrl($requestUrl);
-//        $curl->url = $requestUrl;
-//
-//        $curl->timeout = 10;
-
-
-        $post_params['site_url'] = $this->app->url->site();
-        $post_params['api_function'] = $method;
-
-        if ($post_params != false and is_array($post_params)) {
-            $curl_result =  $this->app->http->url($requestUrl)->post($post_params);
-
-        } else {
-            $curl_result = false;
-        }
-        if ($curl_result == '' or $curl_result == false) {
-            return false;
-        }
-        $result = false;
-        print $curl_result;
-        if ($curl_result != false) {
-            $result = json_decode($curl_result, 1);
-        }
-        return $result;
-    }
-
     function post_update()
     {
         if (!ini_get('safe_mode')) {
@@ -300,78 +373,23 @@ class Update
         mw_post_update();
     }
 
-    function marketplace_link($params = false)
-    {
-
-        $url_resp = $this->call('market_link',$params);
-        if ($url_resp != false) {
-            $url = json_decode($url_resp, 1);
-            if (isset($url['url'])) {
-                return $url['url'];
-            }
-        }
-//        $url = $this->remote_url . 'market_link';
-//        $url_resp = $this->app->http->url($url)->post($params);
-//        if ($url_resp != false) {
-//            $url = json_decode($url_resp, 1);
-//            if (isset($url['url'])) {
-//                return $url['url'];
-//            }
-//        }
-    }
-
-    function install_market_item($params)
-    {
-        if (defined('MW_API_CALL')) {
-            $to_trash = true;
-            $adm = $this->app->user->is_admin();
-            if ($adm == false) {
-                return array('error' => 'You must be admin to install from Marketplace!');
-            }
-        }
-        if (!ini_get('safe_mode')) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-                ini_set("memory_limit", "160M");
-                ini_set("set_time_limit", 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
-        }
-
-        $url = $this->remote_url . 'api/dl_file_api';
-
-        $dl_get = $this->call('get_market_dl_link',$params);
-
-         if ($dl_get != false and is_string($dl_get)) {
-            $dl_get = json_decode($dl_get, true);
-             if (isset($dl_get['url'])) {
-                 return $this->install_from_market($dl_get);
-            }
-        } else {
-            if (isset($dl_get['url'])) {
-                return $this->install_from_market($dl_get);
-            }
-        }
-
-
-    }
-
     private function install_from_market($item)
     {
         if (isset($item['url']) and !isset($item['download'])) {
             $item['download'] = $item['url'];
+        } elseif (isset($item['download_url']) and !isset($item['download'])) {
+            $item['download'] = $item['download_url'];
         }
+
         $download_target = false;
         if (isset($item['download']) and !isset($item['size'])) {
-            $url = $item['url'];
+            $url = $item['download'];
             $download_target = $this->temp_dir . basename($url);
             $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
             if (!is_file($download_target)) {
                 $dl = $this->app->http->url($url)->download($download_target);
             }
-        }
-        if (isset($item['download']) and isset($item['size'])) {
+        } else if (isset($item['download']) and isset($item['size'])) {
             $expected = intval($item['size']);
 
             $download_link = $item['download'];
@@ -385,29 +403,16 @@ class Update
                         $download_target = $this->temp_dir . basename($url);
                         $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
                         $expectd_item_size = $item['size'];
-
                         if (!is_file($download_target) or filesize($download_target) != $item['size']) {
 
                             $dl = $this->app->http->url($url)->download($download_target);
                             if ($dl == false) {
                                 if (is_file($download_target) and filesize($download_target) != $item['size']) {
                                     $fs = filesize($download_target);
-
                                     return array('size' => $fs, 'expected_size' => $expected, 'try_again' => "true", 'warning' => "Only " . $fs . ' bytes downloaded of total ' . $expected);
                                 }
                             }
-                            // d($dl);
-                        } else if (!is_file($download_target_extract_lock) and is_file($download_target) or filesize($download_target) == $item['size']) {
-
-
-                            // @touch($download_target_extract_lock);
-                            //$unzip = new \Microweber\Utils\Unzip();
-                            // $target_dir = MW_ROOTPATH;
-                            // $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
-                            //  return array('sssstry_again' => "true", 'success' => "Patch is completed");
-
                         }
-                        // your link generator
                     }
                 }
 
@@ -415,7 +420,6 @@ class Update
 
 
         }
-
         if ($download_target != false and is_file($download_target)) {
             $where_to_unzip = MW_ROOTPATH;
             if (isset($item['item_type'])) {
@@ -423,7 +427,7 @@ class Update
                     $where_to_unzip = MW_MODULES_DIR;
                 } elseif ($item['item_type'] == 'module_template') {
                     $where_to_unzip = MW_MODULES_DIR;
-                }elseif ($item['item_type'] == 'template') {
+                } elseif ($item['item_type'] == 'template') {
                     $where_to_unzip = MW_TEMPLATES_DIR;
                 } elseif ($item['item_type'] == 'element') {
                     $where_to_unzip = MW_ELEMENTS_DIR;
@@ -431,7 +435,7 @@ class Update
 
                 if (isset($item['install_path']) and $item['install_path'] != false) {
                     if ($item['item_type'] == 'module_template') {
-                        $where_to_unzip = $where_to_unzip . DS . $item['install_path'].DS.'templates'.DS;
+                        $where_to_unzip = $where_to_unzip . DS . $item['install_path'] . DS . 'templates' . DS;
                     } else {
                         $where_to_unzip = $where_to_unzip . DS . $item['install_path'];
 
@@ -451,177 +455,46 @@ class Update
 
     }
 
-    function apply_updates($updates)
+
+
+    function call($method = false, $post_params = false)
     {
-        error_reporting(E_ERROR);
-
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-
-            ini_set("set_time_limit", 0);
+        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        if (!is_dir($cookie)) {
+            mkdir($cookie);
         }
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-            set_time_limit(0);
-        }
+        $cookie_file = $cookie . 'cookie.txt';
+        $requestUrl = $this->remote_url;
 
-        $to_be_unzipped = array();
-        $a = $this->app->user->is_admin();
-        if ($a == false) {
-            mw_error('Must be admin!');
-        }
-        print __FILE__ . __LINE__;
-
-        print 1;
-        return $updates;
-        $down_dir = MW_CACHE_ROOT_DIR . 'downloads' . DS;
-        if (!is_dir($down_dir)) {
-            mkdir_recursive($down_dir);
-        }
-        if (isset($updates['mw_new_version_download'])) {
-            $loc_fn = $this->app->url->slug($updates['mw_new_version_download']) . '.zip';
-            $loc_fn_d = $down_dir . $loc_fn;
-            if (!is_file($loc_fn_d)) {
-                $loc_fn_d1 = $this->app->url->download($updates['mw_new_version_download'], false, $loc_fn_d);
-            }
-            if (is_file($loc_fn_d)) {
-                $to_be_unzipped['root'][] = $loc_fn_d;
-            }
-
-        }
-        $unzipped = array();
-        $what_next = array('modules', 'elements');
-
-        foreach ($what_next as $what_nex) {
-            $down_dir2 = $down_dir . $what_nex . DS;
-            if (!is_dir($down_dir2)) {
-                mkdir_recursive($down_dir2);
-            }
-
-            if (isset($updates[$what_nex])) {
-
-                foreach ($updates[$what_nex] as $key => $value) {
-
-                    $loc_fn = $this->app->url->slug($value) . '.zip';
-                    $loc_fn_d = $down_dir2 . $loc_fn;
-
-                    if (!is_file($loc_fn_d)) {
-                        $loc_fn_d1 = $this->app->url->download($value, false, $loc_fn_d);
-                    }
-                    if (is_file($loc_fn_d)) {
-                        $to_be_unzipped[$what_nex][$key] = $loc_fn_d;
-                    }
-                }
-            }
+        if ($method != false) {
+            //  $requestUrl = $requestUrl . 'api/mw_check';
         }
 
-        if (!empty($to_be_unzipped)) {
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
+//        $curl = new \Microweber\Utils\Curl();
+//        $curl->setUrl($requestUrl);
+//        $curl->url = $requestUrl;
+//
+//        $curl->timeout = 10;
 
-                ini_set("set_time_limit", 0);
-            }
-            if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-                set_time_limit(0);
-            }
-            foreach ($to_be_unzipped as $key => $value) {
-                $unzip_loc = false;
-                if ($key == 'root') {
-                    $unzip_loc = MW_ROOTPATH;
-                }
 
-                if ($key == 'modules') {
-                    $unzip_loc = MW_MODULES_DIR;
-                }
+        $post_params['site_url'] = $this->app->url->site();
+        $post_params['api_function'] = $method;
 
-                if ($key == 'elements') {
-                    $unzip_loc = MW_ELEMENTS_DIR;
-                }
-                // $unzip_loc = MW_CACHE_ROOT_DIR;
+        if ($post_params != false and is_array($post_params)) {
+            $curl_result = $this->app->http->url($requestUrl)->post($post_params);
 
-                if ($unzip_loc != false and is_array($value) and !empty($value)) {
-                    $unzip_loc = normalize_path($unzip_loc);
-                    if (!is_dir($unzip_loc)) {
-                        mkdir_recursive($unzip_loc);
-                    }
-
-                    foreach ($value as $key2 => $value2) {
-                        $value2 = normalize_path($value2, 0);
-
-                        $unzip = new Unzip();
-                        $a = $unzip->extract($value2, $unzip_loc);
-                        $unzip->close();
-                        $unzipped = array_merge($a, $unzipped);
-
-                        if ($key == 'modules') {
-                            $this->app->module->install($key2);
-                        }
-                    }
-                }
-            }
+        } else {
+            $curl_result = false;
         }
-
-
-        $this->post_update();
-        //$this->app->cache->delete('update/global');
-        //$this->app->cache->clear();
-        return $unzipped;
-    }
-
-    public function install_module_template($module, $layout)
-    {
-
-        $params = array();
-
-        $skin_file = $this->app->module->templates($module, $layout);
-
-        if (is_file($skin_file)) {
-            $options = array();
-            //$options['no_cache'] = 1;
-            $options['for_modules'] = 1;
-            $options['filename'] = $skin_file;
-            $skin_data = $this->app->layouts->scan($options);
-            if ($skin_data != false) {
-                $skin_data['module_template'] = $module;
-                $skin_data['layout_file'] = $layout;
-                $result = $this->call('get_download_link', $skin_data);
-                if (isset($result["module_templates"])) {
-                    foreach ($result["module_templates"] as $mod_k => $value) {
-                        $fname = basename($value);
-                        $dir_c = MW_CACHE_DIR . 'downloads' . DS;
-                        if (!is_dir($dir_c)) {
-                            mkdir_recursive($dir_c);
-                        }
-                        $dl_file = $dir_c . $fname;
-                        if (!is_file($dl_file)) {
-                            $get = $this->app->url->download($value, $post_params = false, $save_to_file = $dl_file);
-                        }
-                        if (is_file($dl_file)) {
-                            $unzip = new \Microweber\Utils\Unzip();
-                            $target_dir = MW_ROOTPATH;
-                            $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
-                        }
-                    }
-                }
-            }
+        if ($curl_result == '' or $curl_result == false) {
+            return false;
+        }
+        $result = false;
+        print $curl_result;
+        if ($curl_result != false) {
+            $result = json_decode($curl_result, 1);
         }
         return $result;
-
-    }
-
-    function install_template($template_name)
-    {
-
-        $params = array();
-        $params['template'] = $template_name;
-        $params['add_new'] = $template_name;
-        $result = $this->call('get_download_link', $params);
-        if (isset($result["templates"])) {
-            foreach ($result["templates"] as $mod_k => $value) {
-                $result = $this->install_from_remote($value);
-            }
-
-
-        }
-        return $result;
-
     }
 
     private function install_from_remote($url)

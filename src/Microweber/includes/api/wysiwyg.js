@@ -1336,15 +1336,6 @@ $(window).load(function(){
             var node = node.querySelector('p');
           }
           node.contentEditable = true;
-          node.focus();
-          var range = mwd.createRange();
-          range.setStart(node, 0);
-          range.collapse(false);
-          var selection = window.getSelection();
-          if(selection !== null){
-            selection.removeAllRanges();
-            selection.addRange(range);
-          }
       }
      if(!nodes[i].pasteBinded && !mw.tools.hasParentsWithClass(nodes[i], 'edit')){
        nodes[i].pasteBinded = true;

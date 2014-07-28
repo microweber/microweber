@@ -108,9 +108,9 @@ $paging_links = false;
 
 
 
-<div class="manage-toobar manage-toolbar-top">
+<div class="manage-toobar manage-toolbar-top" style="height: 20px;">
 
-  <span class="posts-selector">
+  <span class="posts-selector pull-left">
 
     <span class="mw-ui-link-nav">
         <span onclick="mw.check.all('#pages_delete_container')" class="mw-ui-link"><?php _e("Select All"); ?></span><span onclick="mw.check.none('#pages_delete_container')" class="mw-ui-link"><?php _e("Unselect All"); ?></span>
@@ -120,14 +120,31 @@ $paging_links = false;
 
 
 
-    <span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important"><?php _e("Delete forever"); ?></span>
-    <span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification"><?php _e("Restore selected"); ?></span>
+    <div id="manage-buttons" class="pull-right" style="display: none">
+        <span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-important"><?php _e("Delete forever"); ?></span>
+        <span onclick="restore_selected_posts();" style="margin-right: 12px;" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-notification"><?php _e("Restore selected"); ?></span>
+    </div>
 
   </div>
 
 
 
   <div class="manage-posts-holder" id="pages_delete_container">
+
+  <script>
+
+  $(document).ready(function(){
+     mw.$("#pages_delete_container .mw-ui-check, .manage-toobar .mw-ui-link").bind('click', function(){
+        if(mw.$(".select_delete_forever:checked").length === 0){
+          mw.$("#manage-buttons").hide();
+        }
+        else{
+          mw.$("#manage-buttons").show();
+        }
+     });
+  });
+
+  </script>
 
     <?php if(is_array($data)): ?>
     <?php foreach ($data as $item): ?>

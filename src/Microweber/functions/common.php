@@ -857,6 +857,12 @@ api_expose('mw_apply_updates');
 
 function mw_apply_updates($params)
 {
+
+    $update_api = mw('update');
+    return $update_api->apply_updates($params);
+
+
+
     only_admin_access();
     $params = parse_params($params);
 

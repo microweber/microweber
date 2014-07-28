@@ -5,7 +5,7 @@ if (version_compare(phpversion(), "5.3.0", "<=")) {
 
 
 if (!defined('MW_VERSION')) {
-    define('MW_VERSION', 0.93463);
+    define('MW_VERSION', 0.94);
 }
 
 /**
