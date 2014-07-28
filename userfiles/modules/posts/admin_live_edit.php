@@ -26,8 +26,6 @@ if (isset($params['id'])) {
 
 }
 
-
-
 if (isset($params['page-id'])) {
     $add_post_q .= ' data-page-id=' . $params['page-id'];
 }
@@ -134,14 +132,7 @@ mw.on.hashParam("action", function () {
 	 } else {
 		 mw.edit_content_live_edit(id);
 	 }
-	 
-	  
-	 
-	 
-});	
-	
-	
-	
+});
 
     mw.add_new_content_live_edit = function ($cont_type) {
 
@@ -259,7 +250,7 @@ mw.on.hashParam("action", function () {
 		<module type="content/manager"  <?php print $add_post_q ?> no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true" />
 	</div>
 	<div class="tab" style="display:none">
-    
+
 		<?php include_once($posts_mod); ?>
 	</div>
 	<div class="tab"  style="display:none">

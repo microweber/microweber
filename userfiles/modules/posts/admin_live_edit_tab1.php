@@ -10,29 +10,20 @@ $rand = uniqid(); ?>
 <script type="text/javascript">
 
     function mw_reload_content_mod_window(curr_mod){
-			if(curr_mod != undefined){
-			 setTimeout(function(){
-			
-		
-		  // mw.reload_module('#<?php print $params['id'] ?>');
-		 
-		 },100)
-			}
-		 
+
 		 setTimeout(function(){
-			
+
 		mw.reload_module_parent('#<?php print $params['id'] ?>');
-		  window.location.reload()
-		 
+		  window.location.href = mw.url.removeHash(window.location.href);
 		 },100)
-	  
+
 	$(mwd.body).ajaxStop(function() {
 		
 		 setTimeout(function(){
-			
-		
-		  window.location.reload()
-		 
+
+
+		  window.location.href = mw.url.removeHash(window.location.href);
+
 		 },100)
 		
 	});
