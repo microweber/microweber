@@ -1824,10 +1824,6 @@ td.custom-field-icon, td.custom-field-icon > *{
 
 .add-new-master{
   display: inline-block;
-  position: fixed;
-  top: 50%;
-  margin-top: -60px;
-  margin-left: -65px;
   font-size: 18px;
   color: #D9D9D9;
   text-align: center;
