@@ -120,6 +120,7 @@ $(document).ready(function(){
 		 $('.mw-cat-save-submit').addClass('disabled');
          mw.tools.addClass(mw.tools.firstParentWithClass(this, 'module'), 'loading');
          mw.form.post(mw.$('#admin_edit_category_form_<?php print $form_rand_id ?>') , '<?php print api_link('category/save') ?>', function(val){
+            mw.$('#mw-notifications-holder').empty();
         	  mw.notification.success("Category changes are saved");
  			  var v = this.toString();
 			  mw.$('#mw_admin_edit_cat_id').val(v);
@@ -145,10 +146,8 @@ $(document).ready(function(){
 				mw.tools.removeClass(module, 'loading');
 			    mw.category_is_saving = false;
                 mw.$('.mw-cat-save-submit').removeClass('disabled');
-                mw.$('.mw-quick-cat-done').show();
-                mw.$('.add-edit-category-form').hide();
 	    });
-     
+
     return false;
  });
 
@@ -175,10 +174,7 @@ $(document).ready(function(){
     }
 
 ?>
-  <div class="mw-quick-cat-done quick_done_alert" style="display:none">
-    <h2>Well done, you have saved your category. </h2>
-    <label class="mw-ui-label"><small>Create new category again</small></label>
-    <a href="javascript:;" class="mw-ui-btn" onclick="continue_editing_cat()">Continue editing</a> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-green" onclick="make_new_cat_after_save()">Create New</a> </div>
+
   <form class="add-edit-category-form" id="admin_edit_category_form_<?php print $form_rand_id ?>" name="admin_edit_category_form_<?php print $form_rand_id ?>" autocomplete="off" style="<?php if($just_saved != false) { ?> display: none; <?php } ?>">
     <input name="id" type="hidden" id="mw_admin_edit_cat_id" value="<?php print ($data['id'])?>" />
     <input name="table" type="hidden" value="categories" />
@@ -203,25 +199,35 @@ $(document).ready(function(){
           <?php endif; ?>
         </div>
         <div class="mw-ui-col" id="content-title-field-buttons">
-          <div class="mw-ui-btn-nav">
+
+            <div class="content-title-field-buttons">
+
             <?php if(intval($data['id']) != 0): ?>
-            <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn">Delete</a>
+            <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;">
+              <a href="<?php print admin_url(); ?>view:content#action=new:category" class="mw-ui-btn tip" data-tip="<?php _e("Add new category"); ?>">
+                <span class="mw-icon-plus"></span>
+                <span class="mw-icon-category"></span>
+              </a>
+              <a href="javascript:mw.tools.tree.del_category('<?php print ($data['id'])?>');" class="mw-ui-btn mw-ui-btn-icon tip" data-tip="<?php _e("Delete category"); ?>"><span class="mw-icon-bin" style="font-size: 22px;"></span></a>
+            </div>
             <?php endif; ?>
-            <button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-invert" id="mw-admin-cat-save">
-            <?php _e("Save"); ?>
+             <button type="button" onclick="save_cat(this);" class="mw-ui-btn mw-ui-btn-invert pull-right" id="mw-admin-cat-save">
+                <?php _e("Save"); ?>
             </button>
-          </div>
+            </div>
+
+
         </div>
-        <script>mw.admin.titleColumnNavWidth();</script> 
+        <script>mw.admin.titleColumnNavWidth();</script>
       </div>
     </div>
     <div class="mw-ui-field-holder">
       <label class="mw-ui-label">
-        <?php _e("Parent"); ?>
+        <?php _e("Select Parent page or category"); ?>
       </label>
       <?php  $is_shop = '';    ?>
       <div class="mw-ui mw-ui-category-selector mw-tree mw-tree-selector" style="display: block" id="edit_category_set_par_<?php print $form_rand_id ?>">
-        <module  type="categories/selector"   categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio" categories_removed_ids="<?php print (intval($data['id']))?>"   />
+        <module  type="categories/selector" categories_active_ids="<?php print (intval($data['parent_id']))?>" active_ids="<?php print ($data['rel_id'])?>" <?php print $is_shop ?> input-name="temp_<?php print $form_rand_id ?>" input-name-categories='temp_<?php print $form_rand_id ?>' input-type-categories="radio" categories_removed_ids="<?php print (intval($data['id']))?>"   />
       </div>
     </div>
     <script type="text/javascript">
@@ -250,7 +256,10 @@ $(document).ready(function(){
   </script>
     <input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
     <div class="advanced_settings">
-      <div class="mw-ui-btn-nav" id="tabsnav"> <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span>Picture Gallery</span></span> <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span>Advanced</span></span> </div>
+      <label class="mw-ui-label"><?php _e("Category images and settings"); ?></label>  
+      <div class="mw-ui-btn-nav" id="tabsnav">
+        <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span><?php _e("Picture Gallery"); ?></span></span>
+        <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span><?php _e("Advanced"); ?></span></span> </div>
       <div class="mw-ui-box mw-ui-box-content quick-add-post-options-item">
         <div class="pictures-editor-holder">
           <module type="pictures/admin" for="categories" for-id="<?php print $data['id'] ?>"  id="mw-cat-pics-admin" />

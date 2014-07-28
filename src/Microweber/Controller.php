@@ -2324,18 +2324,15 @@ class Controller
         $l = $l->__toString();
         $etagFile = md5($l);
 
-       // header("Etag: $etagFile");
-        //make sure caching is turned on
-     //   header('Cache-Control: public');
+        header("Etag: $etagFile");
+        // make sure caching is turned on
+        header('Cache-Control: public');
 
 
-        //caching
-
-        //check if page has changed. If not, send 304 and exit
-//        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-//            header("HTTP/1.1 304 Not Modified");
-//            exit;
-//        }
+        if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
+            header("HTTP/1.1 304 Not Modified");
+            exit;
+        }
 
 
 

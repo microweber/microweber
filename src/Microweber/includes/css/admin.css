@@ -662,7 +662,6 @@ label .mw_toggle_tree{left: 37px;top: 11px;}
 .mw-tree .mw-ui-check span span + span,
 .mw-tree .mw-ui-check label span + span{
   margin-left: 27px;
-  font-size: 11px;
   position: relative;
 }
 
@@ -1880,6 +1879,19 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   position: relative;
 }
 
+
+#pages_edit_container  #mw-ui-category-selector-manage{
+  margin-top: 30px;
+}
+
+#pages_edit_container > .mw-module-category-manager{
+  padding: 30px;
+}
+
+#mw_edit_category_admin_holder{
+  padding: 10px 30px;
+}
+
 #pages_edit_container:-webkit-full-screen {
   background: white;
   padding: 30px;
@@ -2027,10 +2039,17 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 }
 
 #content-title-field-buttons{
-    width: 230px;
     text-align: right;
     vertical-align: bottom;
 }
+
+.content-title-field-buttons{
+  width: auto;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
 #content-title-field-buttons .mw-ui-btn-nav{
   vertical-align: bottom;
 }

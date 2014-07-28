@@ -763,7 +763,13 @@ mw.save_inner_editable_fields = function(data){
             }
             if(qtab.id === 'post-gallery-manager'){
                 $(qtab).width(mw.$("#mw-edit-page-editor-holder").width())
+            } else if(qtab.id === 'quick-add-post-options-item-template'){
+               mw.reload_module('#mw-quick-add-choose-layout');
             }
+ 
+
+
+
 
             try{
                 mwd.querySelector('.mw-iframe-editor').contentWindow.GalleriesRemote()

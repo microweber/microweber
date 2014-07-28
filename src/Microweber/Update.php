@@ -415,12 +415,22 @@ class Update
             if (isset($item['item_type'])) {
                 if ($item['item_type'] == 'module') {
                     $where_to_unzip = MW_MODULES_DIR;
-                } elseif ($item['item_type'] == 'template') {
+                } elseif ($item['item_type'] == 'module_template') {
+                    $where_to_unzip = MW_MODULES_DIR;
+                }elseif ($item['item_type'] == 'template') {
                     $where_to_unzip = MW_TEMPLATES_DIR;
+                } elseif ($item['item_type'] == 'element') {
+                    $where_to_unzip = MW_ELEMENTS_DIR;
                 }
 
                 if (isset($item['install_path']) and $item['install_path'] != false) {
-                    $where_to_unzip = $where_to_unzip . DS . $item['install_path'];
+                    if ($item['item_type'] == 'module_template') {
+                        $where_to_unzip = $where_to_unzip . DS . $item['install_path'].DS.'templates'.DS;
+                    } else {
+                        $where_to_unzip = $where_to_unzip . DS . $item['install_path'];
+
+                    }
+
                 }
                 $where_to_unzip = str_replace('..', '', $where_to_unzip);
                 $where_to_unzip = normalize_path($where_to_unzip, true);

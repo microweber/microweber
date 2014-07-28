@@ -289,18 +289,13 @@ mw.wysiwyg = {
         if(typeof clipboard !== 'undefined' && typeof clipboard.getData === 'function' && mw.wysiwyg.editable(e.target)){
             if(!mw.is.ie){
                var html = clipboard.getData('text/plain');
-               var xhtml =  clipboard.getData('text/html');
-               if(xhtml != ''){
-                 var html = xhtml;
-               }
-               else{
-                 var html = "<p class='element'>" + html.replace(/(\r\n|\n|\r)/gm, "</p><p class='element'>") + "</p>";
-               }
+              // var xhtml =  clipboard.getData('text/html');
             }
             else{
               var html = clipboard.getData('text');
             }
             if(!!html) {
+              var html = "<p class='element'>" + html.replace(/(\r\n|\n|\r)/gm, "</p><p class='element'>") + "</p>";
               mw.wysiwyg.insert_html(html);
               e.preventDefault();
             }

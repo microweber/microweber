@@ -9,6 +9,8 @@
   description: Dark theme for your website
 
   icon: dark.png
+  
+  version: 0.1
 
 */
 

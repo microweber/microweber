@@ -547,17 +547,19 @@ function mw_make_pages_tree_sortable() {
 
 <div class="mw-ui-row" id="edit-content-row">
   <?php if ($action != 'categories'): ?>
+
   <div class="mw-ui-col tree-column" <?php if ($action == 'posts'): ?>  <?php endif ?>>
     <div class="tree-column-holder">
       <div class="fixed-side-column scroll-height-exception-master">
         <div class="create-content scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn default-invert create-content-btn"
-                       id="create-content-btn"><span class="mw-icon-plus"></span>Create New</a> <span class="mw-icon-lock tip" id="pin-sidebar" data-tip="<?php _e("Lock/Unlock the sidebar"); ?>"
+                       id="create-content-btn"><span class="mw-icon-plus"></span><?php _e("Create New"); ?></a> <span class="mw-icon-lock tip" id="pin-sidebar" data-tip="<?php _e("Lock/Unlock the sidebar"); ?>"
                           data-tipposition="bottom-center"></span> </div>
         <div class="fixed-side-column-container mw-tree" id="pages_tree_container_<?php print $my_tree_id; ?>">
           <?php if ($action == 'pages'): ?>
           <module data-type="pages" template="admin" active_ids="<?php print $active_content_id; ?>"
                                 active_class="active-bg" id="pages_tree_toolbar" view="admin_tree" home_first="true"/>
           <?php elseif ($action == 'categories'): ?>
+
           <module skip-static-pages="true" data-type="pages" template="admin"
                                 active_ids="<?php print $active_content_id; ?>" active_class="active-bg"
                                 include_categories="true" include_global_categories="true"
@@ -570,18 +572,17 @@ function mw_make_pages_tree_sortable() {
                                 home_first="true"/>
           <?php endif ?>
           <?php event_trigger('admin_content_after_website_tree', $params); ?>
+
         </div>
         <div class="tree-show-hide-nav scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"
-                       onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Open
-          All</a> <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
-                       onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));">Close
-          All</a></div>
+                       onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Open All"); ?></a> <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
+                       onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Close All"); ?></a></div>
       </div>
     </div>
   </div>
   <?php endif ?>
   <div class="mw-ui-col main-content-column">
-    <div class="mw-ui-col-container"> 
+    <div class="mw-ui-col-container">
       <script>
                     $(window).bind('load', function () {
                         if (!mw.url.windowHashParam("action")) {
@@ -596,7 +597,7 @@ function mw_make_pages_tree_sortable() {
                 
                  
                 
-      <div id="pages_edit_container"  <?php print $pages_container_params_str; ?>> </div>
+      <div id="pages_edit_container" <?php print $pages_container_params_str; ?>>  </div>
     </div>
   </div>
 </div>

@@ -236,7 +236,14 @@ mw.admin = {
     titleColumnNavWidth:function(){
       var _n = mwd.getElementById('content-title-field-buttons');
       if(_n !== null){
-         _n.style.width=_n.querySelector('.mw-ui-btn-nav').offsetWidth+22+'px';
+          var n1 = _n.querySelector('.content-title-field-buttons');
+          var n2 = _n.querySelector('.mw-ui-btn-nav');
+          if(n1 !== null){
+              _n.style.width=n1.offsetWidth + 20 + 'px';
+          }
+          else if(n2 !==null){
+              _n.style.width=n2.offsetWidth + 20 + 'px';
+          }
       }
     },
     postStates:{

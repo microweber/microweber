@@ -1,7 +1,9 @@
 <div class="mw-module-category-manager">
-  <label class="mw-ui-label">
+   <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn pull-right mw-ui-btn-invert"><span class="mw-icon-plus"></span><span class="mw-icon-category"></span><?php _e("New category"); ?></a>
+  <h2 style="margin-top: 0">
+    <span class="mw-icon-category"></span>
     <?php _e("Select category to edit"); ?>
-  </label>
+  </h2>
   <div class="mw-ui-category-selector mw-ui-manage-list" id="mw-ui-category-selector-manage" style="visibility: visible;display: block">
     <?php
 $field_name="categories";
@@ -30,15 +32,17 @@ $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-ic
         });
     }
     mw.quick_cat_edit = function (id) {
+        mw.tools.loading(mwd.body)
         mw.$("#mw_edit_category_admin_holder").attr("data-category-id", id);
         mw.$(".mw-module-category-manager").hide();
         mw.$("#mw-live-edit-cats-tab").removeClass('active');
         mw.load_module('categories/edit_category', '#mw_edit_category_admin_holder', function () {
-            $(mwd.body).removeClass("loading");
+            mw.tools.loading(mwd.body, false);
         });
     }
 
      mw.quick_cat_edit_create = function (id) {
+       mw.tools.loading(mwd.body)
         mw.$("#mw_edit_category_admin_holder").attr("category-id", id);
 		<?php if(isset($params['page-id']) and $params['page-id'] != false): ?>
         mw.$("#mw_edit_category_admin_holder").attr("page-id", '<?php print $params['page-id'] ?>');
@@ -47,7 +51,7 @@ $tree['link'] = "<a href='javascript:mw.quick_cat_edit({id})'><span class='mw-ic
         mw.$(".mw-module-category-manager").hide();
         mw.$("#mw-live-edit-cats-tab").removeClass('active');
         mw.load_module('categories/edit_category', '#mw_edit_category_admin_holder', function () {
-            $(mwd.body).removeClass("loading");
+            mw.tools.loading(mwd.body, false)
         });
     }
 </script>
@@ -96,6 +100,6 @@ mw.$("#<?php print $params['id'] ?>").sortable({
 
 
 </script>
-  <hr>
-  <a href='javascript:mw.quick_cat_edit_create(0)' class="mw-ui-btn"><span class="mw-icon-category"></span><?php _e("New category"); ?></a> </div>
+
+   </div>
 <div id="mw_edit_category_admin_holder"></div>
