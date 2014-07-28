@@ -110,6 +110,7 @@ if (isset($to_save['is_installed'])) {
         if (isset($to_save['table_prefix'])) {
             $prefix = trim($to_save['table_prefix']);
             if ($prefix != '') {
+                $prefix = str_replace(' ','_',$prefix);
                 $last_char = substr($prefix, -1);
                 if ($last_char != '_') {
                     $prefix = $prefix . '_';

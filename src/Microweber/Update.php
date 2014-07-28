@@ -161,6 +161,12 @@ class Update
 
         $result = $this->call('check_for_update', $data);
 
+
+        //debug
+       // d($data);
+
+
+
         $count = 0;
         if (isset($result['modules'])) {
             $count = $count + sizeof($result['modules']);
@@ -273,7 +279,7 @@ class Update
             return false;
         }
         $result = false;
-   //     print $curl_result;
+        print $curl_result;
         if ($curl_result != false) {
             $result = json_decode($curl_result, 1);
         }

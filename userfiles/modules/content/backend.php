@@ -574,7 +574,9 @@ function mw_make_pages_tree_sortable() {
           <?php event_trigger('admin_content_after_website_tree', $params); ?>
 
         </div>
-        <div class="tree-show-hide-nav scroll-height-exception"> <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"
+        <div class="tree-show-hide-nav scroll-height-exception">
+            
+        <a href="javascript:;" class="mw-ui-btn mw-ui-btn-small"
                        onclick="mw.tools.tree.openAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Open All"); ?></a> <a class="mw-ui-btn mw-ui-btn-small" href="javascript:;"
                        onclick="mw.tools.tree.closeAll(mwd.getElementById('pages_tree_container_<?php print $my_tree_id; ?>'));"><?php _e("Close All"); ?></a></div>
       </div>

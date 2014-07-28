@@ -93,15 +93,18 @@ $paging_links = false;
 <?php if (intval($pages_count) > 1): ?>
 <?php $paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
-<h2 class="left" style="padding-left: 20px;width: 430px;padding-bottom:16px; "><?php _e("Deleted content"); ?></h2>
+
+
+
+<div style="width: 100%;padding-top: 19px;" class="mw-ui-row">
+  <div class="mw-ui-col">
+      <h2><span class="mw-icon-bin"></span><span><?php _e("Deleted content"); ?></span></h2>
+  </div>
+</div>
 
 
 
 
-
-
-
-<div class="mw_clear"></div>
 
 
 
@@ -130,12 +133,13 @@ $paging_links = false;
    ?>
 
 
-   <div class="manage-post-item manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
-    <div class="manage-post-itemleft">
-      <label class="mw-ui-check left">
+   <div class="manage-post-item mw-ui-row manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
+    <div class="manage-post-item">
+      <label class="mw-ui-check">
         <input name="select_delete_forever" class="select_delete_forever" type="checkbox" value="<?php print ($item['id']) ?>">
-        <span></span></label>
-        <span class="mw-icon-drag mw_admin_posts_sortable_handle" onmousedown="mw.manage_content_sort()"></span>
+        <span></span>
+      </label>
+
         <?php
         $pic  = get_picture(  $item['id']);
 

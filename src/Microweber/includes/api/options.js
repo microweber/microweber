@@ -267,6 +267,7 @@ mw.options.form = function($selector, callback, beforepost){
 
           if(item.hasClass('mw_option_field') && !item.hasClass('mw-options-form-binded')){
               item.addClass('mw-options-form-binded');
+			  item.addClass('mw-options-form-binded-custom');
 			  //item.unbind("change");
 
               item.bind("change", function(e){

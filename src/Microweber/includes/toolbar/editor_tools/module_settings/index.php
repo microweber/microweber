@@ -221,8 +221,15 @@ if (isset($_GET['type'])) {
 
 
 
-        mw.$(".mw_option_field").addClass('mw-options-form-binded');
+         mw.$(".mw_option_field").addClass('mw-options-form-binded');
         mw.$(".mw_option_field").bind("change", function (e) {
+			
+			if($(this).hasClass('mw-options-form-binded-custom')){
+			return;
+			}
+			
+			
+			
             if (mw.notification != undefined) {
                 mw.notification.success('<?php _e('Settings are saved') ?>');
             }

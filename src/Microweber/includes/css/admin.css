@@ -665,6 +665,10 @@ label .mw_toggle_tree{left: 37px;top: 11px;}
   position: relative;
 }
 
+.mw-tree .mw-ui-check input:checked + span + span{
+  font-weight: bold;
+}
+
 .mw_toggle_tree:hover, .mw-tree li.active > a > .mw_toggle_tree, .mw-tree li.active > label > .mw_toggle_tree{
   opacity:1;
 }
@@ -1880,8 +1884,22 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 }
 
 
+#pages_edit_container  .mw-ui-category-selector{
+  height: 300px;
+}
+
 #pages_edit_container  #mw-ui-category-selector-manage{
   margin-top: 30px;
+}
+
+#mw-ui-category-selector-manage .mw-icon-category{
+  font-size: 20px;
+  margin-right:5px;
+}
+
+#mw-ui-category-selector-manage li li .mw-icon-category{
+  color: white;
+  text-shadow: 0 0 1px #000;
 }
 
 #pages_edit_container > .mw-module-category-manager{

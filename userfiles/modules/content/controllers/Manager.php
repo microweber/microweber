@@ -39,6 +39,8 @@ class Manager
 
         }
 
+
+
         $no_page_edit = false;
         $posts_mod = array();
         // $posts_mod['type'] = 'content/admin_posts_list';
@@ -60,6 +62,8 @@ class Manager
         }
         if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
             $posts_mod['subtype'] = 'product';
+        } else if (isset($params['is_shop']) and $params['is_shop'] == 'n') {
+            $posts_mod['subtype'] = 'post';
         }
         if (isset($params['content_type_filter']) and $params['content_type_filter'] != '') {
             $posts_mod['content_type'] = $params['content_type_filter'];
