@@ -585,6 +585,7 @@ mw.askusertostay = false;
         mw.on.DOMChangePause = false;
       }
       mw.tools.removeClass(mwd.body, 'loading');
+      $(window).trigger('moduleLoaded');
     })
     .fail(function(){
        mw.pauseSave = false;

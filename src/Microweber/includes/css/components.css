@@ -52,6 +52,7 @@
     padding: 5px 0;
     overflow: hidden;
     line-height: 24px;
+    resize:none; /* !!!webkit */
 }
 .mw-ui-category-selector li a:hover{
   background-color: rgba(255, 255, 255, 0.5);

@@ -21,11 +21,11 @@ description: Product Gallery Multiline
 
     <?php $rand = uniqid(); ?>
 
-    <div class="autoscale mw-rotator mw-rotator-template-inner mw-rotator-template-multiline" id="<?php print $id; ?>">
-        <div class="autoscale mw-gallery-holder">
+    <div class=" mw-rotator mw-rotator-template-inner mw-rotator-template-multiline" id="<?php print $id; ?>">
+        <div class=" mw-gallery-holder">
             <?php $count = -1; foreach ($data as $item): ?>
                 <?php $count++; ?>
-                <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
+                <div class=" mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
         <span class=" mw-slider-zoomholder">
             <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 700); ?>" alt=""/>
             <img src="<?php print $item['filename']; ?>" class="mw-slider-zoomimg" alt=""

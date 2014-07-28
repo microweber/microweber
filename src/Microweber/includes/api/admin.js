@@ -766,10 +766,7 @@ $(mww).bind('load', function(){
         btn.innerHTML = mw.msg.save;
    });
 
-   $("body").append('<div style="position:fixed;top:10px;right:10px;font-size:20px;font-weight:bold;color#3399FF" id="logger"></div>');
-   setInterval(function(){
-    $('#logger').html(mw.askusertostay.toString())
-   }, 333);
+
 
 
 });

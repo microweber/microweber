@@ -95,10 +95,11 @@ $(document).ready(function(){
         <?php endif ?>
         <span class="update-version"><?php print $item["version"] ?></span></td>
       <td><h2> <?php print $item["name"] ?>
-          <?php if(isset($item["description"])) : ?>
+          
+        </h2>
+        <?php if(isset($item["description"])) : ?>
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
-        </h2>
         <span class="mw-ui-btn mw-ui-btn-invert show-on-hover single-update-install"><?php _e("Install Update"); ?></span></td>
     </tr>
     <?php endforeach; ?>

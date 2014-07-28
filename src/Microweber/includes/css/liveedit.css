@@ -89,6 +89,13 @@ html,body{
   float: left;
   white-space: nowrap;
   margin: 7px 0 0 7px;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mw-tooltip-insert-module  ul li img{
+  max-width: 32px;
 }
 
 /****************************

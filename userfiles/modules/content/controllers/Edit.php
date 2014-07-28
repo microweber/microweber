@@ -30,7 +30,7 @@ class Edit
         'subtype_value' => '',
         'parent' => 0,
         'layout_name' => '',
-        'layout_file' => '',
+        'layout_file' => 'inherit',
         'original_link' => '');
 
     function __construct($app = null)
@@ -113,8 +113,15 @@ class Edit
             $data = $this->empty_data;
             if (isset($params['content_type'])) {
                 $data['content_type'] = $params['content_type'];
-
             }
+//            if($data['id'] == 0){
+//                        if (isset($params['content_type']) and $params['content_type'] == 'page') {
+//                            d($params);
+//                            $data['layout_file'] = 'clean';
+//                        }
+//            }
+
+
             if (isset($params['subtype'])) {
                 $data['subtype'] = $params['subtype'];
                 if ($data['subtype'] == 'post' or $data['subtype'] == 'product') {

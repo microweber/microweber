@@ -136,6 +136,7 @@ $edit_page_info = $data;;
     <hr>
     <span class="mw-ui-btn mw-ui-btn-medium post-move-to-trash" onclick="mw.del_current_page('<?php print ($data['id'])?>');"><span class="mw-icon-bin"></span>Move to trash</span> </div>
 </div></div>
+
 <form method="post" <?php if($just_saved!=false) : ?> style="display:none;" <?php endif; ?> class="mw_admin_edit_content_form" action="<?php print site_url(); ?>api/save_content_admin" id="quickform-edit-content">
   <input type="hidden" name="id" id="mw-content-id-value"  value="<?php print $data['id']; ?>" /> 
   <input type="hidden" name="subtype" id="mw-content-subtype"   value="<?php print $data['subtype']; ?>" />  

@@ -311,7 +311,7 @@ class Template
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-         return $cache_content;
+        // return $cache_content;
         }
 
         $render_file = false;
@@ -698,12 +698,33 @@ class Template
             }
         }
 
-        if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file']) and trim($page['layout_file']) == '') {
-            $use_index = TEMPLATES_DIR . $page['active_site_template'] . DS . 'index.php';
+
+        if ($render_file == false and isset($page['content_type']) and ($page['content_type'] == 'page') and isset($page['layout_file']) and trim($page['layout_file']) == 'inherit') {
+            $use_index = TEMPLATE_DIR . DS . 'clean.php';
+            $use_index2 = TEMPLATE_DIR. DS . 'layouts/clean.php';
+            $use_index = normalize_path($use_index,false);
+            $use_index2 = normalize_path($use_index2,false);
+
             if (is_file($use_index)) {
                 $render_file = $use_index;
+            }elseif (is_file($use_index2)) {
+                $render_file = $use_index2;
             }
+
+            //d($page);
+            //d($use_index);
+//            if (is_file($use_index)) {
+//                $render_file = $use_index;
+//            }
         }
+
+
+//        if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file']) and trim($page['layout_file']) == '') {
+//            $use_index = TEMPLATES_DIR . $page['active_site_template'] . DS . 'index.php';
+//            if (is_file($use_index)) {
+//                $render_file = $use_index;
+//            }
+//        }
 
         if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and isset($page['layout_file'])) {
             $page['active_site_template'] = trim(str_replace('..', '', $page['active_site_template']));

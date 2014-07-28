@@ -109,12 +109,20 @@ $paging_links = false;
 
 
 <div class="manage-toobar manage-toolbar-top">
-  <span class="mn-tb-arr-top left"></span>
-  <span class="posts-selector left">
-    <span onclick="mw.check.all('#pages_delete_container')"><?php _e("Select All"); ?></span>/<span onclick="mw.check.none('#pages_delete_container')"><?php _e("Unselect All"); ?></span></span>
-    <span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-red"><?php _e("Delete forever"); ?></span>
-    <span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-green"><?php _e("Restore selected"); ?></span>
-    <div class="post-th"> <span class="manage-ico mAuthor"></span> <span class="manage-ico mComments"></span> </div>
+
+  <span class="posts-selector">
+
+    <span class="mw-ui-link-nav">
+        <span onclick="mw.check.all('#pages_delete_container')" class="mw-ui-link"><?php _e("Select All"); ?></span><span onclick="mw.check.none('#pages_delete_container')" class="mw-ui-link"><?php _e("Unselect All"); ?></span>
+    </span>
+
+  </span>
+
+
+
+    <span onclick="delete_selected_posts_forever();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-important"><?php _e("Delete forever"); ?></span>
+    <span onclick="restore_selected_posts();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-notification"><?php _e("Restore selected"); ?></span>
+
   </div>
 
 
@@ -134,34 +142,34 @@ $paging_links = false;
 
 
    <div class="manage-post-item mw-ui-row manage-post-item-<?php print ($item['id']) ?> <?php print $pub_class ?>">
-    <div class="manage-post-item">
-      <label class="mw-ui-check">
-        <input name="select_delete_forever" class="select_delete_forever" type="checkbox" value="<?php print ($item['id']) ?>">
-        <span></span>
-      </label>
-
-        <?php
-        $pic  = get_picture(  $item['id']);
 
 
-        ?>
+      <div class="mw-ui-col manage-post-item-col-1">
+        <label class="mw-ui-check">
+          <input name="select_delete_forever" class="select_delete_forever" type="checkbox" value="<?php print ($item['id']) ?>">
+          <span></span>
+        </label>
+      </div>
+
+      <div class="mw-ui-col manage-post-item-col-2"><?php $pic  = get_picture(  $item['id']); ?>
         <?php if($pic == true ): ?>
-        <a class="manage-post-image left" style="background-image: url('<?php print thumbnail($pic, 108) ?>');"  onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"></a>
-      <?php else : ?>
-      <a class="manage-post-image manage-post-image-no-image left"  onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"></a>
-    <?php endif; ?>
+            <a class="manage-post-image" style="background-image: url('<?php print thumbnail($pic, 108) ?>');"  onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"></a>
+        <?php else : ?>
+            <a class="manage-post-image manage-post-image-no-image"  onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"></a>
+        <?php endif; ?>
+      </div>
 
     <?php $edit_link = admin_url('view:content#action=editpost:'.$item['id']);  ?>
 
-    <div class="manage-post-main">
+    <div class=" mw-ui-col manage-post-item-col-3 manage-post-main">
       <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>" onClick="mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>');return false;"><?php print strip_tags($item['title']) ?></a></h3>
       <small><a  class="manage-post-item-link-small" target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a></small>
       <div class="manage-post-item-description"> <?php print character_limiter(strip_tags($item['description']), 60);
       ?> </div>
       <div class="manage-post-item-links"> <a target="_top"  href="<?php print content_link($item['id']); ?>/editmode:y"><?php _e("Live edit"); ?></a> <a target="_top" href="<?php print $edit_link ?>" onClick="javascript:mw.url.windowHashParam('action','editpost:<?php print ($item['id']) ?>'); return false;"><?php _e("Edit"); ?></a> <a href="javascript:delete_single_post_forever('<?php print ($item['id']) ?>');"><?php _e("Delete forever"); ?></a> <a href="javascript:restore_single_post_from_deletion('<?php print ($item['id']) ?>');;"><?php _e("Restore"); ?></a></div>
     </div>
-    <div class="manage-post-item-author" title="<?php print user_name($item['created_by']); ?>"><?php print user_name($item['created_by'],'username') ?></div>
-  </div>
+    <div class="mw-ui-col manage-post-item-col-4" title="<?php print user_name($item['created_by']); ?>"><span class="manage-post-item-author"><?php print user_name($item['created_by'],'username') ?></span></div>
+
 
   <?php if($is_momodule_comments == true): ?>
   <?php $new = get_comments('count=1&is_moderated=n&content_id='.$item['id']); ?>
@@ -178,14 +186,18 @@ $paging_links = false;
 
 
 
-  <?php if($have_new): ?>
+<div class=" mw-ui-col manage-post-item-col-5">
+<?php if($have_new): ?>
 
-  <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print $item['id'] ?>" class="comment-notification"><?php print($new); ?></a>
+
+
+  <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print $item['id'] ?>" class="comments-bubble"><span class="mw-icon-comment"></span><span class="comment-number"><?php print($new); ?></span></a>
 
 <?php else:  ?>
 
-  <span class="comment-notification comment-notification-silver "><?php print($new); ?></span>
+  <a href="<?php print admin_url('view:comments'); ?>/#content_id=<?php print $item['id'] ?>" class="comments-bubble"><span class="mw-icon-comment"></span><span class="comment-number"><?php print($new); ?></span></a>
 <?php endif;?>
+</div>
 <?php endif; ?>
 
 

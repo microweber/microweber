@@ -10,10 +10,10 @@ description: Pictures slider
 <?php if (is_array($data)): ?>
     <?php $id = "slider-" . uniqid(); ?>
     <div class="well mw-module-images">
-        <div class="autoscale mw-rotator mw-rotator-template-slider" id="<?php print $id; ?>">
-            <div class="autoscale mw-gallery-holder">
+        <div class=" mw-rotator mw-rotator-template-slider" id="<?php print $id; ?>">
+            <div class=" mw-gallery-holder">
                 <?php foreach ($data as $item): ?>
-                    <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
+                    <div class=" mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
                         <img src="<?php print thumbnail($item['filename'], 700); ?>" alt=""/>
                         <?php if ($item['title'] != '') { ?><i class="mw-rotator-description"><i
                                 class="mw-rotator-description-content"><?php print $item['title']; ?></i></i><?php } ?>

@@ -133,6 +133,16 @@ PrepareEditor = function(){
        }, 333)
 
      });
+
+
+     $(window).bind('moduleLoaded', function(){
+         setTimeout(function(){
+
+         ScaleFrame()
+
+         }, 333)
+     });
+
   }
 }
 

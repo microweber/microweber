@@ -410,7 +410,7 @@ class Parser
 
 
 //                                if ($plain_modules != false) {
-//                                    if ($module_name != 'pictures') {
+//
 //                                        $module_db_data = $this->app->module->get('one=1&ui=any&module=' . $module_name);
 //                                        $mod_content = '';
 //                                        if (is_array($module_db_data)) {
@@ -419,23 +419,12 @@ class Parser
 //                                                $mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
 //                                            }
 //                                        }
-//                                    }
-//                                }
-
-//if($module_name != 'pictures'){
-                                $plain_modules = false;
-//                                if ($plain_modules != false) {
-//                                    $module_db_data = $this->app->module->get('one=1&ui=any&module=' . $module_name);
-//                                    $mod_content = '';
-//                                    if (is_array($module_db_data)) {
-//                                        if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
-//                                        } else {
-//                                            $mod_content = '<span class="mw-plain-module-holder" data-module="' . addslashes($module_db_data['module']) . '" data-module-name="' . addslashes($module_db_data['name']) . '" data-module-description="' . addslashes($module_db_data['description']) . '" ><img class="mw-plain-module-icon" src="' . $module_db_data['icon'] . '" /><span class="mw-plain-module-name">' . $module_db_data['name'] . '</span></span>';
-//                                        }
-//                                    }
 //
 //                                }
-                                //}
+
+
+                                $plain_modules = false;
+
 
                                 preg_match_all('/.*?class=..*?edit.*?.[^>]*>/', $mod_content, $modinner);
                                 $proceed_with_parse = false;
@@ -496,8 +485,7 @@ class Parser
             $reps_arr = array();
             $reps_arr2 = array();
             foreach ($mw_replaced_modules_values as $key => $value) {
-                // d($mw_replaced_modules_values);
-                if ($value != '') {
+                 if ($value != '') {
                     $reps_arr[] = $key;
                     $reps_arr2[] = $value;
                     // $layout = str_replace($key, $value, $layout);
@@ -773,16 +761,6 @@ class Parser
 
                  //   $filter
 
-
-//                    if(isset($this->filter[$rel])){
-//                        if(isset($this->filter[$rel][$field]) and is_callable($this->filter[$rel][$field])){
-//
-//                          d($this->filter[$rel][$field]);
-//                           // $new_criteria = call_user_func($this->filter[$k], $criteria);
-//                        }
-//
-//
-//                    }
 
 
 

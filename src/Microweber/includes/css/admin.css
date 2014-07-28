@@ -888,7 +888,7 @@ a:hover .mw_ed_tree_content{
   background-color:#3B3B3B
 }
 
-#main-menu li:hover a strong, #main-menu li.active a strong, #main-menu li.active-parent a strong, #main-menu li a:focus strong{
+#main-menu li:hover > a strong, #main-menu li.active > a strong, #main-menu li.active-parent a strong, #main-menu li a:focus strong{
   visibility: visible;
 }
 
@@ -903,8 +903,14 @@ a:hover .mw_ed_tree_content{
 #main-menu li ul{
   display: none;
 }
-#main-menu li.active ul, #main-menu li.active-parent ul{
+#main-menu li.active ul, #main-menu li.active-parent ul, #main-menu li#main-menu-bottom ul{
   display: block;
+}
+
+#main-menu-bottom{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 #main-menu a [class*='mw-icon-']{ font-size: 36px; }
@@ -3547,6 +3553,9 @@ tr.mw-order-item:hover{
   display: inline;
   word-wrap: break-word;
   word-break: break-all;
+}
+.mw-client-image-holder{
+  padding-bottom: 12px;
 }
 
 

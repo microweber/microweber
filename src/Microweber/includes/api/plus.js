@@ -21,11 +21,14 @@ mw.drag.plus = {
       if(mw.drag.plus.locked === false){
           mw.drag.plus.set(undefined);
       }
+
     });
     mw.drag.plus.action();
   },
   selectNode:function(target){
-      if(mw.tools.hasClass(target, 'nodrop') || mw.tools.hasClass(target, 'edit')){
+
+      if(target === undefined || target === null || mw.tools.hasClass(target, 'nodrop') || mw.tools.hasClass(target, 'edit')){
+
          mw.drag.plusTop.style.top = -9999 +'px';
          mw.drag.plusBottom.style.top = -9999 +'px';
          return undefined;
@@ -152,7 +155,6 @@ InsertModule = function(module, cls){
     }
 
     mw.load_module(module, '#'+id, function(){
-      d(document.getElementById(id))
     mw.wysiwyg.change(document.getElementById(id));
         mw.drag.plus.locked = false;
         mw.drag.fixes();

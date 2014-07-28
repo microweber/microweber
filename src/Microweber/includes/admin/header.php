@@ -155,36 +155,40 @@ else {
                                     href="<?php print admin_url(); ?>view:shop/action:options"><?php _e("Options"); ?></a></li>
                         </ul>
                     </li>
-
+                    <li id="main-menu-bottom">
+                      <ul>
                       <li class="user-menu-sub">
-                      <a href="<?php print $past_page  ?>?editmode=y" class="go-live-edit-href-set" target="_blank">
-                          <span class="mw-icon-live" style="font-size: 24px;"></span>
-                          <strong><?php _e("Live Edit"); ?></strong>
-                      </a>
-                      </li>
-                      <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>>
-                          <a href="<?php print admin_url(); ?>view:modules">
-                              <span class="mw-icon-module" style="font-size: 24px;"></span>
-                              <strong><?php _e("Extensions"); ?></strong>
+                          <a href="<?php print $past_page  ?>?editmode=y" class="go-live-edit-href-set" target="_blank">
+                              <span class="mw-icon-live" style="font-size: 24px;"></span>
+                              <strong><?php _e("Live Edit"); ?></strong>
                           </a>
-                      </li>
-                      <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>>
-                          <a href="<?php print admin_url(); ?>view:settings">
-                              <span class="mw-icon-gear" style="font-size: 24px;"></span>
-                              <strong><?php _e("Settings"); ?></strong>
-                          </a>
-                      </li>
-                      <li>
-                          <a href="javascript:;">
-                              <span class="mw-icon-upgrades" style="font-size: 24px;"></span>
-                              <strong><?php _e("Upgrades"); ?></strong>
-                          </a>
-                      </li>
+                        </li>
+                        <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>>
+                            <a href="<?php print admin_url(); ?>view:modules">
+                                <span class="mw-icon-module" style="font-size: 24px;"></span>
+                                <strong><?php _e("Extensions"); ?></strong>
+                            </a>
+                        </li>
+                        <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>>
+                            <a href="<?php print admin_url(); ?>view:settings">
+                                <span class="mw-icon-gear" style="font-size: 24px;"></span>
+                                <strong><?php _e("Settings"); ?></strong>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <span class="mw-icon-upgrades" style="font-size: 24px;"></span>
+                                <strong><?php _e("Upgrades"); ?></strong>
+                            </a>
+                        </li>
 
 
-                    <li id="main-menu-toggle">
-                        <a href="javascript:;"><span class="mw-icon-menu"></span></a>
+                      <li id="main-menu-toggle">
+                          <a href="javascript:;"><span class="mw-icon-menu"></span></a>
+                      </li>
+                      </ul>
                     </li>
+
                  
                 </ul>
 

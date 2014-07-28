@@ -1011,14 +1011,17 @@ class Module
         if (isset($params['module'])) {
             $params['module'] = str_replace('/admin', '', $params['module']);
         }
+        if (isset($params['keyword'])) {
+            $params['search_in_fields'] = array('name', 'module', 'description', 'author', 'website', 'version', 'help');
+        }
+
         if (!isset($params['ui'])) {
             //  $params['ui'] = 1;
             //
         }
 
         if (isset($params['ui']) and $params['ui'] == 'any') {
-            // d($params);
-            unset($params['ui']);
+             unset($params['ui']);
         }
 
         return $this->app->db->get($params);

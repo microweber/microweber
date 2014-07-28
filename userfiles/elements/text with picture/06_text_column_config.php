@@ -10,7 +10,7 @@ $config['as_element'] = true;
 
 $config['categories'] = "portfolio";
 $config['position'] = 9;
-$config['version'] = 0.2;
+$config['version'] = 0.02;
 
 
 

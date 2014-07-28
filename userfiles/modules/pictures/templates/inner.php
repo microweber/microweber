@@ -14,10 +14,10 @@ description: Inner Slider
 
 <?php if (is_array($data)): ?>
     <?php $id = "slider-" . uniqid(); ?>
-    <div class="autoscale mw-rotator mw-rotator-template-inner" id="<?php print $id; ?>">
-        <div class="autoscale mw-gallery-holder">
+    <div class=" mw-rotator mw-rotator-template-inner" id="<?php print $id; ?>">
+        <div class=" mw-gallery-holder">
             <?php foreach ($data as $item): ?>
-                <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
+                <div class="mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>">
                     <img class="autoscale-x" src="<?php print thumbnail($item['filename'], 900); ?>" alt=""/>
                 </div>
             <?php endforeach; ?>
@@ -30,7 +30,6 @@ description: Inner Slider
         $(document).ready(function () {
             var el = mwd.getElementById('<?php print $id; ?>');
             var module = mw.tools.firstParentWithClass(el, 'module');
-            //module.style.paddingBottom = '130px';
         });
 
     </script>

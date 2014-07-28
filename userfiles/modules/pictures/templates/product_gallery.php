@@ -15,11 +15,11 @@ description: Product Gallery
 <?php $id = "slider-" . uniqid(); ?>
 <?php $rand = uniqid(); ?>
 
-<div class="autoscale mw-rotator mw-rotator-template-inner" id="<?php print $id; ?>">
-  <div class="autoscale mw-gallery-holder">
+<div class=" mw-rotator mw-rotator-template-inner" id="<?php print $id; ?>">
+  <div class=" mw-gallery-holder">
     <?php $count = -1; foreach ($data as $item): ?>
     <?php $count++; ?>
-    <div class="autoscale mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>"> <span class=" mw-slider-zoomholder"> <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 700); ?>" alt=""/> <img src="<?php print $item['filename']; ?>" class="mw-slider-zoomimg" alt=""
+    <div class=" mw-gallery-item mw-gallery-item-<?php print $item['id']; ?>"> <span class=" mw-slider-zoomholder"> <img class="mw-slider-zoomimg-base" src="<?php print thumbnail($item['filename'], 700); ?>" alt=""/> <img src="<?php print $item['filename']; ?>" class="mw-slider-zoomimg" alt=""
                  onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>)"/> </span>
       <?php if ($item['title'] != '') { ?>
       <i class="mw-rotator-description"><i class="mw-rotator-description-content"><?php print $item['title']; ?></i></i>
