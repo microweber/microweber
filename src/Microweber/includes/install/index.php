@@ -43,10 +43,10 @@ function __mw_install_log($text)
         if ($text == 'done') {
 
 
-            @file_put_contents($log_file, "[" . date('H:i:s') . "] " . "\t" . $text . "\n\r");
+            @file_put_contents($log_file,  $text . "\n");
 
         } else {
-            @file_put_contents($log_file, "[" . date('H:i:s') . "] " . "\t" . $text . "\n\r", FILE_APPEND);
+            @file_put_contents($log_file,  $text . "\n", FILE_APPEND);
 
         }
     }

@@ -276,10 +276,9 @@ class Update
         $upd_params = array();
         if (is_array($params)) {
             foreach ($params as $param_k => $param) {
-                if (isset($upd_params['mw_version'])) {
-                    $res[] = $update_api->install_version($upd_params['mw_version']);
-                }
-
+				  if ($param_k == 'mw_version') { 
+                    $ret[] = $update_api->install_version($param);
+				  }
 
                 if (is_array($param) and !empty($param)) {
                     if ($param_k == 'modules') {
@@ -511,6 +510,7 @@ class Update
         $params['mw_update_check_site'] = $this->app->url->site();
 
         $result = $this->call('get_download_link', $params);
+	
         if (isset($result["core_update"])) {
 
             $value = trim($result["core_update"]);

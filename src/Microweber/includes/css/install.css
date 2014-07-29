@@ -1,6 +1,6 @@
 .installholder{
   width: 530px;
-  margin: 100px auto;
+  margin: 50px auto;
   max-width: 100%;
 }
 
@@ -58,4 +58,8 @@ body{
   opacity: 0.7;
   float: right;
   padding-bottom: 10px;
+}
+
+#installinfo{
+  padding: 5px 0;
 }

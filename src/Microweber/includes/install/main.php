@@ -46,11 +46,11 @@
             $('#form_<?php print $rand; ?>').submit(function () {
 
                 if (this.elements["admin_password"].value != this.elements["admin_password2"].value) {
-                    alert("Passwords don't match.")
+                    alert("<?php _e("Passwords don't match."); ?>");
                     return false;
                 }
                 $('#mw_log').hide();
-                mw_start_progress();
+                installprogress();
                 $('.mw-install-holder').fadeOut();
 
                 $data = $('#form_<?php print $rand; ?>').serialize();
@@ -67,7 +67,7 @@
                                 $('.mw-install-holder').fadeIn();
                             }
                         }
-                        $('.mw_install_progress').fadeOut();
+                        $('#installprogressbar').fadeOut();
                     });
 
 
@@ -79,10 +79,10 @@
         });
 
 
-        function mw_start_progress() {
+        function ZZZZZZZinstallprogress() {
 
 
-            $('.mw_install_progress').fadeIn();
+            $('#installprogressbar').fadeIn();
 
             setInterval(function () {
                 <?php $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt';
@@ -93,7 +93,6 @@
                       l = arr.length,
                       i = 0;
 
-                    //$('#mw_log_holder').html(data);
                 });
 
 
@@ -116,6 +115,56 @@
 
 
         }
+
+        installprogressStopped = false;
+
+        installprogress = function(reset){
+
+            if(installprogressStopped){
+              installprogressStopped = false;
+              return false;
+            }
+
+            var holder = $('#installprogressbar'),
+                bar =  $(".mw-ui-progress-bar", holder),
+                percent =  $(".mw-ui-progress-percent", holder),
+                reset = reset || true;
+
+            if(reset){
+              bar.width('0%');
+              percent.html('0%');
+              holder.fadeIn();
+            }
+
+            <?php $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt';
+                    $log_file_url = mw('url')->link_to_file($log_file);
+                ?>
+                $.get('<?php print $log_file_url ?>', function (data) {
+                  var data = data.replace(/\r/g, '');
+                  var arr = data.split('\n'),
+                      l = arr.length,
+                      i = 0,
+                      last = arr[l-2];
+                      $("#installinfo").html(last);
+                      if(last == 'done') installprogressStop();
+                      setTimeout(function(){
+                        installprogress(false);
+                      }, 1000);
+                });
+
+        }
+
+        installprogressStop = function(){
+            var holder = $('#installprogressbar'),
+                bar =  $(".mw-ui-progress-bar", holder),
+                percent =  $(".mw-ui-progress-percent", holder);
+                holder.fadeOut();
+                bar.width('0%');
+                percent.html('0%');
+                installprogressStopped = true;
+        }
+
+
     </script>
 
 </head>
@@ -141,9 +190,10 @@
 <div class="mw_install_progress">
     <div class="mw-ui-progress" id="installprogressbar" style="display: none">
         <div class="mw-ui-progress-bar" style="width: 0%;"></div>
-        <div class="mw-ui-progress-info" id="mw_log_holder"><?php _e("Installing"); ?></div>
+        <div class="mw-ui-progress-info"><?php _e("Installing"); ?></div>
         <span class="mw-ui-progress-percent">0%</span>
     </div>
+    <div id="installinfo"></div>
 </div>
 <div class="mw-install-holder">
 <?php if ($done == false): ?>
