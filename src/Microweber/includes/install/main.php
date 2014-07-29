@@ -36,6 +36,12 @@
 
         $(document).ready(function () {
 
+        $("input[name='table_prefix']").bind('keydown', function(e){
+            if ( ( e.keycode || e.which ) == 32) {
+                e.preventDefault();
+            }
+        });
+
 
             $('#form_<?php print $rand; ?>').submit(function () {
 
