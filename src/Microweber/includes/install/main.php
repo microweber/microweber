@@ -57,7 +57,9 @@
 
                 $.post("<?php print mw('url')->string() ?>", $data,
                     function (data) {
-
+                        if(data.indexOf('Warning') !== -1){
+                          installprogressStop()
+                        }
                         $('#mw_log').hide().empty();
                         if (data != undefined) {
                             if (data == 'done') {
@@ -79,42 +81,7 @@
         });
 
 
-        function ZZZZZZZinstallprogress() {
 
-
-            $('#installprogressbar').fadeIn();
-
-            setInterval(function () {
-                <?php $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt';
-                    $log_file_url = mw('url')->link_to_file($log_file);
-                ?>
-                $.get('<?php print $log_file_url ?>', function (data) {
-                  var arr = data.split('\n'),
-                      l = arr.length,
-                      i = 0;
-
-                });
-
-
-            }, 1000);
-
-
-            var interval = 2,
-                updatesPerSecond = 1000 / 60,
-                progress = $('#mw_install_progress_bar'),
-                animator = function () {
-                    progress.val(progress.val() + interval);
-                    if (progress.val() + interval < progress.attr('max')) {
-                        setTimeout(animator, updatesPerSecond);
-                    } else {
-                        progress.val(progress.attr('max'));
-                    }
-                }
-
-            setTimeout(animator, updatesPerSecond);
-
-
-        }
 
         installprogressStopped = false;
 
@@ -128,7 +95,7 @@
             var holder = $('#installprogressbar'),
                 bar =  $(".mw-ui-progress-bar", holder),
                 percent =  $(".mw-ui-progress-percent", holder),
-                reset = reset || true;
+                reset = typeof reset === 'undefined' ?  true : reset;
 
             if(reset === true){
               bar.width('0%');
@@ -149,6 +116,7 @@
                       bar[0].style.width = percentage + '%';
                       percent.html(percentage + '%');
                       if(last == 'done') {
+                        percent.html('0%');
                         installprogressStop();
                         $("#installinfo").html('');
                       }
@@ -499,9 +467,9 @@
     <h2><?php _e("Welcome to your new website!"); ?></h2>
     <br/>
     <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-info pull-left">
-        <?php _e("Click here to go to Admin Panel"); ?>
+        <?php _e("Login to admin panel"); ?>
     </a> <a href="<?php print site_url() ?>" class="mw-ui-btn pull-left" style="margin-left: 20px;">
-        <?php _e("Click here visit your site"); ?>
+        <?php _e("Visit your site"); ?>
     </a>
 
 <?php endif; ?>
@@ -511,11 +479,13 @@
         <?php _e("Installation is completed"); ?>
     </h2>
     <br/>
-    <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-blue right">
-        <?php _e("Click here to go to Admin Panel"); ?>
-    </a> <a href="<?php print site_url() ?>" class="mw-ui-btn left">
-        <?php _e("Click here visit your site"); ?>
-    </a></div>
+    <a href="<?php print site_url() ?>" class="mw-ui-btn">
+        <?php _e("Visit your site"); ?>
+    </a>
+    <a href="<?php print site_url() ?>admin" class="mw-ui-btn mw-ui-btn-info">
+        <?php _e("Login to admin panel"); ?>
+    </a>
+</div>
 </div>
 
 

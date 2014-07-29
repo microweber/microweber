@@ -590,8 +590,7 @@ class Db
                 }
 
             }
-            //d($criteria);
-            if(isset($params['debug'])){
+             if(isset($params['debug'])){
            //  print_r(mw()->orm->getLastQuery());
             }
         }
@@ -654,7 +653,7 @@ class Db
                 $this->app->orm->configure('caching',false);
 
             }
-
+ 
 
                 $get_db_items = $this->app->orm->get($table,$criteria);
                // print_r(mw()->orm->getLastQuery());

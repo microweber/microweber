@@ -63,3 +63,7 @@ body{
 #installinfo{
   padding: 15px 0 0;
 }
+
+#mw-install-done{
+  text-align: center;
+}

@@ -790,10 +790,12 @@ class User
         $data = array();
         $data['id'] = $id;
         $data['limit'] = 1;
+		$data['single'] = 1;
+	
+			
+			
         $data = $this->get_all($data);
-        if (isset($data[0])) {
-            $data = $data[0];
-        }
+         
         return $data;
     }
 
@@ -1032,7 +1034,11 @@ class User
             if ($usr == false) {
                 return false;
             }
-            $usr = $this->get($usr);
+			
+			
+			
+			
+            $usr = $this->get_by_id($usr);
 
             if (isset($usr['is_admin']) and $usr['is_admin'] == 'y') {
                 define("USER_IS_ADMIN", true);
@@ -1050,6 +1056,8 @@ class User
     public function id()
     {
 
+
+
         // static $uid;
         if (defined('USER_ID')) {
             // print USER_ID;
@@ -1064,6 +1072,10 @@ class User
             if (isset($user_session['user_id'])) {
                 $res = $user_session['user_id'];
             }
+
+
+
+
 
             if ($res != false) {
                 // $res = $sess->get ( 'user_id' );
@@ -1493,7 +1505,7 @@ class User
             }
         }
         if (!isset($params['search_in_fields'])) {
-            $data['search_in_fields'] = array('first_name', 'last_name', 'username', 'email');
+            $data['search_in_fields'] = array('id','first_name', 'last_name', 'username', 'email');
             // $data ['debug'] = 1;
         }
 
@@ -1533,6 +1545,13 @@ class User
         $data['table'] = $table;
         //  $data ['cache_group'] = $cache_group;
 
+
+		
+	
+			
+			
+			
+			
         $get = $this->app->db->get($data);
 
         //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
