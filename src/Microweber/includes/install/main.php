@@ -22,7 +22,7 @@
     <script type="text/javascript">
 
         function prefix_add(el) {
-            var val = el.value.replace(/ /g,'');
+            var val = el.value.replace(/ /g,'').replace(/[^\w\s]/gi, '');
             el.value = val  ;
             if (val != '') {
                 var last = val.slice(-1);
@@ -130,7 +130,7 @@
                 percent =  $(".mw-ui-progress-percent", holder),
                 reset = reset || true;
 
-            if(reset){
+            if(reset === true){
               bar.width('0%');
               percent.html('0%');
               holder.fadeIn();
@@ -144,7 +144,10 @@
                   var arr = data.split('\n'),
                       l = arr.length,
                       i = 0,
-                      last = arr[l-2];
+                      last = arr[l-2],
+                      percentage = Math.round( ((l-1) / 30) * 100);
+                      bar.width(percentage + '%');
+                      percent.html(percentage + '%');
                       $("#installinfo").html(last);
                       if(last == 'done') installprogressStop();
                       setTimeout(function(){
@@ -379,8 +382,7 @@
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Table prefix"); ?>
-                        <span data-help="<?php _e("Change this If you want to install multiple instances of Microweber to this database."); ?>" class="mw-icon-help-outline mwahi tip"
-                              ></span></label>
+                        <span data-help="<?php _e("Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed."); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
                     <input type="text" class="mw-ui-field"
                            name="table_prefix" <?php if (isset($data['table_prefix']) == true and isset($data['table_prefix']) != '' and trim($data['table_prefix']) != '{table_prefix}'): ?> value="<?php print $data['table_prefix'] ?>" <?php endif; ?>
                            onblur="prefix_add(this)"/>

@@ -38,15 +38,15 @@ function __mw_install_log($text)
 
     }
     if (is_file($log_file)) {
-        $json = array('date'=>date('H:i:s'),'msg'=>$text);
+        $json = array('date' => date('H:i:s'), 'msg' => $text);
 
-        if ($text == 'done') {
+        if ($text == 'done' or $text == 'Preparing to install') {
 
 
-            @file_put_contents($log_file,  $text . "\n");
+            @file_put_contents($log_file, $text . "\n");
 
         } else {
-            @file_put_contents($log_file,  $text . "\n", FILE_APPEND);
+            @file_put_contents($log_file, $text . "\n", FILE_APPEND);
 
         }
     }
@@ -114,7 +114,7 @@ if (isset($to_save['is_installed'])) {
         if (isset($to_save['table_prefix'])) {
             $prefix = trim($to_save['table_prefix']);
             if ($prefix != '') {
-                $prefix = str_replace(' ','_',$prefix);
+                $prefix = str_replace(' ', '_', $prefix);
                 $last_char = substr($prefix, -1);
                 if ($last_char != '_') {
                     $prefix = $prefix . '_';
@@ -405,11 +405,11 @@ if (isset($to_save['is_installed'])) {
 
                         if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
                             if (defined('MW_TEMPLATES_DIR')) {
-                                $template_dir = MW_TEMPLATES_DIR.DS.$to_save['default_template'];
-                                $template_dir = normalize_path($template_dir,true);
-                                if(is_dir($template_dir)){
-                                    $template_default_content = $template_dir.'mw_default_content.zip';
-                                    if(is_file($template_default_content) and is_readable($template_default_content)){
+                                $template_dir = MW_TEMPLATES_DIR . DS . $to_save['default_template'];
+                                $template_dir = normalize_path($template_dir, true);
+                                if (is_dir($template_dir)) {
+                                    $template_default_content = $template_dir . 'mw_default_content.zip';
+                                    if (is_file($template_default_content) and is_readable($template_default_content)) {
                                         $default_content_file = $template_default_content;
                                         $default_content_folder = $template_dir;
 
@@ -450,16 +450,12 @@ if (isset($to_save['is_installed'])) {
                 }
 
 
-
                 event_trigger('mw_db_init_modules');
-              //  __mw_install_log('Scanning for modules');
+                //  __mw_install_log('Scanning for modules');
 
-              //  mw('module')->scan_for_modules("skip_cache=1&cleanup_db=1");
-               // __mw_install_log('Installing modules');
-               // mw('module')->update_db();
-
-
-
+                //  mw('module')->scan_for_modules("skip_cache=1&cleanup_db=1");
+                // __mw_install_log('Installing modules');
+                // mw('module')->update_db();
 
 
                 __mw_install_log('Loading modules');
@@ -469,9 +465,6 @@ if (isset($to_save['is_installed'])) {
 
                 clearstatcache();
                 _reload_c();
-
-
-
 
 
                 __mw_install_log('Clearing cache after install');

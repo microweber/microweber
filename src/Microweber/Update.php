@@ -259,7 +259,7 @@ class Update
         if ($a == false) {
             mw_error('Must be admin!');
         }
-        only_admin_access();
+        only_admin_access(); 
 
 
         $updates = $this->check();
@@ -267,7 +267,7 @@ class Update
         if (empty($updates)) {
             return false;
         }
-
+ 
 
         $params = parse_params($params);
 
