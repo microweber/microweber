@@ -651,54 +651,6 @@
         ]
     },
     {
-        "name": "zeroclipboard/zeroclipboard",
-        "version": "2.1.5",
-        "version_normalized": "2.1.5.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/zeroclipboard/zeroclipboard.git",
-            "reference": "ebb968eec07391dcc53c5934bde3a31c853c335d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/zeroclipboard/zeroclipboard/zipball/ebb968eec07391dcc53c5934bde3a31c853c335d",
-            "reference": "ebb968eec07391dcc53c5934bde3a31c853c335d",
-            "shasum": ""
-        },
-        "time": "2014-07-03 12:53:26",
-        "type": "library",
-        "installation-source": "dist",
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Jon Rohan",
-                "homepage": "http://jonrohan.me/",
-                "role": "Developer"
-            },
-            {
-                "name": "James M. Greene",
-                "email": "james.m.greene@gmail.com",
-                "homepage": "http://jamesgreene.net/",
-                "role": "Developer"
-            }
-        ],
-        "description": "The ZeroClipboard library provides an easy way to copy text to the clipboard using an invisible Adobe Flash movie and a JavaScript interface.",
-        "homepage": "http://zeroclipboard.org/",
-        "keywords": [
-            "clip",
-            "clipboard",
-            "clippy",
-            "copy",
-            "cut",
-            "flash",
-            "paste",
-            "zclip"
-        ]
-    },
-    {
         "name": "vlucas/valitron",
         "version": "1.1.7",
         "version_normalized": "1.1.7.0",
@@ -752,22 +704,22 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Process.git",
-            "reference": "c34ccf171135afc4d212accce2e09132bb3437a4"
+            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Process/zipball/c34ccf171135afc4d212accce2e09132bb3437a4",
-            "reference": "c34ccf171135afc4d212accce2e09132bb3437a4",
-            "shasum": ""
+            "url": "http://packages.microweber.com/dist/symfony-process-8a3edace8e8aabed8992b993bfc13df3b1e836f2-zip-b5107c.zip",
+            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2",
+            "shasum": "ae566f1f43c0bda65e61dd1e62f4fc7189e59ebf"
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2014-07-16 13:48:12",
+        "time": "2014-04-28 05:15:04",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.6-dev"
+                "dev-master": "2.5-dev"
             }
         },
         "installation-source": "dist",
@@ -782,12 +734,14 @@
         ],
         "authors": [
             {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
             },
             {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
             }
         ],
         "description": "Symfony Process Component",
@@ -801,13 +755,13 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/HttpFoundation.git",
-            "reference": "d17938f07e168c4e5bb35c209d3c289ccff15d80"
+            "reference": "8fa350478681c3ee707106afbe04be80add2b3ff"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/d17938f07e168c4e5bb35c209d3c289ccff15d80",
-            "reference": "d17938f07e168c4e5bb35c209d3c289ccff15d80",
-            "shasum": ""
+            "url": "http://packages.microweber.com/dist/symfony-http-foundation-8fa350478681c3ee707106afbe04be80add2b3ff-zip-06e16e.zip",
+            "reference": "8fa350478681c3ee707106afbe04be80add2b3ff",
+            "shasum": "08d236a7519413d10049ab287b8fc2453fa51711"
         },
         "require": {
             "php": ">=5.3.3"
@@ -815,11 +769,11 @@
         "require-dev": {
             "symfony/expression-language": "~2.4"
         },
-        "time": "2014-05-26 19:02:51",
+        "time": "2014-04-28 17:44:51",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.6-dev"
+                "dev-master": "2.5-dev"
             }
         },
         "installation-source": "dist",
@@ -2824,69 +2778,6 @@
         ]
     },
     {
-        "name": "masterminds/html5",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Masterminds/html5-php.git",
-            "reference": "425fd50d88fcf529b31c2db09f1882ea778b7231"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/425fd50d88fcf529b31c2db09f1882ea778b7231",
-            "reference": "425fd50d88fcf529b31c2db09f1882ea778b7231",
-            "shasum": ""
-        },
-        "require": {
-            "ext-libxml": "*",
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "phpdocumentor/phpdocumentor": "2.*",
-            "phpunit/phpunit": "4.*",
-            "satooshi/php-coveralls": "0.6.*"
-        },
-        "time": "2014-07-22 07:29:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Masterminds\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Matt Butcher",
-                "email": "technosophos@gmail.com"
-            },
-            {
-                "name": "Matt Farina",
-                "email": "matt@mattfarina.com"
-            }
-        ],
-        "description": "An HTML5 parser and serializer.",
-        "homepage": "http://masterminds.github.io/html5-php",
-        "keywords": [
-            "HTML5",
-            "dom",
-            "html",
-            "parser",
-            "querypath",
-            "serializer",
-            "xml"
-        ]
-    },
-    {
         "name": "pimple/pimple",
         "version": "v2.1.1",
         "version_normalized": "2.1.1.0",
@@ -2932,6 +2823,213 @@
         "keywords": [
             "container",
             "dependency injection"
+        ]
+    },
+    {
+        "name": "composer/installers",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/composer/installers.git",
+            "reference": "41cf781ed1271e25bf31b715416a349996aa2527"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/composer/installers/zipball/41cf781ed1271e25bf31b715416a349996aa2527",
+            "reference": "41cf781ed1271e25bf31b715416a349996aa2527",
+            "shasum": ""
+        },
+        "replace": {
+            "roundcube/plugin-installer": "*",
+            "shama/baton": "*"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2014-07-22 17:04:15",
+        "type": "composer-installer",
+        "extra": {
+            "class": "Composer\\Installers\\Installer",
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Composer\\Installers\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kyle Robinson Young",
+                "email": "kyle@dontkry.com",
+                "homepage": "https://github.com/shama"
+            }
+        ],
+        "description": "A multi-framework Composer library installer",
+        "homepage": "http://composer.github.com/installers/",
+        "keywords": [
+            "Craft",
+            "Dolibarr",
+            "Hurad",
+            "MODX Evo",
+            "OXID",
+            "WolfCMS",
+            "agl",
+            "annotatecms",
+            "bitrix",
+            "cakephp",
+            "chef",
+            "codeigniter",
+            "concrete5",
+            "croogo",
+            "drupal",
+            "elgg",
+            "fuelphp",
+            "installer",
+            "joomla",
+            "kohana",
+            "laravel",
+            "lithium",
+            "magento",
+            "mako",
+            "mediawiki",
+            "modulework",
+            "moodle",
+            "phpbb",
+            "piwik",
+            "ppi",
+            "puppet",
+            "roundcube",
+            "shopware",
+            "silverstripe",
+            "symfony",
+            "typo3",
+            "wordpress",
+            "zend",
+            "zikula"
+        ]
+    },
+    {
+        "name": "zeroclipboard/zeroclipboard",
+        "version": "2.1.6",
+        "version_normalized": "2.1.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/zeroclipboard/zeroclipboard.git",
+            "reference": "e4f6ab73861924341792aa671592cdcb45d6e5cc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/zeroclipboard/zeroclipboard/zipball/e4f6ab73861924341792aa671592cdcb45d6e5cc",
+            "reference": "e4f6ab73861924341792aa671592cdcb45d6e5cc",
+            "shasum": ""
+        },
+        "time": "2014-07-27 06:38:43",
+        "type": "library",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jon Rohan",
+                "homepage": "http://jonrohan.me/",
+                "role": "Developer"
+            },
+            {
+                "name": "James M. Greene",
+                "email": "james.m.greene@gmail.com",
+                "homepage": "http://jamesgreene.net/",
+                "role": "Developer"
+            }
+        ],
+        "description": "The ZeroClipboard library provides an easy way to copy text to the clipboard using an invisible Adobe Flash movie and a JavaScript interface.",
+        "homepage": "http://zeroclipboard.org/",
+        "keywords": [
+            "clip",
+            "clipboard",
+            "clippy",
+            "copy",
+            "cut",
+            "flash",
+            "paste",
+            "zclip"
+        ]
+    },
+    {
+        "name": "masterminds/html5",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Masterminds/html5-php.git",
+            "reference": "2cad9c173f14eb390f78100dd74ef005f67e1fa5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/2cad9c173f14eb390f78100dd74ef005f67e1fa5",
+            "reference": "2cad9c173f14eb390f78100dd74ef005f67e1fa5",
+            "shasum": ""
+        },
+        "require": {
+            "ext-libxml": "*",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phpunit/phpunit": "4.*",
+            "satooshi/php-coveralls": "0.6.*"
+        },
+        "time": "2014-07-28 06:21:18",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Masterminds\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Matt Butcher",
+                "email": "technosophos@gmail.com"
+            },
+            {
+                "name": "Asmir Mustafic",
+                "email": "goetas@gmail.com"
+            },
+            {
+                "name": "Matt Farina",
+                "email": "matt@mattfarina.com"
+            }
+        ],
+        "description": "An HTML5 parser and serializer.",
+        "homepage": "http://masterminds.github.io/html5-php",
+        "keywords": [
+            "HTML5",
+            "dom",
+            "html",
+            "parser",
+            "querypath",
+            "serializer",
+            "xml"
         ]
     }
 ]

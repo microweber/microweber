@@ -33,25 +33,25 @@ See [OS Considerations](#os-considerations) below.
 
 ## Installation
 
-### [NPM](https://www.npmjs.org/)
+### [NPM](https://www.npmjs.org/) [![NPM version](https://badge.fury.io/js/zeroclipboard.png)](https://www.npmjs.org/package/zeroclipboard)
 
 ```shell
 npm install zeroclipboard
 ```
 
-### [Bower](http://bower.io/)
+### [Bower](http://bower.io/) [![Bower version](https://badge.fury.io/bo/zeroclipboard.png)](http://bower.io/search/?q=zeroclipboard)
 
 ```shell
 bower install zeroclipboard
 ```
 
-### [SPM](http://spmjs.io/)
+### [SPM](http://spmjs.io/) [![SPM version](http://spmjs.io/badge/zeroclipboard)](http://spmjs.io/package/zeroclipboard)
 
 ```shell
 spm install zeroclipboard
 ```
 
-### [PHP Composer](https://getcomposer.org/)
+### [PHP Composer](https://getcomposer.org/) [![PHP version](https://badge.fury.io/ph/zeroclipboard%2Fzeroclipboard.svg)](https://packagist.org/packages/zeroclipboard/zeroclipboard)
 
 For any PHP Composer users, ZeroClipboard is also [available on Packagist](https://packagist.org/packages/zeroclipboard/zeroclipboard).
 
@@ -330,10 +330,23 @@ If using [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) with a library su
    changes in future versions of Bootstrap.
  - **Workaround:** _Targeted against [Bootstrap v3.x](https://github.com/twbs/bootstrap/blob/96a9e1bae06cb21f8cf72ec528b8e31b6ab27272/js/modal.js#L115-123)._
 
+#### Workaround A
+
 ```js
 if (/MSIE|Trident/.test(window.navigator.userAgent)) {
   (function($) {
-    var zcClass = ZeroClipboard.config('containerClass');
+    var zcContainerId = ZeroClipboard.config('containerId');
+    $('#' + zcContainerId).on('focusin', false);
+  })(window.jQuery);
+}
+```
+
+#### Workaround B
+
+```js
+if (/MSIE|Trident/.test(window.navigator.userAgent)) {
+  (function($) {
+    var zcClass = '.' + ZeroClipboard.config('containerClass');
     var proto = $.fn.modal.Constructor.prototype;
     proto.enforceFocus = function() {
       $(document)
@@ -362,7 +375,7 @@ if (/MSIE|Trident/.test(window.navigator.userAgent)) {
 ```js
 if (/MSIE|Trident/.test(window.navigator.userAgent)) {
   (function($) {
-    var zcClass = ZeroClipboard.config('containerClass');
+    var zcClass = '.' + ZeroClipboard.config('containerClass');
     $.widget( 'ui.dialog', $.ui.dialog, {
       _allowInteraction: function( event ) {
         return this._super(event) || $( event.target ).closest( zcClass ).length;

@@ -19,6 +19,7 @@ return array(
     'Guzzle\\Parser' => array($vendorDir . '/guzzle/parser'),
     'Guzzle\\Http' => array($vendorDir . '/guzzle/http'),
     'Guzzle\\Common' => array($vendorDir . '/guzzle/common'),
+    'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
     'ComponentInstaller' => array($vendorDir . '/robloach/component-installer/src'),
     'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),
 );

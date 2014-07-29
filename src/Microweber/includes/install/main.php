@@ -51,7 +51,7 @@
                 }
                 $('#mw_log').hide();
                 installprogress();
-                $('.mw-install-holder').fadeOut();
+                $('.mw-install-holder').slideUp();
 
                 $data = $('#form_<?php print $rand; ?>').serialize();
 
@@ -61,13 +61,13 @@
                         $('#mw_log').hide().empty();
                         if (data != undefined) {
                             if (data == 'done') {
-                                $('#mw-install-done').fadeIn();
+                                $('#mw-install-done').slideDown();
                             } else {
                                 $('#mw_log').html(data).show();
-                                $('.mw-install-holder').fadeIn();
+                                $('.mw-install-holder').slideDown();
                             }
                         }
-                        $('#installprogressbar').fadeOut();
+                        $('#installprogressbar').slideUp();
                     });
 
 
@@ -146,13 +146,19 @@
                       i = 0,
                       last = arr[l-2],
                       percentage = Math.round( ((l-1) / 30) * 100);
-                      bar.width(percentage + '%');
+                      bar[0].style.width = percentage + '%';
                       percent.html(percentage + '%');
-                      $("#installinfo").html(last);
-                      if(last == 'done') installprogressStop();
-                      setTimeout(function(){
-                        installprogress(false);
-                      }, 1000);
+                      if(last == 'done') {
+                        installprogressStop();
+                        $("#installinfo").html('');
+                      }
+                      else{
+                        $("#installinfo").html(last);
+                        setTimeout(function(){
+                          installprogress(false);
+                        }, 1000);
+                      }
+
                 });
 
         }

@@ -13,9 +13,9 @@ namespace Symfony\Component\Process\Tests;
 
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Exception\LogicException;
-use Symfony\Component\Process\Pipes\PipesInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\RuntimeException;
+use Symfony\Component\Process\ProcessPipes;
 
 /**
  * @author Robert Schönthal <seroscho@googlemail.com>
@@ -90,9 +90,9 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
         // has terminated so the internal pipes array is already empty. normally
         // the call to start() will not read any data as the process will not have
         // generated output, but this is non-deterministic so we must count it as
-        // a possibility.  therefore we need 2 * PipesInterface::CHUNK_SIZE plus
+        // a possibility.  therefore we need 2 * ProcessPipes::CHUNK_SIZE plus
         // another byte which will never be read.
-        $expectedOutputSize = PipesInterface::CHUNK_SIZE * 2 + 2;
+        $expectedOutputSize = ProcessPipes::CHUNK_SIZE * 2 + 2;
 
         $code = sprintf('echo str_repeat(\'*\', %d);', $expectedOutputSize);
         $p = $this->getProcess(sprintf('php -r %s', escapeshellarg($code)));
@@ -151,87 +151,25 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
         $expectedLength = (1024 * $size) + 1;
 
         $p = $this->getProcess(sprintf('php -r %s', escapeshellarg($code)));
-        $p->setInput($expected);
+        $p->setStdin($expected);
         $p->run();
 
         $this->assertEquals($expectedLength, strlen($p->getOutput()));
         $this->assertEquals($expectedLength, strlen($p->getErrorOutput()));
     }
 
-    /**
-     * @dataProvider pipesCodeProvider
-     */
-    public function testSetStreamAsInput($code, $size)
-    {
-        $expected = str_repeat(str_repeat('*', 1024), $size) . '!';
-        $expectedLength = (1024 * $size) + 1;
-
-        $stream = fopen('php://temporary', 'w+');
-        fwrite($stream, $expected);
-        rewind($stream);
-
-        $p = $this->getProcess(sprintf('php -r %s', escapeshellarg($code)));
-        $p->setInput($stream);
-        $p->run();
-
-        fclose($stream);
-
-        $this->assertEquals($expectedLength, strlen($p->getOutput()));
-        $this->assertEquals($expectedLength, strlen($p->getErrorOutput()));
-    }
-
-    public function testSetInputWhileRunningThrowsAnException()
+    public function testSetStdinWhileRunningThrowsAnException()
     {
         $process = $this->getProcess('php -r "usleep(500000);"');
         $process->start();
         try {
-            $process->setInput('foobar');
+            $process->setStdin('foobar');
             $process->stop();
             $this->fail('A LogicException should have been raised.');
         } catch (LogicException $e) {
-            $this->assertEquals('Input can not be set while the process is running.', $e->getMessage());
+            $this->assertEquals('STDIN can not be set while the process is running.', $e->getMessage());
         }
         $process->stop();
-    }
-
-    /**
-     * @dataProvider provideInvalidInputValues
-     * @expectedException \Symfony\Component\Process\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Symfony\Component\Process\Process::setInput only accepts strings or stream resources.
-     */
-    public function testInvalidInput($value)
-    {
-        $process = $this->getProcess('php -v');
-        $process->setInput($value);
-    }
-
-    public function provideInvalidInputValues()
-    {
-        return array(
-            array(array()),
-            array(new NonStringifiable()),
-        );
-    }
-
-    /**
-     * @dataProvider provideInputValues
-     */
-    public function testValidInput($expected, $value)
-    {
-        $process = $this->getProcess('php -v');
-        $process->setInput($value);
-        $this->assertSame($expected, $process->getInput());
-    }
-
-    public function provideInputValues()
-    {
-        return array(
-            array(null, null),
-            array('24.5', 24.5),
-            array('input data', 'input data'),
-            // to maintain BC, supposed to be removed in 3.0
-            array('stringifiable', new Stringifiable()),
-        );
     }
 
     public function chainedCommandsOutputProvider()
@@ -325,19 +263,6 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
         $p->run();
         $p->clearOutput();
         $this->assertEmpty($p->getOutput());
-    }
-
-    public function testZeroAsOutput()
-    {
-        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
-            // see http://stackoverflow.com/questions/7105433/windows-batch-echo-without-new-line
-            $p = $this->getProcess('echo | set /p dummyName=0');
-        } else {
-            $p = $this->getProcess('printf 0');
-        }
-
-        $p->run();
-        $this->assertSame('0', $p->getOutput());
     }
 
     public function testExitCodeCommandFailed()
@@ -1068,7 +993,6 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
             array('WorkingDirectory'),
             array('Env'),
             array('Stdin'),
-            array('Input'),
             array('Options')
         );
 
@@ -1076,26 +1000,14 @@ abstract class AbstractProcessTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string         $commandline
-     * @param null|string    $cwd
-     * @param null|array     $env
-     * @param null|string    $input
-     * @param int            $timeout
-     * @param array          $options
+     * @param string  $commandline
+     * @param null    $cwd
+     * @param array   $env
+     * @param null    $stdin
+     * @param int     $timeout
+     * @param array   $options
      *
      * @return Process
      */
-    abstract protected function getProcess($commandline, $cwd = null, array $env = null, $input = null, $timeout = 60, array $options = array());
-}
-
-class Stringifiable
-{
-    public function __toString()
-    {
-        return 'stringifiable';
-    }
-}
-
-class NonStringifiable
-{
+    abstract protected function getProcess($commandline, $cwd = null, array $env = null, $stdin = null, $timeout = 60, array $options = array());
 }
