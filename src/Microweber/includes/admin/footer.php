@@ -30,13 +30,13 @@
 	
 	?>
     
-    
+
     <a href="<?php print $base_url; ?>#action=new:<?php print $type; ?><?php if($subtype != false): ?>.<?php print $subtype; ?><?php endif; ?>"><span class="<?php print $class; ?>"></span><strong><?php print $title; ?></strong></a>
     <?php endforeach; ?>
     <?php endif; ?>
   </div>
 </div>
-<div id="mobile-message" style="visibility: hidden"> <span class="mw-icon-mw"></span>
+<div id="mobile-message" style="visibility: hidden; display: none !important;"> <span class="mw-icon-mw"></span>
   <p class="mobile-message-paragraph">A mobile version is coming in the future!</p>
   <p class="mobile-message-paragraph">Currently Microweber is designed to be used in larger screens.</p>
   <p><span class="mw-ui-btn" onclick="mw.admin.mobileMessage(true, 'true')">Continue anyway</span></p>

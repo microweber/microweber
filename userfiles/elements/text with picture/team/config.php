@@ -7,6 +7,6 @@ $config['description'] = "Team";
 $config['website'] = "http://microweber.com";
 $config['no_cache'] = true;
 $config['categories'] = "portfolio";
-$config['version'] = 2.0;
+$config['version'] = 1.0;
 $config['position'] = 19;
 $config['as_element'] = true;

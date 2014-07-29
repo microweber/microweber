@@ -1,4 +1,4 @@
-mw.drag = mw.drag || {}; 
+mw.drag = mw.drag || {};
 mw.drag.plus = {
   locked:false,
   init:function(holder){
@@ -19,9 +19,8 @@ mw.drag.plus = {
     });
     mw.$(holder).bind('mouseleave', function(e){
       if(mw.drag.plus.locked === false){
-          mw.drag.plus.set(undefined);
+        mw.drag.plus.set(undefined);
       }
-
     });
     mw.drag.plus.action();
   },

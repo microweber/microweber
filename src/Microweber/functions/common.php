@@ -836,8 +836,10 @@ function mw_post_update()
 
         mw()->cache->delete('templates');
         mw()->cache->delete('modules/global');
+
         scan_for_modules();
         get_elements();
+        mw()->layouts->scan();
         event_trigger('mw_db_init_default');
         event_trigger('mw_db_init_modules');
         event_trigger('mw_db_init');

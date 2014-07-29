@@ -38,11 +38,15 @@ function __mw_install_log($text)
 
     }
     if (is_file($log_file)) {
+        $json = array('date'=>date('H:i:s'),'msg'=>$text);
+
         if ($text == 'done') {
-            @file_put_contents($log_file, "[" . date('H:i:s') . "] " . "\t" . $text . "<br>\n\r");
+
+
+            @file_put_contents($log_file, "[" . date('H:i:s') . "] " . "\t" . $text . "\n\r");
 
         } else {
-            @file_put_contents($log_file, "[" . date('H:i:s') . "] " . "\t" . $text . "<br>\n\r", FILE_APPEND);
+            @file_put_contents($log_file, "[" . date('H:i:s') . "] " . "\t" . $text . "\n\r", FILE_APPEND);
 
         }
     }

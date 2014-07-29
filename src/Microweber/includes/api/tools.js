@@ -160,12 +160,12 @@ mw.tools = {
   },
   tooltip:{
     source:function(content, skin, position){
-        if(skin == 'dark'){var skin = 'mw-tooltip-dark'; }
+        if(skin == 'dark'){ var skin = 'mw-tooltip-dark' ; }
         if(typeof content === 'object'){
           var content = mw.$(content).html();
         }
         var tooltip = mwd.createElement('div');
-        tooltip.className = 'mw-tooltip '+position + ' ' +skin;
+        tooltip.className = 'mw-tooltip ' + position + ' ' + skin;
         tooltip.id = 'mw-tooltip-'+mw.random();
         tooltip.innerHTML = '<div class="mw-tooltip-content">' + content + '</div><span class="mw-tooltip-arrow"></span>';
         mwd.body.appendChild(tooltip);

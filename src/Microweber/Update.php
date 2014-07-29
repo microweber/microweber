@@ -10,6 +10,7 @@ class Update
 {
 
     public $app;
+    public $skip_cache = false;
     private $remote_api_url = 'http://api.microweber.com/service/update/';
     private $remote_url = 'http://api.microweber.com/service/update/';
     private $temp_dir = false;
@@ -61,96 +62,6 @@ class Update
         $data = $this->collect_local_data();
 
         $result = $this->call('get_templates', $data);
-        return $result;
-    }
-
-    private function collect_local_data()
-    {
-        $data = array();
-        $data['mw_version'] = MW_VERSION;
-        $data['mw_update_check_site'] = $this->app->url->site();
-
-        $t = mw('template')->site_templates();
-        $data['templates'] = $t;
-        //$t = $this->app->module->scan_for_modules("skip_cache=1");
-        $t = $this->app->module->get("ui=any");
-        $data['modules'] = $t;
-        $data['module_templates'] = array();
-        if (is_array($t)) {
-            foreach ($t as $value) {
-                if (isset($value['module'])) {
-                    $module_templates = $this->app->module->templates($value['module']);
-                    $mod_tpls = array();
-                    if (is_array($module_templates)) {
-                        foreach ($module_templates as $key1 => $value1) {
-
-                            if (isset($value1['filename'])) {
-                                $options = array();
-                                //$options['no_cache'] = 1;
-                                $options['for_modules'] = 1;
-                                $options['filename'] = $value1['filename'];
-                                $module_templates_for_this = $this->app->layouts->scan($options);
-                                if (isset($module_templates_for_this[0]) and is_array($module_templates_for_this[0])) {
-                                    $mod_tpls[$key1] = $module_templates_for_this[0];
-                                }
-
-                            }
-                        }
-                        if (!empty($mod_tpls)) {
-
-                            $data['module_templates'][$value['module']] = $mod_tpls;
-                        }
-                    }
-                }
-            }
-        }
-
-        // $t = $this->app->module->get_layouts("skip_cache=1");
-        $t = $this->app->module->get_layouts();
-
-        $data['elements'] = $t;
-
-
-        return $data;
-    }
-
-    function call($method = false, $post_params = false)
-    {
-        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
-        if (!is_dir($cookie)) {
-            mkdir($cookie);
-        }
-        $cookie_file = $cookie . 'cookie.txt';
-        $requestUrl = $this->remote_url;
-
-        if ($method != false) {
-            //  $requestUrl = $requestUrl . 'api/mw_check';
-        }
-
-//        $curl = new \Microweber\Utils\Curl();
-//        $curl->setUrl($requestUrl);
-//        $curl->url = $requestUrl;
-//
-//        $curl->timeout = 10;
-
-
-        $post_params['site_url'] = $this->app->url->site();
-        $post_params['api_function'] = $method;
-
-        if ($post_params != false and is_array($post_params)) {
-            $curl_result = $this->app->http->url($requestUrl)->post($post_params);
-
-        } else {
-            $curl_result = false;
-        }
-        if ($curl_result == '' or $curl_result == false) {
-            return false;
-        }
-        $result = false;
-        print $curl_result;
-        if ($curl_result != false) {
-            $result = json_decode($curl_result, 1);
-        }
         return $result;
     }
 
@@ -211,6 +122,42 @@ class Update
 
     }
 
+    function call($method = false, $post_params = false)
+    {
+        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        if (!is_dir($cookie)) {
+            mkdir($cookie);
+        }
+        $cookie_file = $cookie . 'cookie.txt';
+        $requestUrl = $this->remote_url;
+
+        if ($method != false) {
+            //  $requestUrl = $requestUrl . 'api/mw_check';
+        }
+
+
+        $post_params['site_url'] = $this->app->url->site();
+        $post_params['api_function'] = $method;
+
+        if ($post_params != false and is_array($post_params)) {
+            $curl_result = $this->app->http->url($requestUrl)->post($post_params);
+
+        } else {
+            $curl_result = false;
+        }
+        if ($curl_result == '' or $curl_result == false) {
+            return false;
+        }
+        $result = false;
+//        if (is_ajax()) {
+//            print $curl_result;
+//        }
+        if ($curl_result != false) {
+            $result = json_decode($curl_result, 1);
+        }
+        return $result;
+    }
+
     private function install_from_market($item)
     {
         if (isset($item['url']) and !isset($item['download'])) {
@@ -258,7 +205,6 @@ class Update
 
 
         }
-
 
 
         if ($download_target != false and is_file($download_target)) {
@@ -357,7 +303,6 @@ class Update
                         if (!empty($updates) and isset($updates['templates']) and !empty($updates['templates'])) {
                             foreach ($param as $module) {
                                 foreach ($updates['templates'] as $update) {
-
                                     if (isset($update['dir_name']) or $update['item_type'] == 'template') {
                                         $module_market = $update['dir_name'];
                                         $module = str_replace('\\', '/', $module);
@@ -370,6 +315,39 @@ class Update
                             }
                         }
                     }
+
+
+                    if ($param_k == 'module_templates') {
+                        if (!empty($updates) and isset($updates['module_templates']) and !empty($updates['module_templates'])) {
+                            foreach ($param as $module) {
+                                foreach ($updates['module_templates'] as $update) {
+                                    if (isset($update['item_type']) and $update['item_type'] == 'module_template') {
+                                        if (isset($update['module_skin_id']) and $update['module_skin_id'] == $module) {
+                                            $ret[] = $this->install_from_market($update);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if ($param_k == 'elements') {
+                        if (!empty($updates) and isset($updates['elements']) and !empty($updates['elements'])) {
+                            foreach ($param as $module) {
+
+                                foreach ($updates['elements'] as $update) {
+                                    if (isset($update['item_type']) and $update['item_type'] == 'element') {
+                                        if (isset($update['element_id']) and $update['element_id'] == $module) {
+
+
+                                           $ret[] = $this->install_from_market($update);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
                 }
             }
 
@@ -383,18 +361,12 @@ class Update
             $this->post_update();
             $this->app->notifications->delete_for_module('updates');
         }
-return $ret;
+        return $ret;
 
     }
 
     function check($skip_cache = false)
     {
-
-
-//        d(debug_backtrace());
-//exit;
-        //   return false;
-        // d($_SERVER["REMOTE_ADDR"]);
 
 
         $a = $this->app->user->is_admin();
@@ -418,6 +390,7 @@ return $ret;
                 return $cache_content;
             }
         } else {
+            $this->skip_cache = true;
             $this->app->cache->delete('update/global');
         }
 
@@ -464,6 +437,62 @@ return $ret;
 
 
         return $result;
+    }
+
+    private function collect_local_data()
+    {
+        $data = array();
+        $data['mw_version'] = MW_VERSION;
+        $data['mw_update_check_site'] = $this->app->url->site();
+
+        $t = mw('template')->site_templates();
+        $data['templates'] = $t;
+        //$t = $this->app->module->scan_for_modules("skip_cache=1");
+        $t = $this->app->module->get("ui=any");
+        $data['modules'] = $t;
+        $data['module_templates'] = array();
+        if (is_array($t)) {
+            foreach ($t as $value) {
+                if (isset($value['module'])) {
+                    $module_templates = $this->app->module->templates($value['module']);
+                    $mod_tpls = array();
+                    if (is_array($module_templates)) {
+                        foreach ($module_templates as $key1 => $value1) {
+
+                            if (isset($value1['filename'])) {
+                                $options = array();
+                                if ($this->skip_cache) {
+                                    $options['no_cache'] = 1;
+                                }
+                                $options['for_modules'] = 1;
+                                $options['filename'] = $value1['filename'];
+                                $module_templates_for_this = $this->app->layouts->scan($options);
+                                if (isset($module_templates_for_this[0]) and is_array($module_templates_for_this[0])) {
+                                    $mod_tpls[$key1] = $module_templates_for_this[0];
+                                }
+
+                            }
+                        }
+                        if (!empty($mod_tpls)) {
+
+                            $data['module_templates'][$value['module']] = $mod_tpls;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($this->skip_cache) {
+            $t = $this->app->module->get_layouts("skip_cache=1");
+        } else {
+            $t = $this->app->module->get_layouts();
+        }
+
+
+        $data['elements'] = $t;
+
+
+        return $data;
     }
 
     function install_version($new_version)

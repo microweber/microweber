@@ -3624,9 +3624,20 @@ tr.mw-order-item:hover{
 }
 
 
-/************************************
-        Media queries
-*************************************/
+/********************************************
+        Media queries will be applied
+        for the next update
+********************************************/
+
+
+body.is_admin .mw-admin-container{
+  min-width: 840px;
+}
+
+
+
+/*
+
 
 @media (max-width: 1190px) {
     #admin-user-nav{
@@ -3642,7 +3653,7 @@ tr.mw-order-item:hover{
       padding: 20px;
     }
 
-    /* Main Menu */
+
     body.is_admin{
       padding-top: 60px;
     }
@@ -3720,7 +3731,7 @@ tr.mw-order-item:hover{
       margin-left: -5px;
     }
 
-    /* Main menu */
+
 
     .manage-toobar{
       display: none !important;
@@ -3784,4 +3795,4 @@ tr.mw-order-item:hover{
     #mobile-message{
       display: block;
     }
-}
+}   */

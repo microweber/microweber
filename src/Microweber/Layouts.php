@@ -60,7 +60,7 @@ class Layouts
     {
         $layouts_from_template = $this->scan($options);
         $external_layouts = $this->external_layouts;
-        if(is_array($layouts_from_template)){
+        if (is_array($layouts_from_template)) {
             $res = array_merge($layouts_from_template, $external_layouts);
 
         } else {
@@ -124,7 +124,7 @@ class Layouts
                 return $cache_content;
             }
         }
-     
+
         $glob_patern = "*.php";
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {
@@ -173,7 +173,7 @@ class Layouts
                         }
                     }
                 }
-                if ($skip == false) {
+                if ($skip == false and is_file($filename)) {
                     $fin = file_get_contents($filename);
                     $here_dir = dirname($filename) . DS;
                     $to_return_temp = array();
@@ -183,21 +183,30 @@ class Layouts
                         $result = str_ireplace('type:', '', $result);
                         $to_return_temp['type'] = trim($result);
                         $to_return_temp['directory'] = $here_dir;
-
-                        $templ_dir = str_replace(MW_TEMPLATES_DIR, '', $here_dir);
-                        if ($templ_dir != '') {
-                            $templ_dir = explode(DS, $templ_dir);
-                            if (isset($templ_dir[0])) {
-                                $to_return_temp['template_dir'] = $templ_dir[0];
-
+                        if (strstr($here_dir, MW_TEMPLATES_DIR)) {
+                            $templ_dir = str_replace(MW_TEMPLATES_DIR, '', $here_dir);
+                            if ($templ_dir != '') {
+                                $templ_dir = explode(DS, $templ_dir);
+                                if (isset($templ_dir[0])) {
+                                    $to_return_temp['template_dir'] = $templ_dir[0];
+                                }
                             }
+                        }
+                        if (strstr($here_dir, MW_MODULES_DIR)) {
+                            $templ_dir1 = str_replace(MW_MODULES_DIR, '', $here_dir);
 
+                            $templ_dir1 = str_ireplace('templates', '', $templ_dir1);
+                            $templ_dir1 = str_ireplace('\\', '/', $templ_dir1);
+                            $templ_dir1 = str_ireplace('//', '/', $templ_dir1);
+                            $to_return_temp['module_directory'] = $templ_dir1;
                         }
 
 
                         if (strtolower($to_return_temp['type']) == 'layout') {
 
+
                             $to_return_temp['directory'] = $here_dir;
+
                             if (preg_match('/is_shop:.+/', $fin, $regs)) {
                                 $result = $regs[0];
                                 $result = str_ireplace('is_shop:', '', $result);
@@ -286,7 +295,6 @@ class Layouts
                                     $layout_file = str_replace($template_dir, '', $layout_file);
                                 }
                             }
-
                             //   $layout_file = str_replace(MW_TEMPLATES_DIR, '', $layout_file);
 
 
@@ -313,7 +321,6 @@ class Layouts
             }
 
             if (!empty($configs)) {
-
 
                 $sorted_by_pos = array();
                 $sorted_by_pos_items = array();
@@ -342,17 +349,11 @@ class Layouts
                 if (!empty($sorted_by_pos)) {
                     $configs = $sorted_by_pos;
                 }
-
-
                 if (!isset($options['no_cache'])) {
                     $this->app->cache->save($configs, $function_cache_id, $cache_group);
                 }
                 return $configs;
-            } else {
-                //$this->app->cache->save(false, $function_cache_id, $cache_group);
             }
-        } else {
-            //$this->app->cache->save(false, $function_cache_id, $cache_group);
         }
     }
 
