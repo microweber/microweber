@@ -867,10 +867,9 @@ mw.wysiwyg = {
            $("#mw_rte_image").remove();
         }
         else{
-          if(mw.wysiwyg.isSelectionEditable() || mw.$(mw.target.item).hasClass("image_change")){
+          if(mw.wysiwyg.isSelectionEditable() || mw.$(mw.target.item).hasClass("image_change") || mw.$(mw.target.item.parentNode).hasClass("image_change") || mw.target.item === mw.image_resizer){
               mw.wysiwyg.save_selection();
               mw.wysiwyg.request_media(hash);
-
           }
         }
     },

@@ -97,7 +97,7 @@ mw.drag.plus = {
           mw.drag.plus.locked = true;
           mw.$('.mw-tooltip-insert-module').remove();
           mw.drag.plusActive = this === mw.drag.plusTop ? 'top' : 'bottom';
-          var tip = mw.tooltip({
+          var tip = new mw.tooltip({
             content:mwd.getElementById('plus-modules-list').innerHTML,
             element:this,
             position:mw.drag.plus.tipPosition(this.currentNode),

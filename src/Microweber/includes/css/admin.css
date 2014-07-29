@@ -1820,32 +1820,15 @@ td.custom-field-icon, td.custom-field-icon > *{
 
 .mw-no-posts-foot{
   text-align: center;
+  padding: 60px 0;
 }
 
-.add-new-master{
-  display: inline-block;
-  font-size: 18px;
-  color: #D9D9D9;
-  text-align: center;
+.mw-no-posts-foot-label{
+  font-size: 20px;
+  padding-right: 12px;
 }
-.add-new-master-icon{
-  width:130px;
-  height: 85px;
-  display: inline-block;
-  text-align: center;
-  border:1px solid #dedede;
-  border-radius: 4px;
-}
-.add-new-master-icon:after{
-  font-family: Microweber;
-  font-size:85px;
-  line-height: 85px;
-  content: "+";
-}
-.add-new-master-icon + span{
-  display: block;
-  padding-top: 10px;
-}
+
+
 
 body.editorediting #content-title-field-row, body.editorediting #quick-add-post-options, body.editorediting .mw-admin-edit-page-primary-settings{
   opacity: 0.22;

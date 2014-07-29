@@ -970,7 +970,7 @@ mw.drag = {
                 var arr = tofocus.querySelectorAll('.element'), l = arr.length;
                 var tofocus = arr[l-1];
             }
-           if(!!tofocus){   
+           if(!!tofocus){
               var range = document.createRange();
               var sel = window.getSelection();
               range.selectNodeContents(tofocus);
@@ -2640,11 +2640,10 @@ if(!mw.tools.hasClass(event.target, 'mw_handle_row')
          mw.target.tag = event.target.tagName.toLowerCase();
          mw.mouseDownOnEditor = false;
          mw.SmallEditorIsDragging = false;
-
         if( !mw.image.isResizing &&
              mw.target.tag != 'img' &&
              event.target !== mw.image_resizer &&
-             mw.target.item.className!='image_change' && $(mw.image_resizer).hasClass("active")){
+             !mw.tools.hasClass(mw.target.item.className, 'image_change') && !mw.tools.hasClass(mw.target.item.parentNode.className, 'image_change') && $(mw.image_resizer).hasClass("active")){
            $(mw.image_resizer).removeClass("active");
         }
     });

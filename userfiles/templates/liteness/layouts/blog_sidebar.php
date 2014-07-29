@@ -56,6 +56,6 @@
   <h4 class="element sidebar-title">Blog Categories</h4>
 
   <div class="sidebar-box">
-  	<module type="categories" from-page="true" />
+  	<module type="categories" />
   </div>
 </div>

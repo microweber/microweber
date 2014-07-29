@@ -217,9 +217,9 @@ if (isset($params['data-page-number'])) {
     <div class="mw-no-posts-foot">
  
         <?php if (isset($page_info['is_shop']) and $page_info['is_shop'] == 'y') : ?>
-            <h2 class="left">
-                <?php _e("No Products Here"); ?>
-            </h2>
+
+            <span class="mw-no-posts-foot-label"><?php _e("No Products Here"); ?></span>
+
             <?php
             if (isset($post_params['category-id'])) {
                 $url = "#action=new:product&amp;category_id=" . $post_params['category-id'];
@@ -230,14 +230,12 @@ if (isset($params['data-page-number'])) {
                 $url = "#action=new:product";
             }
 
-            ?>  
-            <a href="<?php print   $url; ?>" class="add-new-master"> <span class="add-new-master-icon"></span> <span>
-  <?php _e("Add New Product"); ?>
-  </span> </a>
+            ?>
+            <a href="<?php print$url; ?>" class="mw-ui-btn mw-ui-btn-invert"><span class="mw-icon-plus"></span><span class="mw-icon-product"></span><?php _e("Add New Product"); ?></a>
         <?php else: ?>
-            <h2 class="left">
-                <?php _e("No Posts Here"); ?>
-            </h2>
+
+                <span class="mw-no-posts-foot-label"><?php _e("No Posts Here"); ?></span>
+
             <?php
             if (isset($post_params['category-id'])) {
                 $url = "#action=new:post&amp;category_id=" . $post_params['category-id'];
@@ -248,11 +246,7 @@ if (isset($params['data-page-number'])) {
             }
             ?>
             <?php if (isset($url)): ?>
-                <a href="<?php print $url; ?>"  class="add-new-master"> <span class="add-new-master-icon"></span>
-            <?php endif; ?>
-            <span>
-  <?php _e("Add New Post"); ?>
-  </span> </a>
+                <a href="<?php print $url; ?>"  class="mw-ui-btn mw-ui-btn-invert"><span class="mw-icon-plus"></span><span class="mw-icon-post"></span><?php endif; ?><span><?php _e("Add New Post"); ?></span></a>
         <?php endif; ?>
     </div>
 <?php endif; ?>

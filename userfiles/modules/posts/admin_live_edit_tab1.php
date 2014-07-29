@@ -25,7 +25,7 @@ $rand = uniqid(); ?>
 		  window.location.href = mw.url.removeHash(window.location.href);
 
 		 },100)
-		
+
 	});
 		
 		
