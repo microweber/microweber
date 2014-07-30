@@ -171,6 +171,10 @@ if(is_array( $diff) and is_array($more) ){
       <td data-tip="<?php print  ucfirst($field['type']); ?>" class="tip custom-field-icon" data-tipposition="top-left"><div><span class="mw-custom-field-icon-<?php print $field['type']; ?>"></span></div></td>
       <td data-id="<?php print $field['id']; ?>"><span class="mw-admin-custom-field-name-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $field['custom_field_name']; ?></span></td>
       <td data-id="<?php print $field['id']; ?>" width="100%">
+      
+    
+      
+      
         <div id="mw-custom-fields-list-preview-<?php print $field['id']; ?>" class="mw-custom-fields-list-preview">
           <module type="custom_fields/values_preview" field-id="<?php print $field['id']; ?>" id="mw-admin-custom-field-edit-item-preview-<?php print $field['id']; ?>" />
         </div>

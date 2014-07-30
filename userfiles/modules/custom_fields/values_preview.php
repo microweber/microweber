@@ -43,6 +43,9 @@ if(isset($params['field-id'])){
           <?php endforeach; ?>
         </span>
         <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-icon btn-create-custom-field-value" data-id="<?php print $field['id']; ?>"><span class="mw-icon-plus"></span></span>
+        <?php elseif(isset($field['custom_field_type']) and ( $field['custom_field_type'] == 'text' or $field['custom_field_type'] == 'message' or $field['custom_field_type'] == 'textarea' or $field['custom_field_type'] == 'title')): ?>
+   
+        <textarea class="mw-admin-custom-field-value-edit-text mw-ui-field w100" style="overflow:hidden;" data-id="<?php print $field['id']; ?>"><?php print $field['custom_field_value']; ?></textarea>
         <?php else: ?>
         <?php
 		$vals = '';
