@@ -704,17 +704,26 @@ html.mw_pages #items_handle {
 }
 
 #design_close{
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
+  border-bottom: 1px solid transparent;
+    border-left: 1px solid rgba(196, 196, 196, 0.3);
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    font-size: 11px;
+    height: 100%;
+    padding-top: 5px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-indent: 0;
+    top: 0;
+    width: 27px;
+    text-decoration: none;
 }
 
 #design_close:after{
   font-family: Microweber;
-  font-size: 22px;
+  content: "\0111";
 }
 
 #design_bnav_handle{
@@ -2302,9 +2311,6 @@ div[id*='SSDIVEL'] {
 *****************************/
 
 
-#mw-template-settings-holder{
-  padding: 20px;
-}
 #mw-template-settings-holder:after, #mw-template-settings:after{
     content: ".";
     display: block;

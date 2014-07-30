@@ -5,16 +5,24 @@ event_bind('mw.admin', 'mw_add_admin_menu_buttons');
 event_bind('mw.live_edit', 'mw_add_admin_menu_buttons');
 function mw_add_admin_menu_buttons($params = false)
 {
-    if (get_option('shop_disabled', 'website') == 'y') {
-        return;
-    }
-
-
-    $btn = array();
-    $btn['content_type'] = 'product';
-    $btn['title'] = _e("Product", true);
-    $btn['class'] = 'mw-icon-product';
-    mw()->module->ui('content.create.menu', $btn);
+   
+	
+	
+	if (get_option('shop_disabled', 'website') != 'y') {
+        
+		$btn = array();
+		$btn['content_type'] = 'product';
+		$btn['title'] = _e("Product", true);
+		$btn['class'] = 'mw-icon-product';
+		mw()->module->ui('content.create.menu', $btn);
+    }  
+	$btn = array();
+    $btn['module'] = 'shop/settings';
+    $btn['title'] = _e("Shop", true);
+    
+    mw()->module->ui('admin.settings.menu', $btn);
+	
+	
 
 
 }

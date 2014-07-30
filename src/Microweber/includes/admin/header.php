@@ -85,6 +85,11 @@ else {
     $past_page = get_content("order_by=updated_on desc&limit=1");
     $past_page = mw('content')->link($past_page[0]['id']);
 }
+
+
+$shop_disabled = get_option('shop_disabled', 'website') == 'y';
+  
+ 
 ?>
 <?php /*<div id="admin-user-nav">
 
@@ -123,12 +128,21 @@ else {
                                     href="<?php print admin_url(); ?>view:content/action:pages"><?php _e("Pages"); ?></a></li>
                             <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:content/action:posts"><?php _e("Posts"); ?></a></li>
-                                     <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:products"><?php _e("Products"); ?></a></li>
+                                     
+                                     <?php if($shop_disabled == false): ?>
+                                    <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>><a
+                                                                        href="<?php print admin_url(); ?>view:content/action:products"><?php _e("Products"); ?></a></li>
+                                    <?php endif; ?>
+                                     
+                                     
+                                    
+                                    
+                                    
                             <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:content/action:categories"><?php _e("Categories"); ?></a></li>
                         </ul>
                     </li>
+                     <?php if($shop_disabled == false): ?>
                     <li <?php if ($view == 'shop' and $action==false): ?> class="active"
                     <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>view:shop" title="">
@@ -155,6 +169,7 @@ else {
                                     href="<?php print admin_url(); ?>view:shop/action:options"><?php _e("Options"); ?></a></li>
                         </ul>
                     </li>
+                    <?php endif; ?>
                     <li id="main-menu-bottom">
                       <ul>
                       <li class="user-menu-sub">
@@ -175,12 +190,12 @@ else {
                                 <strong><?php _e("Settings"); ?></strong>
                             </a>
                         </li>
-                        <li>
+                      <!--  <li>
                             <a href="javascript:;">
                                 <span class="mw-icon-upgrades" style="font-size: 24px;"></span>
                                 <strong><?php _e("Upgrades"); ?></strong>
                             </a>
-                        </li>
+                        </li>-->
 
 
                       <li id="main-menu-toggle">
@@ -244,34 +259,7 @@ if ($last_page_front != false) {
 
                 <div id="user-menu" class="scroll-height-exception">
 
-               <?php  /*
-
-               <ul class="bottom-user-menu" id="bottom-menu">
-                  <li>
-                      <a href="<?php print $past_page  ?>">
-                          <span class="mw-icon-live"></span>
-                          <span><?php _e("Live Edit"); ?></span>
-                      </a>
-                  </li>
-                  <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>>
-                      <a href="<?php print admin_url(); ?>view:modules">
-                          <span class="mw-icon-module"></span>
-                          <span><?php _e("Extensions"); ?></span>
-                      </a>
-                  </li>
-                  <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>>
-                      <a href="<?php print admin_url(); ?>view:settings">
-                          <span class="mw-icon-gear"></span>
-                          <span><?php _e("Settings"); ?></span>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="javascript:;">
-                          <span class="mw-icon-upgrades"></span>
-                          <span><?php _e("Upgrades"); ?></span>
-                      </a>
-                  </li>
-               </ul>     */  ?>
+             
 
 
 
@@ -299,6 +287,8 @@ if ($last_page_front != false) {
                         <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn"><?php _e("My Profile"); ?></a>
                         <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="mw-ui-btn"><?php _e("Manage Users"); ?></a>
                         <a href="<?php print 1; ?>" class="mw-ui-btn"><?php _e("Support"); ?></a>
+                         <a href="<?php print site_url(); ?>?editmode=y" class="mw-ui-btn go-live-edit-href-set"><?php _e("View Website"); ?></a>
+
                         <a href="<?php print api_url('logout'); ?>" class="mw-ui-btn"><?php _e("Log out"); ?></a>
 
 

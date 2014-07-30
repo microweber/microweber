@@ -365,6 +365,7 @@
   <script>
     mw.require("files.js");
     mw.require("<?php print INCLUDES_URL; ?>css/wysiwyg.css");
+    mw.require("<?php print INCLUDES_URL; ?>css/liveedit.css");
   </script>
 
 
@@ -372,7 +373,7 @@
   <h1>TEMPLATE SETTINGS</h1>
   <hr>
 
-  <label class="template-setting-label">Font</label>
+  <label class="template-setting-label"><?php _e("Font"); ?></label>
   <div title="Template Font" id="font_family" class="mw-dropdown mw-dropdown-default body-class w100">
 
   <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">
@@ -406,23 +407,23 @@
 </div>
 
 
-<span class="mw-ui-btn mw-ui-btn-medium right" onclick="CleanCSSandJSON();" style="margin-top: 4px;">Reset</span>
+<span class="mw-ui-btn mw-ui-btn-medium right" onclick="CleanCSSandJSON();" style="margin-top: 4px;"><?php _e("Reset"); ?></span>
 <label class="template-setting-label ">Custom colors</label>
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="primary"></a>
-    <label class="desc">Main color <small class="muted">( Header, Footer )</small></label>
+    <label class="desc"><?php _e("Main color"); ?> <small class="muted">( <?php _e("Header, Footer"); ?> )</small></label>
 </span>
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fifth"></a>
-    <label>Buttons &amp; Links</label>
+    <label><?php _e("Buttons & Links"); ?></label>
 </span>
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="fourth"></a>
-    <label>Box color</label>
+    <label><?php _e("Box color"); ?></label>
 </span>
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="secondary"></a>
-    <label>Text color</label>
+    <label><?php _e("Text color"); ?></label>
 </span>
 
 
@@ -431,16 +432,16 @@
 
 <hr>
 
-<label class="template-setting-label">Site Background</label>
+<label class="template-setting-label"><?php _e("Site Background"); ?></label>
 
 <span class="picklabel">
     <a href="javascript:;" class="pick-custom custom-color scheme-transparent" data-func="third"></a>
-    <label>Background color</label>
+    <label><?php _e("Background color"); ?></label>
 </span>
 
 <hr>
 
-<label class="template-setting-label">Background image</label>
+<label class="template-setting-label"><?php _e("Background image"); ?></label>
 
 <div class="body-bgs-holder">
   <a href="javascript:;" class="pick-image scheme-transparent" data-value='bgimage0'></a>
@@ -464,31 +465,31 @@
 
   <div class="mw-ui-row-nodrop">
     <div class="mw-ui-col">
-        <div id="ts_bg_position" class="mw_dropdown mw_dropdown_type_wysiwyg">
-          <span class="mw_dropdown_val_holder">
+        <div id="ts_bg_position" class="mw-dropdown mw-dropdown-type-wysiwyg">
+          <span class="mw-dropdown_val-holder">
               <span class="mw-dropdown-arrow"></span>
-              <span style="width: auto;display: block" class="mw_dropdown_val">Position</span>
+              <span style="width: auto;display: block" class="mw-dropdown-val"><?php _e("Position"); ?></span>
           </span>
-          <div class="mw_dropdown_fields">
+          <div class="mw-dropdown-content">
             <ul style="width: 100%">
               <li value="true">
                 <div class="square_map">
                     <table align="center" cellspacing="0" cellpadding="2">
                         <tbody>
                             <tr>
-                                <td><span data-value="left top" class="square_map_item square_map_item_default">Left Top</span></td>
-                                <td><span data-value="center top" class="square_map_item">Center Top</span></td>
-                                <td><span data-value="right top" class="square_map_item">Right Top</span></td>
+                                <td><span data-value="left top" class="square_map_item square_map_item_default"><?php _e("Left Top"); ?></span></td>
+                                <td><span data-value="center top" class="square_map_item"><?php _e("Center Top"); ?></span></td>
+                                <td><span data-value="right top" class="square_map_item"><?php _e("Right Top"); ?></span></td>
                             </tr>
                             <tr>
-                                <td><span data-value="left center" class="square_map_item">Left Center</span></td>
-                                <td><span data-value="center" class="square_map_item">Center</span></td>
-                                <td><span data-value="right center" class="square_map_item">Right Center</span></td>
+                                <td><span data-value="left center" class="square_map_item"><?php _e("Left Center"); ?></span></td>
+                                <td><span data-value="center" class="square_map_item"><?php _e("Center"); ?></span></td>
+                                <td><span data-value="right center" class="square_map_item"><?php _e("Right Center"); ?></span></td>
                             </tr>
                             <tr>
-                                <td><span data-value="left bottom" class="square_map_item">Left Bottom</span></td>
-                                <td><span data-value="center bottom" class="square_map_item">Center Bottom</span></td>
-                                <td><span data-value="right bottom" class="square_map_item">Right Bottom</span></td>
+                                <td><span data-value="left bottom" class="square_map_item"><?php _e("Left Bottom"); ?></span></td>
+                                <td><span data-value="center bottom" class="square_map_item"><?php _e("Center Bottom"); ?></span></td>
+                                <td><span data-value="right bottom" class="square_map_item"><?php _e("Right Bottom"); ?></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -501,13 +502,13 @@
 
     </div>
     <div class="mw-ui-col">
-        <div title="Background Size" id="ts_bg_size" class="mw_dropdown mw_dropdown_type_wysiwyg"> <span class="mw_dropdown_val_holder">
-            <span class="mw-dropdown-arrow"></span> <span class="mw_dropdown_val" style="width: auto;display: block">Size</span> </span>
-            <div class="mw_dropdown_fields" style="display: none;">
+        <div title="Background Size" id="ts_bg_size" class="mw-dropdown mw-dropdown-type-wysiwyg"> <span class="mw-dropdown-val_holder">
+            <span class="mw-dropdown-arrow"></span> <span class="mw_dropdown_val" style="width: auto;display: block"><?php _e("Size"); ?></span> </span>
+            <div class="mw-dropdown-content" style="display: none;">
                 <ul>
-                    <li value="auto"><a href="javascript:;">Auto</a></li>
-                    <li value="contain"><a href="javascript:;">Fit</a></li>
-                    <li value="cover"><a href="javascript:;">Cover</a></li>
+                    <li value="auto"><a href="javascript:;"><?php _e("Auto"); ?></a></li>
+                    <li value="contain"><a href="javascript:;"><?php _e("Fit"); ?></a></li>
+                    <li value="cover"><a href="javascript:;"><?php _e("Cover"); ?></a></li>
                 </ul>
             </div>
         </div>
@@ -515,7 +516,7 @@
   </div>
 </div>
 
-    <span class="mw-ui-btn mw-ui-btn-medium" id="upload_custom_body_image">Upload your image</span>
+    <span class="mw-ui-btn mw-ui-btn-medium" id="upload_custom_body_image"><?php _e("Upload your image"); ?></span>
   <div class="mw-ui-progress-small" id="image-upload-progress" style="display: none">
       <div style="width: 0%;" class="mw-ui-progress-bar"></div>
   </div>

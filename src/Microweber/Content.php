@@ -3722,7 +3722,14 @@ class Content
             AND (rel_id=0 OR rel_id IS NULL OR rel_id =\"0\")
             AND rel =\"content\"
 	        ";
+            $clean = " UPDATE $custom_field_table SET
+            rel =\"content\" ,
+            rel_id =\"{$id}\"
+            WHERE
 
+              (rel_id=0 OR rel_id IS NULL OR rel_id =\"0\")
+            AND rel =\"content\"
+	        ";
 
             $this->app->db->q($clean);
 

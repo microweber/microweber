@@ -172,7 +172,6 @@ mw.tools = {
         return tooltip;
     },
     setPosition:function(tooltip, el, position){
-          d(el)
         var el =  mw.$(el);
         if( el.length === 0 ){ return false; }
         var w = el.outerWidth(),

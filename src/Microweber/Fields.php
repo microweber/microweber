@@ -425,6 +425,8 @@ class Fields
             } else {
                 $params = $params2;
             }
+        } elseif(is_array($table)){
+            $params = $table;
         }
 
         $params = $this->unify_params($params);
