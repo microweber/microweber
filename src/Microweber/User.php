@@ -176,7 +176,7 @@ class User
 
         // static $uid;
         $aj = $this->app->url->is_ajax();
-        mw('user')->session_end();
+        $this->session_end();
         $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
 
         if (isset($_COOKIE['editmode'])) {
@@ -701,7 +701,10 @@ class User
     public function session_set($name, $val)
     {
 
-        if ($this->session_provider == 'array') {
+        
+		
+		
+		if ($this->session_provider == 'array') {
             // used for unit tests, does not persist values between requests
             $is_the_same = $this->session_get($name);
             if ($is_the_same != $val) {
@@ -711,19 +714,27 @@ class User
         }
 
 
+
+
+
         if (!defined('MW_NO_SESSION') and !headers_sent()) {
 
 
             if (!isset($_SESSION)) {
+				session_regenerate_id();
                 session_set_cookie_params(86400);
                 ini_set('session.gc_maxlifetime', 86400);
                 session_start();
                 $_SESSION['ip'] = MW_USER_IP;
+				 
 
             }
-
+			}
+			 
             if ($val == false) {
-                mw('user')->session_del($name);
+				
+
+                $this->session_del($name);
             } else {
                 $is_the_same = $this->session_get($name);
 
@@ -732,7 +743,7 @@ class User
                 }
             }
             //return $_SESSION;
-        }
+        
     }
 
     public function make_logged($user_id)
@@ -759,9 +770,11 @@ class User
 
 
                     }
+					
                     event_trigger('user_login', $data);
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
+					
                     $this->update_last_login_time();
                     $user_session['success'] = _e("You are logged in!", true);
                     return $user_session;
@@ -1433,10 +1446,16 @@ class User
             return;
         }
 
-        $is_ajax = $this->app->url->is_ajax();
         if (!defined('MW_NO_SESSION')) {
             if (!headers_sent()) {
                 if (!isset($_SESSION)) {
+					session_start();
+					$start = session_id(); 
+				 
+					if($start == false){
+					
+
+       				$is_ajax = $this->app->url->is_ajax();
 
                     try {
                         $start = session_start();
@@ -1451,12 +1470,17 @@ class User
                         session_regenerate_id();
                         $start = session_id();
                     }
+					}
                     $_SESSION['ip'] = MW_USER_IP;
                 }
             }
-            // probable timout here?!
+            // probable timeout here?!
         }
-        //
+ 
+
+
+
+
 
         if (isset($_SESSION) and isset($_SESSION[$name])) {
 
@@ -1465,7 +1489,7 @@ class User
                 $_SESSION['ip'] = MW_USER_IP;
             } else if ($_SESSION['ip'] != MW_USER_IP) {
 
-                // mw('user')->session_end();
+                // $this->session_end();
                 //return false;
             }
 
@@ -1767,7 +1791,7 @@ class User
             $default_url = $checkout_url;
         }
 
-        $checkout_url_sess = $this->app->user->session_get('register_url');
+        $checkout_url_sess = $this->session_get('register_url');
 
         if ($checkout_url_sess == false) {
             return $this->app->url->site($default_url);
@@ -1795,7 +1819,7 @@ class User
             $default_url = $checkout_url;
         }
 
-        $checkout_url_sess = $this->app->user->session_get('login_url');
+        $checkout_url_sess = $this->session_get('login_url');
 
         if ($checkout_url_sess == false) {
             return $this->app->url->site($default_url);
@@ -1823,7 +1847,7 @@ class User
             $default_url = $checkout_url;
         }
 
-        $checkout_url_sess = $this->app->user->session_get('forgot_password_url');
+        $checkout_url_sess = $this->session_get('forgot_password_url');
 
         if ($checkout_url_sess == false) {
             return $this->app->url->site($default_url);

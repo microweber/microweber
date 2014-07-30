@@ -487,8 +487,7 @@ class Users extends \Microweber\User
                             $this->app->log->save($notif);
 
                         }
-                        //d($save);
-                    }
+                     }
 
                     $data_ex = $this->get_all($data);
 

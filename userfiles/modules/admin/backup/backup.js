@@ -28,15 +28,35 @@ mw.admin_backup = {
 	},
 
 
-	restore : function(src){
-		mw.notification.success("Backup restoration started",7000);
-		data = {}
-		data.id=src;
-		$.post(mw.settings.api_url+'Utils/Backup/restore', data ,
-			function(msg) {
-				mw.reload_module('admin/backup/manage');
-				mw.notification.msg(msg,10000);
-			});
+	restore : function(src,loading_element){
+		
+ 
+		var r = confirm("Are you sure you want to restore this backup? All existing content will be replaced!");
+		if (r == true) {
+			
+			if(typeof(loading_element) != 'undefined'){
+				$(loading_element).addClass('restoring-backup');
+			}
+			
+			
+		   mw.notification.success("Backup restoration started",7000);
+				data = {}
+				data.id=src;
+				$.post(mw.settings.api_url+'Utils/Backup/restore', data ,
+					function(msg) {
+						
+						if(typeof(loading_element) != 'undefined'){
+								$(loading_element).removeClass('restoring-backup');
+						}
+						mw.reload_module('admin/backup/manage');
+						mw.notification.msg(msg,10000);
+					});
+		}  
+
+
+
+		
+		
 
 	},
 

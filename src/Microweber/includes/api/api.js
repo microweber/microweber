@@ -1,9 +1,14 @@
 <?php
 
 
-    print load_web_component_file('jquery/jquery.min.js');
-
-
+    $haystack = load_web_component_file('jquery/jquery.min.js');
+	$needle = '//@ sourceMappingURL=';
+	$replace = '//@ disabled_sourceMappingURL=';
+	$pos = strpos($haystack,$needle);
+	if ($pos !== false) {
+		$newstring = substr_replace($haystack,$replace,$pos,strlen($needle));
+	}
+	print $newstring;
 ?>
 
 

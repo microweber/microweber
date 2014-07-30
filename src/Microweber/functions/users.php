@@ -193,7 +193,7 @@ function is_logged()
         }
 
         if ($res != false) {
-            define("USER_ID", $res);
+         //   define("USER_ID", $res);
         }
 
         return $res;
