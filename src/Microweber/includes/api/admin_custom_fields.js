@@ -42,9 +42,6 @@ mw.admin.custom_fields.initTextAreaValue = function (node) {
         })
 
 
-
-       // d(node.scrollHeight);
-
         node.onchange = function (e) {
             var data = {
                 id: $(this).dataset('id'),
@@ -52,8 +49,8 @@ mw.admin.custom_fields.initTextAreaValue = function (node) {
             }
 
             $.post(mw.settings.api_url + 'fields/save', data, function () {
-                mw.reload_module_parent('custom_fields');
-             //   mw.custom_fields.after_save();
+              //  mw.reload_module_parent('custom_fields');
+                 mw.custom_fields.after_save();
 
 
             });

@@ -10,6 +10,8 @@ mw.custom_fields = {
     },
     edit: function (obj, callback, error) {
         var obj = $.extend(this.settings, obj, {});
+
+
         $.post(mw.custom_fields.saveurl, obj, function (data) {
             if (typeof callback === 'function') {
                 if (!!data.error) {
@@ -115,10 +117,11 @@ mw.custom_fields = {
     },
 	
     after_save: function () {
-        mw.reload_module('custom_fields/list');
+      //  mw.reload_module('custom_fields/list');
 			 mw.reload_module('custom_fields');
 		
 			mw.reload_module_parent('custom_fields/list');
+
 			 mw.reload_module_parent('custom_fields');
     },
 

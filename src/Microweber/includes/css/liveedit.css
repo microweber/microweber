@@ -703,6 +703,20 @@ html.mw_pages #items_handle {
   -o-transform:scale(1,1);
 }
 
+#design_close{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+#design_close:after{
+  font-family: Microweber;
+  font-size: 22px;
+}
+
 #design_bnav_handle{
   height: 25px;
   width: 100%;

@@ -176,6 +176,7 @@ if(is_array( $diff) and is_array($more) ){
       
       
         <div id="mw-custom-fields-list-preview-<?php print $field['id']; ?>" class="mw-custom-fields-list-preview">
+       
           <module type="custom_fields/values_preview" field-id="<?php print $field['id']; ?>" id="mw-admin-custom-field-edit-item-preview-<?php print $field['id']; ?>" />
         </div>
         <div id="mw-custom-fields-list-settings-<?php print $field['id']; ?>" class="mw-admin-custom-field-edit-item-wrapper"><?php /*settings are loaded here*/ ?></div>
@@ -210,6 +211,7 @@ if(is_array( $diff) and is_array($more) ){
                    mw.reload_module_parent('#<?php print $params['id']; ?>');
                    <?php } ?>
                 });
+				 
 				mw.custom_fields.after_save();
           }
         })

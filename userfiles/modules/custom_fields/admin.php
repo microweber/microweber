@@ -149,9 +149,7 @@ $(document).ready(function(){
 			var val = $(this).getDropdownValue();
 			var copyof = mw.$('#dropdown-custom-fields li[value="'+val+'"][data-copyof]').dataset('copyof'); 
 			
-			if(copyof != ''){
-				alert(copyof);
-			}
+			 
 			
 			var make_field = {}
 			make_field.rel='<?php print $for; ?>';

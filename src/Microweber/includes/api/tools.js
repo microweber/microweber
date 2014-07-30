@@ -172,14 +172,16 @@ mw.tools = {
         return tooltip;
     },
     setPosition:function(tooltip, el, position){
+          d(el)
         var el =  mw.$(el);
-        if(el.length === 0){return false;}
+        if( el.length === 0 ){ return false; }
         var w = el.outerWidth(),
             tipwidth = $(tooltip).width(),
             h = el.outerHeight(),
             tipheight = $(tooltip).height(),
             off = el.offset(),
             arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
+
         if(off.top < 0 || off.left < 0){
             return false;
         }
@@ -264,7 +266,7 @@ mw.tools = {
         var max = 5;
         var arr = mw.$('.mw-tooltip-arrow', tooltip);
         arr.css('left', '');
-        var arr_left =  parseFloat(arr.css('left'));
+        var arr_left = parseFloat(arr.css('left'));
         var tt = $(tooltip);
         if(tt.length === 0){return false;}
         var w = tt.width(),
@@ -307,9 +309,11 @@ mw.tools = {
         var tip = mw.tools.tooltip.source(o.content,o.skin,o.position);
         tip.tooltipData = o;
         var wl = wl || true;
-        if(wl){
-          $(window).bind('resize scroll', function(){
-            mw.tools.tooltip.setPosition(tip, o.element, o.position);
+        if(wl && self.document.contains(tip)){
+          $(self).bind('resize scroll', function(){
+            if(self.document.contains(tip)){
+              self.mw.tools.tooltip.setPosition(tip, o.element, o.position);
+            }
           });
         }
         mw.tools.tooltip.setPosition(tip, o.element, o.position);

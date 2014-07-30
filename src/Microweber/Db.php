@@ -3390,6 +3390,7 @@ class Db
                 $value = intval($value);
                 if ($value != 0) {
                     $q = "UPDATE $table_real SET position={$i} WHERE id={$value} ";
+                    //d($q);
                     $q = $this->q($q);
                 }
                 $i++;

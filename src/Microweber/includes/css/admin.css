@@ -2856,6 +2856,10 @@ body.grabbing, body.grabbing *{
   color: #DC0D17;
 }
 
+#mw_uploader_loading{
+  margin-top: 12px;
+}
+
 /************************************
         Modules section
 *************************************/
