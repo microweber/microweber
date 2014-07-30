@@ -15,7 +15,20 @@ $edit_page_info = $data;;
     <div class="mw-ui-row-nodrop">
       <div class="mw-ui-col">
         <?php
-                if ($edit_page_info['is_shop'] == 'y') {
+                
+				
+				
+				if(isset($data['id']) and intval($data['id']) == 0 and isset($data['parent']) and intval($data['parent']) != 0){
+					$parent_data = get_content_by_id($data['parent']);
+					if(is_array($parent_data) and isset($parent_data['is_active']) and ($parent_data['is_active']) == 'n'){
+						$data['is_active'] = 'n';
+					}
+				}
+				  
+				
+				
+				
+				if ($edit_page_info['is_shop'] == 'y') {
                     $type = 'shop';
                 } elseif ($edit_page_info['subtype'] == 'dynamic') {
                     $type = 'dynamicpage';
@@ -145,6 +158,9 @@ $edit_page_info = $data;;
   <input type="hidden" name="parent"  id="mw-parent-page-value-<?php print $rand; ?>" value="<?php print $data['parent']; ?>" class="" />
   <input type="hidden" name="layout_file"  id="mw-layout-file-value-<?php print $rand; ?>" value="<?php print $data['layout_file']; ?>"   />
   <input type="hidden" name="active_site_template"  id="mw-active-template-value-<?php print $rand; ?>" value="<?php print $data['active_site_template']; ?>"   />
+  
+ 
+  
   <div class="mw-ui-field-holder" id="slug-field-holder">
     <input
             type="hidden"

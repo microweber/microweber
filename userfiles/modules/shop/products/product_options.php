@@ -56,18 +56,14 @@ $out_of_stock = false;
 
 		<div id="mw-admin-product-shipping-options" style="display: none">
 			<div >
-				<label class="mw-ui-label"><?php _e("Free Shipping"); ?></label>
-				<span
-              class="mw-onoff left <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "y"): ?> active <?php endif; ?>"
-              id="toggle_free_shipping"
-              onclick="toggle_free_shipping();"> <i><?php _e("OFF"); ?></i> <i><?php _e("ON"); ?></i> </span>
-				<input
-                type="hidden"
-                name="data_is_free_shipping"
-                id="data_is_free_shipping"
-                class="mw-ui-field"
-                <?php if (isset($data_fields['is_free_shipping'])): ?> value="<?php print $data_fields['is_free_shipping']; ?>" <?php endif; ?>
-            />
+
+
+            <label class="mw-ui-label"><?php _e("Free Shipping"); ?></label>
+            <label class="mw-ui-check"><input type="radio" <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "y"): ?>checked="checked"<?php endif; ?> name="data_is_free_shipping" value="y"><span></span><span><?php _e("Yes"); ?></span></label>
+            <label class="mw-ui-check"><input type="radio" <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "n"): ?>checked="checked"<?php endif; ?> name="data_is_free_shipping" value="n"><span></span><span><?php _e("No"); ?></span></label>
+
+
+
 
 				<div id="data_shipping_fields" >
                      <div class="mw-ui-row">

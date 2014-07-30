@@ -336,6 +336,9 @@
         mw.$("#ts_bg_position .square_map_item").hover(function(){
           mw.$("#ts_bg_position .square_map_value").html($(this).html());
         });
+        mw.$("#ts_bg_position .square_map_item").bind("mousedown", function(){
+            mw.$("#ts_bg_position .mw-dropdown-val").html($(this).html())
+        });
         mw.$("#ts_bg_position .square_map_item").bind("click", function(){
             if(!$(this).hasClass("active")){
                 mw.$("#ts_bg_position .square_map_item").removeClass("active");
@@ -346,6 +349,7 @@
                     var css = 'body.bgimagecustom{background-image:url('+mw.$('#custom_bg').val()+')}body.bgimagecustom{background-position:'+val+';background-size:'+mw.$("#custom_bg_size").val()+';}' + ExtraPad();
                     parent.mw.$('#custom_bg').empty().html(css);
                 }
+                mw.$("#ts_bg_position .mw-dropdown-val").html($(this).html())
             }
         });
 
@@ -370,7 +374,7 @@
 
 
 
-  <h1>TEMPLATE SETTINGS</h1>
+  <h1><?php _e("Template Settings"); ?></h1>
   <hr>
 
   <label class="template-setting-label"><?php _e("Font"); ?></label>
@@ -503,7 +507,7 @@
     </div>
     <div class="mw-ui-col">
         <div title="Background Size" id="ts_bg_size" class="mw-dropdown mw-dropdown-type-wysiwyg"> <span class="mw-dropdown-val_holder">
-            <span class="mw-dropdown-arrow"></span> <span class="mw_dropdown_val" style="width: auto;display: block"><?php _e("Size"); ?></span> </span>
+            <span class="mw-dropdown-arrow"></span> <span class="mw-dropdown-val" style="width: auto;display: block"><?php _e("Size"); ?></span> </span>
             <div class="mw-dropdown-content" style="display: none;">
                 <ul>
                     <li value="auto"><a href="javascript:;"><?php _e("Auto"); ?></a></li>

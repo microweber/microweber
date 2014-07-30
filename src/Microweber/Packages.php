@@ -147,8 +147,8 @@ class Packages
         if ($download == true) {
 
 
-            $http = $this->app->http();
-            $http->set_url($requestUrl);
+            $http = $this->app->http->set_url($requestUrl);
+
             $http->set_timeout(20);
 //            $curl = new \Microweber\Utils\Curl();
 //            $curl->setUrl($requestUrl);
@@ -251,8 +251,7 @@ class Packages
         }
         $download_links = json_decode($download_links, true);
         if (is_array($download_links)) {
-            //  d($key);
-            $item = $download_links;
+             $item = $download_links;
             if (isset($item['download']) and isset($item['size'])) {
                 $expected = intval($item['size']);
 
@@ -284,8 +283,8 @@ class Packages
                                 $unzip = new \Microweber\Utils\Unzip();
                                 $target_dir = MW_ROOTPATH;
                                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
-                                d($result);
-                                return array('sssstry_again' => "true", 'success' => "Patch is completed");
+
+                                return array('result' => $result, 'success' => "Patch is completed");
 
                             }
                             // your link generator

@@ -63,7 +63,12 @@ class Orm
     {
         return $this->adapter->one($table, $params);
     }
+    function debug()
+    {
 
+
+        return $this->adapter->debug();
+    }
     function get($table, $params = false)
     {
 

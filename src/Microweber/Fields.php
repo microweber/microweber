@@ -522,7 +522,9 @@ class Fields
 
         $q = $this->app->db->get($params);
 
-
+        if (isset($params['fields'])) {
+            return $q;
+        }
         if (!empty($q)) {
             $the_data_with_custom_field__stuff = array();
 
@@ -955,8 +957,7 @@ class Fields
         $results = false;
 
         $q = "SELECT *, count(id) AS qty FROM $table WHERE   custom_field_type IS NOT NULL AND rel='{$table1}' AND custom_field_name!='' GROUP BY custom_field_name, custom_field_type ORDER BY qty DESC LIMIT 100";
-        //d($q);
-        $crc = (crc32($q));
+         $crc = (crc32($q));
 
         $cache_id = __FUNCTION__ . '_' . $crc;
 

@@ -656,7 +656,6 @@ class Db
  
 
                 $get_db_items = $this->app->orm->get($table,$criteria);
-               // print_r(mw()->orm->getLastQuery());
 
                 if (isset($criteria['debug'])) {
 
@@ -664,7 +663,7 @@ class Db
                         $debug = $this->app->config['debug_mode'];
 
                         if (($debug)!=false) {
-                            print_r(mw()->orm->getLastQuery());
+                            print_r(mw()->orm->debug());
                         } else {
                             unset($criteria['debug']);
                         }

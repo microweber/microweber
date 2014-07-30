@@ -589,7 +589,10 @@ class IdiOrm
         $orm = ORM::for_table($table_real)->table_alias($table);
         return $orm;
     }
-
+    function debug()
+    {
+        return ORM::get_last_query();
+    }
     function getLastQuery()
     {
         return ORM::get_last_query();
