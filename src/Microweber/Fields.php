@@ -813,11 +813,11 @@ class Fields
             unset($params['content']);
         }
 
-        //d($params);
+
         if (empty($params)) {
             return false;
         }
-        // d($params);
+         //d($params);
 
         $q = $this->app->db->get($params);
 

@@ -147,6 +147,12 @@ $(document).ready(function(){
 	  mw.dropdown();
 	  mw.$('#dropdown-custom-fields').bind('change', function(){
 			var val = $(this).getDropdownValue();
+			var copyof = mw.$('#dropdown-custom-fields li[value="'+val+'"][data-copyof]').dataset('copyof'); 
+			
+			if(copyof != ''){
+				alert(copyof);
+			}
+			
 			var make_field = {}
 			make_field.rel='<?php print $for; ?>';
 			make_field.rel_id='<?php print $for_id; ?>';
@@ -188,19 +194,34 @@ mw_custom_fileds_changed_callback = function(el){
   <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val">
     <?php _e("Add New Field"); ?>
     </span>
+    <?php //$exiisting_fields = get_custom_fields('rel=content&rel_id=>0&group_by=custom_field_name&return_full=1',true); ?>
+   <?php $exiisting_fields = false; //TODO ?> 
     <div class="mw-dropdown-content">
       <ul>
+        <?php if(is_array($exiisting_fields)): ?>
+<?php foreach($exiisting_fields as $item): ?>
+ 
+   <li data-copyof="<?php print $item['id'] ?>" value="<?php print $item['custom_field_type']; ?>"><span class="mw-custom-field-icon-<?php print $item['custom_field_type']; ?>"></span><span><?php print $item['custom_field_name']; ?></span></li>
+
+<?php endforeach; ?>
+<?php endif; ?>
+
+
 
     <?php
 
+
+
+
         $fields = mw('ui')->custom_fields();
+       
 
         foreach($fields as $field=>$value){  ?>
 
         <li value="<?php print $field; ?>"><span class="mw-custom-field-icon-<?php print $field; ?>"></span><span><?php print $value; ?></span></li>
         <?php } ?>
 
-
+ 
 
       </ul>
     </div>
