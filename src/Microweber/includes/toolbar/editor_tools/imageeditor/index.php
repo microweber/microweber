@@ -8,7 +8,7 @@
     position: relative;
     text-align: center;
     max-width: 100%;
-    max-height: 300px;
+    height: 300px;
   }
 
   #the-image-holder img{
@@ -28,26 +28,26 @@
    <div class="mw-ui-box-content">
 
       <div class="mw-ui-field-holder">
-        <div class="mw-ui-btn-nav">
+        <div class="mw-ui-btn-nav pull-left" style="margin-right:12px">
 
 
-          <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.croptool('#mwimagecurrent')">
+          <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.croptool('#mwimagecurrent');">
             <span class="mw-icon-crop"></span>
           </span>
           <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
             <span class="mw-icon-ios7-refresh-empty"></span>
           </span>
-          <span class="mw-ui-btn disabled" id="mw_image_reset">Reset</span>
+          <span class="mw-ui-btn disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
         </div>
 
 
 
-        <div class="mw-dropdown mw-dropdown-default" id="">
-          <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val">Effects</span>
+        <div class="mw-dropdown mw-dropdown-default pull-left" id="" style="width: 140px;">
+          <span class="mw-dropdown-value mw-ui-btn mw-dropdown-val"><?php _e("Effects"); ?></span>
           <div class="mw-dropdown-content" style="display: none;">
             <ul>
-              <li value="vintage" onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')">Vintage Effect</li>
-              <li value="grayscale" onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')">Grayscale</li>
+              <li value="vintage" onclick="mw.image.vintage(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><?php _e("Vintage Effect"); ?></li>
+              <li value="grayscale" onclick="mw.image.grayscale(mw.image.current);mw.$('#mw_image_reset').removeClass('disabled')"><?php _e("Grayscale"); ?></li>
             </ul>
           </div>
         </div>
@@ -60,18 +60,18 @@
       <div class="mw-ui-row-nodrop" style="padding-bottom: 20px;">
           <div class="mw-ui-col">
             <div class="mw-ui-col-container">
-                <label class="mw-ui-label">Image Description</label>
-                <textarea class="mw-ui-field w100" placeholder='Enter Description' id="image-title"></textarea>
+                <label class="mw-ui-label"><?php _e("Image Description"); ?></label>
+                <textarea class="mw-ui-field w100" placeholder='<?php _e("Enter Description"); ?>' id="image-title"></textarea>
             </div>
           </div>
           <div class="mw-ui-col">
             <div class="mw-ui-col-container">
-                <label class="mw-ui-label">Image Alternative Text <span class="mw-icon-help-outline mwahi tip" data-tipposition="bottom-right" data-tip="Text that appears if image fails to load. (Important for Search Engines)"></span></label>
-                <textarea class="mw-ui-field w100" placeholder='Enter Description' id="image-title"></textarea>
+                <label class="mw-ui-label"><?php _e("Image Alternative Text"); ?> <span class="mw-icon-help-outline mwahi tip" data-tipposition="bottom-right" data-tip="<?php _e("Text that appears if image fails to load. (Important for Search Engines)"); ?>"></span></label>
+                <textarea class="mw-ui-field w100" placeholder='<?php _e("Enter Description"); ?>' id="image-alt"></textarea>
             </div>
           </div>
       </div>
-      <span class='mw-ui-btn mw-ui-btn-invert mw-ui-btn-saveIMG pull-right'>Update</span>
+      <span class='mw-ui-btn mw-ui-btn-invert mw-ui-btn-saveIMG pull-right'><?php _e("Update"); ?></span>
       </div>
   </div>
 </div>
@@ -137,12 +137,9 @@ $(mwd).ready(function(){
 
  mw.image.current_need_resize = false;
 
-
          var src = theImage.src,
             title = theImage.title,
             alt = theImage.alt;
-
-
 
         mw.$("#the-image-holder").html("<img id='mwimagecurrent' src='"+src+"' />");
 
@@ -160,8 +157,8 @@ $(mwd).ready(function(){
           theImage.alt = mw.$("#image-alt").val();
           if(mw.image.current_need_resize){
               mw.image.preload(mw.image.current.src, function(w,h){
-                   mw.current_element.style.width = w+'px';
-                   mw.current_element.style.height = 'auto';
+                   theImage.style.width = w+'px';
+                   theImage.style.height = 'auto';
               });
           }
 

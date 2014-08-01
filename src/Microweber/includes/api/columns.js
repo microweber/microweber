@@ -1,6 +1,6 @@
 mw.drag = mw.drag || {}
 mw.drag.columns = {
-    step:0.5,
+    step:0.8,
     resizing:false,
     prepare:function(){
         mw.drag.columns.resizer = mwd.createElement('div');
@@ -70,13 +70,14 @@ $(mwd).ready(function(){
       }
       mw.drag.columns.resizing = false;
       mw.drag.plus.locked = false;
-
+      mw.tools.removeClass(mwd.body, 'mw-column-resizing');
    });
    $(mwd.body).bind('mousemove', function(e){
      if(mw.drag.columns.resizing === true && mw.isDrag === false){
         mw.drag.columns.resize(e);
         e.preventDefault();
         mw.drag.plus.locked = true;
+        mw.tools.addClass(mwd.body, 'mw-column-resizing');
      }
    });
 });

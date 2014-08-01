@@ -792,7 +792,7 @@ $(mww).bind('scroll resize load', function(e){
                 lft =  bottommenu.previousElementSibling,
                 wh = $(window).height();
 
-            if(wh < ($(lft).offset().top+lft.offsetHeight + usermenu.offsetHeight + bottommenu.offsetHeight)){
+            if(wh < ($(lft).offset().top - $(window).scrollTop() +lft.offsetHeight + usermenu.offsetHeight + bottommenu.offsetHeight)){
                 bottommenu.style.position = "static";
             }
             else{

@@ -104,7 +104,7 @@ mw.notif_mark_all_as_read = function(){
 
 			  ?>
 
-<div class="mw-admin-notifications-holder" id="<?php print $wrapper_id ?>">
+<div class="mw-admin-notifications-holder mw-ui-box mw-ui-box-content" id="<?php print $wrapper_id ?>">
 	<table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
 		
 		<?php if($is_quick == false): ?>
@@ -176,11 +176,11 @@ mw.notif_mark_all_as_read = function(){
 		</tbody>
 	</table>
 	<?php if($is_quick == false): ?>
-	
-	<div class="left">
-    	<a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a>&nbsp;&nbsp;|
-    	<a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a>&nbsp;&nbsp;|
-    	&nbsp;&nbsp;<a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
+
+	<div class="mw-ui-link-nav" style="padding: 20px 0;">
+    	<a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a>
+    	<a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a>
+    	<a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
 	</div>
 	<a class="mw-ui-btn right" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')">
 	    <?php _e("Show system log"); ?>

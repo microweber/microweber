@@ -670,26 +670,28 @@ class Backup
         $this->log_action($back_log_action);
         // Cycle through each provided table
         foreach ($tables as $table) {
+            $is_cms_table = false;
 
-            if (stristr($table, MW_TABLE_PREFIX)) {
+            if(MW_TABLE_PREFIX == ''){
+                $is_cms_table = 1;
+            } elseif(stristr($table, MW_TABLE_PREFIX)){
+                $is_cms_table = 1;
+            }
 
+
+            if ($table != false and $is_cms_table) {
                 $back_log_action = "Backing up database table $table";
                 $this->log_action($back_log_action);
-
                 //$result = mysql_query('SELECT * FROM ' . $table);
-
                 $qs = 'SELECT * FROM ' . $table;
                 $result = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
-
                 $num_fields = count($result[0]);
                 //$num_fields = mysql_num_fields($result);
                 $table_without_prefix = $this->prefix_placeholder . str_ireplace(MW_TABLE_PREFIX, "", $table);
-
                 // First part of the output - remove the table
                 //$return .= 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
                 $return = 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this->file_q_sep . "\n\n\n";
                 $this->append_string_to_file($sql_bak_file, $return);
-
 
                 // Second part of the output - create table
 //				$res_ch = mysql_query('SHOW CREATE TABLE ' . $table);

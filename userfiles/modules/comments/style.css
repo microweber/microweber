@@ -23,7 +23,9 @@
   border-bottom: 1px solid #E2E2E2;
 }
 
-
+.comments_number{
+  display: none !important;
+}
 
 .comments-admin-header-info{
   float: left;

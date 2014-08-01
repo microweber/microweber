@@ -167,6 +167,11 @@ html,body{
   background: #000000;
 }
 
+body.mw-column-resizing,
+body.mw-column-resizing *{
+  cursor:none !important;
+}
+
 
 /****************************
        While dragging ...

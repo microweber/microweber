@@ -900,7 +900,13 @@ img{
 
 /* Local Modules and Module overwriting */
 
+.module > .module:first-child{
+  margin-top: 20px;
+}
 
+[data-type='shop/checkout']{
+    padding-top: 20px;
+}
 
 .icon-shopping-cart-holder, .mw-cart-small-icon-shopping-cart{
   width: 20px;

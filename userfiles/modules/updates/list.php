@@ -52,11 +52,16 @@ $(document).ready(function(){
       <td><label class="mw-ui-check">
           <input type="checkbox" id="select_all" />
           <span></span></label></td>
-      <td colspan="2"><span class="posts-selector"> <span onclick="mw.check.all('#mw-update-table')">
+      <td colspan="2"><span class="mw-ui-link-nav">
+
+        <span class="mw-ui-link" onclick="mw.check.all('#mw-update-table')">
         <?php _e("Select All"); ?>
-        </span>/<span onclick="mw.check.none('#mw-update-table')">
+        </span>
+        <span onclick="mw.check.none('#mw-update-table')">
         <?php _e("Unselect All"); ?>
-        </span> </span>
+        </span>
+
+      </span>
         <input type="submit" value="<?php _e("Install Selected Updates"); ?>" id="installsubmit" class="mw-ui-btn mw-ui-btn-blue" /></td>
     </tr>
     <?php if(isset($iudates["core_update"])): ?>
@@ -70,7 +75,7 @@ $(document).ready(function(){
           <span></span></label></td>
       <td><img src="<?php print MW_INCLUDES_URL; ?>img/mw_system.png" alt="Microweber" /><br>
         <span class="update-version"><?php print MW_VERSION ?></span></td>
-      <td><h2> New version <?php print $iudates["version"] ?>
+      <td><h2> <?php _e("New version"); ?> <?php print $iudates["version"] ?>
           <?php if(isset($item["description"])) : ?>
           <span class="update-description"><?php print $item["description"] ?></span>
           <?php endif ?>
