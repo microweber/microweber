@@ -22,10 +22,13 @@ mw.custom_fields = {
                 else {
                     callback.call(data);
                 }
+		    } else {
+
+            	mw.custom_fields.after_save();
 		    }
 			
 			
-			mw.custom_fields.after_save();
+
 			
 			
         })
@@ -105,9 +108,9 @@ mw.custom_fields = {
 			
 			 mw.reload_module('#mw-admin-custom-field-edit-item-preview-'+data);
 
+
 			
-			
-			
+
             mw.reload_module_parent('custom_fields/list', function () {
                 if (!!callback) callback.call(data);
                 $(window).trigger('customFieldSaved', [id, data]);
@@ -115,7 +118,7 @@ mw.custom_fields = {
 			mw.custom_fields.after_save();
         });
     },
-	
+
     after_save: function () {
       //  mw.reload_module('custom_fields/list');
 			 mw.reload_module('custom_fields');

@@ -457,20 +457,18 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   position: relative;
 }
 
-.mw-browser-list li .mw-close{
+.mw-browser-list li .mw-icon-close{
   visibility: hidden;
-  position: absolute;
-  top: 11px;
-  right: 11px;
-  z-index: 1;
+  cursor: pointer;
+
 }
 
-.mw-browser-list li .mw-ui-check + .mw-close{
-  top: auto;
-  bottom: 8px;
+.mw-browser-list li .mw-ui-check + .mw-icon-close{
+    float: right;
+    margin-top: 2px;
 }
 
-.mw-browser-list li:hover .mw-close{
+.mw-browser-list li:hover .mw-icon-close{
   visibility: visible;
 }
 
@@ -481,15 +479,14 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   width: 55px;
   text-decoration: none;
   color: #434343;
-  padding: 3px 5px;
+  padding: 3px 0;
   border-radius:3px;
 }
 .mw-browser-list a:hover{
-  background: #EDEDED;
   text-decoration: underline;
 }
 
-.mw-browser-list a span.ico{
+.mw-browser-list a [class*='mw-icon-']{
   float: none;
 }
 .mw-browser-list a input[type='text']{
@@ -497,7 +494,10 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   width: 95%;
 }
 
-.mw-browser-list a img + span, .mw-browser-list a .mw-fileico + span, .mw-browser-list a .ico + span{
+.mw-browser-list a img + span,
+.mw-browser-list a .mw-fileico + span,
+.mw-browser-list a [class*='mw-icon-'] + span,
+.mw-browser-list a [class*='mw-icon-'] + span{
   display: block;
   clear: both;
   overflow: hidden;
@@ -510,6 +510,11 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   clear: both;
   text-align: center;
   padding: 5px 0;
+  overflow: hidden;
+}
+
+#admin_notifications .mw-success *{
+  color: white;
 }
 
 

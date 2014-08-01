@@ -64,7 +64,7 @@ $edit_page_info = $data;;
           <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
           <?php $class = ( isset( $item['class']))? ($item['class']) : false ; ?>
           <?php $html = ( isset( $item['html']))? ($item['html']) : false ; ?>
-          <div style="width: 150px; padding-left: 20px; " class="mw-ui-col <?php print $class; ?>" title="<?php print $title; ?>"><?php print $html; ?></div>
+          <div id="titlepricecolumn" class="mw-ui-col <?php print $class; ?>" title="<?php print $title; ?>"><?php print $html; ?></div>
           <?php endforeach; ?>
           <?php endif; ?>
 

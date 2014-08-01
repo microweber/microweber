@@ -82,6 +82,10 @@ class Generic
 
     function run()
     {
+        event_trigger('app_run', false);
+
+
+
         $url_full_string = $this->url->string();
         $url_first_segment = $this->url->segment(0);
         $url_second_segment = $this->url->segment(1);

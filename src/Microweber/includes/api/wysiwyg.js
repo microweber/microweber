@@ -224,10 +224,13 @@ mw.wysiwyg = {
         }
       });
     },
-    _external:function(){  //global element to handle the iframe tools
+    _external:function(){
       var external = mwd.createElement('div');
       external.className='wysiwyg_external';
       mwd.body.appendChild(external);
+
+
+
       return external;
     },
     isSelectionEditable:function(){

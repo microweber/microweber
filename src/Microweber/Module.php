@@ -119,9 +119,12 @@ class Module
             return $cache_content;
         }
 
-        $table_name = MW_DB_TABLE_MODULES;
-        $table_name2 = MW_DB_TABLE_ELEMENTS;
-        $table_name3 = MW_DB_TABLE_MODULE_TEMPLATES;
+
+
+
+        $table_name = $this->tables['modules'];
+        $table_name2 = $this->tables['elements'];
+        $table_name3 = $this->tables['module_templates'];
 
         $fields_to_add = array();
 
@@ -183,7 +186,6 @@ class Module
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
 
-        //print '<li'.$cls.'><a href="'.admin_url().'view:settings">newsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl etenewsl eter</a></li>';
     }
 
     public function load($module_name, $attrs = array())

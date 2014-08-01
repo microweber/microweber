@@ -105,7 +105,7 @@ mw.notif_mark_all_as_read = function(){
 			  ?>
 
 <div class="mw-admin-notifications-holder" id="<?php print $wrapper_id ?>">
-	<table cellspacing="0" cellpadding="0" class="mw-ui-table">
+	<table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
 		
 		<?php if($is_quick == false): ?>
 		<colgroup>
@@ -116,13 +116,13 @@ mw.notif_mark_all_as_read = function(){
 		</colgroup>
 		<thead>
 			<tr valign="middle">
-				<th colspan="4" valign="middle"><div class="left">
-						<h2><span class="ico inotification"></span>
+				<th colspan="4" valign="middle"><div class="pull-left">
+						<h2 style="margin-top: 0;"><span class="mw-icon-notification"></span>
 							<?php _e("Your Notifications"); ?>
 						</h2>
 					</div>
 					<?php if($is_quick == false): ?>
-					<div class="right"><a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-btn">Mark all as read</a></div>
+					<div class="pull-right"><a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-btn"><?php _e("Mark all as read"); ?></a></div>
 					<?php endif; ?>
 				</th>
 			</tr>
@@ -149,12 +149,9 @@ mw.notif_mark_all_as_read = function(){
 					<?php print $item['title'] ?>
 					<?php endif; ?>
 					
-					
+
 					<div class="notification_info">
-			 
-				 
-					
-					<time title="<?php print mw('format')->date($item['created_on']); ?>"><?php print mw('format')->ago($item['created_on'],1); ?></time>
+					    <time title="<?php print mw('format')->date($item['created_on']); ?>"><?php print mw('format')->ago($item['created_on'],1); ?></time>
 					</div>
 					
 					
@@ -181,14 +178,12 @@ mw.notif_mark_all_as_read = function(){
 	<?php if($is_quick == false): ?>
 	
 	<div class="left">
-	<a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link">Read all</a>&nbsp;&nbsp;| 
-	<a href="javascript:mw.notif_reset_all();" class="mw-ui-link">Unread all</a>&nbsp;&nbsp;| 
-	&nbsp;&nbsp;<a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link">Delete all</a>
+    	<a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-link"><?php _e("Read all"); ?></a>&nbsp;&nbsp;|
+    	<a href="javascript:mw.notif_reset_all();" class="mw-ui-link"><?php _e("Unread all"); ?></a>&nbsp;&nbsp;|
+    	&nbsp;&nbsp;<a href="javascript:mw.notif_item_delete('all');" class="mw-ui-link"><?php _e("Delete all"); ?></a>
 	</div>
-	
-	
 	<a class="mw-ui-btn right" href="javascript:mw.load_module('admin/notifications/system_log','#admin_notifications')">
-	<?php _e("Show system log"); ?>
+	    <?php _e("Show system log"); ?>
 	</a>
 	<?php endif; ?>
 </div>

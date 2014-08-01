@@ -1,5 +1,9 @@
 <?php $pages = get_content('content_type=page&subtype=dynamic&limit=1000'); ?>
 <?php $posts_parent_page = get_option('data-content-id', $params['id']); ?>
+
+
+ 
+
 <script type="text/javascript">
 
 
@@ -28,6 +32,10 @@
 		 
 
 			var cont_id = 	 mw.$("#mw_set_categories_tree_root_page").val();	
+			if(cont_id == 0){
+			var cont_id = 	 mw.$("#mw_page_id_front").val();	
+		 
+			}
  
 		
 		mw.$("#mw_add_cat_live_edit").attr("page-id",cont_id);
@@ -96,7 +104,7 @@
         <label class="mw-ui-label">
             <?php _e("Show Categories From"); ?>
         </label>
-
+<input type="hidden" id="mw_page_id_front" value="<?php print PAGE_ID ?>" />
         <select name="data-content-id" id="mw_set_categories_tree_root_page" class="mw-ui-field mw_option_field">
             <option value="0"   <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>
                     title="<?php _e("None"); ?>">

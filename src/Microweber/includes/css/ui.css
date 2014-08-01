@@ -2005,9 +2005,9 @@
 .mw-ui-link {
   text-decoration: underline;
   color: #212121;
-  cursor: pointer;
   position: relative;
   display: inline-block;
+  cursor: pointer;
 }
 .mw-ui-link-nav > *:after {
   display: inline;
@@ -2026,6 +2026,7 @@
   position: relative;
   margin-right: 11px;
   text-decoration: none;
+  cursor: pointer;
 }
 .mw-ui-link:hover,
 .mw-ui-link:focus {
@@ -2246,7 +2247,7 @@
 .mw-ui-navigation:hover {
   z-index: 9;
 }
-.mw-ui-navigation li {
+.mw-ui-navigation > li {
   list-style: none;
   margin-bottom: 10px;
   position: relative;
@@ -3613,7 +3614,9 @@ div.mw-ui-field:after {
   border-radius: 0;
 }
 .mw-ui-dropdown:hover > .mw-dropdown-content,
-.mw-ui-dropdown:hover .mw-ui-dropdown-content {
+.mw-ui-dropdown:hover .mw-ui-dropdown-content,
+.mw-ui-dropdown.active > .mw-dropdown-content,
+.mw-ui-dropdown.active .mw-ui-dropdown-content {
   visibility: visible;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;

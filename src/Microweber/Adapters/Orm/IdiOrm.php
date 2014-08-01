@@ -91,14 +91,7 @@ class IdiOrm
 
         ORM::configure('create_cache_key', function ($query, $parameters, $table_name, $connection_name) use ($app) {
             $is_int = false;
-//            if (is_array($parameters)) {
-//                asort($parameters);
-//                $is_first_int = reset($parameters);
-//                if (intval(($is_first_int)) > 0) {
-//                    $is_int = intval($is_first_int);
-//                }
-//
-//            }
+
             $query_hash = $query . join(',', $parameters);
             $cache_group = $app->db->guess_cache_group($table_name);
             if ($is_int == false) {
@@ -597,4 +590,9 @@ class IdiOrm
     {
         return ORM::get_last_query();
     }
+
+
+
+
+
 }

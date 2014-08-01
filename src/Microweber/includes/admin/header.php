@@ -190,13 +190,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 <strong><?php _e("Settings"); ?></strong>
                             </a>
                         </li>
-                      <!--  <li>
-                            <a href="javascript:;">
-                                <span class="mw-icon-upgrades" style="font-size: 24px;"></span>
-                                <strong><?php _e("Upgrades"); ?></strong>
-                            </a>
-                        </li>-->
-
+                   
 
                       <li id="main-menu-toggle">
                           <a href="javascript:;"><span class="mw-icon-menu"></span></a>

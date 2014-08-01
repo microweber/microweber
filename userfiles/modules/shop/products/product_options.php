@@ -20,7 +20,7 @@ $out_of_stock = false;
             <div class="mw-ui-col">
             <div class="mw-ui-col-container">
                 <div class="mw-ui-field-holder">
-        			<label class="mw-ui-label">Items in stock <span class="mw-help mw-help-right-bottom" data-help="<?php _e("How many items of this product you have in stock"); ?>?">?</span></label>
+        			<label class="mw-ui-label"><?php _e("Items in stock"); ?> <span class="mw-help mw-help-right-top" data-help="<?php _e("How many items of this product you have in stock"); ?>?">?</span></label>
         			<select name="data_qty" class="mw-ui-field w100">
         				<option <?php if (!isset($data_fields['qty']) or ($data_fields['qty']) == 'nolimit'): ?> selected="selected" <?php endif; ?> value="nolimit">&infin; No Limit</option>
         				<option <?php if (isset($data_fields['qty']) and $data_fields['qty']  != 'nolimit' and (intval($data_fields['qty'])) == 0): ?>  selected="selected" <?php endif; ?> value="0" title="This item is out of stock and cannot be ordered.">Out of stock</option>
@@ -34,7 +34,7 @@ $out_of_stock = false;
             <div class="mw-ui-col">
             <div class="mw-ui-col-container">
                 <div class="mw-ui-field-holder">
-        			<label class="mw-ui-label">SKU Number <span class="mw-help mw-help-right-bottom" data-help="<?php _e("Stock Keeping Unit - The number assigned to a product by a retail store to identify the price, product options and manufacturer of the merchandise"); ?>.">?</span></label>
+        			<label class="mw-ui-label"><?php _e("SKU Number"); ?> <span class="tip" data-tip="<?php _e("Stock Keeping Unit - The number assigned to a product by a retail store to identify the price,\n product options and manufacturer of the merchandise"); ?>.">?</span></label>
         			<input name="data_sku" type="text" class="mw-ui-field w100" <?php if (isset($data_fields['sku'])): ?> value="<?php print $data_fields['sku']; ?>" <?php endif; ?> />
         		</div>
             </div>
@@ -58,8 +58,8 @@ $out_of_stock = false;
 			<div >
 
 
-            <label class="mw-ui-label"><?php _e("Free Shipping"); ?></label>
-            <label class="mw-ui-check"><input type="radio" <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "y"): ?>checked="checked"<?php endif; ?> name="data_is_free_shipping" value="y"><span></span><span><?php _e("Yes"); ?></span></label>
+            <label class="mw-ui-inline-label"><?php _e("Free Shipping"); ?></label>
+            <label class="mw-ui-check" style="margin-right:10px;"><input type="radio" <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "y"): ?>checked="checked"<?php endif; ?> name="data_is_free_shipping" value="y"><span></span><span><?php _e("Yes"); ?></span></label>
             <label class="mw-ui-check"><input type="radio" <?php if (isset($data_fields['is_free_shipping']) and $data_fields['is_free_shipping'] == "n"): ?>checked="checked"<?php endif; ?> name="data_is_free_shipping" value="n"><span></span><span><?php _e("No"); ?></span></label>
 
 

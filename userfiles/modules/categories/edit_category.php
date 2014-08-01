@@ -204,7 +204,7 @@ $(document).ready(function(){
 
             <?php if(intval($data['id']) != 0): ?>
             <div class="mw-ui-btn-nav pull-right" style="margin-left: 20px;">
-              <a href="<?php print admin_url(); ?>view:content#action=new:category" class="mw-ui-btn tip" data-tip="<?php _e("Add new category"); ?>">
+              <a href="<?php print admin_url(); ?>view:content#action=new:category" target="_top" class="mw-ui-btn tip" data-tip="<?php _e("Add new category"); ?>">
                 <span class="mw-icon-plus"></span>
                 <span class="mw-icon-category"></span>
               </a>

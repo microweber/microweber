@@ -1143,6 +1143,7 @@ class Controller
 
     public function index()
     {
+        event_trigger('mw.controller.index');
 
 
         if ($this->render_this_url == false and $this->app->url->is_ajax() == FALSE) {

@@ -30,17 +30,22 @@
   margin-bottom:20px;
 }
 
+.file-preview-holder video{
+  margin-bottom: 20px;
+}
+
 .file-preview-holder .mw-ui-field{
-  width: 450px;
+  width: 100%;
   text-align: center;
 }
 
-
-
-.browser-ctrl-bar .mw-ui-btn{
-  float: left;
-  margin-right: 12px;
+.mw-browser-list .mw-icon-category{
+  font-size: 37px;
 }
+
+
+
+
 
 .posts-selector span:hover{
   text-decoration: underline
@@ -70,9 +75,43 @@ body.browser-liveedit .mw-browser-list .mw-ui-check{
 }
 
 
+.mw-fileico{
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px 0;
+  background-color: #CCCCCC;
+  text-transform: lowercase;
+  width: 100%;
+  border-radius:2px;
+}
 
+.posts-selector{
+  margin: 11px 11px 0 0;
+}
+
+#mw_files_admin{
+  margin-bottom: 20px;
+}
 
 /* /Live Edit */
+
+
+.browser-ctrl-bar{
+  overflow: hidden;
+  padding-bottom: 20px;
+}
+
+.image-item{
+  max-height: 50px;
+  max-width: 50px;
+}
+
+#progressbar{
+  height: 8px;
+  margin: 8px 0;
+}
 
 </style>
 <script  type="text/javascript">
@@ -161,20 +200,16 @@ createPopHTML = function(img, type){
     var h = ""
         + "<div class='file-preview-holder'>"
         + "<img src='" + img +"' />"
-        + "<input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly>"
-        + "<div class='vSpace'></div>"
-        + "<span class='mw-ui-delete' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span>"
+        + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
+        + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
         + "</div>";
   }
   else if(type == 'media'){
        var h = ""
         + "<div class='file-preview-holder'>"
-        + '<embed autoplay="true" width="455" height="320"  src="'+img+'"></embed>'
-        + "<div class='vSpace'></div>"
-        + "<div class='vSpace'></div>"
-        + "<input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly>"
-        + "<div class='vSpace'></div>"
-        + "<span class='mw-ui-delete' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span>"
+        + '<video autoplay="true" class="w100" src="'+img+'" controls></video>'
+        + "<div class='mw-ui-row'><div class='mw-ui-col' style='width:80%'><input type='text' class='mw-ui-field' value='"+img+"' onfocus='this.select()' readonly></div><div class='mw-ui-col'>"
+        + "<span class='mw-ui-btn' onclick='deleteItem(\""+img+"\", false, true)'><?php _e("Delete"); ?></span></div></div>"
         + "</div>";
   }
 
@@ -218,7 +253,6 @@ mw.on.hashParam('select-file', function(){
           if(mw.$("#prfile").length == 0){
               mw.tools.modal.init({
                 html:createPopHTML(this),
-                template:"mw_modal_simple",
                 width:500,
                 height:460,
                 name:"prfile",
@@ -231,9 +265,8 @@ mw.on.hashParam('select-file', function(){
           }
       }
       else if(type == 'mp3' || type ==  'avi' || type=='mp4' || type == 'wmv' || type == 'swf'){
-         mw.tools.modal.init({
+        mw.tools.modal.init({
                 html:createPopHTML(this, 'media'),
-                template:"mw_modal_simple",
                 width:500,
                 height:460,
                 name:"prfile",
@@ -244,15 +277,22 @@ mw.on.hashParam('select-file', function(){
           if(mw.$("#prfile").length > 0){
                mw.$("#prfile").remove()
           }
-		  
-		  mw.tools.modal.init({
-                html:createPopHTML(this, 'media'),
-                template:"mw_modal_simple",
+
+          mw.modalFrame({
+                url:this,
                 width:500,
                 height:460,
                 name:"prfile",
                 title:this.split("/").pop()
-              });
+          });
+		  
+		  /*mw.tools.modal.init({
+                html:createPopHTML(this, 'media'),
+                width:500,
+                height:460,
+                name:"prfile",
+                title:this.split("/").pop()
+              });    */
 		  
 		  
       }
@@ -290,7 +330,7 @@ saveNewFolder = function(a){
 
 
 createFolder = function(){
-  var html = '<li><a href="javascript:;" style="background:#CDE1FB"><span class="ico icategory"></span><span><input type="text" autofocus placeholder="<?php _e("New Folder"); ?>" onblur="saveNewFolder(this.value)" onkeydown="event.keyCode === 13 ? saveNewFolder(this.value) : 1;" /></span></a> </li>';
+  var html = '<li><a href="javascript:;" style="background:#CDE1FB"><span class="mw-icon-category"></span><span><input type="text" autofocus placeholder="<?php _e("New Folder"); ?>" onblur="saveNewFolder(this.value)" onkeydown="event.keyCode === 13 ? saveNewFolder(this.value) : 1;" /></span></a> </li>';
   if(mwd.querySelector(".mw-browser-list") !== null){
     $(mwd.querySelector(".mw-browser-list")).prepend(html).find("input:first").focus();
   }
@@ -323,16 +363,13 @@ mw.on.hashParam('sort_order', function(){
 $(document).ready(function(){
 _mw_admin_files_manage('all');
 
-Progress =  mw.$('#mw-upload-progress');
-        ProgressBar = Progress.find('.mw-ui-progress-bar');
-        ProgressInfo = Progress.find('.mw-ui-progress-info');
-        ProgressPercent = Progress.find('.mw-ui-progress-percent');
-        ProgressDoneHTML = '<span class="ico iDone" style="top:-6px;"></span>&nbsp;<?php _e("Done! All files have been uploaded"); ?>.';
-        ProgressErrorHTML = function(filename){return '<span class="ico iRemove" style="top:-6px;"></span>&nbsp;<?php _e("Error"); ?>! "'+filename+'" - <?php _e("Invalid filetype"); ?>.';}
+ProgressBar = mw.progress({
+  action:'<?php _e("Uploading"); ?>...',
+  element:mwd.getElementById('progressbar'),
+  skin:'mw-ui-progress-small'
+});
 
-
-
-
+ProgressBar.hide()
 
     Uploader = mw.files.uploader({
 		filetypes:"*",
@@ -340,26 +377,29 @@ Progress =  mw.$('#mw-upload-progress');
 	});
 
     $(Uploader).bind("progress", function(frame, file){
-        ProgressBar.width(file.percent+'%');
-        ProgressPercent.html(file.percent+'%');
-        ProgressInfo.html(file.name);
+        ProgressBar.show()
+        ProgressBar.set(file.percent);
     });
 
     $(Uploader).bind("done", function(frame, item){
-        ProgressBar.width('0%');
-        ProgressPercent.html('');
-        ProgressInfo.html(ProgressDoneHTML);
+        ProgressBar.set(0);
+        ProgressBar.hide();
      });
 
+    $(Uploader).bind("responseError", function(e, json){
+        Alert(json.error.message);
+        ProgressBar.set(0);
+        ProgressBar.hide();
+    });
     $(Uploader).bind("error", function(frame, file){
-        ProgressBar.width('0%');
-        ProgressPercent.html('');
-        ProgressInfo.html(ProgressErrorHTML(file.name));
+        ProgressBar.set(0);
+        ProgressBar.hide();
+
     });
 
     $(Uploader).bind("FilesAdded", function(frame, files_array, runtime){
         if(runtime == 'html4'){
-          ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
+          //ProgressInfo.html('<?php _e("Uploading"); ?> - "' + files_array[0].name+'" ...');
         }
     });
 
@@ -400,40 +440,51 @@ Progress =  mw.$('#mw-upload-progress');
   <div id="files_ctrl_holder">
     <div class="modules-index-bar">
     <div class="browser-ctrl-bar">
-        <input name="module_keyword" class="mw-ui-searchfield right" type="text" data-default="<?php _e("Search"); ?>" value="<?php _e("Search"); ?>" onfocus="mw.form.dstatic(event);" onblur="mw.form.dstatic(event);"  onkeyup="mw.form.dstatic(event);mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"     />
 
-        <div id="mw_uploader" class="mw-ui-btn mw-ui-btn-green left"><?php _e("Upload File"); ?></div>
-        <span class="mw-ui-btn mw-ui-btn-red delete_item disabled"><?php _e("Delete selected files"); ?></span>
-        <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()"><?php _e("Create folder"); ?></span>
-        <div class="mw-ui-box inline-block left">
-            <span class="posts-selector left" style="padding: 6px 14px;">
-            <span onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');">Select All</span>/<span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');">Unselect All</span></span>
+
+
+            <span class="mw-ui-link-nav posts-selector pull-left">
+              <span onclick="mw.check.all('#mw-browser-list-holder');mw.$('.delete_item').removeClass('disabled');"><?php _e("Select All"); ?></span>
+              <span onclick="mw.check.none('#mw-browser-list-holder');mw.$('.delete_item').addClass('disabled');"><?php _e("Unselect All"); ?></span>
+            </span>
+
+
+            <div class="mw-ui-btn-nav pull-left">
+          <span id="mw_uploader" class="mw-ui-btn mw-ui-btn-notification"><span class="mw-icon-upload"></span><?php _e("Upload File"); ?></span>
+          <span class="mw-ui-btn mw-ui-btn-red delete_item disabled"><?php _e("Delete selected files"); ?></span>
+          <span class="mw-ui-btn mw-ui-btn-blue" onclick="createFolder()"><?php _e("Create folder"); ?></span>
         </div>
+
+
+
+        <input
+            name="module_keyword"
+            class="mw-ui-searchfield pull-right"
+            type="text" placeholder="<?php _e("Search"); ?>" onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"    />
+
+
+
+
 
     </div>
 
  
-<div class="mw-ui-progress" id="mw-upload-progress" style="width: 100%">
-    <div class="mw-ui-progress-bar" style="width: 0%;"></div>
-    <div class="mw-ui-progress-info"></div>
-    <span class="mw-ui-progress-percent"></span>
-</div>
+
+     <div id="progressbar"></div>
 
 
 
-       <div class="mw-clear"></div>
     </div>
   </div>
   
-  <div id="mw_files_admin" ></div>
+  <div id="mw_files_admin"></div>
   <div id="mw_user_edit_admin" ></div>
   
 
-  <span class="mw-ui-btn right disabled delete_item"><?php _e("Delete Selected"); ?></span>
+  <span class="mw-ui-btn pull-right disabled delete_item"><?php _e("Delete Selected"); ?></span>
 
-  <div class="mw-clear"></div>
-  
+
 
 </div>
-<div class="mw-clear"></div>
+
 </div>

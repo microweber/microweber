@@ -98,46 +98,40 @@ $path_nav_pop = $path_nav_pop.DS.$item;
     <ul class="mw-browser-list">
       <?php foreach($data['dirs']  as $item): ?>
       <?php  $dir_link = str_replace($path_restirct,'',$item); ?>
-      <li> <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" href="#path=<?php print urlencode($dir_link); ?>"><span class="ico icategory"></span><span><?php print basename($item); ?></span></a> <span class="mw-close" onclick="deleteItem('<?php print urlencode($dir_link); ?>', '<?php print basename($item); ?>');"></span> </li>
+      <li>
+        <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" href="#path=<?php print urlencode($dir_link); ?>">
+          <span class="mw-icon-category"></span>
+          <span><?php print basename($item); ?></span>
+        </a>
+        <span class="mw-icon-close" onclick="deleteItem('<?php print urlencode($dir_link); ?>', '<?php print basename($item); ?>');"></span>
+      </li>
       <?php endforeach ; ?>
     </ul>
     <?php else: ?>
     <?php endif; ?>
-    
     <div class="mw-ui-box-hr"></div>
-    
     <?php if(isset($data['files'] )): ?>
     <ul class="mw-browser-list">
-
       <?php foreach($data['files']  as $item): ?>
-
-
       <li>
-
-      <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print mw('url')->link_to_file($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print mw('url')->link_to_file($item) ?>'); return false;">
-        <?php $ext = strtolower(get_file_extension($item)); ?>
-        <?php
-
-
-   if($ext == 'jpg' or $ext == 'png'  or $ext == 'gif'  or $ext == 'jpeg'  or $ext == 'bmp'): ?>
-        <img data-src="<?php print thumbnail(mw('url')->link_to_file($item), 48, 48); ?>" class="image-item image-item-not-ready" />
-        <?php else: ?>
-        <span class="mw-fileico mw-fileico-<?php print $ext ; ?>"><?php print $ext ; ?></span>
-        <?php endif; ?>
-        <span><?php print basename($item) ?></span> </a>
+        <a title="<?php print basename($item).'&#10;'.dirname($item); ?>" class="mw-browser-list-file mw-browser-list-<?php print substr(strrchr($item,'.'),1); ?>" href="<?php print mw('url')->link_to_file($item) ?>"  onclick="mw.url.windowHashParam('select-file', '<?php print mw('url')->link_to_file($item) ?>'); return false;">
+          <?php $ext = strtolower(get_file_extension($item)); ?>
+          <?php if($ext == 'jpg' or $ext == 'png'  or $ext == 'gif'  or $ext == 'jpeg'  or $ext == 'bmp'): ?>
+          <img data-src="<?php print thumbnail(mw('url')->link_to_file($item), 48, 48); ?>" class="image-item image-item-not-ready" />
+          <?php else: ?>
+          <span class="mw-fileico mw-fileico-<?php print $ext ; ?>"><?php print $ext ; ?></span>
+          <?php endif; ?>
+          <span><?php print basename($item) ?></span>
+        </a>
         <?php $rand = uniqid(); ?>
-
         <div class="mw-file-item-check">
-          <label class="mw-ui-check left">
+          <label class="mw-ui-check pull-left">
             <input type="checkbox" onchange="gchecked()" name="fileitem" id="v<?php print $rand; ?>" value="<?php print $item;  ?>" />
-            <span></span> </label>
-          <span class="mw-close right" onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span> </div>
-
-
+            <span></span>
+          </label>
+          <span class="mw-icon-close" onclick="deleteItem(mwd.getElementById('v<?php print $rand; ?>').value);"></span>
+        </div>
       </li>
-
-
-
       <?php  endforeach ; ?>
     </ul>
     <script>

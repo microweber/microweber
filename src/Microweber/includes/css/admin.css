@@ -910,6 +910,7 @@ a:hover .mw_ed_tree_content{
 #main-menu-bottom{
   position: absolute;
   bottom: 0;
+  padding-bottom: 20px;
   width: 100%;
 }
 
@@ -954,6 +955,11 @@ a:hover .mw_ed_tree_content{
     -o-transform: rotate(45deg) ;
     -ms-transform: rotate(45deg) ;
 }
+
+#main-menu li#main-menu-bottom li.active > a:after{
+  display: none;
+}
+
 #main-menu li.active strong:after{
   margin-top: -1px;
 }
@@ -2013,6 +2019,19 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   padding-top: 5px;
 }
 
+#titlepricecolumn{
+  width: 150px;
+  padding-left: 20px;
+  vertical-align: bottom;
+}
+
+
+
+#content-title-field-row .mw-ui-dropdown-content,
+#content-title-field-row .mw-ui-dropdown-content *{
+  vertical-align: middle;
+}
+
 #content-title-field, .admin-imp-field{
   font-size: 26px;
   height: auto;
@@ -2025,8 +2044,44 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
 #product-price-field{
   height: auto;
   width: 100px;
-
 }
+
+#pricedropdown{
+  width: 100%;
+}
+
+#pricedropdown .mw-ui-dropdown-content{
+  left: auto;
+  right: 0;
+  top: -17px;
+  box-shadow: 0 0 6px -4px #000;
+  background-color: white;
+  padding: 12px;
+}
+
+#pricedropdown .mw-ui-dropdown-content .mw-ui-field{
+  width:85px;
+  text-align: center;
+}
+#pricedropdown .mw-ui-dropdown-content .mw-ui-label{
+  float: right;
+  padding-right: 12px;
+  padding-bottom: 0;
+}
+
+.pricedropdown-currency{
+  font-size: 16px;
+  color: #B3B3B3;
+}
+
+#pricedropdown .mw-ui-dropdown-content .mw-ui-col{
+  padding-top:5px;
+  padding-bottom:5px;
+}
+
+
+
+
 
 #product-price-field-label{
   float: left;
@@ -2035,6 +2090,7 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   color: #8F8F8F;
   margin: 13px 10px 0 0;
 }
+
 
 .admin-manage-toolbar-scrolled #content-title-field{
     border-bottom-color:transparent;
@@ -2114,7 +2170,8 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   margin-left: 3px;
 }
 
-.admin-manage-toolbar-scrolled #content-title-field-buttons{
+.admin-manage-toolbar-scrolled #content-title-field-buttons,
+.admin-manage-toolbar-scrolled #titlepricecolumn {
   vertical-align: middle;
 }
 
@@ -2363,6 +2420,9 @@ input#edit-content-url:focus, input#edit-content-url.active{
   vertical-align: bottom;
 }
 
+#mw-admin-product-shipping-options{
+  padding-top: 15px;
+}
 
 #pages_edit_container .mw-paging{
   margin: 40px 0;

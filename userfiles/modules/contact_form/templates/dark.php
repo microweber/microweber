@@ -10,7 +10,7 @@
 
   icon: dark.png
   
-  version: 0.0002
+  version: 0.2
 
 */
 

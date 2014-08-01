@@ -2801,6 +2801,9 @@ mw.tools = {
         if(text.indexOf('.') === 0 || text.indexOf('#') === 0 ){
             var text = mw.$(text).html();
         }
+        else{
+          var text = text.replace(/\n/g, '<br>');
+        }
         var showon = $(el).dataset('showon');
         if(showon != ''){
             var el = mw.$(showon)[0];

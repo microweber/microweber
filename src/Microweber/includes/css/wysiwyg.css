@@ -186,7 +186,7 @@
 .wysiwyg_external{
   position: fixed;
   top: -9999px;
-  z-index: 999;
+  z-index: 1101;
 }
 
 

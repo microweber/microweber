@@ -185,7 +185,7 @@ $( "#content_type_filter_by_select" ).change(function() {
             <div class="mw-ui-col">
               <div class="manage-toobar ">
                 <div class="manage-toobar-content">
-                  <div class="mw-ui-btn-nav pull-right">
+                  <div class="mw-ui-btn-nav pull-right" style="height: 36px;">
                   <?php if (isset($params['add-to-page-id']) and intval($params['add-to-page-id']) != 0): ?>
                   <div class="mw-ui-dropdown">
                 <span class="mw-ui-btn mw-icon-plus"><span class=""></span></span>

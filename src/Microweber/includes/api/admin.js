@@ -781,8 +781,27 @@ $(mww).bind('hashchange', function(){
     mw.admin.treeboxwidth();
 });
 
-$(mww).bind('scroll resize', function(){
-    mw.admin.manageToolbarSet();
+$(mww).bind('scroll resize load', function(e){
+    if(e.type == "scroll"  || e.type == 'resize'){
+      mw.admin.manageToolbarSet();
+    }
+    if(self === top){
+        var bottommenu = mwd.getElementById('main-menu-bottom');
+        if(bottommenu !== null){
+            var usermenu =  mwd.getElementById('user-menu'),
+                lft =  bottommenu.previousElementSibling,
+                wh = $(window).height();
+
+            if(wh < ($(lft).offset().top+lft.offsetHeight + usermenu.offsetHeight + bottommenu.offsetHeight)){
+                bottommenu.style.position = "static";
+            }
+            else{
+               bottommenu.style.position = '';
+            }
+
+        }
+
+    }
 });
 mw.on.moduleReload('pages_edit_container', function(){
     mw.admin.createContentBtns();

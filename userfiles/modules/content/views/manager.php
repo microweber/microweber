@@ -205,14 +205,58 @@ if (isset($params['data-page-number'])) {
 
 
     if (isset($paging_links) and is_array($paging_links)):  ?>
-        <div class="mw-paging">
+        <div class="mw-paging" style="display: none">
             <?php $i = 1; foreach ($paging_links as $item): ?>
                 <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
                    href="#<?php print $paging_param ?>=<?php print $i ?>"
-                   onClick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                   onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
                 <?php $i++; endforeach; ?>
         </div>
     <?php endif; ?>
+
+
+    <?php  if (isset($paging_links) and is_array($paging_links)):  ?>
+        <div class="mw-paging pull-right">
+                <?php $count =  count($paging_links);  ?>
+                <?php if($count < 6){ ?>
+                  <?php $i = 1; foreach ($paging_links as $item): ?>
+                  <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
+                     href="#<?php print $paging_param ?>=<?php print $i ?>"
+                     onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                  <?php $i++; endforeach; ?>
+                <?php } else { ?>
+                    <?php if($numactive > 2){ ?>
+
+                         <a class="page-1"
+                            href="#<?php print $paging_param ?>=1"
+                            onclick="mw.url.windowHashParam('<?php print $paging_param ?>','1');return false;">First</a>
+
+
+                        <?php for($i = $numactive-2;$i<=$numactive+2;$i++){ ?>
+                         <?php if($i<$count){ ?>
+                        <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
+                            href="#<?php print $paging_param ?>=<?php print $i ?>"
+                            onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+
+
+                    <?php }}} else{ ?>
+
+                     <?php  for($i=1;$i<=5;$i++){ ?>
+                                  <a class="page-<?php print $i; ?> <?php if ($numactive == $i): ?> active <?php endif; ?>"
+                     href="#<?php print $paging_param ?>=<?php print $i ?>"
+                     onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $i ?>');return false;"><?php print $i; ?></a>
+                     <?php  }?>
+
+                    <?php } ?>
+
+                    <a class="page-<?php print $count; ?>"
+                            href="#<?php print $paging_param .'='. ($count-1); ?>"
+                            onclick="mw.url.windowHashParam('<?php print $paging_param ?>','<?php print $count-1; ?>');return false;"><?php _e("Last"); ?></a>
+                <?php } ?>
+        </div>
+    <?php endif; ?>
+
+
 <?php else: ?>
     <div class="mw-no-posts-foot">
  
