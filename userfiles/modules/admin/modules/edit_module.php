@@ -108,6 +108,7 @@ $('#module_open_<?php print $params['id']; ?>').show();
     <div class="admin-modules-list-image">
       <?php if(isset($data['icon'])):  ?>
         <img src="<?php print $data['icon'] ?>" alt="<?php if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." />
+
       <?php endif; ?>
     </div>
     <div class="admin-modules-list-description">
