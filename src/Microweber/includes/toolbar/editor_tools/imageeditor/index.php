@@ -31,7 +31,7 @@
         <div class="mw-ui-btn-nav pull-left" style="margin-right:12px">
 
 
-          <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.croptool('#mwimagecurrent');">
+          <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.createCropTool();">
             <span class="mw-icon-crop"></span>
           </span>
           <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
@@ -79,51 +79,35 @@
 <script>
 
 
-mw.croptool = function(imgSelector){
-          if(typeof imgSelector !== 'string') return false;
-          var img = document.querySelector(imgSelector);
-          if(img === null) return false;
-          if(!img.croptoolBinded){
-            img.croptoolBinded = true;
-            var api = {
-                data : { img:img },
-                crop : function(){
-                    var url = this.cropImage(this.data);
-                    this.setImage(url);
-                },
-                config:function(){
-                    this.data.img = document.querySelector(imgSelector);
-                    this.cropper = $(this.data.img);
-                },
-                setImage:function(url){
-                   this.cropper.cropper("setImgSrc", url);
-                   this.config();
-                }
-             }
-             api.cropper = $(img).cropper({
-                done: function(data) {
-                    var img = api.data.img;
-                    api.data = data;
-                    api.data.img = img;
-                }
-             });
-             api.cropImage = function(o){
+mw.createCropTool = function(){
+   cropImage =  $('#mwimagecurrent');
+   cropImage.cropper({
+        dragCrop:false,
+        autoCrop:true,
+        done: function(data) {
+          if(!this.CropToolRendered){
+               this.CropToolRendered = true;
+               mw.$('.cropper-dragger', cropImage[0].parentNode).bind('dblclick', function(){
+                  var data = cropImage.cropper("getData");
+                 console.dir(data)
                   var canvas = document.createElement('canvas');
-                      canvas.width = o.width,
-                      canvas.height = o.height;
+                      canvas.width = data.width,
+                      canvas.height = data.height;
                   var context = canvas.getContext('2d');
-                  context.drawImage(o.img, o.x1, o.y1, o.width, o.height, 0, 0, o.width, o.height);
-                  return canvas.toDataURL();
-             }
-             img.cropapi = api;
-
-             return api;
+                  context.drawImage(cropImage[0], data.x, data.y, data.width, data.height, 0, 0, data.width, data.height);
+                  var newsrc = canvas.toDataURL();
+                  var newimg = new Image();
+                  newimg.src = newsrc;
+                  newimg.id = 'mwimagecurrent';
+                  mw.$(".cropper-container", cropImage[0].parentNode).remove();
+                  cropImage.replaceWith(newimg);
+                  mw.image.current = newimg;
+          });
           }
-          else{
-              return img.cropapi;
-          }
 
-      }
+        }
+    });
+}
 
 $(mwd).ready(function(){
 
@@ -159,6 +143,8 @@ $(mwd).ready(function(){
               mw.image.preload(mw.image.current.src, function(w,h){
                    theImage.style.width = w+'px';
                    theImage.style.height = 'auto';
+                   parent.mw.wysiwyg.normalizeBase64Image(theImage);
+                   parent.mwd.getElementById('mw-image-settings-modal').modal.remove();
               });
           }
 

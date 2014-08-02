@@ -124,9 +124,7 @@ a, a:hover, a:focus, a:active{
 
 
 
-[class*='mw-wysiwyg-table'] > tbody > tr > td{
-  border-color: rgba(255, 255, 255, 0.12);
-}
+
 
 .table td,
 .mw-wysiwyg-table-zebra > tbody > tr > td,
@@ -162,8 +160,10 @@ a, a:hover, a:focus, a:active{
 
 .btn-default{
   background-color: #555566;
-  color:white;
   border-color: transparent;
+}
+.btn-default, .btn[class*='btn-']{
+  color: white !important;
 }
 [class^='btn-'], .box-container [class^='btn-']{
   color: white;
@@ -177,7 +177,6 @@ a, a:hover, a:focus, a:active{
 .btn-default:focus{
   background-color: #7F7F94;
   border-color: transparent;
-  color: white;
 }
 .btn-warning{ background: #ED8D00; }
 

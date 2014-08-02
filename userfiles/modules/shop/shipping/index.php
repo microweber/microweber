@@ -16,7 +16,7 @@
 
 
 
-<div class="mw-ui-box">
+<div class="well">
   <div style="display: none">
     <select onchange="Gateway(this);" name="shipping_gw" class="field-full form-control mw-shipping-gateway mw-shipping-gateway-<?php print $params['id']; ?> <?php if(count($shipping_options) == 1): ?> semi_hidden <?php endif; ?>" >
       <?php foreach ($shipping_options as $item) : ?>

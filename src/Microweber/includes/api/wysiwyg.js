@@ -1342,7 +1342,7 @@ $(window).load(function(){
      if(!nodes[i].pasteBinded && !mw.tools.hasParentsWithClass(nodes[i], 'edit')){
        nodes[i].pasteBinded = true;
        nodes[i].addEventListener("paste", function(e){
-         mw.wysiwyg.paste(e);
+         //mw.wysiwyg.paste(e);
        });
      }
 

@@ -44,7 +44,18 @@ class Event
     {
         return $this->adapter->on($event_name, $callback);
     }
+    /**
+     * Emits event
+     *
+     * @param $event_name
+     * @param bool|callable|mixed $data
+     * @return array|mixed|false
+     */
+    public function trigger($event_name, $data=false)
+    {
+        return $this->adapter->emit($event_name, $data);
 
+    }
     /**
      * Emits event
      *

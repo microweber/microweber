@@ -1751,11 +1751,6 @@ body.dragStart .empty-element { display: block; }
 .mw-inline-bar{
   position: absolute;
   z-index: 999;
-  padding: 5px;
-  background: white;
-  box-shadow: 1px 1px 2px #111111;
-  box-shadow: 1px 1px 2px -1px #111111;
-  min-width: 150px;
 }
 
 .tc-activecell{

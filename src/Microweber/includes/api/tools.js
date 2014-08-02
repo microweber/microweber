@@ -174,6 +174,7 @@ mw.tools = {
     setPosition:function(tooltip, el, position){
         var el =  mw.$(el);
         if( el.length === 0 ){ return false; }
+        tooltip.tooltipData.element = el[0];
         var w = el.outerWidth(),
             tipwidth = $(tooltip).width(),
             h = el.outerHeight(),
@@ -309,9 +310,9 @@ mw.tools = {
         tip.tooltipData = o;
         var wl = wl || true;
         if(wl && self.document.contains(tip)){
-          $(self).bind('resize scroll', function(){
+          $(self).bind('resize scroll', function(e){
             if(self.document.contains(tip)){
-              self.mw.tools.tooltip.setPosition(tip, o.element, o.position);
+              self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
             }
           });
         }
@@ -489,7 +490,8 @@ mw.tools = {
             return modal_return;
         }
         modal_return.remove = function(){
-            modal_object.remove()
+            modal_object.remove();
+            $(modal_return.overlay).remove();
         }
         modal_return.center = function(a){
           mw.tools.modal.center(modal_object, a);
@@ -1138,13 +1140,15 @@ mw.tools = {
       for( ;i<l; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
       return;
     }
-    var clas = el_obj.className!==undefined ? el_obj.className.split(" ") : '';
-    for(var i=0; i<clas.length; i++){
-      if(clas[i].indexOf(namespace)==0){
-           clas[i] = 'MWDeleteNameSpace';
+    if(!!el_obj.className && el_obj.className != ''){
+      var cls = el_obj.className.split(" "), l = cls.length, i = 0, final = [];
+      for( ; i<l; i++){
+        if(!cls[i].contains(namespace)){
+             final.push(cls[i]);
+        }
       }
+      el_obj.className = final.join(" ");
     }
-    el_obj.className = clas.join(" ").replace(/MWDeleteNameSpace/g, "").replace(/\s\s+/g, ' ');
   },
   jQueryFields : function(root){
     if(typeof root === 'string'){ var root = mwd.querySelector(root); }
@@ -3631,39 +3635,38 @@ mw.$(".mw-pin").each(function(){
             mw.inline.tableControl = mw.inline.bar('mw-inline-tableControl');
 
             mw.inline.tableControl.innerHTML = ''
-              +'<div class="mw-defaults mw-ui-btn-nav mw-ui-dropdown-button-controller">'
-              +'<div class="mw-defaults mw-ui-dropdown">'
-                  +'<a style="margin: 0 -1px 0 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Insert</span></a>'
-                  +'<div style="width: 155px;" class="mw-dropdown-content">'
-                    +'<ul class="mw-dropdown-list">'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'above\', mw.inline.activeCell);">Row Above</a></li>'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'under\', mw.inline.activeCell);">Row Under</a></li>'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'left\', mw.inline.activeCell)">Column on left</a></li>'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'right\', mw.inline.activeCell)">Column on right</a></li>'
-                    +'</ul>'
-                  +'</div>'
-              +'</div>'
-              +'<div class="mw-defaults mw-ui-dropdown">'
-                  +'<a style="margin: 0 -1px 0 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Style</span></a>'
-                  +'<div style="width: 155px;" class="mw-dropdown-content">'
-                    +'<ul class="mw-dropdown-list">'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table\', mw.inline.activeCell);">Bordered</a></li>'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-zebra\', mw.inline.activeCell);">Bordered Zebra</a></li>'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple\', mw.inline.activeCell);">Simple</a></li>'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple-zebra\', mw.inline.activeCell);">Simple Zebra</a></li>'
-                    +'</ul>'
-                  +'</div>'
-              +'</div>'
-              +'<div class="mw-defaults mw-ui-dropdown">'
-                  +'<a style="margin-left: 0;" class="mw-ui-btn mw-ui-btn-medium" href="javascript:;"><span>Delete</span></a>'
-                  +'<div style="width: 155px;" class="mw-dropdown-content">'
-                    +'<ul class="mw-dropdown-list">'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteRow(mw.inline.activeCell);">Row</a></li>'
-                        +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteColumn(mw.inline.activeCell);">Column</a></li>'
-                    +'</ul>'
-                  +'</div>'
-                  +'</div>'
-              +'</div>';
+
+           mw.inline.tableControl.innerHTML = ''
+            +   '<ul class="mw-ui-box mw-ui-navigation mw-ui-navigation-horizontal">'
+                +   '<li>'
+                        + '<a href="javascript:;">Insert<span class="mw-icon-dropdown"></span></a>'
+                        + '<ul>'
+                            +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'above\', mw.inline.activeCell);">Row Above</a></li>'
+                            +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertRow(\'under\', mw.inline.activeCell);">Row Under</a></li>'
+                            +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'left\', mw.inline.activeCell)">Column on left</a></li>'
+                            +'<li><a href="javascript:;" onclick="mw.inline.tableManager.insertColumn(\'right\', mw.inline.activeCell)">Column on right</a></li>'
+                        +'</ul>'
+                +   '</li>'
+                +   '<li>'
+                    +   '<a href="javascript:;">Style<span class="mw-icon-dropdown"></span></a>'
+                    +   '<ul>'
+                          +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table\', mw.inline.activeCell);">Bordered</a></li>'
+                          +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-zebra\', mw.inline.activeCell);">Bordered Zebra</a></li>'
+                          +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple\', mw.inline.activeCell);">Simple</a></li>'
+                          +'<li><a href="javascript:;" onclick="mw.inline.tableManager.setStyle(\'mw-wysiwyg-table-simple-zebra\', mw.inline.activeCell);">Simple Zebra</a></li>'
+                    +   '</ul>'
+                +   '</li>'
+                +   '<li>'
+                    +   '<a href="javascript:;">Delete<span class="mw-icon-dropdown"></span></a>'
+                    +   '<ul>'
+                          +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteRow(mw.inline.activeCell);">Row</a></li>'
+                          +'<li><a href="javascript:;" onclick="mw.inline.tableManager.deleteColumn(mw.inline.activeCell);">Column</a></li>'
+                        +'</ul>'
+                +   '</li>'
+            +   '</ul>';
+
+
+
          }
          var off = $(el).offset();
         $(mw.inline.tableControl).css({
@@ -3892,13 +3895,15 @@ mw.image = {
 
                  }
                }
+               if(mwd.getElementById('image-settings-button') !== null){
+                 if(el[0].src.contains('api/pixum_img')){
+                      mwd.getElementById('image-settings-button').style.display = 'none';
+                 }
+                 else{
+                      mwd.getElementById('image-settings-button').style.display = 'inline-block';
+                 }
+               }
 
-               if(el[0].src.contains('api/pixum_img')){
-                mwd.getElementById('image-settings-button').style.display = 'none';
-               }
-               else{
-                mwd.getElementById('image-settings-button').style.display = 'inline-block';
-               }
 
         /* } */
       },
@@ -4136,7 +4141,8 @@ mw.image = {
           template:"mw_modal_basic",
           overlay:true,
           width:'600',
-          height:"80%"
+          height:"80%",
+          name:'mw-image-settings-modal'
         });
         modal.overlay.style.backgroundColor = 'white';
         $(modal.main).css('max-height', 600);

@@ -90,7 +90,10 @@ if (isset($params['rel_id']) == true) {
         $template_file = module_templates($config['module'], 'default');
     }
     if (isset($no_img) and ($no_img) != false) {
+		if(in_live_edit()){
         print "<div class='pictures-module-default-view mw-open-module-settings thumbnail' style='height:65px;background: #f5f5f5 url(". $config['url_to_module'] . "pictures.png) no-repeat center;'></div>";
+		}
+		
     } else if ($no_img != true and !empty($data) and isset($template_file) and is_file($template_file) != false) {
         include($template_file);
     } else {

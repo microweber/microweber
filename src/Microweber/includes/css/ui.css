@@ -2244,11 +2244,16 @@
 .mw-ui-navigation {
   position: relative;
 }
+.mw-ui-box.mw-ui-navigation {
+  background-color: #ffffff;
+}
 .mw-ui-navigation:hover {
   z-index: 9;
 }
-.mw-ui-navigation > li {
+.mw-ui-navigation li {
   list-style: none;
+}
+.mw-ui-navigation > li {
   margin-bottom: 10px;
   position: relative;
 }
@@ -2270,6 +2275,9 @@
 }
 .mw-ui-navigation a > [class*='mw-icon-'] {
   margin: -5px 8px 0 0;
+}
+.mw-ui-navigation a > .mw-icon-dropdown:last-child {
+  margin: -5px -4px 0 7px;
 }
 .mw-ui-navigation .mw-icon-dropdown {
   font-size: 12px;

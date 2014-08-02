@@ -361,6 +361,11 @@
 .mw-dropdown-type-wysiwyg .mw-dropdown-val{
   display: inline-block;
   padding: 3px 7px;
+  max-width: 80%;
+  max-width: calc(100% - 17px);
+  max-width: -webkit-calc(100% - 17px);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mw-dropdown-type-wysiwyg .mw-dropdown-val * {

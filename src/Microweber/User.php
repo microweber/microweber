@@ -173,6 +173,7 @@ class User
         if (!defined('USER_ID')) {
             define("USER_ID", false);
         }
+        $this->app->event->emit('user_logout');
 
         // static $uid;
         $aj = $this->app->url->is_ajax();
@@ -439,7 +440,7 @@ class User
      * @uses $this->app->log->save()
      * @uses $this->login_set_failed_attempt()
      * @uses $this->update_last_login_time()
-     * @uses event_trigger()
+     * @uses $this->app->event->emit()
      * @function $this->login()
      * @see _table() For the database table fields
      */
@@ -448,7 +449,7 @@ class User
         $params2 = array();
 
 
-        $override = event_trigger('before_user_login', $params);
+        $override = $this->app->event->emit('before_user_login', $params);
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
         $overiden = false;
         if (is_array($override)) {
@@ -617,7 +618,7 @@ class User
                 $this->make_logged($data['id']);
                 if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
                     if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
-                        event_trigger('user_login_admin');
+                        $this->app->event->emit('user_login_admin');
                         $p = mw('content')->get_page();
                         if (!empty($p)) {
                             $link = $this->app->content->link($p['id']);
@@ -770,8 +771,8 @@ class User
 
 
                     }
-					
-                    event_trigger('user_login', $data);
+                     
+                    $this->app->event->emit('user_login', $data);
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
 					
@@ -878,7 +879,7 @@ class User
             }
         }
 
-        $override = event_trigger('before_user_register', $params);
+        $override = $this->app->event->emit('before_user_register', $params);
 
         if (is_array($override)) {
             foreach ($override as $resp) {
@@ -991,7 +992,7 @@ class User
                     if (isset($pass2)) {
                         $params['password2'] = $pass2;
                     }
-                    event_trigger('after_user_register', $params);
+                    $this->app->event->emit('after_user_register', $params);
                     //$this->login('email='.$email.'&password='.$pass);
 
 
@@ -1670,7 +1671,7 @@ class User
                         $data = $data_ex[0];
                         $user_session['is_logged'] = 'yes';
                         $user_session['user_id'] = $data['id'];
-                        event_trigger('after_user_register', $data);
+                        $this->app->event->emit('after_user_register', $data);
                         if (!defined('USER_ID')) {
                             define("USER_ID", $data['id']);
                         }

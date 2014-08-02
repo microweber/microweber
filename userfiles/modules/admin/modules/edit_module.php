@@ -107,7 +107,7 @@ $('#module_open_<?php print $params['id']; ?>').show();
   <div class="admin-modules-list-form-content">
     <div class="admin-modules-list-image">
       <?php if(isset($data['icon'])):  ?>
-      <img src="<?php print $data['icon'] ?>" alt="<?php if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." />
+        <img src="<?php print $data['icon'] ?>" alt="<?php if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." />
       <?php endif; ?>
     </div>
     <div class="admin-modules-list-description">
@@ -126,17 +126,17 @@ $('#module_open_<?php print $params['id']; ?>').show();
     <input type="hidden" name="position" value="<?php print $data['position'] ?>" />
     <span class="mw-ui-btn-nav admin-modules-list-buttons">
     <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
-    <a id="module_open_<?php print $params['id']; ?>" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>" class="mw-ui-btn mw-ui-btn-small mw-ui-btn-info">
+    <a id="module_open_<?php print $params['id']; ?>" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">
     <?php _e("Open"); ?>
     </a>
     <?php endif; ?>
-    <div class="mw-module-install-uninstall-controll" >
+
       <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
-      <input    class="mw-ui-btn mw-ui-btn-small " name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Uninstall"); ?>" />
+      <input    class="mw-ui-btn mw-ui-btn-medium " name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Uninstall"); ?>" />
       <?php else:  ?>
-      <input     class="mw-ui-btn mw-ui-btn-small " name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Install"); ?>" />
+      <input     class="mw-ui-btn mw-ui-btn-medium " name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Install"); ?>" />
       <?php endif; ?>
-    </div>
+
     </span> </div>
 </form>
 <?php endif; ?>

@@ -5,7 +5,7 @@
 <?php  $module_info = false;
 if (isset($params['module'])): ?>
 <?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']); ?>
-<?php endif; ?>
+<?php endif; ?>                                                                   
 <script type="text/javascript" src="<?php print(MW_SITE_URL); ?>apijs"></script>
 <script src="<?php print MW_INCLUDES_URL; ?>api/jquery-ui.js"></script>
 <script type="text/javascript">
@@ -21,6 +21,7 @@ if (isset($params['module'])): ?>
     mw.require("forms.js");
     mw.require('wysiwyg.js');
     mw.require('options.js');
+
     mw.require('admin.js');
 </script>
 <style>

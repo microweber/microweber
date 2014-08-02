@@ -77,10 +77,13 @@ class Module
         if (!isset($tables['module_templates'])) {
             $tables['module_templates'] = $prefix . 'module_templates';
         }
-
+        if (!isset($tables['system_licenses'])) {
+            $tables['system_licenses'] = $prefix . 'system_licenses';
+        }
         $this->tables['modules'] = $tables['modules'];
         $this->tables['elements'] = $tables['elements'];
         $this->tables['module_templates'] = $tables['module_templates'];
+        $this->tables['system_licenses'] = $tables['system_licenses'];
 
         /**
          * Define table names constants for global default usage
@@ -125,6 +128,7 @@ class Module
         $table_name = $this->tables['modules'];
         $table_name2 = $this->tables['elements'];
         $table_name3 = $this->tables['module_templates'];
+        $table_name4 = $this->tables['system_licenses'];
 
         $fields_to_add = array();
 
@@ -181,6 +185,19 @@ class Module
         $fields_to_add[] = array('name', 'TEXT default NULL');
         $fields_to_add[] = array('module', 'TEXT default NULL');
         $this->app->db->build_table($table_name3, $fields_to_add);
+
+
+
+        $fields_to_add = array();
+        $fields_to_add[] = array('updated_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+        $fields_to_add[] = array('rel', 'TEXT default NULL');
+        $fields_to_add[] = array('rel_name', 'TEXT default NULL');
+        $fields_to_add[] = array('local_key', 'TEXT default NULL');
+        $fields_to_add[] = array('local_key', 'TEXT default NULL');
+        $this->app->db->build_table($table_name4, $fields_to_add);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));

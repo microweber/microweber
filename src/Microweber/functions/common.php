@@ -1417,7 +1417,14 @@ function html_cleanup($s, $tags = false)
     }
     return $s;
 }
+function in_live_edit()
+{
+    $editmode_sess = mw('user')->session_get('editmode');
 
+    if ($editmode_sess == true) {
+     return true;
+    }
+}
 
 function notif($sting, $class = 'success')
 {
