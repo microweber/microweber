@@ -40,10 +40,10 @@ $(document).ready(function(){
 	 mw.$('#module_uninstall_<?php print $params['id']; ?>').click(function() {
 		 
 		 
-		 var r=confirm("Are you sure you want to uninstall this module?");
+		 var r=confirm("Are you sure you want to UNINSTALL this module?");
 if (r==true)
   {
-  
+
    var for_module = {}
        for_module.id =  $(this).attr('data-module-id');
        $.post('<?php print site_url('api') ?>/uninstall_module/', for_module, function(data) {
@@ -127,12 +127,16 @@ $('#module_open_<?php print $params['id']; ?>').show();
 
 
       <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
+
       <input
             class="mw-ui-btn mw-ui-btn-medium module-uninstall-btn tip"
             data-tip="<?php _e("Uninstall"); ?>"
             name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="đ" />
+
+     <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn"><?php _e("Open"); ?></span>
+
       <?php else:  ?>
-      <input     class="mw-ui-btn mw-ui-btn-medium " name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Install"); ?>" />
+      <input  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn" name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Install"); ?>" />
       <?php endif; ?>
 
 

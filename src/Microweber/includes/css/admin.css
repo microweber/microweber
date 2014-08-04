@@ -2957,13 +2957,24 @@ body.grabbing, body.grabbing *{
   cursor: default;
   opacity: 0.5;
 }
+.module-uninstalled:hover{
+  opacity: 1;
+}
+.module-ctrl-btn{
+  visibility: hidden;
+  margin-bottom: 10px;
+}
+
+.admin-modules-list-form:hover .module-ctrl-btn{
+  visibility:visible
+}
 
 .admin-modules-list-form, .admin-modules-list-form *{
   vertical-align: middle;
 }
 
 .admin-modules-list-image{
-  height: 90px;
+  height: 60px;
   vertical-align: middle;
   text-align: center;
   padding: 12px;
@@ -2985,6 +2996,7 @@ body.grabbing, body.grabbing *{
   right:0;
   font-family:Microweber;
   visibility: hidden;
+  border: none
 }
 .admin-modules-list-form:hover .module-uninstall-btn{
     visibility: visible;
