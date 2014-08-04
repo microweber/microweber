@@ -178,8 +178,22 @@ class Forms
     public function post($params)
     {
 
-        $adm = $this->app->user->is_admin();
 
+        $adm = $this->app->user->is_admin();
+        if (defined("MW_API_CALL")) {
+            if (!$adm) {
+
+                $validate_token=$this->app->user->csrf_validate($params);
+                if($validate_token == false){
+                    return array('error' => 'Invalid token!');
+
+                }
+
+            }
+
+
+
+        }
         $table = MW_DB_TABLE_FORMS_DATA;
         mw_var('FORCE_SAVE', $table);
 

@@ -42,6 +42,12 @@ description: Default register template
 	</div>
 	<div id="register_form_holder">
 		<form id="user_registration_form_holder" method="post" class="clearfix">
+        
+         <?php print csrf_form(); ?>
+
+        
+   
+        
 			<div class="control-group form-group">
 				<div class="controls">
 					<input type="text" class="large-field form-control"  name="email" placeholder="<?php _e("Email"); ?>">

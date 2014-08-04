@@ -4,22 +4,32 @@
 function forgot_password_url()
 {
 
-    return mw('user')->forgot_password_url();
+    return mw()->user->forgot_password_url();
 
 
 }
 
 function register_url()
 {
-    return mw('user')->register_url();
+    return mw()->user->register_url();
 
 
 }
+function csrf_token($form_name = false)
+{
+    return mw()->user->csrf_token($form_name);
+}
+function csrf_form($form_name = false)
+{
+    return mw()->user->csrf_form($form_name);
+}
+
+
 
 function login_url()
 {
 
-    return mw('user')->login_url();
+    return mw()->user->login_url();
 
 }
 
@@ -27,25 +37,25 @@ function session_set($key, $val)
 {
 
 
-    return mw('user')->session_set($key, $val);
+    return mw()->user->session_set($key, $val);
 }
 
 function session_get($name)
 {
-    return mw('user')->session_get($name);
+    return mw()->user->session_get($name);
 
 }
 
 function session_del($name)
 {
-    return mw('user')->session_del($name);
+    return mw()->user->session_del($name);
 }
 
 function session_end()
 {
 
 
-    return mw('user')->session_end();
+    return mw()->user->session_end();
 
 }
 
@@ -53,20 +63,20 @@ function session_end()
 api_expose('user_login');
 function user_login($params)
 {
-    return mw('user')->login($params);
+    return mw()->user->login($params);
 }
 
 function api_login($api_key = false)
 {
 
-    return mw('user')->api_login($api_key);
+    return mw()->user->api_login($api_key);
 
 }
 
 api_expose('user_social_login');
 function user_social_login($params)
 {
-    return mw('user')->social_login($params);
+    return mw()->user->social_login($params);
 }
 
 
@@ -75,7 +85,7 @@ api_expose('logout');
 function logout()
 {
 
-    return mw('user')->logout();
+    return mw()->user->logout();
 
 }
 
@@ -86,7 +96,7 @@ function user_register($params)
 {
 
 
-    return mw('user')->register($params);
+    return mw()->user->register($params);
 
 
 }
@@ -128,7 +138,7 @@ api_expose('save_user');
  */
 function save_user($params)
 {
-    return mw('user')->save($params);
+    return mw()->user->save($params);
 }
 
 
@@ -136,14 +146,14 @@ api_expose('delete_user');
 
 function delete_user($data)
 {
-    return mw('user')->delete($data);
+    return mw()->user->delete($data);
 }
 
 
 api_expose('social_login_process');
 function social_login_process()
 {
-    return mw('user')->social_login_process();
+    return mw()->user->social_login_process();
 
 
 }
@@ -152,7 +162,7 @@ function social_login_process()
 api_expose('user_reset_password_from_link');
 function user_reset_password_from_link($params)
 {
-    return mw('user')->reset_password_from_link($params);
+    return mw()->user->reset_password_from_link($params);
 
 }
 
@@ -160,7 +170,7 @@ api_expose('user_send_forgot_password');
 function user_send_forgot_password($params)
 {
 
-    return mw('user')->send_forgot_password($params);
+    return mw()->user->send_forgot_password($params);
 
 
 }
@@ -206,31 +216,31 @@ function is_logged()
 function user_id()
 {
 
-    return mw('user')->id();
+    return mw()->user->id();
 }
 
 function has_access($function_name)
 {
 
-    return mw('user')->has_access($function_name);
+    return mw()->user->has_access($function_name);
 }
 
 function admin_access()
 {
-    return mw('user')->admin_access();
+    return mw()->user->admin_access();
 
 }
 
 function only_admin_access()
 {
-    return mw('user')->admin_access();
+    return mw()->user->admin_access();
 
 }
 
 function is_admin()
 {
 
-    return mw('user')->is_admin();
+    return mw()->user->is_admin();
 }
 
 
@@ -260,12 +270,12 @@ function is_live_edit()
  */
 function user_name($user_id = false, $mode = 'full')
 {
-    return mw('user')->name($user_id, $mode);
+    return mw()->user->name($user_id, $mode);
 }
 
 function user_picture($user_id = false)
 {
-    return mw('user')->picture($user_id);
+    return mw()->user->picture($user_id);
 }
 
 
@@ -285,7 +295,7 @@ function user_picture($user_id = false)
  */
 function get_users($params = false)
 {
-    return mw('user')->get_all($params);
+    return mw()->user->get_all($params);
 }
 
 /**
@@ -303,6 +313,6 @@ function get_users($params = false)
  */
 function get_user($id = false)
 {
-    return mw('user')->get($id);
+    return mw()->user->get($id);
 
 }

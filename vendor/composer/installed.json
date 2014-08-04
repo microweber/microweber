@@ -651,160 +651,6 @@
         ]
     },
     {
-        "name": "vlucas/valitron",
-        "version": "1.1.7",
-        "version_normalized": "1.1.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/vlucas/valitron.git",
-            "reference": "c0ff8076d694a3c35f97dc34760107bb2bea6f20"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/vlucas/valitron/zipball/c0ff8076d694a3c35f97dc34760107bb2bea6f20",
-            "reference": "c0ff8076d694a3c35f97dc34760107bb2bea6f20",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.2"
-        },
-        "time": "2014-06-11 14:25:29",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Valitron": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "BSD"
-        ],
-        "authors": [
-            {
-                "name": "Vance Lucas",
-                "email": "vance@vancelucas.com",
-                "homepage": "http://www.vancelucas.com",
-                "role": "Developer"
-            }
-        ],
-        "description": "Simple, elegant, stand-alone validation library with NO dependencies",
-        "homepage": "http://github.com/vlucas/valitron",
-        "keywords": [
-            "valid",
-            "validation",
-            "validator"
-        ]
-    },
-    {
-        "name": "symfony/process",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "target-dir": "Symfony/Component/Process",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/Process.git",
-            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/symfony-process-8a3edace8e8aabed8992b993bfc13df3b1e836f2-zip-b5107c.zip",
-            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2",
-            "shasum": "ae566f1f43c0bda65e61dd1e62f4fc7189e59ebf"
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2014-04-28 05:15:04",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.5-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\Process\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Process Component",
-        "homepage": "http://symfony.com"
-    },
-    {
-        "name": "symfony/http-foundation",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "target-dir": "Symfony/Component/HttpFoundation",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/HttpFoundation.git",
-            "reference": "8fa350478681c3ee707106afbe04be80add2b3ff"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "http://packages.microweber.com/dist/symfony-http-foundation-8fa350478681c3ee707106afbe04be80add2b3ff-zip-06e16e.zip",
-            "reference": "8fa350478681c3ee707106afbe04be80add2b3ff",
-            "shasum": "08d236a7519413d10049ab287b8fc2453fa51711"
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "require-dev": {
-            "symfony/expression-language": "~2.4"
-        },
-        "time": "2014-04-28 17:44:51",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.5-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\HttpFoundation\\": ""
-            },
-            "classmap": [
-                "Symfony/Component/HttpFoundation/Resources/stubs"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony HttpFoundation Component",
-        "homepage": "http://symfony.com"
-    },
-    {
         "name": "symfony/event-dispatcher",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -2966,18 +2812,179 @@
         ]
     },
     {
+        "name": "symfony/http-foundation",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Symfony/Component/HttpFoundation",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/HttpFoundation.git",
+            "reference": "d17938f07e168c4e5bb35c209d3c289ccff15d80"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/d17938f07e168c4e5bb35c209d3c289ccff15d80",
+            "reference": "d17938f07e168c4e5bb35c209d3c289ccff15d80",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "symfony/expression-language": "~2.4"
+        },
+        "time": "2014-05-26 19:02:51",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.6-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\HttpFoundation\\": ""
+            },
+            "classmap": [
+                "Symfony/Component/HttpFoundation/Resources/stubs"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony HttpFoundation Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "symfony/process",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Symfony/Component/Process",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Process.git",
+            "reference": "521c487651e6374ca4b750e7f6fabaeff0bb2186"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Process/zipball/521c487651e6374ca4b750e7f6fabaeff0bb2186",
+            "reference": "521c487651e6374ca4b750e7f6fabaeff0bb2186",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2014-07-28 13:20:53",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.6-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Process\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            },
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            }
+        ],
+        "description": "Symfony Process Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "respect/validation",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Respect/Validation.git",
+            "reference": "880f02b6bbc16008befb17d1b4533a24d86e1260"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Respect/Validation/zipball/880f02b6bbc16008befb17d1b4533a24d86e1260",
+            "reference": "880f02b6bbc16008befb17d1b4533a24d86e1260",
+            "shasum": ""
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0",
+            "symfony/validator": "~2.1",
+            "zendframework/zend-validator": "~2.0"
+        },
+        "suggest": {
+            "ext-bcmath": "Arbitrary Precision Mathematics",
+            "ext-mbstring": "Multibyte String Functions"
+        },
+        "time": "2014-07-15 04:10:19",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Respect\\Validation\\": "library/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD Style"
+        ],
+        "authors": [
+            {
+                "name": "Respect/Validation Contributors",
+                "homepage": "https://github.com/Respect/Validation/graphs/contributors"
+            }
+        ],
+        "description": "The most awesome validation engine ever created for PHP",
+        "homepage": "http://respect.li",
+        "keywords": [
+            "respect",
+            "validation",
+            "validator"
+        ]
+    },
+    {
         "name": "masterminds/html5",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/Masterminds/html5-php.git",
-            "reference": "2cad9c173f14eb390f78100dd74ef005f67e1fa5"
+            "reference": "3e6dbb806515a1649a985a8cf64bee688e047039"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/2cad9c173f14eb390f78100dd74ef005f67e1fa5",
-            "reference": "2cad9c173f14eb390f78100dd74ef005f67e1fa5",
+            "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/3e6dbb806515a1649a985a8cf64bee688e047039",
+            "reference": "3e6dbb806515a1649a985a8cf64bee688e047039",
             "shasum": ""
         },
         "require": {
@@ -2985,11 +2992,11 @@
             "php": ">=5.3.0"
         },
         "require-dev": {
-            "phpdocumentor/phpdocumentor": "2.*",
             "phpunit/phpunit": "4.*",
+            "sami/sami": "~2.0",
             "satooshi/php-coveralls": "0.6.*"
         },
-        "time": "2014-07-28 06:21:18",
+        "time": "2014-08-01 07:02:54",
         "type": "library",
         "extra": {
             "branch-alias": {

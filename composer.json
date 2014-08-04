@@ -18,8 +18,8 @@
     "j4mie/paris": "1.*",
     "omnipay/omnipay": "~2.0",
 
-    "vlucas/valitron": "1.*",
 
+    "respect/validation": "0.7.*@dev",
     "prewk/xml-streamer": "0.4.2",
     "keboola/csv": "1.1.3",
     "querypath/QueryPath": "3.*"

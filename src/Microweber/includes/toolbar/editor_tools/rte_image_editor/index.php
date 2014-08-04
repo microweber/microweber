@@ -296,22 +296,37 @@ else{
           });
 
 
-          MediaTabs = mw.tabs({
-            nav:'#image_tabs .mw-ui-btn-nav a',
-            tabs:'.tab',
-            onclick:function(tab){
-                if(tab.id == 'tabfilebrowser'){
-					 
-					
-					mw.load_module('files/admin', '#file_module_live_edit_adm');
-					
+
+          SetFileBrowserHeight = function(){
                    var height = mw.$('#tabfilebrowser').height() + 135;
                    var wh =  $(parent.window).height() - 100;
                    if(height > wh ){
                      var height = wh;
                    }
                    if(height < 230 ){var height = 230;}
-                   parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 430, height, true);
+                   parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 730, height, true);
+          }
+
+          MediaTabs = mw.tabs({
+            nav:'#image_tabs .mw-ui-btn-nav a',
+            tabs:'.tab',
+            onclick:function(tab){
+                if(this.id == 'browseTab'){
+
+                    if(!window.fileBrowserLoaded){
+                      window.fileBrowserLoaded = true;
+                      mw.load_module('files/admin', '#file_module_live_edit_adm', function(){
+                        setTimeout(function(){
+                            SetFileBrowserHeight();
+                        }, 222)
+
+                      });
+                    }
+                    else{
+                      SetFileBrowserHeight()
+                    }
+
+
                 }
                 else{
                    parent.mw.tools.modal.resize(parent.mwd.getElementById('mw_rte_image'), 430, 230, true);
@@ -364,11 +379,11 @@ mw.embed = {
       if(id==''){
         var id = id.pop();
       }
-      return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
+      return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe width="560" height="315" src="https://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
     }
     else{
       var id = mw.url.getUrlParams(url).v;
-      return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe width="560" height="315" src="http://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
+      return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe width="560" height="315" src="https://www.youtube.com/embed/'+id+'?v=1&wmode=transparent" frameborder="0" allowfullscreen></iframe></div>';
     }
   },
   vimeo:function(url){
@@ -376,7 +391,7 @@ mw.embed = {
     if(id==''){
       var id = id.pop();
     }
-    return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe src="http://player.vimeo.com/video/'+id+'?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent" width="560" height="315" frameborder="0" allowFullScreen></iframe></div>';
+    return '<div class="element mw-embed-iframe" style="height:315px;width:560px;"><iframe src="https://player.vimeo.com/video/'+id+'?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;color=bc9b6a&wmode=transparent" width="560" height="315" frameborder="0" allowFullScreen></iframe></div>';
   }
 }
 
@@ -462,7 +477,7 @@ mw.embed = {
       <a href="javascript:;" class="mw-ui-btn active"><?php _e("My Computer"); ?></a>
       <a href="javascript:;" class="mw-ui-btn"><?php _e("URL"); ?></a>
   	<?php if(is_admin()): ?>
-      <a href="javascript:;" class="mw-ui-btn"><?php _e("Uploaded"); ?></a>
+      <a href="javascript:;" class="mw-ui-btn" id="browseTab"><?php _e("Uploaded"); ?></a>
   	<?php endif; ?>
     </div>
 

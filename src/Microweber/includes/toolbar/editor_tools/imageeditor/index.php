@@ -26,8 +26,13 @@
 
         <div id="the-image-holder"><!-- Image will be placed here --></div>
    <div class="mw-ui-box-content">
-
-      <div class="mw-ui-field-holder">
+      <div style="text-align:center;padding-bottom: 12px;">
+        <div id="cropmenu" class="mw-ui-btn-nav" style="display: none;">
+          <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info" onclick="DoCrop()"><?php _e("Crop"); ?></span>
+          <span class="mw-ui-btn mw-ui-btn-medium" onclick="cropcancel()"><?php _e("Cancel"); ?></span>
+        </div>
+      </div>
+      <div class="mw-ui-field-holder" style="padding-bottom: 20px;" id="editmenu">
         <div class="mw-ui-btn-nav pull-left" style="margin-right:12px">
 
 
@@ -37,7 +42,7 @@
           <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
             <span class="mw-icon-ios7-refresh-empty"></span>
           </span>
-          <span class="mw-ui-btn disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
+
         </div>
 
 
@@ -51,6 +56,8 @@
             </ul>
           </div>
         </div>
+
+        <span class="mw-ui-btn mw-ui-btn-warn pull-right disabled" id="mw_image_reset"><?php _e("Reset"); ?></span>
 
 
 
@@ -80,33 +87,52 @@
 
 
 mw.createCropTool = function(){
+   mw.$('#cropmenu').show();
+   mw.$('#editmenu').hide();
    cropImage =  $('#mwimagecurrent');
    cropImage.cropper({
         dragCrop:false,
         autoCrop:true,
         done: function(data) {
-          if(!this.CropToolRendered){
-               this.CropToolRendered = true;
+
+
                mw.$('.cropper-dragger', cropImage[0].parentNode).bind('dblclick', function(){
-                  var data = cropImage.cropper("getData");
-                 console.dir(data)
-                  var canvas = document.createElement('canvas');
-                      canvas.width = data.width,
-                      canvas.height = data.height;
-                  var context = canvas.getContext('2d');
-                  context.drawImage(cropImage[0], data.x, data.y, data.width, data.height, 0, 0, data.width, data.height);
-                  var newsrc = canvas.toDataURL();
-                  var newimg = new Image();
-                  newimg.src = newsrc;
-                  newimg.id = 'mwimagecurrent';
-                  mw.$(".cropper-container", cropImage[0].parentNode).remove();
-                  cropImage.replaceWith(newimg);
-                  mw.image.current = newimg;
-          });
-          }
+                    DoCrop();
+               });
+
 
         }
     });
+}
+
+
+DoCrop = function(){
+        var data = cropImage.cropper("getData");
+        var canvas = document.createElement('canvas');
+            canvas.width = data.width,
+            canvas.height = data.height;
+        var context = canvas.getContext('2d');
+        context.drawImage(cropImage[0], data.x, data.y, data.width, data.height, 0, 0, data.width, data.height);
+        var newsrc = canvas.toDataURL();
+        var newimg = new Image();
+        newimg.src = newsrc;
+        newimg.id = 'mwimagecurrent';
+        mw.$(".cropper-container", cropImage[0].parentNode).remove();
+        cropImage.replaceWith(newimg);
+        mw.image.current = newimg;
+        mw.$('#cropmenu').hide();
+        mw.$('#editmenu').show();
+
+}
+cropcancel = function(){
+
+    mw.$(".cropper-container").remove();
+    mw.$('#cropmenu').hide();
+    mw.$('#editmenu').show();
+    var newimg = new Image();
+        newimg.src = cropImage.attr('src');
+        newimg.id = 'mwimagecurrent';
+         cropImage.replaceWith(newimg);
 }
 
 $(mwd).ready(function(){

@@ -63,6 +63,7 @@ if (!defined('MW_VERSION')) {
  * @property \Microweber\Ui $ui
  * @property \Microweber\Orm $orm
  * @property \Microweber\Event $event
+ * @property \Microweber\Validator $validator
  */
 class Application
 {
@@ -301,6 +302,7 @@ class Application
             case 'user':
             case 'users':
             case 'view':
+            case 'validator':
                 $property = ucfirst($property);
                 break;
         }

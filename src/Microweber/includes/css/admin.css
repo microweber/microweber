@@ -243,6 +243,9 @@ h3 > [class*="mw-icon-"]:first-child{
   padding-left: 35px;
   padding-bottom: 35px;
 }
+#file_module_live_edit_adm .mw-module-admin-wrap{
+  padding-left: 0;
+}
 
 .main-bar-column{
   width:100px;
@@ -2946,7 +2949,13 @@ body.grabbing, body.grabbing *{
   margin: 5px;
   border:1px solid transparent;
   text-align: center;
-  height: 145px;
+  height: auto;
+  cursor: pointer;
+}
+
+.module-uninstalled{
+  cursor: default;
+  opacity: 0.5;
 }
 
 .admin-modules-list-form, .admin-modules-list-form *{
@@ -2954,22 +2963,31 @@ body.grabbing, body.grabbing *{
 }
 
 .admin-modules-list-image{
-  height: 60px;
+  height: 90px;
   vertical-align: middle;
   text-align: center;
   padding: 12px;
+  width: 100%;
+  background-position: center;
+  background-size: auto;
 }
 .admin-modules-list-image img{
   vertical-align: middle;
 }
 
-
-.mw-modules-admin li.mw-admin-module-list-item  .admin-modules-list-buttons{
-  visibility: hidden;
+.admin-modules-list-form-content, .admin-modules-list-form{
+  position: relative;
 }
 
-.mw-modules-admin li.mw-admin-module-list-item :hover .admin-modules-list-buttons{
-  visibility: visible;
+.module-uninstall-btn{
+  position: absolute;
+  top:0;
+  right:0;
+  font-family:Microweber;
+  visibility: hidden;
+}
+.admin-modules-list-form:hover .module-uninstall-btn{
+    visibility: visible;
 }
 
 .mw-modules-admin li.mw-admin-module-list-item  h2{

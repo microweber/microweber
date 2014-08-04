@@ -132,6 +132,8 @@ description: Default comments template
       <form autocomplete="on" id="comments-form-<?php print $data['id'] ?>" class="form-group">
         <?php   event_trigger('module.comments.form.start', $data); ?>
         <input type="hidden" name="rel_id" value="<?php print $data['rel_id'] ?>">
+         <?php print csrf_form(); ?>
+        
         <input type="hidden" name="rel" value="<?php print $data['rel'] ?>">
         <input type="hidden" name="module_id" value="<?php print $params['id'] ?>">
         <?php if($form_title != false): ?>

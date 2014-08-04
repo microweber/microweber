@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
     'Prewk\\' => array($vendorDir . '/prewk/xml-streamer/src'),
     'Omnipay\\WorldPay\\' => array($vendorDir . '/omnipay/worldpay/src'),
     'Omnipay\\TwoCheckout\\' => array($vendorDir . '/omnipay/2checkout/src'),

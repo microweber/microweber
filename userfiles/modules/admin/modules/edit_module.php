@@ -103,41 +103,38 @@ $('#module_open_<?php print $params['id']; ?>').show();
 });
 </script>
 
-<form class="admin-modules-list-form" id="module_admin_settings_form_<?php print $params['id']; ?>">
-  <div class="admin-modules-list-form-content">
-    <div class="admin-modules-list-image">
-      <?php if(isset($data['icon'])):  ?>
-        <img src="<?php print $data['icon'] ?>" alt="<?php if(isset($data['name'])){ print addslashes($data['name']); }; ?> icon." />
-
-      <?php endif; ?>
-    </div>
+<form
+    class="admin-modules-list-form <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0){ print 'module-installed'; } else{ print 'module-uninstalled'; } ?> "
+    id="module_admin_settings_form_<?php print $params['id']; ?>">
+  <div class="admin-modules-list-form-content" <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>onclick="window.location.href = '<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>';"<?php endif; ?>>
+    <div class="bgimg admin-modules-list-image" style="<?php if(isset($data['icon'])):  ?> background-image: url(<?php print $data['icon'] ?>); <?php endif; ?>" ></div>
     <div class="admin-modules-list-description">
       <h2 title="<?php print $data['module'] ?>">
         <?php if(isset($data['name'])):  ?>
         <?php _e($data['name']); ?>
         <?php endif; ?>
       </h2>
-      <p> </p>
     </div>
-    
+
     <input type="hidden" name="id" value="<?php print $data['id'] ?>" />
     <input type="hidden" name="installed" value="<?php print $data['installed'] ?>" />
     <input type="hidden" name="ui" value="<?php print $data['ui'] ?>" />
     <input type="hidden" name="ui_admin" value="<?php print $data['ui_admin'] ?>" />
     <input type="hidden" name="position" value="<?php print $data['position'] ?>" />
-    <span class="mw-ui-btn-nav admin-modules-list-buttons">
-    <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
-    <a id="module_open_<?php print $params['id']; ?>" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($data['module']) ?>" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-info">
-    <?php _e("Open"); ?>
-    </a>
-    <?php endif; ?>
+
+    </div>
+
+
 
       <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
-      <input    class="mw-ui-btn mw-ui-btn-medium " name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Uninstall"); ?>" />
+      <input
+            class="mw-ui-btn mw-ui-btn-medium module-uninstall-btn tip"
+            data-tip="<?php _e("Uninstall"); ?>"
+            name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="đ" />
       <?php else:  ?>
       <input     class="mw-ui-btn mw-ui-btn-medium " name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Install"); ?>" />
       <?php endif; ?>
 
-    </span> </div>
+
 </form>
 <?php endif; ?>

@@ -45,7 +45,7 @@ function mw_print_admin_post_comments_counter_quick_list($item)
             mw()->module->ui('content.edit.tabs', $btn);
         }
     }
- }
+}
 
 
 event_bind('mw.admin.dashboard.links', 'mw_print_admin_dashboard_comments_btn');
@@ -136,6 +136,16 @@ function post_comment($data)
             error('Error: Only admin can edit comments!');
         }
     }
+
+    if (defined("MW_API_CALL")) {
+        if (!$adm) {
+            $validate_token = mw()->user->csrf_validate($data);
+            if ($validate_token == false) {
+                return array('error' => 'Invalid token!');
+            }
+        }
+    }
+
 
     if (isset($data['action']) and isset($data['id'])) {
         if ($adm == false) {
