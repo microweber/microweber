@@ -123,7 +123,7 @@ if($hasmultiple):
 <input type="text" data-custom-field-id="<?php print $item['id'] ?>"
                    data-tip="<?php print addslashes($item['name']) ?>"
                    class="mw-ui-invisible-field mw-ui-field-big admin-imp-field tip"
-                   placeholder="0.00" value="<?php print $val; ?>" onchange="mw.quick_price_save_edit(this)" style="width:100px;height:54px;"  />
+                   placeholder="0.00" value="<?php print $val; ?>" onchange="mw.quick_price_save_edit(this)" style="width:90px;height:54px;"  />
 <?php endif; ?>
 
 
