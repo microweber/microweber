@@ -331,8 +331,19 @@ class Url
 
     public function site_url($add_string = false)
     {
+
+
         $site_url = $this->site_url_var;
+
         if ($site_url == false) {
+            return site_url($add_string);
+        }
+
+//to be deleted
+        if ($site_url == false) {
+
+
+
             $pageURL = 'http';
             if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {
                 $pageURL .= "s";

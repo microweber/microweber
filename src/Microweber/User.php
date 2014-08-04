@@ -1479,6 +1479,7 @@ class User
         $notif['title'] = "The user have successfully changed password. (User id: {$data1['id']})";
 
         $this->app->log->save($notif);
+        $this->session_end();
 
         return array('success' => 'Your password have been changed!');
 
