@@ -2,9 +2,9 @@
 $config = array();
 $config['name'] = "Site stats";
 $config['author'] = "Microweber";
-$config['ui_admin'] = true;
+$config['ui_admin'] = false;
 
-$config['ui'] = '0';
+$config['ui'] = false;
 $config['position'] = 30;
 $config['version'] = 0.3;
 $config['type'] = "stats";
