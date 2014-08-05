@@ -84,6 +84,9 @@ class Format
 
     function autolink($text)
     {
+
+
+
         $pattern = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';
         return preg_replace_callback($pattern, array($this, 'auto_link_text_callback'), $text);
     }
@@ -98,7 +101,9 @@ class Format
         $url_short = '';
 
         if (strlen($url_full) > $max_url_length) {
+
             $parts = parse_url($url_full);
+
             $url_short = $parts['scheme'] . '://' . preg_replace('/^www\./', '', $parts['host']) . '/';
 
             $path_components = explode('/', trim($parts['path'], '/'));
@@ -131,7 +136,9 @@ class Format
             $url_short = $url_full;
         }
         // return "<a rel=\"nofollow\" href=\"$url_full\" target='_blank'>$url_short</a>";
-        return "<a href=\"$url_full\" target='_blank'>$url_short</a>";
+
+
+        return "<a href=\"$url_full\">$url_short</a>";
     }
 
     public function ago($time, $granularity = 2)

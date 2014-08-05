@@ -76,6 +76,10 @@ class Db
             }
             $this->adapter = $this->app->adapters->container['database'];
         }
+
+        event_trigger('db_init');
+
+
     }
 
     /**
@@ -592,9 +596,7 @@ class Db
                 }
 
             }
-            if (isset($params['debug'])) {
-                //  print_r(mw()->orm->getLastQuery());
-            }
+
         }
         if (!isset($table) and isset($params['what'])) {
             //   $table = $this->real_table_name($this->guess_table_name($params['what']));

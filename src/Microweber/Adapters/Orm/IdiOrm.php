@@ -24,6 +24,7 @@ class IdiOrm
 {
     public $default_limit = 30;
     public $app;
+    public $filters;
 
     public function __construct($app = null)
     {
@@ -114,6 +115,11 @@ class IdiOrm
 
     }
 
+    function filter($key, $callback)
+    {
+        return $this->filters[$key] = $callback;
+    }
+
     function configure($key, $val = false, $connection_name = 'default')
     {
         return ORM::configure($key, $val, $connection_name);
@@ -129,6 +135,7 @@ class IdiOrm
 
 
         $table_real = $this->app->db->real_table_name($table);
+        event_trigger('orm_get',$table);
 
         $orm = ORM::for_table($table_real)->table_alias($table);
         if (is_string($params)) {
@@ -154,8 +161,34 @@ class IdiOrm
         $to_search_in_fields = false;
         $to_search_keyword = false;
         $fields = false;
+        $filter = false;
+        $filter_params = $params;
 
         if (is_array($params)) {
+
+            if (isset($params['filter'])) {
+                $filter = $params['filter'];
+                unset($params['filter']);
+            }
+
+            if($filter != false and is_array($this->filters) and !empty($this->filters)){
+                $filters = array_merge($this->filters,$filter);
+                $filter = $filters;
+            } else {
+                $filter = $this->filters;
+            }
+
+
+
+            if (is_array($filter)) {
+                foreach ($filter as $k => $v) {
+                    if (isset($params[$k]) and is_callable($v)) {
+                        call_user_func($v, $orm, $params[$k], $params);
+                    }
+                }
+            }
+
+
             if (isset($params['group_by'])) {
                 $group_by = $params['group_by'];
                 unset($params['group_by']);
@@ -286,6 +319,7 @@ class IdiOrm
 
                         $orm->where_equal($table_alias . '.rel', $table_assoc);
                         $orm->left_outer_join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);
+                        //$orm->left_outer_join($table_real, array($table_alias . '.'.$joins[0], '=', $table . '.'.$joins[1]), $table_alias);
                         //$orm->left_outer_join($table_real, array($table_alias . '.rel_id', '=', $table . '.id'), $table_alias);
                     }
 
@@ -516,7 +550,8 @@ class IdiOrm
                 }
             }
         }
-        if ($order_by != false) {
+        if ($count == false and $count_paging == false and $order_by != false) {
+
             $orm->order_by_expr($order_by);
         }
 
@@ -582,17 +617,16 @@ class IdiOrm
         $orm = ORM::for_table($table_real)->table_alias($table);
         return $orm;
     }
+
     function debug()
     {
         return ORM::get_last_query();
     }
+
     function getLastQuery()
     {
         return ORM::get_last_query();
     }
-
-
-
 
 
 }

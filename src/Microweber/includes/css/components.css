@@ -517,9 +517,8 @@ body #pages_edit_container .page_posts_list_tree li a.depth-4{padding-left: 165p
   background-color: rgba(72, 173, 121, 0.7);
 }
 
-#admin_notifications .mw-success *{
-  color: white;
-  border-color: transparent
+#admin_notifications .mw-notification-new{
+    background: #f5f5f5
 }
 
 

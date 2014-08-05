@@ -10,7 +10,7 @@
     "components/jqueryui": "1.10.4",
     "components/rangy": "1.2.3",
     "components/bootstrap": "3.*",
-    "components/bootstrap-default": "3.*",
+    
     "zeroclipboard/zeroclipboard": "2.*",
     "pimple/pimple": "2.*",
 
@@ -19,7 +19,7 @@
     "omnipay/omnipay": "~2.0",
 
 
-    "respect/validation": "0.7.*@dev",
+    "respect/validation": "0.7.*",
     "prewk/xml-streamer": "0.4.2",
     "keboola/csv": "1.1.3",
     "querypath/QueryPath": "3.*"

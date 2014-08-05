@@ -49,6 +49,11 @@ class Orm
 
     }
 
+    function filter($key, $callback)
+    {
+        return $this->adapter->filter($key, $callback);
+    }
+
     function configure($key, $val = false, $connection_name = 'default')
     {
         return $this->adapter->configure($key, $val, $connection_name);

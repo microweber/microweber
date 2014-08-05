@@ -1,0 +1,30 @@
+# a Courtesy of Respect/Foundation
+
+language: php
+
+env: FOUNDATION_NO_WAIT=1
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm
+
+before_script:
+  - make composer-install-dev
+  - phpenv rehash
+
+script:
+  - make testdox
+  - make scrutinizer-coverage
+
+matrix:
+  allow_failures:
+    - php: hhvm
+
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#php-respect"
+    use_notice: true

@@ -2,7 +2,45 @@
 if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', MW_TABLE_PREFIX . 'comments');
 }
+
+
+event_bind('orm_get', 'db_filter_comments');
+
+
+function db_filter_comments($table)
+{
+
+    if($table == MODULE_DB_COMMENTS){
+        mw()->orm->filter('posts_category',function ($orm, $value) {
+            if(intval($value) > 0){
+            $categories_items_table = MW_TABLE_PREFIX . 'categories_items';
+            $comments_table = MW_TABLE_PREFIX . 'comments';
+            $orm->inner_join($categories_items_table, array($comments_table . '.rel_id', '=', $categories_items_table . '.rel_id'));
+            $orm->where($categories_items_table . '.parent_id', $value);
+            $orm->order_by_desc($comments_table . '.created_on');
+            }
+        });
+    }
+
+
+
+
+}
+
+
+
+
+
+
+
 event_bind('module.content.manager.item', 'mw_print_admin_post_list_comments_counter');
+
+
+
+
+
+
+
 
 function mw_print_admin_post_list_comments_counter($item)
 {
@@ -307,37 +345,23 @@ function get_comments($params)
     $table = MODULE_DB_COMMENTS;
     $params['table'] = $table;
 
-    if (isset($params['categsssory'])) {
-        if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
-            define('MW_DB_TABLE_TAXONOMY_ITEMS', MW_TABLE_PREFIX . 'categories_items');
-        }
-        $table_cat_items = MW_DB_TABLE_TAXONOMY_ITEMS;
-        //$cat_items = get_category_items($params['category']);
-        $cat = intval($params['category']);
-        $select = " SELECT * ";
-        $limit = " limit 30 ";
-        if (isset($params['count'])) {
-            $select = " SELECT  count(*) as qty ";
-            $limit = "   ";
-        } elseif (isset($params['single'])) {
-            $limit = " limit 1 ";
-        }
-        $sql = $select . " FROM $table
-        LEFT JOIN $table_cat_items ON
-            $table_cat_items.rel = $table.rel
-            where $table_cat_items.parent_id=$cat
-            and $table_cat_items.rel_id =$table.rel_id
-            order by $table.id desc
-            $limit ";
-
-        $comments = mw()->db->query($sql, 'comments_in_category_' . crc32($sql), 'comments/global');
-
-        unset($params['category']);
-    } else {
-        $comments = get($params);
+    if (isset($params['posts_category'])) {
+            //    $params['debug'] = 'content';
+        //$params['no_cache'] = 'content';
+//        $params['debug'] = 'content';
+//        $params['no_cache'] = 'content';
+//        $params['filter']['posts_category'] = function ($orm, $value) {
+//            $categories_items_table = MW_TABLE_PREFIX . 'categories_items';
+//            $comments_table = MW_TABLE_PREFIX . 'comments';
+//            $orm->inner_join($categories_items_table, array($comments_table . '.rel_id', '=', $categories_items_table . '.rel_id'));
+//            $orm->where($categories_items_table . '.parent_id', $value);
+//            $orm->order_by_desc($comments_table . '.created_on');
+//        };  
     }
 
 
+    $comments = get($params);
+   // print_r(mw()->orm->getLastQuery());
     $date_format = get_option('date_format', 'website');
     if ($date_format == false) {
         $date_format = "Y-m-d H:i:s";
@@ -361,13 +385,13 @@ function get_comments($params)
                 $comments[$i]['updated_on'] = date($date_format, strtotime($item['updated_on']));
             }
             if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
+                $surl = site_url();
+                $item['comment_body'] = str_replace('{SITE_URL}', $surl, $item['comment_body']);
                 $comments[$i]['comment_body'] = mw()->format->autolink($item['comment_body']);
             }
 
             if (isset($params['single'])) {
-
                 return $comments[$i];
-
             }
 
             $i++;
@@ -375,4 +399,7 @@ function get_comments($params)
     }
     return $comments;
 }
+
+
+
 

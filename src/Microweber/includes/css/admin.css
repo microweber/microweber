@@ -2053,6 +2053,10 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   width: 100%;
 }
 
+#pricedropdown .mw-ui-btn{
+  border-color: transparent transparent #e5e5e5 transparent;
+}
+
 #pricedropdown .mw-ui-dropdown-content{
   left: auto;
   right: 0;
@@ -2986,6 +2990,10 @@ body.grabbing, body.grabbing *{
   vertical-align: middle;
 }
 
+.admin-modules-list-form-content{
+  padding-top: 15px;
+}
+
 .admin-modules-list-form-content, .admin-modules-list-form{
   position: relative;
 }
@@ -3041,6 +3049,7 @@ body.grabbing, body.grabbing *{
 
 #mw-modules-toolbar{
   padding-left: 35px;
+  margin-left: -35px;
   padding-top: 30px;
   vertical-align: middle;
   margin-bottom: 35px;

@@ -84,6 +84,10 @@ if (get_option('enable_comments', 'comments') == 'y') {
         $comments_data['order_by'] = 'created_on desc';
     } elseif (isset($params['order'])) {
         $comments_data['order_by'] = $params['order'];
+
+    }elseif (isset($data['order'])) {
+        $comments_data['order_by'] = $data['order'];
+
     }
 
 

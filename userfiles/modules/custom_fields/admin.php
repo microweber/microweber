@@ -171,7 +171,10 @@ mw_custom_fileds_changed_callback = function(el){
 	 });
 	mw.custom_fields.after_save();
 
-}	
+}
+if(!!window.thismodal){
+    thismodal.resize(800)
+}
 
 </script>
 

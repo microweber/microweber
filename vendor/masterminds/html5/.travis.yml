@@ -1,0 +1,21 @@
+language: php
+
+php: 
+  - 5.3
+  - 5.4
+  - 5.5
+  - hhvm-nightly
+
+notifications:
+  irc: "irc.freenode.net#masterminds"
+
+before_script:
+  - composer self-update
+  - composer install --dev
+
+script:
+  - mkdir -p build/logs
+  - ./vendor/bin/phpunit -c phpunit.xml.dist
+
+after_script:
+  - php vendor/bin/coveralls -v

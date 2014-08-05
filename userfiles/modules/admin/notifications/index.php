@@ -122,7 +122,7 @@ mw.notif_mark_all_as_read = function(){
 						</h2>
 					</div>
 					<?php if($is_quick == false): ?>
-					<div class="pull-right"><a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-btn"><?php _e("Mark all as read"); ?></a></div>
+					<div class="pull-right"><a href="javascript:mw.notif_mark_all_as_read();" class="mw-ui-btn mw-ui-btn-invert"><?php _e("Mark all as read"); ?></a></div>
 					<?php endif; ?>
 				</th>
 			</tr>
@@ -131,13 +131,13 @@ mw.notif_mark_all_as_read = function(){
 
 		<tbody>
 			<?php foreach($data  as $item): ?>
-			<tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?>mw-success<?php endif; ?>" <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?> onclick="mw.notif_item_read('<?php print $item['id'] ?>');" <?php endif; ?>>
+			<tr class="mw-ui-admin-notif-item-<?php print $item['id'] ?> <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?> mw-notification-new <?php endif; ?>" <?php if(isset($item['is_read']) and trim( $item['is_read']) == 'n'): ?> onclick="mw.notif_item_read('<?php print $item['id'] ?>');" <?php endif; ?>>
 				<?php
-  	    $mod_info = false;
-  	    if(isset($item['module']) and $item['module'] != ''){
-  		    $mod_info = module_info($item['module']);
-  	    }
-        ?>
+            	    $mod_info = false;
+            	    if(isset($item['module']) and $item['module'] != ''){
+            		    $mod_info = module_info($item['module']);
+            	    }
+                ?>
 				<td><?php if($mod_info != false and isset($mod_info['name'])): ?>
 					<img src=" <?php   print thumbnail($mod_info['icon'], 16,16) ?>" />
 					<?php endif; ?></td>
@@ -157,18 +157,18 @@ mw.notif_mark_all_as_read = function(){
 					
 					</td>
 				
-				
+
 				<?php if($is_quick == false): ?>
-				<td style="max-width: 60%;"><div class="notification_info"><a href="<?php if($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php  print  $item['id'] ?><?php endif; ?>" class="ellipsis">
+				<td style="max-width: 60%;"><div class="notification_info"><a href="<?php if($mod_info != false and isset($mod_info['name'])): ?><?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php  print  $item['id'] ?><?php endif; ?>">
 						<?php if(isset($item['content']) and $item['content'] != ''): ?>
-						<?php print $item['content']; ?>
+						 <?php print strip_tags( html_entity_decode( $item['content'])  ); ?>
 						<?php else : ?>
 						<?php endif; ?>
 						</a></div></td>
 				<?php endif; ?>		
 						
 						
-				<?php if($is_quick == false): ?>		
+				<?php if($is_quick == false): ?>
 				<td><a href="javascript:mw.notif_item_delete('<?php print $item['id'] ?>');" class="show-on-hover mw-icon-close"></a></td>
 				<?php endif; ?>	
 			</tr>

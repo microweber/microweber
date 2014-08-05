@@ -2819,13 +2819,13 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/HttpFoundation.git",
-            "reference": "d17938f07e168c4e5bb35c209d3c289ccff15d80"
+            "reference": "8fa350478681c3ee707106afbe04be80add2b3ff"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/d17938f07e168c4e5bb35c209d3c289ccff15d80",
-            "reference": "d17938f07e168c4e5bb35c209d3c289ccff15d80",
-            "shasum": ""
+            "url": "http://packages.microweber.com/dist/symfony-http-foundation-8fa350478681c3ee707106afbe04be80add2b3ff-zip-06e16e.zip",
+            "reference": "8fa350478681c3ee707106afbe04be80add2b3ff",
+            "shasum": "08d236a7519413d10049ab287b8fc2453fa51711"
         },
         "require": {
             "php": ">=5.3.3"
@@ -2833,11 +2833,11 @@
         "require-dev": {
             "symfony/expression-language": "~2.4"
         },
-        "time": "2014-05-26 19:02:51",
+        "time": "2014-04-28 17:44:51",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.6-dev"
+                "dev-master": "2.5-dev"
             }
         },
         "installation-source": "dist",
@@ -2876,22 +2876,22 @@
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Process.git",
-            "reference": "521c487651e6374ca4b750e7f6fabaeff0bb2186"
+            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Process/zipball/521c487651e6374ca4b750e7f6fabaeff0bb2186",
-            "reference": "521c487651e6374ca4b750e7f6fabaeff0bb2186",
-            "shasum": ""
+            "url": "http://packages.microweber.com/dist/symfony-process-8a3edace8e8aabed8992b993bfc13df3b1e836f2-zip-b5107c.zip",
+            "reference": "8a3edace8e8aabed8992b993bfc13df3b1e836f2",
+            "shasum": "ae566f1f43c0bda65e61dd1e62f4fc7189e59ebf"
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2014-07-28 13:20:53",
+        "time": "2014-04-28 05:15:04",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.6-dev"
+                "dev-master": "2.5-dev"
             }
         },
         "installation-source": "dist",
@@ -2906,12 +2906,14 @@
         ],
         "authors": [
             {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
             },
             {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
             }
         ],
         "description": "Symfony Process Component",

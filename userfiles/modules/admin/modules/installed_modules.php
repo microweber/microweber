@@ -37,10 +37,13 @@ if( h === '' || h=== '#' || h==='#?' ){
 }
 else{
   var hash = mw.url.getHashParams(h);
-  try {mwd.querySelector(".modules-index-bar input[value='"+hash.ui+"']").checked = true; } catch(e){}
+  try {mwd.querySelector(".modules-index-bar input[value='"+hash.ui+"']").checked = true; } catch(e){  }
 }
 
-
+mw.$("#modules-sort-types").bind('change', function(){
+  var val = $(this).getDropdownValue();
+  mw.url.windowHashParam('ui', val);
+});
 
 });
 
@@ -152,7 +155,7 @@ function mw_show_marketplace(){
 	 
 	  $(".modules-index-bar").hide();
 	 
-	 
+
   	 mw.load_module('admin/modules/market','#modules_market_<?php print $params['id']; ?>');
  
 }
@@ -174,12 +177,15 @@ function mw_show_my_modules(){
       <div class="fixed-side-column scroll-height-exception-master">
         <div class="admin-side-box scroll-height-exception">
           <h2 class="mw-side-main-title"> <span class="mw-icon-module"></span><span>
-            <?php _e("Modules"); ?>
+            <?php _e("Extensions"); ?>
             </span> </h2>
         </div>
         <div class="mw-admin-side-nav" id="modules_categories_tree_<?php print $params['id']; ?>" >
           <div class="fixed-side-column-container">
-            <div class="mw-ui-sidenav"> <a href="javascript:;"  onclick="mw_show_my_modules()" class="active">My modules</a> <a href="javascript:;" onclick="mw_show_marketplace()">Market</a> </div>
+            <div class="mw-ui-sidenav">
+                <a href="javascript:;"  onclick="mw_show_my_modules()" class="active"><?php _e("My modules"); ?></a>
+                <a href="javascript:;" onclick="mw_show_marketplace()"><?php _e("Market"); ?></a>
+            </div>
           </div>
         </div>
         <div class="text-center scroll-height-exception">
@@ -187,22 +193,7 @@ function mw_show_my_modules(){
             <label class="mw-ui-label">
               <?php _e("Show"); ?>
               :</label>
-            <ul class="mw-ui-inline-list" style="padding-bottom: 12px;">
-              <li>
-                <label class="mw-ui-check">
-                  <input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" />
-                  <span></span> <span>
-                  <?php _e("Installed"); ?>
-                  </span> </label>
-              </li>
-              <li>
-                <label class="mw-ui-check">
-                  <input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  />
-                  <span></span> <span>
-                  <?php _e("Uninstalled"); ?>
-                  </span> </label>
-              </li>
-            </ul>
+
             <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-small">
             <?php _e("Reload modules"); ?>
             </span> </div>
@@ -215,46 +206,69 @@ function mw_show_my_modules(){
       <div class="modules-index-bar">
         <div class="mw-ui-row" id="modules-title-and-search">
           <div class="mw-ui-col">
-            <h2 class="mw-side-main-title scroll-height-exception"> <span class="mw-icon-module"></span><span>
-              <?php _e("Modules"); ?>
-              </span> </h2>
+            <h2 class="mw-side-main-title scroll-height-exception">
+                <span>
+                    <?php _e("My Modules"); ?>
+                </span>
+            </h2>
           </div>
           <div class="mw-ui-col">
             <input
-        name="module_keyword"
-        id="module_keyword"
-        autocomplete="off"
-        class="mw-ui-searchfield pull-right"
-        type="text"
-        placeholder='<?php _e("Search for modules"); ?>'
-        onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
+                name="module_keyword"
+                id="module_keyword"
+                autocomplete="off"
+                class="mw-ui-searchfield pull-right"
+                type="text"
+                placeholder='<?php _e("Search for modules"); ?>'
+                onkeyup="mw.on.stopWriting(this, function(){mw.url.windowHashParam('search', this.value)});"
           />
           </div>
         </div>
-        <ul class="mw-ui-inline-list pull-left">
+
+
+
+
+
+
+        <div class="mw-dropdown mw-dropdown-default" id="modules-sort-types">
+          <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val"><?php _e("Module types"); ?></span>
+          <div class="mw-dropdown-content" style="display: none;">
+            <ul>
+              <li value="live_edit"><?php _e("Live edit modules"); ?></li>
+              <li value="admin"><?php _e("Admin modules"); ?></li>
+              <li value="advanced"><?php _e("Advanced"); ?></li>
+            </ul>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+        <ul class="mw-ui-inline-list pull-right">
           <li>
             <label class="mw-ui-check">
-              <input name="module_show"  class="mw_modules_filter_show"  type="radio" value="live_edit" onchange="mw.url.windowHashParam('ui', this.value)" />
-              <span></span><span>
-              <?php _e("Live edit modules"); ?>
-              </span></label>
+              <input type="radio" name="installed" checked="checked" onchange="mw.url.windowHashParam('installed', 1);" id="installed_1" />
+              <span></span>
+              <span>
+                <?php _e("Installed"); ?>
+              </span>
+              </label>
           </li>
           <li>
             <label class="mw-ui-check">
-              <input name="module_show" class="mw_modules_filter_show" type="radio" value="admin"   checked="checked"  onchange="mw.url.windowHashParam('ui', this.value)" />
-              <span></span><span>
-              <?php _e("Admin modules"); ?>
-              </span></label>
-          </li>
-          <li>
-            <label class="mw-ui-check">
-              <input name="module_show"  class="mw_modules_filter_show"  type="radio" value="advanced"  onchange="mw.url.windowHashParam('ui', this.value)" />
-              <span></span><span>
-              <?php _e("Advanced"); ?>
-              </span></label>
+              <input type="radio" name="installed" onchange="mw.url.windowHashParam('installed', 0);" id="installed_0"  />
+              <span></span> <span>
+              <?php _e("Uninstalled"); ?>
+              </span> </label>
           </li>
         </ul>
-        <div class="mw-dropdown pull-right nested-dropdown"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button">Categories</span>
+        <label class="mw-ui-label" style="float: right;margin:0 12px 0 20px"><?php _e("Show only"); ?></label>
+
+        <div class="mw-dropdown pull-right nested-dropdown"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button"><?php _e("Categories"); ?></span>
           <div class="mw-dropdown-content">
             <module type="categories" data-for="modules" id="modules_admin_categories_<?php print $params['id']; ?>" />
           </div>

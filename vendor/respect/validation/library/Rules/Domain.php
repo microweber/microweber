@@ -1,0 +1,105 @@
+<?php
+namespace Respect\Validation\Rules;
+
+use Respect\Validation\Exceptions\ValidationException;
+
+class Domain extends AbstractComposite
+{
+    protected $tld;
+    protected $checks = array();
+    protected $otherParts;
+
+    public function __construct($tldCheck=true)
+    {
+        $this->checks[] = new NoWhitespace();
+        $this->checks[] = new Contains('.');
+        $this->checks[] = new OneOf(new Not(new Contains('--')),
+                                    new AllOf(new StartsWith('xn--'),
+                                              new Callback(function ($str) {
+                                                  return substr_count($str, "--") == 1;
+                                              })));
+        $this->checks[] = new Length(3, null);
+        $this->TldCheck($tldCheck);
+        $this->otherParts = new AllOf(
+            new Alnum('-'),
+            new Not(new StartsWith('-'))
+        );
+    }
+
+    public function tldCheck($do=true)
+    {
+        if($do === true) {
+            $this->tld = new Tld();
+        } else {
+            $this->tld = new AllOf(
+                    new Not(new StartsWith('-')),
+                    new NoWhitespace(),
+                    new Length(2, null)
+                );
+        }
+
+        return true;
+    }
+
+    public function validate($input)
+    {
+
+        foreach ($this->checks as $chk)
+            if (!$chk->validate($input))
+                return false;
+
+        if (count($parts = explode('.', $input)) < 2
+            || !$this->tld->validate(array_pop($parts)))
+            return false;
+
+        foreach ($parts as $p)
+            if (!$this->otherParts->validate($p))
+                return false;
+
+        return true;
+    }
+
+    public function assert($input)
+    {
+
+        $e = array();
+        foreach ($this->checks as $chk)
+            $this->collectAssertException($e, $chk, $input);
+
+        if (count($parts = explode('.', $input)) >= 2)
+            $this->collectAssertException($e, $this->tld, array_pop($parts));
+
+        foreach ($parts as $p)
+            $this->collectAssertException($e, $this->otherParts, $p);
+
+        if (count($e))
+            throw $this->reportError($input)->setRelated($e);
+
+        return true;
+    }
+
+    protected function collectAssertException(&$exceptions, $validator, $input)
+    {
+        try {
+            $validator->assert($input);
+        } catch (ValidationException $e) {
+            $exceptions[] = $e;
+        }
+    }
+
+    public function check($input)
+    {
+
+        foreach ($this->checks as $chk)
+            $chk->check($input);
+
+        if (count($parts = explode('.', $input)) >= 2)
+            $this->tld->check(array_pop($parts));
+
+        foreach ($parts as $p)
+            $this->otherParts->check($p);
+
+        return true;
+    }
+}
+

@@ -1,0 +1,37 @@
+{
+    "name": "Respect/Validation",
+    "description": "The most awesome validation engine ever created for PHP",
+    "keywords": ["respect", "validation", "validator"],
+    "type": "library",
+    "homepage": "http://respect.li",
+    "license": "BSD Style",
+    "authors": [
+        {
+            "name": "Respect/Validation Contributors",
+            "homepage": "https://github.com/Respect/Validation/graphs/contributors"
+        }
+    ],
+    "repositories": [{
+        "type": "composer",
+        "url": "https://packages.zendframework.com/"
+    }],
+    "require-dev": {
+        "zendframework/zend-validator": "~2.0",
+        "symfony/validator": "~2.1",
+        "phpunit/phpunit": "~4.0"
+    },
+    "suggest": {
+        "ext-bcmath": "Arbitrary Precision Mathematics",
+        "ext-mbstring": "Multibyte String Functions"
+    },
+    "autoload": {
+        "psr-4": {
+            "Respect\\Validation\\": "library/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.7-dev"
+        }
+    }
+}
