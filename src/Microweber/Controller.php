@@ -2364,7 +2364,9 @@ class Controller
         if (!defined('IN_ADMIN')) {
             define('IN_ADMIN', true);
         }
-
+        if (!defined('IN_EDITOR_TOOLS')) {
+            define('IN_EDITOR_TOOLS', true);
+        }
         if (MW_IS_INSTALLED == true) {
             //event_trigger('mw_db_init');
             //  event_trigger('mw_cron');

@@ -324,8 +324,8 @@ if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
 $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
 
 // Create target dir
-if (!file_exists($targetDir))
-    @mkdir($targetDir);
+if (!is_dir($targetDir))
+    @mkdir_recursive($targetDir);
 
 // Remove old temp files
 if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
