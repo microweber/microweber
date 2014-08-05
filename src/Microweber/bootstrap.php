@@ -24,49 +24,30 @@ if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
-
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname(dirname(dirname(__FILE__))) . DS);
-
-
+}
+if (!defined('MW_CONFIG_FILE')) {
     $bootstrap_file_for_site = false;
     if (!isset($_SERVER["SERVER_NAME"])) {
-
         $config_file_for_site = MW_ROOTPATH . 'config_localhost' . '.php';
         $bootstrap_file_for_site = MW_ROOTPATH . 'bootstrap_localhost' . '.php';
     } else {
         $sever = str_ireplace('www.', '', strtolower($_SERVER["SERVER_NAME"]));
         $sever = str_ireplace('..', '', ($_SERVER["SERVER_NAME"]));
-
         $config_file_for_site = MW_ROOTPATH . 'config_' . $sever . '.php';
         $bootstrap_file_for_site = MW_ROOTPATH . 'bootstrap_' . $sever . '.php';
-
-
     }
+    if (is_file($config_file_for_site)) {
+        define('MW_CONFIG_FILE', $config_file_for_site);
 
-    if (!defined('MW_CONFIG_FILE')) {
-
-        if (is_file($config_file_for_site)) {
-
-            define('MW_CONFIG_FILE', $config_file_for_site);
-
-        } else {
-
-            define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
-
-        }
-
-        if ($bootstrap_file_for_site != false and is_file($bootstrap_file_for_site)) {
-
-            require_once ($bootstrap_file_for_site);
-
-        }
-
+    } else {
+        define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
     }
-
-
+    if ($bootstrap_file_for_site != false and is_file($bootstrap_file_for_site)) {
+        require_once ($bootstrap_file_for_site);
+    }
 }
-
 
 if (!defined('MW_SITE_URL')) {
     // please add backslash to the url if you define it
@@ -480,7 +461,7 @@ function mw($class = null, $constructor_params = false)
     if ($is_init == false) {
         $is_init = true;
         event_trigger('mw_init', $_mw_global_object);
-     }
+    }
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $_mw_global_object;
     } else {
@@ -514,14 +495,15 @@ function mw($class = null, $constructor_params = false)
  * @property \Microweber\Template $template
  * @property \Microweber\Ui $ui
  */
-class mw {
+class mw
+{
 
     /**
      * Handle static calls to the object.
      *
      * // got this from laravel - https://github.com/illuminate/support/blob/master/Facades/Facade.php
-     * @param  string  $method
-     * @param  array   $args
+     * @param  string $method
+     * @param  array $args
      * @return mixed
      * @return \Microweber\Application
      * @property \Microweber\Application $application
@@ -530,8 +512,7 @@ class mw {
     {
         $instance = mw();
 
-        switch (count($args))
-        {
+        switch (count($args)) {
             case 0:
                 return $instance->$method();
 
@@ -553,6 +534,7 @@ class mw {
     }
 
 }
+
 /*
 * Microweber autoloader
 * Loads up classes with namespaces

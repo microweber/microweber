@@ -1510,12 +1510,18 @@ class Controller
             $meta['content_url'] = $this->app->url->current(1);
             $meta['og_description'] = $this->app->option->get('website_description', 'website');
             $meta['og_type'] = 'website';
+			$meta_content_id = PAGE_ID;
+			if (CONTENT_ID > 0) {
+				$meta_content_id = CONTENT_ID;
+			}
 
-            if (CONTENT_ID > 0) {
-                $meta = $this->app->content->get_by_id(CONTENT_ID);
-                $meta['content_image'] = $this->app->media->get_picture(CONTENT_ID);
+            if ($meta_content_id > 0) {
+                $meta = $this->app->content->get_by_id($meta_content_id);
+                $meta['content_image'] = $this->app->media->get_picture($meta_content_id);
+				
+				
 
-                $meta['content_url'] = $this->app->content->link(CONTENT_ID);
+                $meta['content_url'] = $this->app->content->link($meta_content_id);
                 $meta['og_type'] = $meta['content_type'];
                 if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
                     $meta['og_type'] = $meta['subtype'];
@@ -1537,6 +1543,8 @@ class Controller
                 $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
 
             }
+			
+			
             $meta['og_site_name'] = $this->app->option->get('website_title', 'website');
             if (!empty($meta)) {
                 if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
