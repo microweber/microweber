@@ -189,14 +189,7 @@ function mw_show_my_modules(){
           </div>
         </div>
         <div class="text-center scroll-height-exception">
-          <div class="mw-ui-box-content">
-            <label class="mw-ui-label">
-              <?php _e("Show"); ?>
-              :</label>
-
-            <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-small">
-            <?php _e("Reload modules"); ?>
-            </span> </div>
+          <div class="mw-ui-box-content"></div>
         </div>
       </div>
     </div>
@@ -225,29 +218,6 @@ function mw_show_my_modules(){
           </div>
         </div>
 
-
-
-
-
-
-        <div class="mw-dropdown mw-dropdown-default" id="modules-sort-types">
-          <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val"><?php _e("Module types"); ?></span>
-          <div class="mw-dropdown-content" style="display: none;">
-            <ul>
-              <li value="live_edit"><?php _e("Live edit modules"); ?></li>
-              <li value="admin"><?php _e("Admin modules"); ?></li>
-              <li value="advanced"><?php _e("Advanced"); ?></li>
-            </ul>
-          </div>
-        </div>
-
-
-
-
-
-
-
-
         <ul class="mw-ui-inline-list pull-right">
           <li>
             <label class="mw-ui-check">
@@ -266,13 +236,27 @@ function mw_show_my_modules(){
               </span> </label>
           </li>
         </ul>
-        <label class="mw-ui-label" style="float: right;margin:0 12px 0 20px"><?php _e("Show only"); ?></label>
-
-        <div class="mw-dropdown pull-right nested-dropdown"> <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button"><?php _e("Categories"); ?></span>
+        <div class="mw-dropdown mw-dropdown-default pull-left" id="modules-sort-types" style="margin-right: 20px;">
+          <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val"><?php _e("Module types"); ?></span>
+          <div class="mw-dropdown-content" style="display: none;">
+            <ul>
+              <li value="live_edit"><?php _e("Live edit modules"); ?></li>
+              <li value="admin"><?php _e("Admin modules"); ?></li>
+              <li value="advanced"><?php _e("Advanced"); ?></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mw-dropdown pull-left nested-dropdown" style="margin-right: 20px;">
+            <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-dropdown-val mw-dropdown-button"><?php _e("Categories"); ?></span>
           <div class="mw-dropdown-content">
             <module type="categories" data-for="modules" id="modules_admin_categories_<?php print $params['id']; ?>" />
           </div>
         </div>
+        <span onclick="mw_reload_all_modules()" class="mw-ui-btn mw-ui-btn-medium pull-left">
+            <span class="mw-icon-reload"></span>
+            <?php _e("Reload modules"); ?>
+            </span>
+
       </div>
       <div id="modules_admin_<?php print $params['id']; ?>" ></div>
       <div id="modules_market_<?php print $params['id']; ?>" ></div>

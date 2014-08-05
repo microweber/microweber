@@ -9,7 +9,6 @@ event_bind('orm_get', 'db_filter_comments');
 
 function db_filter_comments($table)
 {
-
     if($table == MODULE_DB_COMMENTS){
         mw()->orm->filter('posts_category',function ($orm, $value) {
             if(intval($value) > 0){
@@ -21,10 +20,6 @@ function db_filter_comments($table)
             }
         });
     }
-
-
-
-
 }
 
 

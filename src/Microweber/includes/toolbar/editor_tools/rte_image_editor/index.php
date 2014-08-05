@@ -317,7 +317,10 @@ else{
                       window.fileBrowserLoaded = true;
                       mw.load_module('files/admin', '#file_module_live_edit_adm', function(){
                         setTimeout(function(){
-                            SetFileBrowserHeight();
+                          SetFileBrowserHeight();
+                          setTimeout(function(){
+                              SetFileBrowserHeight();
+                          }, 222)
                         }, 222)
 
                       });
@@ -419,7 +422,7 @@ mw.embed = {
   display: inline-block;
   position: relative;
   cursor: default;
-  width: 80px;
+  width: 85px;
   text-align: center;
   overflow: hidden;
   transition: opacity 0.12s;
@@ -428,7 +431,11 @@ mw.embed = {
   -o-transition: opacity 0.12s;
 }
 
-
+.mw-upload-filetypes li:hover .mw-ui-btn{
+    background-color:#262626 ;
+    color: white;
+    border-color:#262626;
+}
 
 .mw-upload-filetypes li.disabled, .mw-upload-filetypes li.hovered{ opacity:0.4; }
 
@@ -444,7 +451,8 @@ mw.embed = {
 
 .mw-upload-filetypes li span{
   display: block;
-  padding-top:10px;
+  white-space: nowrap;
+  margin-top: 12px;
 }
 
 .mw-upload-filetypes li iframe{
@@ -485,23 +493,23 @@ mw.embed = {
 
 <div class="mw-ui-box mw-ui-box-content">
     <div class="tab" id="drag_files_here" style="display: block">
-    <div class="text-center" style="padding-top: 25px;">
+    <div class="text-center" style="padding: 10px 0;">
 
 
         <ul class="mw-upload-filetypes" id="">
             <?php  if(in_array('images', $types)){  ?>
             <li class="mw-upload-filetype-image" data-type="images">
                 <div class="mw-icon-image"></div>
-                <span><?php _e("Image"); ?></span>
+                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Image"); ?></span>
             </li>
             <?php }  if(in_array('videos', $types)){  ?>
             <li class="mw-upload-filetype-video" data-type="videos">
                 <div class="mw-icon-video"></div>
-                <span><?php _e("Video"); ?></span></li>
+                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload Video"); ?></span></li>
             <?php } if(in_array('files', $types)){  ?>
             <li class="mw-upload-filetype-file" data-type="files">
                 <div class="mw-icon-file"></div>
-                <span><?php _e("Files"); ?></span>
+                <span class="mw-ui-btn mw-ui-btn mw-ui-btn-small"><?php _e("Upload File"); ?></span>
             </li>
             <?php } ?>
 

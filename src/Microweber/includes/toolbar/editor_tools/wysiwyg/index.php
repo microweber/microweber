@@ -405,8 +405,8 @@ window.onfocus = function(){
 <div style="display: none" id="plus-modules-list">
 <input type="text" class="mw-ui-searchfield" />
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs pull-left">
-        <span class="mw-ui-btn active"><?php _e("Modules"); ?></span>
-        <span class="mw-ui-btn"><?php _e("Layouts"); ?></span>
+        <span class="mw-ui-btn active"><span class="mw-icon-module"></span><?php _e("Modules"); ?></span>
+        <span class="mw-ui-btn"><span class="mw-icon-template"></span><?php _e("Layouts"); ?></span>
     </div>
 
     <div class="mw-ui-box">
