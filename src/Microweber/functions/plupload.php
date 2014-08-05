@@ -7,7 +7,7 @@ if (!isset($_SESSION) or empty($_SESSION)) {
 if(!isset($_SERVER['HTTP_REFERER'])){
     die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
 } elseif(!stristr($_SERVER['HTTP_REFERER'],site_url())){
-    die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
+   // die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
 }
 
 
