@@ -18,7 +18,7 @@ description: Clean layout
 <section id="content">
   <div class="box-container">
     <div class="container edit" field="content" rel="content">
-      <p class="element"> </p>
+      <p class="element">Type your text here</p>
     </div>
   </div>
 </section>

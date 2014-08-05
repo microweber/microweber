@@ -280,7 +280,7 @@ if ($last_page_front != false) {
 
                         <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn"><?php _e("My Profile"); ?></a>
                         <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="mw-ui-btn"><?php _e("Manage Users"); ?></a>
-                        <a href="<?php print 1; ?>" class="mw-ui-btn"><?php _e("Support"); ?></a>
+                        <a href="javascript:;" onmousedown="mw.contactForm();" class="mw-ui-btn"><?php _e("Support"); ?></a>
                          <a href="<?php print site_url(); ?>?editmode=y" class="mw-ui-btn go-live-edit-href-set"><?php _e("View Website"); ?></a>
 
                         <a href="<?php print api_url('logout'); ?>" class="mw-ui-btn"><?php _e("Log out"); ?></a>

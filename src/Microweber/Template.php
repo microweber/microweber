@@ -311,7 +311,7 @@ class Template
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-        // return $cache_content;
+       return $cache_content;
         }
 
         $render_file = false;

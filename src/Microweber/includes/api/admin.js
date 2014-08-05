@@ -672,7 +672,13 @@ mw.admin = {
 
 
 
-
+mw.contactForm = function(){
+  mw.modalFrame({
+    url:'https://microweber.com/contact-frame/',
+    overlay:true,
+    height:600
+  })
+}
 
 
 
