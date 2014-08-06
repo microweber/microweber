@@ -1515,7 +1515,9 @@ class Backup
         //Tell the browser that the connection's closed
         ignore_user_abort(true);
         //Ignore the user's abort (which we caused with the redirect).
-        set_time_limit(0);
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+            set_time_limit(0);
+        }
         //Extend time limit
         ob_start();
         //Start output buffering again
@@ -1676,8 +1678,12 @@ class Backup
             error("must be admin");
         }
 
-        ini_set('memory_limit', '512M');
-        set_time_limit(0);
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'memory_limit')) {
+            ini_set('memory_limit', '512M');
+        }
+        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
+            set_time_limit(0);
+        }
 
         if (isset($params['id'])) {
             $id = $params['id'];
