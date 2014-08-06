@@ -182,10 +182,7 @@
         $check_pass = false;
         $server_check_errors['php_version'] = _e("You must run PHP 5.3 or greater", true);
     }
-    if (!ini_get('allow_url_fopen')) {
-        $check_pass = false;
-        $server_check_errors['allow_url_fopen'] = _e("You must enable allow_url_fopen from php.ini", true);
-    }
+     
     $here = dirname(__FILE__) . DIRECTORY_SEPARATOR . uniqid();
     if (is_writable($here)) {
         $check_pass = false;
