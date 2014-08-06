@@ -201,27 +201,6 @@ class User
 
     }
 
-    public function session_end()
-    {
-
-
-        $_SESSION = array();
-
-        // If it's desired to kill the session, also delete the session cookie.
-        // Note: This will destroy the session, and not just the session data!
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - 42000,
-                $params["path"], $params["domain"],
-                $params["secure"], $params["httponly"]
-            );
-        }
-        session_destroy();
-        //session_write_close();
-        unset($_SESSION);
-
-    }
-
     public function is_logged()
     {
 
@@ -412,84 +391,393 @@ class User
 
     }
 
-    /**
-     * @function get_users
-     *
-     * @param $params array|string;
-     * @params $params['username'] string username for user
-     * @params $params['email'] string email for user
-     * @params $params['password'] string password for user
-     *
-     *
-     * @usage $this->get_all('email=my_email');
-     *
-     *
-     * @return array of users;
-     */
-    public function get_all($params)
+    public function register($params)
     {
-        $params = parse_params($params);
 
-        $table = $this->tables['users'];
-
-        $data = $this->app->format->clean_html($params);
-        $orig_data = $data;
-
-        if (isset($data['ids']) and is_array($data['ids'])) {
-            if (!empty($data['ids'])) {
-                $ids = $data['ids'];
+        if (defined("MW_API_FUNCTION_CALL") and (MW_API_FUNCTION_CALL == 'user_register' or MW_API_FUNCTION_CALL == 'user/register')) {
+            if ($this->is_admin() == false) {
+                $validate_token = $this->app->user->csrf_validate($params);
+                if ($validate_token == false) {
+                    return array('error' => 'Invalid token!');
+                }
             }
         }
-        if (!isset($params['search_in_fields'])) {
-            $data['search_in_fields'] = array('id', 'first_name', 'last_name', 'username', 'email');
-            // $data ['debug'] = 1;
+        $user = isset($params['username']) ? $params['username'] : false;
+        $pass = isset($params['password']) ? $params['password'] : false;
+        $email = isset($params['email']) ? $params['email'] : false;
+        $first_name = isset($params['first_name']) ? $params['first_name'] : false;
+        $last_name = isset($params['last_name']) ? $params['last_name'] : false;
+        $pass2 = $pass;
+        $pass = $this->hash_pass($pass);
+
+        if (!isset($params['captcha'])) {
+            return array('error' => 'Please enter the captcha answer!');
+        } else {
+            $cap = $this->session_get('captcha');
+            if ($cap == false) {
+                return array('error' => 'You must load a captcha first!');
+            }
+            if ($params['captcha'] != $cap) {
+                return array('error' => 'Invalid captcha answer!');
+            }
         }
 
-        $cache_group = 'users/global';
-        if (isset($data['id']) and intval($data['id']) != 0) {
-            $cache_group = 'users/' . $data['id'];
+        $override = $this->app->event->emit('before_user_register', $params);
+
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (isset($resp['error']) or isset($resp['success'])) {
+                    return $resp;
+                }
+            }
+        }
+
+
+        if (defined("MW_API_CALL")) {
+            if (isset($params['is_admin']) and $this->is_admin() == false) {
+                unset($params['is_admin']);
+            }
+        }
+
+
+//    if (!isset($params['password'])) {
+//        return array('error' => 'Please set password!');
+//    } else {
+//        if ($params['password'] == '') {
+//            return array('error' => 'Please set password!');
+//        }
+//    }
+
+
+        if (isset($params['password']) and  ($params['password']) != '') {
+            if ($email != false) {
+
+                $data = array();
+                $data['email'] = $email;
+                // $data['password'] = $pass;
+                //  $data['oauth_uid'] = '[null]';
+                // $data['oauth_provider'] = '[null]';
+                $data['one'] = true;
+                $data['no_cache'] = true;
+                // $data ['is_active'] = 'y';
+                $user_data = $this->get_all($data);
+
+
+                if (empty($user_data)) {
+
+                    $data = array();
+                    $data['username'] = $email;
+                    //  $data['password'] = $pass;
+                    //  $data['oauth_uid'] = '[null]';
+                    //  $data['oauth_provider'] = '[null]';
+                    $data['one'] = true;
+                    $data['no_cache'] = true;
+                    // $data ['is_active'] = 'y';
+                    $user_data = $this->get_all($data);
+                }
+
+
+                if (empty($user_data)) {
+                    $data = array();
+
+
+                    $data['username'] = $email;
+                    $data['password'] = $pass;
+                    $data['is_active'] = 'n';
+
+                    //   $table = MW_TABLE_PREFIX . 'users';
+                    $table = $this->tables['users'];
+
+
+                    $reg = array();
+                    $reg['username'] = $user;
+                    $reg['email'] = $email;
+                    $reg['password'] = $pass2;
+                    $reg['is_active'] = 'y';
+                    $reg['first_name'] = $first_name;
+                    $reg['last_name'] = $first_name;
+
+                    $this->force_save = true;
+
+                    $next = $this->save($reg);
+                    $this->force_save = false;
+
+                    //   $reg['is_admin'] = 'n';
+
+
+//                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
+//                    $next = $this->app->db->last_id($table);
+//                    $next = intval($next) + 1;
+//                    $q = "INSERT INTO $table (id,email, password, is_active)
+//			VALUES ($next, '$email', '$pass', 'y')";
+
+
+                    // $this->app->db->q($q);
+                    $this->app->cache->delete('users/global');
+                    //$data = save_user($data);
+                    $this->session_del('captcha');
+
+                    $notif = array();
+                    $notif['module'] = "users";
+                    $notif['rel'] = 'users';
+                    $notif['rel_id'] = $next;
+                    $notif['title'] = "New user registration";
+                    $notif['description'] = "You have new user registration";
+                    $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
+                    $this->app->notifications->save($notif);
+
+                    $this->app->log->save($notif);
+
+
+                    $params = $data;
+                    $params['id'] = $next;
+                    if (isset($pass2)) {
+                        $params['password2'] = $pass2;
+                    }
+                    $this->app->event->emit('after_user_register', $params);
+                    //$this->login('email='.$email.'&password='.$pass);
+
+
+                    return array('success' => 'You have registered successfully');
+
+                    //return array($next);
+                } else {
+
+                    if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
+                        if (isset($user_data['email']) && $user_data['email'] != '') {
+                            $is_logged = $this->login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
+                        } else if (isset($user_data['username']) && $user_data['username'] != '') {
+                            $is_logged = $this->login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
+                        }
+                        if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
+                            return ($is_logged);
+                            // $user_session['success']
+                        }
+
+                    }
+
+
+                    return array('error' => 'This user already exists!');
+                }
+            }
+        }
+
+
+    }
+
+    public function is_admin()
+    {
+
+        static $is = 0;
+
+
+        if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
+
+            $installed = $this->app->config('installed');
+            if (!defined('MW_IS_INSTALLED')) {
+                define("MW_IS_INSTALLED", $installed);
+            }
+            if ($installed != 'yes') {
+                return true;
+            }
+        }
+        if ($is != 0 or defined('USER_IS_ADMIN')) {
+            return $is;
         } else {
 
+
+            $usr = $this->id();
+            if ($usr == false) {
+                return false;
+            }
+
+
+            $usr = $this->get_by_id($usr);
+
+            if (isset($usr['is_admin']) and $usr['is_admin'] == 'y') {
+                define("USER_IS_ADMIN", true);
+                define("IS_ADMIN", true);
+            } else {
+                define("USER_IS_ADMIN", false);
+                define("IS_ADMIN", false);
+            }
+            $is = USER_IS_ADMIN;
+
+            return USER_IS_ADMIN;
         }
-        $cache_group = 'users/global';
-        if (isset($limit) and $limit != false) {
-            $data['limit'] = $limit;
+    }
+
+    public function id()
+    {
+
+
+        // static $uid;
+        if (defined('USER_ID')) {
+            // print USER_ID;
+            return USER_ID;
+        } else {
+
+            $user_session = $this->session_get('user_session');
+            if ($user_session == FALSE) {
+                return false;
+            }
+            $res = false;
+            if (isset($user_session['user_id'])) {
+                $res = $user_session['user_id'];
+            }
+
+
+            if ($res != false) {
+                // $res = $sess->get ( 'user_id' );
+                define("USER_ID", $res);
+            }
+            return $res;
+        }
+    }
+
+    function csrf_validate($data)
+    {
+        if (is_array($data) and isset($_SESSION)) {
+            foreach ($data as $k => $v) {
+                foreach ($_SESSION as $sk => $sv) {
+                    if (is_string($sk) and strstr($sk, 'csrf_token_')) {
+                        $sk = substr($sk, 11, 1000);
+                        if ($k == $sv and $sk == $v) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function hash_pass($pass)
+    {
+
+        // Currently only md5 is supported for portability
+        // Will improve this soon!
+
+        //$hash = password_hash($pass, PASSWORD_BCRYPT);
+        //
+        $hash = md5($pass);
+        if ($hash == false) {
+            $hash = $this->app->db->escape_string($hash);
+            return $pass;
+        }
+        return $hash;
+
+    }
+
+    /**
+     * Allows you to save users in the database
+     *
+     * By default it have security rules.
+     *
+     * If you are admin you can save any user in the system;
+     *
+     * However if you are regular user you must post param id with the current user id;
+     *
+     * @param $params
+     * @param  $params['id'] = $user_id; // REQUIRED , you must set the user id.
+     * For security reasons, to make new user please use user_register() function that requires captcha
+     * or write your own save_user wrapper function that sets  mw_var('force_save_user',true);
+     * and pass its params to save_user();
+     *
+     *
+     * @param  $params['is_active'] = 'y'; //default is 'n'
+     * @usage
+     *
+     * $upd = array();
+     * $upd['id'] = 1;
+     * $upd['email'] = $params['new_email'];
+     * $upd['password'] = $params['passwordhash'];
+     * mw_var('force_save_user', false|true); // if true you want to make new user or foce save ... skips id check and is admin check
+     * mw_var('save_user_no_pass_hash', false|true); //if true skips pass hash function and saves password it as is in the request, please hash the password before that or ensure its hashed
+     * $s = save_user($upd);
+     *
+     *
+     *
+     *
+     *
+     * @return bool|int
+     */
+    public function save($params)
+    {
+
+        $force = mw_var('force_save_user');
+        $no_hash = mw_var('save_user_no_pass_hash');
+        if ($force == false) {
+            if ($this->force_save) {
+                $force = $this->force_save;
+            }
+        }
+        if (isset($params['id'])) {
+            //error('COMLETE ME!!!! ');
+
+            $adm = is_admin();
+            if ($adm == false) {
+                if ($force == false) {
+
+
+                    $is_logged = user_id();
+                    if ($is_logged == false or $is_logged == 0) {
+                        return array('error' => 'You must be logged to save user');
+                    } elseif (intval($is_logged) == intval($params['id']) and intval($params['id']) != 0) {
+
+                    } else {
+                        return array('error' => 'You must be logged to as admin save this user');
+
+                    }
+
+                    // $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
+
+                } else {
+                    mw_var('force_save_user', false);
+                }
+            }
+        } else {
+            if (defined('MW_API_CALL') and defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
+
+
+                if ($force == false) {
+                    $this->app->error('COMLETE ME!!!! ');
+                } else {
+                    mw_var('force_save_user', false);
+                }
+            }
         }
 
-        if (isset($count_only) and $count_only != false) {
-            $data['get_count'] = $count_only;
+        $data_to_save = $params;
+
+        if (isset($data_to_save['password'])) {
+            if ($no_hash == false) {
+                $data_to_save['password'] = $this->hash_pass($data_to_save['password']);
+            } else {
+                mw_var('save_user_no_pass_hash', false);
+            }
         }
 
-        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
-            $only_those_fields = $data['only_those_fields'];
+
+        if (isset($data_to_save['id']) and isset($data_to_save['email']) and $data_to_save['email'] != false) {
+            $old_user_data = $this->get_by_id($data_to_save['id']);
+            if (isset($old_user_data['email']) and $old_user_data['email'] != false) {
+                if ($data_to_save['email'] != $old_user_data['email']) {
+                    if (isset($old_user_data['password_reset_hash']) and $old_user_data['password_reset_hash'] != false) {
+                        $hash_cache_id = md5(serialize($old_user_data)) . uniqid() . rand();
+                        $data_to_save['password_reset_hash'] = $hash_cache_id;
+                    }
+                }
+            }
         }
 
-        if (isset($data['count']) and $data['count']) {
-            $count_only = $data['count'];
-        }
 
-        //$data ['no_cache'] = 1;
-
-        if (isset($data['username']) and $data['username'] == null) {
-            unset($data['username']);
-        }
-        if (isset($data['username']) and $data['username'] == '') {
-            //return false;
-        }
-
-        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $data['table'] = $table;
-        //  $data ['cache_group'] = $cache_group;
-
-
-        $get = $this->app->db->get($data);
-
-        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // var_dump($get, $function_cache_id, $cache_group);
-        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
-
-        return $get;
+        $table = $this->tables['users'];
+        $save = $this->app->db->save($table, $data_to_save);
+        $id = $save;
+        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . '0');
+        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . $id);
+        return $id;
     }
 
     /**
@@ -777,586 +1065,11 @@ class User
         return false;
     }
 
-    public function hash_pass($pass)
-    {
-
-        // Currently only md5 is supported for portability
-        // Will improve this soon!
-
-        //$hash = password_hash($pass, PASSWORD_BCRYPT);
-        //
-        $hash = md5($pass);
-        if ($hash == false) {
-            $hash = $this->app->db->escape_string($hash);
-            return $pass;
-        }
-        return $hash;
-
-    }
-
     public function login_set_failed_attempt()
     {
 
         $this->app->log->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
-    }
-
-    public function session_set($name, $val)
-    {
-
-
-        if ($this->session_provider == 'array') {
-            // used for unit tests, does not persist values between requests
-            $is_the_same = $this->session_get($name);
-            if ($is_the_same != $val) {
-                $_SESSION[$name] = $val;
-            }
-            return $_SESSION;
-        }
-
-
-        if (!defined('MW_NO_SESSION') and !headers_sent()) {
-
-
-            if (!isset($_SESSION)) {
-                session_regenerate_id();
-                session_set_cookie_params(86400);
-                ini_set('session.gc_maxlifetime', 86400);
-                session_start();
-                $_SESSION['ip'] = MW_USER_IP;
-
-
-            }
-        }
-
-        if ($val == false) {
-
-
-            $this->session_del($name);
-        } else {
-            $is_the_same = $this->session_get($name);
-
-            if ($is_the_same != $val) {
-                $_SESSION[$name] = $val;
-            }
-        }
-        //return $_SESSION;
-
-    }
-
-    public function session_get($name)
-    {
-
-
-        if ($this->session_provider == 'array') {
-            // used for unit tests, does not persist values between requests
-
-            if (isset($_SESSION[$name])) {
-                return $_SESSION[$name];
-            }
-            return;
-        }
-
-        if (!defined('MW_NO_SESSION')) {
-            if (!headers_sent()) {
-                if (!isset($_SESSION)) {
-                    session_start();
-                    $start = session_id();
-
-                    if ($start == false) {
-
-
-                        $is_ajax = $this->app->url->is_ajax();
-
-                        try {
-                            $start = session_start();
-                        } catch (ErrorExpression $e) {
-                            if ($is_ajax == false) {
-                                session_regenerate_id();
-                                $start = session_id();
-                            }
-                        }
-                        if ($start == false and $is_ajax == false) {
-                            session_write_close(); //now close it,
-                            session_regenerate_id();
-                            $start = session_id();
-                        }
-                    }
-                    $_SESSION['ip'] = MW_USER_IP;
-                }
-            }
-            // probable timeout here?!
-        }
-
-
-        if (isset($_SESSION) and isset($_SESSION[$name])) {
-
-
-            if (!isset($_SESSION['ip'])) {
-                $_SESSION['ip'] = MW_USER_IP;
-            } else if ($_SESSION['ip'] != MW_USER_IP) {
-
-                // $this->session_end();
-                //return false;
-            }
-
-
-            return $_SESSION[$name];
-        } else {
-            return false;
-        }
-    }
-
-    public function session_del($name)
-    {
-        if (isset($_SESSION[$name])) {
-            unset($_SESSION[$name]);
-        }
-    }
-
-    public function make_logged($user_id)
-    {
-
-        if (is_array($user_id)) {
-            if (isset($user_id['id'])) {
-                $user_id = $user_id['id'];
-            }
-        }
-
-        if (intval($user_id) > 0) {
-            $data = $this->get_by_id($user_id);
-            if ($data == false) {
-                return false;
-            } else {
-                if (is_array($data)) {
-                    $user_session = array();
-                    $user_session['is_logged'] = 'yes';
-                    $user_session['user_id'] = $data['id'];
-
-                    if (!defined('USER_ID')) {
-                        define("USER_ID", $data['id']);
-
-
-                    }
-
-                    $this->app->event->emit('user_login', $data);
-                    $this->session_set('user_session', $user_session);
-                    $user_session = $this->session_get('user_session');
-
-                    $this->update_last_login_time();
-                    $user_session['success'] = _e("You are logged in!", true);
-                    return $user_session;
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Generic function to get the user by id.
-     * Uses the getUsers function to get the data
-     *
-     * @param
-     *            int id
-     * @return array
-     *
-     */
-    public function get_by_id($id)
-    {
-        $id = intval($id);
-        if ($id == 0) {
-            return false;
-        }
-
-        $data = array();
-        $data['id'] = $id;
-        $data['limit'] = 1;
-        $data['single'] = 1;
-
-
-        $data = $this->get_all($data);
-
-        return $data;
-    }
-
-    public function update_last_login_time()
-    {
-
-        $uid = user_id();
-        if (intval($uid) > 0) {
-
-            $data_to_save = array();
-            $data_to_save['id'] = $uid;
-            $data_to_save['last_login'] = date("Y-m-d H:i:s");
-            $data_to_save['last_login_ip'] = MW_USER_IP;
-
-            $table = $this->tables['users'];
-            mw_var("FORCE_SAVE", $this->tables['users']);
-            $save = $this->app->db->save($table, $data_to_save);
-
-            $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
-
-        }
-
-    }
-
-    public function register($params)
-    {
-
-        if (defined("MW_API_FUNCTION_CALL") and (MW_API_FUNCTION_CALL == 'user_register' or MW_API_FUNCTION_CALL == 'user/register')) {
-            if ($this->is_admin() == false) {
-                $validate_token = $this->app->user->csrf_validate($params);
-                if ($validate_token == false) {
-                    return array('error' => 'Invalid token!');
-                }
-            }
-        }
-        $user = isset($params['username']) ? $params['username'] : false;
-        $pass = isset($params['password']) ? $params['password'] : false;
-        $email = isset($params['email']) ? $params['email'] : false;
-        $first_name = isset($params['first_name']) ? $params['first_name'] : false;
-        $last_name = isset($params['last_name']) ? $params['last_name'] : false;
-        $pass2 = $pass;
-        $pass = $this->hash_pass($pass);
-
-        if (!isset($params['captcha'])) {
-            return array('error' => 'Please enter the captcha answer!');
-        } else {
-            $cap = $this->session_get('captcha');
-            if ($cap == false) {
-                return array('error' => 'You must load a captcha first!');
-            }
-            if ($params['captcha'] != $cap) {
-                return array('error' => 'Invalid captcha answer!');
-            }
-        }
-
-        $override = $this->app->event->emit('before_user_register', $params);
-
-        if (is_array($override)) {
-            foreach ($override as $resp) {
-                if (isset($resp['error']) or isset($resp['success'])) {
-                    return $resp;
-                }
-            }
-        }
-
-
-        if (defined("MW_API_CALL")) {
-            if (isset($params['is_admin']) and $this->is_admin() == false) {
-                unset($params['is_admin']);
-            }
-        }
-
-
-
-//    if (!isset($params['password'])) {
-//        return array('error' => 'Please set password!');
-//    } else {
-//        if ($params['password'] == '') {
-//            return array('error' => 'Please set password!');
-//        }
-//    }
-
-
-        if (isset($params['password']) and  ($params['password']) != '') {
-            if ($email != false) {
-
-                $data = array();
-                $data['email'] = $email;
-                // $data['password'] = $pass;
-                //  $data['oauth_uid'] = '[null]';
-                // $data['oauth_provider'] = '[null]';
-                $data['one'] = true;
-                $data['no_cache'] = true;
-                // $data ['is_active'] = 'y';
-                $user_data = $this->get_all($data);
-
-
-                if (empty($user_data)) {
-
-                    $data = array();
-                    $data['username'] = $email;
-                    //  $data['password'] = $pass;
-                    //  $data['oauth_uid'] = '[null]';
-                    //  $data['oauth_provider'] = '[null]';
-                    $data['one'] = true;
-                    $data['no_cache'] = true;
-                    // $data ['is_active'] = 'y';
-                    $user_data = $this->get_all($data);
-                }
-
-
-                if (empty($user_data)) {
-                    $data = array();
-
-
-                    $data['username'] = $email;
-                    $data['password'] = $pass;
-                    $data['is_active'] = 'n';
-
-                    //   $table = MW_TABLE_PREFIX . 'users';
-                    $table = $this->tables['users'];
-
-
-                    $reg = array();
-                    $reg['username'] = $user;
-                    $reg['email'] = $email;
-                    $reg['password'] = $pass2;
-                    $reg['is_active'] = 'y';
-                    $reg['first_name'] = $first_name;
-                    $reg['last_name'] = $first_name;
-
-                    $this->force_save = true;
-
-                    $next = $this->save($reg);
-                    $this->force_save = false;
-
-                     //   $reg['is_admin'] = 'n';
-
-
-//                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-//                    $next = $this->app->db->last_id($table);
-//                    $next = intval($next) + 1;
-//                    $q = "INSERT INTO $table (id,email, password, is_active)
-//			VALUES ($next, '$email', '$pass', 'y')";
-
-
-                    // $this->app->db->q($q);
-                    $this->app->cache->delete('users/global');
-                    //$data = save_user($data);
-                    $this->session_del('captcha');
-
-                    $notif = array();
-                    $notif['module'] = "users";
-                    $notif['rel'] = 'users';
-                    $notif['rel_id'] = $next;
-                    $notif['title'] = "New user registration";
-                    $notif['description'] = "You have new user registration";
-                    $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-                    $this->app->notifications->save($notif);
-
-                    $this->app->log->save($notif);
-
-
-                    $params = $data;
-                    $params['id'] = $next;
-                    if (isset($pass2)) {
-                        $params['password2'] = $pass2;
-                    }
-                    $this->app->event->emit('after_user_register', $params);
-                    //$this->login('email='.$email.'&password='.$pass);
-
-
-                    return array('success' => 'You have registered successfully');
-
-                    //return array($next);
-                } else {
-
-                    if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
-                        if (isset($user_data['email']) && $user_data['email'] != '') {
-                            $is_logged = $this->login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
-                        } else if (isset($user_data['username']) && $user_data['username'] != '') {
-                            $is_logged = $this->login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
-                        }
-                        if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
-                            return ($is_logged);
-                            // $user_session['success']
-                        }
-
-                    }
-
-
-                    return array('error' => 'This user already exists!');
-                }
-            }
-        }
-
-
-    }
-
-    public function is_admin()
-    {
-
-        static $is = 0;
-
-
-        if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
-
-            $installed = $this->app->config('installed');
-            if (!defined('MW_IS_INSTALLED')) {
-                define("MW_IS_INSTALLED", $installed);
-            }
-            if ($installed != 'yes') {
-                return true;
-            }
-        }
-        if ($is != 0 or defined('USER_IS_ADMIN')) {
-            return $is;
-        } else {
-
-
-            $usr = $this->id();
-            if ($usr == false) {
-                return false;
-            }
-
-
-            $usr = $this->get_by_id($usr);
-
-            if (isset($usr['is_admin']) and $usr['is_admin'] == 'y') {
-                define("USER_IS_ADMIN", true);
-                define("IS_ADMIN", true);
-            } else {
-                define("USER_IS_ADMIN", false);
-                define("IS_ADMIN", false);
-            }
-            $is = USER_IS_ADMIN;
-
-            return USER_IS_ADMIN;
-        }
-    }
-
-    public function id()
-    {
-
-
-        // static $uid;
-        if (defined('USER_ID')) {
-            // print USER_ID;
-            return USER_ID;
-        } else {
-
-            $user_session = $this->session_get('user_session');
-            if ($user_session == FALSE) {
-                return false;
-            }
-            $res = false;
-            if (isset($user_session['user_id'])) {
-                $res = $user_session['user_id'];
-            }
-
-
-            if ($res != false) {
-                // $res = $sess->get ( 'user_id' );
-                define("USER_ID", $res);
-            }
-            return $res;
-        }
-    }
-
-    function csrf_validate($data)
-    {
-        if (is_array($data) and isset($_SESSION)) {
-            foreach ($data as $k => $v) {
-                foreach ($_SESSION as $sk => $sv) {
-                    if (is_string($sk) and strstr($sk, 'csrf_token_')) {
-                        $sk = substr($sk, 11, 1000);
-                        if ($k == $sv and $sk == $v) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Allows you to save users in the database
-     *
-     * By default it have security rules.
-     *
-     * If you are admin you can save any user in the system;
-     *
-     * However if you are regular user you must post param id with the current user id;
-     *
-     * @param $params
-     * @param  $params['id'] = $user_id; // REQUIRED , you must set the user id.
-     * For security reasons, to make new user please use user_register() function that requires captcha
-     * or write your own save_user wrapper function that sets  mw_var('force_save_user',true);
-     * and pass its params to save_user();
-     *
-     *
-     * @param  $params['is_active'] = 'y'; //default is 'n'
-     * @usage
-     *
-     * $upd = array();
-     * $upd['id'] = 1;
-     * $upd['email'] = $params['new_email'];
-     * $upd['password'] = $params['passwordhash'];
-     * mw_var('force_save_user', false|true); // if true you want to make new user or foce save ... skips id check and is admin check
-     * mw_var('save_user_no_pass_hash', false|true); //if true skips pass hash function and saves password it as is in the request, please hash the password before that or ensure its hashed
-     * $s = save_user($upd);
-     *
-     *
-     *
-     *
-     *
-     * @return bool|int
-     */
-    public function save($params)
-    {
-
-        $force = mw_var('force_save_user');
-        $no_hash = mw_var('save_user_no_pass_hash');
-        if ($force == false) {
-            if ($this->force_save) {
-                $force = $this->force_save;
-            }
-        }
-        if (isset($params['id'])) {
-            //error('COMLETE ME!!!! ');
-
-            $adm = is_admin();
-            if ($adm == false) {
-                if ($force == false) {
-
-
-                    $is_logged = user_id();
-                    if ($is_logged == false or $is_logged == 0) {
-                        return array('error' => 'You must be logged to save user');
-                    } elseif (intval($is_logged) == intval($params['id']) and intval($params['id']) != 0) {
-
-                    } else {
-                        return array('error' => 'You must be logged to as admin save this user');
-
-                    }
-
-                    // $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-
-                } else {
-                    mw_var('force_save_user', false);
-                }
-            }
-        } else {
-            if (defined('MW_API_CALL') and defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
-
-
-                if ($force == false) {
-                    $this->app->error('COMLETE ME!!!! ');
-                } else {
-                    mw_var('force_save_user', false);
-                }
-            }
-        }
-
-        $data_to_save = $params;
-
-        if (isset($data_to_save['password'])) {
-            if ($no_hash == false) {
-                $data_to_save['password'] = $this->hash_pass($data_to_save['password']);
-            } else {
-                mw_var('save_user_no_pass_hash', false);
-            }
-        }
-
-        $table = $this->tables['users'];
-        $save = $this->app->db->save($table, $data_to_save);
-        $id = $save;
-        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
-        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . '0');
-        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . $id);
-        return $id;
     }
 
     public function get($params = false)
@@ -1482,6 +1195,27 @@ class User
         $this->session_end();
 
         return array('success' => 'Your password have been changed!');
+
+    }
+
+    public function session_end()
+    {
+
+
+        $_SESSION = array();
+
+        // If it's desired to kill the session, also delete the session cookie.
+        // Note: This will destroy the session, and not just the session data!
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+        session_destroy();
+        //session_write_close();
+        unset($_SESSION);
 
     }
 
@@ -1735,6 +1469,92 @@ class User
         }
     }
 
+    public function make_logged($user_id)
+    {
+
+        if (is_array($user_id)) {
+            if (isset($user_id['id'])) {
+                $user_id = $user_id['id'];
+            }
+        }
+
+        if (intval($user_id) > 0) {
+            $data = $this->get_by_id($user_id);
+            if ($data == false) {
+                return false;
+            } else {
+                if (is_array($data)) {
+                    $user_session = array();
+                    $user_session['is_logged'] = 'yes';
+                    $user_session['user_id'] = $data['id'];
+
+                    if (!defined('USER_ID')) {
+                        define("USER_ID", $data['id']);
+
+
+                    }
+
+                    $this->app->event->emit('user_login', $data);
+                    $this->session_set('user_session', $user_session);
+                    $user_session = $this->session_get('user_session');
+
+                    $this->update_last_login_time();
+                    $user_session['success'] = _e("You are logged in!", true);
+                    return $user_session;
+                }
+            }
+        }
+
+    }
+
+    /**
+     * Generic function to get the user by id.
+     * Uses the getUsers function to get the data
+     *
+     * @param
+     *            int id
+     * @return array
+     *
+     */
+    public function get_by_id($id)
+    {
+        $id = intval($id);
+        if ($id == 0) {
+            return false;
+        }
+
+        $data = array();
+        $data['id'] = $id;
+        $data['limit'] = 1;
+        $data['single'] = 1;
+
+
+        $data = $this->get_all($data);
+
+        return $data;
+    }
+
+    public function update_last_login_time()
+    {
+
+        $uid = user_id();
+        if (intval($uid) > 0) {
+
+            $data_to_save = array();
+            $data_to_save['id'] = $uid;
+            $data_to_save['last_login'] = date("Y-m-d H:i:s");
+            $data_to_save['last_login_ip'] = MW_USER_IP;
+
+            $table = $this->tables['users'];
+            mw_var("FORCE_SAVE", $this->tables['users']);
+            $save = $this->app->db->save($table, $data_to_save);
+
+            $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+
+        }
+
+    }
+
     public function social_login_process($params = false)
     {
 
@@ -1775,6 +1595,86 @@ class User
         $data = $this->get_all($options);
 
         return $data;
+    }
+
+    /**
+     * @function get_users
+     *
+     * @param $params array|string;
+     * @params $params['username'] string username for user
+     * @params $params['email'] string email for user
+     * @params $params['password'] string password for user
+     *
+     *
+     * @usage $this->get_all('email=my_email');
+     *
+     *
+     * @return array of users;
+     */
+    public function get_all($params)
+    {
+        $params = parse_params($params);
+
+        $table = $this->tables['users'];
+
+        $data = $this->app->format->clean_html($params);
+        $orig_data = $data;
+
+        if (isset($data['ids']) and is_array($data['ids'])) {
+            if (!empty($data['ids'])) {
+                $ids = $data['ids'];
+            }
+        }
+        if (!isset($params['search_in_fields'])) {
+            $data['search_in_fields'] = array('id', 'first_name', 'last_name', 'username', 'email');
+            // $data ['debug'] = 1;
+        }
+
+        $cache_group = 'users/global';
+        if (isset($data['id']) and intval($data['id']) != 0) {
+            $cache_group = 'users/' . $data['id'];
+        } else {
+
+        }
+        $cache_group = 'users/global';
+        if (isset($limit) and $limit != false) {
+            $data['limit'] = $limit;
+        }
+
+        if (isset($count_only) and $count_only != false) {
+            $data['get_count'] = $count_only;
+        }
+
+        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
+            $only_those_fields = $data['only_those_fields'];
+        }
+
+        if (isset($data['count']) and $data['count']) {
+            $count_only = $data['count'];
+        }
+
+        //$data ['no_cache'] = 1;
+
+        if (isset($data['username']) and $data['username'] == null) {
+            unset($data['username']);
+        }
+        if (isset($data['username']) and $data['username'] == '') {
+            //return false;
+        }
+
+        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
+        $data['table'] = $table;
+        //  $data ['cache_group'] = $cache_group;
+
+
+        $get = $this->app->db->get($data);
+
+        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        // var_dump($get, $function_cache_id, $cache_group);
+        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
+
+        return $get;
     }
 
     function register_url()
@@ -1895,6 +1795,119 @@ class User
         $this->session_set('csrf_token_' . md5($token . $unique_form_name), $token);
 
         return $token;
+    }
+
+    public function session_set($name, $val)
+    {
+
+
+        if ($this->session_provider == 'array') {
+            // used for unit tests, does not persist values between requests
+            $is_the_same = $this->session_get($name);
+            if ($is_the_same != $val) {
+                $_SESSION[$name] = $val;
+            }
+            return $_SESSION;
+        }
+
+
+        if (!defined('MW_NO_SESSION') and !headers_sent()) {
+
+
+            if (!isset($_SESSION)) {
+                session_regenerate_id();
+                session_set_cookie_params(86400);
+                ini_set('session.gc_maxlifetime', 86400);
+                session_start();
+                $_SESSION['ip'] = MW_USER_IP;
+
+
+            }
+        }
+
+        if ($val == false) {
+
+
+            $this->session_del($name);
+        } else {
+            $is_the_same = $this->session_get($name);
+
+            if ($is_the_same != $val) {
+                $_SESSION[$name] = $val;
+            }
+        }
+        //return $_SESSION;
+
+    }
+
+    public function session_get($name)
+    {
+
+
+        if ($this->session_provider == 'array') {
+            // used for unit tests, does not persist values between requests
+
+            if (isset($_SESSION[$name])) {
+                return $_SESSION[$name];
+            }
+            return;
+        }
+
+        if (!defined('MW_NO_SESSION')) {
+            if (!headers_sent()) {
+                if (!isset($_SESSION)) {
+                    session_start();
+                    $start = session_id();
+
+                    if ($start == false) {
+
+
+                        $is_ajax = $this->app->url->is_ajax();
+
+                        try {
+                            $start = session_start();
+                        } catch (ErrorExpression $e) {
+                            if ($is_ajax == false) {
+                                session_regenerate_id();
+                                $start = session_id();
+                            }
+                        }
+                        if ($start == false and $is_ajax == false) {
+                            session_write_close(); //now close it,
+                            session_regenerate_id();
+                            $start = session_id();
+                        }
+                    }
+                    $_SESSION['ip'] = MW_USER_IP;
+                }
+            }
+            // probable timeout here?!
+        }
+
+
+        if (isset($_SESSION) and isset($_SESSION[$name])) {
+
+
+            if (!isset($_SESSION['ip'])) {
+                $_SESSION['ip'] = MW_USER_IP;
+            } else if ($_SESSION['ip'] != MW_USER_IP) {
+
+                // $this->session_end();
+                //return false;
+            }
+
+
+            return $_SESSION[$name];
+        } else {
+            return false;
+        }
+    }
+
+    public function session_del($name)
+    {
+        if (isset($_SESSION[$name])) {
+            unset($_SESSION[$name]);
+        }
     }
 }
 

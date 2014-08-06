@@ -129,7 +129,7 @@ PrepareEditor = function(){
           parent.mw.askusertostay = true;
 
        setTimeout(function(){
-         ScaleFrame()
+         ScaleFrame();
        }, 333)
 
      });
@@ -138,7 +138,13 @@ PrepareEditor = function(){
      $(window).bind('moduleLoaded', function(){
          setTimeout(function(){
 
-         ScaleFrame()
+         ScaleFrame();
+         var imgs = mwd.querySelectorAll('.edit img'), l = imgs.length, i = 0;
+         for( ; i < l; i++){
+            $(imgs[i]).bind('load', function(){
+                ScaleFrame();
+            });
+         }
 
          }, 333)
      });

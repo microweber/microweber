@@ -33,9 +33,9 @@
 
 			var cont_id = 	 mw.$("#mw_set_categories_tree_root_page").val();	
 			if(cont_id == 0){
-			var cont_id = 	 mw.$("#mw_page_id_front").val();	
+			var cont_id = 	 mw.$("#mw_page_id_front").val();
 		 
-			}
+		}
  
 		
 		mw.$("#mw_add_cat_live_edit").attr("page-id",cont_id);
@@ -94,7 +94,7 @@
                 <?php _e("Edit categories"); ?>
             </a>
     </div>
-    <a href="javascript:mw.load_quick_cat_edit(0);" class="mw-ui-btn mw-ui-btn-medium pull-right">
+    <a href="javascript:mw.load_quick_cat_edit(0);" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert pull-right">
     <span class="mw-icon-category"></span>
     <span>
 	<?php _e("New category"); ?>

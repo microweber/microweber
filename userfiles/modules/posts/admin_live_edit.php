@@ -160,7 +160,7 @@ mw.on.hashParam("action", function () {
         mw.$('#mw_posts_create_live_edit').removeAttr('live_edit');
         mw.load_module('content/edit', '#mw_posts_create_live_edit', function () {
 			if(typeof(thismodal) != 'undefined'){
-            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 710, mw.$('#settings-container').height() + 25, false);
+            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 810, mw.$('#settings-container').height() + 25, false);
 			}
         });
     }

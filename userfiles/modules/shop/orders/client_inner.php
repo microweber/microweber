@@ -149,7 +149,7 @@ mw.client_edit = {
                           <div class="mw-ui-box-content mw-accordion-content">
                             <?php $cart_items = get_cart('order_completed=any&order_id='.$item['id'].'&no_session_id=1'); 	?>
                             <?php if(is_array($cart_items)): ?>
-                            <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic" width="100%">
+                            <table cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic client-order-table" width="100%">
                               <thead>
                                 <tr>
                                   <th></th>

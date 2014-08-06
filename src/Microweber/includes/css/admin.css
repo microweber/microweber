@@ -3624,6 +3624,10 @@ tr.mw-order-item:hover{
   top: 2px;
 }
 
+.client-order-table thead th{
+  text-align: left;
+}
+
 .mw-client-information.nonactive .mw-ui-field{
   display: none;
 }

@@ -14,6 +14,8 @@
 
 ?>
 
+
+
 <div class="comment-post">
 <?php if(!isset($params['no_post_head'])): ?>
   <div class="comment-info-holder" content-id="<?php print $item['id']; ?>" onclick="mw.adminComments.toggleMaster(this, event)"> <span class="img"> <img src="<?php print thumbnail(get_picture($content_id),67,67); ?>" alt="" />

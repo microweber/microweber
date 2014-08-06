@@ -75,7 +75,7 @@ function mw_print_admin_post_comments_counter_quick_list($item)
             $btn['title'] = 'Comments';
             $btn['class'] = 'mw-icon-comment';
             $btn['html'] = '<module type="comments/comments_for_post" no_post_head="true" content_id=' . $item['id'] . '  />';
-            mw()->module->ui('content.edit.tabs', $btn);
+          //  mw()->module->ui('content.edit.tabs', $btn);
         }
     }
 }
