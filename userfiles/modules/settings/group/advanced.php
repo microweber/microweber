@@ -15,6 +15,8 @@ $(document).ready(function(){
 
 </script>
 
+<h2><?php _e("Advanced"); ?></h2>
+
 <div class="<?php print $config['module_class'] ?>">
 
 

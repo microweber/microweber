@@ -2556,13 +2556,12 @@ body.grabbing, body.grabbing *{
   width: 55px;
 }
 
-.col-bar-live-edit .mw-ui-btn {
-
+.col-bar-live-edit .mw-ui-btn, .go-live-btn-admin {
   width: 50px;
   background-color: rgba(245, 245, 245, 1);
 }
 
-.col-bar-live-edit .mw-ui-btn .mw-icon-live{
+.col-bar-live-edit .mw-ui-btn .mw-icon-live, .go-live-btn-admin .mw-icon-live{
   font-size: 25px;
   margin: -6px -2px 0;
 }

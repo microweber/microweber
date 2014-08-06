@@ -89,21 +89,25 @@ $(document).ready(function(){
           		    <li><a onclick="mw.url.windowHashParam('option_group', 'template');return false;" class="item-template" href="#option_group=template"><?php _e("Template"); ?></a></li>
                     <li><a onclick="mw.url.windowHashParam('option_group', 'users');return false;" class="item-users" href="#option_group=users"><?php _e("Login & Register"); ?></a></li>
                     <li><a onclick="mw.url.windowHashParam('option_group', 'email');return false;" class="item-email" href="#option_group=website"><?php _e("Email"); ?></a></li>
-                                        <?php event_trigger('mw_admin_settings_menu'); ?>
-
-                       <?php $settings_menu =  mw()->module->ui('admin.settings.menu'); ?>
+<?php event_trigger('mw_admin_settings_menu'); ?>
+<?php $settings_menu =  mw()->module->ui('admin.settings.menu'); ?>
 <?php if(is_array($settings_menu) and !empty($settings_menu)): ?>
-
 <?php foreach($settings_menu as $item): ?>
 <?php $module = ( isset( $item['module'])) ? module_name_encode($item['module']) : false ; ?>
 <?php $title = ( isset( $item['title'])) ? ($item['title']) : false ; ?>
 <?php $class = ( isset( $item['class'])) ? ($item['class']) : false ; ?>
+<?php if($module != 'xxshop__settings') { ?>
+
+
 <li><a onclick="mw.url.windowHashParam('option_group', '<?php print $module ?>');return false;" class="<?php print $class ?>" href="#option_group=<?php print $module ?>"><?php print $title ?></a></li>
+
+<?php } ?>
+
 <?php endforeach; ?>
 <?php endif; ?>
                     
-                    
-                    
+
+
                     <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced"><?php _e("Advanced"); ?></a></li>
                     <li><a onclick="mw.url.windowHashParam('option_group', 'language');return false;" class="item-language" href="#option_group=language"><?php _e("Language"); ?></a></li>
                   </ul>

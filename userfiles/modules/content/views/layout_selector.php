@@ -418,6 +418,8 @@ $(document).ready(function () {
 });
  
 </script>
+
+<h2><?php _e("Template"); ?></h2>
  
 <div class="layout_selector_wrap">
  
@@ -518,6 +520,9 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
 
     <div class="mw-ui-col">
     <div class="mw-ui-col-container">
+
+
+
       <label class="mw-ui-label"><?php _e("Choose Page Layout"); ?></label>
       <div class="layouts_box_container">
 

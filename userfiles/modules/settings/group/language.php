@@ -13,7 +13,7 @@ $(document).ready(function(){
     });
 });
 </script>
-
+<h2><?php _e("Language"); ?></h2>
 <div class="<?php print $config['module_class'] ?>">
 <div class="mw-ui-field-holder">
   <label class="mw-ui-label">

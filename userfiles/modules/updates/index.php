@@ -112,7 +112,7 @@ $(document).ready(function(){
 <style type="text/css">
 
 #mw-updates-holder{
-  padding: 20px;
+  padding: 0 20px;
   max-width: 960px;
 }
 
@@ -122,6 +122,10 @@ $(document).ready(function(){
 
 #updates-list-info{
     padding: 15px 0;
+}
+
+.mw-check-updates-btn{
+  margin: 10px 0;
 }
 
 

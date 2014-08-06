@@ -24,7 +24,7 @@ mw.email_send_test = function(){
 	  });
 }
 </script>
-
+<h2><?php _e("Email"); ?></h2>
 <div class="<?php print $config['module_class'] ?> mw-ui-box">
 	<div class="mw-ui-box-content">
 		<div class="mw-ui-field-holder">

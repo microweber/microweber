@@ -12,7 +12,7 @@
 }
 </style>
 
- 
+  <h2><?php _e("Backup"); ?></h2>
   <div class="back-up-nav-btns">
 
     <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span><span><?php _e("Create Database Backup"); ?></span></a>

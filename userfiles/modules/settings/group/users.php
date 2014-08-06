@@ -72,6 +72,9 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
 }
 </style>
 <div class="<?php print $config['module_class'] ?>">
+
+<h2><?php _e("Login & Register"); ?></h2>
+
   <?php  $curent_val = get_option('enable_user_registration','users'); ?>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">

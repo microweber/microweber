@@ -88,7 +88,9 @@ mw.ok_import_file = function(){
   
   <button onclick="mw.ok_import_file()" class="mw-ui-btn"><?php _e("Start import"); ?></button>
 </div>
-<div> <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span><?php _e("Upload file"); ?><span id="upload_backup_info"></span></span></span> </div>
+<div style="padding: 10px 0;">
+    <span id="mw_uploader" class="mw-ui-btn"><span class="mw-icon-upload"></span><span><?php _e("Upload file"); ?><span id="upload_backup_info"></span></span></span>
+</div>
 
 <module type="admin/import/process" />
 <module type="admin/import/manage" />

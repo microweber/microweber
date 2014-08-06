@@ -8,6 +8,8 @@ $(document).ready(function(){
 });
 </script>
 
+<h2><?php _e("Website"); ?></h2>
+
 <div class="<?php print $config['module_class'] ?>">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -15,8 +17,9 @@ $(document).ready(function(){
       <br>
       <small>
       <?php _e("This is very important for search engines"); ?>.
-      <?php _e("Your website will be categorized by many criteria and its name is one of them"); ?>.  </small> </label>
-    <input name="website_title" class="mw_option_field mw-ui-field"   type="text" option-group="website"  value="<?php print get_option('website_title','website'); ?>" />
+      <?php _e("Your website will be categorized by many criteria and its name is one of them"); ?>.
+      </small> </label>
+    <input name="website_title" class="mw_option_field mw-ui-field" type="text" option-group="website"  value="<?php print get_option('website_title','website'); ?>" />
   </div>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -24,7 +27,7 @@ $(document).ready(function(){
       <br>
       <small>
       <?php _e("Describe what your website is about"); ?>.</small> </label>
-    <textarea name="website_description" class="mw_option_field mw-ui-field"   type="text" option-group="website"><?php print get_option('website_description','website'); ?></textarea>
+    <textarea name="website_description" class="mw_option_field mw-ui-field" type="text" option-group="website"><?php print get_option('website_description','website'); ?></textarea>
   </div>
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
