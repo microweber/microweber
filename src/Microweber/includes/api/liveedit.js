@@ -1727,6 +1727,11 @@ mw.drag = {
     saveDisabled:false,
     draftDisabled:false,
     save:function(){
+
+        if(typeof saveStaticElementsStyles === 'function'){
+            saveStaticElementsStyles();
+    	}
+
         if(mw.drag.saveDisabled) return false;
         var body = mw.drag.parseContent().body,
             edits = body.querySelectorAll('.edit.changed'),
@@ -1735,9 +1740,7 @@ mw.drag = {
         if(mw.tools.isEmptyObject(data)) return false;
 
         $(window).trigger('saveStart', data);
-        if(typeof saveStaticElementsStyles === 'function'){
-            saveStaticElementsStyles();
-    	}
+
         var xhr = mw.drag.coreSave(data);
         xhr.success(function(sdata){
            mw.$('.edit.changed').removeClass('changed');
