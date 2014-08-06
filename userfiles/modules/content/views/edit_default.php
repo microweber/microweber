@@ -229,6 +229,8 @@ $edit_page_info = $data;;
       </div>
       <div class="mw-ui-category-selector mw-ui-category-selector-abs mw-tree mw-tree-selector" id="mw-category-selector-<?php print $rand; ?>" >
         <?php if($data['content_type'] != 'page' and $data['subtype'] != 'category'): ?>
+
+
         <module
                 type="categories/selector"
                 for="content"
@@ -288,9 +290,10 @@ $edit_page_info = $data;;
         <div id="category-tree-not-found-message">
           <h3><?php _e("Category"); ?> "<span id="category-not-found-name"></span>" <?php _e("not found"); ?>.</h3>
           <br>
-          <span class="mw-ui-btn mw-ui-btn-invert" onclick="CreateCategoryForPost(2)" ><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span>
+          <?php /*<span class="mw-ui-btn mw-ui-btn-invert" onclick="CreateCategoryForPost(2)" ><em class="mw-icon-plus"></em><?php _e("Create it"); ?></span>*/ ?>
         </div>
         <div id="parent-category-selector-block">
+
             <h3><?php _e("Select parent"); ?></h3>
             <div id="parent-category-selector-holder"></div>
         </div>
