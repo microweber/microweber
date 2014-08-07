@@ -7,17 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
-    'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
-    'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
     'QueryPath' => array($vendorDir . '/querypath/querypath/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
-    'Omnipay\\Common\\' => array($vendorDir . '/omnipay/common/src'),
     'Microweber' => array($baseDir . '/src'),
     'Keboola\\Csv' => array($vendorDir . '/keboola/csv/src'),
-    'Guzzle\\Stream' => array($vendorDir . '/guzzle/stream'),
-    'Guzzle\\Parser' => array($vendorDir . '/guzzle/parser'),
-    'Guzzle\\Http' => array($vendorDir . '/guzzle/http'),
-    'Guzzle\\Common' => array($vendorDir . '/guzzle/common'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
     'ComponentInstaller' => array($vendorDir . '/robloach/component-installer/src'),
     'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),

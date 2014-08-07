@@ -13,7 +13,5 @@ return array(
     'Model' => $vendorDir . '/j4mie/paris/paris.php',
     'ORM' => $vendorDir . '/j4mie/idiorm/idiorm.php',
     'ORMWrapper' => $vendorDir . '/j4mie/paris/paris.php',
-    'Omnipay\\Omnipay' => $vendorDir . '/omnipay/common/src/Omnipay/Omnipay.php',
     'ParisMethodMissingException' => $vendorDir . '/j4mie/paris/paris.php',
-    'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
 );

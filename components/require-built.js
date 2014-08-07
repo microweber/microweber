@@ -2042,11 +2042,6 @@ var components = {
                 "jquery"
             ]
         },
-        "bootstrap-default": {
-            "deps": [
-                "bootstrap"
-            ]
-        },
         "jquery-ui": {
             "deps": [
                 "jquery"
