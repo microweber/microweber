@@ -27,8 +27,8 @@ $(document).ready(function(){
         <a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#mw-advanced-settings-module-load-holder')"><?php _e("Show system log"); ?></a>
         <a class="mw-ui-btn" href="javascript:$('.mw_adm_cont_head_change_holder').toggle(); void(0);"><?php _e("Custom head tags"); ?></a>
         <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a>
-        <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"><?php _e("Internal settings"); ?> </a>
-        <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-module-load-holder')"><?php _e("Packages"); ?></a>
+       <!-- <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"><?php _e("Internal settings"); ?> </a>
+        <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-module-load-holder')"><?php _e("Packages"); ?></a>-->
     </div>
 
   
@@ -40,14 +40,14 @@ $(document).ready(function(){
 <div class="mw_adm_cont_head_change_holder mw-ui-box mw-ui-box-content" style="display:none">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
-      <?php _e("Custom head tags"); ?>
+      <h3><?php _e("Custom head tags"); ?></h3>
       <br>
-      <small>
+      <div class="mw-ui-box mw-ui-box-content mw-ui-box-warn">
       <?php _e("Advanced functionality"); ?>
       !
       <?php _e("You can put custom html in the site head-tags. Please put only valid meta tags or you can break your site."); ?>
-      </small> </label>
-    <textarea name="website_head" class="mw_option_field mw-ui-field"   type="text" option-group="website"><?php print get_option('website_head','website'); ?></textarea>
+      </div> </label>
+    <textarea name="website_head" class="mw_option_field mw-ui-field w100"   type="text" option-group="website"><?php print get_option('website_head','website'); ?></textarea>
   </div>
 </div>
 <div class="mw_adm_robots_txt_change_holder mw-ui-box mw-ui-box-content" style="display:none">

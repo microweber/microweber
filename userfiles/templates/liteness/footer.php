@@ -1,4 +1,4 @@
-</div><!-- /#content-holder -->
+
 <div id="footer">
   <div class="container">
     <div class="mw-ui-row">
@@ -18,8 +18,6 @@
     </div>
   </div>
 </div>
-</div>
-<!-- /#main-container -->
 
-</body>
-</html>
+ 
+</body></html>
