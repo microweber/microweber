@@ -188,7 +188,7 @@ $(document).ready(function(){
         <div class="mw-ui-col">
           <?php if($data['id'] == 0 and isset($data['parent_id'] ) and $data['parent_id'] >0): ?>
           <span class="mw-title-field-label mw-title-field-label-subcat"></span>
-          <input  class="mw-ui-field mw-title-field mw-title-field-category" name="title" type="text" placeholder="<?php _e("Sub-category Name"); ?>" />
+          <input id="content-title-field" class="mw-ui-invisible-field mw-ui-field-big" name="title" type="text" placeholder="<?php _e("Sub-category Name"); ?>" />
           <?php else: ?>
           <?php if( isset($data['parent_id'] ) and $data['parent_id'] > 0): ?>
           <span class="mw-title-field-label mw-title-field-label-subcat"></span>
@@ -256,7 +256,7 @@ $(document).ready(function(){
   </script>
     <input name="position"  type="hidden" value="<?php print ($data['position'])?>" />
     <div class="advanced_settings">
-      <label class="mw-ui-label"><?php _e("Category images and settings"); ?></label>  
+      <label class="mw-ui-label"><?php _e("Category images and settings"); ?></label>
       <div class="mw-ui-btn-nav" id="tabsnav">
         <span class="mw-ui-btn"><span class="mw-icon-picture"></span><span><?php _e("Picture Gallery"); ?></span></span>
         <span class="mw-ui-btn"><span class="mw-icon-gear"></span><span><?php _e("Advanced"); ?></span></span> </div>

@@ -1,10 +1,13 @@
 <script>
-    mw.quick_price_save_edit = mw.quick_price_save_edit || function (el) {
+    mw.quick_price_save_edit = function (el) {
 
      var price_field = $(el);
 	 var data = {};
 	 data.id = price_field.attr('data-custom-field-id');
 	 data.value = price_field.val();
+	 
+ 
+	 
 	 mw.custom_fields.edit(data, function(){
 
      mw.reload_module_parent('custom_fields/list');
@@ -26,7 +29,7 @@
     $prices = array();
     foreach ($data as $item){
         if (isset($item['id']) and isset($item['type']) and $item['type'] == 'price'){
-            array_push($prices, $item);
+           $prices[] = $item;
         }
     }
 
@@ -102,7 +105,7 @@ if($hasmultiple):
 </div>
 </div>
 
-<?php else:
+<?php elseif(isset($prices[0])):
 
     $item = $prices[0];
 

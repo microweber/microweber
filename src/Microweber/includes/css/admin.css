@@ -454,8 +454,8 @@ h3 > [class*="mw-icon-"]:first-child{
 }
 
 .mw-tree label.highlighted, .mw-tree label.active{
-  background-color:white;
-  color: #235F99;
+  background-color:#F5F5F5;
+
 }
 
 
@@ -1409,7 +1409,7 @@ a:hover .mw_ed_tree_content{
   padding: 0;
 }
 #custom-fields-post-table .mw-liveedit-field{
-  min-width: 25px;
+  min-width: 55px;
   font-size: 13px;
   height: auto;
 }
@@ -1446,10 +1446,13 @@ a:hover .mw_ed_tree_content{
   text-align: center;
 }
 
-.btn-create-custom-field-value{
-  width: 20px;
-  padding: 2px 0;
-  margin-left: 12px;
+.btn-create-custom-field-value {
+  margin-left:26px;
+}
+
+.btn-create-custom-field-value .mw-icon-plus{
+    font-size: 13px;
+    margin-right:3px;
 }
 
 .mw-admin-custom-field-value-edit-inline, .mw-admin-custom-field-name-edit-inline{

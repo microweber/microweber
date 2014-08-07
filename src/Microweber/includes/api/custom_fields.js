@@ -4,14 +4,13 @@ mw.custom_fields = {
     },
     saveurl: mw.settings.api_url + 'fields/save',
     create: function (obj, callback, error) {
-        var obj = $.extend(this.settings, obj, {});
+        var obj = $.extend( {} , this.settings, obj);
         obj.id = 0;
         this.edit(obj, callback, error);
     },
     edit: function (obj, callback, error) {
-        var obj = $.extend(this.settings, obj, {});
-
-
+        var obj = $.extend( {} , this.settings, obj);
+ 
         $.post(mw.custom_fields.saveurl, obj, function (data) {
             if (typeof callback === 'function') {
                 if (!!data.error) {
@@ -26,11 +25,6 @@ mw.custom_fields = {
 
             	mw.custom_fields.after_save();
 		    }
-			
-			
-
-			
-			
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             if (typeof error === 'function') {

@@ -147,10 +147,8 @@ $(document).ready(function(){
 	  mw.dropdown();
 	  mw.$('#dropdown-custom-fields').bind('change', function(){
 			var val = $(this).getDropdownValue();
-			var copyof = mw.$('#dropdown-custom-fields li[value="'+val+'"][data-copyof]').dataset('copyof'); 
-			
+			var copyof = mw.$('#dropdown-custom-fields li[value="'+val+'"][data-copyof]').dataset('copyof');
 			 
-			
 			var make_field = {}
 			make_field.rel='<?php print $for; ?>';
 			make_field.rel_id='<?php print $for_id; ?>';
