@@ -51,12 +51,12 @@ function api_url($str = '')
 
 function auto_link($text)
 {
-    return mw('format')->auto_link($text);
+    return mw()->format->auto_link($text);
 }
 
 function prep_url($text)
 {
-    return mw('format')->prep_url($text);
+    return mw()->format->prep_url($text);
 }
 
 
@@ -295,7 +295,7 @@ function cache_delete($cache_group = 'global', $cache_storage_type = false)
 
 function get_user_by_id($params = false)
 {
-    return mw('user')->get_by_id($params);
+    return mw()->user->get_by_id($params);
 }
 
 function get_menus($params = false)
@@ -476,7 +476,7 @@ function module($params)
         if ($k != 'display') {
 
             if (is_array($v)) {
-                $v1 = mw('format')->array_to_base64($v);
+                $v1 = mw()->format->array_to_base64($v);
                 $tags .= "{$k}=\"$v1\" ";
             } else {
 
@@ -1185,28 +1185,6 @@ function strleft($s1, $s2)
 }
 
 
-if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('get_all_functions_files_for_modules')) {
-    $module_functions = get_all_functions_files_for_modules();
-    if ($module_functions != false) {
-        if (is_array($module_functions)) {
-            foreach ($module_functions as $item) {
-                if (is_file($item)) {
-
-                    include_once ($item);
-                }
-            }
-        }
-    }
-    if (MW_IS_INSTALLED == true) {
-
-        if (($cache_content_init) == false) {
-            event_trigger('mw_db_init');
-        }
-
-        //event_trigger('mw_cron');
-    }
-}
-
 
 /**
  *
@@ -1423,7 +1401,7 @@ function in_live_edit()
     if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
         return true;
      }
-    $editmode_sess = mw('user')->session_get('editmode');
+    $editmode_sess = mw()->user->session_get('editmode');
 
     if ($editmode_sess == true) {
      return true;
@@ -1432,12 +1410,12 @@ function in_live_edit()
 
 function notif($sting, $class = 'success')
 {
-    return mw('format')->notif($sting, $class);
+    return mw()->format->notif($sting, $class);
 }
 
 function lnotif($sting, $class = 'success')
 {
-    return mw('format')->lnotif($sting, $class);
+    return mw()->format->lnotif($sting, $class);
 }
 
 function random_color()
@@ -1637,4 +1615,28 @@ function load_web_component_file($filename)
     }
 
 
+}
+
+
+
+if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('get_all_functions_files_for_modules')) {
+    $module_functions = get_all_functions_files_for_modules();
+    if ($module_functions != false) {
+        if (is_array($module_functions)) {
+            foreach ($module_functions as $item) {
+                if (is_file($item)) {
+
+                    include_once ($item);
+                }
+            }
+        }
+    }
+    if (MW_IS_INSTALLED == true) {
+
+        if (($cache_content_init) == false) {
+            event_trigger('mw_db_init');
+        }
+
+        //event_trigger('mw_cron');
+    }
 }

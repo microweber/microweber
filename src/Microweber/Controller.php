@@ -1510,17 +1510,19 @@ class Controller
             $meta['content_url'] = $this->app->url->current(1);
             $meta['og_description'] = $this->app->option->get('website_description', 'website');
             $meta['og_type'] = 'website';
-			$meta_content_id = PAGE_ID;
-			if (CONTENT_ID > 0) {
-				$meta_content_id = CONTENT_ID;
-			}
+            $meta_content_id = PAGE_ID;
+            if (CONTENT_ID > 0) {
+                $meta_content_id = CONTENT_ID;
+            }
 
             if ($meta_content_id > 0) {
                 $meta = $this->app->content->get_by_id($meta_content_id);
-                $meta['content_image'] = $this->app->media->get_picture($meta_content_id);
-				
-				
-
+                $content_image = $this->app->media->get_picture($meta_content_id);
+                if ($content_image) {
+                    $meta['content_image'] = $content_image;
+                } else {
+                    $meta['content_image'] = '';
+                }
                 $meta['content_url'] = $this->app->content->link($meta_content_id);
                 $meta['og_type'] = $meta['content_type'];
                 if ($meta['og_type'] != 'page' and trim($meta['subtype']) != '') {
@@ -1543,8 +1545,8 @@ class Controller
                 $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
 
             }
-			
-			
+
+
             $meta['og_site_name'] = $this->app->option->get('website_title', 'website');
             if (!empty($meta)) {
                 if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
@@ -1569,21 +1571,22 @@ class Controller
 
                 }
 
-
                 if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
                 } else {
                     $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
                 }
-                // d($meta);
-                //   $meta = $this->app->format->clean_html($meta, true);
 
                 if (is_array($meta)) {
                     foreach ($meta as $key => $item) {
                         if (is_string($item)) {
+
                             $item = html_entity_decode($item);
                             $item = strip_tags($item);
-                            $item = addslashes($item);
+                            // $item = addslashes($item);
                             $item = str_replace('&amp;zwnj;', ' ', $item);
+                            $item = str_replace('"', ' ', $item);
+                            $item = str_replace("'", ' ', $item);
+                            $item = str_replace('>', '', $item);
                             $item = str_replace('&amp;quot;', ' ', $item);
                             $item = str_replace('quot;', ' ', $item);
                             $item = str_replace('&amp;', ' ', $item);
@@ -2508,7 +2511,7 @@ class Controller
 
 
             if (isset($page['active_site_template'])) {
-                if($page['active_site_template'] == ''){
+                if ($page['active_site_template'] == '') {
                     $page['active_site_template'] = 'default';
                 }
 
