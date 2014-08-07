@@ -403,11 +403,9 @@
 }
 
 .mw_dropdown_action_font_size{
-  width: 55px;
+  width: 65px;
 }
-.mw_dropdown_action_font_size .mw-dropdown-val{
-  width: 29px;
-}
+
 .mw_dropdown_action_font_size .mw-dropdown-content ul{
   width: 100%;
 }

@@ -182,7 +182,7 @@
         $check_pass = false;
         $server_check_errors['php_version'] = _e("You must run PHP 5.3 or greater", true);
     }
-     
+
     $here = dirname(__FILE__) . DIRECTORY_SEPARATOR . uniqid();
     if (is_writable($here)) {
         $check_pass = false;

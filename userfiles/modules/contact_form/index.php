@@ -9,8 +9,9 @@ if(typeof  processContactForm !== 'object'){
 
     processContactForm = {
        send: function(selector, msgselector){
+            mw.tools.loading(selector);
             mw.form.post(selector, undefined, function(form){
-
+                mw.tools.loading(selector, false);
     			var data2 = this;
     			if(typeof data2.error === 'string'){
                     mw.response(mw.$(selector), data2);
