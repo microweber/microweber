@@ -350,6 +350,11 @@ class Controller
         }
 
         if ($page == false) {
+			if(!isset($content_id)){
+			return;	
+			}
+			
+			
             $this->app->content->define_constants(array('id' => $content_id));
         } else {
             $this->app->content->define_constants($page);
