@@ -921,8 +921,8 @@ class Controller
                     $page['parent'] = '0';
                     $page['url'] = $this->app->url->string();
                     $page['active_site_template'] = $the_active_site_template;
-
-                    $mod_params = '';
+                    template_var('no_edit',1);
+                     $mod_params = '';
                     if ($preview_module_template != false) {
                         $mod_params = $mod_params . " template='{$preview_module_template}' ";
                     }
@@ -1202,6 +1202,7 @@ class Controller
                 $page_non_active['content'] = ' <module type="users/login" class="user-require-login-on-view" /> ';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
+
                 template_var('content', $page_non_active['content']);
                 $content = $page_non_active;
             }

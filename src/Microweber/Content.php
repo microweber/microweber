@@ -2264,6 +2264,7 @@ class Content
 
     public function save_edit($post_data)
     {
+        $is_module = false;
         $is_admin = $this->app->user->is_admin();
         if ($post_data) {
             if (isset($post_data['json_obj'])) {
@@ -2342,18 +2343,34 @@ class Content
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;
                 $pd = $guess_page_data->index();
+                $ustr = $this->app->url->string(1);
+                $is_module = false;
+
+                if ($this->app->module->is_installed($ustr)) {
+                    $is_module = true;
+                    $save_page['layout_file'] = 'clean.php';
+                    $save_page['subtype'] = 'module';
+
+                    $hp_id = $this->app->content->homepage();
+
+                    if(isset($hp_id['id'])){
+                        $page_id = $hp_id['id'];
+
+                    } else {
+                        //save global fields anyway
+                        $page_id = 1;
+
+                    }
+$is_module = 1;
+                    $save_page = false;
+                } else {
+
+                }
 
 
-                if ($is_admin == true and is_array($pd)) {
+                if ($is_admin == true and is_array($pd) and $is_module == false) {
                     $save_page = $pd;
 
-                    $ustr = $this->app->url->string(1);
-                    $is_module = false;
-                    if ($this->app->module->is_installed($ustr)) {
-                        $is_module = true;
-                        $save_page['layout_file'] = 'clean.php';
-                        $save_page['subtype'] = 'module';
-                    }
 
 
                     if (!isset($_GET['mw_quick_edit'])) {
@@ -2386,9 +2403,10 @@ class Content
                             $save_page['subtype'] = 'static';
                         }
                     }
+                    if($save_page !=false){
 
                     $page_id = $this->save_content_admin($save_page);
-
+                    }
                 }
 
             } else {
@@ -2484,8 +2502,7 @@ class Content
                         $save_global = false;
                         if (isset($the_field_data['attributes']['rel']) and (trim($the_field_data['attributes']['rel']) == 'global' or trim($the_field_data['attributes']['rel'])) == 'module') {
                             $save_global = true;
-                            // p($the_field_data ['attributes'] ['rel']);
-                        } else {
+                         } else {
                             $save_global = false;
                         }
                         if (isset($the_field_data['attributes']['rel']) and trim($the_field_data['attributes']['rel']) == 'layout') {

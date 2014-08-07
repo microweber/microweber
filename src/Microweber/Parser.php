@@ -761,7 +761,7 @@ class Parser
 
                  //   $filter
 
-
+                    $no_edit = false;
 
 
                     if ($field_content == false) {
@@ -807,6 +807,10 @@ class Parser
                         if ($field == 'content' and template_var('content') != false) {
                             $field_content = template_var('content');
                             template_var('content', false);
+                            $no_edit = template_var('no_edit');
+
+
+
                         }
                         if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
                             $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
@@ -834,7 +838,7 @@ class Parser
                                 $mw_found_elems_arr[$parser_mem_crc2] = $field_content;
                                 $rep = pq($elem)->html();
 
-                                if(isset($data) and isset($data['no_edit']) and $data['no_edit'] !=false){
+                                if($no_edit != false or (isset($data) and isset($data['no_edit']) and $data['no_edit'] !=false)){
                                     $is_editable = false;
                                     if($is_editable === false){
                                         pq($elem)->removeClass('edit');
