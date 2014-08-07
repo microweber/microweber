@@ -2723,6 +2723,13 @@ if(typeof mw.hasDraft === 'object'){
 
                       setTimeout(function(){
                         if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && !sel.isCollapsed){
+						  
+						  
+						  if(typeof(window.getSelection().getRangeAt(0).getClientRects()[0]) == 'undefined'){
+							  return;
+						  }
+							
+							
                           mw.smallEditorCanceled = false;
                             var top = e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height;
                             mw.smallEditor.css({
