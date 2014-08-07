@@ -81,6 +81,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
      });
      $(window).bind('saveEnd', function(){
        mw.$("#main-save-btn").html('<?php _e("Save"); ?>');
+       mw.notification.success('<?php _e("All changes are saved"); ?>.')
      });
 
 
