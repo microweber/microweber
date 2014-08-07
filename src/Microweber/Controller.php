@@ -922,7 +922,10 @@ class Controller
                     $page['url'] = $this->app->url->string();
                     $page['active_site_template'] = $the_active_site_template;
                     template_var('no_edit',1);
-                     $mod_params = '';
+//                    if(!defined('PAGE_ID')){
+//                        define('PAGE_ID',1);
+//                    }
+                      $mod_params = '';
                     if ($preview_module_template != false) {
                         $mod_params = $mod_params . " template='{$preview_module_template}' ";
                     }

@@ -38,6 +38,8 @@ $params['parent'] = intval($params['data-parent']);
 $params['parent'] = intval($params['content_id']);
 }elseif (isset($params['parent'])) {
 $params['parent'] = intval($params['parent']);
+} else {
+$params['parent'] = 0;	
 }
 
  
@@ -66,7 +68,7 @@ if (isset($params['parent']) and $params['parent'] != 0) {
  
  $params['is_active'] = 'y';
  
-  
+//  d($params);
 // loading the module template
 $module_template = get_option('data-template', $params['id']);
  
@@ -80,10 +82,12 @@ if ($module_template != false) {
     $template_file = module_templates($config['module'], 'default');
 
 }
-if (isset($template_file) and is_file($template_file) != false) {
-    include($template_file);
+ 
+if (isset($template_file) and file_exists($template_file) and is_file($template_file)) {
+     include($template_file);
 } else {
 
     $template_file = module_templates($config['module'], 'default');
+	
     include($template_file);
 }
