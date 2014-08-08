@@ -97,6 +97,7 @@ if(typeof mw.rotator === 'undefined'){
           else if(mode == 'thumbnails'){
             var well = mwd.createElement('span');
             well.className = 'mw-rotator-thumbnail-scroller';
+
             if(!reflection){
                 for( ; i<l; i++){
                   var a = mwd.createElement('a');
@@ -104,7 +105,8 @@ if(typeof mw.rotator === 'undefined'){
                   a.className = cls;
                   a.onclick = function(){rotator.goto(parseFloat(this.rel)-1)}
                   a.rel = i + 1;
-                  a.innerHTML = "<img src='" + items[i].getElementsByTagName('img')[0].src + "' />";
+                 // a.innerHTML = "<img src='" + items[i].getElementsByTagName('img')[0].src + "' />";
+                 a.style.backgroundImage = 'url('+items[i].getElementsByTagName('img')[0].src+')';
                   well.appendChild(a);
                 }
             }
@@ -129,6 +131,15 @@ if(typeof mw.rotator === 'undefined'){
                 $(well).width(w*l);
               }
             });
+            /*
+             $(well.parentNode).append ('<span class="mw-rotator-thumbnail-scroller-previous"></span><span class="mw-rotator-thumbnail-scroller-next"></span>');
+             mw.$(".mw-rotator-thumbnail-scroller-previous", well.parentNode).bind('click', function(){
+
+             });
+             mw.$(".mw-rotator-thumbnail-scroller-next", well.parentNode).bind('click', function(){
+                mw.$('.rotator-paging-item', well.parentNode).eq(0).outerWidth(true);
+
+             }); */
           }
         }
         rotator.options = function(obj){

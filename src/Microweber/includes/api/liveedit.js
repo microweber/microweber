@@ -2713,23 +2713,30 @@ if(typeof mw.hasDraft === 'object'){
                     } */
 
                      var sel = window.getSelection();
+                     if(sel.rangeCount > 0){
 
 
+                       var r = sel.getRangeAt(0);
 
-                    if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit') ||  mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')) && (sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed)){
+                       var cac = mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer);
+                      }
+
+                   // if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit') ||  mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')) && (sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed)){
+                    if( (sel.rangeCount > 0 ) && ((mw.tools.hasParentsWithClass(cac, 'edit') || mw.tools.hasClass(cac, 'edit') ||  mw.tools.hasParentsWithClass(cac, 'mw-admin-editor-area')) && (sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed))){
 
                       if(sel.rangeCount > 0){
-                      var r = sel.getRangeAt(0);
+
 
                       setTimeout(function(){
-                        if(mw.wysiwyg.validateCommonAncestorContainer(r.commonAncestorContainer).isContentEditable && !sel.isCollapsed){
-						  
-						  
+
+                        if(cac.isContentEditable && !sel.isCollapsed){
+
+
 						  if(typeof(window.getSelection().getRangeAt(0).getClientRects()[0]) == 'undefined'){
 							  return;
 						  }
-							
-							
+
+
                           mw.smallEditorCanceled = false;
                             var top = e.pageY - mw.smallEditor.height() - window.getSelection().getRangeAt(0).getClientRects()[0].height;
                             mw.smallEditor.css({

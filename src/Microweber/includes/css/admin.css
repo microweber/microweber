@@ -2722,7 +2722,8 @@ body.grabbing, body.grabbing *{
 }
 #manage-galleries-holder{
   display: inline-block;
-  max-width:605px;
+  max-width: 440px;
+  min-width: 420px;
 }
 
 #manage-galleries-holder .bgimg + span{

@@ -87,54 +87,54 @@ $edit_page_info = $data;;
         <?php endif; ?>
       </div>
       <div class="mw-ui-col" id="content-title-field-buttons">
-        <div class="mw-ui-btn-nav">
+        <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid pull-right" style="width: auto;">
           <?php if ($data['is_active'] == 'n') { ?>
-          <span
+          <li><span
                             onclick="mw.admin.postStates.toggle()"
                             data-val="n"
                             class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
                             data-tip="<?php _e("Unpublished"); ?>"
-                            data-tipposition="left-center"><span class="mw-icon-unpublish"></span> </span>
+                            data-tipposition="left-center"><span class="mw-icon-unpublish"></span> </span></li>
           <?php } else { ?>
-          <span
+          <li><span
                             onclick="mw.admin.postStates.toggle()"
                             data-val="y"
                             class="mw-ui-btn mw-ui-btn-icon btn-posts-state tip"
                             data-tip="<?php _e("Published"); ?>"
-                            data-tipposition="left-center"><span class="mw-icon-check"></span> </span>
+                            data-tipposition="left-center"><span class="mw-icon-check"></span> </span></li>
           <?php } ?>
           <?php if ($is_live_edit == false) : ?>
-          <button type="button" class="mw-ui-btn"
+          <li><button type="button" class="mw-ui-btn"
                                 onclick="mw.edit_content.handle_form_submit(true);"
                                 data-text="<?php _e("Live Edit"); ?>"><span class="mw-icon-live"></span>
           <?php _e("Live Edit"); ?>
-          </button>
-          <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
+          </button></li>
+          <li><button type="submit" class="mw-ui-btn mw-ui-btn-invert"
                                 form="quickform-edit-content">
           <?php _e("Save"); ?>
-          </button>
+          </button></li>
           <?php else: ?>
           <?php if ($data['id'] == 0): ?>
-          <button type="submit" class="mw-ui-btn"
+          <li><button type="submit" class="mw-ui-btn"
                                     onclick="mw.edit_content.handle_form_submit(true);"
                                     data-text="<?php _e("Live Edit"); ?>"
                                     form="quickform-edit-content"><span
                                     class="mw-icon-live"></span>
           <?php _e("Live Edit"); ?>
-          </button>
+          </button></li>
           <?php else: ?>
-          <button type="button" class="mw-ui-btn"
+          <li><button type="button" class="mw-ui-btn"
                                     onclick="mw.edit_content.handle_form_submit(true);"
                                     data-text="<?php _e("Live Edit"); ?>"><span class="mw-icon-live"></span>
           <?php _e("Live Edit"); ?>
-          </button>
+          </button></li>
           <?php endif; ?>
-          <button type="submit" class="mw-ui-btn mw-ui-btn-invert"
+          <li><button type="submit" class="mw-ui-btn mw-ui-btn-invert"
                                 form="quickform-edit-content">
           <?php _e("Save"); ?>
-          </button>
+          </button></li>
           <?php endif; ?>
-        </div>
+        </ul>
       </div>
       <script>mw.admin.titleColumnNavWidth();</script> 
     </div>

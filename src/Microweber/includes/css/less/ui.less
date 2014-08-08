@@ -917,19 +917,38 @@
   list-style: none;
 }
 
-.mw-ui-btn-nav .mw-ui-btn{
+.mw-ui-btn-nav > .mw-ui-btn, .mw-ui-btn-nav > li > .mw-ui-btn{
   border-width: 1px 1px 1px 0;
   float: left;
   border-radius: 0px;
 }
-.mw-ui-btn-nav .mw-ui-btn:first-child{
+.mw-ui-btn-nav > .mw-ui-btn:first-child, .mw-ui-btn-nav > li:first-child > .mw-ui-btn{
   border-left-width: 1px;
   border-top-left-radius: @radius;
   border-bottom-left-radius: @radius;
 }
-.mw-ui-btn-nav .mw-ui-btn:last-child{
+.mw-ui-btn-nav > .mw-ui-btn:last-child, .mw-ui-btn-nav > li:last-child > .mw-ui-btn{
   border-top-right-radius: @radius;
   border-bottom-right-radius: @radius;
+}
+
+.mw-ui-btn-nav-fluid{
+  display: table;
+  width: 100%;
+  vertical-align: top;
+}
+
+.mw-ui-btn-nav-fluid > li{
+  float: none;
+  display: table-cell;
+  vertical-align: top;
+}
+
+.mw-ui-btn-nav-fluid > li > .mw-ui-btn{
+  float: none;
+  display: block;
+  width: 100%;
+  white-space: nowrap;
 }
 
 .mw-ui-btn-vertical-nav .mw-ui-btn{

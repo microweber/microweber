@@ -218,6 +218,15 @@ $(window).load(function(){
             <a href="javascript:;" class="mw-ui-btn">Contact</a>
         </div>
     </div>
+
+    <div class="demobox">
+    <h4>Fluid</h4>
+        <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid">
+              <li><a href="javascript:;" class="mw-ui-btn">Home</a></li>
+              <li><a href="javascript:;" class="mw-ui-btn active">About</a></li>
+              <li><a href="javascript:;" class="mw-ui-btn">Contact</a></li>
+        </ul>
+    </div>
     <div class="demobox">
         <div class="mw-ui-btn-vertical-nav">
             <a href="javascript:;" class="mw-ui-btn">Vertical</a>

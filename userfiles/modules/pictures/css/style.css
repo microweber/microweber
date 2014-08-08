@@ -134,6 +134,42 @@
   position: relative;
 }
 
+.mw-rotator-thumbnail-scroller-previous,
+.mw-rotator-thumbnail-scroller-next{
+  position: absolute;
+  display: block;
+  z-index: 2;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background-color: red;
+  visibility: hidden;
+}
+.mw-rotator-thumbnail-scroller-previous{
+  left: 0;
+}
+.mw-rotator-thumbnail-scroller-next{
+  right: 0;
+}
+
+.rotator-index-control:hover .mw-rotator-thumbnail-scroller-previous,
+.rotator-index-control:hover .mw-rotator-thumbnail-scroller-next{
+  visibility: visible;
+}
+
+
+
+a.rotator-paging-item-thumbnail {
+  height: 120px;
+  width: 21%;
+  margin: 2%;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
+}
+
 a.rotator-paging-item-thumbnail img{
   width: auto;
   height: auto;
@@ -324,10 +360,9 @@ a.rotator-paging-item-digit.active{
   display: inline-block;
   position: relative;
   overflow: hidden;
-  width: 25%;
-  margin: 0;
   transition: all  0.2s;
   -webkit-transition: all  0.5s;
+  -moz-transition: all  0.5s;
 }
 
 .mw-rotator-template-inner a.rotator-paging-item-thumbnail img{
@@ -548,6 +583,10 @@ a.rotator-paging-item-digit.active{
   padding: 15px;
   display: block;
 }
+
+
+
+
 
 
 

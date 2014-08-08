@@ -190,6 +190,7 @@ if(isset($params['subtype']) and $params['subtype'] == 'post'){
 } 
 if (isset($params['active_ids'])) {
 	 
+$active_cats[] = $tree['active_ids'];
 
 }
 
@@ -225,6 +226,7 @@ pages_tree($tree);
 
 
 ?>
+
 <?php $cats_str = implode(',', $active_cats); ?> 
  
-<input type="hidden" name="<?php print $params['field-name']; ?>" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />
+<input type="text" name="<?php print $params['field-name']; ?>" id="mw_cat_selected_for_post" value="<?php print $cats_str ?>" />

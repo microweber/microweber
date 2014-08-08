@@ -59,8 +59,7 @@ description: Product Gallery Multiline
                     paging: true,
                     pagingMode: "thumbnails",
                     next: true,
-                    prev: true,
-                    reflection: false
+                    prev: true
                 });
                 mw.require("tools.js", true);
             }

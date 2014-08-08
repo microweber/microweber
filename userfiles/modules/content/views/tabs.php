@@ -84,7 +84,7 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
               </span>
 
             </div>
-            <hr>
+
             <div id="manage-galleries-holder"></div>
 
                 <?php event_trigger('mw_admin_edit_page_after_pictures', $data); ?>
@@ -132,11 +132,11 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
           <?php 
 		  $no_content_type_setup_from_layout = false;
 		  if($data['content_type'] != 'page' and $data['content_type'] != 'post' and $data['content_type'] != 'product'){
-			$no_content_type_setup_from_layout = true;  
+			$no_content_type_setup_from_layout = true;
 		  } else if(isset($data['subtype']) and $data['subtype'] != 'static'  and $data['subtype'] != 'dynamic' and $data['subtype'] != 'post' and $data['subtype'] != 'product'){
 			$no_content_type_setup_from_layout = true;  
 		  } 
-		  
+
 		  if($no_content_type_setup_from_layout  != false){
 			$no_content_type_setup_from_layout  = ' no_content_type_setup="true" '  ;
 		  }
