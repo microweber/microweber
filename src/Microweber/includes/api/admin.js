@@ -178,9 +178,8 @@ mw.admin = {
       }
       if(mw.admin.manageToolbarQuickNav !== null){
           if((scrolltop) > 0){
-            mw.$("#content-edit-settings-tabs").addClass('fixed');
+            mw.$("#content-edit-settings-tabs").addClass('fixed').css('left', $(mwd.getElementById('content-edit-settings-tabs').parentNode).offset().left);
             mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
-            mw.$('content-edit-settings-tabs').css("top", scrolltop - 25 + 'px');
           }
           else{
             mw.$("#content-edit-settings-tabs").removeClass('fixed');
