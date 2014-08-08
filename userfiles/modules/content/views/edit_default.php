@@ -141,7 +141,8 @@ $edit_page_info = $data;;
   </div>
 </div>
 <div id="post-states-tip" style="display: none">
-  <div class="mw-ui-btn-vertical-nav post-states-tip-nav"> <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-unpublish"></span>
+  <div class="mw-ui-btn-vertical-nav post-states-tip-nav">
+  <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-unpublish"></span>
     <?php _e("Unpublish"); ?>
     </span> <span onclick="mw.admin.postStates.set('publish')" data-val="y" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-publish <?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
     <?php _e("Publish"); ?>
@@ -245,10 +246,10 @@ $edit_page_info = $data;;
 
         var thetree = mwd.querySelector(".mw-ui-category-selector-abs .module")
 
-        $(mwd).ready(function(){
+        $(mwd).ready(function(){    /*
            mw.admin.treeRadioSelector('#parent-category-selector-holder', function(){
                 CreateCategoryForPost(3)
-           });
+           }); */
         });
 
         CreateCategoryForPost = function(step){
@@ -457,7 +458,7 @@ mw.edit_content.after_save = function(saved_id){
 
 mw.edit_content.set_category = function(id){
       /* FILLING UP THE HIDDEN FIELDS as you change category or parent page */
-
+      d(id)
 	  var names = [];
       var inputs = mwd.getElementById(id).querySelectorAll('input[type="checkbox"]'), i = 0, l = inputs.length;
       for( ; i<l; i++){
@@ -555,6 +556,7 @@ mw.edit_content.render_category_tree = function(id){
 
 mw.edit_content.handle_form_submit = function(go_live){
 
+
         if(mw.edit_content.saving){ return false; }
         mw.edit_content.saving = true;
 		var go_live_edit = go_live || false;
@@ -565,9 +567,14 @@ mw.edit_content.handle_form_submit = function(go_live){
 
 		mw.edit_content.before_save();
         var module =  $(mw.tools.firstParentWithClass(el, 'module'));
+
+
 		 
         var data = mw.serializeFields(el);
-		  data.id = mw.$('#mw-content-id-value').val();
+		data.id = mw.$('#mw-content-id-value').val();
+
+
+
         module.addClass('loading');
         mw.content.save(data, {
           onSuccess:function(a){

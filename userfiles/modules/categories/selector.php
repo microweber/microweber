@@ -91,7 +91,7 @@ if(is_array($is_ex)){
 		$cats__parents[] = $item['id'];
 	}
 }
-if(!isset($params['field-name'])){
+if(!isset($params['field-name']) or $params['field-name'] == false){
     $params['field-name'] = 'categories' ;
  }
  
@@ -104,9 +104,7 @@ if(!isset($params['field-name'])){
 
 $active_cats1 = array();
 foreach ($cats__parents as $item1) {
-
 	$active_cats1[] = $item1;
-//	$active_cats[] = $item1;
 }
 $tree = array();
 $tree['include_categories'] = 1;
@@ -190,7 +188,7 @@ if(isset($params['subtype']) and $params['subtype'] == 'post'){
 } 
 if (isset($params['active_ids'])) {
 	 
-$active_cats[] = $tree['active_ids'];
+//$active_cats[] = $tree['active_ids'];
 
 }
 

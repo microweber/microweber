@@ -681,7 +681,7 @@ mw.askusertostay = false;
         fields = "input[type='text'], input[type='email'], input[type='number'], input[type='password'], input[type='hidden'], textarea, select, input[type='checkbox']:checked, input[type='radio']:checked";
         var data = {}
         $(fields, el).each(function(){
-            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled){
+            if((!$(this).hasClass('no-post') || ignorenopost) && !this.disabled && this.name != '' && typeof this.name != 'undefined'){
               var el = this, _el = $(el);
               var val = _el.val();
               var name = el.name;
