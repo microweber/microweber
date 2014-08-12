@@ -159,8 +159,9 @@ $(document).ready(function(){
 		<div class="mw-ui-btn-nav"><a class="mw-ui-btn comments-group active" href="#content_id=0">
 		<?php _e("Comments"); ?>
 		</a> <a class="mw-ui-btn comments-group mw-ui-btn " href="#content_id=settings">
-		<?php _e("Settings"); ?>
+		<?php _lang("Settings","modules/comments"); ?>
 		</a>
+         
 		<?php /*<a href="#content_id=templates" class="comments-group mw-ui-btn ">
 		<?php _e("My templates"); ?>
 		</a>*/ ?>
