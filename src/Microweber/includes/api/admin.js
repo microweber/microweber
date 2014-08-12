@@ -385,6 +385,8 @@ mw.admin = {
   },
   tag:function(obj){
 
+
+
     var o = {};
     var itemsWrapper = obj.itemsWrapper;
 
@@ -480,7 +482,7 @@ mw.admin = {
       }
     }
 
-    o.untag = function(pill, input){
+    o.untag = function(pill, input){  
       $(pill).remove();
       if(!!input) { $(input)[0].checked = false; $(mw.tools.firstParentWithClass($(input)[0], 'mw-ui-check')).removeClass("active");}
       if(typeof obj.onUntag === 'function'){

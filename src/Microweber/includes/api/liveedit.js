@@ -1659,7 +1659,7 @@ mw.drag = {
         mw.$('.empty-element', doc).remove();
         mw.$('.empty-element', doc).remove();
         mw.$('.edit .ui-resizable-handle', doc).remove();
-        mw.tools.classNamespaceDelete('all', 'ui-', doc);
+        mw.tools.classNamespaceDelete('all', 'ui-', doc, 'starts');
         mw.$("[contenteditable]", doc).removeAttr("contenteditable");
         var all = doc.querySelectorAll('[contenteditable]'), l=all.length, i=0;
         for( ; i<l; i++ ){

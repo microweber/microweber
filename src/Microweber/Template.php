@@ -320,6 +320,9 @@ class Template
         $site_template_settings = $this->app->option->get('current_template', 'template');
         if (!isset($page['active_site_template'])) {
             $page['active_site_template'] = 'default';
+        } elseif(isset($page['active_site_template']) and $page['active_site_template'] == ''){
+            $page['active_site_template'] = $site_template_settings;
+
         }
 
         if ($page['active_site_template']  and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default')) {

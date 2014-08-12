@@ -231,7 +231,7 @@ $edit_page_info = $data;;
       			active_ids="<?php print $data['parent']; ?>"
       			subtype="<?php print $data['subtype']; ?>"
       			categories_active_ids="<?php print $categories_active_ids; ?>"
-      			for-id="<?php print $data['id']; ?>" />
+      			for-id="<?php print $data['id']; ?>" />  
         <script>
 
 
@@ -442,7 +442,6 @@ mw.edit_content.after_save = function(saved_id){
 
 mw.edit_content.set_category = function(id){
       /* FILLING UP THE HIDDEN FIELDS as you change category or parent page */
-      d(id)
 	  var names = [];
       var inputs = mwd.getElementById(id).querySelectorAll('input[type="checkbox"]'), i = 0, l = inputs.length;
       for( ; i<l; i++){

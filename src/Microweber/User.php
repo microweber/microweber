@@ -1472,6 +1472,7 @@ class User
     public function make_logged($user_id)
     {
 
+
         if (is_array($user_id)) {
             if (isset($user_id['id'])) {
                 $user_id = $user_id['id'];
