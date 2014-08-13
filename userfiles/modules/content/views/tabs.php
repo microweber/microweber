@@ -99,8 +99,10 @@ $custom_tabs = mw()->module->ui('content.edit.tabs');
           <?php if($data['content_type'] == 'page'): ?>
           <div class="quick-add-post-options-item">
             <?php event_trigger('mw_edit_page_admin_menus', $data); ?>
-            
-            <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>" />
+
+
+
+            <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>"  />
       
             
             

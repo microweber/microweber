@@ -627,11 +627,8 @@ class Module
                     $is_dot_php = get_file_extension($template_name);
                     if ($is_dot_php != false and $is_dot_php == 'php') {
                         $template_name = str_ireplace('.php', '', $template_name);
-                    } else {
-
                     }
                   $template_name = $template_name.'_settings';
-
                 }
 
                 $is_dot_php = get_file_extension($template_name);

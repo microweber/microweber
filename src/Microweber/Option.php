@@ -509,7 +509,7 @@ class Option
                 return mw('Utils\StaticOption')->save($data);
 
             }
-
+            $delete_content_cache = false;
             if (!isset($data['id']) or intval($data['id']) == 0) {
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
                     $option_group = $data['option_group'];
@@ -544,7 +544,9 @@ class Option
             }
 
             if (strval($data['option_key']) != '') {
-
+                if($data['option_key'] == 'current_template'){
+                    $delete_content_cache = true;
+                }
                 if (isset($data['option_group']) and strval($data['option_group']) == '') {
 
                     unset($data['option_group']);
@@ -569,6 +571,12 @@ class Option
                 }
                 if ($save != false) {
                     $cache_group = 'options/' . $save;
+                    $this->app->cache->delete($cache_group);
+                }
+
+
+                if ($delete_content_cache != false) {
+                    $cache_group = 'content/global';
                     $this->app->cache->delete($cache_group);
                 }
 
