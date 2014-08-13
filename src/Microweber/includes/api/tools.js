@@ -3,6 +3,10 @@
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require(mw.settings.includes_url + "css/ui.css");
+
+
+
+
 (function() {
     if(typeof jQuery.browser === 'undefined'){
         var matched, browser;
@@ -309,7 +313,7 @@ mw.tools = {
         var tip = mw.tools.tooltip.source(o.content,o.skin,o.position);
         tip.tooltipData = o;
         var wl = wl || true;
-        if(wl && self.document.contains(tip)){
+        if(wl && $.contains(self.document, tip)){
           $(self).bind('resize scroll', function(e){
             if(self.document.contains(tip)){
               self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);

@@ -6,22 +6,16 @@ mw.cart = {
   add : function(selector, price, c){
 	 var data = mw.form.serialize(selector);
 	 if(price != undefined && data != undefined){
-		data.price= price
+		data.price = price;
 	 }
      $.post(mw.settings.api_url+'update_cart', data ,
      function(data) {
 		 mw.reload_module('shop/cart');
          if(typeof c === 'function'){
            c.call(data);
-         } else {
-		  $(window).trigger('productAdded',data);	 
-		 }
-		 
-		 
-		
-		 
-		 
-		 
+         }
+		 $(window).trigger('productAdded', data);
+
      });
   },
 
