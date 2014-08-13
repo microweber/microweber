@@ -45,7 +45,7 @@ if ($cur_template == false) {
         <label class="mw-ui-label">
             <?php _e("Current Skin / Template"); ?>
         </label>
-        <select name="data-template" class="mw-ui-field mw_option_field"
+        <select data-also-reload="#mw-module-skin-settings-module" name="data-template" class="mw-ui-field mw_option_field"
                 option_group="<?php print $params['parent-module-id'] ?>"
                 data-refresh="<?php print $params['parent-module-id'] ?>">
             <option
@@ -99,6 +99,15 @@ if ($cur_template == false) {
                 <?php endforeach; ?>
             <?php endif; ?>
         </select>
+        
+                
+         
+<module type="admin/modules/templates_settings" id="mw-module-skin-settings-module" parent-module-id="<?php print $params['parent-module-id'] ?>" parent-module="<?php print $params['parent-module'] ?>" />
+
+
+        
+        
+        
         <label class="mw-ui-label">
             <hr>
             <small>

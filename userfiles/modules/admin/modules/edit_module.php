@@ -74,11 +74,11 @@ $('#module_open_<?php print $params['id']; ?>').hide();
          var for_module = {}
          for_module.for_module =  $(this).attr('data-module-name');
          $.post('<?php print site_url('api') ?>/install_module/', for_module,  function(data) {
-$('#module_install_<?php print $params['id']; ?>').hide();
-
-$('#module_uninstall_<?php print $params['id']; ?>').show();
-$('#module_open_<?php print $params['id']; ?>').show();
-  mw.notification.success("Module is installed");
+			$('#module_install_<?php print $params['id']; ?>').hide();
+			
+			$('#module_uninstall_<?php print $params['id']; ?>').show();
+			$('#module_open_<?php print $params['id']; ?>').show();
+			 mw.notification.success("Module is installed");
 
          });
 
@@ -115,30 +115,22 @@ $('#module_open_<?php print $params['id']; ?>').show();
         <?php endif; ?>
       </h2>
     </div>
-
     <input type="hidden" name="id" value="<?php print $data['id'] ?>" />
     <input type="hidden" name="installed" value="<?php print $data['installed'] ?>" />
     <input type="hidden" name="ui" value="<?php print $data['ui'] ?>" />
     <input type="hidden" name="ui_admin" value="<?php print $data['ui_admin'] ?>" />
     <input type="hidden" name="position" value="<?php print $data['position'] ?>" />
-
-    </div>
-
-
-
-      <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
-
-      <input
+  </div>
+  <?php if(strval($data['installed']) != '' and intval($data['installed']) != 0): ?>
+  <input
             class="mw-ui-btn mw-ui-btn-medium module-uninstall-btn tip"
             data-tip="<?php _e("Uninstall"); ?>"
             name="uninstall" type="button" id="module_uninstall_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="đ" />
-
-    <!-- <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn"><?php _e("Open"); ?></span>-->
-
-      <?php else:  ?>
-      <input  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn" name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Install"); ?>" />
-      <?php endif; ?>
-
-
+  
+  <!-- <span class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn"><?php _e("Open"); ?></span>-->
+  
+  <?php else:  ?>
+  <input  class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert module-ctrl-btn" name="install" type="button" id="module_install_<?php print $params['id']; ?>" data-module-name="<?php print $data['module'] ?>" data-module-id="<?php print $data['id'] ?>" value="<?php _e("Install"); ?>" />
+  <?php endif; ?>
 </form>
 <?php endif; ?>

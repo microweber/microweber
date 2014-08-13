@@ -887,13 +887,28 @@ class Fields
         $dir = MW_INCLUDES_DIR;
         $dir = $dir . DS . 'custom_fields' . DS;
         $field_type = str_replace('..', '', $field_type);
+        $load_from_theme = false;
+        if(defined("ACTIVE_TEMPLATE_DIR")){
+            $custom_fields_from_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . 'custom_fields'.DS;
+             if(is_dir($custom_fields_from_theme)){
+                if ($settings == true or isset($data['settings'])) {
+                    $file = $custom_fields_from_theme . $field_type . '_settings.php';
+                } else {
+                    $file = $custom_fields_from_theme . $field_type . '.php';
+                }
+                if(is_file($file)){
+                    $load_from_theme = true;
+                }
+            }
+        }
 
-
+if($load_from_theme == false){
         if ($settings == true or isset($data['settings'])) {
             $file = $dir . $field_type . '_settings.php';
         } else {
             $file = $dir . $field_type . '.php';
         }
+}
         if (!is_file($file)) {
             $field_type = 'text';
             if ($settings == true or isset($data['settings'])) {
