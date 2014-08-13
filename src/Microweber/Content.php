@@ -2363,6 +2363,7 @@ class Content
                     }
 $is_module = 1;
                     $save_page = false;
+
                 } else {
 
                 }
@@ -2401,6 +2402,7 @@ $is_module = 1;
                     if (isset($save_page['content_type']) and $save_page['content_type'] == 'page') {
                         if (!isset($save_page['subtype'])) {
                             $save_page['subtype'] = 'static';
+                            $save_page['layout_file'] = 'inherit';
                         }
                     }
                     if($save_page !=false){

@@ -266,11 +266,22 @@ $menu_name = get_option('menu_name', $params['id']);
   <label class="mw-ui-label">
     <?php _e("Select from"); ?>
     :</label>
+    
+    
+   
+    
+    
   <a href="javascript:requestLink();" class="mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert"><span class="mw-icon-plus"></span><span>
   <?php _e("Add Page to Menu"); ?>
   </span></a> <a href="javascript:requestCustomLink();" class="mw-ui-btn mw-ui-btn-medium"><span class="mw-icon-plus"></span><span>
   <?php _e("Add Custom Link"); ?>
   </span></a>
+  
+  
+  
+  
+  
+  
   <hr>
 </div>
 <?php endif; ?>
