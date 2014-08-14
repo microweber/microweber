@@ -130,6 +130,16 @@ class IdiOrm
         return $this->get($table, $params, 'findOne');
     }
 
+    function __call($method, $arg = null)
+    {
+
+        return $this->$method($arg);
+
+    }
+
+
+
+
     function get($table, $params = false, $get_method = false, $return_method = false)
     {
 

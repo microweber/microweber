@@ -3710,7 +3710,13 @@ tr.mw-order-item:hover{
   visibility: visible;
 }
 
-
+.shipping-country-holder .mw-icon-close{
+   position: absolute;
+   right: 20px;
+   top: 20px;
+   visibility: hidden;
+   cursor: pointer;
+}
 
 
 .shipping-country-holder:after{

@@ -15,8 +15,6 @@ if ($data == false) {
     $data = array();
 }
 
-
-
 $countries_used = array();
 $data[] = array();
 
@@ -120,7 +118,7 @@ else {
             }
         });
 
-
+                     
 
 
     });
@@ -467,7 +465,7 @@ foreach ($datas as $data_key => $data): ?>
                     
                     <?php if ($new == false): ?>
                         <span title="<?php _e("Reorder shipping countries"); ?>" class="mw-icon-drag shipping-handle-field"></span>
-                        <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-ui-delete-x" title="<?php _e("Delete"); ?>"></span>
+                        <span onclick="mw.shipping_country.delete_country('<?php print $item['id']; ?>');" class="mw-icon-close show-on-hover tip" data-tip="<?php _e("Delete"); ?>"></span>
                     <?php endif; ?>
 
                     </div>
