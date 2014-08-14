@@ -479,6 +479,10 @@ $post_params_paging['page_count'] = true;
 $cfg_data_hide_paging = get_option('data-hide-paging', $params['id']);
 
 if ($cfg_data_hide_paging === false) {
+    if (isset($post_params['hide_paging']) and trim($post_params['hide_paging']) != 'false') {
+        $post_params['hide-paging'] = $post_params['hide_paging'];
+        unset($post_params['hide_paging']);
+    }
     if (isset($post_params['hide-paging']) and trim($post_params['hide-paging']) != 'false') {
         $cfg_data_hide_paging = 'y';
         unset($post_params['hide-paging']);

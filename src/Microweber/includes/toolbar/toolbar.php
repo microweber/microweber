@@ -267,7 +267,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
 
 
-           <a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right" title="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a>
+           <a style="margin: 0px 10px; font-size: 33px; top: -2px;" class="mw-icon-back pull-right tip" data-tipposition="left-center" data-tip="<?php _e("Back to Admin"); ?>" href="<?php print $back_url; ?>"></a>
 
 
 

@@ -3,18 +3,126 @@
 
 $mw_language_content_saved = false;
 $mw_new_language_entires = array();
+$mw_new_language_entires_ns = array();
 // from here http://stackoverflow.com/a/7709863/731166
-function ewchar_to_utf8($matches) {
+function ewchar_to_utf8($matches)
+{
     $ewchar = $matches[1];
     $binwchar = hexdec($ewchar);
     $wchar = chr(($binwchar >> 8) & 0xFF) . chr(($binwchar) & 0xFF);
     return iconv("unicodebig", "utf-8", $wchar);
 }
 
-function special_unicode_to_utf8($str) {
+function special_unicode_to_utf8($str)
+{
     return preg_replace_callback("/\\\u([[:xdigit:]]{4})/i", "ewchar_to_utf8", $str);
 }
 
+function __store_lang_file_ns()
+{
+    global $mw_new_language_entires_ns;
+    global $mw_new_language_entires_ns;
+
+    if (!empty($mw_new_language_entires_ns)) {
+        foreach ($mw_new_language_entires_ns as $k => $v) {
+            $namespace = $k;
+            $lang = current_lang();
+
+            $lang_file = MW_USERFILES . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
+            $lang_file = normalize_path($lang_file, false);
+
+            $lang_file2 = MW_USERFILES . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
+            $lang_file2 = normalize_path($lang_file2, false);
+
+            $lang_file3 = MW_USERFILES . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.json';
+            $lang_file3 = normalize_path($lang_file3, false);
+
+            $lang_file_save = false;
+            $existing = $mw_new_language_entires_ns[$k];
+            if (is_array($v)) {
+                $existing = array_merge($existing, $v);
+            }
+
+            if (is_file($lang_file)) {
+                $lang_file_content = file_get_contents($lang_file);
+                $lang_file_content = @json_decode($lang_file_content, true);
+                if (is_array($lang_file_content)) {
+                    $existing = array_merge($existing, $lang_file_content);
+                }
+            }
+            if (is_file($lang_file2)) {
+                $lang_file_content = file_get_contents($lang_file2);
+                $lang_file_content = @json_decode($lang_file_content, true);
+                if (is_array($lang_file_content)) {
+                    $existing = array_merge($existing, $lang_file_content);
+                }
+            }
+            if (is_file($lang_file3)) {
+                $lang_file_content = file_get_contents($lang_file3);
+                $lang_file_content = @json_decode($lang_file_content, true);
+                if (is_array($lang_file_content)) {
+                    $existing = array_merge($existing, $lang_file_content);
+                }
+            }
+
+
+            if (is_array($existing) and !empty($existing)) {
+
+
+                $dn = dirname($lang_file);
+                if (!is_dir($dn)) {
+                    @mkdir($dn);
+                }
+                @touch($lang_file);
+                @touch($lang_file2);
+                @touch($lang_file3);
+                if (!is_dir($dn)) {
+                    $dn = dirname($lang_file2);
+                    @mkdir_recursive($dn);
+                }
+                if (!is_dir($dn)) {
+                    $dn = dirname($lang_file3);
+                    @mkdir_recursive($dn);
+                }
+
+                $store_file = false;
+                if (is_writable($lang_file)) {
+                    $store_file = $lang_file;
+                } elseif (is_writable($lang_file2)) {
+                    $store_file = $lang_file2;
+
+                } elseif (is_writable($lang_file3)) {
+                    $store_file = $lang_file3;
+
+                }
+
+                if ($store_file != false) {
+                    $lang_file_str = json_encode($existing);
+                    $lang_file = $store_file;
+                }
+
+
+                if (isset($lang_file_str) and $lang_file_str != false) {
+
+                    if (function_exists('iconv')) {
+                        $lang_file_str = special_unicode_to_utf8($lang_file_str);
+                    }
+
+
+                    $lang_file_str = str_replace('","', '",' . "\n" . '"', $lang_file_str);
+                    if (is_writable($lang_file) and is_string($lang_file_str) and $lang_file_str != '') {
+                        @file_put_contents($lang_file, $lang_file_str);
+                    }
+                }
+
+
+            }
+
+        }
+    }
+    return;
+
+}
 
 /**
  * Saves the language file after page load
@@ -40,12 +148,12 @@ function __store_lang_file()
 
 
     $lang_file = MW_USERFILES . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
-    if (!is_array($mw_language_content) or empty($mw_language_content)){
+    if (!is_array($mw_language_content) or empty($mw_language_content)) {
         $lang_file_str = json_encode($mw_new_language_entires);
-      // if(is_writable($lang_file)){
+        // if(is_writable($lang_file)){
         //d($lang_file);
-         @file_put_contents($lang_file, $lang_file_str);
-      // }
+        @file_put_contents($lang_file, $lang_file_str);
+        // }
     }
     $mw_language_content2 = array();
     if (is_array($mw_language_content) and is_array($mw_new_language_entires) and !empty($mw_new_language_entires)) {
@@ -83,16 +191,16 @@ function __store_lang_file()
                         @mkdir($dn);
                     }
                     if (isset($lang_file_str) and $lang_file_str != false) {
-                        if(!is_file($lang_file)){
+                        if (!is_file($lang_file)) {
                             touch($lang_file);
                         }
 
-                        if(function_exists('iconv')){
+                        if (function_exists('iconv')) {
                             $lang_file_str = special_unicode_to_utf8($lang_file_str);
                         }
 
 
-                        $lang_file_str = str_replace('","','",'."\n".'"',$lang_file_str);
+                        $lang_file_str = str_replace('","', '",' . "\n" . '"', $lang_file_str);
                         if (is_writable($lang_file) and is_string($lang_file_str) and $lang_file_str != '') {
                             @file_put_contents($lang_file, $lang_file_str);
                         }
@@ -151,6 +259,61 @@ function current_lang()
 
 
     return $lang;
+
+}
+
+function _lang($title, $namespace = false)
+{
+
+    print lang($title, $namespace);
+
+}
+
+function lang($title, $namespace = false)
+{
+
+    static $lang_file;
+    global $mw_language_content;
+    global $mw_new_language_entires_ns;
+    $k = $title;
+    $k1 = mw('url')->slug($k);
+
+    $lang = current_lang();
+
+    $mw_language_content_file = get_language_file_content($namespace);
+
+    if (isset($mw_language_content_file[$k1]) == false) {
+        if (isset($mw_language_content[$k1]) != false) {
+            return $mw_language_content[$k1];
+        }
+        if (is_admin() == true) {
+            $namespace = trim($namespace);
+            $namespace = str_replace(' ', '', $namespace);
+            $namespace = str_replace('..', '', $namespace);
+            $namespace = str_replace('\\', '/', $namespace);
+            if (!isset($mw_new_language_entires_ns[$namespace])) {
+                $mw_new_language_entires_ns[$namespace] = array();
+            }
+            $k2 = ($k);
+            $mw_new_language_entires_ns[$namespace][$k1] = $k2;
+
+            //  $mw_language_content[$k1] = $k2;
+            if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
+                define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
+               // __store_lang_file_ns();
+                $scheduler = new \Microweber\Utils\Events();
+                // schedule a global scope function:
+                $scheduler->registerShutdownEvent("__store_lang_file_ns");
+            }
+
+
+        }
+        return $k;
+    } else {
+        return $mw_language_content_file[$k1];
+
+    }
+
 
 }
 
@@ -266,7 +429,7 @@ function save_language_file_content($data)
 
         $mw_language_content = $data;
 
-        $lang_file = $cust_dir . $lang . '.php';
+        $lang_file = $cust_dir . $lang . '.json';
 
         if (is_array($mw_language_content)) {
             $mw_language_content = array_unique($mw_language_content);
@@ -294,12 +457,24 @@ function save_language_file_content($data)
 }
 
 $mw_language_content = array();
+$mw_language_content_namespace = array();
 /**
  * Gets all the language file contents
  * @internal its used via ajax in the admin panel under Settings->Language
  * @package Language
  */
-function get_language_file_content()
+function get_language_file_content($namespace = false)
+{
+    if ($namespace == false) {
+        return _mw_get_language_file_content_core();
+    } elseif ($namespace != false) {
+        return _mw_get_language_file_content_namespaced($namespace);
+    }
+
+
+}
+
+function _mw_get_language_file_content_core()
 {
     global $mw_language_content;
 
@@ -313,7 +488,7 @@ function get_language_file_content()
     $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
     $lang_file = normalize_path($lang_file, false);
 
-     $lang_file2 = MW_USERFILES . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
+    $lang_file2 = MW_USERFILES . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
 
     // . 'storage' . DS
 
@@ -322,7 +497,7 @@ function get_language_file_content()
 
     if (is_file($lang_file2)) {
         $language_str = file_get_contents($lang_file2);
-        $language = json_decode($language_str,true);
+        $language = json_decode($language_str, true);
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
                 if (isset($mw_language_content[$k]) == false) {
@@ -335,7 +510,7 @@ function get_language_file_content()
 
     if (is_file($lang_file)) {
         $language_str = file_get_contents($lang_file);
-        $language = json_decode($language_str,true);
+        $language = json_decode($language_str, true);
 
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
@@ -348,11 +523,10 @@ function get_language_file_content()
     }
     if (is_file($lang_file3)) {
         $language_str = file_get_contents($lang_file3);
-        $language = json_decode($language_str,true);
+        $language = json_decode($language_str, true);
         if (isset($language) and is_array($language)) {
             foreach ($language as $k => $v) {
                 if (isset($mw_language_content[$k]) == false) {
-
 
 
                     $mw_language_content[$k] = $v;
@@ -366,6 +540,81 @@ function get_language_file_content()
 
 }
 
+function _mw_get_language_file_content_namespaced($namespace)
+{
+    if ($namespace == false) {
+        return false;
+    }
+
+    global $mw_language_content_namespace;
+    $namespace = trim($namespace);
+    $namespace = str_replace(' ', '', $namespace);
+    $namespace = str_replace('..', '', $namespace);
+    $namespace = str_replace('\\', '/', $namespace);
+    if (isset($mw_language_content_namespace[$namespace]) and !empty($mw_language_content_namespace[$namespace])) {
+        return $mw_language_content_namespace[$namespace];
+    }
+
+
+    $lang = current_lang();
+
+    $lang_file = MW_USERFILES . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
+    $lang_file = normalize_path($lang_file, false);
+
+    $lang_file2 = MW_USERFILES . 'language' . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $lang . '.json';
+    $lang_file2 = normalize_path($lang_file2, false);
+
+    $lang_file3 = MW_USERFILES . $namespace . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'en.json';
+    $lang_file3 = normalize_path($lang_file3, false);
+
+
+    if (!isset($mw_language_content_namespace[$namespace])) {
+        $mw_language_content_namespace[$namespace] = array();
+    }
+    if (is_file($lang_file2)) {
+        $language_str = file_get_contents($lang_file2);
+        $language = json_decode($language_str, true);
+        if (isset($language) and is_array($language)) {
+            foreach ($language as $k => $v) {
+                if (isset($mw_language_content[$namespace][$k]) == false) {
+                    $mw_language_content_namespace[$namespace][$k] = $v;
+                }
+            }
+        }
+    }
+
+
+    if (is_file($lang_file)) {
+        $language_str = file_get_contents($lang_file);
+        $language = json_decode($language_str, true);
+
+        if (isset($language) and is_array($language)) {
+            foreach ($language as $k => $v) {
+                if (isset($mw_language_content_namespace[$namespace][$k]) == false) {
+
+                    $mw_language_content_namespace[$namespace][$k] = $v;
+                }
+            }
+        }
+    }
+    if (is_file($lang_file3)) {
+        $language_str = file_get_contents($lang_file3);
+        $language = json_decode($language_str, true);
+        if (isset($language) and is_array($language)) {
+            foreach ($language as $k => $v) {
+                if (isset($mw_language_content_namespace[$namespace][$k]) == false) {
+
+
+                    $mw_language_content_namespace[$namespace][$k] = $v;
+                }
+            }
+        }
+    }
+
+    return $mw_language_content_namespace[$namespace];
+
+
+}
 
 $mw_all_langs = array();
 /**
@@ -399,7 +648,7 @@ function get_available_languages()
 
 
     $files = array();
-    foreach (glob($lang_dir."*.json") as $filename) {
+    foreach (glob($lang_dir . "*.json") as $filename) {
         $item = basename($filename);
         $item = no_ext($item);
         $mw_all_langs[] = $item;

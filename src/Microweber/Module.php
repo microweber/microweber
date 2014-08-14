@@ -532,20 +532,39 @@ class Module
      * @category    modules api
      */
 
-    public function templates($module_name, $template_name = false)
+    public function templates($module_name, $template_name = false,$get_settings_file=false)
     {
+
+
+
+
+
         $module_name = str_replace('admin', '', $module_name);
         $module_name_l = $this->locate($module_name);
 
-        $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
+        if($module_name_l == false){
+            $module_name_l = MW_MODULES_DIR. DS . $module_name . DS;
+            $module_name_l = normalize_path($module_name_l, 1);
+
+        } else {
+            $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
+            $module_name_l = normalize_path($module_name_l, 1);
+
+        }
+
+
 
         $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
 
-        if (!is_dir($module_name_l)) {
+
+
+
+        if (!is_dir($module_name_l) and !is_dir($module_name_l_theme)) {
 
             return false;
         } else {
+
             if ($template_name == false) {
                 $options = array();
                  $options['for_modules'] = 1;
@@ -599,13 +618,27 @@ class Module
                 return $module_name_l;
             } else {
 
+
+
                 $template_name = str_replace('..', '', $template_name);
                 $template_name_orig = $template_name;
+
+                if($get_settings_file == true){
+                    $is_dot_php = get_file_extension($template_name);
+                    if ($is_dot_php != false and $is_dot_php == 'php') {
+                        $template_name = str_ireplace('.php', '', $template_name);
+                    }
+                  $template_name = $template_name.'_settings';
+                }
 
                 $is_dot_php = get_file_extension($template_name);
                 if ($is_dot_php != false and $is_dot_php != 'php') {
                     $template_name = $template_name . '.php';
                 }
+
+
+
+
                 $tf = $module_name_l . $template_name;
                 $tf_theme = $module_name_l_theme . $template_name;
                 $tf_from_other_theme = MW_TEMPLATES_DIR . $template_name;

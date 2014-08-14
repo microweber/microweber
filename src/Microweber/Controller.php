@@ -2378,6 +2378,7 @@ class Controller
         }
         if (!defined('IN_EDITOR_TOOLS')) {
             define('IN_EDITOR_TOOLS', true);
+
         }
         if (MW_IS_INSTALLED == true) {
             //event_trigger('mw_db_init');
@@ -2427,6 +2428,10 @@ class Controller
         if (isset($_GET['preview_layout']) and $_GET['preview_layout'] != 'inherit') {
             $page['layout_file'] = $_GET['preview_layout'];
         }
+
+
+
+
         $this->app->content->define_constants($page);
         $page['render_file'] = $this->app->template->get_layout($page);
 
@@ -2483,6 +2488,7 @@ class Controller
             //
             //  $page['content'] = '<div class="edit" field="content" rel="content" contenteditable="true">' . $page['content'] . '</div>';
         }
+
 
         $p = normalize_path($p, false);
 
@@ -2574,7 +2580,7 @@ class Controller
 
 
         // $render_file = $this->app->template->get_layout($page);
-
+//d($page['render_file']);
         //    $page['render_file'] = $render_file;
         if (!$standalone_edit) {
             if (isset($page['render_file'])) {

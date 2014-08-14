@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=asd996sdfssdfsdfsdfdsdsdfsdfsdfsdffsdassdfdsdfdsfsdasdasdasdfsdfssfdsfdsfdsfdsdasdf874121') format('truetype');
+  src: url('fonts/font.ttf?mwv=v01') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -2730,6 +2730,26 @@ li:hover > .show-on-hover {
 .mw-ui-progress-small .mw-ui-progress-info,
 .mw-ui-progress-small .mw-ui-progress-percent {
   display: none;
+}
+/*********************************************
+              jQuery UI Slider
+*********************************************/
+.mw-slider {
+  height: 8px;
+  position: relative;
+  border-radius: 5px;
+  max-width: 100%;
+  clear: both;
+  background-color: #EEEEEE;
+}
+.mw-slider .ui-slider-handle {
+  background-color: #575757;
+  display: block;
+  width: 8px;
+  height: 16px;
+  top: -4px;
+  position: absolute;
+  border-radius: 5px;
 }
 /*********************************************
     Tooltip Basic Styles & Default Skin

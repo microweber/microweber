@@ -3,6 +3,10 @@
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require(mw.settings.includes_url + "css/ui.css");
+
+
+
+
 (function() {
     if(typeof jQuery.browser === 'undefined'){
         var matched, browser;
@@ -309,7 +313,7 @@ mw.tools = {
         var tip = mw.tools.tooltip.source(o.content,o.skin,o.position);
         tip.tooltipData = o;
         var wl = wl || true;
-        if(wl && self.document.contains(tip)){
+        if(wl && $.contains(self.document, tip)){
           $(self).bind('resize scroll', function(e){
             if(self.document.contains(tip)){
               self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
@@ -1133,19 +1137,28 @@ mw.tools = {
   copy:function(what){
 
   },
-  classNamespaceDelete:function(el_obj, namespace, parent){
+  classNamespaceDelete:function(el_obj, namespace, parent, namespacePosition){
+    var namespacePosition = namespacePosition || 'contains';
     var parent = parent || mwd;
     if(el_obj ==='all'){
       var all = parent.querySelectorAll('.edit *'), i=0, l=all.length;
-      for( ;i<l; i++){mw.tools.classNamespaceDelete(all[i], namespace)}
+      for( ;i<l; i++){mw.tools.classNamespaceDelete(all[i], namespace, parent, namespacePosition)}
       return;
     }
     if(!!el_obj.className && el_obj.className != ''){
       var cls = el_obj.className.split(" "), l = cls.length, i = 0, final = [];
       for( ; i<l; i++){
-        if(!cls[i].contains(namespace)){
-             final.push(cls[i]);
+        if(namespacePosition == 'contains'){
+          if(!cls[i].contains(namespace)){
+               final.push(cls[i]);
+          }
         }
+        else if(namespacePosition == 'starts'){
+            if(cls[i].indexOf(namespace) !== 0){
+               final.push(cls[i]);
+          }
+        }
+
       }
       el_obj.className = final.join(" ");
     }
@@ -1277,14 +1290,13 @@ mw.tools = {
        'mw.admin.treeboxwidth'._exec();
     },
 	checker:function(el){
-
 		var is_checkbox = el.getElementsByTagName('input')[0];
 		if(is_checkbox.type != 'checkbox'){
 		    return false;
 		}
 
         var state = el.getElementsByTagName('input')[0].checked;
-        if( state === true){
+        if( state === true ){
 			 if(is_checkbox.type == 'checkbox'){
 				 
 				var ul = mw.tools.firstParentWithClass(is_checkbox, 'pages_tree');
@@ -1292,18 +1304,18 @@ mw.tools = {
 					if(ul.querySelector('input[type="radio"]:checked') !== null){
 						return false;
 					}		
-				} 
+				}
 			}
           mw.tools.foreachParents(el.parentNode, function(loop){
             this.tagName === 'LI' ? this.getElementsByTagName('input')[0].checked=true : '';
             this.tagName === 'DIV' ? mw.tools.stopLoop(loop) : '';
           });
         }
-        else{
+        else{ /*
           var f = el.parentNode.getElementsByTagName('input'), i=0, len = f.length;
           for( ; i<len; i++){
-            f[i].checked=false;
-          }
+             f[i].checked=false;
+          } */
         }
     },
     old_checker:function(el){

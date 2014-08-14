@@ -311,7 +311,7 @@ class Template
 
         $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-       return $cache_content;
+        return $cache_content;
         }
 
         $render_file = false;
@@ -320,6 +320,9 @@ class Template
         $site_template_settings = $this->app->option->get('current_template', 'template');
         if (!isset($page['active_site_template'])) {
             $page['active_site_template'] = 'default';
+        } elseif(isset($page['active_site_template']) and $page['active_site_template'] == ''){
+            $page['active_site_template'] = $site_template_settings;
+
         }
 
         if ($page['active_site_template']  and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default')) {

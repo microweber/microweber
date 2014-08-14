@@ -408,9 +408,9 @@ if (!defined('EMPTY_MOD_STR')) {
  * @category    modules api
  */
 
-function module_templates($module_name, $template_name = false)
+function module_templates($module_name, $template_name = false,$is_settings=false)
 {
-    return mw()->module->templates($module_name, $template_name);
+    return mw()->module->templates($module_name, $template_name, $is_settings);
 
 }
 

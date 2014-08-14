@@ -18,7 +18,8 @@ if ($posts_parent_page != false) {
             limit: 5,
             ajax_paging: true,
             template: 'default',
-            done: false
+            done: false,
+            hide_paging:false
         }
         mw.search = function (key, holder, obj) {
             if (typeof key === 'undefined' || typeof holder === 'undefined') return false;
@@ -27,6 +28,7 @@ if ($posts_parent_page != false) {
             holder
                 .attr('keyword', key)
                 .attr('content_type', opt.content_type)
+                .attr('hide_paging', opt.hide_paging)
                 .attr('limit', opt.limit)
                 .attr('ajax_paging', opt.ajax_paging)
                 <?php if (isset($params['data-parent'])) { ?>

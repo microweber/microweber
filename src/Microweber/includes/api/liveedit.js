@@ -1659,7 +1659,7 @@ mw.drag = {
         mw.$('.empty-element', doc).remove();
         mw.$('.empty-element', doc).remove();
         mw.$('.edit .ui-resizable-handle', doc).remove();
-        mw.tools.classNamespaceDelete('all', 'ui-', doc);
+        mw.tools.classNamespaceDelete('all', 'ui-', doc, 'starts');
         mw.$("[contenteditable]", doc).removeAttr("contenteditable");
         var all = doc.querySelectorAll('[contenteditable]'), l=all.length, i=0;
         for( ; i<l; i++ ){
@@ -2724,7 +2724,7 @@ if(typeof mw.hasDraft === 'object'){
                    // if((mw.tools.hasParentsWithClass(e.target, 'edit') || mw.tools.hasClass(e.target, 'edit') ||  mw.tools.hasParentsWithClass(e.target, 'mw-admin-editor-area')) && (sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed)){
                     if( (sel.rangeCount > 0 ) && ((mw.tools.hasParentsWithClass(cac, 'edit') || mw.tools.hasClass(cac, 'edit') ||  mw.tools.hasParentsWithClass(cac, 'mw-admin-editor-area')) && (sel.rangeCount > 0 && !sel.getRangeAt(0).collapsed))){
 
-                      if(sel.rangeCount > 0){
+                      if(sel.rangeCount > 0 &&  ($.contains(e.target, cac) || $.contains(cac, e.target) || cac === e.target)){
 
 
                       setTimeout(function(){
