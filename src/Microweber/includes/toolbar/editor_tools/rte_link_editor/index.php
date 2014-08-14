@@ -9,6 +9,14 @@
 
 <script type="text/javascript">
 
+    RegisterChange = function(){
+      /************************
+
+      Overwrites the original function
+
+      *************************/
+    }
+
     is_searching = false;
 
 
@@ -56,7 +64,7 @@
 
 
 setACValue = function(val){
-    RegisterChange(hash, val);
+   RegisterChange(hash, val);
     parent.mw.iframecallbacks[hash](val);
     parent.mw.tools.modal.remove('mw_rte_link');
 }

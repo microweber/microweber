@@ -1,9 +1,3 @@
-<script type="text/javascript">
-    function cod_checkout_callback(data,selector){
-    	 alert('cod_checkout_callback');
-    	$(selector).empty().append(data);
-    }
-</script>
 <?php
 
 $pay_on_delivery_show_msg = (get_option('pay_on_delivery_show_msg', 'payments')) == 'y';

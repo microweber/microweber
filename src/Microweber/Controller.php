@@ -318,6 +318,11 @@ class Controller
                     //var_dump($from_url);
                     //$page = $this->app->content->get_by_url($url);
                     $page = $this->app->content->homepage();
+
+                    if (!defined('IS_HOME')) {
+                        define('IS_HOME', true);
+                    }
+
                     if (isset($from_url2)) {
                         $mw_quick_edit = $this->app->url->param('mw_quick_edit', false, $from_url2);
 
@@ -348,6 +353,18 @@ class Controller
         } else {
             $url = $this->app->url->string();
         }
+
+
+
+
+        if (!defined('IS_HOME')) {
+
+            if(isset($page['is_home']) and $page['is_home'] == 'y'){
+            define('IS_HOME', true);
+            }
+        }
+
+
 
         if ($page == false) {
 			if(!isset($content_id)){
@@ -1109,6 +1126,7 @@ class Controller
         }
 
 
+
         if ($page['id'] != 0) {
 
 
@@ -1210,7 +1228,13 @@ class Controller
                 $content = $page_non_active;
             }
         }
+        if (!defined('IS_HOME')) {
 
+            if(isset($content['is_home']) and $content['is_home'] == 'y'){
+
+                define('IS_HOME', true);
+            }
+        }
 
         $this->app->content->define_constants($content);
 

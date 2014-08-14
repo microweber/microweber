@@ -128,7 +128,7 @@ if($aj  == false){
 $rand = uniqid();
 	
 }
-        
+
 		
 		 $ret .= '<script  type="text/javascript">
 $(document).ready(function(){
@@ -151,11 +151,11 @@ $(document).ready(function(){
 
          $ret .= "<p style=\"text-align:center;\"><br/><br/>If you are not automatically redirected to ";
          $ret .= "payment website within 5 seconds...<br/><br/>\n";
-         $ret .= "<input type=\"submit\" value=\"Click Here\"></p>\n";
+         $ret .= "<input type=\"submit\" class='mw-ui-btn' value=\"Click Here\"></p>\n";
 
          $ret .= "</form>\n";
 		if($aj  == false){
-         $ret .= "</body></html>\n";
+            $ret .= "</body></html>\n";
 		}
 		return  $ret;
 		
