@@ -308,10 +308,10 @@ class Template
             }
         }
 
-
-        $cache_content = $this->app->cache->get($cache_id, $cache_group);
+        $cache_content = false;
+      //  $cache_content = $this->app->cache->get($cache_id, $cache_group);
         if (($cache_content) != false) {
-        return $cache_content;
+       // return $cache_content;
         }
 
         $render_file = false;
@@ -865,6 +865,7 @@ class Template
                     }
                 }
             }
+
             if($render_file == false and isset($page['parent']) and $page['parent'] == 0){
             if($render_file == false and isset($page['layout_file']) and $page['layout_file'] == 'inherit'){
 
@@ -962,7 +963,7 @@ class Template
         }
 
 
-        $this->app->cache->save($render_file, $cache_id, $cache_group);
+     //   $this->app->cache->save($render_file, $cache_id, $cache_group);
 
         return $render_file;
     }

@@ -1,5 +1,5 @@
 
-    <h5 class="alert alert-success"><?php _e("Your card payments are secured by PayPal"); ?></h5>
+    <div class="paypal-pro-gateway"><h5 class="alert alert-success"><?php _e("Your card payments are secured by PayPal"); ?></h5>
 
     <div class="form-group">
       <label><?php _e("First Name"); ?> </label>
@@ -44,7 +44,7 @@
       <label><?php _e("Verification Code"); ?></label>
       <input name="cc_verification_value"  type="text" value="" class="field-full form-control" />
       <div class="cc_process_error"></div>
-    </div>
+    </div></div>
 
 
 <?php 

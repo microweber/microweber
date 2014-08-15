@@ -751,7 +751,13 @@ class Shop
         }
         $table = $this->tables['cart'];
         $params['table'] = $table;
-
+        $skip_sid = false;
+        if (!defined('MW_API_CALL')) {
+            if (isset($params['order_id'])) {
+                $skip_sid = 1;
+            }
+        }
+        if($skip_sid == false){
         if (!defined('MW_ORDERS_SKIP_SID')) {
             if ($this->app->user->is_admin() == false) {
                 $params['session_id'] = session_id();
@@ -768,6 +774,7 @@ class Shop
             } else {
 
             }
+        }
         }
         $params['limit'] = 10000;
         if (!isset($params['order_completed'])) {
@@ -1145,9 +1152,15 @@ class Shop
 
         }
 
+
+
+        if (isset($params['keyword'])) {
+            $params['search_in_fields'] = array('first_name', 'last_name', 'email', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code');
+        }
+
+
         $table = $this->tables['cart_orders'];
         $params['table'] = $table;
-
 
         return $this->app->db->get($params);
 

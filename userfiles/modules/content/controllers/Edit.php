@@ -189,7 +189,31 @@ class Edit
         }
 
         /* SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
+		
+		 if ($recommended_parent != false and intval($data['id']) == 0){
+			 if (isset($data['subtype']) and $data['subtype'] == 'post') {
+				 if (isset($data['is_shop']) and $data['is_shop'] == 'n') {
+				     $parent_content = $this->app->content->get_by_id($recommended_parent);
+					  if (isset($parent_content['is_shop']) and $parent_content['is_shop'] == 'y') {
+						   $parent_content_params = array();
+						$parent_content_params['subtype'] = 'dynamic';
+						$parent_content_params['content_type'] = 'page';
+						$parent_content_params['limit'] = 1;
+						$parent_content_params['one'] = 1;
+ 						$parent_content_params['fields'] = 'id';
+						$parent_content_params['order_by'] = 'posted_on desc, updated_on desc';
+						 $parent_content_params['is_shop'] = 'n';
+						 $parent_content = $this->app->content->get($parent_content_params);
+							if (isset($parent_content['id']) and $parent_content['id'] != 0) {
+								 $data['parent'] = $recommended_parent = $parent_content['id'];
+								 $categories_active_ids = false;
+							}
+					  }
 
+			     } 
+			 }
+			 
+		 }
         if ($recommended_parent == false and intval($data['id']) == 0 and intval($data['parent']) == 0) {
             $parent_content_params = array();
             $parent_content_params['subtype'] = 'dynamic';
@@ -230,7 +254,9 @@ class Edit
                     $parent_content = $this->app->content->get($parent_content_params);
                 }
             }
+			
             if (isset($parent_content) and isset($parent_content['id'])) {
+				
                 $data['parent'] = $parent_content['id'];
             }
 

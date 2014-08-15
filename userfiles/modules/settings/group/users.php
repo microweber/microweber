@@ -20,7 +20,7 @@ mw.tabs({
    toggle:false,
    onclick:function(tab, e){
      if(mw.tools.hasClass(e.target, 'mw-ui-check') || mw.tools.hasClass(e.target.parentNode, 'mw-ui-check')){
-
+        mw.options.save(e.target.parentNode.querySelector('input'));
      }
      else{
        mw.$(".mw-icon- li").removeClass("active");
@@ -134,6 +134,8 @@ $form_show_last_name = get_option('form_show_last_name','users');
 $form_show_address = get_option('form_show_address','users');
 
   ?>
+
+
   <ul class="social-providers-list mw-ui-btn-nav">
     <li class="mw-ui-btn active">
       <label class="mw-ui-check">

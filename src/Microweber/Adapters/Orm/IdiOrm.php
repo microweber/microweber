@@ -130,22 +130,12 @@ class IdiOrm
         return $this->get($table, $params, 'findOne');
     }
 
-    function __call($method, $arg = null)
-    {
-
-        return $this->$method($arg);
-
-    }
-
-
-
-
     function get($table, $params = false, $get_method = false, $return_method = false)
     {
 
 
         $table_real = $this->app->db->real_table_name($table);
-        event_trigger('orm_get',$table);
+        event_trigger('orm_get', $table);
 
         $orm = ORM::for_table($table_real)->table_alias($table);
         if (is_string($params)) {
@@ -181,13 +171,12 @@ class IdiOrm
                 unset($params['filter']);
             }
 
-            if($filter != false and is_array($this->filters) and !empty($this->filters)){
-                $filters = array_merge($this->filters,$filter);
+            if ($filter != false and is_array($this->filters) and !empty($this->filters)) {
+                $filters = array_merge($this->filters, $filter);
                 $filter = $filters;
             } else {
                 $filter = $this->filters;
             }
-
 
 
             if (is_array($filter)) {
@@ -513,21 +502,29 @@ class IdiOrm
             if (is_string($to_search_in_fields)) {
                 $to_search_in_fields = explode(',', $to_search_in_fields);
             }
-            $raw_search_query = false;
-            if (!empty($to_search_in_fields)) {
-                $raw_search_query = '';
-                $search_vals = array();
-                $search_qs = array();
-                foreach ($to_search_in_fields as $to_search_in_field) {
-                    $search_qs[] = " `{$to_search_in_field}` REGEXP ? ";
-                    $search_vals[] = $to_search_keyword;
-                }
-                if (!empty($search_qs)) {
-                    $raw_search_query = implode($search_qs, ' OR ');
-                    $orm->where_raw('(' . $raw_search_query . ')', $search_vals);
+            // $to_search_keyword = trim($to_search_keyword);
+            $to_search_keyword = preg_replace("/(^\s+)|(\s+$)/us", "", $to_search_keyword);
+
+            $to_search_keyword = strip_tags($to_search_keyword);
+            $to_search_keyword = str_replace('\\', '', $to_search_keyword);
+            $to_search_keyword = str_replace('*', '', $to_search_keyword);
+
+            if ($to_search_keyword != '') {
+                $raw_search_query = false;
+                if (!empty($to_search_in_fields)) {
+                    $raw_search_query = '';
+                    $search_vals = array();
+                    $search_qs = array();
+                    foreach ($to_search_in_fields as $to_search_in_field) {
+                        $search_qs[] = " `{$to_search_in_field}` REGEXP ? ";
+                        $search_vals[] = $to_search_keyword;
+                    }
+                    if (!empty($search_qs)) {
+                        $raw_search_query = implode($search_qs, ' OR ');
+                        $orm->where_raw('(' . $raw_search_query . ')', $search_vals);
+                    }
                 }
             }
-
         }
 
 
@@ -613,6 +610,13 @@ class IdiOrm
             return $orm->find_array();
             // return $orm->find_many();
         }
+
+    }
+
+    function __call($method, $arg = null)
+    {
+
+        return $this->$method($arg);
 
     }
 

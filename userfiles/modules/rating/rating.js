@@ -3,7 +3,8 @@ mw.rating.save = function(data){
 
     $.post( mw.settings.api_url+'rating/Controller/save', data)
         .done(function( data ) {
-            alert( "Data Loaded: " + data );
+           // alert( "Data Loaded: " + data );
+		   alert( "Thank you for your rating");
         });
 
 

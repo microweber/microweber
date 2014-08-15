@@ -24,6 +24,12 @@ function csrf_form($form_name = false)
     return mw()->user->csrf_form($form_name);
 }
 
+function logout_url()
+{
+
+    return mw()->user->logout_url();
+
+}
 
 
 function login_url()

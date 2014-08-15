@@ -996,6 +996,12 @@ class User
                 return array('error' => 'Please enter the right username and password!');
 
             } else {
+
+                if (!isset($data['id'])) {
+                    return array('error' => 'Please enter the right username and password!');
+
+                }
+
                 $user_session = array();
                 $user_session['is_logged'] = 'yes';
                 $user_session['user_id'] = $data['id'];
@@ -1706,6 +1712,15 @@ class User
 
     }
 
+
+    function logout_url()
+    {
+
+
+        return api_url('logout');
+
+    }
+
     function login_url()
     {
 
@@ -1762,42 +1777,6 @@ class User
 
     }
 
-    function csrf_form($unique_form_name = false)
-    {
-        if ($unique_form_name == false) {
-            $unique_form_name = uniqid();
-        }
-
-        $token = $this->csrf_token($unique_form_name);
-
-        $input = '<input type="hidden" name="' . $token . '" value="' . md5($token . $unique_form_name) . '">';
-
-        return $input;
-    }
-
-    function csrf_token($unique_form_name = false)
-    {
-
-        if (function_exists("hash_algos") and in_array("sha512", hash_algos())) {
-            $token = hash("sha512", mt_rand(0, mt_getrandmax()));
-        } else {
-            $token = ' ';
-            for ($i = 0; $i < 128; ++$i) {
-                $r = mt_rand(0, 35);
-                if ($r < 26) {
-                    $c = chr(ord('a') + $r);
-                } else {
-                    $c = chr(ord('0') + $r - 26);
-                }
-                $token .= $c;
-            }
-        }
-
-        $this->session_set('csrf_token_' . md5($token . $unique_form_name), $token);
-
-        return $token;
-    }
-
     public function session_set($name, $val)
     {
 
@@ -1839,6 +1818,19 @@ class User
         }
         //return $_SESSION;
 
+    }
+
+    function csrf_form($unique_form_name = false)
+    {
+        if ($unique_form_name == false) {
+            $unique_form_name = uniqid();
+        }
+
+        $token = $this->csrf_token($unique_form_name);
+
+        $input = '<input type="hidden" name="' . $token . '" value="' . md5($token . $unique_form_name) . '">';
+
+        return $input;
     }
 
     public function session_get($name)
@@ -1902,6 +1894,29 @@ class User
         } else {
             return false;
         }
+    }
+
+    function csrf_token($unique_form_name = false)
+    {
+
+        if (function_exists("hash_algos") and in_array("sha512", hash_algos())) {
+            $token = hash("sha512", mt_rand(0, mt_getrandmax()));
+        } else {
+            $token = ' ';
+            for ($i = 0; $i < 128; ++$i) {
+                $r = mt_rand(0, 35);
+                if ($r < 26) {
+                    $c = chr(ord('a') + $r);
+                } else {
+                    $c = chr(ord('0') + $r - 26);
+                }
+                $token .= $c;
+            }
+        }
+
+        $this->session_set('csrf_token_' . md5($token . $unique_form_name), $token);
+
+        return $token;
     }
 
     public function session_del($name)

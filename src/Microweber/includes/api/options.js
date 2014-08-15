@@ -48,8 +48,6 @@ mw.options = {
     },
     save:function(el, callback){
 
-           //    mw.extend(el);
- 				var orig_el = el;
             	var el = el;
 
         		mw.extend(el);

@@ -1,10 +1,9 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-            <script type="text/javascript" src="<?php   print( MW_INCLUDES_URL);  ?>js/jquery.js"></script>
-
         <script type="text/javascript" src="<?php   print(MW_SITE_URL);  ?>apijs"></script>
-    </head>
+        <script type="text/javascript" src="<?php   print(MW_SITE_URL);  ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
+     </head>
     <body>
         {content}
     </body>

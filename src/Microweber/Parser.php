@@ -339,6 +339,14 @@ class Parser
                                     $mw_mod_counter++;
                                     $mw_mod_counter1 = crc32(serialize($attrs));
                                     $seg_clean = $this->app->url->segment(0);
+
+                                    if (defined('IS_HOME')) {
+                                        $seg_clean = '';
+                                    }
+
+
+
+
                                     $seg_clean = str_replace('.', '', $seg_clean);
                                     $seg_clean = str_replace('%20', '-', $seg_clean);
                                     $attrs['id'] = $module_class . '-' . $seg_clean . ($mw_mod_counter1);

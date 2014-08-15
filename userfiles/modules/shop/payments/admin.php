@@ -395,6 +395,24 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <?php endforeach ; ?>
                   <?php endif; ?>
                 </div>
+                
+                
+                 <hr>
+                <h4>
+                 <?php _e("Users must agree to Terms and Conditions"); ?>
+                </h4>
+                <label class="mw-ui-check" style="margin-right: 15px;">
+                  <input name="shop_require_terms" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_require_terms', 'website') != 'y'): ?> checked="checked" <?php endif; ?> >
+                  <span></span><span>
+                  <?php _e("No"); ?>
+                  </span></label>
+                <label class="mw-ui-check">
+                  <input name="shop_require_terms" class="mw_option_field"    data-option-group="website"  value="y"  type="radio"  <?php if(get_option('shop_require_terms', 'website') == 'y'): ?> checked="checked" <?php endif; ?> >
+                  <span></span><span>
+                  <?php _e("Yes"); ?>
+                  </span></label>
+                
+                
                  <hr>
                 <h4>
                  <?php _e("Purchasing requires registration"); ?>

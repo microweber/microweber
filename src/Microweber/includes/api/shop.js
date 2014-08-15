@@ -58,6 +58,7 @@ mw.cart = {
 			  data: obj
 			})
             .done(function( data ) {
+                     $(window).trigger('checkoutDone', data);   
 					 if(data != undefined){
 						 mw.$(selector+' .mw-cart-data-btn').removeAttr('disabled');
 						 	 mw.$('[data-type="shop/cart"]').removeAttr('hide-cart');
@@ -71,7 +72,8 @@ mw.cart = {
                                 mw.$(selector+' .mw-cart-data-holder').hide();
                                 mw.response(selector,data2);
                                 if(typeof callback === 'function'){
-                                     callback.call(data2.success)
+                                     callback.call(data2.success);
+
                                 }
 
 					    }  else if(parseInt(data) > 0){

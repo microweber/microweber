@@ -410,6 +410,9 @@ class Module
                 global $mw_mod_counter;
                 $mw_mod_counter++;
                 $seg_clean = $this->app->url->segment(0);
+                if (defined('IS_HOME')) {
+                    $seg_clean = '';
+                }
                 $seg_clean = str_replace('%20', '-', $seg_clean);
                 $seg_clean = str_replace(' ', '-', $seg_clean);
                 $seg_clean = str_replace('.', '', $seg_clean);

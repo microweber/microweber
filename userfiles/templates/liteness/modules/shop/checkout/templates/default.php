@@ -24,7 +24,7 @@ complete_order = window.complete_order || function(){
 }
 
 </script>
-        <?php if($requires_registration == 'y' and is_logged() == false): ?>
+        <?php if($requires_registration and is_logged() == false): ?>
 <module type="users/register" />
 <?php else: ?>
  
