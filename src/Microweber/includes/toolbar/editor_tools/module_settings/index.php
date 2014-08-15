@@ -7,6 +7,8 @@ if (isset($params['module'])): ?>
 <?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']); ?>
 <?php endif; ?>                                                                   
 <script type="text/javascript" src="<?php print(MW_SITE_URL); ?>apijs"></script>
+<script type="text/javascript" src="<?php   print(MW_SITE_URL);  ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
+
 <script src="<?php print MW_INCLUDES_URL; ?>api/jquery-ui.js"></script>
 <script type="text/javascript">
     liveEditSettings = true;

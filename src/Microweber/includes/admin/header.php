@@ -39,6 +39,8 @@
         mw.require("custom_fields.js");
         mw.require("session.js");
         mw.require("content.js");
+		mw.require("upgrades.js");
+
         mw.require("<?php print MW_INCLUDES_URL; ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
         <?php /*  mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>

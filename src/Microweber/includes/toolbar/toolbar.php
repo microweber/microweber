@@ -31,7 +31,7 @@ if($is_quick_edit == true){
         mw.require("content.js", true);
         mw.require("session.js");
         mw.require("liveedit.js");
-   
+   		mw.require("upgrades.js");
     </script>
 <script type="text/javascript">
 //if(mw.cookie.get("helpinfoliveedit") != 'false'){

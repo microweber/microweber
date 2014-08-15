@@ -2156,7 +2156,9 @@ class Db
         } elseif (isset($data['session_id'])) {
             //$user_sid = $data['session_id'] ;
         }
-
+        if (!isset($data['id'])) {
+            $data['id'] = 0;
+        }
         if (isset($data['cf_temp'])) {
             $cf_temp = $data['cf_temp'];
         }

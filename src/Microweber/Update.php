@@ -36,7 +36,7 @@ class Update
         }
 
         if (!is_dir($this->temp_dir)) {
-            mkdir($this->temp_dir);
+            mkdir_recursive($this->temp_dir);
         }
     }
 
@@ -63,6 +63,62 @@ class Update
 
         $result = $this->call('get_templates', $data);
         return $result;
+    }
+
+    private function collect_local_data()
+    {
+        $data = array();
+        $data['mw_version'] = MW_VERSION;
+        $data['mw_update_check_site'] = $this->app->url->site();
+
+        $t = mw('template')->site_templates();
+        $data['templates'] = $t;
+        //$t = $this->app->module->scan_for_modules("skip_cache=1");
+        $t = $this->app->module->get("ui=any");
+        $data['modules'] = $t;
+        $data['module_templates'] = array();
+        if (is_array($t)) {
+            foreach ($t as $value) {
+                if (isset($value['module'])) {
+                    $module_templates = $this->app->module->templates($value['module']);
+                    $mod_tpls = array();
+                    if (is_array($module_templates)) {
+                        foreach ($module_templates as $key1 => $value1) {
+
+                            if (isset($value1['filename'])) {
+                                $options = array();
+                                if ($this->skip_cache) {
+                                    $options['no_cache'] = 1;
+                                }
+                                $options['for_modules'] = 1;
+                                $options['filename'] = $value1['filename'];
+                                $module_templates_for_this = $this->app->layouts->scan($options);
+                                if (isset($module_templates_for_this[0]) and is_array($module_templates_for_this[0])) {
+                                    $mod_tpls[$key1] = $module_templates_for_this[0];
+                                }
+
+                            }
+                        }
+                        if (!empty($mod_tpls)) {
+
+                            $data['module_templates'][$value['module']] = $mod_tpls;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($this->skip_cache) {
+            $t = $this->app->module->get_layouts("skip_cache=1");
+        } else {
+            $t = $this->app->module->get_layouts();
+        }
+
+
+        $data['elements'] = $t;
+
+
+        return $data;
     }
 
     function marketplace_link($params = false)
@@ -169,8 +225,10 @@ class Update
         $download_target = false;
         if (isset($item['download']) and !isset($item['size'])) {
             $url = $item['download'];
-            $download_target = $this->temp_dir . basename($url);
-            $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
+
+            $download_target = $this->temp_dir . md5($url).basename($url);
+            $download_target_extract_lock = $this->temp_dir . md5($url). basename($url) . '.unzip_lock';
+
             if (!is_file($download_target)) {
                 $dl = $this->app->http->url($url)->download($download_target);
             }
@@ -178,15 +236,27 @@ class Update
             $expected = intval($item['size']);
 
             $download_link = $item['download'];
+
+            $ext = get_file_extension($download_link);
+
+            if ($ext != 'zip') {
+                return;
+            }
+
             if ($download_link != false and $expected > 0) {
                 $text = $download_link;
                 $regex = '/\b((?:[\w\d]+\:\/\/)?(?:[\w\-\d]+\.)+[\w\-\d]+(?:\/[\w\-\d]+)*(?:\/|\.[\w\-\d]+)?(?:\?[\w\-\d]+\=[\w\-\d]+\&?)?(?:\#[\w\-\d]*)?)\b/';
                 preg_match_all($regex, $text, $matches, PREG_SET_ORDER);
                 foreach ($matches as $match) {
                     if (isset($match[0])) {
-                        $url = $match[0];
-                        $download_target = $this->temp_dir . basename($url);
-                        $download_target_extract_lock = $this->temp_dir . basename($url) . '.unzip_lock';
+                        $url = $download_link;
+
+                        $download_target = $this->temp_dir . basename($download_link);
+                        $download_target_extract_lock = $this->temp_dir . basename($download_link) . '.unzip_lock';
+
+
+
+
                         $expectd_item_size = $item['size'];
                         if (!is_file($download_target) or filesize($download_target) != $item['size']) {
 
@@ -259,7 +329,7 @@ class Update
         if ($a == false) {
             mw_error('Must be admin!');
         }
-        only_admin_access(); 
+        only_admin_access();
 
 
         $updates = $this->check();
@@ -267,7 +337,7 @@ class Update
         if (empty($updates)) {
             return false;
         }
- 
+
 
         $params = parse_params($params);
 
@@ -276,9 +346,9 @@ class Update
         $upd_params = array();
         if (is_array($params)) {
             foreach ($params as $param_k => $param) {
-				  if ($param_k == 'mw_version') { 
+                if ($param_k == 'mw_version') {
                     $ret[] = $update_api->install_version($param);
-				  }
+                }
 
                 if (is_array($param) and !empty($param)) {
                     if ($param_k == 'modules') {
@@ -338,7 +408,7 @@ class Update
                                         if (isset($update['element_id']) and $update['element_id'] == $module) {
 
 
-                                           $ret[] = $this->install_from_market($update);
+                                            $ret[] = $this->install_from_market($update);
                                         }
                                     }
                                 }
@@ -438,62 +508,6 @@ class Update
         return $result;
     }
 
-    private function collect_local_data()
-    {
-        $data = array();
-        $data['mw_version'] = MW_VERSION;
-        $data['mw_update_check_site'] = $this->app->url->site();
-
-        $t = mw('template')->site_templates();
-        $data['templates'] = $t;
-        //$t = $this->app->module->scan_for_modules("skip_cache=1");
-        $t = $this->app->module->get("ui=any");
-        $data['modules'] = $t;
-        $data['module_templates'] = array();
-        if (is_array($t)) {
-            foreach ($t as $value) {
-                if (isset($value['module'])) {
-                    $module_templates = $this->app->module->templates($value['module']);
-                    $mod_tpls = array();
-                    if (is_array($module_templates)) {
-                        foreach ($module_templates as $key1 => $value1) {
-
-                            if (isset($value1['filename'])) {
-                                $options = array();
-                                if ($this->skip_cache) {
-                                    $options['no_cache'] = 1;
-                                }
-                                $options['for_modules'] = 1;
-                                $options['filename'] = $value1['filename'];
-                                $module_templates_for_this = $this->app->layouts->scan($options);
-                                if (isset($module_templates_for_this[0]) and is_array($module_templates_for_this[0])) {
-                                    $mod_tpls[$key1] = $module_templates_for_this[0];
-                                }
-
-                            }
-                        }
-                        if (!empty($mod_tpls)) {
-
-                            $data['module_templates'][$value['module']] = $mod_tpls;
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($this->skip_cache) {
-            $t = $this->app->module->get_layouts("skip_cache=1");
-        } else {
-            $t = $this->app->module->get_layouts();
-        }
-
-
-        $data['elements'] = $t;
-
-
-        return $data;
-    }
-
     function install_version($new_version)
     {
         only_admin_access();
@@ -510,7 +524,7 @@ class Update
         $params['mw_update_check_site'] = $this->app->url->site();
 
         $result = $this->call('get_download_link', $params);
-	
+
         if (isset($result["core_update"])) {
 
             $value = trim($result["core_update"]);

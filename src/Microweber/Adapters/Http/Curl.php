@@ -111,6 +111,7 @@ class Curl
 
                     return $ex;
                 } else {
+
                     $ex = $this->execute($post_data);
                     $this->save_to_file = false;
 
@@ -224,12 +225,14 @@ class Curl
             }
 
             $save_to = $this->save_to_file;
+            $this->save_to_file = false;
             $dl = false;
             if ($save_to != false) {
                 $save_to = trim($save_to);
                 $save_to = str_replace('..', '', $save_to);
 
                 $save_to = normalize_path($save_to, false);
+
 
                 if (file_exists($save_to)) {
                     $dl = true;
@@ -241,11 +244,13 @@ class Curl
                     $fp = fopen($save_to, 'w+'); //This is the file where we save the    information
 
                 }
+
                 if (isset($fp) and $fp != false) {
                     $dl = true;
                     if (function_exists('set_time_limit')) {
                         @set_time_limit(600);
                     }
+
                     curl_setopt($ch, CURLOPT_TIMEOUT, 50);
                     curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -282,7 +287,7 @@ class Curl
             if ($dl != false) {
                 fclose($fp);
             }
-
+            $this->headers = array();
             curl_close($ch);
 
 
