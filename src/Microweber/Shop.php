@@ -1145,6 +1145,13 @@ class Shop
 
         }
 
+
+
+        if (isset($params['keyword'])) {
+            $params['search_in_fields'] = array('first_name', 'last_name', 'email', 'city', 'state', 'zip', 'address', 'address2', 'phone', 'promo_code');
+        }
+
+
         $table = $this->tables['cart_orders'];
         $params['table'] = $table;
 

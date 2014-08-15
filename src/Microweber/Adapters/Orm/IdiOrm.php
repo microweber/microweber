@@ -513,6 +513,14 @@ class IdiOrm
             if (is_string($to_search_in_fields)) {
                 $to_search_in_fields = explode(',', $to_search_in_fields);
             }
+           // $to_search_keyword = trim($to_search_keyword);
+            $to_search_keyword = preg_replace("/(^\s+)|(\s+$)/us", "", $to_search_keyword);
+
+            $to_search_keyword = strip_tags($to_search_keyword);
+            $to_search_keyword = str_replace('\\', '', $to_search_keyword);
+            $to_search_keyword = str_replace('*', '', $to_search_keyword);
+
+            if($to_search_keyword != ''){
             $raw_search_query = false;
             if (!empty($to_search_in_fields)) {
                 $raw_search_query = '';
@@ -527,7 +535,7 @@ class IdiOrm
                     $orm->where_raw('(' . $raw_search_query . ')', $search_vals);
                 }
             }
-
+            }
         }
 
 
