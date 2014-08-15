@@ -996,6 +996,12 @@ class User
                 return array('error' => 'Please enter the right username and password!');
 
             } else {
+
+                if(!isset($data['id'])){
+                    return array('error' => 'Please enter the right username and password!');
+
+                }
+
                 $user_session = array();
                 $user_session['is_logged'] = 'yes';
                 $user_session['user_id'] = $data['id'];

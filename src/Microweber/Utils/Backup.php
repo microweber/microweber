@@ -27,6 +27,11 @@ api_expose('Utils\Backup\move_uploaded_file_to_backup');
 api_expose('Utils\Backup\restore');
 api_expose('Utils\Backup\cronjob');
 
+if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
+    define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
+}
+
+
 class Backup
 {
 
