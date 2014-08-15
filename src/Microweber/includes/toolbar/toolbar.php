@@ -34,39 +34,39 @@ if($is_quick_edit == true){
    
     </script>
 <script type="text/javascript">
-if(mw.cookie.get("helpinfoliveedit") != 'false'){
-     mw.require("helpinfo.js", true);
-     mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css", true);
-}
+//if(mw.cookie.get("helpinfoliveedit") != 'false'){
+//     mw.require("helpinfo.js", true);
+//     mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css", true);
+//}
 </script>
 <script type="text/javascript">
 
 
-  if(mw.cookie.get("helpinfoliveedit") != 'false'){
-     mw.helpinfo.cookie = "helpinfoliveedit";
-     mw.helpinfo.pauseInit = true;
-     $(window).bind("load", function(){
-        mw.mouse.gotoAndClick("#modules-and-layouts", {
-              left:mw.$("#modules-and-layouts").width()/2,
-              top:0
-          });
-          setTimeout(function(){
-              mw.tools.scrollTo();
-              mw.helpinfo.init();
-              setTimeout(function(){
-                mw.helpinfo.hide(true);
-              }, 8000);
-              mw.$("#mw_info_helper_footer .mw-ui-btn").eq(0).bind("click", function(){
-                mw.helpinfo.hide(true);
-              });
-          }, 2000);
-          $(mwd.body).mousedown(function(e){
-            if(!mw.tools.hasParentsWithClass(e.target, 'mw-defaults')){
-                mw.helpinfo.hide(true);
-            }
-          });
-     });
-  }
+  //if(mw.cookie.get("helpinfoliveedit") != 'false'){
+//     mw.helpinfo.cookie = "helpinfoliveedit";
+//     mw.helpinfo.pauseInit = true;
+//     $(window).bind("load", function(){
+//        mw.mouse.gotoAndClick("#modules-and-layouts", {
+//              left:mw.$("#modules-and-layouts").width()/2,
+//              top:0
+//          });
+//          setTimeout(function(){
+//              mw.tools.scrollTo();
+//              mw.helpinfo.init();
+//              setTimeout(function(){
+//                mw.helpinfo.hide(true);
+//              }, 8000);
+//              mw.$("#mw_info_helper_footer .mw-ui-btn").eq(0).bind("click", function(){
+//                mw.helpinfo.hide(true);
+//              });
+//          }, 2000);
+//          $(mwd.body).mousedown(function(e){
+//            if(!mw.tools.hasParentsWithClass(e.target, 'mw-defaults')){
+//                mw.helpinfo.hide(true);
+//            }
+//          });
+//     });
+//  }
 
   $(window).bind('load', function(){
      <?php if(file_exists(TEMPLATE_DIR.'template_settings.php')){ ?>
