@@ -3981,14 +3981,12 @@ $is_module = 1;
         $get = $this->app->db->get($params);
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
-
             if (isset($get['url'])) {
                 $get['url'] = $this->app->url->site($get['url']);
             }
             if (isset($get['title'])) {
                 $get['title'] = html_entity_decode($get['title']);
                 $get['title'] = strip_tags($get['title']);
-
                 $get['title'] = $this->app->format->clean_html($get['title']);
                 $get['title'] = htmlspecialchars_decode($get['title']);
             }
