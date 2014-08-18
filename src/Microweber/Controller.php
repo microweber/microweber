@@ -1438,11 +1438,11 @@ class Controller
                 if (!defined('CONTENT_TEMPLATE')) {
                     define('CONTENT_TEMPLATE', $the_active_site_template);
                 }
-
+//                if ($the_active_site_template == 'mw_default') {
+//                    $the_active_site_template = 'default';
+//                }
                 $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
-                if ($the_active_site_template == 'mw_default') {
-                    $the_active_site_template = 'default';
-                }
+
 
                 $live_edit_css_folder = MW_USERFILES . 'css' . DS . $the_active_site_template . DS;
                 $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $the_active_site_template . '/';

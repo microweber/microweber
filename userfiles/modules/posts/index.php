@@ -442,6 +442,8 @@ if (!empty($content)) {
         }
 
         if (isset($item['title']) and $item['title'] != '') {
+			
+			
             $item['full_title'] = $item['title'];
             $item['title'] = character_limiter($item['title'], $title_character_limit);
 

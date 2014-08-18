@@ -603,9 +603,4 @@ function mw_make_pages_tree_sortable() {
     </div>
   </div>
 </div>
-<?php $view = mw('url')->param('view'); ?>
-<?php if ($view == 'content') { ?>
-<?php show_help('content'); ?>
-<?php } elseif ($view == 'shop') { ?>
-<?php show_help('shop'); ?>
-<?php } ?>
+ 

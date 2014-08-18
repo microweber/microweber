@@ -348,8 +348,7 @@ class Template
 
             $render_file_module_temp = MW_MODULES_DIR . DS . $page['layout_file'];
             $render_file_module_temp = normalize_path($render_file_module_temp, false);
-           // d($page['layout_file']);
-            if (is_file($render_file_temp)) {
+             if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp;
             } elseif (is_file($render_file_module_temp)) {
                 $render_file = $render_file_module_temp;
@@ -368,6 +367,10 @@ class Template
         if (isset($page['subtype'])) {
             $page['subtype'] = str_replace('..', '', $page['subtype']);
         }
+
+
+
+
 
         if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
 
@@ -475,6 +478,7 @@ class Template
                 $render_file = $render_file_temp2;
             }
         }
+
         if (isset($page['active_site_template']) and $page['active_site_template'] == 'default') {
             $page['active_site_template'] = $site_template_settings;
         }

@@ -3988,7 +3988,9 @@ $is_module = 1;
             if (isset($get['title'])) {
                 $get['title'] = html_entity_decode($get['title']);
                 $get['title'] = strip_tags($get['title']);
+
                 $get['title'] = $this->app->format->clean_html($get['title']);
+                $get['title'] = htmlspecialchars_decode($get['title']);
             }
             return $get;
         }
@@ -4003,6 +4005,8 @@ $is_module = 1;
                     $item['title'] = html_entity_decode($item['title']);
                     $item['title'] = strip_tags($item['title']);
                     $item['title'] = $this->app->format->clean_html($item['title']);
+                    $item['title'] = htmlspecialchars_decode($item['title']);
+
                 }
                 $data2[] = $item;
             }
@@ -4703,10 +4707,35 @@ $is_module = 1;
             //
         }
 
+
+
+
+
+
+            if(isset($content['parent']) and $content['parent'] != 0 and isset($content['layout_file']) and $content['layout_file'] == 'inherit'){
+                $inh = $this->get_inherited_parent($content['id']);
+                if($inh != false){
+                    $inh_parent = $this->get_by_id($inh);
+                    if (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) != '' and strtolower($inh_parent['active_site_template']) != 'default') {
+
+                        $the_active_site_template = $inh_parent['active_site_template'];
+                    } else  if (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) != '' and strtolower($inh_parent['active_site_template']) == 'default') {
+
+                        $the_active_site_template = $this->app->option->get('current_template', 'template');
+                    }else  if (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) == '') {
+
+                        $the_active_site_template = $this->app->option->get('current_template', 'template');
+                    }
+
+                }
+
+            }
+
+
+
         if (isset($the_active_site_template) and $the_active_site_template != 'default' and $the_active_site_template == 'mw_default') {
             $the_active_site_template = 'default';
         }
-
 
         if ($the_active_site_template == false) {
             $the_active_site_template = 'default';
