@@ -3834,6 +3834,13 @@ $is_module = 1;
 
         if (is_array($q) and isset($q[0])) {
             $content = $q[0];
+            if (isset($content['title'])) {
+                $content['title'] = html_entity_decode($content['title']);
+                $content['title'] = strip_tags($content['title']);
+                $content['title'] = $this->app->format->clean_html($content['title']);
+                $content['title'] = htmlspecialchars_decode($content['title']);
+
+            }
 //            if (isset($content['title'])) {
 //                $content['title'] = html_entity_decode($content['title']);
 //                $content['title'] = strip_tags($content['title']);
@@ -4760,7 +4767,7 @@ $is_module = 1;
 
         if (defined('DEFAULT_TEMPLATE_URL') == false) {
 
-            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/default/');
+            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL . MW_TEMPLATES_FOLDER_NAME . '/default/');
         }
 
 
@@ -4804,7 +4811,7 @@ $is_module = 1;
                         }
 
                         if (defined('THIS_TEMPLATE_URL') == false) {
-                            $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+                            $the_template_url = MW_USERFILES_URL . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
                             $the_template_url = $the_template_url . '/';
                             if (defined('THIS_TEMPLATE_URL') == false) {
                                 define("THIS_TEMPLATE_URL", $the_template_url);
@@ -4834,9 +4841,10 @@ $is_module = 1;
         }
 
         if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+            $the_template_url = MW_USERFILES_URL . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
 
             $the_template_url = $the_template_url . '/';
+            
             if (defined('THIS_TEMPLATE_URL') == false) {
                 define("THIS_TEMPLATE_URL", $the_template_url);
             }
@@ -4862,7 +4870,7 @@ $is_module = 1;
             define('TEMPLATES_DIR', MW_TEMPLATES_DIR);
         }
 
-        $the_template_url = MW_USERFILES_URL . '/' . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+        $the_template_url = MW_USERFILES_URL . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
 
         $the_template_url = $the_template_url . '/';
         if (defined('TEMPLATE_URL') == false) {
