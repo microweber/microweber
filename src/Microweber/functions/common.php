@@ -876,6 +876,16 @@ function mw_save_license($params)
     return $update_api->save_license($params);
 
 }
+
+api_expose('mw_validate_licenses');
+
+function mw_validate_licenses($params)
+{
+
+    $update_api = mw('update');
+    return $update_api->validate_license($params);
+
+}
 function mw_updates_count()
 {
     $count = 0;

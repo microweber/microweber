@@ -401,7 +401,7 @@ mw.tools = {
         + '<div class="mw-defaults mw_modal mw_modal_maximized '+template+'" id="'+id+'">'
           + '<div class="mw_modal_toolbar">'
             + '<span class="mw_modal_title"></span>'
-            + '<span class="mw-icon-close" onmousedown="mw.tools.modal.remove(\''+id+'\')" title="'+mw.msg.close+'"></span>'
+            + '<span class="mw-icon-close mw-modal-close"  title="'+mw.msg.close+'"></span>'
           + '</div>'
           + '<div class="mw_modal_container">'
           + '</div>'
@@ -409,8 +409,10 @@ mw.tools = {
         + '</div>';
         return {html:html, id:id}
     },
+    _init:function(obj){
 
-    _init:function(html, width, height, callback, title, name, template, overlay, draggable){
+    },
+    _init:function(html, width, height, callback, title, name, template, overlay, draggable, onremove){
         if(typeof name==='string' && mw.$("#"+name).length>0){
             return false;
         }
@@ -473,17 +475,14 @@ mw.tools = {
         typeof callback==='function'?callback.call(modal_return):'';
         typeof title==='string' ? $(modal_object).find(".mw_modal_title").html(title):'';
         typeof name==='string' ? $(modal_object).attr("name", name):'';
+        modal_return.onremove = typeof onremove === 'function' ? onremove : false;
 
-        if(overlay==true){
+       if(overlay==true){
            var ol = mw.tools.modal.overlay(modal_object);
            modal_object[0].overlay = ol;
            modal_return.overlay = ol;
         }
         mwd.getElementById(modal.id).modal = modal_return;
-
-        modal_return.remove = function(){
-            modal_object[0].remove();
-        }
 
         modal_return.hide = function(){
             modal_object.hide();
@@ -494,9 +493,15 @@ mw.tools = {
             return modal_return;
         }
         modal_return.remove = function(){
+            if(typeof modal_return.onremove === 'function'){
+                modal_return.onremove.call();
+            }
             modal_object.remove();
             $(modal_return.overlay).remove();
         }
+        mw.$('.mw-modal-close', modal_object[0]).bind('click', function(){
+               modal_return.remove()
+        })
         modal_return.center = function(a){
           mw.tools.modal.center(modal_object, a);
           return modal_return;
@@ -523,7 +528,7 @@ mw.tools = {
       var o = $.extend({}, mw.tools.modal.settings, o);
       if(typeof o.content !== 'undefined' && typeof o.html === 'undefined') { o.html = o.content; }
       if(typeof o.id !== 'undefined' && typeof o.name === 'undefined') { o.name = o.id; }
-      return new mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable);
+      return new mw.tools.modal._init(o.html, o.width, o.height, o.callback, o.title, o.name, o.template, o.overlay, o.draggable, o.onremove);
     },
     minimize:function(id){
         var doc = mwd;
@@ -611,7 +616,7 @@ mw.tools = {
           var el = mw.$(id)[0];
         }
 
-        if(el===null){ return false; }
+        if(el === null){ return false; }
         if(!!el.overlay){
           $(el.overlay).remove();
         }
@@ -4215,6 +4220,7 @@ mw.image = {
 
     mw.modal = function(o){
       var modal = mw.tools.modal.init(o);
+      d(modal)
       if(!!modal){
         if(modal.main.constructor === $.fn.constructor){
             modal.main = modal.main[0];
