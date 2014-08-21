@@ -7,7 +7,7 @@ $mw_replaced_edit_fields_vals = array();
 $mw_replaced_edit_fields_vals_inner = array();
 
 $mw_replaced_modules_values = array();
-$mw_parser_nest_counter_level = 0;
+ $mw_parser_nest_counter_level = 0;
 
 class Parser
 {
@@ -20,6 +20,7 @@ class Parser
     private $_replaced_modules_values = array();
     private $_replaced_modules = array();
     private $_replaced_codes = array();
+    private $_existing_module_ids = array();
 
     function __construct($app = null)
     {
@@ -56,7 +57,7 @@ class Parser
 
 
         global $mw_replaced_modules;
-        global $mw_replaced_modules_values;
+         global $mw_replaced_modules_values;
 
         $layout = str_replace('<?', '&lt;?', $layout);
 
@@ -349,7 +350,14 @@ class Parser
 
                                     $seg_clean = str_replace('.', '', $seg_clean);
                                     $seg_clean = str_replace('%20', '-', $seg_clean);
-                                    $attrs['id'] = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
+                                    $mod_id = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
+                                     if(!in_array($mod_id, $this->_existing_module_ids)){
+                                         $this->_existing_module_ids[] = $mod_id;
+                                    } else {
+                                        $mod_id = $mod_id.uniqid();
+                                    }
+
+                                    $attrs['id'] = $mod_id;
                                     $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
                                 } else {
                                     $module_html = str_replace('__MODULE_ID__', '', $module_html);

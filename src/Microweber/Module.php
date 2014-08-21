@@ -289,6 +289,8 @@ class Module
             $in_dir = false;
         } else {
 
+
+
             $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
             // d($module_in_default_dir);
@@ -299,6 +301,9 @@ class Module
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
             //
+
+
+
             $module_in_default_file = normalize_path($module_in_default_file, false);
 
             if (is_file($module_in_default_file)) {

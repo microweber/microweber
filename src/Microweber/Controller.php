@@ -560,6 +560,21 @@ class Controller
 
             unset($data['ondrop']);
         }
+        if($mod_n == 'layout'){
+
+            if(isset($data['template'])){
+                $t = str_replace('..','',$data['template']);
+                $possible_layout = MW_TEMPLATES_DIR.$t;
+                $possible_layout = normalize_path($possible_layout,false);
+                if(is_file($possible_layout)){
+                    $l = new $this->app->view($possible_layout);
+                    $layout = $l->__toString();
+                    $layout = $this->app->parser->process($layout, $options = false);
+                    print $layout;
+                    return ;
+                }
+            }
+        }
 
         $has_id = false;
         if (isset($data) and is_array($data)) {
@@ -589,6 +604,13 @@ class Controller
             //	$mod_n = $this->app->url->slug($mod_n) . '-' . date("YmdHis");
             //	$tags .= "id=\"$mod_n\" ";
         }
+
+
+
+
+
+
+
 
         $tags = "<module {$tags} />";
 
