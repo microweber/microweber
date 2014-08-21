@@ -288,7 +288,9 @@ class Content
         $fields_to_add[] = array('field_name', 'LONGTEXT default NULL');
         $fields_to_add[] = array('field_value', 'LONGTEXT default NULL');
         $fields_to_add[] = array('session_id', 'varchar(50) DEFAULT NULL');
+        $fields_to_add[] = array('rel', 'TEXT default NULL');
 
+        $fields_to_add[] = array('rel_id', 'TEXT default NULL');
         $this->app->db->build_table($table_name, $fields_to_add);
 
 
@@ -590,7 +592,27 @@ class Content
             return false;
         }
     }
+    public function get_data($params=false)
+    {
 
+        $params2 = array();
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+        if(!is_array($params)){
+            $params = array();
+        }
+
+        $table = $this->tables['content_data'];
+
+        $params['table'] = $table;
+
+        $get = $this->app->db->get($params);
+
+        return $get;
+    }
     public function data($content_id, $field_name = false)
     {
         $table = $this->tables['content_data'];
@@ -4058,6 +4080,7 @@ $is_module = 1;
             $is_existing_data = array();
             $is_existing_data['field_name'] = $data['field_name'];
             $is_existing_data['content_id'] = intval($data['content_id']);
+
             $is_existing_data['one'] = true;
 
             $is_existing = $this->get_content_data_fields($is_existing_data);
@@ -4066,7 +4089,10 @@ $is_module = 1;
             }
 
         }
-
+        if(isset($data['content_id'])){
+        $data['rel_id'] = intval($data['content_id']);
+        }
+        $data['rel'] = 'content';
 
         $data['allow_html'] = true;
         // $data['debug'] = true;

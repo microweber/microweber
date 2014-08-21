@@ -1,6 +1,20 @@
 <?php only_admin_access(); ?>
-<?php $url = mw()->update->marketplace_link(); ?>
+<?php $parent_module = mw()->url->param('parent-module'); ?>
  
+
+<?php
+if($parent_module and isset($_GET)){
+   $link_params = $_GET;
+   $url = mw()->update->marketplace_link($link_params);
+} else {
+  $url = mw()->update->marketplace_link();	
+}
+
+
+ 
+ 
+  ?>
+
 <?php if($url != false): ?>
 
 <iframe src="<?php print $url; ?>" width="100%" height="1000" frameborder="0"></iframe>

@@ -2271,10 +2271,10 @@
 }
 .mw-ui-navigation li {
   list-style: none;
+  position: relative;
 }
 .mw-ui-navigation > li {
   margin-bottom: 10px;
-  position: relative;
 }
 .mw-ui-navigation > li:last-child {
   margin-bottom: 0;

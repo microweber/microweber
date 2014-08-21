@@ -106,8 +106,11 @@ $(document).ready(function(){
 <?php endforeach; ?>
 <?php endif; ?>
                     
-
-
+<?php $got_lic = mw()->update->get_licenses('count=1') ?>
+<?php if(($got_lic) > 0): ?>
+   <li><a onclick="mw.url.windowHashParam('option_group', 'licenses');return false;" class="item-advanced" href="#option_group=licenses"><?php _e("Licenses"); ?></a></li>
+<?php endif; ?>
+ 
                     <li><a onclick="mw.url.windowHashParam('option_group', 'advanced');return false;" class="item-advanced" href="#option_group=advanced"><?php _e("Advanced"); ?></a></li>
                     <li><a onclick="mw.url.windowHashParam('option_group', 'language');return false;" class="item-language" href="#option_group=language"><?php _e("Language"); ?></a></li>
                   </ul>

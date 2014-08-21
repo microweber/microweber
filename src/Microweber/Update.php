@@ -124,20 +124,20 @@ class Update
     {
 
         $url_resp = $this->call('market_link', $params);
+
         if ($url_resp != false) {
             $url = json_decode($url_resp, 1);
             if (isset($url['url'])) {
                 return $url['url'];
             }
         }
-//        $url = $this->remote_url . 'market_link';
-//        $url_resp = $this->app->http->url($url)->post($params);
-//        if ($url_resp != false) {
-//            $url = json_decode($url_resp, 1);
-//            if (isset($url['url'])) {
-//                return $url['url'];
-//            }
-//        }
+    }
+
+    function marketplace_admin_link($params = false)
+    {
+        $params = http_build_query($params);
+
+        return admin_url('view:admin__modules__market?' . $params);
     }
 
     function install_market_item($params)
@@ -609,25 +609,6 @@ class Update
 
     }
 
-    public function send_anonymous_server_data($params = false)
-    {
-
-        if ($params != false and is_string($params)) {
-            $params = parse_params($params);
-        }
-
-        if ($params == false) {
-            $params = array();
-        }
-
-        $params['site_url'] = $this->app->url->site();
-        $params['function_name'] = 'send_lang_form_to_microweber';
-
-
-        $result = $this->call('send_anonymous_server_data', $params);
-        return $result;
-    }
-
     function call($method = false, $post_params = false)
     {
         $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
@@ -664,6 +645,25 @@ class Update
         if ($curl_result != false) {
             $result = json_decode($curl_result, 1);
         }
+        return $result;
+    }
+
+    public function send_anonymous_server_data($params = false)
+    {
+
+        if ($params != false and is_string($params)) {
+            $params = parse_params($params);
+        }
+
+        if ($params == false) {
+            $params = array();
+        }
+
+        $params['site_url'] = $this->app->url->site();
+        $params['function_name'] = 'send_lang_form_to_microweber';
+
+
+        $result = $this->call('send_anonymous_server_data', $params);
         return $result;
     }
 

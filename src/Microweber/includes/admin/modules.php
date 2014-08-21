@@ -3,8 +3,4 @@
 
 
 
-     <?php  show_help('modules');  ?>
-
-
-
-
+    
