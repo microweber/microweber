@@ -9,6 +9,7 @@ return array(
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'QueryPath' => array($vendorDir . '/querypath/querypath/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
+    'Parsedown' => array($vendorDir . '/erusev/parsedown'),
     'Microweber' => array($baseDir . '/src'),
     'Keboola\\Csv' => array($vendorDir . '/keboola/csv/src'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),

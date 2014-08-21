@@ -4290,6 +4290,7 @@ $(mww).bind('load', function(){
 
 $(mwd).ready(function(){
    mw.dropdown();
+
 });
 
 $(mwd.body).ajaxStop(function(){
@@ -4303,17 +4304,7 @@ $(mwd.body).ajaxStop(function(){
 
 
 
-mw.module_global_reload_binded = false;
-mw.module_global_reload_curr = null;
-mw.module_global_reload = function(module){
-    if(!!module) {mw.cookie.ui('globalreload', module)};
-    if(!mw.module_global_reload_binde){
-      mw.module_global_reload_binded = true;
-      setInterval(function(){
-        var gu mw.cookie.ui('globalreload', 'null');
-      }, 777);
-    }
-}
+
 
 
 
