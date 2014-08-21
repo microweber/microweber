@@ -2949,6 +2949,8 @@ mw.cookie = {
     }
   },
   uievents:{},
+  changeInterval:null,
+  uiCurr:null,
   onchange:function(name, func){
     if(typeof mw.cookie.uievents[name] === 'undefined'){
          mw.cookie.uievents[name] = [func];
@@ -4293,9 +4295,25 @@ $(mwd).ready(function(){
 $(mwd.body).ajaxStop(function(){
   setTimeout(function(){
       mw.dropdown();
-  },222)
-
+  },222);
 });
+
+
+
+
+
+
+mw.module_global_reload_binded = false;
+mw.module_global_reload_curr = null;
+mw.module_global_reload = function(module){
+    if(!!module) {mw.cookie.ui('globalreload', module)};
+    if(!mw.module_global_reload_binde){
+      mw.module_global_reload_binded = true;
+      setInterval(function(){
+        var gu mw.cookie.ui('globalreload', 'null');
+      }, 777);
+    }
+}
 
 
 
