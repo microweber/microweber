@@ -290,6 +290,13 @@ function prev_content($content_id = false)
     return mw()->content->prev_content($content_id);
 }
 
+function breadcrumb($params = false){
+
+
+    return mw()->content->breadcrumb($params);
+
+
+}
 function custom_field_value($content_id, $field_name, $table = 'content')
 {
     return mw()->fields->get_value($content_id, $field_name, $table);
@@ -346,3 +353,4 @@ function is_category()
         return CATEGORY_ID;
     }
 }
+
