@@ -1493,7 +1493,7 @@ tr .mw-admin-custom-field-name-edit-inline:hover:before{
   margin-bottom:10px;
 }
 .custom-field-settings-name{
-  display: none;
+
 }
 
 .mw-custom-fields-list-preview{
@@ -1656,7 +1656,12 @@ tr .mw-admin-custom-field-name-edit-inline:hover:before{
   display: block;
   text-align: center;
   width: 130px;
+  padding: 14px;
 }
+#dropdown-custom-fields li:hover{
+  background-color: #eee;
+}
+
 #dropdown-custom-fields li [class*="mw-custom-field-icon-"]{
   float: none;
   display: block;

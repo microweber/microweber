@@ -32,7 +32,7 @@ if(isset($params['field-id'])){
 <?php $i++; ?>
 <span class="mw-admin-custom-field-value-edit-inline-holder"> <span class="mw-admin-custom-field-value-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $val; ?></span> <span class="delete-custom-fields" onclick="mw.admin.custom_fields.deleteFieldValue(this);"></span> <span class="custom-field-comma">,</span> </span>
 <?php endforeach; ?>
-</span> <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-invert mw-ui-btn-icon btn-create-custom-field-value" data-id="<?php print $field['id']; ?>"><span class="mw-icon-plus"></span> <?php _e("Add"); ?></span>
+</span> <span class="mw-ui-btn mw-ui-btn-small mw-ui-btn-invert mw-ui-btn-icon btn-create-custom-field-value show-on-hover" data-id="<?php print $field['id']; ?>"><span class="mw-icon-plus"></span> <?php _e("Add"); ?></span>
 <?php elseif(isset($field['custom_field_type']) and ( $field['custom_field_type'] == 'text' or $field['custom_field_type'] == 'message' or $field['custom_field_type'] == 'textarea' or $field['custom_field_type'] == 'title')): ?>
 <textarea class="mw-admin-custom-field-value-edit-text mw-ui-field" style=" width:100%; overflow:hidden;" data-id="<?php print $field['id']; ?>"><?php print $field['custom_field_value']; ?></textarea>
 <?php elseif(isset($field['custom_field_type']) and ( $field['custom_field_type'] == 'address')): ?>

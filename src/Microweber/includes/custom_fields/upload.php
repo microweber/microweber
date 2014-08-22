@@ -13,7 +13,7 @@ include('empty_field_vals.php');
 <?php
 
     $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
-
+ 
 ?>
 
 
@@ -22,7 +22,7 @@ include('empty_field_vals.php');
  <div class="relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <div class="mw-ui-row-nodrop">
     <div class="mw-ui-col">
-      <input type="text" <?php if($is_required){ ?> required <?php } ?> class="no-post form-control" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+      <input type="text" <?php if($is_required){ ?> required <?php } ?> class="form-control" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
     </div>
     <div class="mw-ui-col">
     <button type="button" class="btn"><?php _e("Browse"); ?></button>
