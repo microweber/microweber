@@ -85,17 +85,17 @@ else {
               <?php endif ?>
               <?php endforeach; ?>
               <tr class="mw-ui-table-footer">
-                <td colspan="3">&nbsp;</td>
+                <td colspan="2">&nbsp;</td>
                 <td><?php _e("Subtotal"); ?></td>
                 <td class="mw-ui-table-green"><?php print  currency_format($subtotal, $ord['currency']); ?></td>
               </tr>
               <tr class="mw-ui-table-footer">
-                <td colspan="3">&nbsp;</td>
+                <td colspan="2">&nbsp;</td>
                 <td><?php _e("Shipping price"); ?></td>
                 <td class="mw-ui-table-green"><?php print  currency_format($ord['shipping'], $ord['currency']); ?></td>
               </tr>
               <tr class="mw-ui-table-footer last">
-                <td colspan="3">&nbsp;</td>
+                <td colspan="2">&nbsp;</td>
                 <td class="mw-ui-table-green"><strong>
                   <?php _e("Total:"); ?>
                   </strong></td>
