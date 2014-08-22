@@ -865,6 +865,7 @@ class Controller
 
                 //$page['url'] = $this->app->url->string();
                 if (isset($is_preview_template) and $is_preview_template != false) {
+
                     $page['active_site_template'] = $is_preview_template;
                 } else {
 

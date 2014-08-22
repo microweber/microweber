@@ -100,9 +100,16 @@ if (isset($params['rel_id']) == true) {
     } else if ($no_img != true and !empty($data) and isset($template_file) and is_file($template_file) != false) {
         include($template_file);
     } else {
-        ?>
-        <?php print lnotif("No template found. Please choose template."); ?>
-    <?php
+		
+		$template_file = module_templates($config['module'], 'default');
+		
+		if(is_file($template_file) != false){
+			include($template_file);
+		} else {
+			print lnotif("No template found. Please choose template.");
+		}
+
+      
     }
 }
 ?>
