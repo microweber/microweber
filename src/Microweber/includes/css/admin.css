@@ -1655,7 +1655,7 @@ tr .mw-admin-custom-field-name-edit-inline:hover:before{
   border: none;
   display: block;
   text-align: center;
-  min-width: 75px;
+  width: 130px;
 }
 #dropdown-custom-fields li [class*="mw-custom-field-icon-"]{
   float: none;
