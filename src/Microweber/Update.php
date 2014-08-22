@@ -517,7 +517,8 @@ class Update
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = $where_to_unzip;
                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
-                return array('files' => $result, 'success' => "Item is installed");
+                $num_files = count($result);
+                return array('files' => $result,'location' => $where_to_unzip, 'success' => "Item is installed. {$num_files} files extracted in {$where_to_unzip}");
 
             }
 

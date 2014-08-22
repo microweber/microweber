@@ -2665,11 +2665,9 @@ class Content
                 $result_item['title'] = $content['title'];
                 $result_item['description'] = $content['description'];
                 $result_item['url'] = $this->app->category->link($content['id']);
-
                 $result_item['content_type'] = 'category';
                 if ($cur_content == false and $cur_category == $content['id']) {
                     $result_item['is_active'] = true;
-
                 } else {
                     $result_item['is_active'] = false;
 
