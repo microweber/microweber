@@ -3731,7 +3731,7 @@ div.mw-ui-field:after {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.mw-dropdown-default li:hover {
+.mw-dropdown-default li:hover > *:first-child {
   background-color: #EEEEEE;
 }
 .mw-dropdown-default > ul > li:first-child {

@@ -72,18 +72,19 @@ class Layouts
 
     public function scan($options = false)
     {
-
+        //
         $options = parse_params($options);
         if (!isset($options['path'])) {
             if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
                 $tmpl = trim($options['site_template']);
                 $check_dir = MW_TEMPLATES_DIR . '' . $tmpl;
+
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
                     $the_active_site_template = $this->app->option->get('current_template', 'template');
                 }
-            } if (isset($options['site_template']) and (strtolower($options['site_template']) == 'mw_default')) {
+            } elseif (isset($options['site_template']) and (strtolower($options['site_template']) == 'mw_default')) {
                 $options['site_template'] = 'default';
                 $tmpl = trim($options['site_template']);
                 $check_dir = MW_TEMPLATES_DIR . '' . $tmpl;
@@ -98,6 +99,7 @@ class Layouts
             if ($the_active_site_template == '' or $the_active_site_template == 'mw_default') {
                 $the_active_site_template = 'default';
             }
+            
             $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
 
         } else {
