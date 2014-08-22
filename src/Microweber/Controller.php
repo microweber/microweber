@@ -2445,10 +2445,10 @@ class Controller
             if (intval($_REQUEST["content_id"]) == 0) {
                 $this->create_new_page = true;
                 $this->return_data = 1;
-              //  $page = $this->index();
-                $page = array();
+                 $page = $this->index();
+               // $page = array();
 
-                $page['id'] = 0;
+               // $page['id'] = 0;
             } else {
                 $page = $this->app->content->get_by_id($_REQUEST["content_id"]);
 

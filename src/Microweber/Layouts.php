@@ -99,7 +99,7 @@ class Layouts
             if ($the_active_site_template == '' or $the_active_site_template == 'mw_default') {
                 $the_active_site_template = 'default';
             }
-            
+
             $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
 
         } else {
