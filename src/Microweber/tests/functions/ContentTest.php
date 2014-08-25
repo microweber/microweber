@@ -343,10 +343,10 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     public function testCustomFields()
     {
 
-
+        $price = 100;
 
         for ($i = 1; $i <= 10; $i++) {
-            $price = rand(10, 2000);
+            $price = $price++;
             $params = array(
                 'title' => 'My custom product test title',
                 'content_type' => 'post',

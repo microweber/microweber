@@ -2537,10 +2537,9 @@ class Content
 
                     $this->app->cache->delete('menus/' . $value);
 
-
+                    $this->app->cache->delete('content/' . $content_id);
                 }
             }
-            $this->app->cache->delete('content/global');
 
             $this->app->cache->delete('menus/global');
             $this->app->cache->delete('menus');
