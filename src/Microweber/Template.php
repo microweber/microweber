@@ -725,11 +725,6 @@ class Template
                 $render_file = $use_index2;
             }
 
-            //d($page);
-            //d($use_index);
-//            if (is_file($use_index)) {
-//                $render_file = $use_index;
-//            }
         }
 
 
