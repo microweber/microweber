@@ -189,7 +189,6 @@ class Forms
             }
         }
 
-
         $table = MW_DB_TABLE_FORMS_DATA;
         mw_var('FORCE_SAVE', $table);
 

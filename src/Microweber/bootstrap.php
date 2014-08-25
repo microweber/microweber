@@ -45,7 +45,7 @@ if (!defined('MW_CONFIG_FILE')) {
         define('MW_CONFIG_FILE', MW_ROOTPATH . 'config.php');
     }
     if ($bootstrap_file_for_site != false and is_file($bootstrap_file_for_site)) {
-        require_once ($bootstrap_file_for_site);
+        require_once($bootstrap_file_for_site);
     }
 }
 
@@ -593,7 +593,7 @@ function _reload_c($new_config = false)
 
     if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
 
-        include (MW_CONFIG_FILE);
+        include(MW_CONFIG_FILE);
         if (isset($config)) {
             $_mw_config_file_values = $config;
 
@@ -615,7 +615,7 @@ function c($k, $no_static = false)
     } else {
         if (defined('MW_CONFIG_FILE') and MW_CONFIG_FILE != false and is_file(MW_CONFIG_FILE)) {
 
-            include_once (MW_CONFIG_FILE);
+            include_once(MW_CONFIG_FILE);
             if (isset($config)) {
                 $_mw_config_file_values = $config;
                 if (isset($_mw_config_file_values[$k])) {
@@ -623,7 +623,7 @@ function c($k, $no_static = false)
                     return $_mw_config_file_values[$k];
                 }
             } else {
-                include (MW_CONFIG_FILE);
+                include(MW_CONFIG_FILE);
                 if (isset($config)) {
                     $_mw_config_file_values = $config;
                     if (isset($_mw_config_file_values[$k])) {
@@ -669,7 +669,7 @@ function mwdbg($q)
 
 function mw_error($e, $f = false, $l = false)
 {
-    include_once (MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
+    include_once(MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 
     $v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'error.php');
     $v->e = $e;
@@ -783,9 +783,9 @@ function mw_path_to_url($path)
 }
 
 
-require_once (MW_APP_PATH . 'functions' . DS . 'mw_functions.php');
+require_once(MW_APP_PATH . 'functions' . DS . 'mw_functions.php');
 $custom_functions_file = MW_APP_PATH . 'functions' . DS . 'my_functions.php';
 
 if (file_exists($custom_functions_file)) {
-    require_once ($custom_functions_file);
+    require_once($custom_functions_file);
 }
