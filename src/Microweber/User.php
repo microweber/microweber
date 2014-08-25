@@ -638,14 +638,18 @@ class User
     function csrf_validate(&$data)
     {
         if (is_array($data) and isset($_SESSION)) {
-
             foreach ($data as $k => $v) {
                 foreach ($_SESSION as $sk => $sv) {
                     if (is_string($sk) and strstr($sk, 'csrf_token_')) {
                         $sk = substr($sk, 11, 1000);
                         if ($k == $sv and $sk == $v) {
                             unset($data[$k]);
-
+                            return true;
+                        }
+                    }
+                    if($k == 'token'){
+                        if ($sv == $v) {
+                            unset($data[$k]);
                             return true;
                         }
                     }

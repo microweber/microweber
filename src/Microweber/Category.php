@@ -532,12 +532,10 @@ class Category
                 $print1 = false;
                 if (trim($list_tag) != '') {
                     if ($ul_class_name == false) {
-
                         $print1 = "<{$list_tag}  class='{active_class} category_tree depth-{$depth_level_counter}'>";
                     } else {
                         $cl_name = $ul_class_name;
                         if ($depth_level_counter > 1) {
-
                             $cl_name = $ul_class_deep;
 
                         }
@@ -545,10 +543,8 @@ class Category
                     }
                 }
 
-
                 if (intval($parent) != 0 and intval($parent) == intval(CATEGORY_ID)) {
                     $print1 = str_replace('{active_class}', 'active', $print1);
-
                 }
                 $print1 = str_replace('{active_class}', '', $print1);
 
@@ -562,13 +558,10 @@ class Category
                         $do_not_show = false;
 
                         $check_in_content = false;
-                        $childern_content = array();
+                        $children_content = array();
 
                         $do_not_show = false;
-                        // print($type);
-
-                        if (!empty($childern_content)) {
-
+                        if (!empty($children_content)) {
                             $do_not_show = false;
                         } else {
 
@@ -732,10 +725,7 @@ class Category
                             $remove_ids = array();
                         }
                         $remove_ids[] = $item['id'];
-
-
                         $children = $this->html_tree($item['id'], $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name, false, $content_type, $li_class_name, $add_ids = false, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $list_tag, $list_item_tag, $active_code_tag, $ul_class_deep);
-
                         print "</{$list_item_tag}>";
                     }
                 }
@@ -743,8 +733,6 @@ class Category
                     print "</{$list_tag}>";
                 }
             }
-        } else {
-
         }
     }
 
@@ -1320,7 +1308,7 @@ class Category
         }
 
         $save = $this->app->db->save($table, $data);
-        if($simple_save == true){
+        if ($simple_save == true) {
             return $save;
         }
 
@@ -1335,7 +1323,6 @@ class Category
         }
 
         $custom_field_table = $this->tables['custom_fields'];
-
 
 
         $id = $save;
@@ -1403,7 +1390,7 @@ class Category
             }
         }
         if ($old_parent != false) {
-           // $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
+            // $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
         }
 //        if (isset($data['parent_id'])) {
 //            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));

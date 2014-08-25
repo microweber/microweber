@@ -517,6 +517,7 @@ mw.wysiwyg = {
          }
     },
     validateCommonAncestorContainer:function(c){
+
         if(typeof c.querySelector === 'function'){
           return c;
         }

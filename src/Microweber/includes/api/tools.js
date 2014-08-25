@@ -4200,7 +4200,7 @@ mw.image = {
       mw.progress     = mw.tools.progress;
       mw.external     = function( o ){ return mw.tools._external( o ) };
 
-      mw.dom = mw.tools;
+
 
 
     /***********************************************
@@ -4222,7 +4222,6 @@ mw.image = {
 
     mw.modal = function(o){
       var modal = mw.tools.modal.init(o);
-      d(modal)
       if(!!modal){
         if(modal.main.constructor === $.fn.constructor){
             modal.main = modal.main[0];

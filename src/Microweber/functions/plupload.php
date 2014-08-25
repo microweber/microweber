@@ -1,16 +1,23 @@
 <?php
 
 if (!isset($_SESSION) or empty($_SESSION)) {
-    //session_start();
+     session_start();
 }
 
 if(!isset($_SERVER['HTTP_REFERER'])){
-    die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
+    die('{"jsonrpc" : "2.0", "error" : {"code":97, "message": "You are not allowed to upload"}}');
 } elseif(!stristr($_SERVER['HTTP_REFERER'],site_url())){
    // die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
 }
 
-
+$validate_token = mw()->user->csrf_validate($_GET);
+if ($validate_token == false) {
+    die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
+}
+$is_ajax = mw()->url->is_ajax();
+if ($is_ajax != false) {
+    die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
+}
 $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
 
 
@@ -42,7 +49,7 @@ switch ($is_ext) {
     case 'vbs':
     case 'vb':
         $are_allowed = false;
-        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload scripts or executables"}}');
+        die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executables"}}');
 
         break;
 }
@@ -84,22 +91,22 @@ if ($allowed_to_upload == false) {
 
         if ($cfid != false and isset($cfid['custom_field_type'])) {
             if ($cfid['custom_field_type'] != 'upload') {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 94, "message": "Custom field is not file upload type"}}');
+                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Custom field is not file upload type"}}');
 
             }
             if ($cfid != false and (!isset($cfid['options']) or !isset($cfid['options']['file_types']))) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 95, "message": "File types is not set."}}');
+                die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "File types is not set."}}');
 
             }
             if ($cfid != false and isset($cfid['file_types']) and empty($cfid['file_types'])) {
-                die('{"jsonrpc" : "2.0", "error" : {"code": 96, "message": "File types cannot by empty."}}');
+                die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "File types cannot by empty."}}');
             }
 
             if ($cfid != false and isset($cfid['options']) and isset($cfid['options']['file_types'])) {
 
                 $alloled_ft = array_values(($cfid['options']['file_types']));
                 if (empty($alloled_ft)) {
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 97, "message": "File types cannot by empty."}}');
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 104, "message": "File types cannot by empty."}}');
                 } else {
                     $are_allowed = '';
                     $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
@@ -130,7 +137,7 @@ if ($allowed_to_upload == false) {
                                 case 'bat':
                                 case 'vbs':
                                     $are_allowed = false;
-                                    die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload scripts or executables"}}');
+                                    die('{"jsonrpc" : "2.0", "error" : {"code":105, "message": "You cannot upload scripts or executables"}}');
 
                                     break;
                             }
@@ -195,19 +202,19 @@ if ($allowed_to_upload == false) {
                                 }
                             }
                             if ($pass_type_check == false) {
-                                die('{"jsonrpc" : "2.0", "error" : {"code":103, "message": "You can only upload ' . $are_allowed . ' files."}}');
+                                die('{"jsonrpc" : "2.0", "error" : {"code":106, "message": "You can only upload ' . $are_allowed . ' files."}}');
 
                             } else {
                                 if (!isset($_REQUEST['captcha'])) {
-                                    die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "Please enter the captcha answer!"}}');
+                                    die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
                                 } else {
                                     $cap = mw('user')->session_get('captcha');
                                     if ($cap == false) {
-                                        die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You must load a captcha first!"}}');
+                                        die('{"jsonrpc" : "2.0", "error" : {"code":108, "message": "You must load a captcha first!"}}');
 
                                     }
                                     if ($_REQUEST['captcha'] != $cap) {
-                                        die('{"jsonrpc" : "2.0", "error" : {"code":101, "message": "Invalid captcha answer! "}}');
+                                        die('{"jsonrpc" : "2.0", "error" : {"code":109, "message": "Invalid captcha answer! "}}');
 
                                     } else {
                                         if (!isset($_REQUEST["path"])) {
@@ -234,7 +241,7 @@ if ($allowed_to_upload == false) {
         //d($cfid);
         //die('{"jsonrpc" : "2.0", "error" : {"code": 99, "message": "Not finished."}, "id" : "id"}');
     } else {
-        die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Only admin can upload."}, "id" : "id"}');
+        die('{"jsonrpc" : "2.0", "error" : {"code": 110, "message": "Only admin can upload."}, "id" : "id"}');
 
     }
 }

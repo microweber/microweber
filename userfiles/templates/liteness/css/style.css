@@ -123,7 +123,10 @@ a, a:hover, a:focus, a:active{
 .edit[field='content'][rel='content'] a{    }
 
 
-
+.mw-custom-fields-cart-item-value{
+  word-break: break-all;
+  white-space: pre-wrap;
+}
 
 
 .table td,
