@@ -44,6 +44,7 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
 
   urlparams = '';
   if(!!Params.path){ urlparams += 'path='+ Params.path;}
+  urlparams += 'token=<?php print csrf_token($uid); ?>';
 
      $(document).ready(function(){
       $(mwd.body).mousedown(function(e){
