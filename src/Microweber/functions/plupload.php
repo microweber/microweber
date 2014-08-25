@@ -49,7 +49,7 @@ switch ($is_ext) {
     case 'vbs':
     case 'vb':
         $are_allowed = false;
-        die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executables"}}');
+        die('{"jsonrpc" : "2.0", "error" : {"code":100, "message": "You cannot upload scripts or executable files"}}');
 
         break;
 }
