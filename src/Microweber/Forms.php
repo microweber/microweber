@@ -112,17 +112,11 @@ class Forms
             $params["order_by"] = 'created_on desc';
         }
 
-
-        //$params['debug'] = $table;
         $data = $this->app->db->get($params);
         $ret = array();
         if (is_array($data)) {
-
             foreach ($data as $item) {
-                //d($item);
-                //
-
-                $fields = mw('fields')->get('forms_data', $item['id'], 1);
+                $fields = $this->app->fields->get('forms_data', $item['id'], 1);
 
                 if (is_array($fields)) {
                     ksort($fields);
@@ -131,7 +125,7 @@ class Forms
                         $item['custom_fields'][$key] = $value;
                     }
                 }
-                //d($fields);
+
                 $ret[] = $item;
             }
             return $ret;
@@ -161,7 +155,7 @@ class Forms
         $params['table'] = $table;
         $id = $this->app->db->save($table, $params);
         if (isset($params['for_module_id'])) {
-            $opts = array();
+            $data = array();
             $data['module'] = $params['module_name'];
             $data['option_group'] = $params['for_module_id'];
             $data['option_key'] = 'list_id';
@@ -171,8 +165,6 @@ class Forms
 
         return array('success' => 'List is updated', $params);
 
-
-        return $params;
     }
 
     public function post($params)
@@ -210,7 +202,6 @@ class Forms
             $for_id = $params['id'];
         }
 
-        //$for_id =$params['id'];
         if (isset($params['rel_id'])) {
             $for_id = $params['rel_id'];
         }
@@ -226,11 +217,11 @@ class Forms
             if (!isset($params['captcha'])) {
                 return array('error' => 'Please enter the captcha answer!');
             } else {
-                $cap = mw('user')->session_get('captcha');
+                $cap = $this->app->user->session_get('captcha');
 
                 if ($for_id != false) {
                     $captcha_sid = 'captcha_' . $for_id;
-                    $cap_sid = mw('user')->session_get($captcha_sid);
+                    $cap_sid = $this->app->user->session_get($captcha_sid);
                     if ($cap_sid != false) {
                         $cap = $cap_sid;
                     }
@@ -241,7 +232,7 @@ class Forms
                     return array('error' => 'You must load a captcha first!');
                 }
                 if (intval($params['captcha']) != ($cap)) {
-                    //     d($cap);
+
                     if ($adm == false) {
                         return array('error' => 'Invalid captcha answer!');
                     }
@@ -259,13 +250,13 @@ class Forms
 
         $email_autorespond_subject = $this->app->option->get('email_autorespond_subject', $for_id);
 
-        if ($list_id == false) {
+        if (!isset($list_id) or $list_id == false) {
             $list_id = 0;
         }
 
         $to_save = array();
         $fields_data = array();
-        $more = mw('fields')->get($for, $for_id, 1);
+        $more = $this->app->fields->get($for, $for_id, 1);
         $cf_to_save = array();
         if (!empty($more)) {
             foreach ($more as $item) {
@@ -273,18 +264,16 @@ class Forms
                     $cfn = ($item['custom_field_name']);
 
                     $cfn2 = str_replace(' ', '_', $cfn);
-                    $fffound = false;
+
 
                     if (isset($params[$cfn2]) and $params[$cfn2] != false) {
                         $fields_data[$cfn2] = $params[$cfn2];
                         $item['custom_field_value'] = $item['value'] = $params[$cfn2];
-                        $fffound = 1;
                         $cf_to_save[$cfn] = $item;
                     } elseif (isset($params[$cfn]) and $params[$cfn] != false) {
                         $fields_data[$cfn] = $params[$cfn];
                         $item['custom_field_value'] = $item['value'] = $params[$cfn2];
                         $cf_to_save[$cfn] = $item;
-                        $fffound = 1;
                     }
 
                 }
@@ -320,7 +309,6 @@ class Forms
                 $new_field['allow_html'] = 1;
                 $new_field['custom_field_value'] = $value['custom_field_value'];
                 $new_field['custom_field_name'] = $key;
-                // $value['debug'] = 1;
                 $cf_save = $this->app->db->save($table_custom_field, $new_field);
             }
         }
@@ -358,7 +346,7 @@ class Forms
             $notif['description'] = "You have new form entry";
             $notif['content'] = "You have new form entry from " . $this->app->url->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
             $this->app->notifications->save($notif);
-            //	d($cf_to_save);
+        
             if ($email_to == false) {
                 $email_to = $this->app->option->get('email_from', 'email');
             }
@@ -476,11 +464,11 @@ class Forms
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-        $table = MW_DB_TABLE_FORMS_LISTS;
+
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
 
-            $fields = mw('fields')->get('forms_data', $data['id'], 1);
+            $fields = $this->app->fields->get('forms_data', $data['id'], 1);
 
             if (is_array($fields)) {
                 foreach ($fields as $key => $value) {
@@ -496,6 +484,7 @@ class Forms
 
             $this->app->db->delete_by_id('forms_data', $c_id);
         }
+        return true;
     }
 
     public function delete_list($data)
@@ -505,13 +494,14 @@ class Forms
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-        $table = MW_DB_TABLE_FORMS_LISTS;
+
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
             $this->app->db->delete_by_id('forms_lists', $c_id);
             $this->app->db->delete_by_id('forms_data', $c_id, 'list_id');
 
         }
+        return true;
     }
 
     public function export_to_excel($params)
