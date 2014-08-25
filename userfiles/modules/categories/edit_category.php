@@ -1,11 +1,12 @@
 <?php
 only_admin_access();
 $form_rand_id  = uniqid().rand();
-if(!isset($params["data-category-id"])){
-	$params["data-category-id"] = CATEGORY_ID;
+$data = false;
+if(isset($params["data-category-id"])){
+	$data = get_category_by_id($params["data-category-id"]);
 }
 
-$data = get_category_by_id($params["data-category-id"]);
+
 
 if($data == false or empty($data )){
     include('_empty_category_data.php');

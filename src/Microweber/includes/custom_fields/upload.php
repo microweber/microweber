@@ -1,70 +1,65 @@
 <?php
 
-//$rand = rand();
+ 
 
 if (!isset($data['id'])) {
 include('empty_field_vals.php');
 }
 ?>
-
+<?php $up = 'up'.uniqid(); ?>
 <?php if(!empty($data['custom_field_name'])) : ?>
 <?php $rand = uniqid(); ?>
-
 <?php
 
     $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
 
 ?>
 
-
 <div class="control-group form-group">
- <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
- <div class="relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
+  <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
+  <div class="relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <div class="mw-ui-row-nodrop">
-    <div class="mw-ui-col">
-      <input type="text" <?php if($is_required){ ?> required <?php } ?> class="no-post form-control" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
-    </div>
-    <div class="mw-ui-col">
-    <button type="button" class="btn"><?php _e("Browse"); ?></button>
-    </div>
-    </div>
+      <div class="mw-ui-col">
+        <input type="text" <?php if($is_required){ ?> required <?php } ?> class="form-control" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+                    
 
-
-
- </div>
+        
+      </div>
+      <div class="mw-ui-col">
+        <button type="button" class="btn">
+        <?php _e("Browse"); ?>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="progress" id="upload_progress_<?php print($rand); ?>" style="display:none;">
-    <div class="bar notransition" style="width: 0%;"></div>
+  <div class="bar notransition" style="width: 0%;"></div>
 </div>
-
-    <div class="alert alert-error" id="upload_err<?php print($rand); ?>"  style="display:none;">
-
-    </div>
-
-
-
-
+<div class="alert alert-error" id="upload_err<?php print($rand); ?>"  style="display:none;"> </div>
 <script>
     mw.require('tools.js');
     mw.require('files.js');
-</script>
-
+</script> 
 <script>
 
     formHasUploader = true;
 
-   <?php $up = 'up'.uniqid(); ?>
 
- <?php print $up; ?> = mw.files.uploader({
+
+
+
+
+$(document).ready(function(){
+	 
+	 <?php print $up; ?> = mw.files.uploader({
     multiple:false,
-    autostart:false,
+	name:'<?php print $data["custom_field_name"]; ?>',
+    autostart:true,
     filetypes:'<?php if(is_array($data['options']) and isset($data['options']['file_types'])): ?><?php print implode(",",$data['options']['file_types']); ?> <?php endif ?>'
 });
 
 var local_id = '<?php print($rand); ?>';
-
-
-$(document).ready(function(){
 
 
     $(<?php print $up; ?>).bind('FilesAdded', function(frame, file){
@@ -109,10 +104,7 @@ $(document).ready(function(){
 
     mwd.getElementById('upload_<?php print($rand); ?>').appendChild(<?php print $up; ?>);
 
-<?php
-
-
-if(isset($data) and !empty($data) and isset($data['rel']) and ($data['rel'] == 'module' or $data['rel'] == 'modules') and isset($data['rel_id']) ) : ?>
+<?php if(isset($data) and !empty($data) and isset($data['rel']) and ($data['rel'] == 'module' or $data['rel'] == 'modules') and isset($data['rel_id']) ) : ?>
      <?php print $up; ?>.contentWindow.onload = function(){
           mw.postMsg(<?php print $up; ?>.contentWindow, {
     		rel:"<?php print($data['rel']); ?>",
@@ -120,12 +112,7 @@ if(isset($data) and !empty($data) and isset($data['rel']) and ($data['rel'] == '
     		rel_id:"<?php print($data['rel_id']); ?>"
         });
      }
-
-
-
-
-
-	<?php endif; ?>
+<?php endif; ?>
 
 	
 
@@ -134,7 +121,4 @@ if(isset($data) and !empty($data) and isset($data['rel']) and ($data['rel'] == '
 
 
 </script>
-
-
-
 <?php endif; ?>

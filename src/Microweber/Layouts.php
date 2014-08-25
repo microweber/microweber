@@ -72,10 +72,20 @@ class Layouts
 
     public function scan($options = false)
     {
-
+        //
         $options = parse_params($options);
         if (!isset($options['path'])) {
             if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
+                $tmpl = trim($options['site_template']);
+                $check_dir = MW_TEMPLATES_DIR . '' . $tmpl;
+
+                if (is_dir($check_dir)) {
+                    $the_active_site_template = $tmpl;
+                } else {
+                    $the_active_site_template = $this->app->option->get('current_template', 'template');
+                }
+            } elseif (isset($options['site_template']) and (strtolower($options['site_template']) == 'mw_default')) {
+                $options['site_template'] = 'default';
                 $tmpl = trim($options['site_template']);
                 $check_dir = MW_TEMPLATES_DIR . '' . $tmpl;
                 if (is_dir($check_dir)) {
@@ -89,6 +99,7 @@ class Layouts
             if ($the_active_site_template == '' or $the_active_site_template == 'mw_default') {
                 $the_active_site_template = 'default';
             }
+
             $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
 
         } else {
@@ -128,20 +139,38 @@ class Layouts
         $glob_patern = "*.php";
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {
-            $_dirs = glob(MW_TEMPLATES_DIR . '*', GLOB_ONLYDIR);
-            $dir = array();
-            foreach ($_dirs as $item) {
-                $possible_dir = $item . DS . 'modules' . DS . 'layout' . DS;
-                if (is_dir($possible_dir)) {
-                    $template_dirs[] = $item;
+
+            $possible_dir = TEMPLATE_DIR .  'modules' . DS . 'layout' . DS;
+            if (is_dir($possible_dir)) {
+
+                    $template_dirs[] = $possible_dir;
                     $dir2 = rglob($possible_dir . '*.php', 0);
                     if (!empty($dir2)) {
                         foreach ($dir2 as $dir_glob) {
                             $dir[] = $dir_glob;
                         }
                     }
-                }
+
             }
+
+           // $_dirs = glob(MW_TEMPLATES_DIR . '*', GLOB_ONLYDIR);
+//            $_dirs = glob(THIS_TEMPLATE_DIR . '*', GLOB_ONLYDIR);
+//            $dir = array();
+//            foreach ($_dirs as $item) {
+//                $possible_dir = $item . DS . 'modules' . DS . 'layout' . DS;
+//               // $possible_dir = $item . DS . 'elements' . DS ;
+//                d($possible_dir);
+//                exit;
+//                if (is_dir($possible_dir)) {
+//                    $template_dirs[] = $item;
+//                    $dir2 = rglob($possible_dir . '*.php', 0);
+//                    if (!empty($dir2)) {
+//                        foreach ($dir2 as $dir_glob) {
+//                            $dir[] = $dir_glob;
+//                        }
+//                    }
+//                }
+//            }
         }
 
 
@@ -174,6 +203,7 @@ class Layouts
                     }
                 }
                 if ($skip == false and is_file($filename)) {
+
                     $fin = file_get_contents($filename);
                     $here_dir = dirname($filename) . DS;
                     $to_return_temp = array();

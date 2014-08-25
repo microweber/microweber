@@ -18,6 +18,9 @@ position: 4
   		<div class="row" id="shop-products-conteiner">
   			<div class="col-md-9">
                   <h2 class="edit page-title" field="title" rel="content">Shop</h2>
+                  <div class="edit" field="content" rel="page">
+                       
+                  </div>
       			<div class="edit" field="shop-content" rel="page">
       				<div class="box-container">
                           <module type="shop/products" template="masonry" limit="18" description-length="70" data-show="thumbnail,title,add_to_cart,price" />

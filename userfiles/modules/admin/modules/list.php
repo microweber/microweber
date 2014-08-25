@@ -20,6 +20,7 @@ if (isset($is_elements) and $is_elements == true) {
     }
     // $dynamic_layouts = mw('layouts')->get_all('no_cache=1&get_dynamic_layouts=1');
     $dynamic_layouts = false;
+	 $dynamic_layouts = mw('layouts')->get_all('no_cache=1&get_dynamic_layouts=1');
 
 
 } else {

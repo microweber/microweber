@@ -58,6 +58,7 @@ if (!defined('MW_VERSION')) {
  * @property \Microweber\Log $log
  * @property \Microweber\Parser $parser
  * @property \Microweber\Format $format
+ * @property \Microweber\Fields $fields
  * @property \Microweber\Http $http
  * @property \Microweber\Template $template
  * @property \Microweber\Ui $ui
@@ -78,11 +79,6 @@ class Application
     public function __construct($config = false)
     {
 
-//        if(isset($_REQUEST['d'])){
-//           print_r(debug_backtrace());
-//
-//        }
-        //
         if (empty($this->config)) {
             if ($config != false) {
                 if (is_string($config)) {

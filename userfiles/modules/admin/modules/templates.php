@@ -117,7 +117,7 @@ if ($cur_template == false) {
                 .
             </small>
         </label>
-        <a class="mw-ui-link" href="javascript:;">
+        <a class="mw-ui-link" target="_blank" href="<?php print mw()->update->marketplace_admin_link($params); ?>">
             <?php _e("Browse Templates"); ?>
         </a></div>
  <?php endif; ?>

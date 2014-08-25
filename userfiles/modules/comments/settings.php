@@ -324,7 +324,7 @@
         option-group="comments"
         <?php if(get_option('avatar_style', 'comments')=='3'): ?>   checked="checked"  <?php endif; ?>
     />
-                    <span></span><span><i class="avatartype avatartype-mwuser"></i><?php _e("MW User Picture"); ?></span></label>
+                    <span></span><span><i class="avatartype mw-icon-mw" style="font-size: 37px;color:#C4C4C4"></i><?php _e("MW User Picture"); ?></span></label>
                 </div>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check relative" id="avatar_uploader">

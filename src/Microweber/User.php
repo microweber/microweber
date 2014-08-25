@@ -635,7 +635,7 @@ class User
         }
     }
 
-    function csrf_validate($data)
+    function csrf_validate(&$data)
     {
         if (is_array($data) and isset($_SESSION)) {
             foreach ($data as $k => $v) {
@@ -643,6 +643,13 @@ class User
                     if (is_string($sk) and strstr($sk, 'csrf_token_')) {
                         $sk = substr($sk, 11, 1000);
                         if ($k == $sv and $sk == $v) {
+                            unset($data[$k]);
+                            return true;
+                        }
+                    }
+                    if($k == 'token'){
+                        if ($sv == $v) {
+                            unset($data[$k]);
                             return true;
                         }
                     }
@@ -1828,7 +1835,7 @@ class User
 
         $token = $this->csrf_token($unique_form_name);
 
-        $input = '<input type="hidden" name="' . $token . '" value="' . md5($token . $unique_form_name) . '">';
+        $input = '<input type="hidden" name="' . $token . '" value="' . md5($unique_form_name) . '">';
 
         return $input;
     }
@@ -1899,6 +1906,7 @@ class User
     function csrf_token($unique_form_name = false)
     {
 
+
         if (function_exists("hash_algos") and in_array("sha512", hash_algos())) {
             $token = hash("sha512", mt_rand(0, mt_getrandmax()));
         } else {
@@ -1914,7 +1922,7 @@ class User
             }
         }
 
-        $this->session_set('csrf_token_' . md5($token . $unique_form_name), $token);
+        $this->session_set('csrf_token_' . md5($unique_form_name), $token);
 
         return $token;
     }

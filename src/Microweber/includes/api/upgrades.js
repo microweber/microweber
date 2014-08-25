@@ -7,7 +7,7 @@ window.onmessage = function (e) {
 		 if (typeof e.data.market_id != 'undefined') {
 			  $.post(mw.settings.api_url + "mw_install_market_item", e.data)
             .done(function (data) {
-                alert("Data Loaded: " + data);
+               mw.notification.msg(data,5000);
             });
 		 }
      }

@@ -45,7 +45,7 @@ class MenusTest extends \PHPUnit_Framework_TestCase
 
     public function testMenu()
     {
-        $my_menu_name = 'my_other_test_menu';
+        $my_menu_name = 'my test menu';
         $params = array(
             'title' => $my_menu_name,
             'make_on_not_found' => true
@@ -73,7 +73,7 @@ class MenusTest extends \PHPUnit_Framework_TestCase
 
     public function testMenuClasses()
     {
-        $my_menu_name = 'my_other_test_menu';
+        $my_menu_name = 'my test menu';
         $params = array(
             'title' => $my_menu_name,
             'make_on_not_found' => true
@@ -102,7 +102,7 @@ class MenusTest extends \PHPUnit_Framework_TestCase
     public function testMenuTags()
     {
 
-        $my_menu_name = 'my_other_test_menu';
+        $my_menu_name = 'my test menu';
         $params = array(
             'title' => $my_menu_name,
             'make_on_not_found' => true

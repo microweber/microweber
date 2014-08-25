@@ -15,7 +15,7 @@ $rand = uniqid(); ?>
 
 		mw.reload_module_parent('#<?php print $params['id'] ?>');
 		  window.location.href = mw.url.removeHash(window.location.href);
-		 },100)
+		 },1000)
 
 	$(mwd.body).ajaxStop(function() {
 		
@@ -24,7 +24,7 @@ $rand = uniqid(); ?>
 
 		  window.location.href = mw.url.removeHash(window.location.href);
 
-		 },100)
+		 },1000)
 
 	});
 		

@@ -338,18 +338,35 @@ class Template
                 }
             }
         }
+        if (isset($page['content_type'])) {
+            $page['content_type'] = str_replace('..', '', $page['content_type']);
+        }
 
+        if (isset($page['subtype'])) {
+            $page['subtype'] = str_replace('..', '', $page['subtype']);
+        }
+        if (isset($page['layout_file'])) {
+            $page['layout_file'] = str_replace('..', '', $page['layout_file']);
+        }
+        if (isset($page['active_site_template'])) {
+            $page['active_site_template'] = str_replace('..', '', $page['active_site_template']);
+        }
         if (isset($page['active_site_template']) and isset($page['layout_file'])) {
             $page['layout_file'] = str_replace('___', DS, $page['layout_file']);
             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
             $page['layout_file'] = str_replace('..', '', $page['layout_file']);
-            $render_file_temp = normalize_path(TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'], false);
-            $render_use_default = normalize_path(TEMPLATES_DIR . $page['active_site_template'] . DS . 'use_default_layouts.php', false);
+
+            $template_d = $page['active_site_template'];
+            if($template_d == 'mw_default'){
+                $template_d = 'default';
+            }
+
+            $render_file_temp = normalize_path(TEMPLATES_DIR . $template_d . DS . $page['layout_file'], false);
+            $render_use_default = normalize_path(TEMPLATES_DIR . $template_d . DS . 'use_default_layouts.php', false);
 
             $render_file_module_temp = MW_MODULES_DIR . DS . $page['layout_file'];
             $render_file_module_temp = normalize_path($render_file_module_temp, false);
-           // d($page['layout_file']);
-            if (is_file($render_file_temp)) {
+             if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp;
             } elseif (is_file($render_file_module_temp)) {
                 $render_file = $render_file_module_temp;
@@ -361,13 +378,6 @@ class Template
             }
         }
 
-        if (isset($page['content_type'])) {
-            $page['content_type'] = str_replace('..', '', $page['content_type']);
-        }
-
-        if (isset($page['subtype'])) {
-            $page['subtype'] = str_replace('..', '', $page['subtype']);
-        }
 
         if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
 
@@ -475,6 +485,7 @@ class Template
                 $render_file = $render_file_temp2;
             }
         }
+
         if (isset($page['active_site_template']) and $page['active_site_template'] == 'default') {
             $page['active_site_template'] = $site_template_settings;
         }
@@ -714,11 +725,6 @@ class Template
                 $render_file = $use_index2;
             }
 
-            //d($page);
-            //d($use_index);
-//            if (is_file($use_index)) {
-//                $render_file = $use_index;
-//            }
         }
 
 

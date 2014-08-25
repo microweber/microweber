@@ -2029,7 +2029,7 @@ body.design_hover .element-current{
   padding-top: 14px;
 }
 
-
+ 
 
 
 
@@ -2173,7 +2173,7 @@ body.design_hover .element-current{
   padding: 2px;
   text-decoration: none;
   position: absolute;
-  right: 0;
+  right: 0 !important;
   top: 0;
 }
 

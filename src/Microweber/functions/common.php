@@ -663,11 +663,14 @@ function get_elements($options = array())
 
 
 }
-
+function have_license($module_name = false)
+{
+    return  mw()->module->license($module_name);
+}
 
 function load_module_lic($module_name = false)
 {
-    mw()->module->license($module_name);
+    return have_license($module_name);
 }
 
 
@@ -863,77 +866,26 @@ function mw_apply_updates($params)
     $update_api = mw('update');
     return $update_api->apply_updates($params);
 
+}
+api_expose('mw_save_license');
 
-
-    only_admin_access();
-    $params = parse_params($params);
+function mw_save_license($params)
+{
 
     $update_api = mw('update');
-    $res = array();
-    $upd_params = array();
-    if (is_array($params)) {
-        foreach ($params as $param_k => $param) {
-            if ($param_k == 'mw_version') {
-                $upd_params['mw_version'] = $param_k;
-            }
-
-            if ($param_k == 'elements') {
-                $upd_params['elements'] = $param;
-            }
-
-            if ($param_k == 'modules') {
-                $upd_params['modules'] = $param;
-            }
-            if ($param_k == 'module_templates') {
-                $upd_params['module_templates'] = $param;
-            }
-
-            if (isset($upd_params['mw_version'])) {
-                $res[] = $update_api->install_version($upd_params['mw_version']);
-
-            }
-            if (isset($params['modules']) and isset($upd_params['elements']) and is_array($upd_params['elements'])) {
-                foreach ($params['elements'] as $item) {
-                    $res[] = $update_api->install_element($item);
-                }
-            }
-            if (isset($params['modules']) and isset($upd_params['modules']) and is_array($upd_params['modules'])) {
-                foreach ($params['modules'] as $item) {
-                    $res[] = $update_api->install_module($item);
-                }
-            }
-            if (isset($params['templates']) and isset($params['templates']) and is_array($params['templates'])) {
-                foreach ($params['templates'] as $item) {
-
-                    $res[] = $update_api->install_template($item);
-                }
-            }
-            if (isset($upd_params['module_templates']) and is_array($upd_params['module_templates'])) {
-                foreach ($upd_params['module_templates'] as $k => $item) {
-                    if (is_array($item)) {
-                        foreach ($item as $layout_file) {
-                            $res[] = $update_api->install_module_template($k, $layout_file);
-
-                        }
-
-                    } elseif (is_string($item)) {
-                        $res[] = $update_api->install_module_template($k, $item);
-                    }
-                }
-            }
-
-        }
-
-        if (is_array($res)) {
-            mw_post_update();
-            mw('Notifications')->delete_for_module('updates');
-
-        }
-    }
-    return $res;
+    return $update_api->save_license($params);
 
 }
 
+api_expose('mw_validate_licenses');
+
+function mw_validate_licenses($params)
+{
+
+    $update_api = mw('update');
+    return $update_api->validate_license($params);
+
+}
 function mw_updates_count()
 {
     $count = 0;

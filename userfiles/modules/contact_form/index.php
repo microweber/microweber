@@ -25,7 +25,7 @@ if(typeof  processContactForm !== 'object'){
           var form = mw.$(form);
           form.addClass("deactivated");
           mw.$(selector).css("top", "20%");
-          if(form.find(".mw-captcha-img")[0].length > 0){
+          if(typeof form.find(".mw-captcha-img")[0] !== 'undefined'){
               mw.tools.refresh_image(form.find(".mw-captcha-img")[0]);
           }
           form[0].reset();

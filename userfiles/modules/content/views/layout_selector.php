@@ -147,7 +147,7 @@ $layout_options = array();
 
 $layout_options['site_template'] = $data['active_site_template'];
 $layout_options['no_cache'] = true;
- 
+
 $layouts = mw('layouts')->get_all($layout_options);
 
 $recomended_layouts = array();

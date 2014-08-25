@@ -27,6 +27,9 @@
           <h2><?php print $category['description']?></h2>
           <?php endif; ?>
         </div>
+        <div class="edit" field="content" rel="page">
+          
+        </div>
         <div class="masonry-gallery">
           <module type="posts" template="masonry" content-id="<?php print PAGE_ID; ?>" />
         </div>

@@ -4,6 +4,7 @@ namespace Microweber;
 
 api_expose('module/save');
 api_expose('module/reorder_modules');
+api_expose('module/license_save');
 
 class Module
 {
@@ -38,12 +39,6 @@ class Module
             $this->db_init();
         }
 
-    }
-
-
-    function ui($name,$arr = false)
-    {
-        return $this->app->ui->module($name,$arr);
     }
 
     public function set_table_names($tables = false)
@@ -113,7 +108,7 @@ class Module
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'modules' . __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'modules' . __FUNCTION__ . crc32($function_cache_id).'tables';
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -121,8 +116,6 @@ class Module
 
             return $cache_content;
         }
-
-
 
 
         $table_name = $this->tables['modules'];
@@ -187,7 +180,6 @@ class Module
         $this->app->db->build_table($table_name3, $fields_to_add);
 
 
-
         $fields_to_add = array();
         $fields_to_add[] = array('updated_on', 'datetime default NULL');
         $fields_to_add[] = array('created_on', 'datetime default NULL');
@@ -196,13 +188,28 @@ class Module
         $fields_to_add[] = array('rel', 'TEXT default NULL');
         $fields_to_add[] = array('rel_name', 'TEXT default NULL');
         $fields_to_add[] = array('local_key', 'TEXT default NULL');
-        $fields_to_add[] = array('local_key', 'TEXT default NULL');
+        $fields_to_add[] = array('local_key_hash', 'TEXT default NULL');
+        $fields_to_add[] = array('registered_name', 'TEXT default NULL');
+        $fields_to_add[] = array('company_name', 'TEXT default NULL');
+        $fields_to_add[] = array('domains', 'TEXT default NULL');
+        $fields_to_add[] = array('status', 'TEXT default NULL');
+        $fields_to_add[] = array('product_id', 'int(11) default NULL');
+        $fields_to_add[] = array('service_id', 'int(11) default NULL');
+        $fields_to_add[] = array('billing_cycle', 'TEXT default NULL');
+        $fields_to_add[] = array('reg_on', 'datetime default NULL');
+        $fields_to_add[] = array('due_on', 'datetime default NULL');
+
         $this->app->db->build_table($table_name4, $fields_to_add);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
 
+    }
+
+    function ui($name, $arr = false)
+    {
+        return $this->app->ui->module($name, $arr);
     }
 
     public function load($module_name, $attrs = array())
@@ -282,6 +289,8 @@ class Module
             $in_dir = false;
         } else {
 
+
+
             $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
             // d($module_in_default_dir);
@@ -292,6 +301,9 @@ class Module
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
             //
+
+
+
             $module_in_default_file = normalize_path($module_in_default_file, false);
 
             if (is_file($module_in_default_file)) {
@@ -402,7 +414,7 @@ class Module
                 $config['license'] = $lic;
             }
 
-            if (!isset( $attrs['id']) and isset($attrs['module-id']) and $attrs['module-id'] != false) {
+            if (!isset($attrs['id']) and isset($attrs['module-id']) and $attrs['module-id'] != false) {
                 $attrs['id'] = $attrs['module-id'];
             }
 
@@ -468,10 +480,8 @@ class Module
 
                 $module_file = EMPTY_MOD_STR;
             } elseif (isset($attrs['view']) && (trim($attrs['view']) == 'admin')) {
-
                 $module_file = $l1->__toString();
             } else {
-
                 if (isset($attrs['display']) && (trim($attrs['display']) == 'custom')) {
                     $module_file = $l1->__get_vars();
                     return $module_file;
@@ -535,18 +545,15 @@ class Module
      * @category    modules api
      */
 
-    public function templates($module_name, $template_name = false,$get_settings_file=false)
+    public function templates($module_name, $template_name = false, $get_settings_file = false)
     {
-
-
-
 
 
         $module_name = str_replace('admin', '', $module_name);
         $module_name_l = $this->locate($module_name);
 
-        if($module_name_l == false){
-            $module_name_l = MW_MODULES_DIR. DS . $module_name . DS;
+        if ($module_name_l == false) {
+            $module_name_l = MW_MODULES_DIR . DS . $module_name . DS;
             $module_name_l = normalize_path($module_name_l, 1);
 
         } else {
@@ -556,56 +563,45 @@ class Module
         }
 
 
-
         $module_name_l_theme = ACTIVE_TEMPLATE_DIR . 'modules' . DS . $module_name . DS . 'templates' . DS;
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
 
 
-
-
         if (!is_dir($module_name_l) and !is_dir($module_name_l_theme)) {
-
             return false;
         } else {
 
             if ($template_name == false) {
                 $options = array();
-                 $options['for_modules'] = 1;
+                $options['for_modules'] = 1;
                 $options['path'] = $module_name_l;
                 $module_name_l = $this->app->layouts->scan($options);
-                //d($module_name_l_theme);
-
                 if (is_dir($module_name_l_theme)) {
                     $options['path'] = $module_name_l_theme;
                     $module_skins_from_theme = $this->app->layouts->scan($options);
-
                     if (is_array($module_skins_from_theme)) {
                         if (!is_array($module_name_l)) {
                             $module_name_l = array();
                         }
-                        $fnfound = array();
+                        $file_names_found = array();
                         if (is_array($module_skins_from_theme)) {
                             $comb = array_merge($module_skins_from_theme, $module_name_l);
-                            if (is_array($comb)) {
-                                //  array_unique($comb);
-                            }
-
                             if (is_array($comb) and !empty($comb)) {
                                 foreach ($comb as $k1 => $itm) {
-                                    if (!in_array($itm['layout_file'], $fnfound)) {
+                                    if (!in_array($itm['layout_file'], $file_names_found)) {
                                         if (isset($itm['visible'])) {
                                             if ($itm['visible'] == 'false'
                                                 or $itm['visible'] == 'no'
                                                 or $itm['visible'] == 'n'
                                             ) {
-
+                                               // skip 
                                             } else {
-                                                $fnfound[] = $itm['layout_file'];
+                                                $file_names_found[] = $itm['layout_file'];
 
                                             }
 
                                         } else {
-                                            $fnfound[] = $itm['layout_file'];
+                                            $file_names_found[] = $itm['layout_file'];
 
                                         }
                                     } else {
@@ -622,16 +618,15 @@ class Module
             } else {
 
 
-
                 $template_name = str_replace('..', '', $template_name);
                 $template_name_orig = $template_name;
 
-                if($get_settings_file == true){
+                if ($get_settings_file == true) {
                     $is_dot_php = get_file_extension($template_name);
                     if ($is_dot_php != false and $is_dot_php == 'php') {
                         $template_name = str_ireplace('.php', '', $template_name);
                     }
-                  $template_name = $template_name.'_settings';
+                    $template_name = $template_name . '_settings';
                 }
 
                 $is_dot_php = get_file_extension($template_name);
@@ -640,13 +635,11 @@ class Module
                 }
 
 
-
-
                 $tf = $module_name_l . $template_name;
                 $tf_theme = $module_name_l_theme . $template_name;
                 $tf_from_other_theme = MW_TEMPLATES_DIR . $template_name;
                 $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
-                $tf_other_module = $template_name;
+
                 $tf_other_module = MW_MODULES_DIR . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
 
@@ -665,19 +658,89 @@ class Module
         }
     }
 
+    public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
+    {
+
+        if (!defined("ACTIVE_TEMPLATE_DIR")) {
+            $this->app->content->define_constants();
+        }
+
+        $module_name = trim($module_name);
+        // prevent hack of the directory
+        $module_name = str_replace('\\', '/', $module_name);
+        $module_name = str_replace('..', '', $module_name);
+
+        $module_name = reduce_double_slashes($module_name);
+        $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
+        $module_in_template_dir = normalize_path($module_in_template_dir, 1);
+        $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
+        $module_in_template_file = normalize_path($module_in_template_file, false);
+        $module_in_default_file12 = MW_MODULES_DIR . $module_name . '.php';
+
+        $try_file1 = false;
+        $mod_d = $module_in_template_dir;
+        $mod_d1 = normalize_path($mod_d, 1);
+        $try_file1x = $mod_d1 . 'index.php';
+
+        if (is_file($try_file1x)) {
+            $try_file1 = $try_file1x;
+        } elseif (is_file($module_in_template_file)) {
+            $try_file1 = $module_in_template_file;
+        } elseif (is_file($module_in_default_file12) and $custom_view == false) {
+            $try_file1 = $module_in_default_file12;
+        } else {
+            $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
+            $module_in_default_dir = normalize_path($module_in_default_dir, 1);
+            $module_in_default_file = MW_MODULES_DIR . $module_name . '.php';
+            $module_in_default_file_custom_view = MW_MODULES_DIR . $module_name . '_' . $custom_view . '.php';
+            $element_in_default_file = MW_ELEMENTS_DIR . $module_name . '.php';
+            $element_in_default_file = normalize_path($element_in_default_file, false);
+
+
+            $module_in_default_file = normalize_path($module_in_default_file, false);
+
+            if (is_file($module_in_default_file)) {
+
+                if ($custom_view == true and is_file($module_in_default_file_custom_view)) {
+                    $try_file1 = $module_in_default_file_custom_view;
+                    if ($no_fallback_to_view == true) {
+                        return $try_file1;
+                    }
+
+                }
+            } else {
+                if (is_dir($module_in_default_dir)) {
+                    $mod_d1 = normalize_path($module_in_default_dir, 1);
+                    if ($custom_view == true) {
+                        $try_file1 = $mod_d1 . trim($custom_view) . '.php';
+                        if ($no_fallback_to_view == true) {
+                            return $try_file1;
+                        }
+                    } else {
+                        if ($no_fallback_to_view == true) {
+                            return false;
+                        }
+                        $try_file1 = $mod_d1 . 'index.php';
+                    }
+                } elseif (is_file($element_in_default_file)) {
+                    $is_element = true;
+                    $try_file1 = $element_in_default_file;
+                }
+            }
+        }
+        $try_file1 = normalize_path($try_file1, false);
+        return $try_file1;
+    }
+
     public function url($module_name = false)
     {
 
         if ($module_name == false) {
             $mod_data = $this->current_module;
-
             if (isset($mod_data["url_to_module"])) {
                 return $mod_data["url_to_module"];
             }
-
-
         }
-
 
         if (!is_string($module_name)) {
             return false;
@@ -748,6 +811,42 @@ class Module
         }
     }
 
+    public function get($params = false)
+    {
+
+        $table = $this->tables['modules'];
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $options = $params2;
+        }
+        $params['table'] = $table;
+        $params['group_by'] = 'module';
+        $params['order_by'] = 'position asc';
+        $params['cache_group'] = 'modules/global';
+        if (isset($params['id'])) {
+            $params['limit'] = 1;
+        } else {
+            $params['limit'] = 1000;
+        }
+        if (isset($params['module'])) {
+            $params['module'] = str_replace('/admin', '', $params['module']);
+        }
+        if (isset($params['keyword'])) {
+            $params['search_in_fields'] = array('name', 'module', 'description', 'author', 'website', 'version', 'help');
+        }
+
+        if (!isset($params['ui'])) {
+            //  $params['ui'] = 1;
+            //
+        }
+
+        if (isset($params['ui']) and $params['ui'] == 'any') {
+            unset($params['ui']);
+        }
+
+        return $this->app->db->get($params);
+    }
+
     public function path($module_name)
     {
         return $this->dir($module_name);
@@ -788,91 +887,6 @@ class Module
 
     }
 
-    public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
-    {
-
-        if (!defined("ACTIVE_TEMPLATE_DIR")) {
-            $this->app->content->define_constants();
-        }
-
-        $module_name = trim($module_name);
-        $module_name = str_replace('\\', '/', $module_name);
-        $module_name = str_replace('..', '', $module_name);
-        // prevent hack of the directory
-        $module_name = reduce_double_slashes($module_name);
-        $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
-        $module_in_template_dir = normalize_path($module_in_template_dir, 1);
-        $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
-        $module_in_template_file = normalize_path($module_in_template_file, false);
-        $module_in_default_file12 = MW_MODULES_DIR . $module_name . '.php';
-
-        $try_file1 = false;
-        $mod_d = $module_in_template_dir;
-        $mod_d1 = normalize_path($mod_d, 1);
-        $try_file1x = $mod_d1 . 'index.php';
-
-        if (is_file($try_file1x)) {
-            $try_file1 = $try_file1x;
-        } elseif (is_file($module_in_template_file)) {
-            $try_file1 = $module_in_template_file;
-        } elseif (is_file($module_in_default_file12) and $custom_view == false) {
-            $try_file1 = $module_in_default_file12;
-        } else {
-            $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
-            $module_in_default_dir = normalize_path($module_in_default_dir, 1);
-            $module_in_default_file = MW_MODULES_DIR . $module_name . '.php';
-            $module_in_default_file_custom_view = MW_MODULES_DIR . $module_name . '_' . $custom_view . '.php';
-            $element_in_default_file = MW_ELEMENTS_DIR . $module_name . '.php';
-            $element_in_default_file = normalize_path($element_in_default_file, false);
-
-            //
-            $module_in_default_file = normalize_path($module_in_default_file, false);
-
-            if (is_file($module_in_default_file)) {
-
-                if ($custom_view == true and is_file($module_in_default_file_custom_view)) {
-                    $try_file1 = $module_in_default_file_custom_view;
-                    if ($no_fallback_to_view == true) {
-                        return $try_file1;
-                    }
-
-                } else {
-
-                    //  $try_file1 = $module_in_default_file;
-                }
-
-            } else {
-                if (is_dir($module_in_default_dir)) {
-
-                    $mod_d1 = normalize_path($module_in_default_dir, 1);
-
-                    if ($custom_view == true) {
-
-                        $try_file1 = $mod_d1 . trim($custom_view) . '.php';
-                        if ($no_fallback_to_view == true) {
-                            return $try_file1;
-                        }
-                    } else {
-                        if ($no_fallback_to_view == true) {
-                            return false;
-                        }
-
-                        //temp
-                        $try_file1 = $mod_d1 . 'index.php';
-                    }
-                } elseif (is_file($element_in_default_file)) {
-
-                    $is_element = true;
-
-                    $try_file1 = $element_in_default_file;
-                }
-            }
-        }
-
-        $try_file1 = normalize_path($try_file1, false);
-        return $try_file1;
-    }
-
     public function is_installed($module_name)
     {
         $module_name = trim($module_name);
@@ -891,7 +905,11 @@ class Module
 
     public function license($module_name = false)
     {
-        return true;
+        $module_name = str_replace('\\', '/', $module_name);
+        $lic = $this->app->update->get_licenses('status=active&one=1&rel=' . $module_name);
+        if (!empty($lic)) {
+            return true;
+        }
 
     }
 
@@ -1044,108 +1062,6 @@ class Module
         $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
 
         // d($params);
-    }
-
-    public function get($params = false)
-    {
-
-        $table = $this->tables['modules'];
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $options = $params2;
-        }
-        $params['table'] = $table;
-        $params['group_by'] = 'module';
-        $params['order_by'] = 'position asc';
-        $params['cache_group'] = 'modules/global';
-        if (isset($params['id'])) {
-            $params['limit'] = 1;
-        } else {
-            $params['limit'] = 1000;
-        }
-        if (isset($params['module'])) {
-            $params['module'] = str_replace('/admin', '', $params['module']);
-        }
-        if (isset($params['keyword'])) {
-            $params['search_in_fields'] = array('name', 'module', 'description', 'author', 'website', 'version', 'help');
-        }
-
-        if (!isset($params['ui'])) {
-            //  $params['ui'] = 1;
-            //
-        }
-
-        if (isset($params['ui']) and $params['ui'] == 'any') {
-             unset($params['ui']);
-        }
-
-        return $this->app->db->get($params);
-    }
-
-    public function save($data_to_save)
-    {
-
-        if ($this->app->user->is_admin() == false) {
-            return false;
-        }
-        if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
-            exit(d($data_to_save));
-        }
-
-        $table = $this->tables['modules'];
-        $save = false;
-        // d($table);
-
-       // d($data_to_save);
-
-        if (!empty($data_to_save)) {
-            $s = $data_to_save;
-            // $s["module_name"] = $data_to_save["name"];
-
-            if (!isset($s["parent_id"])) {
-                $s["parent_id"] = 0;
-            }
-            if (!isset($s["id"]) and isset($s["module"])) {
-                $s["module"] = $data_to_save["module"];
-                if (!isset($s["module_id"])) {
-                    $save = $this->get('ui=any&limit=1&module=' . $s["module"]);
-
-                    if ($save != false and isset($save[0]) and is_array($save[0])) {
-                        $s["id"] = intval($save[0]["id"]);
-                        $s["position"] = intval($save[0]["position"]);
-                        $save = $this->app->db->save($table, $s);
-                        $mname_clen = str_replace('\\', '/', $s["module"]);
-                        $mname_clen = $this->app->db->escape_string($mname_clen);
-                        if ($s["id"] > 0) {
-                            $delid = $s["id"];
-                            $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            $this->app->db->q($del);
-                        }
-                    } else {
-
-                        $save = $this->app->db->save($table, $s);
-                    }
-                } else {
-
-                }
-
-            } else {
-
-                $save = $this->app->db->save($table, $s);
-            }
-
-            //
-            //d($s);
-        }
-        $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . 'functions');
-        if (!isset($data_to_save['keep_cache'])) {
-            if ($save != false) {
-                //   $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . intval($save));
-                // $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . 'global');
-                //$this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
-            }
-        }
-        return $save;
     }
 
     public function update_db()
@@ -1537,6 +1453,69 @@ class Module
 
             return $c2;
         }
+    }
+
+    public function save($data_to_save)
+    {
+
+        if ($this->app->user->is_admin() == false) {
+            return false;
+        }
+        if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
+            exit(d($data_to_save));
+        }
+
+        $table = $this->tables['modules'];
+        $save = false;
+        // d($table);
+
+        // d($data_to_save);
+
+        if (!empty($data_to_save)) {
+            $s = $data_to_save;
+            // $s["module_name"] = $data_to_save["name"];
+
+            if (!isset($s["parent_id"])) {
+                $s["parent_id"] = 0;
+            }
+            if (!isset($s["id"]) and isset($s["module"])) {
+                $s["module"] = $data_to_save["module"];
+                if (!isset($s["module_id"])) {
+                    $save = $this->get('ui=any&limit=1&module=' . $s["module"]);
+
+                    if ($save != false and isset($save[0]) and is_array($save[0])) {
+                        $s["id"] = intval($save[0]["id"]);
+                        $s["position"] = intval($save[0]["position"]);
+                        $save = $this->app->db->save($table, $s);
+                        $mname_clen = str_replace('\\', '/', $s["module"]);
+                        $mname_clen = $this->app->db->escape_string($mname_clen);
+                        if ($s["id"] > 0) {
+                            $delid = $s["id"];
+                            $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
+                            $this->app->db->q($del);
+                        }
+                    } else {
+
+                        $save = $this->app->db->save($table, $s);
+                    }
+                } else {
+
+                }
+
+            } else {
+
+                $save = $this->app->db->save($table, $s);
+            }
+        }
+        $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . 'functions');
+        if (!isset($data_to_save['keep_cache'])) {
+            if ($save != false) {
+                //   $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . intval($save));
+                // $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . 'global');
+                //$this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
+            }
+        }
+        return $save;
     }
 
     public function install($params)

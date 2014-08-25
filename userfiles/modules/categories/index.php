@@ -33,7 +33,7 @@ if ($category_tree_parent_page == false and isset($params['current-page']) and $
     $params['rel_id'] = $params['content_id'] = PAGE_ID;
 
 }
-
+ 
 
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {

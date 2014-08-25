@@ -68,7 +68,7 @@ class Notifications
         $params['one'] = true;
 
         $get = $this->get($params);
-    //    d($get);
+
         if ($get != false and isset($get['is_read']) and $get['is_read'] == 'n') {
             $save = array();
             $save['id'] = $get['id'];

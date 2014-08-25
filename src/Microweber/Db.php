@@ -658,15 +658,11 @@ class Db
 
                 }
 
-
                 $get_db_items = $this->app->orm->get($table, $criteria);
-                // print_r(mw()->orm->getLastQuery());
 
                 if (isset($criteria['debug'])) {
-
                     if (isset($this->app->config['debug_mode'])) {
                         $debug = $this->app->config['debug_mode'];
-
                         if (($debug) != false) {
                             print_r(mw()->orm->getLastQuery());
                         } else {

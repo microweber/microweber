@@ -287,11 +287,15 @@ mw.drag = {
                    else if(mw.mm_target.id!='mw_handle_element' && mw.$mm_target.parents("#mw_handle_element").length==0){
                      $(window).trigger("onElementLeave", mw.mm_target);
                    }
-                   if(mw.$mm_target.hasClass("module")){
+                   if(mw.$mm_target.hasClass("module") && !mw.$mm_target.hasClass("no-settings")){
                      $(window).trigger("onModuleOver", mw.mm_target);
                    }
-                   else if(mw.$mm_target.parents(".module").length>0){
-                     $(window).trigger("onModuleOver", mw.tools.firstParentWithClass(mw.mm_target, 'module'));
+                   else if(mw.tools.hasParentsWithClass(mw.mm_target, 'module')){
+                     var _parentmodule = mw.tools.firstParentWithClass(mw.mm_target, 'module');
+                     if(!mw.tools.hasClass(_parentmodule, "no-settings")){
+                        $(window).trigger("onModuleOver", _parentmodule);
+                     }
+
                    }
                    else if(mw.mm_target.id!='mw_handle_module' && mw.$mm_target.parents("#mw_handle_module").length==0){
                      $(window).trigger("onModuleLeave", mw.mm_target);

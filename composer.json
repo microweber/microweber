@@ -20,6 +20,7 @@
     "respect/validation": "0.7.*",
     "prewk/xml-streamer": "0.4.2",
     "keboola/csv": "1.1.3",
+	"erusev/parsedown": "1.*",
     "querypath/QueryPath": "3.*"
 
 

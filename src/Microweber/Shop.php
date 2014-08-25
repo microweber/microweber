@@ -802,6 +802,13 @@ class Shop
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item = $this->_render_item_custom_fields_data($item);
                 }
+                if (isset($item['title'])) {
+                    $item['title'] = html_entity_decode($item['title']);
+                    $item['title'] = strip_tags($item['title']);
+                    $item['title'] = $this->app->format->clean_html($item['title']);
+                    $item['title'] = htmlspecialchars_decode($item['title']);
+
+                }
                 $return[] = $item;
             }
         } else {
@@ -1323,7 +1330,7 @@ class Shop
         }
 
         if (isset($data['title']) and is_string($data['title'])) {
-            $data['title'] = strip_tags($data['title']);
+            $data['title'] = (strip_tags($data['title']));
         }
 
         $found_price = false;

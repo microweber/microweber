@@ -517,12 +517,16 @@ mw.wysiwyg = {
          }
     },
     validateCommonAncestorContainer:function(c){
-        if(typeof c.querySelector === 'function'){
-          return c;
+        try{   /* Firefox returns wrong target (div) when you click on a spin-button */
+            if(typeof c.querySelector === 'function'){
+              return c;
+            }
+            else{
+              return mw.wysiwyg.validateCommonAncestorContainer(c.parentNode);
+            }
         }
-        else{
-          return mw.wysiwyg.validateCommonAncestorContainer(c.parentNode);
-        }
+        catch(e){ return null; }
+
     },
     editable:function(el){
         var el = mw.wysiwyg.validateCommonAncestorContainer(el);
