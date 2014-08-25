@@ -2531,6 +2531,7 @@ class Content
 
                     $new_item = $this->app->db->save($menus, $save);
                     $this->app->cache->delete('menus/global');
+
                     $this->app->cache->delete('menus/' . $save['parent_id']);
                     //$this->app->cache->delete('menus/' . $save['parent_id']);
 
@@ -2539,6 +2540,7 @@ class Content
 
                 }
             }
+            $this->app->cache->delete('content/global');
 
             $this->app->cache->delete('menus/global');
             $this->app->cache->delete('menus');

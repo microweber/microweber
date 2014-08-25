@@ -108,7 +108,7 @@ class Module
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'modules' . __FUNCTION__ . crc32($function_cache_id);
+        $function_cache_id = 'modules' . __FUNCTION__ . crc32($function_cache_id).'tables';
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -480,10 +480,8 @@ class Module
 
                 $module_file = EMPTY_MOD_STR;
             } elseif (isset($attrs['view']) && (trim($attrs['view']) == 'admin')) {
-
                 $module_file = $l1->__toString();
             } else {
-
                 if (isset($attrs['display']) && (trim($attrs['display']) == 'custom')) {
                     $module_file = $l1->__get_vars();
                     return $module_file;
@@ -570,7 +568,6 @@ class Module
 
 
         if (!is_dir($module_name_l) and !is_dir($module_name_l_theme)) {
-
             return false;
         } else {
 
@@ -579,39 +576,32 @@ class Module
                 $options['for_modules'] = 1;
                 $options['path'] = $module_name_l;
                 $module_name_l = $this->app->layouts->scan($options);
-                //d($module_name_l_theme);
-
                 if (is_dir($module_name_l_theme)) {
                     $options['path'] = $module_name_l_theme;
                     $module_skins_from_theme = $this->app->layouts->scan($options);
-
                     if (is_array($module_skins_from_theme)) {
                         if (!is_array($module_name_l)) {
                             $module_name_l = array();
                         }
-                        $fnfound = array();
+                        $file_names_found = array();
                         if (is_array($module_skins_from_theme)) {
                             $comb = array_merge($module_skins_from_theme, $module_name_l);
-                            if (is_array($comb)) {
-                                //  array_unique($comb);
-                            }
-
                             if (is_array($comb) and !empty($comb)) {
                                 foreach ($comb as $k1 => $itm) {
-                                    if (!in_array($itm['layout_file'], $fnfound)) {
+                                    if (!in_array($itm['layout_file'], $file_names_found)) {
                                         if (isset($itm['visible'])) {
                                             if ($itm['visible'] == 'false'
                                                 or $itm['visible'] == 'no'
                                                 or $itm['visible'] == 'n'
                                             ) {
-
+                                               // skip 
                                             } else {
-                                                $fnfound[] = $itm['layout_file'];
+                                                $file_names_found[] = $itm['layout_file'];
 
                                             }
 
                                         } else {
-                                            $fnfound[] = $itm['layout_file'];
+                                            $file_names_found[] = $itm['layout_file'];
 
                                         }
                                     } else {
@@ -649,7 +639,7 @@ class Module
                 $tf_theme = $module_name_l_theme . $template_name;
                 $tf_from_other_theme = MW_TEMPLATES_DIR . $template_name;
                 $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
-                $tf_other_module = $template_name;
+
                 $tf_other_module = MW_MODULES_DIR . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
 
@@ -676,9 +666,10 @@ class Module
         }
 
         $module_name = trim($module_name);
+        // prevent hack of the directory
         $module_name = str_replace('\\', '/', $module_name);
         $module_name = str_replace('..', '', $module_name);
-        // prevent hack of the directory
+
         $module_name = reduce_double_slashes($module_name);
         $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
         $module_in_template_dir = normalize_path($module_in_template_dir, 1);
@@ -705,7 +696,7 @@ class Module
             $element_in_default_file = MW_ELEMENTS_DIR . $module_name . '.php';
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
-            //
+
             $module_in_default_file = normalize_path($module_in_default_file, false);
 
             if (is_file($module_in_default_file)) {
@@ -716,18 +707,11 @@ class Module
                         return $try_file1;
                     }
 
-                } else {
-
-                    //  $try_file1 = $module_in_default_file;
                 }
-
             } else {
                 if (is_dir($module_in_default_dir)) {
-
                     $mod_d1 = normalize_path($module_in_default_dir, 1);
-
                     if ($custom_view == true) {
-
                         $try_file1 = $mod_d1 . trim($custom_view) . '.php';
                         if ($no_fallback_to_view == true) {
                             return $try_file1;
@@ -736,19 +720,14 @@ class Module
                         if ($no_fallback_to_view == true) {
                             return false;
                         }
-
-                        //temp
                         $try_file1 = $mod_d1 . 'index.php';
                     }
                 } elseif (is_file($element_in_default_file)) {
-
                     $is_element = true;
-
                     $try_file1 = $element_in_default_file;
                 }
             }
         }
-
         $try_file1 = normalize_path($try_file1, false);
         return $try_file1;
     }
@@ -758,14 +737,10 @@ class Module
 
         if ($module_name == false) {
             $mod_data = $this->current_module;
-
             if (isset($mod_data["url_to_module"])) {
                 return $mod_data["url_to_module"];
             }
-
-
         }
-
 
         if (!is_string($module_name)) {
             return false;
