@@ -11,7 +11,7 @@ if (!defined('MW_VERSION')) {
 /**
  * This file will bootstrap Microweber by:
  *  - Loading vendor/autoload.php file if exists
- *  - Registering PSR-4 Autoloader
+ *  - Registering PSR Autoloader
  *  - Defining constants if they are not set
  *  - Including common functions files
  *
