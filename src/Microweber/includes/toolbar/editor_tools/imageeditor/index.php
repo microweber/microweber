@@ -64,6 +64,11 @@
       </div>
 
 
+   <div class="mw-ui-field-holder">
+    <label class="mw-ui-label">Links to:</label>
+    <input type="text"  class="mw-ui-field w100" id="link" placeholder="Enter URL" />
+   </div>
+
       <div class="mw-ui-row-nodrop" style="padding-bottom: 20px;">
           <div class="mw-ui-col">
             <div class="mw-ui-col-container">
@@ -78,7 +83,7 @@
             </div>
           </div>
       </div>
-      <span class='mw-ui-btn mw-ui-btn-invert mw-ui-btn-saveIMG pull-right'><?php _e("Update"); ?></span>
+      <span class='mw-ui-btn mw-ui-btn-invert mw-ui-btn-savetheimage pull-right'><?php _e("Update"); ?></span>
       </div>
   </div>
 </div>
@@ -160,7 +165,7 @@ $(mwd).ready(function(){
         mw.$("#image-title").val(title);
         mw.$("#image-alt").val(alt);
 
-        mw.$(".mw-ui-btn-saveIMG").click(function(){
+        mw.$(".mw-ui-btn-savetheimage").click(function(){
           theImage.src = mw.image.current.src;
           theImage.align = mw.image.current_align;
           theImage.title = mw.$("#image-title").val();
