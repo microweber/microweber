@@ -16,26 +16,24 @@ include('empty_field_vals.php');
 ?>
 
 <div class="control-group form-group">
-  <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
+  <label class="mw-ui-label"><?php print $data["custom_field_name"]; ?></label>
   <div class="relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <div class="mw-ui-row-nodrop">
-      <div class="mw-ui-col">
-        <input type="text" <?php if($is_required){ ?> required <?php } ?> class="form-control" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
-                    
+      <div class="mw-ui-col" style="width: auto">
 
-        
+      <span class="mw-ui-btn" id="upload_button_<?php print($rand); ?>">
+        <span class="mw-icon-upload"></span><?php _e("Browse"); ?>
+        </span>
+        <input type="hidden" <?php if($is_required){ ?> required <?php } ?> class="mw-ui-invisible-field" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+
+        <span class="ellipsis" id="val_<?php print $rand; ?>" style="font-size: small; opacity: 0.66; max-width: 200px; margin-left: 12px;"></span>
+
       </div>
-      <div class="mw-ui-col">
-        <button type="button" class="btn">
-        <?php _e("Browse"); ?>
-        </button>
-      </div>
+
     </div>
   </div>
 </div>
-<div class="progress" id="upload_progress_<?php print($rand); ?>" style="display:none;">
-  <div class="bar notransition" style="width: 0%;"></div>
-</div>
+
 <div class="alert alert-error" id="upload_err<?php print($rand); ?>"  style="display:none;"> </div>
 <script>
     mw.require('tools.js');
@@ -79,7 +77,7 @@ var local_id = '<?php print($rand); ?>';
         mw.$("#upload_progress_"+local_id).hide();
         mw.$("#upload_progress_"+local_id+" .bar").width(0);
         mw.$("#upload_err"+local_id).hide();
-
+        mw.$("#val_<?php print $rand; ?>").html(file.src.split('/').pop());
     });
 
 
@@ -88,7 +86,7 @@ var local_id = '<?php print($rand); ?>';
         mw.$("#upload_progress_"+local_id).hide();
         mw.$("#upload_err"+local_id).show().html("<strong>" + file.name + "</strong> - Invalid filetype!");
         mw.$("#upload_progress_"+local_id+" .bar").width(0);
-
+        mw.$("#val_<?php print $rand; ?>").empty();
 
     });
 
@@ -99,10 +97,10 @@ var local_id = '<?php print($rand); ?>';
         mw.$("#upload_err"+local_id).show().html("<strong>Error "+json.error.code+"</strong> - " + json.error.message);
         mw.$("#upload_progress_"+local_id+" .bar").width(0);
 
-
+        mw.$("#val_<?php print $rand; ?>").empty();
     });
 
-    mwd.getElementById('upload_<?php print($rand); ?>').appendChild(<?php print $up; ?>);
+    mwd.getElementById('upload_button_<?php print($rand); ?>').appendChild(<?php print $up; ?>);
 
 <?php if(isset($data) and !empty($data) and isset($data['rel']) and ($data['rel'] == 'module' or $data['rel'] == 'modules') and isset($data['rel_id']) ) : ?>
      <?php print $up; ?>.contentWindow.onload = function(){

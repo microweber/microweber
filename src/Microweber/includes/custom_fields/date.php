@@ -19,9 +19,9 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 ?>
 
 <div class="control-group form-group">
-  <label class="custom-field-title"><?php print $data["custom_field_name"]; ?></label>
+  <label class="mw-ui-label"><?php print $data["custom_field_name"]; ?></label>
   <div class="mw-custom-field-form-controls">
-    <input type="text"    <?php if ($is_required): ?> required="true"  <?php endif; ?>  data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>" id="date_<?php print $rand; ?>" placeholder="<?php print $data["custom_field_value"]; ?>"    <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>>
+    <input type="text"    <?php if ($is_required): ?> required="true"  <?php endif; ?>  data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>" id="date_<?php print $rand; ?>" placeholder="<?php print $data["custom_field_value"]; ?>"    class="mw-ui-field">
   </div>
 </div>
 
@@ -33,6 +33,5 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
  <script>
     $(document).ready(function(){
       mw.$( "#date_<?php print $rand; ?>" ).datepicker();
-
     });
  </script>

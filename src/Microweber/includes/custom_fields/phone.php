@@ -23,7 +23,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 
 //print $data["custom_field_value"]; ?>
 <div class="control-group form-group">
-<label class="custom-field-title">
+<label class="mw-ui-label">
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
     <?php print ucwords(str_replace('_', ' ', $data['name'])); ?>
     <?php elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
@@ -33,7 +33,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
   </label>
 <input type="text"
          <?php if ($is_required): ?> required="true"  <?php endif; ?>
-        <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>
+        class="mw-ui-field"
         data-custom-field-id="<?php print $data["id"]; ?>"
         name="<?php print $data["custom_field_name"]; ?>"
         placeholder="<?php print $data["custom_field_value"]; ?>" />

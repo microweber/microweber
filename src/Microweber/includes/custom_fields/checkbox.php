@@ -23,19 +23,20 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 
 ?>
 <?php if(!empty($data['custom_field_values'])) : ?>
-	<div <?php if (isset($data['input_class'])): ?> clssssass="<?php print $data['input_class'] ?>"  <?php endif; ?>>
-	
-<div class="custom-field-title"><?php print $data["custom_field_name"]; ?></div>
-<div class="control-group form-group custom-fields-type-checkbox">
+<div class="mw-ui-field-holder custom-fields-type-checkbox">
+<div class="mw-ui-label"><?php print $data["custom_field_name"]; ?></div>
+
 	<div class="mw-customfields-checkboxes">
 		<?php $i = 0; foreach($data['custom_field_values'] as $v):  ?>
 		<?php $i++; ?>
-			<label class="checkbox"   >
+			<label class="mw-ui-check"   >
 				<input type="checkbox"   name="<?php print $data["custom_field_name"]; ?>[]" id="field-<?php print $data["id"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $v; ?>" />
-				<span><?php print ($v); ?></span> </label>
+				<span></span>
+				<span><?php print ($v); ?></span>
+            </label>
 		
 		<?php endforeach; ?>
 	</div>
 </div>
-</div>
+
 <?php endif; ?>

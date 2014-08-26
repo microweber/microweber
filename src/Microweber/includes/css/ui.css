@@ -2052,6 +2052,9 @@
   text-decoration: none;
   color: #212121;
 }
+input.mw-ui-btn {
+  -webkit-appearance: none;
+}
 .mw-ui-btn-hover {
   border-color: transparent;
   background-color: transparent;
