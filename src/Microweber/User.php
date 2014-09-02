@@ -747,7 +747,11 @@ class User
 
 
                 if ($force == false) {
-                    $this->app->error('COMLETE ME!!!! ');
+                    $params['id'] = $this->id();
+                    if(intval($params['id']) == 0){
+                        return array('error' => 'You must be logged save your settings');
+                    }
+                  //  $this->app->error('COMLETE ME!!!! ');
                 } else {
                     mw_var('force_save_user', false);
                 }
