@@ -229,6 +229,10 @@ div.edit, div.mw-col{
   zoom:1;
 }
 
+.element:empty{
+  min-height: 20px;
+}
+
 .mw-col + br, .mw-col + p{
   display: none !important;
 }
