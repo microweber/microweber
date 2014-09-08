@@ -49,7 +49,14 @@ mw.client_edit = {
 
      <div class="mw-admin-wrap">
 
-     <div class="section-header"><h2><?php _e("Client Information"); ?></h2></div>
+     <div class="section-header">
+
+     <div class="mw-ui-btn-nav pull-right">
+        <a href="<?php print admin_url(); ?>view:shop/action:clients" class="mw-ui-btn">Go to Clients</a>
+        <a href="<?php print admin_url(); ?>view:shop/action:orders" class="mw-ui-btn">Go to Orders</a>
+     </div>
+
+     <h2><?php _e("Client Information"); ?></h2></div>
 
 
       <div class="mw-ui-box">
@@ -64,7 +71,7 @@ mw.client_edit = {
 		  $user_ord = get_user($client['created_by']);
 		   ?>
           <?php if(isset($user_ord['thumbnail']) and trim($user_ord['thumbnail'])!=''): ?>
-       <img style="vertical-align:middle" src="<?php print $user_ord['thumbnail'] ?>"  height="115" width="115" />
+       <img style="vertical-align:middle" src="<?php print $user_ord['thumbnail'] ?>"  style="max-height: 140px;" />
       <?php endif; ?>
           <?php endif; ?>
 
