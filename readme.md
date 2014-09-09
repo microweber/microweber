@@ -1,6 +1,9 @@
 # Microweber: the Drag-and-Drop CMS
 
-![Live edit](http://new.microweber.com/cdn/docs/banner_modules.png "")
+![Live edit](http://microweber.com/cdn/microweber_screen_1.jpg "")
+
+
+## What is Microweber?
 
 Microweber is a content management system of new generation that allows you to make your website by drag and drop.
 
@@ -11,7 +14,6 @@ You can easily manipulate the content and the layout of your pages without the n
 [Download the latest version from here](https://github.com/microweber/microweber/archive/master.zip "")
 
 
-
 # How to install
 
 
@@ -20,6 +22,7 @@ The following server requirements are needed:
 * Apache web server or IIS
 * PHP 5.3 or above
 * MySQL 5 or above
+* PDO with MySQL support
 * mod_rewrite must be enabled
 * lib-xml must be enabled, with DOM support
 * GD php extension must be loaded
@@ -39,17 +42,24 @@ After installation you can login in the admin panel from **http://you_site_url/a
 
 
 
-
-
-
 For developers:
 ===
 
-Microweber is a new generation drag and drop cms and application framework. 
+ 
 
-It can be used to manage your websites or simply to power your custom applications. 
+**Check out the existing documentation on [our website](http://microweber.com/api-docs "")**
 
-**Check out the existing documentation on [our website](http://microweber.com/api-docs "") or [on github](https://github.com/microweber/microweber/tree/master/wiki "").**
+
+
+Contribute
+===
+We are looking for people who want to help us improve Microweber. 
+
+If you are a developer, submitting fixes is easy:
+
+1. Log in to GitHub
+2. Fork the Microweber repository
+3. Make your changes and submit pull request
 
 
 
