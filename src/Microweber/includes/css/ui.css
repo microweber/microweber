@@ -3,7 +3,7 @@
 *****************************/
 @font-face {
   font-family: 'Microweber';
-  src: url('fonts/font.ttf?mwv=v04') format('truetype');
+  src: url('fonts/font.ttf?mwv=v05') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -203,6 +203,12 @@
 }
 .mw-icon-drop:before {
   content: "\0146";
+}
+.mw-icon-next-thick:before {
+  content: "\0147";
+}
+.mw-icon-prev-thick:before {
+  content: "\0148";
 }
 .mw-icon-alert:before {
   content: "\f101";
