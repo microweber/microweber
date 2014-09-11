@@ -1079,6 +1079,9 @@ mw.drag = {
                      mw.$("#modules-and-layouts").removeClass("hovered");
                   }
                 }
+                if(mw.tools.hasClass(target, 'mw-empty')){
+                  target.className = 'element';
+                }
             }
             if(!mw.isDrag){
               mw.drag.properFocus(event);

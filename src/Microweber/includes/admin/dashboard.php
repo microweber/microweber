@@ -1,3 +1,4 @@
+<?php event_trigger('mw.admin.dashboard.start'); ?>
 <div class="mw-ui-col-container" style="padding-left: 35px;">
   <module type="site_stats/admin" subtype="graph" />
   <module type="site_stats/admin" />
@@ -79,4 +80,3 @@
   </div>
   <?php event_trigger('mw.admin.dashboard.main'); ?>
 </div>
-<?php  show_help('dashboard');  ?>

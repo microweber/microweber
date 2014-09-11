@@ -24,13 +24,24 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
     $data['input_class'] = 'form-control';
 
 }
+if (!isset($data['options']) or !is_array($data['options']) or empty($data['options'])) {
+ 
+	 $data['options'] = array(
+        'country'=>'Country',
+        'city'=>'City',
+        'address'=>'Address',
+        'state'=>'State/Province',
+        'zip'=>'Zip/Postal Code'
+     );
+}
+ 
 ?>
 
 <?php if (is_array($data['custom_field_values'])) : ?>
-    <div class="control-group form-group mw-custom-field-address-control">
+    <div class="mw-ui-field-holder">
 
         <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
-
+        <label class="mw-ui-label"><?php print $data['name'] ?></label>
 
         <?php elseif (isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
 
@@ -39,12 +50,20 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
         <?php else : ?>
         <?php endif; ?>
         <?php if (isset($data['help']) == true and $data['help'] != ''): ?>
-            <small class="mw-custom-field-help"><?php print $data['help'] ?></small>
+            <small class="mw-ui-label"><?php print $data['help'] ?></small>
         <?php endif; ?>
         <?php foreach ($data['custom_field_values'] as $k => $v): ?>
+
+        <?php
+ 
+
+      //  exit;
+
+         ?>
+
             <?php if (is_array($skips)
                 and (!in_array($data['custom_field_name'], $skips)
-                and !in_array($k, $skips))
+                and !in_array($k, $skips)) and in_array($k, $data['options'])
             ) : ?>
 
                 <?php if (is_string($v)) {
@@ -57,9 +76,9 @@ if (!isset($data['input_class']) and isset($params['input-class'])) {
                 }
                 ?>
                 <div class="control-group">
-                <label><?php print ($kv); ?></label>
+                <label class="mw-ui-label"><small><?php print ($kv); ?></small></label>
                 <input
-                    type="text"  <?php if (isset($data['input_class'])): ?> class="<?php print $data['input_class'] ?>"  <?php endif; ?>
+                    type="text"  class="mw-ui-field"
                     name="<?php print $data['custom_field_name'] ?>[<?php print ($k); ?>]" <?php if ($is_required) { ?> required <?php } ?>
                     data-custom-field-id="<?php print $data["id"]; ?>"/>
                     </div>

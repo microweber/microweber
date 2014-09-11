@@ -1636,6 +1636,9 @@ tr .mw-admin-custom-field-name-edit-inline:hover:before{
   top: -5px;
 }
 
+#dropdown-custom-fields.active{
+  display: block;
+}
 
 #dropdown-custom-fields .mw-dropdown-content{
   width: 550px;

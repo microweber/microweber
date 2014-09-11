@@ -1,52 +1,60 @@
-{"name": "microweber/microweber", "type": "application", "description": "New generation of CMS with drag and drop", "repositories": [
-    {
-        "type": "composer",
-        "url": "http://packages.microweber.com/"
-    }
-], "require": {
-    "php": ">=5.3.2",
-	"composer/installers": "1.*",
-    "components/jquery": "1.9.*",
-    "components/jqueryui": "1.10.4",
-    "components/rangy": "1.2.3",
-    "components/bootstrap": "3.*",
-    
-    "zeroclipboard/zeroclipboard": "2.*",
-    "pimple/pimple": "2.*",
+{
+    "name": "microweber/microweber",
+    "type": "application",
+    "description": "New generation of CMS with drag and drop",
 
-    "j4mie/idiorm": "1.*",
-    "j4mie/paris": "1.*",
- 
-    "respect/validation": "0.7.*",
-    "prewk/xml-streamer": "0.4.2",
-    "keboola/csv": "1.1.3",
-	"erusev/parsedown": "1.*",
-    "querypath/QueryPath": "3.*"
+    "require": {
+        "php": ">=5.3.2",
+        "composer/installers": "1.*",
+        "components/jquery": "1.9.*",
+        "components/jqueryui": "1.10.4",
+        "components/rangy": "1.2.3",
+        "components/bootstrap": "3.*",
+
+        "zeroclipboard/zeroclipboard": "2.*",
+        "pimple/pimple": "2.*",
+
+        "j4mie/idiorm": "1.*",
+        "j4mie/paris": "1.*",
+
+        "respect/validation": "0.7.*",
+        "prewk/xml-streamer": "0.4.2",
+        "keboola/csv": "1.1.3",
+        "erusev/parsedown": "1.*",
+        "querypath/QueryPath": "3.*"
 
 
-}, "autoload": {
-    "psr-0": {
-        "Microweber": "src/"
-    }
-}, "minimum-stability": "dev", "config": {
-    "preferred-install": "dist"
-}, "keywords": ["cms", "drag and drop", "shop", "blog"], "homepage": "http://microweber.com", "license": "Apache-2.0", "support": {
-    "email": "support@microweber.com",
-    "irc": "irc://irc.freenode.org/microweber"
-}, "authors": [
-    {
-        "name": "Peter Ivanov",
-        "email": "peter@microweber.com",
-        "role": "Developer"
     },
-    {
-        "name": "Boris Sokolov",
-        "email": "boris@microweber.com",
-        "role": "Designer"
+    "autoload": {
+        "psr-0": {
+            "Microweber": "src/"
+        }
     },
-    {
-        "name": "Alexander Raykov",
-        "email": "alex@microweber.com",
-        "role": "Developer"
-    }
-]}
+    "minimum-stability": "dev",
+    "config": {
+        "preferred-install": "dist"
+    },
+    "keywords": ["cms", "drag and drop", "shop", "blog"],
+    "homepage": "http://microweber.com",
+    "license": "Apache-2.0",
+    "support": {
+        "email": "support@microweber.com",
+        "irc": "irc://irc.freenode.org/microweber"
+    },
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Boris Sokolov",
+            "email": "boris@microweber.com",
+            "role": "Designer"
+        },
+        {
+            "name": "Alexander Raykov",
+            "email": "alex@microweber.com",
+            "role": "Developer"
+        }
+    ]}

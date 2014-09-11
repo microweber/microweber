@@ -19,6 +19,9 @@ shippingToCountryClass = function(){
     else{
         mw.$("#set-shipping-to-country").removeClass('mw-ui-box-notification').addClass('mw-ui-box-warn');
     }
+	
+	mw.reload_module_parent('shop/shipping');
+	
 }
 
 $(document).ready(function(){

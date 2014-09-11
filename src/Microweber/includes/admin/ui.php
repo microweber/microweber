@@ -97,7 +97,8 @@ $(window).load(function(){
   var uicss = mwd.querySelector('link[href*="/ui.css"]').sheet.cssRules, l = uicss.length, i = 0, html='';
   for( ;i<l;i++){
     var sel = uicss[i].selectorText;
-    if(!!sel && sel.contains('.mw-icon-')){
+
+    if(!!sel && sel.indexOf('.mw-icon-') === 0){
         var cls = sel.replace(".", '').split(':')[0];
         html +='<li><span class="'+cls+'"></span><em>.'+cls+'</em></li>';
     }
