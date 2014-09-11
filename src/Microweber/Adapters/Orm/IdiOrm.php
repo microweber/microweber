@@ -558,7 +558,8 @@ class IdiOrm
             }
         }
         if ($count == false and $count_paging == false and $order_by != false) {
-
+            $order_by = urldecode($order_by);
+            $order_by = strip_tags($order_by);
             $orm->order_by_expr($order_by);
         }
 
