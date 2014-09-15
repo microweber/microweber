@@ -408,7 +408,7 @@ class Module
             }
 
             //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
-            $lic = load_module_lic($module_name);
+            $lic = $this->license($module_name);
             //  $lic = 'valid';
             if ($lic != false) {
                 $config['license'] = $lic;
@@ -594,7 +594,7 @@ class Module
                                                 or $itm['visible'] == 'no'
                                                 or $itm['visible'] == 'n'
                                             ) {
-                                               // skip 
+                                                // skip
                                             } else {
                                                 $file_names_found[] = $itm['layout_file'];
 
