@@ -1363,23 +1363,7 @@ class Module
                     } else {
                         $config['icon'] = $this->app->url->link_to_file($def_icon);
                     }
-                    //   $config ['installed'] = $this->install($config ['module']);
-                    // $mmd5 = $this->app->url->slug($config ['module']);
-                    //   $check_if_uninstalled = MW_MODULES_DIR . '_system/' . $mmd5 . '.php';
-                    //                if (is_file($check_if_uninstalled)) {
-                    //                    $config ['uninstalled'] = true;
-                    //                    $config ['installed'] = false;
-                    //                } else {
-                    //                    $config ['uninstalled'] = false;
-                    //                    $config ['installed'] = true;
-                    //                }
-                    //                if (isset($options ['ui']) and $options ['ui'] == true) {
-                    //                    if ($config ['ui'] == false) {
-                    //                       // $skip_module = true;
-                    //                        $config ['ui'] = 0;
-                    //                    }
-                    //                }
-                    //
+
                     $configs[] = $config;
 
                     if (isset($config['name']) and $skip_save !== true and $skip_module == false) {
@@ -1447,7 +1431,11 @@ class Module
                 }
             }
 
+
+
+
             $c2 = array_merge($cfg_ordered, $cfg);
+
 
             $this->app->cache->save($c2, $cache_id, $cache_group);
 

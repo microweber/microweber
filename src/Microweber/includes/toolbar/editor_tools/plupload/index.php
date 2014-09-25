@@ -1,4 +1,3 @@
-
 <?php
     $here = dirname(__FILE__);
  $here =	mw('url')->link_to_file($here).'/';
@@ -32,9 +31,7 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
 <div id="container">
     <div id="pickfiles_<?php print $uid  ?>" href="javascript:;">&nbsp;</div>
 </div>
-<script type="text/javascript">
-    mw.require('files.js');
-</script>
+<script type="text/javascript"> mw.require('files.js'); </script>
 <script type="text/javascript">
   Name = this.name;
   mwd.body.className +=' ' + Name;
@@ -43,7 +40,7 @@ html,body,#container,#pickfiles_<?php print $uid  ?>{
   
 
   urlparams = '';
-  if(!!Params.path){ urlparams += 'path='+ Params.path;}
+  if(!!Params.path){ urlparams += 'path='+ Params.path +'&';}
   urlparams += 'token=<?php print csrf_token($uid); ?>';
 
      $(document).ready(function(){
