@@ -186,6 +186,9 @@ mw.tools = {
             off = el.offset(),
             arrheight = mw.$('.mw-tooltip-arrow', tooltip).height();
 
+        mw.tools.removeClass(tooltip, tooltip.tooltipData.position);
+        mw.tools.addClass(tooltip, position);
+        tooltip.tooltipData.position = position;
         if(off.top < 0 || off.left < 0){
             return false;
         }

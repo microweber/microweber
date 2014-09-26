@@ -40,7 +40,7 @@
             <span class="mw-icon-crop"></span>
           </span>
           <span class="mw-ui-btn mw-ui-btn-icon" onclick="mw.image.rotate(mw.image.current);mw.image.current_need_resize = true;mw.$('#mw_image_reset').removeClass('disabled')">
-            <span class="mw-icon-ios7-refresh-empty"></span>
+            <span class="mw-icon-app-refresh-empty"></span>
           </span>
 
         </div>

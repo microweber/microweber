@@ -397,7 +397,18 @@ if (isset($to_save['is_installed'])) {
                 }
                 file_put_contents($cfg, $save_config);
                 __mw_install_log('Finalizing config file');
+                event_trigger('mw_db_init_modules');
+                //  __mw_install_log('Scanning for modules');
 
+                //  mw('module')->scan_for_modules("skip_cache=1&cleanup_db=1");
+                // __mw_install_log('Installing modules');
+                // mw('module')->update_db();
+
+
+                __mw_install_log('Loading modules');
+                event_trigger('mw_scan_for_modules');
+
+                mw('module')->update_db();
                 if (isset($to_save['with_default_content'])) {
                     if ($to_save['with_default_content'] != '{with_default_content}' and $to_save['with_default_content'] != 'no') {
                         $default_content_folder = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR;
@@ -450,18 +461,7 @@ if (isset($to_save['is_installed'])) {
                 }
 
 
-                event_trigger('mw_db_init_modules');
-                //  __mw_install_log('Scanning for modules');
 
-                //  mw('module')->scan_for_modules("skip_cache=1&cleanup_db=1");
-                // __mw_install_log('Installing modules');
-                // mw('module')->update_db();
-
-
-                __mw_install_log('Loading modules');
-                event_trigger('mw_scan_for_modules');
-
-                mw('module')->update_db();
 
                 clearstatcache();
                 _reload_c();

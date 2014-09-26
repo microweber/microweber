@@ -58,6 +58,11 @@ function db_get_table_name($assoc_name)
 }
 
 
+function delete_by_id($table, $id = 0, $field_name = 'id'){
+    return mw()->db->delete_by_id($table, $id, $field_name);
+}
+
+
 function db_get_real_table_name($assoc_name)
 {
     return mw()->db->real_table_name($assoc_name);
