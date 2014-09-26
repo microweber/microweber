@@ -539,16 +539,13 @@ class mw
 * Microweber autoloader
 * Loads up classes with namespaces
 * Add more directories with set_include_path
-
-
-// SINCE WE MOVED TO PSR4 AUTOLOADER this is kept for compatibility
 */
 $mw_get_prev_dir = dirname(MW_APP_PATH);
 $libs_path = MW_APP_PATH . 'libs' . DS;
 
 set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
     MW_APP_PATH . PATH_SEPARATOR .
-    MW_APP_PATH . 'controllers' . DS .
+
     PATH_SEPARATOR . MW_MODULES_DIR .
     PATH_SEPARATOR . $libs_path .
     PATH_SEPARATOR . $autoload_vendors_shared_dir .

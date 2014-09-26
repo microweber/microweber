@@ -1227,6 +1227,12 @@ class Category
             $data['rel'] = 'content';
             $data['rel_id'] = $data['parent_page'];
         }
+
+        if(!isset( $data['rel'])){
+            $data['rel'] = 'content';
+        }
+
+
         $data = $this->app->db->get($data);
         return $data;
 

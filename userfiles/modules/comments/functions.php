@@ -12,6 +12,7 @@ function db_filter_comments($table)
     if($table == MODULE_DB_COMMENTS){
         mw()->orm->filter('posts_category',function ($orm, $value) {
             if(intval($value) > 0){
+				 
             $categories_items_table = MW_TABLE_PREFIX . 'categories_items';
             $comments_table = MW_TABLE_PREFIX . 'comments';
             $orm->inner_join($categories_items_table, array($comments_table . '.rel_id', '=', $categories_items_table . '.rel_id'));
@@ -340,20 +341,20 @@ function get_comments($params)
     $table = MODULE_DB_COMMENTS;
     $params['table'] = $table;
 
-    if (isset($params['posts_category'])) {
-            //    $params['debug'] = 'content';
+  /*  if (isset($params['posts_category'])) {
+              //  $params['debug'] = 'content';
         //$params['no_cache'] = 'content';
-//        $params['debug'] = 'content';
-//        $params['no_cache'] = 'content';
-//        $params['filter']['posts_category'] = function ($orm, $value) {
-//            $categories_items_table = MW_TABLE_PREFIX . 'categories_items';
-//            $comments_table = MW_TABLE_PREFIX . 'comments';
-//            $orm->inner_join($categories_items_table, array($comments_table . '.rel_id', '=', $categories_items_table . '.rel_id'));
-//            $orm->where($categories_items_table . '.parent_id', $value);
-//            $orm->order_by_desc($comments_table . '.created_on');
-//        };  
+       // $params['debug'] = 'content';
+       // $params['no_cache'] = 'content';
+        $params['filter']['posts_category'] = function ($orm, $value) {
+            $categories_items_table = MW_TABLE_PREFIX . 'categories_items';
+            $comments_table = MW_TABLE_PREFIX . 'comments';
+            $orm->inner_join($categories_items_table, array($comments_table . '.rel_id', '=', $categories_items_table . '.rel_id'));
+            $orm->where($categories_items_table . '.parent_id', $value);
+            $orm->order_by_desc($comments_table . '.created_on');
+        };  
     }
-
+*/
 
     $comments = get($params);
    // print_r(mw()->orm->getLastQuery());

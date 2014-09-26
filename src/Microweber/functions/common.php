@@ -171,11 +171,7 @@ function captcha()
 
 function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = false)
 {
-
-
     return mw()->cache->get($cache_id, $cache_group, $expiration_in_seconds);
-
-
 }
 
 /**

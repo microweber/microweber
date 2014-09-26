@@ -449,7 +449,7 @@ if (isset($upl_size_log) and $upl_size_log > 0) {
 
 print json_encode($rerturn);
 if (isset($_SESSION) and !empty($_SESSION)) {
-//@session_write_close();
+ @session_write_close();
 
 }
 

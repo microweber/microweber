@@ -1,3 +1,4 @@
+ 
 
 <input type="hidden" name="for_id" value="<?php print $for_id?>" />
 <input type="hidden" name="for" value="<?php print $for?>" />
@@ -11,6 +12,7 @@
 		} else {
 			$prined_items_count++;
 			$field['params'] = $params;
+			
 			print  mw()->fields->make($field);  
     	}
      }

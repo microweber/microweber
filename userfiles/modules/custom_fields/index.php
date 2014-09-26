@@ -56,6 +56,7 @@ if(isset($params['default-fields']) and isset($params['parent-module-id'])){
 
 
  $data = mw()->fields->get($for ,$for_id,1); 
+
  $prined_items_count = 0;
  
  $template_file = false;
@@ -69,7 +70,11 @@ if(isset($params['default-fields']) and isset($params['parent-module-id'])){
  if ($template_file == false) {
         $template_file = module_templates($config['module'], 'default');
     }
+	
+
+	
  if ($template_file != false and is_file($template_file) != false) {
+	 
         include($template_file);
  }
  

@@ -943,7 +943,7 @@ class Fields
             $l->assign('data', $data);
 
 
-            //var_dump($data);
+
             $layout = $l->__toString();
 
             return $layout;
