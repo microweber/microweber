@@ -165,7 +165,7 @@ a, a:hover, a:focus, a:active{
   background-color: #555566;
   border-color: transparent;
 }
-.btn-default, .btn[class*='btn-']{
+.btn-default{
   color: white !important;
 }
 [class^='btn-'], .box-container [class^='btn-']{
