@@ -41,11 +41,11 @@ description: Default register template
         </h2>
 	</div>
 	<div id="register_form_holder">
-		<form id="user_registration_form_holder" method="post" class="clearfix">
+		<form id="user_registration_form_holder" method="post" class="reg-form-clearfix">
         
          <?php print csrf_form(); ?>
 
-        
+         
    
         
 			<div class="control-group form-group">
