@@ -286,13 +286,10 @@ class Media
                 //            $rerturn['name'] = $item['name'];
                 //            fclose($target);
             }
-
-            //   var_dump($_FILES);
         }
 
         exit(json_encode($rerturn));
-        //var_dump($data);
-        //var_dump($_FILES);
+
     }
 
     private function base64_to_file($data, $target)

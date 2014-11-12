@@ -76,6 +76,8 @@ mw.options = {
 				    var refresh_modules12 =  el.attr('data-refresh');
 				}
 
+
+
 var also_reload = el.attr('data-reload');
 
 
@@ -177,8 +179,8 @@ var also_reload = el.attr('data-reload');
                     data: o_data,
                     success: function (data) {
 
-						
-						if(reaload_in_parent != undefined && reaload_in_parent !== null){
+
+                        if(reaload_in_parent != undefined && reaload_in_parent !== null){
 						// window.parent.mw.reload_module("#"+refresh_modules11);
 	
 						return false;	
@@ -207,9 +209,9 @@ var also_reload = el.attr('data-reload');
 
 						}
 
-					
 
-						 if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
+
+                        if (reaload_in_parent !== true && for_m_id != undefined && for_m_id != '') {
                             for_m_id = for_m_id.toString()
                             if (window.mw != undefined) {
 								
@@ -228,11 +230,19 @@ var also_reload = el.attr('data-reload');
                             refresh_modules11 = refresh_modules11.toString()
 							
 							//mw.log(refresh_modules11);
-							
+
+
                             if (window.mw != undefined) {
 							
 							 
 								if(reaload_in_parent !== true){
+
+                                    if(refresh_modules11 == refresh_modules12 ){
+                                        mw.reload_module(refresh_modules11);
+                                    }
+
+
+
                                 if (window.mw.reload_module !== undefined) {
 
 									 mw.reload_module_parent(refresh_modules11);
