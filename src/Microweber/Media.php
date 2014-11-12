@@ -51,7 +51,11 @@ class Media
     {
 
         $arr = array();
-        $arr['rel'] = 'content';
+        if($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages'){
+            $for = 'content';
+        }
+
+        $arr['rel'] = $for;
         $arr['limit'] = '1';
         $arr['rel_id'] = $content_id;
         $imgages = $this->get($arr);

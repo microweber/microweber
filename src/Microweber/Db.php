@@ -251,6 +251,7 @@ class Db
             //
             // Some comparison
             // + MyISAM supports full text search
+            //  + MyISAM supports full text search
             // - MyISAM doesn't  not support transactions
             // + Frequent reading, almost no writing
             // + Full text search in MySQL <= 5.5
