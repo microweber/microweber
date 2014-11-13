@@ -616,7 +616,6 @@ class Shop
                 if ($order_email_subject == false or trim($order_email_subject) == '') {
                     $order_email_subject = "Thank you for your order!";
                 }
-
                 if ($to == false) {
 
                     $to = $ord_data['email'];
@@ -625,7 +624,7 @@ class Shop
 
                     if (!empty($ord_data)) {
                         $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . session_id());
-                        
+
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
                         foreach ($ord_data as $key => $value) {
@@ -635,10 +634,6 @@ class Shop
                         }
                     }
 
-
-                    if (!defined('MW_ORDERS_SKIP_SID')) {
-                        //		define('MW_ORDERS_SKIP_SID', 1);
-                    }
 
                     $cc = false;
                     if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
@@ -674,10 +669,7 @@ class Shop
         $item = $this->app->db->get($params);
 
         if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-
             $item = $this->_render_item_custom_fields_data($item);
-
-
         }
 
         return $item;
