@@ -108,7 +108,7 @@ class Module
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $function_cache_id = 'modules' . __FUNCTION__ . crc32($function_cache_id).'tables';
+        $function_cache_id = 'modules' . __FUNCTION__ . crc32($function_cache_id) . 'tables';
 
         $cache_content = $this->app->cache->get($function_cache_id, 'db');
 
@@ -290,7 +290,6 @@ class Module
         } else {
 
 
-
             $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
             // d($module_in_default_dir);
@@ -301,7 +300,6 @@ class Module
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
             //
-
 
 
             $module_in_default_file = normalize_path($module_in_default_file, false);
@@ -1019,7 +1017,7 @@ class Module
                 $loc_of_functions = $this->locate($module_name, 'functions');
                 $cfg = false;
                 if (is_file($loc_of_config)) {
-                    include ($loc_of_config);
+                    include($loc_of_config);
                     if (isset($config)) {
                         $cfg = $config;
                     }
@@ -1032,7 +1030,7 @@ class Module
 
                             if (!function_exists($func)) {
                                 if (is_file($loc_of_functions)) {
-                                    include_once ($loc_of_functions);
+                                    include_once($loc_of_functions);
                                 }
                             }
 
@@ -1084,7 +1082,7 @@ class Module
             foreach ($dir as $value) {
                 $loc_of_config = $value;
                 if ($loc_of_config != false and is_file($loc_of_config)) {
-                    include ($loc_of_config);
+                    include($loc_of_config);
                     if (isset($config)) {
                         $cfg = $config;
                         if (isset($config['tables']) and is_array($config['tables'])) {
@@ -1188,6 +1186,62 @@ class Module
         }
 
         return $this->scan_for_modules($options);
+
+
+    }
+
+
+    public function get_modules_from_current_site_template()
+    {
+
+        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+            $this->app->content->define_constants();
+        }
+
+
+        $dir_name = ACTIVE_TEMPLATE_DIR . 'modules' . DS;
+
+        if (is_dir($dir_name)) {
+            $configs = array();
+
+
+            $glob_patern = '*config.php';
+
+            $dir = rglob($glob_patern, 0, $dir_name);
+            $replace_root = normalize_path($dir_name);
+            $def_icon = MW_MODULES_DIR . 'default.png';
+            if (!empty($dir)) {
+                foreach ($dir as $module) {
+                    $module_dir = dirname($module);
+                    $module_dir = normalize_path($module_dir);
+                    $config = array();
+                    include($module);
+                    $module_name = str_replace($replace_root, '', $module_dir);
+
+                    $module_name = rtrim($module_name, '\\');
+                    $module_name = rtrim($module_name, '/');
+                    $config['module'] = $module_name;
+
+
+                    $config['module'] = rtrim($config['module'], '\\');
+                    $config['module'] = rtrim($config['module'], '/');
+
+                    $try_icon = $module_dir . $module_name . '.png';
+                    if (is_file($try_icon)) {
+                        $config['icon'] = $this->app->url->link_to_file($try_icon);
+                    } else {
+                        $config['icon'] = $this->app->url->link_to_file($def_icon);
+
+                    }
+                    $configs[] = $config;
+
+
+                }
+            }
+
+
+            return $configs;
+        }
 
 
     }
@@ -1318,7 +1372,7 @@ class Module
 
                     $is_mw_ignore = dirname($value) . DS . '.mwignore';
                     if (!is_file($is_mw_ignore)) {
-                        include ($value);
+                        include($value);
                     }
 
                     $content = ob_get_contents();
@@ -1340,7 +1394,7 @@ class Module
                     $value_fn = str_replace(MW_MODULES_DIR, '', $value_fn);
 
 
-                    $config['module'] = $value_fn . '';
+                    $config['module'] = $value_fn;
                     $config['module'] = rtrim($config['module'], '\\');
                     $config['module'] = rtrim($config['module'], '/');
 
@@ -1430,8 +1484,6 @@ class Module
                     }
                 }
             }
-
-
 
 
             $c2 = array_merge($cfg_ordered, $cfg);
@@ -1541,7 +1593,7 @@ class Module
         $loc_of_functions = $this->locate($module_name, 'functions', 1);
         $cfg = false;
         if ($loc_of_config != false and is_file($loc_of_config)) {
-            include ($loc_of_config);
+            include($loc_of_config);
             if (isset($config)) {
                 $cfg = $config;
 
@@ -1586,7 +1638,7 @@ class Module
                     if (isset($config['tables']) and is_array($config['tables'])) {
                         $tabl = $config['tables'];
                         foreach ($tabl as $key1 => $fields_to_add) {
-                            $table = db_get_real_table_name($key1);
+                            $table = $this->app->db->real_table_name($key1);
                             $this->app->db->build_table($table, $fields_to_add);
                         }
                     }
@@ -1598,7 +1650,7 @@ class Module
 
                             if (!function_exists($func)) {
                                 if (is_file($loc_of_functions)) {
-                                    include_once ($loc_of_functions);
+                                    include_once($loc_of_functions);
                                 }
                             }
 
@@ -1661,7 +1713,6 @@ class Module
             $this->save($to_save);
         }
 
-        // d($loc_of_functions);
     }
 
     public function exists($module_name)

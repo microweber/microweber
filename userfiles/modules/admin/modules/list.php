@@ -37,6 +37,12 @@ if (isset($is_elements) and $is_elements == true) {
         }
         $modules = array_merge($sortout_el, $sortout_mod);
     }
+		
+	$modules_from_template = mw('module')->get_modules_from_current_site_template();
+	if (!empty($modules_from_template)) {
+		 $modules = array_merge($modules, $modules_from_template);
+	}
+	
 }
 
 if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($modules) and is_array($modules)){
@@ -158,6 +164,10 @@ if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($
             if (isset($module_item['categories']) and is_array($module_item['categories'])) {
                 $module_item['categories'] = implode(',', $module_item['categories']);
             }
+			
+			if (!isset($module_item['description'])){
+				$module_item['description'] = $module_item['name'];
+			}
 
             ?>
   <?php $module_id = $module_item['name_clean'] . '_' . uniqid(); ?>
