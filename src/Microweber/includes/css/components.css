@@ -102,7 +102,7 @@
 
 .mw-tag-selector > span > i{
   font-size: 16px;
-  color: #8C8C8C;
+  color: #E8E8E8;
   margin-right: 7px;
   float: left;
 }
@@ -138,6 +138,9 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after{
   padding-right: 16px;
   height: 24px;
   line-height:16px;
+  background-color: #3b3b3b;
+  border-color:transparent;
+  color:white;
 }
 
 .tag-label-content{

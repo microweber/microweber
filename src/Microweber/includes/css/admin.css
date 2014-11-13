@@ -1139,6 +1139,12 @@ a:hover .mw_ed_tree_content{
   width: 175px;
 }
 
+#create-content-btn{
+    background-color: #3b3b3b;
+    color: white;
+    border-color:transparent;
+}
+
 .create-content{
   padding: 30px 0;
   text-align: center;
@@ -1341,7 +1347,12 @@ a:hover .mw_ed_tree_content{
   margin-right: 20px;
 }
 #quick-add-post-options .mw-ui-btn.active{
-  background-color: #fff;
+  background-color: #3b3b3b;
+  color: white;
+  border-color: transparent
+}
+#quick-add-post-options .mw-ui-btn.active [class*="mw-icon-"]{
+  color: white;
 }
 
 
@@ -1891,11 +1902,10 @@ body.editorediting #content-title-field-row, body.editorediting #quick-add-post-
   height: 100%;
   width: 15px;
   padding-top: 5px;
-  border-radius: 0 3px 3px 0;
 }
 
 .mw-tag-selector .mw-ui-btn .mw-icon-close:hover{
-  background-color: #555555;
+  background-color: #DC0D17;
   color:white;
 }
 
@@ -2584,7 +2594,9 @@ body.grabbing, body.grabbing *{
 
 .col-bar-live-edit .mw-ui-btn, .go-live-btn-admin {
   width: 50px;
-  background-color: rgba(245, 245, 245, 1);
+  background-color: #3b3b3b;
+  border-color:transparent;
+  color:white;
 }
 
 .col-bar-live-edit .mw-ui-btn .mw-icon-live, .go-live-btn-admin .mw-icon-live{

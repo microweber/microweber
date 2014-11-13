@@ -24,6 +24,7 @@
   -webkit-box-sizing:border-box;
   -moz-box-sizing:border-box;
   box-sizing:border-box;
+  font-family: Verdana, Geneva, sans-serif;
 }
 
 .mw-defaults li{
@@ -212,7 +213,7 @@ img.element{
   vertical-align: top;
 }
 
-div.edit, div.mw-col{
+.mw-live-edit div.edit, .mw-live-edit div.mw-col{
   min-height: 50px;
 }
 
