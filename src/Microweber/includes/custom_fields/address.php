@@ -39,7 +39,7 @@ if (!isset($data['options']) or !is_array($data['options']) or empty($data['opti
 <?php if (is_array($data['custom_field_values'])) : ?>
     <div class="mw-ui-field-holder">
         <?php if (isset($data['name']) == true and $data['name'] != ''): ?>
-            <label class="mw-ui-label"><?php print $data['name'] ?></label>
+            <label class="mw-ui-label mw-address-label"><?php print $data['name'] ?></label>
         <?php elseif (isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
         <?php else : ?>
         <?php endif; ?>
