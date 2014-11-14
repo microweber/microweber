@@ -136,6 +136,9 @@ class Layouts
             }
         }
 
+
+
+
         $glob_patern = "*.php";
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {

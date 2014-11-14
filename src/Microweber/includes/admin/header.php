@@ -150,13 +150,15 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                     <li <?php if ($view == 'shop' and $action==false): ?> class="active"
                     <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent" <?php endif; ?>>
                         <a href="<?php print admin_url(); ?>view:shop" title="">
+
+
                             <span class="mw-icon-shop">
                              <?php
                             	$notif_html = '';
                             	$notif_count = mw('Microweber\Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
                              	if( $notif_count > 0){
                                 $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
-                                   print $notif_html;
+                                if($view != 'shop'){   print $notif_html; } ;
                                 ?>
                                <?php }  ?>
                             </span>
@@ -164,7 +166,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                         </a>
                         <ul>
                             <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:orders"><?php _e("Orders"); ?></a></li>
+                                    href="<?php print admin_url(); ?>view:shop/action:orders"><span class="relative"><?php _e("Orders"); ?><?php if( $view =='shop' ){ print $notif_html; } ?></span></a></li>
                             <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>><a
                                     href="<?php print admin_url(); ?>view:shop/action:clients"><?php _e("Clients"); ?></a></li>
                             <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a

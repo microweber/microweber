@@ -572,6 +572,7 @@ class Module
             if ($template_name == false) {
                 $options = array();
                 $options['for_modules'] = 1;
+                $options['no_cache'] = 1;
                 $options['path'] = $module_name_l;
                 $module_name_l = $this->app->layouts->scan($options);
                 if (is_dir($module_name_l_theme)) {

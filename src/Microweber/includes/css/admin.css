@@ -855,6 +855,12 @@ a:hover .mw_ed_tree_content{
     display: block;
     padding: 5px 0;
 }
+#main-menu li li .relative .mw-notification-count{
+  right: auto;
+  top: 0px;
+  left: -22px;
+}
+
 #main-menu > li > ul > li:first-child > a{
   padding-top: 0px;
 }
