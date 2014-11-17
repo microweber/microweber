@@ -105,6 +105,8 @@ if ($cfg_page_id == false and isset($post_params['data-page-id'])) {
     $cfg_page_id = intval($post_params['data-page-id']);
 } else if ($cfg_page_id == false and isset($post_params['content_id'])) {
     $cfg_page_id = intval($post_params['content_id']);
+}else if ($cfg_page_id == false and isset($post_params['content-id'])) {
+    $cfg_page_id = intval($post_params['content-id']);
 }
 
 
