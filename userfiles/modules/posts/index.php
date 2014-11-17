@@ -62,9 +62,9 @@ if (isset($post_params['data-show'])) {
 }
 if (isset($post_params['show'])) {
     $show_fields = $post_params['show'];
-} else {
-
 }
+
+
 $show_fields1 = get_option('data-show', $params['id']);
 if ($show_fields1 != false and is_string($show_fields1) and trim($show_fields1) != '') {
     $show_fields = $show_fields1;
