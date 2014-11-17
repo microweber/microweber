@@ -49,9 +49,9 @@ description: Masonry
         $count++;
     ?>
   <div class="masonry-item">
-    <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
-    <a class="" href="<?php print $item['link'] ?>"><img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], 390, 320); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" /></a>
-    <?php endif; ?>
+<?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
+<a class="" href="<?php print $item['link'] ?>"><img <?php if($item['image']==false){ ?>class="pixum"<?php } ?> src="<?php print thumbnail($item['image'], 390, 320); ?>" alt="<?php print addslashes($item['title']); ?> - <?php _e("image"); ?>" title="<?php print addslashes($item['title']); ?>" /></a>
+<?php endif; ?>
     <div class="masonry-item-container">
       <div class="module-posts-head">
         <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>

@@ -23,9 +23,14 @@ class Format
                 $key = ucwords($key);
 
                 if (is_array($val)) {
-                    $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
+                    if (!empty($val)) {
+                        $retStr .= '<li>' . $key . ': ' . $this->array_to_ul($val) . '</li>';
+                    }
                 } else {
-                    $retStr .= '<li>' . $key . ': ' . $val . '</li>';
+                    if (is_string($val) != false and trim($val) != '') {
+                        $retStr .= '<li>' . $key . ': ' . $val . '</li>';
+                    }
+
                 }
             }
         }
@@ -84,7 +89,6 @@ class Format
 
     function autolink($text)
     {
-
 
 
         $pattern = '#\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))#';

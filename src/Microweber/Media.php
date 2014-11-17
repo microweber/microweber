@@ -51,7 +51,11 @@ class Media
     {
 
         $arr = array();
-        $arr['rel'] = 'content';
+        if($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages'){
+            $for = 'content';
+        }
+
+        $arr['rel'] = $for;
         $arr['limit'] = '1';
         $arr['rel_id'] = $content_id;
         $imgages = $this->get($arr);
@@ -282,13 +286,10 @@ class Media
                 //            $rerturn['name'] = $item['name'];
                 //            fclose($target);
             }
-
-            //   var_dump($_FILES);
         }
 
         exit(json_encode($rerturn));
-        //var_dump($data);
-        //var_dump($_FILES);
+
     }
 
     private function base64_to_file($data, $target)

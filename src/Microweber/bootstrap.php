@@ -448,7 +448,7 @@ $loader->register();
  */
 function mw($class = null, $constructor_params = false)
 {
-    static $is_init = false;
+
     global $_mw_global_object;
     global $application;
     if (is_object($application)) {
@@ -458,10 +458,7 @@ function mw($class = null, $constructor_params = false)
 
         $_mw_global_object = \Microweber\Application::getInstance($constructor_params);
     }
-    if ($is_init == false) {
-        $is_init = true;
-        event_trigger('mw_init', $_mw_global_object);
-    }
+
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $_mw_global_object;
     } else {
@@ -540,14 +537,12 @@ class mw
 * Loads up classes with namespaces
 * Add more directories with set_include_path
 */
-$mw_get_prev_dir = dirname(MW_APP_PATH);
-$libs_path = MW_APP_PATH . 'libs' . DS;
 
-set_include_path($mw_get_prev_dir . PATH_SEPARATOR .
+set_include_path(dirname(MW_APP_PATH) . PATH_SEPARATOR .
     MW_APP_PATH . PATH_SEPARATOR .
 
     PATH_SEPARATOR . MW_MODULES_DIR .
-    PATH_SEPARATOR . $libs_path .
+    //PATH_SEPARATOR . $libs_path .
     PATH_SEPARATOR . $autoload_vendors_shared_dir .
     PATH_SEPARATOR . get_include_path());
 
@@ -645,11 +640,10 @@ function d($v)
     //return dump($v);
 }
 
-$mwdbg = array();
 function mwdbg($q)
 {
 
-    global $mwdbg;
+    static $mwdbg;
     if (is_bool($q)) {
 
         return $mwdbg;
@@ -676,12 +670,9 @@ function mw_error($e, $f = false, $l = false)
 }
 
 
-if (!isset($site_url)) {
-    $site_url = false;
-}
 function site_url($add_string = false)
 {
-    global $site_url;
+    static $site_url;
 
     if (defined('MW_SITE_URL')) {
         $site_url = MW_SITE_URL;
@@ -781,8 +772,4 @@ function mw_path_to_url($path)
 
 
 require_once(MW_APP_PATH . 'functions' . DS . 'mw_functions.php');
-$custom_functions_file = MW_APP_PATH . 'functions' . DS . 'my_functions.php';
 
-if (file_exists($custom_functions_file)) {
-    require_once($custom_functions_file);
-}

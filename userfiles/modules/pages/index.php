@@ -36,6 +36,8 @@ $params['parent'] = $option;
 $params['parent'] = intval($params['data-parent']);
 } elseif (isset($params['content_id'])) {
 $params['parent'] = intval($params['content_id']);
+} elseif (isset($params['content-id'])) {
+$params['parent'] = intval($params['content-id']);
 }elseif (isset($params['parent'])) {
 $params['parent'] = intval($params['parent']);
 } else {

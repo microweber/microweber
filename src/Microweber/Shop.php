@@ -616,7 +616,6 @@ class Shop
                 if ($order_email_subject == false or trim($order_email_subject) == '') {
                     $order_email_subject = "Thank you for your order!";
                 }
-
                 if ($to == false) {
 
                     $to = $ord_data['email'];
@@ -625,21 +624,16 @@ class Shop
 
                     if (!empty($ord_data)) {
                         $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . session_id());
+
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
-
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
-
-
                         foreach ($ord_data as $key => $value) {
                             if (is_string($value) and is_string($key)) {
                                 $order_email_content = str_ireplace('{' . $key . '}', $value, $order_email_content);
                             }
-
                         }
                     }
-                    if (!defined('MW_ORDERS_SKIP_SID')) {
-                        //		define('MW_ORDERS_SKIP_SID', 1);
-                    }
+
 
                     $cc = false;
                     if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
@@ -675,10 +669,7 @@ class Shop
         $item = $this->app->db->get($params);
 
         if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
-
             $item = $this->_render_item_custom_fields_data($item);
-
-
         }
 
         return $item;
@@ -696,17 +687,17 @@ class Shop
                 foreach ($item['custom_fields_data'] as $cfk => $cfv) {
                     if (is_array($cfv)) {
                         $key_txt = $cfk;
-                        if(intval($cfk) > 0){
+                        if (intval($cfk) > 0) {
                             $key_txt = '';
                         }
                         $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $key_txt . '</span>';
                         $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
                         foreach ($cfv as $cfk1 => $cfv1) {
                             $key_txt = $cfk1;
-                            if(intval($cfk1) > 0 or $cfk1 ===0){
+                            if (intval($cfk1) > 0 or $cfk1 === 0) {
                                 $key_txt = '';
                             }
-                            if($key_txt == ''){
+                            if ($key_txt == '') {
                                 $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
 
                             } else {
@@ -718,7 +709,7 @@ class Shop
                         $tmp_val .= '</li>';
                     } else {
                         $key_txt = $cfk;
-                        if(intval($cfk) > 0){
+                        if (intval($cfk) > 0) {
                             $key_txt = '';
                         }
                         $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $key_txt . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
@@ -757,31 +748,31 @@ class Shop
                 $skip_sid = 1;
             }
         }
-        if($skip_sid == false){
-        if (!defined('MW_ORDERS_SKIP_SID')) {
-            if ($this->app->user->is_admin() == false) {
-                $params['session_id'] = session_id();
-            } else {
-                if (isset($params['session_id']) and $this->app->user->is_admin() == true) {
-
-                } else {
+        if ($skip_sid == false) {
+            if (!defined('MW_ORDERS_SKIP_SID')) {
+                if ($this->app->user->is_admin() == false) {
                     $params['session_id'] = session_id();
+                } else {
+                    if (isset($params['session_id']) and $this->app->user->is_admin() == true) {
+
+                    } else {
+                        $params['session_id'] = session_id();
+                    }
+                }
+                if (isset($params['no_session_id']) and $this->app->user->is_admin() == true) {
+                    unset($params['session_id']);
+                    //	$params['session_id'] = session_id();
+                } else {
+
                 }
             }
-            if (isset($params['no_session_id']) and $this->app->user->is_admin() == true) {
-                unset($params['session_id']);
-                //	$params['session_id'] = session_id();
-            } else {
-
-            }
-        }
         }
         $params['limit'] = 10000;
         if (!isset($params['order_completed'])) {
             if (!isset($params['order_id'])) {
                 $params['order_completed'] = 'n';
             }
-        } elseif (isset($params['order_completed']) and  $params['order_completed'] == 'any') {
+        } elseif (isset($params['order_completed']) and $params['order_completed'] == 'any') {
             unset($params['order_completed']);
         }
         // $params['debug'] = session_id();
@@ -1158,7 +1149,6 @@ class Shop
             }
 
         }
-
 
 
         if (isset($params['keyword'])) {
@@ -1802,7 +1792,7 @@ class Shop
         if (!is_array($data)) {
             $data = array('id' => intval($data));
         }
-        if (isset($data['is_cart']) and  trim($data['is_cart']) != 'false' and isset($data['id'])) {
+        if (isset($data['is_cart']) and trim($data['is_cart']) != 'false' and isset($data['id'])) {
             $c_id = $this->app->db->escape_string($data['id']);
             //  $this->app->db->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];

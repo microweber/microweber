@@ -39,10 +39,10 @@ if(isset($params['for-id'])){
 	$for_id = $params['for-id'];
 }
 
-
+ 
 
  
- ?>
+ ?> 
 <?php  $rand = uniqid(); ?>
 <script  type="text/javascript">
     after_upld = window.after_upld || function (a, e, f, id, module_id){
@@ -58,6 +58,9 @@ if(isset($params['for-id'])){
 				 data.for_id = (id);
 
 				 }
+				 
+				
+				 
     			 mw.module_pictures.after_upload(data);
     	}
     	if(e == 'done' ){

@@ -7,7 +7,7 @@ $mw_replaced_edit_fields_vals = array();
 $mw_replaced_edit_fields_vals_inner = array();
 
 $mw_replaced_modules_values = array();
- $mw_parser_nest_counter_level = 0;
+$mw_parser_nest_counter_level = 0;
 
 class Parser
 {
@@ -21,6 +21,7 @@ class Parser
     private $_replaced_modules = array();
     private $_replaced_codes = array();
     private $_existing_module_ids = array();
+    private $_current_parser_rel = false;
 
     function __construct($app = null)
     {
@@ -351,6 +352,14 @@ class Parser
                                     $seg_clean = str_replace('.', '', $seg_clean);
                                     $seg_clean = str_replace('%20', '-', $seg_clean);
                                     $mod_id = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
+
+                                    if($this->_current_parser_rel == 'global'){
+                                        $mod_id = $module_class .  ($mw_mod_counter1);
+                                    } else {
+                                        $mod_id = $module_class . '-' . $seg_clean . ($mw_mod_counter1);
+                                    }
+
+
                                      if(!in_array($mod_id, $this->_existing_module_ids)){
                                          $this->_existing_module_ids[] = $mod_id;
                                     } else {
@@ -642,6 +651,10 @@ class Parser
                     } else {
                         $get_global = false;
                     }
+
+
+
+
                     $try_inherited = false;
                     if ($rel == 'content') {
                         if (!isset($data_id) or $data_id == false) {
@@ -715,6 +728,10 @@ class Parser
                     $field_content = false;
                     $orig_rel = $rel;
 
+
+
+
+
                     if(!empty($this->filter)){
                         foreach($this->filter as $filter){
                             if(isset($data)){
@@ -776,6 +793,12 @@ class Parser
                     }
 
                  //   $filter
+
+
+
+                    $this->_current_parser_rel = $rel;
+
+
 
                     $no_edit = false;
 

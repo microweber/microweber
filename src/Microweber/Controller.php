@@ -2494,6 +2494,12 @@ class Controller
         $standalone_edit = false;
         if ($tool == 'wysiwyg') {
             $ed_file_from_template = TEMPLATE_DIR . 'editor.php';
+
+
+
+
+
+
             if (is_file($ed_file_from_template)) {
                 $p_index = $ed_file_from_template;
             }

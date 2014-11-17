@@ -2564,12 +2564,16 @@ mw.tools = {
     }
 
   },
-  module_settings:function(a, view){
+  module_settings:function(a, view, liveedit){
+	  
+	if(typeof liveedit === 'undefined'){
+	var liveedit = true;	
+	}  
 
-
+	
 
   if(typeof a === 'string'){
-      var src = mw.settings.site_url + "api/module?id="+a+"&live_edit=true&module_settings=true&type="+a;
+      var src = mw.settings.site_url + "api/module?id="+a+"&live_edit="+liveedit+"&module_settings=true&type="+a;
       return mw.tools.modal.frame({
         url:src,
         width:532,
@@ -2618,7 +2622,7 @@ mw.tools = {
     if(typeof data1.contenteditable != 'undefined'){
   	  delete(data1.contenteditable);
     }
-	data1.live_edit = 'true';
+	data1.live_edit = liveedit;
 	data1.module_settings = 'true';
 	if(view != undefined){
 	    data1.view = view;
@@ -2629,8 +2633,7 @@ mw.tools = {
 	if(data1.from_url == undefined){
 	    //data1.from_url = window.top.location;
 		  data1.from_url = window.parent.location;
-		//alert(data1.from_url);
-	}
+ 	}
     var src = mw.settings.site_url + "api/module?"+json2url(data1);
     var modal = top.mw.tools.modal.frame({
       url:src,
