@@ -1,13 +1,13 @@
 <?php
 
 if (!isset($_SESSION) or empty($_SESSION)) {
-     session_start();
+    session_start();
 }
 
-if(!isset($_SERVER['HTTP_REFERER'])){
+if (!isset($_SERVER['HTTP_REFERER'])) {
     die('{"jsonrpc" : "2.0", "error" : {"code":97, "message": "You are not allowed to upload"}}');
-} elseif(!stristr($_SERVER['HTTP_REFERER'],site_url())){
-   // die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
+} elseif (!stristr($_SERVER['HTTP_REFERER'], site_url())) {
+    // die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
 }
 
 $validate_token = mw()->user->csrf_validate($_GET);
@@ -81,7 +81,7 @@ if (is_admin() != false) {
 
 if ($allowed_to_upload == false) {
 
-    if (isset($_REQUEST["rel"]) and isset($_REQUEST["custom_field_id"])  and trim($_REQUEST["rel"]) != '' and trim($_REQUEST["rel"]) != 'false') {
+    if (isset($_REQUEST["rel"]) and isset($_REQUEST["custom_field_id"]) and trim($_REQUEST["rel"]) != '' and trim($_REQUEST["rel"]) != 'false') {
 
         $cfid = mw('fields')->get_by_id(intval($_REQUEST["custom_field_id"]));
         if ($cfid == false) {
@@ -262,9 +262,20 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
+
+$host = (parse_url(site_url()));
+
+$host_dir = false;
+if (isset($host['host'])) {
+    $host_dir = $host['host'];
+    $host_dir = str_ireplace('www.','',$host_dir);
+    $host_dir = str_ireplace('.','-',$host_dir);
+}
+
+
 // Settings
 $target_path = MW_MEDIA_DIR . DS;
-$target_path = MW_MEDIA_DIR . DS . 'uploaded' . DS;
+$target_path = MW_MEDIA_DIR . DS . $host_dir . DS . 'uploaded' . DS;
 $target_path = normalize_path($target_path, 0);
 
 $path_restirct = MW_USERFILES; // the path the script should access
@@ -449,7 +460,7 @@ if (isset($upl_size_log) and $upl_size_log > 0) {
 
 print json_encode($rerturn);
 if (isset($_SESSION) and !empty($_SESSION)) {
- @session_write_close();
+    @session_write_close();
 
 }
 
