@@ -28,6 +28,9 @@
  * @params int $params['limit'] - Limit the results, default is 30
  * @return array The database results
  */
+
+
+api_expose_admin('get_content');
 function get_content($params = false)
 {
 
@@ -78,6 +81,7 @@ function get_content_admin($params)
  * </code>
  *
  */
+api_expose_admin('get_posts');
 function get_posts($params = false)
 {
     return mw()->content->get_posts($params);
@@ -94,11 +98,12 @@ function get_posts($params = false)
  * @link http://microweber.com/docs/functions/get_pages
  *
  */
+api_expose_admin('get_pages');
 function get_pages($params = false)
 {
     return mw()->content->get_pages($params);
 }
-
+api_expose_admin('get_products');
 function get_products($params = false)
 {
     return mw()->content->get_products($params);
@@ -118,13 +123,14 @@ function get_products($params = false)
  * @param int|bool $params Optional
  * @return array The database results
  */
+api_expose_admin('get_content_by_id');
 function get_content_by_id($params = false)
 {
     return mw()->content->get_by_id($params);
 }
 
 
-api_expose('content_link');
+
 
 /**
  * Returns the link of a given content id
@@ -139,19 +145,20 @@ api_expose('content_link');
  * @param bool|int $id the id of the content
  * @return string The content URL
  */
+api_expose('content_link');
 function content_link($id = false)
 {
 
     return mw()->content->link($id);
 }
-
+api_expose_admin('content_title');
 function content_title($id = false)
 {
 
     return mw()->content->title($id);
 }
 
-api_expose('delete_content');
+
 
 /**
  * Send content to trash or delete it forever
@@ -162,6 +169,7 @@ api_expose('delete_content');
  * @param $data The content to delete
  * @return array|string
  */
+api_expose('delete_content');
 function delete_content($data)
 {
     return mw()->content->delete($data);
@@ -195,28 +203,30 @@ function paging($params)
  * @param bool $without_main_parent If true, it will exclude the $id from the results
  * @return array The parent content items
  */
+api_expose_admin('content_parents');
 function content_parents($id = 0, $without_main_parent = false)
 {
     return mw()->content->get_parents($id, $without_main_parent);
 }
 
+
+api_expose_admin('get_content_children');
 function get_content_children($id = 0, $without_main_parent = false)
 {
-
     return mw()->content->get_children($id, $without_main_parent);
 }
 
-
+api_expose_admin('page_link');
 function page_link($id = false)
 {
     return mw()->content->link($id);
 }
-
+api_expose_admin('post_link');
 function post_link($id = false)
 {
     return mw()->content->link($id);
 }
-
+api_expose_admin('pages_tree');
 function pages_tree($params = false)
 {
 
@@ -241,6 +251,7 @@ function save_edit($post_data)
  * @version 1.0
  * @since Version 0.1
  */
+api_expose_admin('save_content');
 function save_content($data, $delete_the_cache = true)
 {
     return mw()->content->save_content($data, $delete_the_cache);
@@ -253,8 +264,6 @@ function save_content_admin($data, $delete_the_cache = true)
     return mw()->content->save_content_admin($data, $delete_the_cache);
 }
 
-
-//api_expose('save_content_field');
 
 function save_content_field($data, $delete_the_cache = true)
 {
@@ -280,10 +289,12 @@ function content_data($content_id, $field_name = false)
     return mw()->content->data($content_id, $field_name);
 }
 
+
 function next_content($content_id = false)
 {
     return mw()->content->next_content($content_id);
 }
+
 
 function prev_content($content_id = false)
 {

@@ -79,6 +79,11 @@ if(isset($_COOKIE['recommend']) and is_string($_COOKIE['recommend']) and isset($
                 }
                 foreach ($modules_copy as $key => $item) {
                     $re_sorted_modules[] = $item;
+
+                    if(!isset($item['position'])){
+                        $item['position'] = 999;
+                    }
+
                      if($item['position'] > $position){
                         if(is_array($sorted_modules) and !empty($sorted_modules)){
                             foreach ($sorted_modules as $key2 => $sorted_module) {

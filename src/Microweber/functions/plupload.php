@@ -10,14 +10,23 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
     // die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
 }
 
-$validate_token = mw()->user->csrf_validate($_GET);
-if ($validate_token == false) {
-    die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
+
+if (!is_admin()) {
+    $validate_token = mw()->user->csrf_validate($_GET);
+    if ($validate_token == false) {
+        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
+    }
+
+
+    $is_ajax = mw()->url->is_ajax();
+    if ($is_ajax != false) {
+        die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
+    }
+
+
 }
-$is_ajax = mw()->url->is_ajax();
-if ($is_ajax != false) {
-    die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
-}
+
+
 $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
 
 
@@ -268,8 +277,8 @@ $host = (parse_url(site_url()));
 $host_dir = false;
 if (isset($host['host'])) {
     $host_dir = $host['host'];
-    $host_dir = str_ireplace('www.','',$host_dir);
-    $host_dir = str_ireplace('.','-',$host_dir);
+    $host_dir = str_ireplace('www.', '', $host_dir);
+    $host_dir = str_ireplace('.', '-', $host_dir);
 }
 
 
@@ -277,6 +286,7 @@ if (isset($host['host'])) {
 $target_path = MW_MEDIA_DIR . DS;
 $target_path = MW_MEDIA_DIR . DS . $host_dir . DS . 'uploaded' . DS;
 $target_path = normalize_path($target_path, 0);
+
 
 $path_restirct = MW_USERFILES; // the path the script should access
 if (isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '' and trim($_REQUEST["path"]) != 'false') {
