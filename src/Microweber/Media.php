@@ -60,7 +60,12 @@ class Media
         $arr['rel'] = $for;
         $arr['limit'] = '1';
         $arr['rel_id'] = $content_id;
+
+
+
+
         $imgages = $this->get($arr);
+
 
         if ($imgages != false and isset($imgages[0])) {
             if (isset($imgages[0]['filename']) and $full == false) {
@@ -73,27 +78,32 @@ class Media
             }
 
         } else {
-            $cont_id = $this->app->content->get_by_id($content_id);
+            if($for == 'content'){
+                $cont_id = $this->app->content->get_by_id($content_id);
 
-            if (isset($cont_id['content'])) {
-                $img = $this->get_first_image_from_html(html_entity_decode($cont_id['content']));
+                if (isset($cont_id['content'])) {
+                    $img = $this->get_first_image_from_html(html_entity_decode($cont_id['content']));
 
-                if ($img != false) {
-                    $surl = $this->app->url->site();
+                    if ($img != false) {
+                        $surl = $this->app->url->site();
 
-                    $img = $this->app->format->replace_once('{SITE_URL}', $surl, $img);
+                        $img = $this->app->format->replace_once('{SITE_URL}', $surl, $img);
 
-                    $media_url = MW_MEDIA_URL;
-                    if (stristr($img, $surl)) {
-                        return $img;
-                    } else {
-                        return $img;
-                        return false;
+                        $media_url = MW_MEDIA_URL;
+                        if (stristr($img, $surl)) {
+                            return $img;
+                        } else {
+                            return $img;
+                            return false;
+
+                        }
 
                     }
-
                 }
+
             }
+
+
         }
     }
 
@@ -362,9 +372,12 @@ class Media
 
         if ($params != false and !is_array($params) and intval($params) > 0) {
             $params2 = array();
+
             $params2['rel'] = 'content';
             $params2['rel_id'] = intval($params);
             $params = $params2;
+            d($params);
+
         } else {
             $params = parse_params($params);
         }
@@ -376,16 +389,23 @@ class Media
          // $params = $params2;
          // }*/
 
-        if (isset($params['for'])) {
+        if (!isset($params['rel']) and isset($params['for'])) {
             $params['rel'] = $this->app->db->assoc_table_name($params['for']);
         }
 
-        // $params['debug'] = $table;
+
         if (!isset($params['limit'])) {
             $params['limit'] = 1000;
         }
         $params['table'] = $table;
         $params['orderby'] = 'position ASC';
+
+//
+//        $params['debug'] = $table;
+//        $params['no_cache'] = $table;
+//
+ //d($params);
+
         $data = $this->app->db->get($params);
 
         if (defined('MW_MEDIA_URL')) {
