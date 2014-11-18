@@ -53,6 +53,8 @@ class Media
         $arr = array();
         if($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages'){
             $for = 'content';
+        } elseif($for == 'category' or $for == 'categories'){
+            $for = 'categories';
         }
 
         $arr['rel'] = $for;
@@ -469,12 +471,26 @@ class Media
 
         if (isset($data['src'])) {
 
+
+            $host = (parse_url(site_url()));
+
+            $host_dir = false;
+            if (isset($host['host'])) {
+                $host_dir = $host['host'];
+                $host_dir = str_ireplace('www.', '', $host_dir);
+                $host_dir = str_ireplace('.', '-', $host_dir);
+            }
+
+
+
+
+
             $url2dir = $this->app->url->to_path($data['src']);
             $uploaded_files_dir = MW_MEDIA_DIR . DS . 'uploaded';
 
             if (isset($s['rel']) and isset($s['rel_id'])) {
-                $move_uploaded_files_dir = MW_MEDIA_DIR . DS . $s['rel'] . DS;
-                $move_uploaded_files_dir_index = MW_MEDIA_DIR . DS . $s['rel'] . DS . 'index.php';
+                $move_uploaded_files_dir = MW_MEDIA_DIR . DS .$host_dir.DS. $s['rel'] . DS;
+                $move_uploaded_files_dir_index = MW_MEDIA_DIR . DS  .$host_dir.DS. $s['rel'] . DS . 'index.php';
 
                 $uploaded_files_dir = normalize_path($uploaded_files_dir);
                 if (!is_dir($move_uploaded_files_dir)) {

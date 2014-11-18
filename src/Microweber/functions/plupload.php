@@ -26,6 +26,18 @@ if (!is_admin()) {
 
 }
 
+$host = (parse_url(site_url()));
+
+$host_dir = false;
+if (isset($host['host'])) {
+    $host_dir = $host['host'];
+    $host_dir = str_ireplace('www.', '', $host_dir);
+    $host_dir = str_ireplace('.', '-', $host_dir);
+}
+
+
+
+
 
 $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
 
@@ -79,7 +91,7 @@ if (is_admin() != false) {
         if (!empty($user) and isset($user["is_active"]) and $user["is_active"] == 'y') {
 
             $are_allowed = 'img';
-            $_REQUEST["path"] = 'media/user_uploads/user/' . DS . $user["id"] . DS;
+            $_REQUEST["path"] = 'media/'.$host_dir.'user_uploads/user/' . DS . $user["id"] . DS;
             $allowed_to_upload = 1;
         }
 
@@ -227,7 +239,7 @@ if ($allowed_to_upload == false) {
 
                                     } else {
                                         if (!isset($_REQUEST["path"])) {
-                                            $_REQUEST["path"] = 'media/user_uploads' . DS . $_REQUEST["rel"] . DS;
+                                            $_REQUEST["path"] = 'media/'.$host_dir .'/user_uploads' . DS . $_REQUEST["rel"] . DS;
                                         }
                                     }
                                 }
@@ -272,14 +284,6 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 
-$host = (parse_url(site_url()));
-
-$host_dir = false;
-if (isset($host['host'])) {
-    $host_dir = $host['host'];
-    $host_dir = str_ireplace('www.', '', $host_dir);
-    $host_dir = str_ireplace('.', '-', $host_dir);
-}
 
 
 // Settings
