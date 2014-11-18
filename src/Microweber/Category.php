@@ -1203,11 +1203,8 @@ class Category
         $rel_id = 0;
         if (is_string($params)) {
             $params = parse_str($params, $params2);
-            $params = $options = $params2;
+            $params = $params2;
             extract($params);
-        }
-        if (isset($params['rel_id'])) {
-            $rel_id = $params['rel_id'];
         }
 
         $table = $this->tables['categories'];
@@ -1223,13 +1220,37 @@ class Category
             $data['cache_group'] = $cache_group = 'categories/global';
 
         }
+
+
+
+        if(isset( $data['parent']) and !isset( $data['parent_id'])){
+            $data['parent_id'] = $data['parent'];
+        }
+
+
+        if(!isset( $data['rel'])){
+            $data['rel'] = 'content';
+        }
+
+
+        if (isset($params['rel_id'])) {
+            $data['rel_id'] = $params['rel_id'];
+        }
+
+
+
         if (isset($data['parent_page'])) {
             $data['rel'] = 'content';
             $data['rel_id'] = $data['parent_page'];
         }
 
-        if(!isset( $data['rel'])){
-            $data['rel'] = 'content';
+        if(isset($data['parent_id'])){
+            if(isset($data['rel'])){
+                unset($data['rel']);
+            }
+            if(isset($data['rel_id'])){
+                unset($data['rel_id']);
+            }
         }
 
 

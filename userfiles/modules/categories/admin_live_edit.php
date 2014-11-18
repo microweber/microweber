@@ -105,7 +105,13 @@
             <?php _e("Show Categories From"); ?>
         </label>
 <input type="hidden" id="mw_page_id_front" value="<?php print PAGE_ID ?>" />
-        <select name="data-content-id" id="mw_set_categories_tree_root_page" class="mw-ui-field mw_option_field">
+
+
+
+
+
+
+        <select name="data-content-id" id="mw_set_categories_tree_root_page" class="mw-ui-field mw_option_field" data-also-reload="<?php print  $config['the_module'] ?>">
             <option value="0"   <?php if ((0 == intval($posts_parent_page))): ?>   selected="selected"  <?php endif; ?>
                     title="<?php _e("None"); ?>">
                 <?php _e("None"); ?>
@@ -116,13 +122,52 @@
             $pt_opts['list_tag'] = " ";
             $pt_opts['list_item_tag'] = "option";
             $pt_opts['active_ids'] = $posts_parent_page;
-            $pt_opts['include_categories'] = true;
+            //$pt_opts['include_categories'] = true;
             $pt_opts['active_code_tag'] = '   selected="selected"  ';
             pages_tree($pt_opts);
 
 
             ?>
         </select>
+        
+        
+     
+     
+     <?php if($posts_parent_page != false and intval($posts_parent_page) > 0): ?>
+<?php $category_id =  get_option('data-category-id', $params['id']); ?>
+ 
+<div class="mw-ui-field-holder">
+<label class="mw-ui-label"><?php _e("Show only from category"); ?></label>
+
+  <select name="data-category-id" id="selcted_categogy_for_parent_category"  class="mw-ui-field mw_option_field"   data-also-reload="<?php print  $config['the_module'] ?>"    >
+
+    <option  value=''  <?php if((0 == intval($category_id))): ?>   selected="selected"  <?php endif; ?>><?php _e("Select a category"); ?></option>
+
+    <?php
+        $pt_opts = array();
+        $pt_opts['link'] = "{empty}{title}";
+        $pt_opts['list_tag'] = " ";
+        $pt_opts['list_item_tag'] = "option";
+        $pt_opts['active_ids'] = $category_id;
+        $pt_opts['active_code_tag'] = '   selected="selected"  ';
+        $pt_opts['rel'] = 'content';
+        $pt_opts['rel_id'] = $posts_parent_page;
+        category_tree($pt_opts);
+  ?>
+  	    </option>
+
+  </select>
+
+</div>
+<?php endif; ?>
+     
+        
+        
+        
+        
+        
+        
+        
 
     </div>
     <div class="tab">

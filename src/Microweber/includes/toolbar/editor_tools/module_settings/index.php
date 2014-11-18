@@ -294,6 +294,7 @@ if (isset($_GET['type'])) {
             <?php endif; ?>
 
 
+
             $.ajax({
                 type: "POST",
                 url: mw.settings.site_url + "api/save_option",
@@ -346,6 +347,9 @@ if (isset($_GET['type'])) {
 
 
                             if (curm == also_reload) {
+								
+								// window.mw.reload_module(also_reload);
+								 window.location.href = window.location.href;
                                 //$('#mw_reload_this_module_popup_form').submit();
 
                             } else {

@@ -17,6 +17,8 @@ if (!isset($params['ul_class'])) {
 }
 $params['rel'] = 'content';
 $category_tree_parent_page = get_option('data-content-id', $params['id']);
+$category_parent =  get_option('data-category-id', $params['id']); 
+
 
 if ($category_tree_parent_page == false and isset($params['content_id'])) {
     $params['rel_id'] = $params['content_id'] = trim($params['content_id']);
@@ -34,6 +36,19 @@ if ($category_tree_parent_page == false and isset($params['current-page']) and $
 
 }
  
+if(intval($category_parent) > 0){
+	$check_if_cat_is_in_page = get_page_for_category($category_parent);
+	if(isset($check_if_cat_is_in_page['id']) and isset($params['rel_id']) and $params['rel_id'] != 0){
+		if($check_if_cat_is_in_page['id'] == $params['rel_id']){
+			$params['parent'] = $category_parent;
+		}
+	}
+	
+	
+}
+
+
+
 
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {
