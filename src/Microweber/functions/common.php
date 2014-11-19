@@ -1371,6 +1371,8 @@ function in_live_edit()
     if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
         return true;
      }
+
+
     $editmode_sess = mw()->user->session_get('editmode');
 
     if ($editmode_sess == true) {

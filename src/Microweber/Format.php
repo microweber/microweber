@@ -573,6 +573,15 @@ class Format
     {
         $editmode_sess = mw('user')->session_get('editmode');
 
+        if($editmode_sess == false){
+            if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {
+                $editmode_sess = true;
+            }
+
+        }
+
+
+
         if ($editmode_sess == true) {
             return $this->notif($text, $class);
         }

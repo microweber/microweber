@@ -1,0 +1,29 @@
+.mw-social-links,
+.mw-social-links *{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.mw-social-links{
+  height: 40px;
+}
+
+.mw-social-links a{
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius:50px;
+  color: white;
+  background-color: black;
+  margin-right:10px;
+  text-align: center;
+  padding-top: 6px;
+}
+.mw-social-links a:last-child{
+  margin-right:0;
+}
+
+.mw-social-links a span{
+  font-size: 26px;
+}

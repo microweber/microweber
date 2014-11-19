@@ -1056,192 +1056,7 @@ class Backup
 
     }
 
-    function DELcronjob($params = false)
-    {
 
-        $type = 'full';
-
-        if (isset($params['type'])) {
-            $type = trim($params['type']);
-        }
-
-        $cache_id = 'backup_cron' . (USER_IP);
-        $cache_id_loc = 'backup_cron_lock' . (USER_IP);
-        $cache_content = $this->app->cache->get($cache_id, 'backup');
-        $cache_lock = $this->app->cache->get($cache_id_loc, 'backup');
-
-        //  d($folders);
-
-        $fileTime = date("D, d M Y H:i:s T");
-
-
-        $here = $this->get_bakup_location();
-
-        $filename = $here . 'backup_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
-
-        if ($cache_lock == $filename) {
-            $this->app->cache->save('false', $cache_id_loc, 'backup');
-            return false;
-        }
-
-
-        //   $filename2 = $here . 'test_' . date("Y-M-d-H") . '_' . crc32(USER_IP) . '' . '.zip';
-
-        if ($cache_content == false or empty($cache_content)) {
-            $backup_actions = array();
-            $backup_actions[] = 'make_db_backup';
-
-            $userfiles_folder = MW_USERFILES;
-
-
-            $folders = rglob($userfiles_folder . '*', GLOB_NOSORT);
-            if (!empty($folders)) {
-                foreach ($folders as $fold) {
-                    $backup_actions[] = $fold;
-
-                }
-            }
-
-            //$backup_actions[] = 'makesdfsdf_db_backup';
-            $this->app->cache->save($backup_actions, $cache_id, 'backup');
-        } else {
-            $backup_actions = $cache_content;
-
-
-            //  d($backup_actions);
-
-
-            if (is_array($backup_actions)) {
-                $i = 0;
-                // if (!isset($zip)) {
-                // $zip = new  \Microweber\Utils\ZipStream($filename);
-
-                $this->app->cache->save($filename, $cache_id_loc, 'backup');
-//                $zip = new \ZipArchive;
-//
-//                if ($zip->open($filename, ZipArchive::CREATE) === false) {
-//                    return false;
-//                }
-
-                //  d($filename);
-
-//
-//                if (!is_file($filename)) {
-//
-//
-//                } else {
-//                    if ($zip->open($filename, ZipArchive) === false) {
-//                        return false;
-//                    }
-//
-//                }
-
-                //   $zip = new \Microweber\Utils\Zip($filename);
-                //  if (is_file($filename)) {
-                // $stream=$zip->getZipData();
-                // $stream=$zip->openStream($filename);
-                //  $zip->setZipFile($stream);
-                //  } else {
-                // $zip->setZipFile($filename);
-                //  }
-
-
-                //  }
-
-
-                foreach ($backup_actions as $key => $item) {
-
-                    if ($i > 10 or $cache_lock == $item) {
-
-                    } else {
-
-
-                        if ($item == 'make_db_backup') {
-//                            $db_file = $this->create();
-//                            if (isset($db_file['filename'])) {
-//                                $filename2 = $here . $db_file['filename'];
-//                                if (is_file($filename2)) {
-//                                    $back_log_action = "Adding sql restore to zip";
-//                                    $this->log_action($back_log_action);
-//                                    $zip->addLargeFile($filename2, 'mw_sql_restore.sql', filectime($filename2), 'SQL Restore file');
-//                                    //  $zip->addFile(file_get_contents($filename2), 'mw_sql_restore.sql', filectime($filename2));
-//
-//                                }
-//                            }
-                        } else {
-                            $relative_loc = str_replace(MW_USERFILES, '', $item);
-                            //   d($relative_loc);
-                            if (is_dir($item)) {
-                                //  $zip->addEmptyDir($relative_loc);
-                                // $zip->addDir($item, $relative_loc);
-                                $relative_loc = normalize_path($relative_loc, false);
-
-
-                                zip_folder($item, $filename, $relative_loc);
-
-
-                                //$zip->addEmptyDir($relative_loc);
-                                // $zip->addDirectoryContent($item, $relative_loc, false);
-
-//                                foreach (glob($item . '/*') as $file) {
-//                                    if ($file != "." and $file != "..") {
-//                                        $newFile = str_replace(MW_USERFILES, '', $file);
-//                                        $newFile = normalize_path($newFile, false);
-//                                        $file = normalize_path($file, false);
-//
-//                                        $newFile = str_replace('\\', '/', $newFile);
-//
-//
-//                                        print 'DIRRRRRRRRRRR: ' . var_dump($file, $newFile);
-//                                        $zip->addFile($file, $newFile);
-//                                    }
-//
-//
-//                                }
-
-
-                                // $zip->addDirectoryContent($item, $relative_loc, false);
-                            } elseif (is_file($item)) {
-                                $relative_loc_dn = dirname($relative_loc);
-                                // $zip->addEmptyDir($relative_loc_dn);
-                                // print 'FILEEEEE: '. var_dump($relative_loc);
-                                // $zip->addFile($item, $relative_loc);
-                                zip_folder($item, $filename, $relative_loc);
-
-                                //$zip->addLargeFile($item, $relative_loc, filectime($item));
-                            }
-                            //$zip->addDirectoryContent(MW_USERFILES, '', true);
-                            //  $back_log_action = "Adding userfiles to zip";
-
-
-                        }
-                        d($item);
-                        unset($backup_actions[$key]);
-                        if (isset($backup_actions)) {
-                            $this->app->cache->save($backup_actions, $cache_id, 'backup');
-                        }
-                        //d($item);
-
-                        // break;
-                    }
-                    $i++;
-                }
-
-
-            }
-        }
-        if (isset($zip) and is_object($zip)) {
-            // $zip->close();
-            // $zip->finalize();
-            // $zip->setZipFile($filename2);
-        }
-
-        $this->app->cache->save('false', $cache_id_loc, 'backup');
-        //d($params);
-
-
-        //print 'cronjobcronjobcronjobcronjobcronjobcronjobcronjobcronjob';
-    }
 
     function get_bakup_location()
     {
@@ -1349,7 +1164,19 @@ class Backup
 //        }
 
 
-        $userfiles_folder_uploaded = $media_folder . DS . 'uploaded' . DS;
+        $host = (parse_url(site_url()));
+
+        $host_dir = false;
+        if (isset($host['host'])) {
+            $host_dir = $host['host'];
+            $host_dir = str_ireplace('www.', '', $host_dir);
+            $host_dir = str_ireplace('.', '-', $host_dir);
+        }
+
+
+
+
+        $userfiles_folder_uploaded = $media_folder .DS.$host_dir . DS . 'uploaded' . DS;
         $userfiles_folder_uploaded = \normalize_path($userfiles_folder_uploaded);
         $folders = \rglob($userfiles_folder_uploaded . '*', GLOB_NOSORT);
 
@@ -1400,147 +1227,9 @@ class Backup
         exit();
 
 
-        $this->log_action(false);
-        //  $url = site_url();
-        //header("Location: " . $url);
-        // redirect the url to the 'busy importing' page
-        ob_end_clean();
-        //Erase the output buffer
-        header("Connection: close");
-        //Tell the browser that the connection's closed
-        ignore_user_abort(true);
-        //Ignore the user's abort (which we caused with the redirect).
-        set_time_limit(0);
-        //Extend time limit
-        ob_start();
-        //Start output buffering again
-        header("Content-Length: 0");
-        //Tell the browser we're serious... there's really nothing else to receive from this page.
-        //@ob_end_flush();
-        //Send the output buffer and turn output buffering off.
-        flush();
-        //Yes... flush again.
-        session_write_close();
 
-        $scheduler = new \Microweber\Utils\Events();
-
-        // schedule a global scope function:
-        $scheduler->registerShutdownEvent("\Microweber\Utils\Backup::bgworker");
-
-        exit();
     }
 
-    function _OLD____create_full()
-    {
-
-        if (!defined("INI_SYSTEM_CHECK_DISABLED")) {
-            define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
-        }
-
-
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-            ini_set('memory_limit', '512M');
-            //ini_set("set_time_limit", 600);
-
-        }
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-            set_time_limit(600);
-        }
-
-        $cron = new \Microweber\Utils\Cron();
-
-        $backup_actions = array();
-        $backup_actions[] = 'make_db_backup';
-
-        $userfiles_folder = MW_USERFILES;
-
-
-//        $it = new RecursiveDirectoryIterator($userfiles_folder);
-//
-//        foreach(new RecursiveIteratorIterator($it) as $file) {
-//            $backup_actions[] = $file;
-//           // echo $file . "\n";
-//
-//        }
-
-
-        $folders = \rglob($userfiles_folder . '*', GLOB_NOSORT);
-        if (!empty($folders)) {
-            $text_files = array();
-
-
-            foreach ($folders as $fold) {
-                if (!stristr($fold, 'backup')) {
-                    if (stristr($fold, '.php') or stristr($fold, '.js')  or stristr($fold, '.css')) {
-                        $text_files[] = $fold;
-                    } else {
-                        $backup_actions[] = $fold;
-
-
-                    }
-                }
-
-            }
-
-            if (!empty($text_files)) {
-                $backup_actions = array_merge($text_files, $backup_actions);
-            }
-
-            //    rsort($backup_actions);
-
-        }
-        $cache_id = 'backup_queue';
-        $cache_id_loc = 'backup_progress';
-
-        $cache_state_id = 'backup_zip_state';
-        //$backup_actions[] = 'makesdfsdf_db_backup';
-        $this->app->cache->save($backup_actions, $cache_id, 'backup');
-        $this->app->cache->save(false, $cache_id_loc, 'backup');
-        $this->app->cache->save(false, $cache_state_id, 'backup');
-        //$cron->Register('make_full_backup', 0, '\Microweber\Utils\Backup::cronjob_exec');
-        //$cron->job('make_full_backup', 0, array('\Microweber\Utils\Backup','cronjob_exec'));
-
-        // $cron->job('run_something_once', 0, array('\Microweber\Utils\Backup','cronjob'));
-        if (!defined('MW_NO_SESSION')) {
-            define('MW_NO_SESSION', 1);
-        }
-
-        $cron->job('make_full_backup', '25 sec', array('\Microweber\Utils\Backup', 'cronjob'), array('type' => 'full'));
-        //  $cron->job('another_job', 10, 'some_function' ,array('param'=>'val') );
-        exit();
-
-
-        $this->log_action(false);
-        //  $url = site_url();
-        //header("Location: " . $url);
-        // redirect the url to the 'busy importing' page
-        ob_end_clean();
-        //Erase the output buffer
-        header("Connection: close");
-        //Tell the browser that the connection's closed
-        ignore_user_abort(true);
-        //Ignore the user's abort (which we caused with the redirect).
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-            set_time_limit(0);
-        }
-        //Extend time limit
-        ob_start();
-        //Start output buffering again
-        header("Content-Length: 0");
-        //Tell the browser we're serious... there's really nothing else to receive from this page.
-        //@ob_end_flush();
-        //Send the output buffer and turn output buffering off.
-        flush();
-        //Yes... flush again.
-        session_write_close();
-
-        $scheduler = new \Microweber\Utils\Events();
-
-        // schedule a global scope function:
-        $scheduler->registerShutdownEvent("\Microweber\Utils\Backup::bgworker");
-
-        exit();
-    }
 
     function log_action($back_log_action)
     {
