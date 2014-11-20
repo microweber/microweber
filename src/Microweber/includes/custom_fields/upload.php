@@ -24,7 +24,11 @@ include('empty_field_vals.php');
       <span class="mw-ui-btn" id="upload_button_<?php print($rand); ?>">
         <span class="mw-icon-upload"></span><?php _e("Browse"); ?>
         </span>
-        <input type="hidden" <?php if($is_required){ ?> required <?php } ?> class="mw-ui-invisible-field" id="file_name<?php print $data["custom_field_name"]; ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+        <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+        
+         <input type="hidden" <?php if($is_required){ ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php print($rand); ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+        
+        
 
         <span class="ellipsis" id="val_<?php print $rand; ?>" style="font-size: small; opacity: 0.66; max-width: 200px; margin-left: 12px;"></span>
 
@@ -68,11 +72,13 @@ var local_id = '<?php print($rand); ?>';
 
     $(<?php print $up; ?>).bind('progress', function(frame, file){
         mw.$("#upload_progress_"+local_id+" .bar").width(file.percent + '%')
-        mw.$("#upload_progress_"+local_id).show();   mw.log(file)
+        mw.$("#upload_progress_"+local_id).show();  
+		
+	    mw.log(file)
     });
 
     $(<?php print $up; ?>).bind('FileUploaded', function(frame, file){
-
+		mw.$("#uploaded_file_src<?php print($rand); ?>").val(file.src);
         mw.$("#upload_<?php print($rand); ?> input[type='text']").val(file.src);
         mw.$("#upload_progress_"+local_id).hide();
         mw.$("#upload_progress_"+local_id+" .bar").width(0);

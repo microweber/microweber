@@ -637,18 +637,29 @@ class User
 
     function csrf_validate(&$data)
     {
+
+
+
         if (is_array($data) and isset($_SESSION)) {
             foreach ($data as $k => $v) {
+
+
                 foreach ($_SESSION as $sk => $sv) {
                     if (is_string($sk) and strstr($sk, 'csrf_token_')) {
                         $sk = substr($sk, 11, 1000);
+
                         if ($k == $sv and $sk == $v) {
+                            unset($data[$k]);
+                            return true;
+                        } elseif ($k == $sk and $sv == $v) {
                             unset($data[$k]);
                             return true;
                         }
                     }
                     if($k == 'token'){
-                        if ($sv == $v) {
+
+
+                        if ($sv === $v) {
                             unset($data[$k]);
                             return true;
                         }
@@ -1839,7 +1850,9 @@ class User
 
         $token = $this->csrf_token($unique_form_name);
 
-        $input = '<input type="hidden" name="' . $token . '" value="' . md5($unique_form_name) . '">';
+         $input = '<input type="hidden" name="' . $token . '" value="' . md5($unique_form_name) . '">';
+        // $input = '<input type="text" name="' . $token . '" value="' . md5($unique_form_name) . '">';
+      //  $input = '<input type="hidden" name="' . $token . '" value="' . md5($unique_form_name) . '">';
 
         return $input;
     }

@@ -3,10 +3,11 @@
 if (!isset($_SESSION) or empty($_SESSION)) {
     session_start();
 }
-
+$validate_token = false;
 if (!isset($_SERVER['HTTP_REFERER'])) {
     die('{"jsonrpc" : "2.0", "error" : {"code":97, "message": "You are not allowed to upload"}}');
 } elseif (!stristr($_SERVER['HTTP_REFERER'], site_url())) {
+
     // die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
 }
 
@@ -108,7 +109,28 @@ if ($allowed_to_upload == false) {
         if ($cfid == false) {
             die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
 
+        } else {
+
+            $rel_error = false;
+            if(!isset($_REQUEST["rel_id"])){
+                $rel_error = true;
+            }
+            if(!isset($cfid["rel_id"])){
+                $rel_error = true;
+            }
+
+            if(($_REQUEST["rel_id"]) != $cfid["rel_id"]){
+                $rel_error = true;
+            }
+
+            if($rel_error){
+                die('{"jsonrpc" : "2.0", "error" : {"code": 91, "message": "You are not allowed to upload"}}');
+            }
         }
+
+
+
+
 
         if ($cfid != false and isset($cfid['custom_field_type'])) {
             if ($cfid['custom_field_type'] != 'upload') {
@@ -227,7 +249,9 @@ if ($allowed_to_upload == false) {
 
                             } else {
                                 if (!isset($_REQUEST['captcha'])) {
-                                    die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
+                                    if(!$validate_token){
+                                        die('{"jsonrpc" : "2.0", "error" : {"code":107, "message": "Please enter the captcha answer!"}}');
+                                    }
                                 } else {
                                     $cap = mw('user')->session_get('captcha');
                                     if ($cap == false) {

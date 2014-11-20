@@ -29,8 +29,7 @@
         </div>
         <form class="mw_form" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post" >
         
-         <?php print csrf_form($params['id']); ?>
-       
+        
         
         
             <module type="custom_fields" data-id="<?php print $params['id'] ?>" data-for="module"  default-fields="name,email,message"   />
