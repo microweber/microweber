@@ -1,7 +1,7 @@
 <?php event_trigger('mw.admin.dashboard.start'); ?>
 <div class="mw-ui-col-container" style="padding-left: 35px;">
-  <module type="site_stats/admin" subtype="graph" />
-  <module type="site_stats/admin" />
+ <?php event_trigger('mw.admin.dashboard.content'); ?>
+ 
   <div class="quick-lists pull-left">
     <h2>
       <?php _e("Quick Links"); ?>
