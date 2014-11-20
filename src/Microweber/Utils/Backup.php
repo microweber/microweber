@@ -1177,6 +1177,7 @@ class Backup
 
 
         $userfiles_folder_uploaded = $media_folder .DS.$host_dir . DS . 'uploaded' . DS;
+        $userfiles_folder_uploaded = $media_folder .DS.$host_dir . DS ;
         $userfiles_folder_uploaded = \normalize_path($userfiles_folder_uploaded);
         $folders = \rglob($userfiles_folder_uploaded . '*', GLOB_NOSORT);
 

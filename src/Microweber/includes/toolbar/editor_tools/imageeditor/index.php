@@ -64,7 +64,7 @@
       </div>
 
 
-   <div class="mw-ui-field-holder">
+   <div class="mw-ui-field-holder" style="padding-bottom: 20px;">
     <label class="mw-ui-label">Links to:</label>
     <input type="text"  class="mw-ui-field w100" id="link" placeholder="Enter URL" />
    </div>
@@ -147,6 +147,11 @@ $(mwd).ready(function(){
         theImage = parent.mw.image.currentResizing[0];
    }
 
+   if(mw.tools.hasParentsWithTag(theImage, 'a')){
+
+
+        $("#link").val($(mw.tools.firstParentWithTag(theImage, 'a')).attr("href"));
+    }
 
 
 
@@ -178,6 +183,17 @@ $(mwd).ready(function(){
                    parent.mwd.getElementById('mw-image-settings-modal').modal.remove();
               });
           }
+          var link_url = $("#link").val();
+          if(link_url != '' ){
+              if(mw.tools.hasParentsWithTag(theImage, 'a')){
+                  $(mw.tools.firstParentWithTag(theImage, 'a')).attr("href", link_url);
+              }
+              else{
+                  $(theImage).wrap('<a href="'+link_url+'"></a>');
+              }
+          }
+
+         parent.document.getElementById('mw-image-settings-modal').modal.remove();
 
         });
 

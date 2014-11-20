@@ -503,18 +503,16 @@ mw.tools = {
             $(modal_return.overlay).remove();
         }
         mw.$('.mw-modal-close', modal_object[0]).bind('click', function(){
-               modal_return.remove()
-        })
+               modal_return.remove();
+        });
         modal_return.center = function(a){
           mw.tools.modal.center(modal_object, a);
           return modal_return;
         }
-
         modal_return.resize = function(w,h){
           mw.tools.modal.setDimmensions(modal_object[0], w, h);
           return modal_return;
         }
-
         return modal_return;
     },
     get:function(selector){
