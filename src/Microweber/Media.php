@@ -376,18 +376,12 @@ class Media
             $params2['rel'] = 'content';
             $params2['rel_id'] = intval($params);
             $params = $params2;
-            d($params);
 
         } else {
             $params = parse_params($params);
         }
 
 
-        /*
-         // if (is_string($params)) {
-         // $params = parse_str($params, $params2);
-         // $params = $params2;
-         // }*/
 
         if (!isset($params['rel']) and isset($params['for'])) {
             $params['rel'] = $this->app->db->assoc_table_name($params['for']);
@@ -400,11 +394,7 @@ class Media
         $params['table'] = $table;
         $params['orderby'] = 'position ASC';
 
-//
-//        $params['debug'] = $table;
-//        $params['no_cache'] = $table;
-//
- //d($params);
+
 
         $data = $this->app->db->get($params);
 

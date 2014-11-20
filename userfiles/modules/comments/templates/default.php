@@ -124,6 +124,7 @@ description: Default comments template
       <?php _e("No comments"); ?>
     </h4>
     <?php endif; ?>
+    
     <?php if( $are_disabled == false) :  ?>
     <hr>
     <?php if(!$login_required or $cur_user != false): ?>

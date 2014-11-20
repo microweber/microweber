@@ -264,7 +264,7 @@ $(document).ready(function(){
                 name="disable_new_comments"
                 value="y"
                 class="mw_option_field"
-                option-group="comments"
+                 
                 <?php if ($are_disabled): ?>   checked="checked"  <?php endif; ?>
              />
             <span></span> <span>

@@ -41,7 +41,7 @@
                             <input name="captcha" type="text" required class="mw-captcha-input"/>
                         </div>
                         <div class="mw-ui-col">
-                          <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $form_id; ?>" src="<?php print api_link('captcha') ?>" />
+                          <img onclick="mw.tools.refresh_image(this);" class="mw-captcha-img" id="captcha-<?php print $form_id; ?>" src="<?php print api_link('captcha') ?>?id=<?php print $params['id'] ?>" />
                         </div>
                         <div class="mw-ui-col">
                            <span class="ico irefresh" onclick="mw.tools.refresh_image(mwd.getElementById('captcha-<?php print $form_id; ?>'));"></span>
