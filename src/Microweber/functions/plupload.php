@@ -10,14 +10,35 @@ if (!isset($_SERVER['HTTP_REFERER'])) {
     // die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You cannot upload from remote domains"}}');
 }
 
-$validate_token = mw()->user->csrf_validate($_GET);
-if ($validate_token == false) {
-    die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
+
+if (!is_admin()) {
+    $validate_token = mw()->user->csrf_validate($_GET);
+    if ($validate_token == false) {
+        die('{"jsonrpc" : "2.0", "error" : {"code":98, "message": "You are not allowed to upload"}}');
+    }
+
+
+    $is_ajax = mw()->url->is_ajax();
+    if ($is_ajax != false) {
+        die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
+    }
+
+
 }
-$is_ajax = mw()->url->is_ajax();
-if ($is_ajax != false) {
-    die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
+
+$host = (parse_url(site_url()));
+
+$host_dir = false;
+if (isset($host['host'])) {
+    $host_dir = $host['host'];
+    $host_dir = str_ireplace('www.', '', $host_dir);
+    $host_dir = str_ireplace('.', '-', $host_dir);
 }
+
+
+
+
+
 $fileName_ext = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
 
 
@@ -70,7 +91,7 @@ if (is_admin() != false) {
         if (!empty($user) and isset($user["is_active"]) and $user["is_active"] == 'y') {
 
             $are_allowed = 'img';
-            $_REQUEST["path"] = 'media/user_uploads/user/' . DS . $user["id"] . DS;
+            $_REQUEST["path"] = 'media/'.$host_dir.'user_uploads/user/' . DS . $user["id"] . DS;
             $allowed_to_upload = 1;
         }
 
@@ -218,7 +239,7 @@ if ($allowed_to_upload == false) {
 
                                     } else {
                                         if (!isset($_REQUEST["path"])) {
-                                            $_REQUEST["path"] = 'media/user_uploads' . DS . $_REQUEST["rel"] . DS;
+                                            $_REQUEST["path"] = 'media/'.$host_dir .'/user_uploads' . DS . $_REQUEST["rel"] . DS;
                                         }
                                     }
                                 }
@@ -263,20 +284,13 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 
-$host = (parse_url(site_url()));
-
-$host_dir = false;
-if (isset($host['host'])) {
-    $host_dir = $host['host'];
-    $host_dir = str_ireplace('www.','',$host_dir);
-    $host_dir = str_ireplace('.','-',$host_dir);
-}
 
 
 // Settings
 $target_path = MW_MEDIA_DIR . DS;
 $target_path = MW_MEDIA_DIR . DS . $host_dir . DS . 'uploaded' . DS;
 $target_path = normalize_path($target_path, 0);
+
 
 $path_restirct = MW_USERFILES; // the path the script should access
 if (isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '' and trim($_REQUEST["path"]) != 'false') {

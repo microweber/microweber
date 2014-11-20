@@ -34,7 +34,7 @@
 
      .the-image{
        margin-right: 12px;
-       max-width: 100%;
+       max-width: 170px;
        max-height: 110px;
        background-color: #eee;
      }
@@ -96,8 +96,10 @@
       <br>
       <div style="padding-top: 15px; clear: both" ></div>
             <span class="mw-ui-btn" id="upload-image"><span class="mw-icon-upload"></span>Upload Image</span>
-                        <label class="mw-ui-label" style="padding-top: 20px;">Image size</label>
+                        <label class="mw-ui-label" style="padding-top: 20px;"><span>Image size</span> - <b id="imagesizeval"></b></label>
                         <div id="sizeslider" class="mw-slider"></div>
+                        <br>
+                        <label class="mw-ui-check"><input type="checkbox" checked="" id="order_status1" value="pending"><span></span><span>Auto</span></label>
 
         </div>
 
@@ -348,11 +350,47 @@
                 $( "#sizeslider" ).slider({
                   change: function( event, ui ) {
                     $('#size').val(ui.value).trigger('change');
+                    $("#order_status1").attr("checked", false);
+                  },
+                  slide:function(event, ui){
+                     $("#imagesizeval").html(ui.value + "px");
                   },
                   min: 30,
-                  max:220,
-                  value:<?php print $size; ?>
+                  max: 320,
+                  value:<?php if( $size != 'auto' ) { print $size; } else { print 60; } ?>
                 });
+
+                if("<?php print $size; ?>" == 'auto'){
+                    $("#imagesizeval").html('auto');
+                    $("#order_status1").attr("checked", true);
+                }
+                else{
+                   $("#imagesizeval").html("<?php print $size; ?>px");
+                   $("#order_status1").attr("checked", false);
+                }
+
+
+
+                 $("#order_status1").bind('change', function(){
+                    if(this.checked === true){
+                       setAuto()
+                    }
+                    else{
+                       var val1 = $('#sizeslider').slider("option", "value");
+                       $('#size').val(val1).trigger('change');
+                       $("#imagesizeval").html(val1 + 'px');
+                    }
+                });
+
+                setAuto = function(){
+                    $('#size').val('auto').trigger('change');
+                    $("#imagesizeval").html('auto');
+                };
+
+
+
+
+
                 $( "#fontsizeslider" ).slider({
                   change: function( event, ui ) {
                     $('#font_size').val(ui.value).trigger('change');
@@ -390,6 +428,7 @@ $(document).ready(function(){
     $(UP).bind('FileUploaded', function(a,b){
         mw.$("#logoimage").val(b.src).trigger('change');
         mw.$(".the-image").show().attr('src', b.src);
+        setAuto();
     });
 
     mw.$("#google-fonts option").each(function(){
@@ -402,7 +441,9 @@ $(document).ready(function(){
 
     mw.$("#google-fonts").bind("change", function(){
         mw.$("#text").css('fontFamily', $(this.options[this.selectedIndex]).text())
-    })
+    });
+
+
 });
 
 </script>

@@ -45,6 +45,10 @@ class IdiOrm
         if (isset($con['host'])) {
             $host = $con['host'];
         }
+
+        $host_port = explode(':',$host);
+
+
         if (isset($con['user'])) {
             $username = $con['user'];
         }
@@ -54,7 +58,15 @@ class IdiOrm
         if (isset($con['dbname'])) {
             $dbname = $con['dbname'];
         }
-        ORM::configure('mysql:host=' . $host . ';dbname=' . $dbname);
+
+        if(isset($host_port[1])){
+            $port = intval($host_port[1]);
+            ORM::configure('mysql:host=' . $host . ';port=' . $port. ';dbname=' . $dbname);
+        } else {
+            ORM::configure('mysql:host=' . $host . ';dbname=' . $dbname);
+
+        }
+
         ORM::configure('username', $username);
         ORM::configure('password', $password);
         ORM::configure('caching', true);

@@ -324,6 +324,12 @@ class Controller
         $api_exposed .= 'save_edit ';
         $api_exposed .= 'set_language ';
         $api_exposed .= (api_expose(true));
+
+        if(is_admin()){
+            $api_exposed .= (api_expose_admin(true));
+        }
+
+
         $api_exposed = explode(' ', $api_exposed);
         $api_exposed = array_unique($api_exposed);
         $api_exposed = array_trim($api_exposed);
@@ -749,6 +755,12 @@ class Controller
             $from_url = $_SERVER["HTTP_REFERER"];
         }
 
+        if(stristr($from_url,'editor_tools/wysiwyg')){
+
+            if (!defined('IN_EDITOR_TOOLS')) {
+                define('IN_EDITOR_TOOLS', true);
+            }
+        }
 
         if (isset($from_url) and $from_url != false) {
             $url = $from_url;
@@ -2417,6 +2429,9 @@ class Controller
             define('IN_EDITOR_TOOLS', true);
 
         }
+
+
+
         if (MW_IS_INSTALLED == true) {
             //event_trigger('mw_db_init');
             //  event_trigger('mw_cron');

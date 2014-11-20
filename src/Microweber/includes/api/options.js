@@ -78,7 +78,12 @@ mw.options = {
 
 
 
-var also_reload = el.attr('data-reload');
+				var also_reload = el.attr('data-reload');
+				
+				
+				if(also_reload == undefined){
+					var also_reload = el.attr('data-also-reload');
+				}
 
 
                 var modal = el.getModal().container;
@@ -190,7 +195,7 @@ var also_reload = el.attr('data-reload');
 						if(also_reload != undefined){
 
 							
-							 
+							
 						 
 
 							if (window.mw != undefined && reaload_in_parent !== true) {
@@ -263,7 +268,6 @@ var also_reload = el.attr('data-reload');
 };
 
 mw.options.form = function($selector, callback, beforepost){
-
 
 
         var callback = callback || '';
