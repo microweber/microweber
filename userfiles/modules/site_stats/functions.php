@@ -4,7 +4,7 @@ if (!defined("MODULE_DB_USERS_ONLINE")) {
     define('MODULE_DB_USERS_ONLINE', MW_TABLE_PREFIX . 'stats_users_online');
 }
 
-//event_bind('mw.admin.dashboard.main', 'mw_print_stats_on_dashboard');
+event_bind('mw.admin.dashboard.content', 'mw_print_stats_on_dashboard');
 
 
 event_bind('mw_admin_quick_stats_by_session', 'mw_print_quick_stats_by_session');
@@ -21,7 +21,9 @@ function mw_print_stats_on_dashboard()
     if ($active == 'shop') {
         //   $cls = ' class="active" ';
     }
-    print '<microweber module="site_stats" view="admin" />';
+	print '  <module type="site_stats/admin" subtype="graph" />
+  <module type="site_stats/admin" />';
+    //print '<microweber module="site_stats" view="admin" />';
 }
 
 function mw_install_stats_module($config = false)
