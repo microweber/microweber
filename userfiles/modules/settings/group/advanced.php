@@ -24,9 +24,11 @@ $(document).ready(function(){
     <div class="mw-ui-btn-vertical-nav">
         <a class="mw-ui-btn" href="javascript:mw.clear_cache()"><?php _e("Clear cache"); ?></a>
         <a class="mw-ui-btn" href="javascript:api('mw_post_update'); void(0);"><?php _e("Reload Database"); ?></a>
-        <a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#mw-advanced-settings-module-load-holder')"><?php _e("Show system log"); ?></a>
+                <a class="mw-ui-btn" href="javascript:$('.mw_adm_dev_tools_change_holder').toggle(); void(0);"> Developer tools </a>
+
         <a class="mw-ui-btn" href="javascript:$('.mw_adm_cont_head_change_holder').toggle(); void(0);"><?php _e("Custom head tags"); ?></a>
-        <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a>
+        <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a> 
+        
        <!-- <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"><?php _e("Internal settings"); ?> </a>
         <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-module-load-holder')"><?php _e("Packages"); ?></a>-->
     </div>
@@ -36,7 +38,7 @@ $(document).ready(function(){
 
 
 
-<div id="mw-advanced-settings-module-load-holder" class="mw-ui-box mw-ui-box-content"></div>
+ 
 <div class="mw_adm_cont_head_change_holder mw-ui-box mw-ui-box-content" style="display:none">
   <div class="mw-ui-field-holder">
     <label class="mw-ui-label">
@@ -56,5 +58,18 @@ $(document).ready(function(){
       <?php _e("file"); ?>
     </label>
     <textarea name="robots_txt" class="mw_option_field mw-ui-field w100" type="text" option-group="website"><?php print get_option('robots_txt','website'); ?></textarea>
+  </div>
+</div>
+<div class="mw_adm_dev_tools_change_holder mw-ui-box mw-ui-box-content" style="display:none">
+  <div class="mw-ui-field-holder">
+     <a class="mw-ui-btn" href="javascript:mw.load_module('admin/backup/template_exporter','#mw-advanced-settings-dev-tools-output')">Template exporter</a>
+     <a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#mw-advanced-settings-dev-tools-output')"><?php _e("Show system log"); ?></a>
+
+          
+     
+  <div class="mw-clear" style="padding-bottom:10px;"></div>
+     
+  <div id="mw-advanced-settings-dev-tools-output"></div>
+  
   </div>
 </div>
