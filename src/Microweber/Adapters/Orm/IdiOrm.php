@@ -61,6 +61,7 @@ class IdiOrm
 
         if(isset($host_port[1])){
             $port = intval($host_port[1]);
+            $host = trim($host_port[0]);
             ORM::configure('mysql:host=' . $host . ';port=' . $port. ';dbname=' . $dbname);
         } else {
             ORM::configure('mysql:host=' . $host . ';dbname=' . $dbname);

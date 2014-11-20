@@ -34,6 +34,8 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
 
     $are_disabled = get_option('disable_new_comments', $params['id']) == 'y';
+	 
+	
     $display_comments_from_which_post = get_option('display_comments_from_which_post', $params['id']);
     if ($display_comments_from_which_post == 'current_post' and isset($data['rel_id'])) {
 
@@ -69,6 +71,9 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
 
     $display_comments_from = get_option('display_comments_from', $params['id']);
+	
+	 
+	
     $enable_comments_paging = get_option('enable_comments_paging', $params['id']) == 'y';
     $global_per_page = get_option('paging', 'comments');
     $global_set_paging = get_option('set_paging', 'comments') == 'y';

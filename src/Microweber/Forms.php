@@ -173,12 +173,12 @@ class Forms
 
         $adm = $this->app->user->is_admin();
         if (defined("MW_API_CALL")) {
-            $validate_token = $this->app->user->csrf_validate($params);
-            if (!$adm) {
-                if ($validate_token == false) {
-                    return array('error' => 'Invalid token!');
-                }
-            }
+//            $validate_token = $this->app->user->csrf_validate($params);
+//            if (!$adm) {
+//                if ($validate_token == false) {
+//                    return array('error' => 'Invalid token!');
+//                }
+//            }
         }
 
         $table = MW_DB_TABLE_FORMS_DATA;
@@ -308,6 +308,7 @@ class Forms
                 $new_field['rel'] = 'forms_data';
                 $new_field['allow_html'] = 1;
                 $new_field['custom_field_value'] = $value['custom_field_value'];
+                $new_field['custom_field_type'] = $value['custom_field_type'];
                 $new_field['custom_field_name'] = $key;
                 $cf_save = $this->app->db->save($table_custom_field, $new_field);
             }
@@ -529,7 +530,7 @@ class Forms
                     }
                 }
             }
-
+            $surl = $this->app->url->site();
             $csv_output = '';
             if (isset($custom_fields) and is_array($custom_fields)) {
                 $csv_output = 'id,';
@@ -561,6 +562,8 @@ class Forms
                             } elseif (isset($item1['custom_field_value']) and $item1['custom_field_value'] != '') {
                                 $output_val = $item1['custom_field_value'];
                             }
+
+                            $output_val = str_replace('{SITE_URL}', $surl, $output_val);
 
                             $csv_output .= $output_val . ",";
                             $csv_output .= "\t";

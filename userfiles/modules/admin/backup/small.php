@@ -8,18 +8,19 @@
 	top:-9999px;
 }
 .back-up-nav-btns .mw-ui-btn {
-    margin-right: 12px;
+	margin-right: 12px;
 }
 </style>
 
-  <h2><?php _e("Backup"); ?></h2>
-  <div class="back-up-nav-btns">
-
-    <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span><span><?php _e("Create Database Backup"); ?></span></a>
-
-    <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-blue"><span class="ico iplus"></span><span><?php _e("Create Full Backup"); ?></span></a>
-
-    <script type="text/javascript">
+<h2>
+  <?php _e("Backup"); ?>
+</h2>
+<div class="back-up-nav-btns"> <a href="javascript:mw.admin_backup.create('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-green"><span class="ico iplus"></span><span>
+  <?php _e("Create Database Backup"); ?>
+  </span></a> <a href="javascript:mw.admin_backup.create_full('.mw_edit_page_right')" class="mw-ui-btn mw-ui-btn-blue"><span class="ico iplus"></span><span>
+  <?php _e("Create Full Backup"); ?>
+  </span></a> 
+  <script type="text/javascript">
 		var uploader = mw.files.uploader({
 			filetypes:"zip,sql",
 			multiple:false
@@ -70,11 +71,14 @@
 
 
 		</script> 
-    <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span><span><?php _e("Upload backup"); ?><span id="upload_backup_info"></span></span></span> </div>
-  <div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;"><?php _e("Uploading files"); ?></div>
-  <div class="vSpace">&nbsp;</div>
-  <module id="mw_backup_log" type="admin/backup/log"/>
- 
+  <span id="mw_uploader" class="mw-ui-btn"><span class="ico iupload"></span><span>
+  <?php _e("Upload backup"); ?>
+  <span id="upload_backup_info"></span></span></span> </div>
+<div id="mw_uploader_loading" class="mw-ui-btn" style="display:none;">
+  <?php _e("Uploading files"); ?>
+</div>
+<div class="vSpace">&nbsp;</div>
+<module id="mw_backup_log" type="admin/backup/log"/>
 <?php if(isset($_GET['backup_action'])): ?>
 <module type="admin/backup/<?php print $_GET['backup_action'] ?>" />
 <?php else :?>
