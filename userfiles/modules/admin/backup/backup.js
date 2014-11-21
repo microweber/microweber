@@ -14,6 +14,19 @@ mw.admin_backup = {
 	 	});
 
 	},
+	
+	create_template_export : function(){
+	
+	 mw.notification.success("Export started...");
+	 $.post(mw.settings.api_url+'Utils/Backup/create_template_export', false ,
+	 	function(msg) {
+			mw.reload_module_interval("#mw_backup_log", 5000);
+
+	 		mw.reload_module('admin/backup/manage');
+	 		mw.notification.msg(msg);
+	 	});
+
+	},
 
 	download : function(filename){
 	 //  data = mw.$(selector+' input').serialize();

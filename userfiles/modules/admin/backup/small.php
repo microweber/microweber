@@ -84,4 +84,4 @@
 <?php else :?>
 <module type="admin/backup/manage" />
 <?php endif ;?>
-</div>
+ 
