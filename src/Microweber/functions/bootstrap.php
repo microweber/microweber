@@ -9,25 +9,33 @@ if (!defined('MW_VERSION')) {
     define('MW_VERSION', 0.96);
 }
 
-function mw($class = null)
-{
-    if ($class == null or $class == false or strtolower($class) == 'application') {
-        return app();
-    } else {
-        return app()->make($class);
-    }
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
 }
 
-if (!function_exists('d')) {
-    function d($dump)
-    {
-        var_dump($dump);
-    }
+if (!defined('MW_PATH')) {
+    define('MW_PATH', realpath(__DIR__.'/../').DS);
 }
 
-//function mw_set_application($app)
-//{
-//    global $____mw_global_object;
-//    $____mw_global_object = $app;
-//    return $____mw_global_object;
-//}
+if (!defined('MW_ROOTPATH')) {
+    define('MW_ROOTPATH', dirname(dirname(dirname(MW_PATH))) . DS);
+}
+
+if (!defined('MW_USERFILES_FOLDER_NAME')) {
+    define('MW_USERFILES_FOLDER_NAME', 'userfiles'); //relative to public dir
+}
+if (!defined('MW_MODULES_FOLDER_NAME')) {
+    define('MW_MODULES_FOLDER_NAME', 'modules'); //relative to userfiles dir
+}
+
+if (!defined('MW_TEMPLATES_FOLDER_NAME')) {
+    define('MW_TEMPLATES_FOLDER_NAME', 'templates'); //relative to userfiles dir
+}
+if (!defined('MW_SYSTEM_MODULE_FOLDER')) {
+    define('MW_SYSTEM_MODULE_FOLDER', 'microweber'); //relative to modules dir
+}
+
+include_once(__DIR__.DS.'paths.php');
+include_once(__DIR__.DS.'lang.php');
+include_once(__DIR__.DS.'common.php');
+include_once(__DIR__.DS.'modules.php');

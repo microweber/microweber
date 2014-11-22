@@ -37,7 +37,6 @@ class LaravelServiceProvider extends ServiceProvider
             base_path() . '/userfiles/modules',
         ));
         ClassLoader::register();
-       // mw_set_application($app);
 
     }
 
@@ -53,6 +52,11 @@ class LaravelServiceProvider extends ServiceProvider
         $this->app->bind('config', function ($app) {
             return new Providers\SaveConfig($app->getConfigLoader(), $app->environment());
         });
+
+        $this->app->bind('template', function ($app) {
+            return new Providers\Template($app);
+        });
+
     }
 
 //    protected function registerCache()
