@@ -22,7 +22,7 @@ use Illuminate\Config\FileLoader;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Foundation\AliasLoader;
 
-include_once(__DIR__.DIRECTORY_SEPARATOR.'functions'.DIRECTORY_SEPARATOR.'bootstrap.php');
+include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
 
 class LaravelServiceProvider extends ServiceProvider
 {
@@ -55,6 +55,9 @@ class LaravelServiceProvider extends ServiceProvider
 
         $this->app->bind('template', function ($app) {
             return new Providers\Template($app);
+        });
+        $this->app->bind('module', function ($app) {
+            return new Providers\Module($app);
         });
 
     }

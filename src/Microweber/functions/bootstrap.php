@@ -14,7 +14,7 @@ if (!defined('DS')) {
 }
 
 if (!defined('MW_PATH')) {
-    define('MW_PATH', realpath(__DIR__.'/../').DS);
+    define('MW_PATH', realpath(__DIR__ . '/../') . DS);
 }
 
 if (!defined('MW_ROOTPATH')) {
@@ -35,7 +35,7 @@ if (!defined('MW_SYSTEM_MODULE_FOLDER')) {
     define('MW_SYSTEM_MODULE_FOLDER', 'microweber'); //relative to modules dir
 }
 
-include_once(__DIR__.DS.'paths.php');
-include_once(__DIR__.DS.'lang.php');
-include_once(__DIR__.DS.'common.php');
-include_once(__DIR__.DS.'modules.php');
+include_once(__DIR__ . DS . 'paths.php');
+include_once(__DIR__ . DS . 'lang.php');
+include_once(__DIR__ . DS . 'common.php');
+include_once(__DIR__ . DS . 'modules.php');
