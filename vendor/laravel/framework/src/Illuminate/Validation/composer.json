@@ -1,0 +1,32 @@
+{
+    "name": "illuminate/validation",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/container": "4.2.*",
+        "illuminate/support": "4.2.*",
+        "symfony/http-foundation": "2.5.*",
+        "symfony/translation": "2.5.*"
+    },
+    "require-dev": {
+        "illuminate/database": "4.2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Illuminate\\Validation": ""
+        }
+    },
+    "target-dir": "Illuminate/Validation",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.2-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

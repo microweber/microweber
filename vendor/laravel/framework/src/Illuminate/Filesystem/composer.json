@@ -1,0 +1,27 @@
+{
+    "name": "illuminate/filesystem",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*",
+        "symfony/finder": "2.5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Illuminate\\Filesystem": ""
+        }
+    },
+    "target-dir": "Illuminate/Filesystem",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.2-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

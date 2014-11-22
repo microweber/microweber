@@ -1,0 +1,26 @@
+{
+    "name": "illuminate/console",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/console": "2.5.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Illuminate\\Console": ""
+        }
+    },
+    "target-dir": "Illuminate/Console",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.2-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}
