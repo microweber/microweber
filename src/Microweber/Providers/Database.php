@@ -18,10 +18,11 @@ namespace Microweber\Providers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
+use Microweber\Utils\Database as DbUtils;
 
 use Illuminate\Support\Facades\User as DefaultUserProvider;
 
-class Database
+class Database extends DbUtils
 {
 
 

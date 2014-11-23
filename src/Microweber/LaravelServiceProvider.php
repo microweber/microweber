@@ -36,7 +36,7 @@ class LaravelServiceProvider extends ServiceProvider
 
         ClassLoader::addDirectories(array(
             base_path() . '/userfiles/modules',
-            __DIR__ . '/Models',
+            __DIR__ ,
         ));
         ClassLoader::register();
 

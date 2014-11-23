@@ -158,13 +158,18 @@ class DefaultController extends Controller
 
     public function admin()
     {
-       $modules=  Module::all()->take(10);
+//       $modules=  Module::all()->take(10);
+//
+//        foreach($modules as $module){
+//            d($module['name']);
+//        }
+      //  $modules=  Module::cacheTags('my-tag')->remember(5)->get();
 
-        foreach($modules as $module){
-            d($module['name']);
-        }
-        $modules=  Module::cacheTags('my-tag')->remember(5)->get();
-dd($modules);
+
+
+        $modules = Module::has('notifications')->get();
+
+        dd($modules);
         var_dump(__FILE__.__LINE__);
     }
 

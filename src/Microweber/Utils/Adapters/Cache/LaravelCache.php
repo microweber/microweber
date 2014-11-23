@@ -17,7 +17,7 @@ class LaravelCache
         $this->app = $app;
 
         $driver = $this->app['config']['cache.driver'];
-        if ($driver == 'file' or $driver == 'database') {
+        if ($driver == 'database') {
             $this->support_tags = false;
         } else {
             $this->support_tags = true;

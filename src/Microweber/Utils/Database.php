@@ -28,9 +28,11 @@ class Database
         }
     }
 
-    public function add_table_index(){
+    public function add_table_index()
+    {
         //@todo
     }
+
     private function _exec_table_builder($table_name, $fields_to_add)
     {
 
@@ -40,14 +42,14 @@ class Database
                 $table->increments('id');
             });
         }
-
-        foreach ($fields_to_add as $name => $type) {
-            if (!Schema::hasColumn($table_name, $name)) {
-                Schema::table($table_name, function ($table) use ($name, $type) {
-                    $table->$type($name);
-                });
+        if (is_array($fields_to_add)) {
+            foreach ($fields_to_add as $name => $type) {
+                if (!Schema::hasColumn($table_name, $name)) {
+                    Schema::table($table_name, function ($table) use ($name, $type) {
+                        $table->$type($name);
+                    });
+                }
             }
         }
-
     }
 }

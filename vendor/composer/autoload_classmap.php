@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Artdevue\\Fcache\\Fcache' => $vendorDir . '/artdevue/fcache/src/Artdevue/Fcache/Fcache.php',
+    'Artdevue\\Fcache\\FcacheServiceProvider' => $vendorDir . '/artdevue/fcache/src/Artdevue/Fcache/FcacheServiceProvider.php',
     'BaseController' => $baseDir . '/app/controllers/BaseController.php',
     'Boris\\Boris' => $vendorDir . '/d11wtq/boris/lib/Boris/Boris.php',
     'Boris\\CLIOptionsHandler' => $vendorDir . '/d11wtq/boris/lib/Boris/CLIOptionsHandler.php',
@@ -424,7 +426,6 @@ return array(
     'Microweber\\Application' => $baseDir . '/src/Microweber/Application.php',
     'Microweber\\Controllers\\DefaultController' => $baseDir . '/src/Microweber/Controllers/DefaultController.php',
     'Microweber\\LaravelServiceProvider' => $baseDir . '/src/Microweber/LaravelServiceProvider.php',
-    'Microweber\\Models\\Module' => $baseDir . '/src/Microweber/Models/Module.php',
     'Microweber\\Providers\\CacheManager' => $baseDir . '/src/Microweber/Providers/CacheManager.php',
     'Microweber\\Providers\\Database' => $baseDir . '/src/Microweber/Providers/Database.php',
     'Microweber\\Providers\\FileLoader' => $baseDir . '/src/Microweber/Providers/FileLoader.php',
