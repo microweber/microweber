@@ -1,7 +1,7 @@
 <?php
 namespace Microweber\Utils\Adapters\Cache;
 
-use Illuminate\Cache\Section;
+use Illuminate\Cache\tags;
 use Illuminate\Support\Facades\Cache;
 
 class LaravelCache
@@ -9,6 +9,21 @@ class LaravelCache
 
 
     public $ttl = 30;
+    public $support_tags = false;
+    public $app;
+
+    function __construct($app)
+    {
+        $this->app = $app;
+
+        $driver = $this->app['config']['cache.driver'];
+        if ($driver == 'file' or $driver == 'database') {
+            $this->support_tags = false;
+        } else {
+            $this->support_tags = true;
+        }
+
+    }
 
     /**
      * Stores your data in the cache.
@@ -37,7 +52,13 @@ class LaravelCache
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
 
-        Cache::section($cache_group)->put($cache_id, $data_to_cache, $this->ttl);
+        if (!$this->support_tags) {
+            return;
+            return Cache::put($cache_group.$cache_id, $data_to_cache, $this->ttl);
+        }
+
+
+        Cache::tags($cache_group)->put($cache_id, $data_to_cache, $this->ttl);
 
 
     }
@@ -64,8 +85,11 @@ class LaravelCache
      */
     public function get($cache_id, $cache_group = 'global', $timeout = false)
     {
-
-        return Cache::section($cache_group)->get($cache_id);
+        if (!$this->support_tags) {
+            return;
+            return Cache::get($cache_group.$cache_id);
+        }
+        return Cache::tags($cache_group)->get($cache_id);
 
 
     }
@@ -96,7 +120,39 @@ class LaravelCache
      */
     public function delete($cache_group = 'global')
     {
-        return Cache::section($cache_group)->flush();
+        if (!$this->support_tags) {
+            return;
+            return $this->delete_from_memory($cache_group);
+        }
+
+        return Cache::tags($cache_group)->flush();
+    }
+
+    public function delete_from_memory($cache_group)
+    {
+
+      //  dd($cache_group);
+
+
+      // return Cache::flush();
+//       $obj = Cache::getFacadeApplication();
+//        $driver = $driver = Cache::driver();
+//        $class_methods = get_class_methods($driver);
+//
+//        foreach ($class_methods as $method_name) {
+//            echo "$method_name\n";
+//        }
+//
+//        dd($driver);
+//        dd($cache_group);
+//        foreach (Cache::getMemory() as $cacheKey => $cacheValue) {
+//            d($cacheKey);
+//            $items[$cacheKey] = $cacheValue;
+//            //Cache::forget($cacheKey);
+//        }
+
+
+
     }
 
     /**

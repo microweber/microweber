@@ -140,10 +140,7 @@ class Modules extends Eloquent
             return false;
         }
         if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
-            d(__FILE__);
-            d(__LINE__);
 
-            exit(d($data_to_save));
         }
 
         $table = $this->tables['modules'];

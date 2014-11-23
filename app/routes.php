@@ -15,6 +15,16 @@ Route::any('/{slug}', '\Microweber\Controllers\DefaultController@index');
 Route::any('/api', '\Microweber\Controllers\DefaultController@api');
 Route::any('/api/{slug}', '\Microweber\Controllers\DefaultController@api');
 Route::any('/module/{slug}', '\Microweber\Controllers\DefaultController@module');
+//Route::any('/admin', '\Microweber\Controllers\DefaultController@admin');
+//
+//Route::any('admin/{all}', function(){
+//    return '\Microweber\Controllers\DefaultController@admin';
+//})->where('all', '/.*');
+Route::any('admin', '\Microweber\Controllers\DefaultController@admin');
+Route::any('admin/{slashData?}', '\Microweber\Controllers\DefaultController@admin')
+    ->where('slashData', '(.*)');
+
+
 
 //Route::get('/', function()
 //{

@@ -16,6 +16,7 @@ class DefaultController extends Controller
 {
 
 
+
     public function index()
     {
 
@@ -27,7 +28,9 @@ class DefaultController extends Controller
         }
 
 
-////        var_dump($connection);
+
+
+      var_dump(__FILE__.__LINE__);
 
 
 //        $connection = mw()->config->get('database.connections');
@@ -129,10 +132,10 @@ class DefaultController extends Controller
 
             $installer = new Installer();
             $installer->run();
+            $is_installed = Config::set('microweber.is_installed',1);
+            Config::save();
+            print 'done';
 
-
-            //dd($mysql);
-           // dd($input);
         }
 
 //
@@ -151,6 +154,12 @@ class DefaultController extends Controller
 
         return $layout;
     }
+
+    public function admin()
+    {
+        var_dump(__FILE__.__LINE__);
+    }
+
 
     public function error($m)
     {
