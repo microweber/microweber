@@ -130,9 +130,9 @@ class DefaultController extends Controller
             $installer = new Installer();
             $installer->run();
 
-            // dd($errors);
-            dd($mysql);
-            dd($input);
+
+            //dd($mysql);
+           // dd($input);
         }
 
 //

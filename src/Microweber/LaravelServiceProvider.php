@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Config\FileLoader;
 
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\AliasLoader;
 
 include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
@@ -58,6 +59,16 @@ class LaravelServiceProvider extends ServiceProvider
         });
         $this->app->bind('module', function ($app) {
             return new Providers\Module($app);
+        });
+
+        Event::listen('illuminate.query', function($sql, $bindings, $time){
+            echo $sql;          // select * from my_table where id=?
+            print_r($bindings); // Array ( [0] => 4 )
+            echo $time;         // 0.58
+
+            // To get the full sql query with bindings inserted
+            $sql = str_replace(array('%', '?'), array('%%', '%s'), $sql);
+            $full_sql = vsprintf($sql, $bindings);
         });
 
     }

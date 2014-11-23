@@ -69,15 +69,6 @@ class Module
         $table_name3 = $this->tables['module_templates'];
         $table_name4 = $this->tables['system_licenses'];
 
-
-//        if (Schema::hasColumn('id']= 'created_on'))
-//        {
-//            $table->increments('id');
-//            $table->dateTime('created_on');
-//        }
-//
-
-
         $fields_to_add = array();
         $fields_to_add['updated_on'] = 'dateTime';
         $fields_to_add['created_on'] = 'dateTime';
@@ -118,8 +109,6 @@ class Module
         $db->build_table($table_name2, $fields_to_add);
 
 
-
-
         $fields_to_add = array();
         $fields_to_add['updated_on'] = 'dateTime';
 
@@ -129,9 +118,7 @@ class Module
         $fields_to_add['module_id'] = 'longText';
         $fields_to_add['name'] = 'longText';
         $fields_to_add['module'] = 'longText';
-         $db->build_table($table_name3, $fields_to_add);
-
-
+        $db->build_table($table_name3, $fields_to_add);
 
 
         $fields_to_add = array();
@@ -153,8 +140,7 @@ class Module
         $fields_to_add['reg_on'] = 'dateTime';
         $fields_to_add['due_on'] = 'dateTime';
 
-         $db->build_table($table_name4, $fields_to_add);
-
+        $db->build_table($table_name4, $fields_to_add);
 
 
         return true;
