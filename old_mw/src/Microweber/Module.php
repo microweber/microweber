@@ -1559,7 +1559,7 @@ class Module
         return $save;
     }
 
-    public function install($params)
+    public function install($params=array())
     {
 
 

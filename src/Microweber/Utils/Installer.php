@@ -15,7 +15,7 @@ class Installer
     public function run()
     {
 
-        mw()->module->install();
+        mw()->modules->install();
 
     }
 

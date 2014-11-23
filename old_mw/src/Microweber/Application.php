@@ -66,7 +66,7 @@ if (!defined('MW_VERSION')) {
  * @property \Microweber\Event $event
  * @property \Microweber\Validator $validator
  */
-class Application
+class oldApplication
 {
 
 

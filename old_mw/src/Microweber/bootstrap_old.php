@@ -465,7 +465,7 @@ $loader->register();
  * @param bool $constructor_params
  * @return \Microweber\Application Microweber Application object
  */
-function mw($class = null, $constructor_params = false)
+function oldmw($class = null, $constructor_params = false)
 {
     static $is_init = false;
     global $_mw_global_object;

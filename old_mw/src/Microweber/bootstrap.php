@@ -446,7 +446,7 @@ $loader->register();
  * @param bool $constructor_params
  * @return \Microweber\Application Microweber Application object
  */
-function mw($class = null, $constructor_params = false)
+function removemw($class = null, $constructor_params = false)
 {
 
     global $_mw_global_object;

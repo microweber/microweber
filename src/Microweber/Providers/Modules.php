@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Builder as Eloquent;
 use Microweber\Utils\Database;
 
 
-class Module extends Eloquent
+class Modules extends Eloquent
 {
     protected $table = 'modules';
 
@@ -145,7 +145,7 @@ class Module extends Eloquent
 
             exit(d($data_to_save));
         }
-        dd(mw()->get('modules')->whereNotBetween('votes', array(1, 100))->get() );
+
         $table = $this->tables['modules'];
         $save = false;
 
