@@ -36,6 +36,7 @@ class LaravelServiceProvider extends ServiceProvider
 
         ClassLoader::addDirectories(array(
             base_path() . '/userfiles/modules',
+            __DIR__ . '/Models',
         ));
         ClassLoader::register();
 
@@ -78,6 +79,9 @@ class LaravelServiceProvider extends ServiceProvider
             return new Providers\Modules($app);
         });
 
+//        $this->app->bind('module', function ($app) {
+//            return new Models\Module($app);
+//        });
 
 
 

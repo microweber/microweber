@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
+use Module;
+
 class DefaultController extends Controller
 {
 
@@ -26,7 +28,6 @@ class DefaultController extends Controller
         if (!$is_installed) {
             return $this->install();
         }
-
 
 
 
@@ -157,6 +158,13 @@ class DefaultController extends Controller
 
     public function admin()
     {
+       $modules=  Module::all()->take(10);
+
+        foreach($modules as $module){
+            d($module['name']);
+        }
+        $modules=  Module::cacheTags('my-tag')->remember(5)->get();
+dd($modules);
         var_dump(__FILE__.__LINE__);
     }
 

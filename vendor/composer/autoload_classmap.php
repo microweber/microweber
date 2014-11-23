@@ -424,6 +424,7 @@ return array(
     'Microweber\\Application' => $baseDir . '/src/Microweber/Application.php',
     'Microweber\\Controllers\\DefaultController' => $baseDir . '/src/Microweber/Controllers/DefaultController.php',
     'Microweber\\LaravelServiceProvider' => $baseDir . '/src/Microweber/LaravelServiceProvider.php',
+    'Microweber\\Models\\Module' => $baseDir . '/src/Microweber/Models/Module.php',
     'Microweber\\Providers\\CacheManager' => $baseDir . '/src/Microweber/Providers/CacheManager.php',
     'Microweber\\Providers\\Database' => $baseDir . '/src/Microweber/Providers/Database.php',
     'Microweber\\Providers\\FileLoader' => $baseDir . '/src/Microweber/Providers/FileLoader.php',
