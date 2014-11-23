@@ -36,6 +36,7 @@ if (!defined('MW_SYSTEM_MODULE_FOLDER')) {
 }
 
 include_once(__DIR__ . DS . 'paths.php');
+include_once(__DIR__ . DS . 'filesystem.php');
 include_once(__DIR__ . DS . 'lang.php');
 include_once(__DIR__ . DS . 'common.php');
 include_once(__DIR__ . DS . 'modules.php');

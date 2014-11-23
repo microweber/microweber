@@ -1,0 +1,24 @@
+
+### mw htaccess
+
+## Options +FollowSymLinks
+
+RewriteEngine on
+
+#Uncomment bellow and set the name of your sub-folder if you are installing MW in subfolder
+#RewriteBase /your_sub_folder/
+
+
+RewriteRule ^userfiles/media - [L,NC]
+RewriteRule ^userfiles/templates - [L,NC]
+RewriteRule ^userfiles/ - [L,NC]
+RewriteRule ^cache/ - [L,NC]
+
+#goes to the index.php file
+RewriteCond %{REQUEST_URI} !\.(gif|jpg|jpeg|png|js|css)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^(.*)$ /index.php
+RewriteRule ^(.*)$ index.php [NC,L]
+
+### end of mw htaccess

@@ -60,7 +60,12 @@ class LaravelServiceProvider extends ServiceProvider
         $this->app->bind('module', function ($app) {
             return new Providers\Module($app);
         });
-
+        $this->app->bind('database', function ($app) {
+            return new Providers\Database($app);
+        });
+        $this->app->bind('user', function ($app) {
+            return new Providers\User($app);
+        });
         Event::listen('illuminate.query', function($sql, $bindings, $time){
             echo $sql;          // select * from my_table where id=?
             print_r($bindings); // Array ( [0] => 4 )

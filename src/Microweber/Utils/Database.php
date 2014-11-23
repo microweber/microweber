@@ -25,6 +25,9 @@ class Database
         }
     }
 
+    public function add_table_index(){
+        //@tbd
+    }
     private function _exec_table_builder($table_name, $fields_to_add)
     {
 
