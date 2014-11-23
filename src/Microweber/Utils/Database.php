@@ -14,19 +14,22 @@ class Database
 
     public function build_table($table_name, $fields_to_add)
     {
-        $key = 'mw_build_table_' . $table_name . crc32(serialize($fields_to_add));
+
+        $key = 'mw_build_table';
+        $hash = $table_name . crc32(serialize($fields_to_add));
         $value = Cache::get($key);
-        if (empty($value)) {
+        if (!isset($value[$hash])) {
             $val = $fields_to_add;
             $minutes = $this->cache_minutes;
             $expiresAt = Carbon::now()->addMinutes($minutes);
-            $cache = Cache::add($key, 1, $expiresAt);
+            $value[$hash] = 1;
+            $cache = Cache::put($key, $value, $expiresAt);
             $this->_exec_table_builder($table_name, $fields_to_add);
         }
     }
 
     public function add_table_index(){
-        //@tbd
+        //@todo
     }
     private function _exec_table_builder($table_name, $fields_to_add)
     {

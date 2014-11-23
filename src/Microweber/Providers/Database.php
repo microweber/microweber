@@ -17,6 +17,7 @@ namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cache;
 
 use Illuminate\Support\Facades\User as DefaultUserProvider;
 
@@ -24,9 +25,7 @@ class Database
 {
 
 
-
     public $use_cache = true;
-
 
 
     /**
@@ -115,7 +114,6 @@ class Database
         foreach ($params as $k => $v) {
             if ($k == 'table') {
                 $table = ($v);
-
             }
 
             if (!isset($table) and $k == 'what' and !isset($params['rel'])) {
@@ -187,14 +185,19 @@ class Database
         }
 
         d(__FILE__);
-        d($table);
+        //d($criteria);
 
         $table_criteria = $this->map_array_to_table($table, $criteria);
 
-        dd($table_criteria);
 
 
-        $get_db_items = false;
+        $orm = DB::table($table);
+        //$orm = DB::table($table)->remember(10);
+        $orm = $this->build_query($orm,$table_criteria);
+
+
+        $get_db_items = $orm->get();
+        //dd($get_db_items);
         if (is_integer($get_db_items)) {
             return ($get_db_items);
         }
@@ -210,6 +213,160 @@ class Database
             }
         }
         return $get_db_items;
+    }
+
+    public function build_query($orm, $table_criteria)
+    {
+        if (!empty($table_criteria)) {
+            foreach ($table_criteria as $field_name => $field_value) {
+                if ($field_value !== false and $field_name) {
+
+                    if (is_string($field_value) or is_int($field_value)) {
+
+                        $field_value = trim($field_value);
+                        $field_value_len = strlen($field_value);
+
+                        $second_char = substr($field_value, 0, 2);
+                        $first_char = substr($field_value, 0, 1);
+                        $compare_sign = false;
+                        $where_method = false;
+
+                        if ($field_value_len > 0) {
+                            if (is_string($field_value)) {
+                                if (stristr($field_value, '[lt]')) {
+                                    $first_char = '<';
+                                    $field_value = str_replace('[lt]', '', $field_value);
+                                } else if (stristr($field_value, '[lte]')) {
+                                    $second_char = '<=';
+                                    $field_value = str_replace('[lte]', '', $field_value);
+                                } else if (stristr($field_value, '[st]')) {
+                                    $first_char = '<';
+                                    $field_value = str_replace('[st]', '', $field_value);
+                                } else if (stristr($field_value, '[ste]')) {
+                                    $second_char = '<=';
+                                    $field_value = str_replace('[ste]', '', $field_value);
+                                } else if (stristr($field_value, '[gt]')) {
+                                    $first_char = '>';
+                                    $field_value = str_replace('[gt]', '', $field_value);
+                                } else if (stristr($field_value, '[gte]')) {
+                                    $second_char = '>=';
+                                    $field_value = str_replace('[gte]', '', $field_value);
+                                } else if (stristr($field_value, '[mt]')) {
+                                    $first_char = '>';
+                                    $field_value = str_replace('[mt]', '', $field_value);
+                                } else if (stristr($field_value, '[md]')) {
+                                    $first_char = '>';
+                                    $field_value = str_replace('[md]', '', $field_value);
+                                } else if (stristr($field_value, '[mte]')) {
+                                    $second_char = '>=';
+                                    $field_value = str_replace('[mte]', '', $field_value);
+                                } else if (stristr($field_value, '[mde]')) {
+                                    $second_char = '>=';
+                                    $field_value = str_replace('[mde]', '', $field_value);
+                                } else if (stristr($field_value, '[neq]')) {
+                                    $second_char = '!=';
+                                    $field_value = str_replace('[neq]', '', $field_value);
+                                } else if (stristr($field_value, '[eq]')) {
+                                    $first_char = '=';
+                                    $field_value = str_replace('[eq]', '', $field_value);
+                                } else if (stristr($field_value, '[int]')) {
+                                    $field_value = str_replace('[int]', '', $field_value);
+                                } else if (stristr($field_value, '[is]')) {
+                                    $first_char = '=';
+                                    $field_value = str_replace('[is]', '', $field_value);
+                                } else if (stristr($field_value, '[like]')) {
+                                    $second_char = '%';
+                                    $field_value = str_replace('[like]', '', $field_value);
+                                } else if (stristr($field_value, '[null]')) {
+                                    $field_value = 'is_null';
+                                } else if (stristr($field_value, '[not_null]')) {
+                                    $field_value = 'is_not_null';
+                                } else if (stristr($field_value, '[is_not]')) {
+                                    $second_char = '!%';
+                                    $field_value = str_replace('[is_not]', '', $field_value);
+                                }
+                            }
+                            if ($field_value == 'is_null') {
+                                $where_method = 'where_null';
+                                $field_value = $field_name;
+                            } elseif ($field_value == 'is_not_null') {
+                                $where_method = 'where_not_null';
+                                $field_value = $field_name;
+                            } else if ($second_char == '<=' or $second_char == '=<') {
+                                $where_method = 'where_lte';
+                                $two_char_left = substr($field_value, 0, 2);
+                                if ($two_char_left === '<=' or $two_char_left === '=<') {
+                                    $field_value = substr($field_value, 2, $field_value_len);
+                                }
+                            } elseif ($second_char == '>=' or $second_char == '=>') {
+                                $where_method = 'where_gte';
+                                $two_char_left = substr($field_value, 0, 2);
+                                if ($two_char_left === '>=' or $two_char_left === '=>') {
+                                    $field_value = substr($field_value, 2, $field_value_len);
+                                }
+                            } elseif ($second_char == '!=' or $second_char == '=!') {
+                                $where_method = 'where_not_equal';
+                                $two_char_left = substr($field_value, 0, 2);
+                                if ($two_char_left === '!=' or $two_char_left === '=!') {
+                                    $field_value = substr($field_value, 2, $field_value_len);
+                                }
+                            } elseif ($second_char == '!%' or $second_char == '%!') {
+                                $where_method = 'where_not_like';
+                                $two_char_left = substr($field_value, 0, 2);
+                                if ($two_char_left === '!%' or $two_char_left === '%!') {
+                                    $field_value = '%' . substr($field_value, 2, $field_value_len);
+                                } else {
+                                    $field_value = '%' . $field_value;
+                                }
+                            } elseif ($first_char == '%') {
+                                $where_method = 'where_like';
+                            } elseif ($first_char == '>') {
+                                $where_method = 'where_gt';
+                                $first_char_left = substr($field_value, 0, 1);
+                                if ($first_char_left == '>') {
+                                    $field_value = substr($field_value, 1, $field_value_len);
+                                }
+                            } elseif ($first_char == '<') {
+                                $where_method = 'where_lt';
+                                $first_char_left = substr($field_value, 0, 1);
+                                if ($first_char_left == '<') {
+                                    $field_value = substr($field_value, 1, $field_value_len);
+                                }
+
+                            } elseif ($first_char == '=') {
+                                $where_method = 'where_equal';
+                                $first_char_left = substr($field_value, 0, 1);
+                                if ($first_char_left == '=') {
+                                    $field_value = substr($field_value, 1, $field_value_len);
+                                }
+                            }
+                            if ($where_method == false) {
+                                $orm->where($field_name, $field_value);
+                            } else {
+                                $orm->$where_method($field_name, $field_value);
+                            }
+                        }
+                    } elseif (is_array($field_value)) {
+                        $items = array();
+                        foreach ($field_value as $field) {
+                            $items[] = $field;
+                        }
+                        if (!empty($items)) {
+                            if (count($items) == 1) {
+                                $orm->where($field_name, reset($items));
+                            } else {
+                                $orm->where_in($field_name, $items);
+                            }
+                        } else {
+                            if (is_string($field_value) or is_int($field_value)) {
+                                $orm->where($field_name, $field_value);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $orm;
     }
 
     public $table_fields = array();
@@ -256,6 +413,7 @@ class Database
         if (is_array($fields)) {
             foreach ($fields as $field) {
 
+
                 $field = strtolower($field);
 
                 if (isset($array[$field])) {
@@ -271,6 +429,7 @@ class Database
                 }
             }
         }
+
         if (!isset($array_to_return)) {
             return false;
         } else {
@@ -302,14 +461,18 @@ class Database
 
         }
         $cache_group = 'db/fields';
-        $db_get_table_fields = array();
+
         if (!$table) {
 
             return false;
         }
-        if (!$table) {
 
-            return false;
+        $key = 'mw_db_get_fields';
+        $hash = $table;
+        $value = Cache::get($key);
+
+        if (isset($value[$hash])) {
+            return $value[$hash];
         }
 
 
@@ -335,6 +498,9 @@ class Database
             return false;
         }
         foreach ($fields as $fivesdraft) {
+
+            $fivesdraft = (array)$fivesdraft;
+
             if ($fivesdraft != NULL and is_array($fivesdraft)) {
                 $fivesdraft = array_change_key_case($fivesdraft, CASE_LOWER);
                 if (isset($fivesdraft['name'])) {
@@ -344,6 +510,9 @@ class Database
                     if (isset($fivesdraft['field'])) {
 
                         $exisiting_fields[strtolower($fivesdraft['field'])] = true;
+                    } elseif (isset($fivesdraft['Field'])) {
+
+                        $exisiting_fields[strtolower($fivesdraft['Field'])] = true;
                     }
                 }
             }
@@ -366,6 +535,12 @@ class Database
             }
         }
         $ex_fields_static[$table] = $fields;
+
+
+        $expiresAt = 30;
+        $value[$hash] = $fields;
+        $cache = Cache::put($key, $value, $expiresAt);
+
         return $fields;
     }
 
