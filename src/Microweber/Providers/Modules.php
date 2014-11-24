@@ -153,6 +153,10 @@ class Modules extends Eloquent
             if (!isset($s["parent_id"])) {
                 $s["parent_id"] = 0;
             }
+            if($s["installed"] == 'auto'){
+                $s["installed"] = 1;
+            }
+
             if (!isset($s["id"]) and isset($s["module"])) {
                 $s["module"] = $data_to_save["module"];
                 if (!isset($s["module_id"])) {
@@ -371,9 +375,9 @@ class Modules extends Eloquent
 
                                 $this->app->layouts->save($config);
                             } else {
-
-                                $this->save($config);
                                 $config['installed'] = 'auto';
+                                $this->save($config);
+
 
 
                             }

@@ -165,7 +165,7 @@ class DefaultController extends Controller
 //        }
       //  $modules=  Module::cacheTags('my-tag')->remember(5)->get();
 
-
+        dd(antzz());
 
         $modules = Module::has('notifications')->get();
 

@@ -83,8 +83,3 @@ require app_path().'/filters.php';
 
 
 
-Cache::extend('fcache', function($app)
-{
-    $store = new Artdevue\Fcache\Fcache;
-    return new Illuminate\Cache\Repository($store);
-});

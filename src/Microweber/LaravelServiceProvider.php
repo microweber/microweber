@@ -18,10 +18,14 @@ use Illuminate\Filesystem\Filesystem;
 
 use Illuminate\Http\Request;
 use Illuminate\Config\FileLoader;
+use  Artdevue\Fcache\Fcache;
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Cache\Repository;
+
 
 include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
 
@@ -36,7 +40,7 @@ class LaravelServiceProvider extends ServiceProvider
 
         ClassLoader::addDirectories(array(
             base_path() . '/userfiles/modules',
-            __DIR__ ,
+            __DIR__,
         ));
         ClassLoader::register();
 
@@ -68,7 +72,6 @@ class LaravelServiceProvider extends ServiceProvider
         });
 
 
-
         $this->app->singleton('cache_manager', function ($app) {
             return new Providers\CacheManager($app);
         });
@@ -79,11 +82,10 @@ class LaravelServiceProvider extends ServiceProvider
             return new Providers\Modules($app);
         });
 
+
 //        $this->app->bind('module', function ($app) {
 //            return new Models\Module($app);
 //        });
-
-
 
 
 //        $this->app->extend('db', function ($app) {
@@ -93,17 +95,39 @@ class LaravelServiceProvider extends ServiceProvider
         $this->app->bind('user', function ($app) {
             return new Providers\User($app);
         });
-        Event::listen('illuminate.query', function($sql, $bindings, $time){
-            echo $sql;          // select * from my_table where id=?
+        Event::listen('illuminate.query', function ($sql, $bindings, $time) {
+            echo $sql; // select * from my_table where id=?
             print_r($bindings); // Array ( [0] => 4 )
-            echo $time;         // 0.58
+            echo $time; // 0.58
 
             // To get the full sql query with bindings inserted
             $sql = str_replace(array('%', '?'), array('%%', '%s'), $sql);
             $full_sql = vsprintf($sql, $bindings);
         });
-
+       // $this->registerModules();
     }
+
+
+    public function boot(){
+        \Cache::extend('fcache', function($app)
+        {
+            $store = new \Artdevue\Fcache\Fcache;
+            return new \Illuminate\Cache\Repository($store);
+        });
+        parent::boot();
+        $is_installed = Config::get('microweber.is_installed');
+
+        if (!$is_installed) {
+            return;
+        }
+        $modules= mw_get_all_functions_files_for_modules();
+
+        dd($modules);
+    }
+
+
+
+
 
 //    protected function registerCache()
 //    {
