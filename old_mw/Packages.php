@@ -31,7 +31,7 @@ class Packages
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }

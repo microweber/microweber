@@ -53,7 +53,7 @@ class Format
     public function date($date, $date_format = false)
     {
         if ($date_format == false) {
-            $date_format = wb()->option->get('date_format', 'website');
+            $date_format = mw()->option->get('date_format', 'website');
             if ($date_format == false) {
                 $date_format = "Y-m-d H:i:s";
             }

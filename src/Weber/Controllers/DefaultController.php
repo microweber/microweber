@@ -34,7 +34,7 @@ class DefaultController extends Controller
       var_dump(__FILE__.__LINE__);
 
 
-//        $connection = wb()->config->get('database.connections');
+//        $connection = mw()->config->get('database.connections');
 //       // var_dump($connection);
 //
 //
@@ -45,7 +45,7 @@ class DefaultController extends Controller
 ////        $connection = Config::get('weber.is_installed');
 ////        var_dump($connection);
 //
-//        $connection = wb()->config->save();
+//        $connection = mw()->config->save();
 //        var_dump($connection);
 //        var_dump(__METHOD__);
 //        exit;

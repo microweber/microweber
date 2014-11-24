@@ -3,13 +3,13 @@
  <div class="mw-helpinfo semi_hidden">
            <div class="mw-help-item" data-for="#mw_toolbar_logo" data-pos="bottomleft">
                 <div >
-                  <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/logo.png" alt=""  class="mwhelpinfoimg" />
+                  <img src="<?php print mw_includes_url(); ?>img/helpinfo/logo.png" alt=""  class="mwhelpinfoimg" />
                   <p style="width: 320px; padding-top: 24px">Welcome to <br>Microweber Admin Panel</p>
                 </div>
            </div>
            <div class="mw-help-item" data-for=".dashboard_stats svg" data-pos="topcenter" data-css="margin-top:100px;">
            <div style="width: 605px;">
-               <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/stat.png" alt="" class="mwhelpinfoimg" />
+               <img src="<?php print mw_includes_url(); ?>img/helpinfo/stat.png" alt="" class="mwhelpinfoimg" />
                <div style="padding-top: 24px">
                  <p>This is your traffic statistic.</p>
                  <p>You can explore your visits by daily, weekly and monthly time frame. </p>
@@ -18,18 +18,18 @@
            </div>
            <div class="mw-help-item" data-for="#real_users_online" data-pos="rightcenter">
              <div style="width: 360px;">
-                 <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/users.png" alt=""  class="mwhelpinfoimg" />
+                 <img src="<?php print mw_includes_url(); ?>img/helpinfo/users.png" alt=""  class="mwhelpinfoimg" />
                  <p style="padding-top: 24px">See how many people are online <br>on your website right now.</p>
              </div>
            </div>
            <div class="mw-help-item" data-for=".mw-toolbar-notification" data-pos="bottomright" data-css="margin-left:17px;">
-               <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/notifications.png" alt="" class="mwhelpinfoimg" />
+               <img src="<?php print mw_includes_url(); ?>img/helpinfo/notifications.png" alt="" class="mwhelpinfoimg" />
                <p style="padding-top: 24px;">Here you'll be able to track your notifications</p>
 
            </div>
            <div class="mw-help-item" data-for="#mw-go_livebtn_admin" data-pos="bottomright" data-onnext="nextpage('<?php print admin_url('view:content'); ?>');">
               <div style="width: 320px;">
-                <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/live_edit.png" alt="" class="mwhelpinfoimg" />
+                <img src="<?php print mw_includes_url(); ?>img/helpinfo/live_edit.png" alt="" class="mwhelpinfoimg" />
                 <div style="float: right;width: 200px;">
                 <p style="padding-bottom: 10px;">Have fun with the Live Edit</p>
 
@@ -46,7 +46,7 @@
 
            <div class="mw-help-item" data-for="#pages_tree_toolbar" data-pos="righttop">
              <div  style="width: 500px;">
-               <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/tree.png" class="mwhelpinfoimg" alt="" />
+               <img src="<?php print mw_includes_url(); ?>img/helpinfo/tree.png" class="mwhelpinfoimg" alt="" />
                <p style="padding-top: 24px">Your Website Tree is the best way to manage your <br> Posts, Products, Categories & Pages
                </p>
            </div>
@@ -54,37 +54,37 @@
 
            <div class="mw-help-item" data-for="#mw_admin_posts_sortable" data-pos="topcenter">
            <div  style="width: 400px;">
-                 <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/posts.png" class="mwhelpinfoimg" alt="" />
+                 <img src="<?php print mw_includes_url(); ?>img/helpinfo/posts.png" class="mwhelpinfoimg" alt="" />
                  <p style="padding-top: 24px">Here are your Posts & Products. <br>
                  Track also your comments from here.</p>
            </div>
            </div>
            <div class="mw-help-item" data-for="#action_new_page button" data-pos="rightcenter" data-onshow="addnewpage()">
                 <div  style="width: 295px;">
-                <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/add_new.png" class="mwhelpinfoimg" alt="" />
+                <img src="<?php print mw_includes_url(); ?>img/helpinfo/add_new.png" class="mwhelpinfoimg" alt="" />
                  <p style="padding-top: 24px">From here you can  add New Page ... </p>
            </div>
            </div>
            <div class="mw-help-item" data-for=".mw_action_product button" data-pos="rightcenter">
                 <div  style="width: 295px;">
-                <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/product.png" class="mwhelpinfoimg" alt="" />
+                <img src="<?php print mw_includes_url(); ?>img/helpinfo/product.png" class="mwhelpinfoimg" alt="" />
                  <p style="padding-top: 24px">... or Product</p>
            </div>
            </div>
 
            <div class="mw-help-item" data-for=".mw-template-selector .mw-ui-select" data-pos="topright" >
-           <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/design.png" class="mwhelpinfoimg" alt="" />
+           <img src="<?php print mw_includes_url(); ?>img/helpinfo/design.png" class="mwhelpinfoimg" alt="" />
 
                <p style="padding-top: 24px;">Here you can choose the template for your content...</p>
            </div>
 
            <div class="mw-help-item" data-for=".layouts_box_container" data-pos="topright">
-           <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/layout.png" class="mwhelpinfoimg" alt="" />
+           <img src="<?php print mw_includes_url(); ?>img/helpinfo/layout.png" class="mwhelpinfoimg" alt="" />
                <p style="padding-top: 15px;">Also you can choose the type of <br> your layout(depending on the type of the content)</p>
            </div>
            <div class="mw-help-item" data-for=".module-custom-fields-admin-holder" data-pos="topcenter" data-onbeforeshow="showcustomfields()">
                <div style="width: 410px;">
-                <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/price.png" class="mwhelpinfoimg" alt="" />
+                <img src="<?php print mw_includes_url(); ?>img/helpinfo/price.png" class="mwhelpinfoimg" alt="" />
 
                <p style="padding-top: 15px;">Lets customize your forms or products. </p>
                <p>Add price, color, size and many more.</p>
@@ -104,14 +104,14 @@
 <div class="mw-helpinfo semi_hidden">
      <div class="mw-help-item" data-for=".new-order-notification" data-pos="bottomleft">
           <div style="width: 400px;">
-               <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/product.png" class="mwhelpinfoimg" alt="" />
+               <img src="<?php print mw_includes_url(); ?>img/helpinfo/product.png" class="mwhelpinfoimg" alt="" />
                <p style="padding-top: 30px">Your new orders will wait for you here.</p>
           </div>
 
      </div>
     <div class="mw-help-item" data-for="#mw-admin-shop-navigation" data-pos="bottomcenter" data-onnext="nextpage('<?php print admin_url('view:modules'); ?>')">
          <div style="width: 700px;">
-             <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/settings.png" class="mwhelpinfoimg" alt="" />
+             <img src="<?php print mw_includes_url(); ?>img/helpinfo/settings.png" class="mwhelpinfoimg" alt="" />
              <p style="padding-top: 24px">The "Shop" section is similar to the "Website" section but it has a navigation, <br> that will help you to manage your Store/s . </p>
          </div>
      </div>
@@ -180,7 +180,7 @@
 
 <script type="text/javascript">
    mw.require("helpinfo.js", true);
-   mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css", true);
+   mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css", true);
 </script>
 
 <script>
@@ -234,7 +234,7 @@
 
 <div id="HELPINFOGHOST" style="display: none;">
     <div style="width: 320px;">
-      <img src="<?php print MW_INCLUDES_URL; ?>img/helpinfo/help.png" class="mwhelpinfoimg" alt="" />
+      <img src="<?php print mw_includes_url(); ?>img/helpinfo/help.png" class="mwhelpinfoimg" alt="" />
       <p style="padding-top: 30px;">I'll be here if you need me.</p>
     </div>
 </div>

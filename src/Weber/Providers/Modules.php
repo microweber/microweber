@@ -16,11 +16,13 @@
 namespace Weber\Providers;
 
 use Illuminate\Support\Facades\Config;
+
 //use Illuminate\Support\Facades\Schema;
 //use Illuminate\Database\;
 //use Illuminate\Database\Eloquent\Builder as Eloquent;
 //use Weber\Utils\Database;
 use Module;
+
 //use Config;
 //use Illuminate\Database\Eloquent\Model as Eloquent;
 
@@ -37,7 +39,7 @@ class Modules
     {
         if (!is_object($app)) {
 
-            $this->app = wb();
+            $this->app = mw();
 
         }
         $this->app = $app;
@@ -144,16 +146,17 @@ class Modules
     }
 
 
-    public function info($module_name){
+    public function info($module_name)
+    {
 
-      return Module::where('module',$module_name)->first();
+        return Module::where('module', $module_name)->first();
     }
 
 
     public function save($data_to_save)
     {
 
-        if (wb()->user->is_admin() == false and $this->_install_mode == false) {
+        if (mw()->user->is_admin() == false and $this->_install_mode == false) {
             return false;
         }
         if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
@@ -183,23 +186,23 @@ class Modules
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
                         $s["position"] = intval($save[0]["position"]);
-                        $save = wb()->database->save($table, $s);
+                        $save = mw()->database->save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
-                        $mname_clen = wb()->database->escape_string($mname_clen);
+                        $mname_clen = mw()->database->escape_string($mname_clen);
                         if ($s["id"] > 0) {
                             $delid = $s["id"];
 
                             $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            wb()->database->q($del);
+                            mw()->database->q($del);
                         }
                     } else {
 
-                        $save = wb()->database->save($table, $s);
+                        $save = mw()->database->save($table, $s);
                     }
                 }
             } else {
 
-                $save = wb()->database->save($table, $s);
+                $save = mw()->database->save($table, $s);
             }
         }
 
@@ -234,7 +237,7 @@ class Modules
             unset($params['ui']);
         }
 
-        return wb()->database->get($params);
+        return mw()->database->get($params);
 
     }
 
@@ -435,7 +438,7 @@ class Modules
                             $mn = $value['module'];
                             $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
 
-                            wb()->database->q($q);
+                            mw()->database->q($q);
                         }
 
                     }
@@ -449,8 +452,6 @@ class Modules
             return $c2;
         }
     }
-
-
 
 
     public function get($params = false)
@@ -490,6 +491,9 @@ class Modules
     }
 
 
-
+    function license()
+    {
+    return true;
+    }
 
 }

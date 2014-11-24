@@ -37,7 +37,7 @@ class Database extends DbUtils
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
         }
     }
@@ -192,7 +192,6 @@ class Database extends DbUtils
 
         }
 
-        $orm = DB::table($table);
 
 
         if (!isset($table)) {
@@ -215,7 +214,24 @@ class Database extends DbUtils
         } else {
             $cache_group = $this->_guess_cache_group($cache_group);
         }
+        $function_cache_id = false;
 
+        $args = func_get_args();
+
+        foreach ($args as $k => $v) {
+
+            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+        }
+        $table = $this->escape_string($table);
+        $function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
+
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+
+        if (($cache_content) != false) {
+             return $cache_content;
+        }
+
+        $orm = DB::table($table);
 
         $table_criteria = $this->map_array_to_table($table, $criteria);
 
@@ -237,6 +253,7 @@ class Database extends DbUtils
             $get_db_items = $orm->first();
         }
 
+        $this->app->cache_manager->save($get_db_items, $function_cache_id, $cache_group);
 
         return $get_db_items;
 //        //dd($get_db_items);

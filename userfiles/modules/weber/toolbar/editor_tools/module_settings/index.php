@@ -9,13 +9,13 @@ if (isset($params['module'])): ?>
 <script type="text/javascript" src="<?php print(MW_SITE_URL); ?>apijs"></script>
 <script type="text/javascript" src="<?php   print(MW_SITE_URL);  ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
 
-<script src="<?php print MW_INCLUDES_URL; ?>api/jquery-ui.js"></script>
+<script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 <script type="text/javascript">
     liveEditSettings = true;
-     mw.require('<?php print MW_INCLUDES_URL; ?>default.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>css/components.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>css/admin.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>css/popup.css');
+     mw.require('<?php print mw_includes_url(); ?>default.css');
+    mw.require('<?php print mw_includes_url(); ?>css/components.css');
+    mw.require('<?php print mw_includes_url(); ?>css/admin.css');
+    mw.require('<?php print mw_includes_url(); ?>css/popup.css');
     mw.require("events.js");
     mw.require("url.js");
     mw.require("tools.js");

@@ -30,7 +30,7 @@ class AdminController extends Controller
         $layout = new View($view);
         $layout = $layout->__toString();
 
-        wb()->parser->process($layout);
+        mw()->parser->process($layout);
 
 
         return $layout;

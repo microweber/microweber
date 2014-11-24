@@ -35,7 +35,7 @@ class Notifications
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -76,8 +76,8 @@ class Notifications
             $table = MW_DB_TABLE_NOTIFICATIONS;
             mw_var('FORCE_SAVE', $table);
             $data = $this->app->database->save($table, $save);
-            $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . $data);
-            $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+            $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . $data);
+            $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         }
 
@@ -115,8 +115,8 @@ class Notifications
                 }
             }
 
-            $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
-            $this->app->cache->delete('notifications');
+            $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+            $this->app->cache_manager->delete('notifications');
 
             return $data;
         }
@@ -136,7 +136,7 @@ class Notifications
         $q = "UPDATE $table SET is_read='y' WHERE is_read='n' ";
 
         $this->app->database->q($q);
-        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
 
@@ -155,7 +155,7 @@ class Notifications
 
         $q = "UPDATE $table SET is_read='n'";
         $this->app->database->q($q);
-        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
 
@@ -185,9 +185,9 @@ class Notifications
         }
 
 
-        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . intval($id));
+        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . intval($id));
 
-        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
 
@@ -215,7 +215,7 @@ class Notifications
                 $this->app->database->q($cleanup);
             }
 
-            $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+            $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
             return true;
         }
     }
@@ -230,7 +230,7 @@ class Notifications
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
         $function_cache_id = 'notifications_' . __FUNCTION__ . crc32($function_cache_id);
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
         if (($cache_content) != false) {
 
             return $cache_content;
@@ -258,7 +258,7 @@ class Notifications
         $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
         $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
-        $this->app->cache->save($fields_to_add, $function_cache_id, $cache_group = 'db');
+        $this->app->cache_manager->save($fields_to_add, $function_cache_id, $cache_group = 'db');
         return true;
 
     }
@@ -300,7 +300,7 @@ class Notifications
         }
 
 
-        $this->app->cache->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         $data = $this->app->database->save($table, $params);
         return $data;

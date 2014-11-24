@@ -23,7 +23,7 @@ class Fields
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -120,7 +120,7 @@ class Fields
 
 
                 if ($pos > 0) {
-                    $this->app->cache->delete('custom_fields/global');
+                    $this->app->cache_manager->delete('custom_fields/global');
 
                 }
 
@@ -345,9 +345,9 @@ class Fields
 
             $this->skip_cache = true;
             $save = $this->app->database->save($table_custom_field, $data_to_save);
-            $this->app->cache->delete('custom_fields/global');
-            $this->app->cache->delete('custom_fields/' . $save);
-            $this->app->cache->delete('custom_fields');
+            $this->app->cache_manager->delete('custom_fields/global');
+            $this->app->cache_manager->delete('custom_fields/' . $save);
+            $this->app->cache_manager->delete('custom_fields');
 
             return $save;
         }
@@ -744,7 +744,7 @@ class Fields
         $custom_field_table = $this->tables['custom_fields'];
         $q = "DELETE FROM $custom_field_table WHERE id='$id'";
         $this->app->database->q($q);
-        $this->app->cache->delete('custom_fields');
+        $this->app->cache_manager->delete('custom_fields');
         return $id;
     }
 
@@ -921,7 +921,7 @@ class Fields
 
         if (is_file($file)) {
 
-            $l = new \Microweber\View($file);
+            $l = new \Weber\View($file);
 
             //
 

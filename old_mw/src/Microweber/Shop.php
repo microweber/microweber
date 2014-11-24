@@ -29,7 +29,7 @@ class Shop
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = wb();
+            $this->app = mw();
         }
 
         $this->set_table_names();
@@ -100,7 +100,7 @@ class Shop
 
         $function_cache_id = 'shop' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -245,7 +245,7 @@ class Shop
         $this->app->database->build_table($table_name, $fields_to_add);
 
 
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
 
         return true;
 
@@ -302,8 +302,8 @@ class Shop
             }
 
 
-            $this->app->cache->delete('cart/global');
-            $this->app->cache->delete('cart_orders/global');
+            $this->app->cache_manager->delete('cart/global');
+            $this->app->cache_manager->delete('cart_orders/global');
             //d($_REQUEST);
             $exec_return = true;
         } else if (isset($_REQUEST['mw_payment_failure']) and intval($_REQUEST['mw_payment_failure']) == 1) {
@@ -512,9 +512,9 @@ class Shop
 
                 if ($data['payment_gw'] != 'none') {
 
-                    $gw_process = MW_MODULES_DIR . $data['payment_gw'] . '_process.php';
+                    $gw_process = modules_path() . $data['payment_gw'] . '_process.php';
                     if (!is_file($gw_process)) {
-                        $gw_process = normalize_path(MW_MODULES_DIR . $data['payment_gw'] . DS . 'process.php', false);
+                        $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
 
                     }
 
@@ -568,8 +568,8 @@ class Shop
                         $this->app->database->q($q);
                     }
 
-                    $this->app->cache->delete('cart/global');
-                    $this->app->cache->delete('cart_orders/global');
+                    $this->app->cache_manager->delete('cart/global');
+                    $this->app->cache_manager->delete('cart_orders/global');
 
 
                     if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
@@ -725,12 +725,12 @@ class Shop
     public function get_cart($params = false)
     {
         $time = time();
-        $clear_carts_cache = $this->app->cache->get('clear_cache', 'cart/global');
+        $clear_carts_cache = $this->app->cache_manager->get('clear_cache', 'cart/global');
 
         if ($clear_carts_cache == false or ($clear_carts_cache < ($time - 600))) {
-            $this->app->cache->delete('cart/global');
+            $this->app->cache_manager->delete('cart/global');
 
-            $this->app->cache->save($time, 'clear_cache', 'cart/global');
+            $this->app->cache_manager->save($time, 'clear_cache', 'cart/global');
         }
 
 
@@ -895,9 +895,9 @@ class Shop
                 }
 
                 if ($will_add == true) {
-                    $this->app->cache->delete('cart');
+                    $this->app->cache_manager->delete('cart');
 
-                    $this->app->cache->delete('cart_orders/global');
+                    $this->app->cache_manager->delete('cart_orders/global');
                 }
             }
         }
@@ -1493,9 +1493,9 @@ class Shop
             //   $cart['debug'] = 1;
             $cart_saved_id = $this->app->database->save($table, $cart);
 
-            $this->app->cache->delete('cart');
+            $this->app->cache_manager->delete('cart');
 
-            $this->app->cache->delete('cart_orders/global');
+            $this->app->cache_manager->delete('cart_orders/global');
 
 
             return ($cart_saved_id);
@@ -1539,9 +1539,9 @@ class Shop
         $this->no_cache = true;
 
         $this->app->database->q($q);
-        $this->app->cache->delete('cart');
+        $this->app->cache_manager->delete('cart');
 
-        $this->app->cache->delete('cart_orders/global');
+        $this->app->cache_manager->delete('cart_orders/global');
 
     }
 
@@ -1574,9 +1574,9 @@ class Shop
         $cache_gr = 'ipn';
         $cache_id = $hostname . md5(serialize($data));
 
-        $this->app->cache->save($data, $cache_id, $cache_gr);
+        $this->app->cache_manager->save($data, $cache_id, $cache_gr);
 
-        //$data = $this->app->cache->get($cache_id, $cache_gr);
+        //$data = $this->app->cache_manager->get($cache_id, $cache_gr);
 
         //$ord_data = $this->get_orders('no_cache=1&limit=1&tansaction_id=[is]NULL&payment_verify_token=' . $payment_verify_token . '');
         //cache_save($ord_data,__FUNCTION__,'debug');
@@ -1605,11 +1605,11 @@ class Shop
         $data['payment_gw'] = str_replace('..', '', $data['payment_gw']);
 
 
-        $gw_process = MW_MODULES_DIR . $data['payment_gw'] . '_checkout_ipn.php';
+        $gw_process = modules_path() . $data['payment_gw'] . '_checkout_ipn.php';
 
 
         if (!is_file($gw_process)) {
-            $gw_process = normalize_path(MW_MODULES_DIR . $data['payment_gw'] . DS . 'checkout_ipn.php', false);
+            $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'checkout_ipn.php', false);
 
         }
 
@@ -1652,8 +1652,8 @@ class Shop
 			id='{$ord}'  ";
 
                 // $this->app->database->q($q);
-                $this->app->cache->delete('cart/global');
-                $this->app->cache->delete('cart_orders/global');
+                $this->app->cache_manager->delete('cart/global');
+                $this->app->cache_manager->delete('cart_orders/global');
                 return true;
             }
         }
@@ -1754,7 +1754,7 @@ class Shop
 
         $table = $this->tables['cart_orders'];
         $params['table'] = $table;
-        $this->app->cache->delete('cart_orders');
+        $this->app->cache_manager->delete('cart_orders');
 
         return $this->app->database->save($table, $params);
 
@@ -1774,7 +1774,7 @@ class Shop
             $q = "DELETE FROM $table WHERE email='$c_id' ";
             $res = $this->app->database->q($q);
             //$this->app->database->delete_by_id($table, $c_id, 'email');
-            $this->app->cache->delete('cart_orders/global');
+            $this->app->cache_manager->delete('cart_orders/global');
             return $res;
 
         }
@@ -1797,9 +1797,9 @@ class Shop
             //  $this->app->database->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];
             $q = "DELETE FROM $table2 WHERE session_id='$c_id' ";
-            $this->app->cache->delete('cart');
+            $this->app->cache_manager->delete('cart');
 
-            $this->app->cache->delete('cart_orders');
+            $this->app->cache_manager->delete('cart_orders');
             $res = $this->app->database->q($q);
             return $c_id;
         } else if (isset($data['id'])) {
@@ -1810,8 +1810,8 @@ class Shop
             $res = $this->app->database->q($q);
 
 
-            $this->app->cache->delete('cart');
-            $this->app->cache->delete('cart_orders');
+            $this->app->cache_manager->delete('cart');
+            $this->app->cache_manager->delete('cart_orders');
             return $c_id;
             //d($c_id);
         }
@@ -1824,7 +1824,7 @@ class Shop
 
         $function_cache_id = __FUNCTION__;
 
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group = 'db');
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group = 'db');
         if (($cache_content) == '--true--') {
             return true;
         }
@@ -1880,9 +1880,9 @@ class Shop
         }
         if ($changes == true) {
 
-            $this->app->cache->delete('options/global');
+            $this->app->cache_manager->delete('options/global');
         }
-        $this->app->cache->save('--true--', $function_cache_id, $cache_group = 'db');
+        $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group = 'db');
 
         return true;
     }

@@ -7,18 +7,18 @@
 if (isset($params['module'])): ?>
     <?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']); ?>
 <?php endif; ?>
-<script type="text/javascript" src="<?php print(MW_INCLUDES_URL); ?>api/jquery.js"></script>
+<script type="text/javascript" src="<?php print(mw_includes_url()); ?>api/jquery.js"></script>
 <script type="text/javascript" src="<?php print(MW_SITE_URL); ?>apijs"></script>
 
 <script type="text/javascript">
     liveEditSettings = true;
     mw.lib.require("jqueryui");
-    mw.require('<?php print MW_INCLUDES_URL; ?>default.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>api/api.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>css/mw_framework.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>css/liveadmin.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>css/admin.css');
-    mw.require('<?php print MW_INCLUDES_URL; ?>css/popup.css');
+    mw.require('<?php print mw_includes_url(); ?>default.css');
+    mw.require('<?php print mw_includes_url(); ?>api/api.css');
+    mw.require('<?php print mw_includes_url(); ?>css/mw_framework.css');
+    mw.require('<?php print mw_includes_url(); ?>css/liveadmin.css');
+    mw.require('<?php print mw_includes_url(); ?>css/admin.css');
+    mw.require('<?php print mw_includes_url(); ?>css/popup.css');
     mw.require("events.js");
     mw.require("url.js");
     mw.require("tools.js");

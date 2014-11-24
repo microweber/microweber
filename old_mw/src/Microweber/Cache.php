@@ -34,7 +34,7 @@ class Cache
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
         }
         if (!is_object($this->adapter)) {

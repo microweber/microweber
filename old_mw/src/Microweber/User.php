@@ -19,7 +19,7 @@ class User
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
         }
 
@@ -75,7 +75,7 @@ class User
 
         $function_cache_id = 'users' . __FUNCTION__ . crc32($function_cache_id . $this->table_prefix);
 
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -163,7 +163,7 @@ class User
 
         $this->app->database->build_table($table_name, $fields_to_add);
 
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
         return true;
 
     }
@@ -513,7 +513,7 @@ class User
 
 
                     // $this->app->database->q($q);
-                    $this->app->cache->delete('users/global');
+                    $this->app->cache_manager->delete('users/global');
                     //$data = save_user($data);
                     $this->session_del('captcha');
 
@@ -796,9 +796,9 @@ class User
         $table = $this->tables['users'];
         $save = $this->app->database->save($table, $data_to_save);
         $id = $save;
-        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
-        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . '0');
-        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . $id);
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . '0');
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . $id);
         return $id;
     }
 
@@ -1312,7 +1312,7 @@ class User
                         $security['ip'] = MW_USER_IP;
                         $security['hash'] = $this->app->format->array_to_base64($data_res);
                         $function_cache_id = md5(serialize($security)) . uniqid() . rand();
-                        //$this->app->cache->save($security, $function_cache_id, $cache_group = 'password_reset');
+                        //$this->app->cache_manager->save($security, $function_cache_id, $cache_group = 'password_reset');
                         if (isset($data_res['id'])) {
                             $data_to_save = array();
                             $data_to_save['id'] = $data_res['id'];
@@ -1410,7 +1410,7 @@ class User
                         mw_var('FORCE_SAVE', $table);
 
                         $save = $this->app->database->save($table, $data_to_save);
-                        $this->app->cache->delete('users/global');
+                        $this->app->cache_manager->delete('users/global');
                         if ($save > 0) {
                             $data = array();
                             $data['id'] = $save;
@@ -1701,7 +1701,7 @@ class User
         //$get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
         // $get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
         // var_dump($get, $function_cache_id, $cache_group);
-        //  $this->app->cache->save($get, $function_cache_id, $cache_group);
+        //  $this->app->cache_manager->save($get, $function_cache_id, $cache_group);
 
         return $get;
     }

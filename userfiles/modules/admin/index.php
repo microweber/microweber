@@ -1,11 +1,10 @@
-index admin
-
-<?php include (MW_ADMIN_VIEWS_DIR . 'header.php'); ?>
+ 
+<?php include ($config["path_to_module"] . 'header.php'); ?>
 <?php if(is_admin() == false): ?>
-    <module type="users/login" template="admin" />
+<module type="users/login" template="admin" />
 <?php else: ?>
-    <?php $v1 = mw('url')->param('load_module'); ?>
-    <?php $v = mw('url')->param('view');
+<?php $v1 = mw('url')->param('load_module'); ?>
+<?php $v = mw('url')->param('view');
 
     if($v1 != false){
         $holder_cls = mw('url')->slug($v1);
@@ -16,35 +15,27 @@ index admin
     }
     ?>
 
-
-    <div class="mw-ui-col admin-content-column <?php print  $holder_cls ?>">
-
-
-        <?php if($v1 != false): ?>
-            <?php
+<div class="mw-ui-col admin-content-column <?php print  $holder_cls ?>">
+  <?php if($v1 != false): ?>
+  <?php
 
             $v_mod = module_name_decode($v1);
 
             if(is_module($v_mod)){
-                //include_once (MW_ADMIN_VIEWS_DIR . 'module_nav.php');
-                //  $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
-
                 $mod = '<module type="'.$v_mod.'" view="admin"  backend="true" id="mw-main-module-backend" />';
-
                 print $mod ;
             } else {
                 print "No module found {$v_mod}" ;
-
             }
 
             ?>
-        <?php else : ?>
-            <?php //include_once (MW_ADMIN_VIEWS_DIR . 'header_nav.php'); ?>
-            <?php
+  <?php else : ?>
+  <?php //include_once ($config["path_to_module"] . 'header_nav.php'); ?>
+  <?php
 
 
 
-            $vf = MW_ADMIN_VIEWS_DIR . $v. '.php';
+            $vf = $config["path_to_module"] . $v. '.php';
             $vf = str_replace('..', '', $vf);
 
             if(is_file($vf)){
@@ -55,7 +46,7 @@ index admin
             }
 
             else { ?>
-                <?php
+  <?php
 
                 $v_mod = module_name_decode($v);
 
@@ -67,11 +58,11 @@ index admin
                     print $mod ;
                 } else {
 
-                    include (MW_ADMIN_VIEWS_DIR . 'index.php');
+                    include ($config["path_to_module"] . 'index.php');
                 }
 
             } ?>
-        <?php endif; ?>
-    </div>
+  <?php endif; ?>
+</div>
 <?php endif; ?>
-<?php	include (MW_ADMIN_VIEWS_DIR . 'footer.php'); ?>
+<?php	include ($config["path_to_module"] . 'footer.php'); ?>

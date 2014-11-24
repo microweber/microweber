@@ -10,8 +10,8 @@ function load_all_functions_files_for_modules($options = false)
     if (!$is_installed) {
         return;
     }
-    $modules = wb()->modules->get('ui=any&installed=1');
-   // $modules = wb()->modules->where('installed', 1)->remember(50)->get();
+    $modules = mw()->modules->get('ui=any&installed=1&limit=99999');
+   // $modules = mw()->modules->where('installed', 1)->remember(50)->get();
     $files = array();
     if (!empty($modules)) {
         foreach ($modules as $module) {
@@ -29,13 +29,9 @@ function load_all_functions_files_for_modules($options = false)
 
 }
 
-function module_css_class($module_name)
-{
-    $slug = Str::slug($module_name);
-    return $slug;
-}
+
 
 function module_info($module_name)
 {
-   return wb()->modules->info($module_name);
+   return mw()->modules->info($module_name);
 }

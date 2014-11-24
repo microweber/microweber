@@ -3,7 +3,7 @@
 
 namespace Weber\Utils;
 
-
+use Weber\Providers\Modules;
 $parser_cache_object = false; //global cache storage
 $mw_replaced_modules = array();
 $mw_replaced_edit_fields_vals = array();
@@ -30,7 +30,7 @@ class Parser
     {
         if (!is_object($app)) {
 
-            $this->app = wb();
+            $this->app = mw();
 
         }
         $this->app = $app;
@@ -314,7 +314,7 @@ class Parser
                             }
                             $module_title = false;
                             if (isset($module_name)) {
-                                $module_class = module_css_class($module_name);
+                                $module_class = $this->module_css_class($module_name);
                                 $module_title = module_info($module_name);
 
 
@@ -940,7 +940,7 @@ class Parser
             }
 
             if ($no_cache == false) {
-                //    $this->app->cache->save($layout, $parser_mem_crc, 'content_fields/global/parser');
+                //    $this->app->cache_manager->save($layout, $parser_mem_crc, 'content_fields/global/parser');
             }
 
         }
@@ -1278,13 +1278,13 @@ class Parser
         } else {
 
 
-            $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
+            $module_in_default_dir = modules_path() . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
             // d($module_in_default_dir);
-            $module_in_default_file = MW_MODULES_DIR . $module_name . '.php';
-            $module_in_default_file_custom_view = MW_MODULES_DIR . $module_name . '_' . $custom_view . '.php';
+            $module_in_default_file = modules_path() . $module_name . '.php';
+            $module_in_default_file_custom_view = modules_path() . $module_name . '_' . $custom_view . '.php';
 
-            $element_in_default_file = MW_ELEMENTS_DIR . $module_name . '.php';
+            $element_in_default_file = elements_path() . $module_name . '.php';
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
             //
@@ -1350,7 +1350,7 @@ class Parser
             $module_name_dir = dirname($module_name);
             $config['module_name'] = $module_name_dir;
 
-            $config['module_name_url_safe'] = module_name_encode($module_name);
+            $config['module_name_url_safe'] = $this->module_name_encode($module_name);
 
 
             $find_base_url = $this->app->url->current(1);
@@ -1370,11 +1370,10 @@ class Parser
             $config['module_api'] = $this->app->url->site('api/' . $mod_api);
             $config['module_view'] = $this->app->url->site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
-            $config['module_class'] = $this->css_class($module_name);
+            $config['module_class'] = $this->module_css_class($module_name);
 
             $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
 
-            $get_module_template_settings_from_options = mw_var('get_module_template_settings_from_options');
 
             if (isset($attrs['id'])) {
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
@@ -1384,7 +1383,7 @@ class Parser
             }
 
             //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
-            $lic = $this->license($module_name);
+            $lic = $this->app->modules->license($module_name);
             //  $lic = 'valid';
             if ($lic != false) {
                 $config['license'] = $lic;
@@ -1413,14 +1412,10 @@ class Parser
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
-            $l1 = new \Microweber\View($try_file1);
+            $l1 = new \Weber\View($try_file1);
             $l1->config = $config;
             $l1->app = $this->app;
-            if (!empty($config)) {
-                foreach ($config as $key1 => $value1) {
-                    mw_var($key1, $value1);
-                }
-            }
+
 
 
             if (!isset($attrs['module'])) {
@@ -1434,11 +1429,11 @@ class Parser
             if (!isset($attrs['parent-module-id'])) {
                 $attrs['parent-module-id'] = $attrs['id'];
             }
-            $mw_restore_get = mw_var('mw_restore_get');
-            if ($mw_restore_get != false and is_array($mw_restore_get)) {
-                $l1->_GET = $mw_restore_get;
-                $_GET = $mw_restore_get;
-            }
+//            $mw_restore_get = mw_var('mw_restore_get');
+//            if ($mw_restore_get != false and is_array($mw_restore_get)) {
+//                $l1->_GET = $mw_restore_get;
+//                $_GET = $mw_restore_get;
+//            }
             if (defined('MW_MODULE_ONDROP')) {
                 if (!isset($attrs['ondrop'])) {
                     $attrs['ondrop'] = true;
@@ -1473,7 +1468,7 @@ class Parser
             unset($l1);
             if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
                 $lic_l1_try_file1 = MW_ADMIN_VIEWS_DIR . 'activate_license.php';
-                $lic_l1 = new \Microweber\View($lic_l1_try_file1);
+                $lic_l1 = new \Weber\View($lic_l1_try_file1);
 
                 $lic_l1->config = $config;
                 $lic_l1->params = $attrs;
@@ -1489,5 +1484,26 @@ class Parser
             // $mw_loaded_mod_memory[$function_cache_id] = false;
             return false;
         }
+    }
+
+    function module_name_decode($module_name)
+    {
+        $module_name = str_replace('__', '/', $module_name);
+        return $module_name;
+    }
+
+        function module_name_encode($module_name)
+        {
+            $module_name = str_replace('/', '__', $module_name);
+            $module_name = str_replace('\\', '__', $module_name);
+            return $module_name;
+
+        }
+
+
+    function module_css_class($module_name)
+    {
+        $slug = \Str::slug($module_name);
+        return $slug;
     }
 }

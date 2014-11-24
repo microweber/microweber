@@ -72,7 +72,7 @@ class CacheManager
      * //store custom data in cache
      * $data = array('something' => 'some_value');
      * $cache_id = 'my_cache_id';
-     * $cache_content = wb()->cache->save($data, $cache_id, 'my_cache_group');
+     * $cache_content = mw()->cache->save($data, $cache_id, 'my_cache_group');
      * </code>
      *
      */
@@ -98,7 +98,7 @@ class CacheManager
      * <code>
      *
      * $cache_id = 'my_cache_'.crc32($sql_query_string);
-     * $cache_content = wb()->cache->get($cache_id, 'my_cache_group');
+     * $cache_content = mw()->cache->get($cache_id, 'my_cache_group');
      *
      * </code>
      */
@@ -119,16 +119,16 @@ class CacheManager
      * @example
      * <code>
      * //delete the cache for the content
-     *  wb()->cache->delete("content");
+     *  mw()->cache->delete("content");
      *
      * //delete the cache for the content with id 1
-     *  wb()->cache->delete("content/1");
+     *  mw()->cache->delete("content/1");
      *
      * //delete the cache for users
-     *  wb()->cache->delete("users");
+     *  mw()->cache->delete("users");
      *
      * //delete the cache for your custom table eg. my_table
-     * wb()->cache->delete("my_table");
+     * mw()->cache->delete("my_table");
      * </code>
      */
     public function delete($cache_group = 'global')
@@ -141,7 +141,7 @@ class CacheManager
      * @example
      * <code>
      * //delete all cache
-     *  wb()->cache->clear();
+     *  mw()->cache->clear();
      * </code>
      * @return boolean
      * @package Cache
@@ -162,7 +162,7 @@ class CacheManager
      * @example
      * <code>
      * //get cache items info
-     *  $cached_items = wb()->cache->debug();
+     *  $cached_items = mw()->cache->debug();
      * print_r($cached_items);
      * </code>
      */

@@ -1,9 +1,9 @@
 
 
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/ui.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/admin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css"/>
-<script src="<?php print MW_INCLUDES_URL; ?>api/jquery-ui.js"></script>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/ui.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/wysiwyg.css"/>
+<script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 <script>
     mwAdmin = true; 
 
@@ -329,10 +329,10 @@ img{
 
 <?php $mainclass = 'admin-live-edit-editor'; ?>
 
-<link href="<?php print(MW_INCLUDES_URL); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
-<script src="<?php print MW_INCLUDES_URL; ?>api/liveedit.js"></script>
-<script src="<?php print MW_INCLUDES_URL; ?>api/columns.js"></script>
-<script src="<?php print MW_INCLUDES_URL; ?>api/plus.js"></script>
+<link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+<script src="<?php print mw_includes_url(); ?>api/liveedit.js"></script>
+<script src="<?php print mw_includes_url(); ?>api/columns.js"></script>
+<script src="<?php print mw_includes_url(); ?>api/plus.js"></script>
 
 
 

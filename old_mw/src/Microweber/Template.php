@@ -39,7 +39,7 @@ class Template
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
         }
     }
@@ -192,7 +192,7 @@ class Template
         }
         $cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = 'templates';
-        $cache_content = $this->app->cache->get($cache_id, $cache_group, 'files');
+        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group, 'files');
         if (($cache_content) != false) {
             return $cache_content;
         }
@@ -240,7 +240,7 @@ class Template
             }
 
         }
-        $this->app->cache->save($to_return, $function_cache_id, $cache_group, 'files');
+        $this->app->cache_manager->save($to_return, $function_cache_id, $cache_group, 'files');
         return $to_return;
     }
 
@@ -309,7 +309,7 @@ class Template
         }
 
         $cache_content = false;
-      //  $cache_content = $this->app->cache->get($cache_id, $cache_group);
+      //  $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
         if (($cache_content) != false) {
        // return $cache_content;
         }
@@ -364,7 +364,7 @@ class Template
             $render_file_temp = normalize_path(TEMPLATES_DIR . $template_d . DS . $page['layout_file'], false);
             $render_use_default = normalize_path(TEMPLATES_DIR . $template_d . DS . 'use_default_layouts.php', false);
 
-            $render_file_module_temp = MW_MODULES_DIR . DS . $page['layout_file'];
+            $render_file_module_temp = modules_path() . DS . $page['layout_file'];
             $render_file_module_temp = normalize_path($render_file_module_temp, false);
              if (is_file($render_file_temp)) {
                 $render_file = $render_file_temp;
@@ -425,7 +425,7 @@ class Template
                 $render_file_temp = normalize_path($render_file_temp, false);
                 $render_use_default = normalize_path($render_use_default, false);
 
-                $render_file_module_temp = MW_MODULES_DIR . DS . $get_layout_from_parent['layout_file'];
+                $render_file_module_temp = modules_path() . DS . $get_layout_from_parent['layout_file'];
                 $render_file_module_temp = normalize_path($render_file_module_temp, false);
 
                 //if (!isset($page['content_type']) or $page['content_type'] == 'page') {
@@ -462,7 +462,7 @@ class Template
             $test_file = str_replace('..', '', $test_file);
 
             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $test_file;
-            $render_file_module_temp = MW_MODULES_DIR . DS . $test_file;
+            $render_file_module_temp = modules_path() . DS . $test_file;
             $render_file_module_temp = normalize_path($render_file_module_temp, false);
 
             if (is_file($render_file_temp)) {
@@ -569,7 +569,7 @@ class Template
 
                             $render_file_temp = TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
                             $render_file_temp = normalize_path($render_file_temp, false);
-                            $render_file_module_temp = MW_MODULES_DIR . DS . $page['layout_file'];
+                            $render_file_module_temp = modules_path() . DS . $page['layout_file'];
                             $render_file_module_temp = normalize_path($render_file_module_temp, false);
 
                             if (is_file($render_file_temp)) {
@@ -969,7 +969,7 @@ class Template
         }
 
 
-     //   $this->app->cache->save($render_file, $cache_id, $cache_group);
+     //   $this->app->cache_manager->save($render_file, $cache_id, $cache_group);
 
         return $render_file;
     }

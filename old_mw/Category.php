@@ -24,7 +24,7 @@ class Category
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -121,7 +121,7 @@ class Category
         if (!isset($params['no_cache'])) {
             $nest_level_orig = $depth_level_counter;
             if ($nest_level_orig == 0) {
-                $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+                $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
                 if (($cache_content) != false) {
                     print $cache_content;
                     return;
@@ -360,7 +360,7 @@ class Category
 
         $content = ob_get_contents();
         if ($nest_level_orig == 0) {
-            $this->app->cache->save($content, $function_cache_id, $cache_group);
+            $this->app->cache_manager->save($content, $function_cache_id, $cache_group);
         }
 
         ob_end_clean();
@@ -757,7 +757,7 @@ class Category
         $categories_id = intval($id);
         $cache_group = 'categories/' . $categories_id;
 
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -786,7 +786,7 @@ class Category
 
             if (isset($url) != false) {
                 $url = $url . '/category:' . $id;
-                $this->app->cache->save($url, $function_cache_id, $cache_group);
+                $this->app->cache_manager->save($url, $function_cache_id, $cache_group);
 
                 return $url;
             }
@@ -809,7 +809,7 @@ class Category
         $categories_id = intval($id);
         $cache_group = 'categories/' . $categories_id;
 
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -899,7 +899,7 @@ class Category
                 }
 
                 //if ($url != false) {
-                $this->app->cache->save($url, $function_cache_id, $cache_group);
+                $this->app->cache_manager->save($url, $function_cache_id, $cache_group);
                 return $url;
                 //}
             }
@@ -1131,7 +1131,7 @@ class Category
 
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -1167,7 +1167,7 @@ class Category
             }
             $results = array_unique($results);
         }
-        $this->app->cache->save($results, $function_cache_id, $cache_group);
+        $this->app->cache_manager->save($results, $function_cache_id, $cache_group);
         return $results;
     }
 
@@ -1331,7 +1331,7 @@ class Category
             if (isset($old_category['parent_id'])) {
                 $old_parent = $old_category['parent_id'];
             }
-            //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+            //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
 
         $save = $this->app->database->save($table, $data);
@@ -1339,9 +1339,9 @@ class Category
             return $save;
         }
 
-        //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
+        //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $save);
         if (isset($data['id'])) {
-            //$this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
+            //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
 
         if (intval($save) == 0) {
@@ -1365,7 +1365,7 @@ class Category
 
 
         $this->app->database->q($clean);
-        //$this->app->cache->clear('custom_fields');
+        //$this->app->cache_manager->clear('custom_fields');
 
         $media_table = $this->tables['media'];
 
@@ -1379,7 +1379,7 @@ class Category
 	";
 
 
-        //$this->app->cache->clear('media');
+        //$this->app->cache_manager->clear('media');
 
         $this->app->database->q($clean);
 
@@ -1413,21 +1413,21 @@ class Category
 
                 $item_save = $this->app->database->save($table_items, $item_save);
 
-                //$this->app->cache->clear('content' . DIRECTORY_SEPARATOR . $id);
+                //$this->app->cache_manager->clear('content' . DIRECTORY_SEPARATOR . $id);
             }
         }
         if ($old_parent != false) {
-            // $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
+            // $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $old_parent);
         }
 //        if (isset($data['parent_id'])) {
-//            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));
+//            $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['parent_id']));
 //        }
 //
 //        if ($preserve_cache == false) {
 //
-//            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . $save);
-//            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . '0');
-//            $this->app->cache->clear('categories' . DIRECTORY_SEPARATOR . 'global');
+//            $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $save);
+//            $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . '0');
+//            $this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . 'global');
 //        }
 
         return $save;
@@ -1464,7 +1464,7 @@ class Category
         $categories_id = intval($id);
         $cache_group = 'categories/' . $categories_id;
         $cache_content = false;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -1483,7 +1483,7 @@ class Category
 
         if (!empty($q)) {
 
-            $this->app->cache->save($q, $function_cache_id, $cache_group);
+            $this->app->cache_manager->save($q, $function_cache_id, $cache_group);
 
             return $q;
         } else {

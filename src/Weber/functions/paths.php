@@ -13,7 +13,7 @@ function userfiles_url()
 {
     static $folder;
     if (!$folder) {
-         $folder = site_url(WB_USERFILES_FOLDER_NAME . '/');
+        $folder = site_url(WB_USERFILES_FOLDER_NAME . '/');
     }
     return $folder;
 }
@@ -23,6 +23,15 @@ function modules_path()
     static $folder;
     if (!$folder) {
         $folder = (userfiles_path() . WB_MODULES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+    }
+    return $folder;
+}
+
+function elements_path()
+{
+    static $folder;
+    if (!$folder) {
+        $folder = (userfiles_path() . WB_ELEMENTS_FOLDER_NAME . DIRECTORY_SEPARATOR);
     }
     return $folder;
 }
@@ -52,6 +61,15 @@ function templates_url()
     static $folder;
     if (!$folder) {
         $folder = site_url(WB_USERFILES_FOLDER_NAME . '/' . WB_TEMPLATES_FOLDER_NAME . '/');
+    }
+    return $folder;
+}
+
+function admin_url()
+{
+    static $folder;
+    if (!$folder) {
+        $folder = site_url('admin');
     }
     return $folder;
 }

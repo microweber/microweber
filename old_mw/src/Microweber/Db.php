@@ -63,7 +63,7 @@ class Db
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -113,8 +113,8 @@ class Db
 
         $cache_group = $this->assoc_table_name($table);
 
-        $this->app->cache->delete($cache_group . '/' . $id);
-        $this->app->cache->delete($cache_group);
+        $this->app->cache_manager->delete($cache_group . '/' . $id);
+        $this->app->cache_manager->delete($cache_group);
 
         $this->q($q);
 
@@ -226,7 +226,7 @@ class Db
         $table_name = $this->real_table_name($table_name);
 
         $cache_group = 'db/' . $table_name;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -363,9 +363,9 @@ class Db
             }
         }
 
-        $this->app->cache->delete('db' . DIRECTORY_SEPARATOR . 'fields');
+        $this->app->cache_manager->delete('db' . DIRECTORY_SEPARATOR . 'fields');
 
-        $this->app->cache->save('--true--', $function_cache_id, $cache_group);
+        $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group);
         return true;
     }
 
@@ -449,7 +449,7 @@ class Db
         }
         if (!empty($upd)) {
             $cache_group = $this->assoc_table_name($test['table']);
-            $this->app->cache->delete($cache_group);
+            $this->app->cache_manager->delete($cache_group);
             return $upd;
         } else {
             return false;
@@ -2114,7 +2114,7 @@ class Db
 
                 foreach ($data_to_save_options ['delete_cache_groups'] as $item) {
 
-                    $this->app->cache->delete($item);
+                    $this->app->cache_manager->delete($item);
                 }
             }
         }
@@ -2369,15 +2369,15 @@ class Db
 
         $cache_group = $this->assoc_table_name($table);
 
-        $this->app->cache->delete($cache_group . '/global');
-        $this->app->cache->delete($cache_group . '/' . $id_to_return);
+        $this->app->cache_manager->delete($cache_group . '/global');
+        $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
 
         if ($skip_cache == false) {
             $cache_group = $this->assoc_table_name($table);
-            $this->app->cache->delete($cache_group . '/global');
-            $this->app->cache->delete($cache_group . '/' . $id_to_return);
+            $this->app->cache_manager->delete($cache_group . '/global');
+            $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
             if (isset($criteria['parent_id'])) {
-                $this->app->cache->delete($cache_group . '/' . intval($criteria['parent_id']));
+                $this->app->cache_manager->delete($cache_group . '/' . intval($criteria['parent_id']));
             }
         }
         return $id_to_return;
@@ -2519,7 +2519,7 @@ class Db
         $table = $this->escape_string($table);
         $function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
 
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
             $ex_fields_static[$table] = $cache_content;
@@ -2579,7 +2579,7 @@ class Db
             }
         }
         $ex_fields_static[$table] = $fields;
-        $this->app->cache->save($fields, $function_cache_id, $cache_group);
+        $this->app->cache_manager->save($fields, $function_cache_id, $cache_group);
         return $fields;
     }
 
@@ -2807,13 +2807,13 @@ class Db
                 }
 
                 if ($cats_data_modified == TRUE) {
-                    $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . 'global');
+                    $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . 'global');
                     if (isset($parent_id)) {
-                        $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . $parent_id);
+                        $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . $parent_id);
                     }
                 }
                 if ($cats_data_items_modified == TRUE) {
-                    $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
+                    $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
                 }
             }
 
@@ -3118,7 +3118,7 @@ class Db
 
                         }
                     }
-                    $this->app->cache->delete('custom_fields/global');
+                    $this->app->cache_manager->delete('custom_fields/global');
                 }
             }
         }
@@ -3164,7 +3164,7 @@ class Db
 
         $cache_group = $this->assoc_table_name($table);
 
-        $this->app->cache->delete($cache_group);
+        $this->app->cache_manager->delete($cache_group);
     }
 
     public function real_table_name($assoc_name)
@@ -3277,7 +3277,7 @@ class Db
         if ($cache_id != false and $cache_group != false) {
 
             $cache_id = $cache_id . crc32($q);
-            $results = $this->app->cache->get($cache_id, $cache_group);
+            $results = $this->app->cache_manager->get($cache_id, $cache_group);
             if ($results != false) {
                 if ($results == '---empty---' or (is_array($results) and empty($results))) {
                     return false;
@@ -3339,21 +3339,21 @@ class Db
         if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
             if ($cache_id != false) {
 
-                $this->app->cache->save('---empty---', $cache_id, $cache_group);
+                $this->app->cache_manager->save('---empty---', $cache_id, $cache_group);
             }
             return false;
         }
         if ($only_query == false) {
             if ($cache_id != false and $cache_group != false) {
                 if (is_array($q) and !empty($q)) {
-                    $this->app->cache->save($q, $cache_id, $cache_group);
+                    $this->app->cache_manager->save($q, $cache_id, $cache_group);
                 } else {
-                    $this->app->cache->save('---empty---', $cache_id, $cache_group);
+                    $this->app->cache_manager->save('---empty---', $cache_id, $cache_group);
                 }
             }
         }
         if ($cache_id != false) {
-            $this->app->cache->save($q, $cache_id, $cache_group);
+            $this->app->cache_manager->save($q, $cache_id, $cache_group);
         }
         return $q;
     }
@@ -3426,7 +3426,7 @@ class Db
 
         $table_name = $function_cache_id;
         $cache_group = 'db/' . $table_name;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -3449,7 +3449,7 @@ class Db
         }
 
 
-        $this->app->cache->save('--true--', $function_cache_id, $cache_group);
+        $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group);
 
 
     }
@@ -3569,7 +3569,7 @@ class Db
 
                 $qz = $this->q($sql);
             }
-            //$this->app->cache->delete('db');
+            //$this->app->cache_manager->delete('db');
             return true;
         } else {
             return false;

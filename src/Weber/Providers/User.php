@@ -106,10 +106,10 @@ class User
         $fields_to_add['website_url'] = 'longText';
         $fields_to_add['password_reset_hash'] = 'longText';
 
-        wb()->database->build_table($table_name, $fields_to_add);
+        mw()->database->build_table($table_name, $fields_to_add);
 
-        wb()->database->add_table_index('username', $table_name, array('username(255)'));
-        wb()->database->add_table_index('email', $table_name, array('email(255)'));
+        mw()->database->add_table_index('username', $table_name, array('username(255)'));
+        mw()->database->add_table_index('email', $table_name, array('email(255)'));
 
 
         $table_name = $this->tables['log'];
@@ -137,7 +137,7 @@ class User
         $fields_to_add['session_id'] = 'longlongText';
         $fields_to_add['is_system'] = "string";
 
-        wb()->database->build_table($table_name, $fields_to_add);
+        mw()->database->build_table($table_name, $fields_to_add);
 
         return true;
 

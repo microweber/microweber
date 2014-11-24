@@ -27,7 +27,7 @@ class Adapters
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
         }
         $adapters_dir = false;

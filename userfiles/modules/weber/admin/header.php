@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>default.css">
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex">
@@ -26,9 +26,9 @@
        <script type="text/javascript">
         mw.require("liveadmin.js");
         mw.require("jquery-ui.js");
-        mw.require("<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css");
-        mw.require("<?php print MW_INCLUDES_URL; ?>css/components.css");
-        mw.require("<?php print MW_INCLUDES_URL; ?>css/admin.css");
+        mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
+        mw.require("<?php print mw_includes_url(); ?>css/components.css");
+        mw.require("<?php print mw_includes_url(); ?>css/admin.css");
         mw.require("wysiwyg.js");
         mw.require("tools.js");
         mw.require("url.js");
@@ -43,8 +43,8 @@
         mw.require("content.js");
 		mw.require("upgrades.js");
 
-        mw.require("<?php print MW_INCLUDES_URL; ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
-        <?php /*  mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css");
+        mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
+        <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
     </script>
     <?php if (!isset($_REQUEST['no_toolbar'])): ?>
@@ -63,7 +63,7 @@
                     }
                 });
             });
-            mw.require("<?php print MW_INCLUDES_URL; ?>css/ui.css");
+            mw.require("<?php print mw_includes_url(); ?>css/ui.css");
         </script>
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>

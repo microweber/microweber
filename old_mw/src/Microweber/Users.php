@@ -14,7 +14,7 @@ class Users extends \Microweber\User
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = wb();
+            $this->app = mw();
         }
 
         if (!defined("MW_DB_TABLE_USERS")) {
@@ -90,7 +90,7 @@ class Users extends \Microweber\User
                     $q = "INSERT INTO $table (id,email, password, is_active)
 			VALUES ($next, '$email', '$pass', 'y')";
                     $this->app->database->q($q);
-                    $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
+                    $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
                     //$data = save_user($data);
                     $this->session_del('captcha');
                     $notif = array();
@@ -226,9 +226,9 @@ class Users extends \Microweber\User
         $table = MW_DB_TABLE_USERS;
         $save = $this->app->database->save($table, $data_to_save);
         $id = $save;
-        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
-        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . '0');
-        $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . $id);
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . '0');
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . $id);
         return $id;
     }
 
@@ -376,7 +376,7 @@ class Users extends \Microweber\User
                         $security['ip'] = MW_USER_IP;
                         $security['hash'] = $this->app->format->array_to_base64($data_res);
                         $function_cache_id = md5(serialize($security)) . uniqid() . rand();
-                        //$this->app->cache->save($security, $function_cache_id, $cache_group = 'password_reset');
+                        //$this->app->cache_manager->save($security, $function_cache_id, $cache_group = 'password_reset');
                         if (isset($data_res['id'])) {
                             $data_to_save = array();
                             $data_to_save['id'] = $data_res['id'];
@@ -470,7 +470,7 @@ class Users extends \Microweber\User
                         mw_var('FORCE_SAVE', $table);
 
                         $save = $this->app->database->save($table, $data_to_save);
-                        $this->app->cache->delete('users/global');
+                        $this->app->cache_manager->delete('users/global');
                         if ($save > 0) {
                             $data = array();
                             $data['id'] = $save;

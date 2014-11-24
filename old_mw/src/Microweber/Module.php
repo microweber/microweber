@@ -27,7 +27,7 @@ class Module
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -110,7 +110,7 @@ class Module
 
         $function_cache_id = 'modules' . __FUNCTION__ . crc32($function_cache_id) . 'tables';
 
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -201,7 +201,7 @@ class Module
 
         $this->app->database->build_table($table_name4, $fields_to_add);
 
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
         return true;
 
@@ -290,13 +290,13 @@ class Module
         } else {
 
 
-            $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
+            $module_in_default_dir = modules_path() . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
             // d($module_in_default_dir);
-            $module_in_default_file = MW_MODULES_DIR . $module_name . '.php';
-            $module_in_default_file_custom_view = MW_MODULES_DIR . $module_name . '_' . $custom_view . '.php';
+            $module_in_default_file = modules_path() . $module_name . '.php';
+            $module_in_default_file_custom_view = modules_path() . $module_name . '_' . $custom_view . '.php';
 
-            $element_in_default_file = MW_ELEMENTS_DIR . $module_name . '.php';
+            $element_in_default_file = elements_path() . $module_name . '.php';
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
             //
@@ -435,7 +435,7 @@ class Module
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
-            $l1 = new \Microweber\View($try_file1);
+            $l1 = new \Weber\View($try_file1);
             $l1->config = $config;
             $l1->app = $this->app;
             if (!empty($config)) {
@@ -495,7 +495,7 @@ class Module
             unset($l1);
             if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
                 $lic_l1_try_file1 = MW_ADMIN_VIEWS_DIR . 'activate_license.php';
-                $lic_l1 = new \Microweber\View($lic_l1_try_file1);
+                $lic_l1 = new \Weber\View($lic_l1_try_file1);
 
                 $lic_l1->config = $config;
                 $lic_l1->params = $attrs;
@@ -551,7 +551,7 @@ class Module
         $module_name_l = $this->locate($module_name);
 
         if ($module_name_l == false) {
-            $module_name_l = MW_MODULES_DIR . DS . $module_name . DS;
+            $module_name_l = modules_path() . DS . $module_name . DS;
             $module_name_l = normalize_path($module_name_l, 1);
 
         } else {
@@ -636,10 +636,10 @@ class Module
 
                 $tf = $module_name_l . $template_name;
                 $tf_theme = $module_name_l_theme . $template_name;
-                $tf_from_other_theme = MW_TEMPLATES_DIR . $template_name;
+                $tf_from_other_theme = templates_path() .  $template_name;
                 $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
 
-                $tf_other_module = MW_MODULES_DIR . $template_name;
+                $tf_other_module = modules_path() . $template_name;
                 $tf_other_module = normalize_path($tf_other_module, false);
 
                 if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
@@ -674,7 +674,7 @@ class Module
         $module_in_template_dir = normalize_path($module_in_template_dir, 1);
         $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
         $module_in_template_file = normalize_path($module_in_template_file, false);
-        $module_in_default_file12 = MW_MODULES_DIR . $module_name . '.php';
+        $module_in_default_file12 = modules_path() . $module_name . '.php';
 
         $try_file1 = false;
         $mod_d = $module_in_template_dir;
@@ -688,11 +688,11 @@ class Module
         } elseif (is_file($module_in_default_file12) and $custom_view == false) {
             $try_file1 = $module_in_default_file12;
         } else {
-            $module_in_default_dir = MW_MODULES_DIR . $module_name . '';
+            $module_in_default_dir = modules_path() . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
-            $module_in_default_file = MW_MODULES_DIR . $module_name . '.php';
-            $module_in_default_file_custom_view = MW_MODULES_DIR . $module_name . '_' . $custom_view . '.php';
-            $element_in_default_file = MW_ELEMENTS_DIR . $module_name . '.php';
+            $module_in_default_file = modules_path() . $module_name . '.php';
+            $module_in_default_file_custom_view = modules_path() . $module_name . '_' . $custom_view . '.php';
+            $element_in_default_file = elements_path() . $module_name . '.php';
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
 
@@ -764,7 +764,7 @@ class Module
 
         $cache_group = 'modules/global';
 
-        $cache_content = $this->app->cache->get($cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -785,7 +785,7 @@ class Module
                 $checked[$module_name] = false;
             }
         }
-        $this->app->cache->save($checked[$module_name], $function_cache_id, $cache_group);
+        $this->app->cache_manager->save($checked[$module_name], $function_cache_id, $cache_group);
         if ($secure_connection == true) {
             $checked[$module_name] = str_ireplace('http://', 'https://', $checked[$module_name]);
         }
@@ -866,7 +866,7 @@ class Module
 
         $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = 'modules/global';
-        $cache_content = $this->app->cache->get($cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
         if (($cache_content) != false) {
             return $cache_content;
         }
@@ -881,7 +881,7 @@ class Module
                 $checked[$module_name] = false;
             }
         }
-        $this->app->cache->save($checked[$module_name], $function_cache_id, $cache_group);
+        $this->app->cache_manager->save($checked[$module_name], $function_cache_id, $cache_group);
         return $checked[$module_name];
 
     }
@@ -953,10 +953,10 @@ class Module
 
             $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' ";
             $this->app->database->q($q);
-            $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
-            $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
-            $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
         }
     }
 
@@ -1058,7 +1058,7 @@ class Module
                 // $this->delete_module($id);
             }
         }
-        $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
+        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
 
         // d($params);
     }
@@ -1072,7 +1072,7 @@ class Module
             $glob_patern = 'config.php';
         }
 
-        //$this->app->cache->clear();
+        //$this->app->cache_manager->clear();
         //clearstatcache();
         $dir_name_mods = MW_MODULES_DIR;
         $modules_remove_old = false;
@@ -1210,7 +1210,7 @@ class Module
 
             $dir = rglob($glob_patern, 0, $dir_name);
             $replace_root = normalize_path($dir_name);
-            $def_icon = MW_MODULES_DIR . 'default.png';
+            $def_icon = modules_path() . 'default.png';
             if (!empty($dir)) {
                 foreach ($dir as $module) {
                     $module_dir = dirname($module);
@@ -1299,16 +1299,16 @@ class Module
         if (isset($options['cleanup_db']) == true) {
 
             if (mw()->user->is_admin() == true) {
-                $this->app->cache->delete('categories');
-                $this->app->cache->delete('categories_items');
-                $this->app->cache->delete('db');
-                $this->app->cache->delete('modules');
+                $this->app->cache_manager->delete('categories');
+                $this->app->cache_manager->delete('categories_items');
+                $this->app->cache_manager->delete('db');
+                $this->app->cache_manager->delete('modules');
             }
         }
 
         if (isset($options['skip_cache']) == false and isset($options['no_cache']) == false) {
 
-            $cache_content = $this->app->cache->get($cache_id, $cache_group);
+            $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
 
             if (($cache_content) != false) {
 
@@ -1366,7 +1366,7 @@ class Module
                     $value_fn = $mod_name_dir = str_replace($dir_name_mods2, '', $value_fn);
 
 
-                    $def_icon = MW_MODULES_DIR . 'default.png';
+                    $def_icon = modules_path() . 'default.png';
 
                     ob_start();
 
@@ -1402,7 +1402,7 @@ class Module
                     $config['module_base'] = str_replace('admin/', '', $value_fn);
                     if (is_dir($mod_name)) {
                         $bname = basename($mod_name);
-                        $t1 = MW_MODULES_DIR . $config['module'] . DS . $bname;
+                        $t1 = modules_path() . $config['module'] . DS . $bname;
 
                         $try_icon = $t1 . '.png';
 
@@ -1490,7 +1490,7 @@ class Module
             $c2 = array_merge($cfg_ordered, $cfg);
 
 
-            $this->app->cache->save($c2, $cache_id, $cache_group);
+            $this->app->cache_manager->save($c2, $cache_id, $cache_group);
 
             return $c2;
         }
@@ -1548,12 +1548,12 @@ class Module
                 $save = $this->app->database->save($table, $s);
             }
         }
-        $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . 'functions');
+        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . 'functions');
         if (!isset($data_to_save['keep_cache'])) {
             if ($save != false) {
-                //   $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . intval($save));
-                // $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . 'global');
-                //$this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
+                //   $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . intval($save));
+                // $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . 'global');
+                //$this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
             }
         }
         return $save;
@@ -1680,7 +1680,7 @@ class Module
 
                         if ($changes == true) {
 
-                            $this->app->cache->delete('options/global');
+                            $this->app->cache_manager->delete('options/global');
                         }
                     }
 
@@ -1701,7 +1701,7 @@ class Module
 
                         if ($changes == true) {
 
-                            $this->app->cache->delete('options/global');
+                            $this->app->cache_manager->delete('options/global');
                         }
                     }
 
@@ -1755,10 +1755,10 @@ class Module
 
         $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' AND rel_id={$id}";
         $this->app->database->q($q);
-        $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
-        // $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
+        $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
+        // $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
-        $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . '');
+        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
     }
 
 

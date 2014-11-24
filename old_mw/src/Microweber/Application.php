@@ -378,7 +378,7 @@ class oldApplication
             throw new \Exception($err);
 
         } else {
-            $v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'error.php');
+            $v = new \Weber\View(MW_ADMIN_VIEWS_DIR . 'error.php');
             $v->e = $e;
             $v->f = $f;
             $v->l = $l;

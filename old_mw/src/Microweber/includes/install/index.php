@@ -416,7 +416,7 @@ if (isset($to_save['is_installed'])) {
 
                         if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
                             if (defined('MW_TEMPLATES_DIR')) {
-                                $template_dir = MW_TEMPLATES_DIR . DS . $to_save['default_template'];
+                                $template_dir = templates_path() .  DS . $to_save['default_template'];
                                 $template_dir = normalize_path($template_dir, true);
                                 if (is_dir($template_dir)) {
                                     $template_default_content = $template_dir . 'mw_default_content.zip';

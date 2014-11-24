@@ -170,7 +170,7 @@ class Media
         $cache_id = 'upload_progress_' . $ref_str;
         $cache_group = 'media/global';
 
-        $cache_content = $this->app->cache->get($cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
         if ($cache_content != false) {
             if (isset($cache_content["tmp_name"]) != false) {
                 if (isset($cache_content["f"]) != false) {
@@ -253,7 +253,7 @@ class Media
 
             $allowedExts = array("jpg", "jpeg", "gif", "png", 'bmp');
 
-            //$upl = $this->app->cache->save($_FILES, $cache_id, $cache_group);
+            //$upl = $this->app->cache_manager->save($_FILES, $cache_id, $cache_group);
             foreach ($_FILES as $item) {
 
                 $extension = end(explode(".", $item["name"]));
@@ -261,7 +261,7 @@ class Media
                     if ($item["error"] > 0) {
                         mw_error("Error: " . $item["error"]);
                     } else {
-                        $upl = $this->app->cache->save($item, $cache_id, $cache_group);
+                        $upl = $this->app->cache_manager->save($item, $cache_id, $cache_group);
 
                         $f = $target_path . $item['name'];
                         if (is_file($f)) {
@@ -270,7 +270,7 @@ class Media
 
                         $progress = (array)$item;
                         $progress['f'] = $f;
-                        $upl = $this->app->cache->save($progress, $cache_id, $cache_group);
+                        $upl = $this->app->cache_manager->save($progress, $cache_id, $cache_group);
 
                         if (move_uploaded_file($item['tmp_name'], $f)) {
                             $rerturn['src'] = $this->app->url->link_to_file($f);
@@ -589,7 +589,7 @@ class Media
             //$s['debug'] = $t;
 
             $s = $this->app->database->save($table, $s);
-            $this->app->cache->delete('media');
+            $this->app->cache_manager->delete('media');
 
             return ($s);
         } elseif (isset($s['id'])) {
@@ -597,7 +597,7 @@ class Media
             //$s['debug'] = $t;
 
             $s = $this->app->database->save($table, $s);
-            $this->app->cache->delete('media');
+            $this->app->cache_manager->delete('media');
 
             return ($s);
         } else {

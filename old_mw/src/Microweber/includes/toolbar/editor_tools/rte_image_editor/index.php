@@ -1,4 +1,4 @@
-<?php $path = MW_INCLUDES_URL . "toolbar/editor_tools/rte_image_editor/"; ?>
+<?php $path = mw_includes_url() . "toolbar/editor_tools/rte_image_editor/"; ?>
 
 <script type="text/javascript">
      parent.mw.require("external_callbacks.js");

@@ -15,7 +15,7 @@ class SearchEngines
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -114,7 +114,7 @@ class SearchEngines
                 $curl->url = 'http://www.google.com/webmasters/sitemaps/ping?sitemap=' . $this->app->url->site('sitemap.xml');
                 $curl->timeout = 3;
                 $result1 = $curl->execute();
-                $this->app->cache->delete('content/ping');
+                $this->app->cache_manager->delete('content/ping');
             }
         }
     }

@@ -22,7 +22,7 @@ class Update
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -285,8 +285,8 @@ class Update
                 }
             }
 
-            //$this->app->cache->delete('update/global');
-            //$this->app->cache->clear();
+            //$this->app->cache_manager->delete('update/global');
+            //$this->app->cache_manager->clear();
             //return $unzipped;
         }
 
@@ -319,13 +319,13 @@ class Update
         }
         $c_id = __FUNCTION__ . date("ymdh");
         if ($skip_cache == false) {
-            $cache_content = $this->app->cache->get($c_id, 'update/global');
+            $cache_content = $this->app->cache_manager->get($c_id, 'update/global');
             if (($cache_content) != false) {
                 return $cache_content;
             }
         } else {
             $this->skip_cache = true;
-            $this->app->cache->delete('update/global');
+            $this->app->cache_manager->delete('update/global');
         }
 
 
@@ -366,7 +366,7 @@ class Update
             $result['count'] = $count;
         }
         if ($result != false) {
-            $this->app->cache->save($result, $c_id, 'update/global');
+            $this->app->cache_manager->save($result, $c_id, 'update/global');
         }
 
 
@@ -557,9 +557,9 @@ class Update
             $params['skip_cache'] = true;
 
             $data = $this->app->module->get($params);
-            $this->app->cache->delete('update/global');
-            $this->app->cache->delete('db');
-            $this->app->cache->delete('modules');
+            $this->app->cache_manager->delete('update/global');
+            $this->app->cache_manager->delete('db');
+            $this->app->cache_manager->delete('modules');
             event_trigger('mw_db_init_default');
             event_trigger('mw_db_init_modules');
 

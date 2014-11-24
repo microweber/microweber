@@ -12,7 +12,7 @@ class Forms
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = wb();
+            $this->app = mw();
         }
 
         if (!defined("MW_DB_TABLE_COUNTRIES")) {
@@ -41,7 +41,7 @@ class Forms
 
         $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
 
         if ($force == false and ($cache_content) != false) {
 
@@ -96,7 +96,7 @@ class Forms
 
         $this->app->database->import_sql_file($table_sql);
 
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
         return true;
 
     }
@@ -429,7 +429,7 @@ class Forms
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
         $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
-        $cache_content = $this->app->cache->get($function_cache_id, 'forms');
+        $cache_content = $this->app->cache_manager->get($function_cache_id, 'forms');
         if ($force == false and ($cache_content) != false) {
 
             return $cache_content;
@@ -448,11 +448,11 @@ class Forms
             foreach ($q as $value) {
                 $res[] = $value['country_name'];
             }
-            $this->app->cache->save($res, $function_cache_id, $cache_group = 'forms');
+            $this->app->cache_manager->save($res, $function_cache_id, $cache_group = 'forms');
             return $res;
         } else {
             $this->db_init();
-            $this->app->cache->delete('forms');
+            $this->app->cache_manager->delete('forms');
             return false;
         }
 
@@ -480,7 +480,7 @@ class Forms
                         $this->app->database->q($q);
                     }
                 }
-                $this->app->cache->delete('custom_fields');
+                $this->app->cache_manager->delete('custom_fields');
             }
 
             $this->app->database->delete_by_id('forms_data', $c_id);

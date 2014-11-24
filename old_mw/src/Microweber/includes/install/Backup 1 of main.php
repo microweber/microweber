@@ -6,11 +6,11 @@
 <title>Microweber Configuration</title>
 <meta charset="utf-8">
 <META HTTP-EQUIV="Content-Language" Content="en">
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>api/api.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/liveadmin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/admin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
-<script type="text/javascript" src="<?php print MW_INCLUDES_URL; ?>js/jquery.js"></script>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>api/api.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/liveadmin.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/mw_framework.css"/>
+<script type="text/javascript" src="<?php print mw_includes_url(); ?>js/jquery.js"></script>
 <?php
 
     $rand = uniqid();

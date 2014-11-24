@@ -19,7 +19,7 @@ class Log
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -67,7 +67,7 @@ class Log
 
         $cg = guess_cache_group($table);
 
-        $this->app->cache->delete($cg);
+        $this->app->cache_manager->delete($cg);
         $q = $this->app->database->q($q);
         return array('success' => 'System log is cleaned up.');
 
@@ -92,7 +92,7 @@ class Log
             }
 
         }
-        $this->app->cache->delete('log' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
         return true;
     }
 
@@ -106,7 +106,7 @@ class Log
         mw_var('FORCE_SAVE', $table);
         $save = $this->app->database->save($table, $params);
         $id = $save;
-        $this->app->cache->delete('log' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
         return $id;
     }
 

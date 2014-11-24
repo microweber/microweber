@@ -35,7 +35,7 @@ class ContentManager
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
         }
         $this->set_table_names();
@@ -59,7 +59,7 @@ class ContentManager
         $function_cache_id = serialize($this->tables);
         $function_cache_id = 'content_db_tables_' . $this->table_prefix . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -316,7 +316,7 @@ class ContentManager
         $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
         $this->app->database->add_table_index('parent_id', $table_name, array('parent_id'));
 
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
         return true;
 
     }
@@ -1523,7 +1523,7 @@ class ContentManager
         $nest_level_orig = $nest_level;
         //$params['no_cache'] = 1;
         if ($nest_level_orig == 0) {
-            $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+            $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
             if (isset($params['no_cache'])) {
                 $cache_content = false;
             }
@@ -2057,7 +2057,7 @@ class ContentManager
         }
         $content = ob_get_contents();
         if ($nest_level_orig == 0) {
-            $this->app->cache->save($content, $function_cache_id, $cache_group);
+            $this->app->cache_manager->save($content, $function_cache_id, $cache_group);
         }
         ob_end_clean();
         if (isset($params['return_data'])) {
@@ -2208,7 +2208,7 @@ class ContentManager
 
         if ($orig_depth == 0) {
 
-            $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+            $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
             if (!isset($no_cache) and ($cache_content) != false) {
                 return $cache_content;
             }
@@ -2577,7 +2577,7 @@ class ContentManager
 
         $to_print .= '</' . $ul_tag . '>';
         if ($orig_depth == 0) {
-            $this->app->cache->save($to_print, $function_cache_id, $cache_group);
+            $this->app->cache_manager->save($to_print, $function_cache_id, $cache_group);
         }
         return $to_print;
     }
@@ -4465,7 +4465,7 @@ class ContentManager
 
         if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
 
-            define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
+            define('THIS_TEMPLATE_DIR', templates_path() .  $the_active_site_template . DS);
 
         }
 
@@ -4475,16 +4475,16 @@ class ContentManager
 
         }
 
-        $the_active_site_template_dir = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template . DS);
+        $the_active_site_template_dir = normalize_path(templates_path() .  $the_active_site_template . DS);
 
         if (defined('DEFAULT_TEMPLATE_DIR') == false) {
 
-            define('DEFAULT_TEMPLATE_DIR', MW_TEMPLATES_DIR . 'default' . DS);
+            define('DEFAULT_TEMPLATE_DIR', templates_path() .  'default' . DS);
         }
 
         if (defined('DEFAULT_TEMPLATE_URL') == false) {
 
-            define('DEFAULT_TEMPLATE_URL', MW_USERFILES_URL . MW_TEMPLATES_FOLDER_NAME . '/default/');
+            define('DEFAULT_TEMPLATE_URL', templates_url()  . '/default/');
         }
 
 
@@ -4513,7 +4513,7 @@ class ContentManager
                                 $the_active_site_template = $par_page['active_site_template'];
                                 $page['layout_file'] = $par_page['layout_file'];
                                 $page['active_site_template'] = $par_page['active_site_template'];
-                                $template_view = MW_TEMPLATES_DIR . $page['active_site_template'] . DS . $page['layout_file'];
+                                $template_view = templates_path() .  $page['active_site_template'] . DS . $page['layout_file'];
 
 
                             }
@@ -4524,11 +4524,11 @@ class ContentManager
                     if (is_file($template_view) == true) {
 
                         if (defined('THIS_TEMPLATE_DIR') == false) {
-                            define('THIS_TEMPLATE_DIR', MW_TEMPLATES_DIR . $the_active_site_template . DS);
+                            define('THIS_TEMPLATE_DIR', templates_path() .  $the_active_site_template . DS);
                         }
 
                         if (defined('THIS_TEMPLATE_URL') == false) {
-                            $the_template_url = MW_USERFILES_URL . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+                            $the_template_url = templates_url()  . '/' . $the_active_site_template;
                             $the_template_url = $the_template_url . '/';
                             if (defined('THIS_TEMPLATE_URL') == false) {
                                 define("THIS_TEMPLATE_URL", $the_template_url);
@@ -4558,7 +4558,7 @@ class ContentManager
         }
 
         if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = MW_USERFILES_URL . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+            $the_template_url = templates_url()  . '/' . $the_active_site_template;
 
             $the_template_url = $the_template_url . '/';
 
@@ -4584,10 +4584,10 @@ class ContentManager
 
         if (defined('TEMPLATES_DIR') == false) {
 
-            define('TEMPLATES_DIR', MW_TEMPLATES_DIR);
+            define('TEMPLATES_DIR', templates_path());
         }
 
-        $the_template_url = MW_USERFILES_URL . MW_TEMPLATES_FOLDER_NAME . '/' . $the_active_site_template;
+        $the_template_url = templates_url()  . '/' . $the_active_site_template;
 
         $the_template_url = $the_template_url . '/';
         if (defined('TEMPLATE_URL') == false) {

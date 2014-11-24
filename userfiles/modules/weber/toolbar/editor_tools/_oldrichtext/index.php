@@ -4,14 +4,14 @@
 
 {head}
 
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/mw_framework.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/liveadmin.css"/>
-<link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/mw_framework.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/liveadmin.css"/>
+<link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/wysiwyg.css"/>
 <script>
     mwAdmin = true;
 </script>
 <script>mw.require("jquery-ui.js");</script>
-<script>mw.require("<?php print MW_INCLUDES_URL; ?>css/admin.css");</script>
+<script>mw.require("<?php print mw_includes_url(); ?>css/admin.css");</script>
 <script>mw.require("tools.js");</script>
 <script>mw.require("url.js");</script>
 <script>mw.require("events.js");</script>

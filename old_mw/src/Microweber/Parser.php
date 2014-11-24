@@ -29,7 +29,7 @@ class Parser
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
         }
 
@@ -979,7 +979,7 @@ class Parser
             }
 
             if ($no_cache == false) {
-                //    $this->app->cache->save($layout, $parser_mem_crc, 'content_fields/global/parser');
+                //    $this->app->cache_manager->save($layout, $parser_mem_crc, 'content_fields/global/parser');
             }
 
         }

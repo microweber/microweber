@@ -17,7 +17,7 @@ class Installer
     {
         Cache::flush();
 
-        wb()->modules->install();
+        mw()->modules->install();
 
     }
 

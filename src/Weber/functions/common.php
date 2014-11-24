@@ -1,6 +1,6 @@
 <?php
 
-function wb($class = null)
+function mw($class = null)
 {
 
     $app = \Weber\Application::getInstance();
@@ -13,7 +13,7 @@ function wb($class = null)
 }
 function weber($class = null)
 {
- return wb($class);
+ return mw($class);
 }
 ///**
 // * Constructor function

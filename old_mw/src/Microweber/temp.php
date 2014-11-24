@@ -7,7 +7,7 @@ class Boo  {
         //getInstance
 
 
-        $this->app = wb();
+        $this->app = mw();
     }
 
     function asaa(){

@@ -31,7 +31,7 @@ class Layouts
                 $this->app = $app;
             } else {
 
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -77,7 +77,7 @@ class Layouts
         if (!isset($options['path'])) {
             if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
                 $tmpl = trim($options['site_template']);
-                $check_dir = MW_TEMPLATES_DIR . '' . $tmpl;
+                $check_dir = templates_path() .  '' . $tmpl;
 
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
@@ -87,7 +87,7 @@ class Layouts
             } elseif (isset($options['site_template']) and (strtolower($options['site_template']) == 'mw_default')) {
                 $options['site_template'] = 'default';
                 $tmpl = trim($options['site_template']);
-                $check_dir = MW_TEMPLATES_DIR . '' . $tmpl;
+                $check_dir = templates_path() .  '' . $tmpl;
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
@@ -100,7 +100,7 @@ class Layouts
                 $the_active_site_template = 'default';
             }
 
-            $path = normalize_path(MW_TEMPLATES_DIR . $the_active_site_template);
+            $path = normalize_path(templates_path() .  $the_active_site_template);
 
         } else {
             $path = $options['path'];
@@ -128,7 +128,7 @@ class Layouts
 
             $cache_group = 'templates';
 
-            $cache_content = $this->app->cache->get($cache_id, $cache_group);
+            $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
 
             if (($cache_content) != false) {
 
@@ -156,7 +156,7 @@ class Layouts
 
             }
 
-           // $_dirs = glob(MW_TEMPLATES_DIR . '*', GLOB_ONLYDIR);
+           // $_dirs = glob(templates_path() .  '*', GLOB_ONLYDIR);
 //            $_dirs = glob(THIS_TEMPLATE_DIR . '*', GLOB_ONLYDIR);
 //            $dir = array();
 //            foreach ($_dirs as $item) {
@@ -216,7 +216,7 @@ class Layouts
                         $result = str_ireplace('type:']= '', $result);
                         $to_return_temp['type'] = trim($result);
                         $to_return_temp['directory'] = $here_dir;
-                        if (strstr($here_dir, MW_TEMPLATES_DIR)) {
+                        if (strstr($here_dir, templates_path())) {
                             $templ_dir = str_replace(MW_TEMPLATES_DIR, '', $here_dir);
                             if ($templ_dir != '') {
                                 $templ_dir = explode(DS, $templ_dir);
@@ -383,7 +383,7 @@ class Layouts
                     $configs = $sorted_by_pos;
                 }
                 if (!isset($options['no_cache'])) {
-                    $this->app->cache->save($configs, $function_cache_id, $cache_group);
+                    $this->app->cache_manager->save($configs, $function_cache_id, $cache_group);
                 }
                 return $configs;
             }
@@ -418,7 +418,7 @@ class Layouts
         }
 
         $page_url_segment_1 = $this->app->url->segment(0);
-        $td = MW_TEMPLATES_DIR . $page_url_segment_1;
+        $td = templates_path() .  $page_url_segment_1;
         $td_base = $td;
 
         $page_url_segment_2 = $this->app->url->segment(1);
@@ -428,7 +428,7 @@ class Layouts
         if (!is_dir($td_base)) {
             array_shift($page_url_segment_3);
             //$page_url_segment_1 =	$the_active_site_template = $this->app->option->get('current_template');
-            //$td_base = MW_TEMPLATES_DIR .  $the_active_site_template.DS;
+            //$td_base = templates_path() .   $the_active_site_template.DS;
         } else {
 
         }
@@ -490,8 +490,8 @@ class Layouts
 
         if ($save != false) {
 
-            $this->app->cache->delete('elements' . DIRECTORY_SEPARATOR . '');
-            $this->app->cache->delete('elements' . DIRECTORY_SEPARATOR . 'global');
+            $this->app->cache_manager->delete('elements' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('elements' . DIRECTORY_SEPARATOR . 'global');
         }
         return $save;
     }
@@ -546,10 +546,10 @@ class Layouts
             $q = "DELETE FROM $db_categories_items WHERE rel='elements' AND data_type='category_item' ";
             // d($q);
             $this->app->database->q($q);
-            $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
-            $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
-            $this->app->cache->delete('elements' . DIRECTORY_SEPARATOR . '');
+            $this->app->cache_manager->delete('elements' . DIRECTORY_SEPARATOR . '');
         }
     }
 
@@ -749,7 +749,7 @@ class Layouts
                     save_option($option);
                 }
 
-                $template_folder = MW_TEMPLATES_DIR . $template . DS;
+                $template_folder = templates_path() .  $template . DS;
                 $template_url = MW_TEMPLATES_URL . $template . '/';
                 $this_template_url = THIS_TEMPLATE_URL;
 

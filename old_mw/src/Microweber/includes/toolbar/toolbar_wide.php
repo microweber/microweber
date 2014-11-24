@@ -2,7 +2,7 @@
 <script type="text/javascript">
         mw.settings.liveEdit = true;
         mw.require("liveadmin.js");
-        mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
+        mw.require("<?php print( mw_includes_url());  ?>js/jquery-ui-1.10.0.custom.min.js");
         mw.require("events.js");
         mw.require("url.js");
         mw.require("tools.js");
@@ -19,7 +19,7 @@
 <script type="text/javascript">
 if(mw.cookie.get("helpinfoliveedit") != 'false'){
      mw.require("helpinfo.js", true);
-     mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css", true);
+     mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css", true);
 }
 </script>
 <script type="text/javascript">
@@ -62,8 +62,8 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
   });
 
 </script>
-<link href="<?php print(MW_INCLUDES_URL); ?>css/components.css" rel="stylesheet" type="text/css"/>
-<link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print(mw_includes_url()); ?>css/components.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
         $(document).ready(function () {
             mw.toolbar.minTop = parseFloat($(mwd.body).css("paddingTop"));

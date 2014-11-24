@@ -14,7 +14,7 @@ $application = new \Microweber\Application();
 // get stuff
 $pages = $application->content->get('content_type=page');
 
-$layout = new \Microweber\View($my_views_dir.'default.php');
+$layout = new \Weber\View($my_views_dir.'default.php');
 $layout->content = 'I assigned variable to a view!';
 $layout->pages = $pages;
 

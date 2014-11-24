@@ -3,7 +3,7 @@
 <script type="text/javascript">
     mw.settings.liveEdit = true;
     mw.require("liveadmin.js");
-    mw.require("<?php print( MW_INCLUDES_URL);  ?>js/jquery-ui-1.10.0.custom.min.js");
+    mw.require("<?php print( mw_includes_url());  ?>js/jquery-ui-1.10.0.custom.min.js");
     mw.require("events.js");
     mw.require("url.js");
     mw.require("tools.js");
@@ -14,11 +14,11 @@
     mw.require("files.js");
     mw.require("content.js", true);
     mw.require("session.js");
-    mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/sortable.js");
-    mw.require("<?php   print( MW_INCLUDES_URL);  ?>js/toolbar.js");
+    mw.require("<?php   print( mw_includes_url());  ?>js/sortable.js");
+    mw.require("<?php   print( mw_includes_url());  ?>js/toolbar.js");
 </script>
-<link href="<?php   print( MW_INCLUDES_URL);  ?>css/components.css" rel="stylesheet" type="text/css" />
-<link href="<?php   print( MW_INCLUDES_URL);  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( mw_includes_url());  ?>css/components.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( mw_includes_url());  ?>css/wysiwyg.css" rel="stylesheet" type="text/css" />
 
 
 <script type="text/javascript">

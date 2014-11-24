@@ -4,12 +4,12 @@
     <title><?php _e("Microweber installation"); ?></title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Language" Content="en">
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>default.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/ui.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/admin.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/components.css"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print MW_INCLUDES_URL; ?>css/install.css"/>
-    <script type="text/javascript" src="<?php print MW_INCLUDES_URL; ?>api/jquery.js"></script>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/ui.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/admin.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/components.css"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>css/install.css"/>
+    <script type="text/javascript" src="<?php print mw_includes_url(); ?>api/jquery.js"></script>
     <?php
 
     $rand = uniqid();

@@ -27,6 +27,9 @@ if (!defined('WB_USERFILES_FOLDER_NAME')) {
 if (!defined('WB_MODULES_FOLDER_NAME')) {
     define('WB_MODULES_FOLDER_NAME', 'modules'); //relative to userfiles dir
 }
+if (!defined('WB_ELEMENTS_FOLDER_NAME')) {
+    define('WB_ELEMENTS_FOLDER_NAME', 'elements'); //relative to userfiles dir
+}
 
 if (!defined('WB_TEMPLATES_FOLDER_NAME')) {
     define('WB_TEMPLATES_FOLDER_NAME', 'templates'); //relative to userfiles dir
@@ -45,6 +48,7 @@ if (!defined('WB_USER_IP')) {
 include_once(__DIR__ . DS . 'paths.php');
 include_once(__DIR__ . DS . 'filesystem.php');
 include_once(__DIR__ . DS . 'lang.php');
+include_once(__DIR__ . DS . 'events.php');
 include_once(__DIR__ . DS . 'api.php');
 include_once(__DIR__ . DS . 'common.php');
 include_once(__DIR__ . DS . 'content.php');

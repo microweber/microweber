@@ -36,7 +36,7 @@ if($is_quick_edit == true){
 <script type="text/javascript">
 //if(mw.cookie.get("helpinfoliveedit") != 'false'){
 //     mw.require("helpinfo.js", true);
-//     mw.require("<?php print MW_INCLUDES_URL; ?>css/helpinfo.css", true);
+//     mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css", true);
 //}
 </script>
 <script type="text/javascript">
@@ -89,8 +89,8 @@ if($is_quick_edit == true){
   });
 
 </script>
-<link href="<?php print(MW_INCLUDES_URL); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
-<link href="<?php print(MW_INCLUDES_URL); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
+<link href="<?php print(mw_includes_url()); ?>css/liveedit.css" rel="stylesheet" type="text/css"/>
 
 <script type="text/javascript">
         $(document).ready(function () {

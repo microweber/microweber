@@ -317,11 +317,11 @@ if (is_file($autoload_vendors_file)) {
 }
 
 
-if (!defined('MW_INCLUDES_URL')) {
-    define('MW_INCLUDES_URL', mw_path_to_url(MW_INCLUDES_DIR));
+if (!defined('mw_includes_url()')) {
+    define('mw_includes_url()', mw_path_to_url(MW_INCLUDES_DIR));
 }
 if (!defined('INCLUDES_URL')) {
-    define('INCLUDES_URL', MW_INCLUDES_URL);
+    define('INCLUDES_URL', mw_includes_url());
 }
 if (!defined('MW_ADMIN_VIEWS_DIR')) {
     define('MW_ADMIN_VIEWS_DIR', MW_INCLUDES_DIR . 'admin' . DS);
@@ -541,7 +541,7 @@ class mw
 set_include_path(dirname(MW_APP_PATH) . PATH_SEPARATOR .
     MW_APP_PATH . PATH_SEPARATOR .
 
-    PATH_SEPARATOR . MW_MODULES_DIR .
+    PATH_SEPARATOR . modules_path() .
     //PATH_SEPARATOR . $libs_path .
     PATH_SEPARATOR . $autoload_vendors_shared_dir .
     PATH_SEPARATOR . get_include_path());
@@ -662,7 +662,7 @@ function mw_error($e, $f = false, $l = false)
 {
     include_once(MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language.php');
 
-    $v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'error.php');
+    $v = new \Weber\View(MW_ADMIN_VIEWS_DIR . 'error.php');
     $v->e = $e;
     $v->f = $f;
     $v->l = $l;

@@ -101,7 +101,7 @@ $this->db_init();
 
         $function_cache_id = 'ip2country_' . __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_content = $this->app->cache->get($function_cache_id, 'db');
+        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
 
         if (($cache_content) != false) {
 
@@ -120,7 +120,7 @@ $this->db_init();
         $fields_to_add[] = array('latitude', 'longText');
         $fields_to_add[] = array('longitude', 'longText');
         \mw('db')->build_table($table_name, $fields_to_add);
-        $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
+        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
 
 
 

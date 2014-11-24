@@ -25,7 +25,7 @@ class Controller
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
 
         }
@@ -90,7 +90,7 @@ class Controller
         event_trigger('mw_backend');
 
 
-        $l = new \Microweber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
+        $l = new \Weber\View(MW_ADMIN_VIEWS_DIR . 'admin.php');
         $l = $l->__toString();
         // var_dump($l);
         event_trigger('on_load');
@@ -104,7 +104,7 @@ class Controller
         $apijs_settings_loaded = $this->app->url->site('apijs_settings') . '?id=' . CONTENT_ID;
 
         // $is_admin = $this->app->user->is_admin();
-        $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
+        $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';
         if (!stristr($layout, $apijs_loaded)) {
             $rep = 0;
 
@@ -262,15 +262,15 @@ class Controller
         $mod_api_class_clean_uc1 = ucfirst($mod_api_class_clean);
 
 
-        $mod_api_class1 = normalize_path(MW_MODULES_DIR . $mod_api_class, false) . '.php';
+        $mod_api_class1 = normalize_path(modules_path() . $mod_api_class, false) . '.php';
         $mod_api_class_native = normalize_path(MW_APP_PATH . $mod_api_class, false) . '.php';
         $mod_api_class_native_global_ns = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class2, false) . '.php';
-        $mod_api_class1_uc1 = normalize_path(MW_MODULES_DIR . $mod_api_class_clean_uc1, false) . '.php';
+        $mod_api_class1_uc1 = normalize_path(modules_path() . $mod_api_class_clean_uc1, false) . '.php';
         $mod_api_class_native_uc1 = normalize_path(MW_APP_PATH . $mod_api_class_clean_uc1, false) . '.php';
         $mod_api_class_native_global_ns_uc1 = normalize_path(MW_APP_PATH . 'classes' . DS . $mod_api_class_clean_uc1, false) . '.php';
 
-        $mod_api_class2 = normalize_path(MW_MODULES_DIR . DS . $mod_api_class_clean . DS . $mod_api_class_clean, false) . '.php';
-        $mod_api_class2_uc1 = normalize_path(MW_MODULES_DIR . DS . $mod_api_class_clean . DS . $mod_api_class_clean, false) . '.php';
+        $mod_api_class2 = normalize_path(modules_path() . DS . $mod_api_class_clean . DS . $mod_api_class_clean, false) . '.php';
+        $mod_api_class2_uc1 = normalize_path(modules_path() . DS . $mod_api_class_clean . DS . $mod_api_class_clean, false) . '.php';
 
 
         $try_class = str_replace('/', '\\', $mod_api_class);
@@ -951,7 +951,7 @@ class Controller
         if ($module_info) {
             if ($_REQUEST['module']) {
                 $_REQUEST['module'] = str_replace('..', '', $_REQUEST['module']);
-                $try_config_file = MW_MODULES_DIR . '' . $_REQUEST['module'] . '_config.php';
+                $try_config_file = modules_path() . '' . $_REQUEST['module'] . '_config.php';
                 $try_config_file = normalize_path($try_config_file, false);
                 if (is_file($try_config_file)) {
                     include ($try_config_file);
@@ -962,7 +962,7 @@ class Controller
 
 
                     if (!isset($config['icon']) or $config['icon'] == false) {
-                        $config['icon'] = MW_MODULES_DIR . '' . $_REQUEST['module'] . '.png';
+                        $config['icon'] = modules_path() . '' . $_REQUEST['module'] . '.png';
                         $config['icon'] = $this->app->url->link_to_file($config['icon']);
                     }
                     print json_encode($config);
@@ -1058,7 +1058,7 @@ class Controller
 
             if (isset($data['template'])) {
                 $t = str_replace('..', '', $data['template']);
-                $possible_layout = MW_TEMPLATES_DIR . $t;
+                $possible_layout = templates_path() .  $t;
                 $possible_layout = normalize_path($possible_layout, false);
                 if (is_file($possible_layout)) {
                     $l = new $this->app->view($possible_layout);
@@ -1408,7 +1408,7 @@ class Controller
         if ($output_cache_timeout != false) {
             $output_cache_id = __FUNCTION__ . crc32($_SERVER['REQUEST_URI']);
             $output_cache_group = 'content/preview';
-            $output_cache_content = $this->app->cache->get($output_cache_id, $output_cache_group, $output_cache_timeout);
+            $output_cache_content = $this->app->cache_manager->get($output_cache_id, $output_cache_group, $output_cache_timeout);
             if ($output_cache_content != false) {
 
                 print $output_cache_content;
@@ -1476,7 +1476,7 @@ class Controller
 
                         $the_new_page_file = false;
                         $page_url_segment_1 = $this->app->url->segment(0, $page_url);
-                        $td = MW_TEMPLATES_DIR . $page_url_segment_1;
+                        $td = templates_path() .  $page_url_segment_1;
                         $td_base = $td;
 
                         $page_url_segment_2 = $this->app->url->segment(1, $page_url);
@@ -1485,7 +1485,7 @@ class Controller
 
                         if (!is_dir($td_base)) {
                             $page_url_segment_1 = $the_active_site_template = $this->app->option->get('current_template', 'template');
-                            $td_base = MW_TEMPLATES_DIR . $the_active_site_template . DS;
+                            $td_base = templates_path() .  $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
                         }
@@ -1523,7 +1523,7 @@ class Controller
                                         $the_new_page_file = $td_fd;
                                         $simply_a_file = $directly_to_file = $td_fd;
                                     } else {
-                                        $td_basedef = MW_TEMPLATES_DIR . 'default' . DS . $page_url_segment_3_str;
+                                        $td_basedef = templates_path() .  'default' . DS . $page_url_segment_3_str;
                                         if (is_file($td_basedef)) {
                                             $the_new_page_file = $td_basedef;
                                             $simply_a_file = $directly_to_file = $td_basedef;
@@ -1831,7 +1831,7 @@ class Controller
 
                     $tb = MW_INCLUDES_DIR . DS . 'toolbar' . DS . 'editor_tools' . DS . 'wysiwyg' . DS . 'index.php';
                     //$layout_toolbar = file_get_contents($filename);
-                    $layout_toolbar = new \Microweber\View($tb);
+                    $layout_toolbar = new \Weber\View($tb);
                     $layout_toolbar = $layout_toolbar->__toString();
                     if ($layout_toolbar != '') {
 
@@ -1880,7 +1880,7 @@ class Controller
             //$apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user->is_admin();
-            $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;
@@ -1924,7 +1924,7 @@ class Controller
                 $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
 
                 $default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-                /*  $default_css .= '<script src="' . MW_INCLUDES_URL . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";*/
+                /*  $default_css .= '<script src="' . mw_includes_url() . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";*/
 
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
@@ -2181,7 +2181,7 @@ class Controller
 
             if ($output_cache_timeout != false) {
 
-                $this->app->cache->save($l, $output_cache_id, $output_cache_group);
+                $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group);
 
             }
 
@@ -2203,7 +2203,7 @@ class Controller
 
             print 'Error! Page is not found? Please login in the admin and make a page.';
 
-            $this->app->cache->clear();
+            $this->app->cache_manager->clear();
             exit();
         }
 
@@ -2561,7 +2561,7 @@ class Controller
             $apijs_settings_loaded = $this->app->url->site('apijs_settings') . '?id=' . CONTENT_ID;
 
             // $is_admin = $this->app->user->is_admin();
-            $default_css = '<link rel="stylesheet" href="' . MW_INCLUDES_URL . 'default.css" type="text/css" />';
+            $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';
             $headers = event_trigger('site_header', TEMPLATE_NAME);
             $template_headers_append = '';
             $one = 1;

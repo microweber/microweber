@@ -3,7 +3,7 @@
 
  
 
-<link href="<?php   print( MW_INCLUDES_URL);  ?>css/components.css" rel="stylesheet" type="text/css" />
+<link href="<?php   print( mw_includes_url());  ?>css/components.css" rel="stylesheet" type="text/css" />
 
   <a href="<?php
   if(defined('CONTENT_ID') and CONTENT_ID != 0){

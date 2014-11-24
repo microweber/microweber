@@ -43,7 +43,7 @@ class Template
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = wb();
+                $this->app = mw();
             }
         }
     }
@@ -196,7 +196,7 @@ class Template
         }
         $cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = 'templates';
-        $cache_content = $this->app->cache->get($cache_id, $cache_group, 'files');
+        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group, 'files');
         if (($cache_content) != false) {
             return $cache_content;
         }
@@ -244,7 +244,7 @@ class Template
             }
 
         }
-        $this->app->cache->save($to_return, $function_cache_id, $cache_group, 'files');
+        $this->app->cache_manager->save($to_return, $function_cache_id, $cache_group, 'files');
         return $to_return;
     }
 
@@ -313,7 +313,7 @@ class Template
         }
 
         $cache_content = false;
-        //  $cache_content = $this->app->cache->get($cache_id, $cache_group);
+        //  $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
         if (($cache_content) != false) {
             // return $cache_content;
         }
@@ -973,7 +973,7 @@ class Template
         }
 
 
-        //   $this->app->cache->save($render_file, $cache_id, $cache_group);
+        //   $this->app->cache_manager->save($render_file, $cache_id, $cache_group);
 
         return $render_file;
     }

@@ -1,7 +1,7 @@
 <script>
-    mw.require("<?php print MW_INCLUDES_URL; ?>css/ui.css");
-    mw.require("<?php print MW_INCLUDES_URL; ?>css/admin.css");
-    mw.require("<?php print MW_INCLUDES_URL; ?>css/wysiwyg.css");
+    mw.require("<?php print mw_includes_url(); ?>css/ui.css");
+    mw.require("<?php print mw_includes_url(); ?>css/admin.css");
+    mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
 </script>
 
 

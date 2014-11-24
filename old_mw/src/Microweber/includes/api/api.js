@@ -105,7 +105,7 @@ mw.askusertostay = false;
   mw.require = function(url, inHead) {
     var inHead = inHead || false;
     var t = url.split('.').pop();
-    var url = url.contains('//') ? url : (t !== "css" ? "<?php print( MW_INCLUDES_URL ); ?>api/" + url  :  "<?php print( MW_INCLUDES_URL ); ?>css/" + url);
+    var url = url.contains('//') ? url : (t !== "css" ? "<?php print( mw_includes_url() ); ?>api/" + url  :  "<?php print( mw_includes_url() ); ?>css/" + url);
     if (!~mw.required.indexOf(url)) {
       mw.required.push(url);
       var url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
@@ -776,14 +776,14 @@ mw._response = {
 
 
 
-mw.required.push("<?php print MW_INCLUDES_URL; ?>api/jquery.js");
-mw.required.push("<?php print MW_INCLUDES_URL; ?>api/tools.js");
-mw.required.push("<?php print MW_INCLUDES_URL; ?>api/files.js");
-mw.required.push("<?php print MW_INCLUDES_URL; ?>api/forms.js");
-mw.required.push("<?php print MW_INCLUDES_URL; ?>api/url.js");
-mw.required.push("<?php print MW_INCLUDES_URL; ?>api/events.js");
-//mw.required.push("<?php print MW_INCLUDES_URL; ?>api/upgrades.js");
-mw.required.push("<?php print MW_INCLUDES_URL; ?>api/session.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/jquery.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/tools.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/files.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/url.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/events.js");
+//mw.required.push("<?php print mw_includes_url(); ?>api/upgrades.js");
+mw.required.push("<?php print mw_includes_url(); ?>api/session.js");
 
 
 <?php  // include "jquery.js";  ?>
