@@ -49,7 +49,7 @@ class Log
             $params['user_ip'] = MW_USER_IP;
         }
 
-        $q = $this->app->db->get($params);
+        $q = $this->app->database->get($params);
 
         return $q;
     }
@@ -68,7 +68,7 @@ class Log
         $cg = guess_cache_group($table);
 
         $this->app->cache->delete($cg);
-        $q = $this->app->db->q($q);
+        $q = $this->app->database->q($q);
         return array('success' => 'System log is cleaned up.');
 
         //return $data;
@@ -84,11 +84,11 @@ class Log
             $params['user_ip'] = MW_USER_IP;
         }
 
-        $q = $this->app->db->get($params);
+        $q = $this->app->database->get($params);
         if (is_array($q)) {
             foreach ($q as $val) {
                 $c_id = intval($val['id']);
-                $this->app->db->delete_by_id('log', $c_id);
+                $this->app->database->delete_by_id('log', $c_id);
             }
 
         }
@@ -104,7 +104,7 @@ class Log
         $data_to_save = $params;
         $table = MW_DB_TABLE_LOG;
         mw_var('FORCE_SAVE', $table);
-        $save = $this->app->db->save($table, $params);
+        $save = $this->app->database->save($table, $params);
         $id = $save;
         $this->app->cache->delete('log' . DIRECTORY_SEPARATOR . 'global');
         return $id;
@@ -119,12 +119,12 @@ class Log
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->db->delete_by_id('log', $c_id);
+            $this->app->database->delete_by_id('log', $c_id);
             $table = MW_DB_TABLE_LOG;
             $old = date("Y-m-d H:i:s", strtotime('-1 month'));
             $q = "DELETE FROM $table WHERE created_on < '{$old}'";
 
-            $q = $this->app->db->q($q);
+            $q = $this->app->database->q($q);
 
             return $c_id;
 

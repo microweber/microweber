@@ -10,20 +10,25 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::any('/', '\Microweber\Controllers\DefaultController@index');
-//Route::any('/{slug}', '\Microweber\Controllers\DefaultController@index');
-Route::any('/api', '\Microweber\Controllers\DefaultController@api');
-Route::any('/api/{slug}', '\Microweber\Controllers\DefaultController@api');
-Route::any('/module/{slug}', '\Microweber\Controllers\DefaultController@module');
-//Route::any('/admin', '\Microweber\Controllers\DefaultController@admin');
+Route::any('/', '\Weber\Controllers\DefaultController@index');
+//Route::any('/{slug}', '\Weber\Controllers\DefaultController@index');
+Route::any('/api', '\Weber\Controllers\DefaultController@api');
+Route::any('/api/{slug}', '\Weber\Controllers\DefaultController@api');
+Route::any('/module/{slug}', '\Weber\Controllers\DefaultController@module');
+//Route::any('/admin', '\Weber\Controllers\DefaultController@admin');
 
 //Route::any('admin/{all}', function(){
-//    return '\Microweber\Controllers\DefaultController@admin';
+//    return '\Weber\Controllers\DefaultController@admin';
 //})->where('all', '/.*');
-Route::any('/admin', '\Microweber\Controllers\DefaultController@admin');
-Route::any('admin/{slashData?}', '\Microweber\Controllers\DefaultController@admin')
+Route::any('/admin', '\Weber\Controllers\AdminController@index');
+Route::any('/admin/', '\Weber\Controllers\AdminController@index');
+Route::any('/admin/{slashData?}', '\Weber\Controllers\AdminController@index')
     ->where('slashData', '(.*)');
 
+//Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'before' => 'auth'), function()
+//{
+//    Route::get('/', '\Weber\Controllers\DefaultController@admin');
+//});
 
 
 //Route::get('/', function()
@@ -33,20 +38,20 @@ Route::any('admin/{slashData?}', '\Microweber\Controllers\DefaultController@admi
 
 Route::get('api/{all}', array(
     'as' => 'api',
-    'uses' => '\Microweber\Controllers\DefaultController@api'
+    'uses' => '\Weber\Controllers\DefaultController@api'
 ))->where('all', '.*');;
 Route::get('{all}', array(
     'as' => 'all',
-    'uses' => '\Microweber\Controllers\DefaultController@index'
+    'uses' => '\Weber\Controllers\DefaultController@index'
 ))->where('all', '.*');;
 
 
 //Route::any('api/{all}', function(){
-//    return '\Microweber\Controllers\DefaultController@api';
+//    return '\Weber\Controllers\DefaultController@api';
 //})->where('all', '.*');
 
 //Route::any('{all}', function(){
-//    return '\Microweber\Controllers\DefaultController@indsssex';
+//    return '\Weber\Controllers\DefaultController@indsssex';
 //})->where('all', '.*');
 
 

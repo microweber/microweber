@@ -475,13 +475,13 @@ class Layouts
                     $save = self::get('limit=1&module=' . $s["module"]);
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = $save[0]["id"];
-                        $save = $this->app->db->save($table, $s);
+                        $save = $this->app->database->save($table, $s);
                     } else {
-                        $save = $this->app->db->save($table, $s);
+                        $save = $this->app->database->save($table, $s);
                     }
                 }
             } else {
-                $save = $this->app->db->save($table, $s);
+                $save = $this->app->database->save($table, $s);
             }
 
             //
@@ -519,7 +519,7 @@ class Layouts
             //   $params['ui'] = 1;
         }
 
-        $s = $this->app->db->get($params);
+        $s = $this->app->database->get($params);
         // d($params); d( $s);
         return $s;
     }
@@ -537,15 +537,15 @@ class Layouts
 
             $q = "DELETE FROM $table ";
             //   d($q);
-            $this->app->db->q($q);
+            $this->app->database->q($q);
 
             $q = "DELETE FROM $db_categories WHERE rel='elements' AND data_type='category' ";
             // d($q);
-            $this->app->db->q($q);
+            $this->app->database->q($q);
 
             $q = "DELETE FROM $db_categories_items WHERE rel='elements' AND data_type='category_item' ";
             // d($q);
-            $this->app->db->q($q);
+            $this->app->database->q($q);
             $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
             $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 

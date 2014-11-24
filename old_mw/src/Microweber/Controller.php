@@ -241,7 +241,7 @@ class Controller
         $api_function_full = str_replace('\\', '/', $api_function_full);
         $api_function_full = str_replace('//', '/', $api_function_full);
 
-        $api_function_full = $this->app->db->escape_string($api_function_full);
+        $api_function_full = $this->app->database->escape_string($api_function_full);
         if (is_string($api_function_full)) {
             $mod_api_class = explode('/', $api_function_full);
         } else {
@@ -1086,7 +1086,7 @@ class Controller
                         $v = $this->app->format->clean_html($v);
 
 
-                        //$v = $this->app->db->escape_string($v);
+                        //$v = $this->app->database->escape_string($v);
 
                         $tags .= "{$k}=\"$v\" ";
                     }
@@ -1338,11 +1338,11 @@ class Controller
                 $page['id'] = 0;
                 $page['content_type'] = 'page';
                 if (isset($_REQUEST['content_type'])) {
-                    $page['content_type'] = $this->app->db->escape_string($_REQUEST['content_type']);
+                    $page['content_type'] = $this->app->database->escape_string($_REQUEST['content_type']);
                 }
 
                 if (isset($_REQUEST['subtype'])) {
-                    $page['subtype'] = $this->app->db->escape_string($_REQUEST['subtype']);
+                    $page['subtype'] = $this->app->database->escape_string($_REQUEST['subtype']);
                 }
                 template_var('new_content_type', $page['content_type']);
                 $page['parent'] = '0';

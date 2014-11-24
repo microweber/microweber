@@ -746,7 +746,7 @@ class Update
 
 
         $params['table'] = $table;
-        $r = $this->app->db->get($params);
+        $r = $this->app->database->get($params);
 
         return $r;
     }
@@ -767,13 +767,13 @@ class Update
             $update['rel'] = $params['rel'];
             $update['one'] = true;
             $update['table'] = $table;
-            $update = $this->app->db->get($update);
+            $update = $this->app->database->get($update);
             if (isset($update['id'])) {
                 $params['id'] = $update['id'];
             }
         }
 
-        $r = $this->app->db->save($table, $params);
+        $r = $this->app->database->save($table, $params);
         if (isset($params['activate_on_save']) and $params['activate_on_save'] != false) {
             $this->validate_license('id=' . $r);
         }

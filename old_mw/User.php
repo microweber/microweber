@@ -39,7 +39,7 @@ class User
             $prefix = $tables['prefix'];
         }
         if ($prefix == false) {
-            $prefix = $this->app->config('table_prefix');
+            $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
         if ($prefix == false and defined("MW_TABLE_PREFIX")) {
             $prefix = MW_TABLE_PREFIX;
@@ -130,10 +130,10 @@ class User
         $fields_to_add['website_url']= 'longText';
         $fields_to_add['password_reset_hash']= 'longText';
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
-        $this->app->db->add_table_index('username', $table_name, array('username(255)'));
-        $this->app->db->add_table_index('email', $table_name, array('email(255)'));
+        $this->app->database->add_table_index('username', $table_name, array('username(255)'));
+        $this->app->database->add_table_index('email', $table_name, array('email(255)'));
 
 
         $table_name = $this->tables['log'];
@@ -161,7 +161,7 @@ class User
         $fields_to_add['session_id']= 'longlongText';
         $fields_to_add['is_system']= "string";
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -361,7 +361,7 @@ class User
             if (trim($api_key) == '') {
                 return false;
             } else {
-                $api_key = $this->app->db->escape_string($api_key);
+                $api_key = $this->app->database->escape_string($api_key);
                 if (user_id() > 0) {
                     return true;
                 } else {
@@ -506,13 +506,13 @@ class User
 
 
 //                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-//                    $next = $this->app->db->last_id($table);
+//                    $next = $this->app->database->last_id($table);
 //                    $next = intval($next) + 1;
 //                    $q = "INSERT INTO $table (id,email, password, is_active)
 //			VALUES ($next, '$email']= '$pass']= 'y')";
 
 
-                    // $this->app->db->q($q);
+                    // $this->app->database->q($q);
                     $this->app->cache->delete('users/global');
                     //$data = save_user($data);
                     $this->session_del('captcha');
@@ -679,7 +679,7 @@ class User
         //
         $hash = md5($pass);
         if ($hash == false) {
-            $hash = $this->app->db->escape_string($hash);
+            $hash = $this->app->database->escape_string($hash);
             return $pass;
         }
         return $hash;
@@ -794,7 +794,7 @@ class User
 
 
         $table = $this->tables['users'];
-        $save = $this->app->db->save($table, $data_to_save);
+        $save = $this->app->database->save($table, $data_to_save);
         $id = $save;
         $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . '0');
@@ -1149,7 +1149,7 @@ class User
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->db->delete_by_id('users', $c_id);
+            $this->app->database->delete_by_id('users', $c_id);
             return $c_id;
 
         }
@@ -1192,7 +1192,7 @@ class User
 
         $data1 = array();
         $data1['id'] = intval($params['id']);
-        $data1['password_reset_hash'] = $this->app->db->escape_string($params['password_reset_hash']);
+        $data1['password_reset_hash'] = $this->app->database->escape_string($params['password_reset_hash']);
         $table = $this->tables['users'];
 
         $check = $this->get_all("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
@@ -1211,7 +1211,7 @@ class User
 
         mw_var('FORCE_SAVE', $table);
 
-        $save = $this->app->db->save($table, $data1);
+        $save = $this->app->database->save($table, $data1);
 
         $notif = array();
         $notif['module'] = "users";
@@ -1321,7 +1321,7 @@ class User
                             $table = $this->tables['users'];
                             mw_var('FORCE_SAVE', $table);
 
-                            $save = $this->app->db->save($table, $data_to_save);
+                            $save = $this->app->database->save($table, $data_to_save);
                         }
                         $pass_reset_link = $this->app->url->current(1) . '?reset_password_link=' . $function_cache_id;
 
@@ -1409,7 +1409,7 @@ class User
                         $table = $this->tables['users'];
                         mw_var('FORCE_SAVE', $table);
 
-                        $save = $this->app->db->save($table, $data_to_save);
+                        $save = $this->app->database->save($table, $data_to_save);
                         $this->app->cache->delete('users/global');
                         if ($save > 0) {
                             $data = array();
@@ -1576,7 +1576,7 @@ class User
 
             $table = $this->tables['users'];
             mw_var("FORCE_SAVE", $this->tables['users']);
-            $save = $this->app->db->save($table, $data_to_save);
+            $save = $this->app->database->save($table, $data_to_save);
 
             $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
@@ -1696,10 +1696,10 @@ class User
         //  $data ['cache_group'] = $cache_group;
 
 
-        $get = $this->app->db->get($data);
+        $get = $this->app->database->get($data);
 
-        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        //$get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
         // var_dump($get, $function_cache_id, $cache_group);
         //  $this->app->cache->save($get, $function_cache_id, $cache_group);
 

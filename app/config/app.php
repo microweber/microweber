@@ -123,7 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
         'Artdevue\Fcache\FcacheServiceProvider',
 
-        'Microweber\LaravelServiceProvider',
+        'Weber\LaravelServiceProvider',
 
 	),
 

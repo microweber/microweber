@@ -219,7 +219,7 @@ class Db
         }
 
 
-        $prefix = $this->app->config('table_prefix');
+        $prefix = $this->app->config->get('database.connections.mysql.prefix');
         $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id . $prefix);
 
 
@@ -3174,7 +3174,7 @@ class Db
 
 
         if ($this->table_prefix == false) {
-            $this->table_prefix = $this->app->config('table_prefix');
+            $this->table_prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
 

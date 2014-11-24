@@ -39,7 +39,7 @@ class Media
 
         }
 
-        $prefix = $this->app->config('table_prefix');
+        $prefix = $this->app->config->get('database.connections.mysql.prefix');
         if (!defined("MW_DB_TABLE_MEDIA") and defined('MW_TABLE_PREFIX')) {
             define('MW_DB_TABLE_MEDIA', $prefix . 'media');
         }
@@ -140,9 +140,9 @@ class Media
         $params['cache_group'] = 'media/' . $id;
 
 //        if ($this->no_cache == true) {
-//            $q = $this->app->db->query($q);
+//            $q = $this->app->database->query($q);
 //        } else {
-//            $q = $this->app->db->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
+//            $q = $this->app->database->query($q, __FUNCTION__ . crc32($q), 'content/' . $id);
 //        }
         $q = $this->get($params);
         if (is_array($q) and isset($q[0])) {
@@ -337,7 +337,7 @@ class Media
                     $i++;
                 }
 
-                $this->app->db->update_position_field($table, $indx);
+                $this->app->database->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }
@@ -361,7 +361,7 @@ class Media
                     @unlink($fn_remove);
                 }
             }
-            $this->app->db->delete_by_id('media', $c_id);
+            $this->app->database->delete_by_id('media', $c_id);
         }
     }
 
@@ -384,7 +384,7 @@ class Media
 
 
         if (!isset($params['rel']) and isset($params['for'])) {
-            $params['rel'] = $this->app->db->assoc_table_name($params['for']);
+            $params['rel'] = $this->app->database->assoc_table_name($params['for']);
         }
 
 
@@ -396,7 +396,7 @@ class Media
 
 
 
-        $data = $this->app->db->get($params);
+        $data = $this->app->database->get($params);
 
         if (defined('MW_MEDIA_URL')) {
             if (!empty($data)) {
@@ -445,7 +445,7 @@ class Media
 
         if (isset($data['for'])) {
             $t = guess_table_name($data['for']);
-            $t = $this->app->db->assoc_table_name($t);
+            $t = $this->app->database->assoc_table_name($t);
             $s['rel'] = $t;
         }
         if (isset($data['rel_id'])) {
@@ -578,7 +578,7 @@ class Media
         }
 
         if (isset($data['media_type'])) {
-            $t = $this->app->db->escape_string($data['media_type']);
+            $t = $this->app->database->escape_string($data['media_type']);
             $s['media_type'] = $t;
         }
 
@@ -588,7 +588,7 @@ class Media
             $table = $this->tables['media'];
             //$s['debug'] = $t;
 
-            $s = $this->app->db->save($table, $s);
+            $s = $this->app->database->save($table, $s);
             $this->app->cache->delete('media');
 
             return ($s);
@@ -596,7 +596,7 @@ class Media
             $table = $this->tables['media'];
             //$s['debug'] = $t;
 
-            $s = $this->app->db->save($table, $s);
+            $s = $this->app->database->save($table, $s);
             $this->app->cache->delete('media');
 
             return ($s);

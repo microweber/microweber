@@ -35,7 +35,7 @@ class Fields
     public function get_by_id($field_id)
     {
         if ($field_id != 0) {
-            $data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+            $data = $this->app->database->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             $data = $this->decode_array_vals($data);
             return $data;
         }
@@ -84,10 +84,10 @@ class Fields
         $table_custom_field = $this->tables['custom_fields'];
 
         if (isset($rel)) {
-            $rel = $this->app->db->escape_string($rel);
+            $rel = $this->app->database->escape_string($rel);
 
-            $rel = $this->app->db->assoc_table_name($rel);
-            $rel_id = $this->app->db->escape_string($rel_id);
+            $rel = $this->app->database->assoc_table_name($rel);
+            $rel_id = $this->app->database->escape_string($rel_id);
 
             if (strstr($fields_csv_str, ',')) {
                 $fields_csv_str = explode(',', $fields_csv_str);
@@ -189,7 +189,7 @@ class Fields
         if (isset($data_to_save['cf_id'])) {
             $data_to_save['id'] = intval($data_to_save['cf_id']);
             $table_custom_field = $this->tables['custom_fields'];
-            $form_data_from_id = $this->app->db->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
+            $form_data_from_id = $this->app->database->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
             if (isset($form_data_from_id['id'])) {
                 if (!isset($data_to_save['rel'])) {
                     $data_to_save['rel'] = $form_data_from_id['rel'];
@@ -208,7 +208,7 @@ class Fields
 
             if (isset($data_to_save['copy_rel_id'])) {
 
-                $cp = $this->app->db->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
+                $cp = $this->app->database->copy_row_by_id($table_custom_field, $data_to_save['cf_id']);
                 $data_to_save['id'] = $cp;
                 $data_to_save['rel_id'] = $data_to_save['copy_rel_id'];
                 //$data_to_save['id'] = intval($data_to_save['cf_id']);
@@ -219,7 +219,7 @@ class Fields
         if (!isset($data_to_save['rel'])) {
             $data_to_save['rel'] = 'content';
         }
-        $data_to_save['rel'] = $this->app->db->assoc_table_name($data_to_save['rel']);
+        $data_to_save['rel'] = $this->app->database->assoc_table_name($data_to_save['rel']);
         if (!isset($data_to_save['rel_id'])) {
             $data_to_save['rel_id'] = '0';
         }
@@ -273,7 +273,7 @@ class Fields
                     }
 
                     $cf_k_plain = $this->app->url->slug($cf_k);
-                    $cf_k_plain = $this->app->db->escape_string($cf_k_plain);
+                    $cf_k_plain = $this->app->database->escape_string($cf_k_plain);
                     $cf_k_plain = str_replace('-']= '_', $cf_k_plain);
                     $data_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
                     $val1_a = $this->app->format->array_values($cf_v);
@@ -344,7 +344,7 @@ class Fields
             }
 
             $this->skip_cache = true;
-            $save = $this->app->db->save($table_custom_field, $data_to_save);
+            $save = $this->app->database->save($table_custom_field, $data_to_save);
             $this->app->cache->delete('custom_fields/global');
             $this->app->cache->delete('custom_fields/' . $save);
             $this->app->cache->delete('custom_fields');
@@ -381,14 +381,14 @@ class Fields
             $params = $params2 = parse_params($table);
             if (!is_array($params2) or (is_array($params2) and count($params2) < 2)) {
                 $id = trim($id);
-                $table = $this->app->db->escape_string($table);
+                $table = $this->app->database->escape_string($table);
                 if ($table != false) {
-                    $table_assoc_name = $this->app->db->get_table_name($table);
+                    $table_assoc_name = $this->app->database->get_table_name($table);
                 } else {
                     $table_assoc_name = "MW_ANY_TABLE";
                 }
                 if ($table_assoc_name == false) {
-                    $table_assoc_name = $this->app->db->assoc_table_name($table_assoc_name);
+                    $table_assoc_name = $this->app->database->assoc_table_name($table_assoc_name);
                 }
             } else {
                 $params = $params2;
@@ -401,7 +401,7 @@ class Fields
 
         if (!isset($table_assoc_name)) {
             if (isset($params['for'])) {
-                $params['rel'] = $table_assoc_name = $this->app->db->assoc_table_name($params['for']);
+                $params['rel'] = $table_assoc_name = $this->app->database->assoc_table_name($params['for']);
             }
         } else {
             $params['rel'] = $table_assoc_name;
@@ -416,7 +416,7 @@ class Fields
             }
         }
         if (isset($params['for_id'])) {
-            $params['rel_id'] = $id = $this->app->db->escape_string($params['for_id']);
+            $params['rel_id'] = $id = $this->app->database->escape_string($params['for_id']);
         }
         if (isset($params['field_type'])) {
             $params['custom_field_type'] = $params['field_type'];
@@ -428,9 +428,9 @@ class Fields
         }
 
         if (isset($params['field_type'])) {
-            $field_type = $this->app->db->escape_string($params['field_type']);
+            $field_type = $this->app->database->escape_string($params['field_type']);
         } else if (isset($params['custom_field_type'])) {
-            $field_type = $this->app->db->escape_string($params['custom_field_type']);
+            $field_type = $this->app->database->escape_string($params['custom_field_type']);
         }
         if (isset($params['return_full'])) {
             $return_full = $params['return_full'];
@@ -451,7 +451,7 @@ class Fields
         if (strval($table_assoc_name) != '') {
             if ($field_for != false) {
                 $field_for = trim($field_for);
-                $field_for = $this->app->db->escape_string($field_for);
+                $field_for = $this->app->database->escape_string($field_for);
                 $params['custom_field_name'] = $field_for;
             }
 
@@ -469,7 +469,7 @@ class Fields
             }
 
             if ($id != 'all' and $id != 'any') {
-                $id = $this->app->db->escape_string($id);
+                $id = $this->app->database->escape_string($id);
 
                 $params['rel_id'] = $id;
             }
@@ -488,7 +488,7 @@ class Fields
             return false;
         }
 
-        $q = $this->app->db->get($params);
+        $q = $this->app->database->get($params);
 
         if (isset($params['fields'])) {
             return $q;
@@ -635,7 +635,7 @@ class Fields
             $data['custom_field_value'] = $data['field_value'];
         }
         if (!isset($data['rel']) and isset($data['for'])) {
-            $data['rel'] = $this->app->db->assoc_table_name($data['for']);
+            $data['rel'] = $this->app->database->assoc_table_name($data['for']);
         }
 
         if (!isset($data['cf_id']) and isset($data['id'])) {
@@ -713,7 +713,7 @@ class Fields
                     $i++;
                 }
 
-                $this->app->db->update_position_field($table, $indx);
+                $this->app->database->update_position_field($table, $indx);
                 return true;
             }
         }
@@ -743,7 +743,7 @@ class Fields
 
         $custom_field_table = $this->tables['custom_fields'];
         $q = "DELETE FROM $custom_field_table WHERE id='$id'";
-        $this->app->db->q($q);
+        $this->app->database->q($q);
         $this->app->cache->delete('custom_fields');
         return $id;
     }
@@ -776,7 +776,7 @@ class Fields
 
                 //
                 // $this->app->error('no permission to get data');
-                //  $form_data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+                //  $form_data = $this->app->database->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
     }
@@ -803,7 +803,7 @@ class Fields
         } else {
             if ($field_id != 0) {
 
-                $data = $this->app->db->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+                $data = $this->app->database->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
         if (isset($data['settings']) or (isset($_REQUEST['settings']) and trim($_REQUEST['settings']) == 'y')) {
@@ -816,7 +816,7 @@ class Fields
             if (is_admin() == true) {
 
                 $table_custom_field = $this->tables['custom_fields'];
-                $form_data = $this->app->db->get_by_id($table_custom_field, $id = $copy_from, $is_this_field = false);
+                $form_data = $this->app->database->get_by_id($table_custom_field, $id = $copy_from, $is_this_field = false);
                 if (is_array($form_data)) {
 
                     $field_type = $form_data['custom_field_type'];
@@ -842,7 +842,7 @@ class Fields
 
             }
         } else if (isset($data['field_id'])) {
-            $data = $this->app->db->get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
+            $data = $this->app->database->get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
         }
 
         if (isset($data['custom_field_type'])) {
@@ -964,8 +964,8 @@ class Fields
 
     public function names_for_table($table)
     {
-        $table = $this->app->db->escape_string($table);
-        $table1 = $this->app->db->assoc_table_name($table);
+        $table = $this->app->database->escape_string($table);
+        $table1 = $this->app->database->assoc_table_name($table);
 
         $table = $this->tables['custom_fields'];
         $q = false;
@@ -976,7 +976,7 @@ class Fields
 
         $cache_id = __FUNCTION__ . '_' . $crc;
 
-        $results = $this->app->db->query($q, $cache_id, 'custom_fields/global');
+        $results = $this->app->database->query($q, $cache_id, 'custom_fields/global');
 
         if (is_array($results)) {
             return $results;

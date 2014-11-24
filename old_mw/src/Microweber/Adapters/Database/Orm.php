@@ -62,7 +62,7 @@ class Orm
     {
 
         if ($this->table_prefix == false) {
-            $this->table_prefix = $this->app->config('table_prefix');
+            $this->table_prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
         if ($this->table_prefix == false and defined("MW_TABLE_PREFIX")) {

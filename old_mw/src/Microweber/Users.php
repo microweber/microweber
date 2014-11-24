@@ -85,11 +85,11 @@ class Users extends \Microweber\User
                     $data['is_active'] = 'n';
                     $table = MW_TABLE_PREFIX . 'users';
                     $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-                    $next = $this->app->db->last_id($table);
+                    $next = $this->app->database->last_id($table);
                     $next = intval($next) + 1;
                     $q = "INSERT INTO $table (id,email, password, is_active)
 			VALUES ($next, '$email', '$pass', 'y')";
-                    $this->app->db->q($q);
+                    $this->app->database->q($q);
                     $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
                     //$data = save_user($data);
                     $this->session_del('captcha');
@@ -224,7 +224,7 @@ class Users extends \Microweber\User
             }
         }
         $table = MW_DB_TABLE_USERS;
-        $save = $this->app->db->save($table, $data_to_save);
+        $save = $this->app->database->save($table, $data_to_save);
         $id = $save;
         $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . '0');
@@ -241,7 +241,7 @@ class Users extends \Microweber\User
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->db->delete_by_id('users', $c_id);
+            $this->app->database->delete_by_id('users', $c_id);
             return $c_id;
 
         }
@@ -284,7 +284,7 @@ class Users extends \Microweber\User
 
         $data1 = array();
         $data1['id'] = intval($params['id']);
-        $data1['password_reset_hash'] = $this->app->db->escape_string($params['password_reset_hash']);
+        $data1['password_reset_hash'] = $this->app->database->escape_string($params['password_reset_hash']);
         $table = MW_DB_TABLE_USERS;
 
         $check = $this->get_all("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
@@ -299,7 +299,7 @@ class Users extends \Microweber\User
 
         mw_var('FORCE_SAVE', $table);
 
-        $save = $this->app->db->save($table, $data1);
+        $save = $this->app->database->save($table, $data1);
 
         $notif = array();
         $notif['module'] = "users";
@@ -385,7 +385,7 @@ class Users extends \Microweber\User
                             $table = MW_DB_TABLE_USERS;
                             mw_var('FORCE_SAVE', $table);
 
-                            $save = $this->app->db->save($table, $data_to_save);
+                            $save = $this->app->database->save($table, $data_to_save);
                         }
                         $pass_reset_link = $this->app->url->current(1) . '?reset_password_link=' . $function_cache_id;
 
@@ -469,7 +469,7 @@ class Users extends \Microweber\User
                         $table = MW_DB_TABLE_USERS;
                         mw_var('FORCE_SAVE', $table);
 
-                        $save = $this->app->db->save($table, $data_to_save);
+                        $save = $this->app->database->save($table, $data_to_save);
                         $this->app->cache->delete('users/global');
                         if ($save > 0) {
                             $data = array();

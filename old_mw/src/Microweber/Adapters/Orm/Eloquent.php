@@ -41,7 +41,7 @@ class Eloquent
             }
         }
         $con = $this->app->config('db');
-        $table_prefix = $this->app->config('table_prefix');
+        $table_prefix = $this->app->config->get('database.connections.mysql.prefix');
         $host = false;
         $username = false;
         $password = false;
@@ -117,7 +117,7 @@ class Eloquent
     {
 
 
-        $table_real = $this->app->db->real_table_name($table);
+        $table_real = $this->app->database->real_table_name($table);
         event_trigger('orm_get', $table);
 
         $orm = ORM::for_table($table_real)->table_alias($table);
@@ -265,7 +265,7 @@ class Eloquent
 
         }
 
-        $params_to_fields = $this->app->db->map_array_to_table($table, $params);
+        $params_to_fields = $this->app->database->map_array_to_table($table, $params);
 
         if (is_array($params) and !empty($params)) {
             if ($fields != false and is_string($fields)) {
@@ -289,11 +289,11 @@ class Eloquent
                     $joins = explode('.', $k);
                     if (isset($joins[1])) {
                         $table_alias = $joins[0];
-                        $table_real = $this->app->db->real_table_name($table_alias);
+                        $table_real = $this->app->database->real_table_name($table_alias);
                     }
                     if (isset($joins[1]) and !in_array($joins[0], $joined_tables) and $joins[0] != $table) {
                         $joined_tables[] = $table_alias;
-                        $table_assoc = $this->app->db->assoc_table_name($table);
+                        $table_assoc = $this->app->database->assoc_table_name($table);
 
                         $has_joined = true;
                         $orm->select($table . '.*');
@@ -612,7 +612,7 @@ class Eloquent
 
     function for_table($table)
     {
-        $table_real = $this->app->db->real_table_name($table);
+        $table_real = $this->app->database->real_table_name($table);
         $orm = ORM::for_table($table_real)->table_alias($table);
         return $orm;
     }

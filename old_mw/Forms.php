@@ -66,11 +66,11 @@ class Forms
         $fields_to_add['url']= 'longText';
         $fields_to_add['user_ip']= 'longText';
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
-        $this->app->db->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->db->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        $this->app->db->add_table_index('list_id', $table_name, array('list_id'));
+        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
+        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        $this->app->database->add_table_index('list_id', $table_name, array('list_id'));
 
         $table_name = MW_DB_TABLE_FORMS_LISTS;
 
@@ -87,14 +87,14 @@ class Forms
         $fields_to_add['last_export']= 'dateTime';
         $fields_to_add['last_sent']= 'dateTime';
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
-        $this->app->db->add_table_index('title', $table_name, array('title(55)'));
+        $this->app->database->add_table_index('title', $table_name, array('title(55)'));
 
 
         $table_sql = MW_INCLUDES_DIR . 'install' . DS . 'countries.sql';
 
-        $this->app->db->import_sql_file($table_sql);
+        $this->app->database->import_sql_file($table_sql);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -112,7 +112,7 @@ class Forms
             $params["order_by"] = 'created_on desc';
         }
 
-        $data = $this->app->db->get($params);
+        $data = $this->app->database->get($params);
         $ret = array();
         if (is_array($data)) {
             foreach ($data as $item) {
@@ -153,7 +153,7 @@ class Forms
         }
 
         $params['table'] = $table;
-        $id = $this->app->db->save($table, $params);
+        $id = $this->app->database->save($table, $params);
         if (isset($params['for_module_id'])) {
             $data = array();
             $data['module'] = $params['module_name'];
@@ -293,7 +293,7 @@ class Forms
             $to_save['form_values'] = $params['form_values'];
         }
 
-        $save = $this->app->db->save($table, $to_save);
+        $save = $this->app->database->save($table, $to_save);
 
         if (!empty($cf_to_save)) {
             $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
@@ -310,7 +310,7 @@ class Forms
                 $new_field['custom_field_value'] = $value['custom_field_value'];
                 $new_field['custom_field_type'] = $value['custom_field_type'];
                 $new_field['custom_field_name'] = $key;
-                $cf_save = $this->app->db->save($table_custom_field, $new_field);
+                $cf_save = $this->app->database->save($table_custom_field, $new_field);
             }
         }
 
@@ -417,7 +417,7 @@ class Forms
         $params = parse_params($params);
         $table = MW_DB_TABLE_FORMS_LISTS;
         $params['table'] = $table;
-        return $this->app->db->get($params);
+        return $this->app->database->get($params);
     }
 
     public function  countries_list($force = false)
@@ -437,12 +437,12 @@ class Forms
 
         $table = MW_DB_TABLE_COUNTRIES;
 
-        if (!$this->app->db->table_exist($table)) {
+        if (!$this->app->database->table_exist($table)) {
             $this->db_init();
         }
 
         $sql = "SELECT name AS country_name FROM $table   ";
-        $q = $this->app->db->query($sql, 'get_countries_list' . crc32($sql), 'forms');
+        $q = $this->app->database->query($sql, 'get_countries_list' . crc32($sql), 'forms');
         $res = array();
         if (is_array($q) and !empty($q)) {
             foreach ($q as $value) {
@@ -477,13 +477,13 @@ class Forms
                         $remid = $value['id'];
                         $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
                         $q = "DELETE FROM $custom_field_table WHERE id='$remid'";
-                        $this->app->db->q($q);
+                        $this->app->database->q($q);
                     }
                 }
                 $this->app->cache->delete('custom_fields');
             }
 
-            $this->app->db->delete_by_id('forms_data', $c_id);
+            $this->app->database->delete_by_id('forms_data', $c_id);
         }
         return true;
     }
@@ -498,8 +498,8 @@ class Forms
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->db->delete_by_id('forms_lists', $c_id);
-            $this->app->db->delete_by_id('forms_data', $c_id, 'list_id');
+            $this->app->database->delete_by_id('forms_lists', $c_id);
+            $this->app->database->delete_by_id('forms_data', $c_id, 'list_id');
 
         }
         return true;

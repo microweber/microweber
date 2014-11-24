@@ -38,7 +38,7 @@ $this->db_init();
         $params['table'] = $table;
         $params['ip'] = $ip;
         $params['limit'] = 1;
-        $get = $this->app->db->get($params);
+        $get = $this->app->database->get($params);
         if ($get == false) {
             $remote_host = 'http://api.microweber.net';
             $service = "/service/ip2country/?ip=" . $ip;
@@ -61,7 +61,7 @@ $this->db_init();
                         $params['country_name'] = "Unknown";
                     }
                     //d($params);
-                    $s = $this->app->db->save($table, $params);
+                    $s = $this->app->database->save($table, $params);
                     $get = $params;
                 }
             }
@@ -111,14 +111,14 @@ $this->db_init();
         $table_name = MODULE_DB_IP2COUNTRY;
 
         $fields_to_add = array();
-        $fields_to_add[] = array('ip', 'TEXT default NULL');
-        $fields_to_add[] = array('ip_long', 'TEXT default NULL');
-        $fields_to_add[] = array('country_code', 'TEXT default NULL');
-        $fields_to_add[] = array('country_name', 'TEXT default NULL');
-        $fields_to_add[] = array('region', 'TEXT default NULL');
-        $fields_to_add[] = array('city', 'TEXT default NULL');
-        $fields_to_add[] = array('latitude', 'TEXT default NULL');
-        $fields_to_add[] = array('longitude', 'TEXT default NULL');
+        $fields_to_add[] = array('ip', 'longText');
+        $fields_to_add[] = array('ip_long', 'longText');
+        $fields_to_add[] = array('country_code', 'longText');
+        $fields_to_add[] = array('country_name', 'longText');
+        $fields_to_add[] = array('region', 'longText');
+        $fields_to_add[] = array('city', 'longText');
+        $fields_to_add[] = array('latitude', 'longText');
+        $fields_to_add[] = array('longitude', 'longText');
         \mw('db')->build_table($table_name, $fields_to_add);
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
 

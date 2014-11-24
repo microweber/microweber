@@ -6,8 +6,8 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "v4.2.11",
-		"artdevue/fcache": "dev-master",
-		"watson/validating": "dev-master"
+		"artdevue/fcache": "dev-master" 
+		 
 
 
 	},
@@ -21,7 +21,7 @@
 			"app/tests/TestCase.php"
 		],
 		 "psr-0": {
-            "Microweber": "src/"
+            "Weber": "src/"
         }
 	},
 	"scripts": {

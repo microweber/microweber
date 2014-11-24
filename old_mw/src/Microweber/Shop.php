@@ -49,7 +49,7 @@ class Shop
         }
 
         if ($prefix == false) {
-            $prefix = $this->app->config('table_prefix');
+            $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
         if ($prefix == false and defined("MW_TABLE_PREFIX")) {
@@ -110,131 +110,131 @@ class Shop
         $table_name = $this->tables['cart'];
 
         $fields_to_add = array();
-        $fields_to_add[] = array('title', 'TEXT default NULL');
+        $fields_to_add[] = array('title', 'longText');
         $fields_to_add[] = array('is_active']= "string";
-        $fields_to_add[] = array('rel_id', 'int(11) default NULL');
+        $fields_to_add[] = array('rel_id', 'integer');
         $fields_to_add[] = array('rel', 'varchar(350)  default NULL ');
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('updated_on', 'dateTime');
+        $fields_to_add[] = array('created_on', 'dateTime');
         $fields_to_add[] = array('price', 'float default NULL');
         $fields_to_add[] = array('currency', 'varchar(33)  default NULL ');
-        $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
-        $fields_to_add[] = array('qty', 'int(11) default NULL');
-        $fields_to_add[] = array('other_info', 'TEXT default NULL');
+        $fields_to_add[] = array('session_id', 'string');
+        $fields_to_add[] = array('qty', 'integer');
+        $fields_to_add[] = array('other_info', 'longText');
         $fields_to_add[] = array('order_completed']= "string";
-        $fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
+        $fields_to_add[] = array('order_id', 'string');
         $fields_to_add[] = array('skip_promo_code']= "string";
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('custom_fields_data', 'TEXT default NULL');
+        $fields_to_add[] = array('created_by', 'integer');
+        $fields_to_add[] = array('custom_fields_data', 'longText');
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
-        // $this->app->db->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        $this->app->db->add_table_index('rel', $table_name, array('rel'));
-        $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
+        // $this->app->database->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        $this->app->database->add_table_index('rel', $table_name, array('rel'));
+        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
 
-        $this->app->db->add_table_index('session_id', $table_name, array('session_id'));
+        $this->app->database->add_table_index('session_id', $table_name, array('session_id'));
 
         $table_name = $this->tables['cart_orders'];
 
         $fields_to_add = array();
 
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('country', 'varchar(255)  default NULL ');
-        $fields_to_add[] = array('promo_code', 'TEXT default NULL');
+        $fields_to_add[] = array('updated_on', 'dateTime');
+        $fields_to_add[] = array('created_on', 'dateTime');
+        $fields_to_add[] = array('country', 'string');
+        $fields_to_add[] = array('promo_code', 'longText');
         $fields_to_add[] = array('amount', 'float default NULL');
-        $fields_to_add[] = array('transaction_id', 'TEXT default NULL');
-        $fields_to_add[] = array('shipping_service', 'TEXT default NULL');
+        $fields_to_add[] = array('transaction_id', 'longText');
+        $fields_to_add[] = array('shipping_service', 'longText');
         $fields_to_add[] = array('shipping', 'float default NULL');
         $fields_to_add[] = array('currency', 'varchar(33)  default NULL ');
 
         $fields_to_add[] = array('currency_code', 'varchar(33)  default NULL ');
 
-        $fields_to_add[] = array('first_name', 'TEXT default NULL');
+        $fields_to_add[] = array('first_name', 'longText');
 
-        $fields_to_add[] = array('last_name', 'TEXT default NULL');
+        $fields_to_add[] = array('last_name', 'longText');
 
-        $fields_to_add[] = array('email', 'TEXT default NULL');
+        $fields_to_add[] = array('email', 'longText');
 
-        $fields_to_add[] = array('city', 'TEXT default NULL');
+        $fields_to_add[] = array('city', 'longText');
 
-        $fields_to_add[] = array('state', 'TEXT default NULL');
+        $fields_to_add[] = array('state', 'longText');
 
-        $fields_to_add[] = array('zip', 'TEXT default NULL');
-        $fields_to_add[] = array('address', 'TEXT default NULL');
-        $fields_to_add[] = array('address2', 'TEXT default NULL');
-        $fields_to_add[] = array('phone', 'TEXT default NULL');
+        $fields_to_add[] = array('zip', 'longText');
+        $fields_to_add[] = array('address', 'longText');
+        $fields_to_add[] = array('address2', 'longText');
+        $fields_to_add[] = array('phone', 'longText');
 
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-        $fields_to_add[] = array('session_id', 'varchar(255)  default NULL ');
+        $fields_to_add[] = array('created_by', 'integer');
+        $fields_to_add[] = array('edited_by', 'integer');
+        $fields_to_add[] = array('session_id', 'string');
         $fields_to_add[] = array('order_completed']= "string";
         $fields_to_add[] = array('is_paid']= "string";
-        $fields_to_add[] = array('url', 'TEXT default NULL');
-        $fields_to_add[] = array('user_ip', 'varchar(255)  default NULL ');
-        $fields_to_add[] = array('items_count', 'int(11) default NULL');
-        $fields_to_add[] = array('custom_fields_data', 'TEXT default NULL');
+        $fields_to_add[] = array('url', 'longText');
+        $fields_to_add[] = array('user_ip', 'string');
+        $fields_to_add[] = array('items_count', 'integer');
+        $fields_to_add[] = array('custom_fields_data', 'longText');
 
         $fields_to_add[] = array('payment_gw', 'TEXT  default NULL ');
         $fields_to_add[] = array('payment_verify_token', 'TEXT  default NULL ');
         $fields_to_add[] = array('payment_amount', 'float default NULL');
-        $fields_to_add[] = array('payment_currency', 'varchar(255)  default NULL ');
+        $fields_to_add[] = array('payment_currency', 'string');
 
-        $fields_to_add[] = array('payment_status', 'varchar(255)  default NULL ');
+        $fields_to_add[] = array('payment_status', 'string');
 
-        $fields_to_add[] = array('payment_email', 'TEXT default NULL');
-        $fields_to_add[] = array('payment_receiver_email', 'TEXT default NULL');
+        $fields_to_add[] = array('payment_email', 'longText');
+        $fields_to_add[] = array('payment_receiver_email', 'longText');
 
-        $fields_to_add[] = array('payment_name', 'TEXT default NULL');
+        $fields_to_add[] = array('payment_name', 'longText');
 
-        $fields_to_add[] = array('payment_country', 'TEXT default NULL');
+        $fields_to_add[] = array('payment_country', 'longText');
 
-        $fields_to_add[] = array('payment_address', 'TEXT default NULL');
+        $fields_to_add[] = array('payment_address', 'longText');
 
-        $fields_to_add[] = array('payment_city', 'TEXT default NULL');
-        $fields_to_add[] = array('payment_state', 'TEXT default NULL');
-        $fields_to_add[] = array('payment_zip', 'TEXT default NULL');
+        $fields_to_add[] = array('payment_city', 'longText');
+        $fields_to_add[] = array('payment_state', 'longText');
+        $fields_to_add[] = array('payment_zip', 'longText');
 
-        $fields_to_add[] = array('payer_id', 'TEXT default NULL');
+        $fields_to_add[] = array('payer_id', 'longText');
 
-        $fields_to_add[] = array('payer_status', 'TEXT default NULL');
-        $fields_to_add[] = array('payment_type', 'TEXT default NULL');
+        $fields_to_add[] = array('payer_status', 'longText');
+        $fields_to_add[] = array('payment_type', 'longText');
         $fields_to_add[] = array('order_status', 'varchar(255) default "pending" ');
 
         $fields_to_add[] = array('payment_shipping', 'float default NULL');
 
         $fields_to_add[] = array('is_active']= "string";
-        $fields_to_add[] = array('rel_id', 'int(11) default NULL');
+        $fields_to_add[] = array('rel_id', 'integer');
         $fields_to_add[] = array('rel', 'varchar(350)  default NULL ');
         $fields_to_add[] = array('price', 'float default NULL');
-        $fields_to_add[] = array('other_info', 'TEXT default NULL');
-        $fields_to_add[] = array('order_id', 'varchar(255)  default NULL ');
+        $fields_to_add[] = array('other_info', 'longText');
+        $fields_to_add[] = array('order_id', 'string');
         $fields_to_add[] = array('skip_promo_code']= "string";
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
-        // $this->app->db->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        //  $this->app->db->add_table_index('rel', $table_name, array('rel'));
-        //  $this->app->db->add_table_index('rel_id', $table_name, array('rel_id'));
+        // $this->app->database->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+        //  $this->app->database->add_table_index('rel', $table_name, array('rel'));
+        //  $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
 
-        $this->app->db->add_table_index('session_id', $table_name, array('session_id'));
+        $this->app->database->add_table_index('session_id', $table_name, array('session_id'));
 
 
         $table_name = $this->tables['cart_shipping'];
 
         $fields_to_add = array();
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
+        $fields_to_add[] = array('updated_on', 'dateTime');
+        $fields_to_add[] = array('created_on', 'dateTime');
         $fields_to_add[] = array('is_active']= "string";
 
         $fields_to_add[] = array('shipping_cost', 'float default NULL');
         $fields_to_add[] = array('shipping_cost_max', 'float default NULL');
         $fields_to_add[] = array('shipping_cost_above', 'float default NULL');
 
-        $fields_to_add[] = array('shipping_country', 'TEXT default NULL');
-        $fields_to_add[] = array('position', 'int(11) default NULL');
-        $fields_to_add[] = array('shipping_type', 'TEXT default NULL');
+        $fields_to_add[] = array('shipping_country', 'longText');
+        $fields_to_add[] = array('position', 'integer');
+        $fields_to_add[] = array('shipping_type', 'longText');
 
 
         $fields_to_add[] = array('shipping_price_per_size', 'float default NULL');
@@ -242,7 +242,7 @@ class Shop
         $fields_to_add[] = array('shipping_price_per_item', 'float default NULL');
         $fields_to_add[] = array('shipping_price_custom', 'float default NULL');
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
@@ -281,14 +281,14 @@ class Shop
                 $q = " UPDATE $cart_table SET
 			order_completed='y', order_id='{$ord}'
 			WHERE order_completed='n'   AND session_id='{$sid}'  ";
-                $this->app->db->q($q);
+                $this->app->database->q($q);
 
                 /*if (isset($_REQUEST['token'])) {
-                    $tok = $this->app->db->escape_string($_REQUEST['token']);
+                    $tok = $this->app->database->escape_string($_REQUEST['token']);
                     $q = " UPDATE $table_orders SET
 			is_paid='y'
 			WHERE id='{$ord}'   AND session_id='{$sid}'  AND payment_verify_token='{$tok}'  ";
-                    $this->app->db->q($q);
+                    $this->app->database->q($q);
 
                 }*/
                 $this->confirm_email_send($ord);
@@ -297,7 +297,7 @@ class Shop
 			WHERE order_completed='n' AND
 			id='{$ord}' AND
 			session_id='{$sid}'  ";
-                $this->app->db->q($q);
+                $this->app->database->q($q);
                 $this->confirm_email_send($ord);
             }
 
@@ -497,7 +497,7 @@ class Shop
             }
 
 
-            $temp_order = $this->app->db->save($table_orders, $place_order);
+            $temp_order = $this->app->database->save($table_orders, $place_order);
             if ($temp_order != false) {
                 $place_order['id'] = $temp_order;
             } else {
@@ -536,21 +536,21 @@ class Shop
                     $place_order['success'] = "Your order has been placed successfully!";
 
                 }
-                // $this->app->db->q($q);
+                // $this->app->database->q($q);
                 if (!empty($checkout_errors)) {
 
                     return array('error' => $checkout_errors);
                 }
 
 
-                $ord = $this->app->db->save($table_orders, $place_order);
+                $ord = $this->app->database->save($table_orders, $place_order);
                 $place_order['id'] = $ord;
 
                 $q = " UPDATE $cart_table SET
 		order_id='{$ord}'
 		WHERE order_completed='n'  AND session_id='{$sid}'  ";
 
-                $this->app->db->q($q);
+                $this->app->database->q($q);
 
                 if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
                     $q = " UPDATE $cart_table SET
@@ -558,14 +558,14 @@ class Shop
 
 			WHERE order_completed='n'  AND session_id='{$sid}' ";
 
-                    $this->app->db->q($q);
+                    $this->app->database->q($q);
 
                     if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
                         $q = " UPDATE $table_orders SET
 				order_completed='y'
 				WHERE order_completed='n' AND
 				id='{$ord}' AND session_id='{$sid}' ";
-                        $this->app->db->q($q);
+                        $this->app->database->q($q);
                     }
 
                     $this->app->cache->delete('cart/global');
@@ -666,7 +666,7 @@ class Shop
 
         $params['id'] = intval($id);
 
-        $item = $this->app->db->get($params);
+        $item = $this->app->database->get($params);
 
         if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
             $item = $this->_render_item_custom_fields_data($item);
@@ -780,7 +780,7 @@ class Shop
             $params['no_cache'] = 1;
         }
 
-        $get = $this->app->db->get($params);
+        $get = $this->app->database->get($params);
         if (isset($params['count']) and $params['count'] != false) {
             return $get;
         }
@@ -823,9 +823,9 @@ class Shop
             return;
         } else {
             if ($cur_sid != false) {
-                // $c_id = $this->app->db->sanitize($sid);
+                // $c_id = $this->app->database->sanitize($sid);
 
-                //$c_id = $this->app->db->escape_string($c_id);
+                //$c_id = $this->app->database->escape_string($c_id);
                 $c_id = $sid;
 
                 $table = $this->tables['cart'];
@@ -843,11 +843,11 @@ class Shop
                 }
 
                 $will_add = true;
-                $res = $this->app->db->get($params);
+                $res = $this->app->database->get($params);
 
                 if (empty($res)) {
                     //$params['order_completed'] = 'y';
-                    //  $res = $this->app->db->get($params);
+                    //  $res = $this->app->database->get($params);
                 }
 
 
@@ -876,7 +876,7 @@ class Shop
                                 $is_ex_params['rel_id'] = $item['rel_id'];
                                 $is_ex_params['count'] = 1;
 
-                                $is_ex = $this->app->db->get($is_ex_params);
+                                $is_ex = $this->app->database->get($is_ex_params);
 
                                 if ($is_ex != false) {
                                     $will_add = false;
@@ -885,7 +885,7 @@ class Shop
                             $data['order_completed'] = 'n';
                             $data['session_id'] = $cur_sid;
                             if ($will_add == true) {
-                                $s = $this->app->db->save($table, $data);
+                                $s = $this->app->database->save($table, $data);
                             }
 
                         }
@@ -987,7 +987,7 @@ class Shop
         $amount = floatval(0.00);
         $cart = $this->tables['cart'];
         $sumq = " SELECT  price, qty FROM $cart WHERE order_completed='n'  AND session_id='{$sid}'  ";
-        $sumq = $this->app->db->query($sumq);
+        $sumq = $this->app->database->query($sumq);
         if (is_array($sumq)) {
             foreach ($sumq as $value) {
                 $different_items = $different_items + $value['qty'];
@@ -1097,7 +1097,7 @@ class Shop
         $table = $this->tables['cart'];
         $params['table'] = $table;
         $params['order_id'] = $order_id;
-        $get = $this->app->db->get($params);
+        $get = $this->app->database->get($params);
         return $get;
     }
 
@@ -1159,7 +1159,7 @@ class Shop
         $table = $this->tables['cart_orders'];
         $params['table'] = $table;
 
-        return $this->app->db->get($params);
+        return $this->app->database->get($params);
 
     }
 
@@ -1186,7 +1186,7 @@ class Shop
 
         if ($check_cart != false and is_array($check_cart)) {
             $table = $this->tables['cart'];
-            $this->app->db->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
+            $this->app->database->delete_by_id($table, $id = $cart['id'], $field_name = 'id');
         } else {
 
         }
@@ -1225,7 +1225,7 @@ class Shop
             $cart_data_to_save['qty'] = $cart['qty'];
             $cart_data_to_save['id'] = $cart['id'];
             mw_var('FORCE_SAVE', $table);
-            $cart_saved_id = $this->app->db->save($table, $cart_data_to_save);
+            $cart_saved_id = $this->app->database->save($table, $cart_data_to_save);
             return ($cart_saved_id);
         }
     }
@@ -1283,7 +1283,7 @@ class Shop
         }
 
 
-        $data['for'] = $this->app->db->assoc_table_name($data['for']);
+        $data['for'] = $this->app->database->assoc_table_name($data['for']);
 
         $for = $data['for'];
         $for_id = intval($data['for_id']);
@@ -1491,7 +1491,7 @@ class Shop
             }
             mw_var('FORCE_SAVE', $table);
             //   $cart['debug'] = 1;
-            $cart_saved_id = $this->app->db->save($table, $cart);
+            $cart_saved_id = $this->app->database->save($table, $cart);
 
             $this->app->cache->delete('cart');
 
@@ -1538,7 +1538,7 @@ class Shop
 
         $this->no_cache = true;
 
-        $this->app->db->q($q);
+        $this->app->database->q($q);
         $this->app->cache->delete('cart');
 
         $this->app->cache->delete('cart_orders/global');
@@ -1582,11 +1582,11 @@ class Shop
         //cache_save($ord_data,__FUNCTION__,'debug');
 
         // d($ord_data);.
-        $payment_verify_token = $this->app->db->escape_string($payment_verify_token);
+        $payment_verify_token = $this->app->database->escape_string($payment_verify_token);
         $table = $this->tables['cart_orders'];
         $q = " SELECT  * FROM $table WHERE payment_verify_token='{$payment_verify_token}'  AND transaction_id IS NULL  LIMIT 1";
 
-        $ord_data = $this->app->db->query($q);
+        $ord_data = $this->app->database->query($q);
 
         if (!isset($ord_data[0]) or !is_array($ord_data[0])) {
             return array('error' => 'Order is completed or expired.');
@@ -1631,7 +1631,7 @@ class Shop
             mw_var('FORCE_ANON_UPDATE', $table_orders);
 
 
-            $ord = $this->app->db->save($table_orders, $update_order);
+            $ord = $this->app->database->save($table_orders, $update_order);
             $this->confirm_email_send($ord);
 
 
@@ -1644,14 +1644,14 @@ class Shop
 			order_completed='y', order_id='{$ord}'
 			WHERE order_completed='n'   ";
 
-                //$this->app->db->q($q);
+                //$this->app->database->q($q);
 
                 $q = " UPDATE $table_orders SET
 			order_completed='y'
 			WHERE order_completed='n' AND
 			id='{$ord}'  ";
 
-                // $this->app->db->q($q);
+                // $this->app->database->q($q);
                 $this->app->cache->delete('cart/global');
                 $this->app->cache->delete('cart_orders/global');
                 return true;
@@ -1756,7 +1756,7 @@ class Shop
         $params['table'] = $table;
         $this->app->cache->delete('cart_orders');
 
-        return $this->app->db->save($table, $params);
+        return $this->app->database->save($table, $params);
 
     }
 
@@ -1770,10 +1770,10 @@ class Shop
         $table = $this->tables['cart_orders'];
 
         if (isset($data['email'])) {
-            $c_id = $this->app->db->escape_string($data['email']);
+            $c_id = $this->app->database->escape_string($data['email']);
             $q = "DELETE FROM $table WHERE email='$c_id' ";
-            $res = $this->app->db->q($q);
-            //$this->app->db->delete_by_id($table, $c_id, 'email');
+            $res = $this->app->database->q($q);
+            //$this->app->database->delete_by_id($table, $c_id, 'email');
             $this->app->cache->delete('cart_orders/global');
             return $res;
 
@@ -1793,21 +1793,21 @@ class Shop
             $data = array('id' => intval($data));
         }
         if (isset($data['is_cart']) and trim($data['is_cart']) != 'false' and isset($data['id'])) {
-            $c_id = $this->app->db->escape_string($data['id']);
-            //  $this->app->db->delete_by_id($table, $c_id);
+            $c_id = $this->app->database->escape_string($data['id']);
+            //  $this->app->database->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];
             $q = "DELETE FROM $table2 WHERE session_id='$c_id' ";
             $this->app->cache->delete('cart');
 
             $this->app->cache->delete('cart_orders');
-            $res = $this->app->db->q($q);
+            $res = $this->app->database->q($q);
             return $c_id;
         } else if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->db->delete_by_id($table, $c_id);
+            $this->app->database->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];
             $q = "DELETE FROM $table2 WHERE order_id=$c_id ";
-            $res = $this->app->db->q($q);
+            $res = $this->app->database->q($q);
 
 
             $this->app->cache->delete('cart');

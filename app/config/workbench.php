@@ -26,6 +26,6 @@ return array(
 	|
 	*/
 
-	'email' => 'peter@microweber.com',
+	'email' => 'peter@WeberCMS.com',
 
 );

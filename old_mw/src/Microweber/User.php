@@ -39,7 +39,7 @@ class User
             $prefix = $tables['prefix'];
         }
         if ($prefix == false) {
-            $prefix = $this->app->config('table_prefix');
+            $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
         if ($prefix == false and defined("MW_TABLE_PREFIX")) {
             $prefix = MW_TABLE_PREFIX;
@@ -86,20 +86,20 @@ class User
 
         $fields_to_add = array();
 
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('expires_on', 'datetime default NULL');
-        $fields_to_add[] = array('last_login', 'datetime default NULL');
-        $fields_to_add[] = array('last_login_ip', 'TEXT default NULL');
+        $fields_to_add[] = array('updated_on', 'dateTime');
+        $fields_to_add[] = array('created_on', 'dateTime');
+        $fields_to_add[] = array('expires_on', 'dateTime');
+        $fields_to_add[] = array('last_login', 'dateTime');
+        $fields_to_add[] = array('last_login_ip', 'longText');
 
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+        $fields_to_add[] = array('created_by', 'integer');
 
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+        $fields_to_add[] = array('edited_by', 'integer');
 
-        $fields_to_add[] = array('username', 'TEXT default NULL');
+        $fields_to_add[] = array('username', 'longText');
 
-        $fields_to_add[] = array('password', 'TEXT default NULL');
-        $fields_to_add[] = array('email', 'TEXT default NULL');
+        $fields_to_add[] = array('password', 'longText');
+        $fields_to_add[] = array('email', 'longText');
 
         $fields_to_add[] = array('is_active']= "string";
         $fields_to_add[] = array('is_admin']= "string";
@@ -108,60 +108,60 @@ class User
 
         $fields_to_add[] = array('basic_mode']= "string";
 
-        $fields_to_add[] = array('first_name', 'TEXT default NULL');
-        $fields_to_add[] = array('last_name', 'TEXT default NULL');
-        $fields_to_add[] = array('thumbnail', 'TEXT default NULL');
+        $fields_to_add[] = array('first_name', 'longText');
+        $fields_to_add[] = array('last_name', 'longText');
+        $fields_to_add[] = array('thumbnail', 'longText');
 
-        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
+        $fields_to_add[] = array('parent_id', 'integer');
 
-        $fields_to_add[] = array('api_key', 'TEXT default NULL');
+        $fields_to_add[] = array('api_key', 'longText');
 
-        $fields_to_add[] = array('user_information', 'TEXT default NULL');
-        $fields_to_add[] = array('subscr_id', 'TEXT default NULL');
-        $fields_to_add[] = array('role', 'TEXT default NULL');
-        $fields_to_add[] = array('medium', 'TEXT default NULL');
+        $fields_to_add[] = array('user_information', 'longText');
+        $fields_to_add[] = array('subscr_id', 'longText');
+        $fields_to_add[] = array('role', 'longText');
+        $fields_to_add[] = array('medium', 'longText');
 
-        $fields_to_add[] = array('oauth_uid', 'TEXT default NULL');
-        $fields_to_add[] = array('oauth_provider', 'TEXT default NULL');
-        $fields_to_add[] = array('oauth_token', 'TEXT default NULL');
-        $fields_to_add[] = array('oauth_token_secret', 'TEXT default NULL');
+        $fields_to_add[] = array('oauth_uid', 'longText');
+        $fields_to_add[] = array('oauth_provider', 'longText');
+        $fields_to_add[] = array('oauth_token', 'longText');
+        $fields_to_add[] = array('oauth_token_secret', 'longText');
 
-        $fields_to_add[] = array('profile_url', 'TEXT default NULL');
-        $fields_to_add[] = array('website_url', 'TEXT default NULL');
-        $fields_to_add[] = array('password_reset_hash', 'TEXT default NULL');
+        $fields_to_add[] = array('profile_url', 'longText');
+        $fields_to_add[] = array('website_url', 'longText');
+        $fields_to_add[] = array('password_reset_hash', 'longText');
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
-        $this->app->db->add_table_index('username', $table_name, array('username(255)'));
-        $this->app->db->add_table_index('email', $table_name, array('email(255)'));
+        $this->app->database->add_table_index('username', $table_name, array('username(255)'));
+        $this->app->database->add_table_index('email', $table_name, array('email(255)'));
 
 
         $table_name = $this->tables['log'];
 
         $fields_to_add = array();
 
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-        $fields_to_add[] = array('rel', 'TEXT default NULL');
+        $fields_to_add[] = array('updated_on', 'dateTime');
+        $fields_to_add[] = array('created_on', 'dateTime');
+        $fields_to_add[] = array('created_by', 'integer');
+        $fields_to_add[] = array('edited_by', 'integer');
+        $fields_to_add[] = array('rel', 'longText');
 
-        $fields_to_add[] = array('rel_id', 'TEXT default NULL');
-        $fields_to_add[] = array('position', 'int(11) default NULL');
+        $fields_to_add[] = array('rel_id', 'longText');
+        $fields_to_add[] = array('position', 'integer');
 
-        $fields_to_add[] = array('field', 'longtext default NULL');
-        $fields_to_add[] = array('value', 'TEXT default NULL');
-        $fields_to_add[] = array('module', 'longtext default NULL');
+        $fields_to_add[] = array('field', 'longText');
+        $fields_to_add[] = array('value', 'longText');
+        $fields_to_add[] = array('module', 'longText');
 
-        $fields_to_add[] = array('data_type', 'TEXT default NULL');
-        $fields_to_add[] = array('title', 'longtext default NULL');
-        $fields_to_add[] = array('description', 'TEXT default NULL');
-        $fields_to_add[] = array('content', 'TEXT default NULL');
-        $fields_to_add[] = array('user_ip', 'TEXT default NULL');
-        $fields_to_add[] = array('session_id', 'longtext default NULL');
+        $fields_to_add[] = array('data_type', 'longText');
+        $fields_to_add[] = array('title', 'longText');
+        $fields_to_add[] = array('description', 'longText');
+        $fields_to_add[] = array('content', 'longText');
+        $fields_to_add[] = array('user_ip', 'longText');
+        $fields_to_add[] = array('session_id', 'longText');
         $fields_to_add[] = array('is_system']= "string";
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -361,7 +361,7 @@ class User
             if (trim($api_key) == '') {
                 return false;
             } else {
-                $api_key = $this->app->db->escape_string($api_key);
+                $api_key = $this->app->database->escape_string($api_key);
                 if (user_id() > 0) {
                     return true;
                 } else {
@@ -506,13 +506,13 @@ class User
 
 
 //                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-//                    $next = $this->app->db->last_id($table);
+//                    $next = $this->app->database->last_id($table);
 //                    $next = intval($next) + 1;
 //                    $q = "INSERT INTO $table (id,email, password, is_active)
 //			VALUES ($next, '$email', '$pass', 'y')";
 
 
-                    // $this->app->db->q($q);
+                    // $this->app->database->q($q);
                     $this->app->cache->delete('users/global');
                     //$data = save_user($data);
                     $this->session_del('captcha');
@@ -679,7 +679,7 @@ class User
         //
         $hash = md5($pass);
         if ($hash == false) {
-            $hash = $this->app->db->escape_string($hash);
+            $hash = $this->app->database->escape_string($hash);
             return $pass;
         }
         return $hash;
@@ -794,7 +794,7 @@ class User
 
 
         $table = $this->tables['users'];
-        $save = $this->app->db->save($table, $data_to_save);
+        $save = $this->app->database->save($table, $data_to_save);
         $id = $save;
         $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache->delete('users' . DIRECTORY_SEPARATOR . '0');
@@ -1149,7 +1149,7 @@ class User
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->db->delete_by_id('users', $c_id);
+            $this->app->database->delete_by_id('users', $c_id);
             return $c_id;
 
         }
@@ -1192,7 +1192,7 @@ class User
 
         $data1 = array();
         $data1['id'] = intval($params['id']);
-        $data1['password_reset_hash'] = $this->app->db->escape_string($params['password_reset_hash']);
+        $data1['password_reset_hash'] = $this->app->database->escape_string($params['password_reset_hash']);
         $table = $this->tables['users'];
 
         $check = $this->get_all("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
@@ -1211,7 +1211,7 @@ class User
 
         mw_var('FORCE_SAVE', $table);
 
-        $save = $this->app->db->save($table, $data1);
+        $save = $this->app->database->save($table, $data1);
 
         $notif = array();
         $notif['module'] = "users";
@@ -1321,7 +1321,7 @@ class User
                             $table = $this->tables['users'];
                             mw_var('FORCE_SAVE', $table);
 
-                            $save = $this->app->db->save($table, $data_to_save);
+                            $save = $this->app->database->save($table, $data_to_save);
                         }
                         $pass_reset_link = $this->app->url->current(1) . '?reset_password_link=' . $function_cache_id;
 
@@ -1409,7 +1409,7 @@ class User
                         $table = $this->tables['users'];
                         mw_var('FORCE_SAVE', $table);
 
-                        $save = $this->app->db->save($table, $data_to_save);
+                        $save = $this->app->database->save($table, $data_to_save);
                         $this->app->cache->delete('users/global');
                         if ($save > 0) {
                             $data = array();
@@ -1576,7 +1576,7 @@ class User
 
             $table = $this->tables['users'];
             mw_var("FORCE_SAVE", $this->tables['users']);
-            $save = $this->app->db->save($table, $data_to_save);
+            $save = $this->app->database->save($table, $data_to_save);
 
             $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
@@ -1696,10 +1696,10 @@ class User
         //  $data ['cache_group'] = $cache_group;
 
 
-        $get = $this->app->db->get($data);
+        $get = $this->app->database->get($data);
 
-        //$get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->db->get_long($table, $criteria = $data, $cache_group);
+        //$get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
         // var_dump($get, $function_cache_id, $cache_group);
         //  $this->app->cache->save($get, $function_cache_id, $cache_group);
 

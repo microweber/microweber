@@ -51,7 +51,7 @@ class Module
         }
 
         if ($prefix == false) {
-            $prefix = $this->app->config('table_prefix');
+            $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
         if ($prefix == false and defined("MW_TABLE_PREFIX")) {
@@ -125,29 +125,29 @@ class Module
 
         $fields_to_add = array();
 
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('expires_on', 'datetime default NULL');
+        $fields_to_add[] = array('updated_on', 'dateTime');
+        $fields_to_add[] = array('created_on', 'dateTime');
+        $fields_to_add[] = array('expires_on', 'dateTime');
 
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
+        $fields_to_add[] = array('created_by', 'integer');
 
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
+        $fields_to_add[] = array('edited_by', 'integer');
 
-        $fields_to_add[] = array('name', 'TEXT default NULL');
-        $fields_to_add[] = array('parent_id', 'int(11) default NULL');
-        $fields_to_add[] = array('module_id', 'TEXT default NULL');
+        $fields_to_add[] = array('name', 'longText');
+        $fields_to_add[] = array('parent_id', 'integer');
+        $fields_to_add[] = array('module_id', 'longText');
 
-        $fields_to_add[] = array('module', 'TEXT default NULL');
-        $fields_to_add[] = array('description', 'TEXT default NULL');
-        $fields_to_add[] = array('icon', 'TEXT default NULL');
-        $fields_to_add[] = array('author', 'TEXT default NULL');
-        $fields_to_add[] = array('website', 'TEXT default NULL');
-        $fields_to_add[] = array('help', 'TEXT default NULL');
-        $fields_to_add[] = array('type', 'TEXT default NULL');
+        $fields_to_add[] = array('module', 'longText');
+        $fields_to_add[] = array('description', 'longText');
+        $fields_to_add[] = array('icon', 'longText');
+        $fields_to_add[] = array('author', 'longText');
+        $fields_to_add[] = array('website', 'longText');
+        $fields_to_add[] = array('help', 'longText');
+        $fields_to_add[] = array('type', 'longText');
 
-        $fields_to_add[] = array('installed', 'int(11) default NULL');
+        $fields_to_add[] = array('installed', 'integer');
         $fields_to_add[] = array('ui', 'int(11) default 0');
-        $fields_to_add[] = array('position', 'int(11) default NULL');
+        $fields_to_add[] = array('position', 'integer');
         $fields_to_add[] = array('as_element', 'int(11) default 0');
         $fields_to_add[] = array('ui_admin', 'int(11) default 0');
         $fields_to_add[] = array('ui_admin_iframe', 'int(11) default 0');
@@ -157,49 +157,49 @@ class Module
 
         $fields_to_add[] = array('notifications', 'int(11) default 0');
 
-        $this->app->db->build_table($table_name, $fields_to_add);
+        $this->app->database->build_table($table_name, $fields_to_add);
 
         $fields_to_add[] = array('layout_type', 'varchar(110) default "static"');
 
-        $this->app->db->add_table_index('module', $table_name, array('module(255)'));
-        $this->app->db->add_table_index('module_id', $table_name, array('module_id(255)'));
+        $this->app->database->add_table_index('module', $table_name, array('module(255)'));
+        $this->app->database->add_table_index('module_id', $table_name, array('module_id(255)'));
 
-        $this->app->db->build_table($table_name2, $fields_to_add);
+        $this->app->database->build_table($table_name2, $fields_to_add);
 
-        $this->app->db->add_table_index('module', $table_name2, array('module(255)'));
-        $this->app->db->add_table_index('module_id', $table_name2, array('module_id(255)'));
-
-        $fields_to_add = array();
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-        $fields_to_add[] = array('module_id', 'TEXT default NULL');
-        $fields_to_add[] = array('name', 'TEXT default NULL');
-        $fields_to_add[] = array('module', 'TEXT default NULL');
-        $this->app->db->build_table($table_name3, $fields_to_add);
-
+        $this->app->database->add_table_index('module', $table_name2, array('module(255)'));
+        $this->app->database->add_table_index('module_id', $table_name2, array('module_id(255)'));
 
         $fields_to_add = array();
-        $fields_to_add[] = array('updated_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_on', 'datetime default NULL');
-        $fields_to_add[] = array('created_by', 'int(11) default NULL');
-        $fields_to_add[] = array('edited_by', 'int(11) default NULL');
-        $fields_to_add[] = array('rel', 'TEXT default NULL');
-        $fields_to_add[] = array('rel_name', 'TEXT default NULL');
-        $fields_to_add[] = array('local_key', 'TEXT default NULL');
-        $fields_to_add[] = array('local_key_hash', 'TEXT default NULL');
-        $fields_to_add[] = array('registered_name', 'TEXT default NULL');
-        $fields_to_add[] = array('company_name', 'TEXT default NULL');
-        $fields_to_add[] = array('domains', 'TEXT default NULL');
-        $fields_to_add[] = array('status', 'TEXT default NULL');
-        $fields_to_add[] = array('product_id', 'int(11) default NULL');
-        $fields_to_add[] = array('service_id', 'int(11) default NULL');
-        $fields_to_add[] = array('billing_cycle', 'TEXT default NULL');
-        $fields_to_add[] = array('reg_on', 'datetime default NULL');
-        $fields_to_add[] = array('due_on', 'datetime default NULL');
+        $fields_to_add[] = array('updated_on', 'dateTime');
+        $fields_to_add[] = array('created_on', 'dateTime');
+        $fields_to_add[] = array('created_by', 'integer');
+        $fields_to_add[] = array('edited_by', 'integer');
+        $fields_to_add[] = array('module_id', 'longText');
+        $fields_to_add[] = array('name', 'longText');
+        $fields_to_add[] = array('module', 'longText');
+        $this->app->database->build_table($table_name3, $fields_to_add);
 
-        $this->app->db->build_table($table_name4, $fields_to_add);
+
+        $fields_to_add = array();
+        $fields_to_add[] = array('updated_on', 'dateTime');
+        $fields_to_add[] = array('created_on', 'dateTime');
+        $fields_to_add[] = array('created_by', 'integer');
+        $fields_to_add[] = array('edited_by', 'integer');
+        $fields_to_add[] = array('rel', 'longText');
+        $fields_to_add[] = array('rel_name', 'longText');
+        $fields_to_add[] = array('local_key', 'longText');
+        $fields_to_add[] = array('local_key_hash', 'longText');
+        $fields_to_add[] = array('registered_name', 'longText');
+        $fields_to_add[] = array('company_name', 'longText');
+        $fields_to_add[] = array('domains', 'longText');
+        $fields_to_add[] = array('status', 'longText');
+        $fields_to_add[] = array('product_id', 'integer');
+        $fields_to_add[] = array('service_id', 'integer');
+        $fields_to_add[] = array('billing_cycle', 'longText');
+        $fields_to_add[] = array('reg_on', 'dateTime');
+        $fields_to_add[] = array('due_on', 'dateTime');
+
+        $this->app->database->build_table($table_name4, $fields_to_add);
 
         $this->app->cache->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
@@ -843,7 +843,7 @@ class Module
             unset($params['ui']);
         }
 
-        return $this->app->db->get($params);
+        return $this->app->database->get($params);
     }
 
     public function path($module_name)
@@ -928,7 +928,7 @@ class Module
                     $indx[$i] = $value2;
                     $i++;
                 }
-                $this->app->db->update_position_field($table, $indx);
+                $this->app->database->update_position_field($table, $indx);
                 return $indx;
             }
         }
@@ -946,13 +946,13 @@ class Module
             $db_categories_items = $this->table_prefix . 'categories_items';
 
             $q = "DELETE FROM $table ";
-            $this->app->db->q($q);
+            $this->app->database->q($q);
 
             $q = "DELETE FROM $db_categories WHERE rel='modules' AND data_type='category' ";
-            $this->app->db->q($q);
+            $this->app->database->q($q);
 
             $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' ";
-            $this->app->db->q($q);
+            $this->app->database->q($q);
             $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
             $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
@@ -1089,8 +1089,8 @@ class Module
                         if (isset($config['tables']) and is_array($config['tables'])) {
                             $tabl = $config['tables'];
                             foreach ($tabl as $key1 => $fields_to_add) {
-                                $table = $this->app->db->real_table_name($key1);
-                                $this->app->db->build_table($table, $fields_to_add);
+                                $table = $this->app->database->real_table_name($key1);
+                                $this->app->database->build_table($table, $fields_to_add);
                             }
                         }
                     }
@@ -1115,7 +1115,7 @@ class Module
 
         $params['table'] = $table;
 
-        $data = $this->app->db->get($params);
+        $data = $this->app->database->get($params);
         return $data;
     }
 
@@ -1137,13 +1137,13 @@ class Module
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->db->delete_by_id($table, $c_id);
+            $this->app->database->delete_by_id($table, $c_id);
         }
 
         if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
-                $this->app->db->delete_by_id($table, $c_id);
+                $this->app->database->delete_by_id($table, $c_id);
             }
 
         }
@@ -1164,7 +1164,7 @@ class Module
         if (!empty($data_to_save)) {
             $s = $data_to_save;
 
-            $save = $this->app->db->save($table, $s);
+            $save = $this->app->database->save($table, $s);
         }
 
         return $save;
@@ -1479,7 +1479,7 @@ class Module
                             $mn = $value['module'];
                             $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
 
-                            $this->app->db->q($q);
+                            $this->app->database->q($q);
                         }
 
                     }
@@ -1527,17 +1527,17 @@ class Module
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
                         $s["position"] = intval($save[0]["position"]);
-                        $save = $this->app->db->save($table, $s);
+                        $save = $this->app->database->save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
-                        $mname_clen = $this->app->db->escape_string($mname_clen);
+                        $mname_clen = $this->app->database->escape_string($mname_clen);
                         if ($s["id"] > 0) {
                             $delid = $s["id"];
                             $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            $this->app->db->q($del);
+                            $this->app->database->q($del);
                         }
                     } else {
 
-                        $save = $this->app->db->save($table, $s);
+                        $save = $this->app->database->save($table, $s);
                     }
                 } else {
 
@@ -1545,7 +1545,7 @@ class Module
 
             } else {
 
-                $save = $this->app->db->save($table, $s);
+                $save = $this->app->database->save($table, $s);
             }
         }
         $this->app->cache->delete('modules' . DIRECTORY_SEPARATOR . 'functions');
@@ -1639,8 +1639,8 @@ class Module
                     if (isset($config['tables']) and is_array($config['tables'])) {
                         $tabl = $config['tables'];
                         foreach ($tabl as $key1 => $fields_to_add) {
-                            $table = $this->app->db->real_table_name($key1);
-                            $this->app->db->build_table($table, $fields_to_add);
+                            $table = $this->app->database->real_table_name($key1);
+                            $this->app->database->build_table($table, $fields_to_add);
                         }
                     }
                     if (is_array($config) and !empty($config)) {
@@ -1751,10 +1751,10 @@ class Module
         $db_categories_items = $this->table_prefix . 'categories_items';
 
         $q = "DELETE FROM $table WHERE id={$id}";
-        $this->app->db->q($q);
+        $this->app->database->q($q);
 
         $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' AND rel_id={$id}";
-        $this->app->db->q($q);
+        $this->app->database->q($q);
         $this->app->cache->delete('categories' . DIRECTORY_SEPARATOR . '');
         // $this->app->cache->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 

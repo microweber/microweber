@@ -180,12 +180,12 @@ class Db
      * $table_name = $this->table_prefix . 'my_new_table'
      *
      * $fields_to_add = array();
-     * $fields_to_add[] = array('updated_on', 'datetime default NULL');
-     * $fields_to_add[] = array('created_by', 'int(11) default NULL');
-     * $fields_to_add[] = array('content_type', 'TEXT default NULL');
-     * $fields_to_add[] = array('url', 'longtext default NULL');
-     * $fields_to_add[] = array('content_filename', 'TEXT default NULL');
-     * $fields_to_add[] = array('title', 'longtext default NULL');
+     * $fields_to_add[] = array('updated_on', 'dateTime');
+     * $fields_to_add[] = array('created_by', 'integer');
+     * $fields_to_add[] = array('content_type', 'longText');
+     * $fields_to_add[] = array('url', 'longText');
+     * $fields_to_add[] = array('content_filename', 'longText');
+     * $fields_to_add[] = array('title', 'longText');
      * $fields_to_add[] = array('is_active']= "string";
      * $fields_to_add[] = array('is_deleted']= "string";
      *   mw('db')->build_table($table_name, $fields_to_add);
@@ -219,7 +219,7 @@ class Db
         }
 
 
-        $prefix = $this->app->config('table_prefix');
+        $prefix = $this->app->config->get('database.connections.mysql.prefix');
         $function_cache_id = __FUNCTION__ . $table_name . crc32($function_cache_id . $prefix);
 
 
@@ -319,7 +319,7 @@ class Db
                 switch ($field_type) {
                     case 'text':
                     case 'content':
-                        $the_field[1] = 'longtext default NULL';
+                        $the_field[1] = 'longText';
                         break;
                     case 'title':
                         $the_field[1] = 'text default NULL';
@@ -331,14 +331,14 @@ class Db
                     case 'varchar':
                     case 'shorttext':
                     case 'smalltext':
-                        $the_field[1] = 'varchar(255) default NULL';
+                        $the_field[1] = 'string';
                         break;
                     case 'int':
                     case 'integer':
-                        $the_field[1] = 'int(11) default NULL';
+                        $the_field[1] = 'integer';
                         break;
                     case 'datetime':
-                        $the_field[1] = 'datetime default NULL';
+                        $the_field[1] = 'dateTime';
                         break;
                     case 'date':
                         $the_field[1] = 'date default NULL';
@@ -3174,7 +3174,7 @@ class Db
 
 
         if ($this->table_prefix == false) {
-            $this->table_prefix = $this->app->config('table_prefix');
+            $this->table_prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
 
