@@ -7,7 +7,7 @@ class Boo  {
         //getInstance
 
 
-        $this->app = Application::getInstance();
+        $this->app = wb();
     }
 
     function asaa(){

@@ -29,7 +29,7 @@ class Shop
         if (is_object($app)) {
             $this->app = $app;
         } else {
-            $this->app = Application::getInstance();
+            $this->app = wb();
         }
 
         $this->set_table_names();

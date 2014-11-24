@@ -29,7 +29,7 @@ class Parser
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = Application::getInstance();
+                $this->app = wb();
             }
         }
 
@@ -48,7 +48,7 @@ class Parser
         if($process_started == false){
             $process_started = true;
 
-            $this->app->event->emit('parser.process',$layout);
+            $this->app->event->trigger('parser.process',$layout);
         }
 
 

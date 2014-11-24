@@ -21,7 +21,7 @@ class Option
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = Application::getInstance();
+                $this->app = wb();
             }
 
         }
@@ -104,7 +104,7 @@ class Option
         $fields_to_add['field_values']= 'longText';
 
         $fields_to_add['module']= 'longText';
-        $fields_to_add['is_system']= 'int(1) default 0');
+        $fields_to_add['is_system']= 'integer');
 
         $this->app->database->build_table($table_name, $fields_to_add);
 

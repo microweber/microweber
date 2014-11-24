@@ -31,7 +31,7 @@ class Layouts
                 $this->app = $app;
             } else {
 
-                $this->app = Application::getInstance();
+                $this->app = wb();
             }
 
         }

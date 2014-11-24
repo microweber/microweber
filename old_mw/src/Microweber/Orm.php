@@ -27,7 +27,7 @@ class Orm
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = Application::getInstance();
+                $this->app = wb();
             }
         }
         if (!is_object($this->adapter)) {
