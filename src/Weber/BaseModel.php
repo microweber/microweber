@@ -13,7 +13,26 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 class BaseModel extends Eloquent
 {
     private $filter_keys = ['id', 'module', 'type'];
-    public $custom_filters = ['single', 'order_by'];
+    public $default_filters = [
+        'single',
+        'order_by',
+        'min',
+        'max',
+        'avg',
+        'exclude_ids',
+        'ids',
+        'current_page',
+        'count_paging',
+        'to_search_in_fields',
+        'to_search_keyword',
+        'fields'
+    ];
+
+    private static $custom_filters = [];
+    public static function custom_filter($name, $callback)
+    {
+        self::$custom_filters[$name] = $callback;
+    }
 
     public function __construct()
     {
@@ -34,29 +53,36 @@ class BaseModel extends Eloquent
             $params = parse_params($params);
         }
 
-        $cf = array_flip($this->custom_filters);
-        foreach($cf as $k=>&$v) {
+        $cf = array_flip($this->default_filters);
+        foreach ($cf as $k => &$v) {
             $v = isset($params[$k]);
         }
 
-        foreach($cf as $filter=>$enabled) {
-            if(!$enabled)
+        foreach ($cf as $filter => $enabled) {
+            if (!$enabled)
                 continue;
 
-            switch($filter) {
+            switch ($filter) {
                 case 'order_by':
                     $criteria = explode(',', $params['order_by']);
-                    foreach($criteria as $c) {
+                    foreach ($criteria as $c) {
                         $c = explode(' ', $c);
-                        if(isset($c[1])) {
+                        if (isset($c[1])) {
                             $query = $query->orderBy($c[0], $c[1]);
-                        }
-                        else if(isset($c[0])) {
+                        } else if (isset($c[0])) {
                             $query = $query->orderBy($c[0]);
                         }
                     }
                     break;
             }
+        }
+        foreach (self::$custom_filters as $name => $callback) {
+            if(!isset($params[$name])) {
+                continue;
+            }
+
+
+            call_user_func_array($callback, [$query,$params[$name]]);
         }
 
         $params = $this->map_array_to_table($table, $params);
