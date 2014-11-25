@@ -573,7 +573,7 @@ class Format
 
     public function lnotif($text, $class = 'success')
     {
-        $editmode_sess = mw('user')->session_get('editmode');
+        $editmode_sess = mw()->user_manager->session_get('editmode');
 
         if($editmode_sess == false){
             if (defined('IN_EDITOR_TOOLS') and IN_EDITOR_TOOLS != false) {

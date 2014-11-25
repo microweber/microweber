@@ -2,7 +2,7 @@
 namespace Microweber;
 
 if (!defined("MW_DB_TABLE_LOG")) {
-    define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
+    define('MW_DB_TABLE_LOG', get_table_prefix() . 'log');
 }
 
 
@@ -56,7 +56,7 @@ class Log
 
     public function reset()
     {
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -112,7 +112,7 @@ class Log
 
     public function delete_entry($data)
     {
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

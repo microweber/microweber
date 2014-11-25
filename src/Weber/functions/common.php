@@ -218,3 +218,282 @@ function microtime_float()
 }
 
 
+
+
+/**
+ *
+ * Limits a string to a number of characters
+ *
+ * @param $str
+ * @param int $n
+ * @param string $end_char
+ * @return string
+ * @package Utils
+ * @category Strings
+ */
+function character_limiter($str, $n = 500, $end_char = '&#8230;')
+{
+    if (strlen($str) < $n) {
+        return $str;
+    }
+    $str = strip_tags($str);
+    $str = preg_replace("/\s+/", ' ', str_replace(array("\r\n", "\r", "\n"), ' ', $str));
+
+    if (strlen($str) <= $n) {
+        return $str;
+    }
+
+    $out = "";
+    foreach (explode(' ', trim($str)) as $val) {
+        $out .= $val . ' ';
+
+        if (strlen($out) >= $n) {
+            $out = trim($out);
+            return (strlen($out) == strlen($str)) ? $out : $out . $end_char;
+        }
+    }
+}
+
+
+function api_url($str = '')
+{
+    $str = ltrim($str, '/');
+    return site_url('api/' . $str);
+}
+
+function auto_link($text)
+{
+    return mw()->format->auto_link($text);
+}
+
+function prep_url($text)
+{
+    return mw()->format->prep_url($text);
+}
+
+
+function is_arr($var)
+{
+    return isarr($var);
+}
+
+function isarr($var)
+{
+    if (is_array($var) and !empty($var)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function is_ajax()
+
+{
+    return mw('url')->is_ajax();
+
+}
+
+function url_current($skip_ajax = false, $no_get = false)
+{
+    return mw('url')->current($skip_ajax, $no_get);
+}
+
+function url_segment($k = -1, $page_url = false)
+{
+    return mw('url')->segment($k, $page_url);
+
+}
+
+/**
+ * Returns the curent url path, does not include the domain name
+ *
+ * @return string the url string
+ */
+function url_path($skip_ajax = false)
+{
+    return mw('url')->string($skip_ajax);
+}
+
+/**
+ * Returns the curent url path, does not include the domain name
+ *
+ * @return string the url string
+ */
+function url_string($skip_ajax = false)
+{
+    return mw('url')->string($skip_ajax);
+}
+
+function url_title($text)
+{
+    return mw('url')->slug($text);
+}
+
+function url_param($param, $skip_ajax = false)
+{
+    return mw('url')->param($param, $skip_ajax);
+}
+
+
+api_expose('system_log_reset');
+
+function system_log_reset($data = false)
+{
+    return mw('log')->reset();
+}
+
+api_expose('delete_log_entry');
+
+function delete_log_entry($data)
+{
+    return mw('log')->delete_entry($data);
+}
+
+
+api_expose('captcha');
+
+
+function captcha()
+{
+    return Microweber\Utils\Captcha::render();
+}
+
+
+/**
+ *  Gets the data from the cache.
+ *
+ *  If data is not found it return false
+ *
+ *
+ * @example
+ * <code>
+ *
+ * $cache_id = 'my_cache_'.crc32($sql_query_string);
+ * $cache_content = cache_get_content($cache_id, 'my_cache_group');
+ *
+ * </code>
+ * @param string $cache_id id of the cache
+ * @param string $cache_group (default is 'global') - this is the subfolder in the cache dir.
+ *
+ * @param bool $expiration_in_seconds You can pass custom cache object or leave false.
+ * @return  mixed returns array of cached data or false
+ * @package Cache
+ *
+ */
+
+function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = false)
+{
+    return mw()->cache_manager->get($cache_id, $cache_group, $expiration_in_seconds);
+}
+
+/**
+ * Stores your data in the cache.
+ * It can store any value that can be serialized, such as strings, array, etc.
+ *
+ * @example
+ * <code>
+ * //store custom data in cache
+ * $data = array('something' => 'some_value');
+ * $cache_id = 'my_cache_id';
+ * $cache_content = cache_save($data, $cache_id, 'my_cache_group');
+ * </code>
+ *
+ * @param mixed $data_to_cache
+ *            your data, anything that can be serialized
+ * @param string $cache_id
+ *            id of the cache, you must define it because you will use it later to
+ *            retrieve the cached content.
+ * @param string $cache_group
+ *            (default is 'global') - this is the subfolder in the cache dir.
+ *
+ * @param bool $expiration_in_seconds
+ * @return boolean
+ * @package Cache
+ */
+function cache_save($data_to_cache, $cache_id, $cache_group = 'global')
+{
+    return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group);
+
+
+}
+
+
+api_expose('clearcache');
+/**
+ * Clears all cache data
+ * @example
+ * <code>
+ * //delete all cache
+ *  clearcache();
+ * </code>
+ * @return boolean
+ * @package Cache
+ */
+function clearcache()
+{
+    return mw()->cache_manager->clear();
+
+}
+
+
+/**
+ * Prints cache debug information
+ *
+ * @return array
+ * @package Cache
+ * @example
+ * <code>
+ * //get cache items info
+ *  $cached_items = cache_debug();
+ * print_r($cached_items);
+ * </code>
+ */
+function cache_debug()
+{
+    return mw()->cache_manager->debug();
+
+}
+
+
+/**
+ * Deletes cache for given $cache_group recursively.
+ *
+ * @param string $cache_group
+ *            (default is 'global') - this is the subfolder in the cache dir.
+ * @param bool $expiration_in_seconds
+ * @return boolean
+ *
+ * @package Cache
+ * @example
+ * <code>
+ * //delete the cache for the content
+ *  cache_clear("content");
+ *
+ * //delete the cache for the content with id 1
+ *  cache_clear("content/1");
+ *
+ * //delete the cache for users
+ *  cache_clear("users");
+ *
+ * //delete the cache for your custom table eg. my_table
+ * cache_clear("my_table");
+ * </code>
+ *
+ */
+function cache_clear($cache_group = 'global', $cache_storage_type = false)
+{
+
+    return mw()->cache_manager->delete($cache_group, $cache_storage_type);
+
+
+}
+
+//same as cache_clear
+function cache_delete($cache_group = 'global', $cache_storage_type = false)
+{
+
+    return mw()->cache_manager->delete($cache_group, $cache_storage_type);
+
+
+}
+

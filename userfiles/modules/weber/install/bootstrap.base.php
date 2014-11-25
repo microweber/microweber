@@ -2,6 +2,6 @@
 
 
 
-if (!defined('MW_USERFILES')) {
-    define('MW_USERFILES', MW_ROOTPATH . 'sites' . DIRECTORY_SEPARATOR."{domain}".DIRECTORY_SEPARATOR);
+if (!defined('userfiles_path()')) {
+    define('userfiles_path()', MW_ROOTPATH . 'sites' . DIRECTORY_SEPARATOR."{domain}".DIRECTORY_SEPARATOR);
 }

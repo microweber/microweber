@@ -52,8 +52,8 @@ class Shop
             $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
-        if ($prefix == false and defined("MW_TABLE_PREFIX")) {
-            $prefix = MW_TABLE_PREFIX;
+        if ($prefix == false and defined("get_table_prefix()")) {
+            $prefix = get_table_prefix();
         }
         if (!is_array($tables)) {
             $tables = array();
@@ -750,16 +750,16 @@ class Shop
         }
         if ($skip_sid == false) {
             if (!defined('MW_ORDERS_SKIP_SID')) {
-                if ($this->app->user->is_admin() == false) {
+                if ($this->app->user_manager->is_admin() == false) {
                     $params['session_id'] = session_id();
                 } else {
-                    if (isset($params['session_id']) and $this->app->user->is_admin() == true) {
+                    if (isset($params['session_id']) and $this->app->user_manager->is_admin() == true) {
 
                     } else {
                         $params['session_id'] = session_id();
                     }
                 }
-                if (isset($params['no_session_id']) and $this->app->user->is_admin() == true) {
+                if (isset($params['no_session_id']) and $this->app->user_manager->is_admin() == true) {
                     unset($params['session_id']);
                     //	$params['session_id'] = session_id();
                 } else {
@@ -788,7 +788,7 @@ class Shop
         if (is_array($get)) {
             foreach ($get as $item) {
                 if (isset($item['rel_id']) and isset($item['rel']) and $item['rel'] = 'content') {
-                    $item['content_data'] = $this->app->content->data($item['rel_id']);
+                    $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
                 }
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
                     $item = $this->_render_item_custom_fields_data($item);
@@ -955,7 +955,7 @@ class Shop
                         $string = preg_replace('/(\w+)([A-Z])/U']= '\\1 \\2', $title);
                         $value['gw_file'] = $title;
 
-                        $mod_infp = $this->app->module->get('ui=any&one=1&module=' . $title);
+                        $mod_infp = $this->app->modules->get('ui=any&one=1&module=' . $title);
 
                         if (!empty($mod_infp)) {
                             $value = $mod_infp;
@@ -1028,7 +1028,7 @@ class Shop
 
                 if (isset($item['rel']) and isset($item['rel_id']) and $item['rel'] == 'content') {
 
-                    $data_fields = $this->app->content->data($item['rel_id'], 1);
+                    $data_fields = $this->app->content_manager->data($item['rel_id'], 1);
 
                     if (isset($item['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
                         $old_qty = intval($data_fields['qty']);
@@ -1058,7 +1058,7 @@ class Shop
 
                             }
                             $res[] = $new_q;
-                            $upd_qty = $this->app->content->save_content_data_field($new_q);
+                            $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
                             $res = true;
 
                             if ($notify) {
@@ -1142,7 +1142,7 @@ class Shop
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-        if (defined('MW_API_CALL') and $this->app->user->is_admin() == false) {
+        if (defined('MW_API_CALL') and $this->app->user_manager->is_admin() == false) {
 
             if (!isset($params['payment_verify_token'])) {
                 $params['session_id'] = session_id();
@@ -1175,7 +1175,7 @@ class Shop
         $cart = array();
         $cart['id'] = intval($data['id']);
 
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             $cart['session_id'] = session_id();
         }
         $cart['order_completed'] = 'n';
@@ -1208,7 +1208,7 @@ class Shop
         $cart = array();
         $cart['id'] = intval($data['id']);
 
-        //if ($this->app->user->is_admin() == false) {
+        //if ($this->app->user_manager->is_admin() == false) {
         $cart['session_id'] = session_id();
         //}
         $cart['order_completed'] = 'n';
@@ -1306,8 +1306,8 @@ class Shop
 
 
         if ($data['for'] == 'content') {
-            $cont = $this->app->content->get_by_id($for_id);
-            $cont_data = $this->app->content->data($for_id);
+            $cont = $this->app->content_manager->get_by_id($for_id);
+            $cont_data = $this->app->content_manager->data($for_id);
             if ($cont == false) {
                 $this->app->error('Invalid product?');
             } else {
@@ -1747,7 +1747,7 @@ class Shop
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-        if (defined("MW_API_CALL") and $this->app->user->is_admin() == false) {
+        if (defined("MW_API_CALL") and $this->app->user_manager->is_admin() == false) {
 
             $this->app->error("You must be admin");
         }
@@ -1763,7 +1763,7 @@ class Shop
     public function delete_client($data)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1783,7 +1783,7 @@ class Shop
     public function delete_order($data)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
 
         if (defined('MW_API_CALL') and $adm == false) {
             return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);
@@ -2021,7 +2021,7 @@ class Shop
             $default_url = $checkout_url;
         }
 
-        $checkout_url_sess = $this->app->user->session_get('checkout_url');
+        $checkout_url_sess = $this->app->user_manager->session_get('checkout_url');
 
         if ($checkout_url_sess == false) {
             return $this->app->url->site($default_url);

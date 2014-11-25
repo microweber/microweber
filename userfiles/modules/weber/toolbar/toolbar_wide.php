@@ -100,7 +100,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 <div class="mw-helpinfo semi_hidden">
   <div class="mw-help-item" data-for="#live_edit_toolbar" data-pos="bottomcenter">
     <div style="width: 300px;">
-      <p style="text-align: center"> <img src="<?php print INCLUDES_URL; ?>img/dropf.gif" alt="" /> </p>
+      <p style="text-align: center"> <img src="<?php print mw_includes_url(); ?>img/dropf.gif" alt="" /> </p>
       <p> You can easily grab any Module and insert it in your content. </p>
     </div>
   </div>
@@ -127,7 +127,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                         $pt_opts['active_ids'] = CONTENT_ID;
                         $pt_opts['limit'] = 1000;
                         $pt_opts['active_code_tag'] = 'class="active"';
-                        mw('content')->pages_tree($pt_opts);
+                        mw()->content_manager->pages_tree($pt_opts);
                         ?>
               <a id="backtoadminindropdown" href="<?php print $back_url; ?>" title="Back to Admin"> <span class="ico ibackarr"></span><span>Back to Admin</span> </a> </div>
           </li>
@@ -247,7 +247,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                   
                 <?php /*<li><a href="#" onclick="mw.preview();void(0);"><span class="ico ibackarr"></span><span><?php _e("Preview"); ?></span></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-                <?php $pub_or_inpub = mw('content')->get_by_id(CONTENT_ID); ?>
+                <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
                 <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>> <a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span
                                             class="ico iUnpublish"></span><span>
                   <?php _e("Unpublish"); ?>

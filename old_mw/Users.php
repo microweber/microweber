@@ -18,10 +18,10 @@ class Users extends \Microweber\User
         }
 
         if (!defined("MW_DB_TABLE_USERS")) {
-            define('MW_DB_TABLE_USERS', MW_TABLE_PREFIX . 'users');
+            define('MW_DB_TABLE_USERS', get_table_prefix() . 'users');
         }
         if (!defined("MW_DB_TABLE_LOG")) {
-            define('MW_DB_TABLE_LOG', MW_TABLE_PREFIX . 'log');
+            define('MW_DB_TABLE_LOG', get_table_prefix() . 'log');
         }
 
     }
@@ -83,7 +83,7 @@ class Users extends \Microweber\User
                     $data['username'] = $email;
                     $data['password'] = $pass;
                     $data['is_active'] = 'n';
-                    $table = MW_TABLE_PREFIX . 'users';
+                    $table = get_table_prefix() . 'users';
                     $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
                     $next = $this->app->database->last_id($table);
                     $next = intval($next) + 1;

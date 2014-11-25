@@ -11,11 +11,13 @@
          syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="Application Test Suite">
-            <directory>./app/tests/</directory>
-        </testsuite>
+       
         <testsuite name="Microweber Test Suite">
-            <directory>./src/Microweber/tests/</directory>
+            <directory>./src/Weber/tests/</directory>
+        </testsuite>
+		
+		 <testsuite name="Application Test Suite">
+            <directory>./app/tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -30,7 +30,7 @@ class Category
         }
 
         $prefix = $this->app->config->get('database.connections.mysql.prefix');
-        $this->tables = $this->app->content->tables;
+        $this->tables = $this->app->content_manager->tables;
         if (!isset($this->tables['categories'])) {
             $this->tables['categories'] = $prefix . 'categories';
         }
@@ -227,7 +227,7 @@ class Category
         }
 
         if (isset($params['for_page']) and $params['for_page'] != false) {
-            $page = $this->app->content->get_by_id($params['for_page']);
+            $page = $this->app->content_manager->get_by_id($params['for_page']);
 
             if ($page['subtype'] == 'dynamic' and intval($page['subtype_value']) > 0) {
                 $parent = $page['subtype_value'];
@@ -300,7 +300,7 @@ class Category
         }
 
         if (isset($params['not_for_page']) and $params['not_for_page'] != false) {
-            $page = $this->app->content->get_page($params['not_for_page']);
+            $page = $this->app->content_manager->get_page($params['not_for_page']);
             $remove_ids = array($page['subtype_value']);
         }
 
@@ -777,7 +777,7 @@ class Category
 
             if (!empty($content)) {
                 $url = $content['url'];
-                $url = $this->app->content->link($content['id']);
+                $url = $this->app->content_manager->link($content['id']);
             } else {
                 if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'content') {
                     $this->app->database->delete_by_id($table, $id);
@@ -878,7 +878,7 @@ class Category
 
                     if ($content['content_type'] == 'page') {
                         if (function_exists('page_link')) {
-                            $url = $this->app->content->link($content['id']);
+                            $url = $this->app->content_manager->link($content['id']);
                             //$url = $url . '/category:' . $data ['title'];
 
                             $str = $data['title'];
@@ -922,7 +922,7 @@ class Category
         if ($category != false) {
             if (isset($category["rel_id"]) and intval($category["rel_id"]) > 0) {
                 if ($category["rel"] == 'content') {
-                    $res = $this->app->content->get_by_id($category["rel_id"]);
+                    $res = $this->app->content_manager->get_by_id($category["rel_id"]);
                     if (is_array($res)) {
                         return $res;
                     }
@@ -938,7 +938,7 @@ class Category
                             $category2 = $this->get_by_id($value);
                             if (isset($category2["rel_id"]) and intval($category2["rel_id"]) > 0) {
                                 if ($category2["rel"] == 'content') {
-                                    $res = $this->app->content->get_by_id($category2["rel_id"]);
+                                    $res = $this->app->content_manager->get_by_id($category2["rel_id"]);
                                     if (is_array($res)) {
                                         return $res;
                                     }
@@ -1262,7 +1262,7 @@ class Category
     public function save($data, $preserve_cache = false)
     {
         $sid = session_id();
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             if (defined('MW_API_CALL')) {
                 return array('error' => 'Only admin can save category');
@@ -1313,7 +1313,7 @@ class Category
 
         if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) == 'content' and intval($data['rel_id']) != 0) {
 
-            $cont_check = $this->app->content->get_by_id($data['rel_id']);
+            $cont_check = $this->app->content_manager->get_by_id($data['rel_id']);
             if ($cont_check != false and isset($cs['subtype']) and isset($data['rel_id']) and $cs['subtype'] != 'dynamic') {
                 $cs = array();
                 $cs['id'] = intval($data['rel_id']);
@@ -1495,7 +1495,7 @@ class Category
     public function delete($data)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $adm == false) {
             return false;
         }
@@ -1518,7 +1518,7 @@ class Category
     public function reorder($data)
     {
 
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
         }

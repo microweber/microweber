@@ -41,8 +41,8 @@ class User
         if ($prefix == false) {
             $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
-        if ($prefix == false and defined("MW_TABLE_PREFIX")) {
-            $prefix = MW_TABLE_PREFIX;
+        if ($prefix == false and defined("get_table_prefix()")) {
+            $prefix = get_table_prefix();
         }
         if (!is_array($tables)) {
             $tables = array();
@@ -396,7 +396,7 @@ class User
 
         if (defined("MW_API_FUNCTION_CALL") and (MW_API_FUNCTION_CALL == 'user_register' or MW_API_FUNCTION_CALL == 'user/register')) {
             if ($this->is_admin() == false) {
-                $validate_token = $this->app->user->csrf_validate($params);
+                $validate_token = $this->app->user_manager->csrf_validate($params);
                 if ($validate_token == false) {
                     return array('error' => 'Invalid token!');
                 }
@@ -485,7 +485,7 @@ class User
                     $data['password'] = $pass;
                     $data['is_active'] = 'n';
 
-                    //   $table = MW_TABLE_PREFIX . 'users';
+                    //   $table = get_table_prefix() . 'users';
                     $table = $this->tables['users'];
 
 
@@ -573,7 +573,7 @@ class User
 
         if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
 
-            $installed = $this->app->config('installed');
+            $installed = $this->app->config_manager->get('weber.is_installed');
             if (!defined('MW_IS_INSTALLED')) {
                 define("MW_IS_INSTALLED", $installed);
             }
@@ -1037,9 +1037,9 @@ class User
                 if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
                     if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
                         $this->app->event->trigger('user_login_admin');
-                        $p = mw('content')->get_page();
+                        $p = mw()->content_manager->get_page();
                         if (!empty($p)) {
-                            $link = $this->app->content->link($p['id']);
+                            $link = $this->app->content_manager->link($p['id']);
                             $link = $link . '/editmode:y';
                             $this->app->url->redirect($link);
                             exit();

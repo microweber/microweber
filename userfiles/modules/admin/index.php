@@ -1,5 +1,7 @@
  
-<?php include ($config["path_to_module"] . 'header.php'); ?>
+<?php include (__DIR__.DS . 'header.php'); ?>
+ <module type="admin/test" template="admin" name="a name" grad="kazanlak"  />
+
 <?php if(is_admin() == false): ?>
 <module type="users/login" template="admin" />
 <?php else: ?>
@@ -30,12 +32,12 @@
 
             ?>
   <?php else : ?>
-  <?php //include_once ($config["path_to_module"] . 'header_nav.php'); ?>
+  <?php //include_once (__DIR__.DS . 'header_nav.php'); ?>
   <?php
 
 
 
-            $vf = $config["path_to_module"] . $v. '.php';
+            $vf = __DIR__.DS . $v. '.php';
             $vf = str_replace('..', '', $vf);
 
             if(is_file($vf)){
@@ -58,11 +60,11 @@
                     print $mod ;
                 } else {
 
-                    include ($config["path_to_module"] . 'index.php');
+                    include (__DIR__.DS . 'index.php');
                 }
 
             } ?>
   <?php endif; ?>
 </div>
 <?php endif; ?>
-<?php	include ($config["path_to_module"] . 'footer.php'); ?>
+<?php	include (__DIR__.DS . 'footer.php'); ?>

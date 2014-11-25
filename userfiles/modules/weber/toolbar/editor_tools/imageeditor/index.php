@@ -1,6 +1,6 @@
 <div id="image_settings_modal_holder">
-    <link rel="stylesheet" href="<?php print(INCLUDES_URL);  ?>toolbar/editor_tools/imageeditor/cropper.min.css" type="text/css" />
-    <script src="<?php print(INCLUDES_URL);  ?>toolbar/editor_tools/imageeditor/cropper.min.js"></script>
+    <link rel="stylesheet" href="<?php print(mw_includes_url());  ?>toolbar/editor_tools/imageeditor/cropper.min.css" type="text/css" />
+    <script src="<?php print(mw_includes_url());  ?>toolbar/editor_tools/imageeditor/cropper.min.js"></script>
 
   <style scoped="scoped">
 

@@ -1,15 +1,15 @@
 <?php
 namespace Microweber;
 if (!defined("MW_DB_TABLE_MODULES")) {
-    define('MW_DB_TABLE_MODULES', MW_TABLE_PREFIX . 'modules');
+    define('MW_DB_TABLE_MODULES', get_table_prefix() . 'modules');
 }
 
 if (!defined("MW_DB_TABLE_ELEMENTS")) {
-    define('MW_DB_TABLE_ELEMENTS', MW_TABLE_PREFIX . 'elements');
+    define('MW_DB_TABLE_ELEMENTS', get_table_prefix() . 'elements');
 }
 
 if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
-    define('MW_DB_TABLE_MODULE_TEMPLATES', MW_TABLE_PREFIX . 'module_templates');
+    define('MW_DB_TABLE_MODULE_TEMPLATES', get_table_prefix() . 'module_templates');
 }
 
 
@@ -457,7 +457,7 @@ class Layouts
             exit(__FILE__ . __LINE__ . d($data_to_save));
         }
 
-        $table = MW_TABLE_PREFIX . 'elements';
+        $table = get_table_prefix() . 'elements';
         $save = false;
         // d($table);
         //d($data_to_save);
@@ -530,10 +530,10 @@ class Layouts
             return false;
         } else {
 
-            $table = MW_TABLE_PREFIX . 'elements';
+            $table = get_table_prefix() . 'elements';
 
-            $db_categories = MW_TABLE_PREFIX . 'categories';
-            $db_categories_items = MW_TABLE_PREFIX . 'categories_items';
+            $db_categories = get_table_prefix() . 'categories';
+            $db_categories_items = get_table_prefix() . 'categories_items';
 
             $q = "DELETE FROM $table ";
             //   d($q);
@@ -555,7 +555,7 @@ class Layouts
 
     function template_remove_custom_css($params)
     {
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if ($is_admin == false) {
             return false;
         }
@@ -627,7 +627,7 @@ class Layouts
 
         if ($template != false) {
 
-            $template_folder = MW_USERFILES . 'css' . DS . $template . DS;
+            $template_folder = userfiles_path() . 'css' . DS . $template . DS;
 
 
             $live_edit_css = $template_folder . 'live_edit.css';
@@ -646,7 +646,7 @@ class Layouts
     function template_save_css($params)
     {
 
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if ($is_admin == false) {
             return false;
         }
@@ -668,31 +668,31 @@ class Layouts
                         $ref_page_url_rel = str_ireplace(site_url(), '', $ref_page_url);
 
                         if ($ref_page_url_rel == '') {
-                            $ref_page1 = $this->app->content->homepage();
+                            $ref_page1 = $this->app->content_manager->homepage();
 
                         } else {
-                            $ref_page1 = $this->app->content->get_by_url($ref_page_url, true);
+                            $ref_page1 = $this->app->content_manager->get_by_url($ref_page_url, true);
 
                         }
                         if (isset($ref_page1['id'])) {
-                            $ref_page = $this->app->content->get_by_id(intval($ref_page1['id']));
+                            $ref_page = $this->app->content_manager->get_by_id(intval($ref_page1['id']));
                         }
                     }
                 }
             } else {
-                $ref_page = $this->app->content->get_by_id(intval($params['content_id']));
+                $ref_page = $this->app->content_manager->get_by_id(intval($params['content_id']));
             }
 
             if (isset($ref_page['id']) and isset($ref_page['content_type']) and $ref_page['content_type'] != 'page') {
-                $ref_page_parent = $this->app->content->get_by_id(intval($ref_page['id']));
+                $ref_page_parent = $this->app->content_manager->get_by_id(intval($ref_page['id']));
                 if (isset($ref_page_partent['parent']) and intval($ref_page_partent['parent']) != 0) {
-                    $ref_page = $this->app->content->get_by_id(intval($ref_page_partent['id']));
+                    $ref_page = $this->app->content_manager->get_by_id(intval($ref_page_partent['id']));
 
                 } else {
-                    $ref_page_parents = $this->app->content->get_parents(intval($ref_page['id']));
+                    $ref_page_parents = $this->app->content_manager->get_parents(intval($ref_page['id']));
                     if (!empty($ref_page_parents)) {
                         $ref_page_parent = array_pop($ref_page_parents);
-                        $ref_page = $this->app->content->get_by_id($ref_page_parent);
+                        $ref_page = $this->app->content_manager->get_by_id($ref_page_parent);
 
 
                     }
@@ -713,8 +713,8 @@ class Layouts
 
             if (isset($save_page["layout_file"]) and $save_page["layout_file"] == 'inherit') {
 
-                $inherit_from_id = $this->app->content->get_inherited_parent($save_page["id"]);
-                $inherit_from = $this->app->content->get_by_id($inherit_from_id);
+                $inherit_from_id = $this->app->content_manager->get_inherited_parent($save_page["id"]);
+                $inherit_from = $this->app->content_manager->get_by_id($inherit_from_id);
                 if (is_array($inherit_from) and isset($inherit_from['active_site_template'])) {
                     $save_page['active_site_template'] = $inherit_from['active_site_template'];
                     $save_page['layout_file'] = $inherit_from['layout_file'];
@@ -753,7 +753,7 @@ class Layouts
                 $template_url = MW_TEMPLATES_URL . $template . '/';
                 $this_template_url = THIS_TEMPLATE_URL;
 
-                $template_folder = MW_USERFILES . 'css' . DS . $template . DS;
+                $template_folder = userfiles_path() . 'css' . DS . $template . DS;
                 if (!is_dir($template_folder)) {
                     mkdir_recursive($template_folder);
                 }

@@ -10,8 +10,13 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+
+
 Route::any('/', '\Weber\Controllers\DefaultController@index');
 //Route::any('/{slug}', '\Weber\Controllers\DefaultController@index');
+//Route::any('/apijs/{slug}', '\Weber\Controllers\DefaultController@apijs');
+
 Route::any('/api', '\Weber\Controllers\DefaultController@api');
 Route::any('/api/{slug}', '\Weber\Controllers\DefaultController@api');
 Route::any('/module/{slug}', '\Weber\Controllers\DefaultController@module');
@@ -39,6 +44,12 @@ Route::any('/admin/{slashData?}', '\Weber\Controllers\AdminController@index')
 Route::get('api/{all}', array(
     'as' => 'api',
     'uses' => '\Weber\Controllers\DefaultController@api'
+))->where('all', '.*');;
+Route::any('/apijs', '\Weber\Controllers\DefaultController@apijs');
+Route::any('/apijs_settings', '\Weber\Controllers\DefaultController@apijs_settings');
+Route::get('apijs/{all}', array(
+    'as' => 'apijs',
+    'uses' => '\Weber\Controllers\DefaultController@apijs'
 ))->where('all', '.*');;
 Route::get('{all}', array(
     'as' => 'all',

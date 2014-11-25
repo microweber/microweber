@@ -1,0 +1,127 @@
+.pages-nav-default .nav{
+  margin-bottom: 0;
+}
+
+
+/* Small */
+
+
+.module-pages-menu-small {
+  overflow: hidden;
+  zoom:1;
+}
+
+.module-pages-menu-small > li{
+  display: inline;
+  float: left;
+}
+
+
+
+.module-pages-menu-small > li > a{
+  font-size: 12px;
+  line-height:16px;
+  display: inline-block;
+  padding: 0px 3px;
+  margin: 0px 3px;
+  position: relative;
+}
+
+.module-pages-menu-small > li > a:hover,
+#header .module-pages-menu-small > li > a:hover,
+#footer .module-pages-menu-small > li > a:hover{
+  color: #333333;
+}
+
+
+.module-pages-menu-small li:first-child > a{
+  margin-left: 0;
+}
+
+.module-pages-menu-small li:last-child > a{
+  margin-right: 0;
+}
+.module-pages-menu-small > li:after{
+  display: inline-block;
+  width: 1px;
+  height: 6px;
+  content:"";
+  position: relative;
+  background: white;
+}
+.module-pages-menu-small > li:last-child:after{
+  display: none;
+}
+
+/* /Small */
+
+
+/* Navbar */
+
+.module-pages-menu-navbar{
+  padding: 0;
+  position: relative;
+  z-index: 9;
+}
+
+.module-pages-menu-navbar > ul > li > ul{
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+
+}
+
+.module-pages-menu-navbar > ul > li ul{
+  background: white;
+  border: 1px solid #E3E3E3;
+}
+
+.module-pages-menu-navbar > ul > li > ul li{
+  float: none;
+}
+
+.module-pages-menu-navbar > ul > li > ul ul{
+  position: absolute;
+  top: 0;
+  left: 100%;
+  display: none;
+}
+
+.module-pages-menu-navbar ul  li:hover > ul{
+  display: block;
+}
+
+.module-pages-menu-navbar > ul > li > ul a{
+  display: block;
+  white-space: nowrap;
+}
+
+
+
+
+/* /Navbar */
+
+
+
+
+/* Default */
+
+.pages-nav-default li{
+  list-style: none;
+}
+.pages-nav-default li a{
+  display: block;
+  padding: 10px 15px;
+}
+.pages-nav-default li li a{ padding-left: 25px;font-size: 90%; }
+.pages-nav-default li li li a{ padding-left: 40px; font-size: 80%;}
+.pages-nav-default li li li li a{ padding-left: 55px; }
+
+.pages-nav-default li a:hover,
+.pages-nav-default li a:focus{
+  background-color:#E4E4E2;
+}
+
+/* /Default */
+

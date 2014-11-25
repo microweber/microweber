@@ -1,4 +1,4 @@
-﻿CREATE TABLE IF NOT EXISTS '{MW_TABLE_PREFIX}_countries' (
+﻿CREATE TABLE IF NOT EXISTS '{get_table_prefix()}_countries' (
   id int(11) NOT NULL,
   code TEXT NOT NULL,
   name TEXT NOT NULL,
@@ -11,7 +11,7 @@
 
 
 
-REPLACE INTO '{MW_TABLE_PREFIX}_countries' (id, code, name, continent, surfacearea, population, localname) VALUES
+REPLACE INTO '{get_table_prefix()}_countries' (id, code, name, continent, surfacearea, population, localname) VALUES
   (1, 'AFG', 'Afghanistan', 'Asia', 652090, 22720000, 'Afganistan/Afqanestan'),
   (2, 'NLD', 'Netherlands', 'Europe', 41526, 15864000, 'Nederland'),
   (3, 'ANT', 'Netherlands Antilles', 'North America', 800, 217000, 'Nederlandse Antillen'),

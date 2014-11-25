@@ -1,5 +1,5 @@
 /* Microweber database backup exported on: Thursday 23rd of May 2013 09:50:06 AM */ 
-/* MW_TABLE_PREFIX: mw_25591 */ 
+/* get_table_prefix(): mw_25591 */ 
 
  
 

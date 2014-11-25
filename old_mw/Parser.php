@@ -424,7 +424,7 @@ class Parser
                                 if ($coming_from_parent_id == true) {
                                     $attrs['data-parent-module-id'] = $coming_from_parent_strz1;
                                 }
-                                $mod_content = $this->app->module->load($module_name, $attrs);
+                                $mod_content = $this->app->modules->load($module_name, $attrs);
                                 $plain_modules = mw_var('plain_modules');
 
                                 if ($plain_modules != false) {
@@ -436,7 +436,7 @@ class Parser
 
 //                                if ($plain_modules != false) {
 //
-//                                        $module_db_data = $this->app->module->get('one=1&ui=any&module=' . $module_name);
+//                                        $module_db_data = $this->app->modules->get('one=1&ui=any&module=' . $module_name);
 //                                        $mod_content = '';
 //                                        if (is_array($module_db_data)) {
 //                                            if (isset($module_db_data["installed"]) and $module_db_data["installed"] != '' and intval($module_db_data["installed"]) != 1) {
@@ -662,7 +662,7 @@ class Parser
                         }
                         $get_global = false;
                         $data_id = intval($data_id);
-                        $data = $this->app->content->get_by_id($data_id);
+                        $data = $this->app->content_manager->get_by_id($data_id);
                     } else if ($rel == 'page') {
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
@@ -670,7 +670,7 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = CONTENT_ID;
                         }
-                        $data = $this->app->content->get_by_id($data_id);
+                        $data = $this->app->content_manager->get_by_id($data_id);
                         $get_global = false;
                     } else if ($rel == 'post') {
                         $get_global = false;
@@ -680,13 +680,13 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
                         }
-                        $data = $this->app->content->get_by_id($data_id);
+                        $data = $this->app->content_manager->get_by_id($data_id);
                     } else if ($rel == 'inherit') {
                         $get_global = false;
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
                         }
-                        $data_inh_check = $this->app->content->get_by_id($data_id);
+                        $data_inh_check = $this->app->content_manager->get_by_id($data_id);
 
 
 
@@ -696,31 +696,31 @@ class Parser
                             $inh = $data_inh_check['id'];
 
                         } else {
-                            $inh = $this->app->content->get_inherited_parent($data_id);
+                            $inh = $this->app->content_manager->get_inherited_parent($data_id);
 
                         }
                         if ($inh != false and intval($inh) != 0) {
                             $try_inherited = true;
                             $data_id = $inh;
                             $rel = 'content';
-                            $data = $this->app->content->get_by_id($data_id);
+                            $data = $this->app->content_manager->get_by_id($data_id);
 
                         } else {
                             $rel = 'content';
-                            $data = $this->app->content->get_page($data_id);
+                            $data = $this->app->content_manager->get_page($data_id);
                         }
                     } else if ($rel == 'global') {
                         $get_global = 1;
                         $cont_field = false;
                     } else if (isset($attr['post'])) {
                         $get_global = false;
-                        $data = $this->app->content->get_by_id($attr['post']);
+                        $data = $this->app->content_manager->get_by_id($attr['post']);
                         if ($data == false) {
-                            $data = $this->app->content->get_page($attr['post']);
+                            $data = $this->app->content_manager->get_page($attr['post']);
                         }
                     } else if (isset($attr['category'])) {
                         $get_global = false;
-                        $data = $this->app->category->get_by_id($attr['category']);
+                        $data = $this->app->category_manager->get_by_id($attr['category']);
                     } else if (isset($attr['global'])) {
                         $get_global = true;
                     }
@@ -757,27 +757,27 @@ class Parser
                         }
                         $cont_field = false;
                         if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
-                            $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
                             if ($cont_field == false and $try_inherited == true) {
-                                $inh = $this->app->content->get_inherited_parent($data_id);
+                                $inh = $this->app->content_manager->get_inherited_parent($data_id);
                                 if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
                                     $data_id = $inh;
-                                    $cont_field2 = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$inh");
+                                    $cont_field2 = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$inh");
                                     if ($cont_field2 != false) {
                                         $rel = 'content';
-                                        $data = $this->app->content->get_by_id($inh);
+                                        $data = $this->app->content_manager->get_by_id($inh);
                                         $cont_field = $cont_field2;
                                     }
                                 }
                             }
                         } else {
                             if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
                                 if ($cont_field != false) {
                                     $field_content = $cont_field;
                                 }
                             } else {
-                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
+                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}");
                             }
                         }
 
@@ -806,18 +806,18 @@ class Parser
                     if ($field_content == false) {
                         if ($get_global == true) {
                             if (isset($data_id)) {
-                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
                             }
 
                             if (isset($cont_field) and !empty($cont_field)) {
-                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
+                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}");
                             }
 
                             if ($cont_field == false) {
                                 if ($option_mod != false) {
-                                    $field_content = $this->app->content->edit_field("rel={$option_group}&field={$field}");
+                                    $field_content = $this->app->content_manager->edit_field("rel={$option_group}&field={$field}");
                                 } else {
-                                    $field_content = $this->app->content->edit_field("rel={$option_group}&field={$field}");
+                                    $field_content = $this->app->content_manager->edit_field("rel={$option_group}&field={$field}");
                                 }
                             } else {
                                 $field_content = $cont_field;
@@ -830,9 +830,9 @@ class Parser
                             }
                             if ($field_content == false) {
                                 if (isset($data_id) and $data_id != false) {
-                                    $cont_field = $this->app->content->edit_field("rel={$orig_rel}&field={$field}&rel_id=$data_id");
+                                    $cont_field = $this->app->content_manager->edit_field("rel={$orig_rel}&field={$field}&rel_id=$data_id");
                                 } else {
-                                    $cont_field = $this->app->content->edit_field("rel={$orig_rel}&field={$field}&rel_id=" . PAGE_ID);
+                                    $cont_field = $this->app->content_manager->edit_field("rel={$orig_rel}&field={$field}&rel_id=" . PAGE_ID);
                                 }
                             }
                             if (isset($data[$field])) {
@@ -852,12 +852,12 @@ class Parser
 
                         }
                         if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
                             }
                         } else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
+                            $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}");
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
                             }

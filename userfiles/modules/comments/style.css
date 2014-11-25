@@ -1,0 +1,169 @@
+.comment-post{
+
+
+   position: relative;
+   overflow: hidden;
+}
+.comment-info-holder{
+   position: relative;
+   overflow: hidden;
+   padding: 10px;
+   cursor: pointer;
+   border-bottom: 1px solid #E2E2E2;
+}
+
+.comment-info-holder:hover{
+  background-color: #F8F8F8;
+}
+
+.comments-admin-header{
+  padding: 10px 0;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #E2E2E2;
+}
+
+.comments_number{
+  display: none !important;
+}
+
+.comments-admin-header-info{
+  float: left;
+  color: #434343;
+}
+
+.comments-admin-header-info small{
+  color: #747474;
+  font-size: 11px;
+}
+
+.comments-admin-header-info h2{
+  padding-bottom: 0;
+}
+
+.comments-admin-header input[type='search']{
+  margin: 24px 0 0;
+  float: right;
+}
+
+
+.comment-post .img{
+  float: left;
+  width: 67px;
+  max-height: 67px;
+  position: relative;
+  margin-right: 20px;
+}
+
+.comment-post-content-side{
+  float: left;
+  width: 500px;
+}
+
+
+
+.comment-post h3{
+  font-weight: normal;
+  font-size: 15px;
+}
+
+.comment-post-url{
+  display: inline-block;
+  font-size: 10px;
+  color: #959595;
+  padding: 2px 0 10px;
+}
+.comment-post-url:hover{
+  text-decoration: underline
+}
+
+.new-comments, .old-comments{
+  display: none;
+  padding-left: 89px;
+}
+
+.comments-holder{
+  clear: both;
+  background: url(img/deeparr.png) no-repeat 37px 39px;
+}
+
+.comment-of-apost{
+    padding: 10px;
+    position: relative;
+    border-bottom: 1px solid #E2E2E2;
+}
+
+.comment-unpublished{
+  background: #F8F8F8;
+  color: #bbb;
+}
+
+
+.manage-bar{
+  visibility: hidden;
+  text-align: right;
+
+}
+
+.comment-edit-mode > .manage-bar{
+  visibility: visible;
+
+}
+
+.edit-comment textarea{
+  width: 80%;
+  height: 50px;
+  resize: vertical;
+  float: left;
+}
+
+.edit-comment textarea + .mw-ui-btn{
+  float: right;
+}
+
+.manage-bar .edit-comment{
+  display: none;
+  padding: 10px 0 15px;
+  overflow: hidden;
+  position: relative;
+  min-height: 50px;
+}
+
+.comment-edit-mode > .manage-bar .edit-comment{
+  display: block;
+}
+
+.comment-edit-mode > .comment-body{
+  display: none;
+}
+
+.comment-of-apost:hover > .manage-bar{
+  visibility: visible;
+}
+
+.comment-of-apost.new-comment{
+  background: #EBFFE0;
+  border-bottom-color: #D1EDB3;
+
+}
+
+.comments-show-btns{
+  position: absolute;
+  text-align: right;
+  width: 150px;
+  top: 28px;
+  right: 10px;
+}
+
+
+.update-comment-button{
+  display: none;
+}
+
+.comment-changed + .update-comment-button{
+  display: inline-block;
+}
+
+
+
+

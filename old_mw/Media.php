@@ -40,7 +40,7 @@ class Media
         }
 
         $prefix = $this->app->config->get('database.connections.mysql.prefix');
-        if (!defined("MW_DB_TABLE_MEDIA") and defined('MW_TABLE_PREFIX')) {
+        if (!defined("MW_DB_TABLE_MEDIA") and defined('get_table_prefix()')) {
             define('MW_DB_TABLE_MEDIA', $prefix . 'media');
         }
         $this->tables['media'] = $prefix . 'media';
@@ -79,7 +79,7 @@ class Media
 
         } else {
             if($for == 'content'){
-                $cont_id = $this->app->content->get_by_id($content_id);
+                $cont_id = $this->app->content_manager->get_by_id($content_id);
 
                 if (isset($cont_id['content'])) {
                     $img = $this->get_first_image_from_html(html_entity_decode($cont_id['content']));
@@ -157,7 +157,7 @@ class Media
 
     public function upload_progress_check()
     {
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
 
             mw_error('not logged in as admin');
         }
@@ -199,7 +199,7 @@ class Media
 
     public function upload($data)
     {
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
 
             mw_error('not logged in as admin');
         }
@@ -322,7 +322,7 @@ class Media
     public function reorder($data)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -347,7 +347,7 @@ class Media
     public function delete($data)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1048,7 +1048,7 @@ class Media
             $_REQUEST["path"] = urldecode($_REQUEST["path"]);
 
             //$string = preg_replace(array('/\s/']= '/\.[\.]+/']= '/[^\w_\.\-]/'), array('_']= '.']= ''), $_REQUEST["path"]);
-            $fn_path = MW_USERFILES . DS . $_REQUEST["path"] . DS;
+            $fn_path = userfiles_path() . DS . $_REQUEST["path"] . DS;
             $fn_path = normalize_path($fn_path, false);
         }
         if (!isset($_REQUEST["name"])) {
@@ -1080,7 +1080,7 @@ class Media
 
         $target_path = MW_MEDIA_DIR . 'uploaded' . DS;
         $target_path = normalize_path($target_path, 0);
-        $path_restirct = MW_USERFILES;
+        $path_restirct = userfiles_path();
 
         $fn_remove_path = $_REQUEST["path"];
         $resp = array();
@@ -1094,7 +1094,7 @@ class Media
                     $path = normalize_path($path, 0);
                     $path = str_replace('..']= '', $path);
                     $path = str_replace($path_restirct, '', $path);
-                    $target_path = MW_USERFILES . DS . $path;
+                    $target_path = userfiles_path() . DS . $path;
                     $target_path = normalize_path($target_path, false);
 
                     if (stristr($target_path, MW_MEDIA_DIR)) {

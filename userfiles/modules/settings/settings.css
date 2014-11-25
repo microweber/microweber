@@ -1,0 +1,93 @@
+.mw-settings-list-website input.mw-ui-field,
+.mw-settings-list-website textarea.mw-ui-field{
+  width: 615px;
+}
+.mw_edit_page_right{
+  width: 720px;
+}
+.mw-settings-list-website input[name='website_title']{
+    font-size: 18px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+
+
+
+.mw-settings-list-website .custom-field-preview{
+  width: auto;
+}
+
+.mw-theme-browser{
+  padding: 15px;
+  background: #F3F3F3;
+  position: relative;
+  overflow: hidden;
+}
+
+#mw-theme-browser-list{
+  list-style: none;
+}
+
+#mw-theme-browser-list li{
+  float: left;
+  margin-bottom: 15px;
+}
+
+#mw-theme-browser-list li:nth-child(2n+1){
+  margin-right:15px;
+  clear: both;
+}
+
+#mw-theme-browser-list li a{
+  display: block;
+  position: relative;
+  width: 330px;
+  height: 270px;
+  overflow: hidden;
+}
+
+#mw-theme-browser-list li a img{
+    min-width: 330px;
+    min-height: 270px;
+}
+
+#mw-theme-browser-list li a .mw-overlay{
+  background: black;
+  visibility:hidden;
+  opacity:0.4;
+}
+
+.mw-ui-theme-list-description{
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 170px;
+  padding-top: 100px;
+  text-align: center;
+  top: 0;
+  left: 0;
+  z-index: 11;
+}
+
+#mw-theme-browser-list li a:hover .mw-overlay,
+#mw-theme-browser-list li a:hover .mw-ui-theme-list-description{
+    visibility:visible;
+}
+
+#mw-theme-browser-list li a:active{
+  box-shadow:inset 0 0 10px #212121;
+}
+
+.mw-theme-browser-list-title{
+  display: inline-block;
+  border-radius:7px;
+  padding: 17px 10px;
+  min-width:190px;
+  margin:0 15px 15px;
+  font-size: 17px;
+  color: white;
+  background:#5298C5;
+}
+
+

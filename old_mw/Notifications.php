@@ -26,7 +26,7 @@ class Notifications
         }
 
         if (!defined("MW_DB_TABLE_NOTIFICATIONS")) {
-            define('MW_DB_TABLE_NOTIFICATIONS', MW_TABLE_PREFIX . 'notifications');
+            define('MW_DB_TABLE_NOTIFICATIONS', get_table_prefix() . 'notifications');
         }
 
 
@@ -51,7 +51,7 @@ class Notifications
     public function read($id)
     {
         if (defined('MW_API_CALL')) {
-            $is_admin = $this->app->user->is_admin();
+            $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
                 return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
             }
@@ -126,7 +126,7 @@ class Notifications
     public function mark_all_as_read()
     {
 
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
         }
@@ -146,7 +146,7 @@ class Notifications
     public function reset()
     {
 
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
         }
@@ -164,7 +164,7 @@ class Notifications
     public function delete($id)
     {
 
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $is_admin == false) {
             return array('error' => "You must be logged in as admin to perform: " . __CLASS__ . '->' . __FUNCTION__);
         }
@@ -273,7 +273,7 @@ class Notifications
         // $params['rel_id'] = $params['module'];
         // }
 
-        //$adm = $this->app->user->is_admin();
+        //$adm = $this->app->user_manager->is_admin();
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
         mw_var('FORCE_SAVE', $table);

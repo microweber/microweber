@@ -126,7 +126,7 @@
 
               <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>
               <?php if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-              <?php $pub_or_inpub  = mw('content')->get_by_id(CONTENT_ID); ?>
+              <?php $pub_or_inpub  = mw()->content_manager->get_by_id(CONTENT_ID); ?>
               <li class="mw-set-content-unpublish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><?php _e("Unpublish"); ?></a></li>
               <li class="mw-set-content-publish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><?php _e("Publish"); ?></a></li>
               <?php endif; ?>
@@ -293,7 +293,7 @@
                             $pt_opts['active_ids'] = CONTENT_ID;
                             $pt_opts['limit'] = 1000;
                             $pt_opts['active_code_tag'] = '   class="active"  ';
-                            mw('content')->pages_tree($pt_opts);
+                            mw()->content_manager->pages_tree($pt_opts);
                       ?></div>
 
 					</div>

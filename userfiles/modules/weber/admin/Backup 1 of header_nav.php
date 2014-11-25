@@ -11,19 +11,19 @@
   if( $last_page_front  != false){
    // $past_page = site_url($last_page_front);
     
-        $cont_by_url = mw('content')->get_by_id($last_page_front , true);
+        $cont_by_url = mw()->content_manager->get_by_id($last_page_front , true);
 
     if(isset($cont_by_url) and $cont_by_url == false){
         $past_page=get_content("order_by=updated_on desc&limit=1");
-        $past_page = mw('content')->link($past_page[0]['id']);
+        $past_page = mw()->content_manager->link($past_page[0]['id']);
     } else {
-		 $past_page = mw('content')->link($last_page_front);
+		 $past_page = mw()->content_manager->link($last_page_front);
 	}
 
   }
   else {
   	$past_page=get_content("order_by=updated_on desc&limit=1");
-      $past_page = mw('content')->link($past_page[0]['id']);
+      $past_page = mw()->content_manager->link($past_page[0]['id']);
  
   }
   

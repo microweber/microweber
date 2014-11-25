@@ -45,10 +45,10 @@ class Option
             $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
-        if ($prefix == false and defined("MW_TABLE_PREFIX")) {
-            $prefix = MW_TABLE_PREFIX;
+        if ($prefix == false and defined("get_table_prefix()")) {
+            $prefix = get_table_prefix();
         }
-        if ($prefix == false and !defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
+        if ($prefix == false and !defined('get_table_prefix()') and isset($_REQUEST['table_prefix'])) {
             $prefix = $_REQUEST['table_prefix'];
         }
 
@@ -451,7 +451,7 @@ class Option
     {
 
         if (defined('MW_API_CALL')) {
-            $is_admin = $this->app->user->is_admin();
+            $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
                 return false;
             }
@@ -487,11 +487,7 @@ class Option
                 }
             }
 
-            if (isset($data['option_type']) and trim($data['option_type']) == 'static') {
 
-                return mw('Utils\StaticOption')->save($data);
-
-            }
             $delete_content_cache = false;
             if (!isset($data['id']) or intval($data['id']) == 0) {
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
@@ -515,11 +511,11 @@ class Option
             }
 
 
-            if (isset($data['module']) and isset($data['option_group']) and isset($data['option_key'])) {
+            if (  isset($data['option_group']) and isset($data['option_key'])) {
                 $opt_gr = $this->app->database->escape_string($data['option_group']);
                 $opt_key = $this->app->database->escape_string($data['option_key']);
                 $clean = "DELETE FROM $table WHERE  option_group='{$opt_gr}' AND  option_key='{$opt_key}'";
-                //$this->app->database->q($clean);
+              $this->app->database->query($clean);
                 $cache_group = 'options/' . $opt_gr;
                 $this->app->cache_manager->delete($cache_group);
 
@@ -730,9 +726,7 @@ class Option
     public function save_static($data)
     {
 
-        if (MW_IS_INSTALLED == true) {
-            // only_admin_access();
-        }
+
         $data = parse_params($data);
 
         if (!isset($data['option_key']) or !isset($data['option_value'])) {
@@ -744,42 +738,14 @@ class Option
         $data['option_group'] = trim($data['option_group']);
         $data['option_key'] = trim($data['option_key']);
         $data['option_value'] = (htmlentities($data['option_value']));
-        //d($data);
 
         $data['option_group'] = str_replace('..', '', $data['option_group']);
 
-        $fname = $data['option_group'] . '.php';
 
-        //	$dir_name = MW_STORAGE_DIR . 'options' . DS . $data['option_group'] . DS;
 
-        $dir_name = MW_STORAGE_DIR . 'options' . DS;
-        $dir_name_and_file = $dir_name . $fname;
-        if (is_dir($dir_name) == false) {
-            mkdir_recursive($dir_name);
-        }
-        $data_to_serialize = array();
-        if (is_file($dir_name_and_file)) {
-            $ops_array = file_get_contents($dir_name_and_file);
-            if ($ops_array != false) {
-                $ops_array = str_replace(CACHE_CONTENT_PREPEND, '', $ops_array);
-                if ($ops_array != '') {
-                    $ops_array = unserialize($ops_array);
-                    if (is_array($ops_array)) {
-                        $data_to_serialize = $ops_array;
-                    }
-                }
-            }
-        }
 
-        $data_to_serialize[$data['option_key']] = $data['option_value'];
-        $data_to_serialize = serialize($data_to_serialize);
-        $option_save_string = CACHE_CONTENT_PREPEND . $data_to_serialize;
-
-        $cache = file_put_contents($dir_name_and_file, $option_save_string);
-        return $cache;
     }
 
 
 }
 
-$mw_static_option_groups = array();

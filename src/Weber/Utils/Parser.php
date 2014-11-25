@@ -573,7 +573,7 @@ class Parser
 
                 $layout = $ch;
             } else {
-                require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+                require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
                 $pq = \phpQuery::newDocument($layout);
                 $els = $pq['.edit'];
                 $is_editable = true;
@@ -632,7 +632,7 @@ class Parser
                         }
                         $get_global = false;
                         $data_id = intval($data_id);
-                        $data = $this->app->content->get_by_id($data_id);
+                        $data = $this->app->content_manager->get_by_id($data_id);
                     } else if ($rel == 'page') {
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
@@ -640,7 +640,7 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = content_id();
                         }
-                        $data = $this->app->content->get_by_id($data_id);
+                        $data = $this->app->content_manager->get_by_id($data_id);
                         $get_global = false;
                     } else if ($rel == 'post') {
                         $get_global = false;
@@ -650,44 +650,44 @@ class Parser
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
                         }
-                        $data = $this->app->content->get_by_id($data_id);
+                        $data = $this->app->content_manager->get_by_id($data_id);
                     } else if ($rel == 'inherit') {
                         $get_global = false;
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;
                         }
-                        $data_inh_check = $this->app->content->get_by_id($data_id);
+                        $data_inh_check = $this->app->content_manager->get_by_id($data_id);
 
 
                         if (isset($data_inh_check['id']) and isset($data_inh_check['layout_file']) and (trim($data_inh_check['layout_file']) != '') and $data_inh_check['layout_file'] != 'inherit') {
                             $inh = $data_inh_check['id'];
 
                         } else {
-                            $inh = $this->app->content->get_inherited_parent($data_id);
+                            $inh = $this->app->content_manager->get_inherited_parent($data_id);
 
                         }
                         if ($inh != false and intval($inh) != 0) {
                             $try_inherited = true;
                             $data_id = $inh;
                             $rel = 'content';
-                            $data = $this->app->content->get_by_id($data_id);
+                            $data = $this->app->content_manager->get_by_id($data_id);
 
                         } else {
                             $rel = 'content';
-                            $data = $this->app->content->get_page($data_id);
+                            $data = $this->app->content_manager->get_page($data_id);
                         }
                     } else if ($rel == 'global') {
                         $get_global = 1;
                         $cont_field = false;
                     } else if (isset($attr['post'])) {
                         $get_global = false;
-                        $data = $this->app->content->get_by_id($attr['post']);
+                        $data = $this->app->content_manager->get_by_id($attr['post']);
                         if ($data == false) {
-                            $data = $this->app->content->get_page($attr['post']);
+                            $data = $this->app->content_manager->get_page($attr['post']);
                         }
                     } else if (isset($attr['category'])) {
                         $get_global = false;
-                        $data = $this->app->category->get_by_id($attr['category']);
+                        $data = $this->app->category_manager->get_by_id($attr['category']);
                     } else if (isset($attr['global'])) {
                         $get_global = true;
                     }
@@ -721,27 +721,27 @@ class Parser
                         }
                         $cont_field = false;
                         if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
-                            $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
                             if ($cont_field == false and $try_inherited == true) {
-                                $inh = $this->app->content->get_inherited_parent($data_id);
+                                $inh = $this->app->content_manager->get_inherited_parent($data_id);
                                 if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
                                     $data_id = $inh;
-                                    $cont_field2 = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$inh");
+                                    $cont_field2 = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$inh");
                                     if ($cont_field2 != false) {
                                         $rel = 'content';
-                                        $data = $this->app->content->get_by_id($inh);
+                                        $data = $this->app->content_manager->get_by_id($inh);
                                         $cont_field = $cont_field2;
                                     }
                                 }
                             }
                         } else {
                             if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
                                 if ($cont_field != false) {
                                     $field_content = $cont_field;
                                 }
                             } else {
-                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
+                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}");
                             }
                         }
 
@@ -768,18 +768,18 @@ class Parser
                     if ($field_content == false) {
                         if ($get_global == true) {
                             if (isset($data_id)) {
-                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
                             }
 
                             if (isset($cont_field) and !empty($cont_field)) {
-                                $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
+                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}");
                             }
 
                             if ($cont_field == false) {
                                 if ($option_mod != false) {
-                                    $field_content = $this->app->content->edit_field("rel={$option_group}&field={$field}");
+                                    $field_content = $this->app->content_manager->edit_field("rel={$option_group}&field={$field}");
                                 } else {
-                                    $field_content = $this->app->content->edit_field("rel={$option_group}&field={$field}");
+                                    $field_content = $this->app->content_manager->edit_field("rel={$option_group}&field={$field}");
                                 }
                             } else {
                                 $field_content = $cont_field;
@@ -792,9 +792,9 @@ class Parser
                             }
                             if ($field_content == false) {
                                 if (isset($data_id) and $data_id != false) {
-                                    $cont_field = $this->app->content->edit_field("rel={$orig_rel}&field={$field}&rel_id=$data_id");
+                                    $cont_field = $this->app->content_manager->edit_field("rel={$orig_rel}&field={$field}&rel_id=$data_id");
                                 } else {
-                                    $cont_field = $this->app->content->edit_field("rel={$orig_rel}&field={$field}&rel_id=" . PAGE_ID);
+                                    $cont_field = $this->app->content_manager->edit_field("rel={$orig_rel}&field={$field}&rel_id=" . PAGE_ID);
                                 }
                             }
                             if (isset($data[$field])) {
@@ -813,12 +813,12 @@ class Parser
 
                         }
                         if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
                             }
                         } else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = $this->app->content->edit_field("rel={$rel}&field={$field}");
+                            $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}");
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
                             }
@@ -956,7 +956,7 @@ class Parser
         if ($layout == '') {
             return $layout;
         }
-        require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $pq = \phpQuery::newDocument($layout);
         foreach ($pq ['.module'] as $elem) {
@@ -982,7 +982,7 @@ class Parser
 
     public function modify_html_preg($layout, $preg_match_all, $content = "", $action = 'append')
     {
-        require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $string_html = $layout;
         $m = preg_match_all($preg_match_all, $string_html, $match);
@@ -1002,7 +1002,7 @@ class Parser
 
     public function modify_html($layout, $selector, $content = "", $action = 'append')
     {
-        require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $pq = \phpQuery::newDocument($layout);
 
@@ -1057,7 +1057,7 @@ class Parser
 
     public function get_by_id($html_element_id = false, $layout)
     {
-        require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         if ($html_element_id == false) {
             if (isset($_REQUEST['embed_id'])) {
@@ -1067,7 +1067,7 @@ class Parser
         }
 
         if ($html_element_id != false and trim($html_element_id) != '') {
-            require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+            require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
             $pq = \phpQuery::newDocument($layout);
             foreach ($pq ['#' . $html_element_id] as $elem) {
                 $isolated_el = pq($elem)->htmlOuter();
@@ -1082,7 +1082,7 @@ class Parser
 
     public function isolate_head($l)
     {
-        require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
         $pq = \phpQuery::newDocument($l);
         $l = pq('head')->eq(0)->html();
         return $l;
@@ -1090,7 +1090,7 @@ class Parser
 
     public function query($l, $selector = 'body', $return_function = 'htmlOuter')
     {
-        require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
         $pq = \phpQuery::newDocument($l);
         $res = array();
         foreach ($pq [$selector] as $elem) {
@@ -1102,7 +1102,7 @@ class Parser
 
     public function get_html($l, $selector = 'body')
     {
-        require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
         $pq = \phpQuery::newDocument($l);
         foreach ($pq [$selector] as $elem) {
             $l = pq($elem)->htmlOuter();
@@ -1115,7 +1115,7 @@ class Parser
     {
 
 
-        require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
 //        $field =  qp($l, '[field="content"]')->innerHTML();
 //        if($field == null){
@@ -1151,7 +1151,7 @@ class Parser
 
     public function isolate_content_field_old($l)
     {
-        require_once(MW_APP_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'phpQuery.php');
+        require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
         $pq = \phpQuery::newDocument($l);
         $found = false;
@@ -1214,7 +1214,7 @@ class Parser
         }
 
         if ($custom_view != false and strtolower($custom_view) == 'admin') {
-            if ($this->app->user->is_admin() == false) {
+            if ($this->app->user_manager->is_admin() == false) {
                 mw_error('Not logged in as admin');
             }
         }

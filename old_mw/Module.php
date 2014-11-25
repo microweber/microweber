@@ -54,8 +54,8 @@ class Module
             $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
-        if ($prefix == false and defined("MW_TABLE_PREFIX")) {
-            $prefix = MW_TABLE_PREFIX;
+        if ($prefix == false and defined("get_table_prefix()")) {
+            $prefix = get_table_prefix();
         }
 
         if (!is_array($tables)) {
@@ -226,7 +226,7 @@ class Module
         }
 
         if ($custom_view != false and strtolower($custom_view) == 'admin') {
-            if ($this->app->user->is_admin() == false) {
+            if ($this->app->user_manager->is_admin() == false) {
                 mw_error('Not logged in as admin');
             }
         }
@@ -255,7 +255,7 @@ class Module
         }
 
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            $this->app->content->define_constants();
+            $this->app->content_manager->define_constants();
         }
 
         $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
@@ -387,7 +387,7 @@ class Module
             //$config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
 
 //            if (trim($module_name_dir) != '' and $module_name_dir != './') {
-//                $mod_url = MW_MODULES_URL . (trim(str_replace(' ']= '%20', $module_name_dir))) . '/';
+//                $mod_url = modules_url() . (trim(str_replace(' ']= '%20', $module_name_dir))) . '/';
 //
 //                $config['url_to_module'] = $module_name_dir;
 //            } else {
@@ -661,7 +661,7 @@ class Module
     {
 
         if (!defined("ACTIVE_TEMPLATE_DIR")) {
-            $this->app->content->define_constants();
+            $this->app->content_manager->define_constants();
         }
 
         $module_name = trim($module_name);
@@ -915,7 +915,7 @@ class Module
     public function reorder_modules($data)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -937,7 +937,7 @@ class Module
 
     public function delete_all()
     {
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         } else {
 
@@ -990,7 +990,7 @@ class Module
     public function uninstall($params)
     {
 
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
         if (isset($params['id'])) {
@@ -998,7 +998,7 @@ class Module
             $this_module = $this->get('ui=any&one=1&id=' . $id);
             if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
                 $module_name = $this_module['module'];
-                if ($this->app->user->is_admin() == false) {
+                if ($this->app->user_manager->is_admin() == false) {
                     return false;
                 }
 
@@ -1107,7 +1107,7 @@ class Module
     {
         $params = parse_params($params);
 
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
 
@@ -1122,7 +1122,7 @@ class Module
     public function delete_module_as_template($data)
     {
 
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
 
@@ -1130,7 +1130,7 @@ class Module
         $save = false;
         // d($table);
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1154,7 +1154,7 @@ class Module
     public function save_module_as_template($data_to_save)
     {
 
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
 
@@ -1196,7 +1196,7 @@ class Module
     {
 
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            $this->app->content->define_constants();
+            $this->app->content_manager->define_constants();
         }
 
 
@@ -1298,7 +1298,7 @@ class Module
 
         if (isset($options['cleanup_db']) == true) {
 
-            if ($this->app->user->is_admin() == true) {
+            if ($this->app->user_manager->is_admin() == true) {
                 $this->app->cache_manager->delete('categories');
                 $this->app->cache_manager->delete('categories_items');
                 $this->app->cache_manager->delete('db');
@@ -1499,7 +1499,7 @@ class Module
     public function save($data_to_save)
     {
 
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
         if (isset($data_to_save['is_element']) and $data_to_save['is_element'] == true) {
@@ -1566,7 +1566,7 @@ class Module
         if (defined('MW_FORCE_MOD_INSTALLED')) {
 
         } else {
-            if ($this->app->user->is_admin() == false) {
+            if ($this->app->user_manager->is_admin() == false) {
                 return false;
             }
         }
@@ -1741,7 +1741,7 @@ class Module
 
     public function delete_module($id)
     {
-        if ($this->app->user->is_admin() == false) {
+        if ($this->app->user_manager->is_admin() == false) {
             return false;
         }
         $id = intval($id);

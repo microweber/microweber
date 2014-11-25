@@ -1,0 +1,7 @@
+.gateway-selector li{
+  list-style: none
+}
+
+.gateway-selector li input{
+  margin-right: 12px;
+}

@@ -8,15 +8,15 @@
     mwAdmin = true; 
 
 </script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-core.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-serializer.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/tools.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/url.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/events.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/wysiwyg.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/external_callbacks.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/tools.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/url.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/events.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/wysiwyg.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/external_callbacks.js"></script>
  
 
 <?php 

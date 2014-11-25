@@ -1,0 +1,23 @@
+.social-login li{
+    list-style: none
+}
+
+.form-group{
+  margin-bottom: 15px;
+}
+.mw-captcha-img {
+	cursor: pointer;
+}
+.mw-captcha-image-holder{
+  height: 34px;
+  vertical-align: middle;
+  border-width: 1px;
+  border-style: solid;
+  border-color: inherit;
+  margin-right: -1px;
+}
+
+.mw-captcha-input{
+    border-style:solid;
+    border-width:1px;
+}

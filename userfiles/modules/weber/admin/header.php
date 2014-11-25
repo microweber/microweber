@@ -77,17 +77,17 @@ if ($last_page_front == false) {
     }
 }
 if ($last_page_front != false) {
-    $cont_by_url = mw('content')->get_by_id($last_page_front, true);
+    $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
     if (isset($cont_by_url) and $cont_by_url == false) {
         $past_page = get_content("order_by=updated_on desc&limit=1");
-        $past_page = mw('content')->link($past_page[0]['id']);
+        $past_page = mw()->content_manager->link($past_page[0]['id']);
     } else {
-        $past_page = mw('content')->link($last_page_front);
+        $past_page = mw()->content_manager->link($last_page_front);
     }
 }
 else {
     $past_page = get_content("order_by=updated_on desc&limit=1");
-    $past_page = mw('content')->link($past_page[0]['id']);
+    $past_page = mw()->content_manager->link($past_page[0]['id']);
 }
 
 
@@ -155,7 +155,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                             <span class="mw-icon-shop">
                              <?php
                             	$notif_html = '';
-                            	$notif_count = mw('Microweber\Notifications')->get('module=shop&rel=cart_orders&is_read=n&count=1');
+                            	$notif_count = mw()->notifications_manager->get('module=shop&rel=cart_orders&is_read=n&count=1');
                              	if( $notif_count > 0){
                                 $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
                                 if($view != 'shop'){   print $notif_html; } ;
@@ -218,17 +218,17 @@ if ($last_page_front == false) {
 }
 
 if ($last_page_front != false) {
-    $cont_by_url = mw('content')->get_by_id($last_page_front, true);
+    $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
     if (isset($cont_by_url) and $cont_by_url == false) {
-        $past_page = mw('content')->get("order_by=updated_on desc&limit=1");
-        $past_page = mw('content')->link($past_page[0]['id']);
+        $past_page = mw()->content_manager->get("order_by=updated_on desc&limit=1");
+        $past_page = mw()->content_manager->link($past_page[0]['id']);
     } else {
-        $past_page = mw('content')->link($last_page_front);
+        $past_page = mw()->content_manager->link($last_page_front);
     }
 } else {
-    $past_page = mw('content')->get("order_by=updated_on desc&limit=1");
+    $past_page = mw()->content_manager->get("order_by=updated_on desc&limit=1");
 	if(isset($past_page[0])){
-    $past_page = mw('content')->link($past_page[0]['id']);
+    $past_page = mw()->content_manager->link($past_page[0]['id']);
 	}
 }
 

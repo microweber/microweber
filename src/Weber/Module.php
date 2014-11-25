@@ -9,7 +9,14 @@
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class Module extends Eloquent
+
+
+
+
+
+
+
+class Module extends BaseModel
 {
 
     public $table = 'modules';

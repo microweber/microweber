@@ -5,10 +5,10 @@
 </script>
 
 
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-core.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-serializer.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
 
 <script>mw.require("tools.js");</script>
 <script>mw.require("url.js");</script>

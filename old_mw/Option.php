@@ -45,10 +45,10 @@ class Option
             $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
-        if ($prefix == false and defined("MW_TABLE_PREFIX")) {
-            $prefix = MW_TABLE_PREFIX;
+        if ($prefix == false and defined("get_table_prefix()")) {
+            $prefix = get_table_prefix();
         }
-        if ($prefix == false and !defined('MW_TABLE_PREFIX') and isset($_REQUEST['table_prefix'])) {
+        if ($prefix == false and !defined('get_table_prefix()') and isset($_REQUEST['table_prefix'])) {
             $prefix = $_REQUEST['table_prefix'];
         }
 
@@ -468,7 +468,7 @@ class Option
     {
 
         if (defined('MW_API_CALL')) {
-            $is_admin = $this->app->user->is_admin();
+            $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
                 return false;
             }

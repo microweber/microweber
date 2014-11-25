@@ -1,0 +1,1 @@
+<img class="element" src="<?php print pixum(300,300) ?>" />

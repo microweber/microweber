@@ -28,7 +28,7 @@ class Fields
 
         }
 
-        $this->tables = $this->app->content->tables;
+        $this->tables = $this->app->content_manager->tables;
 
     }
 
@@ -49,7 +49,7 @@ class Fields
         }
 
         // return false;
-        $id = $this->app->user->is_admin();
+        $id = $this->app->user_manager->is_admin();
         if ($id == false) {
             //return false;
         }
@@ -152,7 +152,7 @@ class Fields
             if ($id == 0) {
                 $this->app->error('Error: not logged in.');
             }
-            $id = $this->app->user->is_admin();
+            $id = $this->app->user_manager->is_admin();
             if ($id == false) {
                 $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
             }
@@ -697,7 +697,7 @@ class Fields
     public function reorder($data)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -725,7 +725,7 @@ class Fields
         if (defined('MW_API_CALL') and $uid == 0) {
             $this->app->error('Error: not logged in.');
         }
-        $uid = $this->app->user->is_admin();
+        $uid = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $uid == false) {
             exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

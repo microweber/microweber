@@ -57,6 +57,9 @@ class Event
      */
     public function trigger($event_name, $data = false)
     {
+
+
+
         return $this->adapter->fire($event_name, $data);
 
     }

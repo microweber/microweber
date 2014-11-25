@@ -119,8 +119,8 @@ if (isset($to_save['is_installed'])) {
 
         }
 
-        if (!defined('MW_TABLE_PREFIX') and isset($to_save['table_prefix'])) {
-            define('MW_TABLE_PREFIX', $to_save['table_prefix']);
+        if (!defined('get_table_prefix()') and isset($to_save['table_prefix'])) {
+            define('get_table_prefix()', $to_save['table_prefix']);
         }
 
         //$to_save['IS_INSTALLED'] = 'yes';
@@ -338,7 +338,7 @@ if (isset($to_save['is_installed'])) {
 
 
                 __mw_install_log('Initializing users');
-                mw('user')->db_init();
+                mw()->user_manager->db_init();
 
                 event_trigger('mw_db_init_options');
                 event_trigger('mw_db_init_users');
@@ -348,7 +348,7 @@ if (isset($to_save['is_installed'])) {
                 mw('cache')->clear('db');
                 event_trigger('mw_db_init_default');
                 event_trigger('mw_db_init');
-                mw('content')->db_init();
+                mw()->content_manager->db_init();
                 __mw_install_log('Creating log database tables');
                 mw('notifications')->db_init();
                 __mw_install_log('Creating online shop database tables');
@@ -374,7 +374,7 @@ if (isset($to_save['is_installed'])) {
                             }
                             $new_admin['is_active'] = 'y';
                             $new_admin['is_admin'] = 'y';
-                            mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'users');
+                            mw_var('FORCE_SAVE', get_table_prefix() . 'users');
                             save_user($new_admin);
                         }
                     }
@@ -453,7 +453,7 @@ if (isset($to_save['is_installed'])) {
                     $option['option_value'] = trim($templ);
                     $option['option_key'] = 'current_template';
                     $option['option_group'] = 'template';
-                    mw_var('FORCE_SAVE', MW_TABLE_PREFIX . 'options');
+                    mw_var('FORCE_SAVE', get_table_prefix() . 'options');
 
                     $option = mw('option')->save($option);
 
@@ -465,7 +465,7 @@ if (isset($to_save['is_installed'])) {
 
                 mw('cache')->clear();
 
-                // mw('content')->create_default_content('install');
+                // mw()->content_manager->create_default_content('install');
                 if ($auto_install != false) {
                     $done = true;
                     $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'main.php';

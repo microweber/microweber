@@ -16,11 +16,26 @@ class LaravelEvent
 
     public static function fire($api_function, $data = false)
     {
+
+
+        if (is_string($api_function) and function_exists($api_function)) {
+         // self::$hooks[$api_function];
+            return $api_function($data);
+
+        }
+
         return Event::fire($api_function, $data);
     }
-    public static function event_bind($function_name, $callback = false)
+
+    public static function event_bind($hook_name, $callback = false)
     {
-        Event::listen($function_name, $callback);
+
+        if (is_string($callback) and function_exists($callback)) {
+            self::$hooks[$hook_name] = $callback;
+        } else {
+            Event::listen($hook_name, $callback);
+        }
+
     }
 }
 

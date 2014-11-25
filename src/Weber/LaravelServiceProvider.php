@@ -36,7 +36,7 @@ class LaravelServiceProvider extends ServiceProvider
     public function __construct($app)
     {
 
-        parent::__construct($app);
+
 
         ClassLoader::addDirectories(array(
             base_path() . '/userfiles/modules',
@@ -44,6 +44,7 @@ class LaravelServiceProvider extends ServiceProvider
         ));
         ClassLoader::register();
 
+        parent::__construct($app);
     }
 
     public function register()
@@ -57,6 +58,10 @@ class LaravelServiceProvider extends ServiceProvider
 
         $this->app->bind('config', function ($app) {
             return new Providers\SaveConfig($app->getConfigLoader(), $app->environment());
+        });
+
+        $this->app->singleton('event', function ($app) {
+            return new Providers\Event($app);
         });
 
         $this->app->bind('database', function ($app) {
@@ -74,26 +79,43 @@ class LaravelServiceProvider extends ServiceProvider
         $this->app->extend('url', function ($app) {
             return new Utils\Url($app);
         });
-
+        $this->app->singleton('ui', function ($app) {
+            return new Providers\Ui($app);
+        });
         $this->app->singleton('content_manager', function ($app) {
             return new Providers\ContentManager($app);
+        });
+
+
+        $this->app->singleton('update', function ($app) {
+            return new Providers\UpdateManager($app);
         });
         $this->app->singleton('cache_manager', function ($app) {
             return new Providers\CacheManager($app);
         });
+        $this->app->singleton('config_manager', function ($app) {
+            return new Providers\ConfigurationManager($app);
+        });
+
+        $this->app->singleton('notifications_manager', function ($app) {
+            return new Providers\NotificationsManager($app);
+        });
         $this->app->singleton('option', function ($app) {
             return new Providers\Option($app);
         });
-        $this->app->singleton('event', function ($app) {
-            return new Providers\Event($app);
-        });
+
         $this->app->bind('template', function ($app) {
             return new Providers\Template($app);
         });
         $this->app->singleton('modules', function ($app) {
             return new Providers\Modules($app);
         });
-
+        $this->app->singleton('category_manager', function ($app) {
+            return new Providers\CategoryManager($app);
+        });
+        $this->app->singleton('user_manager', function ($app) {
+            return new Providers\UserManager($app);
+        });
 
 
 //        $this->app->bind('module', function ($app) {
@@ -105,10 +127,8 @@ class LaravelServiceProvider extends ServiceProvider
 //            return new Db($app);
 //        });
 
-        $this->app->bind('user', function ($app) {
-            return new Providers\User($app);
-        });
-        Event::listen('illuminate.query', function ($sql, $bindings, $time) {
+
+        Event::listen('ailluminate.query', function ($sql, $bindings, $time) {
             echo $sql; // select * from my_table where id=?
             print_r($bindings); // Array ( [0] => 4 )
             echo $time; // 0.58
@@ -127,6 +147,7 @@ class LaravelServiceProvider extends ServiceProvider
             $store = new \Artdevue\Fcache\Fcache;
             return new \Illuminate\Cache\Repository($store);
         });
+
         parent::boot();
         $is_installed = Config::get('weber.is_installed');
 
@@ -134,6 +155,8 @@ class LaravelServiceProvider extends ServiceProvider
             return;
         }
         $modules = load_all_functions_files_for_modules();
+
+
 
     }
 

@@ -1,0 +1,14 @@
+.social-login{
+  float: left;
+}
+
+.social-login ul{
+  margin: 0;
+}
+.social-login li{
+  list-style: none
+}
+
+
+
+.form-group{ margin-bottom: 15px; }

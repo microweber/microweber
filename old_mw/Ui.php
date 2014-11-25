@@ -92,7 +92,7 @@ class Ui
 
 
 
-        $notif_count = mw('Microweber\Notifications')->get('is_read=n&count=1');
+        $notif_count = mw()->notifications_manager->get('is_read=n&count=1');
         $notif_count_html = false;
         if (intval($notif_count) > 0) {
             $notif_count_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';

@@ -105,8 +105,8 @@ class Content
             $prefix = $this->app->config->get('database.connections.mysql.prefix');
         }
 
-        if ($prefix == false and defined("MW_TABLE_PREFIX")) {
-            $prefix = MW_TABLE_PREFIX;
+        if ($prefix == false and defined("get_table_prefix()")) {
+            $prefix = get_table_prefix();
         }
 
         if (!is_array($tables)) {
@@ -1771,7 +1771,7 @@ class Content
                                     $cat_params['li_class'] = $params['li_class'];
                                 }
                             }
-                            $this->app->category->tree($cat_params);
+                            $this->app->category_manager->tree($cat_params);
                         }
                     }
                     print "</{$list_item_tag}>";
@@ -1861,7 +1861,7 @@ class Content
             $data_to_save = $params2;
         }
 
-        $id = $this->app->user->is_admin();
+        $id = $this->app->user_manager->is_admin();
         if (defined("MW_API_CALL") and $id == false) {
             return false;
             //error('Error: not logged in as admin.'.__FILE__.__LINE__);
@@ -2075,10 +2075,10 @@ class Content
 
                 }
             } else if (intval($item['categories_id']) > 0) {
-                $cont = $this->app->category->get_by_id($item['categories_id']);
+                $cont = $this->app->category_manager->get_by_id($item['categories_id']);
                 if (is_array($cont)) {
                     $title = $cont['title'];
-                    $url = $this->app->category->link($cont['id']);
+                    $url = $this->app->category_manager->link($cont['id']);
                 } else {
                     $this->app->database->delete_by_id($menus, $item['id']);
                     $title = false;
@@ -2435,7 +2435,7 @@ class Content
     {
         $new_item = false;
 
-        $id = $this->app->user->is_admin();
+        $id = $this->app->user_manager->is_admin();
         if (defined("MW_API_CALL") and $id == false) {
             return;
         }
@@ -2632,19 +2632,19 @@ class Content
 
 
         if ($cur_category != false) {
-            $cur_category_data = $this->app->category->get_by_id($cur_category);
+            $cur_category_data = $this->app->category_manager->get_by_id($cur_category);
             if ($cur_category_data != false and isset($cur_category_data['id'])) {
-                $cat_parents = $this->app->category->get_parents($cur_category);
+                $cat_parents = $this->app->category_manager->get_parents($cur_category);
                 if (!empty($cat_parents)) {
                     foreach (($cat_parents) as $item) {
                         $item = intval($item);
                         if ($item > 0) {
-                            $content = $this->app->category->get_by_id($item);
+                            $content = $this->app->category_manager->get_by_id($item);
                             if (isset($content['id'])) {
                                 $result_item = array();
                                 $result_item['title'] = $content['title'];
                                 $result_item['description'] = $content['description'];
-                                $result_item['url'] = $this->app->category->link($content['id']);
+                                $result_item['url'] = $this->app->category_manager->link($content['id']);
 
                                 $result_item['content_type'] = 'category';
                                 if ($cur_content == false and $cur_category == $content['id']) {
@@ -2665,7 +2665,7 @@ class Content
                 $result_item = array();
                 $result_item['title'] = $content['title'];
                 $result_item['description'] = $content['description'];
-                $result_item['url'] = $this->app->category->link($content['id']);
+                $result_item['url'] = $this->app->category_manager->link($content['id']);
                 $result_item['content_type'] = 'category';
                 if ($cur_content == false and $cur_category == $content['id']) {
                     $result_item['is_active'] = true;
@@ -2710,7 +2710,7 @@ class Content
         if (isset($_POST) and !empty($_POST)) {
             $data = $_POST;
         }
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if ($is_admin == true) {
             if (isset($data['unicode_temp_remove'])) {
                 unset($data['unicode_temp_remove']);
@@ -2755,7 +2755,7 @@ class Content
     public function save_edit($post_data)
     {
         $is_module = false;
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if ($post_data) {
             if (isset($post_data['json_obj'])) {
                 $obj = json_decode($post_data['json_obj'], true);
@@ -2800,7 +2800,7 @@ class Content
 
                 $ustr = $this->app->url->string(1);
 
-                if ($this->app->module->is_installed($ustr)) {
+                if ($this->app->modules->is_installed($ustr)) {
                     $ref_page = false;
                 }
 
@@ -2836,12 +2836,12 @@ class Content
                 $ustr = $this->app->url->string(1);
                 $is_module = false;
 
-                if ($this->app->module->is_installed($ustr)) {
+                if ($this->app->modules->is_installed($ustr)) {
                     $is_module = true;
                     $save_page['layout_file'] = 'clean.php';
                     $save_page['subtype'] = 'module';
 
-                    $hp_id = $this->app->content->homepage();
+                    $hp_id = $this->app->content_manager->homepage();
 
                     if (isset($hp_id['id'])) {
                         $page_id = $hp_id['id'];
@@ -2929,10 +2929,10 @@ class Content
         /*
 
           $double_save_checksum = md5(serialize($post_data));
-          $last_save_checksum = $this->app->user->session_get('mw_live_ed_checksum');
+          $last_save_checksum = $this->app->user_manager->session_get('mw_live_ed_checksum');
 
           if($double_save_checksum != $last_save_checksum){
-              $this->app->user->session_set('mw_live_ed_checksum',$double_save_checksum);
+              $this->app->user_manager->session_set('mw_live_ed_checksum',$double_save_checksum);
           } else {
               return array('success'=>'No text is changed from the last save');
           }
@@ -3278,7 +3278,7 @@ class Content
             $data = parse_params($data);
         }
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
 
         $checks = mw_var('FORCE_SAVE_CONTENT');
         $orig_data = $data;
@@ -3316,7 +3316,7 @@ class Content
 
                         }
                     } else {
-                        $cap = $this->app->user->session_get('captcha');
+                        $cap = $this->app->user_manager->session_get('captcha');
                         if ($cap == false) {
                             return array('error' => 'You must load a captcha first!');
                         }
@@ -3341,7 +3341,7 @@ class Content
                 } else {
                     $cats_check[] = intval($data['category']);
                 }
-                $check_if_user_can_publish = $this->app->category->get('ids=' . implode(',', $cats_check));
+                $check_if_user_can_publish = $this->app->category_manager->get('ids=' . implode(',', $cats_check));
                 if (!empty($check_if_user_can_publish)) {
                     $user_cats = array();
                     foreach ($check_if_user_can_publish as $item) {
@@ -3469,7 +3469,7 @@ class Content
     public function  save_content_field($data, $delete_the_cache = true)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content_fields'];
         $table_drafts = $this->tables['content_fields_drafts'];
 
@@ -3672,7 +3672,7 @@ class Content
 
         if (defined('MW_API_CALL')) {
             $to_trash = true;
-            $adm = $this->app->user->is_admin();
+            $adm = $this->app->user_manager->is_admin();
             if ($adm == false) {
                 return array('error' => 'You must be admin to copy content!');
             }
@@ -3735,7 +3735,7 @@ class Content
     {
         if (defined('MW_API_CALL')) {
             $to_trash = true;
-            $adm = $this->app->user->is_admin();
+            $adm = $this->app->user_manager->is_admin();
             if ($adm == false) {
                 return array('error' => 'You must be admin to reset content!');
             }
@@ -3772,7 +3772,7 @@ class Content
 
         if (defined('MW_API_CALL')) {
             $to_trash = true;
-            $adm = $this->app->user->is_admin();
+            $adm = $this->app->user_manager->is_admin();
             if ($adm == false) {
                 return array('error' => 'You must be admin to delete content!');
             }
@@ -4091,7 +4091,7 @@ class Content
                     $content = $page;
 
 
-                    $current_categorys = $this->app->category->get_for_content($page['id']);
+                    $current_categorys = $this->app->category_manager->get_for_content($page['id']);
                     if (!empty($current_categorys)) {
                         //d($current_categorys);
                         $current_category = end($current_categorys);
@@ -4478,7 +4478,7 @@ class Content
                 $params['order_by'] = 'position desc, created_on desc';
                 $params['order_by'] = 'position desc';
             }
-            $cats = $this->app->category->get_for_content($content_id);
+            $cats = $this->app->category_manager->get_for_content($content_id);
             if (!empty($cats)) {
                 foreach ($cats as $cat) {
                     $categories[] = $cat['id'];
@@ -4534,7 +4534,7 @@ class Content
 
     public function reorder($params)
     {
-        $id = $this->app->user->is_admin();
+        $id = $this->app->user_manager->is_admin();
         if ($id == false) {
             return ('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -4617,7 +4617,7 @@ class Content
                 $params['id'] = $id;
             }
         }
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'You must be admin to unpublish content!');
         }
@@ -4668,7 +4668,7 @@ class Content
                 $params['id'] = $id;
             }
         }
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'You must be admin to publish content!');
         }
@@ -4699,7 +4699,7 @@ class Content
 
 
         $mw_global_content_memory = array();
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content'];
 
         $table_data = $this->tables['content_data'];
@@ -4736,7 +4736,7 @@ class Content
 
                     }
                         } else {
-                            $cap = $this->app->user->session_get('captcha');
+                            $cap = $this->app->user_manager->session_get('captcha');
                             if ($cap == false) {
                                 return array('error' => 'You must load a captcha first!');
                             }
@@ -4761,7 +4761,7 @@ class Content
                         } else {
                             $cats_check[] = intval($data['category']);
                         }
-                        $check_if_user_can_publish = $this->app->category->get('ids=' . implode(',', $cats_check));
+                        $check_if_user_can_publish = $this->app->category_manager->get('ids=' . implode(',', $cats_check));
                         if (!empty($check_if_user_can_publish)) {
                             $user_cats = array();
                             foreach ($check_if_user_can_publish as $item) {
@@ -4992,11 +4992,11 @@ class Content
             $check_ex = false;
             if (isset($data_to_save['subtype_value']) and trim($data_to_save['subtype_value']) != '' and intval(($data_to_save['subtype_value'])) > 0) {
 
-                $check_ex = $this->app->category->get_by_id(intval($data_to_save['subtype_value']));
+                $check_ex = $this->app->category_manager->get_by_id(intval($data_to_save['subtype_value']));
             }
             if ($check_ex == false) {
                 if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
-                    $test2 = $this->app->category->get('data_type=category&rel=content&rel_id=' . intval(($data_to_save['id'])));
+                    $test2 = $this->app->category_manager->get('data_type=category&rel=content&rel_id=' . intval(($data_to_save['id'])));
                     if (isset($test2[0])) {
                         $check_ex = $test2[0];
                         $data_to_save['subtype_value'] = $test2[0]['id'];
@@ -5191,7 +5191,7 @@ class Content
                         $first = intval($data_to_save['categories']);
                     }
                     if ($first != false) {
-                        $first_par_for_cat = $this->app->category->get_page($first);
+                        $first_par_for_cat = $this->app->category_manager->get_page($first);
                         if (!empty($first_par_for_cat) and isset($first_par_for_cat['id'])) {
                             $data_to_save['parent'] = $first_par_for_cat['id'];
                             if (!isset($data_to_save['content_type'])) {
@@ -5320,7 +5320,7 @@ class Content
 
 
         if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
-            $new_category = $this->app->category->get_for_content($save);
+            $new_category = $this->app->category_manager->get_for_content($save);
 
             if ($new_category == false) {
                 //$new_category_id = intval($new_category);
@@ -5333,7 +5333,7 @@ class Content
                 $new_category["title"] = $data_to_save['title'];
                 $new_category["parent_id"] = "0";
                 $cats_modified = true;
-                // $new_category = $this->app->category->save($new_category);
+                // $new_category = $this->app->category_manager->save($new_category);
             }
         }
         $custom_field_table = $this->tables['custom_fields'];
@@ -5406,7 +5406,7 @@ class Content
     public function save_content_data_field($data, $delete_the_cache = true)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content_data'];
 
         $check_force = mw_var('FORCE_SAVE_CONTENT_DATA_FIELD');
@@ -5711,7 +5711,7 @@ class Content
         $params = parse_params($id);
 
 
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -5738,7 +5738,7 @@ class Content
     public function menu_item_get($id)
     {
 
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -5753,7 +5753,7 @@ class Content
     public function  menu_item_save($data_to_save)
     {
 
-        $id = $this->app->user->is_admin();
+        $id = $this->app->user_manager->is_admin();
         if ($id == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -5836,7 +5836,7 @@ class Content
             return false;
         }
 
-        $is_admin = $this->app->user->is_admin();
+        $is_admin = $this->app->user_manager->is_admin();
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -5855,7 +5855,7 @@ class Content
     {
 
         $return_res = false;
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if (defined("MW_API_CALL") and $adm == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }

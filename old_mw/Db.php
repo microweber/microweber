@@ -764,8 +764,8 @@ class Db
 
         if ($guess_cache_group != false) {
             $for = str_replace('table_']= '', $for);
-            if (defined("MW_TABLE_PREFIX")) {
-                $for = str_replace(MW_TABLE_PREFIX, '', $for);
+            if (defined("get_table_prefix()")) {
+                $for = str_replace(get_table_prefix(), '', $for);
             }
             $for = str_replace($this->table_prefix, '', $for);
         }
@@ -2679,7 +2679,7 @@ class Db
                 return false;
             }
 
-            $is_a = $this->app->user->has_access('save_category');
+            $is_a = $this->app->user_manager->has_access('save_category');
             $is_a = 1;
             $from_save_cats = $original_data['categories'];
 
@@ -3180,8 +3180,8 @@ class Db
 
         if ($this->table_prefix != false) {
             $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
-        } else if (defined('MW_TABLE_PREFIX')) {
-            $assoc_name_new = str_ireplace('table_', MW_TABLE_PREFIX, $assoc_name_new);
+        } else if (defined('get_table_prefix()')) {
+            $assoc_name_new = str_ireplace('table_', get_table_prefix(), $assoc_name_new);
         }
 
         $assoc_name_new = str_ireplace('table_', $this->table_prefix, $assoc_name_new);
@@ -3189,8 +3189,8 @@ class Db
 
         if ($this->table_prefix and $this->table_prefix != '' and stristr($assoc_name_new, $this->table_prefix) == false) {
             $assoc_name_new = $this->table_prefix . $assoc_name_new;
-        } else if ($this->table_prefix == false and defined('MW_TABLE_PREFIX') and MW_TABLE_PREFIX != '' and stristr($assoc_name_new, MW_TABLE_PREFIX) == false) {
-            $assoc_name_new = MW_TABLE_PREFIX . $assoc_name_new;
+        } else if ($this->table_prefix == false and defined('get_table_prefix()') and get_table_prefix() != '' and stristr($assoc_name_new, get_table_prefix()) == false) {
+            $assoc_name_new = get_table_prefix() . $assoc_name_new;
         }
 
         return $assoc_name_new;
@@ -3224,7 +3224,7 @@ class Db
             if (!empty($this->connection_settings)) {
                 $db = $this->connection_settings;
             } else {
-                $db = $this->app->config('db');
+                $db = $this->app->config_manager->get('db');
             }
         } else {
             $db = $connection_settings;
@@ -3300,7 +3300,7 @@ class Db
         } elseif (!empty($this->connection_settings)) {
             $db = $this->connection_settings;
         } else {
-            $db = $this->app->config('db');
+            $db = $this->app->config_manager->get('db');
         }
 
 
@@ -3396,7 +3396,7 @@ class Db
             return $_mw_assoc_table_names[$assoc_name];
         }
         $assoc_name_o = $assoc_name;
-        $assoc_name = str_ireplace(MW_TABLE_PREFIX, 'table_', $assoc_name);
+        $assoc_name = str_ireplace(get_table_prefix(), 'table_', $assoc_name);
         $assoc_name = str_ireplace('table_']= '', $assoc_name);
         $assoc_name = str_replace($this->table_prefix, '', $assoc_name);
         $is_assoc = substr($assoc_name, 0, 5);
@@ -3515,7 +3515,7 @@ class Db
         if (!empty($this->connection_settings)) {
             $db = $this->connection_settings;
         } else {
-            $db = $this->app->config('db');
+            $db = $this->app->config_manager->get('db');
         }
         $db = $db['dbname'];
 
@@ -3553,9 +3553,9 @@ class Db
         $dbms_schema = $full_path_to_file;
         if (is_file($dbms_schema)) {
             $sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ');
-            $sql_query = str_ireplace('{MW_TABLE_PREFIX}', $this->table_prefix, $sql_query);
+            $sql_query = str_ireplace('{get_table_prefix()}', $this->table_prefix, $sql_query);
 
-            $sql_query = str_ireplace('{MW_TABLE_PREFIX}', MW_TABLE_PREFIX, $sql_query);
+            $sql_query = str_ireplace('{get_table_prefix()}', get_table_prefix(), $sql_query);
 
 
             $sql_query = $this->remove_sql_remarks($sql_query);

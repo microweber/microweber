@@ -1,0 +1,119 @@
+/* Help */
+
+
+
+
+#mw_edit_page_left.mw_edit_page_default {
+	width: 224px;
+}
+.help-nav {
+	text-transform: capitalize;
+	width: 222px;
+}
+.help-nav li {
+	list-style: none;
+}
+.help-nav ul {
+}
+.help-nav li.active > ul {
+	display: block;
+}
+.help-nav li > ul > li.active ul {
+	display: block;
+}
+.help-opener, .help-nav li > a {
+	background: #F0F0F0;
+	border-bottom: 1px solid #E7E7E7;
+	padding: 10px 7px 10px 20px;
+	display: block;
+	cursor: pointer;
+	overflow: hidden;
+	font-weight: normal;
+}
+.active > .help-opener {
+	font-weight: bold;
+	background: #E0E0E0;
+	border-bottom-color:#ADADAD;
+}
+.help-nav li > ul > li > .help-opener {
+	padding: 7px 7px 7px 37px;
+}
+.help-opener * {
+	float: left;
+}
+.help-opener .help-plus {
+	background: url(../img/treectrls.png);
+	position: relative;
+	display: inline-block;
+	width:8px;
+	height: 8px;
+	margin:6px 7px 0 0;
+}
+.help-opener img + .help-plus {
+	margin-top: 10px;
+}
+.help-opener img + .help-title {
+	margin-top: 7px;
+	max-width: 75%;
+	max-width: calc(100% - 40px);
+	max-width: -webkit-calc(100% - 40px);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.help-nav li.active > .help-opener span {
+	background-position: 0 -42px
+}
+.help-nav li.active > .help-opener img, .help-opener:hover img {
+	filter:none;
+	-webkit-filter:none;
+}
+.help-nav li > ul > li .help-opener + ul.mw-accordion-content {
+	padding: 10px 0;
+	background: #FBFBFB;
+}
+.help-nav li a { /*
+      background-color: #FBFBFB;
+      background-repeat: no-repeat;
+      background-position: 49px 6px;
+      padding: 7px 7px 7px 75px;
+      display: block;
+      cursor: pointer;  */
+}
+.help-nav li a:hover {
+	text-decoration: underline;
+	background: white;
+}
+.help-nav li a.active {
+	text-decoration: none;
+	background: white;
+}
+.help-nav img {
+	float: left;
+	margin-right: 7px;
+}
+.help-api dt {
+	font-weight: bold;
+	display: block;
+	padding-top: 12px;
+	padding-bottom: 2px;
+	color: #434343;
+}
+.help-api dd {
+	padding-left: 15px
+}
+/* /Help */ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  

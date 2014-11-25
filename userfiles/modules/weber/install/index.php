@@ -246,10 +246,10 @@
         $server_check_errors['gd'] = _e("The GD extension must be loaded in PHP", true);
     }
 
-    if (defined('MW_USERFILES') and is_dir(MW_USERFILES) and !is_writable(MW_USERFILES)) {
+    if (defined('userfiles_path()') and is_dir(userfiles_path()) and !is_writable(userfiles_path())) {
         $check_pass = false;
-        $must_be = MW_USERFILES;
-        $server_check_errors['MW_USERFILES'] = _e("The directory " . MW_USERFILES . " must be writable", true);
+        $must_be = userfiles_path();
+        $server_check_errors['userfiles_path()'] = _e("The directory " . userfiles_path() . " must be writable", true);
     }
 
     if (defined('MW_CACHE_ROOT_DIR') and is_dir(MW_CACHE_ROOT_DIR) and !is_writable(MW_CACHE_ROOT_DIR)) {

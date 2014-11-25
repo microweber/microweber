@@ -8,7 +8,7 @@ class ConfigFileTest extends TestCase
         $this->assertTrue(true);
     }
 
-
+   
     public function testConfigRead()
     {
         $connection = Config::get('database.connections');

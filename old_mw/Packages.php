@@ -35,12 +35,12 @@ class Packages
             }
 
         }
-        if (!isset($this->app->config) or $this->app->config('composer_file') == false) {
+        if (!isset($this->app->config) or $this->app->config_manager->get('composer_file') == false) {
             if (defined('MW_ROOTPATH')) {
                 $this->config_file = MW_ROOTPATH . 'composer.json';
             }
         } else {
-            $this->config_file = $this->app->config('composer_file');
+            $this->config_file = $this->app->config_manager->get('composer_file');
         }
 
 
@@ -121,7 +121,7 @@ class Packages
     function prepare_patch()
     {
         if (defined('MW_API_CALL')) {
-            $is_admin = $this->app->user->is_admin();
+            $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
                 return false;
             }
@@ -333,7 +333,7 @@ class Packages
         }
 
         if (defined('MW_API_CALL')) {
-            $is_admin = $this->app->user->is_admin();
+            $is_admin = $this->app->user_manager->is_admin();
             if ($is_admin == false) {
                 return false;
             }

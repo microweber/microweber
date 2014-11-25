@@ -11,11 +11,11 @@ if($is_quick_edit == true){
 
 ?>
 <?php if (!isset($_GET['preview'])){ ?>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-core.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-serializer.js"></script>
-<script src="<?php print(INCLUDES_URL); ?>api/jquery-ui.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-selectionsaverestore.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-serializer.js"></script>
+<script src="<?php print(mw_includes_url()); ?>api/jquery-ui.js"></script>
 
 <script type="text/javascript">
         mw.settings.liveEdit = true;
@@ -125,7 +125,7 @@ if($is_quick_edit == true){
 <div class="mw-helpinfo semi_hidden">
   <div class="mw-help-item" data-for="#live_edit_toolbar" data-pos="bottomcenter">
     <div style="width: 300px;">
-      <p style="text-align: center"> <img src="<?php print INCLUDES_URL; ?>img/dropf.gif" alt="" /> </p>
+      <p style="text-align: center"> <img src="<?php print mw_includes_url(); ?>img/dropf.gif" alt="" /> </p>
       <p> You can easily grab any Module and insert it in your content. </p>
     </div>
   </div>
@@ -153,7 +153,7 @@ if($is_quick_edit == true){
                         $pt_opts['active_ids'] = CONTENT_ID;
                         $pt_opts['limit'] = 1000;
                         $pt_opts['active_code_tag'] = 'class="active"';
-                        mw('content')->pages_tree($pt_opts);
+                        mw()->content_manager->pages_tree($pt_opts);
                         ?>
               <a id="backtoadminindropdown" class="mw-ui-btn mw-ui-btn-invert" href="<?php print $back_url; ?>" title="<?php _e("Back to Admin"); ?>"> <span class="mw-icon-back"></span><span><?php _e("Back to Admin"); ?></span> </a> </div>
           </li>
@@ -171,7 +171,7 @@ if($is_quick_edit == true){
                 </span>
                 </a>
               </li>
-              <?php $create_content_menu =  mw()->module->ui('content.create.menu');  ?>
+              <?php $create_content_menu =  mw()->modules->ui('content.create.menu');  ?>
               <?php if (!empty($create_content_menu)): ?>
     <?php foreach ($create_content_menu as $type => $item): ?>
     <?php $title = ( isset( $item['title']))? ($item['title']) : false ; ?>
@@ -241,7 +241,7 @@ if($is_quick_edit == true){
                 <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
                 <?php /*<li><a class="mw-ui-btn" href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-                <?php $pub_or_inpub = mw('content')->get_by_id(CONTENT_ID); ?>
+                <?php $pub_or_inpub = mw()->content_manager->get_by_id(CONTENT_ID); ?>
                 <li class="mw-set-content-unpublish" <?php if (isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>> <a class="mw-ui-btn" href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><span>
                   <?php _e("Unpublish"); ?>
                   </span></a> </li>

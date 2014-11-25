@@ -1,0 +1,238 @@
+#settings-holder{
+    font-family: Lato, sans-serif;
+    color: #555566;
+    padding: 20px;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-weight: 100;
+}
+
+h1{
+  font-size: 22px;
+}
+
+hr{
+  clear: both;
+}
+
+body.loading:after{
+  z-index: 900;
+}
+
+.settings-colorpick .settings-colorpick .mw-tooltip-arrow{
+  -webkit-transition: left 0.22s;
+  -moz-transition: left 0.22s;
+  -o-transition: left 0.22s;
+  transition: left 0.22s;
+}
+
+[class*='pick-']{
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    margin-right:8px;
+    margin-bottom:7px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid #111;
+    background-size: cover;
+    background-position: center;
+    -webkit-transition: box-shadow 0.5s ease;
+    -moz-transition: box-shadow 0.5s ease;
+    -o-transition: box-shadow 0.5s ease;
+    -ms-transition: box-shadow 0.5s ease;
+    transition: box-shadow 0.5s ease;
+    opacity: 0.4;
+}
+* > [class*='pick-']:last-child{
+    margin-right: 0;
+}
+
+.active[class*='pick-']{
+    cursor: default;
+    opacity:1;
+    border-color:#555566;
+}
+
+
+[class*='pick-']:hover,
+[class*='pick-']:focus{
+    box-shadow: 0 0 3px -2px #555;
+    opacity:1;
+}
+
+[class*='pick-']:active{
+    box-shadow: inset 0 0 3px #777;
+}
+
+.picklabel{
+  display: block;
+  float: left;
+  cursor: pointer;
+  font-size: 14px;
+  clear: both;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.picklabel *{
+  cursor: pointer;
+}
+
+.picklabel > [class*='pick-']{
+  margin-right: 12px;
+}
+
+.picklabel > *{
+  float: left;
+}
+.picklabel > label{
+  margin-top: 5px;
+}
+.picklabel > label.desc{
+  margin-top: -1px;
+}
+
+.picklabel > label.desc small{
+  display: block;
+}
+
+.template-setting-label{
+    display: block;
+    padding: 10px 0 10px;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.scheme-transparent{
+    background: url(img/transparent.png) no-repeat;
+    background-size: contain;
+}
+
+
+.settings-colorpick .mw-tooltip-content{
+    padding: 0;
+}
+
+.customim{
+  padding: 10px 0;
+  display: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.pick-image-custom{
+  visibility:hidden;
+}
+.muted{
+  color: #7F7F94;
+}
+#upload_custom_body_image{
+  width: 100%;
+}
+
+#upload_custom_body_image, #image-upload-progress{
+  margin-top: 12px;
+}
+
+#font_family.mw-dropdown_type_navigation li a{
+  font-size: 13px;
+}
+
+#mw-notifications-holder, body.loading:after, body.loading:before{
+  display: none !important;
+}
+
+#background-options{
+  display: none;
+  padding: 12px 0;
+}
+#background-options .mw-dropdown-type-wysiwyg{
+  border-color: #DEDEDE;
+  width: 90%;
+}
+#background-options .mw-dropdown-type-wysiwyg ul{
+  width: 100%;
+}
+
+
+#ts_bg_size{
+  float: right;
+}
+.square_map_value{
+  text-transform: capitalize;
+  padding: 1px 0 0 ;
+}
+
+/***********************  KULER  ************************/
+
+.kuler-search-master{
+  position: relative;
+  z-index: 99;
+  height: 35px;
+  margin: 8px 0 20px;
+}
+#kuler_color_search{
+  width: 100%;
+  background: url(img/magn.png) no-repeat 95% center;
+  opacity:0.5;
+}
+
+#kuler_color_search:hover,
+#kuler_color_search:focus{
+  opacity:1;
+}
+
+#kuler_color_search.loading{
+    background: url(img/tpl.preload.gif) no-repeat 95% center;
+}
+
+.mw-kuler-list{
+  list-style: none;
+  position: absolute;
+  top: 100%;
+  margin: 3px 0 0;
+  left: 0;
+  width: 100%;
+  padding: 5px;
+  background: white;
+  box-shadow: 0px 1px 2px -1px rgba(85, 85, 102, 0.9);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;  /
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow: auto;
+  max-height: 240px;
+}
+.mw-kuler-list-empty li{
+  padding: 8px;
+}
+
+.mw-kuler-list table{
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid transparent
+}
+.mw-kuler-list table td{
+  height: 20px;
+  opacity: 0.2;
+  margin: 0;
+  padding: 0;
+}
+
+.mw-kuler-list table:hover{
+  border-color: rgba(85, 85, 102, 0.4);
+}
+
+.mw-kuler-list table tr:hover td{
+  opacity: 1;
+}
+
+
+
+/***********************  /KULER  ************************/
+

@@ -8,6 +8,9 @@ if (version_compare(phpversion(), "5.3.0", "<=")) {
 if (!defined('WB_VERSION')) {
     define('WB_VERSION', 0.96);
 }
+if (!defined('MW_VERSION')) {
+    define('MW_VERSION', WB_VERSION);
+}
 
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
@@ -46,11 +49,16 @@ if (!defined('WB_USER_IP')) {
 }
 
 include_once(__DIR__ . DS . 'paths.php');
+include_once(__DIR__ . DS . 'api.php');
 include_once(__DIR__ . DS . 'filesystem.php');
 include_once(__DIR__ . DS . 'lang.php');
 include_once(__DIR__ . DS . 'events.php');
-include_once(__DIR__ . DS . 'api.php');
+
+include_once(__DIR__ . DS . 'db.php');
+include_once(__DIR__ . DS . 'user.php');
 include_once(__DIR__ . DS . 'common.php');
+include_once(__DIR__ . DS . 'other.php');
 include_once(__DIR__ . DS . 'content.php');
+include_once(__DIR__ . DS . 'options.php');
 include_once(__DIR__ . DS . 'modules.php');
 

@@ -64,14 +64,14 @@ class Update
 
         $t = mw('template')->site_templates();
         $data['templates'] = $t;
-        //$t = $this->app->module->scan_for_modules("skip_cache=1");
-        $t = $this->app->module->get("ui=any");
+        //$t = $this->app->modules->scan_for_modules("skip_cache=1");
+        $t = $this->app->modules->get("ui=any");
         $data['modules'] = $t;
         $data['module_templates'] = array();
         if (is_array($t)) {
             foreach ($t as $value) {
                 if (isset($value['module'])) {
-                    $module_templates = $this->app->module->templates($value['module']);
+                    $module_templates = $this->app->modules->templates($value['module']);
                     $mod_tpls = array();
                     if (is_array($module_templates)) {
                         foreach ($module_templates as $key1 => $value1) {
@@ -100,9 +100,9 @@ class Update
         }
 
         if ($this->skip_cache) {
-            $t = $this->app->module->get_layouts("skip_cache=1");
+            $t = $this->app->modules->get_layouts("skip_cache=1");
         } else {
-            $t = $this->app->module->get_layouts();
+            $t = $this->app->modules->get_layouts();
         }
 
 
@@ -144,7 +144,7 @@ class Update
     {
         if (defined('MW_API_CALL')) {
             $to_trash = true;
-            $adm = $this->app->user->is_admin();
+            $adm = $this->app->user_manager->is_admin();
             if ($adm == false) {
                 return array('error' => 'You must be admin to install from Marketplace!');
             }
@@ -190,7 +190,7 @@ class Update
         }
 
         $to_be_unzipped = array();
-        $a = $this->app->user->is_admin();
+        $a = $this->app->user_manager->is_admin();
         if ($a == false) {
             mw_error('Must be admin!');
         }
@@ -303,7 +303,7 @@ class Update
     {
 
 
-        $a = $this->app->user->is_admin();
+        $a = $this->app->user_manager->is_admin();
         if ($a == false) {
             return false;
         }
@@ -556,14 +556,14 @@ class Update
             $params = array();
             $params['skip_cache'] = true;
 
-            $data = $this->app->module->get($params);
+            $data = $this->app->modules->get($params);
             $this->app->cache_manager->delete('update/global');
             $this->app->cache_manager->delete('db');
             $this->app->cache_manager->delete('modules');
             event_trigger('mw_db_init_default');
             event_trigger('mw_db_init_modules');
 
-            $this->app->module->scan_for_modules();
+            $this->app->modules->scan_for_modules();
 
 
         }
@@ -602,7 +602,7 @@ class Update
             $params = array();
             $params['skip_cache'] = true;
 
-            $data = $this->app->module->get($params);
+            $data = $this->app->modules->get($params);
             //d($data);
 
         }
@@ -688,11 +688,11 @@ class Update
 
     public function validate_license($params = false)
     {
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return;
         }
-        $table = $this->app->module->tables['system_licenses'];
+        $table = $this->app->modules->tables['system_licenses'];
         if ($table == false) {
             return;
         }
@@ -727,7 +727,7 @@ class Update
 
     public function get_licenses($params = false)
     {
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return;
         }
@@ -739,7 +739,7 @@ class Update
         }
 
 
-        $table = $this->app->module->tables['system_licenses'];
+        $table = $this->app->modules->tables['system_licenses'];
         if ($table == false) {
             return;
         }
@@ -753,11 +753,11 @@ class Update
 
     public function save_license($params)
     {
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return;
         }
-        $table = $this->app->module->tables['system_licenses'];
+        $table = $this->app->modules->tables['system_licenses'];
         if ($table == false) {
             return;
         }

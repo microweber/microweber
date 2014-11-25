@@ -1,0 +1,240 @@
+<?php
+
+/*
+
+  type: layout
+
+  name: Client products
+
+  description: List the client products from WHMCS
+
+
+
+*/
+
+  ?>
+<?php if(isset($_REQUEST['update_product']) and $_REQUEST['update_product'] != 0): ?>
+<module type="whmcs" template="update_product" product="<?php print intval($_REQUEST['update_product']) ?>" />
+<?php elseif(isset($_REQUEST['payments']) ): ?>
+<?php else: ?>
+<module type="whmcs" template="invoices_bar" />
+
+
+<?php 
+$goto = "supporttickets.php";
+$goto = api_url('panel_user_link').'?goto='.urlencode($goto);
+?>
+ 
+<a class="btn btn-default btn-info"  href="<?php   print($goto); ?>">Support tickets</a>
+
+<?php 
+$goto = "cart.php";
+$goto = api_url('panel_user_link').'?goto='.urlencode($goto);
+?>
+ 
+<a class="btn btn-default btn-info"  href="<?php   print($goto); ?>">Add website</a>
+
+
+
+
+<?php 
+ 
+
+$client_producsts = whm_get_user_products();
+$client_invoices = whm_get_user_invoices();
+$whmuser_info = whm_get_user_info();
+  ?>
+<?php if(is_array($client_producsts)): ?>
+<?php foreach(($client_producsts) as $item): ?>
+<?php $isActive = ( isset($item['status']) and strtolower($item['status']) == 'active' ) == true;  ?>
+<?php $isTerminated = ( isset($item['status']) and strtolower($item['status']) == 'terminated' ) == true;  ?>
+<?php $isCancelled = ( isset($item['status']) and strtolower($item['status']) == 'cancelled' ) == true;  ?>
+<?php if(!$isTerminated and !$isCancelled): ?>
+
+<div class="row-fluid products-row">
+	<?php if(is_array($item) and isset($item['pid']) and isset($item['domain'])): ?>
+	<div class="span6">
+		<?php $status = strtolower($item['status']); ?>
+		<?php
+                        if($status == 'active'){
+                            $cls = 'label-success';
+            		    } elseif($status == 'pending'){
+                            $cls = 'label-warning';
+            			} elseif($status == 'cancelled'){
+                            $cls = 'label-default';
+            			} else{
+            			    $cls = 'label-info';
+            		    }
+                    ?>
+		<?php if($isActive): ?>
+		<div  class="products-screen-item products-screen-item-not-loaded"
+                data-bg="//screen.microweber.com/shot.php?url=<?php print urlencode($item['domain']); ?>"> <span class="edit-product-btn animate-all"> <i class="icon-pencil animate-all"></i> <span class="animate-all">Edit</span> </span> </div>
+		<div class="product-basic-info">
+			<div class="vpad"> <a class="blue" href="http://<?php  print($item['domain']); ?>/">
+				<?php  print($item['domain']); ?>
+				</a> <span class="label <?php print $cls; ?>" title="Your site is <?php print($item['status']); ?>.">
+				<?php  print($item['status']); ?>
+				</span> <small class="badge" title="You are using <?php print($item['name']); ?>."><?php print($item['name']); ?></small> </div>
+			<form class="pull-left" action="http://<?php print($item['domain']); ?>/api/user_login" target="_blank" method="post">
+				<input type="hidden" name="username" value="<?php   print($item['username']); ?>" />
+				<input type="hidden" name="password" value="<?php   print($item['password']); ?>" />
+				<input type="submit" name="Edit website" value="Edit website" class="xbtn xbtn-blue" />
+				<input type="hidden" name="redirect" value="http://<?php print($item['domain']); ?>/?editmode=y" />
+			</form>
+			<?php $goto = "upgrade.php?type=package&id=".$item['id'] ;
+				 //." with id ".$item['id'].""
+
+$goto = api_url('panel_user_link').'?goto='.urlencode($goto);
+
+ 
+       ?>
+			<a href="<?php print $goto ?>" class="xbtn xbtn-orange pull-right">Upgrade</a> </div>
+		<?php endif; ?>
+		<?php if(!$isActive): ?>
+		<div class="products-screen-item products-screen-item-not-active">
+			<div class="text-center relative" style="top:245px">
+				<h6>This website is not active</h6>
+				<!--<small class="blue">Delete this website</small> --></div>
+		</div>
+		<?php endif; ?>
+	</div>
+	<div class="span6">
+		<h6>Website Name</h6>
+		<a class="blue" href="http://<?php  print($item['domain']); ?>/">
+		<?php  print($item['domain']); ?>
+		</a> <br />
+		<small class="muted">#
+		<?php  print($item['id']); ?>
+		</small>
+		<?php $goto = "clientarea.php?action=cancel&id=".$item['id'];
+
+$goto = $whmuser_info['dologin'].'&goto='.urlencode($goto);
+
+ 
+       ?>
+		<?php if($isActive): ?>
+		<?php if(isset($item["diskusage"]) and intval($item["diskusage"]) > 0): ?>
+		<h6>Disk Space Usage</h6>
+		<?php
+                    $disk = intval($item["diskusage"]);
+                    $disk_limit = intval($item["disklimit"]);
+                    $count1 = $disk / $disk_limit;
+                    $count2 = $count1 * 100;
+                    $precent = number_format($count2, 0);
+                  ?>
+		<div class="blue disk-usage-info"> Disk Usage: <?php print $disk; ?> <abbr title="<?php print $disk; ?> megabytes">MB</abbr> / <?php print $disk_limit; ?> <abbr title="<?php print $disk_limit; ?> megabytes">MB</abbr> (<?php print $precent; ?>%)<br>
+		</div>
+		<div class="mwinput">
+			<div class="mwbar" style="width: <?php print intval($precent); ?>%;"><?php print intval($precent); ?>%</div>
+		</div>
+		<?php endif; ?>
+		<h6>Control Panel Address</h6>
+		<a class="blue" href="https://<?php   print($item['domain']); ?>/cpanel" target="_blank">
+		<?php   print($item['domain']); ?>
+		/cpanel</a>
+		<h6>Username:</h6>
+		<span onclick="mw.wysiwyg.select_all(this);" class="blue x-item">
+		<?php  print($item['username']); ?>
+		</span>
+		<h6>Password:</h6>
+		<div class="mwinput hosting-pass-input"> <span class="mwinput-item">
+			<?php
+                          $l = strlen($item['password']);
+                          $s = "";
+                          for($i=0; $i<$l; $i++){  $s.="*";  }
+                        ?>
+			<span class="ftp-pass fp1">
+			<?php  print $s; ?>
+			</span> <span class="ftp-real-pass fp1" style="display: none" onclick="mw.wysiwyg.select_all(this);">
+			<?php  print $item['password']; ?>
+			</span> <small class="showhidepass" onclick="showhidepass(this.parentNode, event);">Show Password</small> </span> </div>
+		<a class="pull-right muted" href="<?php  print($goto ); ?>"><span class="icon-remove"></span> <small>delete</small></a>
+		<?php endif; ?>
+		<?php endif; ?>
+		<?php if(!$isActive): ?>
+		<?php
+		$prod_inv = whm_get_product_invoices($item['id']);
+		// d($prod_inv);
+		 ?>
+
+		<div class="yellow-box2 text-center" >
+			<div class="pad">
+				<?php if(!empty($prod_inv)): ?>
+				<p>You haved unpaid invoices</p>
+				<ul>
+					<?php foreach(($prod_inv) as $inv): ?>
+					<li> <span class="label <?php print $cls; ?>" title="Your site is <?php print($item['status']); ?>.">
+						<?php  print($item['status']); ?>
+						</span>
+						<?php  print $inv['description']; ?>
+						-
+						$
+						<?php  print $inv['amount']; ?>
+					</li>
+					<?php endforeach; ?>
+				</ul>
+				<?php
+
+                       $goto = "viewinvoice.php?id=".$inv['invoiceid'];
+
+                       $goto = $whmuser_info['dologin'].'&goto='.urlencode($goto);
+
+
+                     ?>
+				<a href="<?php print $goto ?>" class="xbtn xbtn-red">Activate</a>
+				<?php else: ?>
+				<p>Your website status is: <span class="label <?php print $cls; ?>" title="Your site is <?php print($item['status']); ?>.">
+					<?php  print($item['status']); ?>
+					</span></p>
+				<?php $goto = "submitticket.php?step=2&deptid=1&relatedservice=S".$item['id']."&subject=Please activate my website ".$item['domain'] ;
+    				 //." with id ".$item['id'].""
+
+                    $goto = $whmuser_info['dologin'].'&goto='.urlencode($goto);
+
+
+           ?>
+				<a href="<?php print $goto ?>" class="xbtn xbtn-orange">Contact support</a>
+				<?php endif; ?>
+			</div>
+		</div>
+		<?php endif; ?>
+	</div>
+</div>
+<div class="product-item-dlm"></div>
+<?php endif; ?>
+<?php endforeach; ?>
+<script>
+
+    mw.require("wysiwyg.js");
+
+    showhidepass = function(el,e){
+        mw.$(".fp1", el).each(function(){
+            var n = this;
+            if(n.style.display == 'none'){
+               n.style.display = 'inline-block';
+               e.target.innerHTML = 'Hide Password';
+            }
+            else{
+               n.style.display = 'none';
+               e.target.innerHTML = 'Show Password';
+            }
+        });
+    }
+
+    $(window).bind("scroll load", function(){
+        mw.$(".products-screen-item-not-loaded").each(function(){
+          if(mw.tools.inview(this)){
+            var el = this, $el = $(el);
+            $el.removeClass("products-screen-item-not-loaded");
+            $el.addClass("loading");
+            var bg = $el.dataset("bg");
+            mw.tools.preload(bg, function(){
+                el.style.backgroundImage = "url(" + bg + ")";
+                $el.removeClass("loading");
+            });
+          }
+        });
+    });
+</script>
+<?php endif; ?>
+<?php endif; ?>

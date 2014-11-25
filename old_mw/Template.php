@@ -47,7 +47,7 @@ class Template
     public function dir()
     {
         if (!defined('TEMPLATE_DIR')) {
-            $this->app->content->define_constants();
+            $this->app->content_manager->define_constants();
         }
         if (defined('TEMPLATE_DIR')) {
             return TEMPLATE_DIR;
@@ -57,7 +57,7 @@ class Template
     public function url()
     {
         if (!defined('TEMPLATE_URL')) {
-            $this->app->content->define_constants();
+            $this->app->content_manager->define_constants();
         }
         if (defined('TEMPLATE_URL')) {
             return TEMPLATE_URL;
@@ -69,7 +69,7 @@ class Template
     {
 
         if (!defined('TEMPLATE_NAME')) {
-            $this->app->content->define_constants();
+            $this->app->content_manager->define_constants();
         }
         if (defined('TEMPLATE_NAME')) {
             return TEMPLATE_NAME;
@@ -304,7 +304,7 @@ class Template
         $cache_group = 'content/global';
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             if (isset($page['id'])) {
-                $this->app->content->define_constants($page);
+                $this->app->content_manager->define_constants($page);
             }
         }
 
@@ -382,7 +382,7 @@ class Template
         if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
 
             $get_layout_from_parent = false;
-            $par = $this->app->content->get_by_id($page['parent']);
+            $par = $this->app->content_manager->get_by_id($page['parent']);
 
             if (isset($par['layout_file']) and $par['layout_file'] != ''  and $par['layout_file'] != 'inherit') {
                 $get_layout_from_parent = $par;
@@ -391,10 +391,10 @@ class Template
                 $par['layout_file'] = 'index.php';
                 $get_layout_from_parent = $par;
             } else {
-                $inh = $this->app->content->get_inherited_parent($page['parent']);
+                $inh = $this->app->content_manager->get_inherited_parent($page['parent']);
 
                 if ($inh != false) {
-                    $par = $this->app->content->get_by_id($inh);
+                    $par = $this->app->content_manager->get_by_id($inh);
                     if (isset($par['active_site_template']) and isset($par['layout_file']) and $par['layout_file'] != '') {
                         $get_layout_from_parent = $par;
                     } else if (isset($par['active_site_template']) and isset($par['is_home']) and $par['is_home'] == 'y' and  (!isset($par['layout_file']) or $par['layout_file'] == '')) {
@@ -517,18 +517,18 @@ class Template
 
 
             /*   $inherit_from = array();
-               $inh = $this->app->content->get_inherited_parent($page['id']);
+               $inh = $this->app->content_manager->get_inherited_parent($page['id']);
                if($inh == false){
 
                } else {
                    $inherit_from[] =  $inh;
                }*/
-            $inherit_from = $this->app->content->get_parents($page['id']);
+            $inherit_from = $this->app->content_manager->get_parents($page['id']);
             $found = 0;
             if($inherit_from == false){
                 if(isset($page['parent'])){
 
-                    $par_test = $this->app->content->get_by_id($page['parent']);
+                    $par_test = $this->app->content_manager->get_by_id($page['parent']);
 
                     if(is_array($par_test)){
                         $inherit_from = array();
@@ -536,7 +536,7 @@ class Template
 
                             $inherit_from[] = $page['parent'];
                         } else {
-                            $inh = $this->app->content->get_inherited_parent($page['parent']);
+                            $inh = $this->app->content_manager->get_inherited_parent($page['parent']);
                             $inherit_from[] =  $inh;
                         }
 
@@ -548,7 +548,7 @@ class Template
             if (!empty($inherit_from)) {
                 foreach ($inherit_from as $value) {
                     if ($found == 0 and $value != $page['id']) {
-                        $par_c = $this->app->content->get_by_id($value);
+                        $par_c = $this->app->content_manager->get_by_id($value);
                         if (isset($par_c['id']) and isset($par_c['active_site_template']) and isset($par_c['layout_file']) and $par_c['layout_file'] != 'inherit') {
 
 
@@ -666,11 +666,11 @@ class Template
             $look_for_post = $page;
             if (isset($page['parent'])) {
                 $par_page = false;
-                $inh_par_page = $this->app->content->get_inherited_parent($page['parent']);
+                $inh_par_page = $this->app->content_manager->get_inherited_parent($page['parent']);
                 if ($inh_par_page != false) {
-                    $par_page = $this->app->content->get_by_id($inh_par_page);
+                    $par_page = $this->app->content_manager->get_by_id($inh_par_page);
                 } else {
-                    $par_page = $this->app->content->get_by_id($page['parent']);
+                    $par_page = $this->app->content_manager->get_by_id($page['parent']);
                 }
                 if (is_array($par_page)) {
                     // $page = $par_page;

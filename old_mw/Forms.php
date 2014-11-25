@@ -16,14 +16,14 @@ class Forms
         }
 
         if (!defined("MW_DB_TABLE_COUNTRIES")) {
-            define('MW_DB_TABLE_COUNTRIES', MW_TABLE_PREFIX . 'countries');
+            define('MW_DB_TABLE_COUNTRIES', get_table_prefix() . 'countries');
         }
         if (!defined("MW_DB_TABLE_FORMS_LISTS")) {
-            define('MW_DB_TABLE_FORMS_LISTS', MW_TABLE_PREFIX . 'forms_lists');
+            define('MW_DB_TABLE_FORMS_LISTS', get_table_prefix() . 'forms_lists');
         }
 
         if (!defined("MW_DB_TABLE_FORMS_DATA")) {
-            define('MW_DB_TABLE_FORMS_DATA', MW_TABLE_PREFIX . 'forms_data');
+            define('MW_DB_TABLE_FORMS_DATA', get_table_prefix() . 'forms_data');
             $this->db_init();
         }
     }
@@ -136,7 +136,7 @@ class Forms
 
     public function save_list($params)
     {
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             exit('You must be admin');
         }
@@ -171,9 +171,9 @@ class Forms
     {
 
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if (defined("MW_API_CALL")) {
-//            $validate_token = $this->app->user->csrf_validate($params);
+//            $validate_token = $this->app->user_manager->csrf_validate($params);
 //            if (!$adm) {
 //                if ($validate_token == false) {
 //                    return array('error' => 'Invalid token!');
@@ -217,11 +217,11 @@ class Forms
             if (!isset($params['captcha'])) {
                 return array('error' => 'Please enter the captcha answer!');
             } else {
-                $cap = $this->app->user->session_get('captcha');
+                $cap = $this->app->user_manager->session_get('captcha');
 
                 if ($for_id != false) {
                     $captcha_sid = 'captcha_' . $for_id;
-                    $cap_sid = $this->app->user->session_get($captcha_sid);
+                    $cap_sid = $this->app->user_manager->session_get($captcha_sid);
                     if ($cap_sid != false) {
                         $cap = $cap_sid;
                     }
@@ -296,7 +296,7 @@ class Forms
         $save = $this->app->database->save($table, $to_save);
 
         if (!empty($cf_to_save)) {
-            $table_custom_field = MW_TABLE_PREFIX . 'custom_fields';
+            $table_custom_field = get_table_prefix() . 'custom_fields';
             foreach ($cf_to_save as $key => $value) {
                 $new_field = array();
                 $new_field['copy_of_field'] = $value['id'];
@@ -353,7 +353,7 @@ class Forms
             }
             $admin_user_mails = array();
             if ($email_to == false) {
-                $admins = $this->app->user->get_all('is_admin=y');
+                $admins = $this->app->user_manager->get_all('is_admin=y');
                 if (is_array($admins) and !empty($admins)) {
                     foreach ($admins as $admin) {
                         if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))) {
@@ -461,7 +461,7 @@ class Forms
     public function delete_entry($data)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -475,7 +475,7 @@ class Forms
                 foreach ($fields as $key => $value) {
                     if (isset($value['id'])) {
                         $remid = $value['id'];
-                        $custom_field_table = MW_TABLE_PREFIX . 'custom_fields';
+                        $custom_field_table = get_table_prefix() . 'custom_fields';
                         $q = "DELETE FROM $custom_field_table WHERE id='$remid'";
                         $this->app->database->q($q);
                     }
@@ -491,7 +491,7 @@ class Forms
     public function delete_list($data)
     {
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -510,7 +510,7 @@ class Forms
         //this function is experimental
         set_time_limit(0);
 
-        $adm = $this->app->user->is_admin();
+        $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
