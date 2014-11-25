@@ -74,10 +74,14 @@ class Database
     {
 
         $assoc_name_new = $assoc_name;
+        static $contig_pref = false;
 
+        if (!$contig_pref) {
+            $contig_pref = Config::get('database.connections.mysql.prefix');
+        }
 
         if ($this->table_prefix == false) {
-            $this->table_prefix = Config::get('database.connections.mysql.prefix');
+            $this->table_prefix = $contig_pref;
         }
 
 
@@ -542,6 +546,7 @@ class Database
         if (isset($this->table_fields[$table])) {
             $fields = $this->table_fields[$table];
         } else {
+
             $fields = $this->get_fields($table);
             $this->table_fields[$table] = $fields;
         }
@@ -609,10 +614,13 @@ class Database
         if (isset($value[$hash])) {
             return $value[$hash];
         }
+       // dd(__FILE__.__LINE__);
+        $fields = DB::connection()->getSchemaBuilder()->getColumnListing($table);
 
+       // dd($fields);
 
         $table = $this->real_table_name($table);
-        $table = $this->escape_string($table);
+       // $table = $this->escape_string($table);
 
 
         $sql = " show columns from $table ";

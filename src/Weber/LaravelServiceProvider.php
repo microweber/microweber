@@ -64,7 +64,7 @@ class LaravelServiceProvider extends ServiceProvider
             return new Providers\Event($app);
         });
 
-        $this->app->bind('database', function ($app) {
+        $this->app->singleton('database', function ($app) {
             return new Providers\Database($app);
         });
 

@@ -1,6 +1,6 @@
- 
+
 <?php include (__DIR__.DS . 'header.php'); ?>
- <module type="admin/test" template="admin" name="a name" grad="kazanlak"  />
+ <module type="admin/test" template="admin" name="Comments" grad="kazanlak"  />
 
 <?php if(is_admin() == false): ?>
 <module type="users/login" template="admin" />
