@@ -30,14 +30,12 @@ use Illuminate\Cache\Repository;
 
 include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
 
-class LaravelServiceProvider extends ServiceProvider
+class MicroweberServiceProvider extends ServiceProvider
 {
 
 
     public function __construct($app)
     {
-
-
 
         ClassLoader::addDirectories(array(
             base_path() . '/userfiles/modules',
@@ -50,12 +48,6 @@ class LaravelServiceProvider extends ServiceProvider
 
     public function register()
     {
-
-//        $this->app->bindIf('cssssonfig.loader', function($app){
-//
-//            return new Utils\FileLoader(new Filesystem, $app['path'].'/config');
-//
-//         }, true);
 
         $this->app->bind('config', function ($app) {
             return new Providers\SaveConfig($app->getConfigLoader(), $app->environment());

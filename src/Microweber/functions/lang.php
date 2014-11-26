@@ -230,6 +230,18 @@ function __store_lang_file()
  */
 function current_lang()
 {
+
+   static $installed = null;
+
+    if($installed === null){
+        $installed = Config::get('microweber.is_installed');
+    }
+    if($installed == false){
+       return 'en';
+    }
+
+
+
     $lang = false;
     if (defined('MW_LANG') and MW_LANG != false) {
         $lang = MW_LANG;

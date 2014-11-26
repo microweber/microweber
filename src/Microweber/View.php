@@ -59,7 +59,6 @@ class View
 
         ob_start();
 
-
         if (is_array($this->v)) {
             foreach ($this->v as $item) {
                 if (is_file($item)) {

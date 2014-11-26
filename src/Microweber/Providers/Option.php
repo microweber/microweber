@@ -29,7 +29,7 @@ class Option
         api_expose('save_option');
 
         $this->set_table_names();
-        $this->db_init();
+       //  $this->db_init();
     }
 
     public function set_table_names($tables = false)
@@ -68,29 +68,29 @@ class Option
     {
 
 
-        $table_name = $this->tables['options'];
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'dateTime');
-        $fields_to_add[] = array('created_on', 'dateTime');
-
-        $fields_to_add[] = array('option_key', 'longText');
-        $fields_to_add[] = array('option_value', 'longText');
-        $fields_to_add[] = array('option_key2', 'longText');
-        $fields_to_add[] = array('option_value2', 'longText');
-        $fields_to_add[] = array('position', 'integer');
-
-        $fields_to_add[] = array('option_group', 'longText');
-        $fields_to_add[] = array('name', 'longText');
-        $fields_to_add[] = array('help', 'longText');
-        $fields_to_add[] = array('field_type', 'longText');
-        $fields_to_add[] = array('field_values', 'longText');
-
-        $fields_to_add[] = array('module', 'longText');
-        $fields_to_add[] = array('is_system', 'integer');
-
-        $this->app->database->build_table($table_name, $fields_to_add);
+//        $table_name = $this->tables['options'];
+//
+//        $fields_to_add = array();
+//
+//        $fields_to_add[] = array('updated_on', 'dateTime');
+//        $fields_to_add[] = array('created_on', 'dateTime');
+//
+//        $fields_to_add[] = array('option_key', 'longText');
+//        $fields_to_add[] = array('option_value', 'longText');
+//        $fields_to_add[] = array('option_key2', 'longText');
+//        $fields_to_add[] = array('option_value2', 'longText');
+//        $fields_to_add[] = array('position', 'integer');
+//
+//        $fields_to_add[] = array('option_group', 'longText');
+//        $fields_to_add[] = array('name', 'longText');
+//        $fields_to_add[] = array('help', 'longText');
+//        $fields_to_add[] = array('field_type', 'longText');
+//        $fields_to_add[] = array('field_values', 'longText');
+//
+//        $fields_to_add[] = array('module', 'longText');
+//        $fields_to_add[] = array('is_system', 'integer');
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
 
         return true;
     }
@@ -441,7 +441,7 @@ class Option
      * $option['option_value'] = 'my value';
      * $option['option_key'] = 'my_option';
      * $option['option_group'] = 'my_option_group';
-     * mw('option')->save($option);
+     * mw()->option->save($option);
      *
      *
      *

@@ -13,11 +13,8 @@
     <?php
 
     $rand = uniqid();
-
     $ua = $_SERVER["HTTP_USER_AGENT"];
-
     $defhost = strpos($_SERVER["HTTP_USER_AGENT"], 'Linux') ? 'localhost' : '127.0.0.1';
-
    ?>
     <script type="text/javascript">
 
