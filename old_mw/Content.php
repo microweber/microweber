@@ -65,6 +65,8 @@ class Content
     public $table_prefix = false;
     public $pinger;
 
+    static $skip_pages_starting_with_url = ['admin', 'api', 'module'];
+
     function __construct($app = null)
     {
         if (!is_object($this->app)) {
@@ -617,15 +619,12 @@ class Content
         $url = rtrim($url, '?');
         $url = rtrim($url, '#');
 
-        global $mw_skip_pages_starting_with_url;
 
 
-        if (defined('MW_BACKEND')) {
-            //   return false;
-        }
-        if (is_array($mw_skip_pages_starting_with_url)) {
+
+        if (is_array(self::$skip_pages_starting_with_url)) {
             $segs = explode('/', $url);
-            foreach ($mw_skip_pages_starting_with_url as $skip_page_url) {
+            foreach (self::$skip_pages_starting_with_url as $skip_page_url) {
                 if (in_array($skip_page_url, $segs)) {
                     return false;
                 }
@@ -5964,6 +5963,6 @@ class Content
 
 }
 
-$mw_skip_pages_starting_with_url = array('admin']= 'api']= 'module');
+
 $mw_precached_links = array();
 $mw_global_content_memory = array();
