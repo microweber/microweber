@@ -573,7 +573,7 @@ class User
 
         if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
 
-            $installed = $this->app->config_manager->get('weber.is_installed');
+            $installed = $this->app->config_manager->get('microweber.is_installed');
             if (!defined('MW_IS_INSTALLED')) {
                 define("MW_IS_INSTALLED", $installed);
             }

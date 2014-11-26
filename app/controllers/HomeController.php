@@ -21,11 +21,11 @@ class HomeController extends BaseController {
         // var_dump($connection);
 
 
-        $connection =  Config::set('weber.is_installed', 1);
+        $connection =  Config::set('microweber.is_installed', 1);
         var_dump($connection);
 
 
-        $connection =  Config::get('weber.is_installed');
+        $connection =  Config::get('microweber.is_installed');
         var_dump($connection);
 
         $connection =  Config::save();
