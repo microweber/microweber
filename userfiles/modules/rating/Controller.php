@@ -52,7 +52,7 @@ class Controller
         $total_of_ratings = $this->model->get($get);
 
         $view_file = __DIR__ . DS . 'views' . DS . 'star_rating.php';
-        $view = new \Weber\View($view_file);
+        $view = new \Microweber\View($view_file);
         if ($rating_points > 0 and $total_of_ratings > 0) {
             $rating = $rating_points / $total_of_ratings;
         }
@@ -93,7 +93,7 @@ class Controller
         $total_of_ratings = $this->model->get($get);
 
         $view_file = __DIR__ . DS . 'views' . DS . 'simple_rating.php';
-        $view = new \Weber\View($view_file);
+        $view = new \Microweber\View($view_file);
         if ($rating_points > 0 and $total_of_ratings > 0) {
             $rating = $rating_points / $total_of_ratings;
         }
@@ -134,7 +134,7 @@ class Controller
         $total_of_ratings = $this->model->get($get);
 
         $view_file = __DIR__ . DS . 'views' . DS . 'comment_rating.php';
-        $view = new \Weber\View($view_file);
+        $view = new \Microweber\View($view_file);
         if ($rating_points > 0 and $total_of_ratings > 0) {
             $rating = $rating_points / $total_of_ratings;
         }

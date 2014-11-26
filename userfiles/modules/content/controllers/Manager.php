@@ -3,7 +3,7 @@
 
 namespace Microweber\content\controllers;
 
-use Weber\View;
+use Microweber\View;
 
 class Manager
 {

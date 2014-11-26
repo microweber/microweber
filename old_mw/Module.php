@@ -435,7 +435,7 @@ class Module
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
-            $l1 = new \Weber\View($try_file1);
+            $l1 = new \Microweber\View($try_file1);
             $l1->config = $config;
             $l1->app = $this->app;
             if (!empty($config)) {
@@ -495,7 +495,7 @@ class Module
             unset($l1);
             if ($lic != false and isset($lic["error"]) and ($lic["error"] == 'no_license_found')) {
                 $lic_l1_try_file1 = MW_ADMIN_VIEWS_DIR . 'activate_license.php';
-                $lic_l1 = new \Weber\View($lic_l1_try_file1);
+                $lic_l1 = new \Microweber\View($lic_l1_try_file1);
 
                 $lic_l1->config = $config;
                 $lic_l1->params = $attrs;

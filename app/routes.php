@@ -13,26 +13,26 @@
 
 
 
-Route::any('/', '\Weber\Controllers\DefaultController@index');
-//Route::any('/{slug}', '\Weber\Controllers\DefaultController@index');
-//Route::any('/apijs/{slug}', '\Weber\Controllers\DefaultController@apijs');
+Route::any('/', '\Microweber\Controllers\DefaultController@index');
+//Route::any('/{slug}', '\Microweber\Controllers\DefaultController@index');
+//Route::any('/apijs/{slug}', '\Microweber\Controllers\DefaultController@apijs');
 
-Route::any('/api', '\Weber\Controllers\DefaultController@api');
-Route::any('/api/{slug}', '\Weber\Controllers\DefaultController@api');
-Route::any('/module/{slug}', '\Weber\Controllers\DefaultController@module');
-//Route::any('/admin', '\Weber\Controllers\DefaultController@admin');
+Route::any('/api', '\Microweber\Controllers\DefaultController@api');
+Route::any('/api/{slug}', '\Microweber\Controllers\DefaultController@api');
+Route::any('/module/{slug}', '\Microweber\Controllers\DefaultController@module');
+//Route::any('/admin', '\Microweber\Controllers\DefaultController@admin');
 
 //Route::any('admin/{all}', function(){
-//    return '\Weber\Controllers\DefaultController@admin';
+//    return '\Microweber\Controllers\DefaultController@admin';
 //})->where('all', '/.*');
-Route::any('/admin', '\Weber\Controllers\AdminController@index');
-Route::any('/admin/', '\Weber\Controllers\AdminController@index');
-Route::any('/admin/{slashData?}', '\Weber\Controllers\AdminController@index')
+Route::any('/admin', '\Microweber\Controllers\AdminController@index');
+Route::any('/admin/', '\Microweber\Controllers\AdminController@index');
+Route::any('/admin/{slashData?}', '\Microweber\Controllers\AdminController@index')
     ->where('slashData', '(.*)');
 
 //Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'before' => 'auth'), function()
 //{
-//    Route::get('/', '\Weber\Controllers\DefaultController@admin');
+//    Route::get('/', '\Microweber\Controllers\DefaultController@admin');
 //});
 
 
@@ -43,26 +43,26 @@ Route::any('/admin/{slashData?}', '\Weber\Controllers\AdminController@index')
 
 Route::get('api/{all}', array(
     'as' => 'api',
-    'uses' => '\Weber\Controllers\DefaultController@api'
+    'uses' => '\Microweber\Controllers\DefaultController@api'
 ))->where('all', '.*');;
-Route::any('/apijs', '\Weber\Controllers\DefaultController@apijs');
-Route::any('/apijs_settings', '\Weber\Controllers\DefaultController@apijs_settings');
+Route::any('/apijs', '\Microweber\Controllers\DefaultController@apijs');
+Route::any('/apijs_settings', '\Microweber\Controllers\DefaultController@apijs_settings');
 Route::get('apijs/{all}', array(
     'as' => 'apijs',
-    'uses' => '\Weber\Controllers\DefaultController@apijs'
+    'uses' => '\Microweber\Controllers\DefaultController@apijs'
 ))->where('all', '.*');;
 Route::get('{all}', array(
     'as' => 'all',
-    'uses' => '\Weber\Controllers\DefaultController@index'
+    'uses' => '\Microweber\Controllers\DefaultController@index'
 ))->where('all', '.*');;
 
 
 //Route::any('api/{all}', function(){
-//    return '\Weber\Controllers\DefaultController@api';
+//    return '\Microweber\Controllers\DefaultController@api';
 //})->where('all', '.*');
 
 //Route::any('{all}', function(){
-//    return '\Weber\Controllers\DefaultController@indsssex';
+//    return '\Microweber\Controllers\DefaultController@indsssex';
 //})->where('all', '.*');
 
 
