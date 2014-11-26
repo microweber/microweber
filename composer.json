@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "v4.2.11",
+		"laravel/framework": "v4.2.*",
 		"artdevue/fcache": "dev-master" 
 		 
 

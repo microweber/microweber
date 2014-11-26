@@ -614,13 +614,13 @@ class Database
         if (isset($value[$hash])) {
             return $value[$hash];
         }
-       // dd(__FILE__.__LINE__);
+        // dd(__FILE__.__LINE__);
         $fields = DB::connection()->getSchemaBuilder()->getColumnListing($table);
 
-       // dd($fields);
+        // dd($fields);
 
         $table = $this->real_table_name($table);
-       // $table = $this->escape_string($table);
+        // $table = $this->escape_string($table);
 
 
         $sql = " show columns from $table ";

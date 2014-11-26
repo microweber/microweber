@@ -12,6 +12,10 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class BaseModel extends Eloquent
 {
+    const CREATED_AT = 'created_on';
+    const UPDATED_AT = 'updated_on';
+
+    public $table_cache_ttl = 60;
     private $filter_keys = ['id', 'module', 'type'];
     public $default_filters = [
         'single',
@@ -36,14 +40,6 @@ class BaseModel extends Eloquent
 
     public function __construct()
     {
-    }
-
-    // called once when Post is first used
-    public static function boot()
-    {
-        // there is some logic in this method, so don't forget this!
-        parent::boot();
-
     }
 
     public function scopeItems($query, $params)
@@ -116,8 +112,16 @@ class BaseModel extends Eloquent
 
     public function get_fields($table)
     {
-        return DB::connection()->getSchemaBuilder()->getColumnListing($table);
+        $value = Cache::remember('model.columns.'.$table, $this->table_cache_ttl, function() use ($table)
+        {
+            return DB::connection()->getSchemaBuilder()->getColumnListing($table);
+        });
+        return $value;
+
     }
+
+
+
 
 }
 

@@ -128,7 +128,7 @@ class LaravelServiceProvider extends ServiceProvider
 //        });
 
 
-        Event::listen('ailluminate.query', function ($sql, $bindings, $time) {
+        Event::listen('illuminate.query', function ($sql, $bindings, $time) {
             echo $sql; // select * from my_table where id=?
             print_r($bindings); // Array ( [0] => 4 )
             echo $time; // 0.58
@@ -137,6 +137,8 @@ class LaravelServiceProvider extends ServiceProvider
             $sql = str_replace(array('%', '?'), array('%%', '%s'), $sql);
             $full_sql = vsprintf($sql, $bindings);
         });
+
+
         // $this->registerModules();
     }
 
