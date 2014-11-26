@@ -1729,5 +1729,51 @@
             "folder",
             "laravel"
         ]
+    },
+    {
+        "name": "philf/setting",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Phil-F/Setting.git",
+            "reference": "52e6336d8c511cd8027e90a461019df9a127ffd9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Phil-F/Setting/zipball/52e6336d8c511cd8027e90a461019df9a127ffd9",
+            "reference": "52e6336d8c511cd8027e90a461019df9a127ffd9",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "~4",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "3.7.*"
+        },
+        "time": "2014-07-20 10:36:44",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Philf\\Setting": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Phil Foulston",
+                "email": "info@weztec.com"
+            }
+        ],
+        "description": "Persistent configuration settings for Laravel - Create, Read, Update and Delete settings stored in files using JSON",
+        "keywords": [
+            "config",
+            "laravel"
+        ]
     }
 ]

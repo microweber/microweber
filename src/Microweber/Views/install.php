@@ -55,7 +55,7 @@
 
                 $data = $('#form_<?php print $rand; ?>').serialize();
 
-                $.post("<?php print mw('url')->string() ?>", $data,
+                $.post("<?php print site_url() ?>", $data,
                     function (data) {
                         if(data.indexOf('Warning') !== -1){
                           installprogressStop()
@@ -103,10 +103,10 @@
               holder.fadeIn();
             }
 
-            <?php $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt';
-                    $log_file_url = mw('url')->link_to_file($log_file);
+            <?php 
+                    $log_file_url = userfiles_url().'install_log.txt';
                 ?>
-          //      $.get('<?php print $log_file_url ?>', function (data) {
+       //         $.get('<?php print $log_file_url ?>', function (data) {
 //                  var data = data.replace(/\r/g, '');
 //                  var arr = data.split('\n'),
 //                      l = arr.length,
@@ -152,14 +152,14 @@
  <small class="version">v. <?php print MW_VERSION ?></small>
 <div class="mw-ui-box">
 <div class="mw-ui-box-header">
-<a href="http://microweber.com" target="_blank" id="logo">
+<a href="http://MicroweberCMS.com" target="_blank" id="logo">
     <span class="mw-icon-mw"></span>
 </a>
 
 
 
 
-</div>
+</div> 
 <div class="mw-ui-box-content">
 <div class="demo" id="demo-one">
 <div class="description">
@@ -178,9 +178,9 @@
 
     $check_pass = true;
     $server_check_errors = array();
-    if (version_compare(phpversion(), "5.3.0", "<=")) {
+    if (version_compare(phpversion(), "5.4.0", "<=")) {
         $check_pass = false;
-        $server_check_errors['php_version'] = _e("You must run PHP 5.3 or greater", true);
+        $server_check_errors['php_version'] = _e("You must run PHP 5.4 or greater", true);
     }
 
     $here = dirname(__FILE__) . DIRECTORY_SEPARATOR . uniqid();
@@ -246,10 +246,10 @@
         $server_check_errors['gd'] = _e("The GD extension must be loaded in PHP", true);
     }
 
-    if (defined('userfiles_path()') and is_dir(userfiles_path()) and !is_writable(userfiles_path())) {
+    if (defined('MW_USERFILES') and is_dir(MW_USERFILES) and !is_writable(MW_USERFILES)) {
         $check_pass = false;
-        $must_be = userfiles_path();
-        $server_check_errors['userfiles_path()'] = _e("The directory " . userfiles_path() . " must be writable", true);
+        $must_be = MW_USERFILES;
+        $server_check_errors['MW_USERFILES'] = _e("The directory " . MW_USERFILES . " must be writable", true);
     }
 
     if (defined('MW_CACHE_ROOT_DIR') and is_dir(MW_CACHE_ROOT_DIR) and !is_writable(MW_CACHE_ROOT_DIR)) {
@@ -326,7 +326,7 @@
                         <?php _e("MySQL hostname"); ?>
                         <span data-help="<?php _e("The address where your database is hosted."); ?>"><span class="mw-icon-help-outline mwahi"></span></span></label>
                     <input type="text" class="mw-ui-field" required autofocus
-                           name="DB_HOST" <?php if (isset($data['db']) == true and isset($data['db']['host']) == true and $data['db']['host'] != '{DB_HOST}'): ?> value="<?php print $data['db']['host'] ?>" <?php elseif (isset($data['db']) != true): ?> value="<?php print $defhost; ?>" <?php endif; ?> />
+                           name="db_host" <?php if (isset($data['db']) == true and isset($data['db']['host']) == true and $data['db']['host'] != '{db_host}'): ?> value="<?php print $data['db']['host'] ?>" <?php elseif (isset($data['db']) != true): ?> value="<?php print $defhost; ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
@@ -334,21 +334,21 @@
                         <span data-help="<?php _e("The username of your database."); ?>"><span class="mw-icon-help-outline mwahi tip"
                               ></span></span></label>
                     <input type="text" class="mw-ui-field" required
-                           name="DB_USER" <?php if (isset($data['db']) == true and isset($data['db']['user']) == true and $data['db']['user'] != '{DB_USER}'): ?> value="<?php print $data['db']['user'] ?>" <?php endif; ?> />
+                           name="db_user" <?php if (isset($data['db']) == true and isset($data['db']['user']) == true and $data['db']['user'] != '{db_user}'): ?> value="<?php print $data['db']['user'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("MySQL password"); ?>
                     </label>
                     <input type="password" class="mw-ui-field"
-                           name="DB_PASS" <?php if (isset($data['db']) == true and isset($data['db']['pass']) == true  and $data['db']['pass'] != '{DB_PASS}'): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
+                           name="" <?php if (isset($data['db']) == true and isset($data['db']['pass']) == true  and $data['db']['pass'] != '{}'): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
                         <?php _e("Database name"); ?>
                         <span data-help="<?php _e("The name of your database."); ?>"><span class="mw-icon-help-outline mwahi tip"></span></span></label>
                     <input type="text" class="mw-ui-field" required
-                           name="dbname" <?php if (isset($data['db']) == true and isset($data['db']['dbname']) == true   and $data['db']['dbname'] != '{dbname}'): ?> value="<?php print $data['db']['dbname'] ?>" <?php endif; ?> />
+                           name="db_name" <?php if (isset($data['db']) == true and isset($data['db']['db_name']) == true   and $data['db']['db_name'] != '{db_name}'): ?> value="<?php print $data['db']['db_name'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
@@ -363,8 +363,8 @@
 
 
                 <?php
-                $templates = mw('template')->site_templates();
-
+                $templates = mw()->template->site_templates();
+ 
 
                 ?>
                 <?php  if (is_array($templates) and !empty($templates)): ?>
@@ -439,7 +439,7 @@
 
 
 
-            <?php    $default_content_file = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
+            <?php    $default_content_file = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
             <?php if (is_file($default_content_file)): ?>
                 <div class="mw-ui-field-holder pull-left">
                     <label class="mw-ui-check">
@@ -452,11 +452,11 @@
             <?php endif; ?>
 
             <input type="submit" name="submit" class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right" value="<?php _e("Install"); ?>">
-            <?php    $default_content_file = MW_ROOTPATH . '.htaccess'; ?>
+            <?php    $default_content_file = mw_root_path() . '.htaccess'; ?>
 
 
             <div class="mw_clear"></div>
-            <input name="IS_INSTALLED" type="hidden" value="no" id="is_installed_<?php print $rand; ?>">
+            <input name="is_installed" type="hidden" value="no" id="is_installed_<?php print $rand; ?>">
             <input type="hidden" value="UTC" name="default_timezone"/>
         </form>
     <?php endif; ?>
@@ -490,6 +490,14 @@
 
 </div>
 </div>
-</div>
+</div><?php 
+
+
+include_once('variables.php'); ?>
 </body>
 </html>
+<?php
+
+ 
+
+
