@@ -56,268 +56,268 @@ class ContentManager
     {
 
 
-        $function_cache_id = serialize($this->tables);
-        $function_cache_id = 'content_db_tables_' . $this->table_prefix . __FUNCTION__ . crc32($function_cache_id);
-
-        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table_name = $this->tables['content'];
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'dateTime');
-        $fields_to_add[] = array('created_on', 'dateTime');
-        $fields_to_add[] = array('expires_on', 'dateTime');
-
-        $fields_to_add[] = array('created_by', 'integer');
-
-        $fields_to_add[] = array('edited_by', 'integer');
-
-
-        $fields_to_add[] = array('content_type', 'longText');
-        $fields_to_add[] = array('url', 'longText');
-        $fields_to_add[] = array('content_filename', 'longText');
-        $fields_to_add[] = array('title', 'longText');
-        $fields_to_add[] = array('parent', 'integer');
-        $fields_to_add[] = array('description', 'longText');
-        $fields_to_add[] = array('content_meta_title', 'longText');
-
-        $fields_to_add[] = array('content_meta_keywords', 'longText');
-        $fields_to_add[] = array('position', 'integer');
-
-        $fields_to_add[] = array('content', 'longText');
-        $fields_to_add[] = array('content_body', 'longText');
-
-        $fields_to_add[] = array('is_active', "integer");
-        $fields_to_add[] = array('is_home', "integer");
-        $fields_to_add[] = array('is_pinged', "integer");
-        $fields_to_add[] = array('is_shop', "integer");
-        $fields_to_add[] = array('is_deleted', "integer");
-        $fields_to_add[] = array('draft_of', 'integer');
-
-        $fields_to_add[] = array('require_login', "integer");
-
-        $fields_to_add[] = array('status', 'longText');
-
-        $fields_to_add[] = array('subtype', 'longText');
-        $fields_to_add[] = array('subtype_value', 'longText');
-
-
-        $fields_to_add[] = array('custom_type', 'longText');
-        $fields_to_add[] = array('custom_type_value', 'longText');
-
-
-        $fields_to_add[] = array('original_link', 'longText');
-        $fields_to_add[] = array('layout_file', 'longText');
-        $fields_to_add[] = array('layout_name', 'longText');
-        $fields_to_add[] = array('layout_style', 'longText');
-        $fields_to_add[] = array('active_site_template', 'longText');
-        $fields_to_add[] = array('session_id', 'string');
-        $fields_to_add[] = array('posted_on', 'dateTime');
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-
-        $this->app->database->add_table_index('url', $table_name, array('url(255)'));
-        $this->app->database->add_table_index('title', $table_name, array('title(255)'));
-
-
-        $table_name = $this->tables['content_data'];
-
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'dateTime');
-        $fields_to_add[] = array('created_on', 'dateTime');
-        $fields_to_add[] = array('created_by', 'integer');
-        $fields_to_add[] = array('edited_by', 'integer');
-        $fields_to_add[] = array('content_id', 'string');
-        $fields_to_add[] = array('field_name', 'longText');
-        $fields_to_add[] = array('field_value', 'longText');
-        $fields_to_add[] = array('session_id', 'string');
-        $fields_to_add[] = array('rel', 'longText');
-
-        $fields_to_add[] = array('rel_id', 'longText');
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-
-        $table_name = $this->tables['content_fields'];
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'dateTime');
-        $fields_to_add[] = array('created_on', 'dateTime');
-        $fields_to_add[] = array('created_by', 'integer');
-        $fields_to_add[] = array('edited_by', 'integer');
-        $fields_to_add[] = array('rel', 'longText');
-
-        $fields_to_add[] = array('rel_id', 'longText');
-        $fields_to_add[] = array('field', 'longText');
-        $fields_to_add[] = array('value', 'longText');
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-
-        $table_name = $this->tables['content_fields_drafts'];
-        $fields_to_add[] = array('session_id', 'string');
-        $fields_to_add[] = array('is_temp', "integer");
-        $fields_to_add[] = array('url', 'longText');
-
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-
-
-        $table_name = $this->tables['media'];
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'dateTime');
-        $fields_to_add[] = array('created_on', 'dateTime');
-        $fields_to_add[] = array('created_by', 'integer');
-        $fields_to_add[] = array('edited_by', 'integer');
-        $fields_to_add[] = array('session_id', 'string');
-        $fields_to_add[] = array('rel', 'longText');
-
-        $fields_to_add[] = array('rel_id', "string");
-        $fields_to_add[] = array('media_type', 'longText');
-        $fields_to_add[] = array('position', 'integer');
-        $fields_to_add[] = array('title', 'longText');
-        $fields_to_add[] = array('description', 'longText');
-        $fields_to_add[] = array('embed_code', 'longText');
-        $fields_to_add[] = array('filename', 'longText');
-
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        $this->app->database->add_table_index('media_type', $table_name, array('media_type(55)'));
-
-
-        $table_name = $this->tables['custom_fields'];
-
-        $fields_to_add = array();
-        $fields_to_add[] = array('rel', 'longText');
-        $fields_to_add[] = array('rel_id', 'longText');
-        $fields_to_add[] = array('position', 'integer');
-        $fields_to_add[] = array('type', 'longText');
-        $fields_to_add[] = array('name', 'longText');
-        $fields_to_add[] = array('value', 'longText');
-        $fields_to_add[] = array('values', 'longText');
-        $fields_to_add[] = array('num_value', 'float');
-
-
-        $fields_to_add[] = array('updated_on', 'dateTime');
-        $fields_to_add[] = array('created_on', 'dateTime');
-        $fields_to_add[] = array('created_by', 'integer');
-        $fields_to_add[] = array('edited_by', 'integer');
-        $fields_to_add[] = array('session_id', 'string');
-
-
-        $fields_to_add[] = array('custom_field_name', 'longText');
-        $fields_to_add[] = array('custom_field_name_plain', 'longText');
-
-
-        $fields_to_add[] = array('custom_field_value', 'longText');
-
-
-        $fields_to_add[] = array('custom_field_type', 'longText');
-        $fields_to_add[] = array('custom_field_values', 'longText');
-        $fields_to_add[] = array('custom_field_values_plain', 'longText');
-
-        $fields_to_add[] = array('field_for', 'longText');
-        $fields_to_add[] = array('custom_field_field_for', 'longText');
-        $fields_to_add[] = array('custom_field_help_text', 'longText');
-        $fields_to_add[] = array('options', 'longText');
-
-
-        $fields_to_add[] = array('custom_field_is_active', "integer");
-        $fields_to_add[] = array('custom_field_required', "integer");
-        $fields_to_add[] = array('copy_of_field', 'integer');
-
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(55)'));
-        $this->app->database->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
-
-
-        $table_name = $this->tables['menus'];
-
-        $fields_to_add = array();
-        $fields_to_add[] = array('title', 'longText');
-        $fields_to_add[] = array('item_type', 'string');
-        $fields_to_add[] = array('parent_id', 'integer');
-        $fields_to_add[] = array('content_id', 'integer');
-        $fields_to_add[] = array('categories_id', 'integer');
-        $fields_to_add[] = array('position', 'integer');
-        $fields_to_add[] = array('updated_on', 'dateTime');
-        $fields_to_add[] = array('created_on', 'dateTime');
-        $fields_to_add[] = array('is_active', "integer");
-        $fields_to_add[] = array('description', 'longText');
-        $fields_to_add[] = array('url', 'longText');
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        $table_name = $this->tables['categories'];
-
-        $fields_to_add = array();
-
-        $fields_to_add[] = array('updated_on', 'dateTime');
-        $fields_to_add[] = array('created_on', 'dateTime');
-        $fields_to_add[] = array('created_by', 'integer');
-        $fields_to_add[] = array('edited_by', 'integer');
-        $fields_to_add[] = array('data_type', 'longText');
-        $fields_to_add[] = array('title', 'longText');
-        $fields_to_add[] = array('parent_id', 'integer');
-        $fields_to_add[] = array('description', 'longText');
-        $fields_to_add[] = array('content', 'longText');
-        $fields_to_add[] = array('content_type', 'longText');
-        $fields_to_add[] = array('rel', 'longText');
-
-        $fields_to_add[] = array('rel_id', 'integer');
-
-        $fields_to_add[] = array('position', 'integer');
-        $fields_to_add[] = array('is_deleted', "integer");
-        $fields_to_add[] = array('users_can_create_subcategories', "integer");
-        $fields_to_add[] = array('users_can_create_content', "integer");
-        $fields_to_add[] = array('users_can_create_content_allowed_usergroups', 'longText');
-
-        $fields_to_add[] = array('categories_content_type', 'longText');
-        $fields_to_add[] = array('categories_silo_keywords', 'longText');
-
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
-        $this->app->database->add_table_index('parent_id', $table_name, array('parent_id'));
-
-        $table_name = $this->tables['categories_items'];
-
-        $fields_to_add = array();
-        $fields_to_add[] = array('parent_id', 'integer');
-        $fields_to_add[] = array('rel', 'longText');
-
-        $fields_to_add[] = array('rel_id', 'integer');
-        $fields_to_add[] = array('content_type', 'longText');
-        $fields_to_add[] = array('data_type', 'longText');
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
-        $this->app->database->add_table_index('parent_id', $table_name, array('parent_id'));
-
-        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
-        return true;
+//        $function_cache_id = serialize($this->tables);
+//        $function_cache_id = 'content_db_tables_' . $this->table_prefix . __FUNCTION__ . crc32($function_cache_id);
+//
+//        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
+//
+//        if (($cache_content) != false) {
+//
+//            return $cache_content;
+//        }
+//
+//        $table_name = $this->tables['content'];
+//
+//        $fields_to_add = array();
+//
+//        $fields_to_add[] = array('updated_on', 'dateTime');
+//        $fields_to_add[] = array('created_on', 'dateTime');
+//        $fields_to_add[] = array('expires_on', 'dateTime');
+//
+//        $fields_to_add[] = array('created_by', 'integer');
+//
+//        $fields_to_add[] = array('edited_by', 'integer');
+//
+//
+//        $fields_to_add[] = array('content_type', 'longText');
+//        $fields_to_add[] = array('url', 'longText');
+//        $fields_to_add[] = array('content_filename', 'longText');
+//        $fields_to_add[] = array('title', 'longText');
+//        $fields_to_add[] = array('parent', 'integer');
+//        $fields_to_add[] = array('description', 'longText');
+//        $fields_to_add[] = array('content_meta_title', 'longText');
+//
+//        $fields_to_add[] = array('content_meta_keywords', 'longText');
+//        $fields_to_add[] = array('position', 'integer');
+//
+//        $fields_to_add[] = array('content', 'longText');
+//        $fields_to_add[] = array('content_body', 'longText');
+//
+//        $fields_to_add[] = array('is_active', "integer");
+//        $fields_to_add[] = array('is_home', "integer");
+//        $fields_to_add[] = array('is_pinged', "integer");
+//        $fields_to_add[] = array('is_shop', "integer");
+//        $fields_to_add[] = array('is_deleted', "integer");
+//        $fields_to_add[] = array('draft_of', 'integer');
+//
+//        $fields_to_add[] = array('require_login', "integer");
+//
+//        $fields_to_add[] = array('status', 'longText');
+//
+//        $fields_to_add[] = array('subtype', 'longText');
+//        $fields_to_add[] = array('subtype_value', 'longText');
+//
+//
+//        $fields_to_add[] = array('custom_type', 'longText');
+//        $fields_to_add[] = array('custom_type_value', 'longText');
+//
+//
+//        $fields_to_add[] = array('original_link', 'longText');
+//        $fields_to_add[] = array('layout_file', 'longText');
+//        $fields_to_add[] = array('layout_name', 'longText');
+//        $fields_to_add[] = array('layout_style', 'longText');
+//        $fields_to_add[] = array('active_site_template', 'longText');
+//        $fields_to_add[] = array('session_id', 'string');
+//        $fields_to_add[] = array('posted_on', 'dateTime');
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//
+//        $this->app->database->add_table_index('url', $table_name, array('url(255)'));
+//        $this->app->database->add_table_index('title', $table_name, array('title(255)'));
+//
+//
+//        $table_name = $this->tables['content_data'];
+//
+//
+//        $fields_to_add = array();
+//
+//        $fields_to_add[] = array('updated_on', 'dateTime');
+//        $fields_to_add[] = array('created_on', 'dateTime');
+//        $fields_to_add[] = array('created_by', 'integer');
+//        $fields_to_add[] = array('edited_by', 'integer');
+//        $fields_to_add[] = array('content_id', 'string');
+//        $fields_to_add[] = array('field_name', 'longText');
+//        $fields_to_add[] = array('field_value', 'longText');
+//        $fields_to_add[] = array('session_id', 'string');
+//        $fields_to_add[] = array('rel', 'longText');
+//
+//        $fields_to_add[] = array('rel_id', 'longText');
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//
+//        $table_name = $this->tables['content_fields'];
+//
+//        $fields_to_add = array();
+//
+//        $fields_to_add[] = array('updated_on', 'dateTime');
+//        $fields_to_add[] = array('created_on', 'dateTime');
+//        $fields_to_add[] = array('created_by', 'integer');
+//        $fields_to_add[] = array('edited_by', 'integer');
+//        $fields_to_add[] = array('rel', 'longText');
+//
+//        $fields_to_add[] = array('rel_id', 'longText');
+//        $fields_to_add[] = array('field', 'longText');
+//        $fields_to_add[] = array('value', 'longText');
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
+//        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+//
+//        $table_name = $this->tables['content_fields_drafts'];
+//        $fields_to_add[] = array('session_id', 'string');
+//        $fields_to_add[] = array('is_temp', "integer");
+//        $fields_to_add[] = array('url', 'longText');
+//
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
+//        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+//
+//
+//        $table_name = $this->tables['media'];
+//
+//        $fields_to_add = array();
+//
+//        $fields_to_add[] = array('updated_on', 'dateTime');
+//        $fields_to_add[] = array('created_on', 'dateTime');
+//        $fields_to_add[] = array('created_by', 'integer');
+//        $fields_to_add[] = array('edited_by', 'integer');
+//        $fields_to_add[] = array('session_id', 'string');
+//        $fields_to_add[] = array('rel', 'longText');
+//
+//        $fields_to_add[] = array('rel_id', "string");
+//        $fields_to_add[] = array('media_type', 'longText');
+//        $fields_to_add[] = array('position', 'integer');
+//        $fields_to_add[] = array('title', 'longText');
+//        $fields_to_add[] = array('description', 'longText');
+//        $fields_to_add[] = array('embed_code', 'longText');
+//        $fields_to_add[] = array('filename', 'longText');
+//
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
+//        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+//        $this->app->database->add_table_index('media_type', $table_name, array('media_type(55)'));
+//
+//
+//        $table_name = $this->tables['custom_fields'];
+//
+//        $fields_to_add = array();
+//        $fields_to_add[] = array('rel', 'longText');
+//        $fields_to_add[] = array('rel_id', 'longText');
+//        $fields_to_add[] = array('position', 'integer');
+//        $fields_to_add[] = array('type', 'longText');
+//        $fields_to_add[] = array('name', 'longText');
+//        $fields_to_add[] = array('value', 'longText');
+//        $fields_to_add[] = array('values', 'longText');
+//        $fields_to_add[] = array('num_value', 'float');
+//
+//
+//        $fields_to_add[] = array('updated_on', 'dateTime');
+//        $fields_to_add[] = array('created_on', 'dateTime');
+//        $fields_to_add[] = array('created_by', 'integer');
+//        $fields_to_add[] = array('edited_by', 'integer');
+//        $fields_to_add[] = array('session_id', 'string');
+//
+//
+//        $fields_to_add[] = array('custom_field_name', 'longText');
+//        $fields_to_add[] = array('custom_field_name_plain', 'longText');
+//
+//
+//        $fields_to_add[] = array('custom_field_value', 'longText');
+//
+//
+//        $fields_to_add[] = array('custom_field_type', 'longText');
+//        $fields_to_add[] = array('custom_field_values', 'longText');
+//        $fields_to_add[] = array('custom_field_values_plain', 'longText');
+//
+//        $fields_to_add[] = array('field_for', 'longText');
+//        $fields_to_add[] = array('custom_field_field_for', 'longText');
+//        $fields_to_add[] = array('custom_field_help_text', 'longText');
+//        $fields_to_add[] = array('options', 'longText');
+//
+//
+//        $fields_to_add[] = array('custom_field_is_active', "integer");
+//        $fields_to_add[] = array('custom_field_required', "integer");
+//        $fields_to_add[] = array('copy_of_field', 'integer');
+//
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
+//        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+//        $this->app->database->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
+//
+//
+//        $table_name = $this->tables['menus'];
+//
+//        $fields_to_add = array();
+//        $fields_to_add[] = array('title', 'longText');
+//        $fields_to_add[] = array('item_type', 'string');
+//        $fields_to_add[] = array('parent_id', 'integer');
+//        $fields_to_add[] = array('content_id', 'integer');
+//        $fields_to_add[] = array('categories_id', 'integer');
+//        $fields_to_add[] = array('position', 'integer');
+//        $fields_to_add[] = array('updated_on', 'dateTime');
+//        $fields_to_add[] = array('created_on', 'dateTime');
+//        $fields_to_add[] = array('is_active', "integer");
+//        $fields_to_add[] = array('description', 'longText');
+//        $fields_to_add[] = array('url', 'longText');
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        $table_name = $this->tables['categories'];
+//
+//        $fields_to_add = array();
+//
+//        $fields_to_add[] = array('updated_on', 'dateTime');
+//        $fields_to_add[] = array('created_on', 'dateTime');
+//        $fields_to_add[] = array('created_by', 'integer');
+//        $fields_to_add[] = array('edited_by', 'integer');
+//        $fields_to_add[] = array('data_type', 'longText');
+//        $fields_to_add[] = array('title', 'longText');
+//        $fields_to_add[] = array('parent_id', 'integer');
+//        $fields_to_add[] = array('description', 'longText');
+//        $fields_to_add[] = array('content', 'longText');
+//        $fields_to_add[] = array('content_type', 'longText');
+//        $fields_to_add[] = array('rel', 'longText');
+//
+//        $fields_to_add[] = array('rel_id', 'integer');
+//
+//        $fields_to_add[] = array('position', 'integer');
+//        $fields_to_add[] = array('is_deleted', "integer");
+//        $fields_to_add[] = array('users_can_create_subcategories', "integer");
+//        $fields_to_add[] = array('users_can_create_content', "integer");
+//        $fields_to_add[] = array('users_can_create_content_allowed_usergroups', 'longText');
+//
+//        $fields_to_add[] = array('categories_content_type', 'longText');
+//        $fields_to_add[] = array('categories_silo_keywords', 'longText');
+//
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
+//        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
+//        $this->app->database->add_table_index('parent_id', $table_name, array('parent_id'));
+//
+//        $table_name = $this->tables['categories_items'];
+//
+//        $fields_to_add = array();
+//        $fields_to_add[] = array('parent_id', 'integer');
+//        $fields_to_add[] = array('rel', 'longText');
+//
+//        $fields_to_add[] = array('rel_id', 'integer');
+//        $fields_to_add[] = array('content_type', 'longText');
+//        $fields_to_add[] = array('data_type', 'longText');
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
+//        $this->app->database->add_table_index('parent_id', $table_name, array('parent_id'));
+//
+//        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
+//        return true;
 
     }
 

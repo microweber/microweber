@@ -242,7 +242,7 @@ class Notifications
         $fields_to_add['created_by']= 'integer';
         $fields_to_add['edited_by']= 'integer';
         $fields_to_add['data_type']= 'longText';
-        $fields_to_add['title']= 'longlongText';
+        $fields_to_add['title']= 'longText';
         $fields_to_add['description']= 'longText';
         $fields_to_add['content']= 'longText';
         $fields_to_add['module']= 'longText';

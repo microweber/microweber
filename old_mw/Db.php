@@ -183,9 +183,9 @@ class Db
      * $fields_to_add['updated_on']= 'dateTime';
      * $fields_to_add['created_by']= 'integer';
      * $fields_to_add['content_type']= 'longText';
-     * $fields_to_add['url']= 'longlongText';
+     * $fields_to_add['url']= 'longText';
      * $fields_to_add['content_filename']= 'longText';
-     * $fields_to_add['title']= 'longlongText';
+     * $fields_to_add['title']= 'longText';
      * $fields_to_add['is_active']= "string";
      * $fields_to_add['is_deleted']= "string";
      *   mw('db')->build_table($table_name, $fields_to_add);
@@ -319,7 +319,7 @@ class Db
                 switch ($field_type) {
                     case 'text':
                     case 'content':
-                        $the_field[1] = 'longlongText';
+                        $the_field[1] = 'longText';
                         break;
                     case 'title':
                         $the_field[1] = 'longText';

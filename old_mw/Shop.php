@@ -89,165 +89,165 @@ class Shop
 
     public function db_init()
     {
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = 'shop' . __FUNCTION__ . crc32($function_cache_id);
-
-        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table_name = $this->tables['cart'];
-
-        $fields_to_add = array();
-        $fields_to_add['title']= 'longText';
-        $fields_to_add['is_active']= "string";
-        $fields_to_add['rel_id']= 'integer';
-        $fields_to_add['rel']= 'string(350)  default NULL ');
-        $fields_to_add['updated_on']= 'dateTime';
-        $fields_to_add['created_on']= 'dateTime';
-        $fields_to_add['price']= 'float default NULL';
-        $fields_to_add['currency']= 'string(33)  default NULL ');
-        $fields_to_add['session_id']= 'string(255)  default NULL ');
-        $fields_to_add['qty']= 'integer';
-        $fields_to_add['other_info']= 'longText';
-        $fields_to_add['order_completed']= "string";
-        $fields_to_add['order_id']= 'string(255)  default NULL ');
-        $fields_to_add['skip_promo_code']= "string";
-        $fields_to_add['created_by']= 'integer';
-        $fields_to_add['custom_fields_data']= 'longText';
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        // $this->app->database->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        $this->app->database->add_table_index('rel', $table_name, array('rel'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
-
-        $this->app->database->add_table_index('session_id', $table_name, array('session_id'));
-
-        $table_name = $this->tables['cart_orders'];
-
-        $fields_to_add = array();
-
-        $fields_to_add['updated_on']= 'dateTime';
-        $fields_to_add['created_on']= 'dateTime';
-        $fields_to_add['country']= 'string(255)  default NULL ');
-        $fields_to_add['promo_code']= 'longText';
-        $fields_to_add['amount']= 'float default NULL';
-        $fields_to_add['transaction_id']= 'longText';
-        $fields_to_add['shipping_service']= 'longText';
-        $fields_to_add['shipping']= 'float default NULL';
-        $fields_to_add['currency']= 'string(33)  default NULL ');
-
-        $fields_to_add['currency_code']= 'string(33)  default NULL ');
-
-        $fields_to_add['first_name']= 'longText';
-
-        $fields_to_add['last_name']= 'longText';
-
-        $fields_to_add['email']= 'longText';
-
-        $fields_to_add['city']= 'longText';
-
-        $fields_to_add['state']= 'longText';
-
-        $fields_to_add['zip']= 'longText';
-        $fields_to_add['address']= 'longText';
-        $fields_to_add['address2']= 'longText';
-        $fields_to_add['phone']= 'longText';
-
-        $fields_to_add['created_by']= 'integer';
-        $fields_to_add['edited_by']= 'integer';
-        $fields_to_add['session_id']= 'string(255)  default NULL ');
-        $fields_to_add['order_completed']= "string";
-        $fields_to_add['is_paid']= "string";
-        $fields_to_add['url']= 'longText';
-        $fields_to_add['user_ip']= 'string(255)  default NULL ');
-        $fields_to_add['items_count']= 'integer';
-        $fields_to_add['custom_fields_data']= 'longText';
-
-        $fields_to_add['payment_gw']= 'TEXT  default NULL ');
-        $fields_to_add['payment_verify_token']= 'TEXT  default NULL ');
-        $fields_to_add['payment_amount']= 'float default NULL';
-        $fields_to_add['payment_currency']= 'string(255)  default NULL ');
-
-        $fields_to_add['payment_status']= 'string(255)  default NULL ');
-
-        $fields_to_add['payment_email']= 'longText';
-        $fields_to_add['payment_receiver_email']= 'longText';
-
-        $fields_to_add['payment_name']= 'longText';
-
-        $fields_to_add['payment_country']= 'longText';
-
-        $fields_to_add['payment_address']= 'longText';
-
-        $fields_to_add['payment_city']= 'longText';
-        $fields_to_add['payment_state']= 'longText';
-        $fields_to_add['payment_zip']= 'longText';
-
-        $fields_to_add['payer_id']= 'longText';
-
-        $fields_to_add['payer_status']= 'longText';
-        $fields_to_add['payment_type']= 'longText';
-        $fields_to_add['order_status']= 'string(255) default "pending" ');
-
-        $fields_to_add['payment_shipping']= 'float default NULL';
-
-        $fields_to_add['is_active']= "string";
-        $fields_to_add['rel_id']= 'integer';
-        $fields_to_add['rel']= 'string(350)  default NULL ');
-        $fields_to_add['price']= 'float default NULL';
-        $fields_to_add['other_info']= 'longText';
-        $fields_to_add['order_id']= 'string(255)  default NULL ');
-        $fields_to_add['skip_promo_code']= "string";
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        // $this->app->database->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
-        //  $this->app->database->add_table_index('rel', $table_name, array('rel'));
-        //  $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
-
-        $this->app->database->add_table_index('session_id', $table_name, array('session_id'));
-
-
-        $table_name = $this->tables['cart_shipping'];
-
-        $fields_to_add = array();
-        $fields_to_add['updated_on']= 'dateTime';
-        $fields_to_add['created_on']= 'dateTime';
-        $fields_to_add['is_active']= "string";
-
-        $fields_to_add['shipping_cost']= 'float default NULL';
-        $fields_to_add['shipping_cost_max']= 'float default NULL';
-        $fields_to_add['shipping_cost_above']= 'float default NULL';
-
-        $fields_to_add['shipping_country']= 'longText';
-        $fields_to_add['position']= 'integer';
-        $fields_to_add['shipping_type']= 'longText';
-
-
-        $fields_to_add['shipping_price_per_size']= 'float default NULL';
-        $fields_to_add['shipping_price_per_weight']= 'float default NULL';
-        $fields_to_add['shipping_price_per_item']= 'float default NULL';
-        $fields_to_add['shipping_price_custom']= 'float default NULL';
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-
-        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
-
-        return true;
+//        $function_cache_id = false;
+//
+//        $args = func_get_args();
+//
+//        foreach ($args as $k => $v) {
+//
+//            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+//        }
+//
+//        $function_cache_id = 'shop' . __FUNCTION__ . crc32($function_cache_id);
+//
+//        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
+//
+//        if (($cache_content) != false) {
+//
+//            return $cache_content;
+//        }
+//
+//        $table_name = $this->tables['cart'];
+//
+//        $fields_to_add = array();
+//        $fields_to_add['title']= 'longText';
+//        $fields_to_add['is_active']= "string";
+//        $fields_to_add['rel_id']= 'integer';
+//        $fields_to_add['rel']= 'string';
+//        $fields_to_add['updated_on']= 'dateTime';
+//        $fields_to_add['created_on']= 'dateTime';
+//        $fields_to_add['price']= 'float';
+//        $fields_to_add['currency']= 'string';
+//        $fields_to_add['session_id']= 'string';
+//        $fields_to_add['qty']= 'integer';
+//        $fields_to_add['other_info']= 'longText';
+//        $fields_to_add['order_completed']= "string";
+//        $fields_to_add['order_id']= 'string';
+//        $fields_to_add['skip_promo_code']= "string";
+//        $fields_to_add['created_by']= 'integer';
+//        $fields_to_add['custom_fields_data']= 'longText';
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        // $this->app->database->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+//        $this->app->database->add_table_index('rel', $table_name, array('rel'));
+//        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
+//
+//        $this->app->database->add_table_index('session_id', $table_name, array('session_id'));
+//
+//        $table_name = $this->tables['cart_orders'];
+//
+//        $fields_to_add = array();
+//
+//        $fields_to_add['updated_on']= 'dateTime';
+//        $fields_to_add['created_on']= 'dateTime';
+//        $fields_to_add['country']= 'string';
+//        $fields_to_add['promo_code']= 'longText';
+//        $fields_to_add['amount']= 'float';
+//        $fields_to_add['transaction_id']= 'longText';
+//        $fields_to_add['shipping_service']= 'longText';
+//        $fields_to_add['shipping']= 'float';
+//        $fields_to_add['currency']= 'string';
+//
+//        $fields_to_add['currency_code']= 'string';
+//
+//        $fields_to_add['first_name']= 'longText';
+//
+//        $fields_to_add['last_name']= 'longText';
+//
+//        $fields_to_add['email']= 'longText';
+//
+//        $fields_to_add['city']= 'longText';
+//
+//        $fields_to_add['state']= 'longText';
+//
+//        $fields_to_add['zip']= 'longText';
+//        $fields_to_add['address']= 'longText';
+//        $fields_to_add['address2']= 'longText';
+//        $fields_to_add['phone']= 'longText';
+//
+//        $fields_to_add['created_by']= 'integer';
+//        $fields_to_add['edited_by']= 'integer';
+//        $fields_to_add['session_id']= 'string';
+//        $fields_to_add['order_completed']= "string";
+//        $fields_to_add['is_paid']= "string";
+//        $fields_to_add['url']= 'longText';
+//        $fields_to_add['user_ip']= 'string';
+//        $fields_to_add['items_count']= 'integer';
+//        $fields_to_add['custom_fields_data']= 'longText';
+//
+//        $fields_to_add['payment_gw']= 'string';
+//        $fields_to_add['payment_verify_token']= 'string';
+//        $fields_to_add['payment_amount']= 'float';
+//        $fields_to_add['payment_currency']= 'string';
+//
+//        $fields_to_add['payment_status']= 'string';
+//
+//        $fields_to_add['payment_email']= 'longText';
+//        $fields_to_add['payment_receiver_email']= 'longText';
+//
+//        $fields_to_add['payment_name']= 'longText';
+//
+//        $fields_to_add['payment_country']= 'longText';
+//
+//        $fields_to_add['payment_address']= 'longText';
+//
+//        $fields_to_add['payment_city']= 'longText';
+//        $fields_to_add['payment_state']= 'longText';
+//        $fields_to_add['payment_zip']= 'longText';
+//
+//        $fields_to_add['payer_id']= 'longText';
+//
+//        $fields_to_add['payer_status']= 'longText';
+//        $fields_to_add['payment_type']= 'longText';
+//        $fields_to_add['order_status']= 'string';
+//
+//        $fields_to_add['payment_shipping']= 'float';
+//
+//        $fields_to_add['is_active']= "string";
+//        $fields_to_add['rel_id']= 'integer';
+//        $fields_to_add['rel']= 'string';
+//        $fields_to_add['price']= 'float';
+//        $fields_to_add['other_info']= 'longText';
+//        $fields_to_add['order_id']= 'string';
+//        $fields_to_add['skip_promo_code']= "string";
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        // $this->app->database->add_table_index ( 'title', $table_name, array ('title' ), "FULLTEXT" );
+//        //  $this->app->database->add_table_index('rel', $table_name, array('rel'));
+//        //  $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
+//
+//        $this->app->database->add_table_index('session_id', $table_name, array('session_id'));
+//
+//
+//        $table_name = $this->tables['cart_shipping'];
+//
+//        $fields_to_add = array();
+//        $fields_to_add['updated_on']= 'dateTime';
+//        $fields_to_add['created_on']= 'dateTime';
+//        $fields_to_add['is_active']= "string";
+//
+//        $fields_to_add['shipping_cost']= 'float';
+//        $fields_to_add['shipping_cost_max']= 'float';
+//        $fields_to_add['shipping_cost_above']= 'float';
+//
+//        $fields_to_add['shipping_country']= 'longText';
+//        $fields_to_add['position']= 'integer';
+//        $fields_to_add['shipping_type']= 'longText';
+//
+//
+//        $fields_to_add['shipping_price_per_size']= 'float';
+//        $fields_to_add['shipping_price_per_weight']= 'float';
+//        $fields_to_add['shipping_price_per_item']= 'float';
+//        $fields_to_add['shipping_price_custom']= 'float';
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//
+//        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
+//
+//        return true;
 
     }
 

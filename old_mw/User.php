@@ -149,16 +149,16 @@ class User
         $fields_to_add['rel_id']= 'longText';
         $fields_to_add['position']= 'integer';
 
-        $fields_to_add['field']= 'longlongText';
+        $fields_to_add['field']= 'longText';
         $fields_to_add['value']= 'longText';
-        $fields_to_add['module']= 'longlongText';
+        $fields_to_add['module']= 'longText';
 
         $fields_to_add['data_type']= 'longText';
-        $fields_to_add['title']= 'longlongText';
+        $fields_to_add['title']= 'longText';
         $fields_to_add['description']= 'longText';
         $fields_to_add['content']= 'longText';
         $fields_to_add['user_ip']= 'longText';
-        $fields_to_add['session_id']= 'longlongText';
+        $fields_to_add['session_id']= 'longText';
         $fields_to_add['is_system']= "string";
 
         $this->app->database->build_table($table_name, $fields_to_add);

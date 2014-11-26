@@ -9,7 +9,11 @@
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-
+/**
+ *
+ * @property BaseModel $where(string $column, string $operator = null, mixed $value = null, string $boolean = 'and')
+ *
+ */
 class BaseModel extends Eloquent
 {
     const CREATED_AT = 'created_on';

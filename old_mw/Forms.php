@@ -30,73 +30,73 @@ class Forms
 
     public function db_init()
     {
-        $function_cache_id = false;
-        $force = false;
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
-
-        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
-
-        if ($force == false and ($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table_name = MW_DB_TABLE_FORMS_DATA;
-
-        $fields_to_add = array();
-
-        //$fields_to_add['updated_on']= 'dateTime';
-        $fields_to_add['created_on']= 'dateTime';
-        $fields_to_add['created_by']= 'integer';
-        //$fields_to_add['edited_by']= 'integer';
-        $fields_to_add['rel']= 'longText';
-        $fields_to_add['rel_id']= 'longText';
-        //$fields_to_add['position']= 'integer';
-        $fields_to_add['list_id']= 'int(11) default 0');
-        $fields_to_add['form_values']= 'longText';
-        $fields_to_add['module_name']= 'longText';
-
-        $fields_to_add['url']= 'longText';
-        $fields_to_add['user_ip']= 'longText';
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        $this->app->database->add_table_index('list_id', $table_name, array('list_id'));
-
-        $table_name = MW_DB_TABLE_FORMS_LISTS;
-
-        $fields_to_add = array();
-
-        //$fields_to_add['updated_on']= 'dateTime';
-        $fields_to_add['created_on']= 'dateTime';
-        $fields_to_add['created_by']= 'integer';
-        $fields_to_add['title']= 'longlongText';
-        $fields_to_add['description']= 'longText';
-        $fields_to_add['custom_data']= 'longText';
-
-        $fields_to_add['module_name']= 'longText';
-        $fields_to_add['last_export']= 'dateTime';
-        $fields_to_add['last_sent']= 'dateTime';
-
-        $this->app->database->build_table($table_name, $fields_to_add);
-
-        $this->app->database->add_table_index('title', $table_name, array('title(55)'));
-
-
-        $table_sql = MW_INCLUDES_DIR . 'install' . DS . 'countries.sql';
-
-        $this->app->database->import_sql_file($table_sql);
-
-        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
+//        $function_cache_id = false;
+//        $force = false;
+//        $args = func_get_args();
+//
+//        foreach ($args as $k => $v) {
+//
+//            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
+//        }
+//
+//        $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
+//
+//        $cache_content = $this->app->cache_manager->get($function_cache_id, 'db');
+//
+//        if ($force == false and ($cache_content) != false) {
+//
+//            return $cache_content;
+//        }
+//
+//        $table_name = MW_DB_TABLE_FORMS_DATA;
+//
+//        $fields_to_add = array();
+//
+//        //$fields_to_add['updated_on']= 'dateTime';
+//        $fields_to_add['created_on']= 'dateTime';
+//        $fields_to_add['created_by']= 'integer';
+//        //$fields_to_add['edited_by']= 'integer';
+//        $fields_to_add['rel']= 'longText';
+//        $fields_to_add['rel_id']= 'longText';
+//        //$fields_to_add['position']= 'integer';
+//        $fields_to_add['list_id']= 'int(11) default 0');
+//        $fields_to_add['form_values']= 'longText';
+//        $fields_to_add['module_name']= 'longText';
+//
+//        $fields_to_add['url']= 'longText';
+//        $fields_to_add['user_ip']= 'longText';
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
+//        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+//        $this->app->database->add_table_index('list_id', $table_name, array('list_id'));
+//
+//        $table_name = MW_DB_TABLE_FORMS_LISTS;
+//
+//        $fields_to_add = array();
+//
+//        //$fields_to_add['updated_on']= 'dateTime';
+//        $fields_to_add['created_on']= 'dateTime';
+//        $fields_to_add['created_by']= 'integer';
+//        $fields_to_add['title']= 'longText';
+//        $fields_to_add['description']= 'longText';
+//        $fields_to_add['custom_data']= 'longText';
+//
+//        $fields_to_add['module_name']= 'longText';
+//        $fields_to_add['last_export']= 'dateTime';
+//        $fields_to_add['last_sent']= 'dateTime';
+//
+//        $this->app->database->build_table($table_name, $fields_to_add);
+//
+//        $this->app->database->add_table_index('title', $table_name, array('title(55)'));
+//
+//
+//        $table_sql = MW_INCLUDES_DIR . 'install' . DS . 'countries.sql';
+//
+//        $this->app->database->import_sql_file($table_sql);
+//
+//        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
         return true;
 
     }

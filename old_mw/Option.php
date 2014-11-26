@@ -92,9 +92,9 @@ class Option
         $fields_to_add['created_on']= 'dateTime';
 
         $fields_to_add['option_key']= 'longText';
-        $fields_to_add['option_value']= 'longlongText';
+        $fields_to_add['option_value']= 'longText';
         $fields_to_add['option_key2']= 'longText';
-        $fields_to_add['option_value2']= 'longlongText';
+        $fields_to_add['option_value2']= 'longText';
         $fields_to_add['position']= 'integer';
 
         $fields_to_add['option_group']= 'longText';

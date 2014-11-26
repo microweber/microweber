@@ -13,27 +13,27 @@ $config['position'] = 10;
 $config['version'] = 0.33;
 
 
-$config['tables'] = array();
-$fields_to_add = array();
-$fields_to_add[] = array('rel', 'longText');
-$fields_to_add[] = array('rel_id', 'longText');
-$fields_to_add[] = array('updated_on', 'dateTime');
-$fields_to_add[] = array('created_on', 'dateTime');
-$fields_to_add[] = array('created_by', 'integer');
-$fields_to_add[] = array('edited_by', 'integer');
-$fields_to_add[] = array('comment_name', 'longText');
-$fields_to_add[] = array('comment_body', 'longText');
-$fields_to_add[] = array('comment_email', 'longText');
-$fields_to_add[] = array('comment_website', 'longText');
-$fields_to_add[] = array('is_moderated', "integer");
-$fields_to_add[] = array('from_url', 'longText');
-$fields_to_add[] = array('comment_subject', 'longText');
-
-
-$fields_to_add[] = array('is_new', "integer");
-
-$fields_to_add[] = array('for_newsletter', "integer");
-$fields_to_add[] = array('session_id', 'string');
+ $config['tables'] = array();
+ $fields_to_add = array();
+//$fields_to_add[] = array('rel', 'longText');
+//$fields_to_add[] = array('rel_id', 'longText');
+//$fields_to_add[] = array('updated_on', 'dateTime');
+//$fields_to_add[] = array('created_on', 'dateTime');
+//$fields_to_add[] = array('created_by', 'integer');
+//$fields_to_add[] = array('edited_by', 'integer');
+//$fields_to_add[] = array('comment_name', 'longText');
+//$fields_to_add[] = array('comment_body', 'longText');
+//$fields_to_add[] = array('comment_email', 'longText');
+//$fields_to_add[] = array('comment_website', 'longText');
+//$fields_to_add[] = array('is_moderated', "integer");
+//$fields_to_add[] = array('from_url', 'longText');
+//$fields_to_add[] = array('comment_subject', 'longText');
+//
+//
+//$fields_to_add[] = array('is_new', "integer");
+//
+//$fields_to_add[] = array('for_newsletter', "integer");
+//$fields_to_add[] = array('session_id', 'string');
 $config['tables']['comments'] = $fields_to_add;
 
 

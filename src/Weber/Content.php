@@ -1,25 +1,20 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: user
- * Date: 11/23/14
- * Time: 11:56 PM
+ * @property $comments
  */
 
-
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
-class Content extends Eloquent
+class Content extends BaseModel
 {
 
-    protected $table = 'content';
+    public $table = 'content';
+
 
     // called once when Post is first used
     public static function boot()
     {
         // there is some logic in this method, so don't forget this!
         parent::boot();
-
     }
 
     public function notifications()
@@ -33,9 +28,10 @@ class Content extends Eloquent
     }
 
 
-
-
-
+    public function init_db()
+    {
+        $table_name = $this->table;
+    }
 
 
 }

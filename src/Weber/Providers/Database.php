@@ -463,8 +463,7 @@ class Database extends DbUtils
             $id_to_return = DB::table($table_assoc_name)->insert($criteria);
 
         } else {
-            $id_to_return = DB::table($table_assoc_name)->update($criteria);
-
+            $id_to_return = DB::table($table_assoc_name)->where('id',$criteria['id'])->update($criteria);
         }
 
         if ($id_to_return == false) {

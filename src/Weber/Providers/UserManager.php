@@ -78,86 +78,86 @@ class UserManager
     {
 
 
-        $table_name = $this->tables['users'];
-
-        $fields_to_add = array();
-
-        $fields_to_add['updated_on'] = 'dateTime';
-        $fields_to_add['created_on'] = 'dateTime';
-        $fields_to_add['expires_on'] = 'dateTime';
-        $fields_to_add['last_login'] = 'dateTime';
-        $fields_to_add['last_login_ip'] = 'longText';
-
-        $fields_to_add['created_by'] = 'integer';
-
-        $fields_to_add['edited_by'] = 'integer';
-
-        $fields_to_add['username'] = 'longText';
-
-        $fields_to_add['password'] = 'longText';
-        $fields_to_add['email'] = 'longText';
-
-        $fields_to_add['is_active'] = "string";
-        $fields_to_add['is_admin'] = "string";
-        $fields_to_add['is_verified'] = "string";
-        $fields_to_add['is_public'] = "string";
-
-        $fields_to_add['basic_mode'] = "string";
-
-        $fields_to_add['first_name'] = 'longText';
-        $fields_to_add['last_name'] = 'longText';
-        $fields_to_add['thumbnail'] = 'longText';
-
-        $fields_to_add['parent_id'] = 'integer';
-
-        $fields_to_add['api_key'] = 'longText';
-
-        $fields_to_add['user_information'] = 'longText';
-        $fields_to_add['subscr_id'] = 'longText';
-        $fields_to_add['role'] = 'longText';
-        $fields_to_add['medium'] = 'longText';
-
-        $fields_to_add['oauth_uid'] = 'longText';
-        $fields_to_add['oauth_provider'] = 'longText';
-        $fields_to_add['oauth_token'] = 'longText';
-        $fields_to_add['oauth_token_secret'] = 'longText';
-
-        $fields_to_add['profile_url'] = 'longText';
-        $fields_to_add['website_url'] = 'longText';
-        $fields_to_add['password_reset_hash'] = 'longText';
-
-        mw()->database->build_table($table_name, $fields_to_add);
-
-        mw()->database->add_table_index('username', $table_name, array('username(255)'));
-        mw()->database->add_table_index('email', $table_name, array('email(255)'));
-
-
-        $table_name = $this->tables['log'];
-
-        $fields_to_add = array();
-
-        $fields_to_add['updated_on'] = 'dateTime';
-        $fields_to_add['created_on'] = 'dateTime';
-        $fields_to_add['created_by'] = 'integer';
-        $fields_to_add['edited_by'] = 'integer';
-        $fields_to_add['rel'] = 'longText';
-
-        $fields_to_add['rel_id'] = 'longText';
-        $fields_to_add['position'] = 'integer';
-
-        $fields_to_add['field'] = 'longlongText';
-        $fields_to_add['value'] = 'longText';
-        $fields_to_add['module'] = 'longlongText';
-
-        $fields_to_add['data_type'] = 'longText';
-        $fields_to_add['title'] = 'longlongText';
-        $fields_to_add['description'] = 'longText';
-        $fields_to_add['content'] = 'longText';
-        $fields_to_add['user_ip'] = 'longText';
-        $fields_to_add['session_id'] = 'longlongText';
-        $fields_to_add['is_system'] = "string";
-
-        mw()->database->build_table($table_name, $fields_to_add);
+//        $table_name = $this->tables['users'];
+//
+//        $fields_to_add = array();
+//
+//        $fields_to_add['updated_on'] = 'dateTime';
+//        $fields_to_add['created_on'] = 'dateTime';
+//        $fields_to_add['expires_on'] = 'dateTime';
+//        $fields_to_add['last_login'] = 'dateTime';
+//        $fields_to_add['last_login_ip'] = 'longText';
+//
+//        $fields_to_add['created_by'] = 'integer';
+//
+//        $fields_to_add['edited_by'] = 'integer';
+//
+//        $fields_to_add['username'] = 'longText';
+//
+//        $fields_to_add['password'] = 'longText';
+//        $fields_to_add['email'] = 'longText';
+//
+//        $fields_to_add['is_active'] = "string";
+//        $fields_to_add['is_admin'] = "string";
+//        $fields_to_add['is_verified'] = "string";
+//        $fields_to_add['is_public'] = "string";
+//
+//        $fields_to_add['basic_mode'] = "string";
+//
+//        $fields_to_add['first_name'] = 'longText';
+//        $fields_to_add['last_name'] = 'longText';
+//        $fields_to_add['thumbnail'] = 'longText';
+//
+//        $fields_to_add['parent_id'] = 'integer';
+//
+//        $fields_to_add['api_key'] = 'longText';
+//
+//        $fields_to_add['user_information'] = 'longText';
+//        $fields_to_add['subscr_id'] = 'longText';
+//        $fields_to_add['role'] = 'longText';
+//        $fields_to_add['medium'] = 'longText';
+//
+//        $fields_to_add['oauth_uid'] = 'longText';
+//        $fields_to_add['oauth_provider'] = 'longText';
+//        $fields_to_add['oauth_token'] = 'longText';
+//        $fields_to_add['oauth_token_secret'] = 'longText';
+//
+//        $fields_to_add['profile_url'] = 'longText';
+//        $fields_to_add['website_url'] = 'longText';
+//        $fields_to_add['password_reset_hash'] = 'longText';
+//
+//        mw()->database->build_table($table_name, $fields_to_add);
+//
+//        mw()->database->add_table_index('username', $table_name, array('username(255)'));
+//        mw()->database->add_table_index('email', $table_name, array('email(255)'));
+//
+//
+//        $table_name = $this->tables['log'];
+//
+//        $fields_to_add = array();
+//
+//        $fields_to_add['updated_on'] = 'dateTime';
+//        $fields_to_add['created_on'] = 'dateTime';
+//        $fields_to_add['created_by'] = 'integer';
+//        $fields_to_add['edited_by'] = 'integer';
+//        $fields_to_add['rel'] = 'longText';
+//
+//        $fields_to_add['rel_id'] = 'longText';
+//        $fields_to_add['position'] = 'integer';
+//
+//        $fields_to_add['field'] = 'longText';
+//        $fields_to_add['value'] = 'longText';
+//        $fields_to_add['module'] = 'longText';
+//
+//        $fields_to_add['data_type'] = 'longText';
+//        $fields_to_add['title'] = 'longText';
+//        $fields_to_add['description'] = 'longText';
+//        $fields_to_add['content'] = 'longText';
+//        $fields_to_add['user_ip'] = 'longText';
+//        $fields_to_add['session_id'] = 'longText';
+//        $fields_to_add['is_system'] = "string";
+//
+//        mw()->database->build_table($table_name, $fields_to_add);
 
         return true;
 

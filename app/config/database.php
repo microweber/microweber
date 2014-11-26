@@ -14,7 +14,7 @@
       'driver' => 'mysql',
       'host' => '127.0.0.1',
       'database' => 'tst5',
-      'username' => 'root',
+      'username' => '  ',
       'password' => '',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci',

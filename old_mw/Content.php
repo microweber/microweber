@@ -265,7 +265,7 @@ class Content
         $fields_to_add['layout_name']= 'longText';
         $fields_to_add['layout_style']= 'longText';
         $fields_to_add['active_site_template']= 'longText';
-        $fields_to_add['session_id']= 'string(255)  default NULL ');
+        $fields_to_add['session_id']= 'string';
         $fields_to_add['posted_on']= 'dateTime';
 
         $this->app->database->build_table($table_name, $fields_to_add);
@@ -305,7 +305,7 @@ class Content
         $fields_to_add['rel']= 'longText';
 
         $fields_to_add['rel_id']= 'longText';
-        $fields_to_add['field']= 'longlongText';
+        $fields_to_add['field']= 'longText';
         $fields_to_add['value']= 'longText';
         $this->app->database->build_table($table_name, $fields_to_add);
 
@@ -338,7 +338,7 @@ class Content
         $fields_to_add['rel_id', "string(255)  default '0'");
         $fields_to_add['media_type']= 'longText';
         $fields_to_add['position']= 'integer';
-        $fields_to_add['title']= 'longlongText';
+        $fields_to_add['title']= 'longText';
         $fields_to_add['description']= 'longText';
         $fields_to_add['embed_code']= 'longText';
         $fields_to_add['filename']= 'longText';
@@ -372,15 +372,15 @@ class Content
 
 
         $fields_to_add['custom_field_name']= 'longText';
-        $fields_to_add['custom_field_name_plain']= 'longlongText';
+        $fields_to_add['custom_field_name_plain']= 'longText';
 
 
         $fields_to_add['custom_field_value']= 'longText';
 
 
         $fields_to_add['custom_field_type']= 'longText';
-        $fields_to_add['custom_field_values']= 'longlongText';
-        $fields_to_add['custom_field_values_plain']= 'longlongText';
+        $fields_to_add['custom_field_values']= 'longText';
+        $fields_to_add['custom_field_values_plain']= 'longText';
 
         $fields_to_add['field_for']= 'longText';
         $fields_to_add['custom_field_field_for']= 'longText';
@@ -425,7 +425,7 @@ class Content
         $fields_to_add['created_by']= 'integer';
         $fields_to_add['edited_by']= 'integer';
         $fields_to_add['data_type']= 'longText';
-        $fields_to_add['title']= 'longlongText';
+        $fields_to_add['title']= 'longText';
         $fields_to_add['parent_id']= 'integer';
         $fields_to_add['description']= 'longText';
         $fields_to_add['content']= 'longText';
