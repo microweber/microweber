@@ -33,7 +33,7 @@ $(document).ready(function(){
 </div>
 <?php 
     $here = dirname(__FILE__).DS.'gateways'.DS;
-    $shipping_modules = scan_for_modules("cache_group=modules/global/shipping&dir_name={$here}");
+    $shipping_modules = scan_for_modules("cache_group=modules/main/shipping&dir_name={$here}");
 ?>
 <div class="mw-set-shipping-options mw-admin-wrap">
 	<div class="mw-ui-box">

@@ -209,7 +209,7 @@ class DatabaseManager extends DbUtils
         if ($cache_group == false and $debug == false) {
             $cache_group = $this->guess_cache_group($table);
             if (!isset($criteria['id'])) {
-                $cache_group = $cache_group . '/global';
+                $cache_group = $cache_group . '/main';
             } else {
                 $cache_group = $cache_group . '/' . $criteria['id'];
             }
@@ -217,6 +217,10 @@ class DatabaseManager extends DbUtils
         } else {
             $cache_group = $this->guess_cache_group($cache_group);
         }
+
+        $cache_group = $this->guess_cache_group($cache_group);
+
+
         $function_cache_id = false;
 
         $args = func_get_args();
@@ -479,12 +483,12 @@ class DatabaseManager extends DbUtils
 
         $cache_group = $this->assoc_table_name($table);
 
-        $this->app->cache_manager->delete($cache_group . '/global');
+        $this->app->cache_manager->delete($cache_group . '/main');
         $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
 
         if ($skip_cache == false) {
             $cache_group = $this->assoc_table_name($table);
-            $this->app->cache_manager->delete($cache_group . '/global');
+            $this->app->cache_manager->delete($cache_group . '/main');
             $this->app->cache_manager->delete($cache_group . '/' . $id_to_return);
             if (isset($criteria['parent_id'])) {
                 $this->app->cache_manager->delete($cache_group . '/' . intval($criteria['parent_id']));
@@ -552,14 +556,14 @@ class DatabaseManager extends DbUtils
      *  //make plain query to the db
      * $table = $this->table_prefix.'content';
      *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
-     *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
+     *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content/main');
      *
      * </code>
      *
      *
      *
      */
-    public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settings = false)
+    public function query($q, $cache_id = false, $cache_group = 'main', $only_query = false, $connection_settings = false)
     {
         if (trim($q) == '') {
             return false;

@@ -332,7 +332,7 @@ $params['dir_name'] = '/path/'; //get modules in dir
 $params['skip_save'] = true; //if true skips module install
 $params['skip_cache'] = true; // skip_cache
 
-$params['cache_group'] = 'modules/global'; // allows custom cache group
+$params['cache_group'] = 'modules/main'; // allows custom cache group
 $params['cleanup_db'] = true; //if true will reinstall all modules if skip_save is false
 $params['is_elements'] = true;  //if true will list files from the MW_ELEMENTS_DIR
 
@@ -522,11 +522,11 @@ function mw_post_update()
     $a = is_admin();
     if ($a != false) {
         mw()->cache_manager->delete('db');
-        mw()->cache_manager->delete('update/global');
-        mw()->cache_manager->delete('elements/global');
+        mw()->cache_manager->delete('update/main');
+        mw()->cache_manager->delete('elements/main');
 
         mw()->cache_manager->delete('templates');
-        mw()->cache_manager->delete('modules/global');
+        mw()->cache_manager->delete('modules/main');
 
         scan_for_modules();
         get_elements();
@@ -772,7 +772,7 @@ $_mw_assoc_table_names = array();
  */
 function guess_cache_group($for = false)
 {
-    return guess_table_name($for, true);
+    return ($for);
 }
 
 
@@ -931,7 +931,7 @@ function get_all_functions_files_for_modules($options = false)
 
     $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-    $cache_group = 'modules/global';
+    $cache_group = 'modules/main';
 
     $cache_content = mw()->cache_manager->get($cache_id, $cache_group);
 

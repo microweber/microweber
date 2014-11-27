@@ -380,7 +380,7 @@ function captcha()
  *
  */
 
-function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = false)
+function cache_get($cache_id, $cache_group = 'main', $expiration_in_seconds = false)
 {
     return mw()->cache_manager->get($cache_id, $cache_group, $expiration_in_seconds);
 }
@@ -409,7 +409,7 @@ function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = 
  * @return boolean
  * @package Cache
  */
-function cache_save($data_to_cache, $cache_id, $cache_group = 'global')
+function cache_save($data_to_cache, $cache_id, $cache_group = 'main')
 {
     return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group);
 
@@ -479,7 +479,7 @@ function cache_debug()
  * </code>
  *
  */
-function cache_clear($cache_group = 'global', $cache_storage_type = false)
+function cache_clear($cache_group = 'main', $cache_storage_type = false)
 {
 
     return mw()->cache_manager->delete($cache_group, $cache_storage_type);
@@ -488,7 +488,7 @@ function cache_clear($cache_group = 'global', $cache_storage_type = false)
 }
 
 //same as cache_clear
-function cache_delete($cache_group = 'global', $cache_storage_type = false)
+function cache_delete($cache_group = 'main', $cache_storage_type = false)
 {
 
     return mw()->cache_manager->delete($cache_group, $cache_storage_type);

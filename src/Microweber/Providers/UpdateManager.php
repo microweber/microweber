@@ -289,7 +289,7 @@ class UpdateManager
                 }
             }
 
-            //$this->app->cache_manager->delete('update/global');
+            //$this->app->cache_manager->delete('update/main');
             //$this->app->cache_manager->clear();
             //return $unzipped;
         }
@@ -323,13 +323,13 @@ class UpdateManager
         }
         $c_id = __FUNCTION__ . date("ymdh");
         if ($skip_cache == false) {
-            $cache_content = $this->app->cache_manager->get($c_id, 'update/global');
+            $cache_content = $this->app->cache_manager->get($c_id, 'update/main');
             if (($cache_content) != false) {
                 return $cache_content;
             }
         } else {
             $this->skip_cache = true;
-            $this->app->cache_manager->delete('update/global');
+            $this->app->cache_manager->delete('update/main');
         }
 
 
@@ -370,7 +370,7 @@ class UpdateManager
             $result['count'] = $count;
         }
         if ($result != false) {
-            $this->app->cache_manager->save($result, $c_id, 'update/global');
+            $this->app->cache_manager->save($result, $c_id, 'update/main');
         }
 
 
@@ -561,7 +561,7 @@ class UpdateManager
             $params['skip_cache'] = true;
 
             $data = $this->app->modules->get($params);
-            $this->app->cache_manager->delete('update/global');
+            $this->app->cache_manager->delete('update/main');
             $this->app->cache_manager->delete('db');
             $this->app->cache_manager->delete('modules');
             event_trigger('mw_db_init_default');

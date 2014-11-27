@@ -931,7 +931,7 @@
 		"name":    "Swisscom Webmail",
 		"domains": "bluewin[.]ch bluemail[.]ch",
 		"url":     "http://www.bluewin.ch/de/email/",
-		"icon":    "https://www.res1ep.scsstatic.ch/etc/designs/bluewin/resources/global/img/favicon.ico"
+		"icon":    "https://www.res1ep.scsstatic.ch/etc/designs/bluewin/resources/main/img/favicon.ico"
 	},
 	{
 		"name":    "hispeed Webmail",
@@ -983,7 +983,7 @@
 		"name":    "Comcast.net",
 		"domains": "comcast[.]net",
 		"url":     "https://login.comcast.net",
-		"icon":    "https://login.comcast.net/static/images/global/favicon.ico"
+		"icon":    "https://login.comcast.net/static/images/main/favicon.ico"
 	},
 	{
 		"name":    "Verizon Webmail",

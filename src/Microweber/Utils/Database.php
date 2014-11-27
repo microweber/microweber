@@ -687,6 +687,8 @@ class Database
 
     public function guess_cache_group($group)
     {
+
+
         return $group;
     }
 

@@ -18,12 +18,45 @@ class LaravelCache
 
         $driver = $this->app['config']['cache.driver'];
 
-        if ($driver == 'file' or $driver == 'database' ) {
+        if ($driver == 'file' or $driver == 'database') {
             $this->support_tags = false;
         } else {
             $this->support_tags = true;
         }
 
+    }
+
+    private $mkdir_cache = array();
+
+    public function  cache_mkdir($cache_group)
+    {
+
+        if (isset($mkdir_cache[$cache_group])) {
+            return;
+        }
+        $mkdir_cache[$cache_group] = true;
+        $path = mw_cache_path() . $cache_group;
+        $path = normalize_path($path, 1);
+        if (!is_dir($path)) {
+            mkdir_recursive($path);
+        }
+
+
+    }
+
+    public function cache_group($cache_group)
+    {
+
+        $cache_group = explode('/',$cache_group);
+
+        if(isset($cache_group[1])){
+
+            $group = str_replace('/', '-', $cache_group[1]);
+            $group = str_replace('\\', '-', $group);
+            $cache_group = $cache_group[0].'-'.$group;
+        }
+
+        return $cache_group;
     }
 
     /**
@@ -50,14 +83,14 @@ class LaravelCache
      * </code>
      *
      */
-    public function save($data_to_cache, $cache_id, $cache_group = 'global')
+    public function save($data_to_cache, $cache_id, $cache_group = 'main')
     {
 
         if (!$this->support_tags) {
             return;
-            return Cache::put($cache_group.$cache_id, $data_to_cache, $this->ttl);
+            return Cache::put($cache_group . $cache_id, $data_to_cache, $this->ttl);
         }
-
+        $cache_group = $this->cache_group($cache_group);
 
         Cache::tags($cache_group)->put($cache_id, $data_to_cache, $this->ttl);
 
@@ -84,11 +117,12 @@ class LaravelCache
      *
      * </code>
      */
-    public function get($cache_id, $cache_group = 'global', $timeout = false)
+    public function get($cache_id, $cache_group = 'main', $timeout = false)
     {
+        $cache_group = $this->cache_group($cache_group);
         if (!$this->support_tags) {
             return;
-            return Cache::get($cache_group.$cache_id);
+            return Cache::get($cache_group . $cache_id);
         }
         return Cache::tags($cache_group)->get($cache_id);
 
@@ -119,8 +153,10 @@ class LaravelCache
      * mw()->cache->delete("my_table");
      * </code>
      */
-    public function delete($cache_group = 'global')
+    public function delete($cache_group = 'main')
     {
+        $cache_group = $this->cache_group($cache_group);
+
         if (!$this->support_tags) {
             return;
             return $this->delete_from_memory($cache_group);
@@ -132,10 +168,10 @@ class LaravelCache
     public function delete_from_memory($cache_group)
     {
 
-      //  dd($cache_group);
+        //  dd($cache_group);
 
 
-      // return Cache::flush();
+        // return Cache::flush();
 //       $obj = Cache::getFacadeApplication();
 //        $driver = $driver = Cache::driver();
 //        $class_methods = get_class_methods($driver);
@@ -151,7 +187,6 @@ class LaravelCache
 //            $items[$cacheKey] = $cacheValue;
 //            //Cache::forget($cacheKey);
 //        }
-
 
 
     }

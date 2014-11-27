@@ -500,7 +500,7 @@ class UserManager
                     $this->force_save = false;
 
 
-                    $this->app->cache_manager->delete('users/global');
+                    $this->app->cache_manager->delete('users/main');
                     $this->session_del('captcha');
 
                     $notif = array();
@@ -1414,7 +1414,7 @@ $is = false;
                         mw_var('FORCE_SAVE', $table);
 
                         $save = $this->app->database_manager->save($table, $data_to_save);
-                        $this->app->cache_manager->delete('users/global');
+                        $this->app->cache_manager->delete('users/main');
                         if ($save > 0) {
                             $data = array();
                             $data['id'] = $save;
@@ -1623,7 +1623,7 @@ $is = false;
         // $options ['debug'] = true;
         $options['count'] = true;
         // $options ['no_cache'] = true;
-        $options['cache_group'] = 'users/global/';
+        $options['cache_group'] = 'users/main/';
 
         $data = $this->get_all($options);
 
@@ -1663,13 +1663,13 @@ $is = false;
             // $data ['debug'] = 1;
         }
 
-        $cache_group = 'users/global';
+        $cache_group = 'users/main';
         if (isset($data['id']) and intval($data['id']) != 0) {
             $cache_group = 'users/' . $data['id'];
         } else {
 
         }
-        $cache_group = 'users/global';
+        $cache_group = 'users/main';
         if (isset($limit) and $limit != false) {
             $data['limit'] = $limit;
         }
