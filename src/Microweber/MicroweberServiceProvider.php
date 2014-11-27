@@ -88,6 +88,15 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('config_manager', function ($app) {
             return new Providers\ConfigurationManager($app);
         });
+        $this->app->singleton('media_manager', function ($app) {
+            return new Providers\MediaManager($app);
+        });
+        $this->app->singleton('fields_manager', function ($app) {
+            return new Providers\FieldsManager($app);
+        });
+        $this->app->singleton('forms_manager', function ($app) {
+            return new Providers\FormsManager($app);
+        });
 
         $this->app->singleton('notifications_manager', function ($app) {
             return new Providers\NotificationsManager($app);

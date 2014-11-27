@@ -21,7 +21,7 @@ if (!defined('MW_PATH')) {
 }
 
 if (!defined('MW_ROOTPATH')) {
-    define('MW_ROOTPATH', dirname(dirname(dirname(MW_PATH))) . DS);
+    define('MW_ROOTPATH', dirname(dirname(MW_PATH)) . DS);
 }
 
 if (!defined('MW_USERFILES_FOLDER_NAME')) {
@@ -33,6 +33,10 @@ if (!defined('MW_MODULES_FOLDER_NAME')) {
 if (!defined('MW_ELEMENTS_FOLDER_NAME')) {
     define('MW_ELEMENTS_FOLDER_NAME', 'elements'); //relative to userfiles dir
 }
+if (!defined('MW_MEDIA_FOLDER_NAME')) {
+    define('MW_MEDIA_FOLDER_NAME', 'media'); //relative to userfiles dir
+}
+
 
 if (!defined('MW_TEMPLATES_FOLDER_NAME')) {
     define('MW_TEMPLATES_FOLDER_NAME', 'templates'); //relative to userfiles dir
@@ -58,6 +62,7 @@ include_once(__DIR__ . DS . 'events.php');
 include_once(__DIR__ . DS . 'db.php');
 include_once(__DIR__ . DS . 'user.php');
 include_once(__DIR__ . DS . 'common.php');
+include_once(__DIR__ . DS . 'media.php');
 include_once(__DIR__ . DS . 'other.php');
 include_once(__DIR__ . DS . 'content.php');
 include_once(__DIR__ . DS . 'categories.php');

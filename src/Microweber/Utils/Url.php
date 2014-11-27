@@ -29,6 +29,9 @@ class Url
 
     function link_to_file($path)
     {
+
+
+
         $path = str_ireplace(MW_ROOTPATH, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
