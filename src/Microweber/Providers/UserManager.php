@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\User as DefaultUserProvider;
 use Microweber\Utils\Database as DbManager;
 
+
+use Auth;
+
 use Illuminate\Support\Facades\Session;
 
 if (!defined('MW_USER_IP')) {
@@ -29,7 +32,6 @@ if (!defined('MW_USER_IP')) {
 
     }
 }
-
 
 
 class UserManager
@@ -126,10 +128,10 @@ class UserManager
 //        $fields_to_add['website_url'] = 'longText';
 //        $fields_to_add['password_reset_hash'] = 'longText';
 //
-//        mw()->database->build_table($table_name, $fields_to_add);
+//        mw()->database_manager->build_table($table_name, $fields_to_add);
 //
-//        mw()->database->add_table_index('username', $table_name, array('username(255)'));
-//        mw()->database->add_table_index('email', $table_name, array('email(255)'));
+//        mw()->database_manager->add_table_index('username', $table_name, array('username(255)'));
+//        mw()->database_manager->add_table_index('email', $table_name, array('email(255)'));
 //
 //
 //        $table_name = $this->tables['log'];
@@ -157,7 +159,7 @@ class UserManager
 //        $fields_to_add['session_id'] = 'longText';
 //        $fields_to_add['is_system'] = "string";
 //
-//        mw()->database->build_table($table_name, $fields_to_add);
+//        mw()->database_manager->build_table($table_name, $fields_to_add);
 
         return true;
 
@@ -169,7 +171,7 @@ class UserManager
         if (!defined('USER_ID')) {
             define("USER_ID", false);
         }
-        $this->app->event->trigger('user_logout');
+        $this->app->event_manager->trigger('user_logout');
 
         // static $uid;
         $aj = $this->app->url->is_ajax();
@@ -199,7 +201,7 @@ class UserManager
     public function is_logged()
     {
 
-        if (user_id() > 0) {
+        if ($this->id() > 0) {
             return true;
         } else {
             return false;
@@ -212,7 +214,7 @@ class UserManager
     {
 
         // will be updated with roles and perms
-        $is_a = is_admin();
+        $is_a = $this->is_admin();
 
         if ($is_a == true) {
             return true;
@@ -224,7 +226,7 @@ class UserManager
     public function admin_access()
     {
 
-        if (is_admin() == false) {
+        if ($this->is_admin() == false) {
             exit('You must be logged as admin');
         }
     }
@@ -356,7 +358,7 @@ class UserManager
             if (trim($api_key) == '') {
                 return false;
             } else {
-                $api_key = $this->app->database->escape_string($api_key);
+                $api_key = $this->app->database_manager->escape_string($api_key);
                 if (user_id() > 0) {
                     return true;
                 } else {
@@ -417,7 +419,7 @@ class UserManager
             }
         }
 
-        $override = $this->app->event->trigger('before_user_register', $params);
+        $override = $this->app->event_manager->trigger('before_user_register', $params);
 
         if (is_array($override)) {
             foreach ($override as $resp) {
@@ -510,7 +512,7 @@ class UserManager
                     $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
                     $this->app->notifications->save($notif);
 
-                    $this->app->log->save($notif);
+                    $this->app->log_manager->save($notif);
 
 
                     $params = $data;
@@ -518,7 +520,7 @@ class UserManager
                     if (isset($pass2)) {
                         $params['password2'] = $pass2;
                     }
-                    $this->app->event->trigger('after_user_register', $params);
+                    $this->app->event_manager->trigger('after_user_register', $params);
 
 
                     return array('success' => 'You have registered successfully');
@@ -553,49 +555,41 @@ class UserManager
         static $is = 0;
 
 
+        $installed = $this->app->config_manager->get('microweber.is_installed');
         if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
-
-            $installed = $this->app->config_manager->get('microweber.is_installed');
             if (!defined('MW_IS_INSTALLED')) {
                 define("MW_IS_INSTALLED", $installed);
             }
-            if ($installed != 'yes') {
-                return true;
-            }
         }
-        if ($is != 0 or defined('USER_IS_ADMIN')) {
-            return $is;
-        } else {
-
-
-            $usr = $this->id();
-            if ($usr == false) {
-                return false;
-            }
-
-
-            $usr = $this->get_by_id($usr);
-
-            if (isset($usr['is_admin']) and $usr['is_admin'] == 'y') {
-                define("USER_IS_ADMIN", true);
-                define("IS_ADMIN", true);
-            } else {
-                define("USER_IS_ADMIN", false);
-                define("IS_ADMIN", false);
-            }
-            $is = USER_IS_ADMIN;
-
-            return USER_IS_ADMIN;
+        if ($installed == false) {
+            return true;
         }
+
+
+        $usr = $this->id();
+       // dd($usr);
+
+        if ($usr == false) {
+            return false;
+        }
+
+
+        $usr = $this->get_by_id($usr);
+$is = false;
+        if (isset($usr['is_admin']) and $usr['is_admin'] == 1) {
+            $is = true;
+        }
+
+
+        return $is;
+
     }
 
     public function id()
     {
 
 
-        // static $uid;
         if (defined('USER_ID')) {
-            // print USER_ID;
             return USER_ID;
         } else {
 
@@ -660,7 +654,7 @@ class UserManager
         //
         $hash = md5($pass);
         if ($hash == false) {
-            $hash = $this->app->database->escape_string($hash);
+            $hash = $this->app->database_manager->escape_string($hash);
             return $pass;
         }
         return $hash;
@@ -713,7 +707,7 @@ class UserManager
         if (isset($params['id'])) {
             //error('COMLETE ME!!!! ');
 
-            $adm = is_admin();
+            $adm = $this->is_admin();
             if ($adm == false) {
                 if ($force == false) {
 
@@ -775,7 +769,7 @@ class UserManager
 
 
         $table = $this->tables['users'];
-        $save = $this->app->database->save($table, $data_to_save);
+        $save = $this->app->database_manager->save($table, $data_to_save);
         $id = $save;
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . '0');
@@ -829,28 +823,49 @@ class UserManager
      * @uses parse_str()
      * @uses $this->get_all()
      * @uses $this->session_set()
-     * @uses $this->app->log->get()
-     * @uses $this->app->log->save()
+     * @uses $this->app->log_manager->get()
+     * @uses $this->app->log_manager->save()
      * @uses $this->login_set_failed_attempt()
      * @uses $this->update_last_login_time()
-     * @uses $this->app->event->trigger()
+     * @uses $this->app->event_manager->trigger()
      * @function $this->login()
      * @see _table() For the database table fields
      */
     public function login($params)
     {
         $params2 = array();
+        $user_session = array();
+        $ok = Auth::attempt(['username' => $params['username'], 'password' => $params['password']]);
 
-        $ok = \Auth::attempt(['username' => $params['username'], 'password' => $params['password']]);
-dd($ok, $params);
-        if($ok && isset($params['where_to']))
-            return Redirect::to($params['where_to']);
-        else if($ok)
-            return 'json alabala';
-        else
-            return 'kyv si ti we';
+        if ($ok) {
+            $user = Auth::id();
+            if ($user) {
 
-        $override = $this->app->event->trigger('before_user_login', $params);
+                $this->make_logged($user);
+            }
+
+        }
+
+
+        if ($ok && isset($params['redirect_to'])) {
+
+
+            return Redirect::to($params['redirect_to']);
+
+        } else if ($ok) {
+            return $user_session['success'] = _e("You are logged in!", true);
+
+        } else {
+            $this->login_set_failed_attempt();
+            return array('error' => 'Please enter right username and password!');
+        }
+
+
+        //DIE
+        // @todo remove below
+
+
+        $override = $this->app->event_manager->trigger('before_user_login', $params);
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
         $overiden = false;
         if (is_array($override)) {
@@ -896,18 +911,18 @@ dd($ok, $params);
             }
             $url = $this->app->url->current(1);
 
-            $check = $this->app->log->get("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
+            $check = $this->app->log_manager->get("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
 
             if ($check == 5) {
 
                 $url_href = "<a href='$url' target='_blank'>$url</a>";
-                $this->app->log->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
+                $this->app->log_manager->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
             }
             if ($check > 5) {
                 $check = $check - 1;
                 return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
             }
-            $check2 = $this->app->log->get("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
+            $check2 = $this->app->log_manager->get("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
             if ($check2 > 25) {
 
                 return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
@@ -1025,8 +1040,8 @@ dd($ok, $params);
                 $this->make_logged($data['id']);
                 if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
                     if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
-                        $this->app->event->trigger('user_login_admin');
-                        $p = mw('content')->get_page();
+                        $this->app->event_manager->trigger('user_login_admin');
+                        $p = mw()->content_manager->get_page();
                         if (!empty($p)) {
                             $link = $this->app->content_manager->link($p['id']);
                             $link = $link . '/editmode:y';
@@ -1085,7 +1100,7 @@ dd($ok, $params);
     public function login_set_failed_attempt()
     {
 
-        $this->app->log->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+        $this->app->log_manager->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
     }
 
@@ -1125,7 +1140,7 @@ dd($ok, $params);
 
     function delete($data)
     {
-        $adm = is_admin();
+        $adm = $this->is_admin();
         if (defined('MW_API_CALL') and $adm == false) {
             return ('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
@@ -1138,7 +1153,7 @@ dd($ok, $params);
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->database->delete_by_id('users', $c_id);
+            $this->app->database_manager->delete_by_id('users', $c_id);
             return $c_id;
 
         }
@@ -1181,7 +1196,7 @@ dd($ok, $params);
 
         $data1 = array();
         $data1['id'] = intval($params['id']);
-        $data1['password_reset_hash'] = $this->app->database->escape_string($params['password_reset_hash']);
+        $data1['password_reset_hash'] = $this->app->database_manager->escape_string($params['password_reset_hash']);
         $table = $this->tables['users'];
 
         $check = $this->get_all("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
@@ -1200,7 +1215,7 @@ dd($ok, $params);
 
         mw_var('FORCE_SAVE', $table);
 
-        $save = $this->app->database->save($table, $data1);
+        $save = $this->app->database_manager->save($table, $data1);
 
         $notif = array();
         $notif['module'] = "users";
@@ -1208,7 +1223,7 @@ dd($ok, $params);
         $notif['rel_id'] = $data1['id'];
         $notif['title'] = "The user have successfully changed password. (User id: {$data1['id']})";
 
-        $this->app->log->save($notif);
+        $this->app->log_manager->save($notif);
         $this->session_end();
 
         return array('success' => 'Your password have been changed!');
@@ -1310,7 +1325,7 @@ dd($ok, $params);
                             $table = $this->tables['users'];
                             mw_var('FORCE_SAVE', $table);
 
-                            $save = $this->app->database->save($table, $data_to_save);
+                            $save = $this->app->database_manager->save($table, $data_to_save);
                         }
                         $pass_reset_link = $this->app->url->current(1) . '?reset_password_link=' . $function_cache_id;
 
@@ -1322,7 +1337,7 @@ dd($ok, $params);
                         $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
                         $notif['description'] = $content_notif;
 
-                        $this->app->log->save($notif);
+                        $this->app->log_manager->save($notif);
                         $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
                         //d($data_res);
@@ -1398,7 +1413,7 @@ dd($ok, $params);
                         $table = $this->tables['users'];
                         mw_var('FORCE_SAVE', $table);
 
-                        $save = $this->app->database->save($table, $data_to_save);
+                        $save = $this->app->database_manager->save($table, $data_to_save);
                         $this->app->cache_manager->delete('users/global');
                         if ($save > 0) {
                             $data = array();
@@ -1413,7 +1428,7 @@ dd($ok, $params);
                             $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
                             $this->app->notifications->save($notif);
 
-                            $this->app->log->save($notif);
+                            $this->app->log_manager->save($notif);
 
                         }
 
@@ -1425,7 +1440,7 @@ dd($ok, $params);
                         $data = $data_ex[0];
                         $user_session['is_logged'] = 'yes';
                         $user_session['user_id'] = $data['id'];
-                        $this->app->event->trigger('after_user_register', $data);
+                        $this->app->event_manager->trigger('after_user_register', $data);
                         if (!defined('USER_ID')) {
                             define("USER_ID", $data['id']);
                         }
@@ -1512,7 +1527,7 @@ dd($ok, $params);
 
                     }
 
-                    $this->app->event->trigger('user_login', $data);
+                    $this->app->event_manager->trigger('user_login', $data);
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
 
@@ -1565,9 +1580,9 @@ dd($ok, $params);
 
             $table = $this->tables['users'];
             mw_var("FORCE_SAVE", $this->tables['users']);
-            $save = $this->app->database->save($table, $data_to_save);
+            $save = $this->app->database_manager->save($table, $data_to_save);
 
-            $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+            $this->app->log_manager->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
         }
 
@@ -1685,10 +1700,10 @@ dd($ok, $params);
         //  $data ['cache_group'] = $cache_group;
 
 
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
 
-        //$get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
+        //$get = $this->app->database_manager->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->database_manager->get_long($table, $criteria = $data, $cache_group);
         // var_dump($get, $function_cache_id, $cache_group);
         //  $this->app->cache_manager->save($get, $function_cache_id, $cache_group);
 
@@ -1708,7 +1723,7 @@ dd($ok, $params);
             $default_url = 'users/register';
         }
 
-        $checkout_url = $this->app->option->get('register_url', 'users');
+        $checkout_url = $this->app->option_manager->get('register_url', 'users');
         if ($checkout_url != false and trim($checkout_url) != '') {
             $default_url = $checkout_url;
         }
@@ -1745,7 +1760,7 @@ dd($ok, $params);
             $default_url = 'users/login';
         }
 
-        $checkout_url = $this->app->option->get('login_url', 'users');
+        $checkout_url = $this->app->option_manager->get('login_url', 'users');
         if ($checkout_url != false and trim($checkout_url) != '') {
             $default_url = $checkout_url;
         }
@@ -1773,7 +1788,7 @@ dd($ok, $params);
             $default_url = 'users/forgot_password';
         }
 
-        $checkout_url = $this->app->option->get('forgot_password_url', 'users');
+        $checkout_url = $this->app->option_manager->get('forgot_password_url', 'users');
         if ($checkout_url != false and trim($checkout_url) != '') {
             $default_url = $checkout_url;
         }

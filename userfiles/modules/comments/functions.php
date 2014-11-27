@@ -254,9 +254,9 @@ function post_comment($data)
         if (!isset($data['comment_email']) and user_id() == 0) {
             return array('error' => 'You must type your email or be logged in order to comment.');
         }
-        $ref = mw('url')->current(1);
+        $ref = mw()->url->current(1);
         if ($ref != false and $ref != '') {
-            $data['from_url'] = htmlentities(strip_tags(mw('url')->current(1)));
+            $data['from_url'] = htmlentities(strip_tags(mw()->url->current(1)));
         }
     }
 
@@ -293,7 +293,7 @@ function post_comment($data)
         $notif['rel'] = $data['rel'];
         $notif['rel_id'] = $data['rel_id'];
         $notif['title'] = "You have new comment";
-        $notif['description'] = "New comment is posted on " . mw('url')->current(1);
+        $notif['description'] = "New comment is posted on " . mw()->url->current(1);
         $notif['content'] = mw()->format->limit($data['comment_body'], 800);
         $notf_id = mw()->notifications->save($notif);
         $data['moderate'] = admin_url('view:modules/load_module:comments/mw_notif:' . $notf_id);
@@ -316,7 +316,7 @@ function post_comment($data)
             }
 
 
-            $message = "Hi, <br/> You have new comment posted on " . mw('url')->current(1) . ' <br /> ';
+            $message = "Hi, <br/> You have new comment posted on " . mw()->url->current(1) . ' <br /> ';
             $message .= "IP:" . MW_USER_IP . ' <br /> ';
             $message .= mw()->format->array_to_ul($data3);
             \Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
@@ -362,7 +362,7 @@ function get_comments($params)
     if ($date_format == false) {
         $date_format = "Y-m-d H:i:s";
     }
-    $aj = mw('url')->is_ajax();
+    $aj = mw()->url->is_ajax();
     if (is_array($comments)) {
         $i = 0;
         foreach ($comments as $item) {

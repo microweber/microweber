@@ -1,1 +1,1 @@
-<module type="content/backend" id="mw-content-backend" />
+  <module type="content/backend" id="mw-content-backend" />

@@ -3,7 +3,9 @@ namespace Microweber;
 
 namespace Microweber\Providers;
 
-class Option
+use Option;
+
+class OptionManager
 {
 
     public $app;
@@ -90,7 +92,7 @@ class Option
 //        $fields_to_add[] = array('module', 'longText');
 //        $fields_to_add[] = array('is_system', 'integer');
 //
-//        $this->app->database->build_table($table_name, $fields_to_add);
+//        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
         return true;
     }
@@ -112,7 +114,7 @@ class Option
         }
 
 
-        $get = $this->app->database->get_long($table, $data, $cache_group = 'options/global');
+        $get = $this->app->database_manager->get_long($table, $data, $cache_group = 'options/global');
 
         if (!empty($get)) {
             foreach ($get as $key => $value) {
@@ -144,7 +146,7 @@ class Option
         $res1 = false;
 
 
-        $res = $this->app->database->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
+        $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
         if (is_array($res) and !empty($res)) {
             $res1 = array();
             foreach ($res as $item) {
@@ -156,23 +158,23 @@ class Option
 
     public function delete($key, $option_group = false, $module_id = false)
     {
-        $key = $this->app->database->escape_string($key);
+        $key = $this->app->database_manager->escape_string($key);
 
         $table = $this->tables['options'];
         $option_group_q1 = '';
         if ($option_group != false) {
-            $option_group = $this->app->database->escape_string($option_group);
+            $option_group = $this->app->database_manager->escape_string($option_group);
             $option_group_q1 = "and option_group='{$option_group}'";
         }
         $module_id_q1 = '';
         if ($module_id != false) {
-            $module_id = $this->app->database->escape_string($module_id);
+            $module_id = $this->app->database_manager->escape_string($module_id);
             $module_id_q1 = "and module='{$module_id}'";
         }
         $q = "DELETE FROM $table WHERE option_key='$key' " . $option_group_q1 . $module_id_q1;
         $q = trim($q);
 
-        $this->app->database->q($q);
+        $this->app->database_manager->q($q);
         $this->app->cache_manager->delete('options');
 
         return true;
@@ -327,9 +329,6 @@ class Option
     public function get($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
     {
 
-        if (!defined('MW_DB_TABLE_OPTIONS') or $this->tables['options'] == false) {
-            return false;
-        }
         if ($option_group != false) {
 
             $cache_group = 'options/' . $option_group;
@@ -370,26 +369,40 @@ class Option
         $option_key_1 = '';
         $option_key_2 = '';
         if ($option_group != false) {
-            $option_group = $this->app->database->escape_string($option_group);
+            $option_group = $this->app->database_manager->escape_string($option_group);
             $option_key_1 = " AND option_group='{$option_group}' ";
             $data['option_group'] = $option_group;
         }
 
         if ($module != false) {
-            $module = $this->app->database->escape_string($module);
+            $module = $this->app->database_manager->escape_string($module);
             $data['module'] = $module;
         }
         $data['limit'] = 1;
-        $ok = $this->app->database->escape_string($data['option_key']);
+        $ok = $this->app->database_manager->escape_string($data['option_key']);
         $ob = " order by id desc ";
         $q = "select * from $table where option_key='{$ok}'  " . $option_key_1 . $option_key_2 . $ob;
         $q = "select * from $table where option_key is not null  " . $option_key_1 . $option_key_2 . $ob;
 
 
+        $filter = array();
+      //  $filter['limit'] = 1;
+       // $filter['option_key'] = $key;
+        if ($option_group != false) {
+            $filter['option_group'] =$option_group;
+        }
+
+        if ($module != false) {
+            $filter['module'] = $module;
+        }
+
+        $get_all = Option::items($filter);
+
         $q_cache_id = crc32($q);
-        $get_all = $this->app->database->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
+      //  $get_all = $this->app->database_manager->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
 
         if (!is_array($get_all)) {
+
             return false;
         }
         $get = array();
@@ -404,10 +417,12 @@ class Option
                 if (!is_array($get)) {
                     return false;
                 }
+
                 $get = $get[0]['option_value'];
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
                     $get['option_value'] = $this->app->url->replace_site_url_back($get['option_value']);
                 }
+
                 $this->options_memory[$function_cache_id] = $get;
                 return $get;
             } else {
@@ -441,7 +456,7 @@ class Option
      * $option['option_value'] = 'my value';
      * $option['option_key'] = 'my_option';
      * $option['option_group'] = 'my_option_group';
-     * mw()->option->save($option);
+     * mw()->option_manager->save($option);
      *
      *
      *
@@ -478,7 +493,7 @@ class Option
                                 $data['id'] = $chck[0]['id'];
                             } else {
                                 $table = $this->tables['options'];
-                                $copy = $this->app->database->copy_row_by_id($table, $data['id']);
+                                $copy = $this->app->database_manager->copy_row_by_id($table, $data['id']);
                                 $data['id'] = $copy;
                             }
 
@@ -512,10 +527,10 @@ class Option
 
 
             if (  isset($data['option_group']) and isset($data['option_key'])) {
-                $opt_gr = $this->app->database->escape_string($data['option_group']);
-                $opt_key = $this->app->database->escape_string($data['option_key']);
+                $opt_gr = $this->app->database_manager->escape_string($data['option_group']);
+                $opt_key = $this->app->database_manager->escape_string($data['option_key']);
                 $clean = "DELETE FROM $table WHERE  option_group='{$opt_gr}' AND  option_key='{$opt_key}'";
-              $this->app->database->query($clean);
+              $this->app->database_manager->query($clean);
                 $cache_group = 'options/' . $opt_gr;
                 $this->app->cache_manager->delete($cache_group);
 
@@ -539,7 +554,7 @@ class Option
 
                 $data['allow_html'] = true;
                 $data['allow_scripts'] = true;
-                $save = $this->app->database->save($table, $data);
+                $save = $this->app->database_manager->save($table, $data);
 
                 if ($option_group != false) {
                     $cache_group = 'options/' . $option_group;
@@ -569,7 +584,7 @@ class Option
                     $this->app->cache_manager->delete($cache_group);
                 }
 
-                $this->app->cache_manager->delete('options/global');
+                $this->app->cache_manager->delete('options');
 
                 return $save;
             }
@@ -587,7 +602,7 @@ class Option
         $q = "SELECT * FROM $table WHERE id={$id} LIMIT 1 ";
         $function_cache_id = __FUNCTION__ . crc32($q);
         $res1 = false;
-        $res = $this->app->database->query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
+        $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
         if (is_array($res) and !empty($res)) {
             return $res[0];
         }

@@ -1,5 +1,5 @@
 <?php
-    $module = mw('module')->get('one=1&ui=any&module='.$v_mod);
+    $module = mw()->modules->get('one=1&ui=any&module='.$v_mod);
  ?>
 
 <div id="mw-modules-toolbar">
@@ -16,6 +16,6 @@
       <?php _e("Back"); ?>
       </span> </a> </div>
   </div>
-  <?php  $active = mw('url')->param('view'); ?>
+  <?php  $active = mw()->url->param('view'); ?>
   <?php endif; ?>
 </div>

@@ -499,7 +499,7 @@ if ($cfg_data_hide_paging != 'y') {
 
 $paging_links = false;
 if (intval($pages_count) > 1) {
-    //$paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
+    //$paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword');
 }
 
 $read_more_text = get_option('data-read-more-text', $params['id']);

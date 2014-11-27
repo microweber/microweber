@@ -22,7 +22,7 @@ use Microweber\Utils\Database as DbUtils;
 
 use Illuminate\Support\Facades\User as DefaultUserProvider;
 
-class Database extends DbUtils
+class DatabaseManager extends DbUtils
 {
 
 
@@ -243,30 +243,30 @@ class Database extends DbUtils
         //$orm = DB::table($table)->remember(10);
         $orm = $this->build_query($orm, $table_criteria);
 
-        if(!is_object($orm)){
+        if (!is_object($orm)) {
 
             return false;
         }
 
         if ($getone != true) {
             $get_db_items = $orm->get();
-            if(!empty($get_db_items)){
+            if (!empty($get_db_items)) {
 
-               // $get_db_items = $get_db_items->toArray();
-                $get_db_items = (array) $get_db_items;
+                // $get_db_items = $get_db_items->toArray();
+                $get_db_items = (array)$get_db_items;
 
-                foreach($get_db_items as $k=>$v){
+                foreach ($get_db_items as $k => $v) {
 
-                    $get_db_items[$k] = (array) $v;
+                    $get_db_items[$k] = (array)$v;
                 }
             }
 
         } else {
             $db_items = $orm->get();
-            if(!empty($db_items)){
+            if (!empty($db_items)) {
                 $db_items = array_shift($db_items);
             }
-            $get_db_items = (array) $db_items;
+            $get_db_items = (array)$db_items;
 
 
         }
@@ -463,7 +463,7 @@ class Database extends DbUtils
             $id_to_return = DB::table($table_assoc_name)->insert($criteria);
 
         } else {
-            $id_to_return = DB::table($table_assoc_name)->where('id',$criteria['id'])->update($criteria);
+            $id_to_return = DB::table($table_assoc_name)->where('id', $criteria['id'])->update($criteria);
         }
 
         if ($id_to_return == false) {
@@ -523,8 +523,9 @@ class Database extends DbUtils
         return intval($result['the_id']);
     }
 
-    public function q($q){
-       return DB::select($q);
+    public function q($q)
+    {
+        return DB::select($q);
     }
 
     /**
@@ -582,7 +583,6 @@ class Database extends DbUtils
         }
 
 
-
         $q = DB::select($q);
 
 
@@ -617,6 +617,34 @@ class Database extends DbUtils
             $this->app->cache_manager->save($q, $cache_id, $cache_group);
         }
         return $q;
+    }
+
+
+    /**
+     * Deletes item by id from db table
+     *
+     * @param string $table Your da table name
+     * @param int|string $id The id to delete
+     * @param string $field_name You can set custom column to delete by it, default is id
+     *
+     * @return bool
+     * @example
+     * <code>
+     * //delete content with id 5
+     *  $this->delete_by_id('content', $id=5);
+     * </code>
+     *
+     * @package Database
+     */
+    public function delete_by_id($table, $id = 0, $field_name = 'id')
+    {
+
+        if ($id == 0) {
+
+            return false;
+        }
+        $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
+        return $c_id;
     }
 
 

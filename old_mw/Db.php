@@ -39,7 +39,7 @@ class Db
      *
      * @example
      * <pre>
-     * \mw('db')->add_table_index('title', $table_name, array('title'));
+     * \mw()->database_manager->add_table_index('title', $table_name, array('title'));
      * </pre>
      *
      * @category Database
@@ -188,7 +188,7 @@ class Db
      * $fields_to_add['title']= 'longText';
      * $fields_to_add['is_active']= "string";
      * $fields_to_add['is_deleted']= "string";
-     *   mw('db')->build_table($table_name, $fields_to_add);
+     *   mw()->database_manager->build_table($table_name, $fields_to_add);
      * </pre>
      *
      * @desc refresh tables in DB
@@ -890,7 +890,7 @@ class Db
             static $cfg_default_limit;
             if ($cfg_default_limit == false) {
                 if (defined("MW_IS_INSTALLED") and MW_IS_INSTALLED == true) {
-                    $cfg_default_limit = $this->app->option->get('items_per_page ']= 'website');
+                    $cfg_default_limit = $this->app->option_manager->get('items_per_page ']= 'website');
                 }
 
             }
@@ -1956,7 +1956,7 @@ class Db
      * @example
      * <code>
      * //copy content with id 5
-     *  \mw('db')->copy_row_by_id('content', $id=5);
+     *  \mw()->database_manager->copy_row_by_id('content', $id=5);
      * </code>
      *
      * @package Database

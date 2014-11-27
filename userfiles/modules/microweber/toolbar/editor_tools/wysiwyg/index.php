@@ -399,8 +399,8 @@ window.onfocus = function(){
  
 
 <div class="mw-admin-editor <?php print $mainclass; ?>" id="the_admin_editor">
- <?php //include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
- <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_tiny.php"; ?>
+ <?php //include mw_includes_path() . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
+ <?php include mw_includes_path() . DS . 'toolbar' . DS ."wysiwyg_tiny.php"; ?>
   <div class="mw-admin-editor-area" id="mw-iframe-editor-area" tabindex="0" >{content}</div>
 </div>
 
@@ -416,8 +416,8 @@ window.onfocus = function(){
     </div>
 
     <div class="mw-ui-box">
-        <div class="module-bubble-tab" style="display: block"><module type="admin/modules/list" class="modules-list-init module-as-element"></div>
-        <div class="module-bubble-tab"><module type="admin/modules/list_layouts" class="modules-list-init module-as-element"></div>
+        <div class="module-bubble-tab" style="display: block"><module type="admin/modules_manager/list" class="modules-list-init module-as-element"></div>
+        <div class="module-bubble-tab"><module type="admin/modules_manager/list_layouts" class="modules-list-init module-as-element"></div>
         <div class="module-bubble-tab-not-found-message"></div>
     </div>
 </div>

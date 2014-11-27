@@ -38,7 +38,7 @@ if(user_id() == 0){
 }
 </style>
 <?php
-$here = MW_INCLUDES_DIR;
+$here = mw_includes_path();
   include($here.'toolbar'.DS.'wysiwyg.php');
 include($here.'toolbar'.DS.'wysiwyg_tiny.php');
  

@@ -130,10 +130,10 @@ class User
         $fields_to_add['website_url']= 'longText';
         $fields_to_add['password_reset_hash']= 'longText';
 
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
-        $this->app->database->add_table_index('username', $table_name, array('username(255)'));
-        $this->app->database->add_table_index('email', $table_name, array('email(255)'));
+        $this->app->database_manager->add_table_index('username', $table_name, array('username(255)'));
+        $this->app->database_manager->add_table_index('email', $table_name, array('email(255)'));
 
 
         $table_name = $this->tables['log'];
@@ -161,7 +161,7 @@ class User
         $fields_to_add['session_id']= 'longText';
         $fields_to_add['is_system']= "string";
 
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
         $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -174,7 +174,7 @@ class User
         if (!defined('USER_ID')) {
             define("USER_ID", false);
         }
-        $this->app->event->trigger('user_logout');
+        $this->app->event_manager->trigger('user_logout');
 
         // static $uid;
         $aj = $this->app->url->is_ajax();
@@ -361,7 +361,7 @@ class User
             if (trim($api_key) == '') {
                 return false;
             } else {
-                $api_key = $this->app->database->escape_string($api_key);
+                $api_key = $this->app->database_manager->escape_string($api_key);
                 if (user_id() > 0) {
                     return true;
                 } else {
@@ -422,7 +422,7 @@ class User
             }
         }
 
-        $override = $this->app->event->trigger('before_user_register', $params);
+        $override = $this->app->event_manager->trigger('before_user_register', $params);
 
         if (is_array($override)) {
             foreach ($override as $resp) {
@@ -506,13 +506,13 @@ class User
 
 
 //                    $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
-//                    $next = $this->app->database->last_id($table);
+//                    $next = $this->app->database_manager->last_id($table);
 //                    $next = intval($next) + 1;
 //                    $q = "INSERT INTO $table (id,email, password, is_active)
 //			VALUES ($next, '$email']= '$pass']= 'y')";
 
 
-                    // $this->app->database->q($q);
+                    // $this->app->database_manager->q($q);
                     $this->app->cache_manager->delete('users/global');
                     //$data = save_user($data);
                     $this->session_del('captcha');
@@ -526,7 +526,7 @@ class User
                     $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
                     $this->app->notifications->save($notif);
 
-                    $this->app->log->save($notif);
+                    $this->app->log_manager->save($notif);
 
 
                     $params = $data;
@@ -534,7 +534,7 @@ class User
                     if (isset($pass2)) {
                         $params['password2'] = $pass2;
                     }
-                    $this->app->event->trigger('after_user_register', $params);
+                    $this->app->event_manager->trigger('after_user_register', $params);
                     //$this->login('email='.$email.'&password='.$pass);
 
 
@@ -679,7 +679,7 @@ class User
         //
         $hash = md5($pass);
         if ($hash == false) {
-            $hash = $this->app->database->escape_string($hash);
+            $hash = $this->app->database_manager->escape_string($hash);
             return $pass;
         }
         return $hash;
@@ -794,7 +794,7 @@ class User
 
 
         $table = $this->tables['users'];
-        $save = $this->app->database->save($table, $data_to_save);
+        $save = $this->app->database_manager->save($table, $data_to_save);
         $id = $save;
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . '0');
@@ -848,11 +848,11 @@ class User
      * @uses parse_str()
      * @uses $this->get_all()
      * @uses $this->session_set()
-     * @uses $this->app->log->get()
-     * @uses $this->app->log->save()
+     * @uses $this->app->log_manager->get()
+     * @uses $this->app->log_manager->save()
      * @uses $this->login_set_failed_attempt()
      * @uses $this->update_last_login_time()
-     * @uses $this->app->event->trigger()
+     * @uses $this->app->event_manager->trigger()
      * @function $this->login()
      * @see _table() For the database table fields
      */
@@ -861,7 +861,7 @@ class User
         $params2 = array();
 
 
-        $override = $this->app->event->trigger('before_user_login', $params);
+        $override = $this->app->event_manager->trigger('before_user_login', $params);
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
         $overiden = false;
         if (is_array($override)) {
@@ -907,18 +907,18 @@ class User
             }
             $url = $this->app->url->current(1);
 
-            $check = $this->app->log->get("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
+            $check = $this->app->log_manager->get("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
 
             if ($check == 5) {
 
                 $url_href = "<a href='$url' target='_blank'>$url</a>";
-                $this->app->log->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
+                $this->app->log_manager->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
             }
             if ($check > 5) {
                 $check = $check - 1;
                 return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
             }
-            $check2 = $this->app->log->get("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
+            $check2 = $this->app->log_manager->get("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
             if ($check2 > 25) {
 
                 return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
@@ -1036,7 +1036,7 @@ class User
                 $this->make_logged($data['id']);
                 if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
                     if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
-                        $this->app->event->trigger('user_login_admin');
+                        $this->app->event_manager->trigger('user_login_admin');
                         $p = mw()->content_manager->get_page();
                         if (!empty($p)) {
                             $link = $this->app->content_manager->link($p['id']);
@@ -1096,7 +1096,7 @@ class User
     public function login_set_failed_attempt()
     {
 
-        $this->app->log->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+        $this->app->log_manager->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
     }
 
@@ -1149,7 +1149,7 @@ class User
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->database->delete_by_id('users', $c_id);
+            $this->app->database_manager->delete_by_id('users', $c_id);
             return $c_id;
 
         }
@@ -1192,7 +1192,7 @@ class User
 
         $data1 = array();
         $data1['id'] = intval($params['id']);
-        $data1['password_reset_hash'] = $this->app->database->escape_string($params['password_reset_hash']);
+        $data1['password_reset_hash'] = $this->app->database_manager->escape_string($params['password_reset_hash']);
         $table = $this->tables['users'];
 
         $check = $this->get_all("single=true&password_reset_hash=[not_null]&password_reset_hash=" . $data1['password_reset_hash'] . '&id=' . $data1['id']);
@@ -1211,7 +1211,7 @@ class User
 
         mw_var('FORCE_SAVE', $table);
 
-        $save = $this->app->database->save($table, $data1);
+        $save = $this->app->database_manager->save($table, $data1);
 
         $notif = array();
         $notif['module'] = "users";
@@ -1219,7 +1219,7 @@ class User
         $notif['rel_id'] = $data1['id'];
         $notif['title'] = "The user have successfully changed password. (User id: {$data1['id']})";
 
-        $this->app->log->save($notif);
+        $this->app->log_manager->save($notif);
         $this->session_end();
 
         return array('success' => 'Your password have been changed!');
@@ -1321,7 +1321,7 @@ class User
                             $table = $this->tables['users'];
                             mw_var('FORCE_SAVE', $table);
 
-                            $save = $this->app->database->save($table, $data_to_save);
+                            $save = $this->app->database_manager->save($table, $data_to_save);
                         }
                         $pass_reset_link = $this->app->url->current(1) . '?reset_password_link=' . $function_cache_id;
 
@@ -1333,7 +1333,7 @@ class User
                         $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
                         $notif['description'] = $content_notif;
 
-                        $this->app->log->save($notif);
+                        $this->app->log_manager->save($notif);
                         $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
                         //d($data_res);
@@ -1409,7 +1409,7 @@ class User
                         $table = $this->tables['users'];
                         mw_var('FORCE_SAVE', $table);
 
-                        $save = $this->app->database->save($table, $data_to_save);
+                        $save = $this->app->database_manager->save($table, $data_to_save);
                         $this->app->cache_manager->delete('users/global');
                         if ($save > 0) {
                             $data = array();
@@ -1424,7 +1424,7 @@ class User
                             $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
                             $this->app->notifications->save($notif);
 
-                            $this->app->log->save($notif);
+                            $this->app->log_manager->save($notif);
 
                         }
 
@@ -1436,7 +1436,7 @@ class User
                         $data = $data_ex[0];
                         $user_session['is_logged'] = 'yes';
                         $user_session['user_id'] = $data['id'];
-                        $this->app->event->trigger('after_user_register', $data);
+                        $this->app->event_manager->trigger('after_user_register', $data);
                         if (!defined('USER_ID')) {
                             define("USER_ID", $data['id']);
                         }
@@ -1523,7 +1523,7 @@ class User
 
                     }
 
-                    $this->app->event->trigger('user_login', $data);
+                    $this->app->event_manager->trigger('user_login', $data);
                     $this->session_set('user_session', $user_session);
                     $user_session = $this->session_get('user_session');
 
@@ -1576,9 +1576,9 @@ class User
 
             $table = $this->tables['users'];
             mw_var("FORCE_SAVE", $this->tables['users']);
-            $save = $this->app->database->save($table, $data_to_save);
+            $save = $this->app->database_manager->save($table, $data_to_save);
 
-            $this->app->log->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+            $this->app->log_manager->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
         }
 
@@ -1696,10 +1696,10 @@ class User
         //  $data ['cache_group'] = $cache_group;
 
 
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
 
-        //$get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
+        //$get = $this->app->database_manager->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->database_manager->get_long($table, $criteria = $data, $cache_group);
         // var_dump($get, $function_cache_id, $cache_group);
         //  $this->app->cache_manager->save($get, $function_cache_id, $cache_group);
 
@@ -1719,7 +1719,7 @@ class User
             $default_url = 'users/register';
         }
 
-        $checkout_url = $this->app->option->get('register_url']= 'users');
+        $checkout_url = $this->app->option_manager->get('register_url']= 'users');
         if ($checkout_url != false and trim($checkout_url) != '') {
             $default_url = $checkout_url;
         }
@@ -1756,7 +1756,7 @@ class User
             $default_url = 'users/login';
         }
 
-        $checkout_url = $this->app->option->get('login_url']= 'users');
+        $checkout_url = $this->app->option_manager->get('login_url']= 'users');
         if ($checkout_url != false and trim($checkout_url) != '') {
             $default_url = $checkout_url;
         }
@@ -1784,7 +1784,7 @@ class User
             $default_url = 'users/forgot_password';
         }
 
-        $checkout_url = $this->app->option->get('forgot_password_url']= 'users');
+        $checkout_url = $this->app->option_manager->get('forgot_password_url']= 'users');
         if ($checkout_url != false and trim($checkout_url) != '') {
             $default_url = $checkout_url;
         }

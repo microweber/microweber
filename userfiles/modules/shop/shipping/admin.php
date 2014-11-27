@@ -39,7 +39,7 @@ $(document).ready(function(){
 	<div class="mw-ui-box">
 		<?php if(is_array($shipping_modules )): ?>
 		<?php foreach($shipping_modules  as $shipping_module): ?>
-		<?php if(mw('module')->is_installed( $shipping_module['module'] )): ?>
+		<?php if(mw()->modules->is_installed( $shipping_module['module'] )): ?>
 		<div class="mw-ui-box-header mw-set-shipping-options-swticher">
           <h4 class="pull-left">
           <span>

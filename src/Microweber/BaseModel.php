@@ -22,6 +22,8 @@ class BaseModel extends Eloquent
     public $table_cache_ttl = 60;
     private $filter_keys = ['id', 'module', 'type'];
     public $default_filters = [
+        'id',
+        'limit',
         'single',
         'order_by',
         'min',
@@ -47,8 +49,10 @@ class BaseModel extends Eloquent
     {
     }
 
-    public function scopeItems($query, $params)
+    public function scopeItems($query, $params = false)
     {
+
+
         $table = $this->table;
         if (is_string($params)) {
             $params = parse_params($params);
@@ -75,6 +79,18 @@ class BaseModel extends Eloquent
                         }
                     }
                     break;
+                case 'limit':
+                    $criteria = intval($params['limit']);
+                    $query = $query->take($criteria);
+                    break;
+
+                case 'id':
+                    $criteria = trim($params['id']);
+
+                    $query = $query->where('id',$criteria);
+                    break;
+
+
             }
         }
         foreach (self::$custom_filters as $name => $callback) {

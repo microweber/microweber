@@ -185,7 +185,7 @@ function back_to_site($params)
                         }
 
 
-                        mw('url')->redirect($goto);
+                        mw()->url->redirect($goto);
                         return;
                     } else {
                         $check_if_exists = get_users('one=1&email=' . $user_data['email']);
@@ -225,7 +225,7 @@ function back_to_site($params)
                                     $goto = site_url('login');
                                 }
 
-                               mw('url')->redirect($goto);
+                               mw()->url->redirect($goto);
                                 return;
                             }
                         }
@@ -244,7 +244,7 @@ function back_to_site($params)
 
     if (isset($params['goto'])) {
         $goto = site_url($params['goto']);
-        mw('url')->redirect($goto);
+        mw()->url->redirect($goto);
         return;
     }
 
@@ -532,12 +532,12 @@ function panel_user_link($params)
         $goto = $params['goto'];
         $goto = $user['dologin'] . '&goto=' . urlencode($goto);
 
-        mw('url')->redirect($goto);
+        mw()->url->redirect($goto);
 
     } elseif (isset($params['goto']) and !isset($user ['dologin'])) {
         $goto = site_url('login');
 
-        mw('url')->redirect($goto);
+        mw()->url->redirect($goto);
 
     }
 }

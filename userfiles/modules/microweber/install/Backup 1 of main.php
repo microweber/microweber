@@ -54,9 +54,9 @@ $(document).ready(function(){
 
   $data = $('#form_<?php print $rand; ?>').serialize();
 //  alert($data);
-  //alert('<?php print mw('url')->string() ?>');
+  //alert('<?php print mw()->url->string() ?>');
 
-  $.post("<?php print mw('url')->string() ?>", $data,
+  $.post("<?php print mw()->url->string() ?>", $data,
    function(data) {
 
       $('#mw_log').hide().empty();
@@ -94,7 +94,7 @@ function mw_start_progress(){
   
   setInterval(function(){
 	  <?php $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt'; 
-	  $log_file_url = mw('url')->link_to_file($log_file);
+	  $log_file_url = mw()->url->link_to_file($log_file);
 	  
 	  ?>
 	 $.get('<?php print $log_file_url ?>', function(data) {
@@ -383,7 +383,7 @@ $hide_db_setup = 1;
 
 
                     <?php
-                    $templates= mw('template')->site_templates();
+                    $templates= mw()->template->site_templates();
  
 
                     ?>
@@ -453,7 +453,7 @@ $hide_db_setup = 1;
                     <input type="password" required="true" class="mw-ui-field" name="admin_password2" <?php if(isset($data['admin_password'])== true and isset($data['admin_password'])!= ''): ?> value="<?php print $data['admin_password'] ?>" <?php endif; ?> />
                   </div>
                 </div>
-                <?php 	$default_content_file = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
+                <?php 	$default_content_file = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
                 <?php if(is_file($default_content_file)): ?>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">

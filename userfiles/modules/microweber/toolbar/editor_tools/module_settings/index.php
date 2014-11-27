@@ -4,7 +4,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <?php  $module_info = false;
 if (isset($params['module'])): ?>
-<?php $module_info = mw('module')->get('one=1&ui=any&module=' . $params['module']); ?>
+<?php $module_info = mw()->modules->get('one=1&ui=any&module=' . $params['module']); ?>
 <?php endif; ?>                                                                   
 <script type="text/javascript" src="<?php print(MW_SITE_URL); ?>apijs"></script>
 <script type="text/javascript" src="<?php   print(MW_SITE_URL);  ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
@@ -153,7 +153,7 @@ if (isset($_GET['type'])) {
 
             is_module_tml_holder.append(holder);
 
-            parent.mw.load_module("admin/modules/saved_templates", '#module-modal-settings-menu-items');
+            parent.mw.load_module("admin/modules_manager/saved_templates", '#module-modal-settings-menu-items');
 
         }
 

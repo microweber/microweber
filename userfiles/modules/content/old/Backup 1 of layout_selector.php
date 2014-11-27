@@ -82,7 +82,7 @@ if ((isset($params["inherit_from"]) and $params["inherit_from"] != 0) or ($data[
             $data['layout_file'] = 'inherit';
 
         } else {
-            $inh1 = mw('content')->get_inherited_parent($params["inherit_from"]);
+            $inh1 = mw()->content_manager->get_inherited_parent($params["inherit_from"]);
 
             if ($inh1 == false) {
                 $inh1 = intval($params["inherit_from"]);
@@ -114,7 +114,7 @@ if (isset($data["id"])) {
 	$iframe_cont_id = $data["id"];
 	}
     if (!defined('ACTIVE_SITE_TEMPLATE')) {
-        mw('content')->define_constants($data);
+        mw()->content_manager->define_constants($data);
     }
 }
 
@@ -131,7 +131,7 @@ if (isset($data['active_site_template']) and ($data['active_site_template']) == 
 }
  
 
-$templates = mw('template')->site_templates();
+$templates = mw()->template->site_templates();
 
 $layout_options = array();
 
@@ -141,7 +141,7 @@ $layout_options = array();
 $layout_options  ['site_template'] = $data['active_site_template'];
 $layout_options  ['no_cache'] = true;
 
-$layouts = mw('layouts')->get_all($layout_options);
+$layouts = mw()->layouts_manager->get_all($layout_options);
 
 $recomended_layouts = array();
 if (isset($params['content-type'])) {

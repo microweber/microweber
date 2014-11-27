@@ -1,14 +1,9 @@
 <?php
 
-/**
- * @property $comments
- */
-
-class Content extends BaseModel
+class Option extends BaseModel
 {
 
-    public $table = 'content';
-
+    public $table = 'options';
 
     // called once when Post is first used
     public static function boot()
@@ -22,16 +17,8 @@ class Content extends BaseModel
         return $this->morphMany('Notifications', 'rel');
     }
 
-    public function comments()
-    {
-        return $this->morphMany('Comments', 'rel');
-    }
 
 
-    public function init_db()
-    {
-        $table_name = $this->table;
-    }
 
 
 }

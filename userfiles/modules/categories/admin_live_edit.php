@@ -171,7 +171,7 @@
 
     </div>
     <div class="tab">
-        <module type="admin/modules/templates"/>
+        <module type="admin/modules_manager/templates"/>
     </div>
     <div class="tab">
         <div id="mw_add_cat_live_edit"></div>

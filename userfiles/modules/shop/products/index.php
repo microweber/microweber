@@ -12,7 +12,7 @@ $add_cart_text =  'Add to cart';
 
 $params['subtype'] ='product';
 $params['is_shop'] = 'y';
-		$dir_name = normalize_path(MW_MODULES_DIR);
+		$dir_name = normalize_path(modules_path());
 $posts_mod =  $dir_name.'posts'.DS.'index.php';;
 include($posts_mod);
    ?>   

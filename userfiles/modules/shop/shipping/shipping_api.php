@@ -70,7 +70,7 @@ class shipping_api
         }
 
 
-        $data = mw('db')->save($this->table, $data);
+        $data = mw()->database_manager->save($this->table, $data);
         return ($data);
     }
 
@@ -104,7 +104,7 @@ class shipping_api
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            mw('db')->delete_by_id($this->table, $c_id);
+            mw()->database_manager->delete_by_id($this->table, $c_id);
 
             //d($c_id);
         }

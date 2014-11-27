@@ -75,7 +75,7 @@ class Notifications
             $save['is_read'] = 'y';
             $table = MW_DB_TABLE_NOTIFICATIONS;
             mw_var('FORCE_SAVE', $table);
-            $data = $this->app->database->save($table, $save);
+            $data = $this->app->database_manager->save($table, $save);
             $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . $data);
             $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
@@ -101,7 +101,7 @@ class Notifications
            // $get_params['debug'] = 'id';
             if ($module != 'all') {
 
-                $get_params['module'] = $this->app->database->escape_string($module);
+                $get_params['module'] = $this->app->database_manager->escape_string($module);
             }
             $data = $this->get($get_params);
 
@@ -111,7 +111,7 @@ class Notifications
                     $save['is_read'] = 'y';
                     $save['id'] = $value['id'];
                     $save['table'] = 'table_notifications';
-                    $this->app->database->save('table_notifications', $save);
+                    $this->app->database_manager->save('table_notifications', $save);
                 }
             }
 
@@ -135,7 +135,7 @@ class Notifications
 
         $q = "UPDATE $table SET is_read='y' WHERE is_read='n' ";
 
-        $this->app->database->q($q);
+        $this->app->database_manager->q($q);
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
@@ -154,7 +154,7 @@ class Notifications
         $table = MW_DB_TABLE_NOTIFICATIONS;
 
         $q = "UPDATE $table SET is_read='n'";
-        $this->app->database->q($q);
+        $this->app->database_manager->q($q);
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
@@ -178,10 +178,10 @@ class Notifications
 
             $q = "DELETE FROM $table where id is not NULL  ";
 
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
 
         } else {
-            $this->app->database->delete_by_id($table, intval($id), $field_name = 'id');
+            $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
         }
 
 
@@ -205,14 +205,14 @@ class Notifications
             $get_params = array();
             $get_params['table'] = 'table_notifications';
             $get_params['fields'] = 'id';
-            $get_params['module'] = $this->app->database->escape_string($module);
+            $get_params['module'] = $this->app->database_manager->escape_string($module);
 
             $data = $this->get($get_params);
             if (is_array($data)) {
                 $ids = $this->app->format->array_values($data);
                 $idsi = implode(',', $ids);
                 $cleanup = "DELETE FROM $table WHERE id IN ({$idsi})";
-                $this->app->database->q($cleanup);
+                $this->app->database_manager->q($cleanup);
             }
 
             $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
@@ -253,10 +253,10 @@ class Notifications
 
         $fields_to_add['is_read']= "string";
 
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+        $this->app->database_manager->add_table_index('rel', $table_name, array('rel(55)'));
+        $this->app->database_manager->add_table_index('rel_id', $table_name, array('rel_id(55)'));
 
         $this->app->cache_manager->save($fields_to_add, $function_cache_id, $cache_group = 'db');
         return true;
@@ -283,16 +283,16 @@ class Notifications
         }
         $old = date("Y-m-d H:i:s", strtotime('-30 days'));
         $cleanup = "DELETE FROM $table WHERE created_on < '{$old}'";
-        $this->app->database->q($cleanup);
+        $this->app->database_manager->q($cleanup);
 
         if (isset($params['replace'])) {
             if (isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])) {
                 unset($params['replace']);
-                $rel1 = $this->app->database->escape_string($params['rel']);
-                $module1 = $this->app->database->escape_string($params['module']);
-                $rel_id1 = $this->app->database->escape_string($params['rel_id']);
+                $rel1 = $this->app->database_manager->escape_string($params['rel']);
+                $module1 = $this->app->database_manager->escape_string($params['module']);
+                $rel_id1 = $this->app->database_manager->escape_string($params['rel_id']);
                 $cleanup = "DELETE FROM $table WHERE rel='{$rel1}' AND module='{$module1}' AND rel_id='{$rel_id1}'";
-                $this->app->database->q($cleanup);
+                $this->app->database_manager->q($cleanup);
 
 
             }
@@ -302,7 +302,7 @@ class Notifications
 
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
-        $data = $this->app->database->save($table, $params);
+        $data = $this->app->database_manager->save($table, $params);
         return $data;
     }
 
@@ -315,7 +315,7 @@ class Notifications
 
             }
 
-            $params['id'] = $this->app->database->escape_string($id);
+            $params['id'] = $this->app->database_manager->escape_string($id);
             $params['one'] = true;
 
             $get = $this->get($params);
@@ -344,7 +344,7 @@ class Notifications
             if ($is_log == 'log_') {
                 $is_sys_log = 1;
                 $is_log_id = str_ireplace('log_']= '', $params['id']);
-                $log_entr = $this->app->log->get_entry_by_id($is_log_id);
+                $log_entr = $this->app->log_manager->get_entry_by_id($is_log_id);
                 if ($log_entr != false and isset($params['one'])) {
                     return $log_entr;
 
@@ -358,7 +358,7 @@ class Notifications
             $table = MW_DB_TABLE_NOTIFICATIONS;
             $params['table'] = $table;
             $params['order_by'] = 'id desc';
-            $return = $this->app->database->get($params);
+            $return = $this->app->database_manager->get($params);
         }
         return $return;
     }

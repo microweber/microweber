@@ -240,7 +240,7 @@ if($is_worldwide == false){
         }
 
 
-        $data = mw('db')->save($this->table, $data);
+        $data = mw()->database_manager->save($this->table, $data);
         return ($data);
     }
 
@@ -256,7 +256,7 @@ if($is_worldwide == false){
         }
         $params['limit'] = 1000;
         // d($params);
-        return mw('db')->get($params);
+        return mw()->database_manager->get($params);
 
     }
 
@@ -270,7 +270,7 @@ if($is_worldwide == false){
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            mw('db')->delete_by_id($this->table, $c_id);
+            mw()->database_manager->delete_by_id($this->table, $c_id);
 
             //d($c_id);
         }
@@ -329,7 +329,7 @@ if($is_worldwide == false){
                     $i++;
                 }
 
-                $this->app->database->update_position_field($table, $indx);
+                $this->app->database_manager->update_position_field($table, $indx);
                 return true;
                 // d($indx);
             }

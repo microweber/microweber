@@ -34,10 +34,10 @@ class AdminController extends Controller
             define('MW_BACKEND', true);
         }
 
-
         //create_mw_default_options();
         mw()->content_manager->define_constants();
         //   mw()->ui();
+
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
@@ -49,12 +49,13 @@ class AdminController extends Controller
 
         event_trigger('mw.admin');
 
-
         event_trigger('mw_backend');
+
 
         $view = modules_path() . 'admin/index.php';
 
         $layout = new View($view);
+
         $layout = $layout->__toString();
 
 
@@ -64,6 +65,7 @@ class AdminController extends Controller
         //$layout = mw()->parser->process($l, $options = false);
         // $layout = mw()->parser->process($l, $options = false);
         $layout = execute_document_ready($layout);
+
         event_trigger('mw.admin.header');
 
         $apijs_loaded = mw()->url->site('apijs');
@@ -85,10 +87,10 @@ class AdminController extends Controller
         if ($template_headers_src != false and $template_headers_src != '') {
             $layout = str_ireplace('</head>', $template_headers_src . '</head>', $layout, $one);
         }
-        print $layout;
+        return $layout;
 
         if (isset($_REQUEST['debug'])) {
-            mw()->content->debug_info();
+            mw()->content_manager->debug_info();
             $is_admin = mw()->user->is_admin();
             if ($is_admin == true) {
 

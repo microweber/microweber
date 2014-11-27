@@ -55,7 +55,7 @@
 
                 $data = $('#form_<?php print $rand; ?>').serialize();
 
-                $.post("<?php print mw('url')->string() ?>", $data,
+                $.post("<?php print mw()->url->string() ?>", $data,
                     function (data) {
                         if(data.indexOf('Warning') !== -1){
                           installprogressStop()
@@ -104,7 +104,7 @@
             }
 
             <?php $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt';
-                    $log_file_url = mw('url')->link_to_file($log_file);
+                    $log_file_url = mw()->url->link_to_file($log_file);
                 ?>
           //      $.get('<?php print $log_file_url ?>', function (data) {
 //                  var data = data.replace(/\r/g, '');
@@ -363,7 +363,7 @@
 
 
                 <?php
-                $templates = mw('template')->site_templates();
+                $templates = mw()->template->site_templates();
 
 
                 ?>
@@ -439,7 +439,7 @@
 
 
 
-            <?php    $default_content_file = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
+            <?php    $default_content_file = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'mw_default_content.zip'; ?>
             <?php if (is_file($default_content_file)): ?>
                 <div class="mw-ui-field-holder pull-left">
                     <label class="mw-ui-check">

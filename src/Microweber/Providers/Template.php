@@ -321,7 +321,7 @@ class Template
         $render_file = false;
         $look_for_post = false;
         $template_view_set_inner = false;
-        $site_template_settings = $this->app->option->get('current_template', 'template');
+        $site_template_settings = $this->app->option_manager->get('current_template', 'template');
         if (!isset($page['active_site_template'])) {
             $page['active_site_template'] = 'default';
         } elseif(isset($page['active_site_template']) and $page['active_site_template'] == ''){

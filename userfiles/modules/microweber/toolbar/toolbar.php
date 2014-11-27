@@ -237,7 +237,7 @@ if($is_quick_edit == true){
                   <?php } ?>
                   <?php }  ?>
                 </li>
-                <li><a class="mw-ui-btn" href="<?php print mw('url')->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
+                <li><a class="mw-ui-btn" href="<?php print mw()->url->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
                 <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
                 <?php /*<li><a class="mw-ui-btn" href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
@@ -250,7 +250,7 @@ if($is_quick_edit == true){
                   </span></a> </li>
                 <?php endif; ?>
                 <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a></li>
-                <li><a href="<?php print mw('url')->api_link('logout'); ?>" class="mw-ui-btn"><span>
+                <li><a href="<?php print mw()->url->api_link('logout'); ?>" class="mw-ui-btn"><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
                 <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>
@@ -285,7 +285,7 @@ if($is_quick_edit == true){
           </div>
         </div>
       </div>
-      <?php include MW_INCLUDES_DIR . 'toolbar' . DS . 'wysiwyg.php'; ?>
+      <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
     </div>
     <?php event_trigger('live_edit_toolbar_controls'); ?>
     <div id="modules-and-layouts" style="" class="modules-and-layouts-holder">
@@ -308,7 +308,7 @@ if($is_quick_edit == true){
       <div id="tab_modules" class="mw_toolbar_tab active">
         <div class="modules_bar_slider bar_slider">
           <div class="modules_bar">
-            <module type="admin/modules/list"/>
+            <module type="admin/modules_manager/list"/>
           </div>
           <span class="modules_bar_slide_left">&nbsp;</span> <span
                     class="modules_bar_slide_right">&nbsp;</span> </div>
@@ -317,7 +317,7 @@ if($is_quick_edit == true){
       <div id="tab_layouts" class="mw_toolbar_tab">
         <div class="modules_bar_slider bar_slider">
           <div class="modules_bar">
-            <module type="admin/modules/list_layouts"/>
+            <module type="admin/modules_manager/list_layouts"/>
           </div>
           <span class="modules_bar_slide_left">&nbsp;</span> <span
                     class="modules_bar_slide_right">&nbsp;</span> </div>
@@ -327,7 +327,7 @@ if($is_quick_edit == true){
   </div>
 </div>
 
-<?php include MW_INCLUDES_DIR . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
+<?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
 <script>
         mw.liveEditWYSIWYG = {
             ed: mwd.getElementById('liveedit_wysiwyg'),
@@ -488,7 +488,7 @@ if($is_quick_edit == true){
 
     </script>
 <?php event_trigger('live_edit_toolbar_end'); ?>
-<?php include MW_INCLUDES_DIR . 'toolbar' . DS . "design.php"; ?>
+<?php include mw_includes_path() . 'toolbar' . DS . "design.php"; ?>
 <?php } else { ?>
 <script>
         previewHTML = function (html, index) {
@@ -533,8 +533,8 @@ $(window).load(function(){
     </div>
 
     <div class="mw-ui-box">
-        <div class="module-bubble-tab" style="display: block"><module type="admin/modules/list" data-clean="true" class="modules-list-init module-as-element"></div>
-        <div class="module-bubble-tab"><module type="admin/modules/list_layouts" data-clean="true" class="modules-list-init module-as-element"></div>
+        <div class="module-bubble-tab" style="display: block"><module type="admin/modules_manager/list" data-clean="true" class="modules-list-init module-as-element"></div>
+        <div class="module-bubble-tab"><module type="admin/modules_manager/list_layouts" data-clean="true" class="modules-list-init module-as-element"></div>
         <div class="module-bubble-tab-not-found-message"></div>
     </div>
 </div>

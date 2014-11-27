@@ -65,7 +65,7 @@ function mw_uninstall_stats_module()
     $q = "DROP TABLE IF EXISTS {$table}; ";
     //d($q);
 
-    mw('db')->q($q);
+    mw()->database_manager->q($q);
     mw('cache')->delete('stats');
     //  mw('cache')->delete('db');
 }
@@ -172,7 +172,7 @@ function stats_insert()
 
         mw_var('FORCE_SAVE', $table);
         mw_var('apc_no_clear', 1);
-        $save = mw('db')->save($table, $data);
+        $save = mw()->database_manager->save($table, $data);
         $_SESSION[$cookie_name] = 0;
 
         mw_var('apc_no_clear', 0);
@@ -252,7 +252,7 @@ function stats_insert_cookie_based()
         }
         mw_var('FORCE_SAVE', $table);
         mw_var('apc_no_clear', 1);
-        $save = mw('db')->save($table, $data);
+        $save = mw()->database_manager->save($table, $data);
         //	$_SESSION[$cookie_name] = 0;
         setcookie($cookie_name, 0, time() + 99);
 
@@ -288,7 +288,7 @@ function get_visits($range = 'daily')
         case 'daily' :
             $ago = date("Y-m-d", strtotime("-1 month"));
             $q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) AS total_visits, visit_date FROM $table WHERE visit_date > '$ago' GROUP BY visit_date  ";
-            $results = mw('db')->query($q);
+            $results = mw()->database_manager->query($q);
 
             break;
 
@@ -298,7 +298,7 @@ function get_visits($range = 'daily')
 
             $q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) AS total_visits,visit_date, DATE_FORMAT(visit_date, '%x %V') AS weeks  FROM $table WHERE visit_date > '$ago' GROUP BY weeks  ";
 
-            $results = mw('db')->query($q);
+            $results = mw()->database_manager->query($q);
 
             break;
 
@@ -308,7 +308,7 @@ function get_visits($range = 'daily')
 
             $q = "SELECT COUNT(*) AS unique_visits, SUM(view_count) AS total_visits,visit_date, DATE_FORMAT(visit_date, '%x %m') AS months  FROM $table WHERE visit_date > '$ago' GROUP BY months  ";
 
-            $results = mw('db')->query($q);
+            $results = mw()->database_manager->query($q);
 
             break;
 
@@ -316,7 +316,7 @@ function get_visits($range = 'daily')
             $q = "SELECT * FROM $table ORDER BY visit_date DESC, visit_time DESC LIMIT 5  ";
 
 
-            $results = mw('db')->query($q);
+            $results = mw()->database_manager->query($q);
 
             break;
 
@@ -326,7 +326,7 @@ function get_visits($range = 'daily')
             $ago2 = date("Y-m-d", strtotime("now"));
             $total = 0;
             $q = "SELECT SUM(view_count) AS total_visits FROM $table  WHERE visit_date='$ago2' AND visit_time>'$ago'   ";
-            $results = mw('db')->query($q);
+            $results = mw()->database_manager->query($q);
             if (isset($results[0]) and isset($results[0]['total_visits'])) {
                 $mw_req_sec = mw()->user_manager->session_get('stats_requests_num');
                 $total = $results[0]['total_visits'];
@@ -344,7 +344,7 @@ function get_visits($range = 'daily')
             $ago2 = date("Y-m-d", strtotime("now"));
             $q = "SELECT COUNT(*) AS users_online FROM $table WHERE visit_date='$ago2' AND visit_time>'$ago'    ";
 
-            $results = mw('db')->query($q);
+            $results = mw()->database_manager->query($q);
             if (is_array($results)) {
                 $results = intval($results[0]['users_online']);
             }

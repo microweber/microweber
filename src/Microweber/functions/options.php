@@ -21,7 +21,7 @@
 function get_option($key, $option_group = false, $return_full = false, $orderby = false, $module = false)
 {
 
-    $iudates = mw()->option->get($key, $option_group, $return_full, $orderby, $module);
+    $iudates = mw()->option_manager->get($key, $option_group, $return_full, $orderby, $module);
     return $iudates;
 }
 
@@ -48,5 +48,5 @@ api_expose('save_option');
 function save_option($data)
 {
 
-    return mw()->option->save($data);
+    return mw()->option_manager->save($data);
 }

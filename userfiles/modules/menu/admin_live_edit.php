@@ -78,7 +78,7 @@
 		<?php include($config['path_to_module'].'admin_live_edit_tab1.php');   ?>
 	</div>
 	<div class="tab">
-		<module type="admin/modules/templates" />
+		<module type="admin/modules_manager/templates" />
 	</div>
 	<div class="tab">
 		<div id="add_new_menu" style="overflow: hidden">

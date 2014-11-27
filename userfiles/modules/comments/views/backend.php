@@ -156,7 +156,7 @@ $(document).ready(function(){
 <div id="mw_edit_page_left" class="mw_edit_page_default">
 	<?php $info = module_info($config['module']); ?>
 	<div class="mw-admin-sidebar">
-		<?php mw('module')->icon_with_title($info['module']); ?>
+		<?php mw()->modules->icon_with_title($info['module']); ?>
 		<a class="mw-ui-btn comments-group mw-ui-btn-hover active" href="#content_id=0">
 		<?php _e("My Comments"); ?>
 		</a> <a class="mw-ui-btn comments-group mw-ui-btn-hover mw-ui-btn-hover-blue" href="#content_id=settings">

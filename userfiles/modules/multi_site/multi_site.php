@@ -54,7 +54,7 @@ class multi_site
         }
 
 
-        $save = $this->app->database->save($table, $data);
+        $save = $this->app->database_manager->save($table, $data);
 
         $deploy = $this->deploy($save);
 
@@ -67,7 +67,7 @@ class multi_site
         $params = array();
         $params['table'] = $table;
         $params['domain'] = $domain;
-        $get = $this->app->database->get($params);
+        $get = $this->app->database_manager->get($params);
         if (isset($get[0]) and isset($get[0]['id'])) {
             return $get[0]['id'];
         } else {
@@ -95,8 +95,8 @@ class multi_site
         $new_config = $cfg_dir . DS . 'config_' . $domain_name . '.php';
         $new_bootsrap_base = $cfg_dir . DS . 'bootstrap_' . $domain_name . '.php';
 
-        $config_base = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'config.base.php';
-        $bootsrap_base = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'bootstrap.base.php';
+        $config_base = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'config.base.php';
+        $bootsrap_base = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'bootstrap.base.php';
 
         $save_config = file_get_contents($config_base);
 
@@ -184,7 +184,7 @@ class multi_site
         $params = array();
         $params['table'] = $table;
         $params['id'] = $domain_id;
-        $get = $this->app->database->get($params);
+        $get = $this->app->database_manager->get($params);
         if (isset($get[0]) and isset($get[0]['id'])) {
             return $get[0];
         } else {

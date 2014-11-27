@@ -1,5 +1,5 @@
 <script type="text/javascript">
-<?php include_once( MW_INCLUDES_DIR . 'api/treerenderer.php'); ?>
+<?php include_once( mw_includes_path() . 'api/treerenderer.php'); ?>
 </script>
 <?php 
 
@@ -74,7 +74,7 @@ $cats_str = array();
 $cats_ids = array();
 $cats__parents = array();
 $is_ex1 = array();
-$for = mw('db')->assoc_table_name($for);
+$for = mw()->database_manager->assoc_table_name($for);
 
 
 

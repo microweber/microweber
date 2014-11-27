@@ -89,7 +89,7 @@ if($edit_post_id != 0){
 
     });
 	function mw_reload_login(){
-	    window.location.href = '<?php print mw('url')->current(1); ?>&rand=<?php print uniqid(); ?>';
+	    window.location.href = '<?php print mw()->url->current(1); ?>&rand=<?php print uniqid(); ?>';
 	}
 
 

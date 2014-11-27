@@ -138,7 +138,7 @@ if (isset($data['active_site_template']) and ($data['active_site_template']) == 
 }
  
 
-$templates = mw('template')->site_templates();
+$templates = mw()->template->site_templates();
 
 $layout_options = array();
 
@@ -148,7 +148,7 @@ $layout_options = array();
 $layout_options['site_template'] = $data['active_site_template'];
 $layout_options['no_cache'] = true;
 
-$layouts = mw('layouts')->get_all($layout_options);
+$layouts = mw()->layouts_manager->get_all($layout_options);
 
 $recomended_layouts = array();
 if (isset($params['content-type'])) {
@@ -468,6 +468,9 @@ if (isset($data['layout_file']) and ('' != trim($data['layout_file']))): ?>
 	 $is_layout_file_set = 1;
  $data['layout_file'] = 'inherit';	
 }
+
+
+$is_chosen = false;
  
 ?>
 

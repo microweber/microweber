@@ -24,7 +24,7 @@
     <module type="custom_fields"  view="admin" data-for="module" data-id="<?php print $params['id'] ?>" />
   </div>
   <div class="tab">
-    <module type="admin/modules/templates"  />
+    <module type="admin/modules_manager/templates"  />
   </div>
   <div class="tab">
     <microweber module="settings/list"     for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >

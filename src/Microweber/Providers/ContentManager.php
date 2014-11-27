@@ -40,6 +40,8 @@ static $precached_links = array();
             }
         }
 
+        $this->set_table_names();
+
 
     }
 
@@ -102,7 +104,7 @@ static $precached_links = array();
 
         $data['table'] = $table;
 
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
 
 
         if (!isset($data['full']) and isset($get['value'])) {
@@ -190,7 +192,7 @@ static $precached_links = array();
         $params['limit'] = 1;
         $params['table'] = $table;
 
-        $q = $this->app->database->get($params);
+        $q = $this->app->database_manager->get($params);
 
 
         if (is_array($q) and isset($q[0])) {
@@ -231,7 +233,7 @@ static $precached_links = array();
         $url = $u1;
 
         $table = $this->tables['content'];
-        $url = $this->app->database->escape_string($url);
+        $url = $this->app->database_manager->escape_string($url);
         $url = addslashes($url);
         $url12 = parse_url($url);
         if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
@@ -270,7 +272,7 @@ static $precached_links = array();
         }
 
         $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
-        $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
         $result = $q;
         $content = $result[0];
 
@@ -430,11 +432,7 @@ static $precached_links = array();
         $params['table'] = $table;
         $params['cache_group'] = $cache_group;
 
-//        if ($this->no_cache == true or isset($params['no_cache'])) {
-//            $params['cache_group'] = false;
-//            $params['no_cache'] = true;
-//            $mw_global_content_memory = array();
-//        }
+
         if (isset($params['search_by_keyword'])) {
             $params['keyword'] = $params['search_by_keyword'];
         }
@@ -443,7 +441,7 @@ static $precached_links = array();
             $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');
         }
 
-        $get = $this->app->database->get($params);
+        $get = $this->app->database_manager->get($params);
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
@@ -478,6 +476,93 @@ static $precached_links = array();
         }
 
     }
+
+    /**
+     * Sets the database table names to use by the class
+     *
+     * @param array|bool $tables
+     */
+    public function set_table_names($tables = false)
+    {
+
+        $prefix = '';
+        if (!isset($tables['content'])) {
+            $tables['content'] = $prefix . 'content';
+        }
+        if (!isset($tables['content_fields'])) {
+            $tables['content_fields'] = $prefix . 'content_fields';
+        }
+        if (!isset($tables['content_data'])) {
+            $tables['content_data'] = $prefix . 'content_data';
+        }
+        if (!isset($tables['content_fields_drafts'])) {
+            $tables['content_fields_drafts'] = $prefix . 'content_fields_drafts';
+        }
+        if (!isset($tables['media'])) {
+            $tables['media'] = $prefix . 'media';
+        }
+        if (!isset($tables['custom_fields'])) {
+            $tables['custom_fields'] = $prefix . 'custom_fields';
+        }
+        if (!isset($tables['content_data'])) {
+            $tables['content_data'] = $prefix . 'content_data';
+        }
+        if (!isset($tables['custom_fields'])) {
+            $tables['custom_fields'] = $prefix . 'custom_fields';
+        }
+        if (!isset($tables['categories'])) {
+            $tables['categories'] = $prefix . 'categories';
+        }
+        if (!isset($tables['categories_items'])) {
+            $tables['categories_items'] = $prefix . 'categories_items';
+        }
+        if (!isset($tables['menus'])) {
+            $tables['menus'] = $prefix . 'menus';
+        }
+        $this->table_prefix = $prefix;
+        $this->tables['content'] = $tables['content'];
+        $this->tables['content_fields'] = $tables['content_fields'];
+        $this->tables['content_data'] = $tables['content_data'];
+        $this->tables['content_fields_drafts'] = $tables['content_fields_drafts'];
+        $this->tables['media'] = $tables['media'];
+        $this->tables['custom_fields'] = $tables['custom_fields'];
+        $this->tables['categories'] = $tables['categories'];
+        $this->tables['categories_items'] = $tables['categories_items'];
+        $this->tables['menus'] = $tables['menus'];
+
+
+        /**
+         * Define table names constants for global default usage
+         */
+        if (!defined("MW_DB_TABLE_CONTENT")) {
+            define('MW_DB_TABLE_CONTENT', $tables['content']);
+        }
+        if (!defined("MW_DB_TABLE_CONTENT_FIELDS")) {
+            define('MW_DB_TABLE_CONTENT_FIELDS', $tables['content_fields']);
+        }
+        if (!defined("MW_DB_TABLE_CONTENT_DATA")) {
+            define('MW_DB_TABLE_CONTENT_DATA', $tables['content_data']);
+        }
+        if (!defined("MW_DB_TABLE_CONTENT_FIELDS_DRAFTS")) {
+            define('MW_DB_TABLE_CONTENT_FIELDS_DRAFTS', $tables['content_fields_drafts']);
+        }
+        if (!defined("MW_DB_TABLE_MEDIA")) {
+            define('MW_DB_TABLE_MEDIA', $tables['media']);
+        }
+        if (!defined("MW_DB_TABLE_CUSTOM_FIELDS")) {
+            define('MW_DB_TABLE_CUSTOM_FIELDS', $tables['custom_fields']);
+        }
+        if (!defined("MW_DB_TABLE_MENUS")) {
+            define('MW_DB_TABLE_MENUS', $tables['menus']);
+        }
+        if (!defined("MW_DB_TABLE_TAXONOMY")) {
+            define('MW_DB_TABLE_TAXONOMY', $tables['categories']);
+        }
+        if (!defined("MW_DB_TABLE_TAXONOMY_ITEMS")) {
+            define('MW_DB_TABLE_TAXONOMY_ITEMS', $tables['categories_items']);
+        }
+    }
+
 
     /**
      * Return the path to the layout file that will render the page
@@ -523,7 +608,7 @@ static $precached_links = array();
         }
         $id = intval($id);
         $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
-        $taxonomies = $this->app->database->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
         if (!empty($taxonomies)) {
             foreach ($taxonomies as $item) {
@@ -570,7 +655,7 @@ static $precached_links = array();
 
         $params['table'] = $table;
 
-        $get = $this->app->database->get($params);
+        $get = $this->app->database_manager->get($params);
 
         return $get;
     }
@@ -583,7 +668,7 @@ static $precached_links = array();
         $data['cache_group'] = 'content_data';
         $data['content_id'] = intval($content_id);
         $res = array();
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
         if (!empty($get)) {
             foreach ($get as $item) {
                 if (isset($item['field_name']) and isset($item['field_value'])) {
@@ -917,7 +1002,7 @@ static $precached_links = array();
 
         $is_shop = '';
         if (isset($params['is_shop'])) {
-            $is_shop = $this->app->database->escape_string($params['is_shop']);
+            $is_shop = $this->app->database_manager->escape_string($params['is_shop']);
             $is_shop = " and is_shop='{$is_shop} '";
             $include_first = false;
 
@@ -1459,7 +1544,7 @@ static $precached_links = array();
         $params['table'] = $table;
         $params['item_type'] = 'menu';
         //$params['debug'] = 'menu';
-        $menus = $this->app->database->get($params);
+        $menus = $this->app->database_manager->get($params);
         if (!empty($menus)) {
             return $menus;
         } else {
@@ -1468,7 +1553,7 @@ static $precached_links = array();
                 if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
                     $new_menu = $this->menu_create('id=0&title=' . $params['title']);
                     $params['id'] = $new_menu;
-                    $menus = $this->app->database->get($params);
+                    $menus = $this->app->database_manager->get($params);
                 }
                 define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
             }
@@ -1504,9 +1589,9 @@ static $precached_links = array();
             $data_to_save['table'] = $table;
             $data_to_save['item_type'] = 'menu';
 
-            $save = $this->app->database->save($table, $data_to_save);
+            $save = $this->app->database_manager->save($table, $data_to_save);
 
-            $this->app->cache->delete('menus/global');
+            $this->app->cache_manager->delete('menus/global');
 
             return $save;
         }
@@ -1605,21 +1690,21 @@ static $precached_links = array();
         }
 
         if ($title != false and is_string($title)) {
-            $title = $this->app->database->escape_string($title);
+            $title = $this->app->database_manager->escape_string($title);
             $sql1 = "SELECT * FROM {$menus}
             WHERE title LIKE '$title'
             ORDER BY position ASC ";
 
         }
 
-        //$q = $this->app->database->get($menu_params);
+        //$q = $this->app->database_manager->get($menu_params);
 
         //
         if ($depth < 2) {
-            $q = $this->app->database->query($sql, 'query_' . __FUNCTION__ . crc32($sql), 'menus/global');
+            $q = $this->app->database_manager->query($sql, 'query_' . __FUNCTION__ . crc32($sql), 'menus/global');
 
         } else {
-            $q = $this->app->database->query($sql);
+            $q = $this->app->database_manager->query($sql);
         }
 
         // $data = $q;
@@ -1709,7 +1794,7 @@ static $precached_links = array();
                     $title = $cont['title'];
                     $url = $this->app->category_manager->link($cont['id']);
                 } else {
-                    $this->app->database->delete_by_id($menus, $item['id']);
+                    $this->app->database_manager->delete_by_id($menus, $item['id']);
                     $title = false;
                     $item['title'] = false;
                 }
@@ -2025,7 +2110,7 @@ static $precached_links = array();
             }
         }
         if (!isset($lang) or $lang == false) {
-            $def_language = $this->app->option->get('language', 'website');
+            $def_language = $this->app->option_manager->get('language', 'website');
             if ($def_language != false) {
                 $lang = $def_language;
             }
@@ -2094,8 +2179,8 @@ static $precached_links = array();
                     AND content_id={$content_id}
 				    ";
 
-                    $this->app->cache->delete('menus');
-                    $q = $this->app->database->q($sql);
+                    $this->app->cache_manager->delete('menus');
+                    $q = $this->app->database_manager->q($sql);
                 }
 
                 $value = intval($value);
@@ -2135,7 +2220,7 @@ static $precached_links = array();
 		AND content_id={$content_id}
 		";
 
-            $q = $this->app->database->q($sql);
+            $q = $this->app->database_manager->q($sql);
 
             foreach ($add_to_menus_int as $value) {
                 $check = $this->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
@@ -2158,20 +2243,20 @@ static $precached_links = array();
 
                     $save['content_id'] = $content_id;
 
-                    $new_item = $this->app->database->save($menus, $save);
-                    $this->app->cache->delete('menus/global');
+                    $new_item = $this->app->database_manager->save($menus, $save);
+                    $this->app->cache_manager->delete('menus/global');
 
-                    $this->app->cache->delete('menus/' . $save['parent_id']);
-                    //$this->app->cache->delete('menus/' . $save['parent_id']);
+                    $this->app->cache_manager->delete('menus/' . $save['parent_id']);
+                    //$this->app->cache_manager->delete('menus/' . $save['parent_id']);
 
-                    $this->app->cache->delete('menus/' . $value);
+                    $this->app->cache_manager->delete('menus/' . $value);
 
-                    $this->app->cache->delete('content/' . $content_id);
+                    $this->app->cache_manager->delete('content/' . $content_id);
                 }
             }
 
-            $this->app->cache->delete('menus/global');
-            $this->app->cache->delete('menus');
+            $this->app->cache_manager->delete('menus/global');
+            $this->app->cache_manager->delete('menus');
 
         }
         return $new_item;
@@ -2191,7 +2276,7 @@ static $precached_links = array();
         }
         $params['table'] = $table;
         $params['item_type'] = 'menu_item';
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
     }
 
     function breadcrumb($params = false)
@@ -2770,7 +2855,7 @@ static $precached_links = array();
                                 $to_save['id'] = $content_id;
 
 
-                                $is_native_fld = $this->app->database->get_fields('content');
+                                $is_native_fld = $this->app->database_manager->get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
                                     $to_save[$field] = ($html_to_save);
                                 } else {
@@ -2860,7 +2945,7 @@ static $precached_links = array();
             }
         }
         if (isset($opts_saved)) {
-            $this->app->cache->delete('options');
+            $this->app->cache_manager->delete('options');
         }
         return $json_print;
     }
@@ -2880,12 +2965,12 @@ static $precached_links = array();
 
         $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
 
-        $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
         //
         $result = $q;
         if ($result == false) {
             $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted='n' AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
-            $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+            $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
             $result = $q;
 
         }
@@ -3057,7 +3142,7 @@ static $precached_links = array();
         $id = intval($id);
         $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
 
-        $content_parents = $this->app->database->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        $content_parents = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
         if (!empty($content_parents)) {
 
@@ -3120,7 +3205,7 @@ static $precached_links = array();
         }
         if (isset($data['is_draft']) and isset($data['url'])) {
 
-            $draft_url = $this->app->database->escape_string($data['url']);
+            $draft_url = $this->app->database_manager->escape_string($data['url']);
             $last_saved_date = date("Y-m-d H:i:s", strtotime("-5 minutes"));
             $last_saved_date = date("Y-m-d H:i:s", strtotime("-1 week"));
 
@@ -3152,7 +3237,7 @@ static $precached_links = array();
                 $history_files_ids_impopl = implode(',', $history_files_ids);
                 $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
 
-                $this->app->database->q($del_q);
+                $this->app->database_manager->q($del_q);
             }
 
 
@@ -3164,57 +3249,57 @@ static $precached_links = array();
         }
         //if($data['rel'] == 'global'){
         if (isset($data['field']) and !isset($data['is_draft'])) {
-            $fld = $this->app->database->escape_string($data['field']);
-            $fld_rel = $this->app->database->escape_string($data['rel']);
+            $fld = $this->app->database_manager->escape_string($data['field']);
+            $fld_rel = $this->app->database_manager->escape_string($data['rel']);
             $del_q = "DELETE FROM {$table} WHERE rel='$fld_rel' AND  field='$fld' ";
             if (isset($data['rel_id'])) {
-                $i = $this->app->database->escape_string($data['rel_id']);
+                $i = $this->app->database_manager->escape_string($data['rel_id']);
                 $del_q .= " and  rel_id='$i' ";
 
             } else {
                 $data['rel_id'] = 0;
             }
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->database->q($del_q);
-            $this->app->cache->delete($cache_group);
+            $this->app->database_manager->q($del_q);
+            $this->app->cache_manager->delete($cache_group);
 
             //
 
         }
         if (isset($fld)) {
 
-            $this->app->cache->delete('content_fields/' . $fld);
-            $this->app->cache->delete('content_fields/global/' . $fld);
+            $this->app->cache_manager->delete('content_fields/' . $fld);
+            $this->app->cache_manager->delete('content_fields/global/' . $fld);
 
 
         }
-        $this->app->cache->delete('content_fields/global');
+        $this->app->cache_manager->delete('content_fields/global');
         if (isset($data['rel']) and isset($data['rel_id'])) {
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->cache->delete($cache_group);
+            $this->app->cache_manager->delete($cache_group);
 
 
-            $this->app->cache->delete('content/' . $data['rel_id']);
+            $this->app->cache_manager->delete('content/' . $data['rel_id']);
 
         }
         if (isset($data['rel'])) {
-            $this->app->cache->delete('content_fields/' . $data['rel']);
+            $this->app->cache_manager->delete('content_fields/' . $data['rel']);
         }
         if (isset($data['rel']) and isset($data['rel_id'])) {
-            $this->app->cache->delete('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->cache->delete('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
+            $this->app->cache_manager->delete('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
+            $this->app->cache_manager->delete('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
         }
         if (isset($data['field'])) {
-            $this->app->cache->delete('content_fields/' . $data['field']);
+            $this->app->cache_manager->delete('content_fields/' . $data['field']);
         }
 
-        $this->app->cache->delete('content_fields/global');
+        $this->app->cache_manager->delete('content_fields/global');
         //}
         $data['allow_html'] = true;
 
-        $save = $this->app->database->save($table, $data);
+        $save = $this->app->database_manager->save($table, $data);
 
-        $this->app->cache->delete('content_fields');
+        $this->app->cache_manager->delete('content_fields');
 
         return $save;
 
@@ -3235,7 +3320,7 @@ static $precached_links = array();
             }
         }
         if (isset($data['id'])) {
-            $this->app->event->trigger('content.before.copy', $data);
+            $this->app->event_manager->trigger('content.before.copy', $data);
             $cont = get_content_by_id($data['id']);
             if ($cont != false and isset($cont['id'])) {
                 $new_cont = $cont;
@@ -3307,9 +3392,9 @@ static $precached_links = array();
 
                 $table_fields = $this->tables['content_fields'];
                 $del = "DELETE FROM {$table_fields} WHERE rel='content' AND rel_id='{$id}' ";
-                $this->app->database->query($del);
-                $this->app->cache->delete('content');
-                $this->app->cache->delete('content_fields');
+                $this->app->database_manager->query($del);
+                $this->app->cache_manager->delete('content');
+                $this->app->cache_manager->delete('content_fields');
                 return $save;
             }
 
@@ -3357,17 +3442,17 @@ static $precached_links = array();
             $c_id = intval($data['id']);
             $del_ids[] = $c_id;
             if ($to_trash == false) {
-                $this->app->database->delete_by_id('content', $c_id);
+                $this->app->database_manager->delete_by_id('content', $c_id);
             }
         }
-        $this->app->event->trigger('content.before.delete', $data);
+        $this->app->event_manager->trigger('content.before.delete', $data);
 
         if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
                 $del_ids[] = $c_id;
                 if ($to_trash == false) {
-                    $this->app->database->delete_by_id('content', $c_id);
+                    $this->app->database_manager->delete_by_id('content', $c_id);
                 }
             }
 
@@ -3383,76 +3468,76 @@ static $precached_links = array();
 
                 if ($to_untrash == true) {
                     $q = "UPDATE $table SET is_deleted='n' WHERE id=$c_id AND  is_deleted='y' ";
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
                     $q = "UPDATE $table SET is_deleted='n' WHERE parent=$c_id   AND  is_deleted='y' ";
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $q = "UPDATE $table1 SET is_deleted='n' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='y' ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
                 } else if ($to_trash == false) {
                     $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
 
-                    $this->app->database->delete_by_id('menus', $c_id, 'content_id');
+                    $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
 
                     if (isset($this->tables['media'])) {
                         $table1 = $this->tables['media'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
 
                     if (isset($this->tables['categories_items'])) {
                         $table1 = $this->tables['categories_items'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
                     if (isset($this->tables['custom_fields'])) {
                         $table1 = $this->tables['custom_fields'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
 
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
                     if (isset($this->tables['content_data'])) {
                         $table1 = $this->tables['content_data'];
                         $q = "DELETE FROM $table1 WHERE content_id=$c_id    ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
 
                 } else {
                     $q = "UPDATE $table SET is_deleted='y' WHERE id=$c_id ";
 
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
                     $q = "UPDATE $table SET is_deleted='y' WHERE parent=$c_id ";
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $q = "UPDATE $table1 SET is_deleted='y' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='n' ";
 
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
 
                 }
 
 
-                $this->app->cache->delete('content/' . $c_id);
+                $this->app->cache_manager->delete('content/' . $c_id);
             }
-            $this->app->cache->delete('menus');
-            $this->app->cache->delete('content');
-            $this->app->cache->delete('categories/global');
-            $this->app->cache->delete('content/global');
+            $this->app->cache_manager->delete('menus');
+            $this->app->cache_manager->delete('content');
+            $this->app->cache_manager->delete('categories/global');
+            $this->app->cache_manager->delete('content/global');
 
         }
         //$this->no_cache = true;
@@ -3785,7 +3870,7 @@ static $precached_links = array();
 
             $the_active_site_template = $content['active_site_template'];
         } else {
-            $the_active_site_template = $this->app->option->get('current_template', 'template');
+            $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
             //
         }
 
@@ -3799,10 +3884,10 @@ static $precached_links = array();
                     $the_active_site_template = $inh_parent['active_site_template'];
                 } else if (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) != '' and strtolower($inh_parent['active_site_template']) == 'default') {
 
-                    $the_active_site_template = $this->app->option->get('current_template', 'template');
+                    $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                 } else if (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) == '') {
 
-                    $the_active_site_template = $this->app->option->get('current_template', 'template');
+                    $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                 }
 
             }
@@ -4105,13 +4190,13 @@ static $precached_links = array();
         $ids = array_unique($ids);
 
         $ids_implode = implode(',', $ids);
-        $ids_implode = $this->app->database->escape_string($ids_implode);
+        $ids_implode = $this->app->database_manager->escape_string($ids_implode);
 
 
         $table = $this->tables['content'];
         $maxpos = 0;
         $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
-        $get_max_pos = $this->app->database->query($get_max_pos);
+        $get_max_pos = $this->app->database_manager->query($get_max_pos);
         if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
 
             $maxpos = intval($get_max_pos[0]['maxpos']) + 1;
@@ -4119,26 +4204,26 @@ static $precached_links = array();
         }
 
         // $q = " SELECT id, created_on, position from $table where id IN ($ids_implode)  order by position desc  ";
-        // $q = $this->app->database->query($q);
+        // $q = $this->app->database_manager->query($q);
         // $max_date = $q[0]['created_on'];
         // $max_date_str = strtotime($max_date);
         $i = 1;
         foreach ($ids as $id) {
             $id = intval($id);
-            $this->app->cache->delete('content/' . $id);
+            $this->app->cache_manager->delete('content/' . $id);
             //$max_date_str = $max_date_str - $i;
             //	$nw_date = date('Y-m-d H:i:s', $max_date_str);
             //$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
             $pox = $maxpos - $i;
             $q = " UPDATE $table SET position=$pox WHERE id=$id   ";
             //    var_dump($q);
-            $q = $this->app->database->q($q);
+            $q = $this->app->database_manager->q($q);
             $i++;
         }
         //
         // var_dump($q);
-        $this->app->cache->delete('content/global');
-        $this->app->cache->delete('categories/global');
+        $this->app->cache_manager->delete('content/global');
+        $this->app->cache_manager->delete('categories/global');
         return true;
     }
 
@@ -4351,7 +4436,7 @@ static $precached_links = array();
             if (!isset($data['id'])) {
                 $data['id'] = 0;
             }
-            $this->app->event->trigger('content.before.save', $data);
+            $this->app->event_manager->trigger('content.before.save', $data);
             if (intval($data['id']) == 0) {
                 if (isset($data['subtype']) and $data['subtype'] == 'post' and !isset($data['content_type'])) {
                     $data['subtype'] = 'post';
@@ -4392,7 +4477,7 @@ static $precached_links = array();
 
             $q = "SELECT * FROM $table WHERE id='{$data_to_save['id']}' ";
 
-            $q = $this->app->database->query($q);
+            $q = $this->app->database_manager->query($q);
 
             $thetitle = $q[0]['title'];
             $q = $q[0]['url'];
@@ -4484,14 +4569,14 @@ static $precached_links = array();
                 $data['url'] = $this->app->url->slug($data['title']);
             }
 
-            $data['url'] = $this->app->database->escape_string($data['url']);
+            $data['url'] = $this->app->database_manager->escape_string($data['url']);
 
 
             $date123 = date("YmdHis");
 
             $q = "SELECT id, url FROM $table WHERE url LIKE '{$data['url']}'";
 
-            $q = $this->app->database->query($q);
+            $q = $this->app->database_manager->query($q);
 
             if (!empty($q)) {
 
@@ -4531,7 +4616,7 @@ static $precached_links = array();
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
             if ($adm == true) {
                 $sql = "UPDATE $table SET is_home='n'   ";
-                $q = $this->app->database->query($sql);
+                $q = $this->app->database_manager->query($sql);
             } else {
                 $data_to_save['is_home'] = 'n';
             }
@@ -4592,7 +4677,7 @@ static $precached_links = array();
                     $par_page_new['id'] = $par_page['id'];
                     $par_page_new['subtype'] = 'dynamic';
 
-                    $par_page_new = $this->app->database->save($table, $par_page_new);
+                    $par_page_new = $this->app->database_manager->save($table, $par_page_new);
                     $cats_modified = true;
                 }
                 if (!isset($data_to_save['categories'])) {
@@ -4713,7 +4798,7 @@ static $precached_links = array();
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
 
                 $get_max_pos = "SELECT max(position) AS maxpos FROM $table  ";
-                $get_max_pos = $this->app->database->query($get_max_pos);
+                $get_max_pos = $this->app->database_manager->query($get_max_pos);
                 if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos']))
 
 
@@ -4799,24 +4884,24 @@ static $precached_links = array();
             $url_changed = true;
         }
 
-        $save = $this->app->database->save($table, $data_to_save);
+        $save = $this->app->database_manager->save($table, $data_to_save);
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
             $upd_posted = array();
             $upd_posted['posted_on'] = $data_to_save['updated_on'];
             $upd_posted['id'] = $data_to_save['parent'];
-            $save_posted = $this->app->database->save($table, $upd_posted);
+            $save_posted = $this->app->database_manager->save($table, $upd_posted);
         }
         $after_save = $data_to_save;
         $after_save['id'] = $id;
-        $this->app->event->trigger('content.after.save', $after_save);
-        $this->app->cache->delete('content/' . $save);
+        $this->app->event_manager->trigger('content.after.save', $after_save);
+        $this->app->cache_manager->delete('content/' . $save);
 
-        $this->app->cache->delete('content_fields/global');
-        // $this->app->cache->delete('content/global');
+        $this->app->cache_manager->delete('content_fields/global');
+        // $this->app->cache_manager->delete('content/global');
         if ($url_changed != false) {
-            $this->app->cache->delete('menus');
-            $this->app->cache->delete('categories');
+            $this->app->cache_manager->delete('menus');
+            $this->app->cache_manager->delete('categories');
         }
 
         $data_fields = array();
@@ -4916,7 +5001,7 @@ static $precached_links = array();
             AND rel =\"content\"
 	        ";
 
-            $this->app->database->q($clean);
+            $this->app->database_manager->q($clean);
 
 
             $clean = " UPDATE $media_table SET
@@ -4925,33 +5010,33 @@ static $precached_links = array();
             session_id =\"{$sid}\"
             AND rel =\"content\" AND (rel_id=0 OR rel_id IS NULL)
             ";
-            $this->app->database->q($clean);
+            $this->app->database_manager->q($clean);
         }
 
 
-        $this->app->cache->delete('custom_fields');
-        $this->app->cache->delete('media/global');
+        $this->app->cache_manager->delete('custom_fields');
+        $this->app->cache_manager->delete('media/global');
 
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
-            $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
+            $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
         }
         if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
-            $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
+            $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
         }
 
-        $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . 'global');
-        $this->app->cache->delete('content' . DIRECTORY_SEPARATOR . '0');
-        $this->app->cache->delete('content_fields/global');
-        $this->app->cache->delete('content');
+        $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . 'global');
+        $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . '0');
+        $this->app->cache_manager->delete('content_fields/global');
+        $this->app->cache_manager->delete('content');
         if ($cats_modified != false) {
 
-            $this->app->cache->delete('categories/global');
-            $this->app->cache->delete('categories_items/global');
+            $this->app->cache_manager->delete('categories/global');
+            $this->app->cache_manager->delete('categories_items/global');
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
                     $item = intval($item);
                     if ($item > 0) {
-                        $this->app->cache->delete('categories/' . $item);
+                        $this->app->cache_manager->delete('categories/' . $item);
                     }
                 }
             }
@@ -5014,9 +5099,9 @@ static $precached_links = array();
         $data['allow_html'] = true;
         // $data['debug'] = true;
 
-        $save = $this->app->database->save($table, $data);
+        $save = $this->app->database_manager->save($table, $data);
 
-        $this->app->cache->delete('content_data');
+        $this->app->cache_manager->delete('content_data');
 
         return $save;
 
@@ -5043,7 +5128,7 @@ static $precached_links = array();
         $data['cache_group'] = 'content_data';
 
 
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
 
         return $get;
 
@@ -5084,10 +5169,10 @@ static $precached_links = array();
                             }
                         }
                     }
-                    $new_shop = $this->app->database->save('content', $add_page);
-                    $this->app->cache->delete('content');
-                    $this->app->cache->delete('categories');
-                    $this->app->cache->delete('custom_fields');
+                    $new_shop = $this->app->database_manager->save('content', $add_page);
+                    $this->app->cache_manager->delete('content');
+                    $this->app->cache_manager->delete('categories');
+                    $this->app->cache_manager->delete('custom_fields');
 
                     //
                 } else {
@@ -5108,8 +5193,8 @@ static $precached_links = array();
                     $add_page['subtype'] = "product";
 
                     //$new_shop = $this->save_content($add_page);
-                    //$this->app->cache->delete('content');
-                    //$this->app->cache->clear();
+                    //$this->app->cache_manager->delete('content');
+                    //$this->app->cache_manager->clear();
                 }
 
 
@@ -5154,10 +5239,10 @@ static $precached_links = array();
 
                     }
 
-                    $new_shop = $this->app->database->save('content', $add_page);
-                    $this->app->cache->delete('content');
-                    $this->app->cache->delete('categories');
-                    $this->app->cache->delete('content_fields');
+                    $new_shop = $this->app->database_manager->save('content', $add_page);
+                    $this->app->cache_manager->delete('content');
+                    $this->app->cache_manager->delete('categories');
+                    $this->app->cache_manager->delete('content_fields');
 
 
                     //
@@ -5280,13 +5365,13 @@ static $precached_links = array();
 
         $id = $params['id'];
 
-        $id = $this->app->database->escape_string($id);
+        $id = $this->app->database_manager->escape_string($id);
         $id = htmlspecialchars_decode($id);
         $table = $this->tables['menus'];
 
-        $this->app->database->delete_by_id($table, trim($id), $field_name = 'id');
+        $this->app->database_manager->delete_by_id($table, trim($id), $field_name = 'id');
 
-        $this->app->cache->delete('menus/global');
+        $this->app->cache_manager->delete('menus/global');
 
         return true;
 
@@ -5317,7 +5402,7 @@ static $precached_links = array();
 
         if (isset($data_to_save['menu_id'])) {
             $data_to_save['id'] = intval($data_to_save['menu_id']);
-            $this->app->cache->delete('menus/' . $data_to_save['id']);
+            $this->app->cache_manager->delete('menus/' . $data_to_save['id']);
 
         }
 
@@ -5327,7 +5412,7 @@ static $precached_links = array();
 
         if (isset($data_to_save['id'])) {
             $data_to_save['id'] = intval($data_to_save['id']);
-            $this->app->cache->delete('menus/' . $data_to_save['id']);
+            $this->app->cache_manager->delete('menus/' . $data_to_save['id']);
         }
 
         if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
@@ -5366,7 +5451,7 @@ static $precached_links = array();
 
         if (isset($data_to_save['parent_id'])) {
             $data_to_save['parent_id'] = intval($data_to_save['parent_id']);
-            $this->app->cache->delete('menus/' . $data_to_save['parent_id']);
+            $this->app->cache_manager->delete('menus/' . $data_to_save['parent_id']);
         }
 
         $table = $this->tables['menus'];
@@ -5375,9 +5460,9 @@ static $precached_links = array();
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
 
-        $save = $this->app->database->save($table, $data_to_save);
+        $save = $this->app->database_manager->save($table, $data_to_save);
 
-        $this->app->cache->delete('menus/global');
+        $this->app->cache_manager->delete('menus/global');
 
         return $save;
 
@@ -5400,9 +5485,9 @@ static $precached_links = array();
 
         $table = $this->tables['menus'];
 
-        $this->app->database->delete_by_id($table, intval($id), $field_name = 'id');
+        $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
 
-        $this->app->cache->delete('menus/global');
+        $this->app->cache_manager->delete('menus/global');
 
         return true;
 
@@ -5431,9 +5516,9 @@ static $precached_links = array();
 				WHERE id=$value2 AND id!=$k
 				AND item_type='menu_item'
 				";
-                    $q = $this->app->database->q($sql);
-                    $this->app->cache->delete('menus/' . $k);
-                    $this->app->cache->delete('menus/' . $value2);
+                    $q = $this->app->database_manager->q($sql);
+                    $this->app->cache_manager->delete('menus/' . $k);
+                    $this->app->cache_manager->delete('menus/' . $value2);
                 }
 
             }
@@ -5446,19 +5531,19 @@ static $precached_links = array();
                 $i = 0;
                 foreach ($value as $value2) {
                     $indx[$i] = $value2;
-                    $this->app->cache->delete('menus/' . $value2);
+                    $this->app->cache_manager->delete('menus/' . $value2);
 
                     $i++;
                 }
 
-                $this->app->database->update_position_field($table, $indx);
+                $this->app->database_manager->update_position_field($table, $indx);
                 //return true;
                 $return_res = $indx;
             }
         }
-        $this->app->cache->delete('menus/global');
+        $this->app->cache_manager->delete('menus/global');
 
-        $this->app->cache->delete('menus');
+        $this->app->cache_manager->delete('menus');
         return $return_res;
     }
 

@@ -91,7 +91,7 @@
       <span class='mw-ui-btn mw-ui-btn-green mw-ui-btn-saveIMG right'>Update</span> </div>
   </div>
 </div>
-<?php include MW_INCLUDES_DIR . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
+<?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
 <script>
         mw.liveEditWYSIWYG = {
             ed: mwd.getElementById('liveedit_wysiwyg'),

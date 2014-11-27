@@ -47,7 +47,7 @@
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
     </script>
-    <?php if (!isset($_REQUEST['no_toolbar'])): ?>
+    <?php if (!isset($_REQUEST['no_toolbar'])): ?> 
         <script type="text/javascript">
             $(document).ready(function () {
                 if (self === top) {
@@ -68,7 +68,7 @@
     <?php endif; ?>
     <?php event_trigger('admin_head'); ?>
 </head>
-<body  class="is_admin loading view-<?php print mw('url')->param('view'); ?> action-<?php print mw('url')->param('action'); ?>">
+<body  class="is_admin loading view-<?php print mw()->url->param('view'); ?> action-<?php print mw()->url->param('action'); ?>">
 <?php
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
@@ -94,6 +94,7 @@ else {
         $past_page = site_url();
     }
 }
+
 
 
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';

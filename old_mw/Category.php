@@ -258,7 +258,7 @@ class Category
             }
 
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
-                $table_assoc_name = $this->app->database->assoc_table_name($params['for']);
+                $table_assoc_name = $this->app->database_manager->assoc_table_name($params['for']);
                 $skip123 = true;
                 $str0 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
                 $cat_get_params = array();
@@ -275,14 +275,14 @@ class Category
                     $str0 = $str0 . '&users_can_create_content=' . $users_can_create_content;
                     // unset( $cat_get_params['parent_id']);
                 }
-                $fors = $this->app->database->get($cat_get_params);
+                $fors = $this->app->database_manager->get($cat_get_params);
 
                 //
 
                 //    d($table);
                 // print_r(mw()->orm->getLastQuery());
                 // d($cat_get_params);
-                // $fors = $this->app->database->get($cat_get_params);
+                // $fors = $this->app->database_manager->get($cat_get_params);
                 //  d($fors);
                 // exit;
 
@@ -291,7 +291,7 @@ class Category
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
                 $skip123 = true;
                 $str1 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
-                $fors1 = $this->app->database->get($str1);
+                $fors1 = $this->app->database_manager->get($str1);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
 
@@ -323,7 +323,7 @@ class Category
         }
 
         if (isset($params['rel']) and $params['rel'] != false and isset($params['rel_id'])) {
-            $table_assoc_name = $this->app->database->assoc_table_name($params['rel']);
+            $table_assoc_name = $this->app->database_manager->assoc_table_name($params['rel']);
             $skip123 = true;
             $users_can_create_content_q = false;
             $cat_get_params = array();
@@ -340,7 +340,7 @@ class Category
             }
 
             //$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
-            $fors = $this->app->database->get($cat_get_params);
+            $fors = $this->app->database_manager->get($cat_get_params);
             //  d($fors);
 
         }
@@ -507,8 +507,8 @@ class Category
             $my_limit_q = false;
         }
         $output = '';
-        //$q = $this->app->database->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
-        $q = $this->app->database->query($sql, false);
+        //$q = $this->app->database_manager->query($sql, $cache_id = 'html_tree_parent_cats_q_' . crc32($sql), 'categories/' . intval($parent));
+        $q = $this->app->database_manager->query($sql, false);
 
         $result = $q;
 
@@ -780,7 +780,7 @@ class Category
                 $url = $this->app->content_manager->link($content['id']);
             } else {
                 if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'content') {
-                    $this->app->database->delete_by_id($table, $id);
+                    $this->app->database_manager->delete_by_id($table, $id);
                 }
             }
 
@@ -841,7 +841,7 @@ class Category
 
             $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$id} LIMIT 0,1";
             //p($q,1);
-            $q = $this->app->database->query($q, __FUNCTION__ . crc32($q), $cache_group);
+            $q = $this->app->database_manager->query($q, __FUNCTION__ . crc32($q), $cache_group);
 
             //$content = $this->content_model->getContentAndCache ( $content, $orderby );
 
@@ -864,7 +864,7 @@ class Category
 
                 $q = " SELECT * FROM $db_t_content WHERE subtype ='dynamic' AND subtype_value={$item} LIMIT 0,1";
                 //p($q);
-                $q = $this->app->database->query($q, __FUNCTION__ . crc32($q), $cache_group);
+                $q = $this->app->database_manager->query($q, __FUNCTION__ . crc32($q), $cache_group);
 
                 //$content = $this->content_model->getContentAndCache ( $content, $orderby );
 
@@ -981,7 +981,7 @@ class Category
         $id = intval($id);
         $q = " select id, parent_id  from $table where id = $id and  data_type='{$data_type}' " . $with_main_parrent_q;
 
-        $taxonomies = $this->app->database->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
+        $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
 
 
         if (!empty($taxonomies)) {
@@ -1060,7 +1060,7 @@ class Category
         $cache_group = 'categories/' . $parent_id;
         $q = " SELECT id,  parent_id FROM $table WHERE parent_id=$parent_id   ";
         $q_cache_id = __FUNCTION__ . crc32($q);
-        $save = $this->app->database->query($q, $q_cache_id, $cache_group);
+        $save = $this->app->database_manager->query($q, $q_cache_id, $cache_group);
         if (empty($save)) {
             return false;
         }
@@ -1158,7 +1158,7 @@ class Category
         }
 
         $q = "select parent_id from $table_items where  rel='content' and rel_id=$content_id  " . $data_type_q;
-        $data = $this->app->database->query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
+        $data = $this->app->database_manager->query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
         $results = false;
         if (!empty($data)) {
             $results = array();
@@ -1193,7 +1193,7 @@ class Category
             $data['data_type'] = 'tag_item';
         }
         $data['table'] = $table_items;
-        $data = $this->app->database->get($data);
+        $data = $this->app->database_manager->get($data);
         return $data;
     }
 
@@ -1254,7 +1254,7 @@ class Category
         }
 
 
-        $data = $this->app->database->get($data);
+        $data = $this->app->database_manager->get($data);
         return $data;
 
     }
@@ -1319,7 +1319,7 @@ class Category
                 $cs['id'] = intval($data['rel_id']);
                 $cs['subtype'] = 'dynamic';
                 $table_c = $this->tables['content'];
-                $save = $this->app->database->save($table_c, $cs);
+                $save = $this->app->database_manager->save($table_c, $cs);
             }
 
         }
@@ -1334,7 +1334,7 @@ class Category
             //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
 
-        $save = $this->app->database->save($table, $data);
+        $save = $this->app->database_manager->save($table, $data);
         if ($simple_save == true) {
             return $save;
         }
@@ -1364,7 +1364,7 @@ class Category
 	";
 
 
-        $this->app->database->q($clean);
+        $this->app->database_manager->q($clean);
         //$this->app->cache_manager->clear('custom_fields');
 
         $media_table = $this->tables['media'];
@@ -1381,7 +1381,7 @@ class Category
 
         //$this->app->cache_manager->clear('media');
 
-        $this->app->database->q($clean);
+        $this->app->database_manager->q($clean);
 
         if (isset($content_ids) and !empty($content_ids)) {
             $content_ids = array_unique($content_ids);
@@ -1395,7 +1395,7 @@ class Category
 		AND  data_type ='{$data_type}' ";
 
 
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
 
             foreach ($content_ids as $id) {
 
@@ -1411,7 +1411,7 @@ class Category
 
                 $item_save['parent_id'] = intval($save);
 
-                $item_save = $this->app->database->save($table_items, $item_save);
+                $item_save = $this->app->database_manager->save($table_items, $item_save);
 
                 //$this->app->cache_manager->clear('content' . DIRECTORY_SEPARATOR . $id);
             }
@@ -1477,7 +1477,7 @@ class Category
 
         $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
 
-        $q = $this->app->database->query($q);
+        $q = $this->app->database_manager->query($q);
 
         $q = $q[0];
 
@@ -1506,11 +1506,11 @@ class Category
             $c_id = intval($data);
         }
 
-        $del = $this->app->database->delete_by_id('categories', $c_id);
-        $this->app->database->delete_by_id('categories', $c_id, 'parent_id');
-        $this->app->database->delete_by_id('categories_items', $c_id, 'parent_id');
+        $del = $this->app->database_manager->delete_by_id('categories', $c_id);
+        $this->app->database_manager->delete_by_id('categories', $c_id, 'parent_id');
+        $this->app->database_manager->delete_by_id('categories_items', $c_id, 'parent_id');
         if (defined("MODULE_DB_MENUS")) {
-            $this->app->database->delete_by_id('menus', $c_id, 'categories_id');
+            $this->app->database_manager->delete_by_id('menus', $c_id, 'categories_id');
         }
         return $del;
     }
@@ -1533,7 +1533,7 @@ class Category
                     $i++;
                 }
 
-                mw('db')->update_position_field($table, $indx);
+                mw()->database_manager->update_position_field($table, $indx);
                 return true;
             }
         }

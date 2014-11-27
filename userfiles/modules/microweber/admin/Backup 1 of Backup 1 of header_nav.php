@@ -11,19 +11,19 @@
   if( $last_page_front  != false){
    // $past_page = site_url($last_page_front);
     
-        $cont_by_url = mw('content')->get_by_id($last_page_front , true);
+        $cont_by_url = mw()->content_manager->get_by_id($last_page_front , true);
 
     if(isset($cont_by_url) and $cont_by_url == false){
         $past_page=get_content("order_by=updated_on desc&limit=1");
-        $past_page = mw('content')->link($past_page[0]['id']);
+        $past_page = mw()->content_manager->link($past_page[0]['id']);
     } else {
-		 $past_page = mw('content')->link($last_page_front);
+		 $past_page = mw()->content_manager->link($last_page_front);
 	}
 
   }
   else {
   	$past_page=get_content("order_by=updated_on desc&limit=1");
-      $past_page = mw('content')->link($past_page[0]['id']);
+      $past_page = mw()->content_manager->link($past_page[0]['id']);
  
   }
   
@@ -34,7 +34,7 @@
         <span class="mw-cube">  <span class="mw-cube1"><span id="mw_toolbar_logo" href="<?php print admin_url(); ?>"></span></span> </span> </a>
 	<div class="mw-v-cell" style="width: 100%">
 		<?php if(is_admin()): ?>
-		<?php   $active = mw('url')->param('view'); ?>
+		<?php   $active = mw()->url->param('view'); ?>
 		<ul id="mw_tabs">
 			<li <?php if($active == 'dashboard' or $active == false): ?>class="active"<?php endif; ?>><a href="<?php print admin_url(); ?>view:dashboard" title="<?php _e("Dashboard"); ?>"><i class="ico inavdashboard"></i><span>
 				<?php _e("Dashboard"); ?>
@@ -54,7 +54,7 @@
 		</ul>
 	</div>
 	<div class="mw-v-cell">
-		<div id="mw-admin-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout"  href="<?php print mw('url')->api_link('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie mw-admin-go-live-now-btn" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>
+		<div id="mw-admin-toolbar-right"> <a title="<?php _e("Logout"); ?>" class="ico ilogout"  href="<?php print mw()->url->api_link('logout'); ?>"><span></span></a> <a title="<?php _e("Go Live Edit"); ?>" id="mw-go_livebtn_admin" class="mw-ui-btn mw-ui-btn-blue right back-to-admin-cookie mw-admin-go-live-now-btn" href="<?php print $past_page; ?>?editmode=y"><span class="ico ilive"></span>
 			<?php _e("Go Live Edit"); ?>
 			</a>
 			<div class="mw-toolbar-notification">

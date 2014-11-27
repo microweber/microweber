@@ -1,17 +1,14 @@
-
 <?php include (__DIR__.DS . 'header.php'); ?>
- <module type="admin/test" template="admin" name="Comments" grad="kazanlak"  />
-
 <?php if(is_admin() == false): ?>
 <module type="users/login" template="admin" />
 <?php else: ?>
-<?php $v1 = mw('url')->param('load_module'); ?>
-<?php $v = mw('url')->param('view');
+<?php $v1 = mw()->url->param('load_module'); ?>
+<?php $v = mw()->url->param('view');
 
     if($v1 != false){
-        $holder_cls = mw('url')->slug($v1);
+        $holder_cls = mw()->url->slug($v1);
     }  else if($v != false){
-        $holder_cls = mw('url')->slug($v);
+        $holder_cls = mw()->url->slug($v);
     } else {
         $holder_cls = false;
     }
@@ -32,7 +29,6 @@
 
             ?>
   <?php else : ?>
-  <?php //include_once (__DIR__.DS . 'header_nav.php'); ?>
   <?php
 
 
@@ -41,17 +37,9 @@
             $vf = str_replace('..', '', $vf);
 
             if(is_file($vf)){
-                //d($vf);
-
                 include ($vf);
-
-            }
-
-            else { ?>
-  <?php
-
+            }  else {  
                 $v_mod = module_name_decode($v);
-
                 if($v_mod != '' and is_module($v_mod)){
                     // $mod = load_module($v_mod, $attrs=array('view' => 'admin','backend' => 'true'));
 
@@ -60,7 +48,7 @@
                     print $mod ;
                 } else {
 
-                    include (__DIR__.DS . 'index.php');
+                    include (__DIR__.DS . 'dashboard.php');
                 }
 
             } ?>

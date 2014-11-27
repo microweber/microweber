@@ -157,17 +157,17 @@ class Module
 
         $fields_to_add['notifications']= 'int(11) default 0');
 
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
         $fields_to_add['layout_type']= 'string';
 
-        $this->app->database->add_table_index('module', $table_name, array('module(255)'));
-        $this->app->database->add_table_index('module_id', $table_name, array('module_id(255)'));
+        $this->app->database_manager->add_table_index('module', $table_name, array('module(255)'));
+        $this->app->database_manager->add_table_index('module_id', $table_name, array('module_id(255)'));
 
-        $this->app->database->build_table($table_name2, $fields_to_add);
+        $this->app->database_manager->build_table($table_name2, $fields_to_add);
 
-        $this->app->database->add_table_index('module', $table_name2, array('module(255)'));
-        $this->app->database->add_table_index('module_id', $table_name2, array('module_id(255)'));
+        $this->app->database_manager->add_table_index('module', $table_name2, array('module(255)'));
+        $this->app->database_manager->add_table_index('module_id', $table_name2, array('module_id(255)'));
 
         $fields_to_add = array();
         $fields_to_add['updated_on']= 'dateTime';
@@ -177,7 +177,7 @@ class Module
         $fields_to_add['module_id']= 'longText';
         $fields_to_add['name']= 'longText';
         $fields_to_add['module']= 'longText';
-        $this->app->database->build_table($table_name3, $fields_to_add);
+        $this->app->database_manager->build_table($table_name3, $fields_to_add);
 
 
         $fields_to_add = array();
@@ -199,7 +199,7 @@ class Module
         $fields_to_add['reg_on']= 'dateTime';
         $fields_to_add['due_on']= 'dateTime';
 
-        $this->app->database->build_table($table_name4, $fields_to_add);
+        $this->app->database_manager->build_table($table_name4, $fields_to_add);
 
         $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
         // $fields = (array_change_key_case ( $fields, CASE_LOWER ));
@@ -843,7 +843,7 @@ class Module
             unset($params['ui']);
         }
 
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
     }
 
     public function path($module_name)
@@ -928,7 +928,7 @@ class Module
                     $indx[$i] = $value2;
                     $i++;
                 }
-                $this->app->database->update_position_field($table, $indx);
+                $this->app->database_manager->update_position_field($table, $indx);
                 return $indx;
             }
         }
@@ -946,13 +946,13 @@ class Module
             $db_categories_items = $this->table_prefix . 'categories_items';
 
             $q = "DELETE FROM $table ";
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
 
             $q = "DELETE FROM $db_categories WHERE rel='modules' AND data_type='category' ";
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
 
             $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' ";
-            $this->app->database->q($q);
+            $this->app->database_manager->q($q);
             $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
             $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
@@ -1074,7 +1074,7 @@ class Module
 
         //$this->app->cache_manager->clear();
         //clearstatcache();
-        $dir_name_mods = MW_MODULES_DIR;
+        $dir_name_mods = modules_path();
         $modules_remove_old = false;
         $dir = rglob($glob_patern, 0, $dir_name_mods);
 
@@ -1089,8 +1089,8 @@ class Module
                         if (isset($config['tables']) and is_array($config['tables'])) {
                             $tabl = $config['tables'];
                             foreach ($tabl as $key1 => $fields_to_add) {
-                                $table = $this->app->database->real_table_name($key1);
-                                $this->app->database->build_table($table, $fields_to_add);
+                                $table = $this->app->database_manager->real_table_name($key1);
+                                $this->app->database_manager->build_table($table, $fields_to_add);
                             }
                         }
                     }
@@ -1115,7 +1115,7 @@ class Module
 
         $params['table'] = $table;
 
-        $data = $this->app->database->get($params);
+        $data = $this->app->database_manager->get($params);
         return $data;
     }
 
@@ -1137,13 +1137,13 @@ class Module
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->database->delete_by_id($table, $c_id);
+            $this->app->database_manager->delete_by_id($table, $c_id);
         }
 
         if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
-                $this->app->database->delete_by_id($table, $c_id);
+                $this->app->database_manager->delete_by_id($table, $c_id);
             }
 
         }
@@ -1164,7 +1164,7 @@ class Module
         if (!empty($data_to_save)) {
             $s = $data_to_save;
 
-            $save = $this->app->database->save($table, $s);
+            $save = $this->app->database_manager->save($table, $s);
         }
 
         return $save;
@@ -1270,7 +1270,7 @@ class Module
             $cache_group = 'elements/global';
 
         } else {
-            $dir_name = normalize_path(MW_MODULES_DIR);
+            $dir_name = normalize_path(modules_path());
             $list_as_element = false;
             $cache_group = 'modules/global';
         }
@@ -1338,7 +1338,7 @@ class Module
 
         $modules_remove_old = false;
         $dir = rglob($glob_patern, 0, $dir_name);
-        $dir_name_mods = MW_MODULES_DIR;
+        $dir_name_mods = modules_path();
         $dir_name_mods2 = MW_ELEMENTS_DIR;
 
         if (!empty($dir)) {
@@ -1378,7 +1378,7 @@ class Module
 
                     $content = ob_get_contents();
                     ob_end_clean();
-                    $value_fn = str_replace(MW_MODULES_DIR, '', $value_fn);
+                    $value_fn = str_replace(modules_path(), '', $value_fn);
 
 
                     $replace_root = MW_ROOTPATH . DS . 'userfiles' . DS . 'modules' . DS;
@@ -1392,7 +1392,7 @@ class Module
                     $value_fn = rtrim($value_fn, '\\');
                     $value_fn = rtrim($value_fn, '/');
                     $value_fn = str_replace('\\']= '/', $value_fn);
-                    $value_fn = str_replace(MW_MODULES_DIR, '', $value_fn);
+                    $value_fn = str_replace(modules_path(), '', $value_fn);
 
 
                     $config['module'] = $value_fn;
@@ -1479,7 +1479,7 @@ class Module
                             $mn = $value['module'];
                             $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
 
-                            $this->app->database->q($q);
+                            $this->app->database_manager->q($q);
                         }
 
                     }
@@ -1527,17 +1527,17 @@ class Module
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
                         $s["position"] = intval($save[0]["position"]);
-                        $save = $this->app->database->save($table, $s);
+                        $save = $this->app->database_manager->save($table, $s);
                         $mname_clen = str_replace('\\']= '/', $s["module"]);
-                        $mname_clen = $this->app->database->escape_string($mname_clen);
+                        $mname_clen = $this->app->database_manager->escape_string($mname_clen);
                         if ($s["id"] > 0) {
                             $delid = $s["id"];
                             $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            $this->app->database->q($del);
+                            $this->app->database_manager->q($del);
                         }
                     } else {
 
-                        $save = $this->app->database->save($table, $s);
+                        $save = $this->app->database_manager->save($table, $s);
                     }
                 } else {
 
@@ -1545,7 +1545,7 @@ class Module
 
             } else {
 
-                $save = $this->app->database->save($table, $s);
+                $save = $this->app->database_manager->save($table, $s);
             }
         }
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . 'functions');
@@ -1639,8 +1639,8 @@ class Module
                     if (isset($config['tables']) and is_array($config['tables'])) {
                         $tabl = $config['tables'];
                         foreach ($tabl as $key1 => $fields_to_add) {
-                            $table = $this->app->database->real_table_name($key1);
-                            $this->app->database->build_table($table, $fields_to_add);
+                            $table = $this->app->database_manager->real_table_name($key1);
+                            $this->app->database_manager->build_table($table, $fields_to_add);
                         }
                     }
                     if (is_array($config) and !empty($config)) {
@@ -1671,7 +1671,7 @@ class Module
                             //$table = db_get_real_table_name($key);
                             //d($value);
                             $value['module'] = $module_name;
-                            $ch = $this->app->option->set_default($value);
+                            $ch = $this->app->option_manager->set_default($value);
                             //	d($ch);
                             if ($ch == true) {
                                 $changes = true;
@@ -1692,7 +1692,7 @@ class Module
                             //$table = db_get_real_table_name($key);
                             //d($value);
                             $value['module'] = $module_name;
-                            $ch = $this->app->option->set_default($value);
+                            $ch = $this->app->option_manager->set_default($value);
                             //	d($ch);
                             if ($ch == true) {
                                 $changes = true;
@@ -1751,10 +1751,10 @@ class Module
         $db_categories_items = $this->table_prefix . 'categories_items';
 
         $q = "DELETE FROM $table WHERE id={$id}";
-        $this->app->database->q($q);
+        $this->app->database_manager->q($q);
 
         $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' AND rel_id={$id}";
-        $this->app->database->q($q);
+        $this->app->database_manager->q($q);
         $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
         // $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 

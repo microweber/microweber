@@ -17,28 +17,28 @@
 function get_menus($params = false)
 {
 
-    return mw()->content->get_menus($params);
+    return mw()->content_manager->get_menus($params);
 
 }
 
 function get_menu($params = false)
 {
 
-    return mw()->content->get_menu($params);
+    return mw()->content_manager->get_menu($params);
 
 }
 
 api_expose('add_new_menu');
 function add_new_menu($data_to_save)
 {
-    return mw()->content->menu_create($data_to_save);
+    return mw()->content_manager->menu_create($data_to_save);
 
 }
 
 api_expose('menu_delete');
 function menu_delete($id = false)
 {
-    return mw()->content->menu_delete($id);
+    return mw()->content_manager->menu_delete($id);
 
 }
 
@@ -46,21 +46,21 @@ api_expose('delete_menu_item');
 function delete_menu_item($id)
 {
 
-    return mw()->content->menu_item_delete($id);
+    return mw()->content_manager->menu_item_delete($id);
 
 }
 
 function get_menu_item($id)
 {
 
-    return mw()->content->menu_item_get($id);
+    return mw()->content_manager->menu_item_get($id);
 
 }
 
 api_expose('edit_menu_item');
 function edit_menu_item($data_to_save)
 {
-    return mw()->content->menu_item_save($data_to_save);
+    return mw()->content_manager->menu_item_save($data_to_save);
 
 
 }
@@ -68,17 +68,17 @@ function edit_menu_item($data_to_save)
 api_expose('reorder_menu_items');
 function reorder_menu_items($data)
 {
-    return mw()->content->menu_items_reorder($data);
+    return mw()->content_manager->menu_items_reorder($data);
 }
 
 function menu_tree($menu_id = false, $maxdepth = false)
 {
-    return mw()->content->menu_tree($menu_id, $maxdepth);
+    return mw()->content_manager->menu_tree($menu_id, $maxdepth);
 }
 
 function is_in_menu($menu_id = false, $content_id = false)
 {
-    return mw()->content->is_in_menu($menu_id, $content_id);
+    return mw()->content_manager->is_in_menu($menu_id, $content_id);
 
 }
 
@@ -87,7 +87,7 @@ api_hook('save_content_admin', 'add_content_to_menu');
 function add_content_to_menu($content_id, $menu_id = false)
 {
 
-    return mw()->content->add_content_to_menu($content_id, $menu_id);
+    return mw()->content_manager->add_content_to_menu($content_id, $menu_id);
 
 
 }
@@ -290,13 +290,13 @@ function delete_module_as_template($data)
 function layouts_list($options = false)
 {
 
-    return mw()->layouts->scan($options);
+    return mw()->layouts_manager->scan($options);
 }
 
 function get_layouts_from_db($options = false)
 {
 
-    return mw()->layouts->get($options);
+    return mw()->layouts_manager->get($options);
 }
 
 function get_modules_from_db($options = false)
@@ -487,7 +487,7 @@ function mw_print_admin_backup_settings_link()
 
     if (mw()->modules->is_installed('admin/backup')) {
 
-        $active = mw('url')->param('view');
+        $active = mw()->url->param('view');
         $cls = '';
         $mname = module_name_encode('admin/backup/small');
         if ($active == $mname) {
@@ -502,7 +502,7 @@ function mw_print_admin_backup_settings_link()
 
     if (mw()->modules->is_installed('admin/import')) {
 
-        $active = mw('url')->param('view');
+        $active = mw()->url->param('view');
         $cls = '';
         $mname = module_name_encode('admin/import');
         if ($active == $mname) {
@@ -530,7 +530,7 @@ function mw_post_update()
 
         scan_for_modules();
         get_elements();
-        mw()->layouts->scan();
+        mw()->layouts_manager->scan();
         event_trigger('mw_db_init_default');
         event_trigger('mw_db_init_modules');
         event_trigger('mw_db_init');
@@ -969,7 +969,7 @@ function get_all_functions_files_for_modules($options = false)
     if (isset($options['dir_name'])) {
         $dir_name = $options['dir_name'];
     } else {
-        $dir_name = normalize_path(MW_MODULES_DIR);
+        $dir_name = normalize_path(modules_path());
     }
     $installed = mw()->modules->get('ui=any&installed=1');
     $configs = false;
@@ -1029,7 +1029,7 @@ function template_headers_src()
 api_expose('current_template_save_custom_css');
 function current_template_save_custom_css($data)
 {
-    return mw()->layouts->template_save_css($data);
+    return mw()->layouts_manager->template_save_css($data);
 
 }
 
@@ -1053,4 +1053,18 @@ function load_web_component_file($filename)
     }
 
 
+}
+
+
+
+
+function mw_error($e, $f = false, $l = false)
+{
+$f = mw_includes_path() . 'error.php';
+
+    $v = new \Microweber\View($f);
+    $v->e = $e;
+    $v->f = $f;
+    $v->l = $l;
+    die($v);
 }

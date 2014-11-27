@@ -62,7 +62,7 @@ class Update
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = $this->app->url->site();
 
-        $t = mw('template')->site_templates();
+        $t = mw()->template->site_templates();
         $data['templates'] = $t;
         //$t = $this->app->modules->scan_for_modules("skip_cache=1");
         $t = $this->app->modules->get("ui=any");
@@ -494,9 +494,9 @@ class Update
             $where_to_unzip = MW_ROOTPATH;
             if (isset($item['item_type'])) {
                 if ($item['item_type'] == 'module') {
-                    $where_to_unzip = MW_MODULES_DIR;
+                    $where_to_unzip = modules_path();
                 } elseif ($item['item_type'] == 'module_template') {
-                    $where_to_unzip = MW_MODULES_DIR;
+                    $where_to_unzip = modules_path();
                 } elseif ($item['item_type'] == 'template') {
                     $where_to_unzip = MW_TEMPLATES_DIR;
                 } elseif ($item['item_type'] == 'element') {
@@ -746,7 +746,7 @@ class Update
 
 
         $params['table'] = $table;
-        $r = $this->app->database->get($params);
+        $r = $this->app->database_manager->get($params);
 
         return $r;
     }
@@ -767,13 +767,13 @@ class Update
             $update['rel'] = $params['rel'];
             $update['one'] = true;
             $update['table'] = $table;
-            $update = $this->app->database->get($update);
+            $update = $this->app->database_manager->get($update);
             if (isset($update['id'])) {
                 $params['id'] = $update['id'];
             }
         }
 
-        $r = $this->app->database->save($table, $params);
+        $r = $this->app->database_manager->save($table, $params);
         if (isset($params['activate_on_save']) and $params['activate_on_save'] != false) {
             $this->validate_license('id=' . $r);
         }

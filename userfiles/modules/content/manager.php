@@ -3,6 +3,9 @@
 namespace Microweber\content;
 
 
+include_once(__DIR__.DS.'controllers'.DS.'Manager.php');
+
+
 if (!isset($params)) {
     $params = array();
 }

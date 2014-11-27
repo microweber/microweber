@@ -290,7 +290,7 @@ function lang($title, $namespace = false)
     global $mw_language_content;
     global $mw_new_language_entires_ns;
     $k = $title;
-    $k1 = mw('url')->slug($k);
+    $k1 = mw()->url->slug($k);
 
     $lang = current_lang();
 
@@ -355,7 +355,7 @@ function _e($k, $to_return = false)
     static $lang_file;
     global $mw_new_language_entires;
 
-    $k1 = mw('url')->slug($k);
+    $k1 = mw()->url->slug($k);
 
     $lang = current_lang();
 

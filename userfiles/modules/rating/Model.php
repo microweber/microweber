@@ -29,19 +29,19 @@ class Model
             }
         }
 
-        $this->app->database->build_table($this->table, $this->fields);
+        $this->app->database_manager->build_table($this->table, $this->fields);
     }
 
     public function save($data)
     {
-        return $this->app->database->save($this->table, $data);
+        return $this->app->database_manager->save($this->table, $data);
 
     }
 
     public function get($params)
     {
         $params['table'] = $this->table;
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
 
     }
 }

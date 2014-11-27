@@ -1,17 +1,14 @@
 <?php
-namespace Microweber;
-
-if (!defined("MW_DB_TABLE_LOG")) {
-    define('MW_DB_TABLE_LOG', get_table_prefix() . 'log');
-}
+namespace Microweber\Providers;
 
 
-class Log
+class LogManager
 {
 
     public $app;
+    protected $table = 'log';
 
-    function __construct($app=null)
+    function __construct($app = null)
     {
 
         if (!is_object($this->app)) {
@@ -19,7 +16,7 @@ class Log
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = mw();
+                $this->app = Application::getInstance();
             }
 
         }
@@ -42,7 +39,7 @@ class Log
     public function get($params)
     {
         $params = parse_params($params);
-        $table = MW_DB_TABLE_LOG;
+        $table = $this->table;
         $params['table'] = $table;
 
         if (is_admin() == false) {
@@ -56,19 +53,17 @@ class Log
 
     public function reset()
     {
-        $adm = $this->app->user_manager->is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
-        $table = MW_DB_TABLE_LOG;
-
-        $q = "DELETE FROM $table ";
+        $table = $this->table;
+        DB::table($table)->truncate();
 
         $cg = guess_cache_group($table);
 
         $this->app->cache_manager->delete($cg);
-        $q = $this->app->database_manager->q($q);
         return array('success' => 'System log is cleaned up.');
 
         //return $data;
@@ -77,7 +72,7 @@ class Log
     public function delete($params)
     {
         $params = parse_params($params);
-        $table = MW_DB_TABLE_LOG;
+        $table = $this->table;
         $params['table'] = $table;
 
         if (is_admin() == false) {
@@ -102,7 +97,7 @@ class Log
 
         $params['user_ip'] = MW_USER_IP;
         $data_to_save = $params;
-        $table = MW_DB_TABLE_LOG;
+        $table = $this->table;
         mw_var('FORCE_SAVE', $table);
         $save = $this->app->database_manager->save($table, $params);
         $id = $save;
@@ -112,19 +107,21 @@ class Log
 
     public function delete_entry($data)
     {
-        $adm = $this->app->user_manager->is_admin();
+        $adm = $this->app->user->is_admin();
         if ($adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->database_manager->delete_by_id('log', $c_id);
-            $table = MW_DB_TABLE_LOG;
+            $table = $this->table;
             $old = date("Y-m-d H:i:s", strtotime('-1 month'));
             $q = "DELETE FROM $table WHERE created_on < '{$old}'";
 
-            $q = $this->app->database_manager->q($q);
+
+            DB::table($table)->where('created_on', '<', $old)->delete();
+            DB::table($table)->where('id', '=', $c_id)->delete();
+
 
             return $c_id;
 

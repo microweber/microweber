@@ -4,7 +4,7 @@
 
 
     <?php
-        $mw_notif =  (mw('url')->param('mw_notif'));
+        $mw_notif =  (mw()->url->param('mw_notif'));
         if( $mw_notif != false){
             $mw_notif = mw()->notifications_manager->read( $mw_notif);
         }
@@ -29,8 +29,8 @@ mw()->notifications_manager->mark_as_read('contact_form');
 
 
 $load_list = 'default';
-if((mw('url')->param('load_list') != false)){
-    $load_list = mw('url')->param('load_list');
+if((mw()->url->param('load_list') != false)){
+    $load_list = mw()->url->param('load_list');
 }
 
 
@@ -38,8 +38,8 @@ if((mw('url')->param('load_list') != false)){
       <?php
 $templates = '';
 $load_templates = false;
-if((mw('url')->param('templates') != false)){
-    $templates = mw('url')->param('templates');
+if((mw()->url->param('templates') != false)){
+    $templates = mw()->url->param('templates');
 	if($templates == 'browse' or $templates == 'add_new'){
 		$load_list = false;
 		$load_templates = $templates;
@@ -49,7 +49,7 @@ if((mw('url')->param('templates') != false)){
 ?>
       <div class="mw-admin-sidebar">
         <?php $info = module_info($config['module']);  ?>
-        <?php mw('module')->icon_with_title($info['module']); ?>
+        <?php mw()->modules->icon_with_title($info['module']); ?>
         <div class="mw-admin-side-nav side-nav-max">
           <ul>
             <li><a   <?php if($load_list == 'default'){ ?> class="active" <?php } ?> href="<?php print $config['url']; ?>/load_list:default" >Default list</a></li>

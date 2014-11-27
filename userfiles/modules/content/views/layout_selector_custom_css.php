@@ -102,7 +102,7 @@ if (r==true)
 </script>
 
 <?php
-if(mw('layouts')->template_check_for_custom_css($template) != false): ?>
+if(mw()->layouts_manager->template_check_for_custom_css($template) != false): ?>
 
 <a
     class="mw-ui-btn layout_selector_custom_css_clear_custom_style tip"
@@ -110,7 +110,7 @@ if(mw('layouts')->template_check_for_custom_css($template) != false): ?>
     data-tipposition="top-center"
     href="javascript:layout_selector_custom_css_clear_custom_style('<?php print $template ?>')"><?php _e("Clear custom style"); ?></a>
 
-<?php elseif(mw('layouts')->template_check_for_custom_css($template,true) != false): ?>
+<?php elseif(mw()->layouts_manager->template_check_for_custom_css($template,true) != false): ?>
 
 
 <a

@@ -30,7 +30,7 @@ $(document).ready(function(){
         <a class="mw-ui-btn" href="javascript:$('.mw_adm_robots_txt_change_holder').toggle(); void(0);"> robots.txt </a> 
         
        <!-- <a class="mw-ui-btn" href="javascript:mw.load_module('settings/group/internal','#mw-advanced-settings-module-load-holder')"><?php _e("Internal settings"); ?> </a>
-        <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules/packages','#mw-advanced-settings-module-load-holder')"><?php _e("Packages"); ?></a>-->
+        <a class="mw-ui-btn" href="javascript:mw.load_module('admin/modules_manager/packages','#mw-advanced-settings-module-load-holder')"><?php _e("Packages"); ?></a>-->
     </div>
 
   

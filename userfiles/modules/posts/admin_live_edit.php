@@ -6,7 +6,7 @@ if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
     $is_shop = 1;
 }
 
-$dir_name = normalize_path(MW_MODULES_DIR);
+$dir_name = normalize_path(modules_path());
  
 $posts_mod = $dir_name . 'posts' . DS . 'admin_live_edit_tab1.php';;
 ?>
@@ -255,9 +255,9 @@ mw.on.hashParam("action", function () {
 	</div>
 	<div class="tab"  style="display:none">
 		<?php if (isset($params['global'])) : ?>
-		<module type="admin/modules/templates" id="posts_list_templ" for-module="posts"/>
+		<module type="admin/modules_manager/templates" id="posts_list_templ" for-module="posts"/>
 		<?php else: ?>
-		<module type="admin/modules/templates" id="posts_list_templ"/>
+		<module type="admin/modules_manager/templates" id="posts_list_templ"/>
 		<?php endif;  ?>
 	</div>
 	<div class="tab">  

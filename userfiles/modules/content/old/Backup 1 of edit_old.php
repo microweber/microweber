@@ -121,7 +121,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 		 if(isset($parent_content['id'])){
 			 $data['parent'] = $parent_content['id'];
 		 } else {
-			  mw('content')->create_default_content('blog');
+			  mw()->content_manager->create_default_content('blog');
 			  $parent_content_params['no_cache'] = true;
 			  $parent_content = get_content($parent_content_params);
 			  
@@ -133,7 +133,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 		 if(isset($parent_content['id'])){
 			 $data['parent'] = $parent_content['id'];
 		 } else {
-			  mw('content')->create_default_content('shop');
+			  mw()->content_manager->create_default_content('shop');
 			  $parent_content_params['no_cache'] = true;
 			  $parent_content = get_content($parent_content_params);
 		 }

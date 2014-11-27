@@ -756,7 +756,7 @@ class Database
 
         $table_name = $function_cache_id;
         $cache_group = 'db/' . $table_name;
-        $cache_content = $this->app->cache->get($function_cache_id, $cache_group);
+        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
         if (($cache_content) != false) {
 
@@ -779,7 +779,7 @@ class Database
         }
 
 
-        $this->app->cache->save('--true--', $function_cache_id, $cache_group);
+        $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group);
 
 
     }

@@ -27,7 +27,6 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Cache\Repository;
 
 
-
 include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
 
 class MicroweberServiceProvider extends ServiceProvider
@@ -53,12 +52,12 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\SaveConfig($app->getConfigLoader(), $app->environment());
         });
 
-        $this->app->singleton('event', function ($app) {
+        $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);
         });
 
-        $this->app->singleton('database', function ($app) {
-            return new Providers\Database($app);
+        $this->app->singleton('database_manager', function ($app) {
+            return new Providers\DatabaseManager($app);
         });
 
         $this->app->singleton('format', function ($app) {
@@ -93,8 +92,12 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('notifications_manager', function ($app) {
             return new Providers\NotificationsManager($app);
         });
-        $this->app->singleton('option', function ($app) {
-            return new Providers\Option($app);
+
+        $this->app->singleton('log_manager', function ($app) {
+            return new Providers\LogManager($app);
+        });
+        $this->app->singleton('option_manager', function ($app) {
+            return new Providers\OptionManager($app);
         });
 
         $this->app->bind('template', function ($app) {
@@ -110,6 +113,13 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\UserManager($app);
         });
 
+        $this->app->singleton('layouts_manager', function ($app) {
+            return new Providers\LayoutsManager($app);
+        });
+        $this->app->singleton('ui', function ($app) {
+            return new Providers\Ui($app);
+        });
+
 
 //        $this->app->bind('module', function ($app) {
 //            return new Models\Module($app);
@@ -121,7 +131,7 @@ class MicroweberServiceProvider extends ServiceProvider
 //        });
 
 
-        Event::listen('illuminate.query', function ($sql, $bindings, $time) {
+        Event::listen('silluminate.query', function ($sql, $bindings, $time) {
             echo $sql; // select * from my_table where id=?
             print_r($bindings); // Array ( [0] => 4 )
             echo $time; // 0.58
@@ -150,7 +160,6 @@ class MicroweberServiceProvider extends ServiceProvider
             return;
         }
         $modules = load_all_functions_files_for_modules();
-
 
 
     }

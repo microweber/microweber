@@ -234,7 +234,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                   <?php } ?>
                   <?php }  ?>
                 </li>
-                <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><span
+                <li><a href="<?php print mw()->url->current(); ?>?editmode=n"><span
                                         class="ico iviewsite"></span><span>
                   <?php _e("View Website"); ?>
                   </span></a> </li>
@@ -259,7 +259,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 <?php endif; ?>
 
                 <li><a  href="#design_bnav" class="mw_ex_tools"><span class="ico itabadvanced"></span>Tools</a></li>
-                <li><a href="<?php print mw('url')->api_link('logout'); ?>"><span
+                <li><a href="<?php print mw()->url->api_link('logout'); ?>"><span
                                         class="ico ilogout"></span><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
@@ -284,7 +284,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
         </div>
          
       </div>
-      <?php include MW_INCLUDES_DIR . 'toolbar' . DS . 'wysiwyg.php'; ?>
+      <?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg.php'; ?>
     </div>
     <?php event_trigger('live_edit_toolbar_controls'); ?>
 
@@ -308,7 +308,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
       <div id="tab_modules" class="mw_toolbar_tab active">
         <div class="modules_bar_slider bar_slider">
           <div class="modules_bar">
-            <module type="admin/modules/list"/>
+            <module type="admin/modules_manager/list"/>
           </div>
           <span class="modules_bar_slide_left">&nbsp;</span> <span
                     class="modules_bar_slide_right">&nbsp;</span> </div>
@@ -317,7 +317,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
       <div id="tab_layouts" class="mw_toolbar_tab">
         <div class="modules_bar_slider bar_slider">
           <div class="modules_bar">
-            <module type="admin/modules/list_layouts"/>
+            <module type="admin/modules_manager/list_layouts"/>
           </div>
           <span class="modules_bar_slide_left">&nbsp;</span> <span
                     class="modules_bar_slide_right">&nbsp;</span> </div>
@@ -351,7 +351,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
       <span class='mw-ui-btn mw-ui-btn-green mw-ui-btn-saveIMG right'>Update</span> </div>
   </div>
 </div>
-<?php include MW_INCLUDES_DIR . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
+<?php include mw_includes_path() . 'toolbar' . DS . 'wysiwyg_tiny.php'; ?>
 <script>
         mw.liveEditWYSIWYG = {
             ed: mwd.getElementById('liveedit_wysiwyg'),
@@ -545,7 +545,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
 
     </script>
 <?php event_trigger('live_edit_toolbar_end'); ?>
-<?php include MW_INCLUDES_DIR . 'toolbar' . DS . "design.php"; ?>
+<?php include mw_includes_path() . 'toolbar' . DS . "design.php"; ?>
 <?php } else { ?>
 <script>
         previewHTML = function (html, index) {

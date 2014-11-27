@@ -92,7 +92,7 @@ if (isset($to_save['is_installed'])) {
     __mw_install_log('Starting install');
 
     if (isset($to_save['is_installed'])) {
-        $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'config.base.php';
+        $f = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'config.base.php';
         $save_config = file_get_contents($f);
         __mw_install_log('Copying default config file');
         if (isset($to_save['custom_dsn'])) {
@@ -192,7 +192,7 @@ if (isset($to_save['is_installed'])) {
 
             //              $new_db = $to_save['dbname'];
             //              $query_make_db="CREATE DATABASE IF NOT EXISTS $new_db";
-            //              $qz = \mw('db')->query($query_make_db, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+            //              $qz = \mw()->database_manager->query($query_make_db, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
             //          if (isset($qz['error'])) {
             //                      //  var_dump($qz);
             //                          print('Error with the database creation! ');
@@ -204,7 +204,7 @@ if (isset($to_save['is_installed'])) {
             $qs = "SELECT '' AS empty_col";
             //var_dump($qs);
             mw_var('temp_db', $temp_db);
-            $qz = mw('db')->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
+            $qz = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
 
             if (isset($qz['error'])) {
                 __mw_install_log('Database Settings Error');
@@ -249,7 +249,7 @@ if (isset($to_save['is_installed'])) {
 
 
                 if ($to_add_htaccess == true) {
-                    $f_htaccess = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'htaccess_mw.txt';
+                    $f_htaccess = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'htaccess_mw.txt';
                     if (is_file($f_htaccess)) {
                         $f_htaccess_file_c = file_get_contents($f_htaccess);
                         if (strstr($f_htaccess_file_c, 'mw htaccess')) {
@@ -299,7 +299,7 @@ if (isset($to_save['is_installed'])) {
 
 
                         if ($to_add_webconfig_iis == true) {
-                            $f_htaccess = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'Web.config.txt';
+                            $f_htaccess = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'Web.config.txt';
                             if (is_file($f_htaccess)) {
                                 $f_htaccess_c = file_get_contents($f_htaccess);
                                 __mw_install_log('Adding Web.config');
@@ -357,7 +357,7 @@ if (isset($to_save['is_installed'])) {
                 event_trigger('mw_db_init_default');
                 event_trigger('mw_db_init');
                 mw()->content_manager->db_init();
-                mw('module')->db_init();
+                mw()->modules->db_init();
                 __mw_install_log('Creating log database tables');
                 mw('notifications')->db_init();
                 __mw_install_log('Creating online shop database tables');
@@ -365,7 +365,7 @@ if (isset($to_save['is_installed'])) {
                 mw('shop')->create_mw_shop_default_options();
                 __mw_install_log('Creating modules database tables');
 
-                mw('module')->db_init();
+                mw()->modules->db_init();
 
                 if (!defined('MW_FORCE_SAVE_EXTENDED')) {
 
@@ -400,18 +400,18 @@ if (isset($to_save['is_installed'])) {
                 event_trigger('mw_db_init_modules');
                 //  __mw_install_log('Scanning for modules');
 
-                //  mw('module')->scan_for_modules("skip_cache=1&cleanup_db=1");
+                //  mw()->modules->scan_for_modules("skip_cache=1&cleanup_db=1");
                 // __mw_install_log('Installing modules');
-                // mw('module')->update_db();
+                // mw()->modules->update_db();
 
 
                 __mw_install_log('Loading modules');
                 event_trigger('mw_scan_for_modules');
 
-                mw('module')->update_db();
+                mw()->modules->update_db();
                 if (isset($to_save['with_default_content'])) {
                     if ($to_save['with_default_content'] != '{with_default_content}' and $to_save['with_default_content'] != 'no') {
-                        $default_content_folder = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR;
+                        $default_content_folder = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR;
                         $default_content_file = $default_content_folder . 'mw_default_content.zip';
 
                         if (isset($to_save['default_template']) and $to_save['default_template'] != false and $to_save['default_template'] != '{default_template}') {
@@ -474,7 +474,7 @@ if (isset($to_save['is_installed'])) {
                 // mw()->content_manager->create_default_content('install');
                 if ($auto_install != false) {
                     $done = true;
-                    $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'main.php';
+                    $f = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'main.php';
                     include ($f);
                     exit();
                 } else {
@@ -489,11 +489,11 @@ if (isset($to_save['is_installed'])) {
             exit();
 
             //var_dump($_REQUEST);
-            //$l = \mw('db')->query_log(true);
+            //$l = \mw()->database_manager->query_log(true);
             //var_dump($l);
         } else {
             $done = true;
-            $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'done.php';
+            $f = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'done.php';
             include ($f);
             exit();
         }
@@ -530,6 +530,6 @@ if (!isset($to_save['IS_INSTALLED'])) {
 
 
     __mw_install_log('Preparing to install');
-    $f = MW_INCLUDES_DIR . 'install' . DIRECTORY_SEPARATOR . 'main.php';
+    $f = mw_includes_path() . 'install' . DIRECTORY_SEPARATOR . 'main.php';
     include ($f);
 }

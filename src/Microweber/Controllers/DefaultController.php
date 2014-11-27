@@ -181,8 +181,8 @@ class DefaultController extends Controller
 
         $cont = get_content("is_active=y&is_deleted=n&limit=2500&orderby=updated_on desc");
 
-        $site_title = $this->app->option->get('website_title', 'website');
-        $site_desc = $this->app->option->get('website_description', 'website');
+        $site_title = $this->app->option_manager->get('website_title', 'website');
+        $site_desc = $this->app->option_manager->get('website_description', 'website');
         $rssfeed = '<?xml version="1.0" encoding="UTF-8"?>';
         $rssfeed .= '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">' . "\n";
         $rssfeed .= '<channel>' . "\n";
@@ -278,7 +278,7 @@ class DefaultController extends Controller
         $api_function_full = str_replace('\\', '/', $api_function_full);
         $api_function_full = str_replace('//', '/', $api_function_full);
 
-        $api_function_full = $this->app->database->escape_string($api_function_full);
+        $api_function_full = $this->app->database_manager->escape_string($api_function_full);
         if (is_string($api_function_full)) {
             $mod_api_class = explode('/', $api_function_full);
         } else {
@@ -728,8 +728,10 @@ class DefaultController extends Controller
 
     public function module()
     {
+
+
         if (!defined('MW_API_CALL')) {
-            //	define('MW_API_CALL', true);
+        //  	define('MW_API_CALL', true);
         }
 
         if (!defined("MW_NO_SESSION")) {
@@ -792,14 +794,18 @@ class DefaultController extends Controller
             $from_url = $_SERVER["HTTP_REFERER"];
         }
 
-        if(stristr($from_url,'editor_tools/wysiwyg')){
 
-            if (!defined('IN_EDITOR_TOOLS')) {
-                define('IN_EDITOR_TOOLS', true);
-            }
-        }
 
         if (isset($from_url) and $from_url != false) {
+
+            if(stristr($from_url,'editor_tools/wysiwyg')){
+
+                if (!defined('IN_EDITOR_TOOLS')) {
+                    define('IN_EDITOR_TOOLS', true);
+                }
+            }
+
+
             $url = $from_url;
             $from_url2 = str_replace('#', '/', $from_url);
 
@@ -1123,7 +1129,7 @@ class DefaultController extends Controller
                         $v = $this->app->format->clean_html($v);
 
 
-                        //$v = $this->app->database->escape_string($v);
+                        //$v = $this->app->database_manager->escape_string($v);
 
                         $tags .= "{$k}=\"$v\" ";
                     }
@@ -1375,11 +1381,11 @@ class DefaultController extends Controller
                 $page['id'] = 0;
                 $page['content_type'] = 'page';
                 if (isset($_REQUEST['content_type'])) {
-                    $page['content_type'] = $this->app->database->escape_string($_REQUEST['content_type']);
+                    $page['content_type'] = $this->app->database_manager->escape_string($_REQUEST['content_type']);
                 }
 
                 if (isset($_REQUEST['subtype'])) {
-                    $page['subtype'] = $this->app->database->escape_string($_REQUEST['subtype']);
+                    $page['subtype'] = $this->app->database_manager->escape_string($_REQUEST['subtype']);
                 }
                 template_var('new_content_type', $page['content_type']);
                 $page['parent'] = '0';
@@ -1453,10 +1459,10 @@ class DefaultController extends Controller
             }
         }
 
-        $the_active_site_template = $this->app->option->get('current_template', 'template');
+        $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
 
 
-        $date_format = $this->app->option->get('date_format', 'website');
+        $date_format = $this->app->option_manager->get('date_format', 'website');
         if ($date_format == false) {
             $date_format = "Y-m-d H:i:s";
         }
@@ -1521,7 +1527,7 @@ class DefaultController extends Controller
                         $page_url_segment_3 = $this->app->url->segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
-                            $page_url_segment_1 = $the_active_site_template = $this->app->option->get('current_template', 'template');
+                            $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                             $td_base = templates_path() .  $the_active_site_template . DS;
                         } else {
                             array_shift($page_url_segment_3);
@@ -2004,7 +2010,7 @@ class DefaultController extends Controller
                 $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
                 $l = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
             }
-            $website_head_tags = $this->app->option->get('website_head', 'website');
+            $website_head_tags = $this->app->option_manager->get('website_head', 'website');
             $rep_count = 1;
             if ($website_head_tags != false) {
                 $l = str_ireplace('</head>', $website_head_tags . '</head>', $l, $rep_count);
@@ -2088,7 +2094,7 @@ class DefaultController extends Controller
             $meta = array();
             $meta['content_image'] = '';
             $meta['content_url'] = $this->app->url->current(1);
-            $meta['og_description'] = $this->app->option->get('website_description', 'website');
+            $meta['og_description'] = $this->app->option_manager->get('website_description', 'website');
             $meta['og_type'] = 'website';
             $meta_content_id = PAGE_ID;
             if (CONTENT_ID > 0) {
@@ -2120,25 +2126,25 @@ class DefaultController extends Controller
                 }
 
             } else {
-                $meta['title'] = $this->app->option->get('website_title', 'website');
-                $meta['description'] = $this->app->option->get('website_description', 'website');
-                $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
+                $meta['title'] = $this->app->option_manager->get('website_title', 'website');
+                $meta['description'] = $this->app->option_manager->get('website_description', 'website');
+                $meta['content_meta_keywords'] = $this->app->option_manager->get('website_keywords', 'website');
 
             }
 
 
-            $meta['og_site_name'] = $this->app->option->get('website_title', 'website');
+            $meta['og_site_name'] = $this->app->option_manager->get('website_title', 'website');
             if (!empty($meta)) {
                 if (isset($meta['content_meta_title']) and $meta['content_meta_title'] != '') {
                     $meta['title'] = $meta['content_meta_title'];
                 } else if (isset($meta['title']) and $meta['title'] != '') {
 
                 } else {
-                    $meta['title'] = $this->app->option->get('website_title', 'website');
+                    $meta['title'] = $this->app->option_manager->get('website_title', 'website');
                 }
                 if (isset($meta['description']) and $meta['description'] != '') {
                 } else {
-                    $meta['description'] = $this->app->option->get('website_description', 'website');
+                    $meta['description'] = $this->app->option_manager->get('website_description', 'website');
                 }
 
                 if (isset($meta['description']) and $meta['description'] != '') {
@@ -2153,7 +2159,7 @@ class DefaultController extends Controller
 
                 if (isset($meta['content_meta_keywords']) and $meta['content_meta_keywords'] != '') {
                 } else {
-                    $meta['content_meta_keywords'] = $this->app->option->get('website_keywords', 'website');
+                    $meta['content_meta_keywords'] = $this->app->option_manager->get('website_keywords', 'website');
                 }
 
                 if (is_array($meta)) {
@@ -2345,7 +2351,7 @@ class DefaultController extends Controller
 
         }
         if (isset($_SERVER['HTTP_REFERER'])) {
-            $cat_url = mw('url')->param('category', true, $_SERVER['HTTP_REFERER']);
+            $cat_url = mw()->url->param('category', true, $_SERVER['HTTP_REFERER']);
             if ($cat_url != false) {
                 if (!defined('CATEGORY_ID')) {
                     define('CATEGORY_ID', intval($cat_url));
@@ -2392,7 +2398,7 @@ class DefaultController extends Controller
 
         }
         if (isset($_SERVER['HTTP_REFERER'])) {
-            $cat_url = mw('url')->param('category', true, $_SERVER['HTTP_REFERER']);
+            $cat_url = mw()->url->param('category', true, $_SERVER['HTTP_REFERER']);
             if ($cat_url != false) {
                 if (!defined('CATEGORY_ID')) {
                     define('CATEGORY_ID', intval($cat_url));
@@ -2626,7 +2632,7 @@ class DefaultController extends Controller
                 }
 
                 if ($page['active_site_template'] == 'default') {
-                    $active_site_template = $this->app->option->get('current_template', 'template');
+                    $active_site_template = $this->app->option_manager->get('current_template', 'template');
                 } else {
                     $active_site_template = $page['active_site_template'];
                     if ($active_site_template == 'mw_default') {

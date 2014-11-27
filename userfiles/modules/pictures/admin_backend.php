@@ -29,7 +29,7 @@ if(isset($params['content_id'])){
 	 $for = 'content';
 }
 
-$for =  mw('db')->assoc_table_name($for);
+$for =  mw()->database_manager->assoc_table_name($for);
 
 if(!isset($params['for-id'])){
 	$params['for-id'] = $params['id'];

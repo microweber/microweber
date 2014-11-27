@@ -3,7 +3,7 @@
 <div class="mw-module-admin-wrap"> 
 
  <?php if(isset($params['backend'])): ?>
-<module type="admin/modules/info" />
+<module type="admin/modules_manager/info" />
 <?php endif; ?>
 
   <script>
@@ -111,7 +111,7 @@ $(document).ready(function(){
         <?php } ?>
       </div>
       <div class="tab">
-        <module type="admin/modules/templates"/>
+        <module type="admin/modules_manager/templates"/>
       </div>
       <div class="tab">
         <?php $display_comments_from = get_option('display_comments_from', $params['id']); ?>

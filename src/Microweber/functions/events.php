@@ -2,7 +2,7 @@
 
 function event_trigger($api_function, $data = false)
 {
-    mw()->event->trigger($api_function, $data);
+    mw()->event_manager->trigger($api_function, $data);
 }
 
 
@@ -16,5 +16,5 @@ function event_trigger($api_function, $data = false)
 function event_bind($function_name, $callback = false)
 {
 
-    mw()->event->on($function_name, $callback);
+    mw()->event_manager->on($function_name, $callback);
 }

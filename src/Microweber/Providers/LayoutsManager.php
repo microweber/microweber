@@ -1,44 +1,39 @@
 <?php
-namespace Microweber;
-if (!defined("MW_DB_TABLE_MODULES")) {
-    define('MW_DB_TABLE_MODULES', get_table_prefix() . 'modules');
-}
-
-if (!defined("MW_DB_TABLE_ELEMENTS")) {
-    define('MW_DB_TABLE_ELEMENTS', get_table_prefix() . 'elements');
-}
-
-if (!defined("MW_DB_TABLE_MODULE_TEMPLATES")) {
-    define('MW_DB_TABLE_MODULE_TEMPLATES', get_table_prefix() . 'module_templates');
-}
 
 
-api_expose('layouts/save');
-api_expose('layouts/template_remove_custom_css');
-class Layouts
+
+/*
+ * This file is part of the Microweber framework.
+ *
+ * (c) Microweber LTD
+ *
+ * For full license information see
+ * http://MicroweberCMS.com/license/
+ *
+ */
+
+namespace Microweber\Providers;
+
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cache;
+
+
+class LayoutsManager
 {
-
     public $app;
     private $external_layouts = array();
 
     function __construct($app = null)
     {
-
         if (!is_object($this->app)) {
-
             if (is_object($app)) {
-
                 $this->app = $app;
             } else {
-
                 $this->app = mw();
             }
-
         }
-
-        //   print_r(debug_backtrace());
-
-
     }
 
     /**
@@ -72,35 +67,35 @@ class Layouts
 
     public function scan($options = false)
     {
-        //
+
         $options = parse_params($options);
         if (!isset($options['path'])) {
             if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
                 $tmpl = trim($options['site_template']);
-                $check_dir = templates_path() .  '' . $tmpl;
+                $check_dir = templates_path() . '' . $tmpl;
 
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
-                    $the_active_site_template = $this->app->option_manager->get('current_template']= 'template');
+                    $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                 }
             } elseif (isset($options['site_template']) and (strtolower($options['site_template']) == 'mw_default')) {
                 $options['site_template'] = 'default';
                 $tmpl = trim($options['site_template']);
-                $check_dir = templates_path() .  '' . $tmpl;
+                $check_dir = templates_path() . '' . $tmpl;
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
                 } else {
-                    $the_active_site_template = $this->app->option_manager->get('current_template']= 'template');
+                    $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                 }
             } else {
-                $the_active_site_template = $this->app->option_manager->get('current_template']= 'template');
+                $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
             }
             if ($the_active_site_template == '' or $the_active_site_template == 'mw_default') {
                 $the_active_site_template = 'default';
             }
 
-            $path = normalize_path(templates_path() .  $the_active_site_template);
+            $path = normalize_path(templates_path() . $the_active_site_template);
 
         } else {
             $path = $options['path'];
@@ -137,43 +132,24 @@ class Layouts
         }
 
 
-
-
         $glob_patern = "*.php";
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {
 
-            $possible_dir = TEMPLATE_DIR .  'modules' . DS . 'layout' . DS;
+            $possible_dir = TEMPLATE_DIR . 'modules' . DS . 'layout' . DS;
             if (is_dir($possible_dir)) {
 
-                    $template_dirs[] = $possible_dir;
-                    $dir2 = rglob($possible_dir . '*.php', 0);
-                    if (!empty($dir2)) {
-                        foreach ($dir2 as $dir_glob) {
-                            $dir[] = $dir_glob;
-                        }
+                $template_dirs[] = $possible_dir;
+                $dir2 = rglob($possible_dir . '*.php', 0);
+                if (!empty($dir2)) {
+                    foreach ($dir2 as $dir_glob) {
+                        $dir[] = $dir_glob;
                     }
+                }
 
             }
 
-           // $_dirs = glob(templates_path() .  '*', GLOB_ONLYDIR);
-//            $_dirs = glob(THIS_TEMPLATE_DIR . '*', GLOB_ONLYDIR);
-//            $dir = array();
-//            foreach ($_dirs as $item) {
-//                $possible_dir = $item . DS . 'modules' . DS . 'layout' . DS;
-//               // $possible_dir = $item . DS . 'elements' . DS ;
-//                d($possible_dir);
-//                exit;
-//                if (is_dir($possible_dir)) {
-//                    $template_dirs[] = $item;
-//                    $dir2 = rglob($possible_dir . '*.php', 0);
-//                    if (!empty($dir2)) {
-//                        foreach ($dir2 as $dir_glob) {
-//                            $dir[] = $dir_glob;
-//                        }
-//                    }
-//                }
-//            }
+
         }
 
 
@@ -213,7 +189,7 @@ class Layouts
                     if (preg_match('/type:.+/', $fin, $regs)) {
 
                         $result = $regs[0];
-                        $result = str_ireplace('type:']= '', $result);
+                        $result = str_ireplace('type:', '', $result);
                         $to_return_temp['type'] = trim($result);
                         $to_return_temp['directory'] = $here_dir;
                         if (strstr($here_dir, templates_path())) {
@@ -228,9 +204,9 @@ class Layouts
                         if (strstr($here_dir, modules_path())) {
                             $templ_dir1 = str_replace(modules_path(), '', $here_dir);
 
-                            $templ_dir1 = str_ireplace('templates']= '', $templ_dir1);
-                            $templ_dir1 = str_ireplace('\\']= '/', $templ_dir1);
-                            $templ_dir1 = str_ireplace('//']= '/', $templ_dir1);
+                            $templ_dir1 = str_ireplace('templates', '', $templ_dir1);
+                            $templ_dir1 = str_ireplace('\\', '/', $templ_dir1);
+                            $templ_dir1 = str_ireplace('//', '/', $templ_dir1);
                             $to_return_temp['module_directory'] = $templ_dir1;
                         }
 
@@ -242,25 +218,25 @@ class Layouts
 
                             if (preg_match('/is_shop:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('is_shop:']= '', $result);
+                                $result = str_ireplace('is_shop:', '', $result);
                                 $to_return_temp['is_shop'] = trim($result);
                             }
 
                             if (preg_match('/name:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('name:']= '', $result);
+                                $result = str_ireplace('name:', '', $result);
                                 $to_return_temp['name'] = trim($result);
                             }
 
                             if (preg_match('/is_default:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('is_default:']= '', $result);
+                                $result = str_ireplace('is_default:', '', $result);
                                 $to_return_temp['is_default'] = trim($result);
                             }
 
                             if (preg_match('/position:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('position:']= '', $result);
+                                $result = str_ireplace('position:', '', $result);
                                 $to_return_temp['position'] = intval($result);
                             } else {
                                 $to_return_temp['position'] = 99999;
@@ -268,18 +244,18 @@ class Layouts
 
                             if (preg_match('/version:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('version:']= '', $result);
+                                $result = str_ireplace('version:', '', $result);
                                 $to_return_temp['version'] = trim($result);
                             }
                             if (preg_match('/visible:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('visible:']= '', $result);
+                                $result = str_ireplace('visible:', '', $result);
                                 $to_return_temp['visible'] = trim($result);
                             }
 
                             if (preg_match('/icon:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('icon:']= '', $result);
+                                $result = str_ireplace('icon:', '', $result);
                                 $to_return_temp['icon'] = trim($result);
 
                                 $possible = $here_dir . $to_return_temp['icon'];
@@ -292,7 +268,7 @@ class Layouts
 
                             if (preg_match('/image:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('image:']= '', $result);
+                                $result = str_ireplace('image:', '', $result);
                                 $to_return_temp['image'] = trim($result);
                                 $possible = $here_dir . $to_return_temp['image'];
                                 if (is_file($possible)) {
@@ -305,19 +281,19 @@ class Layouts
 
                             if (preg_match('/description:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('description:']= '', $result);
+                                $result = str_ireplace('description:', '', $result);
                                 $to_return_temp['description'] = trim($result);
                             }
 
                             if (preg_match('/content_type:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('content_type:']= '', $result);
+                                $result = str_ireplace('content_type:', '', $result);
                                 $to_return_temp['content_type'] = trim($result);
                             }
 
                             if (preg_match('/tag:.+/', $fin, $regs)) {
                                 $result = $regs[0];
-                                $result = str_ireplace('tag:']= '', $result);
+                                $result = str_ireplace('tag:', '', $result);
                                 $to_return_temp['tag'] = trim($result);
                             }
 
@@ -328,14 +304,13 @@ class Layouts
                                     $layout_file = str_replace($template_dir, '', $layout_file);
                                 }
                             }
-                            //   $layout_file = str_replace(MW_TEMPLATES_DIR, '', $layout_file);
 
 
                             $layout_file = str_replace(DS, '/', $layout_file);
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['filename'] = $filename;
-                            $screen = str_ireplace('.php']= '.png', $filename);
-                            $screen_jpg = str_ireplace('.php']= '.jpg', $filename);
+                            $screen = str_ireplace('.php', '.png', $filename);
+                            $screen_jpg = str_ireplace('.php', '.jpg', $filename);
                             if (is_file($screen_jpg)) {
                                 $to_return_temp['screenshot_file'] = $screen_jpg;
 
@@ -418,7 +393,7 @@ class Layouts
         }
 
         $page_url_segment_1 = $this->app->url->segment(0);
-        $td = templates_path() .  $page_url_segment_1;
+        $td = templates_path() . $page_url_segment_1;
         $td_base = $td;
 
         $page_url_segment_2 = $this->app->url->segment(1);
@@ -568,7 +543,7 @@ class Layouts
 
             $template = $params['template'];
         } else {
-            $template = $this->app->option_manager->get('current_template']= 'template');
+            $template = $this->app->option_manager->get('current_template', 'template');
 
         }
 
@@ -583,7 +558,7 @@ class Layouts
 
             if ($return_styles == true) {
                 $tf = $this->template_check_for_custom_css($template, true);
-                $tf2 = str_ireplace('.bak']= '', $tf);
+                $tf2 = str_ireplace('.bak', '', $tf);
 
 
                 if (rename($tf, $tf2)) {
@@ -730,7 +705,7 @@ class Layouts
 
 
             if ($template == 'default') {
-                $site_template_settings = $this->app->option_manager->get('current_template']= 'template');
+                $site_template_settings = $this->app->option_manager->get('current_template', 'template');
                 if ($site_template_settings != false and $site_template_settings != 'default') {
                     $template = $site_template_settings;
                 }
@@ -749,7 +724,7 @@ class Layouts
                     save_option($option);
                 }
 
-                $template_folder = templates_path() .  $template . DS;
+                $template_folder = templates_path() . $template . DS;
                 $template_url = MW_TEMPLATES_URL . $template . '/';
                 $this_template_url = THIS_TEMPLATE_URL;
 
@@ -819,20 +794,20 @@ class Layouts
 
 
                     if (isset($item['selector']) and trim($item['selector']) != '' and isset($item["css"])) {
-                        $item["selector"] = str_ireplace('.element-current']= '', $item["selector"]);
-                        $item["selector"] = str_ireplace('.mwfx']= '', $item["selector"]);
-                        $item["selector"] = str_ireplace('.mw_image_resizer']= '', $item["selector"]);
-                        $item["selector"] = str_ireplace('.ui-resizable']= '', $item["selector"]);
-                        $item["selector"] = str_ireplace('.ui-draggable']= '', $item["selector"]);
-                        $item["css"] = str_ireplace('background:url(;']= '', $item["css"]);
-                        $item["css"] = str_ireplace('background:;']= '', $item["css"]);
-                        $item["css"] = str_ireplace('background-image:url(;']= '', $item["css"]);
+                        $item["selector"] = str_ireplace('.element-current', '', $item["selector"]);
+                        $item["selector"] = str_ireplace('.mwfx', '', $item["selector"]);
+                        $item["selector"] = str_ireplace('.mw_image_resizer', '', $item["selector"]);
+                        $item["selector"] = str_ireplace('.ui-resizable', '', $item["selector"]);
+                        $item["selector"] = str_ireplace('.ui-draggable', '', $item["selector"]);
+                        $item["css"] = str_ireplace('background:url(;', '', $item["css"]);
+                        $item["css"] = str_ireplace('background:;', '', $item["css"]);
+                        $item["css"] = str_ireplace('background-image:url(;', '', $item["css"]);
 
 
                         $sel = trim($item['selector']);
                         $css = trim($item["css"]);
 
-                        if (trim($sel) != '' and  strlen($sel) > 2 and strlen($css) > 2) {
+                        if (trim($sel) != '' and strlen($sel) > 2 and strlen($css) > 2) {
 
                             $delim = "\n /* $sel */ \n";
 
@@ -840,8 +815,8 @@ class Layouts
                             //$item["css"] = str_ireplace($this_template_url, '', $item["css"]);
                             //$item["css"] = str_ireplace($template_url, '', $item["css"]);
 
-                            $item["css"] = str_ireplace('http://']= '//', $item["css"]);
-                            $item["css"] = str_ireplace('https://']= '//', $item["css"]);
+                            $item["css"] = str_ireplace('http://', '//', $item["css"]);
+                            $item["css"] = str_ireplace('https://', '//', $item["css"]);
 
                             $is_existing = explode($delim, $css_cont_new);
 
@@ -890,6 +865,5 @@ class Layouts
         $this->external_layouts[] = ($arr);
         return $this->external_layouts;
     }
-
 
 }

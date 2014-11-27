@@ -21,16 +21,16 @@ if ($last_page_front == false) {
 }
 }
 if ($last_page_front != false) {
-    $cont_by_url = mw('content')->get_by_id($last_page_front, true);
+    $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
     if (isset($cont_by_url) and $cont_by_url == false) {
-        $past_page = mw('content')->get("order_by=updated_on desc&limit=1");
-        $past_page = mw('content')->link($past_page[0]['id']);
+        $past_page = mw()->content_manager->get("order_by=updated_on desc&limit=1");
+        $past_page = mw()->content_manager->link($past_page[0]['id']);
     } else {
-        $past_page = mw('content')->link($last_page_front);
+        $past_page = mw()->content_manager->link($last_page_front);
     }
 } else {
-    $past_page = mw('content')->get("order_by=updated_on desc&limit=1");
-    $past_page = mw('content')->link($past_page[0]['id']);
+    $past_page = mw()->content_manager->get("order_by=updated_on desc&limit=1");
+    $past_page = mw()->content_manager->link($past_page[0]['id']);
 }
 ?>
 <?php if(isset($past_page) and $past_page != false): ?>
@@ -138,7 +138,7 @@ $( "#content_type_filter_by_select" ).change(function() {
   <div class="admin-manage-toolbar">
     <div class="admin-manage-toolbar-content">
       <?php if(!isset($edit_page_info)): ?>
-      <?php mw()->event->emit('module.content.manager.toolbar.start', $page_info) ?>
+      <?php mw()->event_manager->trigger('module.content.manager.toolbar.start', $page_info) ?>
       <div class="mw-ui-row" style="width: 100%;">
         <div class="mw-ui-col">
           <div class="mw-ui-row" style="width: 100%;padding-top: 19px;">
@@ -281,14 +281,14 @@ $( "#content_type_filter_by_select" ).change(function() {
                                                                     data-tip="<?php _e("Go Live Edit"); ?>"
                                                                     data-tipposition="bottom-center"><span
                                     class="mw-icon-live"></span></a></div>
-            <?php mw()->event->emit('module.content.manager.toolbar.end', $page_info); ?>
+            <?php mw()->event_manager->trigger('module.content.manager.toolbar.end', $page_info); ?>
           </div>
           <?php else: ?>
           <?php endif; ?>
         </div>
       </div>
       <?php if($page_info): ?>
-      <?php mw()->event->emit('module.content.manager.toolbar', $page_info) ?>
+      <?php mw()->event_manager->trigger('module.content.manager.toolbar', $page_info) ?>
       <?php endif; ?>
       <?php $custom_tabs = mw()->modules->ui('content.manager.toolbar'); ?>
       <?php if(!empty($custom_tabs)): ?>

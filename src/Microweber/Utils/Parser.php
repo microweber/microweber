@@ -50,7 +50,7 @@ class Parser
         if ($process_started == false) {
             $process_started = true;
 
-            $this->app->event->trigger('parser.process', $layout);
+            $this->app->event_manager->trigger('parser.process', $layout);
         }
 
 

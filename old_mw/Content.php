@@ -200,7 +200,7 @@ class Content
      * @category Content
      * @package Content
      * @subpackage  Advanced
-     * @uses  $this->app->database->build_table()
+     * @uses  $this->app->database_manager->build_table()
      */
     public function db_init()
     {
@@ -270,11 +270,11 @@ class Content
         $fields_to_add['session_id']= 'string';
         $fields_to_add['posted_on']= 'dateTime';
 
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
 
-        $this->app->database->add_table_index('url', $table_name, array('url(255)'));
-        $this->app->database->add_table_index('title', $table_name, array('title(255)'));
+        $this->app->database_manager->add_table_index('url', $table_name, array('url(255)'));
+        $this->app->database_manager->add_table_index('title', $table_name, array('title(255)'));
 
 
         $table_name = $this->tables['content_data'];
@@ -293,7 +293,7 @@ class Content
         $fields_to_add['rel']= 'longText';
 
         $fields_to_add['rel_id']= 'longText';
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
 
         $table_name = $this->tables['content_fields'];
@@ -309,10 +309,10 @@ class Content
         $fields_to_add['rel_id']= 'longText';
         $fields_to_add['field']= 'longText';
         $fields_to_add['value']= 'longText';
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        $this->app->database_manager->add_table_index('rel', $table_name, array('rel(55)'));
+        $this->app->database_manager->add_table_index('rel_id', $table_name, array('rel_id(255)'));
 
         $table_name = $this->tables['content_fields_drafts'];
         $fields_to_add['session_id']= 'string(50) DEFAULT NULL';
@@ -320,10 +320,10 @@ class Content
         $fields_to_add['url']= 'longText';
 
 
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        $this->app->database_manager->add_table_index('rel', $table_name, array('rel(55)'));
+        $this->app->database_manager->add_table_index('rel_id', $table_name, array('rel_id(255)'));
 
 
         $table_name = $this->tables['media'];
@@ -346,11 +346,11 @@ class Content
         $fields_to_add['filename']= 'longText';
 
 
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-        $this->app->database->add_table_index('media_type', $table_name, array('media_type(55)'));
+        $this->app->database_manager->add_table_index('rel', $table_name, array('rel(55)'));
+        $this->app->database_manager->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+        $this->app->database_manager->add_table_index('media_type', $table_name, array('media_type(55)'));
 
 
         $table_name = $this->tables['custom_fields'];
@@ -395,11 +395,11 @@ class Content
         $fields_to_add['copy_of_field']= 'integer';
 
 
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(55)'));
-        $this->app->database->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
+        $this->app->database_manager->add_table_index('rel', $table_name, array('rel(55)'));
+        $this->app->database_manager->add_table_index('rel_id', $table_name, array('rel_id(55)'));
+        $this->app->database_manager->add_table_index('custom_field_type', $table_name, array('custom_field_type(55)'));
 
 
         $table_name = $this->tables['menus'];
@@ -416,7 +416,7 @@ class Content
         $fields_to_add['is_active']= "string";
         $fields_to_add['description']= 'longText';
         $fields_to_add['url']= 'longText';
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
         $table_name = $this->tables['categories'];
 
@@ -446,11 +446,11 @@ class Content
         $fields_to_add['categories_silo_keywords']= 'longText';
 
 
-        $this->app->database->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
 
-        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
-        $this->app->database->add_table_index('parent_id', $table_name, array('parent_id'));
+        $this->app->database_manager->add_table_index('rel', $table_name, array('rel(55)'));
+        $this->app->database_manager->add_table_index('rel_id', $table_name, array('rel_id'));
+        $this->app->database_manager->add_table_index('parent_id', $table_name, array('parent_id'));
 
         $table_name = $this->tables['categories_items'];
 
@@ -462,9 +462,9 @@ class Content
         $fields_to_add['content_type']= 'longText';
         $fields_to_add['data_type']= 'longText';
 
-        $this->app->database->build_table($table_name, $fields_to_add);
-        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id'));
-        $this->app->database->add_table_index('parent_id', $table_name, array('parent_id'));
+        $this->app->database_manager->build_table($table_name, $fields_to_add);
+        $this->app->database_manager->add_table_index('rel_id', $table_name, array('rel_id'));
+        $this->app->database_manager->add_table_index('parent_id', $table_name, array('parent_id'));
 
         $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -481,8 +481,8 @@ class Content
             }
             return $params;
         };
-        $this->app->database->filter('category', $filters);
-        $this->app->database->filter('categories', $filters);
+        $this->app->database_manager->filter('category', $filters);
+        $this->app->database_manager->filter('categories', $filters);
     }
 
     /**
@@ -556,7 +556,7 @@ class Content
         $params['limit'] = 1;
         $params['table'] = $table;
 
-        $q = $this->app->database->get($params);
+        $q = $this->app->database_manager->get($params);
 
 
         if (is_array($q) and isset($q[0])) {
@@ -601,7 +601,7 @@ class Content
         $url = $u1;
 
         $table = $this->tables['content'];
-        $url = $this->app->database->escape_string($url);
+        $url = $this->app->database_manager->escape_string($url);
         $url = addslashes($url);
         $url12 = parse_url($url);
         if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
@@ -640,7 +640,7 @@ class Content
         }
 
         $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
-        $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
         $result = $q;
         $content = $result[0];
 
@@ -813,7 +813,7 @@ class Content
             $params['search_in_fields'] = array('title']= 'content_body']= 'content']= 'description']= 'content_meta_keywords']= 'content_meta_title']= 'url');
         }
 
-        $get = $this->app->database->get($params);
+        $get = $this->app->database_manager->get($params);
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
@@ -893,7 +893,7 @@ class Content
         }
         $id = intval($id);
         $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
-        $taxonomies = $this->app->database->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
         if (!empty($taxonomies)) {
             foreach ($taxonomies as $item) {
@@ -940,7 +940,7 @@ class Content
 
         $params['table'] = $table;
 
-        $get = $this->app->database->get($params);
+        $get = $this->app->database_manager->get($params);
 
         return $get;
     }
@@ -953,7 +953,7 @@ class Content
         $data['cache_group'] = 'content_data';
         $data['content_id'] = intval($content_id);
         $res = array();
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
         if (!empty($get)) {
             foreach ($get as $item) {
                 if (isset($item['field_name']) and isset($item['field_value'])) {
@@ -1287,7 +1287,7 @@ class Content
 
         $is_shop = '';
         if (isset($params['is_shop'])) {
-            $is_shop = $this->app->database->escape_string($params['is_shop']);
+            $is_shop = $this->app->database_manager->escape_string($params['is_shop']);
             $is_shop = " and is_shop='{$is_shop} '";
             $include_first = false;
 
@@ -1829,7 +1829,7 @@ class Content
         $params['table'] = $table;
         $params['item_type'] = 'menu';
         //$params['debug'] = 'menu';
-        $menus = $this->app->database->get($params);
+        $menus = $this->app->database_manager->get($params);
         if (!empty($menus)) {
             return $menus;
         } else {
@@ -1838,7 +1838,7 @@ class Content
                 if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
                     $new_menu = $this->menu_create('id=0&title=' . $params['title']);
                     $params['id'] = $new_menu;
-                    $menus = $this->app->database->get($params);
+                    $menus = $this->app->database_manager->get($params);
                 }
                 define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
             }
@@ -1874,7 +1874,7 @@ class Content
             $data_to_save['table'] = $table;
             $data_to_save['item_type'] = 'menu';
 
-            $save = $this->app->database->save($table, $data_to_save);
+            $save = $this->app->database_manager->save($table, $data_to_save);
 
             $this->app->cache_manager->delete('menus/global');
 
@@ -1975,21 +1975,21 @@ class Content
         }
 
         if ($title != false and is_string($title)) {
-            $title = $this->app->database->escape_string($title);
+            $title = $this->app->database_manager->escape_string($title);
             $sql1 = "SELECT * FROM {$menus}
             WHERE title LIKE '$title'
             ORDER BY position ASC ";
 
         }
 
-        //$q = $this->app->database->get($menu_params);
+        //$q = $this->app->database_manager->get($menu_params);
 
         //
         if ($depth < 2) {
-            $q = $this->app->database->query($sql, 'query_' . __FUNCTION__ . crc32($sql), 'menus/global');
+            $q = $this->app->database_manager->query($sql, 'query_' . __FUNCTION__ . crc32($sql), 'menus/global');
 
         } else {
-            $q = $this->app->database->query($sql);
+            $q = $this->app->database_manager->query($sql);
         }
 
         // $data = $q;
@@ -2079,7 +2079,7 @@ class Content
                     $title = $cont['title'];
                     $url = $this->app->category_manager->link($cont['id']);
                 } else {
-                    $this->app->database->delete_by_id($menus, $item['id']);
+                    $this->app->database_manager->delete_by_id($menus, $item['id']);
                     $title = false;
                     $item['title'] = false;
                 }
@@ -2395,7 +2395,7 @@ class Content
             }
         }
         if (!isset($lang) or $lang == false) {
-            $def_language = $this->app->option->get('language']= 'website');
+            $def_language = $this->app->option_manager->get('language']= 'website');
             if ($def_language != false) {
                 $lang = $def_language;
             }
@@ -2465,7 +2465,7 @@ class Content
 				    ";
 
                     $this->app->cache_manager->delete('menus');
-                    $q = $this->app->database->q($sql);
+                    $q = $this->app->database_manager->q($sql);
                 }
 
                 $value = intval($value);
@@ -2505,7 +2505,7 @@ class Content
 		AND content_id={$content_id}
 		";
 
-            $q = $this->app->database->q($sql);
+            $q = $this->app->database_manager->q($sql);
 
             foreach ($add_to_menus_int as $value) {
                 $check = $this->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
@@ -2528,7 +2528,7 @@ class Content
 
                     $save['content_id'] = $content_id;
 
-                    $new_item = $this->app->database->save($menus, $save);
+                    $new_item = $this->app->database_manager->save($menus, $save);
                     $this->app->cache_manager->delete('menus/global');
 
                     $this->app->cache_manager->delete('menus/' . $save['parent_id']);
@@ -2561,7 +2561,7 @@ class Content
         }
         $params['table'] = $table;
         $params['item_type'] = 'menu_item';
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
     }
 
     function breadcrumb($params = false)
@@ -3140,7 +3140,7 @@ class Content
                                 $to_save['id'] = $content_id;
 
 
-                                $is_native_fld = $this->app->database->get_fields('content');
+                                $is_native_fld = $this->app->database_manager->get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
                                     $to_save[$field] = ($html_to_save);
                                 } else {
@@ -3250,12 +3250,12 @@ class Content
 
         $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
 
-        $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
         //
         $result = $q;
         if ($result == false) {
             $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted='n' AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
-            $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+            $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
             $result = $q;
 
         }
@@ -3427,7 +3427,7 @@ class Content
         $id = intval($id);
         $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
 
-        $content_parents = $this->app->database->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        $content_parents = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
         if (!empty($content_parents)) {
 
@@ -3490,7 +3490,7 @@ class Content
         }
         if (isset($data['is_draft']) and isset($data['url'])) {
 
-            $draft_url = $this->app->database->escape_string($data['url']);
+            $draft_url = $this->app->database_manager->escape_string($data['url']);
             $last_saved_date = date("Y-m-d H:i:s", strtotime("-5 minutes"));
             $last_saved_date = date("Y-m-d H:i:s", strtotime("-1 week"));
 
@@ -3522,7 +3522,7 @@ class Content
                 $history_files_ids_impopl = implode(',', $history_files_ids);
                 $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
 
-                $this->app->database->q($del_q);
+                $this->app->database_manager->q($del_q);
             }
 
 
@@ -3534,18 +3534,18 @@ class Content
         }
         //if($data['rel'] == 'global'){
         if (isset($data['field']) and !isset($data['is_draft'])) {
-            $fld = $this->app->database->escape_string($data['field']);
-            $fld_rel = $this->app->database->escape_string($data['rel']);
+            $fld = $this->app->database_manager->escape_string($data['field']);
+            $fld_rel = $this->app->database_manager->escape_string($data['rel']);
             $del_q = "DELETE FROM {$table} WHERE rel='$fld_rel' AND  field='$fld' ";
             if (isset($data['rel_id'])) {
-                $i = $this->app->database->escape_string($data['rel_id']);
+                $i = $this->app->database_manager->escape_string($data['rel_id']);
                 $del_q .= " and  rel_id='$i' ";
 
             } else {
                 $data['rel_id'] = 0;
             }
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->database->q($del_q);
+            $this->app->database_manager->q($del_q);
             $this->app->cache_manager->delete($cache_group);
 
             //
@@ -3582,7 +3582,7 @@ class Content
         //}
         $data['allow_html'] = true;
 
-        $save = $this->app->database->save($table, $data);
+        $save = $this->app->database_manager->save($table, $data);
 
         $this->app->cache_manager->delete('content_fields');
 
@@ -3650,7 +3650,7 @@ class Content
 
         $data['table'] = $table;
 
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
 
 
         if (!isset($data['full']) and isset($get['value'])) {
@@ -3677,7 +3677,7 @@ class Content
             }
         }
         if (isset($data['id'])) {
-            $this->app->event->trigger('content.before.copy', $data);
+            $this->app->event_manager->trigger('content.before.copy', $data);
             $cont = get_content_by_id($data['id']);
             if ($cont != false and isset($cont['id'])) {
                 $new_cont = $cont;
@@ -3749,7 +3749,7 @@ class Content
 
                 $table_fields = $this->tables['content_fields'];
                 $del = "DELETE FROM {$table_fields} WHERE rel='content' AND rel_id='{$id}' ";
-                $this->app->database->query($del);
+                $this->app->database_manager->query($del);
                 $this->app->cache_manager->delete('content');
                 $this->app->cache_manager->delete('content_fields');
                 return $save;
@@ -3799,17 +3799,17 @@ class Content
             $c_id = intval($data['id']);
             $del_ids[] = $c_id;
             if ($to_trash == false) {
-                $this->app->database->delete_by_id('content', $c_id);
+                $this->app->database_manager->delete_by_id('content', $c_id);
             }
         }
-        $this->app->event->trigger('content.before.delete', $data);
+        $this->app->event_manager->trigger('content.before.delete', $data);
 
         if (isset($data['ids']) and is_array($data['ids'])) {
             foreach ($data['ids'] as $value) {
                 $c_id = intval($value);
                 $del_ids[] = $c_id;
                 if ($to_trash == false) {
-                    $this->app->database->delete_by_id('content', $c_id);
+                    $this->app->database_manager->delete_by_id('content', $c_id);
                 }
             }
 
@@ -3825,64 +3825,64 @@ class Content
 
                 if ($to_untrash == true) {
                     $q = "UPDATE $table SET is_deleted='n' WHERE id=$c_id AND  is_deleted='y' ";
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
                     $q = "UPDATE $table SET is_deleted='n' WHERE parent=$c_id   AND  is_deleted='y' ";
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $q = "UPDATE $table1 SET is_deleted='n' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='y' ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
                 } else if ($to_trash == false) {
                     $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
 
-                    $this->app->database->delete_by_id('menus', $c_id, 'content_id');
+                    $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
 
                     if (isset($this->tables['media'])) {
                         $table1 = $this->tables['media'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
 
                     if (isset($this->tables['categories_items'])) {
                         $table1 = $this->tables['categories_items'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
                     if (isset($this->tables['custom_fields'])) {
                         $table1 = $this->tables['custom_fields'];
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
 
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
                     if (isset($this->tables['content_data'])) {
                         $table1 = $this->tables['content_data'];
                         $q = "DELETE FROM $table1 WHERE content_id=$c_id    ";
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
 
                 } else {
                     $q = "UPDATE $table SET is_deleted='y' WHERE id=$c_id ";
 
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
                     $q = "UPDATE $table SET is_deleted='y' WHERE parent=$c_id ";
-                    $q = $this->app->database->query($q);
+                    $q = $this->app->database_manager->query($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $q = "UPDATE $table1 SET is_deleted='y' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='n' ";
 
-                        $q = $this->app->database->query($q);
+                        $q = $this->app->database_manager->query($q);
                     }
 
 
@@ -4227,7 +4227,7 @@ class Content
 
             $the_active_site_template = $content['active_site_template'];
         } else {
-            $the_active_site_template = $this->app->option->get('current_template']= 'template');
+            $the_active_site_template = $this->app->option_manager->get('current_template']= 'template');
             //
         }
 
@@ -4241,10 +4241,10 @@ class Content
                     $the_active_site_template = $inh_parent['active_site_template'];
                 } else if (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) != '' and strtolower($inh_parent['active_site_template']) == 'default') {
 
-                    $the_active_site_template = $this->app->option->get('current_template']= 'template');
+                    $the_active_site_template = $this->app->option_manager->get('current_template']= 'template');
                 } else if (isset($inh_parent['active_site_template']) and ($inh_parent['active_site_template']) == '') {
 
-                    $the_active_site_template = $this->app->option->get('current_template']= 'template');
+                    $the_active_site_template = $this->app->option_manager->get('current_template']= 'template');
                 }
 
             }
@@ -4547,13 +4547,13 @@ class Content
         $ids = array_unique($ids);
 
         $ids_implode = implode(',', $ids);
-        $ids_implode = $this->app->database->escape_string($ids_implode);
+        $ids_implode = $this->app->database_manager->escape_string($ids_implode);
 
 
         $table = $this->tables['content'];
         $maxpos = 0;
         $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
-        $get_max_pos = $this->app->database->query($get_max_pos);
+        $get_max_pos = $this->app->database_manager->query($get_max_pos);
         if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
 
             $maxpos = intval($get_max_pos[0]['maxpos']) + 1;
@@ -4561,7 +4561,7 @@ class Content
         }
 
         // $q = " SELECT id, created_on, position from $table where id IN ($ids_implode)  order by position desc  ";
-        // $q = $this->app->database->query($q);
+        // $q = $this->app->database_manager->query($q);
         // $max_date = $q[0]['created_on'];
         // $max_date_str = strtotime($max_date);
         $i = 1;
@@ -4574,7 +4574,7 @@ class Content
             $pox = $maxpos - $i;
             $q = " UPDATE $table SET position=$pox WHERE id=$id   ";
             //    var_dump($q);
-            $q = $this->app->database->q($q);
+            $q = $this->app->database_manager->q($q);
             $i++;
         }
         //
@@ -4793,7 +4793,7 @@ class Content
             if (!isset($data['id'])) {
                 $data['id'] = 0;
             }
-            $this->app->event->trigger('content.before.save', $data);
+            $this->app->event_manager->trigger('content.before.save', $data);
             if (intval($data['id']) == 0) {
                 if (isset($data['subtype']) and $data['subtype'] == 'post' and !isset($data['content_type'])) {
                     $data['subtype'] = 'post';
@@ -4834,7 +4834,7 @@ class Content
 
             $q = "SELECT * FROM $table WHERE id='{$data_to_save['id']}' ";
 
-            $q = $this->app->database->query($q);
+            $q = $this->app->database_manager->query($q);
 
             $thetitle = $q[0]['title'];
             $q = $q[0]['url'];
@@ -4926,14 +4926,14 @@ class Content
                 $data['url'] = $this->app->url->slug($data['title']);
             }
 
-            $data['url'] = $this->app->database->escape_string($data['url']);
+            $data['url'] = $this->app->database_manager->escape_string($data['url']);
 
 
             $date123 = date("YmdHis");
 
             $q = "SELECT id, url FROM $table WHERE url LIKE '{$data['url']}'";
 
-            $q = $this->app->database->query($q);
+            $q = $this->app->database_manager->query($q);
 
             if (!empty($q)) {
 
@@ -4973,7 +4973,7 @@ class Content
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
             if ($adm == true) {
                 $sql = "UPDATE $table SET is_home='n'   ";
-                $q = $this->app->database->query($sql);
+                $q = $this->app->database_manager->query($sql);
             } else {
                 $data_to_save['is_home'] = 'n';
             }
@@ -5034,7 +5034,7 @@ class Content
                     $par_page_new['id'] = $par_page['id'];
                     $par_page_new['subtype'] = 'dynamic';
 
-                    $par_page_new = $this->app->database->save($table, $par_page_new);
+                    $par_page_new = $this->app->database_manager->save($table, $par_page_new);
                     $cats_modified = true;
                 }
                 if (!isset($data_to_save['categories'])) {
@@ -5155,7 +5155,7 @@ class Content
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
 
                 $get_max_pos = "SELECT max(position) AS maxpos FROM $table  ";
-                $get_max_pos = $this->app->database->query($get_max_pos);
+                $get_max_pos = $this->app->database_manager->query($get_max_pos);
                 if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos']))
 
 
@@ -5241,17 +5241,17 @@ class Content
             $url_changed = true;
         }
 
-        $save = $this->app->database->save($table, $data_to_save);
+        $save = $this->app->database_manager->save($table, $data_to_save);
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
             $upd_posted = array();
             $upd_posted['posted_on'] = $data_to_save['updated_on'];
             $upd_posted['id'] = $data_to_save['parent'];
-            $save_posted = $this->app->database->save($table, $upd_posted);
+            $save_posted = $this->app->database_manager->save($table, $upd_posted);
         }
         $after_save = $data_to_save;
         $after_save['id'] = $id;
-        $this->app->event->trigger('content.after.save', $after_save);
+        $this->app->event_manager->trigger('content.after.save', $after_save);
         $this->app->cache_manager->delete('content/' . $save);
 
         $this->app->cache_manager->delete('content_fields/global');
@@ -5358,7 +5358,7 @@ class Content
             AND rel =\"content\"
 	        ";
 
-            $this->app->database->q($clean);
+            $this->app->database_manager->q($clean);
 
 
             $clean = " UPDATE $media_table SET
@@ -5367,7 +5367,7 @@ class Content
             session_id =\"{$sid}\"
             AND rel =\"content\" AND (rel_id=0 OR rel_id IS NULL)
             ";
-            $this->app->database->q($clean);
+            $this->app->database_manager->q($clean);
         }
 
 
@@ -5456,7 +5456,7 @@ class Content
         $data['allow_html'] = true;
         // $data['debug'] = true;
 
-        $save = $this->app->database->save($table, $data);
+        $save = $this->app->database_manager->save($table, $data);
 
         $this->app->cache_manager->delete('content_data');
 
@@ -5485,7 +5485,7 @@ class Content
         $data['cache_group'] = 'content_data';
 
 
-        $get = $this->app->database->get($data);
+        $get = $this->app->database_manager->get($data);
 
         return $get;
 
@@ -5526,7 +5526,7 @@ class Content
                             }
                         }
                     }
-                    $new_shop = $this->app->database->save('content', $add_page);
+                    $new_shop = $this->app->database_manager->save('content', $add_page);
                     $this->app->cache_manager->delete('content');
                     $this->app->cache_manager->delete('categories');
                     $this->app->cache_manager->delete('custom_fields');
@@ -5596,7 +5596,7 @@ class Content
 
                     }
 
-                    $new_shop = $this->app->database->save('content', $add_page);
+                    $new_shop = $this->app->database_manager->save('content', $add_page);
                     $this->app->cache_manager->delete('content');
                     $this->app->cache_manager->delete('categories');
                     $this->app->cache_manager->delete('content_fields');
@@ -5722,11 +5722,11 @@ class Content
 
         $id = $params['id'];
 
-        $id = $this->app->database->escape_string($id);
+        $id = $this->app->database_manager->escape_string($id);
         $id = htmlspecialchars_decode($id);
         $table = $this->tables['menus'];
 
-        $this->app->database->delete_by_id($table, trim($id), $field_name = 'id');
+        $this->app->database_manager->delete_by_id($table, trim($id), $field_name = 'id');
 
         $this->app->cache_manager->delete('menus/global');
 
@@ -5817,7 +5817,7 @@ class Content
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
 
-        $save = $this->app->database->save($table, $data_to_save);
+        $save = $this->app->database_manager->save($table, $data_to_save);
 
         $this->app->cache_manager->delete('menus/global');
 
@@ -5842,7 +5842,7 @@ class Content
 
         $table = $this->tables['menus'];
 
-        $this->app->database->delete_by_id($table, intval($id), $field_name = 'id');
+        $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
 
         $this->app->cache_manager->delete('menus/global');
 
@@ -5873,7 +5873,7 @@ class Content
 				WHERE id=$value2 AND id!=$k
 				AND item_type='menu_item'
 				";
-                    $q = $this->app->database->q($sql);
+                    $q = $this->app->database_manager->q($sql);
                     $this->app->cache_manager->delete('menus/' . $k);
                     $this->app->cache_manager->delete('menus/' . $value2);
                 }
@@ -5893,7 +5893,7 @@ class Content
                     $i++;
                 }
 
-                $this->app->database->update_position_field($table, $indx);
+                $this->app->database_manager->update_position_field($table, $indx);
                 //return true;
                 $return_res = $indx;
             }

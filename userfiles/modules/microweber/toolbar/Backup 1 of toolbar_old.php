@@ -112,7 +112,7 @@
 
 
         <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
-        <div class="mw-ui-dropdown right"> <a href="<?php print mw('url')->current(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
+        <div class="mw-ui-dropdown right"> <a href="<?php print mw()->url->current(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
           <div class="mw-dropdown-content" style="width: 155px;">
 
             <ul class="mw-dropdown-list">
@@ -121,16 +121,16 @@
                 <a title="Back to Admin" class="mw-ui-btn-blue back_to_admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a>
                 <div class="mw_clear"></div>
             </li>
-              <li><a href="<?php print mw('url')->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
+              <li><a href="<?php print mw()->url->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
 
 
               <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>
               <?php if(defined('CONTENT_ID') and CONTENT_ID > 0): ?>
-              <?php $pub_or_inpub  = mw('content')->get_by_id(CONTENT_ID); ?>
+              <?php $pub_or_inpub  = mw()->content_manager->get_by_id(CONTENT_ID); ?>
               <li class="mw-set-content-unpublish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><?php _e("Unpublish"); ?></a></li>
               <li class="mw-set-content-publish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><?php _e("Publish"); ?></a></li>
               <?php endif; ?>
-              <li><a href="<?php print mw('url')->api_link('logout'); ?>"><?php _e("Logout"); ?></a></li>
+              <li><a href="<?php print mw()->url->api_link('logout'); ?>"><?php _e("Logout"); ?></a></li>
             </ul>
           </div>
         </div>
@@ -190,10 +190,10 @@
     <div id="tab_modules" class="mw_toolbar_tab">
 
 
-       <microweber module="admin/modules/categories_dropdown" no_wrap="true" template="liveedit_toolbar" />
+       <microweber module="admin/modules_manager/categories_dropdown" no_wrap="true" template="liveedit_toolbar" />
       <div class ="modules_bar_slider bar_slider">
         <div class="modules_bar">
-          <microweber module="admin/modules/list" />
+          <microweber module="admin/modules_manager/list" />
         </div>
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
       <div class="mw_clear">&nbsp;</div>
@@ -203,10 +203,10 @@
 
     </div>
     <div id="tab_layouts" class="mw_toolbar_tab">
-      <microweber module="admin/modules/categories_dropdown" no_wrap="true" data-for="elements"  template="liveedit_toolbar" />
+      <microweber module="admin/modules_manager/categories_dropdown" no_wrap="true" data-for="elements"  template="liveedit_toolbar" />
       <div class="modules_bar_slider bar_slider">
         <div class="modules_bar">
-          <microweber module="admin/modules/list_layouts" />
+          <microweber module="admin/modules_manager/list_layouts" />
         </div>
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
     </div>
@@ -293,7 +293,7 @@
                             $pt_opts['active_ids'] = CONTENT_ID;
                             $pt_opts['limit'] = 1000;
                             $pt_opts['active_code_tag'] = '   class="active"  ';
-                            mw('content')->pages_tree($pt_opts);
+                            mw()->content_manager->pages_tree($pt_opts);
                       ?></div>
 
 					</div>
@@ -307,8 +307,8 @@
 
     <?php endif; ?>
 
-    <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg.php'; ?>
-    <?php include MW_INCLUDES_DIR.'toolbar'.DS.'wysiwyg_tiny.php'; ?>
+    <?php include mw_includes_path().'toolbar'.DS.'wysiwyg.php'; ?>
+    <?php include mw_includes_path().'toolbar'.DS.'wysiwyg_tiny.php'; ?>
 
     <div id="mw-saving-loader"></div>
 
@@ -320,7 +320,7 @@
 <?php event_trigger('mw_after_editor_toolbar'); ?>
 <!-- /end mw_holder -->
 
-<?php   include MW_INCLUDES_DIR.'toolbar'.DS."design.php"; ?>
+<?php   include mw_includes_path().'toolbar'.DS."design.php"; ?>
 <?php   //include "UI.php"; ?>
 
 

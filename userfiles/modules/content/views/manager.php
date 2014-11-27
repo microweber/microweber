@@ -85,9 +85,12 @@ mw.on.hashParam("pg", function(){
 	  
 	  
 });
-</script>
+</script>  
 <?php if (!isset($params['no_toolbar']) and isset($toolbar)): ?>
-    <?php print $toolbar; ?>
+   
+   
+	  <?php print $toolbar; ?>
+      
 <?php else: ?>
 
 
@@ -104,7 +107,7 @@ mw.on.hashParam("pg", function(){
         </div>
        
 <?php endif; ?>
-      
+
 <?php if (intval($pages_count) > 1): ?>
     <?php $paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
@@ -132,6 +135,9 @@ mw.on.hashParam("pg", function(){
         <span class="mw-icon-drag mw_admin_posts_sortable_handle"
               onmousedown="mw.manage_content_sort()"></span></div>
                     <div class="mw-ui-col manage-post-item-col-2">
+                    
+
+
                         <?php  $pic = get_picture($item['id']); ?>
                         <?php if ($pic == true): ?>
                             <a class="manage-post-image"
@@ -169,7 +175,7 @@ mw.on.hashParam("pg", function(){
                                     <?php else : ?>
                                     <?php endif; ?>
                                     <?php print strip_tags($item['title']) ?> </a></h3>
-                            <?php mw()->event->emit('module.content.manager.item.title', $item) ?>
+                            <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
 
                             <a class="manage-post-item-link-small mw-small" target="_top"
                                href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a>
@@ -186,7 +192,7 @@ mw.on.hashParam("pg", function(){
                     </div>
                     <div class="mw-ui-col manage-post-item-col-5">
                      
-                        <?php mw()->event->emit('module.content.manager.item', $item) ?>
+                        <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
                         <?php print $append; ?> </div>
                 </div>
             <?php endif; ?>

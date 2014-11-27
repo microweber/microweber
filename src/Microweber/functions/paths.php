@@ -69,7 +69,7 @@ function admin_url()
 {
     static $folder;
     if (!$folder) {
-        $folder = site_url('admin');
+        $folder = site_url('admin/');
     }
     return $folder;
 }

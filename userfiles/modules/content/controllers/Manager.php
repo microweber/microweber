@@ -11,7 +11,7 @@ class Manager
     public $views_dir = 'views';
     public $provider = null;
     public $category_provider = null;
-    public $event = null;
+    public $event_manager = null;
 
     function __construct($app = null)
     {
@@ -19,13 +19,13 @@ class Manager
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = \Microweber\Application::getInstance();
+                $this->app = mw();
             }
         }
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
-        $this->provider = $this->app->content;
-        $this->category_provider = $this->app->category;
-        $this->event = $this->app->event;
+        $this->provider = $this->app->content_manager;
+        $this->category_provider = $this->app->category_manager;
+        $this->event_manager = $this->app->event_manager;
         $is_admin = $this->app->user_manager->admin_access();
     }
 
@@ -135,7 +135,7 @@ class Manager
         $post_params_paging = $posts_mod;
         $post_params_paging['page_count'] = true;
         $pages = $this->provider->get($post_params_paging);
-        $this->event->emit('module.content.manager', $posts_mod);
+        $this->event_manager->trigger('module.content.manager', $posts_mod);
 
         $post_toolbar_view = $this->views_dir . 'toolbar.php';
 
@@ -144,7 +144,7 @@ class Manager
         $toolbar->assign('keyword', $keyword);
         $toolbar->assign('params', $params);
 
-
+ 
         $post_list_view = $this->views_dir . 'manager.php';
         if($no_page_edit == false){
         if ($data == false) {

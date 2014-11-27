@@ -66,11 +66,11 @@ class Forms
 //        $fields_to_add['url']= 'longText';
 //        $fields_to_add['user_ip']= 'longText';
 //
-//        $this->app->database->build_table($table_name, $fields_to_add);
+//        $this->app->database_manager->build_table($table_name, $fields_to_add);
 //
-//        $this->app->database->add_table_index('rel', $table_name, array('rel(55)'));
-//        $this->app->database->add_table_index('rel_id', $table_name, array('rel_id(255)'));
-//        $this->app->database->add_table_index('list_id', $table_name, array('list_id'));
+//        $this->app->database_manager->add_table_index('rel', $table_name, array('rel(55)'));
+//        $this->app->database_manager->add_table_index('rel_id', $table_name, array('rel_id(255)'));
+//        $this->app->database_manager->add_table_index('list_id', $table_name, array('list_id'));
 //
 //        $table_name = MW_DB_TABLE_FORMS_LISTS;
 //
@@ -87,14 +87,14 @@ class Forms
 //        $fields_to_add['last_export']= 'dateTime';
 //        $fields_to_add['last_sent']= 'dateTime';
 //
-//        $this->app->database->build_table($table_name, $fields_to_add);
+//        $this->app->database_manager->build_table($table_name, $fields_to_add);
 //
-//        $this->app->database->add_table_index('title', $table_name, array('title(55)'));
+//        $this->app->database_manager->add_table_index('title', $table_name, array('title(55)'));
 //
 //
 //        $table_sql = MW_INCLUDES_DIR . 'install' . DS . 'countries.sql';
 //
-//        $this->app->database->import_sql_file($table_sql);
+//        $this->app->database_manager->import_sql_file($table_sql);
 //
 //        $this->app->cache_manager->save(true, $function_cache_id, $cache_group = 'db');
         return true;
@@ -112,7 +112,7 @@ class Forms
             $params["order_by"] = 'created_on desc';
         }
 
-        $data = $this->app->database->get($params);
+        $data = $this->app->database_manager->get($params);
         $ret = array();
         if (is_array($data)) {
             foreach ($data as $item) {
@@ -153,14 +153,14 @@ class Forms
         }
 
         $params['table'] = $table;
-        $id = $this->app->database->save($table, $params);
+        $id = $this->app->database_manager->save($table, $params);
         if (isset($params['for_module_id'])) {
             $data = array();
             $data['module'] = $params['module_name'];
             $data['option_group'] = $params['for_module_id'];
             $data['option_key'] = 'list_id';
             $data['option_value'] = $id;
-            $this->app->option->save($data);
+            $this->app->option_manager->save($data);
         }
 
         return array('success' => 'List is updated', $params);
@@ -211,7 +211,7 @@ class Forms
         }
 
 
-        $dis_cap = $this->app->option->get('disable_captcha', $for_id) == 'y';
+        $dis_cap = $this->app->option_manager->get('disable_captcha', $for_id) == 'y';
 
         if ($dis_cap == false) {
             if (!isset($params['captcha'])) {
@@ -241,14 +241,14 @@ class Forms
         }
 
         if ($for == 'module') {
-            $list_id = $this->app->option->get('list_id', $for_id);
+            $list_id = $this->app->option_manager->get('list_id', $for_id);
         }
-        $email_to = $this->app->option->get('email_to', $for_id);
-        $email_bcc = $this->app->option->get('email_bcc', $for_id);
-        $email_autorespond = $this->app->option->get('email_autorespond', $for_id);
+        $email_to = $this->app->option_manager->get('email_to', $for_id);
+        $email_bcc = $this->app->option_manager->get('email_bcc', $for_id);
+        $email_autorespond = $this->app->option_manager->get('email_autorespond', $for_id);
 
 
-        $email_autorespond_subject = $this->app->option->get('email_autorespond_subject', $for_id);
+        $email_autorespond_subject = $this->app->option_manager->get('email_autorespond_subject', $for_id);
 
         if (!isset($list_id) or $list_id == false) {
             $list_id = 0;
@@ -293,7 +293,7 @@ class Forms
             $to_save['form_values'] = $params['form_values'];
         }
 
-        $save = $this->app->database->save($table, $to_save);
+        $save = $this->app->database_manager->save($table, $to_save);
 
         if (!empty($cf_to_save)) {
             $table_custom_field = get_table_prefix() . 'custom_fields';
@@ -310,7 +310,7 @@ class Forms
                 $new_field['custom_field_value'] = $value['custom_field_value'];
                 $new_field['custom_field_type'] = $value['custom_field_type'];
                 $new_field['custom_field_name'] = $key;
-                $cf_save = $this->app->database->save($table_custom_field, $new_field);
+                $cf_save = $this->app->database_manager->save($table_custom_field, $new_field);
             }
         }
 
@@ -349,7 +349,7 @@ class Forms
             $this->app->notifications->save($notif);
         
             if ($email_to == false) {
-                $email_to = $this->app->option->get('email_from']= 'email');
+                $email_to = $this->app->option_manager->get('email_from']= 'email');
             }
             $admin_user_mails = array();
             if ($email_to == false) {
@@ -417,7 +417,7 @@ class Forms
         $params = parse_params($params);
         $table = MW_DB_TABLE_FORMS_LISTS;
         $params['table'] = $table;
-        return $this->app->database->get($params);
+        return $this->app->database_manager->get($params);
     }
 
     public function  countries_list($force = false)
@@ -437,12 +437,12 @@ class Forms
 
         $table = MW_DB_TABLE_COUNTRIES;
 
-        if (!$this->app->database->table_exist($table)) {
+        if (!$this->app->database_manager->table_exist($table)) {
             $this->db_init();
         }
 
         $sql = "SELECT name AS country_name FROM $table   ";
-        $q = $this->app->database->query($sql, 'get_countries_list' . crc32($sql), 'forms');
+        $q = $this->app->database_manager->query($sql, 'get_countries_list' . crc32($sql), 'forms');
         $res = array();
         if (is_array($q) and !empty($q)) {
             foreach ($q as $value) {
@@ -477,13 +477,13 @@ class Forms
                         $remid = $value['id'];
                         $custom_field_table = get_table_prefix() . 'custom_fields';
                         $q = "DELETE FROM $custom_field_table WHERE id='$remid'";
-                        $this->app->database->q($q);
+                        $this->app->database_manager->q($q);
                     }
                 }
                 $this->app->cache_manager->delete('custom_fields');
             }
 
-            $this->app->database->delete_by_id('forms_data', $c_id);
+            $this->app->database_manager->delete_by_id('forms_data', $c_id);
         }
         return true;
     }
@@ -498,8 +498,8 @@ class Forms
 
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
-            $this->app->database->delete_by_id('forms_lists', $c_id);
-            $this->app->database->delete_by_id('forms_data', $c_id, 'list_id');
+            $this->app->database_manager->delete_by_id('forms_lists', $c_id);
+            $this->app->database_manager->delete_by_id('forms_data', $c_id, 'list_id');
 
         }
         return true;

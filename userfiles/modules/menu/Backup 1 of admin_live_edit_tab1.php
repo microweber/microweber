@@ -8,7 +8,7 @@
 
 
 
-<?php include MW_INCLUDES_DIR . 'api/treerenderer.php'; ?>
+<?php include mw_includes_path() . 'api/treerenderer.php'; ?>
 
 
   mw.menu_add_new = function(){
@@ -211,7 +211,7 @@ $menu_name = get_option('menu_name', $params['id']);
   if($menu_id == false and $menu_name != false){
   $menu_id = get_menus('one=1&title='.$menu_name);
 	  if($menu_id == false and isset($params['title'])){
-	  mw('content')->menu_create('id=0&title=' . $params['title']);
+	  mw()->content_manager->menu_create('id=0&title=' . $params['title']);
 	    $menu_id = get_menus('one=1&title='.$menu_name);
 	  }
 

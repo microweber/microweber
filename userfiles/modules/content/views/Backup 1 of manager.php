@@ -106,7 +106,7 @@ mw.on.hashParam("pg", function(){
 <?php endif; ?>
       
 <?php if (intval($pages_count) > 1): ?>
-    <?php $paging_links = mw('content')->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
+    <?php $paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
 
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
@@ -169,7 +169,7 @@ mw.on.hashParam("pg", function(){
                                     <?php else : ?>
                                     <?php endif; ?>
                                     <?php print strip_tags($item['title']) ?> </a></h3>
-                            <?php mw()->event->emit('module.content.manager.item.title', $item) ?>
+                            <?php mw()->event_manager->trigger('module.content.manager.item.title', $item) ?>
 
                             <a class="manage-post-item-link-small mw-small" target="_top"
                                href="<?php print content_link($item['id']); ?>/editmode:y"><?php print content_link($item['id']); ?></a>
@@ -186,7 +186,7 @@ mw.on.hashParam("pg", function(){
                     </div>
                     <div class="mw-ui-col manage-post-item-col-5">
                      
-                        <?php mw()->event->emit('module.content.manager.item', $item) ?>
+                        <?php mw()->event_manager->trigger('module.content.manager.item', $item) ?>
                         <?php print $append; ?> </div>
                 </div>
             <?php endif; ?>

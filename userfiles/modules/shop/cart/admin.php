@@ -70,7 +70,7 @@
 		 
 	</div>
 	<div class="tab">
-		<module type="admin/modules/templates"  />
+		<module type="admin/modules_manager/templates"  />
 	</div>
     </div>
 </div>

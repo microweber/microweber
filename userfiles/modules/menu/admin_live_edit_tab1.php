@@ -8,7 +8,7 @@
 
 
 
-<?php include MW_INCLUDES_DIR . 'api/treerenderer.php'; ?>
+<?php include mw_includes_path() . 'api/treerenderer.php'; ?>
 
 
   mw.menu_add_new = function(){

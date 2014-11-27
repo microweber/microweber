@@ -226,7 +226,7 @@ img{
 
 
 <div class="mw-admin-editor" id="the_admin_editor">
- <?php include MW_INCLUDES_DIR . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
+ <?php include mw_includes_path() . DS . 'toolbar' . DS ."wysiwyg_admin.php"; ?>
   <div id="mw-richtext-content" tabindex="0" autofocus="autofocus">{content}</div>
 </div>
 
