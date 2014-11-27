@@ -286,6 +286,7 @@ function get_content_field($data, $debug = false)
 
 function content_data($content_id, $field_name = false)
 {
+
     return mw()->content->data($content_id, $field_name);
 }
 

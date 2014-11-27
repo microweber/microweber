@@ -382,7 +382,7 @@ if (isset($_GET['type'])) {
 <body class="mw-external-loading loading">
 <div id="settings-main">
   <div id="settings-container">
-    <div class="mw-module-live-edit-settings <?php print $params['id'] ?>"
+    <div class="mw-module-live-edit-settings admin-<?php print $params['id'] ?>"
              id="module-id-<?php print $params['id'] ?>">{content} </div>
   </div>
 </div>

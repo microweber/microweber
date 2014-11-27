@@ -9,7 +9,7 @@ mw.admin = {
     scrollBox:function(selector, settings){
         var settings = $.extend({}, mw.admin.scrollBoxSettings, settings);
         var el = mw.$(selector);
-        el.slimScroll(settings);
+        if(!!el.slimScroll) { el.slimScroll(settings) };
         var scroller =  mw.$('.slimScrollBar', el[0].parentNode);
         scroller.bind('mousedown', function(){
             $(this).addClass('scrollMouseDown');
@@ -39,7 +39,7 @@ mw.admin = {
             var newheight =  mw.admin.contentScrollBoxHeightFix(el)
             el.style.height = newheight + 'px';
             el.parentNode.style.height = newheight + 'px';
-            $(el).slimscroll();
+            if(!!el.slimScroll) { $(el).slimScroll(); }
        });
     },
     treeboxwidth:function(){
