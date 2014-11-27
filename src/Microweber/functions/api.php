@@ -106,7 +106,7 @@ function parse_params($params)
     return $params;
 }
 
-
+// stores vars in memory
 function mw_var($key, $new_val = false)
 {
     static $mw_var_storage;

@@ -1352,7 +1352,7 @@ class Modules
         }
 
         $options['is_elements'] = 1;
-        $options['dir_name'] = normalize_path(MW_ELEMENTS_DIR);
+        $options['dir_name'] = normalize_path(elements_path());
 
 
         if (isset($options['cleanup_db'])) {
@@ -1512,7 +1512,7 @@ class Modules
         $modules_remove_old = false;
         $dir = rglob($glob_patern, 0, $dir_name);
         $dir_name_mods = modules_path();
-        $dir_name_mods2 = MW_ELEMENTS_DIR;
+        $dir_name_mods2 = elements_path();
 
         if (!empty($dir)) {
             $configs = array();
@@ -1558,7 +1558,7 @@ class Modules
 
                     $value_fn = str_replace($replace_root, '', $value_fn);
 
-                    $replace_root = dirname(dirname(MW_APP_PATH)) . DS . 'userfiles' . DS . 'modules' . DS;
+                    $replace_root = dirname(dirname(MW_PATH)) . DS . 'userfiles' . DS . 'modules' . DS;
                     $value_fn = str_replace($replace_root, '', $value_fn);
 
 

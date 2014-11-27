@@ -19,6 +19,7 @@ if (!defined('DS')) {
 if (!defined('MW_PATH')) {
     define('MW_PATH', realpath(__DIR__ . '/../') . DS);
 }
+ 
 
 if (!defined('MW_ROOTPATH')) {
     define('MW_ROOTPATH', dirname(dirname(MW_PATH)) . DS);

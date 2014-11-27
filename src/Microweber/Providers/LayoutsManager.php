@@ -474,7 +474,7 @@ class LayoutsManager
     public function get($params = false)
     {
 
-        $table = MW_DB_TABLE_ELEMENTS;
+        $table = 'elements';
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $options = $params2;

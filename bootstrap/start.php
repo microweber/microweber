@@ -18,18 +18,52 @@ $app = new Illuminate\Foundation\Application;
 | Detect The Application Environment
 |--------------------------------------------------------------------------
 |
-| Laravel takes a dead simple approach to your application environments
-| so you can just specify a machine name for the host that matches a
-| given environment, then we will automatically detect it for you.
+| MULTISITE MOTHERFUCKER!!!
 |
 */
 
-$env = $app->detectEnvironment(array(
+$env = $app->detectEnvironment(function(){
+	
+	$envName = null;
 
-	'local' => array('homestead'),
-    'mw' => array('mw'),
+	/*$domains = array(
+		'hai' => ['hui\.com'],
+		'hoi' => ['hui\.net'],
+	);*/
 
-));
+	$hostname = $_SERVER['HTTP_HOST'];
+
+	if(isset($domains))
+	if(count($domains))
+	{
+		foreach ($domains as $env => $match) {
+			if(is_string($match) && $match == $hostname) {
+				$envName = $env;
+				break;
+			}
+			foreach ($match as $regex) {
+				if(preg_match("/$regex/", $hostname)) {
+					$envName = $env;
+					break 2;
+				}
+			}
+		}
+	}
+	
+	if(isset($fallback)) {
+		if($fallback)
+			$envName = $fallback;
+	}
+	else {
+		$envName = $hostname;
+	}
+	
+	$paths = include 'paths.php';
+	if(!file_exists($paths['app'] .'/config/'. $envName))
+		$envName = 'production';
+
+	return $envName;
+});
 
 /*
 |--------------------------------------------------------------------------

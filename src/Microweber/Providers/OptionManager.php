@@ -665,8 +665,8 @@ class OptionManager
         }
 
         if ($adapters_dir == false) {
-            if (!defined('MW_ADAPTERS_DIR') and defined('MW_APP_PATH')) {
-                define('MW_ADAPTERS_DIR', MW_APP_PATH . 'Adapters' . DS);
+            if (!defined('MW_ADAPTERS_DIR') and defined('MW_PATH')) {
+                define('MW_ADAPTERS_DIR', MW_PATH . 'Adapters' . DS);
             }
             if (!defined('MW_ADAPTERS_DIR')) {
                 return;
@@ -711,7 +711,7 @@ class OptionManager
                     $basename = str_ireplace('.php', '', $basename);
                     $bak['title'] = $basename;
 
-                    $adapter = str_replace(MW_APP_PATH, '', $file);
+                    $adapter = str_replace(MW_PATH, '', $file);
                     $adapter = str_ireplace('.php', '', $adapter);
                     $adapter = str_ireplace('/', '\\', $adapter);
 

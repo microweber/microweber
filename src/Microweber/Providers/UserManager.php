@@ -551,38 +551,15 @@ class UserManager
 
     public function is_admin()
     {
-
-        static $is = 0;
-
-
-        $installed = $this->app->config_manager->get('microweber.is_installed');
-        if (!defined('mw_is_installed()') or mw_is_installed() == false) {
-            if (!defined('mw_is_installed()')) {
-                define("mw_is_installed()", $installed);
-            }
-        }
-        if ($installed == false) {
-            return true;
-        }
-
-
-        $usr = $this->id();
-       // dd($usr);
-
-        if ($usr == false) {
+        if(!mw_is_installed()) {
             return false;
         }
 
-
-        $usr = $this->get_by_id($usr);
-$is = false;
-        if (isset($usr['is_admin']) and $usr['is_admin'] == 1) {
-            $is = true;
+        if(Auth::check()) {
+            return Auth::user()->ifAdmin;
         }
 
-
-        return $is;
-
+        return false;
     }
 
     public function id()

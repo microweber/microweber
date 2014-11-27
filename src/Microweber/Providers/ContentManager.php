@@ -2463,7 +2463,7 @@ class ContentManager
 
             $lang = current_lang();
 
-            $cust_dir = $lang_file = MW_APP_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
+            $cust_dir = $lang_file = MW_PATH . 'functions' . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR;
             if (!is_dir($cust_dir)) {
                 mkdir_recursive($cust_dir);
             }

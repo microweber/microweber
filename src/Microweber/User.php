@@ -11,8 +11,13 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	protected $hidden = array('password', 'remember_token');
 
+
 	public function setPasswordAttribute($pass) {
 		$this->attributes['password'] = Hash::make($pass);
+	}
+
+	public function getIfAdminAttribute() {
+		return (bool)$this->is_admin;
 	}
 
 }

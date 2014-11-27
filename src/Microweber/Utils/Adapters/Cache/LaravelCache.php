@@ -46,17 +46,19 @@ class LaravelCache
 
     public function cache_group($cache_group)
     {
+ if(is_string($cache_group)){
+     $cache_group = explode('/',$cache_group);
 
-        $cache_group = explode('/',$cache_group);
+     if(isset($cache_group[1])){
 
-        if(isset($cache_group[1])){
+         $group = str_replace('/', '-', $cache_group[1]);
+         $group = str_replace('\\', '-', $group);
+         $cache_group = $cache_group[0].'-'.$group;
+     }
 
-            $group = str_replace('/', '-', $cache_group[1]);
-            $group = str_replace('\\', '-', $group);
-            $cache_group = $cache_group[0].'-'.$group;
-        }
+     return $cache_group;
+ }
 
-        return $cache_group;
     }
 
     /**

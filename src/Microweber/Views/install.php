@@ -267,10 +267,10 @@
         $must_be = media_base_path();
         $server_check_errors['media_base_path()'] = _e("The directory " . media_base_path() . " must be writable", true);
     }
-    if (defined('MW_APP_PATH') and is_dir(MW_APP_PATH) and !is_writable(MW_APP_PATH)) {
+    if (defined('MW_PATH') and is_dir(MW_PATH) and !is_writable(MW_PATH)) {
         $check_pass = false;
-        $must_be = MW_APP_PATH;
-        $server_check_errors['MW_APP_PATH'] = _e("The directory " . MW_APP_PATH . " must be writable", true);
+        $must_be = MW_PATH;
+        $server_check_errors['MW_PATH'] = _e("The directory " . MW_PATH . " must be writable", true);
     }
 
 
