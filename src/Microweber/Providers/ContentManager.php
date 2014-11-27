@@ -5,6 +5,7 @@ namespace Microweber\Providers;
 use Microweber\Utils\Adapters\Cache\LaravelCache;
 
 use Content;
+use Menu;
 
 /**
  * Content class is used to get and save content in the database.
@@ -94,9 +95,9 @@ class ContentManager
 
         if ((isset($data['rel']) and isset($data['rel_id']))) {
 
-            $data['cache_group'] = guess_cache_group('content_fields/main/' . $data['rel'] . '/' . $data['rel_id']);
+            $data['cache_group'] = guess_cache_group('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
         } else {
-            $data['cache_group'] = guess_cache_group('content_fields/main');
+            $data['cache_group'] = guess_cache_group('content_fields/global');
 
         }
         if (!isset($data['all'])) {
@@ -240,7 +241,7 @@ class ContentManager
         $url = $u1;
 
         $table = $this->tables['content'];
-         $url = addslashes($url);
+        $url = addslashes($url);
         $url12 = parse_url($url);
         if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
             $u1 = $this->app->url->site();
@@ -275,14 +276,14 @@ class ContentManager
             return self::$precached_links[$link_hash];
         }
 
+// @todo cleanup old code
+        $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
 
-         $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
 
-
-        $content =  Content::where('url',$url)->first();;
+        $content = Content::where('url', $url)->first();;
         //dd($result);
 
-       //$q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/main');
+        //$q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 //        $filter = array();
 //        $filter['url'] = $url;
 //        $filter['limit'] = 1;
@@ -305,18 +306,14 @@ class ContentManager
             return $content;
         }
 
-
         if ($no_recursive == false) {
             if (empty($content) == true) {
                 $segs = explode('/', $url);
                 $segs_qty = count($segs);
                 for ($counter = 0; $counter <= $segs_qty; $counter += 1) {
-
                     $test = array_slice($segs, 0, $segs_qty - $counter);
                     $test = array_reverse($test);
-
                     if (isset($test[0])) {
-
                         $url = $this->get_by_url($test[0], true);
                     }
                     if (!empty($url)) {
@@ -326,11 +323,9 @@ class ContentManager
                 }
             }
         } else {
-
             if (isset($content['id']) and intval($content['id']) != 0) {
                 $content['id'] = ((int)$content['id']);
             }
-
             self::$precached_links[$link_hash] = $content;
             return $content;
         }
@@ -446,7 +441,7 @@ class ContentManager
         }
 
 
-        $cache_group = 'content/main';
+        $cache_group = 'content/global';
         if (isset($params['cache_group'])) {
             $cache_group = $params['cache_group'];
         }
@@ -970,12 +965,12 @@ class ContentManager
         }
         $function_cache_id = __FUNCTION__ . crc32($function_cache_id) . PAGE_ID . $parent;
         if ($parent == 0) {
-            $cache_group = 'content/main';
+            $cache_group = 'content/global';
         } else {
-            $cache_group = 'categories/main';
+            $cache_group = 'categories/global';
         }
         if (isset($include_categories) and $include_categories == true) {
-            $cache_group = 'categories/main';
+            $cache_group = 'categories/global';
         }
 
 
@@ -1616,7 +1611,7 @@ class ContentManager
 
             $save = $this->app->database_manager->save($table, $data_to_save);
 
-            $this->app->cache_manager->delete('menus/main');
+            $this->app->cache_manager->delete('menus/global');
 
             return $save;
         }
@@ -1648,7 +1643,7 @@ class ContentManager
             extract($menu_id);
         }
 
-        $cache_group = 'menus/main';
+        $cache_group = 'menus/global';
         $function_cache_id = false;
         $args = func_get_args();
         foreach ($args as $k => $v) {
@@ -1696,6 +1691,8 @@ class ContentManager
 	WHERE parent_id=$menu_id
     AND   id!=$menu_id
 	ORDER BY position ASC ";
+
+
         //and item_type='menu_item'
         $menu_params = array();
         $menu_params['parent_id'] = $menu_id;
@@ -1722,15 +1719,23 @@ class ContentManager
 
         }
 
+
+        $q = Menu::where('parent_id', '=', $menu_id);
+        $q = $q->where('id', '!=', $menu_id)->first();
+
         //$q = $this->app->database_manager->get($menu_params);
 
         //
-        if ($depth < 2) {
-            $q = $this->app->database_manager->query($sql, 'query_' . __FUNCTION__ . crc32($sql), 'menus/main');
+//        if ($depth < 2) {
+//            $q = $this->app->database_manager->query($sql, 'query_' . __FUNCTION__ . crc32($sql), 'menus/global');
+//
+//        } else {
+//            $q = $this->app->database_manager->query($sql);
+//        }
 
-        } else {
-            $q = $this->app->database_manager->query($sql);
-        }
+// @todo cleanup old code
+        //Menu::cacheTags('menus-global')->remember(5)->get();
+
 
         // $data = $q;
         if (empty($q)) {
@@ -2269,7 +2274,7 @@ class ContentManager
                     $save['content_id'] = $content_id;
 
                     $new_item = $this->app->database_manager->save($menus, $save);
-                    $this->app->cache_manager->delete('menus/main');
+                    $this->app->cache_manager->delete('menus/global');
 
                     $this->app->cache_manager->delete('menus/' . $save['parent_id']);
                     //$this->app->cache_manager->delete('menus/' . $save['parent_id']);
@@ -2280,7 +2285,7 @@ class ContentManager
                 }
             }
 
-            $this->app->cache_manager->delete('menus/main');
+            $this->app->cache_manager->delete('menus/global');
             $this->app->cache_manager->delete('menus');
 
         }
@@ -2990,12 +2995,12 @@ class ContentManager
 
         $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
 
-        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/main');
+        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
         //
         $result = $q;
         if ($result == false) {
             $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted='n' AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
-            $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/main');
+            $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
             $result = $q;
 
         }
@@ -3294,11 +3299,11 @@ class ContentManager
         if (isset($fld)) {
 
             $this->app->cache_manager->delete('content_fields/' . $fld);
-            $this->app->cache_manager->delete('content_fields/main/' . $fld);
+            $this->app->cache_manager->delete('content_fields/global/' . $fld);
 
 
         }
-        $this->app->cache_manager->delete('content_fields/main');
+        $this->app->cache_manager->delete('content_fields/global');
         if (isset($data['rel']) and isset($data['rel_id'])) {
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
             $this->app->cache_manager->delete($cache_group);
@@ -3312,13 +3317,13 @@ class ContentManager
         }
         if (isset($data['rel']) and isset($data['rel_id'])) {
             $this->app->cache_manager->delete('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->cache_manager->delete('content_fields/main/' . $data['rel'] . '/' . $data['rel_id']);
+            $this->app->cache_manager->delete('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
         }
         if (isset($data['field'])) {
             $this->app->cache_manager->delete('content_fields/' . $data['field']);
         }
 
-        $this->app->cache_manager->delete('content_fields/main');
+        $this->app->cache_manager->delete('content_fields/global');
         //}
         $data['allow_html'] = true;
 
@@ -3560,8 +3565,8 @@ class ContentManager
             }
             $this->app->cache_manager->delete('menus');
             $this->app->cache_manager->delete('content');
-            $this->app->cache_manager->delete('categories/main');
-            $this->app->cache_manager->delete('content/main');
+            $this->app->cache_manager->delete('categories/global');
+            $this->app->cache_manager->delete('content/global');
 
         }
         //$this->no_cache = true;
@@ -4246,8 +4251,8 @@ class ContentManager
         }
         //
         // var_dump($q);
-        $this->app->cache_manager->delete('content/main');
-        $this->app->cache_manager->delete('categories/main');
+        $this->app->cache_manager->delete('content/global');
+        $this->app->cache_manager->delete('categories/global');
         return true;
     }
 
@@ -4921,8 +4926,8 @@ class ContentManager
         $this->app->event_manager->trigger('content.after.save', $after_save);
         $this->app->cache_manager->delete('content/' . $save);
 
-        $this->app->cache_manager->delete('content_fields/main');
-        // $this->app->cache_manager->delete('content/main');
+        $this->app->cache_manager->delete('content_fields/global');
+        // $this->app->cache_manager->delete('content/global');
         if ($url_changed != false) {
             $this->app->cache_manager->delete('menus');
             $this->app->cache_manager->delete('categories');
@@ -5039,7 +5044,7 @@ class ContentManager
 
 
         $this->app->cache_manager->delete('custom_fields');
-        $this->app->cache_manager->delete('media/main');
+        $this->app->cache_manager->delete('media/global');
 
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {
             $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['parent']));
@@ -5050,12 +5055,12 @@ class ContentManager
 
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . '0');
-        $this->app->cache_manager->delete('content_fields/main');
+        $this->app->cache_manager->delete('content_fields/global');
         $this->app->cache_manager->delete('content');
         if ($cats_modified != false) {
 
-            $this->app->cache_manager->delete('categories/main');
-            $this->app->cache_manager->delete('categories_items/main');
+            $this->app->cache_manager->delete('categories/global');
+            $this->app->cache_manager->delete('categories_items/global');
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
                     $item = intval($item);
@@ -5395,7 +5400,7 @@ class ContentManager
 
         $this->app->database_manager->delete_by_id($table, trim($id), $field_name = 'id');
 
-        $this->app->cache_manager->delete('menus/main');
+        $this->app->cache_manager->delete('menus/global');
 
         return true;
 
@@ -5486,7 +5491,7 @@ class ContentManager
 
         $save = $this->app->database_manager->save($table, $data_to_save);
 
-        $this->app->cache_manager->delete('menus/main');
+        $this->app->cache_manager->delete('menus/global');
 
         return $save;
 
@@ -5511,7 +5516,7 @@ class ContentManager
 
         $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
 
-        $this->app->cache_manager->delete('menus/main');
+        $this->app->cache_manager->delete('menus/global');
 
         return true;
 
@@ -5565,7 +5570,7 @@ class ContentManager
                 $return_res = $indx;
             }
         }
-        $this->app->cache_manager->delete('menus/main');
+        $this->app->cache_manager->delete('menus/global');
 
         $this->app->cache_manager->delete('menus');
         return $return_res;

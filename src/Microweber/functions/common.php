@@ -334,28 +334,6 @@ function url_param($param, $skip_ajax = false)
 }
 
 
-api_expose('system_log_reset');
-
-function system_log_reset($data = false)
-{
-    return mw('log')->reset();
-}
-
-api_expose('delete_log_entry');
-
-function delete_log_entry($data)
-{
-    return mw('log')->delete_entry($data);
-}
-
-
-api_expose('captcha');
-
-
-function captcha()
-{
-    return Microweber\Utils\Captcha::render();
-}
 
 
 /**
@@ -380,7 +358,7 @@ function captcha()
  *
  */
 
-function cache_get($cache_id, $cache_group = 'main', $expiration_in_seconds = false)
+function cache_get($cache_id, $cache_group = 'global', $expiration_in_seconds = false)
 {
     return mw()->cache_manager->get($cache_id, $cache_group, $expiration_in_seconds);
 }
@@ -409,7 +387,7 @@ function cache_get($cache_id, $cache_group = 'main', $expiration_in_seconds = fa
  * @return boolean
  * @package Cache
  */
-function cache_save($data_to_cache, $cache_id, $cache_group = 'main')
+function cache_save($data_to_cache, $cache_id, $cache_group = 'global')
 {
     return mw()->cache_manager->save($data_to_cache, $cache_id, $cache_group);
 
@@ -479,7 +457,7 @@ function cache_debug()
  * </code>
  *
  */
-function cache_clear($cache_group = 'main', $cache_storage_type = false)
+function cache_clear($cache_group = 'global', $cache_storage_type = false)
 {
 
     return mw()->cache_manager->delete($cache_group, $cache_storage_type);
@@ -488,7 +466,7 @@ function cache_clear($cache_group = 'main', $cache_storage_type = false)
 }
 
 //same as cache_clear
-function cache_delete($cache_group = 'main', $cache_storage_type = false)
+function cache_delete($cache_group = 'global', $cache_storage_type = false)
 {
 
     return mw()->cache_manager->delete($cache_group, $cache_storage_type);

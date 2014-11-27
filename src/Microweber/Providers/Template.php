@@ -305,7 +305,7 @@ class Template
         }
         $function_cache_id = $function_cache_id . serialize($page);
         $cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_group = 'content/main';
+        $cache_group = 'content/global';
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             if (isset($page['id'])) {
                 $this->app->content_manager->define_constants($page);

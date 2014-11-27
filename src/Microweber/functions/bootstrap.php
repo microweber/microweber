@@ -66,7 +66,9 @@ include_once(__DIR__ . DS . 'common.php');
 include_once(__DIR__ . DS . 'media.php');
 include_once(__DIR__ . DS . 'other.php');
 include_once(__DIR__ . DS . 'content.php');
+include_once(__DIR__ . DS . 'menus.php');
 include_once(__DIR__ . DS . 'categories.php');
 include_once(__DIR__ . DS . 'options.php');
+include_once(__DIR__ . DS . 'shop.php');
 include_once(__DIR__ . DS . 'modules.php');
 

@@ -113,7 +113,7 @@ class CategoryManager
 
         }
 
-        $cache_group = 'categories/main';
+        $cache_group = 'categories/global';
         if (isset($params['nest_level'])) {
             $depth_level_counter = $params['nest_level'];
         } else {
@@ -1219,7 +1219,7 @@ class CategoryManager
         if (isset($params['id'])) {
             $data['cache_group'] = $cache_group = 'categories/' . $params['id'];
         } else {
-            $data['cache_group'] = $cache_group = 'categories/main';
+            $data['cache_group'] = $cache_group = 'categories/global';
 
         }
 

@@ -366,6 +366,9 @@ function breadcrumb($params = false){
 
 
 }
+
+
+
 function custom_field_value($content_id, $field_name, $table = 'content')
 {
     return mw()->fields_manager->get_value($content_id, $field_name, $table);

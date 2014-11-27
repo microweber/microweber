@@ -83,7 +83,7 @@ class LaravelCache
      * </code>
      *
      */
-    public function save($data_to_cache, $cache_id, $cache_group = 'main')
+    public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
 
         if (!$this->support_tags) {
@@ -117,7 +117,7 @@ class LaravelCache
      *
      * </code>
      */
-    public function get($cache_id, $cache_group = 'main', $timeout = false)
+    public function get($cache_id, $cache_group = 'global', $timeout = false)
     {
         $cache_group = $this->cache_group($cache_group);
         if (!$this->support_tags) {
@@ -153,7 +153,7 @@ class LaravelCache
      * mw()->cache->delete("my_table");
      * </code>
      */
-    public function delete($cache_group = 'main')
+    public function delete($cache_group = 'global')
     {
         $cache_group = $this->cache_group($cache_group);
 
@@ -233,6 +233,5 @@ class LaravelCache
     }
 
 }
-
 
 

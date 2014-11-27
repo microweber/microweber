@@ -76,7 +76,7 @@ class CacheManager
      * </code>
      *
      */
-    public function save($data_to_cache, $cache_id, $cache_group = 'main')
+    public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
         return $this->adapter->save($data_to_cache, $cache_id, $cache_group);
 
@@ -102,7 +102,7 @@ class CacheManager
      *
      * </code>
      */
-    public function get($cache_id, $cache_group = 'main', $timeout = false)
+    public function get($cache_id, $cache_group = 'global', $timeout = false)
     {
         return $this->adapter->get($cache_id, $cache_group, $timeout);
     }
@@ -131,7 +131,7 @@ class CacheManager
      * mw()->cache->delete("my_table");
      * </code>
      */
-    public function delete($cache_group = 'main')
+    public function delete($cache_group = 'global')
     {
         $this->adapter->delete($cache_group);
     }

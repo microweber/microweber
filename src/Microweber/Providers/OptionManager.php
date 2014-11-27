@@ -114,7 +114,7 @@ class OptionManager
         }
 
 
-        $get = $this->app->database_manager->get_long($table, $data, $cache_group = 'options/main');
+        $get = $this->app->database_manager->get_long($table, $data, $cache_group = 'options/global');
 
         if (!empty($get)) {
             foreach ($get as $key => $value) {
@@ -146,7 +146,7 @@ class OptionManager
         $res1 = false;
 
 
-        $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/main');
+        $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/global');
         if (is_array($res) and !empty($res)) {
             $res1 = array();
             foreach ($res as $item) {
@@ -284,7 +284,7 @@ class OptionManager
         }
 
         if ($changes == true) {
-            $this->app->cache_manager->delete('options/main');
+            $this->app->cache_manager->delete('options/global');
         }
 
         $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group = 'db');
@@ -334,7 +334,7 @@ class OptionManager
             $cache_group = 'options/' . $option_group;
 
         } else {
-            $cache_group = 'options/main';
+            $cache_group = 'options/global';
         }
         if ($this->options_memory == NULL) {
             $this->options_memory = array();
@@ -560,7 +560,7 @@ class OptionManager
                     $cache_group = 'options/' . $option_group;
                     $this->app->cache_manager->delete($cache_group);
                 } else {
-                    $cache_group = 'options/' . 'main';
+                    $cache_group = 'options/' . 'global';
                     $this->app->cache_manager->delete($cache_group);
                 }
                 if ($save != false) {
@@ -570,7 +570,7 @@ class OptionManager
 
 
                 if ($delete_content_cache != false) {
-                    $cache_group = 'content/main';
+                    $cache_group = 'content/global';
                     $this->app->cache_manager->delete($cache_group);
                 }
 

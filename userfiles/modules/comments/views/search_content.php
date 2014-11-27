@@ -2,7 +2,7 @@
 only_admin_access() ;
 $comments_data = array();
 $comments_data['in_table'] =  'comments';
-$comments_data['cache_group'] =  'comments/main';
+$comments_data['cache_group'] =  'comments/global';
 if(isset($params['search-keyword'])){
 $comments_data['keyword'] =  $params['search-keyword'];
 }
@@ -28,7 +28,7 @@ $comments_data['rel_id'] =  $params['content_id'];
 	
 }
 //$comments_data['in_table'] =  'comments';
-//$comments_data['cache_group'] =  'comments/main';
+//$comments_data['cache_group'] =  'comments/global';
 if(isset($params['search-keyword'])){
 $comments_data['keyword'] =  $params['search-keyword'];
 $comments_data['search_in_fields'] =  'comment_name,comment_body,comment_email,comment_website,from_url,comment_subject';

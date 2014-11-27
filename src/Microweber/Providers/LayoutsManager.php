@@ -483,7 +483,7 @@ class LayoutsManager
         $params['group_by'] = 'module';
         $params['orderby'] = 'position asc';
 
-        $params['cache_group'] = 'elements/main';
+        $params['cache_group'] = 'elements/global';
         if (isset($params['id'])) {
             $params['limit'] = 1;
         } else {

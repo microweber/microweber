@@ -35,22 +35,6 @@ class DefaultController extends Controller
 
         return $this->frontend();
 
-
-//        $connection = mw()->config->get('database.connections');
-//       // var_dump($connection);
-//
-//
-////        $connection = Config::set('microweber.is_installed', 1);
-////        var_dump($connection);
-////
-////
-////        $connection = mw_is_installed();
-////        var_dump($connection);
-//
-//        $connection = mw()->config->save();
-//        var_dump($connection);
-//        var_dump(__METHOD__);
-//        exit;
     }
 
 
@@ -1444,6 +1428,7 @@ class DefaultController extends Controller
         }
 
         if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false) {
+
             event_trigger('recover_shopping_cart', $_REQUEST['recart']);
         }
 

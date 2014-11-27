@@ -133,7 +133,7 @@ class Modules
         $params['table'] = $this->table;
         $params['group_by'] = 'module';
         $params['order_by'] = 'position asc';
-        $params['cache_group'] = 'modules/main';
+        $params['cache_group'] = 'modules/global';
         if (isset($params['id'])) {
             $params['limit'] = 1;
         } else {
@@ -378,7 +378,7 @@ class Modules
         $params['table'] = $table;
         $params['group_by'] = 'module';
         $params['order_by'] = 'position asc';
-        $params['cache_group'] = 'modules/main';
+        $params['cache_group'] = 'modules/global';
         if (isset($params['id'])) {
             $params['limit'] = 1;
         } else {
@@ -987,7 +987,7 @@ class Modules
 
         $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-        $cache_group = 'modules/main';
+        $cache_group = 'modules/global';
 
         $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
 
@@ -1038,7 +1038,7 @@ class Modules
         }
 
         $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_group = 'modules/main';
+        $cache_group = 'modules/global';
         $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
         if (($cache_content) != false) {
             return $cache_content;
@@ -1440,12 +1440,12 @@ class Modules
         if (isset($options['dir_name'])) {
             $dir_name = $options['dir_name'];
             //$list_as_element = true;
-            $cache_group = 'elements/main';
+            $cache_group = 'elements/global';
 
         } else {
             $dir_name = normalize_path(modules_path());
             $list_as_element = false;
-            $cache_group = 'modules/main';
+            $cache_group = 'modules/global';
         }
 
         if (isset($options['is_elements']) and $options['is_elements'] != false) {

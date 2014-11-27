@@ -14,84 +14,6 @@
 
 
 
-function get_menus($params = false)
-{
-
-    return mw()->content_manager->get_menus($params);
-
-}
-
-function get_menu($params = false)
-{
-
-    return mw()->content_manager->get_menu($params);
-
-}
-
-api_expose('add_new_menu');
-function add_new_menu($data_to_save)
-{
-    return mw()->content_manager->menu_create($data_to_save);
-
-}
-
-api_expose('menu_delete');
-function menu_delete($id = false)
-{
-    return mw()->content_manager->menu_delete($id);
-
-}
-
-api_expose('delete_menu_item');
-function delete_menu_item($id)
-{
-
-    return mw()->content_manager->menu_item_delete($id);
-
-}
-
-function get_menu_item($id)
-{
-
-    return mw()->content_manager->menu_item_get($id);
-
-}
-
-api_expose('edit_menu_item');
-function edit_menu_item($data_to_save)
-{
-    return mw()->content_manager->menu_item_save($data_to_save);
-
-
-}
-
-api_expose('reorder_menu_items');
-function reorder_menu_items($data)
-{
-    return mw()->content_manager->menu_items_reorder($data);
-}
-
-function menu_tree($menu_id = false, $maxdepth = false)
-{
-    return mw()->content_manager->menu_tree($menu_id, $maxdepth);
-}
-
-function is_in_menu($menu_id = false, $content_id = false)
-{
-    return mw()->content_manager->is_in_menu($menu_id, $content_id);
-
-}
-
-api_hook('save_content_admin', 'add_content_to_menu');
-
-function add_content_to_menu($content_id, $menu_id = false)
-{
-
-    return mw()->content_manager->add_content_to_menu($content_id, $menu_id);
-
-
-}
-
 
 api_expose('reorder_modules');
 
@@ -332,7 +254,7 @@ $params['dir_name'] = '/path/'; //get modules in dir
 $params['skip_save'] = true; //if true skips module install
 $params['skip_cache'] = true; // skip_cache
 
-$params['cache_group'] = 'modules/main'; // allows custom cache group
+$params['cache_group'] = 'modules/global'; // allows custom cache group
 $params['cleanup_db'] = true; //if true will reinstall all modules if skip_save is false
 $params['is_elements'] = true;  //if true will list files from the MW_ELEMENTS_DIR
 
@@ -522,11 +444,11 @@ function mw_post_update()
     $a = is_admin();
     if ($a != false) {
         mw()->cache_manager->delete('db');
-        mw()->cache_manager->delete('update/main');
-        mw()->cache_manager->delete('elements/main');
+        mw()->cache_manager->delete('update/global');
+        mw()->cache_manager->delete('elements/global');
 
         mw()->cache_manager->delete('templates');
-        mw()->cache_manager->delete('modules/main');
+        mw()->cache_manager->delete('modules/global');
 
         scan_for_modules();
         get_elements();
@@ -931,7 +853,7 @@ function get_all_functions_files_for_modules($options = false)
 
     $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-    $cache_group = 'modules/main';
+    $cache_group = 'modules/global';
 
     $cache_content = mw()->cache_manager->get($cache_id, $cache_group);
 
@@ -1035,6 +957,28 @@ function load_web_component_file($filename)
 }
 
 
+api_expose('system_log_reset');
+
+function system_log_reset($data = false)
+{
+    return mw('log')->reset();
+}
+
+api_expose('delete_log_entry');
+
+function delete_log_entry($data)
+{
+    return mw('log')->delete_entry($data);
+}
+
+
+api_expose('captcha');
+
+
+function captcha()
+{
+    return Microweber\Utils\Captcha::render();
+}
 
 
 function mw_error($e, $f = false, $l = false)
@@ -1047,3 +991,5 @@ $f = mw_includes_path() . 'error.php';
     $v->l = $l;
     die($v);
 }
+
+

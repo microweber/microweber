@@ -940,7 +940,7 @@ class Parser
             }
 
             if ($no_cache == false) {
-                //    $this->app->cache_manager->save($layout, $parser_mem_crc, 'content_fields/main/parser');
+                //    $this->app->cache_manager->save($layout, $parser_mem_crc, 'content_fields/global/parser');
             }
 
         }
