@@ -34,7 +34,7 @@ class Media
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = \Microweber\Application::getInstance();
+                $this->app = mw();
             }
 
         }
@@ -219,7 +219,7 @@ class Media
         $cache_id = 'upload_progress_' . $ref_str;
         $cache_group = 'media/global';
 
-        $target_path = MW_MEDIA_DIR . 'uploaded' . DS;
+        $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = normalize_path($target_path, 1);
 
         if (!is_dir($target_path)) {
@@ -496,11 +496,11 @@ class Media
 
 
             $url2dir = $this->app->url->to_path($data['src']);
-            $uploaded_files_dir = MW_MEDIA_DIR . DS . 'uploaded';
+            $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
             if (isset($s['rel']) and isset($s['rel_id'])) {
-                $move_uploaded_files_dir = MW_MEDIA_DIR . DS .$host_dir.DS. $s['rel'] . DS;
-                $move_uploaded_files_dir_index = MW_MEDIA_DIR . DS  .$host_dir.DS. $s['rel'] . DS . 'index.php';
+                $move_uploaded_files_dir = media_base_path() . DS .$host_dir.DS. $s['rel'] . DS;
+                $move_uploaded_files_dir_index = media_base_path() . DS  .$host_dir.DS. $s['rel'] . DS . 'index.php';
 
                 $uploaded_files_dir = normalize_path($uploaded_files_dir);
                 if (!is_dir($move_uploaded_files_dir)) {
@@ -654,12 +654,12 @@ class Media
             $src = ltrim($src, '/');
             $src = rtrim($src, DS);
             $src = rtrim($src, '/');
-            //$src = MW_MEDIA_DIR . $src;
+            //$src = media_base_path() . $src;
             $src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
 
         } else {
-            $src1 = MW_MEDIA_DIR . $src;
+            $src1 = media_base_path() . $src;
             $src1 = normalize_path($src1, false);
 
 
@@ -667,7 +667,7 @@ class Media
             $src2 = normalize_path($src2, false);
 
             /*  if (!is_file($src)) {
-                  $dl_file = MW_MEDIA_DIR . 'downloaded' . DS . md5($src) . basename($src);
+                  $dl_file = media_base_path() . 'downloaded' . DS . md5($src) . basename($src);
 
                   if (!file_exists($dl_file)) {
                       $is_dl = $this->app->url->download($src, false, $dl_file);
@@ -694,7 +694,7 @@ class Media
 
             }
         }
-        $media_root = MW_MEDIA_DIR;
+        $media_root = media_base_path();
 
         if (!is_writable($media_root)) {
             $media_root = MW_CACHE_DIR;
@@ -908,7 +908,7 @@ class Media
             $height = 200;
         }
 
-        $cd = MW_MEDIA_DIR . 'thumbnail' . DS . $width . DS;
+        $cd = media_base_path() . 'thumbnail' . DS . $width . DS;
 
 
         $ext = strtolower(get_file_extension($base_src));
@@ -969,7 +969,7 @@ class Media
             $src = ltrim($src, '/');
             $src = rtrim($src, DS);
             $src = rtrim($src, '/');
-            //$src = MW_MEDIA_DIR . $src;
+            //$src = media_base_path() . $src;
             $src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
 
@@ -979,7 +979,7 @@ class Media
                 return $this->pixum($width, $height);
             }
         }
-        $cd = MW_MEDIA_DIR . 'thumbnail' . DS;
+        $cd = media_base_path() . 'thumbnail' . DS;
         if (!is_dir($cd)) {
             mkdir_recursive($cd);
         }
@@ -1042,8 +1042,8 @@ class Media
     {
         only_admin_access();
         $resp = array();
-        $target_path = MW_MEDIA_DIR . 'uploaded' . DS;
-        $fn_path = MW_MEDIA_DIR;
+        $target_path = media_base_path() . 'uploaded' . DS;
+        $fn_path = media_base_path();
         if (isset($_REQUEST["path"]) and trim($_REQUEST["path"]) != '') {
             $_REQUEST["path"] = urldecode($_REQUEST["path"]);
 
@@ -1078,7 +1078,7 @@ class Media
     {
         only_admin_access();
 
-        $target_path = MW_MEDIA_DIR . 'uploaded' . DS;
+        $target_path = media_base_path() . 'uploaded' . DS;
         $target_path = normalize_path($target_path, 0);
         $path_restirct = userfiles_path();
 
@@ -1097,7 +1097,7 @@ class Media
                     $target_path = userfiles_path() . DS . $path;
                     $target_path = normalize_path($target_path, false);
 
-                    if (stristr($target_path, MW_MEDIA_DIR)) {
+                    if (stristr($target_path, media_base_path())) {
 
                         if (is_dir($target_path)) {
                             mw('Microweber\Utils\Files')->rmdir($target_path, false);

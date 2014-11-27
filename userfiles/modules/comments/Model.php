@@ -33,7 +33,7 @@ class Model
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = \Microweber\Application::getInstance();
+                $this->app = mw();
             }
         }
 

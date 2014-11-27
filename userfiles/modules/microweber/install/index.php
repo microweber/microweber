@@ -265,10 +265,10 @@
         $server_check_errors['MW_CACHE_ROOT_DIR'] = _e("The directory " . MW_CACHE_ROOT_DIR . " must be writable", true);
     }
 
-    if (defined('MW_MEDIA_DIR') and is_dir(MW_MEDIA_DIR) and !is_writable(MW_MEDIA_DIR)) {
+    if (defined('media_base_path()') and is_dir(media_base_path()) and !is_writable(media_base_path())) {
         $check_pass = false;
-        $must_be = MW_MEDIA_DIR;
-        $server_check_errors['MW_MEDIA_DIR'] = _e("The directory " . MW_MEDIA_DIR . " must be writable", true);
+        $must_be = media_base_path();
+        $server_check_errors['media_base_path()'] = _e("The directory " . media_base_path() . " must be writable", true);
     }
     if (defined('MW_APP_PATH') and is_dir(MW_APP_PATH) and !is_writable(MW_APP_PATH)) {
         $check_pass = false;

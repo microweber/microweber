@@ -47,7 +47,7 @@ if(((!isset($for_id)) and isset($params['data-id']))){
  
 if(isset($params['default-fields']) and isset($params['parent-module-id'])){
 	 
-	mw()->fields->make_default($for,$for_id,$params['default-fields']);
+	mw()->fields_manager->make_default($for,$for_id,$params['default-fields']);
 }
 
 
@@ -55,7 +55,7 @@ if(isset($params['default-fields']) and isset($params['parent-module-id'])){
 
 
 
- $data = mw()->fields->get($for ,$for_id,1); 
+ $data = mw()->fields_manager->get($for ,$for_id,1); 
 
  $prined_items_count = 0;
  

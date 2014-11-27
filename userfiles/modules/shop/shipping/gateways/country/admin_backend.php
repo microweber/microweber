@@ -18,13 +18,13 @@ if ($data == false) {
 $countries_used = array();
 $data[] = array();
 
-$countries = mw('forms')->countries_list();
+$countries = mw()->forms_manager->countries_list();
 
 if (is_array($countries)) {
     asort($countries);
 }
 if (!is_array($countries)) {
-    $countries = mw('forms')->countries_list(1);
+    $countries = mw()->forms_manager->countries_list(1);
 }
 else {
     array_unshift($countries, "Worldwide");

@@ -14,7 +14,7 @@
   if(is_array($data)){
 	foreach($data as $key => $item){
 			if(trim(strtolower($item['shipping_country']))  == 'worldwide' ){
-				 $countries_all = mw('forms')->countries_list();
+				 $countries_all = mw()->forms_manager->countries_list();
 				 unset($data[$key]);
 				  if(is_array($countries_all)){
 

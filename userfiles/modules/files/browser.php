@@ -13,7 +13,7 @@ only_admin_access();
 <?php
   // Explore the files via a web interface.
   $script = $config['url']; // the name of this script
-  $path   =   MW_MEDIA_DIR; // the path the script should access
+  $path   =   media_base_path(); // the path the script should access
   $path_restirct   =   userfiles_path(); // the path the script should access
  if(isset($params['path']) and trim($params['path']) != '' and trim($params['path']) != 'false'){
 

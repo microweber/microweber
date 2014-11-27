@@ -383,7 +383,7 @@ class Fields
                 $id = trim($id);
                 $table = $this->app->database_manager->escape_string($table);
                 if ($table != false) {
-                    $table_assoc_name = $this->app->database_manager->get_table_name($table);
+                    $table_assoc_name = $this->app->database_manager->assoc_table_name($table);
                 } else {
                     $table_assoc_name = "MW_ANY_TABLE";
                 }

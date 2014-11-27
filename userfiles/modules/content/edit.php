@@ -3,7 +3,7 @@
 
 
 namespace Microweber\content;
-
+include_once(__DIR__.DS.'controllers'.DS.'Edit.php');
  
 
 if (!isset($params)) {

@@ -5128,7 +5128,7 @@ class Content
 
                         if (!empty($to_download)) {
                             foreach ($to_download as $src) {
-                                $dl_dir = MW_MEDIA_DIR . 'downloaded' . DS;
+                                $dl_dir = media_base_path() . 'downloaded' . DS;
                                 if (!is_dir($dl_dir)) {
                                     mkdir_recursive($dl_dir);
                                 }

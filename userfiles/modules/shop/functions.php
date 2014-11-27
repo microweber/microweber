@@ -59,10 +59,10 @@ event_bind('module.content.edit', function($data){
 
     //if (isset($data['id']) and $data['id'] == 0) {
         if (isset($data['id']) and isset($data['subtype']) and $data['subtype'] == 'product') {
-            $data['prices'] = mw()->fields->get("field_type=price&for=content&for_id=" . $data['id']);
+            $data['prices'] = mw()->fields_manager->get("field_type=price&for=content&for_id=" . $data['id']);
             if ($data['prices'] == false) {
-                $create_price_field = mw()->fields->save("field_value=0&field_type=price&for=content&for_id=" . $data['id']);
-                $data['prices'] = mw()->fields->get("field_type=price&for=content&for_id=" . $data['id']);
+                $create_price_field = mw()->fields_manager->save("field_value=0&field_type=price&for=content&for_id=" . $data['id']);
+                $data['prices'] = mw()->fields_manager->get("field_type=price&for=content&for_id=" . $data['id']);
             }
 
 

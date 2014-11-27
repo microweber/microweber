@@ -3,7 +3,6 @@
         Options -MultiViews
     </IfModule>
      RewriteEngine On
-    RewriteBase /l42/
 
 RewriteCond %{REQUEST_URI} !\.(gif|jpg|jpeg|png|js|css)$
 RewriteCond %{REQUEST_FILENAME} !-f

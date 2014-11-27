@@ -39,13 +39,13 @@ class Edit
             if (is_object($app)) {
                 $this->app = $app;
             } else {
-                $this->app = \Microweber\Application::getInstance();
+                $this->app = mw();
             }
         }
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
         $this->provider = $this->app->content_manager;
         $this->category_provider = $this->app->category_manager;
-        $this->event = $this->app->event_manager;
+        $this->event_manager = $this->app->event_manager;
         $is_admin = $this->app->user_manager->admin_access();
     }
 
