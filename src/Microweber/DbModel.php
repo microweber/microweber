@@ -3,7 +3,7 @@
 class DbModel extends BaseModel
 {
 
-    public $table = '';
+    private $table = '';
 
     // called once when Post is first used
     public static function boot()
@@ -34,7 +34,7 @@ class DbModel extends BaseModel
         }
         $this->table = $table;
 
-        parent::items($params);
+        return parent::items($params);
     }
 
 

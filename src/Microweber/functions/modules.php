@@ -5,7 +5,7 @@
 
 function load_all_functions_files_for_modules($options = false)
 {
-    $is_installed = Config::get('microweber.is_installed');
+    $is_installed = mw_is_installed();
 
     if (!$is_installed) {
         return;

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="robots" content="noindex">
-
-    <script type="text/javascript">
+        <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="noindex">
+        <script type="text/javascript">
         if (!window.CanvasRenderingContext2D) {
             var h = "<div id='UnsupportedBrowserMSG'><h1><?php _e("Your a need better browser to run Microweber>"); ?></h1></div>"
                 + "<div id='download_browsers_holder'><h2><?php _e("Update your browser"); ?></h2><p id='choose_browsers'>"
@@ -23,7 +22,7 @@
         mwAdmin = true;
         admin_url = '<?php print admin_url(); ?>';
     </script>
-       <script type="text/javascript">
+        <script type="text/javascript">
         mw.require("liveadmin.js");
         mw.require("jquery-ui.js");
         mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
@@ -47,7 +46,7 @@
         <?php /*  mw.require("<?php print mw_includes_url(); ?>css/helpinfo.css");
         mw.require("helpinfo.js");*/ ?>
     </script>
-    <?php if (!isset($_REQUEST['no_toolbar'])): ?> 
+        <?php if (!isset($_REQUEST['no_toolbar'])): ?>
         <script type="text/javascript">
             $(document).ready(function () {
                 if (self === top) {
@@ -65,10 +64,10 @@
             });
             mw.require("<?php print mw_includes_url(); ?>css/ui.css");
         </script>
-    <?php endif; ?>
-    <?php event_trigger('admin_head'); ?>
-</head>
-<body  class="is_admin loading view-<?php print mw()->url->param('view'); ?> action-<?php print mw()->url->param('action'); ?>">
+        <?php endif; ?>
+        <?php event_trigger('admin_head'); ?>
+        </head>
+        <body  class="is_admin loading view-<?php print mw()->url->param('view'); ?> action-<?php print mw()->url->param('action'); ?>">
 <?php
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
@@ -108,58 +107,53 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 <a href="<?php print $past_page; ?>?editmode=y" class="mw-ui-btn mw-ui-btn-invert pull-right"><span class="mw-icon-live"></span><?php _e("Live Edit"); ?></a>
 
 </div>*/ ?>
-
 <div id="mw-admin-container">
-    <div class="mw-ui-row main-admin-row">
-        <div class="mw-ui-col main-bar-column">
-            <div id="main-bar" class="scroll-height-exception-master">
-                <?php $view = url_param('view'); ?>
-                <?php $action = url_param('action'); ?>
-
-                <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>">
-                    <span class="mw-icon-mw"></span>
-                    <strong><?php _e("Dashboard"); ?></strong>
-                </a>
-
-                <ul id="main-menu">
-                    <li id="main-menu-back">
-                        <a href="javascript:;"><span class="mw-icon-back"></span></a>
-                    </li>
-
-                    <li
+<div class="mw-ui-row main-admin-row">
+<div class="mw-ui-col main-bar-column">
+          <div id="main-bar" class="scroll-height-exception-master">
+    <?php $view = url_param('view'); ?>
+    <?php $action = url_param('action'); ?>
+    <a href="<?php print admin_url(); ?>" id="main-bar-mw-icon" class="scroll-height-exception <?php if($view == 'dashboard' or (url_current() == admin_url()) or url_current() == rtrim(admin_url(), '/')){ print 'active'; } ?>"> <span class="mw-icon-mw"></span> <strong>
+    <?php _e("Dashboard"); ?>
+    </strong> </a>
+    <ul id="main-menu">
+              <li id="main-menu-back"> <a href="javascript:;"><span class="mw-icon-back"></span></a> </li>
+              <li
 					<?php if ($view == 'content' and $action==false): ?>
                     class="active"
 					<?php elseif ($view == 'content' and $action!=false): ?>
                     class="active-parent"
 					<?php endif; ?>
-                    ><a href="<?php print admin_url(); ?>view:content" title=""> <span class="mw-icon-website"></span> <strong><?php _e("Website"); ?></strong> </a>
-                        <ul>
-                            <li  <?php if ($action == 'pages'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:pages"><?php _e("Pages"); ?></a></li>
-                            <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:posts"><?php _e("Posts"); ?></a></li>
-                                     
-                                     <?php if($shop_disabled == false): ?>
-                                    <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>><a
-                                                                        href="<?php print admin_url(); ?>view:content/action:products"><?php _e("Products"); ?></a></li>
-                                    <?php endif; ?>
-                                     
-                                     
-                                    
-                                    
-                                    
-                            <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:content/action:categories"><?php _e("Categories"); ?></a></li>
-                        </ul>
-                    </li>
-                     <?php if($shop_disabled == false): ?>
-                    <li <?php if ($view == 'shop' and $action==false): ?> class="active"
+                    >
+              <a href="<?php print admin_url(); ?>view:content" title=""> <span class="mw-icon-website"></span> <strong>
+              <?php _e("Website"); ?>
+              </strong> </a>
+              <ul>
+        <li  <?php if ($action == 'pages'): ?> class="active" <?php endif; ?>><a
+                                    href="<?php print admin_url(); ?>view:content/action:pages">
+          <?php _e("Pages"); ?>
+          </a></li>
+        <li <?php if ($action == 'posts'): ?> class="active" <?php endif; ?>><a
+                                    href="<?php print admin_url(); ?>view:content/action:posts">
+          <?php _e("Posts"); ?>
+          </a></li>
+        <?php if($shop_disabled == false): ?>
+        <li <?php if ($action == 'products'): ?> class="active" <?php endif; ?>><a
+                                                                        href="<?php print admin_url(); ?>view:content/action:products">
+          <?php _e("Products"); ?>
+          </a></li>
+        <?php endif; ?>
+        <li <?php if ($action == 'categories'): ?> class="active" <?php endif; ?>><a
+                                    href="<?php print admin_url(); ?>view:content/action:categories">
+          <?php _e("Categories"); ?>
+          </a></li>
+      </ul>
+              </li>
+              <?php if($shop_disabled == false): ?>
+              <li <?php if ($view == 'shop' and $action==false): ?> class="active"
                     <?php elseif ($view == 'shop' and $action!=false): ?> class="active-parent" <?php endif; ?>>
-                        <a href="<?php print admin_url(); ?>view:shop" title="">
-
-
-                            <span class="mw-icon-shop">
-                             <?php
+              <a href="<?php print admin_url(); ?>view:shop" title=""> <span class="mw-icon-shop">
+              <?php
                             	$notif_html = '';
                             	$notif_count = mw()->notifications_manager->get('module=shop&rel=cart_orders&is_read=n&count=1');
 								
@@ -168,55 +162,47 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                                 $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
                                 if($view != 'shop'){   print $notif_html; } ;
                                 ?>
-                               <?php }  ?>
-                            </span>
-                            <strong><?php _e("My Shop"); ?></strong>
-                        </a>
-                        <ul>
-                            <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:orders"><span class="relative"><?php _e("Orders"); ?><?php if( $view =='shop' ){ print $notif_html; } ?></span></a></li>
-                            <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:clients"><?php _e("Clients"); ?></a></li>
-                            <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:shipping"><?php _e("Shipping"); ?></a></li>
-                            <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>><a
-                                    href="<?php print admin_url(); ?>view:shop/action:options"><?php _e("Options"); ?></a></li>
-                        </ul>
-                    </li>
-                    <?php endif; ?>
-                    <li id="main-menu-bottom">
-                      <ul>
-                      <li class="user-menu-sub">
-                          <a href="<?php print $past_page  ?>?editmode=y" class="go-live-edit-href-set" target="_blank">
-                              <span class="mw-icon-live" style="font-size: 24px;"></span>
-                              <strong><?php _e("Live Edit"); ?></strong>
-                          </a>
-                        </li>
-                        <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>>
-                            <a href="<?php print admin_url(); ?>view:modules">
-                                <span class="mw-icon-module" style="font-size: 24px;"></span>
-                                <strong><?php _e("Extensions"); ?></strong>
-                            </a>
-                        </li>
-                        <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>>
-                            <a href="<?php print admin_url(); ?>view:settings">
-                                <span class="mw-icon-gear" style="font-size: 24px;"></span>
-                                <strong><?php _e("Settings"); ?></strong>
-                            </a>
-                        </li>
-                   
-
-                      <li id="main-menu-toggle">
-                          <a href="javascript:;"><span class="mw-icon-menu"></span></a>
-                      </li>
-                      </ul>
-                    </li>
-
-                 
+              <?php }  ?>
+              </span> <strong>
+              <?php _e("My Shop"); ?>
+              </strong> </a>
+              <ul>
+        <li <?php if ($action == 'orders'): ?> class="active" <?php endif; ?>><a
+                                    href="<?php print admin_url(); ?>view:shop/action:orders"><span class="relative">
+          <?php _e("Orders"); ?>
+          <?php if( $view =='shop' ){ print $notif_html; } ?>
+          </span></a></li>
+        <li <?php if ($action == 'clients'): ?> class="active" <?php endif; ?>><a
+                                    href="<?php print admin_url(); ?>view:shop/action:clients">
+          <?php _e("Clients"); ?>
+          </a></li>
+        <li <?php if ($action == 'shipping'): ?> class="active" <?php endif; ?>><a
+                                    href="<?php print admin_url(); ?>view:shop/action:shipping">
+          <?php _e("Shipping"); ?>
+          </a></li>
+        <li <?php if ($action == 'options'): ?> class="active" <?php endif; ?>><a
+                                    href="<?php print admin_url(); ?>view:shop/action:options">
+          <?php _e("Options"); ?>
+          </a></li>
+      </ul>
+              </li>
+              <?php endif; ?>
+              <li id="main-menu-bottom">
+        <ul>
+                  <li class="user-menu-sub"> <a href="<?php print $past_page  ?>?editmode=y" class="go-live-edit-href-set" target="_blank"> <span class="mw-icon-live" style="font-size: 24px;"></span> <strong>
+                  <?php _e("Live Edit"); ?>
+                  </strong> </a> </li>
+                  <li <?php if ($view == 'modules'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:modules"> <span class="mw-icon-module" style="font-size: 24px;"></span> <strong>
+                  <?php _e("Extensions"); ?>
+                  </strong> </a> </li>
+                  <li <?php if ($view == 'settings'): ?> class="active" <?php endif; ?>> <a href="<?php print admin_url(); ?>view:settings"> <span class="mw-icon-gear" style="font-size: 24px;"></span> <strong>
+                  <?php _e("Settings"); ?>
+                  </strong> </a> </li>
+                  <li id="main-menu-toggle"> <a href="javascript:;"><span class="mw-icon-menu"></span></a> </li>
                 </ul>
-
-
-<?php 
+      </li>
+            </ul>
+    <?php 
 $past_page  = site_url().'?editmode=y';
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
@@ -244,7 +230,7 @@ if ($last_page_front != false) {
 
 
  ?>
- <script>
+    <script>
         $(function () {
 
            $( '.go-live-edit-href-set' ).bind('mousedown',function() {
@@ -263,47 +249,30 @@ if ($last_page_front != false) {
 
 
         });
-    </script> 
-
-                <div id="user-menu" class="scroll-height-exception">
-
-             
-
-
-
-                            <?php $user_id = user_id(); $user = get_user_by_id($user_id);
+    </script>
+    <div id="user-menu" class="scroll-height-exception">
+              <?php $user_id = user_id(); $user = get_user_by_id($user_id);
 
                             if(!empty($user)){
                               $img = $user['thumbnail'];
                               if($img != ''){  ?>
-
-                              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-has-image"><span id="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span><span class="mw-icon-dropdown"></span></a>
-
-                           <?php } else { ?>
-
-                              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image"><span class="mw-icon-user" id="main-bar-profile-icon"></span><span class="mw-icon-dropdown"></span></a>
-
-                            <?php } }  ?>
-
-
-
-
-
-                      <div id="main-bar-user-tip" style="display: none">
-                        <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation">
-
-                        <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn"><?php _e("My Profile"); ?></a>
-                        <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="mw-ui-btn"><?php _e("Manage Users"); ?></a>
-                        <a href="javascript:;" onmousedown="mw.contactForm();" class="mw-ui-btn"><?php _e("Support"); ?></a>
-                         <a href="<?php print site_url(); ?>?editmode=y" class="mw-ui-btn go-live-edit-href-set"><?php _e("View Website"); ?></a>
-
-                        <a href="<?php print api_url('logout'); ?>" class="mw-ui-btn"><?php _e("Log out"); ?></a>
-
-
-                        </div>
-                      </div>
-
-                </div>
-
+              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-has-image"><span id="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span><span class="mw-icon-dropdown"></span></a>
+              <?php } else { ?>
+              <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-no-image"><span class="mw-icon-user" id="main-bar-profile-icon"></span><span class="mw-icon-dropdown"></span></a>
+              <?php } }  ?>
+              <div id="main-bar-user-tip" style="display: none">
+        <div class="mw-ui-btn-vertical-nav main-bar-user-tip-navigation"> <a href="<?php print admin_url('view:modules/load_module:users#edit-user=' . $user_id); ?>" class="mw-ui-btn">
+          <?php _e("My Profile"); ?>
+          </a> <a href="<?php print admin_url('view:modules/load_module:users'); ?>" class="mw-ui-btn">
+          <?php _e("Manage Users"); ?>
+          </a> <a href="javascript:;" onmousedown="mw.contactForm();" class="mw-ui-btn">
+          <?php _e("Support"); ?>
+          </a> <a href="<?php print site_url(); ?>?editmode=y" class="mw-ui-btn go-live-edit-href-set">
+          <?php _e("View Website"); ?>
+          </a> <a href="<?php print api_url('logout'); ?>" class="mw-ui-btn">
+          <?php _e("Log out"); ?>
+          </a> </div>
+      </div>
             </div>
+  </div>
         </div>

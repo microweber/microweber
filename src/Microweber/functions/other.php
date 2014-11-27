@@ -741,27 +741,6 @@ function strleft($s1, $s2)
 }
 
 
-if (defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true and function_exists('get_all_functions_files_for_modules')) {
-    $module_functions = get_all_functions_files_for_modules();
-    if ($module_functions != false) {
-        if (is_array($module_functions)) {
-            foreach ($module_functions as $item) {
-                if (is_file($item)) {
-
-                    include_once ($item);
-                }
-            }
-        }
-    }
-    if (MW_IS_INSTALLED == true) {
-
-        if (($cache_content_init) == false) {
-            event_trigger('mw_db_init');
-        }
-
-        //event_trigger('mw_cron');
-    }
-}
 
 
 
@@ -941,7 +920,7 @@ function get_all_functions_files_for_modules($options = false)
 {
 
 
-    if (!defined("MW_IS_INSTALLED") or MW_IS_INSTALLED == false) {
+    if (!defined("mw_is_installed()") or mw_is_installed() == false) {
         return false;
     }
 

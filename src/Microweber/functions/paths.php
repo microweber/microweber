@@ -17,11 +17,12 @@ function userfiles_url()
     }
     return $folder;
 }
+
 function media_base_url()
 {
     static $folder;
     if (!$folder) {
-        $folder = userfiles_url().(MW_MEDIA_FOLDER_NAME . '/');
+        $folder = userfiles_url() . (MW_MEDIA_FOLDER_NAME . '/');
     }
     return $folder;
 }
@@ -30,7 +31,7 @@ function media_base_path()
 {
     static $folder;
     if (!$folder) {
-        $folder = userfiles_path().(MW_MEDIA_FOLDER_NAME . DIRECTORY_SEPARATOR);
+        $folder = userfiles_path() . (MW_MEDIA_FOLDER_NAME . DIRECTORY_SEPARATOR);
     }
     return $folder;
 }
@@ -83,17 +84,22 @@ function templates_url()
     return $folder;
 }
 
-function admin_url()
+
+function admin_url($add_string = false)
 {
-    static $folder;
-    if (!$folder) {
-        $folder = site_url('admin/');
-    }
-    return $folder;
+
+
+    return site_url('admin') . '/' . $add_string;
 }
 
 
-//Microweber system url
+//Microweber system
+
+
+function mw_cache_path()
+{
+    return storage_path() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR;
+}
 
 function mw_includes_url()
 {

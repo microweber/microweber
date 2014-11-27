@@ -556,9 +556,9 @@ class UserManager
 
 
         $installed = $this->app->config_manager->get('microweber.is_installed');
-        if (!defined('MW_IS_INSTALLED') or MW_IS_INSTALLED == false) {
-            if (!defined('MW_IS_INSTALLED')) {
-                define("MW_IS_INSTALLED", $installed);
+        if (!defined('mw_is_installed()') or mw_is_installed() == false) {
+            if (!defined('mw_is_installed()')) {
+                define("mw_is_installed()", $installed);
             }
         }
         if ($installed == false) {
@@ -729,7 +729,7 @@ $is = false;
                 }
             }
         } else {
-            if (defined('MW_API_CALL') and defined('MW_IS_INSTALLED') and MW_IS_INSTALLED == true) {
+            if (defined('MW_API_CALL') and defined('mw_is_installed()') and mw_is_installed() == true) {
 
 
                 if ($force == false) {

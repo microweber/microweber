@@ -27,7 +27,7 @@ class DefaultController extends Controller
     {
 
 
-        $is_installed = Config::get('microweber.is_installed');
+        $is_installed = mw_is_installed();
 
         if (!$is_installed) {
             return $this->install();
@@ -44,7 +44,7 @@ class DefaultController extends Controller
 ////        var_dump($connection);
 ////
 ////
-////        $connection = Config::get('microweber.is_installed');
+////        $connection = mw_is_installed();
 ////        var_dump($connection);
 //
 //        $connection = mw()->config->save();
@@ -60,7 +60,7 @@ class DefaultController extends Controller
         
         $connection = Config::get('database.connections');
         $layout = new View($view);
-        $is_installed = Config::get('microweber.is_installed');
+        $is_installed = mw_is_installed();
         if($is_installed){
             App::abort(403, 'Unauthorized action. Microweber is already installed.');
         }
@@ -173,7 +173,7 @@ class DefaultController extends Controller
     {
 
 
-        if (MW_IS_INSTALLED == true) {
+        if (mw_is_installed() == true) {
             event_trigger('mw_cron');
         }
 
@@ -1983,7 +1983,7 @@ class DefaultController extends Controller
 
                 $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
                 $live_edit_css_folder = userfiles_path() . 'css' . DS . $content['active_site_template'] . DS;
-                $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $content['active_site_template'] . '/';
+                $live_edit_url_folder = userfiles_url() . 'css/' . $content['active_site_template'] . '/';
                 $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
 
             } else {
@@ -1998,7 +1998,7 @@ class DefaultController extends Controller
 
 
                 $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
-                $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $the_active_site_template . '/';
+                $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
                 $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
 
 
@@ -2269,7 +2269,7 @@ class DefaultController extends Controller
     {
 
 
-        $sm_file = MW_CACHE_DIR . 'sitemap.xml';
+        $sm_file = mw_cache_path() . 'sitemap.xml';
 
         $skip = false;
         if (is_file($sm_file)) {
@@ -2284,7 +2284,7 @@ class DefaultController extends Controller
 
         if ($skip == false) {
             $map = new \Microweber\Utils\Sitemap($sm_file);
-            $map->file = MW_CACHE_DIR . 'sitemap.xml';
+            $map->file = mw_cache_path() . 'sitemap.xml';
 
             $cont = get_content("is_active=y&is_deleted=n&limit=2500&fields=id,updated_on&orderby=updated_on desc");
 
@@ -2465,7 +2465,7 @@ class DefaultController extends Controller
 
     public function editor_tools()
     {
-        if (!defined('IN_ADMIN')) {
+        if (!defined('IN_ADMIN') and is_admin()) {
             define('IN_ADMIN', true);
         }
         if (!defined('IN_EDITOR_TOOLS')) {
@@ -2475,7 +2475,7 @@ class DefaultController extends Controller
 
 
 
-        if (MW_IS_INSTALLED == true) {
+        if (mw_is_installed() == true) {
             //event_trigger('mw_db_init');
             //  event_trigger('mw_cron');
         }
@@ -2533,7 +2533,7 @@ class DefaultController extends Controller
 //        if (!isset($page['render_file'])) {
 //
 //        }
-        //d($page);
+
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
             if (is_file($load_template_functions)) {
@@ -2643,7 +2643,7 @@ class DefaultController extends Controller
                 $live_edit_css_folder = userfiles_path() . 'css' . DS . $active_site_template . DS;
                 $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
                 if (is_file($custom_live_edit)) {
-                    $live_edit_url_folder = MW_USERFILES_URL . 'css/' . $active_site_template . '/';
+                    $live_edit_url_folder = userfiles_url() . 'css/' . $active_site_template . '/';
                     $custom_live_editmtime = filemtime($custom_live_edit);
                     $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url_folder . 'live_edit.css?version=' . $custom_live_editmtime . '" id="mw-template-settings" type="text/css" />';
                     $layout = str_ireplace('</head>', $liv_ed_css . '</head>', $l);
@@ -2722,10 +2722,10 @@ class DefaultController extends Controller
                             $err = $err . ' in file ' . $file;
                         }
                         if (isset($page['active_site_template'])) {
-                            $err = $err . ' (' . $page['active_site_template'] . ')';
+                            $err = $err . ' (' . $page['active_site_template'] . ' template)';
                         }
-                        print $err;
-                        return false;
+
+                        return $err;
                     }
                 }
             }

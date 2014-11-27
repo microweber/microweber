@@ -58,6 +58,7 @@ include_once(__DIR__ . DS . 'api.php');
 include_once(__DIR__ . DS . 'filesystem.php');
 include_once(__DIR__ . DS . 'lang.php');
 include_once(__DIR__ . DS . 'events.php');
+include_once(__DIR__ . DS . 'config.php');
 
 include_once(__DIR__ . DS . 'db.php');
 include_once(__DIR__ . DS . 'user.php');

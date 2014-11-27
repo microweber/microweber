@@ -12,8 +12,8 @@ if (defined('MW_INSTALL_FROM_CONFIG')) {
     $autoinstall = mw_var('mw_autoinstall');
 }
 $installed = false;
-if (defined('MW_IS_INSTALLED')) {
-    $installed = MW_IS_INSTALLED;
+if (mw_is_installed()) {
+    $installed = mw_is_installed();
 }
 
 if ($installed != false) {
@@ -371,7 +371,7 @@ if (isset($to_save['is_installed'])) {
 
                     define('MW_FORCE_SAVE_EXTENDED', 1);
                 }
-                if (MW_IS_INSTALLED != true) {
+                if (mw_is_installed() != true) {
                     if (isset($to_save['admin_username']) and isset($to_save['admin_password']) and $to_save['admin_username'] != '') {
                         if ($to_save['admin_username'] != '{admin_username}') {
                             __mw_install_log('Adding admin user');

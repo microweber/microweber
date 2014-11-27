@@ -466,8 +466,8 @@ class Url
 
         if (function_exists('curl_init')) {
             $ch = curl_init($requestUrl);
-            curl_setopt($ch, CURLOPT_COOKIEJAR, MW_CACHE_DIR . "global/cookie.txt");
-            curl_setopt($ch, CURLOPT_COOKIEFILE, MW_CACHE_DIR . "global/cookie.txt");
+            curl_setopt($ch, CURLOPT_COOKIEJAR, mw_cache_path() . "global/cookie.txt");
+            curl_setopt($ch, CURLOPT_COOKIEFILE, mw_cache_path() . "global/cookie.txt");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 5.01; Microweber " . MW_VERSION . ";)");

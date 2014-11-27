@@ -4,6 +4,8 @@ namespace Microweber\Providers;
 
 use Microweber\Utils\Adapters\Cache\LaravelCache;
 
+use Content;
+
 /**
  * Content class is used to get and save content in the database.
  *
@@ -18,7 +20,7 @@ class ContentManager
     public $tables = array();
     public $table_prefix = false;
     static $skip_pages_starting_with_url = ['admin', 'api', 'module'];
-static $precached_links = array();
+    static $precached_links = array();
 
     public $app = null;
 
@@ -88,7 +90,7 @@ static $precached_links = array();
         }
 
         if ((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
-         }
+        }
 
         if ((isset($data['rel']) and isset($data['rel_id']))) {
 
@@ -118,7 +120,6 @@ static $precached_links = array();
 
 
     }
-
 
 
     /**
@@ -214,6 +215,12 @@ static $precached_links = array();
 
     public function get_by_url($url = '', $no_recursive = false)
     {
+
+        static $passed = array();
+        if (isset($passed[$url])) {
+            return;
+        }
+        $passed[$url] = 1;
         if (strval($url) == '') {
             $url = $this->app->url->string();
         }
@@ -233,8 +240,7 @@ static $precached_links = array();
         $url = $u1;
 
         $table = $this->tables['content'];
-        $url = $this->app->database_manager->escape_string($url);
-        $url = addslashes($url);
+         $url = addslashes($url);
         $url12 = parse_url($url);
         if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
             $u1 = $this->app->url->site();
@@ -250,8 +256,6 @@ static $precached_links = array();
 
         $url = rtrim($url, '?');
         $url = rtrim($url, '#');
-
-
 
 
         if (is_array(self::$skip_pages_starting_with_url)) {
@@ -271,10 +275,30 @@ static $precached_links = array();
             return self::$precached_links[$link_hash];
         }
 
-        $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
-        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-        $result = $q;
-        $content = $result[0];
+
+         $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
+
+
+        $content =  Content::where('url',$url)->first();;
+        //dd($result);
+
+       //$q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+//        $filter = array();
+//        $filter['url'] = $url;
+//        $filter['limit'] = 1;
+//
+//        $result = Content::items($filter);;
+//        dd($result);
+//
+//
+//        // $result = $q;
+//
+//        dd($result->isEmpty());
+//        if(empty($result)){
+//            dd(111111);
+//        }
+
+        //$content = $result[0];
 
         if (!empty($content)) {
             self::$precached_links[$link_hash] = $content;
@@ -292,6 +316,7 @@ static $precached_links = array();
                     $test = array_reverse($test);
 
                     if (isset($test[0])) {
+
                         $url = $this->get_by_url($test[0], true);
                     }
                     if (!empty($url)) {
@@ -443,7 +468,7 @@ static $precached_links = array();
 
         $get = $this->app->database_manager->get($params);
 
-        if (isset($params['count']) or isset($params['single']) or isset($params['one'])  or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
+        if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
                 $get['url'] = $this->app->url->site($get['url']);
             }
@@ -692,7 +717,7 @@ static $precached_links = array();
      * @author Microweber
      * @link
      *
-     * @param $params['num'] = 5; //the numer of pages
+     * @param $params ['num'] = 5; //the numer of pages
      * @internal param $display =
      *            'default' //sets the default paging display with <ul> and </li>
      *            tags. If $display = false, the function will return the paging
@@ -2285,10 +2310,10 @@ static $precached_links = array();
         $cur_page = false;
         $cur_content = false;
         $cur_category = false;
-        if (defined('PAGE_ID')  and PAGE_ID != false) {
+        if (defined('PAGE_ID') and PAGE_ID != false) {
             $cur_page = PAGE_ID;
         }
-        if (defined('POST_ID')  and CONTENT_ID != false) {
+        if (defined('POST_ID') and CONTENT_ID != false) {
             $cur_content = CONTENT_ID;
             if ($cur_content == $cur_page) {
                 $cur_content = false;
@@ -2796,7 +2821,7 @@ static $precached_links = array();
                         if (isset($post_data['id'])) {
                             $content_id_for_con_field = $post_data['id'];
                         } elseif ($inh == false and !isset($content_id_for_con_field)) {
-                            if (is_array($ref_page) and isset($ref_page['parent']) and  isset($ref_page['content_type'])  and $ref_page['content_type'] == 'post') {
+                            if (is_array($ref_page) and isset($ref_page['parent']) and isset($ref_page['content_type']) and $ref_page['content_type'] == 'post') {
                                 $content_id_for_con_field = intval($ref_page['parent']);
                             } else {
                                 $content_id_for_con_field = intval($ref_page['id']);
@@ -2896,7 +2921,7 @@ static $precached_links = array();
 
                             $cont_field['value'] = $this->app->parser->make_tags($html_to_save);
 
-                            if ((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '')and isset($the_field_data['attributes']['data-field'])) {
+                            if ((!isset($the_field_data['attributes']['field']) or $the_field_data['attributes']['field'] == '') and isset($the_field_data['attributes']['data-field'])) {
                                 $the_field_data['attributes']['field'] = $the_field_data['attributes']['data-field'];
                             }
                             $cont_field['field'] = $the_field_data['attributes']['field'];
@@ -3305,7 +3330,6 @@ static $precached_links = array();
 
 
     }
-
 
 
     public function copy($data)
@@ -3905,7 +3929,7 @@ static $precached_links = array();
 
         if (defined('THIS_TEMPLATE_DIR') == false and $the_active_site_template != false) {
 
-            define('THIS_TEMPLATE_DIR', templates_path() .  $the_active_site_template . DS);
+            define('THIS_TEMPLATE_DIR', templates_path() . $the_active_site_template . DS);
 
         }
 
@@ -3915,16 +3939,16 @@ static $precached_links = array();
 
         }
 
-        $the_active_site_template_dir = normalize_path(templates_path() .  $the_active_site_template . DS);
+        $the_active_site_template_dir = normalize_path(templates_path() . $the_active_site_template . DS);
 
         if (defined('DEFAULT_TEMPLATE_DIR') == false) {
 
-            define('DEFAULT_TEMPLATE_DIR', templates_path() .  'default' . DS);
+            define('DEFAULT_TEMPLATE_DIR', templates_path() . 'default' . DS);
         }
 
         if (defined('DEFAULT_TEMPLATE_URL') == false) {
 
-            define('DEFAULT_TEMPLATE_URL', templates_url()  . '/default/');
+            define('DEFAULT_TEMPLATE_URL', templates_url() . '/default/');
         }
 
 
@@ -3953,7 +3977,7 @@ static $precached_links = array();
                                 $the_active_site_template = $par_page['active_site_template'];
                                 $page['layout_file'] = $par_page['layout_file'];
                                 $page['active_site_template'] = $par_page['active_site_template'];
-                                $template_view = templates_path() .  $page['active_site_template'] . DS . $page['layout_file'];
+                                $template_view = templates_path() . $page['active_site_template'] . DS . $page['layout_file'];
 
 
                             }
@@ -3964,11 +3988,11 @@ static $precached_links = array();
                     if (is_file($template_view) == true) {
 
                         if (defined('THIS_TEMPLATE_DIR') == false) {
-                            define('THIS_TEMPLATE_DIR', templates_path() .  $the_active_site_template . DS);
+                            define('THIS_TEMPLATE_DIR', templates_path() . $the_active_site_template . DS);
                         }
 
                         if (defined('THIS_TEMPLATE_URL') == false) {
-                            $the_template_url = templates_url()  . '/' . $the_active_site_template;
+                            $the_template_url = templates_url() . '/' . $the_active_site_template;
                             $the_template_url = $the_template_url . '/';
                             if (defined('THIS_TEMPLATE_URL') == false) {
                                 define("THIS_TEMPLATE_URL", $the_template_url);
@@ -3998,7 +4022,7 @@ static $precached_links = array();
         }
 
         if (defined('THIS_TEMPLATE_URL') == false) {
-            $the_template_url = templates_url()  . '/' . $the_active_site_template;
+            $the_template_url = templates_url() . '/' . $the_active_site_template;
 
             $the_template_url = $the_template_url . '/';
 
@@ -4027,7 +4051,7 @@ static $precached_links = array();
             define('TEMPLATES_DIR', templates_path());
         }
 
-        $the_template_url = templates_url()  . '/' . $the_active_site_template;
+        $the_template_url = templates_url() . '/' . $the_active_site_template;
 
         $the_template_url = $the_template_url . '/';
         if (defined('TEMPLATE_URL') == false) {
@@ -5158,7 +5182,7 @@ static $precached_links = array();
                     $add_page['subtype'] = 'dynamic';
                     $add_page['is_shop'] = 'y';
                     $add_page['active_site_template'] = 'default';
-                    $find_layout = $this->app->layouts->scan();
+                    $find_layout = $this->app->layouts_manager->scan();
                     if (is_array($find_layout)) {
                         foreach ($find_layout as $item) {
                             if (isset($item['layout_file']) and isset($item['is_shop'])) {
@@ -5216,7 +5240,7 @@ static $precached_links = array();
                     $add_page['subtype'] = 'dynamic';
                     $add_page['is_shop'] = 'n';
                     $add_page['active_site_template'] = 'default';
-                    $find_layout = $this->app->layouts->scan();
+                    $find_layout = $this->app->layouts_manager->scan();
                     if (is_array($find_layout)) {
                         foreach ($find_layout as $item) {
                             if (!isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) == 'dynamic') {

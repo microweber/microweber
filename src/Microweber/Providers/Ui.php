@@ -24,11 +24,11 @@ class Ui
     function __construct()
     {
 
-        if (defined('mw_includes_url()')) {
+
             $this->admin_logo = mw_includes_url() . 'img/logo_admin.png';
             $this->logo_live_edit = mw_includes_url() . 'img/logo_admin.png';
             $this->admin_logo_login = mw_includes_url() . 'images/logo-login.svg';
-        }
+
         $this->set_default();
 
 

@@ -11,10 +11,7 @@ function mw($class = null)
         return $app->make($class);
     }
 }
-function weber($class = null)
-{
- return mw($class);
-}
+
 ///**
 // * Constructor function
 // *
@@ -116,6 +113,8 @@ if(!function_exists('site_url')){
     }
 
 }
+
+
 
 
 /**

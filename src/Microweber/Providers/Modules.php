@@ -306,7 +306,7 @@ class Modules
 
                             if ($list_as_element == true) {
 
-                                $this->app->layouts->save($config);
+                                $this->app->layouts_manager->save($config);
                             } else {
                                 $config['installed'] = 'auto';
                                 $this->save($config);
@@ -799,10 +799,10 @@ class Modules
                 $options['for_modules'] = 1;
                 $options['no_cache'] = 1;
                 $options['path'] = $module_name_l;
-                $module_name_l = $this->app->layouts->scan($options);
+                $module_name_l = $this->app->layouts_manager->scan($options);
                 if (is_dir($module_name_l_theme)) {
                     $options['path'] = $module_name_l_theme;
-                    $module_skins_from_theme = $this->app->layouts->scan($options);
+                    $module_skins_from_theme = $this->app->layouts_manager->scan($options);
                     if (is_array($module_skins_from_theme)) {
                         if (!is_array($module_name_l)) {
                             $module_name_l = array();
@@ -1356,7 +1356,7 @@ class Modules
 
 
         if (isset($options['cleanup_db'])) {
-            $this->app->layouts->delete_all();
+            $this->app->layouts_manager->delete_all();
         }
 
         return $this->scan_for_modules($options);
@@ -1599,7 +1599,7 @@ class Modules
 
                             if ($list_as_element == true) {
 
-                                $this->app->layouts->save($config);
+                                $this->app->layouts_manager->save($config);
                             } else {
 
                                 $this->save($config);

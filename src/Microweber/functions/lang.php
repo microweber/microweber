@@ -234,7 +234,7 @@ function current_lang()
    static $installed = null;
 
     if($installed === null){
-        $installed = Config::get('microweber.is_installed');
+        $installed = mw_is_installed();
     }
     if($installed == false){
        return 'en';

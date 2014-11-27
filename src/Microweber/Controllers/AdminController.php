@@ -21,7 +21,7 @@ class AdminController extends Controller
 
     public function index()
     {
-        $is_installed = Config::get('microweber.is_installed');
+        $is_installed = mw_is_installed();
 
         if (!$is_installed) {
             App::abort(403, 'Unauthorized action. Microweber is not installed.');

@@ -32,8 +32,8 @@ class UpdateManager
         }
 
 
-        if (defined('MW_CACHE_DIR')) {
-            $this->temp_dir = MW_CACHE_DIR . 'updates_temp' . DIRECTORY_SEPARATOR;
+        if (defined('mw_cache_path()')) {
+            $this->temp_dir = mw_cache_path() . 'updates_temp' . DIRECTORY_SEPARATOR;
         } else {
             $this->temp_dir = __DIR__ . DIRECTORY_SEPARATOR . 'cache/updates_temp' . DIRECTORY_SEPARATOR;
         }
@@ -87,7 +87,7 @@ class UpdateManager
                                 }
                                 $options['for_modules'] = 1;
                                 $options['filename'] = $value1['filename'];
-                                $module_templates_for_this = $this->app->layouts->scan($options);
+                                $module_templates_for_this = $this->app->layouts_manager->scan($options);
                                 if (isset($module_templates_for_this[0]) and is_array($module_templates_for_this[0])) {
                                     $mod_tpls[$key1] = $module_templates_for_this[0];
                                 }
@@ -398,7 +398,7 @@ class UpdateManager
 
             $value = trim($result["core_update"]);
             $fname = basename($value);
-            $dir_c = MW_CACHE_DIR . 'update/downloads' . DS;
+            $dir_c = mw_cache_path() . 'update/downloads' . DS;
             if (!is_dir($dir_c)) {
                 mkdir_recursive($dir_c);
             }
@@ -543,7 +543,7 @@ class UpdateManager
             foreach ($result["modules"] as $mod_k => $value) {
 
                 $fname = basename($value);
-                $dir_c = MW_CACHE_DIR . 'downloads' . DS;
+                $dir_c = mw_cache_path() . 'downloads' . DS;
                 if (!is_dir($dir_c)) {
                     mkdir_recursive($dir_c);
                 }
@@ -586,7 +586,7 @@ class UpdateManager
             foreach ($result["elements"] as $mod_k => $value) {
 
                 $fname = basename($value);
-                $dir_c = MW_CACHE_DIR . 'downloads' . DS;
+                $dir_c = mw_cache_path() . 'downloads' . DS;
                 if (!is_dir($dir_c)) {
                     mkdir_recursive($dir_c);
                 }
@@ -616,7 +616,7 @@ class UpdateManager
 
     function call($method = false, $post_params = false)
     {
-        $cookie = MW_CACHE_DIR . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
+        $cookie = mw_cache_path() . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
         if (!is_dir($cookie)) {
             mkdir($cookie);
         }
@@ -788,7 +788,7 @@ class UpdateManager
     private function install_from_remote($url)
     {
         $fname = basename($url);
-        $dir_c = MW_CACHE_DIR . 'downloads' . DS;
+        $dir_c = mw_cache_path() . 'downloads' . DS;
         if (!is_dir($dir_c)) {
             mkdir_recursive($dir_c);
         }

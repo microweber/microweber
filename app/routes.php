@@ -54,6 +54,15 @@ Route::any('apijs/{all}', array(
     'uses' => '\Microweber\Controllers\DefaultController@apijs'
 ))->where('all', '.*');
 
+
+Route::any('/editor_tools', '\Microweber\Controllers\DefaultController@editor_tools');
+Route::any('editor_tools/{all}', array(
+    'as' => 'editor_tools',
+    'uses' => '\Microweber\Controllers\DefaultController@editor_tools'
+))->where('all', '.*');
+
+
+
 Route::any('/module/', '\Microweber\Controllers\ModuleController@index');
 Route::any('module/{all}', array(
     'as' => 'module',

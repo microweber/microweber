@@ -26,6 +26,8 @@ class BaseModel extends Eloquent
         'limit',
         'single',
         'order_by',
+
+
         'min',
         'max',
         'avg',
@@ -89,6 +91,11 @@ class BaseModel extends Eloquent
 
                     $query = $query->where('id',$criteria);
                     break;
+                case 'min':
+                    $criteria = trim($params['min']);
+
+                    $query = $query->min($criteria);
+                    break;
 
 
             }
@@ -110,7 +117,7 @@ class BaseModel extends Eloquent
         $data = $query->get();
         $empty = $data->isEmpty();
 
-        if ($empty === true) {
+        if ($empty == true) {
             return false;
         }
 
