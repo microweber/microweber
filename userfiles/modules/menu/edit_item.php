@@ -35,7 +35,7 @@ if($id == 0){
 //	$data['categories_id'] = '';
 } else {
 
-	$data = mw()->content_manager->menu_item_get($id);
+	$data = mw()->menu_manager->menu_item_get($id);
 }
 if( $id != 0){
 //$data = menu_tree( $id);
