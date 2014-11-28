@@ -5,6 +5,7 @@ namespace Microweber\Providers;
 use Microweber\Utils\Adapters\Cache\LaravelCache;
 
 use Content;
+use ContentFields;
 use Menu;
 
 /**
@@ -611,17 +612,17 @@ class ContentManager
         $ids = array();
 
         $data = array();
-
-        if (isset($without_main_parrent) and $without_main_parrent == true) {
-
-            $with_main_parrent_q = " and parent<>0 ";
-        } else {
-
-            $with_main_parrent_q = false;
-        }
         $id = intval($id);
-        $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
-        $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        $taxonomies =  Content::where('parent', $id);
+        if (isset($without_main_parrent) and $without_main_parrent == true) {
+            $taxonomies->where('parent','!=' , 0);
+         }
+
+       // $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
+       // $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+
+
+        $taxonomies = $taxonomies->get()->toArray();
 
         if (!empty($taxonomies)) {
             foreach ($taxonomies as $item) {
@@ -1977,9 +1978,11 @@ class ContentManager
         if (isset($ustr2) and trim($ustr2) == 'favicon.ico') {
             return false;
         }
+        $ref_page = $ref_page_url = false;
+if(isset($_SERVER['HTTP_REFERER'])){
+    $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
 
-
-        $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
+}
 
         if (isset($post_data['id']) and intval($post_data['id']) > 0) {
             $page_id = intval($post_data['id']);
@@ -2328,6 +2331,7 @@ class ContentManager
 
                                         $cont_field1 = $this->save_content_field($cont_field);
                                     }
+
                                 }
 
 
@@ -2616,17 +2620,14 @@ class ContentManager
 
         $data = array();
 
+
+        $content_parents =  Content::where('id', $id);
         if (isset($without_main_parrent) and $without_main_parrent == true) {
-
-            $with_main_parrent_q = " and parent<>0 ";
-        } else {
-
-            $with_main_parrent_q = false;
+            $content_parents->where('parent','!=' , 0);
         }
-        $id = intval($id);
-        $q = " SELECT id, parent FROM $table WHERE id ={$id} " . $with_main_parrent_q;
 
-        $content_parents = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        $taxonomies = $content_parents->get()->toArray();
+
 
         if (!empty($content_parents)) {
 
@@ -2718,10 +2719,9 @@ class ContentManager
             }
 
             if (isset($history_files_ids) and is_array($history_files_ids) and !empty($history_files_ids)) {
-                $history_files_ids_impopl = implode(',', $history_files_ids);
-                $del_q = "DELETE FROM {$table} WHERE id IN ($history_files_ids_impopl) ";
+              ContentFields::whereIn('id', $history_files_ids)->delete();
 
-                $this->app->database_manager->q($del_q);
+
             }
 
 
@@ -2731,23 +2731,31 @@ class ContentManager
         if (!isset($data['rel']) or !isset($data['rel_id'])) {
             mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
+
         //if($data['rel'] == 'global'){
         if (isset($data['field']) and !isset($data['is_draft'])) {
             $fld = $this->app->database_manager->escape_string($data['field']);
             $fld_rel = $this->app->database_manager->escape_string($data['rel']);
-            $del_q = "DELETE FROM {$table} WHERE rel='$fld_rel' AND  field='$fld' ";
+
+
+            $del = ContentFields::where('rel', $fld_rel)
+                ->where('field', $fld);
+
+
+
             if (isset($data['rel_id'])) {
-                $i = $this->app->database_manager->escape_string($data['rel_id']);
-                $del_q .= " and  rel_id='$i' ";
-
+                $i = ($data['rel_id']);
+                $del->where('rel_id', $i);
             } else {
-                $data['rel_id'] = 0;
+                $del->where('rel_id', 0);
             }
-            $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->database_manager->q($del_q);
-            $this->app->cache_manager->delete($cache_group);
 
-            //
+            $del = $del->delete();
+
+            $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
+             $this->app->cache_manager->delete($cache_group);
+
+
 
         }
         if (isset($fld)) {
@@ -2778,10 +2786,12 @@ class ContentManager
         }
 
         $this->app->cache_manager->delete('content_fields/global');
-        //}
-        $data['allow_html'] = true;
 
-        $save = $this->app->database_manager->save($table, $data);
+        $data['allow_html'] = true;
+        $save_obj = new ContentFields();
+
+        $save = $save_obj->save_item($data);
+
 
         $this->app->cache_manager->delete('content_fields');
 

@@ -51,9 +51,9 @@ class LaravelCache
 
      if(isset($cache_group[1])){
 
-         $group = str_replace('/', '-', $cache_group[1]);
-         $group = str_replace('\\', '-', $group);
-         $cache_group = $cache_group[0].'-'.$group;
+         $group = str_replace('/', '_', $cache_group[1]);
+         $group = str_replace('\\', '_', $group);
+         $cache_group = $cache_group[0].'_'.$group;
      }
 
      return $cache_group;

@@ -58,7 +58,7 @@ class Init extends Migration {
                 'created_on' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-                'rel' => 'longText',
+                'rel' => 'string',
                 'rel_name' => 'longText',
                 'local_key' => 'longText',
                 'local_key_hash' => 'longText',

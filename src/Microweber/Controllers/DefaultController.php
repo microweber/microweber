@@ -2497,11 +2497,13 @@ class DefaultController extends Controller
             if (intval($_REQUEST["content_id"]) == 0) {
                 $this->create_new_page = true;
                 $this->return_data = 1;
+
                 $page = $this->frontend();
                 // $page = array();
 
                 // $page['id'] = 0;
             } else {
+
                 $page = $this->app->content_manager->get_by_id($_REQUEST["content_id"]);
 
             }
@@ -2536,6 +2538,7 @@ class DefaultController extends Controller
 
 
         $this->app->content_manager->define_constants($page);
+
         $page['render_file'] = $this->app->template->get_layout($page);
 
 //        if (!isset($page['render_file'])) {

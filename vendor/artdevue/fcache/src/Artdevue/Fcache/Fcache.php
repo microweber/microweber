@@ -71,6 +71,11 @@ class Fcache implements StoreInterface {
     {
         $path = $this->path($key);
 
+        if(!is_file($path)){
+            return null;
+        }
+
+
         if ( ! $this->files->exists($path))
         {
             return null;
@@ -154,11 +159,31 @@ class Fcache implements StoreInterface {
             }
             else
             {
-                $farr = file($file);
-                if (!in_array($path, $farr))
-                {
-                    file_put_contents($file,"\n$path", FILE_APPEND);
+
+
+                $file_path =($file);
+
+                if(!is_file($file_path)){
+                     touch($file_path);
                 }
+
+                $farr = ($file);
+
+                 @file_put_contents($file,"\n$path", FILE_APPEND);
+
+
+//                try {
+//                    $farr = file($file);
+//                    if (!in_array($path, $farr))
+//                    {
+//                        file_put_contents($file,"\n$path", FILE_APPEND);
+//                    }
+//                } catch (Exception $e) {
+//                   return false;
+//
+//                }
+
+
             }
 
         }

@@ -69,9 +69,9 @@ class Content
                 'field_name' => 'longText',
                 'field_value' => 'longText',
                 'session_id' => 'string',
-                'rel' => 'longText',
+                'rel' => 'string',
 
-                'rel_id' => 'longText'
+                'rel_id' => 'string'
             ],
 
             'content_fields' => [
@@ -79,9 +79,9 @@ class Content
                 'created_on' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-                'rel' => 'longText',
+                'rel' => 'string',
 
-                'rel_id' => 'longText',
+                'rel_id' => 'string',
                 'field' => 'longText',
                 'value' => 'longText',
 
@@ -102,7 +102,7 @@ class Content
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'session_id' => 'string',
-                'rel' => 'longText',
+                'rel' => 'string',
 
                 'rel_id' => "string",
                 'media_type' => 'longText',
@@ -116,8 +116,8 @@ class Content
             ],
 
             'custom_fields' => [
-                'rel' => 'longText',
-                'rel_id' => 'longText',
+                'rel' => 'string',
+                'rel_id' => 'string',
                 'position' => 'integer',
                 'type' => 'longText',
                 'name' => 'longText',
@@ -182,7 +182,7 @@ class Content
                 'description' => 'longText',
                 'content' => 'longText',
                 'content_type' => 'longText',
-                'rel' => 'longText',
+                'rel' => 'string',
 
                 'rel_id' => 'integer',
 
@@ -200,7 +200,7 @@ class Content
 
             'categories_items' => [
                 'parent_id' => 'integer',
-                'rel' => 'longText',
+                'rel' => 'string',
 
                 'rel_id' => 'integer',
                 'content_type' => 'longText',

@@ -135,6 +135,34 @@ class BaseModel extends Eloquent
         return $data;
     }
 
+
+
+    public function save_item($params){
+        $table = $this->table;
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+        if (!isset($params['created_on']) == false) {
+            $params['created_on'] = date("Y-m-d H:i:s");
+        }
+        if (!isset($params['updated_on']) == false) {
+            $params['updated_on'] = date("Y-m-d H:i:s");
+        }
+
+        $params = $this->map_array_to_table($table, $params);
+        if(isset($params['id'])){
+            unset($params['created_on']);
+
+            $save = parent::where('id', $params['id'])->update($params);
+        } else {
+            $save = parent::insert($params);
+
+        }
+       return($save);
+
+
+    }
+
     public function map_array_to_table($table, $array)
     {
 

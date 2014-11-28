@@ -369,6 +369,23 @@ function breadcrumb($params = false){
 
 
 
+
+api_hook('content/set_published', function ($data) {
+    return mw()->content_manager->set_published($data);
+});
+
+
+api_hook('content/set_unpublished', function ($data) {
+    return mw()->content_manager->set_unpublished($data);
+});
+
+
+
+
+
+
+
+
 function custom_field_value($content_id, $field_name, $table = 'content')
 {
     return mw()->fields_manager->get_value($content_id, $field_name, $table);
@@ -404,3 +421,6 @@ function make_custom_field($field_id = 0, $field_type = 'text', $settings = fals
 {
     return mw()->fields_manager->make($field_id, $field_type, $settings);
 }
+
+
+
