@@ -149,7 +149,7 @@
  <small class="version">v. <?php print MW_VERSION ?></small>
 <div class="mw-ui-box">
 <div class="mw-ui-box-header">
-<a href="http://MicroweberCMS.com" target="_blank" id="logo">
+<a href="http://Microweber.com" target="_blank" id="logo">
     <span class="mw-icon-mw"></span>
 </a>
 

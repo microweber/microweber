@@ -218,6 +218,9 @@ class DefaultController extends Controller
         }
 
 
+
+
+
         if (!isset($_SESSION)) {
             // session_start();
         }
@@ -354,6 +357,10 @@ class DefaultController extends Controller
         $api_exposed = array_trim($api_exposed);
 
 
+        $hooks = api_hook(true);
+
+
+
         if ($api_function == false) {
             $api_function = $this->app->url->segment(1);
         }
@@ -377,6 +384,8 @@ class DefaultController extends Controller
             define('MW_API_FUNCTION_CALL', $api_function);
 
         }
+
+
         switch ($caller_commander) {
             case 'class_is_already_here' :
                 if ($params != false) {
@@ -433,6 +442,25 @@ class DefaultController extends Controller
                 break;
 
             default :
+                $res = false;
+                if(isset($hooks[$api_function_full])){
+                    $data = array_merge($_GET, $_POST);
+
+                    $call = $hooks[$api_function_full];
+                    if(!empty($call)){
+                        foreach($call as $call_item){
+
+                            $res = call_user_func($call_item, $data);
+                        }
+                    }
+
+                    if($res != false){
+                        print json_encode($res);
+                        exit();
+                    }
+
+
+                }
 
 
                 // d($mod_api_class);
@@ -674,7 +702,7 @@ class DefaultController extends Controller
 
                 }
 
-                $hooks = api_hook(true);
+
                 if (isset($res) and isset($hooks[$api_function]) and is_array($hooks[$api_function]) and !empty($hooks[$api_function])) {
                     foreach ($hooks[$api_function] as $hook_key => $hook_value) {
                         if ($hook_value != false and $hook_value != null) {
@@ -2439,13 +2467,6 @@ class DefaultController extends Controller
         exit();
     }
 
-    public function plupload()
-    {
-        $this->app->content_manager->define_constants();
-        $f = mw_includes_path() . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
-        require($f);
-        exit();
-    }
 
     public function editor_tools()
     {

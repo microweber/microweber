@@ -5,9 +5,9 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "v4.2.11",
-		"artdevue/fcache": "dev-master",
-		 "philf/setting": "dev-master"
+		"laravel/framework": "4.*",
+		"artdevue/fcache": "dev-master"
+
 
 	},
 	"autoload": {

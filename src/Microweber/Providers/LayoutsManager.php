@@ -8,7 +8,7 @@
  * (c) Microweber LTD
  *
  * For full license information see
- * http://MicroweberCMS.com/license/
+ * http://Microweber.com/license/
  *
  */
 
@@ -193,7 +193,7 @@ class LayoutsManager
                         $to_return_temp['type'] = trim($result);
                         $to_return_temp['directory'] = $here_dir;
                         if (strstr($here_dir, templates_path())) {
-                            $templ_dir = str_replace(MW_TEMPLATES_DIR, '', $here_dir);
+                            $templ_dir = str_replace(templates_path(), '', $here_dir);
                             if ($templ_dir != '') {
                                 $templ_dir = explode(DS, $templ_dir);
                                 if (isset($templ_dir[0])) {

@@ -18,53 +18,56 @@ $app = new Illuminate\Foundation\Application;
 | Detect The Application Environment
 |--------------------------------------------------------------------------
 |
-| MULTISITE MOTHERFUCKER!!!
+| MULTISITE
 |
 */
 
-$env = $app->detectEnvironment(function(){
-	
-	$envName = null;
+$env = $app->detectEnvironment(function () {
 
-	/*$domains = array(
-		'hai' => ['hui\.com'],
-		'hoi' => ['hui\.net'],
-	);*/
-    $hostname = false;
-    if(isset($_SERVER['HTTP_HOST'])){
-	$hostname = $_SERVER['HTTP_HOST'];
+    $envName = null;
+
+    /*$domains = array(
+        'local' => ['test1\.com'],
+        'production' => ['test1\.net'],
+    );*/
+    $hostname = 'localhost';
+    if (isset($_SERVER['HTTP_HOST'])) {
+        $hostname = $_SERVER['HTTP_HOST'];
     }
 
-	if(isset($domains))
-	if(count($domains))
-	{
-		foreach ($domains as $env => $match) {
-			if(is_string($match) && $match == $hostname) {
-				$envName = $env;
-				break;
-			}
-			foreach ($match as $regex) {
-				if(preg_match("/$regex/", $hostname)) {
-					$envName = $env;
-					break 2;
-				}
-			}
-		}
-	}
-	
-	if(isset($fallback)) {
-		if($fallback)
-			$envName = $fallback;
-	}
-	else {
-		$envName = $hostname;
-	}
-	
-	$paths = include 'paths.php';
-	if(!file_exists($paths['app'] .'/config/'. $envName))
-		$envName = 'production';
+    if (isset($domains))
+        if (count($domains)) {
+            foreach ($domains as $env => $match) {
+                if (is_string($match) && $match == $hostname) {
+                    $envName = $env;
+                    break;
+                }
+                foreach ($match as $regex) {
+                    if (preg_match("/$regex/", $hostname)) {
+                        $envName = $env;
+                        break 2;
+                    }
+                }
+            }
+        }
 
-	return $envName;
+    if (isset($fallback)) {
+        if ($fallback)
+            $envName = $fallback;
+    } else {
+        $envName = $hostname;
+    }
+
+   // $envName = substr_replace('.','_',$envName);
+
+    $paths = include 'paths.php';
+    if (!file_exists($paths['app'] . '/config/' . $envName))
+        $envName = 'production';
+
+
+
+
+    return $envName;
 });
 
 /*
@@ -78,7 +81,7 @@ $env = $app->detectEnvironment(function(){
 |
 */
 
-$app->bindInstallPaths(require __DIR__.'/paths.php');
+$app->bindInstallPaths(require __DIR__ . '/paths.php');
 
 /*
 |--------------------------------------------------------------------------
@@ -91,10 +94,10 @@ $app->bindInstallPaths(require __DIR__.'/paths.php');
 |
 */
 
-$framework = $app['path.base'].
-                 '/vendor/laravel/framework/src';
+$framework = $app['path.base'] .
+    '/vendor/laravel/framework/src';
 
-require $framework.'/Illuminate/Foundation/start.php';
+require $framework . '/Illuminate/Foundation/start.php';
 
 /*
 |--------------------------------------------------------------------------

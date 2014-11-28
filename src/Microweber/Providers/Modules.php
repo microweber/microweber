@@ -9,7 +9,7 @@
  * (c) Microweber LTD
  *
  * For full license information see
- * http://MicroweberCMS.com/license/
+ * http://Microweber.com/license/
  *
  */
 

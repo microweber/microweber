@@ -502,7 +502,7 @@ class UpdateManager
                 } elseif ($item['item_type'] == 'module_template') {
                     $where_to_unzip = modules_path();
                 } elseif ($item['item_type'] == 'template') {
-                    $where_to_unzip = MW_TEMPLATES_DIR;
+                    $where_to_unzip = templates_path();
                 } elseif ($item['item_type'] == 'element') {
                     $where_to_unzip = MW_ELEMENTS_DIR;
                 }

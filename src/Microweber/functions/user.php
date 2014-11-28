@@ -73,12 +73,6 @@ function session_end()
 }
 
 
-api_expose('user_login');
-function user_login($params)
-{
-    return mw()->user_manager->login($params);
-}
-
 function api_login($api_key = false)
 {
 
@@ -188,39 +182,21 @@ function user_send_forgot_password($params)
 
 }
 
+api_expose('user_login');
+function user_login($params)
+{
+
+
+    return mw()->user_manager->login($params);
+}
 
 api_expose('is_logged');
 
 function is_logged()
 {
 
-    if (defined('USER_ID')) {
-        // print USER_ID;
-        return USER_ID;
-    } else {
 
-        $user_session = $_SESSION;
-        if ($user_session == FALSE) {
-
-
-            return false;
-        } else {
-            if (isset($user_session['user_session'])) {
-                $user_session = $user_session['user_session'];
-            }
-
-        }
-        $res = false;
-        if (isset($user_session['user_id'])) {
-            $res = $user_session['user_id'];
-        }
-
-        if ($res != false) {
-            //   define("USER_ID", $res);
-        }
-
-        return $res;
-    }
+    return mw()->user_manager->is_logged();
 
 
 }

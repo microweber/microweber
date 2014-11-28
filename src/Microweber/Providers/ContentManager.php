@@ -1721,7 +1721,7 @@ class ContentManager
 
 
         $q = Menu::where('parent_id', '=', $menu_id);
-        $q = $q->where('id', '!=', $menu_id)->first();
+        $q = $q->where('id', '!=', $menu_id)->get()->toArray();
 
         //$q = $this->app->database_manager->get($menu_params);
 
@@ -1794,6 +1794,10 @@ class ContentManager
 
         $cur_depth = 0;
         $res_count = 0;
+
+
+
+
         foreach ($q as $item) {
             $full_item = $item;
 
@@ -3797,7 +3801,9 @@ class ContentManager
             }
 
             if (defined('ACTIVE_PAGE_ID') == false) {
-
+                if(!isset($page['id'])){
+                    $page['id'] = 0;
+                }
                 define('ACTIVE_PAGE_ID', $page['id']);
             }
 
@@ -5429,6 +5435,7 @@ class ContentManager
 
     public function  menu_item_save($data_to_save)
     {
+
 
         $id = $this->app->user_manager->is_admin();
         if ($id == false) {

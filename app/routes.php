@@ -61,7 +61,11 @@ Route::any('editor_tools/{all}', array(
     'uses' => '\Microweber\Controllers\DefaultController@editor_tools'
 ))->where('all', '.*');
 
-
+Route::any('/plupload', '\Microweber\Controllers\ModuleController@plupload');
+Route::any('plupload/{all}', array(
+    'as' => 'plupload',
+    'uses' => '\Microweber\Controllers\ModuleController@plupload'
+))->where('all', '.*');;
 
 Route::any('/module/', '\Microweber\Controllers\ModuleController@index');
 Route::any('module/{all}', array(

@@ -118,6 +118,10 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('category_manager', function ($app) {
             return new Providers\CategoryManager($app);
         });
+
+        $this->app->singleton('menu_manager', function ($app) {
+            return new Providers\MenuManager($app);
+        });
         $this->app->singleton('user_manager', function ($app) {
             return new Providers\UserManager($app);
         });

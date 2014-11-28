@@ -574,7 +574,7 @@ class ModuleController extends Controller
     public function plupload()
     {
         $this->app->content_manager->define_constants();
-        $f = mw_includes_path() . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
+        $f = MW_PATH . 'functions' . DIRECTORY_SEPARATOR . 'plupload.php';
         require($f);
         exit();
     }

@@ -8,7 +8,7 @@
  * (c) Microweber LTD
  *
  * For full license information see
- * http://MicroweberCMS.com/license/
+ * http://Microweber.com/license/
  *
  */
 
@@ -52,10 +52,6 @@ class UserManager
 
     }
 
-    public function install()
-    {
-        $this->db_init();
-    }
 
 
     public function set_table_names($tables = false)
@@ -76,94 +72,383 @@ class UserManager
 
     }
 
-    public function db_init()
+    public function is_admin()
+    {
+        return true;
+        if (!mw_is_installed()) {
+            return false;
+        }
+
+        if (Auth::check()) {
+
+            return Auth::user()->ifAdmin;
+        }
+    }
+
+    public function id()
+    {
+
+        if (Auth::check()) {
+
+            return Auth::user()->id;
+        }
+        return false;
+
+        //@todo remove
+
+
+        if (defined('USER_ID')) {
+            return USER_ID;
+        } else {
+
+            $user_session = $this->session_get('user_session');
+            if ($user_session == FALSE) {
+                return false;
+            }
+            $res = false;
+            if (isset($user_session['user_id'])) {
+                $res = $user_session['user_id'];
+            }
+
+
+            if ($res != false) {
+                // $res = $sess->get ( 'user_id' );
+                define("USER_ID", $res);
+            }
+            return $res;
+        }
+    }
+
+    /**
+     * Allows you to login a user into the system
+     *
+     * It also sets user session when the user is logged. <br />
+     * On 5 unsuccessful logins, blocks the ip for few minutes <br />
+     *
+     *
+     * @param array|string $params You can pass parameter as string or as array.
+     * @param mixed|string $params ['email'] optional If you set  it will use this email for login
+     * @param mixed|string $params ['password'] optional Use password for login, it gets trough $this->hash_pass() function
+     * @param mixed|string $params ['password_hashed'] optional Use hashed password for login, it does NOT go trough $this->hash_pass() function
+     *
+     *
+     * @example
+     * <code>
+     * //login with username
+     * $this->login('username=test&password=pass')
+     * </code>
+     * @example
+     * <code>
+     * //login with email
+     * $this->login('email=my@email.com&password=pass')
+     * </code>
+     * @example
+     * <code>
+     * //login hashed password
+     * $this->login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
+     * </code>
+     *
+     * @return array|bool
+     * @hooks
+     *
+     * You can also hook to this function with custom functions <br />
+     * There are few events that get executed on login <br />
+     *
+     * <code>
+     * Here is example:
+     * event_bind('before_user_login', 'custom_login_function'); //executed before making login query
+     * event_bind('on_user_login', 'custom_after_login_function'); //executed after successful login
+     * </code>
+     * @package Users
+     * @category Users
+     * @uses $this->hash_pass()
+     * @uses parse_str()
+     * @uses $this->get_all()
+     * @uses $this->session_set()
+     * @uses $this->app->log_manager->get()
+     * @uses $this->app->log_manager->save()
+     * @uses $this->login_set_failed_attempt()
+     * @uses $this->update_last_login_time()
+     * @uses $this->app->event_manager->trigger()
+     * @function $this->login()
+     * @see _table() For the database table fields
+     */
+    public function login($params)
     {
 
 
-//        $table_name = $this->tables['users'];
-//
-//        $fields_to_add = array();
-//
-//        $fields_to_add['updated_on'] = 'dateTime';
-//        $fields_to_add['created_on'] = 'dateTime';
-//        $fields_to_add['expires_on'] = 'dateTime';
-//        $fields_to_add['last_login'] = 'dateTime';
-//        $fields_to_add['last_login_ip'] = 'longText';
-//
-//        $fields_to_add['created_by'] = 'integer';
-//
-//        $fields_to_add['edited_by'] = 'integer';
-//
-//        $fields_to_add['username'] = 'longText';
-//
-//        $fields_to_add['password'] = 'longText';
-//        $fields_to_add['email'] = 'longText';
-//
-//        $fields_to_add['is_active'] = "string";
-//        $fields_to_add['is_admin'] = "string";
-//        $fields_to_add['is_verified'] = "string";
-//        $fields_to_add['is_public'] = "string";
-//
-//        $fields_to_add['basic_mode'] = "string";
-//
-//        $fields_to_add['first_name'] = 'longText';
-//        $fields_to_add['last_name'] = 'longText';
-//        $fields_to_add['thumbnail'] = 'longText';
-//
-//        $fields_to_add['parent_id'] = 'integer';
-//
-//        $fields_to_add['api_key'] = 'longText';
-//
-//        $fields_to_add['user_information'] = 'longText';
-//        $fields_to_add['subscr_id'] = 'longText';
-//        $fields_to_add['role'] = 'longText';
-//        $fields_to_add['medium'] = 'longText';
-//
-//        $fields_to_add['oauth_uid'] = 'longText';
-//        $fields_to_add['oauth_provider'] = 'longText';
-//        $fields_to_add['oauth_token'] = 'longText';
-//        $fields_to_add['oauth_token_secret'] = 'longText';
-//
-//        $fields_to_add['profile_url'] = 'longText';
-//        $fields_to_add['website_url'] = 'longText';
-//        $fields_to_add['password_reset_hash'] = 'longText';
-//
-//        mw()->database_manager->build_table($table_name, $fields_to_add);
-//
-//        mw()->database_manager->add_table_index('username', $table_name, array('username(255)'));
-//        mw()->database_manager->add_table_index('email', $table_name, array('email(255)'));
-//
-//
-//        $table_name = $this->tables['log'];
-//
-//        $fields_to_add = array();
-//
-//        $fields_to_add['updated_on'] = 'dateTime';
-//        $fields_to_add['created_on'] = 'dateTime';
-//        $fields_to_add['created_by'] = 'integer';
-//        $fields_to_add['edited_by'] = 'integer';
-//        $fields_to_add['rel'] = 'longText';
-//
-//        $fields_to_add['rel_id'] = 'longText';
-//        $fields_to_add['position'] = 'integer';
-//
-//        $fields_to_add['field'] = 'longText';
-//        $fields_to_add['value'] = 'longText';
-//        $fields_to_add['module'] = 'longText';
-//
-//        $fields_to_add['data_type'] = 'longText';
-//        $fields_to_add['title'] = 'longText';
-//        $fields_to_add['description'] = 'longText';
-//        $fields_to_add['content'] = 'longText';
-//        $fields_to_add['user_ip'] = 'longText';
-//        $fields_to_add['session_id'] = 'longText';
-//        $fields_to_add['is_system'] = "string";
-//
-//        mw()->database_manager->build_table($table_name, $fields_to_add);
 
-        return true;
+        $ok = Auth::attempt([
+            'username' => $params['username'],
+            'password' => $params['password']
+        ]);
 
+        Session::set('cat', 'Jerry');
+        return array('aaa' => 'ss!', 'tyka sam'=> __FILE__.__LINE__);
+
+        if ($ok) {
+
+            Auth::login(Auth::user());
+            if ($ok && isset($params['redirect_to'])) {
+                return Redirect::to($params['redirect_to']);
+            } else if ($ok) {
+                return ['success' => _e("You are logged in!", true)];
+            }
+
+        }
+
+
+        $this->login_set_failed_attempt();
+        return array('error' => 'Please enter right username and password!');
+
+
+        return;
+
+
+
+
+
+
+
+        //DIE
+        // @todo remove below
+
+
+        $override = $this->app->event_manager->trigger('before_user_login', $params);
+        $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
+        $overiden = false;
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (isset($resp['error']) or isset($resp['success'])) {
+                    $overiden = true;
+                }
+            }
+        }
+
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+        if ($overiden == true and $redirect_after != false) {
+            $this->app->url->redirect($redirect_after);
+            exit();
+        } elseif ($overiden == true) {
+            return $resp;
+        }
+
+        //$is_logged =  $this->session_get('user_session');
+        // if(is_array($is_logged) and isset($is_logged['']))
+
+
+        if (isset($params) and !empty($params)) {
+
+            $user = isset($params['username']) ? $params['username'] : false;
+            $pass = isset($params['password']) ? $params['password'] : false;
+            $email = isset($params['email']) ? $params['email'] : false;
+            $pass2 = isset($params['password_hashed']) ? $params['password_hashed'] : false;
+            $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
+
+            $pass = $this->hash_pass($pass);
+            if ($pass2 != false and $pass2 != NULL and trim($pass2) != '') {
+                $pass = $pass2;
+            }
+
+
+            if (trim($user) == '' and trim($email) == '' and trim($pass) == '') {
+                return array('error' => 'Please enter username and password!');
+
+            }
+            $url = $this->app->url->current(1);
+
+            $check = $this->app->log_manager->get("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
+
+            if ($check == 5) {
+
+                $url_href = "<a href='$url' target='_blank'>$url</a>";
+                $this->app->log_manager->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
+            }
+            if ($check > 5) {
+                $check = $check - 1;
+                return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
+            }
+            $check2 = $this->app->log_manager->get("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
+            if ($check2 > 25) {
+
+                return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
+            }
+
+            $api_key = isset($params['api_key']) ? $params['api_key'] : false;
+
+
+            if ($user != false) {
+                $data1 = array();
+                $data1['username'] = $user;
+                $data1['password'] = $pass;
+                $data1['search_in_fields'] = 'username,email,password';
+                $data1['is_active'] = 'y';
+
+
+            }
+
+            $data = array();
+
+            if (trim($user != '') and trim($pass != '') and isset($data1) and is_array($data1)) {
+                $data = $this->get_all($data1);
+            }
+            if (isset($data[0])) {
+                $data = $data[0];
+            } else {
+                if (!isset($email) or ($email) == '') {
+
+                    if (isset($user) and $user != false) {
+                        $email = $user;
+                    }
+                }
+
+
+                if (trim($email) != '') {
+                    $data = array();
+
+                    $email = str_replace(' ', '+', $email);
+
+                    $data['email'] = $email;
+                    $data['password'] = $pass;
+                    $data['is_active'] = 'y';
+
+
+                    $data['search_in_fields'] = 'password,email';
+
+                    $data = $this->get_all($data);
+                    // print_r(mw()->orm->getLastQuery());
+                    if (isset($data[0])) {
+
+                        $data = $data[0];
+                    } else {
+
+                        $this->login_set_failed_attempt();
+                        return array('error' => 'Please enter right username and password!');
+
+                    }
+                } else {
+                    //	return array('error' => 'Please enter username or email!');
+
+                }
+
+                // return false;
+            }
+
+            if (!is_array($data)) {
+                if (trim($user) != '') {
+                    $data = array();
+                    $data['email'] = $user;
+                    $data['password'] = $pass;
+                    $data['is_active'] = 'y';
+
+
+                    $data = $this->get_all($data);
+
+                    if (isset($data[0])) {
+                        $data = $data[0];
+                    }
+                }
+            }
+            if (!is_array($data)) {
+                $this->login_set_failed_attempt();
+
+                $user_session = array();
+                $user_session['is_logged'] = 'no';
+                $this->session_set('user_session', $user_session);
+
+                $aj = $this->app->url->is_ajax();
+
+                if ($aj == false and $api_key == false) {
+                    if ($redirect_after != false) {
+                        $this->app->url->redirect($redirect_after);
+                        exit();
+                    }
+                }
+
+                return array('error' => 'Please enter the right username and password!');
+
+            } else {
+
+                if (!isset($data['id'])) {
+                    return array('error' => 'Please enter the right username and password!');
+
+                }
+
+                $user_session = array();
+                $user_session['is_logged'] = 'yes';
+                $user_session['user_id'] = $data['id'];
+
+                if (!defined('USER_ID')) {
+                    define("USER_ID", $data['id']);
+
+
+                }
+                $this->make_logged($data['id']);
+                if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
+                    if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
+                        $this->app->event_manager->trigger('user_login_admin');
+                        $p = mw()->content_manager->get_page();
+                        if (!empty($p)) {
+                            $link = $this->app->content_manager->link($p['id']);
+                            $link = $link . '/editmode:y';
+                            $this->app->url->redirect($link);
+                            exit();
+                        }
+                    }
+                }
+
+                $aj = $this->app->url->is_ajax();
+
+                if ($aj == false and $api_key == false) {
+                    if (isset($_SERVER["HTTP_REFERER"]) and $redirect_after == false) {
+                        //	d($user_session);
+                        //exit();
+                        if ($redirect_after != false) {
+                            $this->app->url->redirect($redirect_after);
+                            exit();
+                        } else {
+                            $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
+                            exit();
+                        }
+
+
+                        exit();
+                    } elseif ($redirect_after != false) {
+                        $this->app->url->redirect($redirect_after);
+                        exit();
+                    } else {
+                        $user_session['success'] = _e("You are logged in!", true);
+                        if ($redirect_after != false) {
+                            $user_session['redirect'] = $redirect_after;
+                        }
+
+
+                        return $user_session;
+                    }
+                } else if ($aj == true) {
+                    $user_session['success'] = _e("You are logged in!", true);
+                }
+
+                return $user_session;
+            }
+
+
+            if ($redirect_after != false) {
+                $this->app->url->redirect($redirect_after);
+                exit();
+            }
+        }
+
+
+        return false;
     }
+
+
+
+
 
     public function logout($params = false)
     {
@@ -201,7 +486,10 @@ class UserManager
     public function is_logged()
     {
 
-        if ($this->id() > 0) {
+        d('is_logged '. __FILE__.__LINE__);
+        dd(Session::all());
+
+        if (Auth::check()) {
             return true;
         } else {
             return false;
@@ -209,6 +497,78 @@ class UserManager
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function has_access($function_name)
     {
@@ -549,47 +909,13 @@ class UserManager
 
     }
 
-    public function is_admin()
-    {
 
-        if (!mw_is_installed()) {
-            return false;
-        }
-        if (Auth::check()) {
-            return Auth::user()->ifAdmin;
-        }
-    }
-
-    public function id()
-    {
-
-
-        if (defined('USER_ID')) {
-            return USER_ID;
-        } else {
-
-            $user_session = $this->session_get('user_session');
-            if ($user_session == FALSE) {
-                return false;
-            }
-            $res = false;
-            if (isset($user_session['user_id'])) {
-                $res = $user_session['user_id'];
-            }
-
-
-            if ($res != false) {
-                // $res = $sess->get ( 'user_id' );
-                define("USER_ID", $res);
-            }
-            return $res;
-        }
-    }
 
     function csrf_validate(&$data)
     {
 
-
+        return true;
+        //@todo remove below
         if (is_array($data) and isset($_SESSION)) {
             foreach ($data as $k => $v) {
 
@@ -752,326 +1078,6 @@ class UserManager
         return $id;
     }
 
-    /**
-     * Allows you to login a user into the system
-     *
-     * It also sets user session when the user is logged. <br />
-     * On 5 unsuccessful logins, blocks the ip for few minutes <br />
-     *
-     *
-     * @param array|string $params You can pass parameter as string or as array.
-     * @param mixed|string $params ['email'] optional If you set  it will use this email for login
-     * @param mixed|string $params ['password'] optional Use password for login, it gets trough $this->hash_pass() function
-     * @param mixed|string $params ['password_hashed'] optional Use hashed password for login, it does NOT go trough $this->hash_pass() function
-     *
-     *
-     * @example
-     * <code>
-     * //login with username
-     * $this->login('username=test&password=pass')
-     * </code>
-     * @example
-     * <code>
-     * //login with email
-     * $this->login('email=my@email.com&password=pass')
-     * </code>
-     * @example
-     * <code>
-     * //login hashed password
-     * $this->login('email=my@email.com&password_hashed=c4ca4238a0b923820dcc509a6f75849b')
-     * </code>
-     *
-     * @return array|bool
-     * @hooks
-     *
-     * You can also hook to this function with custom functions <br />
-     * There are few events that get executed on login <br />
-     *
-     * <code>
-     * Here is example:
-     * event_bind('before_user_login', 'custom_login_function'); //executed before making login query
-     * event_bind('on_user_login', 'custom_after_login_function'); //executed after successful login
-     * </code>
-     * @package Users
-     * @category Users
-     * @uses $this->hash_pass()
-     * @uses parse_str()
-     * @uses $this->get_all()
-     * @uses $this->session_set()
-     * @uses $this->app->log_manager->get()
-     * @uses $this->app->log_manager->save()
-     * @uses $this->login_set_failed_attempt()
-     * @uses $this->update_last_login_time()
-     * @uses $this->app->event_manager->trigger()
-     * @function $this->login()
-     * @see _table() For the database table fields
-     */
-    public function login($params)
-    {
-        $ok = Auth::attempt([
-            'username' => $params['username'],
-            'password' => $params['password']
-        ]);
-
-        if ($ok) {
-            $user = Auth::user();
-            if ($user) {
-
-              // dd($user->created_on);
-            }
-
-        }
-
-
-        if ($ok && isset($params['redirect_to'])) {
-
-
-            return Redirect::to($params['redirect_to']);
-
-        } else if ($ok) {
-            return ['success' => _e("You are logged in!", true)];
-
-        } else {
-            $this->login_set_failed_attempt();
-            return array('error' => 'Please enter right username and password!');
-        }
-
-return;
-        //DIE
-        // @todo remove below
-
-
-        $override = $this->app->event_manager->trigger('before_user_login', $params);
-        $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
-        $overiden = false;
-        if (is_array($override)) {
-            foreach ($override as $resp) {
-                if (isset($resp['error']) or isset($resp['success'])) {
-                    $overiden = true;
-                }
-            }
-        }
-
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        if ($overiden == true and $redirect_after != false) {
-            $this->app->url->redirect($redirect_after);
-            exit();
-        } elseif ($overiden == true) {
-            return $resp;
-        }
-
-        //$is_logged =  $this->session_get('user_session');
-        // if(is_array($is_logged) and isset($is_logged['']))
-
-
-        if (isset($params) and !empty($params)) {
-
-            $user = isset($params['username']) ? $params['username'] : false;
-            $pass = isset($params['password']) ? $params['password'] : false;
-            $email = isset($params['email']) ? $params['email'] : false;
-            $pass2 = isset($params['password_hashed']) ? $params['password_hashed'] : false;
-            $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
-
-            $pass = $this->hash_pass($pass);
-            if ($pass2 != false and $pass2 != NULL and trim($pass2) != '') {
-                $pass = $pass2;
-            }
-
-
-            if (trim($user) == '' and trim($email) == '' and trim($pass) == '') {
-                return array('error' => 'Please enter username and password!');
-
-            }
-            $url = $this->app->url->current(1);
-
-            $check = $this->app->log_manager->get("is_system=y&count=1&created_on=[mt]1 min ago&updated_on=[lt]1 min&rel=login_failed&user_ip=" . MW_USER_IP);
-
-            if ($check == 5) {
-
-                $url_href = "<a href='$url' target='_blank'>$url</a>";
-                $this->app->log_manager->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel=login_failed&user_ip=" . MW_USER_IP);
-            }
-            if ($check > 5) {
-                $check = $check - 1;
-                return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
-            }
-            $check2 = $this->app->log_manager->get("is_system=y&count=1&created_on=[mt]10 min ago&updated_on=[lt]10 min&&rel=login_failed&user_ip=" . MW_USER_IP);
-            if ($check2 > 25) {
-
-                return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
-            }
-
-            $api_key = isset($params['api_key']) ? $params['api_key'] : false;
-
-
-            if ($user != false) {
-                $data1 = array();
-                $data1['username'] = $user;
-                $data1['password'] = $pass;
-                $data1['search_in_fields'] = 'username,email,password';
-                $data1['is_active'] = 'y';
-
-
-            }
-
-            $data = array();
-
-            if (trim($user != '') and trim($pass != '') and isset($data1) and is_array($data1)) {
-                $data = $this->get_all($data1);
-            }
-            if (isset($data[0])) {
-                $data = $data[0];
-            } else {
-                if (!isset($email) or ($email) == '') {
-
-                    if (isset($user) and $user != false) {
-                        $email = $user;
-                    }
-                }
-
-
-                if (trim($email) != '') {
-                    $data = array();
-
-                    $email = str_replace(' ', '+', $email);
-
-                    $data['email'] = $email;
-                    $data['password'] = $pass;
-                    $data['is_active'] = 'y';
-
-
-                    $data['search_in_fields'] = 'password,email';
-
-                    $data = $this->get_all($data);
-                    // print_r(mw()->orm->getLastQuery());
-                    if (isset($data[0])) {
-
-                        $data = $data[0];
-                    } else {
-
-                        $this->login_set_failed_attempt();
-                        return array('error' => 'Please enter right username and password!');
-
-                    }
-                } else {
-                    //	return array('error' => 'Please enter username or email!');
-
-                }
-
-                // return false;
-            }
-
-            if (!is_array($data)) {
-                if (trim($user) != '') {
-                    $data = array();
-                    $data['email'] = $user;
-                    $data['password'] = $pass;
-                    $data['is_active'] = 'y';
-
-
-                    $data = $this->get_all($data);
-
-                    if (isset($data[0])) {
-                        $data = $data[0];
-                    }
-                }
-            }
-            if (!is_array($data)) {
-                $this->login_set_failed_attempt();
-
-                $user_session = array();
-                $user_session['is_logged'] = 'no';
-                $this->session_set('user_session', $user_session);
-
-                $aj = $this->app->url->is_ajax();
-
-                if ($aj == false and $api_key == false) {
-                    if ($redirect_after != false) {
-                        $this->app->url->redirect($redirect_after);
-                        exit();
-                    }
-                }
-
-                return array('error' => 'Please enter the right username and password!');
-
-            } else {
-
-                if (!isset($data['id'])) {
-                    return array('error' => 'Please enter the right username and password!');
-
-                }
-
-                $user_session = array();
-                $user_session['is_logged'] = 'yes';
-                $user_session['user_id'] = $data['id'];
-
-                if (!defined('USER_ID')) {
-                    define("USER_ID", $data['id']);
-
-
-                }
-                $this->make_logged($data['id']);
-                if (isset($data["is_admin"]) and $data["is_admin"] == 'y') {
-                    if (isset($params['where_to']) and $params['where_to'] == 'live_edit') {
-                        $this->app->event_manager->trigger('user_login_admin');
-                        $p = mw()->content_manager->get_page();
-                        if (!empty($p)) {
-                            $link = $this->app->content_manager->link($p['id']);
-                            $link = $link . '/editmode:y';
-                            $this->app->url->redirect($link);
-                            exit();
-                        }
-                    }
-                }
-
-                $aj = $this->app->url->is_ajax();
-
-                if ($aj == false and $api_key == false) {
-                    if (isset($_SERVER["HTTP_REFERER"]) and $redirect_after == false) {
-                        //	d($user_session);
-                        //exit();
-                        if ($redirect_after != false) {
-                            $this->app->url->redirect($redirect_after);
-                            exit();
-                        } else {
-                            $this->app->url->redirect($_SERVER["HTTP_REFERER"]);
-                            exit();
-                        }
-
-
-                        exit();
-                    } elseif ($redirect_after != false) {
-                        $this->app->url->redirect($redirect_after);
-                        exit();
-                    } else {
-                        $user_session['success'] = _e("You are logged in!", true);
-                        if ($redirect_after != false) {
-                            $user_session['redirect'] = $redirect_after;
-                        }
-
-
-                        return $user_session;
-                    }
-                } else if ($aj == true) {
-                    $user_session['success'] = _e("You are logged in!", true);
-                }
-
-                return $user_session;
-            }
-
-
-            if ($redirect_after != false) {
-                $this->app->url->redirect($redirect_after);
-                exit();
-            }
-        }
-
-
-        return false;
-    }
 
     public function login_set_failed_attempt()
     {
