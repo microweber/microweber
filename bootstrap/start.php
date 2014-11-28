@@ -30,8 +30,10 @@ $env = $app->detectEnvironment(function(){
 		'hai' => ['hui\.com'],
 		'hoi' => ['hui\.net'],
 	);*/
-
+    $hostname = false;
+    if(isset($_SERVER['HTTP_HOST'])){
 	$hostname = $_SERVER['HTTP_HOST'];
+    }
 
 	if(isset($domains))
 	if(count($domains))

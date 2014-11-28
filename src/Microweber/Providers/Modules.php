@@ -84,7 +84,8 @@ class Modules
             if (!isset($s["parent_id"])) {
                 $s["parent_id"] = 0;
             }
-            if ($s["installed"] == 'auto') {
+           
+            if (!isset($s["installed"]) or $s["installed"] == 'auto') {
                 $s["installed"] = 1;
             }
 
@@ -93,7 +94,6 @@ class Modules
 
                 if (!isset($s["module_id"])) {
                     $save = $this->get_modules('ui=any&limit=1&module=' . $s["module"]);
-
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
                         $s["position"] = intval($save[0]["position"]);
@@ -101,7 +101,6 @@ class Modules
                         $mname_clen = str_replace('\\', '/', $s["module"]);
                         if ($s["id"] > 0) {
                             $delid = $s["id"];
-
                             DB::table($table)->where('id', '!=', $delid)->delete();
 
                             // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
