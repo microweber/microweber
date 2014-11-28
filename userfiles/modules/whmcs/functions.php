@@ -83,7 +83,7 @@ event_bind('mw_frontend', function () {
 
 
             if (!session_id()) {
-                session_start();
+                // session_start();
             }
             $found_user = false;
             if (isset($_COOKIE['mw_remote_hash'])) {

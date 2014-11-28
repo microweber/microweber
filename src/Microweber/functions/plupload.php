@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($_SESSION) or empty($_SESSION)) {
-    session_start();
+    // session_start();
 }
 $validate_token = false;
 if (!isset($_SERVER['HTTP_REFERER'])) {

@@ -70,7 +70,7 @@ class ModuleController extends Controller
 
                 if (!defined('MW_SESS_STARTED')) {
                     define('MW_SESS_STARTED', true);
-                    session_start();
+                    // session_start();
                 }
 
             }

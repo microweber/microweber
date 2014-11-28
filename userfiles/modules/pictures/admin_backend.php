@@ -108,7 +108,7 @@ if(trim($for_id)  != '' and trim($for_id)  != '0'){
 } else {
 	 $sid = session_id();
 	 if($sid == ''){
-		session_start();
+		// session_start();
 		$sid = session_id();
 	 }
  

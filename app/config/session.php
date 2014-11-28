@@ -96,7 +96,7 @@ return array(
 	|
 	*/
 
-	'cookie' => 'Weber_session',
+	'cookie' => 'microweber_session',
 
 	/*
 	|--------------------------------------------------------------------------

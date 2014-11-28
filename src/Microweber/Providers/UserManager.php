@@ -555,7 +555,6 @@ class UserManager
         if (!mw_is_installed()) {
             return false;
         }
-
         if (Auth::check()) {
             return Auth::user()->ifAdmin;
         }
@@ -809,15 +808,16 @@ class UserManager
      */
     public function login($params)
     {
-        $params2 = array();
-        $user_session = array();
-        $ok = Auth::attempt(['username' => $params['username'], 'password' => $params['password']]);
+        $ok = Auth::attempt([
+            'username' => $params['username'],
+            'password' => $params['password']
+        ]);
 
         if ($ok) {
-            $user = Auth::id();
+            $user = Auth::user();
             if ($user) {
 
-                $this->make_logged($user);
+              // dd($user->created_on);
             }
 
         }
@@ -829,14 +829,14 @@ class UserManager
             return Redirect::to($params['redirect_to']);
 
         } else if ($ok) {
-            return $user_session['success'] = _e("You are logged in!", true);
+            return ['success' => _e("You are logged in!", true)];
 
         } else {
             $this->login_set_failed_attempt();
             return array('error' => 'Please enter right username and password!');
         }
 
-
+return;
         //DIE
         // @todo remove below
 

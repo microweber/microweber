@@ -62,7 +62,7 @@ class ShopManager
     public function checkout($data)
     {
         if (!session_id() and !headers_sent()) {
-            session_start();
+            // session_start();
         }
 
 
@@ -623,7 +623,7 @@ class ShopManager
         }
 
         if (!session_id() and !headers_sent()) {
-            session_start();
+            // session_start();
         }
         $cur_sid = session_id();
 
@@ -787,7 +787,7 @@ class ShopManager
     public function cart_sum($return_amount = true)
     {
         if (!session_id() and !headers_sent()) {
-            session_start();
+            // session_start();
         }
 
         $sid = session_id();
@@ -978,7 +978,7 @@ class ShopManager
             $this->app->error('Invalid data');
         }
         if (!session_id() and !headers_sent()) {
-            session_start();
+            // session_start();
         }
         $cart = array();
         $cart['id'] = intval($data['id']);
@@ -1011,7 +1011,7 @@ class ShopManager
             $this->app->error('Invalid data');
         }
         if (!session_id() and !headers_sent()) {
-            session_start();
+            // session_start();
         }
         $cart = array();
         $cart['id'] = intval($data['id']);
@@ -1042,7 +1042,7 @@ class ShopManager
     {
 
         if (!session_id() and !headers_sent()) {
-            session_start();
+            // session_start();
         }
 
         if (isset($data['content_id'])) {
@@ -1356,7 +1356,7 @@ class ShopManager
     public function checkout_ipn($data)
     {
         if (!session_id() and !headers_sent()) {
-            //	session_start();
+            //	// session_start();
         }
         //$sid = session_id();
 

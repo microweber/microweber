@@ -219,7 +219,7 @@ class DefaultController extends Controller
 
 
         if (!isset($_SESSION)) {
-            session_start();
+            // session_start();
         }
 
         $set_constants = true;
@@ -722,7 +722,7 @@ class DefaultController extends Controller
 
                 if (!defined('MW_SESS_STARTED')) {
                     define('MW_SESS_STARTED', true);
-                    session_start();
+                    // session_start();
                 }
 
             }

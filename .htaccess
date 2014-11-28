@@ -2,43 +2,9 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews
     </IfModule>
-     RewriteEngine On
-
-RewriteCond %{REQUEST_URI} !\.(gif|jpg|jpeg|png|js|css)$
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule ^(.*)$ /index.php
-RewriteRule ^(.*)$ index.php [NC,L]
-
-#    RewriteEngine On
-##RewriteBase /l42/public
-#    # Redirect Trailing Slashes...
-#     #RewriteRule ^(.*)/$ /$1 [L,R=301]
-#     RewriteRule ^(.*)/$ $1 [L,R=301]
-#
-#    # Handle Front Controller...
-#    RewriteCond %{REQUEST_FILENAME} !-d
-#    RewriteCond %{REQUEST_FILENAME} !-f
-#     RewriteRule ^ index.php [L]
-#   # RewriteRule ^(.*)$ index.php [NC,L]
+    RewriteEngine On
+    	RewriteRule ^(.*)/$ /l42/$1 [R=301,L]
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteRule ^(.*)$ index.php [NC,L]
 </IfModule>
-
-
-#<IfModule mod_rewrite.c>
-#    Options -MultiViews
-#    RewriteEngine On
-#
-#
-#    RewriteBase /l42
-#
-#
-#    RewriteCond %{REQUEST_FILENAME} !-f
-#    RewriteCond %{REQUEST_FILENAME} !-d
-#    RewriteRule ^(.*)$ index.php [NC,L]
-##	RewriteCond %{REQUEST_FILENAME} !-d
-##	RewriteRule ^(.+)/$ http://%{HTTP_HOST}/$1 [R=301,L]
-##
-##
-##    RewriteCond %{REQUEST_FILENAME} !-f
-##    RewriteRule ^ index.php [L]
-#</IfModule>

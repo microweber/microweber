@@ -22,7 +22,7 @@ if ($template != false and strtolower($template) != 'none') {
 }
 $sid = session_id();
 if($sid == ''){
-    session_start();
+    // session_start();
 }
 $cart = array();
 $cart['session_id'] = session_id();
