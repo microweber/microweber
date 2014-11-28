@@ -181,24 +181,17 @@ class ContentManager
             return false;
         }
 
-        $table = $this->tables['content'];
         $id = intval($id);
         if ($id == 0) {
             return false;
         }
 
-        $q = "SELECT * FROM $table WHERE id='$id'  LIMIT 0,1 ";
 
-        $params = array();
-        $params['id'] = $id;
-        $params['limit'] = 1;
-        $params['table'] = $table;
-
-        $q = $this->app->database_manager->get($params);
+        $q = Content::where('id', '=', $id)->first();
 
 
-        if (is_array($q) and isset($q[0])) {
-            $content = $q[0];
+        if (is_array($q) and isset($q['title'])) {
+            $content = $q;
             if (isset($content['title'])) {
                 $content['title'] = html_entity_decode($content['title']);
                 $content['title'] = strip_tags($content['title']);
@@ -1529,11 +1522,6 @@ class ContentManager
     }
 
 
-
-
-
-
-
     /**
      * Gets a link for given content id
      *
@@ -1685,7 +1673,7 @@ class ContentManager
             $add_to_menus_int = array();
             foreach ($add_to_menus as $value) {
                 if ($value == 'remove_from_all') {
-                    Menu::where('content_id', $content_id)->where('item_type','menu_item')->delete();
+                    Menu::where('content_id', $content_id)->where('item_type', 'menu_item')->delete();
 
 
                     $this->app->cache_manager->delete('menus');
@@ -1725,8 +1713,8 @@ class ContentManager
 
 
             Menu::where('content_id', $content_id)
-                ->where('item_type','menu_item')
-            ->whereNotIn('parent_id', $add_to_menus_int)
+                ->where('item_type', 'menu_item')
+                ->whereNotIn('parent_id', $add_to_menus_int)
                 ->delete();
 
             foreach ($add_to_menus_int as $value) {
@@ -1769,7 +1757,6 @@ class ContentManager
         return $new_item;
 
     }
-
 
 
     function breadcrumb($params = false)
@@ -2452,9 +2439,7 @@ class ContentManager
     public function homepage()
     {
 
-        return Content::where('is_home', 1)->where('is_deleted',0)->first();
-
-        
+        return Content::where('is_home', 1)->where('is_deleted', 0)->first();
 
 
         //@todo delete the rest
@@ -3260,7 +3245,7 @@ class ContentManager
             }
 
             if (defined('ACTIVE_PAGE_ID') == false) {
-                if(!isset($page['id'])){
+                if (!isset($page['id'])) {
                     $page['id'] = 0;
                 }
                 define('ACTIVE_PAGE_ID', $page['id']);
@@ -3851,8 +3836,6 @@ class ContentManager
         $stop = false;
 
 
-
-
         if ($stop == true) {
             return array('error' => 'You are not logged in as admin to save content!');
         }
@@ -3902,11 +3885,10 @@ class ContentManager
         }
 
 
-
         if (!isset($data['url']) and intval($data['id']) != 0) {
 
 
-            $q = Content::where('id',$data_to_save['id'])->first();;
+            $q = Content::where('id', $data_to_save['id'])->first();;
 
             $thetitle = $q['title'];
             $q = $q['url'];
@@ -4004,9 +3986,7 @@ class ContentManager
             $date123 = date("YmdHis");
 
 
-            $q = Content::where('url',$data['url'])->first();;
-
-
+            $q = Content::where('url', $data['url'])->first();;
 
 
             if (!empty($q)) {
@@ -4069,12 +4049,9 @@ class ContentManager
         }
 
 
-
-
-
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 1) {
             if ($adm == true) {
-                $q = Content::where('is_home',1)
+                $q = Content::where('is_home', 1)
                     ->update(array(
                         'is_home' => 0,
                     ));
@@ -4824,7 +4801,6 @@ class ContentManager
             return $content['title'];
         }
     }
-
 
 
     public function site_templates()

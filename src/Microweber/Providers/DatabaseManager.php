@@ -461,9 +461,10 @@ class DatabaseManager extends DbUtils
         $criteria['id'] = intval($criteria['id']);
         if (intval($criteria['id']) == 0) {
             $id_to_return = DB::table($table_assoc_name)->insert($criteria);
-
+            $id_to_return = $this->last_id($table);
         } else {
             $id_to_return = DB::table($table_assoc_name)->where('id', $criteria['id'])->update($criteria);
+            $id_to_return = $criteria['id'];
         }
 
         if ($id_to_return == false) {
