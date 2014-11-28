@@ -1685,14 +1685,11 @@ class ContentManager
             $add_to_menus_int = array();
             foreach ($add_to_menus as $value) {
                 if ($value == 'remove_from_all') {
-                    $sql = "DELETE FROM {$menus}
-                    WHERE
-                    item_type='menu_item'
-                    AND content_id={$content_id}
-				    ";
+                    Menu::where('content_id', $content_id)->where('item_type','menu_item')->delete();
+
 
                     $this->app->cache_manager->delete('menus');
-                    $q = $this->app->database_manager->q($sql);
+
                 }
 
                 $value = intval($value);
@@ -1725,17 +1722,15 @@ class ContentManager
         }
 
         if (isset($add_to_menus_int) and is_array($add_to_menus_int)) {
-            $add_to_menus_int_implode = implode(',', $add_to_menus_int);
-            $sql = "DELETE FROM {$menus}
-		WHERE parent_id NOT IN ($add_to_menus_int_implode)
-		AND item_type='menu_item'
-		AND content_id={$content_id}
-		";
 
-            $q = $this->app->database_manager->q($sql);
+
+            Menu::where('content_id', $content_id)
+                ->where('item_type','menu_item')
+            ->whereNotIn('parent_id', $add_to_menus_int)
+                ->delete();
 
             foreach ($add_to_menus_int as $value) {
-                $check = $this->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
+                $check = $this->app->menu_manager->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
                 if ($check == 0) {
                     $save = array();
                     $save['item_type'] = 'menu_item';
@@ -1745,7 +1740,7 @@ class ContentManager
                     //  $save['debug'] = 999999;
                     if ($add_under_parent_page != false and is_array($content_data) and isset($content_data['parent'])) {
                         $parent_cont = $content_data['parent'];
-                        $check_par = $this->get_menu_items("limit=1&one=1&content_id=$parent_cont");
+                        $check_par = $this->app->menu_manager->get_menu_items("limit=1&one=1&content_id=$parent_cont");
                         if (is_array($check_par) and isset($check_par['id'])) {
                             $save['parent_id'] = $check_par['id'];
                         }
@@ -1775,21 +1770,7 @@ class ContentManager
 
     }
 
-    public function get_menu_items($params = false)
-    {
-        $table = $this->tables['menus'];
-        $params2 = array();
-        if ($params == false) {
-            $params = array();
-        }
-        if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
-        }
-        $params['table'] = $table;
-        $params['item_type'] = 'menu_item';
-        return $this->app->database_manager->get($params);
-    }
+
 
     function breadcrumb($params = false)
     {
@@ -3869,79 +3850,7 @@ class ContentManager
         $orig_data = $data;
         $stop = false;
 
-        /* CODE MOVED TO $this->save_content_admin
 
-         if (defined('MW_API_CALL') and $checks != $table) {
-
-            if ($adm == false) {
-                $data = $this->app->format->strip_unsafe($data);
-                $stop = true;
-                $author_id = user_id();
-                if (isset($data['id']) and $data['id'] != 0 and $author_id != 0) {
-                    $page_data_to_check_author = $this->get_by_id($data['id']);
-                    if (!isset($page_data_to_check_author['created_by']) or ($page_data_to_check_author['created_by'] != $author_id)) {
-                        $stop = true;
-                        return array('error' => 'You dont have permission to edit this content');
-                    } else if (isset($page_data_to_check_author['created_by']) and ($page_data_to_check_author['created_by'] == $author_id)) {
-                        $stop = false;
-        }
-        }
-                if ($stop == true) {
-                    if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
-
-                        if (!isset($data['captcha'])) {
-                            if (isset($data['error_msg'])) {
-                                return array('error' => $data['error_msg']);
-                            } else {
-                                return array('error' => 'Please enter a captcha answer!');
-
-                    }
-                        } else {
-                            $cap = $this->app->user_manager->session_get('captcha');
-                            if ($cap == false) {
-                                return array('error' => 'You must load a captcha first!');
-                            }
-                            if ($data['captcha'] != $cap) {
-                                return array('error' => 'Invalid captcha answer!');
-                }
-            }
-        }
-    }
-
-
-                if (isset($data['categories'])) {
-                    $data['category'] = $data['categories'];
-                }
-                if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
-                    if (isset($data['category'])) {
-                        $cats_check = array();
-                        if (is_array($data['category'])) {
-                            foreach ($data['category'] as $cat) {
-                                $cats_check[] = intval($cat);
-                            }
-                        } else {
-                            $cats_check[] = intval($data['category']);
-                        }
-                        $check_if_user_can_publish = $this->app->category_manager->get('ids=' . implode(',', $cats_check));
-                        if (!empty($check_if_user_can_publish)) {
-                            $user_cats = array();
-                            foreach ($check_if_user_can_publish as $item) {
-                                if (isset($item["users_can_create_content"]) and $item["users_can_create_content"] == 'y') {
-                                    $user_cats[] = $item["id"];
-                                    $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item["id"]);
-                                }
-                            }
-                            if (!empty($user_cats)) {
-                                $stop = false;
-                                $data['categories'] = $user_cats;
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-        */
 
 
         if ($stop == true) {
@@ -3992,14 +3901,15 @@ class ContentManager
             $data_to_save['title'] = $data['title'];
         }
 
+
+
         if (!isset($data['url']) and intval($data['id']) != 0) {
 
-            $q = "SELECT * FROM $table WHERE id='{$data_to_save['id']}' ";
 
-            $q = $this->app->database_manager->query($q);
+            $q = Content::where('id',$data_to_save['id'])->first();;
 
-            $thetitle = $q[0]['title'];
-            $q = $q[0]['url'];
+            $thetitle = $q['title'];
+            $q = $q['url'];
             $theurl = $q;
         } else {
             if (isset($data['url'])) {
@@ -4093,9 +4003,11 @@ class ContentManager
 
             $date123 = date("YmdHis");
 
-            $q = "SELECT id, url FROM $table WHERE url LIKE '{$data['url']}'";
 
-            $q = $this->app->database_manager->query($q);
+            $q = Content::where('url',$data['url'])->first();;
+
+
+
 
             if (!empty($q)) {
 
@@ -4131,13 +4043,43 @@ class ContentManager
 
 
         $data_to_save_options = array();
-
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
+            $data_to_save['is_home'] = 1;
+        } elseif (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'n') {
+            $data_to_save['is_home'] = 0;
+        }
+
+
+        if (isset($data_to_save['is_shop']) and $data_to_save['is_shop'] == 'y') {
+            $data_to_save['is_shop'] = 1;
+        } elseif (isset($data_to_save['is_shop']) and $data_to_save['is_shop'] == 'n') {
+            $data_to_save['is_shop'] = 0;
+        }
+
+        if (isset($data_to_save['require_login']) and $data_to_save['require_login'] == 'y') {
+            $data_to_save['require_login'] = 1;
+        } elseif (isset($data_to_save['require_login']) and $data_to_save['require_login'] == 'n') {
+            $data_to_save['require_login'] = 0;
+        }
+
+        if (isset($data_to_save['is_active']) and $data_to_save['is_active'] == 'y') {
+            $data_to_save['is_active'] = 1;
+        } elseif (isset($data_to_save['is_active']) and $data_to_save['is_active'] == 'n') {
+            $data_to_save['is_active'] = 0;
+        }
+
+
+
+
+
+        if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 1) {
             if ($adm == true) {
-                $sql = "UPDATE $table SET is_home='n'   ";
-                $q = $this->app->database_manager->query($sql);
+                $q = Content::where('is_home',1)
+                    ->update(array(
+                        'is_home' => 0,
+                    ));
             } else {
-                $data_to_save['is_home'] = 'n';
+                $data_to_save['is_home'] = 0;
             }
         }
 
@@ -4316,8 +4258,8 @@ class ContentManager
         if (isset($data_to_save['id']) and intval($data_to_save['id']) == 0) {
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
 
-                $get_max_pos = "SELECT max(position) AS maxpos FROM $table  ";
-                $get_max_pos = $this->app->database_manager->query($get_max_pos);
+                $get_max_pos = Content::max('position');
+
                 if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos']))
 
 

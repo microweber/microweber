@@ -54,6 +54,17 @@ Route::any('apijs/{all}', array(
     'uses' => '\Microweber\Controllers\DefaultController@apijs'
 ))->where('all', '.*');
 
+Route::any('api_html/{all}', array(
+    'as' => 'api',
+    'uses' => '\Microweber\Controllers\DefaultController@api_html'
+))->where('all', '.*');;
+Route::any('/api_html', '\Microweber\Controllers\DefaultController@api_html');
+Route::any('/apijs_settings', '\Microweber\Controllers\DefaultController@apijs_settings');
+Route::any('apijs/{all}', array(
+    'as' => 'apijs',
+    'uses' => '\Microweber\Controllers\DefaultController@apijs'
+))->where('all', '.*');
+
 
 Route::any('/editor_tools', '\Microweber\Controllers\DefaultController@editor_tools');
 Route::any('editor_tools/{all}', array(

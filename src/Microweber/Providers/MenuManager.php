@@ -404,8 +404,6 @@ class MenuManager
         $res_count = 0;
 
 
-
-
         foreach ($q as $item) {
             $full_item = $item;
 
@@ -413,7 +411,7 @@ class MenuManager
             $url = '';
             $is_active = true;
             if (intval($item['content_id']) > 0) {
-                $cont = $this->get_by_id($item['content_id']);
+                $cont = $this->app->content_manager->get_by_id($item['content_id']);
                 if (is_array($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 'y') {
                     $is_active = false;
                     $cont = false;
@@ -710,7 +708,6 @@ class MenuManager
     }
 
 
-
     public function menu_item_delete($id = false)
     {
 
@@ -789,6 +786,7 @@ class MenuManager
         $this->app->cache_manager->delete('menus');
         return $return_res;
     }
+
     public function is_in_menu($menu_id = false, $content_id = false)
     {
         if ($menu_id == false or $content_id == false) {
@@ -804,6 +802,23 @@ class MenuManager
         } else {
             return false;
         }
+    }
+
+
+    public function get_menu_items($params = false)
+    {
+        $table = $this->tables['menus'];
+        $params2 = array();
+        if ($params == false) {
+            $params = array();
+        }
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+        $params['table'] = $table;
+        $params['item_type'] = 'menu_item';
+        return $this->app->database_manager->get($params);
     }
 }
 
