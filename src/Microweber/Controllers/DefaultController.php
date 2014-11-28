@@ -25,13 +25,10 @@ class DefaultController extends Controller
 
     public function index()
     {
-
-
         $is_installed = mw_is_installed();
         if (!$is_installed) {
             return $this->install();
         }
-
         return $this->frontend();
 
     }

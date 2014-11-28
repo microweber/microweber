@@ -2989,30 +2989,36 @@ class ContentManager
     public function homepage()
     {
 
+        return Content::where('is_home', 1)->where('is_deleted',0)->first();
 
-        $table = $this->tables['content'];
-
-
-        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
-
-        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-        //
-        $result = $q;
-        if ($result == false) {
-            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted='n' AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
-            $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-            $result = $q;
-
-        }
+        
 
 
-        if ($result != false) {
-            $content = $result[0];
-        }
+        //@todo delete the rest
 
-        if (isset($content)) {
-            return $content;
-        }
+//        $table = $this->tables['content'];
+//
+//
+//        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
+//
+//        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+//        //
+//        $result = $q;
+//        if ($result == false) {
+//            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted='n' AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
+//            $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+//            $result = $q;
+//
+//        }
+//
+//
+//        if ($result != false) {
+//            $content = $result[0];
+//        }
+//
+//        if (isset($content)) {
+//            return $content;
+//        }
     }
 
     public function save_content_admin($data, $delete_the_cache = true)

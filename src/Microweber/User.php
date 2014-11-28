@@ -17,6 +17,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	}
 
 	public function getIfAdminAttribute() {
+
 		return (bool)$this->is_admin;
 	}
 

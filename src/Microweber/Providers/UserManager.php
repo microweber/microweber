@@ -551,15 +551,14 @@ class UserManager
 
     public function is_admin()
     {
-        if(!mw_is_installed()) {
+
+        if (!mw_is_installed()) {
             return false;
         }
 
-        if(Auth::check()) {
+        if (Auth::check()) {
             return Auth::user()->ifAdmin;
         }
-
-        return false;
     }
 
     public function id()
