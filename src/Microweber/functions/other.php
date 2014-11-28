@@ -961,14 +961,14 @@ api_expose('system_log_reset');
 
 function system_log_reset($data = false)
 {
-    return mw('log')->reset();
+    return mw()->log_manager->reset();
 }
 
 api_expose('delete_log_entry');
 
 function delete_log_entry($data)
 {
-    return mw('log')->delete_entry($data);
+    return mw()->log_manager->delete_entry($data);
 }
 
 

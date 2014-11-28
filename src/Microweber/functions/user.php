@@ -22,8 +22,8 @@ function get_user_by_id($params = false)
 }
 
 
-if (!function_exists('csrf_token')) {
-    function csrf_token($form_name = false)
+if (!function_exists('mw_csrf_token')) {
+    function mw_csrf_token($form_name = false)
     {
         return mw()->user_manager->csrf_token($form_name);
     }

@@ -20,8 +20,7 @@ function api_expose_admin($function_name)
         $index .= ' ' . $function_name;
     }
 }
-
-
+ 
 
 function api_hook($function_name, $next_function_name = false)
 {

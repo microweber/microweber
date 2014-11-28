@@ -2,35 +2,41 @@
 
 namespace Microweber;
 
+    /**
+     * Application class
+     *
+     * Class that loads other classes
+     *
+     * @package Application
+     * @category Application
+     * @desc
+     */
 /**
- * @property \Microweber\Adapters $adapters
- * @property \Microweber\Url $url
- * @property \Microweber\Content $content
- * @property \Microweber\Category $category
- * @property \Microweber\Media $media
- * @property \Microweber\Shop $shop
- * @property \Microweber\Option $option
- * @property \Microweber\Cache $cache
- * @property \Microweber\User $user
- * @property \Microweber\Module $module
- * @property \Microweber\Providers\Database $database
- * @property \Microweber\Notifications $notifications
- * @property \Microweber\Layouts $layouts
- * @property \Microweber\Log $log
- * @property \Microweber\Parser $parser
- * @property \Microweber\Format $format
- * @property \Microweber\Fields $fields
- * @property \Microweber\Http $http
- * @property \Microweber\Template $template
- * @property \Microweber\Ui $ui
- * @property \Microweber\Orm $orm
- * @property \Microweber\Event $event
- * @property \Microweber\Validator $validator
+ * @property \Microweber\Utils\Url $url
+ * @property \Microweber\Utils\Format $format
+ * @property \Microweber\Providers\ContentManager $content_manager
+ * @property \Microweber\Providers\CategoryManager $category_manager
+ * @property \Microweber\Providers\MediaManager $media_manager
+ * @property \Microweber\Providers\ShopManager $shop_manager
+ * @property \Microweber\Providers\OptionManager $option_manager
+ * @property \Microweber\Providers\CacheManager $cache_manager
+ * @property \Microweber\Providers\UserManager $user_manager
+ * @property \Microweber\Providers\Modules $modules
+ * @property \Microweber\Providers\DatabaseManager $database_manager
+ * @property \Microweber\Providers\NotificationsManager $notifications_manager
+ * @property \Microweber\Providers\LayoutsManager $layouts_manager
+ * @property \Microweber\Providers\LogManager $log_manager
+ * @property \Microweber\Providers\FieldsManager $fields_manager
+ * @property \Microweber\Providers\NotificationsManager $notifications_manager
+ * @property \Microweber\Providers\Template $template
+ * @property \Microweber\Providers\Event $event_manager
+ * @property \Microweber\Providers\ConfigurationManager $config_manager
  */
-Abstract class Application
+class Application
 {
 
     public static $instance;
+
     public function __construct($params = null)
     {
         $instance = app();
@@ -55,20 +61,4 @@ Abstract class Application
     {
         return $this->make($property);
     }
-//
-//    function error($e, $f = false, $l = false)
-//    {
-//        if (!$this->url->is_ajax()) {
-//            $err = "Error: " . $e;
-//            if ($f != false) {
-//                $err = $err . "\nFile: " . $f;
-//            }
-//            if ($f != false) {
-//                $err = $err . "\nLine: " . $l;
-//            }
-//            throw new \Exception($err);
-//        } else {
-//            die($e);
-//        }
-//    }
 }

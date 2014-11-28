@@ -402,13 +402,13 @@ if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
 
 if (isset($_SERVER["CONTENT_LENGTH"]) and isset($_FILES['file'])) {
     $filename_log = mw()->url->slug($fileName);
-    $check = mw('log')->get("one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&user_ip=" . MW_USER_IP);
+    $check = mw()->log_manager->get("one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&user_ip=" . MW_USER_IP);
     $upl_size_log = $_SERVER["CONTENT_LENGTH"];
     if (is_array($check) and isset($check['id'])) {
         $upl_size_log = intval($upl_size_log) + intval($check['value']);
-        mw('log')->save("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . MW_USER_IP . "&id=" . $check['id']);
+        mw()->log_manager->save("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . MW_USER_IP . "&id=" . $check['id']);
     } else {
-        mw('log')->save("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . MW_USER_IP);
+        mw()->log_manager->save("no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&value=" . $upl_size_log . "&user_ip=" . MW_USER_IP);
     }
 }
 
@@ -480,8 +480,8 @@ if (isset($contentType)) {
 if (!$chunks || $chunk == $chunks - 1) {
     // Strip the temp .part suffix off
     rename("{$filePath}.part", $filePath);
-    mw('log')->delete("is_system=y&rel=uploader&created_on=[lt]30 min ago");
-    mw('log')->delete("is_system=y&rel=uploader&session_id=" . session_id());
+    mw()->log_manager->delete("is_system=y&rel=uploader&created_on=[lt]30 min ago");
+    mw()->log_manager->delete("is_system=y&rel=uploader&session_id=" . session_id());
 
 }
 $f_name = explode(DS, $filePath);
