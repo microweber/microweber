@@ -74,7 +74,7 @@ class UserManager
 
     public function is_admin()
     {
-       return true;
+       //return true;
         if (!mw_is_installed()) {
             return false;
         }
@@ -87,7 +87,7 @@ class UserManager
 
     public function id()
     {
-        return 1;
+        //return 1;
         if (Auth::check()) {
 
             return Auth::user()->id;
@@ -152,6 +152,11 @@ class UserManager
      * @function $this->login()
      * @see _table() For the database table fields
      */
+
+    public function session_id()
+    {
+        return Session::getId();
+    }
     public function login($params)
     {
 
@@ -175,7 +180,7 @@ class UserManager
 
         }
         Session::set('cat', 'Jerry');
-        return array('aaa' => 'ss!', 'tyka sam'=> __FILE__.__LINE__);
+        //return array('aaa' => 'ss!', 'tyka sam'=> __FILE__.__LINE__);
 
         $this->login_set_failed_attempt();
         return array('error' => 'Please enter right username and password!');

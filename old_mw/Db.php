@@ -2130,12 +2130,12 @@ class Db
 
 
         if (!isset($user_session['user_id'])) {
-            $user_sid = session_id();
+            $user_sid = mw()->users_manager->session_id();
 
         } else {
             if (intval($user_session['user_id']) == 0) {
                 unset($user_session['user_id']);
-                $user_sid = session_id();
+                $user_sid = mw()->users_manager->session_id();
             }
         }
 
@@ -2148,7 +2148,7 @@ class Db
             if ($user_sid != false) {
                 $data['session_id'] = $user_sid;
             } else {
-                $data['session_id'] = session_id();
+                $data['session_id'] = mw()->users_manager->session_id();
             }
         } elseif (isset($data['session_id'])) {
             //$user_sid = $data['session_id'] ;

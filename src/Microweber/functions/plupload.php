@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($_SESSION) or empty($_SESSION)) {
-    // session_start();
+    // //session_start();
 }
 $validate_token = false;
 if (!isset($_SERVER['HTTP_REFERER'])) {
@@ -481,7 +481,7 @@ if (!$chunks || $chunk == $chunks - 1) {
     // Strip the temp .part suffix off
     rename("{$filePath}.part", $filePath);
     mw()->log_manager->delete("is_system=y&rel=uploader&created_on=[lt]30 min ago");
-    mw()->log_manager->delete("is_system=y&rel=uploader&session_id=" . session_id());
+    mw()->log_manager->delete("is_system=y&rel=uploader&session_id=" . mw()->users_manager->session_id());
 
 }
 $f_name = explode(DS, $filePath);

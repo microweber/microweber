@@ -1820,7 +1820,7 @@ class User
                 session_regenerate_id();
                 session_set_cookie_params(86400);
                 ini_set('session.gc_maxlifetime', 86400);
-                session_start();
+                //session_start();
                 $_SESSION['ip'] = MW_USER_IP;
 
 
@@ -1873,8 +1873,8 @@ class User
         if (!defined('MW_NO_SESSION')) {
             if (!headers_sent()) {
                 if (!isset($_SESSION)) {
-                    session_start();
-                    $start = session_id();
+                    //session_start();
+                    $start = mw()->users_manager->session_id();
 
                     if ($start == false) {
 
@@ -1882,17 +1882,17 @@ class User
                         $is_ajax = $this->app->url->is_ajax();
 
                         try {
-                            $start = session_start();
+                            $start = //session_start();
                         } catch (ErrorExpression $e) {
                             if ($is_ajax == false) {
                                 session_regenerate_id();
-                                $start = session_id();
+                                $start = mw()->users_manager->session_id();
                             }
                         }
                         if ($start == false and $is_ajax == false) {
                             session_write_close(); //now close it,
                             session_regenerate_id();
-                            $start = session_id();
+                            $start = mw()->users_manager->session_id();
                         }
                     }
                     $_SESSION['ip'] = MW_USER_IP;

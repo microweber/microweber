@@ -253,13 +253,13 @@ class Shop
 
     public function checkout($data)
     {
-        if (!session_id() and !headers_sent()) {
-            session_start();
+        if (!mw()->users_manager->session_id() and !headers_sent()) {
+            //session_start();
         }
 
 
         $exec_return = false;
-        $sid = session_id();
+        $sid = mw()->users_manager->session_id();
         $cart = array();
         $cart_table = $this->tables['cart'];
         $table_orders = $this->tables['cart_orders'];
@@ -307,7 +307,7 @@ class Shop
             //d($_REQUEST);
             $exec_return = true;
         } else if (isset($_REQUEST['mw_payment_failure']) and intval($_REQUEST['mw_payment_failure']) == 1) {
-            $cur_sid = session_id();
+            $cur_sid = mw()->users_manager->session_id();
 
             if ($cur_sid != false) {
                 $ord_id = $_SESSION['order_id'];
@@ -623,7 +623,7 @@ class Shop
                 if ($order_email_content != false and trim($order_email_subject) != '') {
 
                     if (!empty($ord_data)) {
-                        $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . session_id());
+                        $cart_items = $this->get_cart('fields=title,qty,price,custom_fields_data&order_id=' . $ord_data['id'] . '&session_id=' . mw()->users_manager->session_id());
 
                         $order_items_html = $this->app->format->array_to_ul($cart_items);
                         $order_email_content = str_replace('{cart_items}', $order_items_html, $order_email_content);
@@ -751,17 +751,17 @@ class Shop
         if ($skip_sid == false) {
             if (!defined('MW_ORDERS_SKIP_SID')) {
                 if ($this->app->user_manager->is_admin() == false) {
-                    $params['session_id'] = session_id();
+                    $params['session_id'] = mw()->users_manager->session_id();
                 } else {
                     if (isset($params['session_id']) and $this->app->user_manager->is_admin() == true) {
 
                     } else {
-                        $params['session_id'] = session_id();
+                        $params['session_id'] = mw()->users_manager->session_id();
                     }
                 }
                 if (isset($params['no_session_id']) and $this->app->user_manager->is_admin() == true) {
                     unset($params['session_id']);
-                    //	$params['session_id'] = session_id();
+                    //	$params['session_id'] = mw()->users_manager->session_id();
                 } else {
 
                 }
@@ -775,7 +775,7 @@ class Shop
         } elseif (isset($params['order_completed']) and $params['order_completed'] == 'any') {
             unset($params['order_completed']);
         }
-        // $params['debug'] = session_id();
+        // $params['debug'] = mw()->users_manager->session_id();
         if ($this->no_cache == true) {
             $params['no_cache'] = 1;
         }
@@ -814,10 +814,10 @@ class Shop
             return;
         }
 
-        if (!session_id() and !headers_sent()) {
-            session_start();
+        if (!mw()->users_manager->session_id() and !headers_sent()) {
+            //session_start();
         }
-        $cur_sid = session_id();
+        $cur_sid = mw()->users_manager->session_id();
 
         if ($cur_sid == false) {
             return;
@@ -978,11 +978,11 @@ class Shop
 
     public function cart_sum($return_amount = true)
     {
-        if (!session_id() and !headers_sent()) {
-            session_start();
+        if (!mw()->users_manager->session_id() and !headers_sent()) {
+            //session_start();
         }
 
-        $sid = session_id();
+        $sid = mw()->users_manager->session_id();
         $different_items = 0;
         $amount = floatval(0.00);
         $cart = $this->tables['cart'];
@@ -1145,7 +1145,7 @@ class Shop
         if (defined('MW_API_CALL') and $this->app->user_manager->is_admin() == false) {
 
             if (!isset($params['payment_verify_token'])) {
-                $params['session_id'] = session_id();
+                $params['session_id'] = mw()->users_manager->session_id();
             }
 
         }
@@ -1169,14 +1169,14 @@ class Shop
         if (!isset($data['id'])) {
             $this->app->error('Invalid data');
         }
-        if (!session_id() and !headers_sent()) {
-            session_start();
+        if (!mw()->users_manager->session_id() and !headers_sent()) {
+            //session_start();
         }
         $cart = array();
         $cart['id'] = intval($data['id']);
 
         if ($this->app->user_manager->is_admin() == false) {
-            $cart['session_id'] = session_id();
+            $cart['session_id'] = mw()->users_manager->session_id();
         }
         $cart['order_completed'] = 'n';
 
@@ -1202,14 +1202,14 @@ class Shop
         if (!isset($data['qty'])) {
             $this->app->error('Invalid data');
         }
-        if (!session_id() and !headers_sent()) {
-            session_start();
+        if (!mw()->users_manager->session_id() and !headers_sent()) {
+            //session_start();
         }
         $cart = array();
         $cart['id'] = intval($data['id']);
 
         //if ($this->app->user_manager->is_admin() == false) {
-        $cart['session_id'] = session_id();
+        $cart['session_id'] = mw()->users_manager->session_id();
         //}
         $cart['order_completed'] = 'n';
         $cart['one'] = 1;
@@ -1233,8 +1233,8 @@ class Shop
     public function update_cart($data)
     {
 
-        if (!session_id() and !headers_sent()) {
-            session_start();
+        if (!mw()->users_manager->session_id() and !headers_sent()) {
+            //session_start();
         }
 
         if (isset($data['content_id'])) {
@@ -1460,7 +1460,7 @@ class Shop
             $cart['price'] = floatval($found_price);
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
             $cart['order_completed'] = 'n';
-            $cart['session_id'] = session_id();
+            $cart['session_id'] = mw()->users_manager->session_id();
             $cart['limit'] = 1;
             $check_cart = $this->get_cart($cart);
             if ($check_cart != false and is_array($check_cart) and isset($check_cart[0])) {
@@ -1529,7 +1529,7 @@ class Shop
 
     function empty_cart()
     {
-        $sid = session_id();
+        $sid = mw()->users_manager->session_id();
         $cart_table = $this->tables['cart'];
 
         $q = " DELETE FROM $cart_table WHERE
@@ -1547,10 +1547,10 @@ class Shop
 
     public function checkout_ipn($data)
     {
-        if (!session_id() and !headers_sent()) {
-            //	session_start();
+        if (!mw()->users_manager->session_id() and !headers_sent()) {
+            //	//session_start();
         }
-        //$sid = session_id();
+        //$sid = mw()->users_manager->session_id();
 
         // if (isset($_GET) and !empty($_GET) and !empty($_POST)) {
         // $data = $_REQUEST;

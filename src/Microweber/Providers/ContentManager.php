@@ -4442,7 +4442,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
         }
         $custom_field_table = $this->tables['custom_fields'];
 
-        $sid = session_id();
+        $sid = mw()->users_manager->session_id();
         $media_table = $this->tables['media'];
 
         if ($sid != false and $sid != '' and $id != false) {
@@ -4836,17 +4836,17 @@ if(isset($_SERVER['HTTP_REFERER'])){
     public function ping()
     {
 
-        if (!is_object($this->pinger)) {
-            if (!isset($this->app->adapters->container['content_ping'])) {
-                $app = $this->app;
-                $this->app->adapters->container['content_ping'] = function ($c) use ($app) {
-                    return new Adapters\Ping\SearchEngines($app);
-                };
-            }
-            $this->pinger = $this->app->adapters->container['content_ping'];
-        }
-
-        return $this->pinger->ping();
+//        if (!is_object($this->pinger)) {
+//            if (!isset($this->app->adapters->container['content_ping'])) {
+//                $app = $this->app;
+//                $this->app->adapters->container['content_ping'] = function ($c) use ($app) {
+//                    return new Adapters\Ping\SearchEngines($app);
+//                };
+//            }
+//            $this->pinger = $this->app->adapters->container['content_ping'];
+//        }
+//
+//        return $this->pinger->ping();
 
 
     }

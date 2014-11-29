@@ -227,7 +227,7 @@ class Fields
             $data_to_save['options'] = $this->app->format->array_to_base64($data['options']);
         }
 
-        $data_to_save['session_id'] = session_id();
+        $data_to_save['session_id'] = mw()->users_manager->session_id();
         if (!isset($data_to_save['custom_field_type']) and isset($data_to_save['type'])) {
             $data_to_save['custom_field_type'] = $data_to_save['type'];
         } else if (isset($data_to_save['custom_field_type'])) {
@@ -463,7 +463,7 @@ class Fields
             $sidq = '';
             if (intval($id) == 0 and $for_session != false) {
                 if (is_admin() != false) {
-                    $sid = session_id();
+                    $sid = mw()->users_manager->session_id();
                     $params['session_id'] = $sid;
                 }
             }

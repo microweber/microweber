@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 use Module;
+use \Session;
 
 class AdminController extends Controller
 {
