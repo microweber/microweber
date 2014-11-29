@@ -74,7 +74,7 @@ class UserManager
 
     public function is_admin()
     {
-        return true;
+       return true;
         if (!mw_is_installed()) {
             return false;
         }
@@ -87,36 +87,15 @@ class UserManager
 
     public function id()
     {
-
+        return 1;
         if (Auth::check()) {
 
             return Auth::user()->id;
         }
         return false;
 
-        //@todo remove
 
 
-        if (defined('USER_ID')) {
-            return USER_ID;
-        } else {
-
-            $user_session = $this->session_get('user_session');
-            if ($user_session == FALSE) {
-                return false;
-            }
-            $res = false;
-            if (isset($user_session['user_id'])) {
-                $res = $user_session['user_id'];
-            }
-
-
-            if ($res != false) {
-                // $res = $sess->get ( 'user_id' );
-                define("USER_ID", $res);
-            }
-            return $res;
-        }
     }
 
     /**
@@ -183,8 +162,7 @@ class UserManager
             'password' => $params['password']
         ]);
 
-        Session::set('cat', 'Jerry');
-        return array('aaa' => 'ss!', 'tyka sam'=> __FILE__.__LINE__);
+
 
         if ($ok) {
 
@@ -196,7 +174,8 @@ class UserManager
             }
 
         }
-
+        Session::set('cat', 'Jerry');
+        return array('aaa' => 'ss!', 'tyka sam'=> __FILE__.__LINE__);
 
         $this->login_set_failed_attempt();
         return array('error' => 'Please enter right username and password!');

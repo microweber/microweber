@@ -648,5 +648,41 @@ class DatabaseManager extends DbUtils
         return $c_id;
     }
 
+    /**
+     * Get table row by id
+     *
+     * It returns full db row from a db table
+     *
+     * @param string $table Your table
+     * @param int|string $id The id to get
+     * @param string $field_name You can set custom column to get by it, default is id
+     *
+     * @return array|bool|mixed
+     * @example
+     * <code>
+     * //get content with id 5
+     * $cont = $this->get_by_id('content', $id=5);
+     * </code>
+     *
+     * @package Database
+     * @subpackage Advanced
+     */
+    public function get_by_id($table, $id = 0, $field_name = 'id')
+    {
+        $id = intval($id);
+        if ($id == 0) {
+            return false;
+        }
+
+        if ($field_name == false) {
+            $field_name = "id";
+        }
+        $table = $this->assoc_table_name($table);
+        $q = DB::table($table)->where($field_name, '=', $id)->first();
+        return $q;
+
+
+    }
+
 
 }

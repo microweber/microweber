@@ -884,7 +884,7 @@ class FieldsManager
         $data = $this->app->url->replace_site_url_back($data);
 
 
-        $dir = MW_INCLUDES_DIR;
+        $dir = mw_includes_path();
         $dir = $dir . DS . 'custom_fields' . DS;
         $field_type = str_replace('..', '', $field_type);
         $load_from_theme = false;

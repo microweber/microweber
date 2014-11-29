@@ -26,8 +26,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Cache\Repository;
 
-
-include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
+if (!defined('MW_VERSION')) {
+    include_once(__DIR__ . DIRECTORY_SEPARATOR . 'functions' . DIRECTORY_SEPARATOR . 'bootstrap.php');
+}
 
 class MicroweberServiceProvider extends ServiceProvider
 {

@@ -577,6 +577,8 @@ class Database
     }
 
 
+
+
     /**
      * Gets all field names from a DB table
      *

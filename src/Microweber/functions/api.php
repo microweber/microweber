@@ -20,9 +20,9 @@ function api_expose_admin($function_name)
         $index .= ' ' . $function_name;
     }
 }
- 
 
-function api_hook($function_name, $next_function_name = false)
+
+function api_hook($function_name, $callback = false)
 {
     static $mw_api_hooks;
     if (is_bool($function_name)) {
@@ -33,7 +33,7 @@ function api_hook($function_name, $next_function_name = false)
 
     } else {
         $function_name = trim($function_name);
-        $mw_api_hooks[$function_name][] = $next_function_name;
+        $mw_api_hooks[$function_name][] = $callback;
 
     }
 }
