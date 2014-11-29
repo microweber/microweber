@@ -608,7 +608,7 @@ class Media
     public function thumbnail_img($params)
     {
         if (isset($_SESSION) and !empty($_SESSION)) {
-            //session_write_close();
+            ////session_write_close();
         }
         extract($params);
 

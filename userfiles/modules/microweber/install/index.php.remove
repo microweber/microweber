@@ -485,7 +485,7 @@ if (isset($to_save['is_installed'])) {
                 __mw_install_log('done');
 
             }
-            @session_write_close();
+            // @//session_write_close();
             exit();
 
             //var_dump($_REQUEST);

@@ -251,8 +251,9 @@ class DefaultController extends Controller
 
         if (defined('TEMPLATE_DIR')) {
             $load_template_functions = TEMPLATE_DIR . 'functions.php';
-
             if (is_file($load_template_functions)) {
+
+
                 include_once($load_template_functions);
             }
         }
@@ -436,7 +437,7 @@ class DefaultController extends Controller
 
                         print($res);
                     }
-                    exit();
+                    return;
                 }
 
                 break;
@@ -456,7 +457,7 @@ class DefaultController extends Controller
 
                     if($res != false){
                         print json_encode($res);
-                        exit();
+                      return;
                     }
 
 
@@ -567,6 +568,7 @@ class DefaultController extends Controller
 
                                 if (!defined('MW_API_HTML_OUTPUT')) {
                                     if (!headers_sent()) {
+
                                         header('Content-Type: application/json');
                                     }
                                     print json_encode($res);
@@ -575,7 +577,7 @@ class DefaultController extends Controller
                                     print($res);
                                 }
 
-                                exit();
+                                return;
                             }
 
                         } else {
@@ -720,7 +722,8 @@ class DefaultController extends Controller
             if (isset($res)) {
                 if (!defined('MW_API_HTML_OUTPUT')) {
                     if (!headers_sent()) {
-                        header('Content-Type: application/json');
+
+                        //header('Content-Type: application/json');
                         print json_encode($res);
                     }
                 } else {
@@ -731,7 +734,7 @@ class DefaultController extends Controller
                     }
                 }
             }
-            exit();
+          return;
         }
         // exit ( $api_function );
     }

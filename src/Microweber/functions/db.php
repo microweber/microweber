@@ -10,6 +10,6 @@ function get_table_prefix(){
 
 function get($params){
     $DbModel = new DbModel();
-    return  $DbModel->dsd($params);
+    return  $DbModel->items($params);
 
 }

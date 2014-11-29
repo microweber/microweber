@@ -481,7 +481,7 @@ if (!$chunks || $chunk == $chunks - 1) {
     // Strip the temp .part suffix off
     rename("{$filePath}.part", $filePath);
     mw()->log_manager->delete("is_system=y&rel=uploader&created_on=[lt]30 min ago");
-    mw()->log_manager->delete("is_system=y&rel=uploader&session_id=" . mw()->users_manager->session_id());
+    mw()->log_manager->delete("is_system=y&rel=uploader&session_id=" . mw()->user_manager->session_id());
 
 }
 $f_name = explode(DS, $filePath);
@@ -498,7 +498,7 @@ if (isset($upl_size_log) and $upl_size_log > 0) {
 
 print json_encode($rerturn);
 if (isset($_SESSION) and !empty($_SESSION)) {
-    @session_write_close();
+    // @//session_write_close();
 
 }
 

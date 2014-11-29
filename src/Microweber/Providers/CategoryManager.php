@@ -1263,7 +1263,7 @@ class CategoryManager
 
     public function save($data, $preserve_cache = false)
     {
-        $sid = mw()->users_manager->session_id();
+        $sid = mw()->user_manager->session_id();
         $adm = $this->app->user_manager->is_admin();
         if ($adm == false) {
             if (defined('MW_API_CALL')) {

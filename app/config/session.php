@@ -2,7 +2,7 @@
 
 return array(
 
-	'driver' => 'file',
+	'driver' => 'database',
 
 	'lifetime' => 120,
 
@@ -20,7 +20,7 @@ return array(
 
 	'path' => '/',
 
-	'domain' => null,
+	'domain' => 'testing1.com',
 
 	'secure' => false,
 

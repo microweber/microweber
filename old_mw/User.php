@@ -1242,7 +1242,7 @@ class User
             );
         }
         session_destroy();
-        //session_write_close();
+        ////session_write_close();
         unset($_SESSION);
 
     }
@@ -1890,7 +1890,7 @@ class User
                             }
                         }
                         if ($start == false and $is_ajax == false) {
-                            session_write_close(); //now close it,
+                            //session_write_close(); //now close it,
                             session_regenerate_id();
                             $start = mw()->users_manager->session_id();
                         }

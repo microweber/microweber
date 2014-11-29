@@ -28,7 +28,6 @@ class AdminController extends Controller
             App::abort(403, 'Unauthorized action. Microweber is not installed.');
         }
 
-
         /////////////////////////////////
 
         if (!defined('MW_BACKEND')) {

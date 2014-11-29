@@ -4442,7 +4442,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
         }
         $custom_field_table = $this->tables['custom_fields'];
 
-        $sid = mw()->users_manager->session_id();
+        $sid = mw()->user_manager->session_id();
         $media_table = $this->tables['media'];
 
         if ($sid != false and $sid != '' and $id != false) {

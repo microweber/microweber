@@ -48,6 +48,8 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function register()
     {
+        \App::after(function(){
+        });
 
         $this->app->bind('config', function ($app) {
             return new Providers\SaveConfig($app->getConfigLoader(), $app->environment());
@@ -177,7 +179,7 @@ class MicroweberServiceProvider extends ServiceProvider
         if (!$is_installed) {
             return;
         }
-        $modules = load_all_functions_files_for_modules();
+       $modules = load_all_functions_files_for_modules();
 
 
     }

@@ -3,7 +3,7 @@
 class DbModel extends BaseModel
 {
 
-    private $table = '';
+    protected $table = '';
 
     // called once when Post is first used
     public static function boot()

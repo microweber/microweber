@@ -82,7 +82,7 @@ event_bind('mw_frontend', function () {
         if (isset($_COOKIE['mw_remote_hash']) and $_COOKIE['mw_remote_hash'] != false) {
 
 
-            if (!mw()->users_manager->session_id()) {
+            if (!mw()->user_manager->session_id()) {
                 // //session_start();
             }
             $found_user = false;
