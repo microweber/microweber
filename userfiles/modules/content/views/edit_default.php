@@ -23,7 +23,7 @@ $edit_page_info = $data;;
 				if(isset($data['id']) and intval($data['id']) == 0 and isset($data['parent']) and intval($data['parent']) != 0){
 					$parent_data = get_content_by_id($data['parent']);
 					if(is_array($parent_data) and isset($parent_data['is_active']) and ($parent_data['is_active']) == 'n'){
-						$data['is_active'] = 'n';
+						$data['is_active'] = 0;
 					}
 				}
 				  

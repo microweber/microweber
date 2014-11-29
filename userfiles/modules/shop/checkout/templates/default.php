@@ -82,7 +82,7 @@ description: Default cart template
   <div class="alert hide"></div>
   <div class="mw-cart-action-holder">
     <hr/>
-    <?php $shop_page = get_content('is_shop=y');      ?>
+    <?php $shop_page = get_content('is_shop=0');      ?>
     <button class="btn btn-warning pull-right mw-checkout-btn"
                     onclick="mw.cart.checkout('#checkout_form_<?php print $params['id'] ?>');"
                     type="button">

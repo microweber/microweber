@@ -260,9 +260,9 @@ class Category
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
                 $table_assoc_name = $this->app->database_manager->assoc_table_name($params['for']);
                 $skip123 = true;
-                $str0 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
+                $str0 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
                 $cat_get_params = array();
-                $cat_get_params['is_deleted'] = 'n';
+                $cat_get_params['is_deleted'] = 0;
                 $cat_get_params['order_by'] = 'position asc';
                 $cat_get_params['limit'] = '1000';
                 $cat_get_params['data_type'] = 'category';
@@ -290,7 +290,7 @@ class Category
 
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
                 $skip123 = true;
-                $str1 = 'no_cache=true&is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
+                $str1 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
                 $fors1 = $this->app->database_manager->get($str1);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
@@ -327,7 +327,7 @@ class Category
             $skip123 = true;
             $users_can_create_content_q = false;
             $cat_get_params = array();
-            $cat_get_params['is_deleted'] = 'n';
+            $cat_get_params['is_deleted'] = 0;
             $cat_get_params['order_by'] = 'position asc';
             $cat_get_params['limit'] = '1000';
             $cat_get_params['data_type'] = 'category';
@@ -339,7 +339,7 @@ class Category
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
 
-            //$str0 = 'is_deleted=n&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
+            //$str0 = 'is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
             $fors = $this->app->database_manager->get($cat_get_params);
             //  d($fors);
 

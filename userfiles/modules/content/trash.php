@@ -72,7 +72,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 
 
 $post_params = array();
-$post_params['is_deleted'] = 'y';
+$post_params['is_deleted'] = 1;
 $post_params['limit'] = 250;
 
 $content   =$data = get_content($post_params);

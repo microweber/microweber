@@ -337,8 +337,8 @@ if (isset($params['title'])) {
     unset($post_params['title']);
 }
 
-$post_params['is_active'] = 'y';
-$post_params['is_deleted'] = 'n';
+$post_params['is_active'] = 1;
+$post_params['is_deleted'] = 0;
 
 if (((!isset($post_params['parent']) and !isset($post_params['category'])
         or isset($post_params['category']) and empty($post_params['category']))

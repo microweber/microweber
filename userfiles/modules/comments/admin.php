@@ -129,7 +129,7 @@ $(document).ready(function(){
                         value="current_post" <?php if ($display_comments_from_which_post == 'current_post'): ?> selected="selected" <?php endif ?>>
             <?php _e("Current Post"); ?>
             </option>
-            <?php $posts = get_posts("is_active=y&limit=1000"); $html = ''; ?>
+            <?php $posts = get_posts("is_active=1&limit=1000"); $html = ''; ?>
             <?php
                     foreach ($posts as $post) {
                         $sel_html = '';

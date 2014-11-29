@@ -66,7 +66,7 @@ $posts = array();
 <?php
     if($params['page-id'] == 'global'){
        if(isset($params['is_shop']) and $params['is_shop'] == 'y'){
-         $page_info = get_content('limit=1&one=1&content_type=page&is_shop=y');
+         $page_info = get_content('limit=1&one=1&content_type=page&is_shop=0');
        }
        else {
          $page_info = false;

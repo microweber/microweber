@@ -100,7 +100,7 @@ complete_order = window.complete_order || function(){
         <div class="mw-cart-action-holder">
 
 
-            <?php $shop_page = get_content('is_shop=y');      ?>
+            <?php $shop_page = get_content('is_shop=0');      ?>
 
              <?php if (is_array($shop_page)): ?>
                 <a href="<?php print page_link($shop_page[0]['id']); ?>"

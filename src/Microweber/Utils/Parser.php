@@ -32,8 +32,10 @@ class Parser
 
             $this->app = mw();
 
+        } else {
+            $this->app =$app;
         }
-        $this->app = $app;
+
 
     }
 
@@ -633,6 +635,8 @@ class Parser
                         $get_global = false;
                         $data_id = intval($data_id);
                         $data = $this->app->content_manager->get_by_id($data_id);
+
+
                     } else if ($rel == 'page') {
                         if (!isset($data_id) or $data_id == false) {
                             $data_id = PAGE_ID;

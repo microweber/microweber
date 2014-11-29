@@ -66,7 +66,7 @@ class Users extends \Microweber\User
                 //  $data['oauth_uid'] = '[null]';
                 //  $data['oauth_provider'] = '[null]';
                 $data['one'] = true;
-                // $data ['is_active'] = 'y';
+                // $data ['is_active'] = 1;
                 $user_data = $this->get_all($data);
                 if (empty($user_data)) {
                     $data = array();
@@ -75,14 +75,14 @@ class Users extends \Microweber\User
                     // $data['oauth_uid'] = '[null]';
                     // $data['oauth_provider'] = '[null]';
                     $data['one'] = true;
-                    // $data ['is_active'] = 'y';
+                    // $data ['is_active'] = 1;
                     $user_data = $this->get_all($data);
                 }
                 if (empty($user_data)) {
                     $data = array();
                     $data['username'] = $email;
                     $data['password'] = $pass;
-                    $data['is_active'] = 'n';
+                    $data['is_active'] = 0;
                     $table = get_table_prefix() . 'users';
                     $q = " INSERT INTO  $table SET email='$email',  password='$pass',   is_active='y' ";
                     $next = $this->app->database_manager->last_id($table);
@@ -154,7 +154,7 @@ class Users extends \Microweber\User
      * and pass its params to save_user();
      *
      *
-     * @param  $params['is_active'] = 'y'; //default is 'n'
+     * @param  $params['is_active'] = 1; //default is 'n'
      * @usage
      *
      * $upd = array();
@@ -463,7 +463,7 @@ class Users extends \Microweber\User
 
                         $data_to_save['email'] = $authenticate['emailVerified'];
                         $data_to_save['user_information'] = $authenticate['description'];
-                        $data_to_save['is_active'] = 'y';
+                        $data_to_save['is_active'] = 1;
                         $data_to_save['is_admin'] = 'n';
 
                         $table = MW_DB_TABLE_USERS;

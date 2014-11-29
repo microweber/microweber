@@ -65,7 +65,7 @@ if ($o != false and intval($o) > 0) {
 
 
 if (is_admin() == false) {
-    $params['is_active'] = 'y';
+    $params['is_active'] = 1;
 }
 
 ?><?php
@@ -82,7 +82,7 @@ $params['return_data'] = true;
         </div>
     </div>
 <?php endif; ?>
-<?php $is_del = get_content('count=1&is_deleted=y'); ?>
+<?php $is_del = get_content('count=1&is_deleted=1'); ?>
 
 
 <ul class="pages_tree pages_trash_holder depth-1">

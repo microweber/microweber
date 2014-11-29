@@ -28,7 +28,7 @@ if($id == 0){
 	} else {
 		$data['categories_id'] = $params['categories_id'];
 	}
-	$data['is_active'] = 'y';
+	$data['is_active'] = 1;
 	$data['position'] = '9999';
 	$data['url'] = '';
 	$data['title'] = '';

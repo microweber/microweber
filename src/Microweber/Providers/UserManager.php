@@ -264,7 +264,7 @@ class UserManager
                 $data1['username'] = $user;
                 $data1['password'] = $pass;
                 $data1['search_in_fields'] = 'username,email,password';
-                $data1['is_active'] = 'y';
+                $data1['is_active'] = 1;
 
 
             }
@@ -292,7 +292,7 @@ class UserManager
 
                     $data['email'] = $email;
                     $data['password'] = $pass;
-                    $data['is_active'] = 'y';
+                    $data['is_active'] = 1;
 
 
                     $data['search_in_fields'] = 'password,email';
@@ -321,7 +321,7 @@ class UserManager
                     $data = array();
                     $data['email'] = $user;
                     $data['password'] = $pass;
-                    $data['is_active'] = 'y';
+                    $data['is_active'] = 1;
 
 
                     $data = $this->get_all($data);
@@ -703,7 +703,7 @@ class UserManager
                 } else {
                     $data = array();
                     $data['api_key'] = $api_key;
-                    $data['is_active'] = 'y';
+                    $data['is_active'] = 1;
                     $data['limit'] = 1;
 
                     $data = $this->get_all($data);
@@ -795,7 +795,7 @@ class UserManager
                 // $data['oauth_provider'] = '[null]';
                 $data['one'] = true;
                 $data['no_cache'] = true;
-                // $data ['is_active'] = 'y';
+                // $data ['is_active'] = 1;
                 $user_data = $this->get_all($data);
 
 
@@ -808,7 +808,7 @@ class UserManager
                     //  $data['oauth_provider'] = '[null]';
                     $data['one'] = true;
                     $data['no_cache'] = true;
-                    // $data ['is_active'] = 'y';
+                    // $data ['is_active'] = 1;
                     $user_data = $this->get_all($data);
                 }
 
@@ -819,7 +819,7 @@ class UserManager
 
                     $data['username'] = $email;
                     $data['password'] = $pass;
-                    $data['is_active'] = 'n';
+                    $data['is_active'] = 0;
 
                     //   $table = get_table_prefix() . 'users';
                     $table = $this->tables['users'];
@@ -829,7 +829,7 @@ class UserManager
                     $reg['username'] = $user;
                     $reg['email'] = $email;
                     $reg['password'] = $pass2;
-                    $reg['is_active'] = 'y';
+                    $reg['is_active'] = 1;
                     $reg['first_name'] = $first_name;
                     $reg['last_name'] = $first_name;
 
@@ -957,7 +957,7 @@ class UserManager
      * and pass its params to save_user();
      *
      *
-     * @param  $params ['is_active'] = 'y'; //default is 'n'
+     * @param  $params ['is_active'] = 1; //default is 'n'
      * @usage
      *
      * $upd = array();
@@ -1368,7 +1368,7 @@ class UserManager
 
                         $data_to_save['email'] = $authenticate['emailVerified'];
                         $data_to_save['user_information'] = $authenticate['description'];
-                        $data_to_save['is_active'] = 'y';
+                        $data_to_save['is_active'] = 1;
                         $data_to_save['is_admin'] = 'n';
 
                         $table = $this->tables['users'];

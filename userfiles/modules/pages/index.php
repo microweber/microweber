@@ -68,7 +68,7 @@ if (isset($params['parent']) and $params['parent'] != 0) {
 	//$params['parent'] = $params['parent'];
 }
  
- $params['is_active'] = 'y';
+ $params['is_active'] = 1;
  
 //  d($params);
 // loading the module template

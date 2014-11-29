@@ -413,7 +413,7 @@ class Db
      * @example
      * <code>
      * //example updates the is_active flag of all content
-     * mass_save("table=content&is_active=n", 'is_active=y');
+     * mass_save("table=content&is_active=0", 'is_active=1');
      * </code>
      */
     public function mass_save($get_params, $save_params = false)
@@ -498,7 +498,7 @@ class Db
      * @example
      * <code>
      * //get content
-     *  $results = $this->get("table=content&is_active=y");
+     *  $results = $this->get("table=content&is_active=1");
      * </code>
      *
      * @example

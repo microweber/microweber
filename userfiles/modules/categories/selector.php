@@ -44,7 +44,7 @@ $active_cats = array();
 if(isset($params['data-subtype']) and $params['data-subtype'] == 'product'){
 	$params['is_shop'] = 'y';
 } else {
- 	//$params['is_shop'] = 'n';
+ 	//$params['is_shop'] = 0;
 }
 
 
@@ -79,9 +79,9 @@ $for = mw()->database_manager->assoc_table_name($for);
 
 
 if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
-  $is_ex = get_content('content_type=page&subtype=dynamic&is_shop=y&limit=100');
+  $is_ex = get_content('content_type=page&subtype=dynamic&is_shop=0&limit=100');
 } else {
-  $is_ex = get_content('parent=0&content_type=page&is_shop=n&limit=100');
+  $is_ex = get_content('parent=0&content_type=page&is_shop=1&limit=100');
 
 
 }
@@ -168,7 +168,7 @@ $tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats} 
 
 if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
  } else {
-$tree['is_shop'] = 'n';
+$tree['is_shop'] = 0;
 }
 if(isset($tree['is_shop'] )){
 

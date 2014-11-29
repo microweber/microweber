@@ -11,10 +11,10 @@ $data['url'] = '';
 
 $data['thumbnail'] = '';
 
-$data['is_active'] = 'y';
-$data['is_home'] = 'n';
+$data['is_active'] = 1;
+$data['is_home'] = 0;
 
-$data['is_shop'] = 'n';
+$data['is_shop'] = 0;
 
 $data['require_login'] = 'n';
 

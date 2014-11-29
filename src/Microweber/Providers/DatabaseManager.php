@@ -84,7 +84,7 @@ class DatabaseManager extends DbUtils
      * @example
      * <code>
      * //get content
-     *  $results = $this->get("table=content&is_active=y");
+     *  $results = $this->get("table=content&is_active=1");
      * </code>
      *
      * @example

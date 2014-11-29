@@ -65,7 +65,7 @@ if ($o != false and intval($o) > 0) {
 
 
 if (is_admin() == false) {
-    $params['is_active'] = 'y';
+    $params['is_active'] = 1;
 }
 
 ?>

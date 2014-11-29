@@ -25,7 +25,7 @@ if(isset($data[0]) == false){
   $data['first_name'] = '';
   $data['last_name'] = '';
   $data['api_key'] = '';
-  $data['is_active'] = 'y';
+  $data['is_active'] = 1;
   $data['is_admin'] = 'n';
   $data['basic_mode'] = 'n';
   $data['thumbnail'] = '';

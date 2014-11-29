@@ -161,7 +161,7 @@ class DefaultController extends Controller
 
         header("Content-Type: application/rss+xml; charset=UTF-8");
 
-        $cont = get_content("is_active=y&is_deleted=n&limit=2500&orderby=updated_on desc");
+        $cont = get_content("is_active=1&is_deleted=0&limit=2500&orderby=updated_on desc");
 
         $site_title = $this->app->option_manager->get('website_title', 'website');
         $site_desc = $this->app->option_manager->get('website_description', 'website');
@@ -1495,7 +1495,6 @@ class DefaultController extends Controller
                     $the_active_site_template = 'default';
                 }
 
-
                 if ($page_exact == false and $found_mod == false and $this->app->modules->is_installed($page_url)) {
                     $found_mod = true;
                     $page['id'] = 0;
@@ -2115,7 +2114,7 @@ class DefaultController extends Controller
 
             if ($meta_content_id > 0) {
                 $meta = $this->app->content_manager->get_by_id($meta_content_id);
-                $content_image = $this->app->media->get_picture($meta_content_id);
+                $content_image = $this->app->media_manager->get_picture($meta_content_id);
                 if ($content_image) {
                     $meta['content_image'] = $content_image;
                 } else {
@@ -2298,7 +2297,7 @@ class DefaultController extends Controller
             $map = new \Microweber\Utils\Sitemap($sm_file);
             $map->file = mw_cache_path() . 'sitemap.xml';
 
-            $cont = get_content("is_active=y&is_deleted=n&limit=2500&fields=id,updated_on&orderby=updated_on desc");
+            $cont = get_content("is_active=1&is_deleted=0&limit=2500&fields=id,updated_on&orderby=updated_on desc");
 
 
             if (!empty($cont)) {

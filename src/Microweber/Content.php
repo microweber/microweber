@@ -27,12 +27,5 @@ class Content extends BaseModel
         return $this->morphMany('Comments', 'rel');
     }
 
-
-    public function init_db()
-    {
-        $table_name = $this->table;
-    }
-
-
-}
+ }
 

@@ -39,14 +39,14 @@ $rand = uniqid(); ?>
 
  </script>
 <?php if(!isset($is_shop) or $is_shop == false): ?>
-<?php $is_shop = false; $pages = get_content('content_type=page&subtype=dynamic&is_shop=n&limit=1000');   ?>
+<?php $is_shop = false; $pages = get_content('content_type=page&subtype=dynamic&is_shop=1&limit=1000');   ?>
 <?php else:  ?>
-<?php $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
+<?php $pages = get_content('content_type=page&is_shop=0&limit=1000');   ?>
 <?php endif; ?>
 <?php $posts_parent_page =  get_option('data-page-id', $params['id']); ?>
 <?php if(isset($params['global']) and $params['global'] != false) :  ?>
 <?php if($set_content_type =='product'):  ?>
-<?php $is_shop = 1; $pages = get_content('content_type=page&is_shop=y&limit=1000');   ?>
+<?php $is_shop = 1; $pages = get_content('content_type=page&is_shop=0&limit=1000');   ?>
 <?php endif; ?>
 
 

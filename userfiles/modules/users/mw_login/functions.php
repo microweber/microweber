@@ -89,7 +89,7 @@ function mw_remote_user_login($params =false)
         if (is_array($check_if_exists) and isset($check_if_exists['is_active'])) {
             $upd['is_active'] = $check_if_exists['is_active'];
         } else {
-            $upd['is_active'] = 'y';
+            $upd['is_active'] = 1;
         }
 
 

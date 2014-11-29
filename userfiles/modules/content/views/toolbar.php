@@ -74,13 +74,13 @@ if ($last_page_front != false) {
 
 <?php   
 $content_types = array();
-$available_content_types = get_content('order_by=created_on asc&is_deleted=n&fields=content_type&group_by=content_type&parent='.$page_info['id']);
+$available_content_types = get_content('order_by=created_on asc&is_deleted=0&fields=content_type&group_by=content_type&parent='.$page_info['id']);
 $have_custom_content_types_count = 0;
 if(!empty($available_content_types)){
 	
 	foreach($available_content_types as $available_content_type){
 		if(isset($available_content_type['content_type'])){
-			$available_content_subtypes = get_content('order_by=created_on asc&is_deleted=n&fields=subtype&group_by=subtype&parent='.$page_info['id'].'&content_type='.$available_content_type['content_type']);
+			$available_content_subtypes = get_content('order_by=created_on asc&is_deleted=0&fields=subtype&group_by=subtype&parent='.$page_info['id'].'&content_type='.$available_content_type['content_type']);
 			if(!empty($available_content_subtypes)){
 				
 				$content_types[$available_content_type['content_type']] = $available_content_subtypes;

@@ -381,7 +381,7 @@ if (isset($to_save['is_installed'])) {
                             if (isset($to_save['admin_email']) and $to_save['admin_email'] != '') {
                                 $new_admin['email'] = $to_save['admin_email'];
                             }
-                            $new_admin['is_active'] = 'y';
+                            $new_admin['is_active'] = 1;
                             $new_admin['is_admin'] = 'y';
                             mw_var('FORCE_SAVE', get_table_prefix() . 'users');
                             save_user($new_admin);

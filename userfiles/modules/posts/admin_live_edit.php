@@ -48,7 +48,7 @@ if (isset($params['global'])) {
 }
 if ($is_global == false) {
     if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
-        $add_post_q .= ' subtype="product" is_shop=y ';
+        $add_post_q .= ' subtype="product" is_shop=0 ';
     } else {
         $add_post_q .= ' subtype="post" ';
     }
@@ -104,7 +104,7 @@ if (!isset($params['global']) and $posts_parent_page != false and $posts_parent_
 }
 
 if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
-$add_post_q .= ' subtype="product" is_shop=y ';
+$add_post_q .= ' subtype="product" is_shop=0 ';
 } else {
 $add_post_q .= '  ';
 }

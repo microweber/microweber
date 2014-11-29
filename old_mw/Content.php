@@ -733,7 +733,7 @@ class Content
      * <code>
      *
      * $params = array();
-     * $params['is_active'] = 'y'; //get only active content
+     * $params['is_active'] = 1; //get only active content
      * $params['parent'] = 2; //get by parent id
      * $params['created_by'] = 1; //get by author id
      * $params['content_type'] = 'post'; //get by content type
@@ -748,7 +748,7 @@ class Content
      * @example
      * #### Get by params as string
      * <code>
-     *  $data = $this->get('is_active=y');
+     *  $data = $this->get('is_active=1');
      *  var_dump($data);
      * </code>
      *
@@ -756,19 +756,19 @@ class Content
      * #### Ordering and sorting
      * <code>
      *  //Order by position
-     *  $data = $this->get('content_type=post&is_active=y&order_by=position desc');
+     *  $data = $this->get('content_type=post&is_active=1&order_by=position desc');
      *  var_dump($data);
      *
      *  //Order by date
-     *  $data = $this->get('content_type=post&is_active=y&order_by=updated_on desc');
+     *  $data = $this->get('content_type=post&is_active=1&order_by=updated_on desc');
      *  var_dump($data);
      *
      *  //Order by title
-     *  $data = $this->get('content_type=post&is_active=y&order_by=title asc');
+     *  $data = $this->get('content_type=post&is_active=1&order_by=title asc');
      *  var_dump($data);
      *
      *  //Get content from last week
-     *  $data = $this->get('created_on=[mt]-1 week&is_active=y&order_by=title asc');
+     *  $data = $this->get('created_on=[mt]-1 week&is_active=1&order_by=title asc');
      *  var_dump($data);
      * </code>
      *
@@ -785,7 +785,7 @@ class Content
 
         if (!is_array($params)) {
             $params = array();
-            $params['is_active'] = 'y';
+            $params['is_active'] = 1;
         }
 
 
@@ -795,7 +795,7 @@ class Content
         }
         $table = $this->tables['content'];
         if (!isset($params['is_deleted'])) {
-            $params['is_deleted'] = 'n';
+            $params['is_deleted'] = 0;
         }
         $params['table'] = $table;
         $params['cache_group'] = $cache_group;
@@ -1415,7 +1415,7 @@ class Content
         $params['limit'] = 500;
         $params['orderby'] = 'position desc';
         $params['curent_page'] = 1;
-        $params['is_deleted'] = 'n';
+        $params['is_deleted'] = 0;
         $params['cache_group'] = false;
         $params['no_cache'] = true;
 
@@ -2880,7 +2880,7 @@ class Content
                             $save_page['url'] = 'home';
                             $home_exists = $this->homepage();
                             if ($home_exists == false) {
-                                $save_page['is_home'] = 'y';
+                                $save_page['is_home'] = 1;
                             }
                         }
                     }
@@ -4507,8 +4507,8 @@ class Content
 
         $params['limit'] = 1;
         $params['exclude_ids'] = array($content_id);
-        $params['is_active'] = 'y';
-        $params['is_deleted'] = 'n';
+        $params['is_active'] = 1;
+        $params['is_deleted'] = 0;
         $params['single'] = true;
         $q = $this->get($params);
         if (is_array($q)) {
@@ -4627,7 +4627,7 @@ class Content
             if (intval($params['id'] != 0)) {
                 $save = array();
                 $save['id'] = intval($params['id']);
-                $save['is_active'] = 'n';
+                $save['is_active'] = 0;
 
                 $save_data = $this->save_content($save);
                 return ($save_data);
@@ -4680,7 +4680,7 @@ class Content
 
                 $save = array();
                 $save['id'] = intval($params['id']);
-                $save['is_active'] = 'y';
+                $save['is_active'] = 1;
 
                 $save_data = $this->save_content($save);
                 return ($save_data);
@@ -4975,7 +4975,7 @@ class Content
                 $sql = "UPDATE $table SET is_home='n'   ";
                 $q = $this->app->database_manager->query($sql);
             } else {
-                $data_to_save['is_home'] = 'n';
+                $data_to_save['is_home'] = 0;
             }
         }
 
@@ -5300,17 +5300,17 @@ class Content
 
                         $save_media['content_id'] = $id;
                         $save_media['filename'] = $image_to_save;
-                        $check = $this->app->media->get($save_media);
+                        $check = $this->app->media_manager->get($save_media);
                         $save_media['media_type'] = 'picture';
                         if ($check == false) {
 
-                            $this->app->media->save($save_media);
+                            $this->app->media_manager->save($save_media);
                         }
                     }
                 } elseif (is_array($image_to_save) and !empty($image_to_save)) {
                     $save_media = $image_to_save;
                     $save_media['content_id'] = $id;
-                    $this->app->media->save($save_media);
+                    $this->app->media_manager->save($save_media);
                 }
 
 
@@ -5501,7 +5501,7 @@ class Content
 
         switch ($what) {
             case 'shop' :
-                $is_shop = $this->get('content_type=page&is_shop=y');
+                $is_shop = $this->get('content_type=page&is_shop=0');
                 //$is_shop = false;
                 $new_shop = false;
                 if ($is_shop == false) {
@@ -5559,7 +5559,7 @@ class Content
 
 
             case 'blog' :
-                $is_shop = $this->get('is_deleted=n&content_type=page&subtype=dynamic&is_shop=n&limit=1');
+                $is_shop = $this->get('is_deleted=0&content_type=page&subtype=dynamic&is_shop=n&limit=1');
                 //$is_shop = false;
                 $new_shop = false;
                 if ($is_shop == false) {
@@ -5632,7 +5632,7 @@ class Content
                     $add_page['subtype'] = 'static';
                     $add_page['is_shop'] = 'n';
                     //$add_page['debug'] = 1;
-                    $add_page['is_home'] = 'y';
+                    $add_page['is_home'] = 1;
                     $add_page['active_site_template'] = 'default';
                     $new_shop = $this->save_content($add_page);
                 }

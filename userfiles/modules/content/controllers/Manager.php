@@ -85,7 +85,7 @@ class Manager
         if (isset($params['page-id'])) {
             if ($params['page-id'] == 'global') {
                 if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
-                    $page_info = $this->provider->get('limit=1&one=1&content_type=page&is_shop=y');
+                    $page_info = $this->provider->get('limit=1&one=1&content_type=page&is_shop=0');
                 }
             } else {
                 $page_info = $this->provider->get_by_id($params['page-id']);

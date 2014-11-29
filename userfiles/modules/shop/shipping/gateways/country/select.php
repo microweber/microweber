@@ -1,8 +1,8 @@
 <?php   
 
   
- $data = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=y");
- $data_disabled = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=n");
+ $data = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=1");
+ $data_disabled = api('shop/shipping/gateways/country/shipping_to_country/get', "is_active=0");
  
  $countries_used = array();
   $countries_all = array();

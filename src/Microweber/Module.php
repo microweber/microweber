@@ -18,11 +18,5 @@ class Module extends BaseModel
     }
 
 
-    public function init_db(){
-        $table_name = $this->table;
-
-    }
-
-
 }
 

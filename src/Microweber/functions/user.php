@@ -126,7 +126,7 @@ api_expose('save_user');
  * and pass its params to save_user();
  *
  *
- * @param  $params ['is_active'] = 'y'; //default is 'n'
+ * @param  $params ['is_active'] = 1; //default is 'n'
  * @usage
  *
  * $upd = array();

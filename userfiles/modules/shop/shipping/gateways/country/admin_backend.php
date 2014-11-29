@@ -228,7 +228,7 @@ foreach ($datas as $data_key => $data): ?>
             if (!isset($item['id'])) {
                 if ($data_key == 'data_active') {
                     $item['id'] = 0;
-                    $item['is_active'] = 'y';
+                    $item['is_active'] = 1;
                     $item['shipping_country'] = 'new';
                     $new = true;
                 }

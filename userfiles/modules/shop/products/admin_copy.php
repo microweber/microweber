@@ -1,5 +1,5 @@
 <?php //$rand = uniqid(); ?>
-<?php $is_shop = get_content('is_shop=y');  ?>
+<?php $is_shop = get_content('is_shop=0');  ?>
 <?php if(is_array($is_shop) and !empty($is_shop)): ?>
 
 Add new product to shop
