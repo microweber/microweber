@@ -9,12 +9,11 @@ class Content extends BaseModel
 
     public $table = 'content';
 
-
-    // called once when Post is first used
     public static function boot()
     {
-        // there is some logic in this method, so don't forget this!
         parent::boot();
+
+        static::observe(new BaseModelObserver);
     }
 
     public function notifications()

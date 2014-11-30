@@ -4346,7 +4346,11 @@ if(isset($_SERVER['HTTP_REFERER'])){
             $url_changed = true;
         }
 
-        $save = $this->app->database_manager->save($table, $data_to_save);
+//$c = new Content();
+       // return $c->update($data_to_save);
+        //$save = $this->app->database_manager->save($table, $data_to_save);
+        $save = mw()->content->save_item($data_to_save);
+        return $save;
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
             $upd_posted = array();

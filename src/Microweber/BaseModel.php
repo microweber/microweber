@@ -21,8 +21,11 @@ class BaseModel extends Eloquent
 
     public $table_cache_ttl = 60;
     private $filter_keys = ['id', 'module', 'type'];
-
+    protected $guarded = array();
+    
     private $useCache = true;
+
+    public static $cacheTables = [];
 
     public $default_filters = [
         'id',
@@ -50,17 +53,21 @@ class BaseModel extends Eloquent
         self::$custom_filters[$name] = $callback;
     }
 
-    public static function boot()
+    /*function __construct() {
+    }*/
+
+    protected static function boot()
     {
         parent::boot();
+
+        $table = app()->make(get_called_class())->table;
+        static::$cacheTables[$table] = true;    
 
         static::observe(new BaseModelObserver);
     }
 
     public function scopeItems($query, $params = false)
     {
-
-
         $table = $this->table;
         if (is_string($params)) {
             $params = parse_params($params);
@@ -161,14 +168,18 @@ class BaseModel extends Eloquent
         if (!isset($params['updated_on']) == false) {
             $params['updated_on'] = date("Y-m-d H:i:s");
         }
+        $id = false;
+        if(isset($params['id'])){
+            $id = $params['id'];
+        }
 
         $params = $this->map_array_to_table($table, $params);
-        if(isset($params['id'])){
-            unset($params['created_on']);
 
-            $save = parent::where('id', $params['id'])->update($params);
+        if($id){
+            unset($params['created_on']);
+            $save = self::find($id)->update($params);
         } else {
-            $save = parent::insert($params);
+            $save = self::insert($params);
 
         }
        return($save);
