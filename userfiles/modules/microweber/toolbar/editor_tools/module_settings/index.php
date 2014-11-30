@@ -5,9 +5,10 @@
 <?php  $module_info = false;
 if (isset($params['module'])): ?>
 <?php $module_info = mw()->modules->get('one=1&ui=any&module=' . $params['module']); ?>
-<?php endif; ?>                                                                   
-<script type="text/javascript" src="<?php print(MW_SITE_URL); ?>apijs"></script>
-<script type="text/javascript" src="<?php   print(MW_SITE_URL);  ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
+<?php endif; ?>   
+                                                              
+<script type="text/javascript" src="<?php print(site_url()); ?>apijs"></script>
+<script type="text/javascript" src="<?php   print(site_url());  ?>apijs_settings?id=<?php print CONTENT_ID; ?>"></script>
 
 <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
 <script type="text/javascript">
@@ -127,6 +128,9 @@ if (isset($_GET['type'])) {
 
 
         <?php if(is_array( $module_info)): ?>
+		
+ 
+		
         <?php $mod_adm =  admin_url('load_module:').module_name_encode($module_info['module']);; ?>
         is_module_tml_holder = $(toolbar).find("#module-modal-settings-menu-holder");
         if (is_module_tml_holder.length > 0) {

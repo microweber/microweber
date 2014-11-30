@@ -45,7 +45,7 @@ class FormsManager
         $ret = array();
         if (is_array($data)) {
             foreach ($data as $item) {
-                $fields = $this->app->fields->get('forms_data', $item['id'], 1);
+                $fields = $this->app->fields_manager->get('forms_data', $item['id'], 1);
 
                 if (is_array($fields)) {
                     ksort($fields);
@@ -185,7 +185,7 @@ class FormsManager
 
         $to_save = array();
         $fields_data = array();
-        $more = $this->app->fields->get($for, $for_id, 1);
+        $more = $this->app->fields_manager->get($for, $for_id, 1);
         $cf_to_save = array();
         if (!empty($more)) {
             foreach ($more as $item) {
@@ -408,7 +408,7 @@ class FormsManager
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
 
-            $fields = $this->app->fields->get('forms_data', $data['id'], 1);
+            $fields = $this->app->fields_manager->get('forms_data', $data['id'], 1);
 
             if (is_array($fields)) {
                 foreach ($fields as $key => $value) {

@@ -196,7 +196,8 @@ class Template
         }
         $cache_id = __FUNCTION__ . crc32($function_cache_id);
         $cache_group = 'templates';
-        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group, 'files');
+
+        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
         if (($cache_content) != false) {
             return $cache_content;
         }
@@ -244,7 +245,7 @@ class Template
             }
 
         }
-        $this->app->cache_manager->save($to_return, $function_cache_id, $cache_group, 'files');
+        $this->app->cache_manager->save($to_return, $cache_id, $cache_group, 'files');
         return $to_return;
     }
 

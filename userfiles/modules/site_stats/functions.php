@@ -247,7 +247,7 @@ function stats_insert_cookie_based()
         }
         $data['last_page'] = $lp;
         $data['skip_cache'] = 1;
-        if (isset($_SESSION) and !empty($_SESSION)) {
+        if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
             $data['session_id'] = mw()->user_manager->session_id();
         }
         mw_var('FORCE_SAVE', $table);

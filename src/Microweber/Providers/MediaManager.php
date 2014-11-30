@@ -603,7 +603,7 @@ class MediaManager
 
     public function thumbnail_img($params)
     {
-        if (isset($_SESSION) and !empty($_SESSION)) {
+        if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
             ////session_write_close();
         }
         extract($params);

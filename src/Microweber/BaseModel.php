@@ -50,14 +50,19 @@ class BaseModel extends Eloquent
         self::$custom_filters[$name] = $callback;
     }
 
-    public function __construct()
+    public static function boot()
     {
+        parent::boot();
+
+        static::saving(function($post)
+        {
+            dd('saving basemodel'.__LINE__);
+        });
     }
 
     public function get()
     {
-        dd('fu');
-        return parent::get();
+        return 'kur za cska';
     }
 
     public function scopeItems($query, $params = false)
@@ -140,7 +145,7 @@ class BaseModel extends Eloquent
 
         $data = $data->toArray();
 
-        if ($cf['single']) {
+        if (isset($cf['single']) || isset($cf['one'])) {
             if (!isset($data[0])) {
                 return false;
             }

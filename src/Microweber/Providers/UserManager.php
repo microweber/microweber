@@ -632,7 +632,7 @@ class UserManager
 
         return true;
         //@todo remove below
-        if (is_array($data) and isset($_SESSION)) {
+        if (is_array($data) and mw()->user_manager->session_id()) {
             foreach ($data as $k => $v) {
 
 
@@ -1509,6 +1509,16 @@ class UserManager
         //  $input = '<input type="hidden" name="' . $token . '" value="' . md5($unique_form_name) . '">';
 
         return $input;
+    }
+
+    public function session_all()
+    {
+
+
+        $value = Session::all();
+
+        return $value;
+
     }
 
     public function session_get($name)

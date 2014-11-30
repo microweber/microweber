@@ -2584,7 +2584,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
     public function custom_fields($content_id, $full = true, $field_type = false)
     {
 
-        return $this->app->fields->get('content', $content_id, $full, false, false, $field_type);
+        return $this->app->fields_manager->get('content', $content_id, $full, false, false, $field_type);
 
 
     }

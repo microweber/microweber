@@ -138,7 +138,7 @@ class ShopManager
 
         $additional_fields = false;
         if (isset($data['for']) and isset($data['for_id'])) {
-            $additional_fields = $this->app->fields->get($data['for'], $data['for_id'], 1);
+            $additional_fields = $this->app->fields_manager->get($data['for'], $data['for_id'], 1);
         }
 
         $seach_address_keys = array('country', 'city', 'address', 'state', 'zip');
@@ -1139,7 +1139,7 @@ class ShopManager
 
 
         $content_custom_fields = array();
-        $content_custom_fields = $this->app->fields->get($for, $for_id, 1);
+        $content_custom_fields = $this->app->fields_manager->get($for, $for_id, 1);
 
         if ($content_custom_fields == false) {
             $content_custom_fields = $data;

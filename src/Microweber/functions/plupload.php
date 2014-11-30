@@ -1,6 +1,6 @@
 <?php
 
-if (!isset($_SESSION) or empty($_SESSION)) {
+if (!mw()->user_manager->session_id() or (mw()->user_manager->session_all() == false)) {
     // //session_start();
 }
 $validate_token = false;
@@ -497,7 +497,7 @@ if (isset($upl_size_log) and $upl_size_log > 0) {
 
 
 print json_encode($rerturn);
-if (isset($_SESSION) and !empty($_SESSION)) {
+if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false)) {
     // @//session_write_close();
 
 }

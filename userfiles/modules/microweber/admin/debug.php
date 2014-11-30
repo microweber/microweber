@@ -43,7 +43,7 @@ $mtime = microtime();
 ?>
     <b>Debug</b>
     <pre><?php print print_r(mwdbg(true)); ?></pre>
-  <?php if(!empty($_SESSION)) { ?>
+  <?php if(!(mw()->user_manager->session_all() == false)) { ?>
   <b>Session Data</b> <?php print '<pre>';print_r($_SESSION);print '</pre>'; ?>
   <?php } ?>
   <?php $included_files = get_included_files(); ?>

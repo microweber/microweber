@@ -26,25 +26,27 @@ $mtime = microtime();
   <b>URL</b>
   <pre><?php print implode('/',mw()->url->segment()); ?></pre>
   <?php
+  $ql = \DB::getQueryLog();
+  if($ql)
+  {
 
-
-   $ql = \mw()->database_manager->query_log(true) ;
-  if($ql and is_array($ql) and !empty($ql))
+    $dsql = '';
+    $dsqlt = 0;
+    foreach($ql as $query)
     {
-    	print '<b>'. count(\mw()->database_manager->query_log(true)). ' Database Queries</b>';
-    	foreach(\mw()->database_manager->query_log(true) as $query)
-    	{
-    		print '<pre style="background:#fff">'.d( $query). '</pre>';
-    	}
+      $dsql .= '<pre style="background:#fff">'. print_r($query, true) .'</pre>';
+      $dsqlt += $query['time'];
     }
- 
-
-
+    print '<b>'. count($ql). ' Database Queries</b>';
+    print '<p>'.$dsqlt.' ms</p>';
+    print $dsql;
+    
+  }
 ?>
     <b>Debug</b>
  
-  <?php if(!empty($_SESSION)) { ?>
-  <b>Session Data</b> <?php print '<pre>';print_r($_SESSION);print '</pre>'; ?>
+  <?php if(!(mw()->user_manager->session_all() == false)) { ?>
+  <b>Session Data</b> <?php print '<pre>';print_r(Session::all());print '</pre>'; ?>
   <?php } ?>
   <?php $included_files = get_included_files(); ?>
   <b><?php print count($included_files); ?> PHP Files Included:</b>

@@ -334,7 +334,7 @@ class DatabaseManager extends DbUtils
                 }
             }
         }
-        if (isset($_SESSION) and !empty($_SESSION) and isset($_SESSION["user_session"])) {
+        if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and isset($_SESSION["user_session"])) {
             $user_session = $_SESSION["user_session"];
 
         } else {
@@ -360,7 +360,7 @@ class DatabaseManager extends DbUtils
 
         }
 
-        if (!isset($data['session_id']) and isset($_SESSION)) {
+        if (!isset($data['session_id']) and mw()->user_manager->session_id()) {
             if ($user_sid != false) {
                 $data['session_id'] = $user_sid;
             } else {

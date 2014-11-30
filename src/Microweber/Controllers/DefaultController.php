@@ -218,10 +218,7 @@ class DefaultController extends Controller
         }
 
 
-
-
-
-        if (!isset($_SESSION)) {
+        if (!mw()->user_manager->session_id()) {
             // //session_start();
         }
 
@@ -361,7 +358,6 @@ class DefaultController extends Controller
         $hooks = api_hook(true);
 
 
-
         if ($api_function == false) {
             $api_function = $this->app->url->segment(1);
         }
@@ -444,20 +440,20 @@ class DefaultController extends Controller
 
             default :
                 $res = false;
-                if(isset($hooks[$api_function_full])){
+                if (isset($hooks[$api_function_full])) {
                     $data = array_merge($_GET, $_POST);
 
                     $call = $hooks[$api_function_full];
-                    if(!empty($call)){
-                        foreach($call as $call_item){
+                    if (!empty($call)) {
+                        foreach ($call as $call_item) {
 
                             $res = call_user_func($call_item, $data);
                         }
                     }
 
-                    if($res != false){
+                    if ($res != false) {
                         print json_encode($res);
-                      return;
+                        return;
                     }
 
 
@@ -734,7 +730,7 @@ class DefaultController extends Controller
                     }
                 }
             }
-          return;
+            return;
         }
         // exit ( $api_function );
     }
@@ -749,7 +745,7 @@ class DefaultController extends Controller
 
         if (!defined("MW_NO_SESSION")) {
             $is_ajax = $this->app->url->is_ajax();
-            if (!isset($_SESSION) and $is_ajax == false) {
+            if (!mw()->user_manager->session_id() and $is_ajax == false) {
 
                 if (!defined('MW_SESS_STARTED')) {
                     define('MW_SESS_STARTED', true);
@@ -940,7 +936,7 @@ class DefaultController extends Controller
             $this->render_this_url = $u1;
             $this->isolate_by_html_id = $custom_display_id;
             $this->frontend();
-            exit();
+            return;
         }
         $url_last = false;
         if (!isset($_REQUEST['module'])) {
@@ -1021,7 +1017,7 @@ class DefaultController extends Controller
                         $config['icon'] = $this->app->url->link_to_file($config['icon']);
                     }
                     print json_encode($config);
-                    exit();
+                    return;
                 }
             }
         }
@@ -1236,7 +1232,7 @@ class DefaultController extends Controller
                 $this->api($url_prev);
             }
         }
-        exit();
+        return;
     }
 
 
@@ -1244,7 +1240,6 @@ class DefaultController extends Controller
     {
 
         event_trigger('mw.controller.index');
-
 
         if ($this->render_this_url == false and $this->app->url->is_ajax() == FALSE) {
             $page_url = $this->app->url->string();
@@ -1290,7 +1285,6 @@ class DefaultController extends Controller
         $is_editmode = $this->app->url->param('editmode');
 
 
-
         $is_no_editmode = $this->app->url->param('no_editmode');
         $is_quick_edit = $this->app->url->param('mw_quick_edit');
 
@@ -1306,8 +1300,7 @@ class DefaultController extends Controller
                 }
             }
 
-            if (isset($_SESSION) and $is_editmode and $is_no_editmode == false) {
-
+            if (mw()->user_manager->session_id() and $is_editmode and $is_no_editmode == false) {
                 if ($is_editmode == 'n') {
                     $is_editmode = false;
                     $page_url = $this->app->url->param_unset('editmode', $page_url);
@@ -1315,10 +1308,12 @@ class DefaultController extends Controller
                     $this->app->user_manager->session_set('editmode', false);
 
                     $this->app->url->redirect($this->app->url->site_url($page_url));
-                    exit();
+                    return;
                 } else {
                     $editmode_sess = $this->app->user_manager->session_get('editmode');
                     $page_url = $this->app->url->param_unset('editmode', $page_url);
+
+
                     if ($is_admin == true) {
                         if ($editmode_sess == false) {
                             $this->app->user_manager->session_set('editmode', true);
@@ -1326,7 +1321,7 @@ class DefaultController extends Controller
                             $is_editmode = false;
                         }
                         $this->app->url->redirect($this->app->url->site_url($page_url));
-                        exit();
+                        return;
                     } else {
                         $is_editmode = false;
                     }
@@ -1334,7 +1329,7 @@ class DefaultController extends Controller
             }
 
 
-            if (isset($_SESSION) and !$is_no_editmode) {
+            if (mw()->user_manager->session_id() and !$is_no_editmode) {
                 $is_editmode = $this->app->user_manager->session_get('editmode');
 
             } else {
@@ -1360,7 +1355,6 @@ class DefaultController extends Controller
             if ($this->app->user_manager->is_admin()) {
                 $is_preview_module = module_name_decode($is_preview_module);
                 if (is_module($is_preview_module)) {
-
                     $is_preview_module_skin = $this->app->url->param('preview_module_template');
                     $preview_module_id = $this->app->url->param('preview_module_id');
                     $preview_module = $is_preview_module;
@@ -1472,7 +1466,7 @@ class DefaultController extends Controller
             if ($output_cache_content != false) {
 
                 print $output_cache_content;
-                exit();
+                return;
             }
         }
 
@@ -1728,7 +1722,6 @@ class DefaultController extends Controller
 
             $content['active_site_template'] = $is_preview_template;
         }
-
 
 
         if ($is_layout_file != false and $is_admin == true) {
@@ -2081,7 +2074,7 @@ class DefaultController extends Controller
 
 
                 }
-            } else if ($is_editmode == false and $is_admin == true and isset($_SESSION) and !empty($_SESSION) and isset($_SESSION['back_to_editmode'])) {
+            } else if ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and isset($_SESSION['back_to_editmode'])) {
                 if (!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])) {
                     $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
                     if ($back_to_editmode == true) {
@@ -2233,7 +2226,7 @@ class DefaultController extends Controller
 
                 // return $pq->htmlOuter();
             }
-            if (isset($_SESSION) and !empty($_SESSION) and $is_editmode) {
+            if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and $is_editmode) {
                 session_set('last_content_id', CONTENT_ID);
 
             }
@@ -2258,13 +2251,13 @@ class DefaultController extends Controller
             }
 
 
-            exit();
+            return;
         } else {
 
             print 'Error! Page is not found? Please login in the admin and make a page.';
 
             $this->app->cache_manager->clear();
-            exit();
+            return;
         }
 
     }
@@ -2389,7 +2382,7 @@ class DefaultController extends Controller
         $l = $l->__toString();
 
         print $l;
-        exit();
+        return;
 
     }
 
@@ -2469,7 +2462,7 @@ class DefaultController extends Controller
 
 
         print $l;
-        exit();
+        return;
     }
 
 
@@ -2674,7 +2667,7 @@ class DefaultController extends Controller
                 $p->params = $params;
                 $layout = $p->__toString();
                 print $layout;
-                exit();
+                return;
 
             }
         } else if (is_file($p)) {
@@ -2775,7 +2768,7 @@ class DefaultController extends Controller
         $layout = str_replace('{content}', '', $layout);
 
         print $layout;
-        exit();
+        return;
         //
         //header("HTTP/1.0 404 Not Found");
         //$v = new \Microweber\View(MW_ADMIN_VIEWS_DIR . '404.php');
