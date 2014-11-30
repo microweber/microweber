@@ -1796,7 +1796,7 @@ class DefaultController extends Controller
                                 $l = str_replace('{content}', $l, $layout_toolbar);
                             }
                             
-                            //$layout_toolbar = mw('parser')->process($layout_toolbar, $options = array('no_apc' => 1));
+                            //$layout_toolbar = mw()->parser->process($layout_toolbar, $options = array('no_apc' => 1));
                             
                             
                         }

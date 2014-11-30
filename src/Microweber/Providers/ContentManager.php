@@ -2297,7 +2297,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                             }
                         }
                         $html_to_save = $the_field_data['html'];
-                        $html_to_save = $content = mw('parser')->make_tags($html_to_save);
+                        $html_to_save = $content = mw()->parser->make_tags($html_to_save);
 
                         if ($save_global == false and $save_layout == false) {
                             if ($content_id) {
@@ -3146,7 +3146,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             if (isset($item['value'])) {
                 $field_content = htmlspecialchars_decode($item['value']);
                 $field_content = $this->_decode_entities($field_content);
-                $item['value'] = mw('parser')->process($field_content, $options = false);
+                $item['value'] = mw()->parser->process($field_content, $options = false);
 
             }
 
@@ -4186,7 +4186,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
 
                     $site_url = $this->app->url_manager->site();
-                    $images = mw('parser')->query($data_to_save['content'], 'img');
+                    $images = mw()->parser->query($data_to_save['content'], 'img');
                     $to_download = array();
                     $to_replace = array();
                     $possible_sources = array();
@@ -4251,7 +4251,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                 }
 
 
-                $data_to_save['content'] = mw('parser')->make_tags($data_to_save['content']);
+                $data_to_save['content'] = mw()->parser->make_tags($data_to_save['content']);
             }
         }
 
