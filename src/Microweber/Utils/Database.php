@@ -900,6 +900,11 @@ class Database
         return $output;
     }
 
+    public function query_log(){
+        return DB::getQueryLog();
+    }
+
+
     public function split_sql_file($sql, $delimiter)
     {
         // Split up our string into "possible" SQL statements.

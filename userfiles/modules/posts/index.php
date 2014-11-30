@@ -156,8 +156,8 @@ if ($posts_parent_related == false) {
 				
 			 
 		//		
-//                $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
-//                $page_categories = get($str0);
+                $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
+                $page_categories = get($str0);
 				
 				$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
 				   $page_categories =Categories::items('limit=1&data_type=category&'. 'parent_id=0&rel_id=' . $cfg_page_id);

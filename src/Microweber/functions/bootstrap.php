@@ -3,7 +3,12 @@
 if (version_compare(phpversion(), "5.3.0", "<=")) {
     exit("Error: You must have PHP version 5.3 or greater to run Microweber");
 }
-
+if (!defined('T')) {
+    $mtime = microtime();
+    $mtime = explode(" ", $mtime);
+    $mtime = $mtime[1] + $mtime[0];
+    define('T', $mtime);
+}
 
 if (!defined('MW_VERSION')) {
     define('MW_VERSION', 0.96);

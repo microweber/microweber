@@ -9,7 +9,8 @@ function get_table_prefix(){
 
 
 function get($params){
+
     $DbModel = new DbModel();
-    return  $DbModel->items($params);
+    return  $DbModel->get($params);
 
 }

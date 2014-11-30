@@ -11,7 +11,7 @@ class LaravelCache
     public $ttl = 30;
     public $support_tags = false;
     public $app;
-
+public $cache_hits = array();
     function __construct($app)
     {
         $this->app = $app;
@@ -123,6 +123,14 @@ class LaravelCache
     public function get($cache_id, $cache_group = 'global', $timeout = false)
     {
         $cache_group = $this->cache_group($cache_group);
+
+        if(!isset($this->cache_hits[$cache_group])){
+            $this->cache_hits[$cache_group] = array();
+        }
+        if(!isset($this->cache_hits[$cache_group][$cache_id])){
+            $this->cache_hits[$cache_group][$cache_id] = 0;
+        }
+        $this->cache_hits[$cache_group][$cache_id]++;
         if (!$this->support_tags) {
             return;
             return Cache::get($cache_group . $cache_id);
@@ -227,11 +235,7 @@ class LaravelCache
     public function debug()
     {
 
-        $items = array();
-        foreach (Cache::getMemory() as $cacheKey => $cacheValue) {
-            $items[$cacheKey] = $cacheValue;
-            //Cache::forget($cacheKey);
-        }
+        $items =$this->cache_hits;
         return $items;
     }
 

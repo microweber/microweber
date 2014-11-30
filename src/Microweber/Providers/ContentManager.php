@@ -1588,7 +1588,7 @@ class ContentManager
     {
         //if (c('debug_mode')) {
 
-        return include(MW_ADMIN_VIEWS_DIR . 'debug.php');
+        return include(mw_includes_path() . 'debug.php');
         // }
     }
 
