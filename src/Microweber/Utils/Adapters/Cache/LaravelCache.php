@@ -11,7 +11,8 @@ class LaravelCache
     public $ttl = 30;
     public $support_tags = false;
     public $app;
-public $cache_hits = array();
+    public $cache_hits = array();
+
     function __construct($app)
     {
         $this->app = $app;
@@ -49,14 +50,14 @@ public $cache_hits = array();
         if (is_string($cache_group)) {
             $cache_group = explode('/', $cache_group);
 
-            if (isset($cache_group[1])) {
+//            if (isset($cache_group[1])) {
+//
+//                $group = str_replace('/', '_', $cache_group[1]);
+//                $group = str_replace('\\', '_', $group);
+//                $cache_group = $cache_group[0] . '_' . $group;
+//            }
 
-                $group = str_replace('/', '_', $cache_group[1]);
-                $group = str_replace('\\', '_', $group);
-                $cache_group = $cache_group[0] . '_' . $group;
-            }
-
-           // return $cache_group;
+            // return $cache_group;
             return $cache_group[0];
         }
 
@@ -124,10 +125,10 @@ public $cache_hits = array();
     {
         $cache_group = $this->cache_group($cache_group);
 
-        if(!isset($this->cache_hits[$cache_group])){
+        if (!isset($this->cache_hits[$cache_group])) {
             $this->cache_hits[$cache_group] = array();
         }
-        if(!isset($this->cache_hits[$cache_group][$cache_id])){
+        if (!isset($this->cache_hits[$cache_group][$cache_id])) {
             $this->cache_hits[$cache_group][$cache_id] = 0;
         }
         $this->cache_hits[$cache_group][$cache_id]++;
@@ -235,7 +236,7 @@ public $cache_hits = array();
     public function debug()
     {
 
-        $items =$this->cache_hits;
+        $items = $this->cache_hits;
         return $items;
     }
 

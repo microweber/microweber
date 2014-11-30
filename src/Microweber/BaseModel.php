@@ -21,6 +21,9 @@ class BaseModel extends Eloquent
 
     public $table_cache_ttl = 60;
     private $filter_keys = ['id', 'module', 'type'];
+
+    private $useCache = true;
+
     public $default_filters = [
         'id',
         'limit',
@@ -49,6 +52,12 @@ class BaseModel extends Eloquent
 
     public function __construct()
     {
+    }
+
+    public function get()
+    {
+        dd('fu');
+        return parent::get();
     }
 
     public function scopeItems($query, $params = false)
@@ -97,14 +106,16 @@ class BaseModel extends Eloquent
                     $query = $query->min($criteria);
                     break;
 
+                case 'no_cache':
+                    $this->useCache = false;
+                    break;
+
 
             }
         }
 
-
-
-
-        foreach (self::$custom_filters as $name => $callback) {
+        foreach (self::$custom_filters as $name => $callback)
+        {
             if (!isset($params[$name])) {
                 continue;
             }

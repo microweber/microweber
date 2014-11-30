@@ -13,7 +13,7 @@ class DbModel extends BaseModel
     }
 
 
-    function get($params)
+    function items($params)
     {
 
         if (is_string($params)) {
