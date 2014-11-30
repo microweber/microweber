@@ -1288,6 +1288,9 @@ class DefaultController extends Controller
         event_trigger('mw_frontend');
 
         $is_editmode = $this->app->url->param('editmode');
+
+
+
         $is_no_editmode = $this->app->url->param('no_editmode');
         $is_quick_edit = $this->app->url->param('mw_quick_edit');
 
@@ -1480,7 +1483,6 @@ class DefaultController extends Controller
         if ($date_format == false) {
             $date_format = "Y-m-d H:i:s";
         }
-
 
         if ($page == false) {
             if (trim($page_url) == '' and $preview_module == false) {
@@ -1726,6 +1728,7 @@ class DefaultController extends Controller
 
             $content['active_site_template'] = $is_preview_template;
         }
+
 
 
         if ($is_layout_file != false and $is_admin == true) {

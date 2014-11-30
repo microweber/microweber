@@ -204,8 +204,7 @@ class UserManager
     {
 
         d('is_logged '. __FILE__.__LINE__);
-        dd(Session::all());
-
+        
         if (Auth::check()) {
             return true;
         } else {

@@ -100,6 +100,10 @@ class BaseModel extends Eloquent
 
             }
         }
+
+
+
+
         foreach (self::$custom_filters as $name => $callback) {
             if (!isset($params[$name])) {
                 continue;
@@ -118,7 +122,8 @@ class BaseModel extends Eloquent
         $empty = $data->isEmpty();
 
         if ($empty == true) {
-            return false;
+
+            return null;
         }
 
 

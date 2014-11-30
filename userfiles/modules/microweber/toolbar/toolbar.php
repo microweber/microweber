@@ -8,7 +8,7 @@ if($is_quick_edit == true){
 	return include(__DIR__.DS.'toolbar_quick.php');
 }
 
-
+ 
 ?>
 <?php if (!isset($_GET['preview'])){ ?>
 <script src="<?php print(mw_includes_url()); ?>api/libs/rangy/rangy-core.js"></script>

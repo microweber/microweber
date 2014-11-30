@@ -14,7 +14,7 @@
  * @usage  type="pages" append_to_link="/editmode:y"
  */
 
-
+ 
 if (!isset($params['link'])) {
     if (isset($params['append_to_link'])) {
         $append_to_link = $params['append_to_link'];

@@ -34,10 +34,10 @@ class CategoryManager
         $prefix = $this->app->config->get('database.connections.mysql.prefix');
         $this->tables = $this->app->content_manager->tables;
         if (!isset($this->tables['categories'])) {
-            $this->tables['categories'] = $prefix . 'categories';
+            $this->tables['categories'] =  'categories';
         }
         if (!isset($this->tables['categories_items'])) {
-            $this->tables['categories_items'] = $prefix . 'categories_items';
+            $this->tables['categories_items'] =  'categories_items';
         }
         if (!defined("MW_DB_TABLE_TAXONOMY")) {
             define('MW_DB_TABLE_TAXONOMY', $this->tables['categories']);

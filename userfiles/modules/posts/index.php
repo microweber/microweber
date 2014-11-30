@@ -1,6 +1,5 @@
 <?php
 
-
 $current_page = $current_page = 1;
 $post_params = $params;
 if (isset($post_params['id'])) {
@@ -154,8 +153,24 @@ if ($posts_parent_related == false) {
             $sub_categories = array();
             $page_categories = false;
             if (intval($cfg_page_id) != 0 and $cat_from_url == false) {
-                $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
-                $page_categories = get($str0);
+				
+			 
+		//		
+//                $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
+//                $page_categories = get($str0);
+				
+				$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
+				   $page_categories =Categories::items('limit=1&data_type=category&'. 'parent_id=0&rel_id=' . $cfg_page_id);
+				  
+	
+				  
+				 //  dd(4435435435);
+				   // $page_categories =Categories::where('data_type','category')->where('parent_id' , 0)->where('rel_id' , $cfg_page_id)->get()->toArray();
+				   
+				 
+              // $page_categories = get($str0);
+				
+				
                 if (is_array($page_categories)) {
                     foreach ($page_categories as $item_cat) {
                         $sub_categories[] = $item_cat['id'];
