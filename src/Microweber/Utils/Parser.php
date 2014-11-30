@@ -324,7 +324,7 @@ class Parser
                                     global $mw_mod_counter;
                                     $mw_mod_counter++;
                                     $mw_mod_counter1 = crc32(serialize($attrs));
-                                    $seg_clean = $this->app->url->segment(0);
+                                    $seg_clean = $this->app->url_manager->segment(0);
 
                                     if (defined('IS_HOME')) {
                                         $seg_clean = '';
@@ -367,7 +367,7 @@ class Parser
                                 } else {
                                     $module_html = str_replace('__WRAP_NO_WRAP__', '', $module_html);
                                 }
-                                $module_name_url = $this->app->url->slug($module_name);
+                                $module_name_url = $this->app->url_manager->slug($module_name);
 
                                 if ($mod_as_element == false) {
                                     if (strstr($module_name, 'text')) {
@@ -489,9 +489,9 @@ class Parser
             $layout = str_replace($reps_arr, $reps_arr2, $layout);
         }
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);
-        $layout = str_replace('{SITE_URL}', $this->app->url->site(), $layout);
-        $layout = str_replace('{MW_SITE_URL}', $this->app->url->site(), $layout);
-        $layout = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $layout);
+        $layout = str_replace('{SITE_URL}', $this->app->url_manager->site(), $layout);
+        $layout = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $layout);
+        $layout = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $layout);
         $mw_replaced_edit_fields_vals[$parser_mem_crc] = $layout;
         return $layout;
     }
@@ -1357,7 +1357,7 @@ class Parser
             $config['module_name_url_safe'] = $this->module_name_encode($module_name);
 
 
-            $find_base_url = $this->app->url->current(1);
+            $find_base_url = $this->app->url_manager->current(1);
             if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
                 $find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
             }
@@ -1371,12 +1371,12 @@ class Parser
                 $mod_api = str_replace('/admin', '', $module_name_dir);
             }
 
-            $config['module_api'] = $this->app->url->site('api/' . $mod_api);
-            $config['module_view'] = $this->app->url->site('module/' . $module_name);
+            $config['module_api'] = $this->app->url_manager->site('api/' . $mod_api);
+            $config['module_view'] = $this->app->url_manager->site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
             $config['module_class'] = $this->module_css_class($module_name);
 
-            $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
+            $config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
 
 
             if (isset($attrs['id'])) {
@@ -1400,7 +1400,7 @@ class Parser
             if (!isset($attrs['id'])) {
                 global $mw_mod_counter;
                 $mw_mod_counter++;
-                $seg_clean = $this->app->url->segment(0);
+                $seg_clean = $this->app->url_manager->segment(0);
                 if (defined('IS_HOME')) {
                     $seg_clean = '';
                 }

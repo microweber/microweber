@@ -994,7 +994,7 @@ class UserManager
                         $content = "Hello, {$data_res['username']} <br> ";
                         $content .= "You have requested a password reset link from IP address: " . MW_USER_IP . "<br><br> ";
 
-                        //$content .= "on " . $this->app->url->current(1) . "<br><br> ";
+                        //$content .= "on " . $this->app->url_manager->current(1) . "<br><br> ";
 
                         $security = array();
                         $security['ip'] = MW_USER_IP;
@@ -1011,7 +1011,7 @@ class UserManager
 
                             $save = $this->app->database_manager->save($table, $data_to_save);
                         }
-                        $pass_reset_link = $this->app->url->current(1) . '?reset_password_link=' . $function_cache_id;
+                        $pass_reset_link = $this->app->url_manager->current(1) . '?reset_password_link=' . $function_cache_id;
 
                         $notif = array();
                         $notif['module'] = "users";
@@ -1053,7 +1053,7 @@ class UserManager
         }
 
         $return_after_login = false;
-        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url->site())) {
+        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url_manager->site())) {
             $return_after_login = $_SERVER["HTTP_REFERER"];
             $this->session_set('user_after_login', $return_after_login);
 
@@ -1131,19 +1131,19 @@ class UserManager
                         $this->make_logged($data['id']);
 
                         if ($return_after_login != false) {
-                            $this->app->url->redirect($return_after_login);
+                            return $this->app->url_manager->redirect($return_after_login);
                             exit();
                         } else {
                             if ($return_after_login != false) {
-                                $this->app->url->redirect($return_after_login);
+                                return $this->app->url_manager->redirect($return_after_login);
                                 exit();
                             } else {
 
                                 $go_sess = $this->session_get('user_after_login');
                                 if ($go_sess != false) {
-                                    $this->app->url->redirect($go_sess);
+                                    return $this->app->url_manager->redirect($go_sess);
                                 } else {
-                                    $this->app->url->redirect(site_url());
+                                    return $this->app->url_manager->redirect(site_url());
                                 }
 
 
@@ -1169,7 +1169,7 @@ class UserManager
     {
 
 
-        if ($this->app->url->is_ajax()) {
+        if ($this->app->url_manager->is_ajax()) {
             if ($exception == false) {
                 return;
             }
@@ -1179,9 +1179,9 @@ class UserManager
         }
         $after_log = $this->session_get('user_after_login');
         if ($after_log != false) {
-            $this->app->url->redirect($after_log);
+            return $this->app->url_manager->redirect($after_log);
         } else {
-            $this->app->url->redirect(site_url());
+            return $this->app->url_manager->redirect(site_url());
         }
     }
 
@@ -1276,7 +1276,7 @@ class UserManager
     {
 
 
-        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url->site())) {
+        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url_manager->site())) {
             $return_after_login = $_SERVER["HTTP_REFERER"];
             $this->session_set('user_after_login', $return_after_login);
 
@@ -1415,9 +1415,9 @@ class UserManager
         $checkout_url_sess = $this->session_get('register_url');
 
         if ($checkout_url_sess == false) {
-            return $this->app->url->site($default_url);
+            return $this->app->url_manager->site($default_url);
         } else {
-            return $this->app->url->site($checkout_url_sess);
+            return $this->app->url_manager->site($checkout_url_sess);
         }
 
     }
@@ -1452,9 +1452,9 @@ class UserManager
         $checkout_url_sess = $this->session_get('login_url');
 
         if ($checkout_url_sess == false) {
-            return $this->app->url->site($default_url);
+            return $this->app->url_manager->site($default_url);
         } else {
-            return $this->app->url->site($checkout_url_sess);
+            return $this->app->url_manager->site($checkout_url_sess);
         }
 
     }
@@ -1480,9 +1480,9 @@ class UserManager
         $checkout_url_sess = $this->session_get('forgot_password_url');
 
         if ($checkout_url_sess == false) {
-            return $this->app->url->site($default_url);
+            return $this->app->url_manager->site($default_url);
         } else {
-            return $this->app->url->site($checkout_url_sess);
+            return $this->app->url_manager->site($checkout_url_sess);
         }
 
     }

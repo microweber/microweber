@@ -122,7 +122,7 @@ class OptionManager
                     $get[$key]['field_values'] = unserialize(base64_decode($get[$key]['field_values']));
                 }
                 if (isset($get[$key]['option_value']) and strval($get[$key]['option_value']) != '') {
-                    $get[$key]['option_value'] = $this->app->url->replace_site_url_back($get[$key]['option_value']);
+                    $get[$key]['option_value'] = $this->app->url_manager->replace_site_url_back($get[$key]['option_value']);
                 }
             }
         }
@@ -420,7 +420,7 @@ class OptionManager
 
                 $get = $get[0]['option_value'];
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = $this->app->url->replace_site_url_back($get['option_value']);
+                    $get['option_value'] = $this->app->url_manager->replace_site_url_back($get['option_value']);
                 }
 
                 $this->options_memory[$function_cache_id] = $get;
@@ -430,7 +430,7 @@ class OptionManager
                 $get = $get[0];
 
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
-                    $get['option_value'] = $this->app->url->replace_site_url_back($get['option_value']);
+                    $get['option_value'] = $this->app->url_manager->replace_site_url_back($get['option_value']);
                 }
 
                 if (isset($get['field_values']) and $get['field_values'] != false) {
@@ -547,7 +547,7 @@ class OptionManager
                 }
 
                 if (isset($data['option_value']) and strval($data['option_value']) != '') {
-                    $data['option_value'] = $this->app->url->replace_site_url($data['option_value']);
+                    $data['option_value'] = $this->app->url_manager->replace_site_url($data['option_value']);
 
                 }
 

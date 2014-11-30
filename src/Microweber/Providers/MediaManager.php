@@ -65,7 +65,7 @@ class MediaManager
 
         if ($imgages != false and isset($imgages[0])) {
             if (isset($imgages[0]['filename']) and $full == false) {
-                $surl = $this->app->url->site();
+                $surl = $this->app->url_manager->site();
 
                 $img = $this->app->format->replace_once('{SITE_URL}', $surl, $imgages[0]['filename']);
                 return $img;
@@ -81,7 +81,7 @@ class MediaManager
                     $img = $this->get_first_image_from_html(html_entity_decode($cont_id['content']));
 
                     if ($img != false) {
-                        $surl = $this->app->url->site();
+                        $surl = $this->app->url_manager->site();
 
                         $img = $this->app->format->replace_once('{SITE_URL}', $surl, $img);
 
@@ -241,7 +241,7 @@ class MediaManager
 
                 $up = $this->base64_to_file($data['file'], $f);
 
-                $rerturn['src'] = $this->app->url->link_to_file($f);
+                $rerturn['src'] = $this->app->url_manager->link_to_file($f);
                 $rerturn['name'] = $data['name'];
                 exit(json_encode($rerturn));
             }
@@ -269,7 +269,7 @@ class MediaManager
                         $upl = $this->app->cache_manager->save($progress, $cache_id, $cache_group);
 
                         if (move_uploaded_file($item['tmp_name'], $f)) {
-                            $rerturn['src'] = $this->app->url->link_to_file($f);
+                            $rerturn['src'] = $this->app->url_manager->link_to_file($f);
                             $rerturn['name'] = $item['name'];
                         }
                     }
@@ -290,7 +290,7 @@ class MediaManager
                 //            $target = fopen($f, "w");
                 //            fseek($temp, 0, SEEK_SET);
                 //            stream_copy_to_stream($temp, $target);
-                //            $rerturn['src'] = $this->app->url->link_to_file($f);
+                //            $rerturn['src'] = $this->app->url_manager->link_to_file($f);
                 //            $rerturn['name'] = $item['name'];
                 //            fclose($target);
             }
@@ -352,7 +352,7 @@ class MediaManager
             $c_id = intval($data['id']);
             $pic_data = $this->get("one=1&id=" . $c_id);
             if (isset($pic_data['filename'])) {
-                $fn_remove = $this->app->url->to_path($pic_data['filename']);
+                $fn_remove = $this->app->url_manager->to_path($pic_data['filename']);
                 if (is_file($fn_remove)) {
                     @unlink($fn_remove);
                 }
@@ -491,7 +491,7 @@ class MediaManager
 
 
 
-            $url2dir = $this->app->url->to_path($data['src']);
+            $url2dir = $this->app->url_manager->to_path($data['src']);
             $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
             if (isset($s['rel']) and isset($s['rel_id'])) {
@@ -519,7 +519,7 @@ class MediaManager
                 }
 
                 if (is_file($url2dir) and rename($url2dir, $newfile)) {
-                    $data['src'] = $this->app->url->link_to_file($newfile);
+                    $data['src'] = $this->app->url_manager->link_to_file($newfile);
                 } else {
 
                 }
@@ -626,7 +626,7 @@ class MediaManager
         $src = strtok($src, '?');
 
         //require_once ();
-        $surl = $this->app->url->site();
+        $surl = $this->app->url_manager->site();
         $local = false;
 
         $media_url = MW_MEDIA_URL;
@@ -666,7 +666,7 @@ class MediaManager
                   $dl_file = media_base_path() . 'downloaded' . DS . md5($src) . basename($src);
 
                   if (!file_exists($dl_file)) {
-                      $is_dl = $this->app->url->download($src, false, $dl_file);
+                      $is_dl = $this->app->url_manager->download($src, false, $dl_file);
                   } else {
                       $is_dl = 1;
                   }
@@ -775,7 +775,7 @@ class MediaManager
 
     public function pixum($width, $height)
     {
-        return $this->app->url->site('api/pixum_img') . "?width=" . $width . "&height=" . $height;
+        return $this->app->url_manager->site('api/pixum_img') . "?width=" . $width . "&height=" . $height;
     }
 
     public function pixum_img()
@@ -890,7 +890,7 @@ class MediaManager
         $src = html_entity_decode($src);
         $src = htmlspecialchars_decode($src);
 
-        $surl = $this->app->url->site();
+        $surl = $this->app->url_manager->site();
         $src = str_replace('{SITE_URL}', $surl, $src);
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
         $base_src = str_replace($surl, '', $src);
@@ -926,7 +926,7 @@ class MediaManager
 
         if (file_exists($cache_path)) {
 
-            $cache_path = $this->app->url->link_to_file($cache_path);
+            $cache_path = $this->app->url_manager->link_to_file($cache_path);
             return $cache_path;
         } else {
             if (stristr($base_src, 'pixum_img')) {
@@ -934,7 +934,7 @@ class MediaManager
             }
 
 
-            $tn_img_url = $this->app->url->site('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height . '&cache_id=' . $cache_id;
+            $tn_img_url = $this->app->url_manager->site('api_html/thumbnail_img') . "?&src=" . $base_src . "&width=" . $width . "&height=" . $height . '&cache_id=' . $cache_id;
             $tn_img_url = str_replace('(', '&#40;', $tn_img_url);
             $tn_img_url = str_replace(')', '&#41;', $tn_img_url);
 
@@ -943,7 +943,7 @@ class MediaManager
         }
 
         //require_once ();
-        $surl = $this->app->url->site();
+        $surl = $this->app->url_manager->site();
         $local = false;
 
         $media_url = MW_MEDIA_URL;
@@ -990,7 +990,7 @@ class MediaManager
 
 //$base_src = basename($src);
 
-            //return $this->app->url->site('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
+            //return $this->app->url_manager->site('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
         } else {
             //
 
@@ -1000,7 +1000,7 @@ class MediaManager
 
                 $base_src = basename($src);
 
-                //return $this->app->url->site('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
+                //return $this->app->url_manager->site('api_html/thumbnail_img'). "?filename=" . $base_src   . "&src=" . $src1  . "&width=" . $width."&height=" . $height;
 
 
                 $ext = get_file_extension($src);
@@ -1025,7 +1025,7 @@ class MediaManager
         }
         if (file_exists($cache_path)) {
 
-            $cache_path = $this->app->url->link_to_file($cache_path);
+            $cache_path = $this->app->url_manager->link_to_file($cache_path);
             return $cache_path;
         } else {
             return $this->pixum($width, $height);
@@ -1083,7 +1083,7 @@ class MediaManager
         if ($fn_remove_path != false and is_array($fn_remove_path)) {
             foreach ($fn_remove_path as $key => $value) {
 
-                $fn_remove = $this->app->url->to_path($value);
+                $fn_remove = $this->app->url_manager->to_path($value);
 
                 if (isset($fn_remove) and trim($fn_remove) != '' and trim($fn_remove) != 'false') {
                     $path = urldecode($fn_remove);

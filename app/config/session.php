@@ -20,7 +20,7 @@ return array(
 
 	'path' => '/',
 
-	'domain' => 'testing1.com',
+	'domain' => null,
 
 	'secure' => false,
 

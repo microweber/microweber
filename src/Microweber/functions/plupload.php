@@ -19,7 +19,7 @@ if (!is_admin()) {
     }
 
 
-    $is_ajax = mw()->url->is_ajax();
+    $is_ajax = mw()->url_manager->is_ajax();
     if ($is_ajax != false) {
         die('{"jsonrpc" : "2.0", "error" : {"code":99, "message": "You are not allowed to upload"}}');
     }
@@ -401,7 +401,7 @@ if ($cleanupTargetDir && is_dir($targetDir) && ($dir = opendir($targetDir))) {
 }
 
 if (isset($_SERVER["CONTENT_LENGTH"]) and isset($_FILES['file'])) {
-    $filename_log = mw()->url->slug($fileName);
+    $filename_log = mw()->url_manager->slug($fileName);
     $check = mw()->log_manager->get("one=true&no_cache=true&is_system=y&created_on=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=" . $filename_log . "&user_ip=" . MW_USER_IP);
     $upl_size_log = $_SERVER["CONTENT_LENGTH"];
     if (is_array($check) and isset($check['id'])) {
@@ -487,7 +487,7 @@ if (!$chunks || $chunk == $chunks - 1) {
 $f_name = explode(DS, $filePath);
 
 $rerturn = array();
-$rerturn['src'] = mw()->url->link_to_file($filePath);
+$rerturn['src'] = mw()->url_manager->link_to_file($filePath);
 $rerturn['name'] = end($f_name);
 
 if (isset($upl_size_log) and $upl_size_log > 0) {

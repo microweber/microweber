@@ -24,7 +24,7 @@ $mtime = microtime();
 <?php print number_format(memory_get_peak_usage(TRUE)); ?> bytes (process peak)
 </pre>
   <b>URL</b>
-  <pre><?php print implode('/',mw()->url->segment()); ?></pre>
+  <pre><?php print implode('/',mw()->url_manager->segment()); ?></pre>
   <?php
   $ql = \DB::getQueryLog();
   if($ql)

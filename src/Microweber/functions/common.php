@@ -288,18 +288,18 @@ function isarr($var)
 function is_ajax()
 
 {
-    return mw()->url->is_ajax();
+    return mw()->url_manager->is_ajax();
 
 }
 
 function url_current($skip_ajax = false, $no_get = false)
 {
-    return mw()->url->current($skip_ajax, $no_get);
+    return mw()->url_manager->current($skip_ajax, $no_get);
 }
 
 function url_segment($k = -1, $page_url = false)
 {
-    return mw()->url->segment($k, $page_url);
+    return mw()->url_manager->segment($k, $page_url);
 
 }
 
@@ -310,7 +310,7 @@ function url_segment($k = -1, $page_url = false)
  */
 function url_path($skip_ajax = false)
 {
-    return mw()->url->string($skip_ajax);
+    return mw()->url_manager->string($skip_ajax);
 }
 
 /**
@@ -320,17 +320,17 @@ function url_path($skip_ajax = false)
  */
 function url_string($skip_ajax = false)
 {
-    return mw()->url->string($skip_ajax);
+    return mw()->url_manager->string($skip_ajax);
 }
 
 function url_title($text)
 {
-    return mw()->url->slug($text);
+    return mw()->url_manager->slug($text);
 }
 
 function url_param($param, $skip_ajax = false)
 {
-    return mw()->url->param($param, $skip_ajax);
+    return mw()->url_manager->param($param, $skip_ajax);
 }
 
 

@@ -234,7 +234,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                   <?php } ?>
                   <?php }  ?>
                 </li>
-                <li><a href="<?php print mw()->url->current(); ?>?editmode=n"><span
+                <li><a href="<?php print mw()->url_manager->current(); ?>?editmode=n"><span
                                         class="ico iviewsite"></span><span>
                   <?php _e("View Website"); ?>
                   </span></a> </li>
@@ -259,7 +259,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 <?php endif; ?>
 
                 <li><a  href="#design_bnav" class="mw_ex_tools"><span class="ico itabadvanced"></span>Tools</a></li>
-                <li><a href="<?php print mw()->url->api_link('logout'); ?>"><span
+                <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>"><span
                                         class="ico ilogout"></span><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>

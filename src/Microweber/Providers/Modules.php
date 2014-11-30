@@ -589,7 +589,7 @@ class Modules
             $config['module_name_url_safe'] = module_name_encode($module_name);
 
 
-            $find_base_url = $this->app->url->current(1);
+            $find_base_url = $this->app->url_manager->current(1);
             if ($pos = strpos($find_base_url, ':' . $module_name) or $pos = strpos($find_base_url, ':' . $config['module_name_url_safe'])) {
                 $find_base_url = substr($find_base_url, 0, $pos) . ':' . $config['module_name_url_safe'];
             }
@@ -603,22 +603,22 @@ class Modules
                 $mod_api = str_replace('/admin', '', $module_name_dir);
             }
 
-            $config['module_api'] = $this->app->url->site('api/' . $mod_api);
-            $config['module_view'] = $this->app->url->site('module/' . $module_name);
+            $config['module_api'] = $this->app->url_manager->site('api/' . $mod_api);
+            $config['module_view'] = $this->app->url_manager->site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
             $config['module_class'] = $this->css_class($module_name);
-            //$config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
-            //$config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
+            //$config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
+            //$config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
 
 //            if (trim($module_name_dir) != '' and $module_name_dir != './') {
 //                $mod_url = modules_url() . (trim(str_replace(' ', '%20', $module_name_dir))) . '/';
 //
 //                $config['url_to_module'] = $module_name_dir;
 //            } else {
-//                $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
+//                $config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
 //            } // $config['url_to_module2'] =$config['url_base'];
 
-            $config['url_to_module'] = $this->app->url->link_to_file($config['path_to_module']);
+            $config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
 
             $get_module_template_settings_from_options = mw_var('get_module_template_settings_from_options');
 
@@ -643,7 +643,7 @@ class Modules
             if (!isset($attrs['id'])) {
                 global $mw_mod_counter;
                 $mw_mod_counter++;
-                $seg_clean = $this->app->url->segment(0);
+                $seg_clean = $this->app->url_manager->segment(0);
                 if (defined('IS_HOME')) {
                     $seg_clean = '';
                 }
@@ -1002,7 +1002,7 @@ class Modules
 
             if ($ch != false) {
                 $ch = dirname($ch);
-                $ch = $this->app->url->link_to_file($ch);
+                $ch = $this->app->url_manager->link_to_file($ch);
                 $ch = $ch . '/';
                 $checked[$module_name] = $ch;
             } else {
@@ -1181,7 +1181,7 @@ class Modules
                 //            if (!is_dir($uninstall_lock)) {
                 //                mkdir_recursive($uninstall_lock);
                 //            }
-                //            $unistall_file = $this->app->url->slug($module_name);
+                //            $unistall_file = $this->app->url_manager->slug($module_name);
                 //            $unistall_file = $uninstall_lock . $unistall_file . '.php';
                 //            touch($unistall_file);
                 //  d($unistall_file);
@@ -1401,9 +1401,9 @@ class Modules
 
                     $try_icon = $module_dir . $module_name . '.png';
                     if (is_file($try_icon)) {
-                        $config['icon'] = $this->app->url->link_to_file($try_icon);
+                        $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
                     } else {
-                        $config['icon'] = $this->app->url->link_to_file($def_icon);
+                        $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
 
                     }
                     $configs[] = $config;
@@ -1586,9 +1586,9 @@ class Modules
 
                     if (is_file($try_icon)) {
 
-                        $config['icon'] = $this->app->url->link_to_file($try_icon);
+                        $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
                     } else {
-                        $config['icon'] = $this->app->url->link_to_file($def_icon);
+                        $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
                     }
 
                     $configs[] = $config;

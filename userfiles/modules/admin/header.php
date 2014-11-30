@@ -67,7 +67,7 @@
         <?php endif; ?>
         <?php event_trigger('admin_head'); ?>
         </head>
-        <body  class="is_admin loading view-<?php print mw()->url->param('view'); ?> action-<?php print mw()->url->param('action'); ?>">
+        <body  class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 <?php
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {

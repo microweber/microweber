@@ -54,15 +54,7 @@ class BaseModel extends Eloquent
     {
         parent::boot();
 
-        static::saving(function($post)
-        {
-            dd('saving basemodel'.__LINE__);
-        });
-    }
-
-    public function get()
-    {
-        return 'kur za cska';
+        static::observe(new BaseModelObserver);
     }
 
     public function scopeItems($query, $params = false)

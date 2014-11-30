@@ -228,7 +228,7 @@ class DefaultController extends Controller
         $mod_class_api_class_exist = false;
         $caller_commander = false;
         if ($api_function == false) {
-            $api_function_full = $this->app->url->string();
+            $api_function_full = $this->app->url_manager->string();
             $api_function_full = $this->app->format->replace_once('api_html', '', $api_function_full);
             $api_function_full = $this->app->format->replace_once('api/api', 'api', $api_function_full);
 
@@ -359,12 +359,12 @@ class DefaultController extends Controller
 
 
         if ($api_function == false) {
-            $api_function = $this->app->url->segment(1);
+            $api_function = $this->app->url_manager->segment(1);
         }
 
         if (!defined('MW_API_RAW')) {
             if ($mod_class_api != false) {
-                $url_segs = $this->app->url->segment(-1);
+                $url_segs = $this->app->url_manager->segment(-1);
 
             }
         } else {
@@ -389,9 +389,9 @@ class DefaultController extends Controller
                     $data = $params;
                 } else if (!$_POST and !$_REQUEST) {
 
-                    $data = $this->app->url->params(true);
+                    $data = $this->app->url_manager->params(true);
                     if (empty($data)) {
-                        $data = $this->app->url->segment(2);
+                        $data = $this->app->url_manager->segment(2);
                     }
                 } else {
                     //$data = $_REQUEST;
@@ -535,9 +535,9 @@ class DefaultController extends Controller
                             if ($params != false) {
                                 $data = $params;
                             } else if (!$_POST and !$_REQUEST) {
-                                $data = $this->app->url->params(true);
+                                $data = $this->app->url_manager->params(true);
                                 if (empty($data)) {
-                                    $data = $this->app->url->segment(2);
+                                    $data = $this->app->url_manager->segment(2);
                                 }
                             } else {
 
@@ -631,10 +631,10 @@ class DefaultController extends Controller
 
                 if ($mod_class_api_called == false) {
                     if (!$_POST and !$_REQUEST) {
-                        //  $data = $this->app->url->segment(2);
-                        $data = $this->app->url->params(true);
+                        //  $data = $this->app->url_manager->segment(2);
+                        $data = $this->app->url_manager->params(true);
                         if (empty($data)) {
-                            $data = $this->app->url->segment(2);
+                            $data = $this->app->url_manager->segment(2);
                         }
                     } else {
                         //$data = $_REQUEST;
@@ -652,7 +652,7 @@ class DefaultController extends Controller
 
                     } elseif (class_exists($api_function, false)) {
                         //
-                        $segs = $this->app->url->segment();
+                        $segs = $this->app->url_manager->segment();
                         $mmethod = array_pop($segs);
 
                         $class = new $api_function($this->app);
@@ -670,7 +670,7 @@ class DefaultController extends Controller
                         if (class_exists($api_function_full_2, false)) {
                             //
 
-                            $segs = $this->app->url->segment();
+                            $segs = $this->app->url_manager->segment();
                             $mmethod = array_pop($segs);
 
                             $class = new  $api_function_full_2($this->app);
@@ -732,7 +732,6 @@ class DefaultController extends Controller
             }
             return;
         }
-        // exit ( $api_function );
     }
 
     public function module()
@@ -744,7 +743,7 @@ class DefaultController extends Controller
         }
 
         if (!defined("MW_NO_SESSION")) {
-            $is_ajax = $this->app->url->is_ajax();
+            $is_ajax = $this->app->url_manager->is_ajax();
             if (!mw()->user_manager->session_id() and $is_ajax == false) {
 
                 if (!defined('MW_SESS_STARTED')) {
@@ -772,7 +771,7 @@ class DefaultController extends Controller
             $_REQUEST['data-type'] = $_REQUEST['data-module-name'];
 
             if (!isset($_REQUEST['id'])) {
-                $_REQUEST['id'] = $this->app->url->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
+                $_REQUEST['id'] = $this->app->url_manager->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
             }
 
         }
@@ -817,18 +816,18 @@ class DefaultController extends Controller
             $url = $from_url;
             $from_url2 = str_replace('#', '/', $from_url);
 
-            $content_id = $this->app->url->param('content_id', false, $from_url2);
+            $content_id = $this->app->url_manager->param('content_id', false, $from_url2);
             if ($content_id == false) {
-                $content_id = $this->app->url->param('editpage', false, $from_url2);
+                $content_id = $this->app->url_manager->param('editpage', false, $from_url2);
             }
             if ($content_id == false) {
-                $content_id = $this->app->url->param('editpost', false, $from_url2);
+                $content_id = $this->app->url_manager->param('editpost', false, $from_url2);
             }
             if ($content_id == false) {
-                $content_id = $this->app->url->param('content-id', false, $from_url2);
+                $content_id = $this->app->url_manager->param('content-id', false, $from_url2);
             }
             if ($content_id == false) {
-                $action_test = $this->app->url->param('action', false, $from_url2);
+                $action_test = $this->app->url_manager->param('action', false, $from_url2);
 
                 if ($action_test != false) {
                     $action_test = str_ireplace('editpage:', '', $action_test);
@@ -862,7 +861,7 @@ class DefaultController extends Controller
 
                 }
             } else {
-                if (trim($url) == '' or trim($url) == $this->app->url->site()) {
+                if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
                     //var_dump($from_url);
                     //$page = $this->app->content_manager->get_by_url($url);
                     $page = $this->app->content_manager->homepage();
@@ -872,7 +871,7 @@ class DefaultController extends Controller
                     }
 
                     if (isset($from_url2)) {
-                        $mw_quick_edit = $this->app->url->param('mw_quick_edit', false, $from_url2);
+                        $mw_quick_edit = $this->app->url_manager->param('mw_quick_edit', false, $from_url2);
 
                         if ($mw_quick_edit) {
                             $page = false;
@@ -899,7 +898,7 @@ class DefaultController extends Controller
                 }
             }
         } else {
-            $url = $this->app->url->string();
+            $url = $this->app->url_manager->string();
         }
 
 
@@ -930,7 +929,7 @@ class DefaultController extends Controller
 
         if ($custom_display == true) {
 
-            $u2 = $this->app->url->site();
+            $u2 = $this->app->url_manager->site();
             $u1 = str_replace($u2, '', $url);
 
             $this->render_this_url = $u1;
@@ -940,15 +939,15 @@ class DefaultController extends Controller
         }
         $url_last = false;
         if (!isset($_REQUEST['module'])) {
-            $url = $this->app->url->string(0);
+            $url = $this->app->url_manager->string(0);
             if ($url == __FUNCTION__) {
-                $url = $this->app->url->string(0);
+                $url = $this->app->url_manager->string(0);
             }
             /*
-             $is_ajax = $this->app->url->is_ajax();
+             $is_ajax = $this->app->url_manager->is_ajax();
 
              if ($is_ajax == true) {
-             $url = $this->app->url->string(true);
+             $url = $this->app->url_manager->string(true);
              }*/
 
             $url = $this->app->format->replace_once('module/', '', $url);
@@ -997,7 +996,7 @@ class DefaultController extends Controller
             }
         }
 
-        $module_info = $this->app->url->param('module_info', true);
+        $module_info = $this->app->url_manager->param('module_info', true);
 
         if ($module_info) {
             if ($_REQUEST['module']) {
@@ -1014,7 +1013,7 @@ class DefaultController extends Controller
 
                     if (!isset($config['icon']) or $config['icon'] == false) {
                         $config['icon'] = modules_path() . '' . $_REQUEST['module'] . '.png';
-                        $config['icon'] = $this->app->url->link_to_file($config['icon']);
+                        $config['icon'] = $this->app->url_manager->link_to_file($config['icon']);
                     }
                     print json_encode($config);
                     return;
@@ -1022,10 +1021,10 @@ class DefaultController extends Controller
             }
         }
 
-        $admin = $this->app->url->param('admin', true);
+        $admin = $this->app->url_manager->param('admin', true);
 
-        $mod_to_edit = $this->app->url->param('module_to_edit', true);
-        $embed = $this->app->url->param('embed', true);
+        $mod_to_edit = $this->app->url_manager->param('module_to_edit', true);
+        $embed = $this->app->url_manager->param('embed', true);
 
         $mod_iframe = false;
         if ($mod_to_edit != false) {
@@ -1037,7 +1036,7 @@ class DefaultController extends Controller
         if (($_POST)) {
             $data = $_POST;
         } else {
-            $url = $this->app->url->segment();
+            $url = $this->app->url_manager->segment();
 
             if (!empty($url)) {
                 foreach ($url as $k => $v) {
@@ -1146,7 +1145,7 @@ class DefaultController extends Controller
         }
         if ($has_id == false) {
 
-            //	$mod_n = $this->app->url->slug($mod_n) . '-' . date("YmdHis");
+            //	$mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis");
             //	$tags .= "id=\"$mod_n\" ";
         }
 
@@ -1173,7 +1172,7 @@ class DefaultController extends Controller
 
         if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
             $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
-            if (strstr($get_arr_from_ref, $this->app->url->site())) {
+            if (strstr($get_arr_from_ref, $this->app->url_manager->site())) {
                 $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
                 if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
                     $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
@@ -1198,7 +1197,7 @@ class DefaultController extends Controller
             $res = str_replace('{content}', $res, $layout);
         }
 
-        $aj = $this->app->url->is_ajax();
+        $aj = $this->app->url_manager->is_ajax();
 
         if (isset($_REQUEST['live_edit']) and $aj == false) {
 
@@ -1216,7 +1215,7 @@ class DefaultController extends Controller
 
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
-            $res = $this->app->url->replace_site_url_back($res);
+            $res = $this->app->url_manager->replace_site_url_back($res);
             print $res;
         }
 
@@ -1241,10 +1240,11 @@ class DefaultController extends Controller
 
         event_trigger('mw.controller.index');
 
-        if ($this->render_this_url == false and $this->app->url->is_ajax() == FALSE) {
-            $page_url = $this->app->url->string();
-        } elseif ($this->render_this_url == false and $this->app->url->is_ajax() == true) {
-            $page_url = $this->app->url->string(1);
+
+        if ($this->render_this_url == false and $this->app->url_manager->is_ajax() == FALSE) {
+            $page_url = $this->app->url_manager->string();
+        } elseif ($this->render_this_url == false and $this->app->url_manager->is_ajax() == true) {
+            $page_url = $this->app->url_manager->string(1);
         } else {
             $page_url = $this->render_this_url;
             $this->render_this_url = false;
@@ -1272,26 +1272,26 @@ class DefaultController extends Controller
         if (isset($_REQUEST['view'])) {
             $is_custom_view = $_REQUEST['view'];
         } else {
-            $is_custom_view = $this->app->url->param('view');
+            $is_custom_view = $this->app->url_manager->param('view');
             if ($is_custom_view and $is_custom_view != false) {
                 $is_custom_view = str_replace('..', '', $is_custom_view);
-                $page_url = $this->app->url->param_unset('view', $page_url);
+                $page_url = $this->app->url_manager->param_unset('view', $page_url);
 
             }
 
         }
         event_trigger('mw_frontend');
 
-        $is_editmode = $this->app->url->param('editmode');
+        $is_editmode = $this->app->url_manager->param('editmode');
 
 
-        $is_no_editmode = $this->app->url->param('no_editmode');
-        $is_quick_edit = $this->app->url->param('mw_quick_edit');
+        $is_no_editmode = $this->app->url_manager->param('no_editmode');
+        $is_quick_edit = $this->app->url_manager->param('mw_quick_edit');
 
         if ($is_quick_edit != false) {
-            $page_url = $this->app->url->param_unset('mw_quick_edit', $page_url);
+            $page_url = $this->app->url_manager->param_unset('mw_quick_edit', $page_url);
         }
-        $is_preview_template = $this->app->url->param('preview_template');
+        $is_preview_template = $this->app->url_manager->param('preview_template');
         if (!$is_preview_template) {
             $is_preview_template = false;
             if ($this->return_data == false) {
@@ -1303,15 +1303,15 @@ class DefaultController extends Controller
             if (mw()->user_manager->session_id() and $is_editmode and $is_no_editmode == false) {
                 if ($is_editmode == 'n') {
                     $is_editmode = false;
-                    $page_url = $this->app->url->param_unset('editmode', $page_url);
+                    $page_url = $this->app->url_manager->param_unset('editmode', $page_url);
                     $this->app->user_manager->session_set('back_to_editmode', true);
                     $this->app->user_manager->session_set('editmode', false);
 
-                    $this->app->url->redirect($this->app->url->site_url($page_url));
+                    return $this->app->url_manager->redirect($this->app->url_manager->site_url($page_url));
                     return;
                 } else {
                     $editmode_sess = $this->app->user_manager->session_get('editmode');
-                    $page_url = $this->app->url->param_unset('editmode', $page_url);
+                    $page_url = $this->app->url_manager->param_unset('editmode', $page_url);
 
 
                     if ($is_admin == true) {
@@ -1320,7 +1320,11 @@ class DefaultController extends Controller
                             $this->app->user_manager->session_set('back_to_editmode', false);
                             $is_editmode = false;
                         }
-                        $this->app->url->redirect($this->app->url->site_url($page_url));
+
+
+                       // return \Redirect::to($page_url);
+                      /// dd($page_url);
+                          return $this->app->url_manager->redirect($this->app->url_manager->site_url($page_url));
                         return;
                     } else {
                         $is_editmode = false;
@@ -1334,14 +1338,14 @@ class DefaultController extends Controller
 
             } else {
                 $is_editmode = false;
-                $page_url = $this->app->url->param_unset('no_editmode', $page_url);
+                $page_url = $this->app->url_manager->param_unset('no_editmode', $page_url);
 
             }
 
 
         } else {
             $is_editmode = false;
-            $page_url = $this->app->url->param_unset('preview_template', $page_url);
+            $page_url = $this->app->url_manager->param_unset('preview_template', $page_url);
         }
         if ($is_quick_edit == true) {
             $is_editmode = true;
@@ -1349,14 +1353,14 @@ class DefaultController extends Controller
         $preview_module = false;
         $preview_module_template = false;
         $preview_module_id = false;
-        $is_preview_module = $this->app->url->param('preview_module');
+        $is_preview_module = $this->app->url_manager->param('preview_module');
 
         if ($is_preview_module != false) {
             if ($this->app->user_manager->is_admin()) {
                 $is_preview_module = module_name_decode($is_preview_module);
                 if (is_module($is_preview_module)) {
-                    $is_preview_module_skin = $this->app->url->param('preview_module_template');
-                    $preview_module_id = $this->app->url->param('preview_module_id');
+                    $is_preview_module_skin = $this->app->url_manager->param('preview_module_template');
+                    $preview_module_id = $this->app->url_manager->param('preview_module_id');
                     $preview_module = $is_preview_module;
                     if ($is_preview_module_skin != false) {
                         $preview_module_template = module_name_decode($is_preview_module_skin);
@@ -1367,12 +1371,12 @@ class DefaultController extends Controller
 
         }
 
-        $is_layout_file = $this->app->url->param('preview_layout');
+        $is_layout_file = $this->app->url_manager->param('preview_layout');
         if (!$is_layout_file) {
             $is_layout_file = false;
         } else {
 
-            $page_url = $this->app->url->param_unset('preview_layout', $page_url);
+            $page_url = $this->app->url_manager->param_unset('preview_layout', $page_url);
         }
 
 
@@ -1404,7 +1408,7 @@ class DefaultController extends Controller
                     $page['parent'] = intval($_REQUEST['parent_id']);
                 }
 
-                //$page['url'] = $this->app->url->string();
+                //$page['url'] = $this->app->url_manager->string();
                 if (isset($is_preview_template) and $is_preview_template != false) {
 
                     $page['active_site_template'] = $is_preview_template;
@@ -1486,7 +1490,7 @@ class DefaultController extends Controller
                 $found_mod = false;
                 $page = $this->app->content_manager->get_by_url($page_url);
                 $page_exact = $this->app->content_manager->get_by_url($page_url, true);
-                $page_url_segment_1 = $this->app->url->segment(0, $page_url);
+                $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
                 if ($preview_module != false) {
                     $page_url = $preview_module;
                 }
@@ -1499,7 +1503,7 @@ class DefaultController extends Controller
                     $page['id'] = 0;
                     $page['content_type'] = 'page';
                     $page['parent'] = '0';
-                    $page['url'] = $this->app->url->string();
+                    $page['url'] = $this->app->url_manager->string();
                     $page['active_site_template'] = $the_active_site_template;
                     template_var('no_edit', 1);
 //                    if(!defined('PAGE_ID')){
@@ -1527,13 +1531,13 @@ class DefaultController extends Controller
                     if (empty($page)) {
 
                         $the_new_page_file = false;
-                        $page_url_segment_1 = $this->app->url->segment(0, $page_url);
+                        $page_url_segment_1 = $this->app->url_manager->segment(0, $page_url);
                         $td = templates_path() . $page_url_segment_1;
                         $td_base = $td;
 
-                        $page_url_segment_2 = $this->app->url->segment(1, $page_url);
+                        $page_url_segment_2 = $this->app->url_manager->segment(1, $page_url);
                         $directly_to_file = false;
-                        $page_url_segment_3 = $this->app->url->segment(-1, $page_url);
+                        $page_url_segment_3 = $this->app->url_manager->segment(-1, $page_url);
 
                         if (!is_dir($td_base)) {
                             $page_url_segment_1 = $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
@@ -1626,7 +1630,7 @@ class DefaultController extends Controller
                                 $page['id'] = 0;
                                 $page['content_type'] = 'page';
                                 $page['parent'] = '0';
-                                $page['url'] = $this->app->url->string();
+                                $page['url'] = $this->app->url_manager->string();
                                 //  $page['active_site_template'] = $page_url_segment_1;
                                 $page['simply_a_file'] = 'clean.php';
                                 $page['layout_file'] = 'clean.php';
@@ -1643,7 +1647,7 @@ class DefaultController extends Controller
                                         $page['id'] = 0;
                                         $page['content_type'] = 'page';
                                         $page['parent'] = '0';
-                                        $page['url'] = $this->app->url->string();
+                                        $page['url'] = $this->app->url_manager->string();
                                         $page['active_site_template'] = $page_url_segment_1;
                                         $page['content'] = '<module type="' . $mvalue . '" />';
                                         $page['simply_a_file'] = 'clean.php';
@@ -1670,7 +1674,7 @@ class DefaultController extends Controller
 
                             $page['content_type'] = 'page';
                             $page['parent'] = '0';
-                            $page['url'] = $this->app->url->string();
+                            $page['url'] = $this->app->url_manager->string();
 
 
                             $page['active_site_template'] = $page_url_segment_1;
@@ -1752,7 +1756,7 @@ class DefaultController extends Controller
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
                 $page_non_active['parent'] = '0';
-                $page_non_active['url'] = $this->app->url->string();
+                $page_non_active['url'] = $this->app->url_manager->string();
                 $page_non_active['content'] = 'This page is not published!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
@@ -1766,7 +1770,7 @@ class DefaultController extends Controller
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
                 $page_non_active['parent'] = '0';
-                $page_non_active['url'] = $this->app->url->string();
+                $page_non_active['url'] = $this->app->url_manager->string();
                 $page_non_active['content'] = 'This page is deleted!';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
@@ -1781,7 +1785,7 @@ class DefaultController extends Controller
                 $page_non_active['id'] = 0;
                 $page_non_active['content_type'] = 'page';
                 $page_non_active['parent'] = '0';
-                $page_non_active['url'] = $this->app->url->string();
+                $page_non_active['url'] = $this->app->url_manager->string();
                 $page_non_active['content'] = ' <module type="users/login" class="user-require-login-on-view" /> ';
                 $page_non_active['simply_a_file'] = 'clean.php';
                 $page_non_active['layout_file'] = 'clean.php';
@@ -1820,10 +1824,10 @@ class DefaultController extends Controller
         }
 
         if (isset($content['original_link']) and $content['original_link'] != '') {
-            $content['original_link'] = str_ireplace('{site_url}', $this->app->url->site(), $content['original_link']);
+            $content['original_link'] = str_ireplace('{site_url}', $this->app->url_manager->site(), $content['original_link']);
             $redirect = $this->app->format->prep_url($content['original_link']);
             if ($redirect != '') {
-                $this->app->url->redirect($redirect);
+                return $this->app->url_manager->redirect($redirect);
             }
         }
 
@@ -1929,8 +1933,8 @@ class DefaultController extends Controller
                 $l = $this->app->parser->get_by_id($find_embed_id, $l);
             }
 
-            $apijs_loaded = $this->app->url->site('apijs');
-            //$apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
+            $apijs_loaded = $this->app->url_manager->site('apijs');
+            //$apijs_loaded = $this->app->url_manager->site('apijs') . '?id=' . CONTENT_ID;
 
             $is_admin = $this->app->user_manager->is_admin();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';
@@ -1972,7 +1976,7 @@ class DefaultController extends Controller
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             if (!stristr($l, $apijs_loaded)) {
-                $apijs_settings_loaded = $this->app->url->site('apijs_settings') . '?id=' . CONTENT_ID;
+                $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID;
 
                 $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
 
@@ -2103,7 +2107,7 @@ class DefaultController extends Controller
             $l = str_replace('%7BDEFAULT_TEMPLATE_URL%7D', DEFAULT_TEMPLATE_URL, $l);
             $meta = array();
             $meta['content_image'] = '';
-            $meta['content_url'] = $this->app->url->current(1);
+            $meta['content_url'] = $this->app->url_manager->current(1);
             $meta['og_description'] = $this->app->option_manager->get('website_description', 'website');
             $meta['og_type'] = 'website';
             $meta_content_id = PAGE_ID;
@@ -2208,7 +2212,7 @@ class DefaultController extends Controller
 
             event_trigger('frontend');
 
-            $is_embed = $this->app->url->param('embed');
+            $is_embed = $this->app->url_manager->param('embed');
 
             if ($is_embed != false) {
                 $this->isolate_by_html_id = $is_embed;
@@ -2361,7 +2365,7 @@ class DefaultController extends Controller
 
         }
         if (isset($_SERVER['HTTP_REFERER'])) {
-            $cat_url = mw()->url->param('category', true, $_SERVER['HTTP_REFERER']);
+            $cat_url = mw()->url_manager->param('category', true, $_SERVER['HTTP_REFERER']);
             if ($cat_url != false) {
                 if (!defined('CATEGORY_ID')) {
                     define('CATEGORY_ID', intval($cat_url));
@@ -2408,7 +2412,7 @@ class DefaultController extends Controller
 
         }
         if (isset($_SERVER['HTTP_REFERER'])) {
-            $cat_url = mw()->url->param('category', true, $_SERVER['HTTP_REFERER']);
+            $cat_url = mw()->url_manager->param('category', true, $_SERVER['HTTP_REFERER']);
             if ($cat_url != false) {
                 if (!defined('CATEGORY_ID')) {
                     define('CATEGORY_ID', intval($cat_url));
@@ -2456,9 +2460,9 @@ class DefaultController extends Controller
         }
 
 
-        $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
-        $l = str_replace('{MW_SITE_URL}', $this->app->url->site(), $l);
-        $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
+        $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
+        $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
+        $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
 
 
         print $l;
@@ -2482,7 +2486,7 @@ class DefaultController extends Controller
             //  event_trigger('mw_cron');
         }
 
-        $tool = $this->app->url->segment(1);
+        $tool = $this->app->url_manager->segment(1);
 
         if ($tool) {
 
@@ -2512,7 +2516,7 @@ class DefaultController extends Controller
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
+            if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
                 //$page = $this->app->content_manager->get_by_url($url);
                 $page = $this->app->content_manager->homepage();
             } else {
@@ -2520,7 +2524,7 @@ class DefaultController extends Controller
                 $page = $this->app->content_manager->get_by_url($url);
             }
         } else {
-            $url = $this->app->url->string();
+            $url = $this->app->url_manager->string();
         }
 
         if (!isset($page['active_site_template'])) {
@@ -2604,9 +2608,9 @@ class DefaultController extends Controller
 
 
         if ($layout != false) {
-            //$apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
-            $apijs_loaded = $this->app->url->site('apijs');
-            $apijs_settings_loaded = $this->app->url->site('apijs_settings') . '?id=' . CONTENT_ID;
+            //$apijs_loaded = $this->app->url_manager->site('apijs') . '?id=' . CONTENT_ID;
+            $apijs_loaded = $this->app->url_manager->site('apijs');
+            $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID;
 
             // $is_admin = $this->app->user_manager->is_admin();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';
@@ -2807,9 +2811,9 @@ class DefaultController extends Controller
         $l = $l->__toString();
 
 
-        $l = str_replace('{SITE_URL}', $this->app->url->site(), $l);
-        $l = str_replace('{MW_SITE_URL}', $this->app->url->site(), $l);
-        $l = str_replace('%7BSITE_URL%7D', $this->app->url->site(), $l);
+        $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
+        $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
+        $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
         return $l;
     }
 

@@ -126,7 +126,7 @@ function mw_remote_user_login($params =false)
 
 
 
-		//  mw()->url->redirect($redirect_after);
+		//  return mw()->url_manager->redirect($redirect_after);
 		//  exit();
 			}
 			

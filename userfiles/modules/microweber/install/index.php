@@ -55,7 +55,7 @@
 
                 $data = $('#form_<?php print $rand; ?>').serialize();
 
-                $.post("<?php print mw()->url->string() ?>", $data,
+                $.post("<?php print mw()->url_manager->string() ?>", $data,
                     function (data) {
                         if(data.indexOf('Warning') !== -1){
                           installprogressStop()
@@ -104,7 +104,7 @@
             }
 
             <?php $log_file = MW_CACHE_ROOT_DIR . DIRECTORY_SEPARATOR . 'install_log.txt';
-                    $log_file_url = mw()->url->link_to_file($log_file);
+                    $log_file_url = mw()->url_manager->link_to_file($log_file);
                 ?>
           //      $.get('<?php print $log_file_url ?>', function (data) {
 //                  var data = data.replace(/\r/g, '');

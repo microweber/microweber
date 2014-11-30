@@ -115,7 +115,7 @@ abstract class PaymentGateway
 
 //$rand = uniqid();
 
-$aj = mw()->url->is_ajax();
+$aj = mw()->url_manager->is_ajax();
 $ret = '';
 if($aj  == false){
         $ret .="<html>\n";

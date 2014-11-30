@@ -237,7 +237,7 @@ if($is_quick_edit == true){
                   <?php } ?>
                   <?php }  ?>
                 </li>
-                <li><a class="mw-ui-btn" href="<?php print mw()->url->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
+                <li><a class="mw-ui-btn" href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
                 <?php event_trigger('live_edit_toolbar_action_menu_middle'); ?>
                 <?php /*<li><a class="mw-ui-btn" href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>*/ ?>
                 <?php if (defined('CONTENT_ID') and CONTENT_ID > 0): ?>
@@ -250,7 +250,7 @@ if($is_quick_edit == true){
                   </span></a> </li>
                 <?php endif; ?>
                 <li><a  href="#design_bnav" class="mw_ex_tools mw-ui-btn"><?php _e("Tools"); ?></a></li>
-                <li><a href="<?php print mw()->url->api_link('logout'); ?>" class="mw-ui-btn"><span>
+                <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>" class="mw-ui-btn"><span>
                   <?php _e("Logout"); ?>
                   </span></a></li>
                 <?php event_trigger('live_edit_toolbar_action_menu_end'); ?>

@@ -272,7 +272,7 @@ class FieldsManager
                         $single_val = end($cf_v);
                     }
 
-                    $cf_k_plain = $this->app->url->slug($cf_k);
+                    $cf_k_plain = $this->app->url_manager->slug($cf_k);
                     $cf_k_plain = $this->app->database_manager->escape_string($cf_k_plain);
                     $cf_k_plain = str_replace('-', '_', $cf_k_plain);
                     $data_to_save['custom_field_values'] = base64_encode(serialize($cf_v));
@@ -574,7 +574,7 @@ class FieldsManager
 
             $result = $the_data_with_custom_field__stuff;
             //$result = (array_change_key_case($result, CASE_LOWER));
-            $result = $this->app->url->replace_site_url_back($result);
+            $result = $this->app->url_manager->replace_site_url_back($result);
 
             //
 
@@ -881,7 +881,7 @@ class FieldsManager
             $data['options'] = $this->app->format->base64_to_array($data['options']);
         }
 
-        $data = $this->app->url->replace_site_url_back($data);
+        $data = $this->app->url_manager->replace_site_url_back($data);
 
 
         $dir = mw_includes_path();

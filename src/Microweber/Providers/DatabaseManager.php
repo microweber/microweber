@@ -443,7 +443,7 @@ class DatabaseManager extends DbUtils
 
         $table = $this->app->format->clean_html($table);
 
-        $criteria = $this->app->url->replace_site_url($criteria);
+        $criteria = $this->app->url_manager->replace_site_url($criteria);
 
         if ($data_to_save_options['use_this_field_for_id'] != false) {
 

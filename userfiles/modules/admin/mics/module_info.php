@@ -7,7 +7,7 @@ if($params['module_info']){
 					include($try_config_file);
 					if($config['icon'] == false){
 					$config['icon'] = modules_path() . '' . $params['module_info'] .'.png';;
-					$config['icon'] = mw()->url->link_to_file($config['icon']);
+					$config['icon'] = mw()->url_manager->link_to_file($config['icon']);
 					}
 					 
 				}

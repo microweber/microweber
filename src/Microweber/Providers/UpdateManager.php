@@ -64,7 +64,7 @@ class UpdateManager
     {
         $data = array();
         $data['mw_version'] = MW_VERSION;
-        $data['mw_update_check_site'] = $this->app->url->site();
+        $data['mw_update_check_site'] = $this->app->url_manager->site();
 
         $t = mw()->template->site_templates();
         $data['templates'] = $t;
@@ -390,7 +390,7 @@ class UpdateManager
         }
 
         $params['core_update'] = $new_version;
-        $params['mw_update_check_site'] = $this->app->url->site();
+        $params['mw_update_check_site'] = $this->app->url_manager->site();
 
         $result = $this->call('get_download_link', $params);
 
@@ -404,7 +404,7 @@ class UpdateManager
             }
             $dl_file = $dir_c . $fname;
             if (!is_file($dl_file)) {
-                $get = $this->app->url->download($value, $post_params = false, $save_to_file = $dl_file);
+                $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
             }
             if (is_file($dl_file)) {
                 $unzip = new \Microweber\Utils\Unzip();
@@ -549,7 +549,7 @@ class UpdateManager
                 }
                 $dl_file = $dir_c . $fname;
                 if (!is_file($dl_file)) {
-                    $get = $this->app->url->download($value, $post_params = false, $save_to_file = $dl_file);
+                    $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
                     $unzip = new \Microweber\Utils\Unzip();
@@ -593,7 +593,7 @@ class UpdateManager
 
                 $dl_file = $dir_c . $fname;
                 if (!is_file($dl_file)) {
-                    $get = $this->app->url->download($value, $post_params = false, $save_to_file = $dl_file);
+                    $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
                     $unzip = new \Microweber\Utils\Unzip();
@@ -628,7 +628,7 @@ class UpdateManager
         }
 
 
-        $post_params['site_url'] = $this->app->url->site();
+        $post_params['site_url'] = $this->app->url_manager->site();
         $post_params['api_function'] = $method;
 
         if ($post_params != false and is_array($post_params)) {
@@ -664,7 +664,7 @@ class UpdateManager
             $params = array();
         }
 
-        $params['site_url'] = $this->app->url->site();
+        $params['site_url'] = $this->app->url_manager->site();
         $params['function_name'] = 'send_lang_form_to_microweber';
 
 
@@ -794,7 +794,7 @@ class UpdateManager
         }
         $dl_file = $dir_c . $fname;
         if (!is_file($dl_file)) {
-            $get = $this->app->url->download($url, $post_params = false, $save_to_file = $dl_file);
+            $get = $this->app->url_manager->download($url, $post_params = false, $save_to_file = $dl_file);
         }
         if (is_file($dl_file)) {
             $unzip = new \Microweber\Utils\Unzip();

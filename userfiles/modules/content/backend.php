@@ -3,7 +3,7 @@ only_admin_access();
 $action = url_param('action');
 $is_in_shop = false;
 $rand = uniqid(); ?>
-<?php $my_tree_id = crc32(mw()->url->string()); ?>
+<?php $my_tree_id = crc32(mw()->url_manager->string()); ?>
 <?php $active_content_id = '';
 if (isset($_REQUEST['edit_content']) and $_REQUEST['edit_content'] != 0) {
     $active_content_id = $_REQUEST['edit_content'];

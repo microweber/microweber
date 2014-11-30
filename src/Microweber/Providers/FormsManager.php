@@ -274,7 +274,7 @@ class FormsManager
             $notif['rel_id'] = $list_id;
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
-            $notif['content'] = "You have new form entry from " . $this->app->url->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
+            $notif['content'] = "You have new form entry from " . $this->app->url_manager->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
             $this->app->notifications->save($notif);
         
             if ($email_to == false) {
@@ -469,7 +469,7 @@ class FormsManager
                     }
                 }
             }
-            $surl = $this->app->url->site();
+            $surl = $this->app->url_manager->site();
             $csv_output = '';
             if (isset($custom_fields) and is_array($custom_fields)) {
                 $csv_output = 'id,';
@@ -518,7 +518,7 @@ class FormsManager
             }
             $filename_path_full = $filename_path . $filename;
             file_put_contents($filename_path_full, $csv_output);
-            $download = $this->app->url->link_to_file($filename_path_full);
+            $download = $this->app->url_manager->link_to_file($filename_path_full);
             return array('success' => 'Your file has been exported!', 'download' => $download);
 
         }

@@ -1,6 +1,6 @@
 <?php
     $here = dirname(__FILE__);
- $here =	mw()->url->link_to_file($here).'/';
+ $here =	mw()->url_manager->link_to_file($here).'/';
  $uid =  uniqid();
 ?>
 <script>mw.require('tools.js');</script>

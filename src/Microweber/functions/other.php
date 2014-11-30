@@ -409,7 +409,7 @@ function mw_print_admin_backup_settings_link()
 
     if (mw()->modules->is_installed('admin/backup')) {
 
-        $active = mw()->url->param('view');
+        $active = mw()->url_manager->param('view');
         $cls = '';
         $mname = module_name_encode('admin/backup/small');
         if ($active == $mname) {
@@ -424,7 +424,7 @@ function mw_print_admin_backup_settings_link()
 
     if (mw()->modules->is_installed('admin/import')) {
 
-        $active = mw()->url->param('view');
+        $active = mw()->url_manager->param('view');
         $cls = '';
         $mname = module_name_encode('admin/import');
         if ($active == $mname) {

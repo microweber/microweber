@@ -112,7 +112,7 @@
 
 
         <?php /*<a href="javascript:;" class="mw-ui-btn" onclick="mw.iphonePreview();"><span class="ico iPhone"></span>iPhone</a>*/   ?>
-        <div class="mw-ui-dropdown right"> <a href="<?php print mw()->url->current(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
+        <div class="mw-ui-dropdown right"> <a href="<?php print mw()->url_manager->current(); ?>/editmode:n" class="mw-ui-btn mw-ui-btn-medium" style="margin-left: 0;"><?php _e("Actions"); ?><span class="ico idownarr right"></span></a>
           <div class="mw-dropdown-content" style="width: 155px;">
 
             <ul class="mw-dropdown-list">
@@ -121,7 +121,7 @@
                 <a title="Back to Admin" class="mw-ui-btn-blue back_to_admin" href="<?php print $back_url; ?>"><?php _e("Back to Admin"); ?></a>
                 <div class="mw_clear"></div>
             </li>
-              <li><a href="<?php print mw()->url->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
+              <li><a href="<?php print mw()->url_manager->current(); ?>?editmode=n"><?php _e("View Website"); ?></a></li>
 
 
               <li><a href="#" onclick="mw.preview();void(0);"><?php _e("Preview"); ?></a></li>
@@ -130,7 +130,7 @@
               <li class="mw-set-content-unpublish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] != 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.unpublish('<?php print CONTENT_ID; ?>')"><?php _e("Unpublish"); ?></a></li>
               <li class="mw-set-content-publish" <?php if(isset($pub_or_inpub['is_active']) and $pub_or_inpub['is_active'] == 'y'): ?> style="display:none" <?php endif; ?>><a href="javascript:mw.content.publish('<?php print CONTENT_ID; ?>')"><?php _e("Publish"); ?></a></li>
               <?php endif; ?>
-              <li><a href="<?php print mw()->url->api_link('logout'); ?>"><?php _e("Logout"); ?></a></li>
+              <li><a href="<?php print mw()->url_manager->api_link('logout'); ?>"><?php _e("Logout"); ?></a></li>
             </ul>
           </div>
         </div>

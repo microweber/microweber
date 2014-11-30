@@ -131,7 +131,7 @@ class ShopManager
         if ($exec_return == true) {
             if (isset($_REQUEST['return_to'])) {
                 $return_to = urldecode($_REQUEST['return_to']);
-                return $this->app->url->redirect($return_to);
+                return $this->app->url_manager->redirect($return_to);
 
             }
         }
@@ -241,14 +241,14 @@ class ShopManager
             //$place_order['order_id'] = "ORD-" . date("YmdHis") . '-' . $cart['session_id'];
 
             $return_url_after = '';
-            if ($this->app->url->is_ajax()) {
-                $place_order['url'] = $this->app->url->current(true);
+            if ($this->app->url_manager->is_ajax()) {
+                $place_order['url'] = $this->app->url_manager->current(true);
                 $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
             } elseif (isset($_SERVER['HTTP_REFERER'])) {
                 $place_order['url'] = $_SERVER['HTTP_REFERER'];
                 $return_url_after = '&return_to=' . urlencode($_SERVER['HTTP_REFERER']);
             } else {
-                $place_order['url'] = $this->app->url->current();
+                $place_order['url'] = $this->app->url_manager->current();
 
             }
 
@@ -326,9 +326,9 @@ class ShopManager
 
                     }
 
-                    $mw_return_url = $this->app->url->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . $return_url_after;
-                    $mw_cancel_url = $this->app->url->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . $return_url_after;
-                    $mw_ipn_url = $this->app->url->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
+                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . $return_url_after;
+                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . $return_url_after;
+                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $data['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'];
 
                     if (is_file($gw_process)) {
                         require_once $gw_process;
@@ -927,7 +927,7 @@ class ShopManager
             $notification['rel'] = 'cart_orders';
             $notification['rel_id'] = $ord;
             $notification['title'] = "You have new order";
-            $notification['description'] = "New order is placed from " . $this->app->url->current(1);
+            $notification['description'] = "New order is placed from " . $this->app->url_manager->current(1);
             $notification['content'] = "New order in the online shop. Order id: " . $ord;
             $this->app->notifications->save($notification);
             $this->app->log_manager->save($notification);
@@ -1710,7 +1710,7 @@ class ShopManager
         $service = "/service/currency/?from=" . $from . "&to=" . $to;
         $remote_host_s = $remote_host . $service;
         // d($remote_host_s);
-        $get_remote = $this->app->url->download($remote_host_s);
+        $get_remote = $this->app->url_manager->download($remote_host_s);
         if ($get_remote != false) {
             return floatval($get_remote);
         }
@@ -1832,9 +1832,9 @@ class ShopManager
         $checkout_url_sess = $this->app->user_manager->session_get('checkout_url');
 
         if ($checkout_url_sess == false) {
-            return $this->app->url->site($default_url);
+            return $this->app->url_manager->site($default_url);
         } else {
-            return $this->app->url->site($checkout_url_sess);
+            return $this->app->url_manager->site($checkout_url_sess);
         }
 
     }

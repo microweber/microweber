@@ -260,7 +260,7 @@ class LayoutsManager
 
                                 $possible = $here_dir . $to_return_temp['icon'];
                                 if (is_file($possible)) {
-                                    $to_return_temp['icon'] = $this->app->url->link_to_file($possible);
+                                    $to_return_temp['icon'] = $this->app->url_manager->link_to_file($possible);
                                 } else {
                                     unset($to_return_temp['icon']);
                                 }
@@ -272,7 +272,7 @@ class LayoutsManager
                                 $to_return_temp['image'] = trim($result);
                                 $possible = $here_dir . $to_return_temp['image'];
                                 if (is_file($possible)) {
-                                    $to_return_temp['image'] = $this->app->url->link_to_file($possible);
+                                    $to_return_temp['image'] = $this->app->url_manager->link_to_file($possible);
                                 } else {
                                     unset($to_return_temp['image']);
                                 }
@@ -318,7 +318,7 @@ class LayoutsManager
                                 $to_return_temp['screenshot_file'] = $screen;
                             }
                             if (isset($to_return_temp['screenshot_file'])) {
-                                $to_return_temp['screenshot'] = $this->app->url->link_to_file($to_return_temp['screenshot_file']);
+                                $to_return_temp['screenshot'] = $this->app->url_manager->link_to_file($to_return_temp['screenshot_file']);
 
                             }
 
@@ -392,13 +392,13 @@ class LayoutsManager
             $fn = key($options);
         }
 
-        $page_url_segment_1 = $this->app->url->segment(0);
+        $page_url_segment_1 = $this->app->url_manager->segment(0);
         $td = templates_path() . $page_url_segment_1;
         $td_base = $td;
 
-        $page_url_segment_2 = $this->app->url->segment(1);
+        $page_url_segment_2 = $this->app->url_manager->segment(1);
         $directly_to_file = false;
-        $page_url_segment_3 = $this->app->url->segment();
+        $page_url_segment_3 = $this->app->url_manager->segment();
 
         if (!is_dir($td_base)) {
             array_shift($page_url_segment_3);
@@ -413,7 +413,7 @@ class LayoutsManager
             $page_url_segment_str = $page_url_segment_3[0];
         }
         //$page_url_segment_str = implode('/', $page_url_segment_3);
-        $fn = $this->app->url->site($page_url_segment_str . '/' . $fn);
+        $fn = $this->app->url_manager->site($page_url_segment_str . '/' . $fn);
         //d($page_url_segment_3);
 
         //set cache in memory
@@ -846,7 +846,7 @@ class LayoutsManager
                 }
 
                 $resp = array();
-                $resp['url'] = $this->app->url->link_to_file($live_edit_css);
+                $resp['url'] = $this->app->url_manager->link_to_file($live_edit_css);
                 if ($css_cont_new != '' and $css_cont != $css_cont_new) {
 
                     file_put_contents($live_edit_css, $css_cont_new);

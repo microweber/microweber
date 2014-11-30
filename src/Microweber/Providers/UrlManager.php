@@ -1,9 +1,9 @@
 <?php
 
-namespace Microweber\Utils;
+namespace Microweber\Providers;
 
 
-class Url
+class UrlManager
 {
     public $site_url_var;
     public $current_url_var;
@@ -79,9 +79,12 @@ class Url
         if (headers_sent()) {
             print '<meta http-equiv="refresh" content="0;url=' . $url . '">';
         } else {
+
+             return \Redirect::to($url);
             header('Location: ' . $url);
+            return true;
         }
-        exit();
+      // exit;
     }
 
     public function params($skip_ajax = false)

@@ -12,7 +12,7 @@ namespace Microweber;
      * @desc
      */
 /**
- * @property \Microweber\Utils\Url $url
+ * @property \Microweber\Providers\UrlManager $url_manager
  * @property \Microweber\Utils\Format $format
  * @property \Microweber\Providers\ContentManager $content_manager
  * @property \Microweber\Providers\CategoryManager $category_manager

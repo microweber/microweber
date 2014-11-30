@@ -234,7 +234,7 @@ class Template
                         $screensshot_file = $fn2 . '/screenshot.png';
                         $screensshot_file = normalize_path($screensshot_file, false);
                         if (is_file($screensshot_file)) {
-                            $c['screenshot'] = $this->app->url->link_to_file($screensshot_file);
+                            $c['screenshot'] = $this->app->url_manager->link_to_file($screensshot_file);
                         }
                         $to_return[] = $c;
                     }
@@ -480,7 +480,7 @@ class Template
 
 
         if ($render_file == false and isset($page['id']) and intval($page['id']) == 0) {
-            $url_file = $this->app->url->string(1, 1);
+            $url_file = $this->app->url_manager->string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
             $render_file_temp = ACTIVE_TEMPLATE_DIR . DS . $test_file . '.php';
             $render_file_temp2 = ACTIVE_TEMPLATE_DIR . DS . $url_file . '.php';
@@ -904,7 +904,7 @@ class Template
         }
 
         if ($render_file == false and isset($page['active_site_template'])) {
-            $url_file = $this->app->url->string(1, 1);
+            $url_file = $this->app->url_manager->string(1, 1);
             $test_file = str_replace('___', DS, $url_file);
             $template_view = ACTIVE_TEMPLATE_DIR . $test_file . '.php';
             $template_view = normalize_path($template_view, false);

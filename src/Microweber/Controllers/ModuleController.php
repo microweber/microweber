@@ -65,7 +65,7 @@ class ModuleController extends Controller
         }
 
         if (!defined("MW_NO_SESSION")) {
-            $is_ajax = $this->app->url->is_ajax();
+            $is_ajax = $this->app->url_manager->is_ajax();
             if (!mw()->user_manager->session_id() and $is_ajax == false) {
 
                 if (!defined('MW_SESS_STARTED')) {
@@ -93,7 +93,7 @@ class ModuleController extends Controller
             $_REQUEST['data-type'] = $_REQUEST['data-module-name'];
 
             if (!isset($_REQUEST['id'])) {
-                $_REQUEST['id'] = $this->app->url->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
+                $_REQUEST['id'] = $this->app->url_manager->slug($_REQUEST['data-module-name'] . '-' . date("YmdHis"));
             }
 
         }
@@ -138,18 +138,18 @@ class ModuleController extends Controller
             $url = $from_url;
             $from_url2 = str_replace('#', '/', $from_url);
 
-            $content_id = $this->app->url->param('content_id', false, $from_url2);
+            $content_id = $this->app->url_manager->param('content_id', false, $from_url2);
             if ($content_id == false) {
-                $content_id = $this->app->url->param('editpage', false, $from_url2);
+                $content_id = $this->app->url_manager->param('editpage', false, $from_url2);
             }
             if ($content_id == false) {
-                $content_id = $this->app->url->param('editpost', false, $from_url2);
+                $content_id = $this->app->url_manager->param('editpost', false, $from_url2);
             }
             if ($content_id == false) {
-                $content_id = $this->app->url->param('content-id', false, $from_url2);
+                $content_id = $this->app->url_manager->param('content-id', false, $from_url2);
             }
             if ($content_id == false) {
-                $action_test = $this->app->url->param('action', false, $from_url2);
+                $action_test = $this->app->url_manager->param('action', false, $from_url2);
 
                 if ($action_test != false) {
                     $action_test = str_ireplace('editpage:', '', $action_test);
@@ -183,7 +183,7 @@ class ModuleController extends Controller
 
                 }
             } else {
-                if (trim($url) == '' or trim($url) == $this->app->url->site()) {
+                if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
                     //var_dump($from_url);
                     //$page = $this->app->content_manager->get_by_url($url);
                     $page = $this->app->content_manager->homepage();
@@ -193,7 +193,7 @@ class ModuleController extends Controller
                     }
 
                     if (isset($from_url2)) {
-                        $mw_quick_edit = $this->app->url->param('mw_quick_edit', false, $from_url2);
+                        $mw_quick_edit = $this->app->url_manager->param('mw_quick_edit', false, $from_url2);
 
                         if ($mw_quick_edit) {
                             $page = false;
@@ -220,7 +220,7 @@ class ModuleController extends Controller
                 }
             }
         } else {
-            $url = $this->app->url->string();
+            $url = $this->app->url_manager->string();
         }
 
 
@@ -251,7 +251,7 @@ class ModuleController extends Controller
 
         if ($custom_display == true) {
 
-            $u2 = $this->app->url->site();
+            $u2 = $this->app->url_manager->site();
             $u1 = str_replace($u2, '', $url);
 
             $this->render_this_url = $u1;
@@ -261,15 +261,15 @@ class ModuleController extends Controller
         }
         $url_last = false;
         if (!isset($_REQUEST['module'])) {
-            $url = $this->app->url->string(0);
+            $url = $this->app->url_manager->string(0);
             if ($url == __FUNCTION__) {
-                $url = $this->app->url->string(0);
+                $url = $this->app->url_manager->string(0);
             }
             /*
-             $is_ajax = $this->app->url->is_ajax();
+             $is_ajax = $this->app->url_manager->is_ajax();
 
              if ($is_ajax == true) {
-             $url = $this->app->url->string(true);
+             $url = $this->app->url_manager->string(true);
              }*/
 
             $url = $this->app->format->replace_once('module/', '', $url);
@@ -318,7 +318,7 @@ class ModuleController extends Controller
             }
         }
 
-        $module_info = $this->app->url->param('module_info', true);
+        $module_info = $this->app->url_manager->param('module_info', true);
 
         if ($module_info) {
             if ($_REQUEST['module']) {
@@ -335,7 +335,7 @@ class ModuleController extends Controller
 
                     if (!isset($config['icon']) or $config['icon'] == false) {
                         $config['icon'] = modules_path() . '' . $_REQUEST['module'] . '.png';
-                        $config['icon'] = $this->app->url->link_to_file($config['icon']);
+                        $config['icon'] = $this->app->url_manager->link_to_file($config['icon']);
                     }
                     print json_encode($config);
                     exit();
@@ -343,10 +343,10 @@ class ModuleController extends Controller
             }
         }
 
-        $admin = $this->app->url->param('admin', true);
+        $admin = $this->app->url_manager->param('admin', true);
 
-        $mod_to_edit = $this->app->url->param('module_to_edit', true);
-        $embed = $this->app->url->param('embed', true);
+        $mod_to_edit = $this->app->url_manager->param('module_to_edit', true);
+        $embed = $this->app->url_manager->param('embed', true);
 
         $mod_iframe = false;
         if ($mod_to_edit != false) {
@@ -358,7 +358,7 @@ class ModuleController extends Controller
         if (($_POST)) {
             $data = $_POST;
         } else {
-            $url = $this->app->url->segment();
+            $url = $this->app->url_manager->segment();
 
             if (!empty($url)) {
                 foreach ($url as $k => $v) {
@@ -467,7 +467,7 @@ class ModuleController extends Controller
         }
         if ($has_id == false) {
 
-            //	$mod_n = $this->app->url->slug($mod_n) . '-' . date("YmdHis");
+            //	$mod_n = $this->app->url_manager->slug($mod_n) . '-' . date("YmdHis");
             //	$tags .= "id=\"$mod_n\" ";
         }
 
@@ -494,7 +494,7 @@ class ModuleController extends Controller
 
         if (isset($_SERVER['HTTP_REFERER']) and $_SERVER['HTTP_REFERER'] != false) {
             $get_arr_from_ref = $_SERVER['HTTP_REFERER'];
-            if (strstr($get_arr_from_ref, $this->app->url->site())) {
+            if (strstr($get_arr_from_ref, $this->app->url_manager->site())) {
                 $get_arr_from_ref_arr = parse_url($get_arr_from_ref);
                 if (isset($get_arr_from_ref_arr['query']) and $get_arr_from_ref_arr['query'] != '') {
                     $restore_get = parse_str($get_arr_from_ref_arr['query'], $get_array);
@@ -519,7 +519,7 @@ class ModuleController extends Controller
             $res = str_replace('{content}', $res, $layout);
         }
 
-        $aj = $this->app->url->is_ajax();
+        $aj = $this->app->url_manager->is_ajax();
 
         if (isset($_REQUEST['live_edit']) and $aj == false) {
 
@@ -537,7 +537,7 @@ class ModuleController extends Controller
 
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {
-            $res = $this->app->url->replace_site_url_back($res);
+            $res = $this->app->url_manager->replace_site_url_back($res);
             print $res;
         }
 
@@ -595,7 +595,7 @@ class ModuleController extends Controller
             //  event_trigger('mw_cron');
         }
 
-        $tool = $this->app->url->segment(1);
+        $tool = $this->app->url_manager->segment(1);
 
         if ($tool) {
 
@@ -623,7 +623,7 @@ class ModuleController extends Controller
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
+            if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
                 //$page = $this->app->content_manager->get_by_url($url);
                 $page = $this->app->content_manager->homepage();
             } else {
@@ -631,7 +631,7 @@ class ModuleController extends Controller
                 $page = $this->app->content_manager->get_by_url($url);
             }
         } else {
-            $url = $this->app->url->string();
+            $url = $this->app->url_manager->string();
         }
 
         if (isset($_GET['preview_template'])) {
@@ -710,9 +710,9 @@ class ModuleController extends Controller
 
 
         if ($layout != false) {
-            //$apijs_loaded = $this->app->url->site('apijs') . '?id=' . CONTENT_ID;
-            $apijs_loaded = $this->app->url->site('apijs');
-            $apijs_settings_loaded = $this->app->url->site('apijs_settings') . '?id=' . CONTENT_ID;
+            //$apijs_loaded = $this->app->url_manager->site('apijs') . '?id=' . CONTENT_ID;
+            $apijs_loaded = $this->app->url_manager->site('apijs');
+            $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID;
 
             // $is_admin = $this->app->user_manager->is_admin();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';

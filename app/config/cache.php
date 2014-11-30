@@ -1,6 +1,6 @@
 <?php return array (
   'driver' => 'fcache',
-  'path' => 'C:\\xampp\\htdocs\\l42\\app\\storage/cache',
+  'path' => 'C:\\xampp\\htdocs\\l42\\app\\storage\\cache',
   'connection' => NULL,
   'table' => 'cache',
   'memcached' => 

@@ -454,8 +454,8 @@ class MenuManager
             }
 
             $active_class = '';
-            $site_url = $this->app->url->site();
-            $cur_url = $this->app->url->current(1);
+            $site_url = $this->app->url_manager->site();
+            $cur_url = $this->app->url_manager->current(1);
             if (trim($item['url'] != '')) {
                 $item['url'] = $this->app->format->replace_once('{SITE_URL}', $site_url, $item['url']);
             }

@@ -100,13 +100,13 @@ class CategoryManager
         }
 
 
-        $cat_url = $this->app->url->param('category', true);
+        $cat_url = $this->app->url_manager->param('category', true);
         if ($cat_url != false) {
             $function_cache_id .= $cat_url;
             $active_cat = $cat_url;
         } else {
 
-            $cat_url = $this->app->url->param('categories', true);
+            $cat_url = $this->app->url_manager->param('categories', true);
             if ($cat_url != false) {
                 $function_cache_id .= $cat_url;
             }
@@ -892,7 +892,7 @@ class CategoryManager
 
                             $string1 = ($str);
 
-                            $url = $url . '/' . $this->app->url->slug($string1) . '/categories:' . $data['id'];
+                            $url = $url . '/' . $this->app->url_manager->slug($string1) . '/categories:' . $data['id'];
 
                             //$url = $url . '/categories:' . $data ['id'];
                         }

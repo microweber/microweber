@@ -221,12 +221,12 @@ class ContentManager
         }
         $passed[$url] = 1;
         if (strval($url) == '') {
-            $url = $this->app->url->string();
+            $url = $this->app->url_manager->string();
         }
 
 
         $u1 = $url;
-        $u2 = $this->app->url->site();
+        $u2 = $this->app->url_manager->site();
 
         $u1 = rtrim($u1, '\\');
         $u1 = rtrim($u1, '/');
@@ -242,7 +242,7 @@ class ContentManager
         $url = addslashes($url);
         $url12 = parse_url($url);
         if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
-            $u1 = $this->app->url->site();
+            $u1 = $this->app->url_manager->site();
             $u2 = str_replace($u1, '', $url);
             $current_url = explode('?', $u2);
             $u2 = $current_url[0];
@@ -469,7 +469,7 @@ class ContentManager
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
-                $get['url'] = $this->app->url->site($get['url']);
+                $get['url'] = $this->app->url_manager->site($get['url']);
             }
             if (isset($get['title'])) {
                 $get['title'] = html_entity_decode($get['title']);
@@ -484,7 +484,7 @@ class ContentManager
             $data2 = array();
             foreach ($get as $item) {
                 if (isset($item['url'])) {
-                    $item['url'] = $this->app->url->site($item['url']);
+                    $item['url'] = $this->app->url_manager->site($item['url']);
                 }
                 if (isset($item['title'])) {
                     $item['title'] = html_entity_decode($item['title']);
@@ -753,7 +753,7 @@ class ContentManager
             $paging_param = $params['paging_param'];
         }
 
-        $current_page_from_url = $this->app->url->param($paging_param);
+        $current_page_from_url = $this->app->url_manager->param($paging_param);
 
         if (isset($params['curent_page'])) {
             $current_page_from_url = $params['curent_page'];
@@ -841,8 +841,8 @@ class ContentManager
     public function paging_links($base_url = false, $pages_count, $paging_param = 'curent_page', $keyword_param = 'keyword')
     {
         if ($base_url == false) {
-            if ($this->app->url->is_ajax() == false) {
-                $base_url = $this->app->url->current(1);
+            if ($this->app->url_manager->is_ajax() == false) {
+                $base_url = $this->app->url_manager->current(1);
             } else {
                 if ($_SERVER['HTTP_REFERER'] != false) {
                     $base_url = $_SERVER['HTTP_REFERER'];
@@ -1565,7 +1565,7 @@ class ContentManager
         }
 
         if ($id == 0) {
-            return $this->app->url->site();
+            return $this->app->url_manager->site();
         }
 
         $link = $this->get_by_id($id);
@@ -1574,7 +1574,7 @@ class ContentManager
             $link = $this->get_by_url($id);
         }
 
-        $site_url = $this->app->url->site();
+        $site_url = $this->app->url_manager->site();
         if (!stristr($link['url'], $site_url)) {
             $link = site_url($link['url']);
         } else {
@@ -1983,7 +1983,7 @@ class ContentManager
 
         }
 
-        $ustr2 = $this->app->url->string(1, 1);
+        $ustr2 = $this->app->url_manager->string(1, 1);
 
         if (isset($ustr2) and trim($ustr2) == 'favicon.ico') {
             return false;
@@ -2005,7 +2005,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             $ref_page2 = $ref_page = $this->get_by_url($ref_page_url);
             if ($ref_page2 == false) {
 
-                $ustr = $this->app->url->string(1);
+                $ustr = $this->app->url_manager->string(1);
 
                 if ($this->app->modules->is_installed($ustr)) {
                     $ref_page = false;
@@ -2019,7 +2019,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             } elseif ($ustr2 == '' or $ustr2 == '/') {
                 $ref_page = $this->homepage();
                 if ($ref_page_url) {
-                    $page_url_ref = $this->app->url->param('content_id', $ref_page_url);
+                    $page_url_ref = $this->app->url_manager->param('content_id', $ref_page_url);
                     if ($page_url_ref !== false) {
                         if ($page_url_ref == 0) {
                             return false;
@@ -2040,7 +2040,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                 $guess_page_data->return_data = true;
                 $guess_page_data->create_new_page = true;
                 $pd = $guess_page_data->index();
-                $ustr = $this->app->url->string(1);
+                $ustr = $this->app->url_manager->string(1);
                 $is_module = false;
 
                 if ($this->app->modules->is_installed($ustr)) {
@@ -2074,17 +2074,17 @@ if(isset($_SERVER['HTTP_REFERER'])){
                         if (isset($ref_page_url) and $ref_page_url != false) {
                             $save_page['url'] = $ref_page_url;
                         } else {
-                            $save_page['url'] = $this->app->url->string(1);
+                            $save_page['url'] = $this->app->url_manager->string(1);
 
                         }
-                        $title = str_replace('%20', ' ', ($this->app->url->string(1)));
+                        $title = str_replace('%20', ' ', ($this->app->url_manager->string(1)));
 
                         if ($title == 'editor_tools/wysiwyg' or $title == 'admin/view:content') {
                             return false;
                         }
 
                         $save_page['title'] = $title;
-                        if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url->site()) {
+                        if ($save_page['url'] == '' or $save_page['url'] == '/' or $save_page['url'] == $this->app->url_manager->site()) {
                             $save_page['url'] = 'home';
                             $home_exists = $this->homepage();
                             if ($home_exists == false) {
@@ -2157,7 +2157,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                 $content_id = $page_id;
 
 
-                $url = $this->app->url->string(true);
+                $url = $this->app->url_manager->string(true);
                 $some_mods = array();
                 if (isset($the_field_data) and is_array($the_field_data) and isset($the_field_data['attributes'])) {
                     if (($the_field_data['html']) != '') {
@@ -2398,7 +2398,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
                             if ($is_draft != false) {
                                 $cont_field['is_draft'] = 1;
-                                $cont_field['url'] = $this->app->url->string(true);
+                                $cont_field['url'] = $this->app->url_manager->string(true);
                                 $cont_field_new = $this->save_content_field($cont_field);
                             } else {
                                 $cont_field_new = $this->save_content_field($cont_field);
@@ -3057,7 +3057,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             $url = explode('?', $url);
             $url = $url[0];
 
-            if (trim($url) == '' or trim($url) == $this->app->url->site()) {
+            if (trim($url) == '' or trim($url) == $this->app->url_manager->site()) {
                 //$page = $this->get_by_url($url);
                 $page = $this->homepage();
                 // var_dump($page);
@@ -3066,7 +3066,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                 $page = $this->get_by_url($url);
             }
         } else {
-            $url = $this->app->url->string();
+            $url = $this->app->url_manager->string();
         }
 
         $this->define_constants($page);
@@ -3278,7 +3278,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             }
 
             if (defined('CATEGORY_ID') == false) {
-                $cat_url = $this->app->url->param('category', $skip_ajax = true);
+                $cat_url = $this->app->url_manager->param('category', $skip_ajax = true);
                 if ($cat_url != false) {
                     define('CATEGORY_ID', intval($cat_url));
                 }
@@ -3556,7 +3556,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
         if (defined('LAYOUTS_URL') == false) {
 
-            $layouts_url = reduce_double_slashes($this->app->url->link_to_file($layouts_dir) . '/');
+            $layouts_url = reduce_double_slashes($this->app->url_manager->link_to_file($layouts_dir) . '/');
 
             define("LAYOUTS_URL", $layouts_url);
         }
@@ -3945,7 +3945,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
         if (isset($data['url']) == false or $data['url'] == '') {
             if (isset($data['title']) != false and intval($data ['id']) == 0) {
-                $data['url'] = $this->app->url->slug($data['title']);
+                $data['url'] = $this->app->url_manager->slug($data['title']);
             }
         }
         $url_changed = false;
@@ -3993,7 +3993,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
         $table_cats = $this->tables['categories'];
 
         if (isset($data_to_save['title']) and ($data_to_save['title'] != '') and (!isset($data['url']) or trim($data['url']) == '')) {
-            $data['url'] = $this->app->url->slug($data_to_save['title']);
+            $data['url'] = $this->app->url_manager->slug($data_to_save['title']);
         }
 
 
@@ -4001,7 +4001,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
             if (trim($data['url']) == '') {
 
-                $data['url'] = $this->app->url->slug($data['title']);
+                $data['url'] = $this->app->url_manager->slug($data['title']);
             }
 
             $data['url'] = $this->app->database_manager->escape_string($data['url']);
@@ -4185,7 +4185,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                 if (isset($data['download_remote_images']) and $data['download_remote_images'] != false and $adm == true) {
 
 
-                    $site_url = $this->app->url->site();
+                    $site_url = $this->app->url_manager->site();
                     $images = mw('parser')->query($data_to_save['content'], 'img');
                     $to_download = array();
                     $to_replace = array();
@@ -4239,7 +4239,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                                 }
                                 $dl_file = $dl_dir . md5($src) . basename($src);
                                 if (!is_file($dl_file)) {
-                                    $is_dl = $this->app->url->download($src, false, $dl_file);
+                                    $is_dl = $this->app->url_manager->download($src, false, $dl_file);
                                 }
                                 if (is_file($dl_file)) {
                                     $url_local = dir2url($dl_file);
@@ -4314,7 +4314,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
         }
 
 
-        if (isset($data_to_save['url']) and $data_to_save['url'] == $this->app->url->site()) {
+        if (isset($data_to_save['url']) and $data_to_save['url'] == $this->app->url_manager->site()) {
             unset($data_to_save['url']);
         }
 

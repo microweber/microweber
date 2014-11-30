@@ -129,7 +129,7 @@ class Api {
                 return array('error' => 'You must type your email or be logged in order to comment.');
             }
 
-            $data['from_url'] = mw()->url->current(1);
+            $data['from_url'] = mw()->url_manager->current(1);
 
         }
 
@@ -157,7 +157,7 @@ class Api {
             $notif['rel'] = $data['rel'];
             $notif['rel_id'] = $data['rel_id'];
             $notif['title'] = "You have new comment";
-            $notif['description'] = "New comment is posted on " . mw()->url->current(1);
+            $notif['description'] = "New comment is posted on " . mw()->url_manager->current(1);
             $notif['content'] = mw('format')->limit($data['comment_body'], 800);
             mw()->notifications_manager->save($notif);
 
@@ -180,7 +180,7 @@ class Api {
                 }
 
 
-                $message = "Hi, <br/> You have new comment posted on " . mw()->url->current(1) . ' <br /> ';
+                $message = "Hi, <br/> You have new comment posted on " . mw()->url_manager->current(1) . ' <br /> ';
                 $message .= "IP:" . MW_USER_IP . ' <br /> ';
                 $message .=mw('format')->array_to_ul($data3);
                 \Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);

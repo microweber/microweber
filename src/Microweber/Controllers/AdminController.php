@@ -68,8 +68,8 @@ class AdminController extends Controller
 
         event_trigger('mw.admin.header');
 
-        $apijs_loaded = mw()->url->site('apijs');
-        $apijs_settings_loaded = mw()->url->site('apijs_settings') . '?id=' . CONTENT_ID;
+        $apijs_loaded = mw()->url_manager->site('apijs');
+        $apijs_settings_loaded = mw()->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID;
 
         // $is_admin = mw()->user->is_admin();
         $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';

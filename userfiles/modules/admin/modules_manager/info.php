@@ -27,6 +27,6 @@ $v_mod = $params['parent-module'];
       <?php _e("Back"); ?>
       </span> </a> </div>
   </div>
-  <?php  $active = mw()->url->param('view'); ?>
+  <?php  $active = mw()->url_manager->param('view'); ?>
   <?php endif; ?>
 </div>

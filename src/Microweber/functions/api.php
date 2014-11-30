@@ -135,6 +135,6 @@ function autoload_add($dirname)
 
 function api_link($str = '')
 {
-    return mw()->url->api_link($str);
+    return mw()->url_manager->api_link($str);
 
 }
