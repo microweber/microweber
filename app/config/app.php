@@ -45,6 +45,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
         'Artdevue\Fcache\FcacheServiceProvider',
+        'Clockwork\Support\Laravel\ClockworkServiceProvider',
 
         'Microweber\MicroweberServiceProvider',
 

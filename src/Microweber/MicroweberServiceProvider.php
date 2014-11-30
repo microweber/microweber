@@ -18,12 +18,13 @@ use Illuminate\Filesystem\Filesystem;
 
 use Illuminate\Http\Request;
 use Illuminate\Config\FileLoader;
-use  Artdevue\Fcache\Fcache;
+use Artdevue\Fcache\Fcache;
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Cache\Repository;
 
 use Microweber\Database\MySqlConnection;
@@ -151,7 +152,13 @@ class MicroweberServiceProvider extends ServiceProvider
 //        $this->app->extend('db', function ($app) {
 //            return new Db($app);
 //        });
+        
+        app()->proba = 'ou';
 
+        $this->app->singleton('db.connection.mysql', function ($app, $parameters) {
+            list($connection, $database, $prefix, $config) = $parameters;
+            return new MySqlConnection($connection, $database, $prefix, $config);
+        });
 
         Event::listen('silluminate.query', function ($sql, $bindings, $time) {
             echo $sql; // select * from my_table where id=?
@@ -170,18 +177,13 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
-        \Cache::extend('fcache', function ($app) {
-            $store = new \Artdevue\Fcache\Fcache;
-            return new \Illuminate\Cache\Repository($store);
-        });
-        
-        $this->app->singleton('db.connection.mysql', function ($app, $parameters) {
-            list($connection, $database, $prefix, $config) = $parameters;
-            return new MySqlConnection($connection, $database, $prefix, $config);
-        });
-
         parent::boot();
+
+        Cache::extend('fcache', function ($app) {
+            $store = new \Artdevue\Fcache\Fcache;
+            return new Repository($store);
+        });
+
         $is_installed = mw_is_installed();
 
         if (!$is_installed) {

@@ -13,7 +13,7 @@
     <testsuites>
        
         <testsuite name="Microweber Test Suite">
-            <directory>./src/Weber/tests/</directory>
+            <directory>./src/Microweber/tests/</directory>
         </testsuite>
 		
 		 <testsuite name="Application Test Suite">

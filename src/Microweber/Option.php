@@ -12,10 +12,6 @@ class Option extends BaseModel
         parent::boot();
     }
 
-    public function notifications()
-    {
-        return $this->morphMany('Notifications', 'rel');
-    }
 
 
 

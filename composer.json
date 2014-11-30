@@ -6,9 +6,8 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.*",
-		"artdevue/fcache": "dev-master"
-
-
+		"artdevue/fcache": "dev-master",
+		"itsgoingd/clockwork": "1.*"
 	},
 	"autoload": {
 		"classmap": [

@@ -1556,9 +1556,13 @@ class UserManager
 
     public function session_del($name)
     {
-        if (isset($_SESSION[$name])) {
-            unset($_SESSION[$name]);
-        }
+//        if (isset($_SESSION[$name])) {
+//
+//           // unset($_SESSION[$name]);
+//        }
+
+        Session::forget($name);
+
     }
 
 
