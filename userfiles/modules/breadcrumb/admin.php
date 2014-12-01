@@ -1,1 +1,1 @@
-<module type="admin/modules_manager/templates"/>
+<module type="admin/modules/templates"/>

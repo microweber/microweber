@@ -22,7 +22,7 @@ class BaseModel extends Eloquent
     public $table_cache_ttl = 60;
     private $filter_keys = ['id', 'module', 'type'];
     protected $guarded = array();
-    
+
     private $useCache = true;
 
     public static $cacheTables = [];
@@ -60,10 +60,10 @@ class BaseModel extends Eloquent
     {
         parent::boot();
 
-        $table = app()->make(get_called_class())->table;
-        static::$cacheTables[$table] = true;    
+        // $table = app()->make(get_called_class())->table;
+        //static::$cacheTables[$table] = true;
 
-        static::observe(new BaseModelObserver);
+        // static::observe(new BaseModelObserver);
     }
 
     public function scopeItems($query, $params = false)
@@ -72,13 +72,17 @@ class BaseModel extends Eloquent
         if (is_string($params)) {
             $params = parse_params($params);
         }
-
+$orig_params = $params;
+        $filters = array();
         $cf = array_flip($this->default_filters);
-        foreach ($cf as $k => &$v) {
-            $v = isset($params[$k]);
+        foreach ($cf as $k => $v) {
+            $enabled = isset($params[$k]);
+            if($enabled){
+                $filters[$k] = $params[$k];
+            }
         }
 
-        foreach ($cf as $filter => $enabled) {
+        foreach ($filters as $filter => $enabled) {
             if (!$enabled)
                 continue;
 
@@ -102,7 +106,7 @@ class BaseModel extends Eloquent
                 case 'id':
                     $criteria = trim($params['id']);
 
-                    $query = $query->where('id',$criteria);
+                    $query = $query->where('id', $criteria);
                     break;
                 case 'min':
                     $criteria = trim($params['min']);
@@ -118,8 +122,7 @@ class BaseModel extends Eloquent
             }
         }
 
-        foreach (self::$custom_filters as $name => $callback)
-        {
+        foreach (self::$custom_filters as $name => $callback) {
             if (!isset($params[$name])) {
                 continue;
             }
@@ -140,11 +143,22 @@ class BaseModel extends Eloquent
 
             return null;
         }
+        $new_data = array();
+        if (!empty($data)) {
+            $i = 0;
 
+            foreach ($data as $item) {
+                $item = $item->toArray();
+                $new_data[$i] = $item;
+                $i++;
+            }
+        }
 
-        $data = $data->toArray();
+        //$data = $data->toArray();
+        $data = $new_data;
 
-        if (isset($cf['single']) || isset($cf['one'])) {
+        if (isset($orig_params['single']) || isset($orig_params['one'])) {
+
             if (!isset($data[0])) {
                 return false;
             }
@@ -156,8 +170,8 @@ class BaseModel extends Eloquent
     }
 
 
-
-    public function save_item($params){
+    public function save_item($params)
+    {
         $table = $this->table;
         if (is_string($params)) {
             $params = parse_params($params);
@@ -169,20 +183,20 @@ class BaseModel extends Eloquent
             $params['updated_on'] = date("Y-m-d H:i:s");
         }
         $id = false;
-        if(isset($params['id'])){
+        if (isset($params['id'])) {
             $id = $params['id'];
         }
 
         $params = $this->map_array_to_table($table, $params);
 
-        if($id){
+        if ($id) {
             unset($params['created_on']);
             $save = self::find($id)->update($params);
         } else {
             $save = self::insert($params);
 
         }
-       return($save);
+        return ($save);
 
 
     }

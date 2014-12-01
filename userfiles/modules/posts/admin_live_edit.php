@@ -255,9 +255,9 @@ mw.on.hashParam("action", function () {
 	</div>
 	<div class="tab"  style="display:none">
 		<?php if (isset($params['global'])) : ?>
-		<module type="admin/modules_manager/templates" id="posts_list_templ" for-module="posts"/>
+		<module type="admin/modules/templates" id="posts_list_templ" for-module="posts"/>
 		<?php else: ?>
-		<module type="admin/modules_manager/templates" id="posts_list_templ"/>
+		<module type="admin/modules/templates" id="posts_list_templ"/>
 		<?php endif;  ?>
 	</div>
 	<div class="tab">  

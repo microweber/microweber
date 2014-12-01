@@ -1,6 +1,6 @@
 <div class="mw-module-admin-wrap">
  <?php if(isset($params['backend'])): ?>
-<module type="admin/modules_manager/info" />
+<module type="admin/modules/info" />
 <?php endif; ?>
   <div id="users-admin">
     <style scoped="scoped">

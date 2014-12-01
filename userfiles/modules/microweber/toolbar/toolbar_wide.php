@@ -308,7 +308,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
       <div id="tab_modules" class="mw_toolbar_tab active">
         <div class="modules_bar_slider bar_slider">
           <div class="modules_bar">
-            <module type="admin/modules_manager/list"/>
+            <module type="admin/modules/list"/>
           </div>
           <span class="modules_bar_slide_left">&nbsp;</span> <span
                     class="modules_bar_slide_right">&nbsp;</span> </div>
@@ -317,7 +317,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
       <div id="tab_layouts" class="mw_toolbar_tab">
         <div class="modules_bar_slider bar_slider">
           <div class="modules_bar">
-            <module type="admin/modules_manager/list_layouts"/>
+            <module type="admin/modules/list_layouts"/>
           </div>
           <span class="modules_bar_slide_left">&nbsp;</span> <span
                     class="modules_bar_slide_right">&nbsp;</span> </div>

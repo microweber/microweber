@@ -29,5 +29,5 @@ if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'page' and de
 
 
  
-  <module type="admin/modules_manager/templates"  />
+  <module type="admin/modules/templates"  />
 </div>

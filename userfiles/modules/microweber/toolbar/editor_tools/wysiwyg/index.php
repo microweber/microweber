@@ -416,8 +416,8 @@ window.onfocus = function(){
     </div>
 
     <div class="mw-ui-box">
-        <div class="module-bubble-tab" style="display: block"><module type="admin/modules_manager/list" class="modules-list-init module-as-element"></div>
-        <div class="module-bubble-tab"><module type="admin/modules_manager/list_layouts" class="modules-list-init module-as-element"></div>
+        <div class="module-bubble-tab" style="display: block"><module type="admin/modules/list" class="modules-list-init module-as-element"></div>
+        <div class="module-bubble-tab"><module type="admin/modules/list_layouts" class="modules-list-init module-as-element"></div>
         <div class="module-bubble-tab-not-found-message"></div>
     </div>
 </div>

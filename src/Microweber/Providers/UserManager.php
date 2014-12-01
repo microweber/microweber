@@ -53,7 +53,6 @@ class UserManager
     }
 
 
-
     public function set_table_names($tables = false)
     {
 
@@ -74,7 +73,7 @@ class UserManager
 
     public function is_admin()
     {
-       //return true;
+        //return true;
         if (!mw_is_installed()) {
             return false;
         }
@@ -93,7 +92,6 @@ class UserManager
             return Auth::user()->id;
         }
         return false;
-
 
 
     }
@@ -158,6 +156,7 @@ class UserManager
         //dd('session_id'.__FILE__.__LINE__);
         return Session::getId();
     }
+
     public function login($params)
     {
 
@@ -168,9 +167,7 @@ class UserManager
         ]);
 
 
-
-        if ($ok) 
-        {
+        if ($ok) {
             Auth::login(Auth::user());
             if ($ok && isset($params['redirect_to'])) {
                 return \Redirect::to($params['redirect_to']);
@@ -179,17 +176,12 @@ class UserManager
                 //return \Response::json(['success' => _e("You are logged in!", true)]);
             }
 
-        }
-        else
-        {
+        } else {
             $this->login_set_failed_attempt();
         }
 
         return array('error' => 'Please enter right username and password!');
     }
-
-
-
 
 
     public function logout($params = false)
@@ -203,8 +195,7 @@ class UserManager
     public function is_logged()
     {
 
-        d('is_logged '. __FILE__.__LINE__);
-        
+
         if (Auth::check()) {
             return true;
         } else {
@@ -213,77 +204,6 @@ class UserManager
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public function has_access($function_name)
@@ -624,7 +544,6 @@ class UserManager
 
 
     }
-
 
 
     function csrf_validate(&$data)

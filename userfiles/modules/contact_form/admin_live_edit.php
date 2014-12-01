@@ -50,7 +50,7 @@ $(document).ready(function(){
         <module type="custom_fields"  view="admin" data-for="module" data-id="<?php print $params['id'] ?>" />
       </div>
       <div class="tab">
-        <module type="admin/modules_manager/templates"  />
+        <module type="admin/modules/templates"  />
       </div>
       <div class="tab">
         <module type="settings/list" for_module="<?php print $config['module'] ?>" for_module_id="<?php print $params['id'] ?>" >

@@ -1,6 +1,6 @@
 <?php only_admin_access(); ?>
 <?php if(!have_license('modules/white_label')): ?>
-<module  type="admin/modules_manager/activate" prefix="modules/white_label" />
+<module  type="admin/modules/activate" prefix="modules/white_label" />
 <?php return; ?>
 <?php endif; ?>
 <?php 

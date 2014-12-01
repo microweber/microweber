@@ -374,7 +374,7 @@ class Modules
             $params = parse_str($params, $params2);
             $params = $options = $params2;
         }
-        $params['table'] = $table;
+         $params['table'] = $table;
         $params['group_by'] = 'module';
         $params['order_by'] = 'position asc';
         $params['cache_group'] = 'modules/global';
@@ -398,7 +398,9 @@ class Modules
         if (isset($params['ui']) and $params['ui'] == 'any') {
             unset($params['ui']);
         }
-        return Module::items($params);
+       $modules = Module::items($params);
+
+       return $modules;
         return $this->app->database_manager->get($params);
     }
 
@@ -932,8 +934,15 @@ class Modules
 
                 }
             } else {
+
+
+
                 if (is_dir($module_in_default_dir)) {
                     $mod_d1 = normalize_path($module_in_default_dir, 1);
+
+
+
+
                     if ($custom_view == true) {
                         $try_file1 = $mod_d1 . trim($custom_view) . '.php';
                         if ($no_fallback_to_view == true) {
@@ -941,9 +950,11 @@ class Modules
                         }
                     } else {
                         if ($no_fallback_to_view == true) {
+
                             return false;
                         }
                         $try_file1 = $mod_d1 . 'index.php';
+
                     }
                 } elseif (is_file($element_in_default_file)) {
                     $is_element = true;
@@ -951,6 +962,16 @@ class Modules
                 }
             }
         }
+
+
+
+
+
+
+
+
+
+
         $try_file1 = normalize_path($try_file1, false);
         return $try_file1;
     }
@@ -1067,6 +1088,8 @@ class Modules
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
         $uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
+
+
         if (empty($uninstall_lock) or (isset($uninstall_lock["installed"]) and $uninstall_lock["installed"] != '' and intval($uninstall_lock["installed"]) != 1)) {
             return false;
         } else {

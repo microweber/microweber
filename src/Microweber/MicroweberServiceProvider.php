@@ -153,12 +153,12 @@ class MicroweberServiceProvider extends ServiceProvider
 //            return new Db($app);
 //        });
         
-        app()->proba = 'ou';
+        //''app()->proba = 'ou';
 
-        $this->app->singleton('db.connection.mysql', function ($app, $parameters) {
-            list($connection, $database, $prefix, $config) = $parameters;
-            return new MySqlConnection($connection, $database, $prefix, $config);
-        });
+//        $this->app->singleton('db.connection.mysql', function ($app, $parameters) {
+//            list($connection, $database, $prefix, $config) = $parameters;
+//            return new MySqlConnection($connection, $database, $prefix, $config);
+//        });
 
         Event::listen('silluminate.query', function ($sql, $bindings, $time) {
             echo $sql; // select * from my_table where id=?

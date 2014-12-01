@@ -149,7 +149,7 @@
 
 	</div>
 	<div class="tab">
-		<module type="admin/modules_manager/templates"/>
+		<module type="admin/modules/templates"/>
 	</div>
 	<script type="text/javascript">
         mw.require('forms.js', true);

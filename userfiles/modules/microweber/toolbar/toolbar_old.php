@@ -190,10 +190,10 @@
     <div id="tab_modules" class="mw_toolbar_tab">
 
 
-       <microweber module="admin/modules_manager/categories_dropdown" no_wrap="true" template="liveedit_toolbar" />
+       <microweber module="admin/modules/categories_dropdown" no_wrap="true" template="liveedit_toolbar" />
       <div class ="modules_bar_slider bar_slider">
         <div class="modules_bar">
-          <microweber module="admin/modules_manager/list" />
+          <microweber module="admin/modules/list" />
         </div>
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
       <div class="mw_clear">&nbsp;</div>
@@ -203,10 +203,10 @@
 
     </div>
     <div id="tab_layouts" class="mw_toolbar_tab">
-      <microweber module="admin/modules_manager/categories_dropdown" no_wrap="true" data-for="elements"  template="liveedit_toolbar" />
+      <microweber module="admin/modules/categories_dropdown" no_wrap="true" data-for="elements"  template="liveedit_toolbar" />
       <div class="modules_bar_slider bar_slider">
         <div class="modules_bar">
-          <microweber module="admin/modules_manager/list_layouts" />
+          <microweber module="admin/modules/list_layouts" />
         </div>
         <span class="modules_bar_slide_left">&nbsp;</span> <span class="modules_bar_slide_right">&nbsp;</span> </div>
     </div>
