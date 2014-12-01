@@ -644,6 +644,8 @@ class DatabaseManager extends DbUtils
 
             return false;
         }
+        
+
         $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
         return $c_id;
     }

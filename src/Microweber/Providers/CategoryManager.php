@@ -474,14 +474,14 @@ class CategoryManager
             if ($include_first == true) {
 
                 $sql = "SELECT * FROM $table WHERE id=$parent ";
-                $sql = $sql . " and data_type='category'   and is_deleted='n'  ";
+                $sql = $sql . " and data_type='category'   and is_deleted=0  ";
                 $sql = $sql . "$remove_ids_q  $add_ids_q $inf_loop_fix  ";
                 $sql = $sql . " group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
 
 
             } else {
 
-                $sql = "SELECT * FROM $table WHERE parent_id=$parent AND data_type='category' AND is_deleted='n' ";
+                $sql = "SELECT * FROM $table WHERE parent_id=$parent AND data_type='category' AND is_deleted=0 ";
                 $sql = $sql . "$remove_ids_q $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
 
             }
@@ -490,11 +490,11 @@ class CategoryManager
 
             if ($include_first == true) {
 
-                $sql = "SELECT * FROM $table WHERE id=$parent  AND is_deleted='n'  ";
+                $sql = "SELECT * FROM $table WHERE id=$parent  AND is_deleted=0  ";
                 $sql = $sql . "$remove_ids_q $add_ids_q   $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}  $hard_limit";
             } else {
 
-                $sql = "SELECT * FROM $table WHERE parent_id=$parent AND is_deleted='n' AND data_type='category' AND (categories_content_type='$content_type' OR categories_content_type='inherit' ) ";
+                $sql = "SELECT * FROM $table WHERE parent_id=$parent AND is_deleted=0 AND data_type='category' AND (categories_content_type='$content_type' OR categories_content_type='inherit' ) ";
                 $sql = $sql . " $remove_ids_q  $add_ids_q $inf_loop_fix group by id order by {$orderby [0]}  {$orderby [1]}   $hard_limit";
             }
         }

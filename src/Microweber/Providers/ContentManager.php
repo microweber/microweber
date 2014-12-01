@@ -465,7 +465,13 @@ class ContentManager
             $params['search_in_fields'] = array('title', 'content_body', 'content', 'description', 'content_meta_keywords', 'content_meta_title', 'url');
         }
 
-        $get = $this->app->database_manager->get($params);
+
+
+   $get = Content::items($params);
+
+     // $get = mw()->content->get_items($params);
+
+      //   $get = $this->app->database_manager->get($params);
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
@@ -511,39 +517,39 @@ class ContentManager
 
         $prefix = '';
         if (!isset($tables['content'])) {
-            $tables['content'] = $prefix . 'content';
+            $tables['content'] =  'content';
         }
         if (!isset($tables['content_fields'])) {
-            $tables['content_fields'] = $prefix . 'content_fields';
+            $tables['content_fields'] =  'content_fields';
         }
         if (!isset($tables['content_data'])) {
-            $tables['content_data'] = $prefix . 'content_data';
+            $tables['content_data'] =  'content_data';
         }
         if (!isset($tables['content_fields_drafts'])) {
-            $tables['content_fields_drafts'] = $prefix . 'content_fields_drafts';
+            $tables['content_fields_drafts'] =  'content_fields_drafts';
         }
         if (!isset($tables['media'])) {
-            $tables['media'] = $prefix . 'media';
+            $tables['media'] =  'media';
         }
         if (!isset($tables['custom_fields'])) {
-            $tables['custom_fields'] = $prefix . 'custom_fields';
+            $tables['custom_fields'] =  'custom_fields';
         }
         if (!isset($tables['content_data'])) {
-            $tables['content_data'] = $prefix . 'content_data';
+            $tables['content_data'] =  'content_data';
         }
         if (!isset($tables['custom_fields'])) {
-            $tables['custom_fields'] = $prefix . 'custom_fields';
+            $tables['custom_fields'] =  'custom_fields';
         }
         if (!isset($tables['categories'])) {
-            $tables['categories'] = $prefix . 'categories';
+            $tables['categories'] =  'categories';
         }
         if (!isset($tables['categories_items'])) {
-            $tables['categories_items'] = $prefix . 'categories_items';
+            $tables['categories_items'] =  'categories_items';
         }
         if (!isset($tables['menus'])) {
-            $tables['menus'] = $prefix . 'menus';
+            $tables['menus'] = 'menus';
         }
-        $this->table_prefix = $prefix;
+
         $this->tables['content'] = $tables['content'];
         $this->tables['content_fields'] = $tables['content_fields'];
         $this->tables['content_data'] = $tables['content_data'];
@@ -1070,9 +1076,9 @@ class ContentManager
 
 
         if ($include_first == true) {
-            $sql = "SELECT * from $table where  id={$parent}    and   is_deleted='n' and content_type='page' " . $is_shop . "  order by position desc  limit 0,1";
+            $sql = "SELECT * from $table where  id={$parent}    and   is_deleted=0 and content_type='page' " . $is_shop . "  order by position desc  limit 0,1";
         } else {
-            $sql = "SELECT * from $table where  " . $par_q . "  content_type='page' and   is_deleted='n' $is_shop  order by position desc limit 0,100";
+            $sql = "SELECT * from $table where  " . $par_q . "  content_type='page' and   is_deleted=0 $is_shop  order by position desc limit 0,100";
         }
         $cid = __FUNCTION__ . crc32($sql);
         $cidg = 'content/' . $parent;
@@ -2461,13 +2467,13 @@ if(isset($_SERVER['HTTP_REFERER'])){
 //        $table = $this->tables['content'];
 //
 //
-//        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted='n' ORDER BY updated_on DESC LIMIT 0,1 ";
+//        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted=0 ORDER BY updated_on DESC LIMIT 0,1 ";
 //
 //        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 //        //
 //        $result = $q;
 //        if ($result == false) {
-//            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted='n' AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
+//            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted=0 AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
 //            $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 //            $result = $q;
 //
@@ -2963,20 +2969,22 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
 
         if (!empty($del_ids)) {
-            $table = $this->tables['content'];
+            $table = $this->app->database_manager->real_table_name($this->tables['content']);
 
             foreach ($del_ids as $value) {
                 $c_id = intval($value);
                 //$q = "update $table set parent=0 where parent=$c_id ";
 
                 if ($to_untrash == true) {
-                    $q = "UPDATE $table SET is_deleted='n' WHERE id=$c_id AND  is_deleted='y' ";
+                    $q = "UPDATE $table SET is_deleted=0 WHERE id=$c_id AND  is_deleted=1 ";
                     $q = $this->app->database_manager->query($q);
-                    $q = "UPDATE $table SET is_deleted='n' WHERE parent=$c_id   AND  is_deleted='y' ";
+                    $q = "UPDATE $table SET is_deleted=0 WHERE parent=$c_id   AND  is_deleted=1 ";
                     $q = $this->app->database_manager->query($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
-                        $q = "UPDATE $table1 SET is_deleted='n' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='y' ";
+                        $table1 = $this->app->database_manager->real_table_name($table1);
+
+                        $q = "UPDATE $table1 SET is_deleted=0 WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted=1 ";
                         $q = $this->app->database_manager->query($q);
                     }
 
@@ -2988,12 +2996,16 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
                     if (isset($this->tables['media'])) {
                         $table1 = $this->tables['media'];
+                        $table1 = $this->app->database_manager->real_table_name($table1);
+
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                         $q = $this->app->database_manager->query($q);
                     }
 
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
+                        $table1 = $this->app->database_manager->real_table_name($table1);
+
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                         $q = $this->app->database_manager->query($q);
                     }
@@ -3001,11 +3013,15 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
                     if (isset($this->tables['categories_items'])) {
                         $table1 = $this->tables['categories_items'];
+                        $table1 = $this->app->database_manager->real_table_name($table1);
+
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
                         $q = $this->app->database_manager->query($q);
                     }
                     if (isset($this->tables['custom_fields'])) {
                         $table1 = $this->tables['custom_fields'];
+                        $table1 = $this->app->database_manager->real_table_name($table1);
+
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
 
                         $q = $this->app->database_manager->query($q);
@@ -3013,20 +3029,24 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
                     if (isset($this->tables['content_data'])) {
                         $table1 = $this->tables['content_data'];
+                        $table1 = $this->app->database_manager->real_table_name($table1);
+
                         $q = "DELETE FROM $table1 WHERE content_id=$c_id    ";
                         $q = $this->app->database_manager->query($q);
                     }
 
 
                 } else {
-                    $q = "UPDATE $table SET is_deleted='y' WHERE id=$c_id ";
+                    $q = "UPDATE $table SET is_deleted=1 WHERE id=$c_id ";
 
                     $q = $this->app->database_manager->query($q);
-                    $q = "UPDATE $table SET is_deleted='y' WHERE parent=$c_id ";
+                    $q = "UPDATE $table SET is_deleted=1 WHERE parent=$c_id ";
                     $q = $this->app->database_manager->query($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
-                        $q = "UPDATE $table1 SET is_deleted='y' WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted='n' ";
+                        $table1 = $this->app->database_manager->real_table_name($table1);
+
+                        $q = "UPDATE $table1 SET is_deleted=1 WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted=0 ";
 
                         $q = $this->app->database_manager->query($q);
                     }

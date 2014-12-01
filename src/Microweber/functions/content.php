@@ -55,9 +55,6 @@ function category_id()
 }
 
 
-
-
-
 /**
  * Gets content or posts by matching criteria.
  *
@@ -160,6 +157,7 @@ function get_pages($params = false)
 {
     return mw()->content_manager->get_pages($params);
 }
+
 api_expose_admin('get_products');
 function get_products($params = false)
 {
@@ -187,8 +185,6 @@ function get_content_by_id($params = false)
 }
 
 
-
-
 /**
  * Returns the link of a given content id
  *
@@ -208,13 +204,13 @@ function content_link($id = false)
 
     return mw()->content_manager->link($id);
 }
+
 api_expose_admin('content_title');
 function content_title($id = false)
 {
 
     return mw()->content_manager->title($id);
 }
-
 
 
 /**
@@ -227,6 +223,7 @@ function content_title($id = false)
  * @return array|string
  */
 api_expose('delete_content');
+api_hook('content/delete', 'delete_content');
 function delete_content($data)
 {
     return mw()->content_manager->delete($data);
@@ -236,7 +233,7 @@ function delete_content($data)
 /**
  * Returns html code with paging links
  *
- * @param $params['num'] = 5; //the numer of pages
+ * @param $params ['num'] = 5; //the numer of pages
  * @internal param $display =
  *            'default' //sets the default paging display with <ul> and </li>
  *            tags. If $display = false, the function will return the paging
@@ -278,11 +275,13 @@ function page_link($id = false)
 {
     return mw()->content_manager->link($id);
 }
+
 api_expose_admin('post_link');
 function post_link($id = false)
 {
     return mw()->content_manager->link($id);
 }
+
 api_expose_admin('pages_tree');
 function pages_tree($params = false)
 {
@@ -359,15 +358,14 @@ function prev_content($content_id = false)
     return mw()->content_manager->prev_content($content_id);
 }
 
-function breadcrumb($params = false){
+function breadcrumb($params = false)
+{
 
 
     return mw()->content_manager->breadcrumb($params);
 
 
 }
-
-
 
 
 api_hook('content/set_published', function ($data) {
@@ -378,12 +376,6 @@ api_hook('content/set_published', function ($data) {
 api_hook('content/set_unpublished', function ($data) {
     return mw()->content_manager->set_unpublished($data);
 });
-
-
-
-
-
-
 
 
 function custom_field_value($content_id, $field_name, $table = 'content')

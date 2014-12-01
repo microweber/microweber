@@ -420,7 +420,7 @@ class MenuManager
 
                 if (is_array($cont)) {
                     $title = $cont['title'];
-                    $url = $this->link($cont['id']);
+                    $url = $this->app->content_manager->link($cont['id']);
 
                     if ($cont['is_active'] != 'y') {
                         $is_active = false;
@@ -482,7 +482,7 @@ class MenuManager
             } elseif (trim($item['url'] != '') and $item['url'] == $cur_url) {
                 $active_class = 'active';
             } elseif (trim($item['url'] != '') and $item['content_id'] != 0 and defined('PAGE_ID') and PAGE_ID != 0) {
-                $cont_link = $this->link(PAGE_ID);
+                $cont_link = $this->app->content_manager->link(PAGE_ID);
                 if ($item['content_id'] == PAGE_ID and $cont_link == $item['url']) {
                     $active_class = 'active';
                 } elseif ($cont_link == $item['url']) {

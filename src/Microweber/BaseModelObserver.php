@@ -10,6 +10,7 @@ class BaseModelObserver {
 		Cache::forget($key);
 
 		var_dump('cache cleared', $key, $ql['query']);
+		var_dump(__FILE__.__LINE__);
 	}
 
 	public function saved($model)

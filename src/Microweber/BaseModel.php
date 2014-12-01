@@ -1,23 +1,15 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: user
- * Date: 11/23/14
- * Time: 11:56 PM
- */
-
-
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
-/**
  *
  * @property BaseModel $where(string $column, string $operator = null, mixed $value = null, string $boolean = 'and')
  *
  */
-class BaseModel extends Eloquent
+class BaseModel extends CachedModel
 {
     const CREATED_AT = 'created_on';
     const UPDATED_AT = 'updated_on';
+
+    public static $cache = true;
 
     public $table_cache_ttl = 60;
     private $filter_keys = ['id', 'module', 'type'];
@@ -43,7 +35,9 @@ class BaseModel extends Eloquent
         'count_paging',
         'to_search_in_fields',
         'to_search_keyword',
-        'fields'
+        'fields',
+
+
     ];
 
     private static $custom_filters = [];
@@ -81,6 +75,7 @@ class BaseModel extends Eloquent
                 $filters[$k] = $params[$k];
             }
         }
+
 
         foreach ($filters as $filter => $enabled) {
             if (!$enabled)
@@ -122,16 +117,26 @@ class BaseModel extends Eloquent
             }
         }
 
+
         foreach (self::$custom_filters as $name => $callback) {
             if (!isset($params[$name])) {
                 continue;
             }
-
-
             call_user_func_array($callback, [$query, $params[$name]]);
         }
 
         $params = $this->map_array_to_table($table, $params);
+        $test = 0;
+        foreach ($params as $column => $value) {
+            switch ($value) {
+                case '[not_null]':
+                    $test = 1;
+                    $query->whereNotNull($column);
+                    unset($params[$column]);
+                    break;
+            }
+        }
+
 
         if ($params !== false) {
             $query = $query->where($params);
@@ -141,13 +146,23 @@ class BaseModel extends Eloquent
 
         if ($empty == true) {
 
-            return null;
+            return false;
         }
+
 
         $data = $data->toArray();
 
-        if (isset($orig_params['single']) || isset($orig_params['one'])) {
+        if(!is_array($data)){
+            return false;
+        }
+//        foreach($data as $k=>$v){
+//            $data[$k] = (array)  $v;
+//        }
 
+//        if($test){
+//            dd($data);
+//        }
+        if (isset($orig_params['single']) || isset($orig_params['one'])) {
             if (!isset($data[0])) {
                 return false;
             }
@@ -155,10 +170,13 @@ class BaseModel extends Eloquent
         }
 
 
-        return $data;
+        return   $data;
     }
 
-
+    public function get_items($params)
+    {
+        return  (array) self::items($params);
+    }
     public function save_item($params)
     {
         $table = $this->table;

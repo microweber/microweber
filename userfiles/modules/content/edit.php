@@ -2,8 +2,7 @@
 
 
 
-namespace Microweber\content;
-include_once(__DIR__.DS.'controllers'.DS.'Edit.php');
+ 
  
 
 if (!isset($params)) {
@@ -11,7 +10,7 @@ if (!isset($params)) {
 }
 
 
-$manager = new controllers\Edit();
+$manager = new content\controllers\Edit();
 
 if (isset($params['view'])) {
     if (method_exists($manager, $params['view'])) {

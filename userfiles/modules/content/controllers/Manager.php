@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Microweber\content\controllers;
+namespace content\controllers;
 
 use Microweber\View;
 
