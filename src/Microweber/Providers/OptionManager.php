@@ -31,7 +31,7 @@ class OptionManager
         api_expose('save_option');
 
         $this->set_table_names();
-       //  $this->db_init();
+        //  $this->db_init();
     }
 
     public function set_table_names($tables = false)
@@ -386,10 +386,10 @@ class OptionManager
 
 
         $filter = array();
-      //  $filter['limit'] = 1;
-       // $filter['option_key'] = $key;
+        //  $filter['limit'] = 1;
+        // $filter['option_key'] = $key;
         if ($option_group != false) {
-            $filter['option_group'] =$option_group;
+            $filter['option_group'] = $option_group;
         }
 
         if ($module != false) {
@@ -399,7 +399,7 @@ class OptionManager
         $get_all = Option::items($filter);
 
         $q_cache_id = crc32($q);
-      //  $get_all = $this->app->database_manager->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
+        //  $get_all = $this->app->database_manager->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
 
         if (!is_array($get_all)) {
 
@@ -526,17 +526,6 @@ class OptionManager
             }
 
 
-            if (  isset($data['option_group']) and isset($data['option_key'])) {
-                $opt_gr = $this->app->database_manager->escape_string($data['option_group']);
-                $opt_key = $this->app->database_manager->escape_string($data['option_key']);
-                $clean = "DELETE FROM $table WHERE  option_group='{$opt_gr}' AND  option_key='{$opt_key}'";
-              $this->app->database_manager->query($clean);
-                $cache_group = 'options/' . $opt_gr;
-                $this->app->cache_manager->delete($cache_group);
-
-
-            }
-
             if (strval($data['option_key']) != '') {
                 if ($data['option_key'] == 'current_template') {
                     $delete_content_cache = true;
@@ -554,7 +543,12 @@ class OptionManager
 
                 $data['allow_html'] = true;
                 $data['allow_scripts'] = true;
-                $save = $this->app->database_manager->save($table, $data);
+
+
+                $save = mw()->option->save_item($data);
+
+                // $save = $this->app->database_manager->save($table, $data);
+                //$save = $this->app->database_manager->save($table, $data);
 
                 if ($option_group != false) {
                     $cache_group = 'options/' . $option_group;
@@ -755,8 +749,6 @@ class OptionManager
         $data['option_value'] = (htmlentities($data['option_value']));
 
         $data['option_group'] = str_replace('..', '', $data['option_group']);
-
-
 
 
     }

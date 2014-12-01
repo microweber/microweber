@@ -186,22 +186,18 @@ class UserManager
 
     public function logout($params = false)
     {
-
         Session::flush();
         return true;
-
     }
 
     public function is_logged()
     {
-
 
         if (Auth::check()) {
             return true;
         } else {
             return false;
         }
-
 
     }
 

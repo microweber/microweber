@@ -1,0 +1,639 @@
+
+
+/*********************************
+
+       Default (Black):
+
+**********************************/
+
+body,
+.mw-dopdown-cart-container tr.mw-cart-item:hover td{ background-color: #f8f8f8; }
+
+
+body,
+a,
+.item-box,
+#header .item-box [class*='sm-icon-'],
+#header .item-box [class*='mw-icon-'],
+#header .mw-cart,
+.shopmagmenu .mw-ui-navigation ul,
+.shopmagmenu .mw-ui-navigation ul a,
+.mwcommentsmodule .comments-template-stylish .comment .comment-content{ color: #222; }
+
+
+#header,
+#footer,
+#logo,
+#logo *,
+#header .mw-dropdown-value,
+#footer .mw-dropdown-value,
+#footer a,
+#header .mw-search-minimal .mw-search-minimal-field-holder input,
+#header .header-menu .module > ul > li > a,
+#header .header-menu .shopmagmenu > ul > li > a,
+.mw-search-minimal .module-posts-template-search > ul li.active * ,
+#header .mw-search-autocomplete .mw-search-autocomplete-field-holder input,
+.mw-search-minimal .module-posts-template-search > ul li.active,
+.mw-cart-shopmag-small .sm-icon-bag2,
+#header .mw-cart .mw-dopdown-cart-footer,
+#header .mw-cart .mw-dopdown-cart-footer *,
+#header .mw-cart .mw-dopdown-cart-footer .item-box [class*='mw-icon-'],
+#header .header-shopcart *,
+.default-invert:hover,
+.default-invert:hover *,
+.shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+.product-add-to-cart:hover,
+.product-add-to-cart:focus,
+.social-login-top,
+.social-login-top *,
+.user-dropdown a:hover,
+.user-dropdown a:focus{ color: white; }
+
+#header,
+#footer,
+.mw-search-minimal .module-posts-template-search > ul li.active,
+.mw-cart-shopmag-small .sm-icon-bag2,
+.mw-dopdown-cart-footer,
+.shopmagmenu .mw-ui-navigation,
+.shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.fixed #header .mw-wrapper,
+.product-add-to-cart:hover,
+.product-add-to-cart:focus,
+.contact-form-template-footer .message-sent,
+.social-login-top,
+.user-dropdown a:hover,
+.user-dropdown a:focus,
+.contact-form .cft-submit,
+.contact-form .cft-submit:hover,
+.contact-form .cft-submit:focus{ background-color: black; }
+
+.form-control:focus{
+  border-color: white;
+}
+
+.module-products-template-shopmag .masonry-item-content,
+body.fixed #wrapper,
+.shopmagmenu .mw-ui-navigation ul,
+.shopmagmenu .mw-ui-navigation-horizontal > li > ul:before,
+.item-box,
+.header-slider,
+.mw-search-minimal-holder,
+.product-add-to-cart{ background-color: white; }
+
+hr,
+.module-categories-template-default li a:hover,
+.module-categories-template-default li a.active,
+.module-categories-template-default li a:focus{ background-color:rgba(230, 230, 230, 0.8); }
+
+#header hr,
+#footer hr,
+.shopmagmenu .mw-ui-navigation > li:hover > a,
+.shopmagmenu .mw-ui-navigation > li > a:focus,
+.shopmagmenu .mw-ui-navigation > li > a.active{ background-color: rgba(255, 255, 255, 0.22); }
+
+
+.product-add-to-cart,
+.order-summary-table-holder,
+.contact-form-template-dream .contact-form{
+  border-color: black;
+}
+
+.item-box .contact-form-template-dream .contact-form{
+  border-color: transparent;
+}
+
+
+@media (max-width: 960px) {
+    #header .header-menu .module ul li a{
+      color: white;
+      background-color: transparent !important;
+    }
+}
+
+
+
+
+
+/*********************************
+
+            Red:
+
+**********************************/
+
+body.shopmag-red ,
+body.shopmag-red .mw-dopdown-cart-container tr.mw-cart-item:hover td{ background-color: #f8f8f8; }
+
+
+body.shopmag-red ,
+body.shopmag-red a,
+body.shopmag-red .item-box,
+body.shopmag-red #header .item-box [class*='sm-icon-'],
+body.shopmag-red #header .item-box [class*='mw-icon-'],
+body.shopmag-red #header .mw-cart,
+body.shopmag-red .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-red .shopmagmenu .mw-ui-navigation ul a,
+body.shopmag-red .mwcommentsmodule .comments-template-stylish .comment .comment-content{ color: #222; }
+
+
+body.shopmag-red #header,
+body.shopmag-red #footer,
+body.shopmag-red #header .mw-dropdown-value,
+body.shopmag-red #footer .mw-dropdown-value,
+body.shopmag-red #footer a,
+body.shopmag-red #header .mw-search-minimal .mw-search-minimal-field-holder input,
+body.shopmag-red #header .header-menu .module > ul > li > a,
+body.shopmag-red #header .header-menu .shopmagmenu > ul > li > a,
+body.shopmag-red .mw-search-minimal .module-posts-template-search > ul li.active * ,
+body.shopmag-red #header .mw-search-autocomplete .mw-search-autocomplete-field-holder input,
+body.shopmag-red .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-red .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-red #header .mw-cart .mw-dopdown-cart-footer,
+body.shopmag-red #header .mw-cart .mw-dopdown-cart-footer *,
+body.shopmag-red #header .mw-cart .mw-dopdown-cart-footer .item-box [class*='mw-icon-'],
+body.shopmag-red #header .header-shopcart *,
+body.shopmag-red .default-invert:hover,
+body.shopmag-red .default-invert:hover *,
+body.shopmag-red .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.shopmag-red .product-add-to-cart:hover,
+body.shopmag-red .product-add-to-cart:focus,
+body.shopmag-red .social-login-top,
+body.shopmag-red .social-login-top *{ color: white; }
+
+body.shopmag-red #header,
+body.shopmag-red #footer,
+body.shopmag-red .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-red .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-red .mw-dopdown-cart-footer,
+body.shopmag-red .shopmagmenu .mw-ui-navigation,
+body.shopmag-red .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.shopmag-red.fixed #header .mw-wrapper,
+body.shopmag-red .product-add-to-cart:hover,
+body.shopmag-red .product-add-to-cart:focus,
+body.shopmag-red .contact-form-template-footer .message-sent,
+body.shopmag-red .social-login-top,
+body.shopmag-red .user-dropdown a:hover,
+body.shopmag-red .user-dropdown a:focus,
+body.shopmag-red .contact-form .cft-submit,
+body.shopmag-red .contact-form .cft-submit:hover,
+body.shopmag-red .contact-form .cft-submit:focus{ background-color: #DB0743; }
+
+body.shopmag-red .form-control:focus{
+  border-color: white;
+}
+
+body.shopmag-red .module-products-template-shopmag .masonry-item-content,
+body.shopmag-red.fixed #wrapper,
+body.shopmag-red .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-red .shopmagmenu .mw-ui-navigation-horizontal > li > ul:before,
+body.shopmag-red .item-box,
+body.shopmag-red .header-slider,
+body.shopmag-red .mw-search-minimal-holder,
+body.shopmag-red .product-add-to-cart{ background-color: white; }
+
+body.shopmag-red hr,
+body.shopmag-red .module-categories-template-default li a:hover,
+body.shopmag-red .module-categories-template-default li a.active,
+body.shopmag-red .module-categories-template-default li a:focus{ background-color:rgba(230, 230, 230, 0.8); }
+
+body.shopmag-red #header hr,
+body.shopmag-red #footer hr,
+body.shopmag-red .shopmagmenu .mw-ui-navigation > li:hover > a,
+body.shopmag-red .shopmagmenu .mw-ui-navigation > li > a:focus,
+body.shopmag-red .shopmagmenu .mw-ui-navigation > li > a.active{ background-color: rgba(255, 255, 255, 0.22); }
+
+
+body.shopmag-red .product-add-to-cart,
+body.shopmag-red .order-summary-table-holder{
+  border-color: black;
+}
+
+body.shopmag-red .mw-ui-btn-invert,
+body.shopmag-red .mw-ui-btn-invert:hover,
+body.shopmag-red .mw-ui-btn-invert:focus,
+body.shopmag-red .mw-ui-btn-invert.active,
+body.shopmag-red .mw-social-links a{
+  background-color: #A80533;
+  color: white;
+}
+
+
+/*********************************
+
+       Violet:
+
+**********************************/
+
+body.shopmag-violet ,
+body.shopmag-violet .mw-dopdown-cart-container tr.mw-cart-item:hover td{ background-color: #f8f8f8; }
+
+
+body.shopmag-violet ,
+body.shopmag-violet a,
+body.shopmag-violet .item-box,
+body.shopmag-violet #header .item-box [class*='sm-icon-'],
+body.shopmag-violet #header .item-box [class*='mw-icon-'],
+body.shopmag-violet #header .mw-cart,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation ul a,
+body.shopmag-violet .mwcommentsmodule .comments-template-stylish .comment .comment-content{ color: #222; }
+
+
+body.shopmag-violet #header,
+body.shopmag-violet #footer,
+body.shopmag-violet #header .mw-dropdown-value,
+body.shopmag-violet #footer .mw-dropdown-value,
+body.shopmag-violet #footer a,
+body.shopmag-violet #header .mw-search-minimal .mw-search-minimal-field-holder input,
+body.shopmag-violet #header .header-menu .module > ul > li > a,
+body.shopmag-violet #header .header-menu .shopmagmenu > ul > li > a,
+body.shopmag-violet .mw-search-minimal .module-posts-template-search > ul li.active * ,
+body.shopmag-violet #header .mw-search-autocomplete .mw-search-autocomplete-field-holder input,
+body.shopmag-violet .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-violet .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-violet #header .mw-cart .mw-dopdown-cart-footer,
+body.shopmag-violet #header .mw-cart .mw-dopdown-cart-footer *,
+body.shopmag-violet #header .mw-cart .mw-dopdown-cart-footer .item-box [class*='mw-icon-'],
+body.shopmag-violet #header .header-shopcart *,
+body.shopmag-violet .default-invert:hover,
+body.shopmag-violet .default-invert:hover *,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.shopmag-violet .product-add-to-cart:hover,
+body.shopmag-violet .product-add-to-cart:focus,
+body.shopmag-violet .social-login-top,
+body.shopmag-violet .social-login-top *{ color: white; }
+
+body.shopmag-violet #header,
+body.shopmag-violet #footer,
+body.shopmag-violet .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-violet .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-violet .mw-dopdown-cart-footer,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.shopmag-violet.fixed #header .mw-wrapper,
+body.shopmag-violet .product-add-to-cart:hover,
+body.shopmag-violet .product-add-to-cart:focus,
+body.shopmag-violet .contact-form-template-footer .message-sent,
+body.shopmag-violet .social-login-top,
+body.shopmag-violet .user-dropdown a:hover,
+body.shopmag-violet .user-dropdown a:focus,
+body.shopmag-violet .contact-form .cft-submit,
+body.shopmag-violet .contact-form .cft-submit:hover,
+body.shopmag-violet .contact-form .cft-submit:focus{ background-color: #CD6889; }
+
+body.shopmag-violet .form-control:focus{
+  border-color: white;
+}
+
+body.shopmag-violet .module-products-template-shopmag .masonry-item-content,
+body.shopmag-violet.fixed #wrapper,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation-horizontal > li > ul:before,
+body.shopmag-violet .item-box,
+body.shopmag-violet .header-slider,
+body.shopmag-violet .mw-search-minimal-holder,
+body.shopmag-violet .product-add-to-cart{ background-color: white; }
+
+body.shopmag-violet hr,
+body.shopmag-violet .module-categories-template-default li a:hover,
+body.shopmag-violet .module-categories-template-default li a.active,
+body.shopmag-violet .module-categories-template-default li a:focus{ background-color:rgba(230, 230, 230, 0.8); }
+
+body.shopmag-violet #header hr,
+body.shopmag-violet #footer hr,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation > li:hover > a,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation > li > a:focus,
+body.shopmag-violet .shopmagmenu .mw-ui-navigation > li > a.active{ background-color: rgba(255, 255, 255, 0.22); }
+
+
+body.shopmag-violet .product-add-to-cart,
+body.shopmag-violet .order-summary-table-holder{
+  border-color: black;
+}
+
+body.shopmag-violet .mw-ui-btn-invert,
+body.shopmag-violet .mw-ui-btn-invert:hover,
+body.shopmag-violet .mw-ui-btn-invert:focus,
+body.shopmag-violet .mw-ui-btn-invert.active,
+body.shopmag-violet .mw-social-links a{
+  background-color: #A13659;
+  color: white;
+}
+
+
+
+
+/*********************************
+
+       Blue:
+
+**********************************/
+
+body.shopmag-blue ,
+body.shopmag-blue .mw-dopdown-cart-container tr.mw-cart-item:hover td{ background-color: #f8f8f8; }
+
+
+body.shopmag-blue ,
+body.shopmag-blue a,
+body.shopmag-blue .item-box,
+body.shopmag-blue #header .item-box [class*='sm-icon-'],
+body.shopmag-blue #header .item-box [class*='mw-icon-'],
+body.shopmag-blue #header .mw-cart,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation ul a,
+body.shopmag-blue .mwcommentsmodule .comments-template-stylish .comment .comment-content{ color: #222; }
+
+
+body.shopmag-blue #header,
+body.shopmag-blue #footer,
+body.shopmag-blue #header .mw-dropdown-value,
+body.shopmag-blue #footer .mw-dropdown-value,
+body.shopmag-blue #footer a,
+body.shopmag-blue #header .mw-search-minimal .mw-search-minimal-field-holder input,
+body.shopmag-blue #header .header-menu .module > ul > li > a,
+body.shopmag-blue #header .header-menu .shopmagmenu > ul > li > a,
+body.shopmag-blue .mw-search-minimal .module-posts-template-search > ul li.active * ,
+body.shopmag-blue #header .mw-search-autocomplete .mw-search-autocomplete-field-holder input,
+body.shopmag-blue .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-blue .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-blue #header .mw-cart .mw-dopdown-cart-footer,
+body.shopmag-blue #header .mw-cart .mw-dopdown-cart-footer *,
+body.shopmag-blue #header .mw-cart .mw-dopdown-cart-footer .item-box [class*='mw-icon-'],
+body.shopmag-blue #header .header-shopcart *,
+body.shopmag-blue .default-invert:hover,
+body.shopmag-blue .default-invert:hover *,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.shopmag-blue .product-add-to-cart:hover,
+body.shopmag-blue .product-add-to-cart:focus,
+body.shopmag-blue .social-login-top,
+body.shopmag-blue .social-login-top *{ color: white; }
+
+body.shopmag-blue #header,
+body.shopmag-blue #footer,
+body.shopmag-blue .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-blue .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-blue .mw-dopdown-cart-footer,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.shopmag-blue.fixed #header .mw-wrapper,
+body.shopmag-blue .product-add-to-cart:hover,
+body.shopmag-blue .product-add-to-cart:focus,
+body.shopmag-blue .contact-form-template-footer .message-sent,
+body.shopmag-blue .social-login-top,
+body.shopmag-blue .user-dropdown a:hover,
+body.shopmag-blue .user-dropdown a:focus,
+body.shopmag-blue .contact-form .cft-submit,
+body.shopmag-blue .contact-form .cft-submit:hover,
+body.shopmag-blue .contact-form .cft-submit:focus{ background-color: #0092DB; }
+
+body.shopmag-blue .form-control:focus{
+  border-color: white;
+}
+
+body.shopmag-blue .module-products-template-shopmag .masonry-item-content,
+body.shopmag-blue.fixed #wrapper,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation-horizontal > li > ul:before,
+body.shopmag-blue .item-box,
+body.shopmag-blue .header-slider,
+body.shopmag-blue .mw-search-minimal-holder,
+body.shopmag-blue .product-add-to-cart{ background-color: white; }
+
+body.shopmag-blue hr,
+body.shopmag-blue .module-categories-template-default li a:hover,
+body.shopmag-blue .module-categories-template-default li a.active,
+body.shopmag-blue .module-categories-template-default li a:focus{ background-color:rgba(230, 230, 230, 0.8); }
+
+body.shopmag-blue #header hr,
+body.shopmag-blue #footer hr,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation > li:hover > a,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation > li > a:focus,
+body.shopmag-blue .shopmagmenu .mw-ui-navigation > li > a.active{ background-color: rgba(255, 255, 255, 0.22); }
+
+
+body.shopmag-blue .product-add-to-cart,
+body.shopmag-blue .order-summary-table-holder{
+  border-color: black;
+}
+
+body.shopmag-blue .mw-ui-btn-invert,
+body.shopmag-blue .mw-ui-btn-invert:hover,
+body.shopmag-blue .mw-ui-btn-invert:focus,
+body.shopmag-blue .mw-ui-btn-invert.active,
+body.shopmag-blue .mw-social-links a{
+  background-color: #0070A8;
+  color: white;
+}
+
+
+
+
+
+
+/*********************************
+
+       Purple:
+
+**********************************/
+
+body.shopmag-purple ,
+body.shopmag-purple .mw-dopdown-cart-container tr.mw-cart-item:hover td{ background-color: #f8f8f8; }
+
+
+body.shopmag-purple ,
+body.shopmag-purple a,
+body.shopmag-purple .item-box,
+body.shopmag-purple #header .item-box [class*='sm-icon-'],
+body.shopmag-purple #header .item-box [class*='mw-icon-'],
+body.shopmag-purple #header .mw-cart,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation ul a,
+body.shopmag-purple .mwcommentsmodule .comments-template-stylish .comment .comment-content{ color: #222; }
+
+
+body.shopmag-purple #header,
+body.shopmag-purple #footer,
+body.shopmag-purple #header .mw-dropdown-value,
+body.shopmag-purple #footer .mw-dropdown-value,
+body.shopmag-purple #footer a,
+body.shopmag-purple #header .mw-search-minimal .mw-search-minimal-field-holder input,
+body.shopmag-purple #header .header-menu .module > ul > li > a,
+body.shopmag-purple #header .header-menu .shopmagmenu > ul > li > a,
+body.shopmag-purple .mw-search-minimal .module-posts-template-search > ul li.active * ,
+body.shopmag-purple #header .mw-search-autocomplete .mw-search-autocomplete-field-holder input,
+body.shopmag-purple .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-purple .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-purple #header .mw-cart .mw-dopdown-cart-footer,
+body.shopmag-purple #header .mw-cart .mw-dopdown-cart-footer *,
+body.shopmag-purple #header .mw-cart .mw-dopdown-cart-footer .item-box [class*='mw-icon-'],
+body.shopmag-purple #header .header-shopcart *,
+body.shopmag-purple .default-invert:hover,
+body.shopmag-purple .default-invert:hover *,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.shopmag-purple .product-add-to-cart:hover,
+body.shopmag-purple .product-add-to-cart:focus,
+body.shopmag-purple .social-login-top,
+body.shopmag-purple .social-login-top *{ color: white; }
+
+body.shopmag-purple #header,
+body.shopmag-purple #footer,
+body.shopmag-purple .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-purple .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-purple .mw-dopdown-cart-footer,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.fixed.shopmag-purple  #header .mw-wrapper,
+body.shopmag-purple .product-add-to-cart:hover,
+body.shopmag-purple .product-add-to-cart:focus,
+body.shopmag-purple .contact-form-template-footer .message-sent,
+body.shopmag-purple .social-login-top,
+body.shopmag-purple .user-dropdown a:hover,
+body.shopmag-purple .user-dropdown a:focus,
+body.shopmag-purple .contact-form .cft-submit,
+body.shopmag-purple .contact-form .cft-submit:hover,
+body.shopmag-purple .contact-form .cft-submit:focus{ background-color: #C27AC1; }
+
+body.shopmag-purple .form-control:focus{
+  border-color: white;
+}
+
+body.shopmag-purple .module-products-template-shopmag .masonry-item-content,
+body.shopmag-purple.fixed #wrapper,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation-horizontal > li > ul:before,
+body.shopmag-purple .item-box,
+body.shopmag-purple .header-slider,
+body.shopmag-purple .mw-search-minimal-holder,
+body.shopmag-purple .product-add-to-cart{ background-color: white; }
+
+body.shopmag-purple hr,
+body.shopmag-purple .module-categories-template-default li a:hover,
+body.shopmag-purple .module-categories-template-default li a.active,
+body.shopmag-purple .module-categories-template-default li a:focus{ background-color:rgba(230, 230, 230, 0.8); }
+
+body.shopmag-purple #header hr,
+body.shopmag-purple #footer hr,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation > li:hover > a,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation > li > a:focus,
+body.shopmag-purple .shopmagmenu .mw-ui-navigation > li > a.active{ background-color: rgba(255, 255, 255, 0.22); }
+
+
+body.shopmag-purple .product-add-to-cart,
+body.shopmag-purple .order-summary-table-holder{
+  border-color: black;
+}
+
+body.shopmag-purple .mw-ui-btn-invert,
+body.shopmag-purple .mw-ui-btn-invert:hover,
+body.shopmag-purple .mw-ui-btn-invert:focus,
+body.shopmag-purple .mw-ui-btn-invert.active,
+body.shopmag-purple .mw-social-links a{
+  background-color: #9A4798;
+  color: white;
+}
+
+
+
+
+
+/*********************************
+
+       Orange:
+
+**********************************/
+
+body.shopmag-orange ,
+body.shopmag-orange .mw-dopdown-cart-container tr.mw-cart-item:hover td{ background-color: #f8f8f8; }
+
+
+body.shopmag-orange ,
+body.shopmag-orange a,
+body.shopmag-orange .item-box,
+body.shopmag-orange #header .item-box [class*='sm-icon-'],
+body.shopmag-orange #header .item-box [class*='mw-icon-'],
+body.shopmag-orange #header .mw-cart,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation ul a,
+body.shopmag-orange .mwcommentsmodule .comments-template-stylish .comment .comment-content{ color: #222; }
+
+
+body.shopmag-orange #header,
+body.shopmag-orange #footer,
+body.shopmag-orange #header .mw-dropdown-value,
+body.shopmag-orange #footer .mw-dropdown-value,
+body.shopmag-orange #footer a,
+body.shopmag-orange #header .mw-search-minimal .mw-search-minimal-field-holder input,
+body.shopmag-orange #header .header-menu .module > ul > li > a,
+body.shopmag-orange #header .header-menu .shopmagmenu > ul > li > a,
+body.shopmag-orange .mw-search-minimal .module-posts-template-search > ul li.active * ,
+body.shopmag-orange #header .mw-search-autocomplete .mw-search-autocomplete-field-holder input,
+body.shopmag-orange .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-orange .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-orange #header .mw-cart .mw-dopdown-cart-footer,
+body.shopmag-orange #header .mw-cart .mw-dopdown-cart-footer *,
+body.shopmag-orange #header .mw-cart .mw-dopdown-cart-footer .item-box [class*='mw-icon-'],
+body.shopmag-orange #header .header-shopcart *,
+body.shopmag-orange .default-invert:hover,
+body.shopmag-orange .default-invert:hover *,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.shopmag-orange .product-add-to-cart:hover,
+body.shopmag-orange .product-add-to-cart:focus,
+body.shopmag-orange .social-login-top,
+body.shopmag-orange .social-login-top *{ color: white; }
+
+body.shopmag-orange #header,
+body.shopmag-orange #footer,
+body.shopmag-orange .mw-search-minimal .module-posts-template-search > ul li.active,
+body.shopmag-orange .mw-cart-shopmag-small .sm-icon-bag2,
+body.shopmag-orange .mw-dopdown-cart-footer,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation-horizontal li li:hover > a,
+body.fixed.shopmag-orange  #header .mw-wrapper,
+body.shopmag-orange .product-add-to-cart:hover,
+body.shopmag-orange .product-add-to-cart:focus,
+body.shopmag-orange .contact-form-template-footer .message-sent,
+body.shopmag-orange .social-login-top,
+body.shopmag-orange .user-dropdown a:hover,
+body.shopmag-orange .user-dropdown a:focus,
+body.shopmag-orange .contact-form .cft-submit,
+body.shopmag-orange .contact-form .cft-submit:hover,
+body.shopmag-orange .contact-form .cft-submit:focus{ background-color: #EE9A00; }
+
+body.shopmag-orange .form-control:focus{
+  border-color: white;
+}
+
+body.shopmag-orange .module-products-template-shopmag .masonry-item-content,
+body.fixed.shopmag-orange  #wrapper,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation ul,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation-horizontal > li > ul:before,
+body.shopmag-orange .item-box,
+body.shopmag-orange .header-slider,
+body.shopmag-orange .mw-search-minimal-holder,
+body.shopmag-orange .product-add-to-cart{ background-color: white; }
+
+body.shopmag-orange hr,
+body.shopmag-orange .module-categories-template-default li a:hover,
+body.shopmag-orange .module-categories-template-default li a.active,
+body.shopmag-orange .module-categories-template-default li a:focus{ background-color:rgba(230, 230, 230, 0.8); }
+
+body.shopmag-orange #header hr,
+body.shopmag-orange #footer hr,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation > li:hover > a,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation > li > a:focus,
+body.shopmag-orange .shopmagmenu .mw-ui-navigation > li > a.active{ background-color: rgba(255, 255, 255, 0.22); }
+
+
+body.shopmag-orange .product-add-to-cart,
+body.shopmag-orange .order-summary-table-holder{
+  border-color: black;
+}
+
+body.shopmag-orange .mw-ui-btn-invert,
+body.shopmag-orange .mw-ui-btn-invert:hover,
+body.shopmag-orange .mw-ui-btn-invert:focus,
+body.shopmag-orange .mw-ui-btn-invert.active,
+body.shopmag-orange .mw-social-links a{
+  background-color: #CC8500;
+  color: white;
+}
+

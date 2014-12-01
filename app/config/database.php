@@ -18,7 +18,7 @@
       'password' => '',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci',
-      'prefix' => 'localhost_',
+      'prefix' => 'testing1_com_',
     ),
     'pgsql' => 
     array (

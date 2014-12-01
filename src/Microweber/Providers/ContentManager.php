@@ -4350,7 +4350,8 @@ if(isset($_SERVER['HTTP_REFERER'])){
        // return $c->update($data_to_save);
         //$save = $this->app->database_manager->save($table, $data_to_save);
         $save = mw()->content->save_item($data_to_save);
-        dd(__FILE__.__LINE__);
+        print(__FILE__.__LINE__);
+        return;
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
             $upd_posted = array();

@@ -72,12 +72,12 @@ class BaseModel extends Eloquent
         if (is_string($params)) {
             $params = parse_params($params);
         }
-$orig_params = $params;
+        $orig_params = $params;
         $filters = array();
         $cf = array_flip($this->default_filters);
         foreach ($cf as $k => $v) {
             $enabled = isset($params[$k]);
-            if($enabled){
+            if ($enabled) {
                 $filters[$k] = $params[$k];
             }
         }
@@ -143,19 +143,8 @@ $orig_params = $params;
 
             return null;
         }
-        $new_data = array();
-        if (!empty($data)) {
-            $i = 0;
 
-            foreach ($data as $item) {
-                $item = $item->toArray();
-                $new_data[$i] = $item;
-                $i++;
-            }
-        }
-
-        //$data = $data->toArray();
-        $data = $new_data;
+        $data = $data->toArray();
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
 

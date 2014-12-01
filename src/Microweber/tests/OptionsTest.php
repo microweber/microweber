@@ -7,14 +7,17 @@ class OptionsTest extends TestCase
     public function testOptions()
     {
         $data = array();
-        $data['option_value'] = date("Y-m-d");
+        $now = date("YmdHis");
+        $data['option_value'] = $now;
         $data['option_key'] = 'a_test';
         $data['option_group'] = 'test';
-        //   $data = json_encode($data);
+
         $save = save_option($data);
-        d($data);
+
         $get = get_option('a_test', 'test');
-        d($get);
+
+        $this->assertEquals($now, $get);
+
 
     }
 
