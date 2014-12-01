@@ -1,5 +1,5 @@
 <?php return array (
-  'driver' => 'cache',
+  'driver' => 'file',
   'path' => 'C:\\xampp\\htdocs\\l42\\app\\storage\\cache',
   'connection' => NULL,
   'table' => 'cache',
