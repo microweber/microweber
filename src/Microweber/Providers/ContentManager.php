@@ -109,9 +109,7 @@ class ContentManager
         $data['table'] = $table;
 
         $get = $this->app->database_manager->get($data);
-//if(!empty($get)){
-//dd($get);
-//}
+
         if (!isset($data['full']) and isset($get['value'])) {
             return $get['value'];
         } else {
