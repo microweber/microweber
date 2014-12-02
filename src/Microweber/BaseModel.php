@@ -187,15 +187,76 @@ class BaseModel extends Eloquent
     }
 
 
-    public function map_filters($query, $params)
+    public function map_filters($query, &$params)
     {
 
         if (!isset($params['limit'])) {
             $params['limit'] = $this->default_limit;
         }
 
-
         foreach ($params as $filter => $value) {
+
+
+            $compare_sign = false;
+            $compare_value = false;
+            if (stristr($value, '[lt]')) {
+                $compare_sign = '<';
+                $value = str_replace('[lt]', '', $value);
+            } else if (stristr($value, '[lte]')) {
+                $compare_sign = '<=';
+                $value = str_replace('[lte]', '', $value);
+            } else if (stristr($value, '[st]')) {
+                $compare_sign = '<';
+                $value = str_replace('[st]', '', $value);
+            } else if (stristr($value, '[ste]')) {
+                $compare_sign = '<=';
+                $value = str_replace('[ste]', '', $value);
+            } else if (stristr($value, '[gt]')) {
+                $compare_sign = '>';
+                $value = str_replace('[gt]', '', $value);
+            } else if (stristr($value, '[gte]')) {
+                $compare_sign = '>=';
+                $value = str_replace('[gte]', '', $value);
+            } else if (stristr($value, '[mt]')) {
+                $compare_sign = '>';
+                $value = str_replace('[mt]', '', $value);
+            } else if (stristr($value, '[md]')) {
+                $compare_sign = '>';
+                $value = str_replace('[md]', '', $value);
+            } else if (stristr($value, '[mte]')) {
+                $compare_sign = '>=';
+                $value = str_replace('[mte]', '', $value);
+            } else if (stristr($value, '[mde]')) {
+                $compare_sign = '>=';
+                $value = str_replace('[mde]', '', $value);
+            } else if (stristr($value, '[neq]')) {
+                $compare_sign = '!=';
+                $value = str_replace('[neq]', '', $value);
+            } else if (stristr($value, '[eq]')) {
+                $compare_sign = '=';
+                $value = str_replace('[eq]', '', $value);
+            } else if (stristr($value, '[int]')) {
+                $value = str_replace('[int]', '', $value);
+                $value = intval($value);
+            } else if (stristr($value, '[is]')) {
+                $compare_sign = '=';
+                $value = str_replace('[is]', '', $value);
+            } else if (stristr($value, '[like]')) {
+                $compare_sign = 'LIKE';
+                $value = str_replace('[like]', '', $value);
+                $compare_value = '%'.$value.'%';
+            } else if (stristr($value, '[not_like]')) {
+                $value = str_replace('[not_like]', '', $value);
+                $compare_sign = 'NOT LIKE';
+                $compare_value = '%'.$value.'%';
+            }else if (stristr($value, '[is_not]')) {
+                $value = str_replace('[is_not]', '', $value);
+                $compare_sign = 'NOT LIKE';
+                $compare_value = '%'.$value.'%';
+            }
+
+
+
             switch ($filter) {
                 case 'order_by':
                     $criteria = explode(',', $value);
@@ -212,13 +273,10 @@ class BaseModel extends Eloquent
                     $criteria = intval($value);
                     $query = $query->take($criteria);
                     break;
-
-
                 case 'current_page':
                     $criteria = intval($value);
                     $query = $query->skip($criteria);
                     break;
-
                 case 'ids':
                     $ids = $value;
                     if (is_string($ids)) {
@@ -233,11 +291,8 @@ class BaseModel extends Eloquent
                     }
                     $query = $query->whereNotIn('id', $ids);
                     break;
-
-
                 case 'id':
                     $criteria = trim($value);
-
                     $query = $query->where('id', $criteria);
                     break;
 
@@ -246,7 +301,24 @@ class BaseModel extends Eloquent
                     break;
 
 
+                default:
+                    if ($compare_sign != false) {
+                        $params[$filter] = $value;
+                        if ($compare_value != false) {
+                            $query = $query->where($filter, $compare_sign, $compare_value);
+
+                        } else {
+                            $query = $query->where($filter, $compare_sign, $value);
+
+                        }
+                    }
+
+                    break;
+
+
             }
+
+
 
 
         }
@@ -264,7 +336,7 @@ class BaseModel extends Eloquent
 
     public function map_array_to_table($table, $array)
     {
-        if(!is_array($array)){
+        if (!is_array($array)) {
             return $array;
         }
 
@@ -294,60 +366,6 @@ class BaseModel extends Eloquent
                     break;
             }
 
-            if (stristr($value, '[lt]')) {
-                $value = str_replace('[lt]', '', $value);
-                $query = $query->where($column, '<', $value);
-                unset($params[$column]);
-
-            } else if (stristr($value, '[lte]')) {
-                $two_chars = '<=';
-                $value = str_replace('[lte]', '', $value);
-            } else if (stristr($value, '[st]')) {
-                $one_char = '<';
-                $value = str_replace('[st]', '', $value);
-            } else if (stristr($value, '[ste]')) {
-                $two_chars = '<=';
-                $value = str_replace('[ste]', '', $value);
-            } else if (stristr($value, '[gt]')) {
-                $one_char = '>';
-                $value = str_replace('[gt]', '', $value);
-            } else if (stristr($value, '[gte]')) {
-                $two_chars = '>=';
-                $value = str_replace('[gte]', '', $value);
-            } else if (stristr($value, '[mt]')) {
-                $one_char = '>';
-                $value = str_replace('[mt]', '', $value);
-            } else if (stristr($value, '[md]')) {
-                $one_char = '>';
-                $value = str_replace('[md]', '', $value);
-            } else if (stristr($value, '[mte]')) {
-                $two_chars = '>=';
-                $value = str_replace('[mte]', '', $value);
-            } else if (stristr($value, '[mde]')) {
-                $two_chars = '>=';
-                $value = str_replace('[mde]', '', $value);
-            } else if (stristr($value, '[neq]')) {
-                $two_chars = '!=';
-                $value = str_replace('[neq]', '', $value);
-            } else if (stristr($value, '[eq]')) {
-                $one_char = '=';
-                $value = str_replace('[eq]', '', $value);
-            } else if (stristr($value, '[int]')) {
-                $value = str_replace('[int]', '', $value);
-            } else if (stristr($value, '[is]')) {
-                $one_char = '=';
-                $value = str_replace('[is]', '', $value);
-            } else if (stristr($value, '[like]')) {
-                $two_chars = '%';
-                $value = str_replace('[like]', '', $value);
-            } else if (stristr($value, '[null]')) {
-                $value = 'is_null';
-            } else if (stristr($value, '[not_null]')) {
-                $value = 'is_not_null';
-            } else if (stristr($value, '[is_not]')) {
-                $two_chars = '!%';
-                $value = str_replace('[is_not]', '', $value);
-            }
 
         }
 

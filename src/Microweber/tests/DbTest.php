@@ -72,7 +72,7 @@ class DbTest extends TestCase
     public function testIncludeExcludeIds()
     {
         $content = get('content', 'limit=10');
-
+        $this->assertTrue(true, is_array($content));
         $some_ids = array();
         foreach ($content as $item) {
             $some_ids[] = $item['id'];
@@ -85,11 +85,13 @@ class DbTest extends TestCase
         foreach ($content as $item) {
             $this->assertTrue(true, in_array($item['id'], $some_ids));
         }
+        $this->assertTrue(true, is_array($content_ids));
 
         $content_ids = get('content', 'exclude_ids=' . implode(',', $some_ids));
         foreach ($content as $item) {
             $this->assertTrue(true, !in_array($item['id'], $some_ids));
         }
+        $this->assertTrue(true, is_array($content_ids));
 
 
     }
@@ -106,5 +108,28 @@ class DbTest extends TestCase
         $this->assertTrue(true, ($content < $content_max));
         $this->assertTrue(true, ($content_avg < $content_max));
         $this->assertTrue(true, ($content < $content_avg));
+    }
+
+    public function testShorthandFilters()
+    {
+        $content = get('content', 'limit=1&content_type=[eq]page');
+        foreach ($content as $item) {
+            $this->assertTrue(true, ($item['content_type'] == 'page'));
+        }
+        $content = get('content', 'limit=1&content_type=[neq]page');
+        foreach ($content as $item) {
+            $this->assertTrue(true, ($item['content_type'] != 'page'));
+        }
+        $content = get('content', 'limit=1&content_type=[like]post');
+        foreach ($content as $item) {
+            $this->assertTrue(true, ($item['content_type'] == 'post'));
+        }
+
+        $content = get('content', 'limit=1&content_type=[not_like]post');
+        foreach ($content as $item) {
+            $this->assertTrue(true, ($item['content_type'] != 'post'));
+        }
+
+
     }
 }
