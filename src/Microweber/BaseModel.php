@@ -7,6 +7,10 @@ class BaseModel extends Eloquent
     const CREATED_AT = 'created_on';
     const UPDATED_AT = 'updated_on';
 
+    public $default_limit = 30;
+
+
+
     public static $cache = true;
 
     public $table_cache_ttl = 60;
@@ -65,64 +69,20 @@ class BaseModel extends Eloquent
             $params = parse_params($params);
         }
         $orig_params = $params;
-        $filters = array();
-        $cf = array_flip($this->default_filters);
-        foreach ($cf as $k => $v) {
-            $enabled = isset($params[$k]);
-            if ($enabled) {
-                $filters[$k] = $params[$k];
+        $items_per_page = false;
+        if (isset($orig_params['count_paging']) and ($orig_params['count_paging'])) {
+            if (isset($params['limit'])) {
+                $items_per_page = $params['limit'];
+                unset($params['limit']);
             }
+            if (isset($params['page'])) {
+                unset($params['page']);
+            }
+            $orig_params['count'] = true;
         }
 
 
-        foreach ($filters as $filter => $enabled) {
-            if (!$enabled)
-                continue;
-
-            switch ($filter) {
-                case 'order_by':
-                    $criteria = explode(',', $params['order_by']);
-                    foreach ($criteria as $c) {
-                        $c = explode(' ', $c);
-                        if (isset($c[1])) {
-                            $query = $query->orderBy($c[0], $c[1]);
-                        } else if (isset($c[0])) {
-                            $query = $query->orderBy($c[0]);
-                        }
-                    }
-                    break;
-                case 'limit':
-                    $criteria = intval($params['limit']);
-                    $query = $query->take($criteria);
-                    break;
-
-                case 'id':
-                    $criteria = trim($params['id']);
-
-                    $query = $query->where('id', $criteria);
-                    break;
-                case 'min':
-                    $criteria = trim($params['min']);
-
-                    $query = $query->min($criteria);
-                    break;
-
-                case 'no_cache':
-                    $this->useCache = false;
-                    break;
-
-
-            }
-        }
-
-
-        foreach (self::$custom_filters as $name => $callback) {
-            if (!isset($params[$name])) {
-                continue;
-            }
-            call_user_func_array($callback, [$query, $params[$name]]);
-        }
-
+        $query = $this->map_filters($query, $params);
         $params = $this->map_array_to_table($table, $params);
         $query = $this->map_values_to_query($query, $params);
 
@@ -134,6 +94,23 @@ class BaseModel extends Eloquent
 
         if (isset($orig_params['count']) and ($orig_params['count'])) {
             $query = $query->count();
+            if ($items_per_page != false) {
+                $query = intval(ceil($query / $items_per_page));
+            }
+            return $query;
+        }
+        if (isset($orig_params['min']) and ($orig_params['min'])) {
+            $column = $orig_params['min'];
+            $query = $query->min($column);
+            return $query;
+        }
+        if (isset($orig_params['max']) and ($orig_params['max'])) {
+            $column = $orig_params['max'];
+            $query = $query->max($column);
+            return $query;
+        }if (isset($orig_params['avg']) and ($orig_params['avg'])) {
+            $column = $orig_params['avg'];
+            $query = $query->avg($column);
             return $query;
         }
 
@@ -205,6 +182,66 @@ class BaseModel extends Eloquent
 
 
     }
+
+
+    public function map_filters($query, $params)
+    {
+
+        if(!isset($params['limit'])){
+            $params['limit'] = $this->default_limit;
+        }
+
+
+        foreach ($params as $filter => $value) {
+            switch ($filter) {
+                case 'order_by':
+                    $criteria = explode(',', $value);
+                    foreach ($criteria as $c) {
+                        $c = explode(' ', $c);
+                        if (isset($c[1])) {
+                            $query = $query->orderBy($c[0], $c[1]);
+                        } else if (isset($c[0])) {
+                            $query = $query->orderBy($c[0]);
+                        }
+                    }
+                    break;
+                case 'limit':
+                    $criteria = intval($value);
+                    $query = $query->take($criteria);
+                    break;
+
+
+                case 'current_page':
+                $criteria = intval($value);
+                $query = $query->skip($criteria);
+                break;
+
+                case 'id':
+                    $criteria = trim($value);
+
+                    $query = $query->where('id', $criteria);
+                    break;
+
+                case 'no_cache':
+                    $this->useCache = false;
+                    break;
+
+
+            }
+
+
+        }
+
+
+        foreach (self::$custom_filters as $name => $callback) {
+            if (!isset($params[$name])) {
+                continue;
+            }
+            call_user_func_array($callback, [$query, $params[$name]]);
+        }
+        return $query;
+    }
+
 
     public function map_array_to_table($table, $array)
     {
