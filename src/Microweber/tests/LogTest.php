@@ -34,4 +34,16 @@ class LogTest extends TestCase
         }
     }
 
+    public function testDelete()
+    {
+        $data = array();
+        $data['field'] = 'log_test';
+        $get = mw()->log_manager->get($data);
+        foreach ($get as $item) {
+            $del = mw()->log_manager->delete_entry($item);
+            $this->assertEquals($del, $item['id']);
+        }
+
+    }
+
 }

@@ -51,17 +51,10 @@ class BaseModel extends Eloquent
         self::$custom_filters[$name] = $callback;
     }
 
-    /*function __construct() {
-    }*/
 
     protected static function boot()
     {
         parent::boot();
-
-        // $table = app()->make(get_called_class())->table;
-        //static::$cacheTables[$table] = true;
-
-        // static::observe(new BaseModelObserver);
     }
 
     public function scopeItems($query, $params = false)
@@ -142,6 +135,13 @@ class BaseModel extends Eloquent
 
 
         return $data;
+    }
+
+
+    public function table($table)
+    {
+        $this->table = $table;
+        return self::with($table);
     }
 
 
