@@ -37,28 +37,12 @@ class OptionManager
     public function set_table_names($tables = false)
     {
 
-        if (!isset($tables['prefix'])) {
-            $prefix = $this->table_prefix;
-        } else {
-            $prefix = $tables['prefix'];
-        }
-
-        if ($prefix == false) {
-            $prefix = $this->app->config->get('database.connections.mysql.prefix');
-        }
-
-        if ($prefix == false and defined("get_table_prefix()")) {
-            $prefix = get_table_prefix();
-        }
-        if ($prefix == false and !defined('get_table_prefix()') and isset($_REQUEST['table_prefix'])) {
-            $prefix = $_REQUEST['table_prefix'];
-        }
 
         if (!is_array($tables)) {
             $tables = array();
         }
         if (!isset($tables['content'])) {
-            $tables['options'] = $prefix . 'options';
+            $tables['options'] = 'options';
         }
         $this->tables = $tables;
         if (!defined("MW_DB_TABLE_OPTIONS")) {
@@ -112,9 +96,10 @@ class OptionManager
         if (!isset($data['limit'])) {
             $data['limit'] = 1000;
         }
+        $data['cache_group'] = 'options/global';
+        $data['table'] = $table;
 
-
-        $get = $this->app->database_manager->get_long($table, $data, $cache_group = 'options/global');
+        $get = $this->app->database->get($data);
 
         if (!empty($get)) {
             foreach ($get as $key => $value) {
@@ -378,6 +363,7 @@ class OptionManager
             $module = $this->app->database_manager->escape_string($module);
             $data['module'] = $module;
         }
+
         $data['limit'] = 1;
         $ok = $this->app->database_manager->escape_string($data['option_key']);
         $ob = " order by id desc ";
@@ -395,8 +381,8 @@ class OptionManager
         if ($module != false) {
             $filter['module'] = $module;
         }
-
-        $get_all = Option::items($filter);
+        $filter['table'] = $table;
+        $get_all = mw()->database->get($filter);
 
         $q_cache_id = crc32($q);
         //  $get_all = $this->app->database_manager->query($q, __FUNCTION__ . $q_cache_id, $cache_group);
@@ -591,15 +577,23 @@ class OptionManager
         if ($id == 0) {
             return false;
         }
-        $table = $this->tables['options'];
 
-        $q = "SELECT * FROM $table WHERE id={$id} LIMIT 1 ";
-        $function_cache_id = __FUNCTION__ . crc32($q);
-        $res1 = false;
-        $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
-        if (is_array($res) and !empty($res)) {
-            return $res[0];
-        }
+        $params = array();
+
+        $params['id'] = $id;
+        $params['single'] = true;
+
+        return $this->get_all($params);
+
+//        $table = $this->tables['options'];
+//
+//        $q = "SELECT * FROM $table WHERE id={$id} LIMIT 1 ";
+//        $function_cache_id = __FUNCTION__ . crc32($q);
+//        $res1 = false;
+//        $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
+//        if (is_array($res) and !empty($res)) {
+//            return $res[0];
+//        }
 
     }
 

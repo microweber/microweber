@@ -1,118 +1,112 @@
 <?php
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class BaseModel extends Eloquent
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cache;
+use Microweber\Utils\Database as DbUtils;
+
+use Illuminate\Support\Facades\User as DefaultUserProvider;
+
+class Database
 {
-    const CREATED_AT = 'created_on';
-    const UPDATED_AT = 'updated_on';
+
+
+    public $use_cache = true;
+    public $app = null;
 
     public $default_limit = 30;
 
 
-
-
     public $table_cache_ttl = 60;
-    private $filter_keys = ['id', 'module', 'type'];
-    protected $guarded = array();
-
-    private $useCache = true;
-
-    public static $cacheTables = [];
-
-    public $default_filters = [
-        'id',
-        'limit',
-        'single',
-        'order_by',
+    private $filter_keys = [];
 
 
-        'min',
-        'max',
-        'avg',
-
-        'exclude_ids',
-        'ids',
-
-        'current_page',
-        'count_paging',
-
-        'to_search_in_fields',
-        'to_search_keyword',
-        'fields',
-
-
-    ];
-
-    private static $custom_filters = [];
-
-    public static function custom_filter($name, $callback)
+    function __construct($app = null)
     {
-        self::$custom_filters[$name] = $callback;
+        if (!is_object($this->app)) {
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw();
+            }
+        }
     }
 
 
-    protected static function boot()
-    {
-        parent::boot();
-    }
-
-
-    public function filter($params)
+    /**
+     * Get items from the database
+     *
+     * You can use this handy function to get whatever you need from any db table.
+     *
+     * @params
+     *
+     * *You can pass those parameters in order to filter the results*
+     *  You can also use all defined database fields as parameters
+     *
+     * .[params-table]
+     *|-----------------------------------------------------------------------------
+     *| Parameter        | Description      | Values
+     *|------------------------------------------------------------------------------
+     *| from            | the name of the db table, without prefix | ex. users, content, categories,etc
+     *| table        | same as above |
+     *| debug            | prints debug information  | true or false
+     *| orderby        | you can order by any field in your table  | ex. get("table=content&orderby=id desc")
+     *| order_by        | same as above  |
+     *| one            | if set returns only the 1st result |
+     *| count            | if set returns results count |  ex. get("table=content&count=true")
+     *| limit            | limit the results |  ex. get("table=content&limit=5")
+     *| curent_page    | get the current page by limit offset |  ex. get("table=content&limit=5&curent_page=2")
+     *
+     *
+     * @param string|array $params parameters for the DB
+     * @param string $params ['table'] the table name ex. content
+     * @param string $params ['debug'] if true print the sql
+     * @param string $params ['cache_group'] sets the cache folder to use to cache the query result
+     * @param string $params ['no_cache']  if true it will no cache the sql
+     * @param string $params ['count']  if true it will return results count
+     * @param string $params ['page_count']  if true it will return pages count
+     * @param string|array $params ['limit']  if set it will limit the results
+     *
+     * @function get
+     * @return mixed Array with data or false or integer if page_count is set
+     *
+     *
+     *
+     * @example
+     * <code>
+     * //get content
+     *  $results = $this->get("table=content&is_active=1");
+     * </code>
+     *
+     * @example
+     *  <code>
+     *  //get users
+     *  $results = $this->get("table=users&is_admin=0");
+     * </code>
+     *
+     * @package Database
+     */
+    public function get($params)
     {
 
         if (is_string($params)) {
             $params = parse_params($params);
         }
-        if (isset($params['table'])) {
-            $this->setTable($params['table']);
+
+        if (!isset($params['table'])) {
+            return false;
+        } else {
+            $table = trim($params['table']);
+            unset($params['table']);
         }
-        $orig_params = $params;
-        $query = parent::items($params);
-        if (!is_object($query)) {
+        if (!$table) {
             return false;
         }
 
-        $items = $query->get()->toArray();
-
-//        if (isset($orig_params['debug'])) {
-//            $debug = 1;
-//            // d(DB::getQueryLog());
-//            $items = $query->get();
-//
-//            dd($items);
-//        }
+        $query = DB::table($table);
 
 
-        if (is_object($items)) {
-            $empty = $items->isEmpty();
-
-            if ($empty == true) {
-                return false;
-            }
-        }
-        if (empty($items)) {
-            //  dd($params);
-            return false;
-        }
-        if (isset($orig_params['single']) || isset($orig_params['one'])) {
-            if (!isset($items[0])) {
-                return false;
-            }
-            return $items[0];
-        }
-        return $items;
-
-    }
-
-
-    public function scopeItems($query, $params = false)
-    {
-        $table = $this->table;
-        if (is_string($params)) {
-            $params = parse_params($params);
-        }
-        $debug = false;
         $orig_params = $params;
         $items_per_page = false;
         if (isset($orig_params['count_paging']) and ($orig_params['count_paging'])) {
@@ -133,10 +127,8 @@ class BaseModel extends Eloquent
 
 
         if (is_array($params) and !empty($params)) {
-
             $query = $query->where($params);
         }
-
 
         if (isset($orig_params['count']) and ($orig_params['count'])) {
             $query = $query->count();
@@ -153,42 +145,29 @@ class BaseModel extends Eloquent
         if (isset($orig_params['max']) and ($orig_params['max'])) {
             $column = $orig_params['max'];
             $query = $query->max($column);
-            // return $query;
+            return $query;
         }
         if (isset($orig_params['avg']) and ($orig_params['avg'])) {
             $column = $orig_params['avg'];
             $query = $query->avg($column);
             return $query;
         }
-
-        return $query;
-
-        ///aaaaaaaaaaaaa
-
-
         $data = $query->get();
 
         if ($data == false or empty($data)) {
-
             return false;
         }
-
-        $empty = $data->isEmpty();
-
-        if ($empty == true) {
-
-            // hangs here? in phpunit on windows
-
-            return false;
-
-
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = (array)$v;
+            }
         }
-
-
-        $data = $data->toArray();
+        if (empty($data)) {
+            return false;
+        }
 
         if (!is_array($data)) {
-            return false;
+            return $data;
         }
 
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
@@ -197,53 +176,16 @@ class BaseModel extends Eloquent
             }
             return $data[0];
         }
-
-
         return $data;
     }
 
 
-    public function get_items($params)
+    private static $custom_filters = [];
+
+    public static function custom_filter($name, $callback)
     {
-        return self::items($params);
+        self::$custom_filters[$name] = $callback;
     }
-
-    public function save_item($params)
-    {
-        $table = $this->table;
-        if (is_string($params)) {
-            $params = parse_params($params);
-        }
-        if (!isset($params['created_on']) == false) {
-            $params['created_on'] = date("Y-m-d H:i:s");
-        }
-        if (!isset($params['updated_on']) == false) {
-            $params['updated_on'] = date("Y-m-d H:i:s");
-        }
-        $id = false;
-        if (isset($params['id'])) {
-            $id = $params['id'];
-        }
-
-
-        $params = $this->map_array_to_table($table, $params);
-        $id_to_return = false;
-        if ($id) {
-            unset($params['created_on']);
-            $save = self::find($id)->update($params);
-            $id_to_return = intval($id);
-        } else {
-            $save = self::insert($params);
-
-            $id_to_return = DB::getPdo()->lastInsertId();
-
-
-        }
-        return ($id_to_return);
-
-
-    }
-
 
     public function map_filters($query, &$params)
     {
@@ -327,14 +269,18 @@ class BaseModel extends Eloquent
                             $query = $query->orderBy($c[0]);
                         }
                     }
+                    unset($params[$filter]);
                     break;
                 case 'limit':
                     $criteria = intval($value);
                     $query = $query->take($criteria);
+                    unset($params[$filter]);
                     break;
                 case 'current_page':
                     $criteria = intval($value);
                     $query = $query->skip($criteria);
+
+                    unset($params[$filter]);
                     break;
                 case 'ids':
                     $ids = $value;
@@ -344,8 +290,10 @@ class BaseModel extends Eloquent
 
 
                     $query = $query->whereIn('id', $ids);
+                    unset($params[$filter]);
                     break;
                 case 'exclude_ids':
+                    unset($params[$filter]);
                     $ids = $value;
                     if (is_string($ids)) {
                         $ids = explode(',', $ids);
@@ -353,6 +301,7 @@ class BaseModel extends Eloquent
                     $query = $query->whereNotIn('id', $ids);
                     break;
                 case 'id':
+                    unset($params[$filter]);
                     $criteria = trim($value);
                     $query = $query->where('id', $criteria);
                     break;
@@ -364,7 +313,7 @@ class BaseModel extends Eloquent
 
                 default:
                     if ($compare_sign != false) {
-                       unset($params[$filter]);
+                        unset($params[$filter]);
                         if ($compare_value != false) {
                             $query = $query->where($filter, $compare_sign, $compare_value);
 
@@ -444,4 +393,3 @@ class BaseModel extends Eloquent
 
 
 }
-

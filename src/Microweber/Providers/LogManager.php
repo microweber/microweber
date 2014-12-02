@@ -2,6 +2,7 @@
 namespace Microweber\Providers;
 
 use DB;
+use SystemLogger;
 
 class LogManager
 {
@@ -44,7 +45,7 @@ class LogManager
             $params['user_ip'] = MW_USER_IP;
         }
 
-        $q = $this->app->db_model->items($params);
+        $q = $this->app->database->get($params);
 
         return $q;
     }
@@ -70,7 +71,7 @@ class LogManager
         if (is_admin() == false) {
             $params['user_ip'] = MW_USER_IP;
         }
-        $q = $this->app->db_model->items($params);
+        $q = $this->app->database->get($params);
         if (is_array($q)) {
             foreach ($q as $val) {
                 $c_id = intval($val['id']);
@@ -109,7 +110,7 @@ class LogManager
             $c_id = intval($id);
             $table = $this->table;
             $old = date("Y-m-d H:i:s", strtotime('-1 month'));
-           // $q = "DELETE FROM $table WHERE created_on < '{$old}'";
+            // $q = "DELETE FROM $table WHERE created_on < '{$old}'";
 
             DB::table($table)->where('created_on', '<', $old)->delete();
             DB::table($table)->where('id', '=', $c_id)->delete();

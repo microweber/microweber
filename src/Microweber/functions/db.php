@@ -24,7 +24,7 @@ function get($table_name_or_params,$params = null){
     }
 
 
-    return  mw()->db_model->items($params);
+    return  mw()->db_model->filter($params);
 
 }
 

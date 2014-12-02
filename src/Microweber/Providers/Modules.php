@@ -398,7 +398,7 @@ class Modules
         if (isset($params['ui']) and $params['ui'] == 'any') {
             unset($params['ui']);
         }
-       $modules = Module::items($params);
+       $modules = Module::filter($params);
 
        return $modules;
         return $this->app->database_manager->get($params);

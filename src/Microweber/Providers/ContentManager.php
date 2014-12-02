@@ -465,7 +465,7 @@ class ContentManager
 
 
 
-   $get = Content::items($params);
+   $get = mw()->content->filter($params);
 
      // $get = mw()->content->get_items($params);
 

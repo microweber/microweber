@@ -1,9 +1,9 @@
 <?php
 
-namespace Microweber\Providers;
 
 
-class DbModel extends \BaseModel
+
+class DbModel extends BaseModel
 {
 
     protected $table = '';
@@ -33,12 +33,21 @@ class DbModel extends \BaseModel
     }
 
 
-
     function items($params)
     {
-
+        $d = 0;
         $params = $this->set_params($params);
-        return parent::items($params);
+        if (isset($params['debug'])) {
+
+            $d = 1;
+
+        }
+        $items = parent::items($params);
+        if ($d) {
+            dd($items);
+        }
+
+        return $items;
     }
 
 

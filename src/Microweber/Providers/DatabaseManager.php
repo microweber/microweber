@@ -90,7 +90,7 @@ class DatabaseManager extends DbUtils
      * @example
      *  <code>
      *  //get users
-     *  $results = $this->get("table=users&is_admin=n");
+     *  $results = $this->get("table=users&is_admin=0");
      * </code>
      *
      * @package Database

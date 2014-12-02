@@ -115,9 +115,14 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\OptionManager($app);
         });
 
-        $this->app->bind('db_model', function () {
-            return new Providers\DbModel();
+
+        // remove me //
+
+        $this->app->singleton('db_model', function () {
+            return new \DbModel();
         });
+
+        // end of remove me //
 
 
         $this->app->bind('template', function ($app) {

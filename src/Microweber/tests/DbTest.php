@@ -6,7 +6,12 @@ class DbTest extends TestCase
 
     public function testSimpeGet()
     {
+
+
         $content = get('content', 'limit=2');
+
+
+
         $count = (count($content));
         $this->assertEquals(2, $count);
         $this->assertTrue(true, !empty($content));
@@ -34,6 +39,7 @@ class DbTest extends TestCase
     {
         $content = get('content', 'limit=1&single=1&order_by=id desc');
         $content2 = get('content', 'limit=1&single=1&order_by=id asc');
+
         $this->assertTrue(true, isset($content['id']));
         $this->assertTrue(true, isset($content2['id']));
         $this->assertNotEquals($content['id'], $content2['id']);
@@ -116,7 +122,8 @@ class DbTest extends TestCase
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] == 'page'));
         }
-        $content = get('content', 'limit=1&content_type=[neq]page');
+        $content = get('content', 'limit=1&content_type=[neq]page&debug=1');
+
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] != 'page'));
         }
