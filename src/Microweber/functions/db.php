@@ -12,10 +12,14 @@ function get($table_name_or_params,$params = null){
 
     $DbModel = new DbModel();
 
-    if($params ==false){
+    if($params === null){
         $params = $table_name_or_params;
     } else {
-        $params = parse_params($params);
+        if($params != false){
+            $params = parse_params($params);
+        } else {
+            $params = array();
+        }
         $params['table'] = $table_name_or_params;
     }
 

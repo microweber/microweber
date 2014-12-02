@@ -10,7 +10,6 @@ class BaseModel extends Eloquent
     public $default_limit = 30;
 
 
-
     public static $cache = true;
 
     public $table_cache_ttl = 60;
@@ -31,10 +30,13 @@ class BaseModel extends Eloquent
         'min',
         'max',
         'avg',
+
         'exclude_ids',
         'ids',
+
         'current_page',
         'count_paging',
+
         'to_search_in_fields',
         'to_search_keyword',
         'fields',
@@ -108,7 +110,8 @@ class BaseModel extends Eloquent
             $column = $orig_params['max'];
             $query = $query->max($column);
             return $query;
-        }if (isset($orig_params['avg']) and ($orig_params['avg'])) {
+        }
+        if (isset($orig_params['avg']) and ($orig_params['avg'])) {
             $column = $orig_params['avg'];
             $query = $query->avg($column);
             return $query;
@@ -187,7 +190,7 @@ class BaseModel extends Eloquent
     public function map_filters($query, $params)
     {
 
-        if(!isset($params['limit'])){
+        if (!isset($params['limit'])) {
             $params['limit'] = $this->default_limit;
         }
 
@@ -212,9 +215,25 @@ class BaseModel extends Eloquent
 
 
                 case 'current_page':
-                $criteria = intval($value);
-                $query = $query->skip($criteria);
-                break;
+                    $criteria = intval($value);
+                    $query = $query->skip($criteria);
+                    break;
+
+                case 'ids':
+                    $ids = $value;
+                    if (is_string($ids)) {
+                        $ids = explode(',', $ids);
+                    }
+                    $query = $query->whereIn('id', $ids);
+                    break;
+                case 'exclude_ids':
+                    $ids = $value;
+                    if (is_string($ids)) {
+                        $ids = explode(',', $ids);
+                    }
+                    $query = $query->whereNotIn('id', $ids);
+                    break;
+
 
                 case 'id':
                     $criteria = trim($value);
@@ -245,7 +264,9 @@ class BaseModel extends Eloquent
 
     public function map_array_to_table($table, $array)
     {
-
+        if(!is_array($array)){
+            return $array;
+        }
 
         $r = $this->get_fields($table);
         $r = array_diff($r, $this->filter_keys);

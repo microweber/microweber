@@ -69,6 +69,30 @@ class DbTest extends TestCase
 
     }
 
+    public function testIncludeExcludeIds()
+    {
+        $content = get('content', 'limit=10');
+
+        $some_ids = array();
+        foreach ($content as $item) {
+            $some_ids[] = $item['id'];
+        }
+        $half = round(count($some_ids) / 2);
+        shuffle($some_ids);
+        $some_ids = array_slice($some_ids, $half);
+
+        $content_ids = get('content', 'ids=' . implode(',', $some_ids));
+        foreach ($content as $item) {
+            $this->assertTrue(true, in_array($item['id'], $some_ids));
+        }
+
+        $content_ids = get('content', 'exclude_ids=' . implode(',', $some_ids));
+        foreach ($content as $item) {
+            $this->assertTrue(true, !in_array($item['id'], $some_ids));
+        }
+
+
+    }
 
     public function testMinMaxAvg()
     {
