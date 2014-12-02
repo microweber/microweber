@@ -10,7 +10,7 @@ function get_table_prefix(){
 
 function get($table_name_or_params,$params = null){
 
-    $DbModel = new DbModel();
+
 
     if($params === null){
         $params = $table_name_or_params;
@@ -24,7 +24,7 @@ function get($table_name_or_params,$params = null){
     }
 
 
-    return  $DbModel->items($params);
+    return  mw()->db_model->items($params);
 
 }
 
@@ -47,7 +47,11 @@ function get($table_name_or_params,$params = null){
  */
 function save($table, $data)
 {
-    $DbModel = new DbModel();
-    return $DbModel->save_data($table, $data);
+
+   // $DbModel = new DbModel();
+    //return $DbModel->save_data($table, $data);
+    return  mw()->db_model->save_item($table,$data);
+
+
 
 }

@@ -51,7 +51,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function register()
     {
-        \App::after(function(){
+        \App::after(function () {
         });
 
         $this->app->bind('config', function ($app) {
@@ -115,6 +115,11 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\OptionManager($app);
         });
 
+        $this->app->bind('db_model', function () {
+            return new Providers\DbModel();
+        });
+
+
         $this->app->bind('template', function ($app) {
             return new Providers\Template($app);
         });
@@ -152,7 +157,7 @@ class MicroweberServiceProvider extends ServiceProvider
 //        $this->app->extend('db', function ($app) {
 //            return new Db($app);
 //        });
-        
+
         //''app()->proba = 'ou';
 
 //        $this->app->singleton('db.connection.mysql', function ($app, $parameters) {
@@ -189,7 +194,7 @@ class MicroweberServiceProvider extends ServiceProvider
         if (!$is_installed) {
             return;
         }
-       $modules = load_all_functions_files_for_modules();
+        $modules = load_all_functions_files_for_modules();
 
 
     }

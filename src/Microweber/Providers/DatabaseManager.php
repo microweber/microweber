@@ -97,6 +97,11 @@ class DatabaseManager extends DbUtils
      */
     public function get($params)
     {
+
+
+
+
+
         $orderby = false;
         $cache_group = false;
         $debug = false;
@@ -644,7 +649,7 @@ class DatabaseManager extends DbUtils
 
             return false;
         }
-        
+
 
         $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
         return $c_id;

@@ -6,7 +6,7 @@ class LogManager
 {
 
     public $app;
-    protected $table = 'log';
+    public $table = 'log';
 
     function __construct($app = null)
     {
@@ -43,7 +43,7 @@ class LogManager
             $params['user_ip'] = MW_USER_IP;
         }
 
-        $q = $this->app->database_manager->get($params);
+        $q = $this->app->db_model->items($params);
 
         return $q;
     }
@@ -76,7 +76,7 @@ class LogManager
             $params['user_ip'] = MW_USER_IP;
         }
 
-        $q = $this->app->database_manager->get($params);
+        $q = $this->app->db_model->items($params);
         if (is_array($q)) {
             foreach ($q as $val) {
                 $c_id = intval($val['id']);
@@ -93,9 +93,9 @@ class LogManager
         $params = parse_params($params);
 
         $params['user_ip'] = MW_USER_IP;
-         $table = $this->table;
+        $table = $this->table;
 
-        $save = save($table, $params);
+        $save = $this->app->db_model->save_item($table, $params);
         $id = $save;
         $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
         return $id;

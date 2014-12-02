@@ -1,6 +1,9 @@
 <?php
 
-class DbModel extends BaseModel
+namespace Microweber\Providers;
+
+
+class DbModel extends \BaseModel
 {
 
     protected $table = '';
@@ -13,18 +16,19 @@ class DbModel extends BaseModel
     }
 
 
-    function save_item($params)
+    function save_item($table_name_or_params, $params = null)
     {
-
+        if ($params === null) {
+            $params = $table_name_or_params;
+        } else {
+            if ($params != false) {
+                $params = parse_params($params);
+            } else {
+                $params = array();
+            }
+            $params['table'] = $table_name_or_params;
+        }
         $params = $this->set_params($params);
-        return parent::save_item($params);
-    }
-
-
-    function save_data($table, $params)
-    {
-        $this->table = $table;
-
         return parent::save_item($params);
     }
 
