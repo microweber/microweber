@@ -4,156 +4,89 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 
 abstract class CachedModel extends Eloquent {
+// Time To Live
+    public static $ttl = 5;
+    //change from protected
+    public function _get($id, $columns = array('*'))
+        //change from public
+    {
+        dd(__FILE__.__LINE__);
+    }
 
-	public $errors;
-	public static $cache = false;
-	public static $cache_driver = null;
-	public static $cache_ttl = 15;
-	public static $object_cached = array();
-	public static $rules = array();
-	public static $messages = array();
+    public static function _find($id, $columns = array('*'))
+        //change from public
+    {
 
-	public static function key_cache($id)
-	{
-		return Str::lower(get_called_class()).'_'.$id;
-	}
+        $cache_key = static::_get_cache_key($id);
 
-	protected function fire_event($event)
-	{
-		parent::fire_event($event);
+        // Check for cache
+        if (Cache::has($cache_key))
+        {
+            return Cache::get($cache_key);
+        }
 
-		// if cache enabled
-		if (static::$cache === true)
-		{
-			// events to detect
-			if (in_array($event, array('updated', 'saved', 'deleted')))
-			{
-				$ckey = static::key_cache($this->id);				
+        // No cache, so lets get it from the DB and save to cache
+        $result = parent::_find($id, $columns);
 
-				// remove exists cache
-				Cache::forget($ckey);
-			}
-		}
-	}
+        if ($result)
+        {
+            Cache::put($cache_key, $result, static::$ttl);  // Save for 5 minutes
+            //change from $this->ttl
+        }
 
-	public function valid($data = array(), $withs = array(), $rules = array(), $messages = array())
-	{
-		$valid = true;
+        return $result;
 
-		if ( ! empty($rules) || ! empty(static::$rules))
-		{
-			// If empty rules, so get from static.
-			if (empty($rules))
-			{
-				$rules = static::$rules;
-
-				// Merge validation rules from related.
-				if (count($withs)) foreach ($withs as $with)
-				{
-					if (class_exists($with))
-					{
-						$rules = array_merge($rules, $with::$rules);
-					}
-				}
-			}
-
-			// If empty messages, so get from static.
-			if (empty($messages))
-			{
-				$messages = static::$messages;
-
-				// Merge validation messages from related.
-				if (count($withs)) foreach ($withs as $with)
-				{
-					if (class_exists($with))
-					{
-						$messages = array_merge($messages, $with::$messages);
-					}
-				}
-			}
-
-			// If the model exists, this is an update.
-			if ($this->exists)
-			{
-
-				$_data = array();
-				foreach ($data as $key => $value)
-				{
-				    if ( ! array_key_exists($key, $this->original) or $value != $this->original[$key])
-				    {
-				        $_data[$key] = $value;
-				    }
-				}
-
-				// Then just validate the fields that are being updated.
-				$rules = array_intersect_key($rules, $_data);
-			}
+    }
 
 
-			// Construct the validator
-			$validator = Validator::make($data, $rules, $messages);
+    /**
+     * Get all of the models in the database from cache or store them to cache.
+     *
+     * @return array
+     */
+    public static function all($columns = array())
+    {
+        $cache_key = with(new static)->_get_cache_key('all');
 
-			// Validate.
-			$valid = $validator->valid();
+        // Check for cache
+        if (Cache::has($cache_key))
+        {
+            return Cache::get($cache_key);
+        }
 
-			// If the model is valid, unset old errors.
-			// Otherwise set the new ones.
-			if ($valid)
-			{
-				$this->errors = array();
-			}
-			else
-			{
-				$this->errors = $validator->errors;
-			}
-		}
+        // No cache, so lets get it from the DB and save to cache
+        $result = with(new static)->query()->get();
+        if ($result)
+        {
+            Cache::put($cache_key, $result, with(new static)->ttl);  // Save for 5 minutes
+        }
+        return $result;
+    }
 
-		return $valid;
-	}
+    public function save(array $options = array())
+    {
+        $result = parent::save($options);
+        if ($result) {
+            Cache::forget(static::_get_cache_key($this->id));
+        }
+        return $result;
+    }
 
-	public function __set($key, $value)
-	{
-		// only update an attribute if there's a change
-		if (!array_key_exists($key, $this->attributes) || $value !== $this->$key)
-		{
-			parent::__set($key, $value);
-		}
-	}
 
-	public static function __callStatic($method, $parameters)
-	{
-		if (strcmp($method, 'find') === 0 and ! isset($parameters[1]))
-		{
-			$id = $parameters[0];
-			
-			$ckey = static::key_cache($id);
+    public function delete()
+    {
+        $result = parent::delete();
+        if ($result) {
+            Cache::forget(static::_get_cache_key($this->id));
+        }
+        return $result;
+    }
 
-			if ( ! $result = array_get(static::$object_cached, $ckey))
-			{
-				if (static::$cache === true)
-				{					
-					if ( ! $result = Cache::get($ckey))
-					{
-						$result = parent::__callStatic('find', $parameters);
-						 
-						if ( ! is_null($result))
-						{						
-							Cache::put($ckey, $result, static::$cache_ttl);
-						}
-					}
-				}
-				else
-				{
-					$result = parent::__callStatic('find', $parameters); 
-				}
-
-				array_set(static::$object_cached, $ckey, $result);
-			}
-			
-			return $result;
-		}
-	
-		return parent::__callStatic($method, $parameters); 
-	}
+    private static function _get_cache_key($id)
+        //change from private
+    {
+        return 'model_'.static::$table.'_'.$id;
+        //change from static::table()
+    }
 
 }

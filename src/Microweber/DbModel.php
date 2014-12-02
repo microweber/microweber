@@ -3,7 +3,7 @@
 class DbModel extends BaseModel
 {
 
-    protected  $table = '';
+    protected $table = '';
 
     // called once when Post is first used
     public static function boot()
@@ -13,9 +13,31 @@ class DbModel extends BaseModel
     }
 
 
+    function save_item($params)
+    {
+
+        $params = $this->set_params($params);
+        return parent::save_item($params);
+    }
+
+
+    function save_data($table, $params)
+    {
+        $this->table = $table;
+
+        return parent::save_item($params);
+    }
+
     function items($params)
     {
 
+        $params = $this->set_params($params);
+        return parent::items($params);
+    }
+
+
+    public function set_params($params)
+    {
         if (is_string($params)) {
             $params = parse_params($params);
         }
@@ -33,13 +55,8 @@ class DbModel extends BaseModel
             return;
         }
 
-        //$this->table = $table;
-      //  $table = str_singular($table);
-        $table = studly_case($table);
-        $model = new $table;
-
-       // return parent::items($params);
-        return $model::items($params);
+        $this->table = $table;
+        return $params;
     }
 
 

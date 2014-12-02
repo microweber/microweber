@@ -1,10 +1,8 @@
 <?php
-/**
- *
- * @property BaseModel $where(string $column, string $operator = null, mixed $value = null, string $boolean = 'and')
- *
- */
-class BaseModel extends CachedModel
+
+use Illuminate\Database\Eloquent\Model as Eloquent;
+
+class BaseModel extends Eloquent
 {
     const CREATED_AT = 'created_on';
     const UPDATED_AT = 'updated_on';
@@ -126,21 +124,20 @@ class BaseModel extends CachedModel
         }
 
         $params = $this->map_array_to_table($table, $params);
-        $test = 0;
-        foreach ($params as $column => $value) {
-            switch ($value) {
-                case '[not_null]':
-                    $test = 1;
-                    $query->whereNotNull($column);
-                    unset($params[$column]);
-                    break;
-            }
-        }
+        $query = $this->map_values_to_query($query, $params);
 
 
         if ($params !== false) {
             $query = $query->where($params);
         }
+
+
+        if (isset($orig_params['count']) and ($orig_params['count'])) {
+            $query = $query->count();
+            return $query;
+        }
+
+
         $data = $query->get();
         $empty = $data->isEmpty();
 
@@ -152,16 +149,10 @@ class BaseModel extends CachedModel
 
         $data = $data->toArray();
 
-        if(!is_array($data)){
+        if (!is_array($data)) {
             return false;
         }
-//        foreach($data as $k=>$v){
-//            $data[$k] = (array)  $v;
-//        }
 
-//        if($test){
-//            dd($data);
-//        }
         if (isset($orig_params['single']) || isset($orig_params['one'])) {
             if (!isset($data[0])) {
                 return false;
@@ -170,13 +161,15 @@ class BaseModel extends CachedModel
         }
 
 
-        return   $data;
+        return $data;
     }
+
 
     public function get_items($params)
     {
-        return  (array) self::items($params);
+        return self::items($params);
     }
+
     public function save_item($params)
     {
         $table = $this->table;
@@ -194,22 +187,28 @@ class BaseModel extends CachedModel
             $id = $params['id'];
         }
 
-        $params = $this->map_array_to_table($table, $params);
 
+        $params = $this->map_array_to_table($table, $params);
+        $id_to_return = false;
         if ($id) {
             unset($params['created_on']);
             $save = self::find($id)->update($params);
+            $id_to_return = intval($id);
         } else {
             $save = self::insert($params);
 
+            $id_to_return = DB::getPdo()->lastInsertId();
+
+
         }
-        return ($save);
+        return ($id_to_return);
 
 
     }
 
     public function map_array_to_table($table, $array)
     {
+
 
         $r = $this->get_fields($table);
         $r = array_diff($r, $this->filter_keys);
@@ -218,6 +217,84 @@ class BaseModel extends CachedModel
         $r = array_flip($r);
         $r = array_intersect_key($array, $r);
         return $r;
+    }
+
+    public function map_values_to_query($query, &$params)
+    {
+        foreach ($params as $column => $value) {
+
+
+            switch ($value) {
+                case '[not_null]':
+                    $query->whereNotNull($column);
+                    unset($params[$column]);
+                    break;
+
+                case '[null]':
+                    $query->whereNull($column);
+                    unset($params[$column]);
+                    break;
+            }
+
+            if (stristr($value, '[lt]')) {
+                $value = str_replace('[lt]', '', $value);
+                $query = $query->where($column, '<', $value);
+                unset($params[$column]);
+
+            } else if (stristr($value, '[lte]')) {
+                $two_chars = '<=';
+                $value = str_replace('[lte]', '', $value);
+            } else if (stristr($value, '[st]')) {
+                $one_char = '<';
+                $value = str_replace('[st]', '', $value);
+            } else if (stristr($value, '[ste]')) {
+                $two_chars = '<=';
+                $value = str_replace('[ste]', '', $value);
+            } else if (stristr($value, '[gt]')) {
+                $one_char = '>';
+                $value = str_replace('[gt]', '', $value);
+            } else if (stristr($value, '[gte]')) {
+                $two_chars = '>=';
+                $value = str_replace('[gte]', '', $value);
+            } else if (stristr($value, '[mt]')) {
+                $one_char = '>';
+                $value = str_replace('[mt]', '', $value);
+            } else if (stristr($value, '[md]')) {
+                $one_char = '>';
+                $value = str_replace('[md]', '', $value);
+            } else if (stristr($value, '[mte]')) {
+                $two_chars = '>=';
+                $value = str_replace('[mte]', '', $value);
+            } else if (stristr($value, '[mde]')) {
+                $two_chars = '>=';
+                $value = str_replace('[mde]', '', $value);
+            } else if (stristr($value, '[neq]')) {
+                $two_chars = '!=';
+                $value = str_replace('[neq]', '', $value);
+            } else if (stristr($value, '[eq]')) {
+                $one_char = '=';
+                $value = str_replace('[eq]', '', $value);
+            } else if (stristr($value, '[int]')) {
+                $value = str_replace('[int]', '', $value);
+            } else if (stristr($value, '[is]')) {
+                $one_char = '=';
+                $value = str_replace('[is]', '', $value);
+            } else if (stristr($value, '[like]')) {
+                $two_chars = '%';
+                $value = str_replace('[like]', '', $value);
+            } else if (stristr($value, '[null]')) {
+                $value = 'is_null';
+            } else if (stristr($value, '[not_null]')) {
+                $value = 'is_not_null';
+            } else if (stristr($value, '[is_not]')) {
+                $two_chars = '!%';
+                $value = str_replace('[is_not]', '', $value);
+            }
+
+        }
+
+
+        return $query;
     }
 
 

@@ -11,14 +11,11 @@ class LogManager
     function __construct($app = null)
     {
 
-        if (!is_object($this->app)) {
 
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = Application::getInstance();
-            }
-
+        if (is_object($app)) {
+            $this->app = $app;
+        } else {
+            $this->app = mw();
         }
 
 
@@ -96,10 +93,9 @@ class LogManager
         $params = parse_params($params);
 
         $params['user_ip'] = MW_USER_IP;
-        $data_to_save = $params;
-        $table = $this->table;
-        mw_var('FORCE_SAVE', $table);
-        $save = $this->app->database_manager->save($table, $params);
+         $table = $this->table;
+
+        $save = save($table, $params);
         $id = $save;
         $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
         return $id;

@@ -12,7 +12,7 @@ use Menu;
  * Content class is used to get and save content in the database.
  *
  * @package Content
- * @category Contentf
+ * @category Content
  * @desc  These functions will allow you to get and save content in the database.
  *
  */
