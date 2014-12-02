@@ -79,13 +79,12 @@ $for = mw()->database_manager->assoc_table_name($for);
 
 
 if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
-  $is_ex = get_content('content_type=page&subtype=dynamic&is_shop=0&limit=100');
+  $is_ex = get_content('parent=0&content_type=page&is_shop=1&limit=1000');
+
 } else {
-  $is_ex = get_content('parent=0&content_type=page&is_shop=1&limit=100');
-
-
+	  $is_ex = get_content('content_type=page&is_shop=0&limit=1000');
 }
-
+ 
 if(is_array($is_ex)){
 	foreach ($is_ex as $item) {
 		$cats__parents[] = $item['id'];
@@ -200,13 +199,14 @@ if (isset($params['categories_removed_ids'])) {
 	 
 unset($tree['subtype']);
 }
-  
+ 
 pages_tree($tree);
 ?>
 <?php endif; ?>
 <?php  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
 
 	$str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
+ 
 	$fors = get($str0);
 
 	if ($fors != false and is_array($fors) and !empty($fors)) {

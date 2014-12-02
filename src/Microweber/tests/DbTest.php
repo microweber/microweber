@@ -124,12 +124,9 @@ class DbTest extends TestCase
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] == 'post'));
         }
-
         $content = get('content', 'limit=1&content_type=[not_like]post');
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] != 'post'));
         }
-
-
     }
 }
