@@ -5,21 +5,17 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
 use Microweber\Utils\Database as DbUtils;
+use Microweber\Traits\QueryFilter;
 
 use Illuminate\Support\Facades\User as DefaultUserProvider;
 
 class Database
 {
 
+    use QueryFilter;
 
     public $use_cache = true;
     public $app = null;
-
-    public $default_limit = 30;
-
-
-    public $table_cache_ttl = 60;
-    private $filter_keys = [];
 
 
     function __construct($app = null)
@@ -44,31 +40,20 @@ class Database
      * *You can pass those parameters in order to filter the results*
      *  You can also use all defined database fields as parameters
      *
-     * .[params-table]
+     *
      *|-----------------------------------------------------------------------------
      *| Parameter        | Description      | Values
      *|------------------------------------------------------------------------------
-     *| from            | the name of the db table, without prefix | ex. users, content, categories,etc
-     *| table        | same as above |
+     *| table            | the name of the db table, without prefix | ex. users, content, categories,etc
      *| debug            | prints debug information  | true or false
-     *| orderby        | you can order by any field in your table  | ex. get("table=content&orderby=id desc")
-     *| order_by        | same as above  |
-     *| one            | if set returns only the 1st result |
+     *| order_by        | you can order by any field in your table  | ex. get("table=content&orderby=id desc")
+     *| single            | if set returns only the 1st result |
      *| count            | if set returns results count |  ex. get("table=content&count=true")
      *| limit            | limit the results |  ex. get("table=content&limit=5")
-     *| curent_page    | get the current page by limit offset |  ex. get("table=content&limit=5&curent_page=2")
-     *
-     *
-     * @param string|array $params parameters for the DB
-     * @param string $params ['table'] the table name ex. content
-     * @param string $params ['debug'] if true print the sql
-     * @param string $params ['cache_group'] sets the cache folder to use to cache the query result
-     * @param string $params ['no_cache']  if true it will no cache the sql
-     * @param string $params ['count']  if true it will return results count
-     * @param string $params ['page_count']  if true it will return pages count
-     * @param string|array $params ['limit']  if set it will limit the results
+     *| current_page    | get the current page by limit offset |  ex. get("table=content&limit=5&curent_page=2")
      *
      * @function get
+     * @param $params
      * @return mixed Array with data or false or integer if page_count is set
      *
      *
@@ -164,7 +149,10 @@ class Database
         }
         if (empty($data)) {
             return false;
+        } else {
+            $data = $this->app->url_manager->replace_site_url_back($data);
         }
+
 
         if (!is_array($data)) {
             return $data;
@@ -180,216 +168,144 @@ class Database
     }
 
 
-    private static $custom_filters = [];
-
-    public static function custom_filter($name, $callback)
+    public function save($params)
     {
-        self::$custom_filters[$name] = $callback;
+
+
+        if (!isset($params['table'])) {
+            return false;
+        } else {
+            $table = trim($params['table']);
+            unset($params['table']);
+        }
+        if (!$table) {
+            return false;
+        }
+
+        $query = DB::table($table);
+
+
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+        if (!isset($params['created_on']) == false) {
+            $params['created_on'] = date("Y-m-d H:i:s");
+        }
+        if (!isset($params['updated_on']) == false) {
+            $params['updated_on'] = date("Y-m-d H:i:s");
+        }
+        $id = false;
+        if (isset($params['id'])) {
+            $id = $params['id'];
+        }
+
+        if (!isset($params['id'])) {
+            $params['id'] = 0;
+        }
+
+        $data['session_id'] = mw()->user_manager->session_id();
+
+
+        $params = $this->map_array_to_table($table, $params);
+
+        $id_to_return = false;
+        $params = $this->app->url_manager->replace_site_url($params);
+
+        $params['id'] = intval($params['id']);
+        if (intval($params['id']) == 0) {
+            $id_to_return = $query->insert($params);
+            $id_to_return = DB::getPdo()->lastInsertId();
+        } else {
+            unset($params['created_on']);
+            $id_to_return = $query->where('id', $params['id'])->update($params);
+            $id_to_return = $params['id'];
+        }
+
+
+        return ($id_to_return);
+
+
     }
 
-    public function map_filters($query, &$params)
+
+    public function table($table)
     {
 
-        if (!isset($params['limit'])) {
-            $params['limit'] = $this->default_limit;
-        }
-
-        foreach ($params as $filter => $value) {
-
-
-            $compare_sign = false;
-            $compare_value = false;
-
-            if (is_string($value)) {
-                if (stristr($value, '[lt]')) {
-                    $compare_sign = '<';
-                    $value = str_replace('[lt]', '', $value);
-                } else if (stristr($value, '[lte]')) {
-                    $compare_sign = '<=';
-                    $value = str_replace('[lte]', '', $value);
-                } else if (stristr($value, '[st]')) {
-                    $compare_sign = '<';
-                    $value = str_replace('[st]', '', $value);
-                } else if (stristr($value, '[ste]')) {
-                    $compare_sign = '<=';
-                    $value = str_replace('[ste]', '', $value);
-                } else if (stristr($value, '[gt]')) {
-                    $compare_sign = '>';
-                    $value = str_replace('[gt]', '', $value);
-                } else if (stristr($value, '[gte]')) {
-                    $compare_sign = '>=';
-                    $value = str_replace('[gte]', '', $value);
-                } else if (stristr($value, '[mt]')) {
-                    $compare_sign = '>';
-                    $value = str_replace('[mt]', '', $value);
-                } else if (stristr($value, '[md]')) {
-                    $compare_sign = '>';
-                    $value = str_replace('[md]', '', $value);
-                } else if (stristr($value, '[mte]')) {
-                    $compare_sign = '>=';
-                    $value = str_replace('[mte]', '', $value);
-                } else if (stristr($value, '[mde]')) {
-                    $compare_sign = '>=';
-                    $value = str_replace('[mde]', '', $value);
-                } else if (stristr($value, '[neq]')) {
-                    $compare_sign = '!=';
-                    $value = str_replace('[neq]', '', $value);
-                } else if (stristr($value, '[eq]')) {
-                    $compare_sign = '=';
-                    $value = str_replace('[eq]', '', $value);
-                } else if (stristr($value, '[int]')) {
-                    $value = str_replace('[int]', '', $value);
-                    $value = intval($value);
-                } else if (stristr($value, '[is]')) {
-                    $compare_sign = '=';
-                    $value = str_replace('[is]', '', $value);
-                } else if (stristr($value, '[like]')) {
-                    $compare_sign = 'LIKE';
-                    $value = str_replace('[like]', '', $value);
-                    $compare_value = '%' . $value . '%';
-                } else if (stristr($value, '[not_like]')) {
-                    $value = str_replace('[not_like]', '', $value);
-                    $compare_sign = 'NOT LIKE';
-                    $compare_value = '%' . $value . '%';
-                } else if (stristr($value, '[is_not]')) {
-                    $value = str_replace('[is_not]', '', $value);
-                    $compare_sign = 'NOT LIKE';
-                    $compare_value = '%' . $value . '%';
-                }
-            }
-
-            switch ($filter) {
-                case 'order_by':
-                    $criteria = explode(',', $value);
-                    foreach ($criteria as $c) {
-                        $c = explode(' ', $c);
-                        if (isset($c[1])) {
-                            $query = $query->orderBy($c[0], $c[1]);
-                        } else if (isset($c[0])) {
-                            $query = $query->orderBy($c[0]);
-                        }
-                    }
-                    unset($params[$filter]);
-                    break;
-                case 'limit':
-                    $criteria = intval($value);
-                    $query = $query->take($criteria);
-                    unset($params[$filter]);
-                    break;
-                case 'current_page':
-                    $criteria = intval($value);
-                    $query = $query->skip($criteria);
-
-                    unset($params[$filter]);
-                    break;
-                case 'ids':
-                    $ids = $value;
-                    if (is_string($ids)) {
-                        $ids = explode(',', $ids);
-                    }
-
-
-                    $query = $query->whereIn('id', $ids);
-                    unset($params[$filter]);
-                    break;
-                case 'exclude_ids':
-                    unset($params[$filter]);
-                    $ids = $value;
-                    if (is_string($ids)) {
-                        $ids = explode(',', $ids);
-                    }
-                    $query = $query->whereNotIn('id', $ids);
-                    break;
-                case 'id':
-                    unset($params[$filter]);
-                    $criteria = trim($value);
-                    $query = $query->where('id', $criteria);
-                    break;
-
-                case 'no_cache':
-                    $this->useCache = false;
-                    break;
-
-
-                default:
-                    if ($compare_sign != false) {
-                        unset($params[$filter]);
-                        if ($compare_value != false) {
-                            $query = $query->where($filter, $compare_sign, $compare_value);
-
-                        } else {
-                            $query = $query->where($filter, $compare_sign, $value);
-
-                        }
-                    }
-
-                    break;
-
-
-            }
-
-
-        }
-
-
-        foreach (self::$custom_filters as $name => $callback) {
-            if (!isset($params[$name])) {
-                continue;
-            }
-            call_user_func_array($callback, [$query, $params[$name]]);
-        }
+        $query = DB::table($table);
         return $query;
     }
 
-
-    public function map_array_to_table($table, $array)
+    /**
+     * Get table row by id
+     *
+     * It returns full db row from a db table
+     *
+     * @param string $table Your table
+     * @param int|string $id The id to get
+     * @param string $field_name You can set custom column to get by it, default is id
+     *
+     * @return array|bool|mixed
+     * @example
+     * <code>
+     * //get content with id 5
+     * $cont = $this->get_by_id('content', $id=5);
+     * </code>
+     *
+     * @package Database
+     * @subpackage Advanced
+     */
+    public function get_by_id($table, $id = 0, $field_name = 'id')
     {
-        if (!is_array($array)) {
-            return $array;
+        $id = intval($id);
+        if ($id == 0) {
+            return false;
+        }
+        if ($field_name == false) {
+            $field_name = "id";
+        }
+        $q = DB::table($table)->where($field_name, '=', $id)->first();
+        return $q;
+
+
+    }
+
+
+
+
+    /**
+     * Deletes item by id from db table
+     *
+     * @param string $table Your da table name
+     * @param int|string $id The id to delete
+     * @param string $field_name You can set custom column to delete by it, default is id
+     *
+     * @return bool
+     * @example
+     * <code>
+     * //delete content with id 5
+     *  $this->delete_by_id('content', $id=5);
+     * </code>
+     *
+     * @package Database
+     */
+    public function delete_by_id($table, $id = 0, $field_name = 'id')
+    {
+
+        if ($id == 0) {
+
+            return false;
         }
 
-        $r = $this->get_fields($table);
-        $r = array_diff($r, $this->filter_keys);
 
-        $r = array_intersect($r, array_keys($array));
-        $r = array_flip($r);
-        $r = array_intersect_key($array, $r);
-        return $r;
-    }
-
-    public function map_values_to_query($query, &$params)
-    {
-        foreach ($params as $column => $value) {
-
-
-            switch ($value) {
-                case '[not_null]':
-                    $query->whereNotNull($column);
-                    unset($params[$column]);
-                    break;
-
-                case '[null]':
-                    $query->whereNull($column);
-                    unset($params[$column]);
-                    break;
-            }
-
-
-        }
-
-
-        return $query;
+        $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
+        return $c_id;
     }
 
 
-    public function get_fields($table)
-    {
-        $value = Cache::remember('model.columns.' . $table, $this->table_cache_ttl, function () use ($table) {
-            return DB::connection()->getSchemaBuilder()->getColumnListing($table);
-        });
-        return $value;
 
-    }
+
+
+
 
 
 }

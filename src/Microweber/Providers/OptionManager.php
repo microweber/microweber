@@ -28,7 +28,7 @@ class OptionManager
 
         }
 
-        api_expose('save_option');
+       // api_expose('save_option');
 
         $this->set_table_names();
         //  $this->db_init();
@@ -529,9 +529,10 @@ class OptionManager
 
                 $data['allow_html'] = true;
                 $data['allow_scripts'] = true;
+                $data['table'] = $this->tables['options'];
 
 
-                $save = mw()->option->save_item($data);
+                $save = $this->app->database->save($data);
 
                 // $save = $this->app->database_manager->save($table, $data);
                 //$save = $this->app->database_manager->save($table, $data);

@@ -85,10 +85,13 @@ class LogManager
 
     public function save($params)
     {
+
+        $table = $this->table;
         $params = parse_params($params);
         $params['user_ip'] = MW_USER_IP;
-        $table = $this->table;
-        $save = $this->app->db_model->save_item($table, $params);
+        $params['table'] = $table;
+
+        $save = $this->app->database->save($params);
         $id = $save;
         $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
         return $id;
@@ -110,10 +113,8 @@ class LogManager
             $c_id = intval($id);
             $table = $this->table;
             $old = date("Y-m-d H:i:s", strtotime('-1 month'));
-            // $q = "DELETE FROM $table WHERE created_on < '{$old}'";
-
-            DB::table($table)->where('created_on', '<', $old)->delete();
-            DB::table($table)->where('id', '=', $c_id)->delete();
+             mw()->database->table($table)->where('created_on', '<', $old)->delete();
+            mw()->database->table($table)->where('id', '=', $c_id)->delete();
             $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . $c_id);
             return $c_id;
 

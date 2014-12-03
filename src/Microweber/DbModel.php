@@ -44,7 +44,7 @@ class DbModel extends BaseModel
         }
         $items = parent::items($params);
         if ($d) {
-            dd($items);
+            dd($items.__FILE__.__LINE__);
         }
 
         return $items;
