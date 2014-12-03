@@ -158,7 +158,13 @@ class Database
         } else {
             $ttl = $this->table_cache_ttl;
             $cache_key = $table.crc32(serialize($orig_params));
-            $data =  $query->cacheTags($table)->remember($ttl,$cache_key)->get();
+            $data =  Cache::tags($table)->remember($cache_key, $ttl, function() use ($query)
+            {
+               return $query->get();
+                // return false;
+            });
+
+            //$data =  $query->cacheTags($table)->remember($ttl,$cache_key)->get();
         }
 
 
@@ -294,19 +300,28 @@ class Database
         if ($field_name == false) {
             $field_name = "id";
         }
-        $query = DB::table($table);
 
-        if(!$this->use_cache){
-            $data = $query->where($field_name, '=', $id)->first();
+        $params = array();
+        $params[$field_name] = $id;
+        $params['table'] = $table;
+        $params['single'] = true;
 
-        } else {
-            $ttl = $this->table_cache_ttl;
-$cache_key = $table.crc32($field_name.$id);
-            $data =  $query->cacheTags($table)->remember($ttl,$cache_key)->where($field_name, '=', $id)->first();
-        }
+        $data = $this->get($params);
 
-
-        $data = (array) $data;
+//        $query = DB::table($table);
+//
+//        if(!$this->use_cache){
+//            $data = $query->where($field_name, '=', $id)->first();
+//
+//        } else {
+//            $ttl = $this->table_cache_ttl;
+//$cache_key = $table.crc32($field_name.$id);
+//
+//            $data =  $query->cacheTags($table)->remember($ttl,$cache_key)->where($field_name, '=', $id)->first();
+//        }
+//
+//
+//        $data = (array) $data;
         return $data;
 
 

@@ -58,7 +58,9 @@ class LaravelCache
 //            }
 
             // return $cache_group;
-            return $cache_group[0];
+            $cg = $cache_group[0];
+
+            return $cg;
         }
 
     }

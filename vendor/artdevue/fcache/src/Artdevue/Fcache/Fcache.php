@@ -58,7 +58,7 @@ class Fcache implements StoreInterface
     {
         $this->files = new Filesystem;
         $this->prefix = $prefix;
-        $this->directory = \Config::get('cache.path');
+        $this->directory = \Config::get('cache.path') . '/' . app()->environment();
         $this->tags = array();
         $this->directoryTags = $this->directory . (!empty($prefix) ? '/' . $prefix : '') . '/tags';
     }
@@ -73,36 +73,10 @@ class Fcache implements StoreInterface
     {
         $path = $this->path($key);
 
-        if(!empty($this->tags)){
-            foreach($this->tags as $tag){
-                $tag_file = $this->directoryTags . '/' . $tag;
-
-                if (!$this->files->exists($tag_file)) {
-                    $this->forget($key);
-                    return null;
-                } else {
-                    $farr = file($tag_file);
-                    if (!in_array($path, $farr))
-                    {
-
-
-                        $this->forget($key);
-                        return null;
-                    }
-                }
-            }
-        }
-
-
-
-
-
-        if (!is_file($path)) {
-            return null;
-        }
-
 
         if (!$this->files->exists($path)) {
+
+
             return null;
         }
 
@@ -136,9 +110,12 @@ class Fcache implements StoreInterface
 
         $this->createCacheDirectory($path = $this->path($key));
 
-        if (!empty($this->tags)){
+        if (!empty($this->tags)) {
             $this->_setTags($path);
         }
+
+        $path = $this->normalize_path($path, false);
+
 
         $this->files->put($path, $value);
     }
@@ -151,20 +128,16 @@ class Fcache implements StoreInterface
      */
     public function tags($tags)
     {
-        if (is_string($tags)) {
+        if (is_string($tags))
             $string_array = explode(',', $tags);
-        } else if (is_array($tags)) {
+        else if (is_array($tags))
             $string_array = $tags;
-            array_walk($string_array, 'trim');
-        }
+        array_walk($string_array, 'trim');
 
         $this->tags = $string_array;
 
         return $this;
     }
-
-
-
 
     /**
      * Save Tags for cache.
@@ -177,43 +150,22 @@ class Fcache implements StoreInterface
 
         foreach ($this->tags as $tg) {
             $file = $this->directoryTags . '/' . $tg;
+            $file = $this->normalize_path($file, false);
+
             if (!$this->files->exists($file)) {
-
-
-
                 $this->createCacheDirectory($file);
-               // $this->files->put($file, $path);
-                file_put_contents($file, "\n$path", FILE_APPEND);
+                $this->files->put($file, $path);
+
+
             } else {
-
-
-                $file_path = ($file);
-
-                if (!is_file($file_path)) {
-                    touch($file_path);
+                $farr = file($file);
+                if (!in_array($path, $farr)) {
+                    file_put_contents($file, "\n$path", FILE_APPEND);
                 }
-
-                $farr = ($file);
-
-               // file_put_contents($file, "\n$path", FILE_APPEND);
-
-
-                try {
-                    $farr = file($file);
-                    if (!in_array($path, $farr))
-                    {
-                        file_put_contents($file,"\n$path", FILE_APPEND);
-                    }
-                } catch (Exception $e) {
-                   return false;
-
-                }
-
-
             }
 
         }
-         $this->tags = array();
+        // $this->tags = array();
     }
 
     /**
@@ -329,22 +281,17 @@ class Fcache implements StoreInterface
             $file = $this->directoryTags . '/' . $sa;
             if ($this->files->exists($file)) {
                 $farr = file($file);
-                $farr_save = array();
-                foreach ($farr as $k => $f) {
+                foreach ($farr as $f) {
+                    $f = $this->normalize_path($f, false);
+                    if ($this->files->exists($f)) {
 
-                    if (is_file($f)){
+                        unlink($f);
+                    } else {
 
-                         unlink($f);
-                     }
-                    unset($farr[$k]);
-
+                    }
 
                 }
-               // file_put_contents($file, "\n");
-
-
-                //dd($file);
-                  unlink($file);
+                unlink($file);
             }
         }
     }
@@ -360,8 +307,7 @@ class Fcache implements StoreInterface
         $file = $this->path($key);
 
         if ($this->files->exists($file)) {
-
-           unlink($file);
+            $this->files->delete($file);
         } else {
             $folder = substr($file, 0, -6);
             if ($this->files->exists($folder)) {
@@ -378,20 +324,18 @@ class Fcache implements StoreInterface
      */
     public function flush()
     {
-
-       if(empty($this->tags)){
-           foreach ($this->files->directories($this->directory) as $directory) {
-               $this->files->deleteDirectory($directory);
-           }
-       }
-
-        foreach($this->tags as $tag){
-            $items = $this->forgetTags($tag);
-
+        if (empty($this->tags)) {
+            foreach ($this->files->directories($this->directory) as $directory) {
+                $this->files->deleteDirectory($directory);
+            }
         }
 
-
-
+        foreach ($this->tags as $tag) {
+            $items = $this->forgetTags($tag);
+            $del = $this->directory . '/' . $tag;
+            $del = $this->normalize_path($del);
+            $this->files->deleteDirectory($del);
+        }
     }
 
     /**
@@ -432,19 +376,15 @@ class Fcache implements StoreInterface
      */
     protected function path($key)
     {
-        /*$parts = '';
-        $array = explode('/',$key);
-
-        $ph = array_diff($array, array(end($array)));
-
-        if (count($ph > 0))
-            $parts = implode('/',$ph) . '/';
-
-        return $this->directory.'/'. $parts . end($array) . '.cache';*/
 
         $prefix = !empty($this->prefix) ? $this->prefix . '/' : '';
+        $subdir = 'global';
+        if (!empty($this->tags)) {
+            $subdir = reset($this->tags);
+        }
 
-        return $this->directory . '/' . $prefix . trim($key, "/") . '.cache';
+
+        return $this->directory . '/' . $subdir . '/' . $prefix . trim($key, "/") . '.cache';
     }
 
     /**
@@ -459,4 +399,41 @@ class Fcache implements StoreInterface
 
         return time() + ($minutes * 60);
     }
+
+
+    function normalize_path($path, $slash_it = true)
+    {
+        $path_original = $path;
+        $s = DIRECTORY_SEPARATOR;
+        $path = preg_replace('/[\/\\\]/', $s, $path);
+        $path = str_replace($s . $s, $s, $path);
+        if (strval($path) == '') {
+            $path = $path_original;
+        }
+        if ($slash_it == false) {
+            $path = rtrim($path, DIRECTORY_SEPARATOR);
+        } else {
+            $path .= DIRECTORY_SEPARATOR;
+            $path = rtrim($path, DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
+        }
+        if (strval(trim($path)) == '' or strval(trim($path)) == '/') {
+            $path = $path_original;
+        }
+        if ($slash_it == false) {
+        } else {
+            $path = $path . DIRECTORY_SEPARATOR;
+            $path = $this->reduce_double_slashes($path);
+        }
+
+
+        return $path;
+    }
+
+
+    function reduce_double_slashes($str)
+    {
+        return preg_replace("#([^:])//+#", "\\1/", $str);
+    }
+
+
 }
