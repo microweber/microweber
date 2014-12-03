@@ -60,7 +60,15 @@ class Modules
     public function info($module_name)
     {
 
-        return Module::where('module', $module_name)->first();
+
+        $get = array();
+        $get['module'] = $module_name;
+        $get['single'] = 1;
+
+        $data = $this->get($get);
+
+
+        return $data;
     }
 
 

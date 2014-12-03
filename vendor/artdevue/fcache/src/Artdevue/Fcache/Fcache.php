@@ -48,6 +48,9 @@ class Fcache implements StoreInterface
      */
     protected $directoryTags;
 
+    public $memory = array();
+
+
     /**
      * Create a new Dummy cache store.
      *
@@ -71,29 +74,35 @@ class Fcache implements StoreInterface
      */
     public function get($key)
     {
-        $path = $this->path($key);
 
 
-        if (!$this->files->exists($path)) {
+        $mem_key = $key;
+        if (!isset($this->memory[$mem_key])) {
+            $path = $this->path($key);
 
 
-            return null;
+            if (!$this->files->exists($path)) {
+
+
+                return null;
+            }
+
+            try {
+                $expire = substr($contents = $this->files->get($path), 0, 10);
+            } catch (\Exception $e) {
+                return null;
+            }
+
+            // If the current time is greater than expiration timestamps we will delete
+            // the file and return null. This helps clean up the old files and keeps
+            // this directory much cleaner for us as old files aren't hanging out.
+            if (time() >= $expire) {
+                return $this->forget($key);
+            }
+            $this->memory[$mem_key] = unserialize(substr($contents, 10));
         }
 
-        try {
-            $expire = substr($contents = $this->files->get($path), 0, 10);
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        // If the current time is greater than expiration timestamps we will delete
-        // the file and return null. This helps clean up the old files and keeps
-        // this directory much cleaner for us as old files aren't hanging out.
-        if (time() >= $expire) {
-            return $this->forget($key);
-        }
-
-        return unserialize(substr($contents, 10));
+        return $this->memory[$mem_key];
     }
 
     /**
@@ -304,6 +313,9 @@ class Fcache implements StoreInterface
      */
     public function forget($key)
     {
+
+
+
         $file = $this->path($key);
 
         if ($this->files->exists($file)) {
@@ -314,6 +326,8 @@ class Fcache implements StoreInterface
                 $this->files->deleteDirectory($folder);
             }
         }
+
+        $this->memory = array();
     }
 
     /**
@@ -336,6 +350,8 @@ class Fcache implements StoreInterface
             $del = $this->normalize_path($del);
             $this->files->deleteDirectory($del);
         }
+
+        $this->memory = array();
     }
 
     /**

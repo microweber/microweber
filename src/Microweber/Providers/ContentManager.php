@@ -275,32 +275,14 @@ class ContentManager
 // @todo cleanup old code
         $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
 
+        $get = array();
+        $get['url'] = $url;
+        $get['single'] = true;
+        $content = $this->get($get);
 
-        $content = Content::where('url', '=', $url)->first();
-        //  $content = Content::where('url','=',$url);
-        //->toArray()
-
-
-        //$q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-//        $filter = array();
-//        $filter['url'] = $url;
-//        $filter['limit'] = 1;
-//
-//        $result = Content::items($filter);;
-//        dd($result);
-//
-//
-//        // $result = $q;
-//
-//        dd($result->isEmpty());
-//        if(empty($result)){
-//            dd(111111);
-//        }
-
-        //$content = $result[0];
 
         if (!empty($content)) {
-            $content = $content->toArray();
+
 
             self::$precached_links[$link_hash] = $content;
             return $content;
@@ -625,16 +607,22 @@ class ContentManager
 
         $data = array();
         $id = intval($id);
-        $taxonomies = Content::where('parent', $id);
+
+
+        $get = array();
+        $get['parent'] = $id;
+
+
+
         if (isset($without_main_parrent) and $without_main_parrent == true) {
-            $taxonomies->where('parent', '!=', 0);
+            $get['parent'] = '[neq]0';
         }
 
         // $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
         // $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
-
-        $taxonomies = $taxonomies->get()->toArray();
+        $taxonomies = $this->get($get);
+       // $taxonomies = $taxonomies->get()->toArray();
 
         if (!empty($taxonomies)) {
             foreach ($taxonomies as $item) {
@@ -2455,7 +2443,14 @@ class ContentManager
     public function homepage()
     {
 
-        return Content::where('is_home', 1)->where('is_deleted', 0)->first();
+        $get = array();
+        $get['is_home'] = 1;
+        $get['single'] = 1;
+
+        $data = $this->get($get);
+
+
+        return $data;
 
 
         //@todo delete the rest
@@ -2633,13 +2628,14 @@ class ContentManager
         $data = array();
 
 
-        $content_parents = Content::where('id', $id);
+
+        $get = array();
+        $get['id'] = $id;
+
         if (isset($without_main_parrent) and $without_main_parrent == true) {
-            $content_parents->where('parent', '!=', 0);
+             $get['parent'] = '[neq]0';
         }
-
-        $taxonomies = $content_parents->get()->toArray();
-
+        $content_parents = $this->get($get);
 
         if (!empty($content_parents)) {
 
@@ -4023,7 +4019,11 @@ class ContentManager
             $date123 = date("YmdHis");
 
 
-            $q = Content::where('url', $data['url'])->first();;
+            $get = array();
+            $get['url'] = $data['url'];
+            $get['single'] = true;
+            $q = $this->get($get);
+           // $q = Content::where('url', $data['url'])->first();;
 
 
             if (!empty($q)) {
