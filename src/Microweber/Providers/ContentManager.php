@@ -4358,12 +4358,8 @@ class ContentManager
         if (isset($data_to_save['title'])) {
             $url_changed = true;
         }
-
-//$c = new Content();
-        // return $c->update($data_to_save);
-        //$save = $this->app->database->save($table, $data_to_save);
-        $save = mw()->content->save_item($data_to_save);
-
+        $data_to_save['table'] = $table;
+        $save = $this->app->database->save($table, $data_to_save);
 //      dd($save);
 //      dd(__FILE__.__LINE__);
         $id = $save;

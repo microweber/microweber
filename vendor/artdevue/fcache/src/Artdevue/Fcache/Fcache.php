@@ -73,6 +73,30 @@ class Fcache implements StoreInterface
     {
         $path = $this->path($key);
 
+        if(!empty($this->tags)){
+            foreach($this->tags as $tag){
+                $tag_file = $this->directoryTags . '/' . $tag;
+
+                if (!$this->files->exists($tag_file)) {
+                    $this->forget($key);
+                    return null;
+                } else {
+                    $farr = file($tag_file);
+                    if (!in_array($path, $farr))
+                    {
+
+
+                        $this->forget($key);
+                        return null;
+                    }
+                }
+            }
+        }
+
+
+
+
+
         if (!is_file($path)) {
             return null;
         }
@@ -112,8 +136,9 @@ class Fcache implements StoreInterface
 
         $this->createCacheDirectory($path = $this->path($key));
 
-        if (!empty($this->tags))
+        if (!empty($this->tags)){
             $this->_setTags($path);
+        }
 
         $this->files->put($path, $value);
     }
@@ -138,6 +163,9 @@ class Fcache implements StoreInterface
         return $this;
     }
 
+
+
+
     /**
      * Save Tags for cache.
      *
@@ -150,8 +178,12 @@ class Fcache implements StoreInterface
         foreach ($this->tags as $tg) {
             $file = $this->directoryTags . '/' . $tg;
             if (!$this->files->exists($file)) {
+
+
+
                 $this->createCacheDirectory($file);
-                $this->files->put($file, $path);
+               // $this->files->put($file, $path);
+                file_put_contents($file, "\n$path", FILE_APPEND);
             } else {
 
 
@@ -163,25 +195,25 @@ class Fcache implements StoreInterface
 
                 $farr = ($file);
 
-                @file_put_contents($file, "\n$path", FILE_APPEND);
+               // file_put_contents($file, "\n$path", FILE_APPEND);
 
 
-//                try {
-//                    $farr = file($file);
-//                    if (!in_array($path, $farr))
-//                    {
-//                        file_put_contents($file,"\n$path", FILE_APPEND);
-//                    }
-//                } catch (Exception $e) {
-//                   return false;
-//
-//                }
+                try {
+                    $farr = file($file);
+                    if (!in_array($path, $farr))
+                    {
+                        file_put_contents($file,"\n$path", FILE_APPEND);
+                    }
+                } catch (Exception $e) {
+                   return false;
+
+                }
 
 
             }
 
         }
-        $this->tags = array();
+         $this->tags = array();
     }
 
     /**
@@ -297,11 +329,22 @@ class Fcache implements StoreInterface
             $file = $this->directoryTags . '/' . $sa;
             if ($this->files->exists($file)) {
                 $farr = file($file);
-                foreach ($farr as $f) {
-                    if ($this->files->exists($f))
-                        unlink($f);
+                $farr_save = array();
+                foreach ($farr as $k => $f) {
+
+                    if (is_file($f)){
+
+                         unlink($f);
+                     }
+                    unset($farr[$k]);
+
+
                 }
-                unlink($file);
+               // file_put_contents($file, "\n");
+
+
+                //dd($file);
+                  unlink($file);
             }
         }
     }
@@ -317,7 +360,8 @@ class Fcache implements StoreInterface
         $file = $this->path($key);
 
         if ($this->files->exists($file)) {
-            $this->files->delete($file);
+
+           unlink($file);
         } else {
             $folder = substr($file, 0, -6);
             if ($this->files->exists($folder)) {
@@ -334,9 +378,20 @@ class Fcache implements StoreInterface
      */
     public function flush()
     {
-        foreach ($this->files->directories($this->directory) as $directory) {
-            $this->files->deleteDirectory($directory);
+
+       if(empty($this->tags)){
+           foreach ($this->files->directories($this->directory) as $directory) {
+               $this->files->deleteDirectory($directory);
+           }
+       }
+
+        foreach($this->tags as $tag){
+            $items = $this->forgetTags($tag);
+
         }
+
+
+
     }
 
     /**

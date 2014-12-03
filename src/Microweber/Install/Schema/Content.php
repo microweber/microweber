@@ -89,6 +89,16 @@ class Content
             ],
 
             'content_fields_drafts' => [
+                'updated_on' => 'dateTime',
+                'created_on' => 'dateTime',
+                'created_by' => 'integer',
+                'edited_by' => 'integer',
+                'rel' => 'string',
+
+                'rel_id' => 'string',
+                'field' => 'longText',
+                'value' => 'longText',
+
                 'session_id' => 'string',
                 'is_temp' => "integer",
                 'url' => 'longText',

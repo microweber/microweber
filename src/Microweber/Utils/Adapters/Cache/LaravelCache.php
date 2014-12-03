@@ -31,7 +31,7 @@ class LaravelCache
 
     public function  cache_mkdir($cache_group)
     {
-
+        return;
         if (isset($mkdir_cache[$cache_group])) {
             return;
         }

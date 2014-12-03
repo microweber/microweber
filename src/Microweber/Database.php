@@ -100,6 +100,9 @@ class Database
             return false;
         }
 
+
+
+
         $query = DB::table($table);
 
 
@@ -148,7 +151,16 @@ class Database
             $query = $query->avg($column);
             return $query;
         }
-        $data = $query->get();
+
+        if(!$this->use_cache){
+            $data = $query->get();
+
+        } else {
+            $ttl = $this->table_cache_ttl;
+            $cache_key = $table.crc32(serialize($orig_params));
+            $data =  $query->cacheTags($table)->remember($ttl,$cache_key)->get();
+        }
+
 
         if ($data == false or empty($data)) {
             return false;
@@ -240,7 +252,7 @@ class Database
             $id_to_return = $params['id'];
         }
 
-
+        Cache::tags($table)->flush();
         return ($id_to_return);
 
 
@@ -282,8 +294,20 @@ class Database
         if ($field_name == false) {
             $field_name = "id";
         }
-        $q = (array) DB::table($table)->where($field_name, '=', $id)->first();
-        return $q;
+        $query = DB::table($table);
+
+        if(!$this->use_cache){
+            $data = $query->where($field_name, '=', $id)->first();
+
+        } else {
+            $ttl = $this->table_cache_ttl;
+$cache_key = $table.crc32($field_name.$id);
+            $data =  $query->cacheTags($table)->remember($ttl,$cache_key)->where($field_name, '=', $id)->first();
+        }
+
+
+        $data = (array) $data;
+        return $data;
 
 
     }
