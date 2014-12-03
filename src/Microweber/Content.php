@@ -9,12 +9,12 @@ class Content extends BaseModel
 
     public $table = 'content';
 
-    public static function boot()
-    {
-        parent::boot();
-
-        static::observe(new BaseModelObserver);
-    }
+//    public static function boot()
+//    {
+//        parent::boot();
+//
+//        static::observe(new BaseModelObserver);
+//    }
 
     public function notifications()
     {

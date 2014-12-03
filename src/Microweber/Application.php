@@ -19,6 +19,7 @@ namespace Microweber;
  * @property \Microweber\Providers\MediaManager $media_manager
  * @property \Microweber\Providers\ShopManager $shop_manager
  * @property \Microweber\Providers\OptionManager $option_manager
+ * @property \Database $database
  * @property \Microweber\Providers\CacheManager $cache_manager
  * @property \Microweber\Providers\UserManager $user_manager
  * @property \Microweber\Providers\Modules $modules
@@ -46,7 +47,6 @@ class Application
 
     public static function getInstance($params = null)
     {
-        //if (self::$instance == NULL) self::$instance = new Application($params);
         if (self::$instance == NULL) self::$instance = app();
         return self::$instance;
     }

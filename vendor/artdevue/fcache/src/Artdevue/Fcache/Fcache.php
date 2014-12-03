@@ -1,4 +1,5 @@
 <?php namespace Artdevue\Fcache;
+
 /**
  * Created by PhpStorm.
  * User: AtrDevue
@@ -9,7 +10,8 @@ use Illuminate\Cache\StoreInterface,
     Illuminate\Filesystem\Filesystem,
     Closure;
 
-class Fcache implements StoreInterface {
+class Fcache implements StoreInterface
+{
 
     /**
      * The Illuminate Filesystem instance.
@@ -49,7 +51,7 @@ class Fcache implements StoreInterface {
     /**
      * Create a new Dummy cache store.
      *
-     * @param  string  $prefix
+     * @param  string $prefix
      * @return void
      */
     public function __construct($prefix = '')
@@ -64,37 +66,32 @@ class Fcache implements StoreInterface {
     /**
      * Retrieve an item from the cache by key.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return mixed
      */
     public function get($key)
     {
         $path = $this->path($key);
 
-        if(!is_file($path)){
+        if (!is_file($path)) {
             return null;
         }
 
 
-        if ( ! $this->files->exists($path))
-        {
+        if (!$this->files->exists($path)) {
             return null;
         }
 
-        try
-        {
+        try {
             $expire = substr($contents = $this->files->get($path), 0, 10);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             return null;
         }
 
         // If the current time is greater than expiration timestamps we will delete
         // the file and return null. This helps clean up the old files and keeps
         // this directory much cleaner for us as old files aren't hanging out.
-        if (time() >= $expire)
-        {
+        if (time() >= $expire) {
             return $this->forget($key);
         }
 
@@ -104,14 +101,14 @@ class Fcache implements StoreInterface {
     /**
      * Store an item in the cache for a given number of minutes.
      *
-     * @param  string  $key
-     * @param  mixed   $value
-     * @param  int     $minutes
+     * @param  string $key
+     * @param  mixed $value
+     * @param  int $minutes
      * @return void
      */
     public function put($key, $value, $minutes)
     {
-        $value = $this->expiration($minutes).serialize($value);
+        $value = $this->expiration($minutes) . serialize($value);
 
         $this->createCacheDirectory($path = $this->path($key));
 
@@ -124,16 +121,17 @@ class Fcache implements StoreInterface {
     /**
      * Tags for cache.
      *
-     * @param  string  $string
+     * @param  string $string
      * @return object
      */
     public function tags($tags)
     {
-        if(is_string($tags))
+        if (is_string($tags)) {
             $string_array = explode(',', $tags);
-        else if(is_array($tags))
+        } else if (is_array($tags)) {
             $string_array = $tags;
-        array_walk($string_array, 'trim');
+            array_walk($string_array, 'trim');
+        }
 
         $this->tags = $string_array;
 
@@ -143,33 +141,29 @@ class Fcache implements StoreInterface {
     /**
      * Save Tags for cache.
      *
-     * @param  string  $path
+     * @param  string $path
      * @return null
      */
     private function _setTags($path)
     {
 
-        foreach ($this->tags as $tg)
-        {
-            $file = $this->directoryTags . '/'. $tg;
-            if (!$this->files->exists($file))
-            {
+        foreach ($this->tags as $tg) {
+            $file = $this->directoryTags . '/' . $tg;
+            if (!$this->files->exists($file)) {
                 $this->createCacheDirectory($file);
                 $this->files->put($file, $path);
-            }
-            else
-            {
+            } else {
 
 
-                $file_path =($file);
+                $file_path = ($file);
 
-                if(!is_file($file_path)){
-                     touch($file_path);
+                if (!is_file($file_path)) {
+                    touch($file_path);
                 }
 
                 $farr = ($file);
 
-                 @file_put_contents($file,"\n$path", FILE_APPEND);
+                @file_put_contents($file, "\n$path", FILE_APPEND);
 
 
 //                try {
@@ -193,9 +187,9 @@ class Fcache implements StoreInterface {
     /**
      * Get an item from the cache, or store the default value.
      *
-     * @param  string  $key
-     * @param  \DateTime|int  $minutes
-     * @param  Closure  $callback
+     * @param  string $key
+     * @param  \DateTime|int $minutes
+     * @param  Closure $callback
      * @return mixed
      */
     public function remember($key, $minutes, Closure $callback)
@@ -203,8 +197,7 @@ class Fcache implements StoreInterface {
         // If the item exists in the cache we will just return this immediately
         // otherwise we will execute the given Closure and cache the result
         // of that execution for the given number of minutes in storage.
-        if ( ! is_null($value = $this->get($key)))
-        {
+        if (!is_null($value = $this->get($key))) {
             return $value;
         }
 
@@ -216,8 +209,8 @@ class Fcache implements StoreInterface {
     /**
      * Get an item from the cache, or store the default value forever.
      *
-     * @param  string   $key
-     * @param  Closure  $callback
+     * @param  string $key
+     * @param  Closure $callback
      * @return mixed
      */
     public function rememberForever($key, Closure $callback)
@@ -225,8 +218,7 @@ class Fcache implements StoreInterface {
         // If the item exists in the cache we will just return this immediately
         // otherwise we will execute the given Closure and cache the result
         // of that execution for the given number of minutes. It's easy.
-        if ( ! is_null($value = $this->get($key)))
-        {
+        if (!is_null($value = $this->get($key))) {
             return $value;
         }
 
@@ -238,17 +230,14 @@ class Fcache implements StoreInterface {
     /**
      * Create the file cache directory if necessary.
      *
-     * @param  string  $path
+     * @param  string $path
      * @return void
      */
     protected function createCacheDirectory($path)
     {
-        try
-        {
+        try {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             //
         }
     }
@@ -256,8 +245,8 @@ class Fcache implements StoreInterface {
     /**
      * Increment the value of an item in the cache.
      *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  string $key
+     * @param  mixed $value
      * @return void
      *
      * @throws \LogicException
@@ -270,8 +259,8 @@ class Fcache implements StoreInterface {
     /**
      * Increment the value of an item in the cache.
      *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  string $key
+     * @param  mixed $value
      * @return void
      *
      * @throws \LogicException
@@ -284,8 +273,8 @@ class Fcache implements StoreInterface {
     /**
      * Store an item in the cache indefinitely.
      *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  string $key
+     * @param  mixed $value
      * @return void
      */
     public function forever($key, $value)
@@ -296,7 +285,7 @@ class Fcache implements StoreInterface {
     /**
      * Remove an item from the cache by tags.
      *
-     * @param  string  $string
+     * @param  string $string
      * @return void
      */
     public function forgetTags($string)
@@ -304,14 +293,11 @@ class Fcache implements StoreInterface {
         $string_array = explode(',', $string);
         array_walk($string_array, 'trim');
 
-        foreach ($string_array as $sa)
-        {
-            $file = $this->directoryTags . '/'. $sa;
-            if ($this->files->exists($file))
-            {
+        foreach ($string_array as $sa) {
+            $file = $this->directoryTags . '/' . $sa;
+            if ($this->files->exists($file)) {
                 $farr = file($file);
-                foreach ($farr as $f)
-                {
+                foreach ($farr as $f) {
                     if ($this->files->exists($f))
                         unlink($f);
                 }
@@ -323,22 +309,18 @@ class Fcache implements StoreInterface {
     /**
      * Remove an item from the cache.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return void
      */
     public function forget($key)
     {
         $file = $this->path($key);
 
-        if ($this->files->exists($file))
-        {
+        if ($this->files->exists($file)) {
             $this->files->delete($file);
-        }
-        else
-        {
+        } else {
             $folder = substr($file, 0, -6);
-            if ($this->files->exists($folder))
-            {
+            if ($this->files->exists($folder)) {
                 $this->files->deleteDirectory($folder);
             }
         }
@@ -347,13 +329,12 @@ class Fcache implements StoreInterface {
     /**
      * Remove all items from the cache.
      *
-     * @param  string  $tag
+     * @param  string $tag
      * @return void
      */
     public function flush()
     {
-        foreach ($this->files->directories($this->directory) as $directory)
-        {
+        foreach ($this->files->directories($this->directory) as $directory) {
             $this->files->deleteDirectory($directory);
         }
     }
@@ -391,7 +372,7 @@ class Fcache implements StoreInterface {
     /**
      * Get the full path for the given cache key.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return string
      */
     protected function path($key)
@@ -408,13 +389,13 @@ class Fcache implements StoreInterface {
 
         $prefix = !empty($this->prefix) ? $this->prefix . '/' : '';
 
-        return $this->directory.'/'. $prefix . trim($key, "/") . '.cache';
+        return $this->directory . '/' . $prefix . trim($key, "/") . '.cache';
     }
 
     /**
      * Get the expiration time based on the given minutes.
      *
-     * @param  int  $minutes
+     * @param  int $minutes
      * @return int
      */
     protected function expiration($minutes)
