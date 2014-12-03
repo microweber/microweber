@@ -10,7 +10,7 @@ class CacheTest extends TestCase
         $tags = array('phpunit', 'phpunit_second_tag');
 
         $now = date('Ymdhis');
-
+        $unique = uniqid();
 
         $key = 'phpunit-' . $now;
 
@@ -18,15 +18,20 @@ class CacheTest extends TestCase
         Cache::tags($tags)->put($key, $now, 10);
 
         $some = Cache::tags($tags)->get($key);
-        d($some);
+
+        $this->assertEquals($now, $some);
 
         Cache::tags($tags)->flush();
         $some = Cache::tags($tags)->get($key);
-    d($some);
-//
-//        Cache::tags('people')->flush();
 
-        dd('aaaaaaaaa');
+        Cache::tags('phpunit_second_tag')->put($unique, $unique, 10);
+        $some = Cache::tags('phpunit_second_tag')->get($unique);
+        $this->assertEquals($unique, $some);
+
+        Cache::tags('phpunit_second_tag')->flush();
+        $some = Cache::tags($tags)->get($unique);
+        $this->assertEquals(null, $some);
+
 
     }
 
