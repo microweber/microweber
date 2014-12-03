@@ -392,7 +392,7 @@ class MediaManager
 
 
 
-        $data = $this->app->database_manager->get($params);
+        $data = $this->app->database->get($params);
 
         if (defined('MW_MEDIA_URL')) {
             if (!empty($data)) {
@@ -584,7 +584,7 @@ class MediaManager
             $table = $this->tables['media'];
             //$s['debug'] = $t;
 
-            $s = $this->app->database_manager->save($table, $s);
+            $s = $this->app->database->save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return ($s);
@@ -592,7 +592,7 @@ class MediaManager
             $table = $this->tables['media'];
             //$s['debug'] = $t;
 
-            $s = $this->app->database_manager->save($table, $s);
+            $s = $this->app->database->save($table, $s);
             $this->app->cache_manager->delete('media');
 
             return ($s);

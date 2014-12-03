@@ -71,7 +71,7 @@ class NotificationsManager
             $save['is_read'] = 'y';
             $table = $this->table;
             mw_var('FORCE_SAVE', $table);
-            $data = $this->app->database_manager->save($table, $save);
+            $data = $this->app->database->save($table, $save);
             $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . $data);
             $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
@@ -106,7 +106,7 @@ class NotificationsManager
                     $save['is_read'] = 'y';
                     $save['id'] = $value['id'];
                     $save['table'] = 'table_notifications';
-                    $this->app->database_manager->save('table_notifications', $save);
+                    $this->app->database->save('table_notifications', $save);
                 }
             }
 
@@ -130,7 +130,7 @@ class NotificationsManager
 
         $q = "UPDATE $table SET is_read='y' WHERE is_read='n' ";
 
-        $this->app->database_manager->q($q);
+        $this->app->database->q($q);
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
@@ -149,7 +149,7 @@ class NotificationsManager
         $table = $this->table;
 
         $q = "UPDATE $table SET is_read='n'";
-        $this->app->database_manager->q($q);
+        $this->app->database->q($q);
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
@@ -173,7 +173,7 @@ class NotificationsManager
 
             $q = "DELETE FROM $table where id is not NULL  ";
 
-            $this->app->database_manager->q($q);
+            $this->app->database->q($q);
 
         } else {
             $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
@@ -207,7 +207,7 @@ class NotificationsManager
                 $ids = $this->app->format->array_values($data);
                 $idsi = implode(',', $ids);
                 $cleanup = "DELETE FROM $table WHERE id IN ({$idsi})";
-                $this->app->database_manager->q($cleanup);
+                $this->app->database->q($cleanup);
             }
 
             $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
@@ -258,7 +258,7 @@ class NotificationsManager
         }
         $old = date("Y-m-d H:i:s", strtotime('-30 days'));
         $cleanup = "DELETE FROM $table WHERE created_on < '{$old}'";
-        $this->app->database_manager->q($cleanup);
+        $this->app->database->q($cleanup);
 
         if (isset($params['replace'])) {
             if (isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])) {
@@ -267,7 +267,7 @@ class NotificationsManager
                 $module1 = $this->app->database_manager->escape_string($params['module']);
                 $rel_id1 = $this->app->database_manager->escape_string($params['rel_id']);
                 $cleanup = "DELETE FROM $table WHERE rel='{$rel1}' AND module='{$module1}' AND rel_id='{$rel_id1}'";
-                $this->app->database_manager->q($cleanup);
+                $this->app->database->q($cleanup);
 
 
             }
@@ -277,7 +277,7 @@ class NotificationsManager
 
         $this->app->cache_manager->delete('notifications' . DIRECTORY_SEPARATOR . 'global');
 
-        $data = $this->app->database_manager->save($table, $params);
+        $data = $this->app->database->save($table, $params);
         return $data;
     }
 
@@ -334,7 +334,7 @@ class NotificationsManager
             $table = $this->table;
             $params['table'] = $table;
             $params['order_by'] = 'id desc';
-            $return = $this->app->database_manager->get($params);
+            $return = $this->app->database->get($params);
         }
         return $return;
     }

@@ -240,7 +240,7 @@ if($is_worldwide == false){
         }
 
 
-        $data = mw()->database_manager->save($this->table, $data);
+        $data = mw()->database->save($this->table, $data);
         return ($data);
     }
 
@@ -256,7 +256,7 @@ if($is_worldwide == false){
         }
         $params['limit'] = 1000;
         // d($params);
-        return mw()->database_manager->get($params);
+        return mw()->database->get($params);
 
     }
 

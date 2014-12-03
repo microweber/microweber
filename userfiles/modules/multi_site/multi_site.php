@@ -54,7 +54,7 @@ class multi_site
         }
 
 
-        $save = $this->app->database_manager->save($table, $data);
+        $save = $this->app->database->save($table, $data);
 
         $deploy = $this->deploy($save);
 
@@ -67,7 +67,7 @@ class multi_site
         $params = array();
         $params['table'] = $table;
         $params['domain'] = $domain;
-        $get = $this->app->database_manager->get($params);
+        $get = $this->app->database->get($params);
         if (isset($get[0]) and isset($get[0]['id'])) {
             return $get[0]['id'];
         } else {
@@ -184,7 +184,7 @@ class multi_site
         $params = array();
         $params['table'] = $table;
         $params['id'] = $domain_id;
-        $get = $this->app->database_manager->get($params);
+        $get = $this->app->database->get($params);
         if (isset($get[0]) and isset($get[0]['id'])) {
             return $get[0];
         } else {

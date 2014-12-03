@@ -701,7 +701,7 @@ class UserManager
 
 
         $table = $this->tables['users'];
-        $save = $this->app->database_manager->save($table, $data_to_save);
+        $save = $this->app->database->save($table, $data_to_save);
         $id = $save;
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . '0');
@@ -828,7 +828,7 @@ class UserManager
 
         mw_var('FORCE_SAVE', $table);
 
-        $save = $this->app->database_manager->save($table, $data1);
+        $save = $this->app->database->save($table, $data1);
 
         $notif = array();
         $notif['module'] = "users";
@@ -924,7 +924,7 @@ class UserManager
                             $table = $this->tables['users'];
                             mw_var('FORCE_SAVE', $table);
 
-                            $save = $this->app->database_manager->save($table, $data_to_save);
+                            $save = $this->app->database->save($table, $data_to_save);
                         }
                         $pass_reset_link = $this->app->url_manager->current(1) . '?reset_password_link=' . $function_cache_id;
 
@@ -1012,7 +1012,7 @@ class UserManager
                         $table = $this->tables['users'];
                         mw_var('FORCE_SAVE', $table);
 
-                        $save = $this->app->database_manager->save($table, $data_to_save);
+                        $save = $this->app->database->save($table, $data_to_save);
                         $this->app->cache_manager->delete('users/global');
                         if ($save > 0) {
                             $data = array();
@@ -1179,7 +1179,7 @@ class UserManager
 
             $table = $this->tables['users'];
             mw_var("FORCE_SAVE", $this->tables['users']);
-            $save = $this->app->database_manager->save($table, $data_to_save);
+            $save = $this->app->database->save($table, $data_to_save);
 
             $this->app->log_manager->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
 
@@ -1299,10 +1299,10 @@ class UserManager
         //  $data ['cache_group'] = $cache_group;
 
 
-        $get = $this->app->database_manager->get($data);
+        $get = $this->app->database->get($data);
 
-        //$get = $this->app->database_manager->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->database_manager->get_long($table, $criteria = $data, $cache_group);
+        //$get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
+        // $get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
         // var_dump($get, $function_cache_id, $cache_group);
         //  $this->app->cache_manager->save($get, $function_cache_id, $cache_group);
 

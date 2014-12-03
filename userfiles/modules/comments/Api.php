@@ -144,7 +144,7 @@ class Api {
 
         // d( $require_moderation);
 
-        $saved_data = \mw()->database_manager->save($table, $data);
+        $saved_data = \mw()->database->save($table, $data);
 
 
 
@@ -215,7 +215,7 @@ class Api {
                     $upd['id'] = $get_com['id'];
                     $upd['rel'] = 'content';
                     $upd['rel_id'] = mw()->database_manager->escape_string($data['content_id']);
-                    \mw()->database_manager->save($table, $upd);
+                    \mw()->database->save($table, $upd);
                 }
             }
             return $get_comm;

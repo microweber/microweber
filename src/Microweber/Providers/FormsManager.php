@@ -41,7 +41,7 @@ class FormsManager
             $params["order_by"] = 'created_on desc';
         }
 
-        $data = $this->app->database_manager->get($params);
+        $data = $this->app->database->get($params);
         $ret = array();
         if (is_array($data)) {
             foreach ($data as $item) {
@@ -82,7 +82,7 @@ class FormsManager
         }
 
         $params['table'] = $table;
-        $id = $this->app->database_manager->save($table, $params);
+        $id = $this->app->database->save($table, $params);
         if (isset($params['for_module_id'])) {
             $data = array();
             $data['module'] = $params['module_name'];
@@ -222,7 +222,7 @@ class FormsManager
             $to_save['form_values'] = $params['form_values'];
         }
 
-        $save = $this->app->database_manager->save($table, $to_save);
+        $save = $this->app->database->save($table, $to_save);
 
         if (!empty($cf_to_save)) {
             $table_custom_field = get_table_prefix() . 'custom_fields';
@@ -239,7 +239,7 @@ class FormsManager
                 $new_field['custom_field_value'] = $value['custom_field_value'];
                 $new_field['custom_field_type'] = $value['custom_field_type'];
                 $new_field['custom_field_name'] = $key;
-                $cf_save = $this->app->database_manager->save($table_custom_field, $new_field);
+                $cf_save = $this->app->database->save($table_custom_field, $new_field);
             }
         }
 
@@ -346,7 +346,7 @@ class FormsManager
         $params = parse_params($params);
         $table = MW_DB_TABLE_FORMS_LISTS;
         $params['table'] = $table;
-        return $this->app->database_manager->get($params);
+        return $this->app->database->get($params);
     }
 
     public function  countries_list($force = false)
@@ -416,7 +416,7 @@ class FormsManager
                         $remid = $value['id'];
                         $custom_field_table = get_table_prefix() . 'custom_fields';
                         $q = "DELETE FROM $custom_field_table WHERE id='$remid'";
-                        $this->app->database_manager->q($q);
+                        $this->app->database->q($q);
                     }
                 }
                 $this->app->cache_manager->delete('custom_fields');

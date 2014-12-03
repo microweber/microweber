@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\User as DefaultUserProvider;
 class Database
 {
 
-    use QueryFilter;
+    use QueryFilter; //trait with db functions
 
     public $use_cache = true;
     public $app = null;
@@ -53,6 +53,7 @@ class Database
      *| current_page    | get the current page by limit offset |  ex. get("table=content&limit=5&curent_page=2")
      *
      * @function get
+     * @param $table_name_or_params
      * @param $params
      * @return mixed Array with data or false or integer if page_count is set
      *
@@ -72,8 +73,18 @@ class Database
      *
      * @package Database
      */
-    public function get($params)
+    public function get($table_name_or_params,$params=null)
     {
+        if($params === null){
+            $params = $table_name_or_params;
+        } else {
+            if($params != false){
+                $params = parse_params($params);
+            } else {
+                $params = array();
+            }
+            $params['table'] = $table_name_or_params;
+        }
 
         if (is_string($params)) {
             $params = parse_params($params);
@@ -168,8 +179,19 @@ class Database
     }
 
 
-    public function save($params)
+    public function save($table_name_or_params,$params=null)
     {
+
+        if($params === null){
+            $params = $table_name_or_params;
+        } else {
+            if($params != false){
+                $params = parse_params($params);
+            } else {
+                $params = array();
+            }
+            $params['table'] = $table_name_or_params;
+        }
 
 
         if (!isset($params['table'])) {
@@ -194,10 +216,7 @@ class Database
         if (!isset($params['updated_on']) == false) {
             $params['updated_on'] = date("Y-m-d H:i:s");
         }
-        $id = false;
-        if (isset($params['id'])) {
-            $id = $params['id'];
-        }
+
 
         if (!isset($params['id'])) {
             $params['id'] = 0;
@@ -263,13 +282,11 @@ class Database
         if ($field_name == false) {
             $field_name = "id";
         }
-        $q = DB::table($table)->where($field_name, '=', $id)->first();
+        $q = (array) DB::table($table)->where($field_name, '=', $id)->first();
         return $q;
 
 
     }
-
-
 
 
     /**
@@ -292,11 +309,8 @@ class Database
     {
 
         if ($id == 0) {
-
             return false;
         }
-
-
         $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
         return $c_id;
     }
@@ -304,7 +318,101 @@ class Database
 
 
 
+    /**
+     * Executes plain query in the database.
+     *
+     * You can use this function to make queries in the db by writing your own sql
+     * The results are returned as array or `false` if nothing is found
+     *
+     *
+     * @note Please ensure your variables are escaped before calling this function.
+     * @package Database
+     * @function $this->query
+     * @desc Executes plain query in the database.
+     *
+     * @param string $q Your SQL query
+     * @param string|bool $cache_id It will save the query result in the cache. Set to false to disable
+     * @param string|bool $cache_group Stores the result in certain cache group. Set to false to disable
+     * @param bool $only_query If set to true, will perform only a query without returning a result
+     * @param array|bool $connection_settings
+     * @return array|bool|mixed
+     *
+     * @example
+     *  <code>
+     *  //make plain query to the db
+     * $table = $this->table_prefix.'content';
+     *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
+     *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
+     *
+     * </code>
+     *
+     *
+     *
+     */
+    public function query($q, $cache_id = false, $cache_group = 'global', $only_query = false, $connection_settings = false)
+    {
+        if (trim($q) == '') {
+            return false;
+        }
 
+
+        $error['error'] = array();
+        $results = false;
+
+        if ($cache_id != false and $cache_group != false) {
+
+            $cache_id = $cache_id . crc32($q);
+            $results = $this->app->cache_manager->get($cache_id, $cache_group);
+            if ($results != false) {
+                if ($results == '---empty---' or (is_array($results) and empty($results))) {
+                    return false;
+                } else {
+                    return $results;
+                }
+            }
+        }
+
+
+        $q = DB::select($q);
+
+
+        if ($only_query != false) {
+            return true;
+        }
+        $q = (array)$q;
+        if (isset($q[0])) {
+            foreach ($q as $k => $v) {
+                $q[$k] = (array)$v;
+            }
+        }
+
+
+        if ($only_query == false and empty($q) or $q == false and $cache_group != false) {
+            if ($cache_id != false) {
+
+                $this->app->cache_manager->save('---empty---', $cache_id, $cache_group);
+            }
+            return false;
+        }
+        if ($only_query == false) {
+            if ($cache_id != false and $cache_group != false) {
+                if (is_array($q) and !empty($q)) {
+                    $this->app->cache_manager->save($q, $cache_id, $cache_group);
+                } else {
+                    $this->app->cache_manager->save('---empty---', $cache_id, $cache_group);
+                }
+            }
+        }
+        if ($cache_id != false) {
+            $this->app->cache_manager->save($q, $cache_id, $cache_group);
+        }
+        return $q;
+    }
+
+    public function q($q)
+    {
+        return DB::select($q);
+    }
 
 
 

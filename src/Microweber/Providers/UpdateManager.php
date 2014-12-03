@@ -750,7 +750,7 @@ class UpdateManager
 
 
         $params['table'] = $table;
-        $r = $this->app->database_manager->get($params);
+        $r = $this->app->database->get($params);
 
         return $r;
     }
@@ -771,13 +771,13 @@ class UpdateManager
             $update['rel'] = $params['rel'];
             $update['one'] = true;
             $update['table'] = $table;
-            $update = $this->app->database_manager->get($update);
+            $update = $this->app->database->get($update);
             if (isset($update['id'])) {
                 $params['id'] = $update['id'];
             }
         }
 
-        $r = $this->app->database_manager->save($table, $params);
+        $r = $this->app->database->save($table, $params);
         if (isset($params['activate_on_save']) and $params['activate_on_save'] != false) {
             $this->validate_license('id=' . $r);
         }

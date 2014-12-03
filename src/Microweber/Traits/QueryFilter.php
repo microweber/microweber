@@ -2,7 +2,8 @@
 
 namespace Microweber\Traits;
 
-use Illuminate\Support\Facades\Cache;
+use Cache;
+use DB;
 
 trait QueryFilter
 {
@@ -93,13 +94,20 @@ trait QueryFilter
 
             switch ($filter) {
                 case 'order_by':
-                    $criteria = explode(',', $value);
-                    foreach ($criteria as $c) {
+                    $order_by_criteria = explode(',', $value);
+                    foreach ($order_by_criteria as $c) {
                         $c = explode(' ', $c);
-                        if (isset($c[1])) {
-                            $query = $query->orderBy($c[0], $c[1]);
-                        } else if (isset($c[0])) {
-                            $query = $query->orderBy($c[0]);
+                        if (isset($c[0]) and trim($c[0]) != '') {
+                            $c[0] = trim($c[0]);
+                            if (isset($c[1])) {
+                                $c[1] = trim($c[1]);
+
+                            }
+                            if (isset($c[1]) and ($c[1]) != '') {
+                                $query = $query->orderBy($c[0], $c[1]);
+                            } else if (isset($c[0])) {
+                                $query = $query->orderBy($c[0]);
+                            }
                         }
                     }
                     unset($params[$filter]);
@@ -120,8 +128,6 @@ trait QueryFilter
                     if (is_string($ids)) {
                         $ids = explode(',', $ids);
                     }
-
-
                     $query = $query->whereIn('id', $ids);
                     unset($params[$filter]);
                     break;
@@ -143,7 +149,6 @@ trait QueryFilter
                     $this->useCache = false;
                     break;
 
-
                 default:
                     if ($compare_sign != false) {
                         unset($params[$filter]);
@@ -155,7 +160,6 @@ trait QueryFilter
 
                         }
                     }
-
                     break;
 
 

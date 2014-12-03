@@ -84,7 +84,7 @@ class Modules
             if (!isset($s["parent_id"])) {
                 $s["parent_id"] = 0;
             }
-           
+
             if (!isset($s["installed"]) or $s["installed"] == 'auto') {
                 $s["installed"] = 1;
             }
@@ -97,24 +97,24 @@ class Modules
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
                         $s["position"] = intval($save[0]["position"]);
-                        $save = mw()->database_manager->save($table, $s);
+                        $save = mw()->database->save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
                         if ($s["id"] > 0) {
                             $delid = $s["id"];
                             DB::table($table)->where('id', '!=', $delid)->delete();
 
                             // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
-                            //mw()->database_manager->q($del);
+                            //mw()->database->q($del);
                         }
                     } else {
 
-                        $save = mw()->database_manager->save($table, $s);
+                        $save = mw()->database->save($table, $s);
                     }
                 }
             } else {
 
 
-                $save = mw()->database_manager->save($table, $s);
+                $save = mw()->database->save($table, $s);
             }
         }
 
@@ -149,7 +149,7 @@ class Modules
             unset($params['ui']);
         }
 
-        return mw()->database_manager->get($params);
+        return mw()->database->get($params);
 
     }
 
@@ -350,7 +350,7 @@ class Modules
                             $mn = $value['module'];
                             $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
 
-                            mw()->database_manager->q($q);
+                            mw()->database->q($q);
                         }
 
                     }
@@ -374,7 +374,7 @@ class Modules
             $params = parse_str($params, $params2);
             $params = $options = $params2;
         }
-         $params['table'] = $table;
+        $params['table'] = $table;
         $params['group_by'] = 'module';
         $params['order_by'] = 'position asc';
         $params['cache_group'] = 'modules/global';
@@ -398,10 +398,8 @@ class Modules
         if (isset($params['ui']) and $params['ui'] == 'any') {
             unset($params['ui']);
         }
-       $modules = Module::filter($params);
 
-       return $modules;
-        return $this->app->database_manager->get($params);
+        return $this->app->database->get($params);
     }
 
 
@@ -936,11 +934,8 @@ class Modules
             } else {
 
 
-
                 if (is_dir($module_in_default_dir)) {
                     $mod_d1 = normalize_path($module_in_default_dir, 1);
-
-
 
 
                     if ($custom_view == true) {
@@ -962,14 +957,6 @@ class Modules
                 }
             }
         }
-
-
-
-
-
-
-
-
 
 
         $try_file1 = normalize_path($try_file1, false);
@@ -1141,13 +1128,13 @@ class Modules
             $db_categories_items = $this->table_prefix . 'categories_items';
 
             $q = "DELETE FROM $table ";
-            $this->app->database_manager->q($q);
+            $this->app->database->q($q);
 
             $q = "DELETE FROM $db_categories WHERE rel='modules' AND data_type='category' ";
-            $this->app->database_manager->q($q);
+            $this->app->database->q($q);
 
             $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' ";
-            $this->app->database_manager->q($q);
+            $this->app->database->q($q);
             $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
             $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 
@@ -1310,7 +1297,7 @@ class Modules
 
         $params['table'] = $table;
 
-        $data = $this->app->database_manager->get($params);
+        $data = $this->app->database->get($params);
         return $data;
     }
 
@@ -1359,7 +1346,7 @@ class Modules
         if (!empty($data_to_save)) {
             $s = $data_to_save;
 
-            $save = $this->app->database_manager->save($table, $s);
+            $save = $this->app->database->save($table, $s);
         }
 
         return $save;
@@ -1674,7 +1661,7 @@ class Modules
                             $mn = $value['module'];
                             $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
 
-                            $this->app->database_manager->q($q);
+                            $this->app->database->q($q);
                         }
 
                     }
@@ -1727,10 +1714,10 @@ class Modules
         $db_categories_items = $this->table_prefix . 'categories_items';
 
         $q = "DELETE FROM $table WHERE id={$id}";
-        $this->app->database_manager->q($q);
+        $this->app->database->q($q);
 
         $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' AND rel_id={$id}";
-        $this->app->database_manager->q($q);
+        $this->app->database->q($q);
         $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
         // $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 

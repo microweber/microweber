@@ -89,14 +89,14 @@ class ShopManager
                 $q = " UPDATE $cart_table SET
 			order_completed='y', order_id='{$ord}'
 			WHERE order_completed='n'   AND session_id='{$sid}'  ";
-                $this->app->database_manager->q($q);
+                $this->app->database->q($q);
 
                 /*if (isset($_REQUEST['token'])) {
                     $tok = $this->app->database_manager->escape_string($_REQUEST['token']);
                     $q = " UPDATE $table_orders SET
 			is_paid='y'
 			WHERE id='{$ord}'   AND session_id='{$sid}'  AND payment_verify_token='{$tok}'  ";
-                    $this->app->database_manager->q($q);
+                    $this->app->database->q($q);
 
                 }*/
                 $this->confirm_email_send($ord);
@@ -105,7 +105,7 @@ class ShopManager
 			WHERE order_completed='n' AND
 			id='{$ord}' AND
 			session_id='{$sid}'  ";
-                $this->app->database_manager->q($q);
+                $this->app->database->q($q);
                 $this->confirm_email_send($ord);
             }
 
@@ -305,7 +305,7 @@ class ShopManager
             }
 
 
-            $temp_order = $this->app->database_manager->save($table_orders, $place_order);
+            $temp_order = $this->app->database->save($table_orders, $place_order);
             if ($temp_order != false) {
                 $place_order['id'] = $temp_order;
             } else {
@@ -344,21 +344,21 @@ class ShopManager
                     $place_order['success'] = "Your order has been placed successfully!";
 
                 }
-                // $this->app->database_manager->q($q);
+                // $this->app->database->q($q);
                 if (!empty($checkout_errors)) {
 
                     return array('error' => $checkout_errors);
                 }
 
 
-                $ord = $this->app->database_manager->save($table_orders, $place_order);
+                $ord = $this->app->database->save($table_orders, $place_order);
                 $place_order['id'] = $ord;
 
                 $q = " UPDATE $cart_table SET
 		order_id='{$ord}'
 		WHERE order_completed='n'  AND session_id='{$sid}'  ";
 
-                $this->app->database_manager->q($q);
+                $this->app->database->q($q);
 
                 if (isset($place_order['order_completed']) and $place_order['order_completed'] == 'y') {
                     $q = " UPDATE $cart_table SET
@@ -366,14 +366,14 @@ class ShopManager
 
 			WHERE order_completed='n'  AND session_id='{$sid}' ";
 
-                    $this->app->database_manager->q($q);
+                    $this->app->database->q($q);
 
                     if (isset($place_order['is_paid']) and $place_order['is_paid'] == 'y') {
                         $q = " UPDATE $table_orders SET
 				order_completed='y'
 				WHERE order_completed='n' AND
 				id='{$ord}' AND session_id='{$sid}' ";
-                        $this->app->database_manager->q($q);
+                        $this->app->database->q($q);
                     }
 
                     $this->app->cache_manager->delete('cart/global');
@@ -474,7 +474,7 @@ class ShopManager
 
         $params['id'] = intval($id);
 
-        $item = $this->app->database_manager->get($params);
+        $item = $this->app->database->get($params);
 
         if (is_array($item) and isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
             $item = $this->_render_item_custom_fields_data($item);
@@ -588,7 +588,7 @@ class ShopManager
             $params['no_cache'] = 1;
         }
 
-        $get = $this->app->database_manager->get($params);
+        $get = $this->app->database->get($params);
         if (isset($params['count']) and $params['count'] != false) {
             return $get;
         }
@@ -651,11 +651,11 @@ class ShopManager
                 }
 
                 $will_add = true;
-                $res = $this->app->database_manager->get($params);
+                $res = $this->app->database->get($params);
 
                 if (empty($res)) {
                     //$params['order_completed'] = 'y';
-                    //  $res = $this->app->database_manager->get($params);
+                    //  $res = $this->app->database->get($params);
                 }
 
 
@@ -684,7 +684,7 @@ class ShopManager
                                 $is_ex_params['rel_id'] = $item['rel_id'];
                                 $is_ex_params['count'] = 1;
 
-                                $is_ex = $this->app->database_manager->get($is_ex_params);
+                                $is_ex = $this->app->database->get($is_ex_params);
 
                                 if ($is_ex != false) {
                                     $will_add = false;
@@ -693,7 +693,7 @@ class ShopManager
                             $data['order_completed'] = 'n';
                             $data['session_id'] = $cur_sid;
                             if ($will_add == true) {
-                                $s = $this->app->database_manager->save($table, $data);
+                                $s = $this->app->database->save($table, $data);
                             }
 
                         }
@@ -905,7 +905,7 @@ class ShopManager
         $table = $this->tables['cart'];
         $params['table'] = $table;
         $params['order_id'] = $order_id;
-        $get = $this->app->database_manager->get($params);
+        $get = $this->app->database->get($params);
         return $get;
     }
 
@@ -967,7 +967,7 @@ class ShopManager
         $table = $this->tables['cart_orders'];
         $params['table'] = $table;
 
-        return $this->app->database_manager->get($params);
+        return $this->app->database->get($params);
 
     }
 
@@ -1033,7 +1033,7 @@ class ShopManager
             $cart_data_to_save['qty'] = $cart['qty'];
             $cart_data_to_save['id'] = $cart['id'];
             mw_var('FORCE_SAVE', $table);
-            $cart_saved_id = $this->app->database_manager->save($table, $cart_data_to_save);
+            $cart_saved_id = $this->app->database->save($table, $cart_data_to_save);
             return ($cart_saved_id);
         }
     }
@@ -1299,7 +1299,7 @@ class ShopManager
             }
             mw_var('FORCE_SAVE', $table);
             //   $cart['debug'] = 1;
-            $cart_saved_id = $this->app->database_manager->save($table, $cart);
+            $cart_saved_id = $this->app->database->save($table, $cart);
 
             $this->app->cache_manager->delete('cart');
 
@@ -1346,7 +1346,7 @@ class ShopManager
 
         $this->no_cache = true;
 
-        $this->app->database_manager->q($q);
+        $this->app->database->q($q);
         $this->app->cache_manager->delete('cart');
 
         $this->app->cache_manager->delete('cart_orders/global');
@@ -1439,7 +1439,7 @@ class ShopManager
             mw_var('FORCE_ANON_UPDATE', $table_orders);
 
 
-            $ord = $this->app->database_manager->save($table_orders, $update_order);
+            $ord = $this->app->database->save($table_orders, $update_order);
             $this->confirm_email_send($ord);
 
 
@@ -1452,14 +1452,14 @@ class ShopManager
 			order_completed='y', order_id='{$ord}'
 			WHERE order_completed='n'   ";
 
-                //$this->app->database_manager->q($q);
+                //$this->app->database->q($q);
 
                 $q = " UPDATE $table_orders SET
 			order_completed='y'
 			WHERE order_completed='n' AND
 			id='{$ord}'  ";
 
-                // $this->app->database_manager->q($q);
+                // $this->app->database->q($q);
                 $this->app->cache_manager->delete('cart/global');
                 $this->app->cache_manager->delete('cart_orders/global');
                 return true;
@@ -1564,7 +1564,7 @@ class ShopManager
         $params['table'] = $table;
         $this->app->cache_manager->delete('cart_orders');
 
-        return $this->app->database_manager->save($table, $params);
+        return $this->app->database->save($table, $params);
 
     }
 
@@ -1580,7 +1580,7 @@ class ShopManager
         if (isset($data['email'])) {
             $c_id = $this->app->database_manager->escape_string($data['email']);
             $q = "DELETE FROM $table WHERE email='$c_id' ";
-            $res = $this->app->database_manager->q($q);
+            $res = $this->app->database->q($q);
             //$this->app->database_manager->delete_by_id($table, $c_id, 'email');
             $this->app->cache_manager->delete('cart_orders/global');
             return $res;
@@ -1608,14 +1608,14 @@ class ShopManager
             $this->app->cache_manager->delete('cart');
 
             $this->app->cache_manager->delete('cart_orders');
-            $res = $this->app->database_manager->q($q);
+            $res = $this->app->database->q($q);
             return $c_id;
         } else if (isset($data['id'])) {
             $c_id = intval($data['id']);
             $this->app->database_manager->delete_by_id($table, $c_id);
             $table2 = $this->tables['cart'];
             $q = "DELETE FROM $table2 WHERE order_id=$c_id ";
-            $res = $this->app->database_manager->q($q);
+            $res = $this->app->database->q($q);
 
 
             $this->app->cache_manager->delete('cart');

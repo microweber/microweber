@@ -65,7 +65,7 @@ function mw_uninstall_stats_module()
     $q = "DROP TABLE IF EXISTS {$table}; ";
     //d($q);
 
-    mw()->database_manager->q($q);
+    mw()->database->q($q);
     mw('cache')->delete('stats');
     //  mw('cache')->delete('db');
 }
@@ -172,7 +172,7 @@ function stats_insert()
 
         mw_var('FORCE_SAVE', $table);
         mw_var('apc_no_clear', 1);
-        $save = mw()->database_manager->save($table, $data);
+        $save = mw()->database->save($table, $data);
         $_SESSION[$cookie_name] = 0;
 
         mw_var('apc_no_clear', 0);
@@ -252,7 +252,7 @@ function stats_insert_cookie_based()
         }
         mw_var('FORCE_SAVE', $table);
         mw_var('apc_no_clear', 1);
-        $save = mw()->database_manager->save($table, $data);
+        $save = mw()->database->save($table, $data);
         //	$_SESSION[$cookie_name] = 0;
         setcookie($cookie_name, 0, time() + 99);
 

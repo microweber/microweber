@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use Clockwork\Support\Laravel\Facade as Clockwork;
 
 use \Cache;
 use \Event;
@@ -32,15 +31,8 @@ class DefaultController extends Controller
             }
         }
         
-        Clockwork::startEvent('event_name', 'Event description.');
 
-        $this->beforeFilter(function () {
-            Event::fire('clockwork.controller.start');
-        });
 
-        $this->afterFilter(function () {
-            Event::fire('clockwork.controller.end');
-        });
     }
     
     public function index() {
@@ -419,13 +411,14 @@ class DefaultController extends Controller
 
             default:
                 $res = false;
+
                 if (isset($hooks[$api_function_full])) {
+
                     $data = array_merge($_GET, $_POST);
                     
                     $call = $hooks[$api_function_full];
                     if (!empty($call)) {
                         foreach ($call as $call_item) {
-                            
                             $res = call_user_func($call_item, $data);
                         }
                     }
@@ -435,9 +428,7 @@ class DefaultController extends Controller
                         return;
                     }
                 }
-                
-                // d($mod_api_class);
-                
+
                 if ($mod_class_api == true and $mod_api_class != false) {
                     $mod_api_class = str_replace('..', '', $mod_api_class);
                     

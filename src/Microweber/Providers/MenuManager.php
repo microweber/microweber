@@ -83,7 +83,7 @@ class MenuManager
             $data_to_save['table'] = $table;
             $data_to_save['item_type'] = 'menu';
 
-            $save = $this->app->database_manager->save($table, $data_to_save);
+            $save = $this->app->database->save($table, $data_to_save);
 
             $this->app->cache_manager->delete('menus/global');
 
@@ -161,7 +161,7 @@ class MenuManager
         $data_to_save['table'] = $table;
         $data_to_save['item_type'] = 'menu_item';
 
-        $save = $this->app->database_manager->save($table, $data_to_save);
+        $save = $this->app->database->save($table, $data_to_save);
 
         $this->app->cache_manager->delete('menus/global');
 
@@ -205,7 +205,7 @@ class MenuManager
         $params['table'] = $table;
         $params['item_type'] = 'menu';
         //$params['debug'] = 'menu';
-        $menus = $this->app->database_manager->get($params);
+        $menus = $this->app->database->get($params);
         if (!empty($menus)) {
             return $menus;
         } else {
@@ -214,7 +214,7 @@ class MenuManager
                 if (isset($params['make_on_not_found']) and ($params['make_on_not_found']) == true and isset($params['title'])) {
                     $new_menu = $this->menu_create('id=0&title=' . $params['title']);
                     $params['id'] = $new_menu;
-                    $menus = $this->app->database_manager->get($params);
+                    $menus = $this->app->database->get($params);
                 }
                 define('MW_MENU_IS_ALREADY_MADE_ONCE', true);
             }
@@ -331,7 +331,7 @@ class MenuManager
         $q = Menu::where('parent_id', '=', $menu_id);
         $q = $q->where('id', '!=', $menu_id)->get()->toArray();
 
-        //$q = $this->app->database_manager->get($menu_params);
+        //$q = $this->app->database->get($menu_params);
 
         //
 //        if ($depth < 2) {
@@ -756,7 +756,7 @@ class MenuManager
 				WHERE id=$value2 AND id!=$k
 				AND item_type='menu_item'
 				";
-                    $q = $this->app->database_manager->q($sql);
+                    $q = $this->app->database->q($sql);
                     $this->app->cache_manager->delete('menus/' . $k);
                     $this->app->cache_manager->delete('menus/' . $value2);
                 }
@@ -818,7 +818,7 @@ class MenuManager
         }
         $params['table'] = $table;
         $params['item_type'] = 'menu_item';
-        return $this->app->database_manager->get($params);
+        return $this->app->database->get($params);
     }
 }
 

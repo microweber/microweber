@@ -450,13 +450,13 @@ class LayoutsManager
                     $save = self::get('limit=1&module=' . $s["module"]);
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = $save[0]["id"];
-                        $save = $this->app->database_manager->save($table, $s);
+                        $save = $this->app->database->save($table, $s);
                     } else {
-                        $save = $this->app->database_manager->save($table, $s);
+                        $save = $this->app->database->save($table, $s);
                     }
                 }
             } else {
-                $save = $this->app->database_manager->save($table, $s);
+                $save = $this->app->database->save($table, $s);
             }
 
             //
@@ -494,9 +494,8 @@ class LayoutsManager
             //   $params['ui'] = 1;
         }
 
-        $s = $this->app->database_manager->get($params);
-        // d($params); d( $s);
-        return $s;
+        $s = $this->app->database->get($params);
+         return $s;
     }
 
     public function delete_all()
@@ -512,15 +511,15 @@ class LayoutsManager
 
             $q = "DELETE FROM $table ";
             //   d($q);
-            $this->app->database_manager->q($q);
+            $this->app->database->q($q);
 
             $q = "DELETE FROM $db_categories WHERE rel='elements' AND data_type='category' ";
             // d($q);
-            $this->app->database_manager->q($q);
+            $this->app->database->q($q);
 
             $q = "DELETE FROM $db_categories_items WHERE rel='elements' AND data_type='category_item' ";
             // d($q);
-            $this->app->database_manager->q($q);
+            $this->app->database->q($q);
             $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
             $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
 

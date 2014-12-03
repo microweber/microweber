@@ -277,23 +277,15 @@ class CategoryManager
                     $str0 = $str0 . '&users_can_create_content=' . $users_can_create_content;
                     // unset( $cat_get_params['parent_id']);
                 }
-                $fors = $this->app->database_manager->get($cat_get_params);
+                $fors = $this->app->database->get($cat_get_params);
 
-                //
-
-                //    d($table);
-                // print_r(mw()->orm->getLastQuery());
-                // d($cat_get_params);
-                // $fors = $this->app->database_manager->get($cat_get_params);
-                //  d($fors);
-                // exit;
 
             }
 
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
                 $skip123 = true;
                 $str1 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
-                $fors1 = $this->app->database_manager->get($str1);
+                $fors1 = $this->app->database->get($str1);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
 
@@ -342,7 +334,7 @@ class CategoryManager
             }
 
             //$str0 = 'is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
-            $fors = $this->app->database_manager->get($cat_get_params);
+            $fors = $this->app->database->get($cat_get_params);
             //  d($fors);
 
         }
@@ -462,7 +454,7 @@ class CategoryManager
         if (empty($limit)) {
             $limit = array(0, 10);
         }
-
+        $table = mw()->database_manager->real_table_name($table);
         $content_type = addslashes($content_type);
         $hard_limit = " LIMIT 300 ";
         $inf_loop_fix = "  and $table.id!=$table.parent_id  ";
@@ -983,7 +975,22 @@ class CategoryManager
         $id = intval($id);
         $q = " select id, parent_id  from $table where id = $id and  data_type='{$data_type}' " . $with_main_parrent_q;
 
-        $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
+
+        $params = array();
+        $params['table'] = $table;
+        $params['id'] = $id;
+        $params['data_type'] = $data_type;
+        if (isset($without_main_parrent) and $without_main_parrent == true) {
+            $params['parent_id'] = '[neq]0';
+        }
+
+
+        $taxonomies =  $this->app->database->get($params);
+
+
+
+
+      //  $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
 
 
         if (!empty($taxonomies)) {
@@ -1061,8 +1068,22 @@ class CategoryManager
 
         $cache_group = 'categories/' . $parent_id;
         $q = " SELECT id,  parent_id FROM $table WHERE parent_id=$parent_id   ";
+
+
+        $params = array();
+        $params['table'] = $table;
+        $params['parent_id'] = $parent_id;
+
+
+
+
+        $save =  $this->app->database->get($params);
+
+
+
+
         $q_cache_id = __FUNCTION__ . crc32($q);
-        $save = $this->app->database_manager->query($q, $q_cache_id, $cache_group);
+       // $save = $this->app->database_manager->query($q, $q_cache_id, $cache_group);
         if (empty($save)) {
             return false;
         }
@@ -1195,7 +1216,7 @@ class CategoryManager
             $data['data_type'] = 'tag_item';
         }
         $data['table'] = $table_items;
-        $data = $this->app->database_manager->get($data);
+        $data = $this->app->database->get($data);
         return $data;
     }
 
@@ -1256,7 +1277,7 @@ class CategoryManager
         }
 
 
-        $data = $this->app->database_manager->get($data);
+        $data = $this->app->database->get($data);
         return $data;
 
     }
@@ -1321,7 +1342,7 @@ class CategoryManager
                 $cs['id'] = intval($data['rel_id']);
                 $cs['subtype'] = 'dynamic';
                 $table_c = $this->tables['content'];
-                $save = $this->app->database_manager->save($table_c, $cs);
+                $save = $this->app->database->save($table_c, $cs);
             }
 
         }
@@ -1336,7 +1357,13 @@ class CategoryManager
             //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
         }
 
-        $save = $this->app->database_manager->save($table, $data);
+
+
+
+        $save = $this->app->database->save($table, $data);
+
+
+
         if ($simple_save == true) {
             return $save;
         }
@@ -1353,7 +1380,7 @@ class CategoryManager
 
         $custom_field_table = $this->tables['custom_fields'];
 
-
+        $custom_field_table = mw()->database_manager->real_table_name($custom_field_table);
         $id = $save;
 
         $clean = " UPDATE $custom_field_table SET
@@ -1366,11 +1393,11 @@ class CategoryManager
 	";
 
 
-        $this->app->database_manager->q($clean);
+        $this->app->database->q($clean);
         //$this->app->cache_manager->clear('custom_fields');
 
         $media_table = $this->tables['media'];
-
+        $media_table = mw()->database_manager->real_table_name($media_table);
         $clean = " UPDATE $media_table SET
 
 	rel_id =\"{$id}\"
@@ -1383,7 +1410,7 @@ class CategoryManager
 
         //$this->app->cache_manager->clear('media');
 
-        $this->app->database_manager->q($clean);
+        $this->app->database->q($clean);
 
         if (isset($content_ids) and !empty($content_ids)) {
             $content_ids = array_unique($content_ids);
@@ -1397,7 +1424,7 @@ class CategoryManager
 		AND  data_type ='{$data_type}' ";
 
 
-            $this->app->database_manager->q($q);
+            $this->app->database->q($q);
 
             foreach ($content_ids as $id) {
 
@@ -1413,7 +1440,7 @@ class CategoryManager
 
                 $item_save['parent_id'] = intval($save);
 
-                $item_save = $this->app->database_manager->save($table_items, $item_save);
+                $item_save = $this->app->database->save($table_items, $item_save);
 
                 //$this->app->cache_manager->clear('content' . DIRECTORY_SEPARATOR . $id);
             }
@@ -1477,11 +1504,10 @@ class CategoryManager
 
         $id = intval($id);
 
-        $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
+       // $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
 
-        $q = $this->app->database_manager->query($q);
+        $q = $this->app->database->get_by_id($table,$id);
 
-        $q = $q[0];
 
         if (!empty($q)) {
 

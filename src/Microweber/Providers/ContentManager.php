@@ -108,7 +108,7 @@ class ContentManager
 
         $data['table'] = $table;
 
-        $get = $this->app->database_manager->get($data);
+        $get = $this->app->database->get($data);
 
         if (!isset($data['full']) and isset($get['value'])) {
             return $get['value'];
@@ -186,11 +186,11 @@ class ContentManager
             return false;
         }
 
-
-        $q = Content::where('id', '=', $id)->first();
-        if(!empty($q)){
-            $q = $q->toArray();
-        }
+        $q = $this->app->database->get_by_id($this->tables['content'],$id );
+//        $q = Content::where('id', '=', $id)->first();
+//        if (!empty($q)) {
+//            $q = $q->toArray();
+//        }
 
         if (isset($q['title'])) {
 
@@ -215,7 +215,7 @@ class ContentManager
 
         static $passed = array();
         if (isset($passed[$url])) {
-        //    return;
+            //    return;
         }
         $passed[$url] = 1;
         if (strval($url) == '') {
@@ -276,10 +276,9 @@ class ContentManager
         $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
 
 
-        $content = Content::where('url','=',$url)->first();
-      //  $content = Content::where('url','=',$url);
+        $content = Content::where('url', '=', $url)->first();
+        //  $content = Content::where('url','=',$url);
         //->toArray()
-
 
 
         //$q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
@@ -464,12 +463,11 @@ class ContentManager
         }
 
 
+        $get = mw()->database->get($params);
 
-   $get = mw()->content->filter($params);
+        // $get = mw()->content->get_items($params);
 
-     // $get = mw()->content->get_items($params);
-
-      //   $get = $this->app->database_manager->get($params);
+        //   $get = $this->app->database->get($params);
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
@@ -515,34 +513,34 @@ class ContentManager
 
         $prefix = '';
         if (!isset($tables['content'])) {
-            $tables['content'] =  'content';
+            $tables['content'] = 'content';
         }
         if (!isset($tables['content_fields'])) {
-            $tables['content_fields'] =  'content_fields';
+            $tables['content_fields'] = 'content_fields';
         }
         if (!isset($tables['content_data'])) {
-            $tables['content_data'] =  'content_data';
+            $tables['content_data'] = 'content_data';
         }
         if (!isset($tables['content_fields_drafts'])) {
-            $tables['content_fields_drafts'] =  'content_fields_drafts';
+            $tables['content_fields_drafts'] = 'content_fields_drafts';
         }
         if (!isset($tables['media'])) {
-            $tables['media'] =  'media';
+            $tables['media'] = 'media';
         }
         if (!isset($tables['custom_fields'])) {
-            $tables['custom_fields'] =  'custom_fields';
+            $tables['custom_fields'] = 'custom_fields';
         }
         if (!isset($tables['content_data'])) {
-            $tables['content_data'] =  'content_data';
+            $tables['content_data'] = 'content_data';
         }
         if (!isset($tables['custom_fields'])) {
-            $tables['custom_fields'] =  'custom_fields';
+            $tables['custom_fields'] = 'custom_fields';
         }
         if (!isset($tables['categories'])) {
-            $tables['categories'] =  'categories';
+            $tables['categories'] = 'categories';
         }
         if (!isset($tables['categories_items'])) {
-            $tables['categories_items'] =  'categories_items';
+            $tables['categories_items'] = 'categories_items';
         }
         if (!isset($tables['menus'])) {
             $tables['menus'] = 'menus';
@@ -627,13 +625,13 @@ class ContentManager
 
         $data = array();
         $id = intval($id);
-        $taxonomies =  Content::where('parent', $id);
+        $taxonomies = Content::where('parent', $id);
         if (isset($without_main_parrent) and $without_main_parrent == true) {
-            $taxonomies->where('parent','!=' , 0);
-         }
+            $taxonomies->where('parent', '!=', 0);
+        }
 
-       // $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
-       // $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        // $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
+        // $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
 
         $taxonomies = $taxonomies->get()->toArray();
@@ -683,7 +681,7 @@ class ContentManager
 
         $params['table'] = $table;
 
-        $get = $this->app->database_manager->get($params);
+        $get = $this->app->database->get($params);
 
         return $get;
     }
@@ -696,7 +694,7 @@ class ContentManager
         $data['cache_group'] = 'content_data';
         $data['content_id'] = intval($content_id);
         $res = array();
-        $get = $this->app->database_manager->get($data);
+        $get = $this->app->database->get($data);
         if (!empty($get)) {
             foreach ($get as $item) {
                 if (isset($item['field_name']) and isset($item['field_value'])) {
@@ -1753,7 +1751,7 @@ class ContentManager
 
                     $save['content_id'] = $content_id;
 
-                    $new_item = $this->app->database_manager->save($menus, $save);
+                    $new_item = $this->app->database->save($menus, $save);
                     $this->app->cache_manager->delete('menus/global');
 
                     $this->app->cache_manager->delete('menus/' . $save['parent_id']);
@@ -1993,10 +1991,10 @@ class ContentManager
             return false;
         }
         $ref_page = $ref_page_url = false;
-if(isset($_SERVER['HTTP_REFERER'])){
-    $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $ref_page = $ref_page_url = $_SERVER['HTTP_REFERER'];
 
-}
+        }
 
         if (isset($post_data['id']) and intval($post_data['id']) > 0) {
             $page_id = intval($post_data['id']);
@@ -2038,7 +2036,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             if ($ref_page == false) {
 
 
-                $guess_page_data = new \Microweber\Controller();
+                $guess_page_data = new \Microweber\Controllers\DefaultController();
                 // $guess_page_data =  new  $this->app->controller($this->app);
                 $guess_page_data->page_url = $ref_page_url;
                 $guess_page_data->return_data = true;
@@ -2353,7 +2351,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                                 $to_save['id'] = $content_id;
 
 
-                                $is_native_fld = $this->app->database_manager->get_fields('content');
+                                $is_native_fld = $this->app->database->get_fields('content');
                                 if (in_array($field, $is_native_fld)) {
                                     $to_save[$field] = ($html_to_save);
                                 } else {
@@ -2635,9 +2633,9 @@ if(isset($_SERVER['HTTP_REFERER'])){
         $data = array();
 
 
-        $content_parents =  Content::where('id', $id);
+        $content_parents = Content::where('id', $id);
         if (isset($without_main_parrent) and $without_main_parrent == true) {
-            $content_parents->where('parent','!=' , 0);
+            $content_parents->where('parent', '!=', 0);
         }
 
         $taxonomies = $content_parents->get()->toArray();
@@ -2733,7 +2731,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             }
 
             if (isset($history_files_ids) and is_array($history_files_ids) and !empty($history_files_ids)) {
-              ContentFields::whereIn('id', $history_files_ids)->delete();
+                ContentFields::whereIn('id', $history_files_ids)->delete();
 
 
             }
@@ -2756,7 +2754,6 @@ if(isset($_SERVER['HTTP_REFERER'])){
                 ->where('field', $fld);
 
 
-
             if (isset($data['rel_id'])) {
                 $i = ($data['rel_id']);
                 $del->where('rel_id', $i);
@@ -2767,8 +2764,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             $del = $del->delete();
 
             $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-             $this->app->cache_manager->delete($cache_group);
-
+            $this->app->cache_manager->delete($cache_group);
 
 
         }
@@ -3217,7 +3213,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
      */
     public function define_constants($content = false)
     {
-       if ($content == false) {
+        if ($content == false) {
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $ref_page = $_SERVER['HTTP_REFERER'];
                 if ($ref_page != '') {
@@ -3312,7 +3308,6 @@ if(isset($_SERVER['HTTP_REFERER'])){
             if (defined('PAGE_ID') == false and isset($content['id'])) {
                 define('PAGE_ID', $page['id']);
             }
-
 
 
             if (isset($page['parent'])) {
@@ -3744,7 +3739,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             $pox = $maxpos - $i;
             $q = " UPDATE $table SET position=$pox WHERE id=$id   ";
             //    var_dump($q);
-            $q = $this->app->database_manager->q($q);
+            $q = $this->app->database->q($q);
             $i++;
         }
         //
@@ -4157,7 +4152,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                     $par_page_new['id'] = $par_page['id'];
                     $par_page_new['subtype'] = 'dynamic';
 
-                    $par_page_new = $this->app->database_manager->save($table, $par_page_new);
+                    $par_page_new = $this->app->database->save($table, $par_page_new);
                     $cats_modified = true;
                 }
                 if (!isset($data_to_save['categories'])) {
@@ -4365,17 +4360,16 @@ if(isset($_SERVER['HTTP_REFERER'])){
         }
 
 //$c = new Content();
-       // return $c->update($data_to_save);
-        //$save = $this->app->database_manager->save($table, $data_to_save);
+        // return $c->update($data_to_save);
+        //$save = $this->app->database->save($table, $data_to_save);
         $save = mw()->content->save_item($data_to_save);
-        print(__FILE__.__LINE__);
-        return;
+
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
             $upd_posted = array();
             $upd_posted['posted_on'] = $data_to_save['updated_on'];
             $upd_posted['id'] = $data_to_save['parent'];
-            $save_posted = $this->app->database_manager->save($table, $upd_posted);
+            $save_posted = $this->app->database->save($table, $upd_posted);
         }
         $after_save = $data_to_save;
         $after_save['id'] = $id;
@@ -4464,9 +4458,11 @@ if(isset($_SERVER['HTTP_REFERER'])){
             }
         }
         $custom_field_table = $this->tables['custom_fields'];
+        $custom_field_table = mw()->database_manager->real_table_name($custom_field_table);
 
         $sid = mw()->user_manager->session_id();
         $media_table = $this->tables['media'];
+        $media_table = mw()->database_manager->real_table_name($media_table);
 
         if ($sid != false and $sid != '' and $id != false) {
 
@@ -4479,7 +4475,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             AND rel =\"content\"
 	        ";
 
-            $this->app->database_manager->q($clean);
+            $this->app->database->q($clean);
 
 
             $clean = " UPDATE $media_table SET
@@ -4488,7 +4484,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
             session_id =\"{$sid}\"
             AND rel =\"content\" AND (rel_id=0 OR rel_id IS NULL)
             ";
-            $this->app->database_manager->q($clean);
+            $this->app->database->q($clean);
         }
 
 
@@ -4577,7 +4573,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
         $data['allow_html'] = true;
         // $data['debug'] = true;
 
-        $save = $this->app->database_manager->save($table, $data);
+        $save = $this->app->database->save($table, $data);
 
         $this->app->cache_manager->delete('content_data');
 
@@ -4606,7 +4602,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
         $data['cache_group'] = 'content_data';
 
 
-        $get = $this->app->database_manager->get($data);
+        $get = $this->app->database->get($data);
 
         return $get;
 
@@ -4647,7 +4643,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
                             }
                         }
                     }
-                    $new_shop = $this->app->database_manager->save('content', $add_page);
+                    $new_shop = $this->app->database->save('content', $add_page);
                     $this->app->cache_manager->delete('content');
                     $this->app->cache_manager->delete('categories');
                     $this->app->cache_manager->delete('custom_fields');
@@ -4717,7 +4713,7 @@ if(isset($_SERVER['HTTP_REFERER'])){
 
                     }
 
-                    $new_shop = $this->app->database_manager->save('content', $add_page);
+                    $new_shop = $this->app->database->save('content', $add_page);
                     $this->app->cache_manager->delete('content');
                     $this->app->cache_manager->delete('categories');
                     $this->app->cache_manager->delete('content_fields');

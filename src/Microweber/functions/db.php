@@ -9,23 +9,7 @@ function get_table_prefix(){
 
 
 function get($table_name_or_params,$params = null){
-
-
-
-    if($params === null){
-        $params = $table_name_or_params;
-    } else {
-        if($params != false){
-            $params = parse_params($params);
-        } else {
-            $params = array();
-        }
-        $params['table'] = $table_name_or_params;
-    }
-
-
-    return  mw()->db_model->filter($params);
-
+    return  mw()->database->get($table_name_or_params,$params);
 }
 
 
@@ -45,13 +29,7 @@ function get($table_name_or_params,$params = null){
  * @param $data
  * @return array The database results
  */
-function save($table, $data)
+function save($table_name_or_params,$params = null)
 {
-
-   // $DbModel = new DbModel();
-    //return $DbModel->save_data($table, $data);
-    return  mw()->db_model->save_item($table,$data);
-
-
-
+    return  mw()->database->save($table_name_or_params,$params);
 }
