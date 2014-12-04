@@ -1,8 +1,6 @@
 <?php
 
 
-
-
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Notifications extends Eloquent
@@ -10,10 +8,6 @@ class Notifications extends Eloquent
 
     public $table = 'notifications';
 
-    public function __construct()
-    {
-
-    }
 
 
     public static function boot()
@@ -21,18 +15,7 @@ class Notifications extends Eloquent
 
         parent::boot();
 
+
     }
-
-    public function rel()
-    {
-        return $this->morphTo();
-    }
-
-
-
-
-
-
-
 }
 

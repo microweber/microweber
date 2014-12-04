@@ -915,7 +915,7 @@ class CategoryManager
         $category = $this->get_by_id($category_id);
         if ($category != false) {
             if (isset($category["rel_id"]) and intval($category["rel_id"]) > 0) {
-                if ($category["rel"] == 'content') {
+                if ($category["rel_type"] == 'content') {
                     $res = $this->app->content_manager->get_by_id($category["rel_id"]);
                     if (is_array($res)) {
                         return $res;
@@ -931,7 +931,7 @@ class CategoryManager
                         if (intval($value) != 0) {
                             $category2 = $this->get_by_id($value);
                             if (isset($category2["rel_id"]) and intval($category2["rel_id"]) > 0) {
-                                if ($category2["rel"] == 'content') {
+                                if ($category2["rel_type"] == 'content') {
                                     $res = $this->app->content_manager->get_by_id($category2["rel_id"]);
                                     if (is_array($res)) {
                                         return $res;
@@ -1384,11 +1384,11 @@ class CategoryManager
         $id = $save;
 
         $clean = " UPDATE $custom_field_table SET
-	rel =\"categories\"
+	rel_type =\"categories\"
 	, rel_id =\"{$id}\"
 	WHERE
 	session_id =\"{$sid}\"
-	AND (rel_id=0 OR rel_id IS NULL) AND rel =\"categories\"
+	AND (rel_id=0 OR rel_id IS NULL) AND rel_type =\"categories\"
 
 	";
 
@@ -1403,7 +1403,7 @@ class CategoryManager
 	rel_id =\"{$id}\"
 	WHERE
 	session_id =\"{$sid}\"
-	AND rel =\"categories\" AND (rel_id=0 OR rel_id IS NULL)
+	AND rel_type =\"categories\" AND (rel_id=0 OR rel_id IS NULL)
 
 	";
 

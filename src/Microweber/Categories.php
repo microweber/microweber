@@ -13,9 +13,6 @@ class Categories extends BaseModel
     }
 
 
-    public function notifications()
-    {
-        return $this->morphMany('Notifications', 'rel_type');
-    }
+
  }
 

@@ -4446,7 +4446,7 @@ class ContentManager
                 //$new_category_id = intval($new_category);
                 $new_category = array();
                 $new_category["data_type"] = "category";
-                $new_category["rel"] = 'content';
+                $new_category["rel_type"] = 'content';
                 $new_category["rel_id"] = $save;
                 $new_category["table"] = $table_cats;
                 $new_category["id"] = 0;

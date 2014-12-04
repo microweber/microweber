@@ -103,7 +103,7 @@ if (is_admin() != false) {
 
 if ($allowed_to_upload == false) {
 
-    if (isset($_REQUEST["rel"]) and isset($_REQUEST["custom_field_id"]) and trim($_REQUEST["rel"]) != '' and trim($_REQUEST["rel"]) != 'false') {
+    if (isset($_REQUEST["rel_type"]) and isset($_REQUEST["custom_field_id"]) and trim($_REQUEST["rel_type"]) != '' and trim($_REQUEST["rel_type"]) != 'false') {
 
         $cfid = mw('fields')->get_by_id(intval($_REQUEST["custom_field_id"]));
         if ($cfid == false) {
@@ -263,7 +263,7 @@ if ($allowed_to_upload == false) {
 
                                     } else {
                                         if (!isset($_REQUEST["path"])) {
-                                            $_REQUEST["path"] = 'media/'.$host_dir .'/user_uploads' . DS . $_REQUEST["rel"] . DS;
+                                            $_REQUEST["path"] = 'media/'.$host_dir .'/user_uploads' . DS . $_REQUEST["rel_type"] . DS;
                                         }
                                     }
                                 }
