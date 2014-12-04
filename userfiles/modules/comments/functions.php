@@ -4,6 +4,12 @@ if (!defined("MODULE_DB_COMMENTS")) {
 }
 
 
+//mw()->database->custom_filter('comments', function(){
+//	
+//dd(__FILE__);	
+//	
+//});
+
 event_bind('orm_get', 'db_filter_comments');
 
 

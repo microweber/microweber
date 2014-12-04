@@ -406,7 +406,7 @@ if (defined('POST_ID') and isset($posts_parent_category) and $posts_parent_categ
 }
 
 	
- 
+ //$post_params['comments'] = true;
 
 $content = get_content($post_params);
 

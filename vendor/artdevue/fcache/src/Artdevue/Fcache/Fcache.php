@@ -244,6 +244,8 @@ class Fcache implements StoreInterface
      */
     protected function createCacheDirectory($path)
     {
+
+       return $this->mkdir_recursive(dirname($path));
         try {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
         } catch (\Exception $e) {
@@ -472,6 +474,15 @@ class Fcache implements StoreInterface
     function reduce_double_slashes($str)
     {
         return preg_replace("#([^:])//+#", "\\1/", $str);
+    }
+
+    function mkdir_recursive($pathname)
+    {
+        if ($pathname == '') {
+            return false;
+        }
+        is_dir(dirname($pathname)) || $this->mkdir_recursive(dirname($pathname));
+        return is_dir($pathname) || @mkdir($pathname);
     }
 
 

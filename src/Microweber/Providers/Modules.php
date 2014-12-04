@@ -248,13 +248,13 @@ class Modules
                     $config = array();
                     $value = normalize_path($value, false);
 
-                    $value_fn = $mod_name = str_replace('_config.php', '', $value);
-                    $value_fn = $mod_name = str_replace('config.php', '', $value_fn);
-                    $value_fn = $mod_name = str_replace('index.php', '', $value_fn);
+                    $moduleDir = $mod_name = str_replace('_config.php', '', $value);
+                    $moduleDir = $mod_name = str_replace('config.php', '', $moduleDir);
+                    $moduleDir = $mod_name = str_replace('index.php', '', $moduleDir);
 
 
-                    $value_fn = $mod_name_dir = str_replace($dir_name, '', $value_fn);
-                    $value_fn = $mod_name_dir = str_replace($dir_name, '', $value_fn);
+                    $moduleDir = $mod_name_dir = str_replace($dir_name, '', $moduleDir);
+                    $moduleDir = $mod_name_dir = str_replace($dir_name, '', $moduleDir);
 
 
                     $def_icon = modules_path() . 'default.png';
@@ -269,25 +269,25 @@ class Modules
 
                     $content = ob_get_contents();
                     ob_end_clean();
-                    $value_fn = str_replace(modules_path(), '', $value_fn);
+                    $moduleDir = str_replace(modules_path(), '', $moduleDir);
 
 
                     $replace_root = modules_path();
 
-                    $value_fn = str_replace($replace_root, '', $value_fn);
+                    $moduleDir = str_replace($replace_root, '', $moduleDir);
 
 
-                    $value_fn = rtrim($value_fn, '\\');
-                    $value_fn = rtrim($value_fn, '/');
-                    $value_fn = str_replace('\\', '/', $value_fn);
-                    $value_fn = str_replace(modules_path(), '', $value_fn);
+                    $moduleDir = rtrim($moduleDir, '\\');
+                    $moduleDir = rtrim($moduleDir, '/');
+                    $moduleDir = str_replace('\\', '/', $moduleDir);
+                    $moduleDir = str_replace(modules_path(), '', $moduleDir);
 
 
-                    $config['module'] = $value_fn;
+                    $config['module'] = $moduleDir;
                     $config['module'] = rtrim($config['module'], '\\');
                     $config['module'] = rtrim($config['module'], '/');
 
-                    $config['module_base'] = str_replace('admin/', '', $value_fn);
+                    $config['module_base'] = str_replace('admin/', '', $moduleDir);
                     if (is_dir($mod_name)) {
                         $bname = basename($mod_name);
                         $t1 = modules_path() . $config['module'] . DS . $bname;
@@ -318,6 +318,9 @@ class Modules
                             } else {
                                 $config['installed'] = 'auto';
                                 $this->save($config);
+
+                                // Inj point
+                                dd(__FILE__ . __LINE__);
 
 
                             }
@@ -1548,13 +1551,13 @@ class Modules
                     $config = array();
                     $value = normalize_path($value, false);
 
-                    $value_fn = $mod_name = str_replace('_config.php', '', $value);
-                    $value_fn = $mod_name = str_replace('config.php', '', $value_fn);
-                    $value_fn = $mod_name = str_replace('index.php', '', $value_fn);
+                    $moduleDir = $mod_name = str_replace('_config.php', '', $value);
+                    $moduleDir = $mod_name = str_replace('config.php', '', $moduleDir);
+                    $moduleDir = $mod_name = str_replace('index.php', '', $moduleDir);
 
 
-                    $value_fn = $mod_name_dir = str_replace($dir_name_mods, '', $value_fn);
-                    $value_fn = $mod_name_dir = str_replace($dir_name_mods2, '', $value_fn);
+                    $moduleDir = $mod_name_dir = str_replace($dir_name_mods, '', $moduleDir);
+                    $moduleDir = $mod_name_dir = str_replace($dir_name_mods2, '', $moduleDir);
 
 
                     $def_icon = modules_path() . 'default.png';
@@ -1569,28 +1572,28 @@ class Modules
 
                     $content = ob_get_contents();
                     ob_end_clean();
-                    $value_fn = str_replace(modules_path(), '', $value_fn);
+                    $moduleDir = str_replace(modules_path(), '', $moduleDir);
 
 
                     $replace_root = MW_ROOTPATH . DS . 'userfiles' . DS . 'modules' . DS;
 
-                    $value_fn = str_replace($replace_root, '', $value_fn);
+                    $moduleDir = str_replace($replace_root, '', $moduleDir);
 
                     $replace_root = dirname(dirname(MW_PATH)) . DS . 'userfiles' . DS . 'modules' . DS;
-                    $value_fn = str_replace($replace_root, '', $value_fn);
+                    $moduleDir = str_replace($replace_root, '', $moduleDir);
 
 
-                    $value_fn = rtrim($value_fn, '\\');
-                    $value_fn = rtrim($value_fn, '/');
-                    $value_fn = str_replace('\\', '/', $value_fn);
-                    $value_fn = str_replace(modules_path(), '', $value_fn);
+                    $moduleDir = rtrim($moduleDir, '\\');
+                    $moduleDir = rtrim($moduleDir, '/');
+                    $moduleDir = str_replace('\\', '/', $moduleDir);
+                    $moduleDir = str_replace(modules_path(), '', $moduleDir);
 
 
-                    $config['module'] = $value_fn;
+                    $config['module'] = $moduleDir;
                     $config['module'] = rtrim($config['module'], '\\');
                     $config['module'] = rtrim($config['module'], '/');
 
-                    $config['module_base'] = str_replace('admin/', '', $value_fn);
+                    $config['module_base'] = str_replace('admin/', '', $moduleDir);
                     if (is_dir($mod_name)) {
                         $bname = basename($mod_name);
                         $t1 = modules_path() . $config['module'] . DS . $bname;
