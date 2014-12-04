@@ -4,6 +4,7 @@ namespace Microweber\Traits;
 
 use Cache;
 use DB;
+use Filter;
 
 trait QueryFilter
 {
@@ -93,8 +94,6 @@ trait QueryFilter
             }
 
 
-
-
             switch ($filter) {
                 case 'single':
 
@@ -102,8 +101,8 @@ trait QueryFilter
 
                 case 'category':
 
-                   // d($value);
- //d(__FILE__.__LINE__);
+                    // d($value);
+                    //d(__FILE__.__LINE__);
                     break;
                 case 'order_by':
                     $order_by_criteria = explode(',', $value);
@@ -143,7 +142,7 @@ trait QueryFilter
                         $ids = array($ids);
                     }
 
-                    if(is_array($ids)){
+                    if (is_array($ids)) {
                         $query = $query->whereIn('id', $ids);
                     }
 
@@ -155,12 +154,12 @@ trait QueryFilter
                     $ids = $value;
                     if (is_string($ids)) {
                         $ids = explode(',', $ids);
-                    }elseif (is_int($ids)) {
+                    } elseif (is_int($ids)) {
                         $ids = array($ids);
                     }
 
 
-                    if(is_array($ids)){
+                    if (is_array($ids)) {
                         $query = $query->whereNotIn('id', $ids);
                     }
 
@@ -178,7 +177,7 @@ trait QueryFilter
                 default:
                     if ($compare_sign != false) {
                         unset($params[$filter]);
-                       if ($compare_value != false) {
+                        if ($compare_value != false) {
                             $query = $query->where($filter, $compare_sign, $compare_value);
 
                         } else {
@@ -254,5 +253,20 @@ trait QueryFilter
 
     }
 
+    function __call($method, $params)
+    {
 
+
+        return Filter::get($method,$params,$this);
+
+     if(Filter::get($method,$params)){
+
+
+         return $this;
+     } else {
+
+         return $this;
+     }
+
+    }
 }

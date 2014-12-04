@@ -2,7 +2,39 @@
 if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', get_table_prefix() . 'comments');
 }
+//
+//mw()->content->comments=(function(){
+//	return $this->morphMany('Comments', 'rel');
+//dd(__FILE__);	
+//	
+//});
+//mw()->content->comments=(function(){
+//	return $this->morphMany('Comments', 'rel');
+//dd(__FILE__);	
+//	
+//});
 
+
+Filter::bind('comments',function($params, $app){
+	return $app->morphMany('Comments', 'rel');
+ 	
+	
+}); 
+	$post_params = array();
+ $post_params['comments'] = true;
+  $post_params['one'] = true;
+$post_params['order_by'] = 'id desc';
+$content = get_content($post_params);
+
+dd($content);
+
+//Content::comments=(function(){
+//	return $this->morphMany('Comments', 'rel');
+//dd(__FILE__);	
+//	
+//});
+
+//mw()->content->comments->get();
 
 //mw()->database->custom_filter('comments', function(){
 //	
@@ -10,6 +42,14 @@ if (!defined("MODULE_DB_COMMENTS")) {
 //	
 //});
 
+
+//mw()->bind('conne', function() 
+//{
+//    return new Comments();
+//});
+ //mw()->content->find(1)->comments()->get();
+// $comm = Content::find(1)->comments()->get();
+//dd( $comm);
 event_bind('orm_get', 'db_filter_comments');
 
 
