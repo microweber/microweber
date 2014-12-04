@@ -262,7 +262,7 @@ class CategoryManager
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
                 $table_assoc_name = $this->app->database_manager->assoc_table_name($params['for']);
                 $skip123 = true;
-                $str0 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel=' . $table_assoc_name;
+                $str0 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_type=' . $table_assoc_name;
                 $cat_get_params = array();
                 $cat_get_params['is_deleted'] = 0;
                 $cat_get_params['order_by'] = 'position asc';
@@ -333,7 +333,7 @@ class CategoryManager
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
 
-            //$str0 = 'is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel=' . $table_assoc_name;
+            //$str0 = 'is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel_type=' . $table_assoc_name;
             $fors = $this->app->database->get($cat_get_params);
             //  d($fors);
 
@@ -1180,7 +1180,7 @@ class CategoryManager
             $data_type_q = "and data_type = 'tag_item' ";
         }
 
-        $q = "select parent_id from $table_items where  rel='content' and rel_id=$content_id  " . $data_type_q;
+        $q = "select parent_id from $table_items where  rel_type='content' and rel_id=$content_id  " . $data_type_q;
         $data = $this->app->database_manager->query($q, __FUNCTION__ . crc32($q), $cache_group = 'content/' . $content_id);
         $results = false;
         if (!empty($data)) {
@@ -1367,12 +1367,7 @@ class CategoryManager
         if ($simple_save == true) {
             return $save;
         }
-
-        //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . $save);
-        if (isset($data['id'])) {
-            //$this->app->cache_manager->clear('categories' . DIRECTORY_SEPARATOR . intval($data['id']));
-        }
-
+ 
         if (intval($save) == 0) {
 
             return false;
@@ -1418,7 +1413,7 @@ class CategoryManager
 
             $content_ids_all = implode(',', $content_ids);
 
-            $q = "DELETE FROM $table WHERE rel='content'
+            $q = "DELETE FROM $table WHERE rel_type='content'
 		AND content_type='post'
 		AND parent_id=$save
 		AND  data_type ='{$data_type}' ";

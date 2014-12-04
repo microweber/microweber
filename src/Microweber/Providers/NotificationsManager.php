@@ -266,7 +266,7 @@ class NotificationsManager
                 $rel1 = $this->app->database_manager->escape_string($params['rel_type']);
                 $module1 = $this->app->database_manager->escape_string($params['module']);
                 $rel_id1 = $this->app->database_manager->escape_string($params['rel_id']);
-                $cleanup = "DELETE FROM $table WHERE rel='{$rel1}' AND module='{$module1}' AND rel_id='{$rel_id1}'";
+                $cleanup = "DELETE FROM $table WHERE rel_type='{$rel1}' AND module='{$module1}' AND rel_id='{$rel_id1}'";
                 $this->app->database->q($cleanup);
 
 

@@ -2890,7 +2890,7 @@ class ContentManager
                 $save = $this->save($cont);
 
                 $table_fields = $this->tables['content_fields'];
-                $del = "DELETE FROM {$table_fields} WHERE rel='content' AND rel_id='{$id}' ";
+                $del = "DELETE FROM {$table_fields} WHERE rel_type='content' AND rel_id='{$id}' ";
                 $this->app->database_manager->query($del);
                 $this->app->cache_manager->delete('content');
                 $this->app->cache_manager->delete('content_fields');
@@ -2974,7 +2974,7 @@ class ContentManager
                         $table1 = $this->tables['categories'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
-                        $q = "UPDATE $table1 SET is_deleted=0 WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted=1 ";
+                        $q = "UPDATE $table1 SET is_deleted=0 WHERE rel_id=$c_id  AND  rel_type='content' AND  is_deleted=1 ";
                         $q = $this->app->database_manager->query($q);
                     }
 
@@ -2988,7 +2988,7 @@ class ContentManager
                         $table1 = $this->tables['media'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
-                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
+                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel_type='content'  ";
                         $q = $this->app->database_manager->query($q);
                     }
 
@@ -2996,7 +2996,7 @@ class ContentManager
                         $table1 = $this->tables['categories'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
-                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
+                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel_type='content'  ";
                         $q = $this->app->database_manager->query($q);
                     }
 
@@ -3005,14 +3005,14 @@ class ContentManager
                         $table1 = $this->tables['categories_items'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
-                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
+                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel_type='content'  ";
                         $q = $this->app->database_manager->query($q);
                     }
                     if (isset($this->tables['custom_fields'])) {
                         $table1 = $this->tables['custom_fields'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
-                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel='content'  ";
+                        $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel_type='content'  ";
 
                         $q = $this->app->database_manager->query($q);
                     }
@@ -3036,7 +3036,7 @@ class ContentManager
                         $table1 = $this->tables['categories'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
-                        $q = "UPDATE $table1 SET is_deleted=1 WHERE rel_id=$c_id  AND  rel='content' AND  is_deleted=0 ";
+                        $q = "UPDATE $table1 SET is_deleted=1 WHERE rel_id=$c_id  AND  rel_type='content' AND  is_deleted=0 ";
 
                         $q = $this->app->database_manager->query($q);
                     }

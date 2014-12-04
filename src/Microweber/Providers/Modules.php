@@ -1096,7 +1096,7 @@ class Modules
     public function license($module_name = false)
     {
         $module_name = str_replace('\\', '/', $module_name);
-        $lic = $this->app->update->get_licenses('status=active&one=1&rel=' . $module_name);
+        $lic = $this->app->update->get_licenses('status=active&one=1&rel_type=' . $module_name);
         if (!empty($lic)) {
             return true;
         }
@@ -1139,10 +1139,10 @@ class Modules
             $q = "DELETE FROM $table ";
             $this->app->database->q($q);
 
-            $q = "DELETE FROM $db_categories WHERE rel='modules' AND data_type='category' ";
+            $q = "DELETE FROM $db_categories WHERE rel_type='modules' AND data_type='category' ";
             $this->app->database->q($q);
 
-            $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' ";
+            $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND data_type='category_item' ";
             $this->app->database->q($q);
             $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
             $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
@@ -1725,7 +1725,7 @@ class Modules
         $q = "DELETE FROM $table WHERE id={$id}";
         $this->app->database->q($q);
 
-        $q = "DELETE FROM $db_categories_items WHERE rel='modules' AND data_type='category_item' AND rel_id={$id}";
+        $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND data_type='category_item' AND rel_id={$id}";
         $this->app->database->q($q);
         $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
         // $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');

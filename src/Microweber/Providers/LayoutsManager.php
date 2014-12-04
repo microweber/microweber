@@ -513,11 +513,11 @@ class LayoutsManager
             //   d($q);
             $this->app->database->q($q);
 
-            $q = "DELETE FROM $db_categories WHERE rel='elements' AND data_type='category' ";
+            $q = "DELETE FROM $db_categories WHERE rel_type='elements' AND data_type='category' ";
             // d($q);
             $this->app->database->q($q);
 
-            $q = "DELETE FROM $db_categories_items WHERE rel='elements' AND data_type='category_item' ";
+            $q = "DELETE FROM $db_categories_items WHERE rel_type='elements' AND data_type='category_item' ";
             // d($q);
             $this->app->database->q($q);
             $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
