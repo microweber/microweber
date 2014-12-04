@@ -34,10 +34,10 @@ class CategoryManager
         $prefix = $this->app->config->get('database.connections.mysql.prefix');
         $this->tables = $this->app->content_manager->tables;
         if (!isset($this->tables['categories'])) {
-            $this->tables['categories'] =  'categories';
+            $this->tables['categories'] = 'categories';
         }
         if (!isset($this->tables['categories_items'])) {
-            $this->tables['categories_items'] =  'categories_items';
+            $this->tables['categories_items'] = 'categories_items';
         }
         if (!defined("MW_DB_TABLE_TAXONOMY")) {
             define('MW_DB_TABLE_TAXONOMY', $this->tables['categories']);
@@ -56,19 +56,19 @@ class CategoryManager
      * @category    categories
      * @author      Microweber
      * @param $params = array();
-     * @param  $params['parent'] = false; //parent id
-     * @param  $params['link'] = false; // the link on for the <a href
-     * @param  $params['active_ids'] = array(); //ids of active categories
-     * @param  $params['active_code'] = false; //inserts this code for the active ids's
-     * @param  $params['remove_ids'] = array(); //remove those caregory ids
-     * @param  $params['ul_class_name'] = false; //class name for the ul
-     * @param  $params['include_first'] = false; //if true it will include the main parent category
-     * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
-     * @param  $params['add_ids'] = array(); //if you send array of ids it will add them to the category
-     * @param  $params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_at','asc');
-     * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
-     * @param  $params['list_tag'] = 'select';
-     * @param  $params['list_item_tag'] = "option";
+     * @param  $params ['parent'] = false; //parent id
+     * @param  $params ['link'] = false; // the link on for the <a href
+     * @param  $params ['active_ids'] = array(); //ids of active categories
+     * @param  $params ['active_code'] = false; //inserts this code for the active ids's
+     * @param  $params ['remove_ids'] = array(); //remove those caregory ids
+     * @param  $params ['ul_class_name'] = false; //class name for the ul
+     * @param  $params ['include_first'] = false; //if true it will include the main parent category
+     * @param  $params ['content_type'] = false; //if this is set it will include only categories from desired type
+     * @param  $params ['add_ids'] = array(); //if you send array of ids it will add them to the category
+     * @param  $params ['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_at','asc');
+     * @param  $params ['content_type'] = false; //if this is set it will include only categories from desired type
+     * @param  $params ['list_tag'] = 'select';
+     * @param  $params ['list_item_tag'] = "option";
      *
      *
      */
@@ -985,12 +985,10 @@ class CategoryManager
         }
 
 
-        $taxonomies =  $this->app->database->get($params);
+        $taxonomies = $this->app->database->get($params);
 
 
-
-
-      //  $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
+        //  $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'categories/' . $id);
 
 
         if (!empty($taxonomies)) {
@@ -1075,15 +1073,11 @@ class CategoryManager
         $params['parent_id'] = $parent_id;
 
 
-
-
-        $save =  $this->app->database->get($params);
-
-
+        $save = $this->app->database->get($params);
 
 
         $q_cache_id = __FUNCTION__ . crc32($q);
-       // $save = $this->app->database_manager->query($q, $q_cache_id, $cache_group);
+        // $save = $this->app->database_manager->query($q, $q_cache_id, $cache_group);
         if (empty($save)) {
             return false;
         }
@@ -1209,13 +1203,9 @@ class CategoryManager
         }
         $table_items = $this->tables['categories_items'];
         $data = $params;
-        if ($data_type == 'categories') {
-            $data['data_type'] = 'category_item';
-        }
-        if ($data_type == 'tags') {
-            $data['data_type'] = 'tag_item';
-        }
+
         $data['table'] = $table_items;
+
         $data = $this->app->database->get($data);
         return $data;
     }
@@ -1245,13 +1235,12 @@ class CategoryManager
         }
 
 
-
-        if(isset( $data['parent']) and !isset( $data['parent_id'])){
+        if (isset($data['parent']) and !isset($data['parent_id'])) {
             $data['parent_id'] = $data['parent'];
         }
 
 
-        if(!isset( $data['rel_type'])){
+        if (!isset($data['rel_type'])) {
             $data['rel_type'] = 'content';
         }
 
@@ -1261,17 +1250,16 @@ class CategoryManager
         }
 
 
-
         if (isset($data['parent_page'])) {
             $data['rel_type'] = 'content';
             $data['rel_id'] = $data['parent_page'];
         }
 
-        if(isset($data['parent_id'])){
-            if(isset($data['rel_type'])){
+        if (isset($data['parent_id'])) {
+            if (isset($data['rel_type'])) {
                 unset($data['rel_type']);
             }
-            if(isset($data['rel_id'])){
+            if (isset($data['rel_id'])) {
                 unset($data['rel_id']);
             }
         }
@@ -1358,16 +1346,13 @@ class CategoryManager
         }
 
 
-
-
         $save = $this->app->database->save($table, $data);
-
 
 
         if ($simple_save == true) {
             return $save;
         }
- 
+
         if (intval($save) == 0) {
 
             return false;
@@ -1457,6 +1442,41 @@ class CategoryManager
         return $save;
     }
 
+    public function save_item($params)
+    {
+        $sid = mw()->user_manager->session_id();
+        $adm = $this->app->user_manager->is_admin();
+        if ($adm == false) {
+            if (defined('MW_API_CALL')) {
+                return array('error' => 'Only admin can save category');
+            }
+        }
+        $p2 = array();
+        if (!is_array($params)) {
+            if (is_string($params)) {
+                parse_str($params, $p2);
+                $params = $p2;
+            }
+        }
+
+
+        $table = $this->tables['categories_items'];
+        $params['table'] = $table;
+
+
+
+        $save = $this->app->database->save($params);
+
+
+
+        if (intval($save) == 0) {
+
+            return false;
+        }
+
+
+    }
+
     /**
      * @desc Get a single row from the categories_table by given ID and returns it as one dimensional array
      * @param int
@@ -1499,9 +1519,9 @@ class CategoryManager
 
         $id = intval($id);
 
-       // $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
+        // $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
 
-        $q = $this->app->database->get_by_id($table,$id);
+        $q = $this->app->database->get_by_id($table, $id);
 
 
         if (!empty($q)) {

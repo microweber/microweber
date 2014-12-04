@@ -103,6 +103,8 @@ class Database
 
 
 
+
+
         $query = DB::table($table);
 
 
@@ -119,7 +121,10 @@ class Database
             $orig_params['count'] = true;
         }
 
-
+        if (isset($params['orderby'])) {
+            $params['order_by'] = $params['orderby'];
+            unset($params['orderby']);
+        }
         $query = $this->map_filters($query, $params);
         $params = $this->map_array_to_table($table, $params);
         $query = $this->map_values_to_query($query, $params);
@@ -211,6 +216,10 @@ class Database
             $params['table'] = $table_name_or_params;
         }
 
+        if (is_string($params)) {
+            $params = parse_params($params);
+        }
+
 
         if (!isset($params['table'])) {
             return false;
@@ -225,15 +234,20 @@ class Database
         $query = DB::table($table);
 
 
-        if (is_string($params)) {
-            $params = parse_params($params);
-        }
+
         if (!isset($params['created_at']) == false) {
             $params['created_at'] = date("Y-m-d H:i:s");
         }
         if (!isset($params['updated_at']) == false) {
             $params['updated_at'] = date("Y-m-d H:i:s");
         }
+
+
+        $orig_params = $params;
+
+
+
+
 
 
         if (!isset($params['id'])) {
@@ -257,6 +271,17 @@ class Database
             $id_to_return = $query->where('id', $params['id'])->update($params);
             $id_to_return = $params['id'];
         }
+
+
+
+
+
+
+
+
+
+
+
         Cache::tags($table)->flush();
         return intval($id_to_return);
     }

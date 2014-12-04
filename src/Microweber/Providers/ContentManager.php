@@ -186,7 +186,7 @@ class ContentManager
             return false;
         }
 
-        $q = $this->app->database->get_by_id($this->tables['content'],$id );
+        $q = $this->app->database->get_by_id($this->tables['content'], $id);
 //        $q = Content::where('id', '=', $id)->first();
 //        if (!empty($q)) {
 //            $q = $q->toArray();
@@ -445,6 +445,7 @@ class ContentManager
         }
 
 
+
         $get = mw()->database->get($params);
 
         // $get = mw()->content->get_items($params);
@@ -613,7 +614,6 @@ class ContentManager
         $get['parent'] = $id;
 
 
-
         if (isset($without_main_parrent) and $without_main_parrent == true) {
             $get['parent'] = '[neq]0';
         }
@@ -622,7 +622,7 @@ class ContentManager
         // $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
         $taxonomies = $this->get($get);
-       // $taxonomies = $taxonomies->get()->toArray();
+        // $taxonomies = $taxonomies->get()->toArray();
 
         if (!empty($taxonomies)) {
             foreach ($taxonomies as $item) {
@@ -2628,12 +2628,11 @@ class ContentManager
         $data = array();
 
 
-
         $get = array();
         $get['id'] = $id;
 
         if (isset($without_main_parrent) and $without_main_parrent == true) {
-             $get['parent'] = '[neq]0';
+            $get['parent'] = '[neq]0';
         }
         $content_parents = $this->get($get);
 
@@ -2679,8 +2678,6 @@ class ContentManager
         $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content_fields'];
         $table_drafts = $this->tables['content_fields_drafts'];
-
-        //$checks = mw_var('FORCE_SAVE_CONTENT');
 
 
         if ($adm == false) {
@@ -2743,7 +2740,7 @@ class ContentManager
         //if($data['rel_type'] == 'global'){
         if (isset($data['field']) and !isset($data['is_draft'])) {
             $fld = $this->app->database_manager->escape_string($data['field']);
-            $fld_rel_type = $this->app->database_manager->escape_string($data['rel_type']);
+            $fld_rel = $this->app->database_manager->escape_string($data['rel_type']);
 
 
             $del = ContentFields::where('rel_type', $fld_rel)
@@ -3924,7 +3921,6 @@ class ContentManager
             $q = $this->get_by_id($data_to_save['id']);
 
 
-
             $thetitle = $q['title'];
             $q = $q['url'];
             $theurl = $q;
@@ -4025,12 +4021,11 @@ class ContentManager
             $get['url'] = $data['url'];
             $get['single'] = true;
             $q = $this->get($get);
-           // $q = Content::where('url', $data['url'])->first();;
+            // $q = Content::where('url', $data['url'])->first();;
 
 
             if (!empty($q)) {
 
-               
 
                 if ($data['id'] != $q['id']) {
 
@@ -4160,8 +4155,8 @@ class ContentManager
                 if (!isset($data_to_save['categories'])) {
                     $data_to_save['categories'] = '';
                 }
-                if (is_string($data_to_save['categories']) and isset($par_page['subtype_value']) and $par_page['subtype_value'] != '') {
-                    $data_to_save['categories'] = $data_to_save['categories'] . ', ' . $par_page['subtype_value'];
+                if (is_string($data_to_save['categories']) and isset($par_page['subtype_value']) and intval($par_page['subtype_value']) != 0) {
+                    $data_to_save['categories'] = $data_to_save['categories'] . ', ' . intval($par_page['subtype_value']);
                 }
             }
             $c1 = false;
@@ -4436,6 +4431,31 @@ class ContentManager
 
 
             }
+        }
+
+
+        if (isset($data_to_save['categories'])) {
+            if (is_string($data_to_save['categories'])) {
+                $data_to_save['categories'] = explode(',', $data_to_save['categories']);
+            }
+            $categories = $data_to_save['categories'];
+            if (is_array($categories)) {
+
+                foreach ($categories as $category) {
+                    if (intval($category) != 0) {
+                        $save_cat_item = array();
+                        $save_cat_item['rel_type'] = 'content';
+                        $save_cat_item['rel_id'] = $id;
+                        $save_cat_item['parent_id'] = $category;
+                        $check = $this->app->category_manager->get_items($save_cat_item);
+                        if ($check == false) {
+                            $this->app->category_manager->save_item($save_cat_item);
+                        }
+                    }
+                }
+
+            }
+
         }
 
 

@@ -92,7 +92,19 @@ trait QueryFilter
                 }
             }
 
+
+
+
             switch ($filter) {
+                case 'single':
+
+                    break;
+
+                case 'category':
+
+                   // d($value);
+ //d(__FILE__.__LINE__);
+                    break;
                 case 'order_by':
                     $order_by_criteria = explode(',', $value);
                     foreach ($order_by_criteria as $c) {
@@ -127,8 +139,15 @@ trait QueryFilter
                     $ids = $value;
                     if (is_string($ids)) {
                         $ids = explode(',', $ids);
+                    } elseif (is_int($ids)) {
+                        $ids = array($ids);
                     }
-                    $query = $query->whereIn('id', $ids);
+
+                    if(is_array($ids)){
+                        $query = $query->whereIn('id', $ids);
+                    }
+
+
                     unset($params[$filter]);
                     break;
                 case 'exclude_ids':
@@ -136,8 +155,15 @@ trait QueryFilter
                     $ids = $value;
                     if (is_string($ids)) {
                         $ids = explode(',', $ids);
+                    }elseif (is_int($ids)) {
+                        $ids = array($ids);
                     }
-                    $query = $query->whereNotIn('id', $ids);
+
+
+                    if(is_array($ids)){
+                        $query = $query->whereNotIn('id', $ids);
+                    }
+
                     break;
                 case 'id':
                     unset($params[$filter]);
@@ -152,7 +178,7 @@ trait QueryFilter
                 default:
                     if ($compare_sign != false) {
                         unset($params[$filter]);
-                        if ($compare_value != false) {
+                       if ($compare_value != false) {
                             $query = $query->where($filter, $compare_sign, $compare_value);
 
                         } else {

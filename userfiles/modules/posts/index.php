@@ -405,8 +405,11 @@ if (defined('POST_ID') and isset($posts_parent_category) and $posts_parent_categ
     $post_params['exclude_ids'] = POST_ID;
 }
 
+	
+ 
 
 $content = get_content($post_params);
+
 
 if ($posts_parent_related != false and empty($content) and isset($post_params['category'])) {
     unset($post_params['category']);
@@ -505,6 +508,9 @@ if ($cfg_data_hide_paging === false) {
 }
 
 if ($cfg_data_hide_paging != 'y') {
+	
+;
+	
     $pages_of_posts = get_content($post_params_paging);
     $pages_count = intval($pages_of_posts);
 } else {
