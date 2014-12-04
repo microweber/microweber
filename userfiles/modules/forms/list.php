@@ -98,7 +98,7 @@ if(is_array($data)){
     <?php foreach ($data as $item) : ?>
     <tr class="mw-form-entry-item mw-form-entry-item-<?php print $item['id'] ?>">
       <td width="50" style="text-align: center"><?php print $item['id'] ?>
-        <div class="mw-date" title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></div></td>
+        <div class="mw-date" title="<?php print mw('format')->ago($item['created_at'],1); ?>"><?php print mw('format')->date($item['created_at']);; ?></div></td>
       <?php if(is_array($custom_fields )): ?>
       
       <?php foreach($custom_fields   as $cvk => $custom_field_v): ?>

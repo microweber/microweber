@@ -42,7 +42,7 @@ mw.validate_licenses = function(){
   <tbody>
     <?php foreach($lic as $item): ?>
     <tr>
-      <td><?php print $item['rel']; ?></td>
+      <td><?php print $item['rel_type']; ?></td>
       <td><?php print $item['local_key']; ?>
         <?php if(isset($item['status']) and $item['status'] == 'active'): ?>
         <small>

@@ -228,11 +228,11 @@ class Database
         if (is_string($params)) {
             $params = parse_params($params);
         }
-        if (!isset($params['created_on']) == false) {
-            $params['created_on'] = date("Y-m-d H:i:s");
+        if (!isset($params['created_at']) == false) {
+            $params['created_at'] = date("Y-m-d H:i:s");
         }
-        if (!isset($params['updated_on']) == false) {
-            $params['updated_on'] = date("Y-m-d H:i:s");
+        if (!isset($params['updated_at']) == false) {
+            $params['updated_at'] = date("Y-m-d H:i:s");
         }
 
 
@@ -253,15 +253,12 @@ class Database
             $id_to_return = $query->insert($params);
             $id_to_return = DB::getPdo()->lastInsertId();
         } else {
-            unset($params['created_on']);
+            unset($params['created_at']);
             $id_to_return = $query->where('id', $params['id'])->update($params);
             $id_to_return = $params['id'];
         }
-
         Cache::tags($table)->flush();
-        return ($id_to_return);
-
-
+        return intval($id_to_return);
     }
 
 
@@ -380,7 +377,7 @@ class Database
      *  <code>
      *  //make plain query to the db
      * $table = $this->table_prefix.'content';
-     *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
+     *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_at DESC LIMIT 0,1 ";
      *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
      *
      * </code>

@@ -497,7 +497,7 @@ class UserManager
 
                     $notif = array();
                     $notif['module'] = "users";
-                    $notif['rel'] = 'users';
+                    $notif['rel_type'] = 'users';
                     $notif['rel_id'] = $next;
                     $notif['title'] = "New user registration";
                     $notif['description'] = "You have new user registration";
@@ -832,7 +832,7 @@ class UserManager
 
         $notif = array();
         $notif['module'] = "users";
-        $notif['rel'] = 'users';
+        $notif['rel_type'] = 'users';
         $notif['rel_id'] = $data1['id'];
         $notif['title'] = "The user have successfully changed password. (User id: {$data1['id']})";
 
@@ -930,7 +930,7 @@ class UserManager
 
                         $notif = array();
                         $notif['module'] = "users";
-                        $notif['rel'] = 'users';
+                        $notif['rel_type'] = 'users';
                         $notif['rel_id'] = $data_to_save['id'];
                         $notif['title'] = "Password reset link sent";
                         $content_notif = "User with id: {$data_to_save['id']} and email: {$to}  has requested a password reset link";
@@ -1020,7 +1020,7 @@ class UserManager
 
                             $notif = array();
                             $notif['module'] = "users";
-                            $notif['rel'] = 'users';
+                            $notif['rel_type'] = 'users';
                             $notif['rel_id'] = $save;
                             $provider1 = ucwords($provider);
                             $notif['title'] = "New user registration with {$provider1}";

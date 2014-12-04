@@ -72,7 +72,7 @@ if(isset($params['default-fields'])){
  
  if($suggest_from_rel == true){
 	 $par =array();
-	 $par['rel'] = $for;
+	 $par['rel_type'] = $for;
 	 $more = get_custom_fields($for,'all',1,false,false);
 	 $have = array();
 	  if(isset($diff) and is_array($diff)){

@@ -28,7 +28,7 @@ if (!isset($tn[1])) {
 $only_tn = false;
 
 
-$search_keys = array('title', 'created_on', 'description', 'read_more');
+$search_keys = array('title', 'created_at', 'description', 'read_more');
 
 if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
     $only_tn = true;
@@ -83,9 +83,9 @@ if (isset($show_fields) and is_array($show_fields) and !empty($show_fields)) {
                                             href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>
                                 </div>
                             <?php endif; ?>
-                            <?php if (!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
+                            <?php if (!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
                                 <small class="muted"><?php _e("Date"); ?>: <span
-                                        itemprop="dateCreated"><?php print $item['created_on'] ?></span></small>
+                                        itemprop="dateCreated"><?php print $item['created_at'] ?></span></small>
                             <?php endif; ?>
 
                             <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>

@@ -105,11 +105,12 @@ class Modules
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = intval($save[0]["id"]);
                         $s["position"] = intval($save[0]["position"]);
+                        $s["installed"] = intval($save[0]["installed"]);
                         $save = mw()->database->save($table, $s);
                         $mname_clen = str_replace('\\', '/', $s["module"]);
                         if ($s["id"] > 0) {
-                            $delid = $s["id"];
-                            DB::table($table)->where('id', '!=', $delid)->delete();
+                            //$delid = $s["id"];
+                            //DB::table($table)->where('id', '!=', $delid)->delete();
 
                             // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
                             //mw()->database->q($del);
@@ -1618,16 +1619,16 @@ class Modules
 
                                 $this->app->layouts_manager->save($config);
                             } else {
-
+                                $config['installed'] = 'auto';
                                 $this->save($config);
                                 $modules_remove_old = true;
-                                $config['installed'] = 'auto';
+
 
 
                                 if (!defined('MW_FORCE_MOD_INSTALLED')) {
                                     define('MW_FORCE_MOD_INSTALLED', 1);
                                 }
-                                $this->install($config);
+                                //$this->install($config);
 
 
                             }

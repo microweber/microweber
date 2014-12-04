@@ -7,7 +7,7 @@
 	"require": {
 		"laravel/framework": "4.*",
 		"artdevue/fcache": "dev-master",
-		"itsgoingd/clockwork": "1.*"
+		"zizaco/entrust": "1.2.*@dev",
 	},
 	"autoload": {
 		"classmap": [

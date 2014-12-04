@@ -89,7 +89,7 @@
                     - title,
                     - read_more,
                     - description,
-                    - created_on
+                    - created_at
 
      */
 
@@ -99,7 +99,7 @@
           data-limit="3"
           id="home-posts"
           data-description-length="100"
-          data-show="thumbnail,title,created_on,read_more,description"
+          data-show="thumbnail,title,created_at,read_more,description"
           data-template="columns" />
   </div>
 
@@ -151,7 +151,7 @@
                     - title,
                     - read_more,
                     - description,
-                    - created_on
+                    - created_at
 
      */
 

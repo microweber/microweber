@@ -14,12 +14,12 @@
 	$kw = '';
 
     if(isset($params['keyword'])){
-      $kw  = '&search_in_fields=email,first_name,last_name,country,created_on,transaction_id,city,state,zip,address,phone,user_ip,payment_gw&keyword='.$params['keyword'];
+      $kw  = '&search_in_fields=email,first_name,last_name,country,created_at,transaction_id,city,state,zip,address,phone,user_ip,payment_gw&keyword='.$params['keyword'];
     }
 
 	if(isset($params['order-type']) and $params['order-type'] == 'carts'){
 	 		$ordert_type = 'carts';
-			$ord = 'order_by=updated_on desc';
+			$ord = 'order_by=updated_at desc';
 	 		$orders = get_cart('limit=1000&group_by=session_id&no_session_id=true&order_completed=n&'.$ord);
 			//$orders = get_cart('debug=1&limit=1000&group_by=id&no_session_id=true&order_completed=n&'.$ord);
 			
@@ -91,7 +91,7 @@
           <td class="mw-order-item-id tip" data-tipposition="top-center" data-tipcircle="true" data-tip="#product-tip-<?php print $item['id'] ?>">
             <a class="mw-ord-id" href="#vieworder=<?php print ($item['id']) ?>"><?php print $item['id'] ?></a>
           </td>
-          <td title="<?php print mw('format')->ago($item['created_on'],1); ?>"><?php print mw('format')->date($item['created_on']);; ?></td>
+          <td title="<?php print mw('format')->ago($item['created_at'],1); ?>"><?php print mw('format')->date($item['created_at']);; ?></td>
         <td class="mw-order-item-status">
         <?php  if($item['order_status'] == false): ?>
           <?php _e("New"); ?>
@@ -222,7 +222,7 @@
         <td style="padding: 20px;">
             <label class="mw-ui-label pull-right">
                 <span class="mw-icon-lite-clock-outline" style="font-size: 16px;top:-1px;right:2px;"></span>
-                <span class="mw-ui-label-small tip" data-tipposition="top-center" data-tip="<?php _e("Last activity on"); ?>: <?php print $item['updated_on'] ?>"><?php print mw('format')->ago($item['updated_on']); ?></span>
+                <span class="mw-ui-label-small tip" data-tipposition="top-center" data-tip="<?php _e("Last activity on"); ?>: <?php print $item['updated_at'] ?>"><?php print mw('format')->ago($item['updated_at']); ?></span>
             </label>
             <style scoped="scoped">
                 .mw-ui-table thead tr th:last-child{

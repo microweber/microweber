@@ -92,8 +92,8 @@ if(!isset($tn[1])){
       <?php endif; ?>
 
 
-                <?php if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
-                    <small class="date"><?php print $item['created_on'] ?></small>
+                <?php if(!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
+                    <small class="date"><?php print $item['created_at'] ?></small>
                 <?php endif; ?>
 
                <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>

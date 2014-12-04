@@ -2,9 +2,6 @@
 namespace Microweber\Providers;
 
 
-
-
-
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
     define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
 }
@@ -360,7 +357,7 @@ class UpdateManager
             $notif = array();
             $notif['replace'] = true;
             $notif['module'] = "updates";
-            $notif['rel'] = "update_check";
+            $notif['rel_type'] = "update_check";
             $notif['rel_id'] = 'updates';
             $notif['title'] = "New updates are available";
             $notif['description'] = "There are $count new updates are available";
@@ -421,6 +418,10 @@ class UpdateManager
 
     function post_update()
     {
+
+        $system_refresh = new \Microweber\Install\DbInstaller;
+        $system_refresh->install_db();
+
         if (!ini_get('safe_mode')) {
             if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
 
@@ -430,7 +431,21 @@ class UpdateManager
                 set_time_limit(0);
             }
         }
-        mw_post_update();
+        mw()->cache_manager->delete('db');
+        mw()->cache_manager->delete('update/global');
+        mw()->cache_manager->delete('elements/global');
+
+        mw()->cache_manager->delete('templates');
+        mw()->cache_manager->delete('modules/global');
+
+        scan_for_modules();
+        get_elements();
+        mw()->layouts_manager->scan();
+        event_trigger('mw_db_init_default');
+        event_trigger('mw_db_init_modules');
+        event_trigger('mw_db_init');
+
+        d(__FILE__.__LINE__);
     }
 
     private function install_from_market($item)
@@ -522,7 +537,7 @@ class UpdateManager
                 $target_dir = $where_to_unzip;
                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
                 $num_files = count($result);
-                return array('files' => $result,'location' => $where_to_unzip, 'success' => "Item is installed. {$num_files} files extracted in {$where_to_unzip}");
+                return array('files' => $result, 'location' => $where_to_unzip, 'success' => "Item is installed. {$num_files} files extracted in {$where_to_unzip}");
 
             }
 
@@ -708,7 +723,7 @@ class UpdateManager
             if (!empty($result)) {
                 foreach ($result as $k => $v) {
                     foreach ($licenses as $license) {
-                        if (isset($license['rel']) and $license['rel'] == $k) {
+                        if (isset($license['rel_type']) and $license['rel_type'] == $k) {
                             if (is_array($v) and isset($v['status'])) {
                                 $license['status'] = $v['status'];
                                 foreach ($license as $license_k => $license_v) {
@@ -766,9 +781,9 @@ class UpdateManager
             return;
         }
 
-        if (!isset($params['id']) and isset($params['rel'])) {
+        if (!isset($params['id']) and isset($params['rel_type'])) {
             $update = array();
-            $update['rel'] = $params['rel'];
+            $update['rel_type'] = $params['rel_type'];
             $update['one'] = true;
             $update['table'] = $table;
             $update = $this->app->database->get($update);

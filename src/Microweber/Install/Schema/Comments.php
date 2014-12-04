@@ -9,8 +9,8 @@ class Comments
             'comments' => [
                 'rel_type' => 'string',
                 'rel_id' => 'string',
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'comment_name' => 'string',

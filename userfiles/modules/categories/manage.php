@@ -11,7 +11,7 @@ $selected = 0;
 $tree = array();
 $tree['ul_class'] = 'pages_tree cat_tree_live_edit';
 $tree['li_class'] = 'sub-nav';
-$tree['rel'] = 'content';
+$tree['rel_type'] = 'content';
 
 if(isset($params['page-id']) and $params['page-id'] != false){
 	$tree['rel_id'] = intval($params['page-id']);

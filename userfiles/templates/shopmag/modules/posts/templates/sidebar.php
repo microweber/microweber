@@ -30,8 +30,8 @@ description: sidebar
         <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
         <a class="sidebar-post-title" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a>
         <?php endif; ?>
-        <?php if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
-        <small class="date"><?php print $item['created_on'] ?></small>
+        <?php if(!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
+        <small class="date"><?php print $item['created_at'] ?></small>
         <?php endif; ?>
         <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
         <p class="sidebar-post-description"><?php print $item['description'] ?></p>

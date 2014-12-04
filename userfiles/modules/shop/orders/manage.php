@@ -163,7 +163,7 @@ ordersSort = function(obj){
 <?php  if($is_orders != 0){    ?>
   	<div class="mw-table-sorting mw-admin-order-sort-completed pull-right" style="margin-left: 20px;">
             <div class="mw-ui-btn-nav unselectable pull-right" style="margin-left: 10px;">
-                <span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="created_on" onclick="ordersSort({id:'shop-orders', el:this});">
+                <span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="created_at" onclick="ordersSort({id:'shop-orders', el:this});">
             		<?php _e("Date"); ?>
             	</span>
                 <span class="mw-ui-btn mw-ui-btn-medium" data-sort-type="order_status" onclick="ordersSort({id:'shop-orders', el:this});">

@@ -15,10 +15,10 @@ $config['version'] = 0.33;
 
  $config['tables'] = array();
  $fields_to_add = array();
-//$fields_to_add[] = array('rel', 'longText');
+//$fields_to_add[] = array('rel_type', 'longText');
 //$fields_to_add[] = array('rel_id', 'longText');
-//$fields_to_add[] = array('updated_on', 'dateTime');
-//$fields_to_add[] = array('created_on', 'dateTime');
+//$fields_to_add[] = array('updated_at', 'dateTime');
+//$fields_to_add[] = array('created_at', 'dateTime');
 //$fields_to_add[] = array('created_by', 'integer');
 //$fields_to_add[] = array('edited_by', 'integer');
 //$fields_to_add[] = array('comment_name', 'longText');

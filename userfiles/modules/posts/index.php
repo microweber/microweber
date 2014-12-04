@@ -431,12 +431,12 @@ if (!empty($content)) {
         $item['content'] = htmlspecialchars_decode($item['content']);
 
 
-        if (isset($item['created_on']) and trim($item['created_on']) != '') {
-            $item['created_on'] = date($date_format, strtotime($item['created_on']));
+        if (isset($item['created_at']) and trim($item['created_at']) != '') {
+            $item['created_at'] = date($date_format, strtotime($item['created_at']));
         }
 
-        if (isset($item['updated_on']) and trim($item['updated_on']) != '') {
-            $item['updated_on'] = date($date_format, strtotime($item['updated_on']));
+        if (isset($item['updated_at']) and trim($item['updated_at']) != '') {
+            $item['updated_at'] = date($date_format, strtotime($item['updated_at']));
         }
 
         $item['link'] = content_link($item['id']);

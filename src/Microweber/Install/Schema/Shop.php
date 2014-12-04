@@ -10,9 +10,9 @@ class Shop
 				'title' => 'longText',
 				'is_active' => "string",
 				'rel_id' => 'integer',
-				'rel' => 'string',
-				'updated_on' => 'dateTime',
-				'created_on' => 'dateTime',
+				'rel_type' => 'string',
+				'updated_at' => 'dateTime',
+				'created_at' => 'dateTime',
 				'price' => 'float',
 				'currency' => 'string',
 				'session_id' => 'string',
@@ -23,12 +23,12 @@ class Shop
 				'skip_promo_code' => "string",
 				'created_by' => 'integer',
 				'custom_fields_data' => 'longText',
-				'$index' => ['rel', 'rel_id']
+				'$index' => ['rel_type', 'rel_id']
 			],
 
 			'cart_orders' => [
-		        'updated_on' => 'dateTime',
-		        'created_on' => 'dateTime',
+		        'updated_at' => 'dateTime',
+		        'created_at' => 'dateTime',
 		        'country' => 'string',
 		        'promo_code' => 'longText',
 		        'amount' => 'float',
@@ -94,7 +94,7 @@ class Shop
 
         		'is_active' => "string",
         		'rel_id' => 'integer',
-        		'rel' => 'string',
+        		'rel_type' => 'string',
         		'price' => 'float',
         		'other_info' => 'longText',
         		'order_id' => 'string',
@@ -104,8 +104,8 @@ class Shop
         	],
 
         	'cart_shipping' => [
-        		'updated_on' => 'dateTime',
-        		'created_on' => 'dateTime',
+        		'updated_at' => 'dateTime',
+        		'created_at' => 'dateTime',
         		'is_active' => "string",
 
         		'shipping_cost' => 'float',

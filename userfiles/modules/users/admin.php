@@ -101,7 +101,7 @@
         var hash = mw.url.getHashParams(window.location.hash);
         if (typeof hash['edit-user'] == 'undefined') {
             if (hash.sortby === undefined) {
-                mw.url.windowHashParam('sortby', 'created_on desc');
+                mw.url.windowHashParam('sortby', 'created_at desc');
             }
         }
     });
@@ -257,7 +257,7 @@
           <ul class="mw-ui-inline-list" >
             <li>
               <label class="mw-ui-check">
-                <input name="sortby" class="mw_users_filter_show" type="radio" value="created_on desc" checked="checked" onchange="mw.url.windowHashParam('sortby', this.value)" />
+                <input name="sortby" class="mw_users_filter_show" type="radio" value="created_at desc" checked="checked" onchange="mw.url.windowHashParam('sortby', this.value)" />
                 <span></span><span>
                 <?php _e("Date created"); ?>
                 </span> </label>

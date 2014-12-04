@@ -38,7 +38,7 @@ class FormsManager
 
 
         if (!isset($params["order_by"])) {
-            $params["order_by"] = 'created_on desc';
+            $params["order_by"] = 'created_at desc';
         }
 
         $data = $this->app->database->get($params);
@@ -210,7 +210,7 @@ class FormsManager
         }
         $to_save['list_id'] = $list_id;
         $to_save['rel_id'] = $for_id;
-        $to_save['rel'] = $for;
+        $to_save['rel_type'] = $for;
         // $to_save['allow_html'] = 1;
         //$to_save['custom_fields'] = $fields_data;
 
@@ -234,7 +234,7 @@ class FormsManager
                     unset($value['session_id']);
                 }
                 $new_field['rel_id'] = $save;
-                $new_field['rel'] = 'forms_data';
+                $new_field['rel_type'] = 'forms_data';
                 $new_field['allow_html'] = 1;
                 $new_field['custom_field_value'] = $value['custom_field_value'];
                 $new_field['custom_field_type'] = $value['custom_field_type'];
@@ -248,8 +248,8 @@ class FormsManager
             $pp_arr = $params;
             $pp_arr['ip'] = MW_USER_IP;
             unset($pp_arr['module_name']);
-            if (isset($pp_arr['rel'])) {
-                unset($pp_arr['rel']);
+            if (isset($pp_arr['rel_type'])) {
+                unset($pp_arr['rel_type']);
             }
 
             if (isset($pp_arr['rel_id'])) {
@@ -270,7 +270,7 @@ class FormsManager
 
             $notif = array();
             $notif['module'] = $params['module_name'];
-            $notif['rel'] = 'forms_lists';
+            $notif['rel_type'] = 'forms_lists';
             $notif['rel_id'] = $list_id;
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
@@ -473,7 +473,7 @@ class FormsManager
             $csv_output = '';
             if (isset($custom_fields) and is_array($custom_fields)) {
                 $csv_output = 'id,';
-                $csv_output .= 'created_on,';
+                $csv_output .= 'created_at,';
                 $csv_output .= 'user_ip,';
                 foreach ($custom_fields as $k => $item) {
                     $csv_output .= $this->app->format->no_dashes($k) . ",";
@@ -486,7 +486,7 @@ class FormsManager
                     if (isset($item['custom_fields'])) {
                         $csv_output .= $item['id'] . ",";
                         $csv_output .= "\t";
-                        $csv_output .= $item['created_on'] . ",";
+                        $csv_output .= $item['created_at'] . ",";
                         $csv_output .= "\t";
                         $csv_output .= $item['user_ip'] . ",";
                         $csv_output .= "\t";

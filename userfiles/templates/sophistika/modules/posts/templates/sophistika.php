@@ -24,8 +24,8 @@ description: Sophistika
   <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
         <h3><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
   <?php endif; ?>
-   <?php if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
-    <small class="date"><span class="glyphicon glyphicon-calendar"></span> <?php print $item['created_on']; ?></small>
+   <?php if(!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
+    <small class="date"><span class="glyphicon glyphicon-calendar"></span> <?php print $item['created_at']; ?></small>
    <?php endif; ?>
    <hr class="hr1">
     <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>

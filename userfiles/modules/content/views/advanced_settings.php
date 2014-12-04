@@ -272,10 +272,10 @@ if (isset($data['original_link']) and $data['original_link'] != '') {
 <?php if(isset($item['id'])): ?>
 <div class=""> <small> id: <?php print $item['id'] ?></small></div>
 <?php endif; ?>
-<?php if(isset($item['created_on'])): ?>
-<div class=""> <small>  <?php _e("Created on"); ?>: <?php print $item['created_on'] ?></small></div>
+<?php if(isset($item['created_at'])): ?>
+<div class=""> <small>  <?php _e("Created on"); ?>: <?php print $item['created_at'] ?></small></div>
 <?php endif; ?>
-<?php if(isset($item['updated_on'])): ?>
-<div class=""> <small>  <?php _e("Updated on"); ?>: <?php print $item['updated_on'] ?></small></div>
+<?php if(isset($item['updated_at'])): ?>
+<div class=""> <small>  <?php _e("Updated on"); ?>: <?php print $item['updated_at'] ?></small></div>
 <?php endif; ?>
 <?php /* PRODUCTS ONLY  */ ?>

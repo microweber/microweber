@@ -14,15 +14,15 @@ $for = $mod_name = $config['module'];
 $for_module_id = $mod_id = $params['id'];
 
 
-if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'post' and defined('POST_ID')) {
+if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'post' and defined('POST_ID')) {
     $params['rel_id'] = POST_ID;
     $params['for'] = 'content';
 }
-if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'page' and defined('PAGE_ID')) {
+if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'page' and defined('PAGE_ID')) {
     $params['rel_id'] = PAGE_ID;
     $params['for'] = 'content';
 }
-if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'content' and defined('CONTENT_ID')) {
+if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'content' and defined('CONTENT_ID')) {
     $params['rel_id'] = CONTENT_ID;
     $params['for'] = 'content';
 }
@@ -33,11 +33,11 @@ if (isset($params['rel']) and trim(strtolower(($params['rel']))) == 'content' an
 $use_from_post = get_option('data-use-from-post', $params['id']) =='y';
 $use_from_post_forced = false;
  
- if(isset($params['rel'])){
-	 if((trim($params['rel']) == 'page') or(trim($params['rel']) == 'content') or ((trim($params['rel']) == 'post') or trim($params['rel']) == 'post') or trim($params['rel']) == 'post'){
+ if(isset($params['rel_type'])){
+	 if((trim($params['rel_type']) == 'page') or(trim($params['rel_type']) == 'content') or ((trim($params['rel_type']) == 'post') or trim($params['rel_type']) == 'post') or trim($params['rel_type']) == 'post'){
 	  $use_from_post = true;
 	  $use_from_post_forced = 1;
-		unset($params['rel']);
+		unset($params['rel_type']);
 	 }
  }
 if(isset($params['content-id']) and $params['content-id'] != 0){

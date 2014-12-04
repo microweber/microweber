@@ -32,7 +32,7 @@ class Controller
         $rel_id = intval($cont_id);
 
         $get = array();
-        $get['rel'] = $rel;
+        $get['rel_type'] = $rel;
         $get['rel_id'] = $rel_id;
         $get['sum'] = 'rating';
         $get['group_by'] = 'rel_id,rel';
@@ -46,7 +46,7 @@ class Controller
 
 
         $get = array();
-        $get['rel'] = $rel;
+        $get['rel_type'] = $rel;
         $get['rel_id'] = $rel_id;
         $get['count'] = true;
         $total_of_ratings = $this->model->get($get);
@@ -58,7 +58,7 @@ class Controller
         }
 
         $view->assign('ratings', intval($rating));
-        $view->assign('rel', $rel);
+        $view->assign('rel_type', $rel);
         $view->assign('rel_id', $rel_id);
 
         return $view->display();
@@ -73,7 +73,7 @@ class Controller
         $rel_id = $item['id'];
 
         $get = array();
-        $get['rel'] = $rel;
+        $get['rel_type'] = $rel;
         $get['rel_id'] = $rel_id;
         $get['sum'] = 'rating';
         $get['group_by'] = 'rel_id,rel';
@@ -87,7 +87,7 @@ class Controller
 
 
         $get = array();
-        $get['rel'] = $rel;
+        $get['rel_type'] = $rel;
         $get['rel_id'] = $rel_id;
         $get['count'] = true;
         $total_of_ratings = $this->model->get($get);
@@ -99,7 +99,7 @@ class Controller
         }
 
         $view->assign('ratings', intval($rating));
-        $view->assign('rel', $rel);
+        $view->assign('rel_type', $rel);
         $view->assign('rel_id', $rel_id);
 
         return $view->display();
@@ -114,7 +114,7 @@ class Controller
         $rel_id = $item['id'];
 
         $get = array();
-        $get['rel'] = $rel;
+        $get['rel_type'] = $rel;
         $get['rel_id'] = $rel_id;
         $get['sum'] = 'rating';
         $get['group_by'] = 'rel_id,rel';
@@ -128,7 +128,7 @@ class Controller
 
 
         $get = array();
-        $get['rel'] = $rel;
+        $get['rel_type'] = $rel;
         $get['rel_id'] = $rel_id;
         $get['count'] = true;
         $total_of_ratings = $this->model->get($get);
@@ -140,7 +140,7 @@ class Controller
         }
 
         $view->assign('ratings', intval($rating));
-        $view->assign('rel', $rel);
+        $view->assign('rel_type', $rel);
         $view->assign('rel_id', $rel_id);
 
         return $view->display();
@@ -149,7 +149,7 @@ class Controller
 
     function save($item)
     {
-        if (!isset($item['rel_id']) and !isset($item['rel']) and !isset($item['rating'])) {
+        if (!isset($item['rel_id']) and !isset($item['rel_type']) and !isset($item['rating'])) {
             return false;
         }
         $save = $this->model->save($item);

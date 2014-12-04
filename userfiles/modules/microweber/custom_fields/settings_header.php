@@ -41,8 +41,8 @@ if (!isset($data['id'])) {
 	
 }
 
-if($for == false and isset($data['rel'])){
-	$for = $data['rel'];
+if($for == false and isset($data['rel_type'])){
+	$for = $data['rel_type'];
 }
  
 
@@ -142,8 +142,8 @@ if(!isset($for_module_id) or $for_module_id == false){
 	}
 }
 if(!isset($for) or $for == false){
-if (isset($data['rel'])) {
-  $for = $data['rel'];
+if (isset($data['rel_type'])) {
+  $for = $data['rel_type'];
 	
 }
 }
@@ -185,8 +185,8 @@ if($for_module_id == false){
 
 
 if($for == false){
-	if (isset($data_orig['rel'])) {
-  $for = $data_orig['rel'];
+	if (isset($data_orig['rel_type'])) {
+  $for = $data_orig['rel_type'];
 		
 	}
 }

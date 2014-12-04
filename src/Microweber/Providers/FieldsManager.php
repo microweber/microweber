@@ -105,7 +105,7 @@ class FieldsManager
                     if ($ex == false or is_array($ex) == false) {
                         $make_field = array();
                         $make_field['id'] = 0;
-                        $make_field['rel'] = $rel;
+                        $make_field['rel_type'] = $rel;
                         $make_field['rel_id'] = $rel_id;
                         $make_field['position'] = $pos;
                         $make_field['custom_field_name'] = ucfirst($field_type);
@@ -191,8 +191,8 @@ class FieldsManager
             $table_custom_field = $this->tables['custom_fields'];
             $form_data_from_id = $this->app->database->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
             if (isset($form_data_from_id['id'])) {
-                if (!isset($data_to_save['rel'])) {
-                    $data_to_save['rel'] = $form_data_from_id['rel'];
+                if (!isset($data_to_save['rel_type'])) {
+                    $data_to_save['rel_type'] = $form_data_from_id['rel_type'];
                 }
                 if (!isset($data_to_save['rel_id'])) {
                     $data_to_save['rel_id'] = $form_data_from_id['rel_id'];
@@ -216,10 +216,10 @@ class FieldsManager
 
         }
 
-        if (!isset($data_to_save['rel'])) {
-            $data_to_save['rel'] = 'content';
+        if (!isset($data_to_save['rel_type'])) {
+            $data_to_save['rel_type'] = 'content';
         }
-        $data_to_save['rel'] = $this->app->database_manager->assoc_table_name($data_to_save['rel']);
+        $data_to_save['rel_type'] = $this->app->database_manager->assoc_table_name($data_to_save['rel_type']);
         if (!isset($data_to_save['rel_id'])) {
             $data_to_save['rel_id'] = '0';
         }
@@ -401,18 +401,18 @@ class FieldsManager
 
         if (!isset($table_assoc_name)) {
             if (isset($params['for'])) {
-                $params['rel'] = $table_assoc_name = $this->app->database_manager->assoc_table_name($params['for']);
+                $params['rel_type'] = $table_assoc_name = $this->app->database_manager->assoc_table_name($params['for']);
             }
         } else {
-            $params['rel'] = $table_assoc_name;
+            $params['rel_type'] = $table_assoc_name;
         }
 
         if (isset($params['debug'])) {
             $debug = $params['debug'];
         }
         if (isset($params['for'])) {
-            if (!isset($params['rel']) or $params['rel'] == false) {
-                $params['for'] = $params['rel'];
+            if (!isset($params['rel_type']) or $params['rel_type'] == false) {
+                $params['for'] = $params['rel_type'];
             }
         }
         if (isset($params['for_id'])) {
@@ -455,8 +455,8 @@ class FieldsManager
                 $params['custom_field_name'] = $field_for;
             }
 
-            if ($params['rel'] == 'MW_ANY_TABLE') {
-                unset($params['rel']);
+            if ($params['rel_type'] == 'MW_ANY_TABLE') {
+                unset($params['rel_type']);
             }
 
 
@@ -588,11 +588,11 @@ class FieldsManager
     public function unify_params($data)
     {
 
-        if (isset($data['rel'])) {
-            if ($data['rel'] == 'content' or $data['rel'] == 'page' or $data['rel'] == 'post') {
-                $data['rel'] = 'content';
+        if (isset($data['rel_type'])) {
+            if ($data['rel_type'] == 'content' or $data['rel_type'] == 'page' or $data['rel_type'] == 'post') {
+                $data['rel_type'] = 'content';
             }
-            $data['rel'] = $data['rel'];
+            $data['rel_type'] = $data['rel_type'];
         }
 
         if (isset($params['content_id'])) {
@@ -601,7 +601,7 @@ class FieldsManager
 
         }
         if (isset($data['content_id'])) {
-            $data['rel'] = 'content';
+            $data['rel_type'] = 'content';
             $data['rel_id'] = intval($data['content_id']);
         }
 
@@ -634,8 +634,8 @@ class FieldsManager
         if (!isset($data['custom_field_value']) and isset($data['field_value']) and $data['field_value'] != '') {
             $data['custom_field_value'] = $data['field_value'];
         }
-        if (!isset($data['rel']) and isset($data['for'])) {
-            $data['rel'] = $this->app->database_manager->assoc_table_name($data['for']);
+        if (!isset($data['rel_type']) and isset($data['for'])) {
+            $data['rel_type'] = $this->app->database_manager->assoc_table_name($data['for']);
         }
 
         if (!isset($data['cf_id']) and isset($data['id'])) {
@@ -651,8 +651,8 @@ class FieldsManager
 
         }
 
-        if (!isset($params['rel']) and isset($params['for'])) {
-            $params['rel'] = $params['for'];
+        if (!isset($params['rel_type']) and isset($params['for'])) {
+            $params['rel_type'] = $params['for'];
         }
         if (isset($params['for_id'])) {
             $params['rel_id'] = $params['for_id'];
@@ -826,8 +826,8 @@ class FieldsManager
                         $cp = $form_data;
                         $cp['id'] = 0;
                         $cp['copy_of_field'] = $copy_from;
-                        if (isset($data['rel'])) {
-                            $cp['rel'] = ($data['rel']);
+                        if (isset($data['rel_type'])) {
+                            $cp['rel_type'] = ($data['rel_type']);
                         }
                         if (isset($data['rel_id'])) {
                             $cp['rel_id'] = ($data['rel_id']);

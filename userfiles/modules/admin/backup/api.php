@@ -791,7 +791,7 @@ class api {
 		if ($back_log_action == false) {
 			delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
 		} else {
-			$check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+			$check = get_log("order_by=created_at desc&one=true&is_system=y&created_at=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
 			if (isarr($check) and isset($check['id'])) {
 				save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
@@ -807,7 +807,7 @@ class api {
 		if ($back_log_action == false) {
 			delete_log("is_system=y&rel=backup&user_ip=" . USER_IP);
 		} else {
-			$check = get_log("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
+			$check = get_log("order_by=created_at desc&one=true&is_system=y&created_at=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 
 			if (isarr($check) and isset($check['id'])) {
 				save_log("is_system=y&field=action&rel=backup&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);

@@ -31,11 +31,11 @@ if (!isset($params['for'])) {
 }
 
 
-if (!isset($params['rel'])) {
+if (!isset($params['rel_type'])) {
 	$for = 'content';
 
 } else {
-	$for = $params['rel'];
+	$for = $params['rel_type'];
 }
 
 $is_shop = '';

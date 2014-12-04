@@ -44,7 +44,7 @@
                  mweditor.onload = function(){
                     var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
                     if(titleel !== null){
-                        var rel = mw.tools.mwattr(titleel, 'rel');
+                        var rel = mw.tools.mwattr(titleel, 'rel_type');
                         if(rel == 'post' || rel == 'page' || rel == 'content'){
                             mw.tools.mapNodeValues(titleel, mwd.getElementById('content-title-field'))
                         }

@@ -18,7 +18,7 @@ class Controller
 
     function save($item)
     {
-        if (!isset($item['rel_id']) and !isset($item['rel']) and !isset($item['rating'])) {
+        if (!isset($item['rel_id']) and !isset($item['rel_type']) and !isset($item['rating'])) {
             return false;
         }
         $save = $this->model->save($item);

@@ -73,8 +73,8 @@ if(!isset($tn[1])){
       <?php if($show_fields == false or in_array('title', $show_fields)): ?>
       <h3><a  class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
       <?php endif; ?>
-      <?php if($show_fields != false and in_array('created_on', $show_fields)): ?>
-      <span class="date"><?php print $item['created_on'] ?></span>
+      <?php if($show_fields != false and in_array('created_at', $show_fields)): ?>
+      <span class="date"><?php print $item['created_at'] ?></span>
       <?php endif; ?>
       <?php if($show_fields == false or ($show_fields != false and  is_array($show_fields) and  in_array('description', $show_fields))): ?>
       <p class="description"> <?php print $item['description']; ?> </p>

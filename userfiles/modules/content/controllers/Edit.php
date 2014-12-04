@@ -202,7 +202,7 @@ class Edit
 						$parent_content_params['limit'] = 1;
 						$parent_content_params['one'] = 1;
  						$parent_content_params['fields'] = 'id';
-						$parent_content_params['order_by'] = 'posted_on desc, updated_on desc';
+						$parent_content_params['order_by'] = 'posted_on desc, updated_at desc';
 						 $parent_content_params['is_shop'] = 0;
 						 $parent_content = $this->app->content_manager->get($parent_content_params);
 							if (isset($parent_content['id']) and $parent_content['id'] != 0) {
@@ -223,7 +223,7 @@ class Edit
             $parent_content_params['one'] = 1;
             $parent_content_params['parent'] = 0;
             $parent_content_params['fields'] = 'id';
-            $parent_content_params['order_by'] = 'posted_on desc, updated_on desc';
+            $parent_content_params['order_by'] = 'posted_on desc, updated_at desc';
 
             if (isset($params['subtype']) and $params['subtype'] == 'post') {
                 $parent_content_params['is_shop'] = 0;
@@ -267,7 +267,7 @@ class Edit
             //if we are adding product in a page that is not a shop
             $parent_shop_check = $this->app->content_manager->get_by_id($data['parent']);
             if (!isset($parent_shop_check['is_shop']) or $parent_shop_check['is_shop'] != 'y') {
-                $parent_content_shop = $this->app->content_manager->get('content_type=page&order_by=updated_on desc&one=true&is_shop=0');
+                $parent_content_shop = $this->app->content_manager->get('content_type=page&order_by=updated_at desc&one=true&is_shop=0');
                 if (isset($parent_content_shop['id'])) {
                     $data['parent'] = $parent_content_shop['id'];
                 }
@@ -276,7 +276,7 @@ class Edit
         } elseif ($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'post') {
              $parent_shop_check = $this->app->content_manager->get_by_id($data['parent']);
             if (!isset($parent_shop_check['content_type']) or $parent_shop_check['content_type'] != 'page') {
-                $parent_content_shop = $this->app->content_manager->get('order_by=updated_on desc&one=true&content_type=page&subtype=dynamic&is_shop=1');
+                $parent_content_shop = $this->app->content_manager->get('order_by=updated_at desc&one=true&content_type=page&subtype=dynamic&is_shop=1');
                 if (isset($parent_content_shop['id'])) {
                     $data['parent'] = $parent_content_shop['id'];
                 }

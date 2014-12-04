@@ -10,11 +10,11 @@ class Model
     public $app;
     protected $table = 'rating';
     protected $fields = array(
-        'rel' => 'text',
+        'rel_type' => 'text',
         'rel_id' => 'text',
         'session_id' => 'text',
         'rating' => 'int',
-        'created_on' => 'datetime',
+        'created_at' => 'datetime',
         'user_id' => 'int',
         'user_ip' => 'text'
     );

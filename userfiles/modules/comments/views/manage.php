@@ -15,7 +15,7 @@
  }
  
   if(isset($params['content-id'])){
-	$data['rel'] = 'content';
+	$data['rel_type'] = 'content';
 	$data['rel_id'] = intval($params['content-id']);
   }
 

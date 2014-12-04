@@ -1,14 +1,14 @@
 <?php namespace Microweber\Install\Schema;
 
-class Content 
+class Content
 {
 
     public function get()
-    {        
+    {
         return [
             'content' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'expires_on' => 'dateTime',
 
                 'created_by' => 'integer',
@@ -61,39 +61,39 @@ class Content
             ],
 
             'content_data' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'content_id' => 'string',
                 'field_name' => 'longText',
                 'field_value' => 'longText',
                 'session_id' => 'string',
-                'rel' => 'string',
+                'rel_type' => 'string',
 
                 'rel_id' => 'string'
             ],
 
             'content_fields' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-                'rel' => 'string',
+                'rel_type' => 'string',
 
                 'rel_id' => 'string',
                 'field' => 'longText',
                 'value' => 'longText',
 
-                '$index' => ['rel' => 'rel_id']
+                '$index' => ['rel_type', 'rel_id']
             ],
 
             'content_fields_drafts' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-                'rel' => 'string',
+                'rel_type' => 'string',
 
                 'rel_id' => 'string',
                 'field' => 'longText',
@@ -103,16 +103,16 @@ class Content
                 'is_temp' => "integer",
                 'url' => 'longText',
 
-                '$index' => ['rel' => 'rel_id']
+                '$index' => ['rel_type', 'rel_id']
             ],
 
             'media' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'session_id' => 'string',
-                'rel' => 'string',
+                'rel_type' => 'string',
 
                 'rel_id' => "string",
                 'media_type' => 'longText',
@@ -122,40 +122,40 @@ class Content
                 'embed_code' => 'longText',
                 'filename' => 'longText',
 
-                '$index' => ['rel', 'rel_id', 'media_type']
+                '$index' => ['rel_type', 'rel_id', 'media_type']
             ],
 
             'custom_fields' => [
-                'rel' => 'string',
+                'rel_type' => 'string',
                 'rel_id' => 'string',
                 'position' => 'integer',
-                'type' => 'longText',
+                'type' => 'string',
                 'name' => 'longText',
                 'value' => 'longText',
                 'values' => 'longText',
                 'num_value' => 'float',
 
 
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'session_id' => 'string',
 
 
-                'custom_field_name' => 'longText',
+                'custom_field_name' => 'string',
                 'custom_field_name_plain' => 'longText',
 
 
                 'custom_field_value' => 'longText',
 
 
-                'custom_field_type' => 'longText',
+                'custom_field_type' => 'string',
                 'custom_field_values' => 'longText',
                 'custom_field_values_plain' => 'longText',
 
                 'field_for' => 'longText',
-                'custom_field_field_for' => 'longText',
+                'custom_field_field_for' => 'string',
                 'custom_field_help_text' => 'longText',
                 'options' => 'longText',
 
@@ -164,7 +164,7 @@ class Content
                 'custom_field_required' => "integer",
                 'copy_of_field' => 'integer',
 
-                '$index' => ['rel', 'rel_id', 'custom_field_type']
+                '$index' => ['rel_type', 'rel_id', 'custom_field_type']
             ],
 
             'menus' => [
@@ -174,25 +174,25 @@ class Content
                 'content_id' => 'integer',
                 'categories_id' => 'integer',
                 'position' => 'integer',
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'is_active' => "integer",
                 'description' => 'longText',
                 'url' => 'longText',
             ],
 
             'categories' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-                'data_type' => 'longText',
+                'data_type' => 'string',
                 'title' => 'longText',
                 'parent_id' => 'integer',
                 'description' => 'longText',
                 'content' => 'longText',
-                'content_type' => 'longText',
-                'rel' => 'string',
+                'content_type' => 'string',
+                'rel_type' => 'string',
 
                 'rel_id' => 'integer',
 
@@ -200,21 +200,21 @@ class Content
                 'is_deleted' => "integer",
                 'users_can_create_subcategories' => "integer",
                 'users_can_create_content' => "integer",
-                'users_can_create_content_allowed_usergroups' => 'longText',
+                'users_can_create_content_allowed_usergroups' => 'string',
 
                 'categories_content_type' => 'longText',
                 'categories_silo_keywords' => 'longText',
 
-                '$index' => ['rel', 'rel_id', 'parent_id']
+                '$index' => ['rel_type', 'rel_id', 'parent_id']
             ],
 
             'categories_items' => [
                 'parent_id' => 'integer',
-                'rel' => 'string',
+                'rel_type' => 'string',
 
                 'rel_id' => 'integer',
-                'content_type' => 'longText',
-                'data_type' => 'longText',
+                'content_type' => 'string',
+                'data_type' => 'string',
 
                 '$index' => ['rel_id', 'parent_id']
             ]

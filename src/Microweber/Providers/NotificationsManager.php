@@ -221,8 +221,8 @@ class NotificationsManager
 //        if (!$is_init) {
 //            $is_init = true;
 //            $fields_to_add = array();
-//            $fields_to_add['updated_on'] = 'dateTime';
-//            $fields_to_add['created_on'] = 'dateTime';
+//            $fields_to_add['updated_at'] = 'dateTime';
+//            $fields_to_add['created_at'] = 'dateTime';
 //            $fields_to_add['created_by'] = 'integer';
 //            $fields_to_add['edited_by'] = 'integer';
 //            $fields_to_add['rel_id'] = 'integer';
@@ -243,8 +243,8 @@ class NotificationsManager
 
         $params = parse_params($params);
 
-        // if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {
-        // $params['rel'] = 'modules';
+        // if (!isset($params['rel_type']) and isset($params['module']) and trim($params['module']) != '') {
+        // $params['rel_type'] = 'modules';
         // $params['rel_id'] = $params['module'];
         // }
 
@@ -253,17 +253,17 @@ class NotificationsManager
         $table = $this->table;
         mw_var('FORCE_SAVE', $table);
 
-        if (!isset($params['rel']) or !isset($params['rel_id'])) {
+        if (!isset($params['rel_type']) or !isset($params['rel_id'])) {
             return ('Error: invalid data you must send rel and rel_id as params for $this->save function');
         }
         $old = date("Y-m-d H:i:s", strtotime('-30 days'));
-        $cleanup = "DELETE FROM $table WHERE created_on < '{$old}'";
+        $cleanup = "DELETE FROM $table WHERE created_at < '{$old}'";
         $this->app->database->q($cleanup);
 
         if (isset($params['replace'])) {
-            if (isset($params['module']) and isset($params['rel']) and isset($params['rel_id'])) {
+            if (isset($params['module']) and isset($params['rel_type']) and isset($params['rel_id'])) {
                 unset($params['replace']);
-                $rel1 = $this->app->database_manager->escape_string($params['rel']);
+                $rel1 = $this->app->database_manager->escape_string($params['rel_type']);
                 $module1 = $this->app->database_manager->escape_string($params['module']);
                 $rel_id1 = $this->app->database_manager->escape_string($params['rel_id']);
                 $cleanup = "DELETE FROM $table WHERE rel='{$rel1}' AND module='{$module1}' AND rel_id='{$rel_id1}'";
@@ -308,8 +308,8 @@ class NotificationsManager
     {
         $params = parse_params($params);
 
-        // if (!isset($params['rel']) and isset($params['module']) and trim($params['module']) != '') {
-        // $params['rel'] = 'modules';
+        // if (!isset($params['rel_type']) and isset($params['module']) and trim($params['module']) != '') {
+        // $params['rel_type'] = 'modules';
         // $params['rel_id'] = $params['module'];
         // }
         //

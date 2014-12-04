@@ -102,7 +102,7 @@ function get_page_for_category($category_id)
  * @param  $params ['include_first'] = false; //if true it will include the main parent category
  * @param  $params ['content_type'] = false; //if this is set it will include only categories from desired type
  * @param  $params ['add_ids'] = array(); //if you send array of ids it will add them to the category
- * @param  $params ['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
+ * @param  $params ['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_at','asc');
  * @param  $params ['content_type'] = false; //if this is set it will include only categories from desired type
  * @param  $params ['list_tag'] = 'select';
  * @param  $params ['list_item_tag'] = "option";

@@ -16,7 +16,7 @@
       return mw()->url_manager->redirect(login_url());
     }
 
-    $orders_params = array( 'created_by' => user_id(), 'order_by' => 'updated_on desc');
+    $orders_params = array( 'created_by' => user_id(), 'order_by' => 'updated_at desc');
     $orders = get_orders($orders_params);
 
 ?>
@@ -180,7 +180,7 @@ $(document).ready(function(){
                                         <span class="my-order-status-pending">Pending</span>
                                     <?php } ?>
                                 </span>
-                                <h4>Order #<?php print $order['id']; ?> - created on <?php print $order['created_on']; ?></h4>
+                                <h4>Order #<?php print $order['id']; ?> - created on <?php print $order['created_at']; ?></h4>
                                 <table width="100%" cellspacing="0" cellpadding="0" class="mw-ui-table mw-ui-table-basic">
                                     <thead>
                                         <tr>

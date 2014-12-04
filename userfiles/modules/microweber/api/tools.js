@@ -1742,7 +1742,7 @@ mw.tools = {
   ajaxSearcSetting:{
       limit:10,
       keyword:'',
-      order_by:'updated_on desc',
+      order_by:'updated_at desc',
       search_in_fields:'title'
   },
   ajaxSearch:function(o, callback){

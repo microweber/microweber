@@ -65,7 +65,7 @@ else {
                     data-index="<?php print $index; ?>"
                     class="mw-order-item mw-order-item-<?php print $item['id'] ?> mw-order-item-index-<?php print $index; ?>">
                 <td   class="mw-order-item-id"><a href="<?php print content_link($item['rel_id']) ?>" target="_blank"><span><?php print $item['title'] ?></span></a>
-                  <?php if ($item['rel'] == 'content'): ?>
+                  <?php if ($item['rel_type'] == 'content'): ?>
                   <?php $data_fields = mw()->content_manager->data($item['rel_id']); ?>
                   <?php if (isset($data_fields['sku']) and $data_fields['sku'] != ''): ?>
                   <small class="mw-ui-label-help">

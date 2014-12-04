@@ -23,8 +23,8 @@ if(!isset($notif_params['limit'])){
 }
 
 
-$notif_params["order_by"] = 'created_on desc';
-$notif_params["order_by"] = 'is_read desc, created_on desc';
+$notif_params["order_by"] = 'created_at desc';
+$notif_params["order_by"] = 'is_read desc, created_at desc';
  
 $data = mw('Microweber\Notifications')->get($notif_params);
 $wrapper_id = "admin_notifications";
@@ -86,7 +86,7 @@ mw.notif_mark_all_as_read = function(){
 <?php
 	/*		foreach($periods as $period){
 				if(!in_array($period ,$periods_printed )){
-					$time1 = strtotime($item['created_on']);
+					$time1 = strtotime($item['created_at']);
 
 
 					$time2 = strtotime($period);
@@ -143,7 +143,7 @@ mw.notif_mark_all_as_read = function(){
 					<?php endif; ?></td>
 				<td><?php if($mod_info != false and isset($mod_info['name'])): ?>
 					<a class="mw-ui-link" href="<?php print admin_url() ?>view:modules/load_module:<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>" title="<?php print $mod_info['name'] ?>"> <?php print $item['title'] ?></a>
-					<?php elseif(isset($item['rel']) and $item['rel'] == 'content'): ?>
+					<?php elseif(isset($item['rel_type']) and $item['rel_type'] == 'content'): ?>
 					<a class="mw-ui-link" href="<?php print admin_url() ?>view:content#action=editpage:<?php print ($item['rel_id']) ?>"> <?php print $item['title'] ?></a>
 					<?php else : ?>
 					<?php print $item['title'] ?>
@@ -151,7 +151,7 @@ mw.notif_mark_all_as_read = function(){
 					
 
 					<div class="notification_info">
-					    <time title="<?php print mw('format')->date($item['created_on']); ?>"><?php print mw('format')->ago($item['created_on'],1); ?></time>
+					    <time title="<?php print mw('format')->date($item['created_at']); ?>"><?php print mw('format')->ago($item['created_at'],1); ?></time>
 					</div>
 					
 					

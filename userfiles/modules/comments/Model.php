@@ -8,7 +8,7 @@ class Model
     public $app;
     protected $table = 'comments';
     protected $fields = array(
-        'rel' => 'text',
+        'rel_type' => 'text',
         'rel_id' => 'text',
         'session_id' => 'text',
         'comment_name' => 'text',
@@ -20,8 +20,8 @@ class Model
         'is_moderated' => "integer",
         'for_newsletter' => "integer",
         'is_new' => "integer",
-        'created_on' => 'datetime',
-        'updated_on' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
         'created_by' => 'int',
         'edited_by' => 'int',
         'user_ip' => 'text'

@@ -1,7 +1,7 @@
 <?php only_admin_access() ;
 $comments_data = array();
-if(isset($params['rel'])){
-$comments_data['rel'] =  $params['rel'];
+if(isset($params['rel_type'])){
+$comments_data['rel_type'] =  $params['rel_type'];
 } 
 
 if(isset($params['rel_id'])){

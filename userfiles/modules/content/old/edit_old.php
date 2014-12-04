@@ -106,7 +106,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	$parent_content_params['parent'] = 0;
 	$parent_content_params['fields'] = 'id';
 //	$parent_content_params['is_active'] = 1;
-	$parent_content_params['order_by'] = 'posted_on desc, updated_on desc';
+	$parent_content_params['order_by'] = 'posted_on desc, updated_at desc';
 	  
 	if(isset($params['subtype']) and $params['subtype'] == 'post'){
 		$parent_content_params['is_shop'] = 0;
@@ -148,7 +148,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	 //if we are adding product in a page that is not a shop
 	 $parent_shop_check =  get_content_by_id($data['parent']);
 	 if(!isset($parent_shop_check['is_shop']) or $parent_shop_check['is_shop'] != 'y'){
-		 $parent_content_shop = get_content('order_by=updated_on desc&one=true&is_shop=0');
+		 $parent_content_shop = get_content('order_by=updated_at desc&one=true&is_shop=0');
 		  if(isset($parent_content_shop['id'])){
 			 $data['parent'] = $parent_content_shop['id'];
 		 }
@@ -160,7 +160,7 @@ if(intval($data['id']) == 0 and intval($data['parent']) == 0){
 	 $parent_shop_check =  get_content_by_id($data['parent']);
 	
 	 if(!isset($parent_shop_check['subtype']) or $parent_shop_check['subtype'] != 'dynamic'){
-		 $parent_content_shop = get_content('order_by=updated_on desc&one=true&subtype=dynamic&is_shop=1');
+		 $parent_content_shop = get_content('order_by=updated_at desc&one=true&subtype=dynamic&is_shop=1');
 		  if(isset($parent_content_shop['id'])){
 			  $data['parent'] = $parent_content_shop['id'];
 		 }

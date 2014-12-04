@@ -6,10 +6,10 @@
 <?php elseif(isset($params['prefix'])): ?>
 <?php $lic = mw()->update->get_licenses('one=1&rel='.$params['prefix']); ?>
 <?php endif; ?>
-<?php if(isset($lic['rel'])): ?>
+<?php if(isset($lic['rel_type'])): ?>
 <?php 
 
-$params['prefix'] = $lic['rel']; 
+$params['prefix'] = $lic['rel_type']; 
 $local_key =  $lic['local_key'];
 $id =  $lic['id'];
 ?>

@@ -91,8 +91,8 @@ description: Default comments template
                   <?php if(isset( $comment['comment_website'])){ ?>
                   </a>
                   <?php } ?>
-                  <?php if(isset($comment['updated_on'])): ?>
-                  &nbsp; <small class="muted"> <?php print $comment['updated_on']; ?> </small>
+                  <?php if(isset($comment['updated_at'])): ?>
+                  &nbsp; <small class="muted"> <?php print $comment['updated_at']; ?> </small>
                   <?php endif; ?>
                   <?php   event_trigger('module.comments.item.info', $comment); ?>
                 </div>

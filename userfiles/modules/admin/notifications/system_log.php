@@ -16,7 +16,7 @@ if(isset($params['limit'])){
 	$log_params["is_read"] = $params['is_read'];
 }*/
 $log_params["is_system"] = 'n';
-$log_params["order_by"] = 'created_on desc';
+$log_params["order_by"] = 'created_at desc';
 $data = mw()->log_manager->get($log_params);
  
 
@@ -81,15 +81,15 @@ mw.syslog_log_reset_all = function(){
   	    }
        ?>
         <td> 
-          <time class="mw-date" title="<?php print mw('format')->date($item['created_on']); ?> (<?php print ($item['created_on']); ?>)"><?php print mw('format')->ago($item['created_on'],1); ?></time> <br> 
+          <time class="mw-date" title="<?php print mw('format')->date($item['created_at']); ?> (<?php print ($item['created_at']); ?>)"><?php print mw('format')->ago($item['created_at'],1); ?></time> <br> 
           
            
            <?php if($mod_info != false and isset($mod_info['name'])): ?> 
           <img src=" <?php   print thumbnail($mod_info['icon'], 16,16) ?>" />
-          <?php elseif(isset($item['rel']) and trim($item['rel']) != '') : ?>
+          <?php elseif(isset($item['rel_type']) and trim($item['rel_type']) != '') : ?>
           <?php endif; ?>
-          <?php if(isset($item['rel']) and trim($item['rel']) != '') : ?>
-               <span><?php print $item['rel'] ?></span> <br> 
+          <?php if(isset($item['rel_type']) and trim($item['rel_type']) != '') : ?>
+               <span><?php print $item['rel_type'] ?></span> <br> 
             <?php else : ?>
             <?php endif; ?>
             <?php if(isset($item['user_ip']) and $item['user_ip'] != ''): ?>

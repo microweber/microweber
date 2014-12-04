@@ -595,7 +595,7 @@ class ShopManager
         $return = array();
         if (is_array($get)) {
             foreach ($get as $item) {
-                if (isset($item['rel_id']) and isset($item['rel']) and $item['rel'] = 'content') {
+                if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] = 'content') {
                     $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
                 }
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
@@ -670,17 +670,17 @@ class ShopManager
                             if (isset($item['created_by'])) {
                                 unset($data['created_by']);
                             }
-                            if (isset($item['updated_on'])) {
-                                unset($data['updated_on']);
+                            if (isset($item['updated_at'])) {
+                                unset($data['updated_at']);
                             }
 
 
-                            if (isset($item['rel']) and isset($item['rel_id'])) {
+                            if (isset($item['rel_type']) and isset($item['rel_id'])) {
                                 $is_ex_params = array();
                                 $is_ex_params['order_completed'] = 'n';
                                 $is_ex_params['session_id'] = $cur_sid;
                                 $is_ex_params['table'] = $table;
-                                $is_ex_params['rel'] = $item['rel'];
+                                $is_ex_params['rel_type'] = $item['rel_type'];
                                 $is_ex_params['rel_id'] = $item['rel_id'];
                                 $is_ex_params['count'] = 1;
 
@@ -834,7 +834,7 @@ class ShopManager
             foreach ($cart_data as $item) {
 
 
-                if (isset($item['rel']) and isset($item['rel_id']) and $item['rel'] == 'content') {
+                if (isset($item['rel_type']) and isset($item['rel_id']) and $item['rel_type'] == 'content') {
 
                     $data_fields = $this->app->content_manager->data($item['rel_id'], 1);
 
@@ -872,7 +872,7 @@ class ShopManager
                             if ($notify) {
                                 $notification = array();
                                 //$notification['module'] = "content";
-                                $notification['rel'] = 'content';
+                                $notification['rel_type'] = 'content';
                                 $notification['rel_id'] = $item['rel_id'];
                                 $notification['title'] = "Your item is out of stock!";
                                 $notification['description'] = "You sold all items you had in stock. Please update your quantity";
@@ -924,7 +924,7 @@ class ShopManager
             $ord = $order_id;
             $notification = array();
             $notification['module'] = "shop";
-            $notification['rel'] = 'cart_orders';
+            $notification['rel_type'] = 'cart_orders';
             $notification['rel_id'] = $ord;
             $notification['title'] = "You have new order";
             $notification['description'] = "New order is placed from " . $this->app->url_manager->current(1);
@@ -1078,8 +1078,8 @@ class ShopManager
 
         }
 
-        if (!isset($data['for']) and isset($data['rel'])) {
-            $data['for'] = $data['rel'];
+        if (!isset($data['for']) and isset($data['rel_type'])) {
+            $data['for'] = $data['rel_type'];
         }
         if (!isset($data['for_id']) and isset($data['rel_id'])) {
             $data['for_id'] = $data['rel_id'];
@@ -1262,7 +1262,7 @@ class ShopManager
             asort($add);
             $table = $this->tables['cart'];
             $cart = array();
-            $cart['rel'] = ($data['for']);
+            $cart['rel_type'] = ($data['for']);
             $cart['rel_id'] = intval($data['for_id']);
             $cart['title'] = ($data['title']);
             $cart['price'] = floatval($found_price);

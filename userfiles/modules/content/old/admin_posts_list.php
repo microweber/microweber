@@ -144,7 +144,7 @@ if (isset($post_params['data-thumbnail-size'])) {
 if (!isset($post_params['content_type']) and isset($post_params['page-id']) and $post_params['page-id'] != 'global') {
     $post_params['content_type'] = 'post';
 } elseif (isset($post_params['page-id']) and $post_params['page-id'] == 'global') {
-    $post_params['orderby'] = 'updated_on desc';
+    $post_params['orderby'] = 'updated_at desc';
 }
 if (isset($post_params['type'])) {
     unset($post_params['type']);

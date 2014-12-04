@@ -65,7 +65,7 @@ class CategoryManager
      * @param  $params['include_first'] = false; //if true it will include the main parent category
      * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
      * @param  $params['add_ids'] = array(); //if you send array of ids it will add them to the category
-     * @param  $params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_on','asc');
+     * @param  $params['orderby'] = array(); //you can order by such array $params['orderby'] = array('created_at','asc');
      * @param  $params['content_type'] = false; //if this is set it will include only categories from desired type
      * @param  $params['list_tag'] = 'select';
      * @param  $params['list_item_tag'] = "option";
@@ -234,7 +234,7 @@ class CategoryManager
             if ($page['subtype'] == 'dynamic' and intval($page['subtype_value']) > 0) {
                 $parent = $page['subtype_value'];
             } else {
-                $params['rel'] = 'content';
+                $params['rel_type'] = 'content';
                 $params['rel_id'] = $params['for_page'];
                 $parent = 0;
             }
@@ -271,7 +271,7 @@ class CategoryManager
                 $cat_get_params['no_cache'] = 1;
                 $cat_get_params['parent_id'] = '0';
                 $cat_get_params['table'] = $table;
-                $cat_get_params['rel'] = $table_assoc_name;
+                $cat_get_params['rel_type'] = $table_assoc_name;
                 if ($users_can_create_content != false) {
                     $cat_get_params['users_can_create_content'] = $users_can_create_content;
                     $str0 = $str0 . '&users_can_create_content=' . $users_can_create_content;
@@ -316,8 +316,8 @@ class CategoryManager
             $add_ids = explode(',', $add_ids);
         }
 
-        if (isset($params['rel']) and $params['rel'] != false and isset($params['rel_id'])) {
-            $table_assoc_name = $this->app->database_manager->assoc_table_name($params['rel']);
+        if (isset($params['rel_type']) and $params['rel_type'] != false and isset($params['rel_id'])) {
+            $table_assoc_name = $this->app->database_manager->assoc_table_name($params['rel_type']);
             $skip123 = true;
             $users_can_create_content_q = false;
             $cat_get_params = array();
@@ -328,7 +328,7 @@ class CategoryManager
             // $cat_get_params['what'] = 'categories';
             $cat_get_params['rel_id'] = ($params['rel_id']);
             $cat_get_params['table'] = $table;
-            $cat_get_params['rel'] = $table_assoc_name;
+            $cat_get_params['rel_type'] = $table_assoc_name;
             if ($users_can_create_content != false) {
                 $cat_get_params['users_can_create_content'] = $users_can_create_content;
             }
@@ -572,10 +572,10 @@ class CategoryManager
 
                         if ($li_class_name == false) {
 
-                            $output = "<{$list_item_tag} class='{active_class} category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag} title='{title_slashes}'>";
+                            $output = "<{$list_item_tag} class='{active_class} category_element depth-{$depth_level_counter} item_{$iid}'   value='{$item['id']}' data-category-id='{$item['id']}' data-category-parent-id='{$item['parent_id']}' data-item-id='{$item['id']}'  data-to-table='{$item['rel_type']}'  data-to-table-id='{$item['rel_id']}'    data-categories-type='{$item['data_type']}' {active_code_tag} title='{title_slashes}'>";
                         } else {
 
-                            $output = "<{$list_item_tag} class='{active_class} $li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'  {active_code_tag} title='{title_slashes}' >";
+                            $output = "<{$list_item_tag} class='{active_class} $li_class_name  category_element depth-{$depth_level_counter} item_{$iid}'  value='{$item['id']}' data-item-id='{$item['id']}' data-category-id='{$item['id']}'  data-to-table='{$item['rel_type']}'  data-to-table-id='{$item['rel_id']}'  data-categories-type='{$item['data_type']}'  {active_code_tag} title='{title_slashes}' >";
                         }
                     }
 
@@ -759,11 +759,11 @@ class CategoryManager
         } else {
             $table = $this->tables['categories'];
             $c_infp = $this->get_by_id($id);
-            if (!isset($c_infp['rel'])) {
+            if (!isset($c_infp['rel_type'])) {
                 return;
             }
 
-            if (trim($c_infp['rel']) != 'content') {
+            if (trim($c_infp['rel_type']) != 'content') {
                 return;
             }
 
@@ -773,7 +773,7 @@ class CategoryManager
                 $url = $content['url'];
                 $url = $this->app->content_manager->link($content['id']);
             } else {
-                if (!empty($c_infp) and isset($c_infp['rel']) and trim($c_infp['rel']) == 'content') {
+                if (!empty($c_infp) and isset($c_infp['rel_type']) and trim($c_infp['rel_type']) == 'content') {
                     $this->app->database_manager->delete_by_id($table, $id);
                 }
             }
@@ -1041,7 +1041,7 @@ class CategoryManager
 
         if (isset($orderby) == false) {
             $orderby = array();
-            //$orderby[0] = 'updated_on';
+            //$orderby[0] = 'updated_at';
 
             //$orderby[1] = 'DESC';
 
@@ -1166,7 +1166,7 @@ class CategoryManager
 
         $data = array();
 
-        $data['rel'] = 'content';
+        $data['rel_type'] = 'content';
 
         $data['rel_id'] = $content_id;
         $data_type_q = false;
@@ -1251,8 +1251,8 @@ class CategoryManager
         }
 
 
-        if(!isset( $data['rel'])){
-            $data['rel'] = 'content';
+        if(!isset( $data['rel_type'])){
+            $data['rel_type'] = 'content';
         }
 
 
@@ -1263,13 +1263,13 @@ class CategoryManager
 
 
         if (isset($data['parent_page'])) {
-            $data['rel'] = 'content';
+            $data['rel_type'] = 'content';
             $data['rel_id'] = $data['parent_page'];
         }
 
         if(isset($data['parent_id'])){
-            if(isset($data['rel'])){
-                unset($data['rel']);
+            if(isset($data['rel_type'])){
+                unset($data['rel_type']);
             }
             if(isset($data['rel_id'])){
                 unset($data['rel_id']);
@@ -1298,8 +1298,8 @@ class CategoryManager
         $content_ids = false;
         $simple_save = false;
 
-        if (isset($data['rel']) and ($data['rel'] == '') or !isset($data['rel'])) {
-            $data['rel'] = 'content';
+        if (isset($data['rel_type']) and ($data['rel_type'] == '') or !isset($data['rel_type'])) {
+            $data['rel_type'] = 'content';
         }
         if (isset($data['simple_save'])) {
             $simple_save = $data['simple_save'];
@@ -1313,14 +1313,14 @@ class CategoryManager
 
 
         $no_position_fix = false;
-        if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) != '' and trim($data['rel_id']) != '') {
+        if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) != '' and trim($data['rel_id']) != '') {
 
             $table = $table_items;
             $no_position_fix = true;
         }
 
         if (isset($data['parent_page'])) {
-            $data['rel'] = 'content';
+            $data['rel_type'] = 'content';
             $data['rel_id'] = $data['parent_page'];
         }
 
@@ -1334,7 +1334,7 @@ class CategoryManager
         }
 
 
-        if (isset($data['rel']) and isset($data['rel_id']) and trim($data['rel']) == 'content' and intval($data['rel_id']) != 0) {
+        if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) == 'content' and intval($data['rel_id']) != 0) {
 
             $cont_check = $this->app->content_manager->get_by_id($data['rel_id']);
             if ($cont_check != false and isset($cs['subtype']) and isset($data['rel_id']) and $cs['subtype'] != 'dynamic') {
@@ -1430,7 +1430,7 @@ class CategoryManager
 
                 $item_save = array();
 
-                $item_save['rel'] = 'content';
+                $item_save['rel_type'] = 'content';
 
                 $item_save['rel_id'] = $id;
 

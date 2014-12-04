@@ -63,7 +63,7 @@ $keyword_search = '&keyword='.$keyword;
   $clients = array();
   
   
-  $orders = get_orders('order_by=created_on desc&group=email&is_completed=y&email=[not_null]'.$keyword_search);
+  $orders = get_orders('order_by=created_at desc&group=email&is_completed=y&email=[not_null]'.$keyword_search);
  
  
  

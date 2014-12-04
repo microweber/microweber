@@ -113,7 +113,7 @@ class LogManager
             $c_id = intval($id);
             $table = $this->table;
             $old = date("Y-m-d H:i:s", strtotime('-1 month'));
-             mw()->database->table($table)->where('created_on', '<', $old)->delete();
+             mw()->database->table($table)->where('created_at', '<', $old)->delete();
             mw()->database->table($table)->where('id', '=', $c_id)->delete();
             $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . $c_id);
             return $c_id;

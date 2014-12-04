@@ -37,8 +37,8 @@ description: Blog
                       <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
                         <h2 class="lead"><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h2>
                       <?php endif; ?>
-                      <?php if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
-                        <small class="muted"><?php _e("Date"); ?>: <?php print $item['created_on'] ?></small>
+                      <?php if(!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
+                        <small class="muted"><?php _e("Date"); ?>: <?php print $item['created_at'] ?></small>
                       <?php endif; ?>
                   </div>
                   <?php if(!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>

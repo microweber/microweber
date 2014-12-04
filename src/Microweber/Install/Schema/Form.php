@@ -7,7 +7,7 @@ class Form
     {        
         return [
             'forms_data' => [
-                'created_on' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'rel_type' => 'string',
                 'rel_id' => 'string',
@@ -16,10 +16,10 @@ class Form
                 'module_name' => 'string',
                 'url' => 'string',
                 'user_ip' => 'string',
-                '$index' => ['rel', 'rel_id', 'list_id']
+                '$index' => ['rel_type', 'rel_id', 'list_id']
             ],
             'forms_lists' => [
-                'created_on' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'title' => 'string',
                 'description' => 'text',

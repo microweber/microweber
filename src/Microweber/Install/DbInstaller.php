@@ -14,22 +14,14 @@ class DbInstaller
     {
         Cache::flush();
         $this->install_db();
-        
+        $this->seed_db();
+
         Cache::flush();
         mw()->modules->install();
     }
 
-    private function install_db()
+    public function get_system_install_scripts()
     {
-        if (!DbSchema::hasTable('sessions'))
-        {
-            DbSchema::create('sessions', function ($table) {
-                $table->string('id')->unique();
-                $table->text('payload');
-                $table->integer('last_activity');
-            });
-        }
-
         $exec = [
             new Schema\Base,
             new Schema\Comments,
@@ -39,52 +31,62 @@ class DbInstaller
             new Schema\Shop,
             new Schema\Countries
         ];
+        return $exec;
+    }
 
-        foreach ($exec as $data)
-        {
+
+    public function install_db()
+    {
+        if (!DbSchema::hasTable('sessions')) {
+            DbSchema::create('sessions', function ($table) {
+                $table->string('id')->unique();
+                $table->text('payload');
+                $table->integer('last_activity');
+            });
+        }
+        $exec = $this->get_system_install_scripts();
+
+
+        foreach ($exec as $data) {
             // Creates the schema
-            if(method_exists($data, 'get'))
-            {
+            if (method_exists($data, 'get')) {
                 $schemaArray = $data->get();
 
-                if($schemaArray)
-                if(is_array($schemaArray))
-                {
-                    foreach ($data->get() as $table => $column)
-                    {
-                        if (!DbSchema::hasTable($table))
-                        {
-                            DbSchema::create($table, function ($schema) {
-                                $schema->increments('id');
-                            });
-                        }
+                if ($schemaArray)
+                    if (is_array($schemaArray)) {
+                        foreach ($data->get() as $table => $column) {
+                            if (!DbSchema::hasTable($table)) {
+                                DbSchema::create($table, function ($schema) {
+                                    $schema->increments('id');
+                                });
+                            }
 
-                        foreach ($column as $name => $type)
-                        {
-                            DbSchema::table($table, function($schema) use ($name, $type, $table)
-                            {
-                                if($name == '$index')
-                                    return;
-                                if (!DbSchema::hasColumn($table, $name))
-                                {
-                                    $schema->$type($name);
-                                }
-                            });
+                            foreach ($column as $name => $type) {
+                                DbSchema::table($table, function ($schema) use ($name, $type, $table) {
+                                    if ($name == '$index')
+                                        return;
+                                    if (!DbSchema::hasColumn($table, $name)) {
+                                        $schema->$type($name);
+                                    }
+                                });
+                            }
                         }
                     }
-                }
             }
 
-            // Seeds data
-            if(method_exists($data, 'seed'))
-            {
-                $data->seed();
-            }
+
         }
     }
 
 
+    public function seed_db()
+    {
+        $exec = $this->get_system_install_scripts();
 
-    
-
+        foreach ($exec as $data) {
+            if (method_exists($data, 'seed')) {
+                $data->seed();
+            }
+        }
+    }
 }

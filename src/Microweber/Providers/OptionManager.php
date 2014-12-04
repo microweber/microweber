@@ -58,8 +58,8 @@ class OptionManager
 //
 //        $fields_to_add = array();
 //
-//        $fields_to_add[] = array('updated_on', 'dateTime');
-//        $fields_to_add[] = array('created_on', 'dateTime');
+//        $fields_to_add[] = array('updated_at', 'dateTime');
+//        $fields_to_add[] = array('created_at', 'dateTime');
 //
 //        $fields_to_add[] = array('option_key', 'longText');
 //        $fields_to_add[] = array('option_value', 'longText');

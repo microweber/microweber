@@ -150,7 +150,7 @@
         $pt_opts['list_item_tag'] = "option";
         $pt_opts['active_ids'] = $category_id;
         $pt_opts['active_code_tag'] = '   selected="selected"  ';
-        $pt_opts['rel'] = 'content';
+        $pt_opts['rel_type'] = 'content';
         $pt_opts['rel_id'] = $posts_parent_page;
         category_tree($pt_opts);
   ?>

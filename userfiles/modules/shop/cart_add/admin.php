@@ -2,12 +2,12 @@
 
 $for_id = false;
 $for = 'content';
-if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'post' and defined('POST_ID')){
+if(isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'post' and defined('POST_ID')){
 	$for_id =  $params['content-id'] = POST_ID; 
 	$for = 'content';
 }
 
-if(isset($params['rel']) and trim(strtolower(($params['rel']))) == 'page' and defined('PAGE_ID')){
+if(isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'page' and defined('PAGE_ID')){
 	$for_id =  $params['content-id'] = PAGE_ID; 
 	$for = 'content';
 }

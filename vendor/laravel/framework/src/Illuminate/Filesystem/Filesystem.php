@@ -66,7 +66,9 @@ class Filesystem {
 	 */
 	public function put($path, $contents)
 	{
-		return file_put_contents($path, $contents);
+
+
+        return file_put_contents($path, $contents);
 	}
 
 	/**

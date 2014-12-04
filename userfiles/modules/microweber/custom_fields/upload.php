@@ -108,10 +108,10 @@ var local_id = '<?php print($rand); ?>';
 
     mwd.getElementById('upload_button_<?php print($rand); ?>').appendChild(<?php print $up; ?>);
 
-<?php if(isset($data) and !empty($data) and isset($data['rel']) and ($data['rel'] == 'module' or $data['rel'] == 'modules') and isset($data['rel_id']) ) : ?>
+<?php if(isset($data) and !empty($data) and isset($data['rel_type']) and ($data['rel_type'] == 'module' or $data['rel_type'] == 'modules') and isset($data['rel_id']) ) : ?>
      <?php print $up; ?>.contentWindow.onload = function(){
           mw.postMsg(<?php print $up; ?>.contentWindow, {
-    		rel:"<?php print($data['rel']); ?>",
+    		rel:"<?php print($data['rel_type']); ?>",
 			custom_field_id:"<?php print($data['id']); ?>",
     		rel_id:"<?php print($data['rel_id']); ?>"
         });

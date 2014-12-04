@@ -21,8 +21,8 @@ description: Clean
         <?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
         <h5><a href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h5>
         <?php endif; ?>
-        <?php if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
-        <small class="date"><?php print $item['created_on'] ?></small>
+        <?php if(!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
+        <small class="date"><?php print $item['created_at'] ?></small>
         <?php endif; ?>
       <?php if(!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): ?>
       <a href="<?php print $item['link'] ?>" class="module-posts-template-clean-image" style="background-image: url(<?php print $item['image']; ?> );"> </a>

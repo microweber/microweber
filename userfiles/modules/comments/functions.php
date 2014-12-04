@@ -17,7 +17,7 @@ function db_filter_comments($table)
             $comments_table = get_table_prefix() . 'comments';
             $orm->inner_join($categories_items_table, array($comments_table . '.rel_id', '=', $categories_items_table . '.rel_id'));
             $orm->where($categories_items_table . '.parent_id', $value);
-            $orm->order_by_desc($comments_table . '.created_on');
+            $orm->order_by_desc($comments_table . '.created_at');
             }
         });
     }
@@ -140,7 +140,7 @@ function mark_comments_as_old($data)
                 $upd['is_new'] = 'n';
 
                 $upd['id'] = $get_com['id'];
-                $upd['rel'] = 'content';
+                $upd['rel_type'] = 'content';
                 $upd['rel_id'] = mw()->db->escape_string($data['content_id']);
                 mw()->db->save($table, $upd);
             }
@@ -214,7 +214,7 @@ function post_comment($data)
         }
     } else {
 
-        if (!isset($data['rel'])) {
+        if (!isset($data['rel_type'])) {
             return array('error' => 'Error: invalid data');
         }
         if (!isset($data['rel_id'])) {
@@ -290,7 +290,7 @@ function post_comment($data)
 
         $notif = array();
         $notif['module'] = "comments";
-        $notif['rel'] = $data['rel'];
+        $notif['rel_type'] = $data['rel_type'];
         $notif['rel_id'] = $data['rel_id'];
         $notif['title'] = "You have new comment";
         $notif['description'] = "New comment is posted on " . mw()->url_manager->current(1);
@@ -303,7 +303,7 @@ function post_comment($data)
         if ($email_on_new_comment == true) {
             $subject = "You have new comment";
             $data2 = $data;
-            unset($data2['rel']);
+            unset($data2['rel_type']);
             unset($data2['rel_id']);
             $data3 = array();
             foreach ($data2 as $key => $value) {
@@ -333,7 +333,7 @@ function get_comments($params)
         $params = $params2;
     }
     if (isset($params['content_id'])) {
-        $params['rel'] = 'content';
+        $params['rel_type'] = 'content';
         $params['rel_id'] = mw()->db->escape_string($params['content_id']);
 
     }
@@ -351,7 +351,7 @@ function get_comments($params)
             $comments_table = get_table_prefix() . 'comments';
             $orm->inner_join($categories_items_table, array($comments_table . '.rel_id', '=', $categories_items_table . '.rel_id'));
             $orm->where($categories_items_table . '.parent_id', $value);
-            $orm->order_by_desc($comments_table . '.created_on');
+            $orm->order_by_desc($comments_table . '.created_at');
         };  
     }
 */
@@ -374,11 +374,11 @@ function get_comments($params)
             if (isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')) {
                 $comments[$i]['comment_name'] = user_name($item['created_by']);
             }
-            if (isset($item['created_on']) and  trim($item['created_on']) != '') {
-                $comments[$i]['created_on'] = date($date_format, strtotime($item['created_on']));
+            if (isset($item['created_at']) and  trim($item['created_at']) != '') {
+                $comments[$i]['created_at'] = date($date_format, strtotime($item['created_at']));
             }
-            if (isset($item['updated_on']) and  trim($item['updated_on']) != '') {
-                $comments[$i]['updated_on'] = date($date_format, strtotime($item['updated_on']));
+            if (isset($item['updated_at']) and  trim($item['updated_at']) != '') {
+                $comments[$i]['updated_at'] = date($date_format, strtotime($item['updated_at']));
             }
             if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
                 $surl = site_url();

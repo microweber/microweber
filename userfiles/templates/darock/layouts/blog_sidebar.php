@@ -38,7 +38,7 @@
                       - title,
                       - read_more,
                       - description,
-                      - created_on
+                      - created_at
 
        */
 

@@ -6,8 +6,8 @@ class Base
     public function get()
     {        
         $modulesSchema = [
-            'updated_on' => 'dateTime',
-            'created_on' => 'dateTime',
+            'updated_at' => 'dateTime',
+            'created_at' => 'dateTime',
             'expires_on' => 'dateTime',
             'created_by' => 'integer',
             'edited_by' => 'integer',
@@ -38,8 +38,8 @@ class Base
             'elements' => array_merge($modulesSchema, ['layout_type' => 'string']),
 
             'module_templates' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'module_id' => 'text',
@@ -48,8 +48,8 @@ class Base
             ],
 
             'system_licenses' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'rel_type' => 'text',
@@ -68,8 +68,8 @@ class Base
             ],
 
             'users' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'expires_on' => 'dateTime',
                 'last_login' => 'dateTime',
                 'last_login_ip' => 'string',
@@ -104,8 +104,8 @@ class Base
             ],
 
             'log' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'rel_type' => 'text',
@@ -124,8 +124,8 @@ class Base
             ],
 
             'notifications' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'rel_id' => 'integer',

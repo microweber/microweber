@@ -7,8 +7,8 @@ class Options
     {        
         return [
             'options' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
 
                 'option_key' => 'string',
                 'option_value' => 'text',

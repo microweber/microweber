@@ -91,8 +91,8 @@ description: Default comments template
                   <?php if(isset( $comment['comment_website'])){ ?>
                   </a>
                   <?php } ?>
-                  <?php if(isset($comment['updated_on'])): ?>
-                  &nbsp; <small class="muted"> <?php print $comment['updated_on']; ?> </small>
+                  <?php if(isset($comment['updated_at'])): ?>
+                  &nbsp; <small class="muted"> <?php print $comment['updated_at']; ?> </small>
                   <?php endif; ?>
                   <?php   event_trigger('module.comments.item.info', $comment); ?>
                 </div>
@@ -135,7 +135,7 @@ description: Default comments template
         <input type="hidden" name="rel_id" value="<?php print $data['rel_id'] ?>">
          <?php print csrf_form(); ?>
         
-        <input type="hidden" name="rel" value="<?php print $data['rel'] ?>">
+        <input type="hidden" name="rel" value="<?php print $data['rel_type'] ?>">
         <input type="hidden" name="module_id" value="<?php print $params['id'] ?>">
         <?php if($form_title != false): ?>
         <input type="hidden" name="comment_subject" value="<?php print $form_title ?>">

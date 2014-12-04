@@ -8,8 +8,8 @@ class Init extends Migration {
     function data()
     {
         $schema1 = [
-            'updated_on' => 'dateTime',
-            'created_on' => 'dateTime',
+            'updated_at' => 'dateTime',
+            'created_at' => 'dateTime',
             'expires_on' => 'dateTime',
 
             'created_by' => 'integer',
@@ -44,9 +44,9 @@ class Init extends Migration {
             'modules' => $schema1,
             'elements' => array_merge($schema1, ['layout_type']),
             'module_templates' => [
-                'updated_on' => 'dateTime',
+                'updated_at' => 'dateTime',
 
-                'created_on' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'module_id' => 'longText',
@@ -54,11 +54,11 @@ class Init extends Migration {
                 'module' => 'longText'
             ],
             'system_licenses' => [
-                'updated_on' => 'dateTime',
-                'created_on' => 'dateTime',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
-                'rel' => 'string',
+                'rel_type' => 'string',
                 'rel_name' => 'longText',
                 'local_key' => 'longText',
                 'local_key_hash' => 'longText',

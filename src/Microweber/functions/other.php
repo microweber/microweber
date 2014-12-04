@@ -443,19 +443,7 @@ function mw_post_update()
 {
     $a = is_admin();
     if ($a != false) {
-        mw()->cache_manager->delete('db');
-        mw()->cache_manager->delete('update/global');
-        mw()->cache_manager->delete('elements/global');
-
-        mw()->cache_manager->delete('templates');
-        mw()->cache_manager->delete('modules/global');
-
-        scan_for_modules();
-        get_elements();
-        mw()->layouts_manager->scan();
-        event_trigger('mw_db_init_default');
-        event_trigger('mw_db_init_modules');
-        event_trigger('mw_db_init');
+      return  mw()->update->post_update();
     }
 }
 

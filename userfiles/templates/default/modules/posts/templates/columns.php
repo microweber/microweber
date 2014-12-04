@@ -30,8 +30,8 @@ description: Columns
 				<?php if(!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
 				<h3 itemprop="name"><a class="lead" href="<?php print $item['link'] ?>"><?php print $item['title'] ?></a></h3>
 				<?php endif; ?>
-				<?php if(!isset($show_fields) or $show_fields == false or in_array('created_on', $show_fields)): ?>
-				<small class="muted">Posted on: <span itemprop="dateCreated"><?php print $item['created_on'] ?></span></small>
+				<?php if(!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields)): ?>
+				<small class="muted">Posted on: <span itemprop="dateCreated"><?php print $item['created_at'] ?></span></small>
 				<?php endif; ?>
 			</div>
 			<?php if(!isset($show_fields) or  ($show_fields == false or in_array('description', $show_fields))): ?>

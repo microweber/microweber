@@ -12,14 +12,14 @@ $comments_data['id'] =  $params['content_id'];
 
 $comments_data = array();
 if(isset($params['content_id'])){
-$comments_data['rel'] =  'content';
+$comments_data['rel_type'] =  'content';
 $comments_data['rel_id'] =  $params['content_id'];
  
 
 } else {
 	
-	if(isset($params['rel'])){
-	$comments_data['rel'] =  $params['rel'];
+	if(isset($params['rel_type'])){
+	$comments_data['rel_type'] =  $params['rel_type'];
 	}
 	
 	if(isset($params['rel_id'])){
@@ -36,7 +36,7 @@ $comments_data['search_in_fields'] =  'comment_name,comment_body,comment_email,c
  
 }
 $comments_data['group_by'] =  'rel_id,rel';
-$comments_data['order_by'] =  'created_on desc';
+$comments_data['order_by'] =  'created_at desc';
 
 //  $comments_data['debug'] =  'rel,rel_id';
 $data = get_comments($comments_data);
@@ -48,11 +48,11 @@ $data = get_comments($comments_data);
 
 <div class="mw-admin-comments-search-holder">
 	<?php foreach($data  as $item){ ?>
-	<?php if(isset($item['rel']) and $item['rel'] == 'content'): ?>
+	<?php if(isset($item['rel_type']) and $item['rel_type'] == 'content'): ?>
 	<module type="comments/comments_for_post" id="mw_comments_for_post_<?php print $item['rel_id'] ?>" content_id="<?php print $item['rel_id'] ?>" >
 	<?php endif; ?>
-	<?php if(isset($item['rel']) and $item['rel'] == 'modules'): ?>
-	<module type="comments/comments_for_module" id="mw_comments_for_post_<?php print $item['rel_id'] ?>" rel_id="<?php print $item['rel_id'] ?>" rel="<?php print $item['rel'] ?>" >
+	<?php if(isset($item['rel_type']) and $item['rel_type'] == 'modules'): ?>
+	<module type="comments/comments_for_module" id="mw_comments_for_post_<?php print $item['rel_id'] ?>" rel_id="<?php print $item['rel_id'] ?>" rel="<?php print $item['rel_type'] ?>" >
 	<?php endif; ?>
 	<?php // _d($item);  break;  ?>
 	<?php } ; ?>

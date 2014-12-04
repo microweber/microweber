@@ -160,14 +160,14 @@ class DatabaseManager extends DbUtils
                 $table = ($v);
             }
 
-            if (!isset($table) and $k == 'what' and !isset($params['rel'])) {
+            if (!isset($table) and $k == 'what' and !isset($params['rel_type'])) {
                 //  $table = $this->guess_table_name($v);
             }
-            if ($k == 'for' and !isset($params['rel'])) {
+            if ($k == 'for' and !isset($params['rel_type'])) {
                 $v = trim($v);
-                $k = 'rel';
+                $k = 'rel_type';
             }
-            if ($k == 'rel') {
+            if ($k == 'rel_type') {
                 $v = trim($v);
             }
             if ($k == 'debug') {
@@ -323,9 +323,9 @@ class DatabaseManager extends DbUtils
         $skip_cache = isset($original_data['skip_cache']);
 
         if ($is_quick == false) {
-            if (isset($data['updated_on']) == false) {
+            if (isset($data['updated_at']) == false) {
 
-                $data['updated_on'] = date("Y-m-d H:i:s");
+                $data['updated_at'] = date("Y-m-d H:i:s");
             }
         }
 
@@ -417,9 +417,9 @@ class DatabaseManager extends DbUtils
 
         if (intval($data['id']) == 0) {
 
-            if (isset($data['created_on']) == false) {
+            if (isset($data['created_at']) == false) {
 
-                $data['created_on'] = date("Y-m-d H:i:s");
+                $data['created_at'] = date("Y-m-d H:i:s");
             }
 
             $data['created_by'] = $the_user_id;
@@ -427,7 +427,7 @@ class DatabaseManager extends DbUtils
             $data['edited_by'] = $the_user_id;
         } else {
 
-            // $data ['created_on'] = false;
+            // $data ['created_at'] = false;
             $data['edited_by'] = $the_user_id;
         }
 
@@ -557,7 +557,7 @@ class DatabaseManager extends DbUtils
      *  <code>
      *  //make plain query to the db
      * $table = $this->table_prefix.'content';
-     *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_on DESC LIMIT 0,1 ";
+     *    $sql = "SELECT id FROM $table WHERE id=1   ORDER BY updated_at DESC LIMIT 0,1 ";
      *  $q = $this->query($sql, $cache_id=crc32($sql),$cache_group= 'content/global');
      *
      * </code>

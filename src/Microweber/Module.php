@@ -14,7 +14,7 @@ class Module extends BaseModel
 
     public function notifications()
     {
-        return $this->morphMany('Notifications', 'rel');
+        return $this->morphMany('Notifications', 'rel_type');
     }
 
 

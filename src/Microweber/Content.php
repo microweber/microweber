@@ -16,12 +16,12 @@ class Content extends BaseModel
 
     public function notifications()
     {
-        return $this->morphMany('Notifications', 'rel');
+        return $this->morphMany('Notifications', 'rel_type');
     }
 
     public function comments()
     {
-        return $this->morphMany('Comments', 'rel');
+        return $this->morphMany('Comments', 'rel_type');
     }
 
  }

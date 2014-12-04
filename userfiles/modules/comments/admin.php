@@ -28,7 +28,7 @@
 
 
 $get_comments_params = array();
-$get_comments_params['rel'] = 'content';
+$get_comments_params['rel_type'] = 'content';
 if (isset($params['content-id'])) {
 
     $get_comments_params['rel_id'] = $params['content-id'];
@@ -164,7 +164,7 @@ $(document).ready(function(){
             : </label>
           <?php
             $comment_modules = array();
-            $comment_modules['rel'] = 'modules';
+            $comment_modules['rel_type'] = 'modules';
             $comment_modules['rel_id'] = '[not_null]';
             $comment_modules['fields'] = 'rel,rel_id';
 

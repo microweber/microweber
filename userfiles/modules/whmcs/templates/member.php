@@ -32,10 +32,10 @@
 					<tr>
 						<td>Join Date</td>
 						<td><?php
-											if(!isset($user['created_on']) or $user['created_on'] == false){
-												$user['created_on'] = $user['updated_on'];
+											if(!isset($user['created_at']) or $user['created_at'] == false){
+												$user['created_at'] = $user['updated_at'];
 											}
-											 print $user['created_on']; ?></td>
+											 print $user['created_at']; ?></td>
 					</tr>
 					<tr>
 						<td>Total posts</td>
@@ -49,7 +49,7 @@
 			</table>
 		</div>
 		<div class="tab-pane" id="my_posts">
-			<?php $posts = get_content('content_type=post&limit=1000&order_by=updated_on desc&created_by='.user_id()); ?>
+			<?php $posts = get_content('content_type=post&limit=1000&order_by=updated_at desc&created_by='.user_id()); ?>
 			<?php if(is_array($posts) and !empty($posts)):  ?>
 			<div>
 				<h3 class="pad">My posts</h3>
@@ -63,7 +63,7 @@
                                                         $desc =  mw('format')->clean_html($item['content']);
 											            print character_limiter($desc,200);
 											        ?>
-									<small> <a href="<?php print content_link($item['id']); ?>">Updated on: <?php print $item['updated_on']; ?></a> </small> </blockquote></td>
+									<small> <a href="<?php print content_link($item['id']); ?>">Updated on: <?php print $item['updated_at']; ?></a> </small> </blockquote></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
@@ -74,7 +74,7 @@
 			<?php endif; ?>
 		</div>
 		<div class="tab-pane" id="my_comments">
-			<?php $comments = get_comments('limit=1000&order_by=updated_on desc&created_by='.user_id()); ?>
+			<?php $comments = get_comments('limit=1000&order_by=updated_at desc&created_by='.user_id()); ?>
 			<?php if(is_array($comments) and !empty($comments)):  ?>
 			<div class="det-forms">
 				<h3 class="pad">My comments</h3>
@@ -88,7 +88,7 @@
     											print character_limiter($desc,200);
     											?>
 								<br />
-								<small><a href="<?php print content_link($content['id']); ?>#comment-<?php print $item['id']; ?>">Commented on: <?php print $item['updated_on']; ?></a></small></td>
+								<small><a href="<?php print content_link($content['id']); ?>#comment-<?php print $item['id']; ?>">Commented on: <?php print $item['updated_at']; ?></a></small></td>
 							<td></td>
 						</tr>
 						<?php endforeach; ?>

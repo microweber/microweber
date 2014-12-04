@@ -37,13 +37,13 @@
                       - title,
                       - read_more,
                       - description,
-                      - created_on
+                      - created_at
 
        */
 
   ?>
 
-      <module type="posts" template="sidebar" limit="5" data-show="thumbnail,title,description,created_on" hide-paging="y" title-length="40" description-length="50" />
+      <module type="posts" template="sidebar" limit="5" data-show="thumbnail,title,description,created_at" hide-paging="y" title-length="40" description-length="50" />
 
   </div>
   <h4 class="element sidebar-title">Blog Categories</h4>

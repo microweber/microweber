@@ -53,7 +53,7 @@ class MediaManager
             $for = 'categories';
         }
 
-        $arr['rel'] = $for;
+        $arr['rel_type'] = $for;
         $arr['limit'] = '1';
         $arr['rel_id'] = $content_id;
 
@@ -369,7 +369,7 @@ class MediaManager
         if ($params != false and !is_array($params) and intval($params) > 0) {
             $params2 = array();
 
-            $params2['rel'] = 'content';
+            $params2['rel_type'] = 'content';
             $params2['rel_id'] = intval($params);
             $params = $params2;
 
@@ -379,8 +379,8 @@ class MediaManager
 
 
 
-        if (!isset($params['rel']) and isset($params['for'])) {
-            $params['rel'] = $this->app->database_manager->assoc_table_name($params['for']);
+        if (!isset($params['rel_type']) and isset($params['for'])) {
+            $params['rel_type'] = $this->app->database_manager->assoc_table_name($params['for']);
         }
 
 
@@ -432,24 +432,24 @@ class MediaManager
         if (isset($data['content-id'])) {
             $t = trim($data['content-id']);
             $s['rel_id'] = $t;
-            $s['rel'] = 'content';
+            $s['rel_type'] = 'content';
         } elseif (isset($data['content_id'])) {
             $t = trim($data['content_id']);
             $s['rel_id'] = $t;
-            $s['rel'] = 'content';
+            $s['rel_type'] = 'content';
         }
 
         if (isset($data['for'])) {
             $t = guess_table_name($data['for']);
             $t = $this->app->database_manager->assoc_table_name($t);
-            $s['rel'] = $t;
+            $s['rel_type'] = $t;
         }
         if (isset($data['rel_id'])) {
             $t = $data['rel_id'];
             $s['rel_id'] = $t;
-        } if (isset($data['rel'])) {
-            $t = $data['rel'];
-            $s['rel'] = $t;
+        } if (isset($data['rel_type'])) {
+            $t = $data['rel_type'];
+            $s['rel_type'] = $t;
         }
 
         if (isset($data['for-id'])) {
@@ -494,9 +494,9 @@ class MediaManager
             $url2dir = $this->app->url_manager->to_path($data['src']);
             $uploaded_files_dir = media_base_path() . DS . 'uploaded';
 
-            if (isset($s['rel']) and isset($s['rel_id'])) {
-                $move_uploaded_files_dir = media_base_path() . DS .$host_dir.DS. $s['rel'] . DS;
-                $move_uploaded_files_dir_index = media_base_path() . DS  .$host_dir.DS. $s['rel'] . DS . 'index.php';
+            if (isset($s['rel_type']) and isset($s['rel_id'])) {
+                $move_uploaded_files_dir = media_base_path() . DS .$host_dir.DS. $s['rel_type'] . DS;
+                $move_uploaded_files_dir_index = media_base_path() . DS  .$host_dir.DS. $s['rel_type'] . DS . 'index.php';
 
                 $uploaded_files_dir = normalize_path($uploaded_files_dir);
                 if (!is_dir($move_uploaded_files_dir)) {
@@ -579,7 +579,7 @@ class MediaManager
         }
 
         // ->'content';
-        if (isset($s['rel']) and isset($s['rel_id'])) {
+        if (isset($s['rel_type']) and isset($s['rel_id'])) {
             $s['rel_id'] = trim($s['rel_id']);
             $table = $this->tables['media'];
             //$s['debug'] = $t;

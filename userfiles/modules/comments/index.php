@@ -16,20 +16,20 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
     $data = $params;
     if (isset($params['content-id'])) {
-        $data['rel'] = 'content';
+        $data['rel_type'] = 'content';
         $data['rel_id'] = $params['content-id'];
     } elseif (isset($params['content_id'])) {
-        $data['rel'] = 'content';
+        $data['rel_type'] = 'content';
         $data['rel_id'] = $params['content_id'];
     }
-    if (!isset($params['rel'])) {
+    if (!isset($params['rel_type'])) {
 
-        $data['rel'] = 'content';
+        $data['rel_type'] = 'content';
     }
 
     if (!isset($data['rel_id']) and isset($params['content-id'])) {
         $data['rel_id'] = intval($params['content-id']);
-        $data['rel'] = 'content';
+        $data['rel_type'] = 'content';
     }
 
 
@@ -82,11 +82,11 @@ if (get_option('enable_comments', 'comments') == 'y') {
     $hide_comment_form = false;
     $comments_data = array();
     $comments_data['rel_id'] = $data['rel_id'];
-    $comments_data['rel'] = $data['rel'];
+    $comments_data['rel_type'] = $data['rel_type'];
 
 
     if (isset($params['order']) and trim(strtolower($params['order'])) == 'reverse') {
-        $comments_data['order_by'] = 'created_on desc';
+        $comments_data['order_by'] = 'created_at desc';
     } elseif (isset($params['order'])) {
         $comments_data['order_by'] = $params['order'];
 
@@ -99,7 +99,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
     if ($display_comments_from != false and $display_comments_from == 'current' and $display_comments_from_which_post != false and $display_comments_from_which_post != 'current_post') {
 
         $comments_data['rel_id'] = $data['rel_id'] = $display_comments_from_which_post;
-        $comments_data['rel'] = $data['rel'] = 'content';
+        $comments_data['rel_type'] = $data['rel_type'] = 'content';
     }
 
 
@@ -113,7 +113,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
     if ($display_comments_from != false and $display_comments_from == 'recent') {
         $hide_comment_form = true;
         $comments_data = array();
-        $comments_data['order_by'] = "created_on desc";
+        $comments_data['order_by'] = "created_at desc";
 
     }
 
@@ -121,7 +121,7 @@ if (get_option('enable_comments', 'comments') == 'y') {
     if ($display_comments_from != false and $display_comments_from == 'module') {
 
         $comments_data['rel_id'] = $data['rel_id'] = $params['id'];
-        $comments_data['rel'] = $data['rel'] = 'modules';
+        $comments_data['rel_type'] = $data['rel_type'] = 'modules';
         $display_comments_from_module_id = get_option('module_id', $params['id']);
         if ($display_comments_from_module_id != false and trim($display_comments_from_module_id) != '') {
             $comments_data['rel_id'] = $data['rel_id'] = $display_comments_from_module_id;

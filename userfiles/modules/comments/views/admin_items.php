@@ -3,13 +3,13 @@
 <div class="new-comments">
 	<?php $count_new = 0;  foreach ($comments as $comment){ ?>
 	<?php if ($comment['is_new'] == 'y'){ $count_new ++; ?>
-	<form class="comment-of-apost new-comment" id="comment-<?php print $comment['id']; ?>"> <a href="<?php print $comment['comment_website']; ?>" class="mw-ui-link"><?php print $comment['comment_name']; ?></a> <small class="edit-comment-date"><?php print $comment['created_on']; ?> (<?php print mw('format')->ago($comment['created_on']) ?>)</small>
+	<form class="comment-of-apost new-comment" id="comment-<?php print $comment['id']; ?>"> <a href="<?php print $comment['comment_website']; ?>" class="mw-ui-link"><?php print $comment['comment_name']; ?></a> <small class="edit-comment-date"><?php print $comment['created_at']; ?> (<?php print mw('format')->ago($comment['created_at']) ?>)</small>
 		<p class="comment-body"><?php print strip_tags($comment['comment_body']); ?></p>
 		<input type="hidden" name="id" value="<?php print $comment['id'] ?>">
 		<input type="hidden" name="connected_id" value="<?php print $comment['rel_id'] ?>">
 		<input type="text" name="action" class="comment_state semi_hidden" />
 		<div class="manage-bar">
-			<div class="edit-comment"> <small  class="edit-comment-date"><?php print $comment['created_on']; ?> (<?php print mw('format')->ago($comment['created_on']) ?>)</small>
+			<div class="edit-comment"> <small  class="edit-comment-date"><?php print $comment['created_at']; ?> (<?php print mw('format')->ago($comment['created_at']) ?>)</small>
 				<textarea name="comment_body" onkeyup="mw.tools.addClass(this, 'comment-changed');" onpaste="mw.tools.addClass(this, 'comment-changed');"><?php print strip_tags($comment['comment_body']); ?></textarea>
 				<a href="javascript:;" onclick="mw.adminComments.action(mwd.getElementById('comment-<?php print $comment['id'];?>'), 'update');" class="mw-ui-btn mw-ui-btn-green mw-ui-btn-small mw-ui-btn right update-comment-button">
 				<?php _e("Update"); ?>
@@ -39,7 +39,7 @@
 <div class="old-comments">
 <?php  $count_old = 0; foreach ($comments as $comment){ ?>
 <?php if ($comment['is_new'] == 'n'){ $count_old ++; ?>
-<form class="comment-of-apost<?php if($comment['is_moderated'] == 'n' and $moderation_is_required) { ?> comment-unpublished<?php } ?>" id="comment-<?php print $comment['id']; ?>"> <a href="<?php print $comment['comment_website']; ?>" class="mw-ui-link"><?php print $comment['comment_name']; ?></a> <small class="edit-comment-date"><?php print $comment['created_on']; ?> (<?php print mw('format')->ago($comment['created_on']) ?>)</small>
+<form class="comment-of-apost<?php if($comment['is_moderated'] == 'n' and $moderation_is_required) { ?> comment-unpublished<?php } ?>" id="comment-<?php print $comment['id']; ?>"> <a href="<?php print $comment['comment_website']; ?>" class="mw-ui-link"><?php print $comment['comment_name']; ?></a> <small class="edit-comment-date"><?php print $comment['created_at']; ?> (<?php print mw('format')->ago($comment['created_at']) ?>)</small>
 	<p class="comment-body"><?php print strip_tags($comment['comment_body']); ?></p>
 	<input type="hidden" name="id" value="<?php print $comment['id'] ?>">
 	<input type="text" name="action" class="comment_state semi_hidden" />

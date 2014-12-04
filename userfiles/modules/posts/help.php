@@ -28,8 +28,8 @@
 <li>title</li>
 <li>description</li>
 <li>read_more</li>
-<li>updated_on</li>
-<li>created_on</li>
+<li>updated_at</li>
+<li>created_at</li>
 <li>created_by</li>
 <li>edited_by</li>
  

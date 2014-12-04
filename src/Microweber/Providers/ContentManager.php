@@ -71,12 +71,12 @@ class ContentManager
             $table = $table_drafts;
         }
 
-        if (!isset($data['rel'])) {
-            if (isset($data['rel'])) {
-                if ($data['rel'] == 'content' or $data['rel'] == 'page' or $data['rel'] == 'post') {
-                    $data['rel'] = 'content';
+        if (!isset($data['rel_type'])) {
+            if (isset($data['rel_type'])) {
+                if ($data['rel_type'] == 'content' or $data['rel_type'] == 'page' or $data['rel_type'] == 'post') {
+                    $data['rel_type'] = 'content';
                 }
-                $data['rel'] = $data['rel'];
+                $data['rel_type'] = $data['rel_type'];
             }
         }
         if (!isset($data['rel_id'])) {
@@ -91,12 +91,12 @@ class ContentManager
 
         }
 
-        if ((!isset($data['rel']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
+        if ((!isset($data['rel_type']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
         }
 
-        if ((isset($data['rel']) and isset($data['rel_id']))) {
+        if ((isset($data['rel_type']) and isset($data['rel_id']))) {
 
-            $data['cache_group'] = guess_cache_group('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
+            $data['cache_group'] = guess_cache_group('content_fields/global/' . $data['rel_type'] . '/' . $data['rel_id']);
         } else {
             $data['cache_group'] = guess_cache_group('content_fields/global');
 
@@ -273,7 +273,7 @@ class ContentManager
         }
 
 // @todo cleanup old code
-        $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_on DESC LIMIT 0,1 ";
+        $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_at DESC LIMIT 0,1 ";
 
         $get = array();
         $get['url'] = $url;
@@ -346,8 +346,8 @@ class ContentManager
      *| is_active           | published or unpublished  | "y" or "n"
      *| parent              | get content with parent   | any id or 0
      *| created_by          | get by author id          | any user id
-     *| created_on          | the date of creation      |
-     *| updated_on          | the date of last edit     |
+     *| created_at          | the date of creation      |
+     *| updated_at          | the date of last edit     |
      *| content_type        | the type of the content   | "page" or "post", anything custom
      *| subtype             | subtype of the content    | "static","dynamic","post","product", anything custom
      *| url                 | the link to the content   |
@@ -395,7 +395,7 @@ class ContentManager
      *  var_dump($data);
      *
      *  //Order by date
-     *  $data = $this->get('content_type=post&is_active=1&order_by=updated_on desc');
+     *  $data = $this->get('content_type=post&is_active=1&order_by=updated_at desc');
      *  var_dump($data);
      *
      *  //Order by title
@@ -403,7 +403,7 @@ class ContentManager
      *  var_dump($data);
      *
      *  //Get content from last week
-     *  $data = $this->get('created_on=[mt]-1 week&is_active=1&order_by=title asc');
+     *  $data = $this->get('created_at=[mt]-1 week&is_active=1&order_by=title asc');
      *  var_dump($data);
      * </code>
      *
@@ -1475,7 +1475,7 @@ class ContentManager
                             //$cat_params['for'] = 'content';
                             $cat_params['list_tag'] = $list_tag;
                             $cat_params['list_item_tag'] = $list_item_tag;
-                            $cat_params['rel'] = 'content';
+                            $cat_params['rel_type'] = 'content';
                             $cat_params['rel_id'] = $item['id'];
                             $cat_params['include_first'] = 1;
                             $cat_params['nest_level'] = $nest_level;
@@ -2154,7 +2154,7 @@ class ContentManager
                         $field = false;
                         if (isset($the_field_data['attributes']['field'])) {
                             $field = trim($the_field_data['attributes']['field']);
-                            //$the_field_data['attributes']['rel'] = $field;
+                            //$the_field_data['attributes']['rel_type'] = $field;
 
 
                         }
@@ -2172,8 +2172,8 @@ class ContentManager
                         if (($field != false)) {
                             $page_element_id = $field;
                         }
-                        if (!isset($the_field_data['attributes']['rel'])) {
-                            $the_field_data['attributes']['rel'] = 'content';
+                        if (!isset($the_field_data['attributes']['rel_type'])) {
+                            $the_field_data['attributes']['rel_type'] = 'content';
                         }
 
                         if (isset($the_field_data['attributes']['rel-id'])) {
@@ -2188,12 +2188,12 @@ class ContentManager
 
 
                         $save_global = false;
-                        if (isset($the_field_data['attributes']['rel']) and (trim($the_field_data['attributes']['rel']) == 'global' or trim($the_field_data['attributes']['rel'])) == 'module') {
+                        if (isset($the_field_data['attributes']['rel_type']) and (trim($the_field_data['attributes']['rel_type']) == 'global' or trim($the_field_data['attributes']['rel_type'])) == 'module') {
                             $save_global = true;
                         } else {
                             $save_global = false;
                         }
-                        if (isset($the_field_data['attributes']['rel']) and trim($the_field_data['attributes']['rel']) == 'layout') {
+                        if (isset($the_field_data['attributes']['rel_type']) and trim($the_field_data['attributes']['rel_type']) == 'layout') {
                             $save_global = false;
                             $save_layout = true;
                         } else {
@@ -2207,10 +2207,10 @@ class ContentManager
 
                         $save_global = 1;
 
-                        if (isset($the_field_data['attributes']['rel']) and isset($the_field_data['attributes']['data-id'])) {
+                        if (isset($the_field_data['attributes']['rel_type']) and isset($the_field_data['attributes']['data-id'])) {
 
 
-                            $rel_ch = trim($the_field_data['attributes']['rel']);
+                            $rel_ch = trim($the_field_data['attributes']['rel_type']);
                             switch ($rel_ch) {
                                 case 'content':
 
@@ -2234,7 +2234,7 @@ class ContentManager
 
                         }
                         $inh = false;
-                        if (isset($the_field_data['attributes']['rel']) and ($the_field_data['attributes']['rel']) == 'inherit') {
+                        if (isset($the_field_data['attributes']['rel_type']) and ($the_field_data['attributes']['rel_type']) == 'inherit') {
 
 
                             $save_global = false;
@@ -2247,7 +2247,7 @@ class ContentManager
 
                             }
 
-                        } else if (isset($the_field_data['attributes']['rel']) and ($the_field_data['attributes']['rel']) == 'page') {
+                        } else if (isset($the_field_data['attributes']['rel_type']) and ($the_field_data['attributes']['rel_type']) == 'page') {
 
 
                             $save_global = false;
@@ -2313,7 +2313,7 @@ class ContentManager
                                 $history_to_save['field'] = $field;
 
                                 $cont_field = array();
-                                $cont_field['rel'] = 'content';
+                                $cont_field['rel_type'] = 'content';
                                 $cont_field['rel_id'] = $content_id_for_con_field;
                                 $cont_field['value'] = $html_to_save;
                                 $cont_field['field'] = $field;
@@ -2321,7 +2321,7 @@ class ContentManager
 
                                 if ($is_draft != false) {
                                     $cont_field['is_draft'] = 1;
-                                    $cont_field['rel'] = $rel_ch;
+                                    $cont_field['rel_type'] = $rel_ch;
                                     $cont_field['url'] = $url;
 
                                     $cont_field1 = $this->save_content_field($cont_field);
@@ -2361,7 +2361,7 @@ class ContentManager
 
                             $cont_field = array();
 
-                            $cont_field['rel'] = $the_field_data['attributes']['rel'];
+                            $cont_field['rel_type'] = $the_field_data['attributes']['rel_type'];
                             $cont_field['rel_id'] = 0;
                             if (isset($the_field_data['attributes']['rel-id'])) {
                                 $cont_field['rel_id'] = $the_field_data['attributes']['rel-id'];
@@ -2369,9 +2369,9 @@ class ContentManager
                                 $cont_field['rel_id'] = $the_field_data['attributes']['rel_id'];
                             } elseif (isset($the_field_data['attributes']['data-rel-id'])) {
                                 $cont_field['rel_id'] = $the_field_data['attributes']['data-rel-id'];
-                            } elseif ($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['content-id'])) {
+                            } elseif ($cont_field['rel_type'] != 'global' and isset($the_field_data['attributes']['content-id'])) {
                                 $cont_field['rel_id'] = $the_field_data['attributes']['content-id'];
-                            } elseif ($cont_field['rel'] != 'global' and isset($the_field_data['attributes']['data-id'])) {
+                            } elseif ($cont_field['rel_type'] != 'global' and isset($the_field_data['attributes']['data-id'])) {
                                 $cont_field['rel_id'] = $the_field_data['attributes']['data-id'];
                             } elseif (isset($the_field_data['attributes']['data-rel_id'])) {
                                 $cont_field['rel_id'] = $the_field_data['attributes']['data-rel_id'];
@@ -2458,13 +2458,13 @@ class ContentManager
 //        $table = $this->tables['content'];
 //
 //
-//        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted=0 ORDER BY updated_on DESC LIMIT 0,1 ";
+//        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted=0 ORDER BY updated_at DESC LIMIT 0,1 ";
 //
 //        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 //        //
 //        $result = $q;
 //        if ($result == false) {
-//            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted=0 AND url LIKE '%home%' ORDER BY updated_on DESC LIMIT 0,1 ";
+//            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted=0 AND url LIKE '%home%' ORDER BY updated_at DESC LIMIT 0,1 ";
 //            $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 //            $result = $q;
 //
@@ -2706,7 +2706,7 @@ class ContentManager
             $history_files_params['order_by'] = 'id desc';
             $history_files_params['fields'] = 'id';
             $history_files_params['field'] = $data['field'];
-            $history_files_params['rel'] = $data['rel'];
+            $history_files_params['rel_type'] = $data['rel_type'];
             $history_files_params['rel_id'] = $data['rel_id'];
             //$history_files_params['page'] = 2;
 
@@ -2715,13 +2715,13 @@ class ContentManager
             $history_files_params['limit'] = 20;
             $history_files_params['url'] = $draft_url;
             $history_files_params['current_page'] = 2;
-            $history_files_params['created_on'] = '[lt]' . $last_saved_date;
+            $history_files_params['created_at'] = '[lt]' . $last_saved_date;
 
 
-            // $history_files_params['created_on'] = '[mt]' . $last_saved_date;
+            // $history_files_params['created_at'] = '[mt]' . $last_saved_date;
             $history_files = $this->edit_field($history_files_params);
             //
-            // $history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=1&url=' . $draft_url . '&created_on=[mt]' . $last_saved_date . '');
+            // $history_files = $this->edit_field('order_by=id desc&fields=id&is_draft=1&all=1&limit=50&curent_page=1&url=' . $draft_url . '&created_at=[mt]' . $last_saved_date . '');
             if (is_array($history_files)) {
                 $history_files_ids = $this->app->format->array_values($history_files);
             }
@@ -2736,17 +2736,17 @@ class ContentManager
         }
 
 
-        if (!isset($data['rel']) or !isset($data['rel_id'])) {
+        if (!isset($data['rel_type']) or !isset($data['rel_id'])) {
             mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
         }
 
-        //if($data['rel'] == 'global'){
+        //if($data['rel_type'] == 'global'){
         if (isset($data['field']) and !isset($data['is_draft'])) {
             $fld = $this->app->database_manager->escape_string($data['field']);
-            $fld_rel = $this->app->database_manager->escape_string($data['rel']);
+            $fld_rel_type = $this->app->database_manager->escape_string($data['rel_type']);
 
 
-            $del = ContentFields::where('rel', $fld_rel)
+            $del = ContentFields::where('rel_type', $fld_rel)
                 ->where('field', $fld);
 
 
@@ -2759,7 +2759,7 @@ class ContentManager
 
             $del = $del->delete();
 
-            $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
+            $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
             $this->app->cache_manager->delete($cache_group);
 
 
@@ -2772,20 +2772,20 @@ class ContentManager
 
         }
         $this->app->cache_manager->delete('content_fields/global');
-        if (isset($data['rel']) and isset($data['rel_id'])) {
-            $cache_group = guess_cache_group('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
+        if (isset($data['rel_type']) and isset($data['rel_id'])) {
+            $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
             $this->app->cache_manager->delete($cache_group);
 
 
             $this->app->cache_manager->delete('content/' . $data['rel_id']);
 
         }
-        if (isset($data['rel'])) {
-            $this->app->cache_manager->delete('content_fields/' . $data['rel']);
+        if (isset($data['rel_type'])) {
+            $this->app->cache_manager->delete('content_fields/' . $data['rel_type']);
         }
-        if (isset($data['rel']) and isset($data['rel_id'])) {
-            $this->app->cache_manager->delete('content_fields/' . $data['rel'] . '/' . $data['rel_id']);
-            $this->app->cache_manager->delete('content_fields/global/' . $data['rel'] . '/' . $data['rel_id']);
+        if (isset($data['rel_type']) and isset($data['rel_id'])) {
+            $this->app->cache_manager->delete('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
+            $this->app->cache_manager->delete('content_fields/global/' . $data['rel_type'] . '/' . $data['rel_id']);
         }
         if (isset($data['field'])) {
             $this->app->cache_manager->delete('content_fields/' . $data['field']);
@@ -2859,7 +2859,7 @@ class ContentManager
                         $new = $image;
                         $new['id'] = 0;
                         $new['rel_id'] = $new_cont_id;
-                        $new['rel'] = 'content';
+                        $new['rel_type'] = 'content';
                         $new_item = save_media($new);
 
                     }
@@ -3094,36 +3094,36 @@ class ContentManager
 
                 $results = array();
                 if (isset($page_data['title'])) {
-                    $arr = array('rel' => 'content',
+                    $arr = array('rel_type' => 'content',
                         'field' => 'title',
                         'value' => $page_data['title']);
                     $results[] = $arr;
                     if (isset($page_data['content_type'])) {
-                        $arr = array('rel' => $page_data['content_type'],
+                        $arr = array('rel_type' => $page_data['content_type'],
                             'field' => 'title',
                             'value' => $page_data['title']);
                         $results[] = $arr;
                     }
                     if (isset($page_data['subtype'])) {
-                        $arr = array('rel' => $page_data['subtype'],
+                        $arr = array('rel_type' => $page_data['subtype'],
                             'field' => 'title',
                             'value' => $page_data['title']);
                         $results[] = $arr;
                     }
                 }
                 if (isset($page_data['content']) and $page_data['content'] != '') {
-                    $arr = array('rel' => 'content',
+                    $arr = array('rel_type' => 'content',
                         'field' => 'content',
                         'value' => $page_data['content']);
                     $results[] = $arr;
                     if (isset($page_data['content_type'])) {
-                        $arr = array('rel' => $page_data['content_type'],
+                        $arr = array('rel_type' => $page_data['content_type'],
                             'field' => 'content',
                             'value' => $page_data['content']);
                         $results[] = $arr;
                     }
                     if (isset($page_data['subtype'])) {
-                        $arr = array('rel' => $page_data['subtype'],
+                        $arr = array('rel_type' => $page_data['subtype'],
                             'field' => 'content',
                             'value' => $page_data['content']);
                         $results[] = $arr;
@@ -3630,12 +3630,12 @@ class ContentManager
 
         if (isset($cont_data['content_type']) and $cont_data['content_type'] != 'page') {
             $compare_q = '[mt]';
-            $params['order_by'] = 'created_on asc';
-            $params['order_by'] = 'position asc, created_on asc';
+            $params['order_by'] = 'created_at asc';
+            $params['order_by'] = 'position asc, created_at asc';
             $params['order_by'] = 'position asc';
             if (trim($mode) == 'prev') {
                 $compare_q = '[lt]';
-                $params['order_by'] = 'position desc, created_on desc';
+                $params['order_by'] = 'position desc, created_at desc';
                 $params['order_by'] = 'position desc';
             }
             $cats = $this->app->category_manager->get_for_content($content_id);
@@ -3650,15 +3650,15 @@ class ContentManager
             }
             $params['position'] = $compare_q . $cont_data['position'];
 
-            //  $params['created_on'] = $compare_q . $cont_data['created_on'];
+            //  $params['created_at'] = $compare_q . $cont_data['created_at'];
         } else {
             if (isset($cont_data['position']) and $cont_data['position'] > 0) {
                 $params['position'] = $compare_q . $cont_data['position'];
 
             }
-            $params['order_by'] = 'created_on asc';
+            $params['order_by'] = 'created_at asc';
             if (trim($mode) == 'prev') {
-                $params['order_by'] = 'created_on desc';
+                $params['order_by'] = 'created_at desc';
             }
         }
 
@@ -3675,8 +3675,8 @@ class ContentManager
         if (is_array($q)) {
             return $q;
         } else {
-            if (isset($params['created_on'])) {
-                unset($params['created_on']);
+            if (isset($params['created_at'])) {
+                unset($params['created_at']);
             }
             $q = $this->get($params);
             if (!is_array($q)) {
@@ -3721,9 +3721,9 @@ class ContentManager
 
         }
 
-        // $q = " SELECT id, created_on, position from $table where id IN ($ids_implode)  order by position desc  ";
+        // $q = " SELECT id, created_at, position from $table where id IN ($ids_implode)  order by position desc  ";
         // $q = $this->app->database_manager->query($q);
-        // $max_date = $q[0]['created_on'];
+        // $max_date = $q[0]['created_at'];
         // $max_date_str = strtotime($max_date);
         $i = 1;
         foreach ($ids as $id) {
@@ -3731,7 +3731,7 @@ class ContentManager
             $this->app->cache_manager->delete('content/' . $id);
             //$max_date_str = $max_date_str - $i;
             //	$nw_date = date('Y-m-d H:i:s', $max_date_str);
-            //$q = " UPDATE $table set created_on='$nw_date' where id = '$id'    ";
+            //$q = " UPDATE $table set created_at='$nw_date' where id = '$id'    ";
             $pox = $maxpos - $i;
             $q = " UPDATE $table SET position=$pox WHERE id=$id   ";
             //    var_dump($q);
@@ -3921,7 +3921,9 @@ class ContentManager
         if (!isset($data['url']) and intval($data['id']) != 0) {
 
 
-            $q = Content::where('id', $data_to_save['id'])->first();;
+            $q = $this->get_by_id($data_to_save['id']);
+
+
 
             $thetitle = $q['title'];
             $q = $q['url'];
@@ -4028,7 +4030,7 @@ class ContentManager
 
             if (!empty($q)) {
 
-                $q = $q[0];
+               
 
                 if ($data['id'] != $q['id']) {
 
@@ -4268,7 +4270,7 @@ class ContentManager
             }
         }
 
-        $data_to_save['updated_on'] = date("Y-m-d H:i:s");
+        $data_to_save['updated_at'] = date("Y-m-d H:i:s");
         if (isset($data_to_save['id']) and intval($data_to_save['id']) == 0) {
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
 
@@ -4286,7 +4288,7 @@ class ContentManager
                     }
 
             }
-            $data_to_save['posted_on'] = $data_to_save['updated_on'];
+            $data_to_save['posted_on'] = $data_to_save['updated_at'];
 
         }
 
@@ -4360,12 +4362,11 @@ class ContentManager
         }
         $data_to_save['table'] = $table;
         $save = $this->app->database->save($table, $data_to_save);
-//      dd($save);
-//      dd(__FILE__.__LINE__);
+
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
             $upd_posted = array();
-            $upd_posted['posted_on'] = $data_to_save['updated_on'];
+            $upd_posted['posted_on'] = $data_to_save['updated_at'];
             $upd_posted['id'] = $data_to_save['parent'];
             $save_posted = $this->app->database->save($table, $upd_posted);
         }
@@ -4465,12 +4466,12 @@ class ContentManager
         if ($sid != false and $sid != '' and $id != false) {
 
             $clean = " UPDATE $custom_field_table SET
-            rel =\"content\" ,
+            rel_type =\"content\" ,
             rel_id =\"{$id}\"
             WHERE
 
               (rel_id=0 OR rel_id IS NULL OR rel_id =\"0\")
-            AND rel =\"content\"
+            AND rel_type =\"content\"
 	        ";
 
             $this->app->database->q($clean);
@@ -4480,7 +4481,7 @@ class ContentManager
             rel_id =\"{$id}\"
             WHERE
             session_id =\"{$sid}\"
-            AND rel =\"content\" AND (rel_id=0 OR rel_id IS NULL)
+            AND rel_type =\"content\" AND (rel_id=0 OR rel_id IS NULL)
             ";
             $this->app->database->q($clean);
         }
@@ -4566,7 +4567,7 @@ class ContentManager
         if (isset($data['content_id'])) {
             $data['rel_id'] = intval($data['content_id']);
         }
-        $data['rel'] = 'content';
+        $data['rel_type'] = 'content';
 
         $data['allow_html'] = true;
         // $data['debug'] = true;

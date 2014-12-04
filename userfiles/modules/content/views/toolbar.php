@@ -26,13 +26,13 @@ $past_page = false;
 if ($last_page_front != false) {
     $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
     if (isset($cont_by_url) and $cont_by_url == false) {
-        $past_page = mw()->content_manager->get("order_by=updated_on desc&limit=1");
+        $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
         $past_page = mw()->content_manager->link($past_page[0]['id']);
     } else {
         $past_page = mw()->content_manager->link($last_page_front);
     }
 } else {
-    $past_page = mw()->content_manager->get("order_by=updated_on desc&limit=1");
+    $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
 	if(isset($past_page[0])){
 		$past_page = mw()->content_manager->link($past_page[0]['id']);
 	} else {
@@ -74,13 +74,13 @@ if ($last_page_front != false) {
 
 <?php   
 $content_types = array();
-$available_content_types = get_content('order_by=created_on asc&is_deleted=0&fields=content_type&group_by=content_type&parent='.$page_info['id']);
+$available_content_types = get_content('order_by=created_at asc&is_deleted=0&fields=content_type&group_by=content_type&parent='.$page_info['id']);
 $have_custom_content_types_count = 0;
 if(!empty($available_content_types)){
 	
 	foreach($available_content_types as $available_content_type){
 		if(isset($available_content_type['content_type'])){
-			$available_content_subtypes = get_content('order_by=created_on asc&is_deleted=0&fields=subtype&group_by=subtype&parent='.$page_info['id'].'&content_type='.$available_content_type['content_type']);
+			$available_content_subtypes = get_content('order_by=created_at asc&is_deleted=0&fields=subtype&group_by=subtype&parent='.$page_info['id'].'&content_type='.$available_content_type['content_type']);
 			if(!empty($available_content_subtypes)){
 				
 				$content_types[$available_content_type['content_type']] = $available_content_subtypes;

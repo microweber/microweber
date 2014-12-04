@@ -18,7 +18,7 @@ class Api {
             $params = $params2;
         }
         if (isset($params['content_id'])) {
-            $params['rel'] = 'content';
+            $params['rel_type'] = 'content';
             $params['rel_id'] = mw()->database_manager->escape_string($params['content_id']);
 
         }
@@ -96,7 +96,7 @@ class Api {
             }
         } else {
 
-            if (!isset($data['rel'])) {
+            if (!isset($data['rel_type'])) {
                 return array('error' => 'Error: invalid data');
             }
             if (!isset($data['rel_id'])) {
@@ -154,7 +154,7 @@ class Api {
 
             $notif = array();
             $notif['module'] = "comments";
-            $notif['rel'] = $data['rel'];
+            $notif['rel_type'] = $data['rel_type'];
             $notif['rel_id'] = $data['rel_id'];
             $notif['title'] = "You have new comment";
             $notif['description'] = "New comment is posted on " . mw()->url_manager->current(1);
@@ -167,7 +167,7 @@ class Api {
             if ($email_on_new_comment == true) {
                 $subject = "You have new comment";
                 $data2 = $data;
-                unset($data2['rel']);
+                unset($data2['rel_type']);
                 unset($data2['rel_id']);
                 $data3 = array();
                 foreach ($data2 as $key => $value) {
@@ -213,7 +213,7 @@ class Api {
                     $upd['is_new'] = 'n';
 
                     $upd['id'] = $get_com['id'];
-                    $upd['rel'] = 'content';
+                    $upd['rel_type'] = 'content';
                     $upd['rel_id'] = mw()->database_manager->escape_string($data['content_id']);
                     \mw()->database->save($table, $upd);
                 }

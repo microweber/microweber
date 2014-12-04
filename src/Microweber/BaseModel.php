@@ -9,8 +9,8 @@ class BaseModel extends Eloquent
 
     use QueryFilter; //trait with db functions
 
-    const CREATED_AT = 'created_on';
-    const UPDATED_AT = 'updated_on';
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
 
 
     protected $guarded = array();
@@ -198,11 +198,11 @@ class BaseModel extends Eloquent
         if (is_string($params)) {
             $params = parse_params($params);
         }
-        if (!isset($params['created_on']) == false) {
-            $params['created_on'] = date("Y-m-d H:i:s");
+        if (!isset($params['created_at']) == false) {
+            $params['created_at'] = date("Y-m-d H:i:s");
         }
-        if (!isset($params['updated_on']) == false) {
-            $params['updated_on'] = date("Y-m-d H:i:s");
+        if (!isset($params['updated_at']) == false) {
+            $params['updated_at'] = date("Y-m-d H:i:s");
         }
         $id = false;
         if (isset($params['id']) and $params['id'] != 0) {
@@ -214,7 +214,7 @@ class BaseModel extends Eloquent
         $id_to_return = false;
         $this->fireModelEvent('saving');
         if ($id) {
-            unset($params['created_on']);
+            unset($params['created_at']);
             $save = self::find($id)->update($params);
             $id_to_return = intval($id);
         } else {

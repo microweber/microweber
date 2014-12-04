@@ -98,7 +98,7 @@ class Worker
         if ($back_log_action == false) {
             mw()->log->delete("is_system=y&rel=export&user_ip=" . USER_IP);
         } else {
-            $check = mw()->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=export&user_ip=" . USER_IP);
+            $check = mw()->log->get("order_by=created_at desc&one=true&is_system=y&created_at=[mt]30 min ago&field=action&rel=export&user_ip=" . USER_IP);
 
             if (is_array($check) and isset($check['id'])) {
                 mw()->log->save("is_system=y&field=action&rel=export&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);
@@ -903,7 +903,7 @@ class Worker
             if ($back_log_action == false) {
                 $this->app->log->delete("is_system=y&rel=export&user_ip=" . USER_IP);
             } else {
-                $check = $this->app->log->get("order_by=created_on desc&one=true&is_system=y&created_on=[mt]30 min ago&field=action&rel=export&user_ip=" . USER_IP);
+                $check = $this->app->log->get("order_by=created_at desc&one=true&is_system=y&created_at=[mt]30 min ago&field=action&rel=export&user_ip=" . USER_IP);
 
                 if (is_array($check) and isset($check['id'])) {
                     $this->app->log->save("is_system=y&field=action&rel=export&value=" . $back_log_action . "&user_ip=" . USER_IP . "&id=" . $check['id']);

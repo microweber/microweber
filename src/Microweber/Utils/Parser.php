@@ -4,6 +4,7 @@
 namespace Microweber\Utils;
 
 use Microweber\Providers\Modules;
+
 $parser_cache_object = false; //global cache storage
 $mw_replaced_modules = array();
 $mw_replaced_edit_fields_vals = array();
@@ -33,7 +34,7 @@ class Parser
             $this->app = mw();
 
         } else {
-            $this->app =$app;
+            $this->app = $app;
         }
 
 
@@ -588,7 +589,7 @@ class Parser
                     if (strval($name) == '') {
                         $name = pq($elem)->attr('data-field');
                     }
-                    $rel = pq($elem)->attr('rel');
+                    $rel = pq($elem)->attr('rel_type');
                     if ($rel == false) {
                         $rel = pq($elem)->attr('data-rel');
                         if ($rel == false) {
@@ -1421,7 +1422,6 @@ class Parser
             $l1->app = $this->app;
 
 
-
             if (!isset($attrs['module'])) {
                 $attrs['module'] = $module_name;
             }
@@ -1496,18 +1496,23 @@ class Parser
         return $module_name;
     }
 
-        function module_name_encode($module_name)
-        {
-            $module_name = str_replace('/', '__', $module_name);
-            $module_name = str_replace('\\', '__', $module_name);
-            return $module_name;
+    function module_name_encode($module_name)
+    {
+        $module_name = str_replace('/', '__', $module_name);
+        $module_name = str_replace('\\', '__', $module_name);
+        return $module_name;
 
-        }
+    }
 
 
     function module_css_class($module_name)
     {
-        $slug = \Str::slug($module_name);
-        return $slug;
+        $module_class = str_replace('/', '-', $module_name);
+        $module_class = str_replace('\\', '-', $module_class);
+        $module_class = str_replace(' ', '-', $module_class);
+        $module_class = str_replace('%20', '-', $module_class);
+        $module_class = str_replace('_', '-', $module_class);
+        $module_class = 'module-' . $module_class;
+        return $module_class;
     }
 }

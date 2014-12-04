@@ -49,6 +49,7 @@ class Fcache implements StoreInterface
     protected $directoryTags;
 
     public $memory = array();
+    public $deleted_tags = array();
 
 
     /**
@@ -74,6 +75,13 @@ class Fcache implements StoreInterface
      */
     public function get($key)
     {
+        if (!empty($this->tags)) {
+            foreach ($this->tags as $tag) {
+                if (in_array($tag, $this->deleted_tags)) {
+                    // return;
+                }
+            }
+        }
 
 
         $mem_key = $key;
@@ -116,14 +124,20 @@ class Fcache implements StoreInterface
     public function put($key, $value, $minutes)
     {
         $value = $this->expiration($minutes) . serialize($value);
+        $path = $this->path($key);
+        $path = $this->normalize_path($path, false);
 
-        $this->createCacheDirectory($path = $this->path($key));
+        $this->createCacheDirectory($path);
 
         if (!empty($this->tags)) {
+            foreach ($this->tags as $tag) {
+                if (in_array($tag, $this->deleted_tags)) {
+                    // return null;
+                }
+            }
+
             $this->_setTags($path);
         }
-
-        $path = $this->normalize_path($path, false);
 
 
         $this->files->put($path, $value);
@@ -137,11 +151,13 @@ class Fcache implements StoreInterface
      */
     public function tags($tags)
     {
-        if (is_string($tags))
+        $string_array = array();
+        if (is_string($tags)) {
             $string_array = explode(',', $tags);
-        else if (is_array($tags))
+        } else if (is_array($tags)) {
             $string_array = $tags;
-        array_walk($string_array, 'trim');
+            array_walk($string_array, 'trim');
+        }
 
         $this->tags = $string_array;
 
@@ -287,6 +303,7 @@ class Fcache implements StoreInterface
         array_walk($string_array, 'trim');
 
         foreach ($string_array as $sa) {
+            $this->deleted_tags[] = $sa;
             $file = $this->directoryTags . '/' . $sa;
             if ($this->files->exists($file)) {
                 $farr = file($file);
@@ -313,7 +330,6 @@ class Fcache implements StoreInterface
      */
     public function forget($key)
     {
-
 
 
         $file = $this->path($key);
@@ -344,14 +360,21 @@ class Fcache implements StoreInterface
             }
         }
 
+
+        $this->memory = array();
+
         foreach ($this->tags as $tag) {
+            if (in_array($tag, $this->deleted_tags)) {
+                //   break;
+            }
+
             $items = $this->forgetTags($tag);
             $del = $this->directory . '/' . $tag;
             $del = $this->normalize_path($del);
             $this->files->deleteDirectory($del);
         }
 
-        $this->memory = array();
+
     }
 
     /**

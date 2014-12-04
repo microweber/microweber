@@ -156,7 +156,7 @@ class DefaultController extends Controller
         
         header("Content-Type: application/rss+xml; charset=UTF-8");
         
-        $cont = get_content("is_active=1&is_deleted=0&limit=2500&orderby=updated_on desc");
+        $cont = get_content("is_active=1&is_deleted=0&limit=2500&orderby=updated_at desc");
         
         $site_title = $this->app->option_manager->get('website_title', 'website');
         $site_desc = $this->app->option_manager->get('website_description', 'website');
@@ -176,7 +176,7 @@ class DefaultController extends Controller
             $rssfeed.= '<title>' . $row['title'] . '</title>' . "\n";
             $rssfeed.= '<description><![CDATA[' . $row['description'] . '  ]]></description>' . "\n";
             $rssfeed.= '<link>' . content_link($row['id']) . '</link>' . "\n";
-            $rssfeed.= '<pubDate>' . date("D, d M Y H:i:s O", strtotime($row['created_on'])) . '</pubDate>' . "\n";
+            $rssfeed.= '<pubDate>' . date("D, d M Y H:i:s O", strtotime($row['created_at'])) . '</pubDate>' . "\n";
             $rssfeed.= '<guid>' . content_link($row['id']) . '</guid>' . "\n";
             $rssfeed.= '</item>' . "\n";
         }
@@ -1601,12 +1601,12 @@ class DefaultController extends Controller
                 $content = $page;
             }
             
-            if (isset($content['created_on']) and trim($content['created_on']) != '') {
-                $content['created_on'] = date($date_format, strtotime($content['created_on']));
+            if (isset($content['created_at']) and trim($content['created_at']) != '') {
+                $content['created_at'] = date($date_format, strtotime($content['created_at']));
             }
             
-            if (isset($content['updated_on']) and trim($content['updated_on']) != '') {
-                $content['updated_on'] = date($date_format, strtotime($content['updated_on']));
+            if (isset($content['updated_at']) and trim($content['updated_at']) != '') {
+                $content['updated_at'] = date($date_format, strtotime($content['updated_at']));
             }
             
             if ($is_preview_template != false) {
@@ -2153,11 +2153,11 @@ class DefaultController extends Controller
                 $map = new \Microweber\Utils\Sitemap($sm_file);
                 $map->file = mw_cache_path() . 'sitemap.xml';
                 
-                $cont = get_content("is_active=1&is_deleted=0&limit=2500&fields=id,updated_on&orderby=updated_on desc");
+                $cont = get_content("is_active=1&is_deleted=0&limit=2500&fields=id,updated_at&orderby=updated_at desc");
                 
                 if (!empty($cont)) {
                     foreach ($cont as $item) {
-                        $map->addPage($this->app->content_manager->link($item['id']), 'daily', 1, $item['updated_on']);
+                        $map->addPage($this->app->content_manager->link($item['id']), 'daily', 1, $item['updated_at']);
                     }
                 }
                 $map = $map->create();
