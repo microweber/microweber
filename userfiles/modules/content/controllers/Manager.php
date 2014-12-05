@@ -32,13 +32,12 @@ class Manager
     function index($params)
     {
         if (isset($params['manage_categories'])) {
-              print load_module('categories/manage',$params);
+            print load_module('categories/manage', $params);
 
             return;
 
 
         }
-
 
 
         $no_page_edit = false;
@@ -49,7 +48,7 @@ class Manager
         }
 
         if (isset($params['no_page_edit'])) {
-        $no_page_edit = $params['no_page_edit'];
+            $no_page_edit = $params['no_page_edit'];
         }
         if (isset($params['keyword'])) {
             $posts_mod['search_by_keyword'] = $params['keyword'];
@@ -60,9 +59,9 @@ class Manager
         if (isset($params['subtype']) and $params['subtype'] != false) {
             $posts_mod['subtype'] = $params['subtype'];
         }
-        if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
+        if (isset($params['is_shop']) and $params['is_shop'] == 1) {
             $posts_mod['subtype'] = 'product';
-        } else if (isset($params['is_shop']) and $params['is_shop'] == 'n') {
+        } else if (isset($params['is_shop']) and $params['is_shop'] == 0) {
             $posts_mod['subtype'] = 'post';
         }
         if (isset($params['content_type_filter']) and $params['content_type_filter'] != '') {
@@ -76,7 +75,7 @@ class Manager
         if (!isset($params['category-id']) and isset($params['page-id']) and $params['page-id'] != 'global') {
             $check_if_exist = $this->provider->get_by_id($params['page-id']);
             if (is_array($check_if_exist)) {
-                if (isset($check_if_exist['is_shop']) and trim($check_if_exist['is_shop']) == 'y') {
+                if (isset($check_if_exist['is_shop']) and trim($check_if_exist['is_shop']) == 1) {
                     $posts_mod['subtype'] = 'product';
                 }
             }
@@ -84,7 +83,7 @@ class Manager
         $page_info = false;
         if (isset($params['page-id'])) {
             if ($params['page-id'] == 'global') {
-                if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
+                if (isset($params['is_shop']) and $params['is_shop'] == 1) {
                     $page_info = $this->provider->get('limit=1&one=1&content_type=page&is_shop=0');
                 }
             } else {
@@ -97,11 +96,15 @@ class Manager
 
             if (is_array($check_if_exist)) {
                 $page_info = $check_if_exist;
-                if (isset($check_if_exist['is_shop']) and trim($check_if_exist['is_shop']) == 'y') {
+                if (isset($check_if_exist['is_shop']) and trim($check_if_exist['is_shop']) == 1) {
                     $posts_mod['subtype'] = 'product';
+                } else {
+                    // $posts_mod['subtype'] = $check_if_exist['subtype'];
                 }
             }
         }
+
+
         $posts_mod['paging_param'] = 'pg';
         $posts_mod['orderby'] = 'position desc';
         if (isset($posts_mod['page-id'])) {
@@ -125,9 +128,11 @@ class Manager
         }
 
         $data = $this->provider->get($posts_mod);
+
         if (empty($data) and isset($posts_mod['page'])) {
 
             unset($posts_mod['page']);
+
             $data = $this->provider->get($posts_mod);
 
         }
@@ -144,30 +149,40 @@ class Manager
         $toolbar->assign('keyword', $keyword);
         $toolbar->assign('params', $params);
 
- 
-        $post_list_view = $this->views_dir . 'manager.php';
-        if($no_page_edit == false){
-        if ($data == false) {
-            if (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and $page_info['subtype'] == 'static') {
-                $manager = new Edit();
-                return $manager->index($params);
-            }elseif (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and isset($page_info['subtype']) 
-			and isset($page_info['id']) 
-			and $page_info['subtype'] != false 
-			and $page_info['subtype'] != 'post' 
-			and $page_info['subtype'] != 'static'  
-			and $page_info['subtype'] != 'dynamic' 
-			and $page_info['subtype'] != 'product' 
-			and $page_info['subtype'] != 'page'
 
-			 ) {
+        $post_list_view = $this->views_dir . 'manager.php';
+        if ($no_page_edit == false) {
+            if ($data == false) {
+                if (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and $page_info['subtype'] == 'static') {
+
+                    if (isset($posts_mod['category-id']) and $posts_mod['category-id'] != 0) {
+                        print load_module('categories/edit_category', $params);
+                        return;
+                    }
+
+
+                    $manager = new Edit();
+
+
+                    return $manager->index($params);
+                } elseif (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and isset($page_info['subtype'])
+                    and isset($page_info['id'])
+                    and $page_info['subtype'] != false
+                    and $page_info['subtype'] != 'post'
+                    and $page_info['subtype'] != 'static'
+                    and $page_info['subtype'] != 'dynamic'
+                    and $page_info['subtype'] != 'product'
+                    and $page_info['subtype'] != 'page'
+
+                ) {
                     $manager = new Edit();
                     return $manager->index($params);
 
 
+                }
             }
         }
-        }
+
 
         $view = new View($post_list_view);
         $view->assign('params', $params);

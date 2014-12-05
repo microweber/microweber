@@ -939,7 +939,7 @@ class CategoryManager
                                 }
 
                             }
-                            //	d($category2);
+
                         }
                     }
                 }
@@ -947,7 +947,6 @@ class CategoryManager
             }
         }
 
-        //d($res);
 
     }
 
@@ -1100,7 +1099,7 @@ class CategoryManager
             return false;
         }
 
-        $get_category_items = $this->get_items('rel=content&rel_id=' . ($content_id));
+        $get_category_items = $this->get_items('rel_type=content&rel_id=' . ($content_id));
         $include_parents = array();
         $include_parents_str = '';
         if (!empty($get_category_items)) {
@@ -1111,12 +1110,12 @@ class CategoryManager
             }
 
         }
-        $get_category = $this->get('data_type=category&rel=content&rel_id=' . ($content_id));
+        $get_category = $this->get('data_type=category&rel_type=content&rel_id=' . ($content_id));
         if (empty($get_category)) {
             $get_category = array();
         }
         if (!empty($include_parents)) {
-            $include_parents_str = 'data_type=category&rel=content&ids=' . implode(',', $include_parents);
+            $include_parents_str = 'data_type=category&rel_type=content&ids=' . implode(',', $include_parents);
             $get_category2 = $this->get($include_parents_str);
 
             if (!empty($get_category2)) {
@@ -1464,9 +1463,7 @@ class CategoryManager
         $params['table'] = $table;
 
 
-
         $save = $this->app->database->save($params);
-
 
 
         if (intval($save) == 0) {
@@ -1494,45 +1491,16 @@ class CategoryManager
 
         $id = intval($id);
 
-        $function_cache_id = false;
-
-        $args = func_get_args();
-
-        foreach ($args as $k => $v) {
-
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-
-        $categories_id = intval($id);
-        $cache_group = 'categories/' . $categories_id;
-        $cache_content = false;
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-
-            return $cache_content;
-        }
 
         $table = $this->tables['categories'];
 
         $id = intval($id);
 
-        // $q = " SELECT * FROM $table WHERE id = $id LIMIT 0,1";
 
         $q = $this->app->database->get_by_id($table, $id);
 
+        return $q;
 
-        if (!empty($q)) {
-
-            $this->app->cache_manager->save($q, $function_cache_id, $cache_group);
-
-            return $q;
-        } else {
-
-            return false;
-        }
     }
 
     public function delete($data)
