@@ -180,7 +180,19 @@ trait QueryFilter
                 case 'id':
                     unset($params[$filter]);
                     $criteria = trim($value);
-                    $query = $query->where('id', $criteria);
+                    if ($compare_sign != false) {
+
+                        if ($compare_value != false) {
+                            $val = $compare_value;
+                        } else {
+                            $val = $value;
+                        }
+
+                        $query = $query->where('id',$compare_sign, $val);
+                    } else {
+                        $query = $query->where('id', $criteria);
+                    }
+
                     break;
 
                 case 'no_cache':

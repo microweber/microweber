@@ -88,8 +88,6 @@ class MenuManager
             }
 
 
-
-
             $save = $this->app->database->save($table, $data_to_save);
 
             $this->app->cache_manager->delete('menus/global');
@@ -285,7 +283,7 @@ class MenuManager
 
             $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
             if (!isset($no_cache) and ($cache_content) != false) {
-                return $cache_content;
+                //  return $cache_content;
             }
 
         }
@@ -311,32 +309,17 @@ class MenuManager
         //and item_type='menu_item'
         $menu_params = array();
         $menu_params['parent_id'] = $menu_id;
-        $menu_params['menu_id'] = $menu_id;
+        //  $menu_params['id'] = '[neq]'.$menu_id;
 
         $menu_params['table'] = $menus;
-        $menu_params['orderby'] = "position ASC";
-
-        $title = false;
-        if (isset($params_o['title']) != false) {
-            $title = $params_o['title'];
-            unset($params_o['title']);
-        } elseif (isset($params_o['name']) != false) {
-            $title = $params_o['name'];
-            unset($params_o['name']);
-
-        }
-
-        if ($title != false and is_string($title)) {
-            $title = $this->app->database_manager->escape_string($title);
-            $sql1 = "SELECT * FROM {$menus}
-            WHERE title LIKE '$title'
-            ORDER BY position ASC ";
-
-        }
+        $menu_params['order_by'] = "position ASC";
 
 
-        $q = Menu::where('parent_id', '=', $menu_id);
-        $q = $q->where('id', '!=', $menu_id)->get()->toArray();
+        $q = $this->app->database->get($menu_params);
+
+
+//        $q = Menu::where('parent_id', '=', $menu_id);
+//        $q = $q->where('id', '!=', $menu_id)->get()->toArray();
 
         //$q = $this->app->database->get($menu_params);
 
@@ -418,8 +401,10 @@ class MenuManager
             $url = '';
             $is_active = true;
             if (intval($item['content_id']) > 0) {
+
+
                 $cont = $this->app->content_manager->get_by_id($item['content_id']);
-                if (is_array($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 'y') {
+                if (is_array($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 1) {
                     $is_active = false;
                     $cont = false;
                 }
@@ -429,7 +414,7 @@ class MenuManager
                     $title = $cont['title'];
                     $url = $this->app->content_manager->link($cont['id']);
 
-                    if ($cont['is_active'] != 'y') {
+                    if ($cont['is_active'] != 1) {
                         $is_active = false;
                         $cont = false;
                     }
@@ -749,7 +734,7 @@ class MenuManager
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = $this->tables['menus'];
-
+        $table = $this->app->database_manager->real_table_name($table);
         if (isset($data['ids_parents'])) {
             $value = $data['ids_parents'];
             if (is_array($value)) {
