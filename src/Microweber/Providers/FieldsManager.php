@@ -346,6 +346,25 @@ class FieldsManager
         }
     }
 
+    public function get_values($custom_field_id)
+    {
+        $id = $custom_field_id;
+        if (is_array($custom_field_id)) {
+            $id = implode(',', $custom_field_id);
+        }
+        $table = $this->tables['custom_fields_values'];
+        $params = array();
+        $params['table'] =  $table;
+        $params['custom_field_id'] = '[in]'.$id;
+
+
+        $data = $this->app->database->get($params);
+
+return $data;
+
+    }
+
+
     function get_value($content_id, $field_name, $return_full = false, $table = 'content')
     {
         $val = false;
@@ -590,15 +609,6 @@ class FieldsManager
     }
 
 
-    public function get_values($custom_field_id)
-    {
-        $id = $custom_field_id;
-        if (is_array($custom_field_id)) {
-            $id = implode(',', $custom_field_id);
-        }
-
-
-    }
 
 
     public function unify_params($data)

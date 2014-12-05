@@ -105,4 +105,7 @@ function create_media_dir($params)
 
 }
 
- 
+
+api_hook('media/delete_media_file', function ($data) {
+    return mw()->media_manager->delete_media_file($data);
+});
