@@ -125,7 +125,7 @@ class Database
             $params['order_by'] = $params['orderby'];
             unset($params['orderby']);
         }
-        $query = $this->map_filters($query, $params);
+        $query = $this->map_filters($query, $params,$table);
         $params = $this->map_array_to_table($table, $params);
         $query = $this->map_values_to_query($query, $params);
 

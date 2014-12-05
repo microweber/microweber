@@ -20,13 +20,18 @@ Filter::bind('comments',function($params, $app){
  	
 	
 }); 
-	$post_params = array();
- $post_params['comments'] = true;
-  $post_params['one'] = true;
-$post_params['order_by'] = 'id desc';
-$content = get_content($post_params);
 
-dd($content);
+// $comm = Content::find(1)->comments()->get();
+//dd( $comm);
+
+
+//	$post_params = array();
+// $post_params['comments'] = true;
+//  $post_params['one'] = true;
+//$post_params['order_by'] = 'id desc';
+//$content = get_content($post_params);
+//
+//dd($content);
 
 //Content::comments=(function(){
 //	return $this->morphMany('Comments', 'rel');
@@ -50,6 +55,35 @@ dd($content);
  //mw()->content->find(1)->comments()->get();
 // $comm = Content::find(1)->comments()->get();
 //dd( $comm);
+
+
+
+
+mw()->database->custom_filter('comments', function($query,$param,$table){
+	//
+//	$app = $app->morphMany('comments', 'rel');
+//	
+//	$query = $query->with('comments');
+//		return $query;
+//		
+//	dd($query);
+//dd(__FILE__);	
+//	
+});
+
+//	$post_params = array();
+// $post_params['comments'] = true;
+//  $post_params['one'] = true;
+//$post_params['order_by'] = 'id desc';
+//$content = get_content($post_params);
+//
+//dd($content );
+
+
+
+
+
+
 event_bind('orm_get', 'db_filter_comments');
 
 

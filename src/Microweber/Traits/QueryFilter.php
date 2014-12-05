@@ -22,7 +22,7 @@ trait QueryFilter
         self::$custom_filters[$name] = $callback;
     }
 
-    public function map_filters($query, &$params)
+    public function map_filters($query, &$params,$table)
     {
 
         if (!isset($params['limit'])) {
@@ -198,7 +198,7 @@ trait QueryFilter
             if (!isset($params[$name])) {
                 continue;
             }
-            call_user_func_array($callback, [$query, $params[$name]]);
+             call_user_func_array($callback, [$query, $params[$name],$table]);
         }
         return $query;
     }
