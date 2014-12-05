@@ -21,16 +21,16 @@ Filter::bind('comments',function($params, $app){
 	
 }); 
 
-
+//
 //$comm = Content::with(array('comments' => function($q)
 // {
 //  // $q->where('comments.rel_id','=','content.id')->groupBy('id')->groupBy('comments.rel_id');; 
 //   
-//return  $q->where('comments.rel_id','=','content.id')->groupBy('comments.id')->groupBy('comments.rel_id');; 
+// $q->where('comments.rel_id','=','content.id')->whereNotNull('comments.rel_id')->groupBy('id'); 
 //   
 // }))->get()->toArray();
 //
-////$comm = Content::with('comments')->get()->toArray();
+// $comm = Content::with('comments')->get()->toArray();
 //dd( $comm);
 // $comm = Content::find(1)->comments()->get();
 //dd( $comm);

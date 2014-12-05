@@ -100,9 +100,22 @@ trait QueryFilter
                     break;
 
                 case 'category':
+                case 'categories':
 
-                    // d($value);
-                    //d(__FILE__.__LINE__);
+                    $ids = $value;
+                    if (is_string($ids)) {
+                        $ids = explode(',', $ids);
+                    } elseif (is_int($ids)) {
+                        $ids = array($ids);
+                    }
+                    if (is_array($ids)) {
+                        $query = $query->leftJoin('categories_items', 'categories_items.rel_id', '=', $table.'.id')
+                            ->where('categories_items.rel_type', $table)
+                            ->whereIn('categories_items.parent_id', $ids);
+
+                    }
+                    unset($params[$filter]);
+
                     break;
                 case 'order_by':
                     $order_by_criteria = explode(',', $value);
@@ -255,18 +268,7 @@ trait QueryFilter
 
     function __call($method, $params)
     {
-
-
         return Filter::get($method,$params,$this);
-
-     if(Filter::get($method,$params)){
-
-
-         return $this;
-     } else {
-
-         return $this;
-     }
 
     }
 }

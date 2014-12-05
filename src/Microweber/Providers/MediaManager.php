@@ -394,7 +394,7 @@ class MediaManager
 
         $data = $this->app->database->get($params);
 
-        if (defined('MW_MEDIA_URL')) {
+        if (defined('media_base_url()')) {
             if (!empty($data)) {
                 $return = array();
                 foreach ($data as $item) {
@@ -402,9 +402,9 @@ class MediaManager
                         if (!stristr($item['filename'], '{SITE_URL}')
                             and !stristr($item['filename'], '{MEDIA_URL}')
                                 and !stristr($item['filename'], '://')
-                                    and !stristr($item['filename'], MW_MEDIA_URL)
+                                    and !stristr($item['filename'], media_base_url())
                         ) {
-                            $item['filename'] = MW_MEDIA_URL . $item['filename'];
+                            $item['filename'] = media_base_url() . $item['filename'];
 
                         }
                     }
@@ -440,7 +440,7 @@ class MediaManager
         }
 
         if (isset($data['for'])) {
-            $t = guess_table_name($data['for']);
+            $t = trim($data['for']);
             $t = $this->app->database_manager->assoc_table_name($t);
             $s['rel_type'] = $t;
         }
@@ -629,7 +629,7 @@ class MediaManager
         $surl = $this->app->url_manager->site();
         $local = false;
 
-        $media_url = MW_MEDIA_URL;
+        $media_url = media_base_url();
         $media_url = trim($media_url);
         $src = str_replace('{SITE_URL}', $surl, $src);
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
@@ -742,7 +742,7 @@ class MediaManager
 
                 } else {
                     if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp') {
-                        $tn = new \Microweber\Thumbnailer($src);
+                        $tn = new \Microweber\Utils\Thumbnailer($src);
                         $thumbOptions = array('maxLength' => $height, 'width' => $width);
                         $tn->createThumb($thumbOptions, $cache_path);
 
@@ -782,7 +782,10 @@ class MediaManager
     {
         $mime_type = "image/png";
         $extension = ".png";
-        $cache_folder = mw_cache_path() . 'pixum' . DS;
+        $cache_folder = media_base_path() . 'pixum' . DS;
+        $cache_folder = normalize_path($cache_folder,true);
+
+
         if (!is_dir($cache_folder)) {
             mkdir_recursive($cache_folder);
         }
@@ -810,6 +813,7 @@ class MediaManager
         $hash = 'pixum-' . ($h) . 'x' . $w;
         $cachefile = $cache_folder . '/' . $hash . $extension;
 
+       
         header("Content-Type: image/png");
 
         # Generate cachefile for image, if it doesn't exist
@@ -946,7 +950,7 @@ class MediaManager
         $surl = $this->app->url_manager->site();
         $local = false;
 
-        $media_url = MW_MEDIA_URL;
+        $media_url = media_base_url();
         $media_url = trim($media_url);
         $src = str_replace('{SITE_URL}', $surl, $src);
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
