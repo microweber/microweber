@@ -40,7 +40,6 @@ function reorder_media($data)
 }
 
 
-
 api_expose('delete_media');
 
 function delete_media($data)
