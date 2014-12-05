@@ -35,7 +35,7 @@ class FieldsManager
     public function get_by_id($field_id)
     {
         if ($field_id != 0) {
-            $data = $this->app->database->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+            $data = $this->app->database->get_by_id('custom_fields', $id = $field_id, $is_this_field = false);
             $data = $this->decode_array_vals($data);
             return $data;
         }
@@ -108,10 +108,10 @@ class FieldsManager
                         $make_field['rel_type'] = $rel;
                         $make_field['rel_id'] = $rel_id;
                         $make_field['position'] = $pos;
-                        $make_field['custom_field_name'] = ucfirst($field_type);
+                        $make_field['name'] = ucfirst($field_type);
                         $make_field['custom_field_value'] = false;
 
-                        $make_field['custom_field_type'] = $field_type;
+                        $make_field['type'] = $field_type;
 
                         $this->save($make_field);
                         $pos++;
@@ -161,23 +161,25 @@ class FieldsManager
 
         $table_custom_field = $this->tables['custom_fields'];
 
-        if (isset($data['field_type']) and !isset($data['custom_field_type'])) {
-            $data['custom_field_type'] = $data['field_type'];
+        if (isset($data['field_type']) and !isset($data['type'])) {
+            $data['type'] = $data['field_type'];
         }
-
+        if (isset($data['custom_field_type']) and !isset($data['type'])) {
+            $data['type'] = $data['custom_field_type'];
+        }
 
         if (isset($data['field_value']) and !isset($data['custom_field_value'])) {
             $data['custom_field_value'] = $data['field_value'];
         }
-        if (isset($data['field_name']) and !isset($data['custom_field_name'])) {
-            $data['custom_field_name'] = $data['field_name'];
+        if (isset($data['field_name']) and !isset($data['name'])) {
+            $data['name'] = $data['field_name'];
         }
-        if (isset($data['field_type']) and !isset($data['custom_field_type'])) {
-            $data['custom_field_type'] = $data['field_type'];
+        if (isset($data['field_type']) and !isset($data['type'])) {
+            $data['type'] = $data['field_type'];
         }
 
-        if (isset($data['custom_field_type']) and !isset($data['custom_field_name'])) {
-            $data['custom_field_name'] = $data['custom_field_type'];
+        if (isset($data['type']) and !isset($data['name'])) {
+            $data['name'] = $data['type'];
         }
 
         $data_to_save = ($data);
@@ -197,11 +199,11 @@ class FieldsManager
                 if (!isset($data_to_save['rel_id'])) {
                     $data_to_save['rel_id'] = $form_data_from_id['rel_id'];
                 }
-                if (isset($form_data_from_id['custom_field_type']) and $form_data_from_id['custom_field_type'] != '' and (!isset($data_to_save['custom_field_type']) or ($data_to_save['custom_field_type']) == '')) {
-                    $data_to_save['custom_field_type'] = $form_data_from_id['custom_field_type'];
+                if (isset($form_data_from_id['type']) and $form_data_from_id['type'] != '' and (!isset($data_to_save['type']) or ($data_to_save['type']) == '')) {
+                    $data_to_save['type'] = $form_data_from_id['type'];
                 }
-                if (isset($form_data_from_id['custom_field_name']) and $form_data_from_id['custom_field_name'] != '' and (!isset($data_to_save['custom_field_name']) or ($data_to_save['custom_field_name']) == '')) {
-                    $data_to_save['custom_field_name'] = $form_data_from_id['custom_field_name'];
+                if (isset($form_data_from_id['name']) and $form_data_from_id['name'] != '' and (!isset($data_to_save['name']) or ($data_to_save['name']) == '')) {
+                    $data_to_save['name'] = $form_data_from_id['name'];
                 }
             }
 
@@ -228,16 +230,7 @@ class FieldsManager
         }
 
         $data_to_save['session_id'] = mw()->user_manager->session_id();
-        if (!isset($data_to_save['custom_field_type']) and isset($data_to_save['type'])) {
-            $data_to_save['custom_field_type'] = $data_to_save['type'];
-        } else if (isset($data_to_save['custom_field_type'])) {
-            $data_to_save['type'] = $data_to_save['custom_field_type'];
-        }
-        if (!isset($data_to_save['custom_field_name']) and isset($data_to_save['name'])) {
-            $data_to_save['custom_field_name'] = $data_to_save['name'];
-        } else if (isset($data_to_save['custom_field_name'])) {
-            $data_to_save['name'] = $data_to_save['custom_field_name'];
-        }
+
         if (!isset($data_to_save['custom_field_value']) and isset($data_to_save['value'])) {
             $data_to_save['custom_field_value'] = $data_to_save['value'];
         } else if (isset($data_to_save['custom_field_value'])) {
@@ -250,15 +243,15 @@ class FieldsManager
             $data_to_save['values'] = $data_to_save['custom_field_values'];
         }
 
-        if (!isset($data_to_save['custom_field_type']) or trim($data_to_save['custom_field_type']) == '') {
-            return array('error' => 'You must set custom_field_type');
+        if (!isset($data_to_save['type']) or trim($data_to_save['type']) == '') {
+            return array('error' => 'You must set type');
         } else {
-            if (!isset($data_to_save['custom_field_name'])) {
-                return array('error' => 'You must set custom_field_name');
+            if (!isset($data_to_save['name'])) {
+                return array('error' => 'You must set name');
             }
-            $cf_k = $data_to_save['custom_field_name'];
-            if ($cf_k != false and !isset($data_to_save['custom_field_name_plain'])) {
-                $data_to_save['custom_field_name_plain'] = strtolower($cf_k);
+            $cf_k = $data_to_save['name'];
+            if ($cf_k != false and !isset($data_to_save['name_plain'])) {
+                $data_to_save['name_plain'] = strtolower($cf_k);
             }
             if (isset($data_to_save['custom_field_value'])) {
                 // return array('error' => 'You must set custom_field_value');
@@ -358,9 +351,9 @@ class FieldsManager
         $val = false;
         $data = $this->get($table, $id = $content_id, $return_full, $field_for = false, $debug = false, $field_type = false, $for_session = false);
         foreach ($data as $item) {
-            if (isset($item['custom_field_name']) and
-                ((strtolower($item['custom_field_name']) == strtolower($field_name))
-                    or (strtolower($item['custom_field_type']) == strtolower($item['custom_field_type'])))
+            if (isset($item['name']) and
+                ((strtolower($item['name']) == strtolower($field_name))
+                    or (strtolower($item['type']) == strtolower($item['type'])))
             ) {
                 $val = $item['custom_field_value'];
             }
@@ -419,7 +412,7 @@ class FieldsManager
             $params['rel_id'] = $id = $this->app->database_manager->escape_string($params['for_id']);
         }
         if (isset($params['field_type'])) {
-            $params['custom_field_type'] = $params['field_type'];
+            $params['type'] = $params['field_type'];
         }
 
 
@@ -429,8 +422,8 @@ class FieldsManager
 
         if (isset($params['field_type'])) {
             $field_type = $this->app->database_manager->escape_string($params['field_type']);
-        } else if (isset($params['custom_field_type'])) {
-            $field_type = $this->app->database_manager->escape_string($params['custom_field_type']);
+        } else if (isset($params['type'])) {
+            $field_type = $this->app->database_manager->escape_string($params['type']);
         }
         if (isset($params['return_full'])) {
             $return_full = $params['return_full'];
@@ -438,21 +431,23 @@ class FieldsManager
 
         if (isset($params['is_active']) and strtolower(trim($params['is_active'])) == 'any') {
 
-        } else if (isset($params['is_active']) and $params['is_active'] == 'n') {
-            $custom_field_is_active = 'n';
+        } else if (isset($params['is_active']) and $params['is_active'] == 0) {
+            $custom_field_is_active = 0;
         } else {
-            $custom_field_is_active = 'y';
+            $custom_field_is_active = 1;
 
         }
 
         $table_custom_field = $this->tables['custom_fields'];
         $params['table'] = $table_custom_field;
-        $params['is_active'] = $custom_field_is_active;
+        if (isset($custom_field_is_active)) {
+            $params['is_active'] = $custom_field_is_active;
+        }
         if (strval($table_assoc_name) != '') {
             if ($field_for != false) {
                 $field_for = trim($field_for);
                 $field_for = $this->app->database_manager->escape_string($field_for);
-                $params['custom_field_name'] = $field_for;
+                $params['name'] = $field_for;
             }
 
             if ($params['rel_type'] == 'MW_ANY_TABLE') {
@@ -488,7 +483,17 @@ class FieldsManager
             return false;
         }
 
+
         $q = $this->app->database->get($params);
+        if (!empty($q)) {
+            $get_values = array();
+            foreach ($q as $k => $v) {
+                $get_values[] = $v;
+            }
+
+
+        }
+
 
         if (isset($params['fields'])) {
             return $q;
@@ -501,13 +506,12 @@ class FieldsManager
                 $i = 1;
                 foreach ($q as $it) {
                     $it = $this->decode_array_vals($it);
-                    $it['type'] = $it['custom_field_type'];
+                    //  $it['type'] = $it['type'];
                     $it['position'] = $i;
                     if (isset($it['options'])) {
                         $it['options'] = $this->app->format->base64_to_array($it['options']);
                     }
-                    $it['title'] = $it['custom_field_name'];
-                    $it['required'] = $it['custom_field_required'];
+                    $it['title'] = $it['name'];
                     $to_ret[] = $it;
                     $i++;
                 }
@@ -527,7 +531,7 @@ class FieldsManager
                     foreach ($q2 as $cfk => $cfv) {
 
 
-                        if ($cfk == 'custom_field_name') {
+                        if ($cfk == 'name') {
 
                             $the_name = $cfv;
                         }
@@ -585,6 +589,18 @@ class FieldsManager
         return $q;
     }
 
+
+    public function get_values($custom_field_id)
+    {
+        $id = $custom_field_id;
+        if (is_array($custom_field_id)) {
+            $id = implode(',', $custom_field_id);
+        }
+
+
+    }
+
+
     public function unify_params($data)
     {
 
@@ -605,15 +621,15 @@ class FieldsManager
             $data['rel_id'] = intval($data['content_id']);
         }
 
-        if (!isset($data['custom_field_type']) and isset($data['field_type']) and $data['field_type'] != '') {
-            $data['custom_field_type'] = $data['field_type'];
+        if (!isset($data['type']) and isset($data['field_type']) and $data['field_type'] != '') {
+            $data['type'] = $data['field_type'];
         }
 
-        if (isset($data['type']) and (!isset($data['custom_field_type']))) {
-            $data['custom_field_type'] = $data['type'];
+        if (isset($data['field_type']) and (!isset($data['type']))) {
+            $data['type'] = $data['field_type'];
         }
-        if (isset($data['name']) and (!isset($data['custom_field_name']))) {
-            $data['custom_field_name'] = $data['name'];
+        if (isset($data['field_name']) and (!isset($data['name']))) {
+            $data['name'] = $data['field_name'];
         }
         if (isset($data['field_value'])) {
             $data['custom_field_value'] = $data['value'] = $data['field_value'];
@@ -622,12 +638,12 @@ class FieldsManager
             $data['custom_field_value'] = $data['value'];
         }
 
-        if (!isset($data['custom_field_name']) and isset($data['field_name']) and $data['field_type'] != '') {
-            $data['custom_field_name'] = $data['field_name'];
+        if (!isset($data['name']) and isset($data['field_name']) and $data['field_type'] != '') {
+            $data['name'] = $data['field_name'];
         }
 
-        if (isset($data['custom_field_type']) and !isset($data['custom_field_name'])) {
-            //    $data['custom_field_name'] = $data['custom_field_type'];
+        if (isset($data['type']) and !isset($data['name'])) {
+            //    $data['name'] = $data['type'];
         }
 
 
@@ -776,7 +792,7 @@ class FieldsManager
 
                 //
                 // $this->app->error('no permission to get data');
-                //  $form_data = $this->app->database->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+                //  $form_data = $this->app->database->get_by_id('custom_fields', $id = $field_id, $is_this_field = false);
             }
         }
     }
@@ -803,7 +819,7 @@ class FieldsManager
         } else {
             if ($field_id != 0) {
 
-                $data = $this->app->database->get_by_id('table_custom_fields', $id = $field_id, $is_this_field = false);
+                $data = $this->app->database->get_by_id('custom_fields', $id = $field_id);
             }
         }
         if (isset($data['settings']) or (isset($_REQUEST['settings']) and trim($_REQUEST['settings']) == 'y')) {
@@ -816,10 +832,10 @@ class FieldsManager
             if (is_admin() == true) {
 
                 $table_custom_field = $this->tables['custom_fields'];
-                $form_data = $this->app->database->get_by_id($table_custom_field, $id = $copy_from, $is_this_field = false);
+                $form_data = $this->app->database->get_by_id($table_custom_field, $id = $copy_from);
                 if (is_array($form_data)) {
 
-                    $field_type = $form_data['custom_field_type'];
+                    $field_type = $form_data['type'];
                     $data['id'] = 0;
                     if (isset($data['save_on_copy'])) {
 
@@ -842,11 +858,11 @@ class FieldsManager
 
             }
         } else if (isset($data['field_id'])) {
-            $data = $this->app->database->get_by_id('table_custom_fields', $id = $data['field_id'], $is_this_field = false);
+            $data = $this->app->database->get_by_id('custom_fields', $id = $data['field_id'], $is_this_field = false);
         }
 
-        if (isset($data['custom_field_type'])) {
-            $field_type = $data['custom_field_type'];
+        if (isset($data['type'])) {
+            $field_type = $data['type'];
         }
 
         if (!isset($data['custom_field_required'])) {
@@ -865,7 +881,7 @@ class FieldsManager
             $data['custom_field_values'] = $data['field_values'];
         }
 
-        $data['custom_field_type'] = $field_type;
+        $data['type'] = $field_type;
 
         // if (isset($data['custom_field_value']) and strtolower($data['custom_field_value']) == 'array') {
         if (isset($data['custom_field_values']) and is_string($data['custom_field_values'])) {
@@ -943,7 +959,6 @@ class FieldsManager
             $l->assign('data', $data);
 
 
-
             $layout = $l->__toString();
 
             return $layout;
@@ -971,7 +986,7 @@ class FieldsManager
         $q = false;
         $results = false;
 
-        $q = "SELECT *, count(id) AS qty FROM $table WHERE   custom_field_type IS NOT NULL AND rel_type='{$table1}' AND custom_field_name!='' GROUP BY custom_field_name, custom_field_type ORDER BY qty DESC LIMIT 100";
+        $q = "SELECT *, count(id) AS qty FROM $table WHERE   type IS NOT NULL AND rel_type='{$table1}' AND name!='' GROUP BY name, type ORDER BY qty DESC LIMIT 100";
         $crc = (crc32($q));
 
         $cache_id = __FUNCTION__ . '_' . $crc;

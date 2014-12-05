@@ -193,7 +193,7 @@ if(!!window.thismodal){
   <div class="mw-dropdown mw-dropdown-default" id="dropdown-custom-fields" data-value="price" data-default="<?php _e("Add New Field"); ?>"><span class="mw-dropdown-value mw-ui-btn mw-ui-btn-invert mw-dropdown-val">
     <?php _e("Add New Field"); ?>
     </span>
-    <?php  //$exiisting_fields = get_custom_fields('fields=custom_field_name&rel=content&rel_id=>0&group_by=custom_field_type,custom_field_name&return_full=1',true); ?>
+    <?php  //$exiisting_fields = get_custom_fields('fields=name&rel=content&rel_id=>0&group_by=custom_field_type,name&return_full=1',true); ?>
     <?php //d($exiisting_fields) ?>
    <?php $exiisting_fields = false; //TODO ?> 
     <div class="mw-dropdown-content">
@@ -201,7 +201,7 @@ if(!!window.thismodal){
         <?php if(is_array($exiisting_fields)): ?>
 <?php foreach($exiisting_fields as $item): ?>
  
-   <li data-copyof="<?php print $item['id'] ?>" value="<?php print $item['custom_field_type']; ?>"><span class="mw-custom-field-icon-<?php print $item['custom_field_type']; ?>"></span><span><?php print $item['custom_field_name']; ?></span></li>
+   <li data-copyof="<?php print $item['id'] ?>" value="<?php print $item['custom_field_type']; ?>"><span class="mw-custom-field-icon-<?php print $item['custom_field_type']; ?>"></span><span><?php print $item['name']; ?></span></li>
 
 <?php endforeach; ?>
 <?php endif; ?>

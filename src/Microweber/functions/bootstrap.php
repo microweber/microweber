@@ -58,24 +58,28 @@ if (!defined('MW_USER_IP')) {
     }
 }
 
-include_once(__DIR__ . DS . 'paths.php');
 
-include_once(__DIR__ . DS . 'api.php');
-include_once(__DIR__ . DS . 'api_callbacks.php');
-include_once(__DIR__ . DS . 'filesystem.php');
-include_once(__DIR__ . DS . 'lang.php');
-include_once(__DIR__ . DS . 'events.php');
-include_once(__DIR__ . DS . 'config.php');
+$functions_dir = __DIR__ . DS;
 
-include_once(__DIR__ . DS . 'db.php');
-include_once(__DIR__ . DS . 'user.php');
-include_once(__DIR__ . DS . 'common.php');
-include_once(__DIR__ . DS . 'media.php');
-include_once(__DIR__ . DS . 'other.php');
-include_once(__DIR__ . DS . 'content.php');
-include_once(__DIR__ . DS . 'menus.php');
-include_once(__DIR__ . DS . 'categories.php');
-include_once(__DIR__ . DS . 'options.php');
-include_once(__DIR__ . DS . 'shop.php');
-include_once(__DIR__ . DS . 'modules.php');
+include_once($functions_dir . 'paths.php');
+ 
+include_once($functions_dir . 'api.php');
+include_once($functions_dir . 'api_callbacks.php');
+include_once($functions_dir . 'filesystem.php');
+include_once($functions_dir . 'lang.php');
+include_once($functions_dir . 'events.php');
+include_once($functions_dir . 'config.php');
+ 
+include_once($functions_dir . 'db.php');
+include_once($functions_dir . 'user.php');
+include_once($functions_dir . 'common.php');
+include_once($functions_dir . 'media.php');
+include_once($functions_dir . 'other.php');
+include_once($functions_dir . 'content.php');
+include_once($functions_dir . 'custom_fields.php');
+include_once($functions_dir . 'menus.php');
+include_once($functions_dir . 'categories.php');
+include_once($functions_dir . 'options.php');
+include_once($functions_dir . 'shop.php');
+include_once($functions_dir . 'modules.php');
 

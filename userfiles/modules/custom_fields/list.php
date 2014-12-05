@@ -78,10 +78,10 @@ if(isset($params['default-fields'])){
 	  if(isset($diff) and is_array($diff)){
 		$i=0;
 		 foreach($diff as $item){
-			if(isset($item['custom_field_name']) and in_array($item['custom_field_name'],$have)){
+			if(isset($item['name']) and in_array($item['name'],$have)){
 				 unset($diff[$i]);
-			} else if(isset($diff[$i]) and isset($item['custom_field_name'])){
-				$have[] = $item['custom_field_name'];
+			} else if(isset($diff[$i]) and isset($item['name'])){
+				$have[] = $item['name'];
 			 }
 			 $i++; 
 		 }
@@ -89,17 +89,17 @@ if(isset($params['default-fields'])){
 	 if(is_array($more)){
 		$i=0;
 		 foreach($more as $item){
-			if(isset($item['custom_field_name']) and in_array($item['custom_field_name'],$have)){
+			if(isset($item['name']) and in_array($item['name'],$have)){
 				 unset($more[$i]);
-			} else if(isset($more[$i]) and isset($item['custom_field_name'])){
-				$have[] = $item['custom_field_name'];
+			} else if(isset($more[$i]) and isset($item['name'])){
+				$have[] = $item['name'];
 			 }
 			 $i++; 
 		 }
 	 }
 	 
  }
- $custom_custom_field_names_for_content = array();
+ $custom_names_for_content = array();
 if(is_array( $diff) and is_array($more) ){
      $i=0;
 	 foreach($more as $item2){
@@ -109,8 +109,8 @@ if(is_array( $diff) and is_array($more) ){
 				    unset($more[$i]);
 				  }
 			  }
-              if(isset($more[$i]) and isset($item1['custom_field_name'])){
-                if($item1['custom_field_name'] == $item2['custom_field_name']){
+              if(isset($more[$i]) and isset($item1['name'])){
+                if($item1['name'] == $item2['name']){
                   unset($more[$i]);
                 }
               }
@@ -169,7 +169,7 @@ if(is_array( $diff) and is_array($more) ){
     <?php foreach( $more as $field): ?>
     <tr id="mw-custom-list-element-<?php print $field['id']; ?>" data-id="<?php print $field['id']; ?>">
       <td data-tip="<?php print  ucfirst($field['type']); ?>" class="tip custom-field-icon" data-tipposition="top-left"><div><span class="mw-custom-field-icon-<?php print $field['type']; ?>"></span></div></td>
-      <td data-id="<?php print $field['id']; ?>"><span class="mw-admin-custom-field-name-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $field['custom_field_name']; ?></span></td>
+      <td data-id="<?php print $field['id']; ?>"><span class="mw-admin-custom-field-name-edit-inline" data-id="<?php print $field['id']; ?>"><?php print $field['name']; ?></span></td>
       <td data-id="<?php print $field['id']; ?>" width="100%">
       
     

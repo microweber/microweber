@@ -131,10 +131,6 @@ class Content
                 'position' => 'integer',
                 'type' => 'string',
                 'name' => 'longText',
-                'value' => 'longText',
-                'values' => 'longText',
-                'num_value' => 'float',
-
 
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
@@ -143,28 +139,25 @@ class Content
                 'session_id' => 'string',
 
 
-                'custom_field_name' => 'string',
-                'custom_field_name_plain' => 'longText',
-
-
-                'custom_field_value' => 'longText',
-
-
-                'custom_field_type' => 'string',
-                'custom_field_values' => 'longText',
-                'custom_field_values_plain' => 'longText',
-
-                'field_for' => 'longText',
-                'custom_field_field_for' => 'string',
-                'custom_field_help_text' => 'longText',
                 'options' => 'longText',
 
 
-                'custom_field_is_active' => "integer",
-                'custom_field_required' => "integer",
+                'is_active' => "integer",
+                'required' => "integer",
                 'copy_of_field' => 'integer',
 
-                '$index' => ['rel_type', 'rel_id', 'custom_field_type']
+                '$index' => ['rel_type', 'rel_id', 'type']
+            ],
+
+            'custom_fields_values' => [
+                'custom_field_id' => 'integer',
+
+                'value' => 'text',
+                'position' => 'integer',
+
+
+
+                '$index' => ['custom_field_id', 'value']
             ],
 
             'menus' => [

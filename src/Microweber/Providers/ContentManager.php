@@ -512,12 +512,13 @@ class ContentManager
         if (!isset($tables['custom_fields'])) {
             $tables['custom_fields'] = 'custom_fields';
         }
+        if (!isset($tables['custom_fields_values'])) {
+            $tables['custom_fields_values'] = 'custom_fields_values';
+        }
         if (!isset($tables['content_data'])) {
             $tables['content_data'] = 'content_data';
         }
-        if (!isset($tables['custom_fields'])) {
-            $tables['custom_fields'] = 'custom_fields';
-        }
+
         if (!isset($tables['categories'])) {
             $tables['categories'] = 'categories';
         }

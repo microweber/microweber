@@ -774,7 +774,7 @@ class DefaultController extends Controller
                 }
                 if ($content_id == false) {
                     $action_test = $this->app->url_manager->param('action', false, $from_url2);
-                  
+
                     if ($action_test != false) {
                         $action_test = str_ireplace('editpage:', '', $action_test);
                         $action_test = str_ireplace('editpost:', '', $action_test);
