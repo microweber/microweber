@@ -44,7 +44,7 @@ class ExceptionHandler
     /**
      * Registers the exception handler.
      *
-     * @param bool    $debug
+     * @param bool $debug
      *
      * @return ExceptionHandler The registered exception handler
      */
@@ -233,7 +233,7 @@ EOF
             } catch (\Exception $e) {
                 // something nasty happened and we cannot throw an exception anymore
                 if ($this->debug) {
-                    $title = sprintf('Exception thrown when handling an exception (%s: %s)', get_class($exception), $exception->getMessage());
+                    $title = sprintf('Exception thrown when handling an exception (%s: %s)', get_class($e), $e->getMessage());
                 } else {
                     $title = 'Whoops, looks like something went wrong.';
                 }
