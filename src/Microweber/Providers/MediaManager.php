@@ -813,7 +813,7 @@ class MediaManager
         $hash = 'pixum-' . ($h) . 'x' . $w;
         $cachefile = $cache_folder . '/' . $hash . $extension;
 
-       
+
         header("Content-Type: image/png");
 
         # Generate cachefile for image, if it doesn't exist

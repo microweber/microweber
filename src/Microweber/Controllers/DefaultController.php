@@ -1604,6 +1604,9 @@ class DefaultController extends Controller
             if (isset($content['created_at']) and trim($content['created_at']) != '') {
                 $content['created_at'] = date($date_format, strtotime($content['created_at']));
             }
+
+
+
             
             if (isset($content['updated_at']) and trim($content['updated_at']) != '') {
                 $content['updated_at'] = date($date_format, strtotime($content['updated_at']));
@@ -1694,7 +1697,7 @@ class DefaultController extends Controller
             //$page_data = $this->app->content_manager->get_by_id(PAGE_ID);
             
             $render_file = $this->app->template->get_layout($content);
-            
+           
             $content['render_file'] = $render_file;
             
             if (defined('TEMPLATE_DIR')) {

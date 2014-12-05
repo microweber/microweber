@@ -138,9 +138,9 @@ class Fcache implements StoreInterface
 
             $this->_setTags($path);
         }
+        @file_put_contents($path, $value);
 
-
-        $this->files->put($path, $value);
+       // $this->files->put($path, $value);
     }
 
     /**
@@ -179,13 +179,13 @@ class Fcache implements StoreInterface
 
             if (!$this->files->exists($file)) {
                 $this->createCacheDirectory($file);
-                $this->files->put($file, $path);
-
+                //$this->files->put($file, $path);
+                @file_put_contents($file, "$path");
 
             } else {
                 $farr = file($file);
                 if (!in_array($path, $farr)) {
-                    file_put_contents($file, "\n$path", FILE_APPEND);
+                    @file_put_contents($file, "\n$path", FILE_APPEND);
                 }
             }
 

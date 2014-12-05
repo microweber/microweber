@@ -589,7 +589,7 @@ class Parser
                     if (strval($name) == '') {
                         $name = pq($elem)->attr('data-field');
                     }
-                    $rel = pq($elem)->attr('rel_type');
+                    $rel = pq($elem)->attr('rel');
                     if ($rel == false) {
                         $rel = pq($elem)->attr('data-rel');
                         if ($rel == false) {
@@ -726,12 +726,12 @@ class Parser
                         }
                         $cont_field = false;
                         if (isset($data_id) and $data_id != 0 and trim($data_id) != '' and trim($field) != '') {
-                            $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
                             if ($cont_field == false and $try_inherited == true) {
                                 $inh = $this->app->content_manager->get_inherited_parent($data_id);
                                 if ($inh != false and intval($inh) != 0 and $inh != $data_id) {
                                     $data_id = $inh;
-                                    $cont_field2 = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$inh");
+                                    $cont_field2 = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$inh");
                                     if ($cont_field2 != false) {
                                         $rel = 'content';
                                         $data = $this->app->content_manager->get_by_id($inh);
@@ -741,12 +741,12 @@ class Parser
                             }
                         } else {
                             if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                                $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
                                 if ($cont_field != false) {
                                     $field_content = $cont_field;
                                 }
                             } else {
-                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}");
+                                $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
                             }
                         }
 
@@ -773,18 +773,18 @@ class Parser
                     if ($field_content == false) {
                         if ($get_global == true) {
                             if (isset($data_id)) {
-                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                                $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
                             }
 
                             if (isset($cont_field) and !empty($cont_field)) {
-                                $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}");
+                                $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
                             }
 
                             if ($cont_field == false) {
                                 if ($option_mod != false) {
-                                    $field_content = $this->app->content_manager->edit_field("rel={$option_group}&field={$field}");
+                                    $field_content = $this->app->content_manager->edit_field("rel_type={$option_group}&field={$field}");
                                 } else {
-                                    $field_content = $this->app->content_manager->edit_field("rel={$option_group}&field={$field}");
+                                    $field_content = $this->app->content_manager->edit_field("rel_type={$option_group}&field={$field}");
                                 }
                             } else {
                                 $field_content = $cont_field;
@@ -797,9 +797,9 @@ class Parser
                             }
                             if ($field_content == false) {
                                 if (isset($data_id) and $data_id != false) {
-                                    $cont_field = $this->app->content_manager->edit_field("rel={$orig_rel}&field={$field}&rel_id=$data_id");
+                                    $cont_field = $this->app->content_manager->edit_field("rel_type={$orig_rel}&field={$field}&rel_id=$data_id");
                                 } else {
-                                    $cont_field = $this->app->content_manager->edit_field("rel={$orig_rel}&field={$field}&rel_id=" . PAGE_ID);
+                                    $cont_field = $this->app->content_manager->edit_field("rel_type={$orig_rel}&field={$field}&rel_id=" . PAGE_ID);
                                 }
                             }
                             if (isset($data[$field])) {
@@ -818,12 +818,12 @@ class Parser
 
                         }
                         if (isset($data_id) and trim($data_id) != '' and $field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}&rel_id=$data_id");
+                            $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}&rel_id=$data_id");
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
                             }
                         } else if ($field_content == false and isset($rel) and isset($field) and trim($field) != '') {
-                            $cont_field = $this->app->content_manager->edit_field("rel={$rel}&field={$field}");
+                            $cont_field = $this->app->content_manager->edit_field("rel_type={$rel}&field={$field}");
                             if ($cont_field != false) {
                                 $field_content = $cont_field;
                             }
@@ -1160,14 +1160,14 @@ class Parser
 
         $pq = \phpQuery::newDocument($l);
         $found = false;
-        foreach ($pq ['[field=content][rel=content]:last'] as $elem) {
+        foreach ($pq ['[field=content][rel_type=content]:last'] as $elem) {
             $l = pq($elem)->htmlOuter();
 
             $found = true;
         }
 
         if ($found == false) {
-            foreach ($pq ['[field=content_body][rel=content]:last'] as $elem) {
+            foreach ($pq ['[field=content_body][rel_type=content]:last'] as $elem) {
                 $l = pq($elem)->htmlOuter();
                 $found = true;
 
