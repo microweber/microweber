@@ -35,6 +35,12 @@ api_hook('content/menu_items_reorder', function ($data) {
     return mw()->menu_manager->menu_items_reorder($data);
 });
 
+api_hook('content/menu_item_delete', function ($data) {
+    return mw()->menu_manager->menu_delete($data);
+});
+
+
+
 
 api_expose('menu_delete');
 function menu_delete($id = false)
