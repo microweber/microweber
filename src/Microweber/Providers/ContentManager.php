@@ -445,7 +445,6 @@ class ContentManager
         }
 
 
-
         $get = mw()->database->get($params);
 
         // $get = mw()->content->get_items($params);
@@ -1720,10 +1719,11 @@ class ContentManager
 
             foreach ($add_to_menus_int as $value) {
                 $check = $this->app->menu_manager->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
+
                 if ($check == 0) {
                     $save = array();
                     $save['item_type'] = 'menu_item';
-                    //	$save['debug'] = $menus;
+                   	$save['is_active'] = 1;
                     $save['parent_id'] = $value;
                     $save['position'] = 999999;
                     //  $save['debug'] = 999999;
@@ -1734,6 +1734,9 @@ class ContentManager
                             $save['parent_id'] = $check_par['id'];
                         }
                     }
+
+
+
 
                     $save['url'] = '';
 
@@ -4458,7 +4461,12 @@ class ContentManager
 
         }
 
+        if (isset($data_to_save['add_content_to_menu']) and is_array($data_to_save['add_content_to_menu'])) {
 
+            foreach ($data_to_save['add_content_to_menu'] as $menu_id) {
+                $this->add_content_to_menu($save, $menu_id);
+            }
+        }
         if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
             $new_category = $this->app->category_manager->get_for_content($save);
 

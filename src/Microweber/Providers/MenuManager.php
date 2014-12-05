@@ -83,6 +83,13 @@ class MenuManager
             $data_to_save['table'] = $table;
             $data_to_save['item_type'] = 'menu';
 
+            if (!isset($data_to_save['id']) or $data_to_save['id'] == 0) {
+                $data_to_save['is_active'] = 1;
+            }
+
+
+
+
             $save = $this->app->database->save($table, $data_to_save);
 
             $this->app->cache_manager->delete('menus/global');
