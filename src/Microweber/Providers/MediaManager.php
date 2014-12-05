@@ -357,7 +357,8 @@ class MediaManager
                     @unlink($fn_remove);
                 }
             }
-            $this->app->database_manager->delete_by_id('media', $c_id);
+
+            $this->app->database->delete_by_id('media', $c_id);
         }
     }
 
@@ -388,13 +389,13 @@ class MediaManager
             $params['limit'] = 1000;
         }
         $params['table'] = $table;
-        $params['orderby'] = 'position ASC';
+        $params['order_by'] = 'position ASC';
 
 
 
         $data = $this->app->database->get($params);
 
-        if (defined('media_base_url()')) {
+        if (media_base_url()) {
             if (!empty($data)) {
                 $return = array();
                 foreach ($data as $item) {

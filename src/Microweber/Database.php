@@ -73,12 +73,12 @@ class Database
      *
      * @package Database
      */
-    public function get($table_name_or_params,$params=null)
+    public function get($table_name_or_params, $params = null)
     {
-        if($params === null){
+        if ($params === null) {
             $params = $table_name_or_params;
         } else {
-            if($params != false){
+            if ($params != false) {
                 $params = parse_params($params);
             } else {
                 $params = array();
@@ -101,10 +101,6 @@ class Database
         }
 
 
-
-
-
-
         $query = DB::table($table);
 
 
@@ -125,7 +121,7 @@ class Database
             $params['order_by'] = $params['orderby'];
             unset($params['orderby']);
         }
-        $query = $this->map_filters($query, $params,$table);
+        $query = $this->map_filters($query, $params, $table);
         $params = $this->map_array_to_table($table, $params);
         $query = $this->map_values_to_query($query, $params);
 
@@ -157,15 +153,14 @@ class Database
             return $query;
         }
 
-        if(!$this->use_cache){
+        if (!$this->use_cache) {
             $data = $query->get();
 
         } else {
             $ttl = $this->table_cache_ttl;
-            $cache_key = $table.crc32(serialize($orig_params));
-            $data =  Cache::tags($table)->remember($cache_key, $ttl, function() use ($query)
-            {
-               return $query->get();
+            $cache_key = $table . crc32(serialize($orig_params));
+            $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
+                return $query->get();
                 // return false;
             });
 
@@ -202,13 +197,13 @@ class Database
     }
 
 
-    public function save($table_name_or_params,$params=null)
+    public function save($table_name_or_params, $params = null)
     {
 
-        if($params === null){
+        if ($params === null) {
             $params = $table_name_or_params;
         } else {
-            if($params != false){
+            if ($params != false) {
                 $params = parse_params($params);
             } else {
                 $params = array();
@@ -234,27 +229,24 @@ class Database
         $query = DB::table($table);
 
 
-
-        if (!isset($params['created_at']) == false) {
+        if (!isset($params['created_at'])) {
             $params['created_at'] = date("Y-m-d H:i:s");
         }
-        if (!isset($params['updated_at']) == false) {
+        if (!isset($params['updated_at'])) {
             $params['updated_at'] = date("Y-m-d H:i:s");
+        }
+
+        if (!isset($params['session_id'])) {
+            $params['session_id'] = mw()->user_manager->session_id();
         }
 
 
         $orig_params = $params;
 
 
-
-
-
-
         if (!isset($params['id'])) {
             $params['id'] = 0;
         }
-
-        $data['session_id'] = mw()->user_manager->session_id();
 
 
         $params = $this->map_array_to_table($table, $params);
@@ -271,15 +263,6 @@ class Database
             $id_to_return = $query->where('id', $params['id'])->update($params);
             $id_to_return = $params['id'];
         }
-
-
-
-
-
-
-
-
-
 
 
         Cache::tags($table)->flush();
@@ -373,10 +356,9 @@ class Database
             return false;
         }
         $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
+        Cache::tags($table)->flush();
         return $c_id;
     }
-
-
 
 
     /**
@@ -474,7 +456,6 @@ class Database
     {
         return DB::select($q);
     }
-
 
 
 }

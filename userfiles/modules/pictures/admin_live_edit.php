@@ -26,9 +26,7 @@ if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'c
     $params['rel_id'] = CONTENT_ID;
     $params['for'] = 'content';
 }
-
-
-
+ 
 
 $use_from_post = get_option('data-use-from-post', $params['id']) =='y';
 $use_from_post_forced = false;
@@ -68,7 +66,6 @@ if(isset($params['quick-add'])){
     $quick_add=$params['quick-add'];
 } 
 
- 
 
 
 

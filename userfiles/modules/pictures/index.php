@@ -55,6 +55,7 @@ if (!isset($params['rel_id']) or $params['rel_id'] == false) {
     $params['rel_id'] = 0;
 }
 
+ 
 if (isset($params['rel_id']) == true) {
     $for_id = $params['rel_id'];
     $get_for_session = false;
@@ -65,7 +66,8 @@ if (isset($params['rel_id']) == true) {
         $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
     } else {
         $sid = mw()->user_manager->session_id();
-        $data = get_pictures("rel_id=0&rel={$for}&session_id={$sid}");
+		
+        $data = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
 
     }
     if (!is_array($data)) {

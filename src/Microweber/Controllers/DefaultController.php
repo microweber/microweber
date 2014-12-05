@@ -761,7 +761,7 @@ class DefaultController extends Controller
                 
                 $url = $from_url;
                 $from_url2 = str_replace('#', '/', $from_url);
-                
+
                 $content_id = $this->app->url_manager->param('content_id', false, $from_url2);
                 if ($content_id == false) {
                     $content_id = $this->app->url_manager->param('editpage', false, $from_url2);
@@ -774,12 +774,13 @@ class DefaultController extends Controller
                 }
                 if ($content_id == false) {
                     $action_test = $this->app->url_manager->param('action', false, $from_url2);
-                    
+                  
                     if ($action_test != false) {
                         $action_test = str_ireplace('editpage:', '', $action_test);
                         $action_test = str_ireplace('editpost:', '', $action_test);
                         $action_test = str_ireplace('edit:', '', $action_test);
-                        
+                        $action_test = str_ireplace('showposts:', '', $action_test);
+
                         $action_test = intval($action_test);
                         if ($action_test != 0) {
                             $content_id = $action_test;
@@ -787,7 +788,7 @@ class DefaultController extends Controller
                         }
                     }
                 }
-                
+
                 if (strpos($url, '#')) {
                     $url = substr($url, 0, strpos($url, '#'));
                 }
@@ -1697,7 +1698,7 @@ class DefaultController extends Controller
             //$page_data = $this->app->content_manager->get_by_id(PAGE_ID);
             
             $render_file = $this->app->template->get_layout($content);
-           
+
             $content['render_file'] = $render_file;
             
             if (defined('TEMPLATE_DIR')) {
