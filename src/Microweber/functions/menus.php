@@ -23,19 +23,19 @@ function add_new_menu($data_to_save)
     return mw()->menu_manager->menu_create($data_to_save);
 
 }
-api_hook('content/menu_create', function ($data) {
+api_bind('content/menu_create', function ($data) {
     return mw()->menu_manager->menu_create($data);
 });
 
-api_hook('content/menu_item_save', function ($data) {
+api_bind('content/menu_item_save', function ($data) {
     return mw()->menu_manager->menu_item_save($data);
 });
 
-api_hook('content/menu_items_reorder', function ($data) {
+api_bind('content/menu_items_reorder', function ($data) {
     return mw()->menu_manager->menu_items_reorder($data);
 });
 
-api_hook('content/menu_item_delete', function ($data) {
+api_bind('content/menu_item_delete', function ($data) {
     return mw()->menu_manager->menu_delete($data);
 });
 
@@ -89,7 +89,7 @@ function is_in_menu($menu_id = false, $content_id = false)
 
 }
 
-api_hook('save_content_admin', 'add_content_to_menu');
+api_bind('save_content_admin', 'add_content_to_menu');
 function add_content_to_menu($content_id, $menu_id = false)
 {
 

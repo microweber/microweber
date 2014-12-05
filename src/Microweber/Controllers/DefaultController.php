@@ -333,7 +333,7 @@ class DefaultController extends Controller
         $api_exposed = array_unique($api_exposed);
         $api_exposed = array_trim($api_exposed);
         
-        $hooks = api_hook(true);
+        $hooks = api_bind(true);
         
         if ($api_function == false) {
             $api_function = $this->app->url_manager->segment(1);

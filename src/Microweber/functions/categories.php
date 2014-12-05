@@ -22,7 +22,7 @@ function get_categories($data)
 }
 
 api_expose_admin('save_category');
-api_hook('category/save','save_category');
+api_bind('category/save','save_category');
 function save_category($data)
 {
 

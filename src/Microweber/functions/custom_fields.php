@@ -5,7 +5,7 @@ function get_custom_field_by_id($id)
 {
     return mw()->fields_manager->get_by_id($id);
 }
-api_hook('fields/save', 'save_custom_field');
+api_bind('fields/save', 'save_custom_field');
 function save_custom_field($data)
 {
     return mw()->fields_manager->save($data);

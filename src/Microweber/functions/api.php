@@ -22,18 +22,18 @@ function api_expose_admin($function_name)
 }
 
 
-function api_hook($function_name, $callback = false)
+function api_bind($function_name, $callback = false)
 {
-    static $mw_api_hooks;
+    static $mw_api_binds;
     if (is_bool($function_name)) {
-        if (is_array($mw_api_hooks)) {
-            $index = ($mw_api_hooks);
+        if (is_array($mw_api_binds)) {
+            $index = ($mw_api_binds);
             return $index;
         }
 
     } else {
         $function_name = trim($function_name);
-        $mw_api_hooks[$function_name][] = $callback;
+        $mw_api_binds[$function_name][] = $callback;
 
     }
 }

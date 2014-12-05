@@ -223,7 +223,7 @@ function content_title($id = false)
  * @return array|string
  */
 api_expose('delete_content');
-api_hook('content/delete', 'delete_content');
+api_bind('content/delete', 'delete_content');
 function delete_content($data)
 {
     return mw()->content_manager->delete($data);
@@ -368,12 +368,12 @@ function breadcrumb($params = false)
 }
 
 
-api_hook('content/set_published', function ($data) {
+api_bind('content/set_published', function ($data) {
     return mw()->content_manager->set_published($data);
 });
 
 
-api_hook('content/set_unpublished', function ($data) {
+api_bind('content/set_unpublished', function ($data) {
     return mw()->content_manager->set_unpublished($data);
 });
 
