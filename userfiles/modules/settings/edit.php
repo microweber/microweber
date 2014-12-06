@@ -84,7 +84,7 @@ $(document).ready(function(){
 }
 
   
-  print mw('fields')->make($data); ?>
+  print mw()->fields_manager->make($data); ?>
     <?php else : ?>
  
     <label class="control-label-title">

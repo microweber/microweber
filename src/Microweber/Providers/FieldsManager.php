@@ -12,6 +12,8 @@ class FieldsManager
 
     public $app;
     public $tables = array();
+    public $table = 'custom_fields';
+    public $table_values = 'custom_fields_values';
     private $skip_cache = false;
 
     function __construct($app = null)
@@ -81,7 +83,7 @@ class FieldsManager
         }
         $_mw_made_default_fields_register[$function_cache_id] = true;
 
-        $table_custom_field = $this->tables['custom_fields'];
+        $table_custom_field = $this->table;
 
         if (isset($rel)) {
             $rel = $this->app->database_manager->escape_string($rel);
@@ -147,6 +149,9 @@ class FieldsManager
         if (is_string($data)) {
             $data = parse_params($data);
         }
+
+        // @todo needs major refactoring
+
         if (defined('MW_API_CALL') and !defined('SKIP_CF_ADMIN_CHECK')) {
             $id = user_id();
             if ($id == 0) {
@@ -159,7 +164,7 @@ class FieldsManager
         }
 
 
-        $table_custom_field = $this->tables['custom_fields'];
+        $table_custom_field = $this->table;
 
         if (isset($data['field_type']) and !isset($data['type'])) {
             $data['type'] = $data['field_type'];
@@ -168,9 +173,9 @@ class FieldsManager
             $data['type'] = $data['custom_field_type'];
         }
 
-        if (isset($data['field_value']) and !isset($data['custom_field_value'])) {
-            $data['custom_field_value'] = $data['field_value'];
-        }
+// OLD       if (isset($data['field_value']) and !isset($data['custom_field_value'])) {
+//            $data['custom_field_value'] = $data['field_value'];
+//        }
         if (isset($data['field_name']) and !isset($data['name'])) {
             $data['name'] = $data['field_name'];
         }
@@ -190,7 +195,7 @@ class FieldsManager
         }
         if (isset($data_to_save['cf_id'])) {
             $data_to_save['id'] = intval($data_to_save['cf_id']);
-            $table_custom_field = $this->tables['custom_fields'];
+            $table_custom_field = $this->table;
             $form_data_from_id = $this->app->database->get_by_id($table_custom_field, $data_to_save['id'], $is_this_field = false);
             if (isset($form_data_from_id['id'])) {
                 if (!isset($data_to_save['rel_type'])) {
@@ -243,6 +248,12 @@ class FieldsManager
             $data_to_save['values'] = $data_to_save['custom_field_values'];
         }
 
+
+         if((isset($data_to_save['id']) or ($data_to_save['id']) == 0) and !isset($data_to_save['is_active'])){
+             $data_to_save['is_active'] = 1;
+         }
+
+
         if (!isset($data_to_save['type']) or trim($data_to_save['type']) == '') {
             return array('error' => 'You must set type');
         } else {
@@ -254,8 +265,7 @@ class FieldsManager
                 $data_to_save['name_plain'] = strtolower($cf_k);
             }
             if (isset($data_to_save['custom_field_value'])) {
-                // return array('error' => 'You must set custom_field_value');
-                //  $data_to_save['custom_field_value'] = '';
+
                 $cf_v = $data_to_save['custom_field_value'];
 
 
@@ -352,7 +362,7 @@ class FieldsManager
         if (is_array($custom_field_id)) {
             $id = implode(',', $custom_field_id);
         }
-        $table = $this->tables['custom_fields_values'];
+        $table = $this->table_values;
         $params = array();
         $params['table'] =  $table;
         $params['custom_field_id'] = '[in]'.$id;
@@ -383,8 +393,6 @@ return $data;
     public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
     {
 
-
-        //defined in common.php
         $params = array();
         $no_cache = false;
         $table_assoc_name = false;
@@ -457,7 +465,7 @@ return $data;
 
         }
 
-        $table_custom_field = $this->tables['custom_fields'];
+        $table_custom_field = $this->table;
         $params['table'] = $table_custom_field;
         if (isset($custom_field_is_active)) {
             $params['is_active'] = $custom_field_is_active;
@@ -504,12 +512,21 @@ return $data;
 
 
         $q = $this->app->database->get($params);
+
+
+
         if (!empty($q)) {
             $get_values = array();
             foreach ($q as $k => $v) {
-                $get_values[] = $v;
+
+
+
+                $get_values[] = $v['id'];
             }
 
+            $vals = $this->get_values($get_values);
+
+//dd($vals);
 
         }
 
@@ -728,7 +745,7 @@ return $data;
             $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
 
-        $table = $this->tables['custom_fields'];
+        $table = $this->table;
 
         foreach ($data as $value) {
             if (is_array($value)) {
@@ -767,7 +784,7 @@ return $data;
             return false;
         }
 
-        $custom_field_table = $this->tables['custom_fields'];
+        $custom_field_table = $this->table;
         $q = "DELETE FROM $custom_field_table WHERE id='$id'";
         $this->app->database->q($q);
         $this->app->cache_manager->delete('custom_fields');
@@ -841,7 +858,7 @@ return $data;
             $copy_from = intval($data['copy_from']);
             if (is_admin() == true) {
 
-                $table_custom_field = $this->tables['custom_fields'];
+                $table_custom_field = $this->table;
                 $form_data = $this->app->database->get_by_id($table_custom_field, $id = $copy_from);
                 if (is_array($form_data)) {
 
@@ -992,7 +1009,7 @@ return $data;
         $table = $this->app->database_manager->escape_string($table);
         $table1 = $this->app->database_manager->assoc_table_name($table);
 
-        $table = $this->tables['custom_fields'];
+        $table = $this->table;
         $q = false;
         $results = false;
 

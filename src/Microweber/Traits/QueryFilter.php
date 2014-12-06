@@ -118,6 +118,7 @@ trait QueryFilter
 
                     break;
                 case 'order_by':
+                case 'orderby':
                     $order_by_criteria = explode(',', $value);
                     foreach ($order_by_criteria as $c) {
                         $c = explode(' ', $c);

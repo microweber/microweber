@@ -105,7 +105,7 @@ if ($allowed_to_upload == false) {
 
     if (isset($_REQUEST["rel_type"]) and isset($_REQUEST["custom_field_id"]) and trim($_REQUEST["rel_type"]) != '' and trim($_REQUEST["rel_type"]) != 'false') {
 
-        $cfid = mw('fields')->get_by_id(intval($_REQUEST["custom_field_id"]));
+        $cfid = mw()->fields_manager->get_by_id(intval($_REQUEST["custom_field_id"]));
         if ($cfid == false) {
             die('{"jsonrpc" : "2.0", "error" : {"code": 90, "message": "Custom field is not found"}}');
 
