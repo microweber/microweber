@@ -1,3 +1,146 @@
+v1.0.1 (2014-xx-xx)
+================================================================================
+
+- __FIX__: broken values returned by `Predis\Collection\Iterator\SortedSetKey`
+  when iterating sorted set containing integer members (ISSUE #216).
+
+- __FIX__: applied a minor workaround for a bug in old versions of PHP < 5.3.9
+  affecting inheritance.
+
+- __FIX__: prevent E_NOTICE warnings when using INFO [section] returns an empty
+  response due to an unsupported specific set of information requested to Redis.
+
+
+v1.0.0 (2014-08-01)
+================================================================================
+
+- Switched to PSR-4 for autoloading.
+
+- The default server profile for Redis is `3.0`.
+
+- Removed server profile for Redis 1.2.
+
+- Added `SENTINEL` to the profile for Redis 2.6 and `PUBSUB` to the profile for
+  Redis 2.8.
+
+- `Predis\Client` can now send raw commands using `Predis\Client::executeRaw()`.
+
+- Status responses are returned as instances of `Predis\Response\Status`, for
+  example +OK is not returned as boolean TRUE anymore which is a breaking change
+  for those using strict comparisons. Status responses can be casted to string
+  values carrying the original payload, so one can do `$response == 'OK'` which
+  is also more akin to how Redis replies to clients.
+
+- Commands `ZRANGE`, `ZRANGEBYSCORE`, `ZREVRANGE` and `ZREVRANGEBYSCORE` using
+  `WITHSCORE` return a named array of member => score instead of using an array
+  of [member, score] elements. Insertion order is preserved anyway due to how
+  PHP works internally.
+
+- The command `ZSCAN` returns a named array of member => score instead of using
+  an array of [member, score] elements. Insertion order is preserved anyway due
+  to how PHP works internally.
+
+- The rules for redis-cluster are now leveraged for empty key tags when using
+  client-side sharding, which means that when one or the first occurrence of {}
+  is found in a key it will most likely produce a different hash than previous
+  versions of Predis thus leading to a different partitioning in these cases.
+
+- Invoking `Predis\Client::connect()` when the underlying connection has been
+  already established does not throw any exception anymore, now the connection
+  simply does not attempt to perform any operation.
+
+- Added the `aggregate` client option, useful to fully customize how the client
+  should aggregate multiple connections when an array of connection parameters
+  is passed to `Predis\Client::__construct()`.
+
+- Dropped support for streamable multibulk responses. Actually we still ship the
+  iterator response classes just in case anyone would want to build custom stuff
+  at a level lower than the client abstraction (our standard and composable text
+  protocol processors still handle them and can be used as an example).
+
+- Simplified the implementation of connection parameters by removing method used
+  to cast to int / bool / float certain parameters supplied by users. Casting
+  values, if deemed necessary, should be done by the consumer or you can just
+  subclass `Predis\Connection\Parameters` and override the `filter()` method.
+
+- Changed a couple of options for our transaction abstraction:
+
+    - `exceptions`: overrides the value of the client option with the same name.
+      Please note that it does not affect all the transaction control commands
+      such as `MULTI`, `EXEC`, `DISCARD`, `WATCH` and `UNWATCH`.
+    - `on_retry`: this option has been removed.
+
+- Removed pipeline executors, now command pipelines can be easily customized by
+  extending the standard `Predis\Pipeline\Pipeline` class. Accepted options when
+  creating a pipeline using `Predis\Client::pipeline()` are:
+
+    - `atomic`: returns a pipeline wrapped in a MULTI / EXEC transaction
+      (class: `Predis\Pipeline\Atomic`).
+    - `fire-and-forget`: returns a pipeline that does not read back responses
+      (class: `Predis\Pipeline\FireAndForget`).
+
+- Renamed the two base abstract command classes:
+
+    - `Predis\Command\AbstractCommand` is now `Predis\Command\Command`
+    - `Predis\Command\ScriptedCommand` is now `Predis\Command\ScriptCommand`
+
+- Dropped `Predis\Command\Command::__toString()` (see issue #151).
+
+- The key prefixing logic has been moved from command classes to the key prefix
+  processor. Developers can define or override handlers used to prefix keys, but
+  they can also define the needed logic in their command classes by implementing
+  `Predis\Command\PrefixableCommandInterface` just like before.
+
+- `Predis\PubSub\DispatcherLoop` now takes a `Predis\PubSub\Consumer` instance
+  as the sole argument of its constructor instead of `Predis\ClientInterface`.
+
+- All of the interfaces and classes related to translated Redis response types
+  have been moved in the new `Predis\Response` namespace and most of them have
+  been renamed to make their fully-qualified name less redundant. Now the base
+  response interface is `Predis\Response\ResponseInterface`.
+
+- Renamed interface `Predis\Command\Processor\CommandProcessorInterface` to a
+  shorter `Predis\Command\Processor\ProcessorInterface`. Also removed interface
+  for chain processors since it is basically useless.
+
+- Renamed `Predis\ExecutableContextInterface` to `Predis\ClientContextInterface`
+  and augmented it with a couple of required methods since this interface is no
+  more comparable to a basic client as it could be misleading.
+
+- The `Predis\Option` namespace is now known as `Predis\Configuration` and have
+  a fully-reworked `Options` class with the ability to lazily initialize values
+  using objects that responds to `__invoke()` (not all the kinds of callables)
+  even for custom options defined by the user.
+
+- Renamed `Predis\Connection\ConnectionInterface::writeCommand()` into
+  `writeRequest()` for consistency with its counterpart, `readResponse()`.
+
+- Renamed `Predis\Connection\SingleConnectionInterface::pushInitCommand()` into
+  `addConnectCommand()` which is more obvious.
+
+- Renamed the connection class based on both ext-phpiredis and ext-socket into
+  `Predis\Connection\PhpiredisSocketConnection`. The one based on PHP's streams
+  is still named `Predis\Connection\PhpiredisStreamConnection`.
+
+- Renamed the connection factory class to `Predis\Connection\Factory`. Now its
+  constructor does not require anymore a profile instance to create `AUTH` and
+  `SELECT` commands when parameters contain both `password` and `database`. Raw
+  commands will be used instead.
+
+- Renamed the connection parameters class to `Predis\Connection\Parameters`. Now
+  its constructor accepts only named arrays, but instances can still be created
+  using both URIs or arrays using the static method `Parameters::create()`.
+
+- The profile factory code has been extracted from the abstract Redis profile
+  class and now lives in `Predis\Profile\Factory`.
+
+- The `Predis\Connection` namespace has been completely reorganized by renaming
+  a few classes and interfaces and adding some sub-namespaces.
+
+- Most classes and interfaces in the `Predis\Protocol` namespace have been moved
+  or renamed while rationalizing the whole API for external protocol processors.
+
+
 v0.8.7 (2014-08-01)
 ================================================================================
 

@@ -5,27 +5,26 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.*",
-		"artdevue/fcache": "dev-master",
-		"zizaco/entrust": "1.2.*@dev",
-        "maatwebsite/excel": "~1.2.1"
+		"laravel/framework": "~5.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~4.0"
 	},
 	"autoload": {
 		"classmap": [
-			"app/commands",
-			"app/controllers",
-			"app/models",
-			"app/database/migrations",
-			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"database",
+			"tests/TestCase.php"
 		],
-		 "psr-0": {
-            "Microweber": "src/"
-        }
+		"psr-4": {
+			"": "src/",
+			"App\\": "app/"
+		}
 	},
 	"scripts": {
 		"post-install-cmd": [
 			"php artisan clear-compiled",
+			"php artisan route:scan",
+			"php artisan event:scan",
 			"php artisan optimize"
 		],
 		"post-update-cmd": [
@@ -39,5 +38,5 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "dev"
 }

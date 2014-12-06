@@ -133,7 +133,7 @@ library for Redis) with a thin layer exposing its features to PHP. You can then 
 different connection classes:
 
   - `Predis\Connection\PhpiredisStreamConnection` (using native PHP streams).
-  - `Predis\Connection\PhpiredisConnection` (requires `ext-socket`).
+  - `Predis\Connection\PhpiredisSocketConnection` (requires `ext-socket`).
 
 You will now get the benefits of a faster protocol serializer and parser just by adding a couple of
 lines of code:
@@ -142,7 +142,7 @@ lines of code:
 $client = new Predis\Client('tcp://127.0.0.1', array(
     'connections' => array(
         'tcp'  => 'Predis\Connection\PhpiredisStreamConnection',
-        'unix' => 'Predis\Connection\PhpiredisConnection',
+        'unix' => 'Predis\Connection\PhpiredisSocketConnection',
     ),
 ));
 ```

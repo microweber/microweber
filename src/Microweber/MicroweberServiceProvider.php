@@ -51,11 +51,9 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function register()
     {
-        \App::after(function () {
-        });
 
         $this->app->bind('config', function ($app) {
-            return new Providers\SaveConfig($app->getConfigLoader(), $app->environment());
+            return new Providers\SaveConfig($app);
         });
 
         $this->app->singleton('event_manager', function ($app) {
@@ -153,34 +151,6 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\Ui($app);
         });
 
-
-//        $this->app->bind('module', function ($app) {
-//            return new Models\Module($app);
-//        });
-
-
-//        $this->app->extend('db', function ($app) {
-//            return new Db($app);
-//        });
-
-        //''app()->proba = 'ou';
-
-//        $this->app->singleton('db.connection.mysql', function ($app, $parameters) {
-//            list($connection, $database, $prefix, $config) = $parameters;
-//            return new MySqlConnection($connection, $database, $prefix, $config);
-//        });
-
-        Event::listen('silluminate.query', function ($sql, $bindings, $time) {
-            echo $sql; // select * from my_table where id=?
-            print_r($bindings); // Array ( [0] => 4 )
-            echo $time; // 0.58
-
-            // To get the full sql query with bindings inserted
-            $sql = str_replace(array('%', '?'), array('%%', '%s'), $sql);
-            $full_sql = vsprintf($sql, $bindings);
-        });
-
-
         // $this->registerModules();
     }
 
@@ -201,6 +171,15 @@ class MicroweberServiceProvider extends ServiceProvider
         }
         $modules = load_all_functions_files_for_modules();
 
+        Event::listen('silluminate.query', function ($sql, $bindings, $time) {
+            echo $sql; // select * from my_table where id=?
+            print_r($bindings); // Array ( [0] => 4 )
+            echo $time; // 0.58
+
+            // To get the full sql query with bindings inserted
+            $sql = str_replace(array('%', '?'), array('%%', '%s'), $sql);
+            $full_sql = vsprintf($sql, $bindings);
+        });
 
     }
 

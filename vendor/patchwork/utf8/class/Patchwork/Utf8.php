@@ -21,6 +21,7 @@ class Utf8
 {
     protected static
 
+    $pathPrefix,
     $commonCaseFold = array(
         array('µ','ſ',"\xCD\x85",'ς',"\xCF\x90","\xCF\x91","\xCF\x95","\xCF\x96","\xCF\xB0","\xCF\xB1","\xCF\xB5","\xE1\xBA\x9B","\xE1\xBE\xBE"),
         array('μ','s','ι',       'σ','β',       'θ',       'φ',       'π',       'κ',       'ρ',       'ε',       "\xE1\xB9\xA1",'ι'           )
@@ -87,6 +88,27 @@ class Utf8
         }
 
         return $s;
+    }
+
+    static function wrapPath($path = '')
+    {
+        if (null === static::$pathPrefix)
+        {
+            if (extension_loaded('wfio'))
+            {
+                static::$pathPrefix = 'wfio://';
+            }
+            else if (defined('PHP_WINDOWS_VERSION_BUILD'))
+            {
+                static::$pathPrefix = 'utf8'.mt_rand();
+                stream_wrapper_register(static::$pathPrefix, 'Patchwork\Utf8\WindowsStreamWrapper');
+                static::$pathPrefix .= '://';
+            } else {
+                static::$pathPrefix = 'file://';
+            }
+        }
+
+        return static::$pathPrefix . $path;
     }
 
     static function filter($var, $normalization_form = 4 /* n::NFC */, $leading_combining = '◌')

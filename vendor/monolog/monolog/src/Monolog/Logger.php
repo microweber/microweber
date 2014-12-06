@@ -229,6 +229,21 @@ class Logger implements LoggerInterface
             $this->pushHandler(new StreamHandler('php://stderr', static::DEBUG));
         }
 
+        $levelName = static::getLevelName($level);
+
+        // check if any handler will handle this message so we can return early and save cycles
+        $handlerKey = null;
+        foreach ($this->handlers as $key => $handler) {
+            if ($handler->isHandling(array('level' => $level))) {
+                $handlerKey = $key;
+                break;
+            }
+        }
+
+        if (null === $handlerKey) {
+            return false;
+        }
+
         if (!static::$timezone) {
             static::$timezone = new \DateTimeZone(date_default_timezone_get() ?: 'UTC');
         }
@@ -237,25 +252,12 @@ class Logger implements LoggerInterface
             'message' => (string) $message,
             'context' => $context,
             'level' => $level,
-            'level_name' => static::getLevelName($level),
+            'level_name' => $levelName,
             'channel' => $this->name,
             'datetime' => \DateTime::createFromFormat('U.u', sprintf('%.6F', microtime(true)), static::$timezone)->setTimezone(static::$timezone),
             'extra' => array(),
         );
-        // check if any handler will handle this message
-        $handlerKey = null;
-        foreach ($this->handlers as $key => $handler) {
-            if ($handler->isHandling($record)) {
-                $handlerKey = $key;
-                break;
-            }
-        }
-        // none found
-        if (null === $handlerKey) {
-            return false;
-        }
 
-        // found at least one, process message and dispatch it
         foreach ($this->processors as $processor) {
             $record = call_user_func($processor, $record);
         }

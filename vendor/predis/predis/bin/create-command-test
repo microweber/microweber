@@ -17,7 +17,7 @@
 // For example, to generate a test case for SET (which is represented by the
 // Predis\Command\StringSet class):
 //
-//   $ ./bin/generate-command-test.php --class=StringSet
+//   $ ./bin/generate-command-test --class=StringSet
 //
 // Here is a list of optional arguments:
 //
@@ -40,7 +40,7 @@ class CommandTestCaseGenerator
 {
     private $options;
 
-    public function __construct(Array $options)
+    public function __construct(array $options)
     {
         if (!isset($options['class'])) {
             throw new RuntimeException("Missing 'class' option.");
@@ -61,7 +61,7 @@ class CommandTestCaseGenerator
 
         $options = array(
             'overwrite' => false,
-            'tests' => __DIR__.'/../tests',
+            'tests' => __DIR__.'/../tests/Predis',
         );
 
         foreach ($getops as $option => $value) {
@@ -93,9 +93,9 @@ class CommandTestCaseGenerator
         }
 
         $options['fqn'] = "Predis\\Command\\{$options['class']}";
-        $options['path'] = "Predis/Command/{$options['class']}.php";
+        $options['path'] = "Command/{$options['class']}.php";
 
-        $source = __DIR__.'/../lib/'.$options['path'];
+        $source = __DIR__.'/../src/'.$options['path'];
         if (!file_exists($source)) {
             throw new RuntimeException("Cannot find class file for {$options['fqn']} in $source.");
         }
@@ -134,7 +134,11 @@ class CommandTestCaseGenerator
             throw new RuntimeException("Class $class must implement Predis\Command\CommandInterface.");
         }
 
+        /*
+         * @var CommandInterface
+         */
         $instance = $reflection->newInstance();
+
         $buffer = $this->getTestCaseBuffer($instance);
 
         return $buffer;

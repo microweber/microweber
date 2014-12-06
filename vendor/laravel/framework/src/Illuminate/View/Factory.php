@@ -1,12 +1,13 @@
 <?php namespace Illuminate\View;
 
 use Closure;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\View\Engines\EngineResolver;
-use Illuminate\Support\Contracts\ArrayableInterface as Arrayable;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\View\Factory as FactoryContract;
 
-class Factory {
+class Factory implements FactoryContract {
 
 	/**
 	 * The engine implementation.
@@ -25,7 +26,7 @@ class Factory {
 	/**
 	 * The event dispatcher instance.
 	 *
-	 * @var \Illuminate\Events\Dispatcher
+	 * @var \Illuminate\Contracts\Events\Dispatcher
 	 */
 	protected $events;
 
@@ -97,7 +98,7 @@ class Factory {
 	 *
 	 * @param  \Illuminate\View\Engines\EngineResolver  $engines
 	 * @param  \Illuminate\View\ViewFinderInterface  $finder
-	 * @param  \Illuminate\Events\Dispatcher  $events
+	 * @param  \Illuminate\Contracts\Events\Dispatcher  $events
 	 * @return void
 	 */
 	public function __construct(EngineResolver $engines, ViewFinderInterface $finder, Dispatcher $events)
@@ -112,6 +113,23 @@ class Factory {
 	/**
 	 * Get the evaluated view contents for the given view.
 	 *
+	 * @param  string  $path
+	 * @param  array   $data
+	 * @param  array   $mergeData
+	 * @return \Illuminate\View\View
+	 */
+	public function file($path, $data = array(), $mergeData = array())
+	{
+		$data = array_merge($mergeData, $this->parseData($data));
+
+		$this->callCreator($view = new View($this, $this->getEngineFromPath($path), $path, $path, $data));
+
+		return $view;
+	}
+
+	/**
+	 * Get the evaluated view contents for the given view.
+	 *
 	 * @param  string  $view
 	 * @param  array   $data
 	 * @param  array   $mergeData
@@ -121,6 +139,8 @@ class Factory {
 	{
 		if (isset($this->aliases[$view])) $view = $this->aliases[$view];
 
+		$view = $this->normalizeName($view);
+
 		$path = $this->finder->find($view);
 
 		$data = array_merge($mergeData, $this->parseData($data));
@@ -128,6 +148,27 @@ class Factory {
 		$this->callCreator($view = new View($this, $this->getEngineFromPath($path), $view, $path, $data));
 
 		return $view;
+	}
+
+	/**
+	 * Normalize a view name.
+	 *
+	 * @param  string $name
+	 *
+	 * @return string
+	 */
+	protected function normalizeName($name)
+	{
+		$delimiter = ViewFinderInterface::HINT_PATH_DELIMITER;
+
+		if (strpos($name, $delimiter) === false)
+		{
+			return str_replace('/', '.', $name);
+		}
+
+		list($namespace, $name) = explode($delimiter, $name);
+
+		return $namespace . $delimiter . str_replace('/', '.', $name);
 	}
 
 	/**
@@ -325,7 +366,7 @@ class Factory {
 
 		foreach ($composers as $callback => $views)
 		{
-			$registered += $this->composer($views, $callback);
+			$registered = array_merge($registered, $this->composer($views, $callback));
 		}
 
 		return $registered;
@@ -362,6 +403,8 @@ class Factory {
 	 */
 	protected function addViewEvent($view, $callback, $prefix = 'composing: ', $priority = null)
 	{
+		$view = $this->normalizeName($view);
+
 		if ($callback instanceof Closure)
 		{
 			$this->addEventListener($prefix.$view, $callback, $priority);
@@ -758,7 +801,7 @@ class Factory {
 	/**
 	 * Get the event dispatcher instance.
 	 *
-	 * @return \Illuminate\Events\Dispatcher
+	 * @return \Illuminate\Contracts\Events\Dispatcher
 	 */
 	public function getDispatcher()
 	{
@@ -768,7 +811,7 @@ class Factory {
 	/**
 	 * Set the event dispatcher instance.
 	 *
-	 * @param  \Illuminate\Events\Dispatcher
+	 * @param  \Illuminate\Contracts\Events\Dispatcher
 	 * @return void
 	 */
 	public function setDispatcher(Dispatcher $events)

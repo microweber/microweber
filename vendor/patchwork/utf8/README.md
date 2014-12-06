@@ -19,6 +19,11 @@ It can also serve as a documentation source referencing the practical problems
 that arise when handling UTF-8 in PHP: Unicode concepts, related algorithms,
 bugs in PHP core, workarounds, etc.
 
+Version 1.2 adds best-fit mappings for UTF-8 to *Code Page* approximations.
+It also adds Unicode filesystem access under Windows,
+using [wfio](https://github.com/kenjiuno/php-wfio) when possible
+or a COM based fallback otherwise.
+
 Portability
 -----------
 
@@ -63,6 +68,7 @@ Some more functions are also provided to help handling UTF-8 strings:
 - *toAscii()*: generic UTF-8 to ASCII transliteration,
 - *strtocasefold()*: unicode transformation for caseless matching,
 - *strtonatfold()*: generic case sensitive transformation for collation matching
+- *wrapPath()*: unicode filesystem access under Windows and other OSes.
 
 Mirrored string functions are:
 *strlen, substr, strpos, stripos, strrpos, strripos, strstr, stristr, strrchr,
@@ -91,7 +97,7 @@ the `php composer.phar install` command to install it:
 
     {
         "require": {
-            "patchwork/utf8": "~1.1"
+            "patchwork/utf8": "~1.2"
         }
     }
 
@@ -124,7 +130,8 @@ through. When dealing with badly formed UTF-8, you should not try to fix it
 Instead, consider it as [CP-1252](http://wikipedia.org/wiki/CP-1252) and use
 `Patchwork\Utf8::utf8_encode()` to get an UTF-8 string. Don't forget also to
 choose one unicode normalization form and stick to it. NFC is now the defacto
-standard. `Patchwork\Utf8::filter()` implements this behavior.
+standard. `Patchwork\Utf8::filter()` implements this behavior: it converts from
+CP1252 and to NFC.
 
 This library is orthogonal to `mbstring.func_overload` and will not work if the
 php.ini setting is enabled.

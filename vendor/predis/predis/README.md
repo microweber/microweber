@@ -2,6 +2,9 @@
 
 [![Latest Stable Version](https://poser.pugx.org/predis/predis/v/stable.png)](https://packagist.org/packages/predis/predis)
 [![Total Downloads](https://poser.pugx.org/predis/predis/downloads.png)](https://packagist.org/packages/predis/predis)
+[![License](https://poser.pugx.org/predis/predis/license.svg)](https://packagist.org/packages/predis/predis)
+[![Build Status](https://travis-ci.org/nrk/predis.svg?branch=master)](https://travis-ci.org/nrk/predis)
+[![HHVM Status](http://hhvm.h4cc.de/badge/predis/predis.png)](http://hhvm.h4cc.de/package/predis/predis)
 
 Predis is a flexible and feature-complete [Redis](http://redis.io) client library for PHP >= 5.3.
 
@@ -20,11 +23,11 @@ on the online [wiki](https://github.com/nrk/predis/wiki).
 
 ## Main features ##
 
-- Wide range of Redis versions supported (from __1.2__ to __3.0__ and __unstable__) using profiles.
+- Wide range of Redis versions supported (from __2.0__ to __3.0__ and __unstable__) using profiles.
 - Cluster of nodes via client-side sharding using consistent hashing or custom distributors.
 - Smart support for [redis-cluster](http://redis.io/topics/cluster-tutorial) (Redis >= 3.0).
 - Support for master-slave replication configurations (write on master, read from slaves).
-- Transparent key prefixing for all known Redis commands.
+- Transparent key prefixing for all known Redis commands using a customizable prefixing strategy.
 - Command pipelining (works on both single nodes and aggregate connections).
 - Abstraction for Redis transactions (Redis >= 2.0) supporting CAS operations (Redis >= 2.2).
 - Abstraction for Lua scripting (Redis >= 2.6) with automatic switching between `EVALSHA` or `EVAL`.
@@ -47,10 +50,9 @@ Ultimately, archives of each release are [available on GitHub](https://github.co
 ### Loading the library ###
 
 Predis relies on the autoloading features of PHP to load its files when needed and complies with the
-[PSR-0 standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) which makes
-it compatible with most PHP frameworks. Autoloading is handled automatically when dependencies are
-managed through Composer, but it is also possible to leverage its own autoloader in projects or
-scripts not having any autoload facility:
+[PSR-4 standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md).
+Autoloading is handled automatically when dependencies are managed through Composer, but it is also
+possible to leverage its own autoloader in projects or scripts not having any autoload facility:
 
 ```php
 // Prepend a base path if Predis is not available in your "include_path".
@@ -111,7 +113,16 @@ it is recommended to refer to their specific documentation or implementation for
 ### Client configuration ###
 
 Various aspects of the client can be configured simply by passing options to the second argument of
-`Predis\Client::__construct()`. Options are managed using a mini DI-alike container and their values
+`Predis\Client::__construct()`:
+
+```php
+$client = new \Predis\Client(
+    $connection_parameters,
+    ['profile' => '2.8', 'prefix' => 'sample:']
+);
+```
+
+Options are managed using a mini DI-alike container and their values
 are usually lazily initialized only when needed. Predis by default supports the following options:
 
   - `profile`: which profile to use in order to match a specific version of Redis.
@@ -120,9 +131,10 @@ are usually lazily initialized only when needed. Predis by default supports the 
   - `connections`: connection backends or a connection factory to be used by the client.
   - `cluster`: which backend to use for clustering (`predis`, `redis` or custom configuration).
   - `replication`: which backend to use for replication (predis or custom configuration).
+  - `aggregate`: custom connections aggregator (overrides both `cluster` and `replication`).
 
-Users can provide custom option values, they are stored in the options container and can be accessed
-later through the library.
+Users can provide custom options with their values or lazy callable initializers that are stored in
+the options container for later use through the library.
 
 
 ### Aggregate connections ###
@@ -170,8 +182,8 @@ $client->evalsha(sha1($LUA_SCRIPT), 0);    // ... and `evalsha`, too.
 ```
 
 The `examples` directory contains two complete scripts showing how replication can be configured for
-[simple](examples/MasterSlaveReplication.php) or [complex](examples/MasterSlaveReplicationComplex.php)
-scenarios.
+[simple](examples/replication_simple.php) or [complex](examples/replication_complex.php) scenarios.
+
 
 #### Cluster ####
 
@@ -233,13 +245,10 @@ $responses = $client->transaction()->set('foo', 'bar')->get('foo')->execute();
 
 This abstraction can perform check-and-set operations thanks to `WATCH` and `UNWATCH` and provides
 automatic retries of transactions aborted by Redis when `WATCH`ed keys are touched. For an example
-of a transaction using CAS you can see [the following example](examples/TransactionWithCAS.php).
-
-__NOTE__: the method `transaction()` is available since `v0.8.5`, older versions used `multiExec()`
-for the same purpose but it has been deprecated and will be removed in the next major release.
+of a transaction using CAS you can see [the following example](examples/transaction_using_cas.php).
 
 
-### Adding new Redis commands ###
+### Adding new commands ###
 
 While we try to update Predis to stay up to date with all the commands available in Redis, you might
 prefer to stick with an older version of the library or provide a different way to filter arguments
@@ -247,8 +256,8 @@ or parse responses for specific commands. To achieve that, Predis provides the a
 new command classes to define or override commands in the server profiles used by the client:
 
 ```php
-// Define a new command by extending Predis\Command\AbstractCommand:
-class BrandNewRedisCommand extends Predis\Command\AbstractCommand
+// Define a new command by extending Predis\Command\Command:
+class BrandNewRedisCommand extends Predis\Command\Command
 {
     public function getId()
     {
@@ -261,6 +270,14 @@ $client = new Predis\Client();
 $client->getProfile()->defineCommand('newcmd', 'BrandNewRedisCommand');
 
 $response = $client->newcmd();
+```
+
+There is also a method to send raw commands without filtering their arguments or parsing responses.
+Users must provide the arguments list as an array, following the command signatures as defined by
+the [Redis documentation for commands](http://redis.io/commands):
+
+```php
+$response = $client->executeRaw(['SET', 'foo', 'bar']);
 ```
 
 
@@ -276,8 +293,8 @@ by its SHA1 hash to save bandwidth, but [`EVAL`](http://redis.io/commands/eval) 
 back when needed:
 
 ```php
-// Define a new scriptable command by extending Predis\Command\ScriptedCommand:
-class ListPushRandomValue extends Predis\Command\ScriptedCommand
+// Define a new scriptable command by extending Predis\Command\ScriptCommand:
+class ListPushRandomValue extends Predis\Command\ScriptCommand
 {
     public function getKeysCount()
     {
@@ -313,18 +330,18 @@ is based on socket resources provided by `ext-socket`. Both support TCP/IP or UN
 ```php
 $client = new Predis\Client('tcp://127.0.0.1', [
     'connections' => [
-        'tcp'  => 'Predis\Connection\PhpiredisStreamConnection', // PHP streams
-        'unix' => 'Predis\Connection\PhpiredisConnection',       // ext-socket
+        'tcp'  => 'Predis\Connection\PhpiredisStreamConnection',  // PHP streams
+        'unix' => 'Predis\Connection\PhpiredisSocketConnection',  // ext-socket
     ],
 ]);
 ```
 
 Developers can create their own connection classes to support whole new network backends, extend
 existing ones or provide completely different implementations. Connection classes must implement
-`Predis\Connection\SingleConnectionInterface` or extend `Predis\Connection\AbstractConnection`:
+`Predis\Connection\NodeConnectionInterface` or extend `Predis\Connection\AbstractConnection`:
 
 ```php
-class MyConnectionClass implements Predis\Connection\SingleConnectionInterface
+class MyConnectionClass implements Predis\Connection\NodeConnectionInterface
 {
     // Implementation goes here...
 }

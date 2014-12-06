@@ -66,6 +66,8 @@ class RedisStore extends TaggableStore implements StoreInterface {
 	{
 		$value = is_numeric($value) ? $value : serialize($value);
 
+		$minutes = max(1, $minutes);
+
 		$this->connection()->setex($this->prefix.$key, $minutes * 60, $value);
 	}
 
@@ -111,11 +113,11 @@ class RedisStore extends TaggableStore implements StoreInterface {
 	 * Remove an item from the cache.
 	 *
 	 * @param  string  $key
-	 * @return void
+	 * @return bool
 	 */
 	public function forget($key)
 	{
-		$this->connection()->del($this->prefix.$key);
+		return (bool) $this->connection()->del($this->prefix.$key);
 	}
 
 	/**

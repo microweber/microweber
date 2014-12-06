@@ -1,3 +1,13 @@
+## v1.2.0-beta (2014-08-05)
+
+- add best-fit mappings for UTF-8 to Code Page approximations
+- add portable Unicode filesystem access under Windows and other OSes
+
+## v1.1.25 (2014-08-05)
+
+- update travis matrix
+- add composer branch alias
+
 ## v1.1.24 (2014-06-17)
 
 - update tests for latest HHVM fixes
