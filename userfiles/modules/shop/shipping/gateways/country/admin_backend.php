@@ -377,7 +377,7 @@ foreach ($datas as $data_key => $data): ?>
                                 </div>
                                 </div>
                                     <div class="mw-ui-col"><div class="mw-ui-col-container">
-                                       <label class="mw-ui-label"><?php _e("Shipping cost"); ?> <?php print mw('shop')->currency_symbol() ?></label>
+                                       <label class="mw-ui-label"><?php _e("Shipping cost"); ?> <?php print mw()->shop_manager->currency_symbol() ?></label>
                                        <input class="mw-ui-field shipping-price-field price-field" type="text" onkeyup="mw.form.typeNumber(this);"
                                          placeholder="0"
                                          name="shipping_cost"
@@ -389,7 +389,7 @@ foreach ($datas as $data_key => $data): ?>
                                     <div class="mw-ui-field-holder">
                                         <label class="mw-ui-label"><?php _e("Additional cost for"); ?> <em>1
                                                 <?php _e("cubic"); ?> <?php print $size_units ?></em>
-                                            &nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
+                                            &nbsp;<b><?php print mw()->shop_manager->currency_symbol() ?></b></label>
                                         <span class="mwsico-width"></span>
                                         <input type="text" name="shipping_price_per_size"
                                                value="<?php print  floatval($item['shipping_price_per_size']); ?>"
@@ -398,7 +398,7 @@ foreach ($datas as $data_key => $data): ?>
                                     <div class="mw-ui-field-holder">
                                         <label class="mw-ui-label"><?php _e("Additional cost for"); ?>
                                             <em>1 <?php print $weight_units ?></em>
-                                            &nbsp;<b><?php print mw('shop')->currency_symbol() ?></b></label>
+                                            &nbsp;<b><?php print mw()->shop_manager->currency_symbol() ?></b></label>
                                         <span class="mwsico-usd"></span>
                                         <input type="text" name="shipping_price_per_weight"
                                                value="<?php print floatval($item['shipping_price_per_weight']); ?>"
@@ -409,7 +409,7 @@ foreach ($datas as $data_key => $data): ?>
                                     <div class="mw-ui-field-holder">
                                         <label class="mw-ui-label"><?php _e("Cost for shipping"); ?> <em><?php _e("each item in the shopping cart"); ?></em> <span class="mw-icon-help-outline mwahi tip" data-tip="<?php _e("This cost will be added to the shipping price for the whole order from the box above"); ?>"></span></label>
 
-                                        <span><b><?php print mw('shop')->currency_symbol() ?></b></span>
+                                        <span><b><?php print mw()->shop_manager->currency_symbol() ?></b></span>
                                         <input type="text" name="shipping_price_per_item"
                                                value="<?php print  floatval($item['shipping_price_per_item']); ?>"
                                                class="mw-ui-field price-field"/>
@@ -439,7 +439,7 @@ foreach ($datas as $data_key => $data): ?>
                                   <div class="mw-ui-col-container">
                                    <label class="mw-ui-label">
                             <?php _e("Shipping cost"); ?>
-                            <?php print mw('shop')->currency_symbol() ?>
+                            <?php print mw()->shop_manager->currency_symbol() ?>
                             </label>
                                 <input  class="mw-ui-field price-field shipping-price-field"
                                       type="text" onkeyup="mw.form.typeNumber(this);"

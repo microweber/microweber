@@ -352,8 +352,8 @@ if (isset($to_save['is_installed'])) {
                 __mw_install_log('Creating log database tables');
                 mw('notifications')->db_init();
                 __mw_install_log('Creating online shop database tables');
-                mw('shop')->db_init();
-                mw('shop')->create_mw_shop_default_options();
+                mw()->shop_manager->db_init();
+                mw()->shop_manager->create_mw_shop_default_options();
                 __mw_install_log('Creating modules database tables');
 
                 mw()->modules->db_init();

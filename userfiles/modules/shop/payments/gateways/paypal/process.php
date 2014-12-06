@@ -126,7 +126,7 @@ $myPaypal -> addField('business', trim(get_option('paypalexpress_username', 'pay
 
 
 
-$currencies_list_paypal = mw('shop')->currency_get_for_paypal();
+$currencies_list_paypal = mw()->shop_manager->currency_get_for_paypal();
 $currencyCode = $place_order['currency'];
 $amount = $place_order['amount'];
 $place_order['payment_amount'] = $amount;

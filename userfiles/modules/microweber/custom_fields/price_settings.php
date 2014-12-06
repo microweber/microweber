@@ -11,7 +11,7 @@
     }
 ?>
 <div class="mw-ui-field-holder">
-  <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>">Value <b><?php print mw('shop')->currency_symbol($curr=false,$key=3); ?> </b></label>
+  <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>">Value <b><?php print mw()->shop_manager->currency_symbol($curr=false,$key=3); ?> </b></label>
   <input type="text"
         class="mw-ui-field"
         name="custom_field_value"

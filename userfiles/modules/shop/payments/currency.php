@@ -3,7 +3,7 @@
 </h2>
 <?php ?>
 <?php $cur = get_option('currency', 'payments');  ?>
-<?php $curencies = mw('shop')->currency_get();  ?>
+<?php $curencies = mw()->shop_manager->currency_get();  ?>
 <?php if(is_array($curencies )): ?>
 <select name="currency" class="mw-ui-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend">
   <?php foreach($curencies  as $item): ?>

@@ -55,7 +55,7 @@ if($hasmultiple):
 
 <span class="mw-ui-btn mw-ui-btn-big mw-dropdown-button">
 
-<span><?php print mw('shop')->currency_symbol(); ?></span> <?php print $val; ?>
+<span><?php print mw()->shop_manager->currency_symbol(); ?></span> <?php print $val; ?>
 
 </span>
 
@@ -86,7 +86,7 @@ if($hasmultiple):
 
 <div class="mw-ui-row-nodrop valign">
     <div class="mw-ui-col" style="width: 100px;">
-      <span class="pricedropdown-currency"><?php print mw('shop')->currency_symbol(); ?></span>
+      <span class="pricedropdown-currency"><?php print mw()->shop_manager->currency_symbol(); ?></span>
       <input type="text"
              data-custom-field-id="<?php print $item['id'] ?>"
              class="mw-ui-field mw-ui-field-big tip"
@@ -121,7 +121,7 @@ if($hasmultiple):
 
 ?>
 
-<span id="product-price-field-label"><?php print mw('shop')->currency_symbol(); ?></span>
+<span id="product-price-field-label"><?php print mw()->shop_manager->currency_symbol(); ?></span>
 
 <input type="text" data-custom-field-id="<?php print $item['id'] ?>"
                    data-tip="<?php print addslashes($item['name']) ?>"

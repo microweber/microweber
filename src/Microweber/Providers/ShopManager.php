@@ -1,6 +1,6 @@
 <?php
 namespace Microweber\Providers;
-//event_bind('mw_db_init_default', mw('shop')->db_init());
+//event_bind('mw_db_init_default', mw()->shop_manager->db_init());
 
     /**
      *

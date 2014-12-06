@@ -18,12 +18,14 @@ class LaravelEvent
     public static function fire($api_function, $data = false)
     {
 
-        
-        if(isset( self::$hooks[$api_function])){
+
+        if (isset(self::$hooks[$api_function])) {
             $fn = self::$hooks[$api_function];
-            return $fn($data);
-        }
-         else if (is_string($api_function) and function_exists($api_function)) {
+            if (function_exists($fn)) {
+                return $fn($data);
+            }
+
+        } else if (is_string($api_function) and function_exists($api_function)) {
 
             return $api_function($data);
 

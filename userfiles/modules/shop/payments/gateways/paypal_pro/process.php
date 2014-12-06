@@ -41,7 +41,7 @@ if (isset($place_order['shipping']) and intval($place_order['shipping']) > 0) {
 
 
 
-$currencies_list_paypal = mw('shop')->currency_get_for_paypal();
+$currencies_list_paypal = mw()->shop_manager->currency_get_for_paypal();
 $currencyCode = $place_order['currency'];
 
 if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)){

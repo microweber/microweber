@@ -1,6 +1,6 @@
 <?php
 
-$curencies = mw('shop')->currency_get_for_paypal();
+$curencies = mw()->shop_manager->currency_get_for_paypal();
 //the  $currencies array now have a list of supported currencies supported by pal
 
 
@@ -40,7 +40,7 @@ if($payment_currency_rate != false){
 	<?php _e("Convert rate to from default currency to payment currency"); ?>
 </label>
 <input  name="payment_currency_rate" value="<?php print $payment_currency_rate; ?>"  id="payment_currency_rate_val_sugg"   type="text" class="mw-ui-field price-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend" />
-<?php $sugg  = mw('shop')->currency_convert_rate($cur,$payment_currency); ?>
+<?php $sugg  = mw()->shop_manager->currency_convert_rate($cur,$payment_currency); ?>
 <?php  if($sugg  != false): ?>
 <br />
 <small>
