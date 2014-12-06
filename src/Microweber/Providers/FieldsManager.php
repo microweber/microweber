@@ -517,7 +517,12 @@ return $data;
 
         if (!empty($q)) {
             $get_values = array();
+            $fields  = array();
             foreach ($q as $k => $v) {
+
+
+
+                $fields[$k] = $v;
 
 
 

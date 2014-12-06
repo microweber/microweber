@@ -9,6 +9,10 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
+    protected $rules = array(
+        'username' => 'required|unique:users'
+    );
+
 	protected $hidden = array('password', 'remember_token');
 
 

@@ -17,6 +17,22 @@ class BaseModel extends Eloquent
 
     private $useCache = true;
 
+    protected $rules = array();
+    private $validator;
+
+    public function validateAndFill($data)
+    {
+
+        $this->validator = \Validator::make($data, $this->rules);
+        if ($this->validator->fails()) {
+            return false;
+        }
+
+
+        $this->fill($data);
+        return true;
+    }
+
     public static $cacheTables = [];
 
     public $default_filters = [
@@ -68,7 +84,7 @@ class BaseModel extends Eloquent
 
         $items = $query->get()->toArray();
 
-         if (is_object($items)) {
+        if (is_object($items)) {
             $empty = $items->isEmpty();
 
             if ($empty == true) {
@@ -111,7 +127,7 @@ class BaseModel extends Eloquent
         }
 
 
-        $query = $this->map_filters($query, $params,$table);
+        $query = $this->map_filters($query, $params, $table);
         $params = $this->map_array_to_table($table, $params);
         $query = $this->map_values_to_query($query, $params);
 
