@@ -340,32 +340,31 @@ class UrlManager
 
     }
 
-    public function site_url($add_string = false)
+    function site_url($add_string = false)
     {
+        static $site_url;
 
-
-        $site_url = $this->site_url_var;
-
-        if ($site_url == false) {
-            return site_url($add_string);
+        if (defined('MW_SITE_URL')) {
+            $site_url = MW_SITE_URL;
         }
-
-//to be deleted
         if ($site_url == false) {
-
-
             $pageURL = 'http';
             if (isset($_SERVER["HTTPS"]) and ($_SERVER["HTTPS"] == "on")) {
                 $pageURL .= "s";
             }
-
             $subdir_append = false;
-            if (isset($_SERVER['REDIRECT_URL'])) {
+            if (isset($_SERVER['PATH_INFO'])) {
+                // $subdir_append = $_SERVER ['PATH_INFO'];
+            } elseif (isset($_SERVER['REDIRECT_URL'])) {
                 $subdir_append = $_SERVER['REDIRECT_URL'];
             }
 
             $pageURL .= "://";
-            if (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+            if (isset($_SERVER["HTTP_HOST"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
+                $pageURL .= $_SERVER["HTTP_HOST"] . ":" . $_SERVER["SERVER_PORT"];
+            } elseif (isset($_SERVER["HTTP_HOST"])) {
+                $pageURL .= $_SERVER["HTTP_HOST"];
+            } elseif (isset($_SERVER["SERVER_NAME"]) and isset($_SERVER["SERVER_PORT"]) and $_SERVER["SERVER_PORT"] != "80") {
                 $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"];
             } elseif (isset($_SERVER["SERVER_NAME"])) {
                 $pageURL .= $_SERVER["SERVER_NAME"];
@@ -374,7 +373,6 @@ class UrlManager
             }
             $pageURL_host = $pageURL;
             $pageURL .= $subdir_append;
-
             $d = '';
             if (isset($_SERVER['SCRIPT_NAME'])) {
                 $d = dirname($_SERVER['SCRIPT_NAME']);
@@ -384,19 +382,15 @@ class UrlManager
             if ($d == '') {
                 $pageURL = $pageURL_host;
             } else {
-
                 $pageURL_host = rtrim($pageURL_host, '/') . '/';
                 $d = ltrim($d, '/');
                 $d = ltrim($d, DIRECTORY_SEPARATOR);
-
                 $pageURL = $pageURL_host . $d;
 
             }
-            //
             if (isset($_SERVER['QUERY_STRING'])) {
                 $pageURL = str_replace($_SERVER['QUERY_STRING'], '', $pageURL);
             }
-
 
             $uz = parse_url($pageURL);
             if (isset($uz['query'])) {
@@ -421,14 +415,11 @@ class UrlManager
                 $i++;
             }
             $url_segs[] = '';
-            $this->site_url_var = $site_url = implode('/', $url_segs);
+            $site_url = implode('/', $url_segs);
 
         }
-
-
         return $site_url . $add_string;
     }
-
     /**
      * Returns ALL URL segments as array
      *
