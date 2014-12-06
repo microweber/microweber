@@ -626,8 +626,18 @@ class UserManager
      *
      * @return bool|int
      */
+    public $force_save = false;
     public function save($params)
     {
+
+
+
+
+
+
+
+
+
 
         $force = mw_var('force_save_user');
         $no_hash = mw_var('save_user_no_pass_hash');
@@ -661,7 +671,7 @@ class UserManager
                 }
             }
         } else {
-            if (defined('MW_API_CALL') and defined('mw_is_installed()') and mw_is_installed() == true) {
+            if (defined('MW_API_CALL') and mw_is_installed() == true) {
 
 
                 if ($force == false) {
@@ -677,6 +687,20 @@ class UserManager
         }
 
         $data_to_save = $params;
+
+        $user = new \User;
+        if($user->validateAndFill($data_to_save))
+        {
+            $save = $user->save();
+        } else {
+            d('aaaaaaaaaaaaaaaaa'.__FILE__.__LINE__);
+        }
+
+
+
+d($save);
+        d($data_to_save);
+
 
         if (isset($data_to_save['password'])) {
             if ($no_hash == false) {

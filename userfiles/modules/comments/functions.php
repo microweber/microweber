@@ -94,28 +94,7 @@ mw()->database->custom_filter('comments', function($query,$param,$table){
 
 
 
-
-event_bind('orm_get', 'db_filter_comments');
-
-
-function db_filter_comments($table)
-{
-    if($table == MODULE_DB_COMMENTS){
-        mw()->orm->filter('posts_category',function ($orm, $value) {
-            if(intval($value) > 0){
-				 
-            $categories_items_table = get_table_prefix() . 'categories_items';
-            $comments_table = get_table_prefix() . 'comments';
-            $orm->inner_join($categories_items_table, array($comments_table . '.rel_id', '=', $categories_items_table . '.rel_id'));
-            $orm->where($categories_items_table . '.parent_id', $value);
-            $orm->order_by_desc($comments_table . '.created_at');
-            }
-        });
-    }
-}
-
-
-
+ 
 
 
 
@@ -131,7 +110,9 @@ event_bind('module.content.manager.item', 'mw_print_admin_post_list_comments_cou
 
 function mw_print_admin_post_list_comments_counter($item)
 {
-    if (isset($item['id'])) {
+    
+	
+	if (isset($item['id'])) {
 
         $new = get_comments('count=1&is_moderated=n&content_id=' . $item['id']);
         if ($new > 0) {
@@ -160,8 +141,9 @@ event_bind('module.content.edit', 'mw_print_admin_post_comments_counter_quick_li
 function mw_print_admin_post_comments_counter_quick_list($item)
 {
 
+  
     if (isset($item['id'])) {
-        $new = get_comments('count=1&rel=content&rel_id=' . $item['id']);
+        $new = get_comments('count=1&rel_type=content&rel_id=' . $item['id']);
         if ($new > 0) {
             $btn = array();
             $btn['title'] = 'Comments';
@@ -177,6 +159,9 @@ event_bind('mw.admin.dashboard.links', 'mw_print_admin_dashboard_comments_btn');
 
 function mw_print_admin_dashboard_comments_btn()
 {
+   
+    print __FILE__.__LINE__;
+	return;
     $admin_dashboard_btn = array();
     $admin_dashboard_btn['view'] = 'comments';
 

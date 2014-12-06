@@ -16,7 +16,11 @@ function mw_print_quick_stats_by_session($sid = false)
 
 function mw_print_stats_on_dashboard()
 {
-    $active = url_param('view');
+    
+	print __FILE__.__LINE__;
+	return;
+	
+	$active = url_param('view');
     $cls = '';
     if ($active == 'shop') {
         //   $cls = ' class="active" ';

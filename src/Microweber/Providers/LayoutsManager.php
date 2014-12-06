@@ -432,7 +432,7 @@ class LayoutsManager
             exit(__FILE__ . __LINE__ . d($data_to_save));
         }
 
-        $table = get_table_prefix() . 'elements';
+        $table = 'elements';
         $save = false;
         // d($table);
         //d($data_to_save);

@@ -274,8 +274,6 @@ class Modules
 
                     $replace_root = modules_path();
 
-                    $moduleDir = str_replace($replace_root, '', $moduleDir);
-
 
                     $moduleDir = rtrim($moduleDir, '\\');
                     $moduleDir = rtrim($moduleDir, '/');
@@ -320,7 +318,7 @@ class Modules
                                 $this->save($config);
 
                                 // Inj point
-                                dd(__FILE__ . __LINE__);
+                              //  dd(__FILE__ . __LINE__);
 
 
                             }
@@ -1443,7 +1441,7 @@ class Modules
 
     public function scan_for_modules($options = false)
     {
-
+return $this->scan($options);
         $params = $options;
         if (is_string($params)) {
             $params = parse_str($params, $params2);
