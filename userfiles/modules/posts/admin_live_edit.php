@@ -81,9 +81,9 @@ if ($posts_parent_category != false) {
 if (!isset($params['global']) and $posts_parent_page != false and $posts_parent_category != false and intval($posts_parent_category) > 0) {
 
     $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $posts_parent_page;
-    $page_categories = get($str0);
+    $page_categories = db_get($str0);
     $sub_cats = array();
-    $page_categories = get($str0);
+    $page_categories = db_get($str0);
      if (is_array($page_categories)) {
         foreach ($page_categories as $item_cat) {
              $sub_cats[] = $item_cat['id'];

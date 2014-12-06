@@ -157,7 +157,7 @@ if ($posts_parent_related == false) {
 			 
 		//		
                 $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
-                $page_categories = get($str0);
+                $page_categories = db_get($str0);
 				
 				$str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
 				   $page_categories =Categories::items('limit=1&data_type=category&'. 'parent_id=0&rel_id=' . $cfg_page_id);
@@ -168,7 +168,7 @@ if ($posts_parent_related == false) {
 				   // $page_categories =Categories::where('data_type','category')->where('parent_id' , 0)->where('rel_id' , $cfg_page_id)->get()->toArray();
 				   
 				 
-              // $page_categories = get($str0);
+              // $page_categories = db_get($str0);
 				
 				
                 if (is_array($page_categories)) {

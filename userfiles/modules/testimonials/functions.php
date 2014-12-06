@@ -43,7 +43,7 @@ function reorder_testimonials($params)
     }
 	if(isset($params['ids'])){
 		$table = "testimonials";
-    	return mw()->db->update_position_field($table, $params['ids']);
+    	return mw()->database_manager->update_position_field($table, $params['ids']);
 	}
     
 }

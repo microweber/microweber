@@ -80,7 +80,7 @@ if ($cfg_page_id != false and intval($cfg_page_id) > 0) {
         $page_categories = false;
         if (intval($cfg_page_id) != 0) {
             $str0 = 'table=categories&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_id=' . $cfg_page_id;
-            $page_categories = get($str0);
+            $page_categories = db_get($str0);
             // d($page_categories);
             if (is_array($page_categories)) {
                 foreach ($page_categories as $item_cat) {

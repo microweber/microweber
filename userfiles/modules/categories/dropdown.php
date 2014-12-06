@@ -24,7 +24,7 @@
 
 <?php  if(isset($params['include_global_categories']) and $params['include_global_categories'] == true  and isset($params['include_global_categories'])){
         $str0 = 'table=categories&limit=1000&data_type=category&' . 'parent_id=0&rel_id=0&rel=content';
-		$fors = get($str0);
+		$fors = db_get($str0);
 		if ($fors != false and is_array($fors) and !empty($fors)) {
 			foreach ($fors as $cat) {
 				$cat_params =$params;

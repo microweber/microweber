@@ -62,7 +62,7 @@ class shipping_api
             if (isset($data['id']) and intval($data['id']) > 0) {
 
             } else {
-                $check = get('shipping_country=' . $data['shipping_country']);
+                $check = db_get('shipping_country=' . $data['shipping_country']);
                 if ($check != false and is_array($check[0]) and isset($check[0]['id'])) {
                     $data['id'] = $check[0]['id'];
                 }

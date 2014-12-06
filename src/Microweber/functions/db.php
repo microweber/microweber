@@ -8,7 +8,7 @@ function get_table_prefix(){
 }
 
 
-function get($table_name_or_params,$params = null){
+function db_get($table_name_or_params,$params = null){
     return  mw()->database->get($table_name_or_params,$params);
 }
 
@@ -29,7 +29,7 @@ function get($table_name_or_params,$params = null){
  * @param $data
  * @return array The database results
  */
-function save($table_name_or_params,$params = null)
+function db_save($table_name_or_params,$params = null)
 {
     return  mw()->database->save($table_name_or_params,$params);
 }

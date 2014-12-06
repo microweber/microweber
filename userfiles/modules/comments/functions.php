@@ -1,6 +1,6 @@
 <?php
 if (!defined("MODULE_DB_COMMENTS")) {
-    define('MODULE_DB_COMMENTS', get_table_prefix() . 'comments');
+    define('MODULE_DB_COMMENTS','comments');
 }
 //
 //mw()->content->comments=(function(){
@@ -217,8 +217,8 @@ function mark_comments_as_old($data)
 
                 $upd['id'] = $get_com['id'];
                 $upd['rel_type'] = 'content';
-                $upd['rel_id'] = mw()->db->escape_string($data['content_id']);
-                mw()->db->save($table, $upd);
+                $upd['rel_id'] = mw()->database_manager->escape_string($data['content_id']);
+                mw()->database_manager->save($table, $upd);
             }
         }
         return $get_comm;
@@ -278,7 +278,7 @@ function post_comment($data)
                     break;
 
                 case 'delete' :
-                    $del = mw()->db->delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
+                    $del = mw()->database_manager->delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
                     return array('success' => 'Deleted comment with id:' . $id);
                     return $del;
                     break;
@@ -358,7 +358,7 @@ function post_comment($data)
         $data['from_url'] = mw()->format->clean_xss($data['from_url']);
     }
 
-    $saved_data = mw()->db->save($table, $data);
+    $saved_data = mw()->database_manager->save($table, $data);
 
 
     if (!isset($data['id']) and isset($data['comment_body'])) {
@@ -410,7 +410,7 @@ function get_comments($params)
     }
     if (isset($params['content_id'])) {
         $params['rel_type'] = 'content';
-        $params['rel_id'] = mw()->db->escape_string($params['content_id']);
+        $params['rel_id'] = mw()->database_manager->escape_string($params['content_id']);
 
     }
 
@@ -432,7 +432,7 @@ function get_comments($params)
     }
 */
 
-    $comments = get($params);
+    $comments = db_get($params);
    // print_r(mw()->orm->getLastQuery());
     $date_format = get_option('date_format', 'website');
     if ($date_format == false) {

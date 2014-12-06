@@ -1,7 +1,7 @@
 <?php
 
 if (!defined("MODULE_DB_USERS_ONLINE")) {
-    define('MODULE_DB_USERS_ONLINE', get_table_prefix() . 'stats_users_online');
+    define('MODULE_DB_USERS_ONLINE',  'stats_users_online');
 }
 
 event_bind('mw.admin.dashboard.content', 'mw_print_stats_on_dashboard');
@@ -112,7 +112,7 @@ function stats_image()
 
 function stats_insert()
 {
-
+	return;
     if (!isset($_SERVER['HTTP_USER_AGENT']) or stristr($_SERVER['HTTP_USER_AGENT'], 'bot')) {
 
         return;
@@ -146,7 +146,7 @@ function stats_insert()
         $data['visit_time'] = date("H:i:s");
 
         $table = MODULE_DB_USERS_ONLINE;
-        $check = get("table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+        $check = db_get("table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
         if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
             $data['id'] = $check['id'];
             $vc = 0;
@@ -229,7 +229,7 @@ function stats_insert_cookie_based()
         $data['visit_time'] = date("H:i:s", strtotime("now"));
 
         $table = MODULE_DB_USERS_ONLINE;
-        $check = get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
+        $check = db_get("no_cache=1&table={$table}&user_ip={$uip}&one=1&limit=1&visit_date=" . $data['visit_date']);
         if ($check != false and is_array($check) and !empty($check) and isset($check['id'])) {
             $data['id'] = $check['id'];
             $vc = 0;
