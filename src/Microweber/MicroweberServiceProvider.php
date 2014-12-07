@@ -51,10 +51,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function register()
     {
-
-        $this->app->bind('config', function ($app) {
-            return new Providers\SaveConfig($app);
-        });
+        $this->app->bind('config', function ($app) { return new Providers\SaveConfig([]); });
 
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);
@@ -159,6 +156,8 @@ class MicroweberServiceProvider extends ServiceProvider
     {
         parent::boot();
 
+        $this->registerRoutes();
+
         Cache::extend('fcache', function ($app) {
             $store = new \Artdevue\Fcache\Fcache;
             return new Repository($store);
@@ -166,24 +165,35 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $is_installed = mw_is_installed();
 
-        if (!$is_installed) {
-            return;
+        if ($is_installed)
+        {
+            
+            $modules = load_all_functions_files_for_modules();
+
+            /*
+            Event::listen('silluminate.query', function ($sql, $bindings, $time) {
+                echo $sql; // select * from my_table where id=?
+                print_r($bindings); // Array ( [0] => 4 )
+                echo $time; // 0.58
+
+                // To get the full sql query with bindings inserted
+                $sql = str_replace(array('%', '?'), array('%%', '%s'), $sql);
+                $full_sql = vsprintf($sql, $bindings);
+            });
+            */
         }
-        $modules = load_all_functions_files_for_modules();
-
-        Event::listen('silluminate.query', function ($sql, $bindings, $time) {
-            echo $sql; // select * from my_table where id=?
-            print_r($bindings); // Array ( [0] => 4 )
-            echo $time; // 0.58
-
-            // To get the full sql query with bindings inserted
-            $sql = str_replace(array('%', '?'), array('%%', '%s'), $sql);
-            $full_sql = vsprintf($sql, $bindings);
-        });
-
     }
 
-
+    private function registerRoutes()
+    {
+        $routesFile = __DIR__ . '/routes.php';
+        if(file_exists($routesFile))
+        {
+            include $routesFile;
+            return true;
+        }
+        return false;
+    }
 
 
 
