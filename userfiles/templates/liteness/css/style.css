@@ -1377,6 +1377,7 @@ label.mw-price{
   margin: 20px auto 0;
   width: 33px;
   color: #222;
+  text-shadow: 1px 1px 0 #fff;
 }
 
 @media all and (-webkit-min-device-pixel-ratio:0) {

@@ -2,7 +2,7 @@
   background: transparent;
 }
 .module-navigation-default li a.active,
-.module-navigation-default li a:hover, .module-navigation-default li:hover a,
+.module-navigation-default li a:hover, .module-navigation-default li:hover > a,
 .module-navigation-default li a:hover,
 .module-navigation-default li a:focus{
   background-color: #555566
