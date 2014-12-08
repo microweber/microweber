@@ -93,7 +93,6 @@ class ViewServiceProvider extends ServiceProvider {
 		$this->app->bind('view.finder', function($app)
 		{
 			$paths = $app['config']['view.paths'];
-			
 			return new FileViewFinder($app['files'], $paths);
 		});
 	}

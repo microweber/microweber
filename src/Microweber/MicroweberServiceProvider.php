@@ -36,7 +36,6 @@ if (!defined('MW_VERSION')) {
 class MicroweberServiceProvider extends ServiceProvider
 {
 
-
     public function __construct($app)
     {
 
@@ -51,7 +50,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->bind('config', function ($app) { return new Providers\SaveConfig([]); });
+        $this->app->instance('config', new Providers\SaveConfig($this->app));
 
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);
