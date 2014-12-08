@@ -1441,7 +1441,8 @@ a:hover .mw_ed_tree_content{
 
 
 #custom-fields-post-table .mw-ui-field{
-  width: 80%;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 #custom-fields-post-table .mw-icon-gear{ font-size: 20px;}

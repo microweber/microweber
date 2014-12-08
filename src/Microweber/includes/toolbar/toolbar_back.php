@@ -1,15 +1,34 @@
+<link href="<?php print( MW_INCLUDES_URL);  ?>css/components.css" rel="stylesheet" type="text/css" />
+
+<?php
+
+
+  $content = get_content_by_id(CONTENT_ID);
+
+  if(isset($content['is_deleted']) and $content['is_deleted'] == 'y'){   ?>
+
+  <script>
+  $(window).bind('load', function(){
+      var tip = mw.tooltip({
+          content: '<strong>"<?php print $content['title']; ?>"</strong> is deleted. It\'s only visible to admin users.',
+          element: document.querySelector('#mw_toolbar_back_to_live_edit'),
+          position:'bottom-center'
+      });
+  });
+
+  </script>
+
+<?php  }    ?>
 
 
 
- 
 
-<link href="<?php   print( MW_INCLUDES_URL);  ?>css/components.css" rel="stylesheet" type="text/css" />
 
-  <a href="<?php
+<a href="<?php
   if(defined('CONTENT_ID') and CONTENT_ID != 0){
-	  $u  = mw('content')->link(CONTENT_ID);
+	  $u = mw('content')->link(CONTENT_ID);
   } else {
-	  $u  =mw('url')->current(1,1);
+	  $u = mw('url')->current(1, 1);
   }
  print $u ?>?editmode:y"  class="mw-ui-btn mw-ui-btn-invert" id="mw_toolbar_back_to_live_edit"><span class="mw-icon-live"></span><?php _e("Back to Live Edit"); ?></a>
 

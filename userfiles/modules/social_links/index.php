@@ -16,10 +16,10 @@
 
 ?>
 
-
+<script>mw.moduleCSS('<?php print module_url(); ?>style.css');</script>
 <div class="mw-social-links">
 
-<script>mw.moduleCSS('<?php print module_url(); ?>style.css');</script>
+
 
 <?php  if($facebook_enabled){ ?>
 

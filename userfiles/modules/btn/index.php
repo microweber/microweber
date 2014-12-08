@@ -19,7 +19,8 @@
 ?>
 <?php if($action=='url' or $action==''){ ?>
 
-<a href="<?php print $url; ?>" <?php if($blank=='y'){print ' target="_blank" ';} ?> class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
+    <a href="<?php print $url; ?>" <?php if($blank=='y'){print ' target="_blank" ';} ?> class="btn <?php print $style. ' '. $size; ?>"><?php print $text; ?></a>
+
 <?php } else if($action=='popup') { ?>
 <?php
 
