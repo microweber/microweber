@@ -18,7 +18,6 @@ use Illuminate\Filesystem\Filesystem;
 
 use Illuminate\Http\Request;
 use Illuminate\Config\FileLoader;
-use Artdevue\Fcache\Fcache;
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Event;
@@ -156,11 +155,6 @@ class MicroweberServiceProvider extends ServiceProvider
         parent::boot();
 
         $this->registerRoutes();
-
-        Cache::extend('fcache', function ($app) {
-            $store = new \Artdevue\Fcache\Fcache;
-            return new Repository($store);
-        });
 
         $is_installed = mw_is_installed();
 

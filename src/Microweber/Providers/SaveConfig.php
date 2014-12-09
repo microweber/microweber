@@ -36,13 +36,23 @@ class SaveConfig extends BaseConfig
 
     public function save()
     {
-        foreach ($this->items as $collection => $items) {
-            $configFiles = Finder::create()->files()->name($collection.'.php')->in($this->app->configPath());
-            foreach($configFiles as $configFile)
-            {
-                //File::put($configFile->getRealpath(), var_export($items, true));
-            }
-            //dd($items, $env, $group, $namespace);
+        // Aggregating files array from changed keys
+        $aggr = array();
+        foreach ($this->changed_keys as $key => $value) {
+            array_set($aggr, $key, $value);
+        }
+
+        // Preparing data
+        foreach ($aggr as $file => $items) {
+            $path = $this->app->configPath() .'/'. $this->app->environment() .'/';
+            if(!file_exists($path))
+                File::makeDirectory($path);
+            $path.= $file .'.php';
+
+            $code = '<?php return '. var_export($this->items[$file], true) .';';
+
+            // Storing data
+            File::put($path, $code);
         }
     }
 

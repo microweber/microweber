@@ -2,14 +2,9 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews
     </IfModule>
-
     RewriteEngine On
-
-    # Redirect Trailing Slashes...
-    RewriteRule ^(.*)/$ /$1 [L,R=301]
-
-    # Handle Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    	# RewriteRule ^(.*)/$ \/$1 [R=301,L]
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteRule ^(.*)$ index.php [NC,L]
 </IfModule>

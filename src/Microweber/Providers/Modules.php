@@ -317,8 +317,7 @@ class Modules
                                 $config['installed'] = 'auto';
                                 $this->save($config);
 
-                                // Inj point
-                              //  dd(__FILE__ . __LINE__);
+                                dd('MOD'.__FILE__ . __LINE__);
 
 
                             }
