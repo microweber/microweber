@@ -6,52 +6,16 @@ use Illuminate\Cache\StoreInterface,
 
 class CacheTags implements StoreInterface
 {
-
-    /**
-     * The Illuminate Filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
-     */
     protected $files;
-
-    /**
-     * A string that should be prepended to keys.
-     *
-     * @var string
-     */
     protected $prefix;
-
-    /**
-     * A string tags.
-     *
-     * @var string
-     */
     protected $tags;
-
-    /**
-     * The file cache directory
-     *
-     * @var string
-     */
     protected $directory;
-
-    /**
-     * The file cache directory for Tags
-     *
-     * @var string
-     */
     protected $directoryTags;
 
     public $memory = array();
     public $deleted_tags = array();
 
 
-    /**
-     * Create a new Dummy cache store.
-     *
-     * @param  string $prefix
-     * @return void
-     */
     public function __construct($prefix = '')
     {
         $this->files = new Filesystem;

@@ -49,7 +49,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->instance('config', new Providers\SaveConfig($this->app));
+        $this->app->instance('config', new Providers\ConfigSave($this->app));
 
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);
@@ -160,11 +160,11 @@ class MicroweberServiceProvider extends ServiceProvider
 
         if ($is_installed)
         {
-            
+            $this->app->bind('cache', new Providers\CacheTags());
             $modules = load_all_functions_files_for_modules();
 
             /*
-            Event::listen('silluminate.query', function ($sql, $bindings, $time) {
+            Event::listen('illuminate.query', function ($sql, $bindings, $time) {
                 echo $sql; // select * from my_table where id=?
                 print_r($bindings); // Array ( [0] => 4 )
                 echo $time; // 0.58

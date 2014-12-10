@@ -1,12 +1,10 @@
 <?php
 namespace Microweber\Providers;
 
-use Illuminate\Config\Repository as BaseConfig;
-use Symfony\Component\Finder\Finder;
-
+use Illuminate\Config\Repository;
 use \File;
 
-class SaveConfig extends BaseConfig
+class ConfigSave extends Repository
 {
     protected $beforeSave = [];
     protected $changed_keys = array();
