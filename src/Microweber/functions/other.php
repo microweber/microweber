@@ -9,12 +9,6 @@
  */
 
 
-
-
-
-
-
-
 api_expose('reorder_modules');
 
 function reorder_modules($data)
@@ -46,7 +40,7 @@ if (!defined('EMPTY_MOD_STR')) {
  * @category    modules api
  */
 
-function module_templates($module_name, $template_name = false,$is_settings=false)
+function module_templates($module_name, $template_name = false, $is_settings = false)
 {
     return mw()->modules->templates($module_name, $template_name, $is_settings);
 
@@ -66,7 +60,6 @@ function site_templates($options = false)
 
     return mw()->template->site_templates($options);
 }
-
 
 
 function module($params)
@@ -120,8 +113,6 @@ function module($params)
 
     return $res;
 }
-
-
 
 
 function is_module($module_name)
@@ -247,46 +238,39 @@ function save_module_as_template($data_to_save)
  * @return mixed Array with modules or false
  * @param array $params
  *
-
-Example:
-$params = array();
-$params['dir_name'] = '/path/'; //get modules in dir
-$params['skip_save'] = true; //if true skips module install
-$params['skip_cache'] = true; // skip_cache
-
-$params['cache_group'] = 'modules/global'; // allows custom cache group
-$params['cleanup_db'] = true; //if true will reinstall all modules if skip_save is false
-$params['is_elements'] = true;  //if true will list files from the MW_ELEMENTS_DIR
-
-$data = scan_for_modules($params);
+ *
+ * Example:
+ * $params = array();
+ * $params['dir_name'] = '/path/'; //get modules in dir
+ * $params['skip_save'] = true; //if true skips module install
+ * $params['skip_cache'] = true; // skip_cache
+ *
+ * $params['cache_group'] = 'modules/global'; // allows custom cache group
+ * $params['cleanup_db'] = true; //if true will reinstall all modules if skip_save is false
+ * $params['is_elements'] = true;  //if true will list files from the MW_ELEMENTS_DIR
+ *
+ * $data = scan_for_modules($params);
 
  */
 
 
-//event_bind('mw_scan_for_modules', 'scan_for_modules');
 function scan_for_modules($options = false)
 {
     return mw()->modules->scan_for_modules($options);
 
 }
 
-//event_bind('mw_scan_for_modules', 'get_elements');
 
-function get_elements($options = array())
+function scan_for_elements($options = array())
 {
-    return mw()->modules->get_layouts($options);
-
-
+    return mw()->modules->scan_for_elements($options);
 }
+
 function have_license($module_name = false)
 {
-    return  mw()->modules->license($module_name);
+    return mw()->modules->license($module_name);
 }
 
-function load_module_lic($module_name = false)
-{
-    return have_license($module_name);
-}
 
 
 function load_module($module_name, $attrs = array())
@@ -443,7 +427,7 @@ function mw_post_update()
 {
     $a = is_admin();
     if ($a != false) {
-      return  mw()->update->post_update();
+        return mw()->update->post_update();
     }
 }
 
@@ -453,9 +437,10 @@ function mw_install_market_item($params)
 {
     $a = is_admin();
     if ($a != false) {
-        return  mw('update')->install_market_item($params);
+        return mw('update')->install_market_item($params);
     }
 }
+
 api_expose('mw_apply_updates');
 
 function mw_apply_updates($params)
@@ -465,6 +450,7 @@ function mw_apply_updates($params)
     return $update_api->apply_updates($params);
 
 }
+
 api_expose('mw_save_license');
 
 function mw_save_license($params)
@@ -484,6 +470,7 @@ function mw_validate_licenses($params)
     return $update_api->validate_license($params);
 
 }
+
 function mw_updates_count()
 {
     $count = 0;
@@ -513,8 +500,6 @@ function mw_check_for_update()
     return $mw_avail_updates;
 
 }
-
-
 
 
 //api_expose('mw_send_anonymous_server_data');
@@ -564,10 +549,6 @@ function array_trim($Input)
         return trim($Input);
     return array_map('array_trim', $Input);
 }
-
-
-
-
 
 
 /**
@@ -651,14 +632,6 @@ function strleft($s1, $s2)
 }
 
 
-
-
-
-
-
-
-
-
 $ex_fields_static = array();
 $_mw_real_table_names = array();
 $_mw_assoc_table_names = array();
@@ -726,6 +699,7 @@ function html_cleanup($s, $tags = false)
     }
     return $s;
 }
+
 function in_live_edit()
 {
 
@@ -830,7 +804,7 @@ function get_all_functions_files_for_modules($options = false)
 {
 
 
-    if (!defined("mw_is_installed()") or mw_is_installed() == false) {
+    if (mw_is_installed() == false) {
         return false;
     }
 
@@ -865,9 +839,9 @@ function get_all_functions_files_for_modules($options = false)
     if (is_array($installed) and !empty($installed)) {
         $configs = array();
         foreach ($installed as $module) {
-            if(isset($module['module'])){
+            if (isset($module['module'])) {
                 $file = normalize_path($dir_name . $module['module'] . DS . 'functions.php', false);
-                if(is_file($file)){
+                if (is_file($file)) {
                     $configs[] = $file;
                 }
             }
@@ -898,6 +872,7 @@ function template_name()
 
     return mw()->template->name();
 }
+
 function admin_head($script_src)
 {
     return mw()->template->admin_head($script_src);
@@ -931,8 +906,8 @@ function mw_logo_svg()
 
 function load_web_component_file($filename)
 {
-    $components_dir = mw_includes_path().'components'.DS;
-     $load_file = false;
+    $components_dir = mw_includes_path() . 'components' . DS;
+    $load_file = false;
     $file = normalize_path($components_dir . $filename, false);
     if (is_file($file)) {
         $load_file = $file;
@@ -971,7 +946,7 @@ function captcha()
 
 function mw_error($e, $f = false, $l = false)
 {
-$f = mw_includes_path() . 'error.php';
+    $f = mw_includes_path() . 'error.php';
 
     $v = new \Microweber\View($f);
     $v->e = $e;

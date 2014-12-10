@@ -6,12 +6,10 @@ namespace Microweber\Utils;
 use Microweber\Providers\Modules;
 
 $parser_cache_object = false; //global cache storage
-$mw_replaced_modules = array();
-$mw_replaced_edit_fields_vals = array();
+ $mw_replaced_edit_fields_vals = array();
 $mw_replaced_edit_fields_vals_inner = array();
 
-$mw_replaced_modules_values = array();
-$mw_parser_nest_counter_level = 0;
+ $mw_parser_nest_counter_level = 0;
 
 class Parser
 {
@@ -19,6 +17,10 @@ class Parser
     public $page = array();
     public $params = array();
 
+
+    private $mw_replaced_modules = array();
+    private $mw_replaced_modules_values = array();
+    
     private $_mw_parser_passed_hashes = array();
     private $_mw_parser_passed_replaces = array();
     private $_replaced_modules_values = array();
@@ -62,8 +64,7 @@ class Parser
         }
 
 
-        global $mw_replaced_modules;
-        global $mw_replaced_modules_values;
+
 
         $layout = str_replace('<?', '&lt;?', $layout);
 
@@ -83,12 +84,13 @@ class Parser
                     $v1 = crc32($value);
                     $v1 = '<!-- mw_replace_back_this_module_' . $v1 . ' -->';
                     $layout = str_replace($value, $v1, $layout);
-                    if (!isset($mw_replaced_modules[$v1])) {
-                        $mw_replaced_modules[$v1] = $value;
+                    if (!isset($this->mw_replaced_modules[$v1])) {
+                        $this->mw_replaced_modules[$v1] = $value;
                     }
                 }
             }
         }
+
 
 
         if (!isset($options['parse_only_vars'])) {
@@ -160,8 +162,8 @@ class Parser
                         $v1 = crc32($value);
                         $v1 = '<!-- mw_replace_back_this_module_111' . $v1 . ' -->';
                         $layout = str_replace($value, $v1, $layout);
-                        if (!isset($mw_replaced_modules[$v1])) {
-                            $mw_replaced_modules[$v1] = $value;
+                        if (!isset($this->mw_replaced_modules[$v1])) {
+                            $this->mw_replaced_modules[$v1] = $value;
                         }
                     }
                 }
@@ -180,7 +182,7 @@ class Parser
             }
 
 
-            if (is_array($mw_replaced_modules)) {
+            if (is_array($this->mw_replaced_modules)) {
                 $attribute_pattern = '@
 			(?P<name>\w+)# attribute name
 			\s*=\s*
@@ -195,7 +197,7 @@ class Parser
                 $attribute_pattern = '@(?P<name>[a-z-_A-Z]+)\s*=\s*((?P<quote>[\"\'])(?P<value_quoted>.*?)(?P=quote)|(?P<value_unquoted>[^\s"\']+?)(?:\s+|$))@xsi';
 
                 $attrs = array();
-                foreach ($mw_replaced_modules as $key => $value) {
+                foreach ($this->mw_replaced_modules as $key => $value) {
                     if ($value != '') {
 
 
@@ -442,7 +444,7 @@ class Parser
                                         }
                                     }
                                 }
-                                unset($mw_replaced_modules[$key]);
+                                unset($this->mw_replaced_modules[$key]);
 
 
                                 if ($proceed_with_parse == true) {
@@ -455,7 +457,7 @@ class Parser
                                 }
 
 
-                                $mw_replaced_modules_values[$replace_key] = $module_html;
+                                $this->mw_replaced_modules_values[$replace_key] = $module_html;
                                 $layout = str_replace($value, $module_html, $layout);
                                 $layout = str_replace($replace_key, $module_html, $layout);
                             }
@@ -475,12 +477,12 @@ class Parser
                 unset($this->_replaced_codes[$key]);
             }
         }
-        if (!empty($mw_replaced_modules_values)) {
+        if (!empty($this->mw_replaced_modules_values)) {
 
 
             $reps_arr = array();
             $reps_arr2 = array();
-            foreach ($mw_replaced_modules_values as $key => $value) {
+            foreach ($this->mw_replaced_modules_values as $key => $value) {
                 if ($value != '') {
                     $reps_arr[] = $key;
                     $reps_arr2[] = $value;
@@ -508,7 +510,7 @@ class Parser
     {
 
         if ($layout != '') {
-            global $mw_replaced_modules;
+
             global $mw_replaced_edit_fields_vals;
             global $mw_parser_nest_counter_level;
             global $mw_replaced_edit_fields_vals_inner;

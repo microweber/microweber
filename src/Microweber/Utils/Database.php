@@ -842,6 +842,7 @@ class Database
     {
 
         $dbms_schema = $full_path_to_file;
+
         if (is_file($dbms_schema)) {
             $prefix = get_table_prefix();
             $sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem '.__FILE__.__LINE__);

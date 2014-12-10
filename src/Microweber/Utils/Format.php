@@ -217,6 +217,27 @@ class Format
 
     }
 
+
+    function clean_scripts($input)
+    {
+        if (is_array($input)) {
+            $output = array();
+            foreach ($input as $var => $val) {
+                $output[$var] = $this->clean_scripts($val);
+            }
+        } elseif (is_string($input)) {
+            $search = array(
+                '@<script[^>]*?>.*?</script>@si', // Strip out javascript
+
+                '@<![\s\S]*?--[ \t\n\r]*>@' // Strip multi-line comments
+            );
+            $output = preg_replace($search, '', $input);
+        } else {
+            return $input;
+        }
+        return $output;
+    }
+
     public function clean_html($var, $do_not_strip_tags = false)
     {
         if (is_array($var)) {

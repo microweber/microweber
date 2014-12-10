@@ -16,15 +16,15 @@ class Content
                 'edited_by' => 'integer',
 
 
-                'content_type' => 'longText',
-                'url' => 'longText',
-                'content_filename' => 'longText',
-                'title' => 'longText',
+                'content_type' => 'string',
+                'url' => 'text',
+                'content_filename' => 'string',
+                'title' => 'text',
                 'parent' => 'integer',
-                'description' => 'longText',
-                'content_meta_title' => 'longText',
+                'description' => 'text',
+                'content_meta_title' => 'text',
 
-                'content_meta_keywords' => 'longText',
+                'content_meta_keywords' => 'text',
                 'position' => 'integer',
 
                 'content' => 'longText',
@@ -39,21 +39,21 @@ class Content
 
                 'require_login' => "integer",
 
-                'status' => 'longText',
+                'status' => 'string',
 
-                'subtype' => 'longText',
-                'subtype_value' => 'longText',
-
-
-                'custom_type' => 'longText',
-                'custom_type_value' => 'longText',
+                'subtype' => 'string',
+                'subtype_value' => 'string',
 
 
-                'original_link' => 'longText',
-                'layout_file' => 'longText',
-                'layout_name' => 'longText',
-                'layout_style' => 'longText',
-                'active_site_template' => 'longText',
+                'custom_type' => 'string',
+                'custom_type_value' => 'string',
+
+
+                'original_link' => 'string',
+                'layout_file' => 'string',
+                'layout_name' => 'string',
+                'layout_style' => 'string',
+                'active_site_template' => 'string',
                 'session_id' => 'string',
                 'posted_on' => 'dateTime',
 
@@ -66,7 +66,7 @@ class Content
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'content_id' => 'string',
-                'field_name' => 'longText',
+                'field_name' => 'text',
                 'field_value' => 'longText',
                 'session_id' => 'string',
                 'rel_type' => 'string',
@@ -82,7 +82,7 @@ class Content
                 'rel_type' => 'string',
 
                 'rel_id' => 'string',
-                'field' => 'longText',
+                'field' => 'text',
                 'value' => 'longText',
 
                 '$index' => ['rel_type', 'rel_id']
@@ -96,7 +96,7 @@ class Content
                 'rel_type' => 'string',
 
                 'rel_id' => 'string',
-                'field' => 'longText',
+                'field' => 'text',
                 'value' => 'longText',
 
                 'session_id' => 'string',
@@ -118,19 +118,20 @@ class Content
                 'media_type' => 'longText',
                 'position' => 'integer',
                 'title' => 'longText',
-                'description' => 'longText',
-                'embed_code' => 'longText',
-                'filename' => 'longText',
+                'description' => 'text',
+                'embed_code' => 'text',
+                'filename' => 'text',
 
                 '$index' => ['rel_type', 'rel_id', 'media_type']
             ],
 
             'custom_fields' => [
                 'rel_type' => 'string',
-                'rel_id' => 'string',
+                'rel_id' => 'text',
                 'position' => 'integer',
                 'type' => 'string',
-                'name' => 'longText',
+                'name' => 'text',
+                'name_key' => 'text',
 
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
@@ -161,7 +162,7 @@ class Content
             ],
 
             'menus' => [
-                'title' => 'longText',
+                'title' => 'text',
                 'item_type' => 'string',
                 'parent_id' => 'integer',
                 'content_id' => 'integer',
@@ -170,7 +171,7 @@ class Content
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
                 'is_active' => "integer",
-                'description' => 'longText',
+                'description' => 'text',
                 'url' => 'longText',
             ],
 
@@ -180,11 +181,10 @@ class Content
                 'created_by' => 'integer',
                 'edited_by' => 'integer',
                 'data_type' => 'string',
-                'title' => 'longText',
+                'title' => 'text',
                 'parent_id' => 'integer',
-                'description' => 'longText',
+                'description' => 'text',
                 'content' => 'longText',
-                'content_type' => 'string',
                 'rel_type' => 'string',
 
                 'rel_id' => 'integer',
@@ -206,8 +206,7 @@ class Content
                 'rel_type' => 'string',
 
                 'rel_id' => 'integer',
-                'content_type' => 'string',
-                'data_type' => 'string',
+
 
                 '$index' => ['rel_id', 'parent_id']
             ]

@@ -146,7 +146,7 @@ class ModuleController extends Controller
                 $content_id = $this->app->url_manager->param('editpost', false, $from_url2);
             }
             if ($content_id == false) {
-                $content_id = $this->app->url_manager->param('content-id', false, $from_url2);
+                $content_id = $this->app->url_manager->param('mw-adm-content-id', false, $from_url2);
             }
             if ($content_id == false) {
                 $action_test = $this->app->url_manager->param('action', false, $from_url2);

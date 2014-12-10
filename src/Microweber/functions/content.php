@@ -84,7 +84,7 @@ function category_id()
  */
 
 
-api_expose_admin('get_content');
+
 function get_content($params = false)
 {
 
@@ -92,7 +92,7 @@ function get_content($params = false)
 }
 
 
-api_expose('get_content_admin');
+
 /**
  * Same as get_content(), just it checks if the user is admin
  * @see get_content
@@ -135,7 +135,7 @@ function get_content_admin($params)
  * </code>
  *
  */
-api_expose_admin('get_posts');
+
 function get_posts($params = false)
 {
     return mw()->content_manager->get_posts($params);
@@ -152,13 +152,13 @@ function get_posts($params = false)
  * @link http://microweber.com/docs/functions/get_pages
  *
  */
-api_expose_admin('get_pages');
+
 function get_pages($params = false)
 {
     return mw()->content_manager->get_pages($params);
 }
 
-api_expose_admin('get_products');
+
 function get_products($params = false)
 {
     return mw()->content_manager->get_products($params);
@@ -178,7 +178,6 @@ function get_products($params = false)
  * @param int|bool $params Optional
  * @return array The database results
  */
-api_expose_admin('get_content_by_id');
 function get_content_by_id($params = false)
 {
     return mw()->content_manager->get_by_id($params);
@@ -198,14 +197,14 @@ function get_content_by_id($params = false)
  * @param bool|int $id the id of the content
  * @return string The content URL
  */
-api_expose('content_link');
+
 function content_link($id = false)
 {
 
     return mw()->content_manager->link($id);
 }
 
-api_expose_admin('content_title');
+
 function content_title($id = false)
 {
 
@@ -222,8 +221,7 @@ function content_title($id = false)
  * @param $data The content to delete
  * @return array|string
  */
-api_expose('delete_content');
-api_bind('content/delete', 'delete_content');
+
 function delete_content($data)
 {
     return mw()->content_manager->delete($data);
@@ -257,32 +255,32 @@ function paging($params)
  * @param bool $without_main_parent If true, it will exclude the $id from the results
  * @return array The parent content items
  */
-api_expose_admin('content_parents');
+
 function content_parents($id = 0, $without_main_parent = false)
 {
     return mw()->content_manager->get_parents($id, $without_main_parent);
 }
 
 
-api_expose_admin('get_content_children');
+
 function get_content_children($id = 0, $without_main_parent = false)
 {
     return mw()->content_manager->get_children($id, $without_main_parent);
 }
 
-api_expose_admin('page_link');
+
 function page_link($id = false)
 {
     return mw()->content_manager->link($id);
 }
 
-api_expose_admin('post_link');
+
 function post_link($id = false)
 {
     return mw()->content_manager->link($id);
 }
 
-api_expose_admin('pages_tree');
+
 function pages_tree($params = false)
 {
 
@@ -290,7 +288,6 @@ function pages_tree($params = false)
 }
 
 
-api_expose('save_edit');
 function save_edit($post_data)
 {
     return mw()->content_manager->save_edit($post_data);
@@ -307,13 +304,13 @@ function save_edit($post_data)
  * @version 1.0
  * @since Version 0.1
  */
-api_expose_admin('save_content');
+
 function save_content($data, $delete_the_cache = true)
 {
     return mw()->content_manager->save_content($data, $delete_the_cache);
 }
 
-api_expose('save_content_admin');
+
 
 function save_content_admin($data, $delete_the_cache = true)
 {
@@ -328,7 +325,7 @@ function save_content_field($data, $delete_the_cache = true)
 
 }
 
-api_expose('get_content_field_draft');
+
 function get_content_field_draft($data)
 {
     return mw()->content_manager->edit_field_draft($data);
@@ -368,14 +365,6 @@ function breadcrumb($params = false)
 }
 
 
-api_bind('content/set_published', function ($data) {
-    return mw()->content_manager->set_published($data);
-});
-
-
-api_bind('content/set_unpublished', function ($data) {
-    return mw()->content_manager->set_unpublished($data);
-});
 
 
 

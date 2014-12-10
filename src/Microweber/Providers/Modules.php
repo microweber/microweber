@@ -40,7 +40,7 @@ class Modules
     public function install()
     {
         $this->_install_mode = true;
-        $this->db_init();
+
         $this->scan();
 
         $this->_install_mode = false;
@@ -48,13 +48,6 @@ class Modules
 
     }
 
-    public function db_init()
-    {
-
-
-        return true;
-
-    }
 
 
     public function info($module_name)
@@ -111,12 +104,10 @@ class Modules
                         if ($s["id"] > 0) {
                             //$delid = $s["id"];
                             //DB::table($table)->where('id', '!=', $delid)->delete();
-
                             // $del = "DELETE FROM {$table} WHERE module='{$mname_clen}' AND id!={$delid} ";
                             //mw()->database->q($del);
                         }
                     } else {
-
                         $save = mw()->database->save($table, $s);
                     }
                 }
@@ -182,6 +173,10 @@ class Modules
         if (!isset($tables['system_licenses'])) {
             $tables['system_licenses'] = 'system_licenses';
         }
+        if (!isset($tables['options'])) {
+            $tables['options'] = 'options';
+        }
+        $this->tables['options'] = $tables['options'];
         $this->tables['modules'] = $tables['modules'];
         $this->tables['elements'] = $tables['elements'];
         $this->tables['module_templates'] = $tables['module_templates'];
@@ -191,187 +186,8 @@ class Modules
 
     public function scan($options = false)
     {
+        return $this->scan_for_modules($options);
 
-        $params = $options;
-
-        if (isset($options['glob'])) {
-            $glob_patern = $options['glob'];
-        } else {
-            $glob_patern = '*config.php';
-        }
-
-
-        if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
-            define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
-        }
-
-
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-            ini_set("memory_limit", "160M");
-            ini_set("set_time_limit", 0);
-        }
-        if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
-            set_time_limit(600);
-        }
-        if (isset($options['path'])) {
-            $dir_name = $options['glob'];
-        } else {
-            $dir_name = modules_path();
-        }
-        $skip_save = false;
-        if (isset($options['skip_save'])) {
-            $skip_save = $options['skip_save'];
-        }
-        if (isset($options['is_elements']) and $options['is_elements'] != false) {
-            $list_as_element = true;
-
-        } else {
-            $list_as_element = false;
-        }
-
-        $modules_remove_old = false;
-        $dir = rglob($glob_patern, 0, $dir_name);
-
-        if (!empty($dir)) {
-            $configs = array();
-
-            foreach ($dir as $key => $value) {
-                $skip_module = false;
-                if (isset($options['skip_admin']) and $options['skip_admin'] == true) {
-                    if (strstr($value, 'admin')) {
-                        $skip_module = true;
-                    }
-                }
-
-                if ($skip_module == false) {
-
-                    $config = array();
-                    $value = normalize_path($value, false);
-
-                    $moduleDir = $mod_name = str_replace('_config.php', '', $value);
-                    $moduleDir = $mod_name = str_replace('config.php', '', $moduleDir);
-                    $moduleDir = $mod_name = str_replace('index.php', '', $moduleDir);
-
-
-                    $moduleDir = $mod_name_dir = str_replace($dir_name, '', $moduleDir);
-                    $moduleDir = $mod_name_dir = str_replace($dir_name, '', $moduleDir);
-
-
-                    $def_icon = modules_path() . 'default.png';
-
-                    ob_start();
-
-
-                    $is_mw_ignore = dirname($value) . DS . '.mwignore';
-                    if (!is_file($is_mw_ignore)) {
-                        include($value);
-                    }
-
-                    $content = ob_get_contents();
-                    ob_end_clean();
-                    $moduleDir = str_replace(modules_path(), '', $moduleDir);
-
-
-                    $replace_root = modules_path();
-
-
-                    $moduleDir = rtrim($moduleDir, '\\');
-                    $moduleDir = rtrim($moduleDir, '/');
-                    $moduleDir = str_replace('\\', '/', $moduleDir);
-                    $moduleDir = str_replace(modules_path(), '', $moduleDir);
-
-
-                    $config['module'] = $moduleDir;
-                    $config['module'] = rtrim($config['module'], '\\');
-                    $config['module'] = rtrim($config['module'], '/');
-
-                    $config['module_base'] = str_replace('admin/', '', $moduleDir);
-                    if (is_dir($mod_name)) {
-                        $bname = basename($mod_name);
-                        $t1 = modules_path() . $config['module'] . DS . $bname;
-
-                        $try_icon = $t1 . '.png';
-
-                    } else {
-                        $try_icon = $mod_name . '.png';
-                    }
-
-                    $try_icon = normalize_path($try_icon, false);
-
-                    if (is_file($try_icon)) {
-
-                        $config['icon'] = ($try_icon);
-                    } else {
-                        $config['icon'] = ($def_icon);
-                    }
-
-                    $configs[] = $config;
-
-                    if (isset($config['name']) and $skip_save !== true and $skip_module == false) {
-                        if (trim($config['module']) != '') {
-
-                            if ($list_as_element == true) {
-
-                                $this->app->layouts_manager->save($config);
-                            } else {
-                                $config['installed'] = 'auto';
-                                $this->save($config);
-
-                                dd('MOD'.__FILE__ . __LINE__);
-
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-            if ($skip_save == true) {
-                return $configs;
-            }
-
-            $cfg_ordered = array();
-            $cfg_ordered2 = array();
-            $cfg = $configs;
-            foreach ($cfg as $k => $item) {
-                if (isset($item['position'])) {
-                    $cfg_ordered2[$item['position']][] = $item;
-                    unset($cfg[$k]);
-                }
-            }
-            ksort($cfg_ordered2);
-            foreach ($cfg_ordered2 as $k => $item) {
-                foreach ($item as $ite) {
-                    $cfg_ordered[] = $ite;
-                }
-            }
-
-            if ($modules_remove_old == true) {
-
-                $table = MW_DB_TABLE_OPTIONS;
-                $uninstall_lock = $this->get('ui=any');
-                if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
-                    foreach ($uninstall_lock as $value) {
-                        $ism = $this->exists($value['module']);
-                        if ($ism == false) {
-                            $this->delete_module($value['id']);
-                            $mn = $value['module'];
-                            $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
-
-                            mw()->database->q($q);
-                        }
-
-                    }
-                }
-            }
-
-
-            $c2 = array_merge($cfg_ordered, $cfg);
-
-
-            return $c2;
-        }
     }
 
 
@@ -434,8 +250,6 @@ class Modules
 
         }
         $this->set_table_names();
-        $this->db_init();
-
 
     }
 
@@ -525,14 +339,12 @@ class Modules
 
             $module_in_default_dir = modules_path() . $module_name . '';
             $module_in_default_dir = normalize_path($module_in_default_dir, 1);
-            // d($module_in_default_dir);
             $module_in_default_file = modules_path() . $module_name . '.php';
             $module_in_default_file_custom_view = modules_path() . $module_name . '_' . $custom_view . '.php';
 
             $element_in_default_file = elements_path() . $module_name . '.php';
             $element_in_default_file = normalize_path($element_in_default_file, false);
 
-            //
 
 
             $module_in_default_file = normalize_path($module_in_default_file, false);
@@ -567,7 +379,7 @@ class Modules
 
             }
         }
-        //
+
 
         if (isset($try_file1) != false and $try_file1 != false and is_file($try_file1)) {
 
@@ -1361,7 +1173,7 @@ class Modules
         return $save;
     }
 
-    public function get_layouts($options = array())
+    public function scan_for_elements($options = array())
     {
 
         if (is_string($options)) {
@@ -1440,7 +1252,7 @@ class Modules
 
     public function scan_for_modules($options = false)
     {
-return $this->scan($options);
+
         $params = $options;
         if (is_string($params)) {
             $params = parse_str($params, $params2);
@@ -1480,7 +1292,7 @@ return $this->scan($options);
         }
 
         if (isset($options['cache_group'])) {
-            $cache_group = $cache_group;
+            $cache_group = $options['cache_group'];
         }
 
         if (isset($options['reload_modules']) == true) {
@@ -1569,7 +1381,13 @@ return $this->scan($options);
 
                     $content = ob_get_contents();
                     ob_end_clean();
-                    $moduleDir = str_replace(modules_path(), '', $moduleDir);
+                    if ($list_as_element == true) {
+                        $moduleDir = str_replace(elements_path(), '', $moduleDir);
+                    } else {
+                        $moduleDir = str_replace(modules_path(), '', $moduleDir);
+                    }
+
+
 
 
                     $replace_root = MW_ROOTPATH . DS . 'userfiles' . DS . 'modules' . DS;
@@ -1611,6 +1429,7 @@ return $this->scan($options);
                     }
 
                     $configs[] = $config;
+
 
                     if (isset($config['name']) and $skip_save !== true and $skip_module == false) {
                         if (trim($config['module']) != '') {
@@ -1657,10 +1476,9 @@ return $this->scan($options);
                     $cfg_ordered[] = $ite;
                 }
             }
+             if ($modules_remove_old == true) {
 
-            if ($modules_remove_old == true) {
-
-                $table = MW_DB_TABLE_OPTIONS;
+                $table = 'options';
                 $uninstall_lock = $this->get('ui=any');
                 if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
                     foreach ($uninstall_lock as $value) {
@@ -1668,9 +1486,9 @@ return $this->scan($options);
                         if ($ism == false) {
                             $this->delete_module($value['id']);
                             $mn = $value['module'];
-                            $q = "DELETE FROM $table WHERE option_group='{$mn}'  ";
+                            $table_options = $this->tables['options'];
+                            $this->app->database->delete_by_id($table_options,$mn,'option_group');
 
-                            $this->app->database->q($q);
                         }
 
                     }
@@ -1719,11 +1537,13 @@ return $this->scan($options);
         $id = intval($id);
 
         $table = $this->tables['modules'];
+
+
         $db_categories = $this->table_prefix . 'categories';
         $db_categories_items = $this->table_prefix . 'categories_items';
 
-        $q = "DELETE FROM $table WHERE id={$id}";
-        $this->app->database->q($q);
+        $this->app->database->delete_by_id($table,$id);
+
 
         $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND data_type='category_item' AND rel_id={$id}";
         $this->app->database->q($q);

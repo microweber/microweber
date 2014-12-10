@@ -42,6 +42,7 @@ class MicroweberServiceProvider extends ServiceProvider
             __DIR__,
         ));
         ClassLoader::register();
+        spl_autoload_register(array($this, 'autoloadModules'));
 
         parent::__construct($app);
     }
@@ -197,6 +198,15 @@ class MicroweberServiceProvider extends ServiceProvider
             return true;
         }
         return false;
+    }
+    
+    
+    function autoloadModules($className)
+    {
+        $filename = modules_path() . $className . ".php";
+        if (is_file($filename)) {
+            require $filename;
+        }
     }
 
 

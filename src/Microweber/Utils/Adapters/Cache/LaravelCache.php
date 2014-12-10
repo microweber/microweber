@@ -218,7 +218,7 @@ class LaravelCache
 
     public function clear()
     {
-        return Cache::flush();
+        return Cache::flush(true);
 
     }
 

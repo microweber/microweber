@@ -31,7 +31,6 @@ class UrlManager
     {
 
 
-
         $path = str_ireplace(MW_ROOTPATH, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
@@ -80,11 +79,12 @@ class UrlManager
             print '<meta http-equiv="refresh" content="0;url=' . $url . '">';
         } else {
 
-             return \Redirect::to($url);
-            header('Location: ' . $url);
-            return true;
+            return \Redirect::to($url);
+
+            return;
+
         }
-      // exit;
+
     }
 
     public function params($skip_ajax = false)
@@ -420,6 +420,7 @@ class UrlManager
         }
         return $site_url . $add_string;
     }
+
     /**
      * Returns ALL URL segments as array
      *

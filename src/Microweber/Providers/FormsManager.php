@@ -16,18 +16,17 @@ class FormsManager
         }
 
         if (!defined("MW_DB_TABLE_COUNTRIES")) {
-            define('MW_DB_TABLE_COUNTRIES', get_table_prefix() . 'countries');
+            define('MW_DB_TABLE_COUNTRIES', 'countries');
         }
         if (!defined("MW_DB_TABLE_FORMS_LISTS")) {
-            define('MW_DB_TABLE_FORMS_LISTS', get_table_prefix() . 'forms_lists');
+            define('MW_DB_TABLE_FORMS_LISTS', 'forms_lists');
         }
 
         if (!defined("MW_DB_TABLE_FORMS_DATA")) {
-            define('MW_DB_TABLE_FORMS_DATA', get_table_prefix() . 'forms_data');
-            $this->db_init();
+            define('MW_DB_TABLE_FORMS_DATA', 'forms_data');
+
         }
     }
-
 
 
     public function get_entires($params)
@@ -40,12 +39,16 @@ class FormsManager
         if (!isset($params["order_by"])) {
             $params["order_by"] = 'created_at desc';
         }
+        if (isset($params["keyword"])) {
+            $params['search_in_fields'] = array('id', 'created_on', 'created_by', 'rel_type', 'user_ip', 'module_name', 'form_values', 'url');
+        }
+
 
         $data = $this->app->database->get($params);
         $ret = array();
         if (is_array($data)) {
             foreach ($data as $item) {
-                $fields = $this->app->fields_manager->get('forms_data', $item['id'], 1);
+                $fields = @json_decode($item["form_values"], true);
 
                 if (is_array($fields)) {
                     ksort($fields);
@@ -185,63 +188,61 @@ class FormsManager
 
         $to_save = array();
         $fields_data = array();
-        $more = $this->app->fields_manager->get($for, $for_id, 1);
+
+
+        $get_fields = array();
+        $get_fields['rel_type'] = $for;
+        $get_fields['rel_id'] = $for_id;
+        $get_fields['return_full'] = true;
+
+
+        $more = $this->app->fields_manager->get($get_fields);
+
         $cf_to_save = array();
         if (!empty($more)) {
             foreach ($more as $item) {
-                if (isset($item['custom_field_name'])) {
-                    $cfn = ($item['custom_field_name']);
+                if (isset($item['name'])) {
+                    $cfn = ($item['name']);
 
                     $cfn2 = str_replace(' ', '_', $cfn);
 
 
                     if (isset($params[$cfn2]) and $params[$cfn2] != false) {
                         $fields_data[$cfn2] = $params[$cfn2];
-                        $item['custom_field_value'] = $item['value'] = $params[$cfn2];
+                        $item['value'] = $params[$cfn2];
                         $cf_to_save[$cfn] = $item;
                     } elseif (isset($params[$cfn]) and $params[$cfn] != false) {
                         $fields_data[$cfn] = $params[$cfn];
-                        $item['custom_field_value'] = $item['value'] = $params[$cfn2];
+                        $item['value'] = $params[$cfn2];
                         $cf_to_save[$cfn] = $item;
                     }
 
                 }
             }
         }
+
+
+
+
         $to_save['list_id'] = $list_id;
         $to_save['rel_id'] = $for_id;
         $to_save['rel_type'] = $for;
-        // $to_save['allow_html'] = 1;
-        //$to_save['custom_fields'] = $fields_data;
+
+        $to_save['user_ip'] = MW_USER_IP;
+
 
         if (isset($params['module_name'])) {
             $to_save['module_name'] = $params['module_name'];
         }
 
-        if (isset($params['form_values'])) {
-            $to_save['form_values'] = $params['form_values'];
+
+        if (!empty($fields_data)) {
+            $to_save['form_values'] = json_encode($fields_data);
         }
 
         $save = $this->app->database->save($table, $to_save);
 
-        if (!empty($cf_to_save)) {
-            $table_custom_field = get_table_prefix() . 'custom_fields';
-            foreach ($cf_to_save as $key => $value) {
-                $new_field = array();
-                $new_field['copy_of_field'] = $value['id'];
-                $new_field['id'] = 0;
-                if (isset($value['session_id'])) {
-                    unset($value['session_id']);
-                }
-                $new_field['rel_id'] = $save;
-                $new_field['rel_type'] = 'forms_data';
-                $new_field['allow_html'] = 1;
-                $new_field['custom_field_value'] = $value['custom_field_value'];
-                $new_field['custom_field_type'] = $value['custom_field_type'];
-                $new_field['custom_field_name'] = $key;
-                $cf_save = $this->app->database->save($table_custom_field, $new_field);
-            }
-        }
+
 
         if (isset($params['module_name'])) {
 
@@ -275,14 +276,14 @@ class FormsManager
             $notif['title'] = "New form entry";
             $notif['description'] = "You have new form entry";
             $notif['content'] = "You have new form entry from " . $this->app->url_manager->current(1) . '<br />' . $this->app->format->array_to_ul($pp_arr);
-            $this->app->notifications->save($notif);
-        
+            $this->app->notifications_manager->save($notif);
+
             if ($email_to == false) {
                 $email_to = $this->app->option_manager->get('email_from', 'email');
             }
             $admin_user_mails = array();
             if ($email_to == false) {
-                $admins = $this->app->user_manager->get_all('is_admin=y');
+                $admins = $this->app->user_manager->get_all('is_admin=1');
                 if (is_array($admins) and !empty($admins)) {
                     foreach ($admins as $admin) {
                         if (isset($admin['email']) and (filter_var($admin['email'], FILTER_VALIDATE_EMAIL))) {
@@ -320,7 +321,7 @@ class FormsManager
 
                 if (isset($cf_to_save) and !empty($cf_to_save)) {
                     foreach ($cf_to_save as $value) {
-                        $to = $value['custom_field_value'];
+                        $to = $value['value'];
                         if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
                             $user_mails[] = $to;
                         }
@@ -366,9 +367,9 @@ class FormsManager
 
         $table = MW_DB_TABLE_COUNTRIES;
 
-        if (!$this->app->database_manager->table_exist($table)) {
-            $this->db_init();
-        }
+//        if (!$this->app->database_manager->table_exist($table)) {
+//            $this->db_init();
+//        }
 
 
 //        $table_sql = MW_PATH .  'lib' . DS . 'countries.sql';
@@ -376,17 +377,16 @@ class FormsManager
 //        $this->app->database_manager->import_sql_file($table_sql);
 
 
+        $get_countires = array();
+        $get_countires['table'] = $table;
+        $get_countires['limit'] = 1000;
+        $q = $this->app->database->get($get_countires);
 
-
-        $sql = "SELECT name AS country_name FROM $table   ";
-
-
-
-        $q = $this->app->database_manager->query($sql, 'get_countries_list' . crc32($sql), 'forms');
+        //     $q = $this->app->database_manager->query($sql, 'get_countries_list' . crc32($sql), 'forms');
         $res = array();
         if (is_array($q) and !empty($q)) {
             foreach ($q as $value) {
-                $res[] = $value['country_name'];
+                $res[] = $value['name'];
             }
             $this->app->cache_manager->save($res, $function_cache_id, $cache_group = 'forms');
             return $res;
@@ -408,22 +408,11 @@ class FormsManager
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
 
-            $fields = $this->app->fields_manager->get('forms_data', $data['id'], 1);
-
-            if (is_array($fields)) {
-                foreach ($fields as $key => $value) {
-                    if (isset($value['id'])) {
-                        $remid = $value['id'];
-                        $custom_field_table = get_table_prefix() . 'custom_fields';
-                        $q = "DELETE FROM $custom_field_table WHERE id='$remid'";
-                        $this->app->database->q($q);
-                    }
-                }
-                $this->app->cache_manager->delete('custom_fields');
-            }
-
             $this->app->database_manager->delete_by_id('forms_data', $c_id);
         }
+
+        $this->app->cache_manager->delete('forms_data');
+        $this->app->cache_manager->delete('forms');
         return true;
     }
 
@@ -459,25 +448,20 @@ class FormsManager
         } else {
             $lid = intval($params['id']);
             $data = get_form_entires('limit=100000&list_id=' . $lid);
-            if (is_array($data)) {
-                foreach ($data as $item) {
-                    if (isset($item['custom_fields'])) {
-                        $custom_fields = array();
-                        foreach ($item['custom_fields'] as $value) {
-                            $custom_fields[$value['custom_field_name']] = $value;
-                        }
-                    }
-                }
-            }
+
             $surl = $this->app->url_manager->site();
             $csv_output = '';
-            if (isset($custom_fields) and is_array($custom_fields)) {
+            if (is_array($data)) {
                 $csv_output = 'id,';
                 $csv_output .= 'created_at,';
                 $csv_output .= 'user_ip,';
-                foreach ($custom_fields as $k => $item) {
-                    $csv_output .= $this->app->format->no_dashes($k) . ",";
-                    $csv_output .= "\t";
+                foreach ($data as $item) {
+                    if (isset($item['custom_fields'])) {
+                        foreach ($item['custom_fields'] as $k => $v) {
+                            $csv_output .= $this->app->format->no_dashes($k) . ",";
+                            $csv_output .= "\t";
+                        }
+                    }
                 }
 
                 $csv_output .= "\n";
@@ -491,16 +475,8 @@ class FormsManager
                         $csv_output .= $item['user_ip'] . ",";
                         $csv_output .= "\t";
 
-                        foreach ($item['custom_fields'] as $item1) {
-
-                            $output_val = false;
-                            if (isset($item1['custom_field_values_plain']) and $item1['custom_field_values_plain'] != '') {
-                                $output_val = $item1['custom_field_values_plain'];
-                            } elseif (isset($item1['custom_field_values']) and $item1['custom_field_values'] != '') {
-                                $output_val = $item1['custom_field_values'];
-                            } elseif (isset($item1['custom_field_value']) and $item1['custom_field_value'] != '') {
-                                $output_val = $item1['custom_field_value'];
-                            }
+                        foreach ($item['custom_fields'] as $item1 => $val) {
+                            $output_val = $val;
 
                             $output_val = str_replace('{SITE_URL}', $surl, $output_val);
 
@@ -511,10 +487,16 @@ class FormsManager
                     }
                 }
             }
+
+
             $filename = 'export' . "_" . date("Y-m-d_H-i", time()) . uniqid() . '.csv';
-            $filename_path = mw_cache_path() . 'forms_data' . DS . 'global' . DS;
+            $filename_path = userfiles_path() . 'export' . DS . 'forms' . DS;
+            $filename_path_index = userfiles_path() . 'export' . DS . 'forms' . DS . 'index.php';
             if (!is_dir($filename_path)) {
                 mkdir_recursive($filename_path);
+                if (!is_file($filename_path_index)) {
+                    @touch($filename_path_index);
+                }
             }
             $filename_path_full = $filename_path . $filename;
             file_put_contents($filename_path_full, $csv_output);

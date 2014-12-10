@@ -132,10 +132,10 @@ class Base
                 'rel_type' => 'string',
                 'notif_count' => 'integer',
                 'is_read' => 'integer',
+                'module' => 'text',
                 'title' => 'text',
                 'description' => 'text',
-                'content' => 'text',
-                'installed_on' => 'dateTime'
+                'content' => 'text'
             ]
         ];
     }

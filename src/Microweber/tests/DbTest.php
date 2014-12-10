@@ -8,7 +8,7 @@ class DbTest extends TestCase
     {
 
 
-        $content = get('content', 'limit=2');
+        $content = db_get('content', 'limit=2');
 
 
 
@@ -20,7 +20,7 @@ class DbTest extends TestCase
 
     public function testSimpleCount()
     {
-        $content_count = get('content', 'count=true');
+        $content_count = db_get('content', 'count=true');
         $this->assertTrue(true, $content_count > 0);
         $this->assertTrue(true, is_int($content_count));
     }
@@ -28,8 +28,8 @@ class DbTest extends TestCase
 
     public function testPageCount()
     {
-        $content_count = get('content', 'count=true');
-        $pages_count = get('content', 'limit=2&count_paging=1');
+        $content_count = db_get('content', 'count=true');
+        $pages_count = db_get('content', 'limit=2&count_paging=1');
         $must_be = intval(ceil($content_count / 2));
         $this->assertEquals($pages_count, $must_be);
     }
@@ -37,8 +37,8 @@ class DbTest extends TestCase
 
     public function testOrderBy()
     {
-        $content = get('content', 'limit=1&single=1&order_by=id desc');
-        $content2 = get('content', 'limit=1&single=1&order_by=id asc');
+        $content = db_get('content', 'limit=1&single=1&order_by=id desc');
+        $content2 = db_get('content', 'limit=1&single=1&order_by=id asc');
 
         $this->assertTrue(true, isset($content['id']));
         $this->assertTrue(true, isset($content2['id']));
@@ -49,10 +49,10 @@ class DbTest extends TestCase
     public function testLimitAndPaging()
     {
 
-        $pages_count = get('content', 'limit=2&count_paging=1');
+        $pages_count = db_get('content', 'limit=2&count_paging=1');
 
-        $first_page = get('content', 'limit=2');
-        $second_page = get('content', 'limit=2&current_page=2');
+        $first_page = db_get('content', 'limit=2');
+        $second_page = db_get('content', 'limit=2&current_page=2');
 
         $first_page_items = count($first_page);
         $second_page_items = count($second_page);
@@ -77,7 +77,7 @@ class DbTest extends TestCase
 
     public function testIncludeExcludeIds()
     {
-        $content = get('content', 'limit=10');
+        $content = db_get('content', 'limit=10');
         $this->assertTrue(true, is_array($content));
         $some_ids = array();
         foreach ($content as $item) {
@@ -87,13 +87,13 @@ class DbTest extends TestCase
         shuffle($some_ids);
         $some_ids = array_slice($some_ids, $half);
 
-        $content_ids = get('content', 'ids=' . implode(',', $some_ids));
+        $content_ids = db_get('content', 'ids=' . implode(',', $some_ids));
         foreach ($content as $item) {
             $this->assertTrue(true, in_array($item['id'], $some_ids));
         }
         $this->assertTrue(true, is_array($content_ids));
 
-        $content_ids = get('content', 'exclude_ids=' . implode(',', $some_ids));
+        $content_ids = db_get('content', 'exclude_ids=' . implode(',', $some_ids));
         foreach ($content as $item) {
             $this->assertTrue(true, !in_array($item['id'], $some_ids));
         }
@@ -104,9 +104,9 @@ class DbTest extends TestCase
 
     public function testMinMaxAvg()
     {
-        $content = get('content', 'content_type=page&min=id');
-        $content_max = get('content', 'content_type=page&max=id');
-        $content_avg = get('content', 'content_type=page&avg=id');
+        $content = db_get('content', 'content_type=page&min=id');
+        $content_max = db_get('content', 'content_type=page&max=id');
+        $content_avg = db_get('content', 'content_type=page&avg=id');
 
         $this->assertTrue(true, is_int($content));
         $this->assertTrue(true, is_int($content_max));
@@ -118,22 +118,34 @@ class DbTest extends TestCase
 
     public function testShorthandFilters()
     {
-        $content = get('content', 'limit=1&content_type=[eq]page');
+        $content = db_get('content', 'limit=1&content_type=[eq]page');
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] == 'page'));
         }
-        $content = get('content', 'limit=1&content_type=[neq]page&debug=1');
+        $content = db_get('content', 'limit=1&content_type=[neq]page&debug=1');
 
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] != 'page'));
         }
-        $content = get('content', 'limit=1&content_type=[like]post');
+        $content = db_get('content', 'limit=1&content_type=[like]post');
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] == 'post'));
         }
-        $content = get('content', 'limit=1&content_type=[not_like]post');
+        $content = db_get('content', 'limit=1&content_type=[not_like]post');
         foreach ($content as $item) {
             $this->assertTrue(true, ($item['content_type'] != 'post'));
+        }
+    }
+
+
+
+    public function testSelectOnlyfields()
+    {
+        $content = db_get('content', 'limit=2&fields=id,position&order_by=id desc');
+        foreach ($content as $item) {
+            $this->assertTrue(true, count($item) == 2);
+            $this->assertTrue(true, isset($item['id']));
+            $this->assertTrue(true, isset($item['position']));
         }
     }
 }

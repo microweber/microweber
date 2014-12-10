@@ -17,6 +17,9 @@ use \Session;
 
 class AdminController extends Controller
 {
+
+ 
+
     public function index()
     {
         $is_installed = mw_is_installed();
@@ -55,8 +58,8 @@ class AdminController extends Controller
 
         $layout = $layout->__toString();
 
-        $layout = mw()->parser->process($layout);
 
+        $layout = mw()->parser->process($layout);
         event_trigger('on_load');
 
         //$layout = mw()->parser->process($l, $options = false);
@@ -85,6 +88,31 @@ class AdminController extends Controller
             $layout = str_ireplace('</head>', $template_headers_src . '</head>', $layout, $one);
         }
         return $layout;
+
+        if (isset($_REQUEST['debug'])) {
+            mw()->content_manager->debug_info();
+            $is_admin = mw()->user->is_admin();
+            if ($is_admin == true) {
+
+            }
+        }
+        exit();
+
+
+        ////////////////
+
+
+        $view = modules_path() . 'admin/index.php';
+
+        $layout = new View($view);
+        $layout = $layout->__toString();
+
+
+        $layout = mw()->parser->process($layout);
+
+
+        return $layout;
+
     }
 
 

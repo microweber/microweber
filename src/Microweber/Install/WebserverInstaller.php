@@ -21,13 +21,9 @@ class WebserverInstaller {
 
 		private function storeConfig($file, $data)
 		{
-			// todo: pls fix this ugly hardcoded shit
-			$fileName = public_path() .'/'. $file;
-			if(!file_exists($fileName))
-				$fileName = base_path() .'/'. $file;
-
+			$file = public_path() .'/'. $file;
 			$data = trim($data);
-			return @\File::put($fileName, $data);
+			return \File::put($file, $data);
 		}
 
 		public function setupApache()

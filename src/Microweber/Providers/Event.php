@@ -34,18 +34,27 @@ class Event
      *
      * @var $adapter
      */
-    public $adapter;
+    static $adapter;
+    
+    
 
     function __construct()
     {
-        $this->adapter = new LaravelEvent();
 
 
+
+        if(!is_object(self::$adapter)){
+            self::$adapter = new LaravelEvent();
+
+        }
+        
+
+ 
     }
 
     public function on($event_name, $callback)
     {
-        return $this->adapter->listen($event_name, $callback);
+        return self::$adapter->listen($event_name, $callback);
     }
 
     /**
@@ -59,8 +68,7 @@ class Event
     {
 
 
-
-        return $this->adapter->fire($event_name, $data);
+        return self::$adapter->fire($event_name, $data);
 
     }
 

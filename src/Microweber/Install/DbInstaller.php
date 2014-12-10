@@ -40,7 +40,7 @@ class DbInstaller
         if (!DbSchema::hasTable('sessions')) {
             DbSchema::create('sessions', function ($table) {
                 $table->string('id')->unique();
-                $table->text('payload');
+                $table->longText('payload');
                 $table->integer('last_activity');
             });
         }

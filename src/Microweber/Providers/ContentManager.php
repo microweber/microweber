@@ -619,7 +619,7 @@ class ContentManager
         }
 
         // $q = " SELECT id, parent FROM $table WHERE parent={$id} " . $with_main_parrent_q;
-        // $taxonomies = $this->app->database_manager->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
+        // $taxonomies = $this->app->database->query($q, $cache_id = __FUNCTION__ . crc32($q), $cache_group = 'content/' . $id);
 
         $taxonomies = $this->get($get);
         // $taxonomies = $taxonomies->get()->toArray();
@@ -1016,6 +1016,12 @@ class ContentManager
 
         $is_shop = '';
         if (isset($params['is_shop'])) {
+            if ($params['is_shop'] == 'y') {
+                $params['is_shop'] = 1;
+            } else if ($params['is_shop'] == 'n') {
+                $params['is_shop'] = 0;
+            }
+
             $is_shop = $this->app->database_manager->escape_string($params['is_shop']);
             $is_shop = " and is_shop='{$is_shop} '";
             $include_first = false;
@@ -1124,7 +1130,7 @@ class ContentManager
             $params['parent'] = $parent;
         }
 
-        if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
+        if (isset($params['is_shop']) and $params['is_shop'] == 1) {
             if (isset($params['parent']) and $params['parent'] == 0) {
                 unset($params['parent']);
             }
@@ -1222,11 +1228,9 @@ class ContentManager
                         }
 
 
-                        if ($item['is_home'] != 'y') {
-
-                        } else {
-
+                        if ($item['is_home'] == 1) {
                             $content_type_li_class .= ' is_home';
+
                         }
                         $st_str = '';
                         $st_str2 = '';
@@ -1239,7 +1243,7 @@ class ContentManager
                             $st_str2 = " data-subtype-value='{$item['subtype_value']}' ";
                         }
 
-                        if (isset($item['is_shop']) and trim($item['is_shop']) == 'y') {
+                        if (isset($item['is_shop']) and trim($item['is_shop']) == 1) {
                             $st_str3 = " data-is-shop=true ";
                             $content_type_li_class .= ' is_shop';
                         }
@@ -1724,7 +1728,7 @@ class ContentManager
                 if ($check == 0) {
                     $save = array();
                     $save['item_type'] = 'menu_item';
-                   	$save['is_active'] = 1;
+                    $save['is_active'] = 1;
                     $save['parent_id'] = $value;
                     $save['position'] = 999999;
                     //  $save['debug'] = 999999;
@@ -1735,8 +1739,6 @@ class ContentManager
                             $save['parent_id'] = $check_par['id'];
                         }
                     }
-
-
 
 
                     $save['url'] = '';
@@ -2073,7 +2075,7 @@ class ContentManager
                         }
                         $title = str_replace('%20', ' ', ($this->app->url_manager->string(1)));
 
-                        if ($title == 'editor_tools/wysiwyg' or $title == 'admin/view:content') {
+                        if ($title == 'editor_tools/wysiwyg' or $title == 'api/module' or $title == 'admin/view:content') {
                             return false;
                         }
 
@@ -2088,6 +2090,9 @@ class ContentManager
                     }
                     if ($save_page['title'] == '') {
                         $save_page['title'] = 'Home';
+                    }
+                    if (!isset($save_page['is_active'] )) {
+                        $save_page['is_active'] = 1;
                     }
                     if (isset($save_page['content_type']) and $save_page['content_type'] == 'page') {
                         if (!isset($save_page['subtype'])) {
@@ -2176,8 +2181,10 @@ class ContentManager
                         if (($field != false)) {
                             $page_element_id = $field;
                         }
-                        if (!isset($the_field_data['attributes']['rel_type'])) {
+                        if (!isset($the_field_data['attributes']['rel'])) {
                             $the_field_data['attributes']['rel_type'] = 'content';
+                        } else {
+                            $the_field_data['attributes']['rel_type'] = $the_field_data['attributes']['rel'];
                         }
 
                         if (isset($the_field_data['attributes']['rel-id'])) {
@@ -2203,7 +2210,9 @@ class ContentManager
                         } else {
                             $save_layout = false;
                         }
-
+                        if (isset($the_field_data['attributes']['rel'])) {
+                            $the_field_data['attributes']['rel_type'] = $the_field_data['attributes']['rel'];
+                        }
 
                         if (!isset($the_field_data['attributes']['data-id'])) {
                             $the_field_data['attributes']['data-id'] = $content_id;
@@ -2237,7 +2246,10 @@ class ContentManager
 
 
                         }
+
                         $inh = false;
+
+
                         if (isset($the_field_data['attributes']['rel_type']) and ($the_field_data['attributes']['rel_type']) == 'inherit') {
 
 
@@ -2464,12 +2476,12 @@ class ContentManager
 //
 //        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted=0 ORDER BY updated_at DESC LIMIT 0,1 ";
 //
-//        $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+//        $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 //        //
 //        $result = $q;
 //        if ($result == false) {
 //            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted=0 AND url LIKE '%home%' ORDER BY updated_at DESC LIMIT 0,1 ";
-//            $q = $this->app->database_manager->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
+//            $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
 //            $result = $q;
 //
 //        }
@@ -2496,9 +2508,9 @@ class ContentManager
         $checks = mw_var('FORCE_SAVE_CONTENT');
         $orig_data = $data;
         $stop = false;
-
+        $data = $this->app->format->strip_unsafe($data);
         if ($adm == false) {
-            $data = $this->app->format->strip_unsafe($data);
+
             $stop = true;
             $author_id = user_id();
             if (isset($data['id']) and $data['id'] != 0 and $author_id != 0) {
@@ -2697,6 +2709,9 @@ class ContentManager
 
 
         }
+
+        $data = $this->app->format->strip_unsafe($data);
+
         if (isset($data['is_draft']) and isset($data['url'])) {
 
             $draft_url = $this->app->database_manager->escape_string($data['url']);
@@ -2709,9 +2724,7 @@ class ContentManager
             $history_files_params['field'] = $data['field'];
             $history_files_params['rel_type'] = $data['rel_type'];
             $history_files_params['rel_id'] = $data['rel_id'];
-            //$history_files_params['page'] = 2;
 
-            // $history_files_params['debug'] = 1;
             $history_files_params['is_draft'] = 1;
             $history_files_params['limit'] = 20;
             $history_files_params['url'] = $draft_url;
@@ -2745,20 +2758,29 @@ class ContentManager
         if (isset($data['field']) and !isset($data['is_draft'])) {
             $fld = $this->app->database_manager->escape_string($data['field']);
             $fld_rel = $this->app->database_manager->escape_string($data['rel_type']);
-
-
-            $del = ContentFields::where('rel_type', $fld_rel)
-                ->where('field', $fld);
+            $del_params = array();
+            $del_params['rel_type'] = $fld_rel;
+            $del_params['field'] = $fld;
+            $del_params['table'] = $table;
+            // $del = ContentFields::where('rel_type', $fld_rel)               ->where('field', $fld);
 
 
             if (isset($data['rel_id'])) {
                 $i = ($data['rel_id']);
-                $del->where('rel_id', $i);
+                $del_params['rel_id'] = $i;
+                // $del->where('rel_id', $i);
             } else {
-                $del->where('rel_id', 0);
+                $del_params['rel_id'] = 0;
+                // $del->where('rel_id', 0);
+            }
+            $del = $this->app->database->get($del_params);
+            if (!empty($del)) {
+                foreach ($del as $item) {
+                    $this->app->database->delete_by_id($table, $item['id']);
+                }
             }
 
-            $del = $del->delete();
+            // $del = $del->delete();
 
             $cache_group = guess_cache_group('content_fields/' . $data['rel_type'] . '/' . $data['rel_id']);
             $this->app->cache_manager->delete($cache_group);
@@ -2795,10 +2817,10 @@ class ContentManager
         $this->app->cache_manager->delete('content_fields/global');
 
         $data['allow_html'] = true;
-        $save_obj = new ContentFields();
+        $data['table'] = $table;
 
-        $save = $save_obj->save_item($data);
 
+        $save = $this->app->database->save($data);
 
         $this->app->cache_manager->delete('content_fields');
 
@@ -2886,13 +2908,13 @@ class ContentManager
             $cont = get_content_by_id($data['id']);
             if (isset($cont['id']) and $cont['id'] != 0) {
                 $id = intval($cont['id']);
-                $cont['content'] = '[null]';
-                $cont['content_body'] = '[null]';
+                $cont['content'] = false;
+                $cont['content_body'] = false;
                 $save = $this->save($cont);
 
-                $table_fields = $this->tables['content_fields'];
+                $table_fields = $this->app->database_manager->real_table_name($this->tables['content_fields']);
                 $del = "DELETE FROM {$table_fields} WHERE rel_type='content' AND rel_id='{$id}' ";
-                $this->app->database_manager->query($del);
+                $this->app->database->query($del);
                 $this->app->cache_manager->delete('content');
                 $this->app->cache_manager->delete('content_fields');
                 return $save;
@@ -2968,20 +2990,20 @@ class ContentManager
 
                 if ($to_untrash == true) {
                     $q = "UPDATE $table SET is_deleted=0 WHERE id=$c_id AND  is_deleted=1 ";
-                    $q = $this->app->database_manager->query($q);
+                    $q = $this->app->database->query($q);
                     $q = "UPDATE $table SET is_deleted=0 WHERE parent=$c_id   AND  is_deleted=1 ";
-                    $q = $this->app->database_manager->query($q);
+                    $q = $this->app->database->query($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
                         $q = "UPDATE $table1 SET is_deleted=0 WHERE rel_id=$c_id  AND  rel_type='content' AND  is_deleted=1 ";
-                        $q = $this->app->database_manager->query($q);
+                        $q = $this->app->database->query($q);
                     }
 
                 } else if ($to_trash == false) {
                     $q = "UPDATE $table SET parent=0 WHERE parent=$c_id ";
-                    $q = $this->app->database_manager->query($q);
+                    $q = $this->app->database->query($q);
 
                     $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
 
@@ -2990,7 +3012,7 @@ class ContentManager
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $q = $this->app->database_manager->query($q);
+                        $q = $this->app->database->query($q);
                     }
 
                     if (isset($this->tables['categories'])) {
@@ -2998,7 +3020,7 @@ class ContentManager
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $q = $this->app->database_manager->query($q);
+                        $q = $this->app->database->query($q);
                     }
 
 
@@ -3007,7 +3029,7 @@ class ContentManager
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel_type='content'  ";
-                        $q = $this->app->database_manager->query($q);
+                        $q = $this->app->database->query($q);
                     }
                     if (isset($this->tables['custom_fields'])) {
                         $table1 = $this->tables['custom_fields'];
@@ -3015,7 +3037,7 @@ class ContentManager
 
                         $q = "DELETE FROM $table1 WHERE rel_id=$c_id  AND  rel_type='content'  ";
 
-                        $q = $this->app->database_manager->query($q);
+                        $q = $this->app->database->query($q);
                     }
 
                     if (isset($this->tables['content_data'])) {
@@ -3023,23 +3045,23 @@ class ContentManager
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
                         $q = "DELETE FROM $table1 WHERE content_id=$c_id    ";
-                        $q = $this->app->database_manager->query($q);
+                        $q = $this->app->database->query($q);
                     }
 
 
                 } else {
                     $q = "UPDATE $table SET is_deleted=1 WHERE id=$c_id ";
 
-                    $q = $this->app->database_manager->query($q);
+                    $q = $this->app->database->query($q);
                     $q = "UPDATE $table SET is_deleted=1 WHERE parent=$c_id ";
-                    $q = $this->app->database_manager->query($q);
+                    $q = $this->app->database->query($q);
                     if (isset($this->tables['categories'])) {
                         $table1 = $this->tables['categories'];
                         $table1 = $this->app->database_manager->real_table_name($table1);
 
                         $q = "UPDATE $table1 SET is_deleted=1 WHERE rel_id=$c_id  AND  rel_type='content' AND  is_deleted=0 ";
 
-                        $q = $this->app->database_manager->query($q);
+                        $q = $this->app->database->query($q);
                     }
 
 
@@ -3546,7 +3568,7 @@ class ContentManager
             define('TEMPLATES_DIR', templates_path());
         }
 
-        $the_template_url = templates_url() . '/' . $the_active_site_template;
+        $the_template_url = templates_url() . $the_active_site_template;
 
         $the_template_url = $the_template_url . '/';
         if (defined('TEMPLATE_URL') == false) {
@@ -3712,10 +3734,10 @@ class ContentManager
         $ids_implode = $this->app->database_manager->escape_string($ids_implode);
 
 
-        $table = $this->tables['content'];
+        $table = $this->app->database_manager->real_table_name($this->tables['content']);
         $maxpos = 0;
         $get_max_pos = "SELECT max(position) AS maxpos FROM $table  WHERE id IN ($ids_implode) ";
-        $get_max_pos = $this->app->database_manager->query($get_max_pos);
+        $get_max_pos = $this->app->database->query($get_max_pos);
         if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos'])) {
 
             $maxpos = intval($get_max_pos[0]['maxpos']) + 1;
@@ -3723,7 +3745,7 @@ class ContentManager
         }
 
         // $q = " SELECT id, created_at, position from $table where id IN ($ids_implode)  order by position desc  ";
-        // $q = $this->app->database_manager->query($q);
+        // $q = $this->app->database->query($q);
         // $max_date = $q[0]['created_at'];
         // $max_date_str = strtotime($max_date);
         $i = 1;
@@ -3902,6 +3924,14 @@ class ContentManager
 
         if (!isset($data['parent']) and isset($data['content_parent'])) {
             $data['parent'] = $data['content_parent'];
+        }
+
+        if (isset($data['is_active'])) {
+            if ($data['is_active'] == 'y') {
+                $data['is_active'] = 1;
+            } elseif ($data['is_active'] == 'n') {
+                $data['is_active'] = 0;
+            }
         }
 
 
@@ -4114,7 +4144,7 @@ class ContentManager
             }
             if ($check_ex == false) {
                 if (isset($data_to_save['id']) and intval(trim($data_to_save['id'])) > 0) {
-                    $test2 = $this->app->category_manager->get('data_type=category&rel=content&rel_id=' . intval(($data_to_save['id'])));
+                    $test2 = $this->app->category_manager->get('data_type=category&rel_type=content&rel_id=' . intval(($data_to_save['id'])));
                     if (isset($test2[0])) {
                         $check_ex = $test2[0];
                         $data_to_save['subtype_value'] = $test2[0]['id'];
@@ -4145,7 +4175,7 @@ class ContentManager
 
             if (is_array($par_page)) {
                 $change_to_dynamic = true;
-                if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 'y') {
+                if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 1) {
                     $change_to_dynamic = false;
                 }
                 if ($change_to_dynamic == true and $par_page['subtype'] == 'static') {
@@ -4272,23 +4302,24 @@ class ContentManager
         $data_to_save['updated_at'] = date("Y-m-d H:i:s");
         if (isset($data_to_save['id']) and intval($data_to_save['id']) == 0) {
             if (!isset($data_to_save['position']) or intval($data_to_save['position']) == 0) {
-
-                $get_max_pos = Content::max('position');
-
-                if (is_array($get_max_pos) and isset($get_max_pos[0]['maxpos']))
-
-
+                $pos_params = array();
+                $pos_params['table'] = 'content';
+                if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'page') {
+                    $pos_params['content_type'] = $data_to_save['content_type'];
+                    $pos_params['min'] = 'position';
+                } else {
+                    $pos_params['max'] = 'position';
+                }
+                $get_max_pos = mw()->database->get($pos_params);
+                if (is_int($get_max_pos))
                     if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'page') {
-                        $data_to_save['position'] = intval($get_max_pos[0]['maxpos']) - 1;
-
+                        $data_to_save['position'] = intval($get_max_pos) - 1;
                     } else {
-                        $data_to_save['position'] = intval($get_max_pos[0]['maxpos']) + 1;
-
+                        $data_to_save['position'] = intval($get_max_pos) + 1;
                     }
 
             }
             $data_to_save['posted_on'] = $data_to_save['updated_at'];
-
         }
 
 
@@ -4337,9 +4368,9 @@ class ContentManager
         $this->no_cache = true;
 
         //clean some fields
-        if (isset($data_to_save['custom_field_type']) and isset($data_to_save['custom_field_value'])) {
+        if (isset($data_to_save['custom_field_type']) and isset($data_to_save['value'])) {
             unset($data_to_save['custom_field_type']);
-            unset($data_to_save['custom_field_value']);
+            unset($data_to_save['value']);
         }
         if (isset($data_to_save['custom_field_help_text'])) {
             unset($data_to_save['custom_field_help_text']);
@@ -4347,14 +4378,14 @@ class ContentManager
         if (isset($data_to_save['custom_field_is_active'])) {
             unset($data_to_save['custom_field_is_active']);
         }
-        if (isset($data_to_save['custom_field_name'])) {
-            unset($data_to_save['custom_field_name']);
+        if (isset($data_to_save['name'])) {
+            unset($data_to_save['name']);
         }
-        if (isset($data_to_save['custom_field_values'])) {
-            unset($data_to_save['custom_field_values']);
+        if (isset($data_to_save['values'])) {
+            unset($data_to_save['values']);
         }
-        if (isset($data_to_save['custom_field_value'])) {
-            unset($data_to_save['custom_field_value']);
+        if (isset($data_to_save['value'])) {
+            unset($data_to_save['value']);
         }
         if (isset($data_to_save['title'])) {
             $url_changed = true;
@@ -4375,7 +4406,6 @@ class ContentManager
         $this->app->cache_manager->delete('content/' . $save);
 
         $this->app->cache_manager->delete('content_fields/global');
-        // $this->app->cache_manager->delete('content/global');
         if ($url_changed != false) {
             $this->app->cache_manager->delete('menus');
             $this->app->cache_manager->delete('categories');
@@ -4416,14 +4446,11 @@ class ContentManager
 
                     if ($image_to_save != '') {
                         $save_media = array();
-
-
                         $save_media['content_id'] = $id;
                         $save_media['filename'] = $image_to_save;
                         $check = $this->app->media_manager->get($save_media);
                         $save_media['media_type'] = 'picture';
                         if ($check == false) {
-
                             $this->app->media_manager->save($save_media);
                         }
                     }
@@ -4444,7 +4471,7 @@ class ContentManager
             }
             $categories = $data_to_save['categories'];
             if (is_array($categories)) {
-
+                $cats_modified = true;
                 foreach ($categories as $category) {
                     if (intval($category) != 0) {
                         $save_cat_item = array();
@@ -4529,11 +4556,16 @@ class ContentManager
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . '0');
         $this->app->cache_manager->delete('content_fields/global');
+
+
+
+
         $this->app->cache_manager->delete('content');
+        $this->app->cache_manager->delete('categories/global');
+        $this->app->cache_manager->delete('categories_items/global');
         if ($cats_modified != false) {
 
-            $this->app->cache_manager->delete('categories/global');
-            $this->app->cache_manager->delete('categories_items/global');
+
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
                     $item = intval($item);

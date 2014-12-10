@@ -434,20 +434,17 @@ class LayoutsManager
 
         $table = 'elements';
         $save = false;
-        // d($table);
-        //d($data_to_save);
 
         if (!empty($data_to_save)) {
             $s = $data_to_save;
-            // $s["module_name"] = $data_to_save["name"];
-            // $s["module_name"] = $data_to_save["name"];
+
             if (!isset($s["parent_id"])) {
                 $s["parent_id"] = 0;
             }
             if (!isset($s["id"]) and isset($s["module"])) {
                 $s["module"] = $data_to_save["module"];
                 if (!isset($s["module_id"])) {
-                    $save = self::get('limit=1&module=' . $s["module"]);
+                    $save = $this->get('limit=1&module=' . $s["module"]);
                     if ($save != false and isset($save[0]) and is_array($save[0])) {
                         $s["id"] = $save[0]["id"];
                         $save = $this->app->database->save($table, $s);
@@ -458,9 +455,6 @@ class LayoutsManager
             } else {
                 $save = $this->app->database->save($table, $s);
             }
-
-            //
-            // d($s);
         }
 
         if ($save != false) {
@@ -495,7 +489,7 @@ class LayoutsManager
         }
 
         $s = $this->app->database->get($params);
-         return $s;
+        return $s;
     }
 
     public function delete_all()
@@ -724,7 +718,7 @@ class LayoutsManager
                 }
 
                 $template_folder = templates_path() . $template . DS;
-                $template_url = MW_TEMPLATES_URL . $template . '/';
+                $template_url = templates_url() . $template . '/';
                 $this_template_url = THIS_TEMPLATE_URL;
 
                 $template_folder = userfiles_path() . 'css' . DS . $template . DS;

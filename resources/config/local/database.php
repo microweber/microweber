@@ -18,7 +18,7 @@
       'password' => '11',
       'charset' => 'utf8',
       'collation' => 'utf8_unicode_ci',
-      'prefix' => 'bobafet_',
+      'prefix' => 'testing1_com_',
     ),
     'pgsql' => 
     array (

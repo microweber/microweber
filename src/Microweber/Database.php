@@ -16,7 +16,7 @@ class Database
 
     public $use_cache = true;
     public $app = null;
-
+    public $default_limit = 30;
 
     function __construct($app = null)
     {
@@ -27,6 +27,13 @@ class Database
                 $this->app = mw();
             }
         }
+
+        $get_default_limit_from_options = $this->app->option_manager->get_items_per_page();
+        if($get_default_limit_from_options != false){
+
+            $this->default_limit = intval($get_default_limit_from_options);
+        }
+
     }
 
 
@@ -106,6 +113,19 @@ class Database
 
         $orig_params = $params;
         $items_per_page = false;
+
+        if (!isset($params['limit'])) {
+            $params['limit'] = $this->default_limit;
+        }
+
+
+
+
+        if (isset($orig_params['page_count'])) {
+            $orig_params['count_paging'] = $orig_params['page_count'];
+        }
+
+
         if (isset($orig_params['count_paging']) and ($orig_params['count_paging'])) {
             if (isset($params['limit'])) {
                 $items_per_page = $params['limit'];
@@ -114,16 +134,39 @@ class Database
             if (isset($params['page'])) {
                 unset($params['page']);
             }
+            if (isset($params['paging_param'])) {
+                unset($params['paging_param']);
+            }
+
+            if (isset($params['current_page'])) {
+                unset($params['current_page']);
+            }
             $orig_params['count'] = true;
+
         }
 
         if (isset($params['orderby'])) {
             $params['order_by'] = $params['orderby'];
             unset($params['orderby']);
         }
+
+        if (isset($params['groupby'])) {
+            $params['group_by'] = $params['groupby'];
+            unset($params['groupby']);
+        }
+
+        if (isset($orig_params['no_cache']) and ($orig_params['no_cache'])) {
+            $this->use_cache = false;
+        }
         $query = $this->map_filters($query, $params, $table);
+
         $params = $this->map_array_to_table($table, $params);
+
         $query = $this->map_values_to_query($query, $params);
+
+
+        $ttl = $this->table_cache_ttl;
+        $cache_key = $table . crc32(serialize($orig_params).$this->default_limit);
 
 
         if (is_array($params) and !empty($params)) {
@@ -131,7 +174,14 @@ class Database
         }
 
         if (isset($orig_params['count']) and ($orig_params['count'])) {
-            $query = $query->count();
+            if ($this->use_cache == false) {
+                $query = $query->count();
+            } else {
+                $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
+                    return $query->count();
+                });
+            }
+          //  $query = $query->count();
             if ($items_per_page != false) {
                 $query = intval(ceil($query / $items_per_page));
             }
@@ -153,18 +203,15 @@ class Database
             return $query;
         }
 
-        if (!$this->use_cache) {
-            $data = $query->get();
 
+        if ($this->use_cache == false) {
+            $data = $query->get();
         } else {
-            $ttl = $this->table_cache_ttl;
-            $cache_key = $table . crc32(serialize($orig_params));
+
             $data = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
                 return $query->get();
-                // return false;
             });
 
-            //$data =  $query->cacheTags($table)->remember($ttl,$cache_key)->get();
         }
 
 
@@ -355,7 +402,17 @@ class Database
         if ($id == 0) {
             return false;
         }
-        $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
+        if (is_array($id)) {
+            foreach ($id as $remove) {
+                $c_id = DB::table($table)->where($field_name, '=', $remove)->delete();
+
+            }
+        } else {
+            $c_id = DB::table($table)->where($field_name, '=', $id)->delete();
+
+        }
+
+
         Cache::tags($table)->flush();
         return $c_id;
     }

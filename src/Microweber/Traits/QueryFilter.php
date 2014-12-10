@@ -8,7 +8,6 @@ use Filter;
 
 trait QueryFilter
 {
-    public $default_limit = 30;
 
 
     public $table_cache_ttl = 60;
@@ -22,12 +21,31 @@ trait QueryFilter
         self::$custom_filters[$name] = $callback;
     }
 
-    public function map_filters($query, &$params,$table)
+    public function map_filters($query, &$params, $table)
     {
 
-        if (!isset($params['limit'])) {
-            $params['limit'] = $this->default_limit;
+        if (!isset($params['count']) and !isset($params['count_paging'])) {
+            if (isset($params['paging_param']) and isset($params[$params['paging_param']])) {
+                $params['current_page'] = intval($params[$params['paging_param']]);
+                unset($params[$params['paging_param']]);
+            }
         }
+        $is_limit = false;
+        if (isset($params['limit'])) {
+            $is_limit = $params['limit'];
+        }
+        $is_id = false;
+        if (isset($params['id'])) {
+            $is_id = $params['id'];
+        }
+
+        $is_fields = false;
+        if (isset($params['fields']) and $params['fields'] != false) {
+            $is_fields = $params['fields'];
+        } else {
+            $query = $query->select($table.'.*');
+        }
+
 
         foreach ($params as $filter => $value) {
 
@@ -90,12 +108,74 @@ trait QueryFilter
                     $value = str_replace('[is_not]', '', $value);
                     $compare_sign = 'NOT LIKE';
                     $compare_value = '%' . $value . '%';
+                } else if (stristr($value, '[in]')) {
+                    $value = str_replace('[in]', '', $value);
+                    $compare_sign = 'in';
+
+                } else if (stristr($value, '[not_in]')) {
+                    $value = str_replace('[not_in]', '', $value);
+                    $compare_sign = 'not_in';
+
                 }
+                if ($filter == 'created_at' or $filter == 'updated_at') {
+                    $compare_value = date('Y-m-d H:i:s', strtotime($value));
+                }
+
             }
 
-
             switch ($filter) {
+
+                case 'fields':
+                    $fields = $value;
+                    if ($fields != false and is_string($fields)) {
+                        $fields = explode(',', $fields);
+                    }
+
+                    if (is_array($fields) and !empty($fields)) {
+                        $query = $query->select($fields);
+                    }
+                    unset($params[$filter]);
+                    break;
+
+                case 'keyword':
+
+                    if (isset($params['search_in_fields'])) {
+                        $to_search_in_fields = $params['search_in_fields'];
+
+                        if (isset($params['keyword'])) {
+                            $to_search_keyword = $params['keyword'];
+                        }
+
+
+                        if ($to_search_in_fields != false and $to_search_keyword != false) {
+                            if (is_string($to_search_in_fields)) {
+                                $to_search_in_fields = explode(',', $to_search_in_fields);
+                            }
+                            $to_search_keyword = preg_replace("/(^\s+)|(\s+$)/us", "", $to_search_keyword);
+                            $to_search_keyword = strip_tags($to_search_keyword);
+                            $to_search_keyword = str_replace('\\', '', $to_search_keyword);
+                            $to_search_keyword = str_replace('*', '', $to_search_keyword);
+                            if ($to_search_keyword != '') {
+                                $raw_search_query = false;
+                                if (!empty($to_search_in_fields)) {
+                                    $raw_search_query = '';
+                                    $search_vals = array();
+                                    $search_qs = array();
+                                    foreach ($to_search_in_fields as $to_search_in_field) {
+                                        $search_qs[] = " `{$to_search_in_field}` REGEXP ? ";
+                                        $query = $query->orWhere($to_search_in_field, 'REGEXP', $to_search_keyword);
+                                        $search_vals[] = $to_search_keyword;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    unset($params[$filter]);
+                    break;
+
                 case 'single':
+                case 'one':
 
                     break;
 
@@ -108,17 +188,30 @@ trait QueryFilter
                     } elseif (is_int($ids)) {
                         $ids = array($ids);
                     }
+
+
                     if (is_array($ids)) {
-                        $query = $query->leftJoin('categories_items', 'categories_items.rel_id', '=', $table.'.id')
+
+
+                        $query = $query->leftJoin('categories_items'
+                            , 'categories_items.rel_id', '=', $table . '.id')
                             ->where('categories_items.rel_type', $table)
                             ->whereIn('categories_items.parent_id', $ids);
+
+
+//                        $query = $query->whereIn('id', function ($query) use ($table, $ids) {
+//                            $query->select('rel_id')
+//                                ->from('categories_items')
+//                                ->where('categories_items.rel_type', $table)
+//                                ->whereIn('categories_items.parent_id', $ids)->get();
+//                        });
+
 
                     }
                     unset($params[$filter]);
 
                     break;
                 case 'order_by':
-                case 'orderby':
                     $order_by_criteria = explode(',', $value);
                     foreach ($order_by_criteria as $c) {
                         $c = explode(' ', $c);
@@ -137,15 +230,29 @@ trait QueryFilter
                     }
                     unset($params[$filter]);
                     break;
+                case 'group_by':
+                    $group_by_criteria = explode(',', $value);
+                    foreach ($group_by_criteria as $c) {
+                        $query = $query->groupBy(trim($c));
+                    }
+                    unset($params[$filter]);
+                    break;
                 case 'limit':
                     $criteria = intval($value);
                     $query = $query->take($criteria);
-                    unset($params[$filter]);
+                    unset($params['limit']);
+
                     break;
                 case 'current_page':
-                    $criteria = intval($value);
-                    $query = $query->skip($criteria);
-
+                    $criteria = 1;
+                    if ($value > 1) {
+                        if ($is_limit != false) {
+                            $criteria = intval($value) * intval($is_limit);
+                        }
+                    }
+                    if ($criteria > 1) {
+                        $query = $query->skip($criteria);
+                    }
                     unset($params[$filter]);
                     break;
                 case 'ids':
@@ -157,7 +264,8 @@ trait QueryFilter
                     }
 
                     if (is_array($ids)) {
-                        $query = $query->whereIn('id', $ids);
+
+                        $query = $query->whereIn($table . '.id', $ids);
                     }
 
 
@@ -174,7 +282,7 @@ trait QueryFilter
 
 
                     if (is_array($ids)) {
-                        $query = $query->whereNotIn('id', $ids);
+                        $query = $query->whereNotIn($table . '.id', $ids);
                     }
 
                     break;
@@ -189,9 +297,9 @@ trait QueryFilter
                             $val = $value;
                         }
 
-                        $query = $query->where('id',$compare_sign, $val);
+                        $query = $query->where($table . '.id', $compare_sign, $val);
                     } else {
-                        $query = $query->where('id', $criteria);
+                        $query = $query->where($table . '.id', $criteria);
                     }
 
                     break;
@@ -204,11 +312,25 @@ trait QueryFilter
                     if ($compare_sign != false) {
                         unset($params[$filter]);
                         if ($compare_value != false) {
-                            $query = $query->where($filter, $compare_sign, $compare_value);
+                            $query = $query->where($table . '.' . $filter, $compare_sign, $compare_value);
 
                         } else {
-                            $query = $query->where($filter, $compare_sign, $value);
-
+                            if ($compare_sign == 'in' || $compare_sign == 'not_in') {
+                                if (is_string($value)) {
+                                    $value = explode(',', $value);
+                                } elseif (is_int($value)) {
+                                    $value = array($value);
+                                }
+                                if (is_array($value)) {
+                                    if ($compare_sign == 'in') {
+                                        $query = $query->whereIn($table . '.' . $filter, $value);
+                                    } elseif ($compare_sign == 'not_in') {
+                                        $query = $query->whereIn($table . '.' . $filter, $value);
+                                    }
+                                }
+                            } else {
+                                $query = $query->where($table . '.' . $filter, $compare_sign, $value);
+                            }
                         }
                     }
                     break;
@@ -224,7 +346,7 @@ trait QueryFilter
             if (!isset($params[$name])) {
                 continue;
             }
-             call_user_func_array($callback, [$query, $params[$name],$table]);
+            call_user_func_array($callback, [$query, $params[$name], $table]);
         }
         return $query;
     }
@@ -242,10 +364,12 @@ trait QueryFilter
         $r = array_intersect($r, array_keys($array));
         $r = array_flip($r);
         $r = array_intersect_key($array, $r);
+
+
         return $r;
     }
 
-    public function map_values_to_query($query, &$params)
+    public function map_values_to_query($query, $params)
     {
         foreach ($params as $column => $value) {
 
@@ -253,12 +377,12 @@ trait QueryFilter
             switch ($value) {
                 case '[not_null]':
                     $query->whereNotNull($column);
-                    unset($params[$column]);
+                    // unset($params[$column]);
                     break;
 
                 case '[null]':
                     $query->whereNull($column);
-                    unset($params[$column]);
+                    // unset($params[$column]);
                     break;
             }
 
@@ -281,7 +405,7 @@ trait QueryFilter
 
     function __call($method, $params)
     {
-        return Filter::get($method,$params,$this);
+        return Filter::get($method, $params, $this);
 
     }
 }

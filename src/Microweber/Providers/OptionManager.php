@@ -4,6 +4,8 @@ namespace Microweber;
 namespace Microweber\Providers;
 
 use Option;
+use DB;
+use Cache;
 
 class OptionManager
 {
@@ -28,7 +30,7 @@ class OptionManager
 
         }
 
-       // api_expose('save_option');
+        // api_expose('save_option');
 
         $this->set_table_names();
         //  $this->db_init();
@@ -146,6 +148,7 @@ class OptionManager
         $key = $this->app->database_manager->escape_string($key);
 
         $table = $this->tables['options'];
+        $table = $this->app->database_manager->real_table_name($table);
         $option_group_q1 = '';
         if ($option_group != false) {
             $option_group = $this->app->database_manager->escape_string($option_group);
@@ -373,7 +376,7 @@ class OptionManager
 
         $filter = array();
         //  $filter['limit'] = 1;
-        // $filter['option_key'] = $key;
+        $filter['option_key'] = $key;
         if ($option_group != false) {
             $filter['option_group'] = $option_group;
         }
@@ -382,6 +385,7 @@ class OptionManager
             $filter['module'] = $module;
         }
         $filter['table'] = $table;
+
         $get_all = mw()->database->get($filter);
 
         $q_cache_id = crc32($q);
@@ -399,10 +403,12 @@ class OptionManager
         }
 
         if (!empty($get)) {
+
             if ($return_full == false) {
                 if (!is_array($get)) {
                     return false;
                 }
+
 
                 $get = $get[0]['option_value'];
                 if (isset($get['option_value']) and strval($get['option_value']) != '') {
@@ -493,12 +499,13 @@ class OptionManager
             if (!isset($data['id']) or intval($data['id']) == 0) {
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
                     $option_group = $data['option_group'];
-                    $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
-                    if ($existing == false) {
-                        // $this->delete($data['option_key'], $data['option_group']);
-                    } elseif (isset($existing['id'])) {
-                        $data['id'] = $existing['id'];
-                    }
+                    $this->delete($data['option_key'], $data['option_group']);
+//                    $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
+//                    if ($existing == false) {
+//                        //
+//                    } elseif (isset($existing['id'])) {
+//                        $data['id'] = $existing['id'];
+//                    }
                 }
             }
 
@@ -572,6 +579,7 @@ class OptionManager
         }
     }
 
+
     public function get_by_id($id)
     {
         $id = intval($id);
@@ -586,17 +594,49 @@ class OptionManager
 
         return $this->get_all($params);
 
-//        $table = $this->tables['options'];
-//
-//        $q = "SELECT * FROM $table WHERE id={$id} LIMIT 1 ";
-//        $function_cache_id = __FUNCTION__ . crc32($q);
-//        $res1 = false;
-//        $res = $this->app->database_manager->query($q, $cache_id = $function_cache_id, $cache_group = 'options/' . $id);
-//        if (is_array($res) and !empty($res)) {
-//            return $res[0];
-//        }
+    }
+
+
+    public function get_items_per_page($group = 'website')
+    {
+
+        if (!isset($this->options_memory['items_per_page'])) {
+            $this->options_memory = array();
+        }
+        if (isset($this->options_memory['items_per_page'][$group])) {
+            return $this->options_memory['items_per_page'][$group];
+        }
+
+        if (mw_is_installed() == true) {
+            $table = $this->tables['options'];
+            $ttl = '99999';
+
+
+            $cache_key = $table . '_items_per_page_' . $group;
+            $items_per_page = Cache::tags($table)->remember($cache_key, $ttl, function () use ($table, $group) {
+                $items_per_page = DB::table($table)->where('option_key', 'items_per_page')
+                    ->where('option_group', $group)
+                    ->first();
+                return $items_per_page;
+            });
+
+
+            if (!empty($items_per_page)) {
+                $items_per_page = (array)$items_per_page;
+                if (isset($items_per_page['option_value'])) {
+                    $result = $items_per_page['option_value'];
+                    $this->options_memory['items_per_page'][$group] = $result;
+                    return $result;
+                }
+
+
+            }
+
+
+        }
 
     }
+
 
     public function get_static($key, $option_group = "global")
     {
@@ -645,87 +685,6 @@ class OptionManager
 
     }
 
-
-    public function get_adapters($provider)
-    {
-        $adapters_dir = false;
-        if ($this->adapters_dir != false and is_string($this->adapters_dir)) {
-            $adapters_dir = $this->adapters_dir;
-        }
-
-        if ($adapters_dir == false) {
-            if (!defined('MW_ADAPTERS_DIR') and defined('MW_PATH')) {
-                define('MW_ADAPTERS_DIR', MW_PATH . 'Adapters' . DS);
-            }
-            if (!defined('MW_ADAPTERS_DIR')) {
-                return;
-            }
-            $adapters_dir = MW_ADAPTERS_DIR;
-        }
-
-        if ($adapters_dir == false) {
-            return;
-        }
-        $adapters_dir = str_replace('..', '', $adapters_dir);
-        $provider = str_replace('..', '', $provider);
-        $provider = str_replace(' ', '_', $provider);
-
-        $providers_dir = normalize_path($adapters_dir . DS . $provider, true);
-        if (!is_dir($providers_dir)) {
-            $providers_dir = normalize_path($adapters_dir . DS . ucfirst($provider), true);
-            if (!is_dir($providers_dir)) {
-                $providers_dir = normalize_path($adapters_dir . DS . strtolower($provider), true);
-            }
-        }
-        if (!is_dir($providers_dir)) {
-            return;
-        }
-
-        $files = glob("$providers_dir{*.php,*.PHP}", GLOB_BRACE);
-
-
-        $providers = array();
-        if (!empty($files)) {
-            foreach ($files as $file) {
-
-                if (stripos($file, '.php', 1)) {
-                    $mtime = filemtime($file);
-                    // Get time and date from filename
-                    $date = date("F d Y", $mtime);
-                    $time = date("H:i:s", $mtime);
-                    // Remove the sql extension part in the filename
-                    //	$filenameboth = str_replace('.sql', '', $file);
-                    $bak = array();
-                    $basename = basename($file);
-                    $basename = str_ireplace('.php', '', $basename);
-                    $bak['title'] = $basename;
-
-                    $adapter = str_replace(MW_PATH, '', $file);
-                    $adapter = str_ireplace('.php', '', $adapter);
-                    $adapter = str_ireplace('/', '\\', $adapter);
-
-                    $bak['adapter'] = $adapter;
-                    $title = str_ireplace('.php', '', $basename);
-                    $title = str_ireplace('-', ' ', $title);
-                    $title = str_ireplace('_', ' ', $title);
-
-                    $bak['title'] = $title;
-
-                    $bak['date'] = $date;
-                    $bak['time'] = str_replace('_', ':', $time);
-
-                    $bak['size'] = filesize($file);
-
-                    $providers[] = $bak;
-                }
-
-            }
-            return $providers;
-
-        }
-
-
-    }
 
     public function save_static($data)
     {

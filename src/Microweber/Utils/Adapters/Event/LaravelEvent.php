@@ -1,7 +1,7 @@
 <?php
 namespace Microweber\Utils\Adapters\Event;
 
-use Illuminate\Cache\tags;
+
 use Illuminate\Support\Facades\Event;
 
 
@@ -19,11 +19,15 @@ class LaravelEvent
     {
 
 
+
+
+
         if (isset(self::$hooks[$api_function])) {
             $fn = self::$hooks[$api_function];
             if (function_exists($fn)) {
                 return $fn($data);
             }
+
 
         } else if (is_string($api_function) and function_exists($api_function)) {
 
@@ -31,7 +35,8 @@ class LaravelEvent
 
         }
 
-        return Event::fire($api_function, $data);
+
+        return Event::fire($api_function, array($data));
     }
 
     public static function event_bind($hook_name, $callback = false)
@@ -40,6 +45,9 @@ class LaravelEvent
         if (is_string($callback) and function_exists($callback)) {
             self::$hooks[$hook_name] = $callback;
         } else {
+
+
+
             Event::listen($hook_name, $callback);
         }
 

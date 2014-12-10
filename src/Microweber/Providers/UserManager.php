@@ -79,6 +79,7 @@ class UserManager
         }
 
         if (Auth::check()) {
+
             return Auth::user()->is_admin;
         }
     }
@@ -158,6 +159,50 @@ class UserManager
 
     public function login($params)
     {
+        if (is_string($params)) {
+            $params2 = array();
+            $params = parse_str($params, $params2);
+            $params = $params2;
+        }
+
+        // $check = $this->app->log_manager->get("is_system=y&couxnt=1&created_at=[mt]1 min ago&updated_at=[lt]1 min&rel_type=login_failed&user_ip=" . MW_USER_IP);
+        $check = $this->app->log_manager->get("no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=" . MW_USER_IP);
+        $url = $this->app->url->current(1);
+
+        if ($check == 5) {
+
+            $url_href = "<a href='$url' target='_blank'>$url</a>";
+            $this->app->log_manager->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel_type=login_failed&user_ip=" . MW_USER_IP);
+        }
+        if ($check > 5) {
+            $check = $check - 1;
+            return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
+        }
+        $check2 = $this->app->log_manager->get("no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=" . MW_USER_IP);
+        if ($check2 > 25) {
+
+            return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
+        }
+
+
+        $override = $this->app->event_manager->trigger('before_user_login', $params);
+        $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
+        $overiden = false;
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if (isset($resp['error']) or isset($resp['success'])) {
+                    $overiden = true;
+                }
+            }
+        }
+
+
+        if ($overiden == true and $redirect_after != false) {
+            $this->app->url_manager->redirect($redirect_after);
+            return;
+        } elseif ($overiden == true) {
+            return $resp;
+        }
 
 
         $ok = Auth::attempt([
@@ -169,11 +214,11 @@ class UserManager
         if ($ok) {
             Auth::login(Auth::user());
             if ($ok && isset($params['redirect_to'])) {
-                return \Redirect::to($params['redirect_to']);
+                $this->app->url_manager->redirect($params['redirect_to']);
+                return;
             } else if ($ok) {
                 return ['success' => "You are logged in!"];
-                //return \Response::json(['success' => _e("You are logged in!", true)]);
-            }
+             }
 
         } else {
             $this->login_set_failed_attempt();
@@ -186,6 +231,30 @@ class UserManager
     public function logout($params = false)
     {
         Session::flush();
+
+        $aj = $this->app->url_manager->is_ajax();
+
+        $redirect_after = isset($_GET['redirect']) ? $_GET['redirect'] : false;
+
+        if (isset($_COOKIE['editmode'])) {
+            setcookie('editmode');
+        }
+
+        if ($redirect_after == false and $aj == false) {
+            if (isset($_SERVER["HTTP_REFERER"])) {
+                //return \Redirect::to($_SERVER["HTTP_REFERER"]);
+                return   $this->app->url_manager->redirect($_SERVER["HTTP_REFERER"]);
+            }
+        }
+
+
+        if ($redirect_after == true) {
+            $redir = site_url($redirect_after);
+            return  $this->app->url_manager->redirect($redir);
+
+        }
+
+
         return true;
     }
 
@@ -382,9 +451,9 @@ class UserManager
     public function register($params)
     {
 
-        if (defined("MW_API_FUNCTION_CALL") and (MW_API_FUNCTION_CALL == 'user_register' or MW_API_FUNCTION_CALL == 'user/register')) {
+        if (defined("MW_API_CALL")) {
             if ($this->is_admin() == false) {
-                $validate_token = $this->app->user_manager->csrf_validate($params);
+                $validate_token = $this->csrf_validate($params);
                 if ($validate_token == false) {
                     return array('error' => 'Invalid token!');
                 }
@@ -396,7 +465,7 @@ class UserManager
         $first_name = isset($params['first_name']) ? $params['first_name'] : false;
         $last_name = isset($params['last_name']) ? $params['last_name'] : false;
         $pass2 = $pass;
-        $pass = $this->hash_pass($pass);
+       // $pass = $this->hash_pass($pass);
 
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
@@ -428,14 +497,9 @@ class UserManager
         }
 
 
-//    if (!isset($params['password'])) {
-//        return array('error' => 'Please set password!');
-//    } else {
-//        if ($params['password'] == '') {
-//            return array('error' => 'Please set password!');
-//        }
-//    }
-
+        if (isset($params['password']) and ($params['password']) == '') {
+            return array('error' => 'Please set password!');
+        }
 
         if (isset($params['password']) and ($params['password']) != '') {
             if ($email != false) {
@@ -476,7 +540,7 @@ class UserManager
                     //   $table = get_table_prefix() . 'users';
                     $table = $this->tables['users'];
 
-
+                    $table = $this->tables['users'];
                     $reg = array();
                     $reg['username'] = $user;
                     $reg['email'] = $email;
@@ -484,10 +548,12 @@ class UserManager
                     $reg['is_active'] = 1;
                     $reg['first_name'] = $first_name;
                     $reg['last_name'] = $first_name;
+                    //$reg['table'] = $table;
 
                     $this->force_save = true;
 
-                    $next = $this->save($reg);
+                     $next = $this->save($reg);
+                   // $next = $this->app->database->save($reg);
                     $this->force_save = false;
 
 
@@ -501,7 +567,7 @@ class UserManager
                     $notif['title'] = "New user registration";
                     $notif['description'] = "You have new user registration";
                     $notif['content'] = "You have new user registered with the username [" . $data['username'] . '] and id [' . $next . ']';
-                    $this->app->notifications->save($notif);
+                    $this->app->notifications_manager->save($notif);
 
                     $this->app->log_manager->save($notif);
 
@@ -544,51 +610,29 @@ class UserManager
     function csrf_validate(&$data)
     {
 
-        return true;
-        //@todo remove below
+        $session_token = Session::token();
+
         if (is_array($data) and mw()->user_manager->session_id()) {
             foreach ($data as $k => $v) {
-
-
-                foreach ($_SESSION as $sk => $sv) {
-                    if (is_string($sk) and strstr($sk, 'csrf_token_')) {
-                        $sk = substr($sk, 11, 1000);
-
-                        if ($k == $sv and $sk == $v) {
-                            unset($data[$k]);
-                            return true;
-                        } elseif ($k == $sk and $sv == $v) {
-                            unset($data[$k]);
-                            return true;
-                        }
-                    }
-                    if ($k == 'token') {
-
-
-                        if ($sv === $v) {
-                            unset($data[$k]);
-                            return true;
-                        }
+                if ($k == 'token' or $k == '_token') {
+                    if ($session_token === $v) {
+                        unset($data[$k]);
+                        return true;
                     }
                 }
             }
         }
+
     }
 
     public function hash_pass($pass)
     {
 
-        // Currently only md5 is supported for portability
-        // Will improve this soon!
 
-        //$hash = password_hash($pass, PASSWORD_BCRYPT);
-        //
-        $hash = md5($pass);
-        if ($hash == false) {
-            $hash = $this->app->database_manager->escape_string($hash);
-            return $pass;
-        }
+        $hash = \Hash::make($pass);
         return $hash;
+
+
 
     }
 
@@ -626,16 +670,9 @@ class UserManager
      * @return bool|int
      */
     public $force_save = false;
+
     public function save($params)
     {
-
-
-
-
-
-
-
-
 
 
         $force = mw_var('force_save_user');
@@ -646,13 +683,9 @@ class UserManager
             }
         }
         if (isset($params['id'])) {
-            //error('COMLETE ME!!!! ');
-
             $adm = $this->is_admin();
             if ($adm == false) {
                 if ($force == false) {
-
-
                     $is_logged = user_id();
                     if ($is_logged == false or $is_logged == 0) {
                         return array('error' => 'You must be logged to save user');
@@ -662,9 +695,6 @@ class UserManager
                         return array('error' => 'You must be logged to as admin save this user');
 
                     }
-
-                    // $this->app->error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-
                 } else {
                     mw_var('force_save_user', false);
                 }
@@ -678,7 +708,7 @@ class UserManager
                     if (intval($params['id']) == 0) {
                         return array('error' => 'You must be logged save your settings');
                     }
-                    //  $this->app->error('COMLETE ME!!!! ');
+
                 } else {
                     mw_var('force_save_user', false);
                 }
@@ -688,16 +718,14 @@ class UserManager
         $data_to_save = $params;
 
         $user = new \User;
-        if($user->validateAndFill($data_to_save))
-        {
+        if ($user->validateAndFill($data_to_save)) {
             $save = $user->save();
         } else {
-            d('aaaaaaaaaaaaaaaaa'.__FILE__.__LINE__);
+            d('aaaaaaaaaaaaaaaaa' . __FILE__ . __LINE__);
         }
 
 
-
-d($save);
+        d($save);
         d($data_to_save);
 
 
@@ -736,7 +764,7 @@ d($save);
     public function login_set_failed_attempt()
     {
 
-        $this->app->log_manager->save("title=Failed login&is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+        $this->app->log_manager->save("title=Failed login&is_system=y&rel_type=login_failed&user_ip=" . MW_USER_IP);
 
     }
 
@@ -1048,7 +1076,7 @@ d($save);
                             $provider1 = ucwords($provider);
                             $notif['title'] = "New user registration with {$provider1}";
                             $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                            $this->app->notifications->save($notif);
+                            $this->app->notifications_manager->save($notif);
 
                             $this->app->log_manager->save($notif);
 
@@ -1204,7 +1232,7 @@ d($save);
             mw_var("FORCE_SAVE", $this->tables['users']);
             $save = $this->app->database->save($table, $data_to_save);
 
-            $this->app->log_manager->delete("is_system=y&rel=login_failed&user_ip=" . MW_USER_IP);
+            $this->app->log_manager->delete("is_system=y&rel_type=login_failed&user_ip=" . MW_USER_IP);
 
         }
 
@@ -1442,7 +1470,7 @@ d($save);
 
         $token = $this->csrf_token($unique_form_name);
 
-        $input = '<input type="hidden" name="' . $token . '" value="' . md5($unique_form_name) . '">';
+        $input = '<input type="hidden" value="' . $token . '" name="_token">';
         // $input = '<input type="text" name="' . $token . '" value="' . md5($unique_form_name) . '">';
         //  $input = '<input type="hidden" name="' . $token . '" value="' . md5($unique_form_name) . '">';
 
@@ -1470,26 +1498,8 @@ d($save);
 
     function csrf_token($unique_form_name = false)
     {
+        return csrf_token();
 
-
-        if (function_exists("hash_algos") and in_array("sha512", hash_algos())) {
-            $token = hash("sha512", mt_rand(0, mt_getrandmax()));
-        } else {
-            $token = ' ';
-            for ($i = 0; $i < 128; ++$i) {
-                $r = mt_rand(0, 35);
-                if ($r < 26) {
-                    $c = chr(ord('a') + $r);
-                } else {
-                    $c = chr(ord('0') + $r - 26);
-                }
-                $token .= $c;
-            }
-        }
-
-        $this->session_set('mw_csrf_token_' . md5($unique_form_name), $token);
-
-        return $token;
     }
 
     public function session_del($name)
