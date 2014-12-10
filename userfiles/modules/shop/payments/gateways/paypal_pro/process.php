@@ -110,8 +110,8 @@ $place_order = $res;
 	$place_order['payment_name'] = $firstName . ' ' . $lastName;
 	$place_order['payer_id'] =  substr_replace($creditCardNumber, '*****', 0, strlen($creditCardNumber)-4)  ;
 	$place_order['payment_amount'] = $resArray['AMT'];
-	$place_order['is_paid'] = 'y';
-	$place_order['order_completed'] = 'y';
+	$place_order['is_paid'] = 1;
+	$place_order['order_completed'] = 1;
 	$place_order['payment_currency'] = $currencyCode;
  $place_order['success'] = 'Your payment was successful! Transaction id: ' . $resArray['TRANSACTIONID'];
 }

@@ -18,20 +18,6 @@
 <script src="<?php print(mw_includes_url()); ?>api/wysiwyg.js"></script>
 <script src="<?php print(mw_includes_url()); ?>api/external_callbacks.js"></script>
  
-
-<?php 
-
-/*<script>mw.require("tools.js");</script>
-<script>mw.require("url.js");</script>
-<script>mw.require("events.js");</script>
-<script>mw.require("wysiwyg.js");</script>
-<script>mw.require("external_callbacks.js");</script>*/
-
- ?>
-
-
-
-
 <script>
  
 GalleriesRemote = function(){
@@ -56,7 +42,7 @@ GalleriesRemote = function(){
                   }
                   gspan.onclick = function(){
                     parent.mw.tools.scrollTo(this.forGallery, function(){
-                      mw.tools.module_settings(this,undefined,false);
+                      mw.tools.module_settings(this,undefined);
                       if(!!parent.QTABS){
                           parent.QTABS.unset(0);
                           parent.mw.$(".tip-box .mw-tooltip-arrow").css('left', -9999);

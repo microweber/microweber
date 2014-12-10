@@ -14,7 +14,7 @@ description: Login default
 <?php $user = user_id(); ?>
 <?php $have_social_login = false; ?>
 
-<script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>users/login/templates.css")</script>
+<script>mw.moduleCSS("<?php print modules_url();; ?>users/login/templates.css")</script>
 
 <div id="mw-login" class="module-login well">
   <?php if($user != false): ?>

@@ -9,14 +9,18 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 	$data['input_class'] = 'form-control';
 	
 }
+
+
+
+
 ?>
 
 <div class="control-group form-group">
   <label class="mw-ui-label">
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
     <?php print ucwords(str_replace('_', ' ', $data['name'])); ?>
-    <?php elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
-    <?php print $data['custom_field_name'] ?>
+    <?php elseif(isset($data['name']) == true and $data['name'] != ''): ?>
+    <?php print $data['name'] ?>
     <?php else : ?>
     <?php endif; ?>
   </label>
@@ -25,11 +29,11 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
   <?php endif; ?>
   <?php if(isset($data['options']) == true and isset($data['options']["as_text_area"]) == true): ?>
   <div class="controls">
-    <textarea <?php if ($is_required): ?> required="true"  <?php endif; ?> class="mw-ui-field"   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>" placeholder="<?php print $data["custom_field_value"]; ?>"></textarea>
+    <textarea <?php if ($is_required): ?> required="true"  <?php endif; ?> class="mw-ui-field"   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["name"]; ?>" placeholder="<?php print $data["value"]; ?>"></textarea>
   </div>
   <?php else : ?>
   <div class="controls">
-    <input type="text"   <?php if ($is_required): ?> required="true"  <?php endif; ?> class="mw-ui-field"   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["custom_field_name"]; ?>"  placeholder="<?php print $data["custom_field_value"]; ?>" />
+    <input type="text"   <?php if ($is_required): ?> required="true"  <?php endif; ?> class="mw-ui-field"   data-custom-field-id="<?php print $data["id"]; ?>"  name="<?php print $data["name"]; ?>"  placeholder="<?php print $data["value"]; ?>" />
   </div>
   <?php endif; ?>
 </div>

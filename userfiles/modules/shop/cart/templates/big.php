@@ -65,7 +65,7 @@ description: Full width cart template
     </tbody>
   </table>
 
-   <?php  $shipping_options =  api('shop/shipping/shipping_api/get_active'); ?>
+   <?php  $shipping_options =  mw('shop\shipping\shipping_api')->get_active(); ?>
 	<?php
 	
 	$show_shipping_info =  get_option('show_shipping', $params['id']);

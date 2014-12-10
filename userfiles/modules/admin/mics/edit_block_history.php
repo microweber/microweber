@@ -1,4 +1,5 @@
 <?php
+
  if(!is_admin()){
 	return; 
  }
@@ -9,14 +10,18 @@ if(isset($params['post_id']) and intval($params['post_id']) != 0){
 } else if(isset($params['page_id']) and intval($params['page_id']) != 0){
 	$cont_id = intval($params['page_id']);
 }
+
+
+
 $url = mw()->url_manager->string(true);
 
 	$history_files = false;
-
+ 
 	if($cont_id != false){
    		$history_files = get_content_field('limit=30&order_by=id desc&fields=id,created_at&is_draft=1&all=1&url='.$url);
 		$last_saved = get_content_by_id($cont_id);
 		$last_saved_date = $last_saved['updated_at'];
+		 
 		$latest_drafs = get_content_field('limit=30&order_by=id desc&fields=id&created_at=[mt]'.$last_saved_date.'&is_draft=1&all=1&url='.$url.'&rel_id='.$cont_id);
  		
 		$history_files_fields = get_content_field('group_by=field&order_by=id desc&fields=field,id,created_at&is_draft=1&all=1&url='.$url);
@@ -30,10 +35,14 @@ $url = mw()->url_manager->string(true);
 
 ?>
 <?php
-if(isset($latest_drafs) and is_array($latest_drafs)){
-	//d($latest_drafs);
 
-	$latest_drafs_vals = mw('format')->array_values($latest_drafs);
+if(isset($latest_drafs) and is_array($latest_drafs)){
+	//
+$latest_drafs_vals = array();
+foreach ($latest_drafs as $value) {
+	$latest_drafs_vals[] =   $value['id'];
+}
+ 
 	 if(!empty($latest_drafs_vals)) { ?>
 <script  type="text/javascript">
 

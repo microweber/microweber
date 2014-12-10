@@ -146,13 +146,13 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
           <small class="mw-help" data-help="<?php _e("If yes this page will be your Home"); ?>">(?)</small> </div>
         <label class="mw-ui-check">
           <input name="is_home" type="radio"
-                   value="n" <?php if ('' == trim($data['is_home']) or 'n' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
+                   value="0" <?php if ('' == trim($data['is_home']) or '0' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
           <span></span><span>
           <?php _e("No"); ?>
           </span></label>
         <label class="mw-ui-check">
           <input name="is_home" type="radio"
-                   value="y" <?php if ('y' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
+                   value="1" <?php if ('1' == trim($data['is_home'])): ?>   checked="checked"  <?php endif; ?> />
           <span></span><span>
           <?php _e("Yes"); ?>
           </span></label>
@@ -164,13 +164,13 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
           <small class="mw-help" data-help="<?php _e("If yes this page will accept products to be added to it"); ?>"> (?) </small> </div>
         <label class="mw-ui-check">
           <input name="is_shop" type="radio"
-                   value="n" <?php if ('' == trim($data['is_shop']) or 'n' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
+                   value="0" <?php if ('' == trim($data['is_shop']) or '0' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
           <span></span><span>
           <?php _e("No"); ?>
           </span></label>
         <label class="mw-ui-check">
           <input name="is_shop" type="radio"
-                   value="y" <?php if ('y' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
+                   value="1" <?php if ('1' == trim($data['is_shop'])): ?>   checked="checked"  <?php endif; ?> />
           <span></span><span>
           <?php _e("Yes"); ?>
           </span></label>
@@ -184,13 +184,13 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
                data-help="<?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?>"> (?) </small> </div>
         <label class="mw-ui-check">
           <input name="require_login" type="radio"
-               value="n" <?php if ('' == trim($data['require_login']) or 'n' == trim($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
+               value="0" <?php if ('' == trim($data['require_login']) or '0' == trim($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
           <span></span><span>
           <?php _e("No"); ?>
           </span></label>
         <label class="mw-ui-check">
           <input name="require_login" type="radio"
-               value="y" <?php if ('y' == trim($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
+               value="1" <?php if ('1' == trim($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
           <span></span><span>
           <?php _e("Yes"); ?>
           </span></label>

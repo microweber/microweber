@@ -135,7 +135,7 @@ if (isset($to_save['is_installed'])) {
         //var_dump( $cfg);
 
         /*  file_put_contents($cfg, $save_config);
-         mw('cache')->clear();
+         mw()->cache_manager->clear();
          clearstatcache();
          sleep(2);*/
 
@@ -182,7 +182,7 @@ if (isset($to_save['is_installed'])) {
                 $temp_db = array('type' => $to_save['db_type'], 'host' => $to_save['db_host'], 'dbname' => $to_save['dbname'], 'user' => $to_save['db_user'], 'pass' => $to_save['db_pass']);
             }
 
-            mw('cache')->clear();
+            mw()->cache_manager->clear();
             // if($to_save['db_user'] == 'root'){
 
             //              $new_db = $to_save['dbname'];
@@ -220,7 +220,7 @@ if (isset($to_save['is_installed'])) {
 
                 __mw_install_log('Clearing cache');
 
-                mw('cache')->clear();
+                mw()->cache_manager->clear();
 
                 $save_config = $save_config_orig;
                 $to_save['is_installed'] = 'no';
@@ -314,7 +314,7 @@ if (isset($to_save['is_installed'])) {
                 clearstatcache();
 
 
-                mw('cache')->clear();
+                mw()->cache_manager->clear();
                 // _reload_c();
 
                 $local_config = mw('application')->loadConfigFromFile($cfg, true);
@@ -345,7 +345,7 @@ if (isset($to_save['is_installed'])) {
 
 
                 __mw_install_log('Creating default database tables');
-                mw('cache')->clear('db');
+                mw()->cache_manager->clear('db');
                 event_trigger('mw_db_init_default');
                 event_trigger('mw_db_init');
                 mw()->content_manager->db_init();
@@ -457,13 +457,13 @@ if (isset($to_save['is_installed'])) {
 
                     $option = mw('option')->save($option);
 
-                    mw('cache')->delete('options');
+                    mw()->cache_manager->delete('options');
                 }
 
 
                 __mw_install_log('Clearing cache after install');
 
-                mw('cache')->clear();
+                mw()->cache_manager->clear();
 
                 // mw()->content_manager->create_default_content('install');
                 if ($auto_install != false) {

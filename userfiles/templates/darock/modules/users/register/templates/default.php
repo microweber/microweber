@@ -12,7 +12,7 @@ description: Default register template
 
 ?>
 <script  type="text/javascript">
-    mw.moduleCSS("<?php print MW_MODULES_URL; ?>users/users_modules.css");
+    mw.moduleCSS("<?php print modules_url();; ?>users/users_modules.css");
     mw.require('forms.js', true);
     mw.require('url.js', true);
     $(document).ready(function(){

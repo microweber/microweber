@@ -36,7 +36,7 @@
     <?php _e('Title'); ?>
   </label>
 
-    <input type="text" onkeyup="" class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">
+    <input type="text" onkeyup="" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
     
 
@@ -52,9 +52,9 @@
 
    <div class="custom-field-settings-values">
     <div class="mw-custom-field-group">
-      <label class="mw-ui-label" for="custom_field_value<?php print $rand; ?>"><?php _e("Value"); ?></label>
+      <label class="mw-ui-label" for="value<?php print $rand; ?>"><?php _e("Value"); ?></label>
         <div id="mw-custom-fields-text-holder">
-         <textarea class="mw-ui-field" name="custom_field_value"><?php print ($data['custom_field_value']) ?></textarea>
+         <textarea class="mw-ui-field" name="value"><?php print ($data['value']) ?></textarea>
                 
  
         

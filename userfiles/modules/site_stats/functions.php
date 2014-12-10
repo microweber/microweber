@@ -36,7 +36,7 @@ function mw_install_stats_module($config = false)
     if (is_admin() == false) {
         return false;
     }
-    mw('cache')->delete('stats');
+    mw()->cache_manager->delete('stats');
 
     $this_dir = dirname(__FILE__);
 
@@ -47,7 +47,7 @@ function mw_install_stats_module($config = false)
     //d($is_installed);
     if ($is_installed == false) {
         $install = import_sql_from_file($sql);
-        //   mw('cache')->delete('db');
+        //   mw()->cache_manager->delete('db');
 
         return true;
     } elseif (is_array($is_installed) and !empty($is_installed)) {
@@ -70,8 +70,8 @@ function mw_uninstall_stats_module()
     //d($q);
 
     mw()->database->q($q);
-    mw('cache')->delete('stats');
-    //  mw('cache')->delete('db');
+    mw()->cache_manager->delete('stats');
+    //  mw()->cache_manager->delete('db');
 }
 
 //document_ready('stats_append_image');
@@ -197,7 +197,7 @@ function stats_insert_cookie_based()
 
     $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
 
-    //$cache_content = mw('cache')->get($function_cache_id, $cache_group = 'module_stats_users_online');
+    //$cache_content = mw()->cache_manager->get($function_cache_id, $cache_group = 'module_stats_users_online');
     //if (($cache_content) == '--false--') {
     //return false;
     //	}
@@ -270,7 +270,9 @@ function stats_insert_cookie_based()
 
 function get_visits_for_sid($sid)
 {
-    $table = MODULE_DB_USERS_ONLINE;
+    return;
+	
+	$table = MODULE_DB_USERS_ONLINE;
     $q = false;
     $results = false;
     $data = array();
@@ -285,7 +287,10 @@ function get_visits_for_sid($sid)
 
 function get_visits($range = 'daily')
 {
-    $table = MODULE_DB_USERS_ONLINE;
+    
+	return;
+	
+	$table = MODULE_DB_USERS_ONLINE;
     $q = false;
     $results = false;
     switch ($range) {

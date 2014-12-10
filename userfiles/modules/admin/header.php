@@ -65,13 +65,10 @@
             mw.require("<?php print mw_includes_url(); ?>css/ui.css");
         </script>
         <?php endif; ?>
-
-
         <?php event_trigger('admin_head'); ?>
         </head>
         <body  class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 <?php
-
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
     if (isset($_COOKIE['last_page'])) {
@@ -81,14 +78,14 @@ if ($last_page_front == false) {
 if ($last_page_front != false) {
     $cont_by_url = mw()->content_manager->get_by_id($last_page_front, true);
     if (isset($cont_by_url) and $cont_by_url == false) {
-        $past_page = get_content("order_by=updated_at desc&limit=1");
+        $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
         $past_page = mw()->content_manager->link($past_page[0]['id']);
     } else {
         $past_page = mw()->content_manager->link($last_page_front);
     }
 }
 else {
-    $past_page = get_content("order_by=updated_at desc&limit=1");
+    $past_page = mw()->content_manager->get("order_by=updated_at desc&limit=1");
     if(isset($past_page[0])){
         $past_page = mw()->content_manager->link($past_page[0]['id']);
 
@@ -96,6 +93,7 @@ else {
         $past_page = site_url();
     }
 }
+
 
 
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
@@ -110,7 +108,6 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 </div>*/ ?>
 <div id="mw-admin-container">
-
 <div class="mw-ui-row main-admin-row">
 <div class="mw-ui-col main-bar-column">
           <div id="main-bar" class="scroll-height-exception-master">
@@ -158,7 +155,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
               <a href="<?php print admin_url(); ?>view:shop" title=""> <span class="mw-icon-shop">
               <?php
                             	$notif_html = '';
-                            	$notif_count = mw()->notifications_manager->get('module=shop&rel=cart_orders&is_read=n&count=1');
+                            	$notif_count = mw()->notifications_manager->get('module=shop&rel_type=cart_orders&is_read=0&count=1');
 								
 								 
                              	if( $notif_count > 0){
@@ -252,7 +249,6 @@ if ($last_page_front != false) {
 
 
         });
-
     </script>
     <div id="user-menu" class="scroll-height-exception">
               <?php $user_id = user_id(); $user = get_user_by_id($user_id);

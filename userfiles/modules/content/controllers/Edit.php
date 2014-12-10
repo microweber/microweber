@@ -20,10 +20,10 @@ class Edit
         'content' => false,
         'url' => '',
         'thumbnail' => '',
-        'is_active' => 'y',
-        'is_home' => 'n',
-        'is_shop' => 'n',
-        'require_login' => 'n',
+        'is_active' => 1,
+        'is_home' => 0,
+        'is_shop' => 0,
+        'require_login' => 0,
         'subtype' => 'static',
         'description' => '',
         'active_site_template' => '',
@@ -45,8 +45,7 @@ class Edit
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
         $this->provider = $this->app->content_manager;
         $this->category_provider = $this->app->category_manager;
-        $this->event_manager = $this->app->event_manager;
-        $is_admin = $this->app->user_manager->admin_access();
+         $is_admin = $this->app->user_manager->admin_access();
     }
 
     function index($params)
@@ -70,6 +69,16 @@ class Edit
         if (!isset($is_quick)) {
             $is_quick = false;
         }
+
+
+ 
+  	//	if (isset($params['is_shop'])) {
+//            if (trim($params['is_shop']) == 'y') {
+//				$params['is_shop'] = 1;
+//			} else if (trim($params['is_shop']) == 'n') {
+//				$params['is_shop'] = 0;
+//			}
+//        }
 
         if (isset($params['live_edit'])) {
             $is_live_edit = $params['live_edit'];
@@ -164,7 +173,7 @@ class Edit
             $data['parent'] = $params['parent-page-id'];
             if (isset($params['subtype']) and $params['subtype'] == 'product') {
                 $parent_content = $this->app->content_manager->get_by_id($params['parent-page-id']);
-                // if(!isset($parent_content['is_shop']) or $parent_content['is_shop'] != 'y'){
+                // if(!isset($parent_content['is_shop']) or $parent_content['is_shop'] != 1){
 
                 // $data['parent'] = 0;
                 // }
@@ -193,9 +202,9 @@ class Edit
 		
 		 if ($recommended_parent != false and intval($data['id']) == 0){
 			 if (isset($data['subtype']) and $data['subtype'] == 'post') {
-				 if (isset($data['is_shop']) and $data['is_shop'] == 'n') {
+				 if (isset($data['is_shop']) and $data['is_shop'] == 0) {
 				     $parent_content = $this->app->content_manager->get_by_id($recommended_parent);
-					  if (isset($parent_content['is_shop']) and $parent_content['is_shop'] == 'y') {
+					  if (isset($parent_content['is_shop']) and $parent_content['is_shop'] == 1) {
 						   $parent_content_params = array();
 						$parent_content_params['subtype'] = 'dynamic';
 						$parent_content_params['content_type'] = 'page';
@@ -244,7 +253,7 @@ class Edit
 
                 }
             } elseif (isset($params['subtype']) and $params['subtype'] == 'product') {
-                $parent_content_params['is_shop'] = 'y';
+                $parent_content_params['is_shop'] = 1;
                 $parent_content = $this->app->content_manager->get($parent_content_params);
 
                 if (isset($parent_content['id'])) {
@@ -266,7 +275,7 @@ class Edit
 
             //if we are adding product in a page that is not a shop
             $parent_shop_check = $this->app->content_manager->get_by_id($data['parent']);
-            if (!isset($parent_shop_check['is_shop']) or $parent_shop_check['is_shop'] != 'y') {
+            if (!isset($parent_shop_check['is_shop']) or $parent_shop_check['is_shop'] != 1) {
                 $parent_content_shop = $this->app->content_manager->get('content_type=page&order_by=updated_at desc&one=true&is_shop=0');
                 if (isset($parent_content_shop['id'])) {
                     $data['parent'] = $parent_content_shop['id'];
@@ -282,15 +291,20 @@ class Edit
                 }
             }
         }
-
+ 
 
 
         /* END OF SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
 
         $module_id = $params['id'];
+		
+		 
 
         $post_list_view = $this->views_dir . 'edit.php';
-        $this->event_manager->trigger('module.content.edit', $data);
+        $this->app->event_manager->trigger('module.content.edit.main', $data);
+		
+ 
+		
         $view = new View($post_list_view);
         $view->assign('params', $params);
         $view->assign('module_id', $module_id);

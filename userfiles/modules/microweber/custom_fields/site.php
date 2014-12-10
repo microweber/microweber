@@ -18,14 +18,14 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 ?>
 
 <div class="control-group form-group">
-  <label class="mw-ui-label" ><?php print $data["custom_field_name"]; ?></label>
+  <label class="mw-ui-label" ><?php print $data["name"]; ?></label>
 
     <input type="url"
         <?php if ($is_required): ?> required="true"  <?php endif; ?>
         data-custom-field-id="<?php print $data["id"]; ?>"
-        name="<?php print $data["custom_field_name"]; ?>"
+        name="<?php print $data["name"]; ?>"
         id="custom_field_help_text<?php print $rand; ?>"
 		class="mw-ui-field"
-        placeholder="<?php print $data["custom_field_value"]; ?>" />
+        placeholder="<?php print $data["value"]; ?>" />
 
 </div>

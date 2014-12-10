@@ -6,8 +6,8 @@
 <?php
 
 
-require_once($config['path_to_module'] . 'shipping_to_country.php');
-$shipping_to_country = new shipping_to_country();
+
+$shipping_to_country =  mw('shop\shipping\gateways\country\shipping_to_country');
 
 
 $data = $data_orig = $shipping_to_country->get();
@@ -319,6 +319,8 @@ foreach ($datas as $data_key => $data): ?>
                                     <?php _e("Choose country"); ?>
                                 </option>
                             <?php endif; ?>
+                            
+                            <?php  if (is_array($countries)) : ?>
                             <?php foreach ($countries as $item1): ?>
                                 <?php
                                 $disabled = '';
@@ -330,6 +332,7 @@ foreach ($datas as $data_key => $data): ?>
                                 ?>
                                 <option value="<?php print $item1 ?>" <?php if (isset($item['shipping_country']) and $item1 == $item['shipping_country']): ?> selected="selected" <?php else : ?> <?php print $disabled ?> <?php endif; ?>  ><?php print $item1 ?></option>
                             <?php endforeach; ?>
+                             <?php endif; ?>
                         </select>
 
                                     <ul class="mw-ui-inline-list">
@@ -342,14 +345,14 @@ foreach ($datas as $data_key => $data): ?>
                                             <label class="mw-ui-check">
                                                 <input
                                                   name="is_active" type="radio" class="semi_hidden is_active_n"
-                                                  value="n" <?php if (isset($item['is_active']) and '' == trim($item['is_active']) or 'n' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
+                                                  value="0" <?php if (isset($item['is_active']) and '' == trim($item['is_active']) or '0' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
                                                  <span></span>
                                                  <span><?php _e("No"); ?></span>
                                             </label>
                                       </li>
                                     <li>
                                         <label class="mw-ui-check">
-                                          <input name="is_active" type="radio" class="semi_hidden is_active_y" value="y" <?php if (isset($item['is_active']) and 'y' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
+                                          <input name="is_active" type="radio" class="semi_hidden is_active_y" value="1" <?php if (isset($item['is_active']) and '1' == trim($item['is_active'])): ?>   checked="checked"  <?php endif; ?> />
                                           <span></span>
                                           <span><?php _e("Yes"); ?></span>
                                         </label>

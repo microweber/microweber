@@ -39,7 +39,7 @@ mw.manage_content_sort = function(){
   if(!mw.$("#mw_admin_posts_sortable").hasClass("ui-sortable")){
         mw.$("#mw_admin_posts_sortable").sortable({
              items: '.manage-post-item',
-             axis:'y',
+             axis:1,
              handle:'.mw_admin_posts_sortable_handle',
              update:function(){
                var obj = {ids:[]}
@@ -147,7 +147,7 @@ mw.on.hashParam("pg", function(){
                             <a
                                 class="manage-post-image manage-post-image-no-image <?php if (isset($item['content_type'])) {
                                     print ' manage-post-image-' . $item['content_type'];
-                                } ?><?php if (isset($item['is_shop']) and $item['is_shop'] == 'y') {
+                                } ?><?php if (isset($item['is_shop']) and $item['is_shop'] == 1) {
                                     print ' manage-post-image-shop';
                                 } ?><?php if (isset($item['subtype']) and $item['subtype'] == 'product') {
                                     print ' manage-post-image-product';
@@ -161,7 +161,7 @@ mw.on.hashParam("pg", function(){
                             <h3 class="manage-post-item-title"><a target="_top" href="<?php print $edit_link ?>"
                                                                   onClick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;">
                                     <?php if (isset($item['content_type']) and $item['content_type'] == 'page'): ?>
-                                        <?php if (isset($item['is_shop']) and $item['is_shop'] == 'y'): ?>
+                                        <?php if (isset($item['is_shop']) and $item['is_shop'] == 1): ?>
                                             <span class="mw-icon-shop"></span>
                                         <?php else : ?>
                                             <span class="mw-icon-page"></span>
@@ -266,7 +266,7 @@ if (isset($params['data-page-number'])) {
 <?php else: ?>
     <div class="mw-no-posts-foot">
  
-        <?php if (isset($page_info['is_shop']) and $page_info['is_shop'] == 'y') : ?>
+        <?php if (isset($page_info['is_shop']) and $page_info['is_shop'] == 1) : ?>
 
             <span class="mw-no-posts-foot-label"><?php _e("No Products Here"); ?></span>
 

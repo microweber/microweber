@@ -19,8 +19,8 @@ if(strtolower(trim($hostname)) == 'paypal.com'){
 	$update_order['payment_type'] = $data['payment_type'];
 	$update_order['transaction_id'] = $data['txn_id'];
 	$update_order['payment_receiver_email'] = $data['receiver_email'];
-	$update_order['is_paid'] = 'y';
- 	$update_order['order_completed'] = 'y';
+	$update_order['is_paid'] = 1;
+ 	$update_order['order_completed'] = 1;
 }
 
 

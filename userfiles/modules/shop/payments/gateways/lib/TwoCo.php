@@ -84,7 +84,7 @@ class TwoCo extends PaymentGateway
         $orderTotal     = $this->ipnData["total"];
 
         // If demo mode, the order number must be forced to 1
-        if($this->demo == "Y" || $this->ipnData['demo'] == 'Y')
+        if($this->demo == "Y" || $this->ipnData['demo'] == 1)
         {
             $orderNumber = "1";
         }

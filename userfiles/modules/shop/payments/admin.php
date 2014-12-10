@@ -13,7 +13,7 @@ if(!is_admin()){
 
 setActiveProvider = function(el){
   if(el.checked == true){
-    if(el.value == 'y') {
+    if(el.value == 1) {
        $(mw.tools.firstParentWithClass(el, 'payment-state-status')).addClass("active");
     }
     else{
@@ -89,7 +89,7 @@ runMailEditor = function(){
 mw.$("#available_providers").sortable({
   items:".mw-ui-box",
   handle:".mw-icon-drag",
-  axis:"y",
+  axis:1,
   placeholder: "available_providers_placeholder",
   start:function(a,b){
 
@@ -354,7 +354,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                             </div>
                             <div class="mw-ui-col">
                                <span class="gateway-title"><?php print $payment_module['name'] ?>
-                        <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?>
+                        <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 1): ?>
                         <small class="mw-small">(disabled)</small>
                         <?php endif; ?>
                         </span>
@@ -369,15 +369,15 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                       <div class="mw-ui-row">
                           <div class="mw-ui-col"><h3><?php print $payment_module['name'] ?>:</h3></div>
                           <div class="mw-ui-col">
-                              <div class="mw-ui-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?>active<?php endif; ?> pull-right">
+                              <div class="mw-ui-box payment-state-status <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 1): ?>active<?php endif; ?> pull-right">
                         <div class="mw-ui-check-selector">
                           <label class="mw-ui-check">
-                            <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="y"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 'y'): ?> checked="checked" <?php endif; ?> >
+                            <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"    data-option-group="payments"  value="1"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') == 1): ?> checked="checked" <?php endif; ?> >
                             <span></span> <span class="first">
                             <?php _e("Enabled"); ?>
                             </span> </label>
                           <label class="mw-ui-check">
-                            <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="n"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 'y'): ?> checked="checked" <?php endif; ?> >
+                            <input onchange="setActiveProvider(this);" name="payment_gw_<?php print $payment_module['module'] ?>" class="mw_option_field"     data-option-group="payments"  value="0"  type="radio"  <?php if(get_option('payment_gw_'.$payment_module['module'], 'payments') != 1): ?> checked="checked" <?php endif; ?> >
                             <span></span> <span class="second">
                             <?php _e("Disabled"); ?>
                             </span> </label>
@@ -402,12 +402,12 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                  <?php _e("Users must agree to Terms and Conditions"); ?>
                 </h4>
                 <label class="mw-ui-check" style="margin-right: 15px;">
-                  <input name="shop_require_terms" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_require_terms', 'website') != 'y'): ?> checked="checked" <?php endif; ?> >
+                  <input name="shop_require_terms" class="mw_option_field"     data-option-group="website"  value="0"  type="radio"  <?php if(get_option('shop_require_terms', 'website') != 1): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("No"); ?>
                   </span></label>
                 <label class="mw-ui-check">
-                  <input name="shop_require_terms" class="mw_option_field"    data-option-group="website"  value="y"  type="radio"  <?php if(get_option('shop_require_terms', 'website') == 'y'): ?> checked="checked" <?php endif; ?> >
+                  <input name="shop_require_terms" class="mw_option_field"    data-option-group="website"  value="1"  type="radio"  <?php if(get_option('shop_require_terms', 'website') == 1): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("Yes"); ?>
                   </span></label>
@@ -418,12 +418,12 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                  <?php _e("Purchasing requires registration"); ?>
                 </h4>
                 <label class="mw-ui-check" style="margin-right: 15px;">
-                  <input name="shop_require_registration" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_require_registration', 'website') != 'y'): ?> checked="checked" <?php endif; ?> >
+                  <input name="shop_require_registration" class="mw_option_field"     data-option-group="website"  value="0"  type="radio"  <?php if(get_option('shop_require_registration', 'website') != 1): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("No"); ?>
                   </span></label>
                 <label class="mw-ui-check">
-                  <input name="shop_require_registration" class="mw_option_field"    data-option-group="website"  value="y"  type="radio"  <?php if(get_option('shop_require_registration', 'website') == 'y'): ?> checked="checked" <?php endif; ?> >
+                  <input name="shop_require_registration" class="mw_option_field"    data-option-group="website"  value="1"  type="radio"  <?php if(get_option('shop_require_registration', 'website') == 1): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("Yes"); ?>
                   </span></label>
@@ -441,13 +441,13 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   <?php _e("Disable online shop"); ?>
                 </h4>
                 <label class="mw-ui-check" style="margin-right: 15px;">
-                  <input name="shop_disabled" class="mw_option_field"     data-option-group="website"  value="n"  type="radio"  <?php if(get_option('shop_disabled', 'website') != 'y'): ?> checked="checked" <?php endif; ?> >
+                  <input name="shop_disabled" class="mw_option_field"     data-option-group="website"  value="0"  type="radio"  <?php if(get_option('shop_disabled', 'website') != 1): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("No"); ?>
                   </span>
                 </label>
                 <label class="mw-ui-check">
-                  <input name="shop_disabled" class="mw_option_field"    data-option-group="website"  value="y"  type="radio"  <?php if(get_option('shop_disabled', 'website') == 'y'): ?> checked="checked" <?php endif; ?> >
+                  <input name="shop_disabled" class="mw_option_field"    data-option-group="website"  value="1"  type="radio"  <?php if(get_option('shop_disabled', 'website') == 1): ?> checked="checked" <?php endif; ?> >
                   <span></span>
                   <span>
                   <?php _e("Yes"); ?>
@@ -462,12 +462,12 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                   </h2>
                 </div>
                 <label class="mw-ui-check" style="margin-right: 15px;">
-                  <input name="order_email_enabled" class="mw_option_field"    data-option-group="orders"  value="y"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') == 'y'): ?> checked="checked" <?php endif; ?> >
+                  <input name="order_email_enabled" class="mw_option_field"    data-option-group="orders"  value="1"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') == 1): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("Yes"); ?>
                   </span></label>
                 <label class="mw-ui-check">
-                  <input name="order_email_enabled" class="mw_option_field"     data-option-group="orders"  value="n"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') != 'y'): ?> checked="checked" <?php endif; ?> >
+                  <input name="order_email_enabled" class="mw_option_field"     data-option-group="orders"  value="0"  type="radio"  <?php if(get_option('order_email_enabled', 'orders') != 1): ?> checked="checked" <?php endif; ?> >
                   <span></span><span>
                   <?php _e("No"); ?>
                   </span></label>

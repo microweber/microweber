@@ -8,6 +8,9 @@ $edit_page_info = $data;;
 	display: none;
 }
 </style>
+
+
+
 <div class="admin-manage-content-wrap">
 
 
@@ -22,7 +25,7 @@ $edit_page_info = $data;;
 				
 				if(isset($data['id']) and intval($data['id']) == 0 and isset($data['parent']) and intval($data['parent']) != 0){
 					$parent_data = get_content_by_id($data['parent']);
-					if(is_array($parent_data) and isset($parent_data['is_active']) and ($parent_data['is_active']) == 'n'){
+					if(is_array($parent_data) and isset($parent_data['is_active']) and ($parent_data['is_active']) == 0){
 						$data['is_active'] = 0;
 					}
 				}
@@ -30,7 +33,7 @@ $edit_page_info = $data;;
 				
 				
 				
-				if ($edit_page_info['is_shop'] == 'y') {
+				if ($edit_page_info['is_shop'] == 1) {
                     $type = 'shop';
                 } elseif ($edit_page_info['subtype'] == 'dynamic') {
                     $type = 'dynamicpage';
@@ -71,7 +74,7 @@ $edit_page_info = $data;;
           </div>
           <script>mwd.getElementById('content-title-field').focus();</script>
           <?php else: ?>
-          <?php if ($edit_page_info['is_shop'] == 'y') {
+          <?php if ($edit_page_info['is_shop'] == 1) {
                         $type = 'shop';
                     } elseif ($edit_page_info['subtype'] == 'dynamic') {
                         $type = 'dynamicpage';
@@ -84,7 +87,7 @@ $edit_page_info = $data;;
         </div>
         <div class="mw-ui-col" id="content-title-field-buttons">
           <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid pull-right" style="width: auto;">
-            <?php if ($data['is_active'] == 'n') { ?>
+            <?php if ($data['is_active'] == 0) { ?>
             <li><span
                             onclick="mw.admin.postStates.toggle()"
                             data-val="n"
@@ -147,9 +150,9 @@ $edit_page_info = $data;;
     </div>
   </div>
   <div id="post-states-tip" style="display: none">
-    <div class="mw-ui-btn-vertical-nav post-states-tip-nav"> <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if($data['is_active'] == 'n'): ?> active<?php endif; ?>"><span class="mw-icon-unpublish"></span>
+    <div class="mw-ui-btn-vertical-nav post-states-tip-nav"> <span onclick="mw.admin.postStates.set('unpublish')" data-val="n" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-unpublish <?php if($data['is_active'] == 0): ?> active<?php endif; ?>"><span class="mw-icon-unpublish"></span>
       <?php _e("Unpublish"); ?>
-      </span> <span onclick="mw.admin.postStates.set('publish')" data-val="y" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-publish <?php if($data['is_active'] != 'n'): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
+      </span> <span onclick="mw.admin.postStates.set('publish')" data-val="y" class="mw-ui-btn mw-ui-btn-medium btn-publish-unpublish btn-publish <?php if($data['is_active'] != 0): ?> active<?php endif; ?>"><span class="mw-icon-check"></span>
       <?php _e("Publish"); ?>
       </span>
       <hr>
@@ -328,6 +331,7 @@ and (isset($data['content_type']) and $data['content_type'] == 'page')
 <script>
     mw.require("content.js");
     mw.require("files.js");
+	 mw.require("admin_custom_fields.js");
 </script> 
 <script>
 /* FUNCTIONS */
@@ -412,6 +416,8 @@ mw.edit_content.after_save = function(saved_id){
      mw.notification.success('Content saved!');
     }
 	if(parent !== self && !!parent.mw){
+		
+		 
 		    mw.reload_module_parent('posts');
 			mw.reload_module_parent('shop/products');
 			mw.reload_module_parent('shop/cart_add');
@@ -568,11 +574,11 @@ mw.edit_content.handle_form_submit = function(go_live){
                  window.parent.mw.askusertostay = false;
 				 if(typeof(data.is_active) !== 'undefined' && typeof(data.id) !== 'undefined'){
 					   if((data.id) != 0){ 
-						  if((data.is_active) == 'n'){
+						  if((data.is_active) == 0){
 							 window.parent.mw.$('.mw-set-content-unpublish').hide();
 							 window.parent.mw.$('.mw-set-content-publish').show();
 						  }
-						  else if((data.is_active) == 'y'){
+						  else if((data.is_active) == 1){
 							  window.parent.mw.$('.mw-set-content-publish').hide();
 							  window.parent.mw.$('.mw-set-content-unpublish').show();
 						  }

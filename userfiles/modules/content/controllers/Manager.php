@@ -64,6 +64,12 @@ class Manager
         } else if (isset($params['is_shop']) and $params['is_shop'] == 0) {
             $posts_mod['subtype'] = 'post';
         }
+		
+		
+		
+		
+		
+		
         if (isset($params['content_type_filter']) and $params['content_type_filter'] != '') {
             $posts_mod['content_type'] = $params['content_type_filter'];
         }
@@ -88,8 +94,14 @@ class Manager
                 }
             } else {
                 $page_info = $this->provider->get_by_id($params['page-id']);
+				if (isset($page_info['is_shop']) and trim($page_info['is_shop']) == 1) {
+                    $posts_mod['subtype'] = 'product';
+                }
             }
         }
+		
+	 
+		 
 
         if (isset($params['category-id']) and $params['category-id'] != 'global') {
             $check_if_exist = $this->category_provider->get_page($params['category-id']);
@@ -103,6 +115,8 @@ class Manager
                 }
             }
         }
+		
+		
 
 
         $posts_mod['paging_param'] = 'pg';
@@ -110,6 +124,11 @@ class Manager
         if (isset($posts_mod['page-id'])) {
             $posts_mod['parent'] = $posts_mod['page-id'];
         }
+		
+		 if (isset($params['pg'])) {
+            $posts_mod['pg'] = $params['pg'];
+        }
+		 
         if (isset($params['data-category-id'])) {
             $posts_mod['category-id'] = $params['data-category-id'];
         }
@@ -126,6 +145,8 @@ class Manager
         if (isset($posts_mod['search_by_keyword'])) {
             $keyword = strip_tags($posts_mod['search_by_keyword']);
         }
+		
+		 
 
         $data = $this->provider->get($posts_mod);
 
@@ -156,15 +177,14 @@ class Manager
                 if (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and $page_info['subtype'] == 'static') {
 
                     if (isset($posts_mod['category-id']) and $posts_mod['category-id'] != 0) {
-                        print load_module('categories/edit_category', $params);
-                        return;
-                    }
+                         
+                    } else {
+						  $manager = new Edit();
+                          return $manager->index($params);
+					}
 
 
-                    $manager = new Edit();
-
-
-                    return $manager->index($params);
+                  
                 } elseif (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and isset($page_info['subtype'])
                     and isset($page_info['id'])
                     and $page_info['subtype'] != false

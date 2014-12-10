@@ -55,7 +55,7 @@ $mtime = microtime();
 
 <b>
 
-Cache hits <?php $ch = mw('cache')->debug(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
+Cache hits <?php $ch = mw()->cache_manager->debug(true); print count( $ch ,COUNT_RECURSIVE ) ?></b>
   <pre><?php print_r( $ch) ?></pre>
  
 

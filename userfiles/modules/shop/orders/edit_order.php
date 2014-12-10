@@ -213,10 +213,10 @@ else {
                   <?php _e("Is Paid"); ?>
                   :
                   <select name="is_paid" class="mw-ui-field mw-ui-field-medium mw-order-is-paid-change">
-                    <option value="y" <?php if (isset($ord['is_paid']) and $ord['is_paid'] == 'y'): ?> selected="selected" <?php endif; ?>>
+                    <option value="1" <?php if (isset($ord['is_paid']) and $ord['is_paid'] == 1): ?> selected="selected" <?php endif; ?>>
                     <?php _e("Yes"); ?>
                     </option>
-                    <option value="n" <?php if (isset($ord['is_paid']) and $ord['is_paid'] != 'y'): ?> selected="selected" <?php endif; ?>>
+                    <option value="0" <?php if (isset($ord['is_paid']) and $ord['is_paid'] != 1): ?> selected="selected" <?php endif; ?>>
                     <?php _e("No"); ?>
                     </option>
                   </select>

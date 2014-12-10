@@ -20,15 +20,15 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 <script>mw.require('forms.js');</script>
 
 <div class="control-group form-group">
-  <label class="mw-ui-label"><?php print $data["custom_field_name"]; ?></label>
+  <label class="mw-ui-label"><?php print $data["name"]; ?></label>
   <div class="mw-custom-field-form-controls">
     <input type="number"
         onkeyup="mw.form.typeNumber(this);"
         <?php if ($is_required): ?> required="true"  <?php endif; ?>
         class="mw-ui-field"
         data-custom-field-id="<?php print $data["id"]; ?>"
-        name="<?php print $data["custom_field_name"]; ?>"
-         placeholder="<?php print $data["custom_field_value"]; ?>"
+        name="<?php print $data["name"]; ?>"
+         placeholder="<?php print $data["value"]; ?>"
         />
   </div>
 </div>

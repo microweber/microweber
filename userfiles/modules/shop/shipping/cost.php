@@ -1,6 +1,6 @@
 <?php 
   
- $shipping_options =  api('shop/shipping/shipping_api/get_active');
+ $shipping_options =  mw('shop\shipping\shipping_api')->get_active();
 
  
   ?>

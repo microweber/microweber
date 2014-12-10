@@ -50,7 +50,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
     <label class="mw-ui-label" for="input_field_label<?php print $rand; ?>">
       <?php _e('Title'); ?>
     </label>
-    <input type="text" class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">
+    <input type="text" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
     <?php
 
      $opt = array(
@@ -81,7 +81,7 @@ mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
     <?php foreach($opt as $key => $val){ ?>
     <div class="mw-ui-field-holder mw-custom-fields-address-fields-<?php print $key; ?>">
       <label class="mw-ui-label"><?php print $val; ?></label>
-      <input type="text" class="mw-ui-field" name="custom_field_value[<?php print $key; ?>]" <?php if(isset($data['custom_field_values'][$key]) and isset($data['custom_field_values'][$key][0])) : ?> value="<?php print $data['custom_field_values'][$key][0] ?>"  <?php endif; ?> />
+      <input type="text" class="mw-ui-field" name="value[<?php print $key; ?>]" <?php if(isset($data['values'][$key]) and isset($data['values'][$key][0])) : ?> value="<?php print $data['values'][$key][0] ?>"  <?php endif; ?> />
     </div>
     <?php } ?>
   </div>

@@ -13,7 +13,7 @@ description: Minimal Search template
   ?>
 
 
-<script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>search/search.css"); </script>
+<script>mw.moduleCSS("<?php print modules_url();; ?>search/search.css"); </script>
 <?php $rand = uniqid(); ?>
 <div class="mw-search mw-search-minimal" id="search_box_holder_<?php  print $params['id'] . $rand ?>">
     <span class="sm-icon-magnify"></span>

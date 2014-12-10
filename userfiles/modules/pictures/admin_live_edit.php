@@ -1,5 +1,8 @@
 <?php
 
+if (isset($params['rel'])){
+	$params['rel_type'] = $params['rel'];
+}
 
 $the_content_id = false;
 
@@ -26,7 +29,7 @@ if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'c
     $params['rel_id'] = CONTENT_ID;
     $params['for'] = 'content';
 }
- 
+  
 
 $use_from_post = get_option('data-use-from-post', $params['id']) =='y';
 $use_from_post_forced = false;

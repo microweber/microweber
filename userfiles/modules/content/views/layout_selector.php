@@ -263,16 +263,16 @@ mw.templatePreview<?php print $rand; ?> = {
         if (form != undefined && form != false) {
             if (is_shop != undefined) {
                 if (is_shop != undefined && is_shop == 'y') {
-                    if (form != undefined && form.querySelector('input[name="is_shop"][value="y"]') != null) {
-                        form.querySelector('input[name="is_shop"][value="y"]').checked = true;
+                    if (form != undefined && form.querySelector('input[name="is_shop"][value="1"]') != null) {
+                        form.querySelector('input[name="is_shop"][value="1"]').checked = true;
                     }
                 }
                 else {
                     if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
-                        form.querySelector('input[name="is_shop"]').value = 'n'
+                        form.querySelector('input[name="is_shop"]').value = '0'
                     }
-                    if (form != undefined && form.querySelector('input[name="is_shop"][value="n"]') != null) {
-                        form.querySelector('input[name="is_shop"][value="n"]').checked = true;
+                    if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]') != null) {
+                        form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                     }
                 }
             }
@@ -281,10 +281,10 @@ mw.templatePreview<?php print $rand; ?> = {
 
 
                 if (form != undefined && form.querySelector('input[name="is_shop"]') != null) {
-                    form.querySelector('input[name="is_shop"]').value = 'n'
+                    form.querySelector('input[name="is_shop"]').value = '0'
                 }
-                if (form != undefined && form.querySelector('input[name="is_shop"][value="n"]') != null) {
-                    form.querySelector('input[name="is_shop"][value="n"]').checked = true;
+                if (form != undefined && form.querySelector('input[name="is_shop"][value="0"]') != null) {
+                    form.querySelector('input[name="is_shop"][value="0"]').checked = true;
                 }
 				<?php endif; ?>
 				

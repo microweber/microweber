@@ -26,7 +26,7 @@ if($sid == ''){
 }
 $cart = array();
 $cart['session_id'] = mw()->user_manager->session_id();
-$cart['order_completed'] = 'n';
+$cart['order_completed'] = 0;
 
 $data = get_cart($cart);
    

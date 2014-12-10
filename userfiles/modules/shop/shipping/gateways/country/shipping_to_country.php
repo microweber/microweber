@@ -1,4 +1,7 @@
 <?php
+
+namespace shop\shipping\gateways\country;
+
 api_bind('shop/shipping/gateways/country/shipping_to_country/test', 'shop/shipping/gateways/country/shipping_to_country/test2');
 
 // print('shop/shipping/gateways/country/shipping_to_country/test'. 'shop/shipping/gateways/country/shipping_to_country/test2');
@@ -19,7 +22,7 @@ class shipping_to_country
     // to prevent external instantiation
     function __construct($app = false)
     {
-        $this->table = get_table_prefix() . 'cart_shipping';
+        $this->table = 'cart_shipping';
         if (!is_object($this->app)) {
 
             if (is_object($app)) {
@@ -293,7 +296,10 @@ if($is_worldwide == false){
 				
 				if($is_worldwide  == true){
 					 $active['shipping_country'] = $params['country'];
- 				} 
+ 				}
+
+
+
 				$this->app->user_manager->session_set('shipping_country', $active['shipping_country']);
 			 
 				

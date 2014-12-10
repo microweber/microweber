@@ -79,7 +79,7 @@ description: Default cart template
                 </div>
             </div>
 
-            <?php  $shipping_options =  api('shop/shipping/shipping_api/get_active'); ?>
+            <?php  $shipping_options =  mw('shop\shipping\shipping_api')->get_active(); ?>
             <?php if ($cart_show_shipping != 'n' and !empty($shipping_options)): ?>
                 <div class="mw-ui-col">
                     <div class="mw-ui-col-container">

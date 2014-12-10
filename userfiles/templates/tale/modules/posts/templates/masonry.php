@@ -14,8 +14,8 @@ description: Masonry
 
 <div class="clearfix module-posts-template-masonry module-posts-template-masonry-liteness" id="posts-<?php print $rand; ?>">
   <?php if (!empty($data)): ?>
-  <script>mw.require("<?php print MW_MODULES_URL; ?>posts/js/masonry.pkgd.min.js", true); </script> 
-  <script>mw.moduleCSS("<?php print MW_MODULES_URL; ?>posts/css/style.css"); </script> 
+  <script>mw.require("<?php print modules_url();; ?>posts/js/masonry.pkgd.min.js", true); </script> 
+  <script>mw.moduleCSS("<?php print modules_url();; ?>posts/css/style.css"); </script> 
   <script>
     mw._masons = mw._masons || [];
     $(document).ready(function(){

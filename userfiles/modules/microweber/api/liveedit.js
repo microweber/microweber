@@ -2154,6 +2154,10 @@ mw.history = {
                           var field = data_field.field;
                           var rel = data_field.rel;
                           mw.$('.edit[rel="'+rel+'"][field="'+field+'"]').html(data_field.value);
+                        } else if(typeof data_field.field !== 'undefined' && typeof data_field.rel_type !== 'undefined'){
+                          var field = data_field.field;
+                          var rel = data_field.rel_type;
+                          mw.$('.edit[rel="'+rel+'"][field="'+field+'"]').html(data_field.value);
                         }
                       }
                       mw.$(".edit.changed").removeClass("changed");

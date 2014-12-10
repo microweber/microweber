@@ -1,6 +1,9 @@
 <?php
 
 $no_img = false;
+if (isset($params['rel'])){
+	$params['rel_type'] = $params['rel'];
+}
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'post' and defined('POST_ID')) {
     $params['rel_id'] = POST_ID;
     $params['for'] = 'content';
@@ -23,7 +26,7 @@ if (isset($params['for'])) {
 } else {
     $for = 'modules';
 }
-
+ 
 $use_from_post = get_option('data-use-from-post', $params['id']);
 if ($use_from_post == 'y') {
     if (POST_ID != false) {

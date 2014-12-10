@@ -10,7 +10,7 @@
     <?php _e('Title'); ?>
   </label>
 
-    <input type="text"  class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">
+    <input type="text"  class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
   
     <label class="mw-ui-check left" style="margin-right: 7px;">
@@ -34,19 +34,19 @@
 
       <label class="mw-ui-label">Values</label>
       <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
-        <?php if(is_array($data['custom_field_values'])) : ?>
-        <?php foreach($data['custom_field_values'] as $v): ?>
+        <?php if(is_array($data['values'])) : ?>
+        <?php foreach($data['values'] as $v): ?>
         
          <?php if(is_array( $v)){
 			 $v = implode(',', $v); 
 		 }?>
         <div class="mw-custom-field-form-controls">
-          <input type="text" class="mw-ui-field" name="custom_field_value[]"  value="<?php print $v; ?>">
+          <input type="text" class="mw-ui-field" name="value[]"  value="<?php print $v; ?>">
           <?php print $add_remove_controls; ?> </div>
         <?php endforeach; ?>
         <?php else: ?>
         <div class="mw-custom-field-form-controls">
-          <input type="text" name="custom_field_value[]" class="mw-ui-field"  value="" />
+          <input type="text" name="value[]" class="mw-ui-field"  value="" />
           <?php print $add_remove_controls; ?> </div>
         <?php endif; ?>
         <script type="text/javascript">

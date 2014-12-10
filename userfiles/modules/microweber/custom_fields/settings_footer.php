@@ -38,7 +38,7 @@
            if(typeof __custom_fields_editor_binded == 'undefined'){
                 __custom_fields_editor_binded = true;
                 mw.$("#custom-field-editor").keyup(function(e){
-                  if(e.target.name == 'custom_field_name'){
+                  if(e.target.name == 'name'){
                       $(this).find('.custom-field-edit-title strong').html(e.target.value);
                   }
                 });

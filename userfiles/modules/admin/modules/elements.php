@@ -10,12 +10,11 @@ if(isset($params['reload_modules'])){
 		$mod_params['cleanup_db'] = 1;
 		$mod_params['skip_cache'] = 1;
 		
-		 $mods = mw()->modules->get_layouts($mod_params); 
-		// d($mods);
+		$mods = mw()->modules->scan_for_elements($mod_params);
 	}
 	
 	 
-	 //$mods = get_elements($s); 
+	 //$mods = scan_for_elements($s); 
 }
 if(isset($params['category'])){
 	
@@ -25,8 +24,7 @@ if(isset($params['category'])){
 
  $mods = mw()->layouts_manager->get($mod_params); 
  if( $mods == false){
-	  $mods = get_elements('skip_cache=1'); 
-	  $mods = mw()->layouts_manager->get($mod_params); 
+ 	  $mods = mw()->layouts_manager->get($mod_params);
  }
   //d( $params );
  

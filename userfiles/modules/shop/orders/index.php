@@ -20,11 +20,11 @@
 	if(isset($params['order-type']) and $params['order-type'] == 'carts'){
 	 		$ordert_type = 'carts';
 			$ord = 'order_by=updated_at desc';
-	 		$orders = get_cart('limit=1000&group_by=session_id&no_session_id=true&order_completed=n&'.$ord);
-			//$orders = get_cart('debug=1&limit=1000&group_by=id&no_session_id=true&order_completed=n&'.$ord);
+	 		$orders = get_cart('limit=1000&group_by=session_id&no_session_id=true&order_completed=0&'.$ord);
+			//$orders = get_cart('debug=1&limit=1000&group_by=id&no_session_id=true&order_completed=0&'.$ord);
 			
 	} else {
-		$orders = get_orders('order_completed=y&'.$ord.$kw);
+		$orders = get_orders('order_completed=1&'.$ord.$kw);
 		// 
  	}
 
@@ -101,7 +101,7 @@
           <span class="mw-order-item-status-pending"><?php _e("Pending"); ?> </span>
           <?php endif; ?></td>
         <td class="mw-order-item-amount"><?php  print currency_format(floatval($item['amount']) + floatval($item['shipping']),$item['currency']) ?></td>
-        <td class="mw-order-item-paid"><?php if($item['is_paid'] == 'y'): ?>
+        <td class="mw-order-item-paid"><?php if($item['is_paid'] == 1): ?>
           <?php _e("Yes"); ?>
           <?php else : ?>
           <?php _e("No"); ?>
@@ -157,7 +157,7 @@
     <tbody>
 
       <tr class="mw-order-item-<?php print $item['id'] ?> no-hover" >
-        <td><?php $cart_items = get_cart('order_completed=n&session_id='.$item['session_id']); ?>
+        <td><?php $cart_items = get_cart('order_completed=0&session_id='.$item['session_id']); ?>
           <?php if(is_array($cart_items) and !empty($cart_items)) :?>
           <?php
     			$recart_base =  site_url();
@@ -248,8 +248,8 @@
     </tbody>
   </table><?php endforeach; ?>
     <?php
-		$abandoned_carts = get_cart('count=1&no_session_id=true&order_completed=n&group_by=session_id');
-        $completed_carts = get_orders('count=1&order_completed=y');
+		$abandoned_carts = get_cart('count=1&no_session_id=true&order_completed=0&group_by=session_id');
+        $completed_carts = get_orders('count=1&order_completed=1');
      ?>
   <script>mw.lib.require("morris");</script> 
   <script>

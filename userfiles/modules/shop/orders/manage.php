@@ -109,9 +109,9 @@ ordersSort = function(obj){
 }
 
 </style>
-<?php $is_orders = get_orders('order_completed=y&count=1'); ?>
+<?php $is_orders = get_orders('order_completed=1&count=1'); ?>
 
-<?php $latest_orders = get_orders('order_completed=y&count=1&order_status=pending'); ?>
+<?php $latest_orders = get_orders('order_completed=1&count=1&order_status=pending'); ?>
 
 
 

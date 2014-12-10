@@ -45,7 +45,7 @@ mw.admin.custom_fields.initTextAreaValue = function (node) {
         node.onchange = function (e) {
             var data = {
                 id: $(this).dataset('id'),
-                custom_field_value: $(this).val()
+                value: $(this).val()
             }
 
             $.post(mw.settings.api_url + 'fields/save', data, function () {
@@ -101,19 +101,19 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
 
             var data = {
                 id: $(el).dataset('id'),
-                custom_field_value: vals
+                value: vals
             }
         }
         else {
             var data = {
                 id: $(el).dataset('id'),
-                custom_field_name: $(el).text()
+                name: $(el).text()
             }
         }
         mw.tools.removeClass(mw.tools.firstParentWithTag(this, 'tr'), 'active');
         $.post(mw.settings.api_url + 'fields/save', data, function (adata) {
             var rstr = mwd.getElementById('mw-custom-fields-list-settings-' + data.id).innerHTML.replace(/\s+/g, '');
-            if (rstr != '' && !!data.custom_field_value) {
+            if (rstr != '' && !!data.value) {
                 mw.reload_module('#mw-custom-fields-list-settings-' + data.id);
             }
             mw.custom_fields.after_save();

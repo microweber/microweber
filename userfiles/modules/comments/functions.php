@@ -167,7 +167,7 @@ function mw_print_admin_dashboard_comments_btn()
 
     $admin_dashboard_btn['icon_class'] = 'mw-icon-comment';
     $notif_html = '';
-    $notif_count = mw()->notifications->get('module=comments&is_read=n&count=1');
+    $notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
 
     if ($notif_count > 0) {
         $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
@@ -371,7 +371,7 @@ function post_comment($data)
         $notif['title'] = "You have new comment";
         $notif['description'] = "New comment is posted on " . mw()->url_manager->current(1);
         $notif['content'] = mw()->format->limit($data['comment_body'], 800);
-        $notf_id = mw()->notifications->save($notif);
+        $notf_id = mw()->notifications_manager->save($notif);
         $data['moderate'] = admin_url('view:modules/load_module:comments/mw_notif:' . $notf_id);
         $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
         $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');

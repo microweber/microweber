@@ -4,7 +4,7 @@ only_admin_access();
 ?><?php if(isset($params['order-id']) == true): ?>
 <?php
 $client = get_orders('one=1&id='.intval($params['order-id']));
-$orders = get_orders('order_by=created_at desc&order_completed=y&email='.$client['email']);
+$orders = get_orders('order_by=created_at desc&order_completed=1&email='.$client['email']);
 ?>
 <script type="text/javascript">
 mw.require('forms.js');

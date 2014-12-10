@@ -1,14 +1,13 @@
 <?php include('settings_header.php'); ?>
-   <?php // p ($data['custom_field_value']) ?>
+   <?php // p ($data['value']) ?>
    
    <?php
-   if(empty($data['custom_field_values'])){
-	//$data['custom_field_values'] = array(0);
+   if(empty($data['values'])){
+	//$data['values'] = array(0);
    }
    
-  // d($data);
-   // p ($data['custom_field_values'])
-
+ 
+ 
    ?>
 
 
@@ -21,7 +20,7 @@
     <?php _e('Field name'); ?>
   </label>
 
-    <input type="text" class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">
+    <input type="text" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
 </div>
 </div>
@@ -32,10 +31,10 @@
    
     <div class="mw-custom-field-group" style="padding-top: 0;" id="fields<?php print $rand; ?>">
 
-     <?php if(is_array($data['custom_field_values'])) : ?>
-     <?php foreach($data['custom_field_values'] as $v): ?>
+     <?php if(is_array($data['values'])) : ?>
+     <?php foreach($data['values'] as $v): ?>
       <div class="mw-custom-field-form-controls">
-        <input type="text" class="mw-ui-field" onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<?php print $rand; ?>');" name="custom_field_value[]"  value="<?php print $v; ?>" />
+        <input type="text" class="mw-ui-field" onkeyup="mw.custom_fields.autoSaveOnWriting(this, 'custom_fields_edit<?php print $rand; ?>');" name="value[]"  value="<?php print $v; ?>" />
         <?php print $add_remove_controls; ?>
       </div>
   <?php endforeach; ?>
@@ -44,7 +43,7 @@
 
 
     <div class="mw-custom-field-form-controls">
-        <input type="text" name="custom_field_value[]" class="mw-ui-field"  value="" />
+        <input type="text" name="value[]" class="mw-ui-field"  value="" />
         <?php print $add_remove_controls; ?>
       </div>
   <?php endif; ?>

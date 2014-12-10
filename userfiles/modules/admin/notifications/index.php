@@ -26,7 +26,7 @@ if(!isset($notif_params['limit'])){
 $notif_params["order_by"] = 'created_at desc';
 $notif_params["order_by"] = 'is_read desc, created_at desc';
  
-$data = mw('Microweber\Notifications')->get($notif_params);
+$data = mw()->notifications_manager->get($notif_params);
 $wrapper_id = "admin_notifications";
 if(isset($notif_params['wrapper-id'])){
 $wrapper_id = $notif_params['wrapper-id'];

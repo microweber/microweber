@@ -71,7 +71,7 @@ transform:rotate(360deg);
       </tr>
     </tfoot>
     <tbody>
-      <?php $backups = mw('Utils/Backup')->get($keyword);
+      <?php $backups = mw('Microweber\Utils\Backup')->get($keyword);
 		  if(isarr($backups )): ?>
       <?php
 	  $i = 1;
@@ -81,7 +81,7 @@ transform:rotate(360deg);
         <td><span class="mw-date"><?php print $item['date']  ?></span></td>
         <td><span class="mw-date"><?php print $item['time']  ?></span></td>
         <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
-        <td class="mw-backup-download"><a class="show-on-hover mw-icon-download" target="_blank" title="<?php _e("Download"); ?>" href="<?php print api_url('Utils/Backup/download'); ?>?file=<?php print $item['filename']  ?>"></a></td>
+        <td class="mw-backup-download"><a class="show-on-hover mw-icon-download" target="_blank" title="<?php _e("Download"); ?>" href="<?php print api_url('Microweber/Utils/Backup/download'); ?>?file=<?php print $item['filename']  ?>"></a></td>
         <td class="mw-backup-restore"><a title="<?php _e("Restore"); ?>" class="show-on-hover mw-icon-reload" href="javascript:mw.admin_backup.restore('<?php print $item['filename']  ?>','#restore-<?php print md5($item['filename']) ?>')"></a></td>
         <td class="mw-backup-delete"><span title="<?php _e("Delete"); ?>" class="mw-icon-bin show-on-hover" onclick="mw.admin_backup.remove('<?php print $item['filename']  ?>', '.mw_admin_backup_item_<?php print $i ?>');"></span></td>
       </tr>

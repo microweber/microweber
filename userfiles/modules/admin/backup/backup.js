@@ -7,7 +7,7 @@ mw.admin_backup = {
 	 //  data = mw.$(selector+' input').serialize();
 
 	 mw.notification.success("Backup started...");
-	 $.post(mw.settings.api_url+'Utils/Backup/create', false ,
+	 $.post(mw.settings.api_url+'Microweber/Utils/Backup/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/backup/manage');
 	 		mw.notification.msg(msg);
@@ -18,7 +18,7 @@ mw.admin_backup = {
 	create_template_export : function(){
 	
 	 mw.notification.success("Export started...");
-	 $.post(mw.settings.api_url+'Utils/Backup/create_template_export', false ,
+	 $.post(mw.settings.api_url+'Microweber/Utils/Backup/create_template_export', false ,
 	 	function(msg) {
 			mw.reload_module_interval("#mw_backup_log", 5000);
 
@@ -32,7 +32,7 @@ mw.admin_backup = {
 	 //  data = mw.$(selector+' input').serialize();
 
 	 mw.notification.success("Backup started...");
-	 $.post(mw.settings.api_url+'Utils/Backup/create', false ,
+	 $.post(mw.settings.api_url+'Microweber/Utils/Backup/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/backup/manage');
 	 		mw.notification.msg(msg);
@@ -55,7 +55,7 @@ mw.admin_backup = {
 		   mw.notification.success("Backup restoration started",7000);
 				data = {}
 				data.id=src;
-				$.post(mw.settings.api_url+'Utils/Backup/restore', data ,
+				$.post(mw.settings.api_url+'Microweber/Utils/Backup/restore', data ,
 					function(msg) {
 						
 						if(typeof(loading_element) != 'undefined'){
@@ -77,7 +77,7 @@ mw.admin_backup = {
 
 		data = {}
 		data.src=src;
-		$.post(mw.settings.api_url+'Utils/Backup/move_uploaded_file_to_backup', data ,
+		$.post(mw.settings.api_url+'Microweber/Utils/Backup/move_uploaded_file_to_backup', data ,
 			function(msg) {
 				mw.reload_module('admin/backup/manage');
 				mw.notification.msg(msg);
@@ -97,7 +97,7 @@ mw.admin_backup = {
 			
 		mw.notification.success("Full Backup is started...",7000);
 	 
-		$.post(mw.settings.api_url+'Utils/Backup/create_full', false ,
+		$.post(mw.settings.api_url+'Microweber/Utils/Backup/create_full', false ,
 			function(msg) {
 				mw.reload_module('admin/backup/manage');
 				mw.notification.msg(msg);
@@ -114,7 +114,7 @@ mw.admin_backup = {
       		data.id=$id;
 
 
-      		$.post(mw.settings.api_url+'Utils/Backup/delete', data ,
+      		$.post(mw.settings.api_url+'Microweber/Utils/Backup/delete', data ,
       			function(resp) {
       			 //mw.reload_module('admin/backup/manage');
       			 mw.notification.msg(resp);

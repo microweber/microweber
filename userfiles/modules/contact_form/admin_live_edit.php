@@ -45,7 +45,7 @@ $(document).ready(function(){
   </div>
   <div class="mw-ui-box mw-ui-box-content">
     <div class="tab" style="display: block">
-        <module type="forms/assign_list_to_module"  data-for-module="<?php print $config['module_name'] ?>" data-for-module-id="<?php print $params['id'] ?>" />
+        <module type="contact_form/manager/assign_list_to_module"  data-for-module="<?php print $config['module_name'] ?>" data-for-module-id="<?php print $params['id'] ?>" />
         <label class="mw-ui-label"><small><?php _e("Contact Form Fields"); ?></small></label>
         <module type="custom_fields"  view="admin" data-for="module" data-id="<?php print $params['id'] ?>" />
       </div>

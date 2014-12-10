@@ -155,7 +155,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
                             <span class="mw-icon-shop">
                              <?php
                             	$notif_html = '';
-                            	$notif_count = mw()->notifications_manager->get('module=shop&rel=cart_orders&is_read=n&count=1');
+                            	$notif_count = mw()->notifications_manager->get('module=shop&rel=cart_orders&is_read=0&count=1');
                              	if( $notif_count > 0){
                                 $notif_html = '<sup class="mw-notification-count">'.$notif_count.'</sup>';
                                 if($view != 'shop'){   print $notif_html; } ;

@@ -21,14 +21,14 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 
 
 
-//print $data["custom_field_value"]; ?>
-<?php if(!empty($data['custom_field_values'])) : ?>
+//print $data["value"]; ?>
+<?php if(!empty($data['values'])) : ?>
 <div class="mw-ui-field-holder">    
 <label class="mw-ui-label">
     <?php if(isset($data['name']) == true and $data['name'] != ''): ?>
     <?php print $data['name'] ?>
-    <?php elseif(isset($data['custom_field_name']) == true and $data['custom_field_name'] != ''): ?>
-    <?php print $data['custom_field_name'] ?>
+    <?php elseif(isset($data['name']) == true and $data['name'] != ''): ?>
+    <?php print $data['name'] ?>
     <?php else : ?>
     <?php endif; ?>
   </label>
@@ -41,10 +41,10 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
  
 
 
- <?php if(is_array($data['custom_field_values'])): ?>
-  <select <?php if(isset($data['options']) and is_array($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<?php endif; ?> class="mw-ui-field"  name="<?php print $data["custom_field_name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
+ <?php if(is_array($data['values'])): ?>
+  <select <?php if(isset($data['options']) and is_array($data['options']) == true and  in_array('multiple', $data['options'])): ?> multiple="multiple"<?php endif; ?> class="mw-ui-field"  name="<?php print $data["name"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>">
     <?php
-	foreach($data['custom_field_values'] as $k=>$v): ?>
+	foreach($data['values'] as $k=>$v): ?>
     <?php if(is_string($k)){
 	$kv =  $k;
 	} else {
@@ -55,7 +55,7 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
 	
 	?>
     <option  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $kv; ?>" 
-	<?php if(isset($data['custom_field_value']) == true and $data['custom_field_value'] == $kv): ?> selected="selected" <?php endif; ?> >
+	<?php if(isset($data['value']) == true and $data['value'] == $kv): ?> selected="selected" <?php endif; ?> >
  
 	<?php print ($v); ?></option>
     <?php endforeach; ?>

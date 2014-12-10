@@ -102,18 +102,18 @@ if(is_array( $diff) and is_array($more) ){
   <?php foreach( $more as $field): ?>
 
   <?php if(isset($params['save_to_content_id'])): ?>
-  <a class="mw-ui-btn mw-ui-btn-small mw-field-type-<?php print $field['custom_field_type']; ?>" href="javascript:;"
-    onmouseup="mw.custom_fields.copy_field_by_id('<?php print $field['id'] ?>', 'content', '<?php print intval($params['save_to_content_id']); ?>');"><span class="ico ico-<?php print $field['custom_field_type']; ?>"></span><?php print ($field['title']); ?>
+  <a class="mw-ui-btn mw-ui-btn-small mw-field-type-<?php print $field['type']; ?>" href="javascript:;"
+    onmouseup="mw.custom_fields.copy_field_by_id('<?php print $field['id'] ?>', 'content', '<?php print intval($params['save_to_content_id']); ?>');"><span class="ico ico-<?php print $field['type']; ?>"></span><?php print ($field['title']); ?>
   </a>
   <?php else: ?>
 
-  <a class="mw-ui-btn mw-ui-btn-small mw-field-type-<?php print $field['custom_field_type']; ?>" href="javascript:;"
+  <a class="mw-ui-btn mw-ui-btn-small mw-field-type-<?php print $field['type']; ?>" href="javascript:;"
     data-id="<?php print $field['id'] ?>"
     id="custom-field-<?php print $field['id'] ?>"
     onmouseup="mw.custom_fields.edit('.mw-admin-custom-field-edit-item','<?php print $field['id'] ?>', false, event);">
 
 
-    <span class="ico ico-<?php print $field['custom_field_type'] ?>"></span>
+    <span class="ico ico-<?php print $field['type'] ?>"></span>
     <span onclick="mw.admin.custom_fields.del(<?php print $field['id'] ?>, this.parentNode);" class="mw-icon-close"></span>
 
     <?php print ($field['title']); ?>

@@ -1,7 +1,7 @@
 <?php if(is_admin()==false) {
     return array('error' => 'Not logged in as admin');
 } ?>
- <script  type="text/javascript">
+<script  type="text/javascript">
 
   mw.require('<?php print $config['url_to_module']; ?>forms_data_manager.js');
 
@@ -39,34 +39,29 @@ if(isset($params['keyword'])){
 
  $custom_fields = array();
 
-if(isset($data['list_id'])){
-
-
-} else {
- $custom_fields = get_custom_fields('forms_data','all');
-
-}
+ 
 $data_paging = $data;
 $data_paging['page_count'] = 1;
 
 
  $data_paging = get_form_entires($data_paging);
+
 if((url_param('current_page') != false)){
 $data['current_page'] = url_param('current_page');
 }
 
-
+$custom_fields = array();
  $data = get_form_entires($data);
 if(is_array($data)){
   foreach ($data as $item) {
    if(isset($item['custom_fields'])){
-    foreach ($item['custom_fields'] as $value) {
-     $custom_fields[$value['custom_field_name']] =$value;
+    foreach ($item['custom_fields'] as $k=>$value) {
+     $custom_fields[$k] =$value;
     }
    }
   }
 }
-
+ 
 ?>
 
 <table id="table_data_<?php print $params['id'] ?>" cellspacing="0" cellpadding="0" width="100%" class="mw-ui-table">
@@ -100,41 +95,25 @@ if(is_array($data)){
       <td width="50" style="text-align: center"><?php print $item['id'] ?>
         <div class="mw-date" title="<?php print mw('format')->ago($item['created_at'],1); ?>"><?php print mw('format')->date($item['created_at']);; ?></div></td>
       <?php if(is_array($custom_fields )): ?>
-      
-      <?php foreach($custom_fields   as $cvk => $custom_field_v): ?>
-      <td><?php if(isset($item['custom_fields'])): ?>
-      
-    
-      
-        <?php  foreach ($item['custom_fields'] as $value) :  ?>
-        <?php if(($value['custom_field_name']) == $cvk): ?>
-        <?php
-      		if($value['custom_field_values_plain'] == ''){
-      		    $value['custom_field_values_plain'] = mw('format')->clean_html( $value['value']);;
-      		}
+      <?php foreach($custom_fields   as  $key =>$value): ?>
+      <td><?php
+      		 
+      		    $values_plain = mw('format')->clean_html( $value);;
+      	 
             $max = 150;
-             if(strlen($value['custom_field_values_plain']) > $max){
-                $first = substr($value['custom_field_values_plain'], 0, $max);
-                $rest = substr($value['custom_field_values_plain'], $max);
+             if(strlen($values_plain) > $max){
+                $first = substr($values_plain, 0, $max);
+                $rest = substr($values_plain, $max);
                 print '<div>' . $first. '<span class="semi_hidden">'.$rest.'</span> <a href="javascript:;" onclick="toggle_show_less(this);" class="mw-ui-link" data-later="Less"> ...more</a></div>';
              }
              else {
-              if($value['custom_field_type'] == 'upload' or $value['custom_field_type'] == 'files' or $value['custom_field_type'] == 'file'){
-                  print '<a target="_blank" class="mw-ui-link" href="'.$value['custom_field_values_plain'].'">'.basename($value['custom_field_values_plain']).'</a>';
-              }
-              else{
-                  print $value['custom_field_values_plain'];
-              }
+           print mw('format')->autolink( $value);
              }
-        ?>
-        <?php  endif; ?>
-        <?php endforeach ; ?>
-        <?php  endif; ?></td>
+        ?></td>
       <?php endforeach ; ?>
       <?php endif; ?>
-      <td class="mw-ui-table-delete-item">
-        <a class="show-on-hover mw-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
-      </tr>
+      <td class="mw-ui-table-delete-item"><a class="show-on-hover mw-icon-close" href="javascript:mw.forms_data_manager.delete('<?php print $item['id'] ?>','.mw-form-entry-item-<?php print $item['id'] ?>');"></a></td>
+    </tr>
     <?php endforeach; ?>
     <?php else: ?>
     <tr>
@@ -150,8 +129,8 @@ if(is_array($data)){
 <?php if(isset($params['export_to_excel'])) : ?>
 <?php endif; ?>
 <?php endif; ?>
-<div id="start-email-campaign">
-    <a class="mw-ui-btn pull-right" href="javascript:;" onclick="Alert('<?php _e("Coming Soon"); ?>!');" ><?php _e("Start an Email Campaign"); ?></a>
-    <span class="pull-right" style="margin: 9px 20px 0 0;"><?php _e("Get more from your mailing lists, send email to your users"); ?></span>
-</div>
-
+<div id="start-email-campaign"> <a class="mw-ui-btn pull-right" href="javascript:;" onclick="Alert('<?php _e("Coming Soon"); ?>!');" >
+  <?php _e("Start an Email Campaign"); ?>
+  </a> <span class="pull-right" style="margin: 9px 20px 0 0;">
+  <?php _e("Get more from your mailing lists, send email to your users"); ?>
+  </span> </div>

@@ -1,5 +1,6 @@
 <?php
 
+namespace shop\shipping;
 
 //api_expose('shipping_api');
 
@@ -10,6 +11,7 @@ class shipping_api
     public $here;
     public $modules_list;
 
+	public $table = 'cart_shipping';
     // private constructor function
     // to prevent external instantiation
     function __construct()

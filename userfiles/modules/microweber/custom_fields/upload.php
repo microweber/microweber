@@ -7,7 +7,7 @@ include('empty_field_vals.php');
 }
 ?>
 <?php $up = 'up'.uniqid(); ?>
-<?php if(!empty($data['custom_field_name'])) : ?>
+<?php if(!empty($data['name'])) : ?>
 <?php $rand = uniqid(); ?>
 <?php
 
@@ -16,7 +16,7 @@ include('empty_field_vals.php');
 ?>
 
 <div class="control-group form-group">
-  <label class="mw-ui-label"><?php print $data["custom_field_name"]; ?></label>
+  <label class="mw-ui-label"><?php print $data["name"]; ?></label>
   <div class="relative inline-block mw-custom-field-upload" id="upload_<?php print($rand); ?>">
     <div class="mw-ui-row-nodrop">
       <div class="mw-ui-col" style="width: auto">
@@ -24,9 +24,9 @@ include('empty_field_vals.php');
       <span class="mw-ui-btn" id="upload_button_<?php print($rand); ?>">
         <span class="mw-icon-upload"></span><?php _e("Browse"); ?>
         </span>
-        <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+        <input type="hidden" class="mw-ui-invisible-field" id="file_name<?php print $data["name"]; ?>" autocomplete="off"  />
         
-         <input type="hidden" <?php if($is_required){ ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php print($rand); ?>" name="<?php print $data["custom_field_name"]; ?>" autocomplete="off"  />
+         <input type="hidden" <?php if($is_required){ ?> required <?php } ?> class="mw-ui-invisible-field" id="uploaded_file_src<?php print($rand); ?>" name="<?php print $data["name"]; ?>" autocomplete="off"  />
         
         
 
@@ -56,7 +56,7 @@ $(document).ready(function(){
 	 
 	 <?php print $up; ?> = mw.files.uploader({
     multiple:false,
-	name:'<?php print $data["custom_field_name"]; ?>',
+	name:'<?php print $data["name"]; ?>',
     autostart:true,
     filetypes:'<?php if(is_array($data['options']) and isset($data['options']['file_types'])): ?><?php print implode(",",$data['options']['file_types']); ?> <?php endif ?>'
 });
@@ -66,7 +66,7 @@ var local_id = '<?php print($rand); ?>';
 
     $(<?php print $up; ?>).bind('FilesAdded', function(frame, file){
 
-       mwd.getElementById('file_name<?php print $data["custom_field_name"]; ?>').value = file[0].name;
+       mwd.getElementById('file_name<?php print $data["name"]; ?>').value = file[0].name;
 
     });
 

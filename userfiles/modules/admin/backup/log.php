@@ -8,7 +8,7 @@ if (!defined('USER_IP')) {
     }
 }
 $check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&user_ip=" . USER_IP);
-$job = mw('Utils\Backup')->cronjob(array('type' => 'full'));
+$job = mw('Microweber\Utils\Backup')->cronjob(array('type' => 'full'));
 $check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=action&rel=backup&user_ip=" . USER_IP);
 if (isset($check['value'])) {
     if ($check['value'] == 'reload') {

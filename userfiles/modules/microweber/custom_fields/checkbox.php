@@ -22,15 +22,15 @@ if (!isset( $data['input_class']) and isset($params['input-class'])) {
     $is_required = (isset($data['options']) == true and isset($data['options']["required"]) == true);
 
 ?>
-<?php if(!empty($data['custom_field_values'])) : ?>
+<?php if(!empty($data['values'])) : ?>
 <div class="mw-ui-field-holder custom-fields-type-checkbox">
-<div class="mw-ui-label"><?php print $data["custom_field_name"]; ?></div>
+<div class="mw-ui-label"><?php print $data["name"]; ?></div>
 
 	<div class="mw-customfields-checkboxes">
-		<?php $i = 0; foreach($data['custom_field_values'] as $v):  ?>
+		<?php $i = 0; foreach($data['values'] as $v):  ?>
 		<?php $i++; ?>
 			<label class="mw-ui-check"   >
-				<input type="checkbox"   name="<?php print $data["custom_field_name"]; ?>[]" id="field-<?php print $data["id"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $v; ?>" />
+				<input type="checkbox"   name="<?php print $data["name"]; ?>[]" id="field-<?php print $data["id"]; ?>"  data-custom-field-id="<?php print $data["id"]; ?>" value="<?php print $v; ?>" />
 				<span></span>
 				<span><?php print ($v); ?></span>
             </label>

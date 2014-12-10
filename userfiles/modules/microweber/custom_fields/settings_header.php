@@ -30,9 +30,9 @@ $for = mw()->url_manager->param('for', 1);
  
 if (!empty($params)) {
 
-    if (isset($params['custom_field_type']) and trim($params['custom_field_type']) != '') {
+    if (isset($params['type']) and trim($params['type']) != '') {
 
-        $field_type = $params['custom_field_type'];
+        $field_type = $params['type'];
     }
 }
 ?><?php
@@ -56,11 +56,11 @@ foreach ($data_orig as $key => $value) {
  
 
 
-if (!isset($data['custom_field_name'])) {
-    $data['custom_field_name'] = '';
+if (!isset($data['name'])) {
+    $data['name'] = '';
 }
- if (isset($data['custom_field_type'])) {
-	  $field_type = $data['custom_field_type'];
+ if (isset($data['type'])) {
+	  $field_type = $data['type'];
 }
 
  
@@ -78,35 +78,35 @@ if (!isset($data['type'])) {
 	$data['type'] =  $field_type;
 }
 
- if ($data['custom_field_name'] == '') {
+ if ($data['name'] == '') {
 	 
-	  $data['custom_field_name'] =  ucfirst($field_type);
+	  $data['name'] =  ucfirst($field_type);
 	 switch($field_type){
 		case 'text': 
-		 $data['custom_field_name'] = 'text field';
+		 $data['name'] = 'text field';
 		 
 		 break;
 		 
 		 case 'site': 
-		 $data['custom_field_name'] = 'web site';
+		 $data['name'] = 'web site';
 		 
 		 break;
 		 
 		 	 case 'upload': 
-		 $data['custom_field_name'] = 'file upload';
+		 $data['name'] = 'file upload';
 		 
 		 break;
 		 
 		 
 		  
 		 	 case 'checkbox': 
-		 $data['custom_field_name'] = 'multiple choices';
+		 $data['name'] = 'multiple choices';
 		 
 		 break;
 		 
 		 
 		  case 'radio': 
-		 $data['custom_field_name'] = 'single choice';
+		 $data['name'] = 'single choice';
 		 
 		 break;
 		 
@@ -114,7 +114,7 @@ if (!isset($data['type'])) {
 	 
 	 
 	 
- $data['custom_field_name'] =  ucwords( $data['custom_field_name'] );
+ $data['name'] =  ucwords( $data['name'] );
 	 
 	 
   
@@ -130,8 +130,8 @@ if (!isset($data['custom_field_is_active'])) {
 if (!isset($data['custom_field_help_text'])) {
     $data['custom_field_help_text'] = '';
 }
-if (!isset($data['custom_field_value'])) {
-    $data['custom_field_value'] = '';
+if (!isset($data['value'])) {
+    $data['value'] = '';
 }
 
 if(!isset($for_module_id) or $for_module_id == false){
@@ -202,7 +202,7 @@ if($for == false){
 
  
 
- 
+
 ?>
 
 
@@ -220,7 +220,7 @@ if($for == false){
 <?php if (isset($save_to_content_id)): ?> 
 <input type="hidden" name="copy_rel_id" value="<?php print strval($save_to_content_id) ?>" />
 <?php endif; ?>
-<input type="hidden" name="custom_field_type" value="<?php print trim($field_type) ?>" />
+<input type="hidden" name="type" value="<?php print trim($field_type) ?>" />
 <input type="hidden" name="position" value="<?php print $data['position'] ?>" />
  
 

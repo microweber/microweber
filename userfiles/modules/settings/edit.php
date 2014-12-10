@@ -67,19 +67,19 @@ $(document).ready(function(){
     <?php if( function_exists('make_field')): ?>
     <?php 
   $data['save_in'] = 'table_options';
-  $data['custom_field_name'] = $data['option_key'];
-  $data['custom_field_value'] = $data['option_value'];
-  $data['custom_field_values'] = $data['field_values'];
+  $data['name'] = $data['option_key'];
+  $data['value'] = $data['option_value'];
+  $data['values'] = $data['field_values'];
   $data['input_class'] = 'mw-ui-field';  
-  if( $data['custom_field_name'] == 'current_template'){
-	  $data['custom_field_type'] = 'website_template';
+  if( $data['name'] == 'current_template'){
+	  $data['type'] = 'website_template';
   }
 
    //$data['title'] =  $data['name'];  
  // d($data);
    
   if(isset($orig_params) and isset($orig_params['for_module_id']) ){
-  $data['custom_field_name'] = $data['option_key'].'|for_module|'.$orig_params['for_module_id'];
+  $data['name'] = $data['option_key'].'|for_module|'.$orig_params['for_module_id'];
 	
 }
 

@@ -191,6 +191,6 @@ if($paypal_is_test  == true){
 $myPaypal -> enableTestMode();
 }
 // Let's start the train! 
-$place_order['order_completed'] = 'y';
-$place_order['is_paid'] = 'n';
+$place_order['order_completed'] = 1;
+$place_order['is_paid'] = 0;
 $place_order['success'] = $myPaypal -> submitPayment();

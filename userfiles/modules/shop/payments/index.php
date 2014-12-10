@@ -1,6 +1,6 @@
 <?php $payment_options =  payment_options();  ?>
 <script  type="text/javascript">
-mw.moduleCSS("<?php print MODULES_URL; ?>shop/shop-defaults.css");
+mw.moduleCSS("<?php print modules_url(); ?>shop/shop-defaults.css");
 $(document).ready(function(){
 
     mw.$('.mw-payment-gateway-<?php print $params['id']; ?> input').commuter(function() {

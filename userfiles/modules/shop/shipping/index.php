@@ -1,7 +1,7 @@
 <?php  // require_once($config['path_to_module'].'shipping_api.php');  ?>
 <?php 
   
- $shipping_options =  api('shop/shipping/shipping_api/get_active');
+ $shipping_options =  mw('shop\shipping\shipping_api')->get_active();
   
  
   ?>

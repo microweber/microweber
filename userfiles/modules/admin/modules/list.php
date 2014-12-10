@@ -16,7 +16,7 @@ if (isset($is_elements) and $is_elements == true) {
     if ($modules == false) {
         // scan_for_modules($modules_options);
         $el_params['no_cache'] = true;
-        mw()->modules->get_layouts($el_params);
+        mw()->modules->scan_for_elements($el_params);
         $modules = mw()->layouts_manager->get($el_params);
     }
     if ($modules == false) {

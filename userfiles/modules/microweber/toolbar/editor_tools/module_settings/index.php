@@ -7,7 +7,7 @@ if (isset($params['module'])): ?>
 <?php $module_info = mw()->modules->get('one=1&ui=any&module=' . $params['module']); ?>
 <?php endif; ?>   
        
-                 
+               
                  
                                                               
 <script type="text/javascript" src="<?php print(site_url()); ?>apijs"></script>

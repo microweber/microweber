@@ -30,6 +30,7 @@ mw.settings = {
     resize_started: false,
     sorthandle_click: false,
     row_id: false,
+	libs: {},
     edit_area_placeholder: '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span><?php _e("Please drag items here"); ?></span></div>',
     empty_column_placeholder: '<div id="_ID_" class="empty-element empty-element-column"><?php _e("Please drag items here"); ?></div>',
     handles: {

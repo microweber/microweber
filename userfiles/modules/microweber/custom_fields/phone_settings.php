@@ -7,7 +7,7 @@
     <?php _e('Title'); ?>
   </label>
 
-    <input type="text" class="mw-ui-field" value="<?php print ($data['custom_field_name']) ?>" name="custom_field_name" id="input_field_label<?php print $rand; ?>">
+    <input type="text" class="mw-ui-field" value="<?php print ($data['name']) ?>" name="name" id="input_field_label<?php print $rand; ?>">
 
 </div>
 </div>
@@ -23,8 +23,8 @@
     <input
         class="mw-ui-field" type="text"
         placeholder="ex.: 001-8892345678"
-        name="custom_field_value"
-        value="<?php if($data['custom_field_value']==''): ?>ex.: 001-8892345678<?php else : print $data['custom_field_value'];endif; ?>" />
+        name="value"
+        value="<?php if($data['value']==''): ?>ex.: 001-8892345678<?php else : print $data['value'];endif; ?>" />
 
           <label class="mw-ui-check"><input type="checkbox"  class="mw-custom-field-option" name="options[required]"  <?php if(isset($data['options']) == true and isset($data['options']["required"]) == true): ?> checked="checked" <?php endif; ?> value="1"><span></span><span><?php _e("Required"); ?>?</span></label>
        <?php print $savebtn; ?>
