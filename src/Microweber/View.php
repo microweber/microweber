@@ -8,7 +8,7 @@ class View
 
     function __construct($v)
     {
-        $this->v = $v;
+        $this->v = realpath($v);
     }
 
     function set($a)
@@ -72,7 +72,7 @@ class View
         }
 
 
-        $content = ob_get_clean();
+        $content = ob_end_clean();
 
         return $content;
     }

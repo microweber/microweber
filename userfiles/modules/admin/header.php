@@ -65,10 +65,13 @@
             mw.require("<?php print mw_includes_url(); ?>css/ui.css");
         </script>
         <?php endif; ?>
+
+
         <?php event_trigger('admin_head'); ?>
         </head>
         <body  class="is_admin loading view-<?php print mw()->url_manager->param('view'); ?> action-<?php print mw()->url_manager->param('action'); ?>">
 <?php
+
 $last_page_front = session_get('last_content_id');
 if ($last_page_front == false) {
     if (isset($_COOKIE['last_page'])) {
@@ -95,7 +98,6 @@ else {
 }
 
 
-
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
   
  
@@ -108,6 +110,7 @@ $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 </div>*/ ?>
 <div id="mw-admin-container">
+
 <div class="mw-ui-row main-admin-row">
 <div class="mw-ui-col main-bar-column">
           <div id="main-bar" class="scroll-height-exception-master">
@@ -249,6 +252,7 @@ if ($last_page_front != false) {
 
 
         });
+
     </script>
     <div id="user-menu" class="scroll-height-exception">
               <?php $user_id = user_id(); $user = get_user_by_id($user_id);
