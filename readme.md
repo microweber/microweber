@@ -1,3 +1,3 @@
 # Microweber
-### ...goes Laravel 5!
+### ...is on Laravel 5!
 ### Holy fucking shit.
