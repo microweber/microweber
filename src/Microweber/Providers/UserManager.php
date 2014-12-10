@@ -79,8 +79,7 @@ class UserManager
         }
 
         if (Auth::check()) {
-dd(get_class(Auth::user()));
-            return Auth::user()->ifAdmin;
+            return Auth::user()->is_admin;
         }
     }
 

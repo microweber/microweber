@@ -72,7 +72,7 @@ class View
         }
 
 
-        $content = ob_end_clean();
+        $content = ob_get_clean();
 
         return $content;
     }

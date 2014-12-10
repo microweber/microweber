@@ -55,9 +55,8 @@ class AdminController extends Controller
 
         $layout = $layout->__toString();
 
-        dd(__FILE__.__LINE__.'URA!');
-
         $layout = mw()->parser->process($layout);
+
         event_trigger('on_load');
 
         //$layout = mw()->parser->process($l, $options = false);
