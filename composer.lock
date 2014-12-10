@@ -420,12 +420,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "161bf089d3d5188ab9ec8850972b83b9978ec4a0"
+                "reference": "c92e3c836be5dcfbe57a6219e9585d944e0b5ae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/161bf089d3d5188ab9ec8850972b83b9978ec4a0",
-                "reference": "161bf089d3d5188ab9ec8850972b83b9978ec4a0",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c92e3c836be5dcfbe57a6219e9585d944e0b5ae2",
+                "reference": "c92e3c836be5dcfbe57a6219e9585d944e0b5ae2",
                 "shasum": ""
             },
             "require": {
@@ -444,7 +444,6 @@
                 "phpunit/phpunit": "~4.0",
                 "predis/predis": "~1.0",
                 "rackspace/php-opencloud": "~1.11",
-                "sabre/dav": "~2.0",
                 "tedivm/stash": "~0.12.0"
             },
             "suggest": {
@@ -454,6 +453,8 @@
                 "ext-fileinfo": "Required for MimeType",
                 "guzzlehttp/guzzle": "Allows you to use http files (reading only)",
                 "league/event": "Required for EventableFilesystem",
+                "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
+                "league/flysystem-webdav": "Allows you to use WebDAV storage",
                 "phpseclib/phpseclib": "Allows SFTP server storage",
                 "predis/predis": "Allows you to use Predis for caching",
                 "rackspace/php-opencloud": "Allows you to use Rackspace Cloud Files",
@@ -499,7 +500,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2014-12-08 07:56:35"
+            "time": "2014-12-09 15:48:33"
         },
         {
             "name": "monolog/monolog",

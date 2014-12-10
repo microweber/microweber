@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Cache\Repository;
 
 use Microweber\Database\MySqlConnection;
@@ -50,6 +49,12 @@ class MicroweberServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->instance('config', new Providers\ConfigSave($this->app));
+
+        $this->app->singleton(
+            'Illuminate\Cache\StoreInterface',
+            'Microweber\Providers\CacheTags'
+        );
+
 
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);
@@ -156,11 +161,17 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->registerRoutes();
 
+        \App::instance('path.public', base_path());
+
+        \Cache::extend('file', function($app)
+        {
+            return new Providers\CacheTags;
+        });
+
         $is_installed = mw_is_installed();
 
         if ($is_installed)
         {
-            $this->app->bind('cache', new Providers\CacheTags());
             $modules = load_all_functions_files_for_modules();
 
             /*
