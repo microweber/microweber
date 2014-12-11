@@ -12,6 +12,10 @@ if (isset($params['content_type'])) {
     $params['content_type'] = $set_content_type;
 }
 
-include($config['path_to_module'] . '../posts/index.php');
+
+$controller = new content\controllers\Front();
+return $controller->index($params,$config);
+ 
+//include($config['path_to_module'] . '../posts/index.php');
  
  

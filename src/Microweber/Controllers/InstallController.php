@@ -131,7 +131,7 @@ class InstallController extends Controller
             $adminUser->save();
 
             Config::save();
-            print 'done';
+            return 'done';
         }
         return $layout;
 
