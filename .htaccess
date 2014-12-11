@@ -6,10 +6,10 @@
     RewriteEngine On
 
     # Redirect Trailing Slashes...
-    RewriteRule ^(.*)/$ /$1 [L]
-
-    # Handle Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+		RewriteRule userfiles/ - [L,NC]
+		
+		
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteRule ^(.*)$ index.php [NC,L]
 </IfModule>
