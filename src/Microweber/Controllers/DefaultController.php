@@ -431,7 +431,6 @@ class DefaultController extends Controller
                                 $mod_class_api_called = true;
 
 
-
                                 return $this->_api_responce($res);
                             }
                         } else {
@@ -1260,7 +1259,6 @@ class DefaultController extends Controller
             }
 
 
-
         }
 
         if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false) {
@@ -1757,9 +1755,9 @@ class DefaultController extends Controller
             if (!stristr($l, $apijs_loaded)) {
                 $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID;
 
-               // $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
+                // $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
 
-                $default_css = "\r\n".'<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
+                $default_css = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
                 $default_css .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
 
                 /*  $default_css .= '<script src="' . mw_includes_url() . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";*/
@@ -2077,7 +2075,8 @@ class DefaultController extends Controller
     }
 
 
-    private function _api_responce($res){
+    private function _api_responce($res)
+    {
 
         if (defined('MW_API_RAW')) {
             return ($res);
@@ -2097,26 +2096,23 @@ class DefaultController extends Controller
 //                return $response;
 //
 //            }
-            if(is_bool($res)){
+            if (is_bool($res) or is_int($res)) {
                 if (!headers_sent()) {
 
                 }
                 print json_encode($res);
                 //return ($res);
-return;
+                return;
             }
 
             $response = \Response::make($res);
-          //  $response->header('Content-Type', 'application/json');
+            //  $response->header('Content-Type', 'application/json');
             return $response;
 
-         //   $response->header('Content-Type', $value);
+            //   $response->header('Content-Type', $value);
 
 
-
-
-
-          //
+            //
         } else {
             print ($res);
             return;
@@ -2144,9 +2140,9 @@ return;
         header("Etag: $etagFile");
 
         if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-           header("HTTP/1.1 304 Not Modified");
-           // return;
-             exit;
+            header("HTTP/1.1 304 Not Modified");
+            // return;
+            exit;
         }
 
         $ref_page = false;
