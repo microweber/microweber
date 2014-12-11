@@ -58,7 +58,6 @@ class Notifications
         }
 
 
-
         if (is_array($id)) {
             $id = array_pop($id);
         }
@@ -98,7 +97,7 @@ class Notifications
             $get_params['table'] = $table;
             $get_params['is_read'] = 'n';
             $get_params['fields'] = 'id';
-           // $get_params['debug'] = 'id';
+            // $get_params['debug'] = 'id';
             if ($module != 'all') {
 
                 $get_params['module'] = $this->app->db->escape_string($module);
@@ -174,7 +173,7 @@ class Notifications
 
         $table = MW_DB_TABLE_NOTIFICATIONS;
 
-        if($id == 'all'){
+        if ($id == 'all') {
 
             $q = "DELETE FROM $table where id is not NULL  ";
 
@@ -323,6 +322,7 @@ class Notifications
 
         }
     }
+
     public function get_admin($params = false)
     {
 

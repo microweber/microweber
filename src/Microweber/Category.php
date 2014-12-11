@@ -1023,7 +1023,7 @@ class Category
     public function get_children($parent_id = 0, $type = false, $visible_on_frontend = false)
     {
 
-        $categories_id = intval($parent_id);
+        $categories_id = $parent_id =intval($parent_id);
         $cache_group = 'categories/' . $categories_id;
 
         $table = $this->tables['categories'];

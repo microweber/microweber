@@ -42,7 +42,7 @@ if($module_template != false and $module_template != 'none'){
  if(isset($params['content-id'])){
 	 $for_id = $params['content-id'];
  }
- 
+
  
  if(isset($params['for'])){
 	 $for = $params['for'];
@@ -65,9 +65,7 @@ if($module_template != false and $module_template != 'none'){
 <?php if(isset($for_id) !== false and isset($for) !== false): ?>
 
 <div class="mw-add-to-cart-holder mw-add-to-cart-<?php print $params['id'] ?>" >
-  <?php if($for == 'content' and intval($for_id) == 0){
-		$for_id = 0;
-	}?>
+  <?php if($for == 'content' and intval($for_id) == 0){ $for_id = 0; }?>
   <?php $data = get_custom_fields("field_type=price&for={$for}&for_id=".$for_id.""); ?>
   <?php if(is_array($data) == true): ?>
   <input type="hidden"  name="for" value="<?php print $for ?>" />

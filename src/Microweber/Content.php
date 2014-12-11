@@ -13,8 +13,7 @@
 namespace Microweber;
 
 
-use Symfony\Component\Yaml\Tests\A;
-
+ 
 if (function_exists('api_expose')) {
     api_expose('content/reorder');
     api_expose('content/delete');

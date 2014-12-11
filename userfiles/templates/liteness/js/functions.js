@@ -13,6 +13,21 @@ TempateFunctions = {
 
     $(content).css('minHeight', $(window).height() - $(header).outerHeight(true) - $(footer).outerHeight(true));
 
+  },
+  mobileMenu:function(nav){
+    if(typeof nav === 'undefined' || nav === null){ return false; }
+    var nav = mw.$(nav)[0];
+    if(!!nav._mobileready){
+      return false;
+    }
+    nav._mobileready = true;
+    var span = mwd.createElement('span');
+    span.className = 'mw-icon-menu mobile-button';
+    span.style.fontSize = '42px';
+    span.onclick = function(){
+        $(nav).toggleClass('mobile-active');
+    }
+    $(nav).before(span);
   }
 }
 
@@ -20,8 +35,9 @@ TempateFunctions = {
 $(document).ready(function(){
 
     TempateFunctions.contentHeight();
+    TempateFunctions.mobileMenu('#main-menu .module-navigation');
 	if(typeof(mw.msg.product_added) == "undefined"){
-	mw.msg.product_added = 	"Your product is added to the shopping cart";
+	    mw.msg.product_added = 	"Your product is added to the shopping cart";
 	}
 	
 	$(window).bind('productAdded', function(){

@@ -10,6 +10,28 @@ if($is_quick_edit == true){
 
 
 ?>
+
+
+<?php
+
+
+  $content = get_content_by_id(CONTENT_ID);
+
+  if(isset($content['is_deleted']) and $content['is_deleted'] == 'y'){   ?>
+
+  <script>
+  $(window).bind('load', function(){
+      var tip = mw.tooltip({
+          content: '<strong>"<?php print $content['title']; ?>"</strong> is deleted. It\'s only visible to admin users.',
+          element: document.querySelector('#live_edit_toolbar'),
+          position:'bottom-center'
+      });
+  });
+
+  </script>
+
+<?php  }    ?>
+
 <?php if (!isset($_GET['preview'])){ ?>
 <script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-core.js"></script>
 <script src="<?php print(INCLUDES_URL); ?>api/libs/rangy/rangy-cssclassapplier.js"></script>
@@ -137,7 +159,14 @@ if($is_quick_edit == true){
         <ul>
           <li class="create-content-dropdown">
             <a href="javascript:;" class="tst-logo" title="Microweber">
+                <?php
+                  $logo = mw()->ui->live_edit_logo();
+                  if( $logo == false ){
+                ?>
                 <span class="mw-icon-mw"></span>
+                <?php } else {  ?>
+                    <span class="white-laimage" style="background-image: url('<?php print $logo; ?>');"></span>
+                <?php } ?>
                 <span class="mw-icon-dropdown"></span>
             </a>
             <div class="mw-dropdown-list create-content-dropdown-list">

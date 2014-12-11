@@ -318,7 +318,7 @@ mw.tools = {
         var wl = wl || true;
         if(wl && $.contains(self.document, tip)){
           $(self).bind('resize scroll', function(e){
-            if(self.document.contains(tip)){
+            if($.contains(self.document, tip)){
               self.mw.tools.tooltip.setPosition(tip, tip.tooltipData.element, o.position);
             }
           });

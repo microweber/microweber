@@ -684,7 +684,6 @@ img{
 .module-navigation-default a.active:focus{
   outline: none;
   box-shadow: none;
-  color: white;
 }
 
 .module-navigation-default > ul > li > ul a{
@@ -1368,6 +1367,19 @@ label.mw-price{
 
 /* /Contact us */
 
+/* Mobile */
+
+.mobile-button{
+  display: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 9;
+  margin: 20px auto 0;
+  width: 33px;
+  color: #222;
+  text-shadow: 1px 1px 0 #fff;
+}
+
 @media all and (-webkit-min-device-pixel-ratio:0) {
   .valign,
   .valign-cell{
@@ -1390,9 +1402,38 @@ label.mw-price{
 
 
 }
+@media (min-width:769px){
+  .module-navigation-default > ul > li  ul{
+    box-shadow: 0 0 2px #787878;
+    box-shadow: 0 0 3px -1px #787878;
+    padding: 4px;
+    background-color: white;
+  }
+
+}
 @media (max-width:768px){
   #footer, #powered{
     text-align: center;
+  }
+
+  .mobile-button{
+    display: block;
+  }
+
+  .module-navigation-default{
+    display: none;
+    clear: both;
+    max-width: 320px;
+    margin: auto;
+  }
+  .module-navigation-default.mobile-active{
+    display: block;
+  }
+
+  .module-navigation-default ul ul{
+    display: block !important;
+    position: static !important;
+    padding-left: 20px;
   }
 
   .module-navigation-default ul li{

@@ -142,7 +142,7 @@ $edit_page_info = $data;;
             <?php endif; ?>
           </ul>
         </div>
-        <script>mw.admin.titleColumnNavWidth();</script> 
+        <script>mw.admin.titleColumnNavWidth();</script>
       </div>
     </div>
   </div>
@@ -434,6 +434,7 @@ mw.edit_content.after_save = function(saved_id){
 				mw.$("#pages_tree_toolbar").removeClass("activated");
 				mw.treeRenderer.appendUI('#pages_tree_toolbar');
 				mw.tools.tree.recall(mwd.querySelector('.mw_pages_posts_tree'));
+                mw.tools.tree.recall(mwd.querySelector('.mw-tree'))
 			}
 			mw.tools.removeClass(mwd.getElementById('mw-quick-content'), 'loading');
 		 });

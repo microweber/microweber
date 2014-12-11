@@ -22,8 +22,8 @@ class Ui
     {
 
         if (defined('MW_INCLUDES_URL')) {
-            $this->admin_logo = MW_INCLUDES_URL . 'img/logo_admin.png';
-            $this->logo_live_edit = MW_INCLUDES_URL . 'img/logo_admin.png';
+            $this->admin_logo = false;
+            $this->logo_live_edit = false;
             $this->admin_logo_login = MW_INCLUDES_URL . 'images/logo-login.svg';
         }
         $this->set_default();

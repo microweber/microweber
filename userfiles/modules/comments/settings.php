@@ -313,19 +313,27 @@
     />
                     <span></span><span><i class="avatartype avatartype-randomcolor"></i><?php _e("Random Color"); ?></span></label>
                 </div>
+
+
+
+               <?php if(!is_module('white_label')){ ?>
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check">
                     <input
-        type="radio"
-        name="avatar_style"
-        value="3"
-        class="mw_option_field"
-		parent-reload="true"
-        option-group="comments"
-        <?php if(get_option('avatar_style', 'comments')=='3'): ?>   checked="checked"  <?php endif; ?>
-    />
-                    <span></span><span><i class="avatartype mw-icon-mw" style="font-size: 37px;color:#C4C4C4"></i><?php _e("MW User Picture"); ?></span></label>
+                        type="radio"
+                        name="avatar_style"
+                        value="3"
+                        class="mw_option_field"
+                		parent-reload="true"
+                        option-group="comments"
+                        <?php if(get_option('avatar_style', 'comments')=='3'): ?>   checked="checked"  <?php endif; ?>
+                    />
+                    <span></span>
+                    <span><i class="avatartype mw-icon-mw" style="font-size: 37px;color:#C4C4C4"></i><?php _e("Microweber logo"); ?></span></label>
                 </div>
+               <?php } ?>
+
+
                 <div class="mw-ui-field-holder">
                   <label class="mw-ui-check relative" id="avatar_uploader">
                     <input

@@ -281,6 +281,8 @@ h3 > [class*="mw-icon-"]:first-child{
 }
 #pages_tree_toolbar .mw-icon-pen{
   right: 30px;
+  background-color: #3b3b3b;
+  color: white;
 }
 #pages_tree_toolbar .mw-icon-bin{
   right: 10px;
@@ -1439,7 +1441,8 @@ a:hover .mw_ed_tree_content{
 
 
 #custom-fields-post-table .mw-ui-field{
-  width: 80%;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 #custom-fields-post-table .mw-icon-gear{ font-size: 20px;}
@@ -2261,8 +2264,24 @@ input#edit-content-url:focus, input#edit-content-url.active{
 
 .view-post-slug.active{
   display: inline-block;
-  overflow: hidden;
   text-overflow: ellipsis;
+  color: #888;
+  position: relative;
+  cursor: pointer;
+}
+
+.view-post-slug.active:after{
+  font-family: Microweber;
+  content:"\00cc";
+  font-size: 12px;
+  position: absolute;
+  left: 100%;
+  margin: -1px 0 0 5px;
+  visibility: hidden;
+}
+
+.view-post-slug.active:hover:after{
+  visibility: visible;
 }
 
 
@@ -3790,6 +3809,18 @@ tr.mw-order-item:hover{
 body.is_admin .mw-admin-container{
   min-width: 840px;
 }
+
+ .white-laimage{
+   display: block;
+   width: 30px;
+   height: 30px;
+   margin-top: 7px;
+   margin-left: auto;
+   margin-right: auto;
+   background-repeat: no-repeat;
+   background-position: center center;
+   background-size: contain;
+ }
 
 
 

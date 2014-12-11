@@ -62,7 +62,7 @@ $(document).ready(function(){
 </div>
 <div class="mw_adm_dev_tools_change_holder mw-ui-box mw-ui-box-content" style="display:none">
   <div class="mw-ui-field-holder">
-     <a class="mw-ui-btn" href="javascript:mw.load_module('admin/backup/template_exporter','#mw-advanced-settings-dev-tools-output')">Template exporter</a>
+     <a class="mw-ui-btn" href="javascript:mw.load_module('admin/developer_tools/template_exporter','#mw-advanced-settings-dev-tools-output')">Template exporter</a>
      <a class="mw-ui-btn" href="javascript:mw.load_module('admin/notifications/system_log','#mw-advanced-settings-dev-tools-output')"><?php _e("Show system log"); ?></a>
 
           
