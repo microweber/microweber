@@ -38,6 +38,9 @@ class Manager
 
 
         }
+		
+		
+		
 
 
         $no_page_edit = false;
@@ -65,8 +68,16 @@ class Manager
             $posts_mod['subtype'] = 'post';
         }
 		
-		
-		
+		 if (isset($params['content_type']) and $params['content_type'] == 'product') {
+            $posts_mod['subtype'] = 'product';
+            $posts_mod['content_type'] = 'post';
+        }
+
+		if (isset($params['content_type']) and $params['content_type'] == 'post') {
+			 if (!isset($params['subtype']) or $params['subtype'] == false) {
+					$posts_mod['subtype'] = 'post';
+				}
+		}
 		
 		
 		

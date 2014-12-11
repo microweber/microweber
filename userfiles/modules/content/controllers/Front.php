@@ -318,13 +318,12 @@ class Front
                 $post_params['content_type'] = 'post';
             }
 
-            if ($post_params['content_type'] == 'product') {
-                $post_params['subtype'] = 'product';
-                $post_params['content_type'] = 'post';
-            } else {
-                //$post_params['subtype'] = 'post';
-                //$post_params['content_type'] = 'post';
-            }
+
+        }
+
+        if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
+            $post_params['subtype'] = 'product';
+            $post_params['content_type'] = 'post';
         }
 
         if (isset($params['is_shop'])) {
