@@ -50,12 +50,12 @@ $rand = uniqid(); ?>
 <?php endif; ?>
 
 
-
+ 
 
 <label class="mw-ui-label"><?php _e("Content type"); ?></label>
 
   <select name="data-content-type" id="the_post_data-content-type<?php print  $rand ?>"  class="mw-ui-field w100 mw_option_field"  onchange="mw_reload_content_mod_window(1)"  >
-    <option  <?php if(('' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Choose content type"); ?></option>
+    <option  value=""   <?php if(('' == trim($set_content_type))): ?>  selected="selected"  <?php endif; ?>><?php _e("Choose content type"); ?></option>
     <option  value="page"    <?php if(('page' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Pages"); ?></option>
     <option  value="post"    <?php if(('post' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Posts"); ?></option>
     <option  value="product"    <?php if(('product' == trim($set_content_type))): ?>   selected="selected"  <?php endif; ?>><?php _e("Product"); ?></option>

@@ -55,7 +55,7 @@ class Front
         $cat_from_url = url_param('category');
         $posts_parent_related = false;
         if (isset($params['current_page'])) {
-            $params['current_page'] = $params['current_page'];
+            // $params['current_page'] = $params['current_page'];
         } elseif (isset($params['curent-page'])) {
             $params['current_page'] = $params['curent-page'];
         } elseif (isset($params['current-page'])) {
@@ -108,6 +108,7 @@ class Front
             $show_fields = $post_params['show'];
         }
 
+        $set_content_type_from_opt = get_option('data-content-type', $params['id']);
 
         $show_fields1 = get_option('data-show', $params['id']);
         if ($show_fields1 != false and is_string($show_fields1) and trim($show_fields1) != '') {
@@ -312,19 +313,19 @@ class Front
             $post_params['current_page'] = intval($current_page);
         }
 
+        if (!isset($post_params['global'])) {
+            if (!isset($post_params['content_type'])) {
+                $post_params['content_type'] = 'post';
+            }
 
-        if (!isset($post_params['content_type'])) {
-            $post_params['content_type'] = 'post';
+            if ($post_params['content_type'] == 'product') {
+                $post_params['subtype'] = 'product';
+                $post_params['content_type'] = 'post';
+            } else {
+                //$post_params['subtype'] = 'post';
+                //$post_params['content_type'] = 'post';
+            }
         }
-
-        if ($post_params['content_type'] == 'product') {
-            $post_params['subtype'] = 'product';
-            $post_params['content_type'] = 'post';
-        } else {
-            //$post_params['subtype'] = 'post';
-            //$post_params['content_type'] = 'post';
-        }
-
 
         if (isset($params['is_shop'])) {
             $post_params['subtype'] = 'product';
@@ -339,9 +340,7 @@ class Front
             $params['orderby'] = $post_params['orderby'] = $params['order-by'];
         }
 
-        if (!isset($params['order_by'])) {
-            $post_params['orderby'] = 'position desc';
-        }
+
         if (isset($params['subtype_value'])) {
             $post_params['subtype_value'] = $params['subtype_value'];
         }
@@ -435,6 +434,16 @@ class Front
         }
         if (defined('POST_ID') and isset($posts_parent_category) and $posts_parent_category != false or isset($post_params['related'])) {
             $post_params['exclude_ids'] = POST_ID;
+        }
+
+
+        if (!isset($params['order_by'])) {
+//            if(isset($post_params['content_type']) and $post_params['content_type'] == 'page'){
+//                $post_params['order_by'] = 'position asc';
+//            } else {
+//
+//            }
+            $post_params['order_by'] = 'position desc';
         }
 
 
