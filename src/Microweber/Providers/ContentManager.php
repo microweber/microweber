@@ -3515,6 +3515,7 @@ class ContentManager
                                 define("THIS_TEMPLATE_URL", $the_template_url);
                             }
                             if (defined('TEMPLATE_URL') == false) {
+
                                 define("TEMPLATE_URL", $the_template_url);
                             }
                         }

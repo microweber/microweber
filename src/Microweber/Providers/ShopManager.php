@@ -729,7 +729,7 @@ class ShopManager
         $str = 'payment_gw_';
         $l = strlen($str);
         $enabled_providers = array();
-        if (!empty($payment_modules)) {
+        if (!empty($payment_modules) and !empty($providers)) {
             foreach ($payment_modules as $payment_module) {
                 foreach ($providers as $value) {
                     if ($value['option_value'] == 1) {

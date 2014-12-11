@@ -1,5 +1,4 @@
 
-
 mw.require("files.js");
 mw.require("css_parser.js");
 mw.require(mw.settings.includes_url + "css/ui.css");

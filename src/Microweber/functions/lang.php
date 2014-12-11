@@ -352,6 +352,8 @@ function lang($title, $namespace = false)
 function _e($k, $to_return = false)
 {
 
+
+
     static $lang_file;
     global $mw_new_language_entires;
 
@@ -362,19 +364,19 @@ function _e($k, $to_return = false)
     $mw_language_content = get_language_file_content();
 
     if (isset($mw_language_content[$k1]) == false) {
-        if (is_admin() == true) {
-            $k2 = ($k);
-            $mw_new_language_entires[$k1] = $k2;
-            $mw_language_content[$k1] = $k2;
-            if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
-                define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
-               // $scheduler = new \Microweber\Utils\Events();
-                // schedule a global scope function:
-              //  $scheduler->registerShutdownEvent("__store_lang_file");
-            }
+        //if (is_admin() == true) {
+//            $k2 = ($k);
+//            $mw_new_language_entires[$k1] = $k2;
+//            $mw_language_content[$k1] = $k2;
+//            if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
+//                define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
+//               // $scheduler = new \Microweber\Utils\Events();
+//                // schedule a global scope function:
+//              //  $scheduler->registerShutdownEvent("__store_lang_file");
+//            }
 
 
-        }
+        //}
         if ($to_return == true) {
             return $k;
         }

@@ -40,7 +40,10 @@ class DefaultController extends Controller
 
         $is_installed = mw_is_installed();
         if (!$is_installed) {
-            return $this->install();
+
+            $installer = new InstallController($this->app);
+            return $installer->index();
+
         }
         return $this->frontend();
     }
@@ -1848,8 +1851,8 @@ class DefaultController extends Controller
 
                // $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
 
-                $default_css = '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-                $default_css .= "\r\n".'<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
+                $default_css = "\r\n".'<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
+                $default_css .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
 
                 /*  $default_css .= '<script src="' . mw_includes_url() . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";*/
 
@@ -2233,8 +2236,8 @@ return;
         header("Etag: $etagFile");
 
         if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-            header("HTTP/1.1 304 Not Modified");
-            exit;
+        //    header("HTTP/1.1 304 Not Modified");
+          //  exit;
         }
 
         $ref_page = false;
@@ -2331,8 +2334,8 @@ return;
         header('Cache-Control: public');
 
         if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-            header("HTTP/1.1 304 Not Modified");
-            exit;
+           // header("HTTP/1.1 304 Not Modified");
+           // exit;
         }
 
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);

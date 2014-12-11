@@ -203,11 +203,7 @@ class CacheTags implements StoreInterface
     {
 
        return $this->mkdir_recursive(dirname($path));
-        try {
-            $this->files->makeDirectory(dirname($path), 0777, true, true);
-        } catch (\Exception $e) {
-            //
-        }
+
     }
 
     /**
