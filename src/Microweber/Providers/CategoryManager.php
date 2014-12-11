@@ -1046,8 +1046,8 @@ class CategoryManager
 
             $orderby[1] = 'asc';
         }
-
-        if (intval($parent_id) == 0) {
+        $parent_id = intval($parent_id);
+        if ($parent_id == 0) {
 
             return false;
         }
