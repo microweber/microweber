@@ -2236,8 +2236,9 @@ return;
         header("Etag: $etagFile");
 
         if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-        //    header("HTTP/1.1 304 Not Modified");
-          //  exit;
+           header("HTTP/1.1 304 Not Modified");
+           // return;
+             exit;
         }
 
         $ref_page = false;
@@ -2334,8 +2335,9 @@ return;
         header('Cache-Control: public');
 
         if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-           // header("HTTP/1.1 304 Not Modified");
-           // exit;
+            header("HTTP/1.1 304 Not Modified");
+
+            exit;
         }
 
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);

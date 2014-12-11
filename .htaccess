@@ -4,6 +4,9 @@
     </IfModule>
     RewriteEngine On
     	# RewriteRule ^(.*)/$ /l5/$1 [R=301,L]
+		
+		RewriteRule userfiles/ - [L,NC]
+		
 		RewriteCond %{REQUEST_FILENAME} !-f
 		RewriteCond %{REQUEST_FILENAME} !-d
 		RewriteRule ^(.*)$ index.php [NC,L]
