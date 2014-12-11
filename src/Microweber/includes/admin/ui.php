@@ -98,9 +98,14 @@ $(window).load(function(){
   for( ;i<l;i++){
     var sel = uicss[i].selectorText;
 
+
     if(!!sel && sel.indexOf('.mw-icon-') === 0){
+        var t = uicss[i].cssText.replace(/'/g, '"');
+        var glyph = t.split('"')[1].split('"')[0];
+
         var cls = sel.replace(".", '').split(':')[0];
-        html +='<li><span class="'+cls+'"></span><em>.'+cls+'</em></li>';
+        //html +='<li><span class="'+cls+'"></span><em>.'+cls+'</em></li>';
+        html +='<li><span style="font-family:Microweber">'+glyph+'</span><em>.'+cls+'</em></li>';
     }
   }
   mw.$('#info-icon-list').html('<ul>'+html+'</ul>');
