@@ -337,8 +337,8 @@
                     <label class="mw-ui-label">
                         <?php _e("MySQL password"); ?>
                     </label>
-                    <input type="password" class="mw-ui-field"
-                           name="" <?php if (isset($data['db']) == true and isset($data['db']['pass']) == true  and $data['db']['pass'] != '{}'): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
+                    <input type="password" name="db_pass" class="mw-ui-field"
+                             <?php if (isset($data['db']) == true and isset($data['db']['pass']) == true  and $data['db']['pass'] != '{}'): ?> value="<?php print $data['db']['pass'] ?>" <?php endif; ?> />
                 </div>
                 <div class="mw-ui-field-holder">
                     <label class="mw-ui-label">
