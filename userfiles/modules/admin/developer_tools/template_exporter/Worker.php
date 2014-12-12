@@ -65,8 +65,6 @@ class Worker
     {
 
 
-
-
         if (!defined('USER_IP')) {
             if (isset($_SERVER["REMOTE_ADDR"])) {
                 define("USER_IP", $_SERVER["REMOTE_ADDR"]);
@@ -77,8 +75,6 @@ class Worker
         }
 
 
-
-
         if (is_object($app)) {
             $this->app = $app;
         } else {
@@ -86,10 +82,7 @@ class Worker
         }
 
 
-
-
     }
-
 
 
     static function log_bg_action($back_log_action)
@@ -108,7 +101,6 @@ class Worker
         }
 
     }
-
 
 
     function exec_create_full()
@@ -193,8 +185,6 @@ class Worker
 
 
     }
-
-
 
 
     function copyr($source, $dest)
@@ -291,7 +281,6 @@ class Worker
         $cache_state = $this->app->cache_manager->get($cache_state_id, 'export', 30);
 
 
-
         $time = time();
         $here = $this->get_bakup_location();
 
@@ -301,7 +290,6 @@ class Worker
 
             return $cache_content;
         }
-
 
 
         if ($cache_content == false or empty($cache_content)) {
@@ -568,15 +556,11 @@ class Worker
         file_put_contents($sql_bak_file, $head);
         $return = "";
         $tables = '*';
-        // Get all of the tables
-        if ($tables == '*') {
+         if ($tables == '*') {
             $tables = array();
-            //$result = mysql_query('SHOW TABLES');
-            $qs = 'SHOW TABLES';
+             $qs = 'SHOW TABLES';
             $result = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
-            //while ($row = mysql_fetch_row($result)) {
-            //	$tables[] = $row[0];
-            //}
+
             if (!empty($result)) {
                 foreach ($result as $item) {
                     $item_vals = (array_values($item));
@@ -623,9 +607,9 @@ class Worker
                 $is_cms_table = false;
             }
 
-            $is_the_table_empty =  'SELECT count(*) as qty FROM ' . $table;
+            $is_the_table_empty = 'SELECT count(*) as qty FROM ' . $table;
             $is_the_table_empty = mw()->database_manager->query($is_the_table_empty, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
-            if(!isset($is_the_table_empty[0]) or !isset($is_the_table_empty[0]['qty']) or $is_the_table_empty[0]['qty'] == 0){
+            if (!isset($is_the_table_empty[0]) or !isset($is_the_table_empty[0]['qty']) or $is_the_table_empty[0]['qty'] == 0) {
                 $is_cms_table = false;
             }
 
@@ -645,23 +629,9 @@ class Worker
 
                 $result = mw()->database_manager->query($qs, $cache_id = false, $cache_group = false, $only_query = false, $temp_db);
                 $num_fields = count($result[0]);
-                //$num_fields = mysql_num_fields($result);
-                $table_without_prefix = $this->prefix_placeholder . str_ireplace(get_table_prefix(), "", $table);
-                // First part of the output - remove the table
-                //$return .= 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this -> file_q_sep . "\n\n\n";
-                // $return = 'DROP TABLE IF EXISTS ' . $table_without_prefix . $this->file_q_sep . "\n\n\n";
-                // $this->append_string_to_file($sql_bak_file, $return);
 
-                // Second part of the output - create table
-//				$res_ch = mysql_query('SHOW CREATE TABLE ' . $table);
-//				if ($res_ch == false) {
-//					$err = mysql_error();
-//					if ($err != false) {
-//						return array('error' => 'Query failed: ' . $err);
-//					}
-//
-//				}
-//				$row2 = mysql_fetch_row($res_ch);
+                $table_without_prefix = $this->prefix_placeholder . str_ireplace(get_table_prefix(), "", $table);
+
 
 
                 $qs = 'SHOW CREATE TABLE ' . $table;
@@ -671,13 +641,11 @@ class Worker
 
                 $create_table_without_prefix = str_ireplace(get_table_prefix(), $this->prefix_placeholder, $row2[1]);
 
-                //$return .= "\n\n" . $create_table_without_prefix . $this -> file_q_sep . "\n\n\n";
-                $create_table_without_prefix = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $create_table_without_prefix);
+                 $create_table_without_prefix = str_ireplace('CREATE TABLE', 'CREATE TABLE IF NOT EXISTS', $create_table_without_prefix);
                 $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
 
 
-                // $return = "\n\n" . $create_table_without_prefix . $this->file_q_sep . "\n\n\n";
-                $this->append_string_to_file($sql_bak_file, $return);
+                 $this->append_string_to_file($sql_bak_file, $return);
                 // Third part of the output - insert values into new table
                 //for ($i = 0; $i < $num_fields; $i++) {
 
@@ -702,7 +670,6 @@ class Worker
                         $this->append_string_to_file($sql_bak_file, $return);
                         //$this->log_action(false);
                     }
-
 
 
                 }
@@ -731,7 +698,6 @@ class Worker
         file_put_contents($file_path, $string_to_append, FILE_APPEND);
 
     }
-
 
 
     function get_bakup_location()
@@ -823,10 +789,8 @@ class Worker
         }
 
 
-
-
-        $userfiles_folder_uploaded = $media_folder .DS.$host_dir . DS . 'uploaded' . DS;
-        $userfiles_folder_uploaded = $media_folder .DS.$host_dir . DS ;
+        $userfiles_folder_uploaded = $media_folder . DS . $host_dir . DS . 'uploaded' . DS;
+        $userfiles_folder_uploaded = $media_folder . DS . $host_dir . DS;
         $userfiles_folder_uploaded = \normalize_path($userfiles_folder_uploaded);
         $folders = \rglob($userfiles_folder_uploaded . '*', GLOB_NOSORT);
 
@@ -841,7 +805,7 @@ class Worker
             }
         }
 
-        $cust_css_dir = $media_folder .DS. 'content' . DS;
+        $cust_css_dir = $media_folder . DS . 'content' . DS;
         if (is_dir($cust_css_dir)) {
             $more_folders = \rglob($cust_css_dir . '*', GLOB_NOSORT);
             if (!empty($more_folders)) {
@@ -862,7 +826,7 @@ class Worker
             $text_files = array();
             foreach ($folders as $fold) {
                 if (!stristr($fold, 'export')) {
-                    if (stristr($fold, '.php') or stristr($fold, '.js')  or stristr($fold, '.css')) {
+                    if (stristr($fold, '.php') or stristr($fold, '.js') or stristr($fold, '.css')) {
                         $text_files[] = $fold;
                     } else {
                         $export_actions[] = $fold;
@@ -886,9 +850,6 @@ class Worker
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
-
-
-
 
 
     }
@@ -974,8 +935,7 @@ class Worker
                     $bak = array();
                     $bak['filename'] = basename($file);
                     $bak['date'] = $date;
-                    $bak['time'] = str_replace('_', ':', $time);
-                    ;
+                    $bak['time'] = str_replace('_', ':', $time);;
                     $bak['size'] = filesize($file);
 
                     $exports[] = $bak;

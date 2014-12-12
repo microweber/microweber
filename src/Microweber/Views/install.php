@@ -453,7 +453,7 @@
 
 
             <div class="mw_clear"></div>
-            <input name="is_installed" type="hidden" value="no" id="is_installed_<?php print $rand; ?>">
+            <input name="make_install" type="hidden" value="1" id="is_installed_<?php print $rand; ?>">
             <input type="hidden" value="UTC" name="default_timezone"/>
         </form>
     <?php endif; ?>

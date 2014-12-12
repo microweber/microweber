@@ -37,6 +37,7 @@ class InstallController extends Controller
 
 
     }
+
     public function index()
     {
 
@@ -59,7 +60,7 @@ class InstallController extends Controller
         $layout = $layout->__toString();
         $input = Input::all();
 
-        if (isset($input['is_installed'])) {
+        if (isset($input['make_install'])) {
             if (!isset($input['db_pass'])) {
                 $input['db_pass'] = '';
             }
@@ -100,6 +101,14 @@ class InstallController extends Controller
             Config::set('database.connections.mysql.password', $input['db_pass']);
             Config::set('database.connections.mysql.database', $input['db_name']);
             Config::set('database.connections.mysql.prefix', $input['table_prefix']);
+
+            if (isset($input['default_template']) and $input['default_template'] !=false) {
+                Config::set('microweber.install_default_template', $input['default_template']);
+            }
+            if (isset($input['with_default_content']) and $input['with_default_content'] !=false) {
+                Config::set('microweber.install_default_template_content', 1);
+            }
+
             Config::save();
 
             Cache::flush();
@@ -120,6 +129,11 @@ class InstallController extends Controller
             $installer = new Install\WebserverInstaller();
             $installer->run();
 
+            $installer = new Install\TemplateInstaller();
+            $installer->run();
+
+
+
             Config::set('microweber.is_installed', 1);
 
             $adminUser = new \User;
@@ -134,7 +148,6 @@ class InstallController extends Controller
             return 'done';
         }
         return $layout;
-
 
 
     }
