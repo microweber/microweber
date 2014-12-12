@@ -51,13 +51,15 @@ class Application
         return self::$instance;
     }
 
-    public function make($class)
+    public function make($property)
     {
-        return app()->make($class);
+
+        return app()->make($property);
     }
 
     public function __get($property)
     {
+
         return $this->make($property);
     }
 }

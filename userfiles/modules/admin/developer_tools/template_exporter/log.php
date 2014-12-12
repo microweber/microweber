@@ -7,11 +7,19 @@ if (!defined('USER_IP')) {
 
     }
 }
-$check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&user_ip=" . USER_IP);
+$check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel_type=uploader&user_ip=" . USER_IP);
 $job = mw('admin/developer_tools/template_exporter/Worker')->cronjob();
-$check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=action&rel=export&user_ip=" . USER_IP);
+$check = mw()->log_manager->get("order_by=created_at desc&one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=action&rel_type=export&user_ip=" . USER_IP);
+
+ 
+
 if (isset($check['value'])) {
-    if ($check['value'] == 'reload') {
+    if ($check['value'] == 'reload' or $check['value'] == 'done') {
+		
+mw()->log_manager->delete("is_system=y&rel_type=export&user_ip=" . USER_IP);
+
+		
+		
         ?>
         <script type="text/javascript">
 

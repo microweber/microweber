@@ -4,7 +4,7 @@ function mw($class = null)
 {
 
     $app = \Microweber\Application::getInstance();
-
+    $class = str_replace('/','\\',$class);
     if ($class == null or $class == false or strtolower($class) == 'application') {
         return $app;
     } else {

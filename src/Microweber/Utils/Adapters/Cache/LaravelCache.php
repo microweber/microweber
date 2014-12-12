@@ -19,7 +19,7 @@ class LaravelCache
 
         $driver = $this->app['config']['cache.driver'];
 
-        if ($driver == 'file' or $driver == 'database') {
+        if ($driver == 'database') {
             $this->support_tags = false;
         } else {
             $this->support_tags = true;
@@ -92,7 +92,9 @@ class LaravelCache
     public function save($data_to_cache, $cache_id, $cache_group = 'global')
     {
 
+
         if (!$this->support_tags) {
+
             return;
             return Cache::put($cache_group . $cache_id, $data_to_cache, $this->ttl);
         }
