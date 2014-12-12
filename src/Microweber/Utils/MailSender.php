@@ -4,6 +4,8 @@ $_mw_email_transport_object = false;
 api_expose_admin('Microweber/Utils/MailSender/test');
 
 use \Config;
+use \View;
+
 class MailSender
 {
 
@@ -23,6 +25,9 @@ class MailSender
     function __construct()
     {
 
+        $views = MW_PATH . 'Views' . DS;
+
+        View::addNamespace('mw_email_send', $views);
 
         $email_from = mw()->option_manager->get('email_from_name', 'email');
         if ($email_from == false or trim($email_from) == '') {
@@ -66,23 +71,20 @@ class MailSender
         Config::set('mail.username', $this->smtp_username);
         Config::set('mail.password', $this->smtp_password);
 
-        if($this->transport == '' or $this->transport == 'php'){
+        if ($this->transport == '' or $this->transport == 'php') {
             Config::set('mail.driver', 'mail');
         }
-        if($this->transport == 'gmail'){
+        if ($this->transport == 'gmail') {
             Config::set('mail.host', 'smtp.gmail.com');
             Config::set('mail.port', 587);
             Config::set('mail.encryption', 'tls');
         }
 
 
-
-
-
     }
 
 
-    public static function send($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false)
+    public function send($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false)
     {
 
         $function_cache_id = false;
@@ -103,31 +105,30 @@ class MailSender
             return $cache_content;
         }
 
-        $res = self::email_get_transport_object();
-        if (is_object($res)) {
 
-            $email_from = mw()->option_manager->get('email_from', 'email');
-            if ($email_from == false or $email_from == '') {
-            } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
-            }
-
-            if ($add_hostname_to_subject != false) {
-                $subject = '[' . mw()->url_manager->hostname() . '] ' . $subject;
-            }
-
-            if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
-                    $res->setCc($cc);
-                }
-
-                $res->exec_send($to, $subject, $message);
-                mw()->cache_manager->save(true, $function_cache_id, $cache_group);
-                return true;
-            } else {
-                return false;
-            }
-
+        $email_from = mw()->option_manager->get('email_from', 'email');
+        if ($email_from == false or $email_from == '') {
+        } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
         }
+
+        if ($add_hostname_to_subject != false) {
+            $subject = '[' . mw()->url_manager->hostname() . '] ' . $subject;
+        }
+
+        if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
+
+
+            $this->exec_send($to, $subject, $message);
+            if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
+                $this->exec_send($cc, $subject, $message);
+            }
+            mw()->cache_manager->save(true, $function_cache_id, $cache_group);
+            return true;
+        } else {
+            return false;
+        }
+
+
     }
 
     public function test($params)
@@ -197,42 +198,6 @@ class MailSender
         $this->cc = $to;
     }
 
-    function email_send_test($params)
-    {
-
-        $is_admin = is_admin();
-        if ($is_admin == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
-
-
-        $res = self::email_get_transport_object();
-        if (is_object($res)) {
-
-            $email_from = mw()->option_manager->get('email_from', 'email');
-            if ($email_from == false or $email_from == '') {
-            } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
-            }
-            if (isset($params['to']) and (filter_var($params['to'], FILTER_VALIDATE_EMAIL))) {
-                $to = $params['to'];
-                $subject = "Test mail";
-
-                if (isset($params['subject'])) {
-                    $subject = $params['subject'];
-                }
-
-                $message = "Hello! This is a simple email message.";
-                $res->debug = 1;
-                $res->exec_send($to, $subject, $message);
-            } else {
-                return mw('format')->notif("", 'error');
-            }
-
-        }
-
-        return true;
-
-    }
 
     public function exec_send($to, $subject, $text)
     {
@@ -245,80 +210,14 @@ class MailSender
         $content['subject'] = $subject;
         $content['to'] = $to;
 
-//        Mail::send([], [], function($message) {
-//
-//            $message->setBody('your full text body, or html...');
-//
-//            $message->to('my@email.com');
-//
-//            $message->subject('my subject');
-//
-//        });
 
-
-
-
-        return \Mail::send('emails.simple', $content, function ($message) use ($to, $subject) {
+        return \Mail::send('mw_email_send::emails.simple', $content, function ($message) use ($to, $subject) {
             $message->to($to)->subject($subject);
         });
 
 
         return;
 
-
-        $m = new \dSendMail2;
-        $m->setTo($to);
-        if ($this->cc != false) {
-            $m->setBcc($this->cc);
-        }
-
-        $m->setFrom($from_address);
-        $m->setSubject($subject);
-        $message = htmlspecialchars_decode($message);
-
-        if (stristr($message, '{SITE_URL}')) {
-
-            $m->importHTML($message, $baseDir = MW_ROOTPATH, $importImages = true);
-        } else {
-            $message = mw()->url_manager->replace_site_url_back($message);
-            $m->setMessage($message, true);
-        }
-
-        $m->setCharset('UTF-8');
-        $m->headers['Reply-To'] = $from_address;
-
-        $transport = $this->transport;
-
-        switch ($transport) {
-            case 'smtp' :
-                $m->sendThroughSMTP($this->smtp_host, $this->smtp_port, $this->smtp_username, $this->smtp_password, $this->smtp_secure);
-
-                break;
-
-            case 'gmail' :
-                $m->sendThroughGMail($this->smtp_username, $this->smtp_password);
-
-                break;
-
-            case 'yahoo' :
-                $m->sendThroughYahoo($this->smtp_username, $this->smtp_password);
-
-                break;
-
-            case 'hotmail' :
-                $m->sendThroughHotMail($this->smtp_username, $this->smtp_password);
-
-                break;
-
-            default :
-                break;
-        }
-
-        $m->debug = $this->debug;
-
-        $s = $m->send();
-        unset($m);
-        return true;
 
     }
 

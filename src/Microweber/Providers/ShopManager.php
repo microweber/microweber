@@ -444,20 +444,26 @@ class ShopManager
                     }
 
 
-                    $cc = false;
-                    if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
-                        $cc = $order_email_cc;
-
-                    }
 
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
-                        $scheduler = new \Microweber\Utils\Events();
-                        $sender = new \Microweber\email\Sender();
-                        // schedule a global scope function:
-                        // $scheduler->registerShutdownEvent("email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        $sender = new \Microweber\Utils\MailSender();
+                        $sender->send($to,$order_email_subject,$order_email_content);
+                        $cc = false;
+                        if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
+                            $cc = $order_email_cc;
+                            $sender->send($cc,$order_email_subject,$order_email_content);
 
-                        return $sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+                        }
+return true;
+
+//                        $scheduler = new \Microweber\Utils\Events();
+//                        $sender = new \Microweber\email\Sender();
+//                        // schedule a global scope function:
+//                        // $scheduler->registerShutdownEvent("email\Sender::send", $to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
+//
+
+//                        return $sender::send($to, $order_email_subject, $order_email_content, true, $no_cache, $cc);
                     }
 
                 }
