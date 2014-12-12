@@ -10,11 +10,11 @@ $config['version'] = 0.1;
 
 $config['tables'] = array(
     "testimonials" => array(
-        'id' => "int",
+        'id' => "integer",
         'name' => "text",
         'content' => "text",
         'read_more_url' => "text",
         'created_at' => "datetime",
-        'position' => "int"
+        'position' => "integer"
     )
 );
