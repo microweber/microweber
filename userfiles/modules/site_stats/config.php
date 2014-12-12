@@ -15,8 +15,8 @@ $fields_to_add = array();
 $fields_to_add[] = array('created_by', 'integer');
 $fields_to_add[] = array('view_count', 'integer');
 $fields_to_add[] = array('user_ip', 'string');
-$fields_to_add[] = array('visit_date', 'date default NULL');
-$fields_to_add[] = array('visit_time', 'time default NULL');
+$fields_to_add[] = array('visit_date', 'date');
+$fields_to_add[] = array('visit_time', 'time');
 $fields_to_add[] = array('last_page', 'string');
 $fields_to_add[] = array('session_id', 'string');
 

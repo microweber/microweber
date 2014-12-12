@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Config;
 //use Microweber\Utils\Database;
 use Module;
 use Illuminate\Support\Facades\DB;
+use Microweber\Utils\Database;
+
 
 //use Config;
 //use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -1440,16 +1442,23 @@ class Modules
                             } else {
                                 $config['installed'] = 'auto';
                                 $this->save($config);
-                                $modules_remove_old = true;
 
-
-
-                                if (!defined('MW_FORCE_MOD_INSTALLED')) {
-                                    define('MW_FORCE_MOD_INSTALLED', 1);
+                                $tablesData = false;
+                                $schemaFileName = $moduleDir.'schema.json';
+                                if(isset($config['tables']) && !empty($config['tables']))
+                                {
+                                    $tablesData = $config['tables'];
                                 }
-                                //$this->install($config);
+                                else if(file_exists($schemaFileName))
+                                {
+                                    $json = file_get_contents($schemaFileName);
+                                    $json = json_decode($json, true);
+                                    $tablesData = $json;
+                                }
 
-
+                                if($tablesData) {
+                                    (new Database)->build_tables($tablesData);
+                                }
                             }
                         }
                     }

@@ -13,8 +13,8 @@ $config['position'] = 10;
 $config['version'] = 0.33;
 
 
- $config['tables'] = array();
- $fields_to_add = array();
+ //$config['tables'] = array();
+ //$fields_to_add = array();
 //$fields_to_add[] = array('rel_type', 'longText');
 //$fields_to_add[] = array('rel_id', 'longText');
 //$fields_to_add[] = array('updated_at', 'dateTime');
@@ -34,7 +34,7 @@ $config['version'] = 0.33;
 //
 //$fields_to_add[] = array('for_newsletter', "integer");
 //$fields_to_add[] = array('session_id', 'string');
-$config['tables']['comments'] = $fields_to_add;
+//$config['tables']['comments'] = $fields_to_add;
 
 
 

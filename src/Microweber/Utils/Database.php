@@ -12,6 +12,11 @@ class Database
 {
     public $cache_minutes = 60;
 
+    public function build_tables($tables) {
+        foreach ($tables as $name => $schema) {
+            $this->build_table($name, $schema);
+        }
+    }
 
     public function build_table($table_name, $fields_to_add)
     {
@@ -19,12 +24,12 @@ class Database
         $hash = $table_name . crc32(serialize($fields_to_add));
         $value = Cache::get($key);
          //if (!isset($value)) {
-            $val = $fields_to_add;
+         /*   $val = $fields_to_add;
             $minutes = $this->cache_minutes;
             $expiresAt = Carbon::now()->addMinutes($minutes);
             $value = 1;
             $cache = Cache::put($key, $value, $expiresAt);
-            $this->_exec_table_builder($table_name, $fields_to_add);
+         */   $this->_exec_table_builder($table_name, $fields_to_add);
         //}
     }
 
