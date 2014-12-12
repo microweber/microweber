@@ -22,7 +22,7 @@ class TemplateInstaller
 
         $this->setDefaultTemplate($selected_template);
         $this->installTemplateContent($selected_template);
-        dd($selected_template);
+        return true;
 
 
     }
@@ -62,7 +62,6 @@ class TemplateInstaller
                     if (is_file($template_default_content) and is_readable($template_default_content)) {
                         $default_content_file = $template_default_content;
                         $default_content_folder = $template_dir;
-
                     }
                 }
             }
@@ -71,7 +70,7 @@ class TemplateInstaller
 
 
         if (is_file($default_content_file)) {
-             $restore = new \Microweber\Utils\Backup();
+            $restore = new \Microweber\Utils\Backup();
             $restore->backups_folder = $default_content_folder;
             $restore->backup_file = 'mw_default_content.zip';
             ob_start();

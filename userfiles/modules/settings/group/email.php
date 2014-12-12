@@ -73,12 +73,12 @@ mw.email_send_test = function(){
         <option value="gmail" <?php if($email_transport == 'gmail'): ?> selected="selected" <?php endif; ?>>
         <?php _e("GMail"); ?>
         </option>
-        <option value="yahoo" <?php if($email_transport == 'yahoo'): ?> selected="selected" <?php endif; ?>>
+      <?php  /* <option value="yahoo" <?php if($email_transport == 'yahoo'): ?> selected="selected" <?php endif; ?>>
         <?php _e("Yahoo"); ?>
         </option>
         <option value="hotmail" <?php if($email_transport == 'hotmail'): ?> selected="selected" <?php endif; ?>>
         <?php _e("HotMail"); ?>
-        </option>
+        </option>*/  ?>
         <option value="smtp" <?php if($email_transport == 'smtp'): ?> selected="selected" <?php endif; ?>>
         <?php _e("SMTP server"); ?>
         </option>
@@ -131,11 +131,14 @@ mw.email_send_test = function(){
 				<?php  $email_smtp_auth = get_option('smtp_auth','email'); ?>
 				
 					<select name="smtp_auth" class="mw-ui-field mw_option_field"   type="text" option-group="email" data-refresh="settings/group/email">
-						<option value="n" <?php if($email_smtp_auth == 'n'): ?> selected="selected" <?php endif; ?>>
-						<?php _e("No"); ?>
+						<option value="ssl" <?php if($email_smtp_auth == 'ssl'): ?> selected="selected" <?php endif; ?>>
+						ssl
 						</option>
-						<option value="y" <?php if($email_smtp_auth == 'y'): ?> selected="selected" <?php endif; ?>>
-						<?php _e("Yes"); ?>
+						<option value="tls" <?php if($email_smtp_auth == 'tls'): ?> selected="selected" <?php endif; ?>>
+						tls
+						</option>
+                        <option value="" <?php if($email_smtp_auth == ''): ?> selected="selected" <?php endif; ?>>
+						none
 						</option>
 					</select>
 			   </div>

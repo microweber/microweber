@@ -2,6 +2,8 @@
 namespace Microweber\Utils;
 $_mw_email_transport_object = false;
 api_expose_admin('Microweber/Utils/MailSender/test');
+
+use \Config;
 class MailSender
 {
 
@@ -18,12 +20,9 @@ class MailSender
     public $smtp_secure = false;
     private $here = false;
 
-    function __construct($transport = false)
+    function __construct()
     {
 
-        if ($transport != false) {
-            $this->transport = $transport;
-        }
 
         $email_from = mw()->option_manager->get('email_from_name', 'email');
         if ($email_from == false or trim($email_from) == '') {
@@ -37,6 +36,8 @@ class MailSender
         $this->smtp_username = trim(mw()->option_manager->get('smtp_username', 'email'));
         $this->smtp_password = trim(mw()->option_manager->get('smtp_password', 'email'));
         $this->smtp_auth = trim(mw()->option_manager->get('smtp_auth', 'email'));
+        $this->transport = trim(mw()->option_manager->get('email_transport', 'email'));;
+
 
         $sec = mw()->option_manager->get('smtp_secure', 'email');
 
@@ -57,11 +58,32 @@ class MailSender
         $this->here = dirname(__FILE__);
 
 
+        Config::set('mail.host', $this->smtp_host);
+        Config::set('mail.port', $this->smtp_port);
+        Config::set('mail.from.name', $this->email_from_name);
+        Config::set('mail.from.address', $this->email_from);
+        Config::set('mail.encryption', $this->smtp_auth);
+        Config::set('mail.username', $this->smtp_username);
+        Config::set('mail.password', $this->smtp_password);
+
+        if($this->transport == '' or $this->transport == 'php'){
+            Config::set('mail.driver', 'mail');
+        }
+        if($this->transport == 'gmail'){
+            Config::set('mail.host', 'smtp.gmail.com');
+            Config::set('mail.port', 587);
+            Config::set('mail.encryption', 'tls');
+        }
+
+
+
+
+
     }
 
 
-
-    public static function send($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false) {
+    public static function send($to, $subject, $message, $add_hostname_to_subject = false, $no_cache = false, $cc = false)
+    {
 
         $function_cache_id = false;
 
@@ -94,12 +116,11 @@ class MailSender
             }
 
             if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
-                //  $res -> debug = 1;
                 if (isset($cc) and ($cc) != false and (filter_var($cc, FILTER_VALIDATE_EMAIL))) {
-                    $res -> setCc($cc);
+                    $res->setCc($cc);
                 }
 
-                $res -> exec_send($to, $subject, $message);
+                $res->exec_send($to, $subject, $message);
                 mw()->cache_manager->save(true, $function_cache_id, $cache_group);
                 return true;
             } else {
@@ -109,39 +130,35 @@ class MailSender
         }
     }
 
-    public static function test($params)
+    public function test($params)
     {
 
         $is_admin = is_admin();
         if ($is_admin == false) {
-            
-             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
+
+            return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-        $res = self::email_get_transport_object();
-        if (is_object($res)) {
 
-            $email_from = mw()->option_manager->get('email_from', 'email');
-            if ($email_from == false or $email_from == '') {
-            } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
-            }
-            if (isset($params['to']) and (filter_var($params['to'], FILTER_VALIDATE_EMAIL))) {
-                $to = $params['to'];
-                $subject = "Test mail";
 
-                if (isset($params['subject'])) {
-                    $subject = $params['subject'];
-                }
+        $email_from = mw()->option_manager->get('email_from', 'email');
+        if ($email_from == false or $email_from == '') {
+            return array('error' => 'Sender E-mail is not set');
+        } else if (!filter_var($email_from, FILTER_VALIDATE_EMAIL)) {
+            return array('error' => 'Sender E-mail is not valid');
+        }
+        if (isset($params['to']) and (filter_var($params['to'], FILTER_VALIDATE_EMAIL))) {
+            $to = $params['to'];
+            $subject = "Test mail";
 
-                $message = "Hello! This is a simple email message.";
-                $res->debug = 1;
-                $res->exec_send($to, $subject, $message);
-            } else {
-                return array('error' => 'Test E-mail is not valid');
-
- 
+            if (isset($params['subject'])) {
+                $subject = $params['subject'];
             }
 
+            $message = "Hello! This is a simple email message.";
+
+            $this->exec_send($to, $subject, $message);
         }
+
 
         return true;
 
@@ -187,6 +204,8 @@ class MailSender
         if ($is_admin == false) {
             mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
+
+
         $res = self::email_get_transport_object();
         if (is_object($res)) {
 
@@ -215,11 +234,37 @@ class MailSender
 
     }
 
-    public function exec_send($to, $subject, $message)
+    public function exec_send($to, $subject, $text)
     {
-
         $from_address = $this->email_from;
         $from_name = $this->email_from_name;
+        $text = mw()->url_manager->replace_site_url_back($text);
+        $self = $this;
+        $content = array();
+        $content['content'] = $text;
+        $content['subject'] = $subject;
+        $content['to'] = $to;
+
+//        Mail::send([], [], function($message) {
+//
+//            $message->setBody('your full text body, or html...');
+//
+//            $message->to('my@email.com');
+//
+//            $message->subject('my subject');
+//
+//        });
+
+
+
+
+        return \Mail::send('emails.simple', $content, function ($message) use ($to, $subject) {
+            $message->to($to)->subject($subject);
+        });
+
+
+        return;
+
 
         $m = new \dSendMail2;
         $m->setTo($to);

@@ -4,7 +4,7 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
-	| Mail Driver
+	| Mail Driverboksiora@gmail.com
 	|--------------------------------------------------------------------------
 	|
 	| Laravel supports both SMTP and PHP's "mail" function as drivers for the

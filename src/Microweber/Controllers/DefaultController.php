@@ -2096,9 +2096,9 @@ class DefaultController extends Controller
 //                return $response;
 //
 //            }
-            if (is_bool($res) or is_int($res)) {
+            if (is_bool($res) or is_int($res) or is_array($res)) {
                 if (!headers_sent()) {
-
+                    header('Content-Type: application/json');
                 }
                 print json_encode($res);
                 //return ($res);
@@ -2114,6 +2114,11 @@ class DefaultController extends Controller
 
             //
         } else {
+            if(is_array($res)){
+                $res = json_encode($res);
+            }
+
+
             print ($res);
             return;
 //            $response = \Response::make($res);
