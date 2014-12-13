@@ -721,9 +721,9 @@ class UserManager
         if ($user->validateAndFill($data_to_save)) {
             $save = $user->save();
         } else {
-            d('aaaaaaaaaaaaaaaaa' . __FILE__ . __LINE__);
         }
 
+        d('aaaaaaaaaaaaaaaaa' . __FILE__ . __LINE__);
 
         d($save);
         d($data_to_save);

@@ -1,7 +1,7 @@
 <?php
 
  only_admin_access();
- $update_api = new \Microweber\Update();
+ $update_api = mw()->update;
  $forced = false;
  if(isset($params['force'])){
 	  $forced = 1;
