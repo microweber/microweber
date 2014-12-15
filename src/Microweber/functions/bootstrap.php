@@ -27,7 +27,7 @@ if (!defined('MW_PATH')) {
 
 
 if (!defined('MW_ROOTPATH')) {
-    define('MW_ROOTPATH', dirname(dirname(MW_PATH)) . DS);
+    define('MW_ROOTPATH', base_path() . DS);
 }
 
 if (!defined('MW_USERFILES_FOLDER_NAME')) {

@@ -296,10 +296,6 @@ class UpdateManager
 
                 }
             }
-
-            //$this->app->cache_manager->delete('update/global');
-            //$this->app->cache_manager->clear();
-            //return $unzipped;
         }
 
 
