@@ -35,7 +35,7 @@ class UpdateManager
         }
 
 
-        if (defined('mw_cache_path()')) {
+        if (function_exists('mw_cache_path')) {
             $this->temp_dir = mw_cache_path() . 'updates_temp' . DIRECTORY_SEPARATOR;
         } else {
             $this->temp_dir = __DIR__ . DIRECTORY_SEPARATOR . 'cache/updates_temp' . DIRECTORY_SEPARATOR;
@@ -465,7 +465,7 @@ class UpdateManager
         event_trigger('mw_db_init_modules');
         event_trigger('mw_db_init');
 
-        d(__FILE__.__LINE__);
+
     }
 
     private function install_from_market($item)

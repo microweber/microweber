@@ -38,6 +38,30 @@ class Modules
 
     private $_install_mode = false;
 
+    public $ui = array();
+    public $table_prefix = false;
+    public $current_module = false;
+    public $current_module_params = false;
+
+    function __construct($app = null)
+    {
+
+        if (!defined('EMPTY_MOD_STR')) {
+            define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
+        }
+
+        if (!is_object($this->app)) {
+
+            if (is_object($app)) {
+                $this->app = $app;
+            } else {
+                $this->app = mw();
+            }
+
+        }
+        $this->set_table_names();
+
+    }
 
     public function install()
     {
@@ -49,7 +73,6 @@ class Modules
 
 
     }
-
 
 
     public function info($module_name)
@@ -230,32 +253,6 @@ class Modules
     }
 
 
-    public $ui = array();
-    public $table_prefix = false;
-    public $current_module = false;
-    public $current_module_params = false;
-
-    function __construct($app = null)
-    {
-
-        if (!defined('EMPTY_MOD_STR')) {
-            define("EMPTY_MOD_STR", "<div class='mw-empty-module '>{module_title} {type}</div>");
-        }
-
-        if (!is_object($this->app)) {
-
-            if (is_object($app)) {
-                $this->app = $app;
-            } else {
-                $this->app = mw();
-            }
-
-        }
-        $this->set_table_names();
-
-    }
-
-
     function ui($name, $arr = false)
     {
         return $this->app->ui->module($name, $arr);
@@ -346,7 +343,6 @@ class Modules
 
             $element_in_default_file = elements_path() . $module_name . '.php';
             $element_in_default_file = normalize_path($element_in_default_file, false);
-
 
 
             $module_in_default_file = normalize_path($module_in_default_file, false);
@@ -1390,8 +1386,6 @@ class Modules
                     }
 
 
-
-
                     $replace_root = MW_ROOTPATH . DS . 'userfiles' . DS . 'modules' . DS;
 
                     $moduleDir = str_replace($replace_root, '', $moduleDir);
@@ -1444,19 +1438,16 @@ class Modules
                                 $this->save($config);
 
                                 $tablesData = false;
-                                $schemaFileName = $moduleDir.'schema.json';
-                                if(isset($config['tables']) && !empty($config['tables']))
-                                {
+                                $schemaFileName = $moduleDir . 'schema.json';
+                                if (isset($config['tables']) && !empty($config['tables'])) {
                                     $tablesData = $config['tables'];
-                                }
-                                else if(file_exists($schemaFileName))
-                                {
+                                } else if (file_exists($schemaFileName)) {
                                     $json = file_get_contents($schemaFileName);
                                     $json = json_decode($json, true);
                                     $tablesData = $json;
                                 }
 
-                                if($tablesData) {
+                                if ($tablesData) {
                                     (new Database)->build_tables($tablesData);
                                 }
                             }
@@ -1485,7 +1476,7 @@ class Modules
                     $cfg_ordered[] = $ite;
                 }
             }
-             if ($modules_remove_old == true) {
+            if ($modules_remove_old == true) {
 
                 $table = 'options';
                 $uninstall_lock = $this->get('ui=any');
@@ -1496,7 +1487,7 @@ class Modules
                             $this->delete_module($value['id']);
                             $mn = $value['module'];
                             $table_options = $this->tables['options'];
-                            $this->app->database->delete_by_id($table_options,$mn,'option_group');
+                            $this->app->database->delete_by_id($table_options, $mn, 'option_group');
 
                         }
 
@@ -1551,7 +1542,7 @@ class Modules
         $db_categories = $this->table_prefix . 'categories';
         $db_categories_items = $this->table_prefix . 'categories_items';
 
-        $this->app->database->delete_by_id($table,$id);
+        $this->app->database->delete_by_id($table, $id);
 
 
         $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND data_type='category_item' AND rel_id={$id}";

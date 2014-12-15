@@ -89,75 +89,8 @@ if (!defined("MODULE_DB_COMMENTS")) {
 //dd($content );
 
 
-event_bind('module.content.manager.item', function ($item) {
-
-    if (isset($item['id'])) {
-
-        $new = get_comments('count=1&is_moderated=n&content_id=' . $item['id']);
-        if ($new > 0) {
-            $have_new = 1;
-        } else {
-            $have_new = 0;
-            $new = get_comments('count=1&content_id=' . $item['id']);
-        }
-        $comments_link = admin_url('view:comments') . '/#content_id=' . $item['id'];
-
-        if ($have_new) {
-
-        }
-        $link = "<a class='comments-bubble' href='{$comments_link}'  title='{$new}'>";
-        $link .= "<span class='mw-icon-comment'></span><span class='comment-number'>{$new}</span>";
-        $link .= "</a>";
-        print $link;
-    }
-});
 
 
-event_bind('module.content.edit.main', function ($item) {
-
-    if (isset($item['id'])) {
-        $new = get_comments('count=1&rel_type=content&rel_id=' . $item['id']);
-        if ($new > 0) {
-            $btn = array();
-            $btn['title'] = 'Comments';
-            $btn['class'] = 'mw-icon-comment';
-            $btn['html'] = '<module type="comments/comments_for_post" no_post_head="true" content_id=' . $item['id'] . '  />';
-            mw()->modules->ui('content.edit.tabs', $btn);
-        }
-    }
-});
-
-
-event_bind('mw.admin.dashboard.links', function () {
-    $admin_dashboard_btn = array();
-    $admin_dashboard_btn['view'] = 'comments';
-
-    $admin_dashboard_btn['icon_class'] = 'mw-icon-comment';
-    $notif_html = '';
-    $notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
-
-    if ($notif_count > 0) {
-        $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
-    }
-    $admin_dashboard_btn['text'] = _e("Comments", true) . $notif_html;
-    mw()->ui->admin_dashboard_menu($admin_dashboard_btn);
-});
-
-
-//event_bind('mw_admin_settings_menu', 'mw_print_admin_comments_settings_link');
-
-function mw_print_admin_comments_settings_link()
-{
-    $active = url_param('view');
-    $cls = '';
-    if ($active == 'comments') {
-        $cls = ' class="active" ';
-    }
-    $notif_html = '';
-    $mname = module_name_encode('comments/settings');
-    print "<li><a class=\"item-" . $mname . "\" href=\"#option_group=" . $mname . "\">Comments</a></li>";
-
-}
 
 
 /**
@@ -403,3 +336,57 @@ function get_comments($params)
 
 
 
+
+event_bind('module.content.manager.item', function ($item) {
+
+    if (isset($item['id'])) {
+
+        $new = get_comments('count=1&is_moderated=n&content_id=' . $item['id']);
+        if ($new > 0) {
+            $have_new = 1;
+        } else {
+            $have_new = 0;
+            $new = get_comments('count=1&content_id=' . $item['id']);
+        }
+        $comments_link = admin_url('view:comments') . '/#content_id=' . $item['id'];
+
+        if ($have_new) {
+
+        }
+        $link = "<a class='comments-bubble' href='{$comments_link}'  title='{$new}'>";
+        $link .= "<span class='mw-icon-comment'></span><span class='comment-number'>{$new}</span>";
+        $link .= "</a>";
+        print $link;
+    }
+});
+
+
+event_bind('module.content.edit.main', function ($item) {
+
+    if (isset($item['id'])) {
+        $new = get_comments('count=1&rel_type=content&rel_id=' . $item['id']);
+        if ($new > 0) {
+            $btn = array();
+            $btn['title'] = 'Comments';
+            $btn['class'] = 'mw-icon-comment';
+            $btn['html'] = '<module type="comments/comments_for_post" no_post_head="true" content_id=' . $item['id'] . '  />';
+            mw()->modules->ui('content.edit.tabs', $btn);
+        }
+    }
+});
+
+
+event_bind('mw.admin.dashboard.links', function () {
+    $admin_dashboard_btn = array();
+    $admin_dashboard_btn['view'] = 'comments';
+
+    $admin_dashboard_btn['icon_class'] = 'mw-icon-comment';
+    $notif_html = '';
+    $notif_count = mw()->notifications_manager->get('module=comments&is_read=0&count=1');
+
+    if ($notif_count > 0) {
+        $notif_html = '<sup class="mw-notification-count">' . $notif_count . '</sup>';
+    }
+    $admin_dashboard_btn['text'] = _e("Comments", true) . $notif_html;
+    mw()->ui->admin_dashboard_menu($admin_dashboard_btn);
+});

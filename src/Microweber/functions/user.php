@@ -66,18 +66,13 @@ function session_del($name)
 
 function session_end()
 {
-
-
     return mw()->user_manager->session_end();
-
 }
 
 
 function api_login($api_key = false)
 {
-
     return mw()->user_manager->api_login($api_key);
-
 }
 
 api_expose('user_social_login');
@@ -91,9 +86,7 @@ api_expose('logout');
 
 function logout()
 {
-
     return mw()->user_manager->logout();
-
 }
 
 //api_expose('user_register');
@@ -101,11 +94,7 @@ api_expose('user_register');
 
 function user_register($params)
 {
-
-
     return mw()->user_manager->register($params);
-
-
 }
 
 api_expose('save_user');
@@ -161,8 +150,6 @@ api_expose('social_login_process');
 function social_login_process()
 {
     return mw()->user_manager->social_login_process();
-
-
 }
 
 
@@ -170,41 +157,29 @@ api_expose('user_reset_password_from_link');
 function user_reset_password_from_link($params)
 {
     return mw()->user_manager->reset_password_from_link($params);
-
 }
 
 api_expose('user_send_forgot_password');
 function user_send_forgot_password($params)
 {
-
     return mw()->user_manager->send_forgot_password($params);
-
-
 }
 
 api_expose('user_login');
 function user_login($params)
 {
-
-
     return mw()->user_manager->login($params);
 }
 
 api_expose('is_logged');
-
 function is_logged()
 {
-
-
     return mw()->user_manager->is_logged();
-
-
 }
 
 
 function user_id()
 {
-
     return mw()->user_manager->id();
 }
 
@@ -214,11 +189,6 @@ function has_access($function_name)
     return mw()->user_manager->has_access($function_name);
 }
 
-function admin_access()
-{
-    return mw()->user_manager->admin_access();
-
-}
 
 function only_admin_access()
 {
@@ -271,10 +241,9 @@ function user_picture($user_id = false)
 /**
  * @function get_users
  *
- * @param $params array|string;
+ * @param array|bool|string $params array|string;
  * @params $params['username'] string username for user
  * @params $params['email'] string email for user
- * @params $params['password'] string password for user
  *
  *
  * @usage get_users('email=my_email');
@@ -292,12 +261,11 @@ function get_users($params = false)
  *
  * get_user get the user info from the DB
  *
- * @access public
  * @category users
  * @author Microweber
  * @link http://microweber.com
- * @param $id =
- *            the id of the user;
+ * @param bool $id
+ * @internal param bool|int the $id of the user;
  * @return array
  */
 function get_user($id = false)
