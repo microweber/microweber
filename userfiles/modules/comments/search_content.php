@@ -35,7 +35,7 @@ $comments_data['search_in_fields'] =  'comment_name,comment_body,comment_email,c
 
  
 }
-$comments_data['group_by'] =  'rel_id,rel';
+$comments_data['group_by'] =  'rel_id,rel_type';
 $comments_data['order_by'] =  'created_at desc';
 
 //  $comments_data['debug'] =  'rel,rel_id';

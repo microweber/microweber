@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Comments;
+namespace comments;
 
 
 if (!defined("MODULE_DB_COMMENTS")) {
-    define('MODULE_DB_COMMENTS', get_table_prefix() . 'comments');
+    define('MODULE_DB_COMMENTS', 'comments');
 }
 
 class Api {
@@ -26,7 +26,7 @@ class Api {
         $table = MODULE_DB_COMMENTS;
         $params['table'] = $table;
 
-        $comments = \get($params);
+        $comments = db_get($params);
 
         if(is_array($comments)){
             $i = 0;
@@ -84,7 +84,7 @@ class Api {
                         break;
 
                     case 'delete' :
-                        $del = \mw()->database_manager->delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
+                        $del = mw()->database_manager->delete_by_id($table, $id = intval($data['id']), $field_name = 'id');
                         return $del;
                         break;
 
@@ -144,7 +144,7 @@ class Api {
 
         // d( $require_moderation);
 
-        $saved_data = \mw()->database->save($table, $data);
+        $saved_data = mw()->database->save($table, $data);
 
 
 
@@ -215,7 +215,7 @@ class Api {
                     $upd['id'] = $get_com['id'];
                     $upd['rel_type'] = 'content';
                     $upd['rel_id'] = mw()->database_manager->escape_string($data['content_id']);
-                    \mw()->database->save($table, $upd);
+                    mw()->database->save($table, $upd);
                 }
             }
             return $get_comm;

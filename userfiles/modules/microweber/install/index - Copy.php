@@ -350,7 +350,7 @@ if (isset($to_save['is_installed'])) {
                 event_trigger('mw_db_init');
                 mw()->content_manager->db_init();
                 __mw_install_log('Creating log database tables');
-                mw('notifications')->db_init();
+                mw()->notifications_manager->db_init();
                 __mw_install_log('Creating online shop database tables');
                 mw()->shop_manager->db_init();
                 mw()->shop_manager->create_mw_shop_default_options();

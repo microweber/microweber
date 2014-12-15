@@ -137,9 +137,9 @@ mw.on.hashParam("comments_for_content", function(){
 </script>
 <?php $mw_notif =  (url_param('mw_notif'));
 if( $mw_notif != false){
-    $mw_notif = mw('notifications')->read( $mw_notif);
+    $mw_notif = mw()->notifications_manager->read( $mw_notif);
 }
-mw('notifications')->mark_as_read('comments');
+mw()->notifications_manager->mark_as_read('comments');
  ?>
 <?php if(is_array($mw_notif) and isset($mw_notif['rel_id'])): ?>
 <script type="text/javascript">

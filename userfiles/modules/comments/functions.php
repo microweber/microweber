@@ -1,6 +1,6 @@
 <?php
 if (!defined("MODULE_DB_COMMENTS")) {
-    define('MODULE_DB_COMMENTS','comments');
+    define('MODULE_DB_COMMENTS', 'comments');
 }
 //
 //mw()->content->comments=(function(){
@@ -63,24 +63,22 @@ if (!defined("MODULE_DB_COMMENTS")) {
 //{
 //    return new Comments();
 //});
- //mw()->content->find(1)->comments()->get();
+//mw()->content->find(1)->comments()->get();
 // $comm = Content::find(1)->comments()->get();
 //dd( $comm);
 
 
-
-
-mw()->database->custom_filter('comments', function($query,$param,$table){
-	//
-//	$app = $app->morphMany('comments', 'rel');
-//	
-//	$query = $query->with('comments');
-//		return $query;
-//		
-//	dd($query);
-//dd(__FILE__);	
-//	
-});
+//mw()->database->custom_filter('comments', function($query,$param,$table){
+//	//
+////	$app = $app->morphMany('comments', 'rel');
+////	
+////	$query = $query->with('comments');
+////		return $query;
+////		
+////	dd($query);
+////dd(__FILE__);	
+////	
+//});
 
 //	$post_params = array();
 // $post_params['comments'] = true;
@@ -91,28 +89,9 @@ mw()->database->custom_filter('comments', function($query,$param,$table){
 //dd($content );
 
 
+event_bind('module.content.manager.item', function ($item) {
 
-
-
- 
-
-
-
-
-event_bind('module.content.manager.item', 'mw_print_admin_post_list_comments_counter');
-
-
-
-
-
-
-
-
-function mw_print_admin_post_list_comments_counter($item)
-{
-    
-	
-	if (isset($item['id'])) {
+    if (isset($item['id'])) {
 
         $new = get_comments('count=1&is_moderated=n&content_id=' . $item['id']);
         if ($new > 0) {
@@ -131,17 +110,11 @@ function mw_print_admin_post_list_comments_counter($item)
         $link .= "</a>";
         print $link;
     }
+});
 
 
-}
+event_bind('module.content.edit.main', function ($item) {
 
-
-event_bind('module.content.edit', 'mw_print_admin_post_comments_counter_quick_list');
-
-function mw_print_admin_post_comments_counter_quick_list($item)
-{
-
-  
     if (isset($item['id'])) {
         $new = get_comments('count=1&rel_type=content&rel_id=' . $item['id']);
         if ($new > 0) {
@@ -149,19 +122,13 @@ function mw_print_admin_post_comments_counter_quick_list($item)
             $btn['title'] = 'Comments';
             $btn['class'] = 'mw-icon-comment';
             $btn['html'] = '<module type="comments/comments_for_post" no_post_head="true" content_id=' . $item['id'] . '  />';
-          //  mw()->modules->ui('content.edit.tabs', $btn);
+            mw()->modules->ui('content.edit.tabs', $btn);
         }
     }
-}
+});
 
 
-event_bind('mw.admin.dashboard.links', 'mw_print_admin_dashboard_comments_btn');
-
-function mw_print_admin_dashboard_comments_btn()
-{
-   
-    print __FILE__.__LINE__;
-	return;
+event_bind('mw.admin.dashboard.links', function () {
     $admin_dashboard_btn = array();
     $admin_dashboard_btn['view'] = 'comments';
 
@@ -174,9 +141,8 @@ function mw_print_admin_dashboard_comments_btn()
     }
     $admin_dashboard_btn['text'] = _e("Comments", true) . $notif_html;
     mw()->ui->admin_dashboard_menu($admin_dashboard_btn);
+});
 
-
-}
 
 //event_bind('mw_admin_settings_menu', 'mw_print_admin_comments_settings_link');
 
@@ -289,7 +255,9 @@ function post_comment($data)
 
         }
     } else {
-
+        if (isset($data['rel'])) {
+            $data['rel_type'] = $data['rel'];
+        }
         if (!isset($data['rel_type'])) {
             return array('error' => 'Error: invalid data');
         }
@@ -345,18 +313,7 @@ function post_comment($data)
         }
     }
 
-    if (isset($data['comment_website'])) {
-        $data['comment_website'] = mw()->format->clean_xss($data['comment_website']);
-    }
-    if (isset($data['comment_email'])) {
-        $data['comment_email'] = mw()->format->clean_xss($data['comment_email']);
-    }
-    if (isset($data['comment_name'])) {
-        $data['comment_name'] = mw()->format->clean_xss($data['comment_name']);
-    }
-    if (isset($data['from_url'])) {
-        $data['from_url'] = mw()->format->clean_xss($data['from_url']);
-    }
+    $data = mw()->format->clean_xss($data);
 
     $saved_data = mw()->database_manager->save($table, $data);
 
@@ -370,32 +327,18 @@ function post_comment($data)
         $notif['rel_id'] = $data['rel_id'];
         $notif['title'] = "You have new comment";
         $notif['description'] = "New comment is posted on " . mw()->url_manager->current(1);
-        $notif['content'] = mw()->format->limit($data['comment_body'], 800);
+        $notif['content'] = mw()->format->limit(strip_tags($data['comment_body']), 800);
         $notf_id = mw()->notifications_manager->save($notif);
         $data['moderate'] = admin_url('view:modules/load_module:comments/mw_notif:' . $notf_id);
         $email_on_new_comment = get_option('email_on_new_comment', 'comments') == 'y';
         $email_on_new_comment_value = get_option('email_on_new_comment_value', 'comments');
-
         if ($email_on_new_comment == true) {
             $subject = "You have new comment";
-            $data2 = $data;
-            unset($data2['rel_type']);
-            unset($data2['rel_id']);
-            $data3 = array();
-            foreach ($data2 as $key => $value) {
-                $key2 = str_ireplace('comment_', ' ', $key);
-                if ($key2 == 'body') {
-                    $key2 = 'text';
-                }
-
-                $data3[$key2] = nl2br($value);
-            }
-
-
             $message = "Hi, <br/> You have new comment posted on " . mw()->url_manager->current(1) . ' <br /> ';
             $message .= "IP:" . MW_USER_IP . ' <br /> ';
-            $message .= mw()->format->array_to_ul($data3);
-            \Microweber\email\Sender::send($email_on_new_comment_value, $subject, $message, 1);
+            $message .= mw()->format->array_to_ul($data);
+            $sender = new \Microweber\Utils\MailSender();
+            $sender->send($email_on_new_comment_value, $subject, $message);
         }
     }
     return $saved_data;
@@ -417,23 +360,8 @@ function get_comments($params)
     $table = MODULE_DB_COMMENTS;
     $params['table'] = $table;
 
-  /*  if (isset($params['posts_category'])) {
-              //  $params['debug'] = 'content';
-        //$params['no_cache'] = 'content';
-       // $params['debug'] = 'content';
-       // $params['no_cache'] = 'content';
-        $params['filter']['posts_category'] = function ($orm, $value) {
-            $categories_items_table = get_table_prefix() . 'categories_items';
-            $comments_table = get_table_prefix() . 'comments';
-            $orm->inner_join($categories_items_table, array($comments_table . '.rel_id', '=', $categories_items_table . '.rel_id'));
-            $orm->where($categories_items_table . '.parent_id', $value);
-            $orm->order_by_desc($comments_table . '.created_at');
-        };  
-    }
-*/
-
     $comments = db_get($params);
-   // print_r(mw()->orm->getLastQuery());
+
     $date_format = get_option('date_format', 'website');
     if ($date_format == false) {
         $date_format = "Y-m-d H:i:s";
@@ -450,10 +378,10 @@ function get_comments($params)
             if (isset($item['created_by']) and intval($item['created_by']) > 0 and ($item['comment_name'] == false or $item['comment_name'] == '')) {
                 $comments[$i]['comment_name'] = user_name($item['created_by']);
             }
-            if (isset($item['created_at']) and  trim($item['created_at']) != '') {
+            if (isset($item['created_at']) and trim($item['created_at']) != '') {
                 $comments[$i]['created_at'] = date($date_format, strtotime($item['created_at']));
             }
-            if (isset($item['updated_at']) and  trim($item['updated_at']) != '') {
+            if (isset($item['updated_at']) and trim($item['updated_at']) != '') {
                 $comments[$i]['updated_at'] = date($date_format, strtotime($item['updated_at']));
             }
             if (isset($item['comment_body']) and ($item['comment_body'] != '')) {
