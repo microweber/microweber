@@ -418,8 +418,7 @@ class UserManager
             if (trim($api_key) == '') {
                 return false;
             } else {
-                $api_key = $this->app->database_manager->escape_string($api_key);
-                if (user_id() > 0) {
+                 if (user_id() > 0) {
                     return true;
                 } else {
                     $data = array();
@@ -434,8 +433,7 @@ class UserManager
                             $data = $data[0];
 
                             if (isset($data['api_key']) and $data['api_key'] == $api_key) {
-                                return $this->login($data);
-
+                                return  Auth::loginUsingId($data['id']);
                             }
 
                         }
