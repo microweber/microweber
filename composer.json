@@ -5,7 +5,11 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "~5.0"
+		"laravel/framework": "~5.0",
+		"composer/composer": "1.*",
+		"composer/installers":"1.*",
+ 		"guzzlehttp/guzzle": "~5.0",
+		"peter-mw/example-mvc": "dev-master"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0"
