@@ -26,8 +26,8 @@ if(isset($data[0]) == false){
   $data['last_name'] = '';
   $data['api_key'] = '';
   $data['is_active'] = 1;
-  $data['is_admin'] = 'n';
-  $data['basic_mode'] = 'n';
+  $data['is_admin'] = 0;
+  $data['basic_mode'] = 0;
   $data['thumbnail'] = '';
   $data['profile_url'] = '';
 } else {
@@ -177,12 +177,12 @@ reset_password = function(y){
         <td><label class="mw-ui-label"><?php _e("Is Active"); ?></label></td>
         <td><div class="mw-ui-inline-list">
             <label class="mw-ui-check">
-              <input type="radio" value="y" name="is_active" <?php if($data['is_active'] == 'y'): ?> checked="checked" <?php endif; ?>>
+              <input type="radio" value="1" name="is_active" <?php if($data['is_active'] == 1): ?> checked="checked" <?php endif; ?>>
               <span></span>
               <span><?php _e("Yes"); ?></span>
             </label>
             <label class="mw-ui-check">
-              <input type="radio" value="n" name="is_active" <?php if($data['is_active'] == 'n'): ?> checked="checked" <?php endif; ?>>
+              <input type="radio" value="0" name="is_active" <?php if($data['is_active'] == 0): ?> checked="checked" <?php endif; ?>>
               <span></span>
               <span><?php _e("No"); ?></span>
             </label>
@@ -192,12 +192,12 @@ reset_password = function(y){
         <td><label class="mw-ui-label"><?php _e("Is Admin"); ?>?</label></td>
         <td><div class="mw-ui-inline-list">
             <label class="mw-ui-check">
-              <input type="radio" value="y" name="is_admin" <?php if($data['is_admin'] == 'y'): ?> checked="checked" <?php endif; ?>>
+              <input type="radio" value="1" name="is_admin" <?php if($data['is_admin'] == 1): ?> checked="checked" <?php endif; ?>>
               <span></span>
               <span><?php _e("Yes"); ?></span>
             </label>
             <label class="mw-ui-check">
-              <input type="radio" value="n" name="is_admin" <?php if($data['is_admin'] == 'n'): ?> checked="checked" <?php endif; ?>>
+              <input type="radio" value="0" name="is_admin" <?php if($data['is_admin'] == 0): ?> checked="checked" <?php endif; ?>>
               <span></span>
               <span><?php _e("No"); ?></span>
             </label>
@@ -208,12 +208,12 @@ reset_password = function(y){
         <td><label class="mw-ui-label"><?php _e("Basic mode"); ?></label></td>
         <td><div class="mw-ui-inline-list">
             <label class="mw-ui-check">
-              <input type="radio" value="y" name="basic_mode" <?php if($data['basic_mode'] == 'y'): ?> checked="checked" <?php endif; ?>>
+              <input type="radio" value="1" name="basic_mode" <?php if($data['basic_mode'] == 1): ?> checked="checked" <?php endif; ?>>
               <span></span>
               <span><?php _e("Yes"); ?></span>
             </label>
             <label class="mw-ui-check">
-              <input type="radio" value="n" name="basic_mode" <?php if($data['basic_mode'] == 'n'): ?> checked="checked" <?php endif; ?>>
+              <input type="radio" value="0" name="basic_mode" <?php if($data['basic_mode'] == 0): ?> checked="checked" <?php endif; ?>>
               <span></span>
               <span><?php _e("No"); ?></span>
             </label>

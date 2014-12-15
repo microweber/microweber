@@ -311,6 +311,14 @@ class UpdateManager
 
     }
 
+    function run_composer()
+    {
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $runner->run();
+
+
+    }
+
     function check($skip_cache = false)
     {
 
@@ -645,7 +653,7 @@ class UpdateManager
     {
         $cookie = mw_cache_path() . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
         if (!is_dir($cookie)) {
-            mkdir($cookie);
+            mkdir_recursive($cookie);
         }
         $cookie_file = $cookie . 'cookie.txt';
         $requestUrl = $this->remote_url;

@@ -218,7 +218,7 @@ class UserManager
                 return;
             } else if ($ok) {
                 return ['success' => "You are logged in!"];
-             }
+            }
 
         } else {
             $this->login_set_failed_attempt();
@@ -243,14 +243,14 @@ class UserManager
         if ($redirect_after == false and $aj == false) {
             if (isset($_SERVER["HTTP_REFERER"])) {
                 //return \Redirect::to($_SERVER["HTTP_REFERER"]);
-                return   $this->app->url_manager->redirect($_SERVER["HTTP_REFERER"]);
+                return $this->app->url_manager->redirect($_SERVER["HTTP_REFERER"]);
             }
         }
 
 
         if ($redirect_after == true) {
             $redir = site_url($redirect_after);
-            return  $this->app->url_manager->redirect($redir);
+            return $this->app->url_manager->redirect($redir);
 
         }
 
@@ -465,7 +465,7 @@ class UserManager
         $first_name = isset($params['first_name']) ? $params['first_name'] : false;
         $last_name = isset($params['last_name']) ? $params['last_name'] : false;
         $pass2 = $pass;
-       // $pass = $this->hash_pass($pass);
+        // $pass = $this->hash_pass($pass);
 
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
@@ -552,8 +552,8 @@ class UserManager
 
                     $this->force_save = true;
 
-                     $next = $this->save($reg);
-                   // $next = $this->app->database->save($reg);
+                    $next = $this->save($reg);
+                    // $next = $this->app->database->save($reg);
                     $this->force_save = false;
 
 
@@ -633,7 +633,6 @@ class UserManager
         return $hash;
 
 
-
     }
 
     /**
@@ -675,67 +674,40 @@ class UserManager
     {
 
 
-        $force = mw_var('force_save_user');
-        $no_hash = mw_var('save_user_no_pass_hash');
-        if ($force == false) {
-            if ($this->force_save) {
-                $force = $this->force_save;
+        if (defined("MW_API_CALL") and mw_is_installed() == true) {
+            if (isset($params['is_admin']) and $this->is_admin() == false) {
+                unset($params['is_admin']);
             }
         }
+
         if (isset($params['id'])) {
             $adm = $this->is_admin();
             if ($adm == false) {
-                if ($force == false) {
-                    $is_logged = user_id();
-                    if ($is_logged == false or $is_logged == 0) {
-                        return array('error' => 'You must be logged to save user');
-                    } elseif (intval($is_logged) == intval($params['id']) and intval($params['id']) != 0) {
 
-                    } else {
-                        return array('error' => 'You must be logged to as admin save this user');
-
-                    }
+                $is_logged = user_id();
+                if ($is_logged == false or $is_logged == 0) {
+                    return array('error' => 'You must be logged to save user');
+                } elseif (intval($is_logged) == intval($params['id']) and intval($params['id']) != 0) {
+                    // the user is editing their own profile
                 } else {
-                    mw_var('force_save_user', false);
+                    return array('error' => 'You must be logged to as admin save this user');
+
                 }
             }
+
         } else {
             if (defined('MW_API_CALL') and mw_is_installed() == true) {
-
-
-                if ($force == false) {
-                    $params['id'] = $this->id();
-                    if (intval($params['id']) == 0) {
-                        return array('error' => 'You must be logged save your settings');
-                    }
-
-                } else {
-                    mw_var('force_save_user', false);
+                $params['id'] = $this->id();
+                if (intval($params['id']) == 0) {
+                    return array('error' => 'You must be logged save your settings');
                 }
+
+
             }
         }
+
 
         $data_to_save = $params;
-
-        $user = new \User;
-        if ($user->validateAndFill($data_to_save)) {
-            $save = $user->save();
-        } else {
-        }
-
-        d('aaaaaaaaaaaaaaaaa' . __FILE__ . __LINE__);
-
-        d($save);
-        d($data_to_save);
-
-
-        if (isset($data_to_save['password'])) {
-            if ($no_hash == false) {
-                $data_to_save['password'] = $this->hash_pass($data_to_save['password']);
-            } else {
-                mw_var('save_user_no_pass_hash', false);
-            }
-        }
 
 
         if (isset($data_to_save['id']) and isset($data_to_save['email']) and $data_to_save['email'] != false) {
@@ -751,13 +723,30 @@ class UserManager
         }
 
 
-        $table = $this->tables['users'];
-        $save = $this->app->database->save($table, $data_to_save);
-        $id = $save;
+        if (isset($params['id']) and intval($params['id']) != 0) {
+            $user = \User::find($params['id']);
+        } else {
+            $user = new \User;
+        }
+        $id_to_return = false;
+        if ($user->validateAndFill($data_to_save)) {
+            $save = $user->save();
+            if (isset($params['id']) and intval($params['id']) != 0) {
+                $id_to_return = intval($params['id']);
+            } else {
+                $id_to_return = DB::getPdo()->lastInsertId();
+            }
+
+
+        } else {
+            return array('error' => 'Error saving the user!');
+        }
+
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . '0');
-        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . $id);
-        return $id;
+        $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . $id_to_return);
+        return $id_to_return;
+
     }
 
 

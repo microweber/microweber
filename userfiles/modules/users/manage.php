@@ -107,8 +107,8 @@ $data = get_users($user_params);
 				</span></td>
 			<td><?php  print $item['username']; ?></td>
 			<td title="<?php  print $item['email']; ?>" style="overflow: hidden;text-overflow: ellipsis"><?php  print $item['email']; ?></td>
-			<td align="center"><?php  if( $item['is_admin'] == 'y'){ _e("Admin"); } else{_e("User");} ?></td>
-			<td align="center"><?php if($item['is_active']=='y'): ?>
+			<td align="center"><?php  if( $item['is_admin'] == 1){ _e("Admin"); } else{_e("User");} ?></td>
+			<td align="center"><?php if($item['is_active']==1): ?>
 				<span class="mw-icon-check" style="float: none"></span>
 				<?php else:  ?>
 				<span class="mw-icon-unpublish" style="float: none; ">

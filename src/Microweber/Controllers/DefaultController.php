@@ -2096,17 +2096,27 @@ class DefaultController extends Controller
 //                return $response;
 //
 //            }
-            if (is_bool($res) or is_int($res) or is_array($res)) {
-                if (!headers_sent()) {
-                    header('Content-Type: application/json');
-                }
-                print json_encode($res);
-                //return ($res);
-                return;
+//            if (is_bool($res) or is_int($res) or is_array($res)) {
+//                if (!headers_sent()) {
+//                    header('Content-Type: application/json');
+//                    print json_encode($res);
+//
+//
+//
+//                    //return ($res);
+//                    return;
+//                } else {
+//                  //  return;
+//                }
+//
+//            }
+            if (is_bool($res) or is_int($res)) {
+                return json_encode($res);
             }
-
             $response = \Response::make($res);
-            //  $response->header('Content-Type', 'application/json');
+            if (is_bool($res) or is_int($res) or is_array($res)) {
+            $response->header('Content-Type', 'application/json');
+            }
             return $response;
 
             //   $response->header('Content-Type', $value);
