@@ -15,11 +15,11 @@ if (!defined("MODULE_DB_COMMENTS")) {
 //});
 
 
-Filter::bind('comments',function($params, $app){
-	return $app->morphMany('Comments', 'rel');
- 	
-	
-}); 
+//Filter::bind('comments',function($params, $app){
+//	return $app->morphMany('Comments', 'rel');
+// 	
+//	
+//}); 
 
 //
 //$comm = Content::with(array('comments' => function($q)

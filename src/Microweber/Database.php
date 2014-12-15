@@ -29,7 +29,7 @@ class Database
         }
 
         $get_default_limit_from_options = $this->app->option_manager->get_items_per_page();
-        if($get_default_limit_from_options != false){
+        if ($get_default_limit_from_options != false) {
 
             $this->default_limit = intval($get_default_limit_from_options);
         }
@@ -119,8 +119,6 @@ class Database
         }
 
 
-
-
         if (isset($orig_params['page_count'])) {
             $orig_params['count_paging'] = $orig_params['page_count'];
         }
@@ -166,7 +164,7 @@ class Database
 
 
         $ttl = $this->table_cache_ttl;
-        $cache_key = $table . crc32(serialize($orig_params).$this->default_limit);
+        $cache_key = $table . crc32(serialize($orig_params) . $this->default_limit);
 
 
         if (is_array($params) and !empty($params)) {
@@ -181,7 +179,7 @@ class Database
                     return $query->count();
                 });
             }
-          //  $query = $query->count();
+            //  $query = $query->count();
             if ($items_per_page != false) {
                 $query = intval(ceil($query / $items_per_page));
             }
@@ -247,6 +245,8 @@ class Database
     public function save($table_name_or_params, $params = null)
     {
 
+        $skip_cache_delete = false;
+
         if ($params === null) {
             $params = $table_name_or_params;
         } else {
@@ -288,6 +288,10 @@ class Database
         }
 
 
+        if (isset($params['skip_cache'])) {
+            $skip_cache_delete = $params['skip_cache'];
+        }
+
         $orig_params = $params;
 
 
@@ -311,8 +315,10 @@ class Database
             $id_to_return = $params['id'];
         }
 
+        if ($skip_cache_delete == false) {
+            Cache::tags($table)->flush();
+        }
 
-        Cache::tags($table)->flush();
         return intval($id_to_return);
     }
 

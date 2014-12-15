@@ -1,4 +1,7 @@
-<?php   $users_last5 = get_visits('last5');
+<?php
+only_admin_access();
+
+   $users_last5 = get_visits('last5');
 //$requests_num = get_visits('requests_num');
 $requests_num = false;
 ?>

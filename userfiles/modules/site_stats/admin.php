@@ -4,6 +4,10 @@
 <?php $v_weekly = get_visits('weekly');
 $v_monthly = get_visits('monthly');
 //print_r($v_monthly);
+
+
+ 
+
  ?>
 
  <?php
