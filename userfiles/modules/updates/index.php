@@ -1,5 +1,5 @@
 <?php  only_admin_access();
- api_expose('updates');
+  
 if(url_param('add_module')){
 
 }

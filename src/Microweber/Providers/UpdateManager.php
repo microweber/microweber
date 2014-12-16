@@ -77,7 +77,7 @@ class UpdateManager
         $t = mw()->template->site_templates();
         $data['templates'] = $t;
         //$t = $this->app->modules->scan_for_modules("skip_cache=1");
-        $t = $this->app->modules->get("ui=any");
+        $t = $this->app->modules->get("ui=any&no_limit=true");
         $data['modules'] = $t;
         $data['module_templates'] = array();
         if (is_array($t)) {
@@ -194,9 +194,9 @@ class UpdateManager
         error_reporting(E_ERROR);
         $ret = array();
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
-
             ini_set("set_time_limit", 0);
         }
+
         if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'set_time_limit')) {
             set_time_limit(0);
         }
@@ -307,6 +307,27 @@ class UpdateManager
         return $ret;
 
     }
+
+
+
+    public function apply_updates_queue($params){
+
+
+
+
+        $params = parse_params($params);
+
+        $a = $this->app->user_manager->is_admin();
+        if ($a == false) {
+            mw_error('Must be admin!');
+        }
+
+
+
+
+
+    }
+
 
     function run_composer()
     {
@@ -661,7 +682,7 @@ class UpdateManager
 
         $post_params['site_url'] = $this->app->url_manager->site();
         $post_params['api_function'] = $method;
-
+        //d($method);
         if ($post_params != false and is_array($post_params)) {
             $curl_result = $this->http()->url($requestUrl)->post($post_params);
 
@@ -673,7 +694,7 @@ class UpdateManager
         }
         $result = false;
 
-        // d($curl_result);
+       d($curl_result);
 
 //        if (is_ajax()) {
 //            print $curl_result;
