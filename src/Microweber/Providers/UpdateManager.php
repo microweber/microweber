@@ -349,44 +349,45 @@ class UpdateManager
                 foreach ($work as $k => $items) {
                     if (is_array($items) and !empty($items)) {
                         foreach ($items as $ik => $item) {
-
+                            $msg = '';
                             if ($k == 'mw_version') {
-                                print "Installing Core Update..." . "\n";
+                                $msg .= "Installing Core Update..." . "\n";
                             } elseif ($k == 'modules') {
-                                print "Installing module..." . "\n";
+                                $msg .= "Installing module..." . "\n";
                             } elseif ($k == 'templates') {
-                                print "Installing template..." . "\n";
+                                $msg .= "Installing template..." . "\n";
                             } elseif ($k == 'module_templates') {
-                                print "Installing module skin..." . "\n";
+                                $msg .= "Installing module skin..." . "\n";
                             } else {
-                                print "Installing..." . "\n";
+                                $msg .= "Installing..." . "\n";
                             }
-                            print $item . "\n";
+                            $msg .= $item . "\n";
 
                             $queue = array($k => array(0 => $item));
                             $is_done = $this->apply_updates($queue);
-                            if(isset($is_done[0])){
-                                if(isset($is_done[0]['success'])){
-                                    print $is_done[0]['success'] . "\n";
-                                } elseif(isset($is_done[0]['warning'])){
-                                    print $is_done[0]['warning'] . "\n";
-                                } elseif(isset($is_done[0]['message'])){
-                                    print $is_done[0]['message'] . "\n";
+                            if (isset($is_done[0])) {
+                                if (isset($is_done[0]['success'])) {
+                                    $msg .= $is_done[0]['success'] . "\n";
+                                } elseif (isset($is_done[0]['warning'])) {
+                                    $msg .= $is_done[0]['warning'] . "\n";
+                                } elseif (isset($is_done[0]['message'])) {
+                                    $msg .= $is_done[0]['message'] . "\n";
                                 }
 
                             } else {
-                                print "ERROR..." . "\n";
-                                print_r($is_done);
+                                $msg .= "ERROR..." . "\n";
+                                $msg .= print_r($is_done, true);
                             }
                             unset($work[$k][$ik]);
                             $this->app->cache_manager->save($work, $c_id, $cache_group);
-
+                            return $msg;
 
                         }
                     } else {
                         unset($work[$k]);
                         $this->app->cache_manager->save($work, $c_id, $cache_group);
-
+                        $msg = "Installed all " . $k . "\n";
+                        return $msg;
                     }
                 }
             } else {
