@@ -392,6 +392,9 @@ class UpdateManager
                         }
                     } else {
                         unset($work[$k]);
+
+                        $this->run_composer();
+
                         $this->app->cache_manager->save($work, $c_id, $cache_group);
                         $msg = "Installed all " . $k . "\n";
                         return $msg;
@@ -419,6 +422,7 @@ class UpdateManager
 
     function run_composer()
     {
+        $this->_log_msg('Composer update...');
         $runner = new \Microweber\Utils\ComposerUpdate();
         $runner->run();
     }
@@ -677,6 +681,7 @@ class UpdateManager
                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
 
                 $new_composer = $target_dir.'composer.json';
+
                 if(is_file($new_composer)){
                     $this->merge_composer($new_composer);
                 }

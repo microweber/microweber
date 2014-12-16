@@ -65,7 +65,8 @@ class ComposerUpdate
     public function merge($with_file)
     {
 
-        $conf = $this->composer_home . 'composer.json';
+        $conf = $this->composer_home . '/composer.json';
+
         $conf_items = array();
         if (is_file($conf)) {
             $existing = file_get_contents($conf);
@@ -75,6 +76,7 @@ class ComposerUpdate
             if (!isset($conf_items['require'])) {
                 $conf_items['require'] = array();
             }
+
         }
         if (is_file($with_file)) {
             $new_conf_items = array();
@@ -89,7 +91,7 @@ class ComposerUpdate
                 if (is_array($req) and !empty($req)) {
                     $all_reqs = array_merge($conf_items['require'], $req);
                     $conf_items['require'] = $all_reqs;
-                    $conf_items = json_encode($conf_items);
+                    $conf_items = json_encode($conf_items,JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
                     $save = file_put_contents($conf, $conf_items);
                 }
             }

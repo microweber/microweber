@@ -104,14 +104,26 @@ $(document).ready(function(){
 
 	mw.bind_update_btns();
    	mw.bind_update_form_submit();
+	
+	
+	$(window).bind("mw_updates_done" , function(){
+	
+	mw.tools.enable(mwd.getElementById('installsubmit'));
+            Alert("Updates are successfully installed.");
+			$('#number_of_updates').fadeOut();
+				mw.reload_module('#mw-updates', function(){
+				mw.bind_update_btns();
+			});
+	
+		
+	});
 
-
-
-
-
-
-
+	
 });
+
+
+
+
 
 </script>
 <style type="text/css">
