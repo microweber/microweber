@@ -42,7 +42,6 @@ class Application
         $instance = app();
         self::$instance = $instance;
         return self::$instance;
-
     }
 
     public static function getInstance($params = null)
@@ -53,13 +52,11 @@ class Application
 
     public function make($property)
     {
-
         return app()->make($property);
     }
 
     public function __get($property)
     {
-
         return $this->make($property);
     }
 }

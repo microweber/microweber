@@ -296,6 +296,7 @@ class UpdateManager
 
                 }
             }
+
         }
 
 
@@ -535,7 +536,7 @@ class UpdateManager
                 } elseif ($item['item_type'] == 'template') {
                     $where_to_unzip = templates_path();
                 } elseif ($item['item_type'] == 'element') {
-                    $where_to_unzip = MW_ELEMENTS_DIR;
+                    $where_to_unzip = elements_path();
                 }
 
                 if (isset($item['install_path']) and $item['install_path'] != false) {
@@ -595,8 +596,7 @@ class UpdateManager
             $this->app->cache_manager->delete('update/global');
             $this->app->cache_manager->delete('db');
             $this->app->cache_manager->delete('modules');
-            event_trigger('mw_db_init_default');
-            event_trigger('mw_db_init_modules');
+
 
             $this->app->modules->scan_for_modules();
 
