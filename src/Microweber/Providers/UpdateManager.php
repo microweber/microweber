@@ -407,12 +407,20 @@ class UpdateManager
     }
 
 
+    function merge_composer($composer_patch_path)
+    {
+
+        $this->_log_msg('Merging composer files');
+
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $runner->merge($composer_patch_path);
+
+    }
+
     function run_composer()
     {
         $runner = new \Microweber\Utils\ComposerUpdate();
         $runner->run();
-
-
     }
 
     function check($skip_cache = false)
@@ -527,8 +535,12 @@ class UpdateManager
                 $this->_log_msg('Preparing to unzip core update');
                 $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
                 $this->_log_msg('Core update unzipped');
+                $new_composer = $target_dir.'composer.json.merge';
+                if(is_file($new_composer)){
+                    $this->merge_composer($new_composer);
+                }
 
-             $this->post_update();
+                $this->post_update();
                 return $result;
                 // skip_cache
             }

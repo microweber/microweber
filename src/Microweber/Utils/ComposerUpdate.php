@@ -17,13 +17,17 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ComposerUpdate
 {
+
+    public $composer_home = null;
+
     public function __construct()
     {
         $composer_path = normalize_path(base_path() . '/', false);
+        $this->composer_home = $composer_path;
         putenv('COMPOSER_HOME=' . $composer_path);
     }
 
-     public function run()
+    public function run()
     {
         //Create the commands
 
@@ -44,7 +48,7 @@ class ComposerUpdate
 //        $out = $update->run($input, $output);
 
         d($out);
-      //  dd($output);
+        //  dd($output);
 
 
 //        $input = new ArrayInput(array('command' => 'update'));
@@ -55,5 +59,43 @@ class ComposerUpdate
 //        $out = $application->run($input);
 //     dd($out);
 //        echo "Done.";
+    }
+
+
+    public function merge($with_file)
+    {
+
+        $conf = $this->composer_home . 'composer.json';
+        $conf_items = array();
+        if (is_file($conf)) {
+            $existing = file_get_contents($conf);
+            if ($existing != false) {
+                $conf_items = json_decode($existing, true);
+            }
+            if (!isset($conf_items['require'])) {
+                $conf_items['require'] = array();
+            }
+        }
+        if (is_file($with_file)) {
+            $new_conf_items = array();
+            $new = file_get_contents($with_file);
+            if ($new != false) {
+                $new_conf_items = json_decode($new, true);
+            }
+
+            if (!empty($new_conf_items) and isset($new_conf_items['require'])) {
+                $req = $new_conf_items['require'];
+
+                if (is_array($req) and !empty($req)) {
+                    $all_reqs = array_merge($conf_items['require'], $req);
+                    $conf_items['require'] = $all_reqs;
+                    $conf_items = json_encode($conf_items);
+                    $save = file_put_contents($conf, $conf_items);
+                }
+            }
+
+        }
+        return $conf_items;
+
     }
 }
