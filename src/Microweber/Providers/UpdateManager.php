@@ -367,7 +367,7 @@ class UpdateManager
                             $is_done = $this->apply_updates($queue);
 
                             $msg_log = $this->_log_msg(true);
-                            if(!empty($msg_log)){
+                            if (!empty($msg_log)) {
                                 $msg .= implode("\n", $msg_log) . "\n";
                             }
 
@@ -393,7 +393,7 @@ class UpdateManager
                     } else {
                         unset($work[$k]);
 
-                        $this->run_composer();
+                        $this->composer_run();
 
 
                         $this->app->cache_manager->save($work, $c_id, $cache_group);
@@ -410,30 +410,6 @@ class UpdateManager
         return 'done';
     }
 
-
-    function merge_composer($composer_patch_path)
-    {
-
-        $this->_log_msg('Merging composer files');
-
-        $runner = new \Microweber\Utils\ComposerUpdate();
-        $runner->merge($composer_patch_path);
-
-    }
-
-    function run_composer()
-    {
-        $this->_log_msg('Composer update...');
-        $runner = new \Microweber\Utils\ComposerUpdate();
-        $out = $runner->run();
-        if($out == 2){
-            print ('Error resolving composer dependencies'. "\n");
-        }elseif($out == 1){
-            print ('Composer has an unknown error'. "\n");
-        } else {
-            print ($out. "\n");
-        }
-    }
 
     function check($skip_cache = false)
     {
@@ -547,9 +523,9 @@ class UpdateManager
                 $this->_log_msg('Preparing to unzip core update');
                 $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
                 $this->_log_msg('Core update unzipped');
-                $new_composer = $target_dir.'composer.json.merge';
-                if(is_file($new_composer)){
-                    $this->merge_composer($new_composer);
+                $new_composer = $target_dir . 'composer.json.merge';
+                if (is_file($new_composer)) {
+                    $this->composer_merge($new_composer);
                 }
 
                 $this->post_update();
@@ -683,15 +659,15 @@ class UpdateManager
 
                 $where_to_unzip = str_replace('..', '', $where_to_unzip);
                 $where_to_unzip = normalize_path($where_to_unzip, true);
-                $this->_log_msg('Unzipping in '.$where_to_unzip);
+                $this->_log_msg('Unzipping in ' . $where_to_unzip);
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = $where_to_unzip;
                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
 
-                $new_composer = $target_dir.'composer.json';
+                $new_composer = $target_dir . 'composer.json';
 
-                if(is_file($new_composer)){
-                    $this->merge_composer($new_composer);
+                if (is_file($new_composer)) {
+                    $this->composer_merge($new_composer);
                 }
 
                 $num_files = count($result);
@@ -990,5 +966,60 @@ class UpdateManager
             $this->log_messages[] = $msg;
         }
     }
+
+
+    function composer_merge($composer_patch_path)
+    {
+        $this->_log_msg('Merging composer files');
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $runner->merge($composer_patch_path);
+
+    }
+
+    function composer_get_required()
+    {
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        return $runner->get_require();
+    }
+
+    function composer_save_package($params)
+    {
+
+
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $required = $runner->get_require();
+
+        if (isset($params['require_name']) and isset($params['require_version'])) {
+            if (trim($params['require_version']) == 'delete') {
+                if (isset($required[$params['require_name']])) {
+                    unset($required[$params['require_name']]);
+                }
+
+            } else {
+                $required[$params['require_name']] = $params['require_version'];
+            }
+
+           return $runner->save_require($required);
+        }
+
+
+    }
+
+    function composer_run()
+    {
+        $this->_log_msg('Composer update...');
+        $runner = new \Microweber\Utils\ComposerUpdate();
+        $out = $runner->run();
+        if ($out == 2) {
+            print ('Error resolving composer dependencies' . "\n");
+        } elseif ($out == 1) {
+            print ('Composer has an unknown error' . "\n");
+        } elseif ($out === 0) {
+            print ('Composer has completed' . "\n");
+        } else {
+            print ($out . "\n");
+        }
+    }
+
 
 }

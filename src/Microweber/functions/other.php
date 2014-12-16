@@ -272,7 +272,6 @@ function have_license($module_name = false)
 }
 
 
-
 function load_module($module_name, $attrs = array())
 {
 
@@ -422,7 +421,7 @@ function mw_print_admin_backup_settings_link()
 }
 
 
-api_expose('mw_post_update');
+api_expose_admin('mw_post_update');
 function mw_post_update()
 {
     $a = is_admin();
@@ -431,7 +430,7 @@ function mw_post_update()
     }
 }
 
-api_expose('mw_install_market_item');
+api_expose_admin('mw_install_market_item');
 
 function mw_install_market_item($params)
 {
@@ -441,7 +440,7 @@ function mw_install_market_item($params)
     }
 }
 
-api_expose('mw_apply_updates');
+api_expose_admin('mw_apply_updates');
 
 function mw_apply_updates($params)
 {
@@ -450,18 +449,34 @@ function mw_apply_updates($params)
     return $update_api->apply_updates($params);
 
 }
-api_expose('mw_apply_updates_queue');
+
+api_expose_admin('mw_apply_updates_queue');
 function mw_apply_updates_queue($params)
 {
     $update_api = mw('update');
     return $update_api->apply_updates_queue($params);
 }
-api_expose('mw_set_updates_queue');
+
+api_expose_admin('mw_set_updates_queue');
 function mw_set_updates_queue($params)
 {
     $update_api = mw('update');
     return $update_api->set_updates_queue($params);
 }
+
+api_expose_admin('mw_composer_save_package');
+function mw_composer_save_package($params)
+{
+    $update_api = mw('update');
+    return $update_api->composer_save_package($params);
+}
+api_expose_admin('mw_composer_run_update');
+function mw_composer_run_update($params)
+{
+    $update_api = mw('update');
+    return $update_api->composer_run($params);
+}
+
 
 api_expose('mw_save_license');
 

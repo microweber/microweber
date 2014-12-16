@@ -54,7 +54,7 @@ class ComposerUpdate
         $input = new ArgvInput(array());
         $output = new ConsoleOutput();
         $helper = new HelperSet();
-
+        $output->setVerbosity(3);
         $io = new ConsoleIO($input, $output, $helper);
         $composer = Factory::create($io);
 
@@ -81,6 +81,46 @@ class ComposerUpdate
 //        echo "Done.";
     }
 
+
+    public function get_require()
+    {
+        $conf = $this->composer_home . '/composer.json';
+
+        $conf_items = array();
+        if (is_file($conf)) {
+            $existing = file_get_contents($conf);
+            if ($existing != false) {
+                $conf_items = json_decode($existing, true);
+            }
+            if (isset($conf_items['require'])) {
+                return $conf_items['require'];
+            }
+
+        }
+    }
+
+    public function save_require($required)
+    {
+        $conf = $this->composer_home . '/composer.json';
+
+        $conf_items = array();
+        if (is_file($conf)) {
+            $existing = file_get_contents($conf);
+            if ($existing != false) {
+                $conf_items = json_decode($existing, true);
+            }
+            if (!empty($required)) {
+                $req = $required;
+
+                if (is_array($req) and !empty($req)) {
+                    $conf_items['require'] = $req;
+                    $conf_items = json_encode($conf_items, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+                    $save = file_put_contents($conf, $conf_items);
+                }
+            }
+
+        }
+    }
 
     public function merge($with_file)
     {
