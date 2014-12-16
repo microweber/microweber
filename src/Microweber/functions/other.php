@@ -456,6 +456,12 @@ function mw_apply_updates_queue($params)
     $update_api = mw('update');
     return $update_api->apply_updates_queue($params);
 }
+api_expose('mw_set_updates_queue');
+function mw_set_updates_queue($params)
+{
+    $update_api = mw('update');
+    return $update_api->set_updates_queue($params);
+}
 
 api_expose('mw_save_license');
 

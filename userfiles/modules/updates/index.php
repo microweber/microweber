@@ -10,7 +10,6 @@ if(url_param('add_module')){
 
 
 ?>
-
 <script  type="text/javascript">
     mw.require('forms.js', true);
 </script>
@@ -36,18 +35,26 @@ mw.bind_update_form_submit = function(){
                mw.tools.disable(mwd.getElementById('installsubmit'), '<?php _e("Installing"); ?>...', true);
 
                mw.form.post({
-                    url: '<?php print api_link(); ?>mw_apply_updates',
+                   // url: '<?php print api_link(); ?>mw_apply_updates',
+				   // url: '<?php print api_link(); ?>mw_apply_updates_queue',
+					url: '<?php print api_link(); ?>mw_set_updates_queue',
                     error:function(){
                           mw.tools.enable(mwd.getElementById('installsubmit'));
                         Alert("<?php _e("There was a Problem connecting to the Server"); ?>");
                     },
                     done:function(){
-                        mw.tools.enable(mwd.getElementById('installsubmit'));
-                        Alert("Updates are successfully installed.");
-                        $('#number_of_updates').fadeOut();
-                            mw.reload_module('#mw-updates', function(){
-                            mw.bind_update_btns();
-                        });
+						
+						
+						mw.load_module('updates/worker','#mw-updates-queue');
+						 
+						
+						
+                        //mw.tools.enable(mwd.getElementById('installsubmit'));
+//                        Alert("Updates are successfully installed.");
+//                        $('#number_of_updates').fadeOut();
+//                            mw.reload_module('#mw-updates', function(){
+//                            mw.bind_update_btns();
+//                        });
                     },
                     selector: mw.$('.mw-select-updates-list')
                });
@@ -107,55 +114,50 @@ $(document).ready(function(){
 });
 
 </script>
-
-
 <style type="text/css">
-
-#mw-updates-holder{
-  padding: 0 20px;
-  max-width: 960px;
+#mw-updates-holder {
+	padding: 0 20px;
+	max-width: 960px;
 }
-
-#mw-update-table{
-
+#mw-update-table {
 }
-
-#updates-list-info{
-    padding: 15px 0;
+#updates-list-info {
+	padding: 15px 0;
 }
-
-.mw-check-updates-btn{
-  margin: 10px 0;
+.mw-check-updates-btn {
+	margin: 10px 0;
 }
-
-
 </style>
 <?php $notif_count = mw_updates_count() ?>
 
 <div id="mw-updates-holder">
-
-<div class="mw-sided">
+  <div class="mw-sided">
     <div class="mw-side-left" style="width: 150px;">
-        <h2 class="mw-side-main-title relative"><span class="mw-icon-updates"></span><span><?php _e("Updates"); ?></span><?php if($notif_count !=0) : ?>&nbsp;<sup class="mw-notification-count" id="number_of_updates"><?php print $notif_count  ?></sup><?php endif; ?></h2>
-        <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" title="<?php _e("Current version"); ?> <?php print MW_VERSION ?>"><?php _e("Check for updates"); ?></span>
-    </div>
-    <div class="mw-side-left" id="updates-list-info" >
-        <span style="font-size: 18px;"><?php print user_name(); ?></span>, <?php _e("we are constantly trying to improve Microweber"); ?>. <br>
-        <?php _e("Our team and many contributors around the world are working hard every day to provide you with a stable system and new updates"); ?>.
-        <?php _e("Please excuse us in case you find any problems and"); ?> <a href="//microweber.com/contact-us?user=<?php print user_name(); ?>" class="mw-ui-link"><?php _e("write us a message"); ?></a> <?php _e("for all things you wish to see in Microweber or in any"); ?> <?php _e("Module"); ?>.
-    </div>
+      <h2 class="mw-side-main-title relative"><span class="mw-icon-updates"></span><span>
+        <?php _e("Updates"); ?>
+        </span>
+        <?php if($notif_count !=0) : ?>
+        &nbsp;<sup class="mw-notification-count" id="number_of_updates"><?php print $notif_count  ?></sup>
+        <?php endif; ?>
+      </h2>
+      <span class="mw-check-updates-btn mw-ui-btn mw-ui-btn-medium mw-ui-btn-invert" title="<?php _e("Current version"); ?> <?php print MW_VERSION ?>">
+      <?php _e("Check for updates"); ?>
+      </span> </div>
+    <div class="mw-side-left" id="updates-list-info" > <span style="font-size: 18px;"><?php print user_name(); ?></span>,
+      <?php _e("we are constantly trying to improve Microweber"); ?>
+      . <br>
+      <?php _e("Our team and many contributors around the world are working hard every day to provide you with a stable system and new updates"); ?>
+      .
+      <?php _e("Please excuse us in case you find any problems and"); ?>
+      <a href="//microweber.com/contact-us?user=<?php print user_name(); ?>" class="mw-ui-link">
+      <?php _e("write us a message"); ?>
+      </a>
+      <?php _e("for all things you wish to see in Microweber or in any"); ?>
+      <?php _e("Module"); ?>
+      . </div>
+  </div>
+  <module type="updates/list" id="mw-updates" />
+  
+  <div id="mw-updates-queue"></div>
+  
 </div>
-
-
-
-
-
-
-<module type="updates/list" id="mw-updates" />
-
-
-</div>
-
-
-
-

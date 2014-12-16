@@ -2,10 +2,7 @@
 namespace Microweber\Providers;
 
 
-
 use Microweber\Utils\Http;
-
-
 
 
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
@@ -63,11 +60,12 @@ class UpdateManager
         return $result;
     }
 
-    
-    public function http(){
+
+    public function http()
+    {
         return new \Microweber\Utils\Http();
     }
-    
+
     private function collect_local_data()
     {
         $data = array();
@@ -309,23 +307,95 @@ class UpdateManager
     }
 
 
+    private $updates_queue_cache_id = 'apply_updates_queue';
+    private $updates_queue_cache_group = 'updates_queue';
 
-    public function apply_updates_queue($params){
-
-
-
-
+    public function set_updates_queue($params = false)
+    {
         $params = parse_params($params);
 
         $a = $this->app->user_manager->is_admin();
         if ($a == false) {
             mw_error('Must be admin!');
         }
+        $queue = $params;
+
+        $c_id = $this->updates_queue_cache_id;
+        $cache_group = $this->updates_queue_cache_group;
+
+        $cache_content = $this->app->cache_manager->get($c_id, $cache_group);
+        if (($cache_content) != false) {
+            $work = $cache_content;
+        } else {
+            $work = $params;
+            $this->app->cache_manager->save($work, $c_id, $cache_group);
+        }
+    }
+
+    public function apply_updates_queue()
+    {
+        $a = $this->app->user_manager->is_admin();
+        if ($a == false) {
+            mw_error('Must be admin!');
+        }
+        $c_id = $this->updates_queue_cache_id;
+        $cache_group = $this->updates_queue_cache_group;
+        $cache_content = $this->app->cache_manager->get($c_id, $cache_group);
+
+        if (!empty($cache_content)) {
+            $work = $cache_content;
+
+            if (is_array($work) and !empty($work)) {
+                foreach ($work as $k => $items) {
+                    if (is_array($items) and !empty($items)) {
+                        foreach ($items as $ik => $item) {
+
+                            if ($k == 'mw_version') {
+                                print "Installing Core Update..." . "\n";
+                            } elseif ($k == 'modules') {
+                                print "Installing module..." . "\n";
+                            } elseif ($k == 'templates') {
+                                print "Installing template..." . "\n";
+                            } elseif ($k == 'module_templates') {
+                                print "Installing module skin..." . "\n";
+                            } else {
+                                print "Installing..." . "\n";
+                            }
+                            print $item . "\n";
+
+                            $queue = array($k => array(0 => $item));
+                            $is_done = $this->apply_updates($queue);
+                            if(isset($is_done[0])){
+                                if(isset($is_done[0]['success'])){
+                                    print $is_done[0]['success'] . "\n";
+                                } elseif(isset($is_done[0]['warning'])){
+                                    print $is_done[0]['warning'] . "\n";
+                                } elseif(isset($is_done[0]['message'])){
+                                    print $is_done[0]['message'] . "\n";
+                                }
+
+                            } else {
+                                print "ERROR..." . "\n";
+                                print_r($is_done);
+                            }
+                            unset($work[$k][$ik]);
+                            $this->app->cache_manager->save($work, $c_id, $cache_group);
 
 
+                        }
+                    } else {
+                        unset($work[$k]);
+                        $this->app->cache_manager->save($work, $c_id, $cache_group);
 
-
-
+                    }
+                }
+            } else {
+                $this->app->cache_manager->save(false, $c_id, $cache_group);
+            }
+        } else {
+            $this->app->cache_manager->save(false, $c_id, $cache_group);
+        }
+        return 'done';
     }
 
 
@@ -694,7 +764,7 @@ class UpdateManager
         }
         $result = false;
 
-       d($curl_result);
+        // d($curl_result);
 
 //        if (is_ajax()) {
 //            print $curl_result;
@@ -731,7 +801,7 @@ class UpdateManager
             $arrays = get_object_vars($arrays);
         }
 
-        foreach ($arrays AS $key => $value) {
+        foreach ($arrays as $key => $value) {
             $k = isset($prefix) ? $prefix . '[' . $key . ']' : $key;
             if (is_array($value) OR is_object($value)) {
                 $this->http_build_query_for_curl($value, $new, $k);
