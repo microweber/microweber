@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Cache\Repository;
+use Illuminate\Console\Application as Artisan;
 
 use Microweber\Database\MySqlConnection;
 
@@ -164,9 +165,7 @@ class MicroweberServiceProvider extends ServiceProvider
         parent::boot();
 
         $this->registerRoutes();
-
         \App::instance('path.public', base_path());
-
         \Cache::extend('file', function($app)
         {
             return new Providers\CacheTags;
@@ -189,6 +188,11 @@ class MicroweberServiceProvider extends ServiceProvider
                 $full_sql = vsprintf($sql, $bindings);
             });
             */
+        }
+        else
+        {
+            $this->commands('Microweber\Commands\InstallCommand');
+            //$this->commands('microweber.install');
         }
     }
 
