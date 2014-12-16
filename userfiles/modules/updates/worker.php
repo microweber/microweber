@@ -11,12 +11,16 @@ $(document).ready(function (){
 });
 
 function mw_apply_upd(){
+	
+var timeout = 3000;	
+	
  $.ajax({                                      
       url: '<?php print api_link(); ?>mw_apply_updates_queue',        
       type: "post",          
       dataType: 'html', 
 	   error: function (request, status, error) {
-		  setTimeout(mw_apply_upd, 5000);
+		  $('#mw-update-res-log').append('Composer is working...');  
+		  setTimeout(mw_apply_upd, timeout);
     	},
       success:  function (resp) {
 		  $('#mw-update-res-log').append(resp); 
@@ -24,7 +28,7 @@ function mw_apply_upd(){
 			$(window).trigger('mw_updates_done')  
 			
 		  } else {
-			   setTimeout(mw_apply_upd, 5000);
+			   setTimeout(mw_apply_upd, timeout);
 		  }
 	  	  
 		}

@@ -3,6 +3,23 @@
 
 namespace Microweber\Utils;
 
+
+spl_autoload_register(function ($class) {
+// fallback autoloader if some composer class is missing
+
+    $prefix = 'Composer\\';
+    if (!substr($class, 0, 10) === $prefix) {
+        return;
+    }
+    $class = substr($class, strlen($prefix));
+    $location_fallback = __DIR__ . '/lib/composer/src/Composer/' . str_replace('\\', '/', $class) . '.php';
+    $location_fallback = normalize_path($location_fallback, false);
+    if (is_file($location_fallback)) {
+        require_once($location_fallback);
+    }
+});
+
+
 use Composer\Console\Application;
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
@@ -22,6 +39,8 @@ class ComposerUpdate
 
     public function __construct()
     {
+
+
         $composer_path = normalize_path(base_path() . '/', false);
         $this->composer_home = $composer_path;
         putenv('COMPOSER_HOME=' . $composer_path);
@@ -42,12 +61,13 @@ class ComposerUpdate
         $update = new UpdateCommand();
         $update->setComposer($composer);
         $out = $update->run($input, $output);
+        return $out;
 
 //        $update = new InstallCommand();
 //        $update->setComposer($composer);
 //        $out = $update->run($input, $output);
 
-        d($out);
+
         //  dd($output);
 
 
@@ -91,7 +111,7 @@ class ComposerUpdate
                 if (is_array($req) and !empty($req)) {
                     $all_reqs = array_merge($conf_items['require'], $req);
                     $conf_items['require'] = $all_reqs;
-                    $conf_items = json_encode($conf_items,JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+                    $conf_items = json_encode($conf_items, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
                     $save = file_put_contents($conf, $conf_items);
                 }
             }

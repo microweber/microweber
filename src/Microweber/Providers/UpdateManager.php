@@ -395,6 +395,7 @@ class UpdateManager
 
                         $this->run_composer();
 
+
                         $this->app->cache_manager->save($work, $c_id, $cache_group);
                         $msg = "Installed all " . $k . "\n";
                         return $msg;
@@ -424,7 +425,14 @@ class UpdateManager
     {
         $this->_log_msg('Composer update...');
         $runner = new \Microweber\Utils\ComposerUpdate();
-        $runner->run();
+        $out = $runner->run();
+        if($out == 2){
+            print ('Error resolving composer dependencies'. "\n");
+        }elseif($out == 1){
+            print ('Composer has an unknown error'. "\n");
+        } else {
+            print ($out. "\n");
+        }
     }
 
     function check($skip_cache = false)
