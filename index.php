@@ -1,4 +1,16 @@
 <?php
+
+if (version_compare(phpversion(), "5.4.0", "<=")) {
+    exit("Error: You must have PHP version 5.4 or greater to run Microweber");
+}
+
+if(!function_exists("mcrypt_encrypt")) {
+    exit("Error: You must install the mcrypt PHP extension to run Microweber");
+}
+
+
+
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

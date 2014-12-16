@@ -13,12 +13,12 @@
    			},
    
 			error: function (request, status, error) {
-			$('#remote_patch_log').append('Composer is working...');  
+			$('#remote_patch_log').append('...');  
 			  setTimeout(apply_new_packages, 3000);
 			}
         }).done(function (resp) {
 			$("#run_composer_button_lock").removeAttr("disabled");
-			$('#remote_patch_log').append(resp); 
+			$('#remote_patch_log').html(resp); 
            // mw.notification.msg(msg);
            // if (typeof(msg.try_again) != 'undefined') {
 //                apply_new_packages();

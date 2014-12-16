@@ -54,7 +54,7 @@ class ComposerUpdate
         $input = new ArgvInput(array());
         $output = new ConsoleOutput();
         $helper = new HelperSet();
-        $output->setVerbosity(3);
+        $output->setVerbosity(4);
         $io = new ConsoleIO($input, $output, $helper);
         $composer = Factory::create($io);
 

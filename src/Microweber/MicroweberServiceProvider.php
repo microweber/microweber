@@ -114,6 +114,9 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\OptionManager($app);
         });
 
+        $this->app->singleton('database', function () {
+            return new \Database();
+        });
 
         // remove me //
 
