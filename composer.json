@@ -1,46 +1,48 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
-	"license": "MIT",
-	"type": "project",
-	"require": {
-		"laravel/framework": "~5.0",
-		"composer/composer": "1.*",
-		"composer/installers":"1.*",
- 		"guzzlehttp/guzzle": "~5.0",
-		"peter-mw/example-mvc": "dev-master"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "~4.0"
-	},
-	"autoload": {
-		"classmap": [
-			"database",
-			"tests/TestCase.php"
-		],
-		"psr-4": {
-			"": "src/",
-			"App\\": "app/"
-		}
-	},
-	"scripts": {
-		"post-install-cmd": [
-			"php artisan clear-compiled",
-			"php artisan route:scan",
-			"php artisan event:scan",
-			"php artisan optimize"
-		],
-		"post-update-cmd": [
-			"php artisan clear-compiled",
-			"php artisan optimize"
-		],
-		"post-create-project-cmd": [
-			"php artisan key:generate"
-		]
-	},
-	"config": {
-		"preferred-install": "dist"
-	},
-	"minimum-stability": "dev"
+    "name": "laravel/laravel",
+    "description": "The Laravel Framework.",
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "laravel/framework": "~5.0",
+        "composer/composer": "1.*",
+        "composer/installers": "1.*" 
+       
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "classmap": [
+            "database",
+            "tests/TestCase.php"
+        ],
+        "psr-4": {
+            "": "src/",
+            "App\\": "app/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php artisan clear-compiled",
+            "php artisan route:scan",
+            "php artisan event:scan",
+            "php artisan optimize"
+        ],
+        "post-update-cmd": [
+            "php artisan clear-compiled",
+            "php artisan optimize"
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev"
 }

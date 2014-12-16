@@ -290,11 +290,11 @@ class CacheTags implements StoreInterface
         $file = $this->path($key);
 
         if ($this->files->exists($file)) {
-            $this->files->delete($file);
+            @$this->files->delete($file);
         } else {
             $folder = substr($file, 0, -6);
             if ($this->files->exists($folder)) {
-                $this->files->deleteDirectory($folder);
+                @$this->files->deleteDirectory($folder);
             }
         }
 

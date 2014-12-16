@@ -48,6 +48,7 @@ class LaravelCache
     public function cache_group($cache_group)
     {
         if (is_string($cache_group)) {
+            $cache_group = str_replace('\\', '/', $cache_group);
             $cache_group = explode('/', $cache_group);
 
 //            if (isset($cache_group[1])) {
