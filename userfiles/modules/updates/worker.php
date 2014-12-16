@@ -21,8 +21,8 @@ function mw_apply_upd(){
       dataType: 'html',                
      
       success:  function (resp) {
-  		  $('#mw-update-res-log').html(resp); 
-		  
+  		 // $('#mw-update-res-log').html(resp); 
+		   $('#mw-update-res-log').append(resp); 
 		  if(resp == 'done'){
 			mw.tools.enable(mwd.getElementById('installsubmit'));
             Alert("Updates are successfully installed.");
@@ -48,4 +48,4 @@ function mw_apply_upd(){
  
 
 
-<pre id="mw-update-res-log"></pre>
+<pre id="mw-update-res-log" style="word-wrap: break-word;"></pre>

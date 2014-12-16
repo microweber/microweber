@@ -365,6 +365,13 @@ class UpdateManager
 
                             $queue = array($k => array(0 => $item));
                             $is_done = $this->apply_updates($queue);
+
+                            $msg_log = $this->_log_msg(true);
+                            if(!empty($msg_log)){
+                                $msg .= implode("\n", $msg_log) . "\n";
+                            }
+
+
                             if (isset($is_done[0])) {
                                 if (isset($is_done[0]['success'])) {
                                     $msg .= $is_done[0]['success'] . "\n";
@@ -509,13 +516,19 @@ class UpdateManager
             }
             $dl_file = $dir_c . $fname;
             if (!is_file($dl_file)) {
+
+                $this->_log_msg('Downloading core update');
+
                 $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
             }
             if (is_file($dl_file)) {
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = MW_ROOTPATH;
+                $this->_log_msg('Preparing to unzip core update');
                 $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
-                $this->post_update();
+                $this->_log_msg('Core update unzipped');
+
+             $this->post_update();
                 return $result;
                 // skip_cache
             }
@@ -526,6 +539,7 @@ class UpdateManager
 
     function post_update()
     {
+        $this->_log_msg('Applying post update actions');
 
         $system_refresh = new \Microweber\Install\DbInstaller;
         $system_refresh->install_db();
@@ -571,6 +585,7 @@ class UpdateManager
 
             $download_target = $this->temp_dir . md5($url) . basename($url);
             $download_target_extract_lock = $this->temp_dir . md5($url) . basename($url) . '.unzip_lock';
+            $this->_log_msg('Downloading from marketplace');
 
             if (!is_file($download_target)) {
                 $dl = $this->http()->url($url)->download($download_target);
@@ -640,8 +655,11 @@ class UpdateManager
                     }
 
                 }
+
+
                 $where_to_unzip = str_replace('..', '', $where_to_unzip);
                 $where_to_unzip = normalize_path($where_to_unzip, true);
+                $this->_log_msg('Unzipping in '.$where_to_unzip);
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = $where_to_unzip;
                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
@@ -673,10 +691,14 @@ class UpdateManager
                 }
                 $dl_file = $dir_c . $fname;
                 if (!is_file($dl_file)) {
+                    $this->_log_msg('Downloading module' . $fname);
+
                     $get = $this->app->url_manager->download($value, $post_params = false, $save_to_file = $dl_file);
                 }
                 if (is_file($dl_file)) {
                     $unzip = new \Microweber\Utils\Unzip();
+                    $this->_log_msg('Unziping module' . $fname);
+
                     $target_dir = MW_ROOTPATH;
                     $result = $unzip->extract($dl_file, $target_dir, $preserve_filepath = TRUE);
                 }
@@ -927,5 +949,15 @@ class UpdateManager
         }
     }
 
+    public $log_messages = array();
+
+    private function _log_msg($msg)
+    {
+        if ($msg === true) {
+            return $this->log_messages;
+        } else {
+            $this->log_messages[] = $msg;
+        }
+    }
 
 }
