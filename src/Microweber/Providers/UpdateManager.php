@@ -675,6 +675,12 @@ class UpdateManager
                 $unzip = new \Microweber\Utils\Unzip();
                 $target_dir = $where_to_unzip;
                 $result = $unzip->extract($download_target, $target_dir, $preserve_filepath = TRUE);
+
+                $new_composer = $target_dir.'composer.json';
+                if(is_file($new_composer)){
+                    $this->merge_composer($new_composer);
+                }
+
                 $num_files = count($result);
                 return array('files' => $result, 'location' => $where_to_unzip, 'success' => "Item is installed. {$num_files} files extracted in {$where_to_unzip}");
 
