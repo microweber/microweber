@@ -19,11 +19,11 @@ use Microweber\Utils\Adapters\Event\LaravelEvent as LaravelEvent;
 
 
 /**
- * Content class is used to get and save content in the database.
+ * Event
  *
- * @package Content
- * @category Content
- * @desc  These functions will allow you to get and save content in the database.
+ * @package Event
+ * @category Event
+ * @desc  Event
  *
  */
 class Event
@@ -35,21 +35,17 @@ class Event
      * @var $adapter
      */
     static $adapter;
-    
-    
+
+    private $callbacks = array(); // array to store user callbacks
 
     function __construct()
     {
 
-
-
-        if(!is_object(self::$adapter)){
+        if (!is_object(self::$adapter)) {
             self::$adapter = new LaravelEvent();
-
         }
-        
 
- 
+        register_shutdown_function(array($this, 'callRegisteredShutdown'));
     }
 
     public function on($event_name, $callback)
@@ -66,10 +62,34 @@ class Event
      */
     public function trigger($event_name, $data = false)
     {
-
-
         return self::$adapter->fire($event_name, $data);
+    }
 
+
+    public function registerShutdownEvent()
+    {
+        $callback = func_get_args();
+
+        if (empty($callback)) {
+            trigger_error('No callback passed to ' . __FUNCTION__ . ' method', E_USER_ERROR);
+            return false;
+        }
+        if (!is_callable($callback[0])) {
+            trigger_error('Invalid callback passed to the ' . $callback[0] . __FUNCTION__ . ' method', E_USER_ERROR);
+            return false;
+        }
+        $this->callbacks[] = $callback;
+        return true;
+    }
+
+    public function callRegisteredShutdown()
+    {
+        if (!empty($this->callbacks)) {
+            foreach ($this->callbacks as $arguments) {
+                $callback = array_shift($arguments);
+                call_user_func_array($callback, $arguments);
+            }
+        }
     }
 
 }

@@ -6,7 +6,6 @@
 $mw_language_content_saved = false;
 $mw_new_language_entires = array();
 $mw_new_language_entires_ns = array();
-// from here http://stackoverflow.com/a/7709863/731166
 function ewchar_to_utf8($matches)
 {
     $ewchar = $matches[1];
@@ -99,7 +98,9 @@ function __store_lang_file_ns()
                 }
 
                 if ($store_file != false) {
-                    $lang_file_str = json_encode($existing);
+
+                    $lang_file_str = json_encode($existing, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
                     $lang_file = $store_file;
                 }
 
@@ -111,7 +112,6 @@ function __store_lang_file_ns()
                     }
 
 
-                    $lang_file_str = str_replace('","', '",' . "\n" . '"', $lang_file_str);
                     if (is_writable($lang_file) and is_string($lang_file_str) and $lang_file_str != '') {
                         @file_put_contents($lang_file, $lang_file_str);
                     }
@@ -151,11 +151,11 @@ function __store_lang_file()
 
     $lang_file = userfiles_path() . 'language' . DIRECTORY_SEPARATOR . $lang . '.json';
     if (!is_array($mw_language_content) or empty($mw_language_content)) {
-        $lang_file_str = json_encode($mw_new_language_entires);
-        // if(is_writable($lang_file)){
-        //d($lang_file);
+
+        $lang_file_str = json_encode($mw_new_language_entires, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
         @file_put_contents($lang_file, $lang_file_str);
-        // }
+
     }
     $mw_language_content2 = array();
     if (is_array($mw_language_content) and is_array($mw_new_language_entires) and !empty($mw_new_language_entires)) {
@@ -178,8 +178,7 @@ function __store_lang_file()
         $mw_language_content = array_unique($mw_language_content);
 
 
-        $lang_file_str = json_encode($mw_language_content);
-
+        $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         $mw_language_content_saved = 1;
         if (is_admin() == true) {
             $c1 = count($mw_language_content);
@@ -231,15 +230,14 @@ function __store_lang_file()
 function current_lang()
 {
 
-   static $installed = null;
+    static $installed = null;
 
-    if($installed === null){
+    if ($installed === null) {
         $installed = mw_is_installed();
     }
-    if($installed == false){
-       return 'en';
+    if ($installed == false) {
+        return 'en';
     }
-
 
 
     $lang = false;
@@ -315,9 +313,9 @@ function lang($title, $namespace = false)
             if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS')) {
                 define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED_NS', 1);
                 // __store_lang_file_ns();
-                //$scheduler = new \Microweber\Utils\Events();
+                $scheduler = new \Microweber\Providers\Event();
                 // schedule a global scope function:
-               // $scheduler->registerShutdownEvent("__store_lang_file_ns");
+                $scheduler->registerShutdownEvent("__store_lang_file_ns");
             }
 
 
@@ -353,7 +351,6 @@ function _e($k, $to_return = false)
 {
 
 
-
     static $lang_file;
     global $mw_new_language_entires;
 
@@ -365,15 +362,15 @@ function _e($k, $to_return = false)
 
     if (isset($mw_language_content[$k1]) == false) {
         //if (is_admin() == true) {
-//            $k2 = ($k);
-//            $mw_new_language_entires[$k1] = $k2;
-//            $mw_language_content[$k1] = $k2;
-//            if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
-//                define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
-//               // $scheduler = new \Microweber\Utils\Events();
-//                // schedule a global scope function:
-//              //  $scheduler->registerShutdownEvent("__store_lang_file");
-//            }
+        $k2 = ($k);
+        $mw_new_language_entires[$k1] = $k2;
+        $mw_language_content[$k1] = $k2;
+        if (!defined('MW_LANG_STORE_ON_EXIT_EVENT_BINDED')) {
+            define('MW_LANG_STORE_ON_EXIT_EVENT_BINDED', 1);
+            $scheduler = new \Microweber\Providers\Event();
+            // schedule a global scope function:
+            $scheduler->registerShutdownEvent("__store_lang_file");
+        }
 
 
         //}
@@ -449,17 +446,8 @@ function save_language_file_content($data)
 
         if (is_array($mw_language_content)) {
             $mw_language_content = array_unique($mw_language_content);
-            $lang_file_str = json_encode($mw_language_content);
+            $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
-//            $lang_file_str = '<?php ' . "\n";
-//            $lang_file_str .= ' $language=array();' . "\n";
-//            foreach ($mw_language_content as $key => $value) {
-//
-//                $value = addslashes($value);
-//                $lang_file_str .= '$language["' . $key . '"]' . "= '{$value}' ; \n";
-//
-//            }
-            $mw_language_content_saved = 1;
             if (is_admin() == true) {
                 file_put_contents($lang_file, $lang_file_str);
             }
@@ -701,8 +689,8 @@ function show_help($section = 'main')
     }
 
 
-    $lang_file =mw_includes_path(). 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
-    $lang_file_en = mw_includes_path() .  'help' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file = mw_includes_path() . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
+    $lang_file_en = mw_includes_path() . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
     $lang_file = normalize_path($lang_file, false);
 
     if (is_file($lang_file)) {

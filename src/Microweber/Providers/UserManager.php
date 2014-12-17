@@ -73,7 +73,6 @@ class UserManager
 
     public function is_admin()
     {
-        //return true;
         if (!mw_is_installed()) {
             return false;
         }
@@ -418,7 +417,7 @@ class UserManager
             if (trim($api_key) == '') {
                 return false;
             } else {
-                 if (user_id() > 0) {
+                if (user_id() > 0) {
                     return true;
                 } else {
                     $data = array();
@@ -433,7 +432,7 @@ class UserManager
                             $data = $data[0];
 
                             if (isset($data['api_key']) and $data['api_key'] == $api_key) {
-                                return  Auth::loginUsingId($data['id']);
+                                return Auth::loginUsingId($data['id']);
                             }
 
                         }
