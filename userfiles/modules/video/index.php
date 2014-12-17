@@ -45,11 +45,11 @@ if ($h == '') {
 if ($autoplay == '') {
     $autoplay = '0';
 }
-
+ 
 
 if ($prior != '2' or $prior == false) {
     if ($code != '') {
-        $code = html_entity_decode($code);
+        $code = trim($code);
         if (stristr($code, '<iframe') !== false) {
             $code = preg_replace('#\<iframe(.*?)\ssrc\=\"(.*?)\"(.*?)\>#i',
                 '<iframe$1 src="$2?wmode=transparent"$3>', $code);

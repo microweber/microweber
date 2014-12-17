@@ -42,6 +42,8 @@ $mtime = microtime();
     print $dsql;
     
   }
+
+
 ?>
     <b>Debug</b>
  

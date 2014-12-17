@@ -82,6 +82,8 @@ class Database
      */
     public function get($table_name_or_params, $params = null)
     {
+
+
         if ($params === null) {
             $params = $table_name_or_params;
         } else {
@@ -178,6 +180,7 @@ class Database
                 $query = Cache::tags($table)->remember($cache_key, $ttl, function () use ($query) {
                     return $query->count();
                 });
+
             }
             //  $query = $query->count();
             if ($items_per_page != false) {
