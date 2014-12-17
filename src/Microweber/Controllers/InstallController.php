@@ -38,29 +38,23 @@ class InstallController extends Controller
 
     }
 
-    public function index()
+    public function index($input = null)
     {
+        if(!is_array($input) || empty($input)) {
+            $input = Input::all();
+        }
 
         $is_installed = mw_is_installed();
         if ($is_installed) {
             return 'Microweber is already installed!';
         }
 
-
         $view = MW_PATH . 'Views/install.php';
 
         $connection = Config::get('database.connections');
-        $layout = new View($view);
-        $is_installed = mw_is_installed();
-        if ($is_installed) {
-            App::abort(403, 'Unauthorized action. Microweber is already installed.');
-        }
-        $layout->assign('data', $connection);
-        $layout->assign('done', $is_installed);
-        $layout = $layout->__toString();
-        $input = Input::all();
 
-        if (isset($input['make_install'])) {
+        if (isset($input['make_install']))
+        {
             if (!isset($input['db_pass'])) {
                 $input['db_pass'] = '';
             }
@@ -147,8 +141,15 @@ class InstallController extends Controller
             Config::save();
             return 'done';
         }
+
+        $layout = new View($view);
+        $is_installed = mw_is_installed();
+        if ($is_installed) {
+            App::abort(403, 'Unauthorized action. Microweber is already installed.');
+        }
+        $layout->assign('data', $connection);
+        $layout->assign('done', $is_installed);
+        $layout = $layout->__toString();
         return $layout;
-
-
     }
 }
