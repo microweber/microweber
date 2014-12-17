@@ -708,8 +708,8 @@ class Database
                 $value = intval($value);
                 if ($value != 0) {
                     $q = "UPDATE $table_real SET position={$i} WHERE id={$value} ";
-
-                    $q = $this->q($q);
+                    DB::statement($q);
+                    //$q = $this->q($q);
                 }
                 $i++;
             }
@@ -865,8 +865,9 @@ class Database
             $i = 1;
             foreach ($sql_query as $sql) {
                 $sql = trim($sql);
+                DB::statement($sql);
 
-                $qz = $this->q($sql);
+                //$qz = $this->q($sql);
             }
             //$this->app->cache_manager->delete('db');
             return true;

@@ -520,7 +520,10 @@ class Database
 
     public function q($q)
     {
-        return DB::select($q);
+
+
+        return DB::statement($q);
+       // return DB::select($q);
     }
 
 

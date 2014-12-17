@@ -113,7 +113,7 @@ $tree['parent'] = '0';
 
 if (isset($orig_params['is_shop']) and trim($orig_params['is_shop']) == 'y') {
 
-	$tree['is_shop'] = 'y';
+	$tree['is_shop'] = 1;
 	$tree['parent'] = 'any';
 
 
@@ -176,7 +176,7 @@ if(isset($tree['is_shop'] )){
 
 if(isset($params['subtype']) and $params['subtype'] == 'product'){
 
-	$tree['is_shop'] = 'y';
+	$tree['is_shop'] = 1;
 }
 if(isset($params['subtype']) and $params['subtype'] == 'post'){
    $tree['subtype'] = 'dynamic';
@@ -199,7 +199,7 @@ if (isset($params['categories_removed_ids'])) {
 	 
 unset($tree['subtype']);
 }
- 
+     $tree['is_active'] = 1;
 pages_tree($tree);
 ?>
 <?php endif; ?>
