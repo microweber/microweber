@@ -1702,7 +1702,7 @@ class ContentManager
             //
             //
             $content_data = $this->get_by_id($content_id);
-            if ($content_data['is_active'] != 'y') {
+            if ($content_data['is_active'] != 1) {
 
                 return false;
             }

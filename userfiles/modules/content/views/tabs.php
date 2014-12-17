@@ -48,6 +48,7 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
             <?php _e("Custom Fields"); ?>
             </span> </span>
             <?php endif; ?>
+
             <?php event_trigger('mw_admin_edit_page_tabs_nav', $data); ?>
           </div>
           <div class="mw-ui-btn-nav"> <span class="mw-ui-btn tip" data-tip="<?php _e("Advanced"); ?>"> <span class="mw-icon-gear"></span> <span>
@@ -102,9 +103,16 @@ $custom_tabs = mw()->modules->ui('content.edit.tabs');
 
 
 
-            <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>"  />
-      
-            
+              <?php if(isset($data['add_to_menu'])): ?>
+
+                  <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>" add_to_menu="<?php print $data['add_to_menu']; ?>"  />
+
+
+                  <?php else: ?>
+                  <module type="menu" view="edit_page_menus" content_id="<?php print $data['id']; ?>"  />
+
+
+              <?php endif; ?>
             
             <?php event_trigger('mw_admin_edit_page_after_menus', $data); ?>
             <?php event_trigger('mw_admin_edit_page_tab_2', $data); ?>
