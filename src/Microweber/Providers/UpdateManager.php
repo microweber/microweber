@@ -782,9 +782,11 @@ class UpdateManager
 
         $post_params['site_url'] = $this->app->url_manager->site();
         $post_params['api_function'] = $method;
-        //d($method);
+        $post_params['mw_version'] = MW_VERSION;
+
         if ($post_params != false and is_array($post_params)) {
             $curl_result = $this->http()->url($requestUrl)->post($post_params);
+ 
 
         } else {
             $curl_result = false;
@@ -816,7 +818,7 @@ class UpdateManager
             $params = array();
         }
 
-        $params['site_url'] = $this->app->url_manager->site();
+
         $params['function_name'] = 'send_lang_form_to_microweber';
 
 

@@ -112,6 +112,7 @@ function __store_lang_file_ns()
                     }
 
 
+
                     if (is_writable($lang_file) and is_string($lang_file_str) and $lang_file_str != '') {
                         @file_put_contents($lang_file, $lang_file_str);
                     }
@@ -178,7 +179,7 @@ function __store_lang_file()
         $mw_language_content = array_unique($mw_language_content);
 
 
-        $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+         $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         $mw_language_content_saved = 1;
         if (is_admin() == true) {
             $c1 = count($mw_language_content);
@@ -446,9 +447,9 @@ function save_language_file_content($data)
 
         if (is_array($mw_language_content)) {
             $mw_language_content = array_unique($mw_language_content);
-            $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+             $lang_file_str = json_encode($mw_language_content, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
-            if (is_admin() == true) {
+             if (is_admin() == true) {
                 file_put_contents($lang_file, $lang_file_str);
             }
         }
