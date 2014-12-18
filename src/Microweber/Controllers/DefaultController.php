@@ -995,6 +995,7 @@ class DefaultController extends Controller
         if ($admin == 'admin') {
             event_trigger('mw_backend');
             event_trigger('mw.admin');
+
         } else {
             event_trigger('mw_frontend');
         }

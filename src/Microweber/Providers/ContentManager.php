@@ -4688,12 +4688,13 @@ class ContentManager
                     $add_page = array();
                     $add_page['id'] = 0;
                     $add_page['parent'] = 0;
+                    $add_page['is_active'] = 1;
 
                     $add_page['title'] = "Online shop";
                     $add_page['url'] = "shop";
                     $add_page['content_type'] = "page";
                     $add_page['subtype'] = 'dynamic';
-                    $add_page['is_shop'] = 'y';
+                    $add_page['is_shop'] = '1';
                     $add_page['active_site_template'] = 'default';
                     $find_layout = $this->app->layouts_manager->scan();
                     if (is_array($find_layout)) {
@@ -4728,7 +4729,7 @@ class ContentManager
                     $add_page['url'] = "my-product";
                     $add_page['content_type'] = "post";
                     $add_page['subtype'] = "product";
-
+                    $add_page['is_active'] = 1;
                     //$new_shop = $this->save_content($add_page);
                     //$this->app->cache_manager->delete('content');
                     //$this->app->cache_manager->clear();
@@ -4746,7 +4747,7 @@ class ContentManager
                     $add_page = array();
                     $add_page['id'] = 0;
                     $add_page['parent'] = 0;
-
+                    $add_page['is_active'] = 1;
                     $add_page['title'] = "Blog";
                     $add_page['url'] = "blog";
                     $add_page['content_type'] = "page";
@@ -4812,6 +4813,7 @@ class ContentManager
                     $add_page['subtype'] = 'static';
                     $add_page['is_shop'] = 0;
                     //$add_page['debug'] = 1;
+                    $add_page['is_active'] = 1;
                     $add_page['is_home'] = 1;
                     $add_page['active_site_template'] = 'default';
                     $new_shop = $this->save_content($add_page);

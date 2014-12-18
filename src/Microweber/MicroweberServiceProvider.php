@@ -146,6 +146,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // Set environment
         $domain = $request->server('HTTP_HOST');
+
         $this->app->detectEnvironment(function () use ($domain) {
             return $domain;
         });

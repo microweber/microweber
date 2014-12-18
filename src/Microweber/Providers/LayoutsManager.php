@@ -855,6 +855,7 @@ class LayoutsManager
 
     function add_external($arr)
     {
+
         $this->external_layouts[] = ($arr);
         return $this->external_layouts;
     }
