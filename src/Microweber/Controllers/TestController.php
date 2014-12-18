@@ -6,8 +6,8 @@ class TestController extends Controller
 {
 	function getIndex()
 	{
-		$u = \User::find(1);
-		echo '<pre>';
-		dd($u->isAdmin);
+		$a = new \Microweber\Install\WebserverInstaller;
+		$a = $a->run();
+		dd($a);
 	}
 }
