@@ -109,11 +109,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('database', function () {
             return new \Database();
         });
-        // ---- remove me ---- //
-        $this->app->singleton('db_model', function () {
-            return new \DbModel();
-        });
-        // end of remove me //
+
         $this->app->bind('template', function ($app) {
             return new Providers\Template($app);
         });
@@ -150,34 +146,36 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // Set environment
         $domain = $request->server('HTTP_HOST');
-        $this->app->detectEnvironment(function() use($domain){ return $domain; });
+        $this->app->detectEnvironment(function () use ($domain) {
+            return $domain;
+        });
 
-        // Register routes
-        $this->registerRoutes();
+
 
         // public = /
         \App::instance('path.public', base_path());
 
         // Extend the cache
-        \Cache::extend('file', function($app) {
+        \Cache::extend('file', function ($app) {
             return new Providers\CacheTags;
         });
 
         // If installed load module functions
         if (mw_is_installed()) {
             $modules = load_all_functions_files_for_modules();
-        }
-        // Otherwise register the install command
-        else {
+        } else {
+            // Otherwise register the install command
             $this->commands('Microweber\Commands\InstallCommand');
         }
+
+        // Register routes
+        $this->registerRoutes();
     }
 
     private function registerRoutes()
     {
         $routesFile = __DIR__ . '/routes.php';
-        if(file_exists($routesFile))
-        {
+        if (file_exists($routesFile)) {
             include $routesFile;
             return true;
         }

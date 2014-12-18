@@ -786,7 +786,7 @@ class UpdateManager
 
         if ($post_params != false and is_array($post_params)) {
             $curl_result = $this->http()->url($requestUrl)->post($post_params);
- 
+
 
         } else {
             $curl_result = false;

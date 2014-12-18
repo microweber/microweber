@@ -6,10 +6,10 @@ namespace Microweber\Utils;
 use Microweber\Providers\Modules;
 
 $parser_cache_object = false; //global cache storage
- $mw_replaced_edit_fields_vals = array();
+$mw_replaced_edit_fields_vals = array();
 $mw_replaced_edit_fields_vals_inner = array();
 
- $mw_parser_nest_counter_level = 0;
+$mw_parser_nest_counter_level = 0;
 
 class Parser
 {
@@ -20,7 +20,7 @@ class Parser
 
     private $mw_replaced_modules = array();
     private $mw_replaced_modules_values = array();
-    
+
     private $_mw_parser_passed_hashes = array();
     private $_mw_parser_passed_replaces = array();
     private $_replaced_modules_values = array();
@@ -64,8 +64,6 @@ class Parser
         }
 
 
-
-
         $layout = str_replace('<?', '&lt;?', $layout);
 
 
@@ -90,7 +88,6 @@ class Parser
                 }
             }
         }
-
 
 
         if (!isset($options['parse_only_vars'])) {
@@ -1124,22 +1121,24 @@ class Parser
 
         require_once(__DIR__ . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
 
-//        $field =  qp($l, '[field="content"]')->innerHTML();
-//        if($field == null){
-//            $field =  qp($l, '[field="content_body"]')->innerHTML();
-//
-//        }
-//        return $field;
-        // $field =  qp($l, '[field="content"]')->innerHTML();
-        //d($field);
-//exit;
+
         $pq = \phpQuery::newDocument($l);
         $found = false;
-        foreach ($pq ['[field=content]'] as $elem) {
-            $l = pq($elem)->htmlOuter();
 
-            $found = true;
+        foreach ($pq ['[data-mw=main]'] as $elem) {
+            if ($found == false) {
+                $l = pq($elem)->htmlOuter();
+                $found = true;
+            }
         }
+        if ($found == false) {
+            foreach ($pq ['[field=content]'] as $elem) {
+                $l = pq($elem)->htmlOuter();
+
+                $found = true;
+            }
+        }
+
 
         if ($found == false) {
             foreach ($pq ['[field=content_body]'] as $elem) {
