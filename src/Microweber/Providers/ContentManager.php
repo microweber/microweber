@@ -4428,6 +4428,7 @@ class ContentManager
                         $data_field["content_id"] = $save;
                         $data_field["field_name"] = $left;
                         $data_field["field_value"] = $v;
+
                         $data_field = $this->save_content_data_field($data_field);
 
                     }
@@ -4630,6 +4631,9 @@ class ContentManager
         }
         if (isset($data['content_id'])) {
             $data['rel_id'] = intval($data['content_id']);
+        }
+        if (isset($data['field_value']) and is_array($data['field_value'])) {
+            $data['field_value'] = json_encode($data['field_value']);
         }
         $data['rel_type'] = 'content';
 

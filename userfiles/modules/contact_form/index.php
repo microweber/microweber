@@ -99,14 +99,10 @@ $(document).ready(function(){
 	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').append('<input type="hidden" name="module_name"  value="<?php print $params['module']; ?>" />');
 
 	mw.$('form[data-form-id="<?php print $form_id ?>"]','#<?php print $params['id'] ?>').submit(function() {
-       //  processContactForm.upload(this, function(){
-// 
-//          
-//        });
-		
-		
+
+
 		processContactForm.send('form[data-form-id="<?php print $form_id ?>"]', "#msg<?php print $form_id; ?>");
-		
+
     	return false;
     });
 });

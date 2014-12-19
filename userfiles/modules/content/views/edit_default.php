@@ -87,7 +87,7 @@ $edit_page_info = $data;;
         </div>
         <div class="mw-ui-col" id="content-title-field-buttons">
           <ul class="mw-ui-btn-nav mw-ui-btn-nav-fluid pull-right" style="width: auto;">
-            <?php if ($data['is_active'] == 0) { ?>sdfsdfsdf
+            <?php if ($data['is_active'] == 0) { ?> 
             <li><span
                             onclick="mw.admin.postStates.toggle()"
                             data-val="n"

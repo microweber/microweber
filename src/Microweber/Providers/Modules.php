@@ -988,6 +988,9 @@ class Modules
         print $to_print;
     }
 
+
+
+
     public function uninstall($params)
     {
 
@@ -1006,14 +1009,6 @@ class Modules
                 if (trim($module_name) == '') {
                     return false;
                 }
-                //            $uninstall_lock = MW_STORAGE_DIR . 'disabled_modules' . DS;
-                //            if (!is_dir($uninstall_lock)) {
-                //                mkdir_recursive($uninstall_lock);
-                //            }
-                //            $unistall_file = $this->app->url_manager->slug($module_name);
-                //            $unistall_file = $uninstall_lock . $unistall_file . '.php';
-                //            touch($unistall_file);
-                //  d($unistall_file);
                 $loc_of_config = $this->locate($module_name, 'config');
                 $res = array();
                 $loc_of_functions = $this->locate($module_name, 'functions');
@@ -1023,47 +1018,88 @@ class Modules
                     if (isset($config)) {
                         $cfg = $config;
                     }
-
                     if (is_array($cfg) and !empty($cfg)) {
-
                         if (isset($cfg['on_uninstall'])) {
-
                             $func = $cfg['on_uninstall'];
-
                             if (!function_exists($func)) {
                                 if (is_file($loc_of_functions)) {
                                     include_once($loc_of_functions);
                                 }
                             }
-
                             if (function_exists($func)) {
 
                                 $res = $func();
                                 // return $res;
                             }
-                        } else {
-                            //  return true;
                         }
                     }
-
-                    // d($loc_of_config);
-                }
+                 }
                 $to_save = array();
                 $to_save['id'] = $id;
                 $to_save['installed'] = '0';
-                //  $to_save['keep_cache'] = '1';
-                //   $to_save['module'] = $module_name;
-
-                //d($to_save);
                 $this->save($to_save);
-                // $this->delete_module($id);
             }
         }
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
-
-        // d($params);
     }
 
+
+
+    public function set_installed($params)
+    {
+
+        if ($this->app->user_manager->is_admin() == false) {
+            return false;
+        }
+
+        if(isset($params['for_module'])){
+            $this_module = $this->get('ui=any&one=1&module=' . $params['for_module']);
+            if (isset($this_module['id'])) {
+                $params['id'] = $this_module['id'];
+            }
+
+        }
+
+        if (isset($params['id'])) {
+            $id = intval($params['id']);
+            $this_module = $this->get('ui=any&one=1&id=' . $id);
+            if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
+                $module_name = $this_module['module'];
+
+                if (trim($module_name) == '') {
+                    return false;
+                }
+                $loc_of_config = $this->locate($module_name, 'config');
+                $res = array();
+                $loc_of_functions = $this->locate($module_name, 'functions');
+                $cfg = false;
+                if (is_file($loc_of_config)) {
+                    include($loc_of_config);
+                    if (isset($config)) {
+                        $cfg = $config;
+                    }
+                    if (is_array($cfg) and !empty($cfg)) {
+                        if (isset($cfg['on_install'])) {
+                            $func = $cfg['on_install'];
+                            if (!function_exists($func)) {
+                                if (is_file($loc_of_functions)) {
+                                    include_once($loc_of_functions);
+                                }
+                            }
+                            if (function_exists($func)) {
+                                $res = $func();
+                            }
+                        }
+                    }
+                }
+                $to_save = array();
+                $to_save['id'] = $id;
+                $to_save['installed'] = 1;
+                $this->save($to_save);
+            }
+        }
+        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
+    }
     public function update_db()
     {
 

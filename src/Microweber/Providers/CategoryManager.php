@@ -119,9 +119,9 @@ class CategoryManager
         } else {
             $depth_level_counter = 0;
         }
+        $nest_level_orig = $depth_level_counter;
 
         if (!isset($params['no_cache'])) {
-            $nest_level_orig = $depth_level_counter;
             if ($nest_level_orig == 0) {
                 $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
                 if (($cache_content) != false) {

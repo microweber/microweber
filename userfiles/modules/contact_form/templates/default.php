@@ -47,9 +47,9 @@
                            <span class="ico irefresh" onclick="mw.tools.refresh_image(mwd.getElementById('captcha-<?php print $form_id; ?>'));"></span>
                         </div>
                     </div>
-                    <input type="submit" class="cft-submit pull-right" style="margin-left: 12px;"  value="<?php _e("Send Message"); ?>" />
+                    <input type="submit" class="mw-ui-btn pull-right" style="margin-left: 12px;"  value="<?php _e("Send Message"); ?>" />
                 <?php else:  ?>
-                    <input type="submit" class="cft-submit pull-right"  value="<?php _e("Send Message"); ?>" />
+                    <input type="submit" class="mw-ui-btn pull-right"  value="<?php _e("Send Message"); ?>" />
                 <?php endif; ?>
             </div>
         </form>

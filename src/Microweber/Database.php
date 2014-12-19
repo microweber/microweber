@@ -301,7 +301,12 @@ class Database
         if (!isset($params['id'])) {
             $params['id'] = 0;
         }
+        $user_id = mw()->user_manager->id();
+        if ($params['id'] == 0) {
+            $params['created_by'] = $user_id;
 
+        }
+        $params['edited_by'] = $user_id;
 
         $params = $this->map_array_to_table($table, $params);
 
@@ -523,7 +528,7 @@ class Database
 
 
         return DB::statement($q);
-       // return DB::select($q);
+        // return DB::select($q);
     }
 
 

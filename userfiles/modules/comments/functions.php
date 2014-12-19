@@ -3,12 +3,12 @@ if (!defined("MODULE_DB_COMMENTS")) {
     define('MODULE_DB_COMMENTS', 'comments');
 }
 //
-//mw()->content->comments=(function(){
+//mw()->content_manager->comments=(function(){
 //	return $this->morphMany('Comments', 'rel');
 //dd(__FILE__);	
 //	
 //});
-//mw()->content->comments=(function(){
+//mw()->content_manager->comments=(function(){
 //	return $this->morphMany('Comments', 'rel');
 //dd(__FILE__);	
 //	
@@ -50,7 +50,7 @@ if (!defined("MODULE_DB_COMMENTS")) {
 //	
 //});
 
-//mw()->content->comments->get();
+//mw()->content_manager->comments->get();
 
 //mw()->database->custom_filter('comments', function(){
 //	
@@ -63,7 +63,7 @@ if (!defined("MODULE_DB_COMMENTS")) {
 //{
 //    return new Comments();
 //});
-//mw()->content->find(1)->comments()->get();
+//mw()->content_manager->find(1)->comments()->get();
 // $comm = Content::find(1)->comments()->get();
 //dd( $comm);
 

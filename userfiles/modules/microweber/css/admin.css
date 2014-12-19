@@ -3064,6 +3064,22 @@ body.grabbing, body.grabbing *{
 
 .modules-index-bar .mw-dropdown{
   width: 150px;
+
+}
+
+.modules-index-bar {
+  clear: both;
+  position: relative;
+  padding-bottom: 50px;
+}
+
+.modules-index-bar:after{
+  content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 .modules-index-bar .mw-dropdown li a{

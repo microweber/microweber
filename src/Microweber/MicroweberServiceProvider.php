@@ -50,6 +50,17 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function register()
     {
+
+        // Set environment
+        $domain = $_SERVER['HTTP_HOST'];
+
+        $this->app->detectEnvironment(function () use ($domain) {
+            return $domain;
+        });
+
+
+
+
         $this->app->instance('config', new Providers\ConfigSave($this->app));
 
         $this->app->singleton(
@@ -142,14 +153,10 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function boot(Request $request)
     {
+
+
         parent::boot();
 
-        // Set environment
-        $domain = $request->server('HTTP_HOST');
-
-        $this->app->detectEnvironment(function () use ($domain) {
-            return $domain;
-        });
 
 
 
