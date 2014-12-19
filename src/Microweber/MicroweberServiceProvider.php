@@ -52,11 +52,14 @@ class MicroweberServiceProvider extends ServiceProvider
     {
 
         // Set environment
-        $domain = $_SERVER['HTTP_HOST'];
+        if(!$this->app->runningInConsole())
+        {
+            $domain = $_SERVER['HTTP_HOST'];
 
-        $this->app->detectEnvironment(function () use ($domain) {
-            return $domain;
-        });
+            $this->app->detectEnvironment(function () use ($domain) {
+                return $domain;
+            });
+        }
 
 
 
