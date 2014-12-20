@@ -48,9 +48,11 @@ if (isset($params['global'])) {
 }
 if ($is_global == false) {
     if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
-        $add_post_q .= ' subtype="product" is_shop=0 ';
+        $add_post_q .= ' content_type="product"   ';
+    } else if (isset($params['content_type']) and $params['content_type'] != '') {
+        $add_post_q .= ' content_type="'.$params['content_type'].'"   ';
     } else {
-        $add_post_q .= ' subtype="post" ';
+        $add_post_q .= ' content_type="post" ';
     }
 }
 
@@ -104,7 +106,7 @@ if (!isset($params['global']) and $posts_parent_page != false and $posts_parent_
 }
 
 if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
-$add_post_q .= ' subtype="product" is_shop=0 ';
+$add_post_q .= ' content_type="product" is_shop=0 ';
 } else {
 $add_post_q .= '  ';
 }
@@ -246,7 +248,7 @@ mw.on.hashParam("action", function () {
 	</div>
     <div class="mw-ui-box mw-ui-box-content">
 	<div class="tab" style="display: block">
-    
+    <?php d($add_post_q ); ?>
 		<module type="content/manager"  <?php print $add_post_q ?> no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true" />
 	</div>
 	<div class="tab" style="display:none">

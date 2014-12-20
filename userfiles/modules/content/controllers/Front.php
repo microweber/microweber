@@ -322,17 +322,17 @@ class Front
         }
 
         if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
-            $post_params['subtype'] = 'product';
-            $post_params['content_type'] = 'post';
+           // $post_params['subtype'] = 'product';
+          //  $post_params['content_type'] = 'post';
         }
 
         if (isset($params['is_shop'])) {
-            $post_params['subtype'] = 'product';
+            $post_params['content_type'] = 'product';
             unset($post_params['is_shop']);
         }
 
-        if (!isset($post_params['subtype']) and !isset($post_params['global'])) {
-            $post_params['subtype'] = 'post';
+        if (!isset($post_params['content_type']) and !isset($post_params['global'])) {
+            $post_params['content_type'] = 'post';
         }
 
         if (!isset($params['order_by']) and isset($params['order-by'])) {
@@ -447,7 +447,7 @@ class Front
 
 
         //$post_params['comments'] = true;
-
+ 
         $content = get_content($post_params);
 
 
@@ -500,7 +500,7 @@ class Front
                     $item['title'] = character_limiter($item['title'], $title_character_limit);
                 }
 
-                if (isset($post_params['subtype']) and $post_params['subtype'] == 'product') {
+                if (isset($post_params['content_type']) and $post_params['content_type'] == 'product') {
                     $item['prices'] = get_custom_fields("field_type=price&for=content&for_id=" . $item['id']);
 
                 } else {

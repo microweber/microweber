@@ -354,7 +354,7 @@ restore_single_post_from_deletion = function(id){
 
 <?php else: ?>
 <div class="mw-no-posts-foot">
-  <?php if( isset($params['subtype']) and $params['subtype'] == 'product') : ?>
+  <?php if( isset($params['subtype']) and $params['content_type'] == 'product') : ?>
   <h2><?php _e("No Products Here"); ?></h2>
 <?php else: ?>
 <h2><?php _e("No Posts Here"); ?></h2>

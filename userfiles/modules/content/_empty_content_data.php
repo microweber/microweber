@@ -45,7 +45,7 @@ if (!isset($title_placeholder)) {
 if (isset($params['subtype'])) {
     $data['subtype'] = $params['subtype'];
     $title_placeholder = "New {$data['subtype']} title";
-    if ($params['subtype'] == 'product') {
+    if ($params['content_type'] == 'product') {
         $data['content_type'] = 'post';
         $data['subtype'] = 'product';
     } elseif ($params['subtype'] == 'post') {

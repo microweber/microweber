@@ -89,7 +89,7 @@ mw.contentAction = {
         else if (type === 'category') {
             mw_select_category_for_editing(id);
         }
-        else if (type === 'product') {
+        else if (type === 'mw_backward_prod') {
             mw_add_product(id);
         } else if (type !== '') {
             mw_select_custom_content_for_editing(0, type)
@@ -539,7 +539,7 @@ function mw_make_pages_tree_sortable() {
                     if ($action == 'posts') {
                         $pages_container_params_str = " is_shop='n'  skip-static-pages='true' ";
                     } elseif ($action == 'pages') {
-                        $pages_container_params_str = " content_type='page'  subtype='[not_null]'   ";
+                        $pages_container_params_str = " content_type='page'  '   ";
                     } elseif ($action == 'categories') {
                         $pages_container_params_str = " manage_categories='yes'    ";
                     }

@@ -173,8 +173,8 @@ if(isset($tree['is_shop'] )){
 
 	unset($tree['is_shop'] );
 }
-
-if(isset($params['subtype']) and $params['subtype'] == 'product'){
+ 
+if(isset($params['content_type']) and $params['content_type'] == 'product'){
 
 	$tree['is_shop'] = 1;
 }

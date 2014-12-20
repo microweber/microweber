@@ -149,7 +149,7 @@ mw.on.hashParam("pg", function(){
                                     print ' manage-post-image-' . $item['content_type'];
                                 } ?><?php if (isset($item['is_shop']) and $item['is_shop'] == 1) {
                                     print ' manage-post-image-shop';
-                                } ?><?php if (isset($item['subtype']) and $item['subtype'] == 'product') {
+                                } ?><?php if (isset($item['subtype']) and $item['content_type'] == 'product') {
                                     print ' manage-post-image-product';
                                 } ?>"
                                 onclick="mw.url.windowHashParam('action','editpage:<?php print ($item['id']) ?>');return false;"></a>
@@ -167,7 +167,7 @@ mw.on.hashParam("pg", function(){
                                             <span class="mw-icon-page"></span>
                                         <?php endif; ?>
                                     <?php elseif (isset($item['content_type']) and $item['content_type'] == 'post'): ?>
-                                        <?php if (isset($item['subtype']) and $item['subtype'] == 'product'): ?>
+                                        <?php if (isset($item['subtype']) and $item['content_type'] == 'product'): ?>
                                             <span class="mw-icon-product"></span>
                                         <?php else : ?>
                                             <span class="mw-icon-post"></span>

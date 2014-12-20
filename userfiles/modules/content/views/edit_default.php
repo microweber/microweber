@@ -39,7 +39,7 @@ $edit_page_info = $data;;
                     $type = 'dynamicpage';
                 } elseif ($edit_page_info['subtype'] == 'post') {
                     $type = 'post';
-                } elseif ($edit_page_info['subtype'] == 'product') {
+                } elseif ($edit_page_info['content_type'] == 'product') {
                     $type = 'product';
                 } else {
                     $type = 'page';
@@ -48,9 +48,9 @@ $edit_page_info = $data;;
                 if (isset($edit_page_info['id']) and intval($edit_page_info['id']) != 0) {
                     $action_text = _e("Editting", true);
                 }
-                $action_text2 = 'page';
+                $action_text2 = $type;
                 if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] == 'post' and isset($edit_page_info['subtype'])) {
-                    $action_text2 = $edit_page_info['subtype'];
+               //     $action_text2 = $edit_page_info['subtype'];
                 }
                 $action_text = $action_text . ' ' . $action_text2;
                 if (isset($edit_page_info['title'])): ?>

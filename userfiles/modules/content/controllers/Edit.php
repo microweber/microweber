@@ -134,24 +134,24 @@ class Edit
 
             if (isset($params['subtype'])) {
                 $data['subtype'] = $params['subtype'];
-                if ($data['subtype'] == 'post' or $data['subtype'] == 'product') {
+                if ($data['subtype'] == 'post') {
                     $data['content_type'] = 'post';
                 }
             }
             if (isset($data['content_type']) and $data['content_type'] == 'post' and ($data['subtype']) == 'static') {
                 $data['subtype'] = 'post';
             } else if (isset($data['content_type']) and $data['content_type'] == 'product' and ($data['subtype']) == 'static') {
-                $data['content_type'] = 'post';
+                $data['content_type'] = 'product';
                 $data['subtype'] = 'product';
             }
 
 
         }
-        if (isset($data['subtype'])) {
-            if ($data['subtype'] == 'post' or $data['subtype'] == 'product') {
-                $data['content_type'] = 'post';
-            }
-        }
+//        if (isset($data['subtype'])) {
+//            if ($data['subtype'] == 'post' or $data['content_type'] == 'product') {
+//                $data['content_type'] = 'post';
+//            }
+//        }
         if (isset($params['add-to-menu'])) {
             $data['add_to_menu'] = (($params["add-to-menu"]));
         }
@@ -171,7 +171,7 @@ class Edit
 
         if (intval($data['id']) == 0 and intval($data['parent']) == 0 and isset($params['parent-page-id'])) {
             $data['parent'] = $params['parent-page-id'];
-            if (isset($params['subtype']) and $params['subtype'] == 'product') {
+            if (isset($params['subtype']) and $params['content_type'] == 'product') {
                 $parent_content = $this->app->content_manager->get_by_id($params['parent-page-id']);
                 // if(!isset($parent_content['is_shop']) or $parent_content['is_shop'] != 1){
 
@@ -252,7 +252,7 @@ class Edit
                     $parent_content = $this->app->content_manager->get($parent_content_params);
 
                 }
-            } elseif (isset($params['subtype']) and $params['subtype'] == 'product') {
+            } elseif (isset($params['subtype']) and $params['content_type'] == 'product') {
                 $parent_content_params['is_shop'] = 1;
                 $parent_content = $this->app->content_manager->get($parent_content_params);
 
@@ -271,7 +271,7 @@ class Edit
             }
 
 
-        } elseif ($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'product') {
+        } elseif ($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['content_type'] == 'product') {
 
             //if we are adding product in a page that is not a shop
             $parent_shop_check = $this->app->content_manager->get_by_id($data['parent']);
@@ -303,8 +303,10 @@ class Edit
         $post_list_view = $this->views_dir . 'edit.php';
         $this->app->event_manager->trigger('module.content.edit.main', $data);
 		
- 
-		
+ //d($params);
+ //d($data['content_type']);
+ //d($data);
+
         $view = new View($post_list_view);
         $view->assign('params', $params);
         $view->assign('module_id', $module_id);

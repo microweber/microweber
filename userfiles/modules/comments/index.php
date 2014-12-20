@@ -168,6 +168,10 @@ if (get_option('enable_comments', 'comments') == 'y') {
 
         }
     }
+	
+	if(isset($comments_data['rel_type'])){
+	$data['rel'] = $comments_data['rel_type'];	
+	}
 
 
     $comments = get_comments($comments_data);

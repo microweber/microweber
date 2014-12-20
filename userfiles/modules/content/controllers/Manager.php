@@ -38,10 +38,14 @@ class Manager
 
 
         }
+		 if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
+			 $params['is_shop'] = 1;
+		 } else if (isset($params['is_shop']) and $params['is_shop'] == 'n') {
+			 $params['is_shop'] = 0;
+		 }
 		
 		
-		
-
+ 
 
         $no_page_edit = false;
         $posts_mod = array();
@@ -63,14 +67,14 @@ class Manager
             $posts_mod['subtype'] = $params['subtype'];
         }
         if (isset($params['is_shop']) and $params['is_shop'] == 1) {
-            $posts_mod['subtype'] = 'product';
+            $posts_mod['content_type'] = 'product';
         } else if (isset($params['is_shop']) and $params['is_shop'] == 0) {
             $posts_mod['subtype'] = 'post';
         }
 		
 		 if (isset($params['content_type']) and $params['content_type'] == 'product') {
-            $posts_mod['subtype'] = 'product';
-            $posts_mod['content_type'] = 'post';
+            $posts_mod['content_type'] = 'product';
+           // $posts_mod['content_type'] = 'post';
         }
 
 		if (isset($params['content_type']) and $params['content_type'] == 'post') {
@@ -79,7 +83,7 @@ class Manager
 				}
 		}
 		
-		
+
 		
         if (isset($params['content_type_filter']) and $params['content_type_filter'] != '') {
             $posts_mod['content_type'] = $params['content_type_filter'];
@@ -106,7 +110,7 @@ class Manager
             } else {
                 $page_info = $this->provider->get_by_id($params['page-id']);
 				if (isset($page_info['is_shop']) and trim($page_info['is_shop']) == 1) {
-                    $posts_mod['subtype'] = 'product';
+                  //  $posts_mod['subtype'] = 'product';
                 }
             }
         }
@@ -120,7 +124,7 @@ class Manager
             if (is_array($check_if_exist)) {
                 $page_info = $check_if_exist;
                 if (isset($check_if_exist['is_shop']) and trim($check_if_exist['is_shop']) == 1) {
-                    $posts_mod['subtype'] = 'product';
+                  //  $posts_mod['subtype'] = 'product';
                 } else {
                     // $posts_mod['subtype'] = $check_if_exist['subtype'];
                 }
@@ -198,12 +202,12 @@ class Manager
                   
                 } elseif (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and isset($page_info['subtype'])
                     and isset($page_info['id'])
-                    and $page_info['subtype'] != false
-                    and $page_info['subtype'] != 'post'
-                    and $page_info['subtype'] != 'static'
-                    and $page_info['subtype'] != 'dynamic'
-                    and $page_info['subtype'] != 'product'
-                    and $page_info['subtype'] != 'page'
+//                    and $page_info['subtype'] != false
+//                    and $page_info['subtype'] != 'post'
+//                    and $page_info['subtype'] != 'static'
+//                    and $page_info['subtype'] != 'dynamic'
+//                    and $page_info['subtype'] != 'product'
+//                    and $page_info['subtype'] != 'page'
 
                 ) {
                     $manager = new Edit();

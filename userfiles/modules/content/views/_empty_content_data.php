@@ -40,17 +40,21 @@ if ($is_new == false) {
 if (!isset($title_placeholder)) {
     $title_placeholder = false;
 }
+if (isset($params['content-type'])) {
+	$params['content_type'] = $params['content-type'];
+}
+ 
 
 
-if (isset($params['subtype'])) {
-    $data['subtype'] = $params['subtype'];
-    $title_placeholder = "New {$data['subtype']} title";
-    if ($params['subtype'] == 'product') {
-        $data['content_type'] = 'post';
-        $data['subtype'] = 'product';
+if (isset($params['content_type'])) {
+    $data['content_type'] = $params['content_type'];
+    $title_placeholder = "New {$data['content_type']} title";
+    if ($params['content_type'] == 'product') {
+        //$data['content_type'] = 'post';
+//        $data['subtype'] = 'product';
     } elseif ($params['subtype'] == 'post') {
-        $data['content_type'] = 'post';
-        $data['subtype'] = 'post';
+    //    $data['content_type'] = 'post';
+//        $data['subtype'] = 'post';
 
     } elseif ($params['subtype'] == 'static' or $params['subtype'] == 'dynamic') {
         $title_placeholder = "New page title";
@@ -65,3 +69,4 @@ if ($title_placeholder == false and isset($params['content_type'])) {
         $title_placeholder = "New page title";
     }
 }
+ 
