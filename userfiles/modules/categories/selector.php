@@ -164,7 +164,7 @@ $tree['active_code'] = 'checked="checked" ';
 
 $tree['link'] = "<label class='mw-ui-check'><input type='radio' {$input_name}  {active_code} value='{id}'   class='mw-ui-check-input-check' ><span></span><span>{title}</span></label>";
 $tree['categores_link'] = "<label class='mw-ui-check'><input {$input_type_cats}  {$input_name_cats}   {active_code} value='{id}'   class='mw-ui-check-input-sel' ><span></span><span>{title}</span></label>";
-
+ 
 if (isset($params['is_shop']) and trim($params['is_shop']) =='y') {
  } else {
 $tree['is_shop'] = 0;
@@ -178,6 +178,11 @@ if(isset($params['content_type']) and $params['content_type'] == 'product'){
 
 	$tree['is_shop'] = 1;
 }
+if(isset($params['subtype']) and $params['subtype'] == 'product'){
+
+	$tree['is_shop'] = 1;
+}
+
 if(isset($params['subtype']) and $params['subtype'] == 'post'){
    $tree['subtype'] = 'dynamic';
    if(isset($tree['is_shop'] )){
