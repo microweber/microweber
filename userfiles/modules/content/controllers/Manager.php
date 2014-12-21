@@ -124,7 +124,7 @@ class Manager
             if (is_array($check_if_exist)) {
                 $page_info = $check_if_exist;
                 if (isset($check_if_exist['is_shop']) and trim($check_if_exist['is_shop']) == 1) {
-                  //  $posts_mod['subtype'] = 'product';
+                   $posts_mod['content_type'] = 'product';
                 } else {
                     // $posts_mod['subtype'] = $check_if_exist['subtype'];
                 }
@@ -202,13 +202,6 @@ class Manager
                   
                 } elseif (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and isset($page_info['subtype'])
                     and isset($page_info['id'])
-//                    and $page_info['subtype'] != false
-//                    and $page_info['subtype'] != 'post'
-//                    and $page_info['subtype'] != 'static'
-//                    and $page_info['subtype'] != 'dynamic'
-//                    and $page_info['subtype'] != 'product'
-//                    and $page_info['subtype'] != 'page'
-
                 ) {
                     $manager = new Edit();
                     return $manager->index($params);
