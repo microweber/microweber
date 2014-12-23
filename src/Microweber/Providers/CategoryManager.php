@@ -1289,6 +1289,16 @@ class CategoryManager
         if (isset($data['rel']) and !isset($data['rel_type'])) {
             $data['rel_type'] = $data['rel'];
         }
+        if (isset($data['users_can_create_content']) and ($data['users_can_create_content']) == 'y') {
+            $data['users_can_create_content'] = 1;
+        } elseif (isset($data['users_can_create_content']) and ($data['users_can_create_content']) == 'n') {
+            $data['users_can_create_content'] = 0;
+        }
+
+
+
+
+
 
         if (isset($data['rel_type']) and ($data['rel_type'] == '') or !isset($data['rel_type'])) {
             $data['rel_type'] = 'content';

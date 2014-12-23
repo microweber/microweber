@@ -274,18 +274,18 @@ $(document).ready(function(){
           <textarea  class="mw-ui-field w100" name="description"><?php print ($data['description'])?></textarea>
         </div>
         <div class="mw-ui-field-holder">
-          <?php if(!isset($data['users_can_create_content'])) { $data['users_can_create_content'] = 'n'; } 	?>
+          <?php if(!isset($data['users_can_create_content'])) { $data['users_can_create_content'] = 0; } 	?>
           <div class="mw-ui-check-selector">
             <div class="mw-ui-label left" style="width: 230px">
               <?php _e("Can users create content"); ?>
               <small class="mw-help" data-help="If you set this to YES the website users will be able to add content under this category">(?)</small></div>
             <label class="mw-ui-check">
-              <input name="users_can_create_content" type="radio"  value="n" <?php if( '' == trim($data['users_can_create_content']) or 'n' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+              <input name="users_can_create_content" type="radio"  value="0" <?php if( '' == trim($data['users_can_create_content']) or '0' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
               <span></span><span>
               <?php _e("No"); ?>
               </span></label>
             <label class="mw-ui-check">
-              <input name="users_can_create_content" type="radio"  value="y" <?php if( 'y' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
+              <input name="users_can_create_content" type="radio"  value="1" <?php if( '1' == trim($data['users_can_create_content'])): ?>   checked="checked"  <?php endif; ?> />
               <span></span><span>
               <?php _e("Yes"); ?>
               </span></label>
