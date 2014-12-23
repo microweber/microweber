@@ -185,7 +185,7 @@ class Database
             //  $query = $query->count();
             if ($items_per_page != false) {
                 $query = intval(floor($query / $items_per_page));
-               
+
             }
             return $query;
         }
@@ -279,13 +279,15 @@ class Database
 
         $query = DB::table($table);
 
+        if (!isset($params['skip_timestamps'])) {
+            if (!isset($params['created_at'])) {
+                $params['created_at'] = date("Y-m-d H:i:s");
+            }
+            if (!isset($params['updated_at'])) {
+                $params['updated_at'] = date("Y-m-d H:i:s");
+            }
+        }
 
-        if (!isset($params['created_at'])) {
-            $params['created_at'] = date("Y-m-d H:i:s");
-        }
-        if (!isset($params['updated_at'])) {
-            $params['updated_at'] = date("Y-m-d H:i:s");
-        }
 
         if (!isset($params['session_id'])) {
             $params['session_id'] = mw()->user_manager->session_id();

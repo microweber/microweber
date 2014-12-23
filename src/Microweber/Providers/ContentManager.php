@@ -4330,7 +4330,7 @@ class ContentManager
                     }
 
             }
-            $data_to_save['posted_on'] = $data_to_save['updated_at'];
+            $data_to_save['posted_at'] = $data_to_save['updated_at'];
         }
 
 
@@ -4407,7 +4407,7 @@ class ContentManager
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
             $upd_posted = array();
-            $upd_posted['posted_on'] = $data_to_save['updated_at'];
+            $upd_posted['posted_at'] = $data_to_save['updated_at'];
             $upd_posted['id'] = $data_to_save['parent'];
             $save_posted = $this->app->database->save($table, $upd_posted);
         }
@@ -4943,6 +4943,7 @@ class ContentManager
                 foreach ($content_ids as $content_id) {
                     $to_save = array();
                     $to_save['id'] = $content_id;
+                    $to_save['skip_timestamps'] = true;
                     if (isset($data['parent_id'])) {
                         $to_save['parent'] = $data['parent_id'];
                     }

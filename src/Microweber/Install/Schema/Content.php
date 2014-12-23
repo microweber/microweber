@@ -9,7 +9,7 @@ class Content
             'content' => [
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',
-                'expires_on' => 'dateTime',
+                'expires_at' => 'dateTime',
 
                 'created_by' => 'integer',
 
@@ -55,7 +55,7 @@ class Content
                 'layout_style' => 'string',
                 'active_site_template' => 'string',
                 'session_id' => 'string',
-                'posted_on' => 'dateTime',
+                'posted_at' => 'dateTime',
 
                 '$index' => ['url' => 'title']
             ],

@@ -211,7 +211,7 @@ class Edit
 						$parent_content_params['limit'] = 1;
 						$parent_content_params['one'] = 1;
  						$parent_content_params['fields'] = 'id';
-						$parent_content_params['order_by'] = 'posted_on desc, updated_at desc';
+						$parent_content_params['order_by'] = 'posted_at desc, updated_at desc';
 						 $parent_content_params['is_shop'] = 0;
 						 $parent_content = $this->app->content_manager->get($parent_content_params);
 							if (isset($parent_content['id']) and $parent_content['id'] != 0) {
@@ -232,7 +232,7 @@ class Edit
             $parent_content_params['one'] = 1;
             $parent_content_params['parent'] = 0;
             $parent_content_params['fields'] = 'id';
-            $parent_content_params['order_by'] = 'posted_on desc, updated_at desc';
+            $parent_content_params['order_by'] = 'posted_at desc, updated_at desc';
 
             if (isset($params['subtype']) and $params['subtype'] == 'post') {
                 $parent_content_params['is_shop'] = 0;
