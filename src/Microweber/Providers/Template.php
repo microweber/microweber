@@ -595,7 +595,6 @@ class Template
             }
         }
 
-
         if ($render_file != false and isset($page['content_type']) and ($page['content_type']) != 'page') {
             $f1 = $render_file;
             $f2 = $render_file;
@@ -669,6 +668,7 @@ class Template
 
         if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false and $page['content_type'] != '') {
             $look_for_post = $page;
+
             if (isset($page['parent'])) {
                 $par_page = false;
                 $inh_par_page = $this->app->content_manager->get_inherited_parent($page['parent']);
@@ -677,6 +677,9 @@ class Template
                 } else {
                     $par_page = $this->app->content_manager->get_by_id($page['parent']);
                 }
+
+
+
                 if (is_array($par_page)) {
                     // $page = $par_page;
                 } else {
@@ -733,6 +736,7 @@ class Template
         }
 
 
+
 //        if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file']) and trim($page['layout_file']) == '') {
 //            $use_index = TEMPLATES_DIR . $page['active_site_template'] . DS . 'index.php';
 //            if (is_file($use_index)) {
@@ -760,10 +764,15 @@ class Template
             if (isset($page['content_type']) and $page['content_type'] == 'page') {
                 $look_for_post = false;
             }
-
+  
+            if(isset($par_page) and $par_page != false){
+                $page= $par_page;
+            }
             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 
             if ($look_for_post != false) {
+
+
                 $f1 = $page['layout_file'];
                 $stringA = $f1;
                 $stringB = "_inner";
