@@ -5,7 +5,7 @@ namespace Microweber\Install;
 
 use Microweber\Module;
 use Illuminate\Support\Facades\Schema as DbSchema;
-use Microweber\Utils\Database;
+use Microweber\Utils\Database as DBUtils;
 
 use Cache;
 

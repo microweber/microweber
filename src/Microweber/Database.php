@@ -182,7 +182,6 @@ class Database
                 });
 
             }
-            //  $query = $query->count();
             if ($items_per_page != false) {
                 $query = intval(floor($query / $items_per_page));
 

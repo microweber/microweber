@@ -22,7 +22,7 @@ class Database
     {
         $key = 'mw_build_table'.$table_name;
         $hash = $table_name . crc32(serialize($fields_to_add));
-        $value = Cache::get($key);
+      //  $value = Cache::get($key);
          //if (!isset($value)) {
          /*   $val = $fields_to_add;
             $minutes = $this->cache_minutes;
