@@ -2305,9 +2305,12 @@ input#edit-content-url:focus, input#edit-content-url.active{
 
 .manage-toobar{
   clear: both;
-  overflow: hidden;
+
   position: relative;
   z-index: 10;
+}
+#bulk-actions{
+  width: 140px;
 }
 
 .admin-manage-toolbar  h2{

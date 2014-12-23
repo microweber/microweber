@@ -89,6 +89,8 @@ class CategoryManager
         } else {
             $parent = 0;
         }
+
+
         asort($params);
         $function_cache_id = false;
         $function_cache_id = __FUNCTION__ . crc32(serialize($params));
@@ -124,6 +126,7 @@ class CategoryManager
         if (!isset($params['no_cache'])) {
             if ($nest_level_orig == 0) {
                 $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
+               // $cache_content = false;
                 if (($cache_content) != false) {
                     print $cache_content;
                     return;
@@ -335,7 +338,7 @@ class CategoryManager
 
             //$str0 = 'is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'rel_id=' . intval($params['rel_id']) . '&rel_type=' . $table_assoc_name;
             $fors = $this->app->database->get($cat_get_params);
-            //  d($fors);
+
 
         }
 
@@ -1283,6 +1286,10 @@ class CategoryManager
         $content_ids = false;
         $simple_save = false;
 
+        if (isset($data['rel']) and !isset($data['rel_type'])) {
+            $data['rel_type'] = $data['rel'];
+        }
+
         if (isset($data['rel_type']) and ($data['rel_type'] == '') or !isset($data['rel_type'])) {
             $data['rel_type'] = 'content';
         }
@@ -1322,16 +1329,20 @@ class CategoryManager
         if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) == 'content' and intval($data['rel_id']) != 0) {
 
             $cont_check = $this->app->content_manager->get_by_id($data['rel_id']);
-            if ($cont_check != false and isset($cs['subtype']) and isset($data['rel_id']) and $cs['subtype'] != 'dynamic') {
+
+            if ($cont_check != false and isset($cont_check['subtype']) and  $cont_check['subtype'] == 'static') {
                 $cs = array();
                 $cs['id'] = intval($data['rel_id']);
                 $cs['subtype'] = 'dynamic';
                 $table_c = $this->tables['content'];
+
                 $save = $this->app->database->save($table_c, $cs);
             }
 
         }
-
+        if ((!isset($data['id']) or $data['id'] == 0) and !isset($data['is_deleted'])) {
+            $data['is_deleted'] = 0;
+        }
 
         $old_parent = false;
         if (isset($data['id'])) {
@@ -1523,7 +1534,21 @@ class CategoryManager
         }
         return $del;
     }
+    public function delete_item($data)
+    {
+        $adm = $this->app->user_manager->is_admin();
+        if (defined('MW_API_CALL') and $adm == false) {
+            return false;
+        }
 
+        if (is_array($data) and isset($data['id'])) {
+            $c_id = intval($data['id']);
+        } else {
+            $c_id = intval($data);
+        }
+        $del = $this->app->database_manager->delete_by_id('categories_items', $c_id);
+
+    }
     public function reorder($data)
     {
 

@@ -52,7 +52,7 @@ class Database
 
                 if (!Schema::hasColumn($table_name, $name)) {
                     Schema::table($table_name, function ($table) use ($name, $type) {
-                        $table->$type($name);
+                        $table->$type($name)->nullable();
                     });
                 }
             }

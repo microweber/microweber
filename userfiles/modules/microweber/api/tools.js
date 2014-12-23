@@ -4292,14 +4292,15 @@ $(mww).bind('load', function(){
 
 $(mwd).ready(function(){
    mw.dropdown();
+   $(mwd.body).ajaxStop(function(){
+    setTimeout(function(){
+        mw.dropdown();
+    },1222);
+});
 
 });
 
-$(mwd.body).ajaxStop(function(){
-  setTimeout(function(){
-      mw.dropdown();
-  },222);
-});
+
 
 
 

@@ -67,7 +67,7 @@ class DbInstaller
                                     if ($name == '$index')
                                         return;
                                     if (!DbSchema::hasColumn($table, $name)) {
-                                        $schema->$type($name);
+                                        $schema->$type($name)->nullable();
                                     }
                                 });
                             }

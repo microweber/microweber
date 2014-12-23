@@ -175,6 +175,11 @@ DOMChange:function(element, callback, attr, a){
               callback.call(el, e.target)
           }
       });
+  },
+  transitionEnd:function(el,callback){
+    mw.$(el).bind('webkitTransitionEnd transitionend msTransitionEnd oTransitionEnd otransitionend', function(){
+        callback.call(el);
+    });
   }
 }
 

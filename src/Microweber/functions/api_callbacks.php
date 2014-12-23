@@ -38,7 +38,9 @@ api_bind('content/reorder', function ($data) {
 api_bind('content/reset_edit', function ($data) {
     return mw()->content_manager->reset_edit($data);
 });
-
+api_bind('content/bulk_assign', function ($data) {
+    return mw()->content_manager->bulk_assign($data);
+});
 api_bind('content/copy', function ($data) {
     return mw()->content_manager->copy($data);
 });
@@ -47,8 +49,6 @@ api_bind('content/copy', function ($data) {
 api_bind('current_template_save_custom_css', function ($data) {
     return mw()->layouts_manager->template_save_css($data);
 });
-
-
 
 
 // SHOP

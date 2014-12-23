@@ -981,7 +981,7 @@ class ContentManager
             if (isset($params['no_cache'])) {
                 $cache_content = false;
             }
-            // $cache_content = false;
+            //      $cache_content = false;
             if (($cache_content) != false) {
                 if (isset($params['return_data'])) {
                     return $cache_content;
@@ -1481,6 +1481,8 @@ class ContentManager
                             $cat_params['list_item_tag'] = $list_item_tag;
                             $cat_params['rel_type'] = 'content';
                             $cat_params['rel_id'] = $item['id'];
+
+
                             $cat_params['include_first'] = 1;
                             $cat_params['nest_level'] = $nest_level;
                             if ($max_level != false) {
@@ -2091,7 +2093,7 @@ class ContentManager
                     if ($save_page['title'] == '') {
                         $save_page['title'] = 'Home';
                     }
-                    if (!isset($save_page['is_active'] )) {
+                    if (!isset($save_page['is_active'])) {
                         $save_page['is_active'] = 1;
                     }
                     if (isset($save_page['content_type']) and $save_page['content_type'] == 'page') {
@@ -3950,8 +3952,6 @@ class ContentManager
         }
 
 
-
-
         if (!isset($data['url']) and intval($data['id']) != 0) {
 
 
@@ -3972,6 +3972,14 @@ class ContentManager
 
 
         if (isset($data['id']) and intval($data['id']) == 0) {
+
+            if (!isset($data['is_deleted']) or ($data['is_deleted']) == '') {
+                $data_to_save['is_deleted'] = 0;
+            } else {
+                $data_to_save['is_deleted'] = $data['is_deleted'];
+            }
+
+
             if (!isset($data['title']) or ($data['title']) == '') {
 
                 $data['title'] = "New page";
@@ -4475,6 +4483,19 @@ class ContentManager
             }
             $categories = $data_to_save['categories'];
             if (is_array($categories)) {
+
+                $save_cat_item = array();
+                $save_cat_item['rel_type'] = 'content';
+                $save_cat_item['rel_id'] = $id;
+                $check = $this->app->category_manager->get_items($save_cat_item);
+                if (is_array($check) and !empty($check)) {
+                    foreach ($check as $item) {
+                        if (!in_array($item['parent_id'], $categories)) {
+                            $this->app->category_manager->delete_item($item['id']);
+                        }
+                    }
+                }
+
                 $cats_modified = true;
                 foreach ($categories as $category) {
                     if (intval($category) != 0) {
@@ -4560,8 +4581,6 @@ class ContentManager
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . '0');
         $this->app->cache_manager->delete('content_fields/global');
-
-
 
 
         $this->app->cache_manager->delete('content');
@@ -4883,10 +4902,10 @@ class ContentManager
             $params = array();
         }
         if (!isset($params['content_type'])) {
-            $params['content_type'] = 'post';
+            $params['content_type'] = 'product';
         }
         if (!isset($params['subtype'])) {
-            $params['subtype'] = 'product';
+            // $params['subtype'] = 'product';
         }
         return $this->get($params);
     }
@@ -4907,6 +4926,37 @@ class ContentManager
         }
     }
 
+
+    public function bulk_assign($data)
+    {
+        if (!is_admin()) {
+            return;
+        }
+        if (is_string($data)) {
+            $data = parse_params($data);
+        }
+
+        if (isset($data['content_ids'])) {
+            $content_ids = $data['content_ids'];
+
+            if (is_array($content_ids)) {
+                foreach ($content_ids as $content_id) {
+                    $to_save = array();
+                    $to_save['id'] = $content_id;
+                    if (isset($data['parent_id'])) {
+                        $to_save['parent'] = $data['parent_id'];
+                    }
+                    if (isset($data['categories'])) {
+                        $to_save['categories'] = $data['categories'];
+                    }
+                    $this->save_content($to_save);
+                }
+            }
+        }
+        return array('success' => 'Content is moved');
+
+
+    }
 
     public function site_templates()
     {

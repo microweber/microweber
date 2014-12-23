@@ -26,6 +26,78 @@ delete_selected_posts = function(){
   });
 }
 
+assign_selected_posts_to_category_exec = function(){
+mw.tools.confirm("Are you sure you want to move the selected posts?", function(){	
+	var selected_cats ;
+	
+	
+	 var master = mwd.getElementById('<?php print $params['id']; ?>');
+     var arr = mw.check.collectChecked(master);
+	
+	var data = {};
+	data.content_ids = arr;
+	
+	var page = mwd.querySelector('#posts_bulk_assing_category_tree_resp input[type="radio"]:checked');
+	
+	if(page !== null){
+		data.parent_id = page.value; 
+	} 
+	
+	var categories = mwd.querySelectorAll('#posts_bulk_assing_category_tree_resp input[type="checkbox"]:checked'), l = categories.length, i = 0, arr = [] ;
+	
+	if(l > 0){
+		
+		for( ; i<l; i++){
+			arr.push(categories[i].value);	
+		}
+		
+		data.categories = arr;
+		
+	}
+	
+	
+	 
+	
+	 $.post("<?php print api_link('content/bulk_assign'); ?>", data, function(msg){
+		 mw.notification.msg(msg);
+		  mw.reload_module('#<?php print $params['id']; ?>');
+        // close modal
+		
+		
+		CategoryAssignModal.remove();
+	 });
+			  
+			  
+			 });	  
+	
+	
+	
+}
+assign_selected_posts_to_category = function(){
+	
+	CategoryAssignModal = mw.modal({
+		content:'<div id="posts_bulk_assing_category" style="display:none"><div id="posts_bulk_assing_category_tree_resp"></div><button onclick="assign_selected_posts_to_category_exec()">Move posts</button></div>'	
+	});
+	mw.load_module('categories/selector', "#posts_bulk_assing_category_tree_resp", function(){
+	mw.treeRenderer.appendUI('#posts_bulk_assing_category')
+	 	
+	});
+	$('#posts_bulk_assing_category').show();
+ 
+  //mw.tools.confirm("<?php _e("Are you sure you want to delete the selected posts"); ?>?", function(){
+//    var master = mwd.getElementById('<?php print $params['id']; ?>');
+//    var arr = mw.check.collectChecked(master);
+//    mw.post.del(arr, function(){
+//     mw.reload_module('#<?php print $params['id']; ?>', function(){
+//         $.each(arr,function( index ) {
+//			var fade = this;
+//			 mw.$(".manage-post-item-"+fade).fadeOut();
+//			});
+//     });
+//   });
+//  });
+}
+
 mw.delete_single_post = function(id){
    mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function(){
       var arr = id;
@@ -86,6 +158,11 @@ mw.on.hashParam("pg", function(){
 	  
 });
 </script>  
+
+
+
+
+
 <?php if (!isset($params['no_toolbar']) and isset($toolbar)): ?>
    
    
@@ -111,6 +188,10 @@ mw.on.hashParam("pg", function(){
 <?php if (intval($pages_count) > 1): ?>
     <?php $paging_links = mw()->content_manager->paging_links(false, $pages_count, $paging_param, $keyword_param = 'keyword'); ?>
 <?php endif; ?>
+
+
+
+
 
 <div class="manage-posts-holder" id="mw_admin_posts_sortable">
     <div class="manage-posts-holder-inner">

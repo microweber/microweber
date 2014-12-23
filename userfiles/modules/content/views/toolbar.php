@@ -146,7 +146,7 @@ $( "#content_type_filter_by_select" ).change(function() {
     </script>
 <?php endif; ?>
 <?php endif; ?>
-
+ 
 <div class="admin-manage-toolbar-holder">
   <div class="admin-manage-toolbar">
     <div class="admin-manage-toolbar-content">
@@ -327,14 +327,26 @@ $( "#content_type_filter_by_select" ).change(function() {
       <?php if (!isset($edit_page_info)): ?>
       <div class="manage-toobar manage-toolbar-top">
         <div class="manage-toobar-content">
-          <div class="mw-ui-link-nav"> <span class="mw-ui-link"
-                                                           onclick="mw.check.all('#pages_edit_container')">
+          <div class="mw-ui-link-nav">
+
+          <span class="mw-ui-link"  onclick="mw.check.all('#pages_edit_container')">
             <?php _e("Select All"); ?>
             </span> <span class="mw-ui-link" onclick="mw.check.none('#pages_edit_container')">
             <?php _e("Unselect All"); ?>
-            </span> <span class="mw-ui-link" onclick="delete_selected_posts();">
-            <?php _e("Delete"); ?>
-            </span></div>
+            </span>
+
+            <div class="mw-dropdown mw-dropdown-default" id="bulk-actions">
+              <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-small mw-dropdown-val">Bulk actions</span>
+              <div class="mw-dropdown-content">
+                <ul>
+                  <li><a onclick="assign_selected_posts_to_category();">Move to category</a></li>
+                  <li><a onclick="delete_selected_posts();"><?php _e("Delete"); ?></a></li>
+                </ul>
+              </div>
+            </div>
+
+
+            </div>
         </div>
       </div>
       <?php endif; ?>
@@ -342,6 +354,10 @@ $( "#content_type_filter_by_select" ).change(function() {
   </div>
 </div>
 
-
+<script>
+    $(document).ready(function(){
+       mw.dropdown();
+    });
+</script>
 
 

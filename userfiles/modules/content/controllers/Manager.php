@@ -31,7 +31,10 @@ class Manager
 
     function index($params)
     {
-        if (isset($params['manage_categories'])) {
+        
+
+		 
+		if (isset($params['manage_categories'])) {
             print load_module('categories/manage', $params);
 
             return;
@@ -166,6 +169,9 @@ class Manager
         $data = $this->provider->get($posts_mod);
 
         if (empty($data) and isset($posts_mod['page'])) {
+            if(isset($posts_mod['paging_param'])) {
+                $posts_mod[$posts_mod['paging_param']]= 1;
+            }
 
             unset($posts_mod['page']);
 
@@ -185,15 +191,17 @@ class Manager
         $toolbar->assign('keyword', $keyword);
         $toolbar->assign('params', $params);
 
-
+ 
         $post_list_view = $this->views_dir . 'manager.php';
         if ($no_page_edit == false) {
             if ($data == false) {
-                if (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and $page_info['subtype'] == 'static') {
+                if (isset($posts_mod['category-id']) and isset($page_info['content_type']) and $page_info['content_type'] == 'page' and ($page_info['subtype'] != 'static')) {
 
                     if (isset($posts_mod['category-id']) and $posts_mod['category-id'] != 0) {
                          
                     } else {
+
+
 						  $manager = new Edit();
                           return $manager->index($params);
 					}
@@ -203,8 +211,12 @@ class Manager
                 } elseif (isset($page_info['content_type']) and $page_info['content_type'] == 'page' and isset($page_info['subtype'])
                     and isset($page_info['id'])
                 ) {
+
+
+                    if($page_info['subtype'] != 'dynamic'){
                     $manager = new Edit();
                     return $manager->index($params);
+                    }
 
 
                 }

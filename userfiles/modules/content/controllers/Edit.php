@@ -171,7 +171,7 @@ class Edit
 
         if (intval($data['id']) == 0 and intval($data['parent']) == 0 and isset($params['parent-page-id'])) {
             $data['parent'] = $params['parent-page-id'];
-            if (isset($params['subtype']) and $params['content_type'] == 'product') {
+            if (isset($params['content_type']) and $params['content_type'] == 'product') {
                 $parent_content = $this->app->content_manager->get_by_id($params['parent-page-id']);
                 // if(!isset($parent_content['is_shop']) or $parent_content['is_shop'] != 1){
 
