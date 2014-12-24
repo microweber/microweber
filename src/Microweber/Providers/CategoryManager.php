@@ -1462,22 +1462,9 @@ class CategoryManager
 
     public function save_item($params)
     {
-        $sid = mw()->user_manager->session_id();
-        $adm = $this->app->user_manager->is_admin();
-        if ($adm == false) {
-            if (defined('MW_API_CALL')) {
-                return array('error' => 'Only admin can save category');
-            }
-        }
-        $p2 = array();
-        if (!is_array($params)) {
-            if (is_string($params)) {
-                parse_str($params, $p2);
-                $params = $p2;
-            }
-        }
 
 
+        $params = parse_params($params);
         $table = $this->tables['categories_items'];
         $params['table'] = $table;
 

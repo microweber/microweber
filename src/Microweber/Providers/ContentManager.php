@@ -2572,7 +2572,7 @@ class ContentManager
                 if (!empty($check_if_user_can_publish)) {
                     $user_cats = array();
                     foreach ($check_if_user_can_publish as $item) {
-                        if (isset($item["users_can_create_content"]) and $item["users_can_create_content"] == 'y') {
+                        if (isset($item["users_can_create_content"]) and $item["users_can_create_content"] == 1) {
                             $user_cats[] = $item["id"];
                             $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item["id"]);
                         }
@@ -2581,6 +2581,7 @@ class ContentManager
                     if (!empty($user_cats)) {
                         $stop = false;
                         $data['categories'] = $user_cats;
+
                     }
                 }
             }
@@ -3906,6 +3907,11 @@ class ContentManager
             if (!isset($data['id'])) {
                 $data['id'] = 0;
             }
+
+            if($data['id'] == 0 and !isset($data['is_active'])){
+                $data['is_active'] = 1;
+            }
+
             $this->app->event_manager->trigger('content.before.save', $data);
             if (intval($data['id']) == 0) {
                 if (isset($data['subtype']) and $data['subtype'] == 'post' and !isset($data['content_type'])) {
@@ -3979,9 +3985,7 @@ class ContentManager
                 $data_to_save['is_deleted'] = $data['is_deleted'];
             }
 
-
             if (!isset($data['title']) or ($data['title']) == '') {
-
                 $data['title'] = "New page";
                 if (isset($data['content_type']) and ($data['content_type']) != 'page') {
                     $data['title'] = "New " . $data['content_type'];
@@ -3990,10 +3994,8 @@ class ContentManager
                     }
                 }
                 $data_to_save['title'] = $data['title'];
-
             }
         }
-
 
         if (isset($data['url']) == false or $data['url'] == '') {
             if (isset($data['title']) != false and intval($data ['id']) == 0) {
@@ -4208,6 +4210,8 @@ class ContentManager
             if (isset($data_to_save['category']) and !isset($data_to_save['categories'])) {
                 $data_to_save['categories'] = $data_to_save['category'];
             }
+
+
             if (isset($data_to_save['categories']) and $par_page == false) {
                 if (is_string($data_to_save['categories'])) {
                     $c1 = explode(',', $data_to_save['categories']);
@@ -4478,6 +4482,8 @@ class ContentManager
 
 
         if (isset($data_to_save['categories'])) {
+
+
             if (is_string($data_to_save['categories'])) {
                 $data_to_save['categories'] = explode(',', $data_to_save['categories']);
             }
@@ -4496,6 +4502,8 @@ class ContentManager
                     }
                 }
 
+
+
                 $cats_modified = true;
                 foreach ($categories as $category) {
                     if (intval($category) != 0) {
@@ -4503,10 +4511,7 @@ class ContentManager
                         $save_cat_item['rel_type'] = 'content';
                         $save_cat_item['rel_id'] = $id;
                         $save_cat_item['parent_id'] = $category;
-                        $check = $this->app->category_manager->get_items($save_cat_item);
-                        if ($check == false) {
-                            $this->app->category_manager->save_item($save_cat_item);
-                        }
+                        $this->app->category_manager->save_item($save_cat_item);
                     }
                 }
 

@@ -203,11 +203,19 @@ class UserManager
             return $resp;
         }
 
+        if (isset($params['username'])) {
+            $ok = Auth::attempt([
+                'username' => $params['username'],
+                'password' => $params['password']
+            ]);
 
-        $ok = Auth::attempt([
-            'username' => $params['username'],
-            'password' => $params['password']
-        ]);
+        } elseif (isset($params['email'])) {
+            $ok = Auth::attempt([
+                'email' => $params['email'],
+                'password' => $params['password']
+            ]);
+
+        }
 
 
         if ($ok) {
@@ -583,9 +591,9 @@ class UserManager
 
                     if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
                         if (isset($user_data['email']) && $user_data['email'] != '') {
-                            $is_logged = $this->login('email=' . $user_data['email'] . '&password_hashed=' . $pass);
+                            $is_logged = $this->login('email=' . $user_data['email'] . '&password=' . $pass);
                         } else if (isset($user_data['username']) && $user_data['username'] != '') {
-                            $is_logged = $this->login('username=' . $user_data['username'] . '&password_hashed=' . $pass);
+                            $is_logged = $this->login('username=' . $user_data['username'] . '&password=' . $pass);
                         }
                         if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
                             return ($is_logged);
@@ -677,7 +685,7 @@ class UserManager
             }
         }
 
-        if (isset($params['id'])) {
+        if (isset($params['id']) and $params['id'] != 0) {
             $adm = $this->is_admin();
             if ($adm == false) {
 
@@ -695,10 +703,10 @@ class UserManager
         } else {
             if (defined('MW_API_CALL') and mw_is_installed() == true) {
                 $params['id'] = $this->id();
-                if (intval($params['id']) == 0) {
+                $is_logged = user_id();
+                if (intval($params['id']) != 0 and $is_logged != $params['id']) {
                     return array('error' => 'You must be logged save your settings');
                 }
-
 
             }
         }

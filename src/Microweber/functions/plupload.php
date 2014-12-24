@@ -89,7 +89,7 @@ if (is_admin() != false) {
 
         $user = mw()->user_manager->get_by_id($uid);
 
-        if (!empty($user) and isset($user["is_active"]) and $user["is_active"] == 'y') {
+        if (!empty($user) and isset($user["is_active"]) and $user["is_active"] == 1) {
 
             $are_allowed = 'img';
             $_REQUEST["path"] = 'media/'.$host_dir.'user_uploads/user/' . DS . $user["id"] . DS;
