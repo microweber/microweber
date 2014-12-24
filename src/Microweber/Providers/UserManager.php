@@ -363,6 +363,9 @@ class UserManager
                 // because of a common typo :)
                 $user_data['first_name'] ? $name = $user_data['first_name'] : $name = $user_data['username'];
                 $name = ucwords($name);
+
+
+
                 if (trim($name) == '' and $user_data['email'] != '') {
                     $n = explode('@', $user_data['email']);
                     $name = $n[0];
@@ -383,13 +386,18 @@ class UserManager
 
             case 'full' :
             default :
+
+
+
                 $name = $user_data['first_name'] . ' ' . $user_data['last_name'];
                 $name = ucwords($name);
+
                 if (trim($name) == '' and $user_data['email'] != '') {
                     $name = $user_data['email'];
                     $name_from_email = explode('@', $user_data['email']);
                     $name = $name_from_email[0];
                 }
+
                 if (trim($name) == '' and $user_data['username'] != '') {
                     $name = $user_data['username'];
                     $name = ucwords($name);

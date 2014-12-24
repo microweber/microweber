@@ -1533,16 +1533,13 @@ class CategoryManager
     }
     public function delete_item($data)
     {
-        $adm = $this->app->user_manager->is_admin();
-        if (defined('MW_API_CALL') and $adm == false) {
-            return false;
-        }
 
         if (is_array($data) and isset($data['id'])) {
             $c_id = intval($data['id']);
         } else {
             $c_id = intval($data);
         }
+
         $del = $this->app->database_manager->delete_by_id('categories_items', $c_id);
 
     }

@@ -4494,11 +4494,12 @@ class ContentManager
                 $save_cat_item['rel_type'] = 'content';
                 $save_cat_item['rel_id'] = $id;
                 $check = $this->app->category_manager->get_items($save_cat_item);
+              //  dd($check);
                 if (is_array($check) and !empty($check)) {
                     foreach ($check as $item) {
-                        if (!in_array($item['parent_id'], $categories)) {
+                       if (!in_array($item['parent_id'], $categories)) {
                             $this->app->category_manager->delete_item($item['id']);
-                        }
+                         }
                     }
                 }
 
@@ -4511,7 +4512,10 @@ class ContentManager
                         $save_cat_item['rel_type'] = 'content';
                         $save_cat_item['rel_id'] = $id;
                         $save_cat_item['parent_id'] = $category;
-                        $this->app->category_manager->save_item($save_cat_item);
+                        $check = $this->app->category_manager->get_items($save_cat_item);
+                        if ($check == false) {
+                            $this->app->category_manager->save_item($save_cat_item);
+                        }
                     }
                 }
 
