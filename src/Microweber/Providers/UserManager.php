@@ -1004,8 +1004,8 @@ class UserManager
                         $this->app->log_manager->save($notif);
                         $content .= "Click here to reset your password  <a href='{$pass_reset_link}'>" . $pass_reset_link . "</a><br><br> ";
 
-                        //d($data_res);
-                        \Microweber\email\Sender::send($to, $subject, $content, true, $no_cache = true);
+                        $sender = new \Microweber\Utils\MailSender();
+                        $sender->send($to, $subject, $content);
 
                         return array('success' => 'Your password reset link has been sent to ' . $to);
                     } else {

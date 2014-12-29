@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use \Cache;
 use \Event;
 use \Session;
@@ -2082,59 +2082,27 @@ class DefaultController extends Controller
         if (defined('MW_API_RAW')) {
             return ($res);
         }
-
-
         if (!defined('MW_API_HTML_OUTPUT')) {
-//            if (!headers_sent()) {
-//
-//                header('Content-Type: application/json');
-//                print json_encode($res);
-//                return;
-//            } else  {
-//
-//
-//                $response = \Response::make($res, 200);
-//                return $response;
-//
-//            }
-//            if (is_bool($res) or is_int($res) or is_array($res)) {
-//                if (!headers_sent()) {
-//                    header('Content-Type: application/json');
-//                    print json_encode($res);
-//
-//
-//
-//                    //return ($res);
-//                    return;
-//                } else {
-//                  //  return;
-//                }
-//
-//            }
+
             if (is_bool($res) or is_int($res)) {
                 return json_encode($res);
+            } else if ($res instanceOf RedirectResponse) {
+                return $res;
             }
+
             $response = \Response::make($res);
             if (is_bool($res) or is_int($res) or is_array($res)) {
             $response->header('Content-Type', 'application/json');
             }
+
             return $response;
 
-            //   $response->header('Content-Type', $value);
-
-
-            //
         } else {
             if(is_array($res)){
                 $res = json_encode($res);
             }
-
-
             print ($res);
             return;
-//            $response = \Response::make($res);
-//            return $response;
-            //return ($res);
         }
     }
 
