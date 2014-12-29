@@ -10,7 +10,7 @@ event_bind('user_logout', function () {
 
 
 
-event_bind('user_login', function ($data) {
+event_bind('aaaaauser_login', function ($data) {
 	//var_dump($_SERVER);
   //if ($_SERVER['REMOTE_ADDR'] == '78.90.67.20') {
 	 

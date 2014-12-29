@@ -73,9 +73,7 @@ description: Login default
         <?php if($google): ?>
         <li><a href="<?php print api_link('user_social_login?provider=google') ?>" class="mw-signin-with-google">Google login</a></li>
         <?php endif; ?>
-        <?php if($windows): ?>
-        <li><a href="<?php print api_link('user_social_login?provider=live') ?>" class="mw-signin-with-live">Windows login</a></li>
-        <?php endif; ?>
+       
         <?php if($github): ?>
         <li><a href="<?php print api_link('user_social_login?provider=github') ?>" class="mw-signin-with-github">Github login</a></li>
         <?php endif; ?>

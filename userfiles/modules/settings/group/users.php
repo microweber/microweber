@@ -139,7 +139,7 @@ $form_show_address = get_option('form_show_address','users');
   <ul class="social-providers-list mw-ui-btn-nav">
     <li class="mw-ui-btn active">
       <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users" <?php /*data-refresh="settings/group/users"*/ ?>>
+        <input type="checkbox" value="y" <?php if($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users">
         <span></span></label>
       <span class="mw-icon-facebook login-tab-group active"></span> </li>
     <li class="mw-ui-btn">
@@ -157,11 +157,7 @@ $form_show_address = get_option('form_show_address','users');
         <input type="checkbox" value="y" <?php if($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users">
         <span></span></label>
       <span class="mw-icon-twitter login-tab-group"></span> </li>
-    <li class="mw-ui-btn">
-      <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_windows_live_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_windows_live_registration" class="mw_option_field" option-group="users" >
-        <span></span></label>
-      <span class="mw-icon-social-windows login-tab-group"></span> </li>
+     
   </ul>
   <div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
     <ol class="ol">
@@ -177,7 +173,7 @@ $form_show_address = get_option('form_show_address','users');
         <em><?php print site_url(); ?></em></li>
       <li>
         <?php _e("If asked for callback url - use"); ?>
-        <em><?php print api_link('social_login_process?hauth.done=Facebook') ?></em></li>
+        <em><?php print api_link('social_login_process?provider=facebook') ?></em></li>
     </ol>
     <div class="mw-ui-field-holder">
       <label class="mw-ui-label">
@@ -199,7 +195,7 @@ $form_show_address = get_option('form_show_address','users');
         </em> <a class="mw-ui-link" target="_blank" href="https://code.google.com/apis/console/">https://code.google.com/apis/console/</a></li>
       <li>
         <?php _e("In redirect URI  please enter"); ?>
-        <em><?php print api_link('social_login_process?hauth.done=Google') ?></em></li>
+        <em><?php print api_link('social_login_process?provider=google') ?></em></li>
     </ol>
     <div class="mw-ui-field-holder">
       <label class="mw-ui-label">
@@ -230,7 +226,7 @@ $form_show_address = get_option('form_show_address','users');
         <?php _e("Callback URL"); ?>
         </em>
         <?php _e("enter"); ?>
-        <em><?php print api_link('social_login_process?hauth.done=Github') ?></em></li>
+        <em><?php print api_link('social_login_process?provider=github') ?></em></li>
     </ol>
     <label class="mw-ui-label">
       <?php _e("Client ID"); ?>
@@ -259,7 +255,7 @@ $form_show_address = get_option('form_show_address','users');
         <?php _e("Callback URL"); ?>
         </em>
         <?php _e("enter"); ?>
-        <em><?php print api_link('social_login_process?hauth.done=Twitter') ?></em></li>
+        <em><?php print api_link('social_login_process?provider=twitter') ?></em></li>
     </ol>
     <label class="mw-ui-label">
       <?php _e("Consumer key"); ?>
@@ -270,35 +266,7 @@ $form_show_address = get_option('form_show_address','users');
     </label>
     <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('twitter_app_secret','users'); ?>" />
   </div>
-  <div class="mw-ui-box mw-ui-box-content group-logins">
-    <ol class="ol">
-      <li>
-        <?php _e("Register your application"); ?>
-        <a class="mw-ui-link" target="_blank" href="https://manage.dev.live.com/ApplicationOverview.aspx">https://manage.dev.live.com/ApplicationOverview.asp</a></li>
-      <li>
-        <?php _e("In"); ?>
-        <em>
-        <?php _e("Redirect Domain"); ?>
-        </em>
-        <?php _e("enter"); ?>
-        <em><?php print site_url() ?></em></li>
-      <li>
-        <?php _e("In"); ?>
-        <em>
-        <?php _e("Callback URL"); ?>
-        </em>
-        <?php _e("enter"); ?>
-        <em><?php print api_link('social_login_process?hauth.done=Live') ?></em></li>
-    </ol>
-    <label class="mw-ui-label">
-      <?php _e("Client ID"); ?>
-    </label>
-    <input name="windows_live_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('windows_live_app_id','users'); ?>" />
-    <label class="mw-ui-label">
-      <?php _e("Client secret"); ?>
-    </label>
-    <input name="windows_live_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('windows_live_app_secret','users'); ?>" />
-  </div>
+   
   <hr>
   <script>
 

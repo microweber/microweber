@@ -17,8 +17,11 @@ namespace Microweber\Providers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\User as DefaultUserProvider;
+use Illuminate\Support\Facades\Config;
 use Microweber\Utils\Database as DbManager;
 
+use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
+use Laravel\Socialite\SocialiteManager;
 
 use Auth;
 
@@ -49,6 +52,9 @@ class UserManager
         } else {
             $this->app = mw();
         }
+
+
+        $this->socialite = new SocialiteManager($this->app);
 
     }
 
@@ -87,7 +93,6 @@ class UserManager
     {
         //return 1;
         if (Auth::check()) {
-
             return Auth::user()->id;
         }
         return false;
@@ -217,7 +222,9 @@ class UserManager
 
         }
 
-
+        if (!isset($ok)) {
+            return;
+        }
         if ($ok) {
             Auth::login(Auth::user());
             if ($ok && isset($params['redirect_to'])) {
@@ -1015,21 +1022,17 @@ class UserManager
 
     public function  social_login($params)
     {
-
-
-        set_exception_handler($this->social_login_exception_handler());
-        $params2 = array();
-
         if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
+            $params = parse_params($params);
         }
 
         $return_after_login = false;
-        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url_manager->site())) {
+        if (isset($params['redirect'])) {
+            $return_after_login = $params['redirect'];
+            $this->session_set('user_after_login', $return_after_login);
+        } else if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url_manager->site())) {
             $return_after_login = $_SERVER["HTTP_REFERER"];
             $this->session_set('user_after_login', $return_after_login);
-
         }
 
         $provider = false;
@@ -1039,124 +1042,32 @@ class UserManager
         }
 
         if ($provider != false and isset($params) and !empty($params)) {
+            $this->socialite_config($provider);
+            switch ($provider) {
 
-            $api = new \Microweber\Auth\Social();
+                case "twitter":
 
-            try {
-
-                $authenticate = $api->authenticate($provider);
-
-
-                if (is_array($authenticate) and isset($authenticate['identifier'])) {
-
-                    $data = array();
-                    $data['oauth_provider'] = $provider;
-                    $data['oauth_uid'] = $authenticate['identifier'];
-
-                    $data_ex = $this->get_all($data);
-                    if (empty($data_ex)) {
-                        $data_to_save = $data;
-                        $data_to_save['first_name'] = $authenticate['firstName'];
-                        $data_to_save['last_name'] = $authenticate['lastName'];
-                        $data_to_save['thumbnail'] = $authenticate['photoURL'];
-                        $data_to_save['profile_url'] = $authenticate['profileURL'];
-                        $data_to_save['website_url'] = $authenticate['webSiteURL'];
-
-                        $data_to_save['email'] = $authenticate['emailVerified'];
-                        $data_to_save['user_information'] = $authenticate['description'];
-                        $data_to_save['is_active'] = 1;
-                        $data_to_save['is_admin'] = 'n';
-
-                        $table = $this->tables['users'];
-                        mw_var('FORCE_SAVE', $table);
-
-                        $save = $this->app->database->save($table, $data_to_save);
-                        $this->app->cache_manager->delete('users/global');
-                        if ($save > 0) {
-                            $data = array();
-                            $data['id'] = $save;
-
-                            $notif = array();
-                            $notif['module'] = "users";
-                            $notif['rel_type'] = 'users';
-                            $notif['rel_id'] = $save;
-                            $provider1 = ucwords($provider);
-                            $notif['title'] = "New user registration with {$provider1}";
-                            $notif['content'] = "You have new user registered with $provider1. The new user id is: $save";
-                            $this->app->notifications_manager->save($notif);
-
-                            $this->app->log_manager->save($notif);
-
-                        }
-
-                    }
-
-                    $data_ex = $this->get_all($data);
-
-                    if (isset($data_ex[0])) {
-                        $data = $data_ex[0];
-                        $user_session['is_logged'] = 'yes';
-                        $user_session['user_id'] = $data['id'];
-                        $this->app->event_manager->trigger('after_user_register', $data);
-                        if (!defined('USER_ID')) {
-                            define("USER_ID", $data['id']);
-                        }
-                        $this->make_logged($data['id']);
-
-                        if ($return_after_login != false) {
-                            return $this->app->url_manager->redirect($return_after_login);
-                            exit();
-                        } else {
-                            if ($return_after_login != false) {
-                                return $this->app->url_manager->redirect($return_after_login);
-                                exit();
-                            } else {
-
-                                $go_sess = $this->session_get('user_after_login');
-                                if ($go_sess != false) {
-                                    return $this->app->url_manager->redirect($go_sess);
-                                } else {
-                                    return $this->app->url_manager->redirect(site_url());
-                                }
-
-
-                                exit();
-                            }
-                        }
-
-                    }
+                {
+                    return $login = $this->socialite->with($provider)->redirect();;
 
                 }
+                case "github":
 
+                {
+                    return $login = $this->socialite->with($provider)->scopes(['user:email'])->redirect();;
 
-            } catch (Exception $e) {
+                }
+                default:
+                    {
+                    return $login = $this->socialite->with($provider)->scopes(['email'])->redirect();;
 
-
-                die("<b>got an error!</b> " . $e->getMessage());
+                    }
             }
-
+            return;
         }
     }
 
-    function social_login_exception_handler($exception = false)
-    {
 
-
-        if ($this->app->url_manager->is_ajax()) {
-            if ($exception == false) {
-                return;
-            }
-
-
-            return array('error' => $exception->getMessage());
-        }
-        $after_log = $this->session_get('user_after_login');
-        if ($after_log != false) {
-            return $this->app->url_manager->redirect($after_log);
-        } else {
-            return $this->app->url_manager->redirect(site_url());
-        }
-    }
 
     public function make_logged($user_id)
     {
@@ -1180,8 +1091,6 @@ class UserManager
 
                     if (!defined('USER_ID')) {
                         define("USER_ID", $data['id']);
-
-
                     }
 
                     $this->app->event_manager->trigger('user_login', $data);
@@ -1190,6 +1099,9 @@ class UserManager
 
                     $this->update_last_login_time();
                     $user_session['success'] = _e("You are logged in!", true);
+                    Auth::loginUsingId($data['id']);
+
+
                     return $user_session;
                 }
             }
@@ -1249,25 +1161,66 @@ class UserManager
     {
 
 
-        if (isset($_SERVER["HTTP_REFERER"]) and stristr($_SERVER["HTTP_REFERER"], $this->app->url_manager->site())) {
-            $return_after_login = $_SERVER["HTTP_REFERER"];
-            $this->session_set('user_after_login', $return_after_login);
+        $user_after_login = $this->session_get('user_after_login');
+
+
+        if (!isset($_REQUEST['provider']) and isset($_REQUEST['hauth_done'])) {
+            $_REQUEST['provider'] = $_REQUEST['hauth_done'];
+        }
+        if (!isset($_REQUEST['provider'])) {
+            return $this->app->url_manager->redirect(site_url());
 
         }
 
-
-        set_exception_handler($this->social_login_exception_handler);
-
-
-        try {
-            $api = new \Microweber\Auth\Social();
+        $auth_provider = $_REQUEST['provider'];
+        $this->socialite_config($auth_provider);
 
 
-            $api->process();
+        $user = $this->socialite->driver($auth_provider)->user();
+
+        $email = $user->getEmail();
+        $username = $user->getNickname();
+        $oauth_id = $user->getId();
+        $avatar = $user->getAvatar();
 
 
-        } catch (Exception $e) {
-            echo "Ooophs, we got an error: " . $e->getMessage();
+        $existing = array();
+
+
+        if ($email != false) {
+            $existing['email'] = $email;
+        } else {
+            $existing['oauth_uid'] = $oauth_id;
+            $existing['oauth_provider'] = $auth_provider;
+        }
+        $save = $existing;
+        $save['thumbnail'] = $avatar;
+        $save['username'] = $username;
+        $save['is_active'] = 1;
+        $save['is_admin'] = 1;
+
+
+        $existing['single'] = true;
+        $existing['limit'] = 1;
+        $existing = $this->get_all($existing);
+        if (isset($existing['id'])) {
+
+            if ($save['is_active'] != 1) {
+                return;
+            }
+
+            $this->make_logged($existing['id']);
+        } else {
+            $new_user = $this->save($save);
+            $this->make_logged($new_user);
+        }
+
+
+        if ($user_after_login != false) {
+            return $this->app->url_manager->redirect($user_after_login);
+
+        } else {
+            return $this->app->url_manager->redirect(site_url());
         }
 
 
@@ -1517,6 +1470,65 @@ class UserManager
 //        }
 
         Session::forget($name);
+
+    }
+
+
+    public function socialite_config($provider = false)
+    {
+        $enable_user_fb_registration = get_option('enable_user_fb_registration', 'users') == 'y';
+        $fb_app_id = get_option('fb_app_id', 'users');
+        $fb_app_secret = get_option('fb_app_secret', 'users');
+
+
+        $enable_user_google_registration = get_option('enable_user_google_registration', 'users') == 'y';
+        $google_app_id = get_option('google_app_id', 'users');
+        $google_app_secret = get_option('google_app_secret', 'users');
+
+
+        $enable_user_github_registration = get_option('enable_user_github_registration', 'users') == 'y';
+        $github_app_id = get_option('github_app_id', 'users');
+        $github_app_secret = get_option('github_app_secret', 'users');
+
+
+        $enable_user_twitter_registration = get_option('enable_user_twitter_registration', 'users') == 'y';
+        $twitter_app_id = get_option('twitter_app_id', 'users');
+        $twitter_app_secret = get_option('twitter_app_secret', 'users');
+
+
+        $callback_url = api_url('social_login_process?provider=' . $provider);
+
+
+        //  $config = $this->app['config']['services.facebook'];
+
+
+        if ($enable_user_fb_registration == 'y') {
+            Config::set('services.facebook.client_id', $fb_app_id);
+            Config::set('services.facebook.client_secret', $fb_app_secret);
+            Config::set('services.facebook.redirect', $callback_url);
+        }
+
+        if ($enable_user_twitter_registration == 'y') {
+            Config::set('services.twitter.client_id', $twitter_app_id);
+            Config::set('services.twitter.client_secret', $twitter_app_secret);
+            Config::set('services.twitter.redirect', $callback_url);
+        }
+
+
+        if ($enable_user_google_registration == 'y') {
+            Config::set('services.google.client_id', $google_app_id);
+            Config::set('services.google.client_secret', $google_app_secret);
+            Config::set('services.google.redirect', $callback_url);
+
+        }
+
+        if ($enable_user_github_registration == 'y') {
+
+            Config::set('services.github.client_id', $github_app_id);
+            Config::set('services.github.client_secret', $google_app_secret);
+            Config::set('services.github.redirect', $github_app_secret);
+        }
+
 
     }
 

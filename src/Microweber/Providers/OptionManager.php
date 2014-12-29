@@ -499,13 +499,14 @@ class OptionManager
             if (!isset($data['id']) or intval($data['id']) == 0) {
                 if (isset($data['option_key']) and isset($data['option_group']) and trim($data['option_group']) != '') {
                     $option_group = $data['option_group'];
-                    $this->delete($data['option_key'], $data['option_group']);
-//                    $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
-//                    if ($existing == false) {
-//                        //
-//                    } elseif (isset($existing['id'])) {
-//                        $data['id'] = $existing['id'];
-//                    }
+                   // $this->delete($data['option_key'], $data['option_group']);
+                    $existing = $this->get($data['option_key'], $data['option_group'], $return_full = true);
+
+                    if ($existing == false) {
+                        //
+                    } elseif (isset($existing['id'])) {
+                        $data['id'] = $existing['id'];
+                    }
                 }
             }
 
