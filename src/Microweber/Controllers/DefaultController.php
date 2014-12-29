@@ -2089,16 +2089,14 @@ class DefaultController extends Controller
             } else if ($res instanceOf RedirectResponse) {
                 return $res;
             }
-
             $response = \Response::make($res);
             if (is_bool($res) or is_int($res) or is_array($res)) {
-            $response->header('Content-Type', 'application/json');
+                $response->header('Content-Type', 'application/json');
             }
-
             return $response;
 
         } else {
-            if(is_array($res)){
+            if (is_array($res)) {
                 $res = json_encode($res);
             }
             print ($res);

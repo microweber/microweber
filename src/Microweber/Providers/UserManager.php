@@ -1,31 +1,23 @@
 <?php
 
-
-
 /*
- * This file is part of the Microweber framework.
+ * This file is part of Microweber
  *
  * (c) Microweber LTD
  *
  * For full license information see
- * http://Microweber.com/license/
+ * http://microweber.com/license/
  *
  */
 
 namespace Microweber\Providers;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\User as DefaultUserProvider;
 use Illuminate\Support\Facades\Config;
-use Microweber\Utils\Database as DbManager;
-
-use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
 use Laravel\Socialite\SocialiteManager;
-
-use Auth;
-
 use Illuminate\Support\Facades\Session;
+use Auth;
 
 if (!defined('MW_USER_IP')) {
     if (isset($_SERVER["REMOTE_ADDR"])) {
@@ -1048,25 +1040,24 @@ class UserManager
                 case "twitter":
 
                 {
-                    return $login = $this->socialite->with($provider)->redirect();;
+                    return $login = $this->socialite->with($provider)->redirect();
 
                 }
                 case "github":
 
                 {
-                    return $login = $this->socialite->with($provider)->scopes(['user:email'])->redirect();;
+                    return $login = $this->socialite->with($provider)->scopes(['user:email'])->redirect();
 
                 }
                 default:
                     {
-                    return $login = $this->socialite->with($provider)->scopes(['email'])->redirect();;
+                    return $login = $this->socialite->with($provider)->scopes(['email'])->redirect();
 
                     }
             }
             return;
         }
     }
-
 
 
     public function make_logged($user_id)
@@ -1182,7 +1173,7 @@ class UserManager
         $username = $user->getNickname();
         $oauth_id = $user->getId();
         $avatar = $user->getAvatar();
-
+        $name = $user->getName();
 
         $existing = array();
 
@@ -1197,24 +1188,29 @@ class UserManager
         $save['thumbnail'] = $avatar;
         $save['username'] = $username;
         $save['is_active'] = 1;
-        $save['is_admin'] = 1;
-
-
+        $save['is_admin'] = 0;
+        if ($name != false) {
+            $names = explode(' ', $name);
+            if (isset($names[0])) {
+                $save['first_name'] = array_shift($names);
+                if (!empty($names)) {
+                    $last = implode(' ', $names);
+                    $save['last_name'] = $last;
+                }
+            }
+        }
         $existing['single'] = true;
         $existing['limit'] = 1;
         $existing = $this->get_all($existing);
         if (isset($existing['id'])) {
-
             if ($save['is_active'] != 1) {
                 return;
             }
-
             $this->make_logged($existing['id']);
         } else {
             $new_user = $this->save($save);
             $this->make_logged($new_user);
         }
-
 
         if ($user_after_login != false) {
             return $this->app->url_manager->redirect($user_after_login);
@@ -1223,20 +1219,14 @@ class UserManager
             return $this->app->url_manager->redirect(site_url());
         }
 
-
     }
 
     public function count()
     {
         $options = array();
-        $options['get_count'] = true;
-        // $options ['debug'] = true;
         $options['count'] = true;
-        // $options ['no_cache'] = true;
         $options['cache_group'] = 'users/global/';
-
         $data = $this->get_all($options);
-
         return $data;
     }
 
@@ -1270,53 +1260,19 @@ class UserManager
         }
         if (!isset($params['search_in_fields'])) {
             $data['search_in_fields'] = array('id', 'first_name', 'last_name', 'username', 'email');
-            // $data ['debug'] = 1;
-        }
-
-        $cache_group = 'users/global';
-        if (isset($data['id']) and intval($data['id']) != 0) {
-            $cache_group = 'users/' . $data['id'];
-        } else {
-
         }
         $cache_group = 'users/global';
         if (isset($limit) and $limit != false) {
             $data['limit'] = $limit;
         }
-
         if (isset($count_only) and $count_only != false) {
-            $data['get_count'] = $count_only;
+            $data['count'] = $count_only;
         }
-
-        if (isset($data['only_those_fields']) and $data['only_those_fields']) {
-            $only_those_fields = $data['only_those_fields'];
-        }
-
-        if (isset($data['count']) and $data['count']) {
-            $count_only = $data['count'];
-        }
-
-        //$data ['no_cache'] = 1;
-
-        if (isset($data['username']) and $data['username'] == null) {
+        if (isset($data['username']) and $data['username'] == false) {
             unset($data['username']);
         }
-        if (isset($data['username']) and $data['username'] == '') {
-            //return false;
-        }
-
-        // $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
         $data['table'] = $table;
-        //  $data ['cache_group'] = $cache_group;
-
-
         $get = $this->app->database->get($data);
-
-        //$get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
-        // $get = $this->app->database->get_long($table, $criteria = $data, $cache_group);
-        // var_dump($get, $function_cache_id, $cache_group);
-        //  $this->app->cache_manager->save($get, $function_cache_id, $cache_group);
-
         return $get;
     }
 
@@ -1351,15 +1307,11 @@ class UserManager
 
     function logout_url()
     {
-
-
         return api_url('logout');
-
     }
 
     function login_url()
     {
-
 
         $template_dir = $this->app->template->dir();
         $file = $template_dir . 'login.php';
@@ -1397,29 +1349,21 @@ class UserManager
         } else {
             $default_url = 'users/forgot_password';
         }
-
         $checkout_url = $this->app->option_manager->get('forgot_password_url', 'users');
         if ($checkout_url != false and trim($checkout_url) != '') {
             $default_url = $checkout_url;
         }
-
         $checkout_url_sess = $this->session_get('forgot_password_url');
-
         if ($checkout_url_sess == false) {
             return $this->app->url_manager->site($default_url);
         } else {
             return $this->app->url_manager->site($checkout_url_sess);
         }
-
     }
 
     public function session_set($name, $val)
     {
-
-
         return Session::put($name, $val);
-
-
     }
 
     function csrf_form($unique_form_name = false)
@@ -1431,20 +1375,14 @@ class UserManager
         $token = $this->csrf_token($unique_form_name);
 
         $input = '<input type="hidden" value="' . $token . '" name="_token">';
-        // $input = '<input type="text" name="' . $token . '" value="' . md5($unique_form_name) . '">';
-        //  $input = '<input type="hidden" name="' . $token . '" value="' . md5($unique_form_name) . '">';
 
         return $input;
     }
 
     public function session_all()
     {
-
-
         $value = Session::all();
-
         return $value;
-
     }
 
     public function session_get($name)
@@ -1464,13 +1402,7 @@ class UserManager
 
     public function session_del($name)
     {
-//        if (isset($_SESSION[$name])) {
-//
-//           // unset($_SESSION[$name]);
-//        }
-
         Session::forget($name);
-
     }
 
 
@@ -1499,9 +1431,6 @@ class UserManager
         $callback_url = api_url('social_login_process?provider=' . $provider);
 
 
-        //  $config = $this->app['config']['services.facebook'];
-
-
         if ($enable_user_fb_registration == 'y') {
             Config::set('services.facebook.client_id', $fb_app_id);
             Config::set('services.facebook.client_secret', $fb_app_secret);
@@ -1519,11 +1448,9 @@ class UserManager
             Config::set('services.google.client_id', $google_app_id);
             Config::set('services.google.client_secret', $google_app_secret);
             Config::set('services.google.redirect', $callback_url);
-
         }
 
         if ($enable_user_github_registration == 'y') {
-
             Config::set('services.github.client_id', $github_app_id);
             Config::set('services.github.client_secret', $google_app_secret);
             Config::set('services.github.redirect', $github_app_secret);

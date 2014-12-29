@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of Microweber
+ *
+ * (c) Microweber LTD
+ *
+ * For full license information see
+ * http://microweber.com/license/
+ *
+ */
 namespace Microweber\Providers;
 
 
