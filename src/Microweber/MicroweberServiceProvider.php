@@ -61,16 +61,12 @@ class MicroweberServiceProvider extends ServiceProvider
             });
         }
 
-
-
-
         $this->app->instance('config', new Providers\ConfigSave($this->app));
 
-        $this->app->singleton(
+        /*$this->app->singleton(
             'Illuminate\Cache\StoreInterface',
-            'Microweber\Providers\CacheTags'
-        );
-
+            'Microweber\Providers\CacheStore'
+        );*/
 
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);
@@ -168,7 +164,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // Extend the cache
         \Cache::extend('file', function ($app) {
-            return new Providers\CacheTags;
+            return new Providers\CacheStore;
         });
 
         // If installed load module functions

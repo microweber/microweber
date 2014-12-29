@@ -4,7 +4,7 @@ use Illuminate\Cache\StoreInterface,
     Illuminate\Filesystem\Filesystem,
     Closure;
 
-class CacheTags implements StoreInterface
+class CacheStore implements StoreInterface
 {
     protected $files;
     protected $prefix;

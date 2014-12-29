@@ -12,7 +12,7 @@ class RouteServiceProvider extends ServiceProvider {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'Microweber\Controllers';
+	protected $namespace = 'App\Http\Controllers';
 
 	/**
 	 * Define your route model bindings, pattern filters, etc.

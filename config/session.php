@@ -16,7 +16,7 @@ return [
 	|
 	*/
 
-	'driver' => getenv('SESSION_DRIVER') ?: 'file',
+	'driver' => env('SESSION_DRIVER') ?: 'file',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -32,6 +32,19 @@ return [
 	'lifetime' => 120,
 
 	'expire_on_close' => false,
+
+	/*
+	|--------------------------------------------------------------------------
+	| Session Encryption
+	|--------------------------------------------------------------------------
+	|
+	| This option allows you to easily specify that all of your session data
+	| should be encrypted before it is stored. All encryption will be run
+	| automatically by Laravel and you can use the Session like normal.
+	|
+	*/
+
+	'encrypt' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -96,7 +109,7 @@ return [
 	|
 	*/
 
-	'cookie' => 'microweber_session',
+	'cookie' => 'laravel_session',
 
 	/*
 	|--------------------------------------------------------------------------
