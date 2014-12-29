@@ -36,7 +36,7 @@ mw.email_send_test = function(){
 				(
 				<?php _e("ex. my@email.com"); ?>
 				)</small> </label>
-			<input name="email_from" class="mw_option_field mw-ui-field"    type="text" option-group="email"   value="<?php print get_option('email_from','email'); ?>" />
+			<input name="email_from" class="mw_option_field mw-ui-field" type="email" type="text" option-group="email"   value="<?php print get_option('email_from','email'); ?>" />
 		</div>
 		<div class="mw-ui-field-holder">
 			<label class="mw-ui-label">

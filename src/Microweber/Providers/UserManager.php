@@ -877,9 +877,6 @@ class UserManager
             $data1['password_reset_hash'] = '';
 
 
-            $data1['password'] = $this->hash_pass($data1['password']);
-
-
         }
 
 
@@ -946,8 +943,6 @@ class UserManager
                 } else {
                     $data1 = array();
                     $data1['email'] = $user;
-                    //$data1['oauth_uid'] = '[null]';
-                    //$data1['oauth_provider'] = '[null]';
                     $data = $this->get_all($data1);
                     if (isset($data[0])) {
                         $data_res = $data[0];
@@ -965,8 +960,6 @@ class UserManager
                         $subject = "Password reset!";
                         $content = "Hello, {$data_res['username']} <br> ";
                         $content .= "You have requested a password reset link from IP address: " . MW_USER_IP . "<br><br> ";
-
-                        //$content .= "on " . $this->app->url_manager->current(1) . "<br><br> ";
 
                         $security = array();
                         $security['ip'] = MW_USER_IP;
