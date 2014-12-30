@@ -41,13 +41,9 @@ class CacheStore implements StoreInterface
             }
         }
 
-
-        $mem_key = $key;
-        if (!isset($this->memory[$mem_key])) {
+        if (!isset($this->memory[$key])) {
             $path = $this->path($key);
-
             if (!$this->files->exists($path)) {
-
                 return null;
             }
             try {
@@ -63,11 +59,11 @@ class CacheStore implements StoreInterface
                 return $this->forget($key);
             }
             if($contents){
-            $this->memory[$mem_key] = unserialize(substr($contents, 10));
+            $this->memory[$key] = unserialize(substr($contents, 10));
             }
         }
 
-        return $this->memory[$mem_key];
+        return $this->memory[$key];
     }
 
     /**

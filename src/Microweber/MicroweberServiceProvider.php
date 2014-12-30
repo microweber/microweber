@@ -1,15 +1,7 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: user
- * Date: 11/22/14
- * Time: 3:09 PM
- */
+<?php namespace Microweber;
 
-namespace Microweber;
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 //use Illuminate\Support\Facades\Config;
 
 use Illuminate\Support\ServiceProvider;
@@ -63,10 +55,10 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->instance('config', new Providers\ConfigSave($this->app));
 
-        /*$this->app->singleton(
+        $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
             'Microweber\Providers\CacheStore'
-        );*/
+        );
 
         $this->app->singleton('event_manager', function ($app) {
             return new Providers\Event($app);

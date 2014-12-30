@@ -2,6 +2,7 @@
 namespace Microweber\Providers;
 
 use Illuminate\Config\Repository;
+use Symfony\Component\Finder\Finder;
 use \File;
 
 class ConfigSave extends Repository
@@ -16,6 +17,20 @@ class ConfigSave extends Repository
         $items = (array)$app->make('config');
         $items = end($items);
         parent::__construct($items);
+        $this->init();
+    }
+
+    private function init()
+    {
+        $this->items = array();
+        foreach (Finder::create()->files()->name('*.php')->in($this->app->configPath()) as $file)
+        {
+            $path = $file->getRelativePath();
+            if($path && $path != $this->app->environment())
+                continue;
+            $key = basename($file->getRealPath(), '.php');
+            $this->set($key, require $file->getRealPath());
+        }
     }
 
     public function set($key, $val = null)
