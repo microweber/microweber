@@ -38,7 +38,6 @@ class Template
     function __construct($app = null)
     {
 
-
         if (!is_object($this->app)) {
             if (is_object($app)) {
                 $this->app = $app;
@@ -136,6 +135,7 @@ class Template
         } else if (is_bool($script_src)) {
             //   return $this->head;
             $src = '';
+
             if (is_array($this->head)) {
                 foreach ($this->head as $header) {
                     $ext = get_file_extension($header);

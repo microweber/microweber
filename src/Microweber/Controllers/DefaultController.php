@@ -1733,6 +1733,10 @@ class DefaultController extends Controller
             }
 
             $template_headers_src = $this->app->template->head(true);
+
+
+
+
             $template_headers_src_callback = $this->app->template->head_callback($page);
             if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
                 foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
@@ -2221,9 +2225,9 @@ class DefaultController extends Controller
         header('Cache-Control: public');
 
         if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) == $lastModified || $etagHeader == $etagFile) {
-            header("HTTP/1.1 304 Not Modified");
+            //header("HTTP/1.1 304 Not Modified");
 
-            exit;
+            //exit;
         }
 
         $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);

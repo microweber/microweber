@@ -474,6 +474,7 @@ mw.tools = {
         }
 
         var modal_return = {main:modal_object, container:modal_object.find(".mw_modal_container")[0]}
+
         typeof callback==='function'?callback.call(modal_return):'';
         typeof title==='string' ? $(modal_object).find(".mw_modal_title").html(title):'';
         typeof name==='string' ? $(modal_object).attr("name", name):'';
@@ -488,18 +489,25 @@ mw.tools = {
 
         modal_return.hide = function(){
             modal_object.hide();
-            return modal_return;
+            $(modal_return.overlay).hide();
+            $(modal_return).trigger('modal.hide');
+            return this;
         }
         modal_return.show = function(){
             modal_object.show();
+            $(modal_return.overlay).show();
+            $(modal_return).trigger('modal.show');
             return modal_return;
         }
+
         modal_return.remove = function(){
+           $(modal_return).trigger('modal.remove');
             if(typeof modal_return.onremove === 'function'){
                 modal_return.onremove.call();
             }
             modal_object.remove();
             $(modal_return.overlay).remove();
+
         }
         mw.$('.mw-modal-close', modal_object[0]).bind('click', function(){
                modal_return.remove();
@@ -510,6 +518,7 @@ mw.tools = {
         }
         modal_return.resize = function(w,h){
           mw.tools.modal.setDimmensions(modal_object[0], w, h);
+          $(modal_return).trigger('modal.resize');
           return modal_return;
         }
         return modal_return;
@@ -4298,7 +4307,13 @@ $(mwd).ready(function(){
     },1222);
 });
 
+
+
+
 });
+
+
+
 
 
 

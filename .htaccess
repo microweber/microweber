@@ -3,7 +3,7 @@
         Options -MultiViews
     </IfModule>
     RewriteEngine On
-    	# RewriteRule ^(.*)/$ \/$1 [R=301,L]
+    	# RewriteRule ^(.*)/$ /l5/$1 [R=301,L]
 		RewriteCond %{REQUEST_FILENAME} !-f
 		RewriteCond %{REQUEST_FILENAME} !-d
 		RewriteRule ^(.*)$ index.php [NC,L]

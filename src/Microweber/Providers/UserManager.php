@@ -1062,7 +1062,6 @@ class UserManager
                 $user_id = $user_id['id'];
             }
         }
-
         if (intval($user_id) > 0) {
             $data = $this->get_by_id($user_id);
             if ($data == false) {
@@ -1076,6 +1075,7 @@ class UserManager
                     if (!defined('USER_ID')) {
                         define("USER_ID", $data['id']);
                     }
+                    Auth::loginUsingId($data['id']);
 
                     $this->app->event_manager->trigger('user_login', $data);
                     $this->session_set('user_session', $user_session);
@@ -1083,7 +1083,6 @@ class UserManager
 
                     $this->update_last_login_time();
                     $user_session['success'] = _e("You are logged in!", true);
-                    Auth::loginUsingId($data['id']);
 
 
                     return $user_session;
@@ -1163,6 +1162,7 @@ class UserManager
         $user = $this->socialite->driver($auth_provider)->user();
 
         $email = $user->getEmail();
+
         $username = $user->getNickname();
         $oauth_id = $user->getId();
         $avatar = $user->getAvatar();

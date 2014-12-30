@@ -16,6 +16,15 @@ function is_post()
     }
 }
 
+
+function is_home()
+{
+    if (defined('IS_HOME')) {
+        return IS_HOME;
+    }
+}
+
+
 function is_category()
 {
     if (category_id()) {

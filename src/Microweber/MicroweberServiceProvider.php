@@ -120,7 +120,7 @@ class MicroweberServiceProvider extends ServiceProvider
             return new \Database();
         });
 
-        $this->app->bind('template', function ($app) {
+        $this->app->singleton('template', function ($app) {
             return new Providers\Template($app);
         });
         $this->app->singleton('modules', function ($app) {
