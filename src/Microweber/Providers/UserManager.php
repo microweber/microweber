@@ -184,9 +184,12 @@ class UserManager
         $override = $this->app->event_manager->trigger('before_user_login', $params);
         $redirect_after = isset($params['redirect']) ? $params['redirect'] : false;
         $overiden = false;
+        $return_resp = false;
         if (is_array($override)) {
+
             foreach ($override as $resp) {
                 if (isset($resp['error']) or isset($resp['success'])) {
+                    $return_resp = $resp;
                     $overiden = true;
                 }
             }
@@ -197,7 +200,8 @@ class UserManager
             $this->app->url_manager->redirect($redirect_after);
             return;
         } elseif ($overiden == true) {
-            return $resp;
+
+            return $return_resp;
         }
 
         if (isset($params['username'])) {
@@ -690,36 +694,37 @@ class UserManager
     public function save($params)
     {
 
-
-        if (defined("MW_API_CALL") and mw_is_installed() == true) {
-            if (isset($params['is_admin']) and $this->is_admin() == false) {
-                unset($params['is_admin']);
-            }
-        }
-
-        if (isset($params['id']) and $params['id'] != 0) {
-            $adm = $this->is_admin();
-            if ($adm == false) {
-
-                $is_logged = user_id();
-                if ($is_logged == false or $is_logged == 0) {
-                    return array('error' => 'You must be logged to save user');
-                } elseif (intval($is_logged) == intval($params['id']) and intval($params['id']) != 0) {
-                    // the user is editing their own profile
-                } else {
-                    return array('error' => 'You must be logged to as admin save this user');
-
+        if (!defined('MW_FORCE_USER_SAVE')) {
+            if (defined("MW_API_CALL") and mw_is_installed() == true) {
+                if (isset($params['is_admin']) and $this->is_admin() == false) {
+                    unset($params['is_admin']);
                 }
             }
 
-        } else {
-            if (defined('MW_API_CALL') and mw_is_installed() == true) {
-                $params['id'] = $this->id();
-                $is_logged = user_id();
-                if (intval($params['id']) != 0 and $is_logged != $params['id']) {
-                    return array('error' => 'You must be logged save your settings');
+            if (isset($params['id']) and $params['id'] != 0) {
+                $adm = $this->is_admin();
+                if ($adm == false) {
+
+                    $is_logged = user_id();
+                    if ($is_logged == false or $is_logged == 0) {
+                        return array('error' => 'You must be logged to save user');
+                    } elseif (intval($is_logged) == intval($params['id']) and intval($params['id']) != 0) {
+                        // the user is editing their own profile
+                    } else {
+                        return array('error' => 'You must be logged to as admin save this user');
+
+                    }
                 }
 
+            } else {
+                if (defined('MW_API_CALL') and mw_is_installed() == true) {
+                    $params['id'] = $this->id();
+                    $is_logged = user_id();
+                    if (intval($params['id']) != 0 and $is_logged != $params['id']) {
+                        return array('error' => 'You must be logged save your settings');
+                    }
+
+                }
             }
         }
 
@@ -1195,6 +1200,9 @@ class UserManager
         $existing['single'] = true;
         $existing['limit'] = 1;
         $existing = $this->get_all($existing);
+        if (!defined('MW_FORCE_USER_SAVE')) {
+            define('MW_FORCE_USER_SAVE', true);
+        }
         if (isset($existing['id'])) {
             if ($save['is_active'] != 1) {
                 return;
