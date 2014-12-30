@@ -2,7 +2,6 @@
 
 class Content
 {
-
     public function get()
     {
         return [

@@ -1,8 +1,7 @@
 <?php namespace Microweber\Install\Schema;
 
-class Shop 
+class Shop
 {
-
     public function get()
     {
         return [

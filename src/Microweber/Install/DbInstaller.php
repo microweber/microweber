@@ -5,7 +5,6 @@ namespace Microweber\Install;
 
 use Microweber\Module;
 use Illuminate\Support\Facades\Schema as DbSchema;
-use Microweber\Utils\Database as DBUtils;
 
 use Cache;
 
@@ -14,16 +13,16 @@ class DbInstaller
     public function run()
     {
         Cache::flush();
-        $this->install_db();
-        $this->seed_db();
+        $this->createSchema();
+        $this->seed();
 
         Cache::flush();
         mw()->modules->install();
     }
 
-    public function get_system_install_scripts()
+    public function getSystemSchemas()
     {
-        $exec = [
+        return [
             new Schema\Base,
             new Schema\Comments,
             new Schema\Content,
@@ -32,11 +31,9 @@ class DbInstaller
             new Schema\Shop,
             new Schema\Countries
         ];
-        return $exec;
     }
 
-
-    public function install_db()
+    public function createSchema()
     {
         if (!DbSchema::hasTable('sessions')) {
             DbSchema::create('sessions', function ($table) {
@@ -45,44 +42,47 @@ class DbInstaller
                 $table->integer('last_activity');
             });
         }
-        $exec = $this->get_system_install_scripts();
-
+        $exec = $this->getSystemSchemas();
 
         foreach ($exec as $data) {
             // Creates the schema
-            if (method_exists($data, 'get')) {
-                $schemaArray = $data->get();
-
-                if ($schemaArray)
-                    if (is_array($schemaArray)) {
-                        foreach ($data->get() as $table => $column) {
-                            if (!DbSchema::hasTable($table)) {
-                                DbSchema::create($table, function ($schema) {
-                                    $schema->increments('id');
-                                });
-                            }
-
-                            foreach ($column as $name => $type) {
-                                DbSchema::table($table, function ($schema) use ($name, $type, $table) {
-                                    if ($name == '$index')
-                                        return;
-                                    if (!DbSchema::hasColumn($table, $name)) {
-                                        $schema->$type($name)->nullable();
-                                    }
-                                });
-                            }
-                        }
-                    }
+            if (!method_exists($data, 'get')) {
+                break;
             }
 
+            $schemaArray = $data->get();
 
+            if (!is_array($schemaArray)) {
+                break;
+            }
+
+            foreach ($data->get() as $table => $column)
+            {
+                if (!DbSchema::hasTable($table))
+                {
+                    DbSchema::create($table, function ($schema) {
+                        $schema->increments('id');
+                    });
+                }
+
+                DbSchema::table($table, function ($schema) use ($column, $table)
+                {
+                    foreach ($column as $name => $type)
+                    {
+                        if ($name == '$index')
+                            return;
+                        if (!DbSchema::hasColumn($table, $name)) {
+                            $schema->$type($name)->nullable();
+                        }
+                    }
+                });
+            }
         }
     }
 
-
-    public function seed_db()
+    public function seed()
     {
-        $exec = $this->get_system_install_scripts();
+        $exec = $this->getSystemSchemas();
 
         foreach ($exec as $data) {
             if (method_exists($data, 'seed')) {

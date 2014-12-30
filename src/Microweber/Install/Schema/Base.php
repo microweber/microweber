@@ -2,9 +2,8 @@
 
 class Base
 {
-
     public function get()
-    {        
+    {
         $modulesSchema = [
             'updated_at' => 'dateTime',
             'created_at' => 'dateTime',

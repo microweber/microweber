@@ -149,15 +149,9 @@ class MicroweberServiceProvider extends ServiceProvider
         // $this->registerModules();
     }
 
-
     public function boot(Request $request)
     {
-
-
         parent::boot();
-
-
-
 
         // public = /
         \App::instance('path.public', base_path());
@@ -223,4 +217,4 @@ class MicroweberServiceProvider extends ServiceProvider
 //    }
 
 
-} 
+}

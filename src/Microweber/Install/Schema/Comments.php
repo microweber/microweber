@@ -1,10 +1,9 @@
 <?php namespace Microweber\Install\Schema;
 
-class Comments 
+class Comments
 {
-
     public function get()
-    {        
+    {
         return [
             'comments' => [
                 'rel_type' => 'string',

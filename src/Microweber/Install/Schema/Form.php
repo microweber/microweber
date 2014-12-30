@@ -1,10 +1,9 @@
 <?php namespace Microweber\Install\Schema;
 
-class Form 
+class Form
 {
-
     public function get()
-    {        
+    {
         return [
             'forms_data' => [
                 'created_at' => 'dateTime',

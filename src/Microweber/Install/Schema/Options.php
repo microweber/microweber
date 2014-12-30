@@ -1,10 +1,9 @@
 <?php namespace Microweber\Install\Schema;
 
-class Options 
+class Options
 {
-
     public function get()
-    {        
+    {
         return [
             'options' => [
                 'updated_at' => 'dateTime',

@@ -2,7 +2,6 @@
 
 class Countries
 {
-
     public function get()
     {
         return [
