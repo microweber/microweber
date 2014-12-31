@@ -40,6 +40,9 @@ class ComposerUpdate
         $helper = new HelperSet();
         $config = new Config();
 
+
+
+
         if (!empty($config_params)) {
             $config_composer = array('config' => $config_params);
             $config->merge($config_composer);

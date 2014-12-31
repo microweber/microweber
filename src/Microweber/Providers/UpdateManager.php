@@ -1020,7 +1020,7 @@ class UpdateManager
 
         if (is_dir($vendor_cache_old)) {
             $file_utils = new Files();
-            $file_utils->rmdir($vendor_cache_old, false);
+            @$file_utils->rmdir($vendor_cache_old, false);
         }
 
 
@@ -1055,11 +1055,23 @@ class UpdateManager
                         }
 
                         if (is_dir($vendor_orig_sub_folder)) {
-                            rename($vendor_orig_sub_folder, $vendor_old_sub_folder);
+
+                            try {
+//                                $file_utils = new Files();
+//                                $file_utils->rmdir($vendor_orig_sub_folder);
+                                rename($vendor_orig_sub_folder, $vendor_old_sub_folder);
+                            }
+                            catch(\ErrorException $e) {
+                                $file_utils = new Files();
+                                $file_utils->copy_directory($vendor_new_sub_folder,$vendor_orig_sub_folder);
+                                $file_utils->rmdir($vendor_new_sub_folder);
+                            }
+
+
                         }
 
 
-                        rename($vendor_new_sub_folder, $vendor_orig_sub_folder);
+                        @rename($vendor_new_sub_folder, $vendor_orig_sub_folder);
                     }
                     break;
 
@@ -1067,8 +1079,15 @@ class UpdateManager
         }
 
 
+            $config_params = array(
+
+                'no-progress' => true,
+                'preferred-install' => 'dist'
+
+            );
+
         $runner = new \Microweber\Utils\ComposerUpdate();
-        $out = $runner->run();
+        $out = $runner->run($config_params);
 
 
         if ($out == 2) {
@@ -1076,7 +1095,7 @@ class UpdateManager
         } elseif ($out == 1) {
             return array('error' => 'Composer has an unknown error');
         } elseif ($out === 0) {
-            return array('success' => 1, 'message' => 'Composer has completed');
+            return array('success' => 1, 'message' => 'Composer has completed installing');
         } else {
             return array('success' => 1, 'message' => $out);
         }
@@ -1102,7 +1121,7 @@ class UpdateManager
                 } elseif ($out == 1) {
                     return array('error' => 'Composer has an unknown error');
                 } elseif ($out === 0) {
-                    return array('success' => 1, 'message' => 'Composer has completed');
+                    return array('success' => 1, 'message' => 'Composer has completed download');
                 } else {
                     return array('success' => 1, 'message' => $out);
                 }

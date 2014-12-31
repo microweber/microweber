@@ -2,7 +2,9 @@
 
 
 namespace Microweber\Utils;
-
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+use FilesystemIterator;
 $mw_static_option_groups = array();
 class Files
 {
@@ -64,8 +66,52 @@ class Files
         return round($size, 2) . ' ' . $units[$i];
     }
 
-    public function rmdir($directory, $empty = true)
+
+
+    public function rmdir($dirPath) {
+
+
+
+
+        foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dirPath, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $path) {
+            $path->isDir() && !$path->isLink() ? rmdir($path->getPathname()) : unlink($path->getPathname());
+        }
+        rmdir($dirPath);
+
+
+
+//        if (! is_dir($dirPath)) {
+//            throw new InvalidArgumentException("$dirPath must be a directory");
+//        }
+//        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+//            $dirPath .= '/';
+//        }
+//        $files = glob($dirPath . '*', GLOB_MARK);
+//        foreach ($files as $file) {
+//            if (is_dir($file)) {
+//                $this->rmdir($file);
+//            } else {
+//                unlink($file);
+//            }
+//        }
+//        rmdir($dirPath);
+    }
+
+
+
+    public function OLD_rmdir_DELETE_THIS_METHOD($directory, $empty = true)
     {
+
+
+
+
+
+
+
+
+
+
+
         // if the path has a slash at the end we remove it here
         if (substr($directory, -1) == DIRECTORY_SEPARATOR) {
             $directory = substr($directory, 0, -1);
