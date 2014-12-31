@@ -693,8 +693,15 @@ class UserManager
 
     public function save($params)
     {
+        $force = false;
+        if (defined('MW_FORCE_USER_SAVE')) {
+            $force = MW_FORCE_USER_SAVE;
+        } elseif ($this->force_save) {
+            $force = $this->force_save;
+        }
 
-        if (!defined('MW_FORCE_USER_SAVE')) {
+        if ($force == false) {
+
             if (defined("MW_API_CALL") and mw_is_installed() == true) {
                 if (isset($params['is_admin']) and $this->is_admin() == false) {
                     unset($params['is_admin']);
@@ -728,11 +735,10 @@ class UserManager
             }
         }
 
-
         $data_to_save = $params;
 
 
-        if (isset($data_to_save['id']) and isset($data_to_save['email']) and $data_to_save['email'] != false) {
+        if (isset($data_to_save['id']) and $data_to_save['id'] !=0 and isset($data_to_save['email']) and $data_to_save['email'] != false) {
             $old_user_data = $this->get_by_id($data_to_save['id']);
             if (isset($old_user_data['email']) and $old_user_data['email'] != false) {
                 if ($data_to_save['email'] != $old_user_data['email']) {

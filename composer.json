@@ -9,11 +9,10 @@
     "type": "project",
     "require": {
         "laravel/framework": "dev-master",
-        "composer/composer": "1.*", 
+        "composer/composer": "dev-master",
         "laravel/socialite": "dev-master",
         "composer/installers": "1.*",
-        "payum/offline":"*@stable"
-
+        "phpoffice/phpvisio": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"

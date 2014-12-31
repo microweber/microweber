@@ -4,25 +4,10 @@
 namespace Microweber\Utils;
 
 
-spl_autoload_register(function ($class) {
-// fallback autoloader if some composer class is missing
-
-    $prefix = 'Composer\\';
-    if (!substr($class, 0, 10) === $prefix) {
-        return;
-    }
-    $class = substr($class, strlen($prefix));
-    $location_fallback = __DIR__ . '/lib/composer/src/Composer/' . str_replace('\\', '/', $class) . '.php';
-    $location_fallback = normalize_path($location_fallback, false);
-    if (is_file($location_fallback)) {
-        require_once($location_fallback);
-    }
-});
-
-
 use Composer\Console\Application;
 use Composer\Command\UpdateCommand;
 use Composer\Command\InstallCommand;
+use Composer\Config;
 use Symfony\Component\Console\Input\ArrayInput;
 
 use Composer\Factory;
@@ -37,30 +22,48 @@ class ComposerUpdate
 
     public $composer_home = null;
 
-    public function __construct()
+    public function __construct($composer_path = false)
     {
-
-
-        $composer_path = normalize_path(base_path() . '/', false);
+        if ($composer_path == false) {
+            $composer_path = normalize_path(base_path() . '/', false);
+        }
         $this->composer_home = $composer_path;
         putenv('COMPOSER_HOME=' . $composer_path);
     }
 
-    public function run()
+    public function run($config_params = array())
     {
-        //Create the commands
 
-
+        ob_start();
         $input = new ArgvInput(array());
         $output = new ConsoleOutput();
         $helper = new HelperSet();
-        $output->setVerbosity(4);
+        $config = new Config();
+
+        if (!empty($config_params)) {
+            $config_composer = array('config' => $config_params);
+            $config->merge($config_composer);
+        }
+//        $config_composer = array('config' => array(
+//            'prepend-autoloader' => false,
+//            'no-install' => true,
+//            'no-scripts' => true,
+//            'no-plugins' => true,
+//            'no-progress' => true,
+//            'no-dev' => true,
+//            'no-custom-installers' => true,
+//            'no-autoloader' => true
+//        ));
+
+
+        $output->setVerbosity(0);
         $io = new ConsoleIO($input, $output, $helper);
         $composer = Factory::create($io);
-
+        $composer->setConfig($config);
         $update = new UpdateCommand();
         $update->setComposer($composer);
         $out = $update->run($input, $output);
+        ob_end_clean();
         return $out;
 
 //        $update = new InstallCommand();
@@ -79,6 +82,26 @@ class ComposerUpdate
 //        $out = $application->run($input);
 //     dd($out);
 //        echo "Done.";
+    }
+
+    public function run_install()
+    {
+        ob_start();
+        $input = new ArgvInput(array());
+        $output = new ConsoleOutput();
+        $helper = new HelperSet();
+        $config = new Config();
+
+
+        $output->setVerbosity(0);
+        $io = new ConsoleIO($input, $output, $helper);
+        $composer = Factory::create($io);
+        $composer->setConfig($config);
+        $update = new InstallCommand();
+        $update->setComposer($composer);
+        $out = $update->run($input, $output);
+        ob_end_clean();
+        return $out;
     }
 
 

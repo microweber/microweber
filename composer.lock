@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dc05a332ffb95f87631c3c71a626c02a",
+    "hash": "0eb59f8bb4ccc232851f57af778d8ed8",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -737,65 +737,17 @@
             "time": "2014-08-25 02:48:14"
         },
         {
-            "name": "kriswallsmith/buzz",
-            "version": "v0.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kriswallsmith/Buzz.git",
-                "reference": "487760b05d6269a4c2c374364325326cfa65b12c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/Buzz/zipball/487760b05d6269a4c2c374364325326cfa65b12c",
-                "reference": "487760b05d6269a4c2c374364325326cfa65b12c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "suggest": {
-                "ext-curl": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Buzz": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kris Wallsmith",
-                    "email": "kris.wallsmith@gmail.com",
-                    "homepage": "http://kriswallsmith.net/"
-                }
-            ],
-            "description": "Lightweight HTTP client",
-            "homepage": "https://github.com/kriswallsmith/Buzz",
-            "keywords": [
-                "curl",
-                "http client"
-            ],
-            "time": "2014-09-15 12:42:36"
-        },
-        {
             "name": "laravel/framework",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0554fa1b28684cedc8b96b6466d2e74908ef8e20"
+                "reference": "bdcbe67ead6d6a987f99fd67e13d88d8c3744ed2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0554fa1b28684cedc8b96b6466d2e74908ef8e20",
-                "reference": "0554fa1b28684cedc8b96b6466d2e74908ef8e20",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/bdcbe67ead6d6a987f99fd67e13d88d8c3744ed2",
+                "reference": "bdcbe67ead6d6a987f99fd67e13d88d8c3744ed2",
                 "shasum": ""
             },
             "require": {
@@ -900,7 +852,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2014-12-29 18:11:43"
+            "time": "2014-12-30 21:42:29"
         },
         {
             "name": "laravel/socialite",
@@ -1102,59 +1054,6 @@
                 "single sign on"
             ],
             "time": "2014-06-30 00:01:40"
-        },
-        {
-            "name": "league/url",
-            "version": "3.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/url.git",
-                "reference": "74ae626949e967fd20511d074835ae6ff67d97ae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/url/zipball/74ae626949e967fd20511d074835ae6ff67d97ae",
-                "reference": "74ae626949e967fd20511d074835ae6ff67d97ae",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=5.3.0",
-                "true/punycode": "~1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "League\\Url\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ignace Nyamagana Butera",
-                    "email": "nyamsprod@gmail.com",
-                    "homepage": "https://github.com/nyamsprod/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "League/url is a lightweight PHP Url manipulating library",
-            "keywords": [
-                "parse_url",
-                "php",
-                "url"
-            ],
-            "time": "2014-11-27 10:14:00"
         },
         {
             "name": "monolog/monolog",
@@ -1417,165 +1316,53 @@
             "time": "2014-11-10 16:16:54"
         },
         {
-            "name": "payum/core",
-            "version": "0.13.x-dev",
-            "target-dir": "Payum/Core",
+            "name": "phpoffice/phpvisio",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Payum/Core.git",
-                "reference": "8827cbc3e88ad2074834f941fae10f95fb716a49"
+                "url": "https://github.com/PHPOffice/PHPVisio.git",
+                "reference": "056052d143df15b2e4c543c559e43dcdd4ca1293"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Payum/Core/zipball/8827cbc3e88ad2074834f941fae10f95fb716a49",
-                "reference": "8827cbc3e88ad2074834f941fae10f95fb716a49",
+                "url": "https://api.github.com/repos/PHPOffice/PHPVisio/zipball/056052d143df15b2e4c543c559e43dcdd4ca1293",
+                "reference": "056052d143df15b2e4c543c559e43dcdd4ca1293",
                 "shasum": ""
             },
             "require": {
-                "kriswallsmith/buzz": "~0.13",
-                "league/url": "~3.0",
-                "php": ">=5.3.2",
-                "twig/twig": "~1.0"
-            },
-            "require-dev": {
-                "doctrine/mongodb": "1.0.*@dev",
-                "doctrine/mongodb-odm": "1.0.*@dev",
-                "doctrine/orm": "2.*",
-                "ext-curl": "*",
-                "ext-pdo_sqlite": "*",
-                "phpunit/phpunit": "~4.0",
-                "psr/log": "~1.0",
-                "symfony/form": "~2.3",
-                "symfony/http-foundation": "~2.3",
-                "symfony/http-kernel": "~2.3",
-                "symfony/routing": "~2.3",
-                "zendframework/zend-db": "~2"
-            },
-            "suggest": {
-                "doctrine/mongodb-odm": "If you want to store models to mongo doctrin2 ODM",
-                "doctrine/orm": "If you want to store models to database using doctrin2 ORM",
-                "monolog/monolog": "In case you want to use logger",
-                "payum/authorize-net-aim": "If you want to use Authorize.Net AIM payment gateway",
-                "payum/be2bill": "If you want to use be2bill payment gateway",
-                "payum/omnipay-bridge": "If you want to use omnipay's gateways",
-                "payum/payex": "If you want to use payex payment gateway",
-                "payum/paypal-express-checkout-nvp": "If you want to use paypal express checkout, digital goods or recurring payments",
-                "payum/paypal-ipn": "If you want to use paypal instant payment notifications(Paypal IPN)",
-                "payum/paypal-pro-checkout-nvp": "If you want to use paypal pro checkout",
-                "payum/paypal-rest": "If you want to use paypal rest gateway",
-                "symfony/form": "If you want to use forms",
-                "symfony/http-foundation": "If you want to use HttpRequestVerifier or HttpResponse reply from symfony's bridge",
-                "symfony/http-kernel": "If you want to use HttpRequestVerifier from symfony's bridge",
-                "symfony/routing": "If you want to use TokenFactory from symfony's bridge",
-                "zendframework/zend-db": "If you want to store models to Zend Db ORM"
+                "ext-xml": "*",
+                "php": ">=5.2.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.13-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
-                    "Payum\\Core\\": ""
+                    "PHPVisio": "Classes/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "LGPL"
             ],
             "authors": [
                 {
-                    "name": "Community contributions",
-                    "homepage": "https://github.com/Payum/Payum/contributors"
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
                 },
                 {
-                    "name": "Kotlyar Maksim",
-                    "email": "kotlyar.maksim@gmail.com"
-                },
-                {
-                    "name": "Payum project",
-                    "homepage": "http://payum.org/"
+                    "name": "Mark Baker"
                 }
             ],
-            "description": "Domain  friendly payment framework. Paypal, payex, authorize.net, be2bill, omnipay, recurring payments, instant notifications and many more",
-            "homepage": "http://payum.org",
+            "description": "PHPVisio - Read, Create and Write Diagrams documents in PHP",
+            "homepage": "http://phpoffice.github.io",
             "keywords": [
-                "authorize.net",
-                "be2bill",
-                "instant payment notification",
-                "ipn",
-                "jms payment",
-                "omnipay",
-                "payex",
-                "payment",
-                "paypal",
-                "paypal digital goods",
-                "paypal express",
-                "paypal pro",
-                "paypal rest",
-                "recurring payment"
+                "Dia",
+                "Visio",
+                "diagram",
+                "php",
+                "vsd",
+                "vsdx"
             ],
-            "time": "2014-12-26 20:42:18"
-        },
-        {
-            "name": "payum/offline",
-            "version": "0.13.0",
-            "target-dir": "Payum/Offline",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Payum/Offline.git",
-                "reference": "05c8bcd7175c67b10a40edf3de7cdc1f4ae317c1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Payum/Offline/zipball/05c8bcd7175c67b10a40edf3de7cdc1f4ae317c1",
-                "reference": "05c8bcd7175c67b10a40edf3de7cdc1f4ae317c1",
-                "shasum": ""
-            },
-            "require": {
-                "payum/core": "0.13.*",
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.13-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Payum\\Offline": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Community contributions",
-                    "homepage": "https://github.com/Payum/Offline/contributors"
-                },
-                {
-                    "name": "Kotlyar Maksim",
-                    "email": "kotlyar.maksim@gmail.com"
-                },
-                {
-                    "name": "Payum project",
-                    "homepage": "http://payum.org/"
-                }
-            ],
-            "description": "Offline Payments",
-            "homepage": "http://payum.org",
-            "keywords": [
-                "offlile",
-                "payment"
-            ],
-            "time": "2014-12-26 20:42:18"
+            "time": "2013-12-13 10:59:56"
         },
         {
             "name": "predis/predis",
@@ -2175,12 +1962,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "ffa3193a1f38a3135a6a0ef4ef4ae7d8528a4570"
+                "reference": "4a0b25ba15cb3c60511d0d71b285281cd1eab157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/ffa3193a1f38a3135a6a0ef4ef4ae7d8528a4570",
-                "reference": "ffa3193a1f38a3135a6a0ef4ef4ae7d8528a4570",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/4a0b25ba15cb3c60511d0d71b285281cd1eab157",
+                "reference": "4a0b25ba15cb3c60511d0d71b285281cd1eab157",
                 "shasum": ""
             },
             "require": {
@@ -2213,7 +2000,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-30 09:04:52"
+            "time": "2014-12-30 13:34:16"
         },
         {
             "name": "symfony/routing",
@@ -2456,110 +2243,6 @@
                 "dump"
             ],
             "time": "2014-12-24 21:28:06"
-        },
-        {
-            "name": "true/punycode",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/true/php-punycode.git",
-                "reference": "59dca474914324763397be2ea3d6ad3bc48f4688"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/true/php-punycode/zipball/59dca474914324763397be2ea3d6ad3bc48f4688",
-                "reference": "59dca474914324763397be2ea3d6ad3bc48f4688",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.x",
-                "satooshi/php-coveralls": "dev-master",
-                "squizlabs/php_codesniffer": "2.0.x-dev"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "True\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Renan Gonçalves",
-                    "email": "renan.saddam@gmail.com"
-                }
-            ],
-            "description": "A Bootstring encoding of Unicode for Internationalized Domain Names in Applications (IDNA)",
-            "homepage": "https://github.com/true/php-punycode",
-            "keywords": [
-                "idna",
-                "punycode"
-            ],
-            "time": "2014-08-26 14:21:01"
-        },
-        {
-            "name": "twig/twig",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twigphp/Twig.git",
-                "reference": "d375c805fb830f75aa3b8d4868cc2d9f99a4c2fa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d375c805fb830f75aa3b8d4868cc2d9f99a4c2fa",
-                "reference": "d375c805fb830f75aa3b8d4868cc2d9f99a4c2fa",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.16-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Twig_": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
-                },
-                {
-                    "name": "Twig Team",
-                    "homepage": "http://twig.sensiolabs.org/contributors",
-                    "role": "Contributors"
-                }
-            ],
-            "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "http://twig.sensiolabs.org",
-            "keywords": [
-                "templating"
-            ],
-            "time": "2014-12-25 20:52:25"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -3469,17 +3152,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "dev-master",
+            "version": "2.7.x-dev",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "b29878dcb9a37c9e508aa4cf36160f90e8246f8d"
+                "reference": "7918f04ec3f38d2069b91b2d2e0e3a10d9cfc6c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b29878dcb9a37c9e508aa4cf36160f90e8246f8d",
-                "reference": "b29878dcb9a37c9e508aa4cf36160f90e8246f8d",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/7918f04ec3f38d2069b91b2d2e0e3a10d9cfc6c4",
+                "reference": "7918f04ec3f38d2069b91b2d2e0e3a10d9cfc6c4",
                 "shasum": ""
             },
             "require": {
@@ -3488,7 +3171,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
@@ -3512,17 +3195,19 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-30 09:05:58"
+            "time": "2014-12-30 09:05:46"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "laravel/framework": 20,
+        "composer/composer": 20,
         "laravel/socialite": 20,
-        "payum/offline": 0
+        "phpoffice/phpvisio": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }

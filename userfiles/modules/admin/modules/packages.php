@@ -5,9 +5,16 @@
 <script type="text/javascript">
 
 
-    function apply_new_packages() {
+    function apply_new_packages(mode) {
+		
+		if(mode == 1){
+			var url = "<?php print api_link('mw_composer_replace_vendor_from_cache'); ?>";
+		} else {
+			var url = "<?php print api_link('mw_composer_run_update'); ?>";
+		}
+		
         $.ajax({
-            url: "<?php print api_link('mw_composer_run_update'); ?>",
+            url: url,
 			beforeSend: function(){
           		$("#run_composer_button_lock").attr("disabled", "disabled");
    			},
@@ -18,11 +25,17 @@
 			}
         }).done(function (resp) {
 			$("#run_composer_button_lock").removeAttr("disabled");
-			$('#remote_patch_log').html(resp); 
-           // mw.notification.msg(msg);
-           // if (typeof(msg.try_again) != 'undefined') {
-//                apply_new_packages();
-//            }
+			
+			if (typeof(resp.message) != 'undefined') {
+               $('#remote_patch_log').html(resp.message); 
+            }
+			
+		    if (typeof(resp.try_again) != 'undefined') {
+                apply_new_packages();
+            }
+			if (typeof(resp.move_vendor) != 'undefined') {
+                apply_new_packages(1);
+            }
         });
 
     }

@@ -340,7 +340,12 @@ function mw_composer_run_update($params)
     return $update_api->composer_run($params);
 }
 
-
+api_expose_admin('mw_composer_replace_vendor_from_cache');
+function mw_composer_replace_vendor_from_cache($params)
+{
+    $update_api = mw('update');
+    return $update_api->composer_replace_vendor_from_cache($params);
+}
 api_expose('mw_save_license');
 
 function mw_save_license($params)

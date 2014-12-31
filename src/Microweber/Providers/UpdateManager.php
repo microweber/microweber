@@ -3,6 +3,7 @@ namespace Microweber\Providers;
 
 
 use Microweber\Utils\Http;
+use Microweber\Utils\Files;
 
 
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
@@ -542,7 +543,7 @@ class UpdateManager
         $this->_log_msg('Applying post update actions');
 
         $system_refresh = new \Microweber\Install\DbInstaller;
-        $system_refresh->install_db();
+        $system_refresh->createSchema();
         //$system_refresh->run();
 
         if (!ini_get('safe_mode')) {
@@ -1001,25 +1002,222 @@ class UpdateManager
                 $required[$params['require_name']] = $params['require_version'];
             }
 
-           return $runner->save_require($required);
+            return $runner->save_require($required);
         }
 
 
     }
 
-    function composer_run()
+    function composer_replace_vendor_from_cache()
     {
-        $this->_log_msg('Composer update...');
+
+
+        $composer_cache = mw_cache_path() . 'composer' . DS;
+        $vendor_cache = normalize_path($composer_cache . 'vendor', true);
+        $vendor_cache_old = normalize_path($composer_cache . 'vendor_old', false);
+        $vendor_orig_folder = normalize_path(base_path() . DS . 'vendor', false);
+
+
+        if (is_dir($vendor_cache_old)) {
+            $file_utils = new Files();
+            $file_utils->rmdir($vendor_cache_old, false);
+        }
+
+
+        if (!is_dir($vendor_cache_old)) {
+            mkdir_recursive($vendor_cache_old);
+        }
+
+
+
+        $subfolders = scandir($vendor_cache);
+
+        foreach ($subfolders as $subfolder) {
+            switch ($subfolder) {
+                case '.':
+                case '..':
+                case 'composer':
+                case 'bin':
+                case 'autoload.php':
+                    break;
+
+                default:
+
+                    $base = basename($subfolder);
+                    $base_dir = $vendor_cache.DS.$base;
+                    if (is_dir($base_dir)) {
+
+                        $vendor_new_sub_folder = normalize_path($vendor_cache . DS . $base, 1);
+                        $vendor_orig_sub_folder = normalize_path($vendor_orig_folder . DS . $base, 1);
+                        $vendor_old_sub_folder = normalize_path($vendor_cache_old . DS . $base, 1);
+                        if (!is_dir(dirname($vendor_orig_sub_folder))) {
+                            mkdir_recursive($vendor_orig_sub_folder);
+                        }
+
+                        if (is_dir($vendor_orig_sub_folder)) {
+                            rename($vendor_orig_sub_folder, $vendor_old_sub_folder);
+                        }
+
+
+                        rename($vendor_new_sub_folder, $vendor_orig_sub_folder);
+                    }
+                    break;
+
+            }
+        }
+
+
         $runner = new \Microweber\Utils\ComposerUpdate();
         $out = $runner->run();
+
+
         if ($out == 2) {
-            print ('Error resolving composer dependencies' . "\n");
+            return array('error' => 'Error resolving Composer dependencies');
         } elseif ($out == 1) {
-            print ('Composer has an unknown error' . "\n");
+            return array('error' => 'Composer has an unknown error');
         } elseif ($out === 0) {
-            print ('Composer has completed' . "\n");
+            return array('success' => 1, 'message' => 'Composer has completed');
         } else {
-            print ($out . "\n");
+            return array('success' => 1, 'message' => $out);
+        }
+
+        dd($subfolders);
+
+        return array('success' => 1, 'message' => "asdasdasdasdas");
+
+
+        if (is_dir($vendor_orig_folder)) {
+            rename($vendor_orig_folder, $vendor_cache_old);
+        }
+
+
+        if (is_dir($vendor_cache)) {
+            if (rename($vendor_cache, $vendor_orig_folder)) {
+                $runner = new \Microweber\Utils\ComposerUpdate();
+                $out = $runner->run_install();
+
+
+                if ($out == 2) {
+                    return array('error' => 'Error resolving Composer dependencies');
+                } elseif ($out == 1) {
+                    return array('error' => 'Composer has an unknown error');
+                } elseif ($out === 0) {
+                    return array('success' => 1, 'message' => 'Composer has completed');
+                } else {
+                    return array('success' => 1, 'message' => $out);
+                }
+            }
+
+        }
+
+//        if (is_file($vendor_files_to_move)) {
+//            $move_all = file_get_contents($vendor_files_to_move);
+//            $move_all = json_decode($move_all, true);
+//            if (!empty($move_all)) {
+//                $move_all_chunk = (array_chunk($move_all, 50, true));
+//                foreach ($move_all_chunk as $items) {
+//                    foreach ($items as $k => $item) {
+//                        if (isset($move_all[$k])) {
+//                            unset($move_all[$k]);
+//                        }
+//                        $item = normalize_path($item, false);
+//                        if (is_file($item)) {
+//                            $item_relative = str_replace($vendor_cache, '', $item);
+//                            $item_move = $vendor_orig_folder . $item_relative;
+//                            $item_move_to_folder = dirname($item_move);
+//                            if (!is_dir($item_move_to_folder)) {
+//                                mkdir_recursive($item_move_to_folder);
+//                            }
+//                            rename($item, $item_move);
+//                        }
+//                        @file_put_contents($vendor_files_to_move, json_encode($move_all, JSON_PRETTY_PRINT));
+//                        break;
+//                    }
+//
+//                }
+//                return array('move_vendor' => 1, 'working' => 1, 'message' => count($move_all, 1) . " files remaining");
+//
+//            } else {
+//                @unlink($vendor_files_to_move);
+//                return array('move_vendor' => 1, 'working' => 1, 'message' => "Vedonr files moved");
+//            }
+//        } elseif (is_file($vendor_files_to_move_autoloader)) {
+//            $move_all = file_get_contents($vendor_files_to_move_autoloader);
+//            $items = @json_decode($move_all, true);
+//            if (!empty($items)) {
+//                foreach ($items as $k => $item) {
+//                    unset($items[$k]);
+//                    $item = normalize_path($item, false);
+//                    if (is_file($item)) {
+//                        $item_relative = str_replace($vendor_cache, '', $item);
+//                        $item_move = $vendor_orig_folder . $item_relative;
+//                        $item_move_to_folder = dirname($item_move);
+//                        if (!is_dir($item_move_to_folder)) {
+//                            mkdir_recursive($item_move_to_folder);
+//                        }
+//                        rename($item, $item_move);
+//                    }
+//
+//                    @file_put_contents($vendor_files_to_move_autoloader, json_encode($items, JSON_PRETTY_PRINT));
+//                    if (!empty($items)) {
+//                        return array('move_vendor' => 1, 'working' => 1, 'message' => count($items, 1) . " autoloader files remaining");
+//                    }
+//                }
+//            } else {
+//                @unlink($vendor_files_to_move_autoloader);
+//            }
+//
+//        } else {
+//
+//            return array('success' => 1, 'message' => "All done");
+//        }
+    }
+
+    function composer_run()
+    {
+        $composer_cache = mw_cache_path() . 'composer' . DS;
+        $vendor_cache = normalize_path($composer_cache . 'vendor', true);
+        $composer_path = normalize_path(base_path() . '/', false);
+
+
+        $composer_json = normalize_path(base_path() . DS . 'composer.json', false);
+        $composer_json_cache = normalize_path($composer_cache . DS . 'composer.json', false);
+
+        if (!is_dir($vendor_cache)) {
+            mkdir_recursive($vendor_cache);
+        }
+
+        if (is_file($composer_json)) {
+            copy($composer_json, $composer_json_cache);
+        }
+
+        putenv("COMPOSER_VENDOR_DIR=" . $vendor_cache);
+        putenv("COMPOSER_NO_INTERACTION=1");
+
+        $this->_log_msg('Composer update...');
+        $runner = new \Microweber\Utils\ComposerUpdate($composer_cache);
+        $config = array(
+            'prepend-autoloader' => false,
+            'no-install' => true,
+            'no-scripts' => true,
+            'no-plugins' => true,
+            'no-progress' => true,
+            'no-dev' => true,
+            'no-custom-installers' => true,
+            'no-autoloader' => true
+        );
+        $out = $runner->run($config);
+
+
+        if ($out == 2) {
+            return array('error' => 'Error resolving Composer dependencies');
+        } elseif ($out == 1) {
+            return array('error' => 'Composer has an unknown error');
+        } elseif ($out === 0) {
+
+            return array('move_vendor' => 1, 'working' => 1, 'message' => 'Composer has completed');
+        } else {
+            return array('success' => 1, 'message' => $out);
         }
     }
 

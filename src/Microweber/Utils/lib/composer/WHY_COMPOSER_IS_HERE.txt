@@ -1,4 +1,0 @@
-Composer is replacing itself on update and if you call composer update from PHP script from a browser 
-and the script fails with timeout you can end up on non working install. It happened few times.
-
-Thats why we put composer fallback mechanism in this folder.
