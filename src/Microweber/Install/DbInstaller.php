@@ -67,12 +67,28 @@ class DbInstaller
 
                 DbSchema::table($table, function ($schema) use ($column, $table)
                 {
-                    foreach ($column as $name => $type)
+                    foreach ($column as $name => $meta)
                     {
                         if ($name == '$index')
                             return;
-                        if (!DbSchema::hasColumn($table, $name)) {
-                            $schema->$type($name)->nullable();
+
+                        if(DbSchema::hasColumn($table, $name)) {
+                            continue;
+                        }
+
+                        $type = is_array($meta) ? $meta['type'] : $meta;
+                        $schema->$type($name)->nullable();
+
+                        if(!is_array($meta))
+                            continue;
+                        dd($meta, __FILE__, __LINE__);
+                        unset($meta['type']);
+
+                        $settable = ['default'];
+                        foreach ($meta as $method => $arg) {
+                            if(in_array($method, $settable)) {
+                                $schema->$method($arg);
+                            }
                         }
                     }
                 });

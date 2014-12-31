@@ -43,16 +43,38 @@ class Database
             });
         }
         if (is_array($fields_to_add)) {
-            foreach ($fields_to_add as $name => $type) {
+            foreach ($fields_to_add as $name => $meta) {
 
-                if (is_array($type)) {
-                    $name = array_shift($type);
-                    $type = array_shift($type);
+                if (is_array($meta)) {
+                    $name = array_shift($meta);
+                    $meta = array_shift($meta);
                 }
 
                 if (!Schema::hasColumn($table_name, $name)) {
-                    Schema::table($table_name, function ($table) use ($name, $type) {
-                        $table->$type($name)->nullable();
+                    Schema::table($table_name, function ($schema) use ($name, $meta)
+                    {
+                        $type = is_array($meta) ? $meta['type'] : $meta;
+
+                        if(!method_exists($schema, $type))
+                            return;
+
+                        $fluent = $schema->$type($name);
+
+                        if(!is_array($meta)) {
+                            $fluent->nullable();
+                            return;
+                        }
+                        unset($meta['meta']);
+
+                        $settable = ['default'];
+                        foreach ($meta as $method => $arg) {
+                            if(in_array($method, $settable)) {
+                                $fluent->$method($arg);
+                            }
+                        }
+                        if(!array_key_exists('not_null', $meta)) {
+                            $fluent->nullable();
+                        }
                     });
                 }
             }
@@ -785,7 +807,7 @@ class Database
         }
     }
 
-    public function add_table_index($aIndexName, $aTable, $aOnColumns, $indexType = false)
+    public function add_table_index($aIndexName, $aTable, $aOnColumns, $indexmeta = false)
     {
         $aTable = $this->real_table_name($aTable);
         $function_cache_id = false;
@@ -816,8 +838,8 @@ class Database
 
         $columns = implode(',', $aOnColumns);
         $query = $this->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
-        if ($indexType != false) {
-            $index = $indexType;
+        if ($indexmeta != false) {
+            $index = $indexmeta;
         } else {
             $index = " INDEX ";
             //FULLTEXT
