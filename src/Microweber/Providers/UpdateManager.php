@@ -1202,6 +1202,7 @@ class UpdateManager
             'no-scripts' => true,
             'no-plugins' => true,
             'no-progress' => true,
+            'preferred-install' => 'dist',
             'no-dev' => true,
             'no-custom-installers' => true,
             'no-autoloader' => true

@@ -5,13 +5,9 @@
 <script type="text/javascript">
 
 
-    function apply_new_packages(mode) {
+    function apply_new_packages() {
 		
-		if(mode == 1){
-			var url = "<?php print api_link('mw_composer_replace_vendor_from_cache'); ?>";
-		} else {
-			var url = "<?php print api_link('mw_composer_run_update'); ?>";
-		}
+		var url = "<?php print api_link('mw_composer_run_update'); ?>";
 		
         $.ajax({
             url: url,
@@ -34,7 +30,40 @@
                 apply_new_packages();
             }
 			if (typeof(resp.move_vendor) != 'undefined') {
-                apply_new_packages(1);
+                replace_old_packages();
+            }
+        });
+
+    }
+	
+	 function replace_old_packages(mode) {
+		
+		 
+		var url = "<?php print api_link('mw_composer_replace_vendor_from_cache'); ?>";
+	 
+		
+        $.ajax({
+            url: url,
+			beforeSend: function(){
+          		$("#run_composer_button_lock").attr("disabled", "disabled");
+   			},
+   
+			error: function (request, status, error) {
+			$('#remote_patch_log').append('...');  
+			  setTimeout(replace_old_packages, 3000);
+			}
+        }).done(function (resp) {
+			$("#run_composer_button_lock").removeAttr("disabled");
+			
+			if (typeof(resp.message) != 'undefined') {
+               $('#remote_patch_log').html(resp.message); 
+            }
+			
+		    if (typeof(resp.try_again) != 'undefined') {
+                replace_old_packages();
+            }
+			if (typeof(resp.move_vendor) != 'undefined') {
+                replace_old_packages();
             }
         });
 

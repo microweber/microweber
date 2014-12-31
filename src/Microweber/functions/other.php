@@ -326,26 +326,7 @@ function mw_set_updates_queue($params)
     return $update_api->set_updates_queue($params);
 }
 
-api_expose_admin('mw_composer_save_package');
-function mw_composer_save_package($params)
-{
-    $update_api = mw('update');
-    return $update_api->composer_save_package($params);
-}
 
-api_expose_admin('mw_composer_run_update');
-function mw_composer_run_update($params)
-{
-    $update_api = mw('update');
-    return $update_api->composer_run($params);
-}
-
-api_expose_admin('mw_composer_replace_vendor_from_cache');
-function mw_composer_replace_vendor_from_cache($params)
-{
-    $update_api = mw('update');
-    return $update_api->composer_replace_vendor_from_cache($params);
-}
 api_expose('mw_save_license');
 
 function mw_save_license($params)
@@ -850,4 +831,31 @@ function mw_error($e, $f = false, $l = false)
     die($v);
 }
 
+
+
+
+
+
+
+
+api_expose_admin('mw_composer_save_package');
+function mw_composer_save_package($params)
+{
+    $update_api = mw('update');
+    return $update_api->composer_save_package($params);
+}
+
+api_expose_admin('mw_composer_run_update');
+function mw_composer_run_update($params)
+{
+    $update_api = mw('update');
+    return $update_api->composer_run($params);
+}
+
+api_expose_admin('mw_composer_replace_vendor_from_cache');
+function mw_composer_replace_vendor_from_cache($params)
+{
+    $update_api = mw('update');
+    return $update_api->composer_replace_vendor_from_cache($params);
+}
 
