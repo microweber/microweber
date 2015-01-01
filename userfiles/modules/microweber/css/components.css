@@ -32,10 +32,7 @@
 .mw-ui-category-selector div.module-categories-selector {
     overflow-y: auto;
     overflow-x:hidden;
-    height: 170px;
-    min-height: 30px;
     padding: 5px 15px;
-    resize:vertical;
 }
 .mw-ui-category-selector div.module-categories-selector * {
   resize:none; /* webkit strange inheritance bug for resize property */

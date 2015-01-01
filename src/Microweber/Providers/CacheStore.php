@@ -20,7 +20,10 @@ class CacheStore implements StoreInterface
     {
         $this->files = new Filesystem;
         $this->prefix = $prefix;
-        $this->directory = \Config::get('cache.path') . '/' . app()->environment();
+
+
+
+        $this->directory = \Config::get('cache.stores.file.path') . '/' . app()->environment();
         $this->tags = array();
         $this->directoryTags = $this->directory . (!empty($prefix) ? '/' . $prefix : '') . '/tags';
     }
@@ -58,8 +61,8 @@ class CacheStore implements StoreInterface
             if (time() >= $expire) {
                 return $this->forget($key);
             }
-            if($contents){
-            $this->memory[$key] = unserialize(substr($contents, 10));
+            if ($contents) {
+                $this->memory[$key] = unserialize(substr($contents, 10));
             }
         }
 
@@ -93,7 +96,7 @@ class CacheStore implements StoreInterface
         }
         @file_put_contents($path, $value);
 
-       // $this->files->put($path, $value);
+        // $this->files->put($path, $value);
     }
 
     /**
@@ -130,15 +133,17 @@ class CacheStore implements StoreInterface
             $file = $this->directoryTags . '/' . $tg;
             $file = $this->normalize_path($file, false);
 
-            if (!$this->files->exists($file)) {
+            if (!is_dir(dirname($path))) {
                 $this->createCacheDirectory($file);
                 //$this->files->put($file, $path);
                 @file_put_contents($file, "$path");
 
             } else {
+                if(is_file($file)){
                 $farr = file($file);
                 if (!in_array($path, $farr)) {
                     @file_put_contents($file, "\n$path", FILE_APPEND);
+                }
                 }
             }
 
@@ -198,7 +203,7 @@ class CacheStore implements StoreInterface
     protected function createCacheDirectory($path)
     {
 
-       return $this->mkdir_recursive(dirname($path));
+        return $this->mkdir_recursive(dirname($path));
 
     }
 
@@ -256,17 +261,19 @@ class CacheStore implements StoreInterface
         foreach ($string_array as $sa) {
             $this->deleted_tags[] = $sa;
             $file = $this->directoryTags . '/' . $sa;
+
+
+
             if ($this->files->exists($file)) {
                 $farr = file($file);
                 foreach ($farr as $f) {
-                    $f = $this->normalize_path($f, false);
-                    if ($this->files->exists($f)) {
-
-                        @unlink($f);
-                    } else {
+                    if ($f != false) {
+                        $f = $this->normalize_path($f, false);
+                        if (is_file($f)) {
+                            @unlink($f);
+                        }
 
                     }
-
                 }
                 @unlink($file);
             }
@@ -303,12 +310,12 @@ class CacheStore implements StoreInterface
      * @param  string $tag
      * @return void
      */
-    public function flush($all=false)
+    public function flush($all = false)
     {
 
         $this->memory = array();
         if (empty($this->tags) or $all == true) {
-            if(is_dir($this->directory)){
+            if (is_dir($this->directory)) {
                 $this->rmdir($this->directory);
             }
         } else {
@@ -325,8 +332,6 @@ class CacheStore implements StoreInterface
                 $this->files->deleteDirectory($del);
             }
         }
-
-
 
 
     }
@@ -445,7 +450,7 @@ class CacheStore implements StoreInterface
         }
 
         // if the path is not valid or is not a directory ...
-        if (!file_exists($directory) || !is_dir($directory)) {
+        if (!is_dir($directory)) {
             // ... we return false and exit the function
             return FALSE;
 
