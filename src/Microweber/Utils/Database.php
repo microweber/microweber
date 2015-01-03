@@ -56,7 +56,6 @@ class Database
                         } else {
                             $type = $meta;
                         }
-
                         if (!Schema::hasColumn($table_name, $name)) {
                             $fluent = $schema->$type($name);
                             if ($is_default !== null) {
