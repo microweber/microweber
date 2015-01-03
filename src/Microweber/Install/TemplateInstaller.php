@@ -59,6 +59,8 @@ class TemplateInstaller
                 $template_dir = normalize_path($template_dir, true);
                 if (is_dir($template_dir)) {
                     $template_default_content = $template_dir . 'mw_default_content.zip';
+
+
                     if (is_file($template_default_content) and is_readable($template_default_content)) {
                         $default_content_file = $template_default_content;
                         $default_content_folder = $template_dir;

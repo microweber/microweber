@@ -11,6 +11,7 @@
 */
 
 ?>
+
 <?php include THIS_TEMPLATE_DIR. "header.php"; ?>
 
 <div class="container edit" id="home-top"  rel="page" field="content">

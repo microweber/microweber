@@ -2471,31 +2471,7 @@ class ContentManager
         return $data;
 
 
-        //@todo delete the rest
 
-//        $table = $this->tables['content'];
-//
-//
-//        $sql = "SELECT * FROM $table WHERE is_home='y' AND is_deleted=0 ORDER BY updated_at DESC LIMIT 0,1 ";
-//
-//        $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-//        //
-//        $result = $q;
-//        if ($result == false) {
-//            $sql = "SELECT * FROM $table WHERE content_type='page' AND is_deleted=0 AND url LIKE '%home%' ORDER BY updated_at DESC LIMIT 0,1 ";
-//            $q = $this->app->database->query($sql, __FUNCTION__ . crc32($sql), 'content/global');
-//            $result = $q;
-//
-//        }
-//
-//
-//        if ($result != false) {
-//            $content = $result[0];
-//        }
-//
-//        if (isset($content)) {
-//            return $content;
-//        }
     }
 
     public function save_content_admin($data, $delete_the_cache = true)

@@ -28,7 +28,6 @@ api_expose('Utils\Backup\restore');
 api_expose('Utils\Backup\cronjob');
 
 
-
 api_expose('Microweber\Utils\Backup\delete');
 api_expose('Microweber\Utils\Backup\create');
 api_expose('Microweber\Utils\Backup\download');
@@ -37,10 +36,6 @@ api_expose('Microweber\Utils\Backup\move_uploaded_file_to_backup');
 
 api_expose('Microweber\Utils\Backup\restore');
 api_expose('Microweber\Utils\Backup\cronjob');
-
-
-
-
 
 
 if (defined("INI_SYSTEM_CHECK_DISABLED") == false) {
@@ -68,7 +63,6 @@ class Backup
 
     function __construct($app = null)
     {
-
 
 
         if (!defined('USER_IP')) {
@@ -347,9 +341,12 @@ class Backup
 
     function exec_restore($params = false)
     {
-        if (!is_admin()) {
-            return array('error' => "must be admin");
 
+        if (defined('MW_API_CALL')) {
+            if (!is_admin()) {
+                return array('error' => "must be admin");
+
+            }
         }
 
         ignore_user_abort(true);
@@ -454,6 +451,7 @@ class Backup
             foreach ($sqlArray as $stmt) {
                 $stmt = str_replace('/* MW_TABLE_SEP */', ' ', $stmt);
                 $stmt = str_ireplace($this->prefix_placeholder, get_table_prefix(), $stmt);
+                $stmt = str_replace("\xEF\xBB\xBF", '', $stmt);
                 if ($this->debug) {
                     d($stmt);
                 }
@@ -853,7 +851,7 @@ class Backup
             only_admin_access();
 
         }
-   
+
         // Settings
         $table = '*';
 
@@ -1060,12 +1058,13 @@ class Backup
     function get_bakup_location()
     {
 
-        if (defined('MW_CRON_EXEC')) {
+        if (defined('MW_API_CALL')) {
+            if (defined('MW_CRON_EXEC')) {
 
-        } else if (!is_admin()) {
-            error("must be admin");
+            } else if (!is_admin()) {
+                return ("must be admin");
+            }
         }
-
         $loc = $this->backups_folder;
 
         if ($loc != false) {
@@ -1128,7 +1127,6 @@ class Backup
         }
 
 
-
         $backup_actions = array();
         $backup_actions[] = 'make_db_backup';
 
@@ -1149,7 +1147,6 @@ class Backup
 
             }
         }
-
 
 
         $host = (parse_url(site_url()));
@@ -1204,7 +1201,7 @@ class Backup
         //$cron->Register('make_full_backup', 0, '\Microweber\Utils\Backup::cronjob_exec');
         //$cron->job('make_full_backup', 0, array('\Microweber\Utils\Backup','cronjob_exec'));
 
-         if (!defined('MW_NO_SESSION')) {
+        if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
         }
 

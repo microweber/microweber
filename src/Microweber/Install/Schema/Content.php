@@ -167,7 +167,6 @@ class Content
                 'position' => 'integer',
 
 
-
                 '$index' => ['custom_field_id', 'value']
             ],
 
