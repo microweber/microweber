@@ -47,7 +47,7 @@ if ($use_from_post == 'y') {
     }
 }
 
-if (isset($params['content-id'])) {
+if (isset($params['content-id']) and $params['content-id'] != '') {
     $params['rel_id'] = intval($params['content-id']);
     $for = 'content';
 }

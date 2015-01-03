@@ -47,8 +47,16 @@ class UrlManager
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
         $path = str_ireplace(MW_ROOTPATH, '', $path);
-        $this_file = @dirname(dirname(dirname(__FILE__)));
-        $path = str_ireplace($this_file, '', $path);
+
+        if(function_exists('base_path')){
+            $replace_file = base_path();
+
+        } else {
+            $replace_file = @dirname(dirname(dirname(__FILE__)));
+
+        }
+
+        $path = str_ireplace($replace_file, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
         $path = ltrim($path, '/');

@@ -426,16 +426,6 @@ class Modules
             $config['module_view'] = $this->app->url_manager->site('module/' . $module_name);
             $config['ns'] = str_replace('/', '\\', $module_name);
             $config['module_class'] = $this->css_class($module_name);
-            //$config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
-            //$config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
-
-//            if (trim($module_name_dir) != '' and $module_name_dir != './') {
-//                $mod_url = modules_url() . (trim(str_replace(' ', '%20', $module_name_dir))) . '/';
-//
-//                $config['url_to_module'] = $module_name_dir;
-//            } else {
-//                $config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
-//            } // $config['url_to_module2'] =$config['url_base'];
 
             $config['url_to_module'] = $this->app->url_manager->link_to_file($config['path_to_module']);
 
@@ -448,8 +438,7 @@ class Modules
 
             }
 
-            //$config['url_to_module'] = rtrim($config['url_to_module'], '///');
-            $lic = $this->license($module_name);
+             $lic = $this->license($module_name);
             //  $lic = 'valid';
             if ($lic != false) {
                 $config['license'] = $lic;
