@@ -65,8 +65,6 @@ class WebserverInstaller
             $rwBase = dirname($_SERVER['PHP_SELF']);
         }
 
-      
-
         $data = '
         <IfModule mod_rewrite.c>
             <IfModule mod_negotiation.c>

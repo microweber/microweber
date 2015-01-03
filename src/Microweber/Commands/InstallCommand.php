@@ -30,6 +30,7 @@ class InstallCommand extends Command
 	        'admin_username' => $this->argument('username'),
 	        'admin_password' => $this->argument('password'),
 	        'with_default_content' => $this->option('default-content'),
+	        'default_template' => $this->option('template'),
 	    );
 
 		$this->info("Installing Microweber...");
