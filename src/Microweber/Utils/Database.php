@@ -12,7 +12,8 @@ class Database
 {
     public $cache_minutes = 60;
 
-    public function build_tables($tables) {
+    public function build_tables($tables)
+    {
         foreach ($tables as $name => $schema) {
             $this->build_table($name, $schema);
         }
@@ -20,17 +21,7 @@ class Database
 
     public function build_table($table_name, $fields_to_add)
     {
-        $key = 'mw_build_table'.$table_name;
-        $hash = $table_name . crc32(serialize($fields_to_add));
-      //  $value = Cache::get($key);
-         //if (!isset($value)) {
-         /*   $val = $fields_to_add;
-            $minutes = $this->cache_minutes;
-            $expiresAt = Carbon::now()->addMinutes($minutes);
-            $value = 1;
-            $cache = Cache::put($key, $value, $expiresAt);
-         */   $this->_exec_table_builder($table_name, $fields_to_add);
-        //}
+        $this->_exec_table_builder($table_name, $fields_to_add);
     }
 
 
@@ -44,39 +35,39 @@ class Database
         }
         if (is_array($fields_to_add)) {
             foreach ($fields_to_add as $name => $meta) {
-
-                if (is_array($meta)) {
-                    $name = array_shift($meta);
-                    $meta = array_shift($meta);
-                }
-
-                if (!Schema::hasColumn($table_name, $name)) {
-                    Schema::table($table_name, function ($schema) use ($name, $meta)
-                    {
-                        $type = is_array($meta) ? $meta['type'] : $meta;
-
-                        if(!method_exists($schema, $type))
-                            return;
-
-                        $fluent = $schema->$type($name);
-
-                        if(!is_array($meta)) {
-                            $fluent->nullable();
-                            return;
+                Schema::table($table_name, function ($schema) use ($name, $meta, $table_name) {
+                    $is_index = substr($name, 0, 1) === '$';
+                    $is_default = null;
+                    $is_nullable = true;
+                    if (!$is_index) {
+                        if (is_array($meta)) {
+                            if (!isset($meta['type'])) {
+                                $name = array_shift($meta);
+                                $type = array_shift($meta);
+                            } else {
+                                $type = $meta['type'];
+                            }
+                            if (isset($meta['default'])) {
+                                $is_default = $meta['default'];
+                                if ($is_default == 'not_null') {
+                                    $is_nullable = false;
+                                }
+                            }
+                        } else {
+                            $type = $meta;
                         }
-                        unset($meta['meta']);
 
-                        $settable = ['default'];
-                        foreach ($meta as $method => $arg) {
-                            if(in_array($method, $settable)) {
-                                $fluent->$method($arg);
+                        if (!Schema::hasColumn($table_name, $name)) {
+                            $fluent = $schema->$type($name);
+                            if ($is_default !== null) {
+                                $fluent->default($is_default)->nullable();
+                            }
+                            if ($is_nullable) {
+                                $fluent->nullable();
                             }
                         }
-                        if(!array_key_exists('not_null', $meta)) {
-                            $fluent->nullable();
-                        }
-                    });
-                }
+                    }
+                });
             }
         }
     }
@@ -604,8 +595,6 @@ class Database
     }
 
 
-
-
     /**
      * Gets all field names from a DB table
      *
@@ -743,7 +732,6 @@ class Database
     }
 
 
-
     function clean_input($input)
     {
         if (is_array($input)) {
@@ -763,6 +751,7 @@ class Database
         }
         return $output;
     }
+
     /**
      * Escapes a string from sql injection
      *
@@ -872,8 +861,7 @@ class Database
 
         if (is_file($dbms_schema)) {
             $prefix = get_table_prefix();
-            $sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem '.__FILE__.__LINE__);
-
+            $sql_query = fread(fopen($dbms_schema, 'r'), filesize($dbms_schema)) or die('problem ' . __FILE__ . __LINE__);
 
 
             $sql_query = str_ireplace('{MW_TABLE_PREFIX}', $prefix, $sql_query);
@@ -952,7 +940,8 @@ class Database
         return $output;
     }
 
-    public function query_log(){
+    public function query_log()
+    {
         return DB::getQueryLog();
     }
 

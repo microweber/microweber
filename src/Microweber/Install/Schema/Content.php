@@ -29,12 +29,23 @@ class Content
                 'content' => 'longText',
                 'content_body' => 'longText',
 
-                'is_active' => "integer",
-                'is_home' => "integer",
-                'is_pinged' => "integer",
-                'is_shop' => "integer",
-                'is_deleted' => "integer",
+//                'is_active' => "integer",
+//                'is_home' => "integer",
+//                'is_pinged' => "integer",
+//                'is_shop' => "integer",
+//                'is_deleted' => "integer",
+//                'draft_of' => 'integer',
+
+
+                'is_active' => array('type' => 'integer', 'default' => 1),
+                'is_home' => array('type' => 'integer', 'default' => 0),
+                'is_pinged' => array('type' => 'integer', 'default' => 0),
+                'is_shop' => array('type' => 'integer', 'default' => 0),
+                'is_deleted' => array('type' => 'integer', 'default' => 0),
                 'draft_of' => 'integer',
+
+                'require_login' => array('type' => 'integer', 'default' => 0),
+
 
                 'require_login' => "integer",
 

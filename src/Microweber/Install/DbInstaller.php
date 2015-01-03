@@ -4,6 +4,7 @@
 namespace Microweber\Install;
 
 use Microweber\Module;
+use Microweber\Utils\Database as DbUtils;
 use Illuminate\Support\Facades\Schema as DbSchema;
 
 use Cache;
@@ -55,43 +56,9 @@ class DbInstaller
             if (!is_array($schemaArray)) {
                 break;
             }
-
-            foreach ($data->get() as $table => $column)
-            {
-                if (!DbSchema::hasTable($table))
-                {
-                    DbSchema::create($table, function ($schema) {
-                        $schema->increments('id');
-                    });
-                }
-
-                DbSchema::table($table, function ($schema) use ($column, $table)
-                {
-                    foreach ($column as $name => $meta)
-                    {
-                        if ($name == '$index')
-                            return;
-
-                        if(DbSchema::hasColumn($table, $name)) {
-                            continue;
-                        }
-
-                        $type = is_array($meta) ? $meta['type'] : $meta;
-                        $schema->$type($name)->nullable();
-
-                        if(!is_array($meta))
-                            continue;
-                        dd($meta, __FILE__, __LINE__);
-                        unset($meta['type']);
-
-                        $settable = ['default'];
-                        foreach ($meta as $method => $arg) {
-                            if(in_array($method, $settable)) {
-                                $schema->$method($arg);
-                            }
-                        }
-                    }
-                });
+            foreach ($data->get() as $table => $columns) {
+                $builder = new DbUtils();
+                $builder->build_table($table, $columns);
             }
         }
     }
