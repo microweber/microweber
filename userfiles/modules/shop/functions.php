@@ -55,7 +55,7 @@ event_bind('mw_edit_product_admin', function ($data) {
 
 event_bind('module.content.edit.main', function ($data) {
 
-    if (isset($data['id']) and isset($data['subtype']) and $data['content_type'] == 'product') {
+    if (isset($data['id']) and isset($data['content_type']) and $data['content_type'] == 'product') {
         $data['prices'] = mw()->fields_manager->get("field_type=price&for=content&for_id=" . $data['id']);
 
         if ($data['prices'] == false) {
