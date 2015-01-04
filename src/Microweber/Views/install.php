@@ -490,7 +490,7 @@
 </div><?php 
 
 
-include_once('variables.php'); ?>
+//include_once('variables.php'); ?>
 </body>
 </html>
 <?php

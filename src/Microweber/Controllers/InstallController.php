@@ -101,13 +101,10 @@ class InstallController extends Controller
                 Config::set('microweber.install_default_template_content', 1);
             }
 
-
-//            $secret_key = md5(uniqid()) . md5(rand());
-//            $secret_key = substr(str_shuffle($secret_key), 0, 32);
-//            Config::set('app.key', $secret_key);
-
-
             if (Config::get('app.key') == 'YourSecretKey!!!') {
+                if (!$this->app->runningInConsole()) {
+                    $_SERVER['argv'] = array();
+                }
                 Artisan::call('key:generate');
             }
 
