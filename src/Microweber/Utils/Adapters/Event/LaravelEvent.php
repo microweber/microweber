@@ -21,10 +21,13 @@ class LaravelEvent
         if (isset(self::$hooks[$api_function])) {
             $fns = self::$hooks[$api_function];
 
+
             if (is_array($fns)) {
                 $resp = array();
                 foreach ($fns as $fn) {
-                    if (function_exists($fn)) {
+                    if (is_callable($fn)) {
+                        $resp[] = call_user_func($fn, $data);
+                    } elseif (function_exists($fn)) {
                         $resp[] = $fn($data);
                     }
                 }
@@ -33,20 +36,19 @@ class LaravelEvent
                 }
             }
 
-        } else if (is_string($api_function) and function_exists($api_function)) {
-            return $api_function($data);
         }
         return Event::fire($api_function, array($data));
     }
 
     public static function event_bind($hook_name, $callback = false)
     {
-        if (is_string($callback) and function_exists($callback)) {
+        if (is_string($callback) and (function_exists($callback)) or is_callable($callback)) {
             if (!isset(self::$hooks[$hook_name])) {
                 self::$hooks[$hook_name] = array();
             }
             self::$hooks[$hook_name][] = $callback;
         } else {
+
             Event::listen($hook_name, $callback);
         }
 
