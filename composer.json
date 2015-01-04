@@ -1,18 +1,21 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "microweber/microweber",
+    "type": "application",
+    "description": "New generation of CMS with drag and drop",
     "keywords": [
+        "cms",
+        "drag and drop",
+        "shop",
+        "blog",
         "framework",
         "laravel"
     ],
-    "license": "MIT",
-    "type": "project",
     "require": {
         "laravel/framework": "dev-master",
         "composer/composer": "dev-master",
         "laravel/socialite": "dev-master",
-        "composer/installers": "1.*",
-        "phpoffice/phpvisio": "dev-master"
+        "composer/installers": "1.*" 
+        
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
@@ -43,7 +46,31 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "github-protocols": ["https", "http", "git"]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "homepage": "http://microweber.com",
+    "license": "Apache-2.0",
+    "support": {
+        "email": "support@microweber.com",
+        "irc": "irc://irc.freenode.org/microweber"
+    },
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Boris Sokolov",
+            "email": "boris@microweber.com",
+            "role": "Designer"
+        },
+        {
+            "name": "Alexander Raykov",
+            "email": "alex@microweber.com",
+            "role": "Developer"
+        }
+    ]}
 }

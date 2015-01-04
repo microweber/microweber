@@ -26,8 +26,8 @@ class Database
             $key = 'mw_build_table' . $table_name;
             $value = Cache::get($key);
             if (!$value) {
+                $value = 1;
                 $minutes = $this->cache_minutes;
-                
                 Cache::put($key, $value, $minutes);
                 return $this->_exec_table_builder($table_name, $fields_to_add);
             } else {
