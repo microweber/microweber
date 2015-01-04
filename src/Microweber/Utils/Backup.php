@@ -547,7 +547,7 @@ class Backup
         //$source = normalize_path($source,false);
 
 
-        if (is_file($source)) {
+        if (is_file($source) and !is_dir($dest)) {
 
             $dest = normalize_path($dest, false);
             $source = normalize_path($source, false);
@@ -557,6 +557,8 @@ class Backup
             if (!is_dir($dest_dir)) {
                 mkdir_recursive($dest_dir);
             }
+
+
 
             return copy($source, $dest);
         }
