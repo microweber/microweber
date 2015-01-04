@@ -55,22 +55,5 @@
     "support": {
         "email": "support@microweber.com",
         "irc": "irc://irc.freenode.org/microweber"
-    },
-    "authors": [
-        {
-            "name": "Peter Ivanov",
-            "email": "peter@microweber.com",
-            "role": "Developer"
-        },
-        {
-            "name": "Boris Sokolov",
-            "email": "boris@microweber.com",
-            "role": "Designer"
-        },
-        {
-            "name": "Alexander Raykov",
-            "email": "alex@microweber.com",
-            "role": "Developer"
-        }
-    ]}
+    } 
 }
