@@ -654,6 +654,7 @@ class DefaultController extends Controller
             $from_url2 = str_replace('#', '/', $from_url);
 
             $content_id = $this->app->url_manager->param('content_id', false, $from_url2);
+
             if ($content_id == false) {
                 $content_id = $this->app->url_manager->param('editpage', false, $from_url2);
             }

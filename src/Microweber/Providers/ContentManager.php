@@ -4532,6 +4532,7 @@ class ContentManager
 
 
         $this->app->cache_manager->delete('custom_fields');
+        $this->app->cache_manager->delete('custom_fields_values');
         $this->app->cache_manager->delete('media/global');
 
         if (isset($data_to_save['parent']) and intval($data_to_save['parent']) != 0) {

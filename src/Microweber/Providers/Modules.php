@@ -1120,9 +1120,7 @@ class Modules
                             }
                         }
                     }
-
                 }
-                //d($value);
             }
         }
 

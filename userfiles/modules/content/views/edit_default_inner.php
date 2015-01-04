@@ -1,13 +1,18 @@
 <?php if (!isset($data)) {
     $data = $params;
 }
+if(isset($data['content-id'])){
+	$data['content_id'] = $data['content-id'];
+} else if(isset($data['page-id'])){
+	$data['content_id'] = $data['page-id'];
+}
  
 ?> 
 <script>
     mw.load_editor_internal = function (element_id) {
         var element_id = element_id || 'mw-admin-content-iframe-editor';
         var area = mwd.getElementById(element_id);
-
+ 
 
         if (area !== null) {
             var params = {};
@@ -37,6 +42,11 @@
                 $(mweditor).remove();
                 delete window.mweditor;
             }
+			
+			
+			 
+			
+			
             mweditor = mw.admin.editor.init(area, params);
 
 

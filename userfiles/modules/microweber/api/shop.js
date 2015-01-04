@@ -8,6 +8,11 @@ mw.cart = {
 	 if(price != undefined && data != undefined){
 		data.price = price;
 	 }
+	 if(data.price  == null){
+		return; 
+	 }
+	 
+	 
      $.post(mw.settings.api_url+'update_cart', data ,
      function(data) {
 		 mw.reload_module('shop/cart');

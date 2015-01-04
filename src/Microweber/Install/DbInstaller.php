@@ -56,7 +56,7 @@ class DbInstaller
             if (!is_array($schemaArray)) {
                 break;
             }
-            foreach ($data->get() as $table => $columns) {
+            foreach ($schemaArray as $table => $columns) {
                 $builder = new DbUtils();
                 $builder->build_table($table, $columns);
             }

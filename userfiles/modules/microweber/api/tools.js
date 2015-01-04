@@ -600,6 +600,12 @@ mw.tools = {
 
         $(modal.main).addClass("mw_modal_type_iframe");
         $(modal.container).css("overflow", "hidden");
+
+        if(typeof modal.main == 'undefined'){
+            return;
+        }
+
+
         modal.main[0].querySelector('iframe').contentWindow.thismodal = modal;
         modal.main[0].querySelector('iframe').onload = function(){
             typeof obj.callback === 'function' ? obj.callback.call(modal, this) : '';

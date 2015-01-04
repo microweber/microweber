@@ -26,8 +26,8 @@ if (isset($params['id'])) {
 
 }
 
-if (isset($params['page-id'])) {
-    $add_post_q .= ' data-page-id=' . $params['page-id'];
+if (isset($params['content-id'])) {
+    $add_post_q .= ' data-content-id=' . $params['content-id'];
 }
 if (isset($params['related'])) {
     $add_post_q .= ' related=' . $params['related'];
@@ -56,15 +56,15 @@ if ($is_global == false) {
     }
 }
 
-$posts_parent_page = get_option('data-page-id', $params['id']);
+$posts_parent_page = get_option('data-content-id', $params['id']);
 $posts_parent_category = get_option('data-category-id', $params['id']);
  
 if ($posts_parent_page != false and intval($posts_parent_page) > 0) {
-    $add_post_q .= ' data-page-id=' . intval($posts_parent_page);
+    $add_post_q .= ' data-content-id=' . intval($posts_parent_page);
 	$parent_page = $posts_parent_page;
-} else if (isset($params['page-id'])) {
-    $add_post_q .= ' data-page-id=' . $params['page-id'];
-		$parent_page = $params['page-id'];
+} else if (isset($params['content-id'])) {
+    $add_post_q .= ' data-content-id=' . $params['content-id'];
+		$parent_page = $params['content-id'];
 
 }
 
@@ -127,13 +127,29 @@ $add_post_q .= '  ';
 </style>
 <script type="text/javascript">
 
+//    $( window ).bind( "adminSaveContentCompleted", function() {
+//
+//
+//        alert( "Content is saved "  );
+//    });
+
+
+
+
 mw.on.hashParam("action", function () {
 	 var id = (this.split(':')[1]);
+	 
+	 
+	
+	 
 	 if(this == 'new:post' || this == 'new:page' || this == 'new:product'){
 		 mw.add_new_content_live_edit(id);
-	 } else {
+	 } else if(this == 'editpage') {
+        // $('#mw_posts_create_live_edit').html("Content is added");
+     } else {
 		 mw.edit_content_live_edit(id);
 	 }
+
 });
 
     mw.add_new_content_live_edit = function ($cont_type) {
@@ -155,11 +171,12 @@ mw.on.hashParam("action", function () {
             $('#mw_posts_create_live_edit').attr('content_type', $cont_type);
         }
 		<?php if($parent_page): ?>
-            mw.$('#mw_posts_create_live_edit').attr('parent-page-id', "<?php print $parent_page; ?>");
+            mw.$('#mw_posts_create_live_edit').attr('parent-content-id', "<?php print $parent_page; ?>");
 		<?php endif; ?>
         mw.$('#mw_posts_create_live_edit').attr('content-id', 0);
         mw.$('#mw_posts_create_live_edit').attr('quick_edit', 1);
         mw.$('#mw_posts_create_live_edit').removeAttr('live_edit');
+		$('#mw_posts_edit_live_edit').html('');
         mw.load_module('content/edit', '#mw_posts_create_live_edit', function () {
 			if(typeof(thismodal) != 'undefined'){
             parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 810, mw.$('#settings-container').height() + 25, false);
@@ -167,7 +184,7 @@ mw.on.hashParam("action", function () {
         });
     }
     mw.manage_live_edit_content = function ($id) {
-           Tabs.set(3);
+        Tabs.set(3);
         if ($id != undefined) {
             $('#mw_posts_manage_live_edit').attr('module-id', $id);
         }
@@ -181,10 +198,11 @@ mw.on.hashParam("action", function () {
     mw.edit_content_live_edit = function ($cont_id) {
        Tabs.set(4);
 	 
-        $('#mw_posts_edit_live_edit').attr('page-id', $cont_id);
+        $('#mw_posts_edit_live_edit').attr('content-id', $cont_id);
         $('#mw_posts_edit_live_edit').removeAttr('live_edit');
         $('#mw_posts_edit_live_edit').attr('quick_edit', 1);
-
+		
+		$('#mw_posts_create_live_edit').html('');
         mw.load_module('content/edit', '#mw_posts_edit_live_edit', function () {
 			if(typeof(thismodal) != 'undefined'){
             parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 710, mw.$('#settings-container').height() + 25, false);
