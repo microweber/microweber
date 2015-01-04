@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 
 use \Cache;
 use \Event;
@@ -40,7 +41,7 @@ class InstallController extends Controller
 
     public function index($input = null)
     {
-        if(!is_array($input) || empty($input)) {
+        if (!is_array($input) || empty($input)) {
             $input = Input::all();
         }
 
@@ -53,8 +54,7 @@ class InstallController extends Controller
 
         $connection = Config::get('database.connections');
 
-        if (isset($input['make_install']))
-        {
+        if (isset($input['make_install'])) {
             if (!isset($input['db_pass'])) {
                 $input['db_pass'] = '';
             }
@@ -86,8 +86,6 @@ class InstallController extends Controller
             }
             $mysql = Config::get('database.connections.mysql');
             if (!empty($errors)) {
-
-                //$msg = array('message',implode("\n",$errors),'error'=>$errors);
                 return implode("\n", $errors);
             }
             Config::set('database.connections.mysql.host', $input['db_host']);
@@ -96,15 +94,24 @@ class InstallController extends Controller
             Config::set('database.connections.mysql.database', $input['db_name']);
             Config::set('database.connections.mysql.prefix', $input['table_prefix']);
 
-            if (isset($input['default_template']) and $input['default_template'] !=false) {
+            if (isset($input['default_template']) and $input['default_template'] != false) {
                 Config::set('microweber.install_default_template', $input['default_template']);
             }
-            if (isset($input['with_default_content']) and $input['with_default_content'] !=false) {
+            if (isset($input['with_default_content']) and $input['with_default_content'] != false) {
                 Config::set('microweber.install_default_template_content', 1);
             }
 
-            Config::save();
 
+//            $secret_key = md5(uniqid()) . md5(rand());
+//            $secret_key = substr(str_shuffle($secret_key), 0, 32);
+//            Config::set('app.key', $secret_key);
+
+
+            if (Config::get('app.key') == 'YourSecretKey!!!') {
+                Artisan::call('key:generate');
+            }
+
+            Config::save();
             Cache::flush();
 
             $install_finished = false;
@@ -125,7 +132,6 @@ class InstallController extends Controller
 
             $installer = new Install\TemplateInstaller();
             $installer->run();
-
 
 
             Config::set('microweber.is_installed', 1);
