@@ -19,9 +19,24 @@ class Database
         }
     }
 
-    public function build_table($table_name, $fields_to_add)
+    public function build_table($table_name, $fields_to_add, $use_cache = false)
     {
-        $this->_exec_table_builder($table_name, $fields_to_add);
+
+        if ($use_cache) {
+            $key = 'mw_build_table' . $table_name;
+            $value = Cache::get($key);
+            if (!$value) {
+                $minutes = $this->cache_minutes;
+                
+                Cache::put($key, $value, $minutes);
+                return $this->_exec_table_builder($table_name, $fields_to_add);
+            } else {
+                return $value;
+            }
+        }
+
+
+        return $this->_exec_table_builder($table_name, $fields_to_add);
     }
 
 
