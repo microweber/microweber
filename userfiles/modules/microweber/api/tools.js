@@ -1373,7 +1373,6 @@ mw.tools = {
       return classname.split(' ').indexOf(whattosearch) > -1;
     }
     else if(typeof classname === 'object'){
-
       return mw.tools.hasClass(classname.className, whattosearch);
     }
     else{

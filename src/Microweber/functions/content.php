@@ -45,7 +45,12 @@ function post_id()
         return POST_ID;
     }
 }
-
+function is_product()
+{
+    if (defined('PRODUCT_ID')) {
+        return PRODUCT_ID;
+    }
+}
 function content_id()
 {
     if (post_id()) {

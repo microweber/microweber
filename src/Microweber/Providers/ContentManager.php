@@ -3221,7 +3221,7 @@ class ContentManager
         }
 
         if (is_array($page)) {
-            if (isset($page['content_type']) and $page['content_type'] == "post") {
+            if (isset($page['content_type']) and ($page['content_type'] == "post") or $page['content_type'] != "page") {
 
 
                 if (isset($page['id']) and $page['id'] != 0) {
@@ -3244,6 +3244,12 @@ class ContentManager
 
                     if (defined('POST_ID') == false) {
                         define('POST_ID', $content['id']);
+                    }
+
+                    if($page['content_type'] == "product"){
+                        if (defined('PRODUCT_ID') == false) {
+                            define('PRODUCT_ID', $content['id']);
+                        }
                     }
 
                 }
