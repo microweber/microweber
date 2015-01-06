@@ -65,12 +65,19 @@ if(!isset($tn[1])){
 
       <a href="<?php print $item['link'] ?>" class="bgimage-fader">
 
-      <?php $second_picture = get_pictures($item['id'])[1]['filename']; ?>
+      <?php
+
+        $pictures = get_pictures($item['id']);
+
+
+
+        ?>
 
       <span style="background-image: url(<?php print thumbnail($item['image'], $tn[0], $tn[1]); ?>);"></span>
-      <span style="background-image: url(<?php print thumbnail($second_picture, $tn[0], $tn[1]); ?>);"></span>
+      <?php if(isset( $pictures[1])){ ?>
+      <span style="background-image: url(<?php print thumbnail($pictures[1]['filename'], $tn[0], $tn[1]); ?>);"></span>
 
-
+     <?php } ?>
 
       </a>
       <?php endif; ?>

@@ -40,7 +40,13 @@
     </head><?php
 
       $template_settings = get_option('shopmagdata', 'mw-template-shopmag');
-      $template_settings = json_decode($template_settings, true);
+      if($template_settings != false){
+        $template_settings = json_decode($template_settings, true);
+      }
+      else{
+        $template_settings = array();
+      }
+
 
       $demo = false;
 

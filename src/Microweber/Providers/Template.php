@@ -680,6 +680,7 @@ class Template
 
         if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false and $page['content_type'] != '') {
             $look_for_post = $page;
+
             if (isset($page['parent'])) {
                 $par_page = false;
                 $inh_par_page = $this->app->content_manager->get_inherited_parent($page['parent']);
@@ -689,7 +690,12 @@ class Template
                     $par_page = $this->app->content_manager->get_by_id($page['parent']);
                 }
                 if (is_array($par_page)) {
-                    // $page = $par_page;
+                    if (isset($par_page['active_site_template']) and $par_page['active_site_template'] != false) {
+                        $page['active_site_template'] = $par_page['active_site_template'];
+                    }
+                    if (isset($par_page['layout_file']) and $par_page['layout_file'] != false) {
+                        $page['layout_file'] = $par_page['layout_file'];
+                    }
                 } else {
                     $template_view_set_inner = ACTIVE_TEMPLATE_DIR . DS . 'inner.php';
                     $template_view_set_inner2 = ACTIVE_TEMPLATE_DIR . DS . 'layouts/inner.php';
