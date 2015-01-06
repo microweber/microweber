@@ -1,8 +1,0 @@
-{
-    "name": "microweber/liteness-template",
-    "type": "microweber-template",
-    "require": {
-        "microweber/installers": "*",
-		"components/bootstrap3": "*"
-    }
-}

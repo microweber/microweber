@@ -1,1 +1,0 @@
-<?php include "shop_inner.php"; ?>
