@@ -11,10 +11,10 @@ class Content extends BaseModel
         return $this->morphMany('Notifications', 'rel');
     }
 
-//    public function comments()
-//    {
-//        return $this->morphMany('Comments', 'rel');
-//    }
+    public function comments()
+    {
+        return $this->morphMany('Comments', 'rel');
+    }
 
 }
 

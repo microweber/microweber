@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * Constructor function
+ *
+ * @param null $class
+ * @return \Microweber\Application Microweber Application object
+ */
 function mw($class = null)
 {
-
     $app = \Microweber\Application::getInstance();
     $class = str_replace('/','\\',$class);
     if ($class == null or $class == false or strtolower($class) == 'application') {
@@ -11,21 +16,6 @@ function mw($class = null)
         return $app->make($class);
     }
 }
-
-///**
-// * Constructor function
-// *
-// * @param null $class
-// * @return \Microweber\Application Microweber Application object
-// */
-//function mw($class = null)
-//{
-//    if ($class == null or $class == false or strtolower($class) == 'application') {
-//        return app();
-//    } else {
-//        return app()->make($class);
-//    }
-//}
 
 if (!function_exists('d')) {
     function d($dump)

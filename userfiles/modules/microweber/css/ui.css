@@ -83,6 +83,12 @@
 .mw-icon-checkbox-checked:before {
   content: "\0114";
 }
+.mw-icon-radio:before {
+  content: "\0115";
+}
+.mw-icon-radio-checked:before {
+  content: "\0116";
+}
 .mw-icon-truck:before {
   content: "\0103";
 }

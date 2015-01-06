@@ -222,8 +222,6 @@ class FormsManager
         }
 
 
-
-
         $to_save['list_id'] = $list_id;
         $to_save['rel_id'] = $for_id;
         $to_save['rel_type'] = $for;
@@ -241,7 +239,6 @@ class FormsManager
         }
 
         $save = $this->app->database->save($table, $to_save);
-
 
 
         if (isset($params['module_name'])) {
@@ -350,51 +347,30 @@ class FormsManager
         return $this->app->database->get($params);
     }
 
-    public function  countries_list($force = false)
+    public function countries_list($full = false)
     {
 
-        $function_cache_id = false;
-        $args = func_get_args();
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-        $function_cache_id = 'forms_' . __FUNCTION__ . crc32($function_cache_id);
-        $cache_content = $this->app->cache_manager->get($function_cache_id, 'forms');
-        if ($force == false and ($cache_content) != false) {
-
-            return $cache_content;
-        }
-
-        $table = MW_DB_TABLE_COUNTRIES;
-
-//        if (!$this->app->database_manager->table_exist($table)) {
-//            $this->db_init();
-//        }
+        static $data = array();
 
 
-//        $table_sql = MW_PATH .  'lib' . DS . 'countries.sql';
-//
-//        $this->app->database_manager->import_sql_file($table_sql);
-
-
-        $get_countires = array();
-        $get_countires['table'] = $table;
-        $get_countires['limit'] = 1000;
-        $q = $this->app->database->get($get_countires);
-
-        //     $q = $this->app->database_manager->query($sql, 'get_countries_list' . crc32($sql), 'forms');
-        $res = array();
-        if (is_array($q) and !empty($q)) {
-            foreach ($q as $value) {
-                $res[] = $value['name'];
+        if (empty($data)) {
+            $countries_file = normalize_path(MW_PATH . 'Utils/lib/country.csv', false);
+            if (is_file($countries_file)) {
+                $data = array_map('str_getcsv', file($countries_file));
+                if (isset($data[0])) {
+                    unset($data[0]);
+                }
             }
-            $this->app->cache_manager->save($res, $function_cache_id, $cache_group = 'forms');
-            return $res;
-        } else {
-            $this->app->cache_manager->delete('forms');
-            return false;
         }
 
+        if ($full == false and !empty($data)) {
+            $res = array();
+            foreach ($data as $item) {
+                $res[] = $item[1];
+            }
+            return $res;
+        }
+        return $data;
     }
 
     public function delete_entry($data)
