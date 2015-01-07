@@ -384,12 +384,12 @@ class ShopManager
 
                     $this->after_checkout($ord);
                 }
-                mw()->user_manager->session_set('order_id',$ord);
+                mw()->user_manager->session_set('order_id', $ord);
 
             }
 
             if (isset($place_order) and !empty($place_order)) {
-                if(!isset($place_order['success'])){
+                if (!isset($place_order['success'])) {
                     $place_order['success'] = "Your order has been placed successfully!";
                 }
                 return array('success' => $place_order['success']);
@@ -444,18 +444,17 @@ class ShopManager
                     }
 
 
-
                     if (isset($to) and (filter_var($to, FILTER_VALIDATE_EMAIL))) {
 
                         $sender = new \Microweber\Utils\MailSender();
-                        $sender->send($to,$order_email_subject,$order_email_content);
+                        $sender->send($to, $order_email_subject, $order_email_content);
                         $cc = false;
                         if (isset($order_email_cc) and (filter_var($order_email_cc, FILTER_VALIDATE_EMAIL))) {
                             $cc = $order_email_cc;
-                            $sender->send($cc,$order_email_subject,$order_email_content);
+                            $sender->send($cc, $order_email_subject, $order_email_content);
 
                         }
-return true;
+                        return true;
 
 //                        $scheduler = new \Microweber\Utils\Events();
 //                        $sender = new \Microweber\email\Sender();
@@ -1157,8 +1156,6 @@ return true;
             if (isset($data['price'])) {
                 $found_price = $data['price'];
             }
-
-            //   $this->app->error('Invalid data');
         }
 
 
@@ -1293,7 +1290,6 @@ return true;
                     $cart['qty'] = $check_cart[0]['qty'] + 1;
                 }
 
-                //
             } else {
 
                 if ($update_qty > 0) {
@@ -1309,14 +1305,9 @@ return true;
                 }
             }
             mw_var('FORCE_SAVE', $table);
-            //   $cart['debug'] = 1;
             $cart_saved_id = $this->app->database->save($table, $cart);
-
             $this->app->cache_manager->delete('cart');
-
             $this->app->cache_manager->delete('cart_orders/global');
-
-
             return ($cart_saved_id);
         } else {
             return array('error' => 'Invalid cart items');

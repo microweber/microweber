@@ -7,7 +7,7 @@ $here = mw_includes_url() . 'toolbar/editor_tools/plupload/';
 <script>mw.require('url.js');</script>
 <script>mw.require('events.js');</script>
 <style type="text/css">
-    html, body, #container, #pickfiles_ <?php print $uid  ?> {
+    html, body, #container, #pickfiles_<?php print $uid  ?> {
         position: absolute;
         width: 100%;
         height: 100%;
