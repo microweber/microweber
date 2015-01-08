@@ -18,10 +18,11 @@ class TemplateInstaller
 
         $selected_template = Config::get('microweber.install_default_template');
         $default_content = Config::get('microweber.install_default_template_content');
-
-
+ 
         $this->setDefaultTemplate($selected_template);
+        if($default_content){
         $this->installTemplateContent($selected_template);
+        }
         return true;
 
 
