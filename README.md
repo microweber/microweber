@@ -15,8 +15,6 @@ You can easily manipulate the content and the layout of your pages without the n
 
 [Try the demo here](http://demo.microweber.org/admin?username=demo&password=demo)
 
-[Download the latest version from here](https://github.com/microweber/microweber/archive/master.zip "")
-
 
 # Installation
 
