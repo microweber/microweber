@@ -488,22 +488,16 @@ class Format
         if (is_array($var)) {
             return $var;
         }
-
         if ($var == '') {
             return false;
         }
 
-
         $var = base64_decode($var);
-
         try {
             $var = @json_decode($var, 1);
         } catch (Exception $exc) {
             return false;
         }
-
-
-        //$var = unserialize($var);
         return $var;
     }
 

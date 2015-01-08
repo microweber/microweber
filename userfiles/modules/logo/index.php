@@ -17,7 +17,7 @@
 ?>
 <script>mw.require('//fonts.googleapis.com/css?family=<?php print $font_family; ?>&filetype=.css', true);</script>
 <a href="<?php if(!in_live_edit()){print site_url(); } else{ print 'javascript:mw.drag.module_settings();void(0);'; }; ?>" class="mw-ui-row-nodrop module-logo" style="width: auto;">
-   <?php if($logoimage == '' and $text ==''){ ?> Click to add logo <?php } else{ ?>
+   <?php if($logoimage == '' and $text ==''){ if(is_live_edit()){ ?><span class="mw-logo-no-values">Click to add logo</span><?php }} else{ ?>
       <?php if($logotype=='image' or $logotype==false or $logotype=='both'){ ?><span class="mw-ui-col"  style="width: <?php print $size; ?>"><span class="mw-ui-col-container"><img src="<?php print $logoimage; ?>" alt=""  style="max-width: 100%;width: <?php print $size; ?>;" /></span></span><?php } ?>
       <?php if($logotype=='text' or $logotype==false or $logotype=='both'){ ?><span class="mw-ui-col"><span class="mw-ui-col-container"><span class="module-logo-text" style="font-family: '<?php print str_replace("+"," ",$font_family); ?>';font-size:<?php print $font_size; ?>px"><?php print $text; ?></span></span></span><?php } ?>
 

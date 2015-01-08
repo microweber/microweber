@@ -156,9 +156,7 @@ class UserManager
     public function login($params)
     {
         if (is_string($params)) {
-            $params2 = array();
-            $params = parse_str($params, $params2);
-            $params = $params2;
+            $params = parse_params($params);
         }
 
         // $check = $this->app->log_manager->get("is_system=y&couxnt=1&created_at=[mt]1 min ago&updated_at=[lt]1 min&rel_type=login_failed&user_ip=" . MW_USER_IP);

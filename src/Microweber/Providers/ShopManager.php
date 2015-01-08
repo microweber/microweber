@@ -1020,9 +1020,7 @@ class ShopManager
         if (!isset($data['qty'])) {
             $this->app->error('Invalid data');
         }
-        if (!mw()->user_manager->session_id() and !headers_sent()) {
-            // //session_start();
-        }
+
         $cart = array();
         $cart['id'] = intval($data['id']);
 
@@ -1042,7 +1040,6 @@ class ShopManager
             $cart_data_to_save = array();
             $cart_data_to_save['qty'] = $cart['qty'];
             $cart_data_to_save['id'] = $cart['id'];
-            mw_var('FORCE_SAVE', $table);
             $cart_saved_id = $this->app->database->save($table, $cart_data_to_save);
             return ($cart_saved_id);
         }
@@ -1051,14 +1048,21 @@ class ShopManager
     public function update_cart($data)
     {
 
-        if (!mw()->user_manager->session_id() and !headers_sent()) {
-            // //session_start();
-        }
 
         if (isset($data['content_id'])) {
             $data['for'] = 'content';
             $for_id = $data['for_id'] = $data['content_id'];
         }
+
+        $override = $this->app->event_manager->trigger('mw.shop.update_cart', $data);
+        if (is_array($override)) {
+            foreach ($override as $resp) {
+                if(is_array($resp) and !empty($resp)){
+                    $data = array_merge($data,$resp);
+                }
+            }
+        }
+
 
         if (!isset($data['for'])) {
             $data['for'] = 'content';
@@ -1076,16 +1080,12 @@ class ShopManager
             } else {
                 $cart = array();
                 $cart['id'] = intval($data['id']);
-
-
                 $cart['limit'] = 1;
                 $data_existing = $this->get_cart($cart);
                 if (is_array($data_existing) and is_array($data_existing[0])) {
                     $data = $data_existing[0];
-
                 }
             }
-
         }
 
         if (!isset($data['for']) and isset($data['rel_type'])) {
@@ -1114,10 +1114,6 @@ class ShopManager
         $cont_data = false;
 
 
-        if (!isset($data['for']) and isset($data['id'])) {
-
-
-        }
         if ($update_qty > 0) {
             $data['qty'] = $update_qty;
         }
@@ -1143,6 +1139,11 @@ class ShopManager
 
         $found_price = false;
         $add = array();
+
+        if(isset($data['custom_fields_data']) and is_array($data['custom_fields_data'])){
+            $add = $data['custom_fields_data'];
+        }
+
         $prices = array();
 
         $skip_keys = array();
@@ -1156,58 +1157,38 @@ class ShopManager
             if (isset($data['price'])) {
                 $found_price = $data['price'];
             }
-        }
-
-
-        if (is_array($content_custom_fields)) {
+        } elseif (is_array($content_custom_fields)) {
             foreach ($content_custom_fields as $cf) {
-
                 if (isset($cf['type']) and $cf['type'] == 'price') {
-
                     $prices[$cf['name']] = $cf['value'];
                 }
             }
         }
-
-
         foreach ($data as $k => $item) {
-
             if ($k != 'for' and $k != 'for_id' and $k != 'title') {
-
                 $found = false;
-
                 foreach ($content_custom_fields as $cf) {
-
                     if (isset($cf['type']) and $cf['type'] != 'price') {
                         $key1 = str_replace('_', ' ', $cf['name']);
                         $key2 = str_replace('_', ' ', $k);
-
                         if (isset($cf['name']) and ($cf['name'] == $k or $key1 == $key2)) {
                             $k = str_replace('_', ' ', $k);
                             $found = true;
-
                             if (is_array($cf['values'])) {
                                 if (in_array($item, $cf['values'])) {
                                     $found = true;
                                 }
-
                             }
-
                             if ($found == false and $cf['value'] != $item) {
                                 unset($item);
                             }
-
                         }
-
                     } elseif (isset($cf['type']) and $cf['type'] == 'price') {
                         if ($cf['value'] != '') {
-
                             $prices[$cf['name']] = $cf['value'];
-
                         }
                     } elseif (isset($cf['type']) and $cf['type'] == 'price') {
                         if ($cf['value'] != '') {
-
                             $prices[$cf['name']] = $cf['value'];
 
                         }

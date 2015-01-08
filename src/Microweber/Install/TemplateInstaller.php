@@ -18,10 +18,10 @@ class TemplateInstaller
 
         $selected_template = Config::get('microweber.install_default_template');
         $default_content = Config::get('microweber.install_default_template_content');
- 
+
         $this->setDefaultTemplate($selected_template);
-        if($default_content){
-        $this->installTemplateContent($selected_template);
+        if ($default_content) {
+            $this->installTemplateContent($selected_template);
         }
         return true;
 
@@ -77,7 +77,14 @@ class TemplateInstaller
             $restore->backups_folder = $default_content_folder;
             $restore->backup_file = 'mw_default_content.zip';
             ob_start();
-            $rest = $restore->exec_restore();
+
+            try {
+                $rest = $restore->exec_restore();
+              } catch (Exception $e) {
+
+            }
+
+
             ob_get_clean();
         }
     }

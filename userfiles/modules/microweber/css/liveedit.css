@@ -2528,12 +2528,6 @@ div[id*='SSDIVEL'] {
   background-color: #111111;
 }
 
-body.mw-live-edit .module > .mw-open-module-settings{
-  padding: 15px;
-
-  background-color: #E8E8E8;
-
-}
 
 .mw-add-content-modal{
   max-width: 1250px;

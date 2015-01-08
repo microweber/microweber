@@ -3654,18 +3654,31 @@ class ContentManager
             $params['category'] = $categories;
         }
 
+
+
+
+
         $params['limit'] = 1;
         $params['exclude_ids'] = array($content_id);
         $params['is_active'] = 1;
         $params['is_deleted'] = 0;
         $params['single'] = true;
+
+
+
+
         $q = $this->get($params);
+
         if (is_array($q)) {
+
             return $q;
         } else {
             if (isset($params['created_at'])) {
                 unset($params['created_at']);
             }
+
+
+
             $q = $this->get($params);
             if (!is_array($q)) {
                 if (isset($params['category'])) {

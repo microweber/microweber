@@ -180,11 +180,11 @@
         $server_check_errors['php_version'] = _e("You must run PHP 5.4 or greater", true);
     }
 
-    $here = dirname(__FILE__) . DIRECTORY_SEPARATOR . uniqid();
-    if (is_writable($here)) {
-        $check_pass = false;
-        $server_check_errors['not_wrtiable'] = _e("The current directory is not writable", true);
-    }
+//    $here = dirname(__FILE__) . DIRECTORY_SEPARATOR . uniqid();
+//    if (is_writable($here)) {
+//        $check_pass = false;
+//        $server_check_errors['not_wrtiable'] = _e("The current directory is not writable", true);
+//    }
     if (function_exists('apache_get_modules')) {
         if (!in_array('mod_rewrite', apache_get_modules())) {
             $check_pass = false;
@@ -267,11 +267,11 @@
         $must_be = media_base_path();
         $server_check_errors['media_base_path()'] = _e("The directory " . media_base_path() . " must be writable", true);
     }
-    if (defined('MW_PATH') and is_dir(MW_PATH) and !is_writable(MW_PATH)) {
-        $check_pass = false;
-        $must_be = MW_PATH;
-        $server_check_errors['MW_PATH'] = _e("The directory " . MW_PATH . " must be writable", true);
-    }
+//    if (defined('MW_PATH') and is_dir(MW_PATH) and !is_writable(MW_PATH)) {
+//        $check_pass = false;
+//        $must_be = MW_PATH;
+//        $server_check_errors['MW_PATH'] = _e("The directory " . MW_PATH . " must be writable", true);
+//    }
 
 
 
