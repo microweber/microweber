@@ -4202,6 +4202,28 @@ mw.image = {
 
       mw.gallery      = function(arr, start, modal){  if( self === top || window==window ){ return mw.tools.gallery.init(arr, start, modal) }  };
       mw.tooltip      = mw.tools.tip;
+      mw.tip          = function(o){
+        var tip = mw.tooltip(o);
+        var obj = {
+            tip:tip,
+            element:o.element,
+            hide:function(){
+              $(tip).hide()
+            },
+            show:function(){
+              $(tip).show()
+            },
+            remove:function(){
+              $(tip).remove()
+            },
+            position:function(position, element){
+                var element = element || o.element;
+                var position = position || 'top-center';
+                mw.tools.tooltip.setPosition(tip, element, position);
+            }
+        }
+        return obj;
+      }
       mw.uploader = function(o){
           var uploader = mw.files.uploader(o);
           var el = mw.$(o.element)[0];
@@ -4270,7 +4292,7 @@ mw.image = {
     }
 
 
-    $.fn.timeoutHover = function(ce,cl,time1,time2){
+    $.fn.timeoutHover = function(ce, cl, time1, time2){
         var time1 = time1 || 350;
         var time2 = time2 || time1;
         return this.each(function(){

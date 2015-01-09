@@ -71,18 +71,11 @@
 }
 
 [class*='contact-form-template-'] .captcha-holder{
-  width: 210px;
-  float: left;
   background: white;
   border-radius: 2px;
 }
 
-[class*='contact-form-template-'] .captcha-holder .mw-ui-col:nth-child(2){
-  width: 100px;
-}
-[class*='contact-form-template-'] .captcha-holder .mw-ui-col:nth-child(3){
-  width: 25px;
-}
+
 
 [class*='contact-form-template-'] .mw-custom-field-price .mw-custom-field-form-controls{
   color: #6C6C6C;

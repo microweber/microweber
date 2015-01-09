@@ -2057,7 +2057,19 @@ div.mw-ui-field:after{
    box-shadow: 0 0 6px #111;
    position: relative;
    display: block;
-   background-color: #333;
+   background-color: #E0E0E0;
+   background-image: -webkit-gradient(
+    	linear,
+    	left top,
+    	left bottom,
+    	color-stop(0, #F2F2F2),
+    	color-stop(1, #E0E0E0)
+   );
+   background-image: -o-linear-gradient(bottom, #F2F2F2 0%, #E0E0E0 100%);
+   background-image: -moz-linear-gradient(bottom, #F2F2F2 0%, #E0E0E0 100%);
+   background-image: -webkit-linear-gradient(bottom, #F2F2F2 0%, #E0E0E0 100%);
+   background-image: -ms-linear-gradient(bottom, #F2F2F2 0%, #E0E0E0 100%);
+   background-image: linear-gradient(to bottom, #F2F2F2 0%, #E0E0E0 100%);
    margin: auto;
    max-height: 100%;
    max-width: 100%;
@@ -2094,6 +2106,8 @@ div.mw-ui-field:after{
   width: 50px;
   text-shadow: 0 0 1px #777;
   line-height: 40px;
+  font-family: Microweber;
+  border-radius: 1px;
 }
 
 .mw_modal_gallery .mwf-next:focus,

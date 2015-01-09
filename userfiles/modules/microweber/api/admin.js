@@ -178,12 +178,8 @@ mw.admin = {
       }
       if(mw.admin.manageToolbarQuickNav !== null){
           if((scrolltop) > 0){
-            var par_node = $(mwd.getElementById('content-edit-settings-tabs'));
-
-            if(par_node !== null && typeof par_node.parentNode != 'undefined') {
-            mw.$("#content-edit-settings-tabs").addClass('fixed').css('left', par_node.parentNode.offset().left);
+            mw.$("#content-edit-settings-tabs").addClass('fixed').css('left', $(mwd.getElementById('content-edit-settings-tabs').parentNode).offset().left);
             mw.$(".admin-manage-toolbar-scrolled").addClass('fix-tabs');
-            }
           }
           else{
             mw.$("#content-edit-settings-tabs").removeClass('fixed');

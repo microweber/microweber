@@ -166,9 +166,9 @@ $(document).ready(function(){
             $comment_modules = array();
             $comment_modules['rel_type'] = 'modules';
             $comment_modules['rel_id'] = '[not_null]';
-            $comment_modules['fields'] = 'rel,rel_id';
+            $comment_modules['fields'] = 'rel_type,rel_id';
 
-            $comment_modules['group_by'] = 'rel,rel_id';
+            $comment_modules['group_by'] = 'rel_type,rel_id';
             $comment_modules['limit'] = '200';
 
 

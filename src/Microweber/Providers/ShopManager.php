@@ -497,39 +497,48 @@ class ShopManager
 
             $tmp_val = '';
             if (isset($item['custom_fields_data']) and is_array($item['custom_fields_data'])) {
-                $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
-                foreach ($item['custom_fields_data'] as $cfk => $cfv) {
-                    if (is_array($cfv)) {
-                        $key_txt = $cfk;
-                        if (intval($cfk) > 0) {
-                            $key_txt = '';
-                        }
-                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $key_txt . '</span>';
-                        $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
-                        foreach ($cfv as $cfk1 => $cfv1) {
-                            $key_txt = $cfk1;
-                            if (intval($cfk1) > 0 or $cfk1 === 0) {
-                                $key_txt = '';
-                            }
-                            if ($key_txt == '') {
-                                $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
 
-                            } else {
-                                $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $key_txt . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
 
-                            }
-                        }
-                        $tmp_val .= '</ul>';
-                        $tmp_val .= '</li>';
-                    } else {
-                        $key_txt = $cfk;
-                        if (intval($cfk) > 0) {
-                            $key_txt = '';
-                        }
-                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $key_txt . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
-                    }
-                }
-                $tmp_val .= '</ul>';
+                $tmp_val = mw()->format->array_to_ul($item['custom_fields_data']);
+
+//                $tmp_val .= '<ul class="mw-custom-fields-cart-item">';
+//
+//
+//
+//                foreach ($item['custom_fields_data'] as $cfk => $cfv) {
+//                    if (is_array($cfv)) {
+//                        $key_txt = $cfk;
+//                        if (intval($cfk) > 0) {
+//                            $key_txt = '';
+//                        }
+//                        $tmp_val .= '<li><span class="mw-custom-fields-cart-item-key-array-key">' . $key_txt . '</span>';
+//                        $tmp_val .= '<ul class="mw-custom-fields-cart-item-array">';
+//                        foreach ($cfv as $cfk1 => $cfv1) {
+//                            $key_txt = $cfk1;
+//                            if (intval($cfk1) > 0 or $cfk1 === 0) {
+//                                $key_txt = '';
+//                            }
+//                            if (is_string($cfv1)) {
+//                                if ($key_txt == '') {
+//                                    $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+//
+//                                } else {
+//                                    $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $key_txt . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv1 . '</span></li>';
+//
+//                                }
+//                            }
+//                        }
+//                        $tmp_val .= '</ul>';
+//                        $tmp_val .= '</li>';
+//                    } else {
+//                        $key_txt = $cfk;
+//                        if (intval($cfk) > 0) {
+//                            $key_txt = '';
+//                        }
+//                        $tmp_val .= '<li class="mw-custom-fields-elem"><span class="mw-custom-fields-cart-item-key">' . $key_txt . ': </span><span class="mw-custom-fields-cart-item-value">' . $cfv . '</span></li>';
+//                    }
+//                }
+//                $tmp_val .= '</ul>';
                 $item['custom_fields'] = $tmp_val;
             }
         }
@@ -575,9 +584,6 @@ class ShopManager
                 }
                 if (isset($params['no_session_id']) and $this->app->user_manager->is_admin() == true) {
                     unset($params['session_id']);
-                    //	$params['session_id'] = mw()->user_manager->session_id();
-                } else {
-
                 }
             }
         }
@@ -591,19 +597,16 @@ class ShopManager
 
             unset($params['order_completed']);
         }
-        // $params['debug'] = mw()->user_manager->session_id();
-
         $params['no_cache'] = 1;
 
         $get = $this->app->database->get($params);
-
         if (isset($params['count']) and $params['count'] != false) {
             return $get;
         }
         $return = array();
         if (is_array($get)) {
             foreach ($get as $item) {
-                if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] = 'content') {
+                if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
                     $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
                 }
                 if (isset($item['custom_fields_data']) and $item['custom_fields_data'] != '') {
@@ -621,6 +624,13 @@ class ShopManager
         } else {
             $return = $get;
         }
+
+
+//        if(isset($params['single']) and $params['single'] != false){
+//            return ($return[0]);
+//        }
+
+
         return $return;
     }
 
@@ -1057,8 +1067,8 @@ class ShopManager
         $override = $this->app->event_manager->trigger('mw.shop.update_cart', $data);
         if (is_array($override)) {
             foreach ($override as $resp) {
-                if(is_array($resp) and !empty($resp)){
-                    $data = array_merge($data,$resp);
+                if (is_array($resp) and !empty($resp)) {
+                    $data = array_merge($data, $resp);
                 }
             }
         }
@@ -1083,10 +1093,15 @@ class ShopManager
                 $cart['limit'] = 1;
                 $data_existing = $this->get_cart($cart);
                 if (is_array($data_existing) and is_array($data_existing[0])) {
-                    $data = $data_existing[0];
+                    $data = array_merge($data,$data_existing[0]);
+
                 }
             }
         }
+
+
+
+
 
         if (!isset($data['for']) and isset($data['rel_type'])) {
             $data['for'] = $data['rel_type'];
@@ -1140,7 +1155,7 @@ class ShopManager
         $found_price = false;
         $add = array();
 
-        if(isset($data['custom_fields_data']) and is_array($data['custom_fields_data'])){
+        if (isset($data['custom_fields_data']) and is_array($data['custom_fields_data'])) {
             $add = $data['custom_fields_data'];
         }
 
@@ -1285,6 +1300,12 @@ class ShopManager
                     $cart['qty'] = $cont_data['qty'];
                 }
             }
+
+            if(isset($data['other_info']) and is_string($data['other_info'])){
+                $cart['other_info'] = strip_tags($data['other_info']);
+            }
+
+
             mw_var('FORCE_SAVE', $table);
             $cart_saved_id = $this->app->database->save($table, $cart);
             $this->app->cache_manager->delete('cart');
