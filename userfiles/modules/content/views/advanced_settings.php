@@ -184,7 +184,7 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
                data-help="<?php _e("If set to yes - this page will require login from a registered user in order to be opened"); ?>"> (?) </small> </div>
         <label class="mw-ui-check">
           <input name="require_login" type="radio"
-               value="0" <?php if ('' == trim($data['require_login']) or '0' == trim($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
+               value="0" <?php if (1 != ($data['require_login'])): ?>   checked="checked"  <?php endif; ?> />
           <span></span><span>
           <?php _e("No"); ?>
           </span></label>
