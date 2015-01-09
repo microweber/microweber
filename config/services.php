@@ -3,8 +3,8 @@
 return [
 
 	'microweber' => [
-		'client_id' => '66SsRFJX9eJpAHU12URwMPbJXwzqeLaGPmsuHBVh',
-		'client_secret' => '7YYO37Fq6ZTDLnmUVfrifT7yKFyInHH7YSM1qrCS',
+		'client_id' => 'EqAD8b7vgctGOYPgQc2GW7jJ1zZheNRhdWYxC9bv',
+		'client_secret' => 'EZnMohlGlTppikkqTG538CWlBjD4GbLYtvZkuW1R',
 		'redirect' => 'http://microweber.dev/auth/mw/callback'
 	]
 
