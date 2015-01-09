@@ -26,7 +26,7 @@ class AuthController extends Controller
             Auth::login($user);
 			return Redirect::intended('/');
 		}
-		return Socialite::driver('microweber')->redirect();
+		return Socialite::driver('microweber')->scopes(['test', 'kur'])->redirect();
 	}
 
 	function getLogout()

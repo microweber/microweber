@@ -99,6 +99,9 @@ $(document).ready(function(){
             <input class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
         </div>
       </form>
+      <div>
+        <a href="<?php echo site_url(); ?>auth/mw">With Microweber Account</a>
+      </div>
     </div>
   </div>
 

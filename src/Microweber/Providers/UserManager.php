@@ -388,13 +388,17 @@ class UserManager
             default :
 
                 $name = '';
-                if ($user_data['first_name']) {
-                    $name = $user_data['first_name'];
+                if (isset($user_data['first_name'])) {
+                    if ($user_data['first_name']) {
+                        $name = $user_data['first_name'];
+                    }
                 }
 
-                if ($user_data['last_name']) {
-                    $name .= ' ' . $user_data['last_name'];
+                if (isset($user_data['last_name'])) {
+                    if ($user_data['last_name']) {
+                        $name .= ' ' . $user_data['last_name'];
 
+                    }
                 }
                 $name = ucwords($name);
 
@@ -1124,7 +1128,6 @@ class UserManager
 
 
         $data = $this->get_all($data);
-
         return $data;
     }
 

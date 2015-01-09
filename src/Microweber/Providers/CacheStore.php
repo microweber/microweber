@@ -329,7 +329,7 @@ class CacheStore implements StoreInterface
                 $items = $this->forgetTags($tag);
                 $del = $this->directory . '/' . $tag;
                 $del = $this->normalize_path($del);
-                $this->files->deleteDirectory($del);
+                $this->rmdir($del);
             }
         }
 

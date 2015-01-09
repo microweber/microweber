@@ -152,6 +152,12 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\CacheStore;
         });
 
+/*        Socialite::extend('microweber', function($app) {
+            $config = $app['config']['services.microweber'];
+            return $socialite->buildProvider('Microweber\Providers\Socialite\MicroweberProvider', $config);
+        });
+        dd(Socialite::getDrivers());
+*/
         // If installed load module functions
         if (mw_is_installed()) {
             $modules = load_all_functions_files_for_modules();

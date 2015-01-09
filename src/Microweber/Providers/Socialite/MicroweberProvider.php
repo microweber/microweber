@@ -11,7 +11,11 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 	 *
 	 * @var string
 	 */
-	protected $apiUrl = 'http://login.dev/api/v1';
+	protected $serverUrl = 'http://login.dev';
+
+	protected function apiUrl($path) {
+		return $this->serverUrl . '/api/v1' . $path;
+	}
 
 	/**
 	 * The scopes being requested.
@@ -25,7 +29,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 	 */
 	protected function getAuthUrl($state)
 	{
-		return $this->buildAuthUrlFromBase('http://login.dev/auth/oauth', $state);
+		return $this->buildAuthUrlFromBase($this->serverUrl.'/auth/oauth', $state);
 	}
 
 	/**
@@ -33,7 +37,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 	 */
 	protected function getTokenUrl()
 	{
-		return $this->apiUrl . '/oauth/access-token';
+		return $this->apiUrl('/oauth/access-token');
 	}
 
 	/**
@@ -69,7 +73,7 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 	 */
 	protected function getUserByToken($token)
 	{
-		$response = $this->getHttpClient()->get($this->apiUrl.'/me?access_token='.$token, [
+		$response = $this->getHttpClient()->get($this->apiUrl('/me?access_token='.$token), [
 			'headers' => [
 				'Accept' => 'application/json',
 			],
@@ -89,6 +93,11 @@ class MicroweberProvider extends AbstractProvider implements ProviderInterface
 			'name' => $user['name'],
 			'email' => isset($user['email']) ? $user['email'] : null
 		]);
+	}
+
+	protected function formatScopes(array $scopes)
+	{
+		return implode(' ', $scopes);
 	}
 
 }
