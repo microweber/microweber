@@ -100,6 +100,7 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
  $enable_user_google_registration = get_option('enable_user_google_registration','users');
  $enable_user_github_registration = get_option('enable_user_github_registration','users');
  $enable_user_twitter_registration = get_option('enable_user_twitter_registration','users');
+ $enable_user_microweber_registration = get_option('enable_user_microweber_registration','users');
  
 
 $enable_user_windows_live_registration = get_option('enable_user_windows_live_registration','users');
@@ -123,6 +124,10 @@ $enable_user_windows_live_registration = get_option('enable_user_windows_live_re
 
  if($enable_user_windows_live_registration == false){
     $enable_user_windows_live_registration = 'n';
+ }
+
+ if($enable_user_microweber_registration == false){
+    $enable_user_microweber_registration = 'n';
  }
 
 
@@ -157,6 +162,11 @@ $form_show_address = get_option('form_show_address','users');
         <input type="checkbox" value="y" <?php if($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users">
         <span></span></label>
       <span class="mw-icon-twitter login-tab-group"></span> </li>
+      <li class="mw-ui-btn">
+      <label class="mw-ui-check">
+        <input type="checkbox" value="y" <?php if($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
+        <span></span></label>
+      <span class="mw-icon-mw login-tab-group"></span> </li>
      
   </ul>
   <div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
@@ -265,6 +275,17 @@ $form_show_address = get_option('form_show_address','users');
       <?php _e("Consumer secret"); ?>
     </label>
     <input name="twitter_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('twitter_app_secret','users'); ?>" />
+  </div>
+
+  <div class="mw-ui-box mw-ui-box-content group-logins">
+    <label class="mw-ui-label">
+      <?php _e("Client ID"); ?>
+    </label>
+    <input name="microweber_app_id" class="mw_option_field mw-ui-field mw-title-field" style=""   type="text" option-group="users"  value="<?php print get_option('microweber_app_id','users'); ?>" />
+    <label class="mw-ui-label">
+      <?php _e("Client secret"); ?>
+    </label>
+    <input name="microweber_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('microweber_app_secret','users'); ?>" />
   </div>
    
   <hr>

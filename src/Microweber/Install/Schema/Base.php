@@ -102,6 +102,17 @@ class Base
                 '$index' => ['username', 'email']
             ],
 
+            'users_oauth' => [
+                'user_id' => 'integer',
+                'provider' => 'string',
+                'data_id' => 'string',
+                'data_name' => 'string',
+                'data_email' => 'string',
+                'data_token' => 'string',
+                'data_avatar' => 'string',
+                'data_raw' => 'string'
+            ],
+
             'log' => [
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',

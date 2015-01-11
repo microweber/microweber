@@ -99,6 +99,11 @@ $(document).ready(function(){
             <input class="mw-ui-btn mw-ui-btn-big mw-ui-btn-info pull-right" type="submit" tabindex="3" value="<?php _e("Login"); ?>" />
         </div>
       </form>
+      <?php if (get_option('enable_user_microweber_registration', 'users') == 'y'): ?>
+      <div>
+        <a href="<?php echo api_url(); ?>user_social_login?provider=microweber">With Microweber Account</a>
+      </div>
+      <?php endif; ?>
     </div>
   </div>
 

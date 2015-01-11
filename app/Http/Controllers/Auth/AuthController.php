@@ -1,21 +1,37 @@
 <?php namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
-class AuthController extends Controller {
+class AuthController extends Controller
+{
+	public function __construct()
+	{
+		//$this->socialite = $socialite;
+	}
 
-	/*
-	|--------------------------------------------------------------------------
-	| Registration & Login Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller handles the registration of new users, as well as the
-	| authentication of existing users. By default, this controller uses
-	| a simple trait to add these behaviors. Why don't you explore it?
-	|
-	*/
+	function getMw($action = '')
+	{
+        Socialite::extend('microweber', function($app) {
+            $config = $app['config']['services.microweber'];
+            return Socialite::buildProvider('Microweber\Providers\Socialite\MicroweberProvider', $config);
+        });
+        //dd(Socialite::getDrivers());
 
-	use AuthenticatesAndRegistersUsers;
+		if($action == 'callback') {
+            $user = Socialite::driver('microweber')->user();
+            $user = UserProvider::findOrCreate($user, 'microweber');
+            Auth::login($user);
+			return Redirect::intended('/');
+		}
+		return Socialite::driver('microweber')->scopes(['test', 'kur'])->redirect();
+	}
 
+	function getLogout()
+	{
+		Auth::logout();
+		return Redirect::back();
+	}
 }

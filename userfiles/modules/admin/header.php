@@ -254,7 +254,7 @@ if ($last_page_front != false) {
               <?php $user_id = user_id(); $user = get_user_by_id($user_id);
 
                             if(!empty($user)){
-                              $img = $user['thumbnail'];
+                              $img = user_picture($user_id);
                               if($img != ''){  ?>
               <a href="javascript:;" id="main-bar-user-menu-link" class="main-bar-user-menu-link-has-image"><span id="main-bar-profile-img" style="background-image: url('<?php print $img; ?>');"></span><span class="mw-icon-dropdown"></span></a>
               <?php } else { ?>
