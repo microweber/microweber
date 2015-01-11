@@ -1018,7 +1018,7 @@ class UserManager
 
     }
 
-    public function  social_login($params)
+    public function social_login($params)
     {
         if (is_string($params)) {
             $params = parse_params($params);
@@ -1039,29 +1039,15 @@ class UserManager
             $provider = trim(strip_tags($provider));
         }
 
-        if ($provider != false and isset($params) and !empty($params)) {
+        if ($provider != false and isset($params) and !empty($params))
+        {
             $this->socialite_config($provider);
-            switch ($provider) {
-
-                case "twitter":
-
-                {
-                    return $login = $this->socialite->with($provider)->redirect();
-
-                }
+            switch ($provider)
+            {
                 case "github":
-
-                {
                     return $login = $this->socialite->with($provider)->scopes(['user:email'])->redirect();
-
-                }
-                default:
-                    {
-                    return $login = $this->socialite->with($provider)->scopes(['email'])->redirect();
-
-                    }
             }
-            return;
+            return $login = $this->socialite->with($provider)->redirect();
         }
     }
 
@@ -1154,10 +1140,7 @@ class UserManager
 
     public function social_login_process($params = false)
     {
-
-
         $user_after_login = $this->session_get('user_after_login');
-
 
         if (!isset($_REQUEST['provider']) and isset($_REQUEST['hauth_done'])) {
             $_REQUEST['provider'] = $_REQUEST['hauth_done'];
@@ -1416,54 +1399,41 @@ class UserManager
 
     public function socialite_config($provider = false)
     {
-        $enable_user_fb_registration = get_option('enable_user_fb_registration', 'users') == 'y';
-        $fb_app_id = get_option('fb_app_id', 'users');
-        $fb_app_secret = get_option('fb_app_secret', 'users');
-
-
-        $enable_user_google_registration = get_option('enable_user_google_registration', 'users') == 'y';
-        $google_app_id = get_option('google_app_id', 'users');
-        $google_app_secret = get_option('google_app_secret', 'users');
-
-
-        $enable_user_github_registration = get_option('enable_user_github_registration', 'users') == 'y';
-        $github_app_id = get_option('github_app_id', 'users');
-        $github_app_secret = get_option('github_app_secret', 'users');
-
-
-        $enable_user_twitter_registration = get_option('enable_user_twitter_registration', 'users') == 'y';
-        $twitter_app_id = get_option('twitter_app_id', 'users');
-        $twitter_app_secret = get_option('twitter_app_secret', 'users');
-
-
         $callback_url = api_url('social_login_process?provider=' . $provider);
 
-
-        if ($enable_user_fb_registration == 'y') {
-            Config::set('services.facebook.client_id', $fb_app_id);
-            Config::set('services.facebook.client_secret', $fb_app_secret);
+        if (get_option('enable_user_fb_registration', 'users') == 'y') {
+            Config::set('services.facebook.client_id', get_option('fb_app_id', 'users'));
+            Config::set('services.facebook.client_secret', get_option('fb_app_secret', 'users'));
             Config::set('services.facebook.redirect', $callback_url);
         }
 
-        if ($enable_user_twitter_registration == 'y') {
-            Config::set('services.twitter.client_id', $twitter_app_id);
-            Config::set('services.twitter.client_secret', $twitter_app_secret);
+        if (get_option('enable_user_twitter_registration', 'users') == 'y') {
+            Config::set('services.twitter.client_id', get_option('twitter_app_id', 'users'));
+            Config::set('services.twitter.client_secret', get_option('twitter_app_secret', 'users'));
             Config::set('services.twitter.redirect', $callback_url);
         }
 
-
-        if ($enable_user_google_registration == 'y') {
-            Config::set('services.google.client_id', $google_app_id);
-            Config::set('services.google.client_secret', $google_app_secret);
+        if (get_option('enable_user_google_registration', 'users') == 'y') {
+            Config::set('services.google.client_id', get_option('google_app_id', 'users'));
+            Config::set('services.google.client_secret', get_option('google_app_secret', 'users'));
             Config::set('services.google.redirect', $callback_url);
         }
 
-        if ($enable_user_github_registration == 'y') {
-            Config::set('services.github.client_id', $github_app_id);
-            Config::set('services.github.client_secret', $google_app_secret);
-            Config::set('services.github.redirect', $github_app_secret);
+        if (get_option('enable_user_github_registration', 'users') == 'y') {
+            Config::set('services.github.client_id', get_option('github_app_id', 'users'));
+            Config::set('services.github.client_secret', get_option('github_app_secret', 'users'));
+            Config::set('services.github.redirect', $callback_url);
         }
 
+        if (get_option('enable_user_microweber_registration', 'users') == 'y') {
+            Config::set('services.microweber.client_id', get_option('microweber_app_id', 'users'));
+            Config::set('services.microweber.client_secret', get_option('microweber_app_secret', 'users'));
+            Config::set('services.microweber.redirect', $callback_url);
+            $this->socialite->extend('microweber', function($app) {
+                $config = $app['config']['services.microweber'];
+                return $this->socialite->buildProvider('\Microweber\Providers\Socialite\MicroweberProvider', $config);
+            });
+        }
 
     }
 
