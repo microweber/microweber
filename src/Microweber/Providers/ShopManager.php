@@ -68,6 +68,7 @@ class ShopManager
 
         $exec_return = false;
         $sid = mw()->user_manager->session_id();
+        $sess_order_id = mw()->user_manager->session_get('order_id');
         $cart = array();
         $cart_table = $this->tables['cart'];
         $table_orders = $this->tables['cart_orders'];
@@ -78,49 +79,10 @@ class ShopManager
         if (isset($_GET['mw_payment_success'])) {
             $mw_process_payment = false;
         }
-        mw_var("FORCE_SAVE", $table_orders);
 
         $cart_table_real = $this->app->database_manager->real_table_name($cart_table);
         $order_table_real = $this->app->database_manager->real_table_name($table_orders);
-        if (isset($_REQUEST['mw_payment_success']) and intval($_REQUEST['mw_payment_success']) == 1 and isset($_SESSION['order_id'])) {
 
-            $_SESSION['mw_payment_success'] = true;
-            $ord = $_SESSION['order_id'];
-            if ($ord > 0) {
-                $q = " UPDATE $cart_table_real SET
-			order_completed=1, order_id='{$ord}'
-			WHERE order_completed=0   AND session_id='{$sid}'  ";
-                $this->app->database->q($q);
-
-
-                $this->confirm_email_send($ord);
-                $q = " UPDATE $order_table_real SET
-			order_completed=1
-			WHERE order_completed=0 AND
-			id='{$ord}' AND
-			session_id='{$sid}'  ";
-                $this->app->database->q($q);
-                $this->confirm_email_send($ord);
-            }
-
-
-            $this->app->cache_manager->delete('cart/global');
-            $this->app->cache_manager->delete('cart_orders/global');
-            $exec_return = true;
-        } else if (isset($_REQUEST['mw_payment_failure']) and intval($_REQUEST['mw_payment_failure']) == 1) {
-            $cur_sid = mw()->user_manager->session_id();
-
-            if ($cur_sid != false) {
-                $ord_id = $_SESSION['order_id'];
-                if (isset($_REQUEST['order_id']) and intval($_REQUEST['order_id']) == 0) {
-                    $ord_id = intval($_REQUEST['order_id']);
-                }
-
-                $this->recover_shopping_cart($cur_sid, $ord_id);
-            }
-            $exec_return = true;
-
-        }
         if ($exec_return == true) {
             if (isset($_REQUEST['return_to'])) {
                 $return_to = urldecode($_REQUEST['return_to']);
@@ -276,14 +238,6 @@ class ShopManager
             if (isset($data['shipping_gw'])) {
                 $place_order['shipping_service'] = $data['shipping_gw'];
             }
-
-
-//            if (intval($shipping_cost_above) > 0 and intval($shipping_cost_max) > 0) {
-//                if ($amount > $shipping_cost_above) {
-//                    $shipping_cost = $shipping_cost_max;
-//                }
-//            }
-
             $place_order['shipping'] = $shipping_cost;
 
             $items_count = $this->cart_sum(false);
@@ -330,7 +284,6 @@ class ShopManager
                     if (is_file($gw_process)) {
                         require_once $gw_process;
                     } else {
-                        //error('Payment gateway\'s process file not found.');
                         $checkout_errors['payment_gw'] = 'Payment gateway\'s process file not found.';
 
                     }
@@ -346,45 +299,46 @@ class ShopManager
 
                     return array('error' => $checkout_errors);
                 }
-
-
-                $ord = $this->app->database->save($table_orders, $place_order);
+                $ord = $this->place_order($place_order);
                 $place_order['id'] = $ord;
 
-                $q = " UPDATE $cart_table_real SET
-		order_id='{$ord}'
-		WHERE order_completed=0  AND session_id='{$sid}'  ";
-
-                $this->app->database->q($q);
-
-                if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
-                    $q = " UPDATE $cart_table_real SET
-			order_completed=1, order_id='{$ord}'
-
-			WHERE order_completed=0  AND session_id='{$sid}' ";
-
-                    $this->app->database->q($q);
-
-                    if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                        $q = " UPDATE $order_table_real SET
-				order_completed=1
-				WHERE order_completed=0 AND
-				id='{$ord}' AND session_id='{$sid}' ";
-                        $this->app->database->q($q);
-                    }
-
-                    $this->app->cache_manager->delete('cart');
-                    $this->app->cache_manager->delete('cart_orders');
-
-
-                    if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                        $this->update_quantities($ord);
-                    }
-
-
-                    $this->after_checkout($ord);
-                }
-                mw()->user_manager->session_set('order_id', $ord);
+//                $ord = $this->app->database->save($table_orders, $place_order);
+//                $place_order['id'] = $ord;
+//
+//                $q = " UPDATE $cart_table_real SET
+//		order_id='{$ord}'
+//		WHERE order_completed=0  AND session_id='{$sid}'  ";
+//
+//                $this->app->database->q($q);
+//
+//                if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
+//                    $q = " UPDATE $cart_table_real SET
+//			order_completed=1, order_id='{$ord}'
+//
+//			WHERE order_completed=0  AND session_id='{$sid}' ";
+//
+//                    $this->app->database->q($q);
+//
+//                    if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
+//                        $q = " UPDATE $order_table_real SET
+//				order_completed=1
+//				WHERE order_completed=0 AND
+//				id='{$ord}' AND session_id='{$sid}' ";
+//                        $this->app->database->q($q);
+//                    }
+//
+//                    $this->app->cache_manager->delete('cart');
+//                    $this->app->cache_manager->delete('cart_orders');
+//
+//
+//                    if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
+//                        $this->update_quantities($ord);
+//                    }
+//
+//
+//                    $this->after_checkout($ord);
+//                }
+//                mw()->user_manager->session_set('order_id', $ord);
 
             }
 
@@ -393,8 +347,6 @@ class ShopManager
                     $place_order['success'] = "Your order has been placed successfully!";
                 }
                 return array('success' => $place_order['success']);
-
-                //  return ($place_order);
             }
 
         }
@@ -405,6 +357,62 @@ class ShopManager
             return array('error' => $checkout_errors);
         }
 
+    }
+
+
+    public function place_order($place_order)
+    {
+
+        $sid = mw()->user_manager->session_id();
+        if ($sid == false) {
+            return $sid;
+        }
+
+        $cart_table = $this->tables['cart'];
+        $table_orders = $this->tables['cart_orders'];
+        $cart_table_real = $this->app->database_manager->real_table_name($cart_table);
+        $order_table_real = $this->app->database_manager->real_table_name($table_orders);
+
+
+        $ord = $this->app->database->save($table_orders, $place_order);
+        $place_order['id'] = $ord;
+
+        $q = " UPDATE $cart_table_real SET
+		order_id='{$ord}'
+		WHERE order_completed=0  AND session_id='{$sid}'  ";
+
+        $this->app->database->q($q);
+
+        if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
+            $q = " UPDATE $cart_table_real SET
+			order_completed=1, order_id='{$ord}'
+
+			WHERE order_completed=0  AND session_id='{$sid}' ";
+
+            $this->app->database->q($q);
+
+            if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
+                $q = " UPDATE $order_table_real SET
+				order_completed=1
+				WHERE order_completed=0 AND
+				id='{$ord}' AND session_id='{$sid}' ";
+                $this->app->database->q($q);
+            }
+
+            $this->app->cache_manager->delete('cart');
+            $this->app->cache_manager->delete('cart_orders');
+
+
+            if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
+                $this->update_quantities($ord);
+            }
+
+
+            $this->after_checkout($ord);
+        }
+        mw()->user_manager->session_set('order_id', $ord);
+
+        return $ord;
     }
 
     public function confirm_email_send($order_id, $to = false, $no_cache = false, $skip_enabled_check = false)
@@ -640,18 +648,13 @@ class ShopManager
             return;
         }
 
-        if (!mw()->user_manager->session_id() and !headers_sent()) {
-            // //session_start();
-        }
         $cur_sid = mw()->user_manager->session_id();
 
         if ($cur_sid == false) {
             return;
         } else {
             if ($cur_sid != false) {
-                // $c_id = $this->app->database_manager->sanitize($sid);
 
-                //$c_id = $this->app->database_manager->escape_string($c_id);
                 $c_id = $sid;
 
                 $table = $this->tables['cart'];
@@ -664,8 +667,6 @@ class ShopManager
                 if ($ord_id != false) {
                     unset($params['order_completed']);
                     $params['order_id'] = intval($ord_id);
-                    // $params['debug'] = intval($ord_id);
-
                 }
 
                 $will_add = true;
@@ -1093,14 +1094,11 @@ class ShopManager
                 $cart['limit'] = 1;
                 $data_existing = $this->get_cart($cart);
                 if (is_array($data_existing) and is_array($data_existing[0])) {
-                    $data = array_merge($data,$data_existing[0]);
+                    $data = array_merge($data, $data_existing[0]);
 
                 }
             }
         }
-
-
-
 
 
         if (!isset($data['for']) and isset($data['rel_type'])) {
@@ -1301,7 +1299,7 @@ class ShopManager
                 }
             }
 
-            if(isset($data['other_info']) and is_string($data['other_info'])){
+            if (isset($data['other_info']) and is_string($data['other_info'])) {
                 $cart['other_info'] = strip_tags($data['other_info']);
             }
 

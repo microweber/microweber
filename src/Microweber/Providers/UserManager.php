@@ -144,7 +144,7 @@ class UserManager
      * @uses $this->update_last_login_time()
      * @uses $this->app->event_manager->trigger()
      * @function $this->login()
-     * @see _table() For the database table fields
+     * @see  _table() For the database table fields
      */
 
     public function session_id()
@@ -488,7 +488,6 @@ class UserManager
         $first_name = isset($params['first_name']) ? $params['first_name'] : false;
         $last_name = isset($params['last_name']) ? $params['last_name'] : false;
         $pass2 = $pass;
-        // $pass = $this->hash_pass($pass);
 
         if (!isset($params['captcha'])) {
             return array('error' => 'Please enter the captcha answer!');
@@ -524,46 +523,34 @@ class UserManager
             return array('error' => 'Please set password!');
         }
 
+
+
+
         if (isset($params['password']) and ($params['password']) != '') {
             if ($email != false) {
 
                 $data = array();
                 $data['email'] = $email;
-                // $data['password'] = $pass;
-                //  $data['oauth_uid'] = '[null]';
-                // $data['oauth_provider'] = '[null]';
                 $data['one'] = true;
                 $data['no_cache'] = true;
-                // $data ['is_active'] = 1;
                 $user_data = $this->get_all($data);
 
-
                 if (empty($user_data)) {
-
                     $data = array();
                     $data['username'] = $email;
-                    //  $data['password'] = $pass;
-                    //  $data['oauth_uid'] = '[null]';
-                    //  $data['oauth_provider'] = '[null]';
                     $data['one'] = true;
                     $data['no_cache'] = true;
-                    // $data ['is_active'] = 1;
                     $user_data = $this->get_all($data);
                 }
 
 
                 if (empty($user_data)) {
                     $data = array();
-
-
                     $data['username'] = $email;
                     $data['password'] = $pass;
                     $data['is_active'] = 0;
-
-                    //   $table = get_table_prefix() . 'users';
                     $table = $this->tables['users'];
 
-                    $table = $this->tables['users'];
                     $reg = array();
                     $reg['username'] = $user;
                     $reg['email'] = $email;
@@ -571,12 +558,10 @@ class UserManager
                     $reg['is_active'] = 1;
                     $reg['first_name'] = $first_name;
                     $reg['last_name'] = $first_name;
-                    //$reg['table'] = $table;
 
                     $this->force_save = true;
 
                     $next = $this->save($reg);
-                    // $next = $this->app->database->save($reg);
                     $this->force_save = false;
 
 
@@ -606,7 +591,6 @@ class UserManager
                     return array('success' => 'You have registered successfully');
 
                 } else {
-
                     if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
                         if (isset($user_data['email']) && $user_data['email'] != '') {
                             $is_logged = $this->login('email=' . $user_data['email'] . '&password=' . $pass);
@@ -615,12 +599,8 @@ class UserManager
                         }
                         if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
                             return ($is_logged);
-                            // $user_session['success']
                         }
-
                     }
-
-
                     return array('error' => 'This user already exists!');
                 }
             }
@@ -740,7 +720,7 @@ class UserManager
         $data_to_save = $params;
 
 
-        if (isset($data_to_save['id']) and $data_to_save['id'] !=0 and isset($data_to_save['email']) and $data_to_save['email'] != false) {
+        if (isset($data_to_save['id']) and $data_to_save['id'] != 0 and isset($data_to_save['email']) and $data_to_save['email'] != false) {
             $old_user_data = $this->get_by_id($data_to_save['id']);
             if (isset($old_user_data['email']) and $old_user_data['email'] != false) {
                 if ($data_to_save['email'] != $old_user_data['email']) {
@@ -1039,11 +1019,9 @@ class UserManager
             $provider = trim(strip_tags($provider));
         }
 
-        if ($provider != false and isset($params) and !empty($params))
-        {
+        if ($provider != false and isset($params) and !empty($params)) {
             $this->socialite_config($provider);
-            switch ($provider)
-            {
+            switch ($provider) {
                 case "github":
                     return $login = $this->socialite->with($provider)->scopes(['user:email'])->redirect();
             }
@@ -1429,7 +1407,7 @@ class UserManager
             Config::set('services.microweber.client_id', get_option('microweber_app_id', 'users'));
             Config::set('services.microweber.client_secret', get_option('microweber_app_secret', 'users'));
             Config::set('services.microweber.redirect', $callback_url);
-            $this->socialite->extend('microweber', function($app) {
+            $this->socialite->extend('microweber', function ($app) {
                 $config = $app['config']['services.microweber'];
                 return $this->socialite->buildProvider('\Microweber\Providers\Socialite\MicroweberProvider', $config);
             });

@@ -91,7 +91,7 @@ mw.stat = {
       lineColors:['#9A9A9A', '#E6E6E6'],
       pointStrokeColors:['#5B5B5B', '#5B5B5B'],
       pointFillColors:['#ffffff','#5B5B5B'],
-      xkey: 'period',
+      xkey: 'visit_date',
       ykeys: ['total_visits', 'unique_visits'],
       labels: ['Total visits', 'Unique visits'],
       xLabelFormat: function(d) { return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear(); },
@@ -102,27 +102,9 @@ mw.stat = {
 
 
 mw.statdatas = {
-    day:[
-        <?php if(!empty($v)): ?>
-          <?php $i=0; foreach($v as $item) : ?>
-            {"period": "<?php print $item['visit_date'] ?>", "total_visits": <?php print $item['total_visits'] ?>, "unique_visits": <?php print $item['unique_visits'] ?>} <?php if(isset($v[$i+1])) : ?>, <?php endif; ?>
-          <?php $i++; endforeach; ?>
-        <?php endif; ?>
-    ],
-    week:[
-        <?php if(!empty($v_weekly)): ?>
-          <?php $i=0; foreach($v_weekly as $item) : ?>
-            {"period": "<?php print $item['visit_date'] ?>", "total_visits": <?php print $item['total_visits'] ?>, "unique_visits": <?php print $item['unique_visits'] ?>} <?php if(isset($v_weekly[$i+1])) : ?>, <?php endif; ?>
-          <?php $i++; endforeach; ?>
-        <?php endif; ?>
-    ],
-    month:[
-        <?php if(!empty($v_monthly)): ?>
-          <?php $i=0; foreach($v_monthly as $item) : ?>
-            {"period": "<?php print $item['visit_date'] ?>", "total_visits": <?php print $item['total_visits'] ?>, "unique_visits": <?php print $item['unique_visits'] ?>} <?php if(isset($v_monthly[$i+1])) : ?>, <?php endif; ?>
-          <?php $i++; endforeach; ?>
-        <?php endif; ?>
-    ]
+    day:<?php print json_encode($v); ?>,
+    week:<?php print json_encode($v_weekly); ?>,
+    month:<?php print json_encode($v_monthly); ?>
 }
 
 
