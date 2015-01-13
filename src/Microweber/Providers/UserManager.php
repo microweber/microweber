@@ -489,18 +489,22 @@ class UserManager
         $last_name = isset($params['last_name']) ? $params['last_name'] : false;
         $pass2 = $pass;
 
-        if (!isset($params['captcha'])) {
-            return array('error' => 'Please enter the captcha answer!');
-        } else {
-            $cap = $this->session_get('captcha');
-            if ($cap == false) {
-                return array('error' => 'You must load a captcha first!');
-            }
-            if ($params['captcha'] != $cap) {
-                return array('error' => 'Invalid captcha answer!');
+
+        $no_captcha = get_option('captcha_disabled', 'users') == 'y';
+
+        if (!$no_captcha) {
+            if (!isset($params['captcha'])) {
+                return array('error' => 'Please enter the captcha answer!');
+            } else {
+                $cap = $this->session_get('captcha');
+                if ($cap == false) {
+                    return array('error' => 'You must load a captcha first!');
+                }
+                if ($params['captcha'] != $cap) {
+                    return array('error' => 'Invalid captcha answer!');
+                }
             }
         }
-
         $override = $this->app->event_manager->trigger('before_user_register', $params);
 
         if (is_array($override)) {
@@ -522,8 +526,6 @@ class UserManager
         if (isset($params['password']) and ($params['password']) == '') {
             return array('error' => 'Please set password!');
         }
-
-
 
 
         if (isset($params['password']) and ($params['password']) != '') {

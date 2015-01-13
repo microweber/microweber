@@ -56,7 +56,8 @@ mw.$('.social-providers-list .mw-ui-check').bind('mousedown', function(){
 	overflow: hidden;
 }
 .social-providers-list [class*='mw-icon-'] {
-	font-size: 25px;
+	font-size: 30px;
+    margin-right: 0;
 }
 .social-providers-list .mw-icon-twitter {
 	color:#55acee
@@ -141,35 +142,35 @@ $form_show_address = get_option('form_show_address','users');
   ?>
 
 
+
+
+
+
+
   <ul class="social-providers-list mw-ui-btn-nav">
-    <li class="mw-ui-btn active">
-      <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users">
-        <span></span></label>
-      <span class="mw-icon-facebook login-tab-group active"></span> </li>
-    <li class="mw-ui-btn">
-      <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_google_registration" class="mw_option_field" option-group="users">
-        <span></span></label>
-      <span class="mw-icon-googleplus login-tab-group"></span> </li>
-    <li class="mw-ui-btn">
-      <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_github_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_github_registration" class="mw_option_field" option-group="users">
-        <span></span></label>
-      <span class="mw-icon-social-github login-tab-group"></span> </li>
-    <li class="mw-ui-btn">
-      <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users">
-        <span></span></label>
-      <span class="mw-icon-twitter login-tab-group"></span> </li>
-      <li class="mw-ui-btn">
-      <label class="mw-ui-check">
-        <input type="checkbox" value="y" <?php if($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
-        <span></span></label>
-      <span class="mw-icon-mw login-tab-group"></span> </li>
-     
+    <li class="mw-ui-btn mw-ui-btn-big active">
+      <span class="mw-icon-facebook login-tab-group active"></span>
+    </li>
+    <li class="mw-ui-btn mw-ui-btn-big">
+        <span class="mw-icon-googleplus login-tab-group"></span>
+    </li>
+    <li class="mw-ui-btn mw-ui-btn-big">
+      <span class="mw-icon-social-github login-tab-group"></span>
+    </li>
+    <li class="mw-ui-btn mw-ui-btn-big">
+      <span class="mw-icon-twitter login-tab-group"></span>
+    </li>
+    <li class="mw-ui-btn mw-ui-btn-big">
+      <span class="mw-icon-mw login-tab-group"></span>
+    </li>
   </ul>
   <div class="mw-ui-box mw-ui-box-content group-logins" style="display: block">
+  <label class="mw-ui-check">
+    <input type="checkbox" value="y" <?php if($enable_user_fb_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_fb_registration" class="mw_option_field" option-group="users">
+    <span></span>
+    <span>Facebook login enabled?</span>
+</label>
+<hr>
     <ol class="ol">
       <li>
         <?php _e("Api access"); ?>
@@ -197,6 +198,12 @@ $form_show_address = get_option('form_show_address','users');
     </div>
   </div>
   <div class="mw-ui-box mw-ui-box-content group-logins">
+  <label class="mw-ui-check">
+        <input type="checkbox" value="y" <?php if($enable_user_google_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_google_registration" class="mw_option_field" option-group="users">
+        <span></span>
+        <span>Google login enabled?</span>
+</label>
+<hr>
     <ol class="ol">
       <li>
         <?php _e("Set your"); ?>
@@ -219,6 +226,12 @@ $form_show_address = get_option('form_show_address','users');
     </div>
   </div>
   <div class="mw-ui-box mw-ui-box-content group-logins">
+  <label class="mw-ui-check">
+        <input type="checkbox" value="y" <?php if($enable_user_github_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_github_registration" class="mw_option_field" option-group="users">
+        <span></span>
+        <span>Github login enabled?</span>
+</label>
+<hr>
     <ol class="ol">
       <li>
         <?php _e("Register your application"); ?>
@@ -248,6 +261,12 @@ $form_show_address = get_option('form_show_address','users');
     <input name="github_app_secret" class="mw_option_field mw-ui-field mw-title-field"  style=""  type="text" option-group="users"  value="<?php print get_option('github_app_secret','users'); ?>" />
   </div>
   <div class="mw-ui-box mw-ui-box-content group-logins">
+  <label class="mw-ui-check">
+        <input type="checkbox" value="y" <?php if($enable_user_twitter_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_twitter_registration" class="mw_option_field" option-group="users">
+        <span></span>
+        <span>Twitter login enabled?</span>
+</label>
+<hr>
     <ol class="ol">
       <li>
         <?php _e("Register your application"); ?>
@@ -278,6 +297,12 @@ $form_show_address = get_option('form_show_address','users');
   </div>
 
   <div class="mw-ui-box mw-ui-box-content group-logins">
+  <label class="mw-ui-check">
+        <input type="checkbox" value="y" <?php if($enable_user_microweber_registration == 'y'): ?> checked <?php endif; ?> name="enable_user_microweber_registration" class="mw_option_field" option-group="users">
+        <span></span>
+        <span>Microweber login enabled?</span>
+</label>
+<hr>
     <label class="mw-ui-label">
       <?php _e("Client ID"); ?>
     </label>
@@ -300,14 +325,22 @@ $form_show_address = get_option('form_show_address','users');
     }
  }
 
- </script> 
-  <a href="javascript:;" onclick="showLoginURLSettings()" class="mw-ui-btn">
+ $(document).ready(function(){
+   mw.tabs({
+     nav:".user-sign-setting-nav-item",
+     tabs:".mw-user-fields-form-item",
+     toggle:true
+   })
+ })
+
+ </script>
+  <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
   <?php _e("Users URL settings"); ?>
   </a>
-  <a href="javascript:;" onclick="$('#mw-user-fields-form-set').toggle()" class="mw-ui-btn">
+  <a href="javascript:;" class="mw-ui-btn user-sign-setting-nav-item">
   <?php _e("Register form settings"); ?>
   </a>
-  <div id="user-login-urls-set" style="display:none;padding-top: 20px;">
+  <div id="user-login-urls-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
     <div class="mw-ui-box mw-ui-box-content">
       <h3>
         <?php _e("Register URL"); ?>
@@ -335,11 +368,18 @@ $form_show_address = get_option('form_show_address','users');
       <input name="forgot_password_url"  class="mw_option_field mw-ui-field"   type="text" option-group="users"   value="<?php print get_option('forgot_password_url','users'); ?>" placeholder="<?php _e("Use default"); ?>"  />
     </div>
   </div>
-  <div id="mw-user-fields-form-set" style="display:none;padding-top: 20px;">
+  <div id="mw-user-fields-form-set" class="mw-user-fields-form-item" style="display:none;padding-top: 20px;">
+
+
+  <?php  $captcha_disabled = get_option('captcha_disabled','users');     ?>
     <div class="mw-ui-box mw-ui-box-content">
+      <label class="mw-ui-check">
+                <input type="checkbox" class="mw_option_field"   option-group="users" name="captcha_disabled" <?php if($captcha_disabled == 'y'): ?> checked <?php endif; ?> value="y"><span></span><span>Disable Captcha?</span>
+            </label>
+    <hr>
     <label class="mw-ui-check">
                 <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_first_name" <?php if($form_show_first_name == 'y'): ?> checked <?php endif; ?> value="y"><span></span><span>First name</span>
-            </label>
+            </label><br>
      <label class="mw-ui-check">
                 <input type="checkbox" class="mw_option_field"   option-group="users" name="form_show_last_name" <?php if($form_show_last_name == 'y'): ?> checked <?php endif; ?> value="y"><span></span><span>Last name</span>
             </label>
