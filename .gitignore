@@ -1,3 +1,5 @@
 config/
 vendor/
+userfiles/language/
+userfiles/css/
 .env
