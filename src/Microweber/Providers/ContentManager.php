@@ -52,31 +52,25 @@ class ContentManager
 
     public function edit_field($data, $debug = false)
     {
-
-
         $table = $this->tables['content_fields'];
-
         $table_drafts = $this->tables['content_fields_drafts'];
-
         if (is_string($data)) {
             $data = parse_params($data);
         }
-
         if (!is_array($data)) {
             $data = array();
         }
 
-
         if (isset($data['is_draft'])) {
             $table = $table_drafts;
         }
-
         if (!isset($data['rel_type'])) {
             if (isset($data['rel_type'])) {
-                if ($data['rel_type'] == 'content' or $data['rel_type'] == 'page' or $data['rel_type'] == 'post') {
+                if ($data['rel_type'] == 'content' or $data['rel_type'] == 'page' or $data['rel_type'] == 'post' or $data['rel_type'] == 'product') {
                     $data['rel_type'] = 'content';
+                } else {
+                    $data['rel_type'] = $data['rel_type'];
                 }
-                $data['rel_type'] = $data['rel_type'];
             }
         }
         if (!isset($data['rel_id'])) {
@@ -86,40 +80,24 @@ class ContentManager
 
             }
         }
-
-        if (!isset($data['rel_id']) and !isset($data['is_draft'])) {
-
-        }
-
-        if ((!isset($data['rel_type']) or !isset($data['rel_id'])) and !isset($data['is_draft'])) {
-        }
-
         if ((isset($data['rel_type']) and isset($data['rel_id']))) {
-
-            $data['cache_group'] = guess_cache_group('content_fields/global/' . $data['rel_type'] . '/' . $data['rel_id']);
+            $data['cache_group'] = ('content_fields/global/' . $data['rel_type'] . '/' . $data['rel_id']);
         } else {
-            $data['cache_group'] = guess_cache_group('content_fields/global');
+            $data['cache_group'] = ('content_fields/global');
 
         }
         if (!isset($data['all'])) {
             $data['one'] = 1;
             $data['limit'] = 1;
         }
-
         $data['table'] = $table;
-
         $get = $this->app->database->get($data);
-
         if (!isset($data['full']) and isset($get['value'])) {
             return $get['value'];
         } else {
             return $get;
         }
-
-
         return false;
-
-
     }
 
 
@@ -187,13 +165,8 @@ class ContentManager
         }
 
         $q = $this->app->database->get_by_id($this->tables['content'], $id);
-//        $q = Content::where('id', '=', $id)->first();
-//        if (!empty($q)) {
-//            $q = $q->toArray();
-//        }
 
         if (isset($q['title'])) {
-
             $content = $q;
             if (isset($content['title'])) {
                 $content['title'] = html_entity_decode($content['title']);
@@ -202,11 +175,9 @@ class ContentManager
                 $content['title'] = htmlspecialchars_decode($content['title']);
 
             }
-
         } else {
             return false;
         }
-
         return $content;
     }
 
@@ -214,14 +185,11 @@ class ContentManager
     {
 
         static $passed = array();
-        if (isset($passed[$url])) {
-            //    return;
-        }
+
         $passed[$url] = 1;
         if (strval($url) == '') {
             $url = $this->app->url_manager->string();
         }
-
 
         $u1 = $url;
         $u2 = $this->app->url_manager->site();
@@ -236,7 +204,6 @@ class ContentManager
         $u1 = ltrim($u1, '/');
         $url = $u1;
 
-        $table = $this->tables['content'];
         $url = addslashes($url);
         $url12 = parse_url($url);
         if (isset($url12['scheme']) and isset($url12['host']) and isset($url12['path'])) {
@@ -254,7 +221,6 @@ class ContentManager
         $url = rtrim($url, '?');
         $url = rtrim($url, '#');
 
-
         if (is_array(self::$skip_pages_starting_with_url)) {
             $segs = explode('/', $url);
             $arr = self::$skip_pages_starting_with_url;
@@ -265,34 +231,22 @@ class ContentManager
             }
         }
 
-
         $link_hash = 'link' . crc32($url);
-
         if (isset(self::$precached_links[$link_hash])) {
             return self::$precached_links[$link_hash];
         }
-
-// @todo cleanup old code
-        $sql = "SELECT id FROM $table WHERE url='{$url}'   ORDER BY updated_at DESC LIMIT 0,1 ";
-
         $get = array();
         $get['url'] = $url;
         $get['single'] = true;
         $content = $this->get($get);
-
-
         if (!empty($content)) {
-
-
             self::$precached_links[$link_hash] = $content;
             return $content;
         }
-
         if ($no_recursive == false) {
             if (empty($content) == true) {
                 $segs = explode('/', $url);
                 $segs_qty = count($segs);
-
                 for ($counter = 0; $counter <= $segs_qty; $counter += 1) {
                     $test = array_slice($segs, 0, $segs_qty - $counter);
                     $test = array_reverse($test);
@@ -446,10 +400,6 @@ class ContentManager
 
 
         $get = mw()->database->get($params);
-
-        // $get = mw()->content->get_items($params);
-
-        //   $get = $this->app->database->get($params);
 
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
@@ -3246,7 +3196,7 @@ class ContentManager
                         define('POST_ID', $content['id']);
                     }
 
-                    if($page['content_type'] == "product"){
+                    if ($page['content_type'] == "product") {
                         if (defined('PRODUCT_ID') == false) {
                             define('PRODUCT_ID', $content['id']);
                         }
@@ -3651,16 +3601,11 @@ class ContentManager
         }
 
 
-
-
-
         $params['limit'] = 1;
         $params['exclude_ids'] = array($content_id);
         $params['is_active'] = 1;
         $params['is_deleted'] = 0;
         $params['single'] = true;
-
-
 
 
         $q = $this->get($params);
@@ -3672,7 +3617,6 @@ class ContentManager
             if (isset($params['created_at'])) {
                 unset($params['created_at']);
             }
-
 
 
             $q = $this->get($params);
@@ -4193,8 +4137,6 @@ class ContentManager
                                 if (isset($cont_cat[0]) and is_array($cont_cat[0])) {
                                     $cont_cat = $cont_cat[0];
                                     if (isset($cont_cat["subtype_value"]) and intval($cont_cat["subtype_value"]) > 0) {
-
-
                                         $data_to_save['parent'] = $cont_cat["id"];
                                         break;
                                     }
@@ -4247,6 +4189,7 @@ class ContentManager
                                     case 'jpeg':
                                     case 'png':
                                     case 'gif':
+                                    case 'svg':
                                         $to_download[] = $image_src;
                                         break;
                                     default:
@@ -4311,37 +4254,37 @@ class ContentManager
         $cats_modified = true;
 
 
-        if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
-            if (!isset($data_to_save['parent'])) {
-                $data_to_save['parent'] = 0;
-            }
-            if ($data_to_save['parent'] == 0) {
-                if (isset($data_to_save['categories'])) {
-                    $first = false;
-                    if (is_array($data_to_save['categories'])) {
-                        $temp = $data_to_save['categories'];
-                        $first = array_shift($temp);
-                    } else {
-                        $first = intval($data_to_save['categories']);
-                    }
-                    if ($first != false) {
-                        $first_par_for_cat = $this->app->category_manager->get_page($first);
-                        if (!empty($first_par_for_cat) and isset($first_par_for_cat['id'])) {
-                            $data_to_save['parent'] = $first_par_for_cat['id'];
-                            if (!isset($data_to_save['content_type'])) {
-                                $data_to_save['content_type'] = 'post';
-                            }
-
-                            if (!isset($data_to_save['subtype'])) {
-                                $data_to_save['subtype'] = 'post';
-                            }
-
-                        }
-                    }
-                }
-            }
-
-        }
+//        if (!isset($data_to_save['id']) or intval($data_to_save['id']) == 0) {
+//            if (!isset($data_to_save['parent'])) {
+//                $data_to_save['parent'] = 0;
+//            }
+//            if ($data_to_save['parent'] == 0) {
+//                if (isset($data_to_save['categories'])) {
+//                    $first = false;
+//                    if (is_array($data_to_save['categories'])) {
+//                        $temp = $data_to_save['categories'];
+//                        $first = array_shift($temp);
+//                    } else {
+//                        $first = intval($data_to_save['categories']);
+//                    }
+//                    if ($first != false) {
+//                        $first_par_for_cat = $this->app->category_manager->get_page($first);
+//                        if (!empty($first_par_for_cat) and isset($first_par_for_cat['id'])) {
+//                            $data_to_save['parent'] = $first_par_for_cat['id'];
+//                            if (!isset($data_to_save['content_type'])) {
+//                                $data_to_save['content_type'] = 'post';
+//                            }
+//
+//                            if (!isset($data_to_save['subtype'])) {
+//                                $data_to_save['subtype'] = 'post';
+//                            }
+//
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }
 
 
         if (isset($data_to_save['url']) and $data_to_save['url'] == $this->app->url_manager->site()) {
@@ -4377,7 +4320,8 @@ class ContentManager
             $url_changed = true;
         }
         $data_to_save['table'] = $table;
-        $save = $this->app->database->save($table, $data_to_save);
+        //$save = $this->app->database->save($table, $data_to_save);
+        $save = $this->app->database->extended_save($table, $data_to_save);
 
         $id = $save;
         if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
@@ -4446,52 +4390,50 @@ class ContentManager
                     $save_media['content_id'] = $id;
                     $this->app->media_manager->save($save_media);
                 }
-
-
             }
         }
 
 
-        if (isset($data_to_save['categories'])) {
-
-
-            if (is_string($data_to_save['categories'])) {
-                $data_to_save['categories'] = explode(',', $data_to_save['categories']);
-            }
-            $categories = $data_to_save['categories'];
-            if (is_array($categories)) {
-
-                $save_cat_item = array();
-                $save_cat_item['rel_type'] = 'content';
-                $save_cat_item['rel_id'] = $id;
-                $check = $this->app->category_manager->get_items($save_cat_item);
-                //  dd($check);
-                if (is_array($check) and !empty($check)) {
-                    foreach ($check as $item) {
-                        if (!in_array($item['parent_id'], $categories)) {
-                            $this->app->category_manager->delete_item($item['id']);
-                        }
-                    }
-                }
-
-
-                $cats_modified = true;
-                foreach ($categories as $category) {
-                    if (intval($category) != 0) {
-                        $save_cat_item = array();
-                        $save_cat_item['rel_type'] = 'content';
-                        $save_cat_item['rel_id'] = $id;
-                        $save_cat_item['parent_id'] = $category;
-                        $check = $this->app->category_manager->get_items($save_cat_item);
-                        if ($check == false) {
-                            $this->app->category_manager->save_item($save_cat_item);
-                        }
-                    }
-                }
-
-            }
-
-        }
+//        if (isset($data_to_save['categories'])) {
+//
+//
+//            if (is_string($data_to_save['categories'])) {
+//                $data_to_save['categories'] = explode(',', $data_to_save['categories']);
+//            }
+//            $categories = $data_to_save['categories'];
+//            if (is_array($categories)) {
+//
+//                $save_cat_item = array();
+//                $save_cat_item['rel_type'] = 'content';
+//                $save_cat_item['rel_id'] = $id;
+//                $check = $this->app->category_manager->get_items($save_cat_item);
+//                //  dd($check);
+//                if (is_array($check) and !empty($check)) {
+//                    foreach ($check as $item) {
+//                        if (!in_array($item['parent_id'], $categories)) {
+//                            $this->app->category_manager->delete_item($item['id']);
+//                        }
+//                    }
+//                }
+//
+//
+//                $cats_modified = true;
+//                foreach ($categories as $category) {
+//                    if (intval($category) != 0) {
+//                        $save_cat_item = array();
+//                        $save_cat_item['rel_type'] = 'content';
+//                        $save_cat_item['rel_id'] = $id;
+//                        $save_cat_item['parent_id'] = $category;
+//                        $check = $this->app->category_manager->get_items($save_cat_item);
+//                        if ($check == false) {
+//                            $this->app->category_manager->save_item($save_cat_item);
+//                        }
+//                    }
+//                }
+//
+//            }
+//
+//        }
 
         if (isset($data_to_save['add_content_to_menu']) and is_array($data_to_save['add_content_to_menu'])) {
 
@@ -4499,23 +4441,23 @@ class ContentManager
                 $this->add_content_to_menu($save, $menu_id);
             }
         }
-        if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
-            $new_category = $this->app->category_manager->get_for_content($save);
-
-            if ($new_category == false) {
-                //$new_category_id = intval($new_category);
-                $new_category = array();
-                $new_category["data_type"] = "category";
-                $new_category["rel_type"] = 'content';
-                $new_category["rel_id"] = $save;
-                $new_category["table"] = $table_cats;
-                $new_category["id"] = 0;
-                $new_category["title"] = $data_to_save['title'];
-                $new_category["parent_id"] = "0";
-                $cats_modified = true;
-                // $new_category = $this->app->category_manager->save($new_category);
-            }
-        }
+//        if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
+//            $new_category = $this->app->category_manager->get_for_content($save);
+//
+//            if ($new_category == false) {
+//                //$new_category_id = intval($new_category);
+//                $new_category = array();
+//                $new_category["data_type"] = "category";
+//                $new_category["rel_type"] = 'content';
+//                $new_category["rel_id"] = $save;
+//                $new_category["table"] = $table_cats;
+//                $new_category["id"] = 0;
+//                $new_category["title"] = $data_to_save['title'];
+//                $new_category["parent_id"] = "0";
+//                $cats_modified = true;
+//                // $new_category = $this->app->category_manager->save($new_category);
+//            }
+//        }
         $custom_field_table = $this->tables['custom_fields'];
         $custom_field_table = mw()->database_manager->real_table_name($custom_field_table);
 

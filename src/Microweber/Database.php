@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
 use Microweber\Utils\Database as DbUtils;
 use Microweber\Traits\QueryFilter;
+use Microweber\Traits\ExtendedSave;
 
 use Illuminate\Support\Facades\User as DefaultUserProvider;
 
@@ -13,6 +14,8 @@ class Database
 {
 
     use QueryFilter; //trait with db functions
+
+    use ExtendedSave; //trait to save extended data, such as attributes, categories and images
 
     public $use_cache = true;
     public $app = null;
@@ -249,6 +252,7 @@ class Database
     {
 
         $skip_cache_delete = false;
+        $return_params_instead_of_id = false;
 
         if ($params === null) {
             $params = $table_name_or_params;
@@ -260,12 +264,9 @@ class Database
             }
             $params['table'] = $table_name_or_params;
         }
-
         if (is_string($params)) {
             $params = parse_params($params);
         }
-
-
         if (!isset($params['table'])) {
             return false;
         } else {
@@ -275,7 +276,9 @@ class Database
         if (!$table) {
             return false;
         }
-
+        if (isset($params['return_params_instead_of_id'])) {
+            $return_params_instead_of_id = $params['return_params_instead_of_id'];
+        }
         $query = DB::table($table);
 
         if (!isset($params['skip_timestamps'])) {
@@ -306,7 +309,6 @@ class Database
         $user_id = mw()->user_manager->id();
         if ($params['id'] == 0) {
             $params['created_by'] = $user_id;
-
         }
         $params['edited_by'] = $user_id;
 
@@ -318,7 +320,7 @@ class Database
         $params['id'] = intval($params['id']);
         if (intval($params['id']) == 0) {
             $id_to_return = $query->insert($params);
-            $id_to_return = DB::getPdo()->lastInsertId();
+            $params['id'] = $id_to_return = DB::getPdo()->lastInsertId();
         } else {
             unset($params['created_at']);
             $id_to_return = $query->where('id', $params['id'])->update($params);
@@ -329,7 +331,11 @@ class Database
             Cache::tags($table)->flush();
         }
 
-        return intval($id_to_return);
+        if (!$return_params_instead_of_id) {
+            return intval($id_to_return);
+        } else {
+            return ($params);
+        }
     }
 
 
