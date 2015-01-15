@@ -1,6 +1,15 @@
 <?php
 
 
+if (!defined('MW_USER_IP')) {
+    if (isset($_SERVER["REMOTE_ADDR"])) {
+        define("MW_USER_IP", $_SERVER["REMOTE_ADDR"]);
+    } else {
+        define("MW_USER_IP", '127.0.0.1');
+
+    }
+}
+
 function forgot_password_url()
 {
 

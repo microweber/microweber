@@ -203,15 +203,38 @@ if(typeof mw.rotator === 'undefined'){
         });
         return rotator;
     }
-    mw.productZoom = function(parent){
+    mw.productZoom = function(parent, clickRequired){
+            var clickRequired = clickRequired || false;
             var img =  mw.$('.mw-slider-zoomimg', parent)[0];
             var img_base =  mw.$('.mw-slider-zoomimg-base', parent)[0];
             var el = $(parent);
+            el.productZoomClicked = false;
+            if(clickRequired === true){
+                el.bind('click', function(){
+                   if(el.productZoomClicked === false){
+                      el.addClass('productZoomClicked');
+                      $(img).css({
+                       visibility:'visible'
+                      });
+                      $(img_base).css('visibility', 'hidden');
+                      el.productZoomClicked = true;
+                   }
+                   else{
+                      el.productZoomClicked = false;
+                      el.removeClass('productZoomClicked');
+                   }
+                });
+            }
+            else{
+              el.productZoomClicked = true;
+            }
             el.mouseenter(function(){
-              $(img).css({
-                 visibility:'visible'
-              });
-              $(img_base).css('visibility', 'hidden');
+              if(el.productZoomClicked === true){
+                  $(img).css({
+                     visibility:'visible'
+                  });
+                  $(img_base).css('visibility', 'hidden');
+              }
             });
             el.mousemove(function(event){
                 var img_width = $(img).width();
@@ -234,6 +257,9 @@ if(typeof mw.rotator === 'undefined'){
             el.mouseleave(function(){
               img.style.visibility = 'hidden';
               $(img_base).css('visibility', 'visible');
+              if(clickRequired === true){
+                  el.productZoomClicked = false
+              }
             });
        return img;
     }

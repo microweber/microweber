@@ -55,7 +55,7 @@ description: Product Gallery
             }
 
             mw.$('#<?php print $id; ?> span.mw-slider-zoomholder').each(function () {
-                mw.productZoom(this);
+                mw.productZoom(this, true);
             });
 
         });

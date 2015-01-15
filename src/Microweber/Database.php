@@ -376,23 +376,7 @@ class Database
 
         $data = $this->get($params);
 
-//        $query = DB::table($table);
-//
-//        if(!$this->use_cache){
-//            $data = $query->where($field_name, '=', $id)->first();
-//
-//        } else {
-//            $ttl = $this->table_cache_ttl;
-//$cache_key = $table.crc32($field_name.$id);
-//
-//            $data =  $query->cacheTags($table)->remember($ttl,$cache_key)->where($field_name, '=', $id)->first();
-//        }
-//
-//
-//        $data = (array) $data;
         return $data;
-
-
     }
 
 
@@ -527,10 +511,7 @@ class Database
 
     public function q($q)
     {
-
-
         return DB::statement($q);
-        // return DB::select($q);
     }
 
 

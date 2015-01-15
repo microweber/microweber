@@ -509,7 +509,10 @@ $is_chosen = false;
                         <option
                             value="<?php print $item['dir_name'] ?>"    <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
                     <?php endif ?>
+                    
                 <?php endforeach; ?>
+                 <option
+                            value="default" >default</option>
             </select>
         <?php endif; ?>
     </div>
@@ -605,6 +608,8 @@ $is_chosen = false;
                                 value="<?php print $item['dir_name'] ?>"    <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
                         <?php endif ?>
                     <?php endforeach; ?>
+                    <option
+                            value="default" >default</option>
                 </select>
 
                 </span>

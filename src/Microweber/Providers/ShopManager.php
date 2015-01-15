@@ -13,7 +13,7 @@ namespace Microweber\Providers;
 
 // ------------------------------------------------------------------------
 
-api_expose('shop/update_order');
+api_expose_admin('shop/update_order');
 
 class ShopManager
 {
@@ -373,24 +373,18 @@ class ShopManager
         $cart_table_real = $this->app->database_manager->real_table_name($cart_table);
         $order_table_real = $this->app->database_manager->real_table_name($table_orders);
 
-
         $ord = $this->app->database->save($table_orders, $place_order);
         $place_order['id'] = $ord;
-
         $q = " UPDATE $cart_table_real SET
 		order_id='{$ord}'
 		WHERE order_completed=0  AND session_id='{$sid}'  ";
-
         $this->app->database->q($q);
-
         if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
             $q = " UPDATE $cart_table_real SET
 			order_completed=1, order_id='{$ord}'
 
 			WHERE order_completed=0  AND session_id='{$sid}' ";
-
             $this->app->database->q($q);
-
             if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                 $q = " UPDATE $order_table_real SET
 				order_completed=1
@@ -398,16 +392,11 @@ class ShopManager
 				id='{$ord}' AND session_id='{$sid}' ";
                 $this->app->database->q($q);
             }
-
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
-
-
             if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
                 $this->update_quantities($ord);
             }
-
-
             $this->after_checkout($ord);
         }
         mw()->user_manager->session_set('order_id', $ord);
@@ -1551,10 +1540,6 @@ class ShopManager
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $params2;
-        }
-        if (defined("MW_API_CALL") and $this->app->user_manager->is_admin() == false) {
-
-            $this->app->error("You must be admin");
         }
 
         if (isset($params['is_paid'])) {

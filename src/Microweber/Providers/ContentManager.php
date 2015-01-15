@@ -3365,9 +3365,9 @@ class ContentManager
             define('MAIN_PAGE_ID', false);
         }
 
-        if (isset($content) and isset($content['active_site_template']) and ($content['active_site_template']) != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
+        if (isset($page) and isset($page['active_site_template']) and $page['active_site_template'] != '' and strtolower($page['active_site_template']) != 'inherit' and strtolower($page['active_site_template']) != 'default') {
 
-            $the_active_site_template = $content['active_site_template'];
+            $the_active_site_template = $page['active_site_template'];
         } else if (isset($page) and isset($page['active_site_template']) and ($page['active_site_template']) != '' and strtolower($page['active_site_template']) != 'default') {
 
             $the_active_site_template = $page['active_site_template'];
@@ -3438,10 +3438,6 @@ class ContentManager
             if ((!strstr($the_active_site_template, DEFAULT_TEMPLATE_DIR))) {
                 $use_default_layouts = $the_active_site_template_dir . 'use_default_layouts.php';
                 if (is_file($use_default_layouts)) {
-                    //$render_file = ($use_default_layouts);
-                    //if()
-                    //
-                    //
 
                     if (isset($page['layout_file'])) {
                         $template_view = DEFAULT_TEMPLATE_DIR . $page['layout_file'];
@@ -4363,6 +4359,7 @@ class ContentManager
         }
         if (isset($data_to_save['custom_field_help_text'])) {
             unset($data_to_save['custom_field_help_text']);
+            unset($data_to_save['custom_field_help_text']);
         }
         if (isset($data_to_save['custom_field_is_active'])) {
             unset($data_to_save['custom_field_is_active']);
@@ -4570,8 +4567,6 @@ class ContentManager
         $this->app->cache_manager->delete('categories/global');
         $this->app->cache_manager->delete('categories_items/global');
         if ($cats_modified != false) {
-
-
             if (isset($c1) and is_array($c1)) {
                 foreach ($c1 as $item) {
                     $item = intval($item);
@@ -4596,7 +4591,6 @@ class ContentManager
 
         if ($check_force == false and $adm == false) {
             return array('error' => "You must be logged in as admin to use: " . __FUNCTION__);
-
         }
 
         if (!is_array($data)) {
@@ -4604,32 +4598,25 @@ class ContentManager
         }
 
         if (!isset($data['id'])) {
-
             if (!isset($data['field_name'])) {
                 return array('error' => "You must set 'field' parameter");
             }
             if (!isset($data['field_value'])) {
                 return array('error' => "You must set 'value' parameter");
             }
-
             if (!isset($data['content_id'])) {
                 return array('error' => "You must set 'content_id' parameter");
             }
         }
-
-
         if (isset($data['field_name']) and isset($data['content_id'])) {
             $is_existing_data = array();
             $is_existing_data['field_name'] = $data['field_name'];
             $is_existing_data['content_id'] = intval($data['content_id']);
-
             $is_existing_data['one'] = true;
-
             $is_existing = $this->get_content_data_fields($is_existing_data);
             if (is_array($is_existing) and isset($is_existing['id'])) {
                 $data['id'] = $is_existing['id'];
             }
-
         }
         if (isset($data['content_id'])) {
             $data['rel_id'] = intval($data['content_id']);
@@ -4638,17 +4625,9 @@ class ContentManager
             $data['field_value'] = json_encode($data['field_value']);
         }
         $data['rel_type'] = 'content';
-
-        $data['allow_html'] = true;
-        // $data['debug'] = true;
-
         $save = $this->app->database->save($table, $data);
-
         $this->app->cache_manager->delete('content_data');
-
         return $save;
-
-
     }
 
     public function get_content_data_fields($data, $debug = false)

@@ -29,13 +29,6 @@ class Content
                 'content' => 'longText',
                 'content_body' => 'longText',
 
-//                'is_active' => "integer",
-//                'is_home' => "integer",
-//                'is_pinged' => "integer",
-//                'is_shop' => "integer",
-//                'is_deleted' => "integer",
-//                'draft_of' => 'integer',
-
 
                 'is_active' => array('type' => 'integer', 'default' => 1),
                 'is_home' => array('type' => 'integer', 'default' => 0),
@@ -80,8 +73,19 @@ class Content
                 'field_value' => 'longText',
                 'session_id' => 'string',
                 'rel_type' => 'string',
-
                 'rel_id' => 'string'
+            ],
+
+            'attributes' => [
+                'attribute_name' => 'text',
+                'attribute_value' => 'longText',
+                'rel_type' => 'string',
+                'rel_id' => 'string',
+                'session_id' => 'string',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
+                'created_by' => 'integer',
+                'edited_by' => 'integer'
             ],
 
             'content_fields' => [

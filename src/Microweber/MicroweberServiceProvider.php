@@ -138,6 +138,9 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\Ui($app);
         });
 
+
+
+
         // $this->registerModules();
     }
 
@@ -151,6 +154,8 @@ class MicroweberServiceProvider extends ServiceProvider
         Cache::extend('file', function ($app) {
             return new Providers\CacheStore;
         });
+
+
 
 /*        Socialite::extend('microweber', function($app) {
             $config = $app['config']['services.microweber'];

@@ -194,7 +194,7 @@ function __store_lang_file()
                     }
                     if (isset($lang_file_str) and $lang_file_str != false) {
                         if (!is_file($lang_file)) {
-                            touch($lang_file);
+                            @touch($lang_file);
                         }
 
                         if (function_exists('iconv')) {

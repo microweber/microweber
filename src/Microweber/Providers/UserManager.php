@@ -158,13 +158,9 @@ class UserManager
         if (is_string($params)) {
             $params = parse_params($params);
         }
-
-        // $check = $this->app->log_manager->get("is_system=y&couxnt=1&created_at=[mt]1 min ago&updated_at=[lt]1 min&rel_type=login_failed&user_ip=" . MW_USER_IP);
         $check = $this->app->log_manager->get("no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=" . MW_USER_IP);
         $url = $this->app->url->current(1);
-
         if ($check == 5) {
-
             $url_href = "<a href='$url' target='_blank'>$url</a>";
             $this->app->log_manager->save("title=User IP " . MW_USER_IP . " is blocked for 1 minute for 5 failed logins.&content=Last login url was " . $url_href . "&is_system=n&rel_type=login_failed&user_ip=" . MW_USER_IP);
         }
@@ -174,7 +170,6 @@ class UserManager
         }
         $check2 = $this->app->log_manager->get("no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=" . MW_USER_IP);
         if ($check2 > 25) {
-
             return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
         }
 
@@ -213,16 +208,16 @@ class UserManager
                 'email' => $params['email'],
                 'password' => $params['password']
             ]);
-
         }
 
         if (!isset($ok)) {
             return;
         }
         if ($ok) {
-            Auth::login(Auth::user());
-            if ($ok && isset($params['redirect_to'])) {
-                $this->app->url_manager->redirect($params['redirect_to']);
+            $user_data = Auth::user();
+            $this->make_logged($user_data->id);
+            if ($ok && $redirect_after) {
+                $this->app->url_manager->redirect($redirect_after);
                 return;
             } else if ($ok) {
                 return ['success' => "You are logged in!"];
@@ -587,22 +582,20 @@ class UserManager
                     if (isset($pass2)) {
                         $params['password2'] = $pass2;
                     }
+                    $this->make_logged($params['id']);
                     $this->app->event_manager->trigger('after_user_register', $params);
+
 
 
                     return array('success' => 'You have registered successfully');
 
                 } else {
-                    if (isset($pass) and $pass != '' and isset($user_data['password']) && $user_data['password'] == $pass) {
-                        if (isset($user_data['email']) && $user_data['email'] != '') {
-                            $is_logged = $this->login('email=' . $user_data['email'] . '&password=' . $pass);
-                        } else if (isset($user_data['username']) && $user_data['username'] != '') {
-                            $is_logged = $this->login('username=' . $user_data['username'] . '&password=' . $pass);
-                        }
-                        if (isset($is_logged) and is_array($is_logged) and isset($is_logged['success']) and isset($is_logged['is_logged'])) {
-                            return ($is_logged);
-                        }
+
+                    $try_login = $this->login($params);
+                    if(isset($try_login['success'])){
+                        return ($try_login);
                     }
+
                     return array('error' => 'This user already exists!');
                 }
             }
