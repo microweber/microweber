@@ -779,9 +779,7 @@ class UpdateManager
         $cookie_file = $cookie . 'cookie.txt';
         $requestUrl = $this->remote_url;
 
-        if ($method != false) {
-            //  $requestUrl = $requestUrl . 'api/mw_check';
-        }
+
 
 
         $post_params['site_url'] = $this->app->url_manager->site();
@@ -792,9 +790,6 @@ class UpdateManager
             $curl = new \Microweber\Utils\Http($this->app);
             $curl->set_url($requestUrl);
             $curl_result = $curl->post($post_params);
-            // d($post_params);
-           // dd($curl_result);
-
         } else {
             $curl_result = false;
         }
@@ -803,11 +798,6 @@ class UpdateManager
         }
         $result = false;
 
-
-
-//        if (is_ajax()) {
-//            print $curl_result;
-//        }
         if ($curl_result != false) {
             $result = json_decode($curl_result, 1);
         }
