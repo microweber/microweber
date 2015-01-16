@@ -2,6 +2,7 @@
 namespace Microweber\Providers;
 
 
+use GuzzleHttp\Stream\Utils;
 use Microweber\Utils\Http;
 use Microweber\Utils\Files;
 
@@ -769,6 +770,8 @@ class UpdateManager
 
     function call($method = false, $post_params = false)
     {
+
+
         $cookie = mw_cache_path() . DIRECTORY_SEPARATOR . 'cookies' . DIRECTORY_SEPARATOR;
         if (!is_dir($cookie)) {
             mkdir_recursive($cookie);
@@ -786,8 +789,11 @@ class UpdateManager
         $post_params['mw_version'] = MW_VERSION;
 
         if ($post_params != false and is_array($post_params)) {
-            $curl_result = $this->http()->url($requestUrl)->post($post_params);
-
+            $curl = new \Microweber\Utils\Http($this->app);
+            $curl->set_url($requestUrl);
+            $curl_result = $curl->post($post_params);
+            // d($post_params);
+           // dd($curl_result);
 
         } else {
             $curl_result = false;
@@ -797,7 +803,7 @@ class UpdateManager
         }
         $result = false;
 
-        // d($curl_result);
+
 
 //        if (is_ajax()) {
 //            print $curl_result;
@@ -860,6 +866,7 @@ class UpdateManager
         $licenses = $this->get_licenses($params);
         if (!empty($licenses)) {
             $result = $this->call('validate_licenses', $licenses);
+
             if (!empty($result)) {
                 foreach ($result as $k => $v) {
                     foreach ($licenses as $license) {
@@ -919,6 +926,9 @@ class UpdateManager
         $table = $this->app->modules->tables['system_licenses'];
         if ($table == false) {
             return;
+        }
+        if (!isset($params['rel_type']) and isset($params['rel'])) {
+            $params['rel_type'] = $params['rel'];
         }
 
         if (!isset($params['id']) and isset($params['rel_type'])) {
