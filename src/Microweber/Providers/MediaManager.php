@@ -101,6 +101,8 @@ class MediaManager
 
 
         }
+        return false;
+
     }
 
     public function get_first_image_from_html($html)
@@ -519,10 +521,8 @@ class MediaManager
                     $newfile = $move_uploaded_files_dir . $newfile;
                 }
 
-                if (is_file($url2dir) and rename($url2dir, $newfile)) {
-                    $data['src'] = $this->app->url_manager->link_to_file($newfile);
-                } else {
-
+                if (is_file($url2dir)) {
+                    $data['src'] = $this->app->url_manager->link_to_file($url2dir);
                 }
 
             }

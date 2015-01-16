@@ -584,6 +584,14 @@ class ShopManager
                 }
             }
         }
+        if (!isset($params['rel']) and isset($params['for'])) {
+            $params['rel_type'] = $params['for'];
+        } else if (isset($params['rel']) and !isset($params['rel_type'])) {
+            $params['rel_type'] = $params['rel'];
+        }
+        if (!isset($params['rel_id']) and isset($params['for_id'])) {
+            $params['rel_id'] = $params['for_id'];
+        }
 
         $params['limit'] = 10000;
         if (!isset($params['order_completed'])) {
@@ -1170,7 +1178,7 @@ class ShopManager
             if ($k != 'for' and $k != 'for_id' and $k != 'title') {
                 $found = false;
                 foreach ($content_custom_fields as $cf) {
-                    if (isset($cf['type']) and $cf['type'] != 'price') {
+                    if (isset($cf['type']) and isset($cf['name']) and $cf['type'] != 'price') {
                         $key1 = str_replace('_', ' ', $cf['name']);
                         $key2 = str_replace('_', ' ', $k);
                         if (isset($cf['name']) and ($cf['name'] == $k or $key1 == $key2)) {

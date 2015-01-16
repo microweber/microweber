@@ -2837,7 +2837,12 @@ mw.tools = {
         var text = $(el).dataset('tip');
 
         if(text.indexOf('.') === 0 || text.indexOf('#') === 0 ){
-            var text = mw.$(text).html();
+            var xitem = mw.$(text);
+            console.log(xitem)
+            if(xitem.length === 0){
+              return false;
+            }
+            var text = xitem.html();
         }
         else{
           var text = text.replace(/\n/g, '<br>');

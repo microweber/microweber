@@ -81,6 +81,7 @@ class Content
                 'attribute_value' => 'longText',
                 'rel_type' => 'string',
                 'rel_id' => 'string',
+                'attribute_type' => 'string',
                 'session_id' => 'string',
                 'updated_at' => 'dateTime',
                 'created_at' => 'dateTime',

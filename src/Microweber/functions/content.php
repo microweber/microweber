@@ -45,12 +45,14 @@ function post_id()
         return POST_ID;
     }
 }
+
 function is_product()
 {
     if (defined('PRODUCT_ID')) {
         return PRODUCT_ID;
     }
 }
+
 function content_id()
 {
     if (post_id()) {
@@ -98,13 +100,11 @@ function category_id()
  */
 
 
-
 function get_content($params = false)
 {
 
     return mw()->content_manager->get($params);
 }
-
 
 
 /**
@@ -276,7 +276,6 @@ function content_parents($id = 0, $without_main_parent = false)
 }
 
 
-
 function get_content_children($id = 0, $without_main_parent = false)
 {
     return mw()->content_manager->get_children($id, $without_main_parent);
@@ -325,7 +324,6 @@ function save_content($data, $delete_the_cache = true)
 }
 
 
-
 function save_content_admin($data, $delete_the_cache = true)
 {
     return mw()->content_manager->save_content_admin($data, $delete_the_cache);
@@ -353,10 +351,13 @@ function get_content_field($data, $debug = false)
 
 function content_data($content_id, $field_name = false)
 {
-
     return mw()->content_manager->data($content_id, $field_name);
 }
 
+function content_attributes($content_id)
+{
+    return mw()->content_manager->attributes($content_id);
+}
 
 function next_content($content_id = false)
 {

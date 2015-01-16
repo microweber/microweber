@@ -80,8 +80,12 @@
 
 
           <?php if(isset($cart_item[0]) and isset($cart_item[0]['rel_id'])) { ?>
-          <?php $p = get_picture($cart_item[0]['rel_id']); ?>
-          <?php if ($p != false): ?>
+          <?php $p = get_picture($cart_item[0]['rel_id'],$cart_item[0]['rel_type']); ?>
+          <?php
+
+
+
+          if (isset($p) and $p != false): ?>
           <div id="product-tip-<?php print $item['id'] ?>" style="display: none">
             <span class="product-thumbnail-tooltip" style="background-image: url(<?php print thumbnail($p, 120, 120); ?>)"></span>
           </div>

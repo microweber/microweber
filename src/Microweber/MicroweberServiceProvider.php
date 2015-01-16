@@ -137,11 +137,6 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->singleton('ui', function ($app) {
             return new Providers\Ui($app);
         });
-
-
-
-
-        // $this->registerModules();
     }
 
     public function boot(Request $request)
@@ -155,14 +150,6 @@ class MicroweberServiceProvider extends ServiceProvider
             return new Providers\CacheStore;
         });
 
-
-
-/*        Socialite::extend('microweber', function($app) {
-            $config = $app['config']['services.microweber'];
-            return $socialite->buildProvider('Microweber\Providers\Socialite\MicroweberProvider', $config);
-        });
-        dd(Socialite::getDrivers());
-*/
         // If installed load module functions
         if (mw_is_installed()) {
             $modules = load_all_functions_files_for_modules();
@@ -188,35 +175,13 @@ class MicroweberServiceProvider extends ServiceProvider
     function autoloadModules($className)
     {
         $filename = modules_path() . $className . ".php";
+        $filename = normalize_path($filename,false);
         if (is_file($filename)) {
             require $filename;
         }
     }
 
 
-
-//    protected function registerCache()
-//    {
-//        $this->app['mw.cache'] = $this->app->share(function ($app) {
-//            return new Models\Cache($app);
-//        });
-//    }
-//
-//
-//    protected function registerHtmlBuilder()
-//    {
-//        $this->app->bind('config', function($app)
-//        {
-//            return new SaveConfig($app->getConfigLoader(), $app->environment());
-//        });
-//    }
-//
-//    protected function registerFormBuilder()
-//    {
-//        $this->app['form'] = $this->app->share(function ($app) {
-//            return new \admin\Controller();
-//        });
-//    }
 
 
 }

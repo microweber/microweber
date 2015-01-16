@@ -213,15 +213,16 @@ trait QueryFilter
                     break;
                 case 'order_by':
                     $order_by_criteria = explode(',', $value);
+
                     foreach ($order_by_criteria as $c) {
                         $c = explode(' ', $c);
                         if (isset($c[0]) and trim($c[0]) != '') {
                             $c[0] = trim($c[0]);
                             if (isset($c[1])) {
                                 $c[1] = trim($c[1]);
-
                             }
                             if (isset($c[1]) and ($c[1]) != '') {
+
                                 $query = $query->orderBy($c[0], $c[1]);
                             } else if (isset($c[0])) {
                                 $query = $query->orderBy($c[0]);

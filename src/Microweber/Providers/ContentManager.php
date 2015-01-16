@@ -468,6 +468,9 @@ class ContentManager
         if (!isset($tables['content_data'])) {
             $tables['content_data'] = 'content_data';
         }
+        if (!isset($tables['attributes'])) {
+            $tables['attributes'] = 'attributes';
+        }
 
         if (!isset($tables['categories'])) {
             $tables['categories'] = 'categories';
@@ -488,6 +491,7 @@ class ContentManager
         $this->tables['categories'] = $tables['categories'];
         $this->tables['categories_items'] = $tables['categories_items'];
         $this->tables['menus'] = $tables['menus'];
+        $this->tables['attributes'] = $tables['attributes'];
 
 
         /**
@@ -637,6 +641,27 @@ class ContentManager
             foreach ($get as $item) {
                 if (isset($item['field_name']) and isset($item['field_value'])) {
                     $res[$item['field_name']] = $item['field_value'];
+                }
+            }
+        }
+        if (!empty($res)) {
+            return $res;
+        }
+        return $get;
+    }
+
+    public function attributes($content_id)
+    {
+
+        $data = array();
+        $data['rel_type'] = 'content';
+        $data['rel_id'] = intval($content_id);
+        $res = array();
+        $get = $this->get_attributes($data);
+        if (!empty($get)) {
+            foreach ($get as $item) {
+                if (isset($item['attribute_name']) and isset($item['attribute_value'])) {
+                    $res[$item['attribute_name']] = $item['attribute_value'];
                 }
             }
         }
@@ -4321,6 +4346,50 @@ class ContentManager
         }
         $data_to_save['table'] = $table;
         //$save = $this->app->database->save($table, $data_to_save);
+
+
+        $data_fields = array();
+        if (!empty($orig_data)) {
+            $data_str = 'data_';
+            $data_str_l = strlen($data_str);
+            foreach ($orig_data as $k => $v) {
+                if (is_string($k)) {
+                    if (strlen($k) > $data_str_l) {
+                        $rest = substr($k, 0, $data_str_l);
+                        $left = substr($k, $data_str_l, strlen($k));
+                        if ($rest == $data_str) {
+
+                            if (!isset($data_to_save['data_fields'])) {
+                                $data_to_save['data_fields'] = array();
+                            }
+                            $data_to_save['data_fields'][$left] = $v;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if (!empty($orig_data)) {
+            $data_str = 'attribute_';
+            $data_str_l = strlen($data_str);
+            foreach ($orig_data as $k => $v) {
+                if (is_string($k)) {
+                    if (strlen($k) > $data_str_l) {
+                        $rest = substr($k, 0, $data_str_l);
+                        $left = substr($k, $data_str_l, strlen($k));
+                        if ($rest == $data_str) {
+                            if (!isset($data_to_save['attributes'])) {
+                                $data_to_save['attributes'] = array();
+                            }
+                            $data_to_save['attributes'][$left] = $v;
+                        }
+                    }
+                }
+            }
+        }
+
+
         $save = $this->app->database->extended_save($table, $data_to_save);
 
         $id = $save;
@@ -4341,28 +4410,28 @@ class ContentManager
             $this->app->cache_manager->delete('categories');
         }
 
-        $data_fields = array();
-        if (!empty($orig_data)) {
-            $data_str = 'data_';
-            $data_str_l = strlen($data_str);
-            foreach ($orig_data as $k => $v) {
-
-                if (strlen($k) > $data_str_l) {
-                    $rest = substr($k, 0, $data_str_l);
-                    $left = substr($k, $data_str_l, strlen($k));
-                    if ($rest == $data_str) {
-                        $data_field = array();
-                        $data_field["content_id"] = $save;
-                        $data_field["field_name"] = $left;
-                        $data_field["field_value"] = $v;
-
-                        $data_field = $this->save_content_data_field($data_field);
-
-                    }
-                }
-
-            }
-        }
+//        $data_fields = array();
+//        if (!empty($orig_data)) {
+//            $data_str = 'data_';
+//            $data_str_l = strlen($data_str);
+//            foreach ($orig_data as $k => $v) {
+//
+//                if (strlen($k) > $data_str_l) {
+//                    $rest = substr($k, 0, $data_str_l);
+//                    $left = substr($k, $data_str_l, strlen($k));
+//                    if ($rest == $data_str) {
+//                        $data_field = array();
+//                        $data_field["content_id"] = $save;
+//                        $data_field["field_name"] = $left;
+//                        $data_field["field_value"] = $v;
+//
+//                        $data_field = $this->save_content_data_field($data_field);
+//
+//                    }
+//                }
+//
+//            }
+//        }
         if (!isset($data_to_save['images']) and isset($data_to_save['pictures'])) {
             $data_to_save['images'] = $data_to_save['pictures'];
         }
@@ -4524,21 +4593,10 @@ class ContentManager
 
     public function save_content_data_field($data, $delete_the_cache = true)
     {
-
-        $adm = $this->app->user_manager->is_admin();
         $table = $this->tables['content_data'];
-
-        $check_force = mw_var('FORCE_SAVE_CONTENT_DATA_FIELD');
-
-
-        if ($check_force == false and $adm == false) {
-            return array('error' => "You must be logged in as admin to use: " . __FUNCTION__);
-        }
-
         if (!is_array($data)) {
             $data = parse_params($data);
         }
-
         if (!isset($data['id'])) {
             if (!isset($data['field_name'])) {
                 return array('error' => "You must set 'field' parameter");
@@ -4546,14 +4604,17 @@ class ContentManager
             if (!isset($data['field_value'])) {
                 return array('error' => "You must set 'value' parameter");
             }
-            if (!isset($data['content_id'])) {
-                return array('error' => "You must set 'content_id' parameter");
-            }
+
         }
-        if (isset($data['field_name']) and isset($data['content_id'])) {
+        if (!isset($data['rel_type']) and isset($data['content_id'])) {
+            $data['rel_type'] = 'content';
+            $data['rel_id'] = $data['content_id'];
+        }
+        if (isset($data['field_name']) and isset($data['rel_id']) and isset($data['rel_type'])) {
             $is_existing_data = array();
             $is_existing_data['field_name'] = $data['field_name'];
-            $is_existing_data['content_id'] = intval($data['content_id']);
+            $is_existing_data['rel_id'] = $data['rel_id'];
+            $is_existing_data['rel_type'] = $data['rel_type'];
             $is_existing_data['one'] = true;
             $is_existing = $this->get_content_data_fields($is_existing_data);
             if (is_array($is_existing) and isset($is_existing['id'])) {
@@ -4566,7 +4627,15 @@ class ContentManager
         if (isset($data['field_value']) and is_array($data['field_value'])) {
             $data['field_value'] = json_encode($data['field_value']);
         }
-        $data['rel_type'] = 'content';
+        if (!isset($data['rel_type'])) {
+            $data['rel_type'] = 'content';
+        }
+
+        if (isset($data['rel_type']) and $data['rel_type'] == 'content') {
+            if (isset($data['rel_id'])) {
+                $data['content_id'] = $data['rel_id'];
+            }
+        }
         $save = $this->app->database->save($table, $data);
         $this->app->cache_manager->delete('content_data');
         return $save;
@@ -4574,10 +4643,7 @@ class ContentManager
 
     public function get_content_data_fields($data, $debug = false)
     {
-
-
         $table = $this->tables['content_data'];
-
 
         if (is_string($data)) {
             $data = parse_params($data);
@@ -4597,6 +4663,80 @@ class ContentManager
         return $get;
 
     }
+
+
+    public function save_content_attribute($data, $delete_the_cache = true)
+    {
+        $table = $this->tables['attributes'];
+        if (!is_array($data)) {
+            $data = parse_params($data);
+        }
+        if (!isset($data['id'])) {
+            if (!isset($data['attribute_name'])) {
+                return array('error' => "You must set 'field' parameter");
+            }
+            if (!isset($data['attribute_value'])) {
+                return array('error' => "You must set 'value' parameter");
+            }
+        }
+        if (!isset($data['rel_type']) and isset($data['content_id'])) {
+            $data['rel_type'] = 'content';
+            $data['rel_id'] = $data['content_id'];
+        }
+        if (isset($data['attribute_name']) and isset($data['rel_id']) and isset($data['rel_type'])) {
+            $is_existing_data = array();
+            $is_existing_data['attribute_name'] = $data['attribute_name'];
+            $is_existing_data['rel_id'] = $data['rel_id'];
+            $is_existing_data['rel_type'] = $data['rel_type'];
+            $is_existing_data['one'] = true;
+            $is_existing = $this->get_attributes($is_existing_data);
+            if (is_array($is_existing) and isset($is_existing['id'])) {
+                $data['id'] = $is_existing['id'];
+            }
+        }
+        if (isset($data['content_id'])) {
+            $data['rel_id'] = intval($data['content_id']);
+        }
+        if (isset($data['attribute_value']) and is_array($data['attribute_value'])) {
+            $data['attribute_value'] = json_encode($data['attribute_value']);
+            $data['attribute_type'] = 'array';
+        }
+        if (!isset($data['rel_type'])) {
+            $data['rel_type'] = 'content';
+        }
+
+        if (isset($data['rel_type']) and $data['rel_type'] == 'content') {
+            if (isset($data['rel_id'])) {
+                $data['content_id'] = $data['rel_id'];
+            }
+        }
+        $save = $this->app->database->save($table, $data);
+        $this->app->cache_manager->delete('attributes');
+        return $save;
+    }
+
+    public function get_attributes($data = false)
+    {
+        $table = $this->tables['attributes'];
+        if (is_string($data)) {
+            $data = parse_params($data);
+        }
+        if (!is_array($data)) {
+            $data = array();
+        }
+        $data['table'] = $table;
+        $get = $this->app->database->get($data);
+        if (!empty($get)) {
+            foreach ($get as $k => $data) {
+                if (isset($data['attribute_value']) and isset($data['attribute_type']) and ($data['attribute_type'] == 'array')) {
+                    $data['attribute_value'] = json_decode($data['attribute_value'], true);
+                    $get[$k] = $data;
+                }
+            }
+        }
+        return $get;
+    }
+
 
     function create_default_content($what)
     {
@@ -4725,8 +4865,6 @@ class ContentManager
             case 'install' :
                 $any = $this->get('count=1&content_type=page&limit=1');
                 if (intval($any) == 0) {
-
-
                     $table = $this->tables['content'];
                     mw_var('FORCE_SAVE_CONTENT', $table);
                     mw_var('FORCE_SAVE', $table);
@@ -4775,12 +4913,10 @@ class ContentManager
     public function get_posts($params = false)
     {
         $params2 = array();
-
         if (is_string($params)) {
             $params = parse_str($params, $params2);
             $params = $params2;
         }
-
         if (!is_array($params)) {
             $params = array();
         }
