@@ -14,8 +14,6 @@ use Microweber\Utils\Adapters\Cache\LaravelCache;
  * @category Cache
  * @desc  These functions will allow you to save and get data from the MW cache system
  */
-
-
 class CacheManager
 {
 
@@ -36,7 +34,6 @@ class CacheManager
     {
 
 
-
         if (!is_object($this->app)) {
             if (is_object($app)) {
                 $this->app = $app;
@@ -49,7 +46,6 @@ class CacheManager
 
 
     }
-
 
 
     /**
@@ -72,7 +68,7 @@ class CacheManager
      * //store custom data in cache
      * $data = array('something' => 'some_value');
      * $cache_id = 'my_cache_id';
-     * $cache_content = mw()->cache->save($data, $cache_id, 'my_cache_group');
+     * $cache_content = mw()->cache_manager->save($data, $cache_id, 'my_cache_group');
      * </code>
      *
      */
@@ -98,7 +94,7 @@ class CacheManager
      * <code>
      *
      * $cache_id = 'my_cache_'.crc32($sql_query_string);
-     * $cache_content = mw()->cache->get($cache_id, 'my_cache_group');
+     * $cache_content = mw()->cache_manager->get($cache_id, 'my_cache_group');
      *
      * </code>
      */
@@ -119,16 +115,16 @@ class CacheManager
      * @example
      * <code>
      * //delete the cache for the content
-     *  mw()->cache->delete("content");
+     *  mw()->cache_manager->delete("content");
      *
      * //delete the cache for the content with id 1
-     *  mw()->cache->delete("content/1");
+     *  mw()->cache_manager->delete("content/1");
      *
      * //delete the cache for users
-     *  mw()->cache->delete("users");
+     *  mw()->cache_manager->delete("users");
      *
      * //delete the cache for your custom table eg. my_table
-     * mw()->cache->delete("my_table");
+     * mw()->cache_manager->delete("my_table");
      * </code>
      */
     public function delete($cache_group = 'global')
@@ -141,7 +137,7 @@ class CacheManager
      * @example
      * <code>
      * //delete all cache
-     *  mw()->cache->clear();
+     *  mw()->cache_manager->clear();
      * </code>
      * @return boolean
      * @package Cache
@@ -153,7 +149,6 @@ class CacheManager
     }
 
 
-
     /**
      * Prints cache debug information
      *
@@ -162,7 +157,7 @@ class CacheManager
      * @example
      * <code>
      * //get cache items info
-     *  $cached_items = mw()->cache->debug();
+     *  $cached_items = mw()->cache_manager->debug();
      * print_r($cached_items);
      * </code>
      */
