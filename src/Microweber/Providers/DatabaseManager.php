@@ -99,9 +99,6 @@ class DatabaseManager extends DbUtils
     {
 
 
-
-
-
         $orderby = false;
         $cache_group = false;
         $debug = false;
@@ -112,12 +109,15 @@ class DatabaseManager extends DbUtils
         $groupBy = false;
         $order_by = false;
         $count = false;
+        $sum = false;
         $no_limit = false;
         $limit = $this->default_limit;
         if ($limit == false) {
             $limit = 30;
         }
         $offset = false;
+        $aggregate = false;
+        $aggregate_column = false;
         $min = false;
         $max = false;
         $avg = false;
@@ -193,20 +193,20 @@ class DatabaseManager extends DbUtils
                 $orderby = $v;
             }
 
-            if (isset($criteria['count'])) {
-                $count = $criteria['count'];
-
-            }
-
 
         }
 
-
+        $aggegates = array('count', 'avg', 'sum', 'max', 'min');
+        foreach ($aggegates as $item) {
+            if (isset($params[$item])) {
+                $aggregate = $item;
+                $aggregate_column = $params[$item];
+            }
+        }
         if (!isset($table)) {
             print "error no table found in params";
             return false;
         }
-
         if (isset($params['return_criteria'])) {
             return $criteria;
         }
@@ -218,72 +218,71 @@ class DatabaseManager extends DbUtils
             } else {
                 $cache_group = $cache_group . '/' . $criteria['id'];
             }
-
         } else {
             $cache_group = $this->guess_cache_group($cache_group);
         }
         $function_cache_id = false;
-
         $args = func_get_args();
-
         foreach ($args as $k => $v) {
-
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
         $table = $this->escape_string($table);
         $table = $this->assoc_table_name($table);
         $function_cache_id = __FUNCTION__ . $table . crc32($function_cache_id);
+        if ($no_cache == false) {
+            $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
 
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-
-        if (($cache_content) != false) {
-            return $cache_content;
+            if (($cache_content) != false) {
+                return $cache_content;
+            }
         }
 
         $orm = DB::table($table);
 
         $table_criteria = $this->map_array_to_table($table, $criteria);
-
-
-        //$orm = DB::table($table)->remember(10);
         $orm = $this->build_query($orm, $table_criteria);
 
         if (!is_object($orm)) {
-
             return false;
         }
 
-        if ($getone != true) {
-            $get_db_items = $orm->get();
-            if (!empty($get_db_items)) {
+        if ($aggregate) {
+            if (!$aggregate_column) {
+                $get_db_items = $orm->$aggregate();
+            } else {
+                $get_db_items = $orm->$aggregate($aggregate_column);
+            }
+        } else if ($count != true) {
+            if ($getone != true) {
+                $get_db_items = $orm->get();
+                if (!empty($get_db_items)) {
+                    $get_db_items = (array)$get_db_items;
+                    foreach ($get_db_items as $k => $v) {
+                        $get_db_items[$k] = (array)$v;
+                    }
+                }
+            } else {
+                $db_items = $orm->get();
+                if (!empty($db_items)) {
+                    $db_items = array_shift($db_items);
+                }
+                $get_db_items = (array)$db_items;
+            }
+        } else {
+            $get_db_items = $orm->count();
+        }
 
-                // $get_db_items = $get_db_items->toArray();
-                $get_db_items = (array)$get_db_items;
-
-                foreach ($get_db_items as $k => $v) {
-
-                    $get_db_items[$k] = (array)$v;
+        if (!$aggregate) {
+            if ($count == true) {
+                if (empty($get_db_items)) {
+                    return 0;
                 }
             }
-
-        } else {
-            $db_items = $orm->get();
-            if (!empty($db_items)) {
-                $db_items = array_shift($db_items);
-            }
-            $get_db_items = (array)$db_items;
-
-
         }
 
-        if ($count == true) {
-            if (empty($get_db_items)) {
-                return 0;
-            }
+        if ($no_cache == false) {
+            $this->app->cache_manager->save($get_db_items, $function_cache_id, $cache_group);
         }
-
-        $this->app->cache_manager->save($get_db_items, $function_cache_id, $cache_group);
-
         return $get_db_items;
 
     }

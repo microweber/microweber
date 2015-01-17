@@ -462,7 +462,7 @@ class Database
 
             if ($groupBy == false) {
                 if ($count == false and $count_paging == false and $min == false and $max == false and $avg == false) {
-                    $orm->groupBy('id');
+                   // $orm->groupBy('id');
                 }
             } else {
                 if ($count_paging == false) {

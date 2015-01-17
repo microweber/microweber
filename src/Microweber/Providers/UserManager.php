@@ -586,13 +586,12 @@ class UserManager
                     $this->app->event_manager->trigger('after_user_register', $params);
 
 
-
                     return array('success' => 'You have registered successfully');
 
                 } else {
 
                     $try_login = $this->login($params);
-                    if(isset($try_login['success'])){
+                    if (isset($try_login['success'])) {
                         return ($try_login);
                     }
 
@@ -699,7 +698,6 @@ class UserManager
 
                     }
                 }
-
             } else {
                 if (defined('MW_API_CALL') and mw_is_installed() == true) {
                     $params['id'] = $this->id();
@@ -707,7 +705,6 @@ class UserManager
                     if (intval($params['id']) != 0 and $is_logged != $params['id']) {
                         return array('error' => 'You must be logged save your settings');
                     }
-
                 }
             }
         }
@@ -726,8 +723,18 @@ class UserManager
                 }
             }
         }
-
-
+        if (isset($data_to_save['email']) and isset($data_to_save['id'])) {
+            $email = trim($data_to_save['email']);
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $check_existing = array();
+                $check_existing['email'] = $email;
+                $check_existing['single'] = 1;
+                $check_existing = $this->get_all($check_existing);
+                if(isset($check_existing['id']) and $check_existing['id'] != $data_to_save['id']){
+                    return array('error' => 'User with this email already exists!');
+                }
+             }
+        }
         if (isset($params['id']) and intval($params['id']) != 0) {
             $user = \User::find($params['id']);
         } else {
@@ -741,17 +748,15 @@ class UserManager
             } else {
                 $id_to_return = DB::getPdo()->lastInsertId();
             }
-
-
+            $params['id'] = $id_to_return;
+            $this->app->event_manager->trigger('mw.user.save', $params);
         } else {
             return array('error' => 'Error saving the user!');
         }
-
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . '0');
         $this->app->cache_manager->delete('users' . DIRECTORY_SEPARATOR . $id_to_return);
         return $id_to_return;
-
     }
 
 
