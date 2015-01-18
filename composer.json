@@ -15,7 +15,7 @@
         "composer/composer": "dev-master",
         "laravel/socialite": "dev-master",
         "composer/installers": "1.*"
-    }
+    },
     "require-dev": {
         "symfony/yaml": "~2.0,>=2.0.5"
     },
