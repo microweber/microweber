@@ -14,7 +14,9 @@
         "laravel/framework": "~5.0",
         "composer/composer": "dev-master",
         "laravel/socialite": "dev-master",
-        "composer/installers": "1.*",
+        "composer/installers": "1.*"
+    }
+    "require-dev": {
         "symfony/yaml": "~2.0,>=2.0.5"
     },
     "autoload": {
