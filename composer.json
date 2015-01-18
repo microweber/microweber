@@ -14,11 +14,10 @@
         "laravel/framework": "~5.0",
         "composer/composer": "dev-master",
         "laravel/socialite": "dev-master",
-        "composer/installers": "1.*"
-    },
-    "require-dev": {
+        "composer/installers": "1.*",
         "symfony/yaml": "~2.0,>=2.0.5"
     },
+    "require-dev": {},
     "autoload": {
         "classmap": [
             "database"
