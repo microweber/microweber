@@ -18,7 +18,7 @@ Check out our [online guides](http://lab.microweber.com/l5/microweber-docs/guide
 
 ## Installation
 
-`composer create-project microweber/microweber my_site 1.0.x-dev --prefer-dist`
+`composer create-project microweber/microweber my_site 1.0.x-dev --prefer-dist --no-dev`
 
 After installation you can login in the admin panel from **http://you_site_url/admin**
 
