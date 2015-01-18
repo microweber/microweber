@@ -17,10 +17,6 @@
         "composer/installers": "1.*" 
         
     },
-    "require-dev": {
-        "phpunit/phpunit": "~4.0",
-		"phpspec/phpspec": "~2.1"
-    },
     "autoload": {
         "classmap": [
             "database"
