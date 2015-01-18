@@ -249,6 +249,8 @@ class MenuManager
             if (is_array($menu_params)) {
                 extract($menu_params);
             }
+        } elseif (is_array($menu_id)) {
+            extract($menu_id);
         }
 
         if (is_array($menu_id)) {
@@ -304,6 +306,8 @@ class MenuManager
 	WHERE parent_id=$menu_id
     AND   id!=$menu_id
 	ORDER BY position ASC ";
+
+
 
 
         //and item_type='menu_item'

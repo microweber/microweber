@@ -1988,17 +1988,14 @@ class DefaultController extends Controller
                 require_once(MW_PATH . 'Utils' . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'phpQuery.php');
                 $pq = \phpQuery::newDocument($l);
                 foreach ($pq['#' . $id_sel] as $elem) {
-
                     $l = pq($elem)->htmlOuter();
                 }
-
             }
             if (mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and $is_editmode) {
                 session_set('last_content_id', CONTENT_ID);
             }
 
             if ($output_cache_timeout != false) {
-
                 $this->app->cache_manager->save($l, $output_cache_id, $output_cache_group);
             }
 
