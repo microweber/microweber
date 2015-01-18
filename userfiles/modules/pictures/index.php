@@ -58,7 +58,11 @@ if (!isset($params['rel_id']) or $params['rel_id'] == false) {
     $params['rel_id'] = 0;
 }
 
- 
+
+$handle_empty = false;
+if (isset($params['handle_empty']) == true) {
+$handle_empty = $params['handle_empty'];
+}
 if (isset($params['rel_id']) == true) {
     $for_id = $params['rel_id'];
     $get_for_session = false;
@@ -97,8 +101,12 @@ if (isset($params['rel_id']) == true) {
     }
 
     if (isset($no_img) and ($no_img) != false) {
-
-		if(in_live_edit()){
+			if($handle_empty != false){
+				if(isset($template_file) and is_file($template_file) != false){
+				include($template_file);
+				}
+			} else if(in_live_edit()){
+			
         print "<div class='pictures-module-default-view mw-open-module-settings thumbnail' style='height:65px;background: #f5f5f5 url(". $config['url_to_module'] . "pictures.png) no-repeat center;'></div>";
 		}
 		
