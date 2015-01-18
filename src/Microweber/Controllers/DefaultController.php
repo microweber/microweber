@@ -259,6 +259,13 @@ class DefaultController extends Controller
 
         $hooks = api_bind(true);
 
+        if (is_admin()) {
+            $hooks_admin = api_bind_admin(true);
+            if(is_array($hooks_admin)){
+                $hooks = array_merge($hooks,$hooks_admin);
+            }
+        }
+
         if ($api_function == false) {
             $api_function = $this->app->url_manager->segment(1);
         }

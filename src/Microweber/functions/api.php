@@ -37,6 +37,21 @@ function api_bind($function_name, $callback = false)
 
     }
 }
+function api_bind_admin($function_name, $callback = false)
+{
+    static $mw_api_binds;
+    if (is_bool($function_name)) {
+        if (is_array($mw_api_binds)) {
+            $index = ($mw_api_binds);
+            return $index;
+        }
+
+    } else {
+        $function_name = trim($function_name);
+        $mw_api_binds[$function_name][] = $callback;
+
+    }
+}
 
 function document_ready($function_name)
 {

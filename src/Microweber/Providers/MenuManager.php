@@ -51,7 +51,6 @@ class MenuManager
     public function set_table_names($tables = false)
     {
 
-
         if (!isset($tables['menus'])) {
             $tables['menus'] = 'menus';
         }
@@ -69,31 +68,19 @@ class MenuManager
             $data_to_save = $params2;
         }
 
-        $id = $this->app->user_manager->is_admin();
-        if (defined("MW_API_CALL") and $id == false) {
-            return false;
-            //error('Error: not logged in as admin.'.__FILE__.__LINE__);
-        } else {
 
-            if (isset($data_to_save['menu_id'])) {
-                $data_to_save['id'] = intval($data_to_save['menu_id']);
-            }
-            $table = $this->tables['menus'];
-
-            $data_to_save['table'] = $table;
-            $data_to_save['item_type'] = 'menu';
-
-            if (!isset($data_to_save['id']) or $data_to_save['id'] == 0) {
-                $data_to_save['is_active'] = 1;
-            }
-
-
-            $save = $this->app->database->save($table, $data_to_save);
-
-            $this->app->cache_manager->delete('menus/global');
-
-            return $save;
+        if (isset($data_to_save['menu_id'])) {
+            $data_to_save['id'] = intval($data_to_save['menu_id']);
         }
+        $table = $this->tables['menus'];
+        $data_to_save['table'] = $table;
+        $data_to_save['item_type'] = 'menu';
+        if (!isset($data_to_save['id']) or $data_to_save['id'] == 0) {
+            $data_to_save['is_active'] = 1;
+        }
+        $save = $this->app->database->save($table, $data_to_save);
+        $this->app->cache_manager->delete('menus/global');
+        return $save;
 
     }
 
@@ -250,6 +237,7 @@ class MenuManager
                 extract($menu_params);
             }
         } elseif (is_array($menu_id)) {
+            $menu_params = $menu_id;
             extract($menu_id);
         }
 
@@ -308,8 +296,6 @@ class MenuManager
 	ORDER BY position ASC ";
 
 
-
-
         //and item_type='menu_item'
         $menu_params = array();
         $menu_params['parent_id'] = $menu_id;
@@ -345,6 +331,7 @@ class MenuManager
             return false;
         }
         $active_class = '';
+        $a_class = '';
         if (!isset($ul_class)) {
             $ul_class = 'menu';
         }
@@ -380,6 +367,10 @@ class MenuManager
         if (isset($params['depth']) != false) {
             $maxdepth = $params['depth'];
         }
+        if (isset($params_o['a_class']) != false) {
+            $a_class = $params_o['a_class'];
+
+        }
         if (isset($params_o['depth']) != false) {
             $maxdepth = $params_o['depth'];
         }
@@ -389,7 +380,7 @@ class MenuManager
 
 
         if (!isset($link) or $link == false) {
-            $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level}"  href="{url}">{title}</a>';
+            $link = '<a itemprop="url" data-item-id="{id}" class="menu_element_link {active_class} {exteded_classes} {nest_level} {a_class}"  href="{url}">{title}</a>';
         }
 
         $to_print = '<' . $ul_tag . ' role="menu" class="{ul_class}' . ' menu_' . $menu_id . ' {exteded_classes}" >';
@@ -528,6 +519,7 @@ class MenuManager
                     $menu_link = str_replace('{' . $key . '}', $value, $menu_link);
                 }
                 $menu_link = str_replace('{active_class}', $active_class, $menu_link);
+                $menu_link = str_replace('{a_class}', $a_class, $menu_link);
                 $to_print .= $menu_link;
 
                 $ext_classes = '';
@@ -632,6 +624,7 @@ class MenuManager
                     }
                 }
 
+                $to_print = str_replace('{a_class}', $a_class, $to_print);
                 $to_print = str_replace('{ul_class}', $ul_class, $to_print);
                 $to_print = str_replace('{li_class}', $li_class, $to_print);
                 $to_print = str_replace('{exteded_classes}', $ext_classes, $to_print);
@@ -664,12 +657,6 @@ class MenuManager
         $params = parse_params($id);
 
 
-        $is_admin = $this->app->user_manager->is_admin();
-        if ($is_admin == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
-
-
         if (!isset($params['id'])) {
             mw_error('Error: id param is required.');
         }
@@ -690,17 +677,9 @@ class MenuManager
 
     public function menu_item_get($id)
     {
-
-        $is_admin = $this->app->user_manager->is_admin();
-        if ($is_admin == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
         $id = intval($id);
-
         $table = $this->tables['menus'];
-
         return get("one=1&limit=1&table=$table&id=$id");
-
     }
 
 
@@ -713,30 +692,16 @@ class MenuManager
         if (!isset($id) or $id == false or intval($id) == 0) {
             return false;
         }
-
-        $is_admin = $this->app->user_manager->is_admin();
-        if ($is_admin == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
-
         $table = $this->tables['menus'];
-
         $this->app->database_manager->delete_by_id($table, intval($id), $field_name = 'id');
-
         $this->app->cache_manager->delete('menus/global');
-
         return true;
-
     }
 
     public function menu_items_reorder($data)
     {
 
         $return_res = false;
-        $adm = $this->app->user_manager->is_admin();
-        if (defined("MW_API_CALL") and $adm == false) {
-            mw_error('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
         $table = $this->tables['menus'];
         $table = $this->app->database_manager->real_table_name($table);
         if (isset($data['ids_parents'])) {
@@ -771,9 +736,7 @@ class MenuManager
 
                     $i++;
                 }
-
                 $this->app->database_manager->update_position_field($table, $indx);
-                //return true;
                 $return_res = $indx;
             }
         }
@@ -800,17 +763,11 @@ class MenuManager
         }
     }
 
-
     public function get_menu_items($params = false)
     {
         $table = $this->tables['menus'];
-        $params2 = array();
-        if ($params == false) {
-            $params = array();
-        }
         if (is_string($params)) {
-            $params = parse_str($params, $params2);
-            $params = $params2;
+            $params = parse_params($params);
         }
         $params['table'] = $table;
         $params['item_type'] = 'menu_item';
