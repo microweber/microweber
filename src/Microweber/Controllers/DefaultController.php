@@ -1736,8 +1736,6 @@ class DefaultController extends Controller
             $template_headers_src = $this->app->template->head(true);
 
 
-
-
             $template_headers_src_callback = $this->app->template->head_callback($page);
             if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
                 foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
@@ -1853,7 +1851,7 @@ class DefaultController extends Controller
                         }
                     }
                 }
-            } else if ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and isset($_SESSION['back_to_editmode'])) {
+            } else if ($is_editmode == false and $is_admin == true and mw()->user_manager->session_id() and !(mw()->user_manager->session_all() == false) and mw()->user_manager->session_get('back_to_editmode')) {
                 if (!isset($_REQUEST['isolate_content_field']) and !isset($_REQUEST['content_id'])) {
                     $back_to_editmode = $this->app->user_manager->session_get('back_to_editmode');
                     if ($back_to_editmode == true) {
