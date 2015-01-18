@@ -1,34 +1,31 @@
-# Microweber the Drag-and-Drop CMS
+# Microweber: Drag-and-Drop CMS
 ---
 
 Now runs on Laravel 5!
 
 ![Live edit](http://microweber.com/cdn/microweber_screen_1.jpg "")
 
-
-
 ## What is Microweber?
 
-Microweber is a content management system of new generation that allows you to make your website by drag and drop.
-
-You can easily manipulate the content and the layout of your pages without the need to write code.
+Microweber is a new generation content management system that allows you to create a website using drag and drop.
+You can easily manipulate the content and the layout of your pages. No coding skills are required.
 
 [Try the demo here](http://demo.microweber.org/admin?username=demo&password=demo)
 
+## Getting Started
 
-# Installation
+Check out our [online guides](http://lab.microweber.com/l5/microweber-docs/guides/)
 
-`composer create-project microweber/microweber my_site 1.0.x-dev --prefer-dist`
+## Installation
 
+`composer create-project microweber/microweber my_site 1.0.x-dev --prefer-dist --no-dev`
 
 After installation you can login in the admin panel from **http://you_site_url/admin**
 
-
-# Requirements
+## Requirements
 
 The following server requirements are needed:
-
-* Apache web server or IIS
+* Web server (Apache, IIS)
 * PHP 5.4 or above
 * MySQL 5 or above
 * PDO with MySQL support
@@ -37,10 +34,7 @@ The following server requirements are needed:
 * GD php extension must be loaded
 * Mcrypt php extension 
 
-
-
-Contribute
-===
+## Contribute
 We are looking for people who want to help us improve Microweber. 
 
 If you are a developer, submitting fixes is easy:

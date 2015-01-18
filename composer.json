@@ -14,12 +14,10 @@
         "laravel/framework": "~5.0",
         "composer/composer": "dev-master",
         "laravel/socialite": "dev-master",
-        "composer/installers": "1.*" 
-        
+        "composer/installers": "1.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0",
-		"phpspec/phpspec": "~2.1"
+        "phpunit/phpunit": "4.5.*@dev"
     },
     "autoload": {
         "classmap": [
