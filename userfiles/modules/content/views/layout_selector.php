@@ -436,8 +436,20 @@ if ($global_template == false) {
     $global_template = 'default';
 }
 
-?>
+$default_value_on_match  = 'default';
+if(isset($params['no-default-name'])){
+	if($data['active_site_template'] != 'default'){
+	$default_value_on_match  = $data['active_site_template'];
 
+	} else {
+		$default_value_on_match  = $global_template;
+	
+	}
+}
+ 
+
+
+?>
 <?php
 $is_layout_file_set = false;
 
@@ -474,7 +486,6 @@ $is_chosen = false;
  
 ?>
 
- 
 
 <div class="layouts_box_holder <?php if (isset($params['small'])): ?> semi_hidden  <?php endif; ?>" >
 
@@ -504,7 +515,7 @@ $is_chosen = false;
                     <?php endforeach ?>
                     <?php if (trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
                         <option
-                            value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template): ?>   selected="selected" <?php $selected = true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+                            value="<?php print $default_value_on_match; ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template): ?>   selected="selected" <?php $selected = true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
                     <?php else: ?>
                         <option
                             value="<?php print $item['dir_name'] ?>"    <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
@@ -602,7 +613,7 @@ $is_chosen = false;
                         <?php endforeach ?>
                         <?php if (trim($item['dir_name']) == $global_template and $item['dir_name'] != 'default'): ?>
                             <option
-                                value="default"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template): ?>   selected="selected" <?php $selected = true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
+                                value="<?php print $default_value_on_match; ?>"    <?php if ($item['dir_name'] == $data['active_site_template'] and trim($data['active_site_template']) == $global_template): ?>   selected="selected" <?php $selected = true; ?> <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
                         <?php else: ?>
                             <option
                                 value="<?php print $item['dir_name'] ?>"    <?php if ($selected == false and $item['dir_name'] == $data['active_site_template']): ?>   selected="selected"  <?php endif; ?>   <?php print $attrs; ?>  > <?php print $item['name'] ?> </option>
