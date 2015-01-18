@@ -1,7 +1,7 @@
 {
     "name": "microweber/microweber",
     "type": "application",
-    "description": "New generation of CMS with drag and drop",
+    "description": "New generation CMS with drag and drop",
     "keywords": [
         "cms",
         "drag and drop",
@@ -11,19 +11,19 @@
         "laravel"
     ],
     "require": {
-        "laravel/framework": "dev-master",
+        "laravel/framework": "~5.0",
         "composer/composer": "dev-master",
         "laravel/socialite": "dev-master",
         "composer/installers": "1.*" 
         
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~4.0",
+		"phpspec/phpspec": "~2.1"
     },
     "autoload": {
         "classmap": [
-            "database",
-            "tests/TestCase.php"
+            "database"
         ],
         "psr-4": {
             "": "src/",
@@ -33,8 +33,6 @@
     "scripts": {
         "post-install-cmd": [
             "php artisan clear-compiled",
-            "php artisan route:scan",
-            "php artisan event:scan",
             "php artisan optimize"
         ],
         "post-update-cmd": [
