@@ -147,8 +147,7 @@ function save_user($params)
 }
 
 
-api_expose('delete_user');
-
+api_expose_admin('delete_user');
 function delete_user($data)
 {
     return mw()->user_manager->delete($data);

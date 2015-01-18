@@ -624,12 +624,8 @@ class UserManager
 
     public function hash_pass($pass)
     {
-
-
         $hash = \Hash::make($pass);
         return $hash;
-
-
     }
 
     /**
@@ -762,9 +758,7 @@ class UserManager
 
     public function login_set_failed_attempt()
     {
-
         $this->app->log_manager->save("title=Failed login&is_system=y&rel_type=login_failed&user_ip=" . MW_USER_IP);
-
     }
 
     public function get($params = false)
@@ -773,19 +767,13 @@ class UserManager
         if ($id == false) {
             $id = user_id();
         }
-
-
         if ($id == 0) {
             return false;
         }
-
         $res = $this->get_by_id($id);
-
         if (empty($res)) {
-
             $res = $this->get_by_username($id);
         }
-
         return $res;
     }
 
@@ -803,17 +791,11 @@ class UserManager
 
     function delete($data)
     {
-        $adm = $this->is_admin();
-        if (defined('MW_API_CALL') and $adm == false) {
-            return ('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
-
         if (!is_array($data)) {
             $new_data = array();
             $new_data['id'] = intval($data);
             $data = $new_data;
         }
-
         if (isset($data['id'])) {
             $c_id = intval($data['id']);
             $this->app->database_manager->delete_by_id('users', $c_id);
@@ -868,12 +850,8 @@ class UserManager
         } else {
             $data1['password'] = $params['pass1'];
             $data1['password_reset_hash'] = '';
-
-
         }
 
-
-        mw_var('FORCE_SAVE', $table);
 
         $save = $this->app->database->save($table, $data1);
 
@@ -892,7 +870,6 @@ class UserManager
 
     public function session_end()
     {
-        //var_dump('dsdsa')
         \Session::flush();
         \Session::regenerate();
     }
@@ -922,8 +899,6 @@ class UserManager
             if (trim($user != '')) {
                 $data1 = array();
                 $data1['username'] = $user;
-                //$data1['oauth_uid'] = '[null]';
-                //$data1['oauth_provider'] = '[null]';
                 $data = array();
                 $data_res = false;
                 if (trim($user != '')) {

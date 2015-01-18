@@ -22,7 +22,6 @@ class CacheStore implements StoreInterface
         $this->prefix = $prefix;
 
 
-
         $this->directory = \Config::get('cache.stores.file.path') . '/' . app()->environment();
         $this->tags = array();
         $this->directoryTags = $this->directory . (!empty($prefix) ? '/' . $prefix : '') . '/tags';
@@ -84,18 +83,19 @@ class CacheStore implements StoreInterface
         $path = $this->normalize_path($path, false);
 
         $this->createCacheDirectory($path);
-
+        $skip = false;
         if (!empty($this->tags)) {
             foreach ($this->tags as $tag) {
                 if (in_array($tag, $this->deleted_tags)) {
-                    // return null;
+                    $skip = true;
                 }
             }
 
             $this->_setTags($path);
         }
-        @file_put_contents($path, $value);
-
+        if (!$skip) {
+            @file_put_contents($path, $value);
+        }
         // $this->files->put($path, $value);
     }
 
@@ -130,6 +130,8 @@ class CacheStore implements StoreInterface
     {
 
         foreach ($this->tags as $tg) {
+
+
             $file = $this->directoryTags . '/' . $tg;
             $file = $this->normalize_path($file, false);
 
@@ -139,12 +141,13 @@ class CacheStore implements StoreInterface
                 @file_put_contents($file, "$path");
 
             } else {
-                if(is_file($file)){
-                $farr = file($file);
-                if (!in_array($path, $farr)) {
-                    @file_put_contents($file, "\n$path", FILE_APPEND);
+                if (is_file($file)) {
+                    $farr = file($file);
+                    if (!in_array($path, $farr)) {
+                        @file_put_contents($file, "\n$path", FILE_APPEND);
+                    }
                 }
-                }
+
             }
 
         }
@@ -261,7 +264,6 @@ class CacheStore implements StoreInterface
         foreach ($string_array as $sa) {
             $this->deleted_tags[] = $sa;
             $file = $this->directoryTags . '/' . $sa;
-
 
 
             if ($this->files->exists($file)) {
