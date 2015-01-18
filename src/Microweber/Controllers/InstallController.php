@@ -121,6 +121,11 @@ class InstallController extends Controller
                 return ('Error: ' . $e->getMessage() . "\n");
             }
 
+            if(function_exists('set_time_limit')){
+                @set_time_limit(0);
+            }
+
+
             $installer = new Install\DbInstaller();
             $installer->run();
 
