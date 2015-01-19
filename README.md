@@ -10,7 +10,7 @@ Now runs on Laravel 5!
 Microweber is a new generation content management system that allows you to create a website using drag and drop.
 You can easily manipulate the content and the layout of your pages. No coding skills are required.
 
-[Try the demo here](http://demo.microweber.org/admin?username=demo&password=demo)
+### [Live Demo](http://demo.microweber.org/admin?username=demo&password=demo)
 
 ## Getting Started
 
