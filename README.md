@@ -18,9 +18,15 @@ Check out our [online guides](http://lab.microweber.com/l5/microweber-docs/guide
 
 ## Installation
 
+You need to [have Composer installed](https://getcomposer.org/doc/00-intro.md) in order to download Microweber's dependencies (including [the Laravel framework](http://laravel.com/)).
+
+* Via Composer
+
 `composer create-project microweber/microweber my_site 1.0.x-dev --prefer-dist --no-dev`
 
-After installation you can login in the admin panel from **http://you_site_url/admin**
+* Clone The Repository
+
+Clone this repository (or download as zip) on your server and run `composer install` in the base folder.
 
 ## Requirements
 
