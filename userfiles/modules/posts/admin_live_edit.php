@@ -47,7 +47,7 @@ if (isset($params['global'])) {
     }
 }
 if ($is_global == false) {
-    if (isset($params['is_shop']) and $params['is_shop'] == 'y') {
+    if (isset($params['is_shop']) and ($params['is_shop'] == 'y' or $params['is_shop'] == 1)) {
         $add_post_q .= ' content_type="product"   ';
     } else if (isset($params['content_type']) and $params['content_type'] != '') {
         $add_post_q .= ' content_type="'.$params['content_type'].'"   ';
@@ -76,6 +76,7 @@ if ($posts_parent_category == false) {
 	}
 	
 } 
+
 if ($posts_parent_category != false) {
     $add_post_q .= ' parent-category-id="' . intval($posts_parent_category). '" ';
 }
@@ -135,6 +136,16 @@ $add_post_q .= '  ';
 
 
 
+resizeModal = function(){
+  var type = typeof(thismodal);
+  if( type !== 'undefined' &&  type !== 'boolean'){
+    parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 810, mw.$('#settings-container').height() + 25, false);
+  }
+  else{
+
+  }
+}
+
 
 mw.on.hashParam("action", function () {
 	 var id = (this.split(':')[1]);
@@ -178,9 +189,8 @@ mw.on.hashParam("action", function () {
         mw.$('#mw_posts_create_live_edit').removeAttr('live_edit');
 		$('#mw_posts_edit_live_edit').html('');
         mw.load_module('content/edit', '#mw_posts_create_live_edit', function () {
-			if(typeof(thismodal) != 'undefined'){
-            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 810, mw.$('#settings-container').height() + 25, false);
-			}
+
+             resizeModal();
         });
     }
     mw.manage_live_edit_content = function ($id) {
@@ -190,9 +200,7 @@ mw.on.hashParam("action", function () {
         }
         $('#mw_posts_manage_live_edit').removeAttr('just-saved');
         mw.load_module('content/manage_live_edit', '#mw_posts_manage_live_edit', function () {
-			if(typeof(thismodal) != 'undefined'){
-            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 710, mw.$('#settings-container').height() + 25, false);
-			}
+			resizeModal();
         })
     }
     mw.edit_content_live_edit = function ($cont_id) {
@@ -204,9 +212,7 @@ mw.on.hashParam("action", function () {
 		
 		$('#mw_posts_create_live_edit').html('');
         mw.load_module('content/edit', '#mw_posts_edit_live_edit', function () {
-			if(typeof(thismodal) != 'undefined'){
-            parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 710, mw.$('#settings-container').height() + 25, false);
-			}
+			resizeModal();
         });
     }
 
@@ -230,12 +236,22 @@ mw.on.hashParam("action", function () {
        Tabs = mw.tabs({
             nav:".mw-ui-btn-nav-tabs .mw-ui-btn",
             tabs:".tab",
+            onclick : function(tab, event, index){
+                window.name = index;
+            }
        });
+       if(window.name != ''){
+          var index = parseFloat(window.name);
+          if( !isNaN(index) ){
+            Tabs.set(index);
+          }
+
+       }
     });
 
 </script>
 
- 
+
 <div class="post-settings-holder">
 	<?php   if (isset($params['global'])) { ?>
 		<a href="javascript:;"
@@ -267,6 +283,7 @@ mw.on.hashParam("action", function () {
 	</div>
     <div class="mw-ui-box mw-ui-box-content">
 	<div class="tab" style="display: block">
+    
  		<module type="content/manager"  <?php print $add_post_q ?> no_page_edit="true" id="mw_posts_manage_live_edit" no_toolbar="true" />
 	</div>
 	<div class="tab" style="display:none">

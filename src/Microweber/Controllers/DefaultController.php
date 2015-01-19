@@ -261,8 +261,8 @@ class DefaultController extends Controller
 
         if (is_admin()) {
             $hooks_admin = api_bind_admin(true);
-            if(is_array($hooks_admin)){
-                $hooks = array_merge($hooks,$hooks_admin);
+            if (is_array($hooks_admin)) {
+                $hooks = array_merge($hooks, $hooks_admin);
             }
         }
 
@@ -1764,15 +1764,9 @@ class DefaultController extends Controller
 
             $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             if (!stristr($l, $apijs_loaded)) {
-                $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID;
-
-                // $default_css = $default_css . "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
-
+                $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID. '&category_id=' . CATEGORY_ID;;
                 $default_css = "\r\n" . '<script src="' . $apijs_settings_loaded . '"></script>' . "\r\n";
                 $default_css .= '<script src="' . $apijs_loaded . '"></script>' . "\r\n";
-
-                /*  $default_css .= '<script src="' . mw_includes_url() . 'js/jquery-1.10.2.min.js"></script>' . "\r\n";*/
-
                 $l = str_ireplace('<head>', '<head>' . $default_css, $l);
             }
 
@@ -2145,12 +2139,18 @@ class DefaultController extends Controller
                 $page_id = $ref_page['id'];
             }
         }
-        if (isset($_SERVER['HTTP_REFERER'])) {
+
+
+        if (isset($_REQUEST['category_id'])) {
+            $cat_url = intval($_REQUEST['category_id']);
+        } elseif (isset($_SERVER['HTTP_REFERER'])) {
             $cat_url = mw()->url_manager->param('category', true, $_SERVER['HTTP_REFERER']);
-            if ($cat_url != false) {
-                if (!defined('CATEGORY_ID')) {
-                    define('CATEGORY_ID', intval($cat_url));
-                }
+            $cat_url = intval($cat_url);
+        }
+
+        if ($cat_url != false) {
+            if (!defined('CATEGORY_ID')) {
+                define('CATEGORY_ID', intval($cat_url));
             }
         }
 
@@ -2371,7 +2371,7 @@ class DefaultController extends Controller
 
             //$apijs_loaded = $this->app->url_manager->site('apijs') . '?id=' . CONTENT_ID;
             $apijs_loaded = $this->app->url_manager->site('apijs');
-            $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID;
+            $apijs_settings_loaded = $this->app->url_manager->site('apijs_settings') . '?id=' . CONTENT_ID . '&category_id=' . CATEGORY_ID;
 
             // $is_admin = $this->app->user_manager->is_admin();
             $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css" type="text/css" />';

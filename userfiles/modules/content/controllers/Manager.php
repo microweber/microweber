@@ -118,8 +118,7 @@ class Manager
             }
         }
 		
-	 
-		 
+
 
         if (isset($params['category-id']) and $params['category-id'] != 'global') {
             $check_if_exist = $this->category_provider->get_page($params['category-id']);
@@ -148,35 +147,29 @@ class Manager
         }
 		 
         if (isset($params['data-category-id'])) {
-            $posts_mod['category-id'] = $params['data-category-id'];
+            $posts_mod['category'] = $params['data-category-id'];
+        } else if (isset($params['parent-category-id'])) {
+            $posts_mod['category'] = $params['parent-category-id'];
+        } elseif (isset($params['category-id'])) {
+            $posts_mod['category'] = $params['category-id'];
         }
-        if (isset($params['data-category-id'])) {
-            $posts_mod['category-id'] = $params['data-category-id'];
-        }
+
         if (isset($params[$posts_mod['paging_param']])) {
             $posts_mod['page'] = $params[$posts_mod['paging_param']];
         }
-        if (isset($params['category-id'])) {
-            $posts_mod['category'] = $params['category-id'];
-        }
+
         $keyword = false;
         if (isset($posts_mod['search_by_keyword'])) {
             $keyword = strip_tags($posts_mod['search_by_keyword']);
         }
-		
-		 
 
         $data = $this->provider->get($posts_mod);
-
         if (empty($data) and isset($posts_mod['page'])) {
             if(isset($posts_mod['paging_param'])) {
                 $posts_mod[$posts_mod['paging_param']]= 1;
             }
-
             unset($posts_mod['page']);
-
             $data = $this->provider->get($posts_mod);
-
         }
 
         $post_params_paging = $posts_mod;

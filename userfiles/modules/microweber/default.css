@@ -132,7 +132,6 @@ body.state-element .mw-row .element{
 
 
 .element, .edit .module {
-  display: block;
   clear: both;
   -moz-transition: none !important;
   -webkit-transition: none !important;

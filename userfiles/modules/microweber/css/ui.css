@@ -2753,6 +2753,7 @@ div.mw-ui-field:after {
 }
 .mw_modal_gallery {
   background: transparent;
+  border: none;
 }
 .mw_modal_gallery .mw-icon-close {
   position: absolute;
@@ -2920,6 +2921,7 @@ div.mw-ui-field:after {
   text-shadow: 0 0 1px #777;
   line-height: 40px;
   font-family: Microweber;
+  border-radius: 1px;
 }
 .mw_modal_gallery .mwf-next:focus,
 .mw_modal_gallery .mwf-next:hover,

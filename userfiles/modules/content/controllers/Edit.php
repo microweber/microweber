@@ -116,7 +116,10 @@ class Edit
         $title_placeholder = false;
         if (isset($params['category']) and $params['category'] != false) {
             $categories_active_ids = $params['category'];
+        } elseif (isset($params['selected-category-id']) and $params['selected-category-id'] != false) {
+            $categories_active_ids = $params['selected-category-id'];
         }
+
         /* FILLING UP EMPTY CONTENT WITH DATA */
         if ($data == false or empty($data)) {
             $is_new_content = true;

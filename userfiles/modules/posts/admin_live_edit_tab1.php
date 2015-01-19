@@ -160,11 +160,26 @@ $show_fields = array();
   <div class="mw-ui-row-nodrop">
     <div class="mw-ui-col"><label class="mw-ui-check">
       <input type="checkbox" name="data-show" value="thumbnail" class="mw_option_field" <?php if(in_array('thumbnail',$show_fields)): ?>   checked="checked"  <?php endif; ?> />
-      <span></span> <span><?php _e("Thumbnail"); ?></span> </label></div>
+      <span></span>
+      <span><?php _e("Thumbnail"); ?></span>
+      </label>
+      </div>
+
+
     <div class="mw-ui-col">
+
+     <?php
+
+    /*
       <label class="mw-ui-label-horizontal"><?php _e("Size"); ?></label>
       <input name="data-thumbnail-size" class="mw-ui-field mw_option_field"   type="text" style="width:95px;" placeholder="250x200"  value="<?php print get_option('data-thumbnail-size', $params['id']) ?>" />
-    </div>
+     */
+
+    ?>
+
+   </div>
+
+
   </div>
   <div class="mw-ui-row-nodrop">
     <div class="mw-ui-col"><label class="mw-ui-check">

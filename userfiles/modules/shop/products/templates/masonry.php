@@ -39,11 +39,18 @@ if(!isset($tn[1])){
 <script>
     mw._masons = mw._masons || [];
     $(document).ready(function(){
-        var m = mw.$('#posts-<?php print $rand; ?>');
-        m.masonry({
-          "itemSelector": '.masonry-item',
-          "gutter":5
-        });
+          var m = mw.$('#posts-<?php print $rand; ?>');
+          m.masonry({
+            "itemSelector": '.masonry-item',
+            "gutter":5
+          });
+          $(window).bind('load', function(){
+             m.masonry({
+            "itemSelector": '.masonry-item',
+            "gutter":5
+          });
+        })
+        m[0].masonryWidth = m.width();
         mw._masons.push(m);
         if(typeof mw._masons_binded === 'undefined'){
             mw._masons_binded = true;
@@ -51,11 +58,12 @@ if(!isset($tn[1])){
                  var l = mw._masons.length, i=0;
                  for( ; i<l; i++){
                    var _m = mw._masons[i];
-                   if(mw.$(".masonry-item", _m[0]).length > 0){
+                   if(_m[0].masonryWidth != _m.width() && mw.$(".masonry-item", _m[0]).length > 0){
                        _m.masonry({
                           "itemSelector": '.masonry-item',
                           "gutter":5
                        });
+                       _m[0].masonryWidth = _m.width();
                    }
                  }
                }, 500);

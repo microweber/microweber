@@ -4,9 +4,9 @@ only_admin_access();
 $edit_page_info = $data;
 
 
+ 
 
-
-?>
+?> 
 <style>
     #admin-user-nav {
         display: none;

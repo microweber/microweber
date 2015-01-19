@@ -2892,7 +2892,6 @@ mw.quick = {
             str = str + '&category='+mw.settings.category_id;
         }
 
-
         if(subtype != undefined && subtype != ''){
             str = str + '&subtype='+subtype;
         }
@@ -2933,7 +2932,7 @@ mw.quick = {
     },
     product : function(){
        var modal = mw.tools.modal.frame({
-          url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-product&subtype=product&parent-page-id="+mw.settings.page_id,
+          url:mw.settings.api_url + "module/?type=content/edit_page&live_edit=true&quick_edit=false&id=mw-quick-product&subtype=product&parent-page-id="+mw.settings.page_id+"&parent-category-id="+mw.settings.category_id,
           width:mw.quick.w,
           height:mw.quick.h,
           name:'quick_product',

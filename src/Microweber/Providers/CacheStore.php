@@ -259,13 +259,14 @@ class CacheStore implements StoreInterface
     public function forgetTags($string)
     {
         $string_array = explode(',', $string);
-        array_walk($string_array, 'trim');
-
+        if(is_array($string_array)){
+            foreach($string_array as $k=>$v){
+                $string_array[$k] = trim($v);
+            }
+        }
         foreach ($string_array as $sa) {
             $this->deleted_tags[] = $sa;
             $file = $this->directoryTags . '/' . $sa;
-
-
             if ($this->files->exists($file)) {
                 $farr = file($file);
                 foreach ($farr as $f) {
@@ -274,7 +275,6 @@ class CacheStore implements StoreInterface
                         if (is_file($f)) {
                             @unlink($f);
                         }
-
                     }
                 }
                 @unlink($file);

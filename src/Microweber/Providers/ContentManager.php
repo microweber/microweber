@@ -3404,23 +3404,7 @@ class ContentManager
                 $this->add_content_to_menu($save, $menu_id);
             }
         }
-//        if (isset($data_to_save['subtype']) and strval($data_to_save['subtype']) == 'dynamic') {
-//            $new_category = $this->app->category_manager->get_for_content($save);
-//
-//            if ($new_category == false) {
-//                //$new_category_id = intval($new_category);
-//                $new_category = array();
-//                $new_category["data_type"] = "category";
-//                $new_category["rel_type"] = 'content';
-//                $new_category["rel_id"] = $save;
-//                $new_category["table"] = $table_cats;
-//                $new_category["id"] = 0;
-//                $new_category["title"] = $data_to_save['title'];
-//                $new_category["parent_id"] = "0";
-//                $cats_modified = true;
-//                // $new_category = $this->app->category_manager->save($new_category);
-//            }
-//        }
+
         $custom_field_table = $this->tables['custom_fields'];
         $custom_field_table = mw()->database_manager->real_table_name($custom_field_table);
 
@@ -3451,7 +3435,6 @@ class ContentManager
             $this->app->database->q($clean);
         }
 
-
         $this->app->cache_manager->delete('custom_fields');
         $this->app->cache_manager->delete('custom_fields_values');
         $this->app->cache_manager->delete('media/global');
@@ -3462,12 +3445,9 @@ class ContentManager
         if (isset($data_to_save['id']) and intval($data_to_save['id']) != 0) {
             $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . intval($data_to_save['id']));
         }
-
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . 'global');
         $this->app->cache_manager->delete('content' . DIRECTORY_SEPARATOR . '0');
         $this->app->cache_manager->delete('content_fields/global');
-
-
         $this->app->cache_manager->delete('content');
         $this->app->cache_manager->delete('categories/global');
         $this->app->cache_manager->delete('categories_items/global');
