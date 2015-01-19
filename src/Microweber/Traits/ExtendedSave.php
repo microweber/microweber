@@ -52,10 +52,35 @@ trait ExtendedSave
             if (isset($ext_params['data_fields'])) {
                 $this->extended_save_data_fields($ext_params);
             }
+            if (isset($ext_params['images'])) {
+                $this->extended_save_images($ext_params);
+            }
 
             return $saved_id;
         } else {
             return $params;
+        }
+    }
+
+    function extended_save_images($params)
+    {
+        if ($this->_extended_save_is_admin) {
+            event_trigger('mw.database.extended_save_images', $params);
+
+            $data_to_save = $params;
+            if (isset($data_to_save['attributes'])) {
+                $data_fields = $data_to_save['attributes'];
+                if (is_array($data_fields) and !empty($data_fields)) {
+                    foreach ($data_fields as $k => $v) {
+                        $save_cat_item = array();
+                        $save_cat_item['rel_type'] = $data_to_save['table'];
+                        $save_cat_item['rel_id'] = $data_to_save['id'];
+                        $save_cat_item["attribute_name"] = $k;
+                        $save_cat_item["attribute_value"] = $v;
+                        $this->app->content_manager->save_content_attribute($save_cat_item);
+                    }
+                }
+            }
         }
     }
 

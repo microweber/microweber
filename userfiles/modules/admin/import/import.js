@@ -7,7 +7,7 @@ mw.admin_import = {
 	 //  data = mw.$(selector+' input').serialize();
 
 	 mw.notification.success("Import started...");
-	 $.post(mw.settings.api_url+'Utils/Import/create', false ,
+	 $.post(mw.settings.api_url+'Microweber/Utils/Import/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/import/manage');
 	 		mw.notification.msg(msg, 5000);
@@ -19,7 +19,7 @@ mw.admin_import = {
 	 //  data = mw.$(selector+' input').serialize();
 
 	 mw.notification.success("Import started...");
-	 $.post(mw.settings.api_url+'Utils/Import/create', false ,
+	 $.post(mw.settings.api_url+'Microweber/Utils/Import/create', false ,
 	 	function(msg) {
 	 		mw.reload_module('admin/import/manage');
 	 		mw.notification.msg(msg, 5000);
@@ -31,7 +31,7 @@ mw.admin_import = {
 		data = {}
 		data.id=src;
 		data.import_to_page_id=page_id;
-		$.post(mw.settings.api_url+'Utils/Import/restore', data ,
+		$.post(mw.settings.api_url+'Microweber/Utils/Import/restore', data ,
 			function(msg) {
 				mw.reload_module('admin/import/manage');
 				mw.notification.msg(msg, 5000);
@@ -42,7 +42,7 @@ mw.admin_import = {
 	restore : function(src){
 		data = {}
 		data.id=src;
-		$.post(mw.settings.api_url+'Utils/Import/restore', data ,
+		$.post(mw.settings.api_url+'Microweber/Utils/Import/restore', data ,
 			function(msg) {
 				mw.reload_module('admin/import/manage');
 				mw.notification.msg(msg, 5000);
@@ -54,7 +54,7 @@ mw.admin_import = {
 
 		data = {}
 		data.src=src;
-		$.post(mw.settings.api_url+'Utils/Import/move_uploaded_file_to_import', data ,
+		$.post(mw.settings.api_url+'Microweber/Utils/Import/move_uploaded_file_to_import', data ,
 			function(msg) {
 				mw.reload_module('admin/import/manage');
 				mw.notification.msg(msg, 5000);
@@ -74,7 +74,7 @@ mw.admin_import = {
 			
 		mw.notification.success("FULL Import is started...");
 	 
-		$.post(mw.settings.api_url+'Utils/Import/create_full', false ,
+		$.post(mw.settings.api_url+'Microweber/Utils/Import/create_full', false ,
 			function(msg) {
 				mw.reload_module('admin/import/manage');
 				mw.notification.msg(msg);
@@ -91,7 +91,7 @@ mw.admin_import = {
       		data.id=$id;
 
 
-      		$.post(mw.settings.api_url+'Utils/Import/delete', data ,
+      		$.post(mw.settings.api_url+'Microweber/Utils/Import/delete', data ,
       			function(resp) {
       			 //mw.reload_module('admin/import/manage');
       			 mw.notification.msg(resp);

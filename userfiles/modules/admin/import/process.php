@@ -1,7 +1,7 @@
 <?php 
 $total = 0;
 $remaining = 0;
-$batch = mw('Utils\Import')->batch_process();
+$batch = mw('Microweber\Utils\Import')->batch_process();
 if(isset($batch['total'])){
 	$total = intval($batch['total']);
 }

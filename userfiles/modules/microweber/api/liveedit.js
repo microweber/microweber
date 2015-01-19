@@ -203,7 +203,7 @@ hasAbilityToDropElementsInside = function(target){
     return false;
   }
   if(mw.tools.hasParentsWithClass(target, 'module') ){
-    if(mw.tools.hasParentsWithClass(target, 'edit') ){
+    if(mw.tools.hasParentsWithClass(target, 'edit') ){ 
       return true;
     }
     else{

@@ -33,7 +33,7 @@
       </tr>
     </tfoot>
     <tbody>
-      <?php $backups = mw('Utils/Import')->get();
+      <?php $backups = mw('Microweber/Utils/Import')->get();
 		  if(isarr($backups )): ?>
       <?php
 	  $i = 1;
@@ -43,7 +43,7 @@
           <td><span class="mw-date"><?php print $item['date']  ?></span></td>
           <td><span class="mw-date"><?php print $item['time']  ?></span></td>
           <td><span class="mw-date"><?php print file_size_nice( $item['size'])  ?></span></td>
-          <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Utils/Import/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
+          <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Microweber/Utils/Import/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
         <td>
         <!--<a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>-->
         

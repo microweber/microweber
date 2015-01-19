@@ -48,7 +48,7 @@ $rand = uniqid(); ?>
 <?php if($set_content_type =='product'):  ?>
 <?php $is_shop = 1; $pages = get_content('content_type=page&is_shop=0&limit=1000');   ?>
 <?php endif; ?>
-
+                                                              
 
  
 

@@ -1309,6 +1309,11 @@ class ContentManager
 
                             $to_print = str_replace('{exteded_classes}', '', $to_print);
 
+                            if ($item['id'] == $item['parent']) {
+                                $remove_ids[] = $item['id'];
+                            }
+
+
                             if (is_array($remove_ids) == true) {
                                 if (in_array($item['id'], $remove_ids)) {
                                     if ($removed_ids_code == false) {
@@ -1374,13 +1379,15 @@ class ContentManager
                             }
 
                             if ($skip_pages_from_tree == false) {
-
-                                $children = $this->pages_tree($params);
+                                if ($item['id'] != $item['parent']) {
+                                    $children = $this->pages_tree($params);
+                                }
                             }
                         } else {
                             if ($skip_pages_from_tree == false) {
-
-                                $children = $this->pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name = false);
+                                if ($item['id'] != $item['parent']) {
+                                    $children = $this->pages_tree(intval($item['id']), $link, $active_ids, $active_code, $remove_ids, $removed_ids_code, $ul_class_name = false);
+                                }
                             }
                         }
 
@@ -3284,6 +3291,14 @@ class ContentManager
         }
 
 
+        if (isset($data_to_save['parent']) and $data_to_save['parent'] != 0) {
+            if (isset($data_to_save['id']) and $data_to_save['id'] != 0) {
+                if ($data_to_save['parent'] == $data_to_save['id']) {
+                    $data_to_save['parent'] = 0;
+                }
+            }
+
+        }
         $save = $this->app->database->extended_save($table, $data_to_save);
 
         $id = $save;

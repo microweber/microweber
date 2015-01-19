@@ -45,7 +45,7 @@ class Edit
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
         $this->provider = $this->app->content_manager;
         $this->category_provider = $this->app->category_manager;
-         $is_admin = $this->app->user_manager->admin_access();
+        $is_admin = $this->app->user_manager->admin_access();
     }
 
     function index($params)
@@ -71,8 +71,7 @@ class Edit
         }
 
 
- 
-  	//	if (isset($params['is_shop'])) {
+        //	if (isset($params['is_shop'])) {
 //            if (trim($params['is_shop']) == 'y') {
 //				$params['is_shop'] = 1;
 //			} else if (trim($params['is_shop']) == 'n') {
@@ -101,7 +100,7 @@ class Edit
         }
         if (isset($params['page-id'])) {
             $data = $this->app->content_manager->get_by_id(intval($params["page-id"]));
-			 
+
         }
         if (isset($params['content-id'])) {
             $data = $this->app->content_manager->get_by_id(intval($params["content-id"]));
@@ -127,12 +126,6 @@ class Edit
             if (isset($params['content_type'])) {
                 $data['content_type'] = $params['content_type'];
             }
-//            if($data['id'] == 0){
-//                        if (isset($params['content_type']) and $params['content_type'] == 'page') {
-//                            d($params);
-//                            $data['layout_file'] = 'clean';
-//                        }
-//            }
 
 
             if (isset($params['subtype'])) {
@@ -150,11 +143,7 @@ class Edit
 
 
         }
-//        if (isset($data['subtype'])) {
-//            if ($data['subtype'] == 'post' or $data['content_type'] == 'product') {
-//                $data['content_type'] = 'post';
-//            }
-//        }
+
         if (isset($params['add-to-menu'])) {
             $data['add_to_menu'] = (($params["add-to-menu"]));
         }
@@ -202,31 +191,31 @@ class Edit
         }
 
         /* SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
-		
-		 if ($recommended_parent != false and intval($data['id']) == 0){
-			 if (isset($data['subtype']) and $data['subtype'] == 'post') {
-				 if (isset($data['is_shop']) and $data['is_shop'] == 0) {
-				     $parent_content = $this->app->content_manager->get_by_id($recommended_parent);
-					  if (isset($parent_content['is_shop']) and $parent_content['is_shop'] == 1) {
-						   $parent_content_params = array();
-						$parent_content_params['subtype'] = 'dynamic';
-						$parent_content_params['content_type'] = 'page';
-						$parent_content_params['limit'] = 1;
-						$parent_content_params['one'] = 1;
- 						$parent_content_params['fields'] = 'id';
-						$parent_content_params['order_by'] = 'posted_at desc, updated_at desc';
-						 $parent_content_params['is_shop'] = 0;
-						 $parent_content = $this->app->content_manager->get($parent_content_params);
-							if (isset($parent_content['id']) and $parent_content['id'] != 0) {
-								 $data['parent'] = $recommended_parent = $parent_content['id'];
-								 $categories_active_ids = false;
-							}
-					  }
 
-			     } 
-			 }
-			 
-		 }
+        if ($recommended_parent != false and intval($data['id']) == 0) {
+            if (isset($data['subtype']) and $data['subtype'] == 'post') {
+                if (isset($data['is_shop']) and $data['is_shop'] == 0) {
+                    $parent_content = $this->app->content_manager->get_by_id($recommended_parent);
+                    if (isset($parent_content['is_shop']) and $parent_content['is_shop'] == 1) {
+                        $parent_content_params = array();
+                        $parent_content_params['subtype'] = 'dynamic';
+                        $parent_content_params['content_type'] = 'page';
+                        $parent_content_params['limit'] = 1;
+                        $parent_content_params['one'] = 1;
+                        $parent_content_params['fields'] = 'id';
+                        $parent_content_params['order_by'] = 'posted_at desc, updated_at desc';
+                        $parent_content_params['is_shop'] = 0;
+                        $parent_content = $this->app->content_manager->get($parent_content_params);
+                        if (isset($parent_content['id']) and $parent_content['id'] != 0) {
+                            $data['parent'] = $recommended_parent = $parent_content['id'];
+                            $categories_active_ids = false;
+                        }
+                    }
+
+                }
+            }
+
+        }
         if ($recommended_parent == false and intval($data['id']) == 0 and intval($data['parent']) == 0) {
             $parent_content_params = array();
             $parent_content_params['subtype'] = 'dynamic';
@@ -267,9 +256,9 @@ class Edit
                     $parent_content = $this->app->content_manager->get($parent_content_params);
                 }
             }
-			
+
             if (isset($parent_content) and isset($parent_content['id'])) {
-				
+
                 $data['parent'] = $parent_content['id'];
             }
 
@@ -286,7 +275,7 @@ class Edit
             }
 
         } elseif ($forced_parent == false and (intval($data['id']) == 0 and intval($data['parent']) != 0) and isset($data['subtype']) and $data['subtype'] == 'post') {
-             $parent_shop_check = $this->app->content_manager->get_by_id($data['parent']);
+            $parent_shop_check = $this->app->content_manager->get_by_id($data['parent']);
             if (!isset($parent_shop_check['content_type']) or $parent_shop_check['content_type'] != 'page') {
                 $parent_content_shop = $this->app->content_manager->get('order_by=updated_at desc&one=true&content_type=page&subtype=dynamic&is_shop=1');
                 if (isset($parent_content_shop['id'])) {
@@ -294,21 +283,19 @@ class Edit
                 }
             }
         }
- 
 
 
         /* END OF SETTING PARENT AND CREATING DEFAULT BLOG OR SHOP IF THEY DONT EXIST */
 
         $module_id = $params['id'];
-		
-		 
+
 
         $post_list_view = $this->views_dir . 'edit.php';
         $this->app->event_manager->trigger('module.content.edit.main', $data);
-		
- //d($params);
- //d($data['content_type']);
- //d($data);
+
+        //d($params);
+        //d($data['content_type']);
+        //d($data);
 
         $view = new View($post_list_view);
         $view->assign('params', $params);

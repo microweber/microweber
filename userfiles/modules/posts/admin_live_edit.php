@@ -136,13 +136,14 @@ $add_post_q .= '  ';
 
 
 
-resizeModal = function(){
-  var type = typeof(thismodal);
+resizeModal = function(w,h){
+  var type = typeof(thismodal), _w = w||810, _h = h||mw.$('#settings-container').height() + 25;
   if( type !== 'undefined' &&  type !== 'boolean'){
-    parent.mw.tools.modal.resize("#" + thismodal.main[0].id, 810, mw.$('#settings-container').height() + 25, false);
+    parent.mw.tools.modal.resize("#" + thismodal.main[0].id, _w, _h, false);
   }
   else{
-
+    var modal = mw.tools.firstParentWithClass(this.frameElement, 'mw_modal').modal;
+    modal.resize(_w, _h);
   }
 }
 
@@ -152,7 +153,7 @@ mw.on.hashParam("action", function () {
 	 
 	 
 	
-	 
+
 	 if(this == 'new:post' || this == 'new:page' || this == 'new:product'){
 		 mw.add_new_content_live_edit(id);
 	 } else if(this == 'editpage') {
@@ -247,6 +248,7 @@ mw.on.hashParam("action", function () {
           }
 
        }
+       resizeModal()
     });
 
 </script>
@@ -273,7 +275,7 @@ mw.on.hashParam("action", function () {
 		</a>
 		<?php } ?>
 	<div class="mw-ui-btn-nav mw-ui-btn-nav-tabs">
-		<a href="javascript:;" class="mw-ui-btn " onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');"><?php _e("Manage"); ?></a>
+		<a href="javascript:;" class="mw-ui-btn active" onclick="javascript:mw.manage_live_edit_content('<?php print $params['id'] ?>');"><?php _e("Manage"); ?></a>
 		<a href="javascript:;" class="mw-ui-btn">
 			<?php _e("Settings"); ?>
 			</a>

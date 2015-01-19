@@ -14,13 +14,13 @@ use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 
 
-api_expose_admin('Utils\Import\delete');
-api_expose_admin('Utils\Import\create');
-api_expose_admin('Utils\Import\download');
-api_expose_admin('Utils\Import\create_full');
-api_expose_admin('Utils\Import\move_uploaded_file_to_import');
-api_expose_admin('Utils\Import\restore');
-api_expose_admin('Utils\Import\export');
+api_expose_admin('Microweber\Utils\Import\delete');
+api_expose_admin('Microweber\Utils\Import\create');
+api_expose_admin('Microweber\Utils\Import\download');
+api_expose_admin('Microweber\Utils\Import\create_full');
+api_expose_admin('Microweber\Utils\Import\move_uploaded_file_to_import');
+api_expose_admin('Microweber\Utils\Import\restore');
+api_expose_admin('Microweber\Utils\Import\export');
 
 class Import
 {
@@ -149,9 +149,7 @@ class Import
 
         // Check if the file has needed args
         if ($id == NULL) {
-
             return array('error' => "You have not provided filename to be deleted.");
-
         }
 
         $here = $this->get_bakup_location();
@@ -327,15 +325,10 @@ class Import
         if (!is_file($filename)) {
             return array('error' => "You have not provided a existing backup to restore.");
         }
-
-
         $json = file_get_contents($filename);
-
         $rows = json_decode($json, true);
-
         $content_items = $rows;
         $content_items = $this->map_array($rows);
-
 
         return $this->batch_save($content_items);
 
@@ -344,6 +337,9 @@ class Import
 
     function batch_process($content_items = false)
     {
+
+
+
 
         $chunks_folder = $this->get_import_location() . '_process_import' . DS;
         $index_file = $chunks_folder . 'index.php';
@@ -426,7 +422,11 @@ class Import
         }
 
         if ($content_items != false and is_array($content_items)) {
+
             if (!empty($content_items)) {
+
+
+
                 $parent = get_content('one=true&subtype=dynamic&is_deleted=0&is_active=1');
                 if ($parent == false) {
                     $parent = get_content('one=true&content_type=page&is_deleted=0&is_active=1');
@@ -435,8 +435,10 @@ class Import
                     return array('error' => "No parent page found");
                 }
 
-                $content_items = $this->map_array($content_items);
+             //   $content_items = $this->map_array($content_items);
 
+                d($content_items);
+                dd('aaaaaaaaaaaaaaaaa');
 
                 $parent_id = $parent['id'];
                 $restored_items = array();
@@ -457,7 +459,7 @@ class Import
 
                             if ($par != false) {
                                 if (isset($par['is_shop']) and $par['is_shop'] == 'y') {
-                                    $content['content_type'] = 'post';
+                                    $content['content_type'] = 'product';
                                     $content['subtype'] = 'product';
                                 }
                             }
@@ -858,13 +860,13 @@ class Import
         $map_keys['meta_description'] = 'content_meta_description';
 
         //date fields
-        $map_keys['product_creation_date'] = 'created_on';
-        $map_keys['product_available_date'] = 'updated_on';
-        $map_keys['created'] = 'created_on';
-        $map_keys['modified'] = 'updated_on';
-        $map_keys['published'] = 'created_on';
-        $map_keys['updated'] = 'updated_on';
-        $map_keys['pubDate'] = 'created_on';
+        $map_keys['product_creation_date'] = 'created_at';
+        $map_keys['product_available_date'] = 'updated_at';
+        $map_keys['created'] = 'created_at';
+        $map_keys['modified'] = 'updated_at';
+        $map_keys['published'] = 'created_at';
+        $map_keys['updated'] = 'updated_at';
+        $map_keys['pubDate'] = 'created_at';
 
 
         foreach ($content_items as $item) {
@@ -972,8 +974,10 @@ class Import
                 $chunk_data = serialize($chunk);
                 $file_name = 'import_chunk_' . md5($chunk_data);
                 $file_location = $chunks_folder . $file_name;
+
                 if (!is_file($file_location)) {
                     file_put_contents($file_location, $chunk_data);
+
                 }
 
             }
@@ -1017,8 +1021,8 @@ class Import
         $folder_root = false;
         if (defined('userfiles_path()')) {
             $folder_root = userfiles_path();
-        } elseif (defined('MW_CACHE_DIR')) {
-            $folder_root = MW_CACHE_DIR;
+        } elseif (mw_cache_path()) {
+            $folder_root = normalize_path(mw_cache_path());
         }
 
         $here = $folder_root . "import" . DS;
@@ -1033,8 +1037,7 @@ class Import
         }
 
         $here = $folder_root . "import" . DS . get_table_prefix() . DS;
-
-        $here2 = mw('option')->get('import_location', 'admin/import');
+        $here2 = $this->app->option_manager->get('import_location', 'admin/import');
         if ($here2 != false and is_string($here2) and trim($here2) != 'default' and trim($here2) != '') {
             $here2 = normalize_path($here2, true);
             if (!is_dir($here2)) {
@@ -1054,6 +1057,7 @@ class Import
         $loc = $here;
 
 
+
         $this->imports_folder = $loc;
         return $here;
     }
@@ -1063,34 +1067,10 @@ class Import
     {
         only_admin_access();
 
-        $cont = get_content("is_active=1&is_deleted=0&limit=250000&orderby=updated_on desc");
+        $cont = get_content("is_active=1&is_deleted=0&limit=250000&orderby=updated_at desc");
         print count($cont);
         exit;
-        $site_title = $this->app->option_manager->get('website_title', 'website');
-        $site_desc = $this->app->option_manager->get('website_description', 'website');
-        $rssfeed = '<?xml version="1.0" encoding="UTF-8"?>';
-        $rssfeed .= '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">' . "\n";
-        $rssfeed .= '<channel>' . "\n";
-        $rssfeed .= '<atom:link href="' . site_url('rss') . '" rel="self" type="application/rss+xml" />' . "\n";
-        $rssfeed .= '<title>' . $site_title . '</title>' . "\n";
-        $rssfeed .= '<link>' . site_url() . '</link>' . "\n";
-        $rssfeed .= '<description>' . $site_desc . '</description>' . "\n";
-        foreach ($cont as $row) {
-            if (!isset($row['description']) or  $row['description'] == '') {
-                $row['description'] = $row['content'];
-            }
-            $row['description'] = character_limiter(strip_tags(($row['description'])), 500);
-            $rssfeed .= '<item>' . "\n";
-            $rssfeed .= '<title>' . $row['title'] . '</title>' . "\n";
-            $rssfeed .= '<description><![CDATA[' . $row['description'] . '  ]]></description>' . "\n";
-            $rssfeed .= '<link>' . content_link($row['id']) . '</link>' . "\n";
-            $rssfeed .= '<pubDate>' . date("D, d M Y H:i:s O", strtotime($row['created_on'])) . '</pubDate>' . "\n";
-            $rssfeed .= '<guid>' . content_link($row['id']) . '</guid>' . "\n";
-            $rssfeed .= '</item>' . "\n";
-        }
-        $rssfeed .= '</channel>' . "\n";
-        $rssfeed .= '</rss>';
-        print $rssfeed;
+
 
 
     }
@@ -1098,7 +1078,7 @@ class Import
 
 }
 
-class SimpleXmlStreamer extends \Prewk\XmlStreamer
+class SimpleXmlStreamer extends \Microweber\Utils\lib\XmlStreamer
 {
 
     public $content_items = array();
@@ -1133,9 +1113,8 @@ class SimpleXmlStreamer extends \Prewk\XmlStreamer
      */
     public function chunkCompleted()
     {
-        $import = mw('Utils\Import')->batch_save($this->content_items);
+        $import = mw('Microweber\Utils\Import')->batch_save($this->content_items);
         $this->content_items = array();
         return true;
-        //   d($this->content_items);
     }
 }
