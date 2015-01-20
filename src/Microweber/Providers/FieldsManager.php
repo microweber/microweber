@@ -46,13 +46,6 @@ class FieldsManager
             if (isset($data[0])) {
                 return $data[0];
             }
-
-//            dd($data);
-//
-//
-//            $data = $this->app->database->get_by_id('custom_fields', $id = $field_id, $is_this_field = false);
-//            $data = $this->decode_array_vals($data);
-//            return $data;
         }
     }
 
@@ -364,7 +357,7 @@ class FieldsManager
         $table = $this->table_values;
         $params = array();
         $params['table'] = $table;
-       // $params['no_cache'] = $table;
+        // $params['no_cache'] = $table;
         $params['limit'] = 99999;
         $params['custom_field_id'] = '[in]' . $id;
 
@@ -389,6 +382,18 @@ class FieldsManager
             }
         }
         return $val;
+    }
+
+
+    public function get_all($params)
+    {
+        if (!is_array($params)) {
+            $params = parse_params($params);
+        }
+        $table_custom_field = $this->table;
+        $params['table'] = $table_custom_field;
+        return $this->app->database->get($params);
+
     }
 
     public function get($table, $id = 0, $return_full = false, $field_for = false, $debug = false, $field_type = false, $for_session = false)
@@ -527,7 +532,7 @@ class FieldsManager
                 $default_values = $v;
                 $default_values['values_plain'] = '';
                 $default_values['value'] = '';
-                 $default_values['values'] = array();
+                $default_values['values'] = array();
 
                 if (!empty($vals)) {
                     foreach ($vals as $val) {
@@ -719,7 +724,6 @@ class FieldsManager
     public function decode_array_vals($it)
     {
         if (isset($it['value'])) {
-            $it['value'] = $it['value'];
             if (isset($it['value']) and is_string($it['value']) and strtolower($it['value']) == 'array') {
                 if (isset($it['values']) and is_string($it['values'])) {
                     $try = base64_decode($it['values']);

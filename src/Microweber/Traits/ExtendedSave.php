@@ -71,20 +71,84 @@ trait ExtendedSave
         if ($this->_extended_save_is_admin) {
             event_trigger('mw.database.extended_save_images', $params);
 
-//            $data_to_save = $params;
-//            if (isset($data_to_save['attributes'])) {
-//                $data_fields = $data_to_save['attributes'];
-//                if (is_array($data_fields) and !empty($data_fields)) {
-//                    foreach ($data_fields as $k => $v) {
-//                        $save_cat_item = array();
-//                        $save_cat_item['rel_type'] = $data_to_save['table'];
-//                        $save_cat_item['rel_id'] = $data_to_save['id'];
-//                        $save_cat_item["attribute_name"] = $k;
-//                        $save_cat_item["attribute_value"] = $v;
-//                        $this->app->content_manager->save_content_attribute($save_cat_item);
-//                    }
-//                }
-//            }
+            $data_to_save = $params;
+            if (isset($data_to_save['images'])) {
+                $data_fields = $data_to_save['images'];
+
+                if (is_array($data_fields) and !empty($data_fields)) {
+                    foreach ($data_fields as $k => $v) {
+                        if (isset($v['filename'])) {
+
+                            $save_cat_item = array();
+                            $save_cat_item['rel_type'] = $data_to_save['table'];
+                            $save_cat_item['rel_id'] = $data_to_save['id'];
+
+                            if (isset($data_to_save['download_remote_images']) and $data_to_save['download_remote_images'] != false) {
+                                $is_url = false;
+                                if (filter_var($v['filename'], FILTER_VALIDATE_URL)) {
+                                    if (!stristr($v['filename'], site_url())) {
+                                        $image_src = $v['filename'];
+                                        $to_download = false;
+                                        $image_src = strtok($image_src, '?');
+                                        $ext = get_file_extension($image_src);
+                                        switch (strtolower($ext)) {
+                                            case 'jpg':
+                                            case 'jpeg':
+                                            case 'png':
+                                            case 'gif':
+                                            case 'svg':
+                                                $to_download = $image_src;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+
+                                        if ($to_download != false) {
+                                            $output_fn = 'ext_save' . crc32($to_download) . '.' . $ext;
+                                            $relative = 'downloaded' . DS . $save_cat_item['rel_type'] . DS . $save_cat_item['rel_id'] . DS;
+                                            $output = media_base_path() . $relative;
+                                            $output_relative = media_base_url() . str_replace(DS, '/', $relative);
+                                            $output = normalize_path($output, true);
+                                            if (!is_dir($output)) {
+                                                mkdir_recursive($output);
+                                            }
+                                            $output_file = $output . $output_fn;
+                                            if (!is_file($output_file)) {
+                                                $download = new \Microweber\Utils\Http();
+                                                $download->set_url($image_src);
+                                                $download->download($output_file);
+
+                                            }
+
+                                            $v['filename'] = $output_relative . $output_fn;
+                                            $v['filename'] = str_replace(site_url(), '{SITE_URL}', $v['filename']);
+
+                                        }
+                                    }
+
+                                } else {
+                                    dd($v);
+                                }
+                            }
+
+
+                            $save_cat_item["filename"] = $v['filename'];
+
+                            $check = $this->app->media_manager->get($save_cat_item);
+                            if ($check == false) {
+                                if (isset($v['position'])) {
+                                    $save_cat_item["position"] = $v['position'];
+                                }
+                                $save = $this->app->media_manager->save($save_cat_item);
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
         }
     }
 
@@ -121,8 +185,18 @@ trait ExtendedSave
                         $save_cat_item['rel_type'] = $data_to_save['table'];
                         $save_cat_item['rel_id'] = $data_to_save['id'];
                         if (isset($v['type'])) {
-                            $save_cat_item = array_merge($save_cat_item, $v);
-                            $save_field = $this->app->fields_manager->save($save_cat_item);
+                            $save_cat_item['type'] = $v['type'];
+                            if (isset($v['name'])) {
+                                $save_cat_item['name'] = $v['name'];
+                            }
+                            $check = $save_cat_item;
+                            $save_cat_item['single'] = true;
+
+                            $check = $this->app->fields_manager->get_all($check);
+                            if (!isset($check['id'])) {
+                                $save_cat_item = array_merge($save_cat_item, $v);
+                                $save_field = $this->app->fields_manager->save($save_cat_item);
+                            }
                         }
                     }
                 }

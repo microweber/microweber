@@ -272,6 +272,7 @@ trait QueryFilter
 
                     unset($params[$filter]);
                     break;
+                case 'remove_ids':
                 case 'exclude_ids':
                     unset($params[$filter]);
                     $ids = $value;

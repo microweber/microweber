@@ -232,14 +232,28 @@ $edit_page_info = $data;
         <div class="mw-admin-edit-page-primary-settings parent-selector ">
             <div class="mw-ui-field-holder">
                 <div class="quick-parent-selector">
+
+                    <?php
+
+//                    $parent_page_active = 0;
+//                    if($data['parent'] != 0 and $data['id'] == 0){
+//
+//                    } elseif(isset($data['parent'])){
+//                        $parent_page_active = $data['parent'];
+//                    }
+
+                    $parent_page_active = $data['parent'];
+
+                    ?>
+
                     <module
                         type="content/views/selector"
                         no-parent-title="No parent page"
                         field-name="parent_id_selector"
                         change-field="parent"
-                        selected-id="<?php print $data['parent']; ?>"
+                        selected-id="<?php print $parent_page_active; ?>"
                         remove_ids="<?php print $data['id']; ?>"
-                        recommended-id="<?php print $recommended_parent; ?>"/>
+                        recommended-id="<?php print $recommended_parent; ?>" />
                 </div>
             </div>
         </div>
