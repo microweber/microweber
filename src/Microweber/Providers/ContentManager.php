@@ -3416,9 +3416,11 @@ class ContentManager
         if (isset($data_to_save['add_content_to_menu']) and is_array($data_to_save['add_content_to_menu'])) {
 
             foreach ($data_to_save['add_content_to_menu'] as $menu_id) {
-                $this->add_content_to_menu($save, $menu_id);
+                $ids_to_save = $save;
+                $this->add_content_to_menu($ids_to_save, $menu_id);
             }
         }
+
 
         $custom_field_table = $this->tables['custom_fields'];
         $custom_field_table = mw()->database_manager->real_table_name($custom_field_table);
@@ -3477,7 +3479,7 @@ class ContentManager
             }
         }
         event_trigger('mw_save_content', $save);
-        return $save;
+        return $id;
     }
 
     public function add_content_to_menu($content_id, $menu_id = false)
@@ -3488,13 +3490,22 @@ class ContentManager
         if (defined("MW_API_CALL") and $id == false) {
             return;
         }
+
+        if (isset($content_id['id'])) {
+            $content_id = $content_id['id'];
+        }
+
+
         $content_id = intval($content_id);
         if ($content_id == 0 or !isset($this->tables['menus'])) {
             return;
         }
         if ($menu_id != false) {
-            $_REQUEST['add_content_to_menu'] = $menu_id;
+          //  $_REQUEST['add_content_to_menu'] = array( $menu_id);
+
+
         }
+
         $menus = $this->tables['menus'];
         if (isset($_REQUEST['add_content_to_menu']) and is_array($_REQUEST['add_content_to_menu'])) {
             $add_to_menus = $_REQUEST['add_content_to_menu'];
@@ -3529,13 +3540,22 @@ class ContentManager
             }
         }
 
+
+
         if (isset($add_to_menus_int) and is_array($add_to_menus_int)) {
+
             Menu::where('content_id', $content_id)
                 ->where('item_type', 'menu_item')
                 ->whereNotIn('parent_id', $add_to_menus_int)
                 ->delete();
             foreach ($add_to_menus_int as $value) {
-                $check = $this->app->menu_manager->get_menu_items("limit=1&count=1&parent_id={$value}&content_id=$content_id");
+              //  $check = $this->app->menu_manager->get_menu_items("parent_id={$value}&content_id=$content_id");
+
+                $check = Menu::where('content_id', $content_id)
+                    ->where('item_type', 'menu_item')
+                    ->where('parent_id', $value)
+                    ->count();
+
 
                 if ($check == 0) {
                     $save = array();
@@ -3554,9 +3574,10 @@ class ContentManager
 
                     $save['url'] = '';
                     $save['content_id'] = $content_id;
+
                     $new_item = $this->app->database->save($menus, $save);
 
-                    $this->app->cache_manager->delete('menus/global');
+                    $this->app->cache_manager->delete('menus');
 
                     $this->app->cache_manager->delete('menus/' . $save['parent_id']);
 

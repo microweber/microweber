@@ -296,10 +296,7 @@ $here = dirname(__FILE__).DS.'gateways'.DS;
 
 
 $payment_modules = get_modules('type=payment_gateway');
-if($payment_modules == false){
-$payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}");
 
-}
 
 
 ?>
@@ -339,7 +336,11 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
                 <div class="mw_simple_tabs mw_tabs_layout_stylish" id="available_providers">
                   <?php foreach($payment_modules  as $payment_module): ?>
                   <?php
-    			                 $module_info = (module_info($payment_module['module']));
+
+
+
+    			                    //$module_info = (module_info($payment_module['module']));
+    			                    $module_info = ($payment_module);
                                  if(!isset($module_info['id']) or $module_info['id'] == false){
                                 	$module_info['id'] = 0;
                                  }
@@ -430,6 +431,7 @@ $payment_modules = scan_for_modules("cache_group=modules/global&dir_name={$here}
 
 
                 <hr>
+
                 <module type="shop/payments/currency" id="mw_curr_select" />
 
 

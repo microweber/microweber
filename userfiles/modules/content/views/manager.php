@@ -84,18 +84,7 @@ assign_selected_posts_to_category = function(){
 	});
 	$('#posts_bulk_assing_category').show();
  
-  //mw.tools.confirm("<?php _e("Are you sure you want to delete the selected posts"); ?>?", function(){
-//    var master = mwd.getElementById('<?php print $params['id']; ?>');
-//    var arr = mw.check.collectChecked(master);
-//    mw.post.del(arr, function(){
-//     mw.reload_module('#<?php print $params['id']; ?>', function(){
-//         $.each(arr,function( index ) {
-//			var fade = this;
-//			 mw.$(".manage-post-item-"+fade).fadeOut();
-//			});
-//     });
-//   });
-//  });
+
 }
 
 mw.delete_single_post = function(id){

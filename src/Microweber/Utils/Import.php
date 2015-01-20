@@ -339,8 +339,6 @@ class Import
     {
 
 
-
-
         $chunks_folder = $this->get_import_location() . '_process_import' . DS;
         $index_file = $chunks_folder . 'index.php';
         if (!is_dir($chunks_folder)) {
@@ -426,19 +424,16 @@ class Import
             if (!empty($content_items)) {
 
 
-
                 $parent = get_content('one=true&subtype=dynamic&is_deleted=0&is_active=1');
                 if ($parent == false) {
                     $parent = get_content('one=true&content_type=page&is_deleted=0&is_active=1');
                 }
                 if ($parent == false) {
-                    return array('error' => "No parent page found");
+                    $parent = 0;
                 }
 
-             //   $content_items = $this->map_array($content_items);
+                $content_items = $this->map_array($content_items);
 
-                d($content_items);
-                dd('aaaaaaaaaaaaaaaaa');
 
                 $parent_id = $parent['id'];
                 $restored_items = array();
@@ -868,7 +863,25 @@ class Import
         $map_keys['updated'] = 'updated_at';
         $map_keys['pubDate'] = 'created_at';
 
+        if (isset($item['is_home']) and $item['is_home'] == 'y') {
+            $item['is_home'] = 1;
+        }
 
+
+        if (isset($item['is_active']) and $item['is_active'] == 'y') {
+            $item['is_active'] = 1;
+        }
+
+        if (isset($item['is_shop']) and $item['is_shop'] == 'y') {
+            $item['is_shop'] = 1;
+        } else if (isset($item['is_shop']) and $item['is_shop'] == 'n') {
+            $item['is_shop'] = 0;
+        }
+        if (isset($item['is_deleted']) and $item['is_deleted'] == 'y') {
+            $item['is_deleted'] = 1;
+        } else if (isset($item['is_deleted']) and $item['is_deleted'] == 'n') {
+            $item['is_deleted'] = 0;
+        }
         foreach ($content_items as $item) {
             if (isset($item['id'])) {
                 unset($item['id']);
@@ -1057,7 +1070,6 @@ class Import
         $loc = $here;
 
 
-
         $this->imports_folder = $loc;
         return $here;
     }
@@ -1070,7 +1082,6 @@ class Import
         $cont = get_content("is_active=1&is_deleted=0&limit=250000&orderby=updated_at desc");
         print count($cont);
         exit;
-
 
 
     }

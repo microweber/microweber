@@ -21,10 +21,10 @@ $(document).ready(function(){
 
     TempateFunctions.contentHeight();
 	if(typeof(mw.msg.product_added) == "undefined"){
-	mw.msg.product_added = 	"Your product is added to the shopping cart";
+	    mw.msg.product_added = 	"Your product is added to the shopping cart";
 	}
-	
-	$(window).bind('productAdded', function(){
+
+	$(window).bind('mw.cart.add', function(){
    var modal_html = ''
         + '<div id="mw-product-added-popup-holder"> '
 		+ '<h4>'+mw.msg.product_added+'</h4>'

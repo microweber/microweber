@@ -1289,6 +1289,9 @@ class CategoryManager
         if (isset($data['rel']) and !isset($data['rel_type'])) {
             $data['rel_type'] = $data['rel'];
         }
+        if (!isset($data['data_type']) or !($data['data_type'])) {
+            $data['data_type'] = 'category';
+        }
         if (isset($data['users_can_create_content']) and ($data['users_can_create_content']) == 'y') {
             $data['users_can_create_content'] = 1;
         } elseif (isset($data['users_can_create_content']) and ($data['users_can_create_content']) == 'n') {
@@ -1317,7 +1320,7 @@ class CategoryManager
         $no_position_fix = false;
         if (isset($data['rel_type']) and isset($data['rel_id']) and trim($data['rel_type']) != '' and trim($data['rel_id']) != '') {
 
-            $table = $table_items;
+            //$table = $table_items;
             $no_position_fix = true;
         }
 
@@ -1462,22 +1465,13 @@ class CategoryManager
 
     public function save_item($params)
     {
-
-
         $params = parse_params($params);
         $table = $this->tables['categories_items'];
         $params['table'] = $table;
-
-
         $save = $this->app->database->save($params);
-
-
         if (intval($save) == 0) {
-
             return false;
         }
-
-
     }
 
     /**

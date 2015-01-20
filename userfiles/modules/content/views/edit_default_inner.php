@@ -54,8 +54,8 @@ if(isset($data['content-id'])){
                  mweditor.onload = function(){
                     var titleel = mweditor.contentWindow.document.body.querySelector('[field="title"]');
                     if(titleel !== null){
-                        var rel = mw.tools.mwattr(titleel, 'rel_type');
-                        if(rel == 'post' || rel == 'page' || rel == 'content'){
+                        var rel = mw.tools.mwattr(titleel, 'rel');
+                        if(rel == 'post' || rel == 'page' || rel == 'product'  || rel == 'content'){
                             mw.tools.mapNodeValues(titleel, mwd.getElementById('content-title-field'))
                         }
                     }

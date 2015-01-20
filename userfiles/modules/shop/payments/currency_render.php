@@ -41,6 +41,7 @@ if($payment_currency_rate != false){
 </label>
 <input  name="payment_currency_rate" value="<?php print $payment_currency_rate; ?>"  id="payment_currency_rate_val_sugg"   type="text" class="mw-ui-field price-field mw_option_field" data-option-group="payments" data-reload="mw_curr_rend" />
 <?php $sugg  = mw()->shop_manager->currency_convert_rate($cur,$payment_currency); ?>
+<?php $sugg  = false; ?>
 <?php  if($sugg  != false): ?>
 <br />
 <small>

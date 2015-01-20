@@ -1,4 +1,3 @@
-
 <?php
 
     $facebook_enabled = get_option('facebook_enabled', $params['id']) == 'y';

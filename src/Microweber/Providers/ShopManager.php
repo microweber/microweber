@@ -1265,6 +1265,9 @@ class ShopManager
             $cart['rel_id'] = intval($data['for_id']);
             $cart['title'] = ($data['title']);
             $cart['price'] = floatval($found_price);
+
+            $cart_return = $cart;
+            $cart_return['custom_fields_data'] = $add;
             $cart['custom_fields_data'] = $this->app->format->array_to_base64($add);
             $cart['order_completed'] = 0;
             $cart['session_id'] = mw()->user_manager->session_id();
@@ -1305,7 +1308,17 @@ class ShopManager
             $cart_saved_id = $this->app->database->save($table, $cart);
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders/global');
-            return ($cart_saved_id);
+
+            if(isset($cart['rel_type']) and isset($cart['rel_id']) and $cart['rel_type'] == 'content'){
+                $cart_return['image'] = $this->app->media_manager->get_picture( $cart['rel_id']);
+                $cart_return['product_link'] = $this->app->content_manager->link($cart['rel_id']);
+
+            }
+
+
+            return array('success' => 'Item added to cart', 'product' => $cart_return);
+
+            //   return ($cart_saved_id);
         } else {
             return array('error' => 'Invalid cart items');
         }

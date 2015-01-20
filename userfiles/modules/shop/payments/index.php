@@ -1,4 +1,11 @@
-<?php $payment_options =  payment_options();  ?>
+<?php
+
+
+$payment_options =  payment_options();
+$enable_payment_options_count = 0;
+
+
+?>
 <script  type="text/javascript">
 mw.moduleCSS("<?php print modules_url(); ?>shop/shop-defaults.css");
 $(document).ready(function(){
@@ -13,7 +20,7 @@ $(document).ready(function(){
 
  
 
-<?php if(is_array($payment_options)) :?>
+<?php if(is_array($payment_options) and !empty($payment_options)) :?>
 
 <div class="well">
 	<?php if(count($payment_options) > 0): ?>

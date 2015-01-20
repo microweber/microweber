@@ -844,6 +844,8 @@ class Modules
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
+
+
             $l1 = new \Microweber\View($try_file1);
             $l1->config = $config;
             $l1->app = $this->app;
@@ -876,7 +878,9 @@ class Modules
                 }
             }
             $l1->params = $attrs;
+
             if ($config) {
+
                 $this->current_module = ($config);
             }
             if ($attrs) {
@@ -1081,8 +1085,14 @@ class Modules
 
         if ($module_name == false) {
             $mod_data = $this->current_module;
+
             if (isset($mod_data["url_to_module"])) {
                 return $mod_data["url_to_module"];
+            } else {
+                $mod_data = $this->app->parser->current_module;
+                if (isset($mod_data["url_to_module"])) {
+                    return $mod_data["url_to_module"];
+                }
             }
         }
 

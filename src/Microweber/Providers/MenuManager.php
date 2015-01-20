@@ -771,6 +771,7 @@ class MenuManager
         }
         $params['table'] = $table;
         $params['item_type'] = 'menu_item';
+
         return $this->app->database->get($params);
     }
 }

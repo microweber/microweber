@@ -26,36 +26,6 @@ else{
 
 
 <script type="text/javascript">
-
-    _AddToCartModalContent = window._AddToCartModalContent || function(title){
-        if(title=='' || typeof title == 'undefined'){
-          var title = '<?php print _e("Product"); ?>';
-        }
-	 
-		 
-          var modal_html = ''
-        + '<section> '
-          + '<h5>' + title + '</h5>'
-          + '<p><?php _e("has been added to your cart"); ?></p>'
-          + '<a href="javascript:;" onclick="mw.tools.modal.remove(\'#AddToCartModal\')" class="btn btn-default"><?php _e("Continue shopping"); ?></a>'
-          + '<a href="<?php print checkout_url(); ?>" class="btn btn-action-default"><?php _e("Checkout"); ?></a>'
-        + ' </section>';
- 
-
-         return modal_html;   
-    }
-    _AddToCart = window._AddToCart || function(selector, id, title){
-       mw.cart.add(selector, id, function(){
-         mw.modal({
-            content:_AddToCartModalContent(title),
-            template:'mw_modal_basic',
-            name:"AddToCartModal",
-            width:400,
-            height:200,
-            overlay:true
-         });
-       });
-    }
    LocalPrice = null;
    SetLocalPrice = window.SetLocalPrice || function(input){
      if(input.checked === true){
@@ -129,7 +99,7 @@ else{
   <?php _e("Out of stock"); ?>
   </button>
   <?php else: ?>
-  <button class="btn-action add-to-cart" type="button" onclick="_AddToCart('.mw-add-to-cart-<?php print $params['id'] ?>', LocalPrice, '<?php print $title; ?>');">
+  <button class="btn-action add-to-cart" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>', LocalPrice, '<?php print $title; ?>');">
   <?php _e("Add to cart"); ?>
   </button>
   <?php  endif; ?>

@@ -327,7 +327,6 @@ class FieldsManager
                         $save_value['value'] = $value_to_save;
                         $save_value['position'] = $i;
                         $save_value = $this->app->database->save($table_values, $save_value);
-                        //dd($save_value);
                         $i++;
                     }
                     if (!empty($check_old)) {

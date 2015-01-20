@@ -24,28 +24,6 @@ else{
 ?>
 <script>mw.moduleCSS("<?php print modules_url(); ?>shop/cart_add/templates.css")</script>
 
-<script>
-    _AddToCartModalContent = window._AddToCartModalContent || function(title){
-        var html = ''
-        + '<section>'
-          + '<h5>' + title + '</h5>'
-          + '<p><?php _e("has been added to your cart"); ?></p>'
-          + '<a href="javascript:;" onclick="mw.tools.modal.remove(\'#AddToCartModal\')" class="mw-ui-btn"><?php _e("Continue shopping"); ?></a>'
-          + '<a href="<?php print checkout_url(); ?>" class="mw-ui-btn mw-ui-btn-blue"><?php _e("Checkout"); ?></a></section>';
-        return html;
-    }
-    _AddToCart = window._AddToCart || function(selector, id, title){
-       mw.cart.add(selector, id, function(){
-         mw.modal({
-            content:_AddToCartModalContent(title),
-            template:'mw_modal_basic',
-            name:"AddToCartModal",
-            width:400,
-            height:200
-         });
-       });
-    }
-</script>
 <br class="mw-add-to-cart-spacer" />
 <module type="custom_fields" data-content-id="<?php print intval($for_id); ?>" data-skip-type="price"  id="cart_fields_<?php print $params['id'] ?>"  />
 <?php if(is_array($data)): ?>
@@ -63,7 +41,7 @@ else{
   <?php _e("Out of stock"); ?>
   </button>
   <?php else: ?>
-  <button class="btn btn-default pull-right" type="button" onclick="_AddToCart('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
+  <button class="btn btn-default pull-right" type="button" onclick="mw.cart.add('.mw-add-to-cart-<?php print $params['id'] ?>','<?php print $v ?>', '<?php print $title; ?>');"><i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>
   <?php _e("Add to cart"); ?>
   </button>
   <?php $i++; endif; ?>

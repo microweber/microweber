@@ -446,6 +446,7 @@ mw.tools = {
               handle:'.mw_modal_toolbar',
               containment:'window',
               iframeFix: false,
+              distance: 10,
               start:function(){
                 $(this).find(".iframe_fix").show();
                 if($(".mw_modal").length>1){
@@ -2386,8 +2387,8 @@ mw.tools = {
   mapNodeValues:function(n1,n2, triggerChange){
     if(!n1||!n2||n1===null||n2===null) return false;
     var triggerChange = triggerChange || true;
-    var setValue1 = ((!!n1.type && n1.nodeName !== 'BUTTON') || n1.nodeName === 'TEXTAREA') ? 'value' :'innerHTML';
-    var setValue2 = ((!!n2.type && n2.nodeName !== 'BUTTON') || n2.nodeName === 'TEXTAREA') ? 'value' :'innerHTML';
+    var setValue1 = ((!!n1.type && n1.nodeName !== 'BUTTON') || n1.nodeName === 'TEXTAREA') ? 'value' :'textContent';
+    var setValue2 = ((!!n2.type && n2.nodeName !== 'BUTTON') || n2.nodeName === 'TEXTAREA') ? 'value' :'textContent';
     var events = 'keyup paste';
     $(n1).bind(events, function(){
         n2[setValue2] = n1[setValue1];
