@@ -1,5 +1,6 @@
 <?php
 namespace Microweber;
+
 // Handles working with PHP output templates
 class View
 {

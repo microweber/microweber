@@ -23,12 +23,20 @@ class ConfigSave extends Repository
     private function init()
     {
         $this->items = array();
+        $overrides = [];
         foreach (Finder::create()->files()->name('*.php')->in($this->app->configPath()) as $file) {
             $path = $file->getRelativePath();
-            if ($path && $path != $this->app->environment())
-                continue;
             $key = basename($file->getRealPath(), '.php');
+            if ($path && $path != $this->app->environment()) {
+                continue;
+            } else if ($path) {
+                $overrides[$key] = $file->getRealPath();
+                continue;
+            }
             $this->set($key, require $file->getRealPath());
+        }
+        foreach ($overrides as $key => $path) {
+            $this->set($key, require $path);
         }
     }
 
