@@ -49,8 +49,8 @@ class Database
             });
         }
         if (is_array($fields_to_add)) {
-            foreach ($fields_to_add as $name => $meta) {
-                Schema::table($table_name, function ($schema) use ($name, $meta, $table_name) {
+            Schema::table($table_name, function ($schema) use ($fields_to_add, $table_name) {
+                foreach ($fields_to_add as $name => $meta) {
                     $is_index = substr($name, 0, 1) === '$';
                     $is_default = null;
                     $is_nullable = true;
@@ -81,8 +81,8 @@ class Database
                             }
                         }
                     }
-                });
-            }
+                }
+            });
         }
     }
 
